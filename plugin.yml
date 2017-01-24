@@ -1,0 +1,15 @@
+main: deimophobe.dvz.DvZPlugin
+name: CustomDvZ
+version: 1.0
+author: Deimo
+description: Deimo's custom dvz thing
+commands:
+  setdwarf:
+    usage: /setdwarf <name>
+  setmob:
+    usage: /setmob <name>
+  removeplayer:
+    usage: /removeplayer <name>
+  horn:
+    usage: /horn
+    description: HRON

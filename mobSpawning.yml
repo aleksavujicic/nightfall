@@ -1,0 +1,63 @@
+witherskele:
+  mobtype: witherskele
+  egg:
+    material: bow
+    name: Spawn Wither Skeleton
+  quantity: 8
+  chance: 0.1
+  index: 9
+
+flamelancer:
+  mobtype: flamelancer
+  egg:
+    material: arrow
+    name: Spawn Flamelancer
+  quantity: 12
+  chance: 0.1
+  index: 10
+
+wolf:
+  mobtype: wolf
+  egg:
+    material: bone
+    name: Spawn Wolf
+  quantity: 10
+  chance: 0.1
+  index: 12
+
+spiderling:
+  mobtype: spiderling
+  egg:
+    material: snow_ball
+    name: Spawn Spiderling
+  quantity: 7
+  chance: 0.1
+  index: 13
+
+rat:
+  mobtype: rat
+  egg:
+    material: prismarine_crystals
+    name: Spawn Rat
+  quantity: 10
+  chance: 0.1
+  index: 15
+
+golem:
+  mobtype: golem
+  egg:
+    material: gold_pickaxe
+    name: Spawn Golem
+  quantity: 2
+  chance: 0.1
+  index: 16
+
+ogre:
+  mobtype: ogre
+  egg:
+    material: iron_hoe
+    name: Spawn Ogre
+  quantity: 15
+  chance: 0.1
+  index: 17
+

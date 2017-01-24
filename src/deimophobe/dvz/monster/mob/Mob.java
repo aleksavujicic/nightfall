@@ -1,0 +1,226 @@
+package deimophobe.dvz.monster.mob;
+
+import deimophobe.dvz.DamageType;
+import deimophobe.dvz.Game;
+import deimophobe.dvz.ItemCreator;
+import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.monster.MobManager;
+import deimophobe.dvz.monster.PlayerMonster;
+import me.libraryaddict.disguise.DisguiseAPI;
+import me.libraryaddict.disguise.disguisetypes.Disguise;
+import me.libraryaddict.disguise.disguisetypes.DisguiseType;
+import me.libraryaddict.disguise.disguisetypes.MobDisguise;
+import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.block.Block;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+
+/**
+ * Created by Deimophobe on 18/01/17.
+ */
+public class Mob {
+	
+	protected final PlayerMonster monster;
+	
+	protected final String name;
+	protected final String title;
+	
+	protected final DisguiseType disguiseType;
+	protected final ItemStack helmet;
+	protected final ItemStack chest;
+	protected final List<ItemStack> items;
+	protected final Collection<PotionEffect> effects;
+	
+	protected final boolean proccable;
+	protected final double arrowRes;
+	protected final int armourShred;
+	protected final int torchXP;
+	
+	public boolean isProccable() {
+		return proccable;
+	}
+	
+	public double getArrowRes() {
+		return arrowRes;
+	}
+	
+	public int getArmourShred() {
+		return armourShred;
+	}
+	
+	protected static final int POTION_LENGTH = 27*60*20;
+	
+	private Mob(PlayerMonster monster,
+				String name, String title,
+				DisguiseType disguiseType,
+				ItemStack helmet, ItemStack chest, List<ItemStack> items,
+				Collection<PotionEffect> effects, int resLevel, int jumpLevel, boolean miningFatigue,
+				boolean proccable, double arrowRes, int armourShred, int torchXP) {
+		this.monster = monster;
+		
+		this.name = name;
+		this.title = title;
+		
+		this.disguiseType = disguiseType;
+		
+		this.helmet = helmet;
+		this.chest = chest;
+		if (items == null)
+			items = new ArrayList<>();
+		this.items = items;
+		
+		
+		if (effects == null)
+			effects = new HashSet<>();
+		if (resLevel != 0) {
+			effects.add(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, POTION_LENGTH, resLevel - 1, true, false));
+			effects.add(new PotionEffect(PotionEffectType.NIGHT_VISION, POTION_LENGTH, 0, true, false));
+		}
+		if (jumpLevel != 0) {
+			effects.add(new PotionEffect(PotionEffectType.JUMP, POTION_LENGTH, jumpLevel - 1, true, false));
+		}
+		if (miningFatigue) {
+			effects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, POTION_LENGTH, 3, true, false));
+		}
+		this.effects = effects;
+		
+		this.proccable = proccable;
+		this.arrowRes = arrowRes;
+		this.armourShred = armourShred;
+		this.torchXP = torchXP;
+	}
+	
+	private static Mob createTemplateMob(ConfigurationSection section) {
+		String name = section.getString("name");
+		String title = section.getString("title");
+		
+		DisguiseType type;
+		if (section.contains("disguiseType")) {
+			type = DisguiseType.valueOf(section.getString("disguiseType").toUpperCase());
+		} else {
+			type = null;
+		}
+		
+		ItemStack helmet = ItemCreator.createItem(section.getConfigurationSection("helmet"), Slot.HEAD);
+		ItemStack chest = ItemCreator.createItem(section.getConfigurationSection("chest"), Slot.CHEST);
+		List<ItemStack> items = ItemCreator.createItems(section.getConfigurationSection("items"), Slot.MAIN_HAND);
+		
+		int resLevel = section.getInt("res", 3);
+		int jumpLevel = section.getInt("jump", 0);
+		boolean slowDig = section.getBoolean("slowdig", false);
+		
+		boolean proccable = section.getBoolean("proccable", true);
+		double arrowRes = section.getDouble("arrowres", 0);
+		int armourShred = section.getInt("shred", 10);
+		int torchXP = section.getInt("torchxp", 5);
+		
+		return new Mob(null, name, title, type, helmet, chest, items, null, resLevel, jumpLevel, slowDig, proccable, arrowRes, armourShred, torchXP);
+	}
+	
+	protected Mob(Mob template, PlayerMonster monster) {
+		this(monster,
+			template.name, template.title,
+			template.disguiseType,
+			template.helmet, template.chest, template.items,
+			template.effects, 0, 0, false,
+			template.proccable, template.arrowRes, template.armourShred, template.torchXP);
+	}
+	
+	public Mob clone(PlayerMonster monster) {
+		return new Mob(this, monster);
+	}
+	
+	
+	public void spawn() {
+		Player player = monster.getPlayer();
+		PlayerInventory inv = player.getInventory();
+		
+		player.setDisplayName(ChatColor.DARK_RED + title + " " + player.getName() + ChatColor.RESET);
+		
+		monster.teleportTo(Game.getGame().getCurrentMobspawn());
+		player.setGameMode(GameMode.SURVIVAL);
+		
+		if (disguiseType != null) {
+			Disguise disguise = new MobDisguise(disguiseType);
+			disguise = disguise.setViewSelfDisguise(false);
+			disguise.getWatcher().setCustomNameVisible(false);
+			disguise.getWatcher().setCustomName(ChatColor.DARK_RED + monster.getName());
+			DisguiseAPI.disguiseEntity(player, disguise);
+		}
+		
+		
+		inv.clear();
+		for (ItemStack item : items)
+			inv.addItem(item);
+		
+		inv.setHelmet(helmet);
+		inv.setChestplate(chest);
+		monster.clearEffects();
+		for (PotionEffect effect : effects) {
+			player.addPotionEffect(effect);
+		}
+		
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				monster.healPlayerMax();
+			}
+		}.runTaskLater(Game.getGame().getPlugin(), 20);
+	}
+	
+	public void update() {}
+	public void onShift(boolean sneaking) {}
+	public void onUse(Action action, Block clickedBlock) {}
+	public double onHit(Dwarf dwarf, DamageType type, double damage) {
+		return damage;
+	}
+	public double onGotHit(Dwarf dwarf, DamageType type, double damage) {
+		return damage;
+	}
+	public float getCooldown() {
+		return 0;
+	}
+	
+	protected boolean isHoldingItem(int index) {
+		return monster.getHeldItem().isSimilar(items.get(0));
+	}
+	
+	
+	public static Mob getTemplate(MobType type) {
+		ConfigurationSection mobs = MobManager.getManager().getMobConfig();
+		switch (type) {
+			case ZOMBIE:
+				break;
+			case WITHERSKELE:
+				return new WitherSkele(createTemplateMob(mobs.getConfigurationSection("witherskele")), null);
+			case FLAMELANCER:
+				return new Flamelancer(createTemplateMob(mobs.getConfigurationSection("flamelancer")), null);
+			case WOLF:
+				return new Wolf(createTemplateMob(mobs.getConfigurationSection("wolf")), null);
+			case SPIDERLING:
+				return new Spiderling(createTemplateMob(mobs.getConfigurationSection("spiderling")), null);
+			case SWAMMIE:
+				break;
+			case RAT:
+				return new Rat(createTemplateMob(mobs.getConfigurationSection("rat")), null);
+			case GOLEM:
+				return new Golem(createTemplateMob(mobs.getConfigurationSection("golem")), null);
+			case OGRE:
+				return new Ogre(createTemplateMob(mobs.getConfigurationSection("ogre")), null);
+		}
+		return null;
+	}
+}

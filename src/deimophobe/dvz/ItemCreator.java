@@ -1,0 +1,106 @@
+package deimophobe.dvz;
+
+import minecraft.spigot.community.michel_0.api.Attribute;
+import minecraft.spigot.community.michel_0.api.AttributeModifier;
+import minecraft.spigot.community.michel_0.api.ItemAttributes;
+import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+/**
+ * Created by Deimophobe on 18/01/17.
+ */
+public class ItemCreator {
+	private ItemCreator() {}
+	
+	public static ItemStack createItem(Material type, short damage, byte data, String name, List<String> lore, int quantity, int attackDamage, int healthBoost, double speed, boolean kbResist, boolean bound, int depth, int knockback, Slot slot) {
+		ItemStack item = new ItemStack(type, quantity, damage, data);
+		
+		lore.add("");
+		
+		ItemAttributes attributes = new ItemAttributes();
+		if (attackDamage != -1) {
+			attributes.addModifier(new AttributeModifier(Attribute.ATTACK_DAMAGE, "Damage", slot, 0, attackDamage, UUID.randomUUID()));
+			lore.add(ChatColor.BLUE + "Attack: " + attackDamage);
+		}
+		
+		if (healthBoost != 0) {
+			attributes.addModifier(new AttributeModifier(Attribute.MAX_HEALTH, "HealthBoost", slot, 0, healthBoost, UUID.randomUUID()));
+			lore.add(ChatColor.BLUE + "Health: " + (healthBoost/2 + 10));
+		}
+		
+		if (speed != 0) {
+			attributes.addModifier(new AttributeModifier(Attribute.MOVEMENT_SPEED, "Speed", slot, 0, speed, UUID.randomUUID()));
+			if (speed > 0)
+				lore.add(ChatColor.BLUE + "Speed: +" + speed);
+			else
+				lore.add(ChatColor.RED + "Speed: " + speed);
+		}
+		
+		if (kbResist) {
+			attributes.addModifier(new AttributeModifier(Attribute.KNOCKBACK_RESISTANCE, "KBResist", slot, 0, 1, UUID.randomUUID()));
+			lore.add(ChatColor.BLUE + "Knockback Resistance");
+		}
+		
+		ItemMeta meta = item.getItemMeta();
+		meta.setDisplayName(name);
+		meta.setLore(lore);
+		meta.setUnbreakable(true);
+		if (bound)
+			meta.addEnchant(Enchantment.BINDING_CURSE, 1, true);
+		if (depth != 0)
+			meta.addEnchant(Enchantment.DEPTH_STRIDER, depth, true);
+		if (knockback != 0)
+			meta.addEnchant(Enchantment.KNOCKBACK, knockback, true);
+		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_POTION_EFFECTS);
+		item.setItemMeta(meta);
+		
+		
+		item = attributes.apply(item);
+		
+		return item;
+	}
+	
+	public static ItemStack createItem(ConfigurationSection section, Slot slot) {
+		if (section == null) return null;
+		Bukkit.getLogger().info("Creating material: " + section.getString("material"));
+		Material type = Material.valueOf(section.getString("material").toUpperCase());
+		short damage = (short) section.getInt("damage", 0);
+		byte data = (byte) section.getInt("data", 0);
+		
+		String name = section.getString("name");
+		List<String> lore = section.getStringList("lore");
+		
+		int quantity = section.getInt("quantity", 1);
+		int attackDamage = section.getInt("attack", -1);
+		int healthBoost = section.getInt("health", 0);
+		double speed = section.getDouble("speed", 0);
+		
+		boolean kbResist = section.getBoolean("kbresist", false);
+		boolean bound = section.getBoolean("bound", false);
+		int depth = section.getInt("depth", 0);
+		int knockback = section.getInt("knockback", 0);
+		
+		return createItem(type, damage, data, name, lore, quantity, attackDamage, healthBoost, speed, kbResist, bound, depth, knockback, slot);
+	}
+	
+	public static List<ItemStack> createItems(ConfigurationSection section, Slot slot) {
+		List<ItemStack> items = new ArrayList<ItemStack>();
+		for (String key : section.getKeys(false)) {
+			items.add(createItem(section.getConfigurationSection(key), slot));
+		}
+		return items;
+	}
+}

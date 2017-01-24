@@ -1,0 +1,204 @@
+sword:
+  drb:
+    material: diamond_axe
+    name: §bDwarven Runeblade
+    lore:
+     - What a crappy
+     - weapon
+    attack: 15
+  grb:
+    material: diamond_axe
+    name: §bGreater Runeblade
+    lore:
+     - §9The mighty weapon thats said
+     - §9to send dwarves into a flurry of
+     - §asparkles§9.
+    attack: 15
+  axe:
+    material: diamond_axe
+    name: §bAxe of Malice
+    lore:
+     - §d"Be careful with those ones
+     - §djimmy, they've gone §cmad§d."
+    attack: 20
+  dagger:
+    material: stick
+    name: §bElven Dagger
+    lore:
+     - §aForged with the §2worst of poisons§a
+     - §aand given to only the quickest of
+     - §efoot§a and §bmind§a.
+    attack: 15
+    speed: 0.05
+  hammer:
+    material: shield
+    name: §bWarhammer
+    lore:
+     - §6"Take this and battle alongside
+     - §6me for all that's right, for the
+     - §e§olight§r§6!" §4- Roamin
+    attack: 10
+  tombmaker:
+    material: diamond_spade
+    name: §bTombmaker
+    lore:
+     - §3Entrusted with the toughest
+     - §3task of all, burying the fallen.
+     - §9Why not let them fight?
+    attack: 8
+
+bow:
+  shortbow:
+    material: bow
+    name: Shortbow
+    lore:
+     - Some lore
+  dragonskin:
+    material: bow
+    name: Dragonskin Bow
+    lore:
+     - Some lore
+  longbow:
+    material: bow
+    name: Longbow
+    lore:
+     - Some lore
+  crossbow:
+    material: leather
+    name: Crossbow
+    lore:
+     - Some lore
+  lightbow:
+    material: bow
+    name: Lightbow
+    lore:
+     - Some lore
+  ebow:
+    material: stick
+    name: Emerald Bow
+    lore:
+     - Some lore
+  warpweaver:
+    material: bow
+    name: Warpweaver Bow
+    lore:
+     - Some lore
+
+ale:
+  healing:
+    material: potion
+    name: Healing Ale
+    lore:
+     - Some lore
+  jj:
+    material: potion
+    name: Jimmy Juice
+    lore:
+     - Some lore
+  holy:
+    material: potion
+    name: Holy Ale
+    lore:
+     - Some lore
+  trinket:
+    material: emerald
+    name: Star Trinket
+    lore:
+     - Some lore
+  regrowth:
+    material: nether_star
+    name: Regrowth Star
+    lore:
+     - Some lore
+
+consumable:
+  lamp:
+    material: ink_sack
+    name: Enchanted Lamp
+    lore:
+     - Some lore
+  slab:
+    material: clay_brick
+    name: EZ Fix Slab
+    lore:
+     - Some lore
+  sos:
+    material: ink_sack
+    name: Sword of Santification
+    lore:
+     - Some lore
+  wrench:
+    material: ink_sack
+    name: Wrench
+    lore:
+     - Some lore
+  mortar:
+    material: ink_sack
+    name: Mortar
+    lore:
+     - Some lore
+  wizardmortar:
+    material: ink_sack
+    name: Wizard Mortar
+    lore:
+     - Some lore
+  armouritem:
+    material: diamond
+    name: Dwarven Armour
+    lore:
+     - Some lore
+
+misc:
+  pick:
+    material: iron_pickaxe
+    name: Dwarven Pickaxe
+    lore:
+     - Some lore
+  axe:
+    material: iron_axe
+    name: Dwarven Axe
+    lore:
+     - Some lore
+  shovel:
+    material: iron_spade
+    name: Dwarven Shovel
+    lore:
+     - Some lore
+
+  log:
+    material: leather
+    name: Wooden Log
+    lore:
+     - Some lore
+  plank:
+    material: feather
+    name: Wooden Plank
+    lore:
+     - Some lore
+  stick:
+    material: stick
+    name: §bStick
+    lore:
+     - A stick - what else would it be?
+  bowl:
+    material: ink_sack
+    name: Wooden Bowl
+    lore:
+     - Some lore
+
+  torch:
+    material: torch
+    name: Torch
+    lore:
+     - Some lore
+  cobble:
+    material: cobblestone
+    name: Cobblestone
+    lore:
+     - Some lore
+
+
+
+# To get format codes:
+# http://minecraft.gamepedia.com/Formatting_codes
+# http://minecraft.tools/en/color-code.php

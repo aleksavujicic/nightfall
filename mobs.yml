@@ -1,0 +1,268 @@
+#zombie:
+#  chest:
+#    material: rotten_flesh
+#    name: Tough Flesh
+#    lore:
+#     - §dSome lore
+#     - and more lore
+#    health: 20
+#    quantity: 2
+#    attack: 5
+#    speed: 0.1
+#    kbresist: true
+#    bound: true
+#  items:
+#    item1:
+#      material: wood_pickaxe
+#      name: Makeshift Pick
+#      lore:
+#       - Some lore
+#      attack: 5
+#    item2:
+#      material: wood_pickaxe
+#      name: Makeshift Pick2
+#      lore:
+#       - Some lore2
+#      attack: 10
+#  res: 3
+#  proccable: true
+#  arrowres: 0.2
+#  shred: 10
+
+
+flamelancer:
+  name: Flamelancer
+  title: Flamelancer
+
+  disguiseType: skeleton
+
+  chest:
+    material: fire
+    name: Tough Flesh
+    lore:
+     - §dSome lore
+     - and more lore
+    speed: 0.02
+    bound: true
+  items:
+    item1:
+      material: bow
+      name: Nether Tooth Bow
+      lore:
+       - Some lore
+    item2:
+      material: arrow
+      name: Skeletal Arrow
+      lore:
+       - Some lore
+      quantity: 64
+    item3:
+      material: arrow
+      name: Skeletal Arrow
+      lore:
+       - Some lore
+      quantity: 64
+
+  res: 3
+  proccable: true
+  arrowres: 0.5
+  shred: 5
+
+
+witherskele:
+  name: Witherskele
+  title: Wither
+
+  disguiseType: wither_skeleton
+
+  chest:
+    material: soul_sand
+    name: Tough Flesh
+    lore:
+     - §dSome lore
+     - and more lore
+    health: 30
+    bound: true
+  items:
+    item1:
+      material: bow
+      name: Nether Tooth Bow
+      lore:
+       - Some lore
+    item2:
+      material: arrow
+      name: Skeletal Arrow
+      lore:
+       - Some lore
+      quantity: 64
+    item3:
+      material: arrow
+      name: Skeletal Arrow
+      lore:
+       - Some lore
+      quantity: 64
+
+  res: 3
+  proccable: true
+  arrowres: 0.5
+  shred: 5
+
+
+wolf:
+  name: Wolf
+  title: Wolverine
+
+  disguiseType: wolf
+
+  chest:
+    material: leather
+    name: Tough Flesh
+    lore:
+     - §dSome lore
+     - and more lore
+    health: 60
+    speed: 0.01
+    bound: true
+  items:
+    item1:
+      material: sugar
+      name: Wolf Fangs
+      lore:
+       - Some lore
+      attack: 16
+
+  res: 3
+  proccable: true
+  arrowres: 0
+  shred: 20
+
+
+spiderling:
+  name: Spiderling
+  title: Spiderling
+
+  disguiseType: cave_spider
+
+  chest:
+    material: snow_ball
+    name: Squishy Spider Body Thing
+    lore:
+     - §dSome lore
+     - Im not googling the name of
+     - this thing cos spiders
+    health: -10
+    speed: 0.03
+    jump: 1
+    bound: true
+  items:
+    item1:
+      material: ink_sack
+      data: 2
+      name: Spider Thingies
+      lore:
+       - Something something
+       - nasty bite
+      attack: 15
+
+  res: 3
+  jump: 2
+  proccable: true
+  arrowres: 0
+  shred: 5
+
+
+rat:
+  name: Rat
+  title: Rat
+
+  disguiseType: silverfish
+
+  chest:
+    material: prismarine_crystals
+    name: Rat Thing
+    lore:
+     - §dSome lore
+     - and more lore
+    health: -10
+    bound: true
+  items:
+    item1:
+      material: ink_sack
+      data: 2
+      name: Rat Talons
+      lore:
+       - Some lore
+      attack: 1
+
+  res: 3
+  proccable: true
+  arrowres: 0
+  shred: 5
+  torchxp: 60
+
+
+golem:
+  name: Golem
+  title: Golem
+
+  disguiseType: iron_golem
+
+  chest:
+    material: iron_block
+    name: Mechanical Body
+    lore:
+     - §dSome lore
+     - and more lore
+    health: 140
+    speed: -0.15
+    kbresist: true
+    bound: true
+  items:
+    item1:
+      material: gold_pickaxe
+      name: Ancient Pick
+      lore:
+       - Some lore
+      attack: 35
+
+  res: 4
+  slowdig: true
+  proccable: false
+  arrowres: 0.5
+  shred: 50
+
+
+ogre:
+  name: Ogre
+  title: Ogre
+
+  disguiseType: pig_zombie
+
+  chest:
+    material: rotten_flesh
+    name: Ogre Hide
+    lore:
+     - §dSome lore
+     - and more lore
+    health: 80
+    kbresist: true
+    bound: true
+  items:
+    item1:
+      material: iron_hoe
+      name: Ogre Club
+      lore:
+       - Some lore
+      attack: 20
+      knockback: 4
+
+  res: 4
+  proccable: false
+  arrowres: 0.9
+  shred: 10
+
+
+
+# To get format codes:
+# http://minecraft.gamepedia.com/Formatting_codes
+# http://minecraft.tools/en/color-code.php
