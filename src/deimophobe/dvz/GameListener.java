@@ -275,6 +275,7 @@ public class GameListener implements Listener {
 			Material.PISTON_EXTENSION,
 			Material.PISTON_STICKY_BASE,
 			Material.PISTON_MOVING_PIECE,
+			Material.IRON_BLOCK,
 	};
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
