@@ -1,5 +1,6 @@
 package deimophobe.dvz.dwarf.kit.sword;
 
+import deimophobe.dvz.PlayerOrAI;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.PlayerMonster;
 import org.bukkit.Bukkit;
@@ -22,7 +23,7 @@ class Hammer extends Sword {
 	//public void onKill() {}
 	
 	@Override
-	public void onHit(PlayerMonster event) {
+	public void onHit(PlayerOrAI event) {
 		//Location loc = event.getEntity().getLocation();
 		//Collection<Entity> entities = loc.getWorld().getNearbyEntities(loc, 1, 1, 1);
 		//for (Entity entity : entities) {

@@ -4,10 +4,12 @@ import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GamePlayer;
+import deimophobe.dvz.PlayerOrAI;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.mob.Mob;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.block.Block;
@@ -52,7 +54,7 @@ public class PlayerMonster extends GamePlayer {
 	public void kill() {
 		if (!isAlive()) {
 			
-			mob = null;
+			mob = null; // TODO don't set to null?
 			player.setGameMode(GameMode.SPECTATOR);
 			player.setDisplayName(ChatColor.GRAY + player.getName() + ChatColor.RESET);
 			
@@ -112,33 +114,42 @@ public class PlayerMonster extends GamePlayer {
 			mob.onUse(action, clickedBlock);
 	}
 	
-	//TODO dwarf checks
 	@Override
-	public double onHit(GamePlayer gamePlayer, DamageType type, double damage) {
+	public double onHit(PlayerOrAI gamePlayer, DamageType type, double damage) {
 		if (mob != null) {
-			if (gamePlayer != null)
+			if (gamePlayer instanceof Dwarf) {
 				((Dwarf) gamePlayer).damageArmour(mob.getArmourShred());
-			return mob.onHit((Dwarf) gamePlayer, type, damage);
+				return mob.onHit((Dwarf) gamePlayer, type, damage);
+			} else {
+				Bukkit.getLogger().warning("PlayerOrAI in onHit should be a Dwarf");
+				return damage;
+			}
 		} else {
 			return damage;
 		}
 	}
 	
-	//TODO dwarf checks
 	@Override
-	public double onGotHit(GamePlayer gamePlayer, DamageType type, double damage) {
+	public double onGotHit(PlayerOrAI gamePlayer, DamageType type, double damage) {
+		// Spawn protection
+		if (player.hasPotionEffect(PotionEffectType.LUCK)) {
+			return -1;
+		}
+		
 		if (type == DamageType.BOW) {
 			damage = damage * (1 - mob.getArrowRes());
 		}
 		
-		if (player.hasPotionEffect(PotionEffectType.LUCK)) {
-			damage = -1;
-		}
-		
-		if (mob != null)
-			return mob.onGotHit((Dwarf) gamePlayer, type, damage);
-		else
+		if (mob != null) {
+			if (gamePlayer instanceof Dwarf) {
+				return mob.onGotHit((Dwarf) gamePlayer, type, damage);
+			} else {
+				Bukkit.getLogger().warning("PlayerOrAI in onGotHit should be a Dwarf");
+				return damage;
+			}
+		} else {
 			return damage;
+		}
 	}
 	
 	@Override

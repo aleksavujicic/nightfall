@@ -2,6 +2,7 @@ package deimophobe.dvz.dwarf.kit.sword;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.ItemCreator;
+import deimophobe.dvz.PlayerOrAI;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.kit.CooldownItem;
@@ -42,8 +43,8 @@ public class Sword extends CooldownItem {
 	}
 	
 	protected boolean ability() {return false;}
-	public void onHit(PlayerMonster monster) {}
-	public void onKill(PlayerMonster monster) {}
+	public void onHit(PlayerOrAI monster) {}
+	public void onKill(PlayerOrAI monster) {}
 	
 	@Override
 	protected void playOffCDSound() {

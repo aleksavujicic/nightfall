@@ -17,11 +17,14 @@ import org.bukkit.potion.PotionEffectType;
 /**
  * Created by Deimophobe on 17/01/17.
  */
-public abstract class GamePlayer {
+public abstract class GamePlayer implements PlayerOrAI {
 	protected final Player player;
 	public Player getPlayer() {
 		return player;
 	}
+	
+	@Override
+	public Player getEntity() { return player; }
 	
 	protected GamePlayer(Player player) {
 		this.player = player;
@@ -92,6 +95,7 @@ public abstract class GamePlayer {
 		return player.getName();
 	}
 	
+	@Override
 	public String getDisplayName() {
 		return player.getDisplayName();
 	}
@@ -114,8 +118,6 @@ public abstract class GamePlayer {
 	public void giveItem(ItemStack item) {giveItem(item,1);}
 	
 	public abstract void onUse(Action action, Block clickedBlock, BlockFace blockFace);
-	public abstract double onHit(GamePlayer gamePlayer, DamageType type, double damage);
-	public abstract double onGotHit(GamePlayer gamePlayer, DamageType type, double damage);
 	public abstract void onShift(boolean sneaking);
 	public abstract Projectile onBowFire(Arrow arrow, float force);
 	public abstract void onArrowLand(Arrow arrow, Block hitBlock);
@@ -136,19 +138,24 @@ public abstract class GamePlayer {
 			EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent) event;
 			GameListener.DamageTriplet triplet = new GameListener.DamageTriplet(edbee);
 			
-			String killerName = triplet.damager.getDisplayName();
+			PlayerOrAI killer = Game.getGame().getPlayerOrAI(triplet.damager);
+			if (killer == null)
+				return name + " died.";
+			String killerName = killer.getDisplayName();
 			
 			String killMsg;
 			if (triplet.type == DamageType.BOW) {
 				killMsg = "was shot by";
 			} else  {
-				killMsg = "was killed by";
+				killMsg = "was slain by";
 			}
 			
 			String itemName = "";
-			ItemStack item = triplet.damager.getHeldItem();
-			if (item != null && item.getItemMeta() != null && item.getItemMeta().hasDisplayName()) {
-				itemName = " using " + item.getItemMeta().getDisplayName();
+			if (killer instanceof GamePlayer) {
+				ItemStack item = ((GamePlayer) killer).getHeldItem();
+				if (item != null && item.getItemMeta() != null && item.getItemMeta().hasDisplayName()) {
+					itemName = " using " + item.getItemMeta().getDisplayName();
+				}
 			}
 			return name + " " + killMsg + " " + killerName + itemName;
 		}
@@ -171,6 +178,6 @@ public abstract class GamePlayer {
 		
 		
 		
-		return name + " has died.";
+		return name + " died.";
 	}
 }

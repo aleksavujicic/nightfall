@@ -1,5 +1,6 @@
 package deimophobe.dvz.dwarf.kit.sword;
 
+import deimophobe.dvz.PlayerOrAI;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.PlayerMonster;
 import org.bukkit.entity.Player;
@@ -17,7 +18,7 @@ class GRB extends Sword {
 	}
 	
 	@Override
-	public void onKill(PlayerMonster monster) {
+	public void onKill(PlayerOrAI monster) {
 		dwarf.giveProc(Dwarf.ProcType.REGULAR);
 		reduceCooldown(20);
 	}

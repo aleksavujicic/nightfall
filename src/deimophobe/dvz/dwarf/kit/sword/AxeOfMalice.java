@@ -1,5 +1,6 @@
 package deimophobe.dvz.dwarf.kit.sword;
 
+import deimophobe.dvz.PlayerOrAI;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.PlayerMonster;
 
@@ -13,7 +14,7 @@ class AxeOfMalice extends Sword {
 	}
 	
 	@Override
-	public void onKill(PlayerMonster monster) {
+	public void onKill(PlayerOrAI monster) {
 		reduceCooldown(20);
 	}
 	

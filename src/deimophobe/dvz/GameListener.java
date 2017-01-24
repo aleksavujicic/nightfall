@@ -4,6 +4,7 @@ import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MobManager;
 import deimophobe.dvz.monster.PlayerMonster;
+import deimophobe.dvz.monster.ai.AIEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -64,8 +65,8 @@ public class GameListener implements Listener {
 	public void onHit(EntityDamageByEntityEvent event) {
 		DamageTriplet triplet = new DamageTriplet(event);
 		DamageType type = triplet.type;
-		GamePlayer damager = triplet.damager;
-		GamePlayer damagee = triplet.damagee;
+		PlayerOrAI damager = game.getPlayerOrAI(triplet.damager);
+		PlayerOrAI damagee = game.getPlayerOrAI(triplet.damagee);
 		
 		if (event.getEntityType() == EntityType.PLAYER)
 			event.setDamage(EntityDamageEvent.DamageModifier.BLOCKING, 0);
@@ -124,9 +125,10 @@ public class GameListener implements Listener {
 					event.setCancelled(true);
 				}
 			}
+			
 			PlayerMonster mob = mm.getMob((Player) event.getEntity());
 			if (mob != null) {
-				
+				// Ignore certain damages (see above)
 				for (EntityDamageEvent.DamageCause immunity : IMMUNE_CAUSES) {
 					if (event.getCause() == immunity) {
 						event.setCancelled(true);
@@ -134,11 +136,12 @@ public class GameListener implements Listener {
 						return;
 					}
 				}
-				
+				// x4 dagger poison damage
 				if (event.getCause() == EntityDamageEvent.DamageCause.WITHER) {
 					event.setDamage(event.getDamage()*4);
 				}
 				
+				// Prevent killing and set to spectator
 				double dmg = event.getFinalDamage();
 				if (mob.getPlayer().getHealth() - dmg <= 0.1) {
 					mob.kill();
@@ -148,19 +151,50 @@ public class GameListener implements Listener {
 						
 						DamageTriplet triplet = new DamageTriplet((EntityDamageByEntityEvent) event);
 						DamageType type = triplet.type;
-						GamePlayer damager = triplet.damager;
+						Dwarf dwarf = dm.getDwarf(triplet.damager);
 						
-						if (damager instanceof Dwarf)
-							((Dwarf) damager).onKill(mob, type);
+						if (dwarf != null)
+							dwarf.onKill(mob, type);
 					}
 				}
 			}
+			
 			Dwarf dwarf = dm.getDwarf((Player) event.getEntity());
 			if (dwarf != null) {
 				if (event.getCause() == EntityDamageEvent.DamageCause.POISON) {
 					event.setDamage(event.getDamage()*2);
 				}
 			}
+		}
+	}
+	
+	/**
+	 * Handles AI getting killed and notifies dwarf if there is one.
+	 */
+	@EventHandler
+	public void onAIKill(EntityDeathEvent event) {
+		if (event.getEntityType() != EntityType.PLAYER) {
+			LivingEntity dead = event.getEntity();
+			Dwarf dwarf = dm.getDwarf(dead.getKiller());
+			AIEntity ai = (AIEntity) game.getPlayerOrAI(dead);
+			
+			DamageType type;
+			switch (dead.getLastDamageCause().getCause()) {
+				case ENTITY_ATTACK:
+					type = DamageType.MELEE;
+					break;
+				case PROJECTILE:
+					type = DamageType.BOW;
+					break;
+				default:
+					type = null;
+					break;
+			}
+			
+			if (dwarf != null && ai != null && type != null)
+				dwarf.onKill(ai, type);
+			if (ai != null)
+				mm.onAIKill(ai);
 		}
 	}
 	
@@ -232,6 +266,8 @@ public class GameListener implements Listener {
 		event.getDrops().clear();
 	}
 	
+	
+	
 	// --------------------------------------------------------
 	//                        MISC
 	// --------------------------------------------------------
@@ -299,40 +335,35 @@ public class GameListener implements Listener {
 	}
 	
 	
-	
-	
-	
+	/**
+	 * A kind of hacky way to get the the actual damager,
+	 * but to take into account that it might be from an
+	 * arrow - not just a melee hit.
+	 */
 	protected static class DamageTriplet {
 		protected final DamageType type;
-		protected final GamePlayer damager;
-		protected final GamePlayer damagee;
+		protected final Entity damager;
+		protected final Entity damagee;
 		
 		protected DamageTriplet(EntityDamageByEntityEvent event) {
-			Game game = Game.getGame();
-			Entity hitee = event.getEntity();
-			GamePlayer tempDamagee = null;
-			if (hitee.getType() == EntityType.PLAYER) {
-				tempDamagee = game.getPlayer((Player) hitee);
-			}
+			damagee = event.getEntity();
 			
-			Entity hitter = event.getDamager();
-			GamePlayer tempDamager = null;
+			Entity tempDamager = null;
 			DamageType tempType = null;
 			
-			if (hitter.getType() == EntityType.PLAYER) {
-				tempDamager = game.getPlayer((Player)hitter);
-				tempType = DamageType.MELEE;
-			} else if (hitter.getType() == EntityType.ARROW) {
-				Arrow arrow = (Arrow) hitter;
-				if (arrow.getShooter() instanceof Player) {
-					tempDamager = game.getPlayer((Player)arrow.getShooter());
+			if (damagee.getType() == EntityType.ARROW) {
+				Arrow arrow = (Arrow) event.getDamager();
+				if (arrow.getShooter() instanceof Entity) {
+					tempDamager = (Entity) arrow.getShooter();
 					tempType = DamageType.BOW;
 				}
+			} else {
+				tempDamager = event.getDamager();
+				tempType = DamageType.MELEE;
 			}
 			
 			type = tempType;
 			damager = tempDamager;
-			damagee = tempDamagee;
 		}
 	}
 }

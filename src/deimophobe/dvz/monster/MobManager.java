@@ -1,16 +1,23 @@
 package deimophobe.dvz.monster;
 
 import deimophobe.dvz.Game;
-import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.monster.ai.AIEntity;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
@@ -59,13 +66,9 @@ public class MobManager {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				for (PlayerMonster mob : playerMobs.values()) {
-					for (SpawnEgg egg : activeEggs.values()) {
-						egg.tryRespawn();
-					}
-				}
+				update();
 			}
-		}.runTaskTimer(plugin, 100, 100);
+		}.runTaskTimer(plugin, 100, 50);
 	}
 	
 	
@@ -129,6 +132,26 @@ public class MobManager {
 	
 	
 	
+	public void update() {
+		for (SpawnEgg egg : activeEggs.values()) {
+			egg.tryRespawn();
+		}
+		
+		for (AIEntity ai : ais.values()) {
+			if (((Zombie) ai.getEntity()).getTarget() == null)
+				ai.getEntity().damage(1000);
+		}
+		trySpawnAI();
+		for (PlayerMonster monster : playerMobs.values()) {
+			if (monster.isAlive() && monster.getPlayer().isOnGround())
+				addAISpawnLocation(monster.getLocation());
+		}
+	}
+	
+	// --------------------------------------------------------
+	//                        SPAWN EGGS
+	// --------------------------------------------------------
+	
 	
 	private final InventoryHolder MOB_MENU_HOLDER = new InventoryHolder() {
 		@Override
@@ -162,4 +185,50 @@ public class MobManager {
 		if (egg != null && egg.canSpawn())
 			egg.spawn(monster);
 	}
+	
+	
+	
+	// --------------------------------------------------------
+	//                        AIS
+	// --------------------------------------------------------
+	
+	
+	private final static int MAX_AIS = 10;
+	private final static int MAX_AI_MARKS = 120;
+	private final static double AI_SPAWN_CHANCE = 0.1;
+	
+	//private final static Set<String> AI_NAMES;
+	
+	private final Queue<Location> spawnSpots = new LinkedList<>();
+	private final Map<UUID, AIEntity> ais = new HashMap<>();
+	
+	public void addAISpawnLocation(Location loc) {
+		spawnSpots.add(loc);
+		while (spawnSpots.size() > MAX_AI_MARKS)
+			spawnSpots.remove();
+	}
+	
+	public void trySpawnAI() {
+		World world = Game.getGame().getWorld();
+		for (Location spawnSpot : spawnSpots) {
+			//if (ais.size() >= MAX_AIS) break;
+			if (Math.random() >= AI_SPAWN_CHANCE) continue;
+			
+			Zombie ai = (Zombie) world.spawnEntity(spawnSpot, EntityType.ZOMBIE);
+			ai.setCustomName(ChatColor.DARK_RED + "Bob the AI");
+			ai.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 30000, 3, false,false), true);
+			mobTeam.addEntry(ai.getUniqueId().toString());
+			
+			ais.put(ai.getUniqueId(), new AIEntity(ai));
+		}
+	}
+	
+	public void onAIKill(AIEntity ai) {
+		ais.remove(ai);
+	}
+	
+	public AIEntity getAI(Entity entity) {
+		return ais.get(entity.getUniqueId());
+	}
+	
 }

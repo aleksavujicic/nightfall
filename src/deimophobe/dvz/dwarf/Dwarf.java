@@ -10,6 +10,7 @@ import deimophobe.dvz.dwarf.kit.Loadout;
 import deimophobe.dvz.dwarf.kit.consumable.Consumable;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.monster.PlayerMonster;
+import deimophobe.dvz.PlayerOrAI;
 import minecraft.spigot.community.michel_0.api.AttributeModifier;
 import minecraft.spigot.community.michel_0.api.ItemAttributes;
 import minecraft.spigot.community.michel_0.api.Slot;
@@ -30,7 +31,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -307,41 +307,33 @@ public class Dwarf extends GamePlayer {
 		}
 	}
 	
-	
-	public void onKill(GamePlayer gamePlayer, DamageType type) {
-		if (gamePlayer instanceof PlayerMonster) {
-			PlayerMonster monster = (PlayerMonster) gamePlayer;
-			
-			kit.onKill(monster, type);
-		} else {
-			Bukkit.getLogger().warning("Dwarf killed non mob?!");
-		}
+	public void onKill(PlayerOrAI monster, DamageType type) {
+		kit.onKill(monster, type);
+		
 		if (kit.hasQuiver())
 			giveArrow();
 	}
 	
 	@Override
-	public double onHit(GamePlayer gamePlayer, DamageType type, double damage) {
-		if (gamePlayer instanceof PlayerMonster) {
-			PlayerMonster monster = (PlayerMonster) gamePlayer;
-			
-			double newDam = kit.onHit(monster, type);
-			if (newDam != -1)
-				damage = newDam;
-			
-			if (type == DamageType.MELEE && hasProc() && monster.getMob().isProccable()) {
-				return 10000;
+	public double onHit(PlayerOrAI monster, DamageType type, double damage) {
+		double newDam = kit.onHit(monster, type);
+		if (newDam != -1)
+			damage = newDam;
+		
+		if (type == DamageType.MELEE && hasProc()) {
+			if (monster instanceof PlayerMonster) {
+				if (((PlayerMonster) monster).getMob().isProccable()) {
+					return 10000;
+				}
 			} else {
-				return damage;
+				return 10000;
 			}
-		} else {
-			Bukkit.getLogger().warning("Dwarf hit non mob?!");
-			return 1000;
 		}
+		return damage;
 	}
 	
 	@Override
-	public double onGotHit(GamePlayer player, DamageType type, double damage) {
+	public double onGotHit(PlayerOrAI player, DamageType type, double damage) {
 		if (armoured)
 			return damage/3;
 		else

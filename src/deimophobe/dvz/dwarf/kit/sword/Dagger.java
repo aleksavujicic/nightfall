@@ -1,5 +1,6 @@
 package deimophobe.dvz.dwarf.kit.sword;
 
+import deimophobe.dvz.PlayerOrAI;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MobManager;
 import deimophobe.dvz.monster.PlayerMonster;
@@ -19,13 +20,13 @@ class Dagger extends Sword {
 	}
 	
 	@Override
-	public void onKill(PlayerMonster monster) {
+	public void onKill(PlayerOrAI monster) {
 		reduceCooldown(200);
 	}
 	
 	@Override
-	public void onHit(PlayerMonster monster) {
-		monster.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 50, 4, true), true);
+	public void onHit(PlayerOrAI monster) {
+		monster.getEntity().addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 50, 4, true), true);
 	}
 	
 	private static final double EPSILON = 1;

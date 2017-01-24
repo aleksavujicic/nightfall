@@ -16,6 +16,8 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.Plugin;
@@ -167,6 +169,13 @@ public class Game {
 			return dwarf;
 		else
 			return mmanager.getMob(name);
+	}
+	
+	public PlayerOrAI getPlayerOrAI(Entity entity) {
+		if (entity.getType() == EntityType.PLAYER)
+			return getPlayer((Player) entity);
+		
+		return mmanager.getAI(entity);
 	}
 	
 	public boolean removeDwarf(String name) {

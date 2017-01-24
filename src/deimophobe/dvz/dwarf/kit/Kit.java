@@ -1,6 +1,7 @@
 package deimophobe.dvz.dwarf.kit;
 
 import deimophobe.dvz.DamageType;
+import deimophobe.dvz.PlayerOrAI;
 import deimophobe.dvz.dwarf.Dwarf;
 
 import deimophobe.dvz.dwarf.kit.ale.Ale;
@@ -85,7 +86,7 @@ public class Kit {
 		return false;
 	}
 	
-	public double onHit(PlayerMonster monster, DamageType type) {
+	public double onHit(PlayerOrAI monster, DamageType type) {
 		ItemStack item = dwarf.getPlayer().getInventory().getItemInMainHand();
 		if (type == DamageType.MELEE && sword.matchesItem(item)) {
 			sword.onHit(monster);
@@ -96,7 +97,7 @@ public class Kit {
 		return -1;
 	}
 	
-	public void onKill(PlayerMonster monster, DamageType type) {
+	public void onKill(PlayerOrAI monster, DamageType type) {
 		ItemStack item = dwarf.getPlayer().getInventory().getItemInMainHand();
 		if (type == DamageType.MELEE && sword.matchesItem(item)) {
 			sword.onKill(monster);

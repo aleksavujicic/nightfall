@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -109,6 +110,13 @@ public class DwarfManager implements Listener {
 	
 	public Dwarf getDwarf(String name) {
 		return dwarves.get(name);
+	}
+	
+	public Dwarf getDwarf(Entity entity) {
+		if (entity instanceof Player)
+			return getDwarf((Player)entity);
+		else
+			return null;
 	}
 	
 	public boolean isDwarf(Player player) {
