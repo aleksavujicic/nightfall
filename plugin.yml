@@ -13,3 +13,6 @@ commands:
   horn:
     usage: /horn
     description: HRON
+  toggleais:
+    usage: /toggleais
+    description: Enables/disables AI spawning

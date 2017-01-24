@@ -1,7 +1,9 @@
-package deimophobe.dvz.monster.ai;
+package deimophobe.dvz.monster;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.PlayerOrAI;
+import deimophobe.dvz.dwarf.Dwarf;
+import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
@@ -9,28 +11,35 @@ import org.bukkit.entity.LivingEntity;
  * Created by Deimophobe on 24/01/17.
  */
 public class AIEntity implements PlayerOrAI {
-	private final LivingEntity entity;
+	private final Creature entity;
 	@Override
-	public LivingEntity getEntity() {
+	public Creature getEntity() {
 		return entity;
 	}
 	
 	@Override
 	public String getDisplayName() {
-		return "TEMP AI PLACEHOLDER";
+		return entity.getCustomName();
 	}
 	
-	public AIEntity(LivingEntity entity) {
+	public AIEntity(Creature entity) {
 		this.entity = entity;
 	}
 	
 	@Override
 	public double onHit(PlayerOrAI entity, DamageType type, double damage) {
+		((Dwarf) entity).damageArmour(10);
 		return 15;
 	}
 	
 	@Override
 	public double onGotHit(PlayerOrAI entity, DamageType type, double damage) {
-		return damage;
+		switch (type) {
+			case MELEE:
+				return damage/5;
+			case BOW:
+				return damage/3;
+		}
+		return -1;
 	}
 }

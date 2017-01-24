@@ -4,7 +4,7 @@ import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MobManager;
 import deimophobe.dvz.monster.PlayerMonster;
-import deimophobe.dvz.monster.ai.AIEntity;
+import deimophobe.dvz.monster.AIEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -67,6 +67,11 @@ public class GameListener implements Listener {
 		DamageType type = triplet.type;
 		PlayerOrAI damager = game.getPlayerOrAI(triplet.damager);
 		PlayerOrAI damagee = game.getPlayerOrAI(triplet.damagee);
+		
+		if (damager instanceof PlayerMonster && damagee instanceof AIEntity) {
+			event.setCancelled(true);
+			return;
+		}
 		
 		if (event.getEntityType() == EntityType.PLAYER)
 			event.setDamage(EntityDamageEvent.DamageModifier.BLOCKING, 0);
@@ -193,8 +198,6 @@ public class GameListener implements Listener {
 			
 			if (dwarf != null && ai != null && type != null)
 				dwarf.onKill(ai, type);
-			if (ai != null)
-				mm.onAIKill(ai);
 		}
 	}
 	
@@ -351,7 +354,7 @@ public class GameListener implements Listener {
 			Entity tempDamager = null;
 			DamageType tempType = null;
 			
-			if (damagee.getType() == EntityType.ARROW) {
+			if (event.getDamager().getType() == EntityType.ARROW) {
 				Arrow arrow = (Arrow) event.getDamager();
 				if (arrow.getShooter() instanceof Entity) {
 					tempDamager = (Entity) arrow.getShooter();

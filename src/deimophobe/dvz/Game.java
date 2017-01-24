@@ -209,7 +209,6 @@ public class Game {
 	}
 	
 	
-	
 	public void mineGold() {
 		vault += phase.getGoldMineQuantity();
 		updateSidebar();

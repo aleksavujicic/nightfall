@@ -1,12 +1,8 @@
 package deimophobe.dvz.monster;
 
 import deimophobe.dvz.Game;
-import deimophobe.dvz.monster.ai.AIEntity;
 import me.libraryaddict.disguise.DisguiseAPI;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
@@ -15,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -63,10 +60,18 @@ public class MobManager {
 			activeEggs.put(egg.getIndex(), egg);
 		}
 		
+		
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				update();
+				updateEggs();
+			}
+		}.runTaskTimer(plugin, 1, 300);
+		
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				updateAIs();
 			}
 		}.runTaskTimer(plugin, 100, 50);
 	}
@@ -132,21 +137,6 @@ public class MobManager {
 	
 	
 	
-	public void update() {
-		for (SpawnEgg egg : activeEggs.values()) {
-			egg.tryRespawn();
-		}
-		
-		for (AIEntity ai : ais.values()) {
-			if (((Zombie) ai.getEntity()).getTarget() == null)
-				ai.getEntity().damage(1000);
-		}
-		trySpawnAI();
-		for (PlayerMonster monster : playerMobs.values()) {
-			if (monster.isAlive() && monster.getPlayer().isOnGround())
-				addAISpawnLocation(monster.getLocation());
-		}
-	}
 	
 	// --------------------------------------------------------
 	//                        SPAWN EGGS
@@ -186,6 +176,12 @@ public class MobManager {
 			egg.spawn(monster);
 	}
 	
+	public void updateEggs() {
+		for (SpawnEgg egg : activeEggs.values()) {
+			egg.tryRespawn();
+		}
+	}
+	
 	
 	
 	// --------------------------------------------------------
@@ -193,7 +189,7 @@ public class MobManager {
 	// --------------------------------------------------------
 	
 	
-	private final static int MAX_AIS = 10;
+	private final static int MAX_AIS = 60;
 	private final static int MAX_AI_MARKS = 120;
 	private final static double AI_SPAWN_CHANCE = 0.1;
 	
@@ -202,29 +198,63 @@ public class MobManager {
 	private final Queue<Location> spawnSpots = new LinkedList<>();
 	private final Map<UUID, AIEntity> ais = new HashMap<>();
 	
-	public void addAISpawnLocation(Location loc) {
-		spawnSpots.add(loc);
-		while (spawnSpots.size() > MAX_AI_MARKS)
-			spawnSpots.remove();
+	private boolean aisSpawnable = true;
+	
+	private void updateAIs() {
+		// Get rid of unnecessary ai
+		Set<UUID> deadAIs = new HashSet<>();
+		for (AIEntity ai : ais.values()) {
+			if (ai.getEntity().getTarget() == null)
+				ai.getEntity().damage(1000);
+			
+			if (ai.getEntity().isDead())
+				deadAIs.add(ai.getEntity().getUniqueId());
+		}
+		for (UUID uuid : deadAIs)
+			ais.remove(uuid);
+		
+		// Try spawn more
+		trySpawnAI();
+		
+		// Update ai marks spots
+		for (PlayerMonster monster : playerMobs.values()) {
+			if (monster.isAlive() && monster.getPlayer().isOnGround())
+				addAISpawnLocation(monster.getLocation());
+		}
 	}
 	
-	public void trySpawnAI() {
+	private void trySpawnAI() {
 		World world = Game.getGame().getWorld();
 		for (Location spawnSpot : spawnSpots) {
-			//if (ais.size() >= MAX_AIS) break;
-			if (Math.random() >= AI_SPAWN_CHANCE) continue;
+			if (!canSpawnAI()) continue;;
 			
+			// Create zombie with all right stuff
 			Zombie ai = (Zombie) world.spawnEntity(spawnSpot, EntityType.ZOMBIE);
 			ai.setCustomName(ChatColor.DARK_RED + "Bob the AI");
 			ai.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 30000, 3, false,false), true);
+			ai.getEquipment().setItemInMainHand(new ItemStack(Material.WOOD_SWORD));
 			mobTeam.addEntry(ai.getUniqueId().toString());
 			
 			ais.put(ai.getUniqueId(), new AIEntity(ai));
 		}
 	}
 	
-	public void onAIKill(AIEntity ai) {
-		ais.remove(ai);
+	private boolean canSpawnAI() {
+		return  (aisSpawnable &&
+				Game.getGame().getPhase().canAISpawn() &&
+				ais.size() < MAX_AIS &&
+				Math.random() < AI_SPAWN_CHANCE);
+	}
+	
+	private void addAISpawnLocation(Location loc) {
+		spawnSpots.add(loc);
+		while (spawnSpots.size() > MAX_AI_MARKS)
+			spawnSpots.remove();
+	}
+	
+	public boolean toggleAISpawn() {
+		aisSpawnable = !aisSpawnable;
+		return aisSpawnable;
 	}
 	
 	public AIEntity getAI(Entity entity) {

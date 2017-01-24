@@ -6,6 +6,7 @@ import deimophobe.dvz.dwarf.kit.ale.AleType;
 import deimophobe.dvz.dwarf.kit.bow.BowType;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.sword.SwordType;
+import deimophobe.dvz.monster.MobManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -121,6 +122,13 @@ public class DvZPlugin extends JavaPlugin {
 					}
 				}
 			}
+		}
+		if (name.equalsIgnoreCase("toggleais")) {
+			if (MobManager.getManager().toggleAISpawn())
+				sender.sendMessage(ChatColor.AQUA + "AIs are now " + ChatColor.GOLD + "ENABLED");
+			else
+				sender.sendMessage(ChatColor.AQUA + "AIs are now " + ChatColor.RED + "DISABLED");
+			return true;
 		}
 		if (name.equalsIgnoreCase("horn")) {
 			game.tootHorn();
