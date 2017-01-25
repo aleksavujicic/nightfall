@@ -278,7 +278,7 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void onArrowPickup(PlayerPickupItemEvent event){
-		if (event.getItem() == new ItemStack(Material.ARROW)) {
+		if (mm.isMob(event.getPlayer())) {
 			event.setCancelled(true);
 		}
 	}
