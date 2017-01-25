@@ -2,8 +2,11 @@ package deimophobe.dvz.dwarf.kit.sword;
 
 import deimophobe.dvz.PlayerOrAI;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.monster.AIEntity;
+import deimophobe.dvz.monster.MobManager;
 import deimophobe.dvz.monster.PlayerMonster;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.event.block.Action;
 
 /**
@@ -22,20 +25,31 @@ class Hammer extends Sword {
 	//@Override
 	//public void onKill() {}
 	
+	private boolean hasHit = false;
+	private static final double AOE_RADIUS = 2.5;
 	@Override
-	public void onHit(PlayerOrAI event) {
-		//Location loc = event.getEntity().getLocation();
-		//Collection<Entity> entities = loc.getWorld().getNearbyEntities(loc, 1, 1, 1);
-		//for (Entity entity : entities) {
-		//	if (entity.getType() != EntityType.PLAYER && entity instanceof LivingEntity) {
-		//		((LivingEntity) entity).damage(5, dwarf.getPlayer());
-		//	}
-		//}
+	public void onHit(PlayerOrAI monster) {
+		if (hasHit) return;
+		
+		hasHit = true;
+		final double monsterDmg = (dwarf.hasProc() ? 20 : 5);
+		final double aiDmg = (dwarf.hasProc() ? 40 : 20);
+		Location center = monster.getEntity().getLocation();
+		for (PlayerMonster playerMonster : MobManager.getManager().getMobs()) {
+			if (playerMonster == monster) continue;
+			if (center.distance(playerMonster.getLocation()) <= AOE_RADIUS)
+				playerMonster.damage(monsterDmg, dwarf);
+		}
+		for (AIEntity ai : MobManager.getManager().getAIs()) {
+			if (center.distance(ai.getEntity().getLocation()) <= AOE_RADIUS)
+				ai.getEntity().damage(aiDmg, dwarf.getPlayer());
+		}
 		reduceCooldown(20);
 	}
 	
 	@Override
 	public void update() {
+		hasHit = false;
 		if (!dwarf.getPlayer().isBlocking()) {
 			if (cooldown > 0)
 				cooldown -= 1;
@@ -50,7 +64,7 @@ class Hammer extends Sword {
 			
 			if (cooldown == maxCooldown) {
 				dwarf.playSound("entity.experience_orb.pickup", 10f, 0.5f, false);
-				dwarf.repairArmour(5);
+				dwarf.repairArmour(3);
 				dwarf.regenMana(1);
 				
 				if (cooldown >= maxCooldown) cooldown = maxCooldown;

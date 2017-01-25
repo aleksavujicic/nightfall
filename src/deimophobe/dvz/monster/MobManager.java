@@ -72,7 +72,7 @@ public class MobManager {
 			public void run() {
 				updateAIs();
 			}
-		}.runTaskTimer(plugin, 100, 200);
+		}.runTaskTimer(plugin, 100, 140);
 	}
 	
 	
@@ -278,6 +278,10 @@ public class MobManager {
 			ai.getEntity().damage(1000);
 		}
 		ais.clear();
+	}
+	
+	public Collection<AIEntity> getAIs() {
+		return ais.values();
 	}
 	
 }

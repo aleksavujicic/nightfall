@@ -9,6 +9,8 @@ import deimophobe.dvz.dwarf.kit.Kit;
 import deimophobe.dvz.dwarf.kit.Loadout;
 import deimophobe.dvz.dwarf.kit.consumable.Consumable;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
+import deimophobe.dvz.dwarf.kit.sword.Sword;
+import deimophobe.dvz.dwarf.kit.sword.SwordType;
 import deimophobe.dvz.monster.PlayerMonster;
 import deimophobe.dvz.PlayerOrAI;
 import minecraft.spigot.community.michel_0.api.AttributeModifier;
@@ -141,15 +143,15 @@ public class Dwarf extends GamePlayer {
 		} else if (armour >= 1000) {
 			regenRate = 12;
 		} else if (armour >= 800) {
-			regenRate = 10;
+			regenRate = 9;
 		} else if (armour >= 600) {
-			regenRate = 7;
+			regenRate = 6;
 		} else if (armour >= 200) {
-			regenRate = 5;
-		} else if (armour >= 10) {
 			regenRate = 3;
-		} else {
+		} else if (armour >= 10) {
 			regenRate = 1;
+		} else {
+			regenRate = 0;
 		}
 		regenMana(regenRate);
 	}
@@ -320,7 +322,7 @@ public class Dwarf extends GamePlayer {
 		if (newDam != -1)
 			damage = newDam;
 		
-		if (type == DamageType.MELEE && hasProc()) {
+		if (type == DamageType.MELEE && hasProc() && !getHeldItem().isSimilar(Sword.getItem(SwordType.HAMMER))) {
 			if (monster instanceof PlayerMonster) {
 				if (((PlayerMonster) monster).getMob().isProccable()) {
 					return 10000;
