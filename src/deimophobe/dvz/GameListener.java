@@ -306,7 +306,7 @@ public class GameListener implements Listener {
 	// --------------------------------------------------------
 	
 	@EventHandler
-	public void onArrowPickup(PlayerPickupItemEvent event){
+	public void preventMobPickup(PlayerPickupItemEvent event){
 		if (mm.isMob(event.getPlayer())) {
 			event.setCancelled(true);
 		}
