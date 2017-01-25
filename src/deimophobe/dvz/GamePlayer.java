@@ -18,9 +18,21 @@ import org.bukkit.potion.PotionEffectType;
  * Created by Deimophobe on 17/01/17.
  */
 public abstract class GamePlayer implements PlayerOrAI {
-	protected final Player player;
+	protected Player player;
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
 	public Player getPlayer() {
 		return player;
+	}
+	
+	private String title;
+	public void setTitle(String name) {
+		title = name;
+		player.setDisplayName(name);
+	}
+	public String getTitle() {
+		return title;
 	}
 	
 	@Override
@@ -132,6 +144,7 @@ public abstract class GamePlayer implements PlayerOrAI {
 	public String generateDeathMsg() {
 		String name = player.getDisplayName();
 		EntityDamageEvent event = player.getLastDamageCause();
+		if (event == null) return name + " died.";
 		EntityDamageEvent.DamageCause cause = event.getCause();
 		
 		if (cause == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {

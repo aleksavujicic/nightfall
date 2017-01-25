@@ -40,6 +40,35 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void onLogin(PlayerJoinEvent event) {
 		game.giveBossBarToPlayer(event.getPlayer());
+		
+		if (dm.goOnline(event.getPlayer())) {
+			game.updateSidebar();
+			return;
+		}
+		if (mm.goOnline(event.getPlayer())) {
+			game.updateSidebar();
+			return;
+		}
+		
+		
+		switch (game.getPhase().playerTypeOnJoin()) {
+			case DWARF:
+				dm.addDwarf(event.getPlayer());
+				break;
+			case MOB:
+				mm.addMob(event.getPlayer());
+				break;
+			case NONE:
+				break;
+		}
+		game.updateSidebar();
+	}
+	
+	@EventHandler
+	public void onLogoff(PlayerQuitEvent event) {
+		dm.goOffline(event.getPlayer());
+		mm.goOffline(event.getPlayer());
+		game.updateSidebar();
 	}
 	
 	// --------------------------------------------------------

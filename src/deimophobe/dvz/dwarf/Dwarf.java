@@ -93,7 +93,7 @@ public class Dwarf extends GamePlayer {
 		} else {
 			title = ChatColor.DARK_AQUA + player.getName() + ChatColor.RESET;
 		}
-		player.setDisplayName(title);
+		setTitle(title);
 		
 		
 		updateArmour();

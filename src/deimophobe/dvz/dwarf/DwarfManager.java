@@ -6,6 +6,7 @@ import deimophobe.dvz.dwarf.kit.Loadout;
 import deimophobe.dvz.dwarf.kit.Passive;
 import deimophobe.dvz.dwarf.kit.ale.AleType;
 import deimophobe.dvz.dwarf.kit.bow.BowType;
+import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.sword.SwordType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -75,6 +76,7 @@ public class DwarfManager implements Listener {
 		return config;
 	}
 	
+	public boolean addDwarf(Player player) { return addDwarf(player.getName()); }
 	public boolean addDwarf(String name) {
 		Player player = Bukkit.getPlayer(name);
 		
@@ -82,7 +84,16 @@ public class DwarfManager implements Listener {
 		
 		name = player.getName();
 		if (dwarves.containsKey(name)) return false;
-		Loadout loadout = new Loadout("Ranger", null, SwordType.GRB, BowType.DRAGONSKIN, AleType.REGROWTH, null, ArmourType.STUDDED, Collections.singleton(Passive.QUICKFEET));
+		
+		Map<ConsumableType, Integer> consumables = new HashMap<>();
+		consumables.put(ConsumableType.LAMP, 5);
+		//consumables.put(ConsumableType.SLAB, 5);
+		consumables.put(ConsumableType.SOS, 5);
+		consumables.put(ConsumableType.WRENCH, 5);
+		consumables.put(ConsumableType.MORTAR, 5);
+		consumables.put(ConsumableType.WIZARD_MORTAR, 5);
+		consumables.put(ConsumableType.ARMOUR_ITEM, 5);
+		Loadout loadout = new Loadout("Ranger", null, SwordType.GRB, BowType.DRAGONSKIN, AleType.REGROWTH, consumables, ArmourType.STUDDED, Collections.singleton(Passive.QUICKFEET));
 		
 		dwarves.put(name, new Dwarf(player, loadout));
 		dwarfTeam.addEntry(name);
@@ -149,4 +160,26 @@ public class DwarfManager implements Listener {
 		return dwarves.values();
 	}
 	
+	
+	
+	private static final Map<String, Dwarf> offline = new HashMap<>();
+	public boolean goOnline(Player player) {
+		String name = player.getName();
+		if (!offline.containsKey(name)) return false;
+		
+		Dwarf dwarf = offline.remove(name);
+		dwarf.setPlayer(player);
+		dwarf.setTitle(dwarf.getTitle());
+		dwarves.put(name, dwarf);
+		return true;
+	}
+	
+	public boolean goOffline(Player player) {
+		String name = player.getName();
+		if (!dwarves.containsKey(name)) return false;
+		
+		Dwarf dwarf = dwarves.remove(name);
+		offline.put(name, dwarf);
+		return true;
+	}
 }

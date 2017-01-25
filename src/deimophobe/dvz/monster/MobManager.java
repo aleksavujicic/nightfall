@@ -1,6 +1,7 @@
 package deimophobe.dvz.monster;
 
 import deimophobe.dvz.Game;
+import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.shrine.Region;
 import deimophobe.dvz.shrine.Shrine;
 import me.libraryaddict.disguise.DisguiseAPI;
@@ -84,6 +85,7 @@ public class MobManager {
 		return mobConfig;
 	}
 	
+	public boolean addMob(Player player) { return addMob(player.getName()); }
 	public boolean addMob(String name) {
 		Player player = Bukkit.getPlayer(name);
 		
@@ -135,6 +137,32 @@ public class MobManager {
 	}
 	
 	
+	
+	// --------------------------------------------------------
+	//                   ONLINE/OFFLINE MANAGER
+	// --------------------------------------------------------
+	
+	private static final Map<String, PlayerMonster> offline = new HashMap<>();
+	public boolean goOnline(Player player) {
+		String name = player.getName();
+		if (!offline.containsKey(name)) return false;
+		
+		PlayerMonster monster = offline.remove(name);
+		monster.setPlayer(player);
+		monster.setTitle(monster.getTitle());
+		playerMobs.put(name, monster);
+		monster.kill();
+		return true;
+	}
+	
+	public boolean goOffline(Player player) {
+		String name = player.getName();
+		if (!playerMobs.containsKey(name)) return false;
+		
+		PlayerMonster monster = playerMobs.remove(name);
+		offline.put(name, monster);
+		return true;
+	}
 	
 	
 	// --------------------------------------------------------

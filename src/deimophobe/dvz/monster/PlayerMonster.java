@@ -56,27 +56,35 @@ public class PlayerMonster extends GamePlayer {
 			
 			mob = null; // TODO don't set to null?
 			player.setGameMode(GameMode.SPECTATOR);
-			player.setDisplayName(ChatColor.GRAY + player.getName() + ChatColor.RESET);
+			setTitle(ChatColor.GRAY + player.getName() + ChatColor.RESET);
 			
-			showMobMenu();
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					showMobMenu();
+				}
+			}.runTaskLater(Game.getGame().getPlugin(), 1);
 		} else {
 			new BukkitRunnable() {
 				@Override
 				public void run() {
 					ActionBarAPI.sendActionBarToAllPlayers(generateDeathMsg(), 60);
-					player.setDisplayName(ChatColor.GRAY + player.getName() + ChatColor.RESET);
+					setTitle(ChatColor.GRAY + player.getName() + ChatColor.RESET);
+					showMobMenu();
 					
 				}
 			}.runTaskLater(Game.getGame().getPlugin(), 1);
 			
 			Disguise disguise = DisguiseAPI.getDisguise(player);
-			EntityType entityType = disguise.getType().getEntityType();
-			if (entityType.isAlive()) {
-				LivingEntity entity = (LivingEntity) player.getWorld().spawnEntity(player.getLocation(), entityType);
-				entity.teleport(player);
-				entity.setVelocity(player.getVelocity());
-				entity.setCustomName(disguise.getWatcher().getCustomName());
-				entity.damage(10000);
+			if (disguise != null) {
+				EntityType entityType = disguise.getType().getEntityType();
+				if (entityType.isAlive()) {
+					LivingEntity entity = (LivingEntity) player.getWorld().spawnEntity(player.getLocation(), entityType);
+					entity.teleport(player);
+					entity.setVelocity(player.getVelocity());
+					entity.setCustomName(disguise.getWatcher().getCustomName());
+					entity.damage(10000);
+				}
 			}
 			
 			player.playSound(player.getLocation(), "proc", 1f, 0.7f);
@@ -84,7 +92,6 @@ public class PlayerMonster extends GamePlayer {
 			mob = null;
 			player.setGameMode(GameMode.SPECTATOR);
 			
-			showMobMenu();
 		}
 	}
 	
