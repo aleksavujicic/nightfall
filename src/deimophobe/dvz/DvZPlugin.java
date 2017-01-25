@@ -35,6 +35,7 @@ public class DvZPlugin extends JavaPlugin {
 		Bukkit.getScoreboardManager().getMainScoreboard().getTeam("dwarves").unregister();
 		Bukkit.getScoreboardManager().getMainScoreboard().getTeam("mobs").unregister();
 		Bukkit.getScoreboardManager().getMainScoreboard().getObjective("MySidebar").unregister();
+		MobManager.getManager().killAllAIs();
 		game.removeBossbar();
 	}
 	

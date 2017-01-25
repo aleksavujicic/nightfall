@@ -72,7 +72,7 @@ public class MobManager {
 			public void run() {
 				updateAIs();
 			}
-		}.runTaskTimer(plugin, 100, 100);
+		}.runTaskTimer(plugin, 100, 200);
 	}
 	
 	
@@ -189,8 +189,8 @@ public class MobManager {
 	
 	
 	private final static int MAX_AIS = 30;
-	private final static int MAX_AI_MARKS = 120;
-	private final static double AI_SPAWN_CHANCE = 0.1;
+	private final static int MAX_AI_MARKS = 60;
+	private final static double AI_SPAWN_CHANCE = 0.15;
 	
 	//private final static Set<String> AI_NAMES;
 	
@@ -205,8 +205,10 @@ public class MobManager {
 		Set<UUID> deadAIs = new HashSet<>();
 		for (AIEntity ai : ais.values()) {
 			Creature entity = ai.getEntity();
-			if (entity.getTarget() == null || shrineProt.continsEntity(entity))
-				entity.damage(1000);
+			if (entity.getTarget() == null || shrineProt.continsEntity(entity)) {
+				entity.remove();
+				//entity.damage(1000);
+			}
 			
 			if (entity.isDead())
 				deadAIs.add(entity.getUniqueId());
@@ -249,7 +251,7 @@ public class MobManager {
 				Math.random() < AI_SPAWN_CHANCE);
 	}
 	
-	private final static double SPAWN_THRESHOLD = 2;
+	private final static double SPAWN_THRESHOLD = 1;
 	private void addAISpawnLocation(Location loc) {
 		// Prevent spawning if spawn spot is too close to another
 		for (Location spawnSpot : spawnSpots) {
