@@ -5,6 +5,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Creature;
+import org.bukkit.entity.Entity;
 
 /**
  * Created by Deimophobe on 21/01/17.
@@ -16,6 +18,9 @@ public interface Region {
 	}
 	default boolean containsBlock(Block block) {
 		return containsLocation(block.getLocation());
+	}
+	default boolean continsEntity(Entity entity) {
+		return containsLocation(entity.getLocation());
 	}
 	
 	static Region createRegion(ConfigurationSection section) {
@@ -37,4 +42,5 @@ public interface Region {
 				return null;
 		}
 	}
+	
 }

@@ -1,14 +1,13 @@
 package deimophobe.dvz.monster;
 
 import deimophobe.dvz.Game;
+import deimophobe.dvz.shrine.Region;
+import deimophobe.dvz.shrine.Shrine;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.*;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Zombie;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -73,7 +72,7 @@ public class MobManager {
 			public void run() {
 				updateAIs();
 			}
-		}.runTaskTimer(plugin, 100, 50);
+		}.runTaskTimer(plugin, 100, 100);
 	}
 	
 	
@@ -189,7 +188,7 @@ public class MobManager {
 	// --------------------------------------------------------
 	
 	
-	private final static int MAX_AIS = 60;
+	private final static int MAX_AIS = 30;
 	private final static int MAX_AI_MARKS = 120;
 	private final static double AI_SPAWN_CHANCE = 0.1;
 	
@@ -202,13 +201,15 @@ public class MobManager {
 	
 	private void updateAIs() {
 		// Get rid of unnecessary ai
+		Region shrineProt = Game.getGame().getShrine().getShrineProtection();
 		Set<UUID> deadAIs = new HashSet<>();
 		for (AIEntity ai : ais.values()) {
-			if (ai.getEntity().getTarget() == null)
-				ai.getEntity().damage(1000);
+			Creature entity = ai.getEntity();
+			if (entity.getTarget() == null || shrineProt.continsEntity(entity))
+				entity.damage(1000);
 			
-			if (ai.getEntity().isDead())
-				deadAIs.add(ai.getEntity().getUniqueId());
+			if (entity.isDead())
+				deadAIs.add(entity.getUniqueId());
 		}
 		for (UUID uuid : deadAIs)
 			ais.remove(uuid);
@@ -226,12 +227,14 @@ public class MobManager {
 	private void trySpawnAI() {
 		World world = Game.getGame().getWorld();
 		for (Location spawnSpot : spawnSpots) {
-			if (!canSpawnAI()) continue;;
+			if (!canSpawnAI()) continue;
 			
 			// Create zombie with all right stuff
 			Zombie ai = (Zombie) world.spawnEntity(spawnSpot, EntityType.ZOMBIE);
-			ai.setCustomName(ChatColor.DARK_RED + "Bob the AI");
-			ai.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 30000, 3, false,false), true);
+			ai.setCustomName(ChatColor.DARK_RED + "Rawb the AI");
+			int speedLvl = (ai.isBaby() ? 0 : 3);
+			ai.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 30000, speedLvl, false,false), true);
+			ai.getEquipment().clear();
 			ai.getEquipment().setItemInMainHand(new ItemStack(Material.WOOD_SWORD));
 			mobTeam.addEntry(ai.getUniqueId().toString());
 			
@@ -246,7 +249,14 @@ public class MobManager {
 				Math.random() < AI_SPAWN_CHANCE);
 	}
 	
+	private final static double SPAWN_THRESHOLD = 2;
 	private void addAISpawnLocation(Location loc) {
+		// Prevent spawning if spawn spot is too close to another
+		for (Location spawnSpot : spawnSpots) {
+			if (loc.distance(spawnSpot) <= SPAWN_THRESHOLD)
+				return;
+		}
+		
 		spawnSpots.add(loc);
 		while (spawnSpots.size() > MAX_AI_MARKS)
 			spawnSpots.remove();
@@ -259,6 +269,13 @@ public class MobManager {
 	
 	public AIEntity getAI(Entity entity) {
 		return ais.get(entity.getUniqueId());
+	}
+	
+	public void killAllAIs() {
+		for (AIEntity ai : ais.values()) {
+			ai.getEntity().damage(1000);
+		}
+		ais.clear();
 	}
 	
 }

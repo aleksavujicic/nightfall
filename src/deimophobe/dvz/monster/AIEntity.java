@@ -29,7 +29,7 @@ public class AIEntity implements PlayerOrAI {
 	@Override
 	public double onHit(PlayerOrAI entity, DamageType type, double damage) {
 		((Dwarf) entity).damageArmour(10);
-		return 15;
+		return 10;
 	}
 	
 	@Override

@@ -296,6 +296,7 @@ public class Game {
 	
 	private void killShrine() {
 		Shrine prevShrine = shrines.poll();
+		mmanager.killAllAIs();
 		
 		if (shrines.isEmpty()) {
 			shrines.add(prevShrine);
