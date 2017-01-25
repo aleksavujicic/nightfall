@@ -169,6 +169,7 @@ public class GameListener implements Listener {
 				if (event.getCause() == EntityDamageEvent.DamageCause.POISON) {
 					event.setDamage(event.getDamage()*2);
 				}
+				dwarf.damageArmour(1);
 			}
 		}
 	}
