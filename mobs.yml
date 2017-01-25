@@ -125,7 +125,8 @@ wolf:
     bound: true
   items:
     item1:
-      material: sugar
+      material: iron_axe
+      data: 104
       name: Wolf Fangs
       lore:
        - Some lore
@@ -156,8 +157,8 @@ spiderling:
     bound: true
   items:
     item1:
-      material: ink_sack
-      data: 2
+      material: iron_axe
+      data: 107
       name: Spider Thingies
       lore:
        - Something something
@@ -187,8 +188,8 @@ rat:
     bound: true
   items:
     item1:
-      material: ink_sack
-      data: 2
+      material: iron_axe
+      data: 107
       name: Rat Talons
       lore:
        - Some lore
@@ -219,7 +220,8 @@ golem:
     bound: true
   items:
     item1:
-      material: gold_pickaxe
+      material: iron_axe
+      data: 105
       name: Ancient Pick
       lore:
        - Some lore
@@ -249,7 +251,8 @@ ogre:
     bound: true
   items:
     item1:
-      material: iron_hoe
+      material: iron_axe
+      data: 106
       name: Ogre Club
       lore:
        - Some lore

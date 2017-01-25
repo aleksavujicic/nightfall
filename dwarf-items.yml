@@ -1,13 +1,15 @@
 sword:
   drb:
-    material: diamond_axe
+    material: iron_axe
+    data: 0
     name: §bDwarven Runeblade
     lore:
      - What a crappy
      - weapon
     attack: 15
   grb:
-    material: diamond_axe
+    material: iron_axe
+    data: 0
     name: §bGreater Runeblade
     lore:
      - §9The mighty weapon thats said
@@ -15,14 +17,16 @@ sword:
      - §asparkles§9.
     attack: 15
   axe:
-    material: diamond_axe
+    material: iron_axe
+    data: 1
     name: §bAxe of Malice
     lore:
      - §d"Be careful with those ones
      - §djimmy, they've gone §cmad§d."
     attack: 20
   dagger:
-    material: stick
+    material: iron_axe
+    data: 2
     name: §bElven Dagger
     lore:
      - §aForged with the §2worst of poisons§a
@@ -32,6 +36,7 @@ sword:
     speed: 0.05
   hammer:
     material: shield
+    data: 0
     name: §bWarhammer
     lore:
      - §6"Take this and battle alongside
@@ -101,44 +106,52 @@ ale:
     lore:
      - Some lore
   trinket:
-    material: emerald
+    material: iron_axe
+    data: 30
     name: Star Trinket
     lore:
      - Some lore
   regrowth:
-    material: nether_star
+    material: iron_axe
+    data: 31
     name: Regrowth Star
     lore:
      - Some lore
 
 consumable:
   lamp:
-    material: ink_sack
+    material: iron_axe
+    data: 15
     name: Enchanted Lamp
     lore:
      - Some lore
   slab:
-    material: clay_brick
+    material: iron_axe
+    data: 16
     name: EZ Fix Slab
     lore:
      - Some lore
   sos:
-    material: ink_sack
+    material: iron_axe
+    data: 17
     name: Sword of Santification
     lore:
      - Some lore
   wrench:
-    material: ink_sack
+    material: iron_axe
+    data: 18
     name: Wrench
     lore:
      - Some lore
   mortar:
-    material: ink_sack
+    material: iron_axe
+    data: 19
     name: Mortar
     lore:
      - Some lore
   wizardmortar:
-    material: ink_sack
+    material: iron_axe
+    data: 20
     name: Wizard Mortar
     lore:
      - Some lore
@@ -150,44 +163,52 @@ consumable:
 
 misc:
   pick:
-    material: iron_pickaxe
+    material: iron_axe
+    data: 70
     name: Dwarven Pickaxe
     lore:
      - Some lore
   axe:
-    material: iron_axe
+    material: shield
+    data: 1
     name: Dwarven Axe
     lore:
      - Some lore
   shovel:
-    material: iron_spade
+    material: iron_axe
+    data: 72
     name: Dwarven Shovel
     lore:
      - Some lore
 
   log:
-    material: leather
+    material: iron_axe
+    data: 73
     name: Wooden Log
     lore:
      - Some lore
   plank:
-    material: feather
+    material: iron_axe
+    data: 74
     name: Wooden Plank
     lore:
      - Some lore
   stick:
-    material: stick
+    material: iron_axe
+    data: 75
     name: §bStick
     lore:
      - A stick - what else would it be?
   bowl:
-    material: ink_sack
+    material: iron_axe
+    data: 76
     name: Wooden Bowl
     lore:
      - Some lore
 
   torch:
-    material: torch
+    material: iron_axe
+    data: 77
     name: Torch
     lore:
      - Some lore
