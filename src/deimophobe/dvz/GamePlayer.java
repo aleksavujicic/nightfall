@@ -147,7 +147,7 @@ public abstract class GamePlayer implements PlayerOrAI {
 		if (event == null) return name + " died. (event null)";
 		EntityDamageEvent.DamageCause cause = event.getCause();
 		
-		if (cause == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
+		if (event instanceof EntityDamageByEntityEvent) {
 			EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent) event;
 			GameListener.DamageTriplet triplet = new GameListener.DamageTriplet(edbee);
 			
