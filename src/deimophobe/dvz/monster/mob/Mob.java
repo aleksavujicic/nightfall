@@ -34,6 +34,7 @@ public class Mob {
 	
 	protected final String name;
 	protected final String title;
+	protected final boolean forceTitle;
 	
 	protected final DisguiseType disguiseType;
 	protected final ItemStack helmet;
@@ -45,6 +46,7 @@ public class Mob {
 	protected final double arrowRes;
 	protected final int armourShred;
 	protected final int torchXP;
+	protected final boolean shrineImmune;
 	
 	public boolean isProccable() {
 		return proccable;
@@ -58,18 +60,23 @@ public class Mob {
 		return armourShred;
 	}
 	
+	public boolean isShrineImmune() {
+		return shrineImmune;
+	}
+	
 	protected static final int POTION_LENGTH = 27*60*20;
 	
 	private Mob(PlayerMonster monster,
-				String name, String title,
+				String name, String title, boolean forceTitle,
 				DisguiseType disguiseType,
 				ItemStack helmet, ItemStack chest, List<ItemStack> items,
-				Collection<PotionEffect> effects, int resLevel, int jumpLevel, boolean miningFatigue,
-				boolean proccable, double arrowRes, int armourShred, int torchXP) {
+				Collection<PotionEffect> effects, int resLevel, int jumpLevel, boolean miningFatigue, int spawnImmunityTime,
+				boolean proccable, double arrowRes, int armourShred, int torchXP, boolean shrineImmune) {
 		this.monster = monster;
 		
 		this.name = name;
 		this.title = title;
+		this.forceTitle = forceTitle;
 		
 		this.disguiseType = disguiseType;
 		
@@ -92,17 +99,22 @@ public class Mob {
 		if (miningFatigue) {
 			effects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, POTION_LENGTH, 3, true, false));
 		}
+		if (spawnImmunityTime != 0) {
+			effects.add(new PotionEffect(PotionEffectType.LUCK, spawnImmunityTime*20, 0));
+		}
 		this.effects = effects;
 		
 		this.proccable = proccable;
 		this.arrowRes = arrowRes;
 		this.armourShred = armourShred;
 		this.torchXP = torchXP;
+		this.shrineImmune = shrineImmune;
 	}
 	
 	private static Mob createTemplateMob(ConfigurationSection section) {
 		String name = section.getString("name");
 		String title = section.getString("title");
+		boolean forceTitle = section.getBoolean("forcetitle", false);
 		
 		DisguiseType type;
 		if (section.contains("disguiseType")) {
@@ -118,22 +130,24 @@ public class Mob {
 		int resLevel = section.getInt("res", 3);
 		int jumpLevel = section.getInt("jump", 0);
 		boolean slowDig = section.getBoolean("slowdig", false);
+		int immuneTime = section.getInt("immunetime", 8);
 		
 		boolean proccable = section.getBoolean("proccable", true);
 		double arrowRes = section.getDouble("arrowres", 0);
 		int armourShred = section.getInt("shred", 10);
 		int torchXP = section.getInt("torchxp", 5);
+		boolean shrineImmune = section.getBoolean("shrineimmune", false);
 		
-		return new Mob(null, name, title, type, helmet, chest, items, null, resLevel, jumpLevel, slowDig, proccable, arrowRes, armourShred, torchXP);
+		return new Mob(null, name, title, forceTitle, type, helmet, chest, items, null, resLevel, jumpLevel, slowDig, immuneTime, proccable, arrowRes, armourShred, torchXP, shrineImmune);
 	}
 	
 	protected Mob(Mob template, PlayerMonster monster) {
 		this(monster,
-			template.name, template.title,
+			template.name, template.title, template.forceTitle,
 			template.disguiseType,
 			template.helmet, template.chest, template.items,
-			template.effects, 0, 0, false,
-			template.proccable, template.arrowRes, template.armourShred, template.torchXP);
+			template.effects, 0, 0, false, 0,
+			template.proccable, template.arrowRes, template.armourShred, template.torchXP, template.shrineImmune);
 	}
 	
 	public Mob clone(PlayerMonster monster) {
@@ -145,7 +159,11 @@ public class Mob {
 		Player player = monster.getPlayer();
 		PlayerInventory inv = player.getInventory();
 		
-		player.setDisplayName(ChatColor.DARK_RED + title + " " + player.getName() + ChatColor.RESET);
+		if (forceTitle) {
+			monster.setTitle(ChatColor.RED + title + ChatColor.RESET);
+		} else {
+			monster.setTitle(ChatColor.DARK_RED + title + " " + player.getName() + ChatColor.RESET);
+		}
 		
 		monster.teleportTo(Game.getGame().getCurrentMobspawn());
 		player.setGameMode(GameMode.SURVIVAL);
@@ -207,6 +225,7 @@ public class Mob {
 		templateMobs.put(MobType.RAT, 			new Rat(createTemplateMob(mobs.getConfigurationSection("rat")), null));
 		templateMobs.put(MobType.GOLEM, 		new Golem(createTemplateMob(mobs.getConfigurationSection("golem")), null));
 		templateMobs.put(MobType.OGRE, 			new Ogre(createTemplateMob(mobs.getConfigurationSection("ogre")), null));
+		templateMobs.put(MobType.KRUNGOR, 		new Krungor(createTemplateMob(mobs.getConfigurationSection("krungor")), null));
 	}
 	
 	public static Mob getTemplate(MobType type) {

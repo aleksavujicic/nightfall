@@ -144,7 +144,7 @@ public abstract class GamePlayer implements PlayerOrAI {
 	public String generateDeathMsg() {
 		String name = player.getDisplayName();
 		EntityDamageEvent event = player.getLastDamageCause();
-		if (event == null) return name + " died.";
+		if (event == null) return name + " died. (event null)";
 		EntityDamageEvent.DamageCause cause = event.getCause();
 		
 		if (cause == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
@@ -153,7 +153,7 @@ public abstract class GamePlayer implements PlayerOrAI {
 			
 			PlayerOrAI killer = Game.getGame().getPlayerOrAI(triplet.damager);
 			if (killer == null)
-				return name + " died.";
+				return name + " died. (killer null)";
 			String killerName = killer.getDisplayName();
 			
 			String killMsg;
@@ -174,7 +174,7 @@ public abstract class GamePlayer implements PlayerOrAI {
 		}
 		
 		if (cause == EntityDamageEvent.DamageCause.VOID) {
-			return name + " was thrown into the abyss.";
+			return name + " was swallowed by the abyss.";
 		}
 		
 		if (cause == EntityDamageEvent.DamageCause.WITHER) {
@@ -189,8 +189,12 @@ public abstract class GamePlayer implements PlayerOrAI {
 			return name + " was pricked to death.";
 		}
 		
+		if (cause == EntityDamageEvent.DamageCause.FALL) {
+			return name + " fell to their doom.";
+		}
 		
 		
-		return name + " died.";
+		
+		return name + " died. (unknown: "+cause+")";
 	}
 }

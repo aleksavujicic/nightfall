@@ -52,47 +52,30 @@ public class PlayerMonster extends GamePlayer {
 	}
 	
 	public void kill() {
-		if (!isAlive()) {
-			
-			mob = null; // TODO don't set to null?
-			player.setGameMode(GameMode.SPECTATOR);
-			setTitle(ChatColor.GRAY + player.getName() + ChatColor.RESET);
-			
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					showMobMenu();
-				}
-			}.runTaskLater(Game.getGame().getPlugin(), 1);
-		} else {
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					ActionBarAPI.sendActionBarToAllPlayers(generateDeathMsg(), 60);
-					setTitle(ChatColor.GRAY + player.getName() + ChatColor.RESET);
-					showMobMenu();
-					
-				}
-			}.runTaskLater(Game.getGame().getPlugin(), 1);
-			
-			Disguise disguise = DisguiseAPI.getDisguise(player);
-			if (disguise != null) {
-				EntityType entityType = disguise.getType().getEntityType();
-				if (entityType.isAlive()) {
-					LivingEntity entity = (LivingEntity) player.getWorld().spawnEntity(player.getLocation(), entityType);
-					entity.teleport(player);
-					entity.setVelocity(player.getVelocity());
-					entity.setCustomName(disguise.getWatcher().getCustomName());
-					entity.damage(10000);
-				}
+		Disguise disguise = DisguiseAPI.getDisguise(player);
+		if (disguise != null) {
+			EntityType entityType = disguise.getType().getEntityType();
+			if (entityType.isAlive()) {
+				LivingEntity entity = (LivingEntity) player.getWorld().spawnEntity(player.getLocation(), entityType);
+				entity.teleport(player);
+				entity.setVelocity(player.getVelocity());
+				entity.setCustomName(disguise.getWatcher().getCustomName());
+				entity.getEquipment().setArmorContents(player.getInventory().getArmorContents());
+				entity.getEquipment().setItemInMainHand(getHeldItem());
+				entity.damage(10000);
 			}
-			
-			player.playSound(player.getLocation(), "proc", 1f, 0.7f);
-			
-			mob = null;
-			player.setGameMode(GameMode.SPECTATOR);
-			
 		}
+		DisguiseAPI.undisguiseToAll(player);
+		
+		if (isAlive()) {
+			ActionBarAPI.sendActionBarToAllPlayers(generateDeathMsg(), 40);
+			player.playSound(player.getLocation(), "proc", 1f, 0.7f);
+		}
+		
+		setTitle(ChatColor.GRAY + player.getName() + ChatColor.RESET);
+		
+		mob = null; // TODO don't set to null?
+		player.setGameMode(GameMode.SPECTATOR);
 	}
 	
 	public void showMobMenu() {
@@ -106,7 +89,6 @@ public class PlayerMonster extends GamePlayer {
 		
 		teleportTo(Game.getGame().getCurrentMobspawn());
 		player.setGameMode(GameMode.SURVIVAL);
-		player.addPotionEffect(new PotionEffect(PotionEffectType.LUCK, 160, 0), true);
 	}
 	
 	@Override

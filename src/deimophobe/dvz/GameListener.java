@@ -285,12 +285,12 @@ public class GameListener implements Listener {
 		if (dwarf != null) {
 			event.setDeathMessage(dwarf.generateDeathMsg());
 			dm.removeDwarf(dwarf);
-			mm.addMob(dwarf.getName());
 		}
 	}
 	
 	@EventHandler
 	public void onRespawn(PlayerRespawnEvent event) {
+		boolean success = mm.addMob(event.getPlayer());
 		event.setRespawnLocation(game.getCurrentMobspawn());
 	}
 	

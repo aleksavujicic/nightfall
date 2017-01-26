@@ -264,7 +264,7 @@ public class Game {
 		int mobsOnShrine = 0;
 		for (PlayerMonster monster : mmanager.getMobs()) {
 			if (shrine.getShrineProtection().containsPlayer(monster)) {
-				if (monster.isAlive()) {
+				if (monster.isAlive() && !monster.getMob().isShrineImmune()) {
 					monster.kill();
 					world.strikeLightning(monster.getLocation());
 				}

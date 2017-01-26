@@ -12,5 +12,7 @@ public enum MobType {
 	SWAMMIE,
 	RAT,
 	GOLEM,
-	OGRE
+	OGRE,
+	
+	KRUNGOR,
 }

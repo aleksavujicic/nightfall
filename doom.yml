@@ -1,0 +1,12 @@
+krungor:
+  title: Krungor
+  subtitle: King of Ogres
+
+  special:
+    - krungor
+
+  regular:
+    - ogre
+    - spiderling
+
+

@@ -63,13 +63,10 @@ public class MobManager {
 		return mobConfig;
 	}
 	
-	public boolean addMob(Player player) { return addMob(player.getName()); }
-	public boolean addMob(String name) {
-		Player player = Bukkit.getPlayer(name);
-		
+	public boolean addMob(Player player) {
 		if (player == null) return false;
 		
-		name = player.getName();
+		String name = player.getName();
 		if (playerMobs.containsKey(name)) return false;
 		
 		PlayerMonster monster = new PlayerMonster(player);
@@ -77,6 +74,10 @@ public class MobManager {
 		mobTeam.addEntry(name);
 		monster.kill();
 		return true;
+	}
+	public boolean addMob(String name) {
+		Player player = Bukkit.getPlayer(name);
+		return addMob(player);
 	}
 	
 	public PlayerMonster getMob(Player player) {
@@ -188,7 +189,7 @@ public class MobManager {
 	
 	private void setupEggs() {
 		Plugin plugin = Game.getGame().getPlugin();
-		Configuration spawnConfig = YamlConfiguration.loadConfiguration(plugin.getResource("mobSpawning.yml"));
+		Configuration spawnConfig = YamlConfiguration.loadConfiguration(plugin.getResource("spawn-eggs.yml"));
 		activeEggs = new HashMap<Integer, SpawnEgg>();
 		for (String key : spawnConfig.getKeys(false)) {
 			SpawnEgg egg = SpawnEgg.createEgg(spawnConfig.getConfigurationSection(key));
@@ -330,10 +331,16 @@ public class MobManager {
 	private int doomTimer;
 	private int internalDoomTimer;
 	
-	private List<DoomType> dooms = new ArrayList<>();
+	private List<DoomType> occuredDooms = new ArrayList<>();
+	
+	private final Map<DoomType, Doom> dooms = new HashMap<>();
 	
 	private void setupDoom() {
 		resetDoomTimers();
+		
+		Configuration doomConfig = YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource("doom.yml"));
+		dooms.put(DoomType.KRUNGOR, new Doom(doomConfig.getConfigurationSection("krungor")));
+		
 		new BukkitRunnable() {
 			@Override
 			public void run() {
@@ -343,21 +350,22 @@ public class MobManager {
 	}
 	
 	private void resetDoomTimers() {
-		doomTimer = 10;
-		internalDoomTimer = 5;
+		doomTimer = 30;
+		internalDoomTimer = 10;
 	}
 	
 	private final Game game = Game.getGame();
 	private void updateDoom() {
 		doomTimer--;
 		if (doomTimer <= 0) {
+			// TODO do only once
 			doomTimer = 0;
 			game.getWorld().setTime(18000);
 			game.setPhase(Phase.DOOM);
 			internalDoomTimer--;
-			Bukkit.broadcastMessage("DOOM");
+			//Bukkit.broadcastMessage("DOOM");
 			if (internalDoomTimer <= 0) {
-				spawnDoom(DoomType.OGRE_DOOM_TEST);
+				spawnDoom(DoomType.KRUNGOR);
 				resetDoomTimers();
 				game.setPhase(Phase.GAME);
 			}
@@ -365,18 +373,12 @@ public class MobManager {
 		game.setDoomSidebar(doomTimer);
 	}
 	
-	private void spawnDoom(DoomType doom) {
-		switch (doom) {
-			case OGRE_DOOM_TEST:
-				spawnAllMobsAs(Mob.getTemplate(MobType.OGRE));
-				break;
-		}
-	}
-	
-	private void spawnAllMobsAs(Mob mob) {
+	private void spawnDoom(DoomType doomType) {
+		Set<PlayerMonster> deadMonsters = new HashSet<>();
 		for (PlayerMonster monster : playerMobs.values()) {
 			if (!monster.isAlive())
-				monster.spawnAs(mob);
+				deadMonsters.add(monster);
 		}
+		dooms.get(doomType).spawnMobs(deadMonsters);
 	}
 }

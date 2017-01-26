@@ -266,6 +266,38 @@ ogre:
 
 
 
+krungor:
+  name: Krungor
+  title: Krungor
+  forcetitle: true
+
+  helmet:
+    material: gold_helmet
+    name: §cCrown of the Ogre King
+    lore:
+     - §dSome lore
+     - and more lore
+    health: 280
+    speed: 0.05
+    kbresist: true
+    bound: true
+  items:
+    item1:
+      material: iron_axe
+      data: 106
+      name: §cKrungor's Axe
+      lore:
+       - Some lore
+      attack: 60
+
+  res: 4
+  immunetime: 45
+  proccable: false
+  arrowres: 0.9
+  shred: 25
+  shrineimmune: true
+
+
 # To get format codes:
 # http://minecraft.gamepedia.com/Formatting_codes
 # http://minecraft.tools/en/color-code.php
