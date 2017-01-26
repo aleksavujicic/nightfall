@@ -97,6 +97,7 @@ public class GameListener implements Listener {
 		PlayerOrAI damager = game.getPlayerOrAI(triplet.damager);
 		PlayerOrAI damagee = game.getPlayerOrAI(triplet.damagee);
 		
+		// Prevent mobs hitting ais
 		if (damager instanceof PlayerMonster && damagee instanceof AIEntity) {
 			event.setCancelled(true);
 			return;
@@ -104,6 +105,8 @@ public class GameListener implements Listener {
 		
 		if (event.getEntityType() == EntityType.PLAYER)
 			event.setDamage(EntityDamageEvent.DamageModifier.BLOCKING, 0);
+		event.setDamage(EntityDamageEvent.DamageModifier.ARMOR, 0);
+		
 		
 		double damage = event.getDamage();
 		
@@ -134,23 +137,11 @@ public class GameListener implements Listener {
 	}
 	
 	
-	private static final EntityDamageEvent.DamageCause[] IMMUNE_CAUSES = {
-			EntityDamageEvent.DamageCause.BLOCK_EXPLOSION,
-			EntityDamageEvent.DamageCause.STARVATION,
-			EntityDamageEvent.DamageCause.DROWNING,
-			EntityDamageEvent.DamageCause.ENTITY_EXPLOSION,
-			EntityDamageEvent.DamageCause.FALL,
-			EntityDamageEvent.DamageCause.SUFFOCATION,
-			EntityDamageEvent.DamageCause.LAVA,
-			EntityDamageEvent.DamageCause.HOT_FLOOR,
-			EntityDamageEvent.DamageCause.FIRE_TICK,
-			EntityDamageEvent.DamageCause.FIRE,
-	};
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onHit(EntityDamageEvent event) {
+		// Instakill if in survival and void damage
 		if (event.getEntity().getType() == EntityType.PLAYER) {
-			// Instakill if in survival and void damage
 			if (event.getCause() == EntityDamageEvent.DamageCause.VOID) {
 				if (((Player) event.getEntity()).getGameMode() == GameMode.SURVIVAL) {
 					event.setDamage(10000);
@@ -159,46 +150,39 @@ public class GameListener implements Listener {
 					event.setCancelled(true);
 				}
 			}
-			
-			PlayerMonster mob = mm.getMob((Player) event.getEntity());
-			if (mob != null) {
-				// Ignore certain damages (see above)
-				for (EntityDamageEvent.DamageCause immunity : IMMUNE_CAUSES) {
-					if (event.getCause() == immunity) {
-						event.setCancelled(true);
-						event.setDamage(0);
-						return;
-					}
-				}
-				// x4 dagger poison damage
-				if (event.getCause() == EntityDamageEvent.DamageCause.WITHER) {
-					event.setDamage(event.getDamage()*4);
-				}
-				
-				// Prevent killing and set to spectator
-				double dmg = event.getFinalDamage();
-				if (mob.getPlayer().getHealth() - dmg <= 0.1) {
-					mob.kill();
-					event.setDamage(0);
-					
-					if (event instanceof EntityDamageByEntityEvent) {
-						
-						DamageTriplet triplet = new DamageTriplet((EntityDamageByEntityEvent) event);
-						DamageType type = triplet.type;
-						Dwarf dwarf = dm.getDwarf(triplet.damager);
-						
-						if (dwarf != null)
-							dwarf.onKill(mob, type);
-					}
-				}
+		}
+		
+		// Recalculate damage based on event
+		PlayerOrAI entity = game.getPlayerOrAI(event.getEntity());
+		if (entity != null) {
+			double newDmg = entity.onNaturalHit(event.getCause(), event.getDamage());
+			if (newDmg == -1) {
+				event.setDamage(0);
+				event.setCancelled(true);
+			} else {
+				event.setDamage(newDmg);
 			}
-			
-			Dwarf dwarf = dm.getDwarf((Player) event.getEntity());
-			if (dwarf != null) {
-				if (event.getCause() == EntityDamageEvent.DamageCause.POISON) {
-					event.setDamage(event.getDamage()*2);
+		}
+		
+		// Prevent killing a mob and set to spectator instead
+		if (entity instanceof PlayerMonster) {
+			PlayerMonster mob = (PlayerMonster) entity;
+					
+			double dmg = event.getFinalDamage();
+			if (mob.getPlayer().getHealth() - dmg <= 0.1) {
+				mob.getPlayer().setLastDamageCause(event);
+				mob.kill();
+				event.setDamage(0);
+				
+				if (event instanceof EntityDamageByEntityEvent) {
+					
+					GameListener.DamageTriplet triplet = new GameListener.DamageTriplet((EntityDamageByEntityEvent) event);
+					DamageType type = triplet.type;
+					Dwarf dwarf = dm.getDwarf(triplet.damager);
+					
+					if (dwarf != null)
+						dwarf.onKill(mob, type);
 				}
-				dwarf.damageArmour(1);
 			}
 		}
 	}
@@ -211,7 +195,7 @@ public class GameListener implements Listener {
 		if (event.getEntityType() != EntityType.PLAYER) {
 			LivingEntity dead = event.getEntity();
 			Dwarf dwarf = dm.getDwarf(dead.getKiller());
-			AIEntity ai = (AIEntity) game.getPlayerOrAI(dead);
+			PlayerOrAI ai = game.getPlayerOrAI(dead);
 			
 			DamageType type;
 			switch (dead.getLastDamageCause().getCause()) {
@@ -226,7 +210,7 @@ public class GameListener implements Listener {
 					break;
 			}
 			
-			if (dwarf != null && ai != null && type != null)
+			if (dwarf != null && ai instanceof AIEntity && type != null)
 				dwarf.onKill(ai, type);
 		}
 	}

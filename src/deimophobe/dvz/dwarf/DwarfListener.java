@@ -27,18 +27,6 @@ public class DwarfListener implements Listener {
 	private final static DwarfManager dm = DwarfManager.getManager();
 	
 	@EventHandler
-	public void onGotHit(EntityDamageEvent event) {
-		Entity damagee = event.getEntity();
-		
-		if (damagee.getType() == EntityType.PLAYER) {
-			//Dwarf dwarf = dm.getDwarf((Player) damagee);
-			if (event.getCause() == EntityDamageEvent.DamageCause.STARVATION || event.getCause() == EntityDamageEvent.DamageCause.SUFFOCATION) {
-				event.setCancelled(true);
-			}
-		}
-	}
-	
-	@EventHandler
 	public void preventInvDragging(InventoryDragEvent event) {
 		InventoryHolder holder = event.getInventory().getHolder();
 		if (holder instanceof Player && dm.isDwarf((Player) holder)) {

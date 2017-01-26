@@ -217,9 +217,9 @@ public class MobManager {
 	// --------------------------------------------------------
 	
 	
-	private final static int MAX_AIS = 30;
+	private final static int MAX_AIS = 45;
 	private final static int MAX_AI_MARKS = 60;
-	private final static double AI_SPAWN_CHANCE = 0.15;
+	private final static double AI_SPAWN_CHANCE = 0.2;
 	
 	//private final static Set<String> AI_NAMES;
 	
@@ -380,5 +380,6 @@ public class MobManager {
 				deadMonsters.add(monster);
 		}
 		dooms.get(doomType).spawnMobs(deadMonsters);
+		occuredDooms.add(doomType);
 	}
 }

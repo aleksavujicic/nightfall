@@ -26,6 +26,7 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -340,6 +341,18 @@ public class Dwarf extends GamePlayer {
 			return damage/3;
 		else
 			return damage;
+	}
+	
+	@Override
+	public double onNaturalHit(EntityDamageEvent.DamageCause cause, double baseDmg) {
+		damageArmour(1);
+		if (cause == EntityDamageEvent.DamageCause.POISON) {
+			return baseDmg * 2;
+		}
+		if (cause == EntityDamageEvent.DamageCause.STARVATION || cause == EntityDamageEvent.DamageCause.SUFFOCATION) {
+			return -1;
+		}
+		return baseDmg;
 	}
 
 	private int grabCD;

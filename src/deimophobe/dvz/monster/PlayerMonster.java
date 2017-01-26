@@ -1,10 +1,7 @@
 package deimophobe.dvz.monster;
 
 import com.connorlinfoot.actionbarapi.ActionBarAPI;
-import deimophobe.dvz.DamageType;
-import deimophobe.dvz.Game;
-import deimophobe.dvz.GamePlayer;
-import deimophobe.dvz.PlayerOrAI;
+import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.mob.Mob;
 import me.libraryaddict.disguise.DisguiseAPI;
@@ -16,6 +13,8 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -76,6 +75,8 @@ public class PlayerMonster extends GamePlayer {
 		
 		mob = null; // TODO don't set to null?
 		player.setGameMode(GameMode.SPECTATOR);
+		clearInventory();
+		clearEffects();
 	}
 	
 	public void showMobMenu() {
@@ -139,6 +140,33 @@ public class PlayerMonster extends GamePlayer {
 		} else {
 			return damage;
 		}
+	}
+	
+	private static final EntityDamageEvent.DamageCause[] IMMUNE_CAUSES = {
+			EntityDamageEvent.DamageCause.BLOCK_EXPLOSION,
+			EntityDamageEvent.DamageCause.STARVATION,
+			EntityDamageEvent.DamageCause.DROWNING,
+			EntityDamageEvent.DamageCause.ENTITY_EXPLOSION,
+			EntityDamageEvent.DamageCause.FALL,
+			EntityDamageEvent.DamageCause.SUFFOCATION,
+			EntityDamageEvent.DamageCause.LAVA,
+			EntityDamageEvent.DamageCause.HOT_FLOOR,
+			EntityDamageEvent.DamageCause.FIRE_TICK,
+			EntityDamageEvent.DamageCause.FIRE,
+	};
+	@Override
+	public double onNaturalHit(EntityDamageEvent.DamageCause cause, double baseDmg) {
+		// Ignore certain damages (see above)
+		for (EntityDamageEvent.DamageCause immunity : IMMUNE_CAUSES) {
+			if (cause == immunity) {
+				return -1;
+			}
+		}
+		// x4 dagger poison damage
+		if (cause == EntityDamageEvent.DamageCause.WITHER) {
+			return baseDmg*4;
+		}
+		return baseDmg;
 	}
 	
 	@Override

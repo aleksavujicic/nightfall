@@ -6,6 +6,7 @@ import deimophobe.dvz.dwarf.Dwarf;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 /**
  * Created by Deimophobe on 24/01/17.
@@ -28,14 +29,14 @@ public class AIEntity implements PlayerOrAI {
 	
 	@Override
 	public double onHit(PlayerOrAI entity, DamageType type, double damage) {
-		if (type == null) return damage;
+		if (entity == null || type == null) return damage;
 		((Dwarf) entity).damageArmour(10);
 		return 15;
 	}
 	
 	@Override
 	public double onGotHit(PlayerOrAI entity, DamageType type, double damage) {
-		if (type == null) return damage;
+		if (entity == null || type == null) return damage;
 		switch (type) {
 			case MELEE:
 				return damage/5;
@@ -43,5 +44,10 @@ public class AIEntity implements PlayerOrAI {
 				return damage/3;
 		}
 		return -1;
+	}
+	
+	@Override
+	public double onNaturalHit(EntityDamageEvent.DamageCause cause, double baseDmg) {
+		return baseDmg;
 	}
 }
