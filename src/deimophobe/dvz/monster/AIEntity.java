@@ -28,12 +28,14 @@ public class AIEntity implements PlayerOrAI {
 	
 	@Override
 	public double onHit(PlayerOrAI entity, DamageType type, double damage) {
+		if (type == null) return damage;
 		((Dwarf) entity).damageArmour(10);
 		return 15;
 	}
 	
 	@Override
 	public double onGotHit(PlayerOrAI entity, DamageType type, double damage) {
+		if (type == null) return damage;
 		switch (type) {
 			case MELEE:
 				return damage/5;
