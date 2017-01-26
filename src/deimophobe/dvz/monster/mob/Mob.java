@@ -23,10 +23,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 18/01/17.
@@ -198,29 +195,21 @@ public class Mob {
 		return monster.getHeldItem().isSimilar(items.get(0));
 	}
 	
+	private static final Map<MobType, Mob> templateMobs = new HashMap<>();
+	static {
+		ConfigurationSection mobs = MobManager.getManager().getMobConfig();
+		
+		templateMobs.put(MobType.WITHERSKELE, 	new WitherSkele(createTemplateMob(mobs.getConfigurationSection("witherskele")), null));
+		templateMobs.put(MobType.FLAMELANCER,	new Flamelancer(createTemplateMob(mobs.getConfigurationSection("flamelancer")), null));
+		templateMobs.put(MobType.WOLF, 			new Wolf(createTemplateMob(mobs.getConfigurationSection("wolf")), null));
+		//templateMobs.put(MobType.DIRE_WOLF, 	new Wolf(createTemplateMob(mobs.getConfigurationSection("wolf")), null));
+		templateMobs.put(MobType.SPIDERLING, 	new Spiderling(createTemplateMob(mobs.getConfigurationSection("spiderling")), null));
+		templateMobs.put(MobType.RAT, 			new Rat(createTemplateMob(mobs.getConfigurationSection("rat")), null));
+		templateMobs.put(MobType.GOLEM, 		new Golem(createTemplateMob(mobs.getConfigurationSection("golem")), null));
+		templateMobs.put(MobType.OGRE, 			new Ogre(createTemplateMob(mobs.getConfigurationSection("ogre")), null));
+	}
 	
 	public static Mob getTemplate(MobType type) {
-		ConfigurationSection mobs = MobManager.getManager().getMobConfig();
-		switch (type) {
-			case ZOMBIE:
-				break;
-			case WITHERSKELE:
-				return new WitherSkele(createTemplateMob(mobs.getConfigurationSection("witherskele")), null);
-			case FLAMELANCER:
-				return new Flamelancer(createTemplateMob(mobs.getConfigurationSection("flamelancer")), null);
-			case WOLF:
-				return new Wolf(createTemplateMob(mobs.getConfigurationSection("wolf")), null);
-			case SPIDERLING:
-				return new Spiderling(createTemplateMob(mobs.getConfigurationSection("spiderling")), null);
-			case SWAMMIE:
-				break;
-			case RAT:
-				return new Rat(createTemplateMob(mobs.getConfigurationSection("rat")), null);
-			case GOLEM:
-				return new Golem(createTemplateMob(mobs.getConfigurationSection("golem")), null);
-			case OGRE:
-				return new Ogre(createTemplateMob(mobs.getConfigurationSection("ogre")), null);
-		}
-		return null;
+		return templateMobs.get(type);
 	}
 }

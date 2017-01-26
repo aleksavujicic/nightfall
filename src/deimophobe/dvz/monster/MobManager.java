@@ -1,9 +1,10 @@
 package deimophobe.dvz.monster;
 
 import deimophobe.dvz.Game;
-import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.Phase;
+import deimophobe.dvz.monster.mob.Mob;
+import deimophobe.dvz.monster.mob.MobType;
 import deimophobe.dvz.shrine.Region;
-import deimophobe.dvz.shrine.Shrine;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.*;
 import org.bukkit.configuration.Configuration;
@@ -51,29 +52,6 @@ public class MobManager {
 		mobTeam.setDisplayName(ChatColor.DARK_RED + "Mobs");
 		mobTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.FOR_OWN_TEAM);
 		mobTeam.setPrefix(String.valueOf(ChatColor.DARK_RED));
-		
-		
-		Configuration spawnConfig = YamlConfiguration.loadConfiguration(plugin.getResource("mobSpawning.yml"));
-		activeEggs = new HashMap<Integer, SpawnEgg>();
-		for (String key : spawnConfig.getKeys(false)) {
-			SpawnEgg egg = SpawnEgg.createEgg(spawnConfig.getConfigurationSection(key));
-			activeEggs.put(egg.getIndex(), egg);
-		}
-		
-		
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				updateEggs();
-			}
-		}.runTaskTimer(plugin, 1, 300);
-		
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				updateAIs();
-			}
-		}.runTaskTimer(plugin, 100, 140);
 	}
 	
 	
@@ -137,6 +115,11 @@ public class MobManager {
 	}
 	
 	
+	public void onMobRelease() {
+		setupEggs();
+		setupAIs();
+		setupDoom();
+	}
 	
 	// --------------------------------------------------------
 	//                   ONLINE/OFFLINE MANAGER
@@ -203,7 +186,24 @@ public class MobManager {
 			egg.spawn(monster);
 	}
 	
-	public void updateEggs() {
+	private void setupEggs() {
+		Plugin plugin = Game.getGame().getPlugin();
+		Configuration spawnConfig = YamlConfiguration.loadConfiguration(plugin.getResource("mobSpawning.yml"));
+		activeEggs = new HashMap<Integer, SpawnEgg>();
+		for (String key : spawnConfig.getKeys(false)) {
+			SpawnEgg egg = SpawnEgg.createEgg(spawnConfig.getConfigurationSection(key));
+			activeEggs.put(egg.getIndex(), egg);
+		}
+		
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				updateEggs();
+			}
+		}.runTaskTimer(plugin, 1, 300);
+	}
+	
+	private void updateEggs() {
 		for (SpawnEgg egg : activeEggs.values()) {
 			egg.tryRespawn();
 		}
@@ -226,6 +226,15 @@ public class MobManager {
 	private final Map<UUID, AIEntity> ais = new HashMap<>();
 	
 	private boolean aisSpawnable = true;
+	
+	private void setupAIs() {
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				updateAIs();
+			}
+		}.runTaskTimer(Game.getGame().getPlugin(), 100, 140);
+	}
 	
 	private void updateAIs() {
 		// Get rid of unnecessary ai
@@ -312,4 +321,62 @@ public class MobManager {
 		return ais.values();
 	}
 	
+	
+	
+	// --------------------------------------------------------
+	//                      DOOM CLOCK
+	// --------------------------------------------------------
+	
+	private int doomTimer;
+	private int internalDoomTimer;
+	
+	private List<DoomType> dooms = new ArrayList<>();
+	
+	private void setupDoom() {
+		resetDoomTimers();
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				updateDoom();
+			}
+		}.runTaskTimer(Game.getGame().getPlugin(), 20, 20);
+	}
+	
+	private void resetDoomTimers() {
+		doomTimer = 10;
+		internalDoomTimer = 5;
+	}
+	
+	private final Game game = Game.getGame();
+	private void updateDoom() {
+		doomTimer--;
+		if (doomTimer <= 0) {
+			doomTimer = 0;
+			game.getWorld().setTime(18000);
+			game.setPhase(Phase.DOOM);
+			internalDoomTimer--;
+			Bukkit.broadcastMessage("DOOM");
+			if (internalDoomTimer <= 0) {
+				spawnDoom(DoomType.OGRE_DOOM_TEST);
+				resetDoomTimers();
+				game.setPhase(Phase.GAME);
+			}
+		}
+		game.setDoomSidebar(doomTimer);
+	}
+	
+	private void spawnDoom(DoomType doom) {
+		switch (doom) {
+			case OGRE_DOOM_TEST:
+				spawnAllMobsAs(Mob.getTemplate(MobType.OGRE));
+				break;
+		}
+	}
+	
+	private void spawnAllMobsAs(Mob mob) {
+		for (PlayerMonster monster : playerMobs.values()) {
+			if (!monster.isAlive())
+				monster.spawnAs(mob);
+		}
+	}
 }

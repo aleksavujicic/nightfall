@@ -45,6 +45,9 @@ public class Game {
 	
 	private Phase phase;
 	public Phase getPhase() { return phase; }
+	public void setPhase(Phase phase) {
+		this.phase = phase;
+	}
 	
 	private Plugin plugin;
 	public Plugin getPlugin() { return plugin; }
@@ -60,7 +63,6 @@ public class Game {
 	
 	private int gold;
 	private int vault;
-	private int doomTimer;
 	
 	private Objective sidebarObj;
 	
@@ -248,8 +250,11 @@ public class Game {
 	public void updateSidebar() {
 		sidebarObj.getScore(ChatColor.YELLOW + "Gold").setScore(gold);
 		sidebarObj.getScore(ChatColor.GOLD + "Vault").setScore(vault);
-		sidebarObj.getScore(ChatColor.DARK_RED + "Doom Clock").setScore(doomTimer);
 		sidebarObj.getScore(ChatColor.GREEN + "Remaining").setScore(dmanager.getDwarves().size());
+	}
+	
+	public void setDoomSidebar(int doomTimer) {
+		sidebarObj.getScore(ChatColor.DARK_RED + "Doom Clock").setScore(doomTimer);
 	}
 	
 	
@@ -291,6 +296,7 @@ public class Game {
 		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
 		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
 		phase = Phase.GAME;
+		mmanager.onMobRelease();
 		splitGold();
 	}
 	
