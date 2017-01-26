@@ -69,7 +69,8 @@ bow:
     lore:
      - Some lore
   crossbow:
-    material: leather
+    material: iron_axe
+    data: 25
     name: Crossbow
     lore:
      - Some lore
@@ -120,43 +121,44 @@ ale:
 
 consumable:
   lamp:
-    material: iron_axe
-    data: 15
+    material: ink_sack
+    data: 0
     name: Enchanted Lamp
     lore:
      - Some lore
   slab:
-    material: iron_axe
-    data: 16
+    material: ink_sack
+    data: 1
     name: EZ Fix Slab
     lore:
      - Some lore
   sos:
-    material: iron_axe
-    data: 17
+    material: ink_sack
+    data: 2
     name: Sword of Santification
     lore:
      - Some lore
   wrench:
-    material: iron_axe
-    data: 18
+    material: ink_sack
+    data: 3
     name: Wrench
     lore:
      - Some lore
   mortar:
-    material: iron_axe
-    data: 19
+    material: ink_sack
+    data: 4
     name: Mortar
     lore:
      - Some lore
   wizardmortar:
-    material: iron_axe
-    data: 20
+    material: ink_sack
+    data: 5
     name: Wizard Mortar
     lore:
      - Some lore
   armouritem:
-    material: diamond
+    material: ink_sack
+    data: 6
     name: Dwarven Armour
     lore:
      - Some lore
@@ -169,8 +171,8 @@ misc:
     lore:
      - Some lore
   axe:
-    material: shield
-    data: 1
+    material: iron_axe
+    data: 71
     name: Dwarven Axe
     lore:
      - Some lore
@@ -182,33 +184,32 @@ misc:
      - Some lore
 
   log:
-    material: iron_axe
-    data: 73
+    material: ink_sack
+    data: 12
     name: Wooden Log
     lore:
      - Some lore
   plank:
-    material: iron_axe
-    data: 74
+    material: ink_sack
+    data: 13
     name: Wooden Plank
     lore:
      - Some lore
   stick:
-    material: iron_axe
-    data: 75
+    material: ink_sack
+    data: 14
     name: §bStick
     lore:
      - A stick - what else would it be?
   bowl:
-    material: iron_axe
-    data: 76
+    material: ink_sack
+    data: 15
     name: Wooden Bowl
     lore:
      - Some lore
 
   torch:
-    material: iron_axe
-    data: 77
+    material: torch
     name: Torch
     lore:
      - Some lore

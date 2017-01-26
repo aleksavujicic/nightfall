@@ -29,7 +29,7 @@ class Hammer extends Sword {
 	private static final double AOE_RADIUS = 2.5;
 	@Override
 	public void onHit(PlayerOrAI monster) {
-		if (hasHit) return;
+		if (hasHit || monster == null) return;
 		
 		hasHit = true;
 		final double monsterDmg = (dwarf.hasProc() ? 20 : 5);
