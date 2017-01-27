@@ -17,17 +17,12 @@ import org.bukkit.util.Vector;
  * Created by Deimophobe on 19/01/17.
  */
 class Wolf extends Mob {
-	Wolf(Mob template, PlayerMonster monster) {
-		super(template, monster);
-	}
-	
-	@Override
-	public Wolf clone(PlayerMonster monster) {
-		return new Wolf(this, monster);
-	}
-	
 	private static final int LEAP_MAX_CD = 140;
 	private int leapCd = 0;
+	
+	Wolf(PlayerMonster monster) {
+		super(monster, MobType.WOLF);
+	}
 	
 	@Override
 	public float getCooldown() {
@@ -54,7 +49,7 @@ class Wolf extends Mob {
 	@Override
 	public void onUse(Action action, Block clickedBlock) {
 		if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
-			if (leapCd == 0 && isHoldingItem(0)) {
+			if (leapCd == 0 && isPlayerHoldingItem(0)) {
 				leapCd = LEAP_MAX_CD;
 				monster.playSound("entity.wolf.howl", 3, 1, true);
 				

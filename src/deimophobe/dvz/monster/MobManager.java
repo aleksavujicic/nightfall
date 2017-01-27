@@ -2,8 +2,6 @@ package deimophobe.dvz.monster;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.Phase;
-import deimophobe.dvz.monster.mob.Mob;
-import deimophobe.dvz.monster.mob.MobType;
 import deimophobe.dvz.shrine.Region;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.*;

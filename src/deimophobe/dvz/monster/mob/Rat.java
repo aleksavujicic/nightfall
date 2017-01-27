@@ -13,13 +13,8 @@ import java.util.Set;
  * Created by Deimophobe on 20/01/17.
  */
 class Rat extends Mob {
-	Rat(Mob template, PlayerMonster monster) {
-		super(template, monster);
-	}
-	
-	@Override
-	public Rat clone(PlayerMonster monster) {
-		return new Rat(this, monster);
+	Rat(PlayerMonster monster) {
+		super(monster, MobType.RAT);
 	}
 	
 	private int stealCD = 0;

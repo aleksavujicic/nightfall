@@ -4,6 +4,7 @@ import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.mob.Mob;
+import deimophobe.dvz.monster.mob.MobType;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.bukkit.Bukkit;
@@ -84,12 +85,11 @@ public class PlayerMonster extends GamePlayer {
 			player.openInventory(MobManager.getManager().getMobMenu());
 	}
 	
-	public void spawnAs(Mob mob) {
-		this.mob = mob.clone(this);
-		this.mob.spawn();
+	public void spawnAs(MobType type) {
+		mob = Mob.createAndSpawnMob(this, type);
 		
-		teleportTo(Game.getGame().getCurrentMobspawn());
-		player.setGameMode(GameMode.SURVIVAL);
+		//teleportTo(Game.getGame().getCurrentMobspawn());
+		//player.setGameMode(GameMode.SURVIVAL);
 	}
 	
 	@Override

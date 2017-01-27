@@ -13,13 +13,8 @@ import java.util.Set;
  * Created by Deimophobe on 20/01/17.
  */
 class Golem extends Mob {
-	Golem(Mob template, PlayerMonster monster) {
-		super(template, monster);
-	}
-	
-	@Override
-	public Golem clone(PlayerMonster monster) {
-		return new Golem(this, monster);
+	Golem(PlayerMonster monster) {
+		super(monster, MobType.GOLEM);
 	}
 	
 	
@@ -33,7 +28,7 @@ class Golem extends Mob {
 	@Override
 	public void onUse(Action action, Block clickedBlock) {
 		if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
-			if (breakCD == 0 && isHoldingItem(0)) {
+			if (breakCD == 0 && isPlayerHoldingItem(0)) {
 				Set<Material> materials = new HashSet<>();
 				materials.add(Material.WATER);
 				materials.add(Material.STATIONARY_WATER);

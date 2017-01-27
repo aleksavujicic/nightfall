@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
  * Created by Deimophbe on 19/01/17.
  */
 class SpawnEgg {
-	private final Mob mobTemplate;
+	private final MobType mobTemplate;
 	private final ItemStack egg;
 	
 	private int quantity;
@@ -21,7 +21,7 @@ class SpawnEgg {
 	private final int index;
 	
 	SpawnEgg(MobType type, ItemStack egg, int maxQuantity, double spawnChance, int index) {
-		this.mobTemplate = Mob.getTemplate(type);
+		this.mobTemplate = type;
 		this.egg = egg;
 		
 		this.quantity = 0;
@@ -32,7 +32,7 @@ class SpawnEgg {
 	}
 	
 	static SpawnEgg createEgg(ConfigurationSection section) {
-		MobType type = MobType.valueOf(section.getString("mobtype").toUpperCase());
+		MobType type = MobType.getMobType(section.getString("mobtype"));
 		
 		ItemStack egg = ItemCreator.createItem(section.getConfigurationSection("egg"), Slot.HEAD);
 		
