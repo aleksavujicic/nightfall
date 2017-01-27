@@ -7,6 +7,7 @@ import deimophobe.dvz.dwarf.kit.bow.BowType;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.sword.SwordType;
 import deimophobe.dvz.monster.MobManager;
+import deimophobe.dvz.monster.ai.AIManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -35,7 +36,7 @@ public class DvZPlugin extends JavaPlugin {
 		Bukkit.getScoreboardManager().getMainScoreboard().getTeam("dwarves").unregister();
 		Bukkit.getScoreboardManager().getMainScoreboard().getTeam("mobs").unregister();
 		Bukkit.getScoreboardManager().getMainScoreboard().getObjective("MySidebar").unregister();
-		MobManager.getManager().killAllAIs();
+		AIManager.getManager().killAllAIs();
 		game.removeBossbar();
 	}
 	
@@ -125,7 +126,7 @@ public class DvZPlugin extends JavaPlugin {
 			}
 		}
 		if (name.equalsIgnoreCase("toggleais")) {
-			if (MobManager.getManager().toggleAISpawn())
+			if (AIManager.getManager().toggleAISpawn())
 				sender.sendMessage(ChatColor.AQUA + "AIs are now " + ChatColor.GOLD + "ENABLED");
 			else
 				sender.sendMessage(ChatColor.AQUA + "AIs are now " + ChatColor.RED + "DISABLED");

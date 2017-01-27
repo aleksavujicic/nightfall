@@ -5,6 +5,7 @@ import deimophobe.dvz.monster.MobManager;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.kit.Loadout;
 import deimophobe.dvz.monster.PlayerMonster;
+import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.shrine.Shrine;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -177,7 +178,7 @@ public class Game {
 		if (entity.getType() == EntityType.PLAYER)
 			return getPlayer((Player) entity);
 		
-		return mmanager.getAI(entity);
+		return AIManager.getManager().getAI(entity);
 	}
 	
 	public boolean removeDwarf(String name) {
@@ -302,7 +303,7 @@ public class Game {
 	
 	private void killShrine() {
 		Shrine prevShrine = shrines.poll();
-		mmanager.killAllAIs();
+		AIManager.getManager().killAllAIs();
 		
 		if (shrines.isEmpty()) {
 			shrines.add(prevShrine);

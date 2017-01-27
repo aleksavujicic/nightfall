@@ -5,6 +5,7 @@ import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.mob.Mob;
 import deimophobe.dvz.monster.mob.MobType;
+import deimophobe.dvz.monster.spawnmenu.SpawnManager;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.bukkit.Bukkit;
@@ -82,7 +83,7 @@ public class PlayerMonster extends GamePlayer {
 	
 	public void showMobMenu() {
 		if (Game.getGame().getPhase().canMobSpawn())
-			player.openInventory(MobManager.getManager().getMobMenu());
+			player.openInventory(SpawnManager.getManager().getMobMenu());
 	}
 	
 	public void spawnAs(MobType type) {

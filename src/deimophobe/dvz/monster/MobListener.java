@@ -2,6 +2,7 @@ package deimophobe.dvz.monster;
 
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.monster.spawnmenu.SpawnManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -48,11 +49,11 @@ public class MobListener implements Listener {
 			Player player = (Player) entity;
 			final PlayerMonster mob = mm.getMob(player);
 			if (mob != null) {
-				if (MobManager.getManager().isMobSpawnMenu(event.getInventory())) {
+				if (SpawnManager.getManager().isMobSpawnMenu(event.getInventory())) {
 					if (event.getSlot() == -999) {
 						event.setCancelled(true);
 					} else {
-						MobManager.getManager().spawnMob(event.getSlot(), mob);
+						SpawnManager.getManager().spawnMob(event.getSlot(), mob);
 					}
 				} else {
 					event.setCancelled(true);

@@ -1,5 +1,6 @@
-package deimophobe.dvz.monster;
+package deimophobe.dvz.monster.doom;
 
+import deimophobe.dvz.monster.PlayerMonster;
 import deimophobe.dvz.monster.mob.Mob;
 import deimophobe.dvz.monster.mob.MobType;
 import org.bukkit.configuration.ConfigurationSection;

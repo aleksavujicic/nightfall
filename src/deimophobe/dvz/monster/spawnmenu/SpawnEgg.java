@@ -1,7 +1,7 @@
-package deimophobe.dvz.monster;
+package deimophobe.dvz.monster.spawnmenu;
 
 import deimophobe.dvz.ItemCreator;
-import deimophobe.dvz.monster.mob.Mob;
+import deimophobe.dvz.monster.PlayerMonster;
 import deimophobe.dvz.monster.mob.MobType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;

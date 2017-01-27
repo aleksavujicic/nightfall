@@ -1,4 +1,4 @@
-package deimophobe.dvz.monster;
+package deimophobe.dvz.monster.ai;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.PlayerOrAI;

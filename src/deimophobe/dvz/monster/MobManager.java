@@ -1,8 +1,9 @@
 package deimophobe.dvz.monster;
 
 import deimophobe.dvz.Game;
-import deimophobe.dvz.Phase;
-import deimophobe.dvz.shrine.Region;
+import deimophobe.dvz.monster.ai.AIManager;
+import deimophobe.dvz.monster.doom.DoomManager;
+import deimophobe.dvz.monster.spawnmenu.SpawnManager;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.*;
 import org.bukkit.configuration.Configuration;
@@ -10,10 +11,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
@@ -115,9 +113,13 @@ public class MobManager {
 	
 	
 	public void onMobRelease() {
-		setupEggs();
-		setupAIs();
-		setupDoom();
+		SpawnManager.getManager().setup();
+		AIManager.getManager().setup();
+		DoomManager.getManager().setup();
+	}
+	
+	public void addToTeam(String name) {
+		mobTeam.addEntry(name);
 	}
 	
 	// --------------------------------------------------------
@@ -150,234 +152,4 @@ public class MobManager {
 	// --------------------------------------------------------
 	//                        SPAWN EGGS
 	// --------------------------------------------------------
-	
-	
-	private final InventoryHolder MOB_MENU_HOLDER = new InventoryHolder() {
-		@Override
-		public Inventory getInventory() {
-			Inventory guiInventory = Bukkit.createInventory(MOB_MENU_HOLDER, 27, "Pick a Monster");
-			
-			for (SpawnEgg egg : activeEggs.values()) {
-				if (egg == null) continue;
-				if (!egg.canSpawn()) continue;
-				
-				guiInventory.setItem(egg.getIndex(), egg.getEgg());
-			}
-			
-			return guiInventory;
-		}
-	};
-	private Map<Integer, SpawnEgg> activeEggs;
-	
-	public Inventory getMobMenu() {
-		return MOB_MENU_HOLDER.getInventory();
-		
-		// TODO MAKE CHANGES OVER TIME RATHER THAN BUILD EACH TIME?
-	}
-	
-	public boolean isMobSpawnMenu(Inventory inv) {
-		return (inv.getHolder() == MOB_MENU_HOLDER);
-	}
-	
-	public void spawnMob(int i, PlayerMonster monster) {
-		SpawnEgg egg = activeEggs.get(i);
-		if (egg != null && egg.canSpawn())
-			egg.spawn(monster);
-	}
-	
-	private void setupEggs() {
-		Plugin plugin = Game.getGame().getPlugin();
-		Configuration spawnConfig = YamlConfiguration.loadConfiguration(plugin.getResource("spawn-eggs.yml"));
-		activeEggs = new HashMap<Integer, SpawnEgg>();
-		for (String key : spawnConfig.getKeys(false)) {
-			SpawnEgg egg = SpawnEgg.createEgg(spawnConfig.getConfigurationSection(key));
-			activeEggs.put(egg.getIndex(), egg);
-		}
-		
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				updateEggs();
-			}
-		}.runTaskTimer(plugin, 1, 300);
-	}
-	
-	private void updateEggs() {
-		for (SpawnEgg egg : activeEggs.values()) {
-			egg.tryRespawn();
-		}
-	}
-	
-	
-	
-	// --------------------------------------------------------
-	//                        AIS
-	// --------------------------------------------------------
-	
-	
-	private final static int MAX_AIS = 45;
-	private final static int MAX_AI_MARKS = 60;
-	private final static double AI_SPAWN_CHANCE = 0.2;
-	
-	//private final static Set<String> AI_NAMES;
-	
-	private final Queue<Location> spawnSpots = new LinkedList<>();
-	private final Map<UUID, AIEntity> ais = new HashMap<>();
-	
-	private boolean aisSpawnable = true;
-	
-	private void setupAIs() {
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				updateAIs();
-			}
-		}.runTaskTimer(Game.getGame().getPlugin(), 100, 140);
-	}
-	
-	private void updateAIs() {
-		// Get rid of unnecessary ai
-		Region shrineProt = Game.getGame().getShrine().getShrineProtection();
-		Set<UUID> deadAIs = new HashSet<>();
-		for (AIEntity ai : ais.values()) {
-			Creature entity = ai.getEntity();
-			if (entity.getTarget() == null || shrineProt.continsEntity(entity)) {
-				entity.remove();
-				//entity.damage(1000);
-			}
-			
-			if (entity.isDead())
-				deadAIs.add(entity.getUniqueId());
-		}
-		for (UUID uuid : deadAIs)
-			ais.remove(uuid);
-		
-		// Try spawn more
-		trySpawnAI();
-		
-		// Update ai marks spots
-		for (PlayerMonster monster : playerMobs.values()) {
-			if (monster.isAlive() && monster.getPlayer().isOnGround())
-				addAISpawnLocation(monster.getLocation());
-		}
-	}
-	
-	private void trySpawnAI() {
-		World world = Game.getGame().getWorld();
-		for (Location spawnSpot : spawnSpots) {
-			if (!canSpawnAI()) continue;
-			
-			// Create zombie with all right stuff
-			Zombie ai = (Zombie) world.spawnEntity(spawnSpot, EntityType.ZOMBIE);
-			ai.setCustomName(ChatColor.DARK_RED + "Rawb the AI");
-			int speedLvl = (ai.isBaby() ? 0 : 3);
-			ai.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 30000, speedLvl, false,false), true);
-			ai.getEquipment().clear();
-			ai.getEquipment().setItemInMainHand(new ItemStack(Material.IRON_AXE, 1, (short) 100));
-			mobTeam.addEntry(ai.getUniqueId().toString());
-			
-			ais.put(ai.getUniqueId(), new AIEntity(ai));
-		}
-	}
-	
-	private boolean canSpawnAI() {
-		return  (aisSpawnable &&
-				Game.getGame().getPhase().canAISpawn() &&
-				ais.size() < MAX_AIS &&
-				Math.random() < AI_SPAWN_CHANCE);
-	}
-	
-	private final static double SPAWN_THRESHOLD = 1;
-	private void addAISpawnLocation(Location loc) {
-		// Prevent spawning if spawn spot is too close to another
-		for (Location spawnSpot : spawnSpots) {
-			if (loc.distance(spawnSpot) <= SPAWN_THRESHOLD)
-				return;
-		}
-		
-		spawnSpots.add(loc);
-		while (spawnSpots.size() > MAX_AI_MARKS)
-			spawnSpots.remove();
-	}
-	
-	public boolean toggleAISpawn() {
-		aisSpawnable = !aisSpawnable;
-		return aisSpawnable;
-	}
-	
-	public AIEntity getAI(Entity entity) {
-		return ais.get(entity.getUniqueId());
-	}
-	
-	public void killAllAIs() {
-		for (AIEntity ai : ais.values()) {
-			ai.getEntity().damage(1000);
-		}
-		ais.clear();
-	}
-	
-	public Collection<AIEntity> getAIs() {
-		return ais.values();
-	}
-	
-	
-	
-	// --------------------------------------------------------
-	//                      DOOM CLOCK
-	// --------------------------------------------------------
-	
-	private int doomTimer;
-	private int internalDoomTimer;
-	
-	private List<DoomType> occuredDooms = new ArrayList<>();
-	
-	private final Map<DoomType, Doom> dooms = new HashMap<>();
-	
-	private void setupDoom() {
-		resetDoomTimers();
-		
-		Configuration doomConfig = YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource("doom.yml"));
-		dooms.put(DoomType.KRUNGOR, new Doom(doomConfig.getConfigurationSection("krungor")));
-		
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				updateDoom();
-			}
-		}.runTaskTimer(Game.getGame().getPlugin(), 20, 20);
-	}
-	
-	private void resetDoomTimers() {
-		doomTimer = 30;
-		internalDoomTimer = 10;
-	}
-	
-	private final Game game = Game.getGame();
-	private void updateDoom() {
-		doomTimer--;
-		if (doomTimer <= 0) {
-			// TODO do only once
-			doomTimer = 0;
-			game.getWorld().setTime(18000);
-			game.setPhase(Phase.DOOM);
-			internalDoomTimer--;
-			//Bukkit.broadcastMessage("DOOM");
-			if (internalDoomTimer <= 0) {
-				spawnDoom(DoomType.KRUNGOR);
-				resetDoomTimers();
-				game.setPhase(Phase.GAME);
-			}
-		}
-		game.setDoomSidebar(doomTimer);
-	}
-	
-	private void spawnDoom(DoomType doomType) {
-		Set<PlayerMonster> deadMonsters = new HashSet<>();
-		for (PlayerMonster monster : playerMobs.values()) {
-			if (!monster.isAlive())
-				deadMonsters.add(monster);
-		}
-		dooms.get(doomType).spawnMobs(deadMonsters);
-		occuredDooms.add(doomType);
-	}
 }

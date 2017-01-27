@@ -2,12 +2,11 @@ package deimophobe.dvz.dwarf.kit.sword;
 
 import deimophobe.dvz.PlayerOrAI;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.monster.AIEntity;
+import deimophobe.dvz.monster.ai.AIEntity;
 import deimophobe.dvz.monster.MobManager;
 import deimophobe.dvz.monster.PlayerMonster;
-import org.bukkit.Bukkit;
+import deimophobe.dvz.monster.ai.AIManager;
 import org.bukkit.Location;
-import org.bukkit.event.block.Action;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -40,7 +39,7 @@ class Hammer extends Sword {
 			if (center.distance(playerMonster.getLocation()) <= AOE_RADIUS)
 				playerMonster.damage(monsterDmg, dwarf);
 		}
-		for (AIEntity ai : MobManager.getManager().getAIs()) {
+		for (AIEntity ai : AIManager.getManager().getAIs()) {
 			if (center.distance(ai.getEntity().getLocation()) <= AOE_RADIUS)
 				ai.getEntity().damage(aiDmg, dwarf.getPlayer());
 		}
