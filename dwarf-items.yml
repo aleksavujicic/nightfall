@@ -165,7 +165,7 @@ consumable:
 
 misc:
   pick:
-    material: iron_axe
+    material: iron_pickaxe
     data: 70
     name: Dwarven Pickaxe
     lore:
@@ -177,7 +177,7 @@ misc:
     lore:
      - Some lore
   shovel:
-    material: iron_axe
+    material: iron_spade
     data: 72
     name: Dwarven Shovel
     lore:
