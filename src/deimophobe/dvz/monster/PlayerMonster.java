@@ -171,9 +171,14 @@ public class PlayerMonster extends GamePlayer {
 	
 	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {
-		return null;
+		if (mob != null)
+			return mob.onBowFire(arrow, force);
+		return arrow;
 	}
 	
 	@Override
-	public void onArrowLand(Arrow arrow, Block hitBlock) {}
+	public void onArrowLand(Arrow arrow, Block hitBlock) {
+		if (mob != null)
+			mob.onArrowLand(arrow, hitBlock);
+	}
 }

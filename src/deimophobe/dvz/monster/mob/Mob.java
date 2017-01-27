@@ -11,7 +11,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -63,7 +65,7 @@ public class Mob {
 		
 		monster.clearInventory();
 		for (ItemStack item : mobData.items)
-			monster.giveItem(item);
+			inv.addItem(item);
 		
 		inv.setHelmet(mobData.helmet);
 		inv.setChestplate(mobData.chest);
@@ -93,6 +95,10 @@ public class Mob {
 		return monster.getHeldItem().isSimilar(items.get(0));
 	}
 	
+	protected Disguise getDisguise() {
+		return DisguiseAPI.getDisguise(monster.getPlayer());
+	}
+	
 	public boolean isProccable() {
 		return proccable;
 	}
@@ -115,6 +121,10 @@ public class Mob {
 	public double onGotHit(Dwarf dwarf, DamageType type, double damage) {
 		return damage;
 	}
+	public Projectile onBowFire(Arrow arrow, float force) {
+		return null;
+	}
+	public void onArrowLand(Arrow arrow, Block hitBlock) {}
 	public float getCooldown() {
 		return 0;
 	}
