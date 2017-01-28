@@ -32,8 +32,11 @@ class Doom {
 	}
 	
 	void spawnMobs(Collection<PlayerMonster> monsters) {
+		List<PlayerMonster> monsterList = new ArrayList<>(monsters);
+		Collections.shuffle(monsterList);
+		
 		Iterator<MobType> iterator = specialMobs.iterator();
-		for (PlayerMonster monster : monsters) {
+		for (PlayerMonster monster : monsterList) {
 			if (iterator.hasNext()) {
 				monster.spawnAs(iterator.next());
 			} else {
