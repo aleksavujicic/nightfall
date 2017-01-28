@@ -1,11 +1,13 @@
 package deimophobe.dvz.timedblock;
 
 import deimophobe.dvz.Game;
+import deimophobe.dvz.GamePlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,9 +16,10 @@ import java.util.Map;
  */
 public abstract class TimedBlock {
 	
-	private final Block block;
+	final Block block;
 	private final Material newType;
 	private final int lifeTime;
+	
 	
 	public TimedBlock(Location loc, Material blockType, int lifeTime) {
 		this(loc.getBlock(), blockType, lifeTime);
@@ -28,24 +31,45 @@ public abstract class TimedBlock {
 		this.lifeTime = lifeTime;
 	}
 	
+	
+	private BukkitRunnable runnable;
+	private Material oldType;
+	private byte data;
+	
 	private void placeBlock() {
-		final Material oldType = block.getType();
-		final byte data = block.getData();
+		oldType = block.getType();
+		data = block.getData();
 		
 		block.setType(newType);
 		
-		new BukkitRunnable() {
+		runnable = new BukkitRunnable() {
 			@Override
 			public void run() {
-				block.setType(oldType);
-				block.setData(data);
-				activeTimedBlocks.remove(block);
-				onDestroy();
+				unPlaceBlock();
+				onDestroy(false);
 			}
-		}.runTaskLater(Game.getGame().getPlugin(), lifeTime);
+		};
+		runnable.runTaskLater(Game.getGame().getPlugin(), lifeTime);
+		onPlace();
 	}
 	
-	protected abstract void onDestroy();
+	private void unPlaceBlock() {
+		block.setType(oldType);
+		block.setData(data);
+		activeTimedBlocks.remove(block);
+	}
+	
+	
+	void onPlace() {}
+	void onDestroy(boolean destroyed) {}
+	public void onHit(GamePlayer player) {}
+	
+	
+	public void cancel() {
+		runnable.cancel();
+		unPlaceBlock();
+		onDestroy(true);
+	}
 	
 	private static final Map<Block, TimedBlock> activeTimedBlocks = new HashMap<>();
 	public static boolean placeTimedBlock(TimedBlock timedBlock) {
@@ -57,6 +81,12 @@ public abstract class TimedBlock {
 			activeTimedBlocks.put(block, timedBlock);
 			return true;
 		}
+	}
+	
+	public static void hitBlock(Block block, GamePlayer gamePlayer) {
+		TimedBlock tb = activeTimedBlocks.get(block);
+		if (tb != null)
+			tb.onHit(gamePlayer);
 	}
 	
 }

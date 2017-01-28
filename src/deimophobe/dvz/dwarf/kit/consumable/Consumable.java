@@ -42,6 +42,7 @@ public abstract class Consumable {
 		consumableMap.put(ConsumableType.MORTAR, new Mortar(ItemCreator.createItem(consumables.getConfigurationSection("mortar"), Slot.MAIN_HAND), false));
 		consumableMap.put(ConsumableType.WIZARD_MORTAR, new Mortar(ItemCreator.createItem(consumables.getConfigurationSection("wizardmortar"), Slot.MAIN_HAND), true));
 		consumableMap.put(ConsumableType.ARMOUR_ITEM, new ArmourItem(ItemCreator.createItem(consumables.getConfigurationSection("armouritem"), Slot.MAIN_HAND)));
+		consumableMap.put(ConsumableType.HEAL_STATION, new HealStation(ItemCreator.createItem(consumables.getConfigurationSection("healstation"), Slot.MAIN_HAND)));
 	}
 	
 	public static boolean use(Dwarf dwarf, ConsumableType type) {

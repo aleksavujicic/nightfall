@@ -5,9 +5,11 @@ import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MobManager;
 import deimophobe.dvz.monster.PlayerMonster;
 import deimophobe.dvz.monster.ai.AIEntity;
+import deimophobe.dvz.timedblock.TimedBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -78,8 +80,11 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void useItems(PlayerInteractEvent event) {
 		GamePlayer gp = game.getPlayer(event.getPlayer());
-		if (gp != null)
-			gp.onUse(event.getAction(), event.getClickedBlock(), event.getBlockFace());
+		if (gp != null) {
+			Block block = event.getClickedBlock();
+			gp.onUse(event.getAction(), block, event.getBlockFace());
+			TimedBlock.hitBlock(block, gp);
+		}
 	}
 	
 	@EventHandler

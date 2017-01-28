@@ -162,6 +162,12 @@ consumable:
     name: Dwarven Armour
     lore:
      - Some lore
+  healstation:
+    material: ink_sack
+    data: 7
+    name: Healing Station
+    lore:
+     - Some lore
 
 misc:
   pick:

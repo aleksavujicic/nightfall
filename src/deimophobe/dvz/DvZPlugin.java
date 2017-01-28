@@ -75,7 +75,7 @@ public class DvZPlugin extends JavaPlugin {
 				consumables.put(ConsumableType.WRENCH, 5);
 				consumables.put(ConsumableType.MORTAR, 5);
 				consumables.put(ConsumableType.WIZARD_MORTAR, 5);
-				consumables.put(ConsumableType.ARMOUR_ITEM, 5);
+				consumables.put(ConsumableType.HEAL_STATION, 5);
 				
 				Loadout loadout = new Loadout(title, null, swordType, bow, heal, consumables, armour, null);
 				

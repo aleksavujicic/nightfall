@@ -12,5 +12,5 @@ public enum ConsumableType {
 	MORTAR,
 	WIZARD_MORTAR,
 	
-	ARMOUR_ITEM,
+	ARMOUR_ITEM, HEAL_STATION,
 }

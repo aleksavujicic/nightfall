@@ -16,9 +16,4 @@ public class LampBlock extends TimedBlock {
 	public LampBlock(Block block, int lifeTime) {
 		super(block, Material.JACK_O_LANTERN, lifeTime);
 	}
-	
-	@Override
-	protected void onDestroy() {
-		
-	}
 }
