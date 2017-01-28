@@ -240,8 +240,7 @@ public class GameListener implements Listener {
 					
 					// FIRE
 					Projectile newProj = gp.onBowFire(arrow, event.getForce());
-					if (newProj != null)
-						event.setProjectile(newProj);
+					event.setProjectile(newProj);
 				}
 			}
 		}

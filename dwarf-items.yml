@@ -80,7 +80,7 @@ bow:
     lore:
      - Some lore
   ebow:
-    material: stick
+    material: bow
     name: Emerald Bow
     lore:
      - Some lore

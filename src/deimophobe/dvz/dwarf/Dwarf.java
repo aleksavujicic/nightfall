@@ -269,6 +269,7 @@ public class Dwarf extends GamePlayer {
 	
 	public void giveProc(ProcType procType) {
 		switch (procType) {
+			case EBOW:
 			case GRAVEL_PROC:
 			case REGULAR:
 				playSound("proc", 1f, 1f, false);
@@ -507,7 +508,7 @@ public class Dwarf extends GamePlayer {
 	
 	
 	public enum ProcType {
-		REGULAR, HORN, MALICE, DRAGONSKIN, SHRINE_FALL, GRAVEL_PROC,
+		REGULAR, HORN, MALICE, DRAGONSKIN, SHRINE_FALL, GRAVEL_PROC, EBOW,
 	}
 	
 	private final static ItemStack[][] armourItems;
