@@ -1,9 +1,12 @@
 package deimophobe.dvz.dwarf.kit.ale;
 
+import deimophobe.dvz.DamageType;
 import deimophobe.dvz.ItemCreator;
+import deimophobe.dvz.PlayerOrAI;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.kit.CooldownItem;
+import deimophobe.dvz.monster.PlayerMonster;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.block.Action;
@@ -18,34 +21,16 @@ import java.util.Map;
 public abstract class Ale extends CooldownItem {
 	
 	private final int manaCost;
-	private final boolean autoHeal;
 	
-	public boolean isAutoHeal() {
-		return autoHeal;
-	}
-	
-	protected Ale(Dwarf dwarf, AleType type, int manaCost) {
-		this(dwarf, type, manaCost, false);
-	}
-	
-	public Ale(Dwarf dwarf, AleType type, int manaCost, boolean autoHeal) {
+	public Ale(Dwarf dwarf, AleType type, int manaCost) {
 		super(dwarf, getItem(type), 10);
 		this.manaCost = manaCost;
-		this.autoHeal = autoHeal;
 	}
 	
 	protected boolean useMana() {
 		return dwarf.useMana(manaCost);
 	}
-	
-	
-	@Override
-	public boolean use(Action type) {
-		if (autoHeal)
-			return false;
-		else
-			return super.use(type);
-	}
+	public void onGotHit(PlayerOrAI hitter, DamageType type, double damage) {}
 	
 	
 	public static Ale createAle(Dwarf dwarf, AleType aleType) {

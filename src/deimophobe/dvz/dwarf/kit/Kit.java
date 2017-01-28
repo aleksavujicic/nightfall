@@ -12,8 +12,6 @@ import deimophobe.dvz.dwarf.kit.consumable.Consumable;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.sword.Sword;
 import deimophobe.dvz.dwarf.kit.sword.SwordType;
-import deimophobe.dvz.monster.PlayerMonster;
-import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
@@ -95,6 +93,10 @@ public class Kit {
 			return bow.onHit(monster);
 		}
 		return -1;
+	}
+	
+	public void onGotHit(PlayerOrAI monster, DamageType type, double damage) {
+		ale.onGotHit(monster, type, damage);
 	}
 	
 	public void onKill(PlayerOrAI monster, DamageType type) {

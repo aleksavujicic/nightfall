@@ -338,6 +338,7 @@ public class Dwarf extends GamePlayer {
 	
 	@Override
 	public double onGotHit(PlayerOrAI player, DamageType type, double damage) {
+		kit.onGotHit(player, type, damage);
 		if (armoured)
 			return damage/3;
 		else

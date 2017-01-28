@@ -112,7 +112,7 @@ public class PlayerMonster extends GamePlayer {
 				((Dwarf) gamePlayer).damageArmour(mob.getArmourShred());
 				return mob.onHit((Dwarf) gamePlayer, type, damage);
 			} else {
-				Bukkit.getLogger().warning("PlayerOrAI in onHit should be a Dwarf");
+				Bukkit.getLogger().warning("PlayerOrAI in onGotHit should be a Dwarf");
 				return damage;
 			}
 		} else {
