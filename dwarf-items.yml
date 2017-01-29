@@ -81,6 +81,7 @@ bow:
      - Some lore
   ebow:
     material: bow
+    data: 3
     name: Emerald Bow
     lore:
      - Some lore

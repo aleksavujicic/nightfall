@@ -86,6 +86,7 @@ witherskele:
   items:
     item1:
       material: bow
+      data: 1
       name: Nether Tooth Bow
       lore:
        - Some lore
