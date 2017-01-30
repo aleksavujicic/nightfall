@@ -1,53 +1,56 @@
 package deimophobe.dvz.monster.ai;
 
 import deimophobe.dvz.DamageType;
-import deimophobe.dvz.PlayerOrAI;
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import org.bukkit.entity.Creature;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.entity.EntityDamageEvent;
+
+import java.util.UUID;
 
 /**
  * Created by Deimophobe on 24/01/17.
  */
-public class AIEntity implements PlayerOrAI {
-	private final Creature entity;
-	@Override
-	public Creature getEntity() {
-		return entity;
+public class AIEntity extends GameEntity {
+	private final Creature aiEntity;
+	
+	public AIEntity(Creature aiEntity) {
+		super(aiEntity);
+		this.aiEntity = aiEntity;
 	}
 	
 	@Override
-	public String getDisplayName() {
-		return entity.getCustomName();
-	}
-	
-	public AIEntity(Creature entity) {
-		this.entity = entity;
-	}
-	
-	@Override
-	public double onHit(PlayerOrAI entity, DamageType type, double damage) {
+	public double onHit(GameEntity entity, DamageType type, double damage) {
 		if (entity == null || type == null) return damage;
 		((Dwarf) entity).damageArmour(10);
 		return 15;
 	}
 	
 	@Override
-	public double onGotHit(PlayerOrAI entity, DamageType type, double damage) {
+	public double onGotHit(GameEntity entity, DamageType type, double damage) {
 		if (entity == null || type == null) return damage;
-		switch (type) {
-			case MELEE:
-				return damage/5;
-			case BOW:
-				return damage/3;
-		}
-		return -1;
+		
+		if (type.isNatural()) return 0;
+		
+		if (type.isMelee()) damage *= 1d/5;
+		if (type.isRanged()) damage *= 1d/2;
+		
+		return damage;
 	}
 	
-	@Override
-	public double onNaturalHit(EntityDamageEvent.DamageCause cause, double baseDmg) {
-		return baseDmg;
+	public void kill() {
+		aiEntity.remove();
+		//aiEntity.damage(1000);
+	}
+	
+	public boolean hasTarget() {
+		return aiEntity.getTarget() != null;
+	}
+	
+	public boolean isDead() {
+		return aiEntity.isDead();
+	}
+	
+	public UUID getUniqueId() {
+		return aiEntity.getUniqueId();
 	}
 }

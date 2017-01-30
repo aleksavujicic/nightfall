@@ -1,9 +1,6 @@
 package deimophobe.dvz.dwarf;
 
-import deimophobe.dvz.DamageType;
-import deimophobe.dvz.Game;
-import deimophobe.dvz.GamePlayer;
-import deimophobe.dvz.ItemCreator;
+import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.kit.DwarvenItem;
 import deimophobe.dvz.dwarf.kit.Kit;
 import deimophobe.dvz.dwarf.kit.Loadout;
@@ -11,8 +8,8 @@ import deimophobe.dvz.dwarf.kit.consumable.Consumable;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.sword.Sword;
 import deimophobe.dvz.dwarf.kit.sword.SwordType;
-import deimophobe.dvz.monster.PlayerMonster;
-import deimophobe.dvz.PlayerOrAI;
+import deimophobe.dvz.monster.MonsterPlayer;
+import deimophobe.dvz.GameEntity;
 import minecraft.spigot.community.michel_0.api.AttributeModifier;
 import minecraft.spigot.community.michel_0.api.ItemAttributes;
 import minecraft.spigot.community.michel_0.api.Slot;
@@ -42,8 +39,6 @@ import java.util.UUID;
 public class Dwarf extends GamePlayer {
 	private Kit kit;
 	
-	private final String title;
-	
 	private int mana;
 	private final int maxMana;
 	
@@ -57,9 +52,6 @@ public class Dwarf extends GamePlayer {
 	
 	public Kit getKit() {
 		return kit;
-	}
-	public String getTitle() {
-		return title;
 	}
 	
 	public Dwarf(Player player, Loadout loadout) {
@@ -89,18 +81,25 @@ public class Dwarf extends GamePlayer {
 		
 		//player.getInventory().addItem(kit.getItems().toArray(new ItemStack[0]));
 		
-		if (loadout.getTitle() != null) {
-			title = ChatColor.AQUA + loadout.getTitle() + " " + player.getName() + ChatColor.RESET;
-		} else {
-			title = ChatColor.DARK_AQUA + player.getName() + ChatColor.RESET;
-		}
-		setTitle(title);
+		String title = loadout.getTitle();
+		boolean forceTitle = loadout.forceTitle();
+		
+		ChatColor color;
+		if (forceTitle)
+			color = ChatColor.GOLD;
+		else
+			if (loadout.getTitle() != null)
+				color = ChatColor.AQUA;
+			else
+				color = ChatColor.DARK_AQUA;
+		
+		setTitle(color, title, forceTitle);
 		
 		
 		updateArmour();
 		updateManaBar();
 		
-		healPlayerMax();
+		delayedHealMax();
 		
 		teleportTo(Game.getGame().getDwarfSpawn());
 		
@@ -124,6 +123,7 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	
+	// ------ MANA STUFF ------
 	public boolean useMana(int cost) {
 		if (cost > mana) return false;
 		mana -= cost;
@@ -162,6 +162,7 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	
+	// ------ ARMOUR STUFF ------
 	public boolean isArmoured() { return armoured; }
 	
 	public void putOnArmour() {
@@ -207,6 +208,7 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	
+	// ------ MISC ------
 	public void giveArrow() {
 		ItemStack arrows = player.getInventory().getItemInOffHand();
 		int amt = arrows.getAmount();
@@ -216,8 +218,15 @@ public class Dwarf extends GamePlayer {
 			arrows.setAmount(amt+1);
 		}
 	}
- 	
+	// TODO make onBLockBreak?
+	public void mineGravel() {
+		giveItem(cobble, 3);
+		if (kit.hasAndIsHoldingTM() && Game.getGame().getPhase().canGravelProc())
+			giveProc(ProcType.GRAVEL_PROC);
+	}
 	
+	
+	// ------ UPDATE ------
 	public void update() {
 		naturalManaRegen();
 		
@@ -245,7 +254,7 @@ public class Dwarf extends GamePlayer {
 			arrowCD++;
 		}
 	}
-	
+	// TODO better name
 	public void quickUpdate() {
 		kit.update();
 		updateCooldownBar();
@@ -255,14 +264,7 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	
-	public void mineGravel() {
-		giveItem(cobble, 3);
-		if (kit.hasAndIsHoldingTM() && Game.getGame().getPhase().canGravelProc())
-			giveProc(ProcType.GRAVEL_PROC);
-	}
-	
-	
-	
+	// ------ PROC ------
 	public boolean hasProc() {
 		return player.hasPotionEffect(PotionEffectType.SPEED);
 	}
@@ -311,22 +313,19 @@ public class Dwarf extends GamePlayer {
 		}
 	}
 	
-	public void onKill(PlayerOrAI monster, DamageType type) {
+	public void onKill(GameEntity monster, DamageType type) {
 		kit.onKill(monster, type);
-		
-		if (kit.hasQuiver())
-			giveArrow();
 	}
 	
 	@Override
-	public double onHit(PlayerOrAI monster, DamageType type, double damage) {
+	public double onHit(GameEntity monster, DamageType type, double damage) {
 		double newDam = kit.onHit(monster, type);
 		if (newDam != -1)
 			damage = newDam;
 		
-		if (type == DamageType.MELEE && hasProc() && !getHeldItem().isSimilar(Sword.getItem(SwordType.HAMMER))) {
-			if (monster instanceof PlayerMonster) {
-				if (((PlayerMonster) monster).getMob().isProccable()) {
+		if (type.isMelee() && hasProc() && !getHeldItem().isSimilar(Sword.getItem(SwordType.HAMMER))) {
+			if (monster instanceof MonsterPlayer) {
+				if (((MonsterPlayer) monster).getMob().isProccable()) {
 					return 10000;
 				}
 			} else {
@@ -337,24 +336,16 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	@Override
-	public double onGotHit(PlayerOrAI player, DamageType type, double damage) {
-		kit.onGotHit(player, type, damage);
+	public double onGotHit(GameEntity player, DamageType type, double damage) {
 		if (armoured)
-			return damage/3;
-		else
-			return damage;
-	}
-	
-	@Override
-	public double onNaturalHit(EntityDamageEvent.DamageCause cause, double baseDmg) {
+			damage *= 1d/3;
+		if (type.isPoison())
+			damage *= 2;
+		kit.onGotHit(player, type, damage);
+		
 		damageArmour(1);
-		if (cause == EntityDamageEvent.DamageCause.POISON) {
-			return baseDmg * 2;
-		}
-		if (cause == EntityDamageEvent.DamageCause.STARVATION || cause == EntityDamageEvent.DamageCause.SUFFOCATION) {
-			return -1;
-		}
-		return baseDmg;
+		
+		return damage;
 	}
 
 	private int grabCD;
@@ -416,7 +407,7 @@ public class Dwarf extends GamePlayer {
 			case REDSTONE_TORCH_ON:
 				player.getInventory().addItem(kit.getHealItem());
 				return MAX_GRAB_CD;
-				
+			
 			case LOG:
 			case LOG_2:
 				if (axe.isSimilar(getHeldItem())) {
@@ -453,7 +444,7 @@ public class Dwarf extends GamePlayer {
 					return MAX_CRAFT_CD;
 				}
 				return 0;
-				
+			
 			default:
 				return 0;
 		}
@@ -461,12 +452,11 @@ public class Dwarf extends GamePlayer {
 	
 	@Override
 	public void onShift(boolean sneaking) {
-		
+		kit.onShift(sneaking);
 	}
 	
 	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {
-		//arrow.setPickupStatus(Arrow.PickupStatus.DISALLOWED);
 		return kit.onBowFire(arrow, force);
 	}
 	
@@ -488,7 +478,7 @@ public class Dwarf extends GamePlayer {
 			if (testDwarf == this) continue;
 			//if (testDwarf.isMaxArmour()) continue;
 			
-			Location testLoc = testDwarf.getPlayer().getLocation();
+			Location testLoc = testDwarf.getLocation();
 			Vector offsetDir = testLoc.subtract(playerLoc).toVector();
 			double distance = offsetDir.length();
 			
@@ -508,10 +498,12 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	
+	// ------ ITEMS ------
 	public enum ProcType {
 		REGULAR, HORN, MALICE, DRAGONSKIN, SHRINE_FALL, GRAVEL_PROC, EBOW,
 	}
 	
+	// ------ ITEMS ------
 	private final static ItemStack[][] armourItems;
 	static {
 		ItemStack dchest = new ItemStack(Material.DIAMOND_CHESTPLATE);

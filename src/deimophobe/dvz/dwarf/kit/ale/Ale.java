@@ -2,14 +2,12 @@ package deimophobe.dvz.dwarf.kit.ale;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.ItemCreator;
-import deimophobe.dvz.PlayerOrAI;
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.kit.CooldownItem;
-import deimophobe.dvz.monster.PlayerMonster;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -30,7 +28,7 @@ public abstract class Ale extends CooldownItem {
 	protected boolean useMana() {
 		return dwarf.useMana(manaCost);
 	}
-	public void onGotHit(PlayerOrAI hitter, DamageType type, double damage) {}
+	public void onGotHit(GameEntity hitter, DamageType type, double damage) {}
 	
 	
 	public static Ale createAle(Dwarf dwarf, AleType aleType) {

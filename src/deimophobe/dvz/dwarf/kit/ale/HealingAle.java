@@ -18,7 +18,7 @@ class HealingAle extends Ale {
 		if (isRightClick(type)) return false;
 		if (!useMana()) return false;
 		
-		dwarf.healPlayerMax();
+		dwarf.healMax();
 		dwarf.playSound("entity.generic.drink", 0.6f, 0.9f, false);
 		dwarf.playSound("entity.experience_orb.pickup", 1f, 1f, false);
 		

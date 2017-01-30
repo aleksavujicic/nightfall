@@ -1,14 +1,11 @@
 package deimophobe.dvz.dwarf.kit.bow;
 
 import deimophobe.dvz.ItemCreator;
-import deimophobe.dvz.PlayerOrAI;
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.kit.DwarvenItem;
-import deimophobe.dvz.dwarf.kit.ale.AleType;
-import deimophobe.dvz.monster.PlayerMonster;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Arrow;
@@ -40,8 +37,8 @@ public class Bow extends DwarvenItem {
 	protected boolean ability(Action type) {return false;}
 	
 	
-	public double onHit(PlayerOrAI monster) {return power;}
-	public void onKill(PlayerOrAI monster) {}
+	public double onHit(GameEntity monster) {return power;}
+	public void onKill(GameEntity monster, boolean b) {}
 	public Projectile onBowFire(Arrow arrow, float force) {
 		return arrow;
 	}

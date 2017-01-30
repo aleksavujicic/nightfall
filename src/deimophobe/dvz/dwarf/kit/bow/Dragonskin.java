@@ -1,8 +1,7 @@
 package deimophobe.dvz.dwarf.kit.bow;
 
-import deimophobe.dvz.PlayerOrAI;
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.monster.PlayerMonster;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -14,7 +13,7 @@ class Dragonskin extends Bow {
 	}
 	
 	@Override
-	public void onKill(PlayerOrAI monster) {
+	public void onKill(GameEntity monster, boolean b) {
 		dwarf.giveProc(Dwarf.ProcType.DRAGONSKIN);
 	}
 }

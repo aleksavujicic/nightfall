@@ -1,12 +1,12 @@
 package deimophobe.dvz.monster.mob;
 
-import deimophobe.dvz.monster.PlayerMonster;
+import deimophobe.dvz.monster.MonsterPlayer;
 
 /**
  * Created by Deimophobe on 20/01/17.
  */
 class Flamelancer extends SkeletonMob {
-	Flamelancer(PlayerMonster monster) {
+	Flamelancer(MonsterPlayer monster) {
 		super(monster, MobType.FLAMELANCER);
 	}
 }

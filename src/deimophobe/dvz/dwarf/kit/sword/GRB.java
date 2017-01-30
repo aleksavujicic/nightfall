@@ -1,8 +1,7 @@
 package deimophobe.dvz.dwarf.kit.sword;
 
-import deimophobe.dvz.PlayerOrAI;
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.monster.PlayerMonster;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -18,7 +17,7 @@ class GRB extends Sword {
 	}
 	
 	@Override
-	public void onKill(PlayerOrAI monster) {
+	public void onKill(GameEntity monster, boolean b) {
 		dwarf.giveProc(Dwarf.ProcType.REGULAR);
 		reduceCooldown(20);
 	}

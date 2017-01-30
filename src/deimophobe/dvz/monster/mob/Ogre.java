@@ -1,12 +1,12 @@
 package deimophobe.dvz.monster.mob;
 
-import deimophobe.dvz.monster.PlayerMonster;
+import deimophobe.dvz.monster.MonsterPlayer;
 
 /**
  * Created by Deimophobe on 20/01/17.
  */
 class Ogre extends Mob {
-	Ogre(PlayerMonster monster) {
+	Ogre(MonsterPlayer monster) {
 		super(monster, MobType.OGRE);
 	}
 }

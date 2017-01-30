@@ -3,7 +3,7 @@ package deimophobe.dvz.monster.mob;
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.monster.PlayerMonster;
+import deimophobe.dvz.monster.MonsterPlayer;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
@@ -27,7 +27,7 @@ import java.util.*;
  */
 public class Mob {
 	
-	protected final PlayerMonster monster;
+	protected final MonsterPlayer monster;
 	
 	private final List<ItemStack> items;
 	
@@ -37,7 +37,7 @@ public class Mob {
 	private final int torchXP;
 	private final boolean shrineImmune;
 	
-	protected Mob(PlayerMonster mons, MobType type) {
+	protected Mob(MonsterPlayer mons, MobType type) {
 		monster = mons;
 		
 		MobData mobData = MobData.getMobData(type);
@@ -45,11 +45,13 @@ public class Mob {
 		Player player = monster.getPlayer();
 		PlayerInventory inv = player.getInventory();
 		
-		if (mobData.forceTitle) {
-			monster.setTitle(ChatColor.RED + mobData.title + ChatColor.RESET);
-		} else {
-			monster.setTitle(ChatColor.DARK_RED + mobData.title + " " + player.getName() + ChatColor.RESET);
-		}
+		ChatColor titleColor;
+		if (mobData.forceTitle)
+			titleColor = ChatColor.RED;
+		else
+			titleColor = ChatColor.DARK_RED;
+		
+		monster.setTitle(titleColor, mobData.title, mobData.forceTitle);
 		
 		monster.teleportTo(Game.getGame().getCurrentMobspawn());
 		player.setGameMode(GameMode.SURVIVAL);
@@ -58,7 +60,7 @@ public class Mob {
 			Disguise disguise = new MobDisguise(mobData.disguiseType);
 			disguise = disguise.setViewSelfDisguise(false);
 			disguise.getWatcher().setCustomNameVisible(false);
-			disguise.getWatcher().setCustomName(ChatColor.DARK_RED + monster.getName());
+			disguise.getWatcher().setCustomName(ChatColor.DARK_RED + monster.getDisplayName());
 			DisguiseAPI.disguiseEntity(player, disguise);
 		}
 		
@@ -75,12 +77,7 @@ public class Mob {
 		for (PotionEffect effect : mobData.effects) {
 			player.addPotionEffect(effect);
 		}
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				monster.healPlayerMax();
-			}
-		}.runTaskLater(Game.getGame().getPlugin(), 20);
+		monster.delayedHealMax();
 		
 		items = mobData.items;
 		
@@ -131,7 +128,7 @@ public class Mob {
 	
 	
 	
-	public static Mob createAndSpawnMob(PlayerMonster monster, MobType type) {
+	public static Mob createAndSpawnMob(MonsterPlayer monster, MobType type) {
 		switch (type) {
 			case ZOMBIE:
 				break;

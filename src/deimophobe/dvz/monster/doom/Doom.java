@@ -1,7 +1,6 @@
 package deimophobe.dvz.monster.doom;
 
-import deimophobe.dvz.monster.PlayerMonster;
-import deimophobe.dvz.monster.mob.Mob;
+import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.mob.MobType;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -31,12 +30,12 @@ class Doom {
 		}
 	}
 	
-	void spawnMobs(Collection<PlayerMonster> monsters) {
-		List<PlayerMonster> monsterList = new ArrayList<>(monsters);
+	void spawnMobs(Collection<MonsterPlayer> monsters) {
+		List<MonsterPlayer> monsterList = new ArrayList<>(monsters);
 		Collections.shuffle(monsterList);
 		
 		Iterator<MobType> iterator = specialMobs.iterator();
-		for (PlayerMonster monster : monsterList) {
+		for (MonsterPlayer monster : monsterList) {
 			if (iterator.hasNext()) {
 				monster.spawnAs(iterator.next());
 			} else {

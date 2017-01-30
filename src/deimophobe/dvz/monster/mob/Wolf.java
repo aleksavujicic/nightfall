@@ -2,7 +2,7 @@ package deimophobe.dvz.monster.mob;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.monster.PlayerMonster;
+import deimophobe.dvz.monster.MonsterPlayer;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
@@ -20,7 +20,7 @@ class Wolf extends Mob {
 	private static final int LEAP_MAX_CD = 140;
 	private int leapCd = 0;
 	
-	Wolf(PlayerMonster monster) {
+	Wolf(MonsterPlayer monster) {
 		super(monster, MobType.WOLF);
 	}
 	
@@ -70,7 +70,7 @@ class Wolf extends Mob {
 	@Override
 	public double onHit(Dwarf dwarf, DamageType type, double damage) {
 		if (dwarf != null) {
-			monster.healPlayer(5);
+			monster.heal(5);
 			monster.playSound("entity.wolf.growl", 3, 1, true);
 			monster.givePotionEffect(PotionEffectType.SPEED, 140, 3, true, true);
 		}

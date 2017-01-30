@@ -2,7 +2,7 @@ package deimophobe.dvz.monster.mob;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.dwarf.kit.DwarvenItem;
-import deimophobe.dvz.monster.PlayerMonster;
+import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.Action;
@@ -13,7 +13,7 @@ import java.util.Set;
  * Created by Deimophobe on 20/01/17.
  */
 class Rat extends Mob {
-	Rat(PlayerMonster monster) {
+	Rat(MonsterPlayer monster) {
 		super(monster, MobType.RAT);
 	}
 	

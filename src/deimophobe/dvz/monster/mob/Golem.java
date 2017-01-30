@@ -1,6 +1,6 @@
 package deimophobe.dvz.monster.mob;
 
-import deimophobe.dvz.monster.PlayerMonster;
+import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -13,7 +13,7 @@ import java.util.Set;
  * Created by Deimophobe on 20/01/17.
  */
 class Golem extends Mob {
-	Golem(PlayerMonster monster) {
+	Golem(MonsterPlayer monster) {
 		super(monster, MobType.GOLEM);
 	}
 	
@@ -35,7 +35,7 @@ class Golem extends Mob {
 				materials.add(Material.LAVA);
 				materials.add(Material.STATIONARY_LAVA);
 				materials.add(Material.AIR);
-				Block block = monster.getPlayer().getTargetBlock(materials, 5);
+				Block block = monster.getTargetBlock(materials, 5);
 				
 				boolean toBreak = true;
 				for (Material unbreakable : UNBREAKABLE_BLOCKS) {
@@ -49,7 +49,7 @@ class Golem extends Mob {
 					monster.playSound("entity.generic.explode", 3, 0.5f, true);
 					breakCD = BREAK_CD_MAX;
 					
-					monster.getPlayer().getWorld().spawnParticle(Particle.BLOCK_CRACK, block.getLocation().add(0.5, 0.5, 0.5), 40, 0.5, 0.5, 0.5, 0, block.getState().getData());
+					block.getWorld().spawnParticle(Particle.BLOCK_CRACK, block.getLocation().add(0.5, 0.5, 0.5), 40, 0.5, 0.5, 0.5, 0, block.getState().getData());
 					block.breakNaturally ();
 				}
 			}

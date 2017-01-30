@@ -2,7 +2,7 @@ package deimophobe.dvz.monster.ai;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.monster.MobManager;
-import deimophobe.dvz.monster.PlayerMonster;
+import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.shrine.Region;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -56,14 +56,12 @@ public class AIManager {
 		Region shrineProt = Game.getGame().getShrine().getShrineProtection();
 		Set<UUID> deadAIs = new HashSet<>();
 		for (AIEntity ai : ais.values()) {
-			Creature entity = ai.getEntity();
-			if (entity.getTarget() == null || shrineProt.continsEntity(entity)) {
-				entity.remove();
-				//entity.damage(1000);
+			if (!ai.hasTarget() || shrineProt.continsGameEntity(ai)) {
+				ai.kill();
 			}
 			
-			if (entity.isDead())
-				deadAIs.add(entity.getUniqueId());
+			if (ai.isDead())
+				deadAIs.add(ai.getUniqueId());
 		}
 		for (UUID uuid : deadAIs)
 			ais.remove(uuid);
@@ -72,7 +70,7 @@ public class AIManager {
 		trySpawnAI();
 		
 		// Update ai marks spots
-		for (PlayerMonster monster : MobManager.getManager().getMobs()) {
+		for (MonsterPlayer monster : MobManager.getManager().getMobs()) {
 			if (monster.isAlive() && monster.getPlayer().isOnGround())
 				addAISpawnLocation(monster.getLocation());
 		}
@@ -128,7 +126,7 @@ public class AIManager {
 	
 	public void killAllAIs() {
 		for (AIEntity ai : ais.values()) {
-			ai.getEntity().damage(1000);
+			ai.kill();
 		}
 		ais.clear();
 	}

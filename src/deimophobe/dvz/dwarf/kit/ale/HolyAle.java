@@ -22,7 +22,7 @@ class HolyAle extends Ale {
 		Player player = dwarf.getPlayer();
 		
 		player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 720000, 3, true, false), true);
-		dwarf.healPlayerMax();
+		dwarf.healMax();
 		dwarf.playSound("entity.generic.drink", 0.6f, 0.9f, false);
 		dwarf.playSound("entity.experience_orb.pickup", 1f, 1f, false);
 		

@@ -1,13 +1,11 @@
 package deimophobe.dvz.dwarf.kit.sword;
 
 import deimophobe.dvz.Game;
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.ItemCreator;
-import deimophobe.dvz.PlayerOrAI;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.kit.CooldownItem;
-import deimophobe.dvz.dwarf.kit.ale.AleType;
-import deimophobe.dvz.monster.PlayerMonster;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.block.Action;
@@ -43,8 +41,8 @@ public class Sword extends CooldownItem {
 	}
 	
 	protected boolean ability() {return false;}
-	public void onHit(PlayerOrAI monster) {}
-	public void onKill(PlayerOrAI monster) {}
+	public void onHit(GameEntity monster) {}
+	public void onKill(GameEntity monster, boolean b) {}
 	
 	@Override
 	protected void playOffCDSound() {

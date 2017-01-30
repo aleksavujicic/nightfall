@@ -1,7 +1,7 @@
 package deimophobe.dvz.dwarf.kit;
 
 import deimophobe.dvz.DamageType;
-import deimophobe.dvz.PlayerOrAI;
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 
 import deimophobe.dvz.dwarf.kit.ale.Ale;
@@ -29,18 +29,19 @@ public class Kit {
 	private final Sword sword;
 	private final Bow bow;
 	private final Ale ale;
-	//private Map<ConsumableItem, Integer> consumables;
 	
 	private final ArmourType armour;
 	private final Collection<Passive> passives;
 	
+	// TODO remove these
 	public boolean hasRuneblessed()	{return armour == ArmourType.RUNEBLESSED;}
 	public boolean hasQuiver() 		{return armour == ArmourType.QUIVER;}
 	public boolean hasStudded()		{return armour == ArmourType.STUDDED;}
 	public boolean hasCoil() 		{return armour == ArmourType.COIL;}
 	
+	// TODO?
 	public boolean hasAndIsHoldingTM() {
-		ItemStack item = dwarf.getPlayer().getInventory().getItemInMainHand();
+		ItemStack item = dwarf.getHeldItem();
 		return (sword.getType() == SwordType.TOMBMAKER && sword.matchesItem(item));
 	}
 	
@@ -72,7 +73,7 @@ public class Kit {
 	}
 	
 	public boolean use(Action type) {
-		ItemStack item = dwarf.getPlayer().getInventory().getItemInMainHand();
+		ItemStack item = dwarf.getHeldItem();
 		if (sword.matchesItem(item)) {
 			return sword.use(type);
 		} else if (bow.matchesItem(item)) {
@@ -84,32 +85,38 @@ public class Kit {
 		return false;
 	}
 	
-	public double onHit(PlayerOrAI monster, DamageType type) {
-		ItemStack item = dwarf.getPlayer().getInventory().getItemInMainHand();
-		if (type == DamageType.MELEE && sword.matchesItem(item)) {
+	// TODO
+	public double onHit(GameEntity monster, DamageType type) {
+		ItemStack item = dwarf.getHeldItem();
+		if (type.isMelee() && sword.matchesItem(item)) {
 			sword.onHit(monster);
 			return -1;
-		} else if (type == DamageType.BOW) {
+		} else if (type.isRanged()) {
 			return bow.onHit(monster);
 		}
 		return -1;
 	}
 	
-	public void onGotHit(PlayerOrAI monster, DamageType type, double damage) {
+	public void onGotHit(GameEntity monster, DamageType type, double damage) {
 		ale.onGotHit(monster, type, damage);
 	}
 	
-	public void onKill(PlayerOrAI monster, DamageType type) {
-		ItemStack item = dwarf.getPlayer().getInventory().getItemInMainHand();
-		if (type == DamageType.MELEE && sword.matchesItem(item)) {
-			sword.onKill(monster);
-		} else if (type == DamageType.BOW) {
-			bow.onKill(monster);
-		}
+	public void onKill(GameEntity monster, DamageType type) {
+		ItemStack item = dwarf.getHeldItem();
+		sword.onKill(monster, type.isMelee() && sword.matchesItem(item));
+		bow.onKill(monster, type.isRanged() && bow.matchesItem(item));
+		
+		if (armour == ArmourType.QUIVER)
+			dwarf.giveArrow();
 	}
 	
 	public Projectile onBowFire(Arrow arrow, float force) {
 		return bow.onBowFire(arrow, force);
+	}
+	
+	public void onArrowLand(Arrow arrow, Block hitBlock) { bow.onArrowLand(arrow, hitBlock); }
+	
+	public void onShift(boolean sneaking) {
 	}
 	
 	public float fractionComplete() {
@@ -125,8 +132,6 @@ public class Kit {
 	public ItemStack getHealItem() {
 		return ale.getItem();
 	}
-	
-	public void onArrowLand(Arrow arrow, Block hitBlock) { bow.onArrowLand(arrow, hitBlock); }
 	
 	public static boolean isDroppableItem(ItemStack item) {
 		if (item == null) return true;

@@ -1,7 +1,7 @@
 package deimophobe.dvz.monster.mob;
 
 import deimophobe.dvz.dwarf.kit.DwarvenItem;
-import deimophobe.dvz.monster.PlayerMonster;
+import deimophobe.dvz.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
@@ -13,7 +13,7 @@ import org.bukkit.event.block.Action;
  */
 abstract class SkeletonMob extends Mob {
 	
-	protected SkeletonMob(PlayerMonster mons, MobType type) {
+	protected SkeletonMob(MonsterPlayer mons, MobType type) {
 		super(mons, type);
 	}
 	

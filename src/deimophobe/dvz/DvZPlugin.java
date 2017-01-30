@@ -6,7 +6,6 @@ import deimophobe.dvz.dwarf.kit.ale.AleType;
 import deimophobe.dvz.dwarf.kit.bow.BowType;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.sword.SwordType;
-import deimophobe.dvz.monster.MobManager;
 import deimophobe.dvz.monster.ai.AIManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -53,6 +52,7 @@ public class DvZPlugin extends JavaPlugin {
 				AleType heal = AleType.REGROWTH;
 				ArmourType armour = ArmourType.STUDDED;
 				String title = "Ranger";
+				boolean forceTitle = false;
 				if (args.length >= 2) {
 					swordType = SwordType.valueOf(args[1].toUpperCase());
 				}
@@ -68,6 +68,9 @@ public class DvZPlugin extends JavaPlugin {
 				if (args.length >= 6) {
 					title = args[5];
 				}
+				if (args.length >= 7) {
+					forceTitle = true;
+				}
 				Map<ConsumableType, Integer> consumables = new HashMap<>();
 				consumables.put(ConsumableType.LAMP, 5);
 				//consumables.put(ConsumableType.SLAB, 5);
@@ -77,7 +80,7 @@ public class DvZPlugin extends JavaPlugin {
 				consumables.put(ConsumableType.WIZARD_MORTAR, 5);
 				consumables.put(ConsumableType.HEAL_STATION, 5);
 				
-				Loadout loadout = new Loadout(title, null, swordType, bow, heal, consumables, armour, null);
+				Loadout loadout = new Loadout(title, forceTitle, null, swordType, bow, heal, consumables, armour, null);
 				
 				boolean success = game.addDwarf(args[0], loadout);
 				

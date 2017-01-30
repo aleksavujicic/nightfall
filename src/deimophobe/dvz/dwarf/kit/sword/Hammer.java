@@ -1,10 +1,11 @@
 package deimophobe.dvz.dwarf.kit.sword;
 
-import deimophobe.dvz.PlayerOrAI;
+import deimophobe.dvz.DamageType;
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
 import deimophobe.dvz.monster.MobManager;
-import deimophobe.dvz.monster.PlayerMonster;
 import deimophobe.dvz.monster.ai.AIManager;
 import org.bukkit.Location;
 
@@ -27,21 +28,22 @@ class Hammer extends Sword {
 	private boolean hasHit = false;
 	private static final double AOE_RADIUS = 2.5;
 	@Override
-	public void onHit(PlayerOrAI monster) {
+	public void onHit(GameEntity monster) {
 		if (hasHit || monster == null) return;
 		
 		hasHit = true;
 		final double monsterDmg = (dwarf.hasProc() ? 20 : 5);
 		final double aiDmg = (dwarf.hasProc() ? 40 : 20);
-		Location center = monster.getEntity().getLocation();
-		for (PlayerMonster playerMonster : MobManager.getManager().getMobs()) {
-			if (playerMonster == monster) continue;
-			if (center.distance(playerMonster.getLocation()) <= AOE_RADIUS)
-				playerMonster.damage(monsterDmg, dwarf);
+		Location center = monster.getLocation();
+		for (MonsterPlayer monsterPlayer : MobManager.getManager().getMobs()) {
+			if (monsterPlayer == monster) continue;
+			if (center.distance(monsterPlayer.getLocation()) <= AOE_RADIUS)
+				monsterPlayer.customDamage(dwarf, DamageType.HAMMER_AOE, monsterDmg);
 		}
 		for (AIEntity ai : AIManager.getManager().getAIs()) {
-			if (center.distance(ai.getEntity().getLocation()) <= AOE_RADIUS)
-				ai.getEntity().damage(aiDmg, dwarf.getPlayer());
+			if (ai == monster) continue;
+			if (center.distance(ai.getLocation()) <= AOE_RADIUS)
+				ai.customDamage(dwarf, DamageType.HAMMER_AOE, aiDmg);
 		}
 		reduceCooldown(20);
 	}
@@ -49,7 +51,7 @@ class Hammer extends Sword {
 	@Override
 	public void update() {
 		hasHit = false;
-		if (!dwarf.getPlayer().isBlocking()) {
+		if (!dwarf.isBlocking()) {
 			if (cooldown > 0)
 				cooldown -= 1;
 		} else {

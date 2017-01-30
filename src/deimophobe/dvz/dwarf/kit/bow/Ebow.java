@@ -4,11 +4,9 @@ import deimophobe.dvz.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MobManager;
-import deimophobe.dvz.monster.PlayerMonster;
+import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
 import deimophobe.dvz.monster.ai.AIManager;
-import deimophobe.dvz.monster.mob.Mob;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -53,7 +51,7 @@ class Ebow extends Bow {
 		}
 		
 		// Calculate collision
-		for (PlayerMonster monster : MobManager.getManager().getMobs()) {
+		for (MonsterPlayer monster : MobManager.getManager().getMobs()) {
 			// Skip if further than distance shot or too close
 			Location monsterLocation = monster.getPlayer().getEyeLocation();
 			double distance = dwarfLocation.distance(monsterLocation);
@@ -65,7 +63,7 @@ class Ebow extends Bow {
 				
 				// If close enough damage mob
 				if (radialOffset <= THICKNESS) {
-					monster.damage(power, dwarf);
+					monster.customDamage(dwarf, DamageType.EBOW, power);
 					
 					// Give procs to nearby dwarves
 					if (distance >= MIN_DISTANCE_FROM_SHOOTER) {
@@ -81,7 +79,7 @@ class Ebow extends Bow {
 		// Same as above but for ais
 		for (AIEntity ai : AIManager.getManager().getAIs()) {
 			// Skip if further than distance shot or too close
-			Location monsterLocation = ai.getEntity().getEyeLocation();
+			Location monsterLocation = ai.getEyeLocation();
 			double distance = dwarfLocation.distance(monsterLocation);
 			if (distance <= range) {
 				// Find if close enough to beam
@@ -91,9 +89,7 @@ class Ebow extends Bow {
 				
 				// If close enough damage mob
 				if (radialOffset <= THICKNESS) {
-					ai.getEntity().damage(power);
-					if (ai.getEntity().isDead())
-						dwarf.onKill(ai, DamageType.BOW);
+					ai.customDamage(dwarf, DamageType.EBOW, power);
 					
 					// Give procs to nearby dwarves
 					if (distance >= MIN_DISTANCE_FROM_SHOOTER) {

@@ -1,7 +1,7 @@
 package deimophobe.dvz.monster.spawnmenu;
 
 import deimophobe.dvz.ItemCreator;
-import deimophobe.dvz.monster.PlayerMonster;
+import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.mob.MobType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;
@@ -65,7 +65,7 @@ class SpawnEgg {
 		return (quantity != 0);
 	}
 	
-	void spawn(PlayerMonster monster) {
+	void spawn(MonsterPlayer monster) {
 		monster.spawnAs(mobTemplate);
 		quantity -= 1;
 	}

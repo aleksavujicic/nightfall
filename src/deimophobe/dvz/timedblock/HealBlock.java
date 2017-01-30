@@ -4,7 +4,7 @@ import deimophobe.dvz.Game;
 import deimophobe.dvz.GamePlayer;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
-import deimophobe.dvz.monster.PlayerMonster;
+import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -27,6 +27,7 @@ public class HealBlock extends TimedBlock {
 	private int hitsLeft = 20;
 	private BukkitRunnable updater;
 	private static final double RANGE = 6;
+	private static final double HEAL_AMT = 5;
 	@Override
 	void onPlace() {
 		updater = new BukkitRunnable() {
@@ -35,7 +36,7 @@ public class HealBlock extends TimedBlock {
 				Location position = block.getLocation();
 				for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 					if (position.distance(dwarf.getLocation()) <= RANGE) {
-						dwarf.healPlayer(5);
+						dwarf.heal(HEAL_AMT);
 					}
 				}
 				position.getWorld().spawnParticle(Particle.HEART, position.add(0.5, 1.5, 0.5), 5, 0.2, 0.3, 0.2);
@@ -51,7 +52,7 @@ public class HealBlock extends TimedBlock {
 	
 	@Override
 	public void onHit(GamePlayer player) {
-		if (player instanceof PlayerMonster) {
+		if (player instanceof MonsterPlayer) {
 			hitsLeft--;
 			if (hitsLeft == 0)
 				cancel();

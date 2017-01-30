@@ -1,12 +1,9 @@
 package deimophobe.dvz.dwarf.kit.bow;
 
-import deimophobe.dvz.PlayerOrAI;
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.monster.PlayerMonster;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.entity.Player;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -26,12 +23,12 @@ class Longbow extends Bow {
 	}
 	
 	@Override
-	public double onHit(PlayerOrAI monster) {
+	public double onHit(GameEntity monster) {
 		return power + stacks*6;
 	}
 	
 	@Override
-	public void onKill(PlayerOrAI monster) {
+	public void onKill(GameEntity monster, boolean b) {
 		stacks += 1;
 		stackCD = MAX_STACK_CD;
 		if (stacks > MAX_STACKS) stacks = MAX_STACKS;

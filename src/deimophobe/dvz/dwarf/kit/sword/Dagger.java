@@ -1,9 +1,10 @@
 package deimophobe.dvz.dwarf.kit.sword;
 
-import deimophobe.dvz.PlayerOrAI;
+import deimophobe.dvz.DamageType;
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MobManager;
-import deimophobe.dvz.monster.PlayerMonster;
+import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.potion.PotionEffect;
@@ -20,13 +21,13 @@ class Dagger extends Sword {
 	}
 	
 	@Override
-	public void onKill(PlayerOrAI monster) {
+	public void onKill(GameEntity monster, boolean b) {
 		reduceCooldown(200);
 	}
 	
 	@Override
-	public void onHit(PlayerOrAI monster) {
-		monster.getEntity().addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 50, 4, true), true);
+	public void onHit(GameEntity monster) {
+		//monster.givePotionEffect(); addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 50, 4, true), true);
 	}
 	
 	private static final double EPSILON = 1;
@@ -36,10 +37,10 @@ class Dagger extends Sword {
 		Location playerLoc = dwarf.getPlayer().getLocation();
 		Vector lookDir = playerLoc.getDirection();
 		
-		PlayerMonster closestMonster = null;
+		MonsterPlayer closestMonster = null;
 		double closestRange = RANGE;
 		double closestOffset = EPSILON;
-		for (PlayerMonster monster : MobManager.getManager().getMobs()) {
+		for (MonsterPlayer monster : MobManager.getManager().getMobs()) {
 			Location testLoc = monster.getPlayer().getLocation();
 			Vector offsetDir = testLoc.subtract(playerLoc).toVector();
 			double distance = offsetDir.length();
@@ -60,7 +61,7 @@ class Dagger extends Sword {
 		if (closestMonster != null) {
 			Location loc = closestMonster.getPlayer().getEyeLocation();
 			
-			closestMonster.damage(200, dwarf);
+			closestMonster.customDamage(dwarf, DamageType.EVISCERATE, 200);
 			loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 20, 0.3, 0.3, 0.3, 1);
 			//world.spigot().playEffect(loc, Effect.COLOURED_DUST, 0, 1, red, green, blue, 1, 0, 64);
 			//world.spawnParticle(Particle.SPELL_INSTANT, ltarget.getEyeLocation(), 1, 0.3, 0.3, 0.3, 0);

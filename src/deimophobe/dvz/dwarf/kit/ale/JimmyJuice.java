@@ -1,9 +1,8 @@
 package deimophobe.dvz.dwarf.kit.ale;
 
 import deimophobe.dvz.DamageType;
-import deimophobe.dvz.PlayerOrAI;
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.monster.PlayerMonster;
 import org.bukkit.event.block.Action;
 
 /**
@@ -15,11 +14,11 @@ class JimmyJuice extends Ale {
 	}
 	
 	@Override
-	public void onGotHit(PlayerOrAI monster, DamageType type, double damage) {
+	public void onGotHit(GameEntity monster, DamageType type, double damage) {
 		double health = dwarf.getPlayer().getHealth();
 		if (health - damage <= 0.1 || health <= 16) {
 			if (useMana()) {
-				dwarf.healPlayerMax();
+				dwarf.healMax();
 				dwarf.playSound("entity.generic.drink", 0.6f, 0.9f, false);
 				dwarf.playSound("entity.experience_orb.pickup", 1f, 1f, false);
 			}

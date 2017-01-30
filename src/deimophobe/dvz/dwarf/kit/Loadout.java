@@ -13,6 +13,7 @@ import java.util.Set;
  */
 public class Loadout {
 	private final String title;
+	private final boolean forceTitle;
 	private final Object hat;
 	
 	private final SwordType swordType;
@@ -23,9 +24,11 @@ public class Loadout {
 	private final ArmourType armour;
 	private final Set<Passive> passives;
 	
+	
 	public String getTitle() {
 		return title;
 	}
+	public boolean forceTitle() { return forceTitle; }
 	public Object getHat() {
 		return hat;
 	}
@@ -33,15 +36,12 @@ public class Loadout {
 	public SwordType getSwordType() {
 		return swordType;
 	}
-	
 	public BowType getBowType() {
 		return bowType;
 	}
-	
 	public AleType getAleType() {
 		return aleType;
 	}
-	
 	public Map<ConsumableType, Integer> getConsumables() {
 		return consumables;
 	}
@@ -49,13 +49,13 @@ public class Loadout {
 	public ArmourType getArmour() {
 		return armour;
 	}
-	
 	public Set<Passive> getPassives() {
 		return passives;
 	}
 	
-	public Loadout(String title, Object hat, SwordType swordType, BowType bowType, AleType aleType, Map<ConsumableType, Integer> consumables, ArmourType armour, Set<Passive> passives) {
+	public Loadout(String title, boolean forceTitle, Object hat, SwordType swordType, BowType bowType, AleType aleType, Map<ConsumableType, Integer> consumables, ArmourType armour, Set<Passive> passives) {
 		this.title = title;
+		this.forceTitle = forceTitle;
 		this.hat = hat;
 		this.swordType = swordType;
 		this.bowType = bowType;

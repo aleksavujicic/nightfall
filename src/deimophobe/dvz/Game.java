@@ -4,7 +4,7 @@ import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MobManager;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.kit.Loadout;
-import deimophobe.dvz.monster.PlayerMonster;
+import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.shrine.Shrine;
 import org.bukkit.Bukkit;
@@ -161,11 +161,11 @@ public class Game {
 		return (dmanager.isDwarf(name) || mmanager.isMob(name));
 	}
 	
-	public GamePlayer getPlayer(Player player) {
-		return getPlayer(player.getName());
+	public GamePlayer getGamePlayer(Player player) {
+		return getGamePlayer(player.getName());
 	}
 	
-	public GamePlayer getPlayer(String name) {
+	public GamePlayer getGamePlayer(String name) {
 		Dwarf dwarf = dmanager.getDwarf(name);
 		
 		if (dwarf != null)
@@ -174,9 +174,9 @@ public class Game {
 			return mmanager.getMob(name);
 	}
 	
-	public PlayerOrAI getPlayerOrAI(Entity entity) {
+	public GameEntity getGameEntity(Entity entity) {
 		if (entity.getType() == EntityType.PLAYER)
-			return getPlayer((Player) entity);
+			return getGamePlayer((Player) entity);
 		
 		return AIManager.getManager().getAI(entity);
 	}
@@ -263,7 +263,7 @@ public class Game {
 		Shrine shrine = getShrine();
 		
 		int mobsOnShrine = 0;
-		for (PlayerMonster monster : mmanager.getMobs()) {
+		for (MonsterPlayer monster : mmanager.getMobs()) {
 			if (shrine.getShrineProtection().containsPlayer(monster)) {
 				if (monster.isAlive() && !monster.getMob().isShrineImmune()) {
 					monster.kill();
@@ -284,7 +284,7 @@ public class Game {
 		
 		for (Dwarf dwarf : dmanager.getDwarves()) {
 			if (shrine.getMobProtection().containsPlayer(dwarf)) {
-				//dwarf.getPlayer().sendMessage(ChatColor.RED + "PLEASE LEAVE MOB SPAWN. DEIMO HASNT DONE STUFF TO MAKE THIS" +
+				//dwarf.getGamePlayer().sendMessage(ChatColor.RED + "PLEASE LEAVE MOB SPAWN. DEIMO HASNT DONE STUFF TO MAKE THIS" +
 				//		" DMG YOU YET. SO INSTEAD YOU WILL BE SPAMMED WITH REALLY REALLY REALLY REALLY LONG MESSAGES LIKE THIS" +
 				//		" ONE. WELL NOT LIKE THIS BUT ACTUALLY ONLY THIS ONE. OVER AND OVER. AND IN ALL CAPS TOO. SO UH YEAH PLEASE LEAVE. KTHXBAI");
 			}
@@ -315,7 +315,7 @@ public class Game {
 				dwarf.repairArmour(1000);
 				dwarf.regenMana(200);
 			}
-			for (PlayerMonster monster : mmanager.getMobs()) {
+			for (MonsterPlayer monster : mmanager.getMobs()) {
 				monster.givePotionEffect(PotionEffectType.SLOW, 220, 3, true, true);
 				monster.givePotionEffect(PotionEffectType.CONFUSION, 220, 1, true, true);
 			}

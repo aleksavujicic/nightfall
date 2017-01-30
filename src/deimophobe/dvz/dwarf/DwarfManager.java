@@ -93,7 +93,7 @@ public class DwarfManager implements Listener {
 		consumables.put(ConsumableType.MORTAR, 5);
 		consumables.put(ConsumableType.WIZARD_MORTAR, 5);
 		consumables.put(ConsumableType.ARMOUR_ITEM, 5);
-		Loadout loadout = new Loadout("Ranger", null, SwordType.GRB, BowType.DRAGONSKIN, AleType.REGROWTH, consumables, ArmourType.STUDDED, Collections.singleton(Passive.QUICKFEET));
+		Loadout loadout = new Loadout("Ranger", false, null, SwordType.GRB, BowType.DRAGONSKIN, AleType.REGROWTH, consumables, ArmourType.STUDDED, Collections.singleton(Passive.QUICKFEET));
 		
 		dwarves.put(name, new Dwarf(player, loadout));
 		dwarfTeam.addEntry(name);
@@ -168,8 +168,9 @@ public class DwarfManager implements Listener {
 		if (!offline.containsKey(name)) return false;
 		
 		Dwarf dwarf = offline.remove(name);
-		dwarf.setPlayer(player);
-		dwarf.setTitle(dwarf.getTitle());
+		//TODO
+		//dwarf.setPlayer(player);
+		//dwarf.setTitle(dwarf.getTitle());
 		dwarves.put(name, dwarf);
 		return true;
 	}

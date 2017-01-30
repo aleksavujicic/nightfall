@@ -1,73 +1,54 @@
 package deimophobe.dvz;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 17/01/17.
  */
-public abstract class GamePlayer implements PlayerOrAI {
-	protected Player player;
-	public void setPlayer(Player player) {
+public abstract class GamePlayer extends GameEntity {
+	protected final Player player;
+	
+	protected GamePlayer(Player player) {
+		super(player);
 		this.player = player;
 	}
+	
 	public Player getPlayer() {
 		return player;
 	}
 	
-	private String title;
-	public void setTitle(String name) {
-		title = name;
-		player.setDisplayName(name);
-	}
-	public String getTitle() {
-		return title;
-	}
 	
+	// ------ TITLE ------
 	@Override
-	public Player getEntity() { return player; }
-	
-	protected GamePlayer(Player player) {
-		this.player = player;
+	public String getDisplayName() {
+		return player.getDisplayName();
 	}
 	
-	public Location getLocation() {
-		return player.getLocation();
-	}
-	
-	public void healPlayer(double amt) {
-		double newHealth = amt + player.getHealth();
-		double maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
-		if (newHealth < maxHealth) {
-			player.setHealth(newHealth);
+	public void setTitle(ChatColor color, String title, boolean force) {
+		if (force) {
+			player.setDisplayName(color + title + ChatColor.RESET);
 		} else {
-			player.setHealth(maxHealth);
+			if (title != null)
+				player.setDisplayName(color + title + " " + player.getName() + ChatColor.RESET);
+			else
+				player.setDisplayName(color + player.getName() + ChatColor.RESET);
 		}
-		player.damage(0);
-	}
-	
-	public void healPlayerMax() {
-		player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
-		player.damage(0);
-	}
-	
-	public void clearInventory() {
-		player.getInventory().clear();
 	}
 	
 	
-	
+	// ------ SOUND ------
 	public final void playSound(String sound, float vol, float pitch, boolean toAll) {
 		if (sound == null) return;
 		
@@ -85,33 +66,8 @@ public abstract class GamePlayer implements PlayerOrAI {
 		playSound(sound, 20, 1, false);
 	}
 	
-	public void givePotionEffect(PotionEffectType type, int duration, int amplifier, boolean ambient, boolean force) {
-		player.addPotionEffect(new PotionEffect(type, duration, amplifier-1, ambient), force);
-	}
 	
-	public void clearEffects() {
-		for (PotionEffect effect : player.getActivePotionEffects()){
-			player.removePotionEffect(effect.getType());
-		}
-	}
-	
-	public void damage(double damage, GamePlayer cause) {
-		player.damage(damage, cause.player);
-	}
-	
-	public void teleportTo(Location loc) {
-		player.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
-	}
-	
-	public String getName() {
-		return player.getName();
-	}
-	
-	@Override
-	public String getDisplayName() {
-		return player.getDisplayName();
-	}
-	
+	// ------ INVENTORY ------
 	public ItemStack getHeldItem() {
 		return player.getInventory().getItemInMainHand();
 	}
@@ -129,39 +85,87 @@ public abstract class GamePlayer implements PlayerOrAI {
 	}
 	public void giveItem(ItemStack item) {giveItem(item,1);}
 	
-	public abstract void onUse(Action action, Block clickedBlock, BlockFace blockFace);
-	public abstract void onShift(boolean sneaking);
-	public abstract Projectile onBowFire(Arrow arrow, float force);
-	public abstract void onArrowLand(Arrow arrow, Block hitBlock);
+	public void clearInventory() {
+		player.getInventory().clear();
+	}
 	
 	
+	
+	
+	
+	
+	// ------ MISC ------
 	public void remove() {
 		clearEffects();
 		clearInventory();
 		player.setDisplayName(player.getName());
 	}
 	
+	// TODO
 	public String generateDeathMsg() {
+		
 		String name = player.getDisplayName();
 		EntityDamageEvent event = player.getLastDamageCause();
 		if (event == null) return name + " died. (event null)";
 		EntityDamageEvent.DamageCause cause = event.getCause();
 		
-		if (event instanceof EntityDamageByEntityEvent) {
+		switch (cause) {
+			case ENTITY_ATTACK:
+			case ENTITY_SWEEP_ATTACK:
+				return name + " was slain by " + getLastDamager().getDisplayName() + ".";
+			case PROJECTILE:
+				return name + " was shot by " + getLastDamager().getDisplayName() + ".";
+				
+			case CUSTOM:
+				return name + " died to custom damage " + getLastDamageType() +  " from " + getLastDamager().getDisplayName() + ".";
+				
+			case POISON:
+			case WITHER:
+				return name + " withered away.";
+				
+			case CONTACT:
+				return name + " was pricked to death.";
+			case DROWNING:
+				return name + " drowned.";
+			case FALL:
+				return name + " fell to their doom.";
+			case VOID:
+				return name + " was swallowed by the abyss.";
+			case HOT_FLOOR:
+				return name + " burnt their feet.";
+			case CRAMMING:
+				return name + " was crushed.";
+			case FALLING_BLOCK:
+				return name + " was squished.";
+			case SUICIDE:
+				return name + " committed sudoku.";
+			case LIGHTNING:
+				return name + " angered the gods.";
+			case LAVA:
+				return name + " tried to swim in lava.";
+			case FIRE:
+			case FIRE_TICK:
+				return name + " couldn't find water.";
+			default:
+				return name + " died. (unknown: "+cause+")";
+		}
+		/*
+		if (cause == EntityDamageEvent.DamageCause.ENTITY_ATTACK || cause == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK) {
+			
 			EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent) event;
 			GameListener.DamageTriplet triplet = new GameListener.DamageTriplet(edbee);
 			
-			PlayerOrAI killer = Game.getGame().getPlayerOrAI(triplet.damager);
+			GameEntity killer = Game.getGame().getGameEntity(triplet.damager);
 			if (killer == null)
 				return name + " died. (killer null)";
-			String killerName = killer.getDisplayName();
+			String killerName = "bob";//killer.getDisplayName();
 			
 			String killMsg;
-			if (triplet.type == DamageType.BOW) {
+			//if (triplet.type) {
 				killMsg = "was shot by";
-			} else  {
-				killMsg = "was slain by";
-			}
+			//} else  {
+			//	killMsg = "was slain by";
+			//}
 			
 			String itemName = "";
 			if (killer instanceof GamePlayer) {
@@ -173,28 +177,25 @@ public abstract class GamePlayer implements PlayerOrAI {
 			return name + " " + killMsg + " " + killerName + itemName;
 		}
 		
-		if (cause == EntityDamageEvent.DamageCause.VOID) {
-			return name + " was swallowed by the abyss.";
-		}
 		
-		if (cause == EntityDamageEvent.DamageCause.WITHER) {
-			return name + " withered away.";
-		}
-		
-		if (cause == EntityDamageEvent.DamageCause.DROWNING) {
-			return name + " drowned.";
-		}
-		
-		if (cause == EntityDamageEvent.DamageCause.CONTACT) {
-			return name + " was pricked to death.";
-		}
-		
-		if (cause == EntityDamageEvent.DamageCause.FALL) {
-			return name + " fell to their doom.";
-		}
+		*/
 		
 		
-		
-		return name + " died. (unknown: "+cause+")";
 	}
+	
+	public boolean isBlocking() {
+		return player.isBlocking();
+	}
+	public Block getTargetBlock(Set<Material> materials, int i) {
+		return player.getTargetBlock(materials, i);
+	}
+	
+	
+	
+	// Abstract methods
+	public abstract void onUse(Action action, Block clickedBlock, BlockFace blockFace);
+	public abstract void onShift(boolean sneaking);
+	public abstract Projectile onBowFire(Arrow arrow, float force);
+	public abstract void onArrowLand(Arrow arrow, Block hitBlock);
+	
 }

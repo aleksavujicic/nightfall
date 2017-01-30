@@ -54,7 +54,7 @@ class Regrowth extends Ale {
 			
 			
 			healee.repairArmour(50);
-			healee.healPlayer(5);
+			healee.heal(5);
 			healee.regenMana(5);
 			return true;
 		}

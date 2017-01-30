@@ -1,6 +1,8 @@
 package deimophobe.dvz.shrine;
 
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.GamePlayer;
+import deimophobe.dvz.monster.ai.AIEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -14,7 +16,7 @@ import org.bukkit.entity.Entity;
 public interface Region {
 	boolean containsLocation(Location loc);
 	default boolean containsPlayer(GamePlayer gamePlayer) {
-		return containsLocation(gamePlayer.getPlayer().getLocation());
+		return containsLocation(gamePlayer.getLocation());
 	}
 	default boolean containsBlock(Block block) {
 		return containsLocation(block.getLocation());
@@ -22,6 +24,7 @@ public interface Region {
 	default boolean continsEntity(Entity entity) {
 		return containsLocation(entity.getLocation());
 	}
+	default boolean continsGameEntity(GameEntity ge) {return containsLocation(ge.getLocation()); }
 	
 	static Region createRegion(ConfigurationSection section) {
 		if (!section.contains("type")) {
@@ -42,5 +45,4 @@ public interface Region {
 				return null;
 		}
 	}
-	
 }

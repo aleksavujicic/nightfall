@@ -1,6 +1,6 @@
 package deimophobe.dvz.monster;
 
-import deimophobe.dvz.Game;
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
 import deimophobe.dvz.monster.spawnmenu.SpawnManager;
@@ -9,8 +9,6 @@ import org.bukkit.*;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
@@ -28,14 +26,14 @@ public class MobManager {
 	
 	
 	public void setupManager(Plugin plugin) {
-		playerMobs = new HashMap<String, PlayerMonster>();
+		playerMobs = new HashMap<String, MonsterPlayer>();
 		Bukkit.getPluginManager().registerEvents(new MobListener(), plugin);
 		mobConfig = YamlConfiguration.loadConfiguration(plugin.getResource("mobs.yml"));
 		
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				for (PlayerMonster mob : playerMobs.values()) {
+				for (MonsterPlayer mob : playerMobs.values()) {
 					mob.update();
 				}
 			}
@@ -51,7 +49,7 @@ public class MobManager {
 	}
 	
 	
-	private Map<String, PlayerMonster> playerMobs;
+	private Map<String, MonsterPlayer> playerMobs;
 	private Team mobTeam;
 	
 	private Configuration mobConfig;
@@ -65,7 +63,7 @@ public class MobManager {
 		String name = player.getName();
 		if (playerMobs.containsKey(name)) return false;
 		
-		PlayerMonster monster = new PlayerMonster(player);
+		MonsterPlayer monster = new MonsterPlayer(player);
 		playerMobs.put(name, monster);
 		mobTeam.addEntry(name);
 		monster.kill();
@@ -76,12 +74,12 @@ public class MobManager {
 		return addMob(player);
 	}
 	
-	public PlayerMonster getMob(Player player) {
+	public MonsterPlayer getMob(Player player) {
 		if (player == null) return null;
 		return getMob(player.getName());
 	}
 	
-	public PlayerMonster getMob(String name) {
+	public MonsterPlayer getMob(String name) {
 		return playerMobs.get(name);
 	}
 	
@@ -99,7 +97,7 @@ public class MobManager {
 	}
 	
 	public boolean removeMonster(String name) {
-		PlayerMonster monster = playerMobs.remove(name);
+		MonsterPlayer monster = playerMobs.remove(name);
 		if (monster == null) return false;
 		monster.remove();
 		mobTeam.removeEntry(name);
@@ -107,8 +105,15 @@ public class MobManager {
 		return true;
 	}
 	
-	public Collection<PlayerMonster> getMobs() {
+	public Collection<MonsterPlayer> getMobs() {
 		return playerMobs.values();
+	}
+	
+	public Collection<GameEntity> getMobsAndAIs() {
+		Collection<GameEntity> entities = new ArrayList<>();
+		entities.addAll(playerMobs.values());
+		entities.addAll(AIManager.getManager().getAIs());
+		return entities;
 	}
 	
 	
@@ -126,14 +131,14 @@ public class MobManager {
 	//                   ONLINE/OFFLINE MANAGER
 	// --------------------------------------------------------
 	
-	private static final Map<String, PlayerMonster> offline = new HashMap<>();
+	private static final Map<String, MonsterPlayer> offline = new HashMap<>();
 	public boolean goOnline(Player player) {
 		String name = player.getName();
 		if (!offline.containsKey(name)) return false;
 		
-		PlayerMonster monster = offline.remove(name);
-		monster.setPlayer(player);
-		monster.setTitle(monster.getTitle());
+		MonsterPlayer monster = offline.remove(name);
+		//monster.setPlayer(player);
+		//monster.setTitle(monster.getTitle());
 		playerMobs.put(name, monster);
 		monster.kill();
 		return true;
@@ -143,13 +148,8 @@ public class MobManager {
 		String name = player.getName();
 		if (!playerMobs.containsKey(name)) return false;
 		
-		PlayerMonster monster = playerMobs.remove(name);
+		MonsterPlayer monster = playerMobs.remove(name);
 		offline.put(name, monster);
 		return true;
 	}
-	
-	
-	// --------------------------------------------------------
-	//                        SPAWN EGGS
-	// --------------------------------------------------------
 }

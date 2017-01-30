@@ -1,7 +1,7 @@
 package deimophobe.dvz.monster.spawnmenu;
 
 import deimophobe.dvz.Game;
-import deimophobe.dvz.monster.PlayerMonster;
+import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -52,7 +52,7 @@ public class SpawnManager {
 		return (inv.getHolder() == MOB_MENU_HOLDER);
 	}
 	
-	public void spawnMob(int i, PlayerMonster monster) {
+	public void spawnMob(int i, MonsterPlayer monster) {
 		SpawnEgg egg = activeEggs.get(i);
 		if (egg != null && egg.canSpawn())
 			egg.spawn(monster);
