@@ -51,7 +51,9 @@ public class DoomManager {
 	
 	private final Game game = Game.getGame();
 	private boolean isDoom = false;
+	private boolean doomActive = true;
 	private void updateDoom() {
+		if (!doomActive) return;
 		if (!isDoom) {
 			doomTimer--;
 			game.setDoomSidebar(doomTimer);
@@ -85,5 +87,10 @@ public class DoomManager {
 		}
 		dooms.get(doomType).spawnMobs(deadMonsters);
 		occuredDooms.add(doomType);
+	}
+	
+	public boolean toggleDoom() {
+		doomActive = !doomActive;
+		return doomActive;
 	}
 }
