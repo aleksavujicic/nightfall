@@ -31,10 +31,9 @@
 
 
 flamelancer:
-  name: Flamelancer
   title: Flamelancer
 
-  disguiseType: skeleton
+  disguisetype: skeleton
 
   chest:
     material: fire
@@ -70,10 +69,9 @@ flamelancer:
 
 
 witherskele:
-  name: Witherskele
   title: Wither
 
-  disguiseType: wither_skeleton
+  disguisetype: wither_skeleton
 
   chest:
     material: soul_sand
@@ -110,10 +108,9 @@ witherskele:
 
 
 wolf:
-  name: Wolf
   title: Wolverine
 
-  disguiseType: wolf
+  disguisetype: wolf
 
   chest:
     material: leather
@@ -140,10 +137,9 @@ wolf:
 
 
 spiderling:
-  name: Spiderling
   title: Spiderling
 
-  disguiseType: cave_spider
+  disguisetype: cave_spider
 
   chest:
     material: snow_ball
@@ -174,10 +170,9 @@ spiderling:
 
 
 rat:
-  name: Rat
   title: Rat
 
-  disguiseType: silverfish
+  disguisetype: silverfish
 
   chest:
     material: prismarine_crystals
@@ -204,10 +199,9 @@ rat:
 
 
 golem:
-  name: Golem
   title: Golem
 
-  disguiseType: iron_golem
+  disguisetype: iron_golem
 
   chest:
     material: iron_block
@@ -236,10 +230,9 @@ golem:
 
 
 ogre:
-  name: Ogre
   title: Ogre
 
-  disguiseType: pig_zombie
+  disguisetype: pig_zombie
 
   chest:
     material: rotten_flesh
@@ -268,9 +261,11 @@ ogre:
 
 
 krungor:
-  name: Krungor
   title: Krungor
   forcetitle: true
+
+  disguisetype: player
+  playername: kud23
 
   helmet:
     material: gold_helmet

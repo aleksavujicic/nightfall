@@ -19,6 +19,7 @@ public class MobData {
 	final boolean forceTitle;
 	
 	final DisguiseType disguiseType;
+	final String playerDisguise;
 	final ItemStack helmet;
 	final ItemStack chest;
 	final List<ItemStack> items;
@@ -36,11 +37,12 @@ public class MobData {
 		title = section.getString("title");
 		forceTitle = section.getBoolean("forcetitle", false);
 		
-		if (section.contains("disguiseType")) {
-			disguiseType = DisguiseType.valueOf(section.getString("disguiseType").toUpperCase());
+		if (section.contains("disguisetype")) {
+			disguiseType = DisguiseType.valueOf(section.getString("disguisetype").toUpperCase());
 		} else {
 			disguiseType = null;
 		}
+		playerDisguise = section.getString("playername");
 		
 		helmet = ItemCreator.createItem(section.getConfigurationSection("helmet"), Slot.HEAD);
 		chest = ItemCreator.createItem(section.getConfigurationSection("chest"), Slot.CHEST);

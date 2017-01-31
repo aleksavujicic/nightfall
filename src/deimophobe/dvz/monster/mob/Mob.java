@@ -3,10 +3,13 @@ package deimophobe.dvz.monster.mob;
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.monster.MobManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
+import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
+import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -57,7 +60,12 @@ public class Mob {
 		player.setGameMode(GameMode.SURVIVAL);
 		
 		if (mobData.disguiseType != null) {
-			Disguise disguise = new MobDisguise(mobData.disguiseType);
+			Disguise disguise;
+			if (mobData.disguiseType == DisguiseType.PLAYER) {
+				disguise = new PlayerDisguise(mobData.playerDisguise);
+			} else {
+				disguise = new MobDisguise(mobData.disguiseType);
+			}
 			disguise = disguise.setViewSelfDisguise(false);
 			disguise.getWatcher().setCustomNameVisible(false);
 			disguise.getWatcher().setCustomName(ChatColor.DARK_RED + monster.getDisplayName());

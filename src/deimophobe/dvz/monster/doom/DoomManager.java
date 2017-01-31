@@ -45,25 +45,35 @@ public class DoomManager {
 	private void resetDoomTimers() {
 		doomTimer = 30;
 		internalDoomTimer = 10;
+		game.setDoomSidebar(doomTimer);
 	}
 	
 	private final Game game = Game.getGame();
+	private boolean isDoom = false;
 	private void updateDoom() {
-		doomTimer--;
-		if (doomTimer <= 0) {
-			// TODO do only once
-			doomTimer = 0;
-			game.getWorld().setTime(18000);
-			game.setPhase(Phase.DOOM);
+		if (!isDoom) {
+			doomTimer--;
+			game.setDoomSidebar(doomTimer);
+			if (doomTimer <= 0) {
+				doomTimer = 0;
+				game.getWorld().setTime(18000);
+				game.setPhase(Phase.DOOM);
+				isDoom = true;
+			}
+		} else {
 			internalDoomTimer--;
-			//Bukkit.broadcastMessage("DOOM");
 			if (internalDoomTimer <= 0) {
-				spawnDoom(DoomType.KRUNGOR);
+				spawnDoom(nextDoom());
 				resetDoomTimers();
 				game.setPhase(Phase.GAME);
+				isDoom = false;
 			}
 		}
-		game.setDoomSidebar(doomTimer);
+	}
+	
+	private DoomType nextDoom() {
+		int i = new Random().nextInt(dooms.size());
+		return new ArrayList<>(dooms.keySet()).get(i);
 	}
 	
 	private void spawnDoom(DoomType doomType) {
