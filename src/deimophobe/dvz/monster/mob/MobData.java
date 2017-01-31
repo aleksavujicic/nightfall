@@ -4,6 +4,7 @@ import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.monster.MobManager;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -85,9 +86,9 @@ public class MobData {
 		int immuneTime = section.getInt("immunetime", 8);
 		
 		effects = new HashSet<>();
+		effects.add(new PotionEffect(PotionEffectType.NIGHT_VISION, POTION_LENGTH, 0, true, false));
 		if (resLevel != 0) {
 			effects.add(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, POTION_LENGTH, resLevel - 1, true, false));
-			effects.add(new PotionEffect(PotionEffectType.NIGHT_VISION, POTION_LENGTH, 0, true, false));
 		}
 		if (jumpLevel != 0) {
 			effects.add(new PotionEffect(PotionEffectType.JUMP, POTION_LENGTH, jumpLevel - 1, true, false));

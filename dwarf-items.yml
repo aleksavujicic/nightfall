@@ -36,7 +36,7 @@ sword:
     speed: 0.05
   hammer:
     material: shield
-    data: 0
+    data: 1
     name: §bWarhammer
     lore:
      - §6"Take this and battle alongside
@@ -203,8 +203,9 @@ misc:
     lore:
      - Some lore
   stick:
-    material: ink_sack
-    data: 14
+    #material: ink_sack
+    #data: 14
+    material: stick
     name: §bStick
     lore:
      - A stick - what else would it be?

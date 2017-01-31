@@ -279,9 +279,9 @@ ghostblade-base:
     bound: true
     speed: 0.01
 
+  res: 3
   invisible: true
 
-  res: 3
   proccable: true
   arrowres: 0.9
   shred: 20
@@ -310,6 +310,9 @@ gb-dagger:
        - Some lore
       attack: 20
 
+  res: 3
+  invisible: true
+
 gb-runeblade:
   parent: ghostblade-base
 
@@ -321,6 +324,9 @@ gb-runeblade:
       lore:
        - Some lore
       attack: 20
+
+  res: 3
+  invisible: true
 
   proccable: false
 
@@ -336,6 +342,9 @@ gb-axe:
        - Some lore
       attack: 30
 
+  res: 3
+  invisible: true
+
   shred: 30
 
 gb-hammer:
@@ -350,6 +359,9 @@ gb-hammer:
        - Some lore
       attack: 20
       knockback: 10
+
+  res: 3
+  invisible: true
 
 
 krungor:
