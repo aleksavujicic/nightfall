@@ -472,35 +472,6 @@ public class Dwarf extends GamePlayer {
 	
 	
 	
-	public Dwarf getLookingAt(double epsilon, double range) {
-		Location playerLoc = player.getLocation();
-		Vector lookDir = playerLoc.getDirection();
-		
-		Dwarf closestDwarf = null;
-		double closestRange = range;
-		double closestOffset = epsilon;
-		for (Dwarf testDwarf : DwarfManager.getManager().getDwarves()) {
-			if (testDwarf == this) continue;
-			//if (testDwarf.isMaxArmour()) continue;
-			
-			Location testLoc = testDwarf.getLocation();
-			Vector offsetDir = testLoc.subtract(playerLoc).toVector();
-			double distance = offsetDir.length();
-			
-			if (distance > range) continue;
-			
-			double eyeOffset = distance * Math.acos(offsetDir.dot(lookDir) / distance);
-			
-			if (eyeOffset > epsilon) continue;
-			
-			if (distance <= closestRange - 1 || (distance <= closestRange + 1 && eyeOffset <= closestOffset)) {
-				closestDwarf = testDwarf;
-				closestRange = distance;
-				closestOffset = eyeOffset;
-			}
-		}
-		return closestDwarf;
-	}
 	
 	
 	// ------ ITEMS ------

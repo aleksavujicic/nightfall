@@ -17,7 +17,13 @@ public enum MobType {
 	GOLEM("golem"),
 	OGRE("ogre"),
 	
-	KRUNGOR("krungor"), ;
+	GB_DAGGER("gb-dagger"),
+	GB_RUNEBLADE("gb-runeblade"),
+	GB_AXE("gb-axe"),
+	GB_HAMMER("gb-hammer"),
+	
+	KRUNGOR("krungor"),
+	;
 	
 	private final String name;
 	public String getName() {return name;}

@@ -80,7 +80,7 @@ public class AIManager {
 		World world = Game.getGame().getWorld();
 		MobManager mobManager = MobManager.getManager();
 		for (Location spawnSpot : spawnSpots) {
-			if (!canSpawnAI()) continue;
+			if (!canSpawnAI(spawnSpot)) continue;
 			
 			// Create zombie with all right stuff
 			Zombie ai = (Zombie) world.spawnEntity(spawnSpot, EntityType.ZOMBIE);
@@ -95,11 +95,12 @@ public class AIManager {
 		}
 	}
 	
-	private boolean canSpawnAI() {
+	private boolean canSpawnAI(Location spawnSpot) {
 		return  (aisSpawnable &&
 				Game.getGame().getPhase().canAISpawn() &&
 				ais.size() < MAX_AIS &&
-				Math.random() < AI_SPAWN_CHANCE);
+				Math.random() < AI_SPAWN_CHANCE &&
+				!Game.getGame().getShrine().getShrineProtection().containsLocation(spawnSpot));
 	}
 	
 	private final static double SPAWN_THRESHOLD = 1;

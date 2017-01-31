@@ -33,6 +33,7 @@ public class DoomManager {
 		
 		Configuration doomConfig = YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource("doom.yml"));
 		dooms.put(DoomType.KRUNGOR, new Doom(doomConfig.getConfigurationSection("krungor")));
+		dooms.put(DoomType.GHOSTBLADES, new Doom(doomConfig.getConfigurationSection("ghostblades")));
 		
 		new BukkitRunnable() {
 			@Override
@@ -43,8 +44,8 @@ public class DoomManager {
 	}
 	
 	private void resetDoomTimers() {
-		doomTimer = 30;
-		internalDoomTimer = 10;
+		doomTimer = 10;
+		internalDoomTimer = 5;
 		game.setDoomSidebar(doomTimer);
 	}
 	

@@ -97,6 +97,7 @@ public class ItemCreator {
 	}
 	
 	public static List<ItemStack> createItems(ConfigurationSection section, Slot slot) {
+		if (section == null) return null;
 		List<ItemStack> items = new ArrayList<ItemStack>();
 		for (String key : section.getKeys(false)) {
 			items.add(createItem(section.getConfigurationSection(key), slot));

@@ -160,6 +160,11 @@ public class Mob {
 				return new Ogre(monster);
 			case KRUNGOR:
 				return new Krungor(monster);
+			case GB_DAGGER:
+			case GB_RUNEBLADE:
+			case GB_AXE:
+			case GB_HAMMER:
+				return new Ghostblade(monster, type);
 		}
 		Bukkit.getLogger().warning("Unknown mobtype: " + type);
 		return null;

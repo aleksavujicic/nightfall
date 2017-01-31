@@ -1,5 +1,7 @@
 package deimophobe.dvz;
 
+import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.DwarfManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -10,6 +12,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import java.util.Set;
 
@@ -103,8 +106,6 @@ public abstract class GamePlayer extends GameEntity {
 	public String generateDeathMsg() {
 		
 		String name = getDisplayName();
-		String damagerName = getLastDamager().getDisplayName();
-		String itemName = getLastItemName();
 		
 		DamageType type = getLastDamageType();
 		EntityDamageEvent.DamageCause cause = type.getCause();
@@ -160,6 +161,8 @@ public abstract class GamePlayer extends GameEntity {
 				}
 		}
 		
+		String damagerName = getLastDamager().getDisplayName();
+		String itemName = getLastItemName();
 		if (itemName != null)
 			return name + " was " + killMsg + " by " + damagerName + " using " + itemName + ".";
 		else
@@ -175,6 +178,35 @@ public abstract class GamePlayer extends GameEntity {
 	}
 	
 	
+	public Dwarf getLookingAt(double epsilon, double range) {
+		Location playerLoc = player.getLocation();
+		Vector lookDir = playerLoc.getDirection();
+		
+		Dwarf closestDwarf = null;
+		double closestRange = range;
+		double closestOffset = epsilon;
+		for (Dwarf testDwarf : DwarfManager.getManager().getDwarves()) {
+			if (testDwarf == this) continue;
+			//if (testDwarf.isMaxArmour()) continue;
+			
+			Location testLoc = testDwarf.getLocation();
+			Vector offsetDir = testLoc.subtract(playerLoc).toVector();
+			double distance = offsetDir.length();
+			
+			if (distance > range) continue;
+			
+			double eyeOffset = distance * Math.acos(offsetDir.dot(lookDir) / distance);
+			
+			if (eyeOffset > epsilon) continue;
+			
+			if (distance <= closestRange - 1 || (distance <= closestRange + 1 && eyeOffset <= closestOffset)) {
+				closestDwarf = testDwarf;
+				closestRange = distance;
+				closestOffset = eyeOffset;
+			}
+		}
+		return closestDwarf;
+	}
 	
 	// Abstract methods
 	public abstract void onUse(Action action, Block clickedBlock, BlockFace blockFace);

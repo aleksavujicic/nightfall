@@ -265,6 +265,91 @@ ogre:
 
 
 
+ghostblade-base:
+  title: Ghostblade
+
+  chest:
+    material: slime_ball
+    name: Spooky Body
+    lore:
+     - §dSome lore
+     - and more lore
+    health: 60
+    kbresist: true
+    bound: true
+    speed: 0.01
+
+  res: 3
+  proccable: false
+  arrowres: 0.9
+  shred: 20
+  shrineimmune: true
+
+gb-dagger:
+  parent: ghostblade-base
+
+  chest:
+    material: slime_ball
+    name: Spooky Body
+    lore:
+     - §dSome lore
+     - and more lore
+    health: 60
+    kbresist: true
+    bound: true
+    speed: 0.1
+
+  items:
+    item1:
+      material: iron_axe
+      data: 2
+      name: Spooky Dagger
+      lore:
+       - Some lore
+      attack: 20
+
+gb-runeblade:
+  parent: ghostblade-base
+
+  items:
+    item1:
+      material: iron_axe
+      data: 0
+      name: Spooky Blade
+      lore:
+       - Some lore
+      attack: 20
+
+  proccable: true
+
+gb-axe:
+  parent: ghostblade-base
+
+  items:
+    item1:
+      material: iron_axe
+      data: 1
+      name: Spooky Axe
+      lore:
+       - Some lore
+      attack: 30
+
+  shred: 30
+
+gb-hammer:
+  parent: ghostblade-base
+
+  items:
+    item1:
+      material: diamond_pickaxe
+      data: 0
+      name: Spooky Hammer
+      lore:
+       - Some lore
+      attack: 20
+      knockback: 10
+
+
 krungor:
   title: Krungor
   forcetitle: true

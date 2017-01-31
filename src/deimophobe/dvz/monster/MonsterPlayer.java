@@ -8,6 +8,7 @@ import deimophobe.dvz.monster.mob.MobType;
 import deimophobe.dvz.monster.spawnmenu.SpawnManager;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
+import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -54,7 +55,7 @@ public class MonsterPlayer extends GamePlayer {
 		Disguise disguise = DisguiseAPI.getDisguise(player);
 		if (disguise != null) {
 			EntityType entityType = disguise.getType().getEntityType();
-			if (entityType.isAlive()) {
+			if (entityType.isAlive() && entityType != EntityType.PLAYER) {
 				LivingEntity entity = (LivingEntity) player.getWorld().spawnEntity(player.getLocation(), entityType);
 				entity.teleport(player);
 				entity.setVelocity(player.getVelocity());
