@@ -1,5 +1,6 @@
 package deimophobe.dvz.monster.mob;
 
+import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameListener;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.kit.DwarvenItem;
@@ -24,6 +25,11 @@ class Ghostblade extends Mob {
 	public void update() {
 		if (cooldown > 0)
 			cooldown--;
+		
+		if (!isPlayerHoldingItem(0)) {
+			monster.getPlayer().getInventory().setHeldItemSlot(0);
+			monster.customDamage(null, DamageType.NOT_HOLDING_GHOSTBLADE, 4);
+		}
 	}
 	
 	@Override

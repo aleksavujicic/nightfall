@@ -29,8 +29,8 @@ public enum DamageType {
 	
 	NAT_VOID(false, false, false, false, false),
 	
-	INSTA_KILL(false, false, false, false, true)
-	;
+	INSTA_KILL(false, false, false, false, true),
+	NOT_HOLDING_GHOSTBLADE(false, false, false, false, true);
 	
 	private final boolean melee;
 	private final boolean ranged;

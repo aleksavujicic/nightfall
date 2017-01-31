@@ -148,6 +148,9 @@ public abstract class GamePlayer extends GameEntity {
 				return name + " tried to swim in lava.";
 			case NAT_FIRE:
 				return name + " couldn't find water.";
+				
+			case NOT_HOLDING_GHOSTBLADE:
+				return name + " was a bit of a klutz and dropped their blade.";
 			
 			case NAT_VOID:
 				return name + " was swallowed by the abyss.";
