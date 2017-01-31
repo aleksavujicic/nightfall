@@ -149,12 +149,12 @@ public class GameListener implements Listener {
 				case SUFFOCATION:
 					Bukkit.broadcastMessage("Failed to cancel starve/suffocate damage?!");
 					return;
+					
+				case SUICIDE:
 				case VOID:
-					//Bukkit.broadcastMessage(damage + " Void/Starvation/Suffocation damage to " + damagee.getDisplayName());
 					type = DamageType.INSTA_KILL;
 					break;
 				case CUSTOM:
-					//Bukkit.broadcastMessage(damage + " Custom damage to " + damagee.getDisplayName());
 					type = damagee.getLastDamageType();
 					damager = damagee.getLastDamager();
 					break;
@@ -177,14 +177,12 @@ public class GameListener implements Listener {
 				case ENTITY_SWEEP_ATTACK:
 					type = DamageType.REGULAR_MELEE;
 					damager = game.getGameEntity( ((EntityDamageByEntityEvent) event).getDamager() );
-					damagee.registerNonCustomDamage(damager, type);
 					break;
 					
 				case PROJECTILE:
 					type = DamageType.REGULAR_RANGED;
 					Projectile proj = (Projectile) ((EntityDamageByEntityEvent) event).getDamager();
 					damager = game.getGameEntity((Entity) proj.getShooter());
-					damagee.registerNonCustomDamage(damager, type);
 					break;
 					
 				case POISON:
@@ -192,12 +190,12 @@ public class GameListener implements Listener {
 					type = DamageType.POISON;
 					break;
 					
-				case SUICIDE:
-					//TODO
-					break;
 				default:
 					break;
 			}
+			type.setCause(cause);
+			if (cause != EntityDamageEvent.DamageCause.CUSTOM)
+				damagee.registerNonCustomDamage(damager, type);
 			//if (damager != null)
 			//	Bukkit.broadcastMessage(damage + " damage type " + cause + " to " + damagee.getName() + " by " + damager.getName());
 			//else
@@ -247,7 +245,7 @@ public class GameListener implements Listener {
 			// Kill detection for monsters and AIs
 			if (damagee instanceof MonsterPlayer || damagee instanceof  AIEntity) {
 				double dmg = event.getFinalDamage();
-				if (damagee.getHealth() - dmg <= 0.1) {
+				if (damagee.getHealth() - dmg <= 0.1 || type == DamageType.INSTA_KILL) {
 					
 					// Prevent killing a monster and set to spectator instead
 					if (damagee instanceof MonsterPlayer) {

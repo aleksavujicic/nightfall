@@ -1,5 +1,7 @@
 package deimophobe.dvz;
 
+import org.bukkit.event.entity.EntityDamageEvent;
+
 /**
  * Created by Deimophobe on 20/01/17.
  */
@@ -19,6 +21,7 @@ public enum DamageType {
 	private final boolean natural;
 	private final boolean poison;
 	private final boolean custom;
+	private EntityDamageEvent.DamageCause cause;
 	
 	public boolean isMelee() {
 		return melee;
@@ -46,5 +49,13 @@ public enum DamageType {
 		this.natural = natural;
 		this.poison = poison;
 		this.custom = custom;
+	}
+	
+	public void setCause(EntityDamageEvent.DamageCause cause) {
+		this.cause = cause;
+	}
+	
+	public EntityDamageEvent.DamageCause getCause() {
+		return cause;
 	}
 }

@@ -77,18 +77,25 @@ public abstract class GameEntity {
 	// ------ DAMAGE ------
 	private GameEntity lastDamager;
 	private DamageType lastDamageType;
+	private String lastItemName;
 	
 	public GameEntity getLastDamager() {
 		return lastDamager;
 	}
-	
 	public DamageType getLastDamageType() {
 		return lastDamageType;
+	}
+	public String getLastItemName() {
+		return lastItemName;
 	}
 	
 	public void customDamage(GameEntity damager, DamageType type, double damage) {
 		lastDamager = damager;
 		lastDamageType = type;
+		if (damager instanceof GamePlayer)
+			lastItemName = ((GamePlayer) damager).getHeldItem().getItemMeta().getDisplayName();
+		else
+			lastItemName = null;
 		
 		if (!type.isCustom())
 			Bukkit.getLogger().warning("Forcing custom damage that is not of custom type?!");
@@ -99,6 +106,10 @@ public abstract class GameEntity {
 	public void registerNonCustomDamage(GameEntity damager, DamageType type) {
 		lastDamager = damager;
 		lastDamageType = type;
+		if (damager instanceof GamePlayer)
+			lastItemName = ((GamePlayer) damager).getHeldItem().getItemMeta().getDisplayName();
+		else
+			lastItemName = null;
 		
 		if (type.isCustom())
 			Bukkit.getLogger().warning("Registering damage that is of custom type?!");

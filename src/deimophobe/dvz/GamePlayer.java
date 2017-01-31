@@ -8,7 +8,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -101,85 +100,70 @@ public abstract class GamePlayer extends GameEntity {
 		player.setDisplayName(player.getName());
 	}
 	
-	// TODO
 	public String generateDeathMsg() {
 		
-		String name = player.getDisplayName();
-		EntityDamageEvent event = player.getLastDamageCause();
-		if (event == null) return name + " died. (event null)";
-		EntityDamageEvent.DamageCause cause = event.getCause();
+		String name = getDisplayName();
+		String damagerName = getLastDamager().getDisplayName();
+		String itemName = getLastItemName();
 		
-		switch (cause) {
-			case ENTITY_ATTACK:
-			case ENTITY_SWEEP_ATTACK:
-				return name + " was slain by " + getLastDamager().getDisplayName() + ".";
-			case PROJECTILE:
-				return name + " was shot by " + getLastDamager().getDisplayName() + ".";
-				
-			case CUSTOM:
-				return name + " died to custom damage " + getLastDamageType() +  " from " + getLastDamager().getDisplayName() + ".";
+		DamageType type = getLastDamageType();
+		EntityDamageEvent.DamageCause cause = type.getCause();
+		
+		String killMsg = null;
+		
+		switch (type) {
+			case HAMMER_AOE:
+			case REGULAR_MELEE:
+				killMsg = "slain";
+				break;
+			case REGULAR_RANGED:
+				killMsg = "shot";
+				break;
+			case EBOW:
+				killMsg = "pierced";
+				break;
+			case EVISCERATE:
+				killMsg = "eviscerated";
+				break;
 				
 			case POISON:
-			case WITHER:
 				return name + " withered away.";
 				
-			case CONTACT:
-				return name + " was pricked to death.";
-			case DROWNING:
-				return name + " drowned.";
-			case FALL:
-				return name + " fell to their doom.";
-			case VOID:
-				return name + " was swallowed by the abyss.";
-			case HOT_FLOOR:
-				return name + " burnt their feet.";
-			case CRAMMING:
-				return name + " was crushed.";
-			case FALLING_BLOCK:
-				return name + " was squished.";
-			case SUICIDE:
-				return name + " committed sudoku.";
-			case LIGHTNING:
-				return name + " angered the gods.";
-			case LAVA:
-				return name + " tried to swim in lava.";
-			case FIRE:
-			case FIRE_TICK:
-				return name + " couldn't find water.";
-			default:
-				return name + " died. (unknown: "+cause+")";
-		}
-		/*
-		if (cause == EntityDamageEvent.DamageCause.ENTITY_ATTACK || cause == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK) {
-			
-			EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent) event;
-			GameListener.DamageTriplet triplet = new GameListener.DamageTriplet(edbee);
-			
-			GameEntity killer = Game.getGame().getGameEntity(triplet.damager);
-			if (killer == null)
-				return name + " died. (killer null)";
-			String killerName = "bob";//killer.getDisplayName();
-			
-			String killMsg;
-			//if (triplet.type) {
-				killMsg = "was shot by";
-			//} else  {
-			//	killMsg = "was slain by";
-			//}
-			
-			String itemName = "";
-			if (killer instanceof GamePlayer) {
-				ItemStack item = ((GamePlayer) killer).getHeldItem();
-				if (item != null && item.getItemMeta() != null && item.getItemMeta().hasDisplayName()) {
-					itemName = " using " + item.getItemMeta().getDisplayName();
+			case NATURAL:
+			case INSTA_KILL:
+				switch (type.getCause()) {
+					case CONTACT:
+						return name + " was pricked to death.";
+					case DROWNING:
+						return name + " drowned.";
+					case FALL:
+						return name + " fell to their doom.";
+					case VOID:
+						return name + " was swallowed by the abyss.";
+					case HOT_FLOOR:
+						return name + " burnt their feet.";
+					case CRAMMING:
+						return name + " was crushed.";
+					case FALLING_BLOCK:
+						return name + " was squished.";
+					case SUICIDE:
+						return name + " committed sudoku.";
+					case LIGHTNING:
+						return name + " angered the gods.";
+					case LAVA:
+						return name + " tried to swim in lava.";
+					case FIRE:
+					case FIRE_TICK:
+						return name + " couldn't find water.";
+					default:
+						return name + " died. (unknown? : "+cause+")";
 				}
-			}
-			return name + " " + killMsg + " " + killerName + itemName;
 		}
 		
-		
-		*/
-		
+		if (itemName != null)
+			return name + " was " + killMsg + " by " + damagerName + " using " + itemName + ".";
+		else
+			return name + " was " + killMsg + " by " + damagerName + ".";
 		
 	}
 	
