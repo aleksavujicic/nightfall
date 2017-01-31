@@ -117,6 +117,7 @@ public class AIManager {
 	
 	public boolean toggleAISpawn() {
 		aisSpawnable = !aisSpawnable;
+		killAllAIs();
 		return aisSpawnable;
 	}
 	
