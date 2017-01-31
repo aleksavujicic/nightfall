@@ -13,6 +13,9 @@ commands:
   horn:
     usage: /horn
     description: HRON
+  trash:
+    description: For deleting your duplicate items
+    aliases: fawn
   toggleais:
     usage: /toggleais
     description: Enables/disables AI spawning

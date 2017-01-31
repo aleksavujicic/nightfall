@@ -1,5 +1,7 @@
 package deimophobe.dvz;
 
+import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.kit.ArmourType;
 import deimophobe.dvz.dwarf.kit.Loadout;
 import deimophobe.dvz.dwarf.kit.ale.AleType;
@@ -11,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
@@ -138,6 +141,17 @@ public class DvZPlugin extends JavaPlugin {
 		if (name.equalsIgnoreCase("horn")) {
 			game.tootHorn();
 			return true;
+		}
+		if (name.equalsIgnoreCase("trash")) {
+			if (sender instanceof Player) {
+				Dwarf dwarf = DwarfManager.getManager().getDwarf((Player)sender);
+				if (dwarf != null)
+					dwarf.showTrash();
+				
+				return true;
+			} else {
+				return false;
+			}
 		}
 		return false;
 	}

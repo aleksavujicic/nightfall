@@ -24,6 +24,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -223,6 +224,10 @@ public class Dwarf extends GamePlayer {
 		giveItem(cobble, 3);
 		if (kit.hasAndIsHoldingTM() && Game.getGame().getPhase().canGravelProc())
 			giveProc(ProcType.GRAVEL_PROC);
+	}
+	
+	public void showTrash() {
+		player.openInventory(Bukkit.createInventory(null, 9, ChatColor.DARK_RED + "---------- TRASH ----------"));
 	}
 	
 	
