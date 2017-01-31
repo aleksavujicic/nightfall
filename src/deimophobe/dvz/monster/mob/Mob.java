@@ -145,7 +145,9 @@ public class Mob {
 			case FLAMELANCER:
 				return new Flamelancer(monster);
 			case WOLF:
-				return new Wolf(monster);
+				return new Wolf(monster, false);
+			case DIREWOLF:
+				return new Wolf(monster, true);
 			case SPIDERLING:
 				return new Spiderling(monster);
 			case SWAMMIE:

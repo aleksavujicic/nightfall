@@ -20,8 +20,18 @@ class Wolf extends Mob {
 	private static final int LEAP_MAX_CD = 140;
 	private int leapCd = 0;
 	
-	Wolf(MonsterPlayer monster) {
-		super(monster, MobType.WOLF);
+	private final boolean dire;
+	Wolf(MonsterPlayer monster, boolean dire) {
+		super(monster, (dire ? MobType.DIREWOLF : MobType.WOLF ));
+		this.dire = dire;
+		
+		Disguise disguise = getDisguise();
+		FlagWatcher watcher = disguise.getWatcher();
+		if (watcher instanceof WolfWatcher) {
+			((WolfWatcher) watcher).setAngry(dire);
+		} else {
+			Bukkit.getLogger().warning("Wolf not disguised as wolf?");
+		}
 	}
 	
 	@Override

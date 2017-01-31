@@ -48,4 +48,6 @@ class Doom {
 		int i = new Random().nextInt(regularMobs.size());
 		return regularMobs.get(i);
 	}
+	
+	void onSpawn() {}
 }

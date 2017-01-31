@@ -135,6 +135,11 @@ wolf:
   arrowres: 0
   shred: 20
 
+direwolf:
+  parent: wolf
+  title: Dire
+  proccable: false
+
 
 spiderling:
   title: Spiderling

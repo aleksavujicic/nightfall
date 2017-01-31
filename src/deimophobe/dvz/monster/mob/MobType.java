@@ -10,13 +10,14 @@ public enum MobType {
 	WITHERSKELE("witherskele"),
 	FLAMELANCER("flamelancer"),
 	WOLF("wolf"),
+	DIREWOLF("direwolf"),
 	SPIDERLING("spiderling"),
 	SWAMMIE("swammie"),
 	RAT("rat"),
 	GOLEM("golem"),
 	OGRE("ogre"),
 	
-	KRUNGOR("krungor"),;
+	KRUNGOR("krungor"), ;
 	
 	private final String name;
 	public String getName() {return name;}

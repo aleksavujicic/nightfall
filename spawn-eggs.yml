@@ -25,6 +25,16 @@ wolf:
   chance: 0.1
   index: 12
 
+direwolf:
+  mobtype: direwolf
+  egg:
+    material: iron_axe
+    data: 104
+    name: Spawn Dire
+  quantity: 1
+  chance: 0.1
+  index: 21
+
 spiderling:
   mobtype: spiderling
   egg:
