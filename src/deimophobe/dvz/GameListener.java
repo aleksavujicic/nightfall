@@ -85,6 +85,7 @@ public class GameListener implements Listener {
 			gp.onUse(event.getAction(), block, event.getBlockFace());
 			TimedBlock.hitBlock(block, gp);
 		}
+		event.setCancelled(true);
 	}
 	
 	@EventHandler
