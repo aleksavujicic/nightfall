@@ -279,8 +279,10 @@ ghostblade-base:
     bound: true
     speed: 0.01
 
+  invisible: true
+
   res: 3
-  proccable: false
+  proccable: true
   arrowres: 0.9
   shred: 20
   shrineimmune: true
@@ -320,7 +322,7 @@ gb-runeblade:
        - Some lore
       attack: 20
 
-  proccable: true
+  proccable: false
 
 gb-axe:
   parent: ghostblade-base

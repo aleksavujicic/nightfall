@@ -150,27 +150,32 @@ public class GameListener implements Listener {
 					return;
 					
 				case SUICIDE:
-				case VOID:
 					type = DamageType.INSTA_KILL;
+					break;
+				case VOID:
+					type = DamageType.NAT_VOID;
 					break;
 				case CUSTOM:
 					type = damagee.getLastDamageType();
 					damager = damagee.getLastDamager();
 					break;
 				
-				case CONTACT:
-				case FALL:
+				case CONTACT: type = DamageType.NAT_CONTACT; break;
+				case DROWNING: type = DamageType.NAT_DROWNING; break;
+				case FALL: type = DamageType.NAT_FALL; break;
+				case HOT_FLOOR: type = DamageType.NAT_HOT_FLOOR; break;
+				case CRAMMING: type = DamageType.NAT_CRAMMING; break;
+				case FALLING_BLOCK: type = DamageType.NAT_FALLING_BLOCK; break;
+				case LIGHTNING: type = DamageType.NAT_LIGHTNING; break;
+				case LAVA: type = DamageType.NAT_LAVA; break;
+				
 				case FIRE:
 				case FIRE_TICK:
-				case LAVA:
-				case DROWNING:
+					type = DamageType.NAT_HOT_FLOOR; break;
+				
 				case BLOCK_EXPLOSION:
 				case ENTITY_EXPLOSION:
-				case LIGHTNING:
-				case FALLING_BLOCK:
-				case HOT_FLOOR:
-					type = DamageType.NATURAL;
-					break;
+					type = DamageType.EXPLOSION; break;
 					
 				case ENTITY_ATTACK:
 				case ENTITY_SWEEP_ATTACK:
@@ -192,7 +197,6 @@ public class GameListener implements Listener {
 				default:
 					break;
 			}
-			type.setCause(cause);
 			if (cause != EntityDamageEvent.DamageCause.CUSTOM)
 				damagee.registerNonCustomDamage(damager, type);
 			//if (damager != null)
@@ -244,7 +248,7 @@ public class GameListener implements Listener {
 			// Kill detection for monsters and AIs
 			if (damagee instanceof MonsterPlayer || damagee instanceof  AIEntity) {
 				double dmg = event.getFinalDamage();
-				if (damagee.getHealth() - dmg <= 0.1 || type == DamageType.INSTA_KILL) {
+				if (damagee.getHealth() - dmg <= 0.1 || type == DamageType.INSTA_KILL || type == DamageType.NAT_VOID) {
 					
 					// Prevent killing a monster and set to spectator instead
 					if (damagee instanceof MonsterPlayer) {

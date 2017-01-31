@@ -8,11 +8,27 @@ import org.bukkit.event.entity.EntityDamageEvent;
 public enum DamageType {
 	REGULAR_MELEE(true, false, false, false, false),
 	REGULAR_RANGED(false, true, false, false, false),
-	NATURAL(false, false, true, false, false),
+	
 	POISON(false, false, false, true, false),
+	
 	EBOW(false, true, false, false, true),
 	HAMMER_AOE(true, false, false, false, true),
 	EVISCERATE(true, false, false, false, true),
+	
+	EXPLOSION(false, false, false, false, true),
+	
+	NAT_CONTACT(false, false, true, false, false),
+	NAT_DROWNING(false, false, true, false, false),
+	NAT_FALL(false, false, true, false, false),
+	NAT_HOT_FLOOR(false, false, true, false, false),
+	NAT_CRAMMING(false, false, true, false, false),
+	NAT_FALLING_BLOCK(false, false, true, false, false),
+	NAT_LIGHTNING(false, false, true, false, false),
+	NAT_LAVA(false, false, true, false, false),
+	NAT_FIRE(false, false, true, false, false),
+	
+	NAT_VOID(false, false, false, false, false),
+	
 	INSTA_KILL(false, false, false, false, true)
 	;
 	
@@ -21,7 +37,6 @@ public enum DamageType {
 	private final boolean natural;
 	private final boolean poison;
 	private final boolean custom;
-	private EntityDamageEvent.DamageCause cause;
 	
 	public boolean isMelee() {
 		return melee;
@@ -49,13 +64,5 @@ public enum DamageType {
 		this.natural = natural;
 		this.poison = poison;
 		this.custom = custom;
-	}
-	
-	public void setCause(EntityDamageEvent.DamageCause cause) {
-		this.cause = cause;
-	}
-	
-	public EntityDamageEvent.DamageCause getCause() {
-		return cause;
 	}
 }

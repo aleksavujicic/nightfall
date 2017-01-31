@@ -81,6 +81,7 @@ public class MobData {
 		int resLevel = section.getInt("res", 3);
 		int jumpLevel = section.getInt("jump", 0);
 		boolean slowDig = section.getBoolean("slowdig", false);
+		boolean invisible = section.getBoolean("invisible", false);
 		int immuneTime = section.getInt("immunetime", 8);
 		
 		effects = new HashSet<>();
@@ -93,6 +94,9 @@ public class MobData {
 		}
 		if (slowDig) {
 			effects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, POTION_LENGTH, 3, true, false));
+		}
+		if (invisible) {
+			effects.add(new PotionEffect(PotionEffectType.INVISIBILITY, POTION_LENGTH, 0, true, false));
 		}
 		if (immuneTime != 0) {
 			effects.add(new PotionEffect(PotionEffectType.LUCK, immuneTime*20, 0));

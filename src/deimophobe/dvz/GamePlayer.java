@@ -108,7 +108,6 @@ public abstract class GamePlayer extends GameEntity {
 		String name = getDisplayName();
 		
 		DamageType type = getLastDamageType();
-		EntityDamageEvent.DamageCause cause = type.getCause();
 		
 		String killMsg = null;
 		
@@ -129,36 +128,32 @@ public abstract class GamePlayer extends GameEntity {
 				
 			case POISON:
 				return name + " withered away.";
+			
+			
+			case NAT_CONTACT:
+				return name + " was pricked to death.";
+			case NAT_DROWNING:
+				return name + " drowned.";
+			case NAT_FALL:
+				return name + " fell to their doom.";
+			case NAT_HOT_FLOOR:
+				return name + " burnt their feet.";
+			case NAT_CRAMMING:
+				return name + " was crushed.";
+			case NAT_FALLING_BLOCK:
+				return name + " was squished.";
+			case NAT_LIGHTNING:
+				return name + " angered the gods.";
+			case NAT_LAVA:
+				return name + " tried to swim in lava.";
+			case NAT_FIRE:
+				return name + " couldn't find water.";
+			
+			case NAT_VOID:
+				return name + " was swallowed by the abyss.";
 				
-			case NATURAL:
 			case INSTA_KILL:
-				switch (type.getCause()) {
-					case CONTACT:
-						return name + " was pricked to death.";
-					case DROWNING:
-						return name + " drowned.";
-					case FALL:
-						return name + " fell to their doom.";
-					case VOID:
-						return name + " was swallowed by the abyss.";
-					case HOT_FLOOR:
-						return name + " burnt their feet.";
-					case CRAMMING:
-						return name + " was crushed.";
-					case FALLING_BLOCK:
-						return name + " was squished.";
-					case SUICIDE:
-						return name + " committed sudoku.";
-					case LIGHTNING:
-						return name + " angered the gods.";
-					case LAVA:
-						return name + " tried to swim in lava.";
-					case FIRE:
-					case FIRE_TICK:
-						return name + " couldn't find water.";
-					default:
-						return name + " died. (unknown? : "+cause+")";
-				}
+				return name + " died.";
 		}
 		
 		String damagerName = getLastDamager().getDisplayName();
