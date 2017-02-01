@@ -122,13 +122,12 @@ public class MonsterPlayer extends GamePlayer {
 	
 	@Override
 	public double onGotHit(GameEntity gameEntity, DamageType type, double damage) {
-		if (gameEntity == null || type == null) return damage;
-		
 		// Spawn protection
 		if (player.hasPotionEffect(PotionEffectType.LUCK)) {
 			return -1;
 		}
 		
+		Bukkit.broadcastMessage("IS IMMUNE" + type.isMobImmune());
 		if (type.isMobImmune())
 			return -1;
 		
