@@ -20,16 +20,19 @@ public class AIEntity extends GameEntity {
 	
 	@Override
 	public double onHit(GameEntity entity, DamageType type, double damage) {
-		if (entity == null || type == null) return damage;
-		((Dwarf) entity).damageArmour(10);
-		return 15;
+		if (entity instanceof  Dwarf) {
+			((Dwarf) entity).damageArmour(10);
+			return 15;
+		} else {
+			return damage;
+		}
 	}
 	
 	@Override
 	public double onGotHit(GameEntity entity, DamageType type, double damage) {
 		if (entity == null || type == null) return damage;
 		
-		if (type.isNatural()) return 0;
+		if (type.isMobImmune()) return -1;
 		
 		if (type.isMelee()) damage *= 1d/5;
 		if (type.isRanged()) damage *= 1d/2;

@@ -109,7 +109,7 @@ public abstract class GamePlayer extends GameEntity {
 		
 		DamageType type = getLastDamageType();
 		
-		String killMsg = null;
+		String killMsg;
 		
 		switch (type) {
 			case HAMMER_AOE:
@@ -130,32 +130,36 @@ public abstract class GamePlayer extends GameEntity {
 				return name + " withered away.";
 			
 			
-			case NAT_CONTACT:
+			case CONTACT:
 				return name + " was pricked to death.";
-			case NAT_DROWNING:
+			case DROWNING:
 				return name + " drowned.";
-			case NAT_FALL:
+			case FALL:
 				return name + " fell to their doom.";
-			case NAT_HOT_FLOOR:
+			case HOT_FLOOR:
 				return name + " burnt their feet.";
-			case NAT_CRAMMING:
+			case CRAMMING:
 				return name + " was crushed.";
-			case NAT_FALLING_BLOCK:
+			case FALLING_BLOCK:
 				return name + " was squished.";
-			case NAT_LIGHTNING:
+			case LIGHTNING:
 				return name + " angered the gods.";
-			case NAT_LAVA:
+			case LAVA:
 				return name + " tried to swim in lava.";
-			case NAT_FIRE:
+			case FIRE:
 				return name + " couldn't find water.";
 				
 			case NOT_HOLDING_GHOSTBLADE:
 				return name + " was a bit of a klutz and dropped their blade.";
 			
-			case NAT_VOID:
+			case VOID:
 				return name + " was swallowed by the abyss.";
+			case SEPUKKU:
+				return name + " committed sudoku.";
+			case SHRINE_PROTECTION:
+				return name + " was zapped by lightning.";
 				
-			case INSTA_KILL:
+			default:
 				return name + " died.";
 		}
 		

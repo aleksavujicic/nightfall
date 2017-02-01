@@ -1,42 +1,41 @@
 package deimophobe.dvz;
 
-import org.bukkit.event.entity.EntityDamageEvent;
-
 /**
  * Created by Deimophobe on 20/01/17.
  */
 public enum DamageType {
-	REGULAR_MELEE(true, false, false, false, false),
-	REGULAR_RANGED(false, true, false, false, false),
+	REGULAR_MELEE(true, false, false, false, false, false),
+	REGULAR_RANGED(false, true, false, false, false, false),
 	
-	POISON(false, false, false, true, false),
+	POISON(false, false, false, true, false, false),
 	
-	EBOW(false, true, false, false, true),
-	HAMMER_AOE(true, false, false, false, true),
-	EVISCERATE(true, false, false, false, true),
+	EXPLOSION(false, false, false, false, true, false),
 	
-	EXPLOSION(false, false, false, false, true),
+	CONTACT(false, false, true, false, false, false),
+	DROWNING(false, false, true, false, false, false),
+	FALL(false, false, true, false, false, false),
+	HOT_FLOOR(false, false, true, false, false, false),
+	CRAMMING(false, false, true, false, false, false),
+	FALLING_BLOCK(false, false, true, false, false, false),
+	LIGHTNING(false, false, true, false, false, false),
+	LAVA(false, false, true, false, false, false),
+	FIRE(false, false, true, false, false, false),
 	
-	NAT_CONTACT(false, false, true, false, false),
-	NAT_DROWNING(false, false, true, false, false),
-	NAT_FALL(false, false, true, false, false),
-	NAT_HOT_FLOOR(false, false, true, false, false),
-	NAT_CRAMMING(false, false, true, false, false),
-	NAT_FALLING_BLOCK(false, false, true, false, false),
-	NAT_LIGHTNING(false, false, true, false, false),
-	NAT_LAVA(false, false, true, false, false),
-	NAT_FIRE(false, false, true, false, false),
+	VOID(false, false, false, false, false, false),
+	SEPUKKU(false, false, false, false, true, false),
+	SHRINE_PROTECTION(false, false, false, false, true, false),
 	
-	NAT_VOID(false, false, false, false, false),
-	
-	INSTA_KILL(false, false, false, false, true),
-	NOT_HOLDING_GHOSTBLADE(false, false, false, false, true);
+	EBOW(false, true, false, false, true, false),
+	HAMMER_AOE(true, false, false, false, true, false),
+	EVISCERATE(true, false, false, false, true, false),
+	NOT_HOLDING_GHOSTBLADE(false, false, false, false, true, false);
 	
 	private final boolean melee;
 	private final boolean ranged;
-	private final boolean natural;
+	private final boolean mobImmune;
 	private final boolean poison;
 	private final boolean custom;
+	private final boolean instaKill;
 	
 	public boolean isMelee() {
 		return melee;
@@ -46,8 +45,8 @@ public enum DamageType {
 		return ranged;
 	}
 	
-	public boolean isNatural() {
-		return natural;
+	public boolean isMobImmune() {
+		return mobImmune;
 	}
 	
 	public boolean isPoison() {
@@ -58,11 +57,16 @@ public enum DamageType {
 		return custom;
 	}
 	
-	DamageType(boolean melee, boolean ranged, boolean natural, boolean poison, boolean custom) {
+	public boolean isInstaKill() {
+		return instaKill;
+	}
+	
+	DamageType(boolean melee, boolean ranged, boolean mobImmune, boolean poison, boolean custom, boolean instaKill) {
 		this.melee = melee;
 		this.ranged = ranged;
-		this.natural = natural;
+		this.mobImmune = mobImmune;
 		this.poison = poison;
 		this.custom = custom;
+		this.instaKill = instaKill;
 	}
 }

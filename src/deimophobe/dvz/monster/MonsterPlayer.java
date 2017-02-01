@@ -121,13 +121,15 @@ public class MonsterPlayer extends GamePlayer {
 	}
 	
 	@Override
-	public double onGotHit(GameEntity gamePlayer, DamageType type, double damage) {
+	public double onGotHit(GameEntity gameEntity, DamageType type, double damage) {
+		if (gameEntity == null || type == null) return damage;
+		
 		// Spawn protection
 		if (player.hasPotionEffect(PotionEffectType.LUCK)) {
 			return -1;
 		}
 		
-		if (type.isNatural())
+		if (type.isMobImmune())
 			return -1;
 		
 		if (type.isPoison())
@@ -138,8 +140,8 @@ public class MonsterPlayer extends GamePlayer {
 		
 		
 		if (mob != null) {
-			if (gamePlayer instanceof Dwarf) {
-				return mob.onGotHit((Dwarf) gamePlayer, type, damage);
+			if (gameEntity instanceof Dwarf) {
+				return mob.onGotHit((Dwarf) gameEntity, type, damage);
 			} else {
 				Bukkit.getLogger().warning("GameEntity in onGotHit should be a Dwarf");
 				return damage;

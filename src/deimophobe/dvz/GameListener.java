@@ -149,29 +149,26 @@ public class GameListener implements Listener {
 					Bukkit.broadcastMessage("Failed to cancel starve/suffocate damage?!");
 					return;
 					
-				case SUICIDE:
-					type = DamageType.INSTA_KILL;
-					break;
 				case VOID:
-					type = DamageType.NAT_VOID;
+					type = DamageType.VOID;
 					break;
 				case CUSTOM:
 					type = damagee.getLastDamageType();
 					damager = damagee.getLastDamager();
 					break;
 				
-				case CONTACT: type = DamageType.NAT_CONTACT; break;
-				case DROWNING: type = DamageType.NAT_DROWNING; break;
-				case FALL: type = DamageType.NAT_FALL; break;
-				case HOT_FLOOR: type = DamageType.NAT_HOT_FLOOR; break;
-				case CRAMMING: type = DamageType.NAT_CRAMMING; break;
-				case FALLING_BLOCK: type = DamageType.NAT_FALLING_BLOCK; break;
-				case LIGHTNING: type = DamageType.NAT_LIGHTNING; break;
-				case LAVA: type = DamageType.NAT_LAVA; break;
+				case CONTACT: type = DamageType.CONTACT; break;
+				case DROWNING: type = DamageType.DROWNING; break;
+				case FALL: type = DamageType.FALL; break;
+				case HOT_FLOOR: type = DamageType.HOT_FLOOR; break;
+				case CRAMMING: type = DamageType.CRAMMING; break;
+				case FALLING_BLOCK: type = DamageType.FALLING_BLOCK; break;
+				case LIGHTNING: type = DamageType.LIGHTNING; break;
+				case LAVA: type = DamageType.LAVA; break;
 				
 				case FIRE:
 				case FIRE_TICK:
-					type = DamageType.NAT_HOT_FLOOR; break;
+					type = DamageType.FIRE; break;
 				
 				case BLOCK_EXPLOSION:
 				case ENTITY_EXPLOSION:
@@ -195,6 +192,7 @@ public class GameListener implements Listener {
 					break;
 					
 				default:
+					Bukkit.broadcastMessage("Unhandled damage: " + cause);
 					break;
 			}
 			if (cause != EntityDamageEvent.DamageCause.CUSTOM)
@@ -248,7 +246,7 @@ public class GameListener implements Listener {
 			// Kill detection for monsters and AIs
 			if (damagee instanceof MonsterPlayer || damagee instanceof  AIEntity) {
 				double dmg = event.getFinalDamage();
-				if (damagee.getHealth() - dmg <= 0.1 || type == DamageType.INSTA_KILL || type == DamageType.NAT_VOID) {
+				if (damagee.getHealth() - dmg <= 0.1 || type.isInstaKill()) {
 					
 					// Prevent killing a monster and set to spectator instead
 					if (damagee instanceof MonsterPlayer) {

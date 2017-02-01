@@ -266,7 +266,7 @@ public class Game {
 		for (MonsterPlayer monster : mmanager.getMobs()) {
 			if (shrine.getShrineProtection().containsPlayer(monster)) {
 				if (monster.isAlive() && !monster.getMob().isShrineImmune()) {
-					monster.kill();
+					monster.customDamage(null, DamageType.SHRINE_PROTECTION, 10000);
 					world.strikeLightning(monster.getLocation());
 				}
 			}
