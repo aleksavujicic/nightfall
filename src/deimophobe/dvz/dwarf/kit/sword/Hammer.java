@@ -37,7 +37,7 @@ class Hammer extends Sword {
 		Location center = monster.getLocation();
 		for (MonsterPlayer monsterPlayer : MobManager.getManager().getMobs()) {
 			if (monsterPlayer == monster) {
-				damage = monsterDmg;
+				damage += monsterDmg;
 				continue;
 			}
 			if (center.distance(monsterPlayer.getLocation()) <= AOE_RADIUS)
@@ -45,7 +45,7 @@ class Hammer extends Sword {
 		}
 		for (AIEntity ai : AIManager.getManager().getAIs()) {
 			if (ai == monster) {
-				damage = aiDmg;
+				damage += aiDmg;
 				continue;
 			}
 			if (center.distance(ai.getLocation()) <= AOE_RADIUS)
