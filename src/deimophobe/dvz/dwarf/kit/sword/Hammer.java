@@ -28,24 +28,31 @@ class Hammer extends Sword {
 	private boolean hasHit = false;
 	private static final double AOE_RADIUS = 2.5;
 	@Override
-	public void onHit(GameEntity monster) {
-		if (hasHit || monster == null) return;
+	public double onHit(GameEntity monster, double damage) {
+		if (hasHit || monster == null) return damage;
 		
 		hasHit = true;
 		final double monsterDmg = (dwarf.hasProc() ? 20 : 5);
 		final double aiDmg = (dwarf.hasProc() ? 40 : 20);
 		Location center = monster.getLocation();
 		for (MonsterPlayer monsterPlayer : MobManager.getManager().getMobs()) {
-			if (monsterPlayer == monster) continue;
+			if (monsterPlayer == monster) {
+				damage = monsterDmg;
+				continue;
+			}
 			if (center.distance(monsterPlayer.getLocation()) <= AOE_RADIUS)
 				monsterPlayer.customDamage(dwarf, DamageType.HAMMER_AOE, monsterDmg);
 		}
 		for (AIEntity ai : AIManager.getManager().getAIs()) {
-			if (ai == monster) continue;
+			if (ai == monster) {
+				damage = aiDmg;
+				continue;
+			}
 			if (center.distance(ai.getLocation()) <= AOE_RADIUS)
 				ai.customDamage(dwarf, DamageType.HAMMER_AOE, aiDmg);
 		}
 		reduceCooldown(20);
+		return damage;
 	}
 	
 	@Override

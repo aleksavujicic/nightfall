@@ -1,5 +1,6 @@
 package deimophobe.dvz.dwarf.kit.bow;
 
+import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 
@@ -13,7 +14,8 @@ class Dragonskin extends Bow {
 	}
 	
 	@Override
-	public void onKill(GameEntity monster, boolean b) {
-		dwarf.giveProc(Dwarf.ProcType.DRAGONSKIN);
+	public void onKill(GameEntity monster, DamageType type) {
+		if (type.isRanged())
+			dwarf.giveProc(Dwarf.ProcType.DRAGONSKIN);
 	}
 }

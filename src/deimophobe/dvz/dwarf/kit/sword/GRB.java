@@ -1,5 +1,6 @@
 package deimophobe.dvz.dwarf.kit.sword;
 
+import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import org.bukkit.entity.Player;
@@ -17,8 +18,10 @@ class GRB extends Sword {
 	}
 	
 	@Override
-	public void onKill(GameEntity monster, boolean b) {
-		dwarf.giveProc(Dwarf.ProcType.REGULAR);
+	public void onKill(GameEntity monster, DamageType type) {
+		if (type.isMelee() && isHoldingItem())
+			dwarf.giveProc(Dwarf.ProcType.REGULAR);
+		
 		reduceCooldown(20);
 	}
 	

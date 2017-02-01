@@ -1,5 +1,6 @@
 package deimophobe.dvz.dwarf.kit.sword;
 
+import deimophobe.dvz.DamageType;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.ItemCreator;
@@ -41,8 +42,8 @@ public class Sword extends CooldownItem {
 	}
 	
 	protected boolean ability() {return false;}
-	public void onHit(GameEntity monster) {}
-	public void onKill(GameEntity monster, boolean b) {}
+	public double onHit(GameEntity monster, double damage) { return damage; }
+	public void onKill(GameEntity monster, DamageType b) {}
 	
 	@Override
 	protected void playOffCDSound() {

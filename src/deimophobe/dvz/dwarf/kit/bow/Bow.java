@@ -1,5 +1,6 @@
 package deimophobe.dvz.dwarf.kit.bow;
 
+import deimophobe.dvz.DamageType;
 import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
@@ -37,8 +38,8 @@ public class Bow extends DwarvenItem {
 	protected boolean ability(Action type) {return false;}
 	
 	
-	public double onHit(GameEntity monster) {return power;}
-	public void onKill(GameEntity monster, boolean b) {}
+	public double onHit(GameEntity monster, double damage) {return power;}
+	public void onKill(GameEntity monster, DamageType type) {}
 	public Projectile onBowFire(Arrow arrow, float force) {
 		return arrow;
 	}

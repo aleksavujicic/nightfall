@@ -7,8 +7,6 @@ import deimophobe.dvz.monster.MobManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 /**
@@ -21,13 +19,14 @@ class Dagger extends Sword {
 	}
 	
 	@Override
-	public void onKill(GameEntity monster, boolean b) {
+	public void onKill(GameEntity monster, DamageType b) {
 		reduceCooldown(200);
 	}
 	
 	@Override
-	public void onHit(GameEntity monster) {
+	public double onHit(GameEntity monster, double damage) {
 		//monster.givePotionEffect(); addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 50, 4, true), true);
+		return damage;
 	}
 	
 	private static final double EPSILON = 1;

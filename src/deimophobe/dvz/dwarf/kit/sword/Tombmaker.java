@@ -1,5 +1,6 @@
 package deimophobe.dvz.dwarf.kit.sword;
 
+import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import org.bukkit.potion.PotionEffect;
@@ -15,8 +16,8 @@ class Tombmaker extends Sword {
 	}
 	
 	@Override
-	public void onKill(GameEntity monster, boolean b) {
-		if (dwarf.hasProc())
+	public void onKill(GameEntity monster, DamageType type) {
+		if (type.isMelee() && dwarf.hasProc() && isHoldingItem())
 			dwarf.giveProc(Dwarf.ProcType.REGULAR);
 	}
 	

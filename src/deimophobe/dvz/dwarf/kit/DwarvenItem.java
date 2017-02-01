@@ -23,6 +23,7 @@ public abstract class DwarvenItem {
 	public boolean matchesItem(ItemStack toMatch) {
 		return item.isSimilar(toMatch);
 	}
+	public boolean isHoldingItem() {return matchesItem(dwarf.getHeldItem());}
 	
 	public boolean use(Action type) {
 		if (canUse(type)) {

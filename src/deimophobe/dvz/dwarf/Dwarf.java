@@ -324,7 +324,7 @@ public class Dwarf extends GamePlayer {
 	
 	@Override
 	public double onHit(GameEntity monster, DamageType type, double damage) {
-		double newDam = kit.onHit(monster, type);
+		double newDam = kit.onHit(monster, type, damage);
 		if (newDam != -1)
 			damage = newDam;
 		

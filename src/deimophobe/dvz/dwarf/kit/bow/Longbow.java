@@ -1,7 +1,10 @@
 package deimophobe.dvz.dwarf.kit.bow;
 
+import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.monster.MonsterPlayer;
+import deimophobe.dvz.monster.ai.AIEntity;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 
@@ -11,9 +14,11 @@ import org.bukkit.Particle;
 class Longbow extends Bow {
 	
 	private int stackCD = 0;
-	private static final int MAX_STACK_CD = 100;
+	private static final int MAX_STACK_CD = 160;
 	
 	private int stacks = 0;
+	private static final int AI_STACK_GAIN = 1;
+	private static final int PLAYER_STACK_GAIN = 3;
 	private static final int MAX_STACKS = 25;
 	private static final int STACK_LOSS = 5;
 	
@@ -23,15 +28,20 @@ class Longbow extends Bow {
 	}
 	
 	@Override
-	public double onHit(GameEntity monster) {
+	public double onHit(GameEntity monster, double damage) {
 		return power + stacks*6;
 	}
 	
 	@Override
-	public void onKill(GameEntity monster, boolean b) {
-		stacks += 1;
-		stackCD = MAX_STACK_CD;
+	public void onKill(GameEntity monster, DamageType type) {
+		if (monster instanceof MonsterPlayer)
+			stacks += PLAYER_STACK_GAIN;
+		else if (monster instanceof AIEntity)
+			stacks += AI_STACK_GAIN;
+		
 		if (stacks > MAX_STACKS) stacks = MAX_STACKS;
+		
+		stackCD = MAX_STACK_CD;
 	}
 	
 	

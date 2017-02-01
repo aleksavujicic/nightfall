@@ -60,12 +60,6 @@ public class Kit {
 		this.passives = loadout.getPassives();
 	}
 	
-	
-	//public Set<ItemStack> getItems() {
-	//
-	//}
-	
-	
 	public void update() {
 		sword.update();
 		bow.update();
@@ -85,16 +79,14 @@ public class Kit {
 		return false;
 	}
 	
-	// TODO
-	public double onHit(GameEntity monster, DamageType type) {
+	public double onHit(GameEntity monster, DamageType type, double damage) {
 		ItemStack item = dwarf.getHeldItem();
 		if (type.isMelee() && sword.matchesItem(item)) {
-			sword.onHit(monster);
-			return -1;
+			return sword.onHit(monster, damage);
 		} else if (type.isRanged()) {
-			return bow.onHit(monster);
+			return bow.onHit(monster, damage);
 		}
-		return -1;
+		return damage;
 	}
 	
 	public void onGotHit(GameEntity monster, DamageType type, double damage) {
@@ -102,9 +94,8 @@ public class Kit {
 	}
 	
 	public void onKill(GameEntity monster, DamageType type) {
-		ItemStack item = dwarf.getHeldItem();
-		sword.onKill(monster, type.isMelee() && sword.matchesItem(item));
-		bow.onKill(monster, type.isRanged() && bow.matchesItem(item));
+		sword.onKill(monster, type);
+		bow.onKill(monster, type);
 		
 		if (armour == ArmourType.QUIVER)
 			dwarf.giveArrow();
