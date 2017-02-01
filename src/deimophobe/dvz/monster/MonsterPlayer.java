@@ -127,7 +127,6 @@ public class MonsterPlayer extends GamePlayer {
 			return -1;
 		}
 		
-		Bukkit.broadcastMessage("IS IMMUNE" + type.isMobImmune());
 		if (type.isMobImmune())
 			return -1;
 		
