@@ -1,10 +1,7 @@
 package deimophobe.dvz.monster;
 
-import deimophobe.dvz.monster.spawnmenu.SpawnManager;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -41,17 +38,14 @@ public class MobListener implements Listener {
 		HumanEntity entity = event.getWhoClicked();
 		if (entity.getType() == EntityType.PLAYER) {
 			Player player = (Player) entity;
-			MonsterPlayer mob = mm.getMob(player);
+			MonsterPlayer monster = mm.getMob(player);
 			
-			if (mob != null) { //&& !mob.isAlive()) {
+			if (monster != null) { //&& !mob.isAlive()) {
 				event.setCancelled(true);
-				if (SpawnManager.getManager().isMobSpawnMenu(event.getClickedInventory())) {
-					boolean closeInv = SpawnManager.getManager().spawnMob(event.getSlot(), mob);
-					if (closeInv)
-						player.closeInventory();
-				} else {
-					mob.showMobMenu();
-				}
+				
+				boolean closeInv = MobManager.getManager().onClick(event.getSlot(), event.getClickedInventory(), monster);
+				if (closeInv)
+					player.closeInventory();
 			}
 		}
 	}
@@ -59,9 +53,9 @@ public class MobListener implements Listener {
 	@EventHandler
 	public void deadLRClick(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
-		MonsterPlayer mob = mm.getMob(player);
-		if (mob != null && !mob.isAlive()) {
-			mob.showMobMenu();
+		MonsterPlayer monster = mm.getMob(player);
+		if (monster != null && !monster.isAlive()) {
+			mm.showMobMenu(monster);
 			event.setCancelled(true);
 		}
 	}

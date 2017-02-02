@@ -2,6 +2,7 @@ package deimophobe.dvz.monster.spawnmenu;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.ItemCreator;
+import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.mob.MobType;
 import minecraft.spigot.community.michel_0.api.Slot;
@@ -9,7 +10,6 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * Created by Deimophbe on 19/01/17.
  */
-class SpawnEgg extends MenuItem {
+class SpawnEgg extends MobMenuItem {
 	private final MobType mobType;
 	
 	private int quantity;

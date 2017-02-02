@@ -2,17 +2,15 @@ package deimophobe.dvz.monster.spawnmenu;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.Phase;
+import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.doom.DoomManager;
-import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by Deimophobe on 2/02/17.
  */
-class DoomClockItem extends MenuItem{
+class DoomClockItem extends MobMenuItem {
 	
 	private final int time;
 	
@@ -28,7 +26,7 @@ class DoomClockItem extends MenuItem{
 	}
 	
 	@Override
-	boolean isAvailable() {
+	public boolean isAvailable() {
 		return (Game.getGame().getPhase() != Phase.DOOM);
 	}
 }

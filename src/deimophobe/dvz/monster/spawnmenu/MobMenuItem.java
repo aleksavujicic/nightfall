@@ -1,32 +1,38 @@
 package deimophobe.dvz.monster.spawnmenu;
 
+import deimophobe.dvz.menu.MenuItem;
+import deimophobe.dvz.monster.MobManager;
 import deimophobe.dvz.monster.MonsterPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+
+
 /**
- * For anything that can be selected in the
- * mob menu - eg. A spawn egg or upgrade menu.
  * Created by Deimophobe on 2/02/17.
  */
-abstract class MenuItem {
+abstract class MobMenuItem implements MenuItem {
 	private final ItemStack item;
-	ItemStack getDisplayItem() {return item;}
+	@Override
+	public ItemStack getDisplayItem() {return item;}
 	
 	private final int xpCost;
 	
-	MenuItem(ItemStack item, int xpCost) {
+	MobMenuItem(ItemStack item, int xpCost) {
 		this.item = item;
 		this.xpCost = xpCost;
 	}
 	
-	/**
-	 * Called when a monster clicks on a menu item
-	 *
-	 * @param monster The monster that clicked the item
-	 * @return Whether the item menu should close or not
-	 */
-	final boolean select(MonsterPlayer monster) {
+	@Override
+	public final boolean select(Player player) {
+		MonsterPlayer monster = MobManager.getManager().getMob(player);
+		
+		if (monster == null) {
+			Bukkit.getLogger().warning("Player " + player.getName() + " used mob menu but was not mob?!");
+		}
+		
 		if (monster.useXP(xpCost)) {
 			return onSelect(monster);
 		} else {
@@ -36,5 +42,4 @@ abstract class MenuItem {
 	}
 	
 	abstract boolean onSelect(MonsterPlayer monster);
-	abstract boolean isAvailable();
 }

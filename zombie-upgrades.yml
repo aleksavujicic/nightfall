@@ -1,0 +1,41 @@
+attack1:
+  item:
+    material: wood_sword
+    name: Upgrade Attack I
+  cost: 10
+  index: 2
+
+attack2:
+  prereq:
+    - attack1
+  item:
+    material: wood_sword
+    name: Upgrade Attack II
+  cost: 20
+  index: 2
+
+defense1:
+  item:
+    material: rotten_flesh
+    name: Upgrade Defense I
+  cost: 10
+  index: 6
+
+defense2:
+  prereq:
+    - defense2
+  item:
+    material: rotten_flesh
+    name: Upgrade Defense II
+  cost: 20
+  index: 6
+
+test:
+  prereq:
+    - attack2
+    - defense1
+  item:
+    material: sugar
+    name: Spooky test
+  cost: 100
+  index: 4

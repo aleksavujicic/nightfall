@@ -4,12 +4,13 @@ import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
-import deimophobe.dvz.monster.spawnmenu.SpawnManager;
+import deimophobe.dvz.monster.spawnmenu.SpawnMenu;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.*;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
@@ -29,6 +30,7 @@ public class MobManager {
 	public void setupManager(Plugin plugin) {
 		playerMobs = new HashMap<String, MonsterPlayer>();
 		Bukkit.getPluginManager().registerEvents(new MobListener(), plugin);
+		// TODO
 		mobConfig = YamlConfiguration.loadConfiguration(plugin.getResource("mobs.yml"));
 		
 		new BukkitRunnable() {
@@ -75,6 +77,10 @@ public class MobManager {
 		return addMob(player);
 	}
 	
+	public void addToTeam(String name) {
+		mobTeam.addEntry(name);
+	}
+	
 	public MonsterPlayer getMob(Player player) {
 		if (player == null) return null;
 		return getMob(player.getName());
@@ -117,12 +123,12 @@ public class MobManager {
 		return entities;
 	}
 	
-	
+	private final SpawnMenu menu = new SpawnMenu();
 	public void onMobRelease() {
-		SpawnManager.getManager().setup();
 		AIManager.getManager().setup();
 		DoomManager.getManager().setup();
 		
+		// For mob xp
 		new BukkitRunnable() {
 			@Override
 			public void run() {
@@ -131,10 +137,20 @@ public class MobManager {
 				}
 			}
 		}.runTaskTimer(Game.getGame().getPlugin(), 20, 20);
+		
+		menu.setup();
 	}
 	
-	public void addToTeam(String name) {
-		mobTeam.addEntry(name);
+	public void showMobMenu(MonsterPlayer monster) {
+		if (Game.getGame().getPhase().canMobSpawn())
+			menu.showTo(monster.getPlayer());
+	}
+	
+	public boolean onClick(int slot, Inventory clickedInventory, MonsterPlayer monster) {
+		if (menu.isInventory(clickedInventory)) {
+			return menu.select(slot, monster.getPlayer());
+		}
+		return false;
 	}
 	
 	// --------------------------------------------------------

@@ -391,7 +391,7 @@ krungor:
       attack: 60
 
   res: 4
-  immunetime: 45
+  immunetime: 10
   proccable: false
   arrowres: 0.9
   shred: 25

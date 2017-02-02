@@ -5,10 +5,8 @@ import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.mob.Mob;
 import deimophobe.dvz.monster.mob.MobType;
-import deimophobe.dvz.monster.spawnmenu.SpawnManager;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
-import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -16,9 +14,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Created by Deimophobe on 17/01/17.
@@ -81,11 +77,6 @@ public class MonsterPlayer extends GamePlayer {
 		player.setGameMode(GameMode.SPECTATOR);
 		clearInventory();
 		clearEffects();
-	}
-	
-	public void showMobMenu() {
-		if (Game.getGame().getPhase().canMobSpawn())
-			player.openInventory(SpawnManager.getManager().getMobMenu());
 	}
 	
 	public void spawnAs(MobType type) {
