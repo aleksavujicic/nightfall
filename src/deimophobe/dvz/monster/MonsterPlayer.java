@@ -47,6 +47,8 @@ public class MonsterPlayer extends GamePlayer {
 		}
 	}
 	
+	
+	// ------ SPAWN AND DEATH ------
 	public boolean isAlive() {
 		return (player.getGameMode() == GameMode.SURVIVAL && mob != null);
 	}
@@ -93,6 +95,39 @@ public class MonsterPlayer extends GamePlayer {
 		//player.setGameMode(GameMode.SURVIVAL);
 	}
 	
+	
+	
+	// ------ EXPERIENCE ------
+	private int experience = 0;
+	private static final int MAX_XP = 1000;
+	
+	public void gainXP(int amt) {
+		experience += amt;
+		if (experience > MAX_XP) experience = MAX_XP;
+		updateXPDisplay();
+	}
+	
+	public boolean useXP(int xpCost) {
+		if (experience < xpCost) {
+			return false;
+		} else {
+			experience -= xpCost;
+			updateXPDisplay();
+			return true;
+		}
+	}
+	
+	public void updateXP() {
+		if (isAlive())
+			gainXP(100);
+	}
+	
+	private void updateXPDisplay() {
+		player.setLevel(experience);
+	}
+	
+	
+	// ------ EVENT METHODS ------
 	@Override
 	public void onShift(boolean sneaking) {
 		if (mob != null)

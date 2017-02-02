@@ -1,5 +1,6 @@
 package deimophobe.dvz.monster;
 
+import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
@@ -121,6 +122,15 @@ public class MobManager {
 		SpawnManager.getManager().setup();
 		AIManager.getManager().setup();
 		DoomManager.getManager().setup();
+		
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				for (MonsterPlayer mob : playerMobs.values()) {
+					mob.updateXP();
+				}
+			}
+		}.runTaskTimer(Game.getGame().getPlugin(), 20, 20);
 	}
 	
 	public void addToTeam(String name) {

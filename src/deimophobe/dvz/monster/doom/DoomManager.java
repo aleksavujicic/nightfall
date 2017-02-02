@@ -56,13 +56,13 @@ public class DoomManager {
 		if (!doomActive) return;
 		if (!isDoom) {
 			doomTimer--;
-			game.setDoomSidebar(doomTimer);
 			if (doomTimer <= 0) {
 				doomTimer = 0;
 				game.getWorld().setTime(18000);
 				game.setPhase(Phase.DOOM);
 				isDoom = true;
 			}
+			game.setDoomSidebar(doomTimer);
 		} else {
 			internalDoomTimer--;
 			if (internalDoomTimer <= 0) {
@@ -92,5 +92,11 @@ public class DoomManager {
 	public boolean toggleDoom() {
 		doomActive = !doomActive;
 		return doomActive;
+	}
+	
+	public void reduceDoom(int time) {
+		doomTimer -= time;
+		if (doomTimer < 0) doomTimer = 0;
+		game.setDoomSidebar(doomTimer);
 	}
 }

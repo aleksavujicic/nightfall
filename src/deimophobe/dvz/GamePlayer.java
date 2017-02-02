@@ -93,6 +93,10 @@ public abstract class GamePlayer extends GameEntity {
 	
 	
 	
+	// ------ MESSAGING ------
+	public void sendMessage(String message) {
+		player.sendMessage(message);
+	}
 	
 	
 	

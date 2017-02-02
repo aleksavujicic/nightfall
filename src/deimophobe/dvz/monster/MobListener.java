@@ -1,7 +1,9 @@
 package deimophobe.dvz.monster;
 
 import deimophobe.dvz.monster.spawnmenu.SpawnManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -36,20 +38,18 @@ public class MobListener implements Listener {
 	
 	@EventHandler
 	public void onInvClick(InventoryClickEvent event) {
-		LivingEntity entity = event.getWhoClicked();
+		HumanEntity entity = event.getWhoClicked();
 		if (entity.getType() == EntityType.PLAYER) {
 			Player player = (Player) entity;
-			final MonsterPlayer mob = mm.getMob(player);
-			if (mob != null) {
-				if (SpawnManager.getManager().isMobSpawnMenu(event.getInventory())) {
-					if (event.getSlot() == -999) {
-						event.setCancelled(true);
-					} else {
-						SpawnManager.getManager().spawnMob(event.getSlot(), mob);
-					}
+			MonsterPlayer mob = mm.getMob(player);
+			
+			if (mob != null) { //&& !mob.isAlive()) {
+				event.setCancelled(true);
+				if (SpawnManager.getManager().isMobSpawnMenu(event.getClickedInventory())) {
+					boolean closeInv = SpawnManager.getManager().spawnMob(event.getSlot(), mob);
+					if (closeInv)
+						player.closeInventory();
 				} else {
-					event.setCancelled(true);
-					player.closeInventory();
 					mob.showMobMenu();
 				}
 			}

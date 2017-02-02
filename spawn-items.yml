@@ -1,0 +1,43 @@
+witherskele:
+  type: mobegg
+  egg: witherskele
+  index: 11
+
+flamelancer:
+  type: mobegg
+  egg: flamelancer
+  index: 12
+
+wolf:
+  type: mobegg
+  egg: wolf
+  index: 13
+
+spiderling:
+  type: mobegg
+  egg: spiderling
+  index: 14
+
+rat:
+  type: mobegg
+  egg: rat
+  index: 15
+
+golem:
+  type: mobegg
+  egg: golem
+  index: 16
+
+ogre:
+  type: mobegg
+  egg: ogre
+  index: 17
+
+doomclock:
+  type: doomclock
+  item:
+    material: watch
+    name: Reduce Doom
+  cost: 500
+  time: 10
+  index: 8

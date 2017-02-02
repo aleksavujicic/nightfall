@@ -5,7 +5,6 @@ witherskele:
     name: Spawn Wither Skeleton
   quantity: 8
   chance: 0.1
-  index: 9
 
 flamelancer:
   mobtype: flamelancer
@@ -14,7 +13,6 @@ flamelancer:
     name: Spawn Flamelancer
   quantity: 12
   chance: 0.1
-  index: 10
 
 wolf:
   mobtype: wolf
@@ -23,7 +21,6 @@ wolf:
     name: Spawn Wolf
   quantity: 10
   chance: 0.1
-  index: 12
 
 direwolf:
   mobtype: direwolf
@@ -33,7 +30,6 @@ direwolf:
     name: Spawn Dire
   quantity: 1
   chance: 0.1
-  index: 21
 
 spiderling:
   mobtype: spiderling
@@ -42,7 +38,6 @@ spiderling:
     name: Spawn Spiderling
   quantity: 7
   chance: 0.1
-  index: 13
 
 rat:
   mobtype: rat
@@ -51,7 +46,6 @@ rat:
     name: Spawn Rat
   quantity: 10
   chance: 0.1
-  index: 15
 
 golem:
   mobtype: golem
@@ -60,7 +54,6 @@ golem:
     name: Spawn Golem
   quantity: 2
   chance: 0.1
-  index: 16
 
 ogre:
   mobtype: ogre
@@ -69,5 +62,4 @@ ogre:
     name: Spawn Ogre
   quantity: 15
   chance: 0.1
-  index: 17
 
