@@ -3,8 +3,10 @@ package deimophobe.dvz.monster;
 import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.menu.Menu;
 import deimophobe.dvz.monster.mob.Mob;
 import deimophobe.dvz.monster.mob.MobType;
+import deimophobe.dvz.monster.spawnmenu.UpgradeMenu;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.bukkit.Bukkit;
@@ -15,6 +17,9 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Deimophobe on 17/01/17.
@@ -30,6 +35,8 @@ public class MonsterPlayer extends GamePlayer {
 		player.sendMessage("You are monster now. Deimo make this cool.");
 		
 		mob = null;
+		
+		upgradeMenus.put(MobType.ZOMBIE, new UpgradeMenu("Upgrade Zombie", "zombie-upgrades.yml"));
 	}
 	
 	public void update() {
@@ -110,11 +117,19 @@ public class MonsterPlayer extends GamePlayer {
 	
 	public void updateXP() {
 		if (isAlive())
-			gainXP(100);
+			gainXP(1);
 	}
 	
 	private void updateXPDisplay() {
 		player.setLevel(experience);
+	}
+	
+	
+	
+	// ------ SPAWN/UPGRADE MENUS ------
+	private final Map<MobType, UpgradeMenu> upgradeMenus = new HashMap<>();
+	public void showUpgradeMenu(MobType type) {
+		upgradeMenus.get(type).showTo(player);
 	}
 	
 	

@@ -1,33 +1,19 @@
-#zombie:
-#  chest:
-#    material: rotten_flesh
-#    name: Tough Flesh
-#    lore:
-#     - §dSome lore
-#     - and more lore
-#    health: 20
-#    quantity: 2
-#    attack: 5
-#    speed: 0.1
-#    kbresist: true
-#    bound: true
-#  items:
-#    item1:
-#      material: wood_pickaxe
-#      name: Makeshift Pick
-#      lore:
-#       - Some lore
-#      attack: 5
-#    item2:
-#      material: wood_pickaxe
-#      name: Makeshift Pick2
-#      lore:
-#       - Some lore2
-#      attack: 10
-#  res: 3
-#  proccable: true
-#  arrowres: 0.2
-#  shred: 10
+zombie:
+  chest:
+    material: rotten_flesh
+    name: Tough Flesh
+    lore:
+     - §dSome lore
+     - and more lore
+    bound: true
+  items:
+    item1:
+      material: iron_axe
+      data: 101
+      name: Makeshift Pick
+      lore:
+       - Some lore
+      attack: 5
 
 
 flamelancer:

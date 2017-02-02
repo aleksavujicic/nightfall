@@ -1,3 +1,16 @@
+zombie:
+  type: mobegg
+  egg: zombie
+  index: 0
+
+zombie-upgrade:
+  type: upgrade
+  item:
+    material: wood_pickaxe
+    name: Upgrade Zombie
+  upgrade: zombie
+  index: 9
+
 witherskele:
   type: mobegg
   egg: witherskele

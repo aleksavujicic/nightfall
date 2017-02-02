@@ -139,7 +139,7 @@ public class Mob {
 	public static Mob createAndSpawnMob(MonsterPlayer monster, MobType type) {
 		switch (type) {
 			case ZOMBIE:
-				break;
+				return new Zombie(monster);
 			case WITHERSKELE:
 				return new WitherSkele(monster);
 			case FLAMELANCER:

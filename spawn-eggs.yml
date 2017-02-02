@@ -1,3 +1,11 @@
+zombie:
+  mobtype: zombie
+  egg:
+    material: rotten_flesh
+    name: Spawn Zombie
+  quantity: 1000
+  chance: 1
+
 witherskele:
   mobtype: witherskele
   egg:

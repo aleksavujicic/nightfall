@@ -4,6 +4,7 @@ import deimophobe.dvz.Game;
 import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.menu.Menu;
 import deimophobe.dvz.menu.MenuItem;
+import deimophobe.dvz.monster.mob.MobType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
@@ -49,6 +50,12 @@ public class SpawnMenu extends Menu {
 				int cost = config.getInt("cost");
 				int time = config.getInt("time");
 				menuItem = new DoomClockItem(item, cost, time);
+				break;
+			
+			case "upgrade":
+				ItemStack item2 = ItemCreator.createItem(config.getConfigurationSection("item"), Slot.MAIN_HAND);
+				MobType type = MobType.getMobType(config.getString("upgrade"));
+				menuItem = new SelectUpgradeMenuItem(item2, type);
 				break;
 			
 			default:
