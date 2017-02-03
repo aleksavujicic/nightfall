@@ -45,7 +45,6 @@ public class MobListener implements Listener {
 				event.setCancelled(true);
 				
 				boolean closeInv = MobManager.getManager().onClick(event.getSlot(), event.getClickedInventory(), monster);
-				Bukkit.broadcastMessage("close: " + closeInv);
 				if (closeInv)
 					player.closeInventory();
 			}
