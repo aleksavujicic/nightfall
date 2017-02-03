@@ -149,8 +149,7 @@ public class MobManager {
 	}
 	
 	public void showMobMenu(MonsterPlayer monster) {
-		if (Game.getGame().getPhase().canMobSpawn())
-			menu.showTo(monster);
+		menu.showTo(monster);
 	}
 	
 	public void onClick(int slot, Inventory clickedInventory, MonsterPlayer monster) {

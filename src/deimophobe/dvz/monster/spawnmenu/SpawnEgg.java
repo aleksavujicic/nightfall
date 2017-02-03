@@ -7,6 +7,7 @@ import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.mob.MobType;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -69,9 +70,14 @@ class SpawnEgg implements MenuItem<MonsterPlayer> {
 	
 	@Override
 	public boolean select(MonsterPlayer monster) {
-		monster.spawnAs(mobType);
-		quantity -= 1;
-		return false;
+		if (Game.getGame().getPhase().canMobSpawn()) {
+			monster.spawnAs(mobType);
+			quantity -= 1;
+			return false;
+		} else {
+			monster.sendMessage(ChatColor.RED + "You cannot spawn during doom!");
+			return false;
+		}
 	}
 	
 	private static final Map<String, SpawnEgg> eggMap = new HashMap<>();
