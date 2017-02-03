@@ -16,7 +16,7 @@ public class UpgradeMenu extends Menu<MonsterPlayer> {
 		
 		for (String key : section.getKeys(false)) {
 			ConfigurationSection itemSection = section.getConfigurationSection(key);
-			MenuItem<MonsterPlayer> item = new UpgradeMenuItem(itemSection, this);
+			MenuItem<MonsterPlayer> item = new UpgradeMenuItem(itemSection, type);
 			int index = itemSection.getInt("index");
 			addItem(index, item);
 		}

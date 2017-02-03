@@ -19,7 +19,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 17/01/17.
@@ -35,6 +37,8 @@ public class MonsterPlayer extends GamePlayer {
 		player.sendMessage("You are monster now. Deimo make this cool.");
 		
 		mob = null;
+		
+		upgrades.put(MobType.ZOMBIE, new HashSet<>());
 	}
 	
 	public void update() {
@@ -117,7 +121,7 @@ public class MonsterPlayer extends GamePlayer {
 	
 	public void updateXP() {
 		if (isAlive())
-			gainXP(1);
+			gainXP(10);
 	}
 	
 	private void updateXPDisplay() {
@@ -127,10 +131,20 @@ public class MonsterPlayer extends GamePlayer {
 	
 	
 	// ------ SPAWN/UPGRADE MENUS ------
-	private final Map<MobType, UpgradeMenu> upgradeMenus = new HashMap<>();
+	private final Map<MobType, Set<String>> upgrades = new HashMap<>();
 	public void showMobMenu() {
 		MobManager.getManager().showMobMenu(this);
 	}
+	
+	public void addUpgrade(MobType type, String upgrade) {
+		upgrades.get(type).add(upgrade);
+	}
+	
+	public boolean hasUpgrade(MobType type, String upgrade) {
+		return upgrades.get(type).contains(upgrade);
+	}
+	
+	
 	
 	
 	// ------ EVENT METHODS ------

@@ -8,6 +8,7 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,18 +17,34 @@ import java.util.Set;
  */
 class UpgradeMenuItem extends CostMobMenuItem {
 	
-	UpgradeMenuItem(ConfigurationSection config, UpgradeMenu menu) {
+	private final String name;
+	private final Collection<String> prereqs;
+	private final MobType type;
+	
+	UpgradeMenuItem(ConfigurationSection config, MobType type) {
 		super(ItemCreator.createItem(config.getConfigurationSection("item"), Slot.MAIN_HAND), config.getInt("cost"));
 		
+		this.name = config.getString("name");
+		this.prereqs = config.getStringList("prereq");
+		this.type = type;
 	}
 	
 	@Override
-	public boolean isAvailable(MonsterPlayer player) {
-		return false;
+	public boolean isAvailable(MonsterPlayer monster) {
+		if (monster.hasUpgrade(type, name))
+			return false;
+		
+		for (String prereq : prereqs) {
+			if (!monster.hasUpgrade(type, prereq))
+				return false;
+		}
+		
+		return true;
 	}
 	
 	@Override
 	protected boolean onPayCost(MonsterPlayer monster) {
-		return false;
+		monster.addUpgrade(type, name);
+		return true;
 	}
 }

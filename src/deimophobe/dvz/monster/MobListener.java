@@ -44,9 +44,7 @@ public class MobListener implements Listener {
 			if (monster != null) { //&& !mob.isAlive()) {
 				event.setCancelled(true);
 				
-				boolean closeInv = MobManager.getManager().onClick(event.getSlot(), event.getClickedInventory(), monster);
-				if (closeInv)
-					player.closeInventory();
+				MobManager.getManager().onClick(event.getSlot(), event.getClickedInventory(), monster);
 			}
 		}
 	}

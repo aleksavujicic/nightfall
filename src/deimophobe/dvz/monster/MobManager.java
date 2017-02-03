@@ -153,12 +153,11 @@ public class MobManager {
 			menu.showTo(monster);
 	}
 	
-	public boolean onClick(int slot, Inventory clickedInventory, MonsterPlayer monster) {
+	public void onClick(int slot, Inventory clickedInventory, MonsterPlayer monster) {
 		Menu menu = Menu.getMenuFromInv(clickedInventory);
 		if (menu != null) {
-			return menu.select(slot, monster);
+			menu.select(slot, monster);
 		}
-		return false;
 	}
 	
 	// --------------------------------------------------------

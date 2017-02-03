@@ -71,7 +71,7 @@ class SpawnEgg implements MenuItem<MonsterPlayer> {
 	public boolean select(MonsterPlayer monster) {
 		monster.spawnAs(mobType);
 		quantity -= 1;
-		return true;
+		return false;
 	}
 	
 	private static final Map<String, SpawnEgg> eggMap = new HashMap<>();

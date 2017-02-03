@@ -10,14 +10,24 @@ import org.bukkit.inventory.ItemStack;
  * Created by Deimophobe on 2/02/17.
  */
 public interface MenuItem<T extends GamePlayer> {
+	/**
+	 * Shows the item that will be displayed in the menu
+	 * @return The item to display
+	 */
 	ItemStack getDisplayItem();
 	
 	/**
 	 * Called when a player clicks on a menu item
 	 *
 	 * @param player The player that clicked the item
-	 * @return Whether the item menu should close or not
+	 * @return Whether the menu should be refreshed
 	 */
 	boolean select(T player);
+	
+	/**
+	 * Whether or not the item should be visible
+	 * @param player The player who is viewing the menu of the item
+	 * @return true if the player should see the item, false if they should not.
+	 */
 	boolean isAvailable(T player);
 }

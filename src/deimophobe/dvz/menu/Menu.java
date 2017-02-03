@@ -50,15 +50,20 @@ public class Menu<T extends GamePlayer> {
 	}
 	
 	
-	public boolean select(int i, T player) {
+	public void select(int i, T player) {
 		Set<MenuItem<T>> items = menuItems.get(i);
-		if (items == null) return false;
+		if (items == null) return;
 		
 		for (MenuItem<T> item : items) {
-			if (item != null && item.isAvailable(player))
-				return item.select(player);
+			if (item != null && item.isAvailable(player)) {
+				boolean refresh = item.select(player);
+				
+				if (refresh)
+					showTo(player);
+				
+				return;
+			}
 		}
-		return false;
 	}
 	
 	protected void addItem(int i, MenuItem<T> item) {

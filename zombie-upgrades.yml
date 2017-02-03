@@ -1,4 +1,5 @@
 attack1:
+  name: attack1
   item:
     material: wood_sword
     name: Upgrade Attack I
@@ -6,6 +7,7 @@ attack1:
   index: 2
 
 attack2:
+  name: attack2
   prereq:
     - attack1
   item:
@@ -15,6 +17,7 @@ attack2:
   index: 2
 
 defense1:
+  name: defense1
   item:
     material: rotten_flesh
     name: Upgrade Defense I
@@ -22,8 +25,9 @@ defense1:
   index: 6
 
 defense2:
+  name: defense2
   prereq:
-    - defense2
+    - defense1
   item:
     material: rotten_flesh
     name: Upgrade Defense II
@@ -31,6 +35,7 @@ defense2:
   index: 6
 
 test:
+  name: test
   prereq:
     - attack2
     - defense1
