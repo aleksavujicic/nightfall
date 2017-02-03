@@ -94,6 +94,7 @@ public class Menu<T extends GamePlayer> {
 	
 	private static final Map<String, Menu> menus = new HashMap<>();
 	public static Menu getMenuFromInv(Inventory inv) {
+		if (inv == null) return null;
 		return menus.get(inv.getTitle());
 	}
 }

@@ -124,6 +124,12 @@ public class MobManager {
 		return entities;
 	}
 	
+	
+	
+	// --------------------------------------------------------
+	//                   MENUS N STUFF
+	// --------------------------------------------------------
+	
 	private final SpawnMenu menu = new SpawnMenu();
 	public void onMobRelease() {
 		AIManager.getManager().setup();
