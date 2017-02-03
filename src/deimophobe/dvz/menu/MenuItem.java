@@ -1,5 +1,6 @@
 package deimophobe.dvz.menu;
 
+import deimophobe.dvz.GamePlayer;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -8,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 /**
  * Created by Deimophobe on 2/02/17.
  */
-public interface MenuItem {
+public interface MenuItem<T extends GamePlayer> {
 	ItemStack getDisplayItem();
 	
 	/**
@@ -17,6 +18,6 @@ public interface MenuItem {
 	 * @param player The player that clicked the item
 	 * @return Whether the item menu should close or not
 	 */
-	boolean select(Player player);
-	boolean isAvailable();
+	boolean select(T player);
+	boolean isAvailable(T player);
 }

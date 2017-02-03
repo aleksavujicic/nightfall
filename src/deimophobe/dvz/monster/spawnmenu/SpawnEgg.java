@@ -1,6 +1,7 @@
 package deimophobe.dvz.monster.spawnmenu;
 
 import deimophobe.dvz.Game;
+import deimophobe.dvz.GamePlayer;
 import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.MonsterPlayer;
@@ -17,15 +18,22 @@ import java.util.Map;
 /**
  * Created by Deimophbe on 19/01/17.
  */
-class SpawnEgg extends MobMenuItem {
+class SpawnEgg implements MenuItem<MonsterPlayer> {
+	private final ItemStack item;
+	
 	private final MobType mobType;
 	
 	private int quantity;
 	private final int maxQuantity;
 	private final double spawnChance;
 	
+	@Override
+	public ItemStack getDisplayItem() {
+		return item;
+	}
+	
 	SpawnEgg(MobType type, ItemStack egg, int maxQuantity, double spawnChance) {
-		super(egg, 0);
+		this.item = egg;
 		
 		this.mobType = type;
 		
@@ -35,7 +43,7 @@ class SpawnEgg extends MobMenuItem {
 	}
 	
 	private SpawnEgg(ConfigurationSection section) {
-		super(ItemCreator.createItem(section.getConfigurationSection("egg"), Slot.HEAD), 0);
+		this.item = ItemCreator.createItem(section.getConfigurationSection("egg"), Slot.HEAD);
 		
 		mobType = MobType.getMobType(section.getString("mobtype"));
 		
@@ -55,12 +63,12 @@ class SpawnEgg extends MobMenuItem {
 	}
 	
 	@Override
-	public boolean isAvailable() {
+	public boolean isAvailable(MonsterPlayer player) {
 		return (quantity != 0);
 	}
 	
 	@Override
-	public boolean onSelect(MonsterPlayer monster) {
+	public boolean select(MonsterPlayer monster) {
 		monster.spawnAs(mobType);
 		quantity -= 1;
 		return true;
@@ -76,5 +84,8 @@ class SpawnEgg extends MobMenuItem {
 	}
 	public static SpawnEgg getEgg(String key) {
 		return eggMap.get(key);
+	}
+	public static SpawnEgg getEgg(MobType type) {
+		return eggMap.get(type.toString().toLowerCase());
 	}
 }

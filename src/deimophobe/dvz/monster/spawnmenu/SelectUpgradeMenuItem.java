@@ -1,27 +1,45 @@
 package deimophobe.dvz.monster.spawnmenu;
 
+import deimophobe.dvz.ItemCreator;
+import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.mob.MobType;
+import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by Deimophobe on 2/02/17.
  */
-class SelectUpgradeMenuItem extends MobMenuItem {
+class SelectUpgradeMenuItem implements MenuItem<MonsterPlayer> {
+	private final ItemStack item;
 	private final MobType type;
-	SelectUpgradeMenuItem(ItemStack item, MobType type) {
-		super(item, 0);
-		this.type = type;
+	private final UpgradeMenu menu;
+	
+	@Override
+	public ItemStack getDisplayItem() {
+		return item;
+	}
+	
+	SelectUpgradeMenuItem(ConfigurationSection section, ConfigurationSection menuConfig) {
+		this.item = ItemCreator.createItem(section.getConfigurationSection("item"), Slot.MAIN_HAND);
+		this.type = MobType.getMobType(section.getString("mob"));
+		
+		String title = section.getString("title");
+		this.menu = new UpgradeMenu(title, type, menuConfig);
 	}
 	
 	@Override
-	public boolean isAvailable() {
+	public boolean isAvailable(MonsterPlayer player) {
 		return true;
 	}
 	
 	@Override
-	boolean onSelect(MonsterPlayer monster) {
-		monster.showUpgradeMenu(type);
+	public boolean select(MonsterPlayer monster) {
+		menu.showTo(monster);
 		return false;
 	}
 }

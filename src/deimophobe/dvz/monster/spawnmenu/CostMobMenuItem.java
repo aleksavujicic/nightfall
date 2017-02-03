@@ -1,5 +1,6 @@
 package deimophobe.dvz.monster.spawnmenu;
 
+import deimophobe.dvz.GamePlayer;
 import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.MobManager;
 import deimophobe.dvz.monster.MonsterPlayer;
@@ -13,33 +14,27 @@ import org.bukkit.inventory.ItemStack;
 /**
  * Created by Deimophobe on 2/02/17.
  */
-abstract class MobMenuItem implements MenuItem {
+abstract class CostMobMenuItem implements MenuItem<MonsterPlayer> {
 	private final ItemStack item;
 	@Override
 	public ItemStack getDisplayItem() {return item;}
 	
 	private final int xpCost;
 	
-	MobMenuItem(ItemStack item, int xpCost) {
+	CostMobMenuItem(ItemStack item, int xpCost) {
 		this.item = item;
 		this.xpCost = xpCost;
 	}
 	
 	@Override
-	public final boolean select(Player player) {
-		MonsterPlayer monster = MobManager.getManager().getMob(player);
-		
-		if (monster == null) {
-			Bukkit.getLogger().warning("Player " + player.getName() + " used mob menu but was not mob?!");
-		}
-		
+	public final boolean select(MonsterPlayer monster) {
 		if (monster.useXP(xpCost)) {
-			return onSelect(monster);
+			return onPayCost(monster);
 		} else {
 			monster.sendMessage(ChatColor.RED + "You need at least " + ChatColor.GREEN + xpCost + ChatColor.RED + " experience for that.");
 			return false;
 		}
 	}
 	
-	abstract boolean onSelect(MonsterPlayer monster);
+	protected abstract boolean onPayCost(MonsterPlayer monster);
 }

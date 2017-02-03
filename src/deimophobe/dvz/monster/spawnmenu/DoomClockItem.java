@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 /**
  * Created by Deimophobe on 2/02/17.
  */
-class DoomClockItem extends MobMenuItem {
+class DoomClockItem extends CostMobMenuItem {
 	
 	private final int time;
 	
@@ -20,13 +20,13 @@ class DoomClockItem extends MobMenuItem {
 	}
 	
 	@Override
-	boolean onSelect(MonsterPlayer monster) {
+	protected boolean onPayCost(MonsterPlayer monster) {
 		DoomManager.getManager().reduceDoom(time);
 		return false;
 	}
 	
 	@Override
-	public boolean isAvailable() {
+	public boolean isAvailable(MonsterPlayer monster) {
 		return (Game.getGame().getPhase() != Phase.DOOM);
 	}
 }

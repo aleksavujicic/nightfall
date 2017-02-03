@@ -11,6 +11,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -89,6 +90,10 @@ public abstract class GamePlayer extends GameEntity {
 	
 	public void clearInventory() {
 		player.getInventory().clear();
+	}
+	
+	public  void showInventory(Inventory inventory) {
+		player.openInventory(inventory);
 	}
 	
 	
@@ -219,5 +224,4 @@ public abstract class GamePlayer extends GameEntity {
 	public abstract void onShift(boolean sneaking);
 	public abstract Projectile onBowFire(Arrow arrow, float force);
 	public abstract void onArrowLand(Arrow arrow, Block hitBlock);
-	
 }

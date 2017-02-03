@@ -8,7 +8,9 @@ zombie-upgrade:
   item:
     material: wood_pickaxe
     name: Upgrade Zombie
-  upgrade: zombie
+  file: zombie-upgrades.yml
+  title: Upgrade Zombie
+  mob: zombie
   index: 9
 
 witherskele:

@@ -4,6 +4,7 @@ import deimophobe.dvz.Game;
 import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.menu.Menu;
 import deimophobe.dvz.menu.MenuItem;
+import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.mob.MobType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
@@ -17,7 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 /**
  * Created by Deimophobe on 2/02/17.
  */
-public class SpawnMenu extends Menu {
+public class SpawnMenu extends Menu<MonsterPlayer> {
 	
 	public SpawnMenu() {
 		super("Pick a monster", 3);
@@ -39,7 +40,7 @@ public class SpawnMenu extends Menu {
 	}
 	
 	private void addItem(ConfigurationSection config) {
-		MenuItem menuItem;
+		MenuItem<MonsterPlayer> menuItem;
 		switch (config.getString("type")) {
 			case "mobegg":
 				menuItem = SpawnEgg.getEgg(config.getString("egg"));
@@ -53,9 +54,8 @@ public class SpawnMenu extends Menu {
 				break;
 			
 			case "upgrade":
-				ItemStack item2 = ItemCreator.createItem(config.getConfigurationSection("item"), Slot.MAIN_HAND);
-				MobType type = MobType.getMobType(config.getString("upgrade"));
-				menuItem = new SelectUpgradeMenuItem(item2, type);
+				ConfigurationSection upgradeFile = YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource(config.getString("file")));
+				menuItem = new SelectUpgradeMenuItem(config, upgradeFile);
 				break;
 			
 			default:

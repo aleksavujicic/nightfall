@@ -1,4 +1,8 @@
 zombie:
+  title: Zombie
+
+  disguisetype: zombie
+
   chest:
     material: rotten_flesh
     name: Tough Flesh

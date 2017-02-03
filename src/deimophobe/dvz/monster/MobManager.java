@@ -2,6 +2,7 @@ package deimophobe.dvz.monster;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
+import deimophobe.dvz.menu.Menu;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
 import deimophobe.dvz.monster.spawnmenu.SpawnMenu;
@@ -143,12 +144,13 @@ public class MobManager {
 	
 	public void showMobMenu(MonsterPlayer monster) {
 		if (Game.getGame().getPhase().canMobSpawn())
-			menu.showTo(monster.getPlayer());
+			menu.showTo(monster);
 	}
 	
 	public boolean onClick(int slot, Inventory clickedInventory, MonsterPlayer monster) {
-		if (menu.isInventory(clickedInventory)) {
-			return menu.select(slot, monster.getPlayer());
+		Menu menu = Menu.getMenuFromInv(clickedInventory);
+		if (menu != null) {
+			return menu.select(slot, monster);
 		}
 		return false;
 	}

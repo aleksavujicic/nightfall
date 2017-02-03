@@ -1,5 +1,6 @@
 package deimophobe.dvz.monster;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -44,6 +45,7 @@ public class MobListener implements Listener {
 				event.setCancelled(true);
 				
 				boolean closeInv = MobManager.getManager().onClick(event.getSlot(), event.getClickedInventory(), monster);
+				Bukkit.broadcastMessage("close: " + closeInv);
 				if (closeInv)
 					player.closeInventory();
 			}

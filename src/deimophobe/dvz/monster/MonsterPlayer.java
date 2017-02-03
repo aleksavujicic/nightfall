@@ -35,8 +35,6 @@ public class MonsterPlayer extends GamePlayer {
 		player.sendMessage("You are monster now. Deimo make this cool.");
 		
 		mob = null;
-		
-		upgradeMenus.put(MobType.ZOMBIE, new UpgradeMenu("Upgrade Zombie", "zombie-upgrades.yml"));
 	}
 	
 	public void update() {
@@ -47,6 +45,8 @@ public class MonsterPlayer extends GamePlayer {
 			mob.update();
 			
 			player.setExp(mob.getCooldown());
+		} else {
+			player.setFlySpeed(0);
 		}
 	}
 	
@@ -128,8 +128,8 @@ public class MonsterPlayer extends GamePlayer {
 	
 	// ------ SPAWN/UPGRADE MENUS ------
 	private final Map<MobType, UpgradeMenu> upgradeMenus = new HashMap<>();
-	public void showUpgradeMenu(MobType type) {
-		upgradeMenus.get(type).showTo(player);
+	public void showMobMenu() {
+		MobManager.getManager().showMobMenu(this);
 	}
 	
 	
