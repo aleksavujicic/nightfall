@@ -50,7 +50,7 @@ public class MonsterPlayer extends GamePlayer {
 			
 			player.setExp(mob.getCooldown());
 		} else {
-			player.setFlySpeed(0);
+			//player.setFlySpeed(0);
 		}
 	}
 	
