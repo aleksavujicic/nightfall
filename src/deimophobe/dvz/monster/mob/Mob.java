@@ -3,7 +3,6 @@ package deimophobe.dvz.monster.mob;
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.monster.MobManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
@@ -21,7 +20,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 

@@ -3,7 +3,7 @@ package deimophobe.dvz.dwarf.kit.sword;
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.monster.MobManager;
+import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -39,7 +39,7 @@ class Dagger extends Sword {
 		MonsterPlayer closestMonster = null;
 		double closestRange = RANGE;
 		double closestOffset = EPSILON;
-		for (MonsterPlayer monster : MobManager.getManager().getMobs()) {
+		for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
 			Location testLoc = monster.getPlayer().getLocation();
 			Vector offsetDir = testLoc.subtract(playerLoc).toVector();
 			double distance = offsetDir.length();

@@ -1,9 +1,8 @@
 package deimophobe.dvz;
 
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.monster.MobManager;
+import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.dwarf.DwarfManager;
-import deimophobe.dvz.dwarf.kit.Loadout;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.shrine.Shrine;
@@ -53,8 +52,8 @@ public class Game {
 	private Plugin plugin;
 	public Plugin getPlugin() { return plugin; }
 	
-	private DwarfManager dmanager;
-	private MobManager mmanager;
+	private DwarfManager dm;
+	private MonsterManager mm;
 	
 	
 	private Location dwarfSpawn;
@@ -80,11 +79,11 @@ public class Game {
 			}
 		}.runTaskLater(plugin, 10*20);
 		
-		this.dmanager = DwarfManager.getManager();
-		this.mmanager = MobManager.getManager();
+		this.dm = DwarfManager.getManager();
+		this.mm = MonsterManager.getManager();
 		
-		dmanager.setupManager(plugin);
-		mmanager.setupManager(plugin);
+		dm.setupManager();
+		mm.setupManager();
 		
 		removeRecipes();
 		
@@ -138,27 +137,12 @@ public class Game {
 	}
 	
 	
-	public boolean addDwarf(String name) {
-		removeMonster(name);
-		return dmanager.addDwarf(name);
-	}
-	
-	public boolean addDwarf(String name, Loadout loadout) {
-		removeMonster(name);
-		return dmanager.addDwarf(name, loadout);
-	}
-	
-	public boolean addMonster(String name) {
-		removeDwarf(name);
-		return mmanager.addMob(name);
-	}
-	
 	public boolean isPlayer(Player player) {
 		return isPlayer(player.getName());
 	}
 	
 	public boolean isPlayer(String name) {
-		return (dmanager.isDwarf(name) || mmanager.isMob(name));
+		return (dm.isGamePlayer(name) || mm.isGamePlayer(name));
 	}
 	
 	public GamePlayer getGamePlayer(Player player) {
@@ -166,12 +150,12 @@ public class Game {
 	}
 	
 	public GamePlayer getGamePlayer(String name) {
-		Dwarf dwarf = dmanager.getDwarf(name);
+		Dwarf dwarf = dm.getGamePlayer(name);
 		
 		if (dwarf != null)
 			return dwarf;
 		else
-			return mmanager.getMob(name);
+			return mm.getGamePlayer(name);
 	}
 	
 	public GameEntity getGameEntity(Entity entity) {
@@ -179,14 +163,6 @@ public class Game {
 			return getGamePlayer((Player) entity);
 		
 		return AIManager.getManager().getAI(entity);
-	}
-	
-	public boolean removeDwarf(String name) {
-		return dmanager.removeDwarf(name);
-	}
-	
-	public boolean removeMonster(String name) {
-		return mmanager.removeMonster(name);
 	}
 	
 	
@@ -241,7 +217,7 @@ public class Game {
 			
 			@Override
 			public void run() {
-				for (Dwarf dwarf : dmanager.getDwarves()) {
+				for (Dwarf dwarf : dm.getGamePlayers()) {
 					dwarf.giveProc(Dwarf.ProcType.HORN);
 				}
 			}
@@ -251,7 +227,7 @@ public class Game {
 	public void updateSidebar() {
 		sidebarObj.getScore(ChatColor.YELLOW + "Gold").setScore(gold);
 		sidebarObj.getScore(ChatColor.GOLD + "Vault").setScore(vault);
-		sidebarObj.getScore(ChatColor.GREEN + "Remaining").setScore(dmanager.getDwarves().size());
+		sidebarObj.getScore(ChatColor.GREEN + "Remaining").setScore(dm.getGamePlayers().size());
 	}
 	
 	public void setDoomSidebar(int doomTimer) {
@@ -263,7 +239,7 @@ public class Game {
 		Shrine shrine = getShrine();
 		
 		int mobsOnShrine = 0;
-		for (MonsterPlayer monster : mmanager.getMobs()) {
+		for (MonsterPlayer monster : mm.getGamePlayers()) {
 			if (shrine.getShrineProtection().containsPlayer(monster)) {
 				if (monster.isAlive() && !monster.getMob().isShrineImmune()) {
 					monster.customDamage(null, DamageType.SHRINE_PROTECTION, 10000);
@@ -282,7 +258,7 @@ public class Game {
 		if (isDead) killShrine();
 		else bossBar.setProgress(shrine.getFractionalShrinePower());
 		
-		for (Dwarf dwarf : dmanager.getDwarves()) {
+		for (Dwarf dwarf : dm.getGamePlayers()) {
 			if (shrine.getMobProtection().containsPlayer(dwarf)) {
 				//dwarf.getGamePlayer().sendMessage(ChatColor.RED + "PLEASE LEAVE MOB SPAWN. DEIMO HASNT DONE STUFF TO MAKE THIS" +
 				//		" DMG YOU YET. SO INSTEAD YOU WILL BE SPAMMED WITH REALLY REALLY REALLY REALLY LONG MESSAGES LIKE THIS" +
@@ -297,7 +273,7 @@ public class Game {
 		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
 		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
 		phase = Phase.GAME;
-		mmanager.onMobRelease();
+		mm.onMobRelease();
 		splitGold();
 	}
 	
@@ -310,12 +286,12 @@ public class Game {
 			endGame();
 		} else {
 			world.playSound(getCurrentMobspawn(), "horn", 100f, 1f);
-			for (Dwarf dwarf : dmanager.getDwarves()) {
+			for (Dwarf dwarf : dm.getGamePlayers()) {
 				dwarf.giveProc(Dwarf.ProcType.SHRINE_FALL);
 				dwarf.repairArmour(1000);
 				dwarf.regenMana(200);
 			}
-			for (MonsterPlayer monster : mmanager.getMobs()) {
+			for (MonsterPlayer monster : mm.getGamePlayers()) {
 				monster.givePotionEffect(PotionEffectType.SLOW, 220, 3, true, true);
 				monster.givePotionEffect(PotionEffectType.CONFUSION, 220, 1, true, true);
 			}

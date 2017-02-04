@@ -2,10 +2,7 @@ package deimophobe.dvz;
 
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
@@ -22,32 +19,46 @@ import java.util.Set;
  */
 public abstract class GamePlayer extends GameEntity {
 	protected final Player player;
+	private final String name;
 	
 	protected GamePlayer(Player player) {
 		super(player);
 		this.player = player;
+		this.name = player.getName();
 	}
 	
 	public Player getPlayer() {
+		if (player == null) Bukkit.broadcastMessage("NULL PLAYER");
 		return player;
 	}
 	
 	
 	// ------ TITLE ------
+	private ChatColor colour;
+	private String title;
+	private boolean forced;
 	@Override
 	public String getDisplayName() {
 		return player.getDisplayName();
 	}
 	
-	public void setTitle(ChatColor color, String title, boolean force) {
+	public void setTitle(ChatColor colour, String title, boolean force) {
 		if (force) {
-			player.setDisplayName(color + title + ChatColor.RESET);
+			player.setDisplayName(colour + title + ChatColor.RESET);
 		} else {
 			if (title != null)
-				player.setDisplayName(color + title + " " + player.getName() + ChatColor.RESET);
+				player.setDisplayName(colour + title + " " + player.getName() + ChatColor.RESET);
 			else
-				player.setDisplayName(color + player.getName() + ChatColor.RESET);
+				player.setDisplayName(colour + player.getName() + ChatColor.RESET);
 		}
+		this.colour = colour;
+		this.title = title;
+		this.forced = force;
+	}
+	
+	// Used for relogging
+	private void resetTitle() {
+		setTitle(colour, title, forced);
 	}
 	
 	
@@ -104,6 +115,12 @@ public abstract class GamePlayer extends GameEntity {
 	}
 	
 	
+	// ------ ONLINE/OFFLINE ------
+	public void goOnline() {
+		//player = Bukkit.getPlayer(name);
+		resetTitle();
+	}
+	public void goOffline() {}
 	
 	// ------ MISC ------
 	public void remove() {
@@ -196,7 +213,7 @@ public abstract class GamePlayer extends GameEntity {
 		Dwarf closestDwarf = null;
 		double closestRange = range;
 		double closestOffset = epsilon;
-		for (Dwarf testDwarf : DwarfManager.getManager().getDwarves()) {
+		for (Dwarf testDwarf : DwarfManager.getManager().getGamePlayers()) {
 			if (testDwarf == this) continue;
 			//if (testDwarf.isMaxArmour()) continue;
 			
@@ -224,4 +241,5 @@ public abstract class GamePlayer extends GameEntity {
 	public abstract void onShift(boolean sneaking);
 	public abstract Projectile onBowFire(Arrow arrow, float force);
 	public abstract void onArrowLand(Arrow arrow, Block hitBlock);
+	
 }

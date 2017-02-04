@@ -1,12 +1,8 @@
 package deimophobe.dvz.monster.spawnmenu;
 
-import deimophobe.dvz.GamePlayer;
 import deimophobe.dvz.menu.MenuItem;
-import deimophobe.dvz.monster.MobManager;
 import deimophobe.dvz.monster.MonsterPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 

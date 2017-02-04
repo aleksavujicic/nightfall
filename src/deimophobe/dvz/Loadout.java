@@ -1,10 +1,15 @@
-package deimophobe.dvz.dwarf.kit;
+package deimophobe.dvz;
 
+import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.kit.ArmourType;
+import deimophobe.dvz.dwarf.kit.Passive;
 import deimophobe.dvz.dwarf.kit.ale.AleType;
 import deimophobe.dvz.dwarf.kit.bow.BowType;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.sword.SwordType;
+import org.bukkit.entity.Player;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -63,5 +68,13 @@ public class Loadout {
 		this.consumables = consumables;
 		this.armour = armour;
 		this.passives = passives;
+	}
+	
+	private static final Map<Player, Loadout> loadouts = new HashMap<>();
+	public static void setLoadout(Player player, Loadout loadout) {
+		loadouts.put(player, loadout);
+	}
+	public static Loadout getLoadout(Player player) {
+		return loadouts.get(player);
 	}
 }

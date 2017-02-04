@@ -1,14 +1,13 @@
 package deimophobe.dvz.monster.ai;
 
 import deimophobe.dvz.Game;
-import deimophobe.dvz.monster.MobManager;
+import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.shrine.Region;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Zombie;
@@ -86,7 +85,7 @@ public class AIManager {
 		trySpawnAI();
 		
 		// Update ai marks spots
-		for (MonsterPlayer monster : MobManager.getManager().getMobs()) {
+		for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
 			if (monster.isAlive() && monster.getPlayer().isOnGround())
 				addAISpawnLocation(monster.getLocation());
 		}
@@ -94,7 +93,7 @@ public class AIManager {
 	
 	private void trySpawnAI() {
 		World world = Game.getGame().getWorld();
-		MobManager mobManager = MobManager.getManager();
+		MonsterManager monsterManager = MonsterManager.getManager();
 		for (Location spawnSpot : spawnSpots) {
 			if (!canSpawnAI(spawnSpot)) continue;
 			
@@ -105,7 +104,7 @@ public class AIManager {
 			ai.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 30000, speedLvl, false,false), true);
 			ai.getEquipment().clear();
 			ai.getEquipment().setItemInMainHand(new ItemStack(Material.IRON_AXE, 1, (short) 100));
-			mobManager.addToTeam(ai.getUniqueId().toString());
+			monsterManager.addToTeam(ai.getUniqueId().toString());
 			
 			ais.put(ai.getUniqueId(), new AIEntity(ai));
 		}

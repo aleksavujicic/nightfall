@@ -3,7 +3,7 @@ package deimophobe.dvz.dwarf;
 import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.kit.DwarvenItem;
 import deimophobe.dvz.dwarf.kit.Kit;
-import deimophobe.dvz.dwarf.kit.Loadout;
+import deimophobe.dvz.Loadout;
 import deimophobe.dvz.dwarf.kit.consumable.Consumable;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.sword.Sword;
@@ -23,14 +23,11 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import java.util.UUID;
 
@@ -55,8 +52,10 @@ public class Dwarf extends GamePlayer {
 		return kit;
 	}
 	
-	public Dwarf(Player player, Loadout loadout) {
+	public Dwarf(Player player) {
 		super(player);
+		
+		Loadout loadout = Loadout.getLoadout(player);
 		
 		clearEffects();
 		player.getInventory().clear();
@@ -110,7 +109,7 @@ public class Dwarf extends GamePlayer {
 			item.setAmount(loadout.getConsumables().get(type));
 			player.getInventory().addItem(item);
 		}
-		
+		Bukkit.broadcastMessage("ur a dwarf now");
 	}
 	
 	private void playIntro() {

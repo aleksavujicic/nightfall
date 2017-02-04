@@ -3,10 +3,8 @@ package deimophobe.dvz.monster;
 import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.menu.Menu;
 import deimophobe.dvz.monster.mob.Mob;
 import deimophobe.dvz.monster.mob.MobType;
-import deimophobe.dvz.monster.spawnmenu.UpgradeMenu;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.bukkit.Bukkit;
@@ -17,6 +15,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,6 +38,19 @@ public class MonsterPlayer extends GamePlayer {
 		mob = null;
 		
 		upgrades.put(MobType.ZOMBIE, new HashSet<>());
+		
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				kill();
+			}
+		}.runTaskLater(Game.getGame().getPlugin(), 1);
+	}
+	
+	@Override
+	public void remove() {
+		super.remove();
+		DisguiseAPI.undisguiseToAll(player);
 	}
 	
 	public void update() {
@@ -133,7 +145,7 @@ public class MonsterPlayer extends GamePlayer {
 	// ------ SPAWN/UPGRADE MENUS ------
 	private final Map<MobType, Set<String>> upgrades = new HashMap<>();
 	public void showMobMenu() {
-		MobManager.getManager().showMobMenu(this);
+		MonsterManager.getManager().showMobMenu(this);
 	}
 	
 	public void addUpgrade(MobType type, String upgrade) {

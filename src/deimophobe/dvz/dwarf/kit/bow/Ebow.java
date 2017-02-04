@@ -1,9 +1,10 @@
 package deimophobe.dvz.dwarf.kit.bow;
 
 import deimophobe.dvz.DamageType;
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
-import deimophobe.dvz.monster.MobManager;
+import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
 import deimophobe.dvz.monster.ai.AIManager;
@@ -51,9 +52,9 @@ class Ebow extends Bow {
 		}
 		
 		// Calculate collision
-		for (MonsterPlayer monster : MobManager.getManager().getMobs()) {
+		for (GameEntity monster : MonsterManager.getManager().getMobsAndAIs()) {
 			// Skip if further than distance shot or too close
-			Location monsterLocation = monster.getPlayer().getEyeLocation();
+			Location monsterLocation = monster.getEyeLocation();
 			double distance = dwarfLocation.distance(monsterLocation);
 			if (distance <= range) {
 				// Find if close enough to beam
@@ -67,33 +68,7 @@ class Ebow extends Bow {
 					
 					// Give procs to nearby dwarves
 					if (distance >= MIN_DISTANCE_FROM_SHOOTER) {
-						for (Dwarf procDwarf : DwarfManager.getManager().getDwarves()) {
-							if (monsterLocation.distance(procDwarf.getLocation()) <= PROC_RADIUS)
-								procDwarf.giveProc(Dwarf.ProcType.EBOW);
-						}
-					}
-				}
-			}
-		}
-		
-		// Same as above but for ais
-		for (AIEntity ai : AIManager.getManager().getAIs()) {
-			// Skip if further than distance shot or too close
-			Location monsterLocation = ai.getEyeLocation();
-			double distance = dwarfLocation.distance(monsterLocation);
-			if (distance <= range) {
-				// Find if close enough to beam
-				Vector monsterOffset = monsterLocation.clone().subtract(dwarfLocation).toVector();
-				Vector radialPostion = direction.clone().multiply(monsterOffset.clone().dot(direction)); // ((m - p) dot u) times u
-				double radialOffset = radialPostion.subtract(monsterOffset).length();
-				
-				// If close enough damage mob
-				if (radialOffset <= THICKNESS) {
-					ai.customDamage(dwarf, DamageType.EBOW, power);
-					
-					// Give procs to nearby dwarves
-					if (distance >= MIN_DISTANCE_FROM_SHOOTER) {
-						for (Dwarf procDwarf : DwarfManager.getManager().getDwarves()) {
+						for (Dwarf procDwarf : DwarfManager.getManager().getGamePlayers()) {
 							if (monsterLocation.distance(procDwarf.getLocation()) <= PROC_RADIUS)
 								procDwarf.giveProc(Dwarf.ProcType.EBOW);
 						}

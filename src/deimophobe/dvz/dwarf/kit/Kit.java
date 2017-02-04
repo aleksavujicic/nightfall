@@ -2,6 +2,7 @@ package deimophobe.dvz.dwarf.kit;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
+import deimophobe.dvz.Loadout;
 import deimophobe.dvz.dwarf.Dwarf;
 
 import deimophobe.dvz.dwarf.kit.ale.Ale;

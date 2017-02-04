@@ -29,7 +29,7 @@ public class DwarfListener implements Listener {
 	@EventHandler
 	public void preventInvDragging(InventoryDragEvent event) {
 		InventoryHolder holder = event.getInventory().getHolder();
-		if (holder instanceof Player && dm.isDwarf((Player) holder)) {
+		if (holder instanceof Player && dm.isGamePlayer((Player) holder)) {
 			if (event.getInventorySlots().contains(40)) {
 				event.setCancelled(true);
 			}
@@ -38,7 +38,7 @@ public class DwarfListener implements Listener {
 	
 	@EventHandler
 	public void preventDropping(PlayerDropItemEvent event) {
-		if (dm.getDwarf(event.getPlayer()) != null && !Kit.isDroppableItem(event.getItemDrop().getItemStack()))
+		if (dm.getGamePlayer(event.getPlayer()) != null && !Kit.isDroppableItem(event.getItemDrop().getItemStack()))
 			event.setCancelled(true);
 	}
 }

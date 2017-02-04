@@ -2,7 +2,7 @@ package deimophobe.dvz.monster.doom;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.Phase;
-import deimophobe.dvz.monster.MobManager;
+import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -81,7 +81,7 @@ public class DoomManager {
 	
 	private void spawnDoom(DoomType doomType) {
 		Set<MonsterPlayer> deadMonsters = new HashSet<>();
-		for (MonsterPlayer monster : MobManager.getManager().getMobs()) {
+		for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
 			if (!monster.isAlive())
 				deadMonsters.add(monster);
 		}

@@ -34,7 +34,7 @@ public class HealBlock extends TimedBlock {
 			@Override
 			public void run() {
 				Location position = block.getLocation();
-				for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
+				for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
 					if (position.distance(dwarf.getLocation()) <= RANGE) {
 						dwarf.heal(HEAL_AMT);
 					}

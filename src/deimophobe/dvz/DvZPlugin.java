@@ -3,11 +3,12 @@ package deimophobe.dvz;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.kit.ArmourType;
-import deimophobe.dvz.dwarf.kit.Loadout;
 import deimophobe.dvz.dwarf.kit.ale.AleType;
 import deimophobe.dvz.dwarf.kit.bow.BowType;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.sword.SwordType;
+import deimophobe.dvz.monster.MonsterManager;
+import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
 import org.bukkit.Bukkit;
@@ -85,8 +86,11 @@ public class DvZPlugin extends JavaPlugin {
 				consumables.put(ConsumableType.HEAL_STATION, 5);
 				
 				Loadout loadout = new Loadout(title, forceTitle, null, swordType, bow, heal, consumables, armour, null);
+				Loadout.setLoadout(Bukkit.getPlayer(args[0]), loadout);
 				
-				boolean success = game.addDwarf(args[0], loadout);
+				DwarfManager.getManager().removeGamePlayer(args[0]);
+				MonsterManager.getManager().removeGamePlayer(args[0]);
+				boolean success = DwarfManager.getManager().addGamePlayer(args[0]);
 				
 				if (success) {
 					sender.sendMessage(ChatColor.AQUA + "Added " + ChatColor.DARK_AQUA + args[0] + ChatColor.AQUA + " as a dwarf!");
@@ -101,7 +105,9 @@ public class DvZPlugin extends JavaPlugin {
 				sender.sendMessage(ChatColor.RED + "Please specify a monster.");
 				return false;
 			} else {
-				boolean success = game.addMonster(args[0]);
+				DwarfManager.getManager().removeGamePlayer(args[0]);
+				MonsterManager.getManager().removeGamePlayer(args[0]);
+				boolean success = MonsterManager.getManager().addGamePlayer(args[0]);
 				if (success) {
 					sender.sendMessage(ChatColor.AQUA + "Added " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a monster!");
 					return true;
@@ -116,12 +122,12 @@ public class DvZPlugin extends JavaPlugin {
 				sender.sendMessage(ChatColor.RED + "Please specify a player.");
 				return false;
 			} else {
-				boolean success = game.removeDwarf(args[0]);
+				boolean success = DwarfManager.getManager().removeGamePlayer(args[0]);
 				if (success) {
 					sender.sendMessage(ChatColor.AQUA + "Removed " + ChatColor.DARK_AQUA + args[0] + ChatColor.AQUA + " as a dwarf!");
 					return true;
 				} else {
-					success = game.removeMonster(args[0]);
+					success = MonsterManager.getManager().removeGamePlayer(args[0]);
 					if (success) {
 						sender.sendMessage(ChatColor.AQUA + "Removed " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a monster!");
 						return true;
@@ -152,7 +158,7 @@ public class DvZPlugin extends JavaPlugin {
 		}
 		if (name.equalsIgnoreCase("trash")) {
 			if (sender instanceof Player) {
-				Dwarf dwarf = DwarfManager.getManager().getDwarf((Player)sender);
+				Dwarf dwarf = DwarfManager.getManager().getGamePlayer((Player)sender);
 				if (dwarf != null)
 					dwarf.showTrash();
 				

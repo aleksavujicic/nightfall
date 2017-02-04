@@ -2,7 +2,7 @@ package deimophobe.dvz;
 
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
-import deimophobe.dvz.monster.MobManager;
+import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
 import deimophobe.dvz.timedblock.TimedBlock;
@@ -30,12 +30,12 @@ public class GameListener implements Listener {
 	
 	private final Game game;
 	private final DwarfManager dm;
-	private final MobManager mm;
+	private final MonsterManager mm;
 	
 	public GameListener() {
 		game = Game.getGame();
 		dm = DwarfManager.getManager();
-		mm = MobManager.getManager();
+		mm = MonsterManager.getManager();
 	}
 	
 	@EventHandler
@@ -54,10 +54,10 @@ public class GameListener implements Listener {
 		
 		switch (game.getPhase().playerTypeOnJoin()) {
 			case DWARF:
-				dm.addDwarf(event.getPlayer());
+				dm.addGamePlayer(event.getPlayer());
 				break;
 			case MOB:
-				mm.addMob(event.getPlayer());
+				mm.addGamePlayer(event.getPlayer());
 				break;
 			case NONE:
 				break;
@@ -312,16 +312,16 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
-		Dwarf dwarf = dm.getDwarf(event.getEntity());
+		Dwarf dwarf = dm.getGamePlayer(event.getEntity());
 		if (dwarf != null) {
 			event.setDeathMessage(dwarf.generateDeathMsg());
-			dm.removeDwarf(dwarf);
+			dm.removeGamePlayer(dwarf);
 		}
 	}
 	
 	@EventHandler
 	public void onRespawn(PlayerRespawnEvent event) {
-		boolean success = mm.addMob(event.getPlayer());
+		boolean success = mm.addGamePlayer(event.getPlayer());
 		event.setRespawnLocation(game.getCurrentMobspawn());
 	}
 	
@@ -338,7 +338,7 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void preventMobPickup(PlayerPickupItemEvent event){
-		if (mm.isMob(event.getPlayer())) {
+		if (mm.isGamePlayer(event.getPlayer())) {
 			event.setCancelled(true);
 		}
 	}
@@ -351,7 +351,7 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void preventInvClicking(InventoryClickEvent event) {
 		InventoryHolder holder = event.getInventory().getHolder();
-		if (holder instanceof Player && DwarfManager.getManager().isDwarf((Player) holder)) {
+		if (holder instanceof Player && DwarfManager.getManager().isGamePlayer((Player) holder)) {
 			if (event.getSlot() == 40 || event.getSlotType() == InventoryType.SlotType.ARMOR) {
 				event.setCancelled(true);
 			}
@@ -392,7 +392,7 @@ public class GameListener implements Listener {
 		}
 		
 		if (blockType == Material.GRAVEL) {
-			Dwarf dwarf = dm.getDwarf(event.getPlayer());
+			Dwarf dwarf = dm.getGamePlayer(event.getPlayer());
 			if (dwarf != null)
 				dwarf.mineGravel();
 		}

@@ -1,6 +1,5 @@
 package deimophobe.dvz.monster;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -18,8 +17,8 @@ public class MobListener implements Listener {
 	
 	/*@EventHandler
 	public void onInvClose(InventoryCloseEvent event) {
-		if (MobManager.getManager().isMobSpawnMenu(event.getInventory())) {
-			final MonsterPlayer mob = MobManager.getManager().getMob((Player) event.getGamePlayer());
+		if (MonsterManager.getManager().isMobSpawnMenu(event.getInventory())) {
+			final MonsterPlayer mob = MonsterManager.getManager().getMob((Player) event.getGamePlayer());
 			if (!mob.isAlive()) {
 				new BukkitRunnable() {
 					@Override
@@ -32,19 +31,19 @@ public class MobListener implements Listener {
 		}
 	}*/
 	
-	private static final MobManager mm = MobManager.getManager();
+	private static final MonsterManager mm = MonsterManager.getManager();
 	
 	@EventHandler
 	public void onInvClick(InventoryClickEvent event) {
 		HumanEntity entity = event.getWhoClicked();
 		if (entity.getType() == EntityType.PLAYER) {
 			Player player = (Player) entity;
-			MonsterPlayer monster = mm.getMob(player);
+			MonsterPlayer monster = mm.getGamePlayer(player);
 			
 			if (monster != null) { //&& !mob.isAlive()) {
 				event.setCancelled(true);
 				
-				MobManager.getManager().onClick(event.getSlot(), event.getClickedInventory(), monster);
+				MonsterManager.getManager().onClick(event.getSlot(), event.getClickedInventory(), monster);
 			}
 		}
 	}
@@ -52,7 +51,7 @@ public class MobListener implements Listener {
 	@EventHandler
 	public void deadLRClick(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
-		MonsterPlayer monster = mm.getMob(player);
+		MonsterPlayer monster = mm.getGamePlayer(player);
 		if (monster != null && !monster.isAlive()) {
 			mm.showMobMenu(monster);
 			event.setCancelled(true);
@@ -61,7 +60,7 @@ public class MobListener implements Listener {
 	
 	@EventHandler
 	public void preventDropping(PlayerDropItemEvent event) {
-		if (mm.getMob(event.getPlayer()) != null)
+		if (mm.getGamePlayer(event.getPlayer()) != null)
 			event.setCancelled(true);
 	}
 	

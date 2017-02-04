@@ -5,7 +5,7 @@ import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
-import deimophobe.dvz.monster.MobManager;
+import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.ai.AIManager;
 import org.bukkit.Location;
 
@@ -35,7 +35,7 @@ class Hammer extends Sword {
 		final double monsterDmg = (dwarf.hasProc() ? 20 : 5);
 		final double aiDmg = (dwarf.hasProc() ? 40 : 20);
 		Location center = monster.getLocation();
-		for (MonsterPlayer monsterPlayer : MobManager.getManager().getMobs()) {
+		for (MonsterPlayer monsterPlayer : MonsterManager.getManager().getGamePlayers()) {
 			if (monsterPlayer == monster) {
 				damage += monsterDmg;
 				continue;
