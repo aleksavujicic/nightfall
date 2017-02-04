@@ -34,14 +34,16 @@ class Longbow extends Bow {
 	
 	@Override
 	public void onKill(GameEntity monster, DamageType type) {
-		if (monster instanceof MonsterPlayer)
-			stacks += PLAYER_STACK_GAIN;
-		else if (monster instanceof AIEntity)
-			stacks += AI_STACK_GAIN;
-		
-		if (stacks > MAX_STACKS) stacks = MAX_STACKS;
-		
-		stackCD = MAX_STACK_CD;
+		if (type.isRanged()) {
+			if (monster instanceof MonsterPlayer)
+				stacks += PLAYER_STACK_GAIN;
+			else if (monster instanceof AIEntity)
+				stacks += AI_STACK_GAIN;
+			
+			if (stacks > MAX_STACKS) stacks = MAX_STACKS;
+			
+			stackCD = MAX_STACK_CD;
+		}
 	}
 	
 	
