@@ -17,6 +17,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -32,10 +33,25 @@ public class AIManager {
 	
 	
 	private final static int MAX_AIS = 45;
-	private final static int MAX_AI_MARKS = 60;
+	private final static int MAX_AI_MARKS = 90;
 	private final static double AI_SPAWN_CHANCE = 0.2;
 	
-	//private final static Set<String> AI_NAMES;
+	private final static Set<String> AI_NAMES = new HashSet<>();
+	static {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(Game.getGame().getPlugin().getResource("ainames.txt")));
+		String str;
+		try {
+			while ((str = reader.readLine()) != null) {
+				AI_NAMES.add(str);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	private String randomAIName() {
+		int i = new Random().nextInt(AI_NAMES.size());
+		return new ArrayList<>(AI_NAMES).get(i);
+	}
 	
 	private final Queue<Location> spawnSpots = new LinkedList<>();
 	private final Map<UUID, AIEntity> ais = new HashMap<>();
@@ -84,7 +100,7 @@ public class AIManager {
 			
 			// Create zombie with all right stuff
 			Zombie ai = (Zombie) world.spawnEntity(spawnSpot, EntityType.ZOMBIE);
-			ai.setCustomName(ChatColor.DARK_RED + "Rawb the AI");
+			ai.setCustomName(ChatColor.DARK_RED + randomAIName());
 			int speedLvl = (ai.isBaby() ? 0 : 3);
 			ai.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 30000, speedLvl, false,false), true);
 			ai.getEquipment().clear();
