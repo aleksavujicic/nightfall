@@ -22,6 +22,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.projectiles.ProjectileSource;
+import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -321,7 +322,13 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void onRespawn(PlayerRespawnEvent event) {
-		boolean success = mm.addGamePlayer(event.getPlayer());
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				mm.addGamePlayer(event.getPlayer());
+			}
+		}.runTaskLater(Game.getGame().getPlugin(), 1);
+		
 		event.setRespawnLocation(game.getCurrentMobspawn());
 	}
 	
