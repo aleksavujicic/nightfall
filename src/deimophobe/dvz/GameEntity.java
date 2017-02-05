@@ -3,6 +3,7 @@ package deimophobe.dvz;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.potion.PotionEffect;
@@ -14,9 +15,13 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 public abstract class GameEntity {
 	
-	private final LivingEntity entity;
+	private LivingEntity entity;
 	
 	protected GameEntity(LivingEntity entity) {
+		this.entity = entity;
+	}
+	
+	protected void resetEntity(LivingEntity entity) {
 		this.entity = entity;
 	}
 	

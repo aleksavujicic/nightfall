@@ -39,18 +39,19 @@ public class MonsterPlayer extends GamePlayer {
 		
 		upgrades.put(MobType.ZOMBIE, new HashSet<>());
 		
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				kill();
-			}
-		}.runTaskLater(Game.getGame().getPlugin(), 1);
+		killLater();
 	}
 	
 	@Override
 	public void remove() {
 		super.remove();
 		DisguiseAPI.undisguiseToAll(player);
+	}
+	
+	@Override
+	public void goOnline(Player player) {
+		super.goOnline(player);
+		kill();
 	}
 	
 	public void update() {
@@ -70,6 +71,15 @@ public class MonsterPlayer extends GamePlayer {
 	// ------ SPAWN AND DEATH ------
 	public boolean isAlive() {
 		return (player.getGameMode() == GameMode.SURVIVAL && mob != null);
+	}
+	
+	private void killLater() {
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				kill();
+			}
+		}.runTaskLater(Game.getGame().getPlugin(), 1);
 	}
 	
 	public void kill() {

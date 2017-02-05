@@ -16,8 +16,13 @@ import java.util.Map;
  * Created by Deimophobe on 4/02/17.
  */
 public abstract class GamePlayerManager<P extends GamePlayer> {
-	private Map<String, P> players = new HashMap<>();
+	private final Map<String, P> players = new HashMap<>();
+	private final String whoName;
 	private Team mcTeam;
+	
+	protected GamePlayerManager(String whoName) {
+		this.whoName = whoName;
+	}
 	
 	protected void setupTeams(String teamName, ChatColor teamColour) {
 		ScoreboardManager manager = Bukkit.getScoreboardManager();
@@ -107,7 +112,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		if (!offline.containsKey(name)) return false;
 		
 		P gamePlayer = offline.remove(name);
-		gamePlayer.goOnline();
+		gamePlayer.goOnline(player);
 		players.put(name, gamePlayer);
 		return true;
 	}
@@ -122,4 +127,16 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		return true;
 	}
 	
+	
+	
+	public String getPlayerList() {
+		StringBuilder sb = new StringBuilder(whoName);
+		sb.append(": \n");
+		for (P gp : getGamePlayers()) {
+			sb.append(gp.getWhoDisplay());
+			sb.append(", ");
+		}
+		sb.setLength(sb.length() - 2);
+		return sb.toString();
+	}
 }

@@ -7,7 +7,6 @@ import deimophobe.dvz.menu.Menu;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
 import deimophobe.dvz.monster.spawnmenu.SpawnMenu;
-import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.Inventory;
@@ -21,6 +20,10 @@ import java.util.*;
  */
 public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	private static MonsterManager ourManager = new MonsterManager();
+	
+	public MonsterManager() {
+		super(ChatColor.DARK_RED + "MONSTERS");
+	}
 	
 	public static MonsterManager getManager() {
 		return ourManager;

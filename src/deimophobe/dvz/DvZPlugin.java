@@ -25,13 +25,14 @@ import java.util.Map;
  * Created by Deimophobe on 15/01/17.
  */
 public class DvZPlugin extends JavaPlugin {
-	private Game game;
+	private Game game = Game.getGame();
+	private DwarfManager dm = DwarfManager.getManager();
+	private MonsterManager mm = MonsterManager.getManager();
 	
 	@Override
 	public void onEnable() {
 		Bukkit.getLogger().info("AYYYY LMAO");
-		Game.getGame().setupGame(this);
-		game = Game.getGame();
+		game.setupGame(this);
 	}
 
 	@Override
@@ -88,9 +89,9 @@ public class DvZPlugin extends JavaPlugin {
 				Loadout loadout = new Loadout(title, forceTitle, null, swordType, bow, heal, consumables, armour, null);
 				Loadout.setLoadout(Bukkit.getPlayer(args[0]), loadout);
 				
-				DwarfManager.getManager().removeGamePlayer(args[0]);
-				MonsterManager.getManager().removeGamePlayer(args[0]);
-				boolean success = DwarfManager.getManager().addGamePlayer(args[0]);
+				dm.removeGamePlayer(args[0]);
+				mm.removeGamePlayer(args[0]);
+				boolean success = dm.addGamePlayer(args[0]);
 				
 				if (success) {
 					sender.sendMessage(ChatColor.AQUA + "Added " + ChatColor.DARK_AQUA + args[0] + ChatColor.AQUA + " as a dwarf!");
@@ -105,9 +106,9 @@ public class DvZPlugin extends JavaPlugin {
 				sender.sendMessage(ChatColor.RED + "Please specify a monster.");
 				return false;
 			} else {
-				DwarfManager.getManager().removeGamePlayer(args[0]);
-				MonsterManager.getManager().removeGamePlayer(args[0]);
-				boolean success = MonsterManager.getManager().addGamePlayer(args[0]);
+				dm.removeGamePlayer(args[0]);
+				mm.removeGamePlayer(args[0]);
+				boolean success = mm.addGamePlayer(args[0]);
 				if (success) {
 					sender.sendMessage(ChatColor.AQUA + "Added " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a monster!");
 					return true;
@@ -122,12 +123,12 @@ public class DvZPlugin extends JavaPlugin {
 				sender.sendMessage(ChatColor.RED + "Please specify a player.");
 				return false;
 			} else {
-				boolean success = DwarfManager.getManager().removeGamePlayer(args[0]);
+				boolean success = dm.removeGamePlayer(args[0]);
 				if (success) {
 					sender.sendMessage(ChatColor.AQUA + "Removed " + ChatColor.DARK_AQUA + args[0] + ChatColor.AQUA + " as a dwarf!");
 					return true;
 				} else {
-					success = MonsterManager.getManager().removeGamePlayer(args[0]);
+					success = mm.removeGamePlayer(args[0]);
 					if (success) {
 						sender.sendMessage(ChatColor.AQUA + "Removed " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a monster!");
 						return true;
@@ -158,7 +159,7 @@ public class DvZPlugin extends JavaPlugin {
 		}
 		if (name.equalsIgnoreCase("trash")) {
 			if (sender instanceof Player) {
-				Dwarf dwarf = DwarfManager.getManager().getGamePlayer((Player)sender);
+				Dwarf dwarf = dm.getGamePlayer((Player)sender);
 				if (dwarf != null)
 					dwarf.showTrash();
 				
@@ -166,6 +167,9 @@ public class DvZPlugin extends JavaPlugin {
 			} else {
 				return false;
 			}
+		}
+		if (name.equalsIgnoreCase("who")) {
+			sender.sendMessage(dm.getPlayerList() + "\n" +  mm.getPlayerList());
 		}
 		return false;
 	}

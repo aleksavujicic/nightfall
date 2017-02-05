@@ -16,6 +16,9 @@ commands:
   trash:
     description: For deleting your duplicate items.
     aliases: fawn
+  who:
+    description: Who is what and where is why
+    aliases: list
   toggleais:
     usage: /toggleais
     description: Enables/disables AI spawning.

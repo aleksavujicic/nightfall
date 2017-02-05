@@ -7,7 +7,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -18,7 +17,7 @@ import java.util.Set;
  * Created by Deimophobe on 17/01/17.
  */
 public abstract class GamePlayer extends GameEntity {
-	protected final Player player;
+	protected Player player;
 	private final String name;
 	
 	protected GamePlayer(Player player) {
@@ -28,7 +27,6 @@ public abstract class GamePlayer extends GameEntity {
 	}
 	
 	public Player getPlayer() {
-		if (player == null) Bukkit.broadcastMessage("NULL PLAYER");
 		return player;
 	}
 	
@@ -36,7 +34,7 @@ public abstract class GamePlayer extends GameEntity {
 	// ------ TITLE ------
 	private ChatColor colour;
 	private String title;
-	private boolean forced;
+	private boolean forcedTitle;
 	@Override
 	public String getDisplayName() {
 		return player.getDisplayName();
@@ -53,12 +51,19 @@ public abstract class GamePlayer extends GameEntity {
 		}
 		this.colour = colour;
 		this.title = title;
-		this.forced = force;
+		this.forcedTitle = force;
+	}
+	
+	public String getWhoDisplay() {
+		if (forcedTitle)
+			return getDisplayName() + ChatColor.RESET + "(" + player.getName() + ")";
+		else
+			return getDisplayName() + ChatColor.RESET;
 	}
 	
 	// Used for relogging
 	private void resetTitle() {
-		setTitle(colour, title, forced);
+		setTitle(colour, title, forcedTitle);
 	}
 	
 	
@@ -116,8 +121,9 @@ public abstract class GamePlayer extends GameEntity {
 	
 	
 	// ------ ONLINE/OFFLINE ------
-	public void goOnline() {
-		//player = Bukkit.getPlayer(name);
+	public void goOnline(Player newPlayer) {
+		super.resetEntity(newPlayer);
+		player = newPlayer;
 		resetTitle();
 	}
 	public void goOffline() {}
@@ -134,6 +140,7 @@ public abstract class GamePlayer extends GameEntity {
 		String name = getDisplayName();
 		
 		DamageType type = getLastDamageType();
+		if (type == null) return name + " died.";
 		
 		String killMsg;
 		
@@ -241,5 +248,4 @@ public abstract class GamePlayer extends GameEntity {
 	public abstract void onShift(boolean sneaking);
 	public abstract Projectile onBowFire(Arrow arrow, float force);
 	public abstract void onArrowLand(Arrow arrow, Block hitBlock);
-	
 }
