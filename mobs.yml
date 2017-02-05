@@ -368,7 +368,7 @@ krungor:
     lore:
      - §dSome lore
      - and more lore
-    health: 280
+    health: 180
     speed: 0.05
     kbresist: true
   items:

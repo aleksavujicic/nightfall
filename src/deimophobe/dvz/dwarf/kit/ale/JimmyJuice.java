@@ -10,7 +10,7 @@ import org.bukkit.event.block.Action;
  */
 class JimmyJuice extends Ale {
 	JimmyJuice(Dwarf dwarf) {
-		super(dwarf, AleType.JIMMYJUICE, 150);
+		super(dwarf, AleType.JIMMYJUICE, 120);
 	}
 	
 	@Override
