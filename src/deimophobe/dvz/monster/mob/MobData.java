@@ -2,7 +2,6 @@ package deimophobe.dvz.monster.mob;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.ItemCreator;
-import deimophobe.dvz.monster.MonsterManager;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;
@@ -21,7 +20,9 @@ public class MobData {
 	final boolean forceTitle;
 	
 	final DisguiseType disguiseType;
-	final String playerDisguise;
+	final String playerName;
+	final String skinName;
+	
 	final ItemStack helmet;
 	final ItemStack chest;
 	final List<ItemStack> items;
@@ -59,9 +60,14 @@ public class MobData {
 			}
 		}
 		if (parent == null)
-			playerDisguise = section.getString("playername");
+			playerName = section.getString("playername");
 		else
-			playerDisguise = section.getString("playername", parent.playerDisguise);
+			playerName = section.getString("playername", parent.playerName);
+		
+		if (parent == null)
+			skinName = section.getString("skin");
+		else
+			skinName = section.getString("skin", parent.skinName);
 		
 		
 		if (section.contains("helmet") || parent == null)

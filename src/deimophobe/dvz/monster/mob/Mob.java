@@ -1,8 +1,13 @@
 package deimophobe.dvz.monster.mob;
 
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.comphenix.protocol.wrappers.WrappedSignedProperty;
+import com.google.common.collect.Multimap;
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.Game;
+import deimophobe.dvz.Skin;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
@@ -20,6 +25,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
@@ -58,16 +64,22 @@ public class Mob {
 		player.setGameMode(GameMode.SURVIVAL);
 		
 		if (mobData.disguiseType != null) {
-			Disguise disguise;
 			if (mobData.disguiseType == DisguiseType.PLAYER) {
-				disguise = new PlayerDisguise(mobData.playerDisguise);
+				new BukkitRunnable() {
+					@Override
+					public void run() {
+						Disguise disguise = Skin.getDisguise(mobData.playerName, mobData.skinName);
+						disguise = disguise.setViewSelfDisguise(false);
+						DisguiseAPI.disguiseEntity(player, disguise);
+					}
+				}.runTaskLater(Game.getGame().getPlugin(), 1);
 			} else {
-				disguise = new MobDisguise(mobData.disguiseType);
+				Disguise disguise = new MobDisguise(mobData.disguiseType);
+				disguise = disguise.setViewSelfDisguise(false);
+				disguise.getWatcher().setCustomNameVisible(false);
+				disguise.getWatcher().setCustomName(ChatColor.DARK_RED + monster.getDisplayName());
+				DisguiseAPI.disguiseEntity(player, disguise);
 			}
-			disguise = disguise.setViewSelfDisguise(false);
-			disguise.getWatcher().setCustomNameVisible(false);
-			disguise.getWatcher().setCustomName(ChatColor.DARK_RED + monster.getDisplayName());
-			DisguiseAPI.disguiseEntity(player, disguise);
 		}
 		
 		

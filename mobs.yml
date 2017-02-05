@@ -358,7 +358,8 @@ krungor:
   forcetitle: true
 
   disguisetype: player
-  playername: kud23
+  playername: §cCapmergor
+  skin: capmergor
 
   helmet:
     material: shears
