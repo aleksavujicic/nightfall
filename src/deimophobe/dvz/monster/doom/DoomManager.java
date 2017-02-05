@@ -75,9 +75,8 @@ public class DoomManager {
 	}
 	
 	private DoomType nextDoom() {
-		return DoomType.KRUNGOR;
-		//int i = new Random().nextInt(dooms.size());
-		//return new ArrayList<>(dooms.keySet()).get(i);
+		int i = new Random().nextInt(dooms.size());
+		return new ArrayList<>(dooms.keySet()).get(i);
 	}
 	
 	private void spawnDoom(DoomType doomType) {

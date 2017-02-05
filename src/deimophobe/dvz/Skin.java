@@ -1,5 +1,6 @@
 package deimophobe.dvz;
 
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedSignedProperty;
 import com.google.common.collect.Multimap;
 import deimophobe.dvz.monster.mob.MobData;
@@ -12,6 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Deimophobe on 5/02/17.
@@ -34,18 +36,11 @@ public class Skin {
 		}
 	}
 	
-	public static PlayerDisguise getDisguise(String playerName, String skinName) {
+	public static PlayerDisguise getDisguiseWithSkin(String skinName, String playerName) {
 		Skin skin = skins.get(skinName);
-		PlayerDisguise disguise = new PlayerDisguise(playerName);
-//		Multimap<String, WrappedSignedProperty> properties = disguise.getGameProfile().getProperties();
-//		properties.put("skin", new WrappedSignedProperty("textures", skin.value, skin.sign));
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				Multimap<String, WrappedSignedProperty> properties = disguise.getGameProfile().getProperties();
-				properties.put("skin", new WrappedSignedProperty("textures", skin.value, skin.sign));
-			}
-		}.runTaskLater(Game.getGame().getPlugin(), 1);
-		return disguise;
+		WrappedGameProfile profile = new WrappedGameProfile(UUID.randomUUID(), playerName);
+		profile.getProperties().put("textures", new WrappedSignedProperty("textures", skin.value, skin.sign));
+		
+		return new PlayerDisguise(profile);
 	}
 }

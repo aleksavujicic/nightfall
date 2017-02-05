@@ -68,17 +68,19 @@ public class Mob {
 				new BukkitRunnable() {
 					@Override
 					public void run() {
-						Disguise disguise = Skin.getDisguise(mobData.playerName, mobData.skinName);
+						PlayerDisguise disguise = Skin.getDisguiseWithSkin(mobData.skinName, mobData.playerName);
+						disguise.setDisplayedInTab(true);
 						disguise = disguise.setViewSelfDisguise(false);
 						DisguiseAPI.disguiseEntity(player, disguise);
 					}
 				}.runTaskLater(Game.getGame().getPlugin(), 1);
 			} else {
 				Disguise disguise = new MobDisguise(mobData.disguiseType);
-				disguise = disguise.setViewSelfDisguise(false);
 				disguise.getWatcher().setCustomNameVisible(false);
 				disguise.getWatcher().setCustomName(ChatColor.DARK_RED + monster.getDisplayName());
+				disguise = disguise.setViewSelfDisguise(false);
 				DisguiseAPI.disguiseEntity(player, disguise);
+				
 			}
 		}
 		
