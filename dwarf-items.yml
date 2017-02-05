@@ -1,15 +1,15 @@
 sword:
   drb:
-    material: iron_axe
-    data: 0
+    material: shears
+    damage: 0
     name: §bDwarven Runeblade
     lore:
      - What a crappy
      - weapon
     attack: 15
   grb:
-    material: iron_axe
-    data: 0
+    material: shears
+    damage: 0
     name: §bGreater Runeblade
     lore:
      - §9The mighty weapon thats said
@@ -17,16 +17,16 @@ sword:
      - §asparkles§9.
     attack: 15
   axe:
-    material: iron_axe
-    data: 1
+    material: shears
+    damage: 1
     name: §bAxe of Malice
     lore:
      - §d"Be careful with those ones
      - §djimmy, they've gone §cmad§d."
     attack: 20
   dagger:
-    material: iron_axe
-    data: 2
+    material: shears
+    damage: 2
     name: §bElven Dagger
     lore:
      - §aForged with the §2worst of poisons§a
@@ -36,7 +36,7 @@ sword:
     speed: 0.05
   hammer:
     material: shield
-    data: 1
+    damage: 1
     name: §bWarhammer
     lore:
      - §6"Take this and battle alongside
@@ -69,8 +69,8 @@ bow:
     lore:
      - Some lore
   crossbow:
-    material: iron_axe
-    data: 25
+    material: shears
+    damage: 25
     name: Crossbow
     lore:
      - Some lore
@@ -81,7 +81,7 @@ bow:
      - Some lore
   ebow:
     material: bow
-    data: 3
+    damage: 3
     name: Emerald Bow
     lore:
      - Some lore
@@ -108,14 +108,14 @@ ale:
     lore:
      - Some lore
   trinket:
-    material: iron_axe
-    data: 30
+    material: shears
+    damage: 30
     name: Star Trinket
     lore:
      - Some lore
   regrowth:
-    material: iron_axe
-    data: 31
+    material: shears
+    damage: 31
     name: Regrowth Star
     lore:
      - Some lore
@@ -123,49 +123,49 @@ ale:
 consumable:
   lamp:
     material: ink_sack
-    data: 0
+    damage: 0
     name: Enchanted Lamp
     lore:
      - Some lore
   slab:
     material: ink_sack
-    data: 1
+    damage: 1
     name: EZ Fix Slab
     lore:
      - Some lore
   sos:
     material: ink_sack
-    data: 2
+    damage: 2
     name: Sword of Santification
     lore:
      - Some lore
   wrench:
     material: ink_sack
-    data: 3
+    damage: 3
     name: Wrench
     lore:
      - Some lore
   mortar:
     material: ink_sack
-    data: 4
+    damage: 4
     name: Mortar
     lore:
      - Some lore
   wizardmortar:
     material: ink_sack
-    data: 5
+    damage: 5
     name: Wizard Mortar
     lore:
      - Some lore
   armouritem:
     material: ink_sack
-    data: 6
+    damage: 6
     name: Dwarven Armour
     lore:
      - Some lore
   healstation:
     material: ink_sack
-    data: 7
+    damage: 7
     name: Healing Station
     lore:
      - Some lore
@@ -173,45 +173,45 @@ consumable:
 misc:
   pick:
     material: iron_pickaxe
-    data: 70
+    damage: 70
     name: Dwarven Pickaxe
     lore:
      - Some lore
   axe:
     material: iron_axe
-    data: 71
+    damage: 71
     name: Dwarven Axe
     lore:
      - Some lore
   shovel:
     material: iron_spade
-    data: 72
+    damage: 72
     name: Dwarven Shovel
     lore:
      - Some lore
 
   log:
     material: ink_sack
-    data: 12
+    damage: 12
     name: Wooden Log
     lore:
      - Some lore
   plank:
     material: ink_sack
-    data: 13
+    damage: 13
     name: Wooden Plank
     lore:
      - Some lore
   stick:
     #material: ink_sack
-    #data: 14
+    #damage: 14
     material: stick
     name: §bStick
     lore:
      - A stick - what else would it be?
   bowl:
     material: ink_sack
-    data: 15
+    damage: 15
     name: Wooden Bowl
     lore:
      - Some lore

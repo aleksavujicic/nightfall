@@ -13,6 +13,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.io.BukkitObjectInputStream;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class ItemCreator {
 	
 	public static ItemStack createItem(Material type, short damage, byte data, String name, List<String> lore, int quantity, int attackDamage, int healthBoost, double speed, boolean kbResist, boolean bound, int depth, int knockback, Slot slot) {
 		ItemStack item = new ItemStack(type, quantity, damage, data);
+		item.setDurability(damage);
 		
 		lore.add("");
 		
@@ -98,7 +100,7 @@ public class ItemCreator {
 	
 	public static List<ItemStack> createItems(ConfigurationSection section, Slot slot) {
 		if (section == null) return null;
-		List<ItemStack> items = new ArrayList<ItemStack>();
+		List<ItemStack> items = new ArrayList<>();
 		for (String key : section.getKeys(false)) {
 			items.add(createItem(section.getConfigurationSection(key), slot));
 		}

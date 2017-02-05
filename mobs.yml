@@ -12,8 +12,7 @@ zombie:
     bound: true
   items:
     item1:
-      material: iron_axe
-      data: 101
+      material: wood_pickaxe
       name: Makeshift Pick
       lore:
        - Some lore
@@ -74,7 +73,7 @@ witherskele:
   items:
     item1:
       material: bow
-      data: 1
+      damage: 2
       name: Nether Tooth Bow
       lore:
        - Some lore
@@ -113,8 +112,8 @@ wolf:
     bound: true
   items:
     item1:
-      material: iron_axe
-      data: 104
+      material: shears
+      damage: 103
       name: Wolf Fangs
       lore:
        - Some lore
@@ -149,8 +148,8 @@ spiderling:
     bound: true
   items:
     item1:
-      material: iron_axe
-      data: 107
+      material: shears
+      damage: 106
       name: Spider Thingies
       lore:
        - Something something
@@ -179,8 +178,8 @@ rat:
     bound: true
   items:
     item1:
-      material: iron_axe
-      data: 107
+      material: shears
+      damage: 106
       name: Rat Talons
       lore:
        - Some lore
@@ -210,8 +209,8 @@ golem:
     bound: true
   items:
     item1:
-      material: iron_axe
-      data: 105
+      material: shears
+      damage: 104
       name: Ancient Pick
       lore:
        - Some lore
@@ -240,8 +239,8 @@ ogre:
     bound: true
   items:
     item1:
-      material: iron_axe
-      data: 106
+      material: shears
+      damage: 105
       name: Ogre Club
       lore:
        - Some lore
@@ -293,8 +292,8 @@ gb-dagger:
 
   items:
     item1:
-      material: iron_axe
-      data: 2
+      material: shears
+      damage: 2
       name: Spooky Dagger
       lore:
        - Some lore
@@ -308,8 +307,8 @@ gb-runeblade:
 
   items:
     item1:
-      material: iron_axe
-      data: 0
+      material: shears
+      damage: 0
       name: Spooky Blade
       lore:
        - Some lore
@@ -325,8 +324,8 @@ gb-axe:
 
   items:
     item1:
-      material: iron_axe
-      data: 1
+      material: shears
+      damage: 1
       name: Spooky Axe
       lore:
        - Some lore
@@ -343,7 +342,7 @@ gb-hammer:
   items:
     item1:
       material: diamond_pickaxe
-      data: 0
+      damage: 0
       name: Spooky Hammer
       lore:
        - Some lore
@@ -362,7 +361,8 @@ krungor:
   playername: kud23
 
   helmet:
-    material: gold_helmet
+    material: shears
+    damage: 200
     name: §cCrown of the Ogre King
     lore:
      - §dSome lore
@@ -370,11 +370,10 @@ krungor:
     health: 280
     speed: 0.05
     kbresist: true
-    bound: true
   items:
     item1:
-      material: iron_axe
-      data: 106
+      material: shears
+      damage: 105
       name: §cKrungor's Axe
       lore:
        - Some lore

@@ -103,7 +103,7 @@ public class AIManager {
 			int speedLvl = (ai.isBaby() ? 0 : 3);
 			ai.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 30000, speedLvl, false,false), true);
 			ai.getEquipment().clear();
-			ai.getEquipment().setItemInMainHand(new ItemStack(Material.IRON_AXE, 1, (short) 100));
+			ai.getEquipment().setItemInMainHand(new ItemStack(Material.SHEARS, 1, (short) 100));
 			monsterManager.addToTeam(ai.getUniqueId().toString());
 			
 			ais.put(ai.getUniqueId(), new AIEntity(ai));
