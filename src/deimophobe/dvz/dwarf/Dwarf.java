@@ -109,7 +109,6 @@ public class Dwarf extends GamePlayer {
 			item.setAmount(loadout.getConsumables().get(type));
 			player.getInventory().addItem(item);
 		}
-		Bukkit.broadcastMessage("ur a dwarf now");
 	}
 	
 	private void playIntro() {
