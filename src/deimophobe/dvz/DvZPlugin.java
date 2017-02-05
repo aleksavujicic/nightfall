@@ -85,6 +85,7 @@ public class DvZPlugin extends JavaPlugin {
 				consumables.put(ConsumableType.MORTAR, 5);
 				consumables.put(ConsumableType.WIZARD_MORTAR, 5);
 				consumables.put(ConsumableType.HEAL_STATION, 5);
+				consumables.put(ConsumableType.ARMOUR_ITEM, 5);
 				
 				Loadout loadout = new Loadout(title, forceTitle, null, swordType, bow, heal, consumables, armour, null);
 				Loadout.setLoadout(Bukkit.getPlayer(args[0]), loadout);

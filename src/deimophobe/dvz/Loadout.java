@@ -3,7 +3,9 @@ package deimophobe.dvz;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.kit.ArmourType;
 import deimophobe.dvz.dwarf.kit.Passive;
+import deimophobe.dvz.dwarf.kit.ale.Ale;
 import deimophobe.dvz.dwarf.kit.ale.AleType;
+import deimophobe.dvz.dwarf.kit.bow.Bow;
 import deimophobe.dvz.dwarf.kit.bow.BowType;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.sword.SwordType;
@@ -75,6 +77,20 @@ public class Loadout {
 		loadouts.put(player, loadout);
 	}
 	public static Loadout getLoadout(Player player) {
-		return loadouts.get(player);
+		Loadout loadout = loadouts.get(player);
+		if (loadout != null) return loadout;
+		
+		Map<ConsumableType, Integer> consumables = new HashMap<>();
+		consumables.put(ConsumableType.LAMP, 5);
+		consumables.put(ConsumableType.SOS, 5);
+		consumables.put(ConsumableType.WRENCH, 5);
+		consumables.put(ConsumableType.MORTAR, 5);
+		consumables.put(ConsumableType.WIZARD_MORTAR, 5);
+		consumables.put(ConsumableType.HEAL_STATION, 5);
+		consumables.put(ConsumableType.ARMOUR_ITEM, 5);
+		
+		Loadout defaultLoadout = new Loadout("Ranger", false, null, SwordType.GRB, BowType.DRAGONSKIN, AleType.JIMMYJUICE, consumables, ArmourType.RUNEBLESSED, null);
+		loadouts.put(player, defaultLoadout);
+		return defaultLoadout;
 	}
 }
