@@ -61,7 +61,9 @@ public class MonsterPlayer extends GamePlayer {
 		if (mob != null) {
 			mob.update();
 			
-			player.setExp(mob.getCooldown());
+			// Update could kill mob
+			if (mob != null)
+				player.setExp(mob.getCooldown());
 		} else {
 			player.setFlySpeed(0.1f);
 		}

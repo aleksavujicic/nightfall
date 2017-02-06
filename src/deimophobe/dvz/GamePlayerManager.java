@@ -24,14 +24,20 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		this.whoName = whoName;
 	}
 	
-	protected void setupTeams(String teamName, ChatColor teamColour) {
+	protected Team setupTeams(String teamName, ChatColor teamColour) {
 		ScoreboardManager manager = Bukkit.getScoreboardManager();
 		Scoreboard board = manager.getMainScoreboard();
+		
 		mcTeam = board.registerNewTeam(teamName);
-		mcTeam.setAllowFriendlyFire(false);
-		mcTeam.setDisplayName(teamColour + teamName);
-		mcTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.FOR_OWN_TEAM);
+		
 		mcTeam.setPrefix(String.valueOf(teamColour));
+		mcTeam.setDisplayName(teamColour + teamName);
+		
+		mcTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.FOR_OWN_TEAM);
+		mcTeam.setCanSeeFriendlyInvisibles(true);
+		mcTeam.setAllowFriendlyFire(false);
+		
+		return mcTeam;
 	}
 	
 	

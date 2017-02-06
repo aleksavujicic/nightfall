@@ -12,6 +12,7 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.Team;
 
 import java.util.*;
 
@@ -42,7 +43,8 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 			}
 		}.runTaskTimer(plugin, 1, 1);
 		
-		setupTeams("mobs", ChatColor.DARK_RED);
+		Team team = setupTeams("mobs", ChatColor.DARK_RED);
+		team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OTHER_TEAMS);
 	}
 	
 	@Override

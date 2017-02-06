@@ -65,22 +65,19 @@ public class Mob {
 		
 		if (mobData.disguiseType != null) {
 			if (mobData.disguiseType == DisguiseType.PLAYER) {
-				new BukkitRunnable() {
-					@Override
-					public void run() {
-						PlayerDisguise disguise = Skin.getDisguiseWithSkin(mobData.skinName, mobData.playerName);
-						disguise.setDisplayedInTab(true);
-						disguise = disguise.setViewSelfDisguise(false);
-						DisguiseAPI.disguiseEntity(player, disguise);
-					}
-				}.runTaskLater(Game.getGame().getPlugin(), 1);
+				PlayerDisguise disguise = Skin.getDisguiseWithSkin(mobData.skinName, mobData.playerName);
+				disguise.setDisplayedInTab(true);
+				disguise = disguise.setViewSelfDisguise(false);
+				disguise.getWatcher().setCustomNameVisible(false);
+				disguise.getWatcher().setCustomName(mobData.playerName);
+				MonsterManager.getManager().addToTeam(mobData.playerName);
+				DisguiseAPI.disguiseEntity(player, disguise);
 			} else {
 				Disguise disguise = new MobDisguise(mobData.disguiseType);
 				disguise.getWatcher().setCustomNameVisible(false);
 				disguise.getWatcher().setCustomName(ChatColor.DARK_RED + monster.getDisplayName());
 				disguise = disguise.setViewSelfDisguise(false);
 				DisguiseAPI.disguiseEntity(player, disguise);
-				
 			}
 		}
 		
@@ -109,7 +106,7 @@ public class Mob {
 	}
 	
 	protected boolean isPlayerHoldingItem(int index) {
-		return monster.getHeldItem().isSimilar(items.get(0));
+		return monster.getHeldItem().isSimilar(items.get(index));
 	}
 	
 	protected Disguise getDisguise() {
