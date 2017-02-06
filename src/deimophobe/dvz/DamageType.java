@@ -21,9 +21,10 @@ public enum DamageType {
 	LAVA(false, false, true, false, false, false),
 	FIRE(false, false, true, false, false, false),
 	
-	VOID(false, false, false, false, false, false),
-	SEPUKKU(false, false, false, false, true, false),
-	SHRINE_PROTECTION(false, false, false, false, true, false),
+	VOID(false, false, false, false, false, true),
+	SEPPUKU(false, false, false, false, true, true),
+	SHRINE_PROTECTION(false, false, false, false, true, true),
+	RELOG(false, false, false, false, true, true),
 	
 	EBOW(false, true, false, false, true, false),
 	HAMMER_AOE(true, false, false, false, true, false),

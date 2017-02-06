@@ -51,7 +51,16 @@ public class MonsterPlayer extends GamePlayer {
 	@Override
 	public void goOnline(Player player) {
 		super.goOnline(player);
-		kill();
+		
+		teleportTo(Game.getGame().getCurrentMobspawn());
+		givePotionEffect(PotionEffectType.SLOW, 70, 20, true, true);
+		givePotionEffect(PotionEffectType.JUMP, 70, -20, true, true);
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				customDamage(null, DamageType.RELOG, 10000);
+			}
+		}.runTaskLater(Game.getGame().getPlugin(), 70);
 	}
 	
 	public void update() {

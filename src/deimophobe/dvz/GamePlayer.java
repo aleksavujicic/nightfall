@@ -187,10 +187,12 @@ public abstract class GamePlayer extends GameEntity {
 			
 			case VOID:
 				return name + " was swallowed by the abyss.";
-			case SEPUKKU:
+			case SEPPUKU:
 				return name + " committed sudoku.";
 			case SHRINE_PROTECTION:
 				return name + " was zapped by lightning.";
+			case RELOG:
+				return name + " failed at interdimensional travel.";
 				
 			default:
 				return name + " died.";
