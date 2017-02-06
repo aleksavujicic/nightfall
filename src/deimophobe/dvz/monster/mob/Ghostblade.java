@@ -15,10 +15,14 @@ import org.bukkit.util.Vector;
  */
 class Ghostblade extends Mob {
 	private int cooldown = 0;
-	private final static int MAX_CD = 100;
+	private final int MAX_CD;
 	
 	protected Ghostblade(MonsterPlayer mons, MobType type) {
 		super(mons, type);
+		if (type == MobType.GB_DAGGER)
+			MAX_CD = 50;
+		else
+			MAX_CD = 100;
 	}
 	
 	@Override
@@ -34,20 +38,26 @@ class Ghostblade extends Mob {
 	
 	@Override
 	public float getCooldown() {
-		return 1 - (float)cooldown /MAX_CD;
+		return 1 - (float)cooldown/MAX_CD;
 	}
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock) {
 		if (DwarvenItem.isRightClick(action)) {
 			if (cooldown == 0) {
-				Dwarf dwarf = monster.getLookingAt(2, 10);
+				Dwarf dwarf = monster.getLookingAt(2, 16);
 				if (dwarf != null) {
 					Location dwarfLoc = dwarf.getLocation();
-					Vector lookDir = dwarfLoc.getDirection();
-					monster.teleportTo(dwarfLoc.subtract(lookDir));
-					monster.playSound("entity.endermen.teleport", 1, 1, true);
-					cooldown = MAX_CD;
+					
+					Vector lookDir = dwarfLoc.getDirection().setY(0);
+					Location newLoc = dwarfLoc.subtract(lookDir);
+					
+					if (!newLoc.getBlock().getType().isSolid()) {
+						monster.teleportTo(newLoc);
+						monster.playSound("entity.endermen.teleport", 1, 1, true);
+						
+						cooldown = MAX_CD;
+					}
 				}
 			}
 		}
