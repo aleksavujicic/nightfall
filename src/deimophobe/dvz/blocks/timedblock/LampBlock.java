@@ -1,4 +1,4 @@
-package deimophobe.dvz.timedblock;
+package deimophobe.dvz.blocks.timedblock;
 
 import org.bukkit.Location;
 import org.bukkit.Material;

@@ -138,7 +138,7 @@ public class Mob {
 	public Projectile onBowFire(Arrow arrow, float force) {
 		return null;
 	}
-	public void onArrowLand(Arrow arrow, Block hitBlock) {}
+	public void onProjectileLand(Projectile proj, Block hitBlock) {}
 	public float getCooldown() {
 		return 0;
 	}

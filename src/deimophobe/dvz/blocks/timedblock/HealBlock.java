@@ -1,4 +1,4 @@
-package deimophobe.dvz.timedblock;
+package deimophobe.dvz.blocks.timedblock;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GamePlayer;

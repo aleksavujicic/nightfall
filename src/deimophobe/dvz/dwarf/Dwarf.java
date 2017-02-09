@@ -464,8 +464,8 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	@Override
-	public void onArrowLand(Arrow arrow, Block hitBlock) {
-		kit.onArrowLand(arrow, hitBlock);
+	public void onProjectileLand(Projectile arrow, Block hitBlock) {
+		kit.onProjectileLand(arrow, hitBlock);
 	}
 	
 	

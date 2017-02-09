@@ -106,7 +106,7 @@ public class Kit {
 		return bow.onBowFire(arrow, force);
 	}
 	
-	public void onArrowLand(Arrow arrow, Block hitBlock) { bow.onArrowLand(arrow, hitBlock); }
+	public void onProjectileLand(Projectile proj, Block hitBlock) { bow.onProjectileLand(proj, hitBlock); }
 	
 	public void onShift(boolean sneaking) {
 	}

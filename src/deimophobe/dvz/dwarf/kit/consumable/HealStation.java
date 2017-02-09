@@ -1,9 +1,8 @@
 package deimophobe.dvz.dwarf.kit.consumable;
 
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.timedblock.HealBlock;
-import deimophobe.dvz.timedblock.LampBlock;
-import deimophobe.dvz.timedblock.TimedBlock;
+import deimophobe.dvz.blocks.timedblock.HealBlock;
+import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

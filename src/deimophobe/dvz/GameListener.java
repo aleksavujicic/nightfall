@@ -1,14 +1,14 @@
 package deimophobe.dvz;
 
+import deimophobe.dvz.blocks.BlockManager;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
-import deimophobe.dvz.timedblock.TimedBlock;
+import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -95,20 +95,6 @@ public class GameListener implements Listener {
 			gp.onShift(event.isSneaking());
 	}
 	
-	
-	
-	private static final EntityDamageEvent.DamageCause[] IMMUNE_CAUSES = {
-			EntityDamageEvent.DamageCause.BLOCK_EXPLOSION,
-			EntityDamageEvent.DamageCause.STARVATION,
-			EntityDamageEvent.DamageCause.DROWNING,
-			EntityDamageEvent.DamageCause.ENTITY_EXPLOSION,
-			EntityDamageEvent.DamageCause.FALL,
-			EntityDamageEvent.DamageCause.SUFFOCATION,
-			EntityDamageEvent.DamageCause.LAVA,
-			EntityDamageEvent.DamageCause.HOT_FLOOR,
-			EntityDamageEvent.DamageCause.FIRE_TICK,
-			EntityDamageEvent.DamageCause.FIRE,
-	};
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onHit(EntityDamageEvent event) {
@@ -292,15 +278,13 @@ public class GameListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onArrowLand(ProjectileHitEvent event) {
+	public void onProjectileLand(ProjectileHitEvent event) {
 		Projectile proj = event.getEntity();
-		if (proj.getType() == EntityType.ARROW) {
-			ProjectileSource source = proj.getShooter();
-			if (source instanceof Player) {
-				GamePlayer player = game.getGamePlayer((Player) source);
-				if (player != null) {
-					player.onArrowLand((Arrow) event.getEntity(), event.getHitBlock());
-				}
+		ProjectileSource source = proj.getShooter();
+		if (source instanceof Player && event.getHitBlock() != null) {
+			GamePlayer player = game.getGamePlayer((Player) source);
+			if (player != null) {
+				player.onProjectileLand(event.getEntity(), event.getHitBlock());
 			}
 		}
 	}
@@ -364,44 +348,9 @@ public class GameListener implements Listener {
 			}
 		}
 	}
-	
-	private static final Material[] FIXED_BLOCKS = {
-			Material.LOG,
-			Material.LOG_2,
-			Material.SPONGE,
-			Material.IRON_FENCE,
-			Material.JACK_O_LANTERN,
-			Material.RAILS,
-			Material.ACTIVATOR_RAIL,
-			Material.DETECTOR_RAIL,
-			Material.POWERED_RAIL,
-			Material.LADDER,
-			Material.REDSTONE_TORCH_ON,
-			Material.REDSTONE_TORCH_OFF,
-			Material.PISTON_BASE,
-			Material.PISTON_EXTENSION,
-			Material.PISTON_STICKY_BASE,
-			Material.PISTON_MOVING_PIECE,
-			Material.IRON_BLOCK,
-	};
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
-		Material blockType = event.getBlock().getType();
-		if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
-			for (Material material : FIXED_BLOCKS) {
-				if (material == blockType)
-					event.setCancelled(true);
-			}
-		}
-		
-		if (blockType == Material.GOLD_ORE) {
-			game.mineGold();
-		}
-		
-		if (blockType == Material.GRAVEL) {
-			Dwarf dwarf = dm.getGamePlayer(event.getPlayer());
-			if (dwarf != null)
-				dwarf.mineGravel();
-		}
+		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
+		BlockManager.getManager().breakBlockEvent(game.getGamePlayer(event.getPlayer()), event.getBlock());
 	}
 }

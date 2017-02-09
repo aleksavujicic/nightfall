@@ -1,13 +1,13 @@
-package deimophobe.dvz.timedblock;
+package deimophobe.dvz.blocks.timedblock;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GamePlayer;
+import deimophobe.dvz.blocks.BlockManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.sql.Time;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,7 +62,7 @@ public abstract class TimedBlock {
 	
 	void onPlace() {}
 	void onDestroy(boolean destroyed) {}
-	public void onHit(GamePlayer player) {}
+	void onHit(GamePlayer player) {}
 	
 	
 	public void cancel() {
@@ -74,7 +74,9 @@ public abstract class TimedBlock {
 	private static final Map<Block, TimedBlock> activeTimedBlocks = new HashMap<>();
 	public static boolean placeTimedBlock(TimedBlock timedBlock) {
 		Block block = timedBlock.block;
-		if (activeTimedBlocks.containsKey(block)) {
+		
+		// If its already a timed block or its not breakable, don't overwrite!
+		if (activeTimedBlocks.containsKey(block) || !BlockManager.getManager().isBreakable(block)) {
 			return false;
 		} else {
 			timedBlock.placeBlock();

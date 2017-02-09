@@ -1,6 +1,7 @@
 package deimophobe.dvz.monster.mob;
 
 import deimophobe.dvz.DamageType;
+import deimophobe.dvz.blocks.BlockManager;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.kit.DwarvenItem;
 import deimophobe.dvz.monster.MonsterPlayer;
@@ -9,6 +10,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
@@ -47,10 +49,15 @@ class Spiderling extends Mob {
 				Location loc = monster.getLocation();
 				World world = loc.getWorld();
 				
-				Entity snow = world.spawnEntity(loc, EntityType.SNOWBALL);
+				Entity snow = world.spawnEntity(loc.add(0,0.25,0), EntityType.SNOWBALL);
 				((Snowball) snow).setShooter(monster.getPlayer());
 				snow.setVelocity(loc.getDirection().add(new Vector(0,0.25,0)));
 			}
 		}
+	}
+	
+	@Override
+	public void onProjectileLand(Projectile proj, Block block) {
+		BlockManager.getManager().corrodeBlocks(block);
 	}
 }

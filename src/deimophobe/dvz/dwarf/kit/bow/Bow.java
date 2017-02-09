@@ -43,7 +43,7 @@ public class Bow extends DwarvenItem {
 	public Projectile onBowFire(Arrow arrow, float force) {
 		return arrow;
 	}
-	public void onArrowLand(Arrow arrow, Block hitBlock) {}
+	public void onProjectileLand(Projectile arrow, Block hitBlock) {}
 	
 	public static Bow createBow(Dwarf dwarf, BowType bowType) {
 		switch (bowType) {

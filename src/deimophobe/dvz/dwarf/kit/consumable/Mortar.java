@@ -1,6 +1,7 @@
 package deimophobe.dvz.dwarf.kit.consumable;
 
 import deimophobe.dvz.Game;
+import deimophobe.dvz.blocks.BlockManager;
 import deimophobe.dvz.dwarf.Dwarf;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,57 +22,16 @@ class Mortar extends Consumable {
 		this.wizzy = wizzy;
 	}
 	
-	private static final double BLUE_WALL_MORTAR_CHANCE = 0.03;
 	
 	@Override
 	public boolean use(Dwarf dwarf) {
 		Block block = dwarf.getPlayer().getTargetBlock((Set<Material>) null, 5);
 		
-		Location center = block.getLocation();
-		World world = center.getWorld();
-		
-		int x_center = center.getBlockX();
-		int y_center = center.getBlockY();
-		int z_center = center.getBlockZ();
-		
-		final int x_size = 4; // actual size is double this plus 1 (so 9)
-		final int y_size = 3; // actual size 7
-		final int z_size = 4; // actual size 9
-		
-		boolean used = false;
-		for (int x = x_center - x_size; x <= x_center + x_size; x++) {
-			for (int y = y_center - y_size; y <= y_center + y_size; y++) {
-				for (int z = z_center - z_size; z <= z_center + z_size; z++) {
-					Block toReplace = world.getBlockAt(x,y,z);
-					if (isWallBlock(toReplace.getType())) {
-						if (wizzy || Game.getGame().getPhase().canBlueWalls() || Math.random() <= BLUE_WALL_MORTAR_CHANCE) {
-							toReplace.setType(Material.LAPIS_ORE);
-						} else {
-							toReplace.setType(Material.SMOOTH_BRICK);
-						}
-						used = true;
-					}
-				}
-			}
-		}
+		boolean used = BlockManager.getManager().mortarWalls(block, wizzy);
 		
 		if (used)
 			dwarf.playSound("block.anvil.place", 20, 0.8f, false);
 		
 		return used;
-	}
-	
-	// TODO move to a more sensible spot after wall breaking mechanics impl.
-	private final static Material[] WALL_BLOCKS = {
-			//Material.LAPIS_ORE,
-			Material.SMOOTH_BRICK,
-			Material.COBBLESTONE
-	};
-	private static boolean isWallBlock(Material material) {
-		for (Material wallBlock : WALL_BLOCKS) {
-			if (wallBlock == material)
-				return true;
-		}
-		return false;
 	}
 }

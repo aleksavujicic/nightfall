@@ -245,8 +245,8 @@ public class MonsterPlayer extends GamePlayer {
 	}
 	
 	@Override
-	public void onArrowLand(Arrow arrow, Block hitBlock) {
+	public void onProjectileLand(Projectile arrow, Block hitBlock) {
 		if (mob != null)
-			mob.onArrowLand(arrow, hitBlock);
+			mob.onProjectileLand(arrow, hitBlock);
 	}
 }
