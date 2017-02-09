@@ -217,6 +217,24 @@ public class Dwarf extends GamePlayer {
 			arrows.setAmount(amt+1);
 		}
 	}
+	public boolean hasArrows(int amt) {
+		ItemStack arrows = player.getInventory().getItemInOffHand();
+		return (arrows.getAmount() >= amt);
+	}
+	public void useArrows(int amt) {
+		ItemStack arrows = player.getInventory().getItemInOffHand();
+		int currAmt = arrows.getAmount();
+		if (currAmt <= amt) {
+			if (currAmt < amt)
+				Bukkit.getLogger().warning("Dwarf " + getName() + "using more arrows than held!?");
+			
+			player.getInventory().setItemInOffHand(null);
+		} else {
+			arrows.setAmount(currAmt - amt);
+		}
+	}
+	
+	
 	// TODO make onBLockBreak?
 	public void mineGravel() {
 		giveItem(cobble, 3);

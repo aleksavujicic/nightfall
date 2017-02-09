@@ -32,7 +32,7 @@ class Crossbow extends Bow {
 	
 	@Override
 	public boolean ability(Action action) {
-		if (cooldown == 0) {
+		if (cooldown == 0 && dwarf.hasArrows(1)) {
 			Location spawnLoc = dwarf.getEyeLocation();
 			double yaw = spawnLoc.getYaw() * Math.PI/180;
 			spawnLoc.add(-0.15*Math.cos(yaw), -0.15, 0.15*Math.sin(yaw));
@@ -41,6 +41,9 @@ class Crossbow extends Bow {
 			arrow.setShooter(dwarf.getPlayer());
 			arrow.setMetadata("force", new FixedMetadataValue(Game.getGame().getPlugin(), 1));
 			cooldown = MAX_COOLDOWN;
+			
+			dwarf.useArrows(1);
+			
 			return true;
 		} else {
 			return false;

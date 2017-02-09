@@ -48,7 +48,7 @@ class Warpweaver extends Bow {
 	
 	@Override
 	public void onProjectileLand(Projectile proj, Block hitBlock) {
-		if (!warping && cooldown <= 0) {
+		if (!warping && cooldown <= 0 && !isHoldingItem()) {
 			warping = true;
 			
 			warpSpot = dwarf.getLocation();
