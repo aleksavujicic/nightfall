@@ -40,8 +40,6 @@ public class Bow extends DwarvenItem {
 	
 	@Override
 	public void update() {}
-	@Override
-	public float fractionComplete() {return 0;}
 	
 	@Override
 	protected boolean ability(Action type) {return false;}

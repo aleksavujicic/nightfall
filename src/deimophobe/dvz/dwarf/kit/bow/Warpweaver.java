@@ -41,9 +41,9 @@ class Warpweaver extends Bow {
 	@Override
 	public float fractionComplete() {
 		if (warping)
-			return (float)cooldown/TELEPORT_TIME;
+			return 1 - (float)cooldown/TELEPORT_TIME;
 		else
-			return (float)cooldown/MAX_COOLDOWN;
+			return 1 - (float)cooldown/MAX_COOLDOWN;
 	}
 	
 	@Override

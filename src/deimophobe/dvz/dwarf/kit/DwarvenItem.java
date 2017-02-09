@@ -35,8 +35,11 @@ public abstract class DwarvenItem {
 	}
 	
 	public abstract void update();
-	public abstract float fractionComplete();
 	protected abstract boolean ability(Action type);
+	
+	public float fractionComplete() {
+		return -1;
+	}
 	
 	protected boolean canUse(Action type) {
 		return true;

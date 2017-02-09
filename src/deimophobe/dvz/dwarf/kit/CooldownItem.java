@@ -54,6 +54,7 @@ public abstract class CooldownItem extends DwarvenItem {
 	
 	@Override
 	public float fractionComplete() {
+		if (maxCooldown == -1) return -1;
 		return 1 - ((float)cooldown/maxCooldown);
 	}
 	

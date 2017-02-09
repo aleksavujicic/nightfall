@@ -112,7 +112,22 @@ public class Kit {
 	}
 	
 	public float fractionComplete() {
-		return sword.fractionComplete();
+		ItemStack held = dwarf.getHeldItem();
+		float fraction = -1;
+		
+		if (bow.matchesItem(held)) {
+			fraction = bow.fractionComplete();
+		}
+		
+		if (fraction == -1) {
+			fraction = sword.fractionComplete();
+		}
+		
+		if (fraction == -1) {
+			return 0;
+		} else {
+			return fraction;
+		}
 	}
 	
 	public ItemStack getSwordItem() {

@@ -30,6 +30,10 @@ public abstract class Ale extends CooldownItem {
 	}
 	public void onGotHit(GameEntity hitter, DamageType type, double damage) {}
 	
+	@Override
+	public float fractionComplete() {
+		return -1;
+	}
 	
 	public static Ale createAle(Dwarf dwarf, AleType aleType) {
 		switch (aleType) {
