@@ -26,9 +26,11 @@ import java.util.Map;
 public class Bow extends DwarvenItem {
 	
 	protected final int power;
+	private final BowType type;
 	
 	Bow(Dwarf dwarf, BowType type, int power) {
 		super(dwarf, getItem(type));
+		this.type = type;
 		this.power = power;
 		
 		ItemMeta meta = item.getItemMeta();
@@ -36,6 +38,10 @@ public class Bow extends DwarvenItem {
 		lore.add(ChatColor.BLUE + "Power: " + power);
 		meta.setLore(lore);
 		item.setItemMeta(meta);
+	}
+	
+	public BowType getBowType() {
+		return type;
 	}
 	
 	@Override

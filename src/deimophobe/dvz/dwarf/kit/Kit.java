@@ -161,4 +161,8 @@ public class Kit {
 		
 		return true;
 	}
+	
+	public boolean isBlindnessImmune() {
+		return (bow.getBowType() == BowType.LIGHTBOW);
+	}
 }

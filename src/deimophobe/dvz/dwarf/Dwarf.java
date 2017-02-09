@@ -20,6 +20,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
@@ -37,16 +38,18 @@ import java.util.UUID;
 public class Dwarf extends GamePlayer {
 	private Kit kit;
 	
-	private int mana;
 	private final int maxMana;
+	private int mana;
 	
-	private int armour;
 	private final int maxArmour;
+	private int armour;
+	private boolean armoured;
 	
 	private final int maxArrows;
 	private int arrowCD;
 	
-	private boolean armoured;
+	
+	private static final int MIN_LIGHT_LEVEL_FOR_BLINDNESS = 5;
 	
 	public Kit getKit() {
 		return kit;
@@ -274,6 +277,22 @@ public class Dwarf extends GamePlayer {
 		} else {
 			arrowCD++;
 		}
+		
+		// Blindness
+		if (canSee()) {
+			player.removePotionEffect(PotionEffectType.BLINDNESS);
+		} else {
+			player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0, true, false), true);
+		}
+	}
+	private boolean canSee() {
+		int lightLevel = getLocation().getBlock().getLightLevel();
+		ItemStack held = getHeldItem();
+		return (lightLevel >= MIN_LIGHT_LEVEL_FOR_BLINDNESS ||
+				player.hasPotionEffect(PotionEffectType.NIGHT_VISION) ||
+				kit.isBlindnessImmune() ||
+				torch.isSimilar(held) ||
+				Consumable.getItem(ConsumableType.LAMP).isSimilar(held));
 	}
 	// TODO better name
 	public void quickUpdate() {
