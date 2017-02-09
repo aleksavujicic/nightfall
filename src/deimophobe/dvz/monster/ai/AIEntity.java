@@ -35,7 +35,7 @@ public class AIEntity extends GameEntity {
 		if (type.isMobImmune()) return -1;
 		
 		if (type.isMelee()) damage *= 1d/5;
-		if (type.isRanged()) damage *= 1d/2;
+		if (type.isRanged()) damage *= 1d/3;
 		
 		return damage;
 	}

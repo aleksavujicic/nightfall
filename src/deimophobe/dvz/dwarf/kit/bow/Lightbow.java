@@ -11,13 +11,11 @@ import org.bukkit.entity.Projectile;
  */
 class Lightbow extends Bow {
 	Lightbow(Dwarf dwarf) {
-		super(dwarf, BowType.LIGHTBOW, 50);
+		super(dwarf, BowType.LIGHTBOW, 30);
 	}
 	
 	@Override
 	public void onProjectileLand(Projectile arrow, Block hitBlock) {
-		if (hitBlock != null) {
-			TimedBlock.placeTimedBlock(new LampBlock(hitBlock, 10*20));
-		}
+		TimedBlock.placeTimedBlock(new LampBlock(hitBlock, 10*20));
 	}
 }

@@ -7,14 +7,17 @@ import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.kit.DwarvenItem;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +30,12 @@ public class Bow extends DwarvenItem {
 	Bow(Dwarf dwarf, BowType type, int power) {
 		super(dwarf, getItem(type));
 		this.power = power;
+		
+		ItemMeta meta = item.getItemMeta();
+		List<String> lore = meta.getLore();
+		lore.add(ChatColor.BLUE + "Power: " + power);
+		meta.setLore(lore);
+		item.setItemMeta(meta);
 	}
 	
 	@Override
@@ -56,9 +65,9 @@ public class Bow extends DwarvenItem {
 			case LIGHTBOW:
 				return new Lightbow(dwarf);
 			case CROSSBOW:
-				return new Bow(dwarf, BowType.CROSSBOW, 30);
+				return new Crossbow(dwarf);
 			case WARPWEAVER:
-				return new Bow(dwarf, BowType.WARPWEAVER, 30);
+				return new Warpweaver(dwarf);
 			case EBOW:
 				return new Ebow(dwarf);
 		}
@@ -73,7 +82,7 @@ public class Bow extends DwarvenItem {
 		bows.put(BowType.DRAGONSKIN, ItemCreator.createItem(bowSection.getConfigurationSection("dragonskin"), Slot.MAIN_HAND));
 		bows.put(BowType.LIGHTBOW, ItemCreator.createItem(bowSection.getConfigurationSection("lightbow"), Slot.MAIN_HAND));
 		bows.put(BowType.LONGBOW, ItemCreator.createItem(bowSection.getConfigurationSection("longbow"), Slot.MAIN_HAND));
-		bows.put(BowType.CROSSBOW, ItemCreator.createItem(bowSection.getConfigurationSection("xbow"), Slot.MAIN_HAND));
+		bows.put(BowType.CROSSBOW, ItemCreator.createItem(bowSection.getConfigurationSection("crossbow"), Slot.MAIN_HAND));
 		bows.put(BowType.EBOW, ItemCreator.createItem(bowSection.getConfigurationSection("ebow"), Slot.MAIN_HAND));
 		bows.put(BowType.WARPWEAVER, ItemCreator.createItem(bowSection.getConfigurationSection("warpweaver"), Slot.MAIN_HAND));
 	}

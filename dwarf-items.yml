@@ -90,7 +90,6 @@ bow:
     name: Warpweaver Bow
     lore:
      - Some lore
-
 ale:
   healing:
     material: potion

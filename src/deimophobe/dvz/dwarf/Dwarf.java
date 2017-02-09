@@ -302,7 +302,8 @@ public class Dwarf extends GamePlayer {
 			case DRAGONSKIN:
 				playSound("proc", 1f, 1f, false);
 				player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, player.getLocation(), 60, 1, 1, 1);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 50, 0), true);
+				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60, 0), true);
+				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 0), true);
 				break;
 			
 			case SHRINE_FALL:

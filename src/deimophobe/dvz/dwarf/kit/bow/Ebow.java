@@ -20,13 +20,15 @@ import org.bukkit.util.Vector;
  */
 class Ebow extends Bow {
 	Ebow(Dwarf dwarf) {
-		super(dwarf, BowType.EBOW, 15);
+		super(dwarf, BowType.EBOW, 5);
 	}
 	
 	private static final double MAX_RANGE = 15;
 	private static final double THICKNESS = 1.5;
-	private static final double MIN_DISTANCE_FROM_SHOOTER = 3;
+	private static final double MIN_DISTANCE_FROM_SHOOTER = 2;
 	private static final double PROC_RADIUS = 3;
+	
+	
 	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {
 		
@@ -56,7 +58,7 @@ class Ebow extends Bow {
 			// Skip if further than distance shot or too close
 			Location monsterLocation = monster.getEyeLocation();
 			double distance = dwarfLocation.distance(monsterLocation);
-			if (distance <= range) {
+			if (MIN_DISTANCE_FROM_SHOOTER <= distance && distance <= range) {
 				// Find if close enough to beam
 				Vector monsterOffset = monsterLocation.clone().subtract(dwarfLocation).toVector();
 				Vector radialPostion = direction.clone().multiply(monsterOffset.clone().dot(direction)); // ((m - p) dot u) times u
@@ -66,12 +68,9 @@ class Ebow extends Bow {
 				if (radialOffset <= THICKNESS) {
 					monster.customDamage(dwarf, DamageType.EBOW, power);
 					
-					// Give procs to nearby dwarves
-					if (distance >= MIN_DISTANCE_FROM_SHOOTER) {
-						for (Dwarf procDwarf : DwarfManager.getManager().getGamePlayers()) {
-							if (monsterLocation.distance(procDwarf.getLocation()) <= PROC_RADIUS)
-								procDwarf.giveProc(Dwarf.ProcType.EBOW);
-						}
+					for (Dwarf procDwarf : DwarfManager.getManager().getGamePlayers()) {
+						if (procDwarf != dwarf && monsterLocation.distance(procDwarf.getLocation()) <= PROC_RADIUS)
+							procDwarf.giveProc(Dwarf.ProcType.EBOW);
 					}
 				}
 			}

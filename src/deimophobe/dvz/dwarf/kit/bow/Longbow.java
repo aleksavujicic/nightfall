@@ -24,7 +24,7 @@ class Longbow extends Bow {
 	
 	
 	Longbow(Dwarf dwarf) {
-		super(dwarf, BowType.LONGBOW, 50);
+		super(dwarf, BowType.LONGBOW, 60);
 	}
 	
 	@Override
@@ -44,6 +44,11 @@ class Longbow extends Bow {
 			
 			stackCD = MAX_STACK_CD;
 		}
+	}
+	
+	@Override
+	public float fractionComplete() {
+		return (float) stacks/MAX_STACKS;
 	}
 	
 	
