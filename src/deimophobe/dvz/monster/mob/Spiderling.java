@@ -26,7 +26,7 @@ class Spiderling extends Mob {
 	
 	@Override
 	public double onHit(Dwarf dwarf, DamageType type, double damage) {
-		dwarf.givePotionEffect(PotionEffectType.POISON, 50, 4, true, true);
+		dwarf.givePotionEffect(PotionEffectType.POISON, 50, 4, true, false, true);
 		return damage;
 	}
 	

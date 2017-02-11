@@ -3,6 +3,7 @@ package deimophobe.dvz;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.kit.ArmourType;
+import deimophobe.dvz.dwarf.kit.Passive;
 import deimophobe.dvz.dwarf.kit.ale.AleType;
 import deimophobe.dvz.dwarf.kit.bow.BowType;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
@@ -19,7 +20,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 15/01/17.
@@ -87,7 +90,14 @@ public class DvZPlugin extends JavaPlugin {
 				consumables.put(ConsumableType.HEAL_STATION, 5);
 				consumables.put(ConsumableType.ARMOUR_ITEM, 5);
 				
-				Loadout loadout = new Loadout(title, forceTitle, null, swordType, bow, heal, consumables, armour, null);
+				Set<Passive> passives = new HashSet<>();
+				passives.add(Passive.AVENGE);
+				passives.add(Passive.QUICKFEET);
+				passives.add(Passive.DARKVISION);
+				passives.add(Passive.SAFEFALL);
+				passives.add(Passive.NAMETHISSOMETHINGBETTERDEIMO);
+				
+				Loadout loadout = new Loadout(title, forceTitle, null, swordType, bow, heal, consumables, armour, passives);
 				Loadout.setLoadout(Bukkit.getPlayer(args[0]), loadout);
 				
 				dm.removeGamePlayer(args[0]);

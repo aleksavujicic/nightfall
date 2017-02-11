@@ -18,6 +18,8 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collection;
 
@@ -34,11 +36,8 @@ public class Kit {
 	private final ArmourType armour;
 	private final Collection<Passive> passives;
 	
-	// TODO remove these
-	public boolean hasRuneblessed()	{return armour == ArmourType.RUNEBLESSED;}
-	public boolean hasQuiver() 		{return armour == ArmourType.QUIVER;}
-	public boolean hasStudded()		{return armour == ArmourType.STUDDED;}
-	public boolean hasCoil() 		{return armour == ArmourType.COIL;}
+	private int shiftCD = 0;
+	private final static int MAX_SHIFT_CD = 60*20;
 	
 	// TODO?
 	public boolean hasAndIsHoldingTM() {
@@ -59,12 +58,26 @@ public class Kit {
 		
 		this.armour = loadout.getArmour();
 		this.passives = loadout.getPassives();
+		
+		if (armour == ArmourType.STUDDED)
+			dwarf.givePotionEffect(PotionEffectType.SLOW, 720000, -1, false, false, false);
+	}
+	
+	public int getMaxArmour() {
+		return (armour == ArmourType.RUNEBLESSED ? 3000 : 2000);
+	}
+	
+	public int getMaxArrows() {
+		return (armour == ArmourType.QUIVER ? 40 : 20);
 	}
 	
 	public void update() {
 		sword.update();
 		bow.update();
 		ale.update();
+		
+		if (shiftCD > 0)
+			shiftCD--;
 	}
 	
 	public boolean use(Action type) {
@@ -109,6 +122,15 @@ public class Kit {
 	public void onProjectileLand(Projectile proj, Block hitBlock) { bow.onProjectileLand(proj, hitBlock); }
 	
 	public void onShift(boolean sneaking) {
+		if (shiftCD == 0) {
+			shiftCD = MAX_SHIFT_CD;
+			if (passives.contains(Passive.DARKVISION)) {
+				dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, 200, 1, true, true, true);
+				dwarf.updateVisibility();
+			}
+			if (passives.contains(Passive.SAFEFALL))
+				dwarf.givePotionEffect(PotionEffectType.JUMP, 200, 3, true, true, true);
+		}
 	}
 	
 	public float fractionComplete() {

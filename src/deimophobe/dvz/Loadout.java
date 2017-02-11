@@ -9,9 +9,11 @@ import deimophobe.dvz.dwarf.kit.bow.Bow;
 import deimophobe.dvz.dwarf.kit.bow.BowType;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.sword.SwordType;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -89,7 +91,14 @@ public class Loadout {
 		consumables.put(ConsumableType.HEAL_STATION, 5);
 		consumables.put(ConsumableType.ARMOUR_ITEM, 5);
 		
-		Loadout defaultLoadout = new Loadout("Ranger", false, null, SwordType.GRB, BowType.DRAGONSKIN, AleType.JIMMYJUICE, consumables, ArmourType.RUNEBLESSED, null);
+		Set<Passive> passives = new HashSet<>();
+		passives.add(Passive.AVENGE);
+		passives.add(Passive.QUICKFEET);
+		passives.add(Passive.DARKVISION);
+		passives.add(Passive.SAFEFALL);
+		passives.add(Passive.NAMETHISSOMETHINGBETTERDEIMO);
+		
+		Loadout defaultLoadout = new Loadout("Ranger", false, null, SwordType.GRB, BowType.DRAGONSKIN, AleType.JIMMYJUICE, consumables, ArmourType.RUNEBLESSED, passives);
 		loadouts.put(player, defaultLoadout);
 		return defaultLoadout;
 	}

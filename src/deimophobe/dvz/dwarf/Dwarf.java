@@ -68,8 +68,8 @@ public class Dwarf extends GamePlayer {
 		this.kit = new Kit(this, loadout);
 		
 		maxMana = 1000;
-		maxArmour = (kit.hasRuneblessed() ? 3000 : 2000);
-		maxArrows = (kit.hasQuiver() ? 40 : 20);
+		maxArmour = kit.getMaxArmour();
+		maxArrows = kit.getMaxArrows();
 		
 		mana = maxMana;
 		armour = maxArmour;
@@ -78,11 +78,6 @@ public class Dwarf extends GamePlayer {
 		armoured = true;
 		
 		playIntro();
-		
-		if (kit.hasStudded())
-			player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 720000, -2, true, false), true);
-		
-		//player.getInventory().addItem(kit.getItems().toArray(new ItemStack[0]));
 		
 		String title = loadout.getTitle();
 		boolean forceTitle = loadout.forceTitle();
@@ -106,10 +101,13 @@ public class Dwarf extends GamePlayer {
 		
 		teleportTo(Game.getGame().getDwarfSpawn());
 		
+		// Add consumables
 		for (ConsumableType type : loadout.getConsumables().keySet()) {
-			//Bukkit.broadcastMessage(type.toString());
 			ItemStack item = Consumable.getItem(type).clone();
-			item.setAmount(loadout.getConsumables().get(type));
+			int quantity = loadout.getConsumables().get(type);
+			
+			item.setAmount(quantity);
+			
 			player.getInventory().addItem(item);
 		}
 	}
@@ -250,6 +248,24 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	
+	public void updateVisibility() {
+		if (canSee()) {
+			player.removePotionEffect(PotionEffectType.BLINDNESS);
+		} else {
+			player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0, true, false), true);
+		}
+	}
+	private boolean canSee() {
+		int lightLevel = getLocation().getBlock().getLightLevel();
+		ItemStack held = getHeldItem();
+		return (lightLevel >= MIN_LIGHT_LEVEL_FOR_BLINDNESS ||
+				player.hasPotionEffect(PotionEffectType.NIGHT_VISION) ||
+				kit.isBlindnessImmune() ||
+				torch.isSimilar(held) ||
+				Consumable.getItem(ConsumableType.LAMP).isSimilar(held));
+	}
+	
+	
 	// ------ UPDATE ------
 	public void update() {
 		naturalManaRegen();
@@ -278,21 +294,7 @@ public class Dwarf extends GamePlayer {
 			arrowCD++;
 		}
 		
-		// Blindness
-		if (canSee()) {
-			player.removePotionEffect(PotionEffectType.BLINDNESS);
-		} else {
-			player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0, true, false), true);
-		}
-	}
-	private boolean canSee() {
-		int lightLevel = getLocation().getBlock().getLightLevel();
-		ItemStack held = getHeldItem();
-		return (lightLevel >= MIN_LIGHT_LEVEL_FOR_BLINDNESS ||
-				player.hasPotionEffect(PotionEffectType.NIGHT_VISION) ||
-				kit.isBlindnessImmune() ||
-				torch.isSimilar(held) ||
-				Consumable.getItem(ConsumableType.LAMP).isSimilar(held));
+		updateVisibility();
 	}
 	// TODO better name
 	public void quickUpdate() {
@@ -325,7 +327,7 @@ public class Dwarf extends GamePlayer {
 				player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, player.getLocation(), 60, 1, 1, 1);
 				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 160, 3), true);
 				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 160, 3), true);
-				givePotionEffect(PotionEffectType.FAST_DIGGING, 160, 2, true, true);
+				givePotionEffect(PotionEffectType.FAST_DIGGING, 160, 2, true, true, true);
 				break;
 				
 			case MALICE:

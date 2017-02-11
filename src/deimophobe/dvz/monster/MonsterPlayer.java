@@ -53,8 +53,8 @@ public class MonsterPlayer extends GamePlayer {
 		super.goOnline(player);
 		
 		teleportTo(Game.getGame().getCurrentMobspawn());
-		givePotionEffect(PotionEffectType.SLOW, 70, 20, true, true);
-		givePotionEffect(PotionEffectType.JUMP, 70, -20, true, true);
+		givePotionEffect(PotionEffectType.SLOW, 70, 20, true, false, true);
+		givePotionEffect(PotionEffectType.JUMP, 70, -20, true, false, true);
 		new BukkitRunnable() {
 			@Override
 			public void run() {

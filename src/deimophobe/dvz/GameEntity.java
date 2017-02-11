@@ -123,8 +123,8 @@ public abstract class GameEntity {
 	
 	// ------ POTION EFFECTS ------
 	// TODO experiment
-	public void givePotionEffect(PotionEffectType type, int duration, int amplifier, boolean ambient, boolean force) {
-		entity.addPotionEffect(new PotionEffect(type, duration, amplifier-1, ambient), force);
+	public void givePotionEffect(PotionEffectType type, int duration, int amplifier, boolean showAbove, boolean colourBlue, boolean force) {
+		entity.addPotionEffect(new PotionEffect(type, duration, amplifier-1, colourBlue, showAbove), force);
 	}
 	
 	public void clearEffects() {

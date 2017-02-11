@@ -82,7 +82,7 @@ class Wolf extends Mob {
 		if (dwarf != null) {
 			monster.heal(5);
 			monster.playSound("entity.wolf.growl", 3, 1, true);
-			monster.givePotionEffect(PotionEffectType.SPEED, 140, 3, true, true);
+			monster.givePotionEffect(PotionEffectType.SPEED, 140, 3, true, true, true);
 		}
 		return damage;
 	}

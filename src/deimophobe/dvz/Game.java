@@ -292,8 +292,8 @@ public class Game {
 				dwarf.regenMana(200);
 			}
 			for (MonsterPlayer monster : mm.getGamePlayers()) {
-				monster.givePotionEffect(PotionEffectType.SLOW, 220, 3, true, true);
-				monster.givePotionEffect(PotionEffectType.CONFUSION, 220, 1, true, true);
+				monster.givePotionEffect(PotionEffectType.SLOW, 220, 3, true, false, true);
+				monster.givePotionEffect(PotionEffectType.CONFUSION, 220, 1, true, false, true);
 			}
 			
 			bossBar.setTitle(getShrine().getName());
