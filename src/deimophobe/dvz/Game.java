@@ -126,6 +126,21 @@ public class Game {
 		sidebarObj.setDisplayName(ChatColor.AQUA+"Dwarves");
 		
 		updateSidebar();
+		
+		
+		world.setGameRuleValue("doDaylightCycle",	"true");
+		world.setGameRuleValue("doEntityDrops",		"false");
+		world.setGameRuleValue("doFireTick",			"false");
+		world.setGameRuleValue("doMobLoot",	"false");
+		world.setGameRuleValue("doMobSpawning",	"false");
+		world.setGameRuleValue("doTileDrops",	"false");
+		world.setGameRuleValue("doWeatherCylce",		"false");
+		world.setGameRuleValue("keepInventory",	"false");
+		world.setGameRuleValue("maxEntityCramming",	"-1");
+		world.setGameRuleValue("mobGriefing",	"false");
+		world.setGameRuleValue("naturalRegeneration",	"false");
+		world.setGameRuleValue("showDeathMessages",	"true");
+		world.setGameRuleValue("spectatorGenerateChunks",	"false");
 	}
 	
 	private void removeRecipes() {
