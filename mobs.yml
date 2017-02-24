@@ -56,10 +56,10 @@ flamelancer:
 
   disguisetype: skeleton
 
-  speed: 5
+  speed: 10
 
   armour:
-    material: fire
+    material: fireball
     name: Tough Flesh
     lore:
      - §dSome lore
@@ -72,12 +72,6 @@ flamelancer:
      - Some lore
   items:
     item2:
-      material: arrow
-      name: Skeletal Arrow
-      lore:
-       - Some lore
-      quantity: 64
-    item3:
       material: arrow
       name: Skeletal Arrow
       lore:
