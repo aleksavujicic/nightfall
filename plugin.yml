@@ -5,9 +5,11 @@ author: Deimo
 description: Deimo's custom dvz thing
 commands:
   setdwarf:
-    usage: /setdwarf <name>
+    usage: /setdwarf <name> [<sword> <bow> <ale> <armour> <title>]
   setmob:
     usage: /setmob <name>
+  spawnmob:
+    usage: /setmob <name> <mobtype>
   removeplayer:
     usage: /removeplayer <name>
   horn:

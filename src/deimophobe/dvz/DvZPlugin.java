@@ -12,6 +12,7 @@ import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
+import deimophobe.dvz.monster.mob.MobType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -125,6 +126,33 @@ public class DvZPlugin extends JavaPlugin {
 					return true;
 				} else {
 					sender.sendMessage(ChatColor.RED + "Could not add " + ChatColor.DARK_RED + args[0] + ChatColor.RED + " as a monster!");
+					return true;
+				}
+			}
+		}
+		if (name.equalsIgnoreCase("spawnmob")) {
+			if (args.length == 0) {
+				sender.sendMessage(ChatColor.RED + "Please specify a monster.");
+				return false;
+			} else if (args.length == 1) {
+				sender.sendMessage(ChatColor.RED + "Please specify a mob.");
+				return false;
+			} else {
+				MonsterPlayer monster = mm.getGamePlayer(args[0]);
+				if (monster == null) {
+					sender.sendMessage(ChatColor.RED + "Player " + ChatColor.DARK_RED + args[0] + ChatColor.RED + " is not a monster!");
+					return true;
+				}
+				
+				MobType type = MobType.getMobType(args[1]);
+				if (type == null) {
+					sender.sendMessage(ChatColor.RED + "Unknown mob type: " + ChatColor.YELLOW + args[1] + ChatColor.RED + "!");
+					return true;
+				} else {
+					monster.kill();
+					monster.spawnAs(type);
+					
+					sender.sendMessage(ChatColor.AQUA + "Spawned " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a " + ChatColor.YELLOW + args[1] + ChatColor.AQUA + "!");
 					return true;
 				}
 			}
