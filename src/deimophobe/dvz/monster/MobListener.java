@@ -1,5 +1,6 @@
 package deimophobe.dvz.monster;
 
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -67,6 +68,10 @@ public class MobListener implements Listener {
 	@EventHandler
 	public void preventAIBurning(EntityCombustEvent event) {
 		if (event.getEntityType() == EntityType.ZOMBIE)
+			event.setCancelled(true);
+		
+		Entity entity = event.getEntity();
+		if (entity instanceof Player && mm.isGamePlayer((Player) entity))
 			event.setCancelled(true);
 	}
 }
