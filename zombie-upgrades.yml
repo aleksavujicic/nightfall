@@ -1,9 +1,10 @@
 attack1:
-  name: attack1
   item:
     material: wood_sword
     name: Upgrade Attack I
-  cost: 10
+    lore:
+      - Increases your attack by 1
+  cost: 30
   index: 2
   upgrade:
     type: attack
@@ -11,21 +12,83 @@ attack1:
     value: 1
 
 attack2:
-  name: attack2
   prereq:
     - attack1
   item:
     material: wood_sword
     name: Upgrade Attack II
-  cost: 20
+    lore:
+      - Increases your attack by 2
+  cost: 70
   index: 2
+  upgrade:
+    type: attack
+    operation: add
+    value: 2
+
+attack3:
+  prereq:
+    - attack2
+  item:
+    material: wood_sword
+    name: Upgrade Attack III
+    lore:
+      - Increases your attack by 3
+  cost: 100
+  index: 2
+  upgrade:
+    type: attack
+    operation: add
+    value: 2
+
+attack4:
+  prereq:
+    - attack3
+  item:
+    material: wood_sword
+    name: Upgrade Attack IV
+    lore:
+      - Increases your attack by 2
+  cost: 150
+  index: 2
+  upgrade:
+    type: attack
+    operation: add
+    value: 2
+
+attack5:
+  prereq:
+    - attack4
+  item:
+    material: wood_sword
+    name: Upgrade Attack V
+    lore:
+      - Increases your attack by 3
+  cost: 200
+  index: 2
+  upgrade:
+    type: attack
+    operation: add
+    value: 3
+
+attack-inf:
+  prereq:
+    - attack5
+  item:
+    material: wood_sword
+    name: Upgrade Attack
+    lore:
+      - Increases your attack by 1
+    shiny: true
+  cost: 300
+  index: 2
+  permanent: true
   upgrade:
     type: attack
     operation: add
     value: 1
 
 defense1:
-  name: defense1
   item:
     material: rotten_flesh
     name: Upgrade Defense I
@@ -37,7 +100,6 @@ defense1:
     value: 1
 
 defense2:
-  name: defense2
   prereq:
     - defense1
   item:
@@ -51,7 +113,6 @@ defense2:
     value: 1
 
 test:
-  name: test
   prereq:
     - attack2
     - defense1

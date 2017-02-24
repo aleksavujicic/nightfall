@@ -20,17 +20,20 @@ class UpgradeMenuItem extends CostMobMenuItem {
 	private final Collection<String> prereqs;
 	private final MobType type;
 	
+	private final boolean permanent;
+	
 	private final UpgradeType upgradeType;
 	private final UpgradeApplyOperation upgradeOper;
 	private final int upgradeValue;
 	
 	
-	UpgradeMenuItem(ConfigurationSection config, MobType type) {
+	UpgradeMenuItem(ConfigurationSection config, MobType type, String name) {
 		super(ItemCreator.createItem(config.getConfigurationSection("item"), Slot.MAIN_HAND), config.getInt("cost"));
 		
-		this.name = config.getString("name");
+		this.name = name;
 		this.prereqs = config.getStringList("prereq");
 		this.type = type;
+		this.permanent = config.getBoolean("permanent", false);
 		
 		this.upgradeType = UpgradeType.getUpgradeType(config.getString("upgrade.type"));
 		this.upgradeOper = UpgradeApplyOperation.getOperation(config.getString("upgrade.operation"));
@@ -40,13 +43,13 @@ class UpgradeMenuItem extends CostMobMenuItem {
 	@Override
 	public boolean isAvailable(MonsterPlayer monster) {
 		Upgrades upgrades = monster.getUpgrades(type);
-		if (upgrades.hasLabel(name))
-			return false;
-		
 		for (String prereq : prereqs) {
 			if (!upgrades.hasLabel(prereq))
 				return false;
 		}
+		
+		if (!permanent && upgrades.hasLabel(name))
+			return false;
 		
 		return true;
 	}
