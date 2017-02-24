@@ -259,6 +259,7 @@ public class Dwarf extends GamePlayer {
 		int lightLevel = getLocation().getBlock().getLightLevel();
 		ItemStack held = getHeldItem();
 		return (lightLevel >= MIN_LIGHT_LEVEL_FOR_BLINDNESS ||
+				hasProc() ||
 				player.hasPotionEffect(PotionEffectType.NIGHT_VISION) ||
 				kit.isBlindnessImmune() ||
 				torch.isSimilar(held) ||
