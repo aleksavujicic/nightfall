@@ -23,10 +23,20 @@ public class MobData {
 	final String playerName;
 	final String skinName;
 	
-	final ItemStack helmet;
-	final ItemStack chest;
+	final int attack;
+	final int health;
+	final int speed;
+	
+	final boolean armourOnChest;
+	final ItemStack armour;
+	final ItemStack weapon;
 	final List<ItemStack> items;
-	final Collection<PotionEffect> effects;
+	
+	final int resLevel;
+	final int jumpLevel;
+	final boolean slowDig;
+	final boolean invisible;
+	final int immuneTime;
 	
 	final boolean proccable;
 	final double arrowRes;
@@ -34,102 +44,87 @@ public class MobData {
 	final int torchXP;
 	final boolean shrineImmune;
 	
-	private static final int POTION_LENGTH = 27*60*20;
-	
-	protected MobData(ConfigurationSection section) {
-		MobData parent = null;
-		if (section.contains("parent")) {
-			parent = getMobData(section.getString("parent"));
-		}
+	private MobData(ConfigurationSection section) {
+		title = section.getString("title");
+		forceTitle = section.getBoolean("forcetitle", false);
 		
-		if (parent == null) {
-			title = section.getString("title");
-			forceTitle = section.getBoolean("forcetitle", false);
-		}  else {
-			title = section.getString("title", parent.title);
-			forceTitle = section.getBoolean("forcetitle", parent.forceTitle);
-		}
+		disguiseType = null;
+		playerName = section.getString("playername", "fake player name");
+		skinName = section.getString("skin", "capmergor");
+		
+		attack = section.getInt("attack", 5);
+		health = section.getInt("health", 10);
+		speed = section.getInt("speed", 0);
+		
+		armourOnChest = section.getBoolean("armouronchest", true);
+		armour = ItemCreator.createItem(section.getConfigurationSection("armour"), (armourOnChest ? Slot.CHEST : Slot.HEAD));
+		weapon = ItemCreator.createItem(section.getConfigurationSection("weapon"), Slot.MAIN_HAND);
+		items = new ArrayList<>();
+		
+		resLevel = section.getInt("res", 3);
+		jumpLevel = section.getInt("jump", 0);
+		slowDig = section.getBoolean("slowdig", false);
+		invisible = section.getBoolean("invisible", false);
+		immuneTime = section.getInt("immunetime", 8);
+		
+		proccable = section.getBoolean("proccable", true);
+		arrowRes = section.getDouble("arrowres", 0);
+		armourShred = section.getInt("shred", 10);
+		torchXP = section.getInt("torchxp", 5);
+		shrineImmune = section.getBoolean("shrineimmune", false);
+	}
+	
+	private MobData(ConfigurationSection section, MobData parent) {
+		title = section.getString("title", parent.title);
+		forceTitle = section.getBoolean("forcetitle", parent.forceTitle);
 		
 		if (section.contains("disguisetype")) {
 			disguiseType = DisguiseType.valueOf(section.getString("disguisetype").toUpperCase());
 		} else {
-			if (parent == null) {
-				disguiseType = null;
-			} else {
-				disguiseType = parent.disguiseType;
+			disguiseType = parent.disguiseType;
+		}
+		playerName = section.getString("playername", parent.playerName);
+		skinName = section.getString("skin", parent.skinName);
+		
+		attack = section.getInt("attack", parent.attack);
+		health = section.getInt("health", parent.health);
+		speed = section.getInt("speed", parent.speed);
+		
+		armourOnChest = section.getBoolean("armouronchest", parent.armourOnChest);
+		armour = (section.contains("armour") ? ItemCreator.createItem(section.getConfigurationSection("armour"), (armourOnChest ? Slot.CHEST : Slot.HEAD)) : parent.armour);
+		weapon = (section.contains("weapon") ? ItemCreator.createItem(section.getConfigurationSection("weapon"), Slot.MAIN_HAND) : parent.weapon);
+		
+		items = new ArrayList<>(parent.items);
+		ConfigurationSection itemSection = section.getConfigurationSection("items");
+		if (itemSection != null) {
+			for (String item : itemSection.getKeys(false)) {
+				items.add(ItemCreator.createItem(itemSection.getConfigurationSection(item), Slot.MAIN_HAND));
 			}
 		}
-		if (parent == null)
-			playerName = section.getString("playername");
-		else
-			playerName = section.getString("playername", parent.playerName);
 		
-		if (parent == null)
-			skinName = section.getString("skin");
-		else
-			skinName = section.getString("skin", parent.skinName);
+		resLevel = section.getInt("res", parent.resLevel);
+		jumpLevel = section.getInt("jump", parent.jumpLevel);
+		slowDig = section.getBoolean("slowdig", parent.slowDig);
+		invisible = section.getBoolean("invisible", parent.invisible);
+		immuneTime = section.getInt("immunetime", parent.immuneTime);
 		
-		
-		if (section.contains("helmet") || parent == null)
-			helmet = ItemCreator.createItem(section.getConfigurationSection("helmet"), Slot.HEAD);
-		else
-			helmet = parent.helmet;
-		
-		if (section.contains("chest") || parent == null)
-			chest = ItemCreator.createItem(section.getConfigurationSection("chest"), Slot.CHEST);
-		else
-			chest = parent.chest;
-		
-		if (section.contains("items") || parent == null)
-			items = ItemCreator.createItems(section.getConfigurationSection("items"), Slot.MAIN_HAND);
-		else
-			items = parent.items;
-		
-		
-		int resLevel = section.getInt("res", 3);
-		int jumpLevel = section.getInt("jump", 0);
-		boolean slowDig = section.getBoolean("slowdig", false);
-		boolean invisible = section.getBoolean("invisible", false);
-		int immuneTime = section.getInt("immunetime", 8);
-		
-		effects = new HashSet<>();
-		effects.add(new PotionEffect(PotionEffectType.NIGHT_VISION, POTION_LENGTH, 0, true, false));
-		if (resLevel != 0) {
-			effects.add(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, POTION_LENGTH, resLevel - 1, true, false));
-		}
-		if (jumpLevel != 0) {
-			effects.add(new PotionEffect(PotionEffectType.JUMP, POTION_LENGTH, jumpLevel - 1, true, false));
-		}
-		if (slowDig) {
-			effects.add(new PotionEffect(PotionEffectType.SLOW_DIGGING, POTION_LENGTH, 3, true, false));
-		}
-		if (invisible) {
-			effects.add(new PotionEffect(PotionEffectType.INVISIBILITY, POTION_LENGTH, 0, true, false));
-		}
-		if (immuneTime != 0) {
-			effects.add(new PotionEffect(PotionEffectType.LUCK, immuneTime*20, 0));
-		}
-		
-		if (parent == null) {
-			proccable = section.getBoolean("proccable", true);
-			arrowRes = section.getDouble("arrowres", 0);
-			armourShred = section.getInt("shred", 10);
-			torchXP = section.getInt("torchxp", 5);
-			shrineImmune = section.getBoolean("shrineimmune", false);
-		} else  {
-			proccable = section.getBoolean("proccable", parent.proccable);
-			arrowRes = section.getDouble("arrowres", parent.arrowRes);
-			armourShred = section.getInt("shred", parent.armourShred);
-			torchXP = section.getInt("torchxp", parent.torchXP);
-			shrineImmune = section.getBoolean("shrineimmune", parent.shrineImmune);
-		}
+		proccable = section.getBoolean("proccable", parent.proccable);
+		arrowRes = section.getDouble("arrowres", parent.arrowRes);
+		armourShred = section.getInt("shred", parent.armourShred);
+		torchXP = section.getInt("torchxp", parent.torchXP);
+		shrineImmune = section.getBoolean("shrineimmune", parent.shrineImmune);
 	}
 	
 	private static final Map<String, MobData> mobs = new HashMap<>();
 	static {
 		ConfigurationSection mobData = YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource("mobs.yml"));
 		for (String key : mobData.getKeys(false)) {
-			mobs.put(key.toLowerCase(), new MobData(mobData.getConfigurationSection(key)));
+			if (key.equals("default")) {
+				mobs.put(key.toLowerCase(), new MobData(mobData.getConfigurationSection(key)));
+			} else {
+				String parentKey = mobData.getConfigurationSection(key).getString("parent", "default");
+				mobs.put(key.toLowerCase(), new MobData(mobData.getConfigurationSection(key), getMobData(parentKey)));
+			}
 		}
 	}
 	public static MobData getMobData(String type) {

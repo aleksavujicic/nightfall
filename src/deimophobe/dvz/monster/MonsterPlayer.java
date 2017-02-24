@@ -5,6 +5,7 @@ import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.mob.Mob;
 import deimophobe.dvz.monster.mob.MobType;
+import deimophobe.dvz.monster.upgrade.Upgrades;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.bukkit.Bukkit;
@@ -18,9 +19,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by Deimophobe on 17/01/17.
@@ -36,8 +35,6 @@ public class MonsterPlayer extends GamePlayer {
 		player.sendMessage("You are monster now. Deimo make this cool.");
 		
 		mob = null;
-		
-		upgrades.put(MobType.ZOMBIE, new HashSet<>());
 		
 		killLater();
 	}
@@ -125,9 +122,6 @@ public class MonsterPlayer extends GamePlayer {
 	
 	public void spawnAs(MobType type) {
 		mob = Mob.createAndSpawnMob(this, type);
-		
-		//teleportTo(Game.getGame().getCurrentMobspawn());
-		//player.setGameMode(GameMode.SURVIVAL);
 	}
 	
 	
@@ -164,17 +158,19 @@ public class MonsterPlayer extends GamePlayer {
 	
 	
 	// ------ SPAWN/UPGRADE MENUS ------
-	private final Map<MobType, Set<String>> upgrades = new HashMap<>();
+	private final Map<MobType, Upgrades> upgrades = new HashMap<>();
 	public void showMobMenu() {
 		MonsterManager.getManager().showMobMenu(this);
 	}
 	
-	public void addUpgrade(MobType type, String upgrade) {
-		upgrades.get(type).add(upgrade);
-	}
-	
-	public boolean hasUpgrade(MobType type, String upgrade) {
-		return upgrades.get(type).contains(upgrade);
+	public Upgrades getUpgrades(MobType type) {
+		if (upgrades.containsKey(type))
+			return upgrades.get(type);
+		else {
+			Upgrades emptyUpgrades = new Upgrades();
+			upgrades.put(type, emptyUpgrades);
+			return emptyUpgrades;
+		}
 	}
 	
 	

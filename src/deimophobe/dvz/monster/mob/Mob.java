@@ -1,31 +1,35 @@
 package deimophobe.dvz.monster.mob;
 
-import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import com.comphenix.protocol.wrappers.WrappedSignedProperty;
-import com.google.common.collect.Multimap;
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.Game;
+import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.Skin;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
+import deimophobe.dvz.monster.upgrade.UpgradeType;
+import deimophobe.dvz.monster.upgrade.Upgrades;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
+import minecraft.spigot.community.michel_0.api.Attribute;
+import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
@@ -44,13 +48,17 @@ public class Mob {
 	private final int torchXP;
 	private final boolean shrineImmune;
 	
+	
+	private static final int POTION_LENGTH = 27*60*20;
+	
 	protected Mob(MonsterPlayer mons, MobType type) {
 		monster = mons;
 		
 		MobData mobData = MobData.getMobData(type);
-		
 		Player player = monster.getPlayer();
 		PlayerInventory inv = player.getInventory();
+		
+		Upgrades upgrades = monster.getUpgrades(type);
 		
 		ChatColor titleColor;
 		if (mobData.forceTitle)
@@ -83,26 +91,53 @@ public class Mob {
 		
 		
 		monster.clearInventory();
-		for (ItemStack item : mobData.items)
-			inv.addItem(item);
 		
-		inv.setHelmet(mobData.helmet);
-		inv.setChestplate(mobData.chest);
+		items = new ArrayList<>();
+		ItemStack weapon = ItemCreator.setAttribute(mobData.weapon, Attribute.ATTACK_DAMAGE, mobData.attack + upgrades.getUpgrade(UpgradeType.ATTACK), Slot.MAIN_HAND);
+		inv.addItem(weapon);
+		items.add(weapon);
+		
+		for (ItemStack item : mobData.items) {
+			inv.addItem(item);
+			items.add(item);
+		}
+		
+		Slot slot = (mobData.armourOnChest ? Slot.CHEST : Slot.HEAD);
+		ItemStack armour = ItemCreator.setAttribute(mobData.armour, Attribute.MAX_HEALTH, mobData.health + upgrades.getUpgrade(UpgradeType.HEALTH), slot);
+		armour = ItemCreator.setAttribute(armour, Attribute.MOVEMENT_SPEED, mobData.speed + upgrades.getUpgrade(UpgradeType.SPEED), slot);
+		if (mobData.armourOnChest) {
+			inv.setChestplate(armour);
+		} else {
+			inv.setHelmet(armour);
+		}
 		
 		
 		monster.clearEffects();
-		for (PotionEffect effect : mobData.effects) {
-			player.addPotionEffect(effect);
+		monster.givePotionEffect(PotionEffectType.NIGHT_VISION, POTION_LENGTH, 1, false, false, true);
+		if (mobData.resLevel != 0) {
+			monster.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, POTION_LENGTH, mobData.resLevel, false, false, true);
+		}
+		if (mobData.jumpLevel != 0) {
+			monster.givePotionEffect(PotionEffectType.JUMP, POTION_LENGTH, mobData.jumpLevel, false, false, true);
+		}
+		if (mobData.slowDig) {
+			monster.givePotionEffect(PotionEffectType.SLOW_DIGGING, POTION_LENGTH, 4, false, false, true);
+		}
+		if (mobData.invisible) {
+			monster.givePotionEffect(PotionEffectType.INVISIBILITY, POTION_LENGTH, 1, true, true, true);
+		}
+		if (mobData.immuneTime != 0) {
+			monster.givePotionEffect(PotionEffectType.LUCK, mobData.immuneTime*20, 0, true, true, true);
 		}
 		monster.delayedHealMax();
-		
-		items = mobData.items;
 		
 		proccable = mobData.proccable;
 		arrowRes = mobData.arrowRes;
 		armourShred = mobData.armourShred;
 		torchXP = mobData.torchXP;
 		shrineImmune = mobData.shrineImmune;
+		
+		applyUpgrades(upgrades);
 	}
 	
 	protected boolean isPlayerHoldingItem(int index) {
@@ -111,6 +146,12 @@ public class Mob {
 	
 	protected Disguise getDisguise() {
 		return DisguiseAPI.getDisguise(monster.getPlayer());
+	}
+	
+	protected void applyUpgrades(Upgrades upgrades) {
+		if (upgrades.hasUpgrade(UpgradeType.FURY)) {
+			monster.sendMessage("ur a foory");
+		}
 	}
 	
 	public boolean isProccable() {

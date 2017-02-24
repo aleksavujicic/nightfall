@@ -3,14 +3,13 @@ package deimophobe.dvz.monster.spawnmenu;
 import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.mob.MobType;
+import deimophobe.dvz.monster.upgrade.Upgrades;
+import deimophobe.dvz.monster.upgrade.UpgradeApplyOperation;
+import deimophobe.dvz.monster.upgrade.UpgradeType;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by Deimophobe on 3/02/17.
@@ -21,21 +20,31 @@ class UpgradeMenuItem extends CostMobMenuItem {
 	private final Collection<String> prereqs;
 	private final MobType type;
 	
+	private final UpgradeType upgradeType;
+	private final UpgradeApplyOperation upgradeOper;
+	private final int upgradeValue;
+	
+	
 	UpgradeMenuItem(ConfigurationSection config, MobType type) {
 		super(ItemCreator.createItem(config.getConfigurationSection("item"), Slot.MAIN_HAND), config.getInt("cost"));
 		
 		this.name = config.getString("name");
 		this.prereqs = config.getStringList("prereq");
 		this.type = type;
+		
+		this.upgradeType = UpgradeType.getUpgradeType(config.getString("upgrade.type"));
+		this.upgradeOper = UpgradeApplyOperation.getOperation(config.getString("upgrade.operation"));
+		this.upgradeValue = config.getInt("upgrade.value");
 	}
 	
 	@Override
 	public boolean isAvailable(MonsterPlayer monster) {
-		if (monster.hasUpgrade(type, name))
+		Upgrades upgrades = monster.getUpgrades(type);
+		if (upgrades.hasLabel(name))
 			return false;
 		
 		for (String prereq : prereqs) {
-			if (!monster.hasUpgrade(type, prereq))
+			if (!upgrades.hasLabel(prereq))
 				return false;
 		}
 		
@@ -44,7 +53,7 @@ class UpgradeMenuItem extends CostMobMenuItem {
 	
 	@Override
 	protected boolean onPayCost(MonsterPlayer monster) {
-		monster.addUpgrade(type, name);
+		monster.getUpgrades(type).applyUppgrade(upgradeType, upgradeOper, upgradeValue, name);
 		return true;
 	}
 }

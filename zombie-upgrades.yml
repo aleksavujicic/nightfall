@@ -5,6 +5,10 @@ attack1:
     name: Upgrade Attack I
   cost: 10
   index: 2
+  upgrade:
+    type: attack
+    operation: add
+    value: 1
 
 attack2:
   name: attack2
@@ -15,6 +19,10 @@ attack2:
     name: Upgrade Attack II
   cost: 20
   index: 2
+  upgrade:
+    type: attack
+    operation: add
+    value: 1
 
 defense1:
   name: defense1
@@ -23,6 +31,10 @@ defense1:
     name: Upgrade Defense I
   cost: 10
   index: 6
+  upgrade:
+    type: health
+    operation: add
+    value: 1
 
 defense2:
   name: defense2
@@ -33,6 +45,10 @@ defense2:
     name: Upgrade Defense II
   cost: 20
   index: 6
+  upgrade:
+    type: health
+    operation: add
+    value: 1
 
 test:
   name: test
@@ -44,3 +60,6 @@ test:
     name: Spooky test
   cost: 100
   index: 4
+  upgrade:
+    type: fury
+    operation: settrue

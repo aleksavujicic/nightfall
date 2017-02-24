@@ -46,9 +46,9 @@ public class ItemCreator {
 		if (speed != 0) {
 			attributes.addModifier(new AttributeModifier(Attribute.MOVEMENT_SPEED, "Speed", slot, 0, speed, UUID.randomUUID()));
 			if (speed > 0)
-				lore.add(ChatColor.BLUE + "Speed: +" + speed);
+				lore.add(ChatColor.BLUE + "Speed: +" + speed + "%");
 			else
-				lore.add(ChatColor.RED + "Speed: " + speed);
+				lore.add(ChatColor.RED + "Speed: -" + speed + "%");
 		}
 		
 		if (kbResist) {
@@ -105,5 +105,46 @@ public class ItemCreator {
 			items.add(createItem(section.getConfigurationSection(key), slot));
 		}
 		return items;
+	}
+	
+	
+	// Item modifications
+	public static ItemStack setAttribute(ItemStack item, Attribute attribute, int value, Slot slot) {
+		if (value == 0) return item;
+		
+		item = item.clone();
+		
+		ItemMeta meta = item.getItemMeta();
+		List<String> lore = meta.getLore();
+		
+		switch (attribute) {
+			case MAX_HEALTH:
+				lore.add(ChatColor.BLUE + "Health: " + value);
+				value = value*2 - 20;
+				break;
+			case MOVEMENT_SPEED:
+				if (value > 0)
+					lore.add(ChatColor.BLUE + "Speed: +" + value + "%");
+				else
+					lore.add(ChatColor.RED + "Speed: " + value + "%");
+				break;
+			case ATTACK_DAMAGE:
+				lore.add(ChatColor.BLUE + "Attack: " + value);
+				break;
+			default:
+				throw new IllegalArgumentException("Upgrading attribute '"+attribute+"' is not supported.");
+		}
+		
+		meta.setLore(lore);
+		item.setItemMeta(meta);
+		
+		
+		ItemAttributes attributes = new ItemAttributes();
+		attributes.getFromStack(item);
+		if (attribute == Attribute.MOVEMENT_SPEED)
+			attributes.addModifier(new AttributeModifier(attribute, "SpeedUpgrade", slot, 1, (double)value/100, UUID.randomUUID()));
+		else
+			attributes.addModifier(new AttributeModifier(attribute, "Upgrade", slot, 0, value, UUID.randomUUID()));
+		return attributes.apply(item);
 	}
 }

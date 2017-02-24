@@ -1,22 +1,54 @@
+default:
+  title: Default
+  forcetitle: false
+
+  playername: fake name
+  skin: capmergor
+
+  health: 10
+  attack: 5
+  speed: 0
+
+  armouronchest: true
+  armour:
+    material: dirt
+    name: Default Armour
+
+  res: 3
+  jump: 0
+  slowdig: false
+  invisible: false
+  immunetime: 8
+
+  proccable: true
+  arrowres: 0
+  armourshred: 10
+  torchxp: 5
+  shrineimmune: false
+
+
+
+
+
+
 zombie:
   title: Zombie
+  forcetitle: false
 
   disguisetype: zombie
 
-  chest:
+  armour:
     material: rotten_flesh
     name: Tough Flesh
     lore:
      - §dSome lore
      - and more lore
     bound: true
-  items:
-    item1:
-      material: wood_pickaxe
-      name: Makeshift Pick
-      lore:
-       - Some lore
-      attack: 5
+  weapon:
+    material: wood_pickaxe
+    name: Makeshift Pick
+    lore:
+     - Some lore
 
 
 flamelancer:
@@ -24,20 +56,21 @@ flamelancer:
 
   disguisetype: skeleton
 
-  chest:
+  speed: 5
+
+  armour:
     material: fire
     name: Tough Flesh
     lore:
      - §dSome lore
      - and more lore
-    speed: 0.02
     bound: true
+  weapon:
+    material: bow
+    name: Nether Tooth Bow
+    lore:
+     - Some lore
   items:
-    item1:
-      material: bow
-      name: Nether Tooth Bow
-      lore:
-       - Some lore
     item2:
       material: arrow
       name: Skeletal Arrow
@@ -62,21 +95,22 @@ witherskele:
 
   disguisetype: wither_skeleton
 
-  chest:
+  health: 25
+
+  armour:
     material: soul_sand
     name: Tough Flesh
     lore:
      - §dSome lore
      - and more lore
-    health: 30
     bound: true
+  weapon:
+    material: bow
+    damage: 2
+    name: Nether Tooth Bow
+    lore:
+     - Some lore
   items:
-    item1:
-      material: bow
-      damage: 2
-      name: Nether Tooth Bow
-      lore:
-       - Some lore
     item2:
       material: arrow
       name: Skeletal Arrow
@@ -101,27 +135,24 @@ wolf:
 
   disguisetype: wolf
 
-  chest:
+  attack: 16
+  health: 40
+  speed: 5
+
+  armour:
     material: leather
     name: Tough Flesh
     lore:
      - §dSome lore
      - and more lore
-    health: 60
-    speed: 0.01
     bound: true
-  items:
-    item1:
-      material: shears
-      damage: 103
-      name: Wolf Fangs
-      lore:
-       - Some lore
-      attack: 16
+  weapon:
+    material: shears
+    damage: 103
+    name: Wolf Fangs
+    lore:
+     - Some lore
 
-  res: 3
-  proccable: true
-  arrowres: 0
   shred: 20
 
 direwolf:
@@ -135,31 +166,28 @@ spiderling:
 
   disguisetype: cave_spider
 
-  chest:
+  attack: 15
+  health: 5
+  speed: 30
+
+  armour:
     material: snow_ball
     name: Squishy Spider Body Thing
     lore:
      - §dSome lore
      - Im not googling the name of
      - this thing cos spiders
-    health: -10
-    speed: 0.03
     jump: 1
     bound: true
-  items:
-    item1:
-      material: shears
-      damage: 106
-      name: Spider Thingies
-      lore:
-       - Something something
-       - nasty bite
-      attack: 15
+  weapon:
+    material: shears
+    damage: 106
+    name: Spider Thingies
+    lore:
+     - Something something
+     - nasty bite
 
-  res: 3
   jump: 2
-  proccable: true
-  arrowres: 0
   shred: 5
 
 
@@ -168,22 +196,22 @@ rat:
 
   disguisetype: silverfish
 
-  chest:
+  attack: 1
+  health: 5
+
+  armour:
     material: prismarine_crystals
     name: Rat Thing
     lore:
      - §dSome lore
      - and more lore
-    health: -10
     bound: true
-  items:
-    item1:
-      material: shears
-      damage: 106
-      name: Rat Talons
-      lore:
-       - Some lore
-      attack: 1
+  weapon:
+    material: shears
+    damage: 106
+    name: Rat Talons
+    lore:
+     - Some lore
 
   res: 3
   proccable: true
@@ -197,24 +225,24 @@ golem:
 
   disguisetype: iron_golem
 
-  chest:
+  attack: 35
+  health: 80
+  speed: -100
+
+  armour:
     material: iron_block
     name: Mechanical Body
     lore:
      - §dSome lore
      - and more lore
-    health: 140
-    speed: -0.15
     kbresist: true
     bound: true
-  items:
-    item1:
-      material: shears
-      damage: 104
-      name: Ancient Pick
-      lore:
-       - Some lore
-      attack: 35
+  weapon:
+    material: shears
+    damage: 104
+    name: Ancient Pick
+    lore:
+     - Some lore
 
   res: 4
   slowdig: true
@@ -228,24 +256,25 @@ ogre:
 
   disguisetype: pig_zombie
 
-  chest:
+  attack: 20
+  health: 40
+
+
+  armour:
     material: rotten_flesh
     name: Ogre Hide
     lore:
      - §dSome lore
      - and more lore
-    health: 80
     kbresist: true
     bound: true
-  items:
-    item1:
-      material: shears
-      damage: 105
-      name: Ogre Club
-      lore:
-       - Some lore
-      attack: 20
-      knockback: 4
+  weapon:
+    material: shears
+    damage: 105
+    name: Ogre Club
+    lore:
+     - Some lore
+    knockback: 4
 
   res: 4
   proccable: false
@@ -257,18 +286,18 @@ ogre:
 ghostblade-base:
   title: Ghostblade
 
-  chest:
+  health: 40
+  attack: 20
+
+  armour:
     material: slime_ball
     name: Spooky Body
     lore:
      - §dSome lore
      - and more lore
-    health: 60
     kbresist: true
     bound: true
-    speed: 0.01
 
-  res: 3
   invisible: true
 
   proccable: true
@@ -279,78 +308,51 @@ ghostblade-base:
 gb-dagger:
   parent: ghostblade-base
 
-  chest:
-    material: slime_ball
-    name: Spooky Body
+  speed: 75
+
+  weapon:
+    material: shears
+    damage: 2
+    name: Spooky Dagger
     lore:
-     - §dSome lore
-     - and more lore
-    health: 60
-    kbresist: true
-    bound: true
-    speed: 0.1
-
-  items:
-    item1:
-      material: shears
-      damage: 2
-      name: Spooky Dagger
-      lore:
-       - Some lore
-      attack: 20
-
-  res: 3
-  invisible: true
+      - Some lore
 
 gb-runeblade:
   parent: ghostblade-base
 
-  items:
-    item1:
-      material: shears
-      damage: 0
-      name: Spooky Blade
-      lore:
-       - Some lore
-      attack: 20
-
-  res: 3
-  invisible: true
+  weapon:
+    material: shears
+    damage: 0
+    name: Spooky Blade
+    lore:
+     - Some lore
 
   proccable: false
 
 gb-axe:
   parent: ghostblade-base
 
-  items:
-    item1:
-      material: shears
-      damage: 1
-      name: Spooky Axe
-      lore:
-       - Some lore
-      attack: 30
+  attack: 30
 
-  res: 3
-  invisible: true
+  weapon:
+    material: shears
+    damage: 1
+    name: Spooky Axe
+    lore:
+     - Some lore
 
   shred: 30
 
 gb-hammer:
   parent: ghostblade-base
 
-  items:
-    item1:
-      material: diamond_pickaxe
-      damage: 0
-      name: Spooky Hammer
-      lore:
-       - Some lore
-      attack: 20
-      knockback: 10
-
-  res: 3
-  invisible: true
+  weapon:
+    material: diamond_pickaxe
+    damage: 0
+    name: Spooky Hammer
+    lore:
+     - Some lore
+    knockback: 10
 
 
 krungor:
@@ -361,24 +363,25 @@ krungor:
   playername: §cCapmergor
   skin: capmergor
 
-  helmet:
+  attack: 60
+  health: 100
+  speed: 40
+
+  armouronchest: false
+  armour:
     material: shears
     damage: 200
     name: §cCrown of the Ogre King
     lore:
      - §dSome lore
      - and more lore
-    health: 180
-    speed: 0.05
     kbresist: true
-  items:
-    item1:
-      material: shears
-      damage: 105
-      name: §cKrungor's Axe
-      lore:
-       - Some lore
-      attack: 60
+  weapon:
+    material: shears
+    damage: 105
+    name: §cKrungor's Axe
+    lore:
+      - Some lore
 
   res: 4
   immunetime: 10
