@@ -6,6 +6,8 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -97,10 +99,7 @@ public abstract class GameEntity {
 	public void customDamage(GameEntity damager, DamageType type, double damage) {
 		lastDamager = damager;
 		lastDamageType = type;
-		if (damager instanceof GamePlayer)
-			lastItemName = ((GamePlayer) damager).getHeldItem().getItemMeta().getDisplayName();
-		else
-			lastItemName = null;
+		lastItemName = getHeldItemOfDamager(damager);
 		
 		if (!type.isCustom())
 			Bukkit.getLogger().warning("Forcing custom damage that is not of custom type?!");
@@ -111,13 +110,23 @@ public abstract class GameEntity {
 	public void registerNonCustomDamage(GameEntity damager, DamageType type) {
 		lastDamager = damager;
 		lastDamageType = type;
-		if (damager instanceof GamePlayer)
-			lastItemName = ((GamePlayer) damager).getHeldItem().getItemMeta().getDisplayName();
-		else
-			lastItemName = null;
+		lastItemName = getHeldItemOfDamager(damager);
 		
 		if (type.isCustom())
 			Bukkit.getLogger().warning("Registering damage that is of custom type?!");
+	}
+	
+	private static String getHeldItemOfDamager(GameEntity damager) {
+		if (!(damager instanceof GamePlayer)) return null;
+		
+		GamePlayer gp = ((GamePlayer) damager);
+		ItemStack item = gp.getHeldItem();
+		if (item == null) return null;
+		
+		ItemMeta meta = item.getItemMeta();
+		if (meta == null) return null;
+		
+		return meta.getDisplayName();
 	}
 	
 	
