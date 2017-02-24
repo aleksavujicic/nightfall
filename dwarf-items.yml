@@ -33,7 +33,7 @@ sword:
      - §aand given to only the quickest of
      - §efoot§a and §bmind§a.
     attack: 15
-    speed: 0.05
+    speed: 30
   hammer:
     material: shield
     damage: 1

@@ -26,7 +26,7 @@ import java.util.UUID;
 public class ItemCreator {
 	private ItemCreator() {}
 	
-	public static ItemStack createItem(Material type, short damage, byte data, String name, List<String> lore, int quantity, int attackDamage, int healthBoost, double speed, boolean kbResist, boolean bound, int depth, int knockback, Slot slot) {
+	public static ItemStack createItem(Material type, short damage, byte data, String name, List<String> lore, int quantity, int attackDamage, int healthBoost, int speed, boolean kbResist, boolean bound, int depth, int knockback, Slot slot) {
 		ItemStack item = new ItemStack(type, quantity, damage, data);
 		item.setDurability(damage);
 		
@@ -44,11 +44,11 @@ public class ItemCreator {
 		}
 		
 		if (speed != 0) {
-			attributes.addModifier(new AttributeModifier(Attribute.MOVEMENT_SPEED, "Speed", slot, 0, speed, UUID.randomUUID()));
+			attributes.addModifier(new AttributeModifier(Attribute.MOVEMENT_SPEED, "Speed", slot, 1, (double)speed/100, UUID.randomUUID()));
 			if (speed > 0)
 				lore.add(ChatColor.BLUE + "Speed: +" + speed + "%");
 			else
-				lore.add(ChatColor.RED + "Speed: -" + speed + "%");
+				lore.add(ChatColor.RED + "Speed: " + speed + "%");
 		}
 		
 		if (kbResist) {
@@ -88,7 +88,7 @@ public class ItemCreator {
 		int quantity = section.getInt("quantity", 1);
 		int attackDamage = section.getInt("attack", -1);
 		int healthBoost = section.getInt("health", 0);
-		double speed = section.getDouble("speed", 0);
+		int speed = section.getInt("speed", 0);
 		
 		boolean kbResist = section.getBoolean("kbresist", false);
 		boolean bound = section.getBoolean("bound", false);
