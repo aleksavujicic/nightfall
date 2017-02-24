@@ -355,6 +355,7 @@ public class Dwarf extends GamePlayer {
 				Bukkit.getLogger().warning("No proc constant: " + procType + "!?");
 				break;
 		}
+		updateVisibility();
 	}
 	
 	public void onKill(GameEntity monster, DamageType type) {
