@@ -32,8 +32,36 @@ public class ItemCreator {
 			int attackDamage, int healthBoost, int speed,
 			boolean kbResist, boolean bound, boolean shiny, int depth, int knockback,
 			Slot slot) {
+		
 		ItemStack item = new ItemStack(type, quantity, damage, data);
 		item.setDurability(damage);
+		
+		
+		ItemMeta meta = item.getItemMeta();
+		
+		name = name.replace('&', ChatColor.COLOR_CHAR);
+		for (int i=0; i < lore.size() ; i++) {
+			String line = lore.get(i);
+			String newline = line.replace('&',ChatColor.COLOR_CHAR);
+			lore.set(i,newline);
+		}
+		lore.add("");
+		meta.setDisplayName(name);
+		meta.setLore(lore);
+		
+		meta.setUnbreakable(true);
+		if (shiny)
+			meta.addEnchant(Enchantment.DURABILITY, 1, true);
+		if (bound)
+			meta.addEnchant(Enchantment.BINDING_CURSE, 1, true);
+		if (depth != 0)
+			meta.addEnchant(Enchantment.DEPTH_STRIDER, depth, true);
+		if (knockback != 0)
+			meta.addEnchant(Enchantment.KNOCKBACK, knockback, true);
+		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_POTION_EFFECTS);
+		
+		item.setItemMeta(meta);
+		
 		
 		ItemAttributes attributes = new ItemAttributes();
 		if (attackDamage != -1) {
@@ -58,31 +86,6 @@ public class ItemCreator {
 			attributes.addModifier(new AttributeModifier(Attribute.KNOCKBACK_RESISTANCE, "KBResist", slot, 0, 1, UUID.randomUUID()));
 			lore.add(ChatColor.BLUE + "Knockback Resistance");
 		}
-		
-		ItemMeta meta = item.getItemMeta();
-		
-		name = name.replace('&', ChatColor.COLOR_CHAR);
-		for (int i=0; i < lore.size() ; i++) {
-			String line = lore.get(i);
-			String newline = line.replace('&',ChatColor.COLOR_CHAR);
-			lore.set(i,newline);
-		}
-		lore.add("");
-		meta.setDisplayName(name);
-		meta.setLore(lore);
-		
-		meta.setUnbreakable(true);
-		if (shiny)
-			meta.addEnchant(Enchantment.DURABILITY, 1, true);
-		if (bound)
-			meta.addEnchant(Enchantment.BINDING_CURSE, 1, true);
-		if (depth != 0)
-			meta.addEnchant(Enchantment.DEPTH_STRIDER, depth, true);
-		if (knockback != 0)
-			meta.addEnchant(Enchantment.KNOCKBACK, knockback, true);
-		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_POTION_EFFECTS);
-		item.setItemMeta(meta);
-		
 		
 		item = attributes.apply(item);
 		
