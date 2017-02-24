@@ -30,7 +30,7 @@ public class AIEntity extends GameEntity {
 	
 	@Override
 	public double onGotHit(GameEntity entity, DamageType type, double damage) {
-		if (entity == null || type == null) return damage;
+		if (type == null) return damage;
 		
 		if (type.isMobImmune()) return -1;
 		
