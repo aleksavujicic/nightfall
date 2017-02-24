@@ -1,9 +1,9 @@
 attack1:
   item:
     material: wood_sword
-    name: Upgrade Attack I
+    name: "&c&lUpgrade Attack I"
     lore:
-      - Increases your attack by 1
+      - "&5Increases your &eattack&5 by &a&l1"
   cost: 30
   index: 2
   upgrade:
@@ -16,9 +16,9 @@ attack2:
     - attack1
   item:
     material: wood_sword
-    name: Upgrade Attack II
+    name: "&c&lUpgrade Attack II"
     lore:
-      - Increases your attack by 2
+      - "&5Increases your &eattack&5 by &a&l2"
   cost: 70
   index: 2
   upgrade:
@@ -31,9 +31,9 @@ attack3:
     - attack2
   item:
     material: wood_sword
-    name: Upgrade Attack III
+    name: "&c&lUpgrade Attack III"
     lore:
-      - Increases your attack by 3
+      - "&5Increases your &eattack&5 by &a&l2"
   cost: 100
   index: 2
   upgrade:
@@ -46,9 +46,9 @@ attack4:
     - attack3
   item:
     material: wood_sword
-    name: Upgrade Attack IV
+    name: "&c&lUpgrade Attack IV"
     lore:
-      - Increases your attack by 2
+      - "&5Increases your &eattack&5 by &a&l2"
   cost: 150
   index: 2
   upgrade:
@@ -61,9 +61,9 @@ attack5:
     - attack4
   item:
     material: wood_sword
-    name: Upgrade Attack V
+    name: "&c&lUpgrade Attack V"
     lore:
-      - Increases your attack by 3
+      - "&5Increases your &eattack&5 by &a&l3"
   cost: 200
   index: 2
   upgrade:
@@ -76,9 +76,9 @@ attack-inf:
     - attack5
   item:
     material: wood_sword
-    name: Upgrade Attack
+    name: "&c&lUpgrade Attack"
     lore:
-      - Increases your attack by 1
+      - "&5Increases your &eattack&5 by &a&l1"
     shiny: true
   cost: 300
   index: 2

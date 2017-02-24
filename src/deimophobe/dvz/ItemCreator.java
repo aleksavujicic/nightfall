@@ -26,11 +26,14 @@ import java.util.UUID;
 public class ItemCreator {
 	private ItemCreator() {}
 	
-	public static ItemStack createItem(Material type, short damage, byte data, String name, List<String> lore, int quantity, int attackDamage, int healthBoost, int speed, boolean kbResist, boolean bound, int depth, int knockback, Slot slot) {
+	public static ItemStack createItem(
+			Material type, short damage, byte data,
+			String name, List<String> lore, int quantity,
+			int attackDamage, int healthBoost, int speed,
+			boolean kbResist, boolean bound, boolean shiny, int depth, int knockback,
+			Slot slot) {
 		ItemStack item = new ItemStack(type, quantity, damage, data);
 		item.setDurability(damage);
-		
-		lore.add("");
 		
 		ItemAttributes attributes = new ItemAttributes();
 		if (attackDamage != -1) {
@@ -57,9 +60,20 @@ public class ItemCreator {
 		}
 		
 		ItemMeta meta = item.getItemMeta();
+		
+		name = name.replace('&', ChatColor.COLOR_CHAR);
+		for (int i=0; i < lore.size() ; i++) {
+			String line = lore.get(i);
+			String newline = line.replace('&',ChatColor.COLOR_CHAR);
+			lore.set(i,newline);
+		}
+		lore.add("");
 		meta.setDisplayName(name);
 		meta.setLore(lore);
+		
 		meta.setUnbreakable(true);
+		if (shiny)
+			meta.addEnchant(Enchantment.DURABILITY, 1, true);
 		if (bound)
 			meta.addEnchant(Enchantment.BINDING_CURSE, 1, true);
 		if (depth != 0)
@@ -92,10 +106,11 @@ public class ItemCreator {
 		
 		boolean kbResist = section.getBoolean("kbresist", false);
 		boolean bound = section.getBoolean("bound", false);
+		boolean shiny = section.getBoolean("shiny", false);
 		int depth = section.getInt("depth", 0);
 		int knockback = section.getInt("knockback", 0);
 		
-		return createItem(type, damage, data, name, lore, quantity, attackDamage, healthBoost, speed, kbResist, bound, depth, knockback, slot);
+		return createItem(type, damage, data, name, lore, quantity, attackDamage, healthBoost, speed, kbResist, bound, shiny, depth, knockback, slot);
 	}
 	
 	public static List<ItemStack> createItems(ConfigurationSection section, Slot slot) {
