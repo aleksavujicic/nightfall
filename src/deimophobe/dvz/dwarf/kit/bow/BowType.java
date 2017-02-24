@@ -4,11 +4,26 @@ package deimophobe.dvz.dwarf.kit.bow;
  * Created by Deimophobe on 20/01/17.
  */
 public enum BowType {
-	SHORTBOW,
-	DRAGONSKIN,
-	LONGBOW,
-	LIGHTBOW,
-	CROSSBOW,
-	WARPWEAVER,
-	EBOW
+	SHORTBOW("shortbow", 30),
+	DRAGONSKIN("dragonskin", 40),
+	LONGBOW("longbow", 60),
+	LIGHTBOW("lightbow", 30),
+	CROSSBOW("crossbow", 90),
+	WARPWEAVER("warpweaver", 30),
+	EBOW("ebow", 5);
+	
+	private final String name;
+	private final int power;
+	
+	public String getName() {
+		return name;
+	}
+	public int getPower() {
+		return power;
+	}
+	
+	BowType(String name, int power) {
+		this.name = name;
+		this.power = power;
+	}
 }

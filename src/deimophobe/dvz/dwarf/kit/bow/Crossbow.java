@@ -13,7 +13,7 @@ import org.bukkit.util.Vector;
  */
 class Crossbow extends Bow {
 	Crossbow(Dwarf dwarf) {
-		super(dwarf, BowType.CROSSBOW, 90);
+		super(dwarf, BowType.CROSSBOW);
 	}
 	
 	private int cooldown = 0;

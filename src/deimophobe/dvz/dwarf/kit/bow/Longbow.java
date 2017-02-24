@@ -24,7 +24,7 @@ class Longbow extends Bow {
 	
 	
 	Longbow(Dwarf dwarf) {
-		super(dwarf, BowType.LONGBOW, 60);
+		super(dwarf, BowType.LONGBOW);
 	}
 	
 	@Override

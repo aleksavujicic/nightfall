@@ -28,16 +28,10 @@ public class Bow extends DwarvenItem {
 	protected final int power;
 	private final BowType type;
 	
-	Bow(Dwarf dwarf, BowType type, int power) {
+	Bow(Dwarf dwarf, BowType type) {
 		super(dwarf, getItem(type));
 		this.type = type;
-		this.power = power;
-		
-		ItemMeta meta = item.getItemMeta();
-		List<String> lore = meta.getLore();
-		lore.add(ChatColor.BLUE + "Power: " + power);
-		meta.setLore(lore);
-		item.setItemMeta(meta);
+		this.power = type.getPower();
 	}
 	
 	public BowType getBowType() {
@@ -61,7 +55,7 @@ public class Bow extends DwarvenItem {
 	public static Bow createBow(Dwarf dwarf, BowType bowType) {
 		switch (bowType) {
 			case SHORTBOW:
-				return new Bow(dwarf, BowType.SHORTBOW, 30);
+				return new Bow(dwarf, BowType.SHORTBOW);
 			case DRAGONSKIN:
 				return new Dragonskin(dwarf);
 			case LONGBOW:
@@ -82,14 +76,20 @@ public class Bow extends DwarvenItem {
 	static {
 		ConfigurationSection bowSection = DwarfManager.getManager().getConfig().getConfigurationSection("bow");
 		
-		bows.put(BowType.SHORTBOW, ItemCreator.createItem(bowSection.getConfigurationSection("shortbow"), Slot.MAIN_HAND));
-		bows.put(BowType.DRAGONSKIN, ItemCreator.createItem(bowSection.getConfigurationSection("dragonskin"), Slot.MAIN_HAND));
-		bows.put(BowType.LIGHTBOW, ItemCreator.createItem(bowSection.getConfigurationSection("lightbow"), Slot.MAIN_HAND));
-		bows.put(BowType.LONGBOW, ItemCreator.createItem(bowSection.getConfigurationSection("longbow"), Slot.MAIN_HAND));
-		bows.put(BowType.CROSSBOW, ItemCreator.createItem(bowSection.getConfigurationSection("crossbow"), Slot.MAIN_HAND));
-		bows.put(BowType.EBOW, ItemCreator.createItem(bowSection.getConfigurationSection("ebow"), Slot.MAIN_HAND));
-		bows.put(BowType.WARPWEAVER, ItemCreator.createItem(bowSection.getConfigurationSection("warpweaver"), Slot.MAIN_HAND));
+		for (BowType type : BowType.values()) {
+			ItemStack bow = ItemCreator.createItem(bowSection.getConfigurationSection(type.getName()), Slot.MAIN_HAND);
+			
+			ItemMeta meta = bow.getItemMeta();
+			List<String> lore = meta.getLore();
+			lore.add(ChatColor.BLUE + "Power: " + type.getPower());
+			meta.setLore(lore);
+			bow.setItemMeta(meta);
+			
+			bows.put(type, bow);
+		}
 	}
+	
+	
 	public static ItemStack getItem(BowType bowType) {
 		return bows.get(bowType);
 	}

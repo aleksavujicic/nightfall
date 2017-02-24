@@ -14,7 +14,7 @@ import org.bukkit.entity.Projectile;
  */
 class Warpweaver extends Bow {
 	Warpweaver(Dwarf dwarf) {
-		super(dwarf, BowType.WARPWEAVER, 30);
+		super(dwarf, BowType.WARPWEAVER);
 	}
 	
 	private Location warpSpot;

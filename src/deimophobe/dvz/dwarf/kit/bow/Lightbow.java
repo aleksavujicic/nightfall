@@ -11,7 +11,7 @@ import org.bukkit.entity.Projectile;
  */
 class Lightbow extends Bow {
 	Lightbow(Dwarf dwarf) {
-		super(dwarf, BowType.LIGHTBOW, 30);
+		super(dwarf, BowType.LIGHTBOW);
 	}
 	
 	@Override

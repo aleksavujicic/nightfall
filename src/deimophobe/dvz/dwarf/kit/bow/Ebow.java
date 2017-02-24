@@ -20,7 +20,7 @@ import org.bukkit.util.Vector;
  */
 class Ebow extends Bow {
 	Ebow(Dwarf dwarf) {
-		super(dwarf, BowType.EBOW, 5);
+		super(dwarf, BowType.EBOW);
 	}
 	
 	private static final double MAX_RANGE = 15;

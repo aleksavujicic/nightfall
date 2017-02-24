@@ -10,7 +10,7 @@ import deimophobe.dvz.dwarf.Dwarf;
 class Dragonskin extends Bow {
 	
 	Dragonskin(Dwarf dwarf) {
-		super(dwarf, BowType.DRAGONSKIN, 40);
+		super(dwarf, BowType.DRAGONSKIN);
 	}
 	
 	@Override
