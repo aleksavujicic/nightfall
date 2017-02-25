@@ -86,10 +86,8 @@ public class Loadout {
 		consumables.put(ConsumableType.LAMP, 5);
 		consumables.put(ConsumableType.SOS, 5);
 		consumables.put(ConsumableType.WRENCH, 5);
-		consumables.put(ConsumableType.MORTAR, 5);
 		consumables.put(ConsumableType.WIZARD_MORTAR, 5);
 		consumables.put(ConsumableType.HEAL_STATION, 5);
-		consumables.put(ConsumableType.ARMOUR_ITEM, 5);
 		
 		Set<Passive> passives = new HashSet<>();
 		passives.add(Passive.AVENGE);

@@ -17,6 +17,7 @@ import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
@@ -27,6 +28,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.Directional;
+import org.bukkit.material.PistonExtensionMaterial;
+import org.bukkit.material.Wool;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -395,8 +399,34 @@ public class Dwarf extends GamePlayer {
 		
 		return damage;
 	}
+	
+	public void onBlockBreak(Block block) {
+		if (block == null) return;
+		
+		switch (block.getType()) {
+			case GRAVEL:
+				giveItem(cobble, 3);
+				if (kit.hasAndIsHoldingTM() && Game.getGame().getPhase().canGravelProc())
+					giveProc(ProcType.GRAVEL_PROC);
+				break;
+				
+			case LOG:
+			case LOG_2:
+				giveItem(log);
+				break;
+				
+			case GOLD_ORE:
+				Game.getGame().mineGold();
+				break;
+			
+			case GOLD_BLOCK:
+				giveItem(Consumable.getItem(ConsumableType.ARMOUR_ITEM));
+				break;
+		}
+	}
 
 	private int grabCD;
+	private final static int MAX_GOLD_CD = 25; // For gold stuff
 	private final static int MAX_GRAB_CD = 20; // For grabbing items and stuff
 	private final static int MAX_CONSUMABLE_CD = 10; // For using consumables
 	private final static int MAX_CRAFT_CD = 2; // For crafting torches and stuff
@@ -408,8 +438,10 @@ public class Dwarf extends GamePlayer {
 		boolean success = kit.use(type);
 		if (success) return;
 		
-		grabCD = pickupItem(clickedBlock);
-		if (grabCD > 0) return;
+		if (DwarvenItem.isRightClick(type)) {
+			grabCD = pickupItem(clickedBlock);
+			if (grabCD > 0) return;
+		}
 		
 		if (DwarvenItem.isRightClick(type) && clickedBlock != null && clickedBlock.getType() == Material.CHEST) {
 			showSharedChest();
@@ -436,13 +468,6 @@ public class Dwarf extends GamePlayer {
 				useHeldItem();
 			}
 		}
-	}
-	
-	// TODO make onBLockBreak?
-	public void mineGravel() {
-		giveItem(cobble, 3);
-		if (kit.hasAndIsHoldingTM() && Game.getGame().getPhase().canGravelProc())
-			giveProc(ProcType.GRAVEL_PROC);
 	}
 	
 	
@@ -497,6 +522,52 @@ public class Dwarf extends GamePlayer {
 					giveItem(Consumable.getItem(ConsumableType.MORTAR));
 					useHeldItem();
 					return MAX_CRAFT_CD;
+				}
+				return 0;
+				
+			case WOOL:
+				if (pick.isSimilar(getHeldItem())) {
+					BlockState state = block.getState();
+					Wool wool = (Wool) state.getData();
+					switch (wool.getColor()) {
+						case YELLOW:
+							wool.setColor(DyeColor.ORANGE);
+							break;
+						case ORANGE:
+							wool.setColor(DyeColor.MAGENTA);
+							break;
+						case MAGENTA:
+							block.setType(Material.GOLD_BLOCK);
+							return MAX_GOLD_CD;
+						default:
+							return 0;
+					}
+					state.setData(wool);
+					state.update();
+					return MAX_GOLD_CD;
+				}
+				return 0;
+			
+			case PISTON_EXTENSION:
+				if (pick.isSimilar(getHeldItem())) {
+					BlockFace face = ((PistonExtensionMaterial) block.getState().getData()).getFacing();
+					Block goldBlock = block.getRelative(face);
+					if (goldBlock == null || goldBlock.getType() == Material.AIR) {
+						// Set to wool
+						goldBlock.setType(Material.WOOL);
+						
+						// Get state and data
+						BlockState state = goldBlock.getState();
+						Wool wool = (Wool) state.getData();
+						
+						// Set colour
+						wool.setColor(DyeColor.YELLOW);
+						
+						// Update state and block
+						state.setData(wool);
+						state.update();
+						return MAX_GOLD_CD;
+					}
 				}
 				return 0;
 			

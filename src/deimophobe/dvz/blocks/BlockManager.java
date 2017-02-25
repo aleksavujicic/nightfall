@@ -77,13 +77,7 @@ public class BlockManager {
 		Material blockType = block.getType();
 		
 		if (player instanceof Dwarf) {
-			if (blockType == Material.GOLD_ORE) {
-				Game.getGame().mineGold();
-			}
-			
-			if (blockType == Material.GRAVEL) {
-				((Dwarf) player).mineGravel();
-			}
+			((Dwarf) player).onBlockBreak(block);
 		}
 		
 		return isBreakable(block);
