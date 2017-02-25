@@ -25,8 +25,8 @@ class Flamelancer extends SkeletonMob {
 	
 	private static final int ARROWS_FIRED = 20;
 	
-	private static final double FLAME_CHANCE_STAND = 0.05;
-	private static final double FLAME_CHANCE_ARROW = 0.15;
+	private static final double FLAME_CHANCE_STAND = 0.15;
+	private static final double FLAME_CHANCE_ARROW = 0.35;
 	
 	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {

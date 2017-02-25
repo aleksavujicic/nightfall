@@ -17,6 +17,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockBurnEvent;
+import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -358,6 +360,22 @@ public class GameListener implements Listener {
 	// --------------------------------------------------------
 	//                        MISC
 	// --------------------------------------------------------
+	
+	@EventHandler
+	public void preventFireSpread(BlockSpreadEvent event){
+		if (event.getNewState().getType() == Material.FIRE) {
+			event.setCancelled(true);
+			if (event.getSource().getType() == Material.FIRE) {
+				event.getSource().setType(Material.AIR);
+			}
+		}
+	}
+	
+	@EventHandler
+	public void preventBlockBurn(BlockBurnEvent event){
+		event.setCancelled(true);
+	}
+	
 	
 	@EventHandler
 	public void preventFlightChange(PlayerToggleFlightEvent event){

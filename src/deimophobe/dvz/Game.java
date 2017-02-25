@@ -77,7 +77,7 @@ public class Game {
 			public void run() {
 				releaseMonsters();
 			}
-		}.runTaskLater(plugin, 10*20);
+		}.runTaskLater(plugin, 10 * 20);
 		
 		this.dm = DwarfManager.getManager();
 		this.mm = MonsterManager.getManager();
@@ -123,24 +123,25 @@ public class Game {
 		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
 		sidebarObj = board.registerNewObjective("MySidebar", "dummy");
 		sidebarObj.setDisplaySlot(DisplaySlot.SIDEBAR);
-		sidebarObj.setDisplayName(ChatColor.AQUA+"Dwarves");
+		sidebarObj.setDisplayName(ChatColor.AQUA + "Dwarves");
 		
 		updateSidebar();
 		
 		
-		world.setGameRuleValue("doDaylightCycle",	"true");
-		world.setGameRuleValue("doEntityDrops",		"false");
-		world.setGameRuleValue("doFireTick",			"false");
-		world.setGameRuleValue("doMobLoot",	"false");
-		world.setGameRuleValue("doMobSpawning",	"false");
-		world.setGameRuleValue("doTileDrops",	"false");
-		world.setGameRuleValue("doWeatherCylce",		"false");
-		world.setGameRuleValue("keepInventory",	"false");
-		world.setGameRuleValue("maxEntityCramming",	"-1");
-		world.setGameRuleValue("mobGriefing",	"false");
-		world.setGameRuleValue("naturalRegeneration",	"false");
-		world.setGameRuleValue("showDeathMessages",	"true");
-		world.setGameRuleValue("spectatorGenerateChunks",	"false");
+		world.setGameRuleValue("doDaylightCycle", "true");
+		world.setGameRuleValue("doEntityDrops", "false");
+		world.setGameRuleValue("doFireTick", "true");
+		world.setGameRuleValue("doMobLoot", "false");
+		world.setGameRuleValue("doMobSpawning", "false");
+		world.setGameRuleValue("doTileDrops", "false");
+		world.setGameRuleValue("doWeatherCylce", "false");
+		world.setGameRuleValue("keepInventory", "false");
+		world.setGameRuleValue("maxEntityCramming", "-1");
+		world.setGameRuleValue("mobGriefing", "false");
+		world.setGameRuleValue("naturalRegeneration", "false");
+		world.setGameRuleValue("showDeathMessages", "true");
+		world.setGameRuleValue("spectatorGenerateChunks", "false");
+		world.setGameRuleValue("randomTickSpeed", "1");
 	}
 	
 	private void removeRecipes() {
