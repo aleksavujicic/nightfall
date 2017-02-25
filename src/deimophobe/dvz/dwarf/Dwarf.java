@@ -411,7 +411,7 @@ public class Dwarf extends GamePlayer {
 		grabCD = pickupItem(clickedBlock);
 		if (grabCD > 0) return;
 		
-		if (DwarvenItem.isRightClick(type) && clickedBlock.getType() == Material.CHEST) {
+		if (DwarvenItem.isRightClick(type) && clickedBlock != null && clickedBlock.getType() == Material.CHEST) {
 			showSharedChest();
 			return;
 		}

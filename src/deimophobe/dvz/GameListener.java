@@ -89,7 +89,7 @@ public class GameListener implements Listener {
 			gp.onUse(event.getAction(), block, event.getBlockFace());
 			TimedBlock.hitBlock(block, gp);
 			
-			if (block.getType() == Material.CHEST) {
+			if (block != null && block.getType() == Material.CHEST) {
 				event.setCancelled(true);
 			}
 		}
