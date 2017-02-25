@@ -89,7 +89,7 @@ public class GameListener implements Listener {
 		GamePlayer gp = game.getGamePlayer(event.getPlayer());
 		if (gp != null) {
 			
-			if (gp.isFrozen()) {
+			if ((gp instanceof MonsterPlayer) && ((MonsterPlayer) gp).isFrozen()) {
 				event.setCancelled(true);
 				return;
 			}
@@ -108,7 +108,7 @@ public class GameListener implements Listener {
 	public void onShift(PlayerToggleSneakEvent event) {
 		GamePlayer gp = game.getGamePlayer(event.getPlayer());
 		if (gp != null) {
-			if (gp.isFrozen()) {
+			if ((gp instanceof MonsterPlayer) && ((MonsterPlayer) gp).isFrozen()) {
 				event.setCancelled(true);
 				return;
 			}
@@ -205,7 +205,7 @@ public class GameListener implements Listener {
 					break;
 			}
 			
-			if (damager instanceof GamePlayer && ((GamePlayer) damager).isFrozen()) {
+			if ((damager instanceof MonsterPlayer) && ((MonsterPlayer) damager).isFrozen()) {
 				event.setCancelled(true);
 				return;
 			}
@@ -283,7 +283,7 @@ public class GameListener implements Listener {
 		if (event.getEntity().getType() == EntityType.PLAYER) {
 			GamePlayer gp = game.getGamePlayer((Player) event.getEntity());
 			if (gp != null) {
-				if (gp.isFrozen()) {
+				if ((gp instanceof MonsterPlayer) && ((MonsterPlayer) gp).isFrozen()) {
 					event.setCancelled(true);
 					return;
 				}
@@ -379,9 +379,9 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void preventFlightChange(PlayerToggleFlightEvent event){
-		if (game.isPlayer(event.getPlayer())) {
+		if (mm.isGamePlayer(event.getPlayer())) {
 			event.setCancelled(true);
-			game.getGamePlayer(event.getPlayer()).resetFrozen();
+			mm.getGamePlayer(event.getPlayer()).resetFrozen();
 		}
 	}
 	

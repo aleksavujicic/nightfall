@@ -33,7 +33,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		mcTeam.setPrefix(String.valueOf(teamColour));
 		mcTeam.setDisplayName(teamColour + teamName);
 		
-		mcTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.FOR_OWN_TEAM);
+		mcTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
 		mcTeam.setCanSeeFriendlyInvisibles(true);
 		mcTeam.setAllowFriendlyFire(false);
 		

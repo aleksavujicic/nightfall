@@ -145,7 +145,7 @@ public class Mob {
 		return monster.getHeldItem().isSimilar(items.get(index));
 	}
 	
-	protected Disguise getDisguise() {
+	public Disguise getDisguise() {
 		return DisguiseAPI.getDisguise(monster.getPlayer());
 	}
 	

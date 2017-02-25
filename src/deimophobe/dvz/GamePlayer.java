@@ -137,55 +137,6 @@ public abstract class GamePlayer extends GameEntity {
 	public void goOffline() {}
 	
 	
-	// ------ FREEZE/UNFREEZE ------
-	private Location freezeLocation;
-	public void freeze(int time) {
-		if (!isFreezable()) return;
-		if (isFrozen()) return;
-		
-		givePotionEffect(PotionEffectType.LEVITATION, time, 0, true, true, true);
-		givePotionEffect(PotionEffectType.GLOWING, time, 1, true, true, true);
-		
-		player.setAllowFlight(true);
-		player.setFlying(true);
-		player.setFlySpeed(0);
-		player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
-		player.setVelocity(new Vector(0,0,0));
-		player.setCollidable(false);
-		
-		freezeLocation = getLocation();
-		
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				player.removePotionEffect(PotionEffectType.LEVITATION);
-				player.removePotionEffect(PotionEffectType.GLOWING);
-				player.setAllowFlight(false);
-				player.setFlying(false);
-				player.setFlySpeed(0.1f);
-				player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
-				player.setCollidable(true);
-				
-				teleportTo(freezeLocation, true);
-				freezeLocation = null;
-			}
-		}.runTaskLater(Game.getGame().getPlugin(), time);
-	}
-	
-	public void resetFrozen() {
-		if (isFrozen())
-			teleportTo(freezeLocation, true);
-	}
-	
-	public boolean isFrozen() {
-		return (freezeLocation != null);
-	}
-	
-	protected boolean isFreezable() {
-		return true;
-	}
-	
-	
 	// ------ MISC ------
 	public void remove() {
 		clearEffects();

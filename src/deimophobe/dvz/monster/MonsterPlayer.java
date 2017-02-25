@@ -9,18 +9,20 @@ import deimophobe.dvz.monster.mob.MobType;
 import deimophobe.dvz.monster.upgrade.Upgrades;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
+import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
+import me.libraryaddict.disguise.disguisetypes.watchers.LivingWatcher;
+import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -281,15 +283,76 @@ public class MonsterPlayer extends GamePlayer {
 	}
 	
 	
-	// ------ MISC ------
-	@Override
-	public boolean isFreezable() {
+	
+	// ------ FREEZE/UNFREEZE ------
+	private Location freezeLocation;
+	public void freeze(int time) {
+		if (!isFreezable()) return;
+		if (isFrozen()) return;
+		
+		givePotionEffect(PotionEffectType.LEVITATION, time, 0, true, true, true);
+		givePotionEffect(PotionEffectType.GLOWING, time, 1, true, true, true);
+		
+		if (mob != null) {
+			Disguise dis = mob.getDisguise();
+			if (dis != null)
+				dis.getWatcher().setGlowing(true);
+		}
+		
+		player.setAllowFlight(true);
+		player.setFlying(true);
+		player.setFlySpeed(0);
+		player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
+		player.setVelocity(new Vector(0,0,0));
+		
+		freezeLocation = getLocation();
+		
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				player.removePotionEffect(PotionEffectType.LEVITATION);
+				player.removePotionEffect(PotionEffectType.GLOWING);
+				
+				if (mob != null) {
+					Disguise dis = mob.getDisguise();
+					if (dis != null)
+						dis.getWatcher().setGlowing(false);
+				}
+				
+				player.setAllowFlight(false);
+				player.setFlying(false);
+				player.setFlySpeed(0.1f);
+				player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
+				
+				
+				if (isAlive()) {
+					teleportTo(freezeLocation, true);
+				} else {
+					player.setGameMode(GameMode.SPECTATOR);
+				}
+				freezeLocation = null;
+			}
+		}.runTaskLater(Game.getGame().getPlugin(), time);
+	}
+	
+	public void resetFrozen() {
+		if (isFrozen())
+			teleportTo(freezeLocation, true);
+	}
+	
+	public boolean isFrozen() {
+		return (freezeLocation != null);
+	}
+	
+	private boolean isFreezable() {
 		if (player.hasPotionEffect(PotionEffectType.LUCK))
 			return false;
 		
 		return true;
 	}
 	
+	
+	// ------ MISC ------
 	
 	private static final ItemStack seppuku;
 	static {
