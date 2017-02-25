@@ -32,7 +32,7 @@ public class DoomManager {
 		resetDoomTimers();
 		
 		Configuration doomConfig = YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource("doom.yml"));
-		dooms.put(DoomType.KRUNGOR, new Doom(doomConfig.getConfigurationSection("krungor")));
+		dooms.put(DoomType.KRUNGOR, new KrungorDoom(doomConfig.getConfigurationSection("krungor")));
 		dooms.put(DoomType.GHOSTBLADES, new Doom(doomConfig.getConfigurationSection("ghostblades")));
 		
 		new BukkitRunnable() {
@@ -85,7 +85,10 @@ public class DoomManager {
 			if (!monster.isAlive())
 				deadMonsters.add(monster);
 		}
+		
+		dooms.get(doomType).onSpawn();
 		dooms.get(doomType).spawnMobs(deadMonsters);
+		
 		occuredDooms.add(doomType);
 	}
 	
