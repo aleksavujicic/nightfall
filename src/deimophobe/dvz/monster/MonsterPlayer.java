@@ -3,6 +3,7 @@ package deimophobe.dvz.monster;
 import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.kit.DwarvenItem;
 import deimophobe.dvz.monster.mob.Mob;
 import deimophobe.dvz.monster.mob.MobType;
 import deimophobe.dvz.monster.upgrade.Upgrades;
@@ -138,8 +139,11 @@ public class MonsterPlayer extends GamePlayer {
 	// ------ SEPPUKU ------
 	private final int MAX_SEPPUKU_CD = 100;
 	private int seppukuCD;
-	private void startSeppuku() {
-		seppukuCD = MAX_SEPPUKU_CD;
+	private void seppukuClick() {
+		if (seppukuCD == 0)
+			seppukuCD = MAX_SEPPUKU_CD;
+		else if (seppukuCD > 0)
+			seppukuCD = 0;
 	}
 	private void updateSeppuku() {
 		if (seppukuCD == 0) return;
@@ -213,7 +217,7 @@ public class MonsterPlayer extends GamePlayer {
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (isHolding(seppuku)) {
-			startSeppuku();
+			seppukuClick();
 			return;
 		}
 		
