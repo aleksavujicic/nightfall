@@ -1,5 +1,7 @@
 package deimophobe.dvz.monster.mob;
 
+import deimophobe.dvz.DamageType;
+import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.kit.DwarvenItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
@@ -13,8 +15,10 @@ import org.bukkit.event.block.Action;
  */
 abstract class SkeletonMob extends Mob {
 	
-	protected SkeletonMob(MonsterPlayer mons, MobType type) {
+	protected final int power;
+	protected SkeletonMob(MonsterPlayer mons, MobType type, int power) {
 		super(mons, type);
+		this.power = power;
 	}
 	
 	@Override
@@ -32,5 +36,13 @@ abstract class SkeletonMob extends Mob {
 	public Projectile onBowFire(Arrow arrow, float force) {
 		((SkeletonWatcher) getDisguise().getWatcher()).setSwingArms(false);
 		return arrow;
+	}
+	
+	@Override
+	public double onHit(Dwarf dwarf, DamageType type, double damage) {
+		if (type.isRanged())
+			return power;
+		else
+			return damage;
 	}
 }

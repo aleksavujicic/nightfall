@@ -7,6 +7,6 @@ import deimophobe.dvz.monster.MonsterPlayer;
  */
 class WitherSkele extends SkeletonMob {
 	WitherSkele(MonsterPlayer monster) {
-		super(monster, MobType.WITHERSKELE);
+		super(monster, MobType.WITHERSKELE, 40);
 	}
 }

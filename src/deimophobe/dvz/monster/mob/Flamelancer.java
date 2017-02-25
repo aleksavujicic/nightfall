@@ -19,7 +19,7 @@ import java.util.Set;
  */
 class Flamelancer extends SkeletonMob {
 	Flamelancer(MonsterPlayer monster) {
-		super(monster, MobType.FLAMELANCER);
+		super(monster, MobType.FLAMELANCER, 15);
 		getDisguise().getWatcher().setBurning(true);
 	}
 	
@@ -34,11 +34,12 @@ class Flamelancer extends SkeletonMob {
 		
 		World world = arrow.getWorld();
 		arrow.setFireTicks(10000);
+		arrow.setCritical(false);
 		for (int i=0; i<ARROWS_FIRED*(force*force*force); i++) {
 			Arrow newArrow = world.spawnArrow(arrow.getLocation(), arrow.getVelocity(), force*2, 30f);
 			newArrow.setPickupStatus(Arrow.PickupStatus.DISALLOWED);
 			newArrow.setShooter(monster.getPlayer());
-			//newArrow.setCritical(arrow.isCritical());
+			newArrow.setCritical(false);
 			newArrow.setFireTicks(10000);
 		}
 		

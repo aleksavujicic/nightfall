@@ -293,6 +293,7 @@ public class GameListener implements Listener {
 			GamePlayer player = game.getGamePlayer((Player) source);
 			if (player != null) {
 				player.onProjectileLand(event.getEntity(), event.getHitBlock());
+				proj.remove();
 			}
 		}
 	}
