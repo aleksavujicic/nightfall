@@ -19,6 +19,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.InventoryHolder;
@@ -349,7 +350,7 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void preventInvClicking(InventoryClickEvent event) {
 		InventoryHolder holder = event.getInventory().getHolder();
-		if (holder instanceof Player && DwarfManager.getManager().isGamePlayer((Player) holder)) {
+		if (holder instanceof Player && game.isPlayer((Player) holder)) {
 			if (event.getSlot() == 40 || event.getSlotType() == InventoryType.SlotType.ARMOR) {
 				event.setCancelled(true);
 			}
@@ -369,6 +370,16 @@ public class GameListener implements Listener {
 				event.setCancelled(true);
 		}
 	}
+	
+	@EventHandler
+	public void preventInvDragging(InventoryDragEvent event) {
+		InventoryHolder holder = event.getInventory().getHolder();
+		if (holder instanceof Player && game.isPlayer((Player) holder)) {
+			if (event.getInventorySlots().contains(40))
+				event.setCancelled(true);
+		}
+	}
+	
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
 		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;

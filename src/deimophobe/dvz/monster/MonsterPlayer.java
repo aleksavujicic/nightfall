@@ -11,14 +11,19 @@ import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -64,12 +69,16 @@ public class MonsterPlayer extends GamePlayer {
 		player.setFoodLevel(20);
 		player.setSaturation(20);
 		
+		updateSeppuku();
+		
 		if (mob != null) {
 			mob.update();
 			
-			// Update could kill mob
-			if (mob != null)
+			if (seppukuCD > 0) {
+				player.setExp(1 - (float)seppukuCD/MAX_SEPPUKU_CD);
+			} else if (mob != null) {// Update could kill mob so need to do another null check
 				player.setExp(mob.getCooldown());
+			}
 		} else {
 			player.setFlySpeed(0.1f);
 		}
@@ -122,6 +131,24 @@ public class MonsterPlayer extends GamePlayer {
 	
 	public void spawnAs(MobType type) {
 		mob = Mob.createAndSpawnMob(this, type);
+		player.getInventory().setItem(9, seppuku);
+	}
+	
+	
+	// ------ SEPPUKU ------
+	private final int MAX_SEPPUKU_CD = 100;
+	private int seppukuCD;
+	private void startSeppuku() {
+		seppukuCD = MAX_SEPPUKU_CD;
+	}
+	private void updateSeppuku() {
+		if (seppukuCD == 0) return;
+		
+		seppukuCD--;
+		
+		if (seppukuCD == 0) {
+			customDamage(null, DamageType.SEPPUKU, 10000);
+		}
 	}
 	
 	
@@ -185,6 +212,11 @@ public class MonsterPlayer extends GamePlayer {
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		if (isHolding(seppuku)) {
+			startSeppuku();
+			return;
+		}
+		
 		if (mob != null)
 			mob.onUse(action, clickedBlock);
 	}
@@ -244,5 +276,21 @@ public class MonsterPlayer extends GamePlayer {
 	public void onProjectileLand(Projectile arrow, Block hitBlock) {
 		if (mob != null)
 			mob.onProjectileLand(arrow, hitBlock);
+	}
+	
+	
+	
+	private static final ItemStack seppuku;
+	static {
+		seppuku = new ItemStack(Material.GHAST_TEAR, 1);
+		ItemMeta meta = seppuku.getItemMeta();
+		meta.setDisplayName(ChatColor.RED + "Seppuku");
+		
+		List<String> lore = new ArrayList<>();
+		lore.add(ChatColor.DARK_PURPLE + "What a failure of a monster");
+		lore.add(ChatColor.DARK_PURPLE + "you have become.");
+		meta.setLore(lore);
+		
+		seppuku.setItemMeta(meta);
 	}
 }

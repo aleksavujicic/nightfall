@@ -42,7 +42,7 @@ public class MobListener implements Listener {
 			MonsterPlayer monster = mm.getGamePlayer(player);
 			
 			if (monster != null) { //&& !mob.isAlive()) {
-				event.setCancelled(true);
+				//event.setCancelled(true);
 				
 				MonsterManager.getManager().onClick(event.getSlot(), event.getClickedInventory(), monster);
 			}

@@ -91,6 +91,11 @@ public abstract class GamePlayer extends GameEntity {
 		return player.getInventory().getItemInMainHand();
 	}
 	
+	public boolean isHolding(ItemStack item) {
+		ItemStack held = getHeldItem();
+		return (held != null && held.isSimilar(item));
+	}
+	
 	public void useHeldItem() {
 		ItemStack held = getHeldItem();
 		if (held != null)
