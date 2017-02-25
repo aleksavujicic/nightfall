@@ -5,7 +5,6 @@ import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.menu.Menu;
 import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.MonsterPlayer;
-import deimophobe.dvz.monster.mob.MobType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
@@ -39,11 +38,16 @@ public class SpawnMenu extends Menu<MonsterPlayer> {
 		}.runTaskTimer(plugin, 1, 300);
 	}
 	
+	@Override
+	public void addItem(int i, MenuItem<MonsterPlayer> item) {
+		super.addItem(i, item);
+	}
+	
 	private void addItem(ConfigurationSection config) {
 		MenuItem<MonsterPlayer> menuItem;
 		switch (config.getString("type")) {
 			case "mobegg":
-				menuItem = SpawnEgg.getEgg(config.getString("egg"));
+				menuItem = SpawnEggMenuItem.getEgg(config.getString("egg"));
 				break;
 			
 			case "doomclock":
@@ -75,8 +79,8 @@ public class SpawnMenu extends Menu<MonsterPlayer> {
 	
 	private void updateEggs() {
 		for (MenuItem item : getItems()) {
-			if (item instanceof SpawnEgg)
-				((SpawnEgg)item).tryRespawn();
+			if (item instanceof SpawnEggMenuItem)
+				((SpawnEggMenuItem)item).tryRespawn();
 		}
 	}
 }

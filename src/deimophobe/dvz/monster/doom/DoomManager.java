@@ -33,7 +33,7 @@ public class DoomManager {
 		
 		Configuration doomConfig = YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource("doom.yml"));
 		dooms.put(DoomType.KRUNGOR, new KrungorDoom(doomConfig.getConfigurationSection("krungor")));
-		dooms.put(DoomType.GHOSTBLADES, new Doom(doomConfig.getConfigurationSection("ghostblades")));
+		dooms.put(DoomType.GHOSTBLADES, new GhostbladeDoom(doomConfig.getConfigurationSection("ghostblades")));
 		
 		new BukkitRunnable() {
 			@Override

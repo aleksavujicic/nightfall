@@ -1,7 +1,6 @@
 package deimophobe.dvz.monster.spawnmenu;
 
 import deimophobe.dvz.Game;
-import deimophobe.dvz.GamePlayer;
 import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.MonsterPlayer;
@@ -19,7 +18,7 @@ import java.util.Map;
 /**
  * Created by Deimophbe on 19/01/17.
  */
-class SpawnEgg implements MenuItem<MonsterPlayer> {
+public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 	private final ItemStack item;
 	
 	private final MobType mobType;
@@ -33,7 +32,7 @@ class SpawnEgg implements MenuItem<MonsterPlayer> {
 		return item;
 	}
 	
-	SpawnEgg(MobType type, ItemStack egg, int maxQuantity, double spawnChance) {
+	private SpawnEggMenuItem(MobType type, ItemStack egg, int maxQuantity, double spawnChance) {
 		this.item = egg;
 		
 		this.mobType = type;
@@ -43,7 +42,7 @@ class SpawnEgg implements MenuItem<MonsterPlayer> {
 		this.spawnChance = spawnChance;
 	}
 	
-	private SpawnEgg(ConfigurationSection section) {
+	private SpawnEggMenuItem(ConfigurationSection section) {
 		this.item = ItemCreator.createItem(section.getConfigurationSection("egg"), Slot.HEAD);
 		
 		mobType = MobType.getMobType(section.getString("mobtype"));
@@ -80,18 +79,18 @@ class SpawnEgg implements MenuItem<MonsterPlayer> {
 		}
 	}
 	
-	private static final Map<String, SpawnEgg> eggMap = new HashMap<>();
+	private static final Map<String, SpawnEggMenuItem> eggMap = new HashMap<>();
 	static {
 		Configuration spawnConfig = YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource("spawn-eggs.yml"));
 		for (String key : spawnConfig.getKeys(false)) {
-			SpawnEgg egg = new SpawnEgg(spawnConfig.getConfigurationSection(key));
+			SpawnEggMenuItem egg = new SpawnEggMenuItem(spawnConfig.getConfigurationSection(key));
 			eggMap.put(key.toLowerCase(), egg);
 		}
 	}
-	public static SpawnEgg getEgg(String key) {
+	public static SpawnEggMenuItem getEgg(String key) {
 		return eggMap.get(key);
 	}
-	public static SpawnEgg getEgg(MobType type) {
+	public static SpawnEggMenuItem getEgg(MobType type) {
 		return eggMap.get(type.toString().toLowerCase());
 	}
 }

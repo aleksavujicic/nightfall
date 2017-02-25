@@ -1,3 +1,4 @@
+
 zombie:
   mobtype: zombie
   egg:
@@ -71,3 +72,10 @@ ogre:
   quantity: 15
   chance: 0.1
 
+ghostblade:
+  mobtype: gb-dagger
+  egg:
+    material: iron_hoe
+    name: "&7&oSpawn Ghostblade"
+  quantity: 4
+  chance: 0.1

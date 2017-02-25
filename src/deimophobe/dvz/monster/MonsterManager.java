@@ -4,6 +4,7 @@ import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.GamePlayerManager;
 import deimophobe.dvz.menu.Menu;
+import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
 import deimophobe.dvz.monster.spawnmenu.SpawnMenu;
@@ -92,6 +93,10 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		if (menu != null) {
 			menu.select(slot, monster);
 		}
+	}
+	
+	public void addMenuItem(int i, MenuItem<MonsterPlayer> egg) {
+		menu.addItem(i, egg);
 	}
 }
 	
