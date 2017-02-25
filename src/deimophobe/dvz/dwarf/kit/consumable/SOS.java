@@ -18,7 +18,7 @@ class SOS extends Consumable {
 	}
 	
 	private static final double RANGE = 30;
-	private static final int FREEZE_TIME = 300;
+	private static final int FREEZE_TIME = 200;
 	
 	@Override
 	public boolean use(Dwarf dwarf) {

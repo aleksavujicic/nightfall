@@ -131,8 +131,6 @@ public class MonsterPlayer extends GamePlayer {
 	public void spawnAs(MobType type) {
 		mob = Mob.createAndSpawnMob(this, type);
 		player.getInventory().setItem(9, seppuku);
-		
-		freeze(100);
 	}
 	
 	
@@ -282,6 +280,15 @@ public class MonsterPlayer extends GamePlayer {
 			mob.onProjectileLand(arrow, hitBlock);
 	}
 	
+	
+	// ------ MISC ------
+	@Override
+	public boolean isFreezable() {
+		if (player.hasPotionEffect(PotionEffectType.LUCK))
+			return false;
+		
+		return true;
+	}
 	
 	
 	private static final ItemStack seppuku;

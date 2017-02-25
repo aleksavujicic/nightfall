@@ -363,6 +363,7 @@ public class GameListener implements Listener {
 	public void preventFlightChange(PlayerToggleFlightEvent event){
 		if (game.isPlayer(event.getPlayer())) {
 			event.setCancelled(true);
+			game.getGamePlayer(event.getPlayer()).resetFrozen();
 		}
 	}
 	

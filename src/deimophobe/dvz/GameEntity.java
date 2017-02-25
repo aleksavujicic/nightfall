@@ -45,6 +45,12 @@ public abstract class GameEntity {
 	}
 	
 	public void teleportTo(Location loc) {
+		teleportTo(loc, false);
+	}
+	
+	public void teleportTo(Location loc, boolean keepEyeDirection) {
+		if (keepEyeDirection)
+			loc.setDirection(entity.getLocation().getDirection());
 		entity.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
 	}
 	
