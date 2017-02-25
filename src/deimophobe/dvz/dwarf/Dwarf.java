@@ -234,17 +234,12 @@ public class Dwarf extends GamePlayer {
 			arrows.setAmount(currAmt - amt);
 		}
 	}
-	
-	
-	// TODO make onBLockBreak?
-	public void mineGravel() {
-		giveItem(cobble, 3);
-		if (kit.hasAndIsHoldingTM() && Game.getGame().getPhase().canGravelProc())
-			giveProc(ProcType.GRAVEL_PROC);
-	}
-	
 	public void showTrash() {
 		player.openInventory(Bukkit.createInventory(null, 9, ChatColor.DARK_RED + "---------- TRASH ----------"));
+	}
+	
+	public void showSharedChest() {
+		player.openInventory(DwarfManager.getManager().getSharedChest());
 	}
 	
 	
@@ -408,6 +403,11 @@ public class Dwarf extends GamePlayer {
 		grabCD = pickupItem(clickedBlock);
 		if (grabCD > 0) return;
 		
+		if (DwarvenItem.isRightClick(type) && clickedBlock.getType() == Material.CHEST) {
+			showSharedChest();
+			return;
+		}
+		
 		// Pick repair
 		if (DwarvenItem.isRightClick(type)) {
 			if (getHeldItem().isSimilar(pick)) {
@@ -429,6 +429,14 @@ public class Dwarf extends GamePlayer {
 			}
 		}
 	}
+	
+	// TODO make onBLockBreak?
+	public void mineGravel() {
+		giveItem(cobble, 3);
+		if (kit.hasAndIsHoldingTM() && Game.getGame().getPhase().canGravelProc())
+			giveProc(ProcType.GRAVEL_PROC);
+	}
+	
 	
 	private int pickupItem(Block block) {
 		if (block == null) return 0;
@@ -452,14 +460,8 @@ public class Dwarf extends GamePlayer {
 			case REDSTONE_TORCH_ON:
 				player.getInventory().addItem(kit.getHealItem());
 				return MAX_GRAB_CD;
-			
-			case LOG:
-			case LOG_2:
-				if (axe.isSimilar(getHeldItem())) {
-					giveItem(log,4);
-					return MAX_CRAFT_CD;
-				}
-				return 0;
+				
+				
 			case IRON_FENCE:
 				if (log.isSimilar(getHeldItem())) {
 					giveItem(plank,2);
@@ -467,7 +469,7 @@ public class Dwarf extends GamePlayer {
 					return MAX_CRAFT_CD;
 				}
 				if (plank.isSimilar(getHeldItem())) {
-					giveItem(stick, 2);
+					giveItem(stick, 1);
 					useHeldItem();
 					return MAX_CRAFT_CD;
 				}

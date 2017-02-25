@@ -207,6 +207,17 @@ public class DvZPlugin extends JavaPlugin {
 				return false;
 			}
 		}
+		if (name.equalsIgnoreCase("chest")) {
+			if (sender instanceof Player) {
+				Dwarf dwarf = dm.getGamePlayer((Player)sender);
+				if (dwarf != null)
+					dwarf.showSharedChest();
+				
+				return true;
+			} else {
+				return false;
+			}
+		}
 		if (name.equalsIgnoreCase("who")) {
 			sender.sendMessage(dm.getPlayerList() + "\n" +  mm.getPlayerList());
 		}

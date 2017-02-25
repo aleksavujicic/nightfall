@@ -3,12 +3,14 @@ package deimophobe.dvz;
 import deimophobe.dvz.blocks.BlockManager;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.kit.Kit;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -20,6 +22,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -85,6 +88,10 @@ public class GameListener implements Listener {
 			Block block = event.getClickedBlock();
 			gp.onUse(event.getAction(), block, event.getBlockFace());
 			TimedBlock.hitBlock(block, gp);
+			
+			if (block.getType() == Material.CHEST) {
+				event.setCancelled(true);
+			}
 		}
 	}
 	
@@ -346,6 +353,20 @@ public class GameListener implements Listener {
 			if (event.getSlot() == 40 || event.getSlotType() == InventoryType.SlotType.ARMOR) {
 				event.setCancelled(true);
 			}
+		}
+		
+		// Shared chest handling - prevent putting undroppable items in chest
+		if (dm.isSharedChest(event.getInventory())) {
+			int button = event.getHotbarButton();
+			ItemStack hotbarItem;
+			if (button != -1)
+				hotbarItem = event.getWhoClicked().getInventory().getItem(button);
+			else
+				hotbarItem = null;
+			ItemStack clickedItem = event.getCurrentItem();
+			
+			if (!Kit.isDroppableItem(clickedItem) || !Kit.isDroppableItem(hotbarItem))
+				event.setCancelled(true);
 		}
 	}
 	@EventHandler

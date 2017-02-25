@@ -70,6 +70,6 @@ public abstract class Consumable {
 			ConsumableType.SLAB,
 			ConsumableType.SOS,
 			ConsumableType.WRENCH,
-			ConsumableType.WIZARD_MORTAR,
+			ConsumableType.HEAL_STATION,
 	};
 }

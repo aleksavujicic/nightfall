@@ -7,6 +7,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -59,5 +61,12 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	@Override
 	protected Dwarf createGamePlayerFromPlayer(Player player) {
 		return new Dwarf(player);
+	}
+	
+	private final Inventory sharedChest = Bukkit.createInventory(null, 54, ChatColor.DARK_BLUE + "Shared Resources Chest");
+	public Inventory getSharedChest() { return sharedChest; }
+	
+	public boolean isSharedChest(Inventory inventory) {
+		return (inventory != null && sharedChest.getTitle().equals(inventory.getTitle()));
 	}
 }

@@ -9,7 +9,7 @@ commands:
   setmob:
     usage: /setmob <name>
   spawnmob:
-    usage: /setmob <name> <mobtype>
+    usage: /spawnmob <name> <mobtype>
   removeplayer:
     usage: /removeplayer <name>
   horn:
@@ -18,6 +18,8 @@ commands:
   trash:
     description: For deleting your duplicate items.
     aliases: fawn
+  chest:
+    description: For sharing resources with your fellow dwarves.
   who:
     description: Who is what and where is why
     aliases: list
