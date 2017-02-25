@@ -6,10 +6,7 @@ import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.shrine.Region;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Zombie;
@@ -97,6 +94,7 @@ public class AIManager {
 		World world = Game.getGame().getWorld();
 		MonsterManager monsterManager = MonsterManager.getManager();
 		for (Location spawnSpot : spawnSpots) {
+			spawnSpot.getWorld().spawnParticle(Particle.HEART, spawnSpot, 1, 0, 0, 0);
 			if (!canSpawnAI(spawnSpot)) continue;
 			
 			// Find closest dwarf and set as target. If no such dwarf, dont spawn.
