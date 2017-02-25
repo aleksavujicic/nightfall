@@ -80,8 +80,6 @@ public class MonsterPlayer extends GamePlayer {
 			} else if (mob != null) {// Update could kill mob so need to do another null check
 				player.setExp(mob.getCooldown());
 			}
-		} else {
-			player.setFlySpeed(0.1f);
 		}
 	}
 	
@@ -133,6 +131,8 @@ public class MonsterPlayer extends GamePlayer {
 	public void spawnAs(MobType type) {
 		mob = Mob.createAndSpawnMob(this, type);
 		player.getInventory().setItem(9, seppuku);
+		
+		freeze(100);
 	}
 	
 	

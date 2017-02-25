@@ -9,6 +9,8 @@ import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.Set;
@@ -132,6 +134,43 @@ public abstract class GamePlayer extends GameEntity {
 		resetTitle();
 	}
 	public void goOffline() {}
+	
+	
+	// ------ FREEZE/UNFREEZE ------
+	private Location freezeLocation;
+	public void freeze(int time) {
+		
+		givePotionEffect(PotionEffectType.LEVITATION, time, 0, true, true, true);
+		givePotionEffect(PotionEffectType.GLOWING, time, 1, true, true, true);
+		
+		player.setAllowFlight(true);
+		player.setFlying(true);
+		player.setFlySpeed(0);
+		
+		freezeLocation = getLocation();
+		
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				player.setAllowFlight(false);
+				player.setFlying(false);
+				player.setFlySpeed(0.1f);
+				
+				teleportTo(freezeLocation);
+				freezeLocation = null;
+			}
+		}.runTaskLater(Game.getGame().getPlugin(), time);
+	}
+	
+	public void resetFrozen() {
+		if (isFrozen())
+			teleportTo(freezeLocation);
+	}
+	
+	public boolean isFrozen() {
+		return (freezeLocation != null);
+	}
+	
 	
 	// ------ MISC ------
 	public void remove() {

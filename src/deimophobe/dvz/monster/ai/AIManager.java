@@ -166,4 +166,18 @@ public class AIManager {
 	public Collection<AIEntity> getAIs() {
 		return ais.values();
 	}
+	
+	
+	public void clearArea(Location center, double range) {
+		for (AIEntity entity : ais.values()) {
+			if (center.distance(entity.getLocation()) <= range)
+				entity.kill();
+		}
+		
+		Iterator<Location> iter = spawnSpots.iterator();
+		while (iter.hasNext()) {
+			if ( center.distance(iter.next()) <= range )
+				iter.remove();
+		}
+	}
 }

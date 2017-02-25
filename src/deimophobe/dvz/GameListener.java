@@ -86,6 +86,12 @@ public class GameListener implements Listener {
 	public void useItems(PlayerInteractEvent event) {
 		GamePlayer gp = game.getGamePlayer(event.getPlayer());
 		if (gp != null) {
+			
+			if (gp.isFrozen()) {
+				event.setCancelled(true);
+				return;
+			}
+			
 			Block block = event.getClickedBlock();
 			gp.onUse(event.getAction(), block, event.getBlockFace());
 			TimedBlock.hitBlock(block, gp);
@@ -99,8 +105,14 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void onShift(PlayerToggleSneakEvent event) {
 		GamePlayer gp = game.getGamePlayer(event.getPlayer());
-		if (gp != null)
+		if (gp != null) {
+			if (gp.isFrozen()) {
+				event.setCancelled(true);
+				return;
+			}
+			
 			gp.onShift(event.isSneaking());
+		}
 	}
 	
 	
@@ -190,6 +202,12 @@ public class GameListener implements Listener {
 					Bukkit.broadcastMessage("Unhandled damage: " + cause);
 					break;
 			}
+			
+			if (damager instanceof GamePlayer && ((GamePlayer) damager).isFrozen()) {
+				event.setCancelled(true);
+				return;
+			}
+			
 			if (cause != EntityDamageEvent.DamageCause.CUSTOM)
 				damagee.registerNonCustomDamage(damager, type);
 			//if (damager != null)
@@ -263,6 +281,11 @@ public class GameListener implements Listener {
 		if (event.getEntity().getType() == EntityType.PLAYER) {
 			GamePlayer gp = game.getGamePlayer((Player) event.getEntity());
 			if (gp != null) {
+				if (gp.isFrozen()) {
+					event.setCancelled(true);
+					return;
+				}
+				
 				Entity proj = event.getProjectile();
 				if (proj != null && proj.getType() == EntityType.ARROW) {
 					Arrow arrow = (Arrow) proj;
@@ -335,6 +358,13 @@ public class GameListener implements Listener {
 	// --------------------------------------------------------
 	//                        MISC
 	// --------------------------------------------------------
+	
+	@EventHandler
+	public void preventFlightChange(PlayerToggleFlightEvent event){
+		if (game.isPlayer(event.getPlayer())) {
+			event.setCancelled(true);
+		}
+	}
 	
 	@EventHandler
 	public void preventMobPickup(PlayerPickupItemEvent event){
