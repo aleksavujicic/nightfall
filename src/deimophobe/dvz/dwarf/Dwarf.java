@@ -4,6 +4,7 @@ import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.kit.DwarvenItem;
 import deimophobe.dvz.dwarf.kit.Kit;
 import deimophobe.dvz.Loadout;
+import deimophobe.dvz.dwarf.kit.Passive;
 import deimophobe.dvz.dwarf.kit.consumable.Consumable;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.sword.Sword;
@@ -52,6 +53,8 @@ public class Dwarf extends GamePlayer {
 	private final int maxArrows;
 	private int arrowCD;
 	
+	private final boolean hasSafefall;
+	private int safefallCD = 0;
 	
 	private static final int MIN_LIGHT_LEVEL_FOR_BLINDNESS = 5;
 	
@@ -80,6 +83,8 @@ public class Dwarf extends GamePlayer {
 		
 		//armoured = false;
 		armoured = true;
+		
+		hasSafefall = kit.hasPassive(Passive.SAFEFALL);
 		
 		playIntro();
 		
@@ -303,6 +308,14 @@ public class Dwarf extends GamePlayer {
 		
 		if (grabCD > 0)
 			grabCD--;
+		
+		if (safefallCD > 0)
+			safefallCD--;
+	}
+	
+	
+	public void setSafefallTime(int time) {
+		safefallCD = Math.max(time, safefallCD);
 	}
 	
 	
@@ -365,6 +378,8 @@ public class Dwarf extends GamePlayer {
 		REGULAR, HORN, MALICE, DRAGONSKIN, SHRINE_FALL, GRAVEL_PROC, EBOW, RUNEDASH,
 	}
 	
+	
+	// ------ EVENTS ------
 	public void onKill(GameEntity monster, DamageType type) {
 		kit.onKill(monster, type);
 	}
@@ -389,13 +404,24 @@ public class Dwarf extends GamePlayer {
 	
 	@Override
 	public double onGotHit(GameEntity player, DamageType type, double damage) {
+			
 		if (armoured)
 			damage *= 1d/3;
+		
 		if (type.isPoison())
 			damage *= 2;
+		
 		kit.onGotHit(player, type, damage);
 		
 		damageArmour(1);
+		
+		if (type == DamageType.FALL && (hasSafefall || safefallCD > 0)) {
+			damage *= 0.1;
+			if (damage <= 0.15)
+				return -1; // Cancel the damage if its really small
+			else
+				return damage;
+		}
 		
 		return damage;
 	}

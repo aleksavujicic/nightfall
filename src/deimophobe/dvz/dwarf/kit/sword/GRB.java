@@ -32,6 +32,7 @@ class GRB extends Sword {
 		dwarf.playSound("dash", 1f, 1f, true);
 		dwarf.giveProc(Dwarf.ProcType.RUNEDASH);
 		player.setVelocity(player.getLocation().getDirection().setY(0).normalize().multiply(5));
+		dwarf.setSafefallTime(100);
 		
 		return true;
 	}
