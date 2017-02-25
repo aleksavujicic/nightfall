@@ -1,6 +1,8 @@
 package deimophobe.dvz.monster.ai;
 
 import deimophobe.dvz.Game;
+import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.shrine.Region;
@@ -97,6 +99,18 @@ public class AIManager {
 		for (Location spawnSpot : spawnSpots) {
 			if (!canSpawnAI(spawnSpot)) continue;
 			
+			// Find closest dwarf and set as target. If no such dwarf, dont spawn.
+			double leastDistance = 25;
+			Dwarf closestDwarf = null;
+			for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
+				double dist = spawnSpot.distance(dwarf.getLocation());
+				if (dist <= leastDistance) {
+					leastDistance = dist;
+					closestDwarf = dwarf;
+				}
+			}
+			if (closestDwarf == null) continue;
+			
 			// Create zombie with all right stuff
 			Zombie ai = (Zombie) world.spawnEntity(spawnSpot, EntityType.ZOMBIE);
 			ai.setCustomName(ChatColor.DARK_RED + randomAIName());
@@ -104,6 +118,7 @@ public class AIManager {
 			ai.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 30000, speedLvl, false,false), true);
 			ai.getEquipment().clear();
 			ai.getEquipment().setItemInMainHand(new ItemStack(Material.SHEARS, 1, (short) 100));
+			ai.setTarget(closestDwarf.getPlayer());
 			monsterManager.addToTeam(ai.getUniqueId().toString());
 			
 			ais.put(ai.getUniqueId(), new AIEntity(ai));
