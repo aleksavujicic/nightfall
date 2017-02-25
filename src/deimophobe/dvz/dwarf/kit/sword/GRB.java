@@ -30,8 +30,7 @@ class GRB extends Sword {
 		Player player = dwarf.getPlayer();
 		
 		dwarf.playSound("dash", 1f, 1f, true);
-		player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 12, 0), false);
-		player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 12, 29), false);
+		dwarf.giveProc(Dwarf.ProcType.RUNEDASH);
 		player.setVelocity(player.getLocation().getDirection().setY(0).normalize().multiply(5));
 		
 		return true;

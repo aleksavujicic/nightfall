@@ -345,12 +345,20 @@ public class Dwarf extends GamePlayer {
 				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 160, 1), true);
 				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 160, 1), true);
 				break;
+			
+			case RUNEDASH:
+				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 12, 0), false);
+				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 12, 29), false);
+				break;
 				
 			default:
 				Bukkit.getLogger().warning("No proc constant: " + procType + "!?");
 				break;
 		}
 		updateVisibility();
+	}
+	public enum ProcType {
+		REGULAR, HORN, MALICE, DRAGONSKIN, SHRINE_FALL, GRAVEL_PROC, EBOW, RUNEDASH,
 	}
 	
 	public void onKill(GameEntity monster, DamageType type) {
@@ -515,11 +523,6 @@ public class Dwarf extends GamePlayer {
 	
 	
 	
-	
-	// ------ ITEMS ------
-	public enum ProcType {
-		REGULAR, HORN, MALICE, DRAGONSKIN, SHRINE_FALL, GRAVEL_PROC, EBOW,
-	}
 	
 	// ------ ITEMS ------
 	private final static ItemStack[][] armourItems;
