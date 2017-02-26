@@ -62,6 +62,7 @@ class Wolf extends Mob {
 			if (leapCd == 0 && isPlayerHoldingItem(0)) {
 				leapCd = LEAP_MAX_CD;
 				monster.playSound("entity.wolf.howl", 3, 1, true);
+				monster.playSound("entity.wolf.howl", 100, 1, false);
 				
 				double yaw = monster.getPlayer().getLocation().getYaw();
 				double radYaw = yaw*Math.PI/180;
