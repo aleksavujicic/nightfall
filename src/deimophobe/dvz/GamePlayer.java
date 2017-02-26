@@ -207,6 +207,9 @@ public abstract class GamePlayer extends GameEntity {
 				return name + " died.";
 		}
 		
+		if (getLastDamager() == null)
+			return name + " died.";
+		
 		String damagerName = getLastDamager().getDisplayName();
 		String itemName = getLastItemName();
 		if (itemName != null)

@@ -344,6 +344,7 @@ public class GameListener implements Listener {
 			@Override
 			public void run() {
 				mm.addGamePlayer(event.getPlayer());
+				mm.getGamePlayer(event.getPlayer()).kill();
 			}
 		}.runTaskLater(Game.getGame().getPlugin(), 1);
 		
