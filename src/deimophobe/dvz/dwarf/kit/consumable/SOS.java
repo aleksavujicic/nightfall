@@ -6,6 +6,7 @@ import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
 import deimophobe.dvz.monster.ai.AIManager;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -28,6 +29,7 @@ class SOS extends Consumable {
 				mp.freeze(FREEZE_TIME);
 		}
 		AIManager.getManager().clearArea(center, RANGE);
+		dwarf.playSound("entity.evocation_illager.prepare_summon", 10, 1f, true);
 		return true;
 	}
 }
