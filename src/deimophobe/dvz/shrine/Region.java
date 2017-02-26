@@ -40,6 +40,10 @@ public interface Region {
 				return new HalfRegion(section);
 			case "nullregion":
 				return new NullRegion();
+			case "or":
+				return new OrRegion(section);
+			case "and":
+				return new AndRegion(section);
 			default:
 				Bukkit.getLogger().severe("Region type unknown: '"+type+"'");
 				return null;
