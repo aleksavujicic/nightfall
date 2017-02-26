@@ -134,7 +134,7 @@ public class Game {
 		world.setGameRuleValue("doMobLoot", "false");
 		world.setGameRuleValue("doMobSpawning", "false");
 		world.setGameRuleValue("doTileDrops", "false");
-		world.setGameRuleValue("doWeatherCylce", "false");
+		world.setGameRuleValue("doWeatherCycle", "false");
 		world.setGameRuleValue("keepInventory", "false");
 		world.setGameRuleValue("maxEntityCramming", "-1");
 		world.setGameRuleValue("mobGriefing", "false");
