@@ -56,7 +56,10 @@ class UpgradeMenuItem extends CostMobMenuItem {
 	
 	@Override
 	protected boolean onPayCost(MonsterPlayer monster) {
-		monster.getUpgrades(type).applyUppgrade(upgradeType, upgradeOper, upgradeValue, name);
+		if (permanent)
+			monster.getUpgrades(type).applyUppgrade(upgradeType, upgradeOper, upgradeValue);
+		else
+			monster.getUpgrades(type).applyUppgrade(upgradeType, upgradeOper, upgradeValue, name);
 		return true;
 	}
 }
