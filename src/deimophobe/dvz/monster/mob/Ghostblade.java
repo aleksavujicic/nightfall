@@ -8,6 +8,7 @@ import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.Action;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 /**
@@ -33,6 +34,7 @@ class Ghostblade extends Mob {
 		if (!isPlayerHoldingItem(0)) {
 			monster.getPlayer().getInventory().setHeldItemSlot(0);
 			monster.customDamage(null, DamageType.NOT_HOLDING_GHOSTBLADE, 4);
+			monster.givePotionEffect(PotionEffectType.GLOWING, 5, 1, true, true, true);
 		}
 	}
 	
