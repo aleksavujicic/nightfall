@@ -3,6 +3,7 @@ name: CustomDvZ
 version: 1.0
 author: Deimo
 description: Deimo's custom dvz thing
+depend: [ProtocolLib]
 commands:
   setdwarf:
     usage: /setdwarf <name> [<sword> <bow> <ale> <armour> <title>]

@@ -1,15 +1,18 @@
 package deimophobe.dvz;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.shrine.Shrine;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -19,12 +22,14 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.*;
 
+import java.net.ProtocolException;
 import java.util.*;
 
 /**
@@ -142,6 +147,17 @@ public class Game {
 		world.setGameRuleValue("showDeathMessages", "true");
 		world.setGameRuleValue("spectatorGenerateChunks", "false");
 		world.setGameRuleValue("randomTickSpeed", "1");
+		
+		// Remove dwarves holding arrows
+		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+		protocolManager.addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.ENTITY_EQUIPMENT) {
+			@Override
+			public void onPacketSending(PacketEvent event) {
+				ItemStack item = event.getPacket().getItemModifier().read(0);
+				if (item.getType() == Material.ARROW)
+					event.getPacket().getItemModifier().write(0, null);
+			}
+		});
 	}
 	
 	private void removeRecipes() {
