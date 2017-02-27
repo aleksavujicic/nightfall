@@ -8,7 +8,9 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
+import deimophobe.dvz.DamageType;
 import deimophobe.dvz.Game;
+import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.kit.DwarvenItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Material;
@@ -31,7 +33,31 @@ class Golem extends Mob {
 	
 	
 	private static final Material[] UNBREAKABLE_BLOCKS = {
-			Material.AIR
+			Material.AIR,
+			Material.BEDROCK,
+			Material.LOG,
+			Material.LOG_2,
+			Material.SPONGE,
+			Material.IRON_FENCE,
+			Material.JACK_O_LANTERN,
+			Material.RAILS,
+			Material.ACTIVATOR_RAIL,
+			Material.DETECTOR_RAIL,
+			Material.POWERED_RAIL,
+			Material.LADDER,
+			Material.REDSTONE_TORCH_ON,
+			Material.REDSTONE_TORCH_OFF,
+			Material.PISTON_BASE,
+			Material.PISTON_EXTENSION,
+			Material.PISTON_STICKY_BASE,
+			Material.PISTON_MOVING_PIECE,
+			Material.IRON_BLOCK,
+			Material.SIGN,
+			Material.SIGN_POST,
+			Material.WALL_SIGN,
+			Material.CHEST,
+			Material.TRAPPED_CHEST,
+			Material.ENDER_PORTAL_FRAME,
 	};
 	
 	private static final int BREAK_CD_MAX = 10;
@@ -39,33 +65,49 @@ class Golem extends Mob {
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock) {
-		if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
+		if (DwarvenItem.isLeftClick(action)) {
 			if (breakCD == 0 && isPlayerHoldingItem(0)) {
-				Set<Material> materials = new HashSet<>();
+				/*Set<Material> materials = new HashSet<>();
 				materials.add(Material.WATER);
 				materials.add(Material.STATIONARY_WATER);
 				materials.add(Material.LAVA);
 				materials.add(Material.STATIONARY_LAVA);
 				materials.add(Material.AIR);
-				Block block = monster.getTargetBlock(materials, 5);
+				Block block = monster.getTargetBlock(materials, 5);*/
+				Block block = clickedBlock;
 				
 				boolean toBreak = true;
-				for (Material unbreakable : UNBREAKABLE_BLOCKS) {
-					if (unbreakable == block.getType()) {
+				for (Material unbreakable : UNBREAKABLE_BLOCKS) { // TODO FIXME
+					if (block == null || unbreakable == block.getType()) {
 						toBreak = false;
 						break;
 					}
 				}
 				
+				swingArms();
+				breakCD = BREAK_CD_MAX;
+				
 				if (toBreak) {
-					breakCD = BREAK_CD_MAX;
-					
 					block.getWorld().spawnParticle(Particle.BLOCK_CRACK, block.getLocation().add(0.5, 0.5, 0.5), 40, 0.5, 0.5, 0.5, 0, block.getState().getData());
-					block.breakNaturally ();
+					block.breakNaturally();
 				}
 			}
 		}
-		
+	}
+	
+	public double onHit(Dwarf dwarf, DamageType type, double damage) {
+		swingArms();
+		breakCD = BREAK_CD_MAX;
+		return damage;
+	}
+	
+	@Override
+	public void update() {
+		if (breakCD > 0)
+			breakCD--;
+	}
+	
+	private void swingArms() {
 		monster.playSound("entity.generic.explode", 3, 0.5f, true);
 		
 		// Show fancy hand animation
@@ -74,11 +116,5 @@ class Golem extends Mob {
 		pc.getIntegers().write(0, getDisguise().getEntity().getEntityId());
 		pc.getBytes().write(0, (byte) 4);
 		protocolManager.broadcastServerPacket(pc);
-	}
-	
-	@Override
-	public void update() {
-		breakCD--;
-		if (breakCD <= 0) breakCD = 0;
 	}
 }
