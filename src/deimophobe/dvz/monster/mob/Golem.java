@@ -1,10 +1,22 @@
 package deimophobe.dvz.monster.mob;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.WrappedDataWatcher;
+import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
+import deimophobe.dvz.Game;
+import deimophobe.dvz.dwarf.kit.DwarvenItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -46,7 +58,6 @@ class Golem extends Mob {
 				}
 				
 				if (toBreak) {
-					monster.playSound("entity.generic.explode", 3, 0.5f, true);
 					breakCD = BREAK_CD_MAX;
 					
 					block.getWorld().spawnParticle(Particle.BLOCK_CRACK, block.getLocation().add(0.5, 0.5, 0.5), 40, 0.5, 0.5, 0.5, 0, block.getState().getData());
@@ -54,6 +65,15 @@ class Golem extends Mob {
 				}
 			}
 		}
+		
+		monster.playSound("entity.generic.explode", 3, 0.5f, true);
+		
+		// Show fancy hand animation
+		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+		PacketContainer pc = protocolManager.createPacket(PacketType.Play.Server.ENTITY_STATUS);
+		pc.getIntegers().write(0, getDisguise().getEntity().getEntityId());
+		pc.getBytes().write(0, (byte) 4);
+		protocolManager.broadcastServerPacket(pc);
 	}
 	
 	@Override
