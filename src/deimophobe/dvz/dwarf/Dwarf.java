@@ -492,12 +492,14 @@ public class Dwarf extends GamePlayer {
 			
 			case GOLD_BLOCK:
 				giveItem(Consumable.getItem(ConsumableType.ARMOUR_ITEM));
+				playSound("block.anvil.destroy", 1, 0.5f, true);
+				grabCD = MAX_GOLD_CD;
 				break;
 		}
 	}
 
 	private int grabCD;
-	private final static int MAX_GOLD_CD = 25; // For gold stuff
+	private final static int MAX_GOLD_CD = 15; // For gold stuff
 	private final static int MAX_GRAB_CD = 20; // For grabbing items and stuff
 	private final static int MAX_CONSUMABLE_CD = 10; // For using consumables
 	private final static int MAX_CRAFT_CD = 2; // For crafting torches and stuff
@@ -609,10 +611,16 @@ public class Dwarf extends GamePlayer {
 							break;
 						case MAGENTA:
 							block.setType(Material.GOLD_BLOCK);
+							playSound("block.anvil.land", 1, 0.5f, true);
+							state.getWorld().spawnParticle(Particle.CLOUD, state.getLocation().add(0.5, 0.5, 0.5), 20, 0.5, 0.5, 0.5, 0);
 							return MAX_GOLD_CD;
 						default:
 							return 0;
 					}
+					
+					playSound("block.anvil.land", 1, 0.5f, true);
+					state.getWorld().spawnParticle(Particle.CLOUD, state.getLocation().add(0.5, 0.5, 0.5), 20, 0.5, 0.5, 0.5, 0);
+					
 					state.setData(wool);
 					state.update();
 					return MAX_GOLD_CD;
@@ -637,6 +645,10 @@ public class Dwarf extends GamePlayer {
 						// Update state and block
 						state.setData(wool);
 						state.update();
+						
+						// SOUNDS
+						playSound("block.anvil.land", 1, 0.5f, true);
+						state.getWorld().spawnParticle(Particle.CLOUD, state.getLocation().add(0.5, 0.5, 0.5), 20, 0.5, 0.5, 0.5, 0);
 						return MAX_GOLD_CD;
 					}
 				}
