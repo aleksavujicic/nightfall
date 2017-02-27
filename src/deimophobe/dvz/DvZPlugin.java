@@ -199,6 +199,8 @@ public class DvZPlugin extends JavaPlugin {
 				Dwarf dwarf = dm.getGamePlayer((Player)sender);
 				if (dwarf != null)
 					dwarf.showTrash();
+				else
+					sender.sendMessage(ChatColor.RED + "You must be a dwarf to do that");
 				
 				return true;
 			} else {
@@ -210,6 +212,21 @@ public class DvZPlugin extends JavaPlugin {
 				Dwarf dwarf = dm.getGamePlayer((Player)sender);
 				if (dwarf != null)
 					dwarf.showSharedChest();
+				else
+					sender.sendMessage(ChatColor.RED + "You must be a dwarf to do that");
+				
+				return true;
+			} else {
+				return false;
+			}
+		}
+		if (name.equalsIgnoreCase("armour")) {
+			if (sender instanceof Player) {
+				Dwarf dwarf = dm.getGamePlayer((Player)sender);
+				if (dwarf != null)
+					dwarf.putOnArmour();
+				else
+					sender.sendMessage(ChatColor.RED + "You must be a dwarf to do that");
 				
 				return true;
 			} else {

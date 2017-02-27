@@ -21,19 +21,18 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Directional;
 import org.bukkit.material.PistonExtensionMaterial;
 import org.bukkit.material.Wool;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
@@ -81,8 +80,7 @@ public class Dwarf extends GamePlayer {
 		mana = maxMana;
 		armour = maxArmour;
 		
-		//armoured = false;
-		armoured = true;
+		armoured = false;
 		
 		hasSafefall = kit.hasPassive(Passive.SAFEFALL);
 		
@@ -177,6 +175,49 @@ public class Dwarf extends GamePlayer {
 	public void putOnArmour() {
 		armoured = true;
 		updateArmour();
+		
+		// PLAY SOUNDS!
+		playSound("entity.firework.large_blast", 1, 1, true);
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				playSound("entity.firework.twinkle", 1, 1, true);
+			}
+		}.runTaskLater(Game.getGame().getPlugin(), 20);
+		
+		
+		World world = getLocation().getWorld();
+		// SHOW PARTICLES!
+		Location bodyCentre = getEyeLocation().add(0, -0.5, 0);
+		for (int i=0; i<10; i++) {
+			for (int j=0; j<5; j++) {
+				double velocity = 0.2;
+				double theta = 2*Math.PI*i/8;
+				double phi = Math.PI*j/4;
+				
+				double vx = velocity*Math.sin(theta)*Math.cos(phi);
+				double vy = velocity*Math.sin(theta)*Math.sin(phi);
+				double vz = velocity*Math.cos(theta);
+				world.spawnParticle(Particle.END_ROD, bodyCentre, 0, vx, vy, vz, 1);
+			}
+		}
+		
+		// SHOW MORE PARTICLES!
+		new BukkitRunnable() {
+			int count = 0;
+			@Override
+			public void run() {
+				for (int i=0; i<7; i++) {
+					double dx = 1.5 * Math.random() - 0.75;
+					double dy = 1.5 * Math.random() - 1.25;
+					double dz = 1.5 * Math.random() - 0.75;
+					world.spawnParticle(Particle.REDSTONE, getEyeLocation().add(dx, dy, dz), 0, 250d/256, 250d/256, 10d/256, 1);
+				}
+				count++;
+				if (count >= 15)
+					cancel();
+			}
+		}.runTaskTimer(Game.getGame().getPlugin(), 0, 4);
 	}
 	
 	public void damageArmour(int dmg) {
@@ -243,6 +284,9 @@ public class Dwarf extends GamePlayer {
 			arrows.setAmount(currAmt - amt);
 		}
 	}
+	
+	
+	// ------ INVENTORIES ------
 	public void showTrash() {
 		player.openInventory(Bukkit.createInventory(null, 9, ChatColor.DARK_RED + "---------- TRASH ----------"));
 	}
@@ -252,6 +296,7 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	
+	// ------ VISIBILITY ------
 	public void updateVisibility() {
 		if (canSee()) {
 			player.removePotionEffect(PotionEffectType.BLINDNESS);
