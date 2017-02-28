@@ -27,9 +27,9 @@ class Goblin extends Mob {
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (DwarvenItem.isRightClick(action) && isPlayerHoldingItem(1) && placeBoxCD == 0) {
+		if (DwarvenItem.isRightClick(action) && isPlayerHoldingItem(1) && placeBoxCD == 0 && clickedBlock != null) {
 			Block block = clickedBlock.getRelative(blockFace);
-			TimedBlock.placeTimedBlock(new GoboBox(block, 50));
+			TimedBlock.placeTimedBlock(new GoboBox(block, 50, 5));
 			monster.useHeldItem();
 			placeBoxCD = MAX_PLACE_CD;
 		}

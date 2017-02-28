@@ -1,6 +1,7 @@
 package deimophobe.dvz.monster.mob;
 
 import deimophobe.dvz.DamageType;
+import deimophobe.dvz.blocks.BlockConverter;
 import deimophobe.dvz.blocks.BlockManager;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.kit.DwarvenItem;
@@ -59,6 +60,6 @@ class Spiderling extends Mob {
 	
 	@Override
 	public void onProjectileLand(Projectile proj, Block block) {
-		BlockManager.getManager().corrodeBlocks(block);
+		BlockConverter.convert(BlockConverter.Type.CORROSION, block.getLocation().add(0.5, 0.5, 0.5), 2);
 	}
 }

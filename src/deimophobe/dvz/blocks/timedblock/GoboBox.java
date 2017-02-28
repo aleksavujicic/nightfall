@@ -1,21 +1,29 @@
 package deimophobe.dvz.blocks.timedblock;
 
 import deimophobe.dvz.GamePlayer;
-import org.bukkit.Material;
+import deimophobe.dvz.blocks.BlockConverter;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 
 /**
  * Created by Deimophobe on 28/02/17.
  */
 public class GoboBox extends TimedBlock {
-	public GoboBox(Block block, int lifeTime) {
+	private final double power;
+	public GoboBox(Block block, int lifeTime, double power) {
 		super(block, Material.ENDER_STONE, lifeTime);
+		this.power = power;
 	}
 	
 	@Override
 	void onDestroy(boolean cancelled) {
 		if (!cancelled) {
-			// create explosion
+			Location centerLoc = block.getLocation().add(0.5, 0.5, 0.5);
+			World world = centerLoc.getWorld();
+			
+			BlockConverter.convert(BlockConverter.Type.EXPLOSION, centerLoc, power);
+			world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
+			world.playSound(centerLoc, "entity.generic.explode", 2, 1);
 		}
 	}
 	

@@ -83,7 +83,7 @@ public class DvZPlugin extends JavaPlugin {
 				}
 				Map<ConsumableType, Integer> consumables = new HashMap<>();
 				consumables.put(ConsumableType.LAMP, 5);
-				//consumables.put(ConsumableType.SLAB, 5);
+				consumables.put(ConsumableType.SLAB, 5);
 				consumables.put(ConsumableType.SOS, 5);
 				consumables.put(ConsumableType.WRENCH, 5);
 				consumables.put(ConsumableType.WIZARD_MORTAR, 5);
