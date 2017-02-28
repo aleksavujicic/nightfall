@@ -29,7 +29,9 @@ public enum DamageType {
 	EBOW(false, true, false, false, true, false),
 	HAMMER_AOE(true, false, false, false, true, false),
 	EVISCERATE(true, false, false, false, true, false),
-	NOT_HOLDING_GHOSTBLADE(false, false, false, false, true, false);
+	NOT_HOLDING_GHOSTBLADE(false, false, false, false, true, false),
+	KABOOM(false, false, false, false, true, true),
+	;
 	
 	private final boolean melee;
 	private final boolean ranged;

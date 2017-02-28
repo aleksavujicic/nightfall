@@ -17,7 +17,8 @@ public class BlockConverter {
 				new Conversion(Material.LAPIS_ORE, 2, 1, Material.SMOOTH_BRICK),
 				new Conversion(Material.SMOOTH_BRICK, 1.5, 0.5, Material.COBBLESTONE),
 				new Conversion(Material.COBBLESTONE, 0.75, 0.25, Material.GRAVEL),
-				new Conversion(Material.GRAVEL, 0.25, 0.25, Material.AIR)
+				new Conversion(Material.GRAVEL, 0.25, 0.25, Material.AIR),
+				new Conversion(Material.WOOL, 0.25, 0, Material.AIR)
 		),
 		CORROSION(
 				// TODO only specific data values
@@ -99,7 +100,7 @@ public class BlockConverter {
 			if (force >= randStr) {
 				block.setType(to);
 			}
-			return force - randStr;
+			return force - randStr*2;
 		}
 	}
 	

@@ -201,7 +201,9 @@ public abstract class GamePlayer extends GameEntity {
 			case SHRINE_PROTECTION:
 				return name + " was zapped by lightning.";
 			case RELOG:
-				return name + " failed at interdimensional travel.";
+				return name + " combat logged.";
+			case KABOOM:
+				return name + " went kaboom.";
 				
 			default:
 				return name + " died.";

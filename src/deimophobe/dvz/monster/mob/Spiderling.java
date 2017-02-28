@@ -33,7 +33,7 @@ class Spiderling extends Mob {
 	}
 	
 	
-	private static final int SPIDER_SPIT_CD_MAX = 10;
+	private static final int SPIDER_SPIT_CD_MAX = 5;
 	private int spiderSpitCd = 0;
 	
 	@Override
@@ -54,6 +54,7 @@ class Spiderling extends Mob {
 				Entity snow = world.spawnEntity(loc.add(0,0.25,0), EntityType.SNOWBALL);
 				((Snowball) snow).setShooter(monster.getPlayer());
 				snow.setVelocity(loc.getDirection().add(new Vector(0,0.25,0)));
+				world.playSound(loc, "entity.spider.step", 0.3f, 1);
 			}
 		}
 	}
