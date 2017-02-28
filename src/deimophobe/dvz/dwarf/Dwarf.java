@@ -68,7 +68,6 @@ public class Dwarf extends GamePlayer {
 		
 		clearEffects();
 		player.getInventory().clear();
-		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(16);
 		player.setGameMode(GameMode.SURVIVAL);
 		
 		this.kit = new Kit(this, loadout);

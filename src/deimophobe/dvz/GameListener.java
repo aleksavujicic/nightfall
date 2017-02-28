@@ -27,6 +27,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -205,13 +206,17 @@ public class GameListener implements Listener {
 					break;
 			}
 			
+			// Ignore if damager is frozen
 			if ((damager instanceof MonsterPlayer) && ((MonsterPlayer) damager).isFrozen()) {
 				event.setCancelled(true);
 				return;
 			}
 			
+			// Notify if not custom
 			if (cause != EntityDamageEvent.DamageCause.CUSTOM)
 				damagee.registerNonCustomDamage(damager, type);
+			
+			// Debug messages
 			//if (damager != null)
 			//	Bukkit.broadcastMessage(damage + " damage type " + cause + " to " + damagee.getName() + " by " + damager.getName());
 			//else
@@ -228,6 +233,27 @@ public class GameListener implements Listener {
 			if (event.getEntityType() == EntityType.PLAYER)
 				event.setDamage(EntityDamageEvent.DamageModifier.BLOCKING, 0);
 			event.setDamage(EntityDamageEvent.DamageModifier.ARMOR, 0);
+			
+			// Ignore crit
+			/*
+			if (damager instanceof GamePlayer) {
+				Player damagerPl = ((GamePlayer) damager).getPlayer();
+				Material material = damagerPl.getLocation().getBlock().getType();
+				boolean crit = (
+						(damagerPl.getFallDistance() > 0) &&
+						(!damagerPl.isOnGround()) &&
+						(material != Material.LADDER) &&
+						(material != Material.VINE) &&
+						(!damagerPl.getLocation().getBlock().isLiquid()) &&
+						(!damagerPl.hasPotionEffect(PotionEffectType.BLINDNESS)) &&
+						(damagerPl.getVehicle() == null) &&
+						(!damagerPl.isSprinting())
+				);
+				
+				if (crit)
+					damage /= 1.5;
+			}
+			*/
 			
 			// Notify both parties about the damage
 			if (damager != null) {

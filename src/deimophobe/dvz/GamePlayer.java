@@ -27,6 +27,7 @@ public abstract class GamePlayer extends GameEntity {
 		super(player);
 		this.player = player;
 		this.name = player.getName();
+		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(1024);
 	}
 	
 	public Player getPlayer() {
