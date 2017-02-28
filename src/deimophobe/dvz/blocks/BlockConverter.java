@@ -100,7 +100,7 @@ public class BlockConverter {
 			if (force >= randStr) {
 				block.setType(to);
 			}
-			return force - randStr*2;
+			return force - randStr*1.5;
 		}
 	}
 	
