@@ -215,6 +215,16 @@ public class MonsterPlayer extends GamePlayer {
 	}
 	
 	@Override
+	public void onBlockBreak(Block block) {
+		if (mob != null) {
+			if (block.getType() == Material.TORCH)
+				gainXP(mob.getTorchXP());
+			
+			mob.onBlockBreak(block);
+		}
+	}
+	
+	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (isHolding(seppuku)) {
 			seppukuClick();

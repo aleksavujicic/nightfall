@@ -261,6 +261,7 @@ public abstract class GamePlayer extends GameEntity {
 	}
 	
 	// Abstract methods
+	public abstract void onBlockBreak(Block block);
 	public abstract void onUse(Action action, Block clickedBlock, BlockFace blockFace);
 	public abstract void onShift(boolean sneaking);
 	public abstract Projectile onBowFire(Arrow arrow, float force);

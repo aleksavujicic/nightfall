@@ -470,6 +470,7 @@ public class Dwarf extends GamePlayer {
 		return damage;
 	}
 	
+	@Override
 	public void onBlockBreak(Block block) {
 		if (block == null) return;
 		

@@ -166,12 +166,16 @@ public class Mob {
 	public int getArmourShred() {
 		return armourShred;
 	}
+	public int getTorchXP() {
+		return torchXP;
+	}
 	public boolean isShrineImmune() {
 		return shrineImmune;
 	}
 	
 	public void update() {}
 	public void onShift(boolean sneaking) {}
+	public void onBlockBreak(Block block) {}
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {}
 	public double onHit(Dwarf dwarf, DamageType type, double damage) {
 		return damage;
