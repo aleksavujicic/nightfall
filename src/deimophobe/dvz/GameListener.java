@@ -399,6 +399,11 @@ public class GameListener implements Listener {
 	}
 	
 	@EventHandler
+	public void preventPotionDrinking(PlayerItemConsumeEvent event) {
+		event.setCancelled(true);
+	}
+	
+	@EventHandler
 	public void preventInvClicking(InventoryClickEvent event) {
 		InventoryHolder holder = event.getInventory().getHolder();
 		if (holder instanceof Player && game.isPlayer((Player) holder)) {
