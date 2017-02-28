@@ -1,7 +1,9 @@
 package deimophobe.dvz.blocks.timedblock;
 
+import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GamePlayer;
 import deimophobe.dvz.blocks.BlockConverter;
+import deimophobe.dvz.dwarf.Dwarf;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 
@@ -28,5 +30,8 @@ public class GoboBox extends TimedBlock {
 	}
 	
 	@Override
-	void onHit(GamePlayer player) {}
+	void onHit(GamePlayer player) {
+		if (player instanceof Dwarf)
+			this.cancel();
+	}
 }
