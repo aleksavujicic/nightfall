@@ -46,7 +46,7 @@ public class HealBlock extends TimedBlock {
 	}
 	
 	@Override
-	void onDestroy(boolean destroyed) {
+	void onDestroy(boolean cancelled) {
 		updater.cancel();
 	}
 	

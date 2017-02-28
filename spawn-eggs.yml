@@ -7,6 +7,14 @@ zombie:
   quantity: 1000
   chance: 1
 
+gobo:
+  mobtype: gobo
+  egg:
+    material: sulphur
+    name: Spawn Goblin
+  quantity: 1000
+  chance: 1
+
 witherskele:
   mobtype: witherskele
   egg:

@@ -13,6 +13,11 @@ zombie-upgrade:
   mob: zombie
   index: 9
 
+gobo:
+  type: mobegg
+  egg: gobo
+  index: 1
+
 witherskele:
   type: mobegg
   egg: witherskele

@@ -11,6 +11,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
  */
 public enum MobType {
 	ZOMBIE("zombie"),
+	GOBO("gobo"),
 	WITHERSKELE("witherskele"),
 	FLAMELANCER("flamelancer"),
 	WOLF("wolf"),

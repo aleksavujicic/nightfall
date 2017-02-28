@@ -61,7 +61,7 @@ public abstract class TimedBlock {
 	
 	
 	void onPlace() {}
-	void onDestroy(boolean destroyed) {}
+	void onDestroy(boolean cancelled) {}
 	void onHit(GamePlayer player) {}
 	
 	

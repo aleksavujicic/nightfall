@@ -9,6 +9,7 @@ import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
 import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -57,7 +58,7 @@ class Wolf extends Mob {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock) {
+	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
 			if (leapCd == 0 && isPlayerHoldingItem(0)) {
 				leapCd = LEAP_MAX_CD;

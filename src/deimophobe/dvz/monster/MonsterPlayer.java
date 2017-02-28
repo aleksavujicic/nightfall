@@ -222,7 +222,7 @@ public class MonsterPlayer extends GamePlayer {
 		}
 		
 		if (mob != null)
-			mob.onUse(action, clickedBlock);
+			mob.onUse(action, clickedBlock, blockFace);
 	}
 	
 	@Override

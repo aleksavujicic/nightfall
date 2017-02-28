@@ -52,6 +52,40 @@ zombie:
     lore:
      - Some lore
 
+gobo:
+  title: Goblin
+  forcetitle: false
+
+  disguisetype: creeper
+
+  attack: 5
+
+  armour:
+    material: sulphur
+    name: Explosive Flesh
+    lore:
+     - §dSome lore
+     - and more lore
+    bound: true
+  weapon:
+    material: wood_pickaxe
+    name: Gobo Pick
+    lore:
+     - Some lore
+  items:
+    item1:
+      material: ink_sack
+      damage: 8
+      name: Gobo Box
+      lore:
+       - Some lore
+      quantity: 10
+    item2:
+      material: sulphur
+      name: KABOOM
+      lore:
+       - Some lore
+
 
 flamelancer:
   title: Flamelancer

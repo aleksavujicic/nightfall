@@ -3,25 +3,16 @@ package deimophobe.dvz.monster.mob;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.WrappedDataWatcher;
-import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
 import deimophobe.dvz.DamageType;
-import deimophobe.dvz.Game;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.kit.DwarvenItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
+import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -64,7 +55,7 @@ class Golem extends Mob {
 	private int breakCD = 0;
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock) {
+	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (DwarvenItem.isLeftClick(action)) {
 			if (breakCD == 0 && isPlayerHoldingItem(0)) {
 				/*Set<Material> materials = new HashSet<>();

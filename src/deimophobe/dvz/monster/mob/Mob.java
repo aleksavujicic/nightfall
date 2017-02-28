@@ -21,15 +21,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
@@ -174,7 +172,7 @@ public class Mob {
 	
 	public void update() {}
 	public void onShift(boolean sneaking) {}
-	public void onUse(Action action, Block clickedBlock) {}
+	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {}
 	public double onHit(Dwarf dwarf, DamageType type, double damage) {
 		return damage;
 	}
@@ -195,6 +193,8 @@ public class Mob {
 		switch (type) {
 			case ZOMBIE:
 				return new Zombie(monster);
+			case GOBO:
+				return new Goblin(monster);
 			case WITHERSKELE:
 				return new WitherSkele(monster);
 			case FLAMELANCER:

@@ -8,6 +8,7 @@ import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Projectile;
@@ -41,7 +42,7 @@ class Spiderling extends Mob {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock) {
+	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (DwarvenItem.isRightClick(action) && isPlayerHoldingItem(0)) {
 			if (spiderSpitCd == 0) {
 				spiderSpitCd = SPIDER_SPIT_CD_MAX;

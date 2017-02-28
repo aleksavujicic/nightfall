@@ -5,6 +5,7 @@ import deimophobe.dvz.dwarf.kit.DwarvenItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 
 import java.util.Set;
@@ -27,7 +28,7 @@ class Rat extends Mob {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock) {
+	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (stealCD == 0 && DwarvenItem.isRightClick(action)) {
 			Block block = monster.getPlayer().getTargetBlock((Set<Material>) null, 4);
 			Game game = Game.getGame();
