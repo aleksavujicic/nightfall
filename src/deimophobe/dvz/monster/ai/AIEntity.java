@@ -40,20 +40,19 @@ public class AIEntity extends GameEntity {
 		return damage;
 	}
 	
-	public void kill() {
-		aiEntity.remove();
-		//aiEntity.damage(1000);
+	void kill() {
+		aiEntity.damage(1000);
 	}
 	
-	public boolean hasTarget() {
+	boolean hasTarget() {
 		return aiEntity.getTarget() != null;
 	}
 	
-	public boolean isDead() {
+	boolean isDead() {
 		return aiEntity.isDead();
 	}
 	
-	public UUID getUniqueId() {
+	UUID getUniqueId() {
 		return aiEntity.getUniqueId();
 	}
 }

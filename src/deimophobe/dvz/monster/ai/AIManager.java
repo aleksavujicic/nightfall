@@ -1,5 +1,10 @@
 package deimophobe.dvz.monster.ai;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
@@ -29,11 +34,20 @@ public class AIManager {
 	
 	private AIManager() {}
 	
-	
 	private final static int MAX_AIS = 45;
-	private final static int MAX_AI_MARKS = 90;
 	private final static double AI_SPAWN_CHANCE = 0.2;
 	
+	
+	public void setup() {
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				updateAIs();
+			}
+		}.runTaskTimer(Game.getGame().getPlugin(), 100, 100);
+	}
+	
+	// ------ AI NAMES ------
 	private final static Set<String> AI_NAMES = new HashSet<>();
 	static {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(Game.getGame().getPlugin().getResource("ainames.txt")));
@@ -51,19 +65,42 @@ public class AIManager {
 		return new ArrayList<>(AI_NAMES).get(i);
 	}
 	
+	// ------ SPAWN LOCATIONS ------
 	private final Queue<Location> spawnSpots = new LinkedList<>();
-	private final Map<UUID, AIEntity> ais = new HashMap<>();
 	
-	private boolean aisSpawnable = true;
+	private final static int MAX_AI_MARKS = 90;
+	private final static double SPAWN_THRESHOLD = 1;
 	
-	public void setup() {
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				updateAIs();
-			}
-		}.runTaskTimer(Game.getGame().getPlugin(), 100, 140);
+	private void addAISpawnLocation(Location loc) {
+		// Prevent spawning if spawn spot is too close to another
+		for (Location spawnSpot : spawnSpots) {
+			if (loc.distance(spawnSpot) <= SPAWN_THRESHOLD)
+				return;
+		}
+		
+		spawnSpots.add(loc);
+		while (spawnSpots.size() > MAX_AI_MARKS)
+			spawnSpots.remove();
 	}
+	
+	// ------ ARE AIS SPAWNABLE ------
+	private boolean aisSpawnable = true;
+	private boolean canSpawnAI(Location spawnSpot) {
+		return  (aisSpawnable &&
+				Game.getGame().getPhase().canAISpawn() &&
+				ais.size() < MAX_AIS &&
+				Math.random() < AI_SPAWN_CHANCE &&
+				!Game.getGame().getShrine().getShrineProtection().containsLocation(spawnSpot));
+	}
+	
+	public boolean toggleAISpawn() {
+		aisSpawnable = !aisSpawnable;
+		killAllAIs();
+		return aisSpawnable;
+	}
+	
+	
+	private final Map<UUID, AIEntity> ais = new HashMap<>();
 	
 	private void updateAIs() {
 		// Get rid of unnecessary ai
@@ -81,16 +118,6 @@ public class AIManager {
 			ais.remove(uuid);
 		
 		// Try spawn more
-		trySpawnAI();
-		
-		// Update ai marks spots
-		for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
-			if (monster.isAlive() && monster.getPlayer().isOnGround())
-				addAISpawnLocation(monster.getLocation());
-		}
-	}
-	
-	private void trySpawnAI() {
 		World world = Game.getGame().getWorld();
 		MonsterManager monsterManager = MonsterManager.getManager();
 		for (Location spawnSpot : spawnSpots) {
@@ -121,35 +148,18 @@ public class AIManager {
 			
 			ais.put(ai.getUniqueId(), new AIEntity(ai));
 		}
-	}
-	
-	private boolean canSpawnAI(Location spawnSpot) {
-		return  (aisSpawnable &&
-				Game.getGame().getPhase().canAISpawn() &&
-				ais.size() < MAX_AIS &&
-				Math.random() < AI_SPAWN_CHANCE &&
-				!Game.getGame().getShrine().getShrineProtection().containsLocation(spawnSpot));
-	}
-	
-	private final static double SPAWN_THRESHOLD = 1;
-	private void addAISpawnLocation(Location loc) {
-		// Prevent spawning if spawn spot is too close to another
-		for (Location spawnSpot : spawnSpots) {
-			if (loc.distance(spawnSpot) <= SPAWN_THRESHOLD)
-				return;
-		}
 		
-		spawnSpots.add(loc);
-		while (spawnSpots.size() > MAX_AI_MARKS)
-			spawnSpots.remove();
+		// Update ai marks spots
+		for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
+			if (monster.isAlive() && monster.getPlayer().isOnGround())
+				addAISpawnLocation(monster.getLocation());
+		}
 	}
 	
-	public boolean toggleAISpawn() {
-		aisSpawnable = !aisSpawnable;
-		killAllAIs();
-		return aisSpawnable;
-	}
 	
+	public Collection<AIEntity> getAIs() {
+		return ais.values();
+	}
 	public AIEntity getAI(Entity entity) {
 		return ais.get(entity.getUniqueId());
 	}
@@ -161,21 +171,12 @@ public class AIManager {
 		ais.clear();
 	}
 	
-	public Collection<AIEntity> getAIs() {
-		return ais.values();
-	}
-	
-	
 	public void clearArea(Location center, double range) {
 		for (AIEntity entity : ais.values()) {
 			if (center.distance(entity.getLocation()) <= range)
 				entity.kill();
 		}
 		
-		Iterator<Location> iter = spawnSpots.iterator();
-		while (iter.hasNext()) {
-			if ( center.distance(iter.next()) <= range )
-				iter.remove();
-		}
+		spawnSpots.removeIf(location -> center.distance(location) <= range);
 	}
 }
