@@ -26,7 +26,7 @@ import org.bukkit.util.Vector;
  * Created by Deimophobe on 19/01/17.
  */
 class Wolf extends Mob {
-	private static final int LEAP_MAX_CD = 0;//140;
+	private static final int LEAP_MAX_CD = 140;
 	private int leapCd = 0;
 	
 	private final boolean dire;
@@ -96,7 +96,7 @@ class Wolf extends Mob {
 					velocity = new Vector(-5 * Math.sin(radYaw), 1.5, 5 * Math.cos(radYaw));
 				}
 				
-				//monster.getPlayer().setVelocity(velocity);
+				monster.getPlayer().setVelocity(velocity);
 			}
 		}
 	}
