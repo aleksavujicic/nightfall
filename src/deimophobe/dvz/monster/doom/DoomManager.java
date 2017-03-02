@@ -102,4 +102,8 @@ public class DoomManager {
 		if (doomTimer < 0) doomTimer = 0;
 		game.setDoomSidebar(doomTimer);
 	}
+	
+	public void updateDoomCount() {
+		game.setDoomSidebar(doomTimer);
+	}
 }

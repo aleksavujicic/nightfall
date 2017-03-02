@@ -11,6 +11,7 @@ import deimophobe.dvz.dwarf.kit.sword.Sword;
 import deimophobe.dvz.dwarf.kit.sword.SwordType;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.GameEntity;
+import deimophobe.dvz.shrine.ShrineManager;
 import minecraft.spigot.community.michel_0.api.AttributeModifier;
 import minecraft.spigot.community.michel_0.api.ItemAttributes;
 import minecraft.spigot.community.michel_0.api.Slot;
@@ -105,7 +106,7 @@ public class Dwarf extends GamePlayer {
 		
 		delayedHealMax();
 		
-		teleportTo(Game.getGame().getDwarfSpawn());
+		teleportTo(ShrineManager.getManager().getDwarfSpawn());
 		
 		// Add consumables
 		for (ConsumableType type : loadout.getConsumables().keySet()) {
@@ -487,7 +488,7 @@ public class Dwarf extends GamePlayer {
 				break;
 				
 			case GOLD_ORE:
-				Game.getGame().mineGold();
+				ShrineManager.getManager().mineGold();
 				break;
 			
 			case GOLD_BLOCK:
@@ -526,7 +527,7 @@ public class Dwarf extends GamePlayer {
 			if (getHeldItem().isSimilar(pick)) {
 				Dwarf dwarf = getLookingAt(1, 4);
 				if (dwarf != null && !dwarf.isMaxArmour()) {
-					if (Game.getGame().useGold(10)) {
+					if (ShrineManager.getManager().useGold(10)) {
 						dwarf.repairArmour(200);
 						grabCD = MAX_CONSUMABLE_CD;
 					}

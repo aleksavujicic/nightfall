@@ -13,22 +13,30 @@ commands:
     usage: /spawnmob <name> <mobtype>
   removeplayer:
     usage: /removeplayer <name>
+
   horn:
     usage: /horn
     description: HRON
+  armour:
+    description: Cheaty self-armour.
+
   trash:
     description: For deleting your duplicate items.
     aliases: fawn
   chest:
     description: For sharing resources with your fellow dwarves.
-  armour:
-    description: Cheaty self-armour.
   who:
     description: Who is what and where is why
     aliases: list
+
   toggleais:
     usage: /toggleais
     description: Enables/disables AI spawning.
   toggledoom:
     usage: /toggledoom
     description: Enables/disables doom clock.
+
+  forcestart:
+    description: Forces the game to start.
+  forceplague:
+    description: Forces the plague to occur.

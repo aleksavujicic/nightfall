@@ -7,6 +7,7 @@ import deimophobe.dvz.dwarf.kit.DwarvenItem;
 import deimophobe.dvz.monster.mob.Mob;
 import deimophobe.dvz.monster.mob.MobType;
 import deimophobe.dvz.monster.upgrade.Upgrades;
+import deimophobe.dvz.shrine.ShrineManager;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
@@ -57,7 +58,7 @@ public class MonsterPlayer extends GamePlayer {
 	public void goOnline(Player player) {
 		super.goOnline(player);
 		
-		teleportTo(Game.getGame().getCurrentMobspawn());
+		teleportTo(ShrineManager.getManager().getCurrentMobspawn());
 		givePotionEffect(PotionEffectType.SLOW, 70, 20, true, false, true);
 		givePotionEffect(PotionEffectType.JUMP, 70, -20, true, false, true);
 		new BukkitRunnable() {

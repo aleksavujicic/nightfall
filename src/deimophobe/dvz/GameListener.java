@@ -8,6 +8,7 @@ import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
+import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -27,7 +28,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -48,36 +49,44 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void onLogin(PlayerJoinEvent event) {
-		game.giveBossBarToPlayer(event.getPlayer());
+		Player player = event.getPlayer();
+		ShrineManager.getManager().giveShrineBarToPlayer(player);
 		
-		if (dm.goOnline(event.getPlayer())) {
-			game.updateSidebar();
+		if (dm.goOnline(player)) {
+			game.updateDwarfCount();
 			return;
 		}
-		if (mm.goOnline(event.getPlayer())) {
-			game.updateSidebar();
+		if (mm.goOnline(player)) {
 			return;
 		}
 		
 		
 		switch (game.getPhase().playerTypeOnJoin()) {
 			case DWARF:
-				dm.addGamePlayer(event.getPlayer());
+				dm.addGamePlayer(player);
+				game.updateDwarfCount();
 				break;
 			case MOB:
-				mm.addGamePlayer(event.getPlayer());
+				mm.addGamePlayer(player);
 				break;
 			case NONE:
+				player.teleport(ShrineManager.getManager().getLobbySpawn());
+				player.getInventory().clear();
+				for (PotionEffect effect : player.getActivePotionEffects()){
+					player.removePotionEffect(effect.getType());
+				}
+				player.setGameMode(GameMode.ADVENTURE);
 				break;
 		}
-		game.updateSidebar();
 	}
 	
 	@EventHandler
 	public void onLogoff(PlayerQuitEvent event) {
-		dm.goOffline(event.getPlayer());
+		boolean wasDwarf = dm.goOffline(event.getPlayer());
 		mm.goOffline(event.getPlayer());
-		game.updateSidebar();
+		
+		if (wasDwarf)
+			game.updateDwarfCount();
 	}
 	
 	// --------------------------------------------------------
@@ -374,7 +383,7 @@ public class GameListener implements Listener {
 			}
 		}.runTaskLater(Game.getGame().getPlugin(), 1);
 		
-		event.setRespawnLocation(game.getCurrentMobspawn());
+		event.setRespawnLocation(ShrineManager.getManager().getCurrentMobspawn());
 	}
 	
 	@EventHandler

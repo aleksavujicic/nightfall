@@ -1,4 +1,4 @@
-package deimophobe.dvz.shrine;
+package deimophobe.dvz.shrine.Region;
 
 import org.bukkit.Location;
 

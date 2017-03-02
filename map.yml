@@ -2,6 +2,8 @@ name: The Machine
 world: TheMachine
 backupworld: TheMachineBak
 
+lobby: [417.5, 252.5, -1323.5, 0]
+
 dwarfspawn: [387.5, 74, -1270.5, -135]
 
 shrines:

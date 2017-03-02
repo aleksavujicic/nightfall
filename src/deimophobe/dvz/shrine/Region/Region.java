@@ -1,13 +1,11 @@
-package deimophobe.dvz.shrine;
+package deimophobe.dvz.shrine.Region;
 
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.GamePlayer;
-import deimophobe.dvz.monster.ai.AIEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 
 /**

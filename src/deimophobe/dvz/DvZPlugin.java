@@ -13,6 +13,7 @@ import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
 import deimophobe.dvz.monster.mob.MobType;
+import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -46,7 +47,7 @@ public class DvZPlugin extends JavaPlugin {
 		Bukkit.getScoreboardManager().getMainScoreboard().getTeam("mobs").unregister();
 		Bukkit.getScoreboardManager().getMainScoreboard().getObjective("MySidebar").unregister();
 		AIManager.getManager().killAllAIs();
-		game.removeBossbar();
+		ShrineManager.getManager().removeShrineBar();
 	}
 	
 	@Override
@@ -232,6 +233,12 @@ public class DvZPlugin extends JavaPlugin {
 			} else {
 				return false;
 			}
+		}
+		if (name.equalsIgnoreCase("forcestart")) {
+			game.startGame();
+		}
+		if (name.equalsIgnoreCase("forceplague")) {
+			game.startPlague();
 		}
 		if (name.equalsIgnoreCase("who")) {
 			sender.sendMessage(dm.getPlayerList() + "\n" +  mm.getPlayerList());

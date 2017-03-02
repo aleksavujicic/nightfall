@@ -3,8 +3,7 @@ package deimophobe.dvz.blocks;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GamePlayer;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.monster.MonsterManager;
-import deimophobe.dvz.shrine.Region;
+import deimophobe.dvz.shrine.Region.Region;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 

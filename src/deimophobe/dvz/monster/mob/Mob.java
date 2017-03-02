@@ -10,6 +10,7 @@ import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.upgrade.GlobalUpgrades;
 import deimophobe.dvz.monster.upgrade.UpgradeType;
 import deimophobe.dvz.monster.upgrade.Upgrades;
+import deimophobe.dvz.shrine.ShrineManager;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
@@ -67,7 +68,7 @@ public class Mob {
 		
 		monster.setTitle(titleColor, mobData.title, mobData.forceTitle);
 		
-		monster.teleportTo(Game.getGame().getCurrentMobspawn());
+		monster.teleportTo(ShrineManager.getManager().getCurrentMobspawn());
 		player.setGameMode(GameMode.SURVIVAL);
 		
 		if (mobData.disguiseType != null) {

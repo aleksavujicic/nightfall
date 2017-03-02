@@ -1,16 +1,12 @@
 package deimophobe.dvz.monster.ai;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketEvent;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
-import deimophobe.dvz.shrine.Region;
+import deimophobe.dvz.shrine.Region.Region;
+import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -90,7 +86,7 @@ public class AIManager {
 				Game.getGame().getPhase().canAISpawn() &&
 				ais.size() < MAX_AIS &&
 				Math.random() < AI_SPAWN_CHANCE &&
-				!Game.getGame().getShrine().getShrineProtection().containsLocation(spawnSpot));
+				!ShrineManager.getManager().getShrine().getShrineProtection().containsLocation(spawnSpot));
 	}
 	
 	public boolean toggleAISpawn() {
@@ -104,7 +100,7 @@ public class AIManager {
 	
 	private void updateAIs() {
 		// Get rid of unnecessary ai
-		Region shrineProt = Game.getGame().getShrine().getShrineProtection();
+		Region shrineProt = ShrineManager.getManager().getShrine().getShrineProtection();
 		Set<UUID> deadAIs = new HashSet<>();
 		for (AIEntity ai : ais.values()) {
 			if (!ai.hasTarget() || shrineProt.continsGameEntity(ai)) {

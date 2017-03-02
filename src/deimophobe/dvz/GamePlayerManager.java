@@ -54,7 +54,6 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		P gamePlayer = createGamePlayerFromPlayer(player);
 		players.put(name, gamePlayer);
 		mcTeam.addEntry(name);
-		Game.getGame().updateSidebar();
 		return true;
 	}
 	
@@ -101,7 +100,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		
 		gamePlayer.remove();
 		mcTeam.removeEntry(name);
-		Game.getGame().updateSidebar();
+		Game.getGame().updateDwarfCount();
 		
 		return true;
 	}
