@@ -13,7 +13,7 @@ import java.util.*;
 /**
  * Created by Deimophobe on 2/02/17.
  */
-public class Menu<T> {
+public abstract class Menu<T> {
 	private final Map<Integer, Set<MenuItem<T>>> menuItems = new HashMap<>();
 	private final String title;
 	private final int rows;
@@ -41,17 +41,21 @@ public class Menu<T> {
 	}
 	
 	
-	public boolean select(int i, T player) {
+	public void select(int i, T player) {
 		Set<MenuItem<T>> items = menuItems.get(i);
-		if (items == null) return false;
+		if (items == null) return;
 		
 		for (MenuItem<T> item : items) {
 			if (item != null && item.isAvailable(player)) {
-				return item.select(player);
+				boolean refresh =  item.select(player);
+				
+				if (refresh)
+					showTo(player);
 			}
 		}
-		return false;
 	}
+	
+	public abstract void showTo(T player);
 	
 	protected void addItem(int i, MenuItem<T> item) {
 		checkNull(i);

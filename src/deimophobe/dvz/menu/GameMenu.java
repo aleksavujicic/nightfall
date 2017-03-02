@@ -13,17 +13,8 @@ public class GameMenu<T extends GamePlayer> extends Menu<T> {
 		super(title, rows);
 	}
 	
+	@Override
 	public void showTo(T player) {
 		player.showInventory(getInventory(player));
-	}
-	
-	@Override
-	public boolean select(int i, T player) {
-		boolean refresh = super.select(i, player);
-		
-		if (refresh)
-			showTo(player);
-		
-		return false;
 	}
 }
