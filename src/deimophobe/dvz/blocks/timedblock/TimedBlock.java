@@ -9,7 +9,9 @@ import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 23/01/17.
@@ -92,7 +94,8 @@ public abstract class TimedBlock {
 	}
 	
 	public static void cancelAllBlocks() {
-		for (TimedBlock tb : activeTimedBlocks.values()) {
+		Set<TimedBlock> copy = new HashSet<>(activeTimedBlocks.values());
+		for (TimedBlock tb : copy) {
 			tb.cancel();
 		}
 	}
