@@ -65,7 +65,7 @@ public abstract class TimedBlock {
 	void onHit(GamePlayer player) {}
 	
 	
-	public void cancel() {
+	void cancel() {
 		runnable.cancel();
 		unPlaceBlock();
 		onDestroy(true);
@@ -91,4 +91,9 @@ public abstract class TimedBlock {
 			tb.onHit(gamePlayer);
 	}
 	
+	public static void cancelAllBlocks() {
+		for (TimedBlock tb : activeTimedBlocks.values()) {
+			tb.cancel();
+		}
+	}
 }

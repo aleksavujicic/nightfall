@@ -1,5 +1,6 @@
 package deimophobe.dvz;
 
+import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.kit.ArmourType;
@@ -48,6 +49,7 @@ public class DvZPlugin extends JavaPlugin {
 		Bukkit.getScoreboardManager().getMainScoreboard().getObjective("MySidebar").unregister();
 		AIManager.getManager().killAllAIs();
 		ShrineManager.getManager().removeShrineBar();
+		TimedBlock.cancelAllBlocks();
 	}
 	
 	@Override
