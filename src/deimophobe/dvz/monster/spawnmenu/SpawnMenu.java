@@ -2,6 +2,7 @@ package deimophobe.dvz.monster.spawnmenu;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.ItemCreator;
+import deimophobe.dvz.menu.GameMenu;
 import deimophobe.dvz.menu.Menu;
 import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.MonsterPlayer;
@@ -17,7 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 /**
  * Created by Deimophobe on 2/02/17.
  */
-public class SpawnMenu extends Menu<MonsterPlayer> {
+public class SpawnMenu extends GameMenu<MonsterPlayer> {
 	
 	public SpawnMenu() {
 		super("Pick a monster", 3);

@@ -1,5 +1,7 @@
 package deimophobe.dvz.monster.spawnmenu;
 
+import deimophobe.dvz.Game;
+import deimophobe.dvz.menu.GameMenu;
 import deimophobe.dvz.menu.Menu;
 import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.MonsterPlayer;
@@ -9,7 +11,7 @@ import org.bukkit.configuration.ConfigurationSection;
 /**
  * Created by Deimophobe on 2/02/17.
  */
-public class UpgradeMenu extends Menu<MonsterPlayer> {
+public class UpgradeMenu extends GameMenu<MonsterPlayer> {
 	
 	public UpgradeMenu(String title, MobType type, ConfigurationSection section) {
 		super(title, 3);

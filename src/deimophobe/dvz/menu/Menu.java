@@ -13,18 +13,10 @@ import java.util.*;
 /**
  * Created by Deimophobe on 2/02/17.
  */
-public class Menu<T extends GamePlayer> {
+public class Menu<T> {
 	private final Map<Integer, Set<MenuItem<T>>> menuItems = new HashMap<>();
 	private final String title;
 	private final int rows;
-	
-	
-	private final InventoryHolder menuHolder = () -> null;
-	
-	public boolean isInventory(Inventory inv) {
-		return ((inv != null) && (inv.getHolder() == menuHolder));
-	}
-	
 	
 	public Menu(String title, int rows) {
 		this.title = title;
@@ -32,8 +24,8 @@ public class Menu<T extends GamePlayer> {
 		menus.put(title, this);
 	}
 	
-	public void showTo(T player) {
-		Inventory guiInventory = Bukkit.createInventory(menuHolder, rows*9, title);
+	public Inventory getInventory(T player) {
+		Inventory guiInventory = Bukkit.createInventory(null, rows*9, title);
 		
 		for (Map.Entry<Integer, Set<MenuItem<T>>> entry : menuItems.entrySet()) {
 			int index = entry.getKey();
@@ -45,25 +37,20 @@ public class Menu<T extends GamePlayer> {
 				}
 			}
 		}
-		
-		player.showInventory(guiInventory);
+		return guiInventory;
 	}
 	
 	
-	public void select(int i, T player) {
+	public boolean select(int i, T player) {
 		Set<MenuItem<T>> items = menuItems.get(i);
-		if (items == null) return;
+		if (items == null) return false;
 		
 		for (MenuItem<T> item : items) {
 			if (item != null && item.isAvailable(player)) {
-				boolean refresh = item.select(player);
-				
-				if (refresh)
-					showTo(player);
-				
-				return;
+				return item.select(player);
 			}
 		}
+		return false;
 	}
 	
 	protected void addItem(int i, MenuItem<T> item) {
@@ -84,8 +71,7 @@ public class Menu<T extends GamePlayer> {
 	}
 	
 	private void checkNull(int i) {
-		if (menuItems.get(i) == null)
-			menuItems.put(i, new HashSet<>());
+		menuItems.computeIfAbsent(i, k -> new HashSet<>());
 	}
 	
 	protected Collection<MenuItem<T>> getItems() {
