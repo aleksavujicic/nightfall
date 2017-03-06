@@ -41,7 +41,7 @@ class SOS extends Consumable {
 				mp.freeze(FREEZE_TIME);
 		}
 		AIManager.getManager().clearArea(center, RANGE);
-		dwarf.playSound("entity.evocation_illager.prepare_summon", 10, 1f, true);
+		dwarf.playSound("entity.evocation_illager.prepare_summon", 1, 1f, true);
 		
 		
 		// Spawn swords;
