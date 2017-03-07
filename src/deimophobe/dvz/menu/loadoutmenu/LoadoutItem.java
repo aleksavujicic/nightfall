@@ -10,34 +10,41 @@ import deimophobe.dvz.dwarf.kit.sword.SwordType;
 /**
  * Created by Deimophobe on 7/03/17.
  */
-enum LoadoutItem {
-	GRB(new SwordChanger(SwordType.GRB), "grb"),
-	MALICE(new SwordChanger(SwordType.AXE_OF_MALICE), "malice"),
-	HAMMER(new SwordChanger(SwordType.HAMMER), "hammer"),
-	DAGGER(new SwordChanger(SwordType.DAGGER), "dagger"),
-	TOMBMAKER(new SwordChanger(SwordType.TOMBMAKER), "tombmaker"),
+enum  LoadoutItem {
+	GRB(new SwordModifier(SwordType.GRB), "grb", 16),
+	MALICE(new SwordModifier(SwordType.AXE_OF_MALICE), "malice", 24),
+	HAMMER(new SwordModifier(SwordType.HAMMER), "hammer", 16),
+	DAGGER(new SwordModifier(SwordType.DAGGER), "dagger", 16),
+	TOMBMAKER(new SwordModifier(SwordType.TOMBMAKER), "tombmaker", 4),
 	
-	AVENGE(new PassiveChanger(Passive.AVENGE), "avenge"),
-	SAFEFALL(new PassiveChanger(Passive.SAFEFALL), "safefall"),
-	DARKVISION(new PassiveChanger(Passive.DARKVISION), "darkvision"),
+	HOLY(new AleModifier(AleType.HOLY), "holy", 8),
+	JJ(new AleModifier(AleType.JIMMYJUICE), "jj", 8),
+	TRINKET(new AleModifier(AleType.TRINKET), "trinket", 8),
+	REGROWTH(new AleModifier(AleType.REGROWTH), "regrowth", 8),
 	
-	ONE_SOS(new ConsumableChanger(ConsumableType.SOS, 1), "1sos"),
-	TWO_SOS(new ConsumableChanger(ConsumableType.SOS, 2), "2sos")
+	AVENGE(new PassiveModifier(Passive.AVENGE), "avenge", 8),
+	SAFEFALL(new PassiveModifier(Passive.SAFEFALL), "safefall", 4),
+	DARKVISION(new PassiveModifier(Passive.DARKVISION), "darkvision", 4),
+	
+	ONE_SOS(new ConsumableModifier(ConsumableType.SOS, 1), "1sos", 4),
+	TWO_SOS(new ConsumableModifier(ConsumableType.SOS, 2), "2sos", 8),
 	;
 	
-	private final LoadoutChanger changer;
+	private final PropertyModifier modifier;
 	private final String id;
+	private final int cost;
 	
-	LoadoutItem(LoadoutChanger changer, String id) {
-		this.changer = changer;
+	LoadoutItem(PropertyModifier modifier, String id, int cost) {
+		this.modifier = modifier;
 		this.id = id.toLowerCase();
+		this.cost = cost;
 	}
 	
-	void addToLoadout(Loadout loadout) {
-		changer.addToLoadout(loadout);
+	void modify(DwarfProperties dwarfProperties) {
+		modifier.modify(dwarfProperties);
 	}
 	
-	static LoadoutItem getItemFromID(String id) {
+	public static LoadoutItem getItem(String id) {
 		id = id.toLowerCase();
 		for (LoadoutItem item : values()) {
 			if (item.id.equals(id))
@@ -47,86 +54,87 @@ enum LoadoutItem {
 	}
 	
 	
-	private static abstract class LoadoutChanger {
-		abstract void addToLoadout(Loadout loadout);
+	
+	private static abstract class PropertyModifier {
+		abstract void modify(DwarfProperties dwarfProperties);
 	}
 	
 	
-	private static class SwordChanger extends LoadoutChanger {
+	private static class SwordModifier extends PropertyModifier {
 		private final SwordType type;
 		
-		private SwordChanger(SwordType type) {
+		private SwordModifier(SwordType type) {
 			this.type = type;
 		}
 		
 		@Override
-		void addToLoadout(Loadout loadout) {
-			loadout.setSwordType(type);
+		void modify(DwarfProperties dwarfProperties) {
+			dwarfProperties.setSwordType(type);
 		}
 	}
-	private static class BowChanger extends LoadoutChanger {
+	private static class BowModifier extends PropertyModifier {
 		private final BowType type;
 		
-		private BowChanger(BowType type) {
+		private BowModifier(BowType type) {
 			this.type = type;
 		}
 		
 		@Override
-		void addToLoadout(Loadout loadout) {
-			loadout.setBowType(type);
+		void modify(DwarfProperties dwarfProperties) {
+			dwarfProperties.setBowType(type);
 		}
 	}
-	private static class AleChanger extends LoadoutChanger {
+	private static class AleModifier extends PropertyModifier {
 		private final AleType type;
 		
-		private AleChanger(AleType type) {
+		private AleModifier(AleType type) {
 			this.type = type;
 		}
 		
 		@Override
-		void addToLoadout(Loadout loadout) {
-			loadout.setAleType(type);
+		void modify(DwarfProperties dwarfProperties) {
+			dwarfProperties.setAleType(type);
 		}
 	}
-	private static class ArmourChanger extends LoadoutChanger {
+	private static class ArmourModifier extends PropertyModifier {
 		private final ArmourType type;
 		
-		private ArmourChanger(ArmourType type) {
+		private ArmourModifier(ArmourType type) {
 			this.type = type;
 		}
 		
 		@Override
-		void addToLoadout(Loadout loadout) {
-			loadout.setArmour(type);
+		void modify(DwarfProperties dwarfProperties) {
+			dwarfProperties.setArmour(type);
 		}
 	}
 	
-	private static class ConsumableChanger extends LoadoutChanger {
+	private static class ConsumableModifier extends PropertyModifier {
 		private final ConsumableType type;
 		private final int quantity;
 		
-		private ConsumableChanger(ConsumableType type, int quantity) {
+		private ConsumableModifier(ConsumableType type, int quantity) {
 			this.type = type;
 			this.quantity = quantity;
 		}
 		
 		@Override
-		void addToLoadout(Loadout loadout) {
-			int amt = loadout.getConsumables().get(type);
+		void modify(DwarfProperties dwarfProperties) {
+			int amt = dwarfProperties.getConsumables().get(type);
 			amt += quantity;
-			loadout.getConsumables().put(type, amt);
+			dwarfProperties.getConsumables().put(type, amt);
 		}
 	}
-	private static class PassiveChanger extends LoadoutChanger {
+	private static class PassiveModifier extends PropertyModifier {
 		private final Passive type;
 		
-		private PassiveChanger(Passive type) {
+		private PassiveModifier(Passive type) {
 			this.type = type;
 		}
 		
 		@Override
-		void addToLoadout(Loadout loadout) {
-			loadout.getPassives().add(type);
+		void modify(DwarfProperties dwarfProperties) {
+			dwarfProperties.getPassives().add(type);
 		}
 	}
 }

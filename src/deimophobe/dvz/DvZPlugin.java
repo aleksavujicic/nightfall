@@ -3,13 +3,6 @@ package deimophobe.dvz;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
-import deimophobe.dvz.dwarf.kit.ArmourType;
-import deimophobe.dvz.dwarf.kit.Passive;
-import deimophobe.dvz.dwarf.kit.ale.AleType;
-import deimophobe.dvz.dwarf.kit.bow.BowType;
-import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
-import deimophobe.dvz.dwarf.kit.sword.SwordType;
-import deimophobe.dvz.menu.loadoutmenu.Loadout;
 import deimophobe.dvz.menu.loadoutmenu.LoadoutMenu;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
@@ -23,11 +16,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by Deimophobe on 15/01/17.

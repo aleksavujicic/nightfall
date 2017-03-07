@@ -92,7 +92,7 @@ public class LoadoutMenu implements Menu<Player> {
 	}
 	
 	private int getPageNumberForPlayer(Player player) {
-		return pageNumber.computeIfAbsent(player, p -> new Integer(0));
+		return pageNumber.computeIfAbsent(player, p -> 0);
 	}
 	
 	private LoadoutPage getPageForPlayer(Player player) {

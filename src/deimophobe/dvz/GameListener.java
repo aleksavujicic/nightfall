@@ -475,7 +475,7 @@ public class GameListener implements Listener {
 				event.setCancelled(true);
 		}
 		
-		// Main Loadout handling
+		// Main DwarfProperties handling
 		LoadoutMenu loadout = LoadoutMenu.getMenu();
 		HumanEntity e = event.getWhoClicked();
 		if (event.getClickedInventory() != null && loadout.getTitle().equals(event.getClickedInventory().getTitle()) && e instanceof Player) {

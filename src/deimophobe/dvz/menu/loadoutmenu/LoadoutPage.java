@@ -20,6 +20,6 @@ class LoadoutPage extends SinglePageMenu<Player> {
 	
 	@Override
 	public void showTo(Player player) {
-		player.openInventory(getInventory(player));
+		LoadoutMenu.getMenu().showTo(player);
 	}
 }

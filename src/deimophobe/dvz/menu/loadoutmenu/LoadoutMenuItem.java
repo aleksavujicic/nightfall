@@ -17,29 +17,27 @@ import org.bukkit.inventory.ItemStack;
  */
 class LoadoutMenuItem implements MenuItem<Player> {
 	
-	private final ItemStack item;
-	private final int cost;
+	private final ItemStack itemStack;
+	private final LoadoutItem loadoutItem;
 	
 	LoadoutMenuItem(ConfigurationSection config) {
-		item = ItemCreator.createItem(config.getConfigurationSection("item"), Slot.MAIN_HAND);
-		cost = config.getInt("cost");
+		itemStack = ItemCreator.createItem(config.getConfigurationSection("item"), Slot.MAIN_HAND);
+		loadoutItem = LoadoutItem.getItem(config.getName());
 	}
 	
 	@Override
 	public ItemStack getDisplayItem(Player player) {
-		ItemStack newItem = item.clone();
+		ItemStack newItem = itemStack.clone();
 		
 		if (playerHasUpgrade(player))
 			newItem.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
-		
-		//if (playerHasSimilarUpgrade(player))
-		//	newItem.setAmount(-1);
 		
 		return newItem;
 	}
 	
 	@Override
 	public boolean select(Player player) {
+		Loadout.getLoadout(player).selectItem(loadoutItem);
 		return true;
 	}
 	
@@ -49,10 +47,6 @@ class LoadoutMenuItem implements MenuItem<Player> {
 	}
 	
 	private boolean playerHasUpgrade(Player player) {
-		return false;
-	}
-	
-	private boolean playerHasSimilarUpgrade(Player player) {
-		return true;
+		return Loadout.getLoadout(player).hasItem(loadoutItem);
 	}
 }

@@ -2,7 +2,7 @@ package deimophobe.dvz.dwarf.kit;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
-import deimophobe.dvz.menu.loadoutmenu.Loadout;
+import deimophobe.dvz.menu.loadoutmenu.DwarfProperties;
 import deimophobe.dvz.dwarf.Dwarf;
 
 import deimophobe.dvz.dwarf.kit.ale.Ale;
@@ -48,15 +48,15 @@ public class Kit {
 		return passives.contains(passive);
 	}
 	
-	public Kit(Dwarf dwarf, Loadout loadout) {
+	public Kit(Dwarf dwarf, DwarfProperties dwarfProperties) {
 		this.dwarf = dwarf;
 		
-		this.sword = Sword.createSword(dwarf, loadout.getSwordType());
-		this.bow = Bow.createBow(dwarf, loadout.getBowType());
-		this.ale = Ale.createAle(dwarf, loadout.getAleType());
+		this.sword = Sword.createSword(dwarf, dwarfProperties.getSwordType());
+		this.bow = Bow.createBow(dwarf, dwarfProperties.getBowType());
+		this.ale = Ale.createAle(dwarf, dwarfProperties.getAleType());
 		
-		this.armour = loadout.getArmour();
-		this.passives = loadout.getPassives();
+		this.armour = dwarfProperties.getArmour();
+		this.passives = dwarfProperties.getPassives();
 		
 		if (armour == ArmourType.STUDDED)
 			dwarf.givePotionEffect(PotionEffectType.SLOW, 720000, -1, false, false, false);

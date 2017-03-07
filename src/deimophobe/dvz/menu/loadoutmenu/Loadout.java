@@ -1,82 +1,40 @@
 package deimophobe.dvz.menu.loadoutmenu;
 
-import deimophobe.dvz.dwarf.kit.ArmourType;
-import deimophobe.dvz.dwarf.kit.Passive;
-import deimophobe.dvz.dwarf.kit.ale.AleType;
-import deimophobe.dvz.dwarf.kit.bow.BowType;
-import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
-import deimophobe.dvz.dwarf.kit.sword.SwordType;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
- * Created by Deimophobe on 15/01/17.
+ * Created by Deimophobe on 7/03/17.
  */
-public class Loadout {
-	private String title = null;
-	private boolean forceTitle = false;
-	private ItemStack hat = null;
+class Loadout {
 	
-	private SwordType swordType = SwordType.DRB;
-	private BowType bowType = BowType.SHORTBOW;
-	private AleType aleType = AleType.HEALING;
-	private ArmourType armour = null;
+	private final Set<LoadoutItem> items = new HashSet<>();
 	
-	private Map<ConsumableType, Integer> consumables = new HashMap<>();
-	private Set<Passive> passives = new HashSet<>();
-	
-	
-	public String getTitle() {
-		return title;
-	}
-	public boolean forceTitle() { return forceTitle; }
-	public Object getHat() {
-		return hat;
+	void selectItem(LoadoutItem item) {
+		if (items.contains(item))
+			items.remove(item);
+		else
+			items.add(item);
 	}
 	
-	public SwordType getSwordType() {
-		return swordType;
-	}
-	public BowType getBowType() {
-		return bowType;
-	}
-	public AleType getAleType() {
-		return aleType;
-	}
-	public ArmourType getArmour() {
-		return armour;
+	boolean hasItem(LoadoutItem item) {
+		return items.contains(item);
 	}
 	
-	public Map<ConsumableType, Integer> getConsumables() {
-		return consumables;
-	}
-	public Set<Passive> getPassives() {
-		return passives;
-	}
-	
-	
-	void setTitle(String title) {
-		this.title = title;
-	}
-	void setForceTitle(boolean forceTitle) {
-		this.forceTitle = forceTitle;
-	}
-	void setHat(ItemStack hat) {
-		this.hat = hat;
+	DwarfProperties constructProperties() {
+		DwarfProperties prop = new DwarfProperties();
+		for (LoadoutItem item : items) {
+			item.modify(prop);
+		}
+		return prop;
 	}
 	
-	void setSwordType(SwordType swordType) {
-		this.swordType = swordType;
-	}
-	void setBowType(BowType bowType) {
-		this.bowType = bowType;
-	}
-	void setAleType(AleType aleType) {
-		this.aleType = aleType;
-	}
-	void setArmour(ArmourType armour) {
-		this.armour = armour;
+	private static final Map<Player, Loadout> loadouts = new HashMap<>();
+	static Loadout getLoadout(Player player) {
+		return loadouts.computeIfAbsent(player, k -> new Loadout());
 	}
 }

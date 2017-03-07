@@ -1,39 +1,71 @@
 page1:
-  runeblade:
-    cost: 24
-    type: sword
-    value: grb
+  grb:
     index: 0
     item:
       name: "Greater Runeblade"
       material: shears
       damage: 0
 
-  axe:
-    cost: 32
-    type: sword
-    value: axe_of_malice
+  malice:
     index: 1
     item:
       name: "Axe of Malice"
       material: shears
       damage: 1
 
-page2:
-  holyale:
-    cost: 8
-    type: ale
-    value: holy
-    index: 0
+  hammer:
+    index: 2
+    item:
+      name: "Hammer"
+      material: shield
+      damage: 2
+
+  dagger:
+    index: 3
+    item:
+      name: "Dagger"
+      material: shears
+      damage: 2
+
+  tombmaker:
+    index: 4
+    item:
+      name: "Tombmaker"
+      material: diamond_spade
+
+
+  holy:
+    index: 18
     item:
       name: "Holy Ale"
       material: potion
 
   jj:
-    cost: 32
-    type: ale
-    value: jimmyjuice
-    index: 1
+    index: 19
     item:
       name: "Jimmy Juice"
       material: potion
+
+  trinket:
+    index: 20
+    item:
+      name: "Star Trinket"
+      material: shears
+      damage: 30
+
+  regrowth:
+    index: 21
+    item:
+      name: "Regrowth Star"
+      material: shears
+      damage: 31
+
+
+
+
+page2:
+  safefall:
+    index: 0
+    item:
+      name: "Safefall"
+      material: snow_ball
