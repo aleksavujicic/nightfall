@@ -1,4 +1,4 @@
-package deimophobe.dvz.shrine.Region;
+package deimophobe.dvz.shrine.region;
 
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.GamePlayer;

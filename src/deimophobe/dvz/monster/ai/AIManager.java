@@ -5,7 +5,7 @@ import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
-import deimophobe.dvz.shrine.Region.Region;
+import deimophobe.dvz.shrine.region.Region;
 import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
