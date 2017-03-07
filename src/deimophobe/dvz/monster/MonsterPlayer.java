@@ -272,7 +272,8 @@ public class MonsterPlayer extends GamePlayer {
 			if (gameEntity instanceof Dwarf) {
 				return mob.onGotHit((Dwarf) gameEntity, type, damage);
 			} else {
-				Bukkit.getLogger().warning("GameEntity in onGotHit should be a Dwarf");
+				if (gameEntity != null)
+					Bukkit.getLogger().warning("GameEntity in onGotHit should be a Dwarf");
 				return damage;
 			}
 		} else {
