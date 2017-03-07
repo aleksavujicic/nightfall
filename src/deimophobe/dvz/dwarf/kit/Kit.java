@@ -2,7 +2,7 @@ package deimophobe.dvz.dwarf.kit;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
-import deimophobe.dvz.Loadout;
+import deimophobe.dvz.menu.loadoutmenu.Loadout;
 import deimophobe.dvz.dwarf.Dwarf;
 
 import deimophobe.dvz.dwarf.kit.ale.Ale;
@@ -18,7 +18,6 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collection;

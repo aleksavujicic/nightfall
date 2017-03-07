@@ -25,6 +25,9 @@ commands:
     aliases: fawn
   chest:
     description: For sharing resources with your fellow dwarves.
+  loadout:
+    description: Choose a kit!
+    aliases: kit
   who:
     description: Who is what and where is why
     aliases: list

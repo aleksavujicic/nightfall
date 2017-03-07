@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 abstract class CostMobMenuItem implements MenuItem<MonsterPlayer> {
 	private final ItemStack item;
 	@Override
-	public ItemStack getDisplayItem() {return item;}
+	public ItemStack getDisplayItem(MonsterPlayer player) {return item;}
 	
 	private final int xpCost;
 	

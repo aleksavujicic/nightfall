@@ -9,6 +9,8 @@ import deimophobe.dvz.dwarf.kit.ale.AleType;
 import deimophobe.dvz.dwarf.kit.bow.BowType;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.sword.SwordType;
+import deimophobe.dvz.menu.loadoutmenu.Loadout;
+import deimophobe.dvz.menu.loadoutmenu.LoadoutMenu;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
@@ -234,6 +236,19 @@ public class DvZPlugin extends JavaPlugin {
 				return true;
 			} else {
 				return false;
+			}
+		}
+		if (name.equalsIgnoreCase("loadout")) {
+			if (sender instanceof Player) {
+				Player player = (Player) sender;
+				
+				if (!game.isPlayer(player)) {
+					LoadoutMenu.getMenu().showTo(player);
+				} else {
+					sender.sendMessage(ChatColor.RED + "You can only do that before the game has started!");
+				}
+				
+				return true;
 			}
 		}
 		if (name.equalsIgnoreCase("forcestart")) {

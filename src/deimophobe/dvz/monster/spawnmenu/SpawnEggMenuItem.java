@@ -28,7 +28,7 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 	private final double spawnChance;
 	
 	@Override
-	public ItemStack getDisplayItem() {
+	public ItemStack getDisplayItem(MonsterPlayer player) {
 		return item;
 	}
 	

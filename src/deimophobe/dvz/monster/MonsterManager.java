@@ -3,6 +3,7 @@ package deimophobe.dvz.monster;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.GamePlayerManager;
+import deimophobe.dvz.menu.GlobalMenuList;
 import deimophobe.dvz.menu.Menu;
 import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.ai.AIManager;
@@ -89,7 +90,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	}
 	
 	public void onClick(int slot, Inventory clickedInventory, MonsterPlayer monster) {
-		Menu menu = Menu.getMenuFromInv(clickedInventory);
+		Menu menu = GlobalMenuList.getMenu(clickedInventory);
 		if (menu != null) {
 			menu.select(slot, monster);
 		}

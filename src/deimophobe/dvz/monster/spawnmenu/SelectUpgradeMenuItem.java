@@ -1,14 +1,11 @@
 package deimophobe.dvz.monster.spawnmenu;
 
 import deimophobe.dvz.ItemCreator;
-import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.mob.MobType;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -20,7 +17,7 @@ class SelectUpgradeMenuItem implements MenuItem<MonsterPlayer> {
 	private final UpgradeMenu menu;
 	
 	@Override
-	public ItemStack getDisplayItem() {
+	public ItemStack getDisplayItem(MonsterPlayer player) {
 		return item;
 	}
 	

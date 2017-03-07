@@ -1,0 +1,39 @@
+page1:
+  runeblade:
+    cost: 24
+    type: sword
+    value: grb
+    index: 0
+    item:
+      name: "Greater Runeblade"
+      material: shears
+      damage: 0
+
+  axe:
+    cost: 32
+    type: sword
+    value: axe_of_malice
+    index: 1
+    item:
+      name: "Axe of Malice"
+      material: shears
+      damage: 1
+
+page2:
+  holyale:
+    cost: 8
+    type: ale
+    value: holy
+    index: 0
+    item:
+      name: "Holy Ale"
+      material: potion
+
+  jj:
+    cost: 32
+    type: ale
+    value: jimmyjuice
+    index: 1
+    item:
+      name: "Jimmy Juice"
+      material: potion

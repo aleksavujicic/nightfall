@@ -1,9 +1,11 @@
 package deimophobe.dvz;
 
+import com.comphenix.protocol.PacketType;
 import deimophobe.dvz.blocks.BlockManager;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.kit.Kit;
+import deimophobe.dvz.menu.loadoutmenu.LoadoutMenu;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
@@ -23,14 +25,18 @@ import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.awt.*;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -132,6 +138,11 @@ public class GameListener implements Listener {
 	public void onHit(EntityDamageEvent event) {
 		Entity entity = event.getEntity();
 		EntityDamageEvent.DamageCause cause = event.getCause();
+		
+		if (entity instanceof Player && ((Player)entity).getGameMode() == GameMode.ADVENTURE) {
+			event.setCancelled(true);
+			return;
+		}
 		
 		// Special cases for void/suffocation/starvation.
 		if (event.getEntity().getType() == EntityType.PLAYER) {
@@ -441,8 +452,11 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void preventInvClicking(InventoryClickEvent event) {
 		InventoryHolder holder = event.getInventory().getHolder();
-		if (holder instanceof Player && game.isPlayer((Player) holder)) {
-			if (event.getSlot() == 40 || event.getSlotType() == InventoryType.SlotType.ARMOR) {
+		if (holder instanceof Player) {
+			if (game.isPlayer((Player) holder) && (event.getSlot() == 40 || event.getSlotType() == InventoryType.SlotType.ARMOR)) {
+				event.setCancelled(true);
+			}
+			if (((Player) holder).getGameMode() == GameMode.ADVENTURE) {
 				event.setCancelled(true);
 			}
 		}
@@ -460,6 +474,20 @@ public class GameListener implements Listener {
 			if (!Kit.isDroppableItem(clickedItem) || !Kit.isDroppableItem(hotbarItem))
 				event.setCancelled(true);
 		}
+		
+		// Main Loadout handling
+		LoadoutMenu loadout = LoadoutMenu.getMenu();
+		HumanEntity e = event.getWhoClicked();
+		if (event.getClickedInventory() != null && loadout.getTitle().equals(event.getClickedInventory().getTitle()) && e instanceof Player) {
+			loadout.select(event.getSlot(), (Player) e);
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler
+	public void preventDropping(PlayerDropItemEvent event) {
+		if (event.getPlayer().getGameMode() == GameMode.ADVENTURE)
+			event.setCancelled(true);
 	}
 	
 	@EventHandler

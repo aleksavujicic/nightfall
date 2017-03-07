@@ -1,9 +1,5 @@
 package deimophobe.dvz.menu;
 
-import deimophobe.dvz.GamePlayer;
-import deimophobe.dvz.monster.MonsterPlayer;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -12,9 +8,10 @@ import org.bukkit.inventory.ItemStack;
 public interface MenuItem<T> {
 	/**
 	 * Shows the item that will be displayed in the menu
-	 * @return The item to display
+	 * @return The item to display.
+	 * @param player Player to display to.
 	 */
-	ItemStack getDisplayItem();
+	ItemStack getDisplayItem(T player);
 	
 	/**
 	 * Called when a player clicks on a menu item

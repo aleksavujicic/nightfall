@@ -1,21 +1,14 @@
-package deimophobe.dvz;
+package deimophobe.dvz.menu.loadoutmenu;
 
-import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.kit.ArmourType;
 import deimophobe.dvz.dwarf.kit.Passive;
-import deimophobe.dvz.dwarf.kit.ale.Ale;
 import deimophobe.dvz.dwarf.kit.ale.AleType;
-import deimophobe.dvz.dwarf.kit.bow.Bow;
 import deimophobe.dvz.dwarf.kit.bow.BowType;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.sword.SwordType;
-import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 15/01/17.
@@ -62,6 +55,10 @@ public class Loadout {
 		return passives;
 	}
 	
+	void addToLoadout() {
+		
+	}
+	
 	public Loadout(String title, boolean forceTitle, Object hat, SwordType swordType, BowType bowType, AleType aleType, Map<ConsumableType, Integer> consumables, ArmourType armour, Set<Passive> passives) {
 		this.title = title;
 		this.forceTitle = forceTitle;
@@ -69,9 +66,9 @@ public class Loadout {
 		this.swordType = swordType;
 		this.bowType = bowType;
 		this.aleType = aleType;
-		this.consumables = consumables;
+		this.consumables = (consumables == null ? Collections.emptyMap() : consumables);
 		this.armour = armour;
-		this.passives = passives;
+		this.passives = (passives == null ? Collections.emptySet() : passives);
 	}
 	
 	private static final Map<Player, Loadout> loadouts = new HashMap<>();
