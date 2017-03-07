@@ -62,52 +62,9 @@ public class DvZPlugin extends JavaPlugin {
 				sender.sendMessage(ChatColor.RED + "Please specify a dwarf.");
 				return false;
 			} else  {
-				SwordType swordType = SwordType.GRB;
-				BowType bow = BowType.DRAGONSKIN;
-				AleType heal = AleType.REGROWTH;
-				ArmourType armour = ArmourType.STUDDED;
-				String title = "Ranger";
-				boolean forceTitle = false;
-				if (args.length >= 2) {
-					swordType = SwordType.valueOf(args[1].toUpperCase());
-				}
-				if (args.length >= 3) {
-					bow = BowType.valueOf(args[2].toUpperCase());
-				}
-				if (args.length >= 4) {
-					heal = AleType.valueOf(args[3].toUpperCase());
-				}
-				if (args.length >= 5) {
-					armour = ArmourType.valueOf(args[4].toUpperCase());
-				}
-				if (args.length >= 6) {
-					title = args[5];
-				}
-				if (args.length >= 7) {
-					forceTitle = true;
-				}
-				Map<ConsumableType, Integer> consumables = new HashMap<>();
-				consumables.put(ConsumableType.LAMP, 5);
-				//consumables.put(ConsumableType.SLAB, 5);
-				consumables.put(ConsumableType.SOS, 5);
-				consumables.put(ConsumableType.WRENCH, 5);
-				consumables.put(ConsumableType.WIZARD_MORTAR, 5);
-				consumables.put(ConsumableType.HEAL_STATION, 5);
-				
-				Set<Passive> passives = new HashSet<>();
-				passives.add(Passive.AVENGE);
-				passives.add(Passive.QUICKFEET);
-				passives.add(Passive.DARKVISION);
-				passives.add(Passive.SAFEFALL);
-				passives.add(Passive.NAMETHISSOMETHINGBETTERDEIMO);
-				
-				Loadout loadout = new Loadout(title, forceTitle, null, swordType, bow, heal, consumables, armour, passives);
-				Loadout.setLoadout(Bukkit.getPlayer(args[0]), loadout);
-				
 				dm.removeGamePlayer(args[0]);
 				mm.removeGamePlayer(args[0]);
 				boolean success = dm.addGamePlayer(args[0]);
-				
 				if (success) {
 					sender.sendMessage(ChatColor.AQUA + "Added " + ChatColor.DARK_AQUA + args[0] + ChatColor.AQUA + " as a dwarf!");
 				} else {

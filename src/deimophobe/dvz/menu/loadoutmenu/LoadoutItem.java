@@ -1,90 +1,132 @@
 package deimophobe.dvz.menu.loadoutmenu;
 
-import deimophobe.dvz.blocks.BlockConverter;
-import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import deimophobe.dvz.dwarf.kit.ArmourType;
 import deimophobe.dvz.dwarf.kit.Passive;
 import deimophobe.dvz.dwarf.kit.ale.AleType;
 import deimophobe.dvz.dwarf.kit.bow.BowType;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.sword.SwordType;
-import org.bukkit.Bukkit;
-import org.bukkit.inventory.ItemStack;
-
-import javax.tools.DocumentationTool;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Deimophobe on 7/03/17.
  */
-class LoadoutItem {
+enum LoadoutItem {
+	GRB(new SwordChanger(SwordType.GRB), "grb"),
+	MALICE(new SwordChanger(SwordType.AXE_OF_MALICE), "malice"),
+	HAMMER(new SwordChanger(SwordType.HAMMER), "hammer"),
+	DAGGER(new SwordChanger(SwordType.DAGGER), "dagger"),
+	TOMBMAKER(new SwordChanger(SwordType.TOMBMAKER), "tombmaker"),
 	
-	private final String value;
-	private final Type type;
+	AVENGE(new PassiveChanger(Passive.AVENGE), "avenge"),
+	SAFEFALL(new PassiveChanger(Passive.SAFEFALL), "safefall"),
+	DARKVISION(new PassiveChanger(Passive.DARKVISION), "darkvision"),
 	
-	LoadoutItem(String value) {
-		this.value = value;
+	ONE_SOS(new ConsumableChanger(ConsumableType.SOS, 1), "1sos"),
+	TWO_SOS(new ConsumableChanger(ConsumableType.SOS, 2), "2sos")
+	;
+	
+	private final LoadoutChanger changer;
+	private final String id;
+	
+	LoadoutItem(LoadoutChanger changer, String id) {
+		this.changer = changer;
+		this.id = id.toLowerCase();
+	}
+	
+	void addToLoadout(Loadout loadout) {
+		changer.addToLoadout(loadout);
+	}
+	
+	static LoadoutItem getItemFromID(String id) {
+		id = id.toLowerCase();
+		for (LoadoutItem item : values()) {
+			if (item.id.equals(id))
+				return item;
+		}
+		throw new IllegalArgumentException("Unknown ID for loadout item: '" + id + "'.");
+	}
+	
+	
+	private static abstract class LoadoutChanger {
+		abstract void addToLoadout(Loadout loadout);
+	}
+	
+	
+	private static class SwordChanger extends LoadoutChanger {
+		private final SwordType type;
 		
-		settype:
-		{
-			for (Type type : Type.values()) {
-				if (type.getStrings().contains(value)) {
-					this.type = type;
-					break settype;
-				}
-			}
-			
-			throw new IllegalArgumentException("Value: " + value + " is an unknown loadout item.");
+		private SwordChanger(SwordType type) {
+			this.type = type;
+		}
+		
+		@Override
+		void addToLoadout(Loadout loadout) {
+			loadout.setSwordType(type);
+		}
+	}
+	private static class BowChanger extends LoadoutChanger {
+		private final BowType type;
+		
+		private BowChanger(BowType type) {
+			this.type = type;
+		}
+		
+		@Override
+		void addToLoadout(Loadout loadout) {
+			loadout.setBowType(type);
+		}
+	}
+	private static class AleChanger extends LoadoutChanger {
+		private final AleType type;
+		
+		private AleChanger(AleType type) {
+			this.type = type;
+		}
+		
+		@Override
+		void addToLoadout(Loadout loadout) {
+			loadout.setAleType(type);
+		}
+	}
+	private static class ArmourChanger extends LoadoutChanger {
+		private final ArmourType type;
+		
+		private ArmourChanger(ArmourType type) {
+			this.type = type;
+		}
+		
+		@Override
+		void addToLoadout(Loadout loadout) {
+			loadout.setArmour(type);
 		}
 	}
 	
-	public Type getType() {
-		return type;
-	}
-	
-	public String getValue() {
-		return value;
-	}
-	
-	
-	enum Type {
-		SWORD(SwordType.class),
-		BOW(BowType.class),
-		ALE(AleType.class),
-		ARMOUR(ArmourType.class),
-		CONSUMABLE(ConsumableType.class),
-		PASSIVE(Passive.class),
-		//TITLE,
-		//HAT,
-		;
+	private static class ConsumableChanger extends LoadoutChanger {
+		private final ConsumableType type;
+		private final int quantity;
 		
-		private final Class<? extends Enum> clazz;
-		
-		Type(Class<? extends Enum> clazz) {
-			this.clazz = clazz;
+		private ConsumableChanger(ConsumableType type, int quantity) {
+			this.type = type;
+			this.quantity = quantity;
 		}
 		
-		Set<String> getStrings() {
-			Set<String> strings = new HashSet<>();
-			try {
-				Method m = clazz.getMethod("values");
-				Enum[] set = (Enum[]) m.invoke(null);
-				for (Enum item : set) {
-					strings.add(item.toString().toLowerCase());
-				}
-			} catch (NoSuchMethodException e) {
-				e.printStackTrace();
-				Bukkit.getLogger().severe("Enum " + clazz.getName() + " doesn't support values()?");
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			}
-			return strings;
+		@Override
+		void addToLoadout(Loadout loadout) {
+			int amt = loadout.getConsumables().get(type);
+			amt += quantity;
+			loadout.getConsumables().put(type, amt);
+		}
+	}
+	private static class PassiveChanger extends LoadoutChanger {
+		private final Passive type;
+		
+		private PassiveChanger(Passive type) {
+			this.type = type;
+		}
+		
+		@Override
+		void addToLoadout(Loadout loadout) {
+			loadout.getPassives().add(type);
 		}
 	}
 }

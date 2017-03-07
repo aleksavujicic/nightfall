@@ -7,6 +7,7 @@ import deimophobe.dvz.dwarf.kit.bow.BowType;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.sword.SwordType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
@@ -14,17 +15,17 @@ import java.util.*;
  * Created by Deimophobe on 15/01/17.
  */
 public class Loadout {
-	private final String title;
-	private final boolean forceTitle;
-	private final Object hat;
+	private String title = null;
+	private boolean forceTitle = false;
+	private ItemStack hat = null;
 	
-	private final SwordType swordType;
-	private final BowType bowType;
-	private final AleType aleType;
-	private final Map<ConsumableType, Integer> consumables;
+	private SwordType swordType = SwordType.DRB;
+	private BowType bowType = BowType.SHORTBOW;
+	private AleType aleType = AleType.HEALING;
+	private ArmourType armour = null;
 	
-	private final ArmourType armour;
-	private final Set<Passive> passives;
+	private Map<ConsumableType, Integer> consumables = new HashMap<>();
+	private Set<Passive> passives = new HashSet<>();
 	
 	
 	public String getTitle() {
@@ -44,57 +45,38 @@ public class Loadout {
 	public AleType getAleType() {
 		return aleType;
 	}
-	public Map<ConsumableType, Integer> getConsumables() {
-		return consumables;
-	}
-	
 	public ArmourType getArmour() {
 		return armour;
+	}
+	
+	public Map<ConsumableType, Integer> getConsumables() {
+		return consumables;
 	}
 	public Set<Passive> getPassives() {
 		return passives;
 	}
 	
-	void addToLoadout() {
-		
-	}
 	
-	public Loadout(String title, boolean forceTitle, Object hat, SwordType swordType, BowType bowType, AleType aleType, Map<ConsumableType, Integer> consumables, ArmourType armour, Set<Passive> passives) {
+	void setTitle(String title) {
 		this.title = title;
+	}
+	void setForceTitle(boolean forceTitle) {
 		this.forceTitle = forceTitle;
+	}
+	void setHat(ItemStack hat) {
 		this.hat = hat;
-		this.swordType = swordType;
-		this.bowType = bowType;
-		this.aleType = aleType;
-		this.consumables = (consumables == null ? Collections.emptyMap() : consumables);
-		this.armour = armour;
-		this.passives = (passives == null ? Collections.emptySet() : passives);
 	}
 	
-	private static final Map<Player, Loadout> loadouts = new HashMap<>();
-	public static void setLoadout(Player player, Loadout loadout) {
-		loadouts.put(player, loadout);
+	void setSwordType(SwordType swordType) {
+		this.swordType = swordType;
 	}
-	public static Loadout getLoadout(Player player) {
-		Loadout loadout = loadouts.get(player);
-		if (loadout != null) return loadout;
-		
-		Map<ConsumableType, Integer> consumables = new HashMap<>();
-		consumables.put(ConsumableType.LAMP, 5);
-		consumables.put(ConsumableType.SOS, 5);
-		consumables.put(ConsumableType.WRENCH, 5);
-		consumables.put(ConsumableType.WIZARD_MORTAR, 5);
-		consumables.put(ConsumableType.HEAL_STATION, 5);
-		
-		Set<Passive> passives = new HashSet<>();
-		passives.add(Passive.AVENGE);
-		passives.add(Passive.QUICKFEET);
-		passives.add(Passive.DARKVISION);
-		passives.add(Passive.SAFEFALL);
-		passives.add(Passive.NAMETHISSOMETHINGBETTERDEIMO);
-		
-		Loadout defaultLoadout = new Loadout("Ranger", false, null, SwordType.GRB, BowType.DRAGONSKIN, AleType.JIMMYJUICE, consumables, ArmourType.RUNEBLESSED, passives);
-		loadouts.put(player, defaultLoadout);
-		return defaultLoadout;
+	void setBowType(BowType bowType) {
+		this.bowType = bowType;
+	}
+	void setAleType(AleType aleType) {
+		this.aleType = aleType;
+	}
+	void setArmour(ArmourType armour) {
+		this.armour = armour;
 	}
 }

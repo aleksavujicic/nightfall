@@ -18,13 +18,11 @@ import org.bukkit.inventory.ItemStack;
 class LoadoutMenuItem implements MenuItem<Player> {
 	
 	private final ItemStack item;
-	private final LoadoutItem loadoutItem;
 	private final int cost;
 	
 	LoadoutMenuItem(ConfigurationSection config) {
 		item = ItemCreator.createItem(config.getConfigurationSection("item"), Slot.MAIN_HAND);
 		cost = config.getInt("cost");
-		loadoutItem = new LoadoutItem(config.getString("value"));
 	}
 	
 	@Override
@@ -42,9 +40,7 @@ class LoadoutMenuItem implements MenuItem<Player> {
 	
 	@Override
 	public boolean select(Player player) {
-		Bukkit.broadcastMessage(loadoutItem.getType().toString());
-		Bukkit.broadcastMessage(loadoutItem.getValue().toString());
-		return false;
+		return true;
 	}
 	
 	@Override
