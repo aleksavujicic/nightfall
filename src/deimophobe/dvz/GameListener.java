@@ -497,6 +497,12 @@ public class GameListener implements Listener {
 			if (event.getInventorySlots().contains(40))
 				event.setCancelled(true);
 		}
+		
+		LoadoutMenu loadout = LoadoutMenu.getMenu();
+		HumanEntity e = event.getWhoClicked();
+		if (event.getInventory() != null && loadout.getTitle().equals(event.getInventory().getTitle()) && e instanceof Player) {
+			event.setCancelled(true);
+		}
 	}
 	
 	@EventHandler

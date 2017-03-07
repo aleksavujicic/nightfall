@@ -185,13 +185,7 @@ public class DvZPlugin extends JavaPlugin {
 		}
 		if (name.equalsIgnoreCase("loadout")) {
 			if (sender instanceof Player) {
-				Player player = (Player) sender;
-				
-				if (!game.isPlayer(player)) {
-					LoadoutMenu.getMenu().showTo(player);
-				} else {
-					sender.sendMessage(ChatColor.RED + "You can only do that before the game has started!");
-				}
+				LoadoutMenu.getMenu().showTo((Player) sender);
 				
 				return true;
 			}
