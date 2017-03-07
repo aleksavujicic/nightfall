@@ -80,6 +80,14 @@ public class DwarfProperties {
 		this.armour = armour;
 	}
 	
+	void addPassive(Passive passive) {
+		passives.add(passive);
+	}
+	void incrementConsumable(ConsumableType consumable, int amt) {
+		int current = consumables.computeIfAbsent(consumable, k -> 0);
+		consumables.put(consumable, current + amt);
+	}
+	
 	public static DwarfProperties getProperties(Player player) {
 		return Loadout.getLoadout(player).constructProperties();
 	}

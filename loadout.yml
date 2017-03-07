@@ -1,32 +1,29 @@
 page1:
+  # ------ SWORDS ------
   grb:
     index: 0
     item:
       name: "Greater Runeblade"
       material: shears
       damage: 0
-
   malice:
     index: 1
     item:
       name: "Axe of Malice"
       material: shears
       damage: 1
-
   hammer:
     index: 2
     item:
       name: "Hammer"
       material: shield
       damage: 2
-
   dagger:
     index: 3
     item:
       name: "Dagger"
       material: shears
       damage: 2
-
   tombmaker:
     index: 4
     item:
@@ -34,25 +31,59 @@ page1:
       material: diamond_spade
 
 
+  # ------ BOWS ------
+  dragonskin:
+    index: 9
+    item:
+      name: "Dragonskin Bow"
+      material: arrow
+  longbow:
+    index: 10
+    item:
+      name: "Longbow"
+      material: bow
+  lightbow:
+    index: 11
+    item:
+      name: "Lightbow"
+      material: ink_sack
+      damage: 0
+  crossbow:
+    index: 12
+    item:
+      name: "Crossbow"
+      material: shears
+      damage: 25
+  ebow:
+    index: 13
+    item:
+      name: "Emerald Bow"
+      material: bow
+      damage: 3
+  warpweaver:
+    index: 14
+    item:
+      name: "Warpweaver Bow"
+      material: ender_pearl
+
+
+  # ------ ALES ------
   holy:
     index: 18
     item:
       name: "Holy Ale"
       material: potion
-
   jj:
     index: 19
     item:
       name: "Jimmy Juice"
       material: potion
-
   trinket:
     index: 20
     item:
       name: "Star Trinket"
       material: shears
       damage: 30
-
   regrowth:
     index: 21
     item:
@@ -61,11 +92,114 @@ page1:
       damage: 31
 
 
+  # ------ ARMOURS ------
+  runeblessed:
+    index: 27
+    item:
+      name: "Runeblessed Armour"
+      material: ink_sack
+      damage: 6
+  quiver:
+    index: 28
+    item:
+      name: "Massive Quiver"
+      material: arrow
+  studded:
+    index: 29
+    item:
+      name: "Studded Armour"
+      material: leather_chestplate
+  coil:
+    index: 30
+    item:
+      name: "Magic Coil"
+      material: diamond
+
 
 
 page2:
+  # ------ PASSIVES ------
   safefall:
     index: 0
     item:
       name: "Safefall"
       material: snow_ball
+  darkvision:
+    index: 1
+    item:
+      name: "Dark Vision"
+      material: flint
+  avenge:
+    index: 2
+    item:
+      name: "Avenge"
+      material: shears
+      damage: 44
+
+
+  # ------ CONSUMABLES ------
+  sos_one:
+    index: 9
+    item:
+      name: "SOS I"
+      material: ink_sack
+      damage: 2
+  sos_two:
+    index: 18
+    item:
+      name: "SOS II"
+      material: ink_sack
+      damage: 2
+
+
+  wizard_one:
+    index: 10
+    item:
+      name: "Wizard Mortar I"
+      material: ink_sack
+      damage: 5
+  wizard_two:
+    index: 19
+    item:
+      name: "Wizard Mortar II"
+      material: ink_sack
+      damage: 5
+
+  lamps_one:
+    index: 11
+    item:
+      name: "Enchanted Lamps I"
+      material: ink_sack
+      damage: 0
+  lamps_two:
+    index: 20
+    item:
+      name: "Enchanted Lamps II"
+      material: ink_sack
+      damage: 0
+
+  wrench_one:
+    index: 12
+    item:
+      name: "Wiggly Wrench I"
+      material: ink_sack
+      damage: 3
+  wrench_two:
+    index: 21
+    item:
+      name: "Wiggly Wrench II"
+      material: ink_sack
+      damage: 3
+
+  healing_one:
+    index: 13
+    item:
+      name: "'Healing Station' I"
+      material: ink_sack
+      damage: 7
+  healing_two:
+    index: 22
+    item:
+      name: "'Healing Station' II"
+      material: ink_sack
+      damage: 7

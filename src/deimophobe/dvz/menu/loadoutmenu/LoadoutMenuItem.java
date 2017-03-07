@@ -21,8 +21,9 @@ class LoadoutMenuItem implements MenuItem<Player> {
 	private final LoadoutItem loadoutItem;
 	
 	LoadoutMenuItem(ConfigurationSection config) {
-		itemStack = ItemCreator.createItem(config.getConfigurationSection("item"), Slot.MAIN_HAND);
 		loadoutItem = LoadoutItem.getItem(config.getName());
+		itemStack = ItemCreator.createItem(config.getConfigurationSection("item"), Slot.MAIN_HAND);
+		itemStack.setAmount(loadoutItem.getCost());
 	}
 	
 	@Override

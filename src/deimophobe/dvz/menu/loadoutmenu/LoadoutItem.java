@@ -7,53 +7,100 @@ import deimophobe.dvz.dwarf.kit.bow.BowType;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.sword.SwordType;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by Deimophobe on 7/03/17.
  */
 enum  LoadoutItem {
-	GRB(new SwordModifier(SwordType.GRB), "grb", 16),
-	MALICE(new SwordModifier(SwordType.AXE_OF_MALICE), "malice", 24),
-	HAMMER(new SwordModifier(SwordType.HAMMER), "hammer", 16),
-	DAGGER(new SwordModifier(SwordType.DAGGER), "dagger", 16),
-	TOMBMAKER(new SwordModifier(SwordType.TOMBMAKER), "tombmaker", 4),
+	GRB(new SwordModifier(SwordType.GRB), 24, Category.SWORD),
+	MALICE(new SwordModifier(SwordType.AXE_OF_MALICE), 24, Category.SWORD),
+	HAMMER(new SwordModifier(SwordType.HAMMER), 16, Category.SWORD),
+	DAGGER(new SwordModifier(SwordType.DAGGER), 16, Category.SWORD),
+	TOMBMAKER(new SwordModifier(SwordType.TOMBMAKER), 4, Category.SWORD),
 	
-	HOLY(new AleModifier(AleType.HOLY), "holy", 8),
-	JJ(new AleModifier(AleType.JIMMYJUICE), "jj", 8),
-	TRINKET(new AleModifier(AleType.TRINKET), "trinket", 8),
-	REGROWTH(new AleModifier(AleType.REGROWTH), "regrowth", 8),
+	DRAGONSKIN(new BowModifier(BowType.DRAGONSKIN), 16, Category.BOW),
+	LONGBOW(new BowModifier(BowType.LONGBOW), 20, Category.BOW),
+	WARPWEAVER(new BowModifier(BowType.WARPWEAVER), 12, Category.BOW),
+	LIGHTBOW(new BowModifier(BowType.LIGHTBOW), 12, Category.BOW),
+	EBOW(new BowModifier(BowType.EBOW), 12, Category.BOW),
+	CROSSBOW(new BowModifier(BowType.CROSSBOW), 12, Category.BOW),
 	
-	AVENGE(new PassiveModifier(Passive.AVENGE), "avenge", 8),
-	SAFEFALL(new PassiveModifier(Passive.SAFEFALL), "safefall", 4),
-	DARKVISION(new PassiveModifier(Passive.DARKVISION), "darkvision", 4),
+	HOLY(new AleModifier(AleType.HOLY), 8, Category.ALE),
+	JJ(new AleModifier(AleType.JIMMYJUICE), 8, Category.ALE),
+	TRINKET(new AleModifier(AleType.TRINKET), 8, Category.ALE),
+	REGROWTH(new AleModifier(AleType.REGROWTH), 8, Category.ALE),
 	
-	ONE_SOS(new ConsumableModifier(ConsumableType.SOS, 1), "1sos", 4),
-	TWO_SOS(new ConsumableModifier(ConsumableType.SOS, 2), "2sos", 8),
+	RUNEBLESSED(new ArmourModifier(ArmourType.RUNEBLESSED), 8, Category.ARMOUR),
+	QUIVER(new ArmourModifier(ArmourType.QUIVER), 8, Category.ARMOUR),
+	STUDDED(new ArmourModifier(ArmourType.STUDDED), 8, Category.ARMOUR),
+	COIL(new ArmourModifier(ArmourType.COIL), 8, Category.ARMOUR),
+	
+	AVENGE(new PassiveModifier(Passive.AVENGE), 8),
+	SAFEFALL(new PassiveModifier(Passive.SAFEFALL), 4),
+	DARKVISION(new PassiveModifier(Passive.DARKVISION), 4),
+	
+	SOS_ONE(new ConsumableModifier(ConsumableType.SOS, 1), 4),
+	SOS_TWO(new ConsumableModifier(ConsumableType.SOS, 2), 8),
+	WIZARD_ONE(new ConsumableModifier(ConsumableType.WIZARD_MORTAR, 16), 4),
+	WIZARD_TWO(new ConsumableModifier(ConsumableType.WIZARD_MORTAR, 32), 8),
+	LAMPS_ONE(new ConsumableModifier(ConsumableType.LAMP, 12), 4),
+	LAMPS_TWO(new ConsumableModifier(ConsumableType.LAMP, 24), 8),
+	WRENCH_ONE(new ConsumableModifier(ConsumableType.WRENCH, 2), 4),
+	WRENCH_TWO(new ConsumableModifier(ConsumableType.WRENCH, 4), 8),
+	HEALING_ONE(new ConsumableModifier(ConsumableType.HEAL_STATION, 4), 4),
+	HEALING_TWO(new ConsumableModifier(ConsumableType.HEAL_STATION, 8), 8),
 	;
 	
 	private final PropertyModifier modifier;
-	private final String id;
 	private final int cost;
+	private final Category category;
 	
-	LoadoutItem(PropertyModifier modifier, String id, int cost) {
+	LoadoutItem(PropertyModifier modifier, int cost) {
+		this(modifier, cost, null);
+	}
+	
+	LoadoutItem(PropertyModifier modifier, int cost, Category category) {
 		this.modifier = modifier;
-		this.id = id.toLowerCase();
 		this.cost = cost;
+		this.category = category;
+	}
+	
+	int getCost() {
+		return cost;
 	}
 	
 	void modify(DwarfProperties dwarfProperties) {
 		modifier.modify(dwarfProperties);
 	}
 	
-	public static LoadoutItem getItem(String id) {
+	static LoadoutItem getItem(String id) {
 		id = id.toLowerCase();
 		for (LoadoutItem item : values()) {
-			if (item.id.equals(id))
+			if (item.toString().toLowerCase().equals(id))
 				return item;
 		}
 		throw new IllegalArgumentException("Unknown ID for loadout item: '" + id + "'.");
 	}
 	
+	Set<LoadoutItem> getItemsInCategory() {
+		if (category == null) return new HashSet<>();
+		
+		Set<LoadoutItem> items = new HashSet<>();
+		for (LoadoutItem item : values()) {
+			if (category == item.category)
+				items.add(item);
+		}
+		return items;
+	}
 	
+	private enum Category {
+		SWORD,
+		BOW,
+		ALE,
+		ARMOUR
+	}
 	
 	private static abstract class PropertyModifier {
 		abstract void modify(DwarfProperties dwarfProperties);
@@ -120,9 +167,7 @@ enum  LoadoutItem {
 		
 		@Override
 		void modify(DwarfProperties dwarfProperties) {
-			int amt = dwarfProperties.getConsumables().get(type);
-			amt += quantity;
-			dwarfProperties.getConsumables().put(type, amt);
+			dwarfProperties.incrementConsumable(type, quantity);
 		}
 	}
 	private static class PassiveModifier extends PropertyModifier {
@@ -134,7 +179,7 @@ enum  LoadoutItem {
 		
 		@Override
 		void modify(DwarfProperties dwarfProperties) {
-			dwarfProperties.getPassives().add(type);
+			dwarfProperties.addPassive(type);
 		}
 	}
 }

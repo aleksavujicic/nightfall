@@ -45,12 +45,13 @@ public class LoadoutMenu implements Menu<Player> {
 		Inventory newInv = Bukkit.createInventory(pageInv.getHolder(), PAGE_SIZE + EXTRA_SIZE, TITLE);
 		
 		newInv.setContents(pageInv.getContents());
+		int remainPoints = Loadout.getLoadout(player).getRemainingPoints();
 		
 		// Back and forward buttons
 		newInv.setItem(PAGE_SIZE+3, new ItemStack(Material.FLINT_AND_STEEL));
 		newInv.setItem(PAGE_SIZE+5, new ItemStack(Material.DIAMOND_SWORD));
 		
-		newInv.setItem(PAGE_SIZE+0, new ItemStack(Material.INK_SACK, 1, (short) 2));
+		newInv.setItem(PAGE_SIZE+0, new ItemStack(Material.INK_SACK, remainPoints, (short) 2));
 		newInv.setItem(PAGE_SIZE+8, new ItemStack(Material.ENDER_STONE, 1));
 																							
 		return newInv;
@@ -63,7 +64,6 @@ public class LoadoutMenu implements Menu<Player> {
 		} else {
 			switch (i - PAGE_SIZE) {
 				case 0: // Points
-					Bukkit.broadcastMessage("POINTS");
 					break;
 				case 3: // Back
 					changePage(player, -1);
@@ -74,7 +74,8 @@ public class LoadoutMenu implements Menu<Player> {
 					showTo(player);
 					break;
 				case 8: // Clear
-					Bukkit.broadcastMessage("CLEAR");
+					Loadout.getLoadout(player).clear();
+					showTo(player);
 					break;
 			}
 		}
