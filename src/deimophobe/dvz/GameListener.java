@@ -312,6 +312,17 @@ public class GameListener implements Listener {
 				event.setDamage(damage);
 			}
 			
+			// Kill detection for dwarves before shrine falling
+			if (!Game.getGame().getPhase().canDwarfDie() && damagee instanceof Dwarf) {
+				double dmg = event.getFinalDamage();
+				if (damagee.getHealth() - dmg <= 0.1 || type.isInstaKill()) {
+					event.setDamage(0);
+					event.setCancelled(true);
+					
+					((Dwarf) damagee).reset();
+				}
+			}
+			
 			// Kill detection for monsters and AIs
 			if (damagee instanceof MonsterPlayer || damagee instanceof  AIEntity) {
 				double dmg = event.getFinalDamage();

@@ -43,6 +43,10 @@ public enum Phase {
 		this.typeOnJoin = typeOnJoin;
 	}
 	
+	public boolean canDwarfDie() {
+		return !dwarfJoin;
+	}
+	
 	public enum GamePlayerType {
 		DWARF, MOB, NONE
 	}

@@ -100,9 +100,7 @@ public class Dwarf extends GamePlayer {
 		updateArmour();
 		updateManaBar();
 		
-		delayedHealMax();
 		
-		teleportTo(ShrineManager.getManager().getDwarfSpawn());
 		
 		// Add consumables
 		for (ConsumableType type : dwarfProperties.getConsumables().keySet()) {
@@ -117,6 +115,11 @@ public class Dwarf extends GamePlayer {
 	
 	private void playIntro() {
 		player.sendMessage("You are a dwarf. This will be cooler later");
+	}
+	
+	public void reset() {
+		delayedHealMax();
+		teleportTo(ShrineManager.getManager().getDwarfSpawn());
 	}
 	
 	
@@ -416,6 +419,7 @@ public class Dwarf extends GamePlayer {
 		}
 		updateVisibility();
 	}
+	
 	public enum ProcType {
 		REGULAR, HORN, MALICE, DRAGONSKIN, SHRINE_FALL, GRAVEL_PROC, EBOW, RUNEDASH,
 	}
