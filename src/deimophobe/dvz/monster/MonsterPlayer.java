@@ -210,6 +210,11 @@ public class MonsterPlayer extends GamePlayer {
 	
 	// ------ EVENT METHODS ------
 	@Override
+	public void updateHotbarSlot(ItemStack heldItem, int slot) {
+		
+	}
+	
+	@Override
 	public void onShift(boolean sneaking) {
 		if (mob != null)
 			mob.onShift(sneaking);

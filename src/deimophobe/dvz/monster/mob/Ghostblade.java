@@ -31,6 +31,7 @@ class Ghostblade extends Mob {
 		if (cooldown > 0)
 			cooldown--;
 		
+		// TODO make happen less often
 		if (!isPlayerHoldingItem(0)) {
 			monster.getPlayer().getInventory().setHeldItemSlot(0);
 			monster.customDamage(null, DamageType.NOT_HOLDING_GHOSTBLADE, 4);

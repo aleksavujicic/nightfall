@@ -122,7 +122,7 @@ public class Dwarf extends GamePlayer {
 	
 	
 	public void updateCooldownBar() {
-		player.setExp(kit.fractionComplete());
+		player.setExp(Math.max(0, kit.fractionComplete()));
 	}
 	
 	
@@ -293,6 +293,7 @@ public class Dwarf extends GamePlayer {
 	
 	
 	// ------ VISIBILITY ------
+	private boolean holdingLightItem = false;
 	public void updateVisibility() {
 		if (canSee()) {
 			player.removePotionEffect(PotionEffectType.BLINDNESS);
@@ -303,12 +304,12 @@ public class Dwarf extends GamePlayer {
 	private boolean canSee() {
 		int lightLevel = getLocation().getBlock().getLightLevel();
 		ItemStack held = getHeldItem();
-		return (lightLevel >= MIN_LIGHT_LEVEL_FOR_BLINDNESS ||
+		return (holdingLightItem ||
+				lightLevel >= MIN_LIGHT_LEVEL_FOR_BLINDNESS ||
 				hasProc() ||
 				player.hasPotionEffect(PotionEffectType.NIGHT_VISION) ||
-				kit.isBlindnessImmune() ||
-				torch.isSimilar(held) ||
-				Consumable.getItem(ConsumableType.LAMP).isSimilar(held));
+				kit.isBlindnessImmune()
+		);
 	}
 	
 	
@@ -421,6 +422,14 @@ public class Dwarf extends GamePlayer {
 	
 	
 	// ------ EVENTS ------
+	@Override
+	public void updateHotbarSlot(ItemStack heldItem, int slot) {
+		holdingLightItem = (torch.isSimilar(heldItem) || Consumable.getItem(ConsumableType.LAMP).isSimilar(heldItem));
+		updateVisibility();
+		
+		kit.updateHotbarSlot(heldItem);
+	}
+	
 	public void onKill(GameEntity monster, DamageType type) {
 		kit.onKill(monster, type);
 	}

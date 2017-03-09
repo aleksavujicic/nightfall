@@ -20,6 +20,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
+import java.rmi.UnexpectedException;
 import java.util.Collection;
 
 /**
@@ -37,6 +38,7 @@ public class Kit {
 	
 	private int shiftCD = 0;
 	private final static int MAX_SHIFT_CD = 60*20;
+	
 	
 	// TODO?
 	public boolean hasAndIsHoldingTM() {
@@ -132,25 +134,6 @@ public class Kit {
 		}
 	}
 	
-	public float fractionComplete() {
-		ItemStack held = dwarf.getHeldItem();
-		float fraction = -1;
-		
-		if (bow.matchesItem(held)) {
-			fraction = bow.fractionComplete();
-		}
-		
-		if (fraction == -1) {
-			fraction = sword.fractionComplete();
-		}
-		
-		if (fraction == -1) {
-			return 0;
-		} else {
-			return fraction;
-		}
-	}
-	
 	public ItemStack getSwordItem() {
 		return sword.getItem();
 	}
@@ -185,5 +168,37 @@ public class Kit {
 	
 	public boolean isBlindnessImmune() {
 		return (bow.getBowType() == BowType.LIGHTBOW);
+	}
+	
+	
+	private HoldType lastHeld = HoldType.SWORD;
+	public float fractionComplete() {
+		switch (lastHeld) {
+			case SWORD:
+				return sword.fractionComplete();
+			case BOW:
+				return bow.fractionComplete();
+			case ALE:
+				return ale.fractionComplete();
+		}
+		throw new UnsupportedOperationException();
+	}
+	
+	public void updateHotbarSlot(ItemStack heldItem) {
+		if (heldItem == null) return;
+		
+		if (sword.matchesItem(heldItem) && sword.fractionComplete() != -1) {
+			lastHeld = HoldType.SWORD;
+		} else if (bow.matchesItem(heldItem) && bow.fractionComplete() != -1) {
+			lastHeld = HoldType.BOW;
+		} else if (ale.matchesItem(heldItem) && ale.fractionComplete() != -1) {
+			lastHeld = HoldType.ALE;
+		}
+	}
+	
+	private enum HoldType {
+		SWORD,
+		BOW,
+		ALE
 	}
 }

@@ -99,6 +99,15 @@ public class GameListener implements Listener {
 	//                        EVENTS
 	// --------------------------------------------------------
 	
+	@EventHandler
+	public void updateHotbarSlot(PlayerItemHeldEvent event) {
+		GamePlayer gp = game.getGamePlayer(event.getPlayer());
+		if (gp != null) {
+			int slot = event.getNewSlot();
+			gp.updateHotbarSlot(event.getPlayer().getInventory().getItem(slot), slot);
+		}
+	}
+	
 	
 	@EventHandler
 	public void useItems(PlayerInteractEvent event) {

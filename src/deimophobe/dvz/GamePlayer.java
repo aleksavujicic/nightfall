@@ -266,6 +266,7 @@ public abstract class GamePlayer extends GameEntity {
 	}
 	
 	// Abstract methods
+	public abstract void updateHotbarSlot(ItemStack heldItem, int slot);
 	public abstract void onBlockBreak(Block block);
 	public abstract void onUse(Action action, Block clickedBlock, BlockFace blockFace);
 	public abstract void onShift(boolean sneaking);
