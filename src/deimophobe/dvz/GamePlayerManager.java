@@ -11,12 +11,13 @@ import org.bukkit.scoreboard.Team;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Deimophobe on 4/02/17.
  */
 public abstract class GamePlayerManager<P extends GamePlayer> {
-	private final Map<String, P> players = new HashMap<>();
+	private final Map<UUID, P> players = new HashMap<>();
 	private final String whoName;
 	private Team mcTeam;
 	
@@ -40,66 +41,66 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		return mcTeam;
 	}
 	
+	public void addToTeam(String name) {
+		mcTeam.addEntry(name);
+	}
+	
 	
 	protected abstract P createGamePlayerFromPlayer(Player player);
+	
 	public boolean addGamePlayer(String name) {
 		return addGamePlayer(Bukkit.getPlayer(name));
 	}
 	public boolean addGamePlayer(Player player) {
 		if (player == null) return false;
 		
-		String name = player.getName();
-		if (players.containsKey(name)) return false;
+		UUID uuid = player.getUniqueId();
+		if (players.containsKey(uuid)) return false;
 		
 		P gamePlayer = createGamePlayerFromPlayer(player);
-		players.put(name, gamePlayer);
-		mcTeam.addEntry(name);
+		players.put(uuid, gamePlayer);
+		mcTeam.addEntry(player.getName());
 		return true;
 	}
 	
-	public void addToTeam(String name) {
-		mcTeam.addEntry(name);
+	public P getGamePlayer(String name) {
+		return getGamePlayer(Bukkit.getPlayer(name));
 	}
-	
-	public P getGamePlayer(Entity entity) {
-		if (entity instanceof Player)
-			return getGamePlayer((Player)entity);
-		else
-			return null;
-	}
-	
 	public P getGamePlayer(Player player) {
 		if (player == null) return null;
-		return getGamePlayer(player.getName());
+		return getGamePlayer(player.getUniqueId());
 	}
-	
-	public P getGamePlayer(String name) {
-		return players.get(name);
-	}
-	
-	public boolean isGamePlayer(Player player) {
-		if (player == null) return false;
-		return isGamePlayer(player.getName());
+	public P getGamePlayer(UUID uuid) {
+		return players.get(uuid);
 	}
 	
 	public boolean isGamePlayer(String name) {
-		return players.containsKey(name);
+		return isGamePlayer(Bukkit.getPlayer(name));
 	}
-	
-	public boolean removeGamePlayer(Player player) {
-		return removeGamePlayer(player.getName());
+	public boolean isGamePlayer(Player player) {
+		if (player == null) return false;
+		return isGamePlayer(player.getUniqueId());
 	}
-	
-	public boolean removeGamePlayer(P gamePlayer) {
-		return removeGamePlayer(gamePlayer.getName());
+	public boolean isGamePlayer(UUID uuid) {
+		return players.containsKey(uuid);
 	}
 	
 	public boolean removeGamePlayer(String name) {
-		P gamePlayer = players.remove(name);
+		return removeGamePlayer(Bukkit.getPlayer(name));
+	}
+	public boolean removeGamePlayer(Player player) {
+		if (player == null) return false;
+		return removeGamePlayer(player.getUniqueId());
+	}
+	public boolean removeGamePlayer(P player) {
+		return removeGamePlayer(player.getUniqueID());
+	}
+	public boolean removeGamePlayer(UUID uuid) {
+		P gamePlayer = players.remove(uuid);
 		if (gamePlayer == null) return false;
 		
 		gamePlayer.remove();
-		mcTeam.removeEntry(name);
+		mcTeam.removeEntry(gamePlayer.getName());
 		Game.getGame().updateDwarfCount();
 		
 		return true;
@@ -110,25 +111,25 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 	}
 	
 	
-	
-	private final Map<String, P> offline = new HashMap<>();
+	// ------ OFFLINE MODE ------
+	private final Map<UUID, P> offline = new HashMap<>();
 	public boolean goOnline(Player player) {
-		String name = player.getName();
-		if (!offline.containsKey(name)) return false;
+		UUID uuid = player.getUniqueId();
+		if (!offline.containsKey(uuid)) return false;
 		
-		P gamePlayer = offline.remove(name);
+		P gamePlayer = offline.remove(uuid);
 		gamePlayer.goOnline(player);
-		players.put(name, gamePlayer);
+		players.put(uuid, gamePlayer);
 		return true;
 	}
 	
 	public boolean goOffline(Player player) {
-		String name = player.getName();
-		if (!players.containsKey(name)) return false;
+		UUID uuid = player.getUniqueId();
+		if (!players.containsKey(uuid)) return false;
 		
-		P gamePlayer = players.remove(name);
+		P gamePlayer = players.remove(uuid);
 		gamePlayer.goOffline();
-		offline.put(name, gamePlayer);
+		offline.put(uuid, gamePlayer);
 		return true;
 	}
 	

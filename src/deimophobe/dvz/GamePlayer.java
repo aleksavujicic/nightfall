@@ -15,6 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Created by Deimophobe on 17/01/17.
@@ -32,6 +33,10 @@ public abstract class GamePlayer extends GameEntity {
 	
 	public Player getPlayer() {
 		return player;
+	}
+	
+	public UUID getUniqueID() {
+		return player.getUniqueId();
 	}
 	
 	

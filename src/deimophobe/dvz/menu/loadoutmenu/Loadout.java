@@ -66,9 +66,12 @@ class Loadout {
 		items.clear();
 	}
 	
-	private static final Map<Player, Loadout> loadouts = new HashMap<>();
+	private static final Map<UUID, Loadout> loadouts = new HashMap<>();
 	static Loadout getLoadout(Player player) {
-		return loadouts.computeIfAbsent(player, k -> new Loadout());
+		return getLoadout(player.getUniqueId());
+	}
+	static Loadout getLoadout(UUID uuid) {
+		return loadouts.computeIfAbsent(uuid, k -> new Loadout());
 	}
 	
 }
