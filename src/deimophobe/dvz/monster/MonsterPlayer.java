@@ -102,6 +102,8 @@ public class MonsterPlayer extends GamePlayer {
 	}
 	
 	public void kill() {
+		cancelFreeze();
+		
 		Disguise disguise = DisguiseAPI.getDisguise(player);
 		if (disguise != null) {
 			EntityType entityType = disguise.getType().getEntityType();
@@ -327,29 +329,36 @@ public class MonsterPlayer extends GamePlayer {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				player.removePotionEffect(PotionEffectType.LEVITATION);
-				player.removePotionEffect(PotionEffectType.GLOWING);
-				
-				if (mob != null) {
-					Disguise dis = mob.getDisguise();
-					if (dis != null)
-						dis.getWatcher().setGlowing(false);
-				}
-				
-				player.setAllowFlight(false);
-				player.setFlying(false);
-				player.setFlySpeed(0.1f);
-				player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
-				
-				
-				if (isAlive()) {
-					teleportTo(freezeLocation, true);
-				} else {
-					player.setGameMode(GameMode.SPECTATOR);
-				}
-				freezeLocation = null;
+				cancelFreeze();
 			}
 		}.runTaskLater(Game.getGame().getPlugin(), time);
+		
+		// Snap back into place if fast moving and lag changed position.
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				resetFrozen();
+			}
+		}.runTaskLater(Game.getGame().getPlugin(), 5);
+	}
+	
+	private void cancelFreeze() {
+		if (!isFrozen()) return;
+		player.removePotionEffect(PotionEffectType.LEVITATION);
+		player.removePotionEffect(PotionEffectType.GLOWING);
+		
+		player.setFlySpeed(0.1f);
+		player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
+		player.setAllowFlight(false);
+		player.setFlying(false);
+			
+		Disguise dis = mob.getDisguise();
+		if (dis != null)
+			dis.getWatcher().setGlowing(false);
+			
+		teleportTo(freezeLocation, true);
+		
+		freezeLocation = null;
 	}
 	
 	public void resetFrozen() {
