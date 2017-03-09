@@ -103,6 +103,7 @@ flamelancer:
     bound: true
   weapon:
     material: bow
+    damage: 4
     name: Nether Tooth Bow
     lore:
      - Some lore

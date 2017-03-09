@@ -1,13 +1,19 @@
 package deimophobe.dvz.dwarf.kit.bow;
 
+import deimophobe.dvz.Game;
 import deimophobe.dvz.blocks.timedblock.LampBlock;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import deimophobe.dvz.dwarf.Dwarf;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import deimophobe.dvz.dwarf.kit.DwarvenItem;
+import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
+import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -21,8 +27,10 @@ class Warpweaver extends Bow {
 	private boolean warping = false;
 	private int cooldown = 0;
 	
+	private boolean active = false;
+	
 	private final static int TELEPORT_TIME = 20*20;
-	private final static int MAX_COOLDOWN = 40*20;
+	private final static int MAX_COOLDOWN = 20*20;
 	
 	@Override
 	public void update() {
@@ -46,10 +54,12 @@ class Warpweaver extends Bow {
 			return 1 - (float)cooldown/MAX_COOLDOWN;
 	}
 	
+	private final static String ARROW_METADATA_KEY = "warp";
 	@Override
 	public void onProjectileLand(Projectile proj, Block hitBlock) {
-		if (!warping && cooldown <= 0 && !isHoldingItem()) {
+		if (canWarp() && proj.hasMetadata(ARROW_METADATA_KEY) && active) {
 			warping = true;
+			setActive(false);
 			
 			warpSpot = dwarf.getLocation();
 			Location newSpot = proj.getLocation().add(0, 0.25, 0);
@@ -60,6 +70,46 @@ class Warpweaver extends Bow {
 			world.spawnParticle(Particle.SPELL_WITCH, warpSpot, 20, 0.5, 0.5, 0.5);
 			world.spawnParticle(Particle.SPELL_WITCH, newSpot, 20, 0.5, 0.5, 0.5);
 		}
+	}
+	
+	@Override
+	public Projectile onBowFire(Arrow arrow, float force) {
+		if (canWarp() && active) {
+			arrow.setMetadata(ARROW_METADATA_KEY, new FixedMetadataValue(Game.getGame().getPlugin(), true));
+		}
+		return arrow;
+	}
+	
+	@Override
+	public boolean use(Action action) {
+		if (DwarvenItem.isLeftClick(action) && canWarp()) {
+			setActive(!active);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public boolean matchesItem(ItemStack toMatch) {
+		return (toMatch != null && toMatch.getType() == Material.BOW && toMatch.getDurability() == 6);
+	}
+	
+	private void setActive(boolean setActive) {
+		for (ItemStack item : dwarf.getPlayer().getInventory().getStorageContents()) {
+			if (!matchesItem(item)) continue;
+			
+			if (setActive)
+				item.addEnchantment(Enchantment.DURABILITY, 1);
+			else
+				item.removeEnchantment(Enchantment.DURABILITY);
+		}
+		dwarf.getPlayer().updateInventory();
+		active = setActive;
+	}
+	
+	private boolean canWarp() {
+		return !warping && cooldown <= 0;
 	}
 	
 	private void teleportBack() {

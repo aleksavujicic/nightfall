@@ -16,6 +16,7 @@ class Lightbow extends Bow {
 	
 	@Override
 	public void onProjectileLand(Projectile arrow, Block hitBlock) {
-		TimedBlock.placeTimedBlock(new LampBlock(hitBlock, 10*20));
+		if (arrow.getMetadata("force").get(0).asFloat() == 1)
+			TimedBlock.placeTimedBlock(new LampBlock(hitBlock, 10*20));
 	}
 }
