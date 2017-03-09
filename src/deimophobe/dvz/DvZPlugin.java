@@ -13,9 +13,11 @@ import deimophobe.dvz.monster.mob.MobType;
 import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -188,6 +190,16 @@ public class DvZPlugin extends JavaPlugin {
 		if (name.equalsIgnoreCase("loadout")) {
 			if (sender instanceof Player) {
 				LoadoutMenu.getMenu().showTo((Player) sender);
+				
+				return true;
+			}
+		}
+		if (name.equalsIgnoreCase("stuck")) {
+			if (sender instanceof Player) {
+				Player player = (Player) sender;
+				if (player.getGameMode() == GameMode.ADVENTURE) {
+					Game.getGame().resetPlayer(player);
+				}
 				
 				return true;
 			}

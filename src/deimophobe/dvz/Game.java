@@ -17,9 +17,11 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.*;
 
@@ -246,5 +248,14 @@ public class Game {
 			return new Location(getGame().getWorld(), doubleList.get(0), doubleList.get(1), doubleList.get(2),  (float) doubleList.get(3).doubleValue(), 0f);
 		else
 			return new Location(getGame().getWorld(), doubleList.get(0), doubleList.get(1) ,doubleList.get(2));
+	}
+	
+	public void resetPlayer(Player player) {
+		player.teleport(ShrineManager.getManager().getLobbySpawn());
+		player.getInventory().clear();
+		for (PotionEffect effect : player.getActivePotionEffects()){
+			player.removePotionEffect(effect.getType());
+		}
+		player.setGameMode(GameMode.ADVENTURE);
 	}
 }

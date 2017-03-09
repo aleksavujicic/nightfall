@@ -76,12 +76,7 @@ public class GameListener implements Listener {
 				mm.addGamePlayer(player);
 				break;
 			case NONE:
-				player.teleport(ShrineManager.getManager().getLobbySpawn());
-				player.getInventory().clear();
-				for (PotionEffect effect : player.getActivePotionEffects()){
-					player.removePotionEffect(effect.getType());
-				}
-				player.setGameMode(GameMode.ADVENTURE);
+				game.resetPlayer(player);
 				break;
 		}
 	}
