@@ -143,8 +143,12 @@ public class GameListener implements Listener {
 		Entity entity = event.getEntity();
 		EntityDamageEvent.DamageCause cause = event.getCause();
 		
+		// Don't damage lobbyers and reset if void.
 		if (entity instanceof Player && ((Player)entity).getGameMode() == GameMode.ADVENTURE) {
 			event.setCancelled(true);
+			if (event.getCause() == EntityDamageEvent.DamageCause.VOID) {
+				Game.getGame().resetPlayer((Player)event.getEntity());
+			}
 			return;
 		}
 		
@@ -390,15 +394,25 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void onRespawn(PlayerRespawnEvent event) {
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				mm.addGamePlayer(event.getPlayer());
-				mm.getGamePlayer(event.getPlayer()).kill();
-			}
-		}.runTaskLater(Game.getGame().getPlugin(), 1);
-		
-		event.setRespawnLocation(ShrineManager.getManager().getCurrentMobspawn());
+		Phase phase = Game.getGame().getPhase();
+		if (phase == Phase.STARTING) {
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					Game.getGame().resetPlayer(event.getPlayer());
+				}
+			}.runTaskLater(Game.getGame().getPlugin(), 1);
+		} else {
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					mm.addGamePlayer(event.getPlayer());
+					mm.getGamePlayer(event.getPlayer()).kill();
+				}
+			}.runTaskLater(Game.getGame().getPlugin(), 1);
+			
+			event.setRespawnLocation(ShrineManager.getManager().getCurrentMobspawn());
+		}
 	}
 	
 	@EventHandler
