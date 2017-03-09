@@ -1,15 +1,21 @@
 package deimophobe.dvz.menu.loadoutmenu;
 
+import deimophobe.dvz.Game;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
  * Created by Deimophobe on 7/03/17.
  */
-class Loadout {
+public class Loadout {
 	
 	private static final int MAX_POINTS = 64;
 	
@@ -66,6 +72,7 @@ class Loadout {
 		items.clear();
 	}
 	
+	
 	private static final Map<UUID, Loadout> loadouts = new HashMap<>();
 	static Loadout getLoadout(Player player) {
 		return getLoadout(player.getUniqueId());
@@ -74,4 +81,63 @@ class Loadout {
 		return loadouts.computeIfAbsent(uuid, k -> new Loadout());
 	}
 	
+	
+	// ------ SAVING AND LOADING TO FILE
+	static {
+		// Load save yaml file
+		YamlConfiguration config = YamlConfiguration.loadConfiguration(getLoadoutFile());
+		for (String key : config.getKeys(false)) {
+			UUID uuid = UUID.fromString(key);
+			Loadout loadout = fromStringList(config.getStringList(key));
+			loadouts.put(uuid, loadout);
+		}
+		
+		// TODO: Make async?
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				saveLoadouts();
+			}
+		}.runTaskTimer(Game.getGame().getPlugin(), 1200, 1200);
+	}
+	
+	public static void saveLoadouts() {
+		YamlConfiguration config = new YamlConfiguration();
+		for (Map.Entry<UUID, Loadout> entry : loadouts.entrySet()) {
+			UUID uuid = entry.getKey();
+			Loadout loadout = entry.getValue();
+			config.set(uuid.toString(), loadout.toStringList());
+		}
+		
+		try {
+			config.save(getLoadoutFile());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static final String FILENAME = "loadouts.yml";
+	private static File getLoadoutFile() {
+		return new File(Game.getGame().getPlugin().getDataFolder(), FILENAME);
+	}
+	
+	
+	private List<String> toStringList() {
+		List<String> strings = new ArrayList<>();
+		for (LoadoutItem item : items) {
+			strings.add(item.toString());
+		}
+		return strings;
+	}
+	
+	private static Loadout fromStringList(List<String> stringList) {
+		if (stringList == null) return null;
+		
+		Loadout loadout = new Loadout();
+		for (String string : stringList) {
+			LoadoutItem item = LoadoutItem.valueOf(string);
+			loadout.items.add(item);
+		}
+		return loadout;
+	}
 }

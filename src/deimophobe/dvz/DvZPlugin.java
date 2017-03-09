@@ -3,6 +3,7 @@ package deimophobe.dvz;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.menu.loadoutmenu.Loadout;
 import deimophobe.dvz.menu.loadoutmenu.LoadoutMenu;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
@@ -40,6 +41,7 @@ public class DvZPlugin extends JavaPlugin {
 		AIManager.getManager().killAllAIs();
 		ShrineManager.getManager().removeShrineBar();
 		TimedBlock.cancelAllBlocks();
+		Loadout.saveLoadouts();
 	}
 	
 	@Override
