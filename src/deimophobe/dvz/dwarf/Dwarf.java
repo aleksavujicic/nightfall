@@ -100,7 +100,7 @@ public class Dwarf extends GamePlayer {
 		updateArmour();
 		updateManaBar();
 		
-		
+		reset();
 		
 		// Add consumables
 		for (ConsumableType type : dwarfProperties.getConsumables().keySet()) {
