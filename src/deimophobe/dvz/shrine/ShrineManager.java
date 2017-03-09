@@ -151,7 +151,7 @@ public class ShrineManager {
 				if (monster.isAlive() && !monster.getMob().isShrineImmune()) {
 					monster.customDamage(null, DamageType.SHRINE_PROTECTION, 10000);
 					Location loc = monster.getLocation();
-					loc.getWorld().strikeLightning(loc);
+					loc.getWorld().strikeLightningEffect(loc);
 				}
 			}
 			
