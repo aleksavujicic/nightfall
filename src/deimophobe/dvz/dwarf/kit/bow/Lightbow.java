@@ -1,5 +1,6 @@
 package deimophobe.dvz.dwarf.kit.bow;
 
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.blocks.timedblock.LampBlock;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
@@ -16,7 +17,7 @@ class Lightbow extends Bow {
 	
 	@Override
 	public void onProjectileLand(Projectile arrow, Block hitBlock) {
-		if (arrow.getMetadata("force").get(0).asFloat() == 1)
+		if (Misc.getArrowForce(arrow) == 1)
 			TimedBlock.placeTimedBlock(new LampBlock(hitBlock, 10*20));
 	}
 }

@@ -1,9 +1,6 @@
 package deimophobe.dvz.dwarf.kit.sword;
 
-import deimophobe.dvz.DamageType;
-import deimophobe.dvz.Game;
-import deimophobe.dvz.GameEntity;
-import deimophobe.dvz.ItemCreator;
+import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.kit.CooldownItem;
@@ -34,7 +31,7 @@ public class Sword extends CooldownItem {
 	
 	@Override
 	protected boolean ability(Action type) {
-		if (isRightClick(type)) {
+		if (Misc.isRightClick(type)) {
 			return ability();
 		} else {
 			return false;

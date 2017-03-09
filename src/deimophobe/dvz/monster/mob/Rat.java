@@ -1,7 +1,6 @@
 package deimophobe.dvz.monster.mob;
 
-import deimophobe.dvz.Game;
-import deimophobe.dvz.dwarf.kit.DwarvenItem;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.Material;
@@ -30,7 +29,7 @@ class Rat extends Mob {
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (stealCD == 0 && DwarvenItem.isRightClick(action)) {
+		if (stealCD == 0 && Misc.isRightClick(action)) {
 			Block block = monster.getPlayer().getTargetBlock((Set<Material>) null, 4);
 			if (block.getType() == Material.ENDER_PORTAL_FRAME && ShrineManager.getManager().getShrine().getShrineRegion().containsBlock(block)) {
 				monster.playSound("entity.experience_orb.pickup");

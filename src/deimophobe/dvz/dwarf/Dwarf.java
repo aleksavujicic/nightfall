@@ -1,7 +1,6 @@
 package deimophobe.dvz.dwarf;
 
 import deimophobe.dvz.*;
-import deimophobe.dvz.dwarf.kit.DwarvenItem;
 import deimophobe.dvz.dwarf.kit.Kit;
 import deimophobe.dvz.menu.loadoutmenu.DwarfProperties;
 import deimophobe.dvz.dwarf.kit.Passive;
@@ -509,18 +508,18 @@ public class Dwarf extends GamePlayer {
 		boolean success = kit.use(type);
 		if (success) return;
 		
-		if (DwarvenItem.isRightClick(type)) {
+		if (Misc.isRightClick(type)) {
 			grabCD = pickupItem(clickedBlock);
 			if (grabCD > 0) return;
 		}
 		
-		if (DwarvenItem.isRightClick(type) && clickedBlock != null && clickedBlock.getType() == Material.CHEST) {
+		if (Misc.isRightClick(type) && clickedBlock != null && clickedBlock.getType() == Material.CHEST) {
 			showSharedChest();
 			return;
 		}
 		
 		// Pick repair
-		if (DwarvenItem.isRightClick(type)) {
+		if (Misc.isRightClick(type)) {
 			if (getHeldItem().isSimilar(pick)) {
 				Dwarf dwarf = getLookingAt(1, 4);
 				if (dwarf != null && !dwarf.isMaxArmour()) {
@@ -533,7 +532,7 @@ public class Dwarf extends GamePlayer {
 		}
 		
 		// Use consumable
-		if (DwarvenItem.isLeftClick(type)) {
+		if (Misc.isLeftClick(type)) {
 			if (Consumable.use(this, Consumable.getConsumable(getHeldItem()) )) {
 				grabCD = MAX_CONSUMABLE_CD;
 				useHeldItem();

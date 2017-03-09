@@ -45,10 +45,4 @@ public abstract class DwarvenItem {
 		return true;
 	}
 	
-	public static boolean isLeftClick(Action type) {
-		return (type == Action.LEFT_CLICK_AIR || type == Action.LEFT_CLICK_BLOCK || type == Action.PHYSICAL);
-	}
-	public static boolean isRightClick(Action type) {
-		return (type == Action.RIGHT_CLICK_AIR || type == Action.RIGHT_CLICK_BLOCK);
-	}
 }

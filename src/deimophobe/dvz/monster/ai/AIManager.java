@@ -1,6 +1,7 @@
 package deimophobe.dvz.monster.ai;
 
 import deimophobe.dvz.Game;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterManager;
@@ -55,10 +56,6 @@ public class AIManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	private String randomAIName() {
-		int i = new Random().nextInt(AI_NAMES.size());
-		return new ArrayList<>(AI_NAMES).get(i);
 	}
 	
 	// ------ SPAWN LOCATIONS ------
@@ -134,7 +131,7 @@ public class AIManager {
 			
 			// Create zombie with all right stuff
 			Zombie ai = (Zombie) world.spawnEntity(spawnSpot, EntityType.ZOMBIE);
-			ai.setCustomName(ChatColor.DARK_RED + randomAIName());
+			ai.setCustomName(ChatColor.DARK_RED + Misc.getRandom(AI_NAMES));
 			int speedLvl = (ai.isBaby() ? 0 : 3);
 			ai.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 30000, speedLvl, false,false), true);
 			ai.getEquipment().clear();

@@ -1,5 +1,6 @@
 package deimophobe.dvz.dwarf.kit.ale;
 
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -19,7 +20,7 @@ class Regrowth extends Ale {
 	
 	@Override
 	protected boolean ability(Action type) {
-		if (isLeftClick(type)) {
+		if (Misc.isLeftClick(type)) {
 			if (!useMana()) return false;
 			
 			Player player = dwarf.getPlayer();

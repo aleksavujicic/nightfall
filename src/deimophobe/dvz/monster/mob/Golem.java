@@ -5,8 +5,8 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import deimophobe.dvz.DamageType;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.kit.DwarvenItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -56,7 +56,7 @@ class Golem extends Mob {
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (DwarvenItem.isLeftClick(action)) {
+		if (Misc.isLeftClick(action)) {
 			if (breakCD == 0 && isPlayerHoldingItem(0)) {
 				/*Set<Material> materials = new HashSet<>();
 				materials.add(Material.WATER);

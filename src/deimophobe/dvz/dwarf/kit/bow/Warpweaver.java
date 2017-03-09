@@ -1,13 +1,10 @@
 package deimophobe.dvz.dwarf.kit.bow;
 
 import deimophobe.dvz.Game;
-import deimophobe.dvz.blocks.timedblock.LampBlock;
-import deimophobe.dvz.blocks.timedblock.TimedBlock;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.kit.DwarvenItem;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
@@ -82,7 +79,7 @@ class Warpweaver extends Bow {
 	
 	@Override
 	public boolean use(Action action) {
-		if (DwarvenItem.isLeftClick(action) && canWarp()) {
+		if (Misc.isLeftClick(action) && canWarp()) {
 			setActive(!active);
 			return true;
 		} else {

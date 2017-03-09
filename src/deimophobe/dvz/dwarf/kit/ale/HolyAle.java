@@ -1,5 +1,6 @@
 package deimophobe.dvz.dwarf.kit.ale;
 
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
@@ -16,7 +17,7 @@ class HolyAle extends Ale {
 	
 	@Override
 	protected boolean ability(Action type) {
-		if (isRightClick(type)) return false;
+		if (Misc.isRightClick(type)) return false;
 		if (!useMana()) return false;
 		
 		Player player = dwarf.getPlayer();

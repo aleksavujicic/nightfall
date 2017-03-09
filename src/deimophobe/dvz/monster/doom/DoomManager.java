@@ -1,6 +1,7 @@
 package deimophobe.dvz.monster.doom;
 
 import deimophobe.dvz.Game;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.Phase;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
@@ -75,8 +76,7 @@ public class DoomManager {
 	}
 	
 	private DoomType nextDoom() {
-		int i = new Random().nextInt(dooms.size());
-		return new ArrayList<>(dooms.keySet()).get(i);
+		return Misc.getRandom(dooms.keySet());
 	}
 	
 	private void spawnDoom(DoomType doomType) {

@@ -1,8 +1,8 @@
 package deimophobe.dvz.dwarf.kit.ale;
 
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by Deimophobe on 22/01/17.
@@ -15,7 +15,7 @@ class HealingAle extends Ale {
 	
 	@Override
 	protected boolean ability(Action type) {
-		if (isRightClick(type)) return false;
+		if (Misc.isRightClick(type)) return false;
 		if (!useMana()) return false;
 		
 		dwarf.healMax();

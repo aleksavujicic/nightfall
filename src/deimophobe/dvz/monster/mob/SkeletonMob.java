@@ -1,8 +1,8 @@
 package deimophobe.dvz.monster.mob;
 
 import deimophobe.dvz.DamageType;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.kit.DwarvenItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
 import org.bukkit.block.Block;
@@ -24,7 +24,7 @@ abstract class SkeletonMob extends Mob {
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (DwarvenItem.isRightClick(action)) {
+		if (Misc.isRightClick(action)) {
 			if (isPlayerHoldingItem(0)) {
 				((SkeletonWatcher) getDisguise().getWatcher()).setSwingArms(true);
 			} else {
