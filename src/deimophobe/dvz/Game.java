@@ -10,6 +10,7 @@ import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
+import deimophobe.dvz.plague.Plague;
 import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.*;
 import org.bukkit.configuration.Configuration;
@@ -144,7 +145,6 @@ public class Game {
 	
 	// ------ GAME PHASES -------
 	public void startGame() {
-		Bukkit.broadcastMessage("START GAME");
 		phase = Phase.BUILD;
 		
 		// Add dwarves
@@ -167,14 +167,30 @@ public class Game {
 		}.runTaskLater(plugin, buildTime);
 	}
 	
-	public void startPlague() {
-		Bukkit.broadcastMessage("START PLAGUE");
+	void startPlague() {
 		phase = Phase.PLAGUE;
-		releaseMonsters(); // TODO
+		
+		// Dwarves and number to plague
+		Set<Dwarf> plagueables = dm.getPlagueables();
+		int toKill = plagueables.size()/4;
+		
+		Plague plague = Plague.getRandomPlague();
+		plague.startPlague(plagueables, toKill);
+		
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				if (phase == Phase.PLAGUE)
+					plague.forceEnd();
+			}
+		}.runTaskLater(plugin, 60*20);
 	}
 	
-	public void releaseMonsters() {
-		Bukkit.broadcastMessage("RELEASE MONSTERS");
+	public void endPlague() {
+		releaseMonsters();
+	}
+	
+	private void releaseMonsters() {
 		phase = Phase.GAME;
 		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
 		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
@@ -184,7 +200,6 @@ public class Game {
 	}
 	
 	public void endGame() {
-		Bukkit.broadcastMessage("END GAME");
 		phase = Phase.END;
 		Bukkit.broadcastMessage("Rip game.");
 	}

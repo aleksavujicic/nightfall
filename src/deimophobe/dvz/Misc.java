@@ -11,6 +11,11 @@ import java.util.*;
  * Created by Deimophobe on 9/03/17.
  */
 public class Misc {
+	public static <T> T getRandom(T[] items) {
+		int rand = new Random().nextInt(items.length);
+		return items[rand];
+	}
+	
 	public static <T> T getRandom(Collection<T> items) {
 		int rand = new Random().nextInt(items.size());
 		Iterator<T> iter = items.iterator();

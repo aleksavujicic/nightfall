@@ -135,6 +135,10 @@ public abstract class GameEntity {
 		return meta.getDisplayName();
 	}
 	
+	public void kill() {
+		customDamage(null, DamageType.KILL, 10000);
+	}
+	
 	
 	// ------ POTION EFFECTS ------
 	// TODO experiment

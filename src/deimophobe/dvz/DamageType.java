@@ -25,6 +25,7 @@ public enum DamageType {
 	SEPPUKU(false, false, false, false, true, true),
 	SHRINE_PROTECTION(false, false, false, false, true, true),
 	RELOG(false, false, false, false, true, true),
+	KILL(false, false, false, false, true, true),
 	
 	EBOW(false, true, false, false, true, false),
 	HAMMER_AOE(true, false, false, false, true, false),

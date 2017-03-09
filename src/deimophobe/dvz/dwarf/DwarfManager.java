@@ -12,6 +12,9 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by Deimophobe on 15/01/17.
  */
@@ -68,5 +71,9 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	
 	public boolean isSharedChest(Inventory inventory) {
 		return (inventory != null && sharedChest.getTitle().equals(inventory.getTitle()));
+	}
+	
+	public Set<Dwarf> getPlagueables() {
+		return new HashSet<>(getGamePlayers());
 	}
 }

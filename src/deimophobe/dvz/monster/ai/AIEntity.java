@@ -40,10 +40,6 @@ public class AIEntity extends GameEntity {
 		return damage;
 	}
 	
-	void kill() {
-		aiEntity.damage(1000);
-	}
-	
 	boolean hasTarget() {
 		return aiEntity.getTarget() != null;
 	}
