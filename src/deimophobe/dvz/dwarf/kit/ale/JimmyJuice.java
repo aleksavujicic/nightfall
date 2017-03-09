@@ -27,6 +27,12 @@ class JimmyJuice extends Ale {
 	
 	@Override
 	protected boolean ability(Action type) {
+		if (dwarf.useMana(100)) {
+			dwarf.healMax();
+			dwarf.playSound("entity.generic.drink", 0.6f, 0.9f, false);
+			dwarf.playSound("entity.experience_orb.pickup", 1f, 1f, false);
+			return true;
+		}
 		return false;
 	}
 }
