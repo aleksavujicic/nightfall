@@ -28,7 +28,7 @@ class Longbow extends Bow {
 	}
 	
 	@Override
-	public double onHit(GameEntity monster, double damage) {
+	public double onHit(GameEntity monster, DamageType type, double damage) {
 		return power + stacks*6;
 	}
 	

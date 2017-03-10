@@ -2,7 +2,11 @@ package deimophobe.dvz.dwarf.kit.sword;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.event.block.Action;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -19,9 +23,11 @@ class AxeOfMalice extends Sword {
 	}
 	
 	@Override
-	protected boolean ability() {
-		dwarf.giveProc(Dwarf.ProcType.MALICE);
-		return true;
+	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		if (Misc.isRightClick(action) && isOffCD()) {
+			dwarf.giveProc(Dwarf.ProcType.MALICE);
+			resetCooldown();
+		}
 	}
 	
 	@Override

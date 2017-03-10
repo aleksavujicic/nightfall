@@ -30,19 +30,6 @@ public class Sword extends CooldownItem {
 	}
 	
 	@Override
-	protected boolean ability(Action type) {
-		if (Misc.isRightClick(type)) {
-			return ability();
-		} else {
-			return false;
-		}
-	}
-	
-	protected boolean ability() {return false;}
-	public double onHit(GameEntity monster, double damage) { return damage; }
-	public void onKill(GameEntity monster, DamageType b) {}
-	
-	@Override
 	protected void playOffCDSound() {
 		dwarf.playSound("offcd", 1, 1.5f, false);
 		new BukkitRunnable() {

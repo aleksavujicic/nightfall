@@ -112,6 +112,7 @@ public abstract class GamePlayer extends GameEntity {
 	}
 	
 	public void giveItem(ItemStack item, int quantity) {
+		if (item == null) return;
 		ItemStack copy = item.clone();
 		copy.setAmount(quantity);
 		player.getInventory().addItem(copy);

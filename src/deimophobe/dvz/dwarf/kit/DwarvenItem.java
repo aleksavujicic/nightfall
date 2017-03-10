@@ -1,6 +1,12 @@
 package deimophobe.dvz.dwarf.kit;
 
+import deimophobe.dvz.DamageType;
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
@@ -21,28 +27,22 @@ public abstract class DwarvenItem {
 	}
 	
 	public boolean matchesItem(ItemStack toMatch) {
+		if (item == null) return false;
 		return item.isSimilar(toMatch);
 	}
 	public boolean isHoldingItem() {return matchesItem(dwarf.getHeldItem());}
 	
-	public boolean use(Action type) {
-		if (canUse(type)) {
-			boolean success = ability(type);
-			return success;
-		} else {
-			return false;
-		}
-	}
-	
-	public abstract void update();
-	protected abstract boolean ability(Action type);
 	
 	public float fractionComplete() {
 		return -1;
 	}
 	
-	protected boolean canUse(Action type) {
-		return true;
-	}
+	// EVENTS
+	public void update() {}
+	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {}
+	public double onHit(GameEntity entity, DamageType type, double damage) {return damage;}
+	public double onGotHit(GameEntity entity, DamageType type, double damage) {return damage;}
+	public void onKill(GameEntity monster, DamageType type) {}
+	public void onBlockBreak(Block block) {}
 	
 }

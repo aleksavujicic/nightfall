@@ -2,8 +2,12 @@ package deimophobe.dvz.dwarf.kit.sword;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -25,15 +29,15 @@ class GRB extends Sword {
 		reduceCooldown(20);
 	}
 	
-	@Override
-	protected boolean ability() {
-		Player player = dwarf.getPlayer();
-		
-		dwarf.playSound("dash", 1f, 1f, true);
-		dwarf.giveProc(Dwarf.ProcType.RUNEDASH);
-		player.setVelocity(player.getLocation().getDirection().setY(0).normalize().multiply(5));
-		dwarf.setSafefallTime(100);
-		
-		return true;
+	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		if (Misc.isRightClick(action) && isOffCD()) {
+			Player player = dwarf.getPlayer();
+			
+			dwarf.playSound("dash", 1f, 1f, true);
+			dwarf.giveProc(Dwarf.ProcType.RUNEDASH);
+			player.setVelocity(player.getLocation().getDirection().setY(0).normalize().multiply(5));
+			dwarf.setSafefallTime(100);
+			resetCooldown();
+		}
 	}
 }

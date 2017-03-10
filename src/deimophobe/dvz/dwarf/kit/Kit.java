@@ -14,6 +14,7 @@ import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.sword.Sword;
 import deimophobe.dvz.dwarf.kit.sword.SwordType;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
@@ -21,12 +22,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 16/01/17.
  */
 public class Kit {
 	private final Dwarf dwarf;
+	
+	private final Set<DwarvenItem> items;
 	
 	private final Sword sword;
 	private final Bow bow;
@@ -39,28 +44,38 @@ public class Kit {
 	private final static int MAX_SHIFT_CD = 60*20;
 	
 	
-	// TODO?
-	public boolean hasAndIsHoldingTM() {
-		ItemStack item = dwarf.getHeldItem();
-		return (sword.getType() == SwordType.TOMBMAKER && sword.matchesItem(item));
-	}
-	
-	public boolean hasPassive(Passive passive) {
-		return passives.contains(passive);
-	}
 	
 	public Kit(Dwarf dwarf, DwarfData dwarfData) {
 		this.dwarf = dwarf;
 		
+		items = new HashSet<>();
+		
 		this.sword = Sword.createSword(dwarf, dwarfData.getSwordType());
 		this.bow = Bow.createBow(dwarf, dwarfData.getBowType());
 		this.ale = Ale.createAle(dwarf, dwarfData.getAleType());
+		items.add(sword);
+		items.add(bow);
+		items.add(ale);
 		
 		this.armour = dwarfData.getArmour();
 		this.passives = dwarfData.getPassives();
 		
 		if (armour == ArmourType.STUDDED)
 			dwarf.givePotionEffect(PotionEffectType.SLOW, 720000, -1, false, false, false);
+	}
+	
+	public void giveSword() {
+		dwarf.giveItem(sword.getItem());
+	}
+	public void giveBow() {
+		dwarf.giveItem(bow.getItem());
+	}
+	public void giveAle() {
+		dwarf.giveItem(ale.getItem());
+	}
+	public void giveAllItems() {
+		for (DwarvenItem item : items)
+			dwarf.giveItem(item.getItem());
 	}
 	
 	public int getMaxArmour() {
@@ -71,40 +86,44 @@ public class Kit {
 		return (armour == ArmourType.QUIVER ? 40 : 20);
 	}
 	
+	public boolean hasPassive(Passive passive) {
+		return passives.contains(passive);
+	}
+	
+	
+	// ------ EVENTS ------
 	public void update() {
-		sword.update();
-		bow.update();
-		ale.update();
+		for (DwarvenItem item : items)
+			item.update();
 		
 		if (shiftCD > 0)
 			shiftCD--;
 	}
 	
-	public boolean use(Action type) {
-		ItemStack item = dwarf.getHeldItem();
-		if (sword.matchesItem(item)) {
-			return sword.use(type);
-		} else if (bow.matchesItem(item)) {
-			return bow.use(type);
-		} else if (ale.matchesItem(item)) {
-			return ale.use(type);
+	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		ItemStack held = dwarf.getHeldItem();
+		for (DwarvenItem item : items) {
+			if (item.matchesItem(held)) {
+				item.onUse(action, clickedBlock, blockFace);
+				return true;
+			}
 		}
-		
 		return false;
 	}
 	
 	public double onHit(GameEntity monster, DamageType type, double damage) {
 		ItemStack item = dwarf.getHeldItem();
 		if (type.isMelee() && sword.matchesItem(item)) {
-			return sword.onHit(monster, damage);
+			return sword.onHit(monster, type, damage);
 		} else if (type.isRanged()) {
-			return bow.onHit(monster, damage);
+			return bow.onHit(monster, type, damage);
 		}
 		return damage;
 	}
 	
 	public void onGotHit(GameEntity monster, DamageType type, double damage) {
-		ale.onGotHit(monster, type, damage);
+		for (DwarvenItem item : items)
+			item.onGotHit(monster, type, damage);
 	}
 	
 	public void onKill(GameEntity monster, DamageType type) {
@@ -115,6 +134,13 @@ public class Kit {
 			dwarf.giveArrow();
 	}
 	
+	public void onBlockBreak(Block block) {
+		ItemStack held = dwarf.getHeldItem();
+		for (DwarvenItem item : items)
+			if (item.matchesItem(held))
+				item.onBlockBreak(block);
+	}
+	
 	public Projectile onBowFire(Arrow arrow, float force) {
 		return bow.onBowFire(arrow, force);
 	}
@@ -122,7 +148,7 @@ public class Kit {
 	public void onProjectileLand(Projectile proj, Block hitBlock) { bow.onProjectileLand(proj, hitBlock); }
 	
 	public void onShift(boolean sneaking) {
-		if (shiftCD == 0) {
+		if (shiftCD == 0 && !sneaking) {
 			shiftCD = MAX_SHIFT_CD;
 			if (passives.contains(Passive.DARKVISION)) {
 				dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, 200, 1, true, true, true);
@@ -133,16 +159,7 @@ public class Kit {
 		}
 	}
 	
-	public ItemStack getSwordItem() {
-		return sword.getItem();
-	}
-	public ItemStack getBowItem() {
-		return bow.getItem();
-	}
-	public ItemStack getHealItem() {
-		return ale.getItem();
-	}
-	
+	// ------ MISC ------
 	public static boolean isDroppableItem(ItemStack item) {
 		if (item == null) return true;
 		
@@ -170,34 +187,22 @@ public class Kit {
 	}
 	
 	
-	private HoldType lastHeld = HoldType.SWORD;
+	// ------ HELD ITEM ------
+	private DwarvenItem lastHeld = null;
 	public float fractionComplete() {
-		switch (lastHeld) {
-			case SWORD:
-				return sword.fractionComplete();
-			case BOW:
-				return bow.fractionComplete();
-			case ALE:
-				return ale.fractionComplete();
-		}
-		throw new UnsupportedOperationException();
+		if (lastHeld == null) return 0;
+		return lastHeld.fractionComplete();
 	}
 	
-	public void updateHotbarSlot(ItemStack heldItem) {
-		if (heldItem == null) return;
-		
-		if (sword.matchesItem(heldItem) && sword.fractionComplete() != -1) {
-			lastHeld = HoldType.SWORD;
-		} else if (bow.matchesItem(heldItem) && bow.fractionComplete() != -1) {
-			lastHeld = HoldType.BOW;
-		} else if (ale.matchesItem(heldItem) && ale.fractionComplete() != -1) {
-			lastHeld = HoldType.ALE;
+	public void updateHotbarSlot(ItemStack newItem) {
+		if (newItem == null) return;
+		for (DwarvenItem item : items) {
+			if (item.matchesItem(newItem)) {
+				if (item.fractionComplete() != -1)
+					lastHeld = item;
+				
+				return;
+			}
 		}
-	}
-	
-	private enum HoldType {
-		SWORD,
-		BOW,
-		ALE
 	}
 }

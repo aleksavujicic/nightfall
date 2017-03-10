@@ -39,14 +39,7 @@ public class Bow extends DwarvenItem {
 	}
 	
 	@Override
-	public void update() {}
-	
-	@Override
-	protected boolean ability(Action type) {return false;}
-	
-	
-	public double onHit(GameEntity monster, double damage) {return power;}
-	public void onKill(GameEntity monster, DamageType type) {}
+	public double onHit(GameEntity monster, DamageType type, double damage) {return power;}
 	public Projectile onBowFire(Arrow arrow, float force) {
 		return arrow;
 	}

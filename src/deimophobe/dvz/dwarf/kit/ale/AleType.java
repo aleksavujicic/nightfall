@@ -8,5 +8,6 @@ public enum AleType {
 	HOLY,
 	JIMMYJUICE,
 	REGROWTH,
-	TRINKET
+	TRINKET,
+	HERO,
 }

@@ -31,6 +31,7 @@ import org.bukkit.material.Wool;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -104,15 +105,7 @@ public class Dwarf extends GamePlayer {
 		
 		reset();
 		
-		// Add consumables
-		for (ConsumableType type : data.getConsumables().keySet()) {
-			ItemStack item = Consumable.getItem(type).clone();
-			int quantity = data.getConsumables().get(type);
-			
-			item.setAmount(quantity);
-			
-			player.getInventory().addItem(item);
-		}
+		giveStartingItems(data.getConsumables());
 	}
 	
 	private void playIntro() {
@@ -124,12 +117,22 @@ public class Dwarf extends GamePlayer {
 		teleportTo(ShrineManager.getManager().getDwarfSpawn());
 	}
 	
-	
+	protected void giveStartingItems(Map<ConsumableType, Integer> consumables) {
+		// Add consumables
+		for (ConsumableType type : consumables.keySet()) {
+			ItemStack item = Consumable.getItem(type).clone();
+			int quantity = consumables.get(type);
+			
+			item.setAmount(quantity);
+			
+			player.getInventory().addItem(item);
+		}
+	}
 	
 	
 	
 	// ------ MANA STUFF ------
-	public boolean useMana(int cost) {
+	public boolean tryUseMana(int cost) {
 		if (cost > mana) return false;
 		mana -= cost;
 		updateManaBar();
@@ -142,7 +145,7 @@ public class Dwarf extends GamePlayer {
 		updateManaBar();
 	}
 	
-	private void naturalManaRegen() {
+	protected void naturalManaRegen() {
 		int regenRate;
 		if (armour >= 1400) {
 			regenRate = 15;
@@ -445,13 +448,9 @@ public class Dwarf extends GamePlayer {
 	public void onBlockBreak(Block block) {
 		if (block == null) return;
 		
+		kit.onBlockBreak(block);
+		
 		switch (block.getType()) {
-			case GRAVEL:
-				giveItem(cobble, 3);
-				if (kit.hasAndIsHoldingTM() && Game.getGame().getPhase().canGravelProc())
-					giveProc(ProcType.GRAVEL_PROC);
-				break;
-				
 			case LOG:
 			case LOG_2:
 				giveItem(log);
@@ -479,7 +478,7 @@ public class Dwarf extends GamePlayer {
 	public void onUse(Action type, Block clickedBlock, BlockFace blockFace) {
 		if (grabCD > 0) return; // prevent grabbing an item then instantly using it.
 		
-		boolean success = kit.use(type);
+		boolean success = kit.onUse(type, clickedBlock, blockFace);
 		if (success) return;
 		
 		if (Misc.isRightClick(type)) {
@@ -520,23 +519,23 @@ public class Dwarf extends GamePlayer {
 		switch (block.getType()) {
 			// Grabbing items
 			case ACTIVATOR_RAIL:
-				player.getInventory().addItem(pick);
+				giveItem(pick);
 				return MAX_GRAB_CD;
 			case RAILS:
-				player.getInventory().addItem(axe);
+				giveItem(axe);
 				return MAX_GRAB_CD;
 			case POWERED_RAIL:
-				player.getInventory().addItem(shovel);
+				giveItem(shovel);
 				return MAX_GRAB_CD;
 			case LADDER:
-				player.getInventory().addItem(kit.getSwordItem());
+				kit.giveSword();
 				return MAX_GRAB_CD;
 			case DETECTOR_RAIL:
-				player.getInventory().addItem(kit.getBowItem());
+				kit.giveBow();
 				return MAX_GRAB_CD;
 			case REDSTONE_TORCH_OFF:
 			case REDSTONE_TORCH_ON:
-				player.getInventory().addItem(kit.getHealItem());
+				kit.giveAle();
 				return MAX_GRAB_CD;
 			
 			

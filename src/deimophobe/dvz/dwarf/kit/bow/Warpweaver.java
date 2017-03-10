@@ -5,6 +5,7 @@ import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
@@ -78,12 +79,9 @@ class Warpweaver extends Bow {
 	}
 	
 	@Override
-	public boolean use(Action action) {
+	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isLeftClick(action) && canWarp()) {
 			setActive(!active);
-			return true;
-		} else {
-			return false;
 		}
 	}
 	

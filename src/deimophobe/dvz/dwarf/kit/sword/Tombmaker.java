@@ -1,8 +1,15 @@
 package deimophobe.dvz.dwarf.kit.sword;
 
 import deimophobe.dvz.DamageType;
+import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -22,9 +29,18 @@ class Tombmaker extends Sword {
 	}
 	
 	@Override
-	protected boolean ability() {
-		dwarf.playSound("proc", 1, 1, false);
-		dwarf.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 2), true);
-		return true;
+	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		if (Misc.isRightClick(action) && isOffCD()) {
+			dwarf.playSound("proc", 1, 1, false);
+			dwarf.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 2), true);
+			resetCooldown();
+		}
+	}
+	
+	@Override
+	public void onBlockBreak(Block block) {
+		if (block.getType() == Material.GRAVEL && Game.getGame().getPhase().canGravelProc()) {
+			dwarf.giveProc(Dwarf.ProcType.GRAVEL_PROC);
+		}
 	}
 }

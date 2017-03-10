@@ -1,8 +1,11 @@
 package deimophobe.dvz.dwarf.kit.bow;
 
 import deimophobe.dvz.Game;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.block.Action;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -31,7 +34,7 @@ class Crossbow extends Bow {
 	}
 	
 	@Override
-	public boolean ability(Action action) {
+	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (cooldown == 0 && dwarf.hasArrows(1)) {
 			Location spawnLoc = dwarf.getEyeLocation();
 			double yaw = spawnLoc.getYaw() * Math.PI/180;
@@ -43,10 +46,6 @@ class Crossbow extends Bow {
 			cooldown = MAX_COOLDOWN;
 			
 			dwarf.useArrows(1);
-			
-			return true;
-		} else {
-			return false;
 		}
 	}
 }

@@ -18,17 +18,9 @@ import java.util.Map;
  */
 public abstract class Ale extends CooldownItem {
 	
-	private final int manaCost;
-	
-	public Ale(Dwarf dwarf, AleType type, int manaCost) {
+	public Ale(Dwarf dwarf, AleType type) {
 		super(dwarf, getItem(type), 10);
-		this.manaCost = manaCost;
 	}
-	
-	protected boolean useMana() {
-		return dwarf.useMana(manaCost);
-	}
-	public void onGotHit(GameEntity hitter, DamageType type, double damage) {}
 	
 	@Override
 	public float fractionComplete() {
@@ -47,8 +39,10 @@ public abstract class Ale extends CooldownItem {
 				return new Regrowth(dwarf);
 			case TRINKET:
 				return new Trinket(dwarf);
+			case HERO:
+				return new HeroAle(dwarf);
 		}
-		return null;
+		throw new IllegalArgumentException("Unknown ale type: " + aleType);
 	}
 	
 	private static final Map<AleType, ItemStack> ales = new HashMap<>();
@@ -60,6 +54,7 @@ public abstract class Ale extends CooldownItem {
 		ales.put(AleType.HOLY, ItemCreator.createItem(aleSection.getConfigurationSection("holy"), Slot.MAIN_HAND));
 		ales.put(AleType.TRINKET, ItemCreator.createItem(aleSection.getConfigurationSection("trinket"), Slot.MAIN_HAND));
 		ales.put(AleType.REGROWTH, ItemCreator.createItem(aleSection.getConfigurationSection("regrowth"), Slot.MAIN_HAND));
+		ales.put(AleType.HERO, null);
 	}
 	public static ItemStack getItem(AleType aleType) {
 		return ales.get(aleType);

@@ -10,16 +10,13 @@ import org.bukkit.inventory.ItemStack;
  */
 public abstract class CooldownItem extends DwarvenItem {
 	
+	// Only protected for hammer.
 	protected final int maxCooldown;
 	protected int cooldown;
 	
 	public CooldownItem(Dwarf dwarf, ItemStack item, int maxCooldown) {
 		super(dwarf, item);
-		if (false) {
-			this.maxCooldown = (int) (maxCooldown * 0.8f);
-		} else {
-			this.maxCooldown = maxCooldown;
-		}
+		this.maxCooldown = maxCooldown;
 		
 		cooldown = 0;
 		if (maxCooldown == -1) cooldown = -1;
@@ -46,22 +43,13 @@ public abstract class CooldownItem extends DwarvenItem {
 	}
 	
 	@Override
-	public boolean use(Action type) {
-		boolean success = super.use(type);
-		if (success) resetCooldown();
-		return success;
-	}
-	
-	@Override
 	public float fractionComplete() {
 		if (maxCooldown == -1) return -1;
 		return 1 - ((float)cooldown/maxCooldown);
 	}
 	
-	@Override
-	protected boolean canUse(Action type) {
-		return (maxCooldown != -1 && cooldown == 0);
+	protected boolean isOffCD() {
+		return (cooldown == 0);
 	}
-	
 	protected void playOffCDSound() {}
 }

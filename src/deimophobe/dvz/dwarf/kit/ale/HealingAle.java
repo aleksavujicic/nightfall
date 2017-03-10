@@ -2,6 +2,8 @@ package deimophobe.dvz.dwarf.kit.ale;
 
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 
 /**
@@ -10,19 +12,19 @@ import org.bukkit.event.block.Action;
 class HealingAle extends Ale {
 	
 	HealingAle(Dwarf dwarf) {
-		super(dwarf, AleType.HEALING, 100);
+		super(dwarf, AleType.HEALING);
 	}
 	
 	@Override
-	protected boolean ability(Action type) {
-		if (Misc.isRightClick(type)) return false;
-		if (!useMana()) return false;
+	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		if (!isOffCD()) return;
+		if (Misc.isRightClick(action)) return;
+		if (!dwarf.tryUseMana(100)) return;
 		
 		dwarf.healMax();
 		dwarf.playSound("entity.generic.drink", 0.6f, 0.9f, false);
 		dwarf.playSound("entity.experience_orb.pickup", 1f, 1f, false);
 		
-		
-		return true;
+		resetCooldown();
 	}
 }

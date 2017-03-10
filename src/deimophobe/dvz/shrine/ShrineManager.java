@@ -8,6 +8,7 @@ import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
+import deimophobe.dvz.shrine.region.Region;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -133,6 +134,10 @@ public class ShrineManager {
 		Game.getGame().setVault(vault);
 	}
 	
+	public boolean hasGold() {
+		return gold != 0;
+	}
+	
 	// ------ SHRINES ------
 	public Shrine getShrine() {
 		return shrines.peek();
@@ -203,5 +208,10 @@ public class ShrineManager {
 			shrineBar.setProgress(1);
 			splitGold();
 		}
+	}
+	
+	
+	public Region getShrineRegion() {
+		return getShrine().getShrineRegion();
 	}
 }

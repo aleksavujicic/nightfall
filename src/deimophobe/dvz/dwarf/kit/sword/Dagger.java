@@ -2,11 +2,15 @@ package deimophobe.dvz.dwarf.kit.sword;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.event.block.Action;
 import org.bukkit.util.Vector;
 
 /**
@@ -23,51 +27,50 @@ class Dagger extends Sword {
 		reduceCooldown(200);
 	}
 	
-	@Override
-	public double onHit(GameEntity monster, double damage) {
+	//@Override
+	//public double onHit(GameEntity monster, double damage) {
 		//monster.givePotionEffect(); addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 50, 4, true), true);
-		return damage;
-	}
+	//	return damage;
+	//}
 	
 	private static final double EPSILON = 1;
 	private static final double RANGE = 4;
-	@Override
-	protected boolean ability() {
-		Location playerLoc = dwarf.getPlayer().getLocation();
-		Vector lookDir = playerLoc.getDirection();
-		
-		MonsterPlayer closestMonster = null;
-		double closestRange = RANGE;
-		double closestOffset = EPSILON;
-		for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
-			Location testLoc = monster.getPlayer().getLocation();
-			Vector offsetDir = testLoc.subtract(playerLoc).toVector();
-			double distance = offsetDir.length();
+	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		if (Misc.isRightClick(action) && isOffCD()) {
+			Location playerLoc = dwarf.getPlayer().getLocation();
+			Vector lookDir = playerLoc.getDirection();
 			
-			if (distance > RANGE) continue;
+			MonsterPlayer closestMonster = null;
+			double closestRange = RANGE;
+			double closestOffset = EPSILON;
+			for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
+				Location testLoc = monster.getPlayer().getLocation();
+				Vector offsetDir = testLoc.subtract(playerLoc).toVector();
+				double distance = offsetDir.length();
+				
+				if (distance > RANGE) continue;
+				
+				double eyeOffset = distance * Math.acos(offsetDir.dot(lookDir) / distance);
+				
+				if (eyeOffset > EPSILON) continue;
+				
+				if (distance <= closestRange - 1 || (distance <= closestRange + 1 && eyeOffset <= closestOffset)) {
+					closestMonster = monster;
+					closestRange = distance;
+					closestOffset = eyeOffset;
+				}
+			}
 			
-			double eyeOffset = distance * Math.acos(offsetDir.dot(lookDir) / distance);
-			
-			if (eyeOffset > EPSILON) continue;
-			
-			if (distance <= closestRange - 1 || (distance <= closestRange + 1 && eyeOffset <= closestOffset)) {
-				closestMonster = monster;
-				closestRange = distance;
-				closestOffset = eyeOffset;
+			if (closestMonster != null) {
+				Location loc = closestMonster.getPlayer().getEyeLocation();
+				
+				closestMonster.customDamage(dwarf, DamageType.EVISCERATE, 200);
+				loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 20, 0.3, 0.3, 0.3, 1);
+				//world.spigot().playEffect(loc, GameEffect.COLOURED_DUST, 0, 1, red, green, blue, 1, 0, 64);
+				//world.spawnParticle(Particle.SPELL_INSTANT, ltarget.getEyeLocation(), 1, 0.3, 0.3, 0.3, 0);
+				dwarf.playSound("entity.wither.shoot", 1f, 1.5f, true);
+				resetCooldown();
 			}
 		}
-		
-		if (closestMonster != null) {
-			Location loc = closestMonster.getPlayer().getEyeLocation();
-			
-			closestMonster.customDamage(dwarf, DamageType.EVISCERATE, 200);
-			loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 20, 0.3, 0.3, 0.3, 1);
-			//world.spigot().playEffect(loc, GameEffect.COLOURED_DUST, 0, 1, red, green, blue, 1, 0, 64);
-			//world.spawnParticle(Particle.SPELL_INSTANT, ltarget.getEyeLocation(), 1, 0.3, 0.3, 0.3, 0);
-			dwarf.playSound("entity.wither.shoot", 1f, 1.5f, true);
-			return true;
-			
-		}
-		return false;
 	}
 }
