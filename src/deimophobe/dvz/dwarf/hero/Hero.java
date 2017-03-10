@@ -1,17 +1,16 @@
 package deimophobe.dvz.dwarf.hero;
 
-import deimophobe.dvz.DamageType;
-import deimophobe.dvz.GameEntity;
+import deimophobe.dvz.Skin;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.kit.DwarvenItem;
 import deimophobe.dvz.dwarf.kit.Passive;
 import deimophobe.dvz.dwarf.kit.ale.AleType;
 import deimophobe.dvz.dwarf.kit.bow.BowType;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.sword.SwordType;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
-import deimophobe.dvz.effects.GameEffect;
 import deimophobe.dvz.shrine.ShrineManager;
+import me.libraryaddict.disguise.DisguiseAPI;
+import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -30,13 +29,22 @@ public class Hero extends Dwarf {
 	public Hero(Player player, Type type) {
 		super(player, type.getData());
 		
-		
+		createDisguise(type.getSkin(), type.nametag);
 		
 		announceHero();
 	}
 	
 	private void announceHero() {
 		Bukkit.broadcastMessage(ChatColor.DARK_AQUA + player.getName() + ChatColor.LIGHT_PURPLE + " has become the hero " + player.getDisplayName());
+	}
+	
+	protected void createDisguise(String skin, String name) {
+		PlayerDisguise disguise = Skin.getDisguiseWithSkin(skin, ChatColor.GOLD + name);
+		disguise.setKeepDisguiseOnPlayerDeath(false);
+		disguise.setKeepDisguiseOnPlayerLogout(true);
+		disguise.setViewSelfDisguise(false);
+		disguise.setDisplayedInTab(true);
+		DisguiseAPI.disguiseEntity(player.getPlayer(), disguise);
 	}
 	
 	@Override
@@ -98,16 +106,24 @@ public class Hero extends Dwarf {
 	}
 	
 	public enum Type {
-		HAMMER_HERO("Riemann The Ploodin", null, SwordType.HAMMER, BowType.LIGHTBOW),
+		TUI("Tui the Lightbringer", null, SwordType.HAMMER, BowType.LIGHTBOW, "tui", "Tui"),
 		;
 		
 		private final DwarfData data;
+		private final String skin;
+		private final String nametag;
 		
-		Type(String name, ItemStack hat, SwordType sword, BowType bow) {
+		Type(String name, ItemStack hat, SwordType sword, BowType bow, String skin, String nametag) {
 			this.data = new DwarfData(name, true, hat, sword, bow, AleType.HERO, null, HERO_CONSUMABLES, HERO_PASSIVES);
+			this.skin = skin;
+			this.nametag = nametag;
 		}
 		
 		public DwarfData getData() {return data;}
+		
+		public String getSkin() {
+			return skin;
+		}
 		
 		public static Type getHeroType(String arg) {
 			for (Type type : values()) {
