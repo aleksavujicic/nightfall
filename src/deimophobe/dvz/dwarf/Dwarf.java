@@ -518,6 +518,7 @@ public class Dwarf extends GamePlayer {
 	private int pickupItem(Block block) {
 		if (block == null) return 0;
 		switch (block.getType()) {
+			// Grabbing items
 			case ACTIVATOR_RAIL:
 				player.getInventory().addItem(pick);
 				return MAX_GRAB_CD;
@@ -537,8 +538,9 @@ public class Dwarf extends GamePlayer {
 			case REDSTONE_TORCH_ON:
 				player.getInventory().addItem(kit.getHealItem());
 				return MAX_GRAB_CD;
-				
-				
+			
+			
+			// Crafting items
 			case IRON_FENCE:
 				if (log.isSimilar(getHeldItem())) {
 					giveItem(plank,2);
@@ -568,7 +570,9 @@ public class Dwarf extends GamePlayer {
 					return MAX_CRAFT_CD;
 				}
 				return 0;
+			
 				
+			// Making armour
 			case WOOL:
 				if (pick.isSimilar(getHeldItem())) {
 					BlockState state = block.getState();
