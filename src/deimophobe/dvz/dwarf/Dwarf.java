@@ -465,6 +465,9 @@ public class Dwarf extends GamePlayer {
 		kit.onBlockBreak(block);
 		
 		switch (block.getType()) {
+			case GRAVEL:
+				giveItem(cobble);
+				break;
 			case LOG:
 			case LOG_2:
 				giveItem(log);
