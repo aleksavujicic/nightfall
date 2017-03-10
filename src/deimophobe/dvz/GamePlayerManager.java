@@ -59,6 +59,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		P gamePlayer = createGamePlayerFromPlayer(player);
 		players.put(uuid, gamePlayer);
 		mcTeam.addEntry(player.getName());
+		Game.getGame().updateDwarfCount();
 		return true;
 	}
 	protected void registerGamePlayer(P player) {
@@ -70,6 +71,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		
 		players.put(uuid, player);
 		mcTeam.addEntry(player.getName());
+		Game.getGame().updateDwarfCount();
 	}
 	
 	public P getGamePlayer(String name) {

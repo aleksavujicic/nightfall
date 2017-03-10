@@ -95,8 +95,8 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	
 	
 	public Set<Dwarf> getPlagueables() {
-		Collection<Dwarf> plagueables = getGamePlayers();
+		Set<Dwarf> plagueables = new HashSet<>(getGamePlayers());
 		plagueables.removeAll(heroes);
-		return new HashSet<>(plagueables);
+		return plagueables;
 	}
 }
