@@ -172,7 +172,8 @@ public class Game {
 		
 		// Dwarves and number to plague
 		Set<Dwarf> plagueables = dm.getPlagueables();
-		int toKill = plagueables.size()/4;
+		int toKill = plagueables.size();
+		//int toKill = plagueables.size()/4;
 		
 		Plague plague = Plague.getRandomPlague();
 		plague.startPlague(plagueables, toKill);

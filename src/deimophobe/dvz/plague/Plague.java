@@ -35,10 +35,14 @@ public abstract class Plague {
 		Game.getGame().endPlague();
 	}
 	
-	protected void killDwarf(Dwarf dwarf) {
-		dwarf.kill();
+	protected void removeDwarf(Dwarf dwarf) {
 		toKill--;
 		plagueables.remove(dwarf);
+	}
+	
+	protected void killDwarf(Dwarf dwarf) {
+		dwarf.kill();
+		removeDwarf(dwarf);
 	}
 	
 	public static Plague getRandomPlague() {
@@ -47,7 +51,8 @@ public abstract class Plague {
 	
 	enum Type {
 		//ZOMBIE(new ZombiePlague()),
-		INSTA(new InstaPlague()),
+		//INSTA(new InstaPlague()),
+		DEATH(new DeathPlague()),
 		;
 		
 		private final Plague plague;

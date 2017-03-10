@@ -210,6 +210,8 @@ public abstract class GamePlayer extends GameEntity {
 				return name + " combat logged.";
 			case KABOOM:
 				return name + " went kaboom.";
+			case DEATH_PLAGUE:
+				return name + " was touched by " + ChatColor.BLACK + "DEATH" + ChatColor.RESET + ".";
 				
 			default:
 				return name + " died.";
