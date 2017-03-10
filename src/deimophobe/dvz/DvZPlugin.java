@@ -3,8 +3,9 @@ package deimophobe.dvz;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
-import deimophobe.dvz.menu.loadoutmenu.Loadout;
-import deimophobe.dvz.menu.loadoutmenu.LoadoutMenu;
+import deimophobe.dvz.dwarf.hero.Hero;
+import deimophobe.dvz.dwarf.loadout.Loadout;
+import deimophobe.dvz.dwarf.loadout.LoadoutMenu;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
@@ -17,7 +18,6 @@ import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -63,6 +63,27 @@ public class DvZPlugin extends JavaPlugin {
 					sender.sendMessage(ChatColor.RED + "Could not add " + ChatColor.DARK_AQUA + args[0] + ChatColor.RED + " as a dwarf!");
 				}
 				return true;
+			}
+		}
+		if (name.equalsIgnoreCase("sethero")) {
+			if (args.length == 0) {
+				sender.sendMessage(ChatColor.RED + "Please specify a player.");
+				return false;
+			} else if (args.length == 1) {
+				sender.sendMessage(ChatColor.RED + "Please specify a hero.");
+				return false;
+			} else {
+				Hero.Type type = Hero.Type.getHeroType(args[1]);
+				if (type == null) {
+					sender.sendMessage(ChatColor.RED + "Unknown hero type: " + ChatColor.GOLD + args[1] + ChatColor.RED + "!");
+					return true;
+				} else {
+					dm.removeGamePlayer(args[0]);
+					mm.removeGamePlayer(args[0]);
+					dm.addHero(args[0], type);
+					//sender.sendMessage(ChatColor.AQUA + "Added " + ChatColor.DARK_AQUA + args[0] + ChatColor.AQUA + " as the hero " + ChatColor.GOLD + args[1] + ChatColor.AQUA + "!");
+					return true;
+				}
 			}
 		}
 		if (name.equalsIgnoreCase("setmob")) {

@@ -1,4 +1,4 @@
-package deimophobe.dvz.menu.loadoutmenu;
+package deimophobe.dvz.dwarf.loadout;
 
 import deimophobe.dvz.menu.SinglePageMenu;
 import org.bukkit.configuration.ConfigurationSection;

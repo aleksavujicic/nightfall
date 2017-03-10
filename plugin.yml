@@ -6,7 +6,9 @@ description: Deimo's custom dvz thing
 depend: [ProtocolLib]
 commands:
   setdwarf:
-    usage: /setdwarf <name> [<sword> <bow> <ale> <armour> <title>]
+    usage: /setdwarf <name>
+  sethero:
+    usage: /sethero <name> <herotype>
   setmob:
     usage: /setmob <name>
   spawnmob:

@@ -2,6 +2,7 @@ package deimophobe.dvz.dwarf;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GamePlayerManager;
+import deimophobe.dvz.dwarf.hero.Hero;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
@@ -66,12 +67,25 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 		return new Dwarf(player);
 	}
 	
+	
+	public boolean addHero(String name, Hero.Type type) {
+		return addHero(Bukkit.getPlayer(name), type);
+	}
+	public boolean addHero(Player player, Hero.Type type) {
+		if (player == null) return false;
+		Hero hero = new Hero(player, type);
+		return addGamePlayer(hero);
+	}
+	
+	
 	private final Inventory sharedChest = Bukkit.createInventory(null, 54, ChatColor.DARK_BLUE + "Shared Resources Chest");
 	public Inventory getSharedChest() { return sharedChest; }
 	
 	public boolean isSharedChest(Inventory inventory) {
 		return (inventory != null && sharedChest.getTitle().equals(inventory.getTitle()));
 	}
+	
+	
 	
 	public Set<Dwarf> getPlagueables() {
 		return new HashSet<>(getGamePlayers());

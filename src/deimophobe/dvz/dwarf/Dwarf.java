@@ -2,7 +2,7 @@ package deimophobe.dvz.dwarf;
 
 import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.kit.Kit;
-import deimophobe.dvz.menu.loadoutmenu.DwarfProperties;
+import deimophobe.dvz.dwarf.loadout.DwarfData;
 import deimophobe.dvz.dwarf.kit.Passive;
 import deimophobe.dvz.dwarf.kit.consumable.Consumable;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
@@ -59,15 +59,17 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	public Dwarf(Player player) {
+		this(player, DwarfData.getData(player));
+	}
+	
+	public Dwarf(Player player, DwarfData data) {
 		super(player);
-		
-		DwarfProperties dwarfProperties = DwarfProperties.getProperties(player);
 		
 		clearEffects();
 		player.getInventory().clear();
 		player.setGameMode(GameMode.SURVIVAL);
 		
-		this.kit = new Kit(this, dwarfProperties);
+		this.kit = new Kit(this, data);
 		
 		maxMana = 1000;
 		maxArmour = kit.getMaxArmour();
@@ -82,14 +84,14 @@ public class Dwarf extends GamePlayer {
 		
 		playIntro();
 		
-		String title = dwarfProperties.getTitle();
-		boolean forceTitle = dwarfProperties.forceTitle();
+		String title = data.getTitle();
+		boolean forceTitle = data.forceTitle();
 		
 		ChatColor color;
 		if (forceTitle)
 			color = ChatColor.GOLD;
 		else
-			if (dwarfProperties.getTitle() != null)
+			if (data.getTitle() != null)
 				color = ChatColor.AQUA;
 			else
 				color = ChatColor.DARK_AQUA;
@@ -103,9 +105,9 @@ public class Dwarf extends GamePlayer {
 		reset();
 		
 		// Add consumables
-		for (ConsumableType type : dwarfProperties.getConsumables().keySet()) {
+		for (ConsumableType type : data.getConsumables().keySet()) {
 			ItemStack item = Consumable.getItem(type).clone();
-			int quantity = dwarfProperties.getConsumables().get(type);
+			int quantity = data.getConsumables().get(type);
 			
 			item.setAmount(quantity);
 			

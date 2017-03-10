@@ -1,11 +1,10 @@
 package deimophobe.dvz;
 
-import com.comphenix.protocol.PacketType;
 import deimophobe.dvz.blocks.BlockManager;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.kit.Kit;
-import deimophobe.dvz.menu.loadoutmenu.LoadoutMenu;
+import deimophobe.dvz.dwarf.loadout.LoadoutMenu;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
@@ -25,18 +24,13 @@ import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.awt.*;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -504,7 +498,7 @@ public class GameListener implements Listener {
 				event.setCancelled(true);
 		}
 		
-		// Main DwarfProperties handling
+		// Main DwarfData handling
 		LoadoutMenu loadout = LoadoutMenu.getMenu();
 		HumanEntity e = event.getWhoClicked();
 		if (event.getInventory() != null && loadout.getTitle().equals(event.getInventory().getTitle()) && e instanceof Player) {

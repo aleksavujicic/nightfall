@@ -1,10 +1,8 @@
-package deimophobe.dvz.menu.loadoutmenu;
+package deimophobe.dvz.dwarf.loadout;
 
 import deimophobe.dvz.Game;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -52,12 +50,12 @@ public class Loadout {
 		return items.contains(item);
 	}
 	
-	DwarfProperties constructProperties() {
-		DwarfProperties prop = new DwarfProperties();
+	DwarfData constructProperties() {
+		DwarfData data = new DwarfData();
 		for (LoadoutItem item : items) {
-			item.modify(prop);
+			item.modify(data);
 		}
-		return prop;
+		return data;
 	}
 	
 	int getRemainingPoints() {

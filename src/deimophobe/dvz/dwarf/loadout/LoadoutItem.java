@@ -1,4 +1,4 @@
-package deimophobe.dvz.menu.loadoutmenu;
+package deimophobe.dvz.dwarf.loadout;
 
 import deimophobe.dvz.dwarf.kit.ArmourType;
 import deimophobe.dvz.dwarf.kit.Passive;
@@ -71,8 +71,8 @@ enum  LoadoutItem {
 		return cost;
 	}
 	
-	void modify(DwarfProperties dwarfProperties) {
-		modifier.modify(dwarfProperties);
+	void modify(DwarfData dwarfData) {
+		modifier.modify(dwarfData);
 	}
 	
 	static LoadoutItem getItem(String id) {
@@ -103,7 +103,7 @@ enum  LoadoutItem {
 	}
 	
 	private static abstract class PropertyModifier {
-		abstract void modify(DwarfProperties dwarfProperties);
+		abstract void modify(DwarfData dwarfData);
 	}
 	
 	
@@ -115,8 +115,8 @@ enum  LoadoutItem {
 		}
 		
 		@Override
-		void modify(DwarfProperties dwarfProperties) {
-			dwarfProperties.setSwordType(type);
+		void modify(DwarfData dwarfData) {
+			dwarfData.setSwordType(type);
 		}
 	}
 	private static class BowModifier extends PropertyModifier {
@@ -127,8 +127,8 @@ enum  LoadoutItem {
 		}
 		
 		@Override
-		void modify(DwarfProperties dwarfProperties) {
-			dwarfProperties.setBowType(type);
+		void modify(DwarfData dwarfData) {
+			dwarfData.setBowType(type);
 		}
 	}
 	private static class AleModifier extends PropertyModifier {
@@ -139,8 +139,8 @@ enum  LoadoutItem {
 		}
 		
 		@Override
-		void modify(DwarfProperties dwarfProperties) {
-			dwarfProperties.setAleType(type);
+		void modify(DwarfData dwarfData) {
+			dwarfData.setAleType(type);
 		}
 	}
 	private static class ArmourModifier extends PropertyModifier {
@@ -151,8 +151,8 @@ enum  LoadoutItem {
 		}
 		
 		@Override
-		void modify(DwarfProperties dwarfProperties) {
-			dwarfProperties.setArmour(type);
+		void modify(DwarfData dwarfData) {
+			dwarfData.setArmour(type);
 		}
 	}
 	
@@ -166,8 +166,8 @@ enum  LoadoutItem {
 		}
 		
 		@Override
-		void modify(DwarfProperties dwarfProperties) {
-			dwarfProperties.incrementConsumable(type, quantity);
+		void modify(DwarfData dwarfData) {
+			dwarfData.incrementConsumable(type, quantity);
 		}
 	}
 	private static class PassiveModifier extends PropertyModifier {
@@ -178,8 +178,8 @@ enum  LoadoutItem {
 		}
 		
 		@Override
-		void modify(DwarfProperties dwarfProperties) {
-			dwarfProperties.addPassive(type);
+		void modify(DwarfData dwarfData) {
+			dwarfData.addPassive(type);
 		}
 	}
 }

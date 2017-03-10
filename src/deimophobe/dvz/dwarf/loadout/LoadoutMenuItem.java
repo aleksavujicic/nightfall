@@ -1,12 +1,8 @@
-package deimophobe.dvz.menu.loadoutmenu;
+package deimophobe.dvz.dwarf.loadout;
 
-import com.comphenix.protocol.PacketType;
 import deimophobe.dvz.ItemCreator;
-import deimophobe.dvz.dwarf.kit.ale.AleType;
-import deimophobe.dvz.dwarf.kit.sword.SwordType;
 import deimophobe.dvz.menu.MenuItem;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;

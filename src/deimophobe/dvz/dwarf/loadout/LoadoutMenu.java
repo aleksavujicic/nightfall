@@ -1,4 +1,4 @@
-package deimophobe.dvz.menu.loadoutmenu;
+package deimophobe.dvz.dwarf.loadout;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.menu.Menu;

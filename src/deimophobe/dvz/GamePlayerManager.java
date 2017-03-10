@@ -2,7 +2,6 @@ package deimophobe.dvz;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
@@ -62,6 +61,16 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		mcTeam.addEntry(player.getName());
 		return true;
 	}
+	protected boolean addGamePlayer(P player) {
+		if (player == null) return false;
+		
+		UUID uuid = player.getUniqueId();
+		if (players.containsKey(uuid)) return false;
+		
+		players.put(uuid, player);
+		mcTeam.addEntry(player.getName());
+		return true;
+	}
 	
 	public P getGamePlayer(String name) {
 		return getGamePlayer(Bukkit.getPlayer(name));
@@ -93,7 +102,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		return removeGamePlayer(player.getUniqueId());
 	}
 	public boolean removeGamePlayer(P player) {
-		return removeGamePlayer(player.getUniqueID());
+		return removeGamePlayer(player.getUniqueId());
 	}
 	public boolean removeGamePlayer(UUID uuid) {
 		P gamePlayer = players.remove(uuid);

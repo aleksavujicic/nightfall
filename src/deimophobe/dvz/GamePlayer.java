@@ -35,7 +35,7 @@ public abstract class GamePlayer extends GameEntity {
 		return player;
 	}
 	
-	public UUID getUniqueID() {
+	public UUID getUniqueId() {
 		return player.getUniqueId();
 	}
 	

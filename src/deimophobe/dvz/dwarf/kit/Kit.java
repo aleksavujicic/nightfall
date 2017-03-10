@@ -2,7 +2,7 @@ package deimophobe.dvz.dwarf.kit;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
-import deimophobe.dvz.menu.loadoutmenu.DwarfProperties;
+import deimophobe.dvz.dwarf.loadout.DwarfData;
 import deimophobe.dvz.dwarf.Dwarf;
 
 import deimophobe.dvz.dwarf.kit.ale.Ale;
@@ -20,7 +20,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
-import java.rmi.UnexpectedException;
 import java.util.Collection;
 
 /**
@@ -50,15 +49,15 @@ public class Kit {
 		return passives.contains(passive);
 	}
 	
-	public Kit(Dwarf dwarf, DwarfProperties dwarfProperties) {
+	public Kit(Dwarf dwarf, DwarfData dwarfData) {
 		this.dwarf = dwarf;
 		
-		this.sword = Sword.createSword(dwarf, dwarfProperties.getSwordType());
-		this.bow = Bow.createBow(dwarf, dwarfProperties.getBowType());
-		this.ale = Ale.createAle(dwarf, dwarfProperties.getAleType());
+		this.sword = Sword.createSword(dwarf, dwarfData.getSwordType());
+		this.bow = Bow.createBow(dwarf, dwarfData.getBowType());
+		this.ale = Ale.createAle(dwarf, dwarfData.getAleType());
 		
-		this.armour = dwarfProperties.getArmour();
-		this.passives = dwarfProperties.getPassives();
+		this.armour = dwarfData.getArmour();
+		this.passives = dwarfData.getPassives();
 		
 		if (armour == ArmourType.STUDDED)
 			dwarf.givePotionEffect(PotionEffectType.SLOW, 720000, -1, false, false, false);
