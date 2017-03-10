@@ -426,10 +426,7 @@ public class Dwarf extends GamePlayer {
 	@Override
 	public double onGotHit(GameEntity player, DamageType type, double damage) {
 		
-		Bukkit.broadcastMessage("b"+damage);
 		damage *= (1d - getDamageReduction());
-		Bukkit.broadcastMessage("a"+damage);
-		Bukkit.broadcastMessage("r"+getDamageReduction());
 		
 		
 		if (type.isPoison())
@@ -466,7 +463,7 @@ public class Dwarf extends GamePlayer {
 		
 		switch (block.getType()) {
 			case GRAVEL:
-				giveItem(cobble);
+				giveItem(cobble, 3);
 				break;
 			case LOG:
 			case LOG_2:
