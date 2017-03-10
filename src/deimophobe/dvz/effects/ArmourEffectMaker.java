@@ -26,13 +26,13 @@ class ArmourEffectMaker implements EffectMaker {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				world.playSound(player.getLocation(), "entity.firework.large_blast", 1, 1);
+				world.playSound(player.getLocation(), "entity.firework.twinkle", 1, 1);
 			}
 		}.runTaskLater(Game.getGame().getPlugin(), 20);
 		
 		
 		// SHOW PARTICLES!
-		Location bodyCentre = player.getLocation().add(0, -0.5, 0);
+		Location bodyCentre = player.getEyeLocation().add(0, -0.5, 0);
 		for (int i=0; i<10; i++) {
 			for (int j=0; j<5; j++) {
 				double velocity = 0.2;
@@ -55,7 +55,7 @@ class ArmourEffectMaker implements EffectMaker {
 					double dx = 1.5 * Math.random() - 0.75;
 					double dy = 1.5 * Math.random() - 1.25;
 					double dz = 1.5 * Math.random() - 0.75;
-					world.spawnParticle(Particle.REDSTONE, player.getLocation().add(dx, dy, dz), 0, 250d/256, 250d/256, 10d/256, 1);
+					world.spawnParticle(Particle.REDSTONE, player.getEyeLocation().add(dx, dy, dz), 0, 250d/256, 250d/256, 10d/256, 1);
 				}
 				count++;
 				if (count >= 15)
