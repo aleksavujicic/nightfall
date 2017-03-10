@@ -62,7 +62,7 @@ class Dagger extends Sword {
 			
 			closestMonster.customDamage(dwarf, DamageType.EVISCERATE, 200);
 			loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 20, 0.3, 0.3, 0.3, 1);
-			//world.spigot().playEffect(loc, Effect.COLOURED_DUST, 0, 1, red, green, blue, 1, 0, 64);
+			//world.spigot().playEffect(loc, GameEffect.COLOURED_DUST, 0, 1, red, green, blue, 1, 0, 64);
 			//world.spawnParticle(Particle.SPELL_INSTANT, ltarget.getEyeLocation(), 1, 0.3, 0.3, 0.3, 0);
 			dwarf.playSound("entity.wither.shoot", 1f, 1.5f, true);
 			return true;

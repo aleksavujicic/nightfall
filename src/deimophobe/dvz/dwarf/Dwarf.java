@@ -8,6 +8,7 @@ import deimophobe.dvz.dwarf.kit.consumable.Consumable;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.sword.Sword;
 import deimophobe.dvz.dwarf.kit.sword.SwordType;
+import deimophobe.dvz.effects.*;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.shrine.ShrineManager;
@@ -29,7 +30,6 @@ import org.bukkit.material.PistonExtensionMaterial;
 import org.bukkit.material.Wool;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
@@ -126,9 +126,6 @@ public class Dwarf extends GamePlayer {
 	
 	
 	
-	public void updateCooldownBar() {
-		player.setExp(Math.max(0, kit.fractionComplete()));
-	}
 	
 	
 	// ------ MANA STUFF ------
@@ -169,6 +166,10 @@ public class Dwarf extends GamePlayer {
 		player.setLevel(mana);
 	}
 	
+	public void updateCooldownBar() {
+		player.setExp(Math.max(0, kit.fractionComplete()));
+	}
+	
 	
 	// ------ ARMOUR STUFF ------
 	public boolean isArmoured() { return armoured; }
@@ -176,49 +177,7 @@ public class Dwarf extends GamePlayer {
 	public void putOnArmour() {
 		armoured = true;
 		updateArmour();
-		
-		// PLAY SOUNDS!
-		playSound("entity.firework.large_blast", 1, 1, true);
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				playSound("entity.firework.twinkle", 1, 1, true);
-			}
-		}.runTaskLater(Game.getGame().getPlugin(), 20);
-		
-		
-		World world = getLocation().getWorld();
-		// SHOW PARTICLES!
-		Location bodyCentre = getEyeLocation().add(0, -0.5, 0);
-		for (int i=0; i<10; i++) {
-			for (int j=0; j<5; j++) {
-				double velocity = 0.2;
-				double theta = 2*Math.PI*i/8;
-				double phi = Math.PI*j/4;
-				
-				double vx = velocity*Math.sin(theta)*Math.cos(phi);
-				double vy = velocity*Math.sin(theta)*Math.sin(phi);
-				double vz = velocity*Math.cos(theta);
-				world.spawnParticle(Particle.END_ROD, bodyCentre, 0, vx, vy, vz, 1);
-			}
-		}
-		
-		// SHOW MORE PARTICLES!
-		new BukkitRunnable() {
-			int count = 0;
-			@Override
-			public void run() {
-				for (int i=0; i<7; i++) {
-					double dx = 1.5 * Math.random() - 0.75;
-					double dy = 1.5 * Math.random() - 1.25;
-					double dz = 1.5 * Math.random() - 0.75;
-					world.spawnParticle(Particle.REDSTONE, getEyeLocation().add(dx, dy, dz), 0, 250d/256, 250d/256, 10d/256, 1);
-				}
-				count++;
-				if (count >= 15)
-					cancel();
-			}
-		}.runTaskTimer(Game.getGame().getPlugin(), 0, 4);
+		GameEffect.playEffect(GameEffect.DWARF_ARMOURED, this);
 	}
 	
 	public void damageArmour(int dmg) {
@@ -623,15 +582,13 @@ public class Dwarf extends GamePlayer {
 							break;
 						case MAGENTA:
 							block.setType(Material.GOLD_BLOCK);
-							playSound("block.anvil.land", 1, 0.5f, true);
-							state.getWorld().spawnParticle(Particle.CLOUD, state.getLocation().add(0.5, 0.5, 0.5), 20, 0.5, 0.5, 0.5, 0);
+							GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, state);
 							return MAX_GOLD_CD;
 						default:
 							return 0;
 					}
 					
-					playSound("block.anvil.land", 1, 0.5f, true);
-					state.getWorld().spawnParticle(Particle.CLOUD, state.getLocation().add(0.5, 0.5, 0.5), 20, 0.5, 0.5, 0.5, 0);
+					GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, state);
 					
 					state.setData(wool);
 					state.update();
@@ -659,8 +616,7 @@ public class Dwarf extends GamePlayer {
 						state.update();
 						
 						// SOUNDS
-						playSound("block.anvil.land", 1, 0.5f, true);
-						state.getWorld().spawnParticle(Particle.CLOUD, state.getLocation().add(0.5, 0.5, 0.5), 20, 0.5, 0.5, 0.5, 0);
+						GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, state);
 						return MAX_GOLD_CD;
 					}
 				}
