@@ -1,6 +1,7 @@
 package deimophobe.dvz.dwarf.loadout;
 
 import deimophobe.dvz.dwarf.kit.ArmourType;
+import deimophobe.dvz.dwarf.kit.DwarvenItem;
 import deimophobe.dvz.dwarf.kit.Passive;
 import deimophobe.dvz.dwarf.kit.ale.AleType;
 import deimophobe.dvz.dwarf.kit.bow.BowType;
@@ -104,4 +105,5 @@ public class DwarfData {
 	public static DwarfData getData(Player player) {
 		return Loadout.getLoadout(player).constructProperties();
 	}
+	
 }

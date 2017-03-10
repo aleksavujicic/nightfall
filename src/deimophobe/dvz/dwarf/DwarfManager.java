@@ -13,6 +13,8 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -68,13 +70,18 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	}
 	
 	
+	private final Set<Hero> heroes = new HashSet<>();
 	public boolean addHero(String name, Hero.Type type) {
 		return addHero(Bukkit.getPlayer(name), type);
 	}
 	public boolean addHero(Player player, Hero.Type type) {
-		if (player == null) return false;
+		if (player == null || isGamePlayer(player)) return false;
+		
 		Hero hero = new Hero(player, type);
-		return addGamePlayer(hero);
+		heroes.add(hero);
+		registerGamePlayer(hero);
+		
+		return true;
 	}
 	
 	
@@ -88,6 +95,8 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	
 	
 	public Set<Dwarf> getPlagueables() {
-		return new HashSet<>(getGamePlayers());
+		Collection<Dwarf> plagueables = getGamePlayers();
+		plagueables.removeAll(heroes);
+		return new HashSet<>(plagueables);
 	}
 }

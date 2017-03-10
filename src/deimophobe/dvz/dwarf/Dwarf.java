@@ -81,7 +81,7 @@ public class Dwarf extends GamePlayer {
 		
 		armoured = false;
 		
-		hasSafefall = kit.hasPassive(Passive.SAFEFALL);
+		hasSafefall = kit.hasPassive(Passive.SAFEFALL) || kit.hasPassive(Passive.HERO_SAFEFALL);
 		
 		playIntro();
 		
@@ -220,6 +220,10 @@ public class Dwarf extends GamePlayer {
 		player.setFoodLevel((int) Math.ceil(20f * armour/maxArmour));
 	}
 	
+	public double getArmour() {
+		return (double)armour/maxArmour;
+	}
+	
 	
 	// ------ MISC ------
 	public void giveArrow() {
@@ -270,7 +274,6 @@ public class Dwarf extends GamePlayer {
 	}
 	private boolean canSee() {
 		int lightLevel = getLocation().getBlock().getLightLevel();
-		ItemStack held = getHeldItem();
 		return (holdingLightItem ||
 				lightLevel >= MIN_LIGHT_LEVEL_FOR_BLINDNESS ||
 				hasProc() ||
@@ -422,9 +425,12 @@ public class Dwarf extends GamePlayer {
 	
 	@Override
 	public double onGotHit(GameEntity player, DamageType type, double damage) {
-			
-		if (armoured)
-			damage *= 1d/3;
+		
+		Bukkit.broadcastMessage("b"+damage);
+		damage *= (1d - getDamageReduction());
+		Bukkit.broadcastMessage("a"+damage);
+		Bukkit.broadcastMessage("r"+getDamageReduction());
+		
 		
 		if (type.isPoison())
 			damage *= 2;
@@ -442,6 +448,14 @@ public class Dwarf extends GamePlayer {
 		}
 		
 		return damage;
+	}
+	protected double getDamageReduction() {
+		if (isArmoured()) {
+			double x = getArmour();
+			return (0.3d/(1d + Math.exp(5d * (x - 0.5d)))) + 0.6d;
+		} else {
+			return 0;
+		}
 	}
 	
 	@Override
@@ -499,6 +513,7 @@ public class Dwarf extends GamePlayer {
 					if (ShrineManager.getManager().useGold(10)) {
 						dwarf.repairArmour(200);
 						grabCD = MAX_CONSUMABLE_CD;
+						GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, dwarf);
 					}
 				}
 			}

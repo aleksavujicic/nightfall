@@ -61,15 +61,15 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		mcTeam.addEntry(player.getName());
 		return true;
 	}
-	protected boolean addGamePlayer(P player) {
-		if (player == null) return false;
-		
+	protected void registerGamePlayer(P player) {
 		UUID uuid = player.getUniqueId();
-		if (players.containsKey(uuid)) return false;
+		if (players.containsKey(uuid)) {
+			Bukkit.getLogger().severe("Already registered player: " + player);
+			return;
+		}
 		
 		players.put(uuid, player);
 		mcTeam.addEntry(player.getName());
-		return true;
 	}
 	
 	public P getGamePlayer(String name) {

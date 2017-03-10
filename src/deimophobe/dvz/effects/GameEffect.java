@@ -11,7 +11,7 @@ import org.bukkit.event.block.BlockSpreadEvent;
  */
 public enum GameEffect {
 	DWARF_ARMOURED(new ArmourEffectMaker()),
-	DWARF_ARMOUR_CLOUD(new ArmourEffectMaker()),
+	DWARF_ARMOUR_CLOUD(new ArmourCloudMaker()),
 	;
 	
 	private final EffectMaker effectMaker;
