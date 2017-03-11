@@ -30,10 +30,13 @@ public enum DamageType {
 	
 	EBOW(false, true, false, false, true, false),
 	HAMMER_AOE(true, false, false, false, true, false),
-	WILDFIRE(false, false, false, false, true, false),
 	EVISCERATE(true, false, false, false, true, false),
 	NOT_HOLDING_GHOSTBLADE(false, false, false, false, true, false),
 	KABOOM(false, false, false, false, true, true),
+	
+	WILDFIRE(false, false, false, false, true, false),
+	TINDERFLAME(false, false, false, false, true, false),
+	WORMHOLE(false, false, false, false, true, false),
 	;
 	
 	private final boolean melee;

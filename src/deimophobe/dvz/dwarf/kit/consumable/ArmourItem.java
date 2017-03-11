@@ -1,6 +1,7 @@
 package deimophobe.dvz.dwarf.kit.consumable;
 
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.DwarfManager;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -13,8 +14,8 @@ class ArmourItem extends Consumable {
 	
 	@Override
 	public boolean use(Dwarf dwarf) {
-		Dwarf toArmour = dwarf.getLookingAt(2, 7);
-		if (toArmour != null && !toArmour.isArmoured()) {
+		Dwarf toArmour = dwarf.getLookingAt(2, 7, (d) -> !d.isArmoured(), DwarfManager.getManager());
+		if (toArmour != null) {
 			toArmour.putOnArmour();
 			return true;
 		}

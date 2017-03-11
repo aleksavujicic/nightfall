@@ -395,7 +395,6 @@ public class Dwarf extends GamePlayer {
 		REGULAR, HORN, MALICE, DRAGONSKIN, SHRINE_FALL, GRAVEL_PROC, EBOW, RUNEDASH,
 	}
 	
-	
 	// ------ EVENTS ------
 	@Override
 	public void updateHotbarSlot(ItemStack heldItem, int slot) {
@@ -512,8 +511,8 @@ public class Dwarf extends GamePlayer {
 		// Pick repair
 		if (Misc.isRightClick(type)) {
 			if (getHeldItem().isSimilar(pick)) {
-				Dwarf dwarf = getLookingAt(1, 4);
-				if (dwarf != null && !dwarf.isMaxArmour()) {
+				Dwarf dwarf = getLookingAt(1, 4, (d) -> !d.isMaxArmour(), DwarfManager.getManager());
+				if (dwarf != null) {
 					if (ShrineManager.getManager().useGold(10)) {
 						dwarf.repairArmour(200);
 						grabCD = MAX_CONSUMABLE_CD;

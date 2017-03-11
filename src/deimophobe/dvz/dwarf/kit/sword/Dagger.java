@@ -37,29 +37,7 @@ class Dagger extends Sword {
 	private static final double RANGE = 4;
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action) && isOffCD()) {
-			Location playerLoc = dwarf.getPlayer().getLocation();
-			Vector lookDir = playerLoc.getDirection();
-			
-			MonsterPlayer closestMonster = null;
-			double closestRange = RANGE;
-			double closestOffset = EPSILON;
-			for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
-				Location testLoc = monster.getPlayer().getLocation();
-				Vector offsetDir = testLoc.subtract(playerLoc).toVector();
-				double distance = offsetDir.length();
-				
-				if (distance > RANGE) continue;
-				
-				double eyeOffset = distance * Math.acos(offsetDir.dot(lookDir) / distance);
-				
-				if (eyeOffset > EPSILON) continue;
-				
-				if (distance <= closestRange - 1 || (distance <= closestRange + 1 && eyeOffset <= closestOffset)) {
-					closestMonster = monster;
-					closestRange = distance;
-					closestOffset = eyeOffset;
-				}
-			}
+			MonsterPlayer closestMonster = dwarf.getLookingAt(EPSILON, RANGE, MonsterManager.getManager());
 			
 			if (closestMonster != null) {
 				Location loc = closestMonster.getPlayer().getEyeLocation();

@@ -16,6 +16,7 @@ import org.bukkit.util.Vector;
 
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 /**
  * Created by Deimophobe on 17/01/17.
@@ -177,6 +178,9 @@ public abstract class GamePlayer extends GameEntity {
 			case WILDFIRE:
 				killMsg = "incinerated";
 				break;
+			case TINDERFLAME:
+				killMsg = "zooped";
+				break;
 				
 			case POISON:
 				return name + " withered away.";
@@ -240,19 +244,22 @@ public abstract class GamePlayer extends GameEntity {
 		return player.getTargetBlock(materials, i);
 	}
 	
+	public <P extends GamePlayer> P getLookingAt(double epsilon, double range, GamePlayerManager<P> manager) {
+		return getLookingAt(epsilon, range, (P x) -> true, manager);
+	}
 	
-	public Dwarf getLookingAt(double epsilon, double range) {
+	public <P extends GamePlayer> P getLookingAt(double epsilon, double range, Predicate<P> requirement, GamePlayerManager<P> manager) {
 		Location playerLoc = player.getLocation();
 		Vector lookDir = playerLoc.getDirection();
 		
-		Dwarf closestDwarf = null;
+		P closestPlayer = null;
 		double closestRange = range;
 		double closestOffset = epsilon;
-		for (Dwarf testDwarf : DwarfManager.getManager().getGamePlayers()) {
-			if (testDwarf == this) continue;
-			//if (testDwarf.isMaxArmour()) continue;
+		for (P testPlayer : manager.getGamePlayers()) {
+			if (testPlayer == this) continue;
+			if (!requirement.test(testPlayer)) continue;
 			
-			Location testLoc = testDwarf.getLocation();
+			Location testLoc = testPlayer.getLocation();
 			Vector offsetDir = testLoc.subtract(playerLoc).toVector();
 			double distance = offsetDir.length();
 			
@@ -263,12 +270,12 @@ public abstract class GamePlayer extends GameEntity {
 			if (eyeOffset > epsilon) continue;
 			
 			if (distance <= closestRange - 1 || (distance <= closestRange + 1 && eyeOffset <= closestOffset)) {
-				closestDwarf = testDwarf;
+				closestPlayer = testPlayer;
 				closestRange = distance;
 				closestOffset = eyeOffset;
 			}
 		}
-		return closestDwarf;
+		return closestPlayer;
 	}
 	
 	// Abstract methods

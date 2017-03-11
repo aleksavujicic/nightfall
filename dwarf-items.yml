@@ -66,6 +66,14 @@ sword:
     attack: 15
     kbresist: true
 
+  tinderflame:
+    material: shears
+    damage: 46
+    name: "&6Not Tinderflame"
+    lore:
+     - "&eTotes not a tinderflame."
+    attack: 20
+
 bow:
   shortbow:
     material: bow
@@ -112,7 +120,15 @@ bow:
     damage: 40
     name: "&6Wildfire"
     lore:
-     - "&e Purifier lore text"
+     - "&ePurifier lore text"
+
+  tinderflame:
+    material: shears
+    damage: 45
+    name: "&6Wand of No Particular Reference"
+    lore:
+     - "&dWOOORRMMMMHOOOLEEEE"
+    kbresist: true
 ale:
   healing:
     material: potion

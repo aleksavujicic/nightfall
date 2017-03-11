@@ -28,8 +28,12 @@ import java.util.Set;
  */
 public class Hero extends Dwarf {
 	
+	private final Type type;
+	
 	public Hero(Player player, Type type) {
 		super(player, type.getData());
+		
+		this.type = type;
 		
 		Disguise disguise = type.getDisguise();
 		if (disguise != null)
@@ -89,7 +93,7 @@ public class Hero extends Dwarf {
 	
 	@Override
 	protected double getDamageReduction() {
-		return 0.92;
+		return 0.84;
 	}
 	
 	
@@ -105,6 +109,7 @@ public class Hero extends Dwarf {
 	
 	public enum Type {
 		TUI("Tui the Lightbringer", Hat.TUI, SwordType.TUI_HAMMER, BowType.WILDFIRE, "tui", "Tui"),
+		NOSOVIN("Nosovin's Illustration", Hat.TUI, SwordType.TINDERFLAME, BowType.WILDFIRE, "tui", "Nosovin"),
 		;
 		
 		private final DwarfData data;

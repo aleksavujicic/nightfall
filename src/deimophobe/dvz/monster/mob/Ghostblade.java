@@ -3,6 +3,7 @@ package deimophobe.dvz.monster.mob;
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -48,7 +49,7 @@ class Ghostblade extends Mob {
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action)) {
 			if (cooldown == 0) {
-				Dwarf dwarf = monster.getLookingAt(2, 16);
+				Dwarf dwarf = monster.getLookingAt(2, 16, DwarfManager.getManager());
 				if (dwarf != null) {
 					Location dwarfLoc = dwarf.getLocation();
 					

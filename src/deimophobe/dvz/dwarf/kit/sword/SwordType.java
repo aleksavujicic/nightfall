@@ -12,4 +12,5 @@ public enum SwordType {
 	TOMBMAKER,
 	
 	TUI_HAMMER,
+	TINDERFLAME,
 }

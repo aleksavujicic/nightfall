@@ -56,6 +56,8 @@ public class Sword extends CooldownItem {
 				return new Tombmaker(dwarf);
 			case TUI_HAMMER:
 				return new TuiHammer(dwarf);
+			case TINDERFLAME:
+				return new Tinderflame(dwarf);
 		}
 		return null;
 	}
@@ -71,6 +73,7 @@ public class Sword extends CooldownItem {
 		swords.put(SwordType.DAGGER,ItemCreator.createItem(swordSection.getConfigurationSection("dagger"), Slot.MAIN_HAND));
 		swords.put(SwordType.TOMBMAKER,ItemCreator.createItem(swordSection.getConfigurationSection("tombmaker"), Slot.MAIN_HAND));
 		swords.put(SwordType.TUI_HAMMER,ItemCreator.createItem(swordSection.getConfigurationSection("tuihammer"), Slot.MAIN_HAND));
+		swords.put(SwordType.TINDERFLAME,ItemCreator.createItem(swordSection.getConfigurationSection("tinderflame"), Slot.MAIN_HAND));
 	}
 	public static ItemStack getItem(SwordType swordType) {
 		return swords.get(swordType);

@@ -1,7 +1,9 @@
 package deimophobe.dvz.dwarf.kit.ale;
 
+import deimophobe.dvz.GamePlayer;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.DwarfManager;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
@@ -32,7 +34,7 @@ class Regrowth extends Ale {
 				dwarf.playSound("entity.generic.drink", 0.6f, 0.9f, false);
 				dwarf.playSound("entity.experience_orb.pickup", 1f, 1f, false);
 			} else {
-				Dwarf healee = dwarf.getLookingAt(3, 15);
+				Dwarf healee = dwarf.getLookingAt(3, 15, DwarfManager.getManager());
 				if (healee == null) return;
 				if (!dwarf.tryUseMana(20)) return;
 				
