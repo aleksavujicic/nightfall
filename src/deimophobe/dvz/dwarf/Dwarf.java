@@ -449,7 +449,7 @@ public class Dwarf extends GamePlayer {
 	protected double getDamageReduction() {
 		if (isArmoured()) {
 			double x = getArmour();
-			return (0.3d/(1d + Math.exp(5d * (x - 0.5d)))) + 0.6d;
+			return (0.2d/(1d + Math.exp(7d * (0.5d - x)))) + 0.7d;
 		} else {
 			return 0;
 		}
