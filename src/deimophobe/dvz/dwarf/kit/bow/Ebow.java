@@ -1,6 +1,12 @@
 package deimophobe.dvz.dwarf.kit.bow;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
 import deimophobe.dvz.DamageType;
+import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
@@ -8,9 +14,7 @@ import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
 import deimophobe.dvz.monster.ai.AIManager;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.util.Vector;
@@ -75,6 +79,18 @@ class Ebow extends Bow {
 				}
 			}
 		}
+		
+		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+		protocolManager.addPacketListener(new PacketAdapter(Game.getGame().getPlugin(), PacketType.Play.Server.NAMED_SOUND_EFFECT) {
+			@Override
+			public void onPacketSending(PacketEvent event) {
+				Sound sound = event.getPacket().getSoundEffects().read(0);
+				if (sound == Sound.ENTITY_ARROW_SHOOT) {
+					event.getPacket().getSoundEffects().write(0, Sound.ENTITY_LEASHKNOT_BREAK);
+					protocolManager.removePacketListener(this);
+				}
+			}
+		});
 		
 		return null;
 	}
