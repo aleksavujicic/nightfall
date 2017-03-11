@@ -409,7 +409,7 @@ krungor:
     kbresist: true
   weapon:
     material: shears
-    damage: 105
+    damage: 1
     name: §cKrungor's Axe
     lore:
       - Some lore

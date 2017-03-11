@@ -54,6 +54,9 @@ public abstract class GameEntity {
 		entity.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
 	}
 	
+	public double distanceTo(GameEntity entity) {
+		return getLocation().distance(entity.getLocation());
+	}
 	
 	
 	// ------ HEALTH ------
