@@ -384,6 +384,12 @@ public class Dwarf extends GamePlayer {
 				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 12, 29), false);
 				break;
 				
+			case ROAR:
+				playSound("entity.enderdragon.growl", 1, 1, true);
+				player.getWorld().spawnParticle(Particle.FLAME, player.getLocation(), 200, 1, 1, 1, 0.1);
+				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 1), true);
+				break;
+				
 			default:
 				Bukkit.getLogger().warning("No proc constant: " + procType + "!?");
 				break;
@@ -392,7 +398,7 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	public enum ProcType {
-		REGULAR, HORN, MALICE, DRAGONSKIN, SHRINE_FALL, GRAVEL_PROC, EBOW, RUNEDASH,
+		REGULAR, HORN, MALICE, DRAGONSKIN, SHRINE_FALL, GRAVEL_PROC, EBOW, RUNEDASH, ROAR,
 	}
 	
 	// ------ EVENTS ------

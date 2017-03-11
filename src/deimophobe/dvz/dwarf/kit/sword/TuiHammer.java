@@ -17,7 +17,7 @@ import org.bukkit.event.block.Action;
  */
 class TuiHammer extends AbstractAOEHitter {
 	TuiHammer(Dwarf dwarf) {
-		super(dwarf, SwordType.TUI_HAMMER, 20*20, 4);
+		super(dwarf, SwordType.TUI_HAMMER, 40*20, 4);
 	}
 	
 	@Override
@@ -34,8 +34,8 @@ class TuiHammer extends AbstractAOEHitter {
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action) && isOffCD()) {
-			dwarf.sendMessage(ChatColor.GOLD + "ROAR!");
-			dwarf.playSound("entity.enderdragon.growl", 1, 1, true);
+			dwarf.sendMessage(ChatColor.GOLD + "ROAR!!!");
+			dwarf.giveProc(Dwarf.ProcType.ROAR);
 			
 			for (AIEntity ai : AIManager.getManager().getAIs()) {
 				if (dwarf.getLocation().distance(ai.getLocation()) <= AI_RADIUS) {
