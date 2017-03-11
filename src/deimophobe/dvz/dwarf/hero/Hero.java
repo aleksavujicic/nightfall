@@ -106,7 +106,7 @@ public class Hero extends Dwarf {
 	}
 	
 	public enum Type {
-		TUI("Tui the Lightbringer", null, SwordType.HAMMER, BowType.LIGHTBOW, "tui", "Tui"),
+		TUI("Tui the Lightbringer", null, SwordType.TUI_HAMMER, BowType.WILDFIRE, "tui", "Tui"),
 		;
 		
 		private final DwarfData data;

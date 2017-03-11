@@ -41,7 +41,7 @@ sword:
     lore:
      - §6"Take this and battle alongside
      - §6me for all that's right, for the
-     - §e§olight§r§6!" §4- Roamin
+     - §e§olight§r§6!" §4- Tui
     attack: 10
   tombmaker:
     material: diamond_spade
@@ -51,6 +51,19 @@ sword:
      - §3task of all, burying the fallen.
      - §9Why not let them fight?
     attack: 8
+
+  tuihammer:
+    material: shield
+    damage: 2
+    name: "&6Kindled Light"
+    lore:
+     - "&eRank 11? Psssh, that’s nothing. When"
+     - "&eyou’ve lived your whole life with the"
+     - "&eflames, the holy light is all you see."
+     - "&eI’ve bathed in embers, emerged victorious"
+     - "&efrom scorching coals. This hammer’s been"
+     - "&ewith me through it all."
+    attack: 20
 
 bow:
   shortbow:
@@ -92,6 +105,13 @@ bow:
     name: Warpweaver Bow
     lore:
      - Some lore
+
+  wildfire:
+    material: shears
+    damage: 40
+    name: "&6Wildfire"
+    lore:
+     - "&e Purifier lore text"
 ale:
   healing:
     material: potion

@@ -40,6 +40,10 @@ public class AIEntity extends GameEntity {
 		return damage;
 	}
 	
+	public void setTarget(Dwarf dwarf) {
+		aiEntity.setTarget(dwarf.getPlayer());
+	}
+	
 	boolean hasTarget() {
 		return aiEntity.getTarget() != null;
 	}

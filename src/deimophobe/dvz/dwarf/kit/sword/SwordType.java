@@ -9,5 +9,7 @@ public enum SwordType {
 	AXE_OF_MALICE,
 	HAMMER,
 	DAGGER,
-	TOMBMAKER
+	TOMBMAKER,
+	
+	TUI_HAMMER,
 }

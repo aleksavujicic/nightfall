@@ -61,6 +61,8 @@ public class Bow extends DwarvenItem {
 				return new Warpweaver(dwarf);
 			case EBOW:
 				return new Ebow(dwarf);
+			case WILDFIRE:
+				return new Wildfire(dwarf);
 		}
 		return null;
 	}

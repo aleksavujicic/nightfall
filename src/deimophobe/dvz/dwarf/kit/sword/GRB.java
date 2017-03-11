@@ -29,6 +29,7 @@ class GRB extends Sword {
 		reduceCooldown(20);
 	}
 	
+	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action) && isOffCD()) {
 			Player player = dwarf.getPlayer();
