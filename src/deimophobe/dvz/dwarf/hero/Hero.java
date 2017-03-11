@@ -39,7 +39,7 @@ public class Hero extends Dwarf {
 	}
 	
 	private void announceHero() {
-		Bukkit.broadcastMessage(ChatColor.DARK_AQUA + player.getName() + ChatColor.LIGHT_PURPLE + " has become the hero " + player.getDisplayName());
+		Bukkit.broadcastMessage(ChatColor.DARK_AQUA + player.getName() + ChatColor.LIGHT_PURPLE + " has become the dwarven hero " + player.getDisplayName());
 	}
 	
 	@Override
