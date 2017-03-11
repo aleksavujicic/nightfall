@@ -111,7 +111,7 @@ public class Hero extends Dwarf {
 		TUI("Tui the Lightbringer", Hat.TUI, SwordType.TUI_HAMMER, BowType.WILDFIRE, "tui", "Tui") {
 			@Override public Hero createHero(Player player) {return new Hero(player, this);}
 		},
-		NOSOVIN("Nosovin's Illustration", Hat.NOSOVIN, SwordType.TINDERFLAME, BowType.WILDFIRE, "tui", "Nosovin"){
+		NOSOVIN("Nosovin's Illustration", Hat.NOSOVIN, SwordType.TINDERFLAME, BowType.WAND, "tui", "Nosovin"){
 			@Override public Hero createHero(Player player) {return new Nosovin(player, this);}
 		},
 		;

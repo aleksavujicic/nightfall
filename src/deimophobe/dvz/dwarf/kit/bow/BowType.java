@@ -12,7 +12,7 @@ public enum BowType {
 	WARPWEAVER("warpweaver", 30),
 	EBOW("ebow", 5),
 	WILDFIRE("wildfire", 0),
-	;
+	WAND("wand", 0);
 	
 	private final String name;
 	private final int power;

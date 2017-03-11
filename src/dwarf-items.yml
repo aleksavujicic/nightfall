@@ -121,8 +121,7 @@ bow:
     name: "&6Wildfire"
     lore:
      - "&ePurifier lore text"
-
-  tinderflame:
+  wand:
     material: shears
     damage: 45
     name: "&6Wand of No Particular Reference"

@@ -2,6 +2,10 @@ package deimophobe.dvz.dwarf.hero;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.kit.bow.Bow;
+import deimophobe.dvz.dwarf.kit.bow.BowType;
+import deimophobe.dvz.dwarf.kit.sword.Sword;
+import deimophobe.dvz.dwarf.kit.sword.SwordType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -16,7 +20,7 @@ class Nosovin extends Hero {
 	}
 	
 	private int rocketCd = 0;
-	private static final int MAX_ROCKET_CD = 3*20;
+	private static final int MAX_ROCKET_CD = 30*20;
 			
 	@Override
 	public void quickUpdate() {
@@ -58,6 +62,15 @@ class Nosovin extends Hero {
 			}.runTaskTimer(Game.getGame().getPlugin(), 0, 2);
 			
 			rocketCd = MAX_ROCKET_CD;
+		}
+	}
+	
+	@Override
+	public void updateCooldownBar() {
+		if (isHolding(Bow.getItem(BowType.WAND))) {
+			player.setExp(Math.max(0, getKit().fractionComplete()));
+		} else {
+			player.setExp(1f - (float)rocketCd/MAX_ROCKET_CD);
 		}
 	}
 }

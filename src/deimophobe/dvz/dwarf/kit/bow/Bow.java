@@ -63,6 +63,8 @@ public class Bow extends DwarvenItem {
 				return new Ebow(dwarf);
 			case WILDFIRE:
 				return new Wildfire(dwarf);
+			case WAND:
+				return new Wand(dwarf);
 		}
 		return null;
 	}
@@ -74,11 +76,13 @@ public class Bow extends DwarvenItem {
 		for (BowType type : BowType.values()) {
 			ItemStack bow = ItemCreator.createItem(bowSection.getConfigurationSection(type.getName()), Slot.MAIN_HAND);
 			
-			ItemMeta meta = bow.getItemMeta();
-			List<String> lore = meta.getLore();
-			lore.add(ChatColor.BLUE + "Power: " + type.getPower());
-			meta.setLore(lore);
-			bow.setItemMeta(meta);
+			if (type != BowType.WILDFIRE && type != BowType.WAND) {
+				ItemMeta meta = bow.getItemMeta();
+				List<String> lore = meta.getLore();
+				lore.add(ChatColor.BLUE + "Power: " + type.getPower());
+				meta.setLore(lore);
+				bow.setItemMeta(meta);
+			}
 			
 			bows.put(type, bow);
 		}
