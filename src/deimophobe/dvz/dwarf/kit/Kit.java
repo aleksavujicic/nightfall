@@ -21,9 +21,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 16/01/17.
@@ -31,7 +29,7 @@ import java.util.Set;
 public class Kit {
 	private final Dwarf dwarf;
 	
-	private final Set<DwarvenItem> items;
+	private final List<DwarvenItem> items;
 	
 	private final Sword sword;
 	private final Bow bow;
@@ -43,12 +41,12 @@ public class Kit {
 	private int shiftCD = 0;
 	private final static int MAX_SHIFT_CD = 60*20;
 	
-	
+	private boolean canPickup = true;
 	
 	public Kit(Dwarf dwarf, DwarfData dwarfData) {
 		this.dwarf = dwarf;
 		
-		items = new HashSet<>();
+		items = new ArrayList<>();
 		
 		this.sword = Sword.createSword(dwarf, dwarfData.getSwordType());
 		this.bow = Bow.createBow(dwarf, dwarfData.getBowType());
@@ -64,18 +62,23 @@ public class Kit {
 			dwarf.givePotionEffect(PotionEffectType.SLOW, 720000, -1, false, false, false);
 	}
 	
+	public void disablePickup() {
+		canPickup = false;
+	}
+	
 	public void giveSword() {
-		dwarf.giveItem(sword.getItem());
+		if (canPickup) dwarf.giveItem(sword.getItem());
 	}
 	public void giveBow() {
-		dwarf.giveItem(bow.getItem());
+		if (canPickup) dwarf.giveItem(bow.getItem());
 	}
 	public void giveAle() {
-		dwarf.giveItem(ale.getItem());
+		if (canPickup) dwarf.giveItem(ale.getItem());
 	}
 	public void giveAllItems() {
-		for (DwarvenItem item : items)
-			dwarf.giveItem(item.getItem());
+		if (canPickup)
+			for (DwarvenItem item : items)
+				dwarf.giveItem(item.getItem());
 	}
 	
 	public int getMaxArmour() {

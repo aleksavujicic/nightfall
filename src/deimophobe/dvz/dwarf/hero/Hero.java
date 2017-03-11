@@ -33,6 +33,8 @@ public class Hero extends Dwarf {
 	protected Hero(Player player, Type type) {
 		super(player, type.getData());
 		
+		getKit().disablePickup();
+		
 		this.type = type;
 		
 		Disguise disguise = type.getDisguise();
@@ -51,6 +53,9 @@ public class Hero extends Dwarf {
 		getKit().giveAllItems();
 		super.giveStartingItems(consumables);
 	}
+	
+	@Override
+	public void showTrash() {}
 	
 	@Override
 	protected void naturalManaRegen() {
