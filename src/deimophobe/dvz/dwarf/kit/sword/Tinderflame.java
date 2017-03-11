@@ -47,15 +47,18 @@ class Tinderflame extends Sword {
 					start.add(dir);
 					world.spawnParticle(Particle.CRIT_MAGIC, start, 1, 0, 0, 0, 0);
 				}
-				
-				// Play sound
-				dwarf.playSound("entity.experience_orb.pickup");
-				
-				// Send player back
-				//dwarf.getPlayer()
-				
-				resetCooldown();
 			}
+			
+			// Play sound
+			dwarf.playSound("entity.experience_orb.pickup");
+			
+			// Send player back
+			double yaw = dwarf.getPlayer().getLocation().getYaw();
+			double radYaw = yaw*Math.PI/180;
+			Vector velocity = new Vector(Math.sin(radYaw), 0.4, - Math.cos(radYaw));
+			dwarf.getPlayer().setVelocity(velocity);
+			
+			resetCooldown();
 		}
 	}
 	
