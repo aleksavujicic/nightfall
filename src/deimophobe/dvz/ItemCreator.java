@@ -160,7 +160,7 @@ public class ItemCreator {
 		ItemAttributes attributes = new ItemAttributes();
 		attributes.getFromStack(item);
 		if (attribute == Attribute.MOVEMENT_SPEED)
-			attributes.addModifier(new AttributeModifier(attribute, "SpeedUpgrade", slot, 1, (double)value/100, UUID.randomUUID()));
+			attributes.addModifier(new AttributeModifier(attribute, "SpeedUpgrade", slot, 2, (double)value/100, UUID.randomUUID()));
 		else
 			attributes.addModifier(new AttributeModifier(attribute, "Upgrade", slot, 0, value, UUID.randomUUID()));
 		return attributes.apply(item);

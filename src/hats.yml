@@ -18,3 +18,10 @@ tuihat:
   damage: 201
   name: "&bTui's Flame Hat"
   health: 40
+
+nosovinhat:
+  material: shears
+  damage: 201
+  name: "&bNosovin's Speed Hat"
+  health: 40
+  speed: 20

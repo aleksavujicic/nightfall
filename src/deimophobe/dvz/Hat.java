@@ -17,6 +17,7 @@ public enum Hat {
 	WITCH("witch"),
 	
 	TUI("tuihat"),
+	NOSOVIN("nosovinhat"),
 	;
 	
 	private final ItemStack hat;
