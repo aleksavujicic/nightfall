@@ -209,20 +209,133 @@ page3:
   crown_hat:
     index: 0
     item:
-      name: "Crown Hat"
+      name: "&bCrown Hat"
       material: shears
       damage: 200
-
   flower_hat:
     index: 1
     item:
-      name: "Flower Hat"
+      name: "&bFlower Hat"
       material: shears
       damage: 201
-
   witch_hat:
     index: 2
     item:
-      name: "Witch Hat"
+      name: "&bWitch Hat"
       material: shears
-      damage: 7
+      damage: 202
+
+  ranger:
+    index: 18
+    item:
+      name: "&bRanger"
+      material: diamond_hoe
+      damage: 0
+  Paladin:
+    index: 19
+    item:
+      name: "&bPaladin"
+      material: diamond_hoe
+      damage: 0
+  Gravedigger:
+    index: 20
+    item:
+      name: "&bGravedigger"
+      material: diamond_hoe
+      damage: 0
+  Ancient:
+    index: 21
+    item:
+      name: "&bAncient"
+      material: diamond_hoe
+      damage: 0
+  Firelord:
+    index: 22
+    item:
+      name: "&bFirelord"
+      material: diamond_hoe
+      damage: 0
+  Hunter:
+    index: 23
+    item:
+      name: "&bHunter"
+      material: diamond_hoe
+      damage: 0
+  Captain:
+    index: 24
+    item:
+      name: "&bCaptain"
+      material: diamond_hoe
+      damage: 0
+  Engineer:
+    index: 25
+    item:
+      name: "&bEngineer"
+      material: diamond_hoe
+      damage: 0
+  Pharaoh:
+    index: 26
+    item:
+      name: "&bPharaoh"
+      material: diamond_hoe
+      damage: 0
+  Peasant:
+    index: 27
+    item:
+      name: "&bPeasant"
+      material: diamond_hoe
+      damage: 0
+  Sir:
+    index: 28
+    item:
+      name: "&bSir"
+      material: diamond_hoe
+      damage: 0
+  Lady:
+    index: 29
+    item:
+      name: "&bLady"
+      material: diamond_hoe
+      damage: 0
+  Banana:
+    index: 30
+    item:
+      name: "&bBanana"
+      material: diamond_hoe
+      damage: 0
+  Potato:
+    index: 31
+    item:
+      name: "&bPotato"
+      material: diamond_hoe
+      damage: 0
+  Gnomish:
+    index: 32
+    item:
+      name: "&bGnomish"
+      material: diamond_hoe
+      damage: 0
+  Elven:
+    index: 33
+    item:
+      name: "&bElven"
+      material: diamond_hoe
+      damage: 0
+  Cleric:
+    index: 34
+    item:
+      name: "&bCleric"
+      material: diamond_hoe
+      damage: 0
+  Warrior:
+    index: 35
+    item:
+      name: "&bWarrior"
+      material: diamond_hoe
+      damage: 0
+  Squire:
+    index: 36
+    item:
+      name: "&bSquire"
+      material: diamond_hoe
+      damage: 0

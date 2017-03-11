@@ -56,6 +56,27 @@ enum  LoadoutItem {
 	CROWN_HAT(new HatModifier(Hat.CROWN), 0, Category.HAT),
 	FLOWER_HAT(new HatModifier(Hat.FLOWER), 0, Category.HAT),
 	WITCH_HAT(new HatModifier(Hat.WITCH), 0, Category.HAT),
+	
+	RANGER(new TitleModifier("Ranger"), 0, Category.TITLE),
+	PALADIN(new TitleModifier("Paladin"), 0, Category.TITLE),
+	GRAVEDIGGER(new TitleModifier("Gravedigger"), 0, Category.TITLE),
+	ANCIENT(new TitleModifier("Ancient"), 0, Category.TITLE),
+	FIRELORD(new TitleModifier("Firelord"), 0, Category.TITLE),
+	HUNTER(new TitleModifier("Hunter"), 0, Category.TITLE),
+	CAPTAIN(new TitleModifier("Captain"), 0, Category.TITLE),
+	ENGINEER(new TitleModifier("Engineer"), 0, Category.TITLE),
+	PHARAOH(new TitleModifier("Pharaoh"), 0, Category.TITLE),
+	PEASANT(new TitleModifier("Peasant"), 0, Category.TITLE),
+	JIMMY(new TitleModifier("Jimmy"), 0, Category.TITLE),
+	SIR(new TitleModifier("Sir"), 0, Category.TITLE),
+	LADY(new TitleModifier("Lady"), 0, Category.TITLE),
+	BANANA(new TitleModifier("Banana"), 0, Category.TITLE),
+	POTATO(new TitleModifier("Potato"), 0, Category.TITLE),
+	GNOMISH(new TitleModifier("Gnomish"), 0, Category.TITLE),
+	ELVEN(new TitleModifier("Elven"), 0, Category.TITLE),
+	CLERIC(new TitleModifier("Cleric"), 0, Category.TITLE),
+	WARRIOR(new TitleModifier("Warrior"), 0, Category.TITLE),
+	SQUIRE(new TitleModifier("Squire"), 0, Category.TITLE),
 	;
 	
 	private final PropertyModifier modifier;
