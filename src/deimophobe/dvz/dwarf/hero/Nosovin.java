@@ -7,6 +7,8 @@ import deimophobe.dvz.dwarf.kit.bow.BowType;
 import deimophobe.dvz.dwarf.kit.sword.Sword;
 import deimophobe.dvz.dwarf.kit.sword.SwordType;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -49,6 +51,7 @@ class Nosovin extends Hero {
 					getPlayer().setVelocity(velocity);
 					
 					playSound("entity.generic.explode", 1, 1.3f, true);
+					getLocation().getWorld().spawnParticle(Particle.SMOKE_LARGE, getLocation(), 10, 0.3, 0.3, 0.3, 0.11);
 					
 					lifetime--;
 					if (lifetime <= 0) {
