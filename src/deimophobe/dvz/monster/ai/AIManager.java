@@ -62,7 +62,7 @@ public class AIManager {
 	private final Queue<Location> spawnSpots = new LinkedList<>();
 	
 	private final static int MAX_AI_MARKS = 90;
-	private final static double SPAWN_THRESHOLD = 1;
+	private final static double SPAWN_THRESHOLD = 3;
 	
 	private void addAISpawnLocation(Location loc) {
 		// Prevent spawning if spawn spot is too close to another
