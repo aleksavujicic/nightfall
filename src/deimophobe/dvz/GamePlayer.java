@@ -174,6 +174,9 @@ public abstract class GamePlayer extends GameEntity {
 			case EVISCERATE:
 				killMsg = "eviscerated";
 				break;
+			case WILDFIRE:
+				killMsg = "incinerated";
+				break;
 				
 			case POISON:
 				return name + " withered away.";

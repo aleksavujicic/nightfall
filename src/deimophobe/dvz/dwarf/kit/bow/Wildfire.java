@@ -1,7 +1,11 @@
 package deimophobe.dvz.dwarf.kit.bow;
 
+import deimophobe.dvz.DamageType;
 import deimophobe.dvz.Game;
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.monster.MonsterManager;
+import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -21,7 +25,7 @@ class Wildfire extends Bow {
 	}
 	
 	private int cooldown = 0;
-	private final static int MAX_COOLDOWN = 5;
+	private final static int MAX_COOLDOWN = 4;
 	
 	@Override
 	public void update() {
@@ -37,8 +41,10 @@ class Wildfire extends Bow {
 			Location spawnLoc = dwarf.getEyeLocation();
 			Vector looking = spawnLoc.getDirection();
 			
-			spawnLoc.add(looking);
+			spawnLoc.add(looking.multiply(1.5));
 			looking.normalize().multiply(FLAME_VELOCITY);
+			
+			dwarf.playSound("foosh", 1, 1, true);
 			
 			new Flame(spawnLoc, looking);
 			
@@ -47,9 +53,10 @@ class Wildfire extends Bow {
 	}
 	
 	private static final int FLAME_LIFE = 40;
-	private static final int FLAME_DELAY = 2;
-	private static final double FLAME_RADIUS = 1;
-	private static final double FLAME_VELOCITY = 0.2;
+	private static final int FLAME_DELAY = 3;
+	private static final double FLAME_RADIUS = 1.5;
+	private static final double FLAME_VELOCITY = 0.4;
+	private static final double FLAME_DPT = 3; // Damage per tick
 	
 	private class Flame {
 		private int lifeLeft = FLAME_LIFE;
@@ -67,7 +74,14 @@ class Wildfire extends Bow {
 					
 					position.add(velocity);
 					
+					// Flame particles
 					position.getWorld().spawnParticle(Particle.FLAME, position, 10, 0.25, 0.25, 0.25, 0);
+					
+					// Damage mobs
+					for (GameEntity monster : MonsterManager.getManager().getMobsAndAIs()) {
+						if (monster.getEyeLocation().distance(position) <= FLAME_RADIUS)
+							monster.customDamage(dwarf, DamageType.WILDFIRE, FLAME_DPT*FLAME_DELAY, true);
+					}
 					
 					if (lifeLeft <= 0) this.cancel();
 				}

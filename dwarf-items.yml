@@ -63,7 +63,8 @@ sword:
      - "&eI’ve bathed in embers, emerged victorious"
      - "&efrom scorching coals. This hammer’s been"
      - "&ewith me through it all."
-    attack: 20
+    attack: 15
+    kbresist: true
 
 bow:
   shortbow:

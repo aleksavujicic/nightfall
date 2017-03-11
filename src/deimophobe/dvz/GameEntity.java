@@ -103,12 +103,19 @@ public abstract class GameEntity {
 	}
 	
 	public void customDamage(GameEntity damager, DamageType type, double damage) {
+		customDamage(damager, type, damage, false);
+	}
+	
+	public void customDamage(GameEntity damager, DamageType type, double damage, boolean force) {
 		lastDamager = damager;
 		lastDamageType = type;
 		lastItemName = getHeldItemOfDamager(damager);
 		
 		if (!type.isCustom())
 			Bukkit.getLogger().warning("Forcing custom damage that is not of custom type?!");
+		
+		if (force)
+			entity.setNoDamageTicks(0);
 		
 		entity.damage(damage);
 	}

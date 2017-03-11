@@ -10,6 +10,7 @@ import deimophobe.dvz.dwarf.kit.sword.SwordType;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
 import deimophobe.dvz.shrine.ShrineManager;
 import me.libraryaddict.disguise.DisguiseAPI;
+import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -29,22 +30,15 @@ public class Hero extends Dwarf {
 	public Hero(Player player, Type type) {
 		super(player, type.getData());
 		
-		createDisguise(type.getSkin(), type.nametag);
+		Disguise disguise = type.getDisguise();
+		if (disguise != null)
+			DisguiseAPI.disguiseEntity(player, disguise);
 		
 		announceHero();
 	}
 	
 	private void announceHero() {
-		Bukkit.broadcastMessage(ChatColor.DARK_AQUA + player.getName() + ChatColor.LIGHT_PURPLE + " has become the hero " + player.getDisplayName());
-	}
-	
-	protected void createDisguise(String skin, String name) {
-		PlayerDisguise disguise = Skin.getDisguiseWithSkin(skin, ChatColor.GOLD + name);
-		disguise.setKeepDisguiseOnPlayerDeath(false);
-		disguise.setKeepDisguiseOnPlayerLogout(true);
-		disguise.setViewSelfDisguise(false);
-		disguise.setDisplayedInTab(true);
-		DisguiseAPI.disguiseEntity(player.getPlayer(), disguise);
+		Bukkit.broadcastMessage(ChatColor.DARK_AQUA + player.getName() + ChatColor.LIGHT_PURPLE + " has become the dwarven hero " + player.getDisplayName());
 	}
 	
 	@Override
@@ -101,7 +95,10 @@ public class Hero extends Dwarf {
 	private static final Map<ConsumableType, Integer> HERO_CONSUMABLES = new HashMap<>();
 	private static final Set<Passive> HERO_PASSIVES = new HashSet<>();
 	static {
-		HERO_CONSUMABLES.put(ConsumableType.WIZARD_MORTAR, 30);
+		HERO_CONSUMABLES.put(ConsumableType.WIZARD_MORTAR, 32);
+		HERO_CONSUMABLES.put(ConsumableType.MORTAR, 64);
+		HERO_CONSUMABLES.put(ConsumableType.LAMP, 20);
+		HERO_CONSUMABLES.put(ConsumableType.SOS, 3);
 		HERO_PASSIVES.add(Passive.HERO_SAFEFALL);
 	}
 	
@@ -121,8 +118,13 @@ public class Hero extends Dwarf {
 		
 		public DwarfData getData() {return data;}
 		
-		public String getSkin() {
-			return skin;
+		public Disguise getDisguise() {
+			PlayerDisguise disguise = Skin.getDisguiseWithSkin(skin, ChatColor.GOLD + nametag);
+			disguise.setKeepDisguiseOnPlayerDeath(false);
+			disguise.setKeepDisguiseOnPlayerLogout(true);
+			disguise.setViewSelfDisguise(false);
+			disguise.setDisplayedInTab(true);
+			return disguise;
 		}
 		
 		public static Type getHeroType(String arg) {
