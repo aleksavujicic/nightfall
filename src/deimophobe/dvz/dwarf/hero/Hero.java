@@ -30,7 +30,7 @@ public class Hero extends Dwarf {
 	
 	private final Type type;
 	
-	public Hero(Player player, Type type) {
+	protected Hero(Player player, Type type) {
 		super(player, type.getData());
 		
 		this.type = type;
@@ -108,8 +108,12 @@ public class Hero extends Dwarf {
 	}
 	
 	public enum Type {
-		TUI("Tui the Lightbringer", Hat.TUI, SwordType.TUI_HAMMER, BowType.WILDFIRE, "tui", "Tui"),
-		NOSOVIN("Nosovin's Illustration", Hat.NOSOVIN, SwordType.TINDERFLAME, BowType.WILDFIRE, "tui", "Nosovin"),
+		TUI("Tui the Lightbringer", Hat.TUI, SwordType.TUI_HAMMER, BowType.WILDFIRE, "tui", "Tui") {
+			@Override public Hero createHero(Player player) {return new Hero(player, this);}
+		},
+		NOSOVIN("Nosovin's Illustration", Hat.NOSOVIN, SwordType.TINDERFLAME, BowType.WILDFIRE, "tui", "Nosovin"){
+			@Override public Hero createHero(Player player) {return new Nosovin(player, this);}
+		},
 		;
 		
 		private final DwarfData data;
@@ -132,6 +136,8 @@ public class Hero extends Dwarf {
 			disguise.setDisplayedInTab(true);
 			return disguise;
 		}
+		
+		public abstract Hero createHero(Player player);
 		
 		public static Type getHeroType(String arg) {
 			for (Type type : values()) {

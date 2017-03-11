@@ -77,7 +77,7 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	public boolean addHero(Player player, Hero.Type type) {
 		if (player == null || isGamePlayer(player)) return false;
 		
-		Hero hero = new Hero(player, type);
+		Hero hero = type.createHero(player);
 		heroes.add(hero);
 		registerGamePlayer(hero);
 		
