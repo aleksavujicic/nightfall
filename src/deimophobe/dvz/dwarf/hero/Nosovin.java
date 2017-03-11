@@ -1,6 +1,7 @@
 package deimophobe.dvz.dwarf.hero;
 
 import deimophobe.dvz.Game;
+import deimophobe.dvz.dwarf.Dwarf;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -28,6 +29,11 @@ class Nosovin extends Hero {
 	@Override
 	public void onShift(boolean sneaking) {
 		if (rocketCd == 0) {
+			Player player = getPlayer();
+			player.setFlySpeed(0);
+			player.setAllowFlight(true);
+			player.setFlying(true);
+			
 			new BukkitRunnable() {
 				int lifetime = 20;
 				
@@ -41,8 +47,13 @@ class Nosovin extends Hero {
 					playSound("entity.generic.explode", 1, 1.3f, true);
 					
 					lifetime--;
-					if (lifetime <= 0)
+					if (lifetime <= 0) {
 						this.cancel();
+						
+						player.setFlySpeed(0.1f);
+						player.setAllowFlight(false);
+						player.setFlying(false);
+					}
 				}
 			}.runTaskTimer(Game.getGame().getPlugin(), 0, 2);
 			
