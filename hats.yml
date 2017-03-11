@@ -1,0 +1,20 @@
+crown:
+  material: shears
+  damage: 200
+  name: "&bCrown"
+
+flowers:
+  material: shears
+  damage: 201
+  name: "&bFlower Wreath"
+
+witch:
+  material: shears
+  damage: 202
+  name: "&bWitch Hat"
+
+tuihat:
+  material: shears
+  damage: 201
+  name: "&bTui's Flame Hat"
+  health: 40

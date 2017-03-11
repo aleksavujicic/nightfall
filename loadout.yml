@@ -203,3 +203,26 @@ page2:
       name: "'Healing Station' II"
       material: ink_sack
       damage: 7
+
+
+page3:
+  crown_hat:
+    index: 0
+    item:
+      name: "Crown Hat"
+      material: shears
+      damage: 200
+
+  flower_hat:
+    index: 1
+    item:
+      name: "Flower Hat"
+      material: shears
+      damage: 201
+
+  witch_hat:
+    index: 2
+    item:
+      name: "Witch Hat"
+      material: shears
+      damage: 7

@@ -1,5 +1,6 @@
 package deimophobe.dvz.dwarf.hero;
 
+import deimophobe.dvz.Hat;
 import deimophobe.dvz.Skin;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.kit.Passive;
@@ -38,7 +39,7 @@ public class Hero extends Dwarf {
 	}
 	
 	private void announceHero() {
-		Bukkit.broadcastMessage(ChatColor.DARK_AQUA + player.getName() + ChatColor.LIGHT_PURPLE + " has become the dwarven hero " + player.getDisplayName());
+		Bukkit.broadcastMessage(ChatColor.DARK_AQUA + player.getName() + ChatColor.LIGHT_PURPLE + " has become the hero " + player.getDisplayName());
 	}
 	
 	@Override
@@ -103,14 +104,14 @@ public class Hero extends Dwarf {
 	}
 	
 	public enum Type {
-		TUI("Tui the Lightbringer", null, SwordType.TUI_HAMMER, BowType.WILDFIRE, "tui", "Tui"),
+		TUI("Tui the Lightbringer", Hat.TUI, SwordType.TUI_HAMMER, BowType.WILDFIRE, "tui", "Tui"),
 		;
 		
 		private final DwarfData data;
 		private final String skin;
 		private final String nametag;
 		
-		Type(String name, ItemStack hat, SwordType sword, BowType bow, String skin, String nametag) {
+		Type(String name, Hat hat, SwordType sword, BowType bow, String skin, String nametag) {
 			this.data = new DwarfData(name, true, hat, sword, bow, AleType.HERO, null, HERO_CONSUMABLES, HERO_PASSIVES);
 			this.skin = skin;
 			this.nametag = nametag;

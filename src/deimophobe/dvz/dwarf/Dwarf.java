@@ -106,6 +106,10 @@ public class Dwarf extends GamePlayer {
 		reset();
 		
 		giveStartingItems(data.getConsumables());
+		
+		Hat hat = data.getHat();
+		if (hat != null)
+			hat.putOn(this);
 	}
 	
 	private void playIntro() {

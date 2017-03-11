@@ -1,5 +1,6 @@
 package deimophobe.dvz.dwarf.loadout;
 
+import deimophobe.dvz.Hat;
 import deimophobe.dvz.dwarf.kit.ArmourType;
 import deimophobe.dvz.dwarf.kit.DwarvenItem;
 import deimophobe.dvz.dwarf.kit.Passive;
@@ -18,7 +19,7 @@ import java.util.*;
 public class DwarfData {
 	private String title = null;
 	private boolean forceTitle = false;
-	private ItemStack hat = null;
+	private Hat hat = null;
 	
 	private SwordType swordType = SwordType.DRB;
 	private BowType bowType = BowType.SHORTBOW;
@@ -33,7 +34,7 @@ public class DwarfData {
 		return title;
 	}
 	public boolean forceTitle() { return forceTitle; }
-	public Object getHat() {
+	public Hat getHat() {
 		return hat;
 	}
 	
@@ -59,7 +60,7 @@ public class DwarfData {
 	
 	public DwarfData() {}
 	
-	public DwarfData(String title, boolean forceTitle, ItemStack hat, SwordType swordType, BowType bowType, AleType aleType, ArmourType armour, Map<ConsumableType, Integer> consumables, Set<Passive> passives) {
+	public DwarfData(String title, boolean forceTitle, Hat hat, SwordType swordType, BowType bowType, AleType aleType, ArmourType armour, Map<ConsumableType, Integer> consumables, Set<Passive> passives) {
 		this.title = title;
 		this.forceTitle = forceTitle;
 		this.hat = hat;
@@ -77,7 +78,7 @@ public class DwarfData {
 	public void setForceTitle(boolean forceTitle) {
 		this.forceTitle = forceTitle;
 	}
-	public void setHat(ItemStack hat) {
+	public void setHat(Hat hat) {
 		this.hat = hat;
 	}
 	

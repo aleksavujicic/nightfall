@@ -1,5 +1,6 @@
 package deimophobe.dvz.dwarf.loadout;
 
+import deimophobe.dvz.Hat;
 import deimophobe.dvz.dwarf.kit.ArmourType;
 import deimophobe.dvz.dwarf.kit.Passive;
 import deimophobe.dvz.dwarf.kit.ale.AleType;
@@ -51,6 +52,10 @@ enum  LoadoutItem {
 	WRENCH_TWO(new ConsumableModifier(ConsumableType.WRENCH, 4), 8),
 	HEALING_ONE(new ConsumableModifier(ConsumableType.HEAL_STATION, 4), 4),
 	HEALING_TWO(new ConsumableModifier(ConsumableType.HEAL_STATION, 8), 8),
+	
+	CROWN_HAT(new HatModifier(Hat.CROWN), 0, Category.HAT),
+	FLOWER_HAT(new HatModifier(Hat.FLOWER), 0, Category.HAT),
+	WITCH_HAT(new HatModifier(Hat.WITCH), 0, Category.HAT),
 	;
 	
 	private final PropertyModifier modifier;
@@ -99,7 +104,9 @@ enum  LoadoutItem {
 		SWORD,
 		BOW,
 		ALE,
-		ARMOUR
+		ARMOUR,
+		HAT,
+		TITLE
 	}
 	
 	private static abstract class PropertyModifier {
@@ -180,6 +187,31 @@ enum  LoadoutItem {
 		@Override
 		void modify(DwarfData dwarfData) {
 			dwarfData.addPassive(type);
+		}
+	}
+	
+	private static class HatModifier extends PropertyModifier {
+		private final Hat hat;
+		
+		private HatModifier(Hat hat) {
+			this.hat = hat;
+		}
+		
+		@Override
+		void modify(DwarfData dwarfData) {
+			dwarfData.setHat(hat);
+		}
+	}
+	private static class TitleModifier extends PropertyModifier {
+		private final String title;
+		
+		private TitleModifier(String title) {
+			this.title = title;
+		}
+		
+		@Override
+		void modify(DwarfData dwarfData) {
+			dwarfData.setTitle(title);
 		}
 	}
 }

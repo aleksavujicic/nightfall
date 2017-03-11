@@ -19,7 +19,10 @@ class LoadoutMenuItem implements MenuItem<Player> {
 	LoadoutMenuItem(ConfigurationSection config) {
 		loadoutItem = LoadoutItem.getItem(config.getName());
 		itemStack = ItemCreator.createItem(config.getConfigurationSection("item"), Slot.MAIN_HAND);
-		itemStack.setAmount(loadoutItem.getCost());
+		
+		int amt = loadoutItem.getCost();
+		if (amt == 0) amt = 1;
+		itemStack.setAmount(amt);
 	}
 	
 	@Override
