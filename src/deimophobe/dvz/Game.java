@@ -5,6 +5,7 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.EnumWrappers;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.dwarf.DwarfManager;
@@ -237,9 +238,10 @@ public class Game {
 		protocolManager.addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.ENTITY_EQUIPMENT) {
 			@Override
 			public void onPacketSending(PacketEvent event) {
-				ItemStack item = event.getPacket().getItemModifier().read(0);
-				if (item.getType() == Material.ARROW)
-					event.getPacket().getItemModifier().write(0, null);
+				EnumWrappers.ItemSlot slot = event.getPacket().getItemSlots().read(0);
+				if (slot == EnumWrappers.ItemSlot.OFFHAND) {
+					event.setCancelled(true);
+				}
 			}
 		});
 	}
