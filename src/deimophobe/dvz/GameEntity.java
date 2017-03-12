@@ -11,6 +11,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
+
+import java.util.Calendar;
 
 /**
  * Created by Deimophobe on 24/01/17.
@@ -56,6 +59,16 @@ public abstract class GameEntity {
 	
 	public double distanceTo(GameEntity entity) {
 		return getLocation().distance(entity.getLocation());
+	}
+	
+	
+	// ------ VELOCITY ------
+	public Vector getVelocity() {
+		return entity.getVelocity();
+	}
+	
+	public void setVelocity(Vector vel) {
+		entity.setVelocity(vel);
 	}
 	
 	
@@ -161,7 +174,6 @@ public abstract class GameEntity {
 			entity.removePotionEffect(effect.getType());
 		}
 	}
-	
 	
 	public abstract double onHit(GameEntity entity, DamageType type, double damage);
 	public abstract double onGotHit(GameEntity entity, DamageType type, double damage);
