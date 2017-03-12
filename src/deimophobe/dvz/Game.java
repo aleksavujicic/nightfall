@@ -19,8 +19,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
@@ -86,7 +84,7 @@ public class Game {
 		sidebarObj.setDisplayName(ChatColor.AQUA + "Dwarves");
 		
 		setGameRules();
-		setupArrowHiding();
+		doPacketStuff();
 	}
 	
 	
@@ -233,7 +231,7 @@ public class Game {
 		world.setGameRuleValue("randomTickSpeed", "1");
 	}
 	
-	private void setupArrowHiding() {
+	private void doPacketStuff() {
 		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 		protocolManager.addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.ENTITY_EQUIPMENT) {
 			@Override
@@ -241,6 +239,22 @@ public class Game {
 				EnumWrappers.ItemSlot slot = event.getPacket().getItemSlots().read(0);
 				if (slot == EnumWrappers.ItemSlot.OFFHAND) {
 					event.setCancelled(true);
+				}
+			}
+		});
+		
+		protocolManager.addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.NAMED_SOUND_EFFECT) {
+			@Override
+			public void onPacketSending(PacketEvent event) {
+				Sound sound = event.getPacket().getSoundEffects().read(0);
+				switch (sound) {
+					case ENTITY_PLAYER_ATTACK_CRIT:
+					case ENTITY_PLAYER_ATTACK_KNOCKBACK:
+					case ENTITY_PLAYER_ATTACK_NODAMAGE:
+					case ENTITY_PLAYER_ATTACK_STRONG:
+					case ENTITY_PLAYER_ATTACK_SWEEP:
+					case ENTITY_PLAYER_ATTACK_WEAK:
+						event.setCancelled(true);
 				}
 			}
 		});
