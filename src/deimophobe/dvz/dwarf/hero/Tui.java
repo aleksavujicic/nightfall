@@ -39,7 +39,7 @@ class Tui extends Hero {
 				Location loc = getEyeLocation();
 				double dx = 0.8*Math.random() - 0.4;
 				double dz = 0.8*Math.random() - 0.4;
-				loc.add(dx, 0.3, dz);
+				loc.add(dx, 0.5, dz);
 				
 				double vx = 0.1 * Math.random() - 0.05;
 				double vy = 0.05 * Math.random() + 0.05;

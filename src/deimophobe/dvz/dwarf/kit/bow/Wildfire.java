@@ -41,7 +41,7 @@ class Wildfire extends Bow {
 			Location spawnLoc = dwarf.getEyeLocation();
 			Vector looking = spawnLoc.getDirection();
 			
-			spawnLoc.add(looking.multiply(1.5));
+			spawnLoc.add(looking);
 			looking.normalize().multiply(FLAME_VELOCITY);
 			
 			dwarf.playSound("foosh", 1, 1, true);
@@ -54,7 +54,7 @@ class Wildfire extends Bow {
 	
 	private static final int FLAME_LIFE = 40;
 	private static final int FLAME_DELAY = 3;
-	private static final double FLAME_RADIUS = 1.5;
+	private static final double FLAME_RADIUS = 2;
 	private static final double FLAME_VELOCITY = 0.4;
 	private static final double FLAME_DPT = 3; // Damage per tick
 	
@@ -75,7 +75,7 @@ class Wildfire extends Bow {
 					position.add(velocity);
 					
 					// Flame particles
-					position.getWorld().spawnParticle(Particle.FLAME, position, 10, 0.25, 0.25, 0.25, 0);
+					position.getWorld().spawnParticle(Particle.FLAME, position, 15, 0.35, 0.35, 0.35, 0);
 					
 					// Damage mobs
 					for (GameEntity monster : MonsterManager.getManager().getMobsAndAIs()) {
