@@ -29,7 +29,7 @@ class Tui extends Hero {
 		if (flameCD > 0) {
 			flameCD--;
 		} else {
-			if (quartSec && !quadSec) {
+			if (halfSec && !quadSec) {
 				giveArrow();
 			}
 		}
