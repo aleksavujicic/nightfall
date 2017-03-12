@@ -34,19 +34,17 @@ class Tui extends Hero {
 			}
 		}
 		
-		if (halfSec) {
-			for (int i=0; i<4; i++) {
-				Location loc = getEyeLocation();
-				double dx = 0.8*Math.random() - 0.4;
-				double dz = 0.8*Math.random() - 0.4;
-				loc.add(dx, 0.5, dz);
-				
-				double vx = 0.1 * Math.random() - 0.05;
-				double vy = 0.05 * Math.random() + 0.05;
-				double vz = 0.1 * Math.random() - 0.05;
-				
-				loc.getWorld().spawnParticle(Particle.FLAME, loc, 0, vx, vy, vz, 1);
-			}
+		if (sec && Math.random() < 0.1) {
+			Location loc = getEyeLocation();
+			double dx = 0.8*Math.random() - 0.4;
+			double dz = 0.8*Math.random() - 0.4;
+			loc.add(dx, 0.3, dz);
+			
+			double vx = 0.1 * Math.random() - 0.05;
+			double vy = 0.05 * Math.random() + 0.05;
+			double vz = 0.1 * Math.random() - 0.05;
+			
+			loc.getWorld().spawnParticle(Particle.FLAME, loc, 0, vx, vy, vz, 1);
 		}
 	}
 	
