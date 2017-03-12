@@ -86,7 +86,11 @@ public class Kit {
 	}
 	
 	public int getMaxArrows() {
-		return (armour == ArmourType.QUIVER ? 40 : 20);
+		if (hasPassive(Passive.SUPER_QUIVER)) {
+			return 64;
+		} else {
+			return (armour == ArmourType.QUIVER ? 40 : 20);
+		}
 	}
 	
 	public boolean hasPassive(Passive passive) {

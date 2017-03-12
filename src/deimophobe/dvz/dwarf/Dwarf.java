@@ -48,7 +48,6 @@ public class Dwarf extends GamePlayer {
 	private boolean armoured;
 	
 	private final int maxArrows;
-	private int arrowCD;
 	
 	private final boolean hasSafefall;
 	private int safefallCD = 0;
@@ -234,7 +233,7 @@ public class Dwarf extends GamePlayer {
 		ItemStack arrows = player.getInventory().getItemInOffHand();
 		int amt = arrows.getAmount();
 		if (amt == 0) {
-			player.getInventory().setItemInOffHand(new ItemStack(Material.ARROW, 1));
+			player.getInventory().setItemInOffHand(getArrow());
 		} else if (amt < maxArrows) {
 			arrows.setAmount(amt+1);
 		}
@@ -254,6 +253,9 @@ public class Dwarf extends GamePlayer {
 		} else {
 			arrows.setAmount(currAmt - amt);
 		}
+	}
+	protected ItemStack getArrow() {
+		return arrow;
 	}
 	
 	
@@ -287,46 +289,50 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	
-	// ------ UPDATE ------
-	public void update() {
-		naturalManaRegen();
+	// ------ BLOOD ------
+	private void updateBlood(boolean quartSec, boolean halfSec, boolean sec) {
 		
-		if (mana <= 300) {
+		double var = 0.2;
+		
+		if (sec && mana <= 300) {
 			Location bloodLoc = player.getLocation().add(0, 1, 0);
-			double var = 0.2;
 			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 10, var, var, var, 0);
-			if (mana <= 150) {
-				var += 0.1;
-				player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 20, var, var, var, 0);
-				if (mana <= 20) {
-					var += 0.1;
-					player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 30, var, var, var, 0);
-				}
-			}
 		}
+		if (halfSec && mana <= 150) {
+			Location bloodLoc = player.getLocation().add(0, 1, 0);
+			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 10, var, var, var, 0);
+		}
+		if (quartSec && mana <= 20) {
+			Location bloodLoc = player.getLocation().add(0, 1, 0);
+			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 10, var, var, var, 0);
+		}
+	}
+	
+	
+	// ------ UPDATE ------
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		kit.update();
+		updateCooldownBar();
 		
 		player.setSaturation(10);
 		updateArmourBar();
-		
-		if (arrowCD >= 4) {
-			arrowCD = 0;
-			giveArrow();
-		} else {
-			arrowCD++;
-		}
-		
-		updateVisibility();
-	}
-	// TODO better name
-	public void quickUpdate() {
-		kit.update();
-		updateCooldownBar();
 		
 		if (grabCD > 0)
 			grabCD--;
 		
 		if (safefallCD > 0)
 			safefallCD--;
+		
+		updateBlood(quartSec, halfSec, sec);
+		
+		if (sec) {
+			naturalManaRegen();
+			updateVisibility();
+		}
+		
+		if (quadSec) {
+			giveArrow();
+		}
 	}
 	
 	
@@ -708,7 +714,7 @@ public class Dwarf extends GamePlayer {
 		}
 	}
 	
-	private final static ItemStack pick, axe, shovel, log, plank, stick, bowl, torch, cobble;
+	private final static ItemStack pick, axe, shovel, log, plank, stick, bowl, torch, cobble, arrow;
 	static {
 		ConfigurationSection consumables = DwarfManager.getManager().getConfig().getConfigurationSection("misc");
 		
@@ -723,5 +729,7 @@ public class Dwarf extends GamePlayer {
 		
 		torch = ItemCreator.createItem(consumables.getConfigurationSection("torch"), Slot.MAIN_HAND);
 		cobble = ItemCreator.createItem(consumables.getConfigurationSection("cobble"), Slot.MAIN_HAND);
+		
+		arrow = ItemCreator.createItem(consumables.getConfigurationSection("arrow"), Slot.OFF_HAND);
 	}
 }

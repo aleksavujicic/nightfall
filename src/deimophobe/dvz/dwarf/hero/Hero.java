@@ -114,7 +114,7 @@ public class Hero extends Dwarf {
 	
 	public enum Type {
 		TUI("Tui the Lightbringer", Hat.TUI, SwordType.TUI_HAMMER, BowType.WILDFIRE, "tui", "Tui") {
-			@Override public Hero createHero(Player player) {return new Hero(player, this);}
+			@Override public Hero createHero(Player player) {return new Tui(player, this);}
 		},
 		NOSOVIN("Nosovin's Illustration", Hat.NOSOVIN, SwordType.TINDERFLAME, BowType.WAND, "tui", "Nosovin"){
 			@Override public Hero createHero(Player player) {return new Nosovin(player, this);}
@@ -150,6 +150,10 @@ public class Hero extends Dwarf {
 					return type;
 			}
 			return null;
+		}
+		
+		static {
+			TUI.getData().addPassive(Passive.SUPER_QUIVER);
 		}
 	}
 }

@@ -264,6 +264,18 @@ misc:
     lore:
      - Some lore
 
+  arrow:
+    material: arrow
+    name: Arrow
+    lore:
+     - Some lore
+  wildfirefuel:
+    material: shears
+    damage: 41
+    name: Fuel
+    lore:
+     - Some lore
+
 
 
 # To get format codes:

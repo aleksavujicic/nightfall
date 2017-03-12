@@ -38,19 +38,18 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 		config = YamlConfiguration.loadConfiguration(plugin.getResource("dwarf-items.yml"));
 		
 		new BukkitRunnable() {
+			int counter = 0;
 			@Override
 			public void run() {
+				counter++;
 				for (Dwarf dwarf : getGamePlayers()) {
-					dwarf.update();
-				}
-			}
-		}.runTaskTimer(plugin, 20, 20);
-		
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				for (Dwarf dwarf : getGamePlayers()) {
-					dwarf.quickUpdate();
+					dwarf.update(
+							(counter % 5) == 0,
+							(counter % 10) == 0,
+							(counter % 20) == 0,
+							(counter % 40) == 0,
+							(counter % 80) == 0
+					);
 				}
 			}
 		}.runTaskTimer(plugin, 1, 1);

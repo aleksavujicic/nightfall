@@ -25,8 +25,8 @@ class Nosovin extends Hero {
 	private static final int MAX_ROCKET_CD = 30*20;
 			
 	@Override
-	public void quickUpdate() {
-		super.quickUpdate();
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		
 		if (rocketCd > 0)
 			rocketCd--;

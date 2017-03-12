@@ -82,23 +82,23 @@ public class DwarfData {
 		this.hat = hat;
 	}
 	
-	void setSwordType(SwordType swordType) {
+	public void setSwordType(SwordType swordType) {
 		this.swordType = swordType;
 	}
-	void setBowType(BowType bowType) {
+	public void setBowType(BowType bowType) {
 		this.bowType = bowType;
 	}
-	void setAleType(AleType aleType) {
+	public void setAleType(AleType aleType) {
 		this.aleType = aleType;
 	}
-	void setArmour(ArmourType armour) {
+	public void setArmour(ArmourType armour) {
 		this.armour = armour;
 	}
 	
-	void addPassive(Passive passive) {
+	public void addPassive(Passive passive) {
 		passives.add(passive);
 	}
-	void incrementConsumable(ConsumableType consumable, int amt) {
+	public void incrementConsumable(ConsumableType consumable, int amt) {
 		int current = consumables.computeIfAbsent(consumable, k -> 0);
 		consumables.put(consumable, current + amt);
 	}
