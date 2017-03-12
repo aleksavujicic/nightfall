@@ -50,7 +50,7 @@ class Nosovin extends Hero {
 					Vector velocity = new Vector(-1.5*Math.sin(radYaw), 0.15, 1.5*Math.cos(radYaw));
 					getPlayer().setVelocity(velocity);
 					
-					playSound("entity.generic.explode", 1, 1.3f, true);
+					playSound("entity.generic.explode", 1, 1.1f, true);
 					getLocation().getWorld().spawnParticle(Particle.SMOKE_LARGE, getLocation(), 10, 0.3, 0.3, 0.3, 0.11);
 					
 					lifetime--;
