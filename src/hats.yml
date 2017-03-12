@@ -23,5 +23,5 @@ nosovinhat:
   material: shears
   damage: 201
   name: "&bNosovin's Speed Hat"
-  health: 40
-  speed: 20
+  health: 30
+  speed: 30
