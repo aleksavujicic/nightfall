@@ -113,7 +113,8 @@ page1:
     index: 30
     item:
       name: "Magic Coil"
-      material: diamond
+      material: diamond_hoe
+      damage: 5
 
 
 
@@ -123,18 +124,20 @@ page2:
     index: 0
     item:
       name: "Safefall"
-      material: snow_ball
+      material: diamond_hoe
+      damage: 7
   darkvision:
     index: 1
     item:
       name: "Dark Vision"
-      material: flint
+      material: diamond_hoe
+      damage: 6
   avenge:
     index: 2
     item:
       name: "Avenge"
-      material: shears
-      damage: 44
+      material: diamond_hoe
+      damage: 8
 
 
   # ------ CONSUMABLES ------
@@ -339,3 +342,24 @@ page3:
       name: "&bSquire"
       material: diamond_hoe
       damage: 0
+
+specialitems:
+  points:
+    name: "&bPoints Remaining"
+    material: diamond_hoe
+    damage: 4
+
+  clear:
+    name: "&bClear Loadout"
+    material: diamond_hoe
+    damage: 3
+
+  back:
+    name: "&bPrevious Page"
+    material: diamond_hoe
+    damage: 2
+
+  forward:
+    name: "&bNext Page"
+    material: diamond_hoe
+    damage: 1

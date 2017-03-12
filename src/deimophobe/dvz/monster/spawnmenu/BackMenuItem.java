@@ -12,7 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 class BackMenuItem implements MenuItem<MonsterPlayer> {
 	private static final ItemStack item;
 	static {
-		item = new ItemStack(Material.DIAMOND);
+		item = new ItemStack(Material.DIAMOND_HOE, 1, (short) 1);
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName("Back");
 		item.setItemMeta(meta);

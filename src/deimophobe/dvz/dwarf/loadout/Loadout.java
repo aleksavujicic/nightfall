@@ -29,7 +29,7 @@ public class Loadout {
 			if (categoryItems.size() > 1) {
 				// Should only ever be one item of the same category in a loadout
 				Bukkit.getLogger().severe("Loadout contains more than one category item!? " + categoryItems.toString());
-				items.remove(categoryItems);
+				items.removeAll(categoryItems);
 			} else {
 				int extraPoints = 0; // The amount of extra points one would get from removing a similar item.
 				if (categoryItems.size() == 1) {

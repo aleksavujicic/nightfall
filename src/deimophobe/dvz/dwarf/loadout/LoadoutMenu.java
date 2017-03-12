@@ -1,7 +1,9 @@
 package deimophobe.dvz.dwarf.loadout;
 
 import deimophobe.dvz.Game;
+import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.menu.Menu;
+import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -30,14 +32,25 @@ public class LoadoutMenu implements Menu<Player> {
 	private final Map<Player, Integer> pageNumber = new HashMap<>();
 	
 	static final int PAGE_SIZE = 5*9;
-	static final int EXTRA_SIZE = 1*9;
+	private static final int EXTRA_SIZE = 1*9;
 	private static final String TITLE = "Select a kit";
+	
+	private static final String ITEM_SECTION = "specialitems";
+	private final ItemStack back, forward, clear, points;
 	
 	private LoadoutMenu(ConfigurationSection config) {
 		for (String key : config.getKeys(false)) {
-			pages.add(new LoadoutPage(config.getConfigurationSection(key)));
+			if (!key.equals(ITEM_SECTION)) {
+				pages.add(new LoadoutPage(config.getConfigurationSection(key)));
+			}
 		}
+		ConfigurationSection itemConfig = config.getConfigurationSection(ITEM_SECTION);
+		back = ItemCreator.createItem(itemConfig.getConfigurationSection("back"), Slot.MAIN_HAND);
+		forward = ItemCreator.createItem(itemConfig.getConfigurationSection("forward"), Slot.MAIN_HAND);
+		clear = ItemCreator.createItem(itemConfig.getConfigurationSection("clear"), Slot.MAIN_HAND);
+		points = ItemCreator.createItem(itemConfig.getConfigurationSection("points"), Slot.MAIN_HAND);
 	}
+	
 	
 	@Override
 	public Inventory getInventory(Player player) {
@@ -45,14 +58,17 @@ public class LoadoutMenu implements Menu<Player> {
 		Inventory newInv = Bukkit.createInventory(pageInv.getHolder(), PAGE_SIZE + EXTRA_SIZE, TITLE);
 		
 		newInv.setContents(pageInv.getContents());
+		
 		int remainPoints = Loadout.getLoadout(player).getRemainingPoints();
+		ItemStack newPoints = points.clone();
+		newPoints.setAmount(remainPoints);
 		
 		// Back and forward buttons
-		newInv.setItem(PAGE_SIZE+3, new ItemStack(Material.FLINT_AND_STEEL));
-		newInv.setItem(PAGE_SIZE+5, new ItemStack(Material.DIAMOND_SWORD));
+		newInv.setItem(PAGE_SIZE+3, back);
+		newInv.setItem(PAGE_SIZE+5, forward);
 		
-		newInv.setItem(PAGE_SIZE+0, new ItemStack(Material.INK_SACK, remainPoints, (short) 2));
-		newInv.setItem(PAGE_SIZE+8, new ItemStack(Material.ENDER_STONE, 1));
+		newInv.setItem(PAGE_SIZE+0, newPoints);
+		newInv.setItem(PAGE_SIZE+8, clear);
 																							
 		return newInv;
 	}
