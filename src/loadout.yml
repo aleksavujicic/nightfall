@@ -357,9 +357,9 @@ specialitems:
   back:
     name: "&bPrevious Page"
     material: diamond_hoe
-    damage: 2
+    damage: 1
 
   forward:
     name: "&bNext Page"
     material: diamond_hoe
-    damage: 1
+    damage: 2

@@ -3,6 +3,7 @@ package deimophobe.dvz.monster.spawnmenu;
 import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -15,6 +16,8 @@ class BackMenuItem implements MenuItem<MonsterPlayer> {
 		item = new ItemStack(Material.DIAMOND_HOE, 1, (short) 1);
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName("Back");
+		meta.setUnbreakable(true);
+		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_POTION_EFFECTS);
 		item.setItemMeta(meta);
 	}
 	@Override
