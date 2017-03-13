@@ -136,6 +136,7 @@ public class MonsterPlayer extends GamePlayer {
 	public void spawnAs(MobType type) {
 		mob = Mob.createAndSpawnMob(this, type);
 		player.getInventory().setItem(9, seppuku);
+		player.setAllowFlight(false);
 	}
 	
 	
@@ -349,8 +350,9 @@ public class MonsterPlayer extends GamePlayer {
 		
 		player.setFlySpeed(0.1f);
 		player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
-		player.setAllowFlight(false);
-		player.setFlying(false);
+		
+		if (isAlive())
+			player.setFlying(false);
 			
 		Disguise dis = mob.getDisguise();
 		if (dis != null)
@@ -375,6 +377,12 @@ public class MonsterPlayer extends GamePlayer {
 			return false;
 		
 		return true;
+	}
+	
+	@Override
+	public void setVelocity(Vector vel) {
+		if (!isFrozen())
+			super.setVelocity(vel);
 	}
 	
 	
