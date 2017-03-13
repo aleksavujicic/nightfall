@@ -30,7 +30,7 @@ class Mortar extends Consumable {
 		boolean used = BlockManager.getManager().mortarWalls(block, wizzy);
 		
 		if (used)
-			dwarf.playSound("block.anvil.place", 20, 0.8f, false);
+			dwarf.playSound("mortar", 1, (float) (0.6 + 0.1*Math.random() + (wizzy ? 0.2 : 0)), false);
 		
 		return used;
 	}

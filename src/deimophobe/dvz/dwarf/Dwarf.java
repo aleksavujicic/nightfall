@@ -591,11 +591,13 @@ public class Dwarf extends GamePlayer {
 				return 0;
 			case SPONGE:
 				if (stick.isSimilar(getHeldItem())) {
+					playSound("mortar", 1, (float) (1.5 + 0.1*Math.random()), false);
 					giveItem(torch);
 					useHeldItem();
 					return MAX_CRAFT_CD;
 				}
 				if (bowl.isSimilar(getHeldItem())) {
+					playSound("mortar", 1, (float) (1.5 + 0.1*Math.random()), false);
 					giveItem(Consumable.getItem(ConsumableType.MORTAR));
 					useHeldItem();
 					return MAX_CRAFT_CD;
