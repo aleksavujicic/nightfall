@@ -53,7 +53,7 @@ class SOS extends Consumable {
 			
 			double x = r * Math.cos(theta);
 			double z = r * Math.sin(theta);
-			double y = 2 + 2 * Math.random();
+			double y = 3;
 			
 			Location position = center.clone().add(x, y, z);
 			swords.add(summonSword(position));
@@ -104,6 +104,7 @@ class SOS extends Consumable {
 	
 	private ArmorStand summonSword(Location loc) {
 		ArmorStand stand = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
+		
 		stand.setHelmet(getItem());
 		stand.setHeadPose(new EulerAngle(Math.PI, Math.random() * Math.PI * 2, 0));
 		stand.setVisible(false);
