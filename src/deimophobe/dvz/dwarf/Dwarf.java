@@ -357,6 +357,8 @@ public class Dwarf extends GamePlayer {
 				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 1), true);
 				break;
 				
+			case AVENGE:
+				playSound("horn", 100, 1, false);
 			case HORN:
 				playSound("proc", 1f, 1f, false);
 				player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, player.getLocation(), 60, 1, 1, 1);
@@ -404,7 +406,7 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	public enum ProcType {
-		REGULAR, HORN, MALICE, DRAGONSKIN, SHRINE_FALL, GRAVEL_PROC, EBOW, RUNEDASH, ROAR,
+		REGULAR, HORN, MALICE, DRAGONSKIN, SHRINE_FALL, GRAVEL_PROC, EBOW, RUNEDASH, ROAR, AVENGE,
 	}
 	
 	// ------ EVENTS ------
@@ -675,7 +677,7 @@ public class Dwarf extends GamePlayer {
 		kit.onProjectileLand(arrow, hitBlock);
 	}
 	
-	
+	public void notifyDeath(Dwarf dwarf) { kit.notifyDeath(dwarf); }
 	
 	
 	

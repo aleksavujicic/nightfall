@@ -392,6 +392,9 @@ public class GameListener implements Listener {
 	public void onDeath(PlayerDeathEvent event) {
 		Dwarf dwarf = dm.getGamePlayer(event.getEntity());
 		if (dwarf != null) {
+			for (Dwarf dwarf2 : dm.getGamePlayers()) {
+				dwarf2.notifyDeath(dwarf);
+			}
 			event.setDeathMessage(dwarf.generateDeathMsg());
 			dm.removeGamePlayer(dwarf);
 		}

@@ -1,7 +1,9 @@
 package deimophobe.dvz.dwarf.kit;
 
 import deimophobe.dvz.DamageType;
+import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
+import deimophobe.dvz.Phase;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
 import deimophobe.dvz.dwarf.Dwarf;
 
@@ -166,6 +168,11 @@ public class Kit {
 		}
 	}
 	
+	public void notifyDeath(Dwarf deadDwarf) {
+		if (deadDwarf != dwarf && hasPassive(Passive.AVENGE) && Game.getGame().getPhase() != Phase.PLAGUE)
+			dwarf.giveProc(Dwarf.ProcType.AVENGE);
+	}
+	
 	// ------ MISC ------
 	public static boolean isDroppableItem(ItemStack item) {
 		if (item == null) return true;
@@ -212,4 +219,5 @@ public class Kit {
 			}
 		}
 	}
+	
 }
