@@ -55,7 +55,7 @@ class Tinderflame extends Sword {
 			// Send player back
 			double yaw = dwarf.getPlayer().getLocation().getYaw();
 			double radYaw = yaw*Math.PI/180;
-			Vector velocity = new Vector(Math.sin(radYaw), 0.4, - Math.cos(radYaw));
+			Vector velocity = new Vector(0.5*Math.sin(radYaw), 0.3, - 0.5*Math.cos(radYaw));
 			dwarf.getPlayer().setVelocity(velocity);
 			
 			resetCooldown();

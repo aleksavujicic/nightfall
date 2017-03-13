@@ -13,6 +13,15 @@ witch:
   damage: 202
   name: "&bWitch Hat"
 
+darkvisgoggles:
+  material: diamond_hoe
+  damage: 6
+  name: "&bDark Vision Goggles"
+
+jimmycap:
+  material: diamond_helmet
+  name: "&bJimmy Cap"
+
 tuihat:
   material: shears
   damage: 201
@@ -24,4 +33,4 @@ nosovinhat:
   damage: 201
   name: "&bNosovin's Speed Hat"
   health: 30
-  speed: 30
+  speed: 15

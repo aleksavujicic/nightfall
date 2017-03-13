@@ -227,6 +227,17 @@ page3:
       name: "&bWitch Hat"
       material: shears
       damage: 202
+  dv_goggles:
+    index: 3
+    item:
+      material: diamond_hoe
+      damage: 6
+      name: "&bDark Vision Goggles"
+  jimmy_cap:
+    index: 4
+    item:
+      material: gold_helmet
+      name: "&bJimmy Cap"
 
   ranger:
     index: 18

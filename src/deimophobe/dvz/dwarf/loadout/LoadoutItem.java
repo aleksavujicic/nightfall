@@ -56,6 +56,8 @@ enum  LoadoutItem {
 	CROWN_HAT(new HatModifier(Hat.CROWN), 0, Category.HAT),
 	FLOWER_HAT(new HatModifier(Hat.FLOWER), 0, Category.HAT),
 	WITCH_HAT(new HatModifier(Hat.WITCH), 0, Category.HAT),
+	DV_GOGGLES(new HatModifier(Hat.DVGOGGLES), 0, Category.HAT),
+	JIMMY_CAP(new HatModifier(Hat.JIMMYCAP), 0, Category.HAT),
 	
 	RANGER(new TitleModifier("Ranger"), 0, Category.TITLE),
 	PALADIN(new TitleModifier("Paladin"), 0, Category.TITLE),
