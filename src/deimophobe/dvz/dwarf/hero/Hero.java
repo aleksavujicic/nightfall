@@ -58,16 +58,8 @@ public class Hero extends Dwarf {
 	public void showTrash() {}
 	
 	@Override
-	protected void naturalManaRegen() {
-		boolean inShrine = ShrineManager.getManager().getShrineRegion().continsGameEntity(this);
-		boolean shrineHasGold = ShrineManager.getManager().hasGold();
-		int regenRate;
-		if (inShrine && shrineHasGold) {
-			regenRate = 10;
-		} else {
-			regenRate = 2;
-		}
-		regenMana(regenRate);
+	protected int getNaturalRegenRate() {
+		return 3;
 	}
 	
 	@Override

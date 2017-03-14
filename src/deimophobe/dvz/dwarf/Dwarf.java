@@ -148,24 +148,9 @@ public class Dwarf extends GamePlayer {
 		updateManaBar();
 	}
 	
-	protected void naturalManaRegen() {
-		int regenRate;
-		if (armour >= 1400) {
-			regenRate = 15;
-		} else if (armour >= 1000) {
-			regenRate = 12;
-		} else if (armour >= 800) {
-			regenRate = 9;
-		} else if (armour >= 600) {
-			regenRate = 6;
-		} else if (armour >= 200) {
-			regenRate = 3;
-		} else if (armour >= 10) {
-			regenRate = 1;
-		} else {
-			regenRate = 0;
-		}
-		regenMana(regenRate);
+	protected int getNaturalRegenRate() {
+		if (isMaxArmour()) return 15; // Otherwise formula below would give 16 only when full (which is kinda weird).
+		return (int) Math.floor(Math.atan(3 * getArmour()) * 16/Math.atan(3));
 	}
 	
 	public void updateManaBar() {
@@ -186,6 +171,15 @@ public class Dwarf extends GamePlayer {
 		GameEffect.playEffect(GameEffect.DWARF_ARMOURED, this);
 	}
 	
+	
+	public boolean isMaxArmour() {
+		return (armour == maxArmour);
+	}
+	
+	public double getArmour() {
+		return (double)armour/maxArmour;
+	}
+	
 	public void damageArmour(int dmg) {
 		armour -= dmg;
 		if (armour <= 0) armour = 0;
@@ -198,9 +192,6 @@ public class Dwarf extends GamePlayer {
 		updateArmour();
 	}
 	
-	public boolean isMaxArmour() {
-		return (armour == maxArmour);
-	}
 	
 	public void updateArmour() {
 		if (armoured) {
@@ -223,12 +214,9 @@ public class Dwarf extends GamePlayer {
 		player.setFoodLevel((int) Math.ceil(20f * armour/maxArmour));
 	}
 	
-	public double getArmour() {
-		return (double)armour/maxArmour;
-	}
 	
 	
-	// ------ MISC ------
+	// ------ ARROWS ------
 	public void giveArrow() {
 		ItemStack arrows = player.getInventory().getItemInOffHand();
 		int amt = arrows.getAmount();
@@ -326,7 +314,7 @@ public class Dwarf extends GamePlayer {
 		updateBlood(quartSec, halfSec, sec);
 		
 		if (sec) {
-			naturalManaRegen();
+			regenMana(getNaturalRegenRate());
 			updateVisibility();
 		}
 		
