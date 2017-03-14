@@ -22,7 +22,8 @@ class Tui extends Hero {
 	private static final String TUI_TEAM_NAME = "tui";
 	static {
 		Team team = Bukkit.getScoreboardManager().getMainScoreboard().getTeam(TUI_TEAM_NAME);
-		team.unregister();
+		if (team != null)
+			team.unregister();
 		
 		team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(TUI_TEAM_NAME);
 		team.setPrefix(ChatColor.GOLD.toString());
