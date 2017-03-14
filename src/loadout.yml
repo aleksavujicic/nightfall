@@ -141,58 +141,57 @@ page2:
 
 
   # ------ CONSUMABLES ------
-  sos_one:
+  mortar_one:
     index: 9
     item:
-      name: "SOS I"
-      material: ink_sack
-      damage: 2
-  sos_two:
+      name: "Mortar I"
+      material: diamond_hoe
+      damage: 9
+  mortar_two:
     index: 18
     item:
-      name: "SOS II"
-      material: ink_sack
-      damage: 2
-
+      name: "Mortar II"
+      material: diamond_hoe
+      damage: 10
 
   wizard_one:
     index: 10
     item:
       name: "Wizard Mortar I"
-      material: ink_sack
-      damage: 5
+      material: diamond_hoe
+      damage: 11
   wizard_two:
     index: 19
     item:
       name: "Wizard Mortar II"
-      material: ink_sack
-      damage: 5
+      material: diamond_hoe
+      damage: 12
 
   lamps_one:
     index: 11
     item:
       name: "Enchanted Lamps I"
-      material: ink_sack
-      damage: 0
+      material: diamond_hoe
+      damage: 15
   lamps_two:
     index: 20
     item:
       name: "Enchanted Lamps II"
-      material: ink_sack
-      damage: 0
+      material: diamond_hoe
+      damage: 16
 
   wrench_one:
     index: 12
     item:
       name: "Wiggly Wrench I"
-      material: ink_sack
-      damage: 3
+      material: diamond_hoe
+      damage: 17
   wrench_two:
     index: 21
     item:
       name: "Wiggly Wrench II"
-      material: ink_sack
-      damage: 3
+      material: diamond_hoe
+      damage: 18
 
   healing_one:
     index: 13
@@ -206,6 +205,20 @@ page2:
       name: "'Healing Station' II"
       material: ink_sack
       damage: 7
+
+  sos_one:
+    index: 14
+    item:
+      name: "SOS I"
+      material: diamond_hoe
+      damage: 13
+  sos_two:
+    index: 23
+    item:
+      name: "SOS II"
+      material: diamond_hoe
+      damage: 14
+
 
 
 page3:

@@ -44,6 +44,8 @@ enum  LoadoutItem {
 	
 	SOS_ONE(new ConsumableModifier(ConsumableType.SOS, 1), 4),
 	SOS_TWO(new ConsumableModifier(ConsumableType.SOS, 2), 8),
+	MORTAR_ONE(new ConsumableModifier(ConsumableType.MORTAR, 64), 4),
+	MORTAR_TWO(new ConsumableModifier(ConsumableType.MORTAR, 128), 8),
 	WIZARD_ONE(new ConsumableModifier(ConsumableType.WIZARD_MORTAR, 16), 4),
 	WIZARD_TWO(new ConsumableModifier(ConsumableType.WIZARD_MORTAR, 32), 8),
 	LAMPS_ONE(new ConsumableModifier(ConsumableType.LAMP, 12), 4),
