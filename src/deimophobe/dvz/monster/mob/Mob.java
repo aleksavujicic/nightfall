@@ -83,7 +83,7 @@ public class Mob {
 			} else {
 				Disguise disguise = new MobDisguise(mobData.disguiseType);
 				disguise.getWatcher().setCustomNameVisible(false);
-				disguise.getWatcher().setCustomName(ChatColor.DARK_RED + monster.getDisplayName());
+				disguise.getWatcher().setCustomName(monster.getDisplayName());
 				disguise = disguise.setViewSelfDisguise(false);
 				DisguiseAPI.disguiseEntity(player, disguise);
 			}
