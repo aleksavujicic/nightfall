@@ -469,6 +469,7 @@ public class Dwarf extends GamePlayer {
 		switch (block.getType()) {
 			case GRAVEL:
 				giveItem(cobble, 3);
+				playSound("block.anvil.place", 1, 0.8f, false);
 				break;
 			case LOG:
 			case LOG_2:
