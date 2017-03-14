@@ -44,5 +44,6 @@ public abstract class DwarvenItem {
 	public double onGotHit(GameEntity entity, DamageType type, double damage) {return damage;}
 	public void onKill(GameEntity monster, DamageType type) {}
 	public void onBlockBreak(Block block) {}
+	public void onShift(boolean sneaking) {}
 	
 }

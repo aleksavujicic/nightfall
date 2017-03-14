@@ -62,6 +62,9 @@ public class Kit {
 		
 		if (armour == ArmourType.STUDDED)
 			dwarf.givePotionEffect(PotionEffectType.SLOW, 720000, -1, false, false, false);
+		
+		if (armour == ArmourType.COIL)
+			items.add(new MagicCoil(dwarf));
 	}
 	
 	public void disablePickup() {
@@ -165,6 +168,10 @@ public class Kit {
 			}
 			if (passives.contains(Passive.SAFEFALL))
 				dwarf.givePotionEffect(PotionEffectType.JUMP, 200, 3, true, true, true);
+		}
+		
+		for (DwarvenItem item : items) {
+			item.onShift(sneaking);
 		}
 	}
 	
