@@ -4,13 +4,11 @@ import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scoreboard.Team;
 
 /**
  * Created by Deimophobe on 12/03/17.
@@ -18,6 +16,17 @@ import org.bukkit.inventory.ItemStack;
 class Tui extends Hero {
 	protected Tui(Player player, Type type) {
 		super(player, type);
+		
+	}
+	
+	private static final String TUI_TEAM_NAME = "tui";
+	static {
+		Team team = Bukkit.getScoreboardManager().getMainScoreboard().getTeam(TUI_TEAM_NAME);
+		team.unregister();
+		
+		team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(TUI_TEAM_NAME);
+		team.setPrefix(ChatColor.GOLD.toString());
+		team.addEntry(ChatColor.GOLD + "Tui");
 	}
 	
 	private int flameCD = 0;

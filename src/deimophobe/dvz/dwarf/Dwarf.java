@@ -383,7 +383,8 @@ public class Dwarf extends GamePlayer {
 			case ROAR:
 				playSound("entity.enderdragon.growl", 1, 1, true);
 				player.getWorld().spawnParticle(Particle.FLAME, player.getLocation(), 200, 1, 1, 1, 0.1);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 1), true);
+				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 160, 1), true);
+				givePotionEffect(PotionEffectType.GLOWING, 160, 1, true, false, true);
 				break;
 				
 			default:

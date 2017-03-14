@@ -1,23 +1,29 @@
 package deimophobe.dvz.dwarf.kit.sword;
 
+import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.hero.Hero;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
 import deimophobe.dvz.monster.ai.AIManager;
+import me.libraryaddict.disguise.disguisetypes.Disguise;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Created by Deimophobe on 11/03/17.
  */
 class TuiHammer extends AbstractAOEHitter {
 	TuiHammer(Dwarf dwarf) {
-		super(dwarf, SwordType.TUI_HAMMER, 40*20, 4);
+		super(dwarf, SwordType.TUI_HAMMER, 60*20, 4);
 	}
 	
 	@Override

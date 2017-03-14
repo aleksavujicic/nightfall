@@ -48,6 +48,11 @@ public class Hero extends Dwarf {
 		Bukkit.broadcastMessage(ChatColor.DARK_AQUA + player.getName() + ChatColor.LIGHT_PURPLE + " has become the dwarven hero " + player.getDisplayName());
 	}
 	
+	public Disguise getDisguise() {
+		return DisguiseAPI.getDisguise(player);
+	}
+	
+	
 	@Override
 	protected void giveStartingItems(Map<ConsumableType, Integer> consumables) {
 		getKit().giveAllItems();
@@ -92,6 +97,8 @@ public class Hero extends Dwarf {
 	protected double getDamageReduction() {
 		return 0.84;
 	}
+	
+	
 	
 	
 	private static final Map<ConsumableType, Integer> HERO_CONSUMABLES = new HashMap<>();
