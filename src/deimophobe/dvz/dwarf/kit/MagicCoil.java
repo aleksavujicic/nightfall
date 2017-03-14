@@ -28,16 +28,19 @@ class MagicCoil extends DwarvenItem {
 	}
 	
 	private Buff currentBuff;
+	private int timer = 10;
 	
 	protected MagicCoil(Dwarf dwarf) {
 		super(dwarf, null);
-		
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				giveBuff();
-			}
-		}.runTaskTimer(Game.getGame().getPlugin(), 10, DURATION);
+	}
+	
+	@Override
+	public void update() {
+		timer--;
+		if (timer == 0) {
+			giveBuff();
+			timer = DURATION;
+		}
 	}
 	
 	private void giveBuff() {
@@ -45,8 +48,6 @@ class MagicCoil extends DwarvenItem {
 		
 		if (buff != null) {
 			buff.giveBuff(dwarf);
-			if (currentBuff != null)
-				currentBuff.removeBuff(dwarf);
 			
 			currentBuff = buff;
 		} else {
@@ -68,7 +69,7 @@ class MagicCoil extends DwarvenItem {
 	@Override
 	public void onShift(boolean sneaking) {
 		if (currentBuff != null && !currentBuff.hasBuff(dwarf))
-			currentBuff.giveBuff(dwarf);
+			currentBuff.giveBuff(dwarf, timer);
 	}
 	
 	private static class Buff {
@@ -85,11 +86,16 @@ class MagicCoil extends DwarvenItem {
 		}
 		
 		private void giveBuff(Dwarf dwarf) {
-			dwarf.givePotionEffect(type, DURATION + CHANGEOVER_DURATION, amplifier, true, true, true);
+			giveBuff(dwarf, DURATION);
+		}
+		
+		public void giveBuff(Dwarf dwarf, int time) {
+			dwarf.givePotionEffect(type, time + CHANGEOVER_DURATION, amplifier, true, true, true);
 		}
 		
 		private void removeBuff(Dwarf dwarf) {
 			dwarf.getPlayer().removePotionEffect(type);
 		}
+		
 	}
 }
