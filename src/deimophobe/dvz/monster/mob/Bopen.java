@@ -70,6 +70,11 @@ public class Bopen extends Mob {
 	}
 	
 	@Override
+	public void onShift(boolean sneak) {
+		dismountHorse();
+	}
+	
+	@Override
 	public void onDeath() {
 		dismountHorse();
 	}
