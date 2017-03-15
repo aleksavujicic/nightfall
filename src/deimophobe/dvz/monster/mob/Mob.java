@@ -36,7 +36,7 @@ import java.util.*;
 /**
  * Created by Deimophobe on 18/01/17.
  */
-public class Mob {
+public abstract class Mob {
 	
 	protected final MonsterPlayer monster;
 	
@@ -191,6 +191,7 @@ public class Mob {
 	public float getCooldown() {
 		return 0;
 	}
+	public void onDeath() {}
 	
 	
 	
@@ -220,6 +221,8 @@ public class Mob {
 				return new Ogre(monster);
 			case KRUNGOR:
 				return new Krungor(monster);
+			case BOPEN:
+				return new Bopen(monster);
 			case GB_DAGGER:
 			case GB_RUNEBLADE:
 			case GB_AXE:
@@ -229,4 +232,5 @@ public class Mob {
 		Bukkit.getLogger().warning("Unknown mobtype: " + type);
 		return null;
 	}
+	
 }

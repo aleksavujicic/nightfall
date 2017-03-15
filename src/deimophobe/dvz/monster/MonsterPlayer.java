@@ -4,6 +4,7 @@ import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.kit.DwarvenItem;
+import deimophobe.dvz.monster.mob.Bopen;
 import deimophobe.dvz.monster.mob.Mob;
 import deimophobe.dvz.monster.mob.MobType;
 import deimophobe.dvz.monster.upgrade.Upgrades;
@@ -102,6 +103,9 @@ public class MonsterPlayer extends GamePlayer {
 	}
 	
 	public void kill() {
+		if (mob != null)
+			mob.onDeath();
+		
 		cancelFreeze();
 		
 		Disguise disguise = DisguiseAPI.getDisguise(player);
@@ -381,6 +385,16 @@ public class MonsterPlayer extends GamePlayer {
 	
 	@Override
 	public void setVelocity(Vector vel) {
+		if (mob instanceof Bopen) {
+			((Bopen) mob).dismountHorse();
+			/*
+			Bopen bopen = (Bopen) mob;
+			if (bopen.isRidingHorse()) {
+				bopen.getHorse().setVelocity(vel.clone().multiply(10));
+			}
+			*/
+		}
+		
 		if (!isFrozen())
 			super.setVelocity(vel);
 	}

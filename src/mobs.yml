@@ -422,6 +422,46 @@ krungor:
   shrineimmune: true
 
 
+bopen:
+  title: Bopen
+  forcetitle: true
+
+  disguisetype: wither_skeleton
+
+  attack: 40
+  health: 100
+  speed: 10
+
+  armouronchest: false
+  armour:
+    material: shears
+    damage: 200
+    name: §cCrown of the Skeleton King
+    lore:
+     - §dSome lore
+     - and more lore
+    kbresist: true
+  weapon:
+    material: gold_sword
+    damage: 0
+    name: §cSharp Cutlass
+    lore:
+      - Some lore
+  items:
+    item1:
+      material: shears
+      damage: 100
+      name: "&cSkeleton King's Steed"
+      lore:
+       - Some lore
+
+  res: 0
+  proccable: false
+  arrowres: 0.8
+  shred: 25
+  shrineimmune: true
+
+
 # To get format codes:
 # http://minecraft.gamepedia.com/Formatting_codes
 # http://minecraft.tools/en/color-code.php

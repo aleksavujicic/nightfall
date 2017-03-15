@@ -9,6 +9,7 @@ import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
+import deimophobe.dvz.monster.mob.Bopen;
 import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -31,6 +32,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.spigotmc.event.entity.EntityDismountEvent;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -538,5 +540,16 @@ public class GameListener implements Listener {
 		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
 		boolean canBreak = BlockManager.getManager().breakBlockEvent(game.getGamePlayer(event.getPlayer()), event.getBlock());
 		event.setCancelled(!canBreak);
+	}
+	
+	@EventHandler
+	public void onDismount(EntityDismountEvent event) {
+		Entity entity = event.getEntity();
+		if (entity instanceof Player) {
+			MonsterPlayer monster = mm.getGamePlayer((Player) entity);
+			if (monster != null && monster.getMob() instanceof Bopen) {
+				((Bopen) monster.getMob()).dismountHorse();
+			}
+		}
 	}
 }

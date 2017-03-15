@@ -28,7 +28,7 @@ public enum MobType {
 	GB_HAMMER("gb-hammer"),
 	
 	KRUNGOR("krungor"),
-	;
+	BOPEN("bopen");
 	
 	private final String name;
 	public String getName() {return name;}
