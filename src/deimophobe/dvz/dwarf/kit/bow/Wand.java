@@ -24,7 +24,7 @@ class Wand extends Bow {
 	}
 	
 	private int cooldown = 0;
-	private static final int MAX_CD = 60*20;
+	private static final int MAX_CD = 180*20;
 	
 	@Override
 	public void update() {
@@ -78,8 +78,8 @@ class Wand extends Bow {
 		}
 	}
 	
-	private static final int WH_LIFE = 7*20;
-	private static final double WH_RANGE = 20;
+	private static final int WH_LIFE = 10*20;
+	private static final double WH_RANGE = 25;
 	private class Wormhole {
 		private Wormhole(Location loc) {
 			
@@ -99,8 +99,8 @@ class Wand extends Bow {
 						double dist = loc.distance(entityLoc);
 						if (dist <= WH_RANGE) {
 							Vector displ = loc.clone().subtract(entityLoc).toVector();
-							Vector vel = displ.normalize().multiply(0.1);
-							entity.setVelocity(entity.getVelocity().multiply(0.9).add(vel));
+							Vector vel = displ.normalize().multiply(0.15);
+							entity.setVelocity(entity.getVelocity().multiply(0.75).add(vel));
 						}
 					}
 					
