@@ -3,6 +3,7 @@ package deimophobe.dvz.monster;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.GamePlayerManager;
+import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.menu.GlobalMenuList;
 import deimophobe.dvz.menu.Menu;
 import deimophobe.dvz.menu.MenuItem;
@@ -23,30 +24,37 @@ import java.util.*;
  */
 public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	private static MonsterManager ourManager = new MonsterManager();
+	public static MonsterManager getManager() {
+		return ourManager;
+	}
 	
 	public MonsterManager() {
 		super(ChatColor.DARK_RED + "MONSTERS");
 	}
 	
-	public static MonsterManager getManager() {
-		return ourManager;
-	}
 	
+	private BukkitRunnable runner;
 	public void setupManager() {
 		Plugin plugin = Game.getGame().getPlugin();
 		Bukkit.getPluginManager().registerEvents(new MobListener(), plugin);
 		
-		new BukkitRunnable() {
+		runner = new BukkitRunnable() {
 			@Override
 			public void run() {
 				for (MonsterPlayer mob : getGamePlayers()) {
 					mob.update();
 				}
 			}
-		}.runTaskTimer(plugin, 1, 1);
+		};
+		runner.runTaskTimer(plugin, 1, 1);
 		
 		Team team = setupTeams("mobs", ChatColor.DARK_RED);
 		team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OTHER_TEAMS);
+	}
+	public void reset() {
+		if (runner != null)
+			runner.cancel();
+		ourManager = new MonsterManager();
 	}
 	
 	@Override

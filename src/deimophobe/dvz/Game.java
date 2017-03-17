@@ -6,15 +6,18 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.EnumWrappers;
+import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
 import deimophobe.dvz.plague.Plague;
 import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.*;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -32,59 +35,69 @@ import java.util.*;
  */
 public class Game {
 	private static final Game ourGame = new Game();
+	
 	public static Game getGame() {
 		return ourGame;
 	}
 	
-	private World world;
-	
-	public World getWorld() {
-		return world;
-	}
-	
 	private Phase phase;
 	public Phase getPhase() { return phase; }
-	public void setPhase(Phase phase) {
-		this.phase = phase;
-	}
 	
-	private Plugin plugin;
+	private DvZPlugin plugin;
 	public Plugin getPlugin() { return plugin; }
 	
 	private DwarfManager dm;
 	private MonsterManager mm;
+	private MapManager mapm;
+	private GameListener gl;
 	
 	private Objective sidebarObj;
 	
 	
-	void setupGame(Plugin plugin) {
+	void setupGame(DvZPlugin plugin) {
 		this.plugin = plugin;
-		
-		this.phase = Phase.STARTING;
-		
-		this.dm = DwarfManager.getManager();
-		this.mm = MonsterManager.getManager();
-		
-		dm.setupManager();
-		mm.setupManager();
 		
 		removeRecipes();
 		
-		Configuration mapConfig = YamlConfiguration.loadConfiguration(plugin.getResource("map.yml"));
-		
-		world = Bukkit.getWorld(mapConfig.getString("world"));
-		
-		ShrineManager.getManager().setupManager(mapConfig);
-		
-		Bukkit.getPluginManager().registerEvents(new GameListener(), plugin);
+		gl = new GameListener();
+		Bukkit.getPluginManager().registerEvents(gl, plugin);
 		
 		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+		
+		Objective oldObj = board.getObjective("MySidebar");
+		if (oldObj != null)
+			oldObj.unregister();
+		
 		sidebarObj = board.registerNewObjective("MySidebar", "dummy");
 		sidebarObj.setDisplaySlot(DisplaySlot.SIDEBAR);
 		sidebarObj.setDisplayName(ChatColor.AQUA + "Dwarves");
 		
-		setGameRules();
 		doPacketStuff();
+		
+		mapm = MapManager.getManager().getManager();
+		mapm.setup();
+		
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				mapm.loadRandomMap();
+			}
+		}.runTaskLater(plugin, 10);
+	}
+	
+	void resetManagers() {
+		DwarfManager.getManager().reset();
+		MonsterManager.getManager().reset();
+		ShrineManager.getManager().reset();
+		DoomManager.getManager().reset();
+		AIManager.getManager().reset();
+		TimedBlock.cancelAllBlocks();
+		
+		this.dm = DwarfManager.getManager();
+		this.mm = MonsterManager.getManager();
+		
+		gl.updateManagers();
+		plugin.updateManagers();
 	}
 	
 	
@@ -143,7 +156,14 @@ public class Game {
 	}
 	
 	// ------ GAME PHASES -------
+	public void startLobby() {
+		phase = Phase.STARTING;
+		for (Player player : Bukkit.getOnlinePlayers())
+			resetPlayer(player);
+	}
+	
 	public void startGame() {
+		if (phase != Phase.STARTING) return;
 		phase = Phase.BUILD;
 		
 		// Add dwarves
@@ -153,7 +173,7 @@ public class Game {
 		updateScoreboard();
 		
 		// Set time
-		world.setTime(0);
+		mapm.getWorld().setTime(0);
 		
 		// Start countdown to plague
 		int buildTime = 10*60*20 + (int)(60*20*Math.random());
@@ -167,6 +187,7 @@ public class Game {
 	}
 	
 	void startPlague() {
+		if (phase != Phase.BUILD) return;
 		phase = Phase.PLAGUE;
 		
 		// Dwarves and number to plague
@@ -191,6 +212,7 @@ public class Game {
 	}
 	
 	private void releaseMonsters() {
+		if (phase != Phase.PLAGUE) return;
 		phase = Phase.GAME;
 		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
 		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
@@ -200,8 +222,9 @@ public class Game {
 	}
 	
 	public void endGame() {
+		if (phase != Phase.GAME) return;
 		phase = Phase.END;
-		Bukkit.broadcastMessage("Rip game.");
+		
 	}
 	
 	
@@ -212,23 +235,6 @@ public class Game {
 			it.next();
 			it.remove();
 		}
-	}
-	
-	private void setGameRules() {
-		world.setGameRuleValue("doDaylightCycle", "true");
-		world.setGameRuleValue("doEntityDrops", "false");
-		world.setGameRuleValue("doFireTick", "true");
-		world.setGameRuleValue("doMobLoot", "false");
-		world.setGameRuleValue("doMobSpawning", "false");
-		world.setGameRuleValue("doTileDrops", "false");
-		world.setGameRuleValue("doWeatherCycle", "false");
-		world.setGameRuleValue("keepInventory", "false");
-		world.setGameRuleValue("maxEntityCramming", "-1");
-		world.setGameRuleValue("mobGriefing", "false");
-		world.setGameRuleValue("naturalRegeneration", "false");
-		world.setGameRuleValue("showDeathMessages", "true");
-		world.setGameRuleValue("spectatorGenerateChunks", "false");
-		world.setGameRuleValue("randomTickSpeed", "1");
 	}
 	
 	private void doPacketStuff() {
@@ -261,7 +267,7 @@ public class Game {
 	}
 	
 	public void tootHorn() {
-		world.playSound(ShrineManager.getManager().getDwarfSpawn(), "horn", 100f, 1f);
+		mapm.getWorld().playSound(ShrineManager.getManager().getDwarfSpawn(), "horn", 100f, 1f);
 		new BukkitRunnable() {
 			private World world;
 			
@@ -272,14 +278,6 @@ public class Game {
 				}
 			}
 		}.runTaskLater(Game.getGame().getPlugin(), 40);
-	}
-	
-	public static Location createLocation(List<Double> doubleList) {
-		Bukkit.getLogger().info(doubleList.toString());
-		if (doubleList.size() >= 4)
-			return new Location(getGame().getWorld(), doubleList.get(0), doubleList.get(1), doubleList.get(2),  (float) doubleList.get(3).doubleValue(), 0f);
-		else
-			return new Location(getGame().getWorld(), doubleList.get(0), doubleList.get(1) ,doubleList.get(2));
 	}
 	
 	public void resetPlayer(Player player) {

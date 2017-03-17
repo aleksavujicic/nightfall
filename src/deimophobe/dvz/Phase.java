@@ -4,18 +4,16 @@ package deimophobe.dvz;
  * Created by Deimophobe on 15/01/17.
  */
 public enum Phase {
-	STARTING(false, true, 0, false, true, false, GamePlayerType.NONE),
-	BUILD(false, true, 5, false, true, false, GamePlayerType.DWARF),
-	PLAGUE(false, false, 2, false, true, false, GamePlayerType.MOB),
-	GAME(true, false, 2, true, false, true, GamePlayerType.MOB),
-	DOOM(false, false, 2, true, false, false, GamePlayerType.MOB),
-	END(true, false, 0, false, false, true, GamePlayerType.MOB);
+	STARTING(false, 0, false, true),
+	BUILD(false, 5, false, true),
+	PLAGUE(false, 2, false, true),
+	GAME(true, 2, true, false),
+	END(true, 0, false, false),
+	
+	;
 	
 	private final boolean mobSpawn;
 	public boolean canMobSpawn() {return mobSpawn;}
-	
-	private final boolean dwarfJoin;
-	public boolean canDwarfJoin() {return dwarfJoin;}
 	
 	private final int goldMineQuantity;
 	public int getGoldMineQuantity() {return goldMineQuantity;}
@@ -26,28 +24,11 @@ public enum Phase {
 	private final boolean blueWalls;
 	public boolean canBlueWalls() { return blueWalls;}
 	
-	private final boolean aiSpawn;
-	public boolean canAISpawn() { return aiSpawn;}
 	
-	private final GamePlayerType typeOnJoin;
-	public GamePlayerType playerTypeOnJoin() { return typeOnJoin;}
-	
-	
-	Phase(boolean mobSpawn, boolean dwarfJoin, int goldMineQuantity, boolean gravelProc, boolean blueWalls, boolean aiSpawn, GamePlayerType typeOnJoin) {
+	Phase(boolean mobSpawn, int goldMineQuantity, boolean gravelProc, boolean blueWalls) {
 		this.mobSpawn = mobSpawn;
-		this.dwarfJoin = dwarfJoin;
 		this.goldMineQuantity = goldMineQuantity;
 		this.gravelProc = gravelProc;
 		this.blueWalls = blueWalls;
-		this.aiSpawn = aiSpawn;
-		this.typeOnJoin = typeOnJoin;
-	}
-	
-	public boolean canDwarfDie() {
-		return !dwarfJoin;
-	}
-	
-	public enum GamePlayerType {
-		DWARF, MOB, NONE
 	}
 }

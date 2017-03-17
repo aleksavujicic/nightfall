@@ -12,6 +12,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -23,21 +24,22 @@ import java.util.Set;
  */
 public class DwarfManager extends GamePlayerManager<Dwarf> {
 	private static DwarfManager ourManager = new DwarfManager();
+	public static DwarfManager getManager() {
+		return ourManager;
+	}
 	
 	public DwarfManager() {
 		super(ChatColor.DARK_AQUA + "DWARVES");
 	}
 	
-	public static DwarfManager getManager() {
-		return ourManager;
-	}
 	
+	private BukkitRunnable runner;
 	public void setupManager() {
 		Plugin plugin = Game.getGame().getPlugin();
 		Bukkit.getPluginManager().registerEvents(new DwarfListener(), plugin);
 		config = YamlConfiguration.loadConfiguration(plugin.getResource("dwarf-items.yml"));
 		
-		new BukkitRunnable() {
+		runner = new BukkitRunnable() {
 			int counter = 0;
 			@Override
 			public void run() {
@@ -52,9 +54,15 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 					);
 				}
 			}
-		}.runTaskTimer(plugin, 1, 1);
+		};
+		runner.runTaskTimer(plugin, 1, 1);
 		
 		setupTeams("dwarves", ChatColor.DARK_AQUA);
+	}
+	public void reset() {
+		if (runner != null)
+			runner.cancel();
+		ourManager = new DwarfManager();
 	}
 	
 	private Configuration config;

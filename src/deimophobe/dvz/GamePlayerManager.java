@@ -3,6 +3,7 @@ package deimophobe.dvz;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
@@ -27,6 +28,10 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 	protected Team setupTeams(String teamName, ChatColor teamColour) {
 		ScoreboardManager manager = Bukkit.getScoreboardManager();
 		Scoreboard board = manager.getMainScoreboard();
+		
+		Team oldTeam = board.getTeam(teamName);
+		if (oldTeam != null)
+			oldTeam.unregister();
 		
 		mcTeam = board.registerNewTeam(teamName);
 		

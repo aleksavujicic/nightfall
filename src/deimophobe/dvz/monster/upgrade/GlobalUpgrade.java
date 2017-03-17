@@ -3,7 +3,7 @@ package deimophobe.dvz.monster.upgrade;
 /**
  * Created by Deimophobe on 25/02/17.
  */
-public enum GlobalUpgrades {
+public enum GlobalUpgrade {
 	KRUNGOR,
 	;
 	
@@ -14,5 +14,10 @@ public enum GlobalUpgrades {
 	}
 	public boolean isUnlocked() {
 		return unlocked;
+	}
+	
+	public static void reset() {
+		for (GlobalUpgrade gu : values())
+			gu.unlocked = false;
 	}
 }

@@ -1,13 +1,12 @@
 package deimophobe.dvz.monster.mob;
 
 import deimophobe.dvz.DamageType;
-import deimophobe.dvz.Game;
 import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.Skin;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
-import deimophobe.dvz.monster.upgrade.GlobalUpgrades;
+import deimophobe.dvz.monster.upgrade.GlobalUpgrade;
 import deimophobe.dvz.monster.upgrade.UpgradeType;
 import deimophobe.dvz.monster.upgrade.Upgrades;
 import deimophobe.dvz.shrine.ShrineManager;
@@ -149,7 +148,7 @@ public abstract class Mob {
 	}
 	
 	protected void applyUpgrades(Upgrades upgrades) {
-		if (GlobalUpgrades.KRUNGOR.isUnlocked()) {
+		if (GlobalUpgrade.KRUNGOR.isUnlocked()) {
 			monster.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, POTION_LENGTH, 3, true, true, true);
 		}
 		

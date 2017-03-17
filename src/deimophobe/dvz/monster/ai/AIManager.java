@@ -1,11 +1,14 @@
 package deimophobe.dvz.monster.ai;
 
 import deimophobe.dvz.Game;
+import deimophobe.dvz.MapManager;
 import deimophobe.dvz.Misc;
+import deimophobe.dvz.Phase;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
+import deimophobe.dvz.monster.doom.DoomManager;
 import deimophobe.dvz.shrine.region.Region;
 import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.*;
@@ -35,13 +38,22 @@ public class AIManager {
 	private final static double AI_SPAWN_CHANCE = 0.2;
 	
 	
+	private BukkitRunnable runner;
 	public void setup() {
-		new BukkitRunnable() {
+		runner = new BukkitRunnable() {
 			@Override
 			public void run() {
 				updateAIs();
 			}
-		}.runTaskTimer(Game.getGame().getPlugin(), 100, 100);
+		};
+		runner.runTaskTimer(Game.getGame().getPlugin(), 100, 100);
+	}
+	
+	public void reset() {
+		if (runner != null)
+			runner.cancel();
+		killAllAIs();
+		manager = new AIManager();
 	}
 	
 	// ------ AI NAMES ------
@@ -78,9 +90,10 @@ public class AIManager {
 	
 	// ------ ARE AIS SPAWNABLE ------
 	private boolean aisSpawnable = true;
-	private boolean canSpawnAI(Location spawnSpot) {
+	private boolean canSpawnAI(Location spawnSpot) { // TODO: do a break if one of the first few are fulfilled.
 		return  (aisSpawnable &&
-				Game.getGame().getPhase().canAISpawn() &&
+				Game.getGame().getPhase() == Phase.GAME &&
+				!DoomManager.getManager().isDoom() &&
 				ais.size() < MAX_AIS &&
 				Math.random() < AI_SPAWN_CHANCE &&
 				!ShrineManager.getManager().getShrine().getShrineProtection().containsLocation(spawnSpot));
@@ -111,7 +124,7 @@ public class AIManager {
 			ais.remove(uuid);
 		
 		// Try spawn more
-		World world = Game.getGame().getWorld();
+		World world = MapManager.getManager().getWorld();
 		MonsterManager monsterManager = MonsterManager.getManager();
 		for (Location spawnSpot : spawnSpots) {
 			spawnSpot.getWorld().spawnParticle(Particle.HEART, spawnSpot, 1, 0, 0, 0);

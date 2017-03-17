@@ -47,3 +47,7 @@ commands:
     description: Forces the game to start.
   forceplague:
     description: Forces the plague to occur.
+
+  loadmap:
+    description: Loads a specified map.
+    usage: /loadmap <mapname>

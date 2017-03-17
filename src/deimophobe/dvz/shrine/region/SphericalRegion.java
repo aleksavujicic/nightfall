@@ -1,6 +1,6 @@
 package deimophobe.dvz.shrine.region;
 
-import deimophobe.dvz.Game;
+import deimophobe.dvz.Misc;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -18,7 +18,7 @@ class SphericalRegion implements Region {
 	}
 	
 	SphericalRegion(ConfigurationSection section) {
-		this.center = Game.createLocation(section.getDoubleList("center"));
+		this.center = Misc.createLocation(section.getDoubleList("center"));
 		this.radius = section.getDouble("radius");
 	}
 	

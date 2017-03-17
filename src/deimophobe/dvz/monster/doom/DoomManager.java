@@ -1,10 +1,12 @@
 package deimophobe.dvz.monster.doom;
 
 import deimophobe.dvz.Game;
+import deimophobe.dvz.MapManager;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.Phase;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
+import deimophobe.dvz.monster.ai.AIManager;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -29,6 +31,7 @@ public class DoomManager {
 	
 	private final Map<DoomType, Doom> dooms = new HashMap<>();
 	
+	private BukkitRunnable runner;
 	public void setup() {
 		resetDoomTimers();
 		
@@ -36,21 +39,27 @@ public class DoomManager {
 		dooms.put(DoomType.KRUNGOR, new KrungorDoom(doomConfig.getConfigurationSection("krungor")));
 		dooms.put(DoomType.GHOSTBLADES, new GhostbladeDoom(doomConfig.getConfigurationSection("ghostblades")));
 		
-		new BukkitRunnable() {
+		runner = new BukkitRunnable() {
 			@Override
 			public void run() {
 				updateDoom();
 			}
-		}.runTaskTimer(Game.getGame().getPlugin(), 20, 20);
+		};
+		runner.runTaskTimer(Game.getGame().getPlugin(), 20, 20);
+	}
+	
+	public void reset() {
+		if (runner != null)
+			runner.cancel();
+		manager = new DoomManager();
 	}
 	
 	private void resetDoomTimers() {
 		doomTimer = 10;
 		internalDoomTimer = 5;
-		game.setDoomSidebar(doomTimer);
+		Game.getGame().setDoomSidebar(doomTimer);
 	}
 	
-	private final Game game = Game.getGame();
 	private boolean isDoom = false;
 	private boolean doomActive = true;
 	private void updateDoom() {
@@ -59,17 +68,15 @@ public class DoomManager {
 			doomTimer--;
 			if (doomTimer <= 0) {
 				doomTimer = 0;
-				game.getWorld().setTime(18000);
-				game.setPhase(Phase.DOOM);
+				MapManager.getManager().getWorld().setTime(18000);
 				isDoom = true;
 			}
-			game.setDoomSidebar(doomTimer);
+			Game.getGame().setDoomSidebar(doomTimer);
 		} else {
 			internalDoomTimer--;
 			if (internalDoomTimer <= 0) {
 				spawnDoom(nextDoom());
 				resetDoomTimers();
-				game.setPhase(Phase.GAME);
 				isDoom = false;
 			}
 		}
@@ -100,10 +107,14 @@ public class DoomManager {
 	public void reduceDoom(int time) {
 		doomTimer -= time;
 		if (doomTimer < 0) doomTimer = 0;
-		game.setDoomSidebar(doomTimer);
+		Game.getGame().setDoomSidebar(doomTimer);
+	}
+	
+	public boolean isDoom() {
+		return isDoom;
 	}
 	
 	public void updateDoomCount() {
-		game.setDoomSidebar(doomTimer);
+		Game.getGame().setDoomSidebar(doomTimer);
 	}
 }

@@ -39,11 +39,15 @@ import org.spigotmc.event.entity.EntityDismountEvent;
  */
 public class GameListener implements Listener {
 	
-	private final Game game;
-	private final DwarfManager dm;
-	private final MonsterManager mm;
+	private Game game;
+	private DwarfManager dm;
+	private MonsterManager mm;
 	
 	public GameListener() {
+		updateManagers();
+	}
+	
+	public void updateManagers() {
 		game = Game.getGame();
 		dm = DwarfManager.getManager();
 		mm = MonsterManager.getManager();
@@ -63,16 +67,20 @@ public class GameListener implements Listener {
 		}
 		
 		
-		switch (game.getPhase().playerTypeOnJoin()) {
-			case DWARF:
+		switch (game.getPhase()) {
+			case STARTING:
+				game.resetPlayer(player);
+				break;
+				
+			case BUILD:
 				dm.addGamePlayer(player);
 				game.updateDwarfCount();
 				break;
-			case MOB:
+				
+			case PLAGUE:
+			case GAME:
+			case END:
 				mm.addGamePlayer(player);
-				break;
-			case NONE:
-				game.resetPlayer(player);
 				break;
 		}
 	}
@@ -309,7 +317,7 @@ public class GameListener implements Listener {
 			}
 			
 			// Kill detection for dwarves before shrine falling
-			if (!Game.getGame().getPhase().canDwarfDie() && damagee instanceof Dwarf) {
+			if (Game.getGame().getPhase() == Phase.BUILD && damagee instanceof Dwarf) {
 				double dmg = event.getFinalDamage();
 				if (damagee.getHealth() - dmg <= 0.1 || type.isInstaKill()) {
 					event.setDamage(0);

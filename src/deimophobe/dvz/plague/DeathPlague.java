@@ -2,6 +2,7 @@ package deimophobe.dvz.plague;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.Game;
+import deimophobe.dvz.MapManager;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.Location;
@@ -23,7 +24,7 @@ class DeathPlague extends Plague {
 	
 	@Override
 	protected void onStart() {
-		World world = Game.getGame().getWorld();
+		World world = MapManager.getManager().getWorld();
 		
 		Location spawnLoc = ShrineManager.getManager().getDwarfSpawn().clone();
 		spawnLoc.setY(0);

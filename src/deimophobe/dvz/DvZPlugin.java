@@ -49,6 +49,12 @@ public class DvZPlugin extends JavaPlugin {
 		Loadout.saveLoadouts();
 	}
 	
+	public void updateManagers() {
+		game = Game.getGame();
+		dm = DwarfManager.getManager();
+		mm = MonsterManager.getManager();
+	}
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
 		String name = command.getName();
@@ -236,6 +242,22 @@ public class DvZPlugin extends JavaPlugin {
 		}
 		if (name.equalsIgnoreCase("who")) {
 			sender.sendMessage(dm.getPlayerList() + "\n" +  mm.getPlayerList());
+		}
+		
+		if (name.equalsIgnoreCase("loadmap")) {
+			if (args.length == 0) {
+				sender.sendMessage(ChatColor.RED + "Please specify a map.");
+				return false;
+			} else {
+				String map = args[0];
+				if (MapManager.getManager().isMap(map)) {
+					sender.sendMessage(ChatColor.GOLD + "LOADING MAP: " + ChatColor.GREEN + args[0] + ChatColor.GOLD + "!");
+					MapManager.getManager().loadMap(map);
+				} else {
+					sender.sendMessage(ChatColor.RED + "No such map: " + ChatColor.GREEN + args[0] + ChatColor.RED + "!");
+				}
+				return true;
+			}
 		}
 		return false;
 	}

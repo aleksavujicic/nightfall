@@ -27,6 +27,6 @@ class DoomClockItem extends CostMobMenuItem {
 	
 	@Override
 	public boolean isAvailable(MonsterPlayer monster) {
-		return (Game.getGame().getPhase() != Phase.DOOM);
+		return (DoomManager.getManager().isDoom());
 	}
 }

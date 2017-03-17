@@ -2,6 +2,7 @@ package deimophobe.dvz.shrine;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.Game;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.Phase;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
@@ -27,9 +28,9 @@ import java.util.Queue;
  * Created by Deimophobe on 2/03/17.
  */
 public class ShrineManager {
-	private static final ShrineManager ourManager = new ShrineManager();
+	private static ShrineManager manager = new ShrineManager();
 	public static ShrineManager getManager() {
-		return ourManager;
+		return manager;
 	}
 	
 	
@@ -43,9 +44,10 @@ public class ShrineManager {
 	private BossBar shrineBar;
 	
 	
+	private BukkitRunnable runner;
 	public void setupManager(ConfigurationSection mapConfig) {
-		dwarfSpawn = Game.createLocation(mapConfig.getDoubleList("dwarfspawn"));
-		lobby = Game.createLocation(mapConfig.getDoubleList("lobby"));
+		dwarfSpawn = Misc.createLocation(mapConfig.getDoubleList("dwarfspawn"));
+		lobby = Misc.createLocation(mapConfig.getDoubleList("lobby"));
 		
 		shrines = new LinkedList<>();
 		ConfigurationSection shrineConfig = mapConfig.getConfigurationSection("shrines");
@@ -56,7 +58,7 @@ public class ShrineManager {
 		vault = 1000;
 		gold = 0;
 		
-		new BukkitRunnable() {
+		runner = new BukkitRunnable() {
 			@Override
 			public void run() {
 				if (Game.getGame().getPhase() == Phase.END) {
@@ -65,13 +67,21 @@ public class ShrineManager {
 					updateShrines();
 				}
 			}
-		}.runTaskTimer(Game.getGame().getPlugin(), 60, 60);
+		};
+		runner.runTaskTimer(Game.getGame().getPlugin(), 60, 60);
 		
 		shrineBar = Bukkit.createBossBar(getShrine().getName(), BarColor.BLUE, BarStyle.SOLID);
 		shrineBar.setProgress(1);
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			shrineBar.addPlayer(player);
 		}
+	}
+	
+	public void reset() {
+		if (runner != null)
+			runner.cancel();
+		removeShrineBar();
+		manager = new ShrineManager();
 	}
 	
 	
@@ -81,7 +91,8 @@ public class ShrineManager {
 	}
 	
 	public void removeShrineBar() {
-		shrineBar.removeAll();
+		if (shrineBar != null)
+			shrineBar.removeAll();
 	}
 	
 	

@@ -1,6 +1,6 @@
 package deimophobe.dvz.shrine;
 
-import deimophobe.dvz.Game;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.shrine.region.Region;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -55,7 +55,7 @@ public class Shrine {
 	public static Shrine createShrine(ConfigurationSection section) {
 		
 		String name = section.getString("name");
-		Location mobSpawn = Game.createLocation(section.getDoubleList("mobspawn"));
+		Location mobSpawn = Misc.createLocation(section.getDoubleList("mobspawn"));
 		
 		Region mobProt = Region.createRegion(section.getConfigurationSection("mobprot"));
 		Region shrineProt = Region.createRegion(section.getConfigurationSection("shrineprot"));

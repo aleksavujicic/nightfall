@@ -1,6 +1,6 @@
 package deimophobe.dvz.monster.doom;
 
-import deimophobe.dvz.monster.upgrade.GlobalUpgrades;
+import deimophobe.dvz.monster.upgrade.GlobalUpgrade;
 import org.bukkit.configuration.ConfigurationSection;
 
 /**
@@ -14,6 +14,6 @@ public class KrungorDoom extends Doom {
 	
 	@Override
 	void onSpawn() {
-		GlobalUpgrades.KRUNGOR.unlock();
+		GlobalUpgrade.KRUNGOR.unlock();
 	}
 }
