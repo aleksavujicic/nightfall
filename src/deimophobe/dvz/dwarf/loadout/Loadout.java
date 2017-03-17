@@ -81,7 +81,7 @@ public class Loadout {
 	
 	
 	// ------ SAVING AND LOADING TO FILE
-	static {
+	public static void setupLoadouts() {
 		// Load save yaml file
 		YamlConfiguration config = YamlConfiguration.loadConfiguration(getLoadoutFile());
 		for (String key : config.getKeys(false)) {

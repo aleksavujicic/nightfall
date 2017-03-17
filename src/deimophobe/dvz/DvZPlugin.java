@@ -36,9 +36,6 @@ public class DvZPlugin extends JavaPlugin {
 	public void onEnable() {
 		Bukkit.getLogger().info("AYYYY LMAO");
 		game.setupGame(this);
-		
-		// To load the loadout class
-		Class<Loadout> loadoutClass = Loadout.class;
 	}
 
 	@Override

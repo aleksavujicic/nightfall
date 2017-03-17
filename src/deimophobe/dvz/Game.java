@@ -8,6 +8,7 @@ import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.loadout.Loadout;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterPlayer;
@@ -73,6 +74,8 @@ public class Game {
 		sidebarObj.setDisplayName(ChatColor.AQUA + "Dwarves");
 		
 		doPacketStuff();
+		
+		Loadout.setupLoadouts();
 		
 		mapm = MapManager.getManager().getManager();
 		mapm.setup();
