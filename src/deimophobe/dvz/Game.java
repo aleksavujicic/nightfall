@@ -76,13 +76,12 @@ public class Game {
 		
 		mapm = MapManager.getManager().getManager();
 		mapm.setup();
+		mapm.loadRandomMap();
 		
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				mapm.loadRandomMap();
-			}
-		}.runTaskLater(plugin, 10);
+		for (World world : Bukkit.getWorlds()) {
+			if (world != mapm.getWorld())
+				Bukkit.unloadWorld(world, false);
+		}
 	}
 	
 	void resetManagers() {
