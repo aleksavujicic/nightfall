@@ -97,18 +97,20 @@ page1:
     index: 27
     item:
       name: "Runeblessed Armour"
-      material: ink_sack
-      damage: 6
+      material: diamond_hoe
+      damage: 21
   quiver:
     index: 28
     item:
       name: "Massive Quiver"
-      material: arrow
+      material: diamond_hoe
+      damage: 19
   studded:
     index: 29
     item:
       name: "Studded Armour"
-      material: leather_chestplate
+      material: diamond_hoe
+      damage: 20
   coil:
     index: 30
     item:
