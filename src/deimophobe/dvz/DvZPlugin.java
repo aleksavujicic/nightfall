@@ -20,6 +20,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 /**
  * Created by Deimophobe on 15/01/17.
  */
@@ -260,5 +264,23 @@ public class DvZPlugin extends JavaPlugin {
 			}
 		}
 		return false;
+	}
+	
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+		String name = command.getName();
+		if (name.equalsIgnoreCase("loadmap")) {
+			return startsWithPrefix(MapManager.getManager().getMaps(), args[0]);
+		}
+		return null;
+	}
+	
+	private static List<String> startsWithPrefix(Collection<String> strings, String prefix) {
+		List<String> matchStrings = new ArrayList<>();
+		for (String string : strings) {
+			if (string.startsWith(prefix))
+				matchStrings.add(string);
+		}
+		return matchStrings;
 	}
 }

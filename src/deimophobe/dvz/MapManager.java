@@ -60,6 +60,10 @@ public class MapManager {
 		return maps.contains(map);
 	}
 	
+	public Set<String> getMaps() {
+		return maps;
+	}
+	
 	public void loadRandomMap() {
 		String map = Misc.getRandom(maps);
 		loadMap(map);
