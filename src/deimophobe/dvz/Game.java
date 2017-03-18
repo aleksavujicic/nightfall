@@ -293,5 +293,7 @@ public class Game {
 			player.removePotionEffect(effect.getType());
 		}
 		player.setGameMode(GameMode.ADVENTURE);
+		player.setSaturation(100000);
+		player.setFoodLevel(100000);
 	}
 }
