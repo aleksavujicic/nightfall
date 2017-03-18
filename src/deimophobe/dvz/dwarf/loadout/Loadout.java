@@ -67,7 +67,11 @@ public class Loadout {
 	}
 	
 	public void clear() {
-		items.clear();
+		Iterator<LoadoutItem> ite = items.iterator();
+		while (ite.hasNext()) {
+			if (ite.next().isClearable())
+				ite.remove();
+		}
 	}
 	
 	

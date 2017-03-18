@@ -125,6 +125,10 @@ enum  LoadoutItem {
 		return items;
 	}
 	
+	public boolean isClearable() {
+		return !(category == Category.HAT || category == Category.TITLE);
+	}
+	
 	private enum Category {
 		SWORD,
 		BOW,
