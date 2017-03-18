@@ -52,13 +52,14 @@ public class DvZPlugin extends JavaPlugin {
 		
 		MapManager.getManager().deleteAllGameWorlds();
 		
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			player.kickPlayer("Server Reloading.");
-		}
-		
-		for (World world : Bukkit.getWorlds()) {
-			if (!Bukkit.unloadWorld(world, false));
-				Bukkit.getLogger().severe("COULDNT UNLOAD WORLD:" + world);
+		if (MapManager.getManager().isEnabled()) {
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				player.kickPlayer("Server Reloading.");
+			}
+			
+			for (World world : Bukkit.getWorlds()) {
+				Bukkit.unloadWorld(world, false);
+			}
 		}
 	}
 	
@@ -258,6 +259,10 @@ public class DvZPlugin extends JavaPlugin {
 		}
 		
 		if (name.equalsIgnoreCase("loadmap")) {
+			if (!MapManager.getManager().isEnabled()) {
+				sender.sendMessage(ChatColor.RED + "Map loading is currently disabled.");
+				return true;
+			}
 			if (args.length == 0) {
 				sender.sendMessage(ChatColor.RED + "Please specify a map.");
 				return false;

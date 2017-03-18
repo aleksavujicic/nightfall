@@ -33,6 +33,11 @@ public class MapManager {
 	private MapManager() {}
 	
 	
+	private boolean enabled;
+	public boolean isEnabled() {
+		return enabled;
+	}
+	
 	private final List<String> worlds = new ArrayList<>();
 	private int worldIndex = 0;
 	
@@ -46,6 +51,8 @@ public class MapManager {
 		Configuration mapConfig = YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource("maps.yml"));
 		worlds.addAll(mapConfig.getStringList("worlds"));
 		
+		enabled = mapConfig.getBoolean("enabled", true);
+				
 		mapConfigFolder = new File(Game.getGame().getPlugin().getDataFolder(), "maps");
 		mapWorldFolder = new File(Bukkit.getWorldContainer(), "maps");
 		
@@ -57,6 +64,14 @@ public class MapManager {
 		}
 		
 		deleteAllGameWorlds();
+		
+		if (!enabled) {
+			world = Bukkit.getWorlds().get(0);
+			
+			Bukkit.getLogger().warning("Map loading is disabled. Default world: " + world.getName() );
+			Game.getGame().resetManagers();
+			setupGameStuff(mapConfig.getConfigurationSection("default-map"));
+		}
 	}
 	
 	public void deleteAllGameWorlds() {
@@ -79,6 +94,8 @@ public class MapManager {
 	}
 	
 	public void loadMap(String map) {
+		if (!enabled) return;
+		
 		if (loading) throw new IllegalStateException("Attempted to load another map while loading");
 		loading = true;
 		Bukkit.getLogger().info("Begin loading of map: "+map);
