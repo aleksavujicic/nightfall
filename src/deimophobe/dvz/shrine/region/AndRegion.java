@@ -14,7 +14,7 @@ public class AndRegion implements Region {
 	
 	AndRegion(ConfigurationSection section) {
 		for (String key : section.getKeys(false)) {
-			if (!key.equalsIgnoreCase("type"))
+			if (!key.equals("type"))
 				regions.add(Region.createRegion(section.getConfigurationSection(key)));
 		}
 	}

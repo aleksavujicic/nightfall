@@ -34,6 +34,8 @@ public interface Region {
 		switch (type) {
 			case "spherical":
 				return new SphericalRegion(section);
+			case "cylindrical":
+				return new CylindricalRegion(section);
 			case "halfspace":
 				return new HalfRegion(section);
 			case "nullregion":
