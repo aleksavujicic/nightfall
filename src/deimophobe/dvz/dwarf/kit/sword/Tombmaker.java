@@ -1,9 +1,6 @@
 package deimophobe.dvz.dwarf.kit.sword;
 
-import deimophobe.dvz.DamageType;
-import deimophobe.dvz.Game;
-import deimophobe.dvz.GameEntity;
-import deimophobe.dvz.Misc;
+import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.Dwarf;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -39,7 +36,7 @@ class Tombmaker extends Sword {
 	
 	@Override
 	public void onBlockBreak(Block block) {
-		if (block.getType() == Material.GRAVEL && Game.getGame().getPhase().canGravelProc()) {
+		if (block.getType() == Material.GRAVEL && Game.getGame().getPhase() == Phase.GAME) {
 			dwarf.giveProc(Dwarf.ProcType.GRAVEL_PROC);
 		}
 	}

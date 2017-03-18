@@ -2,8 +2,10 @@ package deimophobe.dvz.monster.spawnmenu;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.ItemCreator;
+import deimophobe.dvz.Phase;
 import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.MonsterPlayer;
+import deimophobe.dvz.monster.doom.DoomManager;
 import deimophobe.dvz.monster.mob.MobType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.ChatColor;
@@ -69,14 +71,15 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 	
 	@Override
 	public boolean select(MonsterPlayer monster) {
-		if (Game.getGame().getPhase().canMobSpawn()) {
-			monster.spawnAs(mobType);
-			quantity -= 1;
-			return false;
-		} else {
-			monster.sendMessage(ChatColor.RED + "You cannot spawn during doom!");
-			return false;
+		if (Game.getGame().getPhase() == Phase.GAME || Game.getGame().getPhase() == Phase.END) {
+			if (!DoomManager.getManager().isDoom()) {
+				monster.spawnAs(mobType);
+				quantity -= 1;
+			} else {
+				monster.sendMessage(ChatColor.RED + "You cannot spawn during doom!");
+			}
 		}
+		return false;
 	}
 	
 	private static final Map<String, SpawnEggMenuItem> eggMap = new HashMap<>();

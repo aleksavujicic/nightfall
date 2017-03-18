@@ -2,6 +2,7 @@ package deimophobe.dvz.blocks;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GamePlayer;
+import deimophobe.dvz.Phase;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.shrine.region.Region;
 import org.bukkit.*;
@@ -114,12 +115,13 @@ public class BlockManager {
 		final int z_size = 4; // actual size 9
 		
 		boolean used = false;
+		boolean forceBlue = wizzy || Game.getGame().getPhase() == Phase.BUILD || Game.getGame().getPhase() == Phase.PLAGUE;
 		for (int x = x_center - x_size; x <= x_center + x_size; x++) {
 			for (int y = y_center - y_size; y <= y_center + y_size; y++) {
 				for (int z = z_center - z_size; z <= z_center + z_size; z++) {
 					Block toReplace = world.getBlockAt(x,y,z);
 					if (isWallBlock(toReplace.getType())) {
-						if (wizzy || Game.getGame().getPhase().canBlueWalls() || Math.random() <= BLUE_WALL_MORTAR_CHANCE) {
+						if (forceBlue || Math.random() <= BLUE_WALL_MORTAR_CHANCE) {
 							toReplace.setType(Material.LAPIS_ORE);
 						} else {
 							toReplace.setType(Material.SMOOTH_BRICK);

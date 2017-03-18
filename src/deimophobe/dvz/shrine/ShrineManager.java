@@ -110,7 +110,15 @@ public class ShrineManager {
 	
 	// ------ GOLD ------
 	public void mineGold() {
-		vault += Game.getGame().getPhase().getGoldMineQuantity();
+		switch (Game.getGame().getPhase()) {
+			case BUILD:
+			case PLAGUE:
+				vault += 5;
+				break;
+			case GAME:
+				vault += 2;
+				break;
+		}
 		Game.getGame().setVault(vault);
 	}
 	
