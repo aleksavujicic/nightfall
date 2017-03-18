@@ -56,6 +56,10 @@ public class MapManager {
 			}
 		}
 		
+		deleteAllGameWorlds();
+	}
+	
+	public void deleteAllGameWorlds() {
 		for (String world : worlds) {
 			deleteWorld(world);
 		}

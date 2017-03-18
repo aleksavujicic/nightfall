@@ -15,6 +15,7 @@ import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -48,6 +49,17 @@ public class DvZPlugin extends JavaPlugin {
 		ShrineManager.getManager().removeShrineBar();
 		TimedBlock.cancelAllBlocks();
 		Loadout.saveLoadouts();
+		
+		MapManager.getManager().deleteAllGameWorlds();
+		
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			player.kickPlayer("Server Reloading.");
+		}
+		
+		for (World world : Bukkit.getWorlds()) {
+			if (!Bukkit.unloadWorld(world, false));
+				Bukkit.getLogger().severe("COULDNT UNLOAD WORLD:" + world);
+		}
 	}
 	
 	public void updateManagers() {
