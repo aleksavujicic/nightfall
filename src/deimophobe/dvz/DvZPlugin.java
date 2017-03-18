@@ -21,6 +21,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -280,6 +281,28 @@ public class DvZPlugin extends JavaPlugin {
 				}
 				return true;
 			}
+		}
+		if (name.equalsIgnoreCase("enableMapLoading")) {
+			try {
+				MapManager.getManager().setMapsEnabled(true);
+			} catch (IOException e) {
+				sender.sendMessage(ChatColor.RED + "Failed to enable map loading.");
+				return true;
+			}
+			sender.sendMessage(ChatColor.GOLD + "Enabled map loading. This will cause reloads to kick people!");
+			sender.sendMessage(ChatColor.GREEN + "You must reload before changes will take effect.");
+			return true;
+		}
+		if (name.equalsIgnoreCase("disableMapLoading")) {
+			try {
+				MapManager.getManager().setMapsEnabled(false);
+			} catch (IOException e) {
+				sender.sendMessage(ChatColor.RED + "Failed to disable map loading.");
+				return true;
+			}
+			sender.sendMessage(ChatColor.GOLD + "Disabled map loading.");
+			sender.sendMessage(ChatColor.GREEN + "You must reload before changes will take effect.");
+			return true;
 		}
 		return false;
 	}

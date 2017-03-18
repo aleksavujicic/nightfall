@@ -16,10 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 17/03/17.
@@ -37,25 +34,41 @@ public class MapManager {
 	public boolean isEnabled() {
 		return enabled;
 	}
+	public void setMapsEnabled(boolean enabled) throws IOException {
+		YamlConfiguration mapConfig = YamlConfiguration.loadConfiguration(mapsConfigFile);
+		mapConfig.set("enabled", enabled);
+		mapConfig.save(mapsConfigFile);
+	}
 	
 	private final List<String> worlds = new ArrayList<>();
 	private int worldIndex = 0;
 	
 	private final Set<String> maps = new HashSet<>();
+	
 	private File mapConfigFolder;
 	private File mapWorldFolder;
+	
+	private File mapsConfigFile;
 	
 	private boolean loading = false;
 	
 	public void setup() {
-		Configuration mapConfig = YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource("maps.yml"));
+		// Load config file
+		Game.getGame().getPlugin().saveResource("maps.yml", false);
+		mapsConfigFile = new File(Game.getGame().getPlugin().getDataFolder(), "maps.yml");
+		Configuration mapConfig = YamlConfiguration.loadConfiguration(mapsConfigFile);
+		
+		// Add all game worlds - these are the worlds that the server will actually run on
 		worlds.addAll(mapConfig.getStringList("worlds"));
 		
+		// If map loading is enabled (disable for quick reloads.
 		enabled = mapConfig.getBoolean("enabled", true);
-				
+		
+		// Map config and world folders
 		mapConfigFolder = new File(Game.getGame().getPlugin().getDataFolder(), "maps");
 		mapWorldFolder = new File(Bukkit.getWorldContainer(), "maps");
 		
+		// Find all maps in config folder and add them to list of maps
 		for (File file : mapConfigFolder.listFiles()) {
 			String name = file.getName();
 			if (FilenameUtils.isExtension(name, "yml")) {
@@ -63,20 +76,16 @@ public class MapManager {
 			}
 		}
 		
+		// Delete any worlds left from previous sessions
 		deleteAllGameWorlds();
 		
+		// Load normal world if disabled
 		if (!enabled) {
 			world = Bukkit.getWorlds().get(0);
 			
 			Bukkit.getLogger().warning("Map loading is disabled. Default world: " + world.getName() );
 			Game.getGame().resetManagers();
 			setupGameStuff(mapConfig.getConfigurationSection("default-map"));
-		}
-	}
-	
-	public void deleteAllGameWorlds() {
-		for (String world : worlds) {
-			deleteWorld(world);
 		}
 	}
 	
@@ -94,6 +103,7 @@ public class MapManager {
 	}
 	
 	public void loadMap(String map) {
+		// Don't do anythin if disabled
 		if (!enabled) return;
 		
 		if (loading) throw new IllegalStateException("Attempted to load another map while loading");
@@ -181,6 +191,12 @@ public class MapManager {
 		return worlds.get(worldIndex);
 	}
 	
+	public void deleteAllGameWorlds() {
+		for (String world : worlds) {
+			deleteWorld(world);
+		}
+	}
+	
 	private void deleteWorld(String worldName) {
 		deleteWorld(new File(Game.getGame().getPlugin().getDataFolder(), worldName));
 	}
@@ -197,6 +213,12 @@ public class MapManager {
 	
 	
 	
+	
+	private World world;
+	public World getWorld() {
+		return world;
+	}
+	
 	private void setupGameStuff(ConfigurationSection mapConfig) {
 		setWorldSettings();
 		
@@ -205,11 +227,6 @@ public class MapManager {
 		MonsterManager.getManager().setupManager();
 		
 		Game.getGame().startLobby();
-	}
-	
-	private World world;
-	public World getWorld() {
-		return world;
 	}
 	
 	private void setWorldSettings() {

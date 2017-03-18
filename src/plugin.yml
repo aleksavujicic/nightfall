@@ -7,14 +7,19 @@ depend: [ProtocolLib]
 commands:
   setdwarf:
     usage: /setdwarf <name>
+    description: Sets a player to be a dwarf.
   sethero:
     usage: /sethero <name> <herotype>
+    description: Sets a player to be a hero.
   setmob:
     usage: /setmob <name>
+    description: Sets a player to be a mob
   spawnmob:
     usage: /spawnmob <name> <mobtype>
+    description: Forces a player to spawn as a mob type
   removeplayer:
     usage: /removeplayer <name>
+    description: Removes a player (from both dwarf and mob).
 
   horn:
     usage: /horn
@@ -31,23 +36,31 @@ commands:
     description: Choose a kit!
     aliases: kit
   stuck:
-    description: For when you're stuck.
+    description: For when you're stuck (before the game starts).
   who:
     description: Who is what and where is why
     aliases: list
 
   toggleais:
-    usage: /toggleais
     description: Enables/disables AI spawning.
+    usage: /toggleais
   toggledoom:
-    usage: /toggledoom
     description: Enables/disables doom clock.
+    usage: /toggledoom
 
   forcestart:
     description: Forces the game to start.
+    usage: /forcestart
   forceplague:
     description: Forces the plague to occur.
+    usage: /forceplague
 
   loadmap:
     description: Loads a specified map.
     usage: /loadmap <mapname>
+  enableMapLoading:
+    description: Allows maps to be loaded. Causes reloads to kick people.
+    usage: /enableMapLoading
+  disableMapLoading:
+    description: Disables map loading. Game will be played on default map instead.
+    usage: /disableMapLoading
