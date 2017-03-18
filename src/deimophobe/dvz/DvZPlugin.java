@@ -251,12 +251,15 @@ public class DvZPlugin extends JavaPlugin {
 		}
 		if (name.equalsIgnoreCase("forcestart")) {
 			game.startGame();
+			return true;
 		}
 		if (name.equalsIgnoreCase("forceplague")) {
 			game.startPlague();
+			return true;
 		}
 		if (name.equalsIgnoreCase("who")) {
 			sender.sendMessage(dm.getPlayerList() + "\n" +  mm.getPlayerList());
+			return true;
 		}
 		
 		if (name.equalsIgnoreCase("loadmap")) {
