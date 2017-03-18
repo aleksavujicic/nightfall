@@ -10,11 +10,12 @@ import java.util.Set;
  * Created by Deimophobe on 27/02/17.
  */
 public class AndRegion implements Region {
-	Set<Region> regions = new HashSet<>();
+	private final Set<Region> regions = new HashSet<>();
 	
 	AndRegion(ConfigurationSection section) {
 		for (String key : section.getKeys(false)) {
-			regions.add(Region.createRegion(section.getConfigurationSection(key)));
+			if (!key.equalsIgnoreCase("type"))
+				regions.add(Region.createRegion(section.getConfigurationSection(key)));
 		}
 	}
 	

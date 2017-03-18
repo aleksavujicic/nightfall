@@ -10,12 +10,12 @@ import java.util.Set;
  * Created by Deimophobe on 27/02/17.
  */
 class OrRegion implements Region {
-	
-	Set<Region> regions = new HashSet<>();
+	private final Set<Region> regions = new HashSet<>();
 	
 	OrRegion(ConfigurationSection section) {
 		for (String key : section.getKeys(false)) {
-			regions.add(Region.createRegion(section.getConfigurationSection(key)));
+			if (!key.equals("type"))
+				regions.add(Region.createRegion(section.getConfigurationSection(key)));
 		}
 	}
 	
