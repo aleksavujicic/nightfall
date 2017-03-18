@@ -11,16 +11,12 @@ import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.loadout.Loadout;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.dwarf.DwarfManager;
-import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
 import deimophobe.dvz.monster.upgrade.GlobalUpgrade;
 import deimophobe.dvz.plague.Plague;
 import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.*;
-import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -71,21 +67,15 @@ public class Game {
 			oldObj.unregister();
 		
 		sidebarObj = board.registerNewObjective("MySidebar", "dummy");
-		sidebarObj.setDisplaySlot(DisplaySlot.SIDEBAR);
 		sidebarObj.setDisplayName(ChatColor.AQUA + "Dwarves");
 		
-		doPacketStuff();
+		setupPacketEvents();
 		
 		Loadout.setupLoadouts();
 		
-		mapm = MapManager.getManager().getManager();
+		mapm = MapManager.getManager();
 		mapm.setup();
 		mapm.loadRandomMap();
-		
-		for (World world : Bukkit.getWorlds()) {
-			if (world != mapm.getWorld())
-				Bukkit.unloadWorld(world, false);
-		}
 	}
 	
 	void resetManagers() {
@@ -98,6 +88,7 @@ public class Game {
 		TimedBlock.cancelAllBlocks();
 		
 		Bukkit.getScheduler().cancelTasks(plugin);
+		Loadout.restartAutoSaver();
 		
 		this.dm = DwarfManager.getManager();
 		this.mm = MonsterManager.getManager();
@@ -164,13 +155,19 @@ public class Game {
 	// ------ GAME PHASES -------
 	public void startLobby() {
 		phase = Phase.STARTING;
-		for (Player player : Bukkit.getOnlinePlayers())
-			resetPlayer(player);
+		sidebarObj.setDisplaySlot(null);
+		
+		if (mapm.isEnabled()) {
+			for (Player player : Bukkit.getOnlinePlayers())
+				resetPlayer(player);
+		}
 	}
 	
 	public void startGame() {
 		if (phase != Phase.STARTING) return;
 		phase = Phase.BUILD;
+		
+		sidebarObj.setDisplaySlot(DisplaySlot.SIDEBAR);
 		
 		// Add dwarves
 		for (Player player : Bukkit.getOnlinePlayers()) {
@@ -210,7 +207,7 @@ public class Game {
 				if (phase == Phase.PLAGUE)
 					plague.forceEnd();
 			}
-		}.runTaskLater(plugin, 60*20);
+		}.runTaskLater(plugin, 120*20);
 	}
 	
 	public void endPlague() {
@@ -243,7 +240,7 @@ public class Game {
 		}
 	}
 	
-	private void doPacketStuff() {
+	private void setupPacketEvents() {
 		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 		protocolManager.addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.ENTITY_EQUIPMENT) {
 			@Override
@@ -275,8 +272,6 @@ public class Game {
 	public void tootHorn() {
 		mapm.getWorld().playSound(ShrineManager.getManager().getDwarfSpawn(), "horn", 100f, 1f);
 		new BukkitRunnable() {
-			private World world;
-			
 			@Override
 			public void run() {
 				for (Dwarf dwarf : dm.getGamePlayers()) {

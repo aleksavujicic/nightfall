@@ -6,6 +6,7 @@ import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterPlayer;
+import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,6 +22,7 @@ import org.bukkit.entity.SkeletonHorse;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -44,6 +46,12 @@ public class Bopen extends Mob {
 	protected Bopen(MonsterPlayer mons) {
 		super(mons, MobType.BOPEN);
 		mountHorse();
+	}
+	
+	@Override
+	public double onHit(Dwarf dwarf, DamageType type, double damage) {
+		ShrineManager.getManager().stealGold(20);
+		return damage;
 	}
 	
 	@Override
@@ -96,7 +104,7 @@ public class Bopen extends Mob {
 			horse.setTamed(true);
 			horse.setJumpStrength(10);
 			horse.setAdult();
-			horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.3);
+			horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.25);
 			horse.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
 			horse.addPassenger(monster.getPlayer());
 			horse.getInventory().setItem(0, SADDLE);

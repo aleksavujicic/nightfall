@@ -94,13 +94,21 @@ public class Loadout {
 			loadouts.put(uuid, loadout);
 		}
 		
-		// TODO: Make async?
-		new BukkitRunnable() {
+		restartAutoSaver();
+	}
+	
+	private static BukkitRunnable autosaver = null;
+	public static void restartAutoSaver() {
+		if (autosaver != null)
+			autosaver.cancel();
+		
+		autosaver = new BukkitRunnable() {
 			@Override
 			public void run() {
 				saveLoadouts();
 			}
-		}.runTaskTimer(Game.getGame().getPlugin(), 1200, 1200);
+		};
+		autosaver.runTaskTimer(Game.getGame().getPlugin(), 1200, 1200);
 	}
 	
 	public static void saveLoadouts() {
