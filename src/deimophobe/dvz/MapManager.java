@@ -55,6 +55,10 @@ public class MapManager {
 				maps.add(FilenameUtils.getBaseName(name));
 			}
 		}
+		
+		for (String world : worlds) {
+			deleteWorld(world);
+		}
 	}
 	
 	public boolean isMap(String map) {
@@ -98,13 +102,7 @@ public class MapManager {
 			throw new IllegalArgumentException("Map: " + map + " contains no world called: " + mapWorld);
 		
 		// Delete world folder if it exists
-		if (gameFolder.exists()) {
-			try {
-				FileUtils.deleteDirectory(gameFolder);
-			} catch (IOException e) {
-				Bukkit.getLogger().severe("Failed to delete world folder " + gameFolder.getName());
-			}
-		}
+		deleteWorld(gameFolder);
 		
 		// Copy map over
 		try {
@@ -133,20 +131,16 @@ public class MapManager {
 		
 		// Unload and delete old world
 		if (oldWorld != null) {
-			Bukkit.unloadWorld(oldWorld, false);
+			boolean success = Bukkit.unloadWorld(oldWorld, false);
+			if (!success)
+				Bukkit.getLogger().severe("Failed to unload world: " + oldWorld);
 			
 			new BukkitRunnable() {
 				@Override
 				public void run() {
 					// Delete old world
 					File oldFolder = oldWorld.getWorldFolder();
-					if (oldFolder.exists()) {
-						try {
-							FileUtils.deleteDirectory(oldFolder);
-						} catch (IOException e) {
-							Bukkit.getLogger().severe("Failed to delete old world folder " + oldFolder.getName());
-						}
-					}
+					deleteWorld(oldFolder);
 					
 					// Allow to load again
 					Bukkit.getLogger().info("Finished loading map: "+map);
@@ -164,6 +158,20 @@ public class MapManager {
 		worldIndex++;
 		worldIndex = worldIndex % worlds.size();
 		return worlds.get(worldIndex);
+	}
+	
+	private void deleteWorld(String worldName) {
+		deleteWorld(new File(Game.getGame().getPlugin().getDataFolder(), worldName));
+	}
+	
+	private void deleteWorld(File worldFile) {
+		if (worldFile.exists()) {
+			try {
+				FileUtils.deleteDirectory(worldFile);
+			} catch (IOException e) {
+				Bukkit.getLogger().severe("Failed to delete world folder " + worldFile.getName());
+			}
+		}
 	}
 	
 	
