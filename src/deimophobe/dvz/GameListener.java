@@ -581,13 +581,26 @@ public class GameListener implements Listener {
 	}
 	
 	@EventHandler
+	public void deadLRClick(PlayerAnimationEvent event) {
+		Player player = event.getPlayer();
+		boolean succ = tryShowMobMenu(player);
+		if (succ) event.setCancelled(true);
+	}
+	
+	@EventHandler
 	public void deadLRClick(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
+		boolean succ = tryShowMobMenu(player);
+		if (succ) event.setCancelled(true);
+	}
+	
+	private boolean tryShowMobMenu(Player player) {
 		MonsterPlayer monster = mm.getGamePlayer(player);
 		if (monster != null && !monster.isAlive()) {
 			mm.showMobMenu(monster);
-			event.setCancelled(true);
+			return true;
 		}
+		return false;
 	}
 	
 	@EventHandler
