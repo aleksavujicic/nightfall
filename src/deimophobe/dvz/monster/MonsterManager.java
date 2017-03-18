@@ -54,6 +54,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	public void reset() {
 		if (runner != null)
 			runner.cancel();
+		removeAllGamePlayers();
 		ourManager = new MonsterManager();
 	}
 	

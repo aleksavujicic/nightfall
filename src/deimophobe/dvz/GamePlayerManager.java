@@ -122,6 +122,12 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		return true;
 	}
 	
+	protected void removeAllGamePlayers() {
+		for (UUID uuid : players.keySet()) {
+			removeGamePlayer(uuid);
+		}
+	}
+	
 	public Collection<P> getGamePlayers() {
 		return players.values();
 	}

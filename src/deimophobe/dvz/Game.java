@@ -14,6 +14,7 @@ import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
+import deimophobe.dvz.monster.upgrade.GlobalUpgrade;
 import deimophobe.dvz.plague.Plague;
 import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.*;
@@ -93,6 +94,7 @@ public class Game {
 		ShrineManager.getManager().reset();
 		DoomManager.getManager().reset();
 		AIManager.getManager().reset();
+		GlobalUpgrade.reset();
 		TimedBlock.cancelAllBlocks();
 		
 		Bukkit.getScheduler().cancelTasks(plugin);

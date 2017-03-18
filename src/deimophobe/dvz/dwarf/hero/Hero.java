@@ -52,6 +52,11 @@ public class Hero extends Dwarf {
 		return DisguiseAPI.getDisguise(player);
 	}
 	
+	@Override
+	public void remove() {
+		super.remove();
+		DisguiseAPI.undisguiseToAll(player);
+	}
 	
 	@Override
 	protected void giveStartingItems(Map<ConsumableType, Integer> consumables) {

@@ -62,6 +62,7 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	public void reset() {
 		if (runner != null)
 			runner.cancel();
+		removeAllGamePlayers();
 		ourManager = new DwarfManager();
 	}
 	

@@ -6,16 +6,15 @@ import deimophobe.dvz.shrine.ShrineManager;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.util.FileUtil;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -40,6 +39,8 @@ public class MapManager {
 	private final Set<String> maps = new HashSet<>();
 	private File mapConfigFolder;
 	private File mapWorldFolder;
+	
+	private boolean loading = false;
 	
 	public void setup() {
 		Configuration mapConfig = YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource("maps.yml"));
@@ -70,6 +71,10 @@ public class MapManager {
 	}
 	
 	public void loadMap(String map) {
+		if (loading) throw new IllegalStateException("Attempted to load another map while loading");
+		loading = true;
+		Bukkit.getLogger().info("Begin loading of map: "+map);
+		
 		// Get config file
 		File configFile = new File(mapConfigFolder, map+".yml");
 		
@@ -111,7 +116,7 @@ public class MapManager {
 		} catch (IOException e) {
 			Bukkit.getLogger().severe("Failed to copy map " + mapFolder.getName() + " to world" + gameFolder.getName());
 		}
-		;
+		
 		// Reset everything
 		Game.getGame().resetManagers();
 		
@@ -125,9 +130,34 @@ public class MapManager {
 		// Setup game things
 		setupGameStuff(config);
 		
-		// Unload old world
-		Bukkit.unloadWorld(oldWorld, false);
 		
+		// Unload and delete old world
+		if (oldWorld != null) {
+			Bukkit.unloadWorld(oldWorld, false);
+			
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					// Delete old world
+					File oldFolder = oldWorld.getWorldFolder();
+					if (oldFolder.exists()) {
+						try {
+							FileUtils.deleteDirectory(oldFolder);
+						} catch (IOException e) {
+							Bukkit.getLogger().severe("Failed to delete old world folder " + oldFolder.getName());
+						}
+					}
+					
+					// Allow to load again
+					Bukkit.getLogger().info("Finished loading map: "+map);
+					loading = false;
+				}
+			}.runTaskLater(Game.getGame().getPlugin(), 60);
+		} else {
+			// Allow to load again
+			Bukkit.getLogger().info("Finished loading map: "+map);
+			loading = false;
+		}
 	}
 	
 	private String getNextWorld() {
@@ -137,8 +167,9 @@ public class MapManager {
 	}
 	
 	
+	
 	private void setupGameStuff(ConfigurationSection mapConfig) {
-		setGameRules();
+		setWorldSettings();
 		
 		ShrineManager.getManager().setupManager(mapConfig);
 		DwarfManager.getManager().setupManager();
@@ -152,7 +183,13 @@ public class MapManager {
 		return world;
 	}
 	
-	private void setGameRules() {
+	private void setWorldSettings() {
+		world.setTime(0);
+		world.setAutoSave(false);
+		world.setDifficulty(Difficulty.NORMAL);
+		world.setKeepSpawnInMemory(false);
+		world.setSpawnFlags(false, false);
+		
 		world.setGameRuleValue("doDaylightCycle", "true");
 		world.setGameRuleValue("doEntityDrops", "false");
 		world.setGameRuleValue("doFireTick", "true");
