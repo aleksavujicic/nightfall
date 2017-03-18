@@ -265,7 +265,11 @@ public class DvZPlugin extends JavaPlugin {
 				String map = args[0];
 				if (MapManager.getManager().isMap(map)) {
 					sender.sendMessage(ChatColor.GOLD + "LOADING MAP: " + ChatColor.GREEN + args[0] + ChatColor.GOLD + "!");
-					MapManager.getManager().loadMap(map);
+					try {
+						MapManager.getManager().loadMap(map);
+					} catch (IllegalStateException e) {
+						sender.sendMessage(ChatColor.RED + "Failed to load map - load already in progress!");
+					}
 				} else {
 					sender.sendMessage(ChatColor.RED + "No such map: " + ChatColor.GREEN + args[0] + ChatColor.RED + "!");
 				}
