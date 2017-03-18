@@ -524,7 +524,9 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void preventDropping(PlayerDropItemEvent event) {
-		if (event.getPlayer().getGameMode() == GameMode.ADVENTURE)
+		if (event.getPlayer().getGameMode() == GameMode.ADVENTURE ||
+				( dm.getGamePlayer(event.getPlayer()) != null && !Kit.isDroppableItem(event.getItemDrop().getItemStack()) ) ||
+				mm.getGamePlayer(event.getPlayer()) != null)
 			event.setCancelled(true);
 	}
 	
@@ -559,5 +561,42 @@ public class GameListener implements Listener {
 				((Bopen) monster.getMob()).dismountHorse();
 			}
 		}
+	}
+	
+	
+	// ------ MOB STUFF ------
+	@EventHandler
+	public void onInvClick(InventoryClickEvent event) {
+		HumanEntity entity = event.getWhoClicked();
+		if (entity.getType() == EntityType.PLAYER) {
+			Player player = (Player) entity;
+			MonsterPlayer monster = mm.getGamePlayer(player);
+			
+			if (monster != null) { //&& !mob.isAlive()) {
+				//event.setCancelled(true);
+				
+				MonsterManager.getManager().onClick(event.getSlot(), event.getClickedInventory(), monster);
+			}
+		}
+	}
+	
+	@EventHandler
+	public void deadLRClick(PlayerInteractEvent event) {
+		Player player = event.getPlayer();
+		MonsterPlayer monster = mm.getGamePlayer(player);
+		if (monster != null && !monster.isAlive()) {
+			mm.showMobMenu(monster);
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler
+	public void preventAIBurning(EntityCombustEvent event) {
+		if (event.getEntityType() == EntityType.ZOMBIE)
+			event.setCancelled(true);
+		
+		Entity entity = event.getEntity();
+		if (entity instanceof Player && mm.isGamePlayer((Player) entity))
+			event.setCancelled(true);
 	}
 }

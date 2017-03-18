@@ -36,7 +36,6 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	private BukkitRunnable runner;
 	public void setupManager() {
 		Plugin plugin = Game.getGame().getPlugin();
-		Bukkit.getPluginManager().registerEvents(new DwarfListener(), plugin);
 		config = YamlConfiguration.loadConfiguration(plugin.getResource("dwarf-items.yml"));
 		
 		runner = new BukkitRunnable() {

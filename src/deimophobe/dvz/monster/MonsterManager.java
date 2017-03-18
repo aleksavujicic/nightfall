@@ -36,7 +36,6 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	private BukkitRunnable runner;
 	public void setupManager() {
 		Plugin plugin = Game.getGame().getPlugin();
-		Bukkit.getPluginManager().registerEvents(new MobListener(), plugin);
 		
 		runner = new BukkitRunnable() {
 			@Override
