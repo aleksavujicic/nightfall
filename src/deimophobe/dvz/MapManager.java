@@ -106,6 +106,8 @@ public class MapManager {
 			FileUtils.copyDirectory(mapFolder, gameFolder);
 			File uidFile = new File(gameFolder, "uid.dat");
 			uidFile.delete();
+			File lockFile = new File(gameFolder, "session.lock");
+			lockFile.delete();
 		} catch (IOException e) {
 			Bukkit.getLogger().severe("Failed to copy map " + mapFolder.getName() + " to world" + gameFolder.getName());
 		}

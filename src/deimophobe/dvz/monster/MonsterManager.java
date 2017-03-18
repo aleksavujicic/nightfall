@@ -79,7 +79,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	public void onMobRelease() {
 		AIManager.getManager().setup();
 		DoomManager.getManager().setup();
-		
+				
 		// For mob xp
 		new BukkitRunnable() {
 			@Override

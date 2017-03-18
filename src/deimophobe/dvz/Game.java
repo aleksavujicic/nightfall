@@ -95,6 +95,8 @@ public class Game {
 		AIManager.getManager().reset();
 		TimedBlock.cancelAllBlocks();
 		
+		Bukkit.getScheduler().cancelTasks(plugin);
+		
 		this.dm = DwarfManager.getManager();
 		this.mm = MonsterManager.getManager();
 		
