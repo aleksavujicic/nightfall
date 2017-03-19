@@ -355,12 +355,13 @@ public class MonsterPlayer extends GamePlayer {
 		player.setFlySpeed(0.1f);
 		player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
 		
-		if (isAlive())
+		if (isAlive()) {
 			player.setFlying(false);
 			
-		Disguise dis = mob.getDisguise();
-		if (dis != null)
-			dis.getWatcher().setGlowing(false);
+			Disguise dis = mob.getDisguise();
+			if (dis != null)
+				dis.getWatcher().setGlowing(false);
+		}
 			
 		teleportTo(freezeLocation, true);
 		
