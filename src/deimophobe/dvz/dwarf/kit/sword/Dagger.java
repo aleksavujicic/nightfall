@@ -11,6 +11,7 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 /**
@@ -27,11 +28,11 @@ class Dagger extends Sword {
 		reduceCooldown(200);
 	}
 	
-	//@Override
-	//public double onHit(GameEntity monster, double damage) {
-		//monster.givePotionEffect(); addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 50, 4, true), true);
-	//	return damage;
-	//}
+	@Override
+	public double onHit(GameEntity monster, DamageType type, double damage) {
+		monster.givePotionEffect(PotionEffectType.WITHER, 100, 1, true, false, true);
+		return damage;
+	}
 	
 	private static final double EPSILON = 1;
 	private static final double RANGE = 4;

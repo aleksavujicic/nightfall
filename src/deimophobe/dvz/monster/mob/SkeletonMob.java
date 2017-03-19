@@ -41,7 +41,7 @@ abstract class SkeletonMob extends Mob {
 	
 	@Override
 	public double onHit(Dwarf dwarf, DamageType type, double damage) {
-		if (type.isRanged())
+		if (type.isArrow())
 			return power;
 		else
 			return damage;

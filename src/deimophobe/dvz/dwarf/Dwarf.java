@@ -417,7 +417,7 @@ public class Dwarf extends GamePlayer {
 		if (newDam != -1)
 			damage = newDam;
 		
-		if (type.isMelee() && hasProc() && !getHeldItem().isSimilar(Sword.getItem(SwordType.HAMMER))) {
+		if (type.isProccable() && hasProc() && !getHeldItem().isSimilar(Sword.getItem(SwordType.HAMMER))) {
 			if (monster instanceof MonsterPlayer) {
 				if (((MonsterPlayer) monster).getMob().isProccable()) {
 					return 10000;
@@ -434,9 +434,9 @@ public class Dwarf extends GamePlayer {
 		
 		damage *= (1d - getDamageReduction());
 		
-		
-		if (type.isPoison())
-			damage *= 2;
+		damage = type.getDwarfDamage(damage);
+		if (damage == -1)
+			return damage;
 		
 		kit.onGotHit(player, type, damage);
 		

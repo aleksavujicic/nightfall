@@ -270,13 +270,11 @@ public class MonsterPlayer extends GamePlayer {
 			return -1;
 		}
 		
-		if (type.isMobImmune())
+		damage = type.getMobDamage(damage);
+		if (damage == -1)
 			return -1;
 		
-		if (type.isPoison())
-			damage *= 4;
-		
-		if (type.isRanged())
+		if (type.isArrow())
 			damage *= (1 - mob.getArrowRes());
 		
 		

@@ -21,7 +21,7 @@ class Tombmaker extends Sword {
 	
 	@Override
 	public void onKill(GameEntity monster, DamageType type) {
-		if (type.isMelee() && dwarf.hasProc() && isHoldingItem())
+		if (type == DamageType.REGULAR_MELEE && dwarf.hasProc() && isHoldingItem())
 			dwarf.giveProc(Dwarf.ProcType.REGULAR);
 	}
 	

@@ -4,78 +4,100 @@ package deimophobe.dvz;
  * Created by Deimophobe on 20/01/17.
  */
 public enum DamageType {
-	REGULAR_MELEE(true, false, false, false, false, false),
-	REGULAR_RANGED(false, true, false, false, false, false),
+	REGULAR_MELEE(true, false),
+	REGULAR_RANGED(false, true),
 	
-	POISON(false, false, false, true, false, false),
+	POISON(10, 5),
 	
-	EXPLOSION(false, false, false, false, true, false),
+	EXPLOSION(-1, -1),
 	
-	CONTACT(false, false, true, false, false, false),
-	DROWNING(false, false, true, false, false, false),
-	FALL(false, false, true, false, false, false),
-	HOT_FLOOR(false, false, true, false, false, false),
-	CRAMMING(false, false, true, false, false, false),
-	FALLING_BLOCK(false, false, true, false, false, false),
-	LIGHTNING(false, false, true, false, false, false),
-	LAVA(false, false, true, false, false, false),
-	FIRE(false, false, true, false, false, false),
+	CONTACT(2, -1),
+	DROWNING(4, -1),
+	FALL(2, -1),
+	HOT_FLOOR(2, -1),
+	CRAMMING(3, -1),
+	FALLING_BLOCK(3, -1),
+	LIGHTNING(20, -1),
+	LAVA(10, -1),
+	FIRE(5, -1),
 	
-	VOID(false, false, false, false, false, true),
-	SEPPUKU(false, false, false, false, true, true),
-	SHRINE_PROTECTION(false, false, false, false, true, true),
-	RELOG(false, false, false, false, true, true),
-	DEATH_PLAGUE(false, false, false, false, true, true),
-	KILL(false, false, false, false, true, true),
+	VOID(true),
+	SEPPUKU(true),
+	SHRINE_PROTECTION(true),
+	RELOG(true),
+	DEATH_PLAGUE(true),
+	KILL(true),
 	
-	EBOW(false, true, false, false, true, false),
-	HAMMER_AOE(true, false, false, false, true, false),
-	EVISCERATE(true, false, false, false, true, false),
-	NOT_HOLDING_GHOSTBLADE(false, false, false, false, true, false),
-	KABOOM(false, false, false, false, true, true),
+	EBOW(true, true),
+	HAMMER_AOE(false, false),
+	EVISCERATE(true, false),
+	NOT_HOLDING_GHOSTBLADE(false, false),
+	KABOOM(false, false),
 	
-	WILDFIRE(false, false, false, false, true, false),
-	TINDERFLAME(false, false, false, false, true, false),
-	WORMHOLE(false, false, false, false, true, false),
+	WILDFIRE(true, false),
+	TINDERFLAME(false, false),
 	;
 	
-	private final boolean melee;
-	private final boolean ranged;
-	private final boolean mobImmune;
-	private final boolean poison;
-	private final boolean custom;
 	private final boolean instaKill;
+	private final double dwarfMult;
+	private final double mobMult;
 	
-	public boolean isMelee() {
-		return melee;
-	}
-	
-	public boolean isRanged() {
-		return ranged;
-	}
-	
-	public boolean isMobImmune() {
-		return mobImmune;
-	}
-	
-	public boolean isPoison() {
-		return poison;
-	}
-	
-	public boolean isCustom() {
-		return custom;
-	}
+	private final boolean proccable;
+	private final boolean arrow;
 	
 	public boolean isInstaKill() {
 		return instaKill;
 	}
 	
-	DamageType(boolean melee, boolean ranged, boolean mobImmune, boolean poison, boolean custom, boolean instaKill) {
-		this.melee = melee;
-		this.ranged = ranged;
-		this.mobImmune = mobImmune;
-		this.poison = poison;
-		this.custom = custom;
+	public double getDwarfDamage(double damage) {
+		if (dwarfMult == -1) return -1;
+		return dwarfMult*damage;
+	}
+	public double getMobDamage(double damage) {
+		if (mobMult == -1) return -1;
+		return mobMult*damage;
+	}
+	
+	public boolean isProccable() {
+		return proccable;
+	}
+	
+	public boolean isArrow() {
+		return arrow;
+	}
+	
+	public boolean doesOverwriteAttacker() {
+		return (this != POISON);
+	}
+	
+	
+	
+	DamageType(boolean proccable, boolean arrow) {
+		this.instaKill = false;
+		
+		this.dwarfMult = 1;
+		this.mobMult = 1;
+		
+		this.proccable = proccable;
+		this.arrow = arrow;
+	}
+	
+	DamageType(boolean instaKill) {
 		this.instaKill = instaKill;
+		
+		this.dwarfMult = 1;
+		this.mobMult = 1;
+		this.proccable = false;
+		this.arrow = false;
+	}
+	
+	DamageType(double dwarfMult, double mobMult) {
+		this.instaKill = false;
+		
+		this.dwarfMult = dwarfMult;
+		this.mobMult = mobMult;
+		
+		this.proccable = false;
+		this.arrow = false;
 	}
 }

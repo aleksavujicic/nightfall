@@ -125,9 +125,9 @@ public class Kit {
 	
 	public double onHit(GameEntity monster, DamageType type, double damage) {
 		ItemStack item = dwarf.getHeldItem();
-		if (type.isMelee() && sword.matchesItem(item)) {
+		if (!type.isArrow() && sword.matchesItem(item)) {
 			return sword.onHit(monster, type, damage);
-		} else if (type.isRanged()) {
+		} else if (type.isArrow()) {
 			return bow.onHit(monster, type, damage);
 		}
 		return damage;

@@ -15,7 +15,7 @@ class Dragonskin extends Bow {
 	
 	@Override
 	public void onKill(GameEntity monster, DamageType type) {
-		if (type.isRanged())
+		if (type == DamageType.REGULAR_RANGED)
 			dwarf.giveProc(Dwarf.ProcType.DRAGONSKIN);
 	}
 }

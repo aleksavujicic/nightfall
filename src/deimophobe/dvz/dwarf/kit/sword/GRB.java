@@ -23,7 +23,7 @@ class GRB extends Sword {
 	
 	@Override
 	public void onKill(GameEntity monster, DamageType type) {
-		if (type.isMelee() && isHoldingItem())
+		if (type == DamageType.REGULAR_MELEE && isHoldingItem())
 			dwarf.giveProc(Dwarf.ProcType.REGULAR);
 		
 		reduceCooldown(20);

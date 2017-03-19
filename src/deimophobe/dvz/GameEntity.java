@@ -1,9 +1,7 @@
 package deimophobe.dvz;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
@@ -12,8 +10,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-
-import java.util.Calendar;
 
 /**
  * Created by Deimophobe on 24/01/17.
@@ -123,12 +119,14 @@ public abstract class GameEntity {
 	}
 	
 	public void customDamage(GameEntity damager, DamageType type, double damage, boolean force) {
-		lastDamager = damager;
-		lastDamageType = type;
-		lastItemName = getHeldItemOfDamager(damager);
+		if (type.doesOverwriteAttacker()) {
+			lastDamager = damager;
+			lastDamageType = type;
+			lastItemName = getHeldItemOfDamager(damager);
+		}
 		
-		if (!type.isCustom())
-			Bukkit.getLogger().warning("Forcing custom damage that is not of custom type?!");
+		//if (!type.isCustom())
+		//	Bukkit.getLogger().warning("Forcing custom damage that is not of custom type?!");
 		
 		if (force)
 			entity.setNoDamageTicks(0);
@@ -137,12 +135,14 @@ public abstract class GameEntity {
 	}
 	
 	public void registerNonCustomDamage(GameEntity damager, DamageType type) {
-		lastDamager = damager;
-		lastDamageType = type;
-		lastItemName = getHeldItemOfDamager(damager);
+		if (type.doesOverwriteAttacker()) {
+			lastDamager = damager;
+			lastDamageType = type;
+			lastItemName = getHeldItemOfDamager(damager);
+		}
 		
-		if (type.isCustom())
-			Bukkit.getLogger().warning("Registering damage that is of custom type?!");
+		//if (type.isCustom())
+		//	Bukkit.getLogger().warning("Registering damage that is of custom type?!");
 	}
 	
 	private static String getHeldItemOfDamager(GameEntity damager) {

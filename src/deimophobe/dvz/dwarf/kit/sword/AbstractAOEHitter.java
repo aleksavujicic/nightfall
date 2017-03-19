@@ -24,7 +24,7 @@ abstract class AbstractAOEHitter extends Sword {
 	
 	@Override
 	public double onHit(GameEntity monster, DamageType type, double damage) {
-		if (type.isCustom() || monster == null) return damage;
+		if (type != DamageType.REGULAR_MELEE || monster == null) return damage;
 		
 		Location center = monster.getLocation();
 		for (GameEntity entity : MonsterManager.getManager().getMobsAndAIs()) {
