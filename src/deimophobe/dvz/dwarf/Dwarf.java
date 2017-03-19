@@ -271,8 +271,9 @@ public class Dwarf extends GamePlayer {
 		return (holdingLightItem ||
 				lightLevel >= MIN_LIGHT_LEVEL_FOR_BLINDNESS ||
 				hasProc() ||
-				player.hasPotionEffect(PotionEffectType.NIGHT_VISION) ||
-				kit.isBlindnessImmune()
+				kit.isBlindnessImmune() ||
+				Game.getGame().getPhase() == Phase.BUILD ||
+				player.hasPotionEffect(PotionEffectType.NIGHT_VISION)
 		);
 	}
 	

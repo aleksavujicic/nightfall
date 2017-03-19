@@ -8,10 +8,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 4/02/17.
@@ -123,7 +120,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 	}
 	
 	protected void removeAllGamePlayers() {
-		for (UUID uuid : players.keySet()) {
+		for (UUID uuid : new HashSet<>(players.keySet())) {
 			removeGamePlayer(uuid);
 		}
 	}
