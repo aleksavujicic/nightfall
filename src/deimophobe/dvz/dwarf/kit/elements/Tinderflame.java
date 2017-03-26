@@ -1,28 +1,41 @@
-package deimophobe.dvz.dwarf.kit.sword;
+package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.GamePlayer;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
+import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 /**
  * Created by Deimophobe on 11/03/17.
  */
-class Tinderflame extends Sword {
+class Tinderflame extends AbstractCooldownItem {
 	Tinderflame(Dwarf dwarf) {
-		super(dwarf, SwordType.TINDERFLAME, 40);
+		super(dwarf, 40);
 	}
+	
+	private final static ItemStack ITEM = DwarfManager.getManager().getItem("hero.tinderflame", Slot.MAIN_HAND);
+	@Override
+	public ItemStack getItem() {
+		return ITEM;
+	}
+	@Override
+	public KitGiveType getGiveType() { return KitGiveType.START; }
+	
 	
 	private static final double PARTICLE_FREQ = 0.5;
 	
@@ -67,9 +80,6 @@ class Tinderflame extends Sword {
 		if (monster instanceof AIEntity && type == DamageType.REGULAR_MELEE) return damage + 35;
 		else return damage;
 	}
-	
-	@Override
-	public void playOffCDSound() {}
 	
 	@Override
 	public float fractionComplete() {return -1;}

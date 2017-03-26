@@ -2,7 +2,9 @@ package deimophobe.dvz.dwarf;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GamePlayerManager;
+import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.dwarf.hero.Hero;
+import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
@@ -10,6 +12,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -69,6 +72,9 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	public Configuration getConfig() {
 		return config;
 	}
+	public ItemStack getItem(String sec, Slot slot) {
+		return ItemCreator.createItem(config.getConfigurationSection(sec), slot);
+	}
 	
 	
 	@Override
@@ -78,6 +84,7 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	
 	
 	private final Set<Hero> heroes = new HashSet<>();
+	/*
 	public boolean addHero(String name, Hero.Type type) {
 		return addHero(Bukkit.getPlayer(name), type);
 	}
@@ -90,6 +97,7 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 		
 		return true;
 	}
+	*/
 	
 	
 	private final Inventory sharedChest = Bukkit.createInventory(null, 54, ChatColor.DARK_BLUE + "Shared Resources Chest");

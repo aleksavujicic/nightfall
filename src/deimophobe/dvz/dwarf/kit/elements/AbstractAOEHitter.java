@@ -1,4 +1,4 @@
-package deimophobe.dvz.dwarf.kit.sword;
+package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
@@ -13,12 +13,12 @@ import org.bukkit.Location;
 /**
  * Created by Deimophobe on 10/03/17.
  */
-abstract class AbstractAOEHitter extends Sword {
+abstract class AbstractAOEHitter extends AbstractItem {
 	
 	private final double radius;
 	
-	AbstractAOEHitter(Dwarf dwarf, SwordType type, int maxCooldown, double radius) {
-		super(dwarf, type, maxCooldown);
+	AbstractAOEHitter(Dwarf dwarf, double radius) {
+		super(dwarf);
 		this.radius = radius;
 	}
 	

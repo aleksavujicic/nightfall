@@ -2,12 +2,10 @@ package deimophobe.dvz.dwarf;
 
 import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.kit.Kit;
+import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
-import deimophobe.dvz.dwarf.kit.Passive;
 import deimophobe.dvz.dwarf.kit.consumable.Consumable;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
-import deimophobe.dvz.dwarf.kit.sword.Sword;
-import deimophobe.dvz.dwarf.kit.sword.SwordType;
 import deimophobe.dvz.effects.*;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.GameEntity;
@@ -49,9 +47,6 @@ public class Dwarf extends GamePlayer {
 	
 	private final int maxArrows;
 	
-	private final boolean hasSafefall;
-	private int safefallCD = 0;
-	
 	private static final int MIN_LIGHT_LEVEL_FOR_BLINDNESS = 5;
 	
 	public Kit getKit() {
@@ -72,20 +67,22 @@ public class Dwarf extends GamePlayer {
 		this.kit = new Kit(this, data);
 		
 		maxMana = 1000;
-		maxArmour = kit.getMaxArmour();
-		maxArrows = kit.getMaxArrows();
+		
+		// TODO
+		//maxArmour = kit.getMaxArmour();
+		//maxArrows = kit.getMaxArrows();
+		maxArmour = 2000;
+		maxArrows = 20;
 		
 		mana = maxMana;
 		armour = maxArmour;
 		
 		armoured = false;
 		
-		hasSafefall = kit.hasPassive(Passive.SAFEFALL) || kit.hasPassive(Passive.HERO_SAFEFALL);
-		
 		playIntro();
 		
 		String title = data.getTitle();
-		boolean forceTitle = data.forceTitle();
+		boolean forceTitle = data.getForceTitle();
 		
 		ChatColor color;
 		if (forceTitle)
@@ -121,6 +118,8 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	protected void giveStartingItems(Map<ConsumableType, Integer> consumables) {
+		kit.giveItems(KitGiveType.START);
+		
 		// Add consumables
 		for (ConsumableType type : consumables.keySet()) {
 			ItemStack item = Consumable.getItem(type).clone();
@@ -271,7 +270,7 @@ public class Dwarf extends GamePlayer {
 		return (holdingLightItem ||
 				lightLevel >= MIN_LIGHT_LEVEL_FOR_BLINDNESS ||
 				hasProc() ||
-				kit.isBlindnessImmune() ||
+//TODO				kit.isBlindnessImmune() ||
 				Game.getGame().getPhase() == Phase.BUILD ||
 				player.hasPotionEffect(PotionEffectType.NIGHT_VISION)
 		);
@@ -300,7 +299,7 @@ public class Dwarf extends GamePlayer {
 	
 	// ------ UPDATE ------
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		kit.update();
+		kit.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		updateCooldownBar();
 		
 		player.setSaturation(10);
@@ -308,9 +307,6 @@ public class Dwarf extends GamePlayer {
 		
 		if (grabCD > 0)
 			grabCD--;
-		
-		if (safefallCD > 0)
-			safefallCD--;
 		
 		updateBlood(quartSec, halfSec, sec);
 		
@@ -324,10 +320,6 @@ public class Dwarf extends GamePlayer {
 		}
 	}
 	
-	
-	public void setSafefallTime(int time) {
-		safefallCD = Math.max(time, safefallCD);
-	}
 	
 	
 	// ------ PROC ------
@@ -418,7 +410,7 @@ public class Dwarf extends GamePlayer {
 		if (newDam != -1)
 			damage = newDam;
 		
-		if (type.isProccable() && hasProc() && !getHeldItem().isSimilar(Sword.getItem(SwordType.HAMMER))) {
+		if (type.isProccable() && hasProc()) {// && !getHeldItem().isSimilar(Sword.getItem(SwordType.HAMMER))) {
 			if (monster instanceof MonsterPlayer) {
 				if (((MonsterPlayer) monster).getMob().isProccable()) {
 					return 10000;
@@ -433,23 +425,20 @@ public class Dwarf extends GamePlayer {
 	@Override
 	public double onGotHit(GameEntity player, DamageType type, double damage) {
 		
+		// In built resistance from dwarf armour
 		damage *= (1d - getDamageReduction());
 		
+		// Damage from damage type (more for lava etc.)
 		damage = type.getDwarfDamage(damage);
-		if (damage == -1)
-			return damage;
-		
-		kit.onGotHit(player, type, damage);
-		
+		if (damage == -1) return -1;
 		damageArmour(1);
 		
-		if (type == DamageType.FALL && (hasSafefall || safefallCD > 0)) {
-			damage *= 0.1;
-			if (damage <= 0.15)
-				return -1; // Cancel the damage if its really small
-			else
-				return damage;
-		}
+		// Any other changes from kit
+		damage = kit.onGotHit(player, type, damage);
+		
+		// Smoother landing for safefall
+		if (type == DamageType.FALL && damage <= 0.2)
+			return -1;
 		
 		return damage;
 	}
@@ -471,7 +460,7 @@ public class Dwarf extends GamePlayer {
 		switch (block.getType()) {
 			case GRAVEL:
 				giveItem(cobble, 3);
-				playSound("block.anvil.place", 1, 0.8f, false);
+				playSound("block.anvil.place", 0.5f, 0.8f, true);
 				break;
 			case LOG:
 			case LOG_2:
@@ -543,22 +532,25 @@ public class Dwarf extends GamePlayer {
 			// Grabbing items
 			case ACTIVATOR_RAIL:
 				giveItem(pick);
+				kit.giveItems(KitGiveType.PICK);
 				return MAX_GRAB_CD;
 			case RAILS:
 				giveItem(axe);
+				kit.giveItems(KitGiveType.AXE);
 				return MAX_GRAB_CD;
 			case POWERED_RAIL:
 				giveItem(shovel);
+				kit.giveItems(KitGiveType.SHOVEL);
 				return MAX_GRAB_CD;
 			case LADDER:
-				kit.giveSword();
+				kit.giveItems(KitGiveType.SWORD);
 				return MAX_GRAB_CD;
 			case DETECTOR_RAIL:
-				kit.giveBow();
+				kit.giveItems(KitGiveType.BOW);
 				return MAX_GRAB_CD;
 			case REDSTONE_TORCH_OFF:
 			case REDSTONE_TORCH_ON:
-				kit.giveAle();
+				kit.giveItems(KitGiveType.ALE);
 				return MAX_GRAB_CD;
 			
 			

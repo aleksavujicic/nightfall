@@ -1,15 +1,9 @@
 package deimophobe.dvz.dwarf.loadout;
 
 import deimophobe.dvz.Hat;
-import deimophobe.dvz.dwarf.kit.ArmourType;
-import deimophobe.dvz.dwarf.kit.DwarvenItem;
-import deimophobe.dvz.dwarf.kit.Passive;
-import deimophobe.dvz.dwarf.kit.ale.AleType;
-import deimophobe.dvz.dwarf.kit.bow.BowType;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
-import deimophobe.dvz.dwarf.kit.sword.SwordType;
+import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
@@ -21,55 +15,33 @@ public class DwarfData {
 	private boolean forceTitle = false;
 	private Hat hat = null;
 	
-	private SwordType swordType = SwordType.DRB;
-	private BowType bowType = BowType.SHORTBOW;
-	private AleType aleType = AleType.HEALING;
-	private ArmourType armour = null;
-	
+	private Set<KitElementType> elements = new HashSet<>();
 	private Map<ConsumableType, Integer> consumables = new HashMap<>();
-	private Set<Passive> passives = new HashSet<>();
 	
 	
 	public String getTitle() {
 		return title;
 	}
-	public boolean forceTitle() { return forceTitle; }
+	public boolean getForceTitle() { return forceTitle; }
 	public Hat getHat() {
 		return hat;
-	}
-	
-	public SwordType getSwordType() {
-		return swordType;
-	}
-	public BowType getBowType() {
-		return bowType;
-	}
-	public AleType getAleType() {
-		return aleType;
-	}
-	public ArmourType getArmour() {
-		return armour;
 	}
 	
 	public Map<ConsumableType, Integer> getConsumables() {
 		return consumables;
 	}
-	public Set<Passive> getPassives() {
-		return passives;
+	public Set<KitElementType> getElements() {
+		return elements;
 	}
 	
 	public DwarfData() {}
 	
-	public DwarfData(String title, boolean forceTitle, Hat hat, SwordType swordType, BowType bowType, AleType aleType, ArmourType armour, Map<ConsumableType, Integer> consumables, Set<Passive> passives) {
+	public DwarfData(String title, boolean forceTitle, Hat hat, Set<KitElementType> elements, Map<ConsumableType, Integer> consumables) {
 		this.title = title;
 		this.forceTitle = forceTitle;
 		this.hat = hat;
-		this.swordType = swordType;
-		this.bowType = bowType;
-		this.aleType = aleType;
-		this.armour = armour;
+		this.elements = (elements == null ? new HashSet<>() : elements);
 		this.consumables = (consumables == null ? new HashMap<>() : consumables);
-		this.passives = (passives == null ? new HashSet<>() : passives);
 	}
 	
 	public void setTitle(String title) {
@@ -82,26 +54,15 @@ public class DwarfData {
 		this.hat = hat;
 	}
 	
-	public void setSwordType(SwordType swordType) {
-		this.swordType = swordType;
-	}
-	public void setBowType(BowType bowType) {
-		this.bowType = bowType;
-	}
-	public void setAleType(AleType aleType) {
-		this.aleType = aleType;
-	}
-	public void setArmour(ArmourType armour) {
-		this.armour = armour;
+	public void addElement(KitElementType type) {
+		elements.add(type);
 	}
 	
-	public void addPassive(Passive passive) {
-		passives.add(passive);
-	}
 	public void incrementConsumable(ConsumableType consumable, int amt) {
 		int current = consumables.computeIfAbsent(consumable, k -> 0);
 		consumables.put(consumable, current + amt);
 	}
+	
 	
 	public static DwarfData getData(Player player) {
 		return Loadout.getLoadout(player).constructProperties();

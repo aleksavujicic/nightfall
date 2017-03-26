@@ -1,21 +1,34 @@
-package deimophobe.dvz.dwarf.kit.sword;
+package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.kit.KitGiveType;
+import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by Deimophobe on 20/01/17.
  */
-class AxeOfMalice extends Sword {
+class AxeOfMalice extends AbstractCooldownItem {
 	
 	AxeOfMalice(Dwarf dwarf) {
-		super(dwarf, SwordType.AXE_OF_MALICE, 1200);
+		super(dwarf, 1200);
 	}
+	
+	private final static ItemStack ITEM = DwarfManager.getManager().getItem("sword.axe", Slot.MAIN_HAND);
+	@Override
+	public ItemStack getItem() {
+		return ITEM;
+	}
+	@Override
+	public KitGiveType getGiveType() { return KitGiveType.SWORD; }
+	
 	
 	@Override
 	public void onKill(GameEntity monster, DamageType b) {
@@ -31,7 +44,7 @@ class AxeOfMalice extends Sword {
 	}
 	
 	@Override
-	protected void playOffCDSound() {
+	public void onOffCD() {
 		dwarf.playSound("entity.elder_guardian.curse", 1, 1f, false);
 	}
 }

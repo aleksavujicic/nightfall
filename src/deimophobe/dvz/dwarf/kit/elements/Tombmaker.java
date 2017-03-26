@@ -1,23 +1,37 @@
-package deimophobe.dvz.dwarf.kit.sword;
+package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.kit.KitGiveType;
+import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 20/01/17.
  */
-class Tombmaker extends Sword {
+class Tombmaker extends AbstractCooldownItem {
 	
 	Tombmaker(Dwarf dwarf) {
-		super(dwarf, SwordType.TOMBMAKER, 300);
+		super(dwarf, 300);
 	}
+	
+	
+	private final static ItemStack ITEM = DwarfManager.getManager().getItem("sword.tombmaker", Slot.MAIN_HAND);
+	@Override
+	public ItemStack getItem() {
+		return ITEM;
+	}
+	@Override
+	public KitGiveType getGiveType() { return KitGiveType.SHOVEL; }
+	
 	
 	@Override
 	public void onKill(GameEntity monster, DamageType type) {

@@ -52,28 +52,6 @@ sword:
      - §9Why not let them fight?
     attack: 8
 
-  tuihammer:
-    material: shield
-    damage: 2
-    name: "&6Kindled Light"
-    lore:
-     - "&eRank 11? Psssh, that’s nothing. When"
-     - "&eyou’ve lived your whole life with the"
-     - "&eflames, the holy light is all you see."
-     - "&eI’ve bathed in embers, emerged victorious"
-     - "&efrom scorching coals. This hammer’s been"
-     - "&ewith me through it all."
-    attack: 15
-    kbresist: true
-
-  tinderflame:
-    material: shears
-    damage: 46
-    name: "&6Not Tinderflame"
-    lore:
-     - "&eTotes not a tinderflame."
-    attack: 20
-
 bow:
   shortbow:
     material: bow
@@ -114,20 +92,6 @@ bow:
     name: Warpweaver Bow
     lore:
      - Some lore
-
-  wildfire:
-    material: shears
-    damage: 40
-    name: "&6Wildfire"
-    lore:
-     - "&ePurifier lore text"
-  wand:
-    material: shears
-    damage: 45
-    name: "&6Wand of No Particular Reference"
-    lore:
-     - "&dWOOORRMMMMHOOOLEEEE"
-    kbresist: true
 ale:
   healing:
     material: potion
@@ -276,6 +240,43 @@ misc:
     lore:
      - Some lore
 
+
+hero:
+  tuihammer:
+    material: shield
+    damage: 2
+    name: "&6Kindled Light"
+    lore:
+     - "&eRank 11? Psssh, that’s nothing. When"
+     - "&eyou’ve lived your whole life with the"
+     - "&eflames, the holy light is all you see."
+     - "&eI’ve bathed in embers, emerged victorious"
+     - "&efrom scorching coals. This hammer’s been"
+     - "&ewith me through it all."
+    attack: 15
+    kbresist: true
+
+  tinderflame:
+    material: shears
+    damage: 46
+    name: "&6Not Tinderflame"
+    lore:
+     - "&eTotes not a tinderflame."
+    attack: 20
+
+  wildfire:
+    material: shears
+    damage: 40
+    name: "&6Wildfire"
+    lore:
+     - "&ePurifier lore text"
+  wand:
+    material: shears
+    damage: 45
+    name: "&6Wand of No Particular Reference"
+    lore:
+     - "&dWOOORRMMMMHOOOLEEEE"
+    kbresist: true
 
 
 # To get format codes:

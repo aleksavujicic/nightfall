@@ -18,44 +18,37 @@ public class Loadout {
 	private static final int MAX_POINTS = 64;
 	
 	private final Set<LoadoutItem> items = new HashSet<>();
+	private final Map<Category, LoadoutItem> categoryItems = new HashMap<>();
 	
 	void selectItem(LoadoutItem item) {
+		Category cat = item.getCategory();
+		
 		if (items.contains(item)) {
 			items.remove(item);
+			if (cat != null) categoryItems.put(cat, item);
 		} else {
-			Set<LoadoutItem> categoryItems = item.getItemsInCategory();
-			categoryItems.retainAll(items);
-			
-			if (categoryItems.size() > 1) {
-				// Should only ever be one item of the same category in a loadout
-				Bukkit.getLogger().severe("Loadout contains more than one category item!? " + categoryItems.toString());
-				items.removeAll(categoryItems);
-			} else {
-				int extraPoints = 0; // The amount of extra points one would get from removing a similar item.
-				if (categoryItems.size() == 1) {
-					LoadoutItem categoryItem = categoryItems.iterator().next();
-					extraPoints += categoryItem.getCost();
+			// The amount of extra points one would get from removing a similar item.
+			int extraPoints = 0;
+			LoadoutItem categoryItem = null;
+			if (cat != null) {
+				categoryItem = categoryItems.get(cat);
+				if (categoryItem != null) {
+					extraPoints = categoryItem.getCost();
 				}
+			}
 				
-				// If there are still points after adding this item, let it be added
-				if (getRemainingPoints() + extraPoints >= item.getCost()) {
-					items.removeAll(categoryItems);
-					items.add(item);
-				}
+			// If there are still points after adding this item, let it be added
+			if (getRemainingPoints() + extraPoints >= item.getCost()) {
+				if (categoryItem != null) items.remove(categoryItem);
+				
+				items.add(item);
+				if (cat != null) categoryItems.put(cat, item);
 			}
 		}
 	}
 	
 	boolean hasItem(LoadoutItem item) {
 		return items.contains(item);
-	}
-	
-	DwarfData constructProperties() {
-		DwarfData data = new DwarfData();
-		for (LoadoutItem item : items) {
-			item.modify(data);
-		}
-		return data;
 	}
 	
 	int getRemainingPoints() {
@@ -66,14 +59,18 @@ public class Loadout {
 		return MAX_POINTS - usedPoints;
 	}
 	
-	public void clear() {
+	void clear() {
 		Iterator<LoadoutItem> ite = items.iterator();
 		while (ite.hasNext()) {
 			if (ite.next().isClearable())
 				ite.remove();
 		}
+		
+		for (Category category : Category.values()) {
+			if (category.isClearable())
+				categoryItems.remove(category);
+		}
 	}
-	
 	
 	private static final Map<UUID, Loadout> loadouts = new HashMap<>();
 	static Loadout getLoadout(Player player) {
@@ -84,8 +81,27 @@ public class Loadout {
 	}
 	
 	
+	DwarfData constructProperties() {
+		DwarfData data = new DwarfData();
+		for (LoadoutItem item : items) {
+			item.modify(data);
+		}
+		
+		// Add defaults if missing
+		for (Category category : Category.values()) {
+			if (!categoryItems.containsKey(category)) {
+				// TODO
+				//data.addElement(category.getDefault());
+			}
+		}
+		return data;
+	}
+	
+	
 	// ------ SAVING AND LOADING TO FILE
 	public static void setupLoadouts() {
+		LoadoutMenu.loadMenu();
+		
 		// Load save yaml file
 		YamlConfiguration config = YamlConfiguration.loadConfiguration(getLoadoutFile());
 		for (String key : config.getKeys(false)) {
@@ -145,8 +161,13 @@ public class Loadout {
 		
 		Loadout loadout = new Loadout();
 		for (String string : stringList) {
-			LoadoutItem item = LoadoutItem.valueOf(string);
-			loadout.items.add(item);
+			LoadoutItem item = LoadoutItem.getItem(string);
+			if (item != null) {
+				loadout.items.add(item);
+				Category cat = item.getCategory();
+				if (cat != null)
+					loadout.categoryItems.put(cat, item);
+			}
 		}
 		return loadout;
 	}

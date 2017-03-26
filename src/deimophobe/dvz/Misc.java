@@ -2,6 +2,7 @@ package deimophobe.dvz;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.block.Action;
 import org.bukkit.metadata.Metadatable;
@@ -50,5 +51,9 @@ public class Misc {
 			return new Location(MapManager.getManager().getWorld(), doubleList.get(0), doubleList.get(1), doubleList.get(2),  (float) doubleList.get(3).doubleValue(), 0f);
 		else
 			return new Location(MapManager.getManager().getWorld(), doubleList.get(0), doubleList.get(1) ,doubleList.get(2));
+	}
+	
+	public static YamlConfiguration getInternalFileConfig(String name) {
+		return YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource(name));
 	}
 }

@@ -14,9 +14,15 @@ import org.bukkit.scoreboard.Team;
  * Created by Deimophobe on 12/03/17.
  */
 class Tui extends Hero {
+	/*
 	protected Tui(Player player, Type type) {
 		super(player, type);
 		
+	}
+	*/
+	
+	public Tui(Player player) {
+		super(player);
 	}
 	
 	private static final String TUI_TEAM_NAME = "tui";

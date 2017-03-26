@@ -5,14 +5,12 @@ import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
-import deimophobe.dvz.dwarf.kit.DwarvenItem;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -23,13 +21,14 @@ import java.util.Map;
 /**
  * Created by Deimophobe on 20/01/17.
  */
-public class Bow extends DwarvenItem {
+public class Bow {
 	
+	protected Dwarf dwarf;
 	protected final int power;
 	private final BowType type;
 	
 	Bow(Dwarf dwarf, BowType type) {
-		super(dwarf, getItem(type));
+		//super(dwarf, getItem(type));
 		this.type = type;
 		this.power = type.getPower();
 	}
@@ -38,7 +37,7 @@ public class Bow extends DwarvenItem {
 		return type;
 	}
 	
-	@Override
+	//@Override
 	public double onHit(GameEntity monster, DamageType type, double damage) {return power;}
 	public Projectile onBowFire(Arrow arrow, float force) {
 		return arrow;

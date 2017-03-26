@@ -1,8 +1,9 @@
-package deimophobe.dvz.dwarf.kit;
+package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -13,9 +14,9 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 14/03/17.
  */
-class MagicCoil extends DwarvenItem {
+class MagicCoil extends AbstractCooldown {
 	
-	private static final int DURATION = 60*20;
+	private static final int DURATION = 20*20;
 	private static final int CHANGEOVER_DURATION = 5*20;
 	private static final Set<Buff> BUFFS = new HashSet<>();
 	static {
@@ -28,24 +29,26 @@ class MagicCoil extends DwarvenItem {
 	}
 	
 	private Buff currentBuff;
-	private int timer = 10;
 	
 	protected MagicCoil(Dwarf dwarf) {
-		super(dwarf, null);
+		super(dwarf, DURATION);
+		
+		// Update in half a second
+		resetCooldown();
+		reduceCooldown(DURATION - 10);
 	}
 	
 	@Override
-	public void update() {
-		timer--;
-		if (timer == 0) {
-			giveBuff();
-			timer = DURATION;
+	protected void onOffCD() {
+		// Choose random buff
+		Set<Buff> newBuffs = new HashSet<>();
+		for (Buff buff : BUFFS) {
+			if (!buff.hasBuff(dwarf))
+				newBuffs.add(buff);
 		}
-	}
-	
-	private void giveBuff() {
-		Buff buff = getRandomBuff();
+		Buff buff = Misc.getRandom(newBuffs);
 		
+		// Give buff if possible
 		if (buff != null) {
 			buff.giveBuff(dwarf);
 			
@@ -54,22 +57,19 @@ class MagicCoil extends DwarvenItem {
 			if (currentBuff != null)
 				currentBuff.giveBuff(dwarf);
 		}
-	}
-	
-	private Buff getRandomBuff() {
-		Set<Buff> newBuffs = new HashSet<>();
-		for (Buff buff : BUFFS) {
-			if (!buff.hasBuff(dwarf))
-				newBuffs.add(buff);
-		}
 		
-		return Misc.getRandom(newBuffs);
+		resetCooldown();
 	}
 	
 	@Override
 	public void onShift(boolean sneaking) {
 		if (currentBuff != null && !currentBuff.hasBuff(dwarf))
-			currentBuff.giveBuff(dwarf, timer);
+			currentBuff.giveBuff(dwarf, getCooldown());
+	}
+	
+	@Override
+	public ItemStack getCooldownToggleItem() {
+		return null;
 	}
 	
 	private static class Buff {
@@ -90,7 +90,7 @@ class MagicCoil extends DwarvenItem {
 		}
 		
 		public void giveBuff(Dwarf dwarf, int time) {
-			dwarf.givePotionEffect(type, time + CHANGEOVER_DURATION, amplifier, true, true, true);
+			dwarf.givePotionEffect(type, time + CHANGEOVER_DURATION, amplifier, true, false, true);
 		}
 		
 		private void removeBuff(Dwarf dwarf) {

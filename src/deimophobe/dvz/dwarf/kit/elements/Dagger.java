@@ -1,27 +1,42 @@
-package deimophobe.dvz.dwarf.kit.sword;
+package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
+import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 /**
  * Created by Deimophobe on 20/01/17.
  */
-class Dagger extends Sword {
+class Dagger extends AbstractCooldownItem {
 	
 	Dagger(Dwarf dwarf) {
-		super(dwarf, SwordType.DAGGER, 1200);
+		super(dwarf, 1200);
 	}
+	
+	
+	private final static ItemStack ITEM = DwarfManager.getManager().getItem("sword.dagger", Slot.MAIN_HAND);
+	@Override
+	public ItemStack getItem() {
+		return ITEM;
+	}
+	@Override
+	public KitGiveType getGiveType() { return KitGiveType.SWORD; }
+	
+	
 	
 	@Override
 	public void onKill(GameEntity monster, DamageType b) {

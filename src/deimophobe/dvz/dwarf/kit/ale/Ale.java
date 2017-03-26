@@ -1,11 +1,8 @@
 package deimophobe.dvz.dwarf.kit.ale;
 
-import deimophobe.dvz.DamageType;
 import deimophobe.dvz.ItemCreator;
-import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
-import deimophobe.dvz.dwarf.kit.CooldownItem;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -16,13 +13,13 @@ import java.util.Map;
 /**
  * Created by Deimophobe on 16/01/17.
  */
-public abstract class Ale extends CooldownItem {
+public abstract class Ale {
 	
+	protected Dwarf dwarf;
 	public Ale(Dwarf dwarf, AleType type) {
-		super(dwarf, getItem(type), 10);
+		//super(dwarf, getItem(type), 10);
 	}
 	
-	@Override
 	public float fractionComplete() {
 		return -1;
 	}

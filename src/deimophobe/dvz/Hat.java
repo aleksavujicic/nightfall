@@ -23,13 +23,23 @@ public enum Hat {
 	;
 	
 	private final ItemStack hat;
+	private final String name;
 	
 	Hat(String hat) {
+		name = hat;
 		ConfigurationSection hatData = YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource("hats.yml"));
 		this.hat = ItemCreator.createItem(hatData.getConfigurationSection(hat), Slot.HEAD);
 	}
 	
 	public void putOn(GamePlayer player) {
 		player.getPlayer().getInventory().setHelmet(hat);
+	}
+	
+	public static Hat getHat(String name) {
+		for (Hat hat : values()) {
+			if (hat.name.equalsIgnoreCase(name))
+				return hat;
+		}
+		return null;
 	}
 }

@@ -1,101 +1,123 @@
 package deimophobe.dvz.dwarf.loadout;
 
 import deimophobe.dvz.Hat;
-import deimophobe.dvz.dwarf.kit.ArmourType;
-import deimophobe.dvz.dwarf.kit.Passive;
-import deimophobe.dvz.dwarf.kit.ale.AleType;
-import deimophobe.dvz.dwarf.kit.bow.BowType;
+import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
-import deimophobe.dvz.dwarf.kit.sword.SwordType;
+import deimophobe.dvz.dwarf.kit.elements.KitElementType;
+import deimophobe.dvz.menu.MenuItem;
+import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 7/03/17.
  */
-enum  LoadoutItem {
-	GRB(new SwordModifier(SwordType.GRB), 24, Category.SWORD),
-	MALICE(new SwordModifier(SwordType.AXE_OF_MALICE), 24, Category.SWORD),
-	HAMMER(new SwordModifier(SwordType.HAMMER), 16, Category.SWORD),
-	DAGGER(new SwordModifier(SwordType.DAGGER), 16, Category.SWORD),
-	TOMBMAKER(new SwordModifier(SwordType.TOMBMAKER), 4, Category.SWORD),
+class LoadoutItem implements MenuItem<Player> {
 	
-	DRAGONSKIN(new BowModifier(BowType.DRAGONSKIN), 16, Category.BOW),
-	LONGBOW(new BowModifier(BowType.LONGBOW), 20, Category.BOW),
-	WARPWEAVER(new BowModifier(BowType.WARPWEAVER), 12, Category.BOW),
-	LIGHTBOW(new BowModifier(BowType.LIGHTBOW), 12, Category.BOW),
-	EBOW(new BowModifier(BowType.EBOW), 12, Category.BOW),
-	CROSSBOW(new BowModifier(BowType.CROSSBOW), 12, Category.BOW),
+	private final ItemStack itemStack;
 	
-	HOLY(new AleModifier(AleType.HOLY), 8, Category.ALE),
-	JJ(new AleModifier(AleType.JIMMYJUICE), 8, Category.ALE),
-	TRINKET(new AleModifier(AleType.TRINKET), 8, Category.ALE),
-	REGROWTH(new AleModifier(AleType.REGROWTH), 8, Category.ALE),
+	LoadoutItem(ConfigurationSection config) {
+		itemStack = ItemCreator.createItem(config.getConfigurationSection("item"), Slot.MAIN_HAND);
+		
+		
+		String type = config.getString("type", null);
+		switch (type) {
+			case "item":
+				this.modifier = new ElementModifier(KitElementType.get(config.getString("name")));
+				this.cost = config.getInt("cost");
+				
+				if (config.contains("category"))
+					this.category = Category.valueOf(config.getString("category").toUpperCase());
+				else
+					this.category = null;
+				
+				break;
+				
+			case "consumable":
+				int quant = config.getInt("quantity");
+				ConsumableType consType = ConsumableType.valueOf(config.getString("name").toUpperCase());
+				this.modifier = new ConsumableModifier(consType, quant);
+				
+				this.cost = config.getInt("cost");
+				this.category = null;
+				break;
+				
+			case "hat":
+				this.modifier = new HatModifier(Hat.getHat(config.getString("name")));
+				this.cost = 0;
+				this.category = Category.HAT;
+				break;
+				
+			case "title":
+				this.modifier = new TitleModifier(config.getString("name"));
+				this.cost = 0;
+				this.category = Category.TITLE;
+				break;
+				
+			default:
+				throw new IllegalArgumentException("Unknown loadout item type: " + type);
+		}
+		
+		itemStack.setAmount(cost == 0 ? 1 : cost);
+		
+		this.id = config.getName();
+		registerItem(this);
+	}
 	
-	RUNEBLESSED(new ArmourModifier(ArmourType.RUNEBLESSED), 8, Category.ARMOUR),
-	QUIVER(new ArmourModifier(ArmourType.QUIVER), 8, Category.ARMOUR),
-	STUDDED(new ArmourModifier(ArmourType.STUDDED), 8, Category.ARMOUR),
-	COIL(new ArmourModifier(ArmourType.COIL), 8, Category.ARMOUR),
+	private final String id;
+	@Override
+	public String toString() {
+		return id;
+	}
 	
-	AVENGE(new PassiveModifier(Passive.AVENGE), 8),
-	SAFEFALL(new PassiveModifier(Passive.SAFEFALL), 4),
-	DARKVISION(new PassiveModifier(Passive.DARKVISION), 4),
+	private final static Map<String, LoadoutItem> items = new HashMap<>();
+	private static void registerItem(LoadoutItem item) {
+		items.put(item.id, item);
+	}
+	public static LoadoutItem getItem(String id) {
+		return items.get(id);
+	}
 	
-	SOS_ONE(new ConsumableModifier(ConsumableType.SOS, 1), 4),
-	SOS_TWO(new ConsumableModifier(ConsumableType.SOS, 2), 8),
-	MORTAR_ONE(new ConsumableModifier(ConsumableType.MORTAR, 64), 4),
-	MORTAR_TWO(new ConsumableModifier(ConsumableType.MORTAR, 128), 8),
-	WIZARD_ONE(new ConsumableModifier(ConsumableType.WIZARD_MORTAR, 16), 4),
-	WIZARD_TWO(new ConsumableModifier(ConsumableType.WIZARD_MORTAR, 32), 8),
-	LAMPS_ONE(new ConsumableModifier(ConsumableType.LAMP, 12), 4),
-	LAMPS_TWO(new ConsumableModifier(ConsumableType.LAMP, 24), 8),
-	WRENCH_ONE(new ConsumableModifier(ConsumableType.WRENCH, 2), 4),
-	WRENCH_TWO(new ConsumableModifier(ConsumableType.WRENCH, 4), 8),
-	HEALING_ONE(new ConsumableModifier(ConsumableType.HEAL_STATION, 4), 4),
-	HEALING_TWO(new ConsumableModifier(ConsumableType.HEAL_STATION, 8), 8),
 	
-	CROWN_HAT(new HatModifier(Hat.CROWN), 0, Category.HAT),
-	FLOWER_HAT(new HatModifier(Hat.FLOWER), 0, Category.HAT),
-	WITCH_HAT(new HatModifier(Hat.WITCH), 0, Category.HAT),
-	DV_GOGGLES(new HatModifier(Hat.DVGOGGLES), 0, Category.HAT),
-	JIMMY_CAP(new HatModifier(Hat.JIMMYCAP), 0, Category.HAT),
 	
-	RANGER(new TitleModifier("Ranger"), 0, Category.TITLE),
-	PALADIN(new TitleModifier("Paladin"), 0, Category.TITLE),
-	GRAVEDIGGER(new TitleModifier("Gravedigger"), 0, Category.TITLE),
-	ANCIENT(new TitleModifier("Ancient"), 0, Category.TITLE),
-	FIRELORD(new TitleModifier("Firelord"), 0, Category.TITLE),
-	HUNTER(new TitleModifier("Hunter"), 0, Category.TITLE),
-	CAPTAIN(new TitleModifier("Captain"), 0, Category.TITLE),
-	ENGINEER(new TitleModifier("Engineer"), 0, Category.TITLE),
-	PHARAOH(new TitleModifier("Pharaoh"), 0, Category.TITLE),
-	PEASANT(new TitleModifier("Peasant"), 0, Category.TITLE),
-	JIMMY(new TitleModifier("Jimmy"), 0, Category.TITLE),
-	SIR(new TitleModifier("Sir"), 0, Category.TITLE),
-	LADY(new TitleModifier("Lady"), 0, Category.TITLE),
-	BANANA(new TitleModifier("Banana"), 0, Category.TITLE),
-	POTATO(new TitleModifier("Potato"), 0, Category.TITLE),
-	GNOMISH(new TitleModifier("Gnomish"), 0, Category.TITLE),
-	ELVEN(new TitleModifier("Elven"), 0, Category.TITLE),
-	CLERIC(new TitleModifier("Cleric"), 0, Category.TITLE),
-	WARRIOR(new TitleModifier("Warrior"), 0, Category.TITLE),
-	SQUIRE(new TitleModifier("Squire"), 0, Category.TITLE),
-	;
+	
+	
+	
+	@Override
+	public ItemStack getDisplayItem(Player player) {
+		if (playerHasUpgrade(player)) {
+			ItemStack item = itemStack.clone();
+			item.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+			return item;
+		} else {
+			return itemStack;
+		}
+	}
+	
+	@Override
+	public boolean select(Player player) {
+		Loadout.getLoadout(player).selectItem(this);
+		return true;
+	}
+	
+	@Override
+	public boolean isAvailable(Player player) {
+		return true;
+	}
+	
+	private boolean playerHasUpgrade(Player player) {
+		return Loadout.getLoadout(player).hasItem(this);
+	}
+	
+	
 	
 	private final PropertyModifier modifier;
 	private final int cost;
 	private final Category category;
-	
-	LoadoutItem(PropertyModifier modifier, int cost) {
-		this(modifier, cost, null);
-	}
-	
-	LoadoutItem(PropertyModifier modifier, int cost, Category category) {
-		this.modifier = modifier;
-		this.cost = cost;
-		this.category = category;
-	}
 	
 	int getCost() {
 		return cost;
@@ -105,90 +127,31 @@ enum  LoadoutItem {
 		modifier.modify(dwarfData);
 	}
 	
-	static LoadoutItem getItem(String id) {
-		id = id.toLowerCase();
-		for (LoadoutItem item : values()) {
-			if (item.toString().toLowerCase().equals(id))
-				return item;
-		}
-		throw new IllegalArgumentException("Unknown ID for loadout item: '" + id + "'.");
-	}
-	
-	Set<LoadoutItem> getItemsInCategory() {
-		if (category == null) return new HashSet<>();
-		
-		Set<LoadoutItem> items = new HashSet<>();
-		for (LoadoutItem item : values()) {
-			if (category == item.category)
-				items.add(item);
-		}
-		return items;
-	}
-	
 	public boolean isClearable() {
-		return !(category == Category.HAT || category == Category.TITLE);
+		return (category == null || category.isClearable());
 	}
 	
-	private enum Category {
-		SWORD,
-		BOW,
-		ALE,
-		ARMOUR,
-		HAT,
-		TITLE
+	public Category getCategory() {
+		return category;
 	}
+	
+	
+	
 	
 	private static abstract class PropertyModifier {
 		abstract void modify(DwarfData dwarfData);
 	}
 	
-	
-	private static class SwordModifier extends PropertyModifier {
-		private final SwordType type;
+	private static class ElementModifier extends PropertyModifier {
+		private final KitElementType type;
 		
-		private SwordModifier(SwordType type) {
+		private ElementModifier(KitElementType type) {
 			this.type = type;
 		}
 		
 		@Override
 		void modify(DwarfData dwarfData) {
-			dwarfData.setSwordType(type);
-		}
-	}
-	private static class BowModifier extends PropertyModifier {
-		private final BowType type;
-		
-		private BowModifier(BowType type) {
-			this.type = type;
-		}
-		
-		@Override
-		void modify(DwarfData dwarfData) {
-			dwarfData.setBowType(type);
-		}
-	}
-	private static class AleModifier extends PropertyModifier {
-		private final AleType type;
-		
-		private AleModifier(AleType type) {
-			this.type = type;
-		}
-		
-		@Override
-		void modify(DwarfData dwarfData) {
-			dwarfData.setAleType(type);
-		}
-	}
-	private static class ArmourModifier extends PropertyModifier {
-		private final ArmourType type;
-		
-		private ArmourModifier(ArmourType type) {
-			this.type = type;
-		}
-		
-		@Override
-		void modify(DwarfData dwarfData) {
-			dwarfData.setArmour(type);
+			dwarfData.addElement(type);
 		}
 	}
 	
@@ -204,18 +167,6 @@ enum  LoadoutItem {
 		@Override
 		void modify(DwarfData dwarfData) {
 			dwarfData.incrementConsumable(type, quantity);
-		}
-	}
-	private static class PassiveModifier extends PropertyModifier {
-		private final Passive type;
-		
-		private PassiveModifier(Passive type) {
-			this.type = type;
-		}
-		
-		@Override
-		void modify(DwarfData dwarfData) {
-			dwarfData.addPassive(type);
 		}
 	}
 	

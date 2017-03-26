@@ -124,8 +124,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 			removeGamePlayer(uuid);
 		}
 	}
-	
-	public Collection<P> getGamePlayers() {
+					public Collection<P> getGamePlayers() {
 		return players.values();
 	}
 	

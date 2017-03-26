@@ -97,6 +97,7 @@ public class DvZPlugin extends JavaPlugin {
 				sender.sendMessage(ChatColor.RED + "Please specify a hero.");
 				return false;
 			} else {
+				/*
 				Hero.Type type = Hero.Type.getHeroType(args[1]);
 				if (type == null) {
 					sender.sendMessage(ChatColor.RED + "Unknown hero type: " + ChatColor.GOLD + args[1] + ChatColor.RED + "!");
@@ -108,6 +109,7 @@ public class DvZPlugin extends JavaPlugin {
 					//sender.sendMessage(ChatColor.AQUA + "Added " + ChatColor.DARK_AQUA + args[0] + ChatColor.AQUA + " as the hero " + ChatColor.GOLD + args[1] + ChatColor.AQUA + "!");
 					return true;
 				}
+				*/
 			}
 		}
 		if (name.equalsIgnoreCase("setmob")) {

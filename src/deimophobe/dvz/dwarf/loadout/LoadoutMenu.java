@@ -2,6 +2,7 @@ package deimophobe.dvz.dwarf.loadout;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.ItemCreator;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.menu.Menu;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
@@ -21,11 +22,11 @@ import java.util.Map;
  * Created by Deimophobe on 2/03/17.
  */
 public class LoadoutMenu implements Menu<Player> {
-	private static final LoadoutMenu menu;
+	private static final LoadoutMenu menu = new LoadoutMenu(Misc.getInternalFileConfig("loadout.yml"));
 	public static LoadoutMenu getMenu() {return menu;}
-	static {
-		ConfigurationSection loadoutData = YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource("loadout.yml"));
-		menu = new LoadoutMenu(loadoutData);
+	
+	public static void loadMenu() {
+		menu.getTitle();
 	}
 	
 	private final List<LoadoutPage> pages = new ArrayList<>();

@@ -13,7 +13,7 @@ class LoadoutPage extends SinglePageMenu<Player> {
 		
 		for (String key : config.getKeys(false)) {
 			ConfigurationSection itemConfig = config.getConfigurationSection(key);
-			addItem(itemConfig.getInt("index"), new LoadoutMenuItem(itemConfig));
+			addItem(itemConfig.getInt("index"), new LoadoutItem(itemConfig));
 		}
 	}
 	
