@@ -8,9 +8,17 @@ public enum ConsumableType {
 	SLAB,
 	SOS,
 	WRENCH,
+	HEAL_STATION,
 	
 	MORTAR,
 	WIZARD_MORTAR,
 	
-	ARMOUR_ITEM, HEAL_STATION,
+	ARMOUR_ITEM,
+	
+	WOOD,
+	PLANK,
+	STICK,
+	BOWL,
+	TORCH,
+	COBBLE
 }

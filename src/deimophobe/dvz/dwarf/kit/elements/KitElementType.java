@@ -54,7 +54,7 @@ public enum KitElementType {
 	ROCKET_BOOTS,
 	
 	
-	;
+	HERO_ALE;
 	
 	public static KitElementType get(String name) {
 		for (KitElementType type : values()) {
@@ -88,16 +88,11 @@ public enum KitElementType {
 			case CROSSBOW:
 				break;
 				
-			case HEALING_ALE:
-				break;
-			case HOLY_ALE:
-				break;
-			case JIMMY_JUICE:
-				break;
-			case TRINKET:
-				break;
-			case REGROWTH_STAR:
-				break;
+			case HEALING_ALE: return new HealingAle(dwarf);
+			case HOLY_ALE: return new HolyAle(dwarf);
+			case JIMMY_JUICE: return new JimmyJuice(dwarf);
+			case TRINKET: return new Trinket(dwarf);
+			case REGROWTH_STAR: return new Regrowth(dwarf);
 				
 			case RUNEBLESSED:
 				break;
@@ -114,6 +109,7 @@ public enum KitElementType {
 			
 			
 			case HERO_SAFEFALL: return new Safefall(dwarf);
+			case HERO_ALE: return new HeroAle(dwarf);
 			
 			case TUI_HAMMER: return new TuiHammer(dwarf);
 			

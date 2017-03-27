@@ -78,6 +78,9 @@ public class Kit {
 		for (KitElement item : kitElements) {
 			damage = item.onGotHit(monster, type, damage);
 		}
+		for (KitElement item : kitElements) {
+			item.onLateGotHit(monster, type, damage);
+		}
 		return damage;
 	}
 	

@@ -24,6 +24,9 @@ public class AbstractElement implements KitElement {
 	public double onGotHit(GameEntity monster, DamageType type, double damage) {return damage;}
 	
 	@Override
+	public void onLateGotHit(GameEntity monster, DamageType type, double damage) {}
+	
+	@Override
 	public void onKill(GameEntity monster, DamageType type) {}
 	
 	@Override

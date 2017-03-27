@@ -16,7 +16,7 @@ import java.util.Set;
  */
 class MagicCoil extends AbstractCooldown {
 	
-	private static final int DURATION = 20*20;
+	private static final int DURATION = 60*20;
 	private static final int CHANGEOVER_DURATION = 5*20;
 	private static final Set<Buff> BUFFS = new HashSet<>();
 	static {
@@ -24,8 +24,10 @@ class MagicCoil extends AbstractCooldown {
 		BUFFS.add(new Buff(PotionEffectType.FIRE_RESISTANCE, 1));
 		BUFFS.add(new Buff(PotionEffectType.SLOW, -1));
 		BUFFS.add(new Buff(PotionEffectType.NIGHT_VISION, 1));
-		BUFFS.add(new Buff(PotionEffectType.INCREASE_DAMAGE, 2));
+		BUFFS.add(new Buff(PotionEffectType.INCREASE_DAMAGE, 3));
 		BUFFS.add(new Buff(PotionEffectType.REGENERATION, 4));
+		BUFFS.add(new Buff(PotionEffectType.HEALTH_BOOST, 3));
+		BUFFS.add(new Buff(PotionEffectType.FAST_DIGGING, 3));
 	}
 	
 	private Buff currentBuff;

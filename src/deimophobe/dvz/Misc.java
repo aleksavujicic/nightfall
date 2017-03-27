@@ -20,6 +20,8 @@ public class Misc {
 	}
 	
 	public static <T> T getRandom(Collection<T> items) {
+		if (items.isEmpty()) return null;
+		
 		int rand = new Random().nextInt(items.size());
 		Iterator<T> iter = items.iterator();
 		for (int i=0; i<rand; i++)

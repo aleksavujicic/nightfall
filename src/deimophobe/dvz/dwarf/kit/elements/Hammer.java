@@ -24,12 +24,10 @@ class Hammer extends AbstractAOEHitter implements KitCooldownElement {
 	}
 	
 	private final static ItemStack ITEM = DwarfManager.getManager().getItem("sword.hammer", Slot.MAIN_HAND);
-	@Override
-	public ItemStack getItem() {
+	@Override public ItemStack getItem() {
 		return ITEM;
 	}
-	@Override
-	public KitGiveType getGiveType() { return KitGiveType.SWORD; }
+	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 	
 	
 	private int cooldown;

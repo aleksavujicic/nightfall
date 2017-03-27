@@ -335,7 +335,7 @@ public class Dwarf extends GamePlayer {
 				playSound("proc", 1f, 1f, false);
 				player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, player.getLocation(), 60, 1, 1, 1);
 				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60, 0), true);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 1), true);
+				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 1), false);
 				break;
 				
 			case AVENGE:
@@ -344,7 +344,7 @@ public class Dwarf extends GamePlayer {
 				playSound("proc", 1f, 1f, false);
 				player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, player.getLocation(), 60, 1, 1, 1);
 				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 160, 3), true);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 160, 3), true);
+				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 160, 3), false);
 				givePotionEffect(PotionEffectType.FAST_DIGGING, 160, 2, true, true, true);
 				break;
 				
@@ -353,19 +353,19 @@ public class Dwarf extends GamePlayer {
 				playSound("proc", 1f, 1f, false);
 				player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, player.getLocation(), 60, 1, 1, 1);
 				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 170, 0), true);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 170, 1), true);
+				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 170, 1), false);
 				break;
 			
 			case DRAGONSKIN:
 				playSound("proc", 1f, 1f, false);
 				player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, player.getLocation(), 60, 1, 1, 1);
 				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60, 0), true);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 0), true);
+				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 0), false);
 				break;
 			
 			case SHRINE_FALL:
 				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 160, 1), true);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 160, 1), true);
+				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 160, 1), false);
 				break;
 			
 			case RUNEDASH:
@@ -461,6 +461,7 @@ public class Dwarf extends GamePlayer {
 			case GRAVEL:
 				giveItem(cobble, 3);
 				playSound("block.anvil.place", 0.5f, 0.8f, true);
+				playSound("block.anvil.break", 0.5f, 0.8f, true);
 				break;
 			case LOG:
 			case LOG_2:
