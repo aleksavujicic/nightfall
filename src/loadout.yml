@@ -272,7 +272,7 @@ page2:
     type: consumable
     name: wizard_mortar
     quantity: 32
-    cost: 8
+    cost: 10
     item:
       name: "Wizard Mortar II"
       material: diamond_hoe
@@ -282,8 +282,8 @@ page2:
     index: 11
     type: consumable
     name: lamp
-    quantity: 1
-    cost: 12
+    quantity: 10
+    cost: 4
     item:
       name: "Enchanted Lamps I"
       material: diamond_hoe
@@ -293,7 +293,7 @@ page2:
     type: consumable
     name: lamp
     quantity: 24
-    cost: 8
+    cost: 10
     item:
       name: "Enchanted Lamps II"
       material: diamond_hoe
@@ -303,8 +303,8 @@ page2:
     index: 12
     type: consumable
     name: wrench
-    quantity: 1
-    cost: 2
+    quantity: 2
+    cost: 4
     item:
       name: "Wiggly Wrench I"
       material: diamond_hoe
@@ -313,7 +313,7 @@ page2:
     index: 21
     type: consumable
     name: wrench
-    quantity: 4
+    quantity: 3
     cost: 8
     item:
       name: "Wiggly Wrench II"
@@ -334,7 +334,7 @@ page2:
     index: 22
     type: consumable
     name: heal_station
-    quantity: 8
+    quantity: 6
     cost: 8
     item:
       name: "'Healing Station' II"
@@ -356,7 +356,7 @@ page2:
     type: consumable
     name: sos
     quantity: 2
-    cost: 8
+    cost: 10
     item:
       name: "SOS II"
       material: diamond_hoe
