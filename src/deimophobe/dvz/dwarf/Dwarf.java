@@ -44,6 +44,7 @@ public class Dwarf extends GamePlayer {
 	
 	private int maxArrows;
 	
+	private boolean blindImmune;
 	private static final int MIN_LIGHT_LEVEL_FOR_BLINDNESS = 5;
 	
 	public Kit getKit() {
@@ -69,6 +70,8 @@ public class Dwarf extends GamePlayer {
 		armoured = false;
 		
 		maxArrows = 20;
+		
+		blindImmune = false;
 		
 		this.kit = new Kit(this, data);
 		
@@ -118,7 +121,6 @@ public class Dwarf extends GamePlayer {
 			giveConsumable(type, consumables.get(type));
 		}
 	}
-	
 	
 	
 	// ------ MANA STUFF ------
@@ -172,6 +174,8 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	public void damageArmour(int dmg) {
+		if (Game.getGame().getPhase() != Phase.GAME) return;
+		
 		armour -= dmg;
 		if (armour <= 0) armour = 0;
 		updateArmour();
@@ -273,9 +277,9 @@ public class Dwarf extends GamePlayer {
 	private boolean canSee() {
 		int lightLevel = getLocation().getBlock().getLightLevel();
 		return (holdingLightItem ||
+				blindImmune ||
 				lightLevel >= MIN_LIGHT_LEVEL_FOR_BLINDNESS ||
 				hasProc() ||
-//TODO				kit.isBlindnessImmune() ||
 				Game.getGame().getPhase() == Phase.BUILD ||
 				player.hasPotionEffect(PotionEffectType.NIGHT_VISION)
 		);
