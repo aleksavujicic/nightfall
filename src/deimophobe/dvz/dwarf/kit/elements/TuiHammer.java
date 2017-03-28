@@ -32,14 +32,10 @@ class TuiHammer extends AbstractAOEHitter implements KitCooldownElement {
 	}
 	
 	private final static ItemStack ITEM = DwarfManager.getManager().getItem("hero.tuihammer", Slot.MAIN_HAND);
-	
-	@Override
-	public ItemStack getItem() {
+	@Override public ItemStack getItem() {
 		return ITEM;
 	}
-	
-	@Override
-	public KitGiveType getGiveType() {
+	@Override public KitGiveType getGiveType() {
 		return KitGiveType.START;
 	}
 	
@@ -66,7 +62,7 @@ class TuiHammer extends AbstractAOEHitter implements KitCooldownElement {
 	private final static double AI_RADIUS = 20;
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action) && cooldown == 0) {
 			dwarf.sendMessage(ChatColor.GOLD + "ROAR!!!");
 			dwarf.giveProc(Dwarf.ProcType.ROAR);
@@ -78,7 +74,9 @@ class TuiHammer extends AbstractAOEHitter implements KitCooldownElement {
 			}
 			
 			cooldown = MAX_CD;
+			return true;
 		}
+		return false;
 	}
 	
 	@Override

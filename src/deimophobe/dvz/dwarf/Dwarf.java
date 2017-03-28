@@ -16,7 +16,6 @@ import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
@@ -24,8 +23,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.PistonExtensionMaterial;
-import org.bukkit.material.Wool;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -41,11 +38,11 @@ public class Dwarf extends GamePlayer {
 	private final int maxMana;
 	private int mana;
 	
-	private final int maxArmour;
+	private int maxArmour;
 	private int armour;
 	private boolean armoured;
 	
-	private final int maxArrows;
+	private int maxArrows;
 	
 	private static final int MIN_LIGHT_LEVEL_FOR_BLINDNESS = 5;
 	
@@ -64,20 +61,16 @@ public class Dwarf extends GamePlayer {
 		player.getInventory().clear();
 		player.setGameMode(GameMode.SURVIVAL);
 		
-		this.kit = new Kit(this, data);
-		
 		maxMana = 1000;
+		mana = maxMana;
 		
-		// TODO
-		//maxArmour = kit.getMaxArmour();
-		//maxArrows = kit.getMaxArrows();
 		maxArmour = 2000;
+		armour = maxArmour;
+		armoured = false;
+		
 		maxArrows = 20;
 		
-		mana = maxMana;
-		armour = maxArmour;
-		
-		armoured = false;
+		this.kit = new Kit(this, data);
 		
 		playIntro();
 		
@@ -122,12 +115,7 @@ public class Dwarf extends GamePlayer {
 		
 		// Add consumables
 		for (ConsumableType type : consumables.keySet()) {
-			ItemStack item = Consumable.getItem(type).clone();
-			int quantity = consumables.get(type);
-			
-			item.setAmount(quantity);
-			
-			player.getInventory().addItem(item);
+			giveConsumable(type, consumables.get(type));
 		}
 	}
 	
@@ -162,6 +150,10 @@ public class Dwarf extends GamePlayer {
 	
 	
 	// ------ ARMOUR STUFF ------
+	public void setMaxArmour(int max) {
+		maxArmour = max;
+	}
+	
 	public boolean isArmoured() { return armoured; }
 	
 	public void putOnArmour() {
@@ -216,6 +208,11 @@ public class Dwarf extends GamePlayer {
 	
 	
 	// ------ ARROWS ------
+	private final static ItemStack arrow = DwarfManager.getManager().getItem("misc.arrow");
+	public void setMaxArrows(int max) {
+		maxArrows = max;
+	}
+	
 	public void giveArrow() {
 		ItemStack arrows = player.getInventory().getItemInOffHand();
 		int amt = arrows.getAmount();
@@ -255,6 +252,14 @@ public class Dwarf extends GamePlayer {
 		player.openInventory(DwarfManager.getManager().getSharedChest());
 	}
 	
+	public void giveConsumable(ConsumableType type, int quantity) {
+		ItemStack item = Consumable.getItem(type);
+		giveItem(item, quantity);
+	}
+	
+	public void giveConsumable(ConsumableType type) {
+		giveConsumable(type, 1);
+	}
 	
 	// ------ VISIBILITY ------
 	private boolean holdingLightItem = false;
@@ -305,8 +310,8 @@ public class Dwarf extends GamePlayer {
 		player.setSaturation(10);
 		updateArmourBar();
 		
-		if (grabCD > 0)
-			grabCD--;
+		if (consumableGrabCD > 0)
+			consumableGrabCD--;
 		
 		updateBlood(quartSec, halfSec, sec);
 		
@@ -394,7 +399,7 @@ public class Dwarf extends GamePlayer {
 	// ------ EVENTS ------
 	@Override
 	public void updateHotbarSlot(ItemStack heldItem, int slot) {
-		holdingLightItem = (torch.isSimilar(heldItem) || Consumable.getItem(ConsumableType.LAMP).isSimilar(heldItem));
+		holdingLightItem = (Consumable.getItem(ConsumableType.TORCH).isSimilar(heldItem) || Consumable.getItem(ConsumableType.LAMP).isSimilar(heldItem));
 		updateVisibility();
 		
 		kit.updateHotbarSlot(heldItem);
@@ -459,43 +464,33 @@ public class Dwarf extends GamePlayer {
 		
 		switch (block.getType()) {
 			case GRAVEL:
-				giveItem(cobble, 3);
+				giveConsumable(ConsumableType.COBBLESTONE, 3);
 				playSound("block.anvil.place", 0.5f, 0.8f, true);
 				playSound("block.anvil.break", 0.5f, 0.8f, true);
-				break;
-			case LOG:
-			case LOG_2:
-				giveItem(log);
 				break;
 				
 			case GOLD_ORE:
 				ShrineManager.getManager().mineGold();
 				break;
-			
-			case GOLD_BLOCK:
-				giveItem(Consumable.getItem(ConsumableType.ARMOUR_ITEM));
-				playSound("block.anvil.destroy", 1, 0.5f, true);
-				grabCD = MAX_GOLD_CD;
-				break;
 		}
 	}
-
-	private int grabCD;
-	private final static int MAX_GOLD_CD = 15; // For gold stuff
-	private final static int MAX_GRAB_CD = 20; // For grabbing items and stuff
-	private final static int MAX_CONSUMABLE_CD = 10; // For using consumables
-	private final static int MAX_CRAFT_CD = 2; // For crafting torches and stuff
+	
+	private int consumableGrabCD;
+	private final static int MAX_GRAB_CD = 15; // For grabbing items and stuff
 	
 	@Override
 	public void onUse(Action type, Block clickedBlock, BlockFace blockFace) {
-		if (grabCD > 0) return; // prevent grabbing an item then instantly using it.
+		if (consumableGrabCD > 0) return; // prevent grabbing an item then instantly using it.
 		
 		boolean success = kit.onUse(type, clickedBlock, blockFace);
 		if (success) return;
 		
-		if (Misc.isRightClick(type)) {
-			grabCD = pickupItem(clickedBlock);
-			if (grabCD > 0) return;
+		if (Misc.isRightClick(type) && clickedBlock != null) {
+			boolean success2 =  pickupItems(clickedBlock.getType());
+			if (success2) {
+				consumableGrabCD = MAX_GRAB_CD;
+				return;
+			}
 		}
 		
 		if (Misc.isRightClick(type) && clickedBlock != null && clickedBlock.getType() == Material.CHEST) {
@@ -503,148 +498,44 @@ public class Dwarf extends GamePlayer {
 			return;
 		}
 		
-		// Pick repair
-		if (Misc.isRightClick(type)) {
-			if (getHeldItem().isSimilar(pick)) {
-				Dwarf dwarf = getLookingAt(1, 4, (d) -> !d.isMaxArmour(), DwarfManager.getManager());
-				if (dwarf != null) {
-					if (ShrineManager.getManager().useGold(10)) {
-						dwarf.repairArmour(200);
-						grabCD = MAX_CONSUMABLE_CD;
-						GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, dwarf);
-					}
-				}
-			}
-		}
-		
 		// Use consumable
-		if (Misc.isLeftClick(type)) {
-			if (Consumable.use(this, Consumable.getConsumable(getHeldItem()) )) {
-				grabCD = MAX_CONSUMABLE_CD;
-				useHeldItem();
-			}
+		int consCD = Consumable.use(this, getHeldItem(), type, clickedBlock, blockFace);
+		if (consCD != -1) {
+			consumableGrabCD = consCD;
+			useHeldItem();
 		}
 	}
 	
 	
-	private int pickupItem(Block block) {
-		if (block == null) return 0;
-		switch (block.getType()) {
-			// Grabbing items
+	private boolean pickupItems(Material blockType) {
+		switch (blockType) {
 			case ACTIVATOR_RAIL:
-				giveItem(pick);
 				kit.giveItems(KitGiveType.PICK);
-				return MAX_GRAB_CD;
+				return true;
+				
 			case RAILS:
-				giveItem(axe);
 				kit.giveItems(KitGiveType.AXE);
-				return MAX_GRAB_CD;
+				return true;
+				
 			case POWERED_RAIL:
-				giveItem(shovel);
 				kit.giveItems(KitGiveType.SHOVEL);
-				return MAX_GRAB_CD;
+				return true;
+			
 			case LADDER:
 				kit.giveItems(KitGiveType.SWORD);
-				return MAX_GRAB_CD;
+				return true;
+				
 			case DETECTOR_RAIL:
 				kit.giveItems(KitGiveType.BOW);
-				return MAX_GRAB_CD;
+				return true;
+			
 			case REDSTONE_TORCH_OFF:
 			case REDSTONE_TORCH_ON:
 				kit.giveItems(KitGiveType.ALE);
-				return MAX_GRAB_CD;
-			
-			
-			// Crafting items
-			case IRON_FENCE:
-				if (log.isSimilar(getHeldItem())) {
-					giveItem(plank,2);
-					useHeldItem();
-					return MAX_CRAFT_CD;
-				}
-				if (plank.isSimilar(getHeldItem())) {
-					giveItem(stick, 1);
-					useHeldItem();
-					return MAX_CRAFT_CD;
-				}
-				if (stick.isSimilar(getHeldItem())) {
-					giveItem(bowl);
-					useHeldItem();
-					return MAX_CRAFT_CD;
-				}
-				return 0;
-			case SPONGE:
-				if (stick.isSimilar(getHeldItem())) {
-					playSound("mortar", 1, (float) (1.5 + 0.1*Math.random()), false);
-					giveItem(torch);
-					useHeldItem();
-					return MAX_CRAFT_CD;
-				}
-				if (bowl.isSimilar(getHeldItem())) {
-					playSound("mortar", 1, (float) (1.5 + 0.1*Math.random()), false);
-					giveItem(Consumable.getItem(ConsumableType.MORTAR));
-					useHeldItem();
-					return MAX_CRAFT_CD;
-				}
-				return 0;
-			
-				
-			// Making armour
-			case WOOL:
-				if (pick.isSimilar(getHeldItem())) {
-					BlockState state = block.getState();
-					Wool wool = (Wool) state.getData();
-					switch (wool.getColor()) {
-						case YELLOW:
-							wool.setColor(DyeColor.ORANGE);
-							break;
-						case ORANGE:
-							wool.setColor(DyeColor.MAGENTA);
-							break;
-						case MAGENTA:
-							block.setType(Material.GOLD_BLOCK);
-							GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, state);
-							return MAX_GOLD_CD;
-						default:
-							return 0;
-					}
-					
-					GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, state);
-					
-					state.setData(wool);
-					state.update();
-					return MAX_GOLD_CD;
-				}
-				return 0;
-			
-			case PISTON_EXTENSION:
-				if (pick.isSimilar(getHeldItem())) {
-					BlockFace face = ((PistonExtensionMaterial) block.getState().getData()).getFacing();
-					Block goldBlock = block.getRelative(face);
-					if (goldBlock == null || goldBlock.getType() == Material.AIR) {
-						// Set to wool
-						goldBlock.setType(Material.WOOL);
-						
-						// Get state and data
-						BlockState state = goldBlock.getState();
-						Wool wool = (Wool) state.getData();
-						
-						// Set colour
-						wool.setColor(DyeColor.YELLOW);
-						
-						// Update state and block
-						state.setData(wool);
-						state.update();
-						
-						// SOUNDS
-						GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, state);
-						return MAX_GOLD_CD;
-					}
-				}
-				return 0;
+				return true;
 			
 			default:
-				return 0;
+				return false;
 		}
 	}
 	
@@ -700,24 +591,5 @@ public class Dwarf extends GamePlayer {
 			}
 			set[0] = health.apply(set[0]);
 		}
-	}
-	
-	private final static ItemStack pick, axe, shovel, log, plank, stick, bowl, torch, cobble, arrow;
-	static {
-		ConfigurationSection consumables = DwarfManager.getManager().getConfig().getConfigurationSection("misc");
-		
-		pick = ItemCreator.createItem(consumables.getConfigurationSection("pick"), Slot.MAIN_HAND);
-		axe = ItemCreator.createItem(consumables.getConfigurationSection("axe"), Slot.MAIN_HAND);
-		shovel = ItemCreator.createItem(consumables.getConfigurationSection("shovel"), Slot.MAIN_HAND);
-		
-		log = ItemCreator.createItem(consumables.getConfigurationSection("log"), Slot.MAIN_HAND);
-		plank = ItemCreator.createItem(consumables.getConfigurationSection("plank"), Slot.MAIN_HAND);
-		stick = ItemCreator.createItem(consumables.getConfigurationSection("stick"), Slot.MAIN_HAND);
-		bowl = ItemCreator.createItem(consumables.getConfigurationSection("bowl"), Slot.MAIN_HAND);
-		
-		torch = ItemCreator.createItem(consumables.getConfigurationSection("torch"), Slot.MAIN_HAND);
-		cobble = ItemCreator.createItem(consumables.getConfigurationSection("cobble"), Slot.MAIN_HAND);
-		
-		arrow = ItemCreator.createItem(consumables.getConfigurationSection("arrow"), Slot.OFF_HAND);
 	}
 }

@@ -1,15 +1,17 @@
 package deimophobe.dvz.dwarf.kit.consumable;
 
 import deimophobe.dvz.Game;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
-import deimophobe.dvz.monster.ai.AIEntity;
 import deimophobe.dvz.monster.ai.AIManager;
 import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.MagmaCube;
+import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
@@ -25,7 +27,7 @@ import java.util.Set;
  */
 class SOS extends Consumable {
 	
-	SOS(ItemStack item) {
+	SOS(String item) {
 		super(item);
 	}
 	
@@ -34,7 +36,9 @@ class SOS extends Consumable {
 	private static final int NUM_SWORDS = 3;
 	
 	@Override
-	public boolean use(Dwarf dwarf) {
+	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
+		if (Misc.isRightClick(action)) return FAILED_CD;
+		
 		Location center = dwarf.getEyeLocation();
 		for (MonsterPlayer mp : MonsterManager.getManager().getGamePlayers()) {
 			if (center.distance(mp.getLocation()) <= RANGE)
@@ -99,7 +103,7 @@ class SOS extends Consumable {
 			}
 		}.runTaskLater(Game.getGame().getPlugin(), FREEZE_TIME);
 		
-		return true;
+		return DEFAULT_CD;
 	}
 	
 	private ArmorStand summonSword(Location loc) {

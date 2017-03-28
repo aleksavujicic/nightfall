@@ -30,11 +30,13 @@ abstract class AbstractAle extends AbstractItem {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (doesActionHeal(action) && isOffCD() && dwarf.tryUseMana(manaCost)) {
 			heal();
 			resetCD();
+			return true;
 		}
+		return false;
 	}
 	
 	@Override

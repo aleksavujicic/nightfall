@@ -34,7 +34,9 @@ public class DwarfData {
 		return elements;
 	}
 	
-	public DwarfData() {}
+	public DwarfData() {
+		addDefaults();
+	}
 	
 	public DwarfData(String title, boolean forceTitle, Hat hat, Set<KitElementType> elements, Map<ConsumableType, Integer> consumables) {
 		this.title = title;
@@ -42,6 +44,14 @@ public class DwarfData {
 		this.hat = hat;
 		this.elements = (elements == null ? new HashSet<>() : elements);
 		this.consumables = (consumables == null ? new HashMap<>() : consumables);
+		
+		addDefaults();
+	}
+	
+	private void addDefaults() {
+		addElement(KitElementType.DWARF_AXE);
+		addElement(KitElementType.DWARF_PICK);
+		addElement(KitElementType.DWARF_SHOVEL);
 	}
 	
 	public void setTitle(String title) {
@@ -55,6 +65,9 @@ public class DwarfData {
 	}
 	
 	public void addElement(KitElementType type) {
+		if (type == KitElementType.TOMBMAKER)
+			elements.remove(KitElementType.DWARF_SHOVEL);
+		
 		elements.add(type);
 	}
 	

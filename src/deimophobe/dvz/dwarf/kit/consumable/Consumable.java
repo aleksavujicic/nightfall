@@ -4,7 +4,12 @@ import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -16,39 +21,49 @@ import java.util.Map;
 public abstract class Consumable {
 	
 	private final ItemStack item;
-	
 	public ItemStack getItem() {
 		return item;
 	}
-	
-	protected Consumable(ItemStack item) {
-		this.item = item;
-	}
-	
 	public boolean matchesItem(ItemStack toMatch) {
 		return item.isSimilar(toMatch);
 	}
+	protected Consumable(String itemName) {
+		this.item = DwarfManager.getManager().getItem("consumable."+itemName);
+		if (item == null) {
+			Bukkit.getLogger().severe("Consumable item '" + itemName + "' does not exist.");
+		}
+	}
 	
-	public abstract boolean use(Dwarf dwarf);
+	public abstract int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face);
+	
+	protected static final int DEFAULT_CD = 10;
+	protected static final int FAILED_CD = -1;
+	
+	
 	
 	private static final Map<ConsumableType, Consumable> consumableMap = new HashMap<>();
 	static {
-		ConfigurationSection consumables = DwarfManager.getManager().getConfig().getConfigurationSection("consumable");
+		consumableMap.put(ConsumableType.LAMP, new Lamp("lamp"));
+		consumableMap.put(ConsumableType.SLAB, new Slab("slab"));
+		consumableMap.put(ConsumableType.SOS, new SOS("sos"));
+		consumableMap.put(ConsumableType.WRENCH, new Wrench("wrench"));
+		consumableMap.put(ConsumableType.HEAL_STATION, new HealStation("healstation"));
 		
-		consumableMap.put(ConsumableType.LAMP, new Lamp(ItemCreator.createItem(consumables.getConfigurationSection("lamp"), Slot.MAIN_HAND)));
-		consumableMap.put(ConsumableType.SLAB, new Slab(ItemCreator.createItem(consumables.getConfigurationSection("slab"), Slot.MAIN_HAND)));
-		consumableMap.put(ConsumableType.SOS, new SOS(ItemCreator.createItem(consumables.getConfigurationSection("sos"), Slot.MAIN_HAND)));
-		consumableMap.put(ConsumableType.WRENCH, new Wrench(ItemCreator.createItem(consumables.getConfigurationSection("wrench"), Slot.MAIN_HAND)));
-		consumableMap.put(ConsumableType.MORTAR, new Mortar(ItemCreator.createItem(consumables.getConfigurationSection("mortar"), Slot.MAIN_HAND), false));
-		consumableMap.put(ConsumableType.WIZARD_MORTAR, new Mortar(ItemCreator.createItem(consumables.getConfigurationSection("wizardmortar"), Slot.MAIN_HAND), true));
-		consumableMap.put(ConsumableType.ARMOUR_ITEM, new ArmourItem(ItemCreator.createItem(consumables.getConfigurationSection("armouritem"), Slot.MAIN_HAND)));
-		consumableMap.put(ConsumableType.HEAL_STATION, new HealStation(ItemCreator.createItem(consumables.getConfigurationSection("healstation"), Slot.MAIN_HAND)));
-	}
-	
-	public static boolean use(Dwarf dwarf, ConsumableType type) {
-		if (type != null)
-			return consumableMap.get(type).use(dwarf);
-		return false;
+		consumableMap.put(ConsumableType.MORTAR, new Mortar("mortar", false));
+		consumableMap.put(ConsumableType.WIZARD_MORTAR, new Mortar("wizardmortar", true));
+		
+		consumableMap.put(ConsumableType.ARMOUR_ITEM, new ArmourItem("armouritem"));
+		
+		consumableMap.put(ConsumableType.LOG, new CraftingConsumable("log", Material.IRON_FENCE, ConsumableType.PLANK, 2));
+		consumableMap.put(ConsumableType.PLANK, new CraftingConsumable("plank", Material.IRON_FENCE, ConsumableType.STICK));
+		consumableMap.put(ConsumableType.STICK, new CraftingConsumable("stick",
+				new CraftingConsumable.Conversion(Material.IRON_FENCE, ConsumableType.BOWL),
+				new CraftingConsumable.Conversion(Material.SPONGE, ConsumableType.TORCH)
+		));
+		consumableMap.put(ConsumableType.BOWL, new CraftingConsumable("bowl", Material.SPONGE, ConsumableType.MORTAR));
+		
+		consumableMap.put(ConsumableType.TORCH, new DummyConsumable("torch"));
+		consumableMap.put(ConsumableType.COBBLESTONE, new DummyConsumable("cobble"));
 	}
 	
 	public static ItemStack getItem(ConsumableType type) {
@@ -57,7 +72,7 @@ public abstract class Consumable {
 		return null;
 	}
 	
-	public static ConsumableType getConsumable(ItemStack item) {
+	private static ConsumableType getConsumable(ItemStack item) {
 		for (ConsumableType type : consumableMap.keySet()) {
 			if (consumableMap.get(type).matchesItem(item))
 				return type;
@@ -65,11 +80,31 @@ public abstract class Consumable {
 		return null;
 	}
 	
-	public static final ConsumableType[] undroppableConsumables = {
-			ConsumableType.LAMP,
-			ConsumableType.SLAB,
-			ConsumableType.SOS,
-			ConsumableType.WRENCH,
-			ConsumableType.HEAL_STATION,
+	
+	
+	public static int use(Dwarf dwarf, ItemStack item, Action action, Block clickedBlock, BlockFace face) {
+		return use(dwarf, getConsumable(item), action, clickedBlock, face);
+	}
+	
+	public static int use(Dwarf dwarf, ConsumableType type, Action action, Block clickedBlock, BlockFace face) {
+		if (type != null)
+			return consumableMap.get(type).use(dwarf, action, clickedBlock, face);
+		return FAILED_CD;
+	}
+	
+	
+	
+	public static final ConsumableType[] droppableConsumables = {
+			ConsumableType.MORTAR,
+			ConsumableType.WIZARD_MORTAR,
+			
+			ConsumableType.ARMOUR_ITEM,
+			
+			ConsumableType.LOG,
+			ConsumableType.PLANK,
+			ConsumableType.STICK,
+			ConsumableType.BOWL,
+			ConsumableType.TORCH,
+			ConsumableType.COBBLESTONE
 	};
 }

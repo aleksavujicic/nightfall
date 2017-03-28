@@ -29,18 +29,16 @@ class Tinderflame extends AbstractCooldownItem {
 	}
 	
 	private final static ItemStack ITEM = DwarfManager.getManager().getItem("hero.tinderflame", Slot.MAIN_HAND);
-	@Override
-	public ItemStack getItem() {
+	@Override public ItemStack getItem() {
 		return ITEM;
 	}
-	@Override
-	public KitGiveType getGiveType() { return KitGiveType.START; }
+	@Override public KitGiveType getGiveType() { return KitGiveType.START; }
 	
 	
 	private static final double PARTICLE_FREQ = 0.5;
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action) && isOffCD()) {
 			MonsterPlayer monster = dwarf.getLookingAt(3, 100, MonsterManager.getManager());
 			
@@ -72,7 +70,9 @@ class Tinderflame extends AbstractCooldownItem {
 			dwarf.getPlayer().setVelocity(velocity);
 			
 			resetCooldown();
+			return true;
 		}
+		return false;
 	}
 	
 	@Override

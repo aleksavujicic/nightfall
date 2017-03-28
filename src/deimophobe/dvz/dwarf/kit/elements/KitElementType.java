@@ -45,6 +45,7 @@ public enum KitElementType {
 	
 	
 	HERO_SAFEFALL,
+	HERO_ALE,
 	
 	TUI_HAMMER,
 	WILDFIRE,
@@ -53,8 +54,7 @@ public enum KitElementType {
 	WAND,
 	ROCKET_BOOTS,
 	
-	
-	HERO_ALE;
+	;
 	
 	public static KitElementType get(String name) {
 		for (KitElementType type : values()) {
@@ -94,10 +94,8 @@ public enum KitElementType {
 			case TRINKET: return new Trinket(dwarf);
 			case REGROWTH_STAR: return new Regrowth(dwarf);
 				
-			case RUNEBLESSED:
-				break;
-			case QUIVER:
-				break;
+			case RUNEBLESSED: return new Runeblessed(dwarf);
+			case QUIVER: return new Quiver(dwarf);
 			case STUDDED: return new StuddedArmour(dwarf);
 			case COIL: return new MagicCoil(dwarf);
 				
@@ -106,6 +104,11 @@ public enum KitElementType {
 			case SAFEFALL: return new JumpySafefall(dwarf);
 			case DARKVISION: return new DarkVision(dwarf);
 			case AVENGE: return new Avenge(dwarf);
+			
+			
+			case DWARF_AXE: return new DwarfAxe(dwarf);
+			case DWARF_PICK: return new DwarfPickaxe(dwarf);
+			case DWARF_SHOVEL: return new DwarfShovel(dwarf);
 			
 			
 			case HERO_SAFEFALL: return new Safefall(dwarf);

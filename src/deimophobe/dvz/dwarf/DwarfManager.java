@@ -75,6 +75,9 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	public ItemStack getItem(String sec, Slot slot) {
 		return ItemCreator.createItem(config.getConfigurationSection(sec), slot);
 	}
+	public ItemStack getItem(String section) {
+		return  getItem(section, Slot.MAIN_HAND);
+	}
 	
 	
 	@Override

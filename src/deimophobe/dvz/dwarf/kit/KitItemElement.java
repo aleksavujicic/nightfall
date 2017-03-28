@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
  * Created by Deimophobe on 19/03/17.
  */
 public interface KitItemElement extends KitElement {
-	void onUse(Action action, Block clickedBlock, BlockFace blockFace);
+	boolean onUse(Action action, Block clickedBlock, BlockFace blockFace);
 	void onBlockBreak(Block block);
 	
 	ItemStack getItem();

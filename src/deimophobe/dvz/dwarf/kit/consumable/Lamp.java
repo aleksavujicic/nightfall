@@ -5,6 +5,9 @@ import deimophobe.dvz.blocks.timedblock.LampBlock;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Set;
@@ -14,13 +17,15 @@ import java.util.Set;
  */
 class Lamp extends Consumable {
 	
-	Lamp(ItemStack item) {
+	Lamp(String item) {
 		super(item);
 	}
 	
 	@Override
-	public boolean use(Dwarf dwarf) {
-		Location lampLoc = dwarf.getPlayer().getTargetBlock((Set<Material>) null, 5).getLocation();
-		return TimedBlock.placeTimedBlock(new LampBlock(lampLoc, 60*20));
+	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
+		boolean success = TimedBlock.placeTimedBlock(new LampBlock(clickedBlock, 60*20));
+		
+		if (success) return DEFAULT_CD;
+		else return FAILED_CD;
 	}
 }

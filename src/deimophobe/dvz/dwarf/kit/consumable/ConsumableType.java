@@ -15,10 +15,11 @@ public enum ConsumableType {
 	
 	ARMOUR_ITEM,
 	
-	WOOD,
+	LOG,
 	PLANK,
 	STICK,
 	BOWL,
+	
 	TORCH,
-	COBBLE
+	COBBLESTONE
 }

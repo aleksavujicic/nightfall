@@ -50,7 +50,7 @@ public abstract class AbstractCooldownItem extends AbstractCooldown implements K
 	}
 	
 	
-	@Override public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {}
+	@Override public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) { return false; }
 	@Override public void onBlockBreak(Block block) {}
 	public double onSelfHit(GameEntity monster, DamageType type, double damage) {return damage;}
 	public void onSelfKill(GameEntity monster, DamageType type) {}

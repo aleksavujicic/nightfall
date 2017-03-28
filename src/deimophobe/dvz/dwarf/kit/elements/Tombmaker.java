@@ -25,12 +25,10 @@ class Tombmaker extends AbstractCooldownItem {
 	
 	
 	private final static ItemStack ITEM = DwarfManager.getManager().getItem("sword.tombmaker", Slot.MAIN_HAND);
-	@Override
-	public ItemStack getItem() {
+	@Override public ItemStack getItem() {
 		return ITEM;
 	}
-	@Override
-	public KitGiveType getGiveType() { return KitGiveType.SHOVEL; }
+	@Override public KitGiveType getGiveType() { return KitGiveType.SHOVEL; }
 	
 	
 	@Override
@@ -40,12 +38,14 @@ class Tombmaker extends AbstractCooldownItem {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action) && isOffCD()) {
 			dwarf.playSound("proc", 1, 1, false);
 			dwarf.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 2), true);
 			resetCooldown();
+			return true;
 		}
+		return false;
 	}
 	
 	@Override

@@ -171,26 +171,6 @@ consumable:
     lore:
      - Some lore
 
-misc:
-  pick:
-    material: iron_pickaxe
-    damage: 70
-    name: Dwarven Pickaxe
-    lore:
-     - Some lore
-  axe:
-    material: iron_axe
-    damage: 71
-    name: Dwarven Axe
-    lore:
-     - Some lore
-  shovel:
-    material: iron_spade
-    damage: 72
-    name: Dwarven Shovel
-    lore:
-     - Some lore
-
   log:
     material: ink_sack
     damage: 12
@@ -225,6 +205,26 @@ misc:
   cobble:
     material: cobblestone
     name: Cobblestone
+    lore:
+     - Some lore
+
+misc:
+  pick:
+    material: iron_pickaxe
+    damage: 70
+    name: Dwarven Pickaxe
+    lore:
+     - Some lore
+  axe:
+    material: iron_axe
+    damage: 71
+    name: Dwarven Axe
+    lore:
+     - Some lore
+  shovel:
+    material: iron_spade
+    damage: 72
+    name: Dwarven Shovel
     lore:
      - Some lore
 

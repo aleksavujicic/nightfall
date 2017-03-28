@@ -139,7 +139,7 @@ public class Game {
 	}
 	
 	public void setGold(int gold) {
-		sidebarObj.getScore(ChatColor.YELLOW + "Gold").setScore(gold);
+		sidebarObj.getScore(ChatColor.YELLOW + "Shrine Gold").setScore(gold);
 	}
 	
 	public void setDoomSidebar(int doomTimer) {

@@ -1,11 +1,13 @@
 package deimophobe.dvz.dwarf.kit.consumable;
 
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Set;
@@ -15,15 +17,17 @@ import java.util.Set;
  */
 class Slab extends Consumable {
 	
-	Slab(ItemStack item) {
+	Slab(String item) {
 		super(item);
 	}
 	
 	@Override
-	public boolean use(Dwarf dwarf) {
+	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
+		if (Misc.isRightClick(action)) return FAILED_CD;
+		
 		Block block = dwarf.getPlayer().getTargetBlock((Set<Material>) null, 5);
 		
-		if (block.getType() != Material.AIR) return false;
+		if (block.getType() != Material.AIR) return FAILED_CD;
 			
 		Location center = block.getLocation();
 		double facing = dwarf.getLocation().getYaw() % 360;
@@ -56,6 +60,6 @@ class Slab extends Consumable {
 		
 		dwarf.playSound("block.anvil.place", 20, 0.8f, false);
 		
-		return true;
+		return DEFAULT_CD;
 	}
 }

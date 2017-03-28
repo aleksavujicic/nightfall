@@ -24,6 +24,14 @@ class GreaterRuneblade extends AbstractCooldownItem {
 		super(dwarf, 400);
 	}
 	
+	private final static ItemStack ITEM = DwarfManager.getManager().getItem("sword.grb", Slot.MAIN_HAND);
+	@Override public ItemStack getItem() {
+		return ITEM;
+	}
+	@Override public KitGiveType getGiveType() {
+		return KitGiveType.SWORD;
+	}
+	
 	@Override
 	public void onKill(GameEntity monster, DamageType type) {
 		if (type == DamageType.REGULAR_MELEE && isHoldingItem())
@@ -33,7 +41,7 @@ class GreaterRuneblade extends AbstractCooldownItem {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action) && isOffCD()) {
 			Player player = dwarf.getPlayer();
 			
@@ -41,7 +49,10 @@ class GreaterRuneblade extends AbstractCooldownItem {
 			dwarf.giveProc(Dwarf.ProcType.RUNEDASH);
 			player.setVelocity(player.getLocation().getDirection().setY(0).normalize().multiply(5));
 			resetCooldown();
+			
+			return true;
 		}
+		return false;
 	}
 	
 	@Override
@@ -50,17 +61,6 @@ class GreaterRuneblade extends AbstractCooldownItem {
 			damage *= 0.1;
 		}
 		return damage;
-	}
-	
-	private final static ItemStack ITEM = DwarfManager.getManager().getItem("sword.grb", Slot.MAIN_HAND);
-	@Override
-	public ItemStack getItem() {
-		return ITEM;
-	}
-	
-	@Override
-	public KitGiveType getGiveType() {
-		return KitGiveType.SWORD;
 	}
 	
 	@Override

@@ -28,13 +28,16 @@ class Regrowth extends AbstractAle {
 	@Override public ItemStack getItem() { return ITEM; }
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
+	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		boolean selfHealSuccess = super.onUse(action, clickedBlock, blockFace);
 		
+		boolean otherHealSuccess = false;
 		if (Misc.isRightClick(action) && isOffCD()) {
 			tryHealOthers();
 			resetCD();
+			otherHealSuccess = true;
 		}
+		return  (selfHealSuccess || otherHealSuccess);
 	}
 	
 	private void tryHealOthers() {

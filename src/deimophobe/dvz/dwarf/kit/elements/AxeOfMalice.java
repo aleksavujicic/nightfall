@@ -36,11 +36,13 @@ class AxeOfMalice extends AbstractCooldownItem {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action) && isOffCD()) {
 			dwarf.giveProc(Dwarf.ProcType.MALICE);
 			resetCooldown();
+			return true;
 		}
+		return false;
 	}
 	
 	@Override

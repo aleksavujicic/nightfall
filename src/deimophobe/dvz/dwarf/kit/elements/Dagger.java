@@ -29,12 +29,10 @@ class Dagger extends AbstractCooldownItem {
 	
 	
 	private final static ItemStack ITEM = DwarfManager.getManager().getItem("sword.dagger", Slot.MAIN_HAND);
-	@Override
-	public ItemStack getItem() {
+	@Override public ItemStack getItem() {
 		return ITEM;
 	}
-	@Override
-	public KitGiveType getGiveType() { return KitGiveType.SWORD; }
+	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 	
 	
 	
@@ -49,11 +47,9 @@ class Dagger extends AbstractCooldownItem {
 		return damage;
 	}
 	
-	private static final double EPSILON = 1;
-	private static final double RANGE = 4;
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action) && isOffCD()) {
-			MonsterPlayer closestMonster = dwarf.getLookingAt(EPSILON, RANGE, MonsterManager.getManager());
+			MonsterPlayer closestMonster = dwarf.getLookingAt(1, 4, MonsterManager.getManager());
 			
 			if (closestMonster != null) {
 				Location loc = closestMonster.getPlayer().getEyeLocation();
@@ -65,6 +61,8 @@ class Dagger extends AbstractCooldownItem {
 				dwarf.playSound("entity.wither.shoot", 1f, 1.5f, true);
 				resetCooldown();
 			}
+			return true;
 		}
+		return false;
 	}
 }

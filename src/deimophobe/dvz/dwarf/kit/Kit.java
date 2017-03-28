@@ -94,8 +94,7 @@ public class Kit {
 		ItemStack held = dwarf.getHeldItem();
 		for (KitItemElement item : itemElements) {
 			if (item.matchesItem(held)) {
-				item.onUse(action, clickedBlock, blockFace);
-				return true;
+				return item.onUse(action, clickedBlock, blockFace);
 			}
 		}
 		return false;
@@ -144,13 +143,11 @@ public class Kit {
 	public static boolean isDroppableItem(ItemStack item) {
 		if (item == null) return true;
 		
-		// TODO add kit items
-		
-		for (ConsumableType consumableType : Consumable.undroppableConsumables)
+		for (ConsumableType consumableType : Consumable.droppableConsumables)
 			if (item.isSimilar(Consumable.getItem(consumableType)))
-				return false;
+				return true;
 		
-		return true;
+		return false;
 	}
 	
 	
