@@ -1,8 +1,13 @@
 package deimophobe.dvz;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketContainer;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -10,6 +15,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by Deimophobe on 24/01/17.
@@ -85,7 +92,24 @@ public abstract class GameEntity {
 	}
 	
 	public void healMax() {
-		entity.setHealth(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+		double maxHealth = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+		entity.setHealth(maxHealth);
+		
+		if (entity instanceof Player) {
+			Player p = (Player) entity;
+			
+			ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+			PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.UPDATE_HEALTH);
+			packet.getFloat().write(0, (float) maxHealth);
+			packet.getFloat().write(1, 5f);
+			packet.getIntegers().write(0, 20);
+			
+			try {
+				protocolManager.sendServerPacket(p, packet);
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
 		//entity.damage(0);
 	}
 	
