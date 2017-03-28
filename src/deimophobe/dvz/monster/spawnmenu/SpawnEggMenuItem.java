@@ -2,6 +2,7 @@ package deimophobe.dvz.monster.spawnmenu;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.ItemCreator;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.Phase;
 import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.MonsterPlayer;
@@ -84,7 +85,7 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 	
 	private static final Map<String, SpawnEggMenuItem> eggMap = new HashMap<>();
 	static {
-		Configuration spawnConfig = YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource("spawn-eggs.yml"));
+		Configuration spawnConfig = Misc.getInternalFileConfig("spawn-eggs.yml");
 		for (String key : spawnConfig.getKeys(false)) {
 			SpawnEggMenuItem egg = new SpawnEggMenuItem(spawnConfig.getConfigurationSection(key));
 			eggMap.put(key.toLowerCase(), egg);

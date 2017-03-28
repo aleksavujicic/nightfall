@@ -35,7 +35,7 @@ public class DoomManager {
 	public void setup() {
 		resetDoomTimers();
 		
-		Configuration doomConfig = YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource("doom.yml"));
+		Configuration doomConfig = Misc.getInternalFileConfig("doom.yml");
 		dooms.put(DoomType.KRUNGOR, new KrungorDoom(doomConfig.getConfigurationSection("krungor")));
 		dooms.put(DoomType.GHOSTBLADES, new GhostbladeDoom(doomConfig.getConfigurationSection("ghostblades")));
 		

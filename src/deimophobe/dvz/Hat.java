@@ -27,8 +27,7 @@ public enum Hat {
 	
 	Hat(String hat) {
 		name = hat;
-		ConfigurationSection hatData = YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource("hats.yml"));
-		this.hat = ItemCreator.createItem(hatData.getConfigurationSection(hat), Slot.HEAD);
+		this.hat = ItemCreator.createItem(Misc.getInternalFileConfig("hats.yml").getConfigurationSection(hat), Slot.HEAD);
 	}
 	
 	public void putOn(GamePlayer player) {

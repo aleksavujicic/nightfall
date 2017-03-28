@@ -2,6 +2,7 @@ package deimophobe.dvz.monster.spawnmenu;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.ItemCreator;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.menu.GameMenu;
 import deimophobe.dvz.menu.Menu;
 import deimophobe.dvz.menu.MenuItem;
@@ -59,7 +60,7 @@ public class SpawnMenu extends GameMenu<MonsterPlayer> {
 				break;
 			
 			case "upgrade":
-				ConfigurationSection upgradeFile = YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource(config.getString("file")));
+				ConfigurationSection upgradeFile = Misc.getInternalFileConfig(config.getString("file"));
 				menuItem = new SelectUpgradeMenuItem(config, upgradeFile);
 				break;
 			

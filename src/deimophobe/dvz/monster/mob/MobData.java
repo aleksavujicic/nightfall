@@ -2,6 +2,7 @@ package deimophobe.dvz.monster.mob;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.ItemCreator;
+import deimophobe.dvz.Misc;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;
@@ -117,7 +118,7 @@ public class MobData {
 	
 	private static final Map<String, MobData> mobs = new HashMap<>();
 	static {
-		ConfigurationSection mobData = YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource("mobs.yml"));
+		ConfigurationSection mobData = Misc.getInternalFileConfig("mobs.yml");
 		for (String key : mobData.getKeys(false)) {
 			if (key.equals("default")) {
 				mobs.put(key.toLowerCase(), new MobData(mobData.getConfigurationSection(key)));

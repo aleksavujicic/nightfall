@@ -30,7 +30,7 @@ public class Skin {
 	
 	private static Map<String, Skin> skins = new HashMap<>();
 	static {
-		ConfigurationSection skinData = YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource("skin.yml"));
+		ConfigurationSection skinData =Misc.getInternalFileConfig("skin.yml");
 		for (String key : skinData.getKeys(false)) {
 			skins.put(key.toLowerCase(), new Skin(skinData.getConfigurationSection(key)));
 		}
