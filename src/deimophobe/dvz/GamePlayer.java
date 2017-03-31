@@ -240,6 +240,7 @@ public abstract class GamePlayer extends GameEntity {
 	public boolean isBlocking() {
 		return player.isBlocking();
 	}
+	public boolean isSneaking() { return player.isSneaking(); }
 	public Block getTargetBlock(Set<Material> materials, int i) {
 		return player.getTargetBlock(materials, i);
 	}

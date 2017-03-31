@@ -11,6 +11,12 @@ default-map:
   lobby: [417.5, 252.5, -1323.5, 0]
   dwarfspawn: [387.5, 74, -1270.5, -135]
 
+  compass:
+    Oil: [506.5, 70, -1388.5]
+    Sawmill: [518, 76, -1416.5]
+    Quarry: [387.5, 70, -1363.5]
+    Blacksmith: [432.5, 70, -1265.5]
+
   shrines:
     shrine1:
       name: Citadel Shrine

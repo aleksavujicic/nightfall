@@ -1,6 +1,7 @@
 package deimophobe.dvz.shrine;
 
 import deimophobe.dvz.Misc;
+import deimophobe.dvz.shrine.region.CenteredRegion;
 import deimophobe.dvz.shrine.region.Region;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -14,7 +15,7 @@ public class Shrine {
 	
 	private final Region mobProtection;
 	private final Region shrineProtection;
-	private final Region shrineRegion;
+	private final CenteredRegion shrineRegion;
 	
 	private int shrinePower;
 	private final int maxShrinePower;
@@ -40,7 +41,7 @@ public class Shrine {
 	
 	public double getGoldWeight() { return goldWeight; }
 	
-	public Shrine(String name, Location mobSpawn, Region mobProtection, Region shrineProtection, Region shrineRegion, int maxShrinePower, double goldWeight) {
+	public Shrine(String name, Location mobSpawn, Region mobProtection, Region shrineProtection, CenteredRegion shrineRegion, int maxShrinePower, double goldWeight) {
 		this.name = name;
 		this.mobSpawn = mobSpawn;
 		this.mobProtection = mobProtection;
@@ -59,7 +60,7 @@ public class Shrine {
 		
 		Region mobProt = Region.createRegion(section.getConfigurationSection("mobprot"));
 		Region shrineProt = Region.createRegion(section.getConfigurationSection("shrineprot"));
-		Region shrine = Region.createRegion(section.getConfigurationSection("shrine"));
+		CenteredRegion shrine = CenteredRegion.createRegion(section.getConfigurationSection("shrine"));
 		
 		int maxShrinePower = section.getInt("power");
 		double goldWeight = section.getDouble("goldweight");
@@ -74,5 +75,9 @@ public class Shrine {
 	
 	public float getFractionalShrinePower() {
 		return (float) shrinePower/maxShrinePower;
+	}
+	
+	public Location getLocation() {
+		return shrineRegion.getCenter();
 	}
 }

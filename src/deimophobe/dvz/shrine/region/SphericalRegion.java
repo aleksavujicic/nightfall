@@ -7,7 +7,7 @@ import org.bukkit.configuration.ConfigurationSection;
 /**
  * Created by Deimophobe on 21/01/17.
  */
-class SphericalRegion implements Region {
+class SphericalRegion implements Region, CenteredRegion {
 	
 	private final Location center;
 	private final double radius;
@@ -25,5 +25,10 @@ class SphericalRegion implements Region {
 	@Override
 	public boolean containsLocation(Location loc) {
 		return (loc.distance(center) <= radius);
+	}
+	
+	@Override
+	public Location getCenter() {
+		return center;
 	}
 }

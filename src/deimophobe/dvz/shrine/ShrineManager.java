@@ -9,7 +9,6 @@ import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
-import deimophobe.dvz.shrine.region.Region;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -21,7 +20,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -43,12 +44,15 @@ public class ShrineManager {
 	
 	private BossBar shrineBar;
 	
+	private List<CompassLocation> compassLocations;
+	
 	
 	private BukkitRunnable runner;
 	public void setupManager(ConfigurationSection mapConfig) {
 		dwarfSpawn = Misc.createLocation(mapConfig.getDoubleList("dwarfspawn"));
 		lobby = Misc.createLocation(mapConfig.getDoubleList("lobby"));
 		
+		// Setup shrines
 		shrines = new LinkedList<>();
 		ConfigurationSection shrineConfig = mapConfig.getConfigurationSection("shrines");
 		for (String key : shrineConfig.getKeys(false)) {
@@ -70,10 +74,40 @@ public class ShrineManager {
 		};
 		runner.runTaskTimer(Game.getGame().getPlugin(), 60, 60);
 		
+		// Setup shrine bar
 		shrineBar = Bukkit.createBossBar(getShrine().getName(), BarColor.BLUE, BarStyle.SOLID);
 		shrineBar.setProgress(1);
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			shrineBar.addPlayer(player);
+		}
+		
+		
+		// Setup compass
+		compassLocations = new ArrayList<>();
+		
+		// Add dwarf/mob spawn and current shrine
+		compassLocations.add(new CompassLocation() {
+			@Override public Location getLocation() {return getDwarfSpawn();}
+			@Override public String getName() {return "Dwarf spawn";}
+		});
+		compassLocations.add(new CompassLocation() {
+			@Override public Location getLocation() {return getShrine().getLocation();}
+			@Override public String getName() {return "Current shrine";}
+		});
+		compassLocations.add(new CompassLocation() {
+			@Override public Location getLocation() {return getCurrentMobspawn();}
+			@Override public String getName() {return "Current mob spawn";}
+		});
+		
+		ConfigurationSection compassConfig = mapConfig.getConfigurationSection("compass");
+		Bukkit.getLogger().info(mapConfig.getKeys(false).toString());
+		if (compassConfig != null) {
+			for (String key : compassConfig.getKeys(false)) {
+				Location location = Misc.createLocation(compassConfig.getDoubleList(key));
+				compassLocations.add(new FixedCompassLocation(key, location));
+			}
+		} else {
+			Bukkit.getLogger().warning("No compass section found");
 		}
 	}
 	
@@ -230,7 +264,9 @@ public class ShrineManager {
 	}
 	
 	
-	public Region getShrineRegion() {
-		return getShrine().getShrineRegion();
+	
+	// ------ COMPASS ------
+	public List<CompassLocation> getCompassLocations() {
+		return compassLocations;
 	}
 }

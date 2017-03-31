@@ -240,6 +240,13 @@ misc:
     lore:
      - Some lore
 
+  compass:
+    material: compass
+    name: "&6&lTHE MIGHTY DWARVEN COMPASS"
+    lore:
+     - "&dUsed by only the greatest of dwarven"
+     - "&dwarriors."
+
 
 hero:
   tuihammer:

@@ -119,8 +119,7 @@ public enum KitElementType {
 			case STUDDED: return new StuddedArmour(dwarf);
 			case COIL: return new MagicCoil(dwarf);
 				
-			case COMPASS:
-				break;
+			case COMPASS: return new DwarfCompass(dwarf);
 			case SAFEFALL: return new JumpySafefall(dwarf);
 			case DARKVISION: return new DarkVision(dwarf);
 			case AVENGE: return new Avenge(dwarf);
