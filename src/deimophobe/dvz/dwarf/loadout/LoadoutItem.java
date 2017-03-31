@@ -6,10 +6,12 @@ import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.menu.MenuItem;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
@@ -44,6 +46,27 @@ class LoadoutItem implements MenuItem<Player> {
 				
 				this.cost = config.getInt("cost");
 				this.category = null;
+				break;
+			
+			case "multi":
+				MultiModifer multiModifer = new MultiModifer();
+				ConfigurationSection consumables = config.getConfigurationSection("consumables");
+				for (String key : consumables.getKeys(false)) {
+					ConsumableType consumable = ConsumableType.valueOf(key.toUpperCase());
+					int quantity = consumables.getInt(key);
+					multiModifer.addConsumable(consumable, quantity);
+				}
+				for (String item : config.getStringList("elements")) {
+					multiModifer.addElement(KitElementType.get(item));
+				}
+				this.modifier = multiModifer;
+				
+				this.cost = config.getInt("cost");
+				
+				if (config.contains("category"))
+					this.category = Category.valueOf(config.getString("category").toUpperCase());
+				else
+					this.category = null;
 				break;
 				
 			case "hat":
@@ -167,6 +190,29 @@ class LoadoutItem implements MenuItem<Player> {
 		@Override
 		void modify(DwarfData dwarfData) {
 			dwarfData.incrementConsumable(type, quantity);
+		}
+	}
+	
+	private static class MultiModifer extends PropertyModifier {
+		private final Map<ConsumableType, Integer> consumables = new HashMap<>();
+		private final Set<KitElementType> elements = new HashSet<>();
+		
+		private MultiModifer() {}
+		
+		private void addConsumable(ConsumableType type, int quantity) {
+			consumables.put(type, quantity);
+		}
+		private void addElement(KitElementType type) {
+			elements.add(type);
+		}
+		
+		@Override
+		void modify(DwarfData dwarfData) {
+			for (Map.Entry<ConsumableType, Integer> entry : consumables.entrySet())
+				dwarfData.incrementConsumable(entry.getKey(), entry.getValue());
+			
+			for (KitElementType type : elements)
+				dwarfData.addElement(type);
 		}
 	}
 	
