@@ -1,5 +1,6 @@
 package deimophobe.dvz;
 
+import com.comphenix.protocol.PacketType;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
@@ -250,6 +251,54 @@ public class DvZPlugin extends JavaPlugin {
 				return true;
 			} else {
 				return false;
+			}
+		}
+		if (name.equalsIgnoreCase("plagueimmune")) {
+			if (args.length == 0) {
+				Player player;
+				if (sender instanceof Player) {
+					player = (Player) sender;
+				} else {
+					sender.sendMessage(ChatColor.RED + "You must choose a player");
+					return true;
+				}
+				
+				Dwarf dwarf = dm.getGamePlayer(player);
+				if (dwarf == null) {
+					sender.sendMessage("You are not a dwarf!");
+					return true;
+				}
+				
+				boolean nowImmune = dwarf.togglePlagueImmunity();
+				if (nowImmune) {
+					dwarf.sendMessage(ChatColor.YELLOW + "You are now immune to plague!");
+				} else {
+					dwarf.sendMessage(ChatColor.GREEN + "You are no longer immune to plague!");
+				}
+				return true;
+			} else {
+				Player player = Bukkit.getPlayer(args[0]);
+				
+				if (player == null) {
+					sender.sendMessage(ChatColor.RED + "Could not find player: " + ChatColor.DARK_AQUA + args[0] + ChatColor.RED + "!");
+					return true;
+				}
+				
+				Dwarf dwarf = dm.getGamePlayer(player);
+				if (dwarf == null) {
+					sender.sendMessage(ChatColor.DARK_AQUA + player.getName() + ChatColor.RED + " is not a dwarf!");
+					return true;
+				}
+				
+				boolean nowImmune = dwarf.togglePlagueImmunity();
+				if (nowImmune) {
+					sender.sendMessage(dwarf.getDisplayName() + ChatColor.YELLOW + " is now immune to plague!");
+					dwarf.sendMessage(ChatColor.YELLOW + "You are now immune to plague!");
+				} else {
+					sender.sendMessage(dwarf.getDisplayName() + ChatColor.GREEN + " is no longer immune to plague!");
+					dwarf.sendMessage(ChatColor.GREEN + "You are no longer immune to plague!");
+				}
+				return true;
 			}
 		}
 		if (name.equalsIgnoreCase("loadout")) {

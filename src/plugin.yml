@@ -54,6 +54,9 @@ commands:
   forceplague:
     description: Forces the plague to occur.
     usage: /forceplague
+  plagueimmune:
+    description: Makes a player (un)immune to plague.
+    usage: /plagueimmune [player]
 
   loadmap:
     description: Loads a specified map.

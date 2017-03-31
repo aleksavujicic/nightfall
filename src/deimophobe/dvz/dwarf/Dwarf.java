@@ -315,6 +315,11 @@ public class Dwarf extends GamePlayer {
 	
 	// ------ BLOOD ------
 	private boolean plagueImmune = false;
+	
+	public boolean togglePlagueImmunity() {
+		plagueImmune = !plagueImmune;
+		return plagueImmune;
+	}
 	public void makePlagueImmune() {
 		plagueImmune = true;
 	}
