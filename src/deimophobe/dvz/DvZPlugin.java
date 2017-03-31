@@ -101,7 +101,7 @@ public class DvZPlugin extends JavaPlugin {
 				Set<KitElementType> elements = new HashSet<>();
 				for (int i=1; i<args.length; i++) {
 					if (!KitElementType.isElement(args[i])) {
-						sender.sendMessage(ChatColor.RED + "Unknown kit item: " + ChatColor.DARK_AQUA + args[0] + ChatColor.RED + "!");
+						sender.sendMessage(ChatColor.RED + "Unknown kit item: " + ChatColor.DARK_AQUA + args[i] + ChatColor.RED + "!");
 						continue;
 					}
 					elements.add(KitElementType.get(args[i]));
