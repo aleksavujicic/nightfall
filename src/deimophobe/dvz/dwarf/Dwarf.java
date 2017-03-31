@@ -188,9 +188,9 @@ public class Dwarf extends GamePlayer {
 	public void updateArmour() {
 		if (armoured) {
 			int i;
-			if (armour >= 1400) {
+			if (getArmour() >= 0.7) {
 				i = 0;
-			} else if (armour > 600) {
+			} else if (getArmour() > 0.3) {
 				i = 1;
 			} else {
 				i = 2;

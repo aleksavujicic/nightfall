@@ -26,7 +26,7 @@ import java.util.Set;
  */
 class Krungor extends Mob {
 	private int cooldown = 0;
-	private final static int MAX_CD = 20;
+	private final static int MAX_CD = 30*20;
 	
 	Krungor(MonsterPlayer monster) {
 		super(monster, MobType.KRUNGOR);
