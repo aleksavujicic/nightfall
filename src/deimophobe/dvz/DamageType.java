@@ -13,13 +13,19 @@ public enum DamageType {
 	
 	CONTACT(2, -1),
 	DROWNING(4, -1),
-	FALL(2, -1),
 	HOT_FLOOR(2, -1),
 	CRAMMING(3, -1),
 	FALLING_BLOCK(3, -1),
 	LIGHTNING(20, -1),
 	LAVA(10, -1),
 	FIRE(5, -1),
+	
+	FALL(2, -1) {
+		@Override
+		public double getDwarfDamage(double damage) {
+			return 2*(1 - Math.pow(Math.random(),2)/2)*damage;
+		}
+	},
 	
 	VOID(true),
 	SEPPUKU(true),
