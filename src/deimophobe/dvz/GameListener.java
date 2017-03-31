@@ -81,6 +81,7 @@ public class GameListener implements Listener {
 			case GAME:
 			case END:
 				mm.addGamePlayer(player);
+				player.teleport(ShrineManager.getManager().getCurrentMobspawn());
 				break;
 		}
 	}
