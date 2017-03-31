@@ -2,24 +2,18 @@ package deimophobe.dvz.dwarf;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GamePlayerManager;
-import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.dwarf.hero.Hero;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,9 +32,9 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	
 	
 	private BukkitRunnable runner;
+	
 	public void setupManager() {
 		Plugin plugin = Game.getGame().getPlugin();
-		config = YamlConfiguration.loadConfiguration(plugin.getResource("dwarf-items.yml"));
 		
 		runner = new BukkitRunnable() {
 			int counter = 0;
@@ -104,19 +98,6 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	
 	public boolean isSharedChest(Inventory inventory) {
 		return (inventory != null && sharedChest.getTitle().equals(inventory.getTitle()));
-	}
-	
-	
-	
-	private Configuration config;
-	public Configuration getConfig() {
-		return config;
-	}
-	public ItemStack getItem(String sec, Slot slot) {
-		return ItemCreator.createItem(config.getConfigurationSection(sec), slot);
-	}
-	public ItemStack getItem(String section) {
-		return  getItem(section, Slot.MAIN_HAND);
 	}
 	
 	

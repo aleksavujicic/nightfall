@@ -3,7 +3,7 @@ package deimophobe.dvz.dwarf.kit.elements;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitCooldownElement;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import minecraft.spigot.community.michel_0.api.Slot;
@@ -11,7 +11,6 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
@@ -25,7 +24,7 @@ class Warpweaver extends AbstractBow implements KitCooldownElement {
 		super(dwarf);
 	}
 	
-	private final static ItemStack ITEM = DwarfManager.getManager().getItem("bow.warpweaver", Slot.MAIN_HAND);
+	private final static ItemStack ITEM = DwarvenItems.getItem("bow.warpweaver", Slot.MAIN_HAND);
 	@Override public ItemStack getItem() {
 		return ITEM;
 	}

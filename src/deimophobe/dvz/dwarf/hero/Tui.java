@@ -3,6 +3,7 @@ package deimophobe.dvz.dwarf.hero;
 import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.DwarvenItems;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
@@ -82,12 +83,7 @@ class Tui extends Hero {
 		return fuel;
 	}
 	
-	private static final ItemStack fuel;
-	static {
-		ConfigurationSection miscItems = DwarfManager.getManager().getConfig().getConfigurationSection("misc");
-		fuel = ItemCreator.createItem(miscItems.getConfigurationSection("wildfirefuel"), Slot.MAIN_HAND);
-	}
-	
+	private static final ItemStack fuel = DwarvenItems.getItem("misc.wildfirefuel");
 	
 	@Override
 	public void notifyDeath(Dwarf dwarf) {

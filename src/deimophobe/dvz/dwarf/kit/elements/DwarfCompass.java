@@ -2,7 +2,7 @@ package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.shrine.CompassLocation;
 import deimophobe.dvz.shrine.ShrineManager;
@@ -22,7 +22,7 @@ import java.util.List;
 class DwarfCompass extends AbstractItem {
 	DwarfCompass(Dwarf dwarf) {super(dwarf);}
 	
-	private final static ItemStack ITEM = DwarfManager.getManager().getItem("misc.compass", Slot.MAIN_HAND);
+	private final static ItemStack ITEM = DwarvenItems.getItem("misc.compass", Slot.MAIN_HAND);
 	@Override public ItemStack getItem() { return ITEM; }
 	@Override public KitGiveType getGiveType() {return KitGiveType.START;}
 	

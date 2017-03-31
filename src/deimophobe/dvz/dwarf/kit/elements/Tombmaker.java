@@ -2,10 +2,9 @@ package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -24,7 +23,7 @@ class Tombmaker extends AbstractCooldownItem {
 	}
 	
 	
-	private final static ItemStack ITEM = DwarfManager.getManager().getItem("sword.tombmaker", Slot.MAIN_HAND);
+	private final static ItemStack ITEM = DwarvenItems.getItem("sword.tombmaker", Slot.MAIN_HAND);
 	@Override public ItemStack getItem() {
 		return ITEM;
 	}

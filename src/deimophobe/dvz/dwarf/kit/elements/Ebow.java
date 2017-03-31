@@ -10,14 +10,11 @@ import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.monster.MonsterManager;
-import deimophobe.dvz.monster.MonsterPlayer;
-import deimophobe.dvz.monster.ai.AIEntity;
-import deimophobe.dvz.monster.ai.AIManager;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.*;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -30,7 +27,7 @@ class Ebow extends AbstractBow {
 		super(dwarf);
 	}
 	
-	private final static ItemStack ITEM = DwarfManager.getManager().getItem("bow.ebow", Slot.MAIN_HAND);
+	private final static ItemStack ITEM = DwarvenItems.getItem("bow.ebow", Slot.MAIN_HAND);
 	@Override public ItemStack getItem() {
 		return ITEM;
 	}

@@ -1,27 +1,20 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.DwarfManager;
-import deimophobe.dvz.dwarf.hero.Hero;
+import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitCooldownElement;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
 import deimophobe.dvz.monster.ai.AIManager;
-import me.libraryaddict.disguise.disguisetypes.Disguise;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Created by Deimophobe on 11/03/17.
@@ -31,7 +24,7 @@ class TuiHammer extends AbstractAOEHitter implements KitCooldownElement {
 		super(dwarf, 4);
 	}
 	
-	private final static ItemStack ITEM = DwarfManager.getManager().getItem("hero.tuihammer", Slot.MAIN_HAND);
+	private final static ItemStack ITEM = DwarvenItems.getItem("hero.tuihammer", Slot.MAIN_HAND);
 	@Override public ItemStack getItem() {
 		return ITEM;
 	}

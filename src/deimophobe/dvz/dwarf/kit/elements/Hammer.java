@@ -3,15 +3,12 @@ package deimophobe.dvz.dwarf.kit.elements;
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitCooldownElement;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
-import deimophobe.dvz.monster.MonsterManager;
-import deimophobe.dvz.monster.ai.AIManager;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -23,7 +20,7 @@ class Hammer extends AbstractAOEHitter implements KitCooldownElement {
 		super(dwarf, 2);
 	}
 	
-	private final static ItemStack ITEM = DwarfManager.getManager().getItem("sword.hammer", Slot.MAIN_HAND);
+	private final static ItemStack ITEM = DwarvenItems.getItem("sword.hammer", Slot.MAIN_HAND);
 	@Override public ItemStack getItem() {
 		return ITEM;
 	}

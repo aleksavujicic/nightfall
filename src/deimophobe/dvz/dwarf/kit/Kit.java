@@ -139,17 +139,6 @@ public class Kit {
 		}
 	}
 	
-	// ------ MISC ------
-	public static boolean isDroppableItem(ItemStack item) {
-		if (item == null) return true;
-		
-		for (ConsumableType consumableType : Consumable.droppableConsumables)
-			if (item.isSimilar(Consumable.getItem(consumableType)))
-				return true;
-		
-		return false;
-	}
-	
 	
 	// ------ HELD ITEM ------
 	private KitCooldownElement lastHeld = null;

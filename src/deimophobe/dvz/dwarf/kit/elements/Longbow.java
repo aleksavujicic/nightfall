@@ -3,7 +3,7 @@ package deimophobe.dvz.dwarf.kit.elements;
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitCooldownElement;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.monster.MonsterPlayer;
@@ -32,7 +32,7 @@ class Longbow extends AbstractBow implements KitCooldownElement {
 		super(dwarf);
 	}
 	
-	private final static ItemStack ITEM = DwarfManager.getManager().getItem("bow.longbow", Slot.MAIN_HAND);
+	private final static ItemStack ITEM = DwarvenItems.getItem("bow.longbow", Slot.MAIN_HAND);
 	@Override public ItemStack getItem() {
 		return ITEM;
 	}

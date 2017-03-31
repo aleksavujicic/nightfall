@@ -3,20 +3,18 @@ package deimophobe.dvz.dwarf.kit.elements;
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.monster.MonsterManager;
-import deimophobe.dvz.monster.MonsterPlayer;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Arrow;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -28,7 +26,7 @@ class Wildfire extends AbstractItem {
 		super(dwarf);
 	}
 	
-	private final static ItemStack ITEM = DwarfManager.getManager().getItem("hero.wildfire", Slot.MAIN_HAND);
+	private final static ItemStack ITEM = DwarvenItems.getItem("hero.wildfire", Slot.MAIN_HAND);
 	@Override public ItemStack getItem() {
 		return ITEM;
 	}
@@ -45,7 +43,7 @@ class Wildfire extends AbstractItem {
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (cooldown == 0 && dwarf.hasArrows(1)) {
+		if (cooldown == 0 && dwarf.hasArrows(1) && Misc.isRightClick(action)) {
 			cooldown = MAX_COOLDOWN;
 			
 			Location spawnLoc = dwarf.getEyeLocation();

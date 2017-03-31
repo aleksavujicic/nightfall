@@ -1,16 +1,14 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.GamePlayer;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.DwarvenItems;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -24,7 +22,7 @@ class Regrowth extends AbstractAle {
 		super(dwarf, 100);
 	}
 	
-	private final static ItemStack ITEM = DwarfManager.getManager().getItem("ale.regrowth", Slot.MAIN_HAND);
+	private final static ItemStack ITEM = DwarvenItems.getItem("ale.regrowth", Slot.MAIN_HAND);
 	@Override public ItemStack getItem() { return ITEM; }
 	
 	@Override

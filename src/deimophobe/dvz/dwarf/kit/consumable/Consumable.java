@@ -1,14 +1,11 @@
 package deimophobe.dvz.dwarf.kit.consumable;
 
-import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.DwarfManager;
-import minecraft.spigot.community.michel_0.api.Slot;
+import deimophobe.dvz.dwarf.DwarvenItems;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
@@ -28,7 +25,7 @@ public abstract class Consumable {
 		return item.isSimilar(toMatch);
 	}
 	protected Consumable(String itemName) {
-		this.item = DwarfManager.getManager().getItem("consumable."+itemName);
+		this.item = DwarvenItems.getItem("consumable."+itemName);
 		if (item == null) {
 			Bukkit.getLogger().severe("Consumable item '" + itemName + "' does not exist.");
 		}

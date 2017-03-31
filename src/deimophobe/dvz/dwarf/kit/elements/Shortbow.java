@@ -1,7 +1,7 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.inventory.ItemStack;
@@ -15,7 +15,7 @@ class Shortbow extends AbstractBow {
 		super(dwarf);
 	}
 	
-	private final static ItemStack ITEM = DwarfManager.getManager().getItem("bow.shortbow", Slot.MAIN_HAND);
+	private final static ItemStack ITEM = DwarvenItems.getItem("bow.shortbow", Slot.MAIN_HAND);
 	@Override public ItemStack getItem() {
 		return ITEM;
 	}

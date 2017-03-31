@@ -2,10 +2,9 @@ package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
-import deimophobe.dvz.GamePlayer;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
@@ -28,7 +27,7 @@ class Tinderflame extends AbstractCooldownItem {
 		super(dwarf, 40);
 	}
 	
-	private final static ItemStack ITEM = DwarfManager.getManager().getItem("hero.tinderflame", Slot.MAIN_HAND);
+	private final static ItemStack ITEM = DwarvenItems.getItem("hero.tinderflame", Slot.MAIN_HAND);
 	@Override public ItemStack getItem() {
 		return ITEM;
 	}

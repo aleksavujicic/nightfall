@@ -1,7 +1,7 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import org.bukkit.inventory.ItemStack;
 
@@ -10,9 +10,21 @@ import org.bukkit.inventory.ItemStack;
  */
 class DwarfShovel extends AbstractItem {
 	
-	public DwarfShovel(Dwarf dwarf) {super(dwarf);}
+	private final boolean hasTombmaker;
 	
-	private static final ItemStack ITEM = DwarfManager.getManager().getItem("misc.shovel");
+	public DwarfShovel(Dwarf dwarf) {
+		super(dwarf);
+		hasTombmaker = dwarf.hasKitElement(KitElementType.TOMBMAKER);
+	}
+	
+	private static final ItemStack ITEM = DwarvenItems.getItem("misc.shovel");
 	@Override public ItemStack getItem() {return ITEM;}
-	@Override public KitGiveType getGiveType() { return KitGiveType.SHOVEL; }
+	
+	@Override
+	public KitGiveType getGiveType() {
+		if (hasTombmaker)
+			return null;
+		else
+			return KitGiveType.SHOVEL;
+	}
 }

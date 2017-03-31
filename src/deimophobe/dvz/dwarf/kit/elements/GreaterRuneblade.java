@@ -5,10 +5,9 @@ import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -24,7 +23,7 @@ class GreaterRuneblade extends AbstractCooldownItem {
 		super(dwarf, 400);
 	}
 	
-	private final static ItemStack ITEM = DwarfManager.getManager().getItem("sword.grb", Slot.MAIN_HAND);
+	private final static ItemStack ITEM = DwarvenItems.getItem("sword.grb", Slot.MAIN_HAND);
 	@Override public ItemStack getItem() {
 		return ITEM;
 	}

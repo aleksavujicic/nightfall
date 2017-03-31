@@ -3,7 +3,7 @@ package deimophobe.dvz;
 import deimophobe.dvz.blocks.BlockManager;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
-import deimophobe.dvz.dwarf.kit.Kit;
+import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.loadout.LoadoutMenu;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
@@ -147,7 +147,7 @@ public class GameListener implements Listener {
 		Entity entity = event.getEntity();
 		EntityDamageEvent.DamageCause cause = event.getCause();
 		
-		// Don't damage lobbyers and reset if void.
+		// Don't damage lobbyers and respawn if void.
 		if (entity instanceof Player && ((Player)entity).getGameMode() == GameMode.ADVENTURE) {
 			event.setCancelled(true);
 			if (event.getCause() == EntityDamageEvent.DamageCause.VOID) {
@@ -323,7 +323,7 @@ public class GameListener implements Listener {
 					event.setDamage(0);
 					event.setCancelled(true);
 					
-					((Dwarf) damagee).reset();
+					((Dwarf) damagee).respawn();
 				}
 			}
 			
@@ -507,7 +507,7 @@ public class GameListener implements Listener {
 				hotbarItem = null;
 			ItemStack clickedItem = event.getCurrentItem();
 			
-			if (!Kit.isDroppableItem(clickedItem) || !Kit.isDroppableItem(hotbarItem))
+			if (!DwarvenItems.isDroppableItem(clickedItem) || !DwarvenItems.isDroppableItem(hotbarItem))
 				event.setCancelled(true);
 		}
 		
@@ -525,7 +525,7 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void preventDropping(PlayerDropItemEvent event) {
 		if (event.getPlayer().getGameMode() == GameMode.ADVENTURE ||
-				( dm.getGamePlayer(event.getPlayer()) != null && !Kit.isDroppableItem(event.getItemDrop().getItemStack()) ) ||
+				( dm.getGamePlayer(event.getPlayer()) != null && !DwarvenItems.isDroppableItem(event.getItemDrop().getItemStack()) ) ||
 				mm.getGamePlayer(event.getPlayer()) != null)
 			event.setCancelled(true);
 	}

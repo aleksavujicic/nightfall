@@ -3,6 +3,7 @@ package deimophobe.dvz.dwarf;
 import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.kit.Kit;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
+import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
 import deimophobe.dvz.dwarf.kit.consumable.Consumable;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
@@ -16,7 +17,6 @@ import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
@@ -27,29 +27,20 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 /**
  * Created by Deimophobe on 15/01/17.
  */
 public class Dwarf extends GamePlayer {
-	private Kit kit;
+	private final Kit kit;
+	private final Set<KitElementType> kitElements;
 	
-	private final int maxMana;
-	private int mana;
-	
-	private int maxArmour;
-	private int armour;
-	private boolean armoured;
-	
-	private int maxArrows;
-	
-	private boolean blindImmune;
-	private static final int MIN_LIGHT_LEVEL_FOR_BLINDNESS = 5;
-	
-	public Kit getKit() {
-		return kit;
+	public boolean hasKitElement(KitElementType type) {
+		return kitElements.contains(type);
 	}
+	
 	
 	public Dwarf(Player player) {
 		this(player, DwarfData.getData(player));
@@ -58,25 +49,22 @@ public class Dwarf extends GamePlayer {
 	Dwarf(Player player, DwarfData data) {
 		super(player);
 		
+		// Clear potion effects/inventory
 		clearEffects();
-		player.getInventory().clear();
+		clearInventory();
 		player.setGameMode(GameMode.SURVIVAL);
 		
-		maxMana = 1000;
-		mana = maxMana;
 		
-		maxArmour = 2000;
+		// Setup kit
+		this.kitElements = data.getElements();
+		this.kit = new Kit(this, data);
+		giveStartingItems(data.getConsumables());
+		
+		mana = maxMana;
 		armour = maxArmour;
 		armoured = false;
 		
-		maxArrows = 20;
-		
-		blindImmune = false;
-		
-		this.kit = new Kit(this, data);
-		
-		playIntro();
-		
+		// Set title
 		String title = data.getTitle();
 		boolean forceTitle = data.getForceTitle();
 		
@@ -92,23 +80,25 @@ public class Dwarf extends GamePlayer {
 		setTitle(color, title, forceTitle);
 		
 		
-		updateArmour();
-		updateManaBar();
-		
-		reset();
-		
-		giveStartingItems(data.getConsumables());
-		
+		// Put on hat
 		Hat hat = data.getHat();
 		if (hat != null)
 			hat.putOn(this);
+		
+		
+		updateArmour();
+		updateManaBar();
+		
+		respawn();
+		
+		playIntro();
 	}
 	
 	private void playIntro() {
 		player.sendMessage("You are a dwarf. This will be cooler later");
 	}
 	
-	public void reset() {
+	public void respawn() {
 		delayedHealMax();
 		teleportTo(ShrineManager.getManager().getDwarfSpawn());
 	}
@@ -124,6 +114,9 @@ public class Dwarf extends GamePlayer {
 	
 	
 	// ------ MANA STUFF ------
+	private final int maxMana = 1000;
+	private int mana;
+	
 	public boolean tryUseMana(int cost) {
 		if (cost > mana) return false;
 		mana -= cost;
@@ -152,6 +145,10 @@ public class Dwarf extends GamePlayer {
 	
 	
 	// ------ ARMOUR STUFF ------
+	private int maxArmour = 2000;
+	private int armour;
+	private boolean armoured;
+	
 	public void setMaxArmour(int max) {
 		maxArmour = max;
 	}
@@ -212,7 +209,9 @@ public class Dwarf extends GamePlayer {
 	
 	
 	// ------ ARROWS ------
-	private final static ItemStack arrow = DwarfManager.getManager().getItem("misc.arrow");
+	private int maxArrows = 20;
+	private final static ItemStack arrow = DwarvenItems.getItem("misc.arrow");
+	
 	public void setMaxArrows(int max) {
 		maxArrows = max;
 	}
@@ -265,8 +264,15 @@ public class Dwarf extends GamePlayer {
 		giveConsumable(type, 1);
 	}
 	
+	
 	// ------ VISIBILITY ------
+	private boolean blindImmune = false;
 	private boolean holdingLightItem = false;
+	private static final int MIN_LIGHT_LEVEL_FOR_BLINDNESS = 5;
+	
+	public void makeBlindImmune() {
+		blindImmune = true;
+	}
 	public void updateVisibility() {
 		if (canSee()) {
 			player.removePotionEffect(PotionEffectType.BLINDNESS);

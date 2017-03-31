@@ -3,6 +3,7 @@ package deimophobe.dvz.dwarf.kit.elements;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.effects.GameEffect;
@@ -26,7 +27,7 @@ class DwarfPickaxe extends AbstractCooldownItem {
 		super(dwarf, 20);
 	}
 	
-	private static final ItemStack ITEM = DwarfManager.getManager().getItem("misc.pick");
+	private static final ItemStack ITEM = DwarvenItems.getItem("misc.pick");
 	@Override public ItemStack getItem() {return ITEM;}
 	@Override public KitGiveType getGiveType() { return KitGiveType.PICK; }
 	

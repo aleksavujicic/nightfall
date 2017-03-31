@@ -4,7 +4,7 @@ import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.blocks.timedblock.LampBlock;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
-import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.block.Block;
@@ -17,9 +17,10 @@ import org.bukkit.inventory.ItemStack;
 class Lightbow extends AbstractBow {
 	Lightbow(Dwarf dwarf) {
 		super(dwarf);
+		dwarf.makeBlindImmune();
 	}
 	
-	private final static ItemStack ITEM = DwarfManager.getManager().getItem("bow.lightbow", Slot.MAIN_HAND);
+	private final static ItemStack ITEM = DwarvenItems.getItem("bow.lightbow", Slot.MAIN_HAND);
 	@Override public ItemStack getItem() {
 		return ITEM;
 	}

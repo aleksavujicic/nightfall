@@ -1,7 +1,7 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import minecraft.spigot.community.michel_0.api.Slot;
@@ -18,7 +18,7 @@ class DwarfAxe extends AbstractItem {
 		super(dwarf);
 	}
 	
-	private final static ItemStack ITEM = DwarfManager.getManager().getItem("misc.axe", Slot.MAIN_HAND);
+	private final static ItemStack ITEM = DwarvenItems.getItem("misc.axe", Slot.MAIN_HAND);
 	@Override public ItemStack getItem() {
 		return ITEM;
 	}

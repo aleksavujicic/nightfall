@@ -2,14 +2,11 @@ package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
-import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.monster.MonsterManager;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -27,7 +24,7 @@ class Wand extends AbstractCooldownItem {
 		super(dwarf, 180*20);
 	}
 	
-	private final static ItemStack ITEM = DwarfManager.getManager().getItem("hero.wand", Slot.MAIN_HAND);
+	private final static ItemStack ITEM = DwarvenItems.getItem("hero.wand", Slot.MAIN_HAND);
 	@Override public ItemStack getItem() {
 		return ITEM;
 	}
