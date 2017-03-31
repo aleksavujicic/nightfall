@@ -59,6 +59,8 @@ public class BlockManager {
 	}
 	
 	public boolean isBreakable(Block block) {
+		if (block == null) return false;
+		
 		Material blockType = block.getType();
 		for (Material material : FIXED_BLOCKS) {
 			if (material == blockType)
