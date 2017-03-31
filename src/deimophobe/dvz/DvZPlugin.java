@@ -96,6 +96,8 @@ public class DvZPlugin extends JavaPlugin {
 					return true;
 				}
 				
+				dm.removeGamePlayer(args[0]);
+				mm.removeGamePlayer(args[0]);
 				Set<KitElementType> elements = new HashSet<>();
 				for (int i=1; i<args.length; i++) {
 					if (!KitElementType.isElement(args[i])) {
