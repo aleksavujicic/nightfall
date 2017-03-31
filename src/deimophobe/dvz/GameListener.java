@@ -421,6 +421,8 @@ public class GameListener implements Listener {
 				}
 			}.runTaskLater(Game.getGame().getPlugin(), 1);
 		} else {
+			event.getPlayer().setGameMode(GameMode.SPECTATOR);
+			
 			new BukkitRunnable() {
 				@Override
 				public void run() {

@@ -65,9 +65,6 @@ public class DwarfData {
 	}
 	
 	public void addElement(KitElementType type) {
-		if (type == KitElementType.TOMBMAKER)
-			elements.remove(KitElementType.DWARF_SHOVEL);
-		
 		elements.add(type);
 	}
 	

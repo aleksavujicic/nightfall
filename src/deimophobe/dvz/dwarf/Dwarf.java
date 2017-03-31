@@ -101,6 +101,7 @@ public class Dwarf extends GamePlayer {
 	public void respawn() {
 		delayedHealMax();
 		teleportTo(ShrineManager.getManager().getDwarfSpawn());
+		player.setFireTicks(0);
 	}
 	
 	protected void giveStartingItems(Map<ConsumableType, Integer> consumables) {
