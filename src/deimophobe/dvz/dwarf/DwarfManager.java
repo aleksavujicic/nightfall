@@ -4,6 +4,7 @@ import deimophobe.dvz.Game;
 import deimophobe.dvz.GamePlayerManager;
 import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.dwarf.hero.Hero;
+import deimophobe.dvz.dwarf.loadout.DwarfData;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -68,17 +69,12 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 		ourManager = new DwarfManager();
 	}
 	
-	private Configuration config;
-	public Configuration getConfig() {
-		return config;
-	}
-	public ItemStack getItem(String sec, Slot slot) {
-		return ItemCreator.createItem(config.getConfigurationSection(sec), slot);
-	}
-	public ItemStack getItem(String section) {
-		return  getItem(section, Slot.MAIN_HAND);
-	}
 	
+	public Dwarf createDwarf(Player player, DwarfData data) {
+		Dwarf dwarf = new Dwarf(player, data);
+		registerGamePlayer(dwarf);
+		return dwarf;
+	}
 	
 	@Override
 	protected Dwarf createGamePlayerFromPlayer(Player player) {
@@ -108,6 +104,19 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	
 	public boolean isSharedChest(Inventory inventory) {
 		return (inventory != null && sharedChest.getTitle().equals(inventory.getTitle()));
+	}
+	
+	
+	
+	private Configuration config;
+	public Configuration getConfig() {
+		return config;
+	}
+	public ItemStack getItem(String sec, Slot slot) {
+		return ItemCreator.createItem(config.getConfigurationSection(sec), slot);
+	}
+	public ItemStack getItem(String section) {
+		return  getItem(section, Slot.MAIN_HAND);
 	}
 	
 	

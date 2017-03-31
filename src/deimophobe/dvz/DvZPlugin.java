@@ -4,6 +4,10 @@ import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.hero.Hero;
+import deimophobe.dvz.dwarf.kit.Kit;
+import deimophobe.dvz.dwarf.kit.KitElement;
+import deimophobe.dvz.dwarf.kit.elements.KitElementType;
+import deimophobe.dvz.dwarf.loadout.DwarfData;
 import deimophobe.dvz.dwarf.loadout.Loadout;
 import deimophobe.dvz.dwarf.loadout.LoadoutMenu;
 import deimophobe.dvz.monster.MonsterManager;
@@ -22,9 +26,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 15/01/17.
@@ -77,7 +79,7 @@ public class DvZPlugin extends JavaPlugin {
 			if (args.length == 0) {
 				sender.sendMessage(ChatColor.RED + "Please specify a dwarf.");
 				return false;
-			} else  {
+			} else if (args.length == 1) {
 				dm.removeGamePlayer(args[0]);
 				mm.removeGamePlayer(args[0]);
 				boolean success = dm.addGamePlayer(args[0]);
@@ -86,6 +88,23 @@ public class DvZPlugin extends JavaPlugin {
 				} else {
 					sender.sendMessage(ChatColor.RED + "Could not add " + ChatColor.DARK_AQUA + args[0] + ChatColor.RED + " as a dwarf!");
 				}
+				return true;
+			} else {
+				Player player = Bukkit.getPlayer(args[0]);
+				if (player == null) {
+					sender.sendMessage(ChatColor.RED + "Could not find player: " + ChatColor.DARK_AQUA + args[0] + ChatColor.RED + "!");
+					return true;
+				}
+				
+				Set<KitElementType> elements = new HashSet<>();
+				for (int i=1; i<args.length; i++) {
+					if (!KitElementType.isElement(args[i])) {
+						sender.sendMessage(ChatColor.RED + "Unknown kit item: " + ChatColor.DARK_AQUA + args[0] + ChatColor.RED + "!");
+						continue;
+					}
+					elements.add(KitElementType.get(args[i]));
+				}
+				dm.createDwarf(player, new DwarfData(null, false, null, elements, null));
 				return true;
 			}
 		}
@@ -317,6 +336,10 @@ public class DvZPlugin extends JavaPlugin {
 		String name = command.getName();
 		if (name.equalsIgnoreCase("loadmap")) {
 			return startsWithPrefix(MapManager.getManager().getMaps(), args[0]);
+		}
+		
+		if (name.equalsIgnoreCase("setdwarf") && args.length >= 2) {
+			return startsWithPrefix(KitElementType.getElementNames(), args[args.length-1]);
 		}
 		return null;
 	}

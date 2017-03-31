@@ -3,6 +3,10 @@ package deimophobe.dvz.dwarf.kit.elements;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.kit.KitElement;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by Deimophobe on 24/03/17.
  */
@@ -56,12 +60,28 @@ public enum KitElementType {
 	
 	;
 	
+	public static boolean isElement(String name) {
+		for (KitElementType type : values()) {
+			if (type.name().equalsIgnoreCase(name))
+				return true;
+		}
+		return false;
+	}
+	
 	public static KitElementType get(String name) {
 		for (KitElementType type : values()) {
 			if (type.name().equalsIgnoreCase(name))
 				return type;
 		}
 		throw new IllegalArgumentException("Unknown element type: " + name);
+	}
+	
+	public static Set<String> getElementNames() {
+		Set<String> names = new HashSet<>();
+		for (KitElementType type : values()) {
+			names.add(type.toString().toLowerCase());
+		}
+		return names;
 	}
 	
 	public KitElement createElement(Dwarf dwarf) {

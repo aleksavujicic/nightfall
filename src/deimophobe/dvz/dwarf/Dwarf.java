@@ -55,7 +55,7 @@ public class Dwarf extends GamePlayer {
 		this(player, DwarfData.getData(player));
 	}
 	
-	public Dwarf(Player player, DwarfData data) {
+	Dwarf(Player player, DwarfData data) {
 		super(player);
 		
 		clearEffects();

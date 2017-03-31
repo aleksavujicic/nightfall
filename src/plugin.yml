@@ -6,7 +6,7 @@ description: Deimo's custom dvz thing
 depend: [ProtocolLib]
 commands:
   setdwarf:
-    usage: /setdwarf <name>
+    usage: /setdwarf <name> [ item1 item2 ... ]
     description: Sets a player to be a dwarf.
   sethero:
     usage: /sethero <name> <herotype>
