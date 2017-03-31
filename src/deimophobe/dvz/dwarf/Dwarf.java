@@ -42,11 +42,11 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	
-	public Dwarf(Player player) {
+	Dwarf(Player player) {
 		this(player, DwarfData.getData(player));
 	}
 	
-	Dwarf(Player player, DwarfData data) {
+	public Dwarf(Player player, DwarfData data) {
 		super(player);
 		
 		// Clear potion effects/inventory
@@ -309,6 +309,16 @@ public class Dwarf extends GamePlayer {
 			Location bloodLoc = player.getLocation().add(0, 1, 0);
 			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 10, var, var, var, 0);
 		}
+	}
+	
+	
+	// ------ BLOOD ------
+	private boolean plagueImmune = false;
+	public void makePlagueImmune() {
+		plagueImmune = true;
+	}
+	public boolean isPlagueImmune() {
+		return plagueImmune;
 	}
 	
 	

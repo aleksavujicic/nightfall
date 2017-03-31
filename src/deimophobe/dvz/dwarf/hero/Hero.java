@@ -3,7 +3,9 @@ package deimophobe.dvz.dwarf.hero;
 import deimophobe.dvz.Hat;
 import deimophobe.dvz.Skin;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.kit.KitElement;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
+import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
@@ -12,22 +14,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 10/03/17.
  */
 public class Hero extends Dwarf {
-	public Hero(Player player) {
-		super(player);
-	}
+	private final Type type;
 	
-	//private final Type type;
-	
-	/*protected Hero(Player player, Type type) {
+	protected Hero(Player player, Type type) {
 		super(player, type.getData());
 		
 		this.type = type;
@@ -37,8 +32,9 @@ public class Hero extends Dwarf {
 			DisguiseAPI.disguiseEntity(player, disguise);
 		
 		announceHero();
+		makeBlindImmune();
+		makePlagueImmune();
 	}
-	*/
 	
 	private void announceHero() {
 		Bukkit.broadcastMessage(ChatColor.DARK_AQUA + player.getName() + ChatColor.LIGHT_PURPLE + " has become the dwarven hero " + player.getDisplayName());
@@ -97,20 +93,18 @@ public class Hero extends Dwarf {
 	
 	
 	private static final Map<ConsumableType, Integer> HERO_CONSUMABLES = new HashMap<>();
-	//private static final Set<Passive> HERO_PASSIVES = new HashSet<>();
 	static {
 		HERO_CONSUMABLES.put(ConsumableType.WIZARD_MORTAR, 32);
 		HERO_CONSUMABLES.put(ConsumableType.MORTAR, 64);
 		HERO_CONSUMABLES.put(ConsumableType.LAMP, 20);
 		HERO_CONSUMABLES.put(ConsumableType.SOS, 3);
-	//	HERO_PASSIVES.add(Passive.HERO_SAFEFALL);
 	}
-	/*
+	
 	public enum Type {
-		TUI("Tui the Lightbringer", Hat.TUI, SwordType.TUI_HAMMER, BowType.WILDFIRE, "tui", "Tui") {
+		TUI("Tui the Lightbringer", Hat.TUI, "tui", "Tui", KitElementType.TUI_HAMMER, KitElementType.WILDFIRE) {
 			@Override public Hero createHero(Player player) {return new Tui(player, this);}
 		},
-		NOSOVIN("Nosovin's Illustration", Hat.NOSOVIN, SwordType.TINDERFLAME, BowType.WAND, "tui", "Nosovin"){
+		NOSOVIN("Nosovin's Illustration", Hat.NOSOVIN, "tui", "Nosovin", KitElementType.TINDERFLAME, KitElementType.WAND, KitElementType.ROCKET_BOOTS){
 			@Override public Hero createHero(Player player) {return new Nosovin(player, this);}
 		},
 		;
@@ -119,9 +113,14 @@ public class Hero extends Dwarf {
 		private final String skin;
 		private final String nametag;
 		
-		Type(String name, Hat hat, SwordType sword, BowType bow, String skin, String nametag) {
-			//this.data = new DwarfData(name, true, hat, sword, bow, AleType.HERO, null, HERO_CONSUMABLES, HERO_PASSIVES);
-			this.data = null;
+		Type(String title, Hat hat, String skin, String nametag, KitElementType... elements) {
+			Set<KitElementType> allElements = new HashSet<>();
+			allElements.add(KitElementType.HERO_ALE);
+			allElements.add(KitElementType.HERO_SAFEFALL);
+			
+			allElements.addAll(Arrays.asList(elements));
+			
+			this.data = new DwarfData(title, true, hat, allElements,HERO_CONSUMABLES);
 			this.skin = skin;
 			this.nametag = nametag;
 		}
@@ -146,10 +145,5 @@ public class Hero extends Dwarf {
 			}
 			return null;
 		}
-		
-		static {
-			TUI.getData().addPassive(Passive.SUPER_QUIVER);
-		}
 	}
-	*/
 }

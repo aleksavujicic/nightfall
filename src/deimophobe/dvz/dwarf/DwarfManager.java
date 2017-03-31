@@ -76,8 +76,6 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	}
 	
 	
-	private final Set<Hero> heroes = new HashSet<>();
-	/*
 	public boolean addHero(String name, Hero.Type type) {
 		return addHero(Bukkit.getPlayer(name), type);
 	}
@@ -85,12 +83,10 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 		if (player == null || isGamePlayer(player)) return false;
 		
 		Hero hero = type.createHero(player);
-		heroes.add(hero);
 		registerGamePlayer(hero);
 		
 		return true;
 	}
-	*/
 	
 	
 	private final Inventory sharedChest = Bukkit.createInventory(null, 54, ChatColor.DARK_BLUE + "Shared Resources Chest");
@@ -104,7 +100,7 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	
 	public Set<Dwarf> getPlagueables() {
 		Set<Dwarf> plagueables = new HashSet<>(getGamePlayers());
-		plagueables.removeAll(heroes);
+		plagueables.removeIf((Dwarf d) -> d.isPlagueImmune());
 		return plagueables;
 	}
 }
