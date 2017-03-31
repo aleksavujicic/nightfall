@@ -1,10 +1,13 @@
-package deimophobe.dvz.dwarf.kit.bow;
+package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.monster.MonsterManager;
+import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -12,39 +15,33 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 /**
  * Created by Deimophobe on 12/03/17.
  */
-class Wand extends Bow {
+class Wand extends AbstractCooldownItem {
 	Wand(Dwarf dwarf) {
-		super(dwarf, BowType.WAND);
+		super(dwarf, 180*20);
 	}
 	
-	private int cooldown = 0;
-	private static final int MAX_CD = 180*20;
-	
-	@Override
-	public void update() {
-		if (cooldown > 0)
-			cooldown--;
+	private final static ItemStack ITEM = DwarfManager.getManager().getItem("hero.wand", Slot.MAIN_HAND);
+	@Override public ItemStack getItem() {
+		return ITEM;
 	}
+	@Override public KitGiveType getGiveType() { return KitGiveType.START; }
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace face) {
-		if (cooldown == 0) {
+	public boolean onUse(Action action, Block clickedBlock, BlockFace face) {
+		if (isOffCD()) {
 			Location loc = dwarf.getEyeLocation();
 			new WandProjectile(loc, loc.getDirection().multiply(0.5));
 			
-			cooldown = MAX_CD;
+			resetCooldown();
 		}
-	}
-	
-	@Override
-	public float fractionComplete() {
-		return 1 - (float)cooldown/MAX_CD;
+		return true;
 	}
 	
 	

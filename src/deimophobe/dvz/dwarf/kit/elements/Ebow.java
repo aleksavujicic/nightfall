@@ -1,4 +1,4 @@
-package deimophobe.dvz.dwarf.kit.bow;
+package deimophobe.dvz.dwarf.kit.elements;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -10,32 +10,41 @@ import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
 import deimophobe.dvz.monster.ai.AIManager;
+import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.*;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 /**
  * Created by Deimophobe on 20/01/17.
  */
-class Ebow extends Bow {
+class Ebow extends AbstractBow {
 	Ebow(Dwarf dwarf) {
-		super(dwarf, BowType.EBOW);
+		super(dwarf);
 	}
+	
+	private final static ItemStack ITEM = DwarfManager.getManager().getItem("bow.ebow", Slot.MAIN_HAND);
+	@Override public ItemStack getItem() {
+		return ITEM;
+	}
+	@Override public KitGiveType getGiveType() { return KitGiveType.BOW; }
+	@Override public String getBowIdentifier() {return "EBOW";}
+	@Override public int getPower() {return 10;}
 	
 	private static final double MAX_RANGE = 15;
 	private static final double THICKNESS = 1.5;
 	private static final double MIN_DISTANCE_FROM_SHOOTER = 2;
 	private static final double PROC_RADIUS = 3;
 	
-	
 	@Override
-	public Projectile onBowFire(Arrow arrow, float force) {
-		
+	public Projectile onBowFire(Projectile arrow, float force) {
 		Location dwarfLocation = dwarf.getPlayer().getEyeLocation();
 		Vector direction = dwarfLocation.getDirection();
 		
@@ -70,7 +79,7 @@ class Ebow extends Bow {
 				
 				// If close enough damage mob
 				if (radialOffset <= THICKNESS) {
-					monster.customDamage(dwarf, DamageType.EBOW, power);
+					monster.customDamage(dwarf, DamageType.EBOW, getPower()*force);
 					
 					for (Dwarf procDwarf : DwarfManager.getManager().getGamePlayers()) {
 						if (procDwarf != dwarf && monsterLocation.distance(procDwarf.getLocation()) <= PROC_RADIUS)

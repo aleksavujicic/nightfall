@@ -1,17 +1,21 @@
-package deimophobe.dvz.dwarf.kit.bow;
+package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
+import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -19,22 +23,28 @@ import org.bukkit.util.Vector;
 /**
  * Created by Deimophobe on 11/03/17.
  */
-class Wildfire extends Bow {
+class Wildfire extends AbstractItem {
 	Wildfire(Dwarf dwarf) {
-		super(dwarf, BowType.WILDFIRE);
+		super(dwarf);
 	}
+	
+	private final static ItemStack ITEM = DwarfManager.getManager().getItem("hero.wildfire", Slot.MAIN_HAND);
+	@Override public ItemStack getItem() {
+		return ITEM;
+	}
+	@Override public KitGiveType getGiveType() { return KitGiveType.START; }
 	
 	private int cooldown = 0;
 	private final static int MAX_COOLDOWN = 4;
 	
 	@Override
-	public void update() {
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		if (cooldown > 0)
 			cooldown--;
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (cooldown == 0 && dwarf.hasArrows(1)) {
 			cooldown = MAX_COOLDOWN;
 			
@@ -50,6 +60,7 @@ class Wildfire extends Bow {
 			
 			dwarf.useArrows(1);
 		}
+		return true;
 	}
 	
 	private static final int FLAME_LIFE = 40;

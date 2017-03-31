@@ -1,29 +1,44 @@
-package deimophobe.dvz.dwarf.kit.bow;
+package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.kit.KitCooldownElement;
+import deimophobe.dvz.dwarf.kit.KitGiveType;
+import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Item;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
 /**
  * Created by Deimophobe on 20/01/17.
  */
-class Crossbow extends Bow {
+class Crossbow extends AbstractBow implements KitCooldownElement {
 	Crossbow(Dwarf dwarf) {
-		super(dwarf, BowType.CROSSBOW);
+		super(dwarf);
 	}
+	
+	private final static ItemStack ITEM = DwarfManager.getManager().getItem("bow.crossbow", Slot.MAIN_HAND);
+	@Override public ItemStack getItem() {
+		return ITEM;
+	}
+	@Override public ItemStack getCooldownToggleItem() {return ITEM;}
+	@Override public KitGiveType getGiveType() { return KitGiveType.BOW; }
+	@Override public String getBowIdentifier() {return "CROSSBOW";}
+	@Override public int getPower() {return 90;}
 	
 	private int cooldown = 0;
 	private final static int MAX_COOLDOWN = 40;
 	
 	@Override
-	public void update() {
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		if (cooldown > 0)
 			cooldown--;
 	}
@@ -33,8 +48,9 @@ class Crossbow extends Bow {
 		return 1 - (float)cooldown/MAX_COOLDOWN;
 	}
 	
+	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (cooldown == 0 && dwarf.hasArrows(1)) {
 			Location spawnLoc = dwarf.getEyeLocation();
 			double yaw = spawnLoc.getYaw() * Math.PI/180;
@@ -46,6 +62,8 @@ class Crossbow extends Bow {
 			cooldown = MAX_COOLDOWN;
 			
 			dwarf.useArrows(1);
+			return true;
 		}
+		return false;
 	}
 }

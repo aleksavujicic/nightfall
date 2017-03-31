@@ -1,8 +1,12 @@
-package deimophobe.dvz.dwarf.kit.bow;
+package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.kit.KitCooldownElement;
+import deimophobe.dvz.dwarf.kit.KitGiveType;
+import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -16,10 +20,19 @@ import org.bukkit.metadata.FixedMetadataValue;
 /**
  * Created by Deimophobe on 20/01/17.
  */
-class Warpweaver extends Bow {
+class Warpweaver extends AbstractBow implements KitCooldownElement {
 	Warpweaver(Dwarf dwarf) {
-		super(dwarf, BowType.WARPWEAVER);
+		super(dwarf);
 	}
+	
+	private final static ItemStack ITEM = DwarfManager.getManager().getItem("bow.warpweaver", Slot.MAIN_HAND);
+	@Override public ItemStack getItem() {
+		return ITEM;
+	}
+	@Override public ItemStack getCooldownToggleItem() {return ITEM; }
+	@Override public KitGiveType getGiveType() { return KitGiveType.BOW; }
+	@Override public String getBowIdentifier() {return "WARPBOW";}
+	@Override public int getPower() {return 30;}
 	
 	private Location warpSpot;
 	private boolean warping = false;
@@ -31,7 +44,7 @@ class Warpweaver extends Bow {
 	private final static int MAX_COOLDOWN = 20*20;
 	
 	@Override
-	public void update() {
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		if (warping) {
 			cooldown++;
 			if (cooldown >= TELEPORT_TIME) {
@@ -71,7 +84,8 @@ class Warpweaver extends Bow {
 	}
 	
 	@Override
-	public Projectile onBowFire(Arrow arrow, float force) {
+	public Projectile onBowFire(Projectile arrow, float force) {
+		arrow = super.onBowFire(arrow, force);
 		if (canWarp() && active) {
 			arrow.setMetadata(ARROW_METADATA_KEY, new FixedMetadataValue(Game.getGame().getPlugin(), true));
 		}
@@ -79,10 +93,12 @@ class Warpweaver extends Bow {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isLeftClick(action) && canWarp()) {
 			setActive(!active);
+			return true;
 		}
+		return false;
 	}
 	
 	@Override

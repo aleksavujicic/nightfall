@@ -93,20 +93,13 @@ public enum KitElementType {
 			case TOMBMAKER: return new Tombmaker(dwarf);
 			case HAMMER: return new Hammer(dwarf);
 				
-			case SHORTBOW:
-				break;
-			case LONGBOW:
-				break;
-			case DRAGONSKIN:
-				break;
-			case EBOW:
-				break;
-			case LIGHTBOW:
-				break;
-			case WARPWEAVER:
-				break;
-			case CROSSBOW:
-				break;
+			case SHORTBOW: return new Shortbow(dwarf);
+			case LONGBOW: return new Longbow(dwarf);
+			case DRAGONSKIN: return new Dragonskin(dwarf);
+			case EBOW: return new Ebow(dwarf);
+			case LIGHTBOW: return new Lightbow(dwarf);
+			case WARPWEAVER: return new Warpweaver(dwarf);
+			case CROSSBOW: return new Crossbow(dwarf);
 				
 			case HEALING_ALE: return new HealingAle(dwarf);
 			case HOLY_ALE: return new HolyAle(dwarf);
@@ -134,8 +127,10 @@ public enum KitElementType {
 			case HERO_ALE: return new HeroAle(dwarf);
 			
 			case TUI_HAMMER: return new TuiHammer(dwarf);
+			case WILDFIRE: return new Wildfire(dwarf);
 			
 			case TINDERFLAME: return new Tinderflame(dwarf);
+			case WAND: return new Wand(dwarf);
 			case ROCKET_BOOTS: return new RocketBoots(dwarf);
 		}
 		throw new UnsupportedOperationException("Unimplemented element type: " + this);

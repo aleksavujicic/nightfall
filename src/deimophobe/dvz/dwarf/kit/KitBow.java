@@ -12,4 +12,5 @@ public interface KitBow extends KitItemElement {
 	Projectile onBowFire(Projectile proj, float force);
 	void onProjectileLand(Projectile proj, Block hitBlock);
 	boolean belongsToBow(Projectile proj);
+	int getPower();
 }
