@@ -421,6 +421,8 @@ public class GameListener implements Listener {
 					Game.getGame().resetPlayer(event.getPlayer());
 				}
 			}.runTaskLater(Game.getGame().getPlugin(), 1);
+			
+			event.setRespawnLocation(ShrineManager.getManager().getLobbySpawn());
 		} else {
 			event.getPlayer().setGameMode(GameMode.SPECTATOR);
 			

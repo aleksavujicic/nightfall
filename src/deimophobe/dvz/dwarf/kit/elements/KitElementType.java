@@ -86,7 +86,7 @@ public enum KitElementType {
 	
 	public KitElement createElement(Dwarf dwarf) {
 		switch (this) {
-			case DRB: return new GreaterRuneblade(dwarf);
+			case DRB: return new DwarvenRuneblade(dwarf);
 			case GRB: return new GreaterRuneblade(dwarf);
 			case AXE: return new AxeOfMalice(dwarf);
 			case DAGGER: return new Dagger(dwarf);

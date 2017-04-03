@@ -100,12 +100,18 @@ public class DvZPlugin extends JavaPlugin {
 				dm.removeGamePlayer(args[0]);
 				mm.removeGamePlayer(args[0]);
 				Set<KitElementType> elements = new HashSet<>();
-				for (int i=1; i<args.length; i++) {
-					if (!KitElementType.isElement(args[i])) {
-						sender.sendMessage(ChatColor.RED + "Unknown kit item: " + ChatColor.DARK_AQUA + args[i] + ChatColor.RED + "!");
-						continue;
+				if (args[1].equalsIgnoreCase("all")) {
+					sender.sendMessage(ChatColor.YELLOW + "Adding all elements!");
+					for (KitElementType type : KitElementType.values())
+						elements.add(type);
+				} else {
+					for (int i = 1; i < args.length; i++) {
+						if (!KitElementType.isElement(args[i])) {
+							sender.sendMessage(ChatColor.RED + "Unknown kit item: " + ChatColor.DARK_AQUA + args[i] + ChatColor.RED + "!");
+							continue;
+						}
+						elements.add(KitElementType.get(args[i]));
 					}
-					elements.add(KitElementType.get(args[i]));
 				}
 				dm.createDwarf(player, new DwarfData(null, false, null, elements, null));
 				return true;
@@ -265,7 +271,7 @@ public class DvZPlugin extends JavaPlugin {
 				
 				Dwarf dwarf = dm.getGamePlayer(player);
 				if (dwarf == null) {
-					sender.sendMessage("You are not a dwarf!");
+					sender.sendMessage(ChatColor.RED + "You are not a dwarf!");
 					return true;
 				}
 				
@@ -387,7 +393,9 @@ public class DvZPlugin extends JavaPlugin {
 		}
 		
 		if (name.equalsIgnoreCase("setdwarf") && args.length >= 2) {
-			return startsWithPrefix(KitElementType.getElementNames(), args[args.length-1]);
+			Collection<String> elements = KitElementType.getElementNames();
+			if (args.length == 2) elements.add("all");
+			return startsWithPrefix(elements, args[args.length-1]);
 		}
 		return null;
 	}

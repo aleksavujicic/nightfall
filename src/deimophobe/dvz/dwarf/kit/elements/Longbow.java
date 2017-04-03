@@ -82,7 +82,7 @@ class Longbow extends AbstractBow implements KitCooldownElement {
 		}
 		
 		if (quartSec) {
-			theta = (theta + 0.3) % (2 * Math.PI);
+			theta = (theta + 0.2) % (2 * Math.PI);
 			
 			Location playerLoc = dwarf.getPlayer().getEyeLocation();
 			

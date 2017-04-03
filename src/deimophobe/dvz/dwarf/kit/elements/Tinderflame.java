@@ -19,6 +19,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by Deimophobe on 11/03/17.
  */
@@ -41,13 +44,13 @@ class Tinderflame extends AbstractCooldownItem {
 		if (Misc.isRightClick(action) && isOffCD()) {
 			MonsterPlayer monster = dwarf.getLookingAt(3, 100, MonsterManager.getManager());
 			
-			if (monster != null) {
-				// Damage
-				monster.customDamage(dwarf, DamageType.TINDERFLAME, 50, true);
+			boolean success = false;
+			Set<Location> particleSpots = new HashSet<>();
+			
+			tryHitMob: if (monster != null && monster.distanceTo(dwarf) >= 3) {
 				
-				// Show particles
+				// Trace line to mob
 				Location start = dwarf.getEyeLocation();
-				World world = start.getWorld();
 				Vector dir = monster.getEyeLocation().subtract(start).toVector();
 				
 				int numParticles = (int) (dir.length()/PARTICLE_FREQ);
@@ -55,12 +58,24 @@ class Tinderflame extends AbstractCooldownItem {
 				
 				for (int i=0; i<numParticles; i++) {
 					start.add(dir);
-					world.spawnParticle(Particle.CRIT_MAGIC, start, 1, 0, 0, 0, 0);
+					particleSpots.add(start.clone());
+					
+					if (start.getBlock().getType().isSolid())
+						break tryHitMob;
 				}
+				
+				success = true;
 			}
 			
-			// Play sound
-			dwarf.playSound("entity.experience_orb.pickup");
+			// Do damage
+			if (success) {
+				monster.customDamage(dwarf, DamageType.TINDERFLAME, 50, true);
+				dwarf.playSound("entity.experience_orb.pickup", 1, 2, true);
+				
+				World world = dwarf.getLocation().getWorld();
+				for (Location loc : particleSpots)
+					world.spawnParticle(Particle.CRIT_MAGIC, loc, 1, 0, 0, 0, 0);
+			}
 			
 			// Send player back
 			double yaw = dwarf.getPlayer().getLocation().getYaw();

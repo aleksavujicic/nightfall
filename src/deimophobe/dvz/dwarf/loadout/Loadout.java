@@ -90,8 +90,7 @@ public class Loadout {
 		// Add defaults if missing
 		for (Category category : Category.values()) {
 			if (!categoryItems.containsKey(category)) {
-				// TODO
-				//data.addElement(category.getDefault());
+				data.addElement(category.getDefault());
 			}
 		}
 		return data;
