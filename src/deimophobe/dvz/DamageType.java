@@ -17,8 +17,8 @@ public enum DamageType {
 	CRAMMING(3, -1),
 	FALLING_BLOCK(3, -1),
 	LIGHTNING(20, -1),
-	LAVA(10, -1),
-	FIRE(5, -1),
+	LAVA(10, -1, 20),
+	FIRE(5, -1, 2),
 	
 	FALL(2, -1) {
 		@Override
@@ -47,6 +47,7 @@ public enum DamageType {
 	private final boolean instaKill;
 	private final double dwarfMult;
 	private final double mobMult;
+	private final int dwarfArmourDmg;
 	
 	private final boolean proccable;
 	private final boolean arrow;
@@ -62,6 +63,10 @@ public enum DamageType {
 	public double getMobDamage(double damage) {
 		if (mobMult == -1) return -1;
 		return mobMult*damage;
+	}
+	
+	public int getDwarfArmourDmg() {
+		return dwarfArmourDmg;
 	}
 	
 	public boolean isProccable() {
@@ -83,6 +88,7 @@ public enum DamageType {
 		
 		this.dwarfMult = 1;
 		this.mobMult = 1;
+		this.dwarfArmourDmg = 0;
 		
 		this.proccable = proccable;
 		this.arrow = arrow;
@@ -93,15 +99,22 @@ public enum DamageType {
 		
 		this.dwarfMult = 1;
 		this.mobMult = 1;
+		this.dwarfArmourDmg = 0;
+		
 		this.proccable = false;
 		this.arrow = false;
 	}
 	
 	DamageType(double dwarfMult, double mobMult) {
+		this(dwarfMult, mobMult, 1);
+	}
+	
+	DamageType(double dwarfMult, double mobMult, int dwarfArmourDmg) {
 		this.instaKill = false;
 		
 		this.dwarfMult = dwarfMult;
 		this.mobMult = mobMult;
+		this.dwarfArmourDmg = dwarfArmourDmg;
 		
 		this.proccable = false;
 		this.arrow = false;

@@ -462,7 +462,8 @@ public class Dwarf extends GamePlayer {
 		// Damage from damage type (more for lava etc.)
 		damage = type.getDwarfDamage(damage);
 		if (damage == -1) return -1;
-		damageArmour(1);
+		
+		damageArmour(type.getDwarfArmourDmg());
 		
 		// Any other changes from kit
 		damage = kit.onGotHit(player, type, damage);
