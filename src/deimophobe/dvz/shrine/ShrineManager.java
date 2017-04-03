@@ -219,7 +219,7 @@ public class ShrineManager {
 			}
 			
 		}
-		boolean isDead = shrine.damageShrine(mobsOnShrine);
+		boolean isDead = shrine.damageShrine(mobsOnShrine * 5);
 		
 		if (isDead) killShrine();
 		else shrineBar.setProgress(shrine.getFractionalShrinePower());
@@ -236,6 +236,7 @@ public class ShrineManager {
 	
 	private void killShrine() {
 		Shrine prevShrine = shrines.poll();
+		prevShrine.explodeShrine();
 		AIManager.getManager().killAllAIs();
 		
 		if (shrines.isEmpty()) {
