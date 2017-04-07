@@ -94,7 +94,7 @@ public class ItemCreator {
 	
 	public static ItemStack createItem(ConfigurationSection section, Slot slot) {
 		if (section == null) return null;
-		Bukkit.getLogger().info("Creating material: " + section.getString("material"));
+		//Bukkit.getLogger().info("Creating material: " + section.getString("material"));
 		Material type = Material.valueOf(section.getString("material").toUpperCase());
 		short damage = (short) section.getInt("damage", 0);
 		byte data = (byte) section.getInt("data", 0);
@@ -129,7 +129,6 @@ public class ItemCreator {
 	// Item modifications
 	public static ItemStack setAttribute(ItemStack item, Attribute attribute, int value, Slot slot) {
 		if (value == 0) return item;
-		
 		item = item.clone();
 		
 		ItemMeta meta = item.getItemMeta();
@@ -156,13 +155,43 @@ public class ItemCreator {
 		meta.setLore(lore);
 		item.setItemMeta(meta);
 		
-		
 		ItemAttributes attributes = new ItemAttributes();
 		attributes.getFromStack(item);
 		if (attribute == Attribute.MOVEMENT_SPEED)
 			attributes.addModifier(new AttributeModifier(attribute, "SpeedUpgrade", slot, 2, (double)value/100, UUID.randomUUID()));
 		else
 			attributes.addModifier(new AttributeModifier(attribute, "Upgrade", slot, 0, value, UUID.randomUUID()));
-		return attributes.apply(item);
+		
+		item = attributes.apply(item);
+		
+		return item;
+		
+		/*
+		item = item.clone();
+		
+		ItemMeta meta = item.getItemMeta();
+		List<String> lore = meta.getLore();
+		
+		switch (attribute) {
+			case MAX_HEALTH:
+				lore.add(ChatColor.BLUE + "Health: " + value);
+				value = value*2 - 20;
+				break;
+			case MOVEMENT_SPEED:
+				if (value > 0)
+					lore.add(ChatColor.BLUE + "Speed: +" + value + "%");
+				else
+					lore.add(ChatColor.RED + "Speed: " + value + "%");
+				break;
+			case ATTACK_DAMAGE:
+				lore.add(ChatColor.BLUE + "Attack: " + value);
+				break;
+			default:
+				throw new IllegalArgumentException("Upgrading attribute '"+attribute+"' is not supported.");
+		}
+		
+		meta.setLore(lore);
+		item.setItemMeta(meta);
+		*/
 	}
 }

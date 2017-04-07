@@ -10,11 +10,12 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 24/02/17.
  */
-public class Upgrades {
-	private final Map<UpgradeType, Integer> upgrades = new HashMap<>();
+public class MobUpgrades {
+	private final Map<String, Integer> upgrades = new HashMap<>();
 	private final Set<String> upgradeLabels = new HashSet<>();
 	
-	public void applyUppgrade(UpgradeType type, UpgradeApplyOperation oper, int value, String label) {
+	public void applyUppgrade(String type, UpgradeApplyOperation oper, int value, String label) {
+		type = type.toLowerCase();
 		if (upgradeLabels.contains(label)) {
 			Bukkit.getLogger().severe("Trying to add upgrade label: " + label + " but already added?!");
 		} else {
@@ -23,13 +24,9 @@ public class Upgrades {
 		}
 	}
 	
-	public void applyUppgrade(UpgradeType type, UpgradeApplyOperation oper, int value) {
-		int prev;
-		if (upgrades.containsKey(type)) {
-			prev = upgrades.get(type);
-		} else {
-			prev = 0;
-		}
+	public void applyUppgrade(String type, UpgradeApplyOperation oper, int value) {
+		type = type.toLowerCase();
+		int prev = getUpgrade(type);
 		upgrades.put(type, oper.apply(prev, value));
 	}
 	
@@ -37,11 +34,13 @@ public class Upgrades {
 		return (upgradeLabels.contains(label));
 	}
 	
-	public boolean hasUpgrade(UpgradeType type) {
+	public boolean hasUpgrade(String type) {
+		type = type.toLowerCase();
 		return (upgrades.containsKey(type) && upgrades.get(type) != 0);
 	}
 	
-	public int getUpgrade(UpgradeType type) {
+	public int getUpgrade(String type) {
+		type = type.toLowerCase();
 		if (upgrades.containsKey(type))
 			return upgrades.get(type);
 		else

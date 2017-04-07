@@ -9,6 +9,7 @@ import deimophobe.dvz.menu.Menu;
 import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
+import deimophobe.dvz.monster.mob.MobType;
 import deimophobe.dvz.monster.spawnmenu.SpawnMenu;
 import org.bukkit.*;
 import org.bukkit.entity.*;
@@ -59,7 +60,14 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	
 	@Override
 	protected MonsterPlayer createGamePlayerFromPlayer(Player player) {
-		return new MonsterPlayer(player);
+		return new MonsterPlayer(player, true);
+	}
+	
+	public MonsterPlayer createAndSpawnMob(Player player, MobType type) {
+		MonsterPlayer mp = new MonsterPlayer(player, false);
+		registerGamePlayer(mp);
+		mp.spawnAs(type);
+		return mp;
 	}
 	
 	public Collection<GameEntity> getMobsAndAIs() {

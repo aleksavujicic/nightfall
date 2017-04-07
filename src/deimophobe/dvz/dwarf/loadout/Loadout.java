@@ -1,6 +1,7 @@
 package deimophobe.dvz.dwarf.loadout;
 
 import deimophobe.dvz.Game;
+import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -90,7 +91,9 @@ public class Loadout {
 		// Add defaults if missing
 		for (Category category : Category.values()) {
 			if (!categoryItems.containsKey(category)) {
-				data.addElement(category.getDefault());
+				KitElementType defaultElement = category.getDefault();
+				if (defaultElement != null)
+					data.addElement(defaultElement);
 			}
 		}
 		return data;

@@ -3,6 +3,7 @@ package deimophobe.dvz.plague;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
+import org.bukkit.entity.Player;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -50,18 +51,11 @@ public abstract class Plague {
 	}
 	
 	enum Type {
-		//ZOMBIE(new ZombiePlague()),
+		//ZOMBIE { @Override public Plague getPlague() { return new ZombiePlague(); } },
 		//INSTA(new InstaPlague()),
-		DEATH(new DeathPlague()),
+		DEATH { @Override public Plague getPlague() { return new DeathPlague(); } },
 		;
 		
-		private final Plague plague;
-		private Plague getPlague() {
-			return plague;
-		}
-		
-		Type(Plague plague) {
-			this.plague = plague;
-		}
+		public abstract Plague getPlague();
 	}
 }

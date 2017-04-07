@@ -3,9 +3,8 @@ package deimophobe.dvz.monster.spawnmenu;
 import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.mob.MobType;
-import deimophobe.dvz.monster.upgrade.Upgrades;
+import deimophobe.dvz.monster.upgrade.MobUpgrades;
 import deimophobe.dvz.monster.upgrade.UpgradeApplyOperation;
-import deimophobe.dvz.monster.upgrade.UpgradeType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -22,7 +21,7 @@ class UpgradeMenuItem extends CostMobMenuItem {
 	
 	private final boolean permanent;
 	
-	private final UpgradeType upgradeType;
+	private final String upgradeType;
 	private final UpgradeApplyOperation upgradeOper;
 	private final int upgradeValue;
 	
@@ -35,14 +34,14 @@ class UpgradeMenuItem extends CostMobMenuItem {
 		this.type = type;
 		this.permanent = config.getBoolean("permanent", false);
 		
-		this.upgradeType = UpgradeType.getUpgradeType(config.getString("upgrade.type"));
+		this.upgradeType = config.getString("upgrade.type");
 		this.upgradeOper = UpgradeApplyOperation.getOperation(config.getString("upgrade.operation"));
 		this.upgradeValue = config.getInt("upgrade.value");
 	}
 	
 	@Override
 	public boolean isAvailable(MonsterPlayer monster) {
-		Upgrades upgrades = monster.getUpgrades(type);
+		MobUpgrades upgrades = monster.getUpgrades(type);
 		for (String prereq : prereqs) {
 			if (!upgrades.hasLabel(prereq))
 				return false;

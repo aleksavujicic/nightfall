@@ -5,18 +5,22 @@ import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.Misc;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import javax.xml.datatype.DatatypeConfigurationException;
 import java.util.*;
 
 /**
  * Created by Deimophobe on 27/01/17.
  */
 public class MobData {
+	final String name;
+	
 	final String title;
 	final boolean forceTitle;
 	
@@ -33,49 +37,53 @@ public class MobData {
 	final ItemStack weapon;
 	final List<ItemStack> items;
 	
-	final int resLevel;
 	final int jumpLevel;
 	final boolean slowDig;
 	final boolean invisible;
 	final int immuneTime;
 	
 	final boolean proccable;
+	final double damageRes;
 	final double arrowRes;
 	final int armourShred;
 	final int torchXP;
 	final boolean shrineImmune;
 	
-	private MobData(ConfigurationSection section) {
-		title = section.getString("title");
-		forceTitle = section.getBoolean("forcetitle", false);
+	private MobData() {
+		name = "default";
+		
+		title = null;
+		forceTitle = false;
 		
 		disguiseType = null;
-		playerName = section.getString("playername", "fake player name");
-		skinName = section.getString("skin", "capmergor");
+		playerName = null;
+		skinName = null;
 		
-		attack = section.getInt("attack", 5);
-		health = section.getInt("health", 10);
-		speed = section.getInt("speed", 0);
+		attack = 5;
+		health = 10;
+		speed = 0;
 		
-		armourOnChest = section.getBoolean("armouronchest", true);
-		armour = ItemCreator.createItem(section.getConfigurationSection("armour"), (armourOnChest ? Slot.CHEST : Slot.HEAD));
-		weapon = ItemCreator.createItem(section.getConfigurationSection("weapon"), Slot.MAIN_HAND);
+		armourOnChest = true;
+		armour = null;
+		weapon = null;
 		items = new ArrayList<>();
 		
-		resLevel = section.getInt("res", 3);
-		jumpLevel = section.getInt("jump", 0);
-		slowDig = section.getBoolean("slowdig", false);
-		invisible = section.getBoolean("invisible", false);
-		immuneTime = section.getInt("immunetime", 8);
+		jumpLevel = 0;
+		slowDig = false;
+		invisible = false;
+		immuneTime = 8;
 		
-		proccable = section.getBoolean("proccable", true);
-		arrowRes = section.getDouble("arrowres", 0);
-		armourShred = section.getInt("shred", 10);
-		torchXP = section.getInt("torchxp", 5);
-		shrineImmune = section.getBoolean("shrineimmune", false);
+		proccable = true;
+		damageRes = 0.5;
+		arrowRes = 0;
+		armourShred = 10;
+		torchXP = 5;
+		shrineImmune = false;
 	}
 	
 	private MobData(ConfigurationSection section, MobData parent) {
+		name = section.getName();
+		
 		title = section.getString("title", parent.title);
 		forceTitle = section.getBoolean("forcetitle", parent.forceTitle);
 		
@@ -103,13 +111,13 @@ public class MobData {
 			}
 		}
 		
-		resLevel = section.getInt("res", parent.resLevel);
 		jumpLevel = section.getInt("jump", parent.jumpLevel);
 		slowDig = section.getBoolean("slowdig", parent.slowDig);
 		invisible = section.getBoolean("invisible", parent.invisible);
 		immuneTime = section.getInt("immunetime", parent.immuneTime);
 		
 		proccable = section.getBoolean("proccable", parent.proccable);
+		damageRes = section.getDouble("resistance", parent.arrowRes);
 		arrowRes = section.getDouble("arrowres", parent.arrowRes);
 		armourShred = section.getInt("shred", parent.armourShred);
 		torchXP = section.getInt("torchxp", parent.torchXP);
@@ -119,13 +127,10 @@ public class MobData {
 	private static final Map<String, MobData> mobs = new HashMap<>();
 	static {
 		ConfigurationSection mobData = Misc.getInternalFileConfig("mobs.yml");
+		mobs.put("default", new MobData());
 		for (String key : mobData.getKeys(false)) {
-			if (key.equals("default")) {
-				mobs.put(key.toLowerCase(), new MobData(mobData.getConfigurationSection(key)));
-			} else {
-				String parentKey = mobData.getConfigurationSection(key).getString("parent", "default");
-				mobs.put(key.toLowerCase(), new MobData(mobData.getConfigurationSection(key), getMobData(parentKey)));
-			}
+			String parentKey = mobData.getConfigurationSection(key).getString("parent", "default");
+			mobs.put(key.toLowerCase(), new MobData(mobData.getConfigurationSection(key), getMobData(parentKey)));
 		}
 	}
 	public static MobData getMobData(String type) {

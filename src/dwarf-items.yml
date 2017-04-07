@@ -55,9 +55,14 @@ sword:
 bow:
   shortbow:
     material: bow
-    name: Shortbow
+    name: "&4Shortbow"
     lore:
-     - Some lore
+     - §cEntrusted with the toughest
+     - §ctask of all, burying the fallen.
+     - §cWhy not let them fight?
+     - ""
+     - "&cAttack: 10"
+     - "&e +3"
   dragonskin:
     material: bow
     name: Dragonskin Bow

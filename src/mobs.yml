@@ -1,39 +1,5 @@
-default:
-  title: Default
-  forcetitle: false
-
-  playername: fake name
-  skin: capmergor
-
-  health: 10
-  attack: 5
-  speed: 0
-
-  armouronchest: true
-  armour:
-    material: dirt
-    name: Default Armour
-
-  res: 3
-  jump: 0
-  slowdig: false
-  invisible: false
-  immunetime: 8
-
-  proccable: true
-  arrowres: 0
-  armourshred: 10
-  torchxp: 5
-  shrineimmune: false
-
-
-
-
-
-
 zombie:
   title: Zombie
-  forcetitle: false
 
   disguisetype: zombie
 
@@ -54,7 +20,6 @@ zombie:
 
 gobo:
   title: Goblin
-  forcetitle: false
 
   disguisetype: creeper
 
@@ -115,7 +80,6 @@ flamelancer:
        - Some lore
       quantity: 64
 
-  res: 3
   proccable: true
   arrowres: 0.5
   shred: 5
@@ -155,7 +119,6 @@ witherskele:
        - Some lore
       quantity: 64
 
-  res: 3
   proccable: true
   arrowres: 0.5
   shred: 5
@@ -244,7 +207,6 @@ rat:
     lore:
      - Some lore
 
-  res: 3
   proccable: true
   arrowres: 0
   shred: 5
@@ -275,9 +237,9 @@ golem:
     lore:
      - Some lore
 
-  res: 4
   slowdig: true
   proccable: false
+  resistance: 0.8
   arrowres: 0.5
   shred: 50
 
@@ -307,8 +269,8 @@ ogre:
      - Some lore
     knockback: 4
 
-  res: 4
   proccable: false
+  resistance: 0.8
   arrowres: 0.9
   shred: 10
 
@@ -414,9 +376,9 @@ krungor:
     lore:
       - Some lore
 
-  res: 4
   immunetime: 10
   proccable: false
+  resistance: 0.9
   arrowres: 0.9
   shred: 25
   shrineimmune: true
@@ -457,10 +419,36 @@ bopen:
 
   res: 0
   proccable: false
+  resistance: 0.85
   arrowres: 0.8
   shred: 25
   shrineimmune: true
 
+
+
+
+
+plague-zombie:
+  title: Zombie
+
+  disguisetype: zombie
+
+  armouronchest: false
+  weapon:
+    material: shears
+    damage: 1
+    name: §cKrungor's Axe
+    lore:
+      - Some lore
+  armour:
+    material: diamond_leggings
+    name: "&cZombie Pants"
+    lore:
+     - §dSome lore
+     - and more lore
+
+  immunetime: 0
+  shrineimmune: true
 
 # To get format codes:
 # http://minecraft.gamepedia.com/Formatting_codes

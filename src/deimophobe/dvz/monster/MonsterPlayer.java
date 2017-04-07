@@ -6,7 +6,7 @@ import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.mob.Bopen;
 import deimophobe.dvz.monster.mob.Mob;
 import deimophobe.dvz.monster.mob.MobType;
-import deimophobe.dvz.monster.upgrade.Upgrades;
+import deimophobe.dvz.monster.upgrade.MobUpgrades;
 import deimophobe.dvz.shrine.ShrineManager;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
@@ -36,13 +36,14 @@ public class MonsterPlayer extends GamePlayer {
 	
 	public Mob getMob() { return mob; }
 	
-	public MonsterPlayer(Player player) {
+	public MonsterPlayer(Player player, boolean kill) {
 		super(player);
 		player.sendMessage("You are monster now. Deimo make this cool.");
 		
 		mob = null;
 		
-		killLater();
+		//killLater();
+		kill();
 	}
 	
 	@Override
@@ -193,16 +194,16 @@ public class MonsterPlayer extends GamePlayer {
 	
 	
 	// ------ SPAWN/UPGRADE MENUS ------
-	private final Map<MobType, Upgrades> upgrades = new HashMap<>();
+	private final Map<MobType, MobUpgrades> upgrades = new HashMap<>();
 	public void showMobMenu() {
 		MonsterManager.getManager().showMobMenu(this);
 	}
 	
-	public Upgrades getUpgrades(MobType type) {
+	public MobUpgrades getUpgrades(MobType type) {
 		if (upgrades.containsKey(type))
 			return upgrades.get(type);
 		else {
-			Upgrades emptyUpgrades = new Upgrades();
+			MobUpgrades emptyUpgrades = new MobUpgrades();
 			upgrades.put(type, emptyUpgrades);
 			return emptyUpgrades;
 		}
@@ -269,6 +270,8 @@ public class MonsterPlayer extends GamePlayer {
 		damage = type.getMobDamage(damage);
 		if (damage == -1)
 			return -1;
+		
+		damage *= (1 - mob.getResistance());
 		
 		if (type.isArrow())
 			damage *= (1 - mob.getArrowRes());
