@@ -84,16 +84,21 @@ public class Loadout {
 	
 	DwarfData constructProperties() {
 		DwarfData data = new DwarfData();
+		boolean hasKit = false;
 		for (LoadoutItem item : items) {
 			item.modify(data);
+			if (item.getCategory() == Category.KIT)
+				hasKit = true;
 		}
 		
 		// Add defaults if missing
-		for (Category category : Category.values()) {
-			if (!categoryItems.containsKey(category)) {
-				KitElementType defaultElement = category.getDefault();
-				if (defaultElement != null)
-					data.addElement(defaultElement);
+		if (!hasKit) {
+			for (Category category : Category.values()) {
+				if (!categoryItems.containsKey(category)) {
+					KitElementType defaultElement = category.getDefault();
+					if (defaultElement != null)
+						data.addElement(defaultElement);
+				}
 			}
 		}
 		return data;

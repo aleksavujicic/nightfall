@@ -39,7 +39,7 @@ class TigerFist extends AbstractItem implements KitCooldownElement {
 	private int chain = 0;
 	
 	private int cooldown = 0;
-	private static final int MAX_CD = 5*20;
+	private static final int MAX_CD = 30*20;
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {

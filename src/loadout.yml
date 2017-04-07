@@ -1,3 +1,130 @@
+page0:
+  warrior:
+    index: 0
+    cost: 64
+    category: kit
+    type: multi
+    elements:
+      - grb
+      - dragonskin
+      - jimmy_juice
+      - runeblessed
+      - avenge
+    consumables:
+      torch: 32
+      mortar: 32
+      cobblestone: 128
+      wrench: 2
+    item:
+      name: "Warrior Kit"
+      material: diamond_hoe
+
+  ranger:
+    index: 1
+    cost: 64
+    category: kit
+    type: multi
+    elements:
+      - dagger
+      - longbow
+      - quiver
+      - trinket
+      - safefall
+    consumables:
+      torch: 32
+      mortar: 32
+      cobblestone: 128
+      sos: 1
+      wizard_mortar: 32
+      lamp: 24
+    item:
+      name: "Ranger Kit"
+      material: diamond_hoe
+
+  paladin:
+    index: 2
+    cost: 64
+    category: kit
+    type: multi
+    elements:
+      - hammer
+      - lightbow
+      - holy_ale
+      - runeblessed
+    consumables:
+      torch: 32
+      mortar: 32
+      cobblestone: 128
+      sos: 3
+      wizard_mortar: 32
+      lamp: 24
+    item:
+      name: "Paladin Kit"
+      material: diamond_hoe
+
+  beserker:
+    index: 3
+    cost: 64
+    category: kit
+    type: multi
+    elements:
+      - axe
+      - crossbow
+      - jimmy_juice
+      - studded
+      - darkvision
+    consumables:
+      torch: 32
+      mortar: 32
+      cobblestone: 128
+      sos: 1
+      wrench: 2
+    item:
+      name: "Beserker Kit"
+      material: diamond_hoe
+
+  cleric:
+    index: 4
+    cost: 64
+    category: kit
+    type: multi
+    elements:
+      - hammer
+      - ebow
+      - regrowth_star
+      - coil
+    consumables:
+      torch: 64
+      mortar: 64
+      cobblestone: 256
+      sos: 2
+      wizard_mortar: 64
+      lamp: 32
+    item:
+      name: "Cleric Kit"
+      material: diamond_hoe
+
+  hunter:
+    index: 5
+    cost: 64
+    category: kit
+    type: multi
+    elements:
+      - tigerfist
+      - warpweaver
+      - trinket
+      - studded
+      - avenge
+    consumables:
+      torch: 32
+      mortar: 32
+      cobblestone: 128
+      sos: 1
+      wrench: 2
+    item:
+      name: "Hunter Kit"
+      material: diamond_hoe
+
 page1:
   # ------ SWORDS ------
   grb:

@@ -6,6 +6,8 @@ import deimophobe.dvz.dwarf.kit.elements.KitElementType;
  * Created by Deimophobe on 24/03/17.
  */
 enum Category {
+	KIT(null, true),
+	
 	SWORD(KitElementType.DRB, true),
 	BOW(KitElementType.SHORTBOW, true),
 	ALE(KitElementType.HEALING_ALE, true),
