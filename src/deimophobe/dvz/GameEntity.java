@@ -74,6 +74,9 @@ public abstract class GameEntity {
 		entity.setVelocity(vel);
 	}
 	
+	public void setVelocity(double vx, double vy, double vz) {
+		setVelocity(new Vector(vx, vy, vz));
+	}
 	
 	// ------ HEALTH ------
 	public double getHealth() {
@@ -201,5 +204,4 @@ public abstract class GameEntity {
 	
 	public abstract double onHit(GameEntity entity, DamageType type, double damage);
 	public abstract double onGotHit(GameEntity entity, DamageType type, double damage);
-	
 }

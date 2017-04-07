@@ -17,6 +17,7 @@ public enum KitElementType {
 	HAMMER,
 	DAGGER,
 	TOMBMAKER,
+	TIGERFIST,
 	
 	SHORTBOW,
 	LONGBOW,
@@ -92,6 +93,7 @@ public enum KitElementType {
 			case DAGGER: return new Dagger(dwarf);
 			case TOMBMAKER: return new Tombmaker(dwarf);
 			case HAMMER: return new Hammer(dwarf);
+			case TIGERFIST: return new TigerFist(dwarf);
 				
 			case SHORTBOW: return new Shortbow(dwarf);
 			case LONGBOW: return new Longbow(dwarf);

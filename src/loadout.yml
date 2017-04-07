@@ -49,6 +49,16 @@ page1:
     item:
       name: "Tombmaker"
       material: diamond_spade
+  tigerfist:
+    index: 5
+    type: item
+    name: tigerfist
+    category: sword
+    cost: 24
+    item:
+      name: "Tiger Fist"
+      material: shears
+      damage: 3
 
 
   # ------ BOWS ------
@@ -370,9 +380,6 @@ page2:
       torch: 24
       mortar: 24
       cobblestone: 96
-    elements:
-      - grb
-      - axe
     item:
       name: "Builder's Pack I"
       material: diamond_hoe

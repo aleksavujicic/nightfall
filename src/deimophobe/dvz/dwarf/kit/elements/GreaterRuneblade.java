@@ -57,7 +57,7 @@ class GreaterRuneblade extends AbstractCooldownItem {
 	@Override
 	public double onGotHit(GameEntity monster, DamageType type, double damage) {
 		if (getCooldown() >= 300 && type == DamageType.FALL) {
-			damage *= 0.1;
+			return -1;
 		}
 		return damage;
 	}

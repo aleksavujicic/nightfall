@@ -51,6 +51,13 @@ sword:
      - §3task of all, burying the fallen.
      - §9Why not let them fight?
     attack: 8
+  tigerfist:
+    material: shield
+    damage: 3
+    name: "&bTiger Fist"
+    lore:
+      - "Lore"
+    attack: 20
 
 bow:
   shortbow:
