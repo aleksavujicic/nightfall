@@ -66,7 +66,7 @@ class TigerFist extends AbstractItem implements KitCooldownElement {
 				
 			case LEAPING:
 				
-				if (charge > 0 && dwarf.getPlayer().isOnGround()) {
+				if (sec && charge > 0 && (dwarf.getPlayer().isOnGround() || dwarf.getLocation().subtract(0,3,0).getBlock().getType().isSolid())) {
 					double yaw = dwarf.getLocation().getYaw() * Math.PI / 180;
 					dwarf.setVelocity(-0.7 * Math.sin(yaw), 0.4, 0.7 * Math.cos(yaw));
 					dwarf.playSound("proc", 1, 1.5f, false);
