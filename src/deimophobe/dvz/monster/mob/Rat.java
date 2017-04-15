@@ -13,16 +13,19 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 20/01/17.
  */
-class Rat extends Mob {
+class Rat extends AbstractTypedMob {
+	
+	@Override protected MobType getType() {return MobType.RAT;}
+	
 	Rat(MonsterPlayer monster) {
-		super(monster, MobType.RAT);
+		super(monster);
 	}
 	
 	private int stealCD = 0;
 	private static final int STEAL_MAX_CD = 5;
 	
 	@Override
-	public void update() {
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		if (stealCD > 0)
 			stealCD--;
 	}

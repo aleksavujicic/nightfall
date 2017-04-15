@@ -36,10 +36,6 @@ public class MobData {
 	final ItemStack armour;
 	final ItemStack weapon;
 	final List<ItemStack> items;
-	
-	final int jumpLevel;
-	final boolean slowDig;
-	final boolean invisible;
 	final int immuneTime;
 	
 	final boolean proccable;
@@ -68,9 +64,6 @@ public class MobData {
 		weapon = null;
 		items = new ArrayList<>();
 		
-		jumpLevel = 0;
-		slowDig = false;
-		invisible = false;
 		immuneTime = 8;
 		
 		proccable = true;
@@ -110,14 +103,10 @@ public class MobData {
 				items.add(ItemCreator.createItem(itemSection.getConfigurationSection(item), Slot.MAIN_HAND));
 			}
 		}
-		
-		jumpLevel = section.getInt("jump", parent.jumpLevel);
-		slowDig = section.getBoolean("slowdig", parent.slowDig);
-		invisible = section.getBoolean("invisible", parent.invisible);
 		immuneTime = section.getInt("immunetime", parent.immuneTime);
 		
 		proccable = section.getBoolean("proccable", parent.proccable);
-		damageRes = section.getDouble("resistance", parent.arrowRes);
+		damageRes = section.getDouble("resistance", parent.damageRes);
 		arrowRes = section.getDouble("arrowres", parent.arrowRes);
 		armourShred = section.getInt("shred", parent.armourShred);
 		torchXP = section.getInt("torchxp", parent.torchXP);

@@ -14,6 +14,7 @@ import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
 import deimophobe.dvz.monster.upgrade.GlobalUpgrade;
+import deimophobe.dvz.plague.AbstractPlague;
 import deimophobe.dvz.plague.Plague;
 import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.*;
@@ -210,8 +211,9 @@ public class Game {
 		}.runTaskLater(plugin, 120*20);
 	}
 	
-	public void endPlague() {
-		releaseMonsters();
+	public void notifyPlagueFinish() {
+		if (phase == Phase.PLAGUE)
+			releaseMonsters();
 	}
 	
 	private void releaseMonsters() {

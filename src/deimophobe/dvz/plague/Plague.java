@@ -3,59 +3,53 @@ package deimophobe.dvz.plague;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
-import org.bukkit.entity.Player;
+import deimophobe.dvz.dwarf.hero.Hero;
+import org.bukkit.entity.Zombie;
 
-import java.util.Iterator;
 import java.util.Set;
 
 /**
- * Created by Deimophobe on 7/03/17.
+ * Created by Deimophobe on 15/04/17.
  */
 public abstract class Plague {
-	protected Set<Dwarf> plagueables;
-	protected int toKill;
+	public abstract void startPlague(Set<Dwarf> plagueables, int killAmt);
+	public abstract void forceEnd();
 	
-	public void startPlague(Set<Dwarf> plagueables, int killAmt) {
-		this.plagueables = plagueables;
-		this.toKill = killAmt;
-		onStart();
+	protected final void notifyEnd() {
+		Game.getGame().notifyPlagueFinish();
 	}
 	
-	protected abstract void onStart();
 	
-	public void forceEnd() {
-		Iterator<Dwarf> iter = plagueables.iterator();
-		while (iter.hasNext() && toKill > 0) {
-			iter.next().kill();
-			toKill--;
-		}
-		endPlague();
-	}
-	
-	protected void endPlague() {
-		Game.getGame().endPlague();
-	}
-	
-	protected void removeDwarf(Dwarf dwarf) {
-		toKill--;
-		plagueables.remove(dwarf);
-	}
-	
-	protected void killDwarf(Dwarf dwarf) {
-		dwarf.kill();
-		removeDwarf(dwarf);
-	}
 	
 	public static Plague getRandomPlague() {
-		return Misc.getRandom(Type.values()).getPlague();
+		//return PlagueType.ZOMBIE.getPlague();
+		return PlagueType.getRandomPlague();
 	}
 	
-	enum Type {
-		//ZOMBIE { @Override public Plague getPlague() { return new ZombiePlague(); } },
-		//INSTA(new InstaPlague()),
-		DEATH { @Override public Plague getPlague() { return new DeathPlague(); } },
+	private enum PlagueType {
+		ZOMBIE,
+		//INSTA,
+		DEATH
 		;
 		
-		public abstract Plague getPlague();
+		public Plague getPlague() {
+			return getPlague(this);
+		}
+		
+		public static Plague getPlague(PlagueType type) {
+			switch (type) {
+				case ZOMBIE:
+					return new ZombiePlague();
+				//case INSTA:
+				//	return new InstaPlague();
+				case DEATH:
+					return new DeathPlague();
+			}
+			throw new IllegalArgumentException("Unknown plague type: "+ type);
+		}
+		
+		public static Plague getRandomPlague() {
+			return getPlague(Misc.getRandom(values()));
+		}
 	}
 }

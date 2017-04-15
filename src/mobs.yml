@@ -59,6 +59,9 @@ flamelancer:
 
   speed: 10
 
+  arrowres: 0.5
+  shred: 5
+
   armour:
     material: fireball
     name: Tough Flesh
@@ -80,10 +83,6 @@ flamelancer:
        - Some lore
       quantity: 64
 
-  proccable: true
-  arrowres: 0.5
-  shred: 5
-
 
 witherskele:
   title: Wither
@@ -91,6 +90,9 @@ witherskele:
   disguisetype: wither_skeleton
 
   health: 25
+
+  arrowres: 0.5
+  shred: 5
 
   armour:
     material: soul_sand
@@ -119,10 +121,6 @@ witherskele:
        - Some lore
       quantity: 64
 
-  proccable: true
-  arrowres: 0.5
-  shred: 5
-
 
 wolf:
   title: Wolverine
@@ -132,6 +130,8 @@ wolf:
   attack: 16
   health: 40
   speed: 5
+
+  shred: 20
 
   armour:
     material: leather
@@ -147,7 +147,6 @@ wolf:
     lore:
      - Some lore
 
-  shred: 20
 
 direwolf:
   parent: wolf
@@ -163,6 +162,8 @@ spiderling:
   attack: 15
   health: 5
   speed: 30
+
+  shred: 5
 
   armour:
     material: snow_ball
@@ -181,8 +182,6 @@ spiderling:
      - Something something
      - nasty bite
 
-  jump: 2
-  shred: 5
 
 
 rat:
@@ -192,6 +191,8 @@ rat:
 
   attack: 1
   health: 5
+  shred: 5
+  torchxp: 60
 
   armour:
     material: prismarine_crystals
@@ -207,11 +208,6 @@ rat:
     lore:
      - Some lore
 
-  proccable: true
-  arrowres: 0
-  shred: 5
-  torchxp: 60
-
 
 golem:
   title: Golem
@@ -221,6 +217,11 @@ golem:
   attack: 35
   health: 80
   speed: -100
+
+  proccable: false
+  resistance: 0.8
+  arrowres: 0.5
+  shred: 50
 
   armour:
     material: iron_block
@@ -237,12 +238,6 @@ golem:
     lore:
      - Some lore
 
-  slowdig: true
-  proccable: false
-  resistance: 0.8
-  arrowres: 0.5
-  shred: 50
-
 
 ogre:
   title: Ogre
@@ -252,6 +247,10 @@ ogre:
   attack: 20
   health: 40
 
+  proccable: false
+  resistance: 0.8
+  arrowres: 0.9
+  shred: 10
 
   armour:
     material: rotten_flesh
@@ -269,11 +268,6 @@ ogre:
      - Some lore
     knockback: 4
 
-  proccable: false
-  resistance: 0.8
-  arrowres: 0.9
-  shred: 10
-
 
 
 ghostblade-base:
@@ -281,6 +275,11 @@ ghostblade-base:
 
   health: 40
   attack: 20
+
+  proccable: true
+  arrowres: 0.9
+  shred: 20
+  shrineimmune: true
 
   armour:
     material: slime_ball
@@ -290,13 +289,6 @@ ghostblade-base:
      - and more lore
     kbresist: true
     bound: true
-
-  invisible: true
-
-  proccable: true
-  arrowres: 0.9
-  shred: 20
-  shrineimmune: true
 
 gb-dagger:
   parent: ghostblade-base
@@ -313,6 +305,8 @@ gb-dagger:
 gb-runeblade:
   parent: ghostblade-base
 
+  proccable: false
+
   weapon:
     material: shears
     damage: 0
@@ -320,12 +314,12 @@ gb-runeblade:
     lore:
      - Some lore
 
-  proccable: false
-
 gb-axe:
   parent: ghostblade-base
 
   attack: 30
+
+  shred: 30
 
   weapon:
     material: shears
@@ -333,8 +327,6 @@ gb-axe:
     name: Spooky Axe
     lore:
      - Some lore
-
-  shred: 30
 
 gb-hammer:
   parent: ghostblade-base
@@ -360,6 +352,13 @@ krungor:
   health: 100
   speed: 40
 
+  immunetime: 10
+  proccable: false
+  resistance: 0.9
+  arrowres: 0.9
+  shred: 25
+  shrineimmune: true
+
   armouronchest: false
   armour:
     material: shears
@@ -376,13 +375,6 @@ krungor:
     lore:
       - Some lore
 
-  immunetime: 10
-  proccable: false
-  resistance: 0.9
-  arrowres: 0.9
-  shred: 25
-  shrineimmune: true
-
 
 bopen:
   title: Bopen
@@ -393,6 +385,12 @@ bopen:
   attack: 40
   health: 100
   speed: 10
+
+  proccable: false
+  resistance: 0.85
+  arrowres: 0.8
+  shred: 25
+  shrineimmune: true
 
   armouronchest: false
   armour:
@@ -417,38 +415,7 @@ bopen:
       lore:
        - Some lore
 
-  res: 0
-  proccable: false
-  resistance: 0.85
-  arrowres: 0.8
-  shred: 25
-  shrineimmune: true
 
-
-
-
-
-plague-zombie:
-  title: Zombie
-
-  disguisetype: zombie
-
-  armouronchest: false
-  weapon:
-    material: shears
-    damage: 1
-    name: §cKrungor's Axe
-    lore:
-      - Some lore
-  armour:
-    material: diamond_leggings
-    name: "&cZombie Pants"
-    lore:
-     - §dSome lore
-     - and more lore
-
-  immunetime: 0
-  shrineimmune: true
 
 # To get format codes:
 # http://minecraft.gamepedia.com/Formatting_codes

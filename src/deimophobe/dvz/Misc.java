@@ -2,10 +2,14 @@ package deimophobe.dvz;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.metadata.Metadatable;
+import org.bukkit.util.*;
 
 import java.util.*;
 
@@ -57,5 +61,69 @@ public class Misc {
 	
 	public static YamlConfiguration getInternalFileConfig(String name) {
 		return YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource(name));
+	}
+	
+	public static BlockFace getBlockFaceProjectileHit(Projectile proj, Block hitBlock) {
+		org.bukkit.util.Vector offset = proj.getLocation().subtract(hitBlock.getLocation().add(0.5,0.5,0.5)).toVector();
+		Set<BlockFace> possibleFaces = new HashSet<>();
+		possibleFaces.add(BlockFace.UP);
+		possibleFaces.add(BlockFace.DOWN);
+		possibleFaces.add(BlockFace.NORTH);
+		possibleFaces.add(BlockFace.SOUTH);
+		possibleFaces.add(BlockFace.EAST);
+		possibleFaces.add(BlockFace.WEST);
+		
+		if (offset.getX() > offset.getZ()) {
+			possibleFaces.remove(BlockFace.WEST);
+			possibleFaces.remove(BlockFace.SOUTH);
+		} else {
+			possibleFaces.remove(BlockFace.EAST);
+			possibleFaces.remove(BlockFace.NORTH);
+		}
+		
+		if (offset.getX() > -offset.getZ()) {
+			possibleFaces.remove(BlockFace.WEST);
+			possibleFaces.remove(BlockFace.NORTH);
+		} else {
+			possibleFaces.remove(BlockFace.EAST);
+			possibleFaces.remove(BlockFace.SOUTH);
+		}
+		
+		if (offset.getY() > offset.getZ()) {
+			possibleFaces.remove(BlockFace.DOWN);
+			possibleFaces.remove(BlockFace.SOUTH);
+		} else {
+			possibleFaces.remove(BlockFace.UP);
+			possibleFaces.remove(BlockFace.NORTH);
+		}
+		
+		if (offset.getY() > -offset.getZ()) {
+			possibleFaces.remove(BlockFace.DOWN);
+			possibleFaces.remove(BlockFace.NORTH);
+		} else {
+			possibleFaces.remove(BlockFace.UP);
+			possibleFaces.remove(BlockFace.SOUTH);
+		}
+		
+		if (offset.getY() > offset.getX()) {
+			possibleFaces.remove(BlockFace.DOWN);
+			possibleFaces.remove(BlockFace.EAST);
+		} else {
+			possibleFaces.remove(BlockFace.UP);
+			possibleFaces.remove(BlockFace.WEST);
+		}
+		
+		if (offset.getY() > -offset.getX()) {
+			possibleFaces.remove(BlockFace.DOWN);
+			possibleFaces.remove(BlockFace.WEST);
+		} else {
+			possibleFaces.remove(BlockFace.UP);
+			possibleFaces.remove(BlockFace.EAST);
+		}
+		
+		if (possibleFaces.size() != 1) {
+			Bukkit.getLogger().warning("More than one block face candidate?! (size: " + possibleFaces.size() +", " + possibleFaces.toString() + ")");
+		}
+		return (BlockFace) possibleFaces.toArray()[0];
 	}
 }

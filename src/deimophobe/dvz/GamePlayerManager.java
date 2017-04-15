@@ -98,21 +98,21 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		return players.containsKey(uuid);
 	}
 	
-	public boolean removeGamePlayer(String name) {
-		return removeGamePlayer(Bukkit.getPlayer(name));
+	public boolean removeGamePlayer(String name, boolean reset) {
+		return removeGamePlayer(Bukkit.getPlayer(name), reset);
 	}
-	public boolean removeGamePlayer(Player player) {
+	public boolean removeGamePlayer(Player player, boolean reset) {
 		if (player == null) return false;
-		return removeGamePlayer(player.getUniqueId());
+		return removeGamePlayer(player.getUniqueId(), reset);
 	}
-	public boolean removeGamePlayer(P player) {
-		return removeGamePlayer(player.getUniqueId());
+	public boolean removeGamePlayer(P player, boolean reset) {
+		return removeGamePlayer(player.getUniqueId(), reset);
 	}
-	public boolean removeGamePlayer(UUID uuid) {
+	public boolean removeGamePlayer(UUID uuid, boolean reset) {
 		P gamePlayer = players.remove(uuid);
 		if (gamePlayer == null) return false;
 		
-		gamePlayer.remove();
+		if (reset) gamePlayer.resetPlayer();
 		mcTeam.removeEntry(gamePlayer.getName());
 		Game.getGame().updateDwarfCount();
 		
@@ -121,10 +121,11 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 	
 	protected void removeAllGamePlayers() {
 		for (UUID uuid : new HashSet<>(players.keySet())) {
-			removeGamePlayer(uuid);
+			removeGamePlayer(uuid, true);
 		}
 	}
-					public Collection<P> getGamePlayers() {
+	
+	public Collection<P> getGamePlayers() {
 		return players.values();
 	}
 	

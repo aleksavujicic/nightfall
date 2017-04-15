@@ -39,10 +39,18 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		Plugin plugin = Game.getGame().getPlugin();
 		
 		runner = new BukkitRunnable() {
+			int counter = 0;
 			@Override
 			public void run() {
+				counter++;
 				for (MonsterPlayer mob : getGamePlayers()) {
-					mob.update();
+					mob.update(
+							(counter % 5) == 0,
+							(counter % 10) == 0,
+							(counter % 20) == 0,
+							(counter % 40) == 0,
+							(counter % 80) == 0
+					);
 				}
 			}
 		};
@@ -60,14 +68,13 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	
 	@Override
 	protected MonsterPlayer createGamePlayerFromPlayer(Player player) {
-		return new MonsterPlayer(player, true);
+		return new MonsterPlayer(player);
 	}
 	
-	public MonsterPlayer createAndSpawnMob(Player player, MobType type) {
-		MonsterPlayer mp = new MonsterPlayer(player, false);
-		registerGamePlayer(mp);
-		mp.spawnAs(type);
-		return mp;
+	public Collection<MonsterPlayer> getAliveMobs() {
+		Collection<MonsterPlayer> aliveMobs = new HashSet<>(getGamePlayers());
+		aliveMobs.removeIf((MonsterPlayer m) -> !m.isAlive());
+		return aliveMobs;
 	}
 	
 	public Collection<GameEntity> getMobsAndAIs() {
@@ -87,16 +94,6 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	public void onMobRelease() {
 		AIManager.getManager().setup();
 		DoomManager.getManager().setup();
-				
-		// For mob xp
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				for (MonsterPlayer mob : getGamePlayers()) {
-					mob.updateXP();
-				}
-			}
-		}.runTaskTimer(Game.getGame().getPlugin(), 20, 20);
 		
 		menu.setup();
 	}

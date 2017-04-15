@@ -36,45 +36,32 @@ public class MonsterPlayer extends GamePlayer {
 	
 	public Mob getMob() { return mob; }
 	
-	public MonsterPlayer(Player player, boolean kill) {
+	public MonsterPlayer(Player player) {
 		super(player);
 		player.sendMessage("You are monster now. Deimo make this cool.");
 		
 		mob = null;
-		
-		//killLater();
-		kill();
-	}
-	
-	@Override
-	public void remove() {
-		super.remove();
-		DisguiseAPI.undisguiseToAll(player);
 	}
 	
 	@Override
 	public void goOnline(Player player) {
 		super.goOnline(player);
-		
-		teleportTo(ShrineManager.getManager().getCurrentMobspawn());
-		givePotionEffect(PotionEffectType.SLOW, 70, 20, true, false, true);
-		givePotionEffect(PotionEffectType.JUMP, 70, -20, true, false, true);
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				customDamage(null, DamageType.RELOG, 10000);
-			}
-		}.runTaskLater(Game.getGame().getPlugin(), 70);
+		resetToMobspawn();
 	}
 	
-	public void update() {
+	public void resetToMobspawn() {
+		teleportTo(ShrineManager.getManager().getCurrentMobspawn());
+		kill();
+	}
+	
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		player.setFoodLevel(20);
 		player.setSaturation(20);
 		
 		updateSeppuku();
 		
 		if (mob != null) {
-			mob.update();
+			mob.update(quartSec, halfSec, sec, doubleSec, quadSec);
 			
 			if (seppukuCD > 0) {
 				player.setExp(1 - (float)seppukuCD/MAX_SEPPUKU_CD);
@@ -82,6 +69,9 @@ public class MonsterPlayer extends GamePlayer {
 				player.setExp(mob.getCooldown());
 			}
 		}
+		
+		if (sec && isAlive())
+			gainXP(10);
 	}
 	
 	
@@ -135,9 +125,14 @@ public class MonsterPlayer extends GamePlayer {
 	}
 	
 	public void spawnAs(MobType type) {
-		mob = Mob.createAndSpawnMob(this, type);
-		player.getInventory().setItem(9, seppuku);
+		spawnMob(type.createMob(this));
+	}
+	
+	public void spawnMob(Mob mob) {
+		this.mob = mob;
+		mob.spawn();
 		player.setAllowFlight(false);
+		player.getInventory().setItem(9, seppuku);
 	}
 	
 	
@@ -180,11 +175,6 @@ public class MonsterPlayer extends GamePlayer {
 			updateXPDisplay();
 			return true;
 		}
-	}
-	
-	public void updateXP() {
-		if (isAlive())
-			gainXP(10);
 	}
 	
 	private void updateXPDisplay() {
@@ -278,11 +268,10 @@ public class MonsterPlayer extends GamePlayer {
 		
 		
 		if (mob != null) {
-			if (gameEntity instanceof Dwarf) {
+			if (gameEntity instanceof Dwarf || gameEntity == null) {
 				return mob.onGotHit((Dwarf) gameEntity, type, damage);
 			} else {
-				if (gameEntity != null)
-					Bukkit.getLogger().warning("GameEntity in onGotHit should be a Dwarf");
+				Bukkit.getLogger().warning("GameEntity in onGotHit should be a Dwarf");
 				return damage;
 			}
 		} else {

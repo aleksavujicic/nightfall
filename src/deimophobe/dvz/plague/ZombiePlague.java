@@ -6,37 +6,44 @@ import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
-import deimophobe.dvz.monster.mob.MobType;
-import deimophobe.dvz.monster.mob.PlaguedZombie;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Created by Deimophobe on 7/03/17.
  */
-class ZombiePlague extends Plague {
+class ZombiePlague extends AbstractPlague {
+	
+	private int numZombiesAlive = 0;
+	
 	@Override
-	public void onStart() {
-		Dwarf dwarf = Misc.getRandom(plagueables);
-		convertToZombie(dwarf);
+	public void startPlague(Set<Dwarf> plagueables, int killAmt) {
+		super.startPlague(plagueables, killAmt);
+		infectMore();
+	}
+	
+	private void infectMore() {
+		int toPlague = (int) Math.ceil((double) toKill/4);
+		for (int i=0; i<toPlague; i++) {
+			Dwarf dwarf = Misc.getRandom(plagueables);
+			convertToZombie(dwarf);
+		}
 	}
 	
 	private static final String SICK_MSG = ChatColor.GREEN + "You begin to feel a little " + ChatColor.LIGHT_PURPLE + "sick" + ChatColor.GREEN + "!";
-	private static final int SICK_MSG_TIME = 100;
+	private static final int SICK_MSG_TIME = 160;
 	
-	private void convertToZombie(Dwarf dwarf) {
+	void convertToZombie(Dwarf dwarf) {
 		if (toKill == 0 || !plagueables.contains(dwarf)) return;
 		
 		removeDwarf(dwarf);
 		
 		dwarf.sendMessage(SICK_MSG);
-		dwarf.givePotionEffect(PotionEffectType.CONFUSION, 10000, 1, true, true, true);
+		dwarf.givePotionEffect(PotionEffectType.CONFUSION, SICK_MSG_TIME + 3*20, 1, true, false, true);
 		new BukkitRunnable() {
 			@Override
 			public void run() {
@@ -44,9 +51,12 @@ class ZombiePlague extends Plague {
 				Player player = dwarf.getPlayer();
 				player.removePotionEffect(PotionEffectType.CONFUSION);
 				
-				DwarfManager.getManager().removeGamePlayer(dwarf);
-				MonsterPlayer mp = MonsterManager.getManager().createAndSpawnMob(player, MobType.PLAGUE_ZOMBIE);
-				//((PlaguedZombie) mp.getMob()).setPlague(ZombiePlague.this);
+				DwarfManager.getManager().removeGamePlayer(dwarf, false);
+				MonsterManager.getManager().addGamePlayer(player);
+				MonsterPlayer mp = MonsterManager.getManager().getGamePlayer(player);
+				mp.spawnMob(new PlaguedZombie(mp, ZombiePlague.this));
+				
+				numZombiesAlive++;
 				
 			}
 		}.runTaskLater(Game.getGame().getPlugin(), SICK_MSG_TIME);
@@ -55,9 +65,20 @@ class ZombiePlague extends Plague {
 			new BukkitRunnable() {
 				@Override
 				public void run() {
-					endPlague();
+					notifyEnd();
 				}
-			}.runTaskLater(Game.getGame().getPlugin(), 300);
+			}.runTaskLater(Game.getGame().getPlugin(), 600);
 		}
 	}
+	
+	void notifyZombieDeath() {
+		numZombiesAlive--;
+		if (numZombiesAlive == 0) {
+			Dwarf dwarf = Misc.getRandom(plagueables);
+			convertToZombie(dwarf);
+			infectMore();
+		}
+	}
+	
+	
 }

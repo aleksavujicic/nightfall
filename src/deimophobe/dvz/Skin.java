@@ -36,10 +36,13 @@ public class Skin {
 		}
 	}
 	
-	public static PlayerDisguise getDisguiseWithSkin(String skinName, String playerName) {
-		Skin skin = skins.get(skinName);
+	public static Skin getSkin(String name) {
+		return skins.get(name);
+	}
+	
+	public PlayerDisguise getDisguise(String playerName) {
 		WrappedGameProfile profile = new WrappedGameProfile(UUID.randomUUID(), playerName);
-		profile.getProperties().put("textures", new WrappedSignedProperty("textures", skin.value, skin.sign));
+		profile.getProperties().put("textures", new WrappedSignedProperty("textures", value, sign));
 		
 		return new PlayerDisguise(profile);
 	}

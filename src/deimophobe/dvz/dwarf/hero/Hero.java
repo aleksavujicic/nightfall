@@ -45,12 +45,6 @@ public class Hero extends Dwarf {
 	}
 	
 	@Override
-	public void remove() {
-		super.remove();
-		DisguiseAPI.undisguiseToAll(player);
-	}
-	
-	@Override
 	public void showTrash() {}
 	
 	@Override
@@ -110,10 +104,14 @@ public class Hero extends Dwarf {
 		;
 		
 		private final DwarfData data;
-		private final String skin;
+		private final Skin skin;
 		private final String nametag;
 		
 		Type(String title, Hat hat, String skin, String nametag, KitElementType... elements) {
+			this(title, hat, Skin.getSkin(skin), nametag, elements);
+		}
+		
+		Type(String title, Hat hat, Skin skin, String nametag, KitElementType... elements) {
 			Set<KitElementType> allElements = new HashSet<>();
 			allElements.add(KitElementType.HERO_ALE);
 			allElements.add(KitElementType.HERO_SAFEFALL);
@@ -128,7 +126,7 @@ public class Hero extends Dwarf {
 		public DwarfData getData() {return data;}
 		
 		public Disguise getDisguise() {
-			PlayerDisguise disguise = Skin.getDisguiseWithSkin(skin, ChatColor.GOLD + nametag);
+			PlayerDisguise disguise = skin.getDisguise(ChatColor.GOLD + nametag);
 			disguise.setKeepDisguiseOnPlayerDeath(false);
 			disguise.setKeepDisguiseOnPlayerLogout(true);
 			disguise.setViewSelfDisguise(false);

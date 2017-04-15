@@ -20,9 +20,11 @@ import org.bukkit.util.Vector;
 /**
  * Created by Deimophobe on 20/01/17.
  */
-class Spiderling extends Mob {
+class Spiderling extends AbstractTypedMob {
+	@Override protected MobType getType() {return MobType.SPIDERLING;}
+	
 	Spiderling(MonsterPlayer monster) {
-		super(monster, MobType.SPIDERLING);
+		super(monster);
 	}
 	
 	@Override
@@ -36,7 +38,13 @@ class Spiderling extends Mob {
 	private int spiderSpitCd = 0;
 	
 	@Override
-	public void update() {
+	public void spawn() {
+		super.spawn();
+		givePermanentPotionEffect(PotionEffectType.JUMP, 3);
+	}
+	
+	@Override
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		if (spiderSpitCd > 0)
 			spiderSpitCd--;
 	}

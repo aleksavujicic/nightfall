@@ -9,21 +9,22 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Enderman;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 10/03/17.
  */
-class DeathPlague extends Plague {
+class DeathPlague extends AbstractPlague {
 	private Enderman death;
 	
 	@Override
-	protected void onStart() {
+	public void startPlague(Set<Dwarf> plagueables, int killAmt) {
+		super.startPlague(plagueables, killAmt);
+		
 		World world = MapManager.getManager().getWorld();
 		
 		Location spawnLoc = ShrineManager.getManager().getDwarfSpawn().clone();
@@ -51,7 +52,7 @@ class DeathPlague extends Plague {
 				} else {
 					this.cancel();
 					death.remove();
-					endPlague();
+					notifyEnd();
 				}
 			}
 		}.runTaskTimer(Game.getGame().getPlugin(), 160, 40);

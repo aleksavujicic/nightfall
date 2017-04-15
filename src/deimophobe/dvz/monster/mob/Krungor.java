@@ -17,19 +17,18 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 /**
  * Created by Deimophobe on 26/01/17.
  */
-class Krungor extends Mob {
+class Krungor extends AbstractTypedMob {
+	
+	@Override protected MobType getType() {return MobType.KRUNGOR;}
+	
 	private int cooldown = 0;
 	private final static int MAX_CD = 30*20;
 	
 	Krungor(MonsterPlayer monster) {
-		super(monster, MobType.KRUNGOR);
+		super(monster);
 	}
 	
 	@Override
@@ -38,7 +37,7 @@ class Krungor extends Mob {
 	}
 	
 	@Override
-	public void update() {
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		if (cooldown > 0)
 			cooldown--;
 	}

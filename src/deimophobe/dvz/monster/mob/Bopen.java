@@ -1,38 +1,26 @@
 package deimophobe.dvz.monster.mob;
 
 import deimophobe.dvz.DamageType;
-import deimophobe.dvz.Game;
-import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.shrine.ShrineManager;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Horse;
-import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.SkeletonHorse;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by Deimophobe on 15/03/17.
  */
-public class Bopen extends Mob {
+public class Bopen extends AbstractTypedMob {
+	
+	@Override protected MobType getType() {return MobType.BOPEN;}
+	
 	private int cooldown = 0;
 	private final static int MAX_CD = 100;
 	
@@ -44,7 +32,12 @@ public class Bopen extends Mob {
 	}
 	
 	protected Bopen(MonsterPlayer mons) {
-		super(mons, MobType.BOPEN);
+		super(mons);
+	}
+	
+	@Override
+	public void spawn() {
+		super.spawn();
 		mountHorse();
 	}
 	
@@ -60,7 +53,7 @@ public class Bopen extends Mob {
 	}
 	
 	@Override
-	public void update() {
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		if (cooldown > 0)
 			cooldown--;
 	}

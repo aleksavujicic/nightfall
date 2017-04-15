@@ -81,8 +81,8 @@ public class DvZPlugin extends JavaPlugin {
 				sender.sendMessage(ChatColor.RED + "Please specify a dwarf.");
 				return false;
 			} else if (args.length == 1) {
-				dm.removeGamePlayer(args[0]);
-				mm.removeGamePlayer(args[0]);
+				dm.removeGamePlayer(args[0], true);
+				mm.removeGamePlayer(args[0], true);
 				boolean success = dm.addGamePlayer(args[0]);
 				if (success) {
 					sender.sendMessage(ChatColor.AQUA + "Added " + ChatColor.DARK_AQUA + args[0] + ChatColor.AQUA + " as a dwarf!");
@@ -97,8 +97,8 @@ public class DvZPlugin extends JavaPlugin {
 					return true;
 				}
 				
-				dm.removeGamePlayer(args[0]);
-				mm.removeGamePlayer(args[0]);
+				dm.removeGamePlayer(args[0], true);
+				mm.removeGamePlayer(args[0], true);
 				Set<KitElementType> elements = new HashSet<>();
 				if (args[1].equalsIgnoreCase("all")) {
 					sender.sendMessage(ChatColor.YELLOW + "Adding all elements!");
@@ -130,8 +130,8 @@ public class DvZPlugin extends JavaPlugin {
 					sender.sendMessage(ChatColor.RED + "Unknown hero type: " + ChatColor.GOLD + args[1] + ChatColor.RED + "!");
 					return true;
 				} else {
-					dm.removeGamePlayer(args[0]);
-					mm.removeGamePlayer(args[0]);
+					dm.removeGamePlayer(args[0], true);
+					mm.removeGamePlayer(args[0], true);
 					dm.addHero(args[0], type);
 					return true;
 				}
@@ -142,8 +142,8 @@ public class DvZPlugin extends JavaPlugin {
 				sender.sendMessage(ChatColor.RED + "Please specify a monster.");
 				return false;
 			} else {
-				dm.removeGamePlayer(args[0]);
-				mm.removeGamePlayer(args[0]);
+				dm.removeGamePlayer(args[0], true);
+				mm.removeGamePlayer(args[0], true);
 				boolean success = mm.addGamePlayer(args[0]);
 				if (success) {
 					sender.sendMessage(ChatColor.AQUA + "Added " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a monster!");
@@ -186,12 +186,12 @@ public class DvZPlugin extends JavaPlugin {
 				sender.sendMessage(ChatColor.RED + "Please specify a player.");
 				return false;
 			} else {
-				boolean success = dm.removeGamePlayer(args[0]);
+				boolean success = dm.removeGamePlayer(args[0], true);
 				if (success) {
 					sender.sendMessage(ChatColor.AQUA + "Removed " + ChatColor.DARK_AQUA + args[0] + ChatColor.AQUA + " as a dwarf!");
 					return true;
 				} else {
-					success = mm.removeGamePlayer(args[0]);
+					success = mm.removeGamePlayer(args[0], true);
 					if (success) {
 						sender.sendMessage(ChatColor.AQUA + "Removed " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a monster!");
 						return true;

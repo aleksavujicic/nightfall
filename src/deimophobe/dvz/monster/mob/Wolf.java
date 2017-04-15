@@ -14,33 +14,24 @@ import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
 import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 /**
  * Created by Deimophobe on 19/01/17.
  */
-class Wolf extends Mob {
+class Wolf extends AbstractTypedMob {
+	
+	@Override protected MobType getType() {return MobType.WOLF;}
+	
 	private static final int LEAP_MAX_CD = 140;
 	private int leapCd = 0;
 	
-	private final boolean dire;
-	Wolf(MonsterPlayer monster, boolean dire) {
-		super(monster, (dire ? MobType.DIREWOLF : MobType.WOLF ));
-		this.dire = dire;
-		
-		Disguise disguise = getDisguise();
-		FlagWatcher watcher = disguise.getWatcher();
-		if (watcher instanceof WolfWatcher) {
-			((WolfWatcher) watcher).setAngry(dire);
-		} else {
-			Bukkit.getLogger().warning("Wolf not disguised as wolf?");
-		}
+	Wolf(MonsterPlayer monster) {
+		super(monster);
 	}
 	
 	@Override
@@ -49,7 +40,7 @@ class Wolf extends Mob {
 	}
 	
 	@Override
-	public void update() {
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		leapCd--;
 		if (leapCd <= 0) leapCd = 0;
 	}

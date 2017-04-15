@@ -14,6 +14,7 @@ import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -56,6 +57,7 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void onLogin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
+		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(1024);
 		ShrineManager.getManager().giveShrineBarToPlayer(player);
 		
 		if (dm.goOnline(player)) {
@@ -407,7 +409,7 @@ public class GameListener implements Listener {
 				dwarf2.notifyDeath(dwarf);
 			}
 			event.setDeathMessage(dwarf.generateDeathMsg());
-			dm.removeGamePlayer(dwarf);
+			dm.removeGamePlayer(dwarf, true);
 		}
 	}
 	

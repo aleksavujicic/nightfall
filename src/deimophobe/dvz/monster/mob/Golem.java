@@ -13,13 +13,17 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 20/01/17.
  */
-class Golem extends Mob {
+class Golem extends AbstractTypedMob {
+	
+	@Override protected MobType getType() {return MobType.GOLEM;}
+	
 	Golem(MonsterPlayer monster) {
-		super(monster, MobType.GOLEM);
+		super(monster);
 	}
 	
 	
@@ -53,6 +57,12 @@ class Golem extends Mob {
 	
 	private static final int BREAK_CD_MAX = 10;
 	private int breakCD = 0;
+	
+	@Override
+	public void spawn() {
+		super.spawn();
+		givePermanentPotionEffect(PotionEffectType.SLOW_DIGGING, 4);
+	}
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
@@ -93,9 +103,12 @@ class Golem extends Mob {
 	}
 	
 	@Override
-	public void update() {
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		if (breakCD > 0)
 			breakCD--;
+		
+		if (doubleSec)
+			monster.playSound("entity.irongolem.hurt", 1, 0.5f, true);
 	}
 	
 	private void swingArms() {

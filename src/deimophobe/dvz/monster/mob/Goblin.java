@@ -17,13 +17,16 @@ import org.bukkit.potion.PotionEffectType;
 /**
  * Created by Deimophobe on 28/02/17.
  */
-class Goblin extends Mob {
+class Goblin extends AbstractTypedMob {
+	
+	@Override protected MobType getType() {return MobType.GOBO;}
+	
 	protected Goblin(MonsterPlayer mons) {
-		super(mons, MobType.GOBO);
+		super(mons);
 	}
 	
 	@Override
-	public void update() {
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		if (placeBoxCD > 0)
 			placeBoxCD--;
 		

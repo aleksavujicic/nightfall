@@ -2,6 +2,7 @@ package deimophobe.dvz;
 
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
+import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
@@ -29,7 +30,6 @@ public abstract class GamePlayer extends GameEntity {
 		super(player);
 		this.player = player;
 		this.name = player.getName();
-		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(1024);
 	}
 	
 	public Player getPlayer() {
@@ -146,10 +146,11 @@ public abstract class GamePlayer extends GameEntity {
 	
 	
 	// ------ MISC ------
-	public void remove() {
+	public void resetPlayer() {
 		clearEffects();
 		clearInventory();
 		player.setDisplayName(player.getName());
+		DisguiseAPI.undisguiseToAll(player);
 	}
 	
 	public String generateDeathMsg() {

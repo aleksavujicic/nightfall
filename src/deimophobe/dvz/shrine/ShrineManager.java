@@ -254,8 +254,8 @@ public class ShrineManager {
 				dwarf.regenMana(200);
 			}
 			for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
-				monster.givePotionEffect(PotionEffectType.SLOW, 160, 3, true, true, true);
-				monster.givePotionEffect(PotionEffectType.CONFUSION, 160, 1, true, true, true);
+				monster.givePotionEffect(PotionEffectType.SLOW, 180, 3, true, false, true);
+				monster.givePotionEffect(PotionEffectType.CONFUSION, 180, 1, true, false, true);
 			}
 			
 			shrineBar.setTitle(getShrine().getName());

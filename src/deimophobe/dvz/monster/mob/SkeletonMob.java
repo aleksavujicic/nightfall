@@ -14,12 +14,10 @@ import org.bukkit.event.block.Action;
 /**
  * Created by Deimophobe on 27/01/17.
  */
-abstract class SkeletonMob extends Mob {
+abstract class SkeletonMob extends AbstractTypedMob {
 	
-	protected final int power;
-	protected SkeletonMob(MonsterPlayer mons, MobType type, int power) {
-		super(mons, type);
-		this.power = power;
+	protected SkeletonMob(MonsterPlayer mons) {
+		super(mons);
 	}
 	
 	@Override
@@ -42,8 +40,10 @@ abstract class SkeletonMob extends Mob {
 	@Override
 	public double onHit(Dwarf dwarf, DamageType type, double damage) {
 		if (type.isArrow())
-			return power;
+			return getPower();
 		else
 			return damage;
 	}
+	
+	protected abstract double getPower();
 }
