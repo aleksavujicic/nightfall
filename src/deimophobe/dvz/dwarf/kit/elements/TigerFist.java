@@ -41,6 +41,9 @@ class TigerFist extends AbstractItem implements KitCooldownElement {
 	private int cooldown = 0;
 	private static final int MAX_CD = 30*20;
 	
+	private int leap_cooldown = 0;
+	private static final int MAX_LEAP_CD = 15;
+	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		switch (status) {
@@ -61,12 +64,17 @@ class TigerFist extends AbstractItem implements KitCooldownElement {
 						charge++;
 				} else {
 					status = Status.LEAPING;
+					leap_cooldown = 0;
 				}
 				break;
 				
 			case LEAPING:
+				if (leap_cooldown > 0)
+					leap_cooldown--;
 				
-				if (sec && charge > 0 && (dwarf.getPlayer().isOnGround() || dwarf.getLocation().subtract(0,3,0).getBlock().getType().isSolid())) {
+				if (leap_cooldown == 0 && charge > 0 && (dwarf.getPlayer().isOnGround() || dwarf.getLocation().subtract(0,3,0).getBlock().getType().isSolid())) {
+					leap_cooldown = MAX_LEAP_CD;
+					
 					double yaw = dwarf.getLocation().getYaw() * Math.PI / 180;
 					dwarf.setVelocity(-0.7 * Math.sin(yaw), 0.4, 0.7 * Math.cos(yaw));
 					dwarf.playSound("proc", 1, 1.5f, false);
