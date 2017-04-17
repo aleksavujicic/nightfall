@@ -21,7 +21,7 @@ sword:
     name: Greater Runeblade
     sections:
       description: "Some description $test &dof&r sorts."
-      flavour: "The mighty weapon thats said to send dwarves into a flurry of &asparkles&r."
+      flavour: "The mighty weapon thats said to send dwarves into a fury of &asparkles&r."
 
   axe:
     material: shears
