@@ -23,7 +23,7 @@ class GreaterRuneblade extends AbstractCooldownItem {
 		super(dwarf, 400);
 	}
 	
-	private final static ItemStack ITEM = DwarvenItems.getItem("sword.grb", Slot.MAIN_HAND);
+	private final static ItemStack ITEM = DwarvenItems.getItem2("sword.grb2");
 	@Override public ItemStack getItem() {
 		return ITEM;
 	}

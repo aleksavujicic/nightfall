@@ -1,0 +1,53 @@
+dwarf:
+  nameprefix: "&b"
+
+  lore:
+    - ""
+    - "${flavour}"
+    - "${description}"
+
+  prefix:
+    flavour: "&a"
+    description: "&6"
+
+  attributes:
+    name: "&3"
+    value: "&b"
+    reason: "&d"
+
+
+dwarf-hero:
+  nameprefix: "&6"
+
+  lore:
+    - ""
+    - "${flavour}"
+    - "${description}"
+
+  prefix:
+    flavour: "&6"
+    description: "&6"
+
+  attributes:
+    name: "&6"
+    value: "&6"
+    reason: "&6"
+
+loadout:
+  nameprefix: "&b"
+
+  lore:
+    - "&d&lLoadout costs $cost points"
+    - "&1&l$category"
+    - ""
+    - "${flavour}"
+    - "${description}"
+
+  prefix:
+    flavour: "&a"
+    description: "&6"
+
+  attributes:
+    name: "&3"
+    value: "&b"
+    reason: "&d"

@@ -1,5 +1,6 @@
-package deimophobe.dvz;
+package deimophobe.dvz.items;
 
+import deimophobe.dvz.items.lore.LoreTemplate;
 import minecraft.spigot.community.michel_0.api.Attribute;
 import minecraft.spigot.community.michel_0.api.AttributeModifier;
 import minecraft.spigot.community.michel_0.api.ItemAttributes;
@@ -15,10 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.io.BukkitObjectInputStream;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 18/01/17.
@@ -193,5 +191,45 @@ public class ItemCreator {
 		meta.setLore(lore);
 		item.setItemMeta(meta);
 		*/
+	}
+	
+	public static ItemStack createItem(ConfigurationSection itemConfig, String template) {
+		return createItem(itemConfig, template, Collections.emptyMap());
+	}
+	
+	public static ItemStack createItem(ConfigurationSection itemConfig, String template, Map<String, Object> parameters) {
+		// Get base item
+		String base = itemConfig.getString("base");
+		ItemStack item = BaseItemManager.createItem(base);
+		
+		// Get template
+		template = itemConfig.getString("template", template);
+		LoreTemplate loreTemplate = LoreTemplate.getLoreTemplate(template);
+		
+		// Get sections
+		Map<String, String> sections = new HashMap<>();
+		ConfigurationSection sectionConfig = itemConfig.getConfigurationSection("sections");
+		for (String name : sectionConfig.getKeys(false)) {
+			sections.put(name, sectionConfig.getString(name));
+		}
+		
+		
+		ItemMeta meta = item.getItemMeta();
+		
+		// Set name and lore
+		String name = itemConfig.getString("name");
+		meta.setDisplayName(loreTemplate.getName(name));
+		meta.setLore(loreTemplate.generateLore(sections, parameters));
+		
+		// Set other neat stuff
+		meta.setUnbreakable(true);
+		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_POTION_EFFECTS);
+		
+		item.setItemMeta(meta);
+		
+		
+		// TODO add attributes
+		
+		return item;
 	}
 }

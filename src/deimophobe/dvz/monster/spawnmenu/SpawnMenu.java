@@ -1,10 +1,9 @@
 package deimophobe.dvz.monster.spawnmenu;
 
 import deimophobe.dvz.Game;
-import deimophobe.dvz.ItemCreator;
+import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.menu.GameMenu;
-import deimophobe.dvz.menu.Menu;
 import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import minecraft.spigot.community.michel_0.api.Slot;

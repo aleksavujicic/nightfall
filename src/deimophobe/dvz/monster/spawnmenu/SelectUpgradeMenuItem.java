@@ -1,6 +1,6 @@
 package deimophobe.dvz.monster.spawnmenu;
 
-import deimophobe.dvz.ItemCreator;
+import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.mob.MobType;

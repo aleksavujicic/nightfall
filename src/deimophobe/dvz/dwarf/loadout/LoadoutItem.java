@@ -1,17 +1,15 @@
 package deimophobe.dvz.dwarf.loadout;
 
 import deimophobe.dvz.Hat;
-import deimophobe.dvz.ItemCreator;
+import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.menu.MenuItem;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 

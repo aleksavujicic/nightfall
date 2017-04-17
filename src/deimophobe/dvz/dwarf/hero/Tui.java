@@ -1,12 +1,8 @@
 package deimophobe.dvz.dwarf.hero;
 
-import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.DwarvenItems;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.*;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Team;

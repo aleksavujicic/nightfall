@@ -16,6 +16,13 @@ sword:
      - §9to send dwarves into a flurry of
      - §asparkles§9.
     attack: 15
+  grb2:
+    base: runeblade
+    name: Greater Runeblade
+    sections:
+      description: "Some description $test &dof&r sorts."
+      flavour: "The mighty weapon thats said to send dwarves into a flurry of &asparkles&r."
+
   axe:
     material: shears
     damage: 1
@@ -56,7 +63,7 @@ sword:
     damage: 3
     name: "&bTiger Fist"
     lore:
-      - "Lore"
+      - "LoreTemplate"
     attack: 20
 
 bow:

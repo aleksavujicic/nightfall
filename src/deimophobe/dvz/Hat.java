@@ -1,12 +1,8 @@
 package deimophobe.dvz;
 
+import deimophobe.dvz.items.ItemCreator;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Deimophobe on 11/03/17.

@@ -2,27 +2,16 @@ package deimophobe.dvz.plague;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.Game;
-import deimophobe.dvz.ItemCreator;
 import deimophobe.dvz.Phase;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.mob.AbstractMob;
-import deimophobe.dvz.monster.mob.Mob;
-import deimophobe.dvz.monster.mob.MobData;
-import deimophobe.dvz.monster.mob.MobType;
-import deimophobe.dvz.shrine.ShrineManager;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
-import minecraft.spigot.community.michel_0.api.Attribute;
-import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Created by Deimophobe on 4/04/17.

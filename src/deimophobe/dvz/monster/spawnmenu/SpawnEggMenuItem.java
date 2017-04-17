@@ -1,7 +1,7 @@
 package deimophobe.dvz.monster.spawnmenu;
 
 import deimophobe.dvz.Game;
-import deimophobe.dvz.ItemCreator;
+import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.Phase;
 import deimophobe.dvz.menu.MenuItem;
@@ -12,7 +12,6 @@ import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
