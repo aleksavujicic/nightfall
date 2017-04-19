@@ -41,7 +41,7 @@ class Dagger extends AbstractCooldownItem {
 	}
 	
 	@Override
-	public double onHit(GameEntity monster, DamageType type, double damage) {
+	public double onSelfHit(GameEntity monster, DamageType type, double damage) {
 		monster.givePotionEffect(PotionEffectType.WITHER, 100, 1, true, false, true);
 		return damage;
 	}
