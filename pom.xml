@@ -95,7 +95,7 @@
         <repository>
             <id>project.local</id>
             <name>project</name>
-            <url>file:${project.basedir}/local-maven-repo</url>
+            <url>file:${project.basedir}/local-maven-repo/repository</url>
         </repository>
     </repositories>
     <dependencies>
@@ -137,8 +137,6 @@
             <groupId>me.libraryaddict.disguise</groupId>
             <artifactId>DisguiseAPI</artifactId>
             <version>9.3.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/local-maven-repo/LibsDisguises.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>minecraft.spigot.community.michel_0</groupId>

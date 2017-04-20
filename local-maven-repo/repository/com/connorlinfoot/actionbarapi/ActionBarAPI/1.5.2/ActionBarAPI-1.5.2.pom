@@ -5,4 +5,5 @@
   <groupId>com.connorlinfoot.actionbarapi</groupId>
   <artifactId>ActionBarAPI</artifactId>
   <version>1.5.2</version>
+  <description>POM was created from install:install-file</description>
 </project>
