@@ -19,8 +19,10 @@ import org.bukkit.scheduler.BukkitRunnable;
  * Created by Deimophobe on 20/01/17.
  */
 class GreaterRuneblade extends AbstractCooldownItem {
+	private static final int CD_TIME = 400;
+	
 	GreaterRuneblade(Dwarf dwarf) {
-		super(dwarf, 400);
+		super(dwarf, CD_TIME);
 	}
 	
 	private final static ItemStack ITEM = DwarvenItems.getItem2("sword.grb2");
@@ -54,9 +56,11 @@ class GreaterRuneblade extends AbstractCooldownItem {
 		return false;
 	}
 	
+	private static final int SAFEFALL_TIME = 60;
+	
 	@Override
 	public double onGotHit(GameEntity monster, DamageType type, double damage) {
-		if (getCooldown() >= 300 && type == DamageType.FALL) {
+		if (getCooldown() >= CD_TIME - SAFEFALL_TIME && type == DamageType.FALL) {
 			return -1;
 		}
 		return damage;
