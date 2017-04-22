@@ -38,7 +38,10 @@ class DwarfCompass extends AbstractItem {
 		CompassLocation cl = locations.get(nextIndex);
 		
 		// Change index
-		nextIndex = (nextIndex + 1) % locations.size();
+		if (dwarf.getPlayer().isSneaking())
+			nextIndex = (nextIndex == 0 ? locations.size() - 1 : nextIndex - 1);
+		else
+			nextIndex = (nextIndex + 1) % locations.size();
 		
 		// Set location
 		dwarf.sendMessage(ChatColor.LIGHT_PURPLE + "Compass is now pointing at: " + ChatColor.YELLOW + cl.getName());
