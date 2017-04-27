@@ -19,9 +19,16 @@ sword:
   grb2:
     base: runeblade
     name: Greater Runeblade
-    sections:
-      description: "Some description $test &dof&r sorts. This is also a maven test."
-      flavour: "The mighty weapon thats said to send dwarves into a fury of &asparkles&r."
+    lore:
+      description:
+       "Some description &dof&r sorts.\n
+        This is also a maven test."
+      flavour:
+       "The mighty weapon thats said to\n
+        send dwarves into a fury of &bsparkles&r."
+    modifiers:
+      attack: 15
+      speed: 30
 
   axe:
     material: shears

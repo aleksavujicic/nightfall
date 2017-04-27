@@ -10,7 +10,7 @@ dwarf:
     flavour: "&a"
     description: "&6"
 
-  attributes:
+  modifiers:
     name: "&3"
     value: "&b"
     reason: "&d"
@@ -28,10 +28,11 @@ dwarf-hero:
     flavour: "&6"
     description: "&6"
 
-  attributes:
+  modifiers:
     name: "&6"
     value: "&6"
     reason: "&6"
+
 
 loadout:
   nameprefix: "&b"
@@ -47,7 +48,7 @@ loadout:
     flavour: "&a"
     description: "&6"
 
-  attributes:
+  modifiers:
     name: "&3"
     value: "&b"
     reason: "&d"

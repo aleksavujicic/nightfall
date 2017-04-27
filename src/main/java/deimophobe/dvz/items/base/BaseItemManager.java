@@ -1,4 +1,4 @@
-package deimophobe.dvz.items;
+package deimophobe.dvz.items.base;
 
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -10,17 +10,22 @@ import java.util.Map;
 /**
  * Created by Deimophobe on 15/04/17.
  */
-class BaseItemManager {
+public class BaseItemManager {
 	
-	static ItemStack createItem(String name) {
-		BaseItem item = baseItems.get(name);
+	public static BaseItem getItem(String name) {
+		BaseItem item = baseItems.get(name.toLowerCase());
 		if (item == null) throw new IllegalArgumentException("No base item named: " + name);
-		return item.createItem();
+		
+		return item.clone();
+	}
+	
+	public static BaseItem getErrorItem() {
+		return new ErrorItem();
 	}
 	
 	private static final Map<String, BaseItem> baseItems = new HashMap<>();
 	private static void addItem(String name, BaseItem item) {
-		baseItems.put(name, item);
+		baseItems.put(name.toLowerCase(), item);
 	}
 	static {
 		// ~~~~ DWARF ITEMS ~~~~~
@@ -85,5 +90,11 @@ class BaseItemManager {
 		addItem("bone_crown", new SimpleBaseItem(Material.SHEARS, 200));
 		addItem("flower_crown", new SimpleBaseItem(Material.SHEARS, 201));
 		addItem("witch_hat", new SimpleBaseItem(Material.SHEARS, 202));
+	}
+	
+	private static final class ErrorItem extends SimpleBaseItem {
+		ErrorItem() {
+			super(Material.BARRIER);
+		}
 	}
 }

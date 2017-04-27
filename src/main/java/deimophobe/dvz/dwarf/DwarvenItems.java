@@ -1,5 +1,6 @@
 package deimophobe.dvz.dwarf;
 
+import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.kit.consumable.Consumable;
@@ -11,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -39,8 +41,14 @@ public class DwarvenItems {
 	}
 	
 	
-	public static ItemStack getItem2(String sec) {
-		return ItemCreator.createItem(config.getConfigurationSection(sec), LoreTemplate.DWARF, Collections.singletonMap("test", "var called test"));
+	public static CustomItem getItem2(String section) {
+		return CustomItem.createItem(config.getConfigurationSection(section), LoreTemplate.DWARF, Slot.MAIN_HAND);
+	}
+	
+	public static CustomItem getItem(String section, Map<String, String> variables) {
+		CustomItem item = CustomItem.createItem(config.getConfigurationSection(section), LoreTemplate.DWARF, Slot.MAIN_HAND);
+		item.applyVariables(variables);
+		return item;
 	}
 	
 	public static boolean isDroppableItem(ItemStack item) {

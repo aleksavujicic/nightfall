@@ -1,20 +1,18 @@
 package deimophobe.dvz.items;
 
+import deimophobe.dvz.items.base.BaseItemManager;
 import deimophobe.dvz.items.lore.LoreTemplate;
 import minecraft.spigot.community.michel_0.api.Attribute;
 import minecraft.spigot.community.michel_0.api.AttributeModifier;
 import minecraft.spigot.community.michel_0.api.ItemAttributes;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.util.io.BukkitObjectInputStream;
 
 import java.util.*;
 
@@ -193,6 +191,7 @@ public class ItemCreator {
 		*/
 	}
 	
+	/*
 	public static ItemStack createItem(ConfigurationSection itemConfig, String template) {
 		return createItem(itemConfig, template, Collections.emptyMap());
 	}
@@ -219,7 +218,7 @@ public class ItemCreator {
 		// Set name and lore
 		String name = itemConfig.getString("name");
 		meta.setDisplayName(loreTemplate.getName(name));
-		meta.setLore(loreTemplate.generateLore(sections, parameters));
+		//meta.setLore(loreTemplate.generateLore(sections, parameters));
 		
 		// Set other neat stuff
 		meta.setUnbreakable(true);
@@ -232,4 +231,5 @@ public class ItemCreator {
 		
 		return item;
 	}
+	*/
 }

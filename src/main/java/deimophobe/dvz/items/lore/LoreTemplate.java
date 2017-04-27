@@ -1,15 +1,14 @@
 package deimophobe.dvz.items.lore;
 
-import com.sun.org.apache.xerces.internal.xs.StringList;
 import deimophobe.dvz.Misc;
+import deimophobe.dvz.items.modifiers.ItemModifier;
+import deimophobe.dvz.items.modifiers.ItemModifierType;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by Deimophobe on 15/04/17.
@@ -19,12 +18,12 @@ public class LoreTemplate {
 	private final String namePrefix;
 	private final List<LoreComponent> components;
 	
-	private final String attrNamePrefix;
-	private final String attrValuePrefix;
-	private final String attrReasonPrefix;
+	private final String modifierNamePrefix;
+	private final String modifierValuePrefix;
+	private final String modifierReasonPrefix;
 	
 	private LoreTemplate(ConfigurationSection config) {
-		namePrefix = config.getString("nameprefix");
+		namePrefix = ChatColor.translateAlternateColorCodes('&', config.getString("nameprefix"));
 		
 		components = new ArrayList<>();
 		List<String> lore = config.getStringList("lore");
@@ -54,44 +53,59 @@ public class LoreTemplate {
 			prevMatch = j+1;
 		}
 		
-		attrNamePrefix = config.getString("attributes.name");
-		attrValuePrefix = config.getString("attributes.value");
-		attrReasonPrefix = config.getString("attributes.reason");
+		modifierNamePrefix = ChatColor.translateAlternateColorCodes('&', config.getString("modifiers.name"));
+		modifierValuePrefix = ChatColor.translateAlternateColorCodes('&', config.getString("modifiers.value"));
+		modifierReasonPrefix = ChatColor.translateAlternateColorCodes('&', config.getString("modifiers.reason"));
 	}
 	
 	public String getName(String name) {
-		return ChatColor.translateAlternateColorCodes('&',namePrefix + name);
+		return namePrefix + name;
 	}
 	
-	public List<String> generateLore(Map<String, String> sections, Map<String, Object> parameters) {
+	public StringBuilder generateLoreText(Map<String, String> sections) {
 		StringBuilder builder = new StringBuilder();
 		for (LoreComponent component : components)
 			builder.append(component.toString(sections));
 		
-		// Find and replace variables
-		varfinder: for (int i=0; i<builder.length(); i++) {
-			if (builder.charAt(i) != '$') continue;
-			if (builder.charAt(i-1) == '\\') continue;
+		return builder;
+	}
+	
+	public List<String> generateAttributeText(SortedMap<ItemModifierType, Set<ItemModifier>> modifiers) {
+		List<String> lines = new ArrayList<>();
+		for (Map.Entry<ItemModifierType, Set<ItemModifier>> entry : modifiers.entrySet()) {
+			ItemModifierType type = entry.getKey();
+			Set<ItemModifier> modifierGroup = entry.getValue();
 			
-			int j = i;
-			do {
-				j++;
-				if (j >= builder.length()) break varfinder;
-			} while (Character.isLetter(builder.charAt(j)));
+			// Get attribute name
+			String name = WordUtils.capitalizeFully(type.toString());
 			
-			String name = builder.substring(i+1, j);
-			Object value = parameters.get(name);
-			String valueString;
-			if (value == null) valueString = "";
-			else valueString = value.toString();
+			// Get the net value of attribute
+			int total = 0;
+			for (ItemModifier modifier : modifierGroup)
+				total += modifier.getValue();
 			
-			builder.replace(i, j, valueString);
+			if (total == 0) continue;
+			
+			// Format it
+			String value = type.formatValue(total, false);
+			
+			// Add main line
+			if (value == null)
+				lines.add(modifierNamePrefix + name);
+			else
+				lines.add(modifierNamePrefix + name + ": " + modifierValuePrefix + value);
+			
+			// Add any reason lines
+			for (ItemModifier modifier : modifierGroup) {
+				String reason = modifier.getReason();
+				if (reason == null) continue;
+				
+				String modValue = type.formatValue(modifier.getValue(), true);
+				lines.add(modifierReasonPrefix + " " + modValue + " (" + reason + ")");
+			}
 		}
-		String lore = builder.toString();
-		lore = ChatColor.translateAlternateColorCodes('&', lore);
 		
-		String[] splitLore = lore.split("\n");
-		return Arrays.asList(splitLore);
+		return lines;
 	}
 	
 	
