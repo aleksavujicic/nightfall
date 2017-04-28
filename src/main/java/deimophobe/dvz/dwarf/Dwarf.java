@@ -341,13 +341,17 @@ public class Dwarf extends GamePlayer {
 		
 		updateBlood(quartSec, halfSec, sec);
 		
-		if (sec) {
-			regenMana(getNaturalRegenRate());
-			updateVisibility();
-		}
-		
 		if (quadSec) {
 			giveArrow();
+			
+		}
+		
+		if (sec) {
+			regenMana(getNaturalRegenRate());
+			
+			ItemStack heldItem = getHeldItem();
+			holdingLightItem = (Consumable.getItemStack(ConsumableType.TORCH).isSimilar(heldItem) || Consumable.getItemStack(ConsumableType.LAMP).isSimilar(heldItem));
+			updateVisibility();
 		}
 	}
 	
