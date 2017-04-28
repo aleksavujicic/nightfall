@@ -4,6 +4,7 @@ import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
+import deimophobe.dvz.items.CustomItem;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.inventory.ItemStack;
 
@@ -15,8 +16,8 @@ class JimmyJuice extends AbstractAle {
 		super(dwarf, 100);
 	}
 	
-	private final static ItemStack ITEM = DwarvenItems.getItem("ale.jj", Slot.MAIN_HAND);
-	@Override public ItemStack getItem() { return ITEM; }
+	private final static CustomItem ITEM = DwarvenItems.getItem("ale.jj", Slot.MAIN_HAND);
+	@Override public CustomItem getItem() { return ITEM; }
 	
 	@Override
 	public void onLateGotHit(GameEntity monster, DamageType type, double damage) {

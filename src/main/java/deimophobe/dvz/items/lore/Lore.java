@@ -110,10 +110,12 @@ public class Lore implements Cloneable {
 		
 		lore.addAll(Arrays.asList(text.split("\n")));
 		
-		lore.add("");
-		
 		// Add modifier text
-		lore.addAll(loreTemplate.generateAttributeText(modifiers));
+		List<String> modifierLines = loreTemplate.generateAttributeText(modifiers);
+		if (!modifierLines.isEmpty()) {
+			lore.add("");
+			lore.addAll(modifierLines);
+		}
 		
 		return lore;
 	}

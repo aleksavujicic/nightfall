@@ -6,6 +6,7 @@ import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitCooldownElement;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
+import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
 import deimophobe.dvz.monster.ai.AIManager;
@@ -24,8 +25,8 @@ class TuiHammer extends AbstractAOEHitter implements KitCooldownElement {
 		super(dwarf, 4);
 	}
 	
-	private final static ItemStack ITEM = DwarvenItems.getItem("hero.tuihammer", Slot.MAIN_HAND);
-	@Override public ItemStack getItem() {
+	private final static CustomItem ITEM = DwarvenItems.getItem("hero.tuihammer", Slot.MAIN_HAND);
+	@Override public CustomItem getItem() {
 		return ITEM;
 	}
 	@Override public KitGiveType getGiveType() {
@@ -35,9 +36,9 @@ class TuiHammer extends AbstractAOEHitter implements KitCooldownElement {
 	@Override
 	protected double getDamageToMonster(GameEntity entity) {
 		if (entity instanceof MonsterPlayer) {
-			return (dwarf.hasProc() ? 20 : 10);
+			return (dwarf.hasProc() ? 12 : 8);
 		} else if (entity instanceof AIEntity) {
-			return (dwarf.hasProc() ? 80 : 40);
+			return (dwarf.hasProc() ? 50 : 25);
 		}
 		return 0;
 	}
@@ -79,6 +80,6 @@ class TuiHammer extends AbstractAOEHitter implements KitCooldownElement {
 	
 	@Override
 	public ItemStack getCooldownToggleItem() {
-		return getItem();
+		return getItem().createItemStack();
 	}
 }

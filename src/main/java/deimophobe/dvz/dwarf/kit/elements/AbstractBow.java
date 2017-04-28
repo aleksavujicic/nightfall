@@ -5,6 +5,7 @@ import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.kit.KitBow;
+import deimophobe.dvz.dwarf.kit.KitGiveType;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Projectile;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -16,6 +17,9 @@ public abstract class AbstractBow extends AbstractItem implements KitBow {
 	public AbstractBow(Dwarf dwarf) {
 		super(dwarf);
 	}
+	
+	@Override
+	public KitGiveType getGiveType() { return KitGiveType.BOW; }
 	
 	@Override
 	public double onHit(GameEntity monster, DamageType type, double damage) {
@@ -45,6 +49,7 @@ public abstract class AbstractBow extends AbstractItem implements KitBow {
 	
 	@Override
 	public void onProjectileLand(Projectile proj, Block hitBlock) {}
+	
 	
 	
 	public abstract String getBowIdentifier();

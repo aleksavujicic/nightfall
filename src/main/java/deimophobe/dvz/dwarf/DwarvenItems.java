@@ -1,7 +1,6 @@
 package deimophobe.dvz.dwarf;
 
 import deimophobe.dvz.items.CustomItem;
-import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.kit.consumable.Consumable;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
@@ -11,9 +10,7 @@ import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -27,44 +24,33 @@ public class DwarvenItems {
 	
 	static {
 		config = Misc.getInternalFileConfig("dwarf-items.yml");
-		droppables.add(getItem("misc.pick"));
-		droppables.add(getItem("misc.shovel"));
-		droppables.add(getItem("misc.axe"));
-	}
-	
-	
-	public static ItemStack getItem(String sec, Slot slot) {
-		return ItemCreator.createItem(config.getConfigurationSection(sec), slot);
-	}
-	
-	public static ItemStack getItem(String section) {
-		return  getItem(section, Slot.MAIN_HAND);
+		droppables.add(createItemStack("misc.pick"));
+		droppables.add(createItemStack("misc.shovel"));
+		droppables.add(createItemStack("misc.axe"));
 	}
 	
 	
 	
-	
-	
-	public static CustomItem getItem2(String section) {
-		return getItem2(section, Slot.MAIN_HAND);
+	public static CustomItem getItem(String section) {
+		return getItem(section, Slot.MAIN_HAND);
 	}
 	
-	public static CustomItem getItem2(String section, Slot slot) {
-		return CustomItem.createItem(config.getConfigurationSection(section), LoreTemplate.DWARF, slot);
+	public static CustomItem getItem(String section, Slot slot) {
+		return CustomItem.createItemStack(config.getConfigurationSection(section), LoreTemplate.DWARF, slot);
 	}
 	
 	
-	public static ItemStack createItem(String section) {
-		return createItem(section, Slot.MAIN_HAND);
+	public static ItemStack createItemStack(String section) {
+		return createItemStack(section, Slot.MAIN_HAND);
 	}
 	
-	public static ItemStack createItem(String sec, Slot slot) {
-		return getItem2(sec, slot).createItem();
+	public static ItemStack createItemStack(String sec, Slot slot) {
+		return getItem(sec, slot).createItemStack();
 	}
 	
 	
 	public static CustomItem getBow(String bow, int power) {
-		CustomItem item = getItem2("bow."+bow, Slot.MAIN_HAND);
+		CustomItem item = getItem("bow."+bow, Slot.MAIN_HAND);
 		item.addModifier(ItemModifierType.POWER, power);
 		return item;
 	}
@@ -77,7 +63,7 @@ public class DwarvenItems {
 				return true;
 		
 		for (ConsumableType consumableType : Consumable.droppableConsumables)
-			if (item.isSimilar(Consumable.getItem(consumableType)))
+			if (item.isSimilar(Consumable.getItemStack(consumableType)))
 				return true;
 		
 		return false;

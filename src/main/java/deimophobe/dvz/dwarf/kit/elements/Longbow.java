@@ -6,6 +6,7 @@ import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitCooldownElement;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
+import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
 import minecraft.spigot.community.michel_0.api.Slot;
@@ -32,14 +33,14 @@ class Longbow extends AbstractBow implements KitCooldownElement {
 		super(dwarf);
 	}
 	
-	private final static ItemStack ITEM = DwarvenItems.getItem("bow.longbow", Slot.MAIN_HAND);
-	@Override public ItemStack getItem() {
+	private final static int POWER = 60;
+	private final static CustomItem ITEM = DwarvenItems.getBow("longbow", POWER);
+	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public ItemStack getCooldownToggleItem() {return ITEM; }
-	@Override public KitGiveType getGiveType() { return KitGiveType.BOW; }
+	@Override public ItemStack getCooldownToggleItem() {return ITEM.createItemStack(); }
 	@Override public String getBowIdentifier() {return "LONGBOW";}
-	@Override public int getPower() {return 60;}
+	@Override public int getPower() {return POWER;}
 	
 	@Override
 	public double onSelfHit(GameEntity monster, DamageType type, double damage) {

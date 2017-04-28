@@ -2,6 +2,7 @@ package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
+import deimophobe.dvz.items.CustomItem;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
@@ -14,8 +15,8 @@ class Trinket extends AbstractAle {
 		super(dwarf, 200);
 	}
 	
-	private final static ItemStack ITEM = DwarvenItems.getItem("ale.trinket", Slot.MAIN_HAND);
-	@Override public ItemStack getItem() { return ITEM; }
+	private final static CustomItem ITEM = DwarvenItems.getItem("ale.trinket", Slot.MAIN_HAND);
+	@Override public CustomItem getItem() { return ITEM; }
 	
 	@Override
 	public void heal() {

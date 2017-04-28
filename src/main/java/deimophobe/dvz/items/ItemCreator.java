@@ -192,14 +192,14 @@ public class ItemCreator {
 	}
 	
 	/*
-	public static ItemStack createItem(ConfigurationSection itemConfig, String template) {
-		return createItem(itemConfig, template, Collections.emptyMap());
+	public static ItemStack createItemStack(ConfigurationSection itemConfig, String template) {
+		return createItemStack(itemConfig, template, Collections.emptyMap());
 	}
 	
-	public static ItemStack createItem(ConfigurationSection itemConfig, String template, Map<String, Object> parameters) {
+	public static ItemStack createItemStack(ConfigurationSection itemConfig, String template, Map<String, Object> parameters) {
 		// Get base item
 		String base = itemConfig.getString("base");
-		ItemStack item = BaseItemManager.createItem(base);
+		ItemStack item = BaseItemManager.createItemStack(base);
 		
 		// Get template
 		template = itemConfig.getString("template", template);

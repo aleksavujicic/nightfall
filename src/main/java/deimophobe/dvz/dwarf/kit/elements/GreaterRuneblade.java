@@ -8,17 +8,12 @@ import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.items.CustomItem;
-import deimophobe.dvz.items.modifiers.ItemModifierType;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.Collection;
-import java.util.Collections;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -30,12 +25,8 @@ class GreaterRuneblade extends AbstractCooldownItem {
 		super(dwarf, CD_TIME);
 	}
 	
-	private final static ItemStack ITEM;
-	static {
-		CustomItem item = DwarvenItems.getItem2("sword.grb2");
-		ITEM = item.createItem();
-	}
-	@Override public ItemStack getItem() {
+	private final static CustomItem ITEM = DwarvenItems.getItem("sword.grb");
+	@Override public CustomItem getItem() {
 		return ITEM;
 	}
 	@Override public KitGiveType getGiveType() {

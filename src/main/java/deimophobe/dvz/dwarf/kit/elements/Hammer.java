@@ -6,6 +6,7 @@ import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitCooldownElement;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
+import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
 import minecraft.spigot.community.michel_0.api.Slot;
@@ -20,8 +21,8 @@ class Hammer extends AbstractAOEHitter implements KitCooldownElement {
 		super(dwarf, 2);
 	}
 	
-	private final static ItemStack ITEM = DwarvenItems.getItem("sword.hammer", Slot.MAIN_HAND);
-	@Override public ItemStack getItem() {
+	private final static CustomItem ITEM = DwarvenItems.getItem("sword.hammer", Slot.MAIN_HAND);
+	@Override public CustomItem getItem() {
 		return ITEM;
 	}
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
@@ -62,7 +63,7 @@ class Hammer extends AbstractAOEHitter implements KitCooldownElement {
 	
 	@Override
 	public ItemStack getCooldownToggleItem() {
-		return getItem();
+		return getItem().createItemStack();
 	}
 	
 	@Override

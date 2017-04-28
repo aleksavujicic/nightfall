@@ -5,6 +5,7 @@ import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitCooldownElement;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
+import deimophobe.dvz.items.CustomItem;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -22,14 +23,14 @@ class Crossbow extends AbstractBow implements KitCooldownElement {
 		super(dwarf);
 	}
 	
-	private final static ItemStack ITEM = DwarvenItems.getItem("bow.crossbow", Slot.MAIN_HAND);
-	@Override public ItemStack getItem() {
+	private final static int POWER = 90;
+	private final static CustomItem ITEM = DwarvenItems.getBow("crossbow", POWER);
+	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public ItemStack getCooldownToggleItem() {return ITEM;}
-	@Override public KitGiveType getGiveType() { return KitGiveType.BOW; }
+	@Override public ItemStack getCooldownToggleItem() {return ITEM.createItemStack();}
 	@Override public String getBowIdentifier() {return "CROSSBOW";}
-	@Override public int getPower() {return 90;}
+	@Override public int getPower() {return POWER;}
 	
 	private int cooldown = 0;
 	private final static int MAX_COOLDOWN = 40;

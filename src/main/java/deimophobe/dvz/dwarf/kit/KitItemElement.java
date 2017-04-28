@@ -2,6 +2,7 @@ package deimophobe.dvz.dwarf.kit;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
+import deimophobe.dvz.items.CustomItem;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -14,7 +15,7 @@ public interface KitItemElement extends KitElement {
 	boolean onUse(Action action, Block clickedBlock, BlockFace blockFace);
 	void onBlockBreak(Block block);
 	
-	ItemStack getItem();
+	CustomItem getItem();
 	boolean matchesItem(ItemStack toMatch);
 	boolean isHoldingItem();
 	

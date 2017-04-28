@@ -6,8 +6,6 @@ import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
 import deimophobe.dvz.dwarf.Dwarf;
 
-import deimophobe.dvz.dwarf.kit.consumable.Consumable;
-import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
@@ -56,7 +54,7 @@ public class Kit {
 	public void giveItems(KitGiveType giveType) {
 		for (KitItemElement itemElement : itemElements) {
 			if (itemElement.getGiveType() == giveType)
-				dwarf.giveItem(itemElement.getItem());
+				dwarf.giveItem(itemElement.getItem().createItemStack());
 		}
 	}
 	

@@ -3,6 +3,7 @@ package deimophobe.dvz.dwarf.kit.elements;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
+import deimophobe.dvz.items.CustomItem;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.inventory.ItemStack;
 
@@ -15,11 +16,11 @@ class Shortbow extends AbstractBow {
 		super(dwarf);
 	}
 	
-	private final static ItemStack ITEM = DwarvenItems.getItem("bow.shortbow", Slot.MAIN_HAND);
-	@Override public ItemStack getItem() {
+	private final static int POWER = 30;
+	private final static CustomItem ITEM = DwarvenItems.getBow("shortbow", POWER);
+	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public KitGiveType getGiveType() { return KitGiveType.BOW; }
 	@Override public String getBowIdentifier() {return "SHORTBOW";}
-	@Override public int getPower() {return 30;}
+	@Override public int getPower() {return POWER;}
 }

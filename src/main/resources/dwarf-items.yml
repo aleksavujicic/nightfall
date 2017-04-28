@@ -1,22 +1,15 @@
 sword:
   drb:
-    material: shears
-    damage: 0
-    name: §bDwarven Runeblade
+    base: runeblade
+    name: Dwarven Runeblade
     lore:
-     - What a crappy
-     - weapon
-    attack: 15
+      description:
+       - "And another test."
+      flavour:
+       - "What a crappy weapon."
+    modifiers:
+      attack: 15
   grb:
-    material: shears
-    damage: 0
-    name: §bGreater Runeblade
-    lore:
-     - §9The mighty weapon thats said
-     - §9to send dwarves into a flurry of
-     - §asparkles§9.
-    attack: 15
-  grb2:
     base: runeblade
     name: Greater Runeblade
     lore:
@@ -29,288 +22,381 @@ sword:
           dwarves into a fury of &bsparkles&r."
     modifiers:
       attack: 15
-      speed: 30
-
   axe:
-    material: shears
-    damage: 1
-    name: §bAxe of Malice
+    base: malice
+    name: Axe of Malice
     lore:
-     - §d"Be careful with those ones
-     - §djimmy, they've gone §cmad§d."
-    attack: 20
+      description:
+       - "Temp"
+      flavour:
+       - "Be careful with those ones jimmy, they've\n
+          gone &cmad&r."
+    modifiers:
+      attack: 20
   dagger:
-    material: shears
-    damage: 2
-    name: §bElven Dagger
+    base: dagger
+    name: Elven Dagger
     lore:
-     - §aForged with the §2worst of poisons§a
-     - §aand given to only the quickest of
-     - §efoot§a and §bmind§a.
-    attack: 15
-    speed: 30
+      description:
+       - "Temp"
+      flavour:
+       - "Forged with the &2worst of poisons&r and given\n
+          to only the quickest of &efoot&r and &bmind&r."
+    modifiers:
+      attack: 15
+      speed: 30
   hammer:
-    material: shield
-    damage: 1
-    name: §bWarhammer
+    base: hammer
+    name: Warhammer
     lore:
-     - §6"Take this and battle alongside
-     - §6me for all that's right, for the
-     - §e§olight§r§6!" §4- Tui
-    attack: 10
+      description:
+       - "Temp"
+      flavour:
+       - "\"Take this and battle alongside me for all\n
+          that's right, for the &e&olight&r!\" - &4Tui"
+    modifiers:
+      attack: 10
   tombmaker:
-    material: diamond_spade
-    name: §bTombmaker
+    base: tombmaker
+    name: Tombmaker
     lore:
-     - §3Entrusted with the toughest
-     - §3task of all, burying the fallen.
-     - §9Why not let them fight?
-    attack: 8
+      description:
+       - "Temp"
+      flavour:
+       - "Entrusted with the toughest task of all,\n
+          burying the fallen. &9Why not let them fight?"
+    modifiers:
+      attack: 8
   tigerfist:
-    material: shield
-    damage: 3
-    name: "&bTiger Fist"
+    base: tiger_fist
+    name: Tiger Fist
     lore:
-      - "LoreTemplate"
-    attack: 20
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+    modifiers:
+      attack: 20
 
 bow:
   shortbow:
     material: bow
-    name: "&4Shortbow"
+    name: Shortbow
     lore:
-     - §cEntrusted with the toughest
-     - §ctask of all, burying the fallen.
-     - §cWhy not let them fight?
-     - ""
-     - "&cAttack: 10"
-     - "&e +3"
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   dragonskin:
     material: bow
     name: Dragonskin Bow
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   longbow:
     material: bow
     name: Longbow
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   crossbow:
-    material: shears
-    damage: 25
+    base: crossbow
     name: Crossbow
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   lightbow:
-    material: bow
-    damage: 5
+    base: lightbow
     name: Lightbow
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   ebow:
-    material: bow
-    damage: 3
+    base: ebow
     name: Emerald Bow
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   warpweaver:
-    material: bow
-    damage: 6
+    base: warpbow
     name: Warpweaver Bow
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
 ale:
   healing:
-    material: potion
+    base: healing_ale
     name: Healing Ale
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   jj:
-    material: potion
+    base: jimmyjuice
     name: Jimmy Juice
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   holy:
-    material: potion
+    base: holy_ale
     name: Holy Ale
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   trinket:
-    material: shears
-    damage: 30
+    base: trinket
     name: Star Trinket
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   regrowth:
-    material: shears
-    damage: 31
+    base: regrowth
     name: Regrowth Star
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
 
 consumable:
   lamp:
-    material: ink_sack
-    damage: 0
+    base: lamp
     name: Enchanted Lamp
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   slab:
-    material: ink_sack
-    damage: 1
+    base: slab
     name: EZ Fix Slab
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   sos:
-    material: ink_sack
-    damage: 2
+    base: sos
     name: Sword of Santification
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   wrench:
-    material: ink_sack
-    damage: 3
+    base: wrench
     name: Wrench
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   mortar:
-    material: ink_sack
-    damage: 4
+    base: mortar
     name: Mortar
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   wizardmortar:
-    material: ink_sack
-    damage: 5
+    base: wiz_mortar
     name: Wizard Mortar
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   armouritem:
-    material: ink_sack
-    damage: 6
+    base: armour_item
     name: Dwarven Armour
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   healstation:
-    material: ink_sack
-    damage: 7
+    base: star_bottle
     name: Healing Station
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
 
   log:
-    material: ink_sack
-    damage: 12
+    base: wood
     name: Wooden Log
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   plank:
-    material: ink_sack
-    damage: 13
+    base: plank
     name: Wooden Plank
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   stick:
-    #material: ink_sack
-    #damage: 14
     material: stick
-    name: §bStick
+    name: Stick
     lore:
-     - A stick - what else would it be?
+      description:
+       - "Temp"
+      flavour:
+       - "A stick - what else would it be?"
   bowl:
-    material: ink_sack
-    damage: 15
+    base: bowl
     name: Wooden Bowl
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
 
   torch:
     material: torch
     name: Torch
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   cobble:
     material: cobblestone
     name: Cobblestone
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
 
 misc:
   pick:
     material: iron_pickaxe
-    damage: 70
     name: Dwarven Pickaxe
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   axe:
     material: iron_axe
-    damage: 71
     name: Dwarven Axe
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   shovel:
     material: iron_spade
-    damage: 72
     name: Dwarven Shovel
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
 
   arrow:
     material: arrow
     name: Arrow
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   wildfirefuel:
-    material: shears
-    damage: 41
-    name: Fuel
+    base: wildfire_fuel
+    name: Wildfire Fuel
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
 
   compass:
     material: compass
     name: "&6&lTHE MIGHTY DWARVEN COMPASS"
     lore:
-     - "&dUsed by only the greatest of dwarven"
-     - "&dwarriors."
+      description:
+       - "Temp"
+      flavour:
+       - "&dUsed by only the greatest of warriors."
 
 
 hero:
   tuihammer:
-    material: shield
-    damage: 2
-    name: "&6Kindled Light"
+    template: dwarf-hero
+    base: tui_hammer
+    name: Kindled Light
     lore:
-     - "&eRank 11? Psssh, that’s nothing. When"
-     - "&eyou’ve lived your whole life with the"
-     - "&eflames, the holy light is all you see."
-     - "&eI’ve bathed in embers, emerged victorious"
-     - "&efrom scorching coals. This hammer’s been"
-     - "&ewith me through it all."
-    attack: 15
-    kbresist: true
-
-  tinderflame:
-    material: shears
-    damage: 46
-    name: "&6Not Tinderflame"
-    lore:
-     - "&eTotes not a tinderflame."
-    attack: 20
+      description:
+       - "Temp"
+      flavour:
+       - "Rank 11? Psssh, that’s nothing. When you’ve lived your whole\n
+          life with the flames, the holy light is all you see. I’ve bathed\n
+          in embers, emerged victorious from scorching coals. This\n
+          hammer’s been with me through it all."
+    modifiers:
+      attack: 25
+      kb_resist: 1
 
   wildfire:
-    material: shears
-    damage: 40
-    name: "&6Wildfire"
+    template: dwarf-hero
+    base: wildfire
+    name: Wildfire
     lore:
-     - "&ePurifier lore text"
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+
+  tinderflame:
+    template: dwarf-hero
+    base: tinderflame
+    name: Not Tinderflame
+    lore:
+      description:
+       - "Temp"
+      flavour:
+       - "Totes not a tinderflame."
+    modifiers:
+      attack: 20
+
   wand:
-    material: shears
-    damage: 45
-    name: "&6Wand of No Particular Reference"
+    template: dwarf-hero
+    base: magic_wand
+    name: Wand of No Particular Reference
     lore:
-     - "&dWOOORRMMMMHOOOLEEEE"
-    kbresist: true
+      description:
+       - "Temp"
+      flavour:
+       - "WOOORRMMMMHOOOLEEEE"
+    modifiers:
+      attack: 5
+      kb_resist: 1
 
 
 # To get format codes:

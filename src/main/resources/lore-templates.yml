@@ -3,8 +3,8 @@ dwarf:
 
   lore:
     - ""
-    - "${flavour}"
     - "${description}"
+    - "${flavour}"
 
   prefix:
     flavour: "&a"
@@ -21,17 +21,17 @@ dwarf-hero:
 
   lore:
     - ""
-    - "${flavour}"
     - "${description}"
+    - "${flavour}"
 
   prefix:
-    flavour: "&6"
-    description: "&6"
+    flavour: "&e"
+    description: "&9"
 
   modifiers:
-    name: "&6"
-    value: "&6"
-    reason: "&6"
+    name: "&3"
+    value: "&b"
+    reason: "&d"
 
 
 loadout:
@@ -41,8 +41,8 @@ loadout:
     - "&d&lLoadout costs $cost points"
     - "&1&l$category"
     - ""
-    - "${flavour}"
     - "${description}"
+    - "${flavour}"
 
   prefix:
     flavour: "&a"

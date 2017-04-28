@@ -8,6 +8,7 @@ import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitCooldownElement;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
+import deimophobe.dvz.items.CustomItem;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
@@ -23,14 +24,14 @@ class TigerFist extends AbstractItem implements KitCooldownElement {
 	TigerFist(Dwarf dwarf) {
 		super(dwarf);
 	}
-	private final static ItemStack ITEM = DwarvenItems.getItem("sword.tigerfist", Slot.MAIN_HAND);
-	@Override public ItemStack getItem() {
+	private final static CustomItem ITEM = DwarvenItems.getItem("sword.tigerfist", Slot.MAIN_HAND);
+	@Override public CustomItem getItem() {
 		return ITEM;
 	}
 	@Override public KitGiveType getGiveType() {
 		return KitGiveType.SWORD;
 	}
-	@Override public ItemStack getCooldownToggleItem() { return ITEM; }
+	@Override public ItemStack getCooldownToggleItem() { return ITEM.createItemStack(); }
 	
 	private Status status = Status.IDLE;
 	

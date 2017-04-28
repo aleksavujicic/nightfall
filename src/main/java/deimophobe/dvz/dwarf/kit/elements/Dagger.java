@@ -6,6 +6,7 @@ import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
+import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import minecraft.spigot.community.michel_0.api.Slot;
@@ -27,8 +28,8 @@ class Dagger extends AbstractCooldownItem {
 	}
 	
 	
-	private final static ItemStack ITEM = DwarvenItems.getItem("sword.dagger", Slot.MAIN_HAND);
-	@Override public ItemStack getItem() {
+	private final static CustomItem ITEM = DwarvenItems.getItem("sword.dagger", Slot.MAIN_HAND);
+	@Override public CustomItem getItem() {
 		return ITEM;
 	}
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }

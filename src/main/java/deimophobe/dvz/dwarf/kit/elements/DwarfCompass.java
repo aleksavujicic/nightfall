@@ -4,6 +4,7 @@ import deimophobe.dvz.Game;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
+import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.shrine.CompassLocation;
 import deimophobe.dvz.shrine.ShrineManager;
 import minecraft.spigot.community.michel_0.api.Slot;
@@ -22,8 +23,8 @@ import java.util.List;
 class DwarfCompass extends AbstractItem {
 	DwarfCompass(Dwarf dwarf) {super(dwarf);}
 	
-	private final static ItemStack ITEM = DwarvenItems.getItem("misc.compass", Slot.MAIN_HAND);
-	@Override public ItemStack getItem() { return ITEM; }
+	private final static CustomItem ITEM = DwarvenItems.getItem("misc.compass", Slot.MAIN_HAND);
+	@Override public CustomItem getItem() { return ITEM; }
 	@Override public KitGiveType getGiveType() {return KitGiveType.START;}
 	
 	private int nextIndex = 0;

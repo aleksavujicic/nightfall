@@ -6,6 +6,7 @@ import deimophobe.dvz.blocks.timedblock.LampBlock;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
+import deimophobe.dvz.items.CustomItem;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Projectile;
@@ -20,13 +21,13 @@ class Lightbow extends AbstractBow {
 		dwarf.makeBlindImmune();
 	}
 	
-	private final static ItemStack ITEM = DwarvenItems.getItem("bow.lightbow", Slot.MAIN_HAND);
-	@Override public ItemStack getItem() {
+	private final static int POWER = 30;
+	private final static CustomItem ITEM = DwarvenItems.getBow("lightbow", POWER);
+	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public KitGiveType getGiveType() { return KitGiveType.BOW; }
 	@Override public String getBowIdentifier() {return "LIGHTBOW";}
-	@Override public int getPower() {return 30;}
+	@Override public int getPower() {return POWER;}
 	
 	@Override
 	public void onProjectileLand(Projectile arrow, Block hitBlock) {

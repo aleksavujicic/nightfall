@@ -36,7 +36,7 @@ public abstract class AbstractCooldownItem extends AbstractCooldown implements K
 	@Override
 	public boolean matchesItem(ItemStack toMatch) {
 		if (toMatch == null) return false;
-		return toMatch.isSimilar(getItem());
+		return getItem().isSimilar(toMatch);
 	}
 	
 	@Override
@@ -46,7 +46,7 @@ public abstract class AbstractCooldownItem extends AbstractCooldown implements K
 	
 	@Override
 	public ItemStack getCooldownToggleItem() {
-		return getItem();
+		return getItem().createItemStack();
 	}
 	
 	

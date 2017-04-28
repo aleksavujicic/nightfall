@@ -6,6 +6,7 @@ import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
+import deimophobe.dvz.items.CustomItem;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -21,13 +22,11 @@ class AxeOfMalice extends AbstractCooldownItem {
 		super(dwarf, 1200);
 	}
 	
-	private final static ItemStack ITEM = DwarvenItems.getItem("sword.axe", Slot.MAIN_HAND);
-	@Override
-	public ItemStack getItem() {
+	private final static CustomItem ITEM = DwarvenItems.getItem("sword.axe", Slot.MAIN_HAND);
+	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override
-	public KitGiveType getGiveType() { return KitGiveType.SWORD; }
+	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 	
 	
 	@Override

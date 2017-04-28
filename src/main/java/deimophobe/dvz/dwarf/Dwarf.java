@@ -211,7 +211,7 @@ public class Dwarf extends GamePlayer {
 	
 	// ------ ARROWS ------
 	private int maxArrows = 20;
-	private final static ItemStack arrow = DwarvenItems.getItem("misc.arrow");
+	private final static ItemStack arrow = DwarvenItems.createItemStack("misc.arrow");
 	
 	public void setMaxArrows(int max) {
 		maxArrows = max;
@@ -257,7 +257,7 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	public void giveConsumable(ConsumableType type, int quantity) {
-		ItemStack item = Consumable.getItem(type);
+		ItemStack item = Consumable.getItemStack(type);
 		giveItem(item, quantity);
 	}
 	
@@ -425,7 +425,7 @@ public class Dwarf extends GamePlayer {
 	// ------ EVENTS ------
 	@Override
 	public void updateHotbarSlot(ItemStack heldItem, int slot) {
-		holdingLightItem = (Consumable.getItem(ConsumableType.TORCH).isSimilar(heldItem) || Consumable.getItem(ConsumableType.LAMP).isSimilar(heldItem));
+		holdingLightItem = (Consumable.getItemStack(ConsumableType.TORCH).isSimilar(heldItem) || Consumable.getItemStack(ConsumableType.LAMP).isSimilar(heldItem));
 		updateVisibility();
 		
 		kit.updateHotbarSlot(heldItem);
@@ -441,7 +441,7 @@ public class Dwarf extends GamePlayer {
 		if (newDam != -1)
 			damage = newDam;
 		
-		if (type.isProccable() && hasProc()) {// && !getHeldItem().isSimilar(Sword.getItem(SwordType.HAMMER))) {
+		if (type.isProccable() && hasProc()) {// && !getHeldItem().isSimilar(Sword.getItemStack(SwordType.HAMMER))) {
 			if (monster instanceof MonsterPlayer) {
 				if (((MonsterPlayer) monster).getMob().isProccable()) {
 					return 10000;

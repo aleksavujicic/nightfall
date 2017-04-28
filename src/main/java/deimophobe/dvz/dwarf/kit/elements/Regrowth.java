@@ -4,6 +4,7 @@ import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.DwarvenItems;
+import deimophobe.dvz.items.CustomItem;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -22,8 +23,8 @@ class Regrowth extends AbstractAle {
 		super(dwarf, 100);
 	}
 	
-	private final static ItemStack ITEM = DwarvenItems.getItem("ale.regrowth", Slot.MAIN_HAND);
-	@Override public ItemStack getItem() { return ITEM; }
+	private final static CustomItem ITEM = DwarvenItems.getItem("ale.regrowth", Slot.MAIN_HAND);
+	@Override public CustomItem getItem() { return ITEM; }
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {

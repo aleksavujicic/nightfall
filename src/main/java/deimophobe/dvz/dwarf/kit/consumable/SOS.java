@@ -12,7 +12,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
@@ -109,7 +108,7 @@ class SOS extends Consumable {
 	private ArmorStand summonSword(Location loc) {
 		ArmorStand stand = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
 		
-		stand.setHelmet(getItem());
+		stand.setHelmet(getItemStack());
 		stand.setHeadPose(new EulerAngle(Math.PI, Math.random() * Math.PI * 2, 0));
 		stand.setVisible(false);
 		stand.setBasePlate(false);

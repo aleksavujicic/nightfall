@@ -2,6 +2,7 @@ package deimophobe.dvz.dwarf.kit.consumable;
 
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
+import deimophobe.dvz.items.CustomItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -17,9 +18,9 @@ import java.util.Map;
  */
 public abstract class Consumable {
 	
-	private final ItemStack item;
-	public ItemStack getItem() {
-		return item;
+	private final CustomItem item;
+	public ItemStack getItemStack() {
+		return item.createItemStack();
 	}
 	public boolean matchesItem(ItemStack toMatch) {
 		return item.isSimilar(toMatch);
@@ -63,9 +64,9 @@ public abstract class Consumable {
 		consumableMap.put(ConsumableType.COBBLESTONE, new DummyConsumable("cobble"));
 	}
 	
-	public static ItemStack getItem(ConsumableType type) {
+	public static ItemStack getItemStack(ConsumableType type) {
 		if (type != null)
-			return consumableMap.get(type).getItem();
+			return consumableMap.get(type).getItemStack();
 		return null;
 	}
 	

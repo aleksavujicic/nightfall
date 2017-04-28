@@ -37,7 +37,7 @@ abstract class AbstractItem extends AbstractElement implements KitItemElement {
 	@Override
 	public boolean matchesItem(ItemStack toMatch) {
 		if (toMatch == null) return false;
-		return toMatch.isSimilar(getItem());
+		return getItem().isSimilar(toMatch);
 	}
 	
 	@Override

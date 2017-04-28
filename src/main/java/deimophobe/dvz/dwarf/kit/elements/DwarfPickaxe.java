@@ -7,6 +7,7 @@ import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.effects.GameEffect;
+import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -27,8 +28,8 @@ class DwarfPickaxe extends AbstractCooldownItem {
 		super(dwarf, 20);
 	}
 	
-	private static final ItemStack ITEM = DwarvenItems.getItem("misc.pick");
-	@Override public ItemStack getItem() {return ITEM;}
+	private static final CustomItem ITEM = DwarvenItems.getItem("misc.pick");
+	@Override public CustomItem getItem() {return ITEM;}
 	@Override public KitGiveType getGiveType() { return KitGiveType.PICK; }
 	
 	

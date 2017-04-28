@@ -5,6 +5,7 @@ import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
+import deimophobe.dvz.items.CustomItem;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.inventory.ItemStack;
 
@@ -17,13 +18,14 @@ class Dragonskin extends AbstractBow {
 		super(dwarf);
 	}
 	
-	private final static ItemStack ITEM = DwarvenItems.getItem("bow.dragonskin", Slot.MAIN_HAND);
-	@Override public ItemStack getItem() {
+	private final static int POWER = 40;
+	private final static CustomItem ITEM = DwarvenItems.getBow("dragonskin", POWER);
+	@Override public CustomItem getItem() {
 		return ITEM;
 	}
 	@Override public KitGiveType getGiveType() { return KitGiveType.BOW; }
 	@Override public String getBowIdentifier() {return "DRAGONSKIN";}
-	@Override public int getPower() {return 40;}
+	@Override public int getPower() {return POWER;}
 	
 	@Override
 	public void onSelfKill(GameEntity monster, DamageType type) {

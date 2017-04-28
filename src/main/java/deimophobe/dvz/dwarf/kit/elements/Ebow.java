@@ -12,6 +12,7 @@ import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
+import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.monster.MonsterManager;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.*;
@@ -27,13 +28,14 @@ class Ebow extends AbstractBow {
 		super(dwarf);
 	}
 	
-	private final static ItemStack ITEM = DwarvenItems.getItem("bow.ebow", Slot.MAIN_HAND);
-	@Override public ItemStack getItem() {
+	private final static int POWER = 10;
+	private final static CustomItem ITEM = DwarvenItems.getBow("ebow", POWER);
+	@Override public CustomItem getItem() {
 		return ITEM;
 	}
 	@Override public KitGiveType getGiveType() { return KitGiveType.BOW; }
 	@Override public String getBowIdentifier() {return "EBOW";}
-	@Override public int getPower() {return 10;}
+	@Override public int getPower() {return POWER;}
 	
 	private static final double MAX_RANGE = 15;
 	private static final double THICKNESS = 1.5;

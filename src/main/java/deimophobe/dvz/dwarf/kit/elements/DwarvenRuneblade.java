@@ -3,6 +3,7 @@ package deimophobe.dvz.dwarf.kit.elements;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
+import deimophobe.dvz.items.CustomItem;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -14,7 +15,7 @@ class DwarvenRuneblade extends AbstractItem {
 		super(dwarf);
 	}
 	
-	private static final ItemStack ITEM = DwarvenItems.getItem("sword.drb");
-	@Override public ItemStack getItem() {return ITEM;}
+	private static final CustomItem ITEM = DwarvenItems.getItem("sword.drb");
+	@Override public CustomItem getItem() {return ITEM;}
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 }

@@ -1,6 +1,5 @@
 package deimophobe.dvz.items;
 
-import com.google.common.collect.ImmutableList;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.items.base.BaseItem;
 import deimophobe.dvz.items.base.SimpleBaseItem;
@@ -65,7 +64,7 @@ public class CustomItem implements Cloneable {
 		modifierGroup.add(new ItemModifier(value, reason));
 	}
 	
-	public ItemStack createItem() {
+	public ItemStack createItemStack() {
 		
 		// Create item
 		ItemStack item = base.createItem();
@@ -108,11 +107,13 @@ public class CustomItem implements Cloneable {
 	
 	
 	// ------ STATIC FACTORY METHODS ------
-	public static CustomItem createItem(ConfigurationSection itemConfig, String baseTemplate, Slot slot) {
-		return createItem(itemConfig, LoreTemplate.getLoreTemplate(baseTemplate), slot);
+	public static CustomItem createItemStack(ConfigurationSection itemConfig, String baseTemplate, Slot slot) {
+		return createItemStack(itemConfig, LoreTemplate.getLoreTemplate(baseTemplate), slot);
 	}
 	
-	public static CustomItem createItem(ConfigurationSection itemConfig, LoreTemplate baseTemplate, Slot slot) {
+	public static CustomItem createItemStack(ConfigurationSection itemConfig, LoreTemplate baseTemplate, Slot slot) {
+		if (itemConfig == null)
+			throw new NullPointerException("Item config must not be null.");
 		if (baseTemplate == null)
 			throw new NullPointerException("Base template for item '" + itemConfig.getCurrentPath()  + "' must not be null.");
 		
@@ -156,9 +157,11 @@ public class CustomItem implements Cloneable {
 		Map<String, String> loreSections = new HashMap<>();
 		if (itemConfig.contains("lore")) {
 			ConfigurationSection sectionConfig = itemConfig.getConfigurationSection("lore");
-			for (String key : sectionConfig.getKeys(false)) {
-				List<String> possibleLoreSec = sectionConfig.getStringList(key);
-				loreSections.put(key, Misc.getRandom(possibleLoreSec));
+			if (sectionConfig != null) {
+				for (String key : sectionConfig.getKeys(false)) {
+					List<String> possibleLoreSec = sectionConfig.getStringList(key);
+					loreSections.put(key, Misc.getRandom(possibleLoreSec));
+				}
 			}
 		}
 		Collections.unmodifiableList(errors);
