@@ -77,7 +77,7 @@ public class LoreTemplate {
 			Set<ItemModifier> modifierGroup = entry.getValue();
 			
 			// Get attribute name
-			String name = WordUtils.capitalizeFully(type.toString());
+			String name = type.getName();
 			
 			// Get the net value of attribute
 			int total = 0;

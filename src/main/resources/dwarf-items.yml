@@ -21,11 +21,12 @@ sword:
     name: Greater Runeblade
     lore:
       description:
-       "Some description &dof&r sorts.\n
-        This is also a maven test."
+       - "Some description &dof&r sorts. This is\n
+          also a maven test."
+       - "And another test."
       flavour:
-       "The mighty weapon thats said to\n
-        send dwarves into a fury of &bsparkles&r."
+       - "The mighty weapon thats said to send\n
+          dwarves into a fury of &bsparkles&r."
     modifiers:
       attack: 15
       speed: 30

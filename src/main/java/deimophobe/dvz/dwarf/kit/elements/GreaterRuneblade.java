@@ -32,13 +32,7 @@ class GreaterRuneblade extends AbstractCooldownItem {
 	
 	private final static ItemStack ITEM;
 	static {
-		CustomItem item = DwarvenItems.getItem("sword.grb2", Collections.singletonMap("test", "this is a test"));
-		item.addModifier(ItemModifierType.ATTACK, 10, "This is a test");
-		item.addModifier(ItemModifierType.SPEED, 10, "Also a test");
-		item.addModifier(ItemModifierType.SPEED, -100, "Bad a test");
-		item.addModifier(ItemModifierType.KB_RESIST, 1);
-		item.addModifier(ItemModifierType.HEALTH, 5, "HEARTS");
-		item.addModifier(ItemModifierType.HEALTH, 20, "MOAR HEARTS");
+		CustomItem item = DwarvenItems.getItem2("sword.grb2");
 		ITEM = item.createItem();
 	}
 	@Override public ItemStack getItem() {
@@ -91,4 +85,11 @@ class GreaterRuneblade extends AbstractCooldownItem {
 			}
 		}.runTaskLater(Game.getGame().getPlugin(), 5);
 	}
+	
+	@Override
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		reduceCooldown();
+		
+	}
+	
 }

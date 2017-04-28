@@ -1,6 +1,7 @@
 package deimophobe.dvz.items;
 
 import com.google.common.collect.ImmutableList;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.items.base.BaseItem;
 import deimophobe.dvz.items.base.SimpleBaseItem;
 import deimophobe.dvz.items.base.BaseItemManager;
@@ -156,7 +157,8 @@ public class CustomItem implements Cloneable {
 		if (itemConfig.contains("lore")) {
 			ConfigurationSection sectionConfig = itemConfig.getConfigurationSection("lore");
 			for (String key : sectionConfig.getKeys(false)) {
-				loreSections.put(key, sectionConfig.getString(key));
+				List<String> possibleLoreSec = sectionConfig.getStringList(key);
+				loreSections.put(key, Misc.getRandom(possibleLoreSec));
 			}
 		}
 		Collections.unmodifiableList(errors);

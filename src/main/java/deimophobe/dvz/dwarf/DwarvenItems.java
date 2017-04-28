@@ -6,6 +6,7 @@ import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.kit.consumable.Consumable;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.items.lore.LoreTemplate;
+import deimophobe.dvz.items.modifiers.ItemModifierType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.inventory.ItemStack;
@@ -41,13 +42,30 @@ public class DwarvenItems {
 	}
 	
 	
+	
+	
+	
 	public static CustomItem getItem2(String section) {
-		return CustomItem.createItem(config.getConfigurationSection(section), LoreTemplate.DWARF, Slot.MAIN_HAND);
+		return getItem2(section, Slot.MAIN_HAND);
 	}
 	
-	public static CustomItem getItem(String section, Map<String, String> variables) {
-		CustomItem item = CustomItem.createItem(config.getConfigurationSection(section), LoreTemplate.DWARF, Slot.MAIN_HAND);
-		item.applyVariables(variables);
+	public static CustomItem getItem2(String section, Slot slot) {
+		return CustomItem.createItem(config.getConfigurationSection(section), LoreTemplate.DWARF, slot);
+	}
+	
+	
+	public static ItemStack createItem(String section) {
+		return createItem(section, Slot.MAIN_HAND);
+	}
+	
+	public static ItemStack createItem(String sec, Slot slot) {
+		return getItem2(sec, slot).createItem();
+	}
+	
+	
+	public static CustomItem getBow(String bow, int power) {
+		CustomItem item = getItem2("bow."+bow, Slot.MAIN_HAND);
+		item.addModifier(ItemModifierType.POWER, power);
 		return item;
 	}
 	
