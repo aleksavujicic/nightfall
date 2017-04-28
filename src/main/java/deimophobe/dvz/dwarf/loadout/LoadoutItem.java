@@ -97,6 +97,8 @@ class LoadoutItem implements MenuItem<Player> {
 	
 	private final static Map<String, LoadoutItem> items = new HashMap<>();
 	private static void registerItem(LoadoutItem item) {
+		if (items.containsKey(item.id))
+			throw new IllegalArgumentException("Cannot register loadout item '" + item.id + "'. There already exists an item with same name.");
 		items.put(item.id, item);
 	}
 	public static LoadoutItem getItem(String id) {

@@ -170,10 +170,7 @@ public class Loadout {
 		for (String string : stringList) {
 			LoadoutItem item = LoadoutItem.getItem(string);
 			if (item != null) {
-				loadout.items.add(item);
-				Category cat = item.getCategory();
-				if (cat != null)
-					loadout.categoryItems.put(cat, item);
+				loadout.selectItem(item);
 			}
 		}
 		return loadout;

@@ -1,5 +1,5 @@
 page0:
-  warrior:
+  warrior-class:
     index: 0
     cost: 64
     category: kit
@@ -19,7 +19,7 @@ page0:
       name: "Warrior Kit"
       material: diamond_hoe
 
-  ranger:
+  ranger-class:
     index: 1
     cost: 64
     category: kit
@@ -41,7 +41,7 @@ page0:
       name: "Ranger Kit"
       material: diamond_hoe
 
-  paladin:
+  paladin-class:
     index: 2
     cost: 64
     category: kit
@@ -62,7 +62,7 @@ page0:
       name: "Paladin Kit"
       material: diamond_hoe
 
-  beserker:
+  beserker-class:
     index: 3
     cost: 64
     category: kit
@@ -83,7 +83,7 @@ page0:
       name: "Beserker Kit"
       material: diamond_hoe
 
-  cleric:
+  cleric-class:
     index: 4
     cost: 64
     category: kit
@@ -104,7 +104,7 @@ page0:
       name: "Cleric Kit"
       material: diamond_hoe
 
-  hunter:
+  hunter-class:
     index: 5
     cost: 64
     category: kit
