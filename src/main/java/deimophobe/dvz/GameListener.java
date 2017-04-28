@@ -494,6 +494,9 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void preventInvClicking(InventoryClickEvent event) {
+		if (event.isShiftClick() && event.getCurrentItem().getType() == Material.SHIELD)
+			event.setCancelled(true);
+		
 		InventoryHolder holder = event.getInventory().getHolder();
 		if (holder instanceof Player) {
 			if (game.isPlayer((Player) holder) && (event.getSlot() == 40 || event.getSlotType() == InventoryType.SlotType.ARMOR)) {

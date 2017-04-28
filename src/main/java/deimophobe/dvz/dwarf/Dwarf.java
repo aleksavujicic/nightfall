@@ -211,7 +211,6 @@ public class Dwarf extends GamePlayer {
 	
 	// ------ ARROWS ------
 	private int maxArrows = 20;
-	private final static ItemStack arrow = DwarvenItems.createItemStack("misc.arrow");
 	
 	public void setMaxArrows(int max) {
 		maxArrows = max;
@@ -242,6 +241,7 @@ public class Dwarf extends GamePlayer {
 			arrows.setAmount(currAmt - amt);
 		}
 	}
+	private final static ItemStack arrow = DwarvenItems.createItemStack("misc.arrow");
 	protected ItemStack getArrow() {
 		return arrow;
 	}
