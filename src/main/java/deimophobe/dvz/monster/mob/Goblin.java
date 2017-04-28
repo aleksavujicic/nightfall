@@ -46,13 +46,13 @@ class Goblin extends AbstractTypedMob {
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isRightClick(action) && isPlayerHoldingItem(1) && placeBoxCD == 0 && clickedBlock != null) {
+		if (Misc.isRightClick(action) && isPlayerHoldingItem("gobo-box") && placeBoxCD == 0 && clickedBlock != null) {
 			Block block = clickedBlock.getRelative(blockFace);
 			TimedBlock.placeTimedBlock(new GoboBox(block, 50, 5));
 			monster.useHeldItem();
 			placeBoxCD = MAX_PLACE_CD;
 		}
-		if (Misc.isLeftClick(action) && isPlayerHoldingItem(2) && kaboomCD == 0) {
+		if (Misc.isLeftClick(action) && isPlayerHoldingItem("kaboom") && kaboomCD == 0) {
 			monster.sendMessage("KAAAAAAAA");
 			monster.givePotionEffect(PotionEffectType.SPEED, MAX_KABOOM_CD, 3, true, true, true);
 			kaboomCD = 1;

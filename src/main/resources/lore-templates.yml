@@ -52,3 +52,38 @@ loadout:
     name: "&3"
     value: "&b"
     reason: "&d"
+
+
+monster:
+  nameprefix: "&4"
+
+  lore:
+    - ""
+    - "${flavour}"
+    - "${description}"
+
+  prefix:
+    flavour: "&7"
+    description: "&c"
+
+  modifiers:
+    name: "&4"
+    value: "&c"
+    reason: "&2"
+
+monster-hero:
+  nameprefix: "&c"
+
+  lore:
+    - ""
+    - "${flavour}"
+    - "${description}"
+
+  prefix:
+    flavour: "&8"
+    description: "&6"
+
+  modifiers:
+    name: "&4"
+    value: "&c"
+    reason: "&2"

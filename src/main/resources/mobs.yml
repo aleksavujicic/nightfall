@@ -9,14 +9,19 @@ zombie:
     material: rotten_flesh
     name: Tough Flesh
     lore:
-     - §dSome lore
-     - and more lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
     bound: true
   weapon:
     material: wood_pickaxe
     name: Makeshift Pick
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
 
 gobo:
   title: Goblin
@@ -29,27 +34,37 @@ gobo:
     material: sulphur
     name: Explosive Flesh
     lore:
-     - §dSome lore
-     - and more lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
     bound: true
   weapon:
     material: wood_pickaxe
     name: Gobo Pick
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   items:
-    item1:
-      material: ink_sack
+    gobo-box:
+      base: gobo_box
       damage: 8
       name: Gobo Box
       lore:
-       - Some lore
-      quantity: 10
-    item2:
-      material: sulphur
+        description:
+         - "Temp"
+        flavour:
+         - "Temp"
+    kaboom:
+      base: kaboom
       name: KABOOM
       lore:
-       - Some lore
+        description:
+         - "Temp"
+        flavour:
+         - "Temp"
 
 
 flamelancer:
@@ -57,7 +72,8 @@ flamelancer:
 
   disguisetype: skeleton
 
-  speed: 10
+  attack: 0
+  speed: 50
 
   arrowres: 0.5
   shred: 5
@@ -66,22 +82,28 @@ flamelancer:
     material: fireball
     name: Tough Flesh
     lore:
-     - §dSome lore
-     - and more lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
     bound: true
   weapon:
-    material: bow
-    damage: 4
+    base: flame_bow
     name: Nether Tooth Bow
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   items:
-    item2:
+    arrow:
       material: arrow
       name: Skeletal Arrow
       lore:
-       - Some lore
-      quantity: 64
+        description:
+         - "Temp"
+        flavour:
+         - "Temp"
 
 
 witherskele:
@@ -90,6 +112,7 @@ witherskele:
   disguisetype: wither_skeleton
 
   health: 25
+  attack: 0
 
   arrowres: 0.5
   shred: 5
@@ -98,28 +121,28 @@ witherskele:
     material: soul_sand
     name: Tough Flesh
     lore:
-     - §dSome lore
-     - and more lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
     bound: true
   weapon:
-    material: bow
-    damage: 2
+    base: wither_bow
     name: Nether Tooth Bow
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   items:
-    item2:
+    arrow:
       material: arrow
       name: Skeletal Arrow
       lore:
-       - Some lore
-      quantity: 64
-    item3:
-      material: arrow
-      name: Skeletal Arrow
-      lore:
-       - Some lore
-      quantity: 64
+        description:
+         - "Temp"
+        flavour:
+         - "Temp"
 
 
 wolf:
@@ -129,7 +152,7 @@ wolf:
 
   attack: 16
   health: 40
-  speed: 5
+  speed: 15
 
   shred: 20
 
@@ -137,15 +160,19 @@ wolf:
     material: leather
     name: Tough Flesh
     lore:
-     - §dSome lore
-     - and more lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
     bound: true
   weapon:
-    material: shears
-    damage: 103
+    base: wolf_fangs
     name: Wolf Fangs
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
 
 
 direwolf:
@@ -169,18 +196,20 @@ spiderling:
     material: snow_ball
     name: Squishy Spider Body Thing
     lore:
-     - §dSome lore
-     - Im not googling the name of
-     - this thing cos spiders
-    jump: 1
+      description:
+       - "Temp"
+      flavour:
+       - "I'm not googling the name of this\n
+          thing cause spiders."
     bound: true
   weapon:
-    material: shears
-    damage: 106
+    base: ai_sword
     name: Spider Thingies
     lore:
-     - Something something
-     - nasty bite
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
 
 
 
@@ -198,15 +227,19 @@ rat:
     material: prismarine_crystals
     name: Rat Thing
     lore:
-     - §dSome lore
-     - and more lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
     bound: true
   weapon:
-    material: shears
-    damage: 106
+    base: ai_sword
     name: Rat Talons
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
 
 
 golem:
@@ -227,16 +260,21 @@ golem:
     material: iron_block
     name: Mechanical Body
     lore:
-     - §dSome lore
-     - and more lore
-    kbresist: true
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+    modifiers:
+      kb-resist: 1
     bound: true
   weapon:
-    material: shears
-    damage: 104
+    base: golem_pick
     name: Ancient Pick
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
 
 
 ogre:
@@ -256,17 +294,23 @@ ogre:
     material: rotten_flesh
     name: Ogre Hide
     lore:
-     - §dSome lore
-     - and more lore
-    kbresist: true
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+    modifiers:
+      kb-resist: 1
     bound: true
   weapon:
-    material: shears
-    damage: 105
+    base: ogre_club
     name: Ogre Club
     lore:
-     - Some lore
-    knockback: 4
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+    modifiers:
+      knockback: 4
 
 
 
@@ -285,9 +329,12 @@ ghostblade-base:
     material: slime_ball
     name: Spooky Body
     lore:
-     - §dSome lore
-     - and more lore
-    kbresist: true
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+    modifiers:
+      kb-resist: true
     bound: true
 
 gb-dagger:
@@ -296,11 +343,13 @@ gb-dagger:
   speed: 75
 
   weapon:
-    material: shears
-    damage: 2
+    base: dagger
     name: Spooky Dagger
     lore:
-      - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
 
 gb-runeblade:
   parent: ghostblade-base
@@ -308,11 +357,13 @@ gb-runeblade:
   proccable: false
 
   weapon:
-    material: shears
-    damage: 0
+    base: runeblade
     name: Spooky Blade
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
 
 gb-axe:
   parent: ghostblade-base
@@ -322,22 +373,27 @@ gb-axe:
   shred: 30
 
   weapon:
-    material: shears
-    damage: 1
+    base: malice
     name: Spooky Axe
     lore:
-     - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
 
 gb-hammer:
   parent: ghostblade-base
 
   weapon:
-    material: diamond_pickaxe
-    damage: 0
+    base: gb_hammer
     name: Spooky Hammer
     lore:
-     - Some lore
-    knockback: 10
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+    modifiers:
+      knockback: 10
 
 
 krungor:
@@ -348,7 +404,7 @@ krungor:
   playername: §cCapmergor
   skin: capmergor
 
-  attack: 60
+  attack: 50
   health: 100
   speed: 40
 
@@ -361,20 +417,25 @@ krungor:
 
   armouronchest: false
   armour:
-    material: shears
-    damage: 200
-    name: §cCrown of the Ogre King
+    template: monster-hero
+    base: bone_crown
+    name: Crown of the Ogre King
     lore:
-     - §dSome lore
-     - and more lore
-    kbresist: true
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+    modifiers:
+      kb-resist: 1
   weapon:
-    material: shears
-    damage: 1
-    name: §cKrungor's Axe
+    template: monster-hero
+    base: malice
+    name: "Krungor's Axe"
     lore:
-      - Some lore
-
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
 
 bopen:
   title: Bopen
@@ -394,26 +455,35 @@ bopen:
 
   armouronchest: false
   armour:
-    material: shears
-    damage: 200
-    name: §cCrown of the Skeleton King
+    template: monster-hero
+    base: bone_crown
+    name: Crown of the Skeleton King
     lore:
-     - §dSome lore
-     - and more lore
-    kbresist: true
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+    modifiers:
+      kb-resist: 1
   weapon:
+    template: monster-hero
     material: gold_sword
-    damage: 0
-    name: §cSharp Cutlass
+    name: Sharp Cutlass
     lore:
-      - Some lore
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   items:
-    item1:
-      material: shears
-      damage: 100
-      name: "&cSkeleton King's Steed"
+    steed:
+      template: monster-hero
+      base: ai_sword
+      name: "Skeleton King's Steed"
       lore:
-       - Some lore
+        description:
+         - "Temp"
+        flavour:
+         - "Temp"
 
 
 

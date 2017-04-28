@@ -36,7 +36,7 @@ public class DwarvenItems {
 	}
 	
 	public static CustomItem getItem(String section, Slot slot) {
-		return CustomItem.createItemStack(config.getConfigurationSection(section), LoreTemplate.DWARF, slot);
+		return CustomItem.getItem(config.getConfigurationSection(section), LoreTemplate.DWARF, slot);
 	}
 	
 	

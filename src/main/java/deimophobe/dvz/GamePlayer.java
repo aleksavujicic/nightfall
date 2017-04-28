@@ -2,6 +2,7 @@ package deimophobe.dvz;
 
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.items.CustomItem;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -119,6 +120,10 @@ public abstract class GamePlayer extends GameEntity {
 		player.getInventory().addItem(copy);
 	}
 	public void giveItem(ItemStack item) {giveItem(item,1);}
+	
+	public void giveItem(CustomItem item) {
+		giveItem(item.createItemStack());
+	}
 	
 	public void clearInventory() {
 		player.getInventory().clear();

@@ -59,7 +59,7 @@ class Wolf extends AbstractTypedMob {
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
-			if (leapCd == 0 && isPlayerHoldingItem(0)) {
+			if (leapCd == 0 && isPlayerHoldingWeapon()) {
 				leapCd = LEAP_MAX_CD;
 				
 				// Play leap sound really loud to wolf player, but much quieter to everyone else.

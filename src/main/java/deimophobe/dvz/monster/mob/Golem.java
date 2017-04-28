@@ -67,7 +67,7 @@ class Golem extends AbstractTypedMob {
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isLeftClick(action)) {
-			if (breakCD == 0 && isPlayerHoldingItem(0)) {
+			if (breakCD == 0 && isPlayerHoldingWeapon()) {
 				/*Set<Material> materials = new HashSet<>();
 				materials.add(Material.WATER);
 				materials.add(Material.STATIONARY_WATER);

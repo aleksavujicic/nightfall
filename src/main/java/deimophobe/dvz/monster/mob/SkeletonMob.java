@@ -23,7 +23,7 @@ abstract class SkeletonMob extends AbstractTypedMob {
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action)) {
-			if (isPlayerHoldingItem(0)) {
+			if (isPlayerHoldingWeapon()) {
 				((SkeletonWatcher) getDisguise().getWatcher()).setSwingArms(true);
 			} else {
 				((SkeletonWatcher) getDisguise().getWatcher()).setSwingArms(false);

@@ -53,7 +53,7 @@ class Ghostblade extends AbstractTypedMob {
 		if (cooldown > 0)
 			cooldown--;
 		
-		if (halfSec && !isPlayerHoldingItem(0)) {
+		if (halfSec && !isPlayerHoldingWeapon()) {
 			monster.getPlayer().getInventory().setHeldItemSlot(0);
 			monster.customDamage(null, DamageType.NOT_HOLDING_GHOSTBLADE, 4);
 			monster.givePotionEffect(PotionEffectType.GLOWING, 20, 1, true, true, true);

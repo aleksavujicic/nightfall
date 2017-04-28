@@ -76,6 +76,9 @@ public class BaseItemManager {
 		// ~~~~ MONSTER ITEMS ~~~~~
 		addItem("ai_sword", new SimpleBaseItem(Material.SHEARS, 100));
 		
+		addItem("wither_bow", new SimpleBaseItem(Material.BOW, 2));
+		addItem("flame_bow", new SimpleBaseItem(Material.BOW, 4));
+		
 		addItem("gobo_box", new SimpleBaseItem(Material.INK_SACK, 8));
 		addItem("kaboom", new SimpleBaseItem(Material.SHEARS, 102));
 		
@@ -86,6 +89,8 @@ public class BaseItemManager {
 		addItem("ogre_club", new SimpleBaseItem(Material.SHEARS, 105));
 		
 		addItem("cutlass", new SimpleBaseItem(Material.SHEARS, 106));
+		
+		addItem("gb_hammer", new SimpleBaseItem(Material.DIAMOND_PICKAXE, 0));
 		
 		addItem("bone_crown", new SimpleBaseItem(Material.SHEARS, 200));
 		addItem("flower_crown", new SimpleBaseItem(Material.SHEARS, 201));

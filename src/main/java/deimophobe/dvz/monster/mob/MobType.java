@@ -62,7 +62,7 @@ public enum MobType {
 			case SPIDERLING: return new Spiderling(monster);
 			case RAT: return new Rat(monster);
 			case GOLEM: return new Golem(monster);
-			case OGRE: return new PlainTypedMob(monster, OGRE);
+			case OGRE: return new Ogre(monster);
 			
 			case KRUNGOR: return new Krungor(monster);
 			case BOPEN: return new Bopen(monster);

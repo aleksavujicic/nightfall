@@ -1,7 +1,9 @@
 package deimophobe.dvz.monster.mob;
 
+import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.Skin;
+import deimophobe.dvz.items.modifiers.ItemModifierType;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.upgrade.GlobalUpgrade;
 import deimophobe.dvz.shrine.ShrineManager;
@@ -20,7 +22,7 @@ import java.util.*;
  */
 abstract class AbstractTypedMob extends AbstractMob {
 	
-	private List<ItemStack> items;
+	private Map<String, CustomItem> items;
 	
 	private final MobData mobData;
 	
@@ -67,46 +69,42 @@ abstract class AbstractTypedMob extends AbstractMob {
 		
 		monster.clearInventory();
 		
-		//int attack = mobData.attack + upgrades.getUpgrade("attack");
-		//int health = mobData.health + upgrades.getUpgrade("health");
-		//int speed = mobData.speed + upgrades.getUpgrade("speed");
-		
-		int attack = mobData.attack;
-		int health = mobData.health;
-		int speed = mobData.speed;
-		
+		CustomItem weapon = mobData.weapon.clone();
 		if (GlobalUpgrade.KRUNGOR.isUnlocked()) {
-			attack += 10;
+			weapon.addModifier(ItemModifierType.ATTACK, 10, "Krungor Doom");
 		}
+		monster.giveItem(weapon);
 		
 		
 		// Add weapon
-		items = new ArrayList<>();
-		ItemStack weapon = ItemCreator.setAttribute(mobData.weapon, Attribute.ATTACK_DAMAGE, attack , Slot.MAIN_HAND);
-		
-		inv.addItem(weapon);
-		items.add(weapon);
+		items = new HashMap<>(mobData.items);
+		items.put("weapon", weapon);
 		
 		// Add other items
-		for (ItemStack item : mobData.items) {
-			inv.addItem(item);
-			items.add(item);
+		for (Map.Entry<String, CustomItem> entry : mobData.items.entrySet()) {
+			items.put(entry.getKey(), entry.getValue());
+			monster.giveItem(entry.getValue());
 		}
 		
 		// Add armour
-		Slot slot = (mobData.armourOnChest ? Slot.CHEST : Slot.HEAD);
-		ItemStack armour = ItemCreator.setAttribute(mobData.armour, Attribute.MAX_HEALTH, health, slot);
-		armour = ItemCreator.setAttribute(armour, Attribute.MOVEMENT_SPEED, speed, slot);
+		CustomItem armour = mobData.armour.clone();
 		if (mobData.armourOnChest) {
-			inv.setChestplate(armour);
+			inv.setChestplate(armour.createItemStack());
 		} else {
-			inv.setHelmet(armour);
+			inv.setHelmet(armour.createItemStack());
 		}
 		monster.delayedHealMax();
 	}
 	
-	protected boolean isPlayerHoldingItem(int index) {
-		return monster.getHeldItem().isSimilar(items.get(index));
+	protected boolean isPlayerHoldingItem(String name) {
+		CustomItem item = items.get(name);
+		if (item == null)
+			throw new IllegalArgumentException("No monster item found with name: " + name);
+		return item.isSimilar(monster.getHeldItem());
+	}
+	
+	protected boolean isPlayerHoldingWeapon() {
+		return isPlayerHoldingItem("weapon");
 	}
 	
 	@Override public boolean isProccable() {

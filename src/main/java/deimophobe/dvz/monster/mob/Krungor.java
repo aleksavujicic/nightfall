@@ -51,7 +51,7 @@ class Krungor extends AbstractTypedMob {
 	private static final double RANGE = 7;
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isRightClick(action) && cooldown == 0 && isPlayerHoldingItem(0)) {
+		if (Misc.isRightClick(action) && cooldown == 0 && isPlayerHoldingWeapon()) {
 			/*
 			
 			Location loc = monster.getLocation();

@@ -351,6 +351,7 @@ hero:
     template: dwarf-hero
     base: tui_hammer
     name: Kindled Light
+    shiny: true
     lore:
       description:
        - "Temp"

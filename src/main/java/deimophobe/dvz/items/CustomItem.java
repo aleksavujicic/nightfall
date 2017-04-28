@@ -13,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -29,21 +30,33 @@ public class CustomItem implements Cloneable {
 	private final Lore lore;
 	private final SortedMap<ItemModifierType, Set<ItemModifier>> modifiers;
 	
-	public CustomItem(BaseItem base, Lore lore, SortedMap<ItemModifierType, Set<ItemModifier>> modifiers, Slot slot) {
+	private final boolean bound;
+	private final boolean shiny;
+	
+	public CustomItem(BaseItem base, Lore lore, SortedMap<ItemModifierType, Set<ItemModifier>> modifiers, Slot slot, boolean bound, boolean shiny) {
 		this.slot = slot;
 		this.base = base.clone();
 		this.lore = lore.clone();
 		
+		this.bound = bound;
+		this.shiny = shiny;
+		
 		this.modifiers = new TreeMap<>();
 		for (ItemModifierType type : modifiers.keySet()) {
-			modifiers.put(type, new HashSet<>(modifiers.get(type)));
+			//modifiers.put(type, new HashSet<>(modifiers.get(type)));
+			for (ItemModifier modifier : modifiers.get(type)) {
+				addModifier(type, modifier.getValue(), modifier.getReason());
+			}
 		}
 	}
 	
-	private CustomItem(BaseItem base, LoreTemplate loreTemplate, String name, Map<String, String> loreSections, List<String> errors, Slot slot) {
+	private CustomItem(BaseItem base, LoreTemplate loreTemplate, String name, Map<String, String> loreSections, List<String> errors, Slot slot, boolean bound, boolean shiny) {
 		this.slot = slot;
 		this.base = base;
 		this.lore = new Lore(loreTemplate, name, loreSections, errors);
+		
+		this.bound = bound;
+		this.shiny = shiny;
 		
 		this.modifiers = new TreeMap<>();
 	}
@@ -89,6 +102,10 @@ public class CustomItem implements Cloneable {
 			item = type.applyModifier(item, value, slot);
 		}
 		
+		// Give bound and shiny
+		if (bound) item.addUnsafeEnchantment(Enchantment.BINDING_CURSE, 1);
+		if (shiny) item.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+		
 		return item;
 	}
 	
@@ -102,16 +119,21 @@ public class CustomItem implements Cloneable {
 	
 	@Override
 	public CustomItem clone() {
-		return new CustomItem(base, lore, modifiers, slot);
+		return new CustomItem(base, lore, modifiers, slot, bound, shiny);
 	}
 	
+	
+	public static CustomItem tryClone(CustomItem armour) {
+		if (armour == null) return null;
+		return armour.clone();
+	}
 	
 	// ------ STATIC FACTORY METHODS ------
-	public static CustomItem createItemStack(ConfigurationSection itemConfig, String baseTemplate, Slot slot) {
-		return createItemStack(itemConfig, LoreTemplate.getLoreTemplate(baseTemplate), slot);
+	public static CustomItem getItem(ConfigurationSection itemConfig, String baseTemplate, Slot slot) {
+		return getItem(itemConfig, LoreTemplate.getLoreTemplate(baseTemplate), slot);
 	}
 	
-	public static CustomItem createItemStack(ConfigurationSection itemConfig, LoreTemplate baseTemplate, Slot slot) {
+	public static CustomItem getItem(ConfigurationSection itemConfig, LoreTemplate baseTemplate, Slot slot) {
 		if (itemConfig == null)
 			throw new NullPointerException("Item config must not be null.");
 		if (baseTemplate == null)
@@ -166,8 +188,12 @@ public class CustomItem implements Cloneable {
 		}
 		Collections.unmodifiableList(errors);
 		
+		// Other properties
+		boolean bound = itemConfig.getBoolean("bound", false);
+		boolean shiny = itemConfig.getBoolean("shiny", false);
+		
 		// Create item
-		CustomItem item = new CustomItem(baseItem, loreTemplate, name, loreSections, Collections.unmodifiableList(errors), slot);
+		CustomItem item = new CustomItem(baseItem, loreTemplate, name, loreSections, Collections.unmodifiableList(errors), slot, bound, shiny);
 		
 		// Add modifiers if they exist
 		if (itemConfig.contains("modifiers")) {

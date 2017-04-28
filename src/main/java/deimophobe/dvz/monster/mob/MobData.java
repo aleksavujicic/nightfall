@@ -1,11 +1,15 @@
 package deimophobe.dvz.monster.mob;
 
+import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.Misc;
+import deimophobe.dvz.items.lore.LoreTemplate;
+import deimophobe.dvz.items.modifiers.ItemModifierType;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.entity.Player;
 
 import java.util.*;
 
@@ -22,16 +26,16 @@ public class MobData {
 	final String playerName;
 	final String skinName;
 	
-	final int attack;
-	final int health;
-	final int speed;
+	private final int attack;
+	private final int health;
+	private final int speed;
 	
 	final boolean armourOnChest;
-	final ItemStack armour;
-	final ItemStack weapon;
-	final List<ItemStack> items;
-	final int immuneTime;
+	final CustomItem armour;
+	final CustomItem weapon;
+	final Map<String, CustomItem> items;
 	
+	final int immuneTime;
 	final boolean proccable;
 	final double damageRes;
 	final double arrowRes;
@@ -56,7 +60,7 @@ public class MobData {
 		armourOnChest = true;
 		armour = null;
 		weapon = null;
-		items = new ArrayList<>();
+		items = new LinkedHashMap<>();
 		
 		immuneTime = 8;
 		
@@ -87,14 +91,16 @@ public class MobData {
 		speed = section.getInt("speed", parent.speed);
 		
 		armourOnChest = section.getBoolean("armouronchest", parent.armourOnChest);
-		armour = (section.contains("armour") ? ItemCreator.createItem(section.getConfigurationSection("armour"), (armourOnChest ? Slot.CHEST : Slot.HEAD)) : parent.armour);
-		weapon = (section.contains("weapon") ? ItemCreator.createItem(section.getConfigurationSection("weapon"), Slot.MAIN_HAND) : parent.weapon);
+		if (section.contains("armour")) armour = CustomItem.getItem(section.getConfigurationSection("armour"), LoreTemplate.MOB, (armourOnChest ? Slot.CHEST : Slot.HEAD));
+		else armour = CustomItem.tryClone(parent.armour);
+		if (section.contains("weapon")) weapon = CustomItem.getItem(section.getConfigurationSection("weapon"), LoreTemplate.MOB, Slot.MAIN_HAND);
+		else weapon = CustomItem.tryClone(parent.weapon);
 		
-		items = new ArrayList<>(parent.items);
+		items = new LinkedHashMap<>(parent.items);
 		ConfigurationSection itemSection = section.getConfigurationSection("items");
 		if (itemSection != null) {
 			for (String item : itemSection.getKeys(false)) {
-				items.add(ItemCreator.createItem(itemSection.getConfigurationSection(item), Slot.MAIN_HAND));
+				items.put(item, CustomItem.getItem(itemSection.getConfigurationSection(item), LoreTemplate.MOB, Slot.MAIN_HAND));
 			}
 		}
 		immuneTime = section.getInt("immunetime", parent.immuneTime);
@@ -107,6 +113,22 @@ public class MobData {
 		shrineImmune = section.getBoolean("shrineimmune", parent.shrineImmune);
 	}
 	
+	private void compile() {
+		if (weapon != null) {
+			weapon.addModifier(ItemModifierType.ATTACK, attack);
+			weapon.addModifier(ItemModifierType.ARMOUR_SHRED, armourShred);
+		}
+		
+		if (armour != null) {
+			int healthGain = (health - 10);
+			armour.addModifier(ItemModifierType.HEALTH, healthGain);
+			armour.addModifier(ItemModifierType.SPEED, speed);
+			armour.addModifier(ItemModifierType.RESISTANCE, (int) (damageRes*100));
+			armour.addModifier(ItemModifierType.ARROW_RESISTANCE, (int) (arrowRes*100));
+			if (!proccable) armour.addModifier(ItemModifierType.UNPROCCABLE, 1);
+		}
+	}
+	
 	private static final Map<String, MobData> mobs = new HashMap<>();
 	static {
 		ConfigurationSection mobData = Misc.getInternalFileConfig("mobs.yml");
@@ -115,6 +137,9 @@ public class MobData {
 			String parentKey = mobData.getConfigurationSection(key).getString("parent", "default");
 			mobs.put(key.toLowerCase(), new MobData(mobData.getConfigurationSection(key), getMobData(parentKey)));
 		}
+		
+		for (MobData data : mobs.values())
+			data.compile();
 	}
 	public static MobData getMobData(String type) {
 		return mobs.get(type);

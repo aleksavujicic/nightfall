@@ -51,7 +51,7 @@ class Spiderling extends AbstractTypedMob {
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isRightClick(action) && isPlayerHoldingItem(0)) {
+		if (Misc.isRightClick(action) && isPlayerHoldingWeapon()) {
 			if (spiderSpitCd == 0) {
 				spiderSpitCd = SPIDER_SPIT_CD_MAX;
 				

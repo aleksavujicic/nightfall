@@ -65,7 +65,7 @@ public class Bopen extends AbstractTypedMob {
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (cooldown == 0 && isPlayerHoldingItem(1)) {
+		if (cooldown == 0 && isPlayerHoldingItem("steed")) {
 			mountHorse();
 		}
 	}

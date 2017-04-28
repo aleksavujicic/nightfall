@@ -10,8 +10,8 @@ import org.bukkit.inventory.ItemStack;
  */
 public enum ItemModifierType {
 	// Attribute
-	ATTACK(new AttributeApplier(Attribute.ATTACK_DAMAGE), "Attack"),
-	HEALTH(new AttributeApplier(Attribute.MAX_HEALTH, (i) -> (double) i*2), "Health"){
+	ATTACK(new AttributeApplier(Attribute.ATTACK_DAMAGE), "Attack", false, false),
+	HEALTH(new AttributeApplier(Attribute.MAX_HEALTH, (i) -> (double) i*2), "Health", false, false){
 		@Override
 		public String formatValue(int value, boolean forReason) {
 			if (forReason)
@@ -20,36 +20,33 @@ public enum ItemModifierType {
 				return super.formatValue(value + 10, forReason);
 		}
 	},
-	SPEED(new AttributeApplier(Attribute.MOVEMENT_SPEED, 2, (i) -> (double)i/100), "Speed") {
-		@Override
-		public String formatValue(int value, boolean forReason) {
-			if (value >= 0 && !forReason)
-				return '+' + super.formatValue(value, forReason) + '%';
-			else
-				return super.formatValue(value, forReason) + '%';
-		}
-	},
-	KB_RESIST(new AttributeApplier(Attribute.KNOCKBACK_RESISTANCE, AttributeApplier.BOOLEAN_FUNCTION), "KB Resist"){
-		@Override
-		public String formatValue(int value, boolean forReason) {
-			return null;
-		}
-	},
+	SPEED(new AttributeApplier(Attribute.MOVEMENT_SPEED, 2, (i) -> (double)i/100), "Speed", true, false),
+	KB_RESIST(new AttributeApplier(Attribute.KNOCKBACK_RESISTANCE, AttributeApplier.BOOLEAN_FUNCTION), "KB Resist", false, true),
 	
 	// Enchant
-	KNOCKBACK(new EnchantApplier(Enchantment.KNOCKBACK), "Knockback"),
+	KNOCKBACK(new EnchantApplier(Enchantment.KNOCKBACK), "Knockback", false, false),
 	
 	// Cosmetic
-	POWER(new DudApplier(), "Power"),
+	POWER(new DudApplier(), "Power", false, false),
+	
+	ARMOUR_SHRED(new DudApplier(), "Armour Shred", false, false),
+	RESISTANCE(new DudApplier(), "Resistance", true, false),
+	ARROW_RESISTANCE(new DudApplier(), "Arrow Res", true, false),
+	
+	UNPROCCABLE(new DudApplier(), "Unproccable", false, true),
 	
 	;
 	
 	private final ModifierApplier applier;
 	private final String name;
+	private final boolean showPercentage;
+	private final boolean disableValues;
 	
-	ItemModifierType(ModifierApplier applier, String name) {
+	ItemModifierType(ModifierApplier applier, String name, boolean showPercentage, boolean disableValues) {
 		this.applier = applier;
 		this.name = name;
+		this.showPercentage = showPercentage;
+		this.disableValues = disableValues;
 	}
 	
 	public String getName() {
@@ -61,15 +58,19 @@ public enum ItemModifierType {
 	}
 	
 	public String formatValue(int value, boolean forReason) {
+		if (disableValues) return null;
+		
 		StringBuilder builder = new StringBuilder();
-		if (value >= 0 && forReason) {
+		if (value >= 0 && (forReason || showPercentage)) {
 			builder.append('+');
 		}
 		builder.append(value);
+		if (showPercentage)
+			builder.append('%');
 		return builder.toString();
 	}
 	
 	public static ItemModifierType getByString(String modifier) {
-		return valueOf(modifier.toUpperCase());
+		return valueOf(modifier.toUpperCase().replace('-', '_'));
 	}
 }

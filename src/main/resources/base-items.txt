@@ -56,6 +56,8 @@ ogre_club
 
 cutlass
 
+gb_hammer
+
 bone_crown
 flower_crown
 witch_hat
