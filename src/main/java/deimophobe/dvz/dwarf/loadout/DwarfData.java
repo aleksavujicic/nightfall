@@ -15,8 +15,8 @@ public class DwarfData {
 	private boolean forceTitle = false;
 	private Hat hat = null;
 	
-	private Set<KitElementType> elements = new HashSet<>();
-	private Map<ConsumableType, Integer> consumables = new HashMap<>();
+	private SortedSet<KitElementType> elements = new TreeSet<>();
+	private SortedMap<ConsumableType, Integer> consumables = new TreeMap<>();
 	
 	
 	public String getTitle() {
@@ -42,8 +42,11 @@ public class DwarfData {
 		this.title = title;
 		this.forceTitle = forceTitle;
 		this.hat = hat;
-		this.elements = (elements == null ? new HashSet<>() : elements);
-		this.consumables = (consumables == null ? new HashMap<>() : consumables);
+		
+		if (elements != null)
+			this.elements = new TreeSet<>(elements);
+		if (consumables != null)
+			this.consumables = new TreeMap<>(consumables);
 		
 		addDefaults();
 	}
