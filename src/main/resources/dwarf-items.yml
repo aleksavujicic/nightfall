@@ -154,9 +154,9 @@ ale:
     name: Jimmy Juice
     lore:
       description:
-       - "The starting ale for new players\n"
-       - "Auto heal for &b125&r mana or\n"
-       - "Left Click to heal for &b100&r mana"
+       - "The starting ale for new players\n
+          Auto heal for &b125&r mana or\n
+          Left Click to heal for &b100&r mana"
       flavour:
        - "Drink your juice Jimmy!"
   holy:
