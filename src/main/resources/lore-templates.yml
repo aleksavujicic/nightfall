@@ -7,7 +7,7 @@ dwarf:
     - "${flavour}"
 
   prefix:
-    flavour: "&a"
+    flavour: "&a&o"
     description: "&6"
 
   modifiers:
@@ -25,7 +25,7 @@ dwarf-hero:
     - "${flavour}"
 
   prefix:
-    flavour: "&e"
+    flavour: "&e&o"
     description: "&9"
 
   modifiers:
@@ -42,10 +42,8 @@ loadout:
     - "&1&l$category"
     - ""
     - "${description}"
-    - "${flavour}"
 
   prefix:
-    flavour: "&a"
     description: "&6"
 
   modifiers:
@@ -59,11 +57,11 @@ monster:
 
   lore:
     - ""
-    - "${flavour}"
     - "${description}"
+    - "${flavour}"
 
   prefix:
-    flavour: "&7"
+    flavour: "&7&o"
     description: "&c"
 
   modifiers:
@@ -76,11 +74,11 @@ monster-hero:
 
   lore:
     - ""
-    - "${flavour}"
     - "${description}"
+    - "${flavour}"
 
   prefix:
-    flavour: "&8"
+    flavour: "&8&o"
     description: "&6"
 
   modifiers:

@@ -21,7 +21,9 @@ zombie:
       description:
        - "Temp"
       flavour:
-       - "Temp"
+       - "A cross between a runeblade hilt and\n
+          plank debris. The dead use anything of\n
+          their fallen comrades."
 
 gobo:
   title: Goblin
