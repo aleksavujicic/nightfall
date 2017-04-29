@@ -10,9 +10,9 @@ zombie:
     name: Tough Flesh
     lore:
       description:
-       - "Temp"
+       - "Hardened flesh of the undead making it as tough as armour."
       flavour:
-       - "Temp"
+       - "Blep"
     bound: true
   weapon:
     material: wood_pickaxe
@@ -401,7 +401,7 @@ krungor:
   forcetitle: true
 
   disguisetype: player
-  playername: Â§cCapmergor
+  playername: §cCapmergor
   skin: capmergor
 
   attack: 50
