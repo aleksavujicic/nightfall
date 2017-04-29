@@ -9,8 +9,13 @@ import org.bukkit.inventory.ItemStack;
  * Created by Deimophobe on 27/04/17.
  */
 public enum ItemModifierType {
-	// Attribute
 	ATTACK(new AttributeApplier(Attribute.ATTACK_DAMAGE), "Attack", false, false),
+	ARMOUR_SHRED(new DudApplier(), "Armour Shred", false, false),
+	
+	POWER(new DudApplier(), "Power", false, false),
+	
+	KNOCKBACK(new EnchantApplier(Enchantment.KNOCKBACK), "Knockback", false, false),
+	
 	HEALTH(new AttributeApplier(Attribute.MAX_HEALTH, (i) -> (double) i*2), "Health", false, false){
 		@Override
 		public String formatValue(int value, boolean forReason) {
@@ -20,19 +25,12 @@ public enum ItemModifierType {
 				return super.formatValue(value + 10, forReason);
 		}
 	},
-	SPEED(new AttributeApplier(Attribute.MOVEMENT_SPEED, 2, (i) -> (double)i/100), "Speed", true, false),
-	KB_RESIST(new AttributeApplier(Attribute.KNOCKBACK_RESISTANCE, AttributeApplier.BOOLEAN_FUNCTION), "KB Resist", false, true),
-	
-	// Enchant
-	KNOCKBACK(new EnchantApplier(Enchantment.KNOCKBACK), "Knockback", false, false),
-	
-	// Cosmetic
-	POWER(new DudApplier(), "Power", false, false),
-	
-	ARMOUR_SHRED(new DudApplier(), "Armour Shred", false, false),
 	RESISTANCE(new DudApplier(), "Resistance", true, false),
 	ARROW_RESISTANCE(new DudApplier(), "Arrow Res", true, false),
 	
+	SPEED(new AttributeApplier(Attribute.MOVEMENT_SPEED, 2, (i) -> (double)i/100), "Speed", true, false),
+	
+	KB_RESIST(new AttributeApplier(Attribute.KNOCKBACK_RESISTANCE, AttributeApplier.BOOLEAN_FUNCTION), "KB Resist", false, true),
 	UNPROCCABLE(new DudApplier(), "Unproccable", false, true),
 	
 	;
