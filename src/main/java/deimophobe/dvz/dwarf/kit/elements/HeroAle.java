@@ -15,7 +15,7 @@ class HeroAle extends AbstractElement {
 	public void onLateGotHit(GameEntity monster, DamageType type, double damage) {
 		double health = dwarf.getPlayer().getHealth();
 		if (health - damage <= 0.1 || health <= 16) {
-			if (dwarf.tryUseMana(120)) {
+			if (dwarf.tryUseMana(100)) {
 				dwarf.healMax();
 				dwarf.playSound("entity.generic.drink", 0.6f, 0.9f, true);
 				dwarf.playSound("entity.experience_orb.pickup", 1f, 1f, false);

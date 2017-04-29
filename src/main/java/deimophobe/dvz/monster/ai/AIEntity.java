@@ -36,8 +36,7 @@ public class AIEntity extends GameEntity {
 		if (damage == -1)
 			return -1;
 		
-		//if (type.isMelee()) damage *= 1d/5;
-		//if (type.isRanged()) damage *= 1d/3;
+		damage *= 0.2;
 		
 		return damage;
 	}

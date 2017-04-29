@@ -23,7 +23,7 @@ abstract class AbstractAOEHitter extends AbstractItem {
 	}
 	
 	@Override
-	public double onHit(GameEntity monster, DamageType type, double damage) {
+	public double onSelfHit(GameEntity monster, DamageType type, double damage) {
 		if (type != DamageType.REGULAR_MELEE || monster == null) return damage;
 		
 		Location center = monster.getLocation();

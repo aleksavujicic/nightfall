@@ -1,7 +1,10 @@
 package deimophobe.dvz.dwarf.hero;
 
+import deimophobe.dvz.DamageType;
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
+import deimophobe.dvz.monster.ai.AIEntity;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -75,6 +78,13 @@ class Tui extends Hero {
 	}
 	
 	private static final ItemStack fuel = DwarvenItems.createItemStack("misc.wildfirefuel");
+	
+	@Override
+	public double onGotHit(GameEntity entity, DamageType type, double damage) {
+		damage = super.onGotHit(entity, type, damage);
+		if (entity instanceof AIEntity) damage = 0;
+		return damage;
+	}
 	
 	@Override
 	public void notifyDeath(Dwarf dwarf) {

@@ -49,7 +49,7 @@ public class Hero extends Dwarf {
 	
 	@Override
 	protected int getNaturalRegenRate() {
-		return 3;
+		return 5;
 	}
 	
 	@Override

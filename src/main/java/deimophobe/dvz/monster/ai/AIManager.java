@@ -34,8 +34,8 @@ public class AIManager {
 	
 	private AIManager() {}
 	
-	private final static int MAX_AIS = 45;
-	private final static double AI_SPAWN_CHANCE = 0.2;
+	private final static int MAX_AIS = 60;
+	private final static double AI_SPAWN_CHANCE = 0.3;
 	
 	
 	private BukkitRunnable runner;
@@ -73,8 +73,8 @@ public class AIManager {
 	// ------ SPAWN LOCATIONS ------
 	private final Queue<Location> spawnSpots = new LinkedList<>();
 	
-	private final static int MAX_AI_MARKS = 90;
-	private final static double SPAWN_THRESHOLD = 3;
+	private final static int MAX_AI_MARKS = 60;
+	private final static double SPAWN_THRESHOLD = 5;
 	
 	private void addAISpawnLocation(Location loc) {
 		// Prevent spawning if spawn spot is too close to another
