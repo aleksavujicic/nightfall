@@ -21,6 +21,6 @@ class HolyAle extends AbstractAle {
 	@Override
 	public void heal() {
 		super.heal();
-		dwarf.givePotionEffect(PotionEffectType.ABSORPTION, 720000, 3, true, true, true);
+		dwarf.givePotionEffect(PotionEffectType.ABSORPTION, 720000, 4, true, true, true);
 	}
 }
