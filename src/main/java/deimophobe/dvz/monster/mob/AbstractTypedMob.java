@@ -68,6 +68,10 @@ abstract class AbstractTypedMob extends AbstractMob {
 	protected void giveItems() {
 		monster.clearInventory();
 		
+		if (GlobalUpgrade.KRUNGOR.isUnlocked()) {
+			getWeapon().addModifier(ItemModifierType.ATTACK, 10, "Krungor Doom");
+		}
+		
 		giveItem("weapon");
 		mobData.equipArmour(monster);
 		monster.delayedHealMax();

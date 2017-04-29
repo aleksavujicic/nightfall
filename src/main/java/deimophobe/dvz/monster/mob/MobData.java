@@ -117,11 +117,13 @@ public class MobData {
 	}
 	
 	private void compile() {
+		// Add stats to weapon
 		if (weapon != null) {
 			weapon.addModifier(ItemModifierType.ATTACK, attack);
 			weapon.addModifier(ItemModifierType.ARMOUR_SHRED, armourShred);
 		}
 		
+		// Make stats to armour
 		if (armour != null) {
 			int healthGain = (health - 10);
 			armour.addModifier(ItemModifierType.HEALTH, healthGain);
@@ -130,24 +132,17 @@ public class MobData {
 			armour.addModifier(ItemModifierType.ARROW_RESISTANCE, (int) (arrowRes*100));
 			if (!proccable) armour.addModifier(ItemModifierType.UNPROCCABLE, 1);
 		}
+		
+		// Make items immutable
+		Set<String> itemNames = items.keySet();
+		for (String name : itemNames) {
+			items.compute(name, (k,v) -> v.immutableCopy());
+		}
 	}
 	
 	Map<String, CustomItem> getItems() {
-		Map<String, CustomItem> newItems = new HashMap<>();
-		
-		CustomItem newWeapon = weapon.clone();
-		if (GlobalUpgrade.KRUNGOR.isUnlocked()) {
-			newWeapon.addModifier(ItemModifierType.ATTACK, 10, "Krungor Doom");
-		}
-		
-		// Add weapon
-		newItems.put("weapon", newWeapon);
-		
-		// Add other items
-		for (Map.Entry<String, CustomItem> entry : items.entrySet()) {
-			// TODO make items immutable
-			newItems.put(entry.getKey(), entry.getValue());
-		}
+		Map<String, CustomItem> newItems = new HashMap<>(items);
+		newItems.put("weapon", weapon.clone());
 		
 		return newItems;
 	}

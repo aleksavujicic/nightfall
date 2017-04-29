@@ -122,6 +122,10 @@ public class CustomItem implements Cloneable {
 		return new CustomItem(base, lore, modifiers, slot, bound, shiny);
 	}
 	
+	public CustomItem immutableCopy() {
+		return new ImmutableCustomItem(base, lore, modifiers, slot, bound, shiny);
+	}
+	
 	
 	public static CustomItem tryClone(CustomItem armour) {
 		if (armour == null) return null;
