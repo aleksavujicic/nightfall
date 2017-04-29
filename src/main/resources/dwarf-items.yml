@@ -156,7 +156,7 @@ ale:
       description:
        - "The starting ale for new players\n
           Auto heal for &b125&r mana or\n
-          Left Click to heal for &b100&r mana"
+          Left Click to heal for &b100&r mana."
       flavour:
        - "Drink your juice Jimmy!"
   holy:
@@ -363,10 +363,10 @@ hero:
       description:
        - "Temp"
       flavour:
-       - "Rank 11? Psssh, that�s nothing. When you�ve lived your whole\n
-          life with the flames, the holy light is all you see. I�ve bathed\n
+       - "Rank 11? Psssh, that's nothing. When you've lived your whole\n
+          life with the flames, the holy light is all you see. I've bathed\n
           in embers, emerged victorious from scorching coals. This\n
-          hammer�s been with me through it all."
+          hammer's been with me through it all."
     modifiers:
       attack: 25
       kb_resist: 1
