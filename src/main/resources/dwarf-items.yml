@@ -44,7 +44,7 @@ sword:
       now passed down to the dwarves that can keep up with\n 
       it's great speed. Equipped with an ancient pointed\n
       poison that seeps through the skin of any that dares\n 
-      threaten it.
+      threaten it."
        - "Forged with the &2worst of poisons&r and given\n
           to only the quickest of &efoot&r and &bmind&r."
     modifiers:
@@ -361,10 +361,10 @@ hero:
       description:
        - "Temp"
       flavour:
-       - "Rank 11? Psssh, that’s nothing. When you’ve lived your whole\n
-          life with the flames, the holy light is all you see. I’ve bathed\n
+       - "Rank 11? Psssh, thatï¿½s nothing. When youï¿½ve lived your whole\n
+          life with the flames, the holy light is all you see. Iï¿½ve bathed\n
           in embers, emerged victorious from scorching coals. This\n
-          hammer’s been with me through it all."
+          hammerï¿½s been with me through it all."
     modifiers:
       attack: 25
       kb_resist: 1
