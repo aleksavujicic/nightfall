@@ -52,7 +52,6 @@ gobo:
   items:
     gobo-box:
       base: gobo_box
-      damage: 8
       name: Gobo Box
       lore:
         description:

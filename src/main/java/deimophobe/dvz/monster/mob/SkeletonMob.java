@@ -45,5 +45,9 @@ abstract class SkeletonMob extends AbstractTypedMob {
 			return damage;
 	}
 	
+	protected void giveArrows(int quantity) {
+		giveItem("arrow", quantity);
+	}
+	
 	protected abstract double getPower();
 }

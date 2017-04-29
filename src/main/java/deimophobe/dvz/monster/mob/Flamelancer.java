@@ -30,6 +30,7 @@ class Flamelancer extends SkeletonMob {
 	public void spawn() {
 		super.spawn();
 		getDisguise().getWatcher().setBurning(true);
+		giveArrows(64);
 	}
 	
 	
@@ -40,7 +41,8 @@ class Flamelancer extends SkeletonMob {
 		World world = arrow.getWorld();
 		arrow.setFireTicks(10000);
 		arrow.setCritical(false);
-		for (int i=0; i<ARROWS_FIRED*(force*force*force); i++) {
+		final int arrowsToFire = (int) (ARROWS_FIRED*(force*force*force));
+		for (int i=0; i<arrowsToFire; i++) {
 			Arrow newArrow = world.spawnArrow(arrow.getLocation(), arrow.getVelocity(), force*2, 30f);
 			newArrow.setPickupStatus(Arrow.PickupStatus.DISALLOWED);
 			newArrow.setShooter(monster.getPlayer());

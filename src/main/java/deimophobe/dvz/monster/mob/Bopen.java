@@ -39,6 +39,7 @@ public class Bopen extends AbstractTypedMob {
 	public void spawn() {
 		super.spawn();
 		mountHorse();
+		giveItem("steed");
 	}
 	
 	@Override

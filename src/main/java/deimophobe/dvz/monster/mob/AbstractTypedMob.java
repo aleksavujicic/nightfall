@@ -22,20 +22,20 @@ import java.util.*;
  */
 abstract class AbstractTypedMob extends AbstractMob {
 	
-	private Map<String, CustomItem> items;
-	
+	private final Map<String, CustomItem> items;
 	private final MobData mobData;
-	
 	
 	
 	protected AbstractTypedMob(MonsterPlayer monster) {
 		super(monster);
 		this.mobData = getType().getMobData();
+		this.items = mobData.getItems();
 	}
 	
 	protected AbstractTypedMob(MonsterPlayer monster, MobType type) {
 		super(monster);
 		this.mobData = type.getMobData();
+		this.items = mobData.getItems();
 	}
 	
 	@Override
@@ -63,37 +63,31 @@ abstract class AbstractTypedMob extends AbstractMob {
 		monster.getPlayer().setGameMode(GameMode.SURVIVAL);
 	}
 	
+	
+	
 	protected void giveItems() {
-		PlayerInventory inv = monster.getPlayer().getInventory();
-		//MobUpgrades upgrades = monster.getUpgrades(type);
-		
 		monster.clearInventory();
 		
-		CustomItem weapon = mobData.weapon.clone();
-		if (GlobalUpgrade.KRUNGOR.isUnlocked()) {
-			weapon.addModifier(ItemModifierType.ATTACK, 10, "Krungor Doom");
-		}
-		monster.giveItem(weapon);
-		
-		
-		// Add weapon
-		items = new HashMap<>(mobData.items);
-		items.put("weapon", weapon);
-		
-		// Add other items
-		for (Map.Entry<String, CustomItem> entry : mobData.items.entrySet()) {
-			items.put(entry.getKey(), entry.getValue());
-			monster.giveItem(entry.getValue());
-		}
-		
-		// Add armour
-		CustomItem armour = mobData.armour.clone();
-		if (mobData.armourOnChest) {
-			inv.setChestplate(armour.createItemStack());
-		} else {
-			inv.setHelmet(armour.createItemStack());
-		}
+		giveItem("weapon");
+		mobData.equipArmour(monster);
 		monster.delayedHealMax();
+	}
+	
+	
+	protected CustomItem getWeapon() {
+		return getItem("weapon");
+	}
+	
+	protected CustomItem getItem(String name) {
+		return items.get(name);
+	}
+	
+	protected void giveItem(String name) {
+		giveItem(name, 1);
+	}
+	
+	protected void giveItem(String name, int quantity) {
+		monster.giveItem(items.get(name), quantity);
 	}
 	
 	protected boolean isPlayerHoldingItem(String name) {
@@ -106,6 +100,8 @@ abstract class AbstractTypedMob extends AbstractMob {
 	protected boolean isPlayerHoldingWeapon() {
 		return isPlayerHoldingItem("weapon");
 	}
+	
+	
 	
 	@Override public boolean isProccable() {
 		return mobData.proccable;

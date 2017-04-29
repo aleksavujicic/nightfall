@@ -125,6 +125,10 @@ public abstract class GamePlayer extends GameEntity {
 		giveItem(item.createItemStack());
 	}
 	
+	public void giveItem(CustomItem item, int quantity) {
+		giveItem(item.createItemStack(), quantity);
+	}
+	
 	public void clearInventory() {
 		player.getInventory().clear();
 	}

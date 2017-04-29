@@ -5,11 +5,14 @@ import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.items.lore.LoreTemplate;
 import deimophobe.dvz.items.modifiers.ItemModifierType;
+import deimophobe.dvz.monster.MonsterPlayer;
+import deimophobe.dvz.monster.upgrade.GlobalUpgrade;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.util.*;
 
@@ -30,10 +33,10 @@ public class MobData {
 	private final int health;
 	private final int speed;
 	
-	final boolean armourOnChest;
-	final CustomItem armour;
-	final CustomItem weapon;
-	final Map<String, CustomItem> items;
+	private final boolean armourOnChest;
+	private final CustomItem armour;
+	private final CustomItem weapon;
+	private final Map<String, CustomItem> items;
 	
 	final int immuneTime;
 	final boolean proccable;
@@ -126,6 +129,35 @@ public class MobData {
 			armour.addModifier(ItemModifierType.RESISTANCE, (int) (damageRes*100));
 			armour.addModifier(ItemModifierType.ARROW_RESISTANCE, (int) (arrowRes*100));
 			if (!proccable) armour.addModifier(ItemModifierType.UNPROCCABLE, 1);
+		}
+	}
+	
+	Map<String, CustomItem> getItems() {
+		Map<String, CustomItem> newItems = new HashMap<>();
+		
+		CustomItem newWeapon = weapon.clone();
+		if (GlobalUpgrade.KRUNGOR.isUnlocked()) {
+			newWeapon.addModifier(ItemModifierType.ATTACK, 10, "Krungor Doom");
+		}
+		
+		// Add weapon
+		newItems.put("weapon", newWeapon);
+		
+		// Add other items
+		for (Map.Entry<String, CustomItem> entry : items.entrySet()) {
+			// TODO make items immutable
+			newItems.put(entry.getKey(), entry.getValue());
+		}
+		
+		return newItems;
+	}
+	
+	void equipArmour(MonsterPlayer player) {
+		PlayerInventory inv = player.getPlayer().getInventory();
+		if (armourOnChest) {
+			inv.setChestplate(armour.createItemStack());
+		} else {
+			inv.setHelmet(armour.createItemStack());
 		}
 	}
 	

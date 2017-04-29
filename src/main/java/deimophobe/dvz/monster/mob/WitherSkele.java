@@ -13,4 +13,10 @@ class WitherSkele extends SkeletonMob {
 	WitherSkele(MonsterPlayer monster) {
 		super(monster);
 	}
+	
+	@Override
+	public void spawn() {
+		super.spawn();
+		giveArrows(128);
+	}
 }
