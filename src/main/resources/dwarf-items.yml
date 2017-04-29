@@ -4,9 +4,10 @@ sword:
     name: Dwarven Runeblade
     lore:
       description:
-       - "And another test."
+       - "I guess you forgot to pick a kit Jimmy."
       flavour:
-       - "What a crappy weapon."
+       - "A runeblade that has yet to be enchanted\n
+          with &bwind&r magic."
     modifiers:
       attack: 15
   grb:
@@ -14,9 +15,10 @@ sword:
     name: Greater Runeblade
     lore:
       description:
-       - "Some description &dof&r sorts. This is\n
-          also a maven test."
-       - "And another test."
+       - "A fully procable weapon\n
+          Right click to &brunedash&r into\n
+          monsters heavily damaging or killing them\n
+          instantly with a proc."
       flavour:
        - "The mighty weapon thats said to send\n
           dwarves into a fury of &bsparkles&r."
@@ -27,7 +29,8 @@ sword:
     name: Axe of Malice
     lore:
       description:
-       - "Temp"
+       - "Right click to go into a &4Bloodrage&r\n
+          allowing you to proc for a short duration."
       flavour:
        - "Be careful with those ones jimmy, they've\n
           gone &cmad&r."
@@ -38,7 +41,8 @@ sword:
     name: Elven Dagger
     lore:
       description:
-       - "Temp"
+       - "Right click to &bEviscerate&r a monster\n
+          dealing massive damage."
       flavour:
        - "A dagger used long ago by keen elven allies,\n 
       now passed down to the dwarves that can keep up with\n 
@@ -55,7 +59,8 @@ sword:
     name: Warhammer
     lore:
       description:
-       - "Temp"
+       - "Right click to regenerate armour and mana
+          over time."
       flavour:
        - "\"Take this and battle alongside me for all\n
           that's right, for the &e&olight&r!\" - &4Tui"
@@ -66,7 +71,9 @@ sword:
     name: Tombmaker
     lore:
       description:
-       - "Temp"
+       - "Yesss....kill monsterssss\n
+          dig...&bgravel&r...roll procs
+          Right click for a Haste buff to dig faster."
       flavour:
        - "Entrusted with the toughest task of all,\n
           burying the fallen. &9Why not let them fight?"
@@ -77,9 +84,11 @@ sword:
     name: Tiger Fist
     lore:
       description:
-       - "Temp"
+       - "Right click and hold for a fully charged\n
+          and constant leap that extends with each monster\n
+          killed."
       flavour:
-       - "Temp"
+       - "Wait these are Fists? It kinda looks like a shield."
     modifiers:
       attack: 20
 
