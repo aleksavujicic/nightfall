@@ -24,6 +24,7 @@ class PotionItem implements BaseItem {
 		
 		PotionMeta meta = (PotionMeta) potion.getItemMeta();
 		meta.setColor(color);
+		potion.setItemMeta(meta);
 		
 		return potion;
 	}
