@@ -403,6 +403,10 @@ public class DvZPlugin extends JavaPlugin {
 			if (args.length == 2) elements.add("all");
 			return startsWithPrefix(elements, args[args.length-1]);
 		}
+		
+		if (name.equalsIgnoreCase("spawnmob") && args.length == 2) {
+			return startsWithPrefix(MobType.getAllMobTypes(), args[args.length-1]);
+		}
 		return null;
 	}
 	

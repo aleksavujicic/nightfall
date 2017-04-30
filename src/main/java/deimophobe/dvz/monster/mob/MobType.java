@@ -3,6 +3,10 @@ package deimophobe.dvz.monster.mob;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Bukkit;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by Deimophobe on 19/01/17.
  */
@@ -75,5 +79,12 @@ public enum MobType {
 		}
 		Bukkit.getLogger().warning("Unknown mobtype: " + this);
 		return null;
+	}
+	
+	public static Collection<String> getAllMobTypes() {
+		Set<String> mobs = new HashSet<>();
+		for (MobType type : values())
+			mobs.add(type.name.toLowerCase());
+		return mobs;
 	}
 }
