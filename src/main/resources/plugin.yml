@@ -67,3 +67,8 @@ commands:
   disableMapLoading:
     description: Disables map loading. Game will be played on default map instead.
     usage: /disableMapLoading
+
+  kills:
+    description: Only for toxic people.
+    usage: /kills
+

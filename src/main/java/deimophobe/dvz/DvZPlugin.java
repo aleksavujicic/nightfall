@@ -382,6 +382,12 @@ public class DvZPlugin extends JavaPlugin {
 			sender.sendMessage(ChatColor.GREEN + "You must reload before changes will take effect.");
 			return true;
 		}
+		if (name.equalsIgnoreCase("kills")) {
+			if (sender instanceof Player) {
+				((Player) sender).kickPlayer("Don't be toxic.");
+			}
+			return true;
+		}
 		return false;
 	}
 	
