@@ -10,7 +10,9 @@ import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -67,5 +69,14 @@ public class DwarvenItems {
 				return true;
 		
 		return false;
+	}
+	
+	public static Map<String,CustomItem> getAllItems() {
+		Map<String, CustomItem> items = new HashMap<>();
+		for (String key : config.getKeys(true)) {
+			if (config.contains(key + ".name")) // Kinda a hack to check if it is an item.
+				items.put(key, getItem(key));
+		}
+		return items;
 	}
 }

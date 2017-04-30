@@ -11,6 +11,8 @@ import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
 import deimophobe.dvz.dwarf.loadout.Loadout;
 import deimophobe.dvz.dwarf.loadout.LoadoutMenu;
+import deimophobe.dvz.items.CustomItem;
+import deimophobe.dvz.items.ItemManager;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
@@ -220,6 +222,24 @@ public class DvZPlugin extends JavaPlugin {
 			game.tootHorn();
 			return true;
 		}
+		if (name.equalsIgnoreCase("giveitem")) {
+			if (sender instanceof Player) {
+				if (args.length == 0) return false;
+				
+				for (String arg : args) {
+					CustomItem item = ItemManager.getManager().getItem(arg);
+					if (item == null) {
+						sender.sendMessage(ChatColor.RED + "Unknown item: " + ChatColor.YELLOW + arg + ChatColor.RED + "!");
+					} else {
+						((Player) sender).getInventory().addItem(item.createItemStack());
+						sender.sendMessage(ChatColor.AQUA + "Giving one of '" + ChatColor.YELLOW + arg + ChatColor.AQUA + "'.");
+					}
+				}
+				return true;
+			} else {
+				return false;
+			}
+		}
 		if (name.equalsIgnoreCase("trash")) {
 			if (sender instanceof Player) {
 				Dwarf dwarf = dm.getGamePlayer((Player)sender);
@@ -406,6 +426,10 @@ public class DvZPlugin extends JavaPlugin {
 		
 		if (name.equalsIgnoreCase("spawnmob") && args.length == 2) {
 			return startsWithPrefix(MobType.getAllMobTypes(), args[args.length-1]);
+		}
+		
+		if (name.equalsIgnoreCase("giveitem")) {
+			return startsWithPrefix(ItemManager.getManager().getNames(), args[args.length-1]);
 		}
 		return null;
 	}

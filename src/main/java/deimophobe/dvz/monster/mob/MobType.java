@@ -1,10 +1,12 @@
 package deimophobe.dvz.monster.mob;
 
+import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Bukkit;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -79,6 +81,10 @@ public enum MobType {
 		}
 		Bukkit.getLogger().warning("Unknown mobtype: " + this);
 		return null;
+	}
+	
+	public Map<String, CustomItem> getItems() {
+		return getMobData().getItems();
 	}
 	
 	public static Collection<String> getAllMobTypes() {

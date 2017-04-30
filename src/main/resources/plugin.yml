@@ -26,6 +26,9 @@ commands:
     description: HRON
   armour:
     description: Cheaty self-armour.
+  giveitem:
+    usage: /giveitem <item-name>
+    description: Give a custom item to yourself.
 
   trash:
     description: For deleting your duplicate items.
