@@ -49,11 +49,6 @@ public class Bopen extends AbstractTypedMob {
 	}
 	
 	@Override
-	public double onGotHit(Dwarf dwarf, DamageType type, double damage) {
-		return damage/8;
-	}
-	
-	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		if (cooldown > 0)
 			cooldown--;
