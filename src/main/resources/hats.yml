@@ -1,36 +1,44 @@
 crown:
-  material: shears
-  damage: 200
-  name: "&bCrown"
+  base: bone_crown
+  name: "Crown"
 
 flowers:
-  material: shears
-  damage: 201
-  name: "&bFlower Wreath"
+  base: flower_crown
+  name: "Flower Wreath"
 
 witch:
-  material: shears
-  damage: 202
-  name: "&bWitch Hat"
+  base: witch_hat
+  name: "Witch Hat"
 
 darkvisgoggles:
-  material: diamond_hoe
-  damage: 6
-  name: "&bDark Vision Goggles"
+  base: loadout-night_vis
+  name: "Dark Vision Goggles"
 
 jimmycap:
   material: diamond_helmet
-  name: "&bJimmy Cap"
+  name: "Jimmy Cap"
 
 tuihat:
-  material: shears
-  damage: 201
-  name: "&bTui's Flame Hat"
-  health: 40
+  template: dwarf-hero
+  base: flower_crown
+  name: "Tui's Flame Hat"
+  lore:
+    description:
+      - "temp"
+    flavour:
+      - "temp"
+  modifiers:
+    health: 20
 
 nosovinhat:
-  material: shears
-  damage: 201
-  name: "&bNosovin's Speed Hat"
-  health: 30
-  speed: 15
+  template: dwarf-hero
+  base: flower_crown
+  name: "Nosovin's Speed Hat"
+  lore:
+    description:
+      - "temp"
+    flavour:
+      - "temp"
+  modifiers:
+    health: 15
+    speed: 15

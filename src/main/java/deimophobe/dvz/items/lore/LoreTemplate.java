@@ -120,9 +120,10 @@ public class LoreTemplate {
 		return templates.get(name);
 	}
 	
+	public static final String BASIC = "basic";
 	public static final String DWARF = "dwarf";
 	public static final String DWARF_HERO = "dwarf-hero";
 	public static final String LOADOUT = "loadout";
 	public static final String MOB = "monster";
-	public static final String MOB_HER = "monster-hero";
+	public static final String MOB_HERO = "monster-hero";
 }

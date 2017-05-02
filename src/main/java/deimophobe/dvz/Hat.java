@@ -1,7 +1,10 @@
 package deimophobe.dvz;
 
+import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.items.ItemCreator;
+import deimophobe.dvz.items.lore.LoreTemplate;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -23,7 +26,8 @@ public enum Hat {
 	
 	Hat(String hat) {
 		name = hat;
-		this.hat = ItemCreator.createItem(Misc.getInternalFileConfig("hats.yml").getConfigurationSection(hat), Slot.HEAD);
+		ConfigurationSection config = Misc.getInternalFileConfig("hats.yml").getConfigurationSection(hat);
+		this.hat = CustomItem.getItem(config, LoreTemplate.BASIC, Slot.HEAD).createItemStack();
 	}
 	
 	public void putOn(GamePlayer player) {

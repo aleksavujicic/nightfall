@@ -72,7 +72,6 @@ public class BaseItemManager {
 		addItem("bowl", new SimpleBaseItem(Material.INK_SACK, 15));
 		
 		
-		
 		// ~~~~ MONSTER ITEMS ~~~~~
 		addItem("ai_sword", new SimpleBaseItem(Material.SHEARS, 100));
 		
@@ -92,9 +91,16 @@ public class BaseItemManager {
 		
 		addItem("gb_hammer", new SimpleBaseItem(Material.DIAMOND_PICKAXE, 0));
 		
+		
+		// ~~~~ HATS ~~~~~
 		addItem("bone_crown", new SimpleBaseItem(Material.SHEARS, 200));
 		addItem("flower_crown", new SimpleBaseItem(Material.SHEARS, 201));
 		addItem("witch_hat", new SimpleBaseItem(Material.SHEARS, 202));
+		
+		
+		// ~~~~ LOADOUT ITEMS ~~~~~
+		addItem("loadout-night_vis", new SimpleBaseItem(Material.DIAMOND_HOE, 6));
+		
 	}
 	
 	private static final class ErrorItem extends SimpleBaseItem {
