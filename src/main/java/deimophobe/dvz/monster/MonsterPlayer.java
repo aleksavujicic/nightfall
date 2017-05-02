@@ -261,13 +261,12 @@ public class MonsterPlayer extends GamePlayer {
 		if (damage == -1)
 			return -1;
 		
-		damage *= (1 - mob.getResistance());
-		
-		if (type.isArrow())
-			damage *= (1 - mob.getArrowRes());
-		
-		
 		if (mob != null) {
+			damage *= (1 - mob.getResistance());
+			
+			if (type.isArrow())
+				damage *= (1 - mob.getArrowRes());
+			
 			if (gameEntity instanceof Dwarf || gameEntity == null) {
 				return mob.onGotHit((Dwarf) gameEntity, type, damage);
 			} else {
