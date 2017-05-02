@@ -2,7 +2,7 @@ package deimophobe.dvz.dwarf.loadout;
 
 import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.Misc;
-import deimophobe.dvz.menu.Menu;
+import deimophobe.dvz.menu.*;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -11,14 +11,14 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 2/03/17.
  */
-public class LoadoutMenu implements Menu<Player> {
+public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Loadout> {
 	private static final LoadoutMenu menu = new LoadoutMenu(Misc.getInternalFileConfig("loadout.yml"));
 	public static LoadoutMenu getMenu() {return menu;}
 	
@@ -26,79 +26,37 @@ public class LoadoutMenu implements Menu<Player> {
 		menu.getTitle();
 	}
 	
-	private final List<LoadoutPage> pages = new ArrayList<>();
-	private final Map<Player, Integer> pageNumber = new HashMap<>();
-	
 	static final int PAGE_SIZE = 5*9;
 	private static final int EXTRA_SIZE = 1*9;
 	private static final String TITLE = "Select a kit";
 	
 	private static final String ITEM_SECTION = "specialitems";
-	private final ItemStack back, forward, clear, points;
 	
 	private LoadoutMenu(ConfigurationSection config) {
+		// Setup menus
+		List<LoadoutPage> tempPages = new ArrayList<>();
 		for (String key : config.getKeys(false)) {
 			if (!key.equals(ITEM_SECTION)) {
-				pages.add(new LoadoutPage(config.getConfigurationSection(key)));
+				tempPages.add(new LoadoutPage(config.getConfigurationSection(key)));
 			}
 		}
+		MultiPageMenu<Loadout> pages = new MultiPageMenu<>(tempPages);
+		SimpleMenu<Loadout> toolbar = new SimpleMenu<>(EXTRA_SIZE);
+		
+		addSubMenu(pages);
+		addSubMenu(toolbar);
+		
+		// Add items for toolbar
 		ConfigurationSection itemConfig = config.getConfigurationSection(ITEM_SECTION);
-		back = ItemCreator.createItem(itemConfig.getConfigurationSection("back"), Slot.MAIN_HAND);
-		forward = ItemCreator.createItem(itemConfig.getConfigurationSection("forward"), Slot.MAIN_HAND);
-		clear = ItemCreator.createItem(itemConfig.getConfigurationSection("clear"), Slot.MAIN_HAND);
-		points = ItemCreator.createItem(itemConfig.getConfigurationSection("points"), Slot.MAIN_HAND);
-	}
-	
-	
-	@Override
-	public Inventory getInventory(Player player) {
-		Inventory pageInv = getPageForPlayer(player).getInventory(player);
-		Inventory newInv = Bukkit.createInventory(pageInv.getHolder(), PAGE_SIZE + EXTRA_SIZE, TITLE);
+		ItemStack back = ItemCreator.createItem(itemConfig.getConfigurationSection("back"), Slot.MAIN_HAND);
+		ItemStack forward = ItemCreator.createItem(itemConfig.getConfigurationSection("forward"), Slot.MAIN_HAND);
+		ItemStack clear = ItemCreator.createItem(itemConfig.getConfigurationSection("clear"), Slot.MAIN_HAND);
+		ItemStack points = ItemCreator.createItem(itemConfig.getConfigurationSection("points"), Slot.MAIN_HAND);
 		
-		newInv.setContents(pageInv.getContents());
-		
-		int remainPoints = Loadout.getLoadout(player).getRemainingPoints();
-		ItemStack newPoints = points.clone();
-		newPoints.setAmount(remainPoints);
-		
-		// Back and forward buttons
-		newInv.setItem(PAGE_SIZE+3, back);
-		newInv.setItem(PAGE_SIZE+5, forward);
-		
-		newInv.setItem(PAGE_SIZE+0, newPoints);
-		newInv.setItem(PAGE_SIZE+8, clear);
-																							
-		return newInv;
-	}
-	
-	@Override
-	public void select(int i, Player player) {
-		if (i < PAGE_SIZE) {
-			getPageForPlayer(player).select(i, player);
-		} else {
-			switch (i - PAGE_SIZE) {
-				case 0: // Points
-					break;
-				case 3: // Back
-					changePage(player, -1);
-					showTo(player);
-					break;
-				case 5: // Forward
-					changePage(player, 1);
-					showTo(player);
-					break;
-				case 8: // Clear
-					Loadout.getLoadout(player).clear();
-					showTo(player);
-					break;
-			}
-		}
-			
-	}
-	
-	@Override
-	public void showTo(Player player) {
-		player.openInventory(getInventory(player));
+		toolbar.setItem(0, new PointsItem(points));
+		toolbar.setItem(3, new PageChanger<>(back, pages, false));
+		toolbar.setItem(5, new PageChanger<>(forward, pages, true));
+		toolbar.setItem(8, new ClearItem(clear));
 	}
 	
 	@Override
@@ -106,16 +64,35 @@ public class LoadoutMenu implements Menu<Player> {
 		return TITLE;
 	}
 	
-	private int getPageNumberForPlayer(Player player) {
-		return pageNumber.computeIfAbsent(player, p -> 0);
+	@Override
+	public Loadout getDataFromPlayer(Player player) {
+		return Loadout.getLoadout(player);
 	}
 	
-	private LoadoutPage getPageForPlayer(Player player) {
-		return pages.get(getPageNumberForPlayer(player));
+	
+	private class ClearItem extends SimpleItem<Loadout> {
+		ClearItem(ItemStack item) {super(item);}
+		
+		@Override
+		public boolean onClick(MenuSession<Loadout> session) {
+			session.getData().clear();
+			return true;
+		}
 	}
 	
-	private void changePage(Player player, int i) {
-		int newI = (getPageNumberForPlayer(player) + i + pages.size()) % pages.size();
-		pageNumber.put(player, newI);
+	private class PointsItem extends SimpleItem<Loadout> {
+		PointsItem(ItemStack item) {super(item);}
+		
+		@Override
+		public ItemStack getDisplayItem(MenuSession<Loadout> session) {
+			ItemStack item = super.getDisplayItem(session).clone();
+			item.setAmount(session.getData().getRemainingPoints());
+			return item;
+		}
+		
+		@Override
+		public boolean onClick(MenuSession<Loadout> session) {
+			return false;
+		}
 	}
 }

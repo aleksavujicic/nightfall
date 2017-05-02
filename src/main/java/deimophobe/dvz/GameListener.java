@@ -522,6 +522,7 @@ public class GameListener implements Listener {
 		}
 		
 		// Main DwarfData handling
+		/*
 		LoadoutMenu loadout = LoadoutMenu.getMenu();
 		HumanEntity e = event.getWhoClicked();
 		if (event.getInventory() != null && loadout.getTitle().equals(event.getInventory().getTitle()) && e instanceof Player) {
@@ -530,6 +531,7 @@ public class GameListener implements Listener {
 			}
 			event.setCancelled(true);
 		}
+		*/
 	}
 	
 	@EventHandler

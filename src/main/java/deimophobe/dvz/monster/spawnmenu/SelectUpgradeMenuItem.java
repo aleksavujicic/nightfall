@@ -2,6 +2,7 @@ package deimophobe.dvz.monster.spawnmenu;
 
 import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.menu.MenuItem;
+import deimophobe.dvz.menu.MenuSession;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.mob.MobType;
 import minecraft.spigot.community.michel_0.api.Slot;
@@ -17,7 +18,7 @@ class SelectUpgradeMenuItem implements MenuItem<MonsterPlayer> {
 	private final UpgradeMenu menu;
 	
 	@Override
-	public ItemStack getDisplayItem(MonsterPlayer player) {
+	public ItemStack getDisplayItem(MenuSession<MonsterPlayer> player) {
 		return item;
 	}
 	

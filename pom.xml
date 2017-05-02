@@ -20,6 +20,7 @@
                 <excludes>
                     <exclude>**/*.java</exclude>
                     <exclude>main/resources/**</exclude>
+                    <exclude>main/java/deimophobe/dvz/monster/spawnmenu/**</exclude>
                 </excludes>
             </resource>
             <resource>
@@ -42,6 +43,9 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                    <excludes>
+                        <exclude>deimophobe/dvz/monster/spawnmenu/**</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
             <plugin>
@@ -109,6 +113,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>4.1</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>

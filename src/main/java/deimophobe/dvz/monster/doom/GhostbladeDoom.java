@@ -2,7 +2,6 @@ package deimophobe.dvz.monster.doom;
 
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.mob.MobType;
-import deimophobe.dvz.monster.spawnmenu.SpawnEggMenuItem;
 import org.bukkit.configuration.ConfigurationSection;
 
 /**
@@ -15,6 +14,6 @@ public class GhostbladeDoom extends Doom {
 	
 	@Override
 	void onSpawn() {
-		MonsterManager.getManager().addMenuItem(26, SpawnEggMenuItem.getEgg("ghostblade"));
+		//MonsterManager.getManager().addMenuItem(26, SpawnEggMenuItem.getEgg("ghostblade"));
 	}
 }

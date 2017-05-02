@@ -3,14 +3,9 @@ package deimophobe.dvz.monster;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.GamePlayerManager;
-import deimophobe.dvz.dwarf.DwarfManager;
-import deimophobe.dvz.menu.GlobalMenuList;
-import deimophobe.dvz.menu.Menu;
 import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
-import deimophobe.dvz.monster.mob.MobType;
-import deimophobe.dvz.monster.spawnmenu.SpawnMenu;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.Inventory;
@@ -89,28 +84,30 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	//                   MENUS N STUFF
 	// --------------------------------------------------------
 	
-	private final SpawnMenu menu = new SpawnMenu();
+	//private final SpawnMenu menu = new SpawnMenu();
 	
 	public void onMobRelease() {
 		AIManager.getManager().setup();
 		DoomManager.getManager().setup();
 		
-		menu.setup();
+		//menu.setup();
 	}
 	
 	public void showMobMenu(MonsterPlayer monster) {
-		menu.showTo(monster);
+		//menu.showTo(monster);
 	}
 	
 	public void onClick(int slot, Inventory clickedInventory, MonsterPlayer monster) {
-		Menu menu = GlobalMenuList.getMenu(clickedInventory);
+		/*
+		MainMenu menu = GlobalMenuList.getMenu(clickedInventory);
 		if (menu != null) {
 			menu.select(slot, monster);
 		}
+		*/
 	}
 	
-	public void addMenuItem(int i, MenuItem<MonsterPlayer> egg) {
-		menu.addItem(i, egg);
+	public void addMenuItem(int i, MenuItem egg) {
+		//menu.addItem(i, egg);
 	}
 }
 	

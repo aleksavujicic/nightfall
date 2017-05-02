@@ -1,6 +1,7 @@
 package deimophobe.dvz.monster.spawnmenu;
 
 import deimophobe.dvz.menu.MenuItem;
+import deimophobe.dvz.menu.MenuSession;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
@@ -21,7 +22,7 @@ class BackMenuItem implements MenuItem<MonsterPlayer> {
 		item.setItemMeta(meta);
 	}
 	@Override
-	public ItemStack getDisplayItem(MonsterPlayer player) {
+	public ItemStack getDisplayItem(MenuSession<MonsterPlayer> player) {
 		return item;
 	}
 	

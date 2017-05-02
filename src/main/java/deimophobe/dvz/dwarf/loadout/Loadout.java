@@ -2,7 +2,7 @@ package deimophobe.dvz.dwarf.loadout;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
-import org.bukkit.Bukkit;
+import deimophobe.dvz.menu.SessionData;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -14,19 +14,21 @@ import java.util.*;
 /**
  * Created by Deimophobe on 7/03/17.
  */
-public class Loadout {
+public class Loadout implements SessionData {
 	
 	private static final int MAX_POINTS = 64;
 	
 	private final Set<LoadoutItem> items = new HashSet<>();
 	private final Map<Category, LoadoutItem> categoryItems = new HashMap<>();
 	
-	void selectItem(LoadoutItem item) {
+	boolean selectItem(LoadoutItem item) {
 		Category cat = item.getCategory();
 		
 		if (items.contains(item)) {
 			items.remove(item);
 			if (cat != null) categoryItems.put(cat, item);
+			
+			return true;
 		} else {
 			// The amount of extra points one would get from removing a similar item.
 			int extraPoints = 0;
@@ -44,7 +46,9 @@ public class Loadout {
 				
 				items.add(item);
 				if (cat != null) categoryItems.put(cat, item);
+				return true;
 			}
+			return false;
 		}
 	}
 	

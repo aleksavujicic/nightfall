@@ -1,25 +1,19 @@
 package deimophobe.dvz.dwarf.loadout;
 
-import deimophobe.dvz.menu.SinglePageMenu;
+import deimophobe.dvz.menu.SimpleMenu;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 /**
  * Created by Deimophobe on 2/03/17.
  */
-class LoadoutPage extends SinglePageMenu<Player> {
+class LoadoutPage extends SimpleMenu<Loadout> {
 	public LoadoutPage(ConfigurationSection config) {
-		super("", LoadoutMenu.PAGE_SIZE/9);
+		super(LoadoutMenu.PAGE_SIZE);
 		
 		for (String key : config.getKeys(false)) {
 			ConfigurationSection itemConfig = config.getConfigurationSection(key);
-			addItem(itemConfig.getInt("index"), new LoadoutItem(itemConfig));
+			setItem(itemConfig.getInt("index"), new LoadoutItem(itemConfig));
 		}
-	}
-	
-	
-	@Override
-	public void showTo(Player player) {
-		LoadoutMenu.getMenu().showTo(player);
 	}
 }

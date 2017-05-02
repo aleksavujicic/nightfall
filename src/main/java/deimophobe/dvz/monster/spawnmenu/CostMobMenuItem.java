@@ -1,6 +1,7 @@
 package deimophobe.dvz.monster.spawnmenu;
 
 import deimophobe.dvz.menu.MenuItem;
+import deimophobe.dvz.menu.MenuSession;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
@@ -13,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 abstract class CostMobMenuItem implements MenuItem<MonsterPlayer> {
 	private final ItemStack item;
 	@Override
-	public ItemStack getDisplayItem(MonsterPlayer player) {return item;}
+	public ItemStack getDisplayItem(MenuSession<MonsterPlayer> player) {return item;}
 	
 	private final int xpCost;
 	

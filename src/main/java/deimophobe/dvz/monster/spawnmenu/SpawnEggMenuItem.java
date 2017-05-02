@@ -5,6 +5,7 @@ import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.Phase;
 import deimophobe.dvz.menu.MenuItem;
+import deimophobe.dvz.menu.MenuSession;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.doom.DoomManager;
 import deimophobe.dvz.monster.mob.MobType;
@@ -30,7 +31,7 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 	private final double spawnChance;
 	
 	@Override
-	public ItemStack getDisplayItem(MonsterPlayer player) {
+	public ItemStack getDisplayItem(MenuSession<MonsterPlayer> player) {
 		return item;
 	}
 	

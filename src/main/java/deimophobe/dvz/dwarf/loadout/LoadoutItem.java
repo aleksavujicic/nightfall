@@ -5,10 +5,10 @@ import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.menu.MenuItem;
+import deimophobe.dvz.menu.MenuSession;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -16,7 +16,7 @@ import java.util.*;
 /**
  * Created by Deimophobe on 7/03/17.
  */
-class LoadoutItem implements MenuItem<Player> {
+class LoadoutItem implements MenuItem<Loadout> {
 	
 	private final ItemStack itemStack;
 	
@@ -111,8 +111,9 @@ class LoadoutItem implements MenuItem<Player> {
 	
 	
 	@Override
-	public ItemStack getDisplayItem(Player player) {
-		if (playerHasUpgrade(player)) {
+	public ItemStack getDisplayItem(MenuSession<Loadout> session) {
+		Loadout loadout = session.getData();
+		if (loadout.hasItem(this)) {
 			ItemStack item = itemStack.clone();
 			item.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
 			return item;
@@ -122,18 +123,9 @@ class LoadoutItem implements MenuItem<Player> {
 	}
 	
 	@Override
-	public boolean select(Player player) {
-		Loadout.getLoadout(player).selectItem(this);
-		return true;
-	}
-	
-	@Override
-	public boolean isAvailable(Player player) {
-		return true;
-	}
-	
-	private boolean playerHasUpgrade(Player player) {
-		return Loadout.getLoadout(player).hasItem(this);
+	public boolean onClick(MenuSession<Loadout> session) {
+		Loadout loadout = session.getData();
+		return loadout.selectItem(this);
 	}
 	
 	

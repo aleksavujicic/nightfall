@@ -13,6 +13,7 @@ import deimophobe.dvz.dwarf.loadout.Loadout;
 import deimophobe.dvz.dwarf.loadout.LoadoutMenu;
 import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.items.ItemManager;
+import deimophobe.dvz.menu.MenuManager;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
@@ -329,7 +330,7 @@ public class DvZPlugin extends JavaPlugin {
 		}
 		if (name.equalsIgnoreCase("loadout")) {
 			if (sender instanceof Player) {
-				LoadoutMenu.getMenu().showTo((Player) sender);
+				LoadoutMenu.getMenu().startSession((Player) sender);
 				
 				return true;
 			}
