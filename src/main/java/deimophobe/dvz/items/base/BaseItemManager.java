@@ -42,9 +42,9 @@ public class BaseItemManager {
 		addItem("ebow", new SimpleBaseItem(Material.BOW, 3));
 		addItem("crossbow", new SimpleBaseItem(Material.SHEARS, 25));
 		
-		addItem("healing_ale", new PotionItem(Color.TEAL));
+		addItem("healing_ale", new PotionItem(Color.fromRGB(93, 244, 17)));
 		addItem("jimmyjuice", new PotionItem(Color.RED));
-		addItem("holy_ale", new PotionItem(Color.BLUE));
+		addItem("holy_ale", new PotionItem(Color.fromRGB(17, 108, 244)));
 		addItem("trinket", new SimpleBaseItem(Material.SHEARS, 30));
 		addItem("regrowth", new SimpleBaseItem(Material.SHEARS, 31));
 		
