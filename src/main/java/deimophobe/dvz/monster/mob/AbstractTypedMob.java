@@ -10,6 +10,7 @@ import deimophobe.dvz.shrine.ShrineManager;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import minecraft.spigot.community.michel_0.api.Attribute;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -46,7 +47,7 @@ abstract class AbstractTypedMob extends AbstractMob {
 		DisguiseType type = mobData.disguiseType;
 		if (type != null) {
 			if (type == DisguiseType.PLAYER) {
-				setupPlayerDisguise(Skin.getSkin(mobData.skinName), mobData.playerName);
+				setupPlayerDisguise(Skin.getSkin(mobData.skinName), ChatColor.RED + mobData.playerName);
 			} else {
 				setupMobDisguise(type);
 			}
