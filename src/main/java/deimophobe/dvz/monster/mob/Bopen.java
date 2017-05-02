@@ -26,11 +26,6 @@ public class Bopen extends AbstractTypedMob {
 	
 	private SkeletonHorse horse = null;
 	
-	private static final ItemStack SADDLE;
-	static {
-		SADDLE = new ItemStack(Material.SADDLE);
-	}
-	
 	protected Bopen(MonsterPlayer mons) {
 		super(mons);
 	}
@@ -96,7 +91,7 @@ public class Bopen extends AbstractTypedMob {
 			horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.25);
 			horse.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
 			horse.addPassenger(monster.getPlayer());
-			horse.getInventory().setItem(0, SADDLE);
+			horse.getInventory().setItem(0, getItem("saddle").createItemStack());
 		}
 		
 	}

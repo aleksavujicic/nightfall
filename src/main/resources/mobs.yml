@@ -485,6 +485,15 @@ bopen:
          - "Temp"
         flavour:
          - "Temp"
+    saddle:
+      template: monster-hero
+      material: saddle
+      name: "Skeleton King's Comfy Chair"
+      lore:
+        description:
+         - "Temp"
+        flavour:
+         - "Mmmmm.... comfy."
 
 
 
