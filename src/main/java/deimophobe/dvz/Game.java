@@ -191,6 +191,7 @@ public class Game {
 		
 		// Add dwarves
 		for (Player player : Bukkit.getOnlinePlayers()) {
+			mm.removeAllGamePlayers();
 			dm.addGamePlayer(player);
 		}
 		updateScoreboard();
@@ -309,6 +310,7 @@ public class Game {
 			player.removePotionEffect(effect.getType());
 		}
 		player.setGameMode(GameMode.ADVENTURE);
+		player.setHealth(20);
 		player.setSaturation(100000);
 		player.setFoodLevel(100000);
 	}

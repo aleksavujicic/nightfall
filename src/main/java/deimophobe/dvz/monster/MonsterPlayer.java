@@ -91,10 +91,27 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	}
 	
 	public void kill() {
-		if (mob != null)
-			mob.onDeath();
-		
+		killMob();
 		cancelFreeze();
+		
+		if (isAlive()) {
+			ActionBarAPI.sendActionBarToAllPlayers(generateDeathMsg(), 60);
+			Bukkit.broadcastMessage(generateDeathMsg());
+			player.playSound(player.getLocation(), "proc", 1f, 0.7f);
+		}
+		
+		setTitle(ChatColor.GRAY, null, false);
+		
+		player.setAllowFlight(true);
+		player.setGameMode(GameMode.SPECTATOR);
+		clearInventory();
+		clearEffects();
+	}
+	
+	private void killMob() {
+		if (mob == null) return;
+		
+		mob.onDeath();
 		
 		Disguise disguise = DisguiseAPI.getDisguise(player);
 		if (disguise != null) {
@@ -111,18 +128,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		}
 		DisguiseAPI.undisguiseToAll(player);
 		
-		if (isAlive()) {
-			ActionBarAPI.sendActionBarToAllPlayers(generateDeathMsg(), 60);
-			Bukkit.broadcastMessage(generateDeathMsg());
-			player.playSound(player.getLocation(), "proc", 1f, 0.7f);
-		}
-		
-		setTitle(ChatColor.GRAY, null, false);
-		
-		mob = null; // TODO don't set to null?
-		player.setGameMode(GameMode.SPECTATOR);
-		clearInventory();
-		clearEffects();
+		mob = null;
 	}
 	
 	public void spawnAs(MobType type) {

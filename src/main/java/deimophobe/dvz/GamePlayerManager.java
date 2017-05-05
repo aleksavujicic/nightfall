@@ -1,9 +1,11 @@
 package deimophobe.dvz;
 
+import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.monster.MonsterManager;
+import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
@@ -49,20 +51,23 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 	
 	protected abstract P createGamePlayerFromPlayer(Player player);
 	
-	public boolean addGamePlayer(String name) {
+	public P addGamePlayer(String name) {
 		return addGamePlayer(Bukkit.getPlayer(name));
 	}
-	public boolean addGamePlayer(Player player) {
-		if (player == null) return false;
+	public P addGamePlayer(Player player) {
+		if (player == null) return null;
+		
+		if (DwarfManager.getManager().isGamePlayer(player)) return null;
+		if (MonsterManager.getManager().isGamePlayer(player)) return null;
 		
 		UUID uuid = player.getUniqueId();
-		if (players.containsKey(uuid)) return false;
+		if (players.containsKey(uuid)) return null;
 		
 		P gamePlayer = createGamePlayerFromPlayer(player);
 		players.put(uuid, gamePlayer);
 		mcTeam.addEntry(player.getName());
 		Game.getGame().updateDwarfCount();
-		return true;
+		return gamePlayer;
 	}
 	protected void registerGamePlayer(P player) {
 		UUID uuid = player.getUniqueId();

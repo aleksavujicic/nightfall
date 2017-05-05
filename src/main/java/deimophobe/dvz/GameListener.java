@@ -82,8 +82,9 @@ public class GameListener implements Listener {
 			case PLAGUE:
 			case GAME:
 			case END:
-				mm.addGamePlayer(player);
+				MonsterPlayer mp = mm.addGamePlayer(player);
 				player.teleport(ShrineManager.getManager().getCurrentMobspawn());
+				mp.kill();
 				break;
 		}
 	}
@@ -422,22 +423,18 @@ public class GameListener implements Listener {
 				public void run() {
 					Game.getGame().resetPlayer(event.getPlayer());
 				}
-			}.runTaskLater(Game.getGame().getPlugin(), 1);
+			}.runTaskLater(Game.getGame().getPlugin(), 10);
 			
-			event.setRespawnLocation(ShrineManager.getManager().getLobbySpawn());
 		} else {
-			event.getPlayer().setGameMode(GameMode.SPECTATOR);
-			
 			new BukkitRunnable() {
 				@Override
 				public void run() {
-					mm.addGamePlayer(event.getPlayer());
-					mm.getGamePlayer(event.getPlayer()).kill();
+					MonsterPlayer mp = mm.addGamePlayer(event.getPlayer());
+					mp.kill();
 				}
-			}.runTaskLater(Game.getGame().getPlugin(), 1);
-			
-			event.setRespawnLocation(ShrineManager.getManager().getCurrentMobspawn());
+			}.runTaskLater(Game.getGame().getPlugin(), 10);
 		}
+		event.setRespawnLocation(ShrineManager.getManager().getLobbySpawn());
 	}
 	
 	@EventHandler
@@ -451,6 +448,7 @@ public class GameListener implements Listener {
 	//                        MISC
 	// --------------------------------------------------------
 	
+	// Blocks
 	@EventHandler
 	public void preventFireSpread(BlockSpreadEvent event){
 		if (event.getNewState().getType() == Material.FIRE) {
@@ -466,22 +464,15 @@ public class GameListener implements Listener {
 		event.setCancelled(true);
 	}
 	
-	
 	@EventHandler
-	public void preventFlightChange(PlayerToggleFlightEvent event){
-		if (mm.isGamePlayer(event.getPlayer())) {
-			event.setCancelled(true);
-			mm.getGamePlayer(event.getPlayer()).resetFrozen();
-		}
+	public void onBlockBreak(BlockBreakEvent event) {
+		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
+		boolean canBreak = BlockManager.getManager().breakBlockEvent(game.getGamePlayer(event.getPlayer()), event.getBlock());
+		event.setCancelled(!canBreak);
 	}
 	
-	@EventHandler
-	public void preventMobPickup(PlayerPickupItemEvent event){
-		if (mm.isGamePlayer(event.getPlayer())) {
-			event.setCancelled(true);
-		}
-	}
 	
+	// Inventory/Items
 	@EventHandler
 	public void onSwapHand(PlayerSwapHandItemsEvent event) {
 		event.setCancelled(true);
@@ -545,24 +536,6 @@ public class GameListener implements Listener {
 		}
 	}
 	
-	@EventHandler
-	public void onBlockBreak(BlockBreakEvent event) {
-		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
-		boolean canBreak = BlockManager.getManager().breakBlockEvent(game.getGamePlayer(event.getPlayer()), event.getBlock());
-		event.setCancelled(!canBreak);
-	}
-	
-	@EventHandler
-	public void onDismount(EntityDismountEvent event) {
-		Entity entity = event.getEntity();
-		if (entity instanceof Player) {
-			MonsterPlayer monster = mm.getGamePlayer((Player) entity);
-			if (monster != null && monster.getMob() instanceof Bopen) {
-				((Bopen) monster.getMob()).dismountHorse();
-			}
-		}
-	}
-	
 	
 	// ------ MOB STUFF ------
 	@EventHandler
@@ -570,15 +543,6 @@ public class GameListener implements Listener {
 		Player player = event.getPlayer();
 		boolean succ = tryShowMobMenu(player);
 		if (succ) event.setCancelled(true);
-	}
-	
-	@EventHandler
-	public void deadLRClick(PlayerInteractEvent event) {
-		/*
-		Player player = event.getPlayer();
-		boolean succ = tryShowMobMenu(player);
-		if (succ) event.setCancelled(true);
-		*/
 	}
 	
 	private boolean tryShowMobMenu(Player player) {
@@ -598,5 +562,30 @@ public class GameListener implements Listener {
 		Entity entity = event.getEntity();
 		if (entity instanceof Player && mm.isGamePlayer((Player) entity))
 			event.setCancelled(true);
+	}
+	
+	@EventHandler
+	public void onDismount(EntityDismountEvent event) {
+		Entity entity = event.getEntity();
+		if (entity instanceof Player) {
+			MonsterPlayer monster = mm.getGamePlayer((Player) entity);
+			if (monster != null && monster.getMob() instanceof Bopen) {
+				((Bopen) monster.getMob()).dismountHorse();
+			}
+		}
+	}
+	@EventHandler
+	public void preventFlightChange(PlayerToggleFlightEvent event){
+		if (mm.isGamePlayer(event.getPlayer())) {
+			event.setCancelled(true);
+			mm.getGamePlayer(event.getPlayer()).resetFrozen();
+		}
+	}
+	
+	@EventHandler
+	public void preventMobPickup(PlayerPickupItemEvent event){
+		if (mm.isGamePlayer(event.getPlayer())) {
+			event.setCancelled(true);
+		}
 	}
 }
