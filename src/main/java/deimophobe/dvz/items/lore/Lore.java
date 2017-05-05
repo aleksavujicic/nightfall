@@ -3,6 +3,7 @@ package deimophobe.dvz.items.lore;
 import com.google.common.collect.ImmutableList;
 import deimophobe.dvz.items.modifiers.ItemModifier;
 import deimophobe.dvz.items.modifiers.ItemModifierType;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import java.util.*;
@@ -61,6 +62,8 @@ public class Lore implements Cloneable {
 			String name = loreText.substring(i+1, j);
 			variablePointers.put(name, i);
 			loreText.replace(i, j, "");
+			
+			Bukkit.getLogger().info("Found var: " + name + " at " + i);
 		}
 	}
 	
@@ -69,18 +72,21 @@ public class Lore implements Cloneable {
 			String varName = entry.getKey();
 			String varValue = entry.getValue();
 			
-			// If lore does not contain variable, then skip
-			if (!variablePointers.containsKey(varName))
-				continue;
-			
-			// Otherwise insert it into the lore
-			int varPos = variablePointers.get(varName);
-			loreText.insert(varPos, varValue);
-			
-			// Offset any pointers that occur after
-			int varLength = varName.length();
-			variablePointers.replaceAll((k, v) -> (v < varPos ? v : v + varLength));
+			interpolateVariable(varName, varValue);
 		}
+	}
+	
+	public void interpolateVariable(String name, String value) {
+		// If lore does not contain variable, then skip
+		if (!variablePointers.containsKey(name)) return;
+		
+		// Otherwise insert it into the lore
+		int varPos = variablePointers.get(name);
+		loreText.insert(varPos, value);
+		
+		// Offset any pointers that occur after
+		int varLength = name.length();
+		variablePointers.replaceAll((k, v) -> (v < varPos ? v : v + varLength));
 	}
 	
 	

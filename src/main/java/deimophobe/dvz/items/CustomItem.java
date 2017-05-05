@@ -61,6 +61,10 @@ public class CustomItem implements Cloneable {
 		this.modifiers = new TreeMap<>();
 	}
 	
+	public void applyVariable(String name, String value) {
+		lore.interpolateVariable(name, value);
+	}
+	
 	public void applyVariables(Map<String, String> variables) {
 		lore.interpolateVariables(variables);
 	}

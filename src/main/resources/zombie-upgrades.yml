@@ -2,119 +2,92 @@ settings:
   title: Upgrade Zombie
   mobtype: zombie
 
-attack1:
-  item:
+
+attack1: &attack
+  item: &attack_sword
     material: wood_sword
-    name: "&c&lUpgrade Attack I"
+    name: "Upgrade Attack I"
     lore:
-      - "&5Increases your &eattack&5 by &a&l1"
-  cost: 30
+      description:
+        - "Increases your attack."
+  cost: 20
   index: 2
   upgrade:
     type: attack
-    operation: add
     value: 1
+    operation: increment
 
 attack2:
+  <<: *attack
   prereq:
     - attack1
   item:
-    material: wood_sword
-    name: "&c&lUpgrade Attack II"
-    lore:
-      - "&5Increases your &eattack&5 by &a&l2"
-  cost: 70
-  index: 2
-  upgrade:
-    type: attack
-    operation: add
-    value: 2
+    <<: *attack_sword
+    name: "Upgrade Attack II"
+  cost: 40
 
 attack3:
+  <<: *attack
   prereq:
     - attack2
   item:
-    material: wood_sword
-    name: "&c&lUpgrade Attack III"
-    lore:
-      - "&5Increases your &eattack&5 by &a&l2"
-  cost: 100
-  index: 2
-  upgrade:
-    type: attack
-    operation: add
-    value: 2
+    <<: *attack_sword
+    name: "Upgrade Attack III"
+  cost: 60
 
 attack4:
+  <<: *attack
   prereq:
     - attack3
   item:
-    material: wood_sword
-    name: "&c&lUpgrade Attack IV"
-    lore:
-      - "&5Increases your &eattack&5 by &a&l2"
-  cost: 150
-  index: 2
-  upgrade:
-    type: attack
-    operation: add
-    value: 2
+    <<: *attack_sword
+    name: "Upgrade Attack IV"
+  cost: 80
 
 attack5:
+  <<: *attack
   prereq:
     - attack4
   item:
-    material: wood_sword
-    name: "&c&lUpgrade Attack V"
-    lore:
-      - "&5Increases your &eattack&5 by &a&l3"
-  cost: 200
-  index: 2
-  upgrade:
-    type: attack
-    operation: add
-    value: 3
+    <<: *attack_sword
+    name: "Upgrade Attack V"
+  cost: 100
 
 attack-inf:
+  <<: *attack
   prereq:
     - attack5
   item:
     material: wood_sword
-    name: "&c&lUpgrade Attack"
+    name: "Upgrade Attack (inf)"
     lore:
-      - "&5Increases your &eattack&5 by &a&l1"
-    shiny: true
-  cost: 300
-  index: 2
+      description:
+        - "Further increase your attack."
+  cost: 250
   permanent: true
-  upgrade:
-    type: attack
-    operation: add
-    value: 1
 
-defense1:
-  item:
+defense1: &def
+  item: &def_item
     material: rotten_flesh
     name: Upgrade Defense I
-  cost: 10
-  index: 6
-  upgrade:
-    type: health
-    operation: add
-    value: 1
-
-defense2:
-  prereq:
-    - defense1
-  item:
-    material: rotten_flesh
-    name: Upgrade Defense II
+    lore:
+      description:
+        - "Increases your health."
   cost: 20
   index: 6
   upgrade:
     type: health
-    operation: add
-    value: 1
+    value: 2
+    operation: increment
+
+defense2:
+  <<: *def
+  prereq:
+    - defense1
+  item:
+    <<: *def_item
+    name: Upgrade Defense II
+  cost: 40
 
 test:
   prereq:
@@ -123,8 +96,11 @@ test:
   item:
     material: sugar
     name: Spooky test
+    lore:
+      description:
+        - "You a foory now"
   cost: 100
   index: 4
   upgrade:
     type: fury
-    operation: settrue
+    operation: set_true

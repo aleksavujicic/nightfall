@@ -7,7 +7,7 @@ import deimophobe.dvz.menu.SessionData;
 import deimophobe.dvz.monster.mob.Bopen;
 import deimophobe.dvz.monster.mob.Mob;
 import deimophobe.dvz.monster.mob.MobType;
-import deimophobe.dvz.monster.upgrade.MobUpgrades;
+import deimophobe.dvz.monster.upgrade.MobUpgrade;
 import deimophobe.dvz.shrine.ShrineManager;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
@@ -186,16 +186,16 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	
 	
 	// ------ SPAWN/UPGRADE MENUS ------
-	private final Map<MobType, MobUpgrades> upgrades = new HashMap<>();
+	private final Map<MobType, MobUpgrade> upgrades = new HashMap<>();
 	public void showMobMenu() {
 		MonsterManager.getManager().showMobMenu(this);
 	}
 	
-	public MobUpgrades getUpgrades(MobType type) {
+	public MobUpgrade getUpgrades(MobType type) {
 		if (upgrades.containsKey(type))
 			return upgrades.get(type);
 		else {
-			MobUpgrades emptyUpgrades = new MobUpgrades();
+			MobUpgrade emptyUpgrades = new MobUpgrade();
 			upgrades.put(type, emptyUpgrades);
 			return emptyUpgrades;
 		}

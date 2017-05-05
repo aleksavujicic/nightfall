@@ -1,12 +1,14 @@
 package deimophobe.dvz.monster.spawnmenu;
 
-import deimophobe.dvz.items.ItemCreator;
+import deimophobe.dvz.items.CustomItem;
+import deimophobe.dvz.items.lore.LoreTemplate;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.mob.MobType;
-import deimophobe.dvz.monster.upgrade.MobUpgrades;
+import deimophobe.dvz.monster.upgrade.MobUpgrade;
 import deimophobe.dvz.monster.upgrade.UpgradeApplyOperation;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
 
@@ -26,22 +28,30 @@ class UpgradeMenuItem extends CostMobMenuItem {
 	private final int upgradeValue;
 	
 	
-	UpgradeMenuItem(ConfigurationSection config, MobType type, String name) {
-		super(ItemCreator.createItem(config.getConfigurationSection("item"), Slot.MAIN_HAND), config.getInt("cost"));
+	private static ItemStack getItem(ConfigurationSection config) {
+		CustomItem item = CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.MOB_UPGRADE, Slot.MAIN_HAND);
+		int cost = config.getInt("cost");
+		item.applyVariable("cost", ""+cost);
+		return item.createItemStack();
+	}
+	
+	UpgradeMenuItem(ConfigurationSection config, MobType type) {
+		super(getItem(config), config.getInt("cost"));
 		
-		this.name = name;
+		this.name = config.getName();
 		this.prereqs = config.getStringList("prereq");
 		this.type = type;
 		this.permanent = config.getBoolean("permanent", false);
 		
+		
 		this.upgradeType = config.getString("upgrade.type");
-		this.upgradeOper = UpgradeApplyOperation.getOperation(config.getString("upgrade.operation"));
-		this.upgradeValue = config.getInt("upgrade.value");
+		this.upgradeOper = UpgradeApplyOperation.getOperation(config.getString("upgrade.operation", "increment"));
+		this.upgradeValue = config.getInt("upgrade.value",1);
 	}
 	
 	@Override
 	public boolean isAvailable(MonsterPlayer monster) {
-		MobUpgrades upgrades = monster.getUpgrades(type);
+		MobUpgrade upgrades = monster.getUpgrades(type);
 		for (String prereq : prereqs) {
 			if (!upgrades.hasLabel(prereq))
 				return false;

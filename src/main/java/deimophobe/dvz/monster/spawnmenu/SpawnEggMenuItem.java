@@ -1,21 +1,16 @@
 package deimophobe.dvz.monster.spawnmenu;
 
-import deimophobe.dvz.Game;
 import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.Misc;
-import deimophobe.dvz.Phase;
-import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.menu.MenuSession;
 import deimophobe.dvz.menu.SimpleItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.doom.DoomManager;
 import deimophobe.dvz.monster.mob.MobType;
-import deimophobe.dvz.monster.upgrade.MobUpgrades;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;

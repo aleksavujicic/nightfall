@@ -33,7 +33,7 @@ public class MobData {
 	private final int health;
 	private final int speed;
 	
-	private final boolean armourOnChest;
+	final boolean armourOnChest;
 	private final CustomItem armour;
 	private final CustomItem weapon;
 	private final Map<String, CustomItem> items;
@@ -143,17 +143,9 @@ public class MobData {
 	Map<String, CustomItem> getItems() {
 		Map<String, CustomItem> newItems = new HashMap<>(items);
 		newItems.put("weapon", weapon.clone());
+		newItems.put("armour", armour.clone());
 		
 		return newItems;
-	}
-	
-	void equipArmour(MonsterPlayer player) {
-		PlayerInventory inv = player.getPlayer().getInventory();
-		if (armourOnChest) {
-			inv.setChestplate(armour.createItemStack());
-		} else {
-			inv.setHelmet(armour.createItemStack());
-		}
 	}
 	
 	private static final Map<String, MobData> mobs = new HashMap<>();

@@ -50,7 +50,7 @@ loadout:
   nameprefix: "&b"
 
   lore:
-    - "&d&lLoadout costs $cost points"
+    - "&d&lLoadout costs $cost points."
     - "&1&l$category"
     - ""
     - "${description}"
@@ -97,3 +97,18 @@ monster-hero:
     name: "&4"
     value: "&c"
     reason: "&2"
+
+monster-upgrade:
+  nameprefix: "&c"
+
+  lore:
+    - "&dCosts $cost mana."
+    - "${description}"
+
+  prefix:
+    description: "&6"
+
+  modifiers:
+    name: ""
+    value: ""
+    reason: ""

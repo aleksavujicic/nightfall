@@ -74,13 +74,25 @@ abstract class AbstractTypedMob extends AbstractMob {
 		}
 		
 		giveItem("weapon");
-		mobData.equipArmour(monster);
+		setArmour();
 		monster.delayedHealMax();
+	}
+	
+	protected void setArmour() {
+		PlayerInventory inv = monster.getPlayer().getInventory();
+		if (mobData.armourOnChest) {
+			inv.setChestplate(getArmour().createItemStack());
+		} else {
+			inv.setHelmet(getArmour().createItemStack());
+		}
 	}
 	
 	
 	protected CustomItem getWeapon() {
 		return getItem("weapon");
+	}
+	protected CustomItem getArmour() {
+		return getItem("armour");
 	}
 	
 	protected CustomItem getItem(String name) {

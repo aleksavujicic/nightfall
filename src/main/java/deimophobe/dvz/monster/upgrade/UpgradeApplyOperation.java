@@ -1,48 +1,30 @@
 package deimophobe.dvz.monster.upgrade;
 
-import java.rmi.UnexpectedException;
+import java.util.function.BiFunction;
 
 /**
  * Created by Deimophobe on 24/02/17.
  */
 public enum UpgradeApplyOperation {
-	INCREMENT {
-		@Override
-		public int apply(int prev, int value) {
-			return prev++;
-		}
-	},
-	ADD {
-		@Override
-		public int apply(int prev, int value) {
-			return prev + value;
-		}
-	},
-	SET {
-		@Override
-		public int apply(int prev, int value) {
-			return value;
-		}
-	},
-	SETTRUE {
-		@Override
-		public int apply(int prev, int value) {
-			return 1;
-		}
-	},
-	SETFALSE {
-		@Override
-		public int apply(int prev, int value) {
-			return 0;
-		}
-	},
+	INCREMENT((p,v) -> p+1),
+	ADD((p,v) -> p+v),
+	SET((p,v) -> v),
+	SET_TRUE((p,v) -> 1),
+	SET_FALSE((p,v) -> 0),
+	
 	;
 	
-	public int apply(int previous, int value) {
-		throw new UnsupportedOperationException("UpgradeApplyOperation enum constant: '"+ name() + "' does not implement apply method.");
+	private final BiFunction<Integer, Integer, Integer> applier;
+	UpgradeApplyOperation(BiFunction<Integer, Integer, Integer> applier) {
+		this.applier = applier;
 	}
 	
+	public int apply(int previous, int value) {
+		return applier.apply(previous, value);
+	}
+	
+	
 	public static UpgradeApplyOperation getOperation(String name) {
-		return valueOf(name.toUpperCase());
+		return valueOf(name.toUpperCase().replace('-','_'));
 	}
 }

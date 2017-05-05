@@ -21,7 +21,7 @@ public class UpgradeMenu extends SimpleMenu<MonsterPlayer> {
 			if (key.equals(SETTINGS_KEY)) continue;
 			
 			ConfigurationSection itemSection = section.getConfigurationSection(key);
-			MenuItem<MonsterPlayer> item = new UpgradeMenuItem(itemSection, type, key);
+			MenuItem<MonsterPlayer> item = new UpgradeMenuItem(itemSection, type);
 			int index = itemSection.getInt("index");
 			insertItem(index, item);
 		}

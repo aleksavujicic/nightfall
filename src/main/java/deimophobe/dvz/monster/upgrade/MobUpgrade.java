@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 24/02/17.
  */
-public class MobUpgrades {
+public class MobUpgrade {
 	private final Map<String, Integer> upgrades = new HashMap<>();
 	private final Set<String> upgradeLabels = new HashSet<>();
 	
@@ -26,9 +26,10 @@ public class MobUpgrades {
 	}
 	
 	public void applyUppgrade(String type, UpgradeApplyOperation oper, int value) {
-		type = type.toLowerCase();
-		int prev = getUpgrade(type);
-		upgrades.put(type, oper.apply(prev, value));
+		upgrades.compute(type.toLowerCase(), (k,prev) -> (prev == null ?
+				oper.apply(0, value) :
+				oper.apply(prev, value))
+		);
 	}
 	
 	public boolean hasLabel(String label) {
@@ -36,15 +37,10 @@ public class MobUpgrades {
 	}
 	
 	public boolean hasUpgrade(String type) {
-		type = type.toLowerCase();
-		return (upgrades.containsKey(type) && upgrades.get(type) != 0);
+		return (upgrades.get(type) != 0);
 	}
 	
 	public int getUpgrade(String type) {
-		type = type.toLowerCase();
-		if (upgrades.containsKey(type))
-			return upgrades.get(type);
-		else
-			return 0;
+		return upgrades.computeIfAbsent(type.toLowerCase(), (k) -> 0);
 	}
 }
