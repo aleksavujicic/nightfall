@@ -4,6 +4,7 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
@@ -27,6 +28,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -51,6 +53,7 @@ public class Game {
 	private GameListener gl;
 	
 	private Objective sidebarObj;
+	private final static String OBJ_NAME = "MySidebar";
 	
 	
 	void setupGame(DvZPlugin plugin) {
@@ -63,11 +66,11 @@ public class Game {
 		
 		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
 		
-		Objective oldObj = board.getObjective("MySidebar");
+		Objective oldObj = board.getObjective(OBJ_NAME);
 		if (oldObj != null)
 			oldObj.unregister();
 		
-		sidebarObj = board.registerNewObjective("MySidebar", "dummy");
+		sidebarObj = board.registerNewObjective(OBJ_NAME, "dummy");
 		sidebarObj.setDisplayName(ChatColor.AQUA + "Dwarves");
 		
 		setupPacketEvents();
@@ -145,6 +148,22 @@ public class Game {
 	
 	public void setDoomSidebar(int doomTimer) {
 		sidebarObj.getScore(ChatColor.DARK_RED + "Doom Clock").setScore(doomTimer);
+	}
+	
+	public void setMana(Player player, int mana) {
+		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+		PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.SCOREBOARD_SCORE);
+		packet.getStrings().write(0, ChatColor.RED + "Mana");
+		packet.getStrings().write(1, OBJ_NAME);
+		//packet.getIntegers();
+		packet.getIntegers().write(0, mana);
+		
+		try {
+			protocolManager.sendServerPacket(player, packet);
+		} catch (InvocationTargetException e) {
+			Bukkit.getLogger().severe("Failed to send mana packet.");
+			e.printStackTrace();
+		}
 	}
 	
 	public void updateScoreboard() {

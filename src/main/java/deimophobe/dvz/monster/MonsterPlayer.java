@@ -180,6 +180,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	
 	private void updateXPDisplay() {
 		player.setLevel(experience);
+		Game.getGame().setMana(player, experience);
 	}
 	
 	
