@@ -70,6 +70,4 @@ public class MenuSession<T extends SessionData> {
 		player.closeInventory();
 		mainMenu.onClose(this);
 	}
-	
-	
 }

@@ -43,9 +43,6 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
-                    <excludes>
-                        <exclude>deimophobe/dvz/monster/spawnmenu/**</exclude>
-                    </excludes>
                 </configuration>
             </plugin>
             <plugin>

@@ -45,6 +45,15 @@ public class SimpleMenu<T extends SessionData> implements SubMenu<T> {
 	public void onClose(MenuSession<T> session) {}
 	
 	public void setItem(int i, MenuItem<T> item) {
+		if (item == null) throw new NullPointerException("Cannot place null item in menu.");
 		menuItems.put(i, item);
+	}
+	
+	public MenuItem getItem(int i) {
+		return menuItems.get(i);
+	}
+	
+	protected Collection<MenuItem<T>> getMenuItems() {
+		return menuItems.values();
 	}
 }

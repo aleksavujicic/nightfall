@@ -11,7 +11,7 @@ import java.util.HashSet;
 public class MultiItem<T extends SessionData> implements MenuItem<T> {
 	private final Collection<MenuItem<T>> items = new HashSet<>();
 	
-	protected void addItem(MenuItem<T> item) {
+	public void addItem(MenuItem<T> item) {
 		items.add(item);
 	}
 	
@@ -29,7 +29,7 @@ public class MultiItem<T extends SessionData> implements MenuItem<T> {
 	public boolean onClick(MenuSession<T> session) {
 		for (MenuItem<T> item : items) {
 			if (item.getDisplayItem(session) != null)
-				return onClick(session);
+				return item.onClick(session);
 		}
 		return false;
 	}

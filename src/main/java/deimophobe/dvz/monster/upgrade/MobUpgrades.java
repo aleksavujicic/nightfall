@@ -1,5 +1,6 @@
 package deimophobe.dvz.monster.upgrade;
 
+import deimophobe.dvz.menu.SessionData;
 import org.bukkit.Bukkit;
 
 import java.util.HashMap;

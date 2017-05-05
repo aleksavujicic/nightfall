@@ -520,18 +520,6 @@ public class GameListener implements Listener {
 			if (!DwarvenItems.isDroppableItem(clickedItem) || !DwarvenItems.isDroppableItem(hotbarItem))
 				event.setCancelled(true);
 		}
-		
-		// Main DwarfData handling
-		/*
-		LoadoutMenu loadout = LoadoutMenu.getMenu();
-		HumanEntity e = event.getWhoClicked();
-		if (event.getInventory() != null && loadout.getTitle().equals(event.getInventory().getTitle()) && e instanceof Player) {
-			if (event.getClickedInventory() != null && loadout.getTitle().equals(event.getClickedInventory().getTitle())) {
-				loadout.select(event.getSlot(), (Player) e);
-			}
-			event.setCancelled(true);
-		}
-		*/
 	}
 	
 	@EventHandler
@@ -577,21 +565,6 @@ public class GameListener implements Listener {
 	
 	
 	// ------ MOB STUFF ------
-	@EventHandler
-	public void onInvClick(InventoryClickEvent event) {
-		HumanEntity entity = event.getWhoClicked();
-		if (entity.getType() == EntityType.PLAYER) {
-			Player player = (Player) entity;
-			MonsterPlayer monster = mm.getGamePlayer(player);
-			
-			if (monster != null) { //&& !mob.isAlive()) {
-				//event.setCancelled(true);
-				
-				MonsterManager.getManager().onClick(event.getSlot(), event.getClickedInventory(), monster);
-			}
-		}
-	}
-	
 	@EventHandler
 	public void deadLRClick(PlayerAnimationEvent event) {
 		Player player = event.getPlayer();

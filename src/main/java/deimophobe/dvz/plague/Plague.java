@@ -27,7 +27,7 @@ public abstract class Plague {
 	}
 	
 	private enum PlagueType {
-		ZOMBIE,
+		//ZOMBIE,
 		//INSTA,
 		DEATH
 		;
@@ -38,8 +38,8 @@ public abstract class Plague {
 		
 		public static Plague getPlague(PlagueType type) {
 			switch (type) {
-				case ZOMBIE:
-					return new ZombiePlague();
+				//case ZOMBIE:
+				//	return new ZombiePlague();
 				//case INSTA:
 				//	return new InstaPlague();
 				case DEATH:

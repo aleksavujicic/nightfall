@@ -6,6 +6,7 @@ import deimophobe.dvz.GamePlayerManager;
 import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
+import deimophobe.dvz.monster.spawnmenu.SpawnMenu;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.Inventory;
@@ -84,30 +85,29 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	//                   MENUS N STUFF
 	// --------------------------------------------------------
 	
-	//private final SpawnMenu menu = new SpawnMenu();
+	private SpawnMenu menu;
 	
 	public void onMobRelease() {
+		menu = new SpawnMenu();
 		AIManager.getManager().setup();
 		DoomManager.getManager().setup();
 		
 		//menu.setup();
+		
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				menu.updateEggs();
+			}
+		}.runTaskTimer(Game.getGame().getPlugin(), 1, 300);
 	}
 	
 	public void showMobMenu(MonsterPlayer monster) {
-		//menu.showTo(monster);
+		menu.startSession(monster.getPlayer());
 	}
 	
-	public void onClick(int slot, Inventory clickedInventory, MonsterPlayer monster) {
-		/*
-		MainMenu menu = GlobalMenuList.getMenu(clickedInventory);
-		if (menu != null) {
-			menu.select(slot, monster);
-		}
-		*/
-	}
-	
-	public void addMenuItem(int i, MenuItem egg) {
+	//public void addMenuItem(int i, MenuItem egg) {
 		//menu.addItem(i, egg);
-	}
+	//}
 }
 	

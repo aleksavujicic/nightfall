@@ -4,13 +4,11 @@ zombie:
   index: 0
 
 zombie-upgrade:
-  type: upgrade
+  type: pager
+  page: zombie_upgrade
   item:
     material: wood_pickaxe
     name: Upgrade Zombie
-  file: zombie-upgrades.yml
-  title: Upgrade Zombie
-  mob: zombie
   index: 9
 
 gobo:
@@ -61,3 +59,10 @@ doomclock:
   cost: 500
   time: 10
   index: 8
+
+back:
+  type: pager
+  page: main
+  item:
+    material: diamond
+    name: Go Back

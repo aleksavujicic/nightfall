@@ -1,3 +1,7 @@
+settings:
+  title: Upgrade Zombie
+  mobtype: zombie
+
 attack1:
   item:
     material: wood_sword

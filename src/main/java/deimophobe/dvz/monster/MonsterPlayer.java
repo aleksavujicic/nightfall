@@ -3,6 +3,7 @@ package deimophobe.dvz.monster;
 import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.menu.SessionData;
 import deimophobe.dvz.monster.mob.Bopen;
 import deimophobe.dvz.monster.mob.Mob;
 import deimophobe.dvz.monster.mob.MobType;
@@ -30,7 +31,7 @@ import java.util.Map;
 /**
  * Created by Deimophobe on 17/01/17.
  */
-public class MonsterPlayer extends GamePlayer {
+public class MonsterPlayer extends GamePlayer implements SessionData {
 	
 	private Mob mob;
 	

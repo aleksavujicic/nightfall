@@ -2,6 +2,7 @@ package deimophobe.dvz.monster.spawnmenu;
 
 import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.menu.MenuSession;
+import deimophobe.dvz.menu.SimpleItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
@@ -12,10 +13,8 @@ import org.bukkit.inventory.ItemStack;
  * Created by Deimophobe on 2/02/17.
  */
 abstract class CostMobMenuItem implements MenuItem<MonsterPlayer> {
-	private final ItemStack item;
-	@Override
-	public ItemStack getDisplayItem(MenuSession<MonsterPlayer> player) {return item;}
 	
+	private final ItemStack item;
 	private final int xpCost;
 	
 	CostMobMenuItem(ItemStack item, int xpCost) {
@@ -24,8 +23,17 @@ abstract class CostMobMenuItem implements MenuItem<MonsterPlayer> {
 	}
 	
 	@Override
-	public final boolean select(MonsterPlayer monster) {
-		if (monster.useXP(xpCost)) {
+	public ItemStack getDisplayItem(MenuSession<MonsterPlayer> session) {
+		if (isAvailable(session.getData()))
+			return item;
+		else
+			return null;
+	}
+	
+	@Override
+	public final boolean onClick(MenuSession<MonsterPlayer> session) {
+		MonsterPlayer monster = session.getData();
+		if (isAvailable(monster) && monster.useXP(xpCost)) {
 			return onPayCost(monster);
 		} else {
 			monster.sendMessage(ChatColor.RED + "You need at least " + ChatColor.GREEN + xpCost + ChatColor.RED + " experience for that.");
@@ -34,4 +42,5 @@ abstract class CostMobMenuItem implements MenuItem<MonsterPlayer> {
 	}
 	
 	protected abstract boolean onPayCost(MonsterPlayer monster);
+	protected abstract boolean isAvailable(MonsterPlayer monster);
 }
