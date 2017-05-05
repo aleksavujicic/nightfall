@@ -4,6 +4,7 @@ import deimophobe.dvz.GamePlayer;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockSpreadEvent;
 
 /**
@@ -26,6 +27,10 @@ public enum GameEffect {
 	}
 	
 	public static void playEffect(GameEffect gameEffect, GamePlayer player) {
+		gameEffect.effectMaker.playEffect(player);
+	}
+	
+	public static void playEffect(GameEffect gameEffect, Player player) {
 		gameEffect.effectMaker.playEffect(player);
 	}
 	

@@ -48,7 +48,7 @@ class Hammer extends AbstractAOEHitter implements KitCooldownElement {
 			
 			if (cooldown == MAX_CD && quartSec) {
 				dwarf.playSound("entity.experience_orb.pickup", 10f, 0.5f, false);
-				dwarf.repairArmour(10);
+				dwarf.getArmour().repair(10);
 				dwarf.regenMana(1);
 				
 				if (cooldown >= MAX_CD) cooldown = MAX_CD;

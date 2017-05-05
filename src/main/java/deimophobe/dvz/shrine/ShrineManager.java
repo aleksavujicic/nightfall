@@ -250,7 +250,7 @@ public class ShrineManager {
 		} else {
 			for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
 				dwarf.giveProc(Dwarf.ProcType.SHRINE_FALL);
-				dwarf.repairArmour(1000);
+				dwarf.getArmour().repair(1000);
 				dwarf.regenMana(200);
 			}
 			for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {

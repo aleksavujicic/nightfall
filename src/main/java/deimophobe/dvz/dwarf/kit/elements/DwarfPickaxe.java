@@ -38,9 +38,9 @@ class DwarfPickaxe extends AbstractCooldownItem {
 		if (Misc.isRightClick(action) && isOffCD()) {
 			if (clickedBlock == null) {
 				// PICK REPAIRING ANOTHER DWARF
-				Dwarf repairee = dwarf.getLookingAt(1, 4, (d) -> !d.isMaxArmour(), DwarfManager.getManager());
-				if (repairee != null && ShrineManager.getManager().useGold(10)) {
-					repairee.repairArmour(200);
+				Dwarf repairee = dwarf.getLookingAt(1, 4, (d) -> !d.getArmour().isAtMax(), DwarfManager.getManager());
+				if (repairee != null && ShrineManager.getManager().useGold(50)) {
+					repairee.getArmour().repair(200);
 					GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, repairee);
 					
 					resetCooldown();

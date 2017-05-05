@@ -17,6 +17,9 @@ interface EffectMaker {
 	default void playEffect(GamePlayer player) {
 		playEffect(player.getEyeLocation());
 	}
+	default void playEffect(Player player) {
+		playEffect(player.getEyeLocation());
+	}
 	default void playEffect(Block block) {
 		playEffect(block.getLocation().add(0.5, 0.5, 0.5));
 	}

@@ -2,6 +2,7 @@ package deimophobe.dvz.dwarf.hero;
 
 import deimophobe.dvz.Hat;
 import deimophobe.dvz.Skin;
+import deimophobe.dvz.dwarf.Armour;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.kit.KitElement;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
@@ -23,7 +24,7 @@ public class Hero extends Dwarf {
 	private final Type type;
 	
 	protected Hero(Player player, Type type) {
-		super(player, type.getData());
+		super(player, type.getData(), Armour.Type.HERO);
 		
 		this.type = type;
 		
@@ -48,40 +49,8 @@ public class Hero extends Dwarf {
 	public void showTrash() {}
 	
 	@Override
-	protected int getNaturalRegenRate() {
-		return 5;
-	}
-	
-	@Override
 	public void updateVisibility() {}
 	
-	
-	// TODO: put into dwarf subclass
-	@Override
-	public boolean isArmoured() { return true; }
-	@Override
-	public void putOnArmour() {}
-	@Override
-	public void damageArmour(int dmg) {}
-	@Override
-	public void repairArmour(int amt) {}
-	@Override
-	public boolean isMaxArmour() {
-		return true;
-	}
-	@Override
-	public void updateArmour() {
-		updateArmourBar();
-	}
-	@Override
-	public void updateArmourBar() {
-		player.setFoodLevel((int) Math.ceil(20f));
-	}
-	
-	@Override
-	protected double getDamageReduction() {
-		return 0.84;
-	}
 	
 	
 	

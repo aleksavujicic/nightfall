@@ -21,7 +21,7 @@ public class AIEntity extends GameEntity {
 	@Override
 	public double onHit(GameEntity entity, DamageType type, double damage) {
 		if (entity instanceof  Dwarf) {
-			((Dwarf) entity).damageArmour(10);
+			((Dwarf) entity).getArmour().damage(10);
 			return 15;
 		} else {
 			return damage;

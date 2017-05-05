@@ -1,19 +1,15 @@
 package deimophobe.dvz;
 
-import com.comphenix.protocol.PacketType;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.hero.Hero;
-import deimophobe.dvz.dwarf.kit.Kit;
-import deimophobe.dvz.dwarf.kit.KitElement;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
 import deimophobe.dvz.dwarf.loadout.Loadout;
 import deimophobe.dvz.dwarf.loadout.LoadoutMenu;
 import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.items.ItemManager;
-import deimophobe.dvz.menu.MenuManager;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
@@ -271,7 +267,7 @@ public class DvZPlugin extends JavaPlugin {
 			if (sender instanceof Player) {
 				Dwarf dwarf = dm.getGamePlayer((Player)sender);
 				if (dwarf != null)
-					dwarf.putOnArmour();
+					dwarf.getArmour().putOn();
 				else
 					sender.sendMessage(ChatColor.RED + "You must be a dwarf to do that");
 				

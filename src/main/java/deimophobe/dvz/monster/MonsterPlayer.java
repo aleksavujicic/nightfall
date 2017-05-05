@@ -241,7 +241,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	public double onHit(GameEntity gamePlayer, DamageType type, double damage) {
 		if (mob != null) {
 			if (gamePlayer instanceof Dwarf) {
-				((Dwarf) gamePlayer).damageArmour(mob.getArmourShred());
+				((Dwarf) gamePlayer).getArmour().damage(mob.getArmourShred());
 				return mob.onHit((Dwarf) gamePlayer, type, damage);
 			} else {
 				Bukkit.getLogger().warning("GameEntity in onGotHit should be a Dwarf");

@@ -416,6 +416,60 @@ hero:
       kb_resist: 1
 
 
+armour:
+  high:
+    chest: &default_chest
+      material: diamond_chestplate
+      name: Dwarven Chestplate
+      lore:
+        description:
+         - "Temp"
+        flavour:
+         - "Temp"
+      modifiers:
+        health: 10
+
+    legs: &default_legs
+      material: diamond_leggings
+      name: Dwarven Leggings
+      lore:
+        description:
+         - "Temp"
+        flavour:
+         - "Temp"
+
+    boots: &default_boots
+      material: diamond_boots
+      name: Dwarven Boots
+      lore:
+        description:
+         - "Temp"
+        flavour:
+         - "Temp"
+
+  med:
+    chest:
+      <<: *default_chest
+      material: iron_chestplate
+    legs:
+      <<: *default_legs
+      material: iron_leggings
+    boots:
+      <<: *default_boots
+      material: iron_boots
+
+  low:
+    chest:
+      <<: *default_chest
+      material: chainmail_chestplate
+    legs:
+      <<: *default_legs
+      material: chainmail_leggings
+    boots:
+      <<: *default_boots
+      material: chainmail_boots
+
+
 # To get format codes:
 # http://minecraft.gamepedia.com/Formatting_codes
 # http://minecraft.tools/en/color-code.php

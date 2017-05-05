@@ -34,6 +34,8 @@ import java.util.UUID;
  * Created by Deimophobe on 15/01/17.
  */
 public class Dwarf extends GamePlayer {
+	
+	// Kits
 	private final Kit kit;
 	private final Set<KitElementType> kitElements;
 	
@@ -41,12 +43,17 @@ public class Dwarf extends GamePlayer {
 		return kitElements.contains(type);
 	}
 	
+	// Armours
+	private final Armour armour;
+	public Armour getArmour() { return armour; };
+	
+	
 	
 	Dwarf(Player player) {
-		this(player, DwarfData.getData(player));
+		this(player, DwarfData.getData(player), Armour.Type.DWARF);
 	}
 	
-	public Dwarf(Player player, DwarfData data) {
+	public Dwarf(Player player, DwarfData data, Armour.Type armourType) {
 		super(player);
 		
 		// Clear potion effects/inventory
@@ -54,6 +61,8 @@ public class Dwarf extends GamePlayer {
 		clearInventory();
 		player.setGameMode(GameMode.SURVIVAL);
 		
+		// Set armour
+		armour = armourType.getArmour(this);
 		
 		// Setup kit
 		this.kitElements = data.getElements();
@@ -61,8 +70,6 @@ public class Dwarf extends GamePlayer {
 		giveStartingItems(data.getConsumables());
 		
 		mana = maxMana;
-		armour = maxArmour;
-		armoured = false;
 		
 		// Set title
 		String title = data.getTitle();
@@ -86,7 +93,6 @@ public class Dwarf extends GamePlayer {
 			hat.putOn(this);
 		
 		
-		updateArmour();
 		updateManaBar();
 		
 		respawn();
@@ -131,80 +137,12 @@ public class Dwarf extends GamePlayer {
 		updateManaBar();
 	}
 	
-	protected int getNaturalRegenRate() {
-		if (isMaxArmour()) return 15; // Otherwise formula below would give 16 only when full (which is kinda weird).
-		return (int) Math.floor(Math.atan(3 * getArmour()) * 16/Math.atan(3));
-	}
-	
 	public void updateManaBar() {
 		player.setLevel(mana);
 	}
 	
 	public void updateCooldownBar() {
 		player.setExp(Math.max(0, kit.fractionComplete()));
-	}
-	
-	
-	// ------ ARMOUR STUFF ------
-	private int maxArmour = 2000;
-	private int armour;
-	private boolean armoured;
-	
-	public void setMaxArmour(int max) {
-		maxArmour = max;
-	}
-	
-	public boolean isArmoured() { return armoured; }
-	
-	public void putOnArmour() {
-		armoured = true;
-		updateArmour();
-		GameEffect.playEffect(GameEffect.DWARF_ARMOURED, this);
-	}
-	
-	
-	public boolean isMaxArmour() {
-		return (armour == maxArmour);
-	}
-	
-	public double getArmour() {
-		return (double)armour/maxArmour;
-	}
-	
-	public void damageArmour(int dmg) {
-		if (Game.getGame().getPhase() != Phase.GAME) return;
-		
-		armour -= dmg;
-		if (armour <= 0) armour = 0;
-		updateArmour();
-	}
-	
-	public void repairArmour(int amt) {
-		armour += amt;
-		if (armour >= maxArmour) armour = maxArmour;
-		updateArmour();
-	}
-	
-	
-	public void updateArmour() {
-		if (armoured) {
-			int i;
-			if (getArmour() >= 0.7) {
-				i = 0;
-			} else if (getArmour() > 0.3) {
-				i = 1;
-			} else {
-				i = 2;
-			}
-			player.getInventory().setChestplate(armourItems[i][0]);
-			player.getInventory().setLeggings(armourItems[i][1]);
-			player.getInventory().setBoots(armourItems[i][2]);
-		}
-		updateArmourBar();
-	}
-	
-	public void updateArmourBar() {
-		player.setFoodLevel((int) Math.ceil(20f * armour/maxArmour));
 	}
 	
 	
@@ -334,7 +272,6 @@ public class Dwarf extends GamePlayer {
 		updateCooldownBar();
 		
 		player.setSaturation(10);
-		updateArmourBar();
 		
 		if (consumableGrabCD > 0)
 			consumableGrabCD--;
@@ -347,7 +284,7 @@ public class Dwarf extends GamePlayer {
 		}
 		
 		if (sec) {
-			regenMana(getNaturalRegenRate());
+			regenMana(armour.getManaRegenRate());
 			
 			ItemStack heldItem = getHeldItem();
 			holdingLightItem = (Consumable.getItemStack(ConsumableType.TORCH).isSimilar(heldItem) || Consumable.getItemStack(ConsumableType.LAMP).isSimilar(heldItem));
@@ -461,13 +398,13 @@ public class Dwarf extends GamePlayer {
 	public double onGotHit(GameEntity player, DamageType type, double damage) {
 		
 		// In built resistance from dwarf armour
-		damage *= (1d - getDamageReduction());
+		damage *= (1d - armour.getResistance());
 		
 		// Damage from damage type (more for lava etc.)
 		damage = type.getDwarfDamage(damage);
 		if (damage == -1) return -1;
 		
-		damageArmour(type.getDwarfArmourDmg());
+		armour.damage(type.getDwarfArmourDmg());
 		
 		// Any other changes from kit
 		damage = kit.onGotHit(player, type, damage);
@@ -477,14 +414,6 @@ public class Dwarf extends GamePlayer {
 			return -1;
 		
 		return damage;
-	}
-	protected double getDamageReduction() {
-		if (isArmoured()) {
-			double x = getArmour();
-			return (0.15d/(1d + Math.exp(7d * (0.5d - x)))) + 0.7d;
-		} else {
-			return 0.6;
-		}
 	}
 	
 	@Override
@@ -586,41 +515,4 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	public void notifyDeath(Dwarf dwarf) { kit.notifyDeath(dwarf); }
-	
-	
-	
-	// ------ ITEMS ------
-	private final static ItemStack[][] armourItems;
-	static {
-		ItemStack dchest = new ItemStack(Material.DIAMOND_CHESTPLATE);
-		ItemStack dleg = new ItemStack(Material.DIAMOND_LEGGINGS);
-		ItemStack dboot = new ItemStack(Material.DIAMOND_BOOTS);
-		
-		ItemStack ichest = new ItemStack(Material.IRON_CHESTPLATE);
-		ItemStack ileg = new ItemStack(Material.IRON_LEGGINGS);
-		ItemStack iboot = new ItemStack(Material.IRON_BOOTS);
-		
-		ItemStack cchest = new ItemStack(Material.CHAINMAIL_CHESTPLATE);
-		ItemStack cleg = new ItemStack(Material.CHAINMAIL_LEGGINGS);
-		ItemStack cboot = new ItemStack(Material.CHAINMAIL_BOOTS);
-		
-		armourItems = new ItemStack[][] {
-			{ dchest, dleg, dboot},
-			{ ichest, ileg, iboot},
-			{ cchest, cleg, cboot}
-		};
-		
-		ItemAttributes health = new ItemAttributes();
-		health.addModifier(new AttributeModifier(minecraft.spigot.community.michel_0.api.Attribute.MAX_HEALTH, "HealthBoost", Slot.CHEST, 0, 20.0d, UUID.randomUUID()));
-		for (ItemStack[] set : armourItems) {
-			for (ItemStack item : set) {
-				ItemMeta meta = item.getItemMeta();
-				meta.setUnbreakable(true);
-				meta.addEnchant(Enchantment.BINDING_CURSE, 1, true);
-				meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ENCHANTS);
-				item.setItemMeta(meta);
-			}
-			set[0] = health.apply(set[0]);
-		}
-	}
 }

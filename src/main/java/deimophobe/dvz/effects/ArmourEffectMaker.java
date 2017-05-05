@@ -5,6 +5,7 @@ import deimophobe.dvz.GamePlayer;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
@@ -18,7 +19,7 @@ class ArmourEffectMaker implements EffectMaker {
 	}
 	
 	@Override
-	public void playEffect(GamePlayer player) {
+	public void playEffect(Player player) {
 		World world = player.getLocation().getWorld();
 		
 		// PLAY SOUNDS!
