@@ -191,8 +191,8 @@ public abstract class GameEntity {
 	
 	
 	// ------ POTION EFFECTS ------
-	// TODO experiment
 	public void givePotionEffect(PotionEffectType type, int duration, int amplifier, boolean showAbove, boolean colourBlue, boolean force) {
+		if (amplifier == 0) return;
 		entity.addPotionEffect(new PotionEffect(type, duration, amplifier-1, colourBlue, showAbove), force);
 	}
 	

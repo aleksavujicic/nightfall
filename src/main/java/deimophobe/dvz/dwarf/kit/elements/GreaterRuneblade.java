@@ -6,13 +6,13 @@ import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
+import deimophobe.dvz.dwarf.ProcType;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.items.CustomItem;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
@@ -36,7 +36,7 @@ class GreaterRuneblade extends AbstractCooldownItem {
 	@Override
 	public void onKill(GameEntity monster, DamageType type) {
 		if (type == DamageType.REGULAR_MELEE && isHoldingItem())
-			dwarf.giveProc(Dwarf.ProcType.REGULAR);
+			dwarf.giveProc(ProcType.REGULAR);
 		
 		reduceCooldown(20);
 	}
@@ -47,7 +47,7 @@ class GreaterRuneblade extends AbstractCooldownItem {
 			Player player = dwarf.getPlayer();
 			
 			dwarf.playSound("dash", 1f, 1f, true);
-			dwarf.giveProc(Dwarf.ProcType.RUNEDASH);
+			dwarf.giveProc(ProcType.RUNEDASH);
 			player.setVelocity(player.getLocation().getDirection().setY(0).normalize().multiply(5));
 			resetCooldown();
 			

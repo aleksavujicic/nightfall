@@ -9,13 +9,13 @@ import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.ProcType;
 import deimophobe.dvz.dwarf.loadout.Loadout;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
 import deimophobe.dvz.monster.upgrade.GlobalUpgrade;
-import deimophobe.dvz.plague.AbstractPlague;
 import deimophobe.dvz.plague.Plague;
 import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.*;
@@ -296,7 +296,7 @@ public class Game {
 			@Override
 			public void run() {
 				for (Dwarf dwarf : dm.getGamePlayers()) {
-					dwarf.giveProc(Dwarf.ProcType.HORN);
+					dwarf.giveProc(ProcType.HORN);
 				}
 			}
 		}.runTaskLater(Game.getGame().getPlugin(), 40);

@@ -6,6 +6,7 @@ import deimophobe.dvz.Misc;
 import deimophobe.dvz.Phase;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.ProcType;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
@@ -249,7 +250,7 @@ public class ShrineManager {
 			Game.getGame().endGame();
 		} else {
 			for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
-				dwarf.giveProc(Dwarf.ProcType.SHRINE_FALL);
+				dwarf.giveProc(ProcType.SHRINE_FALL);
 				dwarf.getArmour().repair(1000);
 				dwarf.regenMana(200);
 			}

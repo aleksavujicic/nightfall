@@ -11,13 +11,12 @@ import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.DwarvenItems;
+import deimophobe.dvz.dwarf.ProcType;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.monster.MonsterManager;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.*;
 import org.bukkit.entity.Projectile;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 /**
@@ -82,7 +81,7 @@ class Ebow extends AbstractBow {
 					
 					for (Dwarf procDwarf : DwarfManager.getManager().getGamePlayers()) {
 						if (procDwarf != dwarf && monsterLocation.distance(procDwarf.getLocation()) <= PROC_RADIUS)
-							procDwarf.giveProc(Dwarf.ProcType.EBOW);
+							procDwarf.giveProc(ProcType.EBOW);
 					}
 				}
 			}

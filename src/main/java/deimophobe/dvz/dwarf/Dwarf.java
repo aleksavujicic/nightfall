@@ -7,28 +7,20 @@ import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
 import deimophobe.dvz.dwarf.kit.consumable.Consumable;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
-import deimophobe.dvz.effects.*;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.shrine.ShrineManager;
-import minecraft.spigot.community.michel_0.api.AttributeModifier;
-import minecraft.spigot.community.michel_0.api.ItemAttributes;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * Created by Deimophobe on 15/01/17.
@@ -251,7 +243,7 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	
-	// ------ BLOOD ------
+	// ------ PLAGUE IMMUNITY ------
 	private boolean plagueImmune = false;
 	
 	public boolean togglePlagueImmunity() {
@@ -300,67 +292,8 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	public void giveProc(ProcType procType) {
-		switch (procType) {
-			case EBOW:
-			case GRAVEL_PROC:
-			case REGULAR:
-				playSound("proc", 1f, 1f, false);
-				player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, player.getLocation(), 60, 1, 1, 1);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60, 0), true);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 1), false);
-				break;
-				
-			case AVENGE:
-				playSound("horn", 100, 1, false);
-			case HORN:
-				playSound("proc", 1f, 1f, false);
-				player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, player.getLocation(), 60, 1, 1, 1);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 160, 3), true);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 160, 3), false);
-				givePotionEffect(PotionEffectType.FAST_DIGGING, 160, 2, true, true, true);
-				break;
-				
-			case MALICE:
-				playSound("maliceuse", 20f, 1f, false);
-				playSound("proc", 1f, 1f, false);
-				player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, player.getLocation(), 60, 1, 1, 1);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 170, 0), true);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 170, 1), false);
-				break;
-			
-			case DRAGONSKIN:
-				playSound("proc", 1f, 1f, false);
-				player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, player.getLocation(), 60, 1, 1, 1);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 60, 0), true);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 60, 0), false);
-				break;
-			
-			case SHRINE_FALL:
-				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 160, 1), true);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 160, 1), false);
-				break;
-			
-			case RUNEDASH:
-				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 12, 0), false);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 12, 29), false);
-				break;
-				
-			case ROAR:
-				playSound("entity.enderdragon.growl", 1, 1, true);
-				player.getWorld().spawnParticle(Particle.FLAME, player.getLocation(), 200, 1, 1, 1, 0.1);
-				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 160, 1), true);
-				givePotionEffect(PotionEffectType.GLOWING, 160, 1, true, false, true);
-				break;
-				
-			default:
-				Bukkit.getLogger().warning("No proc constant: " + procType + "!?");
-				break;
-		}
+		procType.giveProc(this);
 		updateVisibility();
-	}
-	
-	public enum ProcType {
-		REGULAR, HORN, MALICE, DRAGONSKIN, SHRINE_FALL, GRAVEL_PROC, EBOW, RUNEDASH, ROAR, AVENGE,
 	}
 	
 	// ------ EVENTS ------

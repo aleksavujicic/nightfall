@@ -5,13 +5,13 @@ import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
+import deimophobe.dvz.dwarf.ProcType;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.items.CustomItem;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -37,7 +37,8 @@ class AxeOfMalice extends AbstractCooldownItem {
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action) && isOffCD()) {
-			dwarf.giveProc(Dwarf.ProcType.MALICE);
+			dwarf.giveProc(ProcType.MALICE);
+			dwarf.playSound("maliceuse", 20f, 1f, false);
 			resetCooldown();
 			return true;
 		}

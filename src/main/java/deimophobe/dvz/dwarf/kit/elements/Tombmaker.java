@@ -3,6 +3,7 @@ package deimophobe.dvz.dwarf.kit.elements;
 import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
+import deimophobe.dvz.dwarf.ProcType;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.items.CustomItem;
 import minecraft.spigot.community.michel_0.api.Slot;
@@ -10,7 +11,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -34,7 +34,7 @@ class Tombmaker extends AbstractCooldownItem {
 	@Override
 	public void onKill(GameEntity monster, DamageType type) {
 		if (type == DamageType.REGULAR_MELEE && dwarf.hasProc() && isHoldingItem())
-			dwarf.giveProc(Dwarf.ProcType.REGULAR);
+			dwarf.giveProc(ProcType.REGULAR);
 	}
 	
 	@Override
@@ -51,7 +51,7 @@ class Tombmaker extends AbstractCooldownItem {
 	@Override
 	public void onBlockBreak(Block block) {
 		if (block.getType() == Material.GRAVEL && Game.getGame().getPhase() == Phase.GAME) {
-			dwarf.giveProc(Dwarf.ProcType.GRAVEL_PROC);
+			dwarf.giveProc(ProcType.GRAVEL_PROC);
 		}
 	}
 }

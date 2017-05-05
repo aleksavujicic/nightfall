@@ -4,6 +4,7 @@ import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
+import deimophobe.dvz.dwarf.ProcType;
 import deimophobe.dvz.dwarf.kit.KitCooldownElement;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.items.CustomItem;
@@ -12,10 +13,12 @@ import deimophobe.dvz.monster.ai.AIEntity;
 import deimophobe.dvz.monster.ai.AIManager;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.ChatColor;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 11/03/17.
@@ -59,7 +62,12 @@ class TuiHammer extends AbstractAOEHitter implements KitCooldownElement {
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action) && cooldown == 0) {
 			dwarf.sendMessage(ChatColor.GOLD + "ROAR!!!");
-			dwarf.giveProc(Dwarf.ProcType.ROAR);
+			
+			dwarf.playSound("entity.enderdragon.growl", 1, 1, true);
+			dwarf.getPlayer().getWorld().spawnParticle(Particle.FLAME, dwarf.getLocation(), 200, 1, 1, 1, 0.1);
+			dwarf.givePotionEffect(PotionEffectType.GLOWING, 160, 1, true, false, true);
+			
+			dwarf.giveProc(ProcType.ROAR);
 			
 			for (AIEntity ai : AIManager.getManager().getAIs()) {
 				if (dwarf.getLocation().distance(ai.getLocation()) <= AI_RADIUS) {

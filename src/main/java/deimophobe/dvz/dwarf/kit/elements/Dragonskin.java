@@ -4,10 +4,9 @@ import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
+import deimophobe.dvz.dwarf.ProcType;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.items.CustomItem;
-import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -29,6 +28,6 @@ class Dragonskin extends AbstractBow {
 	
 	@Override
 	public void onSelfKill(GameEntity monster, DamageType type) {
-		dwarf.giveProc(Dwarf.ProcType.DRAGONSKIN);
+		dwarf.giveProc(ProcType.DRAGONSKIN);
 	}
 }
