@@ -4,10 +4,12 @@ sword:
     name: Dwarven Runeblade
     lore:
       description:
-       - "I guess you forgot to pick a kit Jimmy."
-      flavour:
        - "A runeblade that has yet to be enchanted\n
           with &bwind&r magic."
+      flavour:
+       - "These blades can still kill a monster\n
+          You are just going to have a\n
+          tougher time doing it."
     modifiers:
       attack: 15
   grb:
@@ -71,8 +73,7 @@ sword:
     name: Tombmaker
     lore:
       description:
-       - "Yesss....kill monsterssss\n
-          dig...&bgravel&r...roll procs
+       - "A shovel with the ability to roll procs\n
           Right click for a Haste buff to dig faster."
       flavour:
        - "Entrusted with the toughest task of all,\n
@@ -84,8 +85,9 @@ sword:
     name: Tiger Fist
     lore:
       description:
-       - "Right click and hold for a fully charged\n
-          and constant leap that extends with each monster\n
+       - "Right click and hold for\n
+          a fully charged and constant leap\n
+          that extends with each monster\n
           killed."
       flavour:
        - "Wait these are Fists? It kinda looks like a shield."
@@ -98,66 +100,88 @@ bow:
     name: Shortbow
     lore:
       description:
-       - "Temp"
+       - "A bow made with oak wood and\n
+          hempen rope."
       flavour:
-       - "Temp"
+       - "Not very strong is it?\n
+          Well it is a shortbow after all."
   dragonskin:
     material: bow
     name: Dragonskin Bow
     lore:
       description:
-       - "Temp"
+       - "Kills with this bow\n
+          gives a proc for 3 seconds."
       flavour:
-       - "Temp"
+       - "Rawr,Rawr,Rawwwwwwwr."
   longbow:
     material: bow
     name: Longbow
     lore:
       description:
-       - "Temp"
+       - "Kills with this bow stack\n
+          up to 6 times for a total\n
+          of 200 Power."
       flavour:
-       - "Temp"
+       - "27..28...29!"
   crossbow:
     base: crossbow
     name: Crossbow
     lore:
       description:
-       - "Temp"
+       - "A special bow made to fire\n
+          immediately with no draw time\n
+          has a slight reload time."
       flavour:
-       - "Temp"
+       - "Real dwarves use crossbows\n
+          not some fancy elven bow."
   lightbow:
     base: lightbow
     name: Lightbow
     lore:
       description:
-       - "Temp"
+       - "This bow fires special arrows that\n
+          create lamps in the walls\n
+          You are also immune to darkness."
       flavour:
-       - "Temp"
+       - "No lamp jumping for you Jimmy!."
   ebow:
     base: ebow
     name: Emerald Bow
     lore:
       description:
-       - "Temp"
+       - "A very fragile and weak bow\n
+          Monsters hit with this bow\n
+          give off a proc to dwarves\n
+          within range."
       flavour:
-       - "Temp"
+       - "I'm sure glad we found use for the rest of\n
+          that Emerald City."
   warpweaver:
     base: warpbow
     name: Warpweaver Bow
     lore:
       description:
-       - "Temp"
+       - "Shooting an arrow with this bow\n
+          cause you to switch places with it\n
+          for a few seconds before\n
+          warping back."
       flavour:
-       - "Temp"
+       - "No endermen were harmed in\n
+          the crafting of this bow."
 ale:
   healing:
     base: healing_ale
     name: Healing Ale
     lore:
       description:
-       - "Temp"
+       - "Left click to heal yourself for &b100&r mana."
       flavour:
-       - "Temp"
+       - "Manual healing takes time\n
+          to learn, but once you\n
+          master it, you will\n
+          last longer than any\n
+          Jimmy Juicer."
   jj:
     base: jimmyjuice
     name: Jimmy Juice
@@ -173,25 +197,35 @@ ale:
     name: Holy Ale
     lore:
       description:
-       - "Temp"
+       - "Left click to heal yourself\n
+          for 100 mana and gain\n
+          &b8 absorption hearts*r"
       flavour:
-       - "Temp"
+       - "Holy ale is NOT light beer\n
+          it's light ale."
   trinket:
     base: trinket
     name: Star Trinket
     lore:
       description:
-       - "Temp"
+       - "Left click to heal yourself\n
+          for &b200&r mana and gain\n
+          &b20 absorption hearts&r\n
+          You also gain perma regen."
       flavour:
-       - "Temp"
+       - "Star Trinket is not Regrowth Star!."
   regrowth:
     base: regrowth
     name: Regrowth Star
     lore:
       description:
-       - "Temp"
+       - "Left click to heal yourself\n
+          for &b100&r mana\n
+          Right click on dwarves heals\n
+          them and their armour at the cost\n
+          of your mana."
       flavour:
-       - "Temp"
+       - "Regrowth Star is not Star Trinket!."
 
 consumable:
   lamp:
