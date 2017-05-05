@@ -21,7 +21,7 @@ class SectionComponent implements LoreComponent {
 	public String toString(Map<String, String> sections) {
 		String section = prefix + sections.get(name);
 		section = section.replaceAll("&r", "&r" + prefix);
-		section = section.replaceAll("\n\\s+", "\n" + prefix);
+		section = section.replaceAll("\n\\s*", "\n" + prefix);
 		
 		return section;
 	}

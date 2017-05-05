@@ -3,6 +3,7 @@ package deimophobe.dvz.items.lore;
 import com.google.common.collect.ImmutableList;
 import deimophobe.dvz.items.modifiers.ItemModifier;
 import deimophobe.dvz.items.modifiers.ItemModifierType;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
@@ -62,8 +63,6 @@ public class Lore implements Cloneable {
 			String name = loreText.substring(i+1, j);
 			variablePointers.put(name, i);
 			loreText.replace(i, j, "");
-			
-			Bukkit.getLogger().info("Found var: " + name + " at " + i);
 		}
 	}
 	

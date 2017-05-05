@@ -279,7 +279,7 @@ public class Dwarf extends GamePlayer {
 			regenMana(armour.getManaRegenRate());
 			
 			ItemStack heldItem = getHeldItem();
-			holdingLightItem = (Consumable.getItemStack(ConsumableType.TORCH).isSimilar(heldItem) || Consumable.getItemStack(ConsumableType.LAMP).isSimilar(heldItem));
+			holdingLightItem = (Consumable.isSimilar(ConsumableType.TORCH, heldItem) || Consumable.isSimilar(ConsumableType.LAMP, heldItem));
 			updateVisibility();
 		}
 	}
@@ -299,7 +299,7 @@ public class Dwarf extends GamePlayer {
 	// ------ EVENTS ------
 	@Override
 	public void updateHotbarSlot(ItemStack heldItem, int slot) {
-		holdingLightItem = (Consumable.getItemStack(ConsumableType.TORCH).isSimilar(heldItem) || Consumable.getItemStack(ConsumableType.LAMP).isSimilar(heldItem));
+		holdingLightItem = (Consumable.isSimilar(ConsumableType.TORCH, heldItem) || Consumable.isSimilar(ConsumableType.LAMP, heldItem));
 		updateVisibility();
 		
 		kit.updateHotbarSlot(heldItem);

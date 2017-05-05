@@ -105,4 +105,8 @@ public abstract class Consumable {
 			ConsumableType.TORCH,
 			ConsumableType.COBBLESTONE
 	};
+	
+	public static boolean isSimilar(ConsumableType type, ItemStack item) {
+		return consumableMap.get(type).matchesItem(item);
+	}
 }
