@@ -574,9 +574,11 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void deadLRClick(PlayerInteractEvent event) {
+		/*
 		Player player = event.getPlayer();
 		boolean succ = tryShowMobMenu(player);
 		if (succ) event.setCancelled(true);
+		*/
 	}
 	
 	private boolean tryShowMobMenu(Player player) {

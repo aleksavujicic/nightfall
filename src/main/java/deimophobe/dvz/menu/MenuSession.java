@@ -21,7 +21,6 @@ public class MenuSession<T extends SessionData> {
 	
 	
 	MenuSession(MainMenu<T> mainMenu, Player player) {
-		Bukkit.broadcastMessage("Session created");
 		this.mainMenu = mainMenu;
 		this.player = player;
 		
@@ -47,7 +46,6 @@ public class MenuSession<T extends SessionData> {
 	
 	
 	void onClick(int index) {
-		Bukkit.broadcastMessage("Session click");
 		boolean update = mainMenu.onClick(index, this);
 		if (update)
 			updateInventory();
@@ -66,7 +64,6 @@ public class MenuSession<T extends SessionData> {
 	}
 	
 	void onClose() {
-		Bukkit.broadcastMessage("Session close");
 		player.closeInventory();
 		mainMenu.onClose(this);
 	}

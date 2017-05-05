@@ -54,6 +54,8 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		
 		Team team = setupTeams("mobs", ChatColor.DARK_RED);
 		team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OTHER_TEAMS);
+		
+		menu = new SpawnMenu();
 	}
 	public void reset() {
 		if (runner != null)
@@ -88,7 +90,6 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	private SpawnMenu menu;
 	
 	public void onMobRelease() {
-		menu = new SpawnMenu();
 		AIManager.getManager().setup();
 		DoomManager.getManager().setup();
 		
