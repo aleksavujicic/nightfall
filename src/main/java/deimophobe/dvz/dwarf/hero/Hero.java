@@ -88,19 +88,23 @@ public class Hero extends Dwarf {
 	
 	private static final Map<ConsumableType, Integer> HERO_CONSUMABLES = new HashMap<>();
 	static {
+		HERO_CONSUMABLES.put(ConsumableType.COBBLESTONE, 256);
+		HERO_CONSUMABLES.put(ConsumableType.TORCH, 128);
 		HERO_CONSUMABLES.put(ConsumableType.WIZARD_MORTAR, 32);
 		HERO_CONSUMABLES.put(ConsumableType.MORTAR, 64);
 		HERO_CONSUMABLES.put(ConsumableType.LAMP, 20);
-		HERO_CONSUMABLES.put(ConsumableType.SOS, 3);
+		HERO_CONSUMABLES.put(ConsumableType.SOS, 1);
 	}
 	
 	public enum Type {
-		TUI("Tui the Lightbringer", Hat.TUI, "tui", "Tui", KitElementType.TUI_HAMMER, KitElementType.WILDFIRE) {
-			@Override public Hero createHero(Player player) {return new Tui(player, this);}
-		},
-		NOSOVIN("Nosovin's Illustration", Hat.NOSOVIN, "tui", "Nosovin", KitElementType.TINDERFLAME, KitElementType.WAND, KitElementType.ROCKET_BOOTS){
-			@Override public Hero createHero(Player player) {return new Nosovin(player, this);}
-		},
+		TUI("Tui the Lightbringer", Hat.TUI, "tui", "Tui",
+				KitElementType.TUI_HAMMER,
+				KitElementType.WILDFIRE),
+		
+		NOSOVIN("Nosovin's Illustration", Hat.NOSOVIN, "tui", "Nosovin",
+				KitElementType.TINDERFLAME,
+				KitElementType.WAND,
+				KitElementType.ROCKET_BOOTS),
 		;
 		
 		private final DwarfData data;
@@ -118,7 +122,7 @@ public class Hero extends Dwarf {
 			
 			allElements.addAll(Arrays.asList(elements));
 			
-			this.data = new DwarfData(title, true, hat, allElements,HERO_CONSUMABLES);
+			this.data = new DwarfData(title, true, hat, allElements, HERO_CONSUMABLES);
 			this.skin = skin;
 			this.nametag = nametag;
 		}
@@ -134,7 +138,13 @@ public class Hero extends Dwarf {
 			return disguise;
 		}
 		
-		public abstract Hero createHero(Player player);
+		public Hero createHero(Player player) {
+			switch (this) {
+				case TUI: return new Tui(player, this);
+				case NOSOVIN: return new Nosovin(player, this);
+			}
+			throw new IllegalArgumentException("Unknown hero: " + this);
+		}
 		
 		public static Type getHeroType(String arg) {
 			for (Type type : values()) {
