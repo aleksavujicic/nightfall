@@ -197,9 +197,10 @@ ale:
     name: Holy Ale
     lore:
       description:
-       - "Left click to heal yourself\n
-          for 100 mana and gain\n
-          &b8 absorption hearts*r"
+       - |-
+         Left click to heal yourself
+         for 100 mana and gain
+         &b8 absorption hearts&r
       flavour:
        - "Holy ale is NOT light beer\n
           it's light ale."
@@ -407,10 +408,10 @@ hero:
        - "Temp"
       flavour:
         - |-
-            Rank 11? Psssh, that's nothing. When you've lived your whole
-            life with the flames, the holy light is all you see. I've bathed
-            in embers, emerged victorious from scorching coals. This
-            hammer's been with me through it all.
+          Rank 11? Psssh, that's nothing. When you've lived your whole
+          life with the flames, the holy light is all you see. I've bathed
+          in embers, emerged victorious from scorching coals. This
+          hammer's been with me through it all.
     modifiers:
       attack: 25
       kb_resist: 1
@@ -453,7 +454,7 @@ hero:
   pole:
     template: dwarf-hero
     material: stick
-    name: CPR
+    name: Elystria
     lore:
       description:
        - "Temp"
