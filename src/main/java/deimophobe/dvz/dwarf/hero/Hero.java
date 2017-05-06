@@ -126,5 +126,12 @@ public class Hero extends Dwarf {
 			}
 			return null;
 		}
+		
+		public static Collection<String> getHeroList() {
+			Set<String> heroes = new HashSet<>();
+			for (Type type : values())
+				heroes.add(type.toString().toLowerCase());
+			return heroes;
+		}
 	}
 }

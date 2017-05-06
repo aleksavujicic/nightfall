@@ -1,10 +1,8 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.kit.HealerTotem;
 import deimophobe.dvz.dwarf.kit.KitElement;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 

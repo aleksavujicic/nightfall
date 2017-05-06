@@ -421,6 +421,10 @@ public class DvZPlugin extends JavaPlugin {
 			return startsWithPrefix(elements, args[args.length-1]);
 		}
 		
+		if (name.equalsIgnoreCase("sethero") && args.length == 2) {
+			return startsWithPrefix(Hero.Type.getHeroList(), args[args.length-1]);
+		}
+		
 		if (name.equalsIgnoreCase("spawnmob") && args.length == 2) {
 			return startsWithPrefix(MobType.getAllMobTypes(), args[args.length-1]);
 		}

@@ -1,4 +1,4 @@
-package deimophobe.dvz.dwarf.kit;
+package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
@@ -12,7 +12,7 @@ import org.bukkit.potion.PotionEffectType;
 /**
  * Created by Deimophobe on 6/05/17.
  */
-public class HealerTotem extends AbstractElement {
+class HealerTotem extends AbstractElement {
 	
 	private boolean active;
 	
@@ -22,7 +22,7 @@ public class HealerTotem extends AbstractElement {
 	
 	private void activate() {
 		active = true;
-		dwarf.givePermanentPotionEffect(PotionEffectType.SLOW, 100);
+		dwarf.givePermanentPotionEffect(PotionEffectType.SLOW, 2);
 		dwarf.givePermanentPotionEffect(PotionEffectType.WEAKNESS, 100);
 		dwarf.givePermanentPotionEffect(PotionEffectType.JUMP, -100);
 		dwarf.givePermanentPotionEffect(PotionEffectType.GLOWING, 1);
