@@ -1,6 +1,7 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.kit.HealerTotem;
 import deimophobe.dvz.dwarf.kit.KitElement;
 
 import java.util.Collection;
@@ -58,6 +59,8 @@ public enum KitElementType {
 	TINDERFLAME,
 	WAND,
 	ROCKET_BOOTS,
+	
+	HEALER_TOTEM,
 	
 	;
 	
@@ -134,6 +137,8 @@ public enum KitElementType {
 			case TINDERFLAME: return new Tinderflame(dwarf);
 			case WAND: return new Wand(dwarf);
 			case ROCKET_BOOTS: return new RocketBoots(dwarf);
+			
+			case HEALER_TOTEM: return new HealerTotem(dwarf);
 		}
 		throw new UnsupportedOperationException("Unimplemented element type: " + this);
 	}

@@ -196,12 +196,22 @@ public abstract class GameEntity {
 		entity.addPotionEffect(new PotionEffect(type, duration, amplifier-1, colourBlue, showAbove), force);
 	}
 	
+	private static final int MAX_POTION_LENGTH = 10*60*60*20;
+	public void givePermanentPotionEffect(PotionEffectType type, int amplifier) {
+		givePotionEffect(type, MAX_POTION_LENGTH, amplifier, true, true, true);
+	}
+	
 	public void clearEffects() {
 		for (PotionEffect effect : entity.getActivePotionEffects()){
 			entity.removePotionEffect(effect.getType());
 		}
 	}
 	
+	public void removePotionEffect(PotionEffectType type) {
+		entity.removePotionEffect(type);
+	}
+	
 	public abstract double onHit(GameEntity entity, DamageType type, double damage);
 	public abstract double onGotHit(GameEntity entity, DamageType type, double damage);
+	
 }
