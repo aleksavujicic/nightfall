@@ -50,6 +50,16 @@ public abstract class AbstractCooldown extends AbstractElement implements KitCoo
 		}
 	}
 	
+	protected void increaseCooldown(int amount) {
+		if (maxCooldown != -1) {
+			cooldown += amount;
+			if (cooldown >= maxCooldown) {
+				cooldown = maxCooldown;
+			}
+		}
+		
+	}
+	
 	protected final boolean isOffCD() {
 		return (cooldown == 0);
 	}

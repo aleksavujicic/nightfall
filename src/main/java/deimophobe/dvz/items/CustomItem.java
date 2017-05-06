@@ -114,12 +114,21 @@ public class CustomItem implements Cloneable {
 		return item;
 	}
 	
-	public boolean isSimilar(BaseItem item) {
-		return base.isSimilar(item);
+	public boolean isSimilar(CustomItem item) {
+		if (item == null) return false;
+		return (
+			lore.createName().equals(item.lore.createName()) &&
+			base.isSimilar(item.base)
+		);
 	}
 	
 	public boolean isSimilar(ItemStack item) {
-		return base.isSimilar(item);
+		if (item == null) return false;
+		if (item.getItemMeta() == null) return false;
+		return (
+				lore.createName().equals(item.getItemMeta().getDisplayName()) &&
+				base.isSimilar(item)
+		);
 	}
 	
 	@Override

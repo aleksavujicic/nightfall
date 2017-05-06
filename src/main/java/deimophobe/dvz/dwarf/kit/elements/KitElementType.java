@@ -61,6 +61,7 @@ public enum KitElementType {
 	ROCKET_BOOTS,
 	
 	HEALER_TOTEM,
+	KAD_POLE
 	
 	;
 	
@@ -139,6 +140,7 @@ public enum KitElementType {
 			case ROCKET_BOOTS: return new RocketBoots(dwarf);
 			
 			case HEALER_TOTEM: return new HealerTotem(dwarf);
+			case KAD_POLE: return new KadPole(dwarf);
 		}
 		throw new UnsupportedOperationException("Unimplemented element type: " + this);
 	}

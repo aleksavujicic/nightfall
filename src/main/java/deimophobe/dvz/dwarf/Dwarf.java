@@ -123,6 +123,12 @@ public class Dwarf extends GamePlayer {
 		return true;
 	}
 	
+	public void useMana(int amt) {
+		mana -= amt;
+		if (mana <= 0) mana = 0;
+		updateManaBar();
+	}
+	
 	public void regenMana(int amt) {
 		mana += amt;
 		if (mana > maxMana) mana = maxMana;

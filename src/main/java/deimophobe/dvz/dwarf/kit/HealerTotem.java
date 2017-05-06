@@ -23,6 +23,7 @@ public class HealerTotem extends AbstractElement {
 	private void activate() {
 		active = true;
 		dwarf.givePermanentPotionEffect(PotionEffectType.SLOW, 100);
+		dwarf.givePermanentPotionEffect(PotionEffectType.WEAKNESS, 100);
 		dwarf.givePermanentPotionEffect(PotionEffectType.JUMP, -100);
 		dwarf.givePermanentPotionEffect(PotionEffectType.GLOWING, 1);
 		dwarf.getPlayer().getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
@@ -31,6 +32,7 @@ public class HealerTotem extends AbstractElement {
 	private void deactivate() {
 		active = false;
 		dwarf.removePotionEffect(PotionEffectType.SLOW);
+		dwarf.removePotionEffect(PotionEffectType.WEAKNESS);
 		dwarf.removePotionEffect(PotionEffectType.JUMP);
 		dwarf.removePotionEffect(PotionEffectType.GLOWING);
 		dwarf.getPlayer().getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
@@ -51,8 +53,8 @@ public class HealerTotem extends AbstractElement {
 	}
 	
 	@Override
-	public double onHit(GameEntity entity, DamageType type, double damage) {
-		if (active) return -1;
-		else return damage;
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		if (quartSec && active)
+			dwarf.useMana(5);
 	}
 }

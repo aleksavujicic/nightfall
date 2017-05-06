@@ -450,6 +450,20 @@ hero:
       attack: 5
       kb_resist: 1
 
+  pole:
+    template: dwarf-hero
+    material: stick
+    name: CPR
+    lore:
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+    modifiers:
+      attack: 10
+      knockback: 2
+      kb_resist: 1
+
 
 armour:
   high:

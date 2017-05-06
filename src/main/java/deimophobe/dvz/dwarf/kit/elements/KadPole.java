@@ -1,0 +1,78 @@
+package deimophobe.dvz.dwarf.kit.elements;
+
+import deimophobe.dvz.Misc;
+import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.DwarvenItems;
+import deimophobe.dvz.dwarf.kit.KitGiveType;
+import deimophobe.dvz.items.CustomItem;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.event.block.Action;
+
+/**
+ * Created by Deimophobe on 6/05/17.
+ */
+public class KadPole extends AbstractCooldownItem {
+	
+	private static final int MAX_CD = 20;
+	
+	private int grabCD = 0;
+	private Location returnSpot;
+	private Dwarf target;
+	
+	public KadPole(Dwarf dwarf) {
+		super(dwarf, 60*20);
+	}
+	
+	private final static CustomItem ITEM = DwarvenItems.getItem("hero.pole");
+	@Override public CustomItem getItem() {return ITEM;}
+	@Override public KitGiveType getGiveType() {return KitGiveType.START;}
+	
+	@Override
+	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		if (Misc.isRightClick(action) && grabCD == 0) {
+			int cd = getCooldown();
+			if (cd <= 30*20) {
+				target = dwarf.getLookingAt(3, 10, DwarfManager.getManager());
+				if (target != null) {
+					grabCD = MAX_CD;
+					returnSpot = dwarf.getLocation();
+					increaseCooldown(30 * 20);
+					
+					Location targetLoc = target.getLocation();
+					targetLoc.add(targetLoc.getDirection().setY(0).normalize());
+					targetLoc.setDirection(targetLoc.getDirection().multiply(-1));
+					
+					dwarf.teleportTo(targetLoc);
+					dwarf.playSound("entity.endermen.teleport");
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
+		super.update(a,b,c,d,e);
+		if (grabCD == 0) return;
+		
+		grabCD--;
+		
+		if (grabCD == 0) {
+			dwarf.teleportTo(returnSpot);
+			target.teleportTo(returnSpot);
+			
+			dwarf.playSound("entity.endermen.teleport");
+			target.playSound("entity.endermen.teleport");
+			
+			grabCD = 0;
+			returnSpot = null;
+			target = null;
+		}
+	}
+	
+	
+}

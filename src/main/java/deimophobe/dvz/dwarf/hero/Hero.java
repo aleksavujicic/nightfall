@@ -74,6 +74,10 @@ public class Hero extends Dwarf {
 				KitElementType.TINDERFLAME,
 				KitElementType.WAND,
 				KitElementType.ROCKET_BOOTS),
+		
+		ALTHEA("Althea", Hat.NOSOVIN, "capmergor", "Althea",
+				KitElementType.HEALER_TOTEM,
+				KitElementType.KAD_POLE),
 		;
 		
 		private final DwarfData data;
@@ -111,6 +115,7 @@ public class Hero extends Dwarf {
 			switch (this) {
 				case TUI: return new Tui(player, this);
 				case NOSOVIN: return new Nosovin(player, this);
+				case ALTHEA: return new Hero(player, this);
 			}
 			throw new IllegalArgumentException("Unknown hero: " + this);
 		}
