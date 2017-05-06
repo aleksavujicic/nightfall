@@ -38,11 +38,11 @@ public class Hero extends Dwarf {
 	}
 	
 	private void announceHero() {
-		Bukkit.broadcastMessage(ChatColor.DARK_AQUA + player.getName() + ChatColor.LIGHT_PURPLE + " has become the dwarven hero " + player.getDisplayName());
+		Bukkit.broadcastMessage(ChatColor.DARK_AQUA + entity.getName() + ChatColor.LIGHT_PURPLE + " has become the dwarven hero " + entity.getDisplayName());
 	}
 	
 	public Disguise getDisguise() {
-		return DisguiseAPI.getDisguise(player);
+		return DisguiseAPI.getDisguise(entity);
 	}
 	
 	@Override
