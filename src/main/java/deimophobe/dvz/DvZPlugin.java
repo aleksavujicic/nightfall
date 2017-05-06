@@ -82,7 +82,7 @@ public class DvZPlugin extends JavaPlugin {
 			} else if (args.length == 1) {
 				dm.removeGamePlayer(args[0], true);
 				mm.removeGamePlayer(args[0], true);
-				boolean success = (dm.addGamePlayer(args[0]) == null);
+				boolean success = (dm.addGamePlayer(args[0]) != null);
 				if (success) {
 					sender.sendMessage(ChatColor.AQUA + "Added " + ChatColor.DARK_AQUA + args[0] + ChatColor.AQUA + " as a dwarf!");
 				} else {
@@ -143,7 +143,7 @@ public class DvZPlugin extends JavaPlugin {
 			} else {
 				dm.removeGamePlayer(args[0], true);
 				mm.removeGamePlayer(args[0], true);
-				boolean success = (mm.addGamePlayer(args[0]) == null);
+				boolean success = (mm.addGamePlayer(args[0]) != null);
 				if (success) {
 					sender.sendMessage(ChatColor.AQUA + "Added " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a monster!");
 					return true;
