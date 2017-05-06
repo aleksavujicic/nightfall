@@ -23,22 +23,17 @@ import java.util.function.Predicate;
 /**
  * Created by Deimophobe on 17/01/17.
  */
-public abstract class GamePlayer extends GameEntity {
-	protected Player player;
-	private final String name;
-	
+public abstract class GamePlayer extends GameEntity<Player> {
 	protected GamePlayer(Player player) {
 		super(player);
-		this.player = player;
-		this.name = player.getName();
 	}
 	
 	public Player getPlayer() {
-		return player;
+		return getEntity();
 	}
 	
 	public UUID getUniqueId() {
-		return player.getUniqueId();
+		return entity.getUniqueId();
 	}
 	
 	
@@ -48,17 +43,17 @@ public abstract class GamePlayer extends GameEntity {
 	private boolean forcedTitle;
 	@Override
 	public String getDisplayName() {
-		return player.getDisplayName();
+		return entity.getDisplayName();
 	}
 	
 	public void setTitle(ChatColor colour, String title, boolean force) {
 		if (force) {
-			player.setDisplayName(colour + title + ChatColor.RESET);
+			entity.setDisplayName(colour + title + ChatColor.RESET);
 		} else {
 			if (title != null)
-				player.setDisplayName(colour + title + " " + player.getName() + ChatColor.RESET);
+				entity.setDisplayName(colour + title + " " + entity.getName() + ChatColor.RESET);
 			else
-				player.setDisplayName(colour + player.getName() + ChatColor.RESET);
+				entity.setDisplayName(colour + entity.getName() + ChatColor.RESET);
 		}
 		this.colour = colour;
 		this.title = title;
@@ -67,7 +62,7 @@ public abstract class GamePlayer extends GameEntity {
 	
 	public String getWhoDisplay() {
 		if (forcedTitle)
-			return getDisplayName() + ChatColor.RESET + "(" + player.getName() + ")";
+			return getDisplayName() + ChatColor.RESET + "(" + entity.getName() + ")";
 		else
 			return getDisplayName() + ChatColor.RESET;
 	}
@@ -82,13 +77,13 @@ public abstract class GamePlayer extends GameEntity {
 	public final void playSound(String sound, float vol, float pitch, boolean toAll) {
 		if (sound == null) return;
 		
-		World world = player.getWorld();
-		Location loc = player.getLocation();
+		World world = entity.getWorld();
+		Location loc = entity.getLocation();
 		
 		if (toAll) {
 			world.playSound(loc, sound, vol, pitch);
 		} else {
-			player.playSound(loc, sound, vol, pitch);
+			entity.playSound(loc, sound, vol, pitch);
 		}
 	}
 	
@@ -99,7 +94,7 @@ public abstract class GamePlayer extends GameEntity {
 	
 	// ------ INVENTORY ------
 	public ItemStack getHeldItem() {
-		return player.getInventory().getItemInMainHand();
+		return entity.getInventory().getItemInMainHand();
 	}
 	
 	public boolean isHolding(ItemStack item) {
@@ -117,7 +112,7 @@ public abstract class GamePlayer extends GameEntity {
 		if (item == null) return;
 		ItemStack copy = item.clone();
 		copy.setAmount(quantity);
-		player.getInventory().addItem(copy);
+		entity.getInventory().addItem(copy);
 	}
 	public void giveItem(ItemStack item) {giveItem(item,1);}
 	
@@ -130,25 +125,24 @@ public abstract class GamePlayer extends GameEntity {
 	}
 	
 	public void clearInventory() {
-		player.getInventory().clear();
+		entity.getInventory().clear();
 	}
 	
 	public  void showInventory(Inventory inventory) {
-		player.openInventory(inventory);
+		entity.openInventory(inventory);
 	}
 	
 	
 	
 	// ------ MESSAGING ------
 	public void sendMessage(String message) {
-		player.sendMessage(message);
+		entity.sendMessage(message);
 	}
 	
 	
 	// ------ ONLINE/OFFLINE ------
 	public void goOnline(Player newPlayer) {
-		super.resetEntity(newPlayer);
-		player = newPlayer;
+		resetEntity(newPlayer);
 		resetTitle();
 	}
 	public void goOffline() {}
@@ -158,8 +152,8 @@ public abstract class GamePlayer extends GameEntity {
 	public void resetPlayer() {
 		clearEffects();
 		clearInventory();
-		player.setDisplayName(player.getName());
-		DisguiseAPI.undisguiseToAll(player);
+		entity.setDisplayName(entity.getName());
+		DisguiseAPI.undisguiseToAll(entity);
 	}
 	
 	public String generateDeathMsg() {
@@ -248,11 +242,11 @@ public abstract class GamePlayer extends GameEntity {
 	}
 	
 	public boolean isBlocking() {
-		return player.isBlocking();
+		return entity.isBlocking();
 	}
-	public boolean isSneaking() { return player.isSneaking(); }
+	public boolean isSneaking() { return entity.isSneaking(); }
 	public Block getTargetBlock(Set<Material> materials, int i) {
-		return player.getTargetBlock(materials, i);
+		return entity.getTargetBlock(materials, i);
 	}
 	
 	public <P extends GamePlayer> P getLookingAt(double epsilon, double range, GamePlayerManager<P> manager) {
@@ -260,7 +254,7 @@ public abstract class GamePlayer extends GameEntity {
 	}
 	
 	public <P extends GamePlayer> P getLookingAt(double epsilon, double range, Predicate<P> requirement, GamePlayerManager<P> manager) {
-		Location playerLoc = player.getLocation();
+		Location playerLoc = entity.getLocation();
 		Vector lookDir = playerLoc.getDirection();
 		
 		P closestPlayer = null;

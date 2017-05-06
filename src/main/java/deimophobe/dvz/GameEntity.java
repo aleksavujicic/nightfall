@@ -6,6 +6,7 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -17,19 +18,22 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 
 /**
  * Created by Deimophobe on 24/01/17.
  */
-public abstract class GameEntity {
+public abstract class GameEntity<E extends LivingEntity> {
+	protected E entity;
 	
-	private LivingEntity entity;
-	
-	protected GameEntity(LivingEntity entity) {
-		this.entity = entity;
+	public E getEntity() {
+		return entity;
 	}
 	
-	protected void resetEntity(LivingEntity entity) {
+	protected GameEntity(E entity) {
+		this.entity = entity;
+	}
+	protected void resetEntity(E entity) {
 		this.entity = entity;
 	}
 	

@@ -51,7 +51,7 @@ public class Dwarf extends GamePlayer {
 		// Clear potion effects/inventory
 		clearEffects();
 		clearInventory();
-		player.setGameMode(GameMode.SURVIVAL);
+		entity.setGameMode(GameMode.SURVIVAL);
 		
 		// Set armour
 		armour = armourType.getArmour(this);
@@ -93,13 +93,13 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	private void playIntro() {
-		player.sendMessage("You are a dwarf. This will be cooler later");
+		entity.sendMessage("You are a dwarf. This will be cooler later");
 	}
 	
 	public void respawn() {
 		delayedHealMax();
 		teleportTo(ShrineManager.getManager().getDwarfSpawn());
-		player.setFireTicks(0);
+		entity.setFireTicks(0);
 	}
 	
 	protected void giveStartingItems(Map<ConsumableType, Integer> consumables) {
@@ -130,11 +130,11 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	public void updateManaBar() {
-		player.setLevel(mana);
+		entity.setLevel(mana);
 	}
 	
 	public void updateCooldownBar() {
-		player.setExp(Math.max(0, kit.fractionComplete()));
+		entity.setExp(Math.max(0, kit.fractionComplete()));
 	}
 	
 	
@@ -147,26 +147,26 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	public void giveArrow() {
-		ItemStack arrows = player.getInventory().getItemInOffHand();
+		ItemStack arrows = entity.getInventory().getItemInOffHand();
 		int amt = arrows.getAmount();
 		if (amt == 0) {
-			player.getInventory().setItemInOffHand(getArrow());
+			entity.getInventory().setItemInOffHand(getArrow());
 		} else if (amt < maxArrows) {
 			arrows.setAmount(amt+1);
 		}
 	}
 	public boolean hasArrows(int amt) {
-		ItemStack arrows = player.getInventory().getItemInOffHand();
+		ItemStack arrows = entity.getInventory().getItemInOffHand();
 		return (arrows.getAmount() >= amt);
 	}
 	public void useArrows(int amt) {
-		ItemStack arrows = player.getInventory().getItemInOffHand();
+		ItemStack arrows = entity.getInventory().getItemInOffHand();
 		int currAmt = arrows.getAmount();
 		if (currAmt <= amt) {
 			if (currAmt < amt)
 				Bukkit.getLogger().warning("Dwarf " + getName() + "using more arrows than held!?");
 			
-			player.getInventory().setItemInOffHand(null);
+			entity.getInventory().setItemInOffHand(null);
 		} else {
 			arrows.setAmount(currAmt - amt);
 		}
@@ -179,11 +179,11 @@ public class Dwarf extends GamePlayer {
 	
 	// ------ INVENTORIES ------
 	public void showTrash() {
-		player.openInventory(Bukkit.createInventory(null, 9, ChatColor.DARK_RED + "---------- TRASH ----------"));
+		entity.openInventory(Bukkit.createInventory(null, 9, ChatColor.DARK_RED + "---------- TRASH ----------"));
 	}
 	
 	public void showSharedChest() {
-		player.openInventory(DwarfManager.getManager().getSharedChest());
+		entity.openInventory(DwarfManager.getManager().getSharedChest());
 	}
 	
 	public void giveConsumable(ConsumableType type, int quantity) {
@@ -206,9 +206,9 @@ public class Dwarf extends GamePlayer {
 	}
 	public void updateVisibility() {
 		if (canSee()) {
-			player.removePotionEffect(PotionEffectType.BLINDNESS);
+			entity.removePotionEffect(PotionEffectType.BLINDNESS);
 		} else {
-			player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0, true, false), true);
+			entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0, true, false), true);
 		}
 	}
 	private boolean canSee() {
@@ -218,7 +218,7 @@ public class Dwarf extends GamePlayer {
 				lightLevel >= MIN_LIGHT_LEVEL_FOR_BLINDNESS ||
 				hasProc() ||
 				Game.getGame().getPhase() == Phase.BUILD ||
-				player.hasPotionEffect(PotionEffectType.NIGHT_VISION)
+				entity.hasPotionEffect(PotionEffectType.NIGHT_VISION)
 		);
 	}
 	
@@ -229,16 +229,16 @@ public class Dwarf extends GamePlayer {
 		double var = 0.2;
 		
 		if (sec && mana <= 300) {
-			Location bloodLoc = player.getLocation().add(0, 1, 0);
-			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 10, var, var, var, 0);
+			Location bloodLoc = entity.getLocation().add(0, 1, 0);
+			entity.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 10, var, var, var, 0);
 		}
 		if (halfSec && mana <= 150) {
-			Location bloodLoc = player.getLocation().add(0, 1, 0);
-			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 10, var, var, var, 0);
+			Location bloodLoc = entity.getLocation().add(0, 1, 0);
+			entity.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 10, var, var, var, 0);
 		}
 		if (quartSec && mana <= 20) {
-			Location bloodLoc = player.getLocation().add(0, 1, 0);
-			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 10, var, var, var, 0);
+			Location bloodLoc = entity.getLocation().add(0, 1, 0);
+			entity.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 10, var, var, var, 0);
 		}
 	}
 	
@@ -263,7 +263,7 @@ public class Dwarf extends GamePlayer {
 		kit.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		updateCooldownBar();
 		
-		player.setSaturation(10);
+		entity.setSaturation(10);
 		
 		if (consumableGrabCD > 0)
 			consumableGrabCD--;
@@ -288,7 +288,7 @@ public class Dwarf extends GamePlayer {
 	
 	// ------ PROC ------
 	public boolean hasProc() {
-		return player.hasPotionEffect(PotionEffectType.SPEED);
+		return entity.hasPotionEffect(PotionEffectType.SPEED);
 	}
 	
 	public void giveProc(ProcType procType) {

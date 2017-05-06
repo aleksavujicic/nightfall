@@ -10,12 +10,10 @@ import java.util.UUID;
 /**
  * Created by Deimophobe on 24/01/17.
  */
-public class AIEntity extends GameEntity {
-	private final Creature aiEntity;
+public class AIEntity extends GameEntity<Creature> {
 	
 	public AIEntity(Creature aiEntity) {
 		super(aiEntity);
-		this.aiEntity = aiEntity;
 	}
 	
 	@Override
@@ -42,18 +40,18 @@ public class AIEntity extends GameEntity {
 	}
 	
 	public void setTarget(Dwarf dwarf) {
-		aiEntity.setTarget(dwarf.getPlayer());
+		entity.setTarget(dwarf.getPlayer());
 	}
 	
 	boolean hasTarget() {
-		return aiEntity.getTarget() != null;
+		return entity.getTarget() != null;
 	}
 	
 	boolean isDead() {
-		return aiEntity.isDead();
+		return entity.isDead();
 	}
 	
 	UUID getUniqueId() {
-		return aiEntity.getUniqueId();
+		return entity.getUniqueId();
 	}
 }
