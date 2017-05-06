@@ -4,7 +4,6 @@ import deimophobe.dvz.Hat;
 import deimophobe.dvz.Skin;
 import deimophobe.dvz.dwarf.Armour;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.kit.KitElement;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
@@ -75,7 +74,7 @@ public class Hero extends Dwarf {
 				KitElementType.WAND,
 				KitElementType.ROCKET_BOOTS),
 		
-		ALTHEA("Althea", Hat.NOSOVIN, "capmergor", "Althea",
+		ARTHEA("Arthea", Hat.NOSOVIN, "arthea", "Arthea",
 				KitElementType.HEALER_TOTEM,
 				KitElementType.KAD_POLE),
 		;
@@ -115,7 +114,7 @@ public class Hero extends Dwarf {
 			switch (this) {
 				case TUI: return new Tui(player, this);
 				case NOSOVIN: return new Nosovin(player, this);
-				case ALTHEA: return new Hero(player, this);
+				case ARTHEA: return new Hero(player, this);
 			}
 			throw new IllegalArgumentException("Unknown hero: " + this);
 		}
