@@ -19,6 +19,7 @@ public enum Hat {
 	
 	TUI("tuihat"),
 	NOSOVIN("nosovinhat"),
+	ARTHEA("arthea-hat"),
 	;
 	
 	private final ItemStack hat;

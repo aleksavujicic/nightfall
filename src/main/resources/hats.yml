@@ -42,3 +42,15 @@ nosovinhat:
   modifiers:
     health: 15
     speed: 15
+
+arthea-hat:
+  template: dwarf-hero
+  base: flower_crown
+  name: "Arthea's Flower Crown"
+  lore:
+    description:
+      - "temp"
+    flavour:
+      - "temp"
+  modifiers:
+    health: 15

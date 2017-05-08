@@ -60,6 +60,7 @@ public class Hero extends Dwarf {
 	
 	
 	private static final Map<ConsumableType, Integer> HERO_CONSUMABLES = new HashMap<>();
+	private static final Map<ConsumableType, Integer> EXTRA_ARTHEA_CONSUMABLES = new HashMap<>();
 	static {
 		HERO_CONSUMABLES.put(ConsumableType.COBBLESTONE, 256);
 		HERO_CONSUMABLES.put(ConsumableType.TORCH, 128);
@@ -67,6 +68,14 @@ public class Hero extends Dwarf {
 		HERO_CONSUMABLES.put(ConsumableType.MORTAR, 64);
 		HERO_CONSUMABLES.put(ConsumableType.LAMP, 20);
 		HERO_CONSUMABLES.put(ConsumableType.SOS, 1);
+		
+		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.SOS, 1);
+		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.LAMP, 44);
+		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.WIZARD_MORTAR, 32);
+		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.COBBLESTONE, 128);
+		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.TORCH, 64);
+		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.MORTAR, 32);
+		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.HEAL_STATION, 12);
 	}
 	
 	public enum Type {
@@ -79,7 +88,7 @@ public class Hero extends Dwarf {
 				KitElementType.WAND,
 				KitElementType.ROCKET_BOOTS),
 		
-		ARTHEA("Arthea", Hat.NOSOVIN, "arthea", "Arthea",
+		ARTHEA("Arthea", Hat.ARTHEA, "arthea", "Arthea", EXTRA_ARTHEA_CONSUMABLES,
 				KitElementType.HEALER_TOTEM,
 				KitElementType.KAD_POLE),
 		;
@@ -89,10 +98,10 @@ public class Hero extends Dwarf {
 		private final String nametag;
 		
 		Type(String title, Hat hat, String skin, String nametag, KitElementType... elements) {
-			this(title, hat, Skin.getSkin(skin), nametag, elements);
+			this(title, hat, skin, nametag, Collections.emptyMap(), elements);
 		}
 		
-		Type(String title, Hat hat, Skin skin, String nametag, KitElementType... elements) {
+		Type(String title, Hat hat, String skin, String nametag, Map<ConsumableType, Integer> extraConsumables, KitElementType... elements) {
 			Set<KitElementType> allElements = new HashSet<>();
 			allElements.add(KitElementType.HERO_ALE);
 			allElements.add(KitElementType.HERO_SAFEFALL);
@@ -100,7 +109,9 @@ public class Hero extends Dwarf {
 			allElements.addAll(Arrays.asList(elements));
 			
 			this.data = new DwarfData(title, true, hat, allElements, HERO_CONSUMABLES);
-			this.skin = skin;
+			data.addConsumables(extraConsumables);
+			
+			this.skin = Skin.getSkin(skin);
 			this.nametag = nametag;
 		}
 		

@@ -71,6 +71,12 @@ public class DwarfData {
 		elements.add(type);
 	}
 	
+	public void addConsumables(Map<ConsumableType, Integer> consumables) {
+		for (ConsumableType type : consumables.keySet()) {
+			incrementConsumable(type, consumables.get(type));
+		}
+	}
+	
 	public void incrementConsumable(ConsumableType consumable, int amt) {
 		int current = consumables.computeIfAbsent(consumable, k -> 0);
 		consumables.put(consumable, current + amt);
@@ -80,5 +86,4 @@ public class DwarfData {
 	public static DwarfData getData(Player player) {
 		return Loadout.getLoadout(player).constructProperties();
 	}
-	
 }
