@@ -120,6 +120,10 @@ public class Dwarf extends GamePlayer {
 		return mana;
 	}
 	
+	public boolean hasMana(int amt) {
+		return mana >= amt;
+	}
+	
 	public boolean tryUseMana(int cost) {
 		if (cost > mana) return false;
 		mana -= cost;

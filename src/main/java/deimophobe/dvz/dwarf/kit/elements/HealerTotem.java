@@ -24,7 +24,7 @@ class HealerTotem extends AbstractItem {
 	
 	private boolean groupHealingActive;
 	
-	private static final double MAX_TARGET_DISTANCE = 25;
+	private static final double MAX_TARGET_DISTANCE = 15;
 	private Dwarf target = null;
 	
 	HealerTotem(Dwarf dwarf) {
@@ -41,7 +41,7 @@ class HealerTotem extends AbstractItem {
 			deactivateTargetHealing();
 			deactivateGroupHealing();
 			return true;
-		} else {
+		} else if (Misc.isLeftClick(action)) {
 			target = dwarf.getLookingAt(1, 3, DwarfManager.getManager());
 			if (target != null) {
 				activateTargetHealing(target);;
@@ -79,29 +79,30 @@ class HealerTotem extends AbstractItem {
 		}
 		
 		if (sec && groupHealingActive) {
-			dwarf.useMana(15);
-			for (Dwarf target : DwarfManager.getManager().getGamePlayers()) {
-				if (dwarf == target) continue;
-				double distance = dwarf.distanceTo(target);
-				
-				if (distance <= 13) {
-					dwarf.useMana(5);
-					Buff.giveRandomBuff(target, distance);
-					target.regenMana(5);
-					target.getArmour().repair(5);
+			if (dwarf.tryUseMana(10)) {
+				for (Dwarf target : DwarfManager.getManager().getGamePlayers()) {
+					if (dwarf == target) continue;
+					double distance = dwarf.distanceTo(target);
 					
-					
-					Location healerLoc = dwarf.getPlayer().getEyeLocation().subtract(0, 0.5, 0);
-					Location healeeLoc = target.getPlayer().getEyeLocation().subtract(0, 0.5, 0);
-					
-					Vector direction = healeeLoc.subtract(healerLoc).toVector();
-					Vector delta = direction.multiply(0.5 / distance);
-					
-					int times = (int) (distance / 0.5);
-					dwarf.getPlayer().getWorld().spawnParticle(Particle.REDSTONE, healerLoc, 3, 0.1, 0.1, 0.1, 0);
-					for (int i = 0; i <= times; i++) {
-						Location newLoc = healerLoc.add(delta.multiply(1));
-						dwarf.getPlayer().getWorld().spawnParticle(Particle.REDSTONE, newLoc, 3, 0.1, 0.1, 0.1, 0);
+					if (distance <= 13) {
+						dwarf.useMana(5);
+						Buff.giveRandomBuff(target, distance);
+						target.regenMana(5);
+						target.getArmour().repair(10);
+						
+						
+						Location healerLoc = dwarf.getPlayer().getEyeLocation().subtract(0, 0.5, 0);
+						Location healeeLoc = target.getPlayer().getEyeLocation().subtract(0, 0.5, 0);
+						
+						Vector direction = healeeLoc.subtract(healerLoc).toVector();
+						Vector delta = direction.multiply(0.5 / distance);
+						
+						int times = (int) (distance / 0.5);
+						dwarf.getPlayer().getWorld().spawnParticle(Particle.HEART, healerLoc, 3, 0.1, 0.1, 0.1, 0);
+						for (int i = 0; i <= times; i++) {
+							Location newLoc = healerLoc.add(delta.multiply(1));
+							dwarf.getPlayer().getWorld().spawnParticle(Particle.HEART, newLoc, 3, 0.1, 0.1, 0.1, 0);
+						}
 					}
 				}
 			}
@@ -109,7 +110,7 @@ class HealerTotem extends AbstractItem {
 		
 		if (sec && hasTarget()) {
 			double distance = dwarf.distanceTo(target);
-			if (ITEM.isSimilar(dwarf.getHeldItem()) && distance <= MAX_TARGET_DISTANCE) {
+			if (ITEM.isSimilar(dwarf.getHeldItem()) && distance <= MAX_TARGET_DISTANCE && dwarf.hasMana(35)) {
 				dwarf.useMana(35);
 				target.regenMana(15);
 				target.getArmour().repair(50);

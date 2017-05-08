@@ -50,6 +50,11 @@ public class Hero extends Dwarf {
 	@Override
 	public void updateVisibility() {}
 	
+	@Override
+	public void regenMana(int amt) {
+		super.regenMana(amt/3);
+	}
+	
 	
 	
 	
