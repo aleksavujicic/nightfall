@@ -90,7 +90,8 @@ sword:
           that extends with each monster\n
           killed."
       flavour:
-       - "Wait these are Fists? It kinda looks like a shield."
+       - "Wait these are Fists?\n
+          It kinda looks like a shield."
     modifiers:
       attack: 20
 
@@ -155,7 +156,8 @@ bow:
           give off a proc to dwarves\n
           within range."
       flavour:
-       - "I'm sure glad we found use for the rest of\n
+       - "I'm sure glad we found use\n
+          for the rest of\n
           that Emerald City."
   warpweaver:
     base: warpbow
@@ -197,10 +199,9 @@ ale:
     name: Holy Ale
     lore:
       description:
-       - |-
-         Left click to heal yourself
+       - "Left click to heal yourself
          for 100 mana and gain
-         &b8 absorption hearts&r
+         &b8&r absorption hearts."
       flavour:
        - "Holy ale is NOT light beer\n
           it's light ale."
@@ -234,88 +235,109 @@ consumable:
     name: Enchanted Lamp
     lore:
       description:
-       - "Temp"
+       - "Places a lamp down for &b60&r seconds."
       flavour:
-       - "Temp"
+       - "One if by land, two if by sea\n
+          and three if by waves of undead hordes."
   slab:
     base: slab
     name: EZ Fix Slab
     lore:
       description:
-       - "Temp"
+       - "Left click to Summons a thick wall\n
+          to patch in holes, or slow mobs.""
       flavour:
-       - "Temp"
+       - "Rule 1 Don't wall off\n
+          Rule 2 Don't slab mob heroes
+          Rule 3 Don't slab Jimmys."
   sos:
     base: sos
     name: Sword of Santification
     lore:
       description:
-       - "Temp"
+       - "Left click to call upon the mighty sword\n
+          freezing mobs caught inside its aoe\n
+          and allowing you to finish them off."
       flavour:
-       - "Temp"
+       - "The old swords were just a test model\n
+          these work much better!."
   wrench:
     base: wrench
     name: Wrench
     lore:
       description:
-       - "Temp"
+       - "Left click to fully repair your\n
+          Dwarven armour at the cost of gold\n
+          Needs gold to work."
       flavour:
-       - "Temp"
+       - "Good ol wrenchy, never leave home without it!."
   mortar:
     base: mortar
     name: Mortar
     lore:
       description:
-       - "Temp"
+       - "Left click to repair walls to their\n
+          max level during build phase.\n
+          Makes grey walls after mobs are released."
       flavour:
-       - "Temp"
+       - "Blue the walls dwarves!."
   wizardmortar:
     base: wiz_mortar
     name: Wizard Mortar
     lore:
       description:
-       - "Temp"
+       - "Left click toFully repair\n
+          walls to blue\n
+          Only works after mobs are released."
       flavour:
-       - "Temp"
+       - "Don't ask what makes it blue."
   armouritem:
     base: armour_item
     name: Dwarven Armour
     lore:
       description:
-       - "Temp"
+       - "Left click to armour a dwarf."
       flavour:
-       - "Temp"
+       - "Make sure every dwarf gets one!."
   healstation:
     base: star_bottle
     name: Healing Station
     lore:
       description:
-       - "Temp"
+       - "Left click to place down a\n
+          healing totem that gives an\n
+          AoE &4Regen&r buff."
       flavour:
-       - "Temp"
+       - "The dwarven clerics specialty\n
+          use them wisely!."
 
   log:
     base: wood
     name: Wooden Log
     lore:
       description:
-       - "Temp"
+       - "Right click on a saw to turn\n
+          into wooden planks."
       flavour:
-       - "Temp"
+       - "Wood. Mighty wood."
   plank:
     base: plank
     name: Wooden Plank
     lore:
       description:
-       - "Temp"
+       - "Right click on a saw to turn\n
+          into sticks."
       flavour:
-       - "Temp"
+       - "Planks for a mighty oak tree."
   stick:
     material: stick
     name: Stick
     lore:
       description:
-       - "Temp"
+       - "Right click on a saw to turn\n
+          into bowls.\n
+          Right click on oil to turn\n
+          into a torch."
       flavour:
        - "A stick - what else would it be?"
   bowl:
@@ -323,26 +345,29 @@ consumable:
     name: Wooden Bowl
     lore:
       description:
-       - "Temp"
+       - "Right click on oil to turn\n
+          into mortar."
       flavour:
-       - "Temp"
+       - "Careful jimmy, it's very sticky."
 
   torch:
     material: torch
     name: Torch
     lore:
       description:
-       - "Temp"
+       - "Hold a torch in your hand\n
+          makes you immune to darkness."
       flavour:
-       - "Temp"
+       - "But it's not the PERFECT torch."
   cobble:
     material: cobblestone
     name: Cobblestone
     lore:
       description:
-       - "Temp"
+       - "Mined from gravel, turns into Bricks\n
+          when mortared."
       flavour:
-       - "Temp"
+       - "It's stone."
 
 misc:
   pick:
@@ -350,49 +375,54 @@ misc:
     name: Dwarven Pickaxe
     lore:
       description:
-       - "Temp"
+       - "Right click to heal others armour\n
+          using gold\n
+          Right click on a piston to\n
+          make gold blocks to make armour."
       flavour:
-       - "Temp"
+       - "This pickaxe is mighty indeed."
   axe:
     material: iron_axe
     name: Dwarven Axe
     lore:
       description:
-       - "Temp"
+       - "Right click to chop trees for logs."
       flavour:
-       - "Temp"
+       - "Sometimes it's a makeshift weapon."
   shovel:
     material: iron_spade
     name: Dwarven Shovel
     lore:
       description:
-       - "Temp"
+       - "Used to dig gravel for cobblestone."
       flavour:
-       - "Temp"
+       - "Not quite a tombmaker, but points for trying."
 
   arrow:
     material: arrow
     name: Arrow
     lore:
       description:
-       - "Temp"
+       - "Dwarven Ammo\n
+          regens over time."
       flavour:
-       - "Temp"
+       - "Pew pew."
   wildfirefuel:
     base: wildfire_fuel
     name: Wildfire Fuel
     lore:
       description:
-       - "Temp"
+       - "Tuis Ammo for wildfire."
       flavour:
-       - "Temp"
+       - "Careful its hot!."
 
   compass:
     material: compass
     name: "&6&lTHE MIGHTY DWARVEN COMPASS"
     lore:
       description:
-       - "Temp"
+       - "Clicking cycles through various\n
+          locations."
       flavour:
        - "&dUsed by only the greatest of warriors."
 
@@ -405,7 +435,8 @@ hero:
     shiny: true
     lore:
       description:
-       - "Temp"
+       - "Right click to Roar!\n
+          Attracting all AIs to you."
       flavour:
         - |-
           Rank 11? Psssh, that's nothing. When you've lived your whole
@@ -422,9 +453,11 @@ hero:
     name: Wildfire
     lore:
       description:
-       - "Temp"
+       - "Right click to send out a stream\n
+          of fire to harm mobs.\n
+          Uses ammo."
       flavour:
-       - "Temp"
+       - "Begone foul demons of the night!"
 
   tinderflame:
     template: dwarf-hero
@@ -432,9 +465,11 @@ hero:
     name: Not Tinderflame
     lore:
       description:
-       - "Temp"
+       - "Right click to shoot a beam\n
+          at a mob dealing heavy damage\n
+          and knocking you back."
       flavour:
-       - "Totes not a tinderflame."
+       - "This thing cuts really good too.."
     modifiers:
       attack: 20
 
@@ -444,7 +479,9 @@ hero:
     name: Wand of No Particular Reference
     lore:
       description:
-       - "Temp"
+       - "Right click to cast a\n
+          Wormhole, pulling in all\n
+          mobs near it."
       flavour:
        - "WOOORRMMMMHOOOLEEEE"
     modifiers:
@@ -457,9 +494,10 @@ hero:
     name: Elystria
     lore:
       description:
-       - "Temp"
+       - "Right click to pull a dwarf\n
+          to your location."
       flavour:
-       - "Temp"
+       - "Swoooosh."
     modifiers:
       attack: 15
       knockback: 2
@@ -485,9 +523,9 @@ armour:
       name: Dwarven Chestplate
       lore:
         description:
-         - "Temp"
+         - "Fully repaired armour."
         flavour:
-         - "Temp"
+         - "Now get out there and fight!."
       modifiers:
         health: 10
 
@@ -496,18 +534,18 @@ armour:
       name: Dwarven Leggings
       lore:
         description:
-         - "Temp"
+         - "Fully repaired armour."
         flavour:
-         - "Temp"
+         - "Now get out there and fight."
 
     boots: &default_boots
       material: diamond_boots
       name: Dwarven Boots
       lore:
         description:
-         - "Temp"
+         - "Fully repaired armour."
         flavour:
-         - "Temp"
+         - "Now get out there and fight."
 
   med:
     chest:
