@@ -461,7 +461,7 @@ hero:
       flavour:
        - "Temp"
     modifiers:
-      attack: 10
+      attack: 15
       knockback: 2
 
   totem:
@@ -474,6 +474,7 @@ hero:
       flavour:
        - "Temp"
     modifiers:
+      attack: 10
       kb_resist: 1
 
 

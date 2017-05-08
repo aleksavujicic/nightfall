@@ -8,6 +8,7 @@ import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.items.CustomItem;
+import deimophobe.dvz.monster.ai.AIEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -48,6 +49,13 @@ class HealerTotem extends AbstractItem {
 		dwarf.removePotionEffect(PotionEffectType.WEAKNESS);
 		dwarf.removePotionEffect(PotionEffectType.JUMP);
 		dwarf.removePotionEffect(PotionEffectType.GLOWING);
+	}
+	
+	@Override
+	public double onSelfHit(GameEntity entity, DamageType type, double damage) {
+		if (entity instanceof AIEntity)
+			damage *= 2.5;
+		return damage;
 	}
 	
 	@Override
