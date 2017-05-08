@@ -4,7 +4,7 @@ package deimophobe.dvz.dwarf;
  * Created by Deimophobe on 6/05/17.
  */
 public class HeroArmour implements Armour {
-	public HeroArmour(Dwarf dwarf) {}
+	HeroArmour() {}
 	
 	@Override
 	public boolean isArmoured() {
@@ -36,6 +36,6 @@ public class HeroArmour implements Armour {
 	
 	@Override
 	public int getManaRegenRate() {
-		return 5;
+		return 15;
 	}
 }

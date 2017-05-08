@@ -25,7 +25,7 @@ public interface Armour {
 		Armour getArmour(Dwarf dwarf) {
 			switch (this) {
 				case DWARF: return new DwarvenArmour(dwarf);
-				case HERO: return new HeroArmour(dwarf);
+				case HERO: return new HeroArmour();
 			}
 			throw new IllegalArgumentException("Unknown armour type " + this);
 		}
