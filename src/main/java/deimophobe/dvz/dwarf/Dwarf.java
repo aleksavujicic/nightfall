@@ -116,6 +116,10 @@ public class Dwarf extends GamePlayer {
 	private final int maxMana = 1000;
 	private int mana;
 	
+	public int getMana() {
+		return mana;
+	}
+	
 	public boolean tryUseMana(int cost) {
 		if (cost > mana) return false;
 		mana -= cost;

@@ -7,6 +7,8 @@ public enum DamageType {
 	REGULAR_MELEE(true, false),
 	REGULAR_RANGED(false, true),
 	
+	GENERIC_MAGIC(false, false),
+	
 	POISON(10, 5),
 	
 	EXPLOSION(-1, -1),
@@ -42,6 +44,7 @@ public enum DamageType {
 	
 	WILDFIRE(true, false),
 	TINDERFLAME(false, false),
+	
 	;
 	
 	private final boolean instaKill;

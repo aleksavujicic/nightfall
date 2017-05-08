@@ -114,7 +114,7 @@ public class Hero extends Dwarf {
 			switch (this) {
 				case TUI: return new Tui(player, this);
 				case NOSOVIN: return new Nosovin(player, this);
-				case ARTHEA: return new Hero(player, this);
+				case ARTHEA: return new Arthea(player, this);
 			}
 			throw new IllegalArgumentException("Unknown hero: " + this);
 		}

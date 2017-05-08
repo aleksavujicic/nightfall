@@ -1,5 +1,6 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
+import deimophobe.dvz.DamageType;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
@@ -14,16 +15,17 @@ import org.bukkit.event.block.Action;
 /**
  * Created by Deimophobe on 6/05/17.
  */
-public class KadPole extends AbstractCooldownItem {
+class KadPole extends AbstractCooldownItem {
 	
-	private static final int MAX_CD = 20;
+	private static final int MAX_GRAB_CD = 20;
+	private static final int MANA_COST = 50;
 	
 	private int grabCD = 0;
 	private Location returnSpot;
 	private Dwarf target;
 	
-	public KadPole(Dwarf dwarf) {
-		super(dwarf, 60*20);
+	KadPole(Dwarf dwarf) {
+		super(dwarf, 30*20);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero.pole");
@@ -33,23 +35,38 @@ public class KadPole extends AbstractCooldownItem {
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action) && grabCD == 0) {
-			int cd = getCooldown();
-			if (cd <= 30*20) {
-				target = dwarf.getLookingAt(3, 10, DwarfManager.getManager());
-				if (target != null) {
-					grabCD = MAX_CD;
-					returnSpot = dwarf.getLocation();
-					increaseCooldown(30 * 20);
-					
-					Location targetLoc = target.getLocation();
-					targetLoc.add(targetLoc.getDirection().setY(0).normalize());
-					targetLoc.setDirection(targetLoc.getDirection().multiply(-1));
-					
-					dwarf.teleportTo(targetLoc);
-					dwarf.playSound("entity.endermen.teleport");
-					return true;
-				}
+			boolean shouldTeleport = false;
+			boolean bloodSwap = false;
+			if (dwarf.isSneaking() && dwarf.getMana() >= MANA_COST) {
+				shouldTeleport = true;
+				bloodSwap = true;
+			} else if (isOffCD()) {
+				shouldTeleport = true;
+				bloodSwap = false;
 			}
+			
+			
+			if (!shouldTeleport) return false;
+			target = dwarf.getLookingAt(3, (bloodSwap ? 20 : 10), DwarfManager.getManager());
+			if (target == null) return false;
+			
+			if (bloodSwap) {
+				dwarf.useMana(MANA_COST);
+				dwarf.customDamage(null, DamageType.GENERIC_MAGIC, 30, true);
+			} else {
+				resetCooldown();
+			}
+			
+			grabCD = MAX_GRAB_CD;
+			returnSpot = dwarf.getLocation();
+			
+			Location targetLoc = target.getLocation();
+			targetLoc.add(targetLoc.getDirection().setY(0).normalize());
+			targetLoc.setDirection(targetLoc.getDirection().multiply(-1));
+			
+			dwarf.teleportTo(targetLoc);
+			dwarf.playSound("entity.endermen.teleport", 1f, 1f, true);
+			return true;
 		}
 		return false;
 	}
@@ -65,8 +82,7 @@ public class KadPole extends AbstractCooldownItem {
 			dwarf.teleportTo(returnSpot);
 			target.teleportTo(returnSpot);
 			
-			dwarf.playSound("entity.endermen.teleport");
-			target.playSound("entity.endermen.teleport");
+			dwarf.playSound("entity.endermen.teleport", 1f, 1f, true);
 			
 			grabCD = 0;
 			returnSpot = null;
