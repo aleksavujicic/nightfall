@@ -42,7 +42,7 @@ class HealerTotem extends AbstractItem {
 			deactivateGroupHealing();
 			return true;
 		} else if (Misc.isLeftClick(action)) {
-			target = dwarf.getLookingAt(1, 3, DwarfManager.getManager());
+			target = dwarf.getLookingAt(1.5, 4, DwarfManager.getManager());
 			if (target != null) {
 				activateTargetHealing(target);;
 				deactivateGroupHealing();
@@ -91,8 +91,8 @@ class HealerTotem extends AbstractItem {
 						target.getArmour().repair(10);
 						
 						
-						Location healerLoc = dwarf.getPlayer().getEyeLocation().subtract(0, 0.5, 0);
-						Location healeeLoc = target.getPlayer().getEyeLocation().subtract(0, 0.5, 0);
+						Location healerLoc = dwarf.getPlayer().getEyeLocation().subtract(0, 1.2, 0);
+						Location healeeLoc = target.getPlayer().getEyeLocation().subtract(0, 1.2, 0);
 						
 						Vector direction = healeeLoc.subtract(healerLoc).toVector();
 						Vector delta = direction.multiply(0.5 / distance);
