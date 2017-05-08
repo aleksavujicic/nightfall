@@ -5,10 +5,16 @@ import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.DwarvenItems;
+import deimophobe.dvz.dwarf.kit.KitGiveType;
+import deimophobe.dvz.items.CustomItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -18,7 +24,7 @@ import java.util.HashSet;
 /**
  * Created by Deimophobe on 6/05/17.
  */
-class HealerTotem extends AbstractElement {
+class HealerTotem extends AbstractItem {
 	
 	private boolean active;
 	
@@ -26,28 +32,22 @@ class HealerTotem extends AbstractElement {
 		super(dwarf);
 	}
 	
+	private final static CustomItem ITEM = DwarvenItems.getItem("hero.totem");
+	@Override public CustomItem getItem() {return ITEM;}
+	@Override public KitGiveType getGiveType() {return KitGiveType.START;}
+	
 	private void activate() {
 		active = true;
-		dwarf.givePermanentPotionEffect(PotionEffectType.SLOW, 2);
 		dwarf.givePermanentPotionEffect(PotionEffectType.WEAKNESS, 100);
 		dwarf.givePermanentPotionEffect(PotionEffectType.JUMP, -100);
 		dwarf.givePermanentPotionEffect(PotionEffectType.GLOWING, 1);
-		dwarf.getPlayer().getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
 	}
 	
 	private void deactivate() {
 		active = false;
-		dwarf.removePotionEffect(PotionEffectType.SLOW);
 		dwarf.removePotionEffect(PotionEffectType.WEAKNESS);
 		dwarf.removePotionEffect(PotionEffectType.JUMP);
 		dwarf.removePotionEffect(PotionEffectType.GLOWING);
-		dwarf.getPlayer().getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
-	}
-	
-	@Override
-	public void onShift(boolean sneaking) {
-		if (sneaking) activate();
-		else deactivate();
 	}
 	
 	@Override
@@ -60,13 +60,17 @@ class HealerTotem extends AbstractElement {
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		if (active && !dwarf.isBlocking()) deactivate();
+		else if (!active && dwarf.isBlocking()) activate();
+		
 		if (sec && active) {
+			dwarf.useMana(15);
 			for (Dwarf target : DwarfManager.getManager().getGamePlayers()) {
 				if (dwarf == target) continue;
 				double distance = dwarf.distanceTo(target);
 				
 				if (distance <= 13) {
-					dwarf.useMana(10);
+					dwarf.useMana(5);
 					Buff.giveRandomBuff(target, distance);
 					target.regenMana(5);
 					target.getArmour().repair(5);

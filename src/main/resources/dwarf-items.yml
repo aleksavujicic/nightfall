@@ -463,6 +463,17 @@ hero:
     modifiers:
       attack: 10
       knockback: 2
+
+  totem:
+    template: dwarf-hero
+    base: hammer
+    name: Healer Totem Thingy
+    lore:
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+    modifiers:
       kb_resist: 1
 
 

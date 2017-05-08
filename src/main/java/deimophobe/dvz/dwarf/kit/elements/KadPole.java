@@ -47,12 +47,12 @@ class KadPole extends AbstractCooldownItem {
 			
 			
 			if (!shouldTeleport) return false;
-			target = dwarf.getLookingAt(3, (bloodSwap ? 20 : 10), DwarfManager.getManager());
+			target = dwarf.getLookingAt(3, (bloodSwap ? 30 : 10), DwarfManager.getManager());
 			if (target == null) return false;
 			
 			if (bloodSwap) {
 				dwarf.useMana(MANA_COST);
-				dwarf.customDamage(null, DamageType.GENERIC_MAGIC, 30, true);
+				dwarf.customDamage(null, DamageType.GENERIC_MAGIC, 50, true);
 			} else {
 				resetCooldown();
 			}
