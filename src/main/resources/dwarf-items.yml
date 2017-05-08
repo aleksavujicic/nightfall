@@ -245,7 +245,7 @@ consumable:
     lore:
       description:
        - "Left click to Summons a thick wall\n
-          to patch in holes, or slow mobs.""
+          to patch in holes, or slow mobs."
       flavour:
        - "Rule 1 Don't wall off\n
           Rule 2 Don't slab mob heroes
