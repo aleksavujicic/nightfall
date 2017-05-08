@@ -91,14 +91,14 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	}
 	
 	public void kill() {
-		killMob();
-		cancelFreeze();
-		
 		if (isAlive()) {
 			ActionBarAPI.sendActionBarToAllPlayers(generateDeathMsg(), 60);
 			Bukkit.broadcastMessage(generateDeathMsg());
 			entity.playSound(entity.getLocation(), "proc", 1f, 0.7f);
 		}
+		
+		killMob();
+		cancelFreeze();
 		
 		setTitle(ChatColor.GRAY, null, false);
 		

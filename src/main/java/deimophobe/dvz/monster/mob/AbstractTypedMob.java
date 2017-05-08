@@ -10,6 +10,7 @@ import deimophobe.dvz.shrine.ShrineManager;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import minecraft.spigot.community.michel_0.api.Attribute;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.inventory.ItemStack;
@@ -57,7 +58,7 @@ abstract class AbstractTypedMob extends AbstractMob {
 		monster.clearEffects();
 		givePermanentPotionEffect(PotionEffectType.NIGHT_VISION, 1);
 		if (mobData.immuneTime != 0) {
-			monster.givePotionEffect(PotionEffectType.LUCK, mobData.immuneTime*20, 0, true, false, true);
+			monster.givePotionEffect(PotionEffectType.LUCK, mobData.immuneTime*20, 1, true, false, true);
 		}
 		
 		monster.teleportTo(ShrineManager.getManager().getCurrentMobspawn());
