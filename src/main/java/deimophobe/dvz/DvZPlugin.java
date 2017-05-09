@@ -266,10 +266,26 @@ public class DvZPlugin extends JavaPlugin {
 		if (name.equalsIgnoreCase("armour")) {
 			if (sender instanceof Player) {
 				Dwarf dwarf = dm.getGamePlayer((Player)sender);
-				if (dwarf != null)
-					dwarf.getArmour().putOn();
-				else
+				if (dwarf != null) {
+					if (args.length >= 1) {
+						switch (args[0]) {
+							case "equip":
+								dwarf.getArmour().putOn();
+								return true;
+							case "damage":
+								if (args.length == 1) return false;
+								dwarf.getArmour().damage(Integer.parseInt(args[1]));
+								return true;
+							case "repair":
+								if (args.length == 1) return false;
+								dwarf.getArmour().repair(Integer.parseInt(args[1]));
+								return true;
+						}
+					}
+					return false;
+				} else {
 					sender.sendMessage(ChatColor.RED + "You must be a dwarf to do that");
+				}
 				
 				return true;
 			} else {
@@ -429,10 +445,18 @@ public class DvZPlugin extends JavaPlugin {
 			return startsWithPrefix(MobType.getAllMobTypes(), args[args.length-1]);
 		}
 		
+		if (name.equalsIgnoreCase("armour") && args.length == 1) {
+			return startsWithPrefix(args[args.length-1], "damage", "repair", "equip");
+		}
+		
 		if (name.equalsIgnoreCase("giveitem")) {
 			return startsWithPrefix(ItemManager.getManager().getNames(), args[args.length-1]);
 		}
 		return null;
+	}
+	
+	private static List<String> startsWithPrefix(String prefix, String... strings) {
+		return startsWithPrefix(Arrays.asList(strings), prefix);
 	}
 	
 	private static List<String> startsWithPrefix(Collection<String> strings, String prefix) {

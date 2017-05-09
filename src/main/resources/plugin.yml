@@ -25,7 +25,9 @@ commands:
     usage: /horn
     description: HRON
   armour:
+    usage: /armour equip | /armour [damage|repair] <amount>
     description: Cheaty self-armour.
+    alias: armor
   giveitem:
     usage: /giveitem <item-name>
     description: Give a custom item to yourself.

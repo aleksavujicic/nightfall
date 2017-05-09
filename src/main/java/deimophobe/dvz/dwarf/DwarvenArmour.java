@@ -83,13 +83,15 @@ public class DwarvenArmour implements Armour {
 	
 	@Override
 	public int getManaRegenRate() {
+		if (!isArmoured()) return 0;
+		
 		if (isAtMax()) return 15; // Otherwise formula below would give 16 only when full (which is kinda weird).
 		return (int) Math.floor(Math.atan(3 * armourFraction()) * 16/Math.atan(3));
 	}
 	
 	
 	private void updateArmour() {
-		if (!currentLevel.isValid(this)) {
+		if (isArmoured() && !currentLevel.isValid(this)) {
 			currentLevel = ArmourLevel.getLevel(this);
 			currentLevel.equip(player);
 		}
