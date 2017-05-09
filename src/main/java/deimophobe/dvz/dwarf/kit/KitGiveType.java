@@ -13,4 +13,6 @@ public enum KitGiveType {
 	PICK,
 	AXE,
 	SHOVEL,
+	
+	ARTHEA_SPECIAL
 }

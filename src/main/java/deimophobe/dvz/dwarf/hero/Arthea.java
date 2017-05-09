@@ -2,15 +2,17 @@ package deimophobe.dvz.dwarf.hero;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
+import deimophobe.dvz.Hat;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
+import deimophobe.dvz.dwarf.kit.KitGiveType;
+import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.monster.ai.AIEntity;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Team;
 
 /**
@@ -33,10 +35,79 @@ public class Arthea extends Hero {
 	}
 	
 	@Override
-	public void notifyDeath(Dwarf dwarf) {
-		super.notifyDeath(dwarf);
-		if (dwarf == this) {
-			//playSound("dwarf.hero.tui.death", 1000, 1, true);
+	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
+		super.update(a,b,c,d,e);
+		
+		if (isEnraged()) {
+			enrageTimer--;
+			
+			if (enrageTimer > ENRAGE_DURATION) {
+				Location location = getLocation().add(0,1,0);
+				World world = location.getWorld();
+				world.spawnParticle(Particle.SPELL_INSTANT, location, 1 ,0.2, 0.2, 0.2);
+			} else {
+				Location location = getLocation().add(0,0.7,0);
+				World world = location.getWorld();
+				world.spawnParticle(Particle.REDSTONE, location, 5 ,0.5, 0.5, 0.5, 0);
+			}
+			
+			if (enrageTimer == ENRAGE_DURATION)
+				startEnrage();
+				
+			if (enrageTimer == 0)
+				kill();
 		}
+	}
+	
+	@Override
+	public double onGotHit(GameEntity entity, DamageType type, double damage) {
+		double dmg = super.onGotHit(entity, type, damage);
+		if (getHealth() - dmg <= 0.1 && !isEnraged()) {
+			startTransition();
+			return 0;
+		}
+		return dmg;
+	}
+	
+	@Override
+	public String generateDeathMessage() {
+		return getDisplayName() + " died from her injuries.";
+	}
+	
+	private static final int ENRAGE_TRANSITION_DURATION = 10*20;
+	private static final int ENRAGE_DURATION = 60*20;
+	private int enrageTimer = -1;
+	private boolean isEnraged() {
+		return enrageTimer != -1;
+	}
+	
+	private void startTransition() {
+		Bukkit.broadcastMessage(getDisplayName() + " has been fatally wounded!");
+		enrageTimer = ENRAGE_TRANSITION_DURATION + ENRAGE_DURATION;
+		givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, ENRAGE_DURATION + ENRAGE_TRANSITION_DURATION, 5, true, true, true);
+		givePotionEffect(PotionEffectType.GLOWING, ENRAGE_DURATION + ENRAGE_TRANSITION_DURATION, 5, true, true, true);
+		givePotionEffect(PotionEffectType.REGENERATION, ENRAGE_DURATION + ENRAGE_TRANSITION_DURATION, 3, true, true, true);
+		givePotionEffect(PotionEffectType.SLOW, ENRAGE_TRANSITION_DURATION, 100, false, false, true);
+		givePotionEffect(PotionEffectType.JUMP, ENRAGE_TRANSITION_DURATION, -100, false, false, true);
+		givePotionEffect(PotionEffectType.CONFUSION, ENRAGE_TRANSITION_DURATION + 20, -100, false, false, true);
+		givePotionEffect(PotionEffectType.WEAKNESS, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
+		givePotionEffect(PotionEffectType.SLOW_DIGGING, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
+	}
+	
+	private void startEnrage() {
+		givePotionEffect(PotionEffectType.SPEED, ENRAGE_DURATION, 5, true, false, true);
+		givePotionEffect(PotionEffectType.INCREASE_DAMAGE, ENRAGE_DURATION, 5, true, false, true);
+		givePotionEffect(PotionEffectType.NIGHT_VISION, ENRAGE_DURATION, 1, true, false, true);
+		givePotionEffect(PotionEffectType.FIRE_RESISTANCE, ENRAGE_DURATION, 1, true, false, true);
+		givePotionEffect(PotionEffectType.JUMP, ENRAGE_DURATION, 3, true, false, true);
+		
+		customDamage(null, DamageType.GENERIC_MAGIC, 10);
+		
+		PlayerInventory inv = entity.getInventory();
+		inv.clear();
+		
+		Hat.ARTHEA.putOn(this);
+		giveKitItems(KitGiveType.ARTHEA_SPECIAL);
+		entity.getInventory().setHeldItemSlot(0);
 	}
 }

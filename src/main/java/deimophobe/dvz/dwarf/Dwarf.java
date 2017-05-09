@@ -34,6 +34,7 @@ public class Dwarf extends GamePlayer {
 	public boolean hasKitElement(KitElementType type) {
 		return kitElements.contains(type);
 	}
+	public void giveKitItems(KitGiveType type) {kit.giveItems(type);}
 	
 	// Armours
 	private final Armour armour;

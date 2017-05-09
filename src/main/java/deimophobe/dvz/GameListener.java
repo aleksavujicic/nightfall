@@ -409,7 +409,7 @@ public class GameListener implements Listener {
 			for (Dwarf dwarf2 : dm.getGamePlayers()) {
 				dwarf2.notifyDeath(dwarf);
 			}
-			event.setDeathMessage(dwarf.generateDeathMsg());
+			event.setDeathMessage(dwarf.generateDeathMessage());
 			dm.removeGamePlayer(dwarf, true);
 		}
 	}

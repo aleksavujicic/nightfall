@@ -156,7 +156,7 @@ public abstract class GamePlayer extends GameEntity<Player> {
 		DisguiseAPI.undisguiseToAll(entity);
 	}
 	
-	public String generateDeathMsg() {
+	public String generateDeathMessage() {
 		
 		String name = getDisplayName();
 		

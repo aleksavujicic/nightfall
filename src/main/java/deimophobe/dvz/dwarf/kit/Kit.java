@@ -30,25 +30,29 @@ public class Kit {
 		this.dwarf = dwarf;
 		
 		for (KitElementType type : dwarfData.getElements()) {
-			kitElements.add(type.createElement(dwarf));
+			addItem(type);
+		}
+	}
+	
+	private void addItem(KitElementType type) {
+		addItem(type.createElement(dwarf));
+	}
+	
+	private void addItem(KitElement element) {
+		kitElements.add(element);
+		
+		if (element instanceof KitCooldownElement) {
+			KitCooldownElement cooldownElement = (KitCooldownElement) element;
+			
+			if (cooldownElement.fractionComplete() != -1)
+				cooldownElements.add(cooldownElement);
 		}
 		
-		for (KitElement kitElement : kitElements) {
-			if (kitElement instanceof KitCooldownElement) {
-				KitCooldownElement cooldownElement = (KitCooldownElement) kitElement;
-				
-				if (cooldownElement.fractionComplete() != -1)
-					cooldownElements.add(cooldownElement);
-			}
-			
-			if (kitElement instanceof KitItemElement)
-				itemElements.add((KitItemElement) kitElement);
-			
-			if (kitElement instanceof AbstractBow)
-				bowElements.add((AbstractBow) kitElement);
-		}
+		if (element instanceof KitItemElement)
+			itemElements.add((KitItemElement) element);
 		
-			//dwarf.givePotionEffect(PotionEffectType.SLOW, 720000, -1, false, false, false);
+		if (element instanceof AbstractBow)
+			bowElements.add((AbstractBow) element);
 	}
 	
 	public void giveItems(KitGiveType giveType) {

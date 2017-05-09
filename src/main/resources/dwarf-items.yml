@@ -446,7 +446,6 @@ hero:
     modifiers:
       attack: 25
       kb_resist: 1
-
   wildfire:
     template: dwarf-hero
     base: wildfire
@@ -472,7 +471,6 @@ hero:
        - "This thing cuts really good too.."
     modifiers:
       attack: 20
-
   wand:
     template: dwarf-hero
     base: magic_wand
@@ -501,7 +499,6 @@ hero:
     modifiers:
       attack: 15
       knockback: 2
-
   totem:
     template: dwarf-hero
     base: hammer
@@ -514,6 +511,19 @@ hero:
     modifiers:
       attack: 10
       kb_resist: 1
+  arthea-blade:
+    template: dwarf-hero
+    base: stick
+    name: The blade thing
+    lore:
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+    modifiers:
+      attack: 60
+      kb_resist: 1
+    shiny: true
 
 
 armour:
