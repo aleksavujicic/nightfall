@@ -78,9 +78,6 @@ public class ShrineManager {
 		// Setup shrine bar
 		shrineBar = Bukkit.createBossBar(getShrine().getName(), BarColor.BLUE, BarStyle.SOLID);
 		shrineBar.setProgress(1);
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			shrineBar.addPlayer(player);
-		}
 		
 		
 		// Setup compass
@@ -122,7 +119,8 @@ public class ShrineManager {
 	
 	// ------ SHRINE BAR ------
 	public void giveShrineBarToPlayer(Player player) {
-		shrineBar.addPlayer(player);
+		if (Game.getGame().getPhase() == Phase.GAME)
+			shrineBar.addPlayer(player);
 	}
 	
 	public void removeShrineBar() {
@@ -199,9 +197,14 @@ public class ShrineManager {
 	
 	public void onMobRelease() {
 		splitGold();
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			shrineBar.addPlayer(player);
+		}
 	}
 	
 	private void updateShrines() {
+		if (Game.getGame().getPhase() != Phase.GAME) return;
+		
 		Shrine shrine = getShrine();
 		
 		int mobsOnShrine = 0;
