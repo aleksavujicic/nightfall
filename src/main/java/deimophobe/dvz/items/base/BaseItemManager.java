@@ -37,6 +37,7 @@ public class BaseItemManager {
 		//addItem("tiger_fist", new SimpleBaseItem(Material.SHEARS, 3));
 		addItem("tiger_fist", new SimpleBaseItem(Material.SHIELD, 0));
 		
+		addItem("longbow", new SimpleBaseItem(Material.BOW, 1));
 		addItem("lightbow", new SimpleBaseItem(Material.BOW, 5));
 		addItem("warpbow", new SimpleBaseItem(Material.BOW, 6));
 		addItem("ebow", new SimpleBaseItem(Material.BOW, 3));

@@ -116,7 +116,7 @@ bow:
       flavour:
        - "Rawr,Rawr,Rawwwwwwwr."
   longbow:
-    material: bow
+    base: longbow
     name: Longbow
     lore:
       description:
