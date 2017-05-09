@@ -449,7 +449,7 @@ page2:
     cost: 10
     item:
       name: "SOS II"
-      base: loadout-sosI
+      base: loadout-sosII
 
   builder_one:
     index: 14
@@ -470,17 +470,6 @@ page2:
       torch: 40
       mortar: 40
       cobblestone: 160
-    item:
-      name: "Builder's Pack II"
-      material: diamond_hoe
-  builder_three:
-    index: 32
-    cost: 12
-    type: multi
-    consumables:
-      torch: 64
-      mortar: 64
-      cobblestone: 256
     item:
       name: "Builder's Pack II"
       material: diamond_hoe
