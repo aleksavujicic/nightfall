@@ -1,9 +1,11 @@
 package deimophobe.dvz.dwarf.loadout;
 
 import deimophobe.dvz.Hat;
+import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
+import deimophobe.dvz.items.lore.LoreTemplate;
 import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.menu.MenuSession;
 import minecraft.spigot.community.michel_0.api.Slot;
@@ -21,9 +23,6 @@ class LoadoutItem implements MenuItem<Loadout> {
 	private final ItemStack itemStack;
 	
 	LoadoutItem(ConfigurationSection config) {
-		itemStack = ItemCreator.createItem(config.getConfigurationSection("item"), Slot.MAIN_HAND);
-		
-		
 		String type = config.getString("type", null);
 		switch (type) {
 			case "item":
@@ -82,6 +81,12 @@ class LoadoutItem implements MenuItem<Loadout> {
 			default:
 				throw new IllegalArgumentException("Unknown loadout item type: " + type);
 		}
+		
+		
+		CustomItem item = CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.LOADOUT, Slot.MAIN_HAND);
+		item.applyVariable("cost", ""+cost);
+		item.applyVariable("category", (category == null ? "" : category.getLore()));
+		itemStack = item.createItemStack();
 		
 		itemStack.setAmount(cost == 0 ? 1 : cost);
 		

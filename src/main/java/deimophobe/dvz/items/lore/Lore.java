@@ -84,7 +84,7 @@ public class Lore implements Cloneable {
 		loreText.insert(varPos, value);
 		
 		// Offset any pointers that occur after
-		int varLength = name.length();
+		int varLength = value.length();
 		variablePointers.replaceAll((k, v) -> (v < varPos ? v : v + varLength));
 	}
 	
@@ -112,6 +112,7 @@ public class Lore implements Cloneable {
 		// Add lore text
 		String text = loreText.toString();
 		text = ChatColor.translateAlternateColorCodes('&', text);
+		text.replaceAll("\n\n+", "\n\n");
 		
 		lore.addAll(Arrays.asList(text.split("\n")));
 		

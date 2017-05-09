@@ -51,7 +51,7 @@ loadout:
 
   lore:
     - "&d&lLoadout costs $cost points."
-    - "&1&l$category"
+    - "&9&l$category"
     - ""
     - "${description}"
 

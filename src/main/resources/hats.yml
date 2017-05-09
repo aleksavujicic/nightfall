@@ -11,7 +11,7 @@ witch:
   name: "Witch Hat"
 
 darkvisgoggles:
-  base: loadout-night_vis
+  base: loadout-dark_vis
   name: "Dark Vision Goggles"
 
 jimmycap:

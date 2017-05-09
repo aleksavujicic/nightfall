@@ -37,6 +37,7 @@ public class BaseItemManager {
 		//addItem("tiger_fist", new SimpleBaseItem(Material.SHEARS, 3));
 		addItem("tiger_fist", new SimpleBaseItem(Material.SHIELD, 0));
 		
+		addItem("dragonskin", new SimpleBaseItem(Material.BOW, 4));
 		addItem("longbow", new SimpleBaseItem(Material.BOW, 1));
 		addItem("lightbow", new SimpleBaseItem(Material.BOW, 5));
 		addItem("warpbow", new SimpleBaseItem(Material.BOW, 6));
@@ -100,7 +101,27 @@ public class BaseItemManager {
 		
 		
 		// ~~~~ LOADOUT ITEMS ~~~~~
-		addItem("loadout-night_vis", new SimpleBaseItem(Material.DIAMOND_HOE, 6));
+		addItem("loadout-left", new SimpleBaseItem(Material.DIAMOND_HOE, 1));
+		addItem("loadout-right", new SimpleBaseItem(Material.DIAMOND_HOE, 2));
+		addItem("loadout-clear", new SimpleBaseItem(Material.DIAMOND_HOE, 3));
+		addItem("loadout-points", new SimpleBaseItem(Material.DIAMOND_HOE, 4));
+		addItem("loadout-coil", new SimpleBaseItem(Material.DIAMOND_HOE, 5));
+		addItem("loadout-dark_vis", new SimpleBaseItem(Material.DIAMOND_HOE, 6));
+		addItem("loadout-safefall", new SimpleBaseItem(Material.DIAMOND_HOE, 7));
+		addItem("loadout-avenge", new SimpleBaseItem(Material.DIAMOND_HOE, 8));
+		addItem("loadout-mortarI", new SimpleBaseItem(Material.DIAMOND_HOE, 9));
+		addItem("loadout-mortarII", new SimpleBaseItem(Material.DIAMOND_HOE, 10));
+		addItem("loadout-wizmortarI", new SimpleBaseItem(Material.DIAMOND_HOE, 11));
+		addItem("loadout-wizmortarII", new SimpleBaseItem(Material.DIAMOND_HOE, 12));
+		addItem("loadout-sosI", new SimpleBaseItem(Material.DIAMOND_HOE, 13));
+		addItem("loadout-sosII", new SimpleBaseItem(Material.DIAMOND_HOE, 14));
+		addItem("loadout-lampI", new SimpleBaseItem(Material.DIAMOND_HOE, 15));
+		addItem("loadout-lampII", new SimpleBaseItem(Material.DIAMOND_HOE, 16));
+		addItem("loadout-wrenchI", new SimpleBaseItem(Material.DIAMOND_HOE, 17));
+		addItem("loadout-wrenchII", new SimpleBaseItem(Material.DIAMOND_HOE, 18));
+		addItem("loadout-quiver", new SimpleBaseItem(Material.DIAMOND_HOE, 19));
+		addItem("loadout-studded", new SimpleBaseItem(Material.DIAMOND_HOE, 20));
+		addItem("loadout-runeblessed", new SimpleBaseItem(Material.DIAMOND_HOE, 21));
 		
 	}
 	

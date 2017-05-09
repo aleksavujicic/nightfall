@@ -19,7 +19,10 @@ class SectionComponent implements LoreComponent {
 	
 	@Override
 	public String toString(Map<String, String> sections) {
-		String section = prefix + sections.get(name);
+		String section = sections.get(name);
+		if (section == null) return "";
+		
+		section = prefix + section;
 		section = section.replaceAll("&r", "&r" + prefix);
 		section = section.replaceAll("\n\\s*", "\n" + prefix);
 		

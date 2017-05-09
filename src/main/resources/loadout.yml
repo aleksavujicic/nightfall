@@ -135,8 +135,7 @@ page1:
     cost: 24
     item:
       name: "Greater Runeblade"
-      material: shears
-      damage: 0
+      base: runeblade
   malice:
     index: 1
     type: item
@@ -145,8 +144,7 @@ page1:
     cost: 24
     item:
       name: "Axe of Malice"
-      material: shears
-      damage: 1
+      base: malice
   hammer:
     index: 2
     type: item
@@ -155,8 +153,7 @@ page1:
     cost: 16
     item:
       name: "Hammer"
-      material: shield
-      damage: 2
+      base: hammer
   dagger:
     index: 3
     type: item
@@ -165,8 +162,7 @@ page1:
     cost: 16
     item:
       name: "Dagger"
-      material: shears
-      damage: 2
+      base: dagger
   tombmaker:
     index: 4
     type: item
@@ -175,7 +171,7 @@ page1:
     cost: 4
     item:
       name: "Tombmaker"
-      material: diamond_spade
+      base: tombmaker
   tigerfist:
     index: 5
     type: item
@@ -184,8 +180,7 @@ page1:
     cost: 24
     item:
       name: "Tiger Fist"
-      material: shears
-      damage: 3
+      base: tiger_fist
 
 
   # ------ BOWS ------
@@ -197,7 +192,7 @@ page1:
     cost: 16
     item:
       name: "Dragonskin Bow"
-      material: arrow
+      base: dragonskin
   longbow:
     index: 10
     type: item
@@ -206,7 +201,7 @@ page1:
     cost: 16
     item:
       name: "Longbow"
-      material: bow
+      base: longbow
   lightbow:
     index: 11
     type: item
@@ -215,8 +210,7 @@ page1:
     cost: 12
     item:
       name: "Lightbow"
-      material: ink_sack
-      damage: 0
+      base: lightbow
   crossbow:
     index: 12
     type: item
@@ -225,8 +219,7 @@ page1:
     cost: 12
     item:
       name: "Crossbow"
-      material: shears
-      damage: 25
+      base: crossbow
   ebow:
     index: 13
     type: item
@@ -235,8 +228,7 @@ page1:
     cost: 12
     item:
       name: "Emerald Bow"
-      material: bow
-      damage: 3
+      base: ebow
   warpweaver:
     index: 14
     type: item
@@ -245,7 +237,7 @@ page1:
     cost: 12
     item:
       name: "Warpweaver Bow"
-      material: ender_pearl
+      base: warpbow
 
 
   # ------ ALES ------
@@ -257,7 +249,7 @@ page1:
     cost: 8
     item:
       name: "Jimmy Juice"
-      material: potion
+      base: jimmyjuice
   holy:
     index: 19
     type: item
@@ -266,7 +258,7 @@ page1:
     cost: 8
     item:
       name: "Holy Ale"
-      material: potion
+      base: holy_ale
   trinket:
     index: 20
     type: item
@@ -275,8 +267,7 @@ page1:
     cost: 8
     item:
       name: "Star Trinket"
-      material: shears
-      damage: 30
+      base: trinket
   regrowth:
     index: 21
     type: item
@@ -285,8 +276,7 @@ page1:
     cost: 8
     item:
       name: "Regrowth Star"
-      material: shears
-      damage: 31
+      base: regrowth
 
 
   # ------ ARMOURS ------
@@ -298,8 +288,7 @@ page1:
     cost: 8
     item:
       name: "Runeblessed Armour"
-      material: diamond_hoe
-      damage: 21
+      base: loadout-runeblessed
   quiver:
     index: 28
     type: item
@@ -308,8 +297,7 @@ page1:
     cost: 8
     item:
       name: "Massive Quiver"
-      material: diamond_hoe
-      damage: 19
+      base: loadout-quiver
   studded:
     index: 29
     type: item
@@ -317,9 +305,8 @@ page1:
     category: armour
     cost: 8
     item:
-      name: "StuddedArmour Armour"
-      material: diamond_hoe
-      damage: 20
+      name: "Studded Armour"
+      base: loadout-studded
   coil:
     index: 30
     type: item
@@ -328,8 +315,7 @@ page1:
     cost: 8
     item:
       name: "Magic Coil"
-      material: diamond_hoe
-      damage: 5
+      base: loadout-coil
 
 
 
@@ -350,8 +336,7 @@ page2:
     cost: 4
     item:
       name: "Safefall"
-      material: diamond_hoe
-      damage: 7
+      base: loadout-safefall
   darkvision:
     index: 2
     type: item
@@ -359,8 +344,7 @@ page2:
     cost: 4
     item:
       name: "Dark Vision"
-      material: diamond_hoe
-      damage: 6
+      base: loadout-dark_vis
   avenge:
     index: 3
     type: item
@@ -368,32 +352,10 @@ page2:
     cost: 8
     item:
       name: "Avenge"
-      material: diamond_hoe
-      damage: 8
+      base: loadout-avenge
 
 
   # ------ CONSUMABLES ------
-#  mortar_one:
-#    index: 9
-#    type: consumable
-#    name: mortar
-#    quantity: 64
-#    cost: 4
-#    item:
-#      name: "Mortar I"
-#      material: diamond_hoe
-#      damage: 9
-#  mortar_two:
-#    index: 18
-#    type: consumable
-#    name: mortar
-#    quantity: 128
-#    cost: 8
-#    item:
-#      name: "Mortar II"
-#      material: diamond_hoe
-#      damage: 10
-
   wizard_one:
     index: 9
     type: consumable
@@ -402,8 +364,7 @@ page2:
     cost: 4
     item:
       name: "Wizard Mortar I"
-      material: diamond_hoe
-      damage: 11
+      base: loadout-wizmortarI
   wizard_two:
     index: 18
     type: consumable
@@ -412,8 +373,7 @@ page2:
     cost: 10
     item:
       name: "Wizard Mortar II"
-      material: diamond_hoe
-      damage: 12
+      base: loadout-wizmortarII
 
   lamps_one:
     index: 10
@@ -423,8 +383,7 @@ page2:
     cost: 4
     item:
       name: "Enchanted Lamps I"
-      material: diamond_hoe
-      damage: 15
+      base: loadout-lampI
   lamps_two:
     index: 19
     type: consumable
@@ -433,8 +392,7 @@ page2:
     cost: 10
     item:
       name: "Enchanted Lamps II"
-      material: diamond_hoe
-      damage: 16
+      base: loadout-lampII
 
   wrench_one:
     index: 11
@@ -444,8 +402,7 @@ page2:
     cost: 4
     item:
       name: "Wiggly Wrench I"
-      material: diamond_hoe
-      damage: 17
+      base: loadout-wrenchI
   wrench_two:
     index: 20
     type: consumable
@@ -454,8 +411,7 @@ page2:
     cost: 8
     item:
       name: "Wiggly Wrench II"
-      material: diamond_hoe
-      damage: 18
+      base: loadout-wrenchII
 
   healing_one:
     index: 12
@@ -465,8 +421,7 @@ page2:
     cost: 4
     item:
       name: "'Healing Station' I"
-      material: ink_sack
-      damage: 7
+      base: star_bottle
   healing_two:
     index: 21
     type: consumable
@@ -475,8 +430,7 @@ page2:
     cost: 8
     item:
       name: "'Healing Station' II"
-      material: ink_sack
-      damage: 7
+      base: star_bottle
 
   sos_one:
     index: 13
@@ -486,8 +440,7 @@ page2:
     cost: 4
     item:
       name: "SOS I"
-      material: diamond_hoe
-      damage: 13
+      base: loadout-sosI
   sos_two:
     index: 22
     type: consumable
@@ -496,8 +449,7 @@ page2:
     cost: 10
     item:
       name: "SOS II"
-      material: diamond_hoe
-      damage: 14
+      base: loadout-sosI
 
   builder_one:
     index: 14
@@ -542,39 +494,35 @@ page3:
     name: crown
     item:
       name: "&bCrown Hat"
-      material: shears
-      damage: 200
+      base: bone_crown
   flower_hat:
     index: 1
     type: hat
     name: flowers
     item:
       name: "&bFlower Hat"
-      material: shears
-      damage: 201
+      base: flower_crown
   witch_hat:
     index: 2
     type: hat
     name: witch
     item:
       name: "&bWitch Hat"
-      material: shears
-      damage: 202
+      base: witch_hat
   dv_goggles:
     index: 3
     type: hat
     name: darkvisgoggles
     item:
-      material: diamond_hoe
-      damage: 6
       name: "&bDark Vision Goggles"
+      base: loadout-dark_vis
   jimmy_cap:
     index: 4
     type: hat
     name: jimmycap
     item:
-      material: gold_helmet
       name: "&bJimmy Cap"
+      material: gold_helmet
 
   ranger:
     index: 18
@@ -583,7 +531,6 @@ page3:
     item:
       name: "&bRanger"
       material: diamond_hoe
-      damage: 0
   paladin:
     index: 19
     type: title
@@ -591,7 +538,6 @@ page3:
     item:
       name: "&bPaladin"
       material: diamond_hoe
-      damage: 0
   gravedigger:
     index: 20
     type: title
@@ -599,7 +545,6 @@ page3:
     item:
       name: "&bGravedigger"
       material: diamond_hoe
-      damage: 0
   ancient:
     index: 21
     type: title
@@ -607,7 +552,6 @@ page3:
     item:
       name: "&bAncient"
       material: diamond_hoe
-      damage: 0
   firelord:
     index: 22
     type: title
@@ -615,7 +559,6 @@ page3:
     item:
       name: "&bFirelord"
       material: diamond_hoe
-      damage: 0
   hunter:
     index: 23
     type: title
@@ -623,54 +566,20 @@ page3:
     item:
       name: "&bHunter"
       material: diamond_hoe
-      damage: 0
-
-page4:
-  tuihammer:
-    index: 0
-    type: item
-    name: tui_hammer
-    cost: 0
-    item:
-      name: "Test Kindled Light"
-      material: shears
-      damage: 0
-  tinderflame:
-    index: 1
-    type: item
-    name: tinderflame
-    cost: 0
-    item:
-      name: "Test Tinderflame"
-      material: shears
-      damage: 0
-  rocketboots:
-    index: 2
-    type: item
-    name: rocket_boots
-    cost: 0
-    item:
-      name: "Test Boots"
-      material: shears
-      damage: 0
 
 specialitems:
   points:
     name: "&bPoints Remaining"
-    material: diamond_hoe
-    damage: 4
+    base: loadout-points
 
   clear:
     name: "&bClear Loadout"
-    material: diamond_hoe
-    damage: 3
+    base: loadout-clear
 
   back:
     name: "&bPrevious Page"
-    material: diamond_hoe
-    damage: 1
+    base: loadout-left
 
   forward:
     name: "&bNext Page"
-    material: diamond_hoe
-    damage: 2
+    base: loadout-right

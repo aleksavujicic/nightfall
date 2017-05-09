@@ -1,7 +1,9 @@
 package deimophobe.dvz.dwarf.loadout;
 
+import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.Misc;
+import deimophobe.dvz.items.lore.LoreTemplate;
 import deimophobe.dvz.menu.*;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
@@ -48,10 +50,10 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 		
 		// Add items for toolbar
 		ConfigurationSection itemConfig = config.getConfigurationSection(ITEM_SECTION);
-		ItemStack back = ItemCreator.createItem(itemConfig.getConfigurationSection("back"), Slot.MAIN_HAND);
-		ItemStack forward = ItemCreator.createItem(itemConfig.getConfigurationSection("forward"), Slot.MAIN_HAND);
-		ItemStack clear = ItemCreator.createItem(itemConfig.getConfigurationSection("clear"), Slot.MAIN_HAND);
-		ItemStack points = ItemCreator.createItem(itemConfig.getConfigurationSection("points"), Slot.MAIN_HAND);
+		ItemStack back = CustomItem.getItem(itemConfig.getConfigurationSection("back"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
+		ItemStack forward = CustomItem.getItem(itemConfig.getConfigurationSection("forward"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
+		ItemStack clear = CustomItem.getItem(itemConfig.getConfigurationSection("clear"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
+		ItemStack points = CustomItem.getItem(itemConfig.getConfigurationSection("points"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
 		
 		toolbar.setItem(0, new PointsItem(points));
 		toolbar.setItem(3, new PageChanger<>(back, pages, false));
