@@ -36,7 +36,7 @@ class Ebow extends AbstractBow {
 	@Override public String getBowIdentifier() {return "EBOW";}
 	@Override public int getPower() {return POWER;}
 	
-	private static final double MAX_RANGE = 15;
+	private static final double MAX_RANGE = 25;
 	private static final double THICKNESS = 1.5;
 	private static final double MIN_DISTANCE_FROM_SHOOTER = 2;
 	private static final double PROC_RADIUS = 3;
@@ -46,7 +46,7 @@ class Ebow extends AbstractBow {
 		Location dwarfLocation = dwarf.getPlayer().getEyeLocation();
 		Vector direction = dwarfLocation.getDirection();
 		
-		double range = MAX_RANGE * force;
+		double range = MAX_RANGE * force * force;
 		
 		// Show particles
 		Vector delta = direction.clone().multiply(0.5);
