@@ -107,7 +107,7 @@ bow:
        - "Not very strong is it?\n
           Well it is a shortbow after all."
   dragonskin:
-    material: bow
+    base: dragonskin
     name: Dragonskin Bow
     lore:
       description:
