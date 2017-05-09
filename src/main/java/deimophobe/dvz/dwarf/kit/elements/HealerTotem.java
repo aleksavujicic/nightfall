@@ -37,6 +37,7 @@ class HealerTotem extends AbstractItem {
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace face) {
+		// TODO: Only works when not hitting dwarf.
 		if (hasTarget())  {
 			deactivateTargetHealing();
 			deactivateGroupHealing();
