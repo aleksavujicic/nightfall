@@ -19,7 +19,7 @@ class ArmourItem extends Consumable {
 	@Override
 	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
 		if (Misc.isLeftClick(action)) {
-			Dwarf toArmour = dwarf.getLookingAt(2, 7, (d) -> !d.getArmour().isArmoured(), DwarfManager.getManager());
+			Dwarf toArmour = dwarf.getLookingAt(2, 7, DwarfManager.getManager().getDwarves(), (d) -> !d.getArmour().isArmoured());
 			if (toArmour != null) {
 				toArmour.getArmour().putOn();
 				return DEFAULT_CD;

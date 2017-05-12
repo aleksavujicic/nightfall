@@ -89,7 +89,7 @@ class Wand extends AbstractCooldownItem {
 					loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 7, 0.3, 0.3, 0.3, 0.04);
 					loc.getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, loc, 1, 0.1, 0.1, 0.1, 0.05);
 					
-					for (GameEntity entity : MonsterManager.getManager().getMobsAndAIs()) {
+					for (GameEntity entity : MonsterManager.getManager().getAliveMobsAndAIs()) {
 						Location entityLoc = entity.getLocation();
 						double dist = loc.distance(entityLoc);
 						if (dist <= WH_RANGE) {

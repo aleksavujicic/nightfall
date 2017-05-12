@@ -40,7 +40,7 @@ class Regrowth extends AbstractAle {
 	}
 	
 	private void tryHealOthers() {
-		Dwarf healee = dwarf.getLookingAt(3, 15, DwarfManager.getManager());
+		Dwarf healee = dwarf.getLookingAt(3, 15, DwarfManager.getManager().getDwarves());
 		if (healee == null) return;
 		if (!dwarf.tryUseMana(20)) return;
 		

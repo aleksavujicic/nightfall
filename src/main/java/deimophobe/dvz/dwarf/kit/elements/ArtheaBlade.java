@@ -29,7 +29,7 @@ class ArtheaBlade extends AbstractCooldownItem {
 	@Override
 	public boolean onUse(Action action, Block block, BlockFace face) {
 		if (isOffCD() && Misc.isRightClick(action)) {
-			MonsterPlayer target = dwarf.getLookingAt(2, 10, MonsterManager.getManager());
+			MonsterPlayer target = dwarf.getLookingAt(2, 10, MonsterManager.getManager().getAlivePlayerMobs());
 			if (target != null) {
 				resetCooldown();
 				Location location = target.getLocation();

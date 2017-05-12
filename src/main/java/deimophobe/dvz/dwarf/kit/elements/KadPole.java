@@ -47,7 +47,7 @@ class KadPole extends AbstractCooldownItem {
 			
 			
 			if (!shouldTeleport) return false;
-			target = dwarf.getLookingAt(3, (bloodSwap ? 30 : 10), DwarfManager.getManager());
+			target = dwarf.getLookingAt(3, (bloodSwap ? 30 : 10), DwarfManager.getManager().getDwarves());
 			if (target == null) return false;
 			
 			if (bloodSwap) {

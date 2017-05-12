@@ -43,7 +43,7 @@ class HealerTotem extends AbstractItem {
 			deactivateGroupHealing();
 			return true;
 		} else if (Misc.isLeftClick(action)) {
-			target = dwarf.getLookingAt(1.5, 4, DwarfManager.getManager());
+			target = dwarf.getLookingAt(1.5, 4, DwarfManager.getManager().getGamePlayers());
 			if (target != null) {
 				activateTargetHealing(target);;
 				deactivateGroupHealing();

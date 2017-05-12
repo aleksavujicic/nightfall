@@ -65,7 +65,7 @@ class Ebow extends AbstractBow {
 		}
 		
 		// Calculate collision
-		for (GameEntity monster : MonsterManager.getManager().getMobsAndAIs()) {
+		for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
 			// Skip if further than distance shot or too close
 			Location monsterLocation = monster.getEyeLocation();
 			double distance = dwarfLocation.distance(monsterLocation);

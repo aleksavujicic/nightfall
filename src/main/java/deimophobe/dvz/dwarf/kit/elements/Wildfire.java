@@ -88,7 +88,7 @@ class Wildfire extends AbstractItem {
 					position.getWorld().spawnParticle(Particle.FLAME, position, 15, 0.35, 0.35, 0.35, 0);
 					
 					// Damage mobs
-					for (GameEntity monster : MonsterManager.getManager().getMobsAndAIs()) {
+					for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
 						if (monster.getEyeLocation().distance(position) <= FLAME_RADIUS)
 							monster.customDamage(dwarf, DamageType.WILDFIRE, FLAME_DPT*FLAME_DELAY, true);
 					}

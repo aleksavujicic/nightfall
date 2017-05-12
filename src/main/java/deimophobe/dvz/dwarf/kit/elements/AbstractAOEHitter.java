@@ -27,7 +27,7 @@ abstract class AbstractAOEHitter extends AbstractItem {
 		if (type != DamageType.REGULAR_MELEE || monster == null) return damage;
 		
 		Location center = monster.getLocation();
-		for (GameEntity entity : MonsterManager.getManager().getMobsAndAIs()) {
+		for (GameEntity entity : MonsterManager.getManager().getAliveMobsAndAIs()) {
 			if (entity == monster) {
 				damage += getDamageToMonster(entity);
 				continue;

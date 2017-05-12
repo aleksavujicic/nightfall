@@ -40,7 +40,7 @@ class SOS extends Consumable {
 		
 		Location center = dwarf.getEyeLocation();
 		for (MonsterPlayer mp : MonsterManager.getManager().getGamePlayers()) {
-			if (center.distance(mp.getLocation()) <= RANGE)
+			if (mp.isAlive() && center.distance(mp.getLocation()) <= RANGE)
 				mp.freeze(FREEZE_TIME);
 		}
 		AIManager.getManager().clearArea(center, RANGE);

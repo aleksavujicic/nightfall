@@ -69,15 +69,15 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		return new MonsterPlayer(player);
 	}
 	
-	public Collection<MonsterPlayer> getAliveMobs() {
+	public Collection<MonsterPlayer> getAlivePlayerMobs() {
 		Collection<MonsterPlayer> aliveMobs = new HashSet<>(getGamePlayers());
 		aliveMobs.removeIf((MonsterPlayer m) -> !m.isAlive());
 		return aliveMobs;
 	}
 	
-	public Collection<GameEntity> getMobsAndAIs() {
+	public Collection<GameEntity> getAliveMobsAndAIs() {
 		Collection<GameEntity> entities = new ArrayList<>();
-		entities.addAll(getGamePlayers());
+		entities.addAll(getAlivePlayerMobs());
 		entities.addAll(AIManager.getManager().getAIs());
 		return entities;
 	}

@@ -16,6 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -249,18 +250,18 @@ public abstract class GamePlayer extends GameEntity<Player> {
 		return entity.getTargetBlock(materials, i);
 	}
 	
-	public <P extends GamePlayer> P getLookingAt(double epsilon, double range, GamePlayerManager<P> manager) {
-		return getLookingAt(epsilon, range, (P x) -> true, manager);
+	public <P extends GameEntity> P getLookingAt(double epsilon, double range, Collection<P> targets) {
+		return getLookingAt(epsilon, range, targets, (p) -> true);
 	}
 	
-	public <P extends GamePlayer> P getLookingAt(double epsilon, double range, Predicate<P> requirement, GamePlayerManager<P> manager) {
+	public <P extends GameEntity> P getLookingAt(double epsilon, double range, Collection<P> targets, Predicate<P> requirement) {
 		Location playerLoc = entity.getLocation();
 		Vector lookDir = playerLoc.getDirection();
 		
 		P closestPlayer = null;
 		double closestRange = range;
 		double closestOffset = epsilon;
-		for (P testPlayer : manager.getGamePlayers()) {
+		for (P testPlayer : targets) {
 			if (testPlayer == this) continue;
 			if (!requirement.test(testPlayer)) continue;
 			
