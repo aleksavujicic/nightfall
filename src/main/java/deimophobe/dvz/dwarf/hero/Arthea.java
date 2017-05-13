@@ -35,6 +35,12 @@ public class Arthea extends Hero {
 	}
 	
 	@Override
+	public void givePotionEffect(PotionEffectType type, int duration, int amplifier, boolean showAbove, boolean colourBlue, boolean force) {
+		if (!isEnraged())
+			super.givePotionEffect(type, duration, amplifier, showAbove, colourBlue, force);
+	}
+	
+	@Override
 	public void updateCooldownBar() {
 		if (!isEnraged()) {
 			super.updateCooldownBar();
@@ -98,23 +104,23 @@ public class Arthea extends Hero {
 	private void startTransition() {
 		Bukkit.broadcastMessage(getDisplayName() + " has been fatally wounded!");
 		enrageTimer = ENRAGE_TRANSITION_DURATION + ENRAGE_DURATION;
-		givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, ENRAGE_DURATION + ENRAGE_TRANSITION_DURATION, 5, true, true, true);
-		givePotionEffect(PotionEffectType.GLOWING, ENRAGE_DURATION + ENRAGE_TRANSITION_DURATION, 5, true, true, true);
-		givePotionEffect(PotionEffectType.REGENERATION, ENRAGE_DURATION + ENRAGE_TRANSITION_DURATION, 3, true, true, true);
-		givePotionEffect(PotionEffectType.SLOW, ENRAGE_TRANSITION_DURATION, 100, false, false, true);
-		givePotionEffect(PotionEffectType.JUMP, ENRAGE_TRANSITION_DURATION, -100, false, false, true);
-		givePotionEffect(PotionEffectType.CONFUSION, ENRAGE_TRANSITION_DURATION + 20, -100, false, false, true);
-		givePotionEffect(PotionEffectType.WEAKNESS, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
-		givePotionEffect(PotionEffectType.SLOW_DIGGING, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
-		givePotionEffect(PotionEffectType.BLINDNESS, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
+		super.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, ENRAGE_DURATION + ENRAGE_TRANSITION_DURATION, 5, true, true, true);
+		super.givePotionEffect(PotionEffectType.GLOWING, ENRAGE_DURATION + ENRAGE_TRANSITION_DURATION, 5, true, true, true);
+		super.givePotionEffect(PotionEffectType.REGENERATION, ENRAGE_DURATION + ENRAGE_TRANSITION_DURATION, 3, true, true, true);
+		super.givePotionEffect(PotionEffectType.SLOW, ENRAGE_TRANSITION_DURATION, 100, false, false, true);
+		super.givePotionEffect(PotionEffectType.JUMP, ENRAGE_TRANSITION_DURATION, -100, false, false, true);
+		super.givePotionEffect(PotionEffectType.CONFUSION, ENRAGE_TRANSITION_DURATION + 20, -100, false, false, true);
+		super.givePotionEffect(PotionEffectType.WEAKNESS, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
+		super.givePotionEffect(PotionEffectType.SLOW_DIGGING, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
+		super.givePotionEffect(PotionEffectType.BLINDNESS, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
 	}
 	
 	private void startEnrage() {
-		givePotionEffect(PotionEffectType.SPEED, ENRAGE_DURATION, 5, true, false, true);
-		givePotionEffect(PotionEffectType.INCREASE_DAMAGE, ENRAGE_DURATION, 5, true, false, true);
-		givePotionEffect(PotionEffectType.NIGHT_VISION, ENRAGE_DURATION, 1, true, false, true);
-		givePotionEffect(PotionEffectType.FIRE_RESISTANCE, ENRAGE_DURATION, 1, true, false, true);
-		givePotionEffect(PotionEffectType.JUMP, ENRAGE_DURATION, 3, true, false, true);
+		super.givePotionEffect(PotionEffectType.SPEED, ENRAGE_DURATION, 5, true, false, true);
+		super.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, ENRAGE_DURATION, 5, true, false, true);
+		super.givePotionEffect(PotionEffectType.NIGHT_VISION, ENRAGE_DURATION, 1, true, false, true);
+		super.givePotionEffect(PotionEffectType.FIRE_RESISTANCE, ENRAGE_DURATION, 1, true, false, true);
+		super.givePotionEffect(PotionEffectType.JUMP, ENRAGE_DURATION, 3, true, false, true);
 		
 		customDamage(null, DamageType.GENERIC_MAGIC, 10);
 		
