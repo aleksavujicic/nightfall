@@ -36,7 +36,7 @@ class TigerFist extends AbstractItem implements KitCooldownElement {
 	private Status status = Status.IDLE;
 	
 	private int charge = 0;
-	private static final int MAX_CHARGE = 10;
+	private static final int MAX_CHARGE = 15;
 	private int chain = 0;
 	
 	private int cooldown = 0;
@@ -54,8 +54,10 @@ class TigerFist extends AbstractItem implements KitCooldownElement {
 				break;
 			
 			case START_CHARGING:
-				if (dwarf.isBlocking())
+				if (dwarf.isBlocking()) {
+					charge = 1;
 					status = Status.CHARGING;
+				}
 				
 				break;
 				
@@ -77,16 +79,14 @@ class TigerFist extends AbstractItem implements KitCooldownElement {
 					leap_cooldown = (int) Math.max((double) MAX_LEAP_CD/Math.pow(chain+1, 0.25), 7);
 					
 					double yaw = dwarf.getLocation().getYaw() * Math.PI / 180;
-					double velocity = Math.max(0.8, 2*Math.atan((double)chain/10)/Math.PI);
+					double velocity = Math.max(0.9, 2*Math.atan((double)chain/5)/Math.PI);
 					dwarf.setVelocity(-velocity * Math.sin(yaw), 0.225, velocity * Math.cos(yaw));
 					dwarf.playSound("proc", 1, 1.5f, false);
 					
-					//charge--;
+					charge--;
 					chain++;
 					dwarf.getPlayer().sendTitle("", ChatColor.DARK_AQUA + "Chain: " + ChatColor.AQUA + chain, 0, 20, 10);
 					
-					if (chain > 10)
-						dwarf.givePotionEffect(PotionEffectType.GLOWING, 40, 1, true, true, true);
 					
 					if (charge == 0) {
 						dwarf.getPlayer().removePotionEffect(PotionEffectType.GLOWING);
@@ -96,6 +96,7 @@ class TigerFist extends AbstractItem implements KitCooldownElement {
 						if (cooldown < 0)
 							cooldown = 0;
 						
+						dwarf.getPlayer().sendTitle(ChatColor.DARK_GREEN + "Chain: " + ChatColor.GREEN, "" + chain, 0, 40, 10);
 						chain = 0;
 					}
 				}
