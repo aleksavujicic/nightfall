@@ -35,6 +35,20 @@ public class Arthea extends Hero {
 	}
 	
 	@Override
+	public void updateCooldownBar() {
+		if (!isEnraged()) {
+			super.updateCooldownBar();
+		} else {
+			float frac;
+			if (enrageTimer >= ENRAGE_DURATION)
+				frac = 1 - (float) (enrageTimer - ENRAGE_DURATION)/ENRAGE_TRANSITION_DURATION;
+			else
+				frac = (float) enrageTimer/ENRAGE_DURATION;
+			entity.setExp(frac);
+		}
+	}
+	
+	@Override
 	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
 		super.update(a,b,c,d,e);
 		
@@ -92,6 +106,7 @@ public class Arthea extends Hero {
 		givePotionEffect(PotionEffectType.CONFUSION, ENRAGE_TRANSITION_DURATION + 20, -100, false, false, true);
 		givePotionEffect(PotionEffectType.WEAKNESS, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
 		givePotionEffect(PotionEffectType.SLOW_DIGGING, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
+		givePotionEffect(PotionEffectType.BLINDNESS, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
 	}
 	
 	private void startEnrage() {
