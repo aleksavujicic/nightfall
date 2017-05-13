@@ -9,6 +9,8 @@ import deimophobe.dvz.dwarf.kit.KitCooldownElement;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.items.CustomItem;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -41,7 +43,7 @@ class TigerFist extends AbstractItem implements KitCooldownElement {
 	private static final int MAX_CD = 30*20;
 	
 	private int leap_cooldown = 0;
-	private static final int MAX_LEAP_CD = 15;
+	private static final int MAX_LEAP_CD = 20;
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
@@ -71,15 +73,17 @@ class TigerFist extends AbstractItem implements KitCooldownElement {
 				if (leap_cooldown > 0)
 					leap_cooldown--;
 				
-				if (leap_cooldown == 0 && charge > 0 && (dwarf.getPlayer().isOnGround() || dwarf.getLocation().subtract(0,3,0).getBlock().getType().isSolid())) {
-					leap_cooldown = MAX_LEAP_CD;
+				if (leap_cooldown == 0 && charge > 0 && (dwarf.getPlayer().isOnGround() || dwarf.getLocation().subtract(0,1.3,0).getBlock().getType().isSolid())) {
+					leap_cooldown = (int) Math.max((double) MAX_LEAP_CD/Math.pow(chain+1, 0.25), 7);
 					
 					double yaw = dwarf.getLocation().getYaw() * Math.PI / 180;
-					dwarf.setVelocity(-0.7 * Math.sin(yaw), 0.4, 0.7 * Math.cos(yaw));
+					double velocity = Math.max(0.8, 2*Math.atan((double)chain/10)/Math.PI);
+					dwarf.setVelocity(-velocity * Math.sin(yaw), 0.225, velocity * Math.cos(yaw));
 					dwarf.playSound("proc", 1, 1.5f, false);
 					
-					charge--;
+					//charge--;
 					chain++;
+					dwarf.getPlayer().sendTitle("", ChatColor.DARK_AQUA + "Chain: " + ChatColor.AQUA + chain, 0, 20, 10);
 					
 					if (chain > 10)
 						dwarf.givePotionEffect(PotionEffectType.GLOWING, 40, 1, true, true, true);
