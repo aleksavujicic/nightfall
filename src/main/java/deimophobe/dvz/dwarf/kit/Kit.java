@@ -60,6 +60,7 @@ public class Kit {
 			if (itemElement.getGiveType() == giveType)
 				dwarf.giveItem(itemElement.getItem().createItemStack());
 		}
+		updateHotbarSlot(dwarf.getHeldItem());
 	}
 	
 	
