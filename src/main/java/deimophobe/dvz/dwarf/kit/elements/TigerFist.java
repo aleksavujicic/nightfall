@@ -96,7 +96,7 @@ class TigerFist extends AbstractItem implements KitCooldownElement {
 						if (cooldown < 0)
 							cooldown = 0;
 						
-						dwarf.getPlayer().sendTitle(ChatColor.DARK_GREEN + "Chain: " + ChatColor.GREEN + chain, "", 0, 40, 10);
+						dwarf.getPlayer().sendTitle("", ChatColor.DARK_GREEN + "Chain: " + ChatColor.GREEN + chain, 0, 40, 10);
 						chain = 0;
 					}
 				}
