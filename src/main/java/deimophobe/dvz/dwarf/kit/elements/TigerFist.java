@@ -79,7 +79,7 @@ class TigerFist extends AbstractItem implements KitCooldownElement {
 					leap_cooldown = (int) Math.max((double) MAX_LEAP_CD/Math.pow(chain+1, 0.25), 7);
 					
 					double yaw = dwarf.getLocation().getYaw() * Math.PI / 180;
-					double velocity = Math.max(0.9, 2*Math.atan((double)chain/5)/Math.PI);
+					double velocity = Math.max(0.9, 2*Math.atan((double)chain/3)/Math.PI);
 					dwarf.setVelocity(-velocity * Math.sin(yaw), 0.225, velocity * Math.cos(yaw));
 					dwarf.playSound("proc", 1, 1.5f, false);
 					
@@ -96,7 +96,7 @@ class TigerFist extends AbstractItem implements KitCooldownElement {
 						if (cooldown < 0)
 							cooldown = 0;
 						
-						dwarf.getPlayer().sendTitle(ChatColor.DARK_GREEN + "Chain: " + ChatColor.GREEN, "" + chain, 0, 40, 10);
+						dwarf.getPlayer().sendTitle(ChatColor.DARK_GREEN + "Chain: " + ChatColor.GREEN + chain, "", 0, 40, 10);
 						chain = 0;
 					}
 				}
