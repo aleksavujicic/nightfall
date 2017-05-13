@@ -525,6 +525,16 @@ hero:
       kb_resist: 1
     shiny: true
 
+  horn:
+    template: dwarf-hero
+    base: horn
+    name: Horn
+    lore:
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+
 
 armour:
   high:

@@ -54,3 +54,15 @@ arthea-hat:
       - "temp"
   modifiers:
     health: 15
+
+velvetine-hat:
+  template: dwarf-hero
+  base: flower_crown
+  name: "Velvetine's Hat"
+  lore:
+    description:
+      - "temp"
+    flavour:
+      - "temp"
+  modifiers:
+    health: 20

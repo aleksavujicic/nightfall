@@ -4,6 +4,7 @@ import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.hero.Hero;
+import deimophobe.dvz.dwarf.kit.elements.Horn;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
 import deimophobe.dvz.dwarf.loadout.Loadout;
@@ -216,7 +217,7 @@ public class DvZPlugin extends JavaPlugin {
 			return true;
 		}
 		if (name.equalsIgnoreCase("horn")) {
-			game.tootHorn();
+			Horn.tootHorn();
 			return true;
 		}
 		if (name.equalsIgnoreCase("giveitem")) {

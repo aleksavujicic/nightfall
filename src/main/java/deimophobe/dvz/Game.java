@@ -291,18 +291,6 @@ public class Game {
 		});
 	}
 	
-	public void tootHorn() {
-		mapm.getWorld().playSound(ShrineManager.getManager().getDwarfSpawn(), "horn", 100f, 1f);
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				for (Dwarf dwarf : dm.getGamePlayers()) {
-					dwarf.giveProc(ProcType.HORN);
-				}
-			}
-		}.runTaskLater(Game.getGame().getPlugin(), 40);
-	}
-	
 	public void resetPlayer(Player player) {
 		player.teleport(ShrineManager.getManager().getLobbySpawn());
 		player.getInventory().clear();

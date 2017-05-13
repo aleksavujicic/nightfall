@@ -37,7 +37,7 @@ public class Hero extends Dwarf {
 	}
 	
 	private void announceHero() {
-		Bukkit.broadcastMessage(ChatColor.DARK_AQUA + entity.getName() + ChatColor.LIGHT_PURPLE + " has become the dwarven hero " + entity.getDisplayName());
+		Bukkit.broadcastMessage(ChatColor.DARK_AQUA + entity.getName() + ChatColor.LIGHT_PURPLE + " has become the dwarven hero " + entity.getDisplayName() + ChatColor.LIGHT_PURPLE + "!");
 	}
 	
 	public Disguise getDisguise() {
@@ -92,6 +92,12 @@ public class Hero extends Dwarf {
 				KitElementType.HEALER_TOTEM,
 				KitElementType.KAD_POLE,
 				KitElementType.ARTHEA_BLADE),
+		
+		VELVETINE("Velvetine", Hat.VELVETINE, "arthea", "Velvetine",
+				KitElementType.GRB,
+				KitElementType.DRAGONSKIN,
+				KitElementType.HORN
+				),
 		;
 		
 		private final DwarfData data;
@@ -132,6 +138,7 @@ public class Hero extends Dwarf {
 				case TUI: return new Tui(player, this);
 				case NOSOVIN: return new Nosovin(player, this);
 				case ARTHEA: return new Arthea(player, this);
+				case VELVETINE: return new Hero(player, this);
 			}
 			throw new IllegalArgumentException("Unknown hero: " + this);
 		}
