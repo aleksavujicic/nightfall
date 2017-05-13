@@ -513,7 +513,7 @@ hero:
       kb_resist: 1
   arthea-blade:
     template: dwarf-hero
-    base: stick
+    base: loadout-avenge
     name: The blade thing
     lore:
       description:
