@@ -1,46 +1,50 @@
 package deimophobe.dvz.monster.upgrade;
 
-import deimophobe.dvz.menu.SessionData;
-import org.bukkit.Bukkit;
-
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by Deimophobe on 24/02/17.
  */
 public class MobUpgrade {
-	private final Map<String, Integer> upgrades = new HashMap<>();
-	private final Set<String> upgradeLabels = new HashSet<>();
+	private final Map<String, Integer> values = new HashMap<>();
+	private final Map<String, Integer> labels = new HashMap<>();
 	
 	public void applyUppgrade(String type, UpgradeApplyOperation oper, int value, String label) {
 		type = type.toLowerCase();
-		if (upgradeLabels.contains(label)) {
-			Bukkit.getLogger().severe("Trying to add upgrade label: " + label + " but already added?!");
-		} else {
-			upgradeLabels.add(label);
-			applyUppgrade(type, oper, value);
-		}
+		labels.compute(label, (k, v) -> (v == null ? 1 : v+1));
+		applyUppgrade(type, oper, value);
 	}
 	
 	public void applyUppgrade(String type, UpgradeApplyOperation oper, int value) {
-		upgrades.compute(type.toLowerCase(), (k,prev) -> (prev == null ?
+		values.compute(type.toLowerCase(), (k,prev) -> (prev == null ?
 				oper.apply(0, value) :
 				oper.apply(prev, value))
 		);
 	}
 	
-	public boolean hasLabel(String label) {
-		return (upgradeLabels.contains(label));
+	public boolean hasLabel(String label, Integer integer) {
+		return (getLabelLevel(label) >= integer);
+	}
+	
+	public int getLabelLevel(String label) {
+		Integer level = labels.get(label);
+		if (level == null)
+			level = 0;
+		
+		return level;
 	}
 	
 	public boolean hasUpgrade(String type) {
-		return (upgrades.get(type) != 0);
+		return (values.get(type) != 0);
 	}
 	
 	public int getUpgrade(String type) {
-		return upgrades.computeIfAbsent(type.toLowerCase(), (k) -> 0);
+		return values.computeIfAbsent(type.toLowerCase(), (k) -> 0);
+	}
+	
+	@Override
+	public String toString() {
+		return "Values: " + values.toString() + "\nLabels: " + labels.toString();
 	}
 }

@@ -24,6 +24,9 @@ class LoadoutItem implements MenuItem<Loadout> {
 	
 	LoadoutItem(ConfigurationSection config) {
 		String type = config.getString("type", null);
+		if (type == null)
+			throw new IllegalArgumentException("Type for config item: " + config.getCurrentPath() + " not specified.");
+		
 		switch (type) {
 			case "item":
 				this.modifier = new ElementModifier(KitElementType.get(config.getString("name")));

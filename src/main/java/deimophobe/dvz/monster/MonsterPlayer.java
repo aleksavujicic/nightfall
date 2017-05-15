@@ -72,7 +72,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		}
 		
 		if (sec && isAlive())
-			gainXP(10);
+			gainXP(100);
 	}
 	
 	

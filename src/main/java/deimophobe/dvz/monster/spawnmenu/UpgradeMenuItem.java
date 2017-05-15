@@ -2,73 +2,122 @@ package deimophobe.dvz.monster.spawnmenu;
 
 import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.items.lore.LoreTemplate;
+import deimophobe.dvz.menu.MenuItem;
+import deimophobe.dvz.menu.MenuSession;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.mob.MobType;
 import deimophobe.dvz.monster.upgrade.MobUpgrade;
 import deimophobe.dvz.monster.upgrade.UpgradeApplyOperation;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Deimophobe on 3/02/17.
  */
-class UpgradeMenuItem extends CostMobMenuItem {
+class UpgradeMenuItem implements MenuItem<MonsterPlayer> {
 	
-	private final String name;
-	private final Collection<String> prereqs;
-	private final MobType type;
+	private final String label;
+	private final Map<String, Integer> prereqs;
+	private final MobType mob;
+	
+	private final List<Integer> costs;
+	private final CustomItem item;
 	
 	private final boolean permanent;
+	private final int maxLevel;
 	
-	private final String upgradeType;
-	private final UpgradeApplyOperation upgradeOper;
-	private final int upgradeValue;
+	private final String upgrade;
+	private final UpgradeApplyOperation operation;
+	private final List<Integer> values;
 	
-	
-	private static ItemStack getItem(ConfigurationSection config) {
-		CustomItem item = CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.MOB_UPGRADE, Slot.MAIN_HAND);
-		int cost = config.getInt("cost");
-		item.applyVariable("cost", ""+cost);
-		return item.createItemStack();
-	}
-	
-	UpgradeMenuItem(ConfigurationSection config, MobType type) {
-		super(getItem(config), config.getInt("cost"));
-		
-		this.name = config.getName();
-		this.prereqs = config.getStringList("prereq");
-		this.type = type;
+	UpgradeMenuItem(ConfigurationSection config, MobType mob) {
+		this.label = config.getName();
+		this.mob = mob;
 		this.permanent = config.getBoolean("permanent", false);
 		
+		this.prereqs = new HashMap<>();
+		ConfigurationSection prereqSec = config.getConfigurationSection("prereq");
+		if (prereqSec != null) {
+			for (String key : prereqSec.getKeys(false))
+				prereqs.put(key, config.getInt("prereq."+key));
+		}
 		
-		this.upgradeType = config.getString("upgrade.type");
-		this.upgradeOper = UpgradeApplyOperation.getOperation(config.getString("upgrade.operation", "increment"));
-		this.upgradeValue = config.getInt("upgrade.value",1);
+		
+		this.item = CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.MOB_UPGRADE, Slot.MAIN_HAND);
+		this.costs = config.getIntegerList("cost");
+		if (costs.size() == 0)
+			costs.add(config.getInt("cost"));
+		
+		
+		this.upgrade = config.getString("upgrade.mob");
+		this.operation = UpgradeApplyOperation.getOperation(config.getString("upgrade.operation", "increment"));
+		this.values = config.getIntegerList("upgrade.value");
+		
+		this.maxLevel = costs.size();
+		if (values.size() > maxLevel)
+			throw new IllegalArgumentException("Value size of mob upgrade: " + config.getName() + " is more than cost size.");
+		else if (values.size() < maxLevel)
+			Bukkit.getLogger().info("Value size of mob upgrade: " + config.getName() + " is less than cost size, filling with defaults.");
+		
+		while (values.size() < maxLevel) {
+			values.add(operation.getDefault());
+		}
 	}
 	
-	@Override
-	public boolean isAvailable(MonsterPlayer monster) {
-		MobUpgrade upgrades = monster.getUpgrades(type);
-		for (String prereq : prereqs) {
-			if (!upgrades.hasLabel(prereq))
+	private MobUpgrade getUpgrades(MenuSession<MonsterPlayer> session) {
+		return session.getData().getUpgrades(mob);
+	}
+	
+	private boolean isAvailable(MobUpgrade upgrades) {
+		for (String prereq : prereqs.keySet()) {
+			if (!upgrades.hasLabel(prereq, prereqs.get(prereq)))
 				return false;
 		}
 		
-		if (!permanent && upgrades.hasLabel(name))
+		if (!permanent && upgrades.getLabelLevel(label) >= maxLevel)
 			return false;
+		
 		
 		return true;
 	}
 	
 	@Override
-	protected boolean onPayCost(MonsterPlayer monster) {
-		if (permanent)
-			monster.getUpgrades(type).applyUppgrade(upgradeType, upgradeOper, upgradeValue);
-		else
-			monster.getUpgrades(type).applyUppgrade(upgradeType, upgradeOper, upgradeValue, name);
-		return true;
+	public ItemStack getDisplayItem(MenuSession<MonsterPlayer> session) {
+		MobUpgrade upgrades = getUpgrades(session);
+		if (isAvailable(upgrades)) {
+			int level = upgrades.getLabelLevel(label);
+			
+			CustomItem clone = item.clone();
+			clone.applyVariable("value", ""+values.get(level));
+			clone.applyVariable("cost", ""+costs.get(level));
+			ItemStack item = clone.createItemStack();
+			item.setAmount(level+1);
+			return item;
+		} else {
+			return null;
+		}
+	}
+	
+	@Override
+	public boolean onClick(MenuSession<MonsterPlayer> session) {
+		MobUpgrade upgrades = getUpgrades(session);
+		if (!isAvailable(upgrades)) return false;
+		
+		int level = upgrades.getLabelLevel(label);
+		
+		boolean success = session.getData().useXP(costs.get(level));
+		if (success) {
+			if (permanent)
+				upgrades.applyUppgrade(upgrade, operation, values.get(level));
+			else
+				upgrades.applyUppgrade(upgrade, operation, values.get(level), label);
+		}
+		return success;
 	}
 }
