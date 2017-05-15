@@ -9,6 +9,7 @@ import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.monster.ai.AIEntity;
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -81,12 +82,21 @@ public class Arthea extends Hero {
 	
 	@Override
 	public double onGotHit(GameEntity entity, DamageType type, double damage) {
+		if (isEnraged() && enrageTimer != 0)
+			return 0;
+		
 		double dmg = super.onGotHit(entity, type, damage);
 		if (getHealth() - dmg <= 0.1 && !isEnraged()) {
 			startTransition();
 			return 0;
 		}
 		return dmg;
+	}
+	
+	@Override
+	public void notifyDeath(Dwarf dwarf) {
+		if (dwarf == this)
+			entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
 	}
 	
 	@Override
@@ -113,6 +123,8 @@ public class Arthea extends Hero {
 		super.givePotionEffect(PotionEffectType.WEAKNESS, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
 		super.givePotionEffect(PotionEffectType.SLOW_DIGGING, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
 		super.givePotionEffect(PotionEffectType.BLINDNESS, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
+		
+		entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
 	}
 	
 	private void startEnrage() {
