@@ -1,7 +1,10 @@
 package deimophobe.dvz.monster.spawnmenu;
 
+import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.Misc;
+import deimophobe.dvz.items.lore.LoreTemplate;
+import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.menu.MenuSession;
 import deimophobe.dvz.menu.SimpleItem;
 import deimophobe.dvz.monster.MonsterPlayer;
@@ -11,6 +14,7 @@ import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,27 +22,35 @@ import java.util.Map;
 /**
  * Created by Deimophbe on 19/01/17.
  */
-public class SpawnEggMenuItem extends SimpleItem<MonsterPlayer> {
-	
+public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 	private final MobType mobType;
+	
+	private final ItemStack item;
+	
+	private final boolean permanent;
+	private boolean enabled;
 	
 	private int quantity;
 	private final int maxQuantity;
 	private final double spawnChance;
 	
 	private SpawnEggMenuItem(ConfigurationSection section) {
-		super(ItemCreator.createItem(section.getConfigurationSection("egg"), Slot.HEAD));
+		this.item = CustomItem.getItem(section.getConfigurationSection("egg"), "monster-egg", Slot.HEAD).createItemStack();
 		
-		mobType = MobType.getMobType(section.getString("mobtype"));
+		this.mobType = MobType.getMobType(section.getString("mobtype"));
 		
-		quantity = 0;
-		maxQuantity = section.getInt("quantity", 1);
-		spawnChance = section.getDouble("chance", 0.5);
+		this.quantity = 0;
+		this.maxQuantity = section.getInt("quantity", 1);
+		this.spawnChance = section.getDouble("chance", 0.5);
+		
+		this.permanent = !(section.contains("quantity") && section.contains("chance"));
+		
+		this.enabled = section.getBoolean("enabled", true);
 	}
 	
-	boolean tryRespawn() {
+	boolean tryRestock() {
 		double rand = Math.random();
-		if (true || rand <= spawnChance) {
+		if (rand <= spawnChance) {
 			quantity = maxQuantity;
 			return true;
 		} else {
@@ -46,9 +58,21 @@ public class SpawnEggMenuItem extends SimpleItem<MonsterPlayer> {
 		}
 	}
 	
+	private boolean isAvailable() {
+		return (enabled && (permanent || quantity != 0));
+	}
+	
+	@Override
+	public ItemStack getDisplayItem(MenuSession<MonsterPlayer> session) {
+		if (isAvailable())
+			return item;
+		else
+			return null;
+	}
+	
 	@Override
 	public boolean onClick(MenuSession<MonsterPlayer> session) {
-		if (quantity == 0) return false;
+		if (!isAvailable()) return false;
 		
 		MonsterPlayer monster = session.getData();
 		if (!DoomManager.getManager().isDoom()) {
@@ -60,6 +84,9 @@ public class SpawnEggMenuItem extends SimpleItem<MonsterPlayer> {
 		}
 		return false;
 	}
+	
+	
+	
 	
 	private static final Map<String, SpawnEggMenuItem> eggMap = new HashMap<>();
 	static {
@@ -74,5 +101,13 @@ public class SpawnEggMenuItem extends SimpleItem<MonsterPlayer> {
 	}
 	public static SpawnEggMenuItem getEgg(MobType type) {
 		return eggMap.get(type.toString().toLowerCase());
+	}
+	
+	public static boolean enableEgg(String key) {
+		SpawnEggMenuItem egg = eggMap.get(key);
+		if (egg == null) return false;
+		
+		egg.enabled = true;
+		return true;
 	}
 }

@@ -6,6 +6,7 @@ import deimophobe.dvz.GamePlayerManager;
 import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
+import deimophobe.dvz.monster.spawnmenu.SpawnEggMenuItem;
 import deimophobe.dvz.monster.spawnmenu.SpawnMenu;
 import org.bukkit.*;
 import org.bukkit.entity.*;
@@ -107,8 +108,8 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		menu.startSession(monster.getPlayer());
 	}
 	
-	//public void addMenuItem(int i, MenuItem egg) {
-		//menu.addItem(i, egg);
-	//}
+	public void addSpawnEgg(int i, SpawnEggMenuItem egg) {
+		//menu.addEgg(i, egg);
+	}
 }
 	

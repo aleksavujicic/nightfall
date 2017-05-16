@@ -42,7 +42,7 @@ public class LoreTemplate {
 		int prevMatch = 0;
 		sectionFinder: for (int i=0; i<longLore.length(); i++) {
 			if (longLore.charAt(i) != '$') continue;
-			if (longLore.charAt(i-1) == '\\') continue;
+			if (i != 0 && longLore.charAt(i-1) == '\\') continue;
 			if (longLore.charAt(i+1) != '{') continue;
 			
 			String prevString = longLore.substring(prevMatch, i);

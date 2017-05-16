@@ -77,6 +77,8 @@ public class BaseItemManager {
 		// ~~~~ MONSTER ITEMS ~~~~~
 		addItem("ai_sword", new SimpleBaseItem(Material.SHEARS, 100));
 		
+		addItem("zombie_pick", new SimpleBaseItem(Material.WOOD_PICKAXE, 0));
+		
 		addItem("wither_bow", new SimpleBaseItem(Material.BOW, 2));
 		addItem("flame_bow", new SimpleBaseItem(Material.BOW, 4));
 		

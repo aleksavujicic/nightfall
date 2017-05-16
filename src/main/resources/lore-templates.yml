@@ -98,6 +98,20 @@ monster-hero:
     value: "&c"
     reason: "&2"
 
+monster-egg:
+  nameprefix: "&5"
+
+  lore:
+    - "${description}"
+
+  prefix:
+    description: "&6"
+
+  modifiers:
+    name: ""
+    value: ""
+    reason: ""
+
 monster-upgrade:
   nameprefix: "&c"
 

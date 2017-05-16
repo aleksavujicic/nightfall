@@ -1,6 +1,5 @@
 package deimophobe.dvz.monster.spawnmenu;
 
-import deimophobe.dvz.Game;
 import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.menu.*;
@@ -10,11 +9,8 @@ import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Created by Deimophobe on 2/02/17.
@@ -133,7 +129,7 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		private void updateEggs() {
 			for (MenuItem item : getMenuItems()) {
 				if (item instanceof SpawnEggMenuItem)
-					((SpawnEggMenuItem)item).tryRespawn();
+					((SpawnEggMenuItem)item).tryRestock();
 			}
 		}
 	}
