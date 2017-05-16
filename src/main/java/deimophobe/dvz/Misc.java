@@ -11,6 +11,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.metadata.Metadatable;
 import org.bukkit.util.*;
 
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -60,7 +63,8 @@ public class Misc {
 	}
 	
 	public static YamlConfiguration getInternalFileConfig(String name) {
-		return YamlConfiguration.loadConfiguration(Game.getGame().getPlugin().getResource(name));
+		InputStream stream = Game.getGame().getPlugin().getResource(name);
+		return YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
 	}
 	
 	public static BlockFace getBlockFaceProjectileHit(Projectile proj, Block hitBlock) {
