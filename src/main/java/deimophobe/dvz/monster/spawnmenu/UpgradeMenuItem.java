@@ -10,6 +10,7 @@ import deimophobe.dvz.monster.upgrade.MobUpgrade;
 import deimophobe.dvz.monster.upgrade.UpgradeApplyOperation;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
@@ -111,12 +112,16 @@ class UpgradeMenuItem implements MenuItem<MonsterPlayer> {
 		
 		int level = upgrades.getLabelLevel(label);
 		
-		boolean success = session.getData().useXP(costs.get(level));
+		MonsterPlayer player = session.getData();
+		boolean success = player.useXP(costs.get(level));
 		if (success) {
 			if (permanent)
 				upgrades.applyUppgrade(upgrade, operation, values.get(level));
 			else
 				upgrades.applyUppgrade(upgrade, operation, values.get(level), label);
+		} else {
+			player.sendMessage(ChatColor.RED + "Not enough exp! " + "You have " + ChatColor.AQUA + player.getXP() +
+					ChatColor.RED + "/" + ChatColor.GREEN + costs.get(level));
 		}
 		return success;
 	}

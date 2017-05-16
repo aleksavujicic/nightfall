@@ -184,6 +184,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		}
 	}
 	
+	public int getXP() {
+		return experience;
+	}
+	
 	private void updateXPDisplay() {
 		entity.setLevel(experience);
 		Game.getGame().setMana(entity, experience);

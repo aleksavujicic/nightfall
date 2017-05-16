@@ -3,6 +3,7 @@ settings:
   mobtype: zombie
 
 
+
 attack:
   index: 2
   item:
@@ -51,7 +52,7 @@ healthinf:
   prereq:
     health: 5
   item:
-    material: wood_sword
+    material: rotten_flesh
     name: "Upgrade Health (inf)"
     shiny: true
     lore:
@@ -64,8 +65,74 @@ healthinf:
     operation: increment
 
 
-rebirth:
+
+shred:
+  index: 10
+  prereq:
+    attack: 3
+  item:
+    material: gold_pickaxe
+    name: "Armour Shred"
+    lore:
+      description:
+        - "Increases your armour shred."
+  cost: [50, 100, 150, 200, 250]
+  upgrade:
+    mob: shred
+    value: [5, 8, 12, 15, 20]
+    operation: set
+
+pursuit:
+  index: 11
+  prereq:
+    attack: 3
+  item:
+    material: coal
+    name: "Pursuit"
+    lore:
+      description:
+        - "Speed on hit."
+  cost: [25, 50, 75]
+  upgrade:
+    mob: pursuit
+    operation: increment
+
+leap:
+  index: 12
+  prereq:
+    attack: 3
+  item:
+    material: sugar
+    name: "Leap"
+    lore:
+      description:
+        - "Improves your leap"
+  cost: [10, 20, 30, 40, 50]
+  upgrade:
+    mob: leap
+    value: [30, 25, 20, 15, 10]
+    operation: set
+
+
+
+arrow-res:
   index: 14
+  prereq:
+    health: 3
+  item:
+    material: arrow
+    name: "Arrow Resistance"
+    lore:
+      description:
+        - "Increases your arrow resistance to $value%"
+  cost: [20, 40, 60, 80, 100]
+  upgrade:
+    mob: arrow
+    value: [25, 50, 60, 70, 75]
+    operation: set
+
+rebirth:
+  index: 15
   prereq:
     health: 3
   item:
@@ -73,25 +140,50 @@ rebirth:
     name: "Rebirth Chance"
     lore:
       description:
-        - "Increases your respawn chance to $value%."
+        - "Increases your respawn chance to $value%"
   cost: [20, 40, 60, 80, 100]
   upgrade:
     mob: rebirth
     value: [25, 50, 60, 70, 75]
     operation: set
 
-test:
+vampirism:
+  index: 16
   prereq:
-    attack: 2
-    health: 1
+    health: 3
   item:
-    material: sugar
-    name: Spooky test
+    material: redstone
+    name: "Vampirism"
     lore:
       description:
-        - "You a foory now"
-  cost: 100
-  index: 4
+        - "Increases your life steal."
+  cost: [50, 100, 150]
+  upgrade:
+    mob: vampirism
+    operation: increment
+
+
+
+fury:
+  prereq:
+    attack: 5
+    health: 5
+
+    shred: 5
+    pursuit: 3
+    leap: 5
+
+    arrow-res: 5
+    rebirth: 5
+    vampirism: 3
+  item:
+    material: exp_bottle
+    name: Fury of the Night
+    lore:
+      description:
+        - "Become a fury zombie"
+  cost: 500
+  index: 22
   upgrade:
     mob: fury
     operation: set_true
