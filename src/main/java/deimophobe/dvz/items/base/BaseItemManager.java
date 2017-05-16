@@ -125,6 +125,12 @@ public class BaseItemManager {
 		addItem("loadout-studded", new SimpleBaseItem(Material.DIAMOND_HOE, 20));
 		addItem("loadout-runeblessed", new SimpleBaseItem(Material.DIAMOND_HOE, 21));
 		
+		
+		// ~~~~~ MENU ITEMS ~~~~~
+		addItem("menu-back", new SimpleBaseItem(Material.DIAMOND_HOE, 1));
+		addItem("doom_clock", new SimpleBaseItem(Material.WATCH, 0));
+		
+		addItem("upgrade_zombie", new SimpleBaseItem(Material.SKULL_ITEM, 2));
 	}
 	
 	private static final class ErrorItem extends SimpleBaseItem {

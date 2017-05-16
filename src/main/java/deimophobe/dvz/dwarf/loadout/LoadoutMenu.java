@@ -1,21 +1,16 @@
 package deimophobe.dvz.dwarf.loadout;
 
 import deimophobe.dvz.items.CustomItem;
-import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.items.lore.LoreTemplate;
 import deimophobe.dvz.menu.*;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Deimophobe on 2/03/17.

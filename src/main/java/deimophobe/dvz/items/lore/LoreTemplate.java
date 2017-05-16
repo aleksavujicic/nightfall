@@ -61,9 +61,9 @@ public class LoreTemplate {
 			prevMatch = j+1;
 		}
 		
-		modifierNamePrefix = ChatColor.translateAlternateColorCodes('&', config.getString("modifiers.name"));
-		modifierValuePrefix = ChatColor.translateAlternateColorCodes('&', config.getString("modifiers.value"));
-		modifierReasonPrefix = ChatColor.translateAlternateColorCodes('&', config.getString("modifiers.reason"));
+		modifierNamePrefix = ChatColor.translateAlternateColorCodes('&', config.getString("modifiers.name", ""));
+		modifierValuePrefix = ChatColor.translateAlternateColorCodes('&', config.getString("modifiers.value", ""));
+		modifierReasonPrefix = ChatColor.translateAlternateColorCodes('&', config.getString("modifiers.reason", ""));
 	}
 	
 	public String getName(String name) {

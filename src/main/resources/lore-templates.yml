@@ -98,7 +98,9 @@ monster-hero:
     value: "&c"
     reason: "&2"
 
-monster-egg:
+
+
+monster-menu:
   nameprefix: "&5"
 
   lore:
@@ -107,10 +109,14 @@ monster-egg:
   prefix:
     description: "&6"
 
-  modifiers:
-    name: ""
-    value: ""
-    reason: ""
+monster-egg:
+  nameprefix: "&5"
+
+  lore:
+    - "${description}"
+
+  prefix:
+    description: "&6"
 
 monster-upgrade:
   nameprefix: "&c"
@@ -121,8 +127,3 @@ monster-upgrade:
 
   prefix:
     description: "&6"
-
-  modifiers:
-    name: ""
-    value: ""
-    reason: ""

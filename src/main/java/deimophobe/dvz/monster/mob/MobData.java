@@ -1,18 +1,12 @@
 package deimophobe.dvz.monster.mob;
 
 import deimophobe.dvz.items.CustomItem;
-import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.items.lore.LoreTemplate;
 import deimophobe.dvz.items.modifiers.ItemModifierType;
-import deimophobe.dvz.monster.MonsterPlayer;
-import deimophobe.dvz.monster.upgrade.GlobalUpgrade;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.PlayerInventory;
 
 import java.util.*;
 

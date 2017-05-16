@@ -7,7 +7,7 @@ zombie-upgrade:
   type: pager
   page: zombie_upgrade
   item:
-    material: wood_pickaxe
+    base: upgrade_zombie
     name: Upgrade Zombie
   index: 9
 
@@ -54,7 +54,7 @@ ogre:
 doomclock:
   type: doomclock
   item:
-    material: watch
+    base: doom_clock
     name: Reduce Doom
   cost: 500
   time: 10
@@ -64,5 +64,5 @@ back:
   type: pager
   page: main
   item:
-    material: diamond
+    base: menu-back
     name: Go Back

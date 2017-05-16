@@ -1,7 +1,7 @@
 package deimophobe.dvz.monster.spawnmenu;
 
-import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.Misc;
+import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.menu.*;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
@@ -52,13 +52,13 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 				return SpawnEggMenuItem.getEgg(config.getString("egg"));
 			
 			case "doomclock":
-				ItemStack item = ItemCreator.createItem(config.getConfigurationSection("item"), Slot.MAIN_HAND);
+				ItemStack item = CustomItem.getItem(config.getConfigurationSection("item"), "monster-menu", Slot.MAIN_HAND).createItemStack();
 				int cost = config.getInt("cost");
 				int time = config.getInt("time");
 				return new DoomClockItem(item, cost, time);
 			
 			case "pager":
-				ItemStack item2 = ItemCreator.createItem(config.getConfigurationSection("item"), Slot.MAIN_HAND);
+				ItemStack item2 = CustomItem.getItem(config.getConfigurationSection("item"), "monster-menu", Slot.MAIN_HAND).createItemStack();
 				PageType page = PageType.getPageType(config.getString("page"));
 				return new IndexedPageChanger<>(item2, this, page);
 			

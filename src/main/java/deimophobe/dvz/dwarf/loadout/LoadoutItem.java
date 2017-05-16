@@ -2,7 +2,6 @@ package deimophobe.dvz.dwarf.loadout;
 
 import deimophobe.dvz.Hat;
 import deimophobe.dvz.items.CustomItem;
-import deimophobe.dvz.items.ItemCreator;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.items.lore.LoreTemplate;
