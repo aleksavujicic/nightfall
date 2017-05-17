@@ -18,10 +18,10 @@ page0:
     item:
       name: "Warrior Kit"
       material: diamond_hoe
-    lore:
-      description:
-       - "The basic all around starter kit/n
-          for all new players."
+      lore:
+        description:
+         - "The basic all around starter kit/n
+            for all new players."
 
   ranger-class:
     index: 1
