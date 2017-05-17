@@ -20,8 +20,16 @@ page0:
       material: diamond_hoe
       lore:
         description:
-         - "The basic all around starter kit/n
-            for all new players."
+         - "The basic all around starter kit\n
+            for all new players.\n
+            
+            Kit contains:\n
+            *Greater Runeblade\n
+            *Dragonskin Bow\n
+            *Jimmy Juice\n
+            *Runeblessed Armour\n
+            *Avenge\n
+            ."
 
   ranger-class:
     index: 1
