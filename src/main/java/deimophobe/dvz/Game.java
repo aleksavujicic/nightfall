@@ -103,6 +103,11 @@ public class Game {
 	
 	
 	// ------ PLAYER MANAGEMENT -------
+	
+	public boolean isLobbyPlayer(Player player) {
+		return player.getGameMode() == GameMode.ADVENTURE;
+	}
+	
 	public boolean isPlayer(Player player) {
 		return isPlayer(player.getName());
 	}

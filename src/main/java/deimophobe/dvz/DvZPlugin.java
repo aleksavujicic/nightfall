@@ -24,6 +24,8 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -355,6 +357,26 @@ public class DvZPlugin extends JavaPlugin {
 					Game.getGame().resetPlayer(player);
 				}
 				
+				return true;
+			}
+		}
+		if (name.equalsIgnoreCase("map")) {
+			if (sender instanceof Player) {
+				Player player = (Player) sender;
+				if (Game.getGame().isLobbyPlayer(player)) {
+					player.teleport(ShrineManager.getManager().getDwarfSpawn());
+				}
+				
+				return true;
+			}
+		}
+		if (name.equalsIgnoreCase("hat")) {
+			if (sender instanceof Player) {
+				Player player = (Player) sender;
+				PlayerInventory inv = player.getInventory();
+				ItemStack item = inv.getItemInMainHand();
+				inv.setHelmet(item);
+				inv.setItemInMainHand(null);
 				return true;
 			}
 		}

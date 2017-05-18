@@ -31,6 +31,9 @@ commands:
   giveitem:
     usage: /giveitem <item-name>
     description: Give a custom item to yourself.
+  hat:
+    usage: /hat
+    description: Lets kuude wear a fancy hat.
 
   trash:
     description: For deleting your duplicate items.
@@ -42,6 +45,8 @@ commands:
     aliases: kit
   stuck:
     description: For when you're stuck (before the game starts).
+  map:
+    description: Teleport to the map (before the game starts).
   who:
     description: Who is what and where is why
     aliases: list
