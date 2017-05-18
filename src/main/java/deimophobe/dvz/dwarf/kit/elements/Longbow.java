@@ -80,21 +80,19 @@ class Longbow extends AbstractBow implements KitCooldownElement {
 			}
 		}
 		
-		if (quartSec) {
-			theta = (theta + 0.2) % (2 * Math.PI);
+		theta = (theta + 0.05) % (2 * Math.PI);
+		
+		Location playerLoc = dwarf.getPlayer().getEyeLocation();
+		
+		for (int i = 0; i < stacks; i++) {
+			double frac = (double) i / MAX_STACKS;
+			double red = (87d + frac * 118) / 256;
+			double green = (179d - frac * 90) / 256;
+			double blue = (147d + frac * 108) / 256;
+			double myTheta = theta - frac * 2 * Math.PI;
 			
-			Location playerLoc = dwarf.getPlayer().getEyeLocation();
-			
-			for (int i = 0; i < stacks; i++) {
-				double frac = (double) i / MAX_STACKS;
-				double red = (87d + frac * 118) / 256;
-				double green = (179d - frac * 90) / 256;
-				double blue = (147d + frac * 108) / 256;
-				double myTheta = theta - frac * 2 * Math.PI;
-				
-				Location particleLoc = playerLoc.clone().add(Math.cos(myTheta), -1, Math.sin(myTheta));
-				particleLoc.getWorld().spawnParticle(Particle.REDSTONE, particleLoc, 0, red, green, blue, 1);
-			}
+			Location particleLoc = playerLoc.clone().add(Math.cos(myTheta), -1, Math.sin(myTheta));
+			particleLoc.getWorld().spawnParticle(Particle.REDSTONE, particleLoc, 0, red, green, blue, 1);
 		}
 	}
 }

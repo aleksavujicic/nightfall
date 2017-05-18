@@ -10,6 +10,9 @@ import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -46,13 +49,42 @@ class Hammer extends AbstractAOEHitter implements KitCooldownElement {
 			cooldown++;
 			if (cooldown > MAX_CD) cooldown = MAX_CD;
 			
-			if (cooldown == MAX_CD && quartSec) {
-				dwarf.playSound("entity.experience_orb.pickup", 10f, 0.5f, false);
-				dwarf.getArmour().repair(10);
-				dwarf.regenMana(1);
+			if (cooldown == MAX_CD) {
+				if (quartSec) {
+					//dwarf.playSound("entity.experience_orb.pickup", 10f, 0.5f, false);
+					dwarf.getArmour().repair(5);
+					dwarf.regenMana(1);
+				}
 				
-				if (cooldown >= MAX_CD) cooldown = MAX_CD;
+				showParticles();
 			}
+		}
+	}
+	
+	private double theta = 0;
+	private static final double r1 = 249, g1 = 245, b1 = 14;
+	private static final double r2 = 237, g2 = 7, b2 = 68;
+	private static final int NUM_PARTICLES = 5;
+	private void showParticles() {
+		theta = (theta + 0.1) % (2 * Math.PI);
+		
+		Location playerLoc = dwarf.getPlayer().getEyeLocation();
+		
+		
+		double red = (r1 - r2)/2 * Math.sin(theta) + (r1 + r2)/2;
+		double green = (g1 - g2)/2 * Math.sin(theta) + (g1 + g2)/2;
+		double blue = (b1 - b2)/2 * Math.sin(theta) + (b1 + b2)/2;
+		red *= 1d/256;
+		green *= 1d/256;
+		blue *= 1d/256;
+		
+		
+		for (int i = 0; i < NUM_PARTICLES; i++) {
+			double frac = (double) i / NUM_PARTICLES;
+			double myTheta = theta - frac * 2 * Math.PI;
+			
+			Location particleLoc = playerLoc.clone().add(Math.cos(myTheta), -1, Math.sin(myTheta));
+			particleLoc.getWorld().spawnParticle(Particle.REDSTONE, particleLoc, 0, red, green, blue, 1);
 		}
 	}
 	
