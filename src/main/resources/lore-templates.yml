@@ -63,7 +63,7 @@ loadout:
     value: "&b"
     reason: "&d"
 
-loadoutDrk:
+loadout-drk:
   nameprefix: "&b"
 
   lore:
