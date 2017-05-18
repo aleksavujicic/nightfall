@@ -23,13 +23,12 @@ page0:
          - "The basic all around starter kit\n
             for all new players.\n
             
-            Kit contains:\n
-            *Greater Runeblade\n
+        contains:
+         - "*Greater Runeblade\n
             *Dragonskin Bow\n
             *Jimmy Juice\n
             *Runeblessed Armour\n
-            *Avenge\n
-            ."
+            *Avenge\n"
 
   ranger-class:
     index: 1
