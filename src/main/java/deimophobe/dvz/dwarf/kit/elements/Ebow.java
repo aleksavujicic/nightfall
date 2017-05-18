@@ -38,12 +38,14 @@ class Ebow extends AbstractBow {
 	
 	private static final double MAX_RANGE = 25;
 	private static final double THICKNESS = 1.5;
-	private static final double MIN_DISTANCE_FROM_SHOOTER = 2;
+	private static final double MIN_DISTANCE_FROM_SHOOTER = 1;
 	private static final double PROC_RADIUS = 3;
 	
 	@Override
 	public Projectile onBowFire(Projectile arrow, float force) {
 		Location dwarfLocation = dwarf.getPlayer().getEyeLocation();
+		double yaw = dwarfLocation.getYaw() * Math.PI/180;
+		dwarfLocation.add(-0.4*Math.cos(yaw), -0.4, 0.4*Math.sin(yaw));
 		Vector direction = dwarfLocation.getDirection();
 		
 		double range = MAX_RANGE * force * force;
@@ -87,6 +89,7 @@ class Ebow extends AbstractBow {
 			}
 		}
 		
+		/*
 		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 		protocolManager.addPacketListener(new PacketAdapter(Game.getGame().getPlugin(), PacketType.Play.Server.NAMED_SOUND_EFFECT) {
 			@Override
@@ -98,6 +101,7 @@ class Ebow extends AbstractBow {
 				}
 			}
 		});
+		*/
 		
 		return null;
 	}
