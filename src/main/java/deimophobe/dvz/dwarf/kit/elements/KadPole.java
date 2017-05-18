@@ -18,7 +18,7 @@ import org.bukkit.event.block.Action;
 class KadPole extends AbstractCooldownItem {
 	
 	private static final int MAX_GRAB_CD = 20;
-	private static final int MANA_COST = 50;
+	private static final int MANA_COST = 200;
 	
 	private int grabCD = 0;
 	private Location returnSpot;
