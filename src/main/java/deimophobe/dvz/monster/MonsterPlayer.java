@@ -354,6 +354,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		
 		if (isAlive()) {
 			entity.setFlying(false);
+			entity.setAllowFlight(false);
 			
 			Disguise dis = mob.getDisguise();
 			if (dis != null)
