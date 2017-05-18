@@ -375,8 +375,9 @@ public class DvZPlugin extends JavaPlugin {
 				Player player = (Player) sender;
 				PlayerInventory inv = player.getInventory();
 				ItemStack item = inv.getItemInMainHand();
+				ItemStack hat = inv.getHelmet();
 				inv.setHelmet(item);
-				inv.setItemInMainHand(null);
+				inv.setItemInMainHand(hat);
 				return true;
 			}
 		}
