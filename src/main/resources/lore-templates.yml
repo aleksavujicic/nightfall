@@ -63,7 +63,26 @@ loadout:
     value: "&b"
     reason: "&d"
 
+loadout-drk:
+  nameprefix: "&b"
 
+  lore:
+    - "&d&lLoadout costs $cost points."
+    - "&9&l$category"
+    - ""
+    - "${description}"
+    - "&4kitcontains"
+    - "${contains}"
+
+  prefix:
+    description: "&6"
+    contains: "&a"
+
+  modifiers:
+    name: "&3"
+    value: "&b"
+    reason: "&d"
+    
 monster:
   nameprefix: "&4"
 

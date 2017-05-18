@@ -16,8 +16,20 @@ page0:
       cobblestone: 128
       wrench: 2
     item:
+      template: "loadout-drk"
       name: "Warrior Kit"
       material: diamond_hoe
+      lore:
+        description:
+         - "The basic all around starter kit\n
+            for all new players."
+            
+        contains:
+         - "*Greater Runeblade\n
+            *Dragonskin Bow\n
+            *Jimmy Juice\n
+            *Runeblessed Armour\n
+            *Avenge"
 
   ranger-class:
     index: 1
