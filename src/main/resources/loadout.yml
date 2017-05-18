@@ -16,7 +16,7 @@ page0:
       cobblestone: 128
       wrench: 2
     item:
-      template: "template-drk"
+      template: "loadout-drk"
       name: "Warrior Kit"
       material: diamond_hoe
       lore:
