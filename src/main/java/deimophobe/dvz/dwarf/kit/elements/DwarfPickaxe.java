@@ -16,26 +16,31 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.Directional;
 import org.bukkit.material.PistonExtensionMaterial;
 import org.bukkit.material.Wool;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 28/03/17.
  */
-class DwarfPickaxe extends AbstractCooldownItem {
+class DwarfPickaxe extends AbstractItem {
 	
-	public DwarfPickaxe(Dwarf dwarf) {
-		super(dwarf, 20);
+	DwarfPickaxe(Dwarf dwarf) {
+		super(dwarf);
 	}
 	
 	private static final CustomItem ITEM = DwarvenItems.getItem("misc.pick");
 	@Override public CustomItem getItem() {return ITEM;}
 	@Override public KitGiveType getGiveType() { return KitGiveType.PICK; }
 	
+	private static final int MAX_CD = 30;
+	private static final int MAX_HASTE_CD = 15;
+	private int cooldown = 0;
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace face) {
-		if (Misc.isRightClick(action) && isOffCD()) {
+		if (Misc.isRightClick(action) && cooldown == 0) {
 			if (clickedBlock == null) {
 				// PICK REPAIRING ANOTHER DWARF
 				Dwarf repairee = dwarf.getLookingAt(1, 4, DwarfManager.getManager().getGamePlayers(), (d) -> !d.getArmour().isAtMax());
@@ -43,16 +48,16 @@ class DwarfPickaxe extends AbstractCooldownItem {
 					repairee.getArmour().repair(200);
 					GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, repairee);
 					
-					resetCooldown();
+					resetCD();
 					return true;
 				}
 			} else {
 				Material blockType = clickedBlock.getType();
 				
-				if (blockType == Material.PISTON_EXTENSION) {
+				if ((blockType == Material.PISTON_EXTENSION || blockType == Material.PISTON_BASE) && face == BlockFace.UP) {
 					// CLICKING ON A PISTON TO CREATE A BLOCK
 					
-					BlockFace pistonFace = ((PistonExtensionMaterial) clickedBlock.getState().getData()).getFacing();
+					BlockFace pistonFace = ((Directional) clickedBlock.getState().getData()).getFacing();
 					Block goldBlock = clickedBlock.getRelative(pistonFace);
 					if (goldBlock == null || goldBlock.getType() == Material.AIR) {
 						// Set to wool
@@ -72,7 +77,7 @@ class DwarfPickaxe extends AbstractCooldownItem {
 						// SOUNDS
 						GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, state);
 						
-						resetCooldown();
+						resetCD();
 						return true;
 					}
 					
@@ -102,12 +107,19 @@ class DwarfPickaxe extends AbstractCooldownItem {
 					
 					GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, state);
 					
-					resetCooldown();
+					resetCD();
 					return true;
 				}
 			}
 		}
 		return false;
+	}
+	
+	private void resetCD() {
+		if (dwarf.getPlayer().hasPotionEffect(PotionEffectType.FAST_DIGGING))
+			cooldown = MAX_HASTE_CD;
+		else
+			cooldown = MAX_CD;
 	}
 	
 	@Override
@@ -119,7 +131,8 @@ class DwarfPickaxe extends AbstractCooldownItem {
 	}
 	
 	@Override
-	public float fractionComplete() {
-		return -1;
+	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
+		if (cooldown > 0)
+			cooldown--;
 	}
 }
