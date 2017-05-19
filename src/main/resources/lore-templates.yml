@@ -71,7 +71,7 @@ loadout-drk:
     - "&9&l$category"
     - ""
     - "${description}"
-    - "&4kitcontains"
+    - "&3Kit contains the following items:"
     - "${contains}"
 
   prefix:
