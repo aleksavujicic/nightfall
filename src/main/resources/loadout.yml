@@ -99,14 +99,14 @@ page0:
       template: "loadout-drk"
       name: "Paladin Kit"
       material: diamond_hoe
-       lore:
+      lore:
         description:
          - "The Followers of the Light\n
             Able to restore both their mana and armour\n
             with blessed warhammers, these warriors\n
             can remain longer on the defense then\n
             most other classes."
-            
+
         contains:
          - "*Warhammer\n
             *Lightbow\n
@@ -140,7 +140,7 @@ page0:
       template: "loadout-drk"
       name: "Beserker Kit"
       material: diamond_hoe
-       lore:
+      lore:
         description:
          - "Brute strength is all that matters\n
             With less defense and higher mobility\n
@@ -180,7 +180,7 @@ page0:
       template: "loadout-drk"
       name: "Cleric Kit"
       material: diamond_hoe
-       lore:
+      lore:
         description:
          - "Mystical healers not suited for front line\n
             combat. Able to heal others give others a rampage\n
@@ -220,7 +220,7 @@ page0:
       template: "loadout-drk"
       name: "Hunter Kit"
       material: diamond_hoe
-       lore:
+      lore:
         description:
          - "Here and there, without a trace\n
             These sneaky assassins can warp around\n
