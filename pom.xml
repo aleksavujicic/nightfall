@@ -138,6 +138,10 @@
                     <groupId>com.comphenix.protocol</groupId>
                     <artifactId>ProtocolLib</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.spigotmc</groupId>
+                    <artifactId>spigot-api</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
