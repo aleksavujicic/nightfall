@@ -21,15 +21,20 @@ page0:
       material: diamond_hoe
       lore:
         description:
-         - "The basic all around starter kit\n
-            for all new players."
+         - "The basic all around fighter with the \n
+            ability to dash and constantly rampage\n
+            as well as automated healing."
             
         contains:
          - "*Greater Runeblade\n
             *Dragonskin Bow\n
             *Jimmy Juice\n
             *Runeblessed Armour\n
-            *Avenge"
+            *Avenge\n
+            *32 Torches\n
+            *32 Mortar\n
+            *128 Cobblestone\n
+            *2 Wrenches"
 
   ranger-class:
     index: 1
@@ -50,9 +55,29 @@ page0:
       wizard_mortar: 32
       lamp: 24
     item:
+      template: "loadout-drk"
       name: "Ranger Kit"
       material: diamond_hoe
-
+      lore:
+        description:
+         - "Quick and agile, The Ranger is a perfect\n
+            choice for single target combat.\n
+            With the ability to poison and eviscerate\n
+            as well as fire hard hitting bow shots."
+            
+        contains:
+         - "*Elven Dagger\n
+            *Rangers Longbow\n
+            *Star Trinket\n
+            *Massive Quiver\n
+            *Safefall\n
+            *32 Torches\n
+            *32 Mortar\n
+            *128 Cobblestone\n
+            *1 Sword of Santification\n
+            *32 Wizard Mortar\n
+            *24 Enchanted Lamps"
+            
   paladin-class:
     index: 2
     cost: 64
@@ -71,8 +96,28 @@ page0:
       wizard_mortar: 32
       lamp: 24
     item:
+      template: "loadout-drk"
       name: "Paladin Kit"
       material: diamond_hoe
+       lore:
+        description:
+         - "The Followers of the Light\n
+            Able to restore both their mana and armour\n
+            with blessed warhammers, these warriors\n
+            can remain longer on the defense then\n
+            most other classes."
+            
+        contains:
+         - "*Warhammer\n
+            *Lightbow\n
+            *Holy Ale\n
+            *Runeblessed Armour\n
+            *32 Torches\n
+            *32 Mortar\n
+            *128 Cobblestone\n
+            *3 Sword of Santification\n
+            *32 Wizard Mortar\n
+            *24 Enchanted Lamps"
 
   beserker-class:
     index: 3
@@ -92,8 +137,27 @@ page0:
       sos: 1
       wrench: 2
     item:
+      template: "loadout-drk"
       name: "Beserker Kit"
       material: diamond_hoe
+       lore:
+        description:
+         - "Brute strength is all that matters\n
+            With less defense and higher mobility\n
+            These fighters cut through foes like butter\n
+            but can be taken down just as fast."
+            
+        contains:
+         - "*Axe of Malice\n
+            *Crossbow\n
+            *Jimmy Juice\n
+            *Studded Armour\n
+            *Darkvision\n
+            *32 Torches\n
+            *32 Mortar\n
+            *128 Cobblestone\n
+            *1 Sword of Santification\n
+            *2 Wrenches"
 
   cleric-class:
     index: 4
@@ -113,8 +177,27 @@ page0:
       wizard_mortar: 64
       lamp: 32
     item:
+      template: "loadout-drk"
       name: "Cleric Kit"
       material: diamond_hoe
+       lore:
+        description:
+         - "Mystical healers not suited for front line\n
+            combat. Able to heal others give others a rampage\n
+            as well as restore their own energy, but can be killed\n
+            if not well protected."
+            
+        contains:
+         - "*Warhammer\n
+            *Emerald Bow\n
+            *Regrowth Star\n
+            *Magic Coil\n
+            *64 Torches\n
+            *64 Mortar\n
+            *256 Cobblestone\n
+            *2 Sword of Santification\n
+            *64 Wizard Mortar\n
+            *32 Enchanted Lamps"
 
   hunter-class:
     index: 5
@@ -134,8 +217,26 @@ page0:
       sos: 1
       wrench: 2
     item:
+      template: "loadout-drk"
       name: "Hunter Kit"
       material: diamond_hoe
+       lore:
+        description:
+         - "Here and there, without a trace\n
+            These sneaky assassins can warp around\n
+            the battlefield striking with their furious claws."
+            
+        contains:
+         - "*Tiger Fist\n
+            *Warpweaver Bow\n
+            *Star Trinket\n
+            *Studded Armour\n
+            *Avenge\n
+            *32 Torches\n
+            *32 Mortar\n
+            *128 Cobblestone\n
+            *1 Sword of Santification\n
+            *2 Wrenches"
 
 page1:
   # ------ SWORDS ------
