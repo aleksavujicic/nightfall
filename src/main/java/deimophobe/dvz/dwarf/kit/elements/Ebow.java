@@ -45,7 +45,7 @@ class Ebow extends AbstractBow {
 	public Projectile onBowFire(Projectile arrow, float force) {
 		Location dwarfLocation = dwarf.getPlayer().getEyeLocation();
 		double yaw = dwarfLocation.getYaw() * Math.PI/180;
-		dwarfLocation.add(-0.4*Math.cos(yaw), -0.4, 0.4*Math.sin(yaw));
+		dwarfLocation.add(-0.3*Math.cos(yaw), -0.3, -0.3*Math.sin(yaw));
 		Vector direction = dwarfLocation.getDirection();
 		
 		double range = MAX_RANGE * force * force;
