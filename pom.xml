@@ -127,23 +127,24 @@
             <artifactId>ProtocolLib-API</artifactId>
             <version>4.2.1</version>
         </dependency>
-        <!--
         <dependency>
-            <groupId>me.libraryaddict.disguise</groupId>
+            <groupId>LibsDisguises</groupId>
             <artifactId>LibsDisguises</artifactId>
             <version>9.3.0</version>
+
+            <!-- Lib's Disguises has outdated version of protocollib. -->
+            <exclusions>
+                <exclusion>
+                    <groupId>com.comphenix.protocol</groupId>
+                    <artifactId>ProtocolLib</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-        -->
 
         <dependency>
             <groupId>com.connorlinfoot.actionbarapi</groupId>
             <artifactId>ActionBarAPI</artifactId>
             <version>1.5.2</version>
-        </dependency>
-        <dependency>
-            <groupId>me.libraryaddict.disguise</groupId>
-            <artifactId>DisguiseAPI</artifactId>
-            <version>9.3.0</version>
         </dependency>
         <dependency>
             <groupId>minecraft.spigot.community.michel_0</groupId>
