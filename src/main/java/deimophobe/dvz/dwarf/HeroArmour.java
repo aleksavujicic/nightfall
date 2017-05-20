@@ -20,7 +20,7 @@ public class HeroArmour implements Armour {
 	public void addModifier(ItemModifierType type, int value, String reason) {}
 	
 	@Override
-	public void setMax(int max) {}
+	public void increaseMax(int max) {}
 	
 	@Override
 	public boolean isAtMax() {

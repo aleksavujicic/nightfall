@@ -36,6 +36,7 @@ public enum KitElementType {
 	QUIVER,
 	STUDDED,
 	COIL,
+	STURDY,
 	
 	COMPASS,
 	SAFEFALL,
@@ -118,6 +119,7 @@ public enum KitElementType {
 			case QUIVER: return new Quiver(dwarf);
 			case STUDDED: return new StuddedArmour(dwarf);
 			case COIL: return new MagicCoil(dwarf);
+			case STURDY: return new Sturdy(dwarf);
 				
 			case COMPASS: return new DwarfCompass(dwarf);
 			case SAFEFALL: return new JumpySafefall(dwarf);

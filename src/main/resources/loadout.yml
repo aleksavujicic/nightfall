@@ -429,6 +429,15 @@ page1:
     item:
       name: "Magic Coil"
       base: loadout-coil
+  sturdy:
+    index: 31
+    type: item
+    name: sturdy
+    category: armour
+    cost: 12
+    item:
+      name: "Sturdy Armour"
+      base: loadout-runeblessed
 
 
 
