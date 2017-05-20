@@ -1,6 +1,7 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.items.modifiers.ItemModifierType;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -8,8 +9,8 @@ import org.bukkit.potion.PotionEffectType;
  */
 class StuddedArmour extends AbstractElement{
 	
-	public StuddedArmour(Dwarf dwarf) {
+	StuddedArmour(Dwarf dwarf) {
 		super(dwarf);
-		dwarf.givePotionEffect(PotionEffectType.SLOW, 10*60*60*20, -2, true, true, true);
+		dwarf.getArmour().addModifier(ItemModifierType.SPEED, 20, "Studded Runeleather");
 	}
 }
