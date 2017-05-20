@@ -57,8 +57,12 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void onLogin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
+		
 		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(1024);
 		ShrineManager.getManager().giveShrineBarToPlayer(player);
+		
+		if (player.isDead())
+			return;
 		
 		if (dm.goOnline(player)) {
 			game.updateDwarfCount();
@@ -160,7 +164,6 @@ public class GameListener implements Listener {
 				if (event.getCause() == EntityDamageEvent.DamageCause.VOID) {
 					game.resetPlayer(player);
 					
-					
 					new BukkitRunnable() {
 						@Override
 						public void run() {
@@ -168,8 +171,8 @@ public class GameListener implements Listener {
 						}
 					}.runTaskLater(game.getPlugin(), 20);
 				}
+				return;
 			}
-			return;
 		}
 		
 		// Special cases for void/suffocation/starvation.
@@ -195,7 +198,11 @@ public class GameListener implements Listener {
 		
 		// The grunt of the work
 		GameEntity damagee = game.getGameEntity(event.getEntity());
-		if (damagee != null) {
+		if (damagee == null) {
+			// Cancel event if not to game entity
+			event.setDamage(0);
+			event.setCancelled(true);
+		} else {
 			double damage = event.getDamage();
 			
 			DamageType type = null;
