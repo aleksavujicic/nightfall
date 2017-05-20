@@ -97,7 +97,7 @@ class Wolf extends AbstractTypedMob {
 		if (dwarf != null) {
 			monster.heal(5);
 			monster.playSound("entity.wolf.growl", 3, 1, true);
-			monster.givePotionEffect(PotionEffectType.SPEED, 140, 3, true, true, true);
+			monster.givePotionEffect(PotionEffectType.SPEED, 140, 3, true, false, true);
 		}
 		return damage;
 	}

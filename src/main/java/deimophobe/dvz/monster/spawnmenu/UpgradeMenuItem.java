@@ -56,7 +56,7 @@ class UpgradeMenuItem implements MenuItem<MonsterPlayer> {
 			costs.add(config.getInt("cost"));
 		
 		
-		this.upgrade = config.getString("upgrade.mob");
+		this.upgrade = config.getString("upgrade.name");
 		this.operation = UpgradeApplyOperation.getOperation(config.getString("upgrade.operation", "increment"));
 		this.values = config.getIntegerList("upgrade.value");
 		
