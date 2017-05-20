@@ -12,7 +12,7 @@ import org.bukkit.inventory.PlayerInventory;
  * Created by Deimophobe on 5/05/17.
  */
 public class DwarvenArmour implements Armour {
-	private final Player player;
+	private final Dwarf dwarf;
 	
 	private boolean armoured = false;
 	
@@ -23,7 +23,7 @@ public class DwarvenArmour implements Armour {
 	private ArmourLevel currentLevel = ArmourLevel.HIGH;
 	
 	public DwarvenArmour(Dwarf dwarf) {
-		this.player = dwarf.getPlayer();
+		this.dwarf = dwarf;
 	}
 	
 	@Override
@@ -34,8 +34,8 @@ public class DwarvenArmour implements Armour {
 	@Override
 	public void putOn() {
 		armoured = true;
-		currentLevel.equip(player);
-		GameEffect.playEffect(GameEffect.DWARF_ARMOURED, player);
+		currentLevel.equip(dwarf);
+		GameEffect.playEffect(GameEffect.DWARF_ARMOURED, dwarf);
 	}
 	
 	@Override
@@ -93,10 +93,10 @@ public class DwarvenArmour implements Armour {
 	private void updateArmour() {
 		if (isArmoured() && !currentLevel.isValid(this)) {
 			currentLevel = ArmourLevel.getLevel(this);
-			currentLevel.equip(player);
+			currentLevel.equip(dwarf);
 		}
 		
-		player.setFoodLevel((int) Math.ceil(20f * armourFraction()));
+		dwarf.getPlayer().setFoodLevel((int) Math.ceil(20f * armourFraction()));
 	}
 	
 	
@@ -121,8 +121,8 @@ public class DwarvenArmour implements Armour {
 			return  (minArmour <= frac && frac <= maxArmour);
 		}
 		
-		private void equip(Player player) {
-			set.equip(player);
+		private void equip(Dwarf dwarf) {
+			set.equip(dwarf);
 		}
 		
 		private static ArmourLevel getLevel(DwarvenArmour armour) {
@@ -146,8 +146,8 @@ public class DwarvenArmour implements Armour {
 			boots = DwarvenItems.createItemStack(section + ".boots", Slot.FEET);
 		}
 		
-		private void equip(Player player) {
-			PlayerInventory inv = player.getInventory();
+		private void equip(Dwarf dwarf) {
+			PlayerInventory inv = dwarf.getPlayer().getInventory();
 			inv.setChestplate(chest);
 			inv.setLeggings(legs);
 			inv.setBoots(boots);
