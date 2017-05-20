@@ -32,11 +32,6 @@ class Krungor extends AbstractTypedMob {
 	}
 	
 	@Override
-	public double onGotHit(Dwarf dwarf, DamageType type, double damage) {
-		return damage/2;
-	}
-	
-	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		if (cooldown > 0)
 			cooldown--;
@@ -113,7 +108,7 @@ class Krungor extends AbstractTypedMob {
 		}
 		
 		private void launch() {
-			dwarf.givePotionEffect(PotionEffectType.GLOWING, 30, 1, true, true, false);
+			//dwarf.givePotionEffect(PotionEffectType.GLOWING, 30, 1, true, true, false);
 			World world = dwarf.getLocation().getWorld();
 			
 			new BukkitRunnable() {
