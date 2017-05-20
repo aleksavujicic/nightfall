@@ -42,6 +42,12 @@ public class Arthea extends Hero {
 	}
 	
 	@Override
+	public void removePotionEffect(PotionEffectType type) {
+		if (!isEnraged())
+			super.removePotionEffect(type);
+	}
+	
+	@Override
 	public void updateCooldownBar() {
 		if (!isEnraged()) {
 			super.updateCooldownBar();
