@@ -8,6 +8,6 @@ import deimophobe.dvz.dwarf.Dwarf;
 class Runeblessed extends AbstractElement {
 	public Runeblessed(Dwarf dwarf) {
 		super(dwarf);
-		dwarf.getArmour().setMax(3000);
+		dwarf.getArmour().increaseMax(1000);
 	}
 }

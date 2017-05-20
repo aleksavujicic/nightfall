@@ -26,6 +26,7 @@ public enum ItemModifierType {
 		}
 	},
 	RESISTANCE(new DudApplier(), "Resistance", true, false),
+	DURABILITY(new DudApplier(), "Durability", false, false),
 	ARROW_RESISTANCE(new DudApplier(), "Arrow Res", true, false),
 	
 	SPEED(new AttributeApplier(Attribute.MOVEMENT_SPEED, 2, (i) -> (double)i/100), "Speed", true, false),

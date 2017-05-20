@@ -30,8 +30,11 @@ public class DwarvenArmour implements Armour {
 	public DwarvenArmour(Dwarf dwarf) {
 		this.dwarf = dwarf;
 		
-		for (ArmourLevel level : ArmourLevel.values())
-			setMap.put(level, level.getSet());
+		for (ArmourLevel level : ArmourLevel.values()) {
+			ArmourSet set = level.getSet();
+			set.chest.addModifier(ItemModifierType.DURABILITY, DEFAULT_MAX);
+			setMap.put(level, set);
+		}
 	}
 	
 	@Override
@@ -43,7 +46,7 @@ public class DwarvenArmour implements Armour {
 	public void putOn() {
 		armoured = true;
 		setMap.get(currentLevel).equip(dwarf);
-		GameEffect.playEffect(GameEffect.DWARF_ARMOURED, dwarf);
+		GameEffect.playEffect(GameEffect.DWARF_ARMOURED, dwarf.getPlayer());
 	}
 	
 	@Override
@@ -54,9 +57,9 @@ public class DwarvenArmour implements Armour {
 	}
 	
 	@Override
-	public void setMax(int max) {
-		this.max = max;
-		this.armour = max;
+	public void increaseMax(int amt) {
+		this.max += amt;
+		this.armour += amt;
 		updateArmour();
 	}
 	

@@ -13,7 +13,7 @@ public interface Armour {
 	default void addModifier(ItemModifierType type, int value) { addModifier(type, value, null);}
 	void addModifier(ItemModifierType type, int value, String reason);
 	
-	void setMax(int max);
+	void increaseMax(int amt);
 	
 	boolean isAtMax();
 	
