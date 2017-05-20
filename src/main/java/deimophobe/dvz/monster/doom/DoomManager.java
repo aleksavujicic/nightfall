@@ -30,15 +30,9 @@ public class DoomManager {
 	
 	private List<DoomType> occuredDooms = new ArrayList<>();
 	
-	private final Map<DoomType, Doom> dooms = new HashMap<>();
-	
 	private BukkitRunnable runner;
 	public void setup() {
 		resetDoomTimers();
-		
-		Configuration doomConfig = Misc.getInternalFileConfig("doom.yml");
-		dooms.put(DoomType.KRUNGOR, new KrungorDoom(doomConfig.getConfigurationSection("krungor")));
-		dooms.put(DoomType.GHOSTBLADES, new GhostbladeDoom(doomConfig.getConfigurationSection("ghostblades")));
 		
 		runner = new BukkitRunnable() {
 			@Override
@@ -56,8 +50,8 @@ public class DoomManager {
 	}
 	
 	private void resetDoomTimers() {
-		doomTimer = 10;
-		internalDoomTimer = 5;
+		doomTimer = 600 + MonsterManager.getManager().getGamePlayers().size()*200;
+		internalDoomTimer = 30;
 		Game.getGame().setDoomSidebar(doomTimer);
 	}
 	
@@ -101,11 +95,11 @@ public class DoomManager {
 	}
 	
 	private DoomType nextDoom() {
-		return Misc.getRandom(dooms.keySet());
+		return Misc.getRandom(DoomType.values());
 	}
 	
 	public void spawnDoom(DoomType doomType) {
-		dooms.get(doomType).startDoom();
+		doomType.getDoom().startDoom();
 		occuredDooms.add(doomType);
 	}
 	

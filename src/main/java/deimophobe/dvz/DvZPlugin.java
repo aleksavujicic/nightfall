@@ -15,6 +15,7 @@ import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
+import deimophobe.dvz.monster.doom.DoomType;
 import deimophobe.dvz.monster.mob.MobType;
 import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.Bukkit;
@@ -389,6 +390,26 @@ public class DvZPlugin extends JavaPlugin {
 			game.startPlague();
 			return true;
 		}
+		if (name.equalsIgnoreCase("forcedoom")) {
+			if (game.getPhase() == Phase.GAME)
+				DoomManager.getManager().reduceDoom(10000);
+			return true;
+		}
+		if (name.equalsIgnoreCase("summondoom")) {
+			if (args.length == 0) {
+				sender.sendMessage(ChatColor.RED + "Please specify a doom.");
+				return false;
+			}
+			
+			DoomType type = DoomType.getDoomType(args[0]);
+			if (type == null) {
+				sender.sendMessage(ChatColor.RED + "Unknown doom type: " + ChatColor.YELLOW + args[0] + ChatColor.RED + "!");
+			} else {
+				DoomManager.getManager().spawnDoom(type);
+			}
+			
+			return true;
+		}
 		if (name.equalsIgnoreCase("who")) {
 			sender.sendMessage(dm.getPlayerList() + "\n" +  mm.getPlayerList());
 			return true;
@@ -467,6 +488,10 @@ public class DvZPlugin extends JavaPlugin {
 		
 		if (name.equalsIgnoreCase("spawnmob") && args.length == 2) {
 			return startsWithPrefix(MobType.getAllMobTypes(), args[args.length-1]);
+		}
+		
+		if (name.equalsIgnoreCase("summondoom") && args.length == 1) {
+			return startsWithPrefix(DoomType.getAllTypes(), args[args.length-1]);
 		}
 		
 		if (name.equalsIgnoreCase("armour") && args.length == 1) {

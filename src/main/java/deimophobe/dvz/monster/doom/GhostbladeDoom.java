@@ -7,7 +7,7 @@ import org.bukkit.configuration.ConfigurationSection;
 /**
  * Created by Deimophobe on 25/02/17.
  */
-public class GhostbladeDoom extends Doom {
+class GhostbladeDoom extends Doom {
 	GhostbladeDoom(ConfigurationSection section) {
 		super(section);
 	}

@@ -56,8 +56,8 @@ doomclock:
   item:
     base: doom_clock
     name: Reduce Doom
-  cost: 500
-  time: 10
+  cost: 250
+  time: 15
   index: 8
 
 back:

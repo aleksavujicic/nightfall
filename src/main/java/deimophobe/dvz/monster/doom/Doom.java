@@ -23,7 +23,7 @@ class Doom {
 	private final List<MobType> specialMobs = new ArrayList<>();
 	private final List<MobType> regularMobs = new ArrayList<>();
 	
-	Doom(ConfigurationSection section) {
+	protected Doom(ConfigurationSection section) {
 		title = section.getString("title");
 		subtitle = section.getString("subtitle");
 		
@@ -42,7 +42,7 @@ class Doom {
 		spawnMobs();
 	}
 	
-	void showTitle(Player player) {
+	protected void showTitle(Player player) {
 		player.sendTitle(ChatColor.RED + title, "", 20, 100, 20);
 		new BukkitRunnable() {
 			@Override public void run() {
@@ -51,7 +51,7 @@ class Doom {
 		}.runTaskLater(Game.getGame().getPlugin(), 60);
 	}
 	
-	void spawnMobs() {
+	protected void spawnMobs() {
 		List<MonsterPlayer> monsterList = new ArrayList<>(MonsterManager.getManager().getDeadPlayers());
 		Collections.shuffle(monsterList);
 		

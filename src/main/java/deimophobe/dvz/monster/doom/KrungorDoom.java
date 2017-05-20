@@ -6,7 +6,7 @@ import org.bukkit.configuration.ConfigurationSection;
 /**
  * Created by Deimophobe on 25/02/17.
  */
-public class KrungorDoom extends Doom {
+class KrungorDoom extends Doom {
 	
 	KrungorDoom(ConfigurationSection section) {
 		super(section);

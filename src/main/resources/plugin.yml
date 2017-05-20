@@ -68,6 +68,13 @@ commands:
     description: Makes a player (un)immune to plague.
     usage: /plagueimmune [player]
 
+  forcedoom:
+    description: Forces the doom timer to hit 0.
+    usage: /forcedoom
+  summondoom:
+    description: Summons the specific doom type. Does not affect doom clock.
+    usage: /summondoom <doom type>
+
   loadmap:
     description: Loads a specified map.
     usage: /loadmap <mapname>
