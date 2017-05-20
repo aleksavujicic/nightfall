@@ -152,10 +152,14 @@ public class GameListener implements Listener {
 		EntityDamageEvent.DamageCause cause = event.getCause();
 		
 		// Don't damage lobbyers and respawn if void.
-		if (entity instanceof Player && ((Player)entity).getGameMode() == GameMode.ADVENTURE) {
-			event.setCancelled(true);
-			if (event.getCause() == EntityDamageEvent.DamageCause.VOID) {
-				Game.getGame().resetPlayer((Player)event.getEntity());
+		if (entity instanceof Player) {
+			Player player = (Player) entity;
+			if (game.isLobbyPlayer(player)) {
+				event.setCancelled(true);
+				event.setDamage(0);
+				if (event.getCause() == EntityDamageEvent.DamageCause.VOID) {
+					game.resetPlayer((Player) event.getEntity());
+				}
 			}
 			return;
 		}
@@ -165,11 +169,7 @@ public class GameListener implements Listener {
 			Player player = (Player) event.getEntity();
 			// Instakill if in survival and void damage
 			if (event.getCause() == EntityDamageEvent.DamageCause.VOID) {
-				if (Game.getGame().isLobbyPlayer(player)) {
-					Game.getGame().resetPlayer(player);
-					event.setDamage(0);
-					event.setCancelled(true);
-				} else if (player.getGameMode() == GameMode.SURVIVAL) {
+				if (player.getGameMode() == GameMode.SURVIVAL) {
 					event.setDamage(10000);
 				} else {
 					event.setDamage(0);
