@@ -538,8 +538,41 @@ hero:
 
 armour:
   high:
-    chest: &default_chest
+    chest:
       material: diamond_chestplate
+      name: Dwarven Chestplate
+      lore:
+        description:
+         - "Fully repaired armour."
+        flavour:
+         - "Now get out there and fight!."
+      shiny: true
+      modifiers:
+        health: 10
+
+    legs:
+      material: diamond_leggings
+      name: Dwarven Leggings
+      lore:
+        description:
+         - "Fully repaired armour."
+        flavour:
+         - "Now get out there and fight."
+      shiny: true
+
+    boots:
+      material: diamond_boots
+      name: Dwarven Boots
+      lore:
+        description:
+         - "Fully repaired armour."
+        flavour:
+         - "Now get out there and fight."
+      shiny: true
+
+  med:
+    chest:
+      material: iron_chestplate
       name: Dwarven Chestplate
       lore:
         description:
@@ -548,18 +581,16 @@ armour:
          - "Now get out there and fight!."
       modifiers:
         health: 10
-
-    legs: &default_legs
-      material: diamond_leggings
+    legs:
+      material: iron_leggings
       name: Dwarven Leggings
       lore:
         description:
          - "Fully repaired armour."
         flavour:
          - "Now get out there and fight."
-
-    boots: &default_boots
-      material: diamond_boots
+    boots:
+      material: iron_boots
       name: Dwarven Boots
       lore:
         description:
@@ -567,27 +598,33 @@ armour:
         flavour:
          - "Now get out there and fight."
 
-  med:
-    chest:
-      <<: *default_chest
-      material: iron_chestplate
-    legs:
-      <<: *default_legs
-      material: iron_leggings
-    boots:
-      <<: *default_boots
-      material: iron_boots
-
   low:
     chest:
-      <<: *default_chest
       material: chainmail_chestplate
+      name: Dwarven Chestplate
+      lore:
+        description:
+         - "Fully repaired armour."
+        flavour:
+         - "Now get out there and fight!."
+      modifiers:
+        health: 10
     legs:
-      <<: *default_legs
       material: chainmail_leggings
+      name: Dwarven Leggings
+      lore:
+        description:
+         - "Fully repaired armour."
+        flavour:
+         - "Now get out there and fight."
     boots:
-      <<: *default_boots
       material: chainmail_boots
+      name: Dwarven Boots
+      lore:
+        description:
+         - "Fully repaired armour."
+        flavour:
+         - "Now get out there and fight."
 
 
 # To get format codes:
