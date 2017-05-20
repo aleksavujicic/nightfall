@@ -32,7 +32,7 @@ public class DwarvenArmour implements Armour {
 		
 		for (ArmourLevel level : ArmourLevel.values()) {
 			ArmourSet set = level.getSet();
-			set.chest.addModifier(ItemModifierType.DURABILITY, DEFAULT_MAX);
+			//set.chest.addModifier(ItemModifierType.DURABILITY, DEFAULT_MAX);
 			setMap.put(level, set);
 		}
 	}
