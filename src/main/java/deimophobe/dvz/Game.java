@@ -303,13 +303,7 @@ public class Game {
 			player.removePotionEffect(effect.getType());
 		}
 		player.setGameMode(GameMode.ADVENTURE);
-		
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				player.setHealth(20);
-			}
-		}.runTaskLater(plugin, 20);
+		player.setHealth(20);
 		player.setSaturation(100000);
 		player.setFoodLevel(100000);
 	}

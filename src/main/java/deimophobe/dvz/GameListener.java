@@ -158,7 +158,15 @@ public class GameListener implements Listener {
 				event.setCancelled(true);
 				event.setDamage(0);
 				if (event.getCause() == EntityDamageEvent.DamageCause.VOID) {
-					game.resetPlayer((Player) event.getEntity());
+					game.resetPlayer(player);
+					
+					
+					new BukkitRunnable() {
+						@Override
+						public void run() {
+							game.resetPlayer(player);
+						}
+					}.runTaskLater(game.getPlugin(), 20);
 				}
 			}
 			return;
