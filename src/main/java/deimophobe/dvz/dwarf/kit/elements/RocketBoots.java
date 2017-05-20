@@ -18,7 +18,7 @@ class RocketBoots extends AbstractCooldown {
 	
 	@Override
 	public void onShift(boolean sneaking) {
-		if (isOffCD()) {
+		if (!sneaking && isOffCD()) {
 			Player player = dwarf.getPlayer();
 			player.setFlySpeed(0);
 			player.setAllowFlight(true);
