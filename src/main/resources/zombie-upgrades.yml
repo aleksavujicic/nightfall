@@ -45,8 +45,8 @@ health:
   cost: [20, 40, 60, 80, 100]
   upgrade:
     name: health
-    add: [2, 2, 2, 2, 2]
-    operation: increment
+    value: [2, 2, 2, 2, 2]
+    operation: add
 
 healthinf:
   index: 6
@@ -63,8 +63,8 @@ healthinf:
   permanent: true
   upgrade:
     name: health
-    add: 2
-    operation: increment
+    value: 2
+    operation: add
 
 
 

@@ -41,19 +41,24 @@ class Zombie extends AbstractTypedMob {
 		
 		int maxLeapCD = upgrades.getUpgrade("leap");
 		if (maxLeapCD != 0)
-			leapCD = new SimpleCooldown(maxLeapCD);
+			leapCD = new SimpleCooldown(maxLeapCD * 20);
 		else
 			leapCD = new DudCooldown();
 		
 		this.vampirism = upgrades.getUpgrade("vampirism");
 		this.pursuit = upgrades.getUpgrade("pursuit");
 		
-		int arrowRes = upgrades.getUpgrade("arrow-res");
+		int arrowRes = upgrades.getUpgrade("arrow");
 		this.arrowRes = (double) arrowRes/100;
 		this.armourShred = upgrades.getUpgrade("shred");
 		
 		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
 		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
+	}
+	
+	@Override
+	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
+		leapCD.update();
 	}
 	
 	@Override
@@ -74,10 +79,8 @@ class Zombie extends AbstractTypedMob {
 				
 				double yaw = monster.getPlayer().getLocation().getYaw();
 				double radYaw = yaw*Math.PI/180;
-				Vector velocity;
-				velocity = new Vector(-4 * Math.sin(radYaw), 0.5, 4 * Math.cos(radYaw));
 				
-				monster.getPlayer().setVelocity(velocity);
+				monster.getPlayer().setVelocity(new Vector(-2 * Math.sin(radYaw), 0.3, 2 * Math.cos(radYaw)));
 			}
 		}
 	}
