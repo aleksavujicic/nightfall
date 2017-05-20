@@ -1,19 +1,22 @@
 krungor:
   title: Krungor
-  subtitle: King of Ogres
+  subtitle:
+    - King of Ogres
+    - Hero Slayer
 
-  special:
-    - krungor
-
-  regular:
-    - ogre
+  mobs:
+    special:
+      - krungor
+    regular:
+      - ogre
 
 ghostblades:
   title: Ghost Blades
   subtitle: Nowhere is safe
 
-  regular:
-    - gb-dagger
-    - gb-runeblade
-    - gb-axe
-    - gb-hammer
+  mobs:
+    regular:
+      - gb-dagger
+      - gb-runeblade
+      - gb-axe
+      - gb-hammer

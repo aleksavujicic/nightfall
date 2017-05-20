@@ -18,14 +18,16 @@ import java.util.*;
 class Doom {
 	
 	private final String title;
-	private final String subtitle;
+	private final List<String> subtitle;
 	
 	private final List<MobType> specialMobs = new ArrayList<>();
 	private final List<MobType> regularMobs = new ArrayList<>();
 	
 	protected Doom(ConfigurationSection section) {
 		title = section.getString("title");
-		subtitle = section.getString("subtitle");
+		subtitle = section.getStringList("subtitle");
+		if (subtitle.size() == 0)
+			subtitle.add(section.getString("subtitle"));
 		
 		for (String special : section.getStringList("special")) {
 			specialMobs.add(MobType.getMobType(special));
@@ -44,11 +46,16 @@ class Doom {
 	
 	protected void showTitle(Player player) {
 		player.sendTitle(ChatColor.RED + title, "", 20, 100, 20);
-		new BukkitRunnable() {
-			@Override public void run() {
-				player.sendTitle(null, ChatColor.GOLD + subtitle, 0, 60, 20);
-			}
-		}.runTaskLater(Game.getGame().getPlugin(), 60);
+		
+		for (int i=0; i < subtitle.size(); i++) {
+			final int index = i;
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					player.sendTitle(null, ChatColor.GOLD + subtitle.get(index), 0, 60, 20);
+				}
+			}.runTaskLater(Game.getGame().getPlugin(), 40 + i*40);
+		}
 	}
 	
 	protected void spawnMobs() {
