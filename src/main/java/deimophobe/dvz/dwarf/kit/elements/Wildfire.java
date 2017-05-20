@@ -51,7 +51,7 @@ class Wildfire extends AbstractItem {
 			Vector looking = spawnLoc.getDirection();
 			
 			spawnLoc.add(looking);
-			looking.normalize().multiply(FLAME_VELOCITY);
+			looking.normalize().multiply(FLAME_VELOCITY).add(dwarf.getVelocity().multiply(2));
 			
 			dwarf.playSound("foosh", 1, 1, true);
 			
@@ -75,7 +75,7 @@ class Wildfire extends AbstractItem {
 		
 		private Flame(Location position, Vector velocity) {
 			this.position = position;
-			this.velocity = dwarf.getVelocity().add(velocity);
+			this.velocity = velocity;
 			
 			new BukkitRunnable() {
 				@Override
