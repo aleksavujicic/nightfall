@@ -4,6 +4,7 @@ import deimophobe.dvz.Hat;
 import deimophobe.dvz.Skin;
 import deimophobe.dvz.dwarf.Armour;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
@@ -34,6 +35,9 @@ public class Hero extends Dwarf {
 		announceHero();
 		makeBlindImmune();
 		makePlagueImmune();
+		
+		giveKitItems(KitGiveType.PICK);
+		giveKitItems(KitGiveType.SHOVEL);
 	}
 	
 	private void announceHero() {
