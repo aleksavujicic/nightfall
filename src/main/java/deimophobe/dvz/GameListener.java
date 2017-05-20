@@ -270,7 +270,7 @@ public class GameListener implements Listener {
 			
 			// Notify if not custom
 			if (cause != EntityDamageEvent.DamageCause.CUSTOM)
-				damagee.registerNonCustomDamage(damager, type);
+				damagee.registerDamage(damager, type);
 			
 			// Debug messages
 			//if (damager != null)
