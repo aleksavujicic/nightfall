@@ -17,6 +17,7 @@ import java.util.HashSet;
 public enum DoomType {
 	KRUNGOR("krungor", KrungorDoom.class),
 	GHOSTBLADES("ghostblades", GhostbladeDoom.class),
+	DIREWOLF("direwolf", Doom.class),
 	
 	;
 	

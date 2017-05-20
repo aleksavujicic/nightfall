@@ -19,7 +19,6 @@ public enum MobType {
 	WITHERSKELE("witherskele"),
 	FLAMELANCER("flamelancer"),
 	WOLF("wolf"),
-	DIREWOLF("direwolf"),
 	SPIDERLING("spiderling"),
 	RAT("rat"),
 	GOLEM("golem"),
@@ -64,7 +63,6 @@ public enum MobType {
 			case WITHERSKELE: return new WitherSkele(monster);
 			case FLAMELANCER: return new Flamelancer(monster);
 			case WOLF: return new Wolf(monster);
-			case DIREWOLF: return new Direwolf(monster);
 			case SPIDERLING: return new Spiderling(monster);
 			case RAT: return new Rat(monster);
 			case GOLEM: return new Golem(monster);

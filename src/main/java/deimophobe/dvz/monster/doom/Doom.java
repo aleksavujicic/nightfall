@@ -1,6 +1,7 @@
 package deimophobe.dvz.monster.doom;
 
 import deimophobe.dvz.Game;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.mob.MobType;
@@ -29,13 +30,24 @@ class Doom {
 		if (subtitle.size() == 0)
 			subtitle.add(section.getString("subtitle"));
 		
-		for (String special : section.getStringList("special")) {
-			specialMobs.add(MobType.getMobType(special));
+		for (String special : section.getStringList("mobs.special")) {
+			MobType type = MobType.getMobType(special);
+			if (type != null)
+				specialMobs.add(type);
+			else
+				Bukkit.getLogger().severe("Unknown mob of type: " + special + " for doom " + title);
 		}
 		
-		for (String regular : section.getStringList("regular")) {
-			regularMobs.add(MobType.getMobType(regular));
+		for (String regular : section.getStringList("mobs.regular")) {
+			MobType type = MobType.getMobType(regular);
+			if (type != null)
+				regularMobs.add(type);
+			else
+				Bukkit.getLogger().severe("Unknown mob of type: " + regular + " for doom " + title);
 		}
+		
+		if (regularMobs.size() == 0)
+			Bukkit.getLogger().severe("Doom "  + title + " has no regular mobs.");
 	}
 	
 	void startDoom() {
@@ -67,13 +79,8 @@ class Doom {
 			if (iterator.hasNext()) {
 				monster.spawnAs(iterator.next());
 			} else {
-				monster.spawnAs(randomRegular());
+				monster.spawnAs(Misc.getRandom(regularMobs));
 			}
 		}
-	}
-	
-	private MobType randomRegular() {
-		int i = new Random().nextInt(regularMobs.size());
-		return regularMobs.get(i);
 	}
 }

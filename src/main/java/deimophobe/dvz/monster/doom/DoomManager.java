@@ -94,14 +94,22 @@ public class DoomManager {
 					0, 40, 0);
 	}
 	
+	
+	
 	private DoomType nextDoom() {
 		return Misc.getRandom(DoomType.values());
 	}
 	
 	public void spawnDoom(DoomType doomType) {
-		doomType.getDoom().startDoom();
 		occuredDooms.add(doomType);
+		doomType.getDoom().startDoom();
 	}
+	
+	public boolean hasDoomSpawned(DoomType type) {
+		return occuredDooms.contains(type);
+	}
+	
+	
 	
 	public boolean toggleDoom() {
 		doomActive = !doomActive;

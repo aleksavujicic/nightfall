@@ -20,3 +20,11 @@ ghostblades:
       - gb-runeblade
       - gb-axe
       - gb-hammer
+
+direwolf:
+  title: Dire Wolves
+  subtitle: I'm bad at writing titles
+
+  mobs:
+    regular:
+      - wolf

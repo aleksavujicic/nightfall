@@ -9,6 +9,8 @@ import deimophobe.dvz.DamageType;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterPlayer;
+import deimophobe.dvz.monster.doom.DoomManager;
+import deimophobe.dvz.monster.doom.DoomType;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
@@ -30,8 +32,27 @@ class Wolf extends AbstractTypedMob {
 	private static final int LEAP_MAX_CD = 140;
 	private int leapCd = 0;
 	
+	private final boolean dire;
+	
 	Wolf(MonsterPlayer monster) {
 		super(monster);
+		
+		this.dire = DoomManager.getManager().hasDoomSpawned(DoomType.DIREWOLF);
+	}
+	
+	@Override
+	public void spawn() {
+		super.spawn();
+		
+		if (dire) {
+			Disguise disguise = getDisguise();
+			FlagWatcher watcher = disguise.getWatcher();
+			if (watcher instanceof WolfWatcher) {
+				((WolfWatcher) watcher).setAngry(true);
+			} else {
+				Bukkit.getLogger().warning("Direwolf not disguised as wolf?");
+			}
+		}
 	}
 	
 	@Override
@@ -100,6 +121,11 @@ class Wolf extends AbstractTypedMob {
 			monster.givePotionEffect(PotionEffectType.SPEED, 140, 3, true, false, true);
 		}
 		return damage;
+	}
+	
+	@Override
+	public boolean isProccable() {
+		return !dire;
 	}
 			
 }

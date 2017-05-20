@@ -200,8 +200,8 @@ public class GameListener implements Listener {
 		GameEntity damagee = game.getGameEntity(event.getEntity());
 		if (damagee == null) {
 			// Cancel event if not to game entity
-			event.setDamage(0);
-			event.setCancelled(true);
+			//event.setDamage(0);
+			//event.setCancelled(true);
 		} else {
 			double damage = event.getDamage();
 			
