@@ -21,6 +21,8 @@ import org.bukkit.util.Vector;
 class Zombie extends AbstractTypedMob {
 	
 	private final Cooldown leapCD;
+	private final int leapLvl;
+	
 	private final int pursuit;
 	private final int vampirism;
 	
@@ -44,6 +46,7 @@ class Zombie extends AbstractTypedMob {
 			leapCD = new SimpleCooldown(maxLeapCD * 20);
 		else
 			leapCD = new DudCooldown();
+		this.leapLvl = upgrades.getLabelLevel("leap");
 		
 		this.vampirism = upgrades.getUpgrade("vampirism");
 		this.pursuit = upgrades.getUpgrade("pursuit");
@@ -80,7 +83,9 @@ class Zombie extends AbstractTypedMob {
 				double yaw = monster.getPlayer().getLocation().getYaw();
 				double radYaw = yaw*Math.PI/180;
 				
-				monster.getPlayer().setVelocity(new Vector(-2 * Math.sin(radYaw), 0.3, 2 * Math.cos(radYaw)));
+				double hVel = (double) leapLvl/2;
+				double vVel = (double) leapLvl/10;
+				monster.getPlayer().setVelocity(new Vector(-hVel * Math.sin(radYaw), vVel, hVel * Math.cos(radYaw)));
 			}
 		}
 	}
