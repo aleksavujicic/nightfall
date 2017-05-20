@@ -508,8 +508,9 @@ public class GameListener implements Listener {
 				hotbarItem = null;
 			ItemStack clickedItem = event.getCurrentItem();
 			
-			if (!DwarvenItems.isDroppableItem(clickedItem) || !DwarvenItems.isDroppableItem(hotbarItem))
+			if (!DwarvenItems.isDroppableItem(clickedItem) || !DwarvenItems.isDroppableItem(hotbarItem)) {
 				event.setCancelled(true);
+			}
 		}
 	}
 	

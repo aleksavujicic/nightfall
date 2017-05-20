@@ -7,6 +7,7 @@ import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
 import deimophobe.dvz.items.lore.LoreTemplate;
 import deimophobe.dvz.items.modifiers.ItemModifierType;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.inventory.ItemStack;
 
@@ -59,6 +60,7 @@ public class DwarvenItems {
 	
 	public static boolean isDroppableItem(ItemStack item) {
 		if (item == null) return true;
+		if (item.getType() == Material.AIR) return true;
 		
 		for (ItemStack droppable : droppables)
 			if (item.isSimilar(droppable))
