@@ -65,7 +65,7 @@ class Wildfire extends AbstractItem {
 	private static final int FLAME_LIFE = 40;
 	private static final int FLAME_DELAY = 3;
 	private static final double FLAME_RADIUS = 2;
-	private static final double FLAME_VELOCITY = 0.8;
+	private static final double FLAME_VELOCITY = 0.4;
 	private static final double FLAME_DPT = 3; // Damage per tick
 	
 	private class Flame {
@@ -75,7 +75,7 @@ class Wildfire extends AbstractItem {
 		
 		private Flame(Location position, Vector velocity) {
 			this.position = position;
-			this.velocity = velocity;
+			this.velocity = dwarf.getVelocity().add(velocity);
 			
 			new BukkitRunnable() {
 				@Override
