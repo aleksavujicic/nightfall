@@ -60,7 +60,8 @@ public class Arthea extends Hero {
 		super.update(a,b,c,d,e);
 		
 		if (isEnraged()) {
-			enrageTimer--;
+			if (enrageTimer > 0)
+				enrageTimer--;
 			
 			if (enrageTimer > ENRAGE_DURATION) {
 				Location location = getLocation().add(0,1,0);
