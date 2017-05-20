@@ -1,8 +1,14 @@
 package deimophobe.dvz.monster.doom;
 
+import deimophobe.dvz.Game;
+import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.mob.MobType;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
@@ -30,8 +36,23 @@ class Doom {
 		}
 	}
 	
-	void spawnMobs(Collection<MonsterPlayer> monsters) {
-		List<MonsterPlayer> monsterList = new ArrayList<>(monsters);
+	void startDoom() {
+		for (Player player : Bukkit.getOnlinePlayers())
+			showTitle(player);
+		spawnMobs();
+	}
+	
+	void showTitle(Player player) {
+		player.sendTitle(ChatColor.RED + title, "", 20, 100, 20);
+		new BukkitRunnable() {
+			@Override public void run() {
+				player.sendTitle(null, ChatColor.GOLD + subtitle, 0, 60, 20);
+			}
+		}.runTaskLater(Game.getGame().getPlugin(), 60);
+	}
+	
+	void spawnMobs() {
+		List<MonsterPlayer> monsterList = new ArrayList<>(MonsterManager.getManager().getDeadPlayers());
 		Collections.shuffle(monsterList);
 		
 		Iterator<MobType> iterator = specialMobs.iterator();
@@ -48,6 +69,4 @@ class Doom {
 		int i = new Random().nextInt(regularMobs.size());
 		return regularMobs.get(i);
 	}
-	
-	void onSpawn() {}
 }

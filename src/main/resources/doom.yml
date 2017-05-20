@@ -7,11 +7,10 @@ krungor:
 
   regular:
     - ogre
-    - spiderling
 
 ghostblades:
-  title: Ghostblades
-  subtitle: The dead are rising
+  title: Ghost Blades
+  subtitle: The dead are rising.
 
   regular:
     - gb-dagger

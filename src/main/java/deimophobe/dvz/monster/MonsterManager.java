@@ -83,6 +83,12 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		return entities;
 	}
 	
+	public Collection<MonsterPlayer> getDeadPlayers() {
+		Collection<MonsterPlayer> deadMobs = new HashSet<>(getGamePlayers());
+		deadMobs.removeIf(MonsterPlayer::isAlive);
+		return deadMobs;
+	}
+	
 	
 	// --------------------------------------------------------
 	//                   MENUS N STUFF

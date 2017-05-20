@@ -13,7 +13,8 @@ public class KrungorDoom extends Doom {
 	}
 	
 	@Override
-	void onSpawn() {
+	void startDoom() {
+		super.startDoom();
 		GlobalUpgrade.KRUNGOR.unlock();
 	}
 }

@@ -7,6 +7,7 @@ import deimophobe.dvz.Phase;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -64,17 +65,26 @@ public class DoomManager {
 	private boolean doomActive = true;
 	private void updateDoom() {
 		if (!doomActive) return;
+		
 		if (!isDoom) {
-			doomTimer--;
-			if (doomTimer <= 0) {
-				doomTimer = 0;
+			if (doomTimer > 0)
+				doomTimer--;
+			
+			if (doomTimer == 0) {
 				MapManager.getManager().getWorld().setTime(18000);
 				isDoom = true;
+				
+				showDoomMessage();
 			}
-			Game.getGame().setDoomSidebar(doomTimer);
+			updateDoomCount();
+			
 		} else {
-			internalDoomTimer--;
-			if (internalDoomTimer <= 0) {
+			if (internalDoomTimer > 0)
+				internalDoomTimer--;
+			
+			showDoomMessage();
+			
+			if (internalDoomTimer == 0) {
 				spawnDoom(nextDoom());
 				resetDoomTimers();
 				isDoom = false;
@@ -82,20 +92,20 @@ public class DoomManager {
 		}
 	}
 	
+	private void showDoomMessage() {
+		for (MonsterPlayer player : MonsterManager.getManager().getDeadPlayers())
+			player.getPlayer().sendTitle(
+					"",//ChatColor.RED + "Doom Approaches",
+					ChatColor.YELLOW + "Spawning in " + ChatColor.GREEN + internalDoomTimer + ChatColor.YELLOW + " seconds...",
+					0, 40, 0);
+	}
+	
 	private DoomType nextDoom() {
 		return Misc.getRandom(dooms.keySet());
 	}
 	
-	private void spawnDoom(DoomType doomType) {
-		Set<MonsterPlayer> deadMonsters = new HashSet<>();
-		for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
-			if (!monster.isAlive())
-				deadMonsters.add(monster);
-		}
-		
-		dooms.get(doomType).onSpawn();
-		dooms.get(doomType).spawnMobs(deadMonsters);
-		
+	public void spawnDoom(DoomType doomType) {
+		dooms.get(doomType).startDoom();
 		occuredDooms.add(doomType);
 	}
 	
