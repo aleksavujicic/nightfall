@@ -1,17 +1,14 @@
 package deimophobe.dvz.dwarf;
 
 import deimophobe.dvz.Game;
-import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.GamePlayerManager;
+import deimophobe.dvz.dwarf.armour.Armour;
 import deimophobe.dvz.dwarf.hero.Hero;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 

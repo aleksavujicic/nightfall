@@ -1,12 +1,13 @@
-package deimophobe.dvz.dwarf;
+package deimophobe.dvz.dwarf.armour;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.Phase;
+import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.effects.GameEffect;
 import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.items.modifiers.ItemModifierType;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.util.HashMap;

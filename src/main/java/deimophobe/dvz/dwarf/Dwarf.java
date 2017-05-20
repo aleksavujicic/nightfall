@@ -1,6 +1,7 @@
 package deimophobe.dvz.dwarf;
 
 import deimophobe.dvz.*;
+import deimophobe.dvz.dwarf.armour.Armour;
 import deimophobe.dvz.dwarf.kit.Kit;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;

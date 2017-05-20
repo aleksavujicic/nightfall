@@ -1,6 +1,6 @@
-package deimophobe.dvz.dwarf;
+package deimophobe.dvz.dwarf.armour;
 
-import deimophobe.dvz.items.modifiers.ItemModifier;
+import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.items.modifiers.ItemModifierType;
 
 /**
@@ -28,7 +28,7 @@ public interface Armour {
 		HERO
 		;
 		
-		Armour getArmour(Dwarf dwarf) {
+		public Armour getArmour(Dwarf dwarf) {
 			switch (this) {
 				case DWARF: return new DwarvenArmour(dwarf);
 				case HERO: return new HeroArmour();

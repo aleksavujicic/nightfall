@@ -1,4 +1,4 @@
-package deimophobe.dvz.dwarf;
+package deimophobe.dvz.dwarf.armour;
 
 import deimophobe.dvz.items.modifiers.ItemModifierType;
 
