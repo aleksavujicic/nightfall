@@ -36,13 +36,15 @@ class DwarfCompass extends AbstractItem {
 		
 		// Get compass list
 		List<CompassLocation> locations = ShrineManager.getManager().getCompassLocations();
-		CompassLocation cl = locations.get(nextIndex);
 		
 		// Change index
 		if (dwarf.getPlayer().isSneaking())
 			nextIndex = (nextIndex == 0 ? locations.size() - 1 : nextIndex - 1);
 		else
 			nextIndex = (nextIndex + 1) % locations.size();
+		
+		// Get new compass location
+		CompassLocation cl = locations.get(nextIndex);
 		
 		// Set location
 		dwarf.sendMessage(ChatColor.LIGHT_PURPLE + "Compass is now pointing at: " + ChatColor.YELLOW + cl.getName());
