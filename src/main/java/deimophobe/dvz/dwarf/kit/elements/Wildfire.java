@@ -50,8 +50,9 @@ class Wildfire extends AbstractItem {
 			Location spawnLoc = dwarf.getEyeLocation();
 			Vector looking = spawnLoc.getDirection();
 			
-			spawnLoc.add(looking);
-			looking.normalize().multiply(FLAME_VELOCITY).add(dwarf.getVelocity().multiply(2));
+			looking.normalize().multiply(FLAME_VELOCITY);
+			looking.add(dwarf.getVelocity().setY(0));
+			spawnLoc.add(looking.multiply(2));
 			
 			dwarf.playSound("foosh", 1, 1, true);
 			
