@@ -83,6 +83,9 @@ public class Arthea extends Hero {
 	
 	@Override
 	public double onGotHit(GameEntity entity, DamageType type, double damage) {
+		if (type == DamageType.VOID)
+			return damage;
+			
 		if (isEnraged() && enrageTimer != 0)
 			return 0;
 		
@@ -102,7 +105,10 @@ public class Arthea extends Hero {
 	
 	@Override
 	public String generateDeathMessage() {
-		return getDisplayName() + " died from her injuries.";
+		if (isEnraged())
+			return getDisplayName() + " died from her injuries.";
+		else
+			return super.generateDeathMessage();
 	}
 	
 	private static final int ENRAGE_TRANSITION_DURATION = 10*20;
