@@ -1,5 +1,7 @@
 package deimophobe.dvz.dwarf;
 
+import deimophobe.dvz.items.modifiers.ItemModifierType;
+
 /**
  * Created by Deimophobe on 6/05/17.
  */
@@ -13,6 +15,9 @@ public class HeroArmour implements Armour {
 	
 	@Override
 	public void putOn() {}
+	
+	@Override
+	public void addModifier(ItemModifierType type, int value, String reason) {}
 	
 	@Override
 	public void setMax(int max) {}
