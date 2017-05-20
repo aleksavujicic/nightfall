@@ -52,7 +52,7 @@ class Wildfire extends AbstractItem {
 			
 			looking.normalize().multiply(FLAME_VELOCITY);
 			looking.add(dwarf.getVelocity().setY(0));
-			spawnLoc.add(looking.multiply(2));
+			spawnLoc.add(looking.clone().multiply(3));
 			
 			dwarf.playSound("foosh", 1, 1, true);
 			
