@@ -4,6 +4,7 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
+import deimophobe.dvz.monster.ai.AIEntity;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
@@ -131,9 +132,12 @@ public abstract class GameEntity<E extends LivingEntity> {
 	
 	
 	// ------ DAMAGE ------
+	private long lastDamageTime = 0;
 	private GameEntity lastDamager;
 	private DamageType lastDamageType;
 	private String lastItemName;
+	
+	private static final long MAX_PREV_DMG_STORE_TIME = 200;
 	
 	public GameEntity getLastDamager() {
 		return lastDamager;
@@ -150,14 +154,7 @@ public abstract class GameEntity<E extends LivingEntity> {
 	}
 	
 	public void customDamage(GameEntity damager, DamageType type, double damage, boolean force) {
-		if (type.doesOverwriteAttacker()) {
-			lastDamager = damager;
-			lastDamageType = type;
-			lastItemName = getHeldItemOfDamager(damager);
-		}
-		
-		//if (!type.isCustom())
-		//	Bukkit.getLogger().warning("Forcing custom damage that is not of custom type?!");
+		registerDamage(damager, type);
 		
 		if (force)
 			entity.setNoDamageTicks(0);
@@ -165,15 +162,16 @@ public abstract class GameEntity<E extends LivingEntity> {
 		entity.damage(damage);
 	}
 	
-	public void registerNonCustomDamage(GameEntity damager, DamageType type) {
-		if (type.doesOverwriteAttacker()) {
+	public void registerDamage(GameEntity damager, DamageType type) {
+		lastDamageType = type;
+		if (type.doesOverwriteAttacker() || lastDamager instanceof AIEntity) {
 			lastDamager = damager;
-			lastDamageType = type;
 			lastItemName = getHeldItemOfDamager(damager);
+			lastDamageTime = entity.getWorld().getFullTime();
+		} else if (entity.getWorld().getFullTime() - lastDamageTime > MAX_PREV_DMG_STORE_TIME) {
+			lastDamager = null;
+			lastItemName = null;
 		}
-		
-		//if (type.isCustom())
-		//	Bukkit.getLogger().warning("Registering damage that is of custom type?!");
 	}
 	
 	private static String getHeldItemOfDamager(GameEntity damager) {
