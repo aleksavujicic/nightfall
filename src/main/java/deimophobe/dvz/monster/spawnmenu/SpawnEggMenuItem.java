@@ -61,10 +61,13 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 	
 	@Override
 	public ItemStack getDisplayItem(MenuSession<MonsterPlayer> session) {
-		if (isAvailable())
-			return item;
-		else
+		if (isAvailable()) {
+			ItemStack newitem = item.clone();
+			newitem.setAmount(quantity);
+			return newitem;
+		} else {
 			return null;
+		}
 	}
 	
 	@Override
