@@ -68,6 +68,10 @@ class CraftingConsumable extends Consumable {
 				if (material == Material.SPONGE)
 					dwarf.playSound("mortar", 1, (float) (1.5 + 0.1*Math.random()), true);
 				
+				if (material == Material.IRON_FENCE)
+					dwarf.playSound("entity.zombie.attack_door_wood", 1, 2, true);
+					
+				
 				return true;
 			} else {
 				return false;
