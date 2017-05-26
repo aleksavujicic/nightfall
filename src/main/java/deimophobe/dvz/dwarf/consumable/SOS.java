@@ -1,4 +1,4 @@
-package deimophobe.dvz.dwarf.kit.consumable;
+package deimophobe.dvz.dwarf.consumable;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;

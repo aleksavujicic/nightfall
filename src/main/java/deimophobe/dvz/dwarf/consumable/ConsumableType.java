@@ -1,4 +1,4 @@
-package deimophobe.dvz.dwarf.kit.consumable;
+package deimophobe.dvz.dwarf.consumable;
 
 /**
  * Created by Deimophobe on 22/01/17.

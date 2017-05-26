@@ -2,8 +2,8 @@ package deimophobe.dvz.dwarf;
 
 import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.Misc;
-import deimophobe.dvz.dwarf.kit.consumable.Consumable;
-import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
+import deimophobe.dvz.dwarf.consumable.Consumable;
+import deimophobe.dvz.dwarf.consumable.ConsumableType;
 import deimophobe.dvz.items.lore.LoreTemplate;
 import deimophobe.dvz.items.modifiers.ItemModifierType;
 import minecraft.spigot.community.michel_0.api.Slot;

@@ -1,16 +1,11 @@
-package deimophobe.dvz.dwarf.kit.consumable;
+package deimophobe.dvz.dwarf.consumable;
 
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.blocks.timedblock.LampBlock;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.Set;
 
 /**
  * Created by Deimophobe on 22/01/17.

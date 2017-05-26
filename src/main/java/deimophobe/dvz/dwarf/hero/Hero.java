@@ -5,7 +5,7 @@ import deimophobe.dvz.Skin;
 import deimophobe.dvz.dwarf.armour.Armour;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
-import deimophobe.dvz.dwarf.kit.consumable.ConsumableType;
+import deimophobe.dvz.dwarf.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
 import me.libraryaddict.disguise.DisguiseAPI;
