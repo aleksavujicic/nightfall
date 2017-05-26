@@ -69,7 +69,7 @@ class CraftingConsumable extends Consumable {
 					dwarf.playSound("mortar", 1, (float) (1.5 + 0.1*Math.random()), true);
 				
 				if (material == Material.IRON_FENCE)
-					dwarf.playSound("entity.zombie.attack_door_wood", 1, 2, true);
+					dwarf.playSound("entity.zombie.attack_door_wood", 0.5f, 2, true);
 					
 				
 				return true;
