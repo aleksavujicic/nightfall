@@ -78,7 +78,7 @@ public class AIManager {
 		}
 	}
 	private String getRandomName() {
-		return ChatColor.RED + Misc.getRandom(AI_NAMES);
+		return ChatColor.DARK_RED + Misc.getRandom(AI_NAMES);
 	}
 	
 	// ------ SPAWN LOCATIONS ------
