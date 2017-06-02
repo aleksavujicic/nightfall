@@ -20,7 +20,7 @@ jimmycap:
 
 tuihat:
   template: dwarf-hero
-  base: flower_crown
+  base: tui_hat
   name: "Tui's Flame Hat"
   lore:
     description:
@@ -45,7 +45,7 @@ nosovinhat:
 
 arthea-hat:
   template: dwarf-hero
-  base: flower_crown
+  base: arthea_bow
   name: "Arthea's Flower Crown"
   lore:
     description:

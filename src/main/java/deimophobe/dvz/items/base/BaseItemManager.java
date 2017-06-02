@@ -100,6 +100,8 @@ public class BaseItemManager {
 		addItem("bone_crown", new SimpleBaseItem(Material.SHEARS, 200));
 		addItem("flower_crown", new SimpleBaseItem(Material.SHEARS, 201));
 		addItem("witch_hat", new SimpleBaseItem(Material.SHEARS, 202));
+		addItem("arthea_bow", new SimpleBaseItem(Material.SHEARS, 203));
+		addItem("tui_hat", new SimpleBaseItem(Material.SHEARS, 204));
 		
 		
 		// ~~~~ LOADOUT ITEMS ~~~~~
