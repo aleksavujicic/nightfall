@@ -91,6 +91,12 @@ class Longbow extends AbstractBow implements KitCooldownElement {
 			double blue = (147d + frac * 108) / 256;
 			double myTheta = theta - frac * 2 * Math.PI;
 			
+			if (stacks == MAX_STACKS) {
+				red = 220;
+				green = 58;
+				blue = 252;
+			}
+			
 			Location particleLoc = playerLoc.clone().add(Math.cos(myTheta), -1, Math.sin(myTheta));
 			particleLoc.getWorld().spawnParticle(Particle.REDSTONE, particleLoc, 0, red, green, blue, 1);
 		}

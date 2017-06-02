@@ -63,7 +63,7 @@ class Hammer extends AbstractAOEHitter implements KitCooldownElement {
 	
 	private double theta = 0;
 	private static final double r1 = 249, g1 = 245, b1 = 14;
-	private static final double r2 = 237, g2 = 7, b2 = 68;
+	private static final double r2 = 237, g2 = 87, b2 = 68;
 	private static final int NUM_PARTICLES = 5;
 	private void showParticles() {
 		theta = (theta + 0.1) % (2 * Math.PI);
