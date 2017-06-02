@@ -7,10 +7,10 @@ import org.bukkit.potion.PotionEffectType;
  * Created by Deimophobe on 6/05/17.
  */
 public enum ProcType {
-	REGULAR		(60, 1, 2, 3, true, true),
+	REGULAR		(60, 1, 2, 0, true, true),
 	DRAGONSKIN	(60, 1, 1, 0, true, true),
 	GRAVEL_PROC	(60, 2, 4, 0, true, true),
-	EBOW		(60, 1, 3, 3, true, true),
+	EBOW		(60, 1, 3, 0, true, true),
 	
 	HORN		(160, 4, 2, 3, true, true),
 	AVENGE		(160, 4, 2, 3, true, true),
@@ -19,7 +19,7 @@ public enum ProcType {
 	
 	RUNEDASH	(12, 1, 10, 0, false, false),
 	
-	ROAR		(160, 2, 0, 2, false, false),
+	ROAR		(160, 2, 0, 0, false, false),
 	
 	;
 	

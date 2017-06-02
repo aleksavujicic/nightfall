@@ -195,6 +195,13 @@ public abstract class GameEntity<E extends LivingEntity> {
 	// ------ POTION EFFECTS ------
 	public void givePotionEffect(PotionEffectType type, int duration, int amplifier, boolean showAbove, boolean colourBlue, boolean force) {
 		if (amplifier == 0) return;
+		
+		if (!force) {
+			PotionEffect effect = entity.getPotionEffect(type);
+			if (effect != null && effect.getDuration() <= duration)
+				force = true;
+		}
+		
 		entity.addPotionEffect(new PotionEffect(type, duration, amplifier-1, colourBlue, showAbove), force);
 	}
 	
