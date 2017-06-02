@@ -65,7 +65,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		
 		P gamePlayer = createGamePlayerFromPlayer(player);
 		players.put(uuid, gamePlayer);
-		mcTeam.addEntry(player.getName());
+		addToTeam(player.getName());
 		Game.getGame().updateDwarfCount();
 		return gamePlayer;
 	}
@@ -77,7 +77,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		}
 		
 		players.put(uuid, player);
-		mcTeam.addEntry(player.getName());
+		addToTeam(player.getName());
 		Game.getGame().updateDwarfCount();
 	}
 	

@@ -156,7 +156,7 @@ public class AIManager {
 			// Create zombie with all right stuff
 			AIEntity ai = new AIEntity(spawnSpot, getRandomName(), closestDwarf);
 			aiTeam.addEntry(ai.getUniqueId().toString());
-			monsterManager.addToTeam(ai.getUniqueId().toString());
+			monsterManager.addAIToTeam(ai.getUniqueId().toString());
 			ais.put(ai.getUniqueId(), ai);
 		}
 		
