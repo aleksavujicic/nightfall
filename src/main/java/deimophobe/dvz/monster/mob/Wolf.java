@@ -7,7 +7,9 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.Game;
+import deimophobe.dvz.cooldown.ComplexCooldown;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.items.modifiers.ItemModifierType;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.doom.DoomManager;
 import deimophobe.dvz.monster.doom.DoomType;
@@ -28,9 +30,13 @@ import org.bukkit.util.Vector;
 class Wolf extends AbstractTypedMob {
 	
 	@Override protected MobType getType() {return MobType.WOLF;}
+		
+	private final ComplexCooldown leapCD = new ComplexCooldown(140);
 	
-	private static final int LEAP_MAX_CD = 140;
-	private int leapCd = 0;
+	private final ComplexCooldown furySound = new ComplexCooldown(5, () -> {
+		monster.playSound("entity.wolf.growl", 3, 1, true);
+		monster.playSound("entity.zombie_villager.converted", 1f, 1.5f, true);
+	}, ComplexCooldown.DO_NOTHING);
 	
 	private final boolean dire;
 	
@@ -38,6 +44,8 @@ class Wolf extends AbstractTypedMob {
 		super(monster);
 		
 		this.dire = DoomManager.getManager().hasDoomSpawned(DoomType.DIREWOLF);
+		if (dire)
+			getArmour().addModifier(ItemModifierType.UNPROCCABLE, 1, "Direwolf");
 	}
 	
 	@Override
@@ -57,13 +65,12 @@ class Wolf extends AbstractTypedMob {
 	
 	@Override
 	public float getCooldown() {
-		return 1 - (float)leapCd/LEAP_MAX_CD;
+		return leapCD.fractionComplete();
 	}
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		leapCd--;
-		if (leapCd <= 0) leapCd = 0;
+		leapCD.update();
 	}
 	
 	@Override
@@ -79,10 +86,8 @@ class Wolf extends AbstractTypedMob {
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
-			if (leapCd == 0 && isPlayerHoldingWeapon()) {
-				leapCd = LEAP_MAX_CD;
-				
+		if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK && isPlayerHoldingWeapon()) {
+			if (leapCD.tryUse()) {
 				// Play leap sound really loud to wolf player, but much quieter to everyone else.
 				String wolfHowl = "entity.wolf.howl";
 				ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
@@ -117,8 +122,8 @@ class Wolf extends AbstractTypedMob {
 	public double onHit(Dwarf dwarf, DamageType type, double damage) {
 		if (dwarf != null) {
 			monster.heal(5);
-			monster.playSound("entity.wolf.growl", 3, 1, true);
 			monster.givePotionEffect(PotionEffectType.SPEED, 140, 3, true, false, true);
+			furySound.tryUse();
 		}
 		return damage;
 	}
