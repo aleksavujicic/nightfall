@@ -109,7 +109,10 @@ public class LoreTemplate {
 				if (reason == null) continue;
 				
 				String modValue = type.formatValue(modifier.getValue(), true);
-				lines.add(modifierReasonPrefix + " " + modValue + " (" + reason + ")");
+				if (modValue == null)
+					lines.add(modifierReasonPrefix + " (" + reason + ")");
+				else
+					lines.add(modifierReasonPrefix + " " + modValue + " (" + reason + ")");
 			}
 		}
 		
