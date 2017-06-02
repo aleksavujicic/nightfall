@@ -195,8 +195,8 @@ public class AIManager {
 		protocolManager.addPacketListener(new PacketAdapter(Game.getGame().getPlugin(), PacketType.Play.Server.NAMED_SOUND_EFFECT) {
 			@Override
 			public void onPacketSending(PacketEvent event) {
-				String sound = event.getPacket().getStrings().read(0);
-				if (sound.equals("entity.zombie.death")) {
+				int sound = event.getPacket().getIntegers().read(0);
+				if (sound == 431) {
 					event.setCancelled(true);
 				}
 			}
