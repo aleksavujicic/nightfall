@@ -86,9 +86,9 @@ class Longbow extends AbstractBow implements KitCooldownElement {
 		
 		for (int i = 0; i < stacks; i++) {
 			double frac = (double) i / MAX_STACKS;
-			double red = (87d + frac * 118) / 256;
-			double green = (179d - frac * 90) / 256;
-			double blue = (147d + frac * 108) / 256;
+			double red = (87d + frac * 118);
+			double green = (179d - frac * 90);
+			double blue = (147d + frac * 108);
 			double myTheta = theta - frac * 2 * Math.PI;
 			
 			if (stacks == MAX_STACKS) {
@@ -96,6 +96,9 @@ class Longbow extends AbstractBow implements KitCooldownElement {
 				green = 58;
 				blue = 252;
 			}
+			red *= 1d/256;
+			green *= 1d/256;
+			blue *= 1d/256;
 			
 			Location particleLoc = playerLoc.clone().add(Math.cos(myTheta), -1, Math.sin(myTheta));
 			particleLoc.getWorld().spawnParticle(Particle.REDSTONE, particleLoc, 0, red, green, blue, 1);
