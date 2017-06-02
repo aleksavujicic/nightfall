@@ -7,6 +7,7 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.Game;
+import deimophobe.dvz.MapManager;
 import deimophobe.dvz.cooldown.ComplexCooldown;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.items.modifiers.ItemModifierType;
@@ -35,7 +36,8 @@ class Wolf extends AbstractTypedMob {
 	
 	private final ComplexCooldown furySound = new ComplexCooldown(5, () -> {
 		monster.playSound("entity.wolf.growl", 3, 1, true);
-		monster.playSound("entity.zombie_villager.converted", 1f, 1.5f, true);
+		if (isFuryTime())
+			monster.playSound("entity.zombie_villager.converted", 1f, 1.5f, true);
 	}, ComplexCooldown.DO_NOTHING);
 	
 	private final boolean dire;
@@ -70,6 +72,7 @@ class Wolf extends AbstractTypedMob {
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		furySound.update();
 		leapCD.update();
 	}
 	
@@ -121,7 +124,7 @@ class Wolf extends AbstractTypedMob {
 	@Override
 	public double onHit(Dwarf dwarf, DamageType type, double damage) {
 		if (dwarf != null) {
-			monster.heal(5);
+			monster.heal((isFuryTime() ? 3 : 5));
 			monster.givePotionEffect(PotionEffectType.SPEED, 140, 3, true, false, true);
 			furySound.tryUse();
 		}
@@ -133,4 +136,9 @@ class Wolf extends AbstractTypedMob {
 		return !dire;
 	}
 			
+	
+	private static boolean isFuryTime() {
+		long time = MapManager.getManager().getWorld().getTime();
+		return (12500 < time && time < 23450);
+	}
 }
