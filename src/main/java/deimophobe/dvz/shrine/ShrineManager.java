@@ -241,7 +241,7 @@ public class ShrineManager {
 	private void killShrine() {
 		Shrine prevShrine = shrines.poll();
 		prevShrine.explodeShrine();
-		AIManager.getManager().killAllAIs();
+		AIManager.getManager().removeAllAIs();
 		
 		if (shrines.isEmpty()) {
 			shrines.add(prevShrine);

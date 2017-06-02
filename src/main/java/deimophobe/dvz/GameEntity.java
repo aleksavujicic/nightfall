@@ -20,6 +20,7 @@ import org.bukkit.util.Vector;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Deimophobe on 24/01/17.
@@ -44,6 +45,14 @@ public abstract class GameEntity<E extends LivingEntity> {
 	}
 	public String getDisplayName() {
 		return entity.getCustomName();
+	}
+	
+	public UUID getUniqueId() {
+		return entity.getUniqueId();
+	}
+	
+	public boolean isDead() {
+		return entity.isDead();
 	}
 	
 	// ------ LOCATION ------

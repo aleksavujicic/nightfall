@@ -1,5 +1,10 @@
 package deimophobe.dvz.monster.ai;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.MapManager;
 import deimophobe.dvz.Misc;
@@ -19,6 +24,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
+import org.bukkit.scoreboard.Team;
 
 import java.io.*;
 import java.util.*;
@@ -52,7 +60,7 @@ public class AIManager {
 	public void reset() {
 		if (runner != null)
 			runner.cancel();
-		killAllAIs();
+		removeAllAIs();
 		manager = new AIManager();
 	}
 	
@@ -68,6 +76,9 @@ public class AIManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	private String getRandomName() {
+		return ChatColor.RED + Misc.getRandom(AI_NAMES);
 	}
 	
 	// ------ SPAWN LOCATIONS ------
@@ -101,11 +112,12 @@ public class AIManager {
 	
 	public boolean toggleAISpawn() {
 		aisSpawnable = !aisSpawnable;
-		killAllAIs();
+		removeAllAIs();
 		return aisSpawnable;
 	}
 	
 	
+	// ------ AI MANAGEMENT ------
 	private final Map<UUID, AIEntity> ais = new HashMap<>();
 	
 	private void updateAIs() {
@@ -114,7 +126,7 @@ public class AIManager {
 		Set<UUID> deadAIs = new HashSet<>();
 		for (AIEntity ai : ais.values()) {
 			if (!ai.hasTarget() || shrineProt.continsGameEntity(ai)) {
-				ai.kill();
+				ai.remove();
 			}
 			
 			if (ai.isDead())
@@ -124,7 +136,6 @@ public class AIManager {
 			ais.remove(uuid);
 		
 		// Try spawn more
-		World world = MapManager.getManager().getWorld();
 		MonsterManager monsterManager = MonsterManager.getManager();
 		for (Location spawnSpot : spawnSpots) {
 			spawnSpot.getWorld().spawnParticle(Particle.HEART, spawnSpot, 1, 0, 0, 0);
@@ -143,16 +154,10 @@ public class AIManager {
 			if (closestDwarf == null) continue;
 			
 			// Create zombie with all right stuff
-			Zombie ai = (Zombie) world.spawnEntity(spawnSpot, EntityType.ZOMBIE);
-			ai.setCustomName(ChatColor.DARK_RED + Misc.getRandom(AI_NAMES));
-			int speedLvl = (ai.isBaby() ? 0 : 3);
-			ai.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 30000, speedLvl, false,false), true);
-			ai.getEquipment().clear();
-			ai.getEquipment().setItemInMainHand(new ItemStack(Material.SHEARS, 1, (short) 100));
-			ai.setTarget(closestDwarf.getPlayer());
+			AIEntity ai = new AIEntity(spawnSpot, getRandomName(), closestDwarf);
+			aiTeam.addEntry(ai.getUniqueId().toString());
 			monsterManager.addToTeam(ai.getUniqueId().toString());
-			
-			ais.put(ai.getUniqueId(), new AIEntity(ai));
+			ais.put(ai.getUniqueId(), ai);
 		}
 		
 		// Update ai marks spots
@@ -162,7 +167,6 @@ public class AIManager {
 		}
 	}
 	
-	
 	public Collection<AIEntity> getAIs() {
 		return ais.values();
 	}
@@ -170,9 +174,9 @@ public class AIManager {
 		return ais.get(entity.getUniqueId());
 	}
 	
-	public void killAllAIs() {
+	public void removeAllAIs() {
 		for (AIEntity ai : ais.values()) {
-			ai.kill();
+			ai.remove();
 		}
 		ais.clear();
 	}
@@ -184,5 +188,44 @@ public class AIManager {
 		}
 		
 		spawnSpots.removeIf(location -> center.distance(location) <= range);
+	}
+	
+	static {
+		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+		protocolManager.addPacketListener(new PacketAdapter(Game.getGame().getPlugin(), PacketType.Play.Server.NAMED_SOUND_EFFECT) {
+			@Override
+			public void onPacketSending(PacketEvent event) {
+				String sound = event.getPacket().getStrings().read(0);
+				if (sound.equals("entity.zombie.death")) {
+					event.setCancelled(true);
+				}
+			}
+		});
+	}
+	
+	// ~~~~~~ TEAMS ~~~~~~
+	private final Team aiTeam = getTeam();
+	
+	protected Team getTeam() {
+		String teamName = "AI";
+		ChatColor teamColour = ChatColor.RED;
+		
+		ScoreboardManager manager = Bukkit.getScoreboardManager();
+		Scoreboard board = manager.getMainScoreboard();
+		
+		Team oldTeam = board.getTeam(teamName);
+		if (oldTeam != null)
+			oldTeam.unregister();
+		
+		Team mcTeam = board.registerNewTeam(teamName);
+		
+		mcTeam.setPrefix(String.valueOf(teamColour));
+		mcTeam.setDisplayName(teamColour + teamName);
+		
+		mcTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.FOR_OWN_TEAM);
+		mcTeam.setCanSeeFriendlyInvisibles(true);
+		mcTeam.setAllowFriendlyFire(false);
+		
+		return mcTeam;
 	}
 }
