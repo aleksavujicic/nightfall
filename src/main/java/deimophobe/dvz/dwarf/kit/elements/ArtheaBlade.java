@@ -38,7 +38,7 @@ class ArtheaBlade extends AbstractCooldownItem {
 				location.subtract(facing.normalize());
 				
 				dwarf.teleportTo(location);
-				dwarf.playSound("entity.endermen.teleport", 1f, 1f, true);
+				dwarf.playSound("entity.endermen.teleport", 1f, 0.5f, true);
 				return true;
 			}
 		}
