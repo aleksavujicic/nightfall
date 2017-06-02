@@ -208,7 +208,7 @@ public class AIManager {
 	
 	protected Team getTeam() {
 		String teamName = "AI";
-		ChatColor teamColour = ChatColor.RED;
+		ChatColor teamColour = ChatColor.DARK_RED;
 		
 		ScoreboardManager manager = Bukkit.getScoreboardManager();
 		Scoreboard board = manager.getMainScoreboard();

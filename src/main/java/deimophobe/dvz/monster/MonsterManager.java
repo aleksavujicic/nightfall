@@ -128,7 +128,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	
 	protected Team getTeam() {
 		String teamName = "All Mobs";
-		ChatColor teamColour = ChatColor.RED;
+		ChatColor teamColour = ChatColor.DARK_RED;
 		
 		ScoreboardManager manager = Bukkit.getScoreboardManager();
 		Scoreboard board = manager.getMainScoreboard();
