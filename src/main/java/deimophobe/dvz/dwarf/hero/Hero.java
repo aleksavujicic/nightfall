@@ -131,7 +131,6 @@ public class Hero extends Dwarf {
 		public Disguise getDisguise() {
 			PlayerDisguise disguise = skin.getDisguise(ChatColor.GOLD + nametag);
 			disguise.setKeepDisguiseOnPlayerDeath(false);
-			disguise.setKeepDisguiseOnPlayerLogout(true);
 			disguise.setViewSelfDisguise(false);
 			disguise.setDisplayedInTab(true);
 			return disguise;

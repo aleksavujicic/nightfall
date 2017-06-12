@@ -260,11 +260,7 @@ public class Game {
 	
 	// ------ MISC -------
 	private void removeRecipes() {
-		Iterator<Recipe> it = plugin.getServer().recipeIterator();
-		while(it.hasNext())	{
-			it.next();
-			it.remove();
-		}
+		plugin.getServer().clearRecipes();
 	}
 	
 	private void setupPacketEvents() {
