@@ -145,7 +145,7 @@ bow:
           create lamps in the walls\n
           You are also immune to darkness."
       flavour:
-       - "No lamp jumping for you Jimmy!."
+       - "No lamp jumping for you Jimmy."
   ebow:
     base: ebow
     name: Emerald Bow
@@ -215,7 +215,7 @@ ale:
           &b20 absorption hearts&r\n
           You also gain perma regen."
       flavour:
-       - "Star Trinket is not Regrowth Star!."
+       - "Star Trinket is not Regrowth Star."
   regrowth:
     base: regrowth
     name: Regrowth Star
@@ -227,7 +227,7 @@ ale:
           them and their armour at the cost\n
           of your mana."
       flavour:
-       - "Regrowth Star is not Star Trinket!."
+       - "Regrowth Star is not Star Trinket."
 
 consumable:
   lamp:
@@ -260,7 +260,7 @@ consumable:
           and allowing you to finish them off."
       flavour:
        - "The old swords were just a test model\n
-          these work much better!."
+          these work much better."
   wrench:
     base: wrench
     name: Wrench
@@ -270,7 +270,7 @@ consumable:
           Dwarven armour at the cost of gold\n
           Needs gold to work."
       flavour:
-       - "Good ol wrenchy, never leave home without it!."
+       - "Good ol wrenchy, never leave home without it."
   mortar:
     base: mortar
     name: Mortar
@@ -280,7 +280,7 @@ consumable:
           max level during build phase.\n
           Makes grey walls after mobs are released."
       flavour:
-       - "Blue the walls dwarves!."
+       - "Blue the walls dwarves."
   wizardmortar:
     base: wiz_mortar
     name: Wizard Mortar
@@ -298,7 +298,7 @@ consumable:
       description:
        - "Left click to armour a dwarf."
       flavour:
-       - "Make sure every dwarf gets one!."
+       - "Make sure every dwarf gets one."
   healstation:
     base: star_bottle
     name: Healing Station
@@ -309,7 +309,7 @@ consumable:
           AoE &4Regen&r buff."
       flavour:
        - "The dwarven clerics specialty\n
-          use them wisely!."
+          use them wisely."
 
   log:
     base: wood
@@ -414,7 +414,7 @@ misc:
       description:
        - "Tuis Ammo for wildfire."
       flavour:
-       - "Careful its hot!."
+       - "Careful its hot."
 
   compass:
     material: compass
@@ -468,7 +468,7 @@ hero:
           at a mob dealing heavy damage\n
           and knocking you back."
       flavour:
-       - "This thing cuts really good too.."
+       - "This thing cuts really good too."
     modifiers:
       attack: 20
   wand:
@@ -489,7 +489,7 @@ hero:
   pole:
     template: dwarf-hero
     material: stick
-    name: Elystria
+    name: Caduceus
     lore:
       description:
        - "Right click to pull a dwarf\n
@@ -502,24 +502,27 @@ hero:
   totem:
     template: dwarf-hero
     base: hammer
-    name: Healer Totem Thingy
+    name: Healing Lantern
     lore:
       description:
-       - "Temp"
+       - "Right click to heal and buff dwarves\n
+          at the cost of your own mana."
       flavour:
-       - "Temp"
+       - "Illuminate!"
     modifiers:
       attack: 10
       kb_resist: 1
   arthea-blade:
     template: dwarf-hero
     base: loadout-avenge
-    name: The blade thing
+    name: Elystria The Divine Blade
     lore:
       description:
-       - "Temp"
+       - "The true form of Caduceus\n
+          You have 1 minute to live\n
+          Slay as much as you can."
       flavour:
-       - "Temp"
+       - "Enim lucis aeternae."
     modifiers:
       attack: 60
       kb_resist: 1
@@ -531,9 +534,10 @@ hero:
     name: Horn
     lore:
       description:
-       - "Temp"
+       - "Left click to send every dwarf\n
+          into a powerful rampage!"
       flavour:
-       - "Temp"
+       - "Vroooooom!"
 
 
 armour:
@@ -576,9 +580,9 @@ armour:
       name: Dwarven Chestplate
       lore:
         description:
-         - "Fully repaired armour."
+         - "Damaged armour."
         flavour:
-         - "Now get out there and fight!."
+         - "Just a few dents, keep fighting."
       modifiers:
         health: 10
     legs:
@@ -586,17 +590,17 @@ armour:
       name: Dwarven Leggings
       lore:
         description:
-         - "Fully repaired armour."
+         - "Damaged armour."
         flavour:
-         - "Now get out there and fight."
+         - "Just a few dents, keep fighting."
     boots:
       material: iron_boots
       name: Dwarven Boots
       lore:
         description:
-         - "Fully repaired armour."
+         - "Damaged armour."
         flavour:
-         - "Now get out there and fight."
+         - "Just a few dents, keep fighting."
 
   low:
     chest:
@@ -604,9 +608,9 @@ armour:
       name: Dwarven Chestplate
       lore:
         description:
-         - "Fully repaired armour."
+         - "Shattered armour."
         flavour:
-         - "Now get out there and fight!."
+         - "You need repairs, as you are taking extra damage."
       modifiers:
         health: 10
     legs:
@@ -614,17 +618,17 @@ armour:
       name: Dwarven Leggings
       lore:
         description:
-         - "Fully repaired armour."
+         - "Shattered armour."
         flavour:
-         - "Now get out there and fight."
+         - "You need repairs, as you are taking extra damage."
     boots:
       material: chainmail_boots
       name: Dwarven Boots
       lore:
         description:
-         - "Fully repaired armour."
+         - "Shattered armour."
         flavour:
-         - "Now get out there and fight."
+         - "You need repairs, as you are taking extra damage."
 
 
 # To get format codes:
