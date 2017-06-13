@@ -9,7 +9,7 @@ import org.bukkit.potion.PotionEffectType;
 public enum ProcType {
 	REGULAR		(60, 1, 2, 0, true, true),
 	DRAGONSKIN	(60, 1, 1, 0, true, true),
-	GRAVEL_PROC	(60, 2, 4, 0, true, true),
+	GRAVEL_PROC	(60, 1, 4, 0, true, true),
 	EBOW		(60, 1, 3, 0, true, true),
 	
 	HORN		(160, 4, 2, 3, true, true),
