@@ -3,6 +3,7 @@ package deimophobe.dvz.dwarf.loadout;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.menu.SessionData;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -26,7 +27,7 @@ public class Loadout implements SessionData {
 		
 		if (items.contains(item)) {
 			items.remove(item);
-			if (cat != null) categoryItems.put(cat, item);
+			if (cat != null) categoryItems.remove(cat);
 			
 			return true;
 		} else {
@@ -39,7 +40,7 @@ public class Loadout implements SessionData {
 					extraPoints = categoryItem.getCost();
 				}
 			}
-				
+			
 			// If there are still points after adding this item, let it be added
 			if (getRemainingPoints() + extraPoints >= item.getCost()) {
 				if (categoryItem != null) items.remove(categoryItem);
