@@ -10,6 +10,7 @@ import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Zombie;
@@ -53,6 +54,7 @@ public class AIEntity extends GameEntity<Zombie> {
 	
 	@Override
 	public double onGotHit(GameEntity entity, DamageType type, double damage) {
+		if (type == DamageType.AI_REMOVAL) return 10000;
 		if (type == null) return damage;
 		if (entity instanceof MonsterPlayer) return -1;
 		
@@ -61,6 +63,11 @@ public class AIEntity extends GameEntity<Zombie> {
 			return -1;
 		
 		damage *= 0.2;
+		
+		if (getHealth() - damage <= 0.1) {
+			getLocation().getWorld().playSound(getLocation(), "entity.zombie.death", 1f, 1f);
+			damage += 0.2;
+		}
 		
 		return damage;
 	}
@@ -72,7 +79,7 @@ public class AIEntity extends GameEntity<Zombie> {
 	private static final int MAX_TARGET_COUNT = 2;
 	private int targetCounter = MAX_TARGET_COUNT;
 	
-	private double MAX_TARGET_RANGE = 20;
+	private static final double MAX_TARGET_RANGE = 20;
 	
 	void updateTarget() {
 		if (entity.getTarget() != null) return;
@@ -94,6 +101,6 @@ public class AIEntity extends GameEntity<Zombie> {
 	}
 	
 	public void remove() {
-		kill();
+		customDamage(null, DamageType.AI_REMOVAL, 10000);
 	}
 }

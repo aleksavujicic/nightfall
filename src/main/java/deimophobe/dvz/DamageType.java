@@ -35,6 +35,7 @@ public enum DamageType {
 	RELOG(true),
 	DEATH_PLAGUE(true),
 	KILL(true),
+	AI_REMOVAL(true),
 	
 	EBOW(true, true),
 	HAMMER_AOE(false, false),
