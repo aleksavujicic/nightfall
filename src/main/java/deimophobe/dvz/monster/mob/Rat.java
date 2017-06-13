@@ -35,7 +35,7 @@ class Rat extends AbstractTypedMob {
 		if (stealCD == 0 && Misc.isRightClick(action)) {
 			Block block = monster.getPlayer().getTargetBlock((Set<Material>) null, 4);
 			if (block.getType() == Material.ENDER_PORTAL_FRAME && ShrineManager.getManager().getShrine().getShrineRegion().containsBlock(block)) {
-				monster.playSound("entity.experience_orb.pickup");
+				monster.playSound("coin");
 				ShrineManager.getManager().stealGold(1);
 				stealCD = STEAL_MAX_CD;
 			}

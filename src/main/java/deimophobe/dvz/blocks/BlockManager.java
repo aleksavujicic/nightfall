@@ -78,9 +78,7 @@ public class BlockManager {
 	public boolean breakBlockEvent(GamePlayer player, Block block) {
 		Material blockType = block.getType();
 		
-		if (player instanceof Dwarf) {
-			((Dwarf) player).onBlockBreak(block);
-		}
+		player.onBlockBreak(block);
 		
 		return isBreakable(block);
 	}
