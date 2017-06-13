@@ -222,7 +222,7 @@ public class AIManager {
 		aiTeam.setPrefix(String.valueOf(teamColour));
 		aiTeam.setDisplayName(teamColour + teamName);
 		
-		aiTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.FOR_OWN_TEAM);
+		aiTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.ALWAYS);
 		aiTeam.setCanSeeFriendlyInvisibles(true);
 		aiTeam.setAllowFriendlyFire(false);
 	}
