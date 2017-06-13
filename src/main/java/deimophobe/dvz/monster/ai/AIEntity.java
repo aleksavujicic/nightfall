@@ -60,7 +60,7 @@ public class AIEntity extends GameEntity<Zombie> {
 		if (damage == -1)
 			return -1;
 		
-		damage *= 0.3;
+		damage *= 0.2;
 		
 		return damage;
 	}

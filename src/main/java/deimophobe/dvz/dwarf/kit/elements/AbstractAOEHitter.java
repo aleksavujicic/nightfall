@@ -32,8 +32,13 @@ abstract class AbstractAOEHitter extends AbstractItem {
 				damage += getDamageToMonster(entity);
 				continue;
 			}
-			if (center.distance(entity.getLocation()) <= radius)
+			
+			if (center.distance(entity.getLocation()) <= radius) {
 				entity.customDamage(dwarf, DamageType.HAMMER_AOE, getDamageToMonster(entity));
+				
+				if (entity instanceof AIEntity)
+					entity.setVelocity(0, 0.3, 0);
+			}
 		}
 		return damage;
 	}
