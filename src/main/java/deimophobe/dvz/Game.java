@@ -153,23 +153,12 @@ public class Game {
 	}
 	
 	public void setDoomSidebar(int doomTimer) {
-		sidebarObj.getScore(ChatColor.DARK_RED + "Doom Clock").setScore(doomTimer);
+		for (MonsterPlayer mp : mm.getGamePlayers())
+			showCustomScore(mp.getPlayer(), ChatColor.DARK_RED + "Doom Clock", doomTimer);
 	}
 	
 	public void setMana(Player player, int mana) {
-		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-		PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.SCOREBOARD_SCORE);
-		packet.getStrings().write(0, ChatColor.RED + "Mana");
-		packet.getStrings().write(1, OBJ_NAME);
-		//packet.getIntegers();
-		packet.getIntegers().write(0, mana);
-		
-		try {
-			protocolManager.sendServerPacket(player, packet);
-		} catch (InvocationTargetException e) {
-			Bukkit.getLogger().severe("Failed to send mana packet.");
-			e.printStackTrace();
-		}
+		showCustomScore(player, ChatColor.LIGHT_PURPLE + "Mana", mana);
 	}
 	
 	public void updateScoreboard() {
@@ -291,6 +280,22 @@ public class Game {
 				}
 			}
 		});
+	}
+	
+	private void showCustomScore(Player player, String name, int amt) {
+		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+		PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.SCOREBOARD_SCORE);
+		packet.getStrings().write(0, name);
+		packet.getStrings().write(1, OBJ_NAME);
+		//packet.getIntegers();
+		packet.getIntegers().write(0, amt);
+		
+		try {
+			protocolManager.sendServerPacket(player, packet);
+		} catch (InvocationTargetException e) {
+			Bukkit.getLogger().severe("Failed to send " + name + " packet.");
+			e.printStackTrace();
+		}
 	}
 	
 	public void resetPlayer(Player player) {

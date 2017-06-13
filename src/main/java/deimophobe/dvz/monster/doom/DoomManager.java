@@ -50,7 +50,7 @@ public class DoomManager {
 	}
 	
 	private void resetDoomTimers() {
-		doomTimer = 600 + MonsterManager.getManager().getGamePlayers().size()*200;
+		doomTimer = 1000;
 		internalDoomTimer = 30;
 		Game.getGame().setDoomSidebar(doomTimer);
 	}
@@ -90,7 +90,7 @@ public class DoomManager {
 		for (MonsterPlayer player : MonsterManager.getManager().getDeadPlayers())
 			player.getPlayer().sendTitle(
 					"",//ChatColor.RED + "Doom Approaches",
-					ChatColor.YELLOW + "Spawning in " + ChatColor.GREEN + internalDoomTimer + ChatColor.YELLOW + " seconds...",
+					ChatColor.DARK_RED + "Spawning in " + ChatColor.GREEN + internalDoomTimer + ChatColor.DARK_RED + " seconds...",
 					0, 40, 0);
 	}
 	
