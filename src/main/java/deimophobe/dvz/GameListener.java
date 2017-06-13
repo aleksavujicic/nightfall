@@ -72,25 +72,7 @@ public class GameListener implements Listener {
 			return;
 		}
 		
-		
-		switch (game.getPhase()) {
-			case STARTING:
-				game.resetPlayer(player);
-				break;
-				
-			case BUILD:
-				dm.addGamePlayer(player);
-				game.updateDwarfCount();
-				break;
-				
-			case PLAGUE:
-			case GAME:
-			case END:
-				MonsterPlayer mp = mm.addGamePlayer(player);
-				player.teleport(ShrineManager.getManager().getCurrentMobspawn());
-				mp.kill();
-				break;
-		}
+		game.resetPlayer(player);
 	}
 	
 	@EventHandler

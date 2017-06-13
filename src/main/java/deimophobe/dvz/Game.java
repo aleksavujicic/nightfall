@@ -13,6 +13,7 @@ import deimophobe.dvz.dwarf.ProcType;
 import deimophobe.dvz.dwarf.loadout.Loadout;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
 import deimophobe.dvz.monster.upgrade.GlobalUpgrade;
@@ -293,14 +294,31 @@ public class Game {
 	}
 	
 	public void resetPlayer(Player player) {
-		player.teleport(ShrineManager.getManager().getLobbySpawn());
-		player.getInventory().clear();
-		for (PotionEffect effect : player.getActivePotionEffects()){
-			player.removePotionEffect(effect.getType());
+		switch (phase) {
+			case STARTING:
+				player.teleport(ShrineManager.getManager().getLobbySpawn());
+				player.getInventory().clear();
+				for (PotionEffect effect : player.getActivePotionEffects()){
+					player.removePotionEffect(effect.getType());
+				}
+				player.setGameMode(GameMode.ADVENTURE);
+				player.setHealth(20);
+				player.setSaturation(100000);
+				player.setFoodLevel(100000);
+				break;
+			
+			case BUILD:
+				dm.addGamePlayer(player);
+				break;
+			
+			case PLAGUE:
+			case GAME:
+			case END:
+				MonsterPlayer mp = mm.addGamePlayer(player);
+				player.teleport(ShrineManager.getManager().getCurrentMobspawn());
+				mp.kill();
+				break;
 		}
-		player.setGameMode(GameMode.ADVENTURE);
-		player.setHealth(20);
-		player.setSaturation(100000);
-		player.setFoodLevel(100000);
+		updateDwarfCount();
 	}
 }
