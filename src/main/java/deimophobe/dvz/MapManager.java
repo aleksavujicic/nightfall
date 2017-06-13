@@ -236,6 +236,7 @@ public class MapManager {
 		world.setKeepSpawnInMemory(false);
 		world.setSpawnFlags(false, false);
 		
+		world.setGameRuleValue("announceAdvancements", "false");
 		world.setGameRuleValue("doDaylightCycle", "true");
 		world.setGameRuleValue("doEntityDrops", "false");
 		world.setGameRuleValue("doFireTick", "true");
