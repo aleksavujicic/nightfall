@@ -50,6 +50,6 @@ public enum ProcType {
 			dwarf.getPlayer().getWorld().spawnParticle(Particle.VILLAGER_HAPPY, dwarf.getPlayer().getLocation(), 60, 1, 1, 1);
 		
 		if (playSound)
-			dwarf.playSound("proc", 1f, 1f, false);
+			dwarf.playSound("proc", 100f, 1f, false);
 	}
 }
