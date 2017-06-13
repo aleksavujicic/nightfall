@@ -43,7 +43,9 @@ public class AIManager {
 	private AIManager() {}
 	
 	private final static int MAX_AIS = 60;
-	private final static double AI_SPAWN_CHANCE = 0.3;
+	private final static double AI_SPAWN_CHANCE = 0.15;
+	
+	private final static int UPDATE_FREQ =  3*20;
 	
 	
 	private BukkitRunnable runner;
@@ -54,7 +56,8 @@ public class AIManager {
 				updateAIs();
 			}
 		};
-		runner.runTaskTimer(Game.getGame().getPlugin(), 100, 100);
+		runner.runTaskTimer(Game.getGame().getPlugin(), UPDATE_FREQ, UPDATE_FREQ);
+		setupTeam();
 	}
 	
 	public void reset() {
@@ -125,9 +128,7 @@ public class AIManager {
 		Region shrineProt = ShrineManager.getManager().getShrine().getShrineProtection();
 		Set<UUID> deadAIs = new HashSet<>();
 		for (AIEntity ai : ais.values()) {
-			if (!ai.hasTarget() || shrineProt.continsGameEntity(ai)) {
-				ai.remove();
-			}
+			ai.updateTarget();
 			
 			if (ai.isDead())
 				deadAIs.add(ai.getUniqueId());
@@ -156,7 +157,6 @@ public class AIManager {
 			// Create zombie with all right stuff
 			AIEntity ai = new AIEntity(spawnSpot, getRandomName(), closestDwarf);
 			aiTeam.addEntry(ai.getUniqueId().toString());
-			monsterManager.addAIToTeam(ai.getUniqueId().toString());
 			ais.put(ai.getUniqueId(), ai);
 		}
 		
@@ -204,9 +204,9 @@ public class AIManager {
 	}
 	
 	// ~~~~~~ TEAMS ~~~~~~
-	private final Team aiTeam = getTeam();
+	private Team aiTeam;
 	
-	protected Team getTeam() {
+	private void setupTeam() {
 		String teamName = "AI";
 		ChatColor teamColour = ChatColor.DARK_RED;
 		
@@ -217,15 +217,13 @@ public class AIManager {
 		if (oldTeam != null)
 			oldTeam.unregister();
 		
-		Team mcTeam = board.registerNewTeam(teamName);
+		aiTeam = board.registerNewTeam(teamName);
 		
-		mcTeam.setPrefix(String.valueOf(teamColour));
-		mcTeam.setDisplayName(teamColour + teamName);
+		aiTeam.setPrefix(String.valueOf(teamColour));
+		aiTeam.setDisplayName(teamColour + teamName);
 		
-		mcTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.FOR_OWN_TEAM);
-		mcTeam.setCanSeeFriendlyInvisibles(true);
-		mcTeam.setAllowFriendlyFire(false);
-		
-		return mcTeam;
+		aiTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.FOR_OWN_TEAM);
+		aiTeam.setCanSeeFriendlyInvisibles(true);
+		aiTeam.setAllowFriendlyFire(false);
 	}
 }

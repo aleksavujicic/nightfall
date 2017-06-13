@@ -119,43 +119,5 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	public void addSpawnEgg(int i, SpawnEggMenuItem egg) {
 		//menu.addEgg(i, egg);
 	}
-	
-	
-	// --------------------------------------------------------
-	//                   OTHER TEAM STUFF
-	// --------------------------------------------------------
-	private final Team allMobsTeam = getTeam();
-	
-	protected Team getTeam() {
-		String teamName = "All Mobs";
-		ChatColor teamColour = ChatColor.DARK_RED;
-		
-		ScoreboardManager manager = Bukkit.getScoreboardManager();
-		Scoreboard board = manager.getMainScoreboard();
-		
-		Team oldTeam = board.getTeam(teamName);
-		if (oldTeam != null)
-			oldTeam.unregister();
-		
-		Team mcTeam = board.registerNewTeam(teamName);
-		
-		mcTeam.setPrefix(String.valueOf(teamColour));
-		mcTeam.setDisplayName(teamColour + teamName);
-		
-		mcTeam.setCanSeeFriendlyInvisibles(true);
-		mcTeam.setAllowFriendlyFire(false);
-		
-		return mcTeam;
-	}
-	
-	@Override
-	public void addToTeam(String name) {
-		super.addToTeam(name);
-		allMobsTeam.addEntry(name);
-	}
-	
-	public void addAIToTeam(String name) {
-		allMobsTeam.addEntry(name);
-	}
 }
 	

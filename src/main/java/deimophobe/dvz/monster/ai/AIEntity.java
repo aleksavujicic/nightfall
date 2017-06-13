@@ -5,6 +5,8 @@ import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.MapManager;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.Collection;
 import java.util.UUID;
 
 /**
@@ -39,6 +42,7 @@ public class AIEntity extends GameEntity<Zombie> {
 	
 	@Override
 	public double onHit(GameEntity entity, DamageType type, double damage) {
+		if (entity instanceof MonsterPlayer) return -1;
 		if (entity instanceof Dwarf) {
 			((Dwarf) entity).getArmour().damage(10);
 			return 15;
@@ -50,6 +54,7 @@ public class AIEntity extends GameEntity<Zombie> {
 	@Override
 	public double onGotHit(GameEntity entity, DamageType type, double damage) {
 		if (type == null) return damage;
+		if (entity instanceof MonsterPlayer) return -1;
 		
 		damage = type.getMobDamage(damage);
 		if (damage == -1)
@@ -64,16 +69,31 @@ public class AIEntity extends GameEntity<Zombie> {
 		entity.setTarget(dwarf.getPlayer());
 	}
 	
-	boolean hasTarget() {
-		return entity.getTarget() != null;
+	private static final int MAX_TARGET_COUNT = 2;
+	private int targetCounter = MAX_TARGET_COUNT;
+	
+	private double MAX_TARGET_RANGE = 20;
+	
+	void updateTarget() {
+		if (entity.getTarget() != null) return;
+		
+		Dwarf newTarget = DwarfManager.getManager().getNearest(getLocation());
+		if (newTarget == null) {
+			remove();
+			return;
+		}
+		
+		if (newTarget.distanceTo(this) <= MAX_TARGET_RANGE) {
+			targetCounter = MAX_TARGET_COUNT;
+			setTarget(newTarget);
+		} else {
+			targetCounter--;
+			if (targetCounter == 0)
+				remove();
+		}
 	}
 	
-	private boolean silentDeath = false;
 	public void remove() {
 		kill();
-		silentDeath = true;
-	}
-	public boolean isSilent() {
-		return silentDeath;
 	}
 }

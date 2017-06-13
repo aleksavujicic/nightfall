@@ -1,10 +1,12 @@
 package deimophobe.dvz;
 
+import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
@@ -134,6 +136,18 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		return players.values();
 	}
 	
+	public P getNearest(Location location) {
+		P nearestPlayer = null;
+		double nearestDistance = Double.MAX_VALUE;
+		for (P player : getGamePlayers()) {
+			double distance = location.distance(player.getLocation());
+			if (distance <= nearestDistance) {
+				nearestPlayer = player;
+				nearestDistance = distance;
+			}
+		}
+		return nearestPlayer;
+	}
 	
 	// ------ OFFLINE MODE ------
 	private final Map<UUID, P> offline = new HashMap<>();

@@ -609,4 +609,11 @@ public class GameListener implements Listener {
 			event.setCancelled(true);
 		}
 	}
+	
+	@EventHandler
+	public void preventAITarget(EntityTargetEvent event) {
+		Entity target = event.getTarget();
+		if (target instanceof Player && mm.isGamePlayer((Player) target))
+			event.setCancelled(true);
+	}
 }
