@@ -20,6 +20,8 @@ public enum Hat {
 	NOSOVIN("nosovinhat"),
 	ARTHEA("arthea-hat"),
 	VELVETINE("velvetine-hat"),
+	HERANA("herana-hat"),
+	
 	;
 	
 	private final ItemStack hat;

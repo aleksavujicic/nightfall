@@ -102,6 +102,12 @@ public class Hero extends Dwarf {
 				KitElementType.DRAGONSKIN,
 				KitElementType.HORN
 				),
+		
+		HERANA("Herana", Hat.HERANA, "herana", "Herana",
+				KitElementType.GRB,
+				KitElementType.DRAGONSKIN,
+				KitElementType.HORN
+		),
 		;
 		
 		private final DwarfData data;
@@ -142,6 +148,7 @@ public class Hero extends Dwarf {
 				case NOSOVIN: return new Nosovin(player, this);
 				case ARTHEA: return new Arthea(player, this);
 				case VELVETINE: return new Hero(player, this);
+				case HERANA: return new Hero(player, this);
 			}
 			throw new IllegalArgumentException("Unknown hero: " + this);
 		}

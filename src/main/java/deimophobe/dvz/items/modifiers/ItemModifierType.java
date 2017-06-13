@@ -30,6 +30,7 @@ public enum ItemModifierType {
 	ARROW_RESISTANCE(new DudApplier(), "Arrow Res", true, false),
 	
 	SPEED(new AttributeApplier(Attribute.MOVEMENT_SPEED, 2, (i) -> (double)i/100), "Speed", true, false),
+	DEPTH_STRIDER(new EnchantApplier(Enchantment.DEPTH_STRIDER), "Depth Strider", false, false),
 	
 	KB_RESIST(new AttributeApplier(Attribute.KNOCKBACK_RESISTANCE, AttributeApplier.BOOLEAN_FUNCTION), "KB Resist", false, true),
 	UNPROCCABLE(new DudApplier(), "Unproccable", false, true),

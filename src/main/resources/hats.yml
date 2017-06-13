@@ -66,3 +66,16 @@ velvetine-hat:
       - "temp"
   modifiers:
     health: 20
+
+herana-hat:
+  template: dwarf-hero
+  base: flower_crown
+  name: "Herana's Hat"
+  lore:
+    description:
+      - "temp"
+    flavour:
+      - "temp"
+  modifiers:
+    health: 15
+    depth-strider: 3
