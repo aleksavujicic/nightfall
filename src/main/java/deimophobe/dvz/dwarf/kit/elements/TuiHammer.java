@@ -63,7 +63,11 @@ class TuiHammer extends AbstractAOEHitter implements KitCooldownElement {
 		if (Misc.isRightClick(action) && cooldown == 0) {
 			dwarf.sendMessage(ChatColor.GOLD + "ROAR!!!");
 			
-			dwarf.playSound("dragonroar", 1, 1, true);
+			if (Math.random() <= 0.001)
+				dwarf.playSound("roar", 1, 1, true);
+			else
+				dwarf.playSound("dragonroar", 1, 1, true);
+			
 			dwarf.getPlayer().getWorld().spawnParticle(Particle.FLAME, dwarf.getLocation(), 200, 1, 1, 1, 0.1);
 			dwarf.givePotionEffect(PotionEffectType.GLOWING, 160, 1, true, false, true);
 			
