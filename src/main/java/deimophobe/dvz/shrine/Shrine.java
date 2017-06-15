@@ -29,7 +29,8 @@ public class Shrine {
 	private final int maxShrinePower;
 	
 	private final double goldWeight;
-	
+	private final int shrineNum;
+
 	public String getName() {
 		return name;
 	}
@@ -49,7 +50,7 @@ public class Shrine {
 	
 	public double getGoldWeight() { return goldWeight; }
 	
-	public Shrine(String name, Location mobSpawn, Region mobProtection, Region shrineProtection, CenteredRegion shrineRegion, int maxShrinePower, double goldWeight) {
+	public Shrine(String name, Location mobSpawn, Region mobProtection, Region shrineProtection, CenteredRegion shrineRegion, int maxShrinePower, double goldWeight, int shrineNum) {
 		this.name = name;
 		this.mobSpawn = mobSpawn;
 		this.mobProtection = mobProtection;
@@ -59,9 +60,10 @@ public class Shrine {
 		this.shrinePower = maxShrinePower;
 		this.maxShrinePower = maxShrinePower;
 		this.goldWeight = goldWeight;
+		this.shrineNum = shrineNum;
 	}
 	
-	public static Shrine createShrine(ConfigurationSection section) {
+	public static Shrine createShrine(ConfigurationSection section, int shrineNum) {
 		
 		String name = section.getString("name");
 		Location mobSpawn = Misc.createLocation(section.getDoubleList("mobspawn"));
@@ -72,12 +74,48 @@ public class Shrine {
 		
 		int maxShrinePower = section.getInt("power");
 		double goldWeight = section.getDouble("goldweight");
-		
-		return new Shrine(name, mobSpawn, mobProt, shrineProt, shrine, maxShrinePower, goldWeight);
+
+		return new Shrine(name, mobSpawn, mobProt, shrineProt, shrine, maxShrinePower, goldWeight, shrineNum);
 	}
 	
-	public boolean damageShrine(int damage) {
+	public boolean damageShrine(int mobNum, int dwarfNum) {
+		int damage = 0;
+		// Final Shrine is stronger
+		if ((shrineNum + 1) == ShrineManager.getManager().getNumShrines()) {
+			dwarfNum *= 3;
+		}
+		if (mobNum == 0) {
+			// Regen when no mobs around, first shrine has slower regen
+			if (shrineNum == 0 && shrinePower < (maxShrinePower / 4)) {
+				damage -= dwarfNum * (maxShrinePower / 100);
+			}
+			else if (shrineNum > 0) {
+				damage -= dwarfNum * (maxShrinePower / 40);
+			}
+		}
+		// 1:1 dwarf:zombie, but as long as there's a mob on shrine it will lose power slowly
+		// First two zombies do half shrine damage
+		else {
+			damage += Math.min(2, mobNum) * (maxShrinePower / 50) +  Math.max(0, (mobNum - 2)) * (maxShrinePower / 25);
+			damage -= Math.min(2, dwarfNum) * (maxShrinePower / 50) + Math.max(0, (dwarfNum - 2)) * (maxShrinePower / 25);
+			if (damage < (maxShrinePower / 100)) damage = (maxShrinePower / 100);
+		}
+		// 3 times or above as much dwarves will prevent shrine from losing power
+		if (damage > 0 && (dwarfNum >= (mobNum * 3))) {
+			damage = 0;
+		}
+		// At 500 gold shrine regen drops off linearly until at 100 gold to 20% regen speed
+		if (damage < 0) {
+			damage *= Math.max(100, Math.min(500, ShrineManager.getManager().getGold())) / 500;
+		}
+		// Shrine damage and recovery are capped at 20%
+		damage = Math.max((maxShrinePower / -5), Math.min((maxShrinePower / 5), damage));
 		shrinePower -= damage;
+
+		// Shrine Power capped at max shrine power
+		if (shrinePower > maxShrinePower){
+			shrinePower = maxShrinePower;
+		}
 		return (shrinePower <= 0);
 	}
 	

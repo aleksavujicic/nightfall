@@ -38,8 +38,9 @@ public class ShrineManager {
 	
 	private Location dwarfSpawn;
 	private Location lobby;
-	private Queue<Shrine> shrines;
-	
+	private List<Shrine> shrines;
+
+	private int currentShrine;
 	private int gold;
 	private int vault;
 	
@@ -54,12 +55,13 @@ public class ShrineManager {
 		lobby = Misc.createLocation(mapConfig.getDoubleList("lobby"));
 		
 		// Setup shrines
-		shrines = new LinkedList<>();
+		shrines = new ArrayList<>();
 		ConfigurationSection shrineConfig = mapConfig.getConfigurationSection("shrines");
 		for (String key : shrineConfig.getKeys(false)) {
-			shrines.add(Shrine.createShrine(shrineConfig.getConfigurationSection(key)));
+			shrines.add(Shrine.createShrine(shrineConfig.getConfigurationSection(key), currentShrine));
 		}
-		
+
+		currentShrine = 0;
 		vault = 1000;
 		gold = 0;
 		
@@ -76,7 +78,7 @@ public class ShrineManager {
 		runner.runTaskTimer(Game.getGame().getPlugin(), 60, 60);
 		
 		// Setup shrine bar
-		shrineBar = Bukkit.createBossBar(getShrine().getName(), BarColor.BLUE, BarStyle.SOLID);
+		shrineBar = Bukkit.createBossBar((getShrine().getName() + " " + (currentShrine + 1) + "/" + shrines.size()), BarColor.BLUE, BarStyle.SOLID);
 		shrineBar.setProgress(1);
 		
 		
@@ -131,7 +133,7 @@ public class ShrineManager {
 	
 	// ------ SPAWNS ------
 	public Location getCurrentMobspawn() {
-		return shrines.peek().getMobSpawn();
+		return shrines.get(currentShrine).getMobSpawn();
 	}
 	public Location getDwarfSpawn() {
 		return dwarfSpawn;
@@ -185,16 +187,22 @@ public class ShrineManager {
 		Game.getGame().setGold(gold);
 		Game.getGame().setVault(vault);
 	}
-	
+
+	public int getGold() {
+		return gold;
+	}
+
 	public boolean hasGold() {
 		return gold != 0;
 	}
 	
 	// ------ SHRINES ------
 	public Shrine getShrine() {
-		return shrines.peek();
+		return shrines.get(currentShrine);
 	}
-	
+
+	public int getNumShrines() {return shrines.size();}
+
 	public void onMobRelease() {
 		splitGold();
 		for (Player player : Bukkit.getOnlinePlayers()) {
@@ -208,6 +216,7 @@ public class ShrineManager {
 		Shrine shrine = getShrine();
 		
 		int mobsOnShrine = 0;
+		int dwarvesOnShrine = 0;
 		for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
 			if (shrine.getShrineProtection().containsPlayer(monster)) {
 				if (monster.isAlive() && !monster.getMob().isShrineImmune()) {
@@ -223,7 +232,14 @@ public class ShrineManager {
 			}
 			
 		}
-		boolean isDead = shrine.damageShrine(mobsOnShrine * 5);
+		for (Dwarf jimmy : DwarfManager.getManager().getGamePlayers()) {
+			if (shrine.getShrineRegion().containsPlayer(jimmy)) {
+					dwarvesOnShrine++;
+			}
+
+		}
+
+		boolean isDead = shrine.damageShrine(mobsOnShrine, dwarvesOnShrine);
 		
 		if (isDead) killShrine();
 		else shrineBar.setProgress(shrine.getFractionalShrinePower());
@@ -239,12 +255,13 @@ public class ShrineManager {
 	}
 	
 	private void killShrine() {
-		Shrine prevShrine = shrines.poll();
+		Shrine prevShrine = shrines.get(currentShrine);
+		if ((currentShrine + 1) < shrines.size()) currentShrine++;
 		prevShrine.explodeShrine();
 		AIManager.getManager().removeAllAIs();
-		
-		if (shrines.isEmpty()) {
-			shrines.add(prevShrine);
+
+		// if final shrine
+		if ((currentShrine+1) == shrines.size()) {
 			
 			shrineBar.setProgress(0);
 			shrineBar.setTitle(ChatColor.RED + "The Dwarves Have Fallen!");
