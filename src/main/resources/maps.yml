@@ -21,7 +21,7 @@ default-map:
     shrine1:
       name: Citadel Shrine
       mobspawn: [508, 101.2, -1585, 0]
-      power: 10
+      power: 1000
       goldweight: 0.33333
 
       shrine:
@@ -42,7 +42,7 @@ default-map:
     shrine2:
       name: Aperture Shrine
       mobspawn: [473.5, 82, -1412.5, 45]
-      power: 10
+      power: 1000
       goldweight: 0.5
 
       shrine:
@@ -63,7 +63,7 @@ default-map:
     shrine3:
       name: The Heart of The Machine
       mobspawn: [397.5, 74, -1280.5, 45]
-      power: 10
+      power: 1000
       goldweight: 1
 
       shrine:
