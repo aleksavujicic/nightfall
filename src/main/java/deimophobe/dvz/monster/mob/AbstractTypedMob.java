@@ -51,13 +51,11 @@ abstract class AbstractTypedMob extends AbstractMob {
 		
 		
 		monster.clearEffects();
-		givePermanentPotionEffect(PotionEffectType.NIGHT_VISION, 1);
 		if (mobData.immuneTime != 0) {
 			monster.givePotionEffect(PotionEffectType.LUCK, mobData.immuneTime*20, 1, true, false, true);
 		}
 		
-		monster.teleportTo(ShrineManager.getManager().getCurrentMobspawn());
-		monster.getPlayer().setGameMode(GameMode.SURVIVAL);
+		super.spawn();
 	}
 	
 	

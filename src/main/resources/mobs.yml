@@ -494,3 +494,10 @@ bopen:
 # To get format codes:
 # http://minecraft.gamepedia.com/Formatting_codes
 # http://minecraft.tools/en/color-code.php
+
+test:
+  title: Tester
+
+  disguisetype: zombie
+
+  attack: 10
