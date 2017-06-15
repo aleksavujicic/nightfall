@@ -5,12 +5,14 @@ import deimophobe.dvz.Skin;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
+import deimophobe.dvz.shrine.ShrineManager;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
@@ -66,6 +68,13 @@ public abstract class AbstractMob implements Mob {
 	protected static final int POTION_LENGTH = 27*60*20;
 	protected void givePermanentPotionEffect(PotionEffectType type, int amplifier) {
 		monster.givePotionEffect(type, POTION_LENGTH, amplifier, true, true, true);
+	}
+	
+	@Override
+	public void spawn() {
+		givePermanentPotionEffect(PotionEffectType.NIGHT_VISION, 1);
+		monster.teleportTo(ShrineManager.getManager().getCurrentMobspawn());
+		monster.getPlayer().setGameMode(GameMode.SURVIVAL);
 	}
 	
 	

@@ -31,6 +31,9 @@ public enum MobType {
 	
 	KRUNGOR("krungor"),
 	BOPEN("bopen"),
+	
+	
+	TESTMOB("testmob"),
 	;
 	
 	private final String name;
@@ -76,6 +79,9 @@ public enum MobType {
 			case GB_AXE:
 			case GB_HAMMER:
 				return new Ghostblade(monster, this);
+				
+			case TESTMOB:
+				return new TestMob(monster);
 		}
 		Bukkit.getLogger().warning("Unknown mobtype: " + this);
 		return null;
