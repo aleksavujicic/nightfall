@@ -60,8 +60,8 @@ public enum KitElementType {
 	ROCKET_BOOTS,
 	
 	HEALER_TOTEM,
-	KAD_POLE,
-	ARTHEA_BLADE,
+	CADUCEUS,
+	ELYSTRIA,
 	
 	HORN,
 	
@@ -143,8 +143,8 @@ public enum KitElementType {
 			case ROCKET_BOOTS: return new RocketBoots(dwarf);
 			
 			case HEALER_TOTEM: return new HealerTotem(dwarf);
-			case KAD_POLE: return new KadPole(dwarf);
-			case ARTHEA_BLADE: return new ArtheaBlade(dwarf);
+			case CADUCEUS: return new Caduceus(dwarf);
+			case ELYSTRIA: return new Elystria(dwarf);
 			
 			case HORN: return new Horn(dwarf);
 		}

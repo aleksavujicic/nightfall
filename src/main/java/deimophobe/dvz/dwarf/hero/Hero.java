@@ -94,8 +94,8 @@ public class Hero extends Dwarf {
 		
 		ARTHEA("Arthea", Hat.ARTHEA, "arthea", "Arthea", EXTRA_ARTHEA_CONSUMABLES,
 				KitElementType.HEALER_TOTEM,
-				KitElementType.KAD_POLE,
-				KitElementType.ARTHEA_BLADE),
+				KitElementType.CADUCEUS,
+				KitElementType.ELYSTRIA),
 		
 		VELVETINE("Velvetine", Hat.VELVETINE, "arthea", "Velvetine",
 				KitElementType.GRB,

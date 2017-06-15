@@ -17,12 +17,12 @@ import org.bukkit.util.Vector;
 /**
  * Created by Deimophobe on 9/05/17.
  */
-class ArtheaBlade extends AbstractCooldownItem {
-	ArtheaBlade(Dwarf dwarf) {
+class Elystria extends AbstractCooldownItem {
+	Elystria(Dwarf dwarf) {
 		super(dwarf, 50);
 	}
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("hero.arthea-blade");
+	private final static CustomItem ITEM = DwarvenItems.getItem("hero.elystria");
 	@Override public CustomItem getItem() {return ITEM;}
 	@Override public KitGiveType getGiveType() {return KitGiveType.ARTHEA_SPECIAL;}
 	

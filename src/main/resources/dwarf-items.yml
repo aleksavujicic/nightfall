@@ -486,7 +486,7 @@ hero:
       attack: 5
       kb_resist: 1
 
-  pole:
+  caduceus:
     template: dwarf-hero
     material: stick
     name: Caduceus
@@ -512,7 +512,7 @@ hero:
     modifiers:
       attack: 10
       kb_resist: 1
-  arthea-blade:
+  elystria:
     template: dwarf-hero
     base: loadout-avenge
     name: Elystria The Divine Blade

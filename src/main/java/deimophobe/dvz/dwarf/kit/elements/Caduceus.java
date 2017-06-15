@@ -15,20 +15,20 @@ import org.bukkit.event.block.Action;
 /**
  * Created by Deimophobe on 6/05/17.
  */
-class KadPole extends AbstractCooldownItem {
+class Caduceus extends AbstractCooldownItem {
 	
-	private static final int MAX_GRAB_CD = 20;
+	private static final int MAX_GRAB_CD = 30;
 	private static final int MANA_COST = 200;
 	
 	private int grabCD = 0;
 	private Location returnSpot;
 	private Dwarf target;
 	
-	KadPole(Dwarf dwarf) {
+	Caduceus(Dwarf dwarf) {
 		super(dwarf, 30*20);
 	}
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("hero.pole");
+	private final static CustomItem ITEM = DwarvenItems.getItem("hero.caduceus");
 	@Override public CustomItem getItem() {return ITEM;}
 	@Override public KitGiveType getGiveType() {return KitGiveType.START;}
 	
