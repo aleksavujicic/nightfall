@@ -30,6 +30,11 @@ public abstract class AbstractBow extends AbstractItem implements KitBow {
 	}
 	
 	@Override
+	public double onSelfHit(GameEntity monster, DamageType type, double damage) {
+		return getPower();
+	}
+	
+	@Override
 	public void onKill(GameEntity monster, DamageType type) {
 		if (type == DamageType.REGULAR_RANGED)
 			onSelfKill(monster, type);
