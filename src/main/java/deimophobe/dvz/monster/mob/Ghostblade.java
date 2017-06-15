@@ -109,4 +109,8 @@ class Ghostblade extends AbstractTypedMob {
 		}
 	}
 	
+	@Override
+	public void onDeath() {
+		monster.playSound("block.end_portal.spawn", 1f, 2f, true);
+	}
 }
