@@ -69,13 +69,14 @@ public class MapManager {
 		mapWorldFolder = new File(Bukkit.getWorldContainer(), "maps");
 		
 		// Find all maps in config folder and add them to list of maps
-		for (File file : mapConfigFolder.listFiles()) {
-			String name = file.getName();
-			if (FilenameUtils.isExtension(name, "yml")) {
-				maps.add(FilenameUtils.getBaseName(name));
+		if (mapConfigFolder.listFiles() != null) {
+			for (File file : mapConfigFolder.listFiles()) {
+				String name = file.getName();
+				if (FilenameUtils.isExtension(name, "yml")) {
+					maps.add(FilenameUtils.getBaseName(name));
+				}
 			}
 		}
-		
 		// Delete any worlds left from previous sessions
 		deleteAllGameWorlds();
 		
