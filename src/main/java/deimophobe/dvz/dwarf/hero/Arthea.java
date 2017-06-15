@@ -52,7 +52,7 @@ public class Arthea extends Hero {
 		if (!isEnraged())
 			super.updateManaBar();
 		else
-			entity.setLevel(enrageTimer);
+			entity.setLevel(enrageTimer/20);
 	}
 	
 	@Override

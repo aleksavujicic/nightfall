@@ -24,6 +24,7 @@ import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -293,6 +294,34 @@ public class DvZPlugin extends JavaPlugin {
 				
 				return true;
 			} else {
+				return false;
+			}
+		}
+		if (name.equalsIgnoreCase("damage")) {
+			try {
+				if (args.length == 1 && sender instanceof Player) {
+					double dmg = Double.parseDouble(args[0]);
+					((Player) sender).damage(dmg, (Entity) sender);
+					sender.sendMessage(ChatColor.YELLOW + "Damaged you for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " damage.");
+					return true;
+				} else if (args.length >= 2) {
+					double dmg = Double.parseDouble(args[1]);
+					Player target = Bukkit.getPlayer(args[0]);
+					if (target == null) return false;
+					
+					if (sender instanceof Entity)
+						target.damage(dmg, (Entity) sender);
+					else
+						target.damage(dmg);
+					
+					sender.sendMessage(ChatColor.YELLOW + "Damaged " + target.getDisplayName() + " for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " damage.");
+					target.sendMessage(ChatColor.YELLOW + "You got damaged  by " + sender.getName() + " for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " damage.");
+					return true;
+				} else {
+					return false;
+				}
+			} catch (NumberFormatException e) {
+				sender.sendMessage("" + ChatColor.RED + ChatColor.ITALIC + args[0] + ChatColor.RED + " is not a number!");
 				return false;
 			}
 		}

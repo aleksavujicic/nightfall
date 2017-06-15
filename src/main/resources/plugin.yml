@@ -28,6 +28,10 @@ commands:
     usage: /armour equip | /armour [damage|repair] <amount>
     description: Cheaty self-armour.
     aliases: armor
+  damage:
+    usage: /damage <amount> | /damage <player> <amount>
+    description: Damage someone.
+    aliases: dmg
   giveitem:
     usage: /giveitem <item-name>
     description: Give a custom item to yourself.
