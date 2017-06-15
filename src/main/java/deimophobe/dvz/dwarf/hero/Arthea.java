@@ -48,6 +48,14 @@ public class Arthea extends Hero {
 	}
 	
 	@Override
+	public void updateManaBar() {
+		if (!isEnraged())
+			super.updateManaBar();
+		else
+			entity.setLevel(enrageTimer);
+	}
+	
+	@Override
 	public void updateCooldownBar() {
 		if (!isEnraged()) {
 			super.updateCooldownBar();
@@ -60,6 +68,7 @@ public class Arthea extends Hero {
 			entity.setExp(frac);
 		}
 	}
+	
 	
 	@Override
 	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
@@ -93,7 +102,7 @@ public class Arthea extends Hero {
 			return damage;
 			
 		if (isEnraged() && enrageTimer != 0)
-			return 0;
+			return -1;
 		
 		double dmg = super.onGotHit(entity, type, damage);
 		if (getHealth() - dmg <= 0.1 && !isEnraged()) {
