@@ -374,7 +374,7 @@ public class Dwarf extends GamePlayer {
 		switch (block.getType()) {
 			case GRAVEL:
 				giveConsumable(ConsumableType.COBBLESTONE, 3);
-				playSound("block.anvil.place", 0.5f, 0.8f, true);
+				playSound("block.anvil.place", 0.2f, 0.8f, true);
 				playSound("block.anvil.break", 1f, 0.8f, true);
 				break;
 				
