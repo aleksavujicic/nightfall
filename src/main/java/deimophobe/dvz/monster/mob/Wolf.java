@@ -36,7 +36,7 @@ class Wolf extends AbstractTypedMob {
 	
 	private final ComplexCooldown furySound = new ComplexCooldown(10, () -> {
 		monster.playSound("entity.wolf.growl", 3, 1, true);
-		if (isFuryTime())
+		if (Game.getGame().isNight())
 			monster.playSound("entity.zombie_villager.converted", 1f, 1.5f, true);
 	}, ComplexCooldown.DO_NOTHING);
 	
@@ -124,7 +124,7 @@ class Wolf extends AbstractTypedMob {
 	@Override
 	public double onHit(Dwarf dwarf, DamageType type, double damage) {
 		if (dwarf != null) {
-			monster.heal((isFuryTime() ? 3 : 5));
+			monster.heal((Game.getGame().isNight() ? 3 : 6));
 			monster.givePotionEffect(PotionEffectType.SPEED, 140, 3, true, false, true);
 			furySound.tryUse();
 		}
@@ -134,11 +134,5 @@ class Wolf extends AbstractTypedMob {
 	@Override
 	public boolean isProccable() {
 		return !dire;
-	}
-			
-	
-	private static boolean isFuryTime() {
-		long time = MapManager.getManager().getWorld().getTime();
-		return (12500 < time && time < 23450);
 	}
 }

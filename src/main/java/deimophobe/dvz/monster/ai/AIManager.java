@@ -104,14 +104,6 @@ public class AIManager {
 	
 	// ------ ARE AIS SPAWNABLE ------
 	private boolean aisSpawnable = true;
-	private boolean canSpawnAI(Location spawnSpot) { // TODO: do a break if one of the first few are fulfilled.
-		return  (aisSpawnable &&
-				Game.getGame().getPhase() == Phase.GAME &&
-				!DoomManager.getManager().isDoom() &&
-				ais.size() < MAX_AIS &&
-				Math.random() < AI_SPAWN_CHANCE &&
-				!ShrineManager.getManager().getShrine().getShrineProtection().containsLocation(spawnSpot));
-	}
 	
 	public boolean toggleAISpawn() {
 		aisSpawnable = !aisSpawnable;
@@ -136,34 +128,41 @@ public class AIManager {
 		for (UUID uuid : deadAIs)
 			ais.remove(uuid);
 		
-		// Try spawn more
-		MonsterManager monsterManager = MonsterManager.getManager();
-		for (Location spawnSpot : spawnSpots) {
-			spawnSpot.getWorld().spawnParticle(Particle.HEART, spawnSpot, 1, 0, 0, 0);
-			if (!canSpawnAI(spawnSpot)) continue;
-			
-			// Find closest dwarf and set as target. If no such dwarf, dont spawn.
-			double leastDistance = 25;
-			Dwarf closestDwarf = null;
-			for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
-				double dist = spawnSpot.distance(dwarf.getLocation());
-				if (dist <= leastDistance) {
-					leastDistance = dist;
-					closestDwarf = dwarf;
+		
+		// Try spawn more AIs
+		if (aisSpawnable && Game.getGame().getPhase() == Phase.GAME && !DoomManager.getManager().isDoom()) {
+			double extraSpawnChance = (Game.getGame().isNight() ? 0.1 : 0);
+			for (Location spawnSpot : spawnSpots) {
+				spawnSpot.getWorld().spawnParticle(Particle.HEART, spawnSpot, 1, 0, 0, 0);
+				if (ais.size() >= MAX_AIS) break;
+				if (Math.random() > AI_SPAWN_CHANCE + extraSpawnChance) continue;
+				if (ShrineManager.getManager().getShrine().getShrineProtection().containsLocation(spawnSpot)) continue;
+				
+				// Find closest dwarf and set as target. If no such dwarf, dont spawn.
+				double leastDistance = 25;
+				Dwarf closestDwarf = null;
+				for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
+					double dist = spawnSpot.distance(dwarf.getLocation());
+					if (dist <= leastDistance) {
+						leastDistance = dist;
+						closestDwarf = dwarf;
+					}
 				}
+				if (closestDwarf == null) continue;
+				
+				// Create zombie with all right stuff
+				AIEntity ai = new AIEntity(spawnSpot, getRandomName(), closestDwarf);
+				aiTeam.addEntry(ai.getUniqueId().toString());
+				ais.put(ai.getUniqueId(), ai);
 			}
-			if (closestDwarf == null) continue;
-			
-			// Create zombie with all right stuff
-			AIEntity ai = new AIEntity(spawnSpot, getRandomName(), closestDwarf);
-			aiTeam.addEntry(ai.getUniqueId().toString());
-			ais.put(ai.getUniqueId(), ai);
 		}
 		
 		// Update ai marks spots
 		for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
-			if (monster.isAlive() && monster.getPlayer().isOnGround())
-				addAISpawnLocation(monster.getLocation());
+			if (monster.isAlive())
+				// If mob on ground or a bit above it
+				if (monster.getPlayer().isOnGround() || monster.getLocation().getBlock().getRelative(0,-2,0).getType().isSolid())
+					addAISpawnLocation(monster.getLocation());
 		}
 	}
 	
