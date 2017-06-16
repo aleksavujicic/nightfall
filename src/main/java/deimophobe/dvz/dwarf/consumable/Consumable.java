@@ -19,17 +19,22 @@ import java.util.Map;
 public abstract class Consumable {
 	
 	private final CustomItem item;
+	private final ItemStack itemStack;
+	
 	public ItemStack getItemStack() {
-		return item.createItemStack();
+		return itemStack;
 	}
 	public boolean matchesItem(ItemStack toMatch) {
 		return item.isSimilar(toMatch);
 	}
+	
 	protected Consumable(String itemName) {
 		this.item = DwarvenItems.getItem("consumable."+itemName);
 		if (item == null) {
 			Bukkit.getLogger().severe("Consumable item '" + itemName + "' does not exist.");
+			throw new NullPointerException("Consumable item '" + itemName + "' does not exist.");
 		}
+		itemStack = item.createItemStack();
 	}
 	
 	public abstract int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face);

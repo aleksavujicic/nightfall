@@ -79,7 +79,7 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 		
 		MonsterPlayer monster = session.getData();
 		if (!DoomManager.getManager().isDoom()) {
-			monster.spawnAs(mobType);
+			monster.spawnMobType(mobType);
 			quantity -= 1;
 			session.closeSession();
 		} else {

@@ -178,7 +178,7 @@ public class DvZPlugin extends JavaPlugin {
 					return true;
 				} else {
 					monster.kill();
-					monster.spawnAs(type);
+					monster.spawnMobType(type);
 					
 					sender.sendMessage(ChatColor.AQUA + "Spawned " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a " + ChatColor.YELLOW + args[1] + ChatColor.AQUA + "!");
 					return true;
@@ -297,6 +297,31 @@ public class DvZPlugin extends JavaPlugin {
 				return false;
 			}
 		}
+		if (name.equalsIgnoreCase("xp")) {
+			if (sender instanceof Player) {
+				MonsterPlayer monster = mm.getGamePlayer((Player) sender);
+				if (monster != null) {
+					if (args.length >= 1) {
+						try {
+							int amt = Integer.parseInt(args[0]);
+							monster.gainXP(amt);
+							sender.sendMessage(ChatColor.YELLOW + "Giving you " + ChatColor.GREEN + amt + ChatColor.YELLOW + " xp!");
+							return true;
+						} catch (NumberFormatException e) {
+							sender.sendMessage("" + ChatColor.YELLOW + ChatColor.ITALIC + args[0] + ChatColor.RED + " is not a number!");
+							return false;
+						}
+					}
+					return false;
+				} else {
+					sender.sendMessage(ChatColor.RED + "You must be a monster to do that");
+				}
+				
+				return true;
+			} else {
+				return false;
+			}
+		}
 		if (name.equalsIgnoreCase("damage")) {
 			try {
 				if (args.length == 1 && sender instanceof Player) {
@@ -314,14 +339,14 @@ public class DvZPlugin extends JavaPlugin {
 					else
 						target.damage(dmg);
 					
-					sender.sendMessage(ChatColor.YELLOW + "Damaged " + target.getDisplayName() + " for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " damage.");
-					target.sendMessage(ChatColor.YELLOW + "You got damaged  by " + sender.getName() + " for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " damage.");
+					sender.sendMessage(ChatColor.YELLOW + "Damaged " + target.getDisplayName() + ChatColor.YELLOW + " for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " damage.");
+					target.sendMessage(ChatColor.YELLOW + "You got damaged by " + ChatColor.RED +  sender.getName() + ChatColor.YELLOW + " for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " damage.");
 					return true;
 				} else {
 					return false;
 				}
 			} catch (NumberFormatException e) {
-				sender.sendMessage("" + ChatColor.RED + ChatColor.ITALIC + args[0] + ChatColor.RED + " is not a number!");
+				sender.sendMessage("" + ChatColor.YELLOW + ChatColor.ITALIC + args[0] + ChatColor.RED + " is not a number!");
 				return false;
 			}
 		}

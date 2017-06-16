@@ -190,7 +190,7 @@ ale:
     lore:
       description:
        - "The starting ale for new players\n
-          Auto heal for &b125&r mana or\n
+          Auto heal for &b120&r mana or\n
           Left Click to heal for &b100&r mana."
       flavour:
        - "Drink your juice Jimmy!"
@@ -200,7 +200,7 @@ ale:
     lore:
       description:
        - "Left click to heal yourself
-         for 100 mana and gain
+         for &b100&r mana\n and gain
          &b8&r absorption hearts."
       flavour:
        - "Holy ale is NOT light beer\n
@@ -215,7 +215,7 @@ ale:
           &b20 absorption hearts&r\n
           You also gain perma regen."
       flavour:
-       - "Star Trinket is not Regrowth Star."
+       - "Boy! This is really expensive!."
   regrowth:
     base: regrowth
     name: Regrowth Star
@@ -227,7 +227,8 @@ ale:
           them and their armour at the cost\n
           of your mana."
       flavour:
-       - "Regrowth Star is not Star Trinket."
+       - "Twinkle, twinkle Regrowth Star\n
+          healing jimmies at range subpar."
 
 consumable:
   lamp:

@@ -1,7 +1,10 @@
 package deimophobe.dvz.monster.mob;
 
 import deimophobe.dvz.DamageType;
+import deimophobe.dvz.Game;
+import deimophobe.dvz.MapManager;
 import deimophobe.dvz.Misc;
+import deimophobe.dvz.cooldown.ComplexCooldown;
 import deimophobe.dvz.cooldown.Cooldown;
 import deimophobe.dvz.cooldown.DudCooldown;
 import deimophobe.dvz.cooldown.SimpleCooldown;
@@ -9,6 +12,7 @@ import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.items.modifiers.ItemModifierType;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.upgrade.MobUpgrade;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -28,6 +32,11 @@ class Zombie extends AbstractTypedMob {
 	
 	private final double arrowRes;
 	private final int armourShred;
+	
+	private final double rebirthChance;
+	
+	private final boolean fury;
+	private final ComplexCooldown furySound;
 	
 	
 	@Override protected MobType getType() {return MobType.ZOMBIE;}
@@ -54,6 +63,18 @@ class Zombie extends AbstractTypedMob {
 		int arrowRes = upgrades.getUpgrade("arrow");
 		this.arrowRes = (double) arrowRes/100;
 		this.armourShred = upgrades.getUpgrade("shred");
+		
+		int rebirthChance = upgrades.getUpgrade("rebirth");
+		this.rebirthChance = (double) rebirthChance/100;
+		
+		this.fury = upgrades.getUpgrade("fury") >= 1;
+		
+		if (fury)
+			furySound = new ComplexCooldown(10, () -> {
+				if (Game.getGame().isNight()) monster.playSound("entity.zombie_villager.converted", 1f, 1.5f, true);
+			}, ComplexCooldown.DO_NOTHING);
+		else
+			furySound = new ComplexCooldown(10);
 		
 		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
 		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
@@ -93,7 +114,12 @@ class Zombie extends AbstractTypedMob {
 	@Override
 	public double onHit(Dwarf dwarf, DamageType type, double damage) {
 		if (dwarf != null) {
-			monster.heal(vampirism);
+			int healAmt = vampirism;
+			if (fury) {
+				healAmt += 5;
+				furySound.tryUse();
+			}
+			monster.heal(healAmt);
 			monster.givePotionEffect(PotionEffectType.SPEED, 140, pursuit, true, false, true);
 		}
 		return damage;
@@ -102,5 +128,14 @@ class Zombie extends AbstractTypedMob {
 	@Override
 	public float getCooldown() {
 		return leapCD.fractionComplete();
+	}
+	
+	@Override
+	public void onDeath() {
+		boolean setRebirth = (Math.random() <= rebirthChance);
+		if (setRebirth)
+			monster.setRebirthSpot(monster.getLocation());
+		else
+			monster.removeRebirth();
 	}
 }

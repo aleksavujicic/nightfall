@@ -77,9 +77,9 @@ class Doom {
 		Iterator<MobType> iterator = specialMobs.iterator();
 		for (MonsterPlayer monster : monsterList) {
 			if (iterator.hasNext()) {
-				monster.spawnAs(iterator.next());
+				monster.spawnMobType(iterator.next());
 			} else {
-				monster.spawnAs(Misc.getRandom(regularMobs));
+				monster.spawnMobType(Misc.getRandom(regularMobs));
 			}
 		}
 	}

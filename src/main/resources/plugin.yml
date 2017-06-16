@@ -32,6 +32,9 @@ commands:
     usage: /damage <amount> | /damage <player> <amount>
     description: Damage someone.
     aliases: dmg
+  xp:
+    usage: /xp <amount>
+    description: Give yourself some mob xp.
   giveitem:
     usage: /giveitem <item-name>
     description: Give a custom item to yourself.

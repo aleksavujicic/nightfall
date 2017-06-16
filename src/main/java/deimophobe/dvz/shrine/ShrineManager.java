@@ -75,7 +75,7 @@ public class ShrineManager {
 				}
 			}
 		};
-		runner.runTaskTimer(Game.getGame().getPlugin(), 60, 60);
+		runner.runTaskTimer(Game.getGame().getPlugin(), 40, 40);
 		
 		// Setup shrine bar
 		shrineBar = Bukkit.createBossBar((getShrine().getName() + " " + (currentShrine + 1) + "/" + shrines.size()), BarColor.BLUE, BarStyle.SOLID);
@@ -198,7 +198,10 @@ public class ShrineManager {
 	
 	// ------ SHRINES ------
 	public Shrine getShrine() {
-		return shrines.get(currentShrine);
+		if (currentShrine == shrines.size())
+			return shrines.get(currentShrine - 1);
+		else
+			return shrines.get(currentShrine);
 	}
 
 	public int getNumShrines() {return shrines.size();}
@@ -234,9 +237,10 @@ public class ShrineManager {
 		}
 		for (Dwarf jimmy : DwarfManager.getManager().getGamePlayers()) {
 			if (shrine.getShrineRegion().containsPlayer(jimmy)) {
-					dwarvesOnShrine++;
+				dwarvesOnShrine++;
+				if (useGold(2))
+					jimmy.getArmour().repair(30);
 			}
-
 		}
 
 		boolean isDead = shrine.damageShrine(mobsOnShrine, dwarvesOnShrine);
@@ -256,12 +260,13 @@ public class ShrineManager {
 	
 	private void killShrine() {
 		Shrine prevShrine = shrines.get(currentShrine);
-		if ((currentShrine + 1) < shrines.size()) currentShrine++;
+		//if ((currentShrine + 1) < shrines.size()) currentShrine++;
+		currentShrine++;
 		prevShrine.explodeShrine();
 		AIManager.getManager().removeAllAIs();
 
 		// if final shrine
-		if ((currentShrine+1) == shrines.size()) {
+		if (currentShrine == shrines.size()) {
 			
 			shrineBar.setProgress(0);
 			shrineBar.setTitle(ChatColor.RED + "The Dwarves Have Fallen!");

@@ -65,7 +65,7 @@ public class MobData {
 		damageRes = 0.5;
 		arrowRes = 0;
 		armourShred = 10;
-		torchXP = 5;
+		torchXP = 10;
 		shrineImmune = false;
 	}
 	

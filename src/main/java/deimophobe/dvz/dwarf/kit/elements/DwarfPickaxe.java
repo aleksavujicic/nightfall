@@ -43,7 +43,7 @@ class DwarfPickaxe extends AbstractItem {
 				// PICK REPAIRING ANOTHER DWARF
 				Dwarf repairee = dwarf.getLookingAt(1, 4, DwarfManager.getManager().getGamePlayers(), (d) -> !d.getArmour().isAtMax());
 				if (repairee != null && ShrineManager.getManager().useGold(50)) {
-					repairee.getArmour().repair(200);
+					repairee.getArmour().repair(600);
 					GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, repairee);
 					
 					resetCD();
