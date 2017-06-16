@@ -78,7 +78,7 @@ public class ShrineManager {
 		runner.runTaskTimer(Game.getGame().getPlugin(), 40, 40);
 		
 		// Setup shrine bar
-		shrineBar = Bukkit.createBossBar((getShrine().getName() + " " + (currentShrine + 1) + "/" + shrines.size()), BarColor.BLUE, BarStyle.SOLID);
+		shrineBar = Bukkit.createBossBar((getShrine().getName() + " (" + (currentShrine + 1) + "/" + shrines.size()+")"), BarColor.BLUE, BarStyle.SOLID);
 		shrineBar.setProgress(1);
 		
 		
@@ -284,7 +284,7 @@ public class ShrineManager {
 				monster.givePotionEffect(PotionEffectType.CONFUSION, 180, 1, true, false, true);
 			}
 			
-			shrineBar.setTitle(getShrine().getName());
+			shrineBar.setTitle((getShrine().getName() + " (" + (currentShrine + 1) + "/" + shrines.size()+")"));
 			shrineBar.setProgress(1);
 			splitGold();
 		}
