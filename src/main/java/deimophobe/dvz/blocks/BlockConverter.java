@@ -14,8 +14,8 @@ import java.util.*;
 public class BlockConverter {
 	public enum Type {
 		EXPLOSION(
-				new Conversion(Material.LAPIS_ORE, 4.2, 0.8, Material.SMOOTH_BRICK),
-				new Conversion(Material.SMOOTH_BRICK, 3.2, 1.5, Material.COBBLESTONE),
+				new Conversion(Material.LAPIS_ORE, 4.0, 0.7, Material.SMOOTH_BRICK),
+				new Conversion(Material.SMOOTH_BRICK, 3.5, 0.8, Material.COBBLESTONE),
 				new Conversion(Material.COBBLESTONE, 2.5, 1.5, Material.GRAVEL),
 				new Conversion(Material.GRAVEL, 2.0, 1.5, Material.AIR),
 				new Conversion(Material.WOOL, 0.5, 0.5, Material.AIR)
@@ -29,11 +29,11 @@ public class BlockConverter {
 				new Conversion(Material.WOOL, 0.5, 0, Material.AIR)
 		),
 		THROWNEXPLOSION(
-				new Conversion(Material.LAPIS_ORE, 5.5, 0.5, Material.SMOOTH_BRICK),
-				new Conversion(Material.SMOOTH_BRICK, 5.5, 1.0, Material.COBBLESTONE),
+				new Conversion(Material.LAPIS_ORE, 4.5, 1.0, Material.SMOOTH_BRICK),
+				new Conversion(Material.SMOOTH_BRICK, 4.0, 1.0, Material.COBBLESTONE),
 				new Conversion(Material.COBBLESTONE, 10000.0, 0, Material.GRAVEL),
 				new Conversion(Material.GRAVEL, 10000.0, 0, Material.AIR),
-				new Conversion(Material.WOOL, 2.5, 0.5, Material.AIR)
+				new Conversion(Material.WOOL, 1.0, 1.0, Material.AIR)
 		),
 		MORTAR,
 		ARROW_DAMAGE,;

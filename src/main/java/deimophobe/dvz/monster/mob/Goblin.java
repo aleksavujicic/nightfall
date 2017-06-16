@@ -70,9 +70,9 @@ class Goblin extends AbstractTypedMob {
 		if (Misc.isLeftClick(action) && isPlayerHoldingItem("gobo-box") && throwBoxCD == 0) {
 
 			Vector direction = monster.getEyeLocation().getDirection();
-			direction.setX((direction.getX() / 2.0));
+			direction.setX((direction.getX() / 1.8));
 			direction.setY(0.4);
-			direction.setZ((direction.getZ() / 2.0));
+			direction.setZ((direction.getZ() / 1.8));
 
 			TNTPrimed tnt = monster.getLocation().getWorld().spawn(monster.getEyeLocation().add(direction), TNTPrimed.class);
 			tnt.setVelocity(direction);
