@@ -106,6 +106,10 @@ public class BlockConverter {
 			
 			if (force >= randStr) {
 				block.setType(to);
+				
+				// THIS IS A HACK TO GET SPIDER WOOL
+				if (to == Material.WOOL)
+					block.setData((byte) 5);
 			}
 			return force - randStr*1.5;
 		}
