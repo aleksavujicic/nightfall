@@ -3,9 +3,9 @@ package deimophobe.dvz.plague;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.hero.Hero;
-import org.bukkit.entity.Zombie;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -22,34 +22,50 @@ public abstract class Plague {
 	
 	
 	public static Plague getRandomPlague() {
-		//return PlagueType.ZOMBIE.getPlague();
 		return PlagueType.getRandomPlague();
 	}
 	
 	private enum PlagueType {
-		//ZOMBIE,
-		//INSTA,
-		DEATH
+		ZOMBIE(ZombiePlague.class, false),
+		INSTA(InstaPlague.class),
+		DEATH(DeathPlague.class, false)
+		
 		;
 		
-		public Plague getPlague() {
-			return getPlague(this);
+		private final Plague plague;
+		private final boolean active;
+		
+		PlagueType(Class<? extends Plague> plagueClass) {
+			this(plagueClass, true);
+		}
+		PlagueType(Class<? extends Plague> plagueClass, boolean active) {
+			
+			this.active = active;
+			
+			try {
+				this.plague = plagueClass.getDeclaredConstructor().newInstance();
+			} catch (NoSuchMethodException e) {
+				throw new IllegalArgumentException("Unable to find constructor for plague object '" + name() + "'", e);
+			} catch (IllegalAccessException e) {
+				throw new IllegalArgumentException("Failed to access constructor of plague object '" + name() + "'", e);
+			} catch (InstantiationException e) {
+				throw new IllegalArgumentException("Cannot create abstract plague object '" + name() + "'", e);
+			} catch (InvocationTargetException e) {
+				throw new IllegalArgumentException("Exception thrown in constructor of plague object '" + name() + "'", e);
+			}
 		}
 		
-		public static Plague getPlague(PlagueType type) {
-			switch (type) {
-				//case ZOMBIE:
-				//	return new ZombiePlague();
-				//case INSTA:
-				//	return new InstaPlague();
-				case DEATH:
-					return new DeathPlague();
-			}
-			throw new IllegalArgumentException("Unknown plague type: "+ type);
+		public Plague getPlague() {
+			return plague;
 		}
 		
 		public static Plague getRandomPlague() {
-			return getPlague(Misc.getRandom(values()));
+			Set<PlagueType> validTypes = new HashSet<>();
+			for (PlagueType type : values())
+				if (type.active)
+					validTypes.add(type);
+			
+			return Misc.getRandom(validTypes).getPlague();
 		}
 	}
 }
