@@ -15,11 +15,8 @@ import org.bukkit.Location;
  */
 abstract class AbstractAOEHitter extends AbstractItem {
 	
-	private final double radius;
-	
-	AbstractAOEHitter(Dwarf dwarf, double radius) {
+	AbstractAOEHitter(Dwarf dwarf) {
 		super(dwarf);
-		this.radius = radius;
 	}
 	
 	@Override
@@ -27,21 +24,21 @@ abstract class AbstractAOEHitter extends AbstractItem {
 		if (type != DamageType.REGULAR_MELEE || monster == null) return damage;
 		
 		Location center = monster.getLocation();
+		double radius = getRadius();
 		for (GameEntity entity : MonsterManager.getManager().getAliveMobsAndAIs()) {
-			if (entity == monster) {
-				damage += getDamageToMonster(entity);
+			if (entity == monster)
 				continue;
-			}
 			
 			if (center.distance(entity.getLocation()) <= radius) {
 				entity.customDamage(dwarf, DamageType.HAMMER_AOE, getDamageToMonster(entity));
 				
 				if (entity instanceof AIEntity)
-					entity.setVelocity(0, 0.3, 0);
+					entity.setVelocity(0, 0.4, 0);
 			}
 		}
 		return damage;
 	}
 	
 	protected abstract double getDamageToMonster(GameEntity entity);
+	protected abstract double getRadius();
 }
