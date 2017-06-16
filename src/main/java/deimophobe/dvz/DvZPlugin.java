@@ -151,6 +151,20 @@ public class DvZPlugin extends JavaPlugin {
 				boolean success = (mm.addGamePlayer(args[0]) != null);
 				if (success) {
 					sender.sendMessage(ChatColor.AQUA + "Added " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a monster!");
+					if (args.length >= 2) {
+						MonsterPlayer monster = mm.getGamePlayer(args[0]);
+						MobType type = MobType.getMobType(args[1]);
+						if (type == null) {
+							sender.sendMessage(ChatColor.RED + "Unknown mob type: " + ChatColor.YELLOW + args[1] + ChatColor.RED + "!");
+							return true;
+						} else {
+							monster.kill();
+							monster.spawnMobType(type);
+
+							sender.sendMessage(ChatColor.AQUA + "Spawned " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a " + ChatColor.YELLOW + args[1] + ChatColor.AQUA + "!");
+							return true;
+						}
+					}
 					return true;
 				} else {
 					sender.sendMessage(ChatColor.RED + "Could not add " + ChatColor.DARK_RED + args[0] + ChatColor.RED + " as a monster!");
@@ -539,7 +553,11 @@ public class DvZPlugin extends JavaPlugin {
 		if (name.equalsIgnoreCase("sethero") && args.length == 2) {
 			return startsWithPrefix(Hero.Type.getHeroList(), args[args.length-1]);
 		}
-		
+
+		if (name.equalsIgnoreCase("setmob") && args.length == 2) {
+			return startsWithPrefix(MobType.getAllMobTypes(), args[args.length-1]);
+		}
+
 		if (name.equalsIgnoreCase("spawnmob") && args.length == 2) {
 			return startsWithPrefix(MobType.getAllMobTypes(), args[args.length-1]);
 		}
