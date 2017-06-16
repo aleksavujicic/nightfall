@@ -198,7 +198,10 @@ public class ShrineManager {
 	
 	// ------ SHRINES ------
 	public Shrine getShrine() {
-		return shrines.get(currentShrine);
+		if (currentShrine == shrines.size())
+			return shrines.get(currentShrine - 1);
+		else
+			return shrines.get(currentShrine);
 	}
 
 	public int getNumShrines() {return shrines.size();}
@@ -257,12 +260,13 @@ public class ShrineManager {
 	
 	private void killShrine() {
 		Shrine prevShrine = shrines.get(currentShrine);
-		if ((currentShrine + 1) < shrines.size()) currentShrine++;
+		//if ((currentShrine + 1) < shrines.size()) currentShrine++;
+		currentShrine++;
 		prevShrine.explodeShrine();
 		AIManager.getManager().removeAllAIs();
 
 		// if final shrine
-		if ((currentShrine+1) == shrines.size()) {
+		if (currentShrine == shrines.size()) {
 			
 			shrineBar.setProgress(0);
 			shrineBar.setTitle(ChatColor.RED + "The Dwarves Have Fallen!");
