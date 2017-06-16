@@ -75,7 +75,7 @@ public class ShrineManager {
 				}
 			}
 		};
-		runner.runTaskTimer(Game.getGame().getPlugin(), 60, 60);
+		runner.runTaskTimer(Game.getGame().getPlugin(), 40, 40);
 		
 		// Setup shrine bar
 		shrineBar = Bukkit.createBossBar((getShrine().getName() + " " + (currentShrine + 1) + "/" + shrines.size()), BarColor.BLUE, BarStyle.SOLID);
@@ -234,9 +234,10 @@ public class ShrineManager {
 		}
 		for (Dwarf jimmy : DwarfManager.getManager().getGamePlayers()) {
 			if (shrine.getShrineRegion().containsPlayer(jimmy)) {
-					dwarvesOnShrine++;
+				dwarvesOnShrine++;
+				if (useGold(2))
+					jimmy.getArmour().repair(30);
 			}
-
 		}
 
 		boolean isDead = shrine.damageShrine(mobsOnShrine, dwarvesOnShrine);
