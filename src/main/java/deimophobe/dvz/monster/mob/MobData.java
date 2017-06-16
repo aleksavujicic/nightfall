@@ -157,7 +157,4 @@ public class MobData {
 	public static MobData getMobData(String type) {
 		return mobs.get(type);
 	}
-	public static MobData getMobData(MobType type) {
-		return mobs.get(type.getName());
-	}
 }
