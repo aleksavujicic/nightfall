@@ -18,7 +18,14 @@ import org.bukkit.potion.PotionEffectType;
  * Created by Deimophobe on 28/02/17.
  */
 class Goblin extends AbstractTypedMob {
-	
+
+	@Override
+	public void spawn() {
+		super.spawn();
+		giveItem("gobo-box", 8);
+		giveItem("kaboom", 1);
+	}
+
 	@Override protected MobType getType() {return MobType.GOBO;}
 	
 	protected Goblin(MonsterPlayer mons) {
