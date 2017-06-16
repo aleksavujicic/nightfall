@@ -4,10 +4,7 @@ import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Bukkit;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 19/01/17.
@@ -33,29 +30,23 @@ public enum MobType {
 	BOPEN("bopen"),
 	
 	
-	TESTMOB("testmob"),
+	TESTMOB,
 	;
 	
-	private final String name;
-	public String getName() {return name;}
+	private final MobData mobData;
+	public MobData getMobData() {
+		return mobData;
+	}
+	
+	public String getName() {
+		return name().toLowerCase();
+	}
 	
 	MobType(String name) {
-		this.name = name;
+		this.mobData = MobData.getMobData(name);
 	}
-	
-	
-	
-	public static MobType getMobType(String type) {
-		for (MobType mobType : values()) {
-			if (mobType.getName().equalsIgnoreCase(type))
-				return mobType;
-		}
-		Bukkit.getLogger().warning("No mob of type '" + type + "'!?");
-		return null;
-	}
-	
-	public MobData getMobData() {
-		return MobData.getMobData(name);
+	MobType() {
+		mobData = null;
 	}
 	
 	public Mob createMob(MonsterPlayer monster) {
@@ -88,13 +79,24 @@ public enum MobType {
 	}
 	
 	public Map<String, CustomItem> getItems() {
-		return getMobData().getItems();
+		if (mobData == null) return Collections.emptyMap();
+		return mobData.getItems();
 	}
 	
 	public static Collection<String> getAllMobTypes() {
 		Set<String> mobs = new HashSet<>();
 		for (MobType type : values())
-			mobs.add(type.name.toLowerCase());
+			mobs.add(type.name().toLowerCase());
 		return mobs;
+	}
+	
+	public static MobType getMobType(String type) {
+		type = type.replace('-','_');
+		for (MobType mobType : values()) {
+			if (mobType.name().equalsIgnoreCase(type))
+				return mobType;
+		}
+		Bukkit.getLogger().warning("No mob of type '" + type + "'!?");
+		return null;
 	}
 }
