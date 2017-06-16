@@ -41,6 +41,12 @@ class Hammer extends AbstractAOEHitter implements KitCooldownElement {
 	}
 	
 	@Override
+	public double onGotHit(GameEntity monster, DamageType type, double damage) {
+		cooldown = 0;
+		return super.onGotHit(monster, type, damage);
+	}
+	
+	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		if (!dwarf.isBlocking()) {
 			if (cooldown > 0)
