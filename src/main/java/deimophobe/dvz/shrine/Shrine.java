@@ -105,13 +105,17 @@ public class Shrine {
 		if (damage > 0 && (dwarfNum >= (mobNum * 3))) {
 			damage = 0;
 		}
-		// At 500 gold shrine regen drops off linearly until at 100 gold to 20% regen speed
+		// At 500 gold shrine regen drops off linearly until at 100 gold to 20% regen speed, also recovery is always nonnegative
 		if (recovery > 0) {
 			recovery = recovery * Math.max(100, Math.min(500, ShrineManager.getManager().getGold())) / 500;
 		}
+		else
+		{
+			recovery = 0;
+		}
 		// Shrine damage and recovery are capped at 20%
 		damage = Math.min((maxShrinePower / 5), damage);
-		recovery = Math.max((maxShrinePower / -5), recovery);
+		recovery = Math.min((maxShrinePower / 5), recovery);
 		shrinePower -= damage;
 		shrinePower += recovery;
 
