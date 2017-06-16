@@ -47,13 +47,13 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 		ConfigurationSection itemConfig = config.getConfigurationSection(ITEM_SECTION);
 		ItemStack back = CustomItem.getItem(itemConfig.getConfigurationSection("back"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
 		ItemStack forward = CustomItem.getItem(itemConfig.getConfigurationSection("forward"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
-		ItemStack clear = CustomItem.getItem(itemConfig.getConfigurationSection("clear"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
+		ItemStack close = CustomItem.getItem(itemConfig.getConfigurationSection("close"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
 		ItemStack points = CustomItem.getItem(itemConfig.getConfigurationSection("points"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
 		
 		toolbar.setItem(0, new PointsItem(points));
 		toolbar.setItem(3, new PageChanger<>(back, pages, false));
 		toolbar.setItem(5, new PageChanger<>(forward, pages, true));
-		toolbar.setItem(8, new ClearItem(clear));
+		toolbar.setItem(8, new CloseMenuItem<Loadout>(close));
 	}
 	
 	@Override
@@ -64,17 +64,6 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 	@Override
 	public Loadout getDataFromPlayer(Player player) {
 		return Loadout.getLoadout(player);
-	}
-	
-	
-	private class ClearItem extends SimpleItem<Loadout> {
-		ClearItem(ItemStack item) {super(item);}
-		
-		@Override
-		public boolean onClick(MenuSession<Loadout> session) {
-			session.getData().clear();
-			return true;
-		}
 	}
 	
 	private class PointsItem extends SimpleItem<Loadout> {
@@ -89,7 +78,8 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 		
 		@Override
 		public boolean onClick(MenuSession<Loadout> session) {
-			return false;
+			session.getData().clear();
+			return true;
 		}
 	}
 }

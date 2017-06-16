@@ -107,7 +107,7 @@ public class BaseItemManager {
 		// ~~~~ LOADOUT ITEMS ~~~~~
 		addItem("loadout-left", new SimpleBaseItem(Material.DIAMOND_HOE, 1));
 		addItem("loadout-right", new SimpleBaseItem(Material.DIAMOND_HOE, 2));
-		addItem("loadout-clear", new SimpleBaseItem(Material.DIAMOND_HOE, 3));
+		addItem("loadout-close", new SimpleBaseItem(Material.DIAMOND_HOE, 3));
 		addItem("loadout-points", new SimpleBaseItem(Material.DIAMOND_HOE, 4));
 		addItem("loadout-coil", new SimpleBaseItem(Material.DIAMOND_HOE, 5));
 		addItem("loadout-dark_vis", new SimpleBaseItem(Material.DIAMOND_HOE, 6));

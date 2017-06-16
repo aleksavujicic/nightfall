@@ -683,9 +683,9 @@ specialitems:
     name: "Points Remaining"
     base: loadout-points
 
-  clear:
-    name: "Clear Loadout"
-    base: loadout-clear
+  close:
+    name: "Close Menu"
+    base: loadout-close
 
   back:
     name: "Previous Page"
