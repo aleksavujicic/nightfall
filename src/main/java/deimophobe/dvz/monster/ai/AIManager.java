@@ -122,6 +122,9 @@ public class AIManager {
 		for (AIEntity ai : ais.values()) {
 			ai.updateTarget();
 			
+			if (shrineProt.continsGameEntity(ai))
+				ai.remove();
+			
 			if (ai.isDead())
 				deadAIs.add(ai.getUniqueId());
 		}
@@ -136,7 +139,7 @@ public class AIManager {
 				spawnSpot.getWorld().spawnParticle(Particle.HEART, spawnSpot, 1, 0, 0, 0);
 				if (ais.size() >= MAX_AIS) break;
 				if (Math.random() > AI_SPAWN_CHANCE + extraSpawnChance) continue;
-				if (ShrineManager.getManager().getShrine().getShrineProtection().containsLocation(spawnSpot)) continue;
+				if (shrineProt.containsLocation(spawnSpot)) continue;
 				
 				// Find closest dwarf and set as target. If no such dwarf, dont spawn.
 				double leastDistance = 25;
