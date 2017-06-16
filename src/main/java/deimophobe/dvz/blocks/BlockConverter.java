@@ -14,11 +14,11 @@ import java.util.*;
 public class BlockConverter {
 	public enum Type {
 		EXPLOSION(
-				new Conversion(Material.LAPIS_ORE, 2, 1, Material.SMOOTH_BRICK),
-				new Conversion(Material.SMOOTH_BRICK, 1.5, 0.5, Material.COBBLESTONE),
-				new Conversion(Material.COBBLESTONE, 0.75, 0.25, Material.GRAVEL),
-				new Conversion(Material.GRAVEL, 0.25, 0.25, Material.AIR),
-				new Conversion(Material.WOOL, 0.25, 0, Material.AIR)
+				new Conversion(Material.LAPIS_ORE, 6.0, 2.0, Material.SMOOTH_BRICK),
+				new Conversion(Material.SMOOTH_BRICK, 6.0, 2.5, Material.COBBLESTONE),
+				new Conversion(Material.COBBLESTONE, 5.0, 2.5, Material.GRAVEL),
+				new Conversion(Material.GRAVEL, 4.0, 3.0, Material.AIR),
+				new Conversion(Material.WOOL, 2.0, 0.5, Material.AIR)
 		),
 		CORROSION(
 				// TODO only specific data values
@@ -27,6 +27,13 @@ public class BlockConverter {
 				new Conversion(Material.COBBLESTONE, 1, 0.25, Material.WOOL),
 				new Conversion(Material.GRAVEL, 0.5, 0.25, Material.AIR),
 				new Conversion(Material.WOOL, 0.5, 0, Material.AIR)
+		),
+		THROWNEXPLOSION(
+				new Conversion(Material.LAPIS_ORE, 6.0, 1.5, Material.SMOOTH_BRICK),
+				new Conversion(Material.SMOOTH_BRICK, 6.0, 2.0, Material.COBBLESTONE),
+				new Conversion(Material.COBBLESTONE, 10000.0, 0, Material.GRAVEL),
+				new Conversion(Material.GRAVEL, 10000.0, 0, Material.AIR),
+				new Conversion(Material.WOOL, 2.5, 0.5, Material.AIR)
 		),
 		MORTAR,
 		ARROW_DAMAGE,;
@@ -52,7 +59,7 @@ public class BlockConverter {
 			for (int x = startX; x<startX+size; x++) {
 				for (int y = startY; y<startY+size; y++) {
 					for (int z = startZ; z<startZ+size; z++) {
-						double appliedForce = force - loc.distance(new Location(world, 0.5 + x, 0.5 + y, 0.5 + z));
+						double appliedForce = force/Math.min(1 ,(loc.distance(new Location(world, 0.5 + x, 0.5 + y, 0.5 + z))));
 						//Bukkit.broadcastMessage(""+appliedForce);
 						while (appliedForce > 0) {
 							Block block = world.getBlockAt(x, y, z);
