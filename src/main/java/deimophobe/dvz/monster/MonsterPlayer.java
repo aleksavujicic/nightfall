@@ -73,7 +73,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		}
 		
 		if (sec && isAlive())
-			gainXP(100);
+			gainXP(1);
 	}
 	
 	
@@ -253,6 +253,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		if (mob != null) {
 			if (gamePlayer instanceof Dwarf) {
 				((Dwarf) gamePlayer).getArmour().damage(mob.getArmourShred());
+				gainXP(1);
 				return mob.onHit((Dwarf) gamePlayer, type, damage);
 			} else {
 				Bukkit.getLogger().warning("GameEntity in onGotHit should be a Dwarf");
