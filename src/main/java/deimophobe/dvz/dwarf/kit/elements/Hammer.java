@@ -21,7 +21,7 @@ import org.bukkit.inventory.ItemStack;
 class Hammer extends AbstractAOEHitter implements KitCooldownElement {
 	
 	Hammer(Dwarf dwarf) {
-		super(dwarf, 2);
+		super(dwarf);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("sword.hammer", Slot.MAIN_HAND);
@@ -38,6 +38,12 @@ class Hammer extends AbstractAOEHitter implements KitCooldownElement {
 	public double onHit(GameEntity monster, DamageType type, double damage) {
 		cooldown = 0;
 		return super.onHit(monster, type, damage);
+	}
+	
+	@Override
+	public double onGotHit(GameEntity monster, DamageType type, double damage) {
+		cooldown = 0;
+		return super.onGotHit(monster, type, damage);
 	}
 	
 	@Override
@@ -101,11 +107,16 @@ class Hammer extends AbstractAOEHitter implements KitCooldownElement {
 	@Override
 	protected double getDamageToMonster(GameEntity entity) {
 		if (entity instanceof MonsterPlayer) {
-			return (dwarf.hasProc() ? 20 : 5);
+			return (dwarf.hasProc() ? 10 : 5);
 		} else if (entity instanceof AIEntity) {
-			return  (dwarf.hasProc() ? 40 : 20);
+			return  (dwarf.hasProc() ? 30 : 15);
 		}
 		
 		return 0;
+	}
+	
+	@Override
+	protected double getRadius() {
+		return  (dwarf.hasProc() ? 3 : 2);
 	}
 }

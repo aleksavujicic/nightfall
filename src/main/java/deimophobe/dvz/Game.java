@@ -326,4 +326,9 @@ public class Game {
 		}
 		updateDwarfCount();
 	}
+	
+	public boolean isNight() {
+		long time = MapManager.getManager().getWorld().getTime();
+		return (12500 < time && time < 23450);
+	}
 }

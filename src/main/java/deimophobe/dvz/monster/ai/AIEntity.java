@@ -7,10 +7,8 @@ import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterPlayer;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Zombie;
@@ -29,10 +27,18 @@ public class AIEntity extends GameEntity<Zombie> {
 	private static Zombie spawnZombie(Location location, String name, Dwarf target) {
 		Zombie zombie = (Zombie) MapManager.getManager().getWorld().spawnEntity(location, EntityType.ZOMBIE);
 		zombie.setCustomName(name);
+		
 		int speedLvl = (zombie.isBaby() ? 0 : 3);
 		zombie.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 300000, speedLvl, false,false), true);
-		zombie.getEquipment().clear();
+		
 		zombie.getEquipment().setItemInMainHand(new ItemStack(Material.SHEARS, 1, (short) 100));
+		
+		ItemStack chestplate = zombie.getEquipment().getChestplate();
+		if (chestplate == null || chestplate.getType() == Material.AIR)
+			chestplate = new ItemStack(Material.DIAMOND);
+		chestplate.addUnsafeEnchantment(Enchantment.DEPTH_STRIDER, 1);
+		zombie.getEquipment().setChestplate(chestplate);
+		
 		zombie.setTarget(target.getPlayer());
 		return zombie;
 	}
@@ -65,7 +71,8 @@ public class AIEntity extends GameEntity<Zombie> {
 		damage *= 0.2;
 		
 		if (getHealth() - damage <= 0.1) {
-			getLocation().getWorld().playSound(getLocation(), "entity.zombie.death", 1f, 1f);
+			float pitch = (getEntity().isBaby() ? 1.5f : 1f);
+			getLocation().getWorld().playSound(getLocation(), "entity.zombie.death", 1f, pitch);
 			damage += 0.2;
 		}
 		

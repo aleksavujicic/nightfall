@@ -25,7 +25,7 @@ import org.bukkit.potion.PotionEffectType;
  */
 class TuiHammer extends AbstractAOEHitter implements KitCooldownElement {
 	TuiHammer(Dwarf dwarf) {
-		super(dwarf, 4);
+		super(dwarf);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero.tuihammer", Slot.MAIN_HAND);
@@ -39,11 +39,16 @@ class TuiHammer extends AbstractAOEHitter implements KitCooldownElement {
 	@Override
 	protected double getDamageToMonster(GameEntity entity) {
 		if (entity instanceof MonsterPlayer) {
-			return (dwarf.hasProc() ? 12 : 8);
+			return (dwarf.hasProc() ? 15 : 10);
 		} else if (entity instanceof AIEntity) {
-			return (dwarf.hasProc() ? 50 : 25);
+			return (dwarf.hasProc() ? 40 : 20);
 		}
 		return 0;
+	}
+	
+	@Override
+	protected double getRadius() {
+		return  (dwarf.hasProc() ? 5 : 4);
 	}
 	
 	
