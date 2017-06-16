@@ -66,3 +66,10 @@ back:
   item:
     base: menu-back
     name: Go Back
+
+rebirth:
+  type: rebirth
+  page: main
+  item:
+    material: eye_of_ender
+    name: Rebirth

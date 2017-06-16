@@ -74,8 +74,8 @@ public enum MobType {
 			case TESTMOB:
 				return new TestMob(monster);
 		}
-		Bukkit.getLogger().warning("Unknown mobtype: " + this);
-		return null;
+		Bukkit.getLogger().severe("Unknown mobtype: " + this);
+		throw new NullPointerException("Unknown mobtype: " + this);
 	}
 	
 	public Map<String, CustomItem> getItems() {

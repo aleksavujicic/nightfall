@@ -22,6 +22,7 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 	private final FrontMenu frontMenu;
 	
 	private final MenuItem<MonsterPlayer> backItem;
+	private final MenuItem<MonsterPlayer> rebirthItem;
 	
 	public SpawnMenu() {
 		// Setup menus
@@ -34,6 +35,8 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		}
 		
 		backItem = getMenuItem(spawnConfig.getConfigurationSection("back"));
+		rebirthItem = getMenuItem(spawnConfig.getConfigurationSection("rebirth"));
+		frontMenu.setItem(18, rebirthItem);
 		
 		// Setup other menus
 		for (PageType pageType : PageType.values()) {
@@ -62,6 +65,10 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 				PageType page = PageType.getPageType(config.getString("page"));
 				return new IndexedPageChanger<>(item2, this, page);
 			
+			case "rebirth":
+				ItemStack item3 = CustomItem.getItem(config.getConfigurationSection("item"), "monster-menu", Slot.MAIN_HAND).createItemStack();
+				return new RebirthItem(item3);
+			
 			default:
 				Bukkit.getLogger().warning("Could not interpret type of spawn item: " + config.getCurrentPath());
 				return null;
@@ -85,6 +92,9 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 	
 	MenuItem<MonsterPlayer> getBackItem() {
 		return backItem;
+	}
+	MenuItem<MonsterPlayer> getRebirthItem() {
+		return rebirthItem;
 	}
 	
 	public void updateEggs() {

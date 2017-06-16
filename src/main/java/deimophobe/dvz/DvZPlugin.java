@@ -178,7 +178,7 @@ public class DvZPlugin extends JavaPlugin {
 					return true;
 				} else {
 					monster.kill();
-					monster.spawnAs(type);
+					monster.spawnMobType(type);
 					
 					sender.sendMessage(ChatColor.AQUA + "Spawned " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a " + ChatColor.YELLOW + args[1] + ChatColor.AQUA + "!");
 					return true;

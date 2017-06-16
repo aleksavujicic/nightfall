@@ -2,6 +2,7 @@ package deimophobe.dvz.monster.mob;
 
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.Game;
+import deimophobe.dvz.MapManager;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.cooldown.ComplexCooldown;
 import deimophobe.dvz.cooldown.Cooldown;
@@ -11,6 +12,7 @@ import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.items.modifiers.ItemModifierType;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.upgrade.MobUpgrade;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -30,6 +32,8 @@ class Zombie extends AbstractTypedMob {
 	
 	private final double arrowRes;
 	private final int armourShred;
+	
+	private final double rebirthChance;
 	
 	private final boolean fury;
 	private final ComplexCooldown furySound;
@@ -59,6 +63,9 @@ class Zombie extends AbstractTypedMob {
 		int arrowRes = upgrades.getUpgrade("arrow");
 		this.arrowRes = (double) arrowRes/100;
 		this.armourShred = upgrades.getUpgrade("shred");
+		
+		int rebirthChance = upgrades.getUpgrade("rebirth");
+		this.rebirthChance = (double) rebirthChance/100;
 		
 		this.fury = upgrades.getUpgrade("fury") >= 1;
 		
@@ -121,5 +128,14 @@ class Zombie extends AbstractTypedMob {
 	@Override
 	public float getCooldown() {
 		return leapCD.fractionComplete();
+	}
+	
+	@Override
+	public void onDeath() {
+		boolean setRebirth = (Math.random() <= rebirthChance);
+		if (setRebirth)
+			monster.setRebirthSpot(monster.getLocation());
+		else
+			monster.removeRebirth();
 	}
 }

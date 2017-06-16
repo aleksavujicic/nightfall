@@ -27,7 +27,8 @@ public class UpgradeMenu extends SimpleMenu<MonsterPlayer> {
 		}
 		
 		setItem(0, SpawnEggMenuItem.getEgg(type));
-		setItem(18, spawnMenu.getBackItem());
+		setItem(9, spawnMenu.getBackItem());
+		setItem(18, spawnMenu.getRebirthItem());
 	}
 	
 	private void insertItem(int index, MenuItem<MonsterPlayer> item) {

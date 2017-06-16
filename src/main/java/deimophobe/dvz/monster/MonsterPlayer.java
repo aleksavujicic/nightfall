@@ -132,15 +132,52 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		mob = null;
 	}
 	
-	public void spawnAs(MobType type) {
+	public void spawnMobType(MobType type) {
 		spawnMob(type.createMob(this));
 	}
 	
 	public void spawnMob(Mob mob) {
+		spawnMobAt(mob, ShrineManager.getManager().getCurrentMobspawn());
+	}
+	
+	public void spawnMobAt(Mob mob, Location location) {
 		this.mob = mob;
 		mob.spawn();
 		entity.setAllowFlight(false);
 		entity.getInventory().setItem(9, seppuku);
+		if (location != null)
+			teleportTo(location);
+		entity.setGameMode(GameMode.SURVIVAL);
+	}
+	
+	// ----- REBIRTH -----
+	private Location lastRebirth = null;
+	
+	public boolean canRebirth() {
+		return lastRebirth != null;
+	}
+	
+	public void removeRebirth() {
+		lastRebirth = null;
+	}
+	
+	public void setRebirthSpot(Location location) {
+		if (location == null) {
+			removeRebirth();
+			Bukkit.getLogger().warning("Setting a null rebirth location for " + getName() + ". Use removeRebirth() instead.");
+			return;
+		}
+		lastRebirth = location;
+	}
+	
+	public void rebirth() {
+		if (!canRebirth()) {
+			Bukkit.getLogger().warning("Trying to rebirth for " + getName() + " but rebirth not active?!");
+			return;
+		}
+		
+		this.mob = MobType.ZOMBIE.createMob(this);
+		spawnMobAt(mob, lastRebirth);
 	}
 	
 	

@@ -73,8 +73,6 @@ public abstract class AbstractMob implements Mob {
 	@Override
 	public void spawn() {
 		givePermanentPotionEffect(PotionEffectType.NIGHT_VISION, 1);
-		monster.teleportTo(ShrineManager.getManager().getCurrentMobspawn());
-		monster.getPlayer().setGameMode(GameMode.SURVIVAL);
 	}
 	
 	
