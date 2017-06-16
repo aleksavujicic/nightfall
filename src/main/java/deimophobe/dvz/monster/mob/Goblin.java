@@ -13,6 +13,8 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.entity.TNTPrimed;
+import org.bukkit.util.Vector;
 
 /**
  * Created by Deimophobe on 28/02/17.
@@ -36,7 +38,10 @@ class Goblin extends AbstractTypedMob {
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		if (placeBoxCD > 0)
 			placeBoxCD--;
-		
+
+		if (throwBoxCD > 0)
+			throwBoxCD--;
+
 		if (kaboomCD > 0) {
 			kaboomCD++;
 			
@@ -46,7 +51,9 @@ class Goblin extends AbstractTypedMob {
 	}
 	
 	private static final int MAX_PLACE_CD = 10;
+	private static final int MAX_THROW_CD = 10;
 	private int placeBoxCD = 0;
+	private int throwBoxCD = 0;
 	
 	private static final int MAX_KABOOM_CD = 60;
 	private int kaboomCD = 0;
@@ -59,6 +66,22 @@ class Goblin extends AbstractTypedMob {
 			monster.useHeldItem();
 			placeBoxCD = MAX_PLACE_CD;
 		}
+		// Throw gobo box
+		if (Misc.isLeftClick(action) && isPlayerHoldingItem("gobo-box") && throwBoxCD == 0) {
+
+			Vector direction = monster.getEyeLocation().getDirection();
+			direction.setX((direction.getX() / 2.0));
+			direction.setY(0.4);
+			direction.setZ((direction.getZ() / 2.0));
+
+			TNTPrimed tnt = monster.getLocation().getWorld().spawn(monster.getEyeLocation().add(direction), TNTPrimed.class);
+			tnt.setVelocity(direction);
+			tnt.setFuseTicks(40);
+
+			monster.useHeldItem();
+			throwBoxCD = MAX_THROW_CD;
+		}
+
 		if (Misc.isLeftClick(action) && isPlayerHoldingItem("kaboom") && kaboomCD == 0) {
 			monster.sendMessage("KAAAAAAAA");
 			monster.givePotionEffect(PotionEffectType.SPEED, MAX_KABOOM_CD, 3, true, true, true);

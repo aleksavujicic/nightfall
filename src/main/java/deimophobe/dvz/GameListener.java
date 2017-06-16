@@ -1,5 +1,6 @@
 package deimophobe.dvz;
 
+import deimophobe.dvz.blocks.BlockConverter;
 import deimophobe.dvz.blocks.BlockManager;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
@@ -14,6 +15,7 @@ import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
@@ -33,6 +35,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
 /**
@@ -597,5 +601,16 @@ public class GameListener implements Listener {
 		Entity target = event.getTarget();
 		if (target instanceof Player && mm.isGamePlayer((Player) target))
 			event.setCancelled(true);
+	}
+
+	@EventHandler
+	public void thrownGoboBoxExplosion(EntityExplodeEvent event) {
+		event.setCancelled(true);
+		double power = 5;
+		Location centerLoc = event.getLocation();
+		World world = centerLoc.getWorld();
+		BlockConverter.convert(BlockConverter.Type.THROWNEXPLOSION, centerLoc, power);
+		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
+		world.playSound(centerLoc, "entity.generic.explode", 2, 1);
 	}
 }
