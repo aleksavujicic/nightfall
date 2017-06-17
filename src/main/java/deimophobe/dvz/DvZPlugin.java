@@ -151,6 +151,20 @@ public class DvZPlugin extends JavaPlugin {
 				boolean success = (mm.addGamePlayer(args[0]) != null);
 				if (success) {
 					sender.sendMessage(ChatColor.AQUA + "Added " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a monster!");
+					if (args.length >= 2) {
+						MonsterPlayer monster = mm.getGamePlayer(args[0]);
+						MobType type = MobType.getMobType(args[1]);
+						if (type == null) {
+							sender.sendMessage(ChatColor.RED + "Unknown mob type: " + ChatColor.YELLOW + args[1] + ChatColor.RED + "!");
+							return true;
+						} else {
+							monster.kill();
+							monster.spawnMobType(type);
+
+							sender.sendMessage(ChatColor.AQUA + "Spawned " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a " + ChatColor.YELLOW + args[1] + ChatColor.AQUA + "!");
+							return true;
+						}
+					}
 					return true;
 				} else {
 					sender.sendMessage(ChatColor.RED + "Could not add " + ChatColor.DARK_RED + args[0] + ChatColor.RED + " as a monster!");
@@ -520,6 +534,40 @@ public class DvZPlugin extends JavaPlugin {
 			}
 			return true;
 		}
+		if (name.equalsIgnoreCase("shrine")) {
+			if (game.getPhase() != Phase.GAME) {
+				sender.sendMessage(ChatColor.RED + "The game has not yet begun! Use /forcestart and /forceplague.");
+				return true;
+			}
+
+			if (args.length == 1) {
+				if (args[0].equalsIgnoreCase("kill")) {
+					ShrineManager.getManager().commandDamageShrine(100);
+					return true;
+				} else {
+					return false;
+				}
+			} else if (args.length == 2) {
+				int percent = 0;
+				try{
+					percent = Integer.parseInt(args[1]);
+				}catch(NumberFormatException e) {
+					return false;
+				}
+				switch (args[0]) {
+					case "kill":
+						ShrineManager.getManager().commandDamageShrine(100);
+						return true;
+					case "damage":
+						ShrineManager.getManager().commandDamageShrine(percent);
+						return true;
+					case "recover":
+						ShrineManager.getManager().commandDamageShrine(percent * -1);
+						return true;
+				}
+			}
+			return false;
+		}
 		return false;
 	}
 	
@@ -539,7 +587,11 @@ public class DvZPlugin extends JavaPlugin {
 		if (name.equalsIgnoreCase("sethero") && args.length == 2) {
 			return startsWithPrefix(Hero.Type.getHeroList(), args[args.length-1]);
 		}
-		
+
+		if (name.equalsIgnoreCase("setmob") && args.length == 2) {
+			return startsWithPrefix(MobType.getAllMobTypes(), args[args.length-1]);
+		}
+
 		if (name.equalsIgnoreCase("spawnmob") && args.length == 2) {
 			return startsWithPrefix(MobType.getAllMobTypes(), args[args.length-1]);
 		}

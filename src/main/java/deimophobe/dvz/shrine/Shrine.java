@@ -80,6 +80,7 @@ public class Shrine {
 	
 	public boolean damageShrine(int mobNum, int dwarfNum) {
 		int damage = 0;
+		int recovery = 0;
 		// Final Shrine is stronger
 		if ((shrineNum + 1) == ShrineManager.getManager().getNumShrines()) {
 			dwarfNum *= 3;
@@ -87,10 +88,10 @@ public class Shrine {
 		if (mobNum == 0) {
 			// Regen when no mobs around, first shrine has slower regen
 			if (shrineNum == 0 && shrinePower < (maxShrinePower / 4)) {
-				damage -= dwarfNum * (maxShrinePower / 100);
+				recovery = dwarfNum * (maxShrinePower / 100);
 			}
-			else if (shrineNum > 0) {
-				damage -= dwarfNum * (maxShrinePower / 40);
+			else {
+				recovery = dwarfNum * (maxShrinePower / 40);
 			}
 		}
 		// 1:1 dwarf:zombie, but as long as there's a mob on shrine it will lose power slowly
@@ -104,13 +105,19 @@ public class Shrine {
 		if (damage > 0 && (dwarfNum >= (mobNum * 3))) {
 			damage = 0;
 		}
-		// At 500 gold shrine regen drops off linearly until at 100 gold to 20% regen speed
-		if (damage < 0) {
-			damage *= Math.max(100, Math.min(500, ShrineManager.getManager().getGold())) / 500;
+		// At 500 gold shrine regen drops off linearly until at 100 gold to 20% regen speed, also recovery is always nonnegative
+		if (recovery > 0) {
+			recovery = recovery * Math.max(100, Math.min(500, ShrineManager.getManager().getGold())) / 500;
+		}
+		else
+		{
+			recovery = 0;
 		}
 		// Shrine damage and recovery are capped at 20%
-		damage = Math.max((maxShrinePower / -5), Math.min((maxShrinePower / 5), damage));
+		damage = Math.min((maxShrinePower / 5), damage);
+		recovery = Math.min((maxShrinePower / 5), recovery);
 		shrinePower -= damage;
+		shrinePower += recovery;
 
 		// Shrine Power capped at max shrine power
 		if (shrinePower > maxShrinePower){
@@ -118,7 +125,15 @@ public class Shrine {
 		}
 		return (shrinePower <= 0);
 	}
-	
+
+	public boolean damageShrine(int damage) {
+		shrinePower -= damage * maxShrinePower / 100;
+		if (shrinePower > maxShrinePower){
+			shrinePower = maxShrinePower;
+		}
+		return (shrinePower <= 0);
+	}
+
 	public float getFractionalShrinePower() {
 		return (float) shrinePower/maxShrinePower;
 	}

@@ -14,11 +14,11 @@ import java.util.*;
 public class BlockConverter {
 	public enum Type {
 		EXPLOSION(
-				new Conversion(Material.LAPIS_ORE, 6.0, 2.0, Material.SMOOTH_BRICK),
-				new Conversion(Material.SMOOTH_BRICK, 6.0, 2.5, Material.COBBLESTONE),
-				new Conversion(Material.COBBLESTONE, 5.0, 2.5, Material.GRAVEL),
-				new Conversion(Material.GRAVEL, 4.0, 3.0, Material.AIR),
-				new Conversion(Material.WOOL, 2.0, 0.5, Material.AIR)
+				new Conversion(Material.LAPIS_ORE, 4.0, 0.7, Material.SMOOTH_BRICK),
+				new Conversion(Material.SMOOTH_BRICK, 3.5, 0.8, Material.COBBLESTONE),
+				new Conversion(Material.COBBLESTONE, 2.5, 1.5, Material.GRAVEL),
+				new Conversion(Material.GRAVEL, 2.0, 1.5, Material.AIR),
+				new Conversion(Material.WOOL, 0.5, 0.5, Material.AIR)
 		),
 		CORROSION(
 				// TODO only specific data values
@@ -29,11 +29,11 @@ public class BlockConverter {
 				new Conversion(Material.WOOL, 0.5, 0, Material.AIR)
 		),
 		THROWNEXPLOSION(
-				new Conversion(Material.LAPIS_ORE, 6.0, 1.5, Material.SMOOTH_BRICK),
-				new Conversion(Material.SMOOTH_BRICK, 6.0, 2.0, Material.COBBLESTONE),
+				new Conversion(Material.LAPIS_ORE, 4.5, 1.0, Material.SMOOTH_BRICK),
+				new Conversion(Material.SMOOTH_BRICK, 4.0, 1.0, Material.COBBLESTONE),
 				new Conversion(Material.COBBLESTONE, 10000.0, 0, Material.GRAVEL),
 				new Conversion(Material.GRAVEL, 10000.0, 0, Material.AIR),
-				new Conversion(Material.WOOL, 2.5, 0.5, Material.AIR)
+				new Conversion(Material.WOOL, 1.0, 1.0, Material.AIR)
 		),
 		MORTAR,
 		ARROW_DAMAGE,;
@@ -59,8 +59,8 @@ public class BlockConverter {
 			for (int x = startX; x<startX+size; x++) {
 				for (int y = startY; y<startY+size; y++) {
 					for (int z = startZ; z<startZ+size; z++) {
-						double appliedForce = force/Math.min(1 ,(loc.distance(new Location(world, 0.5 + x, 0.5 + y, 0.5 + z))));
-						//Bukkit.broadcastMessage(""+appliedForce);
+						double appliedForce = (force / Math.max(1 , Math.sqrt(loc.distance(new Location(world, 0.5 + x, 0.5 + y, 0.5 + z)))));
+						// Bukkit.broadcastMessage(""+appliedForce);
 						while (appliedForce > 0) {
 							Block block = world.getBlockAt(x, y, z);
 							Conversion conv = conversions.get(block.getType());
@@ -104,14 +104,14 @@ public class BlockConverter {
 			
 			double randStr = new Random().nextGaussian()*variation + strength;
 			
-			if (force >= randStr) {
+			if (force > randStr) {
 				block.setType(to);
 				
 				// THIS IS A HACK TO GET SPIDER WOOL
 				if (to == Material.WOOL)
 					block.setData((byte) 5);
 			}
-			return force - randStr*1.5;
+			return force - randStr;
 		}
 	}
 	
