@@ -49,7 +49,10 @@ public class AIEntity extends GameEntity<Zombie> {
 	
 	@Override
 	public double onHit(GameEntity entity, DamageType type, double damage) {
-		if (entity instanceof MonsterPlayer) return -1;
+		if (entity instanceof MonsterPlayer) {
+			forceUpdateTarget();
+			return -1;
+		}
 		if (entity instanceof Dwarf) {
 			((Dwarf) entity).getArmour().damage(10);
 			return 15;
@@ -87,6 +90,11 @@ public class AIEntity extends GameEntity<Zombie> {
 	private int targetCounter = MAX_TARGET_COUNT;
 	
 	private static final double MAX_TARGET_RANGE = 20;
+	
+	void forceUpdateTarget() {
+		entity.setTarget(null);
+		updateTarget();
+	}
 	
 	void updateTarget() {
 		if (entity.getTarget() != null) return;
