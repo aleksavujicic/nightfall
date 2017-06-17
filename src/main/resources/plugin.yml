@@ -96,3 +96,6 @@ commands:
     description: Only for toxic people.
     usage: /kills
 
+  Shrine:
+    description: Damage or recover shrine power.
+    usage: /Shrine <kill|damage|recover> <percent (0-100)>
