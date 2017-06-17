@@ -40,6 +40,8 @@ public abstract class AbstractMob implements Mob {
 		disguise.getWatcher().setCustomName(monster.getDisplayName());
 		disguise = disguise.setViewSelfDisguise(false);
 		DisguiseAPI.disguiseEntity(player, disguise);
+		
+		MonsterManager.getManager().addToTeam(disguise.getEntity().getUniqueId().toString());
 	}
 	
 	protected void setupPlayerDisguise(Skin skin, String name) {

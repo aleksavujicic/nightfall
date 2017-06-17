@@ -33,6 +33,8 @@ class CraftingConsumable extends Consumable {
 	@Override
 	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
 		if (Misc.isRightClick(action)) {
+			if (clickedBlock == null) return FAILED_CD;
+			
 			Material blockMat = clickedBlock.getType();
 			
 			for (Conversion conversion : conversions) {

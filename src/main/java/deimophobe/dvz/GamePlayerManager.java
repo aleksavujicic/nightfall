@@ -136,6 +136,10 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		return players.values();
 	}
 	
+	public int getNumberOfPlayers() {
+		return players.size();
+	}
+	
 	public P getNearest(Location location) {
 		P nearestPlayer = null;
 		double nearestDistance = Double.MAX_VALUE;

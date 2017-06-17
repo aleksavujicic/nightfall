@@ -1,5 +1,8 @@
 package deimophobe.dvz.blocks;
 
+import deimophobe.dvz.blocks.blocktype.BlockType;
+import deimophobe.dvz.blocks.blocktype.ComparableBlock;
+import deimophobe.dvz.blocks.blocktype.SettableBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -14,36 +17,40 @@ import java.util.*;
 public class BlockConverter {
 	public enum Type {
 		EXPLOSION(
-				new Conversion(Material.LAPIS_ORE, 4.0, 0.7, Material.SMOOTH_BRICK),
-				new Conversion(Material.SMOOTH_BRICK, 3.5, 0.8, Material.COBBLESTONE),
-				new Conversion(Material.COBBLESTONE, 2.5, 1.5, Material.GRAVEL),
-				new Conversion(Material.GRAVEL, 2.0, 1.5, Material.AIR),
-				new Conversion(Material.WOOL, 0.5, 0.5, Material.AIR)
+				new Conversion(BlockType.ENCHANTED_WALL, 4.5, 0.7, BlockType.NORMAL_WALL),
+				new Conversion(BlockType.NORMAL_WALL, 4.0, 0.8, BlockType.CRACKED_WALL),
+				new Conversion(BlockType.CRACKED_WALL, 4.0, 0.8, BlockType.DAMAGED_WALL),
+				new Conversion(BlockType.DAMAGED_WALL, 3.5, 1.5, BlockType.BROKEN_WALL),
+				new Conversion(BlockType.BROKEN_WALL, 3.0, 1.5, BlockType.AIR),
+				new Conversion(BlockType.ALL_WOOLS, 2.0, 0.5, BlockType.AIR),
+				
+				new Conversion(BlockType.LIGHTS, 3.0, 1.5, BlockType.AIR)
 		),
 		CORROSION(
-				// TODO only specific data values
-				new Conversion(Material.LAPIS_ORE, 1.5, 0.5, Material.WOOL),
-				new Conversion(Material.SMOOTH_BRICK, 1, 0.5, Material.WOOL),
-				new Conversion(Material.COBBLESTONE, 1, 0.25, Material.WOOL),
-				new Conversion(Material.GRAVEL, 0.5, 0.25, Material.AIR),
-				new Conversion(Material.WOOL, 0.5, 0, Material.AIR)
+				new Conversion(BlockType.WALL, 4.0, 1.5, BlockType.CORRODED_WALL),
+				new Conversion(BlockType.CORRODED_WALL, 4.0, 1.5, BlockType.AIR)
 		),
 		THROWNEXPLOSION(
-				new Conversion(Material.LAPIS_ORE, 4.5, 1.0, Material.SMOOTH_BRICK),
-				new Conversion(Material.SMOOTH_BRICK, 4.0, 1.0, Material.COBBLESTONE),
-				new Conversion(Material.COBBLESTONE, 10000.0, 0, Material.GRAVEL),
-				new Conversion(Material.GRAVEL, 10000.0, 0, Material.AIR),
-				new Conversion(Material.WOOL, 1.0, 1.0, Material.AIR)
+				new Conversion(BlockType.NORMAL_WALL, 4.5, 0.8, BlockType.CRACKED_WALL),
+				new Conversion(BlockType.CRACKED_WALL, 4.5, 0.8, BlockType.DAMAGED_WALL),
+				new Conversion(BlockType.ALL_WOOLS, 2.0, 1.0, BlockType.AIR)
 		),
-		MORTAR,
+		//MORTAR(false,
+		//		new Conversion(BlockType.UNENCHANTED_WALL, 0.0, 0.0, BlockType.NORMAL_WALL),
+		//),
 		ARROW_DAMAGE,;
 		
 		
-		private final Map<Material, Conversion> conversions = new HashMap<>();
+		private final Set<Conversion> conversions = new HashSet<>();
+		private final boolean repeating;
+		
 		Type(Conversion... conversions) {
-			for (Conversion conversion : conversions) {
-				this.conversions.put(conversion.getFrom(), conversion);
-			}
+			this(true, conversions);
+		}
+		
+		Type(boolean repeating, Conversion... conversions) {
+			this.repeating = repeating;
+			Collections.addAll(this.conversions, conversions);
 		}
 		
 		
@@ -63,10 +70,15 @@ public class BlockConverter {
 						// Bukkit.broadcastMessage(""+appliedForce);
 						while (appliedForce > 0) {
 							Block block = world.getBlockAt(x, y, z);
-							Conversion conv = conversions.get(block.getType());
-							if (conv == null) break;
-							
-							appliedForce = conv.tryConvert(block, appliedForce);
+							boolean didConvert = false;
+							for (Conversion conv : conversions) {
+								if (conv.canConvert(block)) {
+									appliedForce = conv.tryConvert(block, appliedForce);
+									didConvert = true;
+								}
+							}
+							if (!didConvert)
+								break;
 						}
 					}
 				}
@@ -76,16 +88,12 @@ public class BlockConverter {
 	}
 	
 	private static class Conversion {
-		private final Material from;
+		private final ComparableBlock from;
 		private final double strength;
 		private final double variation;
-		private final Material to;
+		private final SettableBlock to;
 		
-		private Material getFrom() {
-			return from;
-		}
-		
-		private Conversion(Material from, double strength, double variation, Material to) {
+		private Conversion(ComparableBlock from, double strength, double variation, SettableBlock to) {
 			this.from = from;
 			this.strength = strength;
 			this.variation = variation;
@@ -93,7 +101,7 @@ public class BlockConverter {
 		}
 		
 		private boolean canConvert(Block block) {
-			return (block != null && block.getType() == from);
+			return from.matchesBlock(block);
 		}
 		
 		private double tryConvert(Block block, double force) {
@@ -105,11 +113,7 @@ public class BlockConverter {
 			double randStr = new Random().nextGaussian()*variation + strength;
 			
 			if (force > randStr) {
-				block.setType(to);
-				
-				// THIS IS A HACK TO GET SPIDER WOOL
-				if (to == Material.WOOL)
-					block.setData((byte) 5);
+				to.setAtBlock(block);
 			}
 			return force - randStr;
 		}
