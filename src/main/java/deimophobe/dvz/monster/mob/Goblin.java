@@ -7,6 +7,7 @@ import deimophobe.dvz.blocks.timedblock.GoboBox;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -51,7 +52,7 @@ class Goblin extends AbstractTypedMob {
 	}
 	
 	private static final int MAX_PLACE_CD = 10;
-	private static final int MAX_THROW_CD = 10;
+	private static final int MAX_THROW_CD = 20;
 	private int placeBoxCD = 0;
 	private int throwBoxCD = 0;
 	
@@ -60,7 +61,7 @@ class Goblin extends AbstractTypedMob {
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isRightClick(action) && isPlayerHoldingItem("gobo-box") && placeBoxCD == 0 && clickedBlock != null) {
+		if (Misc.isRightClick(action) && isPlayerHoldingItem("gobo-box") && placeBoxCD == 0 && clickedBlock != null && clickedBlock.getType() != Material.ENDER_STONE) {
 			Block block = clickedBlock.getRelative(blockFace);
 			TimedBlock.placeTimedBlock(new GoboBox(block, 50, 5));
 			monster.useHeldItem();
