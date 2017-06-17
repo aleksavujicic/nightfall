@@ -41,6 +41,7 @@ public enum DamageType {
 	HAMMER_AOE(false, false),
 	EVISCERATE(true, false),
 	NOT_HOLDING_GHOSTBLADE(false, false),
+	GOBO_BOX(false, false),
 	KABOOM(false, false),
 	
 	WILDFIRE(true, false),
