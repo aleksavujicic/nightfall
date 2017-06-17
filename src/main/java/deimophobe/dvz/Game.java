@@ -214,6 +214,11 @@ public class Game {
 		//int toKill = plagueables.size();
 		int toKill = plagueables.size()/3;
 		
+		if (toKill == 0) {
+			releaseMonsters();
+			return;
+		}
+		
 		Plague plague = Plague.getRandomPlague();
 		plague.startPlague(plagueables, toKill);
 		
