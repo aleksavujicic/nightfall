@@ -30,7 +30,7 @@ public class GoboBox extends TimedBlock {
 			world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
 			world.playSound(centerLoc, "entity.generic.explode", 2, 1);
 
-			(new Explosion(this.getPlacer(), centerLoc, DamageType.GOBO_BOX, 50, 5, 0.3)).explode();
+			(new Explosion(this.getPlacer(), centerLoc, DamageType.GOBO_BOX, 40, 5, 3)).explode();
 		}
 	}
 	

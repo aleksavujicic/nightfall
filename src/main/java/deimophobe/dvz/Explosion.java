@@ -33,7 +33,7 @@ public class Explosion<A extends GameEntity, R extends GameEntity> {
             if (distance <= range) {
                 Vector kbaway = jimmy.getPlayer().getLocation().toVector().subtract(origin.toVector());
                 kbaway.normalize().multiply(kb / Math.sqrt(Math.max(1, distance)));
-                kbaway.setY(kbaway.getY() + 0.1); // Slight Y boost to make the players jump a little
+                kbaway.setY(kbaway.getY() + 0.4); // Slight Y boost to make the players jump a little
                 
                 jimmy.setVelocity(kbaway);
                 jimmy.customDamage(attacker, type, damage);
