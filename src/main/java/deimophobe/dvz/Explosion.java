@@ -2,6 +2,7 @@ package deimophobe.dvz;
 
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
@@ -27,13 +28,18 @@ public class Explosion<A extends GameEntity, R extends GameEntity> {
     }
 
     public void explode() {
+        Bukkit.broadcastMessage("xplodey");
         for (Dwarf jimmy : DwarfManager.getManager().getGamePlayers()) {
+            Bukkit.broadcastMessage("Jimmy: "+ jimmy.getName());
             double distance = origin.distance(jimmy.getPlayer().getLocation());
+            Bukkit.broadcastMessage("dist:"+ distance);
             if (distance <= range) {
                 Vector kbaway = jimmy.getPlayer().getLocation().toVector().subtract(origin.toVector());
                 kbaway.normalize().multiply(kb / Math.sqrt(Math.max(1, distance)));
                 kbaway.setY(kbaway.getY() + 0.1); // Slight Y boost to make the players jump a little
                 jimmy.customDamage(attacker, type, damage);
+    
+                Bukkit.broadcastMessage("Kablooey");
             }
         }
     }
