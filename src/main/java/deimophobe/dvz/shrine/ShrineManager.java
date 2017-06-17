@@ -133,7 +133,7 @@ public class ShrineManager {
 	
 	// ------ SPAWNS ------
 	public Location getCurrentMobspawn() {
-		return shrines.get(currentShrine).getMobSpawn();
+		return getShrine().getMobSpawn();
 	}
 	public Location getDwarfSpawn() {
 		return dwarfSpawn;
@@ -257,9 +257,18 @@ public class ShrineManager {
 		}
 		
 	}
-	
+
+	public void commandDamageShrine(int damage) {
+		if (getShrine().damageShrine(damage)) {
+			killShrine();
+		}
+		else {
+			shrineBar.setProgress(getShrine().getFractionalShrinePower());
+		}
+	}
+
 	private void killShrine() {
-		Shrine prevShrine = shrines.get(currentShrine);
+		Shrine prevShrine = getShrine();
 		//if ((currentShrine + 1) < shrines.size()) currentShrine++;
 		currentShrine++;
 		prevShrine.explodeShrine();

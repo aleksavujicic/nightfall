@@ -125,7 +125,15 @@ public class Shrine {
 		}
 		return (shrinePower <= 0);
 	}
-	
+
+	public boolean damageShrine(int damage) {
+		shrinePower -= damage * maxShrinePower / 100;
+		if (shrinePower > maxShrinePower){
+			shrinePower = maxShrinePower;
+		}
+		return (shrinePower <= 0);
+	}
+
 	public float getFractionalShrinePower() {
 		return (float) shrinePower/maxShrinePower;
 	}

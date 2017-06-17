@@ -534,6 +534,40 @@ public class DvZPlugin extends JavaPlugin {
 			}
 			return true;
 		}
+		if (name.equalsIgnoreCase("shrine")) {
+			if (game.getPhase() != Phase.GAME) {
+				sender.sendMessage(ChatColor.RED + "The game has not yet begun! Use /forcestart and /forceplague.");
+				return true;
+			}
+
+			if (args.length == 1) {
+				if (args[0].equalsIgnoreCase("kill")) {
+					ShrineManager.getManager().commandDamageShrine(100);
+					return true;
+				} else {
+					return false;
+				}
+			} else if (args.length == 2) {
+				int percent = 0;
+				try{
+					percent = Integer.parseInt(args[1]);
+				}catch(NumberFormatException e) {
+					return false;
+				}
+				switch (args[0]) {
+					case "kill":
+						ShrineManager.getManager().commandDamageShrine(100);
+						return true;
+					case "damage":
+						ShrineManager.getManager().commandDamageShrine(percent);
+						return true;
+					case "recover":
+						ShrineManager.getManager().commandDamageShrine(percent * -1);
+						return true;
+				}
+			}
+			return false;
+		}
 		return false;
 	}
 	
