@@ -18,7 +18,7 @@ class Lamp extends Consumable {
 	
 	@Override
 	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
-		boolean success = TimedBlock.placeTimedBlock(new LampBlock(clickedBlock, 60*20));
+		boolean success = TimedBlock.placeTimedBlock(new LampBlock(clickedBlock, 60*20, dwarf));
 		
 		if (success) return DEFAULT_CD;
 		else return FAILED_CD;

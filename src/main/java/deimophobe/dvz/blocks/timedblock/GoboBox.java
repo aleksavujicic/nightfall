@@ -1,6 +1,8 @@
 package deimophobe.dvz.blocks.timedblock;
 
 import deimophobe.dvz.DamageType;
+import deimophobe.dvz.Explosion;
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.GamePlayer;
 import deimophobe.dvz.blocks.BlockConverter;
 import deimophobe.dvz.dwarf.Dwarf;
@@ -12,8 +14,8 @@ import org.bukkit.block.Block;
  */
 public class GoboBox extends TimedBlock {
 	private final double power;
-	public GoboBox(Block block, int lifeTime, double power) {
-		super(block, Material.ENDER_STONE, lifeTime);
+	public GoboBox(Block block, int lifeTime, double power, GameEntity placer) {
+		super(block, Material.ENDER_STONE, lifeTime, placer);
 		this.power = power;
 	}
 	
@@ -26,6 +28,8 @@ public class GoboBox extends TimedBlock {
 			BlockConverter.convert(BlockConverter.Type.EXPLOSION, centerLoc, power);
 			world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
 			world.playSound(centerLoc, "entity.generic.explode", 2, 1);
+
+			(new Explosion(this.getPlacer() ,centerLoc, DamageType.EXPLOSION, 50, 5, 0.3)).explode();
 		}
 	}
 	

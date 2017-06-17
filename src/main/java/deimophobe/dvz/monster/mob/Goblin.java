@@ -5,6 +5,8 @@ import deimophobe.dvz.Misc;
 import deimophobe.dvz.blocks.BlockConverter;
 import deimophobe.dvz.blocks.timedblock.GoboBox;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
+import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -63,7 +65,7 @@ class Goblin extends AbstractTypedMob {
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action) && isPlayerHoldingItem("gobo-box") && placeBoxCD == 0 && clickedBlock != null && clickedBlock.getType() != Material.ENDER_STONE) {
 			Block block = clickedBlock.getRelative(blockFace);
-			TimedBlock.placeTimedBlock(new GoboBox(block, 50, 5));
+			TimedBlock.placeTimedBlock(new GoboBox(block, 50, 5, monster));
 			monster.useHeldItem();
 			placeBoxCD = MAX_PLACE_CD;
 		}
@@ -103,7 +105,9 @@ class Goblin extends AbstractTypedMob {
 		
 		monster.customDamage(null, DamageType.KABOOM, 10000);
 	}
-	
+
+
+
 	@Override
 	public float getCooldown() {
 		return (float)kaboomCD/MAX_KABOOM_CD;

@@ -1,6 +1,7 @@
 package deimophobe.dvz.blocks.timedblock;
 
 import deimophobe.dvz.Game;
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.GamePlayer;
 import deimophobe.dvz.blocks.BlockManager;
 import org.bukkit.Location;
@@ -21,16 +22,18 @@ public abstract class TimedBlock {
 	final Block block;
 	private final Material newType;
 	private final int lifeTime;
+	private final GameEntity placer;
 	
 	
-	public TimedBlock(Location loc, Material blockType, int lifeTime) {
-		this(loc.getBlock(), blockType, lifeTime);
+	public TimedBlock(Location loc, Material blockType, int lifeTime, GameEntity placer) {
+		this(loc.getBlock(), blockType, lifeTime, placer);
 	}
 	
-	public TimedBlock(Block block, Material blockType, int lifeTime) {
+	public TimedBlock(Block block, Material blockType, int lifeTime, GameEntity placer) {
 		this.block = block;
 		this.newType = blockType;
 		this.lifeTime = lifeTime;
+		this.placer = placer;
 	}
 	
 	
@@ -98,5 +101,9 @@ public abstract class TimedBlock {
 		for (TimedBlock tb : copy) {
 			tb.cancel();
 		}
+	}
+
+	public GameEntity getPlacer() {
+		return placer;
 	}
 }

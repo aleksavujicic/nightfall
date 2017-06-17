@@ -1,5 +1,6 @@
 package deimophobe.dvz.blocks.timedblock;
 
+import deimophobe.dvz.GameEntity;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -9,11 +10,11 @@ import org.bukkit.block.Block;
  */
 public class LampBlock extends TimedBlock {
 	
-	public LampBlock(Location loc, int lifeTime) {
-		super(loc, Material.JACK_O_LANTERN, lifeTime);
+	public LampBlock(Location loc, int lifeTime, GameEntity placer) {
+		super(loc, Material.JACK_O_LANTERN, lifeTime, placer);
 	}
 	
-	public LampBlock(Block block, int lifeTime) {
-		super(block, Material.JACK_O_LANTERN, lifeTime);
+	public LampBlock(Block block, int lifeTime, GameEntity placer) {
+		super(block, Material.JACK_O_LANTERN, lifeTime, placer);
 	}
 }

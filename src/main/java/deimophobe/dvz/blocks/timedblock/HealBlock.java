@@ -1,6 +1,7 @@
 package deimophobe.dvz.blocks.timedblock;
 
 import deimophobe.dvz.Game;
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.GamePlayer;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
@@ -16,12 +17,12 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 public class HealBlock extends TimedBlock {
 	
-	public HealBlock(Location loc, int lifeTime) {
-		super(loc, Material.PURPUR_BLOCK, lifeTime);
+	public HealBlock(Location loc, int lifeTime, GameEntity placer) {
+		super(loc, Material.PURPUR_BLOCK, lifeTime, placer);
 	}
 	
-	public HealBlock(Block block, int lifeTime) {
-		super(block, Material.PURPUR_BLOCK, lifeTime);
+	public HealBlock(Block block, int lifeTime, GameEntity placer) {
+		super(block, Material.PURPUR_BLOCK, lifeTime, placer);
 	}
 	
 	private int hitsLeft = 20;
