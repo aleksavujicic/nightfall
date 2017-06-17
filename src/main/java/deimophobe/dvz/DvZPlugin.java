@@ -607,6 +607,11 @@ public class DvZPlugin extends JavaPlugin {
 		if (name.equalsIgnoreCase("giveitem")) {
 			return startsWithPrefix(ItemManager.getManager().getNames(), args[args.length-1]);
 		}
+
+		if (name.equalsIgnoreCase("shrine") && args.length == 1) {
+			return startsWithPrefix(args[args.length-1], "kill", "damage", "recover");
+		}
+
 		return null;
 	}
 	
