@@ -10,16 +10,22 @@ zombie:
     name: Tough Flesh
     lore:
       description:
-       - "Hardened flesh of the undead making it as tough as armour."
+       - "Hardened flesh of the undead\n
+          making it as tough as armour."
       flavour:
-       - "Blep"
+       - "The harder they beat you down\n
+          The stronger your hunger grows."
     bound: true
   weapon:
     material: wood_pickaxe
     name: Makeshift Pick
     lore:
       description:
-       - "Temp"
+       - "Left click to attack dwarves\n
+          Shredding their armour and\n
+          dealing damage.\n
+          Right click to leap when\n
+          you unlock the upgrade."
       flavour:
        - "A cross between a runeblade hilt and\n
           plank debris. The dead use anything of\n
@@ -37,35 +43,45 @@ gobo:
     name: Explosive Flesh
     lore:
       description:
-       - "Temp"
+       - "Goblins Armour\n
+          Keep away from TNT Crates."
       flavour:
-       - "Temp"
+       - "Kaaaaaaa."
     bound: true
   weapon:
     material: wood_pickaxe
     name: Gobo Pick
     lore:
       description:
-       - "Temp"
+       - "A weak weapon that is used\n
+          for piercing armour."
       flavour:
-       - "Temp"
+       - "Hehehe Smashy Smashy."
   items:
     gobo-box:
       base: gobo_box
       name: Gobo Box
       lore:
         description:
-         - "Temp"
+         - "Left click to throw a box\n
+            dealing damage to dwarves and\n
+            nearby walls.\n
+            &aRight click to place a box\n
+            heavily damaging walls once\n
+            it explodes&r."
         flavour:
-         - "Temp"
+         - "Gobos Primed and Ready."
     kaboom:
       base: kaboom
       name: KABOOM
       lore:
         description:
-         - "Temp"
+         - "Left click to prime yourself\n
+            exploding after a few seconds\n
+            and damaging walls, while sending\n
+            dwarves flying."
         flavour:
-         - "Temp"
+         - "It's KAAAAAAAAABOOOM!"
 
 
 flamelancer:
@@ -84,27 +100,30 @@ flamelancer:
     name: Tough Flesh
     lore:
       description:
-       - "Temp"
+       - "Flamelancer Armour."
       flavour:
-       - "Temp"
+       - "It's pretty hot."
     bound: true
   weapon:
     base: flame_bow
     name: Nether Tooth Bow
     lore:
       description:
-       - "Temp"
+       - "You unleash a volley of arrows on attack\n
+          creating fire where they land\n
+          The more you draw back the more arrows\n
+          that fire."
       flavour:
-       - "Temp"
+       - "Conflaguration!"
   items:
     arrow:
       material: arrow
       name: Skeletal Arrow
       lore:
         description:
-         - "Temp"
+         - "A skeletons quiver of arrows."
         flavour:
-         - "Temp"
+         - "Pointy."
 
 
 witherskele:
@@ -123,27 +142,28 @@ witherskele:
     name: Tough Flesh
     lore:
       description:
-       - "Temp"
+       - "Wither Skeleton Armour."
       flavour:
-       - "Temp"
+       - "This thing looks rotten."
     bound: true
   weapon:
     base: wither_bow
     name: Nether Tooth Bow
     lore:
       description:
-       - "Temp"
+       - "Your shots shred armour and wither\n
+          Dealing extra for every consecutive hit."
       flavour:
-       - "Temp"
+       - "No mortal can touch this bow and live."
   items:
     arrow:
       material: arrow
       name: Skeletal Arrow
       lore:
         description:
-         - "Temp"
+         - "A skeleton quiver of arrows."
         flavour:
-         - "Temp"
+         - "Pointy."
 
 
 wolf:
@@ -162,18 +182,21 @@ wolf:
     name: Tough Flesh
     lore:
       description:
-       - "Temp"
+       - "Wolf Armour"
       flavour:
-       - "Temp"
+       - "So Furry."
     bound: true
   weapon:
     base: wolf_fangs
     name: Wolf Fangs
     lore:
       description:
-       - "Temp"
+       - "Attacking dwarves at night deals\n
+          extra damage\n
+          Right click to Leap, hold shift\n
+          for a boost."
       flavour:
-       - "Temp"
+       - "Arooooooooo."
 
 
 spiderling:
@@ -192,19 +215,21 @@ spiderling:
     name: Squishy Spider Body Thing
     lore:
       description:
-       - "Temp"
+       - "Spiders Carapace."
       flavour:
        - "I'm not googling the name of this\n
-          thing cause spiders."
+          thing cause spiders.\n
+          Did it for you. - Drk."
     bound: true
   weapon:
     base: ai_sword
     name: Spider Thingies
     lore:
       description:
-       - "Temp"
+       - "Right click to melt walls\n
+          and poison dwarves on hit."
       flavour:
-       - "Temp"
+       - "Spiders are gross."
 
 
 
@@ -223,18 +248,19 @@ rat:
     name: Rat Thing
     lore:
       description:
-       - "Temp"
+       - "Rat Armour."
       flavour:
-       - "Temp"
+       - "Meep."
     bound: true
   weapon:
     base: ai_sword
     name: Rat Talons
     lore:
       description:
-       - "Temp"
+       - "Right click on the shrine\n
+          to steal gold."
       flavour:
-       - "Temp"
+       - "Now where did those wrenches go?"
 
 
 golem:
@@ -256,9 +282,9 @@ golem:
     name: Mechanical Body
     lore:
       description:
-       - "Temp"
+       - "Iron Golem Armour."
       flavour:
-       - "Temp"
+       - "Do people even read these?"
     modifiers:
       kb-resist: 1
     bound: true
@@ -267,9 +293,10 @@ golem:
     name: Ancient Pick
     lore:
       description:
-       - "Temp"
+       - "You deal heavy damage and armour shred\n
+          in a small aoe radius."
       flavour:
-       - "Temp"
+       - "Beep boop beep beep."
 
 
 ogre:
@@ -290,9 +317,9 @@ ogre:
     name: Ogre Hide
     lore:
       description:
-       - "Temp"
+       - "Orcish Armour."
       flavour:
-       - "Temp"
+       - "Tough as nails."
     modifiers:
       kb-resist: 1
     bound: true
@@ -301,9 +328,10 @@ ogre:
     name: Ogre Club
     lore:
       description:
-       - "Temp"
+       - "You deal medium damage but\n
+          knockback dwarves."
       flavour:
-       - "Temp"
+       - "Ready to smash!"
     modifiers:
       knockback: 4
 
