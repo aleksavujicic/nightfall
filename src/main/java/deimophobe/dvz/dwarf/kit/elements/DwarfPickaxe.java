@@ -1,6 +1,7 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.Misc;
+import deimophobe.dvz.blocks.BlockType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.DwarvenItems;
@@ -41,7 +42,7 @@ class DwarfPickaxe extends AbstractItem {
 		if (Misc.isRightClick(action) && cooldown == 0) {
 			if (clickedBlock == null) {
 				// PICK REPAIRING ANOTHER DWARF
-				Dwarf repairee = dwarf.getLookingAt(1, 4, DwarfManager.getManager().getGamePlayers(), (d) -> !d.getArmour().isAtMax());
+				Dwarf repairee = dwarf.getLookingAt(2, 5, DwarfManager.getManager().getGamePlayers(), (d) -> !d.getArmour().isAtMax());
 				if (repairee != null && ShrineManager.getManager().useGold(50)) {
 					repairee.getArmour().repair(600);
 					GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, repairee);
@@ -50,60 +51,27 @@ class DwarfPickaxe extends AbstractItem {
 					return true;
 				}
 			} else {
-				Material blockType = clickedBlock.getType();
 				
-				if ((blockType == Material.PISTON_EXTENSION || blockType == Material.PISTON_BASE) && face == BlockFace.UP) {
+				boolean success;
+				Block affectedBlock;
+				if (BlockType.PISTON_BASE.matchesBlock(clickedBlock) && face == BlockFace.UP) {
 					// CLICKING ON A PISTON TO CREATE A BLOCK
 					
 					BlockFace pistonFace = ((Directional) clickedBlock.getState().getData()).getFacing();
 					Block goldBlock = clickedBlock.getRelative(pistonFace);
-					if (goldBlock == null || goldBlock.getType() == Material.AIR) {
-						// Set to wool
-						goldBlock.setType(Material.WOOL);
-						
-						// Get state and data
-						BlockState state = goldBlock.getState();
-						Wool wool = (Wool) state.getData();
-						
-						// Set colour
-						wool.setColor(DyeColor.YELLOW);
-						
-						// Update state and block
-						state.setData(wool);
-						state.update();
-						
-						// SOUNDS
-						GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, state);
-						
-						resetCD();
-						return true;
-					}
 					
-				} else if (blockType == Material.WOOL) {
-					// CLICKING ON GOLD TO REFINE IT
-					BlockState state = clickedBlock.getState();
-					Wool wool = (Wool) state.getData();
-					
-					switch (wool.getColor()) {
-						case YELLOW:
-							wool.setColor(DyeColor.ORANGE);
-							state.setData(wool);
-							state.update();
-							break;
-						case ORANGE:
-							wool.setColor(DyeColor.MAGENTA);
-							state.setData(wool);
-							state.update();
-							break;
-						case MAGENTA:
-							clickedBlock.setType(Material.GOLD_BLOCK);
-							break;
-						
-						default:
-							return false;
-					}
-					
-					GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, state);
+					success = BlockType.tryConvertBlock(goldBlock, BlockType.AIR, BlockType.CRACKED_GOLD_1);
+					affectedBlock = goldBlock;
+				} else {
+					success = (
+							BlockType.tryConvertBlock(clickedBlock, BlockType.CRACKED_GOLD_1, BlockType.CRACKED_GOLD_2) ||
+							BlockType.tryConvertBlock(clickedBlock, BlockType.CRACKED_GOLD_2, BlockType.CRACKED_GOLD_3) ||
+							BlockType.tryConvertBlock(clickedBlock, BlockType.CRACKED_GOLD_3, BlockType.REFINED_GOLD));
+					affectedBlock = clickedBlock;
+				}
+				
+				if (success) {
+					GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, affectedBlock);
 					
 					resetCD();
 					return true;
