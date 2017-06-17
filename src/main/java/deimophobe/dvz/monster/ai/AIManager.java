@@ -6,7 +6,6 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import deimophobe.dvz.Game;
-import deimophobe.dvz.MapManager;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.Phase;
 import deimophobe.dvz.dwarf.Dwarf;
@@ -18,11 +17,6 @@ import deimophobe.dvz.shrine.region.Region;
 import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Zombie;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
@@ -42,8 +36,10 @@ public class AIManager {
 	
 	private AIManager() {}
 	
-	private final static int MAX_AIS = 60;
-	private final static double AI_SPAWN_CHANCE = 0.15;
+	private final static int BASE_MAX_AIS = 60;
+	
+	private final static int MAX_AI_MARKS = 40;
+	private final static double AI_MARK_DISTANCE = 5;
 	
 	private final static int UPDATE_FREQ =  3*20;
 	
@@ -87,13 +83,10 @@ public class AIManager {
 	// ------ SPAWN LOCATIONS ------
 	private final Queue<Location> spawnSpots = new LinkedList<>();
 	
-	private final static int MAX_AI_MARKS = 60;
-	private final static double SPAWN_THRESHOLD = 5;
-	
 	private void addAISpawnLocation(Location loc) {
 		// Prevent spawning if spawn spot is too close to another
 		for (Location spawnSpot : spawnSpots) {
-			if (loc.distance(spawnSpot) <= SPAWN_THRESHOLD)
+			if (loc.distance(spawnSpot) <= AI_MARK_DISTANCE)
 				return;
 		}
 		
@@ -134,11 +127,19 @@ public class AIManager {
 		
 		// Try spawn more AIs
 		if (aisSpawnable && Game.getGame().getPhase() == Phase.GAME && !DoomManager.getManager().isDoom()) {
-			double extraSpawnChance = (Game.getGame().isNight() ? 0.1 : 0);
+			int dwarves = DwarfManager.getManager().getNumberOfPlayers();
+			int mobs = MonsterManager.getManager().getNumberOfPlayers();
+			
+			double spawnChance = (mobs + dwarves*2) * 0.008;
+			spawnChance += (Game.getGame().isNight() ? 0.05 : 0);
+			
+			int maxAIs = BASE_MAX_AIS;
+			maxAIs += (mobs + dwarves*2);
+			
 			for (Location spawnSpot : spawnSpots) {
 				spawnSpot.getWorld().spawnParticle(Particle.HEART, spawnSpot, 1, 0, 0, 0);
-				if (ais.size() >= MAX_AIS) break;
-				if (Math.random() > AI_SPAWN_CHANCE + extraSpawnChance) continue;
+				if (ais.size() >= maxAIs) break;
+				if (Math.random() > spawnChance) continue;
 				if (shrineProt.containsLocation(spawnSpot)) continue;
 				
 				// Find closest dwarf and set as target. If no such dwarf, dont spawn.
