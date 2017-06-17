@@ -67,8 +67,8 @@ gobo:
             dealing damage to dwarves and\n
             nearby walls.\n
             &aRight click to place a box\n
-            heavily damaging walls once\n
-            it explodes&r."
+            &aheavily damaging walls once\n
+            &ait explodes&r."
         flavour:
          - "Gobos Primed and Ready."
     kaboom:
