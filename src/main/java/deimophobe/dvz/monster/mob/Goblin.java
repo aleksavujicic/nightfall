@@ -67,7 +67,7 @@ class Goblin extends AbstractTypedMob {
 			placeBoxCD = MAX_PLACE_CD;
 		}
 		// Throw gobo box
-		if (Misc.isLeftClick(action) && isPlayerHoldingItem("gobo-box") && throwBoxCD == 0) {
+		if (Misc.isLeftClick(action) && isPlayerHoldingItem("gobo-box") && (monster.getHeldItem().getAmount() >= 2) && throwBoxCD == 0) {
 
 			Vector direction = monster.getEyeLocation().getDirection();
 			direction.setX((direction.getX() / 1.8));
@@ -78,6 +78,7 @@ class Goblin extends AbstractTypedMob {
 			tnt.setVelocity(direction);
 			tnt.setFuseTicks(40);
 
+			monster.useHeldItem();
 			monster.useHeldItem();
 			throwBoxCD = MAX_THROW_CD;
 		}
