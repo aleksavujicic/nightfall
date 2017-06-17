@@ -1,23 +1,23 @@
-package deimophobe.dvz.blocks;
+package deimophobe.dvz.blocks.blocktype;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Created by Deimophobe on 17/06/17.
  */
-public class MaterialSet implements ComparableBlock {
+class MaterialSet implements ComparableBlock {
 	
 	private final Set<Material> materialSet;
 	
-	public MaterialSet(Material... materials) {
+	MaterialSet(Material... materials) {
 		this.materialSet = new HashSet<>();
 		
-		for (Material material : materials)
-			materialSet.add(material);
+		Collections.addAll(materialSet, materials);
 	}
 	
 	@Override

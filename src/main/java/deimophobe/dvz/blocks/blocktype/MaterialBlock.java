@@ -1,16 +1,14 @@
-package deimophobe.dvz.blocks;
+package deimophobe.dvz.blocks.blocktype;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.material.MaterialData;
-import org.bukkit.material.Wool;
 
 /**
  * Created by Deimophobe on 17/06/17.
  */
-public class SimpleBlock implements CustomBlock {
+class MaterialBlock implements CustomBlock {
 	private final Material material;
-	public SimpleBlock(Material material) {
+	MaterialBlock(Material material) {
 		this.material = material;
 	}
 	

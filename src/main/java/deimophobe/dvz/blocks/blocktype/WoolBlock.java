@@ -1,21 +1,19 @@
-package deimophobe.dvz.blocks;
+package deimophobe.dvz.blocks.blocktype;
 
-import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
-import org.bukkit.material.Dye;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Wool;
 
 /**
  * Created by Deimophobe on 17/06/17.
  */
-public class WoolBlock implements CustomBlock {
+class WoolBlock implements CustomBlock {
 	
 	private final Wool wool;
-	public WoolBlock(DyeColor color) {
+	WoolBlock(DyeColor color) {
 		wool = new Wool(color);
 	}
 	

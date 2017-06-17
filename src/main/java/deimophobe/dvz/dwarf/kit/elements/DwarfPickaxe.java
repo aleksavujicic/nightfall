@@ -1,7 +1,7 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.Misc;
-import deimophobe.dvz.blocks.BlockType;
+import deimophobe.dvz.blocks.blocktype.BlockType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.DwarvenItems;
@@ -10,14 +10,11 @@ import deimophobe.dvz.dwarf.consumable.ConsumableType;
 import deimophobe.dvz.effects.GameEffect;
 import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.shrine.ShrineManager;
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
 import org.bukkit.event.block.Action;
 import org.bukkit.material.Directional;
-import org.bukkit.material.Wool;
 import org.bukkit.potion.PotionEffectType;
 
 /**

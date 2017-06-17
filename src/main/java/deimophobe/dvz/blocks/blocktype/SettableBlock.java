@@ -1,4 +1,4 @@
-package deimophobe.dvz.blocks;
+package deimophobe.dvz.blocks.blocktype;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -8,7 +8,4 @@ import org.bukkit.block.Block;
  */
 public interface SettableBlock {
 	void setAtBlock(Block block);
-	default void setAtLocation(Location location) {
-		setAtBlock(location.getBlock());
-	}
 }

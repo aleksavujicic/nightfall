@@ -1,4 +1,4 @@
-package deimophobe.dvz.blocks;
+package deimophobe.dvz.blocks.blocktype;
 
 /**
  * Created by Deimophobe on 17/06/17.
