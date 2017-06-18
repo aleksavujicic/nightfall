@@ -7,6 +7,7 @@ import deimophobe.dvz.blocks.timedblock.GoboBox;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -76,7 +77,7 @@ class Goblin extends AbstractTypedMob {
 			direction.setX((direction.getX() / 1.8));
 			direction.setY(0.4);
 			direction.setZ((direction.getZ() / 1.8));
-
+			MonsterManager.getManager().enqueueGoboThrower(monster);
 			TNTPrimed tnt = monster.getLocation().getWorld().spawn(monster.getEyeLocation().add(direction), TNTPrimed.class);
 			tnt.setVelocity(direction);
 			tnt.setFuseTicks(40);
