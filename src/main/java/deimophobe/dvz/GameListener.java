@@ -39,6 +39,9 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * Created by Deimophobe on 20/01/17.
  */
@@ -47,7 +50,7 @@ public class GameListener implements Listener {
 	private Game game;
 	private DwarfManager dm;
 	private MonsterManager mm;
-	
+
 	public GameListener() {
 		updateManagers();
 	}
@@ -401,8 +404,19 @@ public class GameListener implements Listener {
 			}
 		}
 	}
-	
-	
+
+	@EventHandler
+	public void thrownGoboBoxExplosion(EntityExplodeEvent event) {
+		event.setCancelled(true);
+		double power = 5;
+		Location centerLoc = event.getLocation();
+		World world = centerLoc.getWorld();
+		BlockConverter.convert(BlockConverter.Type.THROWNEXPLOSION, centerLoc, power);
+		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
+		world.playSound(centerLoc, "entity.generic.explode", 2, 1);
+		//Bukkit.broadcastMessage(mm.peekGoboThrower().getName());
+		(new Explosion(mm.dequeueGoboThrower(), centerLoc, DamageType.GOBO_BOX, 40, 5, 3)).explode();
+	}
 	
 	// --------------------------------------------------------
 	//                        DEATH
@@ -601,16 +615,5 @@ public class GameListener implements Listener {
 		Entity target = event.getTarget();
 		if (target instanceof Player && mm.isGamePlayer((Player) target))
 			event.setCancelled(true);
-	}
-
-	@EventHandler
-	public void thrownGoboBoxExplosion(EntityExplodeEvent event) {
-		event.setCancelled(true);
-		double power = 5;
-		Location centerLoc = event.getLocation();
-		World world = centerLoc.getWorld();
-		BlockConverter.convert(BlockConverter.Type.THROWNEXPLOSION, centerLoc, power);
-		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
-		world.playSound(centerLoc, "entity.generic.explode", 2, 1);
 	}
 }

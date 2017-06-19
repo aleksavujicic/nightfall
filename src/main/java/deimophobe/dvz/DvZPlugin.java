@@ -43,7 +43,7 @@ public class DvZPlugin extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
-		Bukkit.getLogger().info("AYYYY LMAO");
+		//Bukkit.getLogger().info("AYYYY LMAO");
 		game.setupGame(this);
 	}
 

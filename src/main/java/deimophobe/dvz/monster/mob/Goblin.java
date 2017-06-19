@@ -1,12 +1,14 @@
 package deimophobe.dvz.monster.mob;
 
 import deimophobe.dvz.DamageType;
+import deimophobe.dvz.Explosion;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.blocks.BlockConverter;
 import deimophobe.dvz.blocks.timedblock.GoboBox;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -76,10 +78,10 @@ class Goblin extends AbstractTypedMob {
 			direction.setX((direction.getX() / 1.8));
 			direction.setY(0.4);
 			direction.setZ((direction.getZ() / 1.8));
-
+			MonsterManager.getManager().enqueueGoboThrower(monster);
 			TNTPrimed tnt = monster.getLocation().getWorld().spawn(monster.getEyeLocation().add(direction), TNTPrimed.class);
 			tnt.setVelocity(direction);
-			tnt.setFuseTicks(40);
+			tnt.setFuseTicks(60);
 
 			monster.useHeldItem();
 			monster.useHeldItem();
@@ -100,9 +102,9 @@ class Goblin extends AbstractTypedMob {
 		World world = monster.getLocation().getWorld();
 		
 		BlockConverter.convert(BlockConverter.Type.EXPLOSION, loc, 8);
-		world.spawnParticle(Particle.EXPLOSION_LARGE, loc, 3, 1, 1, 1);
+		world.spawnParticle(Particle.EXPLOSION_HUGE, loc, 3, 1, 1, 1);
 		world.playSound(loc, "entity.generic.explode", 2, 1);
-		
+		(new Explosion(monster, loc, DamageType.KABOOM, 80, 6, 4)).explode();
 		monster.customDamage(null, DamageType.KABOOM, 10000);
 	}
 

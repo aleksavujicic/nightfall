@@ -59,6 +59,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OTHER_TEAMS);
 		
 		menu = new SpawnMenu();
+		GoboQueue = new LinkedList<>();
 	}
 	public void reset() {
 		if (runner != null)
@@ -118,6 +119,24 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	
 	public void addSpawnEgg(int i, SpawnEggMenuItem egg) {
 		//menu.addEgg(i, egg);
+	}
+
+	// ------------------------------------------------------------
+	// Really hacky way of resolving thrown gobo box responsibility
+	// ------------------------------------------------------------
+
+	private Queue<GameEntity> GoboQueue;
+
+	public void enqueueGoboThrower(GameEntity gobo) {
+		GoboQueue.add(gobo);
+	}
+
+	public GameEntity peekGoboThrower() {
+		return GoboQueue.peek();
+	}
+
+	public GameEntity dequeueGoboThrower() {
+		return GoboQueue.poll();
 	}
 }
 	
