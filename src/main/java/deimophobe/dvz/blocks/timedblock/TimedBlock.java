@@ -4,6 +4,7 @@ import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.GamePlayer;
 import deimophobe.dvz.blocks.BlockManager;
+import deimophobe.dvz.blocks.blocktype.BlockType;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -81,7 +82,7 @@ public abstract class TimedBlock {
 		Block block = timedBlock.block;
 		
 		// If its already a timed block or its not breakable, don't overwrite!
-		if (activeTimedBlocks.containsKey(block) || !BlockManager.getManager().isBreakable(block)) {
+		if (activeTimedBlocks.containsKey(block) || BlockType.UNTIMEABLE_BLOCKS.matchesBlock(block)) {
 			return false;
 		} else {
 			timedBlock.placeBlock();

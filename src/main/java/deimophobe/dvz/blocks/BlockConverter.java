@@ -23,8 +23,8 @@ public class BlockConverter {
 				new Conversion(BlockType.BROKEN_WALL, 3.0, 1.5, BlockType.AIR),
 				new Conversion(BlockType.ALL_WOOLS, 2.0, 0.5, BlockType.AIR),
 				
-				new Conversion(BlockType.NORMAL_STAIR, 4.0, 0.8, BlockType.DAMAGED_STAIR),
-				new Conversion(BlockType.DAMAGED_STAIR, 3.5, 1.8, BlockType.AIR),
+				new Conversion(BlockType.NORMAL_STAIR, 4.5, 0.8, BlockType.DAMAGED_STAIR),
+				new Conversion(BlockType.DAMAGED_STAIR, 4.0, 1.8, BlockType.AIR),
 				
 				new Conversion(BlockType.REINFORCED_SLAB, 4.0, 0.7, BlockType.NORMAL_SLAB),
 				new Conversion(BlockType.NORMAL_SLAB, 4.0, 1.8, BlockType.DAMAGED_SLAB),
@@ -46,7 +46,7 @@ public class BlockConverter {
 				new Conversion(BlockType.DAMAGED_STAIR, 0.0, 0.0, BlockType.NORMAL_STAIR),
 				new Conversion(BlockType.DAMAGED_SLAB, 0.0, 0.0, BlockType.REINFORCED_SLAB),
 				new Conversion(BlockType.NORMAL_SLAB, 0.0, 0.0, BlockType.REINFORCED_SLAB),
-				new Conversion(BlockType.WALL, 10.0, 1.0, BlockType.ENCHANTED_WALL)
+				new Conversion(BlockType.WALL, 8.0, 4.0, BlockType.ENCHANTED_WALL)
 		),
 		ARROW_DAMAGE,;
 		

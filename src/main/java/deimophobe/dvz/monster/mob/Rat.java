@@ -9,8 +9,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 
-import java.util.Set;
-
 /**
  * Created by Deimophobe on 20/01/17.
  */
@@ -34,7 +32,7 @@ class Rat extends AbstractTypedMob {
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (stealCD == 0 && Misc.isRightClick(action)) {
-			if (BlockType.SHRINE_BLOCK.matchesBlock(clickedBlock) && ShrineManager.getManager().hasGold()) {
+			if (BlockType.ACTIVE_SHRINE_BLOCK.matchesBlock(clickedBlock) && ShrineManager.getManager().hasGold()) {
 				monster.playSound("coin", 1f, 1f, true);
 				monster.gainXP(1);
 				ShrineManager.getManager().stealGold(3);

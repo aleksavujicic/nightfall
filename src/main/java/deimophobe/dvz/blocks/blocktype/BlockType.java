@@ -52,12 +52,65 @@ public class BlockType {
 	
 	
 	// ----- MISC -----
-	public static final ComparableBlock SHRINE_BLOCK =
+	public static final ComparableBlock ACTIVE_SHRINE_BLOCK =
 			block -> (
 					block.getType() == Material.ENDER_PORTAL_FRAME
 					&& ShrineManager.getManager().getShrine().getShrineRegion().containsBlock(block)
 			);
-	// Unbreakables etc...
+	public static final ComparableBlock ANY_SHRINE_BLOCK = new MaterialBlock(Material.ENDER_PORTAL_FRAME);
+	
+	
+	// ----- Blocksets -----
+	public static final ComparableBlock UNTIMEABLE_BLOCKS = new BlockSet(
+			PISTON_BASE,
+			CRACKED_GOLD_1,
+			CRACKED_GOLD_2,
+			CRACKED_GOLD_3,
+			
+			ANY_SHRINE_BLOCK,
+			LIGHT,
+			
+			new MaterialSet(
+					Material.SPONGE,
+					Material.IRON_FENCE,
+					
+					Material.RAILS,
+					Material.ACTIVATOR_RAIL,
+					Material.DETECTOR_RAIL,
+					Material.POWERED_RAIL,
+					Material.LADDER,
+					Material.REDSTONE_TORCH_ON,
+					Material.REDSTONE_TORCH_OFF,
+					
+					Material.CHEST,
+					Material.TRAPPED_CHEST,
+					
+					Material.JACK_O_LANTERN
+			)
+	);
+	
+	public static final ComparableBlock UNBREAKABLE_BLOCKS = new BlockSet(
+			UNTIMEABLE_BLOCKS,
+			
+			new MaterialSet(
+					Material.LOG,
+					Material.LOG_2,
+					
+					Material.IRON_BLOCK,
+					
+					Material.SIGN,
+					Material.SIGN_POST,
+					Material.WALL_SIGN
+			)
+	);
+	
+	public static final ComparableBlock GOLEM_UNBREAKABLE_BLOCKS = new BlockSet(
+			UNBREAKABLE_BLOCKS,
+			
+			new MaterialSet(
+					Material.BEDROCK
+			)
+	);
 	
 	
 	
