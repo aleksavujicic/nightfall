@@ -72,8 +72,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 			}
 		}
 		
-		if (sec && isAlive())
-			gainXP(1);
+		if (sec && isAlive()) {
+			gainXP(isInShrine() ? 2 : 1);
+		}
 	}
 	
 	
@@ -290,7 +291,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		if (mob != null) {
 			if (gamePlayer instanceof Dwarf) {
 				((Dwarf) gamePlayer).getArmour().damage(mob.getArmourShred());
-				gainXP(1);
+				gainXP(isInShrine() ? 2 : 1);
 				return mob.onHit((Dwarf) gamePlayer, type, damage);
 			} else {
 				Bukkit.getLogger().warning("GameEntity in onGotHit should be a Dwarf");
@@ -452,5 +453,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		meta.setLore(lore);
 		
 		seppuku.setItemMeta(meta);
+	}
+	
+	private boolean isInShrine() {
+		return ShrineManager.getManager().getShrine().getShrineRegion().containsPlayer(this);
 	}
 }
