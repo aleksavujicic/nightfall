@@ -35,10 +35,12 @@ public class BlockType {
 	
 	public static final CustomBlock NORMAL_STAIR = new StairBlock(Material.SMOOTH_STAIRS);
 	public static final CustomBlock DAMAGED_STAIR = new StairBlock(Material.COBBLESTONE_STAIRS);
+	public static final ComparableBlock ALL_STAIRS = new BlockSet(NORMAL_STAIR, DAMAGED_STAIR);
 	
 	public static final CustomBlock REINFORCED_SLAB = new SlabBlock(Material.STONE);
 	public static final CustomBlock NORMAL_SLAB = new SlabBlock(Material.SMOOTH_BRICK);
 	public static final CustomBlock DAMAGED_SLAB = new SlabBlock(Material.COBBLESTONE);
+	public static final ComparableBlock ALL_SLABS = new BlockSet(REINFORCED_SLAB, NORMAL_SLAB, DAMAGED_SLAB);
 	
 	
 	public static final ComparableBlock ALL_WOOLS = new MaterialBlock(Material.WOOL);

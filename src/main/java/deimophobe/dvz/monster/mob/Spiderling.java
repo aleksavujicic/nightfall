@@ -37,6 +37,8 @@ class Spiderling extends AbstractTypedMob {
 	private static final int SPIDER_SPIT_CD_MAX = 5;
 	private int spiderSpitCd = 0;
 	
+	private static final double CORRODE_DISTANCE = 15;
+	
 	@Override
 	public void spawn() {
 		super.spawn();
@@ -68,6 +70,7 @@ class Spiderling extends AbstractTypedMob {
 	
 	@Override
 	public void onProjectileLand(Projectile proj, Block block) {
-		BlockConverter.convert(BlockConverter.Type.CORROSION, block.getLocation().add(0.5, 0.5, 0.5), 2);
+		if (proj.getLocation().distance(monster.getLocation()) <= CORRODE_DISTANCE)
+			BlockConverter.convert(BlockConverter.Type.CORROSION, block.getLocation().add(0.5, 0.5, 0.5), 2);
 	}
 }

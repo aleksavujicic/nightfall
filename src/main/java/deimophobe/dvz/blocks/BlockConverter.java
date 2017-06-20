@@ -34,7 +34,10 @@ public class BlockConverter {
 		),
 		CORROSION(
 				new Conversion(BlockType.WALL, 4.0, 1.5, BlockType.CORRODED_WALL),
-				new Conversion(BlockType.CORRODED_WALL, 4.0, 1.5, BlockType.AIR)
+				new Conversion(BlockType.ALL_STAIRS, 4.0, 1.5, BlockType.CORRODED_WALL),
+				new Conversion(BlockType.ALL_SLABS, 4.0, 1.5, BlockType.CORRODED_WALL),
+				new Conversion(BlockType.CORRODED_WALL, 4.0, 1.5, BlockType.AIR),
+				new Conversion(BlockType.LIGHT, 3.0, 1.5, BlockType.AIR)
 		),
 		THROWNEXPLOSION(
 				new Conversion(BlockType.NORMAL_WALL, 4.5, 0.8, BlockType.CRACKED_WALL),
