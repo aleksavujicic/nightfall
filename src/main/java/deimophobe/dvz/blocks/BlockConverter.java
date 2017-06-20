@@ -123,7 +123,7 @@ public class BlockConverter {
 			if (strength == 0)
 				return 0;
 			
-			return force - randStr;
+			return force - strength;
 		}
 	}
 	
