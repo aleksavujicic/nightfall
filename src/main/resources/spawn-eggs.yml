@@ -17,7 +17,7 @@ witherskele:
   egg:
     base: wither_bow
     name: Spawn Wither Skeleton
-  quantity: 5
+  quantity: 3
   chance: 0.08
 
 flamelancer:
@@ -25,7 +25,7 @@ flamelancer:
   egg:
     base: flame_bow
     name: Spawn Flamelancer
-  quantity: 6
+  quantity: 3
   chance: 0.08
 
 wolf:
@@ -33,7 +33,7 @@ wolf:
   egg:
     base: wolf_fangs
     name: Spawn Wolf
-  quantity: 10
+  quantity: 5
   chance: 0.07
 
 spiderling:
@@ -41,32 +41,32 @@ spiderling:
   egg:
     material: snow_ball
     name: Spawn Spiderling
-  quantity: 5
-  chance: 0.1
+  quantity: 2
+  chance: 0.06
 
 rat:
   mobtype: rat
   egg:
     material: prismarine_crystals
     name: Spawn Rat
-  quantity: 3
-  chance: 0.13
+  quantity: 2
+  chance: 0.08
 
 golem:
   mobtype: golem
   egg:
     base: golem_pick
     name: Spawn Golem
-  quantity: 2
-  chance: 0.04
+  quantity: 1
+  chance: 0.02
 
 ogre:
   mobtype: ogre
   egg:
     base: ogre_club
     name: Spawn Ogre
-  quantity: 4
-  chance: 0.1
+  quantity: 2
+  chance: 0.05
 
 ghostblade:
   mobtype: gb-dagger
