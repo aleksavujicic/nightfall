@@ -1,6 +1,7 @@
 package deimophobe.dvz.monster.mob;
 
 import deimophobe.dvz.Misc;
+import deimophobe.dvz.blocks.blocktype.BlockType;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.Material;
@@ -33,10 +34,10 @@ class Rat extends AbstractTypedMob {
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (stealCD == 0 && Misc.isRightClick(action)) {
-			Block block = monster.getPlayer().getTargetBlock((Set<Material>) null, 4);
-			if (block.getType() == Material.ENDER_PORTAL_FRAME && ShrineManager.getManager().getShrine().getShrineRegion().containsBlock(block)) {
-				monster.playSound("coin");
-				ShrineManager.getManager().stealGold(1);
+			if (BlockType.SHRINE_BLOCK.matchesBlock(clickedBlock) && ShrineManager.getManager().hasGold()) {
+				monster.playSound("coin", 1f, 1f, true);
+				monster.gainXP(1);
+				ShrineManager.getManager().stealGold(3);
 				stealCD = STEAL_MAX_CD;
 			}
 		}

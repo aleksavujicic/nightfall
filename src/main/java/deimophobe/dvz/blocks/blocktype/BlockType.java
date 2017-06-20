@@ -1,5 +1,6 @@
 package deimophobe.dvz.blocks.blocktype;
 
+import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -47,6 +48,17 @@ public class BlockType {
 	public static final CustomBlock GLOWSTONE = new MaterialBlock(Material.GLOWSTONE);
 	public static final CustomBlock SEA_LANTERN = new MaterialBlock(Material.SEA_LANTERN);
 	public static final ComparableBlock LIGHT = new BlockSet(REDSTONE_LAMP, GLOWSTONE, SEA_LANTERN);
+	
+	
+	
+	// ----- MISC -----
+	public static final ComparableBlock SHRINE_BLOCK =
+			block -> (
+					block.getType() == Material.ENDER_PORTAL_FRAME
+					&& ShrineManager.getManager().getShrine().getShrineRegion().containsBlock(block)
+			);
+	// Unbreakables etc...
+	
 	
 	
 	public static boolean tryConvertBlock(Block block, ComparableBlock from, SettableBlock to) {
