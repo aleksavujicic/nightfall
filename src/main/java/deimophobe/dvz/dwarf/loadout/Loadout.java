@@ -6,6 +6,8 @@ import deimophobe.dvz.menu.SessionData;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
@@ -22,6 +24,12 @@ public class Loadout implements SessionData {
 	private final Set<LoadoutItem> items = new HashSet<>();
 	private final Map<Category, LoadoutItem> categoryItems = new HashMap<>();
 	
+	private final UUID playerUUID;
+	
+	private Loadout(UUID playerUUID) {
+		this.playerUUID = playerUUID;
+	}
+	
 	boolean selectItem(LoadoutItem item) {
 		Category cat = item.getCategory();
 		
@@ -29,6 +37,7 @@ public class Loadout implements SessionData {
 			items.remove(item);
 			if (cat != null) categoryItems.remove(cat);
 			
+			updateDisplay();
 			return true;
 		} else {
 			// The amount of extra points one would get from removing a similar item.
@@ -47,6 +56,7 @@ public class Loadout implements SessionData {
 				
 				items.add(item);
 				if (cat != null) categoryItems.put(cat, item);
+				updateDisplay();
 				return true;
 			}
 			return false;
@@ -66,15 +76,27 @@ public class Loadout implements SessionData {
 	}
 	
 	void clear() {
-		Iterator<LoadoutItem> ite = items.iterator();
-		while (ite.hasNext()) {
-			if (ite.next().isClearable())
-				ite.remove();
-		}
+		items.removeIf(LoadoutItem::isClearable);
 		
 		for (Category category : Category.values()) {
 			if (category.isClearable())
 				categoryItems.remove(category);
+		}
+		updateDisplay();
+	}
+	
+	private void updateDisplay() { // TODO move this elsewhere maybe? Make lobbyer class maybe?
+		Player player = Bukkit.getPlayer(playerUUID);
+		if (player != null && Game.getGame().isLobbyPlayer(player)) {
+			PlayerInventory inv = player.getInventory();
+			inv.clear();
+			int i = 9;
+			for (LoadoutItem item : items) {
+				ItemStack itemStack = item.getItemStack().clone();
+				itemStack.setAmount(1);
+				inv.setItem(i, itemStack);
+				i++;
+			}
 		}
 	}
 	
@@ -83,7 +105,7 @@ public class Loadout implements SessionData {
 		return getLoadout(player.getUniqueId());
 	}
 	static Loadout getLoadout(UUID uuid) {
-		return loadouts.computeIfAbsent(uuid, k -> new Loadout());
+		return loadouts.computeIfAbsent(uuid, k -> new Loadout(k));
 	}
 	
 	
@@ -118,7 +140,7 @@ public class Loadout implements SessionData {
 		YamlConfiguration config = YamlConfiguration.loadConfiguration(getLoadoutFile());
 		for (String key : config.getKeys(false)) {
 			UUID uuid = UUID.fromString(key);
-			Loadout loadout = fromStringList(config.getStringList(key));
+			Loadout loadout = fromStringList(uuid, config.getStringList(key));
 			loadouts.put(uuid, loadout);
 		}
 		
@@ -168,10 +190,10 @@ public class Loadout implements SessionData {
 		return strings;
 	}
 	
-	private static Loadout fromStringList(List<String> stringList) {
+	private static Loadout fromStringList(UUID uuid, List<String> stringList) {
 		if (stringList == null) return null;
 		
-		Loadout loadout = new Loadout();
+		Loadout loadout = new Loadout(uuid);
 		for (String string : stringList) {
 			LoadoutItem item = LoadoutItem.getItem(string);
 			if (item != null) {

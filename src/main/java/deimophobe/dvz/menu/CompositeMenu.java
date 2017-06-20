@@ -56,10 +56,9 @@ public class CompositeMenu<T extends SessionData> implements SubMenu<T> {
 	
 	@Override
 	public boolean onClick(int i, MenuSession<T> session) {
-		Map<Integer, ItemStack> items = new HashMap<>();
 		for (SubMenu<T> subMenu : subMenus) {
 			int menuSize = subMenu.getSize();
-			if (i <= menuSize)
+			if (i < menuSize)
 				return subMenu.onClick(i, session);
 			else
 				i -= menuSize;

@@ -5,6 +5,7 @@ import deimophobe.dvz.Misc;
 import deimophobe.dvz.items.lore.LoreTemplate;
 import deimophobe.dvz.menu.*;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -50,7 +51,7 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 		ItemStack close = CustomItem.getItem(itemConfig.getConfigurationSection("close"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
 		ItemStack points = CustomItem.getItem(itemConfig.getConfigurationSection("points"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
 		
-		toolbar.setItem(0, new PointsItem(points));
+		toolbar.setItem(0, new PointsItem(points, points));
 		toolbar.setItem(3, new PageChanger<>(back, pages, false));
 		toolbar.setItem(5, new PageChanger<>(forward, pages, true));
 		toolbar.setItem(8, new CloseMenuItem<Loadout>(close));
@@ -66,14 +67,26 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 		return Loadout.getLoadout(player);
 	}
 	
-	private class PointsItem extends SimpleItem<Loadout> {
-		PointsItem(ItemStack item) {super(item);}
+	private class PointsItem implements MenuItem<Loadout> {
+		private final ItemStack pointsItem;
+		private final ItemStack trashItem;
+		
+		PointsItem(ItemStack pointsItem, ItemStack trashItem) {
+			this.pointsItem = pointsItem;
+			this.trashItem = trashItem;
+		}
 		
 		@Override
 		public ItemStack getDisplayItem(MenuSession<Loadout> session) {
-			ItemStack item = super.getDisplayItem(session).clone();
-			item.setAmount(session.getData().getRemainingPoints());
-			return item;
+			int amt = session.getData().getRemainingPoints();
+			
+			if (amt == 0) {
+				return trashItem;
+			} else {
+				ItemStack item = pointsItem.clone();
+				item.setAmount(amt);
+				return item;
+			}
 		}
 		
 		@Override
