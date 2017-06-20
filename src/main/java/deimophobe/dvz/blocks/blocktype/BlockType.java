@@ -31,12 +31,22 @@ public class BlockType {
 	public static final ComparableBlock UNENCHANTED_WALL = new BlockSet(NORMAL_WALL, CRACKED_WALL, DAMAGED_WALL, BROKEN_WALL);
 	public static final ComparableBlock WALL = new BlockSet(ENCHANTED_WALL, UNENCHANTED_WALL);
 	
+	
+	public static final CustomBlock NORMAL_STAIR = new MaterialBlock(Material.SMOOTH_STAIRS);
+	public static final CustomBlock DAMAGED_STAIR = new MaterialBlock(Material.COBBLESTONE_STAIRS);
+	
+	public static final CustomBlock REINFORCED_SLAB = new DataBlock(Material.STONE_SLAB2, (byte) 0);
+	public static final CustomBlock NORMAL_SLAB = new DataBlock(Material.STONE_SLAB2, (byte) 5);
+	public static final CustomBlock DAMAGED_SLAB = new DataBlock(Material.STONE_SLAB2, (byte) 3);
+	
+	
 	public static final ComparableBlock ALL_WOOLS = new MaterialBlock(Material.WOOL);
 	
-	// ----- LIGHTS -----
+	// ----- LIGHT -----
 	public static final ComparableBlock REDSTONE_LAMP = new MaterialSet(Material.REDSTONE_LAMP_OFF, Material.REDSTONE_LAMP_ON);
 	public static final CustomBlock GLOWSTONE = new MaterialBlock(Material.GLOWSTONE);
-	public static final ComparableBlock LIGHTS = new BlockSet(REDSTONE_LAMP, GLOWSTONE);
+	public static final CustomBlock SEA_LANTERN = new MaterialBlock(Material.SEA_LANTERN);
+	public static final ComparableBlock LIGHT = new BlockSet(REDSTONE_LAMP, GLOWSTONE, SEA_LANTERN);
 	
 	
 	public static boolean tryConvertBlock(Block block, ComparableBlock from, SettableBlock to) {

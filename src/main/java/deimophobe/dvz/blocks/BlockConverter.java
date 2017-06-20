@@ -5,7 +5,6 @@ import deimophobe.dvz.blocks.blocktype.ComparableBlock;
 import deimophobe.dvz.blocks.blocktype.SettableBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
@@ -24,7 +23,14 @@ public class BlockConverter {
 				new Conversion(BlockType.BROKEN_WALL, 3.0, 1.5, BlockType.AIR),
 				new Conversion(BlockType.ALL_WOOLS, 2.0, 0.5, BlockType.AIR),
 				
-				new Conversion(BlockType.LIGHTS, 3.0, 1.5, BlockType.AIR)
+				new Conversion(BlockType.NORMAL_STAIR, 4.0, 0.8, BlockType.DAMAGED_STAIR),
+				new Conversion(BlockType.DAMAGED_STAIR, 3.5, 1.2, BlockType.AIR),
+				
+				new Conversion(BlockType.REINFORCED_SLAB, 4.0, 0.7, BlockType.NORMAL_SLAB),
+				new Conversion(BlockType.NORMAL_SLAB, 4.0, 1.2, BlockType.DAMAGED_SLAB),
+				new Conversion(BlockType.DAMAGED_SLAB, 3.5, 1.2, BlockType.AIR),
+				
+				new Conversion(BlockType.LIGHT, 3.0, 1.5, BlockType.AIR)
 		),
 		CORROSION(
 				new Conversion(BlockType.WALL, 4.0, 1.5, BlockType.CORRODED_WALL),
@@ -35,21 +41,19 @@ public class BlockConverter {
 				new Conversion(BlockType.CRACKED_WALL, 4.5, 0.8, BlockType.DAMAGED_WALL),
 				new Conversion(BlockType.ALL_WOOLS, 2.0, 1.0, BlockType.AIR)
 		),
-		//MORTAR(false,
-		//		new Conversion(BlockType.UNENCHANTED_WALL, 0.0, 0.0, BlockType.NORMAL_WALL),
-		//),
+		MORTAR(
+				new Conversion(BlockType.UNENCHANTED_WALL, 0.0, 0.0, BlockType.NORMAL_WALL),
+				new Conversion(BlockType.DAMAGED_STAIR, 0.0, 0.0, BlockType.NORMAL_STAIR),
+				new Conversion(BlockType.DAMAGED_SLAB, 0.0, 0.0, BlockType.REINFORCED_SLAB),
+				new Conversion(BlockType.NORMAL_SLAB, 0.0, 0.0, BlockType.REINFORCED_SLAB),
+				new Conversion(BlockType.WALL, 10.0, 1.0, BlockType.ENCHANTED_WALL)
+		),
 		ARROW_DAMAGE,;
 		
 		
 		private final Set<Conversion> conversions = new HashSet<>();
-		private final boolean repeating;
 		
 		Type(Conversion... conversions) {
-			this(true, conversions);
-		}
-		
-		Type(boolean repeating, Conversion... conversions) {
-			this.repeating = repeating;
 			Collections.addAll(this.conversions, conversions);
 		}
 		
@@ -115,6 +119,10 @@ public class BlockConverter {
 			if (force > randStr) {
 				to.setAtBlock(block);
 			}
+			
+			if (strength == 0)
+				return 0;
+			
 			return force - randStr;
 		}
 	}
