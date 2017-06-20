@@ -24,11 +24,11 @@ public class BlockConverter {
 				new Conversion(BlockType.ALL_WOOLS, 2.0, 0.5, BlockType.AIR),
 				
 				new Conversion(BlockType.NORMAL_STAIR, 4.0, 0.8, BlockType.DAMAGED_STAIR),
-				new Conversion(BlockType.DAMAGED_STAIR, 3.5, 1.2, BlockType.AIR),
+				new Conversion(BlockType.DAMAGED_STAIR, 3.5, 1.8, BlockType.AIR),
 				
 				new Conversion(BlockType.REINFORCED_SLAB, 4.0, 0.7, BlockType.NORMAL_SLAB),
-				new Conversion(BlockType.NORMAL_SLAB, 4.0, 1.2, BlockType.DAMAGED_SLAB),
-				new Conversion(BlockType.DAMAGED_SLAB, 3.5, 1.2, BlockType.AIR),
+				new Conversion(BlockType.NORMAL_SLAB, 4.0, 1.8, BlockType.DAMAGED_SLAB),
+				new Conversion(BlockType.DAMAGED_SLAB, 3.5, 1.8, BlockType.AIR),
 				
 				new Conversion(BlockType.LIGHT, 3.0, 1.5, BlockType.AIR)
 		),

@@ -32,12 +32,12 @@ public class BlockType {
 	public static final ComparableBlock WALL = new BlockSet(ENCHANTED_WALL, UNENCHANTED_WALL);
 	
 	
-	public static final CustomBlock NORMAL_STAIR = new MaterialBlock(Material.SMOOTH_STAIRS);
-	public static final CustomBlock DAMAGED_STAIR = new MaterialBlock(Material.COBBLESTONE_STAIRS);
+	public static final CustomBlock NORMAL_STAIR = new StairBlock(Material.SMOOTH_STAIRS);
+	public static final CustomBlock DAMAGED_STAIR = new StairBlock(Material.COBBLESTONE_STAIRS);
 	
-	public static final CustomBlock REINFORCED_SLAB = new DataBlock(Material.STONE_SLAB2, (byte) 0);
-	public static final CustomBlock NORMAL_SLAB = new DataBlock(Material.STONE_SLAB2, (byte) 5);
-	public static final CustomBlock DAMAGED_SLAB = new DataBlock(Material.STONE_SLAB2, (byte) 3);
+	public static final CustomBlock REINFORCED_SLAB = new SlabBlock(Material.STONE);
+	public static final CustomBlock NORMAL_SLAB = new SlabBlock(Material.SMOOTH_BRICK);
+	public static final CustomBlock DAMAGED_SLAB = new SlabBlock(Material.COBBLESTONE);
 	
 	
 	public static final ComparableBlock ALL_WOOLS = new MaterialBlock(Material.WOOL);
