@@ -40,8 +40,10 @@ public class Dwarf extends GamePlayer {
 	// Armours
 	private final Armour armour;
 	public Armour getArmour() { return armour; };
-	
-	
+
+	// Mobspawn Count
+	private int mobspawnCount;
+	private boolean inMobspawn;
 	
 	Dwarf(Player player) {
 		this(player, DwarfData.getData(player), Armour.Type.DWARF);
@@ -86,7 +88,10 @@ public class Dwarf extends GamePlayer {
 		if (hat != null)
 			hat.putOn(this);
 		
-		
+
+		mobspawnCount = 0;
+		inMobspawn = false;
+
 		updateManaBar();
 		
 		respawn();
@@ -288,9 +293,21 @@ public class Dwarf extends GamePlayer {
 		
 		if (quadSec) {
 			giveArrow();
-			
+
 		}
-		
+		//mobspawn
+		if (quadSec) {
+			if (inMobspawn) {
+				mobspawnCount++;
+				mobspawnDamage();
+			}
+			else {
+				if (mobspawnCount > 0)
+				mobspawnCount--;
+			}
+			inMobspawn = ShrineManager.getManager().getShrine().getMobProtection().containsPlayer(this);
+		}
+
 		if (sec) {
 			regenMana(armour.getManaRegenRate());
 			
@@ -342,7 +359,7 @@ public class Dwarf extends GamePlayer {
 		}
 		return damage;
 	}
-	
+
 	@Override
 	public double onGotHit(GameEntity player, DamageType type, double damage) {
 		
@@ -447,7 +464,150 @@ public class Dwarf extends GamePlayer {
 				return false;
 		}
 	}
-	
+
+	// Mobspawn stuff
+	public void mobspawnDamage() {
+		switch (mobspawnCount) {
+			case 0:
+				break;
+			case 1:
+				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (1)");
+				break;
+			case 2:
+				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (2)");
+				useMana(100);
+				armour.damage(armour.getMaxArmor() / 10);
+				this.customDamage(null, DamageType.MOBSPAWN, 1);
+				entity.getPlayer().removePotionEffect(PotionEffectType.SPEED);
+				entity.getPlayer().removePotionEffect(PotionEffectType.ABSORPTION);
+				entity.getPlayer().removePotionEffect(PotionEffectType.REGENERATION);
+				entity.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+				entity.getPlayer().removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+				entity.getPlayer().removePotionEffect(PotionEffectType.HEALTH_BOOST);
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 30, 1));
+				break;
+			case 3:
+				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (3)");
+				useMana(200);
+				armour.damage(armour.getMaxArmor() / 10);
+				this.customDamage(null, DamageType.MOBSPAWN, 1);
+				entity.getPlayer().removePotionEffect(PotionEffectType.SPEED);
+				entity.getPlayer().removePotionEffect(PotionEffectType.ABSORPTION);
+				entity.getPlayer().removePotionEffect(PotionEffectType.REGENERATION);
+				entity.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+				entity.getPlayer().removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+				entity.getPlayer().removePotionEffect(PotionEffectType.HEALTH_BOOST);
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 30, 1));
+				break;
+			case 4:
+				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (4)");
+				useMana(200);
+				armour.damage(armour.getMaxArmor() / 10);
+				this.customDamage(null, DamageType.MOBSPAWN, 1);
+				entity.getPlayer().removePotionEffect(PotionEffectType.SPEED);
+				entity.getPlayer().removePotionEffect(PotionEffectType.ABSORPTION);
+				entity.getPlayer().removePotionEffect(PotionEffectType.REGENERATION);
+				entity.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+				entity.getPlayer().removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+				entity.getPlayer().removePotionEffect(PotionEffectType.HEALTH_BOOST);
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 30, 1));
+				break;
+			case 5:
+				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (5)");
+				useMana(300);
+				armour.damage(armour.getMaxArmor() / 10);
+				this.customDamage(null, DamageType.MOBSPAWN, 30);
+				entity.getPlayer().removePotionEffect(PotionEffectType.SPEED);
+				entity.getPlayer().removePotionEffect(PotionEffectType.ABSORPTION);
+				entity.getPlayer().removePotionEffect(PotionEffectType.REGENERATION);
+				entity.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+				entity.getPlayer().removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+				entity.getPlayer().removePotionEffect(PotionEffectType.HEALTH_BOOST);
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 50, 1));
+				break;
+			case 6:
+				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (6)");
+				useMana(300);
+				armour.damage(armour.getMaxArmor() / 5);
+				this.customDamage(null, DamageType.MOBSPAWN, 60);
+				entity.getPlayer().removePotionEffect(PotionEffectType.SPEED);
+				entity.getPlayer().removePotionEffect(PotionEffectType.ABSORPTION);
+				entity.getPlayer().removePotionEffect(PotionEffectType.REGENERATION);
+				entity.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+				entity.getPlayer().removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+				entity.getPlayer().removePotionEffect(PotionEffectType.HEALTH_BOOST);
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 30, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 50, 1));
+				break;
+			case 7:
+				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (7)");
+				useMana(300);
+				armour.damage(armour.getMaxArmor() / 4);
+				this.customDamage(null, DamageType.MOBSPAWN, 90);
+				entity.getPlayer().removePotionEffect(PotionEffectType.SPEED);
+				entity.getPlayer().removePotionEffect(PotionEffectType.ABSORPTION);
+				entity.getPlayer().removePotionEffect(PotionEffectType.REGENERATION);
+				entity.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+				entity.getPlayer().removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+				entity.getPlayer().removePotionEffect(PotionEffectType.HEALTH_BOOST);
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 60, 1));
+				break;
+			case 8:
+				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (8)");
+				useMana(300);
+				armour.damage(armour.getMaxArmor() / 3);
+				this.customDamage(null, DamageType.MOBSPAWN, 120);
+				entity.getPlayer().removePotionEffect(PotionEffectType.SPEED);
+				entity.getPlayer().removePotionEffect(PotionEffectType.ABSORPTION);
+				entity.getPlayer().removePotionEffect(PotionEffectType.REGENERATION);
+				entity.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+				entity.getPlayer().removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+				entity.getPlayer().removePotionEffect(PotionEffectType.HEALTH_BOOST);
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 70, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 70, 1));
+				break;
+			case 9:
+				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (9)");
+				useMana(500);
+				armour.damage(armour.getMaxArmor() / 2);
+				this.customDamage(null, DamageType.MOBSPAWN, 150);
+				entity.getPlayer().removePotionEffect(PotionEffectType.SPEED);
+				entity.getPlayer().removePotionEffect(PotionEffectType.ABSORPTION);
+				entity.getPlayer().removePotionEffect(PotionEffectType.REGENERATION);
+				entity.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+				entity.getPlayer().removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+				entity.getPlayer().removePotionEffect(PotionEffectType.HEALTH_BOOST);
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 80, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 80, 1));
+				break;
+			case 10:
+				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (10)");
+				useMana(1000);
+				armour.damage(armour.getMaxArmor());
+				this.customDamage(null, DamageType.MOBSPAWN, 180);
+				entity.getPlayer().removePotionEffect(PotionEffectType.SPEED);
+				entity.getPlayer().removePotionEffect(PotionEffectType.ABSORPTION);
+				entity.getPlayer().removePotionEffect(PotionEffectType.REGENERATION);
+				entity.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+				entity.getPlayer().removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+				entity.getPlayer().removePotionEffect(PotionEffectType.HEALTH_BOOST);
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 80, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 80, 1));
+				break;
+			default:
+				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (11)");
+				this.customDamage(null, DamageType.MOBSPAWN, 10000);
+				break;
+		}
+	}
+
 	@Override
 	public void onShift(boolean sneaking) {
 		kit.onShift(sneaking);
