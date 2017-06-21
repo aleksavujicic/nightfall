@@ -129,6 +129,10 @@ class LoadoutItem implements MenuItem<Loadout> {
 		}
 	}
 	
+	public ItemStack getItemStack() {
+		return itemStack;
+	}
+	
 	@Override
 	public boolean onClick(MenuSession<Loadout> session) {
 		Loadout loadout = session.getData();

@@ -3,6 +3,7 @@ package deimophobe.dvz.blocks;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GamePlayer;
 import deimophobe.dvz.Phase;
+import deimophobe.dvz.blocks.blocktype.BlockType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.shrine.region.Region;
 import org.bukkit.*;
@@ -27,31 +28,6 @@ public class BlockManager {
 	//                      UNBREAKABLES
 	// --------------------------------------------------------
 	
-	private static final Material[] FIXED_BLOCKS = {
-			Material.LOG,
-			Material.LOG_2,
-			Material.SPONGE,
-			Material.IRON_FENCE,
-			Material.JACK_O_LANTERN,
-			Material.RAILS,
-			Material.ACTIVATOR_RAIL,
-			Material.DETECTOR_RAIL,
-			Material.POWERED_RAIL,
-			Material.LADDER,
-			Material.REDSTONE_TORCH_ON,
-			Material.REDSTONE_TORCH_OFF,
-			Material.PISTON_BASE,
-			Material.PISTON_EXTENSION,
-			Material.PISTON_STICKY_BASE,
-			Material.PISTON_MOVING_PIECE,
-			Material.IRON_BLOCK,
-			Material.SIGN,
-			Material.SIGN_POST,
-			Material.WALL_SIGN,
-			Material.CHEST,
-			Material.TRAPPED_CHEST,
-	};
-	
 	private static final Set<Region> unbreakableRegions = new HashSet<>();
 	
 	public void addUnbreakableRegion(Region region) {
@@ -61,11 +37,8 @@ public class BlockManager {
 	public boolean isBreakable(Block block) {
 		if (block == null) return false;
 		
-		Material blockType = block.getType();
-		for (Material material : FIXED_BLOCKS) {
-			if (material == blockType)
-				return false;
-		}
+		if (BlockType.UNBREAKABLE_BLOCKS.matchesBlock(block))
+			return false;
 		
 		for (Region region : unbreakableRegions) {
 			if (region.containsBlock(block))
@@ -88,18 +61,8 @@ public class BlockManager {
 	//                      WALL MAGIC
 	// --------------------------------------------------------
 	
-	private static final double CORRODE_CHANCE = 0.1;
-	private final static Material[] CORRODABLE = {
-			//Material.LAPIS_ORE,
-			Material.SMOOTH_BRICK,
-			Material.MOSSY_COBBLESTONE,
-			Material.COBBLESTONE
-	};
-	public void corrodeBlocks(Block center) {
-		
-	}
 	
-	
+	/*
 	private static final double BLUE_WALL_MORTAR_CHANCE = 0.03;
 	public boolean mortarWalls(Block center, boolean wizzy) {
 		Location loc = center.getLocation();
@@ -146,6 +109,7 @@ public class BlockManager {
 		}
 		return false;
 	}
+	*/
 	
 	
 	// --------------------------------------------------------

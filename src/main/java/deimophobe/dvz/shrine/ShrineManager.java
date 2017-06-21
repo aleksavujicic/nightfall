@@ -276,6 +276,9 @@ public class ShrineManager {
 
 		// if final shrine
 		if (currentShrine == shrines.size()) {
+			Bukkit.broadcastMessage(ChatColor.RED + "==================================================");
+			Bukkit.broadcastMessage(ChatColor.DARK_RED + "THE FINAL DWARVEN SHRINE HAS FALLEN!");
+			Bukkit.broadcastMessage(ChatColor.RED + "==================================================");
 			
 			shrineBar.setProgress(0);
 			shrineBar.setTitle(ChatColor.RED + "The Dwarves Have Fallen!");
@@ -283,6 +286,10 @@ public class ShrineManager {
 			
 			Game.getGame().endGame();
 		} else {
+			Bukkit.broadcastMessage(ChatColor.GOLD + "==================================================");
+			Bukkit.broadcastMessage(ChatColor.YELLOW + "THE " + prevShrine.getName().toUpperCase() + " HAS FALLEN!");
+			Bukkit.broadcastMessage(ChatColor.GOLD + "==================================================");
+			
 			for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
 				dwarf.giveProc(ProcType.SHRINE_FALL);
 				dwarf.getArmour().repair(1000);

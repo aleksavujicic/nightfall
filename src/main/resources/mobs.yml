@@ -194,7 +194,7 @@ wolf:
        - "Attacking dwarves at night deals\n
           extra damage\n
           Right click to Leap, hold shift\n
-          for a boost."
+          for a vertical boost."
       flavour:
        - "Arooooooooo."
 
@@ -257,7 +257,9 @@ rat:
     name: Rat Talons
     lore:
       description:
-       - "Right click on the shrine\n
+       - "Left click to break torches\n
+          to gain 60 mana\n
+          Right click on the shrine\n
           to steal gold."
       flavour:
        - "Now where did those wrenches go?"
@@ -294,7 +296,7 @@ golem:
     lore:
       description:
        - "You deal heavy damage and armour shred\n
-          in a small aoe radius."
+          but you must jump to move."
       flavour:
        - "Beep boop beep beep."
 

@@ -1,5 +1,6 @@
 package deimophobe.dvz.blocks.blocktype;
 
+import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -31,12 +32,88 @@ public class BlockType {
 	public static final ComparableBlock UNENCHANTED_WALL = new BlockSet(NORMAL_WALL, CRACKED_WALL, DAMAGED_WALL, BROKEN_WALL);
 	public static final ComparableBlock WALL = new BlockSet(ENCHANTED_WALL, UNENCHANTED_WALL);
 	
+	
+	public static final CustomBlock NORMAL_STAIR = new StairBlock(Material.SMOOTH_STAIRS);
+	public static final CustomBlock DAMAGED_STAIR = new StairBlock(Material.COBBLESTONE_STAIRS);
+	public static final ComparableBlock ALL_STAIRS = new BlockSet(NORMAL_STAIR, DAMAGED_STAIR);
+	
+	public static final CustomBlock REINFORCED_SLAB = new SlabBlock(Material.STONE);
+	public static final CustomBlock NORMAL_SLAB = new SlabBlock(Material.SMOOTH_BRICK);
+	public static final CustomBlock DAMAGED_SLAB = new SlabBlock(Material.COBBLESTONE);
+	public static final ComparableBlock ALL_SLABS = new BlockSet(REINFORCED_SLAB, NORMAL_SLAB, DAMAGED_SLAB);
+	
+	
 	public static final ComparableBlock ALL_WOOLS = new MaterialBlock(Material.WOOL);
 	
-	// ----- LIGHTS -----
+	// ----- LIGHT -----
 	public static final ComparableBlock REDSTONE_LAMP = new MaterialSet(Material.REDSTONE_LAMP_OFF, Material.REDSTONE_LAMP_ON);
 	public static final CustomBlock GLOWSTONE = new MaterialBlock(Material.GLOWSTONE);
-	public static final ComparableBlock LIGHTS = new BlockSet(REDSTONE_LAMP, GLOWSTONE);
+	public static final CustomBlock SEA_LANTERN = new MaterialBlock(Material.SEA_LANTERN);
+	public static final ComparableBlock LIGHT = new BlockSet(REDSTONE_LAMP, GLOWSTONE, SEA_LANTERN);
+	
+	
+	
+	// ----- MISC -----
+	public static final ComparableBlock ACTIVE_SHRINE_BLOCK =
+			block -> (
+					block.getType() == Material.ENDER_PORTAL_FRAME
+					&& ShrineManager.getManager().getShrine().getShrineRegion().containsBlock(block)
+			);
+	public static final ComparableBlock ANY_SHRINE_BLOCK = new MaterialBlock(Material.ENDER_PORTAL_FRAME);
+	
+	
+	// ----- Blocksets -----
+	public static final ComparableBlock UNTIMEABLE_BLOCKS = new BlockSet(
+			PISTON_BASE,
+			CRACKED_GOLD_1,
+			CRACKED_GOLD_2,
+			CRACKED_GOLD_3,
+			
+			ANY_SHRINE_BLOCK,
+			LIGHT,
+			
+			new MaterialSet(
+					Material.SPONGE,
+					Material.IRON_FENCE,
+					
+					Material.RAILS,
+					Material.ACTIVATOR_RAIL,
+					Material.DETECTOR_RAIL,
+					Material.POWERED_RAIL,
+					Material.LADDER,
+					Material.REDSTONE_TORCH_ON,
+					Material.REDSTONE_TORCH_OFF,
+					
+					Material.CHEST,
+					Material.TRAPPED_CHEST,
+					
+					Material.JACK_O_LANTERN
+			)
+	);
+	
+	public static final ComparableBlock UNBREAKABLE_BLOCKS = new BlockSet(
+			UNTIMEABLE_BLOCKS,
+			
+			new MaterialSet(
+					Material.LOG,
+					Material.LOG_2,
+					
+					Material.IRON_BLOCK,
+					
+					Material.SIGN,
+					Material.SIGN_POST,
+					Material.WALL_SIGN
+			)
+	);
+	
+	public static final ComparableBlock GOLEM_UNBREAKABLE_BLOCKS = new BlockSet(
+			UNBREAKABLE_BLOCKS,
+			
+			new MaterialSet(
+					Material.BEDROCK
+			)
+	);
+	
 	
 	
 	public static boolean tryConvertBlock(Block block, ComparableBlock from, SettableBlock to) {
