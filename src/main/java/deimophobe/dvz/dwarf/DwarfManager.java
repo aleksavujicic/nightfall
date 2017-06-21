@@ -64,7 +64,7 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	
 	
 	public Dwarf createDwarf(Player player, DwarfData data) {
-		Dwarf dwarf = new Dwarf(player, data, Armour.Type.DWARF);
+		Dwarf dwarf = new Dwarf(player, data);
 		registerGamePlayer(dwarf);
 		return dwarf;
 	}

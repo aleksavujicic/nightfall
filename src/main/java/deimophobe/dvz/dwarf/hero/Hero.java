@@ -5,6 +5,7 @@ import deimophobe.dvz.Hat;
 import deimophobe.dvz.Skin;
 import deimophobe.dvz.dwarf.armour.Armour;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.armour.HeroArmour;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.dwarf.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
@@ -27,9 +28,11 @@ public class Hero extends Dwarf {
 	private final Type type;
 	
 	protected Hero(Player player, Type type) {
-		super(player, type.getData(), Armour.Type.HERO);
+		super(player, type.getData());
 		
 		this.type = type;
+		
+		setArmour(new HeroArmour());
 		
 		Disguise disguise = type.getDisguise();
 		if (disguise != null)

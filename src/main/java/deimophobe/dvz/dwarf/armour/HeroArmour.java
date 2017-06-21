@@ -6,7 +6,7 @@ import deimophobe.dvz.items.modifiers.ItemModifierType;
  * Created by Deimophobe on 6/05/17.
  */
 public class HeroArmour implements Armour {
-	HeroArmour() {}
+	public HeroArmour() {}
 	
 	@Override
 	public boolean isArmoured() {

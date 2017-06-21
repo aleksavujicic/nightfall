@@ -2,6 +2,8 @@ package deimophobe.dvz.dwarf;
 
 import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.armour.Armour;
+import deimophobe.dvz.dwarf.armour.DwarvenArmour;
+import deimophobe.dvz.dwarf.armour.NakedArmour;
 import deimophobe.dvz.dwarf.kit.Kit;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
@@ -36,18 +38,19 @@ public class Dwarf extends GamePlayer {
 	public void giveKitItems(KitGiveType type) {kit.giveItems(type);}
 	
 	// Armours
-	private final Armour armour;
+	private Armour armour;
 	public Armour getArmour() { return armour; };
+	protected void setArmour(Armour armour) { this.armour = armour; };
 
 	// Mobspawn Count
 	private int mobspawnCount;
 	private boolean inMobspawn;
 	
 	Dwarf(Player player) {
-		this(player, DwarfData.getData(player), Armour.Type.DWARF);
+		this(player, DwarfData.getData(player));
 	}
 	
-	public Dwarf(Player player, DwarfData data, Armour.Type armourType) {
+	public Dwarf(Player player, DwarfData data) {
 		super(player);
 		
 		// Clear potion effects/inventory
@@ -56,7 +59,7 @@ public class Dwarf extends GamePlayer {
 		entity.setGameMode(GameMode.SURVIVAL);
 		
 		// Set armour
-		armour = armourType.getArmour(this);
+		armour = new DwarvenArmour(this);
 		
 		// Setup kit
 		this.kit = new Kit(this, data);
@@ -105,6 +108,14 @@ public class Dwarf extends GamePlayer {
 		teleportTo(ShrineManager.getManager().getDwarfSpawn());
 		entity.setFireTicks(0);
 	}
+	
+	public void teleportToFinalAndStrip(Location location) {
+		teleportTo(location);
+		setArmour(new NakedArmour(this));
+	}
+	
+	
+	// ------ KIT ITEMS -------
 	
 	protected void giveStartingItems(Map<ConsumableType, Integer> consumables) {
 		kit.giveItems(KitGiveType.START);
