@@ -90,7 +90,7 @@ public class Shrine {
 			if (shrineNum == 0 && shrinePower < (maxShrinePower / 4)) {
 				recovery = dwarfNum * (maxShrinePower / 100);
 			}
-			else {
+			else if (shrineNum != 0){
 				recovery = dwarfNum * (maxShrinePower / 40);
 			}
 		}
