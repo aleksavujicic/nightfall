@@ -2,6 +2,7 @@ package deimophobe.dvz;
 
 import deimophobe.dvz.blocks.BlockConverter;
 import deimophobe.dvz.blocks.BlockManager;
+import deimophobe.dvz.blocks.blocktype.BlockType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.DwarvenItems;
@@ -121,7 +122,7 @@ public class GameListener implements Listener {
 			TimedBlock.hitBlock(block, gp);
 			
 			Material mat = event.getMaterial();
-			if (mat != Material.COBBLESTONE && mat != Material.TORCH) {
+			if (mat == Material.BARRIER || mat == Material.CHEST || BlockType.UNINTERACTABLE_BLOCKS.matchesBlock(block)) {
 				event.setCancelled(true);
 			}
 		}

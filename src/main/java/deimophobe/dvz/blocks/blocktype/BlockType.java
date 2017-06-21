@@ -113,6 +113,19 @@ public class BlockType {
 			)
 	);
 	
+	public static final ComparableBlock UNINTERACTABLE_BLOCKS = new BlockSet(
+			
+			new MaterialSet(
+					Material.CHEST,
+					Material.ENDER_CHEST,
+					Material.HOPPER,
+					Material.WORKBENCH,
+					Material.FURNACE,
+					Material.ANVIL,
+					Material.BREWING_STAND
+			)
+	);
+	
 	
 	
 	public static boolean tryConvertBlock(Block block, ComparableBlock from, SettableBlock to) {

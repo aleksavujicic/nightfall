@@ -438,7 +438,7 @@ public class Dwarf extends GamePlayer {
 			}
 		}
 		
-		if (Misc.isRightClick(type) && clickedBlock != null && clickedBlock.getType() == Material.CHEST) {
+		if (Misc.isRightClick(type) && clickedBlock != null && (clickedBlock.getType() == Material.CHEST || clickedBlock.getType() == Material.ENDER_CHEST)) {
 			showSharedChest();
 			return;
 		}
