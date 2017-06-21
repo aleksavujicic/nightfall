@@ -277,8 +277,20 @@ public class Dwarf extends GamePlayer {
 	public boolean isPlagueImmune() {
 		return plagueImmune;
 	}
-	
-	
+
+	// ------ FORCEPLAGUE ------
+	private boolean plagued = false;
+	public boolean togglePlagued() {
+		plagued = !plagued;
+		return plagued;
+	}
+	public void forcePlague() {
+		plagued = true;
+	}
+	public boolean isPlagued() {
+		return plagued;
+	}
+
 	// ------ UPDATE ------
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		kit.update(quartSec, halfSec, sec, doubleSec, quadSec);

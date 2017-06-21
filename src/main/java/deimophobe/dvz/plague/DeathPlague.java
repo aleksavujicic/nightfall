@@ -13,6 +13,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -22,8 +23,8 @@ class DeathPlague extends AbstractPlague {
 	private Enderman death;
 	
 	@Override
-	public void startPlague(Set<Dwarf> plagueables, int killAmt) {
-		super.startPlague(plagueables, killAmt);
+	public void startPlague(Set<Dwarf> plagueables, Set<Dwarf> plagued, int killAmt) {
+		super.startPlague(plagueables, plagued, killAmt);
 		
 		World world = MapManager.getManager().getWorld();
 		
@@ -63,13 +64,19 @@ class DeathPlague extends AbstractPlague {
 		
 		Dwarf nearestDwarf = null;
 		double nearestDistance = Double.MAX_VALUE;
-		
-		for (Dwarf dwarf : plagueables) {
-			double distance = deathLoc.distance(dwarf.getLocation());
-			if (distance < nearestDistance) {
-				nearestDwarf = dwarf;
-				nearestDistance = distance;
+
+		if (plagued.isEmpty()) {
+			for (Dwarf dwarf : plagueables) {
+				double distance = deathLoc.distance(dwarf.getLocation());
+				if (distance < nearestDistance) {
+					nearestDwarf = dwarf;
+					nearestDistance = distance;
+				}
 			}
+		}
+		else {
+			Iterator<Dwarf> iter = plagued.iterator();
+			nearestDwarf = iter.next();
 		}
 		return nearestDwarf;
 	}

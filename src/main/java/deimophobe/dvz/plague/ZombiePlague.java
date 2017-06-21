@@ -21,16 +21,22 @@ class ZombiePlague extends AbstractPlague {
 	private int numZombiesAlive = 0;
 	
 	@Override
-	public void startPlague(Set<Dwarf> plagueables, int killAmt) {
-		super.startPlague(plagueables, killAmt);
+	public void startPlague(Set<Dwarf> plagueables, Set<Dwarf> plagued, int killAmt) {
+		super.startPlague(plagueables, plagued, killAmt);
 		infectMore();
 	}
 	
 	private void infectMore() {
 		int toPlague = (int) Math.ceil((double) toKill/4);
 		for (int i=0; i<toPlague; i++) {
-			Dwarf dwarf = Misc.getRandom(plagueables);
-			convertToZombie(dwarf);
+			if (plagued.isEmpty()) {
+				Dwarf dwarf = Misc.getRandom(plagueables);
+				convertToZombie(dwarf);
+			}
+			else {
+				Dwarf dwarf = Misc.getRandom(plagued);
+				convertToZombie(dwarf);
+			}
 		}
 	}
 	
@@ -38,7 +44,7 @@ class ZombiePlague extends AbstractPlague {
 	private static final int SICK_MSG_TIME = 160;
 	
 	void convertToZombie(Dwarf dwarf) {
-		if (toKill == 0 || !plagueables.contains(dwarf)) return;
+		if (toKill == 0 || !plagueables.contains(dwarf) || !plagued.contains(dwarf)) return;
 		
 		removeDwarf(dwarf);
 		
@@ -74,8 +80,14 @@ class ZombiePlague extends AbstractPlague {
 	void notifyZombieDeath() {
 		numZombiesAlive--;
 		if (numZombiesAlive == 0) {
-			Dwarf dwarf = Misc.getRandom(plagueables);
-			convertToZombie(dwarf);
+			if (plagued.isEmpty()) {
+				Dwarf dwarf = Misc.getRandom(plagueables);
+				convertToZombie(dwarf);
+			}
+			else {
+				Dwarf dwarf = Misc.getRandom(plagued);
+				convertToZombie(dwarf);
+			}
 			infectMore();
 		}
 	}

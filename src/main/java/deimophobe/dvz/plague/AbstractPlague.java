@@ -12,17 +12,24 @@ import java.util.Set;
  */
 public abstract class AbstractPlague extends Plague {
 	protected Set<Dwarf> plagueables;
+	protected Set<Dwarf> plagued;
 	protected int toKill;
 	
 	@Override
-	public void startPlague(Set<Dwarf> plagueables, int killAmt) {
+	public void startPlague(Set<Dwarf> plagueables, Set<Dwarf> plagued, int killAmt) {
 		this.plagueables = plagueables;
+		this.plagued = plagued;
 		this.toKill = killAmt;
 	}
 	
 	@Override
 	public void forceEnd() {
-		Iterator<Dwarf> iter = plagueables.iterator();
+		Iterator<Dwarf> iter = plagued.iterator();
+		while (iter.hasNext() && toKill > 0) {
+			iter.next().kill();
+			toKill--;
+		}
+		iter = plagueables.iterator();
 		while (iter.hasNext() && toKill > 0) {
 			iter.next().kill();
 			toKill--;
@@ -33,7 +40,12 @@ public abstract class AbstractPlague extends Plague {
 	
 	protected void removeDwarf(Dwarf dwarf) {
 		toKill--;
-		plagueables.remove(dwarf);
+		if (plagued.contains(dwarf)) {
+			plagued.remove(dwarf);
+		}
+		else {
+			plagueables.remove(dwarf);
+		}
 	}
 	
 	protected void killDwarf(Dwarf dwarf) {

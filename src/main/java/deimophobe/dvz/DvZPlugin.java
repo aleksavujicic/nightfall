@@ -419,6 +419,34 @@ public class DvZPlugin extends JavaPlugin {
 				return true;
 			}
 		}
+
+		if (name.equalsIgnoreCase("plague")) {
+			Player player;
+			if (sender instanceof Player) {
+				player = (Player) sender;
+			} else {
+				sender.sendMessage(ChatColor.RED + "You must choose a player");
+				return true;
+			}
+			Dwarf dwarf = dm.getGamePlayer(player);
+			if (dwarf == null) {
+				sender.sendMessage(ChatColor.RED + "You are not a dwarf!");
+				return true;
+			}
+
+			boolean nowSick = dwarf.togglePlagued();
+			if (nowSick) {
+				if (dwarf.isPlagueImmune()) {
+					dwarf.togglePlagueImmunity();
+				}
+				dwarf.sendMessage(ChatColor.GREEN + "You are now plagued!");
+			} else {
+				dwarf.sendMessage(ChatColor.YELLOW + "You now have an ordinary chance of being plagued!");
+			}
+			return true;
+		}
+
+
 		if (name.equalsIgnoreCase("loadout")) {
 			if (sender instanceof Player) {
 				LoadoutMenu.getMenu().startSession((Player) sender);

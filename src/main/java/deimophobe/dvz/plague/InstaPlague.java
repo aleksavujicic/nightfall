@@ -9,8 +9,8 @@ import java.util.Set;
  */
 class InstaPlague extends AbstractPlague {
 	@Override
-	public void startPlague(Set<Dwarf> plagueables, int killAmt) {
-		super.startPlague(plagueables, killAmt);
+	public void startPlague(Set<Dwarf> plagueables, Set<Dwarf> plagued, int killAmt) {
+		super.startPlague(plagueables, plagued, killAmt);
 		forceEnd();
 	}
 }
