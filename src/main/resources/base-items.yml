@@ -101,5 +101,5 @@ diamond_hoe:
 
 shield:
   hammer: 1
-  herohammer: 2
+#  herohammer: 2
   axe: 3
