@@ -76,6 +76,9 @@ commands:
   plagueimmune:
     description: Makes a player (un)immune to plague.
     usage: /plagueimmune [player]
+  plague:
+    description: Makes yourself plague up to the limit.
+    usage: /plague
 
   forcedoom:
     description: Forces the doom timer to hit 0.

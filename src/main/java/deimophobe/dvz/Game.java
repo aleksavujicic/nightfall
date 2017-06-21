@@ -211,16 +211,17 @@ public class Game {
 		
 		// Dwarves and number to plague
 		Set<Dwarf> plagueables = dm.getPlagueables();
+		Set<Dwarf> plagued = dm.getPlagued();
 		//int toKill = plagueables.size();
-		int toKill = plagueables.size()/3;
+		int toKill = dm.getDwarves().size()/3;
 		
 		if (toKill == 0) {
 			releaseMonsters();
 			return;
 		}
-		
+
 		Plague plague = Plague.getRandomPlague();
-		plague.startPlague(plagueables, toKill);
+		plague.startPlague(plagueables, plagued, toKill);
 		
 		new BukkitRunnable() {
 			@Override
