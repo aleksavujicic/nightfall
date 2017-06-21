@@ -46,10 +46,10 @@ public abstract class Consumable {
 			case STARTING:
 			case BUILD:
 			case PLAGUE:
-				dwarf.getPlayer().sendTitle("", ChatColor.RED + "Monsters are not released.", 5, 30, 5);
+				dwarf.getPlayer().sendTitle("", ChatColor.RED + "Monsters are not released!", 5, 30, 5);
 				return false;
 			case END:
-				dwarf.getPlayer().sendTitle("", ChatColor.DARK_RED + "The game is over.", 5, 30, 5);
+				dwarf.getPlayer().sendTitle("", ChatColor.DARK_RED + "The game is over!", 5, 30, 5);
 				return false;
 		}
 		return true;
