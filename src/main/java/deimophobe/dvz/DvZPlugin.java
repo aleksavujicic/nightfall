@@ -366,10 +366,15 @@ public class DvZPlugin extends JavaPlugin {
 					Player target = Bukkit.getPlayer(args[0]);
 					if (target == null) return false;
 					
-					if (sender instanceof Entity)
-						target.damage(dmg, (Entity) sender);
-					else
-						target.damage(dmg);
+					GamePlayer gp = Game.getGame().getGamePlayer(target);
+					if (gp == null) {
+						if (sender instanceof Entity)
+							target.damage(dmg, (Entity) sender);
+						else
+							target.damage(dmg);
+					} else {
+						gp.customDamage(null, DamageType.COMMAND, dmg);
+					}
 					
 					sender.sendMessage(ChatColor.YELLOW + "Damaged " + target.getDisplayName() + ChatColor.YELLOW + " for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " damage.");
 					target.sendMessage(ChatColor.YELLOW + "You got damaged by " + ChatColor.RED +  sender.getName() + ChatColor.YELLOW + " for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " damage.");
