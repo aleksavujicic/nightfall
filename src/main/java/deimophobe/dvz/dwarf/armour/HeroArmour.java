@@ -26,7 +26,12 @@ public class HeroArmour implements Armour {
 	public boolean isAtMax() {
 		return true;
 	}
-	
+
+	@Override
+	public int getMaxArmor() {
+		return 0;
+	}
+
 	@Override
 	public void damage(int damage) {}
 	

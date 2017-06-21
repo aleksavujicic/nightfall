@@ -225,6 +225,8 @@ public abstract class GamePlayer extends GameEntity<Player> {
 				return name + " went kaboom.";
 			case DEATH_PLAGUE:
 				return name + " was touched by " + ChatColor.BLACK + "DEATH" + ChatColor.RESET + ".";
+			case MOBSPAWN:
+				return name + "was consumed by the source of the darkness";
 				
 			default:
 				return name + " died.";

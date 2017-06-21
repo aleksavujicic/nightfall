@@ -22,7 +22,8 @@ public interface Armour {
 	
 	double getResistance();
 	int getManaRegenRate();
-	
+	int getMaxArmor();
+
 	enum Type {
 		DWARF,
 		HERO

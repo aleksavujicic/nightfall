@@ -32,6 +32,7 @@ public enum DamageType {
 	VOID(true),
 	SEPPUKU(true),
 	SHRINE_PROTECTION(true),
+	MOBSPAWN(false, false),
 	RELOG(true),
 	DEATH_PLAGUE(true),
 	KILL(true),
