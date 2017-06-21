@@ -25,17 +25,7 @@ class Slab extends Consumable {
 	@Override
 	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
 		if (Misc.isRightClick(action)) return FAILED_CD;
-		
-		switch (Game.getGame().getPhase()) {
-			case STARTING:
-			case BUILD:
-			case PLAGUE:
-				dwarf.getPlayer().sendTitle("", ChatColor.YELLOW + "You cannot use slabs until the monsters are released.", 5, 30, 5);
-				return FAILED_CD;
-			case END:
-				dwarf.getPlayer().sendTitle("", ChatColor.RED + "You cannot use slabs after the game is over.", 5, 30, 5);
-				return FAILED_CD;
-		}
+		if (!checkPhase(dwarf)) return FAILED_CD;
 		
 		Block block = dwarf.getPlayer().getTargetBlock((Set<Material>) null, 5);
 		
