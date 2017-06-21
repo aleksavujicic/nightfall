@@ -36,8 +36,9 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		
 		mcTeam = board.registerNewTeam(teamName);
 		
+		mcTeam.setColor(teamColour);
 		mcTeam.setPrefix(String.valueOf(teamColour));
-		mcTeam.setDisplayName(teamColour + teamName);
+		mcTeam.setDisplayName(teamName);
 		
 		mcTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
 		mcTeam.setCanSeeFriendlyInvisibles(true);
