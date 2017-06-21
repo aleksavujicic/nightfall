@@ -52,4 +52,8 @@ public enum ProcType {
 		if (playSound)
 			dwarf.playSound("proc", 100f, 1f, false);
 	}
+	
+	public int getDuration() {
+		return duration;
+	}
 }

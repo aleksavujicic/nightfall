@@ -5,6 +5,8 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import deimophobe.dvz.monster.ai.AIEntity;
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
@@ -17,6 +19,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.inventivetalent.glow.GlowAPI;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -217,6 +220,20 @@ public abstract class GameEntity<E extends LivingEntity> {
 	private static final int MAX_POTION_LENGTH = 10*60*60*20;
 	public void givePermanentPotionEffect(PotionEffectType type, int amplifier) {
 		givePotionEffect(type, MAX_POTION_LENGTH, amplifier, true, true, true);
+	}
+	
+	public void setGlowing(int duration, GlowAPI.Color color) {
+		GlowAPI.setGlowing(entity, color, Bukkit.getOnlinePlayers());
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				GlowAPI.setGlowing(entity, false, Bukkit.getOnlinePlayers());
+			}
+		}.runTaskLater(Game.getGame().getPlugin(), duration);
+	}
+	
+	public void setGlowing(GlowAPI.Color color) {
+		GlowAPI.setGlowing(entity, color, Bukkit.getOnlinePlayers());
 	}
 	
 	public void clearEffects() {

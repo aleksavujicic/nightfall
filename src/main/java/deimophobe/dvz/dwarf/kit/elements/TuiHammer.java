@@ -12,13 +12,16 @@ import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
 import deimophobe.dvz.monster.ai.AIManager;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
+import org.inventivetalent.glow.GlowAPI;
 
 /**
  * Created by Deimophobe on 11/03/17.
@@ -74,8 +77,7 @@ class TuiHammer extends AbstractAOEHitter implements KitCooldownElement {
 				dwarf.playSound("dragonroar", 1, 1, true);
 			
 			dwarf.getPlayer().getWorld().spawnParticle(Particle.FLAME, dwarf.getLocation(), 200, 1, 1, 1, 0.1);
-			dwarf.givePotionEffect(PotionEffectType.GLOWING, 160, 1, true, false, true);
-			
+			dwarf.setGlowing(ProcType.ROAR.getDuration(), GlowAPI.Color.GOLD);
 			dwarf.giveProc(ProcType.ROAR);
 			
 			for (AIEntity ai : AIManager.getManager().getAIs()) {
