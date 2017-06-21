@@ -46,10 +46,8 @@ public class DvZPlugin extends JavaPlugin {
 		//Bukkit.getLogger().info("AYYYY LMAO");
 		game.setupGame(this);
 		
-		if (MapManager.getManager().isEnabled()) {
-			for (Player player : Bukkit.getOnlinePlayers()) {
-				Game.getGame().resetPlayer(player);
-			}
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			Game.getGame().resetPlayer(player);
 		}
 	}
 
