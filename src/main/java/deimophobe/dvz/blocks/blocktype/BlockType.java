@@ -29,7 +29,7 @@ public class BlockType {
 	
 	public static final CustomBlock CORRODED_WALL = new WoolBlock(DyeColor.LIME);
 	
-	public static final ComparableBlock UNENCHANTED_WALL = new BlockSet(NORMAL_WALL, CRACKED_WALL, DAMAGED_WALL, BROKEN_WALL);
+	public static final ComparableBlock UNENCHANTED_WALL = new BlockSet(NORMAL_WALL, CRACKED_WALL, DAMAGED_WALL, BROKEN_WALL, new MaterialBlock(Material.SMOOTH_BRICK));
 	public static final ComparableBlock WALL = new BlockSet(ENCHANTED_WALL, UNENCHANTED_WALL);
 	
 	
