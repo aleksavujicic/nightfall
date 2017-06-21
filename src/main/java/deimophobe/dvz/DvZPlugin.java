@@ -289,6 +289,19 @@ public class DvZPlugin extends JavaPlugin {
 				return false;
 			}
 		}
+		if (name.equalsIgnoreCase("compass")) {
+			if (sender instanceof Player) {
+				Dwarf dwarf = dm.getGamePlayer((Player)sender);
+				if (dwarf != null)
+					dwarf.giveCompass();
+				else
+					sender.sendMessage(ChatColor.RED + "You must be a dwarf to do that");
+				
+				return true;
+			} else {
+				return false;
+			}
+		}
 		if (name.equalsIgnoreCase("armour")) {
 			if (sender instanceof Player) {
 				Dwarf dwarf = dm.getGamePlayer((Player)sender);

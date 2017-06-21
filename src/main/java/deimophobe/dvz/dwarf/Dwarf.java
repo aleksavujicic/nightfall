@@ -21,7 +21,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by Deimophobe on 15/01/17.
@@ -30,10 +29,9 @@ public class Dwarf extends GamePlayer {
 	
 	// Kits
 	private final Kit kit;
-	private final Set<KitElementType> kitElements;
 	
 	public boolean hasKitElement(KitElementType type) {
-		return kitElements.contains(type);
+		return kit.containsElement(type);
 	}
 	public void giveKitItems(KitGiveType type) {kit.giveItems(type);}
 	
@@ -61,7 +59,6 @@ public class Dwarf extends GamePlayer {
 		armour = armourType.getArmour(this);
 		
 		// Setup kit
-		this.kitElements = data.getElements();
 		this.kit = new Kit(this, data);
 		giveStartingItems(data.getConsumables());
 		
@@ -111,11 +108,21 @@ public class Dwarf extends GamePlayer {
 	
 	protected void giveStartingItems(Map<ConsumableType, Integer> consumables) {
 		kit.giveItems(KitGiveType.START);
+		kit.giveItems(KitGiveType.COMPASS);
 		
 		// Add consumables
 		for (ConsumableType type : consumables.keySet()) {
 			giveConsumable(type, consumables.get(type));
 		}
+	}
+	
+	public void addKitItem(KitElementType type) {
+		kit.addElement(type);
+	}
+	
+	public void giveCompass() {
+		addKitItem(KitElementType.COMPASS);
+		kit.giveItems(KitGiveType.COMPASS);
 	}
 	
 	

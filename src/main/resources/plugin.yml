@@ -47,6 +47,8 @@ commands:
     aliases: fawn
   chest:
     description: For sharing resources with your fellow dwarves.
+  compass:
+    description: Blesses Jimmy with the mighty dwarven compass.
   loadout:
     description: Choose a kit!
     aliases: kit

@@ -21,7 +21,7 @@ import java.util.*;
 public class Kit {
 	private final Dwarf dwarf;
 	
-	private final Set<KitElement> kitElements = new HashSet<>();
+	private final Map<KitElementType, KitElement> kitElements = new HashMap<>();
 	private final Set<KitCooldownElement> cooldownElements = new HashSet<>();
 	private final Set<KitItemElement> itemElements = new HashSet<>();
 	private final Set<KitBow> bowElements = new HashSet<>();
@@ -30,16 +30,19 @@ public class Kit {
 		this.dwarf = dwarf;
 		
 		for (KitElementType type : dwarfData.getElements()) {
-			addItem(type);
+			addElement(type);
 		}
 	}
 	
-	private void addItem(KitElementType type) {
-		addItem(type.createElement(dwarf));
+	public boolean containsElement(KitElementType type) {
+		return kitElements.containsKey(type);
 	}
 	
-	private void addItem(KitElement element) {
-		kitElements.add(element);
+	public void addElement(KitElementType type) {
+		if (kitElements.containsKey(type)) return;
+		
+		KitElement element = type.createElement(dwarf);
+		kitElements.put(type, element);
 		
 		if (element instanceof KitCooldownElement) {
 			KitCooldownElement cooldownElement = (KitCooldownElement) element;
@@ -66,29 +69,29 @@ public class Kit {
 	
 	// ------ EVENTS ------
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		for (KitElement item : kitElements)
+		for (KitElement item : kitElements.values())
 			item.update(quartSec, halfSec, sec, doubleSec, quadSec);
 	}
 	
 	public double onHit(GameEntity monster, DamageType type, double damage) {
-		for (KitElement item : kitElements) {
+		for (KitElement item : kitElements.values()) {
 			damage = item.onHit(monster, type, damage);
 		}
 		return damage;
 	}
 	
 	public double onGotHit(GameEntity monster, DamageType type, double damage) {
-		for (KitElement item : kitElements) {
+		for (KitElement item : kitElements.values()) {
 			damage = item.onGotHit(monster, type, damage);
 		}
-		for (KitElement item : kitElements) {
+		for (KitElement item : kitElements.values()) {
 			item.onLateGotHit(monster, type, damage);
 		}
 		return damage;
 	}
 	
 	public void onKill(GameEntity monster, DamageType type) {
-		for (KitElement item : kitElements) {
+		for (KitElement item : kitElements.values()) {
 			item.onKill(monster, type);
 		}
 	}
@@ -131,13 +134,13 @@ public class Kit {
 	}
 	
 	public void onShift(boolean sneaking) {
-		for (KitElement item : kitElements) {
+		for (KitElement item : kitElements.values()) {
 			item.onShift(sneaking);
 		}
 	}
 	
 	public void notifyDeath(Dwarf deadDwarf) {
-		for (KitElement item : kitElements) {
+		for (KitElement item : kitElements.values()) {
 			item.notifyDeath(deadDwarf);
 		}
 	}
@@ -161,5 +164,4 @@ public class Kit {
 			}
 		}
 	}
-	
 }

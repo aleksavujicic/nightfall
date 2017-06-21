@@ -34,7 +34,7 @@ public class BaseItemManager {
 		addItem("dagger", new SimpleBaseItem(Material.SHEARS, 2));
 		addItem("hammer", new SimpleBaseItem(Material.SHIELD, 1));
 		addItem("tombmaker", new SimpleBaseItem(Material.DIAMOND_SPADE));
-		//addItem("tiger_fist", new SimpleBaseItem(Material.SHEARS, 3));
+		//addElement("tiger_fist", new SimpleBaseItem(Material.SHEARS, 3));
 		addItem("tiger_fist", new SimpleBaseItem(Material.SHIELD, 0));
 		
 		addItem("dragonskin", new SimpleBaseItem(Material.BOW, 4));
