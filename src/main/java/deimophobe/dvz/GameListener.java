@@ -120,7 +120,8 @@ public class GameListener implements Listener {
 			//boolean cancel = gp.onUse(event.getAction(), block, event.getBlockFace()); // TODO
 			TimedBlock.hitBlock(block, gp);
 			
-			if (block != null && block.getType() == Material.CHEST) {
+			Material mat = event.getMaterial();
+			if (mat != Material.COBBLESTONE && mat != Material.TORCH) {
 				event.setCancelled(true);
 			}
 		}

@@ -39,6 +39,7 @@ public enum KitElementType {
 	STURDY,
 	
 	COMPASS,
+	CHESTO,
 	SAFEFALL,
 	DARKVISION,
 	AVENGE,
@@ -122,6 +123,7 @@ public enum KitElementType {
 			case STURDY: return new Sturdy(dwarf);
 				
 			case COMPASS: return new DwarfCompass(dwarf);
+			case CHESTO: return new Chestomatic(dwarf);
 			case SAFEFALL: return new JumpySafefall(dwarf);
 			case DARKVISION: return new DarkVision(dwarf);
 			case AVENGE: return new Avenge(dwarf);

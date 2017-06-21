@@ -427,6 +427,16 @@ misc:
       flavour:
        - "&dUsed by only the greatest of warriors."
 
+  chesto:
+    material: chest
+    name: "Chest-o-matic"
+    lore:
+      description:
+       - "Click to access the dwarven\n
+        shared chest."
+      flavour:
+       - "Drk fill dis in pls :)."
+
 
 hero:
   tuihammer:
