@@ -71,6 +71,9 @@ public abstract class AbstractMob implements Mob {
 	protected void givePermanentPotionEffect(PotionEffectType type, int amplifier) {
 		monster.givePotionEffect(type, POTION_LENGTH, amplifier, true, true, true);
 	}
+	protected void giveSpawnProtection(int time) {
+		monster.givePotionEffect(PotionEffectType.LUCK, time, 1, true, false, true);
+	}
 	
 	@Override
 	public void spawn() {
