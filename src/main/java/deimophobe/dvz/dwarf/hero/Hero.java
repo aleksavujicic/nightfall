@@ -1,5 +1,6 @@
 package deimophobe.dvz.dwarf.hero;
 
+import deimophobe.dvz.Game;
 import deimophobe.dvz.Hat;
 import deimophobe.dvz.Skin;
 import deimophobe.dvz.dwarf.armour.Armour;
@@ -14,6 +15,8 @@ import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.inventivetalent.glow.GlowAPI;
 
 import java.util.*;
 
@@ -60,7 +63,18 @@ public class Hero extends Dwarf {
 	}
 	
 	
-	
+	@Override
+	public void setGlowing(int duration, GlowAPI.Color color) {
+		GlowAPI.setGlowing(entity, color, Bukkit.getOnlinePlayers());
+		GlowAPI.setGlowing(getDisguise().getEntity(), color, Bukkit.getOnlinePlayers());
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				GlowAPI.setGlowing(entity, false, Bukkit.getOnlinePlayers());
+				GlowAPI.setGlowing(getDisguise().getEntity(), false, Bukkit.getOnlinePlayers());
+			}
+		}.runTaskLater(Game.getGame().getPlugin(), duration);
+	}
 	
 	
 	private static final Map<ConsumableType, Integer> HERO_CONSUMABLES = new HashMap<>();

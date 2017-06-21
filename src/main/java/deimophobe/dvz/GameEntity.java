@@ -232,10 +232,6 @@ public abstract class GameEntity<E extends LivingEntity> {
 		}.runTaskLater(Game.getGame().getPlugin(), duration);
 	}
 	
-	public void setGlowing(GlowAPI.Color color) {
-		GlowAPI.setGlowing(entity, color, Bukkit.getOnlinePlayers());
-	}
-	
 	public void clearEffects() {
 		for (PotionEffect effect : entity.getActivePotionEffects()){
 			entity.removePotionEffect(effect.getType());
