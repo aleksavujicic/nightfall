@@ -122,7 +122,7 @@ public class GameListener implements Listener {
 			TimedBlock.hitBlock(block, gp);
 			
 			Material mat = event.getMaterial();
-			if (mat == Material.BARRIER || mat == Material.CHEST || BlockType.UNINTERACTABLE_BLOCKS.matchesBlock(block)) {
+			if (mat == Material.BARRIER || mat == Material.CHEST || (block != null && BlockType.UNINTERACTABLE_BLOCKS.matchesBlock(block))) {
 				event.setCancelled(true);
 			}
 		}
