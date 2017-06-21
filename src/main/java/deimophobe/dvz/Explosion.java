@@ -37,8 +37,6 @@ public class Explosion<A extends GameEntity, R extends GameEntity> {
                 
                 jimmy.setVelocity(kbaway);
                 jimmy.customDamage(attacker, type, damage);
-    
-                Bukkit.broadcastMessage("Kablooey");
             }
         }
     }
