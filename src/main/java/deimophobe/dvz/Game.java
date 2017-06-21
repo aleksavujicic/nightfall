@@ -255,7 +255,7 @@ public class Game {
 	
 	// ------ MISC -------
 	private void removeRecipes() {
-		plugin.getServer().clearRecipes();
+		//plugin.getServer().clearRecipes();
 	}
 	
 	private void setupPacketEvents() {

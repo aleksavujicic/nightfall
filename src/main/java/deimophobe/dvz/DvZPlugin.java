@@ -45,6 +45,12 @@ public class DvZPlugin extends JavaPlugin {
 	public void onEnable() {
 		//Bukkit.getLogger().info("AYYYY LMAO");
 		game.setupGame(this);
+		
+		if (MapManager.getManager().isEnabled()) {
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				Game.getGame().resetPlayer(player);
+			}
+		}
 	}
 
 	@Override
@@ -59,10 +65,11 @@ public class DvZPlugin extends JavaPlugin {
 		Loadout.saveLoadouts();
 		
 		MapManager.getManager().deleteAllGameWorlds();
+		World mainWorld = Bukkit.getWorlds().get(0);
 		
 		if (MapManager.getManager().isEnabled()) {
 			for (Player player : Bukkit.getOnlinePlayers()) {
-				player.kickPlayer("Server Reloading.");
+				player.teleport(mainWorld.getSpawnLocation());
 			}
 			
 			for (World world : Bukkit.getWorlds()) {
