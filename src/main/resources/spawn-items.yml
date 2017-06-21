@@ -64,7 +64,7 @@ back:
   type: pager
   page: main
   item:
-    base: menu-back
+    base: leftarrow
     name: Go Back
 
 rebirth:

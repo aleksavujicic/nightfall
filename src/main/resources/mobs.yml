@@ -59,7 +59,7 @@ gobo:
        - "Hehehe Smashy Smashy."
   items:
     gobo-box:
-      base: gobo_box
+      base: tnt
       name: Gobo Box
       lore:
         description:
@@ -105,7 +105,7 @@ flamelancer:
        - "It's pretty hot."
     bound: true
   weapon:
-    base: flame_bow
+    base: flamebow
     name: Nether Tooth Bow
     lore:
       description:
@@ -147,7 +147,7 @@ witherskele:
        - "This thing looks rotten."
     bound: true
   weapon:
-    base: wither_bow
+    base: wither
     name: Nether Tooth Bow
     lore:
       description:
@@ -187,7 +187,7 @@ wolf:
        - "So Furry."
     bound: true
   weapon:
-    base: wolf_fangs
+    base: bite
     name: Wolf Fangs
     lore:
       description:
@@ -222,7 +222,7 @@ spiderling:
           Did it for you. - Drk."
     bound: true
   weapon:
-    base: ai_sword
+    base: aisword
     name: Spider Thingies
     lore:
       description:
@@ -253,7 +253,7 @@ rat:
        - "Meep."
     bound: true
   weapon:
-    base: ai_sword
+    base: aisword
     name: Rat Talons
     lore:
       description:
@@ -291,7 +291,7 @@ golem:
       kb-resist: 1
     bound: true
   weapon:
-    base: golem_pick
+    base: golempick
     name: Ancient Pick
     lore:
       description:
@@ -326,7 +326,7 @@ ogre:
       kb-resist: 1
     bound: true
   weapon:
-    base: ogre_club
+    base: ogreclub
     name: Ogre Club
     lore:
       description:
@@ -410,7 +410,7 @@ gb-hammer:
   parent: ghostblade-base
 
   weapon:
-    base: gb_hammer
+    base: hammergb
     name: Spooky Hammer
     lore:
       description:
@@ -443,7 +443,7 @@ krungor:
   armouronchest: false
   armour:
     template: monster-hero
-    base: bone_crown
+    base: bonecrown
     name: Crown of the Ogre King
     lore:
       description:
@@ -481,7 +481,7 @@ bopen:
   armouronchest: false
   armour:
     template: monster-hero
-    base: bone_crown
+    base: bonecrown
     name: Crown of the Skeleton King
     lore:
       description:
@@ -502,7 +502,7 @@ bopen:
   items:
     steed:
       template: monster-hero
-      base: ai_sword
+      base: aisword
       name: "Skeleton King's Steed"
       lore:
         description:
