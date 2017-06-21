@@ -70,7 +70,6 @@ public class BlockType {
 			CRACKED_GOLD_3,
 			
 			ANY_SHRINE_BLOCK,
-			LIGHT,
 			
 			new MaterialSet(
 					Material.SPONGE,
