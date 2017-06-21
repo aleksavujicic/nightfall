@@ -316,6 +316,7 @@ public class Game {
 				player.setHealth(20);
 				player.setSaturation(100000);
 				player.setFoodLevel(100000);
+				Loadout.updateLoadoutDisplay(player);
 				break;
 			
 			case BUILD:

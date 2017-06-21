@@ -689,6 +689,9 @@ specialitems:
   points:
     name: "Points Remaining"
     base: points
+    lore:
+      description:
+        - "Click to empty your loadout"
 
   close:
     name: "Close Menu"
@@ -701,3 +704,10 @@ specialitems:
   forward:
     name: "Next Page"
     base: rightarrow
+
+  trash:
+    name: "Clear Loadout"
+    base: trash
+    lore:
+      description:
+        - "Click to empty your loadout"

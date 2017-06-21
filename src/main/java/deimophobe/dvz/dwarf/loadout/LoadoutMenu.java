@@ -5,7 +5,6 @@ import deimophobe.dvz.Misc;
 import deimophobe.dvz.items.lore.LoreTemplate;
 import deimophobe.dvz.menu.*;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -50,8 +49,10 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 		ItemStack forward = CustomItem.getItem(itemConfig.getConfigurationSection("forward"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
 		ItemStack close = CustomItem.getItem(itemConfig.getConfigurationSection("close"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
 		ItemStack points = CustomItem.getItem(itemConfig.getConfigurationSection("points"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
+		ItemStack trash = CustomItem.getItem(itemConfig.getConfigurationSection("trash"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
 		
 		toolbar.setItem(0, new PointsItem(points, points));
+		toolbar.setItem(1, new ClearItem(trash));
 		toolbar.setItem(3, new PageChanger<>(back, pages, false));
 		toolbar.setItem(5, new PageChanger<>(forward, pages, true));
 		toolbar.setItem(8, new CloseMenuItem<Loadout>(close));
@@ -69,11 +70,11 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 	
 	private class PointsItem implements MenuItem<Loadout> {
 		private final ItemStack pointsItem;
-		private final ItemStack trashItem;
+		private final ItemStack emptyItem;
 		
-		PointsItem(ItemStack pointsItem, ItemStack trashItem) {
+		PointsItem(ItemStack pointsItem, ItemStack emptyItem) {
 			this.pointsItem = pointsItem;
-			this.trashItem = trashItem;
+			this.emptyItem = emptyItem;
 		}
 		
 		@Override
@@ -81,7 +82,7 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 			int amt = session.getData().getRemainingPoints();
 			
 			if (amt == 0) {
-				return trashItem;
+				return emptyItem;
 			} else {
 				ItemStack item = pointsItem.clone();
 				item.setAmount(amt);
@@ -94,5 +95,25 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 			session.getData().clear();
 			return true;
 		}
+	}
+	
+	private class ClearItem implements MenuItem<Loadout> {
+		private final ItemStack item;
+		
+		ClearItem(ItemStack item) {
+			this.item = item;
+		}
+		
+		@Override
+		public ItemStack getDisplayItem(MenuSession<Loadout> session) {
+			return item;
+		}
+		
+		@Override
+		public boolean onClick(MenuSession<Loadout> session) {
+			session.getData().clear();
+			return true;
+		}
+		
 	}
 }

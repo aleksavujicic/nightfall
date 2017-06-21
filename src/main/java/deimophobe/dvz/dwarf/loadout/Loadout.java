@@ -100,6 +100,12 @@ public class Loadout implements SessionData {
 		}
 	}
 	
+	
+	
+	public static void updateLoadoutDisplay(Player player) {
+		getLoadout(player).updateDisplay();
+	}
+	
 	private static final Map<UUID, Loadout> loadouts = new HashMap<>();
 	static Loadout getLoadout(Player player) {
 		return getLoadout(player.getUniqueId());
