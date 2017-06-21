@@ -1,12 +1,15 @@
 package deimophobe.dvz.dwarf.hero;
 
 import deimophobe.dvz.DamageType;
+import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.Hat;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
+import deimophobe.dvz.monster.MonsterManager;
+import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -137,7 +140,7 @@ public class Arthea extends Hero {
 		
 		entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
 		
-		setGlowing(ENRAGE_TRANSITION_DURATION, GlowAPI.Color.WHITE);
+		setGlowing(GlowAPI.Color.WHITE);
 	}
 	
 	private void startEnrage() {
