@@ -49,7 +49,13 @@ public class BlockConverter {
 				new Conversion(BlockType.DAMAGED_STAIR, 0.0, 0.0, BlockType.NORMAL_STAIR),
 				new Conversion(BlockType.DAMAGED_SLAB, 0.0, 0.0, BlockType.REINFORCED_SLAB),
 				new Conversion(BlockType.NORMAL_SLAB, 0.0, 0.0, BlockType.REINFORCED_SLAB),
-				new Conversion(BlockType.WALL, 8.0, 4.0, BlockType.ENCHANTED_WALL)
+				new Conversion(BlockType.WALL, 6.0, 2.0, BlockType.ENCHANTED_WALL)
+		),
+		WIZ_MORTAR(
+				new Conversion(BlockType.DAMAGED_STAIR, 0.0, 0.0, BlockType.NORMAL_STAIR),
+				new Conversion(BlockType.DAMAGED_SLAB, 0.0, 0.0, BlockType.REINFORCED_SLAB),
+				new Conversion(BlockType.NORMAL_SLAB, 0.0, 0.0, BlockType.REINFORCED_SLAB),
+				new Conversion(BlockType.WALL, 0.0, 0.0, BlockType.ENCHANTED_WALL)
 		),
 		ARROW_DAMAGE,;
 		

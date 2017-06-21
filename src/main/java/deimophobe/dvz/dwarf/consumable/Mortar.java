@@ -31,7 +31,10 @@ class Mortar extends Consumable {
 		
 		Block block = dwarf.getPlayer().getTargetBlock((Set<Material>) null, 5);
 		boolean shouldWizzy = wizzy || Game.getGame().getPhase() == Phase.BUILD;
-		BlockConverter.convert(BlockConverter.Type.MORTAR, block.getLocation(), (shouldWizzy ? 10 : 5));
+		if (shouldWizzy)
+			BlockConverter.convert(BlockConverter.Type.WIZ_MORTAR, block.getLocation(), 6);
+		else
+			BlockConverter.convert(BlockConverter.Type.MORTAR, block.getLocation(), 5);
 		
 		dwarf.playSound("mortar", 1, (float) (0.6 + 0.1 * Math.random() + (wizzy ? 0.2 : 0)), false);
 		
