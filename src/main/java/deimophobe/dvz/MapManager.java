@@ -250,7 +250,7 @@ public class MapManager {
 		world.setGameRuleValue("mobGriefing", "false");
 		world.setGameRuleValue("naturalRegeneration", "false");
 		world.setGameRuleValue("showDeathMessages", "true");
-		world.setGameRuleValue("spectatorGenerateChunks", "false");
+		world.setGameRuleValue("spectatorsGenerateChunks", "false");
 		world.setGameRuleValue("randomTickSpeed", "1");
 	}
 }
