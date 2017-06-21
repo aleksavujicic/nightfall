@@ -27,10 +27,10 @@ class Wrench extends Consumable {
 			case STARTING:
 			case BUILD:
 			case PLAGUE:
-				dwarf.sendMessage(ChatColor.YELLOW + "You cannot use wrenches until the monsters are released.");
+				dwarf.getPlayer().sendTitle("", ChatColor.YELLOW + "You cannot use wrenches until the monsters are released.", 5, 30, 5);
 				return FAILED_CD;
 			case END:
-				dwarf.sendMessage(ChatColor.RED + "You cannot use wrenches after the game is over.");
+				dwarf.getPlayer().sendTitle("", ChatColor.RED + "You cannot use wrenches after the game is over.", 5, 30, 5);
 				return FAILED_CD;
 		}
 		
