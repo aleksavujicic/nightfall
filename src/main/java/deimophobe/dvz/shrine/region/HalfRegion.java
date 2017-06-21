@@ -32,6 +32,12 @@ class HalfRegion implements Region {
 			case "x-":
 				coordinate = Coordinate.X_MINUS;
 				break;
+			case "y+":
+				coordinate = Coordinate.Y_PLUS;
+				break;
+			case "y-":
+				coordinate = Coordinate.Y_MINUS;
+				break;
 			case "z+":
 				coordinate = Coordinate.Z_PLUS;
 				break;

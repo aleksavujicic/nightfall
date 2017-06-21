@@ -21,7 +21,7 @@ public interface CenteredRegion extends Region {
 			case "spherical":
 				return new SphericalRegion(section);
 			default:
-				Bukkit.getLogger().severe("Region type unknown: '"+type+"'");
+				Bukkit.getLogger().severe("Centered region type unknown: '"+type+"'");
 				return null;
 		}
 	}

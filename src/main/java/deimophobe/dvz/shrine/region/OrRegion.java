@@ -15,7 +15,7 @@ class OrRegion implements Region {
 	
 	OrRegion(ConfigurationSection section) {
 		for (String key : section.getKeys(false)) {
-			if (!key.equals("type"))
+			if (!key.equals("type") && !key.equals("center"))
 				regions.add(Region.createRegion(section.getConfigurationSection(key)));
 		}
 	}

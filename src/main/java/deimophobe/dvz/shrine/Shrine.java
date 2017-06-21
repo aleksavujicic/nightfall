@@ -6,7 +6,6 @@ import deimophobe.dvz.shrine.region.CenteredRegion;
 import deimophobe.dvz.shrine.region.Region;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.util.Vector;
@@ -23,7 +22,9 @@ public class Shrine {
 	
 	private final Region mobProtection;
 	private final Region shrineProtection;
-	private final CenteredRegion shrineRegion;
+	private final Region shrineRegion;
+	
+	private final Location shrineCenter;
 	
 	private int shrinePower;
 	private final int maxShrinePower;
@@ -48,14 +49,19 @@ public class Shrine {
 		return shrineRegion;
 	}
 	
+	public Location getShrineCenter() {
+		return shrineCenter;
+	}
+	
 	public double getGoldWeight() { return goldWeight; }
 	
-	public Shrine(String name, Location mobSpawn, Region mobProtection, Region shrineProtection, CenteredRegion shrineRegion, int maxShrinePower, double goldWeight, int shrineNum) {
+	public Shrine(String name, Location mobSpawn, Region mobProtection, Region shrineProtection, Region shrineRegion, Location shrineCenter, int maxShrinePower, double goldWeight, int shrineNum) {
 		this.name = name;
 		this.mobSpawn = mobSpawn;
 		this.mobProtection = mobProtection;
 		this.shrineProtection = shrineProtection;
 		this.shrineRegion = shrineRegion;
+		this.shrineCenter = shrineCenter;
 		
 		this.shrinePower = maxShrinePower;
 		this.maxShrinePower = maxShrinePower;
@@ -70,12 +76,14 @@ public class Shrine {
 		
 		Region mobProt = Region.createRegion(section.getConfigurationSection("mobprot"));
 		Region shrineProt = Region.createRegion(section.getConfigurationSection("shrineprot"));
-		CenteredRegion shrine = CenteredRegion.createRegion(section.getConfigurationSection("shrine"));
+		Region shrine = Region.createRegion(section.getConfigurationSection("shrine"));
+		
+		Location shrineCenter = Misc.createLocation(section.getDoubleList("shrine.center"));
 		
 		int maxShrinePower = section.getInt("power");
 		double goldWeight = section.getDouble("goldweight");
 
-		return new Shrine(name, mobSpawn, mobProt, shrineProt, shrine, maxShrinePower, goldWeight, shrineNum);
+		return new Shrine(name, mobSpawn, mobProt, shrineProt, shrine, shrineCenter, maxShrinePower, goldWeight, shrineNum);
 	}
 	
 	public boolean damageShrine(int mobNum, int dwarfNum) {
@@ -145,17 +153,12 @@ public class Shrine {
 		return (float) shrinePower/maxShrinePower;
 	}
 	
-	public Location getLocation() {
-		return shrineRegion.getCenter();
-	}
-	
 	void explodeShrine() {
-		Location center = shrineRegion.getCenter();
-		World world = center.getWorld();
+		World world = shrineCenter.getWorld();
 		
-		world.spawnParticle(Particle.EXPLOSION_LARGE, center, 4, 5, 2, 5);
-		world.playSound(center, Sound.ENTITY_GENERIC_EXPLODE, 3f, 0.6f);
-		world.playSound(center, "horn", 100f, 1f);
+		world.spawnParticle(Particle.EXPLOSION_LARGE, shrineCenter, 4, 5, 2, 5);
+		world.playSound(shrineCenter, Sound.ENTITY_GENERIC_EXPLODE, 3f, 0.6f);
+		world.playSound(shrineCenter, "horn", 100f, 1f);
 		
 		if (!MapManager.getManager().isEnabled()) return;
 		
@@ -166,7 +169,7 @@ public class Shrine {
 		for (int x = -radius; x <= radius; x++) {
 			for (int y = -radius; y <= radius; y++) {
 				for (int z = -radius; z <= radius; z++) {
-					Block block = center.clone().add(x,y,z).getBlock();
+					Block block = shrineCenter.clone().add(x,y,z).getBlock();
 					
 					if (block.getType() == Material.ENDER_PORTAL_FRAME) {
 						blocks.add(block);

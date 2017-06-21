@@ -91,7 +91,7 @@ public class ShrineManager {
 			@Override public String getName() {return "Dwarf spawn";}
 		});
 		compassLocations.add(new CompassLocation() {
-			@Override public Location getLocation() {return getShrine().getLocation();}
+			@Override public Location getLocation() {return getShrine().getShrineCenter();}
 			@Override public String getName() {return "Current shrine";}
 		});
 		compassLocations.add(new CompassLocation() {
