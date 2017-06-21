@@ -38,6 +38,17 @@ class SOS extends Consumable {
 	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
 		if (Misc.isRightClick(action)) return FAILED_CD;
 		
+		switch (Game.getGame().getPhase()) {
+			case STARTING:
+			case BUILD:
+			case PLAGUE:
+				dwarf.sendMessage(ChatColor.YELLOW + "You cannot use sos until the monsters are released.");
+				return FAILED_CD;
+			case END:
+				dwarf.sendMessage(ChatColor.RED + "You cannot use sos after the game is over.");
+				return FAILED_CD;
+		}
+		
 		Location center = dwarf.getEyeLocation();
 		for (MonsterPlayer mp : MonsterManager.getManager().getGamePlayers()) {
 			if (mp.isAlive() && center.distance(mp.getLocation()) <= RANGE)

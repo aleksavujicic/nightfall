@@ -1,7 +1,9 @@
 package deimophobe.dvz.dwarf.consumable;
 
+import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -23,6 +25,17 @@ class Slab extends Consumable {
 	@Override
 	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
 		if (Misc.isRightClick(action)) return FAILED_CD;
+		
+		switch (Game.getGame().getPhase()) {
+			case STARTING:
+			case BUILD:
+			case PLAGUE:
+				dwarf.sendMessage(ChatColor.YELLOW + "You cannot use slabs until the monsters are released.");
+				return FAILED_CD;
+			case END:
+				dwarf.sendMessage(ChatColor.RED + "You cannot use slabs after the game is over.");
+				return FAILED_CD;
+		}
 		
 		Block block = dwarf.getPlayer().getTargetBlock((Set<Material>) null, 5);
 		

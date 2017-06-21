@@ -1,8 +1,11 @@
 package deimophobe.dvz.dwarf.consumable;
 
+import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
+import deimophobe.dvz.Phase;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.shrine.ShrineManager;
+import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -20,12 +23,24 @@ class Wrench extends Consumable {
 	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
 		if (Misc.isRightClick(action)) return FAILED_CD;
 		
-		boolean success = ShrineManager.getManager().useGold(15);
+		switch (Game.getGame().getPhase()) {
+			case STARTING:
+			case BUILD:
+			case PLAGUE:
+				dwarf.sendMessage(ChatColor.YELLOW + "You cannot use wrenches until the monsters are released.");
+				return FAILED_CD;
+			case END:
+				dwarf.sendMessage(ChatColor.RED + "You cannot use wrenches after the game is over.");
+				return FAILED_CD;
+		}
+		
+		boolean success = ShrineManager.getManager().useGold(60);
 		if (success) {
-			dwarf.getArmour().repair(10000);
+			dwarf.getArmour().repair(1000);
 			dwarf.playSound("block.anvil.use", 20, 0.8f, false);
 			return DEFAULT_CD;
 		} else {
+			dwarf.sendMessage(ChatColor.YELLOW + "Not enough gold in the shrine!");
 			return FAILED_CD;
 		}
 	}
