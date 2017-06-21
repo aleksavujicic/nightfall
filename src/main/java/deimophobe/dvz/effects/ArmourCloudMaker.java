@@ -11,7 +11,7 @@ public class ArmourCloudMaker implements EffectMaker {
 	@Override
 	public void playEffect(Location location) {
 		World world = location.getWorld();
-		world.playSound(location, "block.anvil.land", 1, 0.5f);
+		world.playSound(location, "block.anvil.land", 0.5f, 0.5f);
 		world.spawnParticle(Particle.CLOUD, location, 20, 0.5, 0.5, 0.5, 0);
 	}
 }
