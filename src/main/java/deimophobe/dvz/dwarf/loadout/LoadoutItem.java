@@ -17,7 +17,7 @@ import java.util.*;
 /**
  * Created by Deimophobe on 7/03/17.
  */
-class LoadoutItem implements MenuItem<Loadout> {
+class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 	
 	private final ItemStack itemStack;
 	
@@ -93,9 +93,10 @@ class LoadoutItem implements MenuItem<Loadout> {
 		itemStack.setAmount(cost == 0 ? 1 : cost);
 		
 		this.id = config.getName();
-		registerItem(this);
+		this.position = registerItem(this);
 	}
 	
+	private final int position;
 	private final String id;
 	@Override
 	public String toString() {
@@ -103,15 +104,20 @@ class LoadoutItem implements MenuItem<Loadout> {
 	}
 	
 	private final static Map<String, LoadoutItem> items = new HashMap<>();
-	private static void registerItem(LoadoutItem item) {
+	private static int registerItem(LoadoutItem item) {
 		if (items.containsKey(item.id))
 			throw new IllegalArgumentException("Cannot register loadout item '" + item.id + "'. There already exists an item with same name.");
 		items.put(item.id, item);
+		return items.size();
 	}
 	public static LoadoutItem getItem(String id) {
 		return items.get(id);
 	}
 	
+	@Override
+	public int compareTo(LoadoutItem item) {
+		return position - item.position;
+	}
 	
 	
 	
@@ -160,8 +166,6 @@ class LoadoutItem implements MenuItem<Loadout> {
 	public Category getCategory() {
 		return category;
 	}
-	
-	
 	
 	
 	private static abstract class PropertyModifier {
