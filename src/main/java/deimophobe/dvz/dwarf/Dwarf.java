@@ -41,10 +41,6 @@ public class Dwarf extends GamePlayer {
 	private Armour armour;
 	public Armour getArmour() { return armour; };
 	protected void setArmour(Armour armour) { this.armour = armour; };
-
-	// Mobspawn Count
-	private int mobspawnCount;
-	private boolean inMobspawn;
 	
 	Dwarf(Player player) {
 		this(player, DwarfData.getData(player));
@@ -90,7 +86,6 @@ public class Dwarf extends GamePlayer {
 		
 
 		mobspawnCount = 0;
-		inMobspawn = false;
 
 		updateManaBar();
 		
@@ -326,16 +321,17 @@ public class Dwarf extends GamePlayer {
 
 		}
 		//mobspawn
-		if (quadSec) {
+		if (quadSec && Game.getGame().getPhase() == Phase.GAME) {
+			boolean inMobspawn = ShrineManager.getManager().getShrine().getMobProtection().containsPlayer(this);
 			if (inMobspawn) {
 				mobspawnCount++;
 				mobspawnDamage();
 			}
 			else {
 				if (mobspawnCount > 0)
-				mobspawnCount--;
+					mobspawnCount--;
+				removePotionEffect(PotionEffectType.CONFUSION);
 			}
-			inMobspawn = ShrineManager.getManager().getShrine().getMobProtection().containsPlayer(this);
 		}
 
 		if (sec) {
@@ -357,6 +353,75 @@ public class Dwarf extends GamePlayer {
 	public void giveProc(ProcType procType) {
 		procType.giveProc(this);
 		updateVisibility();
+	}
+	
+	// ------ MOB SPAWN ------
+	private int mobspawnCount;
+	
+	protected void mobspawnDamage() {
+		if (mobspawnCount == 0) return;
+		
+		entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (" + mobspawnCount + ")");
+			
+		switch (mobspawnCount) {
+			case 0:
+				break;
+			case 1:
+				break;
+			case 2:
+				useMana(100);
+				armour.damage(50);
+				this.customDamage(null, DamageType.MOBSPAWN, 0);
+				break;
+			case 3:
+				useMana(200);
+				armour.damage(100);
+				this.customDamage(null, DamageType.MOBSPAWN, 1);
+				break;
+			case 4:
+				useMana(200);
+				armour.damage(150);
+				this.customDamage(null, DamageType.MOBSPAWN, 1);
+				break;
+			case 5:
+				useMana(300);
+				armour.damage(200);
+				this.customDamage(null, DamageType.MOBSPAWN, 30);
+				break;
+			case 6:
+				useMana(300);
+				armour.damage(300);
+				this.customDamage(null, DamageType.MOBSPAWN, 60);
+				break;
+			case 7:
+				useMana(300);
+				armour.damage(500);
+				this.customDamage(null, DamageType.MOBSPAWN, 90);
+				break;
+			case 8:
+				useMana(300);
+				armour.damage(700);
+				this.customDamage(null, DamageType.MOBSPAWN, 120);
+				break;
+			case 9:
+				useMana(500);
+				armour.damage(1000);
+				this.customDamage(null, DamageType.MOBSPAWN, 150);
+				givePotionEffect(PotionEffectType.POISON, 80, 1, true, true, true);
+				break;
+			case 10:
+				useMana(1000);
+				armour.damage(10000);
+				this.customDamage(null, DamageType.MOBSPAWN, 180);
+				givePotionEffect(PotionEffectType.POISON, 80, 3, true, true, true);
+				break;
+			default:
+				this.customDamage(null, DamageType.MOBSPAWN, 10000);
+				break;
+		}
+		
+		if (mobspawnCount >= 6)
+			givePermanentPotionEffect(PotionEffectType.CONFUSION, 1);
 	}
 	
 	// ------ EVENTS ------
@@ -492,134 +557,6 @@ public class Dwarf extends GamePlayer {
 			
 			default:
 				return false;
-		}
-	}
-
-	// Mobspawn stuff
-	public void mobspawnDamage() {
-		mobspawnPotionEffect(mobspawnCount);
-		switch (mobspawnCount) {
-			case 0:
-				break;
-			case 1:
-				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (1)");
-				break;
-			case 2:
-				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (2)");
-				useMana(100);
-				armour.damage(armour.getMaxArmor() / 10);
-				this.customDamage(null, DamageType.MOBSPAWN, 1);
-				break;
-			case 3:
-				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (3)");
-				useMana(200);
-				armour.damage(armour.getMaxArmor() / 10);
-				this.customDamage(null, DamageType.MOBSPAWN, 1);
-				break;
-			case 4:
-				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (4)");
-				useMana(200);
-				armour.damage(armour.getMaxArmor() / 10);
-				this.customDamage(null, DamageType.MOBSPAWN, 1);
-				break;
-			case 5:
-				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (5)");
-				useMana(300);
-				armour.damage(armour.getMaxArmor() / 10);
-				this.customDamage(null, DamageType.MOBSPAWN, 30);
-				break;
-			case 6:
-				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (6)");
-				useMana(300);
-				armour.damage(armour.getMaxArmor() / 5);
-				this.customDamage(null, DamageType.MOBSPAWN, 60);
-				break;
-			case 7:
-				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (7)");
-				useMana(300);
-				armour.damage(armour.getMaxArmor() / 4);
-				this.customDamage(null, DamageType.MOBSPAWN, 90);
-				break;
-			case 8:
-				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (8)");
-				useMana(300);
-				armour.damage(armour.getMaxArmor() / 3);
-				this.customDamage(null, DamageType.MOBSPAWN, 120);
-				break;
-			case 9:
-				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (9)");
-				useMana(500);
-				armour.damage(armour.getMaxArmor() / 2);
-				this.customDamage(null, DamageType.MOBSPAWN, 150);
-				break;
-			case 10:
-				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (10)");
-				useMana(1000);
-				armour.damage(armour.getMaxArmor());
-				this.customDamage(null, DamageType.MOBSPAWN, 180);
-				break;
-			default:
-				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (11)");
-				this.customDamage(null, DamageType.MOBSPAWN, 10000);
-				break;
-		}
-	}
-
-	private void mobspawnPotionEffect(int mobspawnNum) {
-		switch (mobspawnNum) {
-			case 0:
-				break;
-			case 1:
-				break;
-			case 2:
-				this.clearEffects();
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 30, 1));
-				break;
-			case 3:
-				this.clearEffects();
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 30, 1));
-				break;
-			case 4:
-				this.clearEffects();
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 30, 1));
-				break;
-			case 5:
-				this.clearEffects();
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 50, 1));
-				break;
-			case 6:
-				this.clearEffects();
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 30, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 50, 1));
-				break;
-			case 7:
-				this.clearEffects();
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 60, 1));
-				break;
-			case 8:
-				this.clearEffects();
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 70, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 70, 1));
-				break;
-			case 9:
-				this.clearEffects();
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 80, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 80, 1));
-				break;
-			case 10:
-				this.clearEffects();
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 80, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 80, 1));
-				break;
-			default:
-				break;
 		}
 	}
 

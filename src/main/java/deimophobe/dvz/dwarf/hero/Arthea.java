@@ -90,6 +90,12 @@ public class Arthea extends Hero {
 	}
 	
 	@Override
+	protected void mobspawnDamage() {
+		if (!isEnraged())
+			super.mobspawnDamage();
+	}
+	
+	@Override
 	public double onGotHit(GameEntity entity, DamageType type, double damage) {
 		if (type == DamageType.VOID)
 			return damage;

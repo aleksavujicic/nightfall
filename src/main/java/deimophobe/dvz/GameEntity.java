@@ -238,7 +238,7 @@ public abstract class GameEntity<E extends LivingEntity> {
 	
 	public void clearEffects() {
 		for (PotionEffect effect : entity.getActivePotionEffects()){
-			entity.removePotionEffect(effect.getType());
+			removePotionEffect(effect.getType());
 		}
 	}
 	
