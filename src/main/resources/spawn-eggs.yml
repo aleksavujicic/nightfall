@@ -1,7 +1,7 @@
 zombie:
   mobtype: zombie
   egg:
-    base: zombie_pick
+    material: wood_pickaxe
     name: Spawn Zombie
   permanent: true
 
@@ -15,7 +15,7 @@ gobo:
 witherskele:
   mobtype: witherskele
   egg:
-    base: wither_bow
+    base: wither
     name: Spawn Wither Skeleton
   quantity: 3
   chance: 0.08
@@ -23,7 +23,7 @@ witherskele:
 flamelancer:
   mobtype: flamelancer
   egg:
-    base: flame_bow
+    base: flamebow
     name: Spawn Flamelancer
   quantity: 3
   chance: 0.08
@@ -31,7 +31,7 @@ flamelancer:
 wolf:
   mobtype: wolf
   egg:
-    base: wolf_fangs
+    base: bite
     name: Spawn Wolf
   quantity: 5
   chance: 0.07
@@ -55,7 +55,7 @@ rat:
 golem:
   mobtype: golem
   egg:
-    base: golem_pick
+    base: golempick
     name: Spawn Golem
   quantity: 1
   chance: 0.02
@@ -63,7 +63,7 @@ golem:
 ogre:
   mobtype: ogre
   egg:
-    base: ogre_club
+    base: ogreclub
     name: Spawn Ogre
   quantity: 2
   chance: 0.05

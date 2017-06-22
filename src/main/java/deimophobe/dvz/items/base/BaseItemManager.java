@@ -1,7 +1,10 @@
 package deimophobe.dvz.items.base;
 
+import deimophobe.dvz.Misc;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -28,111 +31,28 @@ public class BaseItemManager {
 		baseItems.put(name.toLowerCase(), item);
 	}
 	static {
-		// ~~~~ DWARF ITEMS ~~~~~
-		addItem("runeblade", new SimpleBaseItem(Material.SHEARS, 0));
-		addItem("malice", new SimpleBaseItem(Material.SHEARS, 1));
-		addItem("dagger", new SimpleBaseItem(Material.SHEARS, 2));
-		addItem("hammer", new SimpleBaseItem(Material.SHIELD, 1));
-		addItem("tombmaker", new SimpleBaseItem(Material.DIAMOND_SPADE));
-		//addItem("tiger_fist", new SimpleBaseItem(Material.SHEARS, 3));
-		addItem("tiger_fist", new SimpleBaseItem(Material.SHIELD, 0));
-		
-		addItem("dragonskin", new SimpleBaseItem(Material.BOW, 4));
-		addItem("longbow", new SimpleBaseItem(Material.BOW, 1));
-		addItem("lightbow", new SimpleBaseItem(Material.BOW, 5));
-		addItem("warpbow", new SimpleBaseItem(Material.BOW, 6));
-		addItem("ebow", new SimpleBaseItem(Material.BOW, 3));
-		addItem("crossbow", new SimpleBaseItem(Material.SHEARS, 25));
-		
 		addItem("healing_ale", new PotionItem(Color.fromRGB(93, 244, 17)));
 		addItem("jimmyjuice", new PotionItem(Color.RED));
 		addItem("holy_ale", new PotionItem(Color.fromRGB(17, 108, 244)));
-		addItem("trinket", new SimpleBaseItem(Material.SHEARS, 30));
-		addItem("regrowth", new SimpleBaseItem(Material.SHEARS, 31));
 		
-		addItem("wildfire", new SimpleBaseItem(Material.SHEARS, 40));
-		addItem("wildfire_fuel", new SimpleBaseItem(Material.SHEARS, 41));
-		addItem("tui_hammer", new SimpleBaseItem(Material.SHEARS, 42));
-		addItem("excaliju", new SimpleBaseItem(Material.SHEARS, 43));
-		addItem("horn", new SimpleBaseItem(Material.SHEARS, 44));
-		addItem("magic_wand", new SimpleBaseItem(Material.SHEARS, 45));
-		addItem("tinderflame", new SimpleBaseItem(Material.SHEARS, 46));
-		
-		// ~~~~ CONSUMABLES ~~~~~
-		addItem("lamp", new SimpleBaseItem(Material.INK_SACK, 0));
-		addItem("slab", new SimpleBaseItem(Material.INK_SACK, 1));
-		addItem("sos", new SimpleBaseItem(Material.INK_SACK, 2));
-		addItem("wrench", new SimpleBaseItem(Material.INK_SACK, 3));
-		addItem("mortar", new SimpleBaseItem(Material.INK_SACK, 4));
-		addItem("wiz_mortar", new SimpleBaseItem(Material.INK_SACK, 5));
-		addItem("armour_item", new SimpleBaseItem(Material.INK_SACK, 6));
-		addItem("star_bottle", new SimpleBaseItem(Material.INK_SACK, 7));
-		
-		addItem("wood", new SimpleBaseItem(Material.INK_SACK, 12));
-		addItem("plank", new SimpleBaseItem(Material.INK_SACK, 13));
 		addItem("stick", new SimpleBaseItem(Material.STICK));
-		addItem("bowl", new SimpleBaseItem(Material.INK_SACK, 15));
 		
-		
-		// ~~~~ MONSTER ITEMS ~~~~~
-		addItem("ai_sword", new SimpleBaseItem(Material.SHEARS, 100));
-		
-		addItem("zombie_pick", new SimpleBaseItem(Material.WOOD_PICKAXE, 0));
-		
-		addItem("wither_bow", new SimpleBaseItem(Material.BOW, 2));
-		addItem("flame_bow", new SimpleBaseItem(Material.BOW, 4));
-		
-		addItem("gobo_box", new SimpleBaseItem(Material.INK_SACK, 8));
-		addItem("kaboom", new SimpleBaseItem(Material.SHEARS, 102));
-		
-		addItem("wolf_fangs", new SimpleBaseItem(Material.SHEARS, 103));
-		
-		addItem("golem_pick", new SimpleBaseItem(Material.SHEARS, 104));
-		
-		addItem("ogre_club", new SimpleBaseItem(Material.SHEARS, 105));
-		
-		addItem("cutlass", new SimpleBaseItem(Material.SHEARS, 106));
-		
-		addItem("gb_hammer", new SimpleBaseItem(Material.DIAMOND_PICKAXE, 0));
-		
-		
-		// ~~~~ HATS ~~~~~
-		addItem("bone_crown", new SimpleBaseItem(Material.SHEARS, 200));
-		addItem("flower_crown", new SimpleBaseItem(Material.SHEARS, 201));
-		addItem("witch_hat", new SimpleBaseItem(Material.SHEARS, 202));
-		addItem("arthea_bow", new SimpleBaseItem(Material.SHEARS, 203));
-		addItem("tui_hat", new SimpleBaseItem(Material.SHEARS, 204));
-		
-		
-		// ~~~~ LOADOUT ITEMS ~~~~~
-		addItem("loadout-left", new SimpleBaseItem(Material.DIAMOND_HOE, 1));
-		addItem("loadout-right", new SimpleBaseItem(Material.DIAMOND_HOE, 2));
-		addItem("loadout-close", new SimpleBaseItem(Material.DIAMOND_HOE, 3));
-		addItem("loadout-points", new SimpleBaseItem(Material.DIAMOND_HOE, 4));
-		addItem("loadout-coil", new SimpleBaseItem(Material.DIAMOND_HOE, 5));
-		addItem("loadout-dark_vis", new SimpleBaseItem(Material.DIAMOND_HOE, 6));
-		addItem("loadout-safefall", new SimpleBaseItem(Material.DIAMOND_HOE, 7));
-		addItem("loadout-avenge", new SimpleBaseItem(Material.DIAMOND_HOE, 8));
-		addItem("loadout-mortarI", new SimpleBaseItem(Material.DIAMOND_HOE, 9));
-		addItem("loadout-mortarII", new SimpleBaseItem(Material.DIAMOND_HOE, 10));
-		addItem("loadout-wizmortarI", new SimpleBaseItem(Material.DIAMOND_HOE, 11));
-		addItem("loadout-wizmortarII", new SimpleBaseItem(Material.DIAMOND_HOE, 12));
-		addItem("loadout-sosI", new SimpleBaseItem(Material.DIAMOND_HOE, 13));
-		addItem("loadout-sosII", new SimpleBaseItem(Material.DIAMOND_HOE, 14));
-		addItem("loadout-lampI", new SimpleBaseItem(Material.DIAMOND_HOE, 15));
-		addItem("loadout-lampII", new SimpleBaseItem(Material.DIAMOND_HOE, 16));
-		addItem("loadout-wrenchI", new SimpleBaseItem(Material.DIAMOND_HOE, 17));
-		addItem("loadout-wrenchII", new SimpleBaseItem(Material.DIAMOND_HOE, 18));
-		addItem("loadout-quiver", new SimpleBaseItem(Material.DIAMOND_HOE, 19));
-		addItem("loadout-studded", new SimpleBaseItem(Material.DIAMOND_HOE, 20));
-		addItem("loadout-runeblessed", new SimpleBaseItem(Material.DIAMOND_HOE, 21));
-		
-		
-		// ~~~~~ MENU ITEMS ~~~~~
-		addItem("menu-back", new SimpleBaseItem(Material.DIAMOND_HOE, 1));
 		addItem("doom_clock", new SimpleBaseItem(Material.WATCH, 0));
 		
 		addItem("upgrade_zombie", new SimpleBaseItem(Material.SKULL_ITEM, 2));
+		
+		// Add items from base-items.yml file
+		FileConfiguration config = Misc.getInternalFileConfig("base-items.yml");
+		for (String key : config.getKeys(false)) {
+			ConfigurationSection keyConfig = config.getConfigurationSection(key);
+			Material material = Material.matchMaterial(key);
+			
+			for (String itemName : keyConfig.getKeys(true)) {
+				int damage = keyConfig.getInt(itemName);
+				
+				addItem(itemName, new SimpleBaseItem(material, damage));
+			}
+		}
 	}
 	
 	private static final class ErrorItem extends SimpleBaseItem {

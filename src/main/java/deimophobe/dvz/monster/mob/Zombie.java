@@ -22,7 +22,7 @@ import org.bukkit.util.Vector;
 /**
  * Created by Deimophobe on 2/02/17.
  */
-class Zombie extends AbstractTypedMob {
+class Zombie extends AbstractTypedMob implements Rebirthable {
 	
 	private final Cooldown leapCD;
 	private final int leapLvl;
@@ -78,6 +78,11 @@ class Zombie extends AbstractTypedMob {
 		
 		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
 		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
+	}
+	
+	@Override
+	public void rebirth() {
+		giveSpawnProtection(20);
 	}
 	
 	@Override

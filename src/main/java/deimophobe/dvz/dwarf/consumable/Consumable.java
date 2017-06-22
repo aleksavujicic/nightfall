@@ -1,9 +1,11 @@
 package deimophobe.dvz.dwarf.consumable;
 
+import deimophobe.dvz.Game;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.items.CustomItem;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -38,6 +40,21 @@ public abstract class Consumable {
 	}
 	
 	public abstract int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face);
+	
+	protected boolean checkPhase(Dwarf dwarf) {
+		switch (Game.getGame().getPhase()) {
+			case STARTING:
+			case BUILD:
+			case PLAGUE:
+				dwarf.getPlayer().sendTitle("", ChatColor.RED + "Monsters are not released.", 5, 30, 5);
+				return false;
+			case END:
+				dwarf.getPlayer().sendTitle("", ChatColor.DARK_RED + "The game is over.", 5, 30, 5);
+				return false;
+		}
+		return true;
+	}
+	
 	
 	protected static final int DEFAULT_CD = 10;
 	protected static final int FAILED_CD = -1;

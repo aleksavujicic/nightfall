@@ -1,7 +1,9 @@
 package deimophobe.dvz.dwarf.consumable;
 
+import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -23,6 +25,7 @@ class Slab extends Consumable {
 	@Override
 	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
 		if (Misc.isRightClick(action)) return FAILED_CD;
+		if (!checkPhase(dwarf)) return FAILED_CD;
 		
 		Block block = dwarf.getPlayer().getTargetBlock((Set<Material>) null, 5);
 		

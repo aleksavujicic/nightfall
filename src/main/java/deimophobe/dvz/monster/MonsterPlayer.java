@@ -7,6 +7,7 @@ import deimophobe.dvz.menu.SessionData;
 import deimophobe.dvz.monster.mob.Bopen;
 import deimophobe.dvz.monster.mob.Mob;
 import deimophobe.dvz.monster.mob.MobType;
+import deimophobe.dvz.monster.mob.Rebirthable;
 import deimophobe.dvz.monster.upgrade.MobUpgrade;
 import deimophobe.dvz.shrine.ShrineManager;
 import me.libraryaddict.disguise.DisguiseAPI;
@@ -179,6 +180,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		
 		this.mob = MobType.ZOMBIE.createMob(this);
 		spawnMobAt(mob, lastRebirth);
+		((Rebirthable) mob).rebirth();
 	}
 	
 	

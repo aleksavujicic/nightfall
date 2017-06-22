@@ -21,7 +21,7 @@ public class Loadout implements SessionData {
 	
 	private static final int MAX_POINTS = 64;
 	
-	private final Set<LoadoutItem> items = new HashSet<>();
+	private final SortedSet<LoadoutItem> items = new TreeSet<>();
 	private final Map<Category, LoadoutItem> categoryItems = new HashMap<>();
 	
 	private final UUID playerUUID;
@@ -98,6 +98,12 @@ public class Loadout implements SessionData {
 				i++;
 			}
 		}
+	}
+	
+	
+	
+	public static void updateLoadoutDisplay(Player player) {
+		getLoadout(player).updateDisplay();
 	}
 	
 	private static final Map<UUID, Loadout> loadouts = new HashMap<>();

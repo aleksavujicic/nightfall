@@ -8,6 +8,7 @@ public enum DamageType {
 	REGULAR_RANGED(false, true),
 	
 	GENERIC_MAGIC(false, false),
+	COMMAND(false, false),
 	
 	POISON(10, 5),
 	

@@ -2,6 +2,8 @@ package deimophobe.dvz.dwarf;
 
 import deimophobe.dvz.*;
 import deimophobe.dvz.dwarf.armour.Armour;
+import deimophobe.dvz.dwarf.armour.DwarvenArmour;
+import deimophobe.dvz.dwarf.armour.NakedArmour;
 import deimophobe.dvz.dwarf.kit.Kit;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
@@ -21,7 +23,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by Deimophobe on 15/01/17.
@@ -30,26 +31,26 @@ public class Dwarf extends GamePlayer {
 	
 	// Kits
 	private final Kit kit;
-	private final Set<KitElementType> kitElements;
 	
 	public boolean hasKitElement(KitElementType type) {
-		return kitElements.contains(type);
+		return kit.containsElement(type);
 	}
 	public void giveKitItems(KitGiveType type) {kit.giveItems(type);}
 	
 	// Armours
-	private final Armour armour;
+	private Armour armour;
 	public Armour getArmour() { return armour; };
+	protected void setArmour(Armour armour) { this.armour = armour; };
 
 	// Mobspawn Count
 	private int mobspawnCount;
 	private boolean inMobspawn;
 	
 	Dwarf(Player player) {
-		this(player, DwarfData.getData(player), Armour.Type.DWARF);
+		this(player, DwarfData.getData(player));
 	}
 	
-	public Dwarf(Player player, DwarfData data, Armour.Type armourType) {
+	public Dwarf(Player player, DwarfData data) {
 		super(player);
 		
 		// Clear potion effects/inventory
@@ -58,10 +59,9 @@ public class Dwarf extends GamePlayer {
 		entity.setGameMode(GameMode.SURVIVAL);
 		
 		// Set armour
-		armour = armourType.getArmour(this);
+		armour = new DwarvenArmour(this);
 		
 		// Setup kit
-		this.kitElements = data.getElements();
 		this.kit = new Kit(this, data);
 		giveStartingItems(data.getConsumables());
 		
@@ -109,13 +109,31 @@ public class Dwarf extends GamePlayer {
 		entity.setFireTicks(0);
 	}
 	
+	public void teleportToFinalAndStrip(Location location) {
+		teleportTo(location);
+		setArmour(new NakedArmour(this));
+	}
+	
+	
+	// ------ KIT ITEMS -------
+	
 	protected void giveStartingItems(Map<ConsumableType, Integer> consumables) {
 		kit.giveItems(KitGiveType.START);
+		kit.giveItems(KitGiveType.COMPASS);
 		
 		// Add consumables
 		for (ConsumableType type : consumables.keySet()) {
 			giveConsumable(type, consumables.get(type));
 		}
+	}
+	
+	public void addKitItem(KitElementType type) {
+		kit.addElement(type);
+	}
+	
+	public void giveCompass() {
+		addKitItem(KitElementType.COMPASS);
+		kit.giveItems(KitGiveType.COMPASS);
 	}
 	
 	
@@ -431,7 +449,7 @@ public class Dwarf extends GamePlayer {
 			}
 		}
 		
-		if (Misc.isRightClick(type) && clickedBlock != null && clickedBlock.getType() == Material.CHEST) {
+		if (Misc.isRightClick(type) && clickedBlock != null && (clickedBlock.getType() == Material.CHEST || clickedBlock.getType() == Material.ENDER_CHEST)) {
 			showSharedChest();
 			return;
 		}

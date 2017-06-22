@@ -3,6 +3,7 @@ package deimophobe.dvz.monster.mob;
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.items.modifiers.ItemModifierType;
 import deimophobe.dvz.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
 import org.bukkit.block.Block;
@@ -18,6 +19,7 @@ abstract class SkeletonMob extends AbstractTypedMob {
 	
 	protected SkeletonMob(MonsterPlayer mons) {
 		super(mons);
+		getWeapon().addModifier(ItemModifierType.POWER, (int) getPower());
 	}
 	
 	@Override

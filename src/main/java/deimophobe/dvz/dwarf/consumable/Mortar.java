@@ -1,6 +1,8 @@
 package deimophobe.dvz.dwarf.consumable;
 
+import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
+import deimophobe.dvz.Phase;
 import deimophobe.dvz.blocks.BlockConverter;
 import deimophobe.dvz.blocks.BlockManager;
 import deimophobe.dvz.dwarf.Dwarf;
@@ -28,18 +30,14 @@ class Mortar extends Consumable {
 		if (Misc.isRightClick(action)) return FAILED_CD;
 		
 		Block block = dwarf.getPlayer().getTargetBlock((Set<Material>) null, 5);
-		BlockConverter.convert(BlockConverter.Type.MORTAR, block.getLocation(), 5);
+		boolean shouldWizzy = wizzy || Game.getGame().getPhase() == Phase.BUILD;
+		if (shouldWizzy)
+			BlockConverter.convert(BlockConverter.Type.WIZ_MORTAR, block.getLocation(), 6);
+		else
+			BlockConverter.convert(BlockConverter.Type.MORTAR, block.getLocation(), 5);
+		
+		dwarf.playSound("mortar", 1, (float) (0.6 + 0.1 * Math.random() + (wizzy ? 0.2 : 0)), false);
 		
 		return DEFAULT_CD;
-		/*
-		boolean used = BlockManager.getManager().mortarWalls(block, wizzy);
-		
-		if (used) {
-			dwarf.playSound("mortar", 1, (float) (0.6 + 0.1 * Math.random() + (wizzy ? 0.2 : 0)), false);
-			return DEFAULT_CD;
-		} else {
-			return FAILED_CD;
-		}
-		*/
 	}
 }

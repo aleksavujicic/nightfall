@@ -284,6 +284,10 @@ public class ShrineManager {
 			shrineBar.setTitle(ChatColor.RED + "The Dwarves Have Fallen!");
 			shrineBar.setColor(BarColor.RED);
 			
+			for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
+				dwarf.teleportToFinalAndStrip(getShrine().getShrineCenter());
+			}
+			
 			Game.getGame().endGame();
 		} else {
 			Bukkit.broadcastMessage(ChatColor.GOLD + "==================================================");

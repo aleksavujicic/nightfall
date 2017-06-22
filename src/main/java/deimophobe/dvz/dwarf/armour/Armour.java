@@ -23,18 +23,4 @@ public interface Armour {
 	double getResistance();
 	int getManaRegenRate();
 	int getMaxArmor();
-
-	enum Type {
-		DWARF,
-		HERO
-		;
-		
-		public Armour getArmour(Dwarf dwarf) {
-			switch (this) {
-				case DWARF: return new DwarvenArmour(dwarf);
-				case HERO: return new HeroArmour();
-			}
-			throw new IllegalArgumentException("Unknown armour type " + this);
-		}
-	}
 }

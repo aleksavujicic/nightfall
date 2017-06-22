@@ -81,7 +81,7 @@ sword:
     modifiers:
       attack: 8
   tigerfist:
-    base: tiger_fist
+    base: tigerfist
     name: Tiger Fist
     lore:
       description:
@@ -107,7 +107,7 @@ bow:
        - "Not very strong is it?\n
           Well it is a shortbow after all."
   dragonskin:
-    base: dragonskin
+    base: dskin
     name: Dragonskin Bow
     lore:
       description:
@@ -160,7 +160,7 @@ bow:
           for the rest of\n
           that Emerald City."
   warpweaver:
-    base: warpbow
+    base: warpweaver
     name: Warpweaver Bow
     lore:
       description:
@@ -283,7 +283,7 @@ consumable:
       flavour:
        - "Blue the walls dwarves."
   wizardmortar:
-    base: wiz_mortar
+    base: wizmortar
     name: Wizard Mortar
     lore:
       description:
@@ -293,7 +293,7 @@ consumable:
       flavour:
        - "Don't ask what makes it blue."
   armouritem:
-    base: armour_item
+    base: armour
     name: Dwarven Armour
     lore:
       description:
@@ -301,7 +301,7 @@ consumable:
       flavour:
        - "Make sure every dwarf gets one."
   healstation:
-    base: star_bottle
+    base: healitem
     name: Healing Station
     lore:
       description:
@@ -313,7 +313,7 @@ consumable:
           use them wisely."
 
   log:
-    base: wood
+    base: logs
     name: Wooden Log
     lore:
       description:
@@ -322,7 +322,7 @@ consumable:
       flavour:
        - "Wood. Mighty wood."
   plank:
-    base: plank
+    base: planks
     name: Wooden Plank
     lore:
       description:
@@ -342,7 +342,7 @@ consumable:
       flavour:
        - "A stick - what else would it be?"
   bowl:
-    base: bowl
+    material: bowl
     name: Wooden Bowl
     lore:
       description:
@@ -409,7 +409,7 @@ misc:
       flavour:
        - "Pew pew."
   wildfirefuel:
-    base: wildfire_fuel
+    base: fireball
     name: Wildfire Fuel
     lore:
       description:
@@ -427,11 +427,21 @@ misc:
       flavour:
        - "&dUsed by only the greatest of warriors."
 
+  chesto:
+    material: chest
+    name: "Chest-o-matic"
+    lore:
+      description:
+       - "Click to access the dwarven\n
+        shared chest."
+      flavour:
+       - "Drk fill dis in pls :)."
+
 
 hero:
   tuihammer:
     template: dwarf-hero
-    base: tui_hammer
+    base: herohammer
     name: Kindled Light
     shiny: true
     lore:
@@ -449,7 +459,7 @@ hero:
       kb_resist: 1
   wildfire:
     template: dwarf-hero
-    base: wildfire
+    base: flamestaff
     name: Wildfire
     lore:
       description:
@@ -474,7 +484,7 @@ hero:
       attack: 20
   wand:
     template: dwarf-hero
-    base: magic_wand
+    base: wand
     name: Wand of No Particular Reference
     lore:
       description:
@@ -489,7 +499,7 @@ hero:
 
   caduceus:
     template: dwarf-hero
-    material: stick
+    base: caduceus
     name: Caduceus
     lore:
       description:
@@ -515,7 +525,7 @@ hero:
       kb_resist: 1
   elystria:
     template: dwarf-hero
-    base: loadout-avenge
+    base: elystria
     name: Elystria The Divine Blade
     lore:
       description:

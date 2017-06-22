@@ -29,7 +29,7 @@ public class BlockType {
 	
 	public static final CustomBlock CORRODED_WALL = new WoolBlock(DyeColor.LIME);
 	
-	public static final ComparableBlock UNENCHANTED_WALL = new BlockSet(NORMAL_WALL, CRACKED_WALL, DAMAGED_WALL, BROKEN_WALL);
+	public static final ComparableBlock UNENCHANTED_WALL = new BlockSet(NORMAL_WALL, CRACKED_WALL, DAMAGED_WALL, new MaterialBlock(Material.SMOOTH_BRICK));
 	public static final ComparableBlock WALL = new BlockSet(ENCHANTED_WALL, UNENCHANTED_WALL);
 	
 	
@@ -70,7 +70,6 @@ public class BlockType {
 			CRACKED_GOLD_3,
 			
 			ANY_SHRINE_BLOCK,
-			LIGHT,
 			
 			new MaterialSet(
 					Material.SPONGE,
@@ -111,6 +110,19 @@ public class BlockType {
 			
 			new MaterialSet(
 					Material.BEDROCK
+			)
+	);
+	
+	public static final ComparableBlock UNINTERACTABLE_BLOCKS = new BlockSet(
+			
+			new MaterialSet(
+					Material.CHEST,
+					Material.ENDER_CHEST,
+					Material.HOPPER,
+					Material.WORKBENCH,
+					Material.FURNACE,
+					Material.ANVIL,
+					Material.BREWING_STAND
 			)
 	);
 	

@@ -20,17 +20,6 @@ class Tui extends Hero {
 		setMaxArrows(64);
 	}
 	
-	private static final String TUI_TEAM_NAME = "tui";
-	static {
-		Team team = Bukkit.getScoreboardManager().getMainScoreboard().getTeam(TUI_TEAM_NAME);
-		if (team != null)
-			team.unregister();
-		
-		team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(TUI_TEAM_NAME);
-		team.setPrefix(ChatColor.GOLD.toString());
-		team.addEntry(ChatColor.GOLD + "Tui");
-	}
-	
 	private int flameCD = 0;
 	private static final int MAX_FLAME_CD = 5*20;
 	

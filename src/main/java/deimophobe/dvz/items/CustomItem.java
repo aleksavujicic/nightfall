@@ -82,7 +82,7 @@ public class CustomItem implements Cloneable {
 	}
 	
 	public ItemStack createItemStack() {
-		Bukkit.getLogger().info("Creating item: "+ lore.createName());
+		//Bukkit.getLogger().info("Creating item: "+ lore.createName());
 		
 		// Create item
 		ItemStack item = base.createItem();

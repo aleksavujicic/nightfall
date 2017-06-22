@@ -1,12 +1,15 @@
 package deimophobe.dvz.dwarf.hero;
 
 import deimophobe.dvz.DamageType;
+import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.Hat;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
+import deimophobe.dvz.monster.MonsterManager;
+import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -15,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Team;
+import org.inventivetalent.glow.GlowAPI;
 
 /**
  * Created by Deimophobe on 7/05/17.
@@ -22,17 +26,6 @@ import org.bukkit.scoreboard.Team;
 public class Arthea extends Hero {
 	protected Arthea(Player player, Hero.Type type) {
 		super(player, type);
-	}
-	
-	private static final String ARTHEA_TEAM_NAME = "arthea";
-	static {
-		Team team = Bukkit.getScoreboardManager().getMainScoreboard().getTeam(ARTHEA_TEAM_NAME);
-		if (team != null)
-			team.unregister();
-		
-		team = Bukkit.getScoreboardManager().getMainScoreboard().registerNewTeam(ARTHEA_TEAM_NAME);
-		team.setPrefix(ChatColor.DARK_RED.toString());
-		team.addEntry(ChatColor.GOLD + "Arthea");
 	}
 	
 	@Override
@@ -137,7 +130,6 @@ public class Arthea extends Hero {
 		Bukkit.broadcastMessage(getDisplayName() + " has been fatally wounded!");
 		enrageTimer = ENRAGE_TRANSITION_DURATION + ENRAGE_DURATION;
 		super.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, ENRAGE_DURATION + ENRAGE_TRANSITION_DURATION, 5, true, true, true);
-		super.givePotionEffect(PotionEffectType.GLOWING, ENRAGE_DURATION + ENRAGE_TRANSITION_DURATION, 5, true, true, true);
 		super.givePotionEffect(PotionEffectType.REGENERATION, ENRAGE_DURATION + ENRAGE_TRANSITION_DURATION, 3, true, true, true);
 		super.givePotionEffect(PotionEffectType.SLOW, ENRAGE_TRANSITION_DURATION, 100, false, false, true);
 		super.givePotionEffect(PotionEffectType.JUMP, ENRAGE_TRANSITION_DURATION, -100, false, false, true);
@@ -147,6 +139,8 @@ public class Arthea extends Hero {
 		super.givePotionEffect(PotionEffectType.BLINDNESS, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
 		
 		entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
+		
+		setGlowing(GlowAPI.Color.WHITE);
 	}
 	
 	private void startEnrage() {
@@ -164,5 +158,7 @@ public class Arthea extends Hero {
 		Hat.ARTHEA.putOn(this);
 		giveKitItems(KitGiveType.ARTHEA_SPECIAL);
 		entity.getInventory().setHeldItemSlot(0);
+		
+		setGlowing(ENRAGE_DURATION, GlowAPI.Color.RED);
 	}
 }

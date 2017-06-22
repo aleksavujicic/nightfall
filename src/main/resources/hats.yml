@@ -1,18 +1,22 @@
 crown:
-  base: bone_crown
+  base: bonecrown
   name: "Crown"
 
 flowers:
-  base: flower_crown
+  base: flowercrown
   name: "Flower Wreath"
 
 witch:
-  base: witch_hat
+  base: witchhat
   name: "Witch Hat"
 
 darkvisgoggles:
-  base: loadout-dark_vis
+  base: darkvision
   name: "Dark Vision Goggles"
+
+goggles:
+  base: goggles
+  name: "Goggles"
 
 jimmycap:
   material: diamond_helmet
@@ -20,7 +24,7 @@ jimmycap:
 
 tuihat:
   template: dwarf-hero
-  base: tui_hat
+  base: tuihat
   name: "Tui's Flame Hat"
   lore:
     description:
@@ -32,7 +36,7 @@ tuihat:
 
 nosovinhat:
   template: dwarf-hero
-  base: flower_crown
+  base: flowercrown
   name: "Nosovin's Speed Hat"
   lore:
     description:
@@ -45,7 +49,7 @@ nosovinhat:
 
 arthea-hat:
   template: dwarf-hero
-  base: arthea_bow
+  base: blackribbon
   name: "Arthea's Flower Crown"
   lore:
     description:
@@ -57,7 +61,7 @@ arthea-hat:
 
 velvetine-hat:
   template: dwarf-hero
-  base: flower_crown
+  base: flowercrown
   name: "Velvetine's Hat"
   lore:
     description:
@@ -69,7 +73,7 @@ velvetine-hat:
 
 herana-hat:
   template: dwarf-hero
-  base: flower_crown
+  base: flowercrown
   name: "Herana's Hat"
   lore:
     description:

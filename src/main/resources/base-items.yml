@@ -1,0 +1,105 @@
+# Needs to be exact name (from here https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html)
+shears:
+  runeblade: 0
+  malice: 1
+  dagger: 2
+  tigerfist: 3
+  crossbow: 25
+  trinket: 30
+  regrowth: 31
+  flamestaff: 40
+  fireball: 41
+  herohammer: 42
+  excaliju: 43
+  horn: 44
+  wand: 45
+  tinderflame: 46
+  trident: 47
+  elystria: 48
+  caduceus: 49
+  aisword: 100
+  kaboom: 102
+  bite: 103
+  golempick: 104
+  ogreclub: 105
+  rustycutlass: 106
+  bonecrown: 200
+  flowercrown: 201
+  witchhat: 202
+  ribbon: 203
+  tuihat: 204
+  goggles: 205
+
+diamond_spade:
+  tombmaker: 0
+  eggs: 1
+  blackribbon: 2
+  grayribbon: 3
+  redribbon: 4
+  whiteribbon: 5
+  purpleribbon: 6
+  goldribbon: 7
+  greenribbon: 8
+  pinkribbon: 9
+  lightblueribbon: 10
+  blueribbon: 11
+
+diamond_pickaxe:
+  hammergb: 0
+
+ink_sack:
+  lamp: 0
+  slab: 1
+  sos: 2
+  wrench: 3
+  mortar: 4
+  wizmortar: 5
+  armour: 6
+  healitem: 7
+  tnt: 8
+  none: 9
+  none: 10
+  none: 11
+  logs: 12
+  planks: 13
+  none: 14
+  bowl: 15
+
+bow:
+  shortbow: 0
+  longbow: 1
+  wither: 2
+  ebow: 3
+  dskin: 4
+  lightbow: 5
+  warpweaver: 6
+  flamebow: 7
+
+diamond_hoe:
+  leftarrow: 1
+  rightarrow: 2
+  cancel: 3
+  points: 4
+  coil: 5
+  darkvision: 6
+  safefall: 7
+  avenge: 8
+  menu-mortar: 9
+  menu-mortar2: 10
+  menu-wizmortar: 11
+  menu-wizmortar2: 12
+  menu-sos: 13
+  menu-sos2: 14
+  menu-lamp: 15
+  menu-lamp2: 16
+  menu-wrench: 17
+  menu-wrench2: 18
+  quiver: 19
+  studded: 20
+  runeblessed: 21
+  trash: 22
+
+shield:
+  hammer: 1
+#  herohammer: 2
+  axe: 3

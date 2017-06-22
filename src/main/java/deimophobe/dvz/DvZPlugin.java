@@ -46,10 +46,8 @@ public class DvZPlugin extends JavaPlugin {
 		//Bukkit.getLogger().info("AYYYY LMAO");
 		game.setupGame(this);
 		
-		if (MapManager.getManager().isEnabled()) {
-			for (Player player : Bukkit.getOnlinePlayers()) {
-				Game.getGame().resetPlayer(player);
-			}
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			Game.getGame().resetPlayer(player);
 		}
 	}
 
@@ -289,6 +287,19 @@ public class DvZPlugin extends JavaPlugin {
 				return false;
 			}
 		}
+		if (name.equalsIgnoreCase("compass")) {
+			if (sender instanceof Player) {
+				Dwarf dwarf = dm.getGamePlayer((Player)sender);
+				if (dwarf != null)
+					dwarf.giveCompass();
+				else
+					sender.sendMessage(ChatColor.RED + "You must be a dwarf to do that");
+				
+				return true;
+			} else {
+				return false;
+			}
+		}
 		if (name.equalsIgnoreCase("armour")) {
 			if (sender instanceof Player) {
 				Dwarf dwarf = dm.getGamePlayer((Player)sender);
@@ -355,10 +366,15 @@ public class DvZPlugin extends JavaPlugin {
 					Player target = Bukkit.getPlayer(args[0]);
 					if (target == null) return false;
 					
-					if (sender instanceof Entity)
-						target.damage(dmg, (Entity) sender);
-					else
-						target.damage(dmg);
+					GamePlayer gp = Game.getGame().getGamePlayer(target);
+					if (gp == null) {
+						if (sender instanceof Entity)
+							target.damage(dmg, (Entity) sender);
+						else
+							target.damage(dmg);
+					} else {
+						gp.customDamage(null, DamageType.COMMAND, dmg);
+					}
 					
 					sender.sendMessage(ChatColor.YELLOW + "Damaged " + target.getDisplayName() + ChatColor.YELLOW + " for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " damage.");
 					target.sendMessage(ChatColor.YELLOW + "You got damaged by " + ChatColor.RED +  sender.getName() + ChatColor.YELLOW + " for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " damage.");

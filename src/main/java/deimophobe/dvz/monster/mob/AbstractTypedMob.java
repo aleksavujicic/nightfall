@@ -52,7 +52,7 @@ abstract class AbstractTypedMob extends AbstractMob {
 		
 		monster.clearEffects();
 		if (mobData.immuneTime != 0) {
-			monster.givePotionEffect(PotionEffectType.LUCK, mobData.immuneTime*20, 1, true, false, true);
+			giveSpawnProtection(mobData.immuneTime*20);
 		}
 		
 		super.spawn();
