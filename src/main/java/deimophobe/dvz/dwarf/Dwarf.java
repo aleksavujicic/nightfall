@@ -497,6 +497,7 @@ public class Dwarf extends GamePlayer {
 
 	// Mobspawn stuff
 	public void mobspawnDamage() {
+		mobspawnPotionEffect(mobspawnCount);
 		switch (mobspawnCount) {
 			case 0:
 				break;
@@ -508,128 +509,54 @@ public class Dwarf extends GamePlayer {
 				useMana(100);
 				armour.damage(armour.getMaxArmor() / 10);
 				this.customDamage(null, DamageType.MOBSPAWN, 1);
-				entity.getPlayer().removePotionEffect(PotionEffectType.SPEED);
-				entity.getPlayer().removePotionEffect(PotionEffectType.ABSORPTION);
-				entity.getPlayer().removePotionEffect(PotionEffectType.REGENERATION);
-				entity.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-				entity.getPlayer().removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
-				entity.getPlayer().removePotionEffect(PotionEffectType.HEALTH_BOOST);
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 30, 1));
 				break;
 			case 3:
 				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (3)");
 				useMana(200);
 				armour.damage(armour.getMaxArmor() / 10);
 				this.customDamage(null, DamageType.MOBSPAWN, 1);
-				entity.getPlayer().removePotionEffect(PotionEffectType.SPEED);
-				entity.getPlayer().removePotionEffect(PotionEffectType.ABSORPTION);
-				entity.getPlayer().removePotionEffect(PotionEffectType.REGENERATION);
-				entity.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-				entity.getPlayer().removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
-				entity.getPlayer().removePotionEffect(PotionEffectType.HEALTH_BOOST);
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 30, 1));
 				break;
 			case 4:
 				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (4)");
 				useMana(200);
 				armour.damage(armour.getMaxArmor() / 10);
 				this.customDamage(null, DamageType.MOBSPAWN, 1);
-				entity.getPlayer().removePotionEffect(PotionEffectType.SPEED);
-				entity.getPlayer().removePotionEffect(PotionEffectType.ABSORPTION);
-				entity.getPlayer().removePotionEffect(PotionEffectType.REGENERATION);
-				entity.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-				entity.getPlayer().removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
-				entity.getPlayer().removePotionEffect(PotionEffectType.HEALTH_BOOST);
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 30, 1));
 				break;
 			case 5:
 				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (5)");
 				useMana(300);
 				armour.damage(armour.getMaxArmor() / 10);
 				this.customDamage(null, DamageType.MOBSPAWN, 30);
-				entity.getPlayer().removePotionEffect(PotionEffectType.SPEED);
-				entity.getPlayer().removePotionEffect(PotionEffectType.ABSORPTION);
-				entity.getPlayer().removePotionEffect(PotionEffectType.REGENERATION);
-				entity.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-				entity.getPlayer().removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
-				entity.getPlayer().removePotionEffect(PotionEffectType.HEALTH_BOOST);
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 50, 1));
 				break;
 			case 6:
 				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (6)");
 				useMana(300);
 				armour.damage(armour.getMaxArmor() / 5);
 				this.customDamage(null, DamageType.MOBSPAWN, 60);
-				entity.getPlayer().removePotionEffect(PotionEffectType.SPEED);
-				entity.getPlayer().removePotionEffect(PotionEffectType.ABSORPTION);
-				entity.getPlayer().removePotionEffect(PotionEffectType.REGENERATION);
-				entity.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-				entity.getPlayer().removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
-				entity.getPlayer().removePotionEffect(PotionEffectType.HEALTH_BOOST);
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 30, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 50, 1));
 				break;
 			case 7:
 				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (7)");
 				useMana(300);
 				armour.damage(armour.getMaxArmor() / 4);
 				this.customDamage(null, DamageType.MOBSPAWN, 90);
-				entity.getPlayer().removePotionEffect(PotionEffectType.SPEED);
-				entity.getPlayer().removePotionEffect(PotionEffectType.ABSORPTION);
-				entity.getPlayer().removePotionEffect(PotionEffectType.REGENERATION);
-				entity.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-				entity.getPlayer().removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
-				entity.getPlayer().removePotionEffect(PotionEffectType.HEALTH_BOOST);
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 60, 1));
 				break;
 			case 8:
 				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (8)");
 				useMana(300);
 				armour.damage(armour.getMaxArmor() / 3);
 				this.customDamage(null, DamageType.MOBSPAWN, 120);
-				entity.getPlayer().removePotionEffect(PotionEffectType.SPEED);
-				entity.getPlayer().removePotionEffect(PotionEffectType.ABSORPTION);
-				entity.getPlayer().removePotionEffect(PotionEffectType.REGENERATION);
-				entity.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-				entity.getPlayer().removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
-				entity.getPlayer().removePotionEffect(PotionEffectType.HEALTH_BOOST);
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 70, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 70, 1));
 				break;
 			case 9:
 				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (9)");
 				useMana(500);
 				armour.damage(armour.getMaxArmor() / 2);
 				this.customDamage(null, DamageType.MOBSPAWN, 150);
-				entity.getPlayer().removePotionEffect(PotionEffectType.SPEED);
-				entity.getPlayer().removePotionEffect(PotionEffectType.ABSORPTION);
-				entity.getPlayer().removePotionEffect(PotionEffectType.REGENERATION);
-				entity.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-				entity.getPlayer().removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
-				entity.getPlayer().removePotionEffect(PotionEffectType.HEALTH_BOOST);
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 80, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 80, 1));
 				break;
 			case 10:
 				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (10)");
 				useMana(1000);
 				armour.damage(armour.getMaxArmor());
 				this.customDamage(null, DamageType.MOBSPAWN, 180);
-				entity.getPlayer().removePotionEffect(PotionEffectType.SPEED);
-				entity.getPlayer().removePotionEffect(PotionEffectType.ABSORPTION);
-				entity.getPlayer().removePotionEffect(PotionEffectType.REGENERATION);
-				entity.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-				entity.getPlayer().removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
-				entity.getPlayer().removePotionEffect(PotionEffectType.HEALTH_BOOST);
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 80, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80, 1));
-				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 80, 1));
 				break;
 			default:
 				entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (11)");
@@ -637,6 +564,65 @@ public class Dwarf extends GamePlayer {
 				break;
 		}
 	}
+
+	private void mobspawnPotionEffect(int mobspawnNum) {
+		switch (mobspawnNum) {
+			case 0:
+				break;
+			case 1:
+				break;
+			case 2:
+				this.clearEffects();
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 30, 1));
+				break;
+			case 3:
+				this.clearEffects();
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 30, 1));
+				break;
+			case 4:
+				this.clearEffects();
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 30, 1));
+				break;
+			case 5:
+				this.clearEffects();
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 50, 1));
+				break;
+			case 6:
+				this.clearEffects();
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 30, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 50, 1));
+				break;
+			case 7:
+				this.clearEffects();
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 60, 1));
+				break;
+			case 8:
+				this.clearEffects();
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 70, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 70, 1));
+				break;
+			case 9:
+				this.clearEffects();
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 80, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 80, 1));
+				break;
+			case 10:
+				this.clearEffects();
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 80, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 80, 1));
+				break;
+			default:
+				break;
+		}
+	}
+
 
 	@Override
 	public void onShift(boolean sneaking) {
