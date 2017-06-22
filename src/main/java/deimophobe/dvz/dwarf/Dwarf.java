@@ -305,7 +305,7 @@ public class Dwarf extends GamePlayer {
 	public void forcePlague() {
 		plagued = true;
 	}
-	public boolean isPlagued() {
+	public boolean isForcePlagued() {
 		return plagued;
 	}
 

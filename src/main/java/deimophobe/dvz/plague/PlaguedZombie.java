@@ -32,8 +32,9 @@ public class PlaguedZombie extends AbstractMob {
 	
 	@Override
 	public double onHit(Dwarf dwarf, DamageType type, double damage) {
-		if (Math.random() <= 0.5)
+		if (!dwarf.isForcePlagued() && Math.random() <= 0.5) {
 			plague.convertToZombie(dwarf);
+		}
 		return damage;
 	}
 	
