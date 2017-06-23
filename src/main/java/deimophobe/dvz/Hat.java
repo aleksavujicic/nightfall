@@ -14,6 +14,7 @@ public enum Hat {
 	FLOWER("flowers"),
 	WITCH("witch"),
 	DVGOGGLES("darkvisgoggles"),
+	GOGGLES("goggles"),
 	JIMMYCAP("jimmycap"),
 	
 	TUI("tuihat"),
