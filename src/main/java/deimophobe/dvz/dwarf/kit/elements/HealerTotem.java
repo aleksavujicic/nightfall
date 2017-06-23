@@ -3,6 +3,7 @@ package deimophobe.dvz.dwarf.kit.elements;
 import deimophobe.dvz.DamageType;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.Misc;
+import deimophobe.dvz.cooldown.SimpleCooldown;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.DwarvenItems;
@@ -27,6 +28,9 @@ class HealerTotem extends AbstractItem {
 	private static final double MAX_TARGET_DISTANCE = 15;
 	private Dwarf target = null;
 	
+	private static final int MAX_TOGGLE_DELAY = 3;
+	private int toggleDelay = 0;
+	
 	HealerTotem(Dwarf dwarf) {
 		super(dwarf);
 	}
@@ -37,16 +41,19 @@ class HealerTotem extends AbstractItem {
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace face) {
-		// TODO: Only works when not hitting dwarf.
+		if (toggleDelay > 0) return false;
+		
 		if (hasTarget())  {
 			deactivateTargetHealing();
 			deactivateGroupHealing();
+			toggleDelay = MAX_TOGGLE_DELAY;
 			return true;
 		} else if (Misc.isLeftClick(action)) {
 			target = dwarf.getLookingAt(1.5, 4, DwarfManager.getManager().getGamePlayers());
 			if (target != null) {
 				activateTargetHealing(target);;
 				deactivateGroupHealing();
+				toggleDelay = MAX_TOGGLE_DELAY;
 				return true;
 			}
 		}
@@ -70,6 +77,9 @@ class HealerTotem extends AbstractItem {
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		if (toggleDelay > 0)
+			toggleDelay--;
+		
 		if (groupHealingActive && !dwarf.isBlocking()) {
 			deactivateGroupHealing();
 			deactivateTargetHealing();
