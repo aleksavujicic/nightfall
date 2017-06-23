@@ -494,6 +494,8 @@ public class Dwarf extends GamePlayer {
 				
 			case GOLD_ORE:
 				ShrineManager.getManager().mineGold();
+				float pitch = (float) (Math.random() * 0.8 + 1.1);
+				playSound("block.note.bell", 1f, pitch, false);
 				break;
 		}
 	}
