@@ -373,10 +373,10 @@ public class Dwarf extends GamePlayer {
 			case 2:
 				useMana(100);
 				armour.damage(50);
-				this.customDamage(null, DamageType.MOBSPAWN, 0);
+				this.customDamage(null, DamageType.MOBSPAWN, 1);
 				break;
 			case 3:
-				useMana(200);
+				useMana(100);
 				armour.damage(100);
 				this.customDamage(null, DamageType.MOBSPAWN, 1);
 				break;
@@ -386,12 +386,12 @@ public class Dwarf extends GamePlayer {
 				this.customDamage(null, DamageType.MOBSPAWN, 1);
 				break;
 			case 5:
-				useMana(300);
+				useMana(200);
 				armour.damage(200);
 				this.customDamage(null, DamageType.MOBSPAWN, 30);
 				break;
 			case 6:
-				useMana(300);
+				useMana(250);
 				armour.damage(300);
 				this.customDamage(null, DamageType.MOBSPAWN, 60);
 				break;
@@ -421,6 +421,9 @@ public class Dwarf extends GamePlayer {
 				this.customDamage(null, DamageType.MOBSPAWN, 10000);
 				break;
 		}
+		
+		if (mobspawnCount < 6)
+			givePotionEffect(PotionEffectType.CONFUSION, 120, 1, true, true, true);
 		
 		if (mobspawnCount == 6)
 			givePermanentPotionEffect(PotionEffectType.CONFUSION, 1);
