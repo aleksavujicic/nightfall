@@ -69,12 +69,14 @@ public class Hero extends Dwarf {
 	@Override
 	public void setGlowing(int duration, GlowAPI.Color color) {
 		GlowAPI.setGlowing(entity, color, Bukkit.getOnlinePlayers());
-		GlowAPI.setGlowing(getDisguise().getEntity(), color, Bukkit.getOnlinePlayers());
+		if (getDisguise() != null)
+			GlowAPI.setGlowing(getDisguise().getEntity(), color, Bukkit.getOnlinePlayers());
 		new BukkitRunnable() {
 			@Override
 			public void run() {
 				GlowAPI.setGlowing(entity, false, Bukkit.getOnlinePlayers());
-				GlowAPI.setGlowing(getDisguise().getEntity(), false, Bukkit.getOnlinePlayers());
+				if (getDisguise() != null)
+					GlowAPI.setGlowing(getDisguise().getEntity(), false, Bukkit.getOnlinePlayers());
 			}
 		}.runTaskLater(Game.getGame().getPlugin(), duration);
 	}
