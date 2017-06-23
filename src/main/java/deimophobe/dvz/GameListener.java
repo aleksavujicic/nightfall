@@ -23,6 +23,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockSpreadEvent;
@@ -125,6 +126,14 @@ public class GameListener implements Listener {
 			if (mat == Material.BARRIER || mat == Material.CHEST || (block != null && BlockType.UNINTERACTABLE_BLOCKS.matchesBlock(block))) {
 				event.setCancelled(true);
 			}
+		}
+	}
+	
+	@EventHandler
+	public void onUseOnEntity(PlayerAnimationEvent event) {
+		GamePlayer gp = game.getGamePlayer(event.getPlayer());
+		if (gp != null) {
+			gp.onUse(Action.LEFT_CLICK_AIR, null, null);
 		}
 	}
 	
