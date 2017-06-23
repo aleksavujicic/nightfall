@@ -69,14 +69,22 @@ public class DoomManager {
 				isDoom = true;
 				
 				showDoomMessage();
+				playDoomDrum();
 			}
 			updateDoomCount();
 			
 		} else {
-			if (internalDoomTimer > 0)
+			if (internalDoomTimer > 0) {
 				internalDoomTimer--;
+			}
 			
-			showDoomMessage();
+			if (internalDoomTimer > 0) {
+				showDoomMessage();
+				
+				if (internalDoomTimer % 2 == 0)
+					playDoomDrum();
+			}
+			
 			
 			if (internalDoomTimer == 0) {
 				spawnDoom(nextDoom());
@@ -92,6 +100,11 @@ public class DoomManager {
 					"",//ChatColor.RED + "Doom Approaches",
 					ChatColor.DARK_RED + "Spawning in " + ChatColor.GREEN + internalDoomTimer + ChatColor.DARK_RED + " seconds...",
 					0, 40, 0);
+	}
+	
+	private void playDoomDrum() {
+		float pitch = (float) (Math.random() * 0.3 + 0.7);
+		Game.getGame().playGlobalSound("drum", pitch);
 	}
 	
 	

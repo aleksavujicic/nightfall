@@ -18,6 +18,7 @@ import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
 import deimophobe.dvz.monster.upgrade.GlobalUpgrade;
 import deimophobe.dvz.plague.Plague;
+import deimophobe.dvz.shrine.Shrine;
 import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
@@ -337,5 +338,10 @@ public class Game {
 	public boolean isNight() {
 		long time = MapManager.getManager().getWorld().getTime();
 		return (12500 < time && time < 23450);
+	}
+	
+	public void playGlobalSound(String sound, float pitch) {
+		Location loc = ShrineManager.getManager().getDwarfSpawn();
+		loc.getWorld().playSound(loc, sound, 10000f, pitch);
 	}
 }
