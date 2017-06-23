@@ -1,12 +1,11 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.DamageType;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.items.CustomItem;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by Deimophobe on 22/01/17.

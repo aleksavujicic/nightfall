@@ -1,6 +1,6 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.DamageType;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.Misc;
@@ -15,7 +15,6 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 

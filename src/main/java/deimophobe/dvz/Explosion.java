@@ -1,8 +1,8 @@
 package deimophobe.dvz;
 
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 

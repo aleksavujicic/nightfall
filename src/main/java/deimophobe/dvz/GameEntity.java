@@ -4,12 +4,11 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.monster.ai.AIEntity;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -22,7 +21,6 @@ import org.bukkit.util.Vector;
 import org.inventivetalent.glow.GlowAPI;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
 import java.util.UUID;
 
 /**

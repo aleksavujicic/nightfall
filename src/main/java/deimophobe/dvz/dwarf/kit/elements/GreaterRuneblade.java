@@ -1,6 +1,6 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.DamageType;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.Misc;

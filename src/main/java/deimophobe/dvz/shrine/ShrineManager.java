@@ -1,6 +1,6 @@
 package deimophobe.dvz.shrine;
 
-import deimophobe.dvz.DamageType;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.Phase;
@@ -22,9 +22,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 /**
  * Created by Deimophobe on 2/03/17.

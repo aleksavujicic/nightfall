@@ -1,23 +1,18 @@
 package deimophobe.dvz.monster.ai;
 
-import deimophobe.dvz.DamageType;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.MapManager;
-import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import java.util.Collection;
-import java.util.UUID;
 
 /**
  * Created by Deimophobe on 24/01/17.

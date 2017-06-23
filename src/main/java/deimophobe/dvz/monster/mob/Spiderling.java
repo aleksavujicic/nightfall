@@ -1,6 +1,6 @@
 package deimophobe.dvz.monster.mob;
 
-import deimophobe.dvz.DamageType;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.blocks.BlockConverter;
 import deimophobe.dvz.dwarf.Dwarf;

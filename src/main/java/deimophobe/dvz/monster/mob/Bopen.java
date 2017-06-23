@@ -1,18 +1,16 @@
 package deimophobe.dvz.monster.mob;
 
-import deimophobe.dvz.DamageType;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.SkeletonHorse;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by Deimophobe on 15/03/17.

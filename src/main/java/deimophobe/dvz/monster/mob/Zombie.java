@@ -1,8 +1,7 @@
 package deimophobe.dvz.monster.mob;
 
-import deimophobe.dvz.DamageType;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.Game;
-import deimophobe.dvz.MapManager;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.cooldown.ComplexCooldown;
 import deimophobe.dvz.cooldown.Cooldown;
@@ -12,7 +11,6 @@ import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.items.modifiers.ItemModifierType;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.upgrade.MobUpgrade;
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;

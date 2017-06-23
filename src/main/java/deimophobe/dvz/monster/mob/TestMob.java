@@ -1,14 +1,9 @@
 package deimophobe.dvz.monster.mob;
 
-import deimophobe.dvz.DamageType;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Projectile;
-import org.bukkit.event.block.Action;
 
 /**
  * Created by Deimophobe on 15/06/17.

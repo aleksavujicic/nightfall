@@ -1,13 +1,11 @@
 package deimophobe.dvz.monster.mob;
 
-import deimophobe.dvz.DamageType;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.Explosion;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.blocks.BlockConverter;
 import deimophobe.dvz.blocks.timedblock.GoboBox;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
-import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Location;

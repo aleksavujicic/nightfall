@@ -1,13 +1,10 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.DamageType;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterManager;
-import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
-import deimophobe.dvz.monster.ai.AIManager;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 /**

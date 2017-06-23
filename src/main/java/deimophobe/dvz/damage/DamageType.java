@@ -1,4 +1,4 @@
-package deimophobe.dvz;
+package deimophobe.dvz.damage;
 
 /**
  * Created by Deimophobe on 20/01/17.

@@ -1,23 +1,15 @@
 package deimophobe.dvz.dwarf.hero;
 
-import deimophobe.dvz.DamageType;
-import deimophobe.dvz.Game;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.Hat;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
-import deimophobe.dvz.dwarf.kit.elements.KitElementType;
-import deimophobe.dvz.monster.MonsterManager;
-import deimophobe.dvz.monster.MonsterPlayer;
-import deimophobe.dvz.monster.ai.AIEntity;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scoreboard.Team;
 import org.inventivetalent.glow.GlowAPI;
 
 /**

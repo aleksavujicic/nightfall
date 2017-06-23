@@ -1,6 +1,6 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.DamageType;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
@@ -8,7 +8,6 @@ import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.monster.MonsterManager;
-import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
@@ -17,7 +16,6 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.HashSet;

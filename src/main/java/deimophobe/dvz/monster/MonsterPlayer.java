@@ -2,6 +2,7 @@ package deimophobe.dvz.monster;
 
 import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import deimophobe.dvz.*;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.menu.SessionData;
 import deimophobe.dvz.monster.mob.Bopen;
@@ -12,7 +13,6 @@ import deimophobe.dvz.monster.upgrade.MobUpgrade;
 import deimophobe.dvz.shrine.ShrineManager;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
-import me.libraryaddict.disguise.disguisetypes.watchers.LivingWatcher;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;

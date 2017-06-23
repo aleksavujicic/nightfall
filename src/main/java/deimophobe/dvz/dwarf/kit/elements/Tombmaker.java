@@ -1,6 +1,7 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.*;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.ProcType;

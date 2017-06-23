@@ -1,6 +1,6 @@
 package deimophobe.dvz.plague;
 
-import deimophobe.dvz.DamageType;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.Phase;
 import deimophobe.dvz.dwarf.Dwarf;

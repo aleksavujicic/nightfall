@@ -1,6 +1,6 @@
 package deimophobe.dvz.monster.mob;
 
-import deimophobe.dvz.DamageType;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.bukkit.block.Block;

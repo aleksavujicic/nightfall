@@ -3,6 +3,7 @@ package deimophobe.dvz;
 import deimophobe.dvz.blocks.BlockConverter;
 import deimophobe.dvz.blocks.BlockManager;
 import deimophobe.dvz.blocks.blocktype.BlockType;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.DwarvenItems;
@@ -40,9 +41,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.spigotmc.event.entity.EntityDismountEvent;
-
-import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * Created by Deimophobe on 20/01/17.

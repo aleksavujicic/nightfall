@@ -1,19 +1,15 @@
 package deimophobe.dvz;
 
-import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.items.CustomItem;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
