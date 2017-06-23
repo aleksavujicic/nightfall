@@ -421,7 +421,7 @@ public class Dwarf extends GamePlayer {
 				break;
 		}
 		
-		if (mobspawnCount >= 6)
+		if (mobspawnCount == 6)
 			givePermanentPotionEffect(PotionEffectType.CONFUSION, 1);
 	}
 	
