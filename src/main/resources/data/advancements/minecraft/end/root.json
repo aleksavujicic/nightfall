@@ -1,0 +1,7 @@
+{"parent":"not found",
+    "criteria": {
+        "impossible": {
+            "trigger": "minecraft:impossible"
+        }
+    }
+}

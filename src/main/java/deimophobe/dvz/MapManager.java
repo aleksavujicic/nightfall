@@ -12,10 +12,12 @@ import org.bukkit.WorldCreator;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -146,6 +148,20 @@ public class MapManager {
 		} catch (IOException e) {
 			Bukkit.getLogger().severe("Failed to copy map " + mapFolder.getName() + " to world" + gameFolder.getName());
 		}
+		
+		/* Tried to copy no advancements to world - will do manually for now
+		Plugin plugin = Game.getGame().getPlugin();
+		InputStream dataStream = plugin.getResource("data");
+		try {
+			File dataFile = new File(gameFolder, "data");
+			if (dataFile.exists())
+				FileUtils.deleteDirectory(dataFile);
+			Bukkit.getLogger().info("stream" + dataStream);
+			FileUtils.copyInputStreamToFile(dataStream, dataFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		*/
 		
 		// Reset everything
 		Game.getGame().resetManagers();
