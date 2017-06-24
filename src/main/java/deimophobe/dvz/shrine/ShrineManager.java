@@ -98,7 +98,6 @@ public class ShrineManager {
 		});
 		
 		ConfigurationSection compassConfig = mapConfig.getConfigurationSection("compass");
-		Bukkit.getLogger().info(mapConfig.getKeys(false).toString());
 		if (compassConfig != null) {
 			for (String key : compassConfig.getKeys(false)) {
 				Location location = Misc.createLocation(compassConfig.getDoubleList(key));

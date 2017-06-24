@@ -55,7 +55,6 @@ public class Misc {
 	}
 	
 	public static Location createLocation(List<Double> doubleList) {
-		Bukkit.getLogger().info(doubleList.toString());
 		if (doubleList.size() >= 4)
 			return new Location(MapManager.getManager().getWorld(), doubleList.get(0), doubleList.get(1), doubleList.get(2),  (float) doubleList.get(3).doubleValue(), 0f);
 		else
