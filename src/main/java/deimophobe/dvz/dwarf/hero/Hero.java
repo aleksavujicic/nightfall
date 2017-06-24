@@ -11,6 +11,8 @@ import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
+import me.libraryaddict.disguise.disguisetypes.DisguiseType;
+import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -127,6 +129,21 @@ public class Hero extends Dwarf {
 				KitElementType.HORN
 				),
 		
+		OXYSIS("Oxysis", Hat.VELVETINE, null, "Oxysis", "Pixie Hero",
+				KitElementType.GRB,
+				KitElementType.DRAGONSKIN,
+				KitElementType.HORN
+				)
+		{
+			@Override
+			public Disguise getDisguise() {
+				Disguise disguise = new MobDisguise(DisguiseType.VEX);
+				disguise.setKeepDisguiseOnPlayerDeath(false);
+				disguise.setViewSelfDisguise(false);
+				return disguise;
+			}
+		},
+		
 		
 		;
 		
@@ -165,7 +182,7 @@ public class Hero extends Dwarf {
 		}
 		
 		public String getDescriptor() {
-			
+			return descriptor;
 		}
 		
 		public Hero createHero(Player player) {
@@ -175,6 +192,7 @@ public class Hero extends Dwarf {
 				case ARTHEA: return new Arthea(player, this);
 				case VELVETINE: return new Hero(player, this);
 				case HERANA: return new Hero(player, this);
+				case OXYSIS: return new Hero(player, this);
 			}
 			throw new IllegalArgumentException("Unknown hero: " + this);
 		}
