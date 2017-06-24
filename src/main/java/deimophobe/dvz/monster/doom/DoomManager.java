@@ -103,8 +103,12 @@ public class DoomManager {
 	}
 	
 	private void playDoomDrum() {
-		float pitch = (float) (Math.random() * 0.3 + 0.7);
-		Game.getGame().playGlobalSound("drum", pitch);
+		if (Math.random() <= 0.0001) {
+			Game.getGame().playGlobalSound("manamadrum", 1f);
+		} else {
+			float pitch = (float) (Math.random() * 0.3 + 0.7);
+			Game.getGame().playGlobalSound("drum", pitch);
+		}
 	}
 	
 	
