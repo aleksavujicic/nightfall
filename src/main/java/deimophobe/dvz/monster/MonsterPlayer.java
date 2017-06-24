@@ -96,7 +96,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	public void kill() {
 		if (isAlive()) {
 			ActionBarAPI.sendActionBarToAllPlayers(generateDeathMessage(), 60);
-			Bukkit.broadcastMessage(generateDeathMessage());
+			//Bukkit.broadcastMessage(generateDeathMessage());
 			entity.playSound(entity.getLocation(), "proc", 1f, 0.7f);
 		}
 		
