@@ -91,14 +91,14 @@ public class Shrine {
 		int recovery = 0;
 		// Making shrines a bit stronger
 		if (shrineNum == 0) {
-			dwarfNum = 0;
+			dwarfNum += 0;
 		} else if ((shrineNum + 1) == ShrineManager.getManager().getNumShrines()) {
-			dwarfNum = 2;
+			dwarfNum += 2;
 
 			// Final shrine should not fall until most dwarves are dead
 			dwarfNum *= 3;
 		} else {
-			dwarfNum = 2;
+			dwarfNum += 2;
 		}
 		if (mobNum == 0) {
 			// Regen when no mobs around, first shrine has slower regen
