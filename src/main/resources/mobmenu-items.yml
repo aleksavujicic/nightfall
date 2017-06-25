@@ -1,0 +1,15 @@
+zombie-page:
+  base: upgrade_zombie
+  name: Upgrade Zombie
+
+doomclock:
+  base: doom_clock
+  name: Reduce Doom
+
+back:
+  base: leftarrow
+  name: Go Back
+
+rebirth:
+  material: eye_of_ender
+  name: Rebirth

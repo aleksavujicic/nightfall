@@ -20,7 +20,7 @@ public abstract class IndexedMenu<T extends SessionData, I> implements SubMenu<T
 		this.pages = new HashMap<>();
 	}
 	
-	public void putPage(I index, SubMenu<T> page) {
+	public void setPage(I index, SubMenu<T> page) {
 		pages.put(index, page);
 		updateSize();
 	}

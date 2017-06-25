@@ -53,7 +53,7 @@ public class SimpleMenu<T extends SessionData> implements SubMenu<T> {
 		return menuItems.get(i);
 	}
 	
-	protected Collection<MenuItem<T>> getMenuItems() {
+	public Collection<MenuItem<T>> getMenuItems() {
 		return menuItems.values();
 	}
 }

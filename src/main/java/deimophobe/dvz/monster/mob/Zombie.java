@@ -10,12 +10,13 @@ import deimophobe.dvz.cooldown.SimpleCooldown;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.items.modifiers.ItemModifierType;
 import deimophobe.dvz.monster.MonsterPlayer;
-import deimophobe.dvz.monster.upgrade.MobUpgrade;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
+
+import java.util.Map;
 
 /**
  * Created by Deimophobe on 2/02/17.
@@ -41,31 +42,31 @@ class Zombie extends AbstractTypedMob implements Rebirthable {
 	
 	protected Zombie(MonsterPlayer mons) {
 		super(mons);
-		MobUpgrade upgrades = monster.getUpgrades(MobType.ZOMBIE);
+		Map<String, Integer> upgrades = monster.getUpgrades(MobType.ZOMBIE);
 		
-		int attack = upgrades.getUpgrade("attack");
-		int health = upgrades.getUpgrade("health");
+		int attack = upgrades.get("attack") + upgrades.get("attack-inf");
+		int health = (upgrades.get("health") + upgrades.get("health-inf"))*2;
 		getWeapon().addModifier(ItemModifierType.ATTACK, attack, "Upgrade");
 		getArmour().addModifier(ItemModifierType.HEALTH, health, "Upgrade");
 		
-		int maxLeapCD = upgrades.getUpgrade("leap");
+		int maxLeapCD = upgrades.get("leap");
 		if (maxLeapCD != 0)
 			leapCD = new SimpleCooldown(maxLeapCD * 20);
 		else
 			leapCD = new DudCooldown();
-		this.leapLvl = upgrades.getLabelLevel("leap");
+		this.leapLvl = upgrades.get("leap");
 		
-		this.vampirism = upgrades.getUpgrade("vampirism");
-		this.pursuit = upgrades.getUpgrade("pursuit");
+		this.vampirism = upgrades.get("vampirism");
+		this.pursuit = upgrades.get("pursuit");
 		
-		int arrowRes = upgrades.getUpgrade("arrow");
+		int arrowRes = upgrades.get("arrow");
 		this.arrowRes = (double) arrowRes/100;
-		this.armourShred = upgrades.getUpgrade("shred");
+		this.armourShred = upgrades.get("shred");
 		
-		int rebirthChance = upgrades.getUpgrade("rebirth");
+		int rebirthChance = upgrades.get("rebirth");
 		this.rebirthChance = (double) rebirthChance/100;
 		
-		this.fury = upgrades.getUpgrade("fury") >= 1;
+		this.fury = upgrades.get("fury") >= 1;
 		
 		if (fury)
 			furySound = new ComplexCooldown(10, () -> {

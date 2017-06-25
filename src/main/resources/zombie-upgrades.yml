@@ -1,24 +1,17 @@
-settings:
-  title: Upgrade Zombie
-  mobtype: zombie
-
-
-
 attack:
   index: 2
+  cost: [20, 40, 60, 80, 100]
   item:
     material: wood_sword
     name: "Upgrade Attack"
     lore:
       description:
         - "Increases your attack."
-  cost: [20, 40, 60, 80, 100]
-  upgrade:
-    name: attack
-    operation: increment
 
-attackinf:
+attack-inf:
   index: 2
+  cost: 250
+  permanent: true
   prereq:
     attack: 5
   item:
@@ -27,29 +20,22 @@ attackinf:
     shiny: true
     lore:
       description:
-        - "Further increase your attack."
-  cost: 250
-  permanent: true
-  upgrade:
-    name: attack
-    operation: increment
+        - "Further increases your attack."
 
 health:
   index: 6
+  cost: [20, 40, 60, 80, 100]
   item:
     material: rotten_flesh
-    name: "Upgrade Defense"
+    name: "Upgrade Health"
     lore:
       description:
-        - "Increases your defense."
-  cost: [20, 40, 60, 80, 100]
-  upgrade:
-    name: health
-    value: [2, 2, 2, 2, 2]
-    operation: add
+        - "Increases your health."
 
-healthinf:
+health-inf:
   index: 6
+  cost: 250
+  permanent: true
   prereq:
     health: 5
   item:
@@ -58,18 +44,14 @@ healthinf:
     shiny: true
     lore:
       description:
-        - "Further increase your Health."
-  cost: 250
-  permanent: true
-  upgrade:
-    name: health
-    value: 2
-    operation: add
+        - "Further increases your health."
 
 
 
 shred:
   index: 10
+  cost: [50, 100, 150, 200, 250]
+  value: [5, 8, 12, 15, 20]
   prereq:
     attack: 3
   item:
@@ -78,14 +60,10 @@ shred:
     lore:
       description:
         - "Increases your armour shred."
-  cost: [50, 100, 150, 200, 250]
-  upgrade:
-    name: shred
-    value: [5, 8, 12, 15, 20]
-    operation: set
 
 pursuit:
   index: 11
+  cost: [25, 50, 75]
   prereq:
     attack: 3
   item:
@@ -94,13 +72,10 @@ pursuit:
     lore:
       description:
         - "Speed on hit."
-  cost: [25, 50, 75]
-  upgrade:
-    name: pursuit
-    operation: increment
 
 leap:
   index: 12
+  cost: [10, 20, 30, 40, 50]
   prereq:
     attack: 3
   item:
@@ -109,16 +84,13 @@ leap:
     lore:
       description:
         - "Improves your leap"
-  cost: [10, 20, 30, 40, 50]
-  upgrade:
-    name: leap
-    value: [30, 25, 20, 15, 10]
-    operation: set
 
 
 
-arrow-res:
+arrow:
   index: 14
+  cost: [20, 40, 60, 80, 100]
+  value: [25, 50, 60, 70, 75]
   prereq:
     health: 3
   item:
@@ -127,14 +99,11 @@ arrow-res:
     lore:
       description:
         - "Increases your arrow resistance to $value%"
-  cost: [20, 40, 60, 80, 100]
-  upgrade:
-    name: arrow
-    value: [25, 50, 60, 70, 75]
-    operation: set
 
 rebirth:
   index: 15
+  cost: [20, 40, 60, 80, 100]
+  value: [25, 50, 60, 70, 75]
   prereq:
     health: 3
   item:
@@ -143,14 +112,10 @@ rebirth:
     lore:
       description:
         - "Increases your respawn chance to $value%"
-  cost: [20, 40, 60, 80, 100]
-  upgrade:
-    name: rebirth
-    value: [25, 50, 60, 70, 75]
-    operation: set
 
 vampirism:
   index: 16
+  cost: [50, 100, 150]
   prereq:
     health: 3
   item:
@@ -159,14 +124,12 @@ vampirism:
     lore:
       description:
         - "Increases your life steal."
-  cost: [50, 100, 150]
-  upgrade:
-    name: vampirism
-    operation: increment
 
 
 
 fury:
+  index: 22
+  cost: 500
   prereq:
     attack: 5
     health: 5
@@ -184,8 +147,3 @@ fury:
     lore:
       description:
         - "Become a fury zombie"
-  cost: 500
-  index: 22
-  upgrade:
-    name: fury
-    operation: set_true

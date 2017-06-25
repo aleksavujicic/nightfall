@@ -3,6 +3,7 @@ package deimophobe.dvz.monster.upgrade;
 /**
  * Created by Deimophobe on 25/02/17.
  */
+@Deprecated
 public enum GlobalUpgrade {
 	KRUNGOR,
 	;
