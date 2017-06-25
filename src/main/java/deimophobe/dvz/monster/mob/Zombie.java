@@ -81,7 +81,7 @@ class Zombie extends AbstractTypedMob implements Rebirthable {
 	
 	@Override
 	public void rebirth() {
-		giveSpawnProtection(20);
+		giveSpawnProtection(12);
 	}
 	
 	@Override
