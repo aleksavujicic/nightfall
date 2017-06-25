@@ -214,7 +214,7 @@ public class Game {
 		Set<Dwarf> plagueables = dm.getPlagueables();
 		Set<Dwarf> plagued = dm.getPlagued();
 		//int toKill = plagueables.size();
-		int toKill = dm.getDwarves().size()/3;
+		int toKill = dm.getDwarves().size()/3+1;
 		
 		if (toKill == 0) {
 			releaseMonsters();
