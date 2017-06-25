@@ -14,7 +14,7 @@ class KrungorDoom extends Doom {
 	
 	@Override
 	void startDoom() {
-		super.startDoom();
 		GlobalUpgrade.KRUNGOR.unlock();
+		super.startDoom();
 	}
 }
