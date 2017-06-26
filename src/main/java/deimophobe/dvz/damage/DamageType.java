@@ -1,5 +1,7 @@
 package deimophobe.dvz.damage;
 
+import org.omg.CORBA.TRANSACTION_MODE;
+
 /**
  * Created by Deimophobe on 20/01/17.
  */
@@ -38,13 +40,13 @@ public enum DamageType {
 	DEATH_PLAGUE(true),
 	KILL(true),
 	AI_REMOVAL(true),
+	KABOOM(true),
 	
 	EBOW(true, true),
 	HAMMER_AOE(false, false),
 	EVISCERATE(true, false),
 	NOT_HOLDING_GHOSTBLADE(false, false),
 	DVZ_EXPLOSION(false, false),
-	KABOOM(false, false),
 	
 	WILDFIRE(true, false),
 	TINDERFLAME(false, false),

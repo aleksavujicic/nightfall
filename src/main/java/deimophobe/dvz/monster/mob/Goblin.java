@@ -1,17 +1,16 @@
 package deimophobe.dvz.monster.mob;
 
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.Explosion;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.blocks.BlockConverter;
 import deimophobe.dvz.blocks.timedblock.GoboBox;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
+import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -61,7 +60,7 @@ class Goblin extends AbstractTypedMob {
 	private int placeBoxCD = 0;
 	private int throwBoxCD = 0;
 	
-	private static final int MAX_KABOOM_CD = 60;
+	private static final int MAX_KABOOM_CD = 40;
 	private int kaboomCD = 0;
 	
 	@Override
@@ -93,25 +92,28 @@ class Goblin extends AbstractTypedMob {
 		}
 
 		if (Misc.isLeftClick(action) && isPlayerHoldingItem("kaboom") && kaboomCD == 0) {
-			monster.sendMessage("KAAAAAAAA");
 			monster.givePotionEffect(PotionEffectType.SPEED, MAX_KABOOM_CD, 3, true, true, true);
 			kaboomCD = 1;
 		}
 	}
 	
 	private void kaboom() {
+		monster.customDamage(null, DamageType.KABOOM, 10000);
+		
 		Location loc = monster.getLocation();
 		World world = monster.getLocation().getWorld();
 
-		monster.sendMessage("BOOM");
 		BlockConverter.convert(BlockConverter.Type.EXPLOSION, loc, 8);
 		world.spawnParticle(Particle.EXPLOSION_HUGE, loc, 3, 1, 1, 1);
 		world.playSound(loc, "entity.generic.explode", 2, 1);
 		(new Explosion(monster, loc, DamageType.DVZ_EXPLOSION, 80, 6, 4)).explode();
-		monster.customDamage(null, DamageType.KABOOM, 10000);
 	}
 
-
+	@Override
+	public double onHit(Dwarf dwarf, DamageType type, double damage) {
+		kaboomCD = 0;
+		return damage;
+	}
 
 	@Override
 	public float getCooldown() {
