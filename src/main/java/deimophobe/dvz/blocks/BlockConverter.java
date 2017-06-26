@@ -5,6 +5,7 @@ import deimophobe.dvz.blocks.blocktype.ComparableBlock;
 import deimophobe.dvz.blocks.blocktype.SettableBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
@@ -79,10 +80,12 @@ public class BlockConverter {
 			for (int x = startX; x<startX+size; x++) {
 				for (int y = startY; y<startY+size; y++) {
 					for (int z = startZ; z<startZ+size; z++) {
+						Block block = world.getBlockAt(x, y, z);
+						if (block.getType() == Material.AIR) continue;
+						
 						double appliedForce = (force / Math.max(1 , Math.sqrt(loc.distance(new Location(world, 0.5 + x, 0.5 + y, 0.5 + z)))));
 						// Bukkit.broadcastMessage(""+appliedForce);
 						while (appliedForce > 0) {
-							Block block = world.getBlockAt(x, y, z);
 							boolean didConvert = false;
 							for (Conversion conv : conversions) {
 								if (conv.canConvert(block)) {
