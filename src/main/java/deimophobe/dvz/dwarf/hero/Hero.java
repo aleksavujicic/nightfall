@@ -3,7 +3,6 @@ package deimophobe.dvz.dwarf.hero;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.Hat;
 import deimophobe.dvz.Skin;
-import deimophobe.dvz.dwarf.armour.Armour;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.armour.HeroArmour;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
@@ -12,6 +11,8 @@ import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
+import me.libraryaddict.disguise.disguisetypes.DisguiseType;
+import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -47,7 +48,7 @@ public class Hero extends Dwarf {
 	}
 	
 	private void announceHero() {
-		Bukkit.broadcastMessage(ChatColor.DARK_AQUA + entity.getName() + ChatColor.LIGHT_PURPLE + " has become the dwarven hero " + entity.getDisplayName() + ChatColor.LIGHT_PURPLE + "!");
+		Bukkit.broadcastMessage(ChatColor.DARK_AQUA + entity.getName() + ChatColor.LIGHT_PURPLE + " has become the " + type.getDescriptor() + " " + entity.getDisplayName() + ChatColor.LIGHT_PURPLE + "!");
 	}
 	
 	public Disguise getDisguise() {
@@ -102,42 +103,61 @@ public class Hero extends Dwarf {
 	}
 	
 	public enum Type {
-		TUI("Tui the Lightbringer", Hat.TUI, "tui", "Tui",
+		TUI("Tui the Lightbringer", Hat.TUI, "tui", "Tui", "Dwarven Hero",
 				KitElementType.TUI_HAMMER,
 				KitElementType.WILDFIRE),
 		
-		NOSOVIN("Nosovin's Illustration", Hat.NOSOVIN, "tui", "Nosovin",
+		NOSOVIN("Nosovin's Illustration", Hat.NOSOVIN, "tui", "Nosovin", "Dwarven Hero",
 				KitElementType.TINDERFLAME,
 				KitElementType.WAND,
 				KitElementType.ROCKET_BOOTS),
 		
-		ARTHEA("Arthea", Hat.ARTHEA, "arthea", "Arthea", EXTRA_ARTHEA_CONSUMABLES,
+		ARTHEA("Arthea", Hat.ARTHEA, "arthea", "Arthea",  "Dwarven Hero", EXTRA_ARTHEA_CONSUMABLES,
 				KitElementType.HEALER_TOTEM,
 				KitElementType.CADUCEUS,
 				KitElementType.ELYSTRIA),
 		
-		VELVETINE("Velvetine", Hat.VELVETINE, "arthea", "Velvetine",
+		VELVETINE("Velvetine", Hat.VELVETINE, "arthea", "Velvetine", "Dwarven Hero",
 				KitElementType.GRB,
 				KitElementType.DRAGONSKIN,
 				KitElementType.HORN
 				),
 		
-		HERANA("Herana", Hat.HERANA, "herana", "Herana",
+		HERANA("Herana", Hat.HERANA, "herana", "Herana", "Mermaid Hero",
 				KitElementType.GRB,
 				KitElementType.DRAGONSKIN,
 				KitElementType.HORN
-		),
+				),
+		
+		OXYSIS("Oxysis", Hat.VELVETINE, null, "Oxysis", "Pixie Hero",
+				KitElementType.GRB,
+				KitElementType.DRAGONSKIN,
+				KitElementType.HORN
+				)
+		{
+			@Override
+			public Disguise getDisguise() {
+				Disguise disguise = new MobDisguise(DisguiseType.VEX);
+				disguise.setKeepDisguiseOnPlayerDeath(false);
+				disguise.setViewSelfDisguise(false);
+				return disguise;
+			}
+		},
+		
+		
 		;
 		
 		private final DwarfData data;
 		private final Skin skin;
 		private final String nametag;
+		private final String descriptor;
 		
-		Type(String title, Hat hat, String skin, String nametag, KitElementType... elements) {
-			this(title, hat, skin, nametag, Collections.emptyMap(), elements);
+		Type(String title, Hat hat, String skin, String nametag, String descriptor, KitElementType... elements) {
+			this(title, hat, skin, nametag, descriptor, Collections.emptyMap(), elements);
 		}
 		
-		Type(String title, Hat hat, String skin, String nametag, Map<ConsumableType, Integer> extraConsumables, KitElementType... elements) {
+		Type(String title, Hat hat, String skin, String nametag, String descriptor, Map<ConsumableType, Integer> extraConsumables, KitElementType... elements) {
+			this.descriptor = descriptor;
 			Set<KitElementType> allElements = new HashSet<>();
 			allElements.add(KitElementType.HERO_ALE);
 			allElements.add(KitElementType.HERO_SAFEFALL);
@@ -161,6 +181,10 @@ public class Hero extends Dwarf {
 			return disguise;
 		}
 		
+		public String getDescriptor() {
+			return descriptor;
+		}
+		
 		public Hero createHero(Player player) {
 			switch (this) {
 				case TUI: return new Tui(player, this);
@@ -168,6 +192,7 @@ public class Hero extends Dwarf {
 				case ARTHEA: return new Arthea(player, this);
 				case VELVETINE: return new Hero(player, this);
 				case HERANA: return new Hero(player, this);
+				case OXYSIS: return new Hero(player, this);
 			}
 			throw new IllegalArgumentException("Unknown hero: " + this);
 		}

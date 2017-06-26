@@ -3,18 +3,14 @@ package deimophobe.dvz.monster;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.GamePlayerManager;
-import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
-import deimophobe.dvz.monster.spawnmenu.SpawnEggMenuItem;
+import deimophobe.dvz.monster.mob.MobType;
 import deimophobe.dvz.monster.spawnmenu.SpawnMenu;
 import org.bukkit.*;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
 import java.util.*;
@@ -103,8 +99,6 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		AIManager.getManager().setup();
 		DoomManager.getManager().setup();
 		
-		//menu.setup();
-		
 		new BukkitRunnable() {
 			@Override
 			public void run() {
@@ -117,8 +111,12 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		menu.startSession(monster.getPlayer());
 	}
 	
-	public void addSpawnEgg(int i, SpawnEggMenuItem egg) {
-		//menu.addEgg(i, egg);
+	public void addSpawnEgg(int i, String egg) {
+		menu.addSpawnEgg(i, egg);
+	}
+	
+	public Set<String> getUpgradeSet(MobType type) {
+		return menu.getUpgradeSet(type);
 	}
 
 	// ------------------------------------------------------------

@@ -11,10 +11,10 @@ import org.bukkit.inventory.ItemStack;
 /**
  * Created by Deimophobe on 16/06/17.
  */
-public class RebirthItem implements MenuItem<MonsterPlayer> {
+class RebirthItem implements MenuItem<MonsterPlayer> {
 	private final ItemStack item;
 	
-	public RebirthItem(ItemStack item) {
+	RebirthItem(ItemStack item) {
 		this.item = item;
 	}
 	
@@ -34,8 +34,6 @@ public class RebirthItem implements MenuItem<MonsterPlayer> {
 			if (monster.canRebirth()) {
 				monster.rebirth();
 				session.closeSession();
-			} else {
-				
 			}
 		} else {
 			monster.sendMessage(ChatColor.RED + "You cannot spawn during doom!");

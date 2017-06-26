@@ -5,30 +5,26 @@ import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.mob.MobType;
 import org.bukkit.configuration.ConfigurationSection;
 
+import java.util.Set;
+
 /**
  * Created by Deimophobe on 2/02/17.
  */
-public class UpgradeMenu extends SimpleMenu<MonsterPlayer> {
+class UpgradeMenu extends SimpleMenu<MonsterPlayer> {
 	private static final int MENU_SIZE = 27;
-	private static final String SETTINGS_KEY = "settings";
+	private final Set<String> upgrades;
 	
-	public UpgradeMenu(ConfigurationSection section, SpawnMenu spawnMenu) {
+	UpgradeMenu(ConfigurationSection section, MobType type) {
 		super(MENU_SIZE);
 		
-		MobType type = MobType.getMobType(section.getString(SETTINGS_KEY + ".mobtype"));
+		upgrades = section.getKeys(false);
 		
 		for (String key : section.getKeys(false)) {
-			if (key.equals(SETTINGS_KEY)) continue;
-			
 			ConfigurationSection itemSection = section.getConfigurationSection(key);
 			MenuItem<MonsterPlayer> item = new UpgradeMenuItem(itemSection, type);
 			int index = itemSection.getInt("index");
 			insertItem(index, item);
 		}
-		
-		setItem(0, SpawnEggMenuItem.getEgg(type));
-		setItem(9, spawnMenu.getBackItem());
-		setItem(18, spawnMenu.getRebirthItem());
 	}
 	
 	private void insertItem(int index, MenuItem<MonsterPlayer> item) {
@@ -37,5 +33,9 @@ public class UpgradeMenu extends SimpleMenu<MonsterPlayer> {
 		
 		multiItem.addItem(item);
 		setItem(index, multiItem);
+	}
+	
+	Set<String> getUpgrades() {
+		return upgrades;
 	}
 }

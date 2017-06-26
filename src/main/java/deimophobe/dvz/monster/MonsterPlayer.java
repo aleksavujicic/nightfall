@@ -9,7 +9,6 @@ import deimophobe.dvz.monster.mob.Bopen;
 import deimophobe.dvz.monster.mob.Mob;
 import deimophobe.dvz.monster.mob.MobType;
 import deimophobe.dvz.monster.mob.Rebirthable;
-import deimophobe.dvz.monster.upgrade.MobUpgrade;
 import deimophobe.dvz.shrine.ShrineManager;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
@@ -25,10 +24,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 17/01/17.
@@ -41,6 +37,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	
 	public MonsterPlayer(Player player) {
 		super(player);
+		
 		entity.sendMessage("You are monster now. Deimo make this cool.");
 		
 		mob = null;
@@ -96,7 +93,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	public void kill() {
 		if (isAlive()) {
 			ActionBarAPI.sendActionBarToAllPlayers(generateDeathMessage(), 60);
-			Bukkit.broadcastMessage(generateDeathMessage());
+			//Bukkit.broadcastMessage(generateDeathMessage());
 			entity.playSound(entity.getLocation(), "proc", 1f, 0.7f);
 		}
 		
@@ -237,19 +234,19 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	
 	
 	// ------ SPAWN/UPGRADE MENUS ------
-	private final Map<MobType, MobUpgrade> upgrades = new HashMap<>();
-	public void showMobMenu() {
-		MonsterManager.getManager().showMobMenu(this);
-	}
+	private final Map<MobType, Map<String, Integer>> upgrades = new HashMap<>();
 	
-	public MobUpgrade getUpgrades(MobType type) {
-		if (upgrades.containsKey(type))
-			return upgrades.get(type);
-		else {
-			MobUpgrade emptyUpgrades = new MobUpgrade();
-			upgrades.put(type, emptyUpgrades);
-			return emptyUpgrades;
+	public Map<String, Integer> getUpgrades(MobType type) {
+		if (!upgrades.containsKey(type)) {
+			Set<String> upgradeSet = MonsterManager.getManager().getUpgradeSet(type);
+			
+			Map<String, Integer> mobUpgrades = new HashMap<>();
+			for (String upgrade : upgradeSet)
+				mobUpgrades.put(upgrade, 0);
+			
+			upgrades.put(type, mobUpgrades);
 		}
+		return upgrades.get(type);
 	}
 	
 	

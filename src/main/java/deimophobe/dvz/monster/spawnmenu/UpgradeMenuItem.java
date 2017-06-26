@@ -6,14 +6,12 @@ import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.menu.MenuSession;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.mob.MobType;
-import deimophobe.dvz.monster.upgrade.MobUpgrade;
-import deimophobe.dvz.monster.upgrade.UpgradeApplyOperation;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,16 +26,13 @@ class UpgradeMenuItem implements MenuItem<MonsterPlayer> {
 	private final MobType mob;
 	
 	private final List<Integer> costs;
+	private final List<Integer> values;
+	private final int maxLevel;
 	private final CustomItem item;
 	
 	private final boolean permanent;
-	private final int maxLevel;
 	
-	private final String upgrade;
-	private final UpgradeApplyOperation operation;
-	private final List<Integer> values;
-	
-	UpgradeMenuItem(ConfigurationSection config, MobType mob) {
+	UpgradeMenuItem(ConfigurationSection config, MobType mob) {List<Integer> temp;
 		this.label = config.getName();
 		this.mob = mob;
 		this.permanent = config.getBoolean("permanent", false);
@@ -49,39 +44,38 @@ class UpgradeMenuItem implements MenuItem<MonsterPlayer> {
 				prereqs.put(key, config.getInt("prereq."+key));
 		}
 		
-		
 		this.item = CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.MOB_UPGRADE, Slot.MAIN_HAND);
 		this.costs = config.getIntegerList("cost");
 		if (costs.size() == 0)
 			costs.add(config.getInt("cost"));
-		
-		
-		this.upgrade = config.getString("upgrade.name");
-		this.operation = UpgradeApplyOperation.getOperation(config.getString("upgrade.operation", "increment"));
-		this.values = config.getIntegerList("upgrade.value");
-		
 		this.maxLevel = costs.size();
-		if (values.size() > maxLevel)
-			throw new IllegalArgumentException("Value size of mob upgrade: " + config.getName() + " is more than cost size.");
-		else if (values.size() < maxLevel)
-			Bukkit.getLogger().info("Value size of mob upgrade: " + config.getName() + " is less than cost size, filling with defaults.");
 		
-		while (values.size() < maxLevel) {
-			values.add(operation.getDefault());
-		}
+		temp = config.getIntegerList("value");
+		if (temp.isEmpty())
+			temp = Collections.nCopies(maxLevel, null);
+		this.values = temp;
+		
+		if (values.size() != costs.size())
+			throw new IllegalArgumentException("Costs and values size do not match for mob upgrade: " + config.getName());
 	}
 	
-	private MobUpgrade getUpgrades(MenuSession<MonsterPlayer> session) {
+	private Map<String, Integer> getUpgrades(MenuSession<MonsterPlayer> session) {
 		return session.getData().getUpgrades(mob);
 	}
 	
-	private boolean isAvailable(MobUpgrade upgrades) {
+	private int getUpgradeLevel(MenuSession<MonsterPlayer> session) {
+		if (permanent) return 0;
+		return session.getData().getUpgrades(mob).get(label);
+	}
+	
+	private boolean isAvailable(MenuSession<MonsterPlayer> session) {
+		Map<String, Integer> upgrades = getUpgrades(session);
 		for (String prereq : prereqs.keySet()) {
-			if (!upgrades.hasLabel(prereq, prereqs.get(prereq)))
+			if (upgrades.get(prereq) < prereqs.get(prereq))
 				return false;
 		}
 		
-		if (!permanent && upgrades.getLabelLevel(label) >= maxLevel)
+		if (!permanent && upgrades.get(label) >= maxLevel)
 			return false;
 		
 		
@@ -90,9 +84,8 @@ class UpgradeMenuItem implements MenuItem<MonsterPlayer> {
 	
 	@Override
 	public ItemStack getDisplayItem(MenuSession<MonsterPlayer> session) {
-		MobUpgrade upgrades = getUpgrades(session);
-		if (isAvailable(upgrades)) {
-			int level = upgrades.getLabelLevel(label);
+		if (isAvailable(session)) {
+			int level = getUpgradeLevel(session);
 			
 			CustomItem clone = item.clone();
 			clone.applyVariable("value", ""+values.get(level));
@@ -107,18 +100,14 @@ class UpgradeMenuItem implements MenuItem<MonsterPlayer> {
 	
 	@Override
 	public boolean onClick(MenuSession<MonsterPlayer> session) {
-		MobUpgrade upgrades = getUpgrades(session);
-		if (!isAvailable(upgrades)) return false;
+		if (!isAvailable(session)) return false;
 		
-		int level = upgrades.getLabelLevel(label);
+		int level = getUpgradeLevel(session);
 		
 		MonsterPlayer player = session.getData();
 		boolean success = player.useXP(costs.get(level));
 		if (success) {
-			if (permanent)
-				upgrades.applyUppgrade(upgrade, operation, values.get(level));
-			else
-				upgrades.applyUppgrade(upgrade, operation, values.get(level), label);
+			getUpgrades(session).compute(label, (k, v) ->  v+1);
 		} else {
 			player.sendMessage(ChatColor.RED + "Not enough exp! " + "You have " + ChatColor.AQUA + player.getXP() +
 					ChatColor.RED + "/" + ChatColor.GREEN + costs.get(level));

@@ -137,7 +137,7 @@ public class AIManager {
 			maxAIs += (mobs + dwarves*2);
 			
 			for (Location spawnSpot : spawnSpots) {
-				spawnSpot.getWorld().spawnParticle(Particle.HEART, spawnSpot, 1, 0, 0, 0);
+				//spawnSpot.getWorld().spawnParticle(Particle.HEART, spawnSpot, 1, 0, 0, 0);
 				if (ais.size() >= maxAIs) break;
 				if (Math.random() > spawnChance) continue;
 				if (shrineProt.containsLocation(spawnSpot)) continue;
