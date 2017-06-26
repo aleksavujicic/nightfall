@@ -47,7 +47,7 @@ class Goblin extends AbstractTypedMob {
 		if (throwBoxCD > 0)
 			throwBoxCD--;
 
-		if (kaboomCD > 0 && kaboomCD < 60) {
+		if (kaboomCD > 0 && kaboomCD < MAX_KABOOM_CD) {
 			kaboomCD++;
 		}
 
