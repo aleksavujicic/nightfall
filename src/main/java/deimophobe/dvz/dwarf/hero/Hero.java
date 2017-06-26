@@ -117,7 +117,7 @@ public class Hero extends Dwarf {
 				KitElementType.CADUCEUS,
 				KitElementType.ELYSTRIA),
 		
-		VELVETINE("Velvetine", Hat.VELVETINE, "arthea", "Velvetine", "Dwarven Hero",
+		VELVETINE("Velvetine", Hat.VELVETINE, "velvetine", "Velvetine", "Dwarven Hero",
 				KitElementType.GRB,
 				KitElementType.DRAGONSKIN,
 				KitElementType.HORN
