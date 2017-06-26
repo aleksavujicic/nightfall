@@ -78,8 +78,8 @@ class Warpweaver extends AbstractBow implements KitCooldownElement {
 			World world = warpSpot.getWorld();
 			world.spawnParticle(Particle.SPELL_WITCH, warpSpot, 20, 0.5, 0.5, 0.5);
 			world.spawnParticle(Particle.SPELL_WITCH, newSpot, 20, 0.5, 0.5, 0.5);
-			world.playSound(warpSpot, "entity.endermen.teleport", 1f, 0.95f);
-			world.playSound(newSpot, "entity.endermen.teleport", 1f, 0.95f);
+			world.playSound(warpSpot, "entity.illusion_illager.mirror_move", 1f, 0.95f);
+			world.playSound(newSpot, "entity.illusion_illager.mirror_move", 1f, 0.95f);
 		}
 	}
 	
@@ -132,7 +132,7 @@ class Warpweaver extends AbstractBow implements KitCooldownElement {
 		World world = warpSpot.getWorld();
 		world.spawnParticle(Particle.SPELL_WITCH, warpSpot, 20, 0.5, 0.5, 0.5);
 		world.spawnParticle(Particle.SPELL_WITCH, curSpot, 20, 0.5, 0.5, 0.5);
-		world.playSound(warpSpot, "entity.endermen.teleport", 1f, 0.95f);
-		world.playSound(curSpot, "entity.endermen.teleport", 1f, 0.95f);
+		world.playSound(warpSpot, "entity.illusion_illager.mirror_move", 1f, 0.95f);
+		world.playSound(curSpot, "entity.illusion_illager.mirror_move", 1f, 0.95f);
 	}
 }
