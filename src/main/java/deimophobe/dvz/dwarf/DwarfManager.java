@@ -103,8 +103,8 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	
 	public Set<Dwarf> getPlagueables() {
 		Set<Dwarf> plagueables = new HashSet<>(getGamePlayers());
-		plagueables.removeIf((Dwarf d) -> d.isPlagueImmune());
-		plagueables.removeIf((Dwarf d) -> d.isForcePlagued());
+		plagueables.removeIf(Dwarf::isPlagueImmune);
+		plagueables.removeIf(Dwarf::isForcePlagued);
 		return plagueables;
 	}
 
