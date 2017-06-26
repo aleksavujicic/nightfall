@@ -182,6 +182,9 @@ public abstract class GamePlayer extends GameEntity<Player> {
 			case TINDERFLAME:
 				killMsg = "zooped";
 				break;
+			case DVZ_EXPLOSION:
+				killMsg = "blown up";
+				break;
 				
 			case POISON:
 				return name + " withered away.";

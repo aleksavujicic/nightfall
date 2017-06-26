@@ -425,7 +425,7 @@ public class GameListener implements Listener {
 		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
 		world.playSound(centerLoc, "entity.generic.explode", 2, 1);
 		//Bukkit.broadcastMessage(mm.peekGoboThrower().getName());
-		(new Explosion(mm.dequeueGoboThrower(), centerLoc, DamageType.GOBO_BOX, 40, 5, 3)).explode();
+		(new Explosion(mm.dequeueGoboThrower(), centerLoc, DamageType.DVZ_EXPLOSION, 40, 5, 3)).explode();
 	}
 	
 	// --------------------------------------------------------
