@@ -247,12 +247,13 @@ public class Dwarf extends GamePlayer {
 		}
 	}
 	private boolean canSee() {
+		if (mobspawnCount >= 7) return false;
+		
 		int lightLevel = getLocation().getBlock().getLightLevel();
 		return (holdingLightItem ||
 				blindImmune ||
 				lightLevel >= MIN_LIGHT_LEVEL_FOR_BLINDNESS ||
 				hasProc() ||
-				mobspawnCount < 7 ||
 				Game.getGame().getPhase() == Phase.BUILD ||
 				entity.hasPotionEffect(PotionEffectType.NIGHT_VISION)
 		);
