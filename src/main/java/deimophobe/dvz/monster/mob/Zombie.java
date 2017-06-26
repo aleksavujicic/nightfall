@@ -42,6 +42,14 @@ class Zombie extends AbstractTypedMob implements Rebirthable {
 	
 	protected Zombie(MonsterPlayer mons) {
 		super(mons);
+		
+		// TODO: Make these not hardcoded. Requires bit of work so later.
+		Integer[] shredValues = {0, 5, 8, 12, 15, 20};
+		Integer[] arrowResValues = {0, 25, 50, 60, 70, 75};
+		Integer[] rebirthValues = {0, 25, 50, 60, 70, 75};
+		
+		
+		
 		Map<String, Integer> upgrades = monster.getUpgrades(MobType.ZOMBIE);
 		
 		int attack = upgrades.get("attack") + upgrades.get("attack-inf");
@@ -59,11 +67,11 @@ class Zombie extends AbstractTypedMob implements Rebirthable {
 		this.vampirism = upgrades.get("vampirism");
 		this.pursuit = upgrades.get("pursuit");
 		
-		int arrowRes = upgrades.get("arrow");
+		int arrowRes = arrowResValues[upgrades.get("arrow")];
 		this.arrowRes = (double) arrowRes/100;
-		this.armourShred = upgrades.get("shred");
+		this.armourShred = shredValues[upgrades.get("shred")];
 		
-		int rebirthChance = upgrades.get("rebirth");
+		int rebirthChance = rebirthValues[upgrades.get("rebirth")];
 		this.rebirthChance = (double) rebirthChance/100;
 		
 		this.fury = upgrades.get("fury") >= 1;

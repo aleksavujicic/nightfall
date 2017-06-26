@@ -102,7 +102,7 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 	public static SpawnEggMenuItem getEgg(String key) {
 		return eggMap.get(key);
 	}
-	//public static SpawnEggMenuItem getEgg(MobType type) {
-	//	return eggMap.get(type.toString().toLowerCase());
-	//}
+	public static SpawnEggMenuItem getEgg(MobType type) {
+		return eggMap.get(type.toString().toLowerCase());
+	}
 }

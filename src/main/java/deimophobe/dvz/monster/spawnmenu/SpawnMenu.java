@@ -62,14 +62,16 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		
 		for (PageType pageType : PageType.values()) {
 			String file = pageType.filename;
+			MobType type = pageType.type;
 			if (file != null) {
-				UpgradeMenu upgradeMenu = new UpgradeMenu(Misc.getInternalFileConfig(file), pageType.type);
+				UpgradeMenu upgradeMenu = new UpgradeMenu(Misc.getInternalFileConfig(file), type);
+				upgradeMenu.setItem(0, SpawnEggMenuItem.getEgg(type));
 				upgradeMenu.setItem(18, backItem);
 				if (pageType == PageType.ZOMBIE_UPGRADE)
 					upgradeMenu.setItem(9, rebirthItem);
 				
 				setPage(pageType, upgradeMenu);
-				upgradeSets.put(pageType.type, upgradeMenu.getUpgrades());
+				upgradeSets.put(type, upgradeMenu.getUpgrades());
 			}
 		}
 		
@@ -105,6 +107,7 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		}
 	}
 	
+	// This is a bit hacky but does the job p well.
 	enum PageType {
 		MAIN,
 		ZOMBIE_UPGRADE("zombie-upgrades.yml", MobType.ZOMBIE),
