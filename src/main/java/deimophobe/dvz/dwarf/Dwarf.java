@@ -255,6 +255,7 @@ public class Dwarf extends GamePlayer {
 				lightLevel >= MIN_LIGHT_LEVEL_FOR_BLINDNESS ||
 				hasProc() ||
 				Game.getGame().getPhase() == Phase.BUILD ||
+				Game.getGame().getPhase() == Phase.PLAGUE ||
 				entity.hasPotionEffect(PotionEffectType.NIGHT_VISION)
 		);
 	}
