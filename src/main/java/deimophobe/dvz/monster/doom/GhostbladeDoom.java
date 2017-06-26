@@ -15,6 +15,6 @@ class GhostbladeDoom extends Doom {
 	@Override
 	void startDoom() {
 		super.startDoom();
-		//MonsterManager.getManager().addMenuItem(26, SpawnEggMenuItem.getEgg("ghostblade"));
+		MonsterManager.getManager().addSpawnEgg(26, "ghostblade");
 	}
 }

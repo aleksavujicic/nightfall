@@ -58,7 +58,7 @@ golem:
     base: golempick
     name: Spawn Golem
   quantity: 1
-  chance: 0.02
+  chance: 0.03
 
 ogre:
   mobtype: ogre
@@ -69,9 +69,13 @@ ogre:
   chance: 0.05
 
 ghostblade:
-  mobtype: gb-dagger
+  mobtype:
+    - gb-axe
+    - gb-dagger
+    - gb-hammer
+    - gb-runeblade
   egg:
     base: dagger
     name: Spawn Ghostblade
-  quantity: 4
-  chance: 0.08
+  quantity: 3
+  chance: 0.06

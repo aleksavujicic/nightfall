@@ -13,14 +13,13 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Deimophbe on 19/01/17.
  */
 public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
-	private final MobType mobType;
+	private final Set<MobType> mobTypes;
 	
 	private final ItemStack item;
 	
@@ -34,7 +33,13 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 	private SpawnEggMenuItem(ConfigurationSection section) {
 		this.item = CustomItem.getItem(section.getConfigurationSection("egg"), "monster-egg", Slot.HEAD).createItemStack();
 		
-		this.mobType = MobType.getMobType(section.getString("mobtype"));
+		List<String> mobs = section.getStringList("mobtype");
+		if (mobs.isEmpty())
+			mobs.add(section.getString("mobtype"));
+		
+		this.mobTypes = new HashSet<>();
+		for (String mob : mobs)
+			mobTypes.add(MobType.getMobType(mob));
 		
 		this.quantity = 0;
 		this.maxQuantity = section.getInt("quantity", 1);
@@ -79,7 +84,7 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 		
 		MonsterPlayer monster = session.getData();
 		if (!DoomManager.getManager().isDoom()) {
-			monster.spawnMobType(mobType);
+			monster.spawnMobType(Misc.getRandom(mobTypes));
 			quantity -= 1;
 			session.closeSession();
 		} else {
