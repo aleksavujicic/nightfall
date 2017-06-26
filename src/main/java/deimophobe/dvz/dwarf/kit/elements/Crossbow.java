@@ -12,6 +12,7 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.util.Vector;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -50,9 +51,9 @@ class Crossbow extends AbstractBow implements KitCooldownElement {
 		if (cooldown == 0 && dwarf.hasArrows(1)) {
 			Location spawnLoc = dwarf.getEyeLocation();
 			double yaw = spawnLoc.getYaw() * Math.PI/180;
-			spawnLoc.add(-0.15*Math.cos(yaw), -0.15, 0.15*Math.sin(yaw));
+			spawnLoc.add(-0.15*Math.cos(yaw), -0.15, -0.15*Math.sin(yaw));
 			
-			Arrow arrow = spawnLoc.getWorld().spawnArrow(spawnLoc, spawnLoc.getDirection(), 2.5f, 0.05f);
+			Arrow arrow = spawnLoc.getWorld().spawnArrow(spawnLoc, spawnLoc.getDirection().add(new Vector(0,0.05,0)), 3f, 0.05f);
 			arrow.setShooter(dwarf.getPlayer());
 			arrow.setMetadata("force", new FixedMetadataValue(Game.getGame().getPlugin(), 1));
 			cooldown = MAX_COOLDOWN;
