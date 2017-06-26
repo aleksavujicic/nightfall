@@ -344,6 +344,8 @@ public class Dwarf extends GamePlayer {
 			holdingLightItem = (Consumable.isSimilar(ConsumableType.TORCH, heldItem) || Consumable.isSimilar(ConsumableType.LAMP, heldItem));
 			updateVisibility();
 		}
+		
+		usedThisTick = false;
 	}
 	
 	
@@ -504,11 +506,15 @@ public class Dwarf extends GamePlayer {
 		}
 	}
 	
+	private boolean usedThisTick = false;
 	private int consumableGrabCD;
 	private final static int MAX_GRAB_CD = 15; // For grabbing items and stuff
 	
 	@Override
 	public void onUse(Action type, Block clickedBlock, BlockFace blockFace) {
+		if (usedThisTick) return;
+		usedThisTick = true;
+		
 		if (consumableGrabCD > 0) return; // prevent grabbing an item then instantly using it.
 		
 		boolean success = kit.onUse(type, clickedBlock, blockFace);

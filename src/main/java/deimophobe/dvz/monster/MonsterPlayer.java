@@ -73,6 +73,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		if (sec && isAlive()) {
 			gainXP(isInShrine() ? 2 : 1);
 		}
+		
+		usedThisTick = false;
 	}
 	
 	
@@ -280,8 +282,12 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		}
 	}
 	
+	private boolean usedThisTick = false;
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		if (usedThisTick) return;
+		usedThisTick = true;
+		
 		if (isHolding(seppuku)) {
 			seppukuClick();
 			return;
