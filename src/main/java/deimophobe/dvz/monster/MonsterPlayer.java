@@ -150,6 +150,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	}
 	
 	// ----- REBIRTH -----
+	private final static int REBIRTH_TIME = 10*20;
 	private Location lastRebirth = null;
 	
 	public boolean canRebirth() {
@@ -167,6 +168,11 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 			return;
 		}
 		lastRebirth = location;
+		
+		// Remove rebirth after amt of time - not sure about this.
+		new BukkitRunnable() {
+			@Override public void run() {removeRebirth();}
+		}.runTaskLater(Game.getGame().getPlugin(), REBIRTH_TIME);
 	}
 	
 	public void rebirth() {

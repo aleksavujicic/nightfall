@@ -34,6 +34,9 @@ class RebirthItem implements MenuItem<MonsterPlayer> {
 			if (monster.canRebirth()) {
 				monster.rebirth();
 				session.closeSession();
+			} else {
+				monster.sendMessage(ChatColor.RED + "You can no longer rebirth!");
+				return true;
 			}
 		} else {
 			monster.sendMessage(ChatColor.RED + "You cannot spawn during doom!");
