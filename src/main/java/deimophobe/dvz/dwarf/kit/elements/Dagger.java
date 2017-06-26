@@ -23,7 +23,7 @@ import org.bukkit.potion.PotionEffectType;
 class Dagger extends AbstractCooldownItem {
 	
 	Dagger(Dwarf dwarf) {
-		super(dwarf, 1200);
+		super(dwarf, 800);
 	}
 	
 	
@@ -37,7 +37,7 @@ class Dagger extends AbstractCooldownItem {
 	
 	@Override
 	public void onKill(GameEntity monster, DamageType b) {
-		reduceCooldown(200);
+		reduceCooldown(40);
 	}
 	
 	@Override
@@ -53,7 +53,7 @@ class Dagger extends AbstractCooldownItem {
 			if (closestMonster != null) {
 				Location loc = closestMonster.getPlayer().getEyeLocation();
 				
-				closestMonster.customDamage(dwarf, DamageType.EVISCERATE, 200);
+				closestMonster.customDamage(dwarf, DamageType.EVISCERATE, 140);
 				loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 20, 0.3, 0.3, 0.3, 1);
 				//world.spigot().playEffect(loc, GameEffect.COLOURED_DUST, 0, 1, red, green, blue, 1, 0, 64);
 				//world.spawnParticle(Particle.SPELL_INSTANT, ltarget.getEyeLocation(), 1, 0.3, 0.3, 0.3, 0);

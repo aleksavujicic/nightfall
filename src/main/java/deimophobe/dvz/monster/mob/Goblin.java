@@ -19,6 +19,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.util.Vector;
 
+import static org.bukkit.Sound.*;
+
 /**
  * Created by Deimophobe on 28/02/17.
  */
@@ -45,11 +47,12 @@ class Goblin extends AbstractTypedMob {
 		if (throwBoxCD > 0)
 			throwBoxCD--;
 
-		if (kaboomCD > 0) {
+		if (kaboomCD > 0 && kaboomCD < MAX_KABOOM_CD) {
 			kaboomCD++;
-			
-			if (kaboomCD == MAX_KABOOM_CD)
-				kaboom();
+		}
+
+		if (kaboomCD == MAX_KABOOM_CD) {
+			kaboom();
 		}
 	}
 	
@@ -63,6 +66,9 @@ class Goblin extends AbstractTypedMob {
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		Location loc = monster.getLocation();
+		World world = monster.getLocation().getWorld();
+
 		if (Misc.isRightClick(action) && isPlayerHoldingItem("gobo-box") && placeBoxCD == 0 && clickedBlock != null && clickedBlock.getType() != Material.ENDER_STONE) {
 			Block block = clickedBlock.getRelative(blockFace);
 			TimedBlock.placeTimedBlock(new GoboBox(block, 50, 5, monster));
@@ -80,7 +86,7 @@ class Goblin extends AbstractTypedMob {
 			TNTPrimed tnt = monster.getLocation().getWorld().spawn(monster.getEyeLocation().add(direction), TNTPrimed.class);
 			tnt.setVelocity(direction);
 			tnt.setFuseTicks(60);
-
+			world.playSound(loc, "entity.firework.launch", 2, (float) 0.5);
 			monster.useHeldItem();
 			monster.useHeldItem();
 			throwBoxCD = MAX_THROW_CD;
@@ -94,15 +100,14 @@ class Goblin extends AbstractTypedMob {
 	}
 	
 	private void kaboom() {
-		monster.sendMessage("BOOM");
-		
 		Location loc = monster.getLocation();
 		World world = monster.getLocation().getWorld();
-		
+
+		monster.sendMessage("BOOM");
 		BlockConverter.convert(BlockConverter.Type.EXPLOSION, loc, 8);
 		world.spawnParticle(Particle.EXPLOSION_HUGE, loc, 3, 1, 1, 1);
 		world.playSound(loc, "entity.generic.explode", 2, 1);
-		(new Explosion(monster, loc, DamageType.KABOOM, 80, 6, 4)).explode();
+		(new Explosion(monster, loc, DamageType.DVZ_EXPLOSION, 80, 6, 4)).explode();
 		monster.customDamage(null, DamageType.KABOOM, 10000);
 	}
 

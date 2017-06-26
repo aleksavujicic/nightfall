@@ -245,14 +245,6 @@ public class ShrineManager {
 		if (isDead) killShrine();
 		else shrineBar.setProgress(shrine.getFractionalShrinePower());
 		
-		for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
-			if (shrine.getMobProtection().containsPlayer(dwarf)) {
-				//dwarf.getGamePlayer().sendMessage(ChatColor.RED + "PLEASE LEAVE MOB SPAWN. DEIMO HASNT DONE STUFF TO MAKE THIS" +
-				//		" DMG YOU YET. SO INSTEAD YOU WILL BE SPAMMED WITH REALLY REALLY REALLY REALLY LONG MESSAGES LIKE THIS" +
-				//		" ONE. WELL NOT LIKE THIS BUT ACTUALLY ONLY THIS ONE. OVER AND OVER. AND IN ALL CAPS TOO. SO UH YEAH PLEASE LEAVE. KTHXBAI");
-			}
-		}
-		
 	}
 
 	public void commandDamageShrine(int damage) {
