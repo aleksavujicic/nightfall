@@ -216,7 +216,7 @@ public class Game {
 		//int toKill = plagueables.size();
 		int toKill = dm.getDwarves().size()/3+1;
 		
-		if (toKill == 0) {
+		if (toKill == 0 || plagueables.size() == 0) {
 			releaseMonsters();
 			return;
 		}
