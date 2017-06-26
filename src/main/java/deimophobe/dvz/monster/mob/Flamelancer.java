@@ -1,5 +1,6 @@
 package deimophobe.dvz.monster.mob;
 
+import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Material;
@@ -8,6 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
+import org.bukkit.metadata.FixedMetadataValue;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -44,6 +46,7 @@ class Flamelancer extends SkeletonMob {
 		final int arrowsToFire = (int) (ARROWS_FIRED*(force*force*force));
 		for (int i=0; i<arrowsToFire; i++) {
 			Arrow newArrow = world.spawnArrow(arrow.getLocation(), arrow.getVelocity(), force*2, 30f);
+			newArrow.setMetadata("force", new FixedMetadataValue(Game.getGame().getPlugin(), force));
 			newArrow.setPickupStatus(Arrow.PickupStatus.DISALLOWED);
 			newArrow.setShooter(monster.getPlayer());
 			newArrow.setCritical(false);
