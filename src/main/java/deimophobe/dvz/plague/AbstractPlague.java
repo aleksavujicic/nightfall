@@ -13,7 +13,7 @@ import java.util.Set;
 public abstract class AbstractPlague extends Plague {
 	protected Set<Dwarf> plagueables;
 	protected Set<Dwarf> plagued;
-	protected int toKill;
+	private int toKill;
 	
 	@Override
 	public void startPlague(Set<Dwarf> plagueables, Set<Dwarf> plagued, int killAmt) {
@@ -51,5 +51,17 @@ public abstract class AbstractPlague extends Plague {
 	protected void killDwarf(Dwarf dwarf) {
 		dwarf.kill();
 		removeDwarf(dwarf);
+	}
+	
+	protected boolean isPlaguable(Dwarf dwarf) {
+		return plagueables.contains(dwarf);
+	}
+	
+	protected boolean isPlagued(Dwarf dwarf) {
+		return plagued.contains(dwarf);
+	}
+	
+	protected int getAmountToKill() {
+		return toKill;
 	}
 }

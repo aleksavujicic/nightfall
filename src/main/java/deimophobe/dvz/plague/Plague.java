@@ -28,7 +28,7 @@ public abstract class Plague {
 	private enum PlagueType {
 		ZOMBIE(ZombiePlague.class, true),
 		INSTA(InstaPlague.class, false),
-		DEATH(DeathPlague.class, true)
+		DEATH(DeathPlague.class, false)
 		
 		;
 		
