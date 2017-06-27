@@ -27,11 +27,12 @@ class Slab extends Consumable {
 		if (Misc.isRightClick(action)) return FAILED_CD;
 		if (!checkPhase(dwarf)) return FAILED_CD;
 		
-		Block block = dwarf.getPlayer().getTargetBlock((Set<Material>) null, 5);
+		if (clickedBlock == null)
+			clickedBlock = dwarf.getPlayer().getTargetBlock((Set<Material>) null, 5);
 		
-		if (block.getType() != Material.AIR) return FAILED_CD;
+		if (clickedBlock.getType() != Material.AIR) return FAILED_CD;
 			
-		Location center = block.getLocation();
+		Location center = clickedBlock.getLocation();
 		double facing = dwarf.getLocation().getYaw() % 360;
 		if (facing < 0)
 			facing += 360;
