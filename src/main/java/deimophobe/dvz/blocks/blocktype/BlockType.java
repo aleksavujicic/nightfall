@@ -110,6 +110,8 @@ public class BlockType {
 			UNBREAKABLE_BLOCKS,
 			
 			new MaterialSet(
+					Material.AIR,
+					Material.BARRIER,
 					Material.BEDROCK
 			)
 	);
