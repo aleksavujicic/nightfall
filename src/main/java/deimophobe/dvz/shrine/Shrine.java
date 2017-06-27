@@ -98,14 +98,15 @@ public class Shrine {
 			// Final shrine should not fall until most dwarves are dead
 			dwarfNum *= 3;
 		} else {
-			dwarfNum += 2;
+			dwarfNum += 0;
 		}
 		if (mobNum == 0) {
 			// Regen when no mobs around, first shrine has slower regen
-			if (shrineNum == 0 && shrinePower < (maxShrinePower / 4)) {
-				recovery = dwarfNum * (maxShrinePower / 100);
+			if (shrineNum == 0) {
+				if (shrinePower < (maxShrinePower / 4)) {recovery = dwarfNum * (maxShrinePower / 100);
+				}
 			}
-			else if (shrineNum != 0){
+			else {
 				recovery = dwarfNum * (maxShrinePower / 40);
 			}
 		}

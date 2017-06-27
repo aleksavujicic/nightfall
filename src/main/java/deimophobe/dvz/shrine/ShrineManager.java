@@ -51,12 +51,15 @@ public class ShrineManager {
 	public void setupManager(ConfigurationSection mapConfig) {
 		dwarfSpawn = Misc.createLocation(mapConfig.getDoubleList("dwarfspawn"));
 		lobby = Misc.createLocation(mapConfig.getDoubleList("lobby"));
-		
+
+		currentShrine = 0;
+
 		// Setup shrines
 		shrines = new ArrayList<>();
 		ConfigurationSection shrineConfig = mapConfig.getConfigurationSection("shrines");
 		for (String key : shrineConfig.getKeys(false)) {
 			shrines.add(Shrine.createShrine(shrineConfig.getConfigurationSection(key), currentShrine));
+			currentShrine++;
 		}
 
 		currentShrine = 0;
