@@ -335,7 +335,7 @@ public class DvZPlugin extends JavaPlugin {
 					if (args.length >= 1) {
 						try {
 							int amt = Integer.parseInt(args[0]);
-							monster.gainXP(amt);
+							monster.gainXP(amt, false);
 							sender.sendMessage(ChatColor.YELLOW + "Giving you " + ChatColor.GREEN + amt + ChatColor.YELLOW + " xp!");
 							return true;
 						} catch (NumberFormatException e) {

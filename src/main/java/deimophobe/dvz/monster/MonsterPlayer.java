@@ -71,7 +71,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		}
 		
 		if (sec && isAlive()) {
-			gainXP(isInShrine() ? 2 : 1);
+			gainXP(1, true);
 		}
 		
 		usedThisTick = false;
@@ -214,9 +214,15 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	private int experience = 0;
 	private static final int MAX_XP = 1000;
 	
-	public void gainXP(int amt) {
+	public void forceGainXP(int amt) {
 		experience += amt;
-		if (experience > MAX_XP) experience = MAX_XP;
+		updateXPDisplay();
+	}
+	
+	public void gainXP(int amt, boolean affectedByShrine) {
+		if (affectedByShrine && isInShrine())
+			amt *= 3;
+		experience = Math.min(Math.max(experience, MAX_XP), experience + amt);
 		updateXPDisplay();
 	}
 	
@@ -276,7 +282,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	public void onBlockBreak(Block block) {
 		if (mob != null) {
 			if (block.getType() == Material.TORCH)
-				gainXP(mob.getTorchXP());
+				gainXP(mob.getTorchXP(), false);
 			
 			mob.onBlockBreak(block);
 		}
@@ -302,7 +308,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		if (mob != null) {
 			if (gamePlayer instanceof Dwarf) {
 				((Dwarf) gamePlayer).getArmour().damage(mob.getArmourShred());
-				gainXP(isInShrine() ? 2 : 1);
+				gainXP(2, true);
 				return mob.onHit((Dwarf) gamePlayer, type, damage);
 			} else {
 				Bukkit.getLogger().warning("GameEntity in onGotHit should be a Dwarf");

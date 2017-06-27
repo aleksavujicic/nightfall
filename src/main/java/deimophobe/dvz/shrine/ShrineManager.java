@@ -294,6 +294,7 @@ public class ShrineManager {
 			for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
 				monster.givePotionEffect(PotionEffectType.SLOW, 180, 3, true, false, true);
 				monster.givePotionEffect(PotionEffectType.CONFUSION, 180, 1, true, false, true);
+				monster.forceGainXP(500);
 			}
 			
 			shrineBar.setTitle((getShrine().getName() + " (" + (currentShrine + 1) + "/" + shrines.size()+")"));
