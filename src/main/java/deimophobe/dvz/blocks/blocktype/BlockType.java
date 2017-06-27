@@ -123,7 +123,9 @@ public class BlockType {
 					Material.WORKBENCH,
 					Material.FURNACE,
 					Material.ANVIL,
-					Material.BREWING_STAND
+					Material.BREWING_STAND,
+					Material.DISPENSER,
+					Material.DROPPER
 			)
 	);
 	
