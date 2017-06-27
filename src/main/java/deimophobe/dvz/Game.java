@@ -306,6 +306,7 @@ public class Game {
 	}
 	
 	public void resetPlayer(Player player) {
+		player.setCollidable(false);
 		switch (phase) {
 			case STARTING:
 				player.teleport(ShrineManager.getManager().getLobbySpawn());
