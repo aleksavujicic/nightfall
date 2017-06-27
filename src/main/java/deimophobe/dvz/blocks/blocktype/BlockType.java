@@ -72,6 +72,8 @@ public class BlockType {
 			ANY_SHRINE_BLOCK,
 			
 			new MaterialSet(
+					Material.AIR,
+					
 					Material.SPONGE,
 					Material.IRON_FENCE,
 					
@@ -108,6 +110,8 @@ public class BlockType {
 	
 	public static final ComparableBlock GOLEM_UNBREAKABLE_BLOCKS = new BlockSet(
 			UNBREAKABLE_BLOCKS,
+			
+			Block::isLiquid,
 			
 			new MaterialSet(
 					Material.AIR,
