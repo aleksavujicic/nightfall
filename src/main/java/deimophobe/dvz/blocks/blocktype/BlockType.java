@@ -86,7 +86,8 @@ public class BlockType {
 					Material.CHEST,
 					Material.TRAPPED_CHEST,
 					
-					Material.JACK_O_LANTERN
+					Material.JACK_O_LANTERN,
+					Material.PURPUR_BLOCK
 			)
 	);
 	
