@@ -42,7 +42,7 @@ class Tombmaker extends AbstractCooldownItem {
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action) && isOffCD()) {
 			dwarf.playSound("proc", 1, 1, false);
-			dwarf.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 2), true);
+			dwarf.givePotionEffect(PotionEffectType.FAST_DIGGING, 100 , 3, true, false, true);
 			resetCooldown();
 			return true;
 		}
