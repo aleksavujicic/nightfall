@@ -66,14 +66,16 @@ public class AIEntity extends GameEntity<Zombie> {
 		if (damage == -1)
 			return -1;
 		
-		damage *= 0.2;
+		if (type == DamageType.REGULAR_RANGED)
+			damage *= 0.4;
+		else
+			damage *= 0.2;
 		
 		if (getHealth() - damage <= 0.1) {
 			float pitch = (getEntity().isBaby() ? 1.5f : 1f);
 			getLocation().getWorld().playSound(getLocation(), "entity.zombie.death", 1f, pitch);
-			damage += 0.2;
+			return 10000;
 		}
-		
 		return damage;
 	}
 	
