@@ -40,13 +40,10 @@ class Golem extends AbstractTypedMob {
 		if (Misc.isLeftClick(action)) {
 			if (breakCD == 0 && isPlayerHoldingWeapon()) {
 				
-				if (clickedBlock == null)
-					clickedBlock = monster.getTargetBlock(null, 5);
-				
 				swingArms();
 				breakCD = BREAK_CD_MAX;
 				
-				if (clickedBlock != null && !BlockType.GOLEM_UNBREAKABLE_BLOCKS.matchesBlock(clickedBlock)) {
+				if (!BlockType.GOLEM_UNBREAKABLE_BLOCKS.matchesBlock(clickedBlock)) {
 					clickedBlock.getWorld().spawnParticle(Particle.BLOCK_CRACK, clickedBlock.getLocation().add(0.5, 0.5, 0.5), 40, 0.5, 0.5, 0.5, 0, clickedBlock.getState().getData());
 					clickedBlock.breakNaturally();
 				}

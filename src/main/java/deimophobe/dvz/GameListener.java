@@ -116,8 +116,10 @@ public class GameListener implements Listener {
 			}
 			
 			Block block = event.getClickedBlock();
-			gp.onUse(event.getAction(), block, event.getBlockFace()); // TODO
-			//boolean cancel = gp.onUse(event.getAction(), block, event.getBlockFace()); // TODO
+			if (block == null)
+				block = gp.getTargetBlock(null, 5);
+			gp.onUse(event.getAction(), block, event.getBlockFace());
+			
 			TimedBlock.hitBlock(block, gp);
 			
 			Material mat = event.getMaterial();
@@ -131,7 +133,7 @@ public class GameListener implements Listener {
 	public void onUseOnEntity(PlayerAnimationEvent event) {
 		GamePlayer gp = game.getGamePlayer(event.getPlayer());
 		if (gp != null) {
-			gp.onUse(Action.LEFT_CLICK_AIR, null, null);
+			gp.onUse(Action.LEFT_CLICK_AIR, gp.getTargetBlock(null, 5), null);
 		}
 	}
 	
