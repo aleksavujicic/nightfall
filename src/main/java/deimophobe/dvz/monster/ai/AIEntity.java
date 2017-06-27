@@ -31,7 +31,7 @@ public class AIEntity extends GameEntity<Zombie> {
 		ItemStack chestplate = zombie.getEquipment().getChestplate();
 		if (chestplate == null || chestplate.getType() == Material.AIR)
 			chestplate = new ItemStack(Material.DIAMOND);
-		chestplate.addUnsafeEnchantment(Enchantment.DEPTH_STRIDER, 1);
+		chestplate.addUnsafeEnchantment(Enchantment.DEPTH_STRIDER, 2);
 		zombie.getEquipment().setChestplate(chestplate);
 		
 		zombie.setTarget(target.getPlayer());
