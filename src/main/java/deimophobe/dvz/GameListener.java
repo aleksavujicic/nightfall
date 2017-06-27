@@ -188,11 +188,14 @@ public class GameListener implements Listener {
 			}
 		}
 		
-		// Ignore starvation/suffocation
-		if (cause == EntityDamageEvent.DamageCause.STARVATION || cause == EntityDamageEvent.DamageCause.SUFFOCATION) {
-			event.setDamage(0);
-			event.setCancelled(true);
-			return;
+		// Ignore starvation/suffocation/thorns
+		switch (cause) {
+			case STARVATION:
+			case SUFFOCATION:
+			case THORNS:
+				event.setDamage(0);
+				event.setCancelled(true);
+				return;
 		}
 		
 		// The grunt of the work
