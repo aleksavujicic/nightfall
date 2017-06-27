@@ -45,23 +45,10 @@ public class BlockConverter {
 				new Conversion(BlockType.CRACKED_WALL, 4.5, 0.8, BlockType.DAMAGED_WALL),
 				new Conversion(BlockType.ALL_WOOLS, 2.0, 1.0, BlockType.AIR)
 		),
-		MORTAR(
-				new Conversion(BlockType.UNENCHANTED_WALL, 0.0, 0.0, BlockType.NORMAL_WALL),
-				new Conversion(BlockType.DAMAGED_STAIR, 0.0, 0.0, BlockType.NORMAL_STAIR),
-				new Conversion(BlockType.DAMAGED_SLAB, 0.0, 0.0, BlockType.REINFORCED_SLAB),
-				new Conversion(BlockType.NORMAL_SLAB, 0.0, 0.0, BlockType.REINFORCED_SLAB),
-				new Conversion(BlockType.WALL, 6.0, 2.0, BlockType.ENCHANTED_WALL)
-		),
-		WIZ_MORTAR(
-				new Conversion(BlockType.DAMAGED_STAIR, 0.0, 0.0, BlockType.NORMAL_STAIR),
-				new Conversion(BlockType.DAMAGED_SLAB, 0.0, 0.0, BlockType.REINFORCED_SLAB),
-				new Conversion(BlockType.NORMAL_SLAB, 0.0, 0.0, BlockType.REINFORCED_SLAB),
-				new Conversion(BlockType.WALL, 0.0, 0.0, BlockType.ENCHANTED_WALL)
-		),
 		ARROW_DAMAGE,;
 		
 		
-		private final Set<Conversion> conversions = new HashSet<>();
+		private final List<Conversion> conversions = new ArrayList<>();
 		
 		Type(Conversion... conversions) {
 			Collections.addAll(this.conversions, conversions);
@@ -141,5 +128,32 @@ public class BlockConverter {
 	
 	public static void convert(Type type, Location loc, double force) {
 		type.convert(loc, force);
+	}
+	
+	
+	private static final int MORTAR_RANGE = 3; // Half range
+	private static final double MORTAR_CHANCE = 0.02; // Half range
+	// MORTAR
+	public static void mortar(Block center, boolean wizzy) {
+		World world = center.getWorld();
+		
+		int startX = center.getX();
+		int startY = center.getY();
+		int startZ = center.getZ();
+		
+		int size = MORTAR_RANGE * 2 + 1;
+		
+		for (int x = startX; x < startX + size; x++) {
+			for (int y = startY; y < startY + size; y++) {
+				for (int z = startZ; z < startZ + size; z++) {
+					Block block = world.getBlockAt(x, y, z);
+					
+					if (wizzy || Math.random() <= MORTAR_CHANCE)
+						BlockType.tryConvertBlock(block, BlockType.MORTARABLE_WALL, BlockType.ENCHANTED_WALL);
+					else
+						BlockType.tryConvertBlock(block, BlockType.MORTARABLE_WALL, BlockType.NORMAL_WALL);
+				}
+			}
+		}
 	}
 }
