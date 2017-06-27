@@ -131,7 +131,7 @@ public class BlockConverter {
 	}
 	
 	
-	private static final int MORTAR_RANGE = 3; // Half range
+	private static final int MORTAR_RANGE = 4; // Half range
 	private static final double MORTAR_CHANCE = 0.02; // Half range
 	// MORTAR
 	public static void mortar(Block center, boolean wizzy) {
@@ -152,6 +152,9 @@ public class BlockConverter {
 						BlockType.tryConvertBlock(block, BlockType.MORTARABLE_WALL, BlockType.ENCHANTED_WALL);
 					else
 						BlockType.tryConvertBlock(block, BlockType.MORTARABLE_WALL, BlockType.NORMAL_WALL);
+					
+					BlockType.tryConvertBlock(block, BlockType.ALL_SLABS, BlockType.REINFORCED_SLAB);
+					BlockType.tryConvertBlock(block, BlockType.ALL_STAIRS, BlockType.NORMAL_STAIR);
 				}
 			}
 		}
