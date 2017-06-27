@@ -137,9 +137,9 @@ public class BlockConverter {
 	public static void mortar(Block center, boolean wizzy) {
 		World world = center.getWorld();
 		
-		int startX = center.getX();
-		int startY = center.getY();
-		int startZ = center.getZ();
+		int startX = center.getX() - MORTAR_RANGE;
+		int startY = center.getY() - MORTAR_RANGE;
+		int startZ = center.getZ() - MORTAR_RANGE;
 		
 		int size = MORTAR_RANGE * 2 + 1;
 		
