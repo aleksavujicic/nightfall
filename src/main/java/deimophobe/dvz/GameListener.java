@@ -445,7 +445,11 @@ public class GameListener implements Listener {
 				dwarf2.notifyDeath(dwarf);
 			}
 			event.setDeathMessage(dwarf.generateDeathMessage());
-			dm.removeGamePlayer(dwarf, true);
+			
+			// Delayed to prevent concurrent modification exceptions hopefully ._.
+			new BukkitRunnable() {
+				@Override public void run() {dm.removeGamePlayer(dwarf, true);}
+			}.runTaskLater(game.getPlugin(), 1);
 		}
 	}
 	
