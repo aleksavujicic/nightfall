@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 7/03/17.
  */
-public abstract class AbstractPlague extends Plague {
+public abstract class AbstractPlague implements Plague {
 	protected Set<Dwarf> plagueables;
 	protected Set<Dwarf> plagued;
 	private int toKill;

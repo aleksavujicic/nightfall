@@ -208,6 +208,11 @@ public class Game {
 	
 	void startPlague() {
 		if (phase != Phase.BUILD) return;
+		startPlague(Plague.getRandomPlague());
+	}
+	
+	void startPlague(Plague plague) {
+		if (phase != Phase.BUILD) return;
 		phase = Phase.PLAGUE;
 		
 		// Dwarves and number to plague
@@ -220,8 +225,7 @@ public class Game {
 			releaseMonsters();
 			return;
 		}
-
-		Plague plague = Plague.getRandomPlague();
+		
 		plague.startPlague(plagueables, plagued, toKill);
 		
 		new BukkitRunnable() {
