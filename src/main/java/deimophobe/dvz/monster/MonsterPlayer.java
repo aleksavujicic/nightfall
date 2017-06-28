@@ -154,6 +154,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	// ----- REBIRTH -----
 	private final static int REBIRTH_TIME = 10*20;
 	private Location lastRebirth = null;
+	private BukkitRunnable rebirthKiller;
 	
 	public boolean canRebirth() {
 		return lastRebirth != null;
@@ -172,9 +173,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		lastRebirth = location;
 		
 		// Remove rebirth after amt of time - not sure about this.
-		new BukkitRunnable() {
+		rebirthKiller = new BukkitRunnable() {
 			@Override public void run() {removeRebirth();}
-		}.runTaskLater(Game.getGame().getPlugin(), REBIRTH_TIME);
+		};
+		rebirthKiller.runTaskLater(Game.getGame().getPlugin(), REBIRTH_TIME);
 	}
 	
 	public void rebirth() {
@@ -186,6 +188,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		this.mob = MobType.ZOMBIE.createMob(this);
 		spawnMobAt(mob, lastRebirth);
 		((Rebirthable) mob).rebirth();
+		rebirthKiller.cancel();
 	}
 	
 	
