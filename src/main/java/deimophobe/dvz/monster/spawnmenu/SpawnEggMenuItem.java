@@ -1,5 +1,6 @@
 package deimophobe.dvz.monster.spawnmenu;
 
+import deimophobe.dvz.Game;
 import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.menu.MenuItem;
@@ -83,13 +84,20 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 		if (!isAvailable()) return false;
 		
 		MonsterPlayer monster = session.getData();
-		if (!DoomManager.getManager().isDoom()) {
-			monster.spawnMobType(Misc.getRandom(mobTypes));
-			quantity -= 1;
-			session.closeSession();
-		} else {
-			monster.sendMessage(ChatColor.RED + "You cannot spawn during doom!");
+		
+		if (!Game.getGame().getPhase().hasGameStarted()) {
+			monster.sendMessage(ChatColor.RED + "You must wait until the mobs are released!");
+			return false;
 		}
+		
+		if (DoomManager.getManager().isDoom()) {
+			monster.sendMessage(ChatColor.RED + "You cannot spawn during doom!");
+			return false;
+		}
+		
+		monster.spawnMobType(Misc.getRandom(mobTypes));
+		quantity -= 1;
+		session.closeSession();
 		return false;
 	}
 	

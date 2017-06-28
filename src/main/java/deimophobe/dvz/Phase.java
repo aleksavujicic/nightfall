@@ -9,4 +9,10 @@ public enum Phase {
 	PLAGUE,
 	GAME,
 	END
+	
+	;
+	
+	public boolean hasGameStarted() {
+		return this == GAME || this == END;
+	}
 }
