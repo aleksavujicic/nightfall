@@ -689,7 +689,7 @@ public class DvZPlugin extends JavaPlugin {
 	private static List<String> startsWithPrefix(Collection<String> strings, String prefix) {
 		List<String> matchStrings = new ArrayList<>();
 		for (String string : strings) {
-			if (string.startsWith(prefix))
+			if (string.toLowerCase().startsWith(prefix.toLowerCase()))
 				matchStrings.add(string);
 		}
 		return matchStrings;
