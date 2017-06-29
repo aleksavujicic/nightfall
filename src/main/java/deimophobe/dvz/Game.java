@@ -57,14 +57,19 @@ public class Game {
 	private Objective sidebarObj;
 	private final static String OBJ_NAME = "MySidebar";
 	
+	private Team lobbyTeam;
+	
 	
 	void setupGame(DvZPlugin plugin) {
 		this.plugin = plugin;
 		
+		
 		removeRecipes();
+		
 		
 		gl = new GameListener();
 		Bukkit.getPluginManager().registerEvents(gl, plugin);
+		
 		
 		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
 		
@@ -75,9 +80,15 @@ public class Game {
 		sidebarObj = board.registerNewObjective(OBJ_NAME, "dummy");
 		sidebarObj.setDisplayName(ChatColor.AQUA + "Dwarves");
 		
-		setupPacketEvents();
+		Team oldTeam = board.getTeam("lobbyTeam");
+		if (oldTeam != null)
+			oldTeam.unregister();
+		lobbyTeam = board.registerNewTeam("lobbyTeam");
+		lobbyTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
 		
+		setupPacketEvents();
 		Loadout.setupLoadouts();
+		
 		
 		mapm = MapManager.getManager();
 		mapm.setup();
@@ -136,6 +147,10 @@ public class Game {
 			return getGamePlayer((Player) entity);
 		
 		return AIManager.getManager().getAI(entity);
+	}
+	
+	public boolean removeGamePlayer(Player player) {
+		return dm.removeGamePlayer(player, true) | mm.removeGamePlayer(player, true);
 	}
 	
 	
@@ -310,7 +325,7 @@ public class Game {
 	}
 	
 	public void resetPlayer(Player player) {
-		player.setCollidable(false);
+		removeGamePlayer(player);
 		switch (phase) {
 			case STARTING:
 				player.teleport(ShrineManager.getManager().getLobbySpawn());
@@ -323,6 +338,7 @@ public class Game {
 				player.setSaturation(100000);
 				player.setFoodLevel(100000);
 				Loadout.updateLoadoutDisplay(player);
+				lobbyTeam.addEntry(player.getName());
 				break;
 			
 			case BUILD:
