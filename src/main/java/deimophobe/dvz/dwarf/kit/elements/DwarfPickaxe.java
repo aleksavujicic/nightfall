@@ -37,42 +37,39 @@ class DwarfPickaxe extends AbstractItem {
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace face) {
 		if (Misc.isRightClick(action) && cooldown == 0) {
-			if (clickedBlock == null) {
-				// PICK REPAIRING ANOTHER DWARF
-				Dwarf repairee = dwarf.getLookingAt(2, 5, DwarfManager.getManager().getGamePlayers(), (d) -> !d.getArmour().isAtMax());
-				if (repairee != null && ShrineManager.getManager().useGold(50)) {
-					repairee.getArmour().repair(600);
-					GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, repairee);
-					
-					resetCD();
-					return true;
-				}
+			// PICK REPAIRING ANOTHER DWARF
+			Dwarf repairee = dwarf.getLookingAt(2, 5, DwarfManager.getManager().getGamePlayers(), (d) -> !d.getArmour().isAtMax());
+			if (repairee != null && ShrineManager.getManager().useGold(50)) {
+				repairee.getArmour().repair(600);
+				GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, repairee);
+				
+				resetCD();
+				return true;
+			}
+			
+			boolean success;
+			Block affectedBlock;
+			if (BlockType.PISTON_BASE.matchesBlock(clickedBlock) && face == BlockFace.UP) {
+				// CLICKING ON A PISTON TO CREATE A BLOCK
+				
+				BlockFace pistonFace = ((Directional) clickedBlock.getState().getData()).getFacing();
+				Block goldBlock = clickedBlock.getRelative(pistonFace);
+				
+				success = BlockType.tryConvertBlock(goldBlock, BlockType.AIR, BlockType.CRACKED_GOLD_1);
+				affectedBlock = goldBlock;
 			} else {
+				success = (
+						BlockType.tryConvertBlock(clickedBlock, BlockType.CRACKED_GOLD_1, BlockType.CRACKED_GOLD_2) ||
+						BlockType.tryConvertBlock(clickedBlock, BlockType.CRACKED_GOLD_2, BlockType.CRACKED_GOLD_3) ||
+						BlockType.tryConvertBlock(clickedBlock, BlockType.CRACKED_GOLD_3, BlockType.REFINED_GOLD));
+				affectedBlock = clickedBlock;
+			}
+			
+			if (success) {
+				GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, affectedBlock);
 				
-				boolean success;
-				Block affectedBlock;
-				if (BlockType.PISTON_BASE.matchesBlock(clickedBlock) && face == BlockFace.UP) {
-					// CLICKING ON A PISTON TO CREATE A BLOCK
-					
-					BlockFace pistonFace = ((Directional) clickedBlock.getState().getData()).getFacing();
-					Block goldBlock = clickedBlock.getRelative(pistonFace);
-					
-					success = BlockType.tryConvertBlock(goldBlock, BlockType.AIR, BlockType.CRACKED_GOLD_1);
-					affectedBlock = goldBlock;
-				} else {
-					success = (
-							BlockType.tryConvertBlock(clickedBlock, BlockType.CRACKED_GOLD_1, BlockType.CRACKED_GOLD_2) ||
-							BlockType.tryConvertBlock(clickedBlock, BlockType.CRACKED_GOLD_2, BlockType.CRACKED_GOLD_3) ||
-							BlockType.tryConvertBlock(clickedBlock, BlockType.CRACKED_GOLD_3, BlockType.REFINED_GOLD));
-					affectedBlock = clickedBlock;
-				}
-				
-				if (success) {
-					GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, affectedBlock);
-					
-					resetCD();
-					return true;
-				}
+				resetCD();
+				return true;
 			}
 		}
 		return false;
