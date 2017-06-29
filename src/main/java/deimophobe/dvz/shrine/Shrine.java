@@ -92,8 +92,8 @@ public class Shrine {
 		// Making shrines a bit stronger
 		if (shrineNum == 0) {
 			dwarfNum += 0;
-		} else if ((shrineNum + 1) 																									== ShrineManager.getManager().getNumShrines()) {
-			dwarfNum += 2;
+		} else if ((shrineNum + 1) == ShrineManager.getManager().getNumShrines()) {
+			dwarfNum += 0;
 
 			// Final shrine should not fall until most dwarves are dead
 			dwarfNum *= 3;
