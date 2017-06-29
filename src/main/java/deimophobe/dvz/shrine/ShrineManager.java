@@ -238,8 +238,9 @@ public class ShrineManager {
 		for (Dwarf jimmy : DwarfManager.getManager().getGamePlayers()) {
 			if (shrine.getShrineRegion().containsPlayer(jimmy)) {
 				dwarvesOnShrine++;
-				if (useGold(2))
-					jimmy.getArmour().repair(30);
+				if (!jimmy.getArmour().isAtMax())
+					if (useGold(2))
+						jimmy.getArmour().repair(30);
 			}
 		}
 		
