@@ -44,9 +44,9 @@ class Slab extends Consumable {
 		
 		int x_size = 1; // actual size is double this plus 1 (so 3)
 		int y_size = 2; // actual size 5
-		int z_size = 4; // actual size 9
+		int z_size = 5; // actual size 11
 		if ((135 < facing && facing <= 215) || facing > 315 || facing <= 45) {
-			x_size = 4;
+			x_size = 5;
 			z_size = 1;
 		}
 		
