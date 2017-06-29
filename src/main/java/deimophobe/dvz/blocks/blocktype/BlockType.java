@@ -29,8 +29,8 @@ public class BlockType {
 	
 	public static final CustomBlock CORRODED_WALL = new WoolBlock(DyeColor.LIME);
 	
-	public static final ComparableBlock UNENCHANTED_WALL = new BlockSet(NORMAL_WALL, CRACKED_WALL, DAMAGED_WALL, new MaterialBlock(Material.SMOOTH_BRICK));
-	public static final ComparableBlock WALL = new BlockSet(ENCHANTED_WALL, UNENCHANTED_WALL);
+	public static final ComparableBlock MORTARABLE_WALL = new BlockSet(NORMAL_WALL, CRACKED_WALL, DAMAGED_WALL, new MaterialBlock(Material.SMOOTH_BRICK));
+	public static final ComparableBlock WALL = new BlockSet(ENCHANTED_WALL, MORTARABLE_WALL);
 	
 	
 	public static final CustomBlock NORMAL_STAIR = new StairBlock(Material.SMOOTH_STAIRS);
@@ -72,6 +72,8 @@ public class BlockType {
 			ANY_SHRINE_BLOCK,
 			
 			new MaterialSet(
+					Material.AIR,
+					
 					Material.SPONGE,
 					Material.IRON_FENCE,
 					
@@ -86,7 +88,8 @@ public class BlockType {
 					Material.CHEST,
 					Material.TRAPPED_CHEST,
 					
-					Material.JACK_O_LANTERN
+					Material.JACK_O_LANTERN,
+					Material.PURPUR_BLOCK
 			)
 	);
 	
@@ -108,7 +111,11 @@ public class BlockType {
 	public static final ComparableBlock GOLEM_UNBREAKABLE_BLOCKS = new BlockSet(
 			UNBREAKABLE_BLOCKS,
 			
+			Block::isLiquid,
+			
 			new MaterialSet(
+					Material.AIR,
+					Material.BARRIER,
 					Material.BEDROCK
 			)
 	);
@@ -122,7 +129,9 @@ public class BlockType {
 					Material.WORKBENCH,
 					Material.FURNACE,
 					Material.ANVIL,
-					Material.BREWING_STAND
+					Material.BREWING_STAND,
+					Material.DISPENSER,
+					Material.DROPPER
 			)
 	);
 	

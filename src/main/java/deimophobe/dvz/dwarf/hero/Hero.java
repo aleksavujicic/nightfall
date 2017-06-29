@@ -56,6 +56,15 @@ public class Hero extends Dwarf {
 	}
 	
 	@Override
+	public void goOnline(Player newPlayer) {
+		super.goOnline(newPlayer);
+		
+		Disguise disguise = type.getDisguise();
+		if (disguise != null)
+			DisguiseAPI.disguiseEntity(newPlayer, disguise);
+	}
+	
+	@Override
 	public void showTrash() {}
 	
 	@Override

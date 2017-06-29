@@ -43,7 +43,7 @@ class DeathPlague extends AbstractPlague {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				if (toKill > 0) {
+				if (getAmountToKill() > 0) {
 					Dwarf target = getNearestPlagueable();
 					death.teleport(target.getLocation());
 					target.customDamage(null, DamageType.DEATH_PLAGUE, 10000);

@@ -116,8 +116,10 @@ public class GameListener implements Listener {
 			}
 			
 			Block block = event.getClickedBlock();
-			gp.onUse(event.getAction(), block, event.getBlockFace()); // TODO
-			//boolean cancel = gp.onUse(event.getAction(), block, event.getBlockFace()); // TODO
+			if (block == null)
+				block = gp.getTargetBlock(null, 5);
+			gp.onUse(event.getAction(), block, event.getBlockFace());
+			
 			TimedBlock.hitBlock(block, gp);
 			
 			Material mat = event.getMaterial();
@@ -131,7 +133,7 @@ public class GameListener implements Listener {
 	public void onUseOnEntity(PlayerAnimationEvent event) {
 		GamePlayer gp = game.getGamePlayer(event.getPlayer());
 		if (gp != null) {
-			gp.onUse(Action.LEFT_CLICK_AIR, null, null);
+			gp.onUse(Action.LEFT_CLICK_AIR, gp.getTargetBlock(null, 5), null);
 		}
 	}
 	
@@ -188,11 +190,14 @@ public class GameListener implements Listener {
 			}
 		}
 		
-		// Ignore starvation/suffocation
-		if (cause == EntityDamageEvent.DamageCause.STARVATION || cause == EntityDamageEvent.DamageCause.SUFFOCATION) {
-			event.setDamage(0);
-			event.setCancelled(true);
-			return;
+		// Ignore starvation/suffocation/thorns
+		switch (cause) {
+			case STARVATION:
+			case SUFFOCATION:
+			case THORNS:
+				event.setDamage(0);
+				event.setCancelled(true);
+				return;
 		}
 		
 		// The grunt of the work
@@ -440,7 +445,11 @@ public class GameListener implements Listener {
 				dwarf2.notifyDeath(dwarf);
 			}
 			event.setDeathMessage(dwarf.generateDeathMessage());
-			dm.removeGamePlayer(dwarf, true);
+			
+			// Delayed to prevent concurrent modification exceptions hopefully ._.
+			new BukkitRunnable() {
+				@Override public void run() {dm.removeGamePlayer(dwarf, true);}
+			}.runTaskLater(game.getPlugin(), 1);
 		}
 	}
 	

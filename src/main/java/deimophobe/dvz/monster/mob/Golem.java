@@ -40,7 +40,6 @@ class Golem extends AbstractTypedMob {
 		if (Misc.isLeftClick(action)) {
 			if (breakCD == 0 && isPlayerHoldingWeapon()) {
 				
-				
 				swingArms();
 				breakCD = BREAK_CD_MAX;
 				
@@ -64,11 +63,11 @@ class Golem extends AbstractTypedMob {
 			breakCD--;
 		
 		if (doubleSec)
-			monster.playSound("entity.irongolem.hurt", 1, 0.5f, true);
+			monster.playSound("entity.irongolem.hurt", 0.8f, 0.5f, true);
 	}
 	
 	private void swingArms() {
-		monster.playSound("entity.generic.explode", 3, 0.5f, true);
+		monster.playSound("entity.generic.explode", 0.8f, 0.5f, true);
 		getDisguise().getWatcher();
 		
 		// Show fancy hand animation

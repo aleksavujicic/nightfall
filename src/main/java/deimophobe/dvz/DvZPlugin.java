@@ -18,6 +18,8 @@ import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
 import deimophobe.dvz.monster.doom.DoomType;
 import deimophobe.dvz.monster.mob.MobType;
+import deimophobe.dvz.plague.Plague;
+import deimophobe.dvz.plague.PlagueType;
 import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.*;
 import org.bukkit.command.Command;
@@ -335,7 +337,7 @@ public class DvZPlugin extends JavaPlugin {
 					if (args.length >= 1) {
 						try {
 							int amt = Integer.parseInt(args[0]);
-							monster.gainXP(amt);
+							monster.forceGainXP(amt);
 							sender.sendMessage(ChatColor.YELLOW + "Giving you " + ChatColor.GREEN + amt + ChatColor.YELLOW + " xp!");
 							return true;
 						} catch (NumberFormatException e) {
@@ -505,8 +507,19 @@ public class DvZPlugin extends JavaPlugin {
 			return true;
 		}
 		if (name.equalsIgnoreCase("forceplague")) {
-			game.startPlague();
-			return true;
+			if (args.length == 0) {
+				game.startPlague();
+				return true;
+			} else {
+				try {
+					Plague plague = PlagueType.valueOf(args[0].toUpperCase()).getPlague();
+					game.startPlague(plague);
+					return true;
+				} catch (IllegalStateException e) {
+					sender.sendMessage(ChatColor.RED + "Unknown plague: " + ChatColor.YELLOW + args[0]);
+					return false;
+				}
+			}
 		}
 		if (name.equalsIgnoreCase("forcedoom")) {
 			if (game.getPhase() == Phase.GAME)
@@ -641,6 +654,10 @@ public class DvZPlugin extends JavaPlugin {
 		if (name.equalsIgnoreCase("setmob") && args.length == 2) {
 			return startsWithPrefix(MobType.getAllMobTypes(), args[args.length-1]);
 		}
+		
+		if (name.equalsIgnoreCase("forceplague") && args.length == 1) {
+			return startsWithPrefix(PlagueType.getPlagues(), args[args.length-1]);
+		}
 
 		if (name.equalsIgnoreCase("spawnmob") && args.length == 2) {
 			return startsWithPrefix(MobType.getAllMobTypes(), args[args.length-1]);
@@ -672,7 +689,7 @@ public class DvZPlugin extends JavaPlugin {
 	private static List<String> startsWithPrefix(Collection<String> strings, String prefix) {
 		List<String> matchStrings = new ArrayList<>();
 		for (String string : strings) {
-			if (string.startsWith(prefix))
+			if (string.toLowerCase().startsWith(prefix.toLowerCase()))
 				matchStrings.add(string);
 		}
 		return matchStrings;

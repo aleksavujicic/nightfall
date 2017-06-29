@@ -72,7 +72,7 @@ commands:
     usage: /forcestart
   forceplague:
     description: Forces the plague to occur.
-    usage: /forceplague
+    usage: /forceplague <plague-type>
   plagueimmune:
     description: Makes a player (un)immune to plague.
     usage: /plagueimmune [player]

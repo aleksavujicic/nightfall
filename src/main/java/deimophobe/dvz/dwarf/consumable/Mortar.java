@@ -29,12 +29,11 @@ class Mortar extends Consumable {
 	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
 		if (Misc.isRightClick(action)) return FAILED_CD;
 		
-		Block block = dwarf.getPlayer().getTargetBlock((Set<Material>) null, 5);
+		if (clickedBlock == null)
+			clickedBlock = dwarf.getPlayer().getTargetBlock((Set<Material>) null, 5);
 		boolean shouldWizzy = wizzy || Game.getGame().getPhase() == Phase.BUILD;
-		if (shouldWizzy)
-			BlockConverter.convert(BlockConverter.Type.WIZ_MORTAR, block.getLocation(), 6);
-		else
-			BlockConverter.convert(BlockConverter.Type.MORTAR, block.getLocation(), 5);
+		
+		BlockConverter.mortar(clickedBlock, shouldWizzy);
 		
 		dwarf.playSound("mortar", 1, (float) (0.6 + 0.1 * Math.random() + (wizzy ? 0.2 : 0)), false);
 		

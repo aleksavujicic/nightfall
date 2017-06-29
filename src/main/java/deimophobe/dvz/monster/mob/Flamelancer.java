@@ -2,6 +2,8 @@ package deimophobe.dvz.monster.mob;
 
 import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
+import deimophobe.dvz.damage.DamageType;
+import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -68,6 +70,18 @@ class Flamelancer extends SkeletonMob {
 		
 		if (block.getType() == Material.AIR && Math.random() < FLAME_CHANCE_ARROW) {
 			block.setType(Material.FIRE);
+		}
+	}
+	
+	
+	
+	@Override
+	public double onHit(Dwarf dwarf, DamageType type, double damage) {
+		if (type.isArrow()) {
+			dwarf.getArmour().damage(10);
+			return getPower();
+		} else {
+			return damage;
 		}
 	}
 	

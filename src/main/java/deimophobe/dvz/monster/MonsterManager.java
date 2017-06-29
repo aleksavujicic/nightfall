@@ -52,7 +52,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		runner.runTaskTimer(plugin, 1, 1);
 		
 		Team team = setupTeams("mobs", ChatColor.DARK_RED);
-		team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OTHER_TEAMS);
+		team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
 		
 		menu = new SpawnMenu();
 		GoboQueue = new LinkedList<>();

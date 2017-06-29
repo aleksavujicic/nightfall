@@ -18,9 +18,12 @@ import org.bukkit.potion.PotionEffectType;
  */
 public class PlaguedZombie extends AbstractMob {
 	private final ZombiePlague plague;
-	protected PlaguedZombie(MonsterPlayer mons, ZombiePlague plague) {
+	private final boolean canSpread;
+	
+	protected PlaguedZombie(MonsterPlayer mons, ZombiePlague plague, boolean canSpread) {
 		super(mons);
 		this.plague = plague;
+		this.canSpread = canSpread;
 	}
 	
 	@Override
@@ -32,7 +35,7 @@ public class PlaguedZombie extends AbstractMob {
 	
 	@Override
 	public double onHit(Dwarf dwarf, DamageType type, double damage) {
-		if (!dwarf.isForcePlagued() && Math.random() <= 0.5) {
+		if (canSpread && Math.random() <= 0.5) {
 			plague.convertToZombie(dwarf);
 		}
 		return damage;

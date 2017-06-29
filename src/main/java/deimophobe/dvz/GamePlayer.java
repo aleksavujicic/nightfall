@@ -135,7 +135,9 @@ public abstract class GamePlayer extends GameEntity<Player> {
 	public void sendMessage(String message) {
 		entity.sendMessage(message);
 	}
-	
+	public void sendTitleMessage(String message) {
+		entity.sendTitle("", message, 5, 30, 5);
+	}
 	
 	// ------ ONLINE/OFFLINE ------
 	public void goOnline(Player newPlayer) {

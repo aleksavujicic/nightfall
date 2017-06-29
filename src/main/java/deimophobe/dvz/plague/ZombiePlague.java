@@ -23,20 +23,17 @@ class ZombiePlague extends AbstractPlague {
 	@Override
 	public void startPlague(Set<Dwarf> plagueables, Set<Dwarf> plagued, int killAmt) {
 		super.startPlague(plagueables, plagued, killAmt);
+		for (Dwarf dwarf : plagued) {
+			convertToZombie(dwarf);
+		}
 		infectMore();
 	}
 	
 	private void infectMore() {
-		int toPlague = (int) Math.ceil((double) toKill/4);
+		int toPlague = (int) Math.ceil((double) getAmountToKill()/4);
 		for (int i=0; i<toPlague; i++) {
-			if (plagued.isEmpty()) {
-				Dwarf dwarf = Misc.getRandom(plagueables);
-				convertToZombie(dwarf);
-			}
-			else {
-				Dwarf dwarf = Misc.getRandom(plagued);
-				convertToZombie(dwarf);
-			}
+			Dwarf dwarf = Misc.getRandom(plagueables);
+			convertToZombie(dwarf);
 		}
 	}
 	
@@ -44,7 +41,9 @@ class ZombiePlague extends AbstractPlague {
 	private static final int SICK_MSG_TIME = 160;
 	
 	void convertToZombie(Dwarf dwarf) {
-		if (toKill == 0 || !plagueables.contains(dwarf) || !plagued.contains(dwarf)) return;
+		// If dwarf is plagued, make sure to plague
+		// Otherwise stop if the dwarf is not plagueable, or amt to kill is zero.
+		if (!isPlagued(dwarf) && (getAmountToKill() == 0 || !isPlaguable(dwarf))) return;
 		
 		removeDwarf(dwarf);
 		
@@ -60,14 +59,14 @@ class ZombiePlague extends AbstractPlague {
 				DwarfManager.getManager().removeGamePlayer(dwarf, false);
 				MonsterManager.getManager().addGamePlayer(player);
 				MonsterPlayer mp = MonsterManager.getManager().getGamePlayer(player);
-				mp.spawnMobAt(new PlaguedZombie(mp, ZombiePlague.this),null);
+				mp.spawnMobAt(new PlaguedZombie(mp, ZombiePlague.this, plagued.contains(dwarf)),null);
 				
 				numZombiesAlive++;
 				
 			}
 		}.runTaskLater(Game.getGame().getPlugin(), SICK_MSG_TIME);
 		
-		if (toKill == 0) {
+		if (getAmountToKill() == 0) {
 			new BukkitRunnable() {
 				@Override
 				public void run() {

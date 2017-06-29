@@ -71,7 +71,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		}
 		
 		if (sec && isAlive()) {
-			gainXP(isInShrine() ? 2 : 1);
+			gainXP(1, true);
 		}
 		
 		usedThisTick = false;
@@ -154,6 +154,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	// ----- REBIRTH -----
 	private final static int REBIRTH_TIME = 10*20;
 	private Location lastRebirth = null;
+	private BukkitRunnable rebirthKiller;
 	
 	public boolean canRebirth() {
 		return lastRebirth != null;
@@ -172,9 +173,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		lastRebirth = location;
 		
 		// Remove rebirth after amt of time - not sure about this.
-		new BukkitRunnable() {
+		rebirthKiller = new BukkitRunnable() {
 			@Override public void run() {removeRebirth();}
-		}.runTaskLater(Game.getGame().getPlugin(), REBIRTH_TIME);
+		};
+		rebirthKiller.runTaskLater(Game.getGame().getPlugin(), REBIRTH_TIME);
 	}
 	
 	public void rebirth() {
@@ -186,6 +188,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		this.mob = MobType.ZOMBIE.createMob(this);
 		spawnMobAt(mob, lastRebirth);
 		((Rebirthable) mob).rebirth();
+		rebirthKiller.cancel();
 	}
 	
 	
@@ -214,9 +217,15 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	private int experience = 0;
 	private static final int MAX_XP = 1000;
 	
-	public void gainXP(int amt) {
+	public void forceGainXP(int amt) {
 		experience += amt;
-		if (experience > MAX_XP) experience = MAX_XP;
+		updateXPDisplay();
+	}
+	
+	public void gainXP(int amt, boolean affectedByShrine) {
+		if (affectedByShrine && isInShrine())
+			amt *= 3;
+		experience = Math.min(Math.max(experience, MAX_XP), experience + amt);
 		updateXPDisplay();
 	}
 	
@@ -276,7 +285,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	public void onBlockBreak(Block block) {
 		if (mob != null) {
 			if (block.getType() == Material.TORCH)
-				gainXP(mob.getTorchXP());
+				gainXP(mob.getTorchXP(), false);
 			
 			mob.onBlockBreak(block);
 		}
@@ -302,7 +311,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		if (mob != null) {
 			if (gamePlayer instanceof Dwarf) {
 				((Dwarf) gamePlayer).getArmour().damage(mob.getArmourShred());
-				gainXP(isInShrine() ? 2 : 1);
+				gainXP(2, true);
 				return mob.onHit((Dwarf) gamePlayer, type, damage);
 			} else {
 				Bukkit.getLogger().warning("GameEntity in onGotHit should be a Dwarf");

@@ -57,9 +57,9 @@ class Zombie extends AbstractTypedMob implements Rebirthable {
 		getWeapon().addModifier(ItemModifierType.ATTACK, attack, "Upgrade");
 		getArmour().addModifier(ItemModifierType.HEALTH, health, "Upgrade");
 		
-		int maxLeapCD = upgrades.get("leap");
-		if (maxLeapCD != 0)
-			leapCD = new SimpleCooldown(maxLeapCD * 20);
+		int leapLvl = upgrades.get("leap");
+		if (leapLvl != 0)
+			leapCD = new SimpleCooldown(200);
 		else
 			leapCD = new DudCooldown();
 		this.leapLvl = upgrades.get("leap");

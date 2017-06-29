@@ -30,7 +30,7 @@ class Ebow extends AbstractBow {
 	@Override public String getBowIdentifier() {return "EBOW";}
 	@Override public int getPower() {return POWER;}
 	
-	private static final double MAX_RANGE = 25;
+	private static final double MAX_RANGE = 30;
 	private static final double THICKNESS = 1.5;
 	private static final double MIN_DISTANCE_FROM_SHOOTER = 1;
 	private static final double PROC_RADIUS = 3;
@@ -45,13 +45,13 @@ class Ebow extends AbstractBow {
 		double range = MAX_RANGE * force * force;
 		
 		// Show particles
-		Vector delta = direction.clone().multiply(0.5);
-		int times = (int) (range/0.5);
+		Vector delta = direction.clone().multiply(0.33);
+		int times = (int) (range/0.33);
 		Location particlePos = dwarfLocation.clone();
 		World world = particlePos.getWorld();
 		for (int i = 0; i<= times; i++) {
 			particlePos.add(delta);
-			world.spawnParticle(Particle.VILLAGER_HAPPY, particlePos, 3, 0.1, 0.1, 0.1);
+			world.spawnParticle(Particle.VILLAGER_HAPPY, particlePos, 4, 0.1, 0.1, 0.1);
 			
 			// Stop beam if it hits a block
 			if (particlePos.getBlock().getType().isSolid()) {
@@ -60,6 +60,7 @@ class Ebow extends AbstractBow {
 			}
 		}
 		
+		boolean gaveProc = false;
 		// Calculate collision
 		for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
 			// Skip if further than distance shot or too close
@@ -76,11 +77,17 @@ class Ebow extends AbstractBow {
 					monster.customDamage(dwarf, DamageType.EBOW, getPower()*force);
 					
 					for (Dwarf procDwarf : DwarfManager.getManager().getGamePlayers()) {
-						if (procDwarf != dwarf && monsterLocation.distance(procDwarf.getLocation()) <= PROC_RADIUS)
+						if (procDwarf != dwarf && monsterLocation.distance(procDwarf.getLocation()) <= PROC_RADIUS) {
+							gaveProc = true;
 							procDwarf.giveProc(ProcType.EBOW);
+						}
 					}
 				}
 			}
+		}
+		
+		if (gaveProc) {
+			dwarf.playSound("proc", 1000f, 1.2f, false);
 		}
 		
 		/*

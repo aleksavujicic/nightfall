@@ -130,17 +130,40 @@ public class AIManager {
 			int dwarves = DwarfManager.getManager().getNumberOfPlayers();
 			int mobs = MonsterManager.getManager().getNumberOfPlayers();
 			
-			double spawnChance = (10 + mobs + dwarves*2) * 0.008;
+			double spawnChance = (10 + mobs + dwarves*4) * 0.006;
 			spawnChance += (Game.getGame().isNight() ? 0.05 : 0);
 			
 			int maxAIs = BASE_MAX_AIS;
 			maxAIs += (mobs + dwarves*2);
 			
+			Collection<Location> spotsToRemove = new HashSet<>();
+			
 			for (Location spawnSpot : spawnSpots) {
 				//spawnSpot.getWorld().spawnParticle(Particle.HEART, spawnSpot, 1, 0, 0, 0);
 				if (ais.size() >= maxAIs) break;
-				if (Math.random() > spawnChance) continue;
-				if (shrineProt.containsLocation(spawnSpot)) continue;
+				
+				double random = Math.random();
+				if (random > 0.95) { // Try remove
+					int count = 0;
+					for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
+						if (spawnSpot.distance(dwarf.getLocation()) <= 5) {
+							count++;
+						}
+					}
+					for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
+						if (spawnSpot.distance(monster.getLocation()) <= 5) {
+							count--;
+						}
+					}
+					if (count >= 2)
+						spotsToRemove.add(spawnSpot);
+					continue;
+				}
+				if (random > spawnChance) continue;
+				if (shrineProt.containsLocation(spawnSpot)) {
+					spotsToRemove.add(spawnSpot);
+					continue;
+				}
 				
 				// Find closest dwarf and set as target. If no such dwarf, dont spawn.
 				double leastDistance = 25;
@@ -158,6 +181,10 @@ public class AIManager {
 				AIEntity ai = new AIEntity(spawnSpot, getRandomName(), closestDwarf);
 				aiTeam.addEntry(ai.getUniqueId().toString());
 				ais.put(ai.getUniqueId(), ai);
+			}
+			
+			for (Location toRemove : spotsToRemove) {
+				spawnSpots.remove(toRemove);
 			}
 		}
 		

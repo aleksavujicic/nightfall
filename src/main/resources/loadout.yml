@@ -434,7 +434,7 @@ page1:
     type: item
     name: sturdy
     category: armour
-    cost: 12
+    cost: 8
     item:
       name: "Sturdy Armour"
       base: runeblessed
@@ -500,7 +500,7 @@ page2:
     type: consumable
     name: wizard_mortar
     quantity: 32
-    cost: 10
+    cost: 8
     item:
       name: "Wizard Mortar II"
       base: menu-wizmortar2
@@ -510,7 +510,7 @@ page2:
     type: consumable
     name: lamp
     quantity: 10
-    cost: 4
+    cost: 2
     item:
       name: "Enchanted Lamps I"
       base: menu-lamp
@@ -519,7 +519,7 @@ page2:
     type: consumable
     name: lamp
     quantity: 24
-    cost: 10
+    cost: 6
     item:
       name: "Enchanted Lamps II"
       base: menu-lamp2
@@ -581,8 +581,27 @@ page2:
       name: "SOS II"
       base: menu-sos2
 
-  builder_one:
+  slab_one:
     index: 14
+    type: consumable
+    name: slab
+    quantity: 1
+    cost: 4
+    item:
+      name: "Slab I"
+      base: slab
+  slab_two:
+    index: 23
+    type: consumable
+    name: slab
+    quantity: 2
+    cost: 8
+    item:
+      name: "Slab II"
+      base: slab
+
+  builder_one:
+    index: 15
     cost: 4
     type: multi
     consumables:
@@ -593,7 +612,7 @@ page2:
       name: "Builder's Pack I"
       material: diamond_hoe
   builder_two:
-    index: 23
+    index: 24
     cost: 8
     type: multi
     consumables:

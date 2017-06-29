@@ -138,7 +138,7 @@ fury:
     pursuit: 3
     leap: 5
 
-    arrow-res: 5
+    arrow: 5
     rebirth: 5
     vampirism: 3
   item:

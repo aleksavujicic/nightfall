@@ -242,7 +242,8 @@ public class ShrineManager {
 					jimmy.getArmour().repair(30);
 			}
 		}
-
+		
+		stealGold(Math.max(6*mobsOnShrine - 3*dwarvesOnShrine, 0));
 		boolean isDead = shrine.damageShrine(mobsOnShrine, dwarvesOnShrine);
 		
 		if (isDead) killShrine();
@@ -294,6 +295,7 @@ public class ShrineManager {
 			for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
 				monster.givePotionEffect(PotionEffectType.SLOW, 180, 3, true, false, true);
 				monster.givePotionEffect(PotionEffectType.CONFUSION, 180, 1, true, false, true);
+				monster.forceGainXP(500);
 			}
 			
 			shrineBar.setTitle((getShrine().getName() + " (" + (currentShrine + 1) + "/" + shrines.size()+")"));

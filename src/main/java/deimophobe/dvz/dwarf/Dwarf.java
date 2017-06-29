@@ -494,7 +494,10 @@ public class Dwarf extends GamePlayer {
 		
 		switch (block.getType()) {
 			case GRAVEL:
-				giveConsumable(ConsumableType.COBBLESTONE, 3);
+				if (Game.getGame().getPhase() == Phase.BUILD)
+					giveConsumable(ConsumableType.COBBLESTONE, 4);
+				else
+					giveConsumable(ConsumableType.COBBLESTONE, 2);
 				playSound("block.anvil.place", 0.2f, 0.8f, true);
 				playSound("block.anvil.break", 1f, 0.8f, true);
 				break;
@@ -591,5 +594,11 @@ public class Dwarf extends GamePlayer {
 		kit.onProjectileLand(arrow, hitBlock);
 	}
 	
-	public void notifyDeath(Dwarf dwarf) { kit.notifyDeath(dwarf); }
+	public void notifyDeath(Dwarf dwarf) {
+		kit.notifyDeath(dwarf);
+		if (dwarf == this && Game.getGame().getPhase() == Phase.GAME) {
+			for (Player player : Bukkit.getOnlinePlayers())
+				player.sendTitle("", getDisplayName() + ChatColor.DARK_RED + " has fallen!", 20, 60, 20);
+		}
+	}
 }
