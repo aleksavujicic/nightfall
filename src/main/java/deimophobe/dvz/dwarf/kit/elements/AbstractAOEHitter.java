@@ -33,7 +33,7 @@ abstract class AbstractAOEHitter extends AbstractItem {
 					entity.setVelocity(0, 0.4, 0);
 			}
 		}
-		return damage;
+		return Math.max(damage, getDamageToMonster(monster));
 	}
 	
 	protected abstract double getDamageToMonster(GameEntity entity);
