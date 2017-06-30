@@ -35,6 +35,7 @@ commands:
   xp:
     usage: /xp <amount>
     description: Give yourself some mob xp.
+    aliases: [exp, mana]
   giveitem:
     usage: /giveitem <item-name>
     description: Give a custom item to yourself.
