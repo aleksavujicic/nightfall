@@ -70,6 +70,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		players.put(uuid, gamePlayer);
 		addToTeam(player.getName());
 		Game.getGame().updateDwarfCount();
+		Bukkit.getLogger().info("Adding game player: " + player.getName() + " to " + whoName);
 		return gamePlayer;
 	}
 	protected void registerGamePlayer(P player) {
@@ -123,6 +124,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		if (reset) gamePlayer.resetPlayer();
 		mcTeam.removeEntry(gamePlayer.getName());
 		Game.getGame().updateDwarfCount();
+		Bukkit.getLogger().info("Removing game player: " + gamePlayer.getName() + " from " + whoName);
 		
 		return true;
 	}

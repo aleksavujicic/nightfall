@@ -37,9 +37,6 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	
 	public MonsterPlayer(Player player) {
 		super(player);
-		
-		entity.sendMessage("You are monster now. Deimo make this cool.");
-		
 		mob = null;
 	}
 	
@@ -149,6 +146,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		if (location != null)
 			teleportTo(location);
 		entity.setGameMode(GameMode.SURVIVAL);
+		Bukkit.getLogger().info("Spawning " + getName() + " as a mob.");
 	}
 	
 	// ----- REBIRTH -----
