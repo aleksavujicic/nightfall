@@ -139,6 +139,7 @@ public class Arthea extends Hero {
 		entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
 		
 		setGlowing(GlowAPI.Color.WHITE);
+		setTitle(ChatColor.DARK_PURPLE, "Arthea", true);
 	}
 	
 	private void startEnrage() {

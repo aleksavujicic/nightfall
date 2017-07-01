@@ -108,7 +108,7 @@ class Hammer extends AbstractAOEHitter implements KitCooldownElement {
 		if (entity instanceof MonsterPlayer) {
 			return (dwarf.hasProc() ? 10 : 5);
 		} else if (entity instanceof AIEntity) {
-			return  (dwarf.hasProc() ? 30 : 15);
+			return  (dwarf.hasProc() ? 40 : 25);
 		}
 		
 		return 0;
@@ -116,6 +116,6 @@ class Hammer extends AbstractAOEHitter implements KitCooldownElement {
 	
 	@Override
 	protected double getRadius() {
-		return  (dwarf.hasProc() ? 3 : 2);
+		return  (dwarf.hasProc() ? 4 : 3);
 	}
 }

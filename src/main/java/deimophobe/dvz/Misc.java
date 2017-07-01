@@ -61,6 +61,23 @@ public class Misc {
 			return new Location(MapManager.getManager().getWorld(), doubleList.get(0), doubleList.get(1) ,doubleList.get(2));
 	}
 	
+	public static Location moveParallel(Location loc, double dist) {
+		double yaw = loc.getYaw() * Math.PI/180;
+		return loc.add(dist*-Math.sin(yaw), 0, dist*Math.cos(yaw));
+	}
+	
+	public static Location movePerpendicular(Location loc, double dist) {
+		double yaw = loc.getYaw() * Math.PI/180;
+		return loc.add(dist*-Math.cos(yaw), 0, dist*-Math.sin(yaw));
+	}
+	
+	public static Location moveLocation(Location loc, double parallel, double perpendicular) {
+		double yaw = loc.getYaw() * Math.PI/180;
+		double sin = Math.sin(yaw);
+		double cos = Math.cos(yaw);
+		return loc.add(-parallel*sin - perpendicular*cos , 0, parallel*cos - perpendicular*sin);
+	}
+	
 	public static YamlConfiguration getInternalFileConfig(String name) {
 		InputStream stream = Game.getGame().getPlugin().getResource(name);
 		return YamlConfiguration.loadConfiguration(new InputStreamReader(stream));

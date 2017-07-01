@@ -110,7 +110,7 @@ class Goblin extends AbstractTypedMob {
 	}
 
 	@Override
-	public double onHit(Dwarf dwarf, DamageType type, double damage) {
+	public double onGotHit(Dwarf dwarf, DamageType type, double damage) {
 		kaboomCD = 0;
 		return damage;
 	}

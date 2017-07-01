@@ -1,6 +1,7 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.Game;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitCooldownElement;
@@ -49,9 +50,8 @@ class Crossbow extends AbstractBow implements KitCooldownElement {
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (cooldown == 0 && dwarf.hasArrows(1)) {
-			Location spawnLoc = dwarf.getEyeLocation();
-			double yaw = spawnLoc.getYaw() * Math.PI/180;
-			spawnLoc.add(-0.15*Math.cos(yaw), -0.15, -0.15*Math.sin(yaw));
+			Location spawnLoc = dwarf.getEyeLocation().add(0, -0.15, 0);
+			Misc.moveLocation(spawnLoc, 0.3, 0.15);
 			
 			Arrow arrow = spawnLoc.getWorld().spawnArrow(spawnLoc, spawnLoc.getDirection().add(new Vector(0,0.05,0)), 3f, 0.05f);
 			arrow.setShooter(dwarf.getPlayer());

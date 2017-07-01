@@ -34,7 +34,7 @@ class Wolf extends AbstractTypedMob {
 	private final ComplexCooldown leapCD = new ComplexCooldown(140);
 	
 	private final ComplexCooldown furySound = new ComplexCooldown(10, () -> {
-		monster.playSound("entity.wolf.growl", 3, 1, true);
+		monster.playSound("entity.wolf.growl", 1f, 1, true);
 		if (Game.getGame().isNight())
 			monster.playSound("entity.zombie_villager.converted", 1f, 1.5f, true);
 	}, ComplexCooldown.DO_NOTHING);
