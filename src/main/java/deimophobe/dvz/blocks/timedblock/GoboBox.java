@@ -6,6 +6,7 @@ import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.GamePlayer;
 import deimophobe.dvz.blocks.BlockConverter;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.DwarfManager;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 
@@ -29,7 +30,7 @@ public class GoboBox extends TimedBlock {
 			world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
 			world.playSound(centerLoc, "entity.generic.explode", 2, 1);
 
-			(new Explosion(this.getPlacer(), centerLoc, DamageType.DVZ_EXPLOSION, 40, 5, 3)).explode();
+			(new Explosion(this.getPlacer(), DwarfManager.getManager().getGamePlayers(), centerLoc, DamageType.DVZ_EXPLOSION, 40, 5, 3)).explode();
 		}
 	}
 	
