@@ -21,11 +21,9 @@ zombie:
     name: Makeshift Pick
     lore:
       description:
-       - "Left click to attack dwarves\n
-          Shredding their armour and\n
-          dealing damage.\n
-          Right click to leap when\n
-          you unlock the upgrade."
+       - "Left click to attack dwarves, shredding\n
+          their armour and dealing damage.\n
+          Right click to leap with the upgrade."
       flavour:
        - "A cross between a runeblade hilt and\n
           plank debris. The dead use anything of\n
@@ -43,10 +41,9 @@ gobo:
     name: Explosive Flesh
     lore:
       description:
-       - "Goblins Armour\n
-          Keep away from TNT Crates."
+       - "Keep away from TNT Crates."
       flavour:
-       - "Kaaaaaaa."
+       - "Kaaaaaaaaaaaaaa."
     bound: true
   weapon:
     material: wood_pickaxe
@@ -56,19 +53,17 @@ gobo:
        - "A weak weapon that is used\n
           for piercing armour."
       flavour:
-       - "Hehehe Smashy Smashy."
+       - "Hehehehehehe."
   items:
     gobo-box:
       base: tnt
       name: Gobo Box
       lore:
         description:
-         - "Left click to throw a box\n
-            dealing damage to dwarves and\n
-            nearby walls.\n
-            &aRight click to place a box\n
-            &aheavily damaging walls once\n
-            &ait explodes&r."
+         - "Left click to throw a box, dealing\n
+            damage to dwarves and nearby walls.\n
+            &aRight click to place boxes, which\n
+            &aheavily damage walls once they explode&r."
         flavour:
          - "Gobos Primed and Ready."
     kaboom:
@@ -76,10 +71,8 @@ gobo:
       name: KABOOM
       lore:
         description:
-         - "Left click to prime yourself\n
-            exploding after a few seconds\n
-            and damaging walls, while sending\n
-            dwarves flying."
+         - "Left click to prime yourself, creating a\n
+            large explosion around you in a few seconds."
         flavour:
          - "It's KAAAAAAAAABOOOM!"
 
@@ -110,18 +103,18 @@ flamelancer:
     lore:
       description:
        - "You unleash a volley of arrows on attack\n
-          creating fire where they land\n
-          The more you draw back the more arrows\n
-          that fire."
+          starting fires wherever they land.\n
+          The more the bow is drawn back, \n
+          the more arrows that fire."
       flavour:
-       - "Conflaguration!"
+       - "Conflagration!"
   items:
     arrow:
       material: arrow
       name: Skeletal Arrow
       lore:
         description:
-         - "A skeletons quiver of arrows."
+         - "A skeleton's quiver of arrows."
         flavour:
          - "Pointy."
 
@@ -151,8 +144,8 @@ witherskele:
     name: Nether Tooth Bow
     lore:
       description:
-       - "Your shots shred armour and wither\n
-          Dealing extra for every consecutive hit."
+       - "Your shots shred armour and wither dwarves,\n
+          dealing extra for every consecutive hit."
       flavour:
        - "No mortal can touch this bow and live."
   items:
@@ -191,10 +184,8 @@ wolf:
     name: Wolf Fangs
     lore:
       description:
-       - "Attacking dwarves at night deals\n
-          extra damage\n
-          Right click to Leap, hold shift\n
-          for a vertical boost."
+       - "Attacking dwarves at night deals extra damage.\n
+          Right click to Leap, hold shift to leap up."
       flavour:
        - "Arooooooooo."
 
@@ -215,11 +206,9 @@ spiderling:
     name: Squishy Spider Body Thing
     lore:
       description:
-       - "Spiders Carapace."
+       - "Spider's Carapace."
       flavour:
-       - "I'm not googling the name of this\n
-          thing cause spiders.\n
-          Did it for you. - Drk."
+       - "Chitinous."
     bound: true
   weapon:
     base: aisword
@@ -227,7 +216,7 @@ spiderling:
     lore:
       description:
        - "Right click to melt walls\n
-          and poison dwarves on hit."
+          and to poison dwarves on hit."
       flavour:
        - "Spiders are gross."
 
@@ -250,17 +239,15 @@ rat:
       description:
        - "Rat Armour."
       flavour:
-       - "Meep."
+       - "Squeak."
     bound: true
   weapon:
     base: aisword
     name: Rat Talons
     lore:
       description:
-       - "Left click to break torches\n
-          to gain 60 mana\n
-          Right click on the shrine\n
-          to steal gold."
+       - "Left click to break torches to gain extra mana.\n
+          Right click on the shrine to steal gold."
       flavour:
        - "Now where did those wrenches go?"
 
@@ -286,7 +273,7 @@ golem:
       description:
        - "Iron Golem Armour."
       flavour:
-       - "Do people even read these?"
+       - "The incredibly sturdy armor of a golem."
     modifiers:
       kb-resist: 1
     bound: true
@@ -295,10 +282,9 @@ golem:
     name: Ancient Pick
     lore:
       description:
-       - "You deal heavy damage and armour shred\n
-          but you must jump to move."
+       - "Deals heavy damage and armour shred."
       flavour:
-       - "Beep boop beep beep."
+       - "Smash dwarves in melee!"
 
 
 ogre:
@@ -319,7 +305,7 @@ ogre:
     name: Ogre Hide
     lore:
       description:
-       - "Orcish Armour."
+       - "Ogre Armour."
       flavour:
        - "Tough as nails."
     modifiers:
@@ -330,8 +316,8 @@ ogre:
     name: Ogre Club
     lore:
       description:
-       - "You deal medium damage but\n
-          knockback dwarves."
+       - "You deal medium damage\n
+          and send dwarves flying!"
       flavour:
        - "Ready to smash!"
     modifiers:

@@ -158,8 +158,7 @@ bow:
           within range."
       flavour:
        - "I'm sure glad we found use\n
-          for the rest of\n
-          that Emerald City."
+          for the rest of that Emerald City."
   warpweaver:
     base: warpweaver
     name: Warpweaver Bow
