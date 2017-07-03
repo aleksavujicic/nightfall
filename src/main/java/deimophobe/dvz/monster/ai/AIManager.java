@@ -139,7 +139,7 @@ public class AIManager {
 			Collection<Location> spotsToRemove = new HashSet<>();
 			
 			for (Location spawnSpot : spawnSpots) {
-				spawnSpot.getWorld().spawnParticle(Particle.HEART, spawnSpot, 1, 0, 0, 0);
+				//spawnSpot.getWorld().spawnParticle(Particle.HEART, spawnSpot, 1, 0, 0, 0);
 				if (ais.size() >= maxAIs) break;
 				
 				double random = Math.random();
