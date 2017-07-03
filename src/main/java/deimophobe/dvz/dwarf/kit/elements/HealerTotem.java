@@ -124,7 +124,7 @@ class HealerTotem extends AbstractItem {
 			if (ITEM.isSimilar(dwarf.getHeldItem()) && distance <= MAX_TARGET_DISTANCE && dwarf.hasMana(45)) {
 				dwarf.useMana(35);
 				target.regenMana(25);
-				target.getArmour().repair(100);
+				target.getArmour().repair(50);
 				target.heal(8);
 				
 				Location healerLoc = dwarf.getPlayer().getEyeLocation().subtract(0, 0.5, 0);

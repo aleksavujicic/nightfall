@@ -26,7 +26,7 @@ class Wrench extends Consumable {
 		
 		boolean success = ShrineManager.getManager().useGold(60);
 		if (success) {
-			dwarf.getArmour().repair(1000);
+			dwarf.getArmour().repair(2000);
 			dwarf.playSound("block.anvil.use", 20, 0.8f, false);
 			return DEFAULT_CD;
 		} else {

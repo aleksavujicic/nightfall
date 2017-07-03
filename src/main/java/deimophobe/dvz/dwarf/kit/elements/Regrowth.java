@@ -62,7 +62,7 @@ class Regrowth extends AbstractAle {
 		}
 		
 		
-		healee.getArmour().repair(20);
+		healee.getArmour().repair(10);
 		healee.heal(5);
 		healee.regenMana(5);
 	}

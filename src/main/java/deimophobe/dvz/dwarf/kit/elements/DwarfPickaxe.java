@@ -9,6 +9,7 @@ import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.dwarf.consumable.ConsumableType;
 import deimophobe.dvz.effects.GameEffect;
 import deimophobe.dvz.items.CustomItem;
+import deimophobe.dvz.shrine.Shrine;
 import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -39,8 +40,9 @@ class DwarfPickaxe extends AbstractItem {
 		if (Misc.isRightClick(action) && cooldown == 0) {
 			// PICK REPAIRING ANOTHER DWARF
 			Dwarf repairee = dwarf.getLookingAt(2, 5, DwarfManager.getManager().getGamePlayers(), (d) -> !d.getArmour().isAtMax());
-			if (repairee != null && ShrineManager.getManager().useGold(50)) {
-				repairee.getArmour().repair(600);
+			Shrine shrine = ShrineManager.getManager().getShrine();
+			if (repairee != null && (shrine.getShrineRegion().containsPlayer(repairee) || shrine.getShrineProtection().containsPlayer(repairee)) && ShrineManager.getManager().useGold(50)) {
+				repairee.getArmour().repair(400);
 				GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, repairee);
 				
 				resetCD();

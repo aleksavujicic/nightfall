@@ -239,12 +239,12 @@ public class ShrineManager {
 			if (shrine.getShrineRegion().containsPlayer(jimmy)) {
 				dwarvesOnShrine++;
 				if (!jimmy.getArmour().isAtMax())
-					if (useGold(2))
-						jimmy.getArmour().repair(30);
+					if (useGold(1))
+						jimmy.getArmour().repair(10);
 			}
 		}
 		
-		stealGold(Math.max(6*mobsOnShrine - 3*dwarvesOnShrine, 0));
+		stealGold(Math.max(3*mobsOnShrine - 3*dwarvesOnShrine, 0));
 		boolean isDead = shrine.damageShrine(mobsOnShrine, dwarvesOnShrine);
 		
 		if (isDead) killShrine();
@@ -290,7 +290,7 @@ public class ShrineManager {
 			
 			for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
 				dwarf.giveProc(ProcType.SHRINE_FALL);
-				dwarf.getArmour().repair(1000);
+				dwarf.getArmour().repair(500);
 				dwarf.regenMana(200);
 			}
 			for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
