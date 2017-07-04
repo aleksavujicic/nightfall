@@ -136,7 +136,7 @@ public class Game {
 		GlobalUpgrade.reset();
 		TimedBlock.cancelAllBlocks();
 		
-		MapManager.getManager().unloadMap(map);
+		map.unload();
 	}
 	
 	

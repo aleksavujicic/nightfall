@@ -74,12 +74,12 @@ public class GameMap {
 		
 		File configFile = MapManager.getManager().getNightfallConfig(world);
 		if (!configFile.exists())
-			throw new InvalidMapConfigException("Config file (nightfall.yml) does not exist!");
+			throw new InvalidMapConfigException("Config file (nightfall.yml) does not exist in map folder!");
 		FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 		
 		this.name = config.getString("name");
 		if (name == null)
-			throw new InvalidMapConfigException("GameMap must have a name.");
+			throw new InvalidMapConfigException("Map config must have a name.");
 		
 		this.dwarfSpawn = getLocation(config, "dwarfspawn");
 		if (dwarfSpawn == null)
@@ -87,7 +87,7 @@ public class GameMap {
 		
 		this.lobby = getLocation(config, "lobby");
 		if (lobby == null)
-			throw new InvalidMapConfigException("GameMap must specify a lobby.");
+			throw new InvalidMapConfigException("Map config must specify a lobby.");
 		
 		// Setup shrines
 		shrines = new ArrayList<>();
@@ -96,7 +96,7 @@ public class GameMap {
 			shrines.add(new Shrine(this, shrineConfig.getConfigurationSection(key), shrines.size()+1));
 		}
 		if (shrines.size() == 0)
-			throw new InvalidMapConfigException("GameMap must have at least one shrine.");
+			throw new InvalidMapConfigException("Map config must have at least one shrine.");
 		currentShrineIndex = -1;
 		
 		currentMobSpawn = shrines.get(0).getMobSpawn();
@@ -179,6 +179,8 @@ public class GameMap {
 	public void unload() {
 		if (Game.getGame().getPhase().hasGameStarted())
 			shrineUpdater.cancel();
+		
+		MapManager.getManager().unloadAndDeleteWorld(world);
 	}
 	
 	// ------ GOLD ------

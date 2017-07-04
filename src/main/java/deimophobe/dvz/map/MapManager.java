@@ -1,6 +1,7 @@
 package deimophobe.dvz.map;
 
 import deimophobe.dvz.DvZPlugin;
+import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
@@ -223,26 +224,37 @@ public class MapManager {
 		return world;
 	}
 	
-	public void unloadMap(GameMap map) {
+	public void unloadAndDeleteWorld(World world) {
 		Bukkit.getLogger().info("Begin unloading map.");
-		World mapWorld = map.getWorld();
-		World safeWorld;
-		if (GameMap.getCurrentMap() == map)
-			safeWorld = Bukkit.getWorlds().get(0);
-		else
-			safeWorld = GameMap.getCurrentMap().getWorld();
+		World defaultWorld = Bukkit.getWorlds().get(0);
+		World gameWorld = GameMap.getCurrentMap().getWorld();
 		
-		for (Player player : mapWorld.getPlayers()) {
+		World safeWorld;
+		if (world == defaultWorld) {
+			Bukkit.getLogger().warning("Cannot unload default world (this is normal if map loading is disabled).");
+			return;
+		} else if (world == gameWorld) {
+			Bukkit.getLogger().warning("Attempting to unload game world (this is normal if server is stopping/reloading).");
+			safeWorld = defaultWorld;
+		} else {
+			safeWorld = gameWorld;
+		}
+		
+		for (Player player : world.getPlayers()) {
+			if (player.isDead())
+				player.spigot().respawn();
 			player.teleport(safeWorld.getSpawnLocation());
 		}
-		map.unload();
 		
-		boolean success = Bukkit.unloadWorld(mapWorld, true);
+		// WARNING - unload world must have save true - otherwise it doesn't
+		// release lock on world files immediately and can later cause world
+		// corruption
+		boolean success = Bukkit.unloadWorld(world, true);
 		if (!success)
 			Bukkit.getLogger().severe("Failed to unload world");
 		
 		try {
-			File file = mapWorld.getWorldFolder();
+			File file = world.getWorldFolder();
 			if (file.exists()) {
 				FileUtils.deleteDirectory(file);
 			}
