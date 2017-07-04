@@ -3,76 +3,84 @@ package deimophobe.dvz;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.EnumWrappers;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.dwarf.ProcType;
-import deimophobe.dvz.dwarf.loadout.Loadout;
-import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.loadout.Loadout;
+import deimophobe.dvz.map.GameMap;
+import deimophobe.dvz.map.MapManager;
+import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
-import deimophobe.dvz.monster.doom.DoomManager;
 import deimophobe.dvz.monster.upgrade.GlobalUpgrade;
 import deimophobe.dvz.plague.Plague;
-import deimophobe.dvz.shrine.Shrine;
-import deimophobe.dvz.shrine.ShrineManager;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Recipe;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.*;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 15/01/17.
  */
 public class Game {
-	private static final Game ourGame = new Game();
-	
-	public static Game getGame() {
-		return ourGame;
+	private static Game game = null;
+	public static Game createGame() {
+		return new Game();
 	}
+	public static Game getGame() {
+		return game;
+	}
+	
+	
+	private final GameMap map;
+	public GameMap getMap() {return map;}
 	
 	private Phase phase;
 	public Phase getPhase() { return phase; }
 	
-	private DvZPlugin plugin;
-	public Plugin getPlugin() { return plugin; }
+	private final DwarfManager dwarfManager;
+	private final MonsterManager monsterManager;
+	//TODO INCLUE BLOCK MANAGER
 	
-	private DwarfManager dm;
-	private MonsterManager mm;
-	private MapManager mapm;
-	private GameListener gl;
+	public DwarfManager getDwarfManager() {return dwarfManager;}
+	public MonsterManager getMonsterManager() {return monsterManager;}
 	
-	private Objective sidebarObj;
+	
+	
+	private final Objective sidebarObj;
 	private final static String OBJ_NAME = "MySidebar";
 	
-	private Team lobbyTeam;
+	private final BossBar bossBar;
+	
+	private final Team lobbyTeam;
 	
 	
-	void setupGame(DvZPlugin plugin) {
-		this.plugin = plugin;
+	private Game() {
+		Bukkit.getScheduler().cancelTasks(DvZPlugin.getPlugin());
 		
+		Game oldGame = game;
+		game = this;
 		
-		removeRecipes();
-		
-		
-		gl = new GameListener();
-		Bukkit.getPluginManager().registerEvents(gl, plugin);
-		
+		map = MapManager.getManager().loadNextMap();
 		
 		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
-		
 		Objective oldObj = board.getObjective(OBJ_NAME);
 		if (oldObj != null)
 			oldObj.unregister();
@@ -86,32 +94,30 @@ public class Game {
 		lobbyTeam = board.registerNewTeam("lobbyTeam");
 		lobbyTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
 		
-		setupPacketEvents();
-		Loadout.setupLoadouts();
+		
+		bossBar = Bukkit.createBossBar("", BarColor.BLUE, BarStyle.SOLID);
+		bossBar.setProgress(1);
 		
 		
-		mapm = MapManager.getManager();
-		mapm.setup();
-		mapm.loadRandomMap();
+		dwarfManager = new DwarfManager();
+		monsterManager = new MonsterManager();
+		DvZPlugin.getPlugin().updateManagers();
+		
+		startLobby();
+		
+		if (oldGame != null) oldGame.stop();
 	}
 	
-	void resetManagers() {
-		DwarfManager.getManager().reset();
-		MonsterManager.getManager().reset();
-		ShrineManager.getManager().reset();
-		DoomManager.getManager().reset();
-		AIManager.getManager().reset();
+	public void stop() {
+		removeShrineBar();
+		dwarfManager.stop();
+		monsterManager.stop();
 		GlobalUpgrade.reset();
 		TimedBlock.cancelAllBlocks();
 		
-		Bukkit.getScheduler().cancelTasks(plugin);
 		Loadout.restartAutoSaver();
 		
-		this.dm = DwarfManager.getManager();
-		this.mm = MonsterManager.getManager();
-		
-		gl.updateManagers();
-		plugin.updateManagers();
+		MapManager.getManager().unloadMap(map);
 	}
 	
 	
@@ -126,7 +132,7 @@ public class Game {
 	}
 	
 	public boolean isPlayer(String name) {
-		return (dm.isGamePlayer(name) || mm.isGamePlayer(name));
+		return (dwarfManager.isGamePlayer(name) || monsterManager.isGamePlayer(name));
 	}
 	
 	public GamePlayer getGamePlayer(Player player) {
@@ -134,12 +140,12 @@ public class Game {
 	}
 	
 	public GamePlayer getGamePlayer(String name) {
-		Dwarf dwarf = dm.getGamePlayer(name);
+		Dwarf dwarf = dwarfManager.getGamePlayer(name);
 		
 		if (dwarf != null)
 			return dwarf;
 		else
-			return mm.getGamePlayer(name);
+			return monsterManager.getGamePlayer(name);
 	}
 	
 	public GameEntity getGameEntity(Entity entity) {
@@ -150,26 +156,24 @@ public class Game {
 	}
 	
 	public boolean removeGamePlayer(Player player) {
-		return dm.removeGamePlayer(player, true) | mm.removeGamePlayer(player, true);
+		return dwarfManager.removeGamePlayer(player, true) | monsterManager.removeGamePlayer(player, true);
 	}
-	
 	
 	
 	// ------ SCOREBOARD -------
 	public void updateDwarfCount() {
-		sidebarObj.getScore(ChatColor.GREEN + "Remaining").setScore(dm.getGamePlayers().size());
+		sidebarObj.getScore(ChatColor.GREEN + "Remaining").setScore(dwarfManager.getGamePlayers().size());
 	}
 	
 	public void setVault(int vault) {
 		sidebarObj.getScore(ChatColor.GOLD + "Vault").setScore(vault);
 	}
-	
 	public void setGold(int gold) {
 		sidebarObj.getScore(ChatColor.YELLOW + "Shrine Gold").setScore(gold);
 	}
 	
 	public void setDoomSidebar(int doomTimer) {
-		for (MonsterPlayer mp : mm.getGamePlayers())
+		for (MonsterPlayer mp : monsterManager.getGamePlayers())
 			showCustomScore(mp.getPlayer(), ChatColor.DARK_RED + "Doom Clock", doomTimer);
 	}
 	
@@ -177,136 +181,6 @@ public class Game {
 		showCustomScore(player, ChatColor.LIGHT_PURPLE + "Mana", mana);
 	}
 	
-	public void updateScoreboard() {
-		updateDwarfCount();
-		ShrineManager.getManager().updateGoldVaultCount();
-		DoomManager.getManager().updateDoomCount();
-	}
-	
-	// ------ GAME PHASES -------
-	public void startLobby() {
-		phase = Phase.STARTING;
-		sidebarObj.setDisplaySlot(null);
-		
-		if (mapm.isEnabled()) {
-			for (Player player : Bukkit.getOnlinePlayers())
-				resetPlayer(player);
-		}
-	}
-	
-	public void startGame() {
-		if (phase != Phase.STARTING) return;
-		phase = Phase.BUILD;
-		
-		sidebarObj.setDisplaySlot(DisplaySlot.SIDEBAR);
-		
-		// Add dwarves
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			mm.removeAllGamePlayers();
-			dm.addGamePlayer(player);
-		}
-		updateScoreboard();
-		
-		// Set time
-		mapm.getWorld().setTime(0);
-		
-		// Start countdown to plague
-		int buildTime = 10*60*20 + (int)(60*20*Math.random());
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				if (phase == Phase.BUILD)
-					startPlague();
-			}
-		}.runTaskLater(plugin, buildTime);
-	}
-	
-	void startPlague() {
-		if (phase != Phase.BUILD) return;
-		startPlague(Plague.getRandomPlague());
-	}
-	
-	void startPlague(Plague plague) {
-		if (phase != Phase.BUILD) return;
-		phase = Phase.PLAGUE;
-		
-		// Dwarves and number to plague
-		Set<Dwarf> plagueables = dm.getPlagueables();
-		Set<Dwarf> plagued = dm.getPlagued();
-		//int toKill = plagueables.size();
-		int toKill = dm.getDwarves().size()/3+1;
-		
-		if (toKill == 0 || plagueables.size() == 0) {
-			releaseMonsters();
-			return;
-		}
-		
-		plague.startPlague(plagueables, plagued, toKill);
-		
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				if (phase == Phase.PLAGUE)
-					plague.forceEnd();
-			}
-		}.runTaskLater(plugin, 120*20);
-	}
-	
-	public void notifyPlagueFinish() {
-		if (phase == Phase.PLAGUE)
-			releaseMonsters();
-	}
-	
-	private void releaseMonsters() {
-		if (phase != Phase.PLAGUE) return;
-		phase = Phase.GAME;
-		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
-		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
-		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
-		mm.onMobRelease();
-		ShrineManager.getManager().onMobRelease();
-	}
-	
-	public void endGame() {
-		if (phase != Phase.GAME) return;
-		phase = Phase.END;
-		
-	}
-	
-	
-	// ------ MISC -------
-	private void removeRecipes() {
-		//plugin.getServer().clearRecipes();
-	}
-	
-	private void setupPacketEvents() {
-		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-		protocolManager.addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.ENTITY_EQUIPMENT) {
-			@Override
-			public void onPacketSending(PacketEvent event) {
-				EnumWrappers.ItemSlot slot = event.getPacket().getItemSlots().read(0);
-				if (slot == EnumWrappers.ItemSlot.OFFHAND) {
-					event.setCancelled(true);
-				}
-			}
-		});
-		
-		protocolManager.addPacketListener(new PacketAdapter(plugin, PacketType.Play.Server.NAMED_SOUND_EFFECT) {
-			@Override
-			public void onPacketSending(PacketEvent event) {
-				Sound sound = event.getPacket().getSoundEffects().read(0);
-				switch (sound) {
-					case ENTITY_PLAYER_ATTACK_CRIT:
-					case ENTITY_PLAYER_ATTACK_KNOCKBACK:
-					case ENTITY_PLAYER_ATTACK_NODAMAGE:
-					case ENTITY_PLAYER_ATTACK_STRONG:
-					case ENTITY_PLAYER_ATTACK_SWEEP:
-					case ENTITY_PLAYER_ATTACK_WEAK:
-						event.setCancelled(true);
-				}
-			}
-		});
-	}
 	
 	private void showCustomScore(Player player, String name, int amt) {
 		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
@@ -324,11 +198,133 @@ public class Game {
 		}
 	}
 	
+	
+	// ------ SHRINE BAR ------
+	public void giveShrineBarToPlayer(Player player) {
+		if (phase.hasGameStarted())
+			bossBar.addPlayer(player);
+	}
+	
+	public void removeShrineBar() {
+		bossBar.removeAll();
+	}
+	
+	public void setShrineBarPower(double progress) {
+		bossBar.setProgress(progress);
+	}
+	
+	public void setShrineBarName(String shrineName, int shrineNumber) {
+		bossBar.setTitle(shrineName);
+		bossBar.setTitle(shrineName + " (" + (shrineNumber) + "/" + map.getNumShrines() +")");
+		bossBar.setProgress(1);
+	}
+	
+	
+	// ------ GAME PHASES -------
+	public void startLobby() {
+		phase = Phase.STARTING;
+		sidebarObj.setDisplaySlot(null);
+		
+		if (MapManager.getManager().isEnabled()) {
+			for (Player player : Bukkit.getOnlinePlayers())
+				resetPlayer(player);
+		}
+	}
+	
+	public void startGame() {
+		if (phase != Phase.STARTING) return;
+		phase = Phase.BUILD;
+		
+		sidebarObj.setDisplaySlot(DisplaySlot.SIDEBAR);
+		
+		// Add dwarves
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			monsterManager.removeAllGamePlayers();
+			dwarfManager.addGamePlayer(player);
+		}
+		updateDwarfCount();
+		
+		// Set time
+		map.getWorld().setTime(0);
+		
+		// Start countdown to plague
+		int buildTime = 10*60*20 + (int)(60*20*Math.random());
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				if (phase == Phase.BUILD)
+					startPlague();
+			}
+		}.runTaskLater(DvZPlugin.getPlugin(), buildTime);
+	}
+	
+	void startPlague() {
+		if (phase != Phase.BUILD) return;
+		startPlague(Plague.getRandomPlague());
+	}
+	
+	void startPlague(Plague plague) {
+		if (phase != Phase.BUILD) return;
+		phase = Phase.PLAGUE;
+		
+		// Dwarves and number to plague
+		Set<Dwarf> plagueables = dwarfManager.getPlagueables();
+		Set<Dwarf> plagued = dwarfManager.getPlagued();
+		//int toKill = plagueables.size();
+		int toKill = dwarfManager.getDwarves().size()/3+1;
+		
+		if (toKill == 0 || plagueables.size() == 0) {
+			releaseMonsters();
+			return;
+		}
+		
+		plague.startPlague(plagueables, plagued, toKill);
+		
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				if (phase == Phase.PLAGUE)
+					plague.forceEnd();
+			}
+		}.runTaskLater(DvZPlugin.getPlugin(), 120*20);
+	}
+	
+	public void notifyPlagueFinish() {
+		if (phase == Phase.PLAGUE)
+			releaseMonsters();
+	}
+	
+	private void releaseMonsters() {
+		if (phase != Phase.PLAGUE) return;
+		phase = Phase.GAME;
+		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
+		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
+		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
+		monsterManager.onMobRelease();
+		
+		map.onMobRelease();
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			bossBar.addPlayer(player);
+		}
+	}
+	
+	public void endGame() {
+		if (phase != Phase.GAME) return;
+		phase = Phase.END;
+		
+		bossBar.setProgress(0);
+		bossBar.setTitle(ChatColor.RED + "The Dwarves Have Fallen!");
+		bossBar.setColor(BarColor.RED);
+	}
+	
+	
+	// ------ MISC -------
+	
 	public void resetPlayer(Player player) {
 		removeGamePlayer(player);
 		switch (phase) {
 			case STARTING:
-				player.teleport(ShrineManager.getManager().getLobbySpawn());
+				player.teleport(GameMap.getCurrentMap().getLobbySpawn());
 				player.getInventory().clear();
 				for (PotionEffect effect : player.getActivePotionEffects()){
 					player.removePotionEffect(effect.getType());
@@ -342,14 +338,14 @@ public class Game {
 				break;
 			
 			case BUILD:
-				dm.addGamePlayer(player);
+				dwarfManager.addGamePlayer(player);
 				break;
 			
 			case PLAGUE:
 			case GAME:
 			case END:
-				MonsterPlayer mp = mm.addGamePlayer(player);
-				player.teleport(ShrineManager.getManager().getCurrentMobspawn());
+				MonsterPlayer mp = monsterManager.addGamePlayer(player);
+				player.teleport(GameMap.getCurrentMap().getCurrentMobspawn());
 				mp.kill();
 				break;
 		}
@@ -357,12 +353,13 @@ public class Game {
 	}
 	
 	public boolean isNight() {
-		long time = MapManager.getManager().getWorld().getTime();
+		long time = GameMap.getCurrentMap().getWorld().getTime();
 		return (12500 < time && time < 23450);
 	}
 	
+	@Deprecated
 	public void playGlobalSound(String sound, float pitch) {
-		Location loc = ShrineManager.getManager().getDwarfSpawn();
+		Location loc = GameMap.getCurrentMap().getDwarfSpawn();
 		loc.getWorld().playSound(loc, sound, 10000f, pitch);
 	}
 }

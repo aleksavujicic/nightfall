@@ -1,12 +1,15 @@
 package deimophobe.dvz.blocks.timedblock;
 
-import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.Explosion;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.GamePlayer;
 import deimophobe.dvz.blocks.BlockConverter;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 
 /**

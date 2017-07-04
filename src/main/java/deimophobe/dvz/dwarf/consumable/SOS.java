@@ -1,12 +1,14 @@
 package deimophobe.dvz.dwarf.consumable;
 
-import deimophobe.dvz.Game;
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ArmorStand;
@@ -90,7 +92,7 @@ class SOS extends Consumable {
 				}
 			}
 		};
-		particleRunner.runTaskTimer(Game.getGame().getPlugin(), 0, 20);
+		particleRunner.runTaskTimer(DvZPlugin.getPlugin(), 0, 20);
 		
 		// Remove swords + particles when done
 		new BukkitRunnable() {
@@ -101,7 +103,7 @@ class SOS extends Consumable {
 					sword.remove();
 				}
 			}
-		}.runTaskLater(Game.getGame().getPlugin(), FREEZE_TIME);
+		}.runTaskLater(DvZPlugin.getPlugin(), FREEZE_TIME);
 		
 		return DEFAULT_CD;
 	}

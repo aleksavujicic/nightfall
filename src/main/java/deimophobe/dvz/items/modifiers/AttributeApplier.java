@@ -1,9 +1,9 @@
 package deimophobe.dvz.items.modifiers;
 
+import minecraft.spigot.community.michel_0.api.Attribute;
 import minecraft.spigot.community.michel_0.api.AttributeModifier;
 import minecraft.spigot.community.michel_0.api.ItemAttributes;
 import minecraft.spigot.community.michel_0.api.Slot;
-import minecraft.spigot.community.michel_0.api.Attribute;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;

@@ -1,12 +1,11 @@
 package deimophobe.dvz.dwarf.kit;
 
-import deimophobe.dvz.*;
+import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.damage.DamageType;
+import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.kit.elements.AbstractBow;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
-import deimophobe.dvz.dwarf.Dwarf;
-
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
@@ -14,7 +13,10 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 16/01/17.

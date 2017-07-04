@@ -3,7 +3,6 @@ package deimophobe.dvz.items.lore;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.items.modifiers.ItemModifier;
 import deimophobe.dvz.items.modifiers.ItemModifierType;
-import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;

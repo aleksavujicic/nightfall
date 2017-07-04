@@ -2,8 +2,8 @@ package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
-import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.dwarf.consumable.ConsumableType;
+import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.items.CustomItem;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Material;

@@ -2,7 +2,6 @@ package deimophobe.dvz.dwarf.kit.elements;
 
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.items.modifiers.ItemModifierType;
-import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 27/03/17.

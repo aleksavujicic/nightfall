@@ -1,14 +1,13 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.Game;
-import deimophobe.dvz.MapManager;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.ProcType;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.items.CustomItem;
-import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -38,7 +37,7 @@ public class Horn extends AbstractCooldownItem {
 	}
 	
 	public static void tootHorn() {
-		MapManager.getManager().getWorld().playSound(ShrineManager.getManager().getDwarfSpawn(), "horn", 100f, 1f);
+		Game.getGame().playGlobalSound("horn", 1f);
 		new BukkitRunnable() {
 			@Override
 			public void run() {
@@ -46,6 +45,6 @@ public class Horn extends AbstractCooldownItem {
 					dwarf.giveProc(ProcType.HORN);
 				}
 			}
-		}.runTaskLater(Game.getGame().getPlugin(), 40);
+		}.runTaskLater(DvZPlugin.getPlugin(), 40);
 	}
 }

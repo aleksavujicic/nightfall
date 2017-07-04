@@ -2,8 +2,8 @@ package deimophobe.dvz.items;
 
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.items.base.BaseItem;
-import deimophobe.dvz.items.base.SimpleBaseItem;
 import deimophobe.dvz.items.base.BaseItemManager;
+import deimophobe.dvz.items.base.SimpleBaseItem;
 import deimophobe.dvz.items.lore.Lore;
 import deimophobe.dvz.items.lore.LoreTemplate;
 import deimophobe.dvz.items.modifiers.ItemModifier;

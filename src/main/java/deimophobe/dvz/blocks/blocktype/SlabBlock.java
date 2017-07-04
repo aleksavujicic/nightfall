@@ -3,8 +3,6 @@ package deimophobe.dvz.blocks.blocktype;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
-import org.bukkit.material.MaterialData;
-import org.bukkit.material.Stairs;
 import org.bukkit.material.Step;
 
 /**

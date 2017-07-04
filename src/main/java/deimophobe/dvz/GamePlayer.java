@@ -3,10 +3,15 @@ package deimophobe.dvz;
 import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.items.CustomItem;
 import me.libraryaddict.disguise.DisguiseAPI;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -294,4 +299,5 @@ public abstract class GamePlayer extends GameEntity<Player> {
 	public abstract void onShift(boolean sneaking);
 	public abstract Projectile onBowFire(Arrow arrow, float force);
 	public abstract void onProjectileLand(Projectile arrow, Block hitBlock);
+	public abstract void update(boolean b, boolean b1, boolean b2, boolean b3, boolean b4);
 }

@@ -1,7 +1,5 @@
 package deimophobe.dvz.items.lore;
 
-import org.bukkit.ChatColor;
-
 import java.util.Map;
 
 /**

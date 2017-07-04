@@ -1,0 +1,73 @@
+name: The Machine
+world: MyMachine
+
+lobby: [417.5, 252.5, -1323.5, 0]
+dwarfspawn: [387.5, 74, -1270.5, -135]
+
+compass:
+  Oil: [506.5, 70, -1388.5]
+  Sawmill: [518, 76, -1416.5]
+  Quarry: [387.5, 70, -1363.5]
+  Blacksmith: [432.5, 70, -1265.5]
+
+shrines:
+  shrine1:
+    name: Citadel Shrine
+    mobspawn: [508, 101.2, -1585, 0]
+    power: 1000
+    goldweight: 0.33333
+
+    shrine:
+      type: spherical
+      center: [473.5, 82, -1418.5]
+      radius: 13
+
+    mobprot:
+      type: halfspace
+      divider: -1500
+      coordinate: z-
+
+    shrineprot:
+      type: halfspace
+      divider: -1350
+      coordinate: z+
+
+  shrine2:
+    name: Aperture Shrine
+    mobspawn: [473.5, 82, -1412.5, 45]
+    power: 1000
+    goldweight: 0.5
+
+    shrine:
+      type: spherical
+      center: [407.5, 75, -1290.5]
+      radius: 10
+
+    mobprot:
+      type: halfspace
+      divider: -1398
+      coordinate: z-
+
+    shrineprot:
+      type: halfspace
+      divider: 372
+      coordinate: x-
+
+  shrine3:
+    name: The Heart of The Machine
+    mobspawn: [397.5, 74, -1280.5, 45]
+    power: 1000
+    goldweight: 1
+
+    shrine:
+      type: spherical
+      center: [282.5, 67, -1233.5]
+      radius: 14
+
+    mobprot:
+      type: halfspace
+      divider: 379
+      coordinate: x+
+
+    shrineprot:
+      type: nullregion

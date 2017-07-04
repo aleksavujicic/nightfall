@@ -1,7 +1,5 @@
 package deimophobe.dvz.damage;
 
-import org.omg.CORBA.TRANSACTION_MODE;
-
 /**
  * Created by Deimophobe on 20/01/17.
  */

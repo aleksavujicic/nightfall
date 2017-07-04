@@ -3,7 +3,6 @@ package deimophobe.dvz.dwarf.kit.elements;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
-import deimophobe.dvz.dwarf.kit.KitElement;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.monster.MonsterManager;

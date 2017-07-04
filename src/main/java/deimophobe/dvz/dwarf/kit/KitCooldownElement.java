@@ -1,6 +1,5 @@
 package deimophobe.dvz.dwarf.kit;
 
-import com.comphenix.protocol.wrappers.EnumWrappers;
 import org.bukkit.inventory.ItemStack;
 
 /**

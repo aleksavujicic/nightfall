@@ -1,6 +1,6 @@
 package deimophobe.dvz.menu;
 
-import deimophobe.dvz.Game;
+import deimophobe.dvz.DvZPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -19,7 +19,7 @@ public class MenuManager {
 	private final Map<Player, MenuSession<?>> activeSessions = new HashMap<>();
 	
 	private MenuManager() {
-		Bukkit.getPluginManager().registerEvents(new MenuListener(), Game.getGame().getPlugin());
+		Bukkit.getPluginManager().registerEvents(new MenuListener(), DvZPlugin.getPlugin());
 	}
 	
 	public <T extends SessionData> MenuSession<T> startSession(MainMenu<T> mainMenu, Player player) {

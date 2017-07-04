@@ -5,9 +5,10 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
-import deimophobe.dvz.damage.DamageType;
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.cooldown.ComplexCooldown;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.items.modifiers.ItemModifierType;
 import deimophobe.dvz.monster.MonsterPlayer;
@@ -93,7 +94,7 @@ class Wolf extends AbstractTypedMob {
 				// Play leap sound really loud to wolf player, but much quieter to everyone else.
 				String wolfHowl = "entity.wolf.howl";
 				ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-				protocolManager.addPacketListener(new PacketAdapter(Game.getGame().getPlugin(), PacketType.Play.Server.CUSTOM_SOUND_EFFECT) {
+				protocolManager.addPacketListener(new PacketAdapter(DvZPlugin.getPlugin(), PacketType.Play.Server.CUSTOM_SOUND_EFFECT) {
 					@Override
 					public void onPacketSending(PacketEvent event) {
 						String sound = event.getPacket().getStrings().read(0);

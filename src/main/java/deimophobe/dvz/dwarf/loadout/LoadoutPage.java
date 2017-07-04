@@ -2,7 +2,6 @@ package deimophobe.dvz.dwarf.loadout;
 
 import deimophobe.dvz.menu.SimpleMenu;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Player;
 
 /**
  * Created by Deimophobe on 2/03/17.

@@ -1,7 +1,6 @@
 package deimophobe.dvz.effects;
 
-import deimophobe.dvz.Game;
-import deimophobe.dvz.GamePlayer;
+import deimophobe.dvz.DvZPlugin;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -29,7 +28,7 @@ class ArmourEffectMaker implements EffectMaker {
 			public void run() {
 				world.playSound(player.getLocation(), "entity.firework.twinkle", 1, 1);
 			}
-		}.runTaskLater(Game.getGame().getPlugin(), 20);
+		}.runTaskLater(DvZPlugin.getPlugin(), 20);
 		
 		
 		// SHOW PARTICLES!
@@ -62,6 +61,6 @@ class ArmourEffectMaker implements EffectMaker {
 				if (count >= 15)
 					cancel();
 			}
-		}.runTaskTimer(Game.getGame().getPlugin(), 0, 4);
+		}.runTaskTimer(DvZPlugin.getPlugin(), 0, 4);
 	}
 }

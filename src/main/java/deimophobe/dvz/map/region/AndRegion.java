@@ -1,5 +1,7 @@
-package deimophobe.dvz.shrine.region;
+package deimophobe.dvz.map.region;
 
+import deimophobe.dvz.map.GameMap;
+import deimophobe.dvz.map.InvalidMapConfigException;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -12,11 +14,13 @@ import java.util.Set;
 public class AndRegion implements Region {
 	private final Set<Region> regions = new HashSet<>();
 	
-	AndRegion(ConfigurationSection section) {
+	AndRegion(GameMap map, ConfigurationSection section) throws InvalidMapConfigException {
 		for (String key : section.getKeys(false)) {
 			if (!key.equals("type") && !key.equals("center"))
-				regions.add(Region.createRegion(section.getConfigurationSection(key)));
+				regions.add(Region.createRegion(map, section.getConfigurationSection(key)));
 		}
+		if (regions.size() < 2)
+			throw new InvalidMapConfigException("And region must have at least 2 subregions", section);
 	}
 	
 	@Override

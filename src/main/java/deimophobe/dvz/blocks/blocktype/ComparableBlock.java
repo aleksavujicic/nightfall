@@ -1,6 +1,5 @@
 package deimophobe.dvz.blocks.blocktype;
 
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 
 /**

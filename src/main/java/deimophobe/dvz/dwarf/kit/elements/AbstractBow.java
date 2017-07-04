@@ -1,8 +1,8 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.damage.DamageType;
-import deimophobe.dvz.Game;
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.GameEntity;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.kit.KitBow;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
@@ -43,7 +43,7 @@ public abstract class AbstractBow extends AbstractItem implements KitBow {
 	
 	@Override
 	public Projectile onBowFire(Projectile proj, float force) {
-		proj.setMetadata(getBowIdentifier(), new FixedMetadataValue(Game.getGame().getPlugin(), true));
+		proj.setMetadata(getBowIdentifier(), new FixedMetadataValue(DvZPlugin.getPlugin(), true));
 		return proj;
 	}
 	

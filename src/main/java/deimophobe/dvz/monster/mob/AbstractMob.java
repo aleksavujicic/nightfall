@@ -1,7 +1,7 @@
 package deimophobe.dvz.monster.mob;
 
-import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.Skin;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;

@@ -1,8 +1,8 @@
 package deimophobe.dvz.dwarf.hero;
 
-import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.Hat;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import org.bukkit.*;

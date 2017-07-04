@@ -1,12 +1,10 @@
 package deimophobe.dvz.monster.doom;
 
 import deimophobe.dvz.Misc;
-import deimophobe.dvz.monster.mob.MobType;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashSet;

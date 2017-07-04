@@ -1,10 +1,8 @@
 package deimophobe.dvz.dwarf.consumable;
 
-import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
-import deimophobe.dvz.Phase;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.shrine.ShrineManager;
+import deimophobe.dvz.map.GameMap;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -24,7 +22,7 @@ class Wrench extends Consumable {
 		if (Misc.isRightClick(action)) return FAILED_CD;
 		if (!checkPhase(dwarf)) return FAILED_CD;
 		
-		boolean success = ShrineManager.getManager().useGold(60);
+		boolean success = GameMap.getCurrentMap().useGold(60);
 		if (success) {
 			dwarf.getArmour().repair(1000);
 			dwarf.playSound("block.anvil.use", 20, 0.8f, false);

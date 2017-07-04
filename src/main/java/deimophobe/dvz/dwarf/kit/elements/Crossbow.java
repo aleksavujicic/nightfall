@@ -1,6 +1,6 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.Game;
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
@@ -55,7 +55,7 @@ class Crossbow extends AbstractBow implements KitCooldownElement {
 			
 			Arrow arrow = spawnLoc.getWorld().spawnArrow(spawnLoc, spawnLoc.getDirection().add(new Vector(0,0.05,0)), 3f, 0.05f);
 			arrow.setShooter(dwarf.getPlayer());
-			arrow.setMetadata("force", new FixedMetadataValue(Game.getGame().getPlugin(), 1));
+			arrow.setMetadata("force", new FixedMetadataValue(DvZPlugin.getPlugin(), 1));
 			cooldown = MAX_COOLDOWN;
 			
 			dwarf.useArrows(1);

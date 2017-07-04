@@ -137,7 +137,7 @@ public abstract class GameEntity<E extends LivingEntity> {
 			public void run() {
 				healMax();
 			}
-		}.runTaskLater(Game.getGame().getPlugin(), 20);
+		}.runTaskLater(DvZPlugin.getPlugin(), 20);
 	}
 	
 	
@@ -227,7 +227,7 @@ public abstract class GameEntity<E extends LivingEntity> {
 			public void run() {
 				GlowAPI.setGlowing(entity, false, Bukkit.getOnlinePlayers());
 			}
-		}.runTaskLater(Game.getGame().getPlugin(), duration);
+		}.runTaskLater(DvZPlugin.getPlugin(), duration);
 	}
 	
 	public void setGlowing(GlowAPI.Color color) {

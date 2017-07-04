@@ -1,11 +1,11 @@
-package deimophobe.dvz.shrine.region;
+package deimophobe.dvz.map.region;
 
 import org.bukkit.Location;
 
 /**
  * Created by Deimophobe on 21/01/17.
  */
-class NullRegion implements Region {
+public class NullRegion implements Region {
 	@Override
 	public boolean containsLocation(Location loc) {
 		return false;

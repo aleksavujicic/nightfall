@@ -5,37 +5,37 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.Phase;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.map.GameMap;
+import deimophobe.dvz.map.region.Region;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.doom.DoomManager;
-import deimophobe.dvz.shrine.region.Region;
-import deimophobe.dvz.shrine.ShrineManager;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 /**
  * Created by Deimophobe on 27/01/17.
  */
 public class AIManager {
-	private static AIManager manager = new AIManager();
 	public static AIManager getManager() {
-		return manager;
+		return Game.getGame().getMonsterManager().getAiManager();
 	}
-	
-	private AIManager() {}
-	
+		
 	private final static int BASE_MAX_AIS = 60;
 	
 	private final static int MAX_AI_MARKS = 40;
@@ -44,29 +44,43 @@ public class AIManager {
 	private final static int UPDATE_FREQ =  3*20;
 	
 	
+	private Team aiTeam;
 	private BukkitRunnable runner;
-	public void setup() {
+	
+	public AIManager() {
 		runner = new BukkitRunnable() {
 			@Override
 			public void run() {
 				updateAIs();
 			}
 		};
-		runner.runTaskTimer(Game.getGame().getPlugin(), UPDATE_FREQ, UPDATE_FREQ);
-		setupTeam();
+		
+		String teamName = "ais";
+		ChatColor teamColour = ChatColor.DARK_RED;
+		
+		aiTeam = Misc.getNewTeam("ais");
+		
+		aiTeam.setPrefix(String.valueOf(teamColour));
+		aiTeam.setDisplayName(teamColour + teamName);
+		
+		aiTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.ALWAYS);
+		aiTeam.setCanSeeFriendlyInvisibles(true);
+		aiTeam.setAllowFriendlyFire(false);
 	}
 	
-	public void reset() {
-		if (runner != null)
-			runner.cancel();
+	public void start() {
+		runner.runTaskTimer(DvZPlugin.getPlugin(), UPDATE_FREQ, UPDATE_FREQ);
+	}
+	
+	public void stop() {
+		runner.cancel();
 		removeAllAIs();
-		manager = new AIManager();
 	}
 	
 	// ------ AI NAMES ------
 	private final static Set<String> AI_NAMES = new HashSet<>();
 	static {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(Game.getGame().getPlugin().getResource("ainames.txt")));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(DvZPlugin.getPlugin().getResource("ainames.txt")));
 		String str;
 		try {
 			while ((str = reader.readLine()) != null) {
@@ -110,7 +124,7 @@ public class AIManager {
 	
 	private void updateAIs() {
 		// Get rid of unnecessary ai
-		Region shrineProt = ShrineManager.getManager().getShrine().getShrineProtection();
+		Region shrineProt = GameMap.getCurrentMap().getCurrentShrineProtection();
 		Set<UUID> deadAIs = new HashSet<>();
 		for (AIEntity ai : ais.values()) {
 			ai.updateTarget();
@@ -222,7 +236,7 @@ public class AIManager {
 	
 	static {
 		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-		protocolManager.addPacketListener(new PacketAdapter(Game.getGame().getPlugin(), PacketType.Play.Server.NAMED_SOUND_EFFECT) {
+		protocolManager.addPacketListener(new PacketAdapter(DvZPlugin.getPlugin(), PacketType.Play.Server.NAMED_SOUND_EFFECT) {
 			@Override
 			public void onPacketSending(PacketEvent event) {
 				if (event.getPacket().getSoundEffects().read(0) == Sound.ENTITY_ZOMBIE_DEATH) {
@@ -230,29 +244,5 @@ public class AIManager {
 				}
 			}
 		});
-	}
-	
-	// ~~~~~~ TEAMS ~~~~~~
-	private Team aiTeam;
-	
-	private void setupTeam() {
-		String teamName = "AI";
-		ChatColor teamColour = ChatColor.DARK_RED;
-		
-		ScoreboardManager manager = Bukkit.getScoreboardManager();
-		Scoreboard board = manager.getMainScoreboard();
-		
-		Team oldTeam = board.getTeam(teamName);
-		if (oldTeam != null)
-			oldTeam.unregister();
-		
-		aiTeam = board.registerNewTeam(teamName);
-		
-		aiTeam.setPrefix(String.valueOf(teamColour));
-		aiTeam.setDisplayName(teamColour + teamName);
-		
-		aiTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.ALWAYS);
-		aiTeam.setCanSeeFriendlyInvisibles(true);
-		aiTeam.setAllowFriendlyFire(false);
 	}
 }

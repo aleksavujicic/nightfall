@@ -1,9 +1,9 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.damage.DamageType;
-import deimophobe.dvz.Game;
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.Misc;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.ProcType;
@@ -74,7 +74,7 @@ class GreaterRuneblade extends AbstractCooldownItem {
 			public void run() {
 				dwarf.playSound("offcd", 1, 2f, false);
 			}
-		}.runTaskLater(Game.getGame().getPlugin(), 5);
+		}.runTaskLater(DvZPlugin.getPlugin(), 5);
 	}
 	
 	@Override

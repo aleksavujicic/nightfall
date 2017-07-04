@@ -1,24 +1,24 @@
 package deimophobe.dvz.monster.mob;
 
-import deimophobe.dvz.GameEntity;
-import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.Explosion;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.blocks.BlockConverter;
 import deimophobe.dvz.blocks.timedblock.GoboBox;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.entity.TNTPrimed;
 import org.bukkit.util.Vector;
-
-import static org.bukkit.Sound.*;
 
 /**
  * Created by Deimophobe on 28/02/17.

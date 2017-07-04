@@ -1,6 +1,6 @@
 package deimophobe.dvz.blocks.blocktype;
 
-import deimophobe.dvz.shrine.ShrineManager;
+import deimophobe.dvz.map.GameMap;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -57,7 +57,7 @@ public class BlockType {
 	public static final ComparableBlock ACTIVE_SHRINE_BLOCK =
 			block -> (
 					block.getType() == Material.ENDER_PORTAL_FRAME
-					&& ShrineManager.getManager().getShrine().getShrineRegion().containsBlock(block)
+					&& GameMap.getCurrentMap().getCurrentShrineRegion().containsBlock(block)
 			);
 	public static final ComparableBlock ANY_SHRINE_BLOCK = new MaterialBlock(Material.ENDER_PORTAL_FRAME);
 	

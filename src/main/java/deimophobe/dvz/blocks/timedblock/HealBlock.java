@@ -1,6 +1,6 @@
 package deimophobe.dvz.blocks.timedblock;
 
-import deimophobe.dvz.Game;
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.GamePlayer;
 import deimophobe.dvz.dwarf.Dwarf;
@@ -43,7 +43,7 @@ public class HealBlock extends TimedBlock {
 				position.getWorld().spawnParticle(Particle.HEART, position.add(0.5, 1.5, 0.5), 5, 0.2, 0.3, 0.2);
 			}
 		};
-		updater.runTaskTimer(Game.getGame().getPlugin(), 20, 20);
+		updater.runTaskTimer(DvZPlugin.getPlugin(), 20, 20);
 	}
 	
 	@Override
