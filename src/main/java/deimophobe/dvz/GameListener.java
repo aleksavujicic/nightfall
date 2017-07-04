@@ -60,6 +60,7 @@ public class GameListener implements Listener {
 		
 		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(1024);
 		Game.getGame().giveShrineBarToPlayer(player);
+		Game.getGame().giveScoreboard(player);
 		
 		if (player.isDead())
 			return;
@@ -462,7 +463,8 @@ public class GameListener implements Listener {
 				@Override
 				public void run() {
 					MonsterPlayer mp = mm.addGamePlayer(event.getPlayer());
-					mp.kill();
+					if (mp != null)
+						mp.kill();
 				}
 			}.runTaskLater(DvZPlugin.getPlugin(), 10);
 		}

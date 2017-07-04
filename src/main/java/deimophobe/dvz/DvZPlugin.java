@@ -64,11 +64,7 @@ public class DvZPlugin extends JavaPlugin {
 		setupPacketEvents();
 		Loadout.setupLoadouts();
 		
-		
 		Game.createGame();
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			game.resetPlayer(player);
-		}
 	}
 
 	@Override
@@ -592,7 +588,6 @@ public class DvZPlugin extends JavaPlugin {
 			return true;
 		}
 		
-		/*
 		if (name.equalsIgnoreCase("loadmap")) {
 			if (!MapManager.getManager().isEnabled()) {
 				sender.sendMessage(ChatColor.RED + "GameMap loading is currently disabled.");
@@ -603,20 +598,15 @@ public class DvZPlugin extends JavaPlugin {
 				return false;
 			} else {
 				String map = args[0];
-				if (MapManager.getManager().isMap(map)) {
+				if (MapManager.getManager().getMaps().contains(map)) {
 					sender.sendMessage(ChatColor.GOLD + "LOADING MAP: " + ChatColor.GREEN + args[0] + ChatColor.GOLD + "!");
-					try {
-						MapManager.getManager().loadMap(map);
-					} catch (IllegalStateException e) {
-						sender.sendMessage(ChatColor.RED + "Failed to load map - load already in progress!");
-					}
+					Game.createGame();
 				} else {
 					sender.sendMessage(ChatColor.RED + "No such map: " + ChatColor.GREEN + args[0] + ChatColor.RED + "!");
 				}
 				return true;
 			}
 		}
-		*/
 		if (name.equalsIgnoreCase("enableMapLoading")) {
 			try {
 				MapManager.getManager().setMapsEnabled(true);

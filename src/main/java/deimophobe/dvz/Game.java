@@ -27,10 +27,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
+import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scoreboard.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -41,11 +39,28 @@ import java.util.Set;
  */
 public class Game {
 	private static Game game = null;
-	public static Game createGame() {
-		return new Game();
-	}
+	private static boolean loading = false;
 	public static Game getGame() {
 		return game;
+	}
+	public static Game createGame() {
+		Bukkit.getLogger().info("Begin loading game.");
+		broadcastWorlds();
+		if (loading) throw new IllegalStateException("Game already loading");
+		loading = true;
+		try {
+			return new Game();
+		} finally {
+			new BukkitRunnable() {
+				@Override public void run() {
+					loading = false;
+					Bukkit.getLogger().info("Finished loading game.");
+				}
+			}.runTaskLater(DvZPlugin.getPlugin(), 40);
+		}
+	}
+	private static void broadcastWorlds() {
+		Bukkit.broadcastMessage("Worlds ("+Bukkit.getWorlds().size() + "): " + Bukkit.getWorlds().toString());
 	}
 	
 	
@@ -63,6 +78,8 @@ public class Game {
 	public MonsterManager getMonsterManager() {return monsterManager;}
 	
 	
+	private final Scoreboard scoreboard;
+	public Scoreboard getScoreboard() {return scoreboard;}
 	
 	private final Objective sidebarObj;
 	private final static String OBJ_NAME = "MySidebar";
@@ -74,29 +91,33 @@ public class Game {
 	
 	private Game() {
 		Bukkit.getScheduler().cancelTasks(DvZPlugin.getPlugin());
+		Loadout.restartAutoSaver();
 		
 		Game oldGame = game;
 		game = this;
 		
-		map = MapManager.getManager().loadNextMap();
+		// Setup scoreboards and teams
+		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 		
-		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
-		Objective oldObj = board.getObjective(OBJ_NAME);
+		for (Player player : Bukkit.getOnlinePlayers())
+			giveScoreboard(player);
+		
+		Objective oldObj = scoreboard.getObjective(OBJ_NAME);
 		if (oldObj != null)
 			oldObj.unregister();
 		
-		sidebarObj = board.registerNewObjective(OBJ_NAME, "dummy");
-		sidebarObj.setDisplayName(ChatColor.AQUA + "Dwarves");
+		sidebarObj = scoreboard.registerNewObjective(OBJ_NAME, "dummy");
+		sidebarObj.setDisplayName(Misc.getNightfallText());
 		
-		Team oldTeam = board.getTeam("lobbyTeam");
-		if (oldTeam != null)
-			oldTeam.unregister();
-		lobbyTeam = board.registerNewTeam("lobbyTeam");
+		lobbyTeam = Misc.getNewTeam("lobbyTeam");
 		lobbyTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
 		
 		
 		bossBar = Bukkit.createBossBar("", BarColor.BLUE, BarStyle.SOLID);
 		bossBar.setProgress(1);
+		
+		
+		map = MapManager.getManager().loadNextMap();
 		
 		
 		dwarfManager = new DwarfManager();
@@ -114,8 +135,6 @@ public class Game {
 		monsterManager.stop();
 		GlobalUpgrade.reset();
 		TimedBlock.cancelAllBlocks();
-		
-		Loadout.restartAutoSaver();
 		
 		MapManager.getManager().unloadMap(map);
 	}
@@ -161,6 +180,10 @@ public class Game {
 	
 	
 	// ------ SCOREBOARD -------
+	public void giveScoreboard(Player player) {
+		player.setScoreboard(scoreboard);
+	}
+	
 	public void updateDwarfCount() {
 		sidebarObj.getScore(ChatColor.GREEN + "Remaining").setScore(dwarfManager.getGamePlayers().size());
 	}
@@ -201,8 +224,9 @@ public class Game {
 	
 	// ------ SHRINE BAR ------
 	public void giveShrineBarToPlayer(Player player) {
-		if (phase.hasGameStarted())
+		if (phase.hasGameStarted()) {
 			bossBar.addPlayer(player);
+		}
 	}
 	
 	public void removeShrineBar() {
@@ -324,6 +348,9 @@ public class Game {
 		removeGamePlayer(player);
 		switch (phase) {
 			case STARTING:
+				if (player.isDead())
+					player.spigot().respawn();
+				
 				player.teleport(GameMap.getCurrentMap().getLobbySpawn());
 				player.getInventory().clear();
 				for (PotionEffect effect : player.getActivePotionEffects()){
@@ -333,6 +360,9 @@ public class Game {
 				player.setHealth(20);
 				player.setSaturation(100000);
 				player.setFoodLevel(100000);
+				player.setExp(0);
+				player.setLevel(0);
+				player.setDisplayName(player.getName());
 				Loadout.updateLoadoutDisplay(player);
 				lobbyTeam.addEntry(player.getName());
 				break;

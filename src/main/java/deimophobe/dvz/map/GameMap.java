@@ -12,8 +12,10 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -67,13 +69,17 @@ public class GameMap {
 	}
 	
 	
-	GameMap(FileConfiguration config, World world) throws InvalidMapConfigException {
+	GameMap(World world) throws InvalidMapConfigException {
+		this.world = world;
+		
+		File configFile = MapManager.getManager().getNightfallConfig(world);
+		if (!configFile.exists())
+			throw new InvalidMapConfigException("Config file (nightfall.yml) does not exist!");
+		FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+		
 		this.name = config.getString("name");
 		if (name == null)
 			throw new InvalidMapConfigException("GameMap must have a name.");
-		
-		this.world = world;
-		setWorldSettings();
 		
 		this.dwarfSpawn = getLocation(config, "dwarfspawn");
 		if (dwarfSpawn == null)
@@ -87,7 +93,7 @@ public class GameMap {
 		shrines = new ArrayList<>();
 		ConfigurationSection shrineConfig = config.getConfigurationSection("shrines");
 		for (String key : shrineConfig.getKeys(false)) {
-			shrines.add(new Shrine(this, shrineConfig.getConfigurationSection(key), shrines.size()));
+			shrines.add(new Shrine(this, shrineConfig.getConfigurationSection(key), shrines.size()+1));
 		}
 		if (shrines.size() == 0)
 			throw new InvalidMapConfigException("GameMap must have at least one shrine.");
@@ -126,7 +132,12 @@ public class GameMap {
 			Bukkit.getLogger().warning("No compass section found.");
 		}
 		
+		setWorldSettings();
 		
+		vault = config.getInt("gold", 1000);
+		if (!config.contains("gold"))
+			Bukkit.getLogger().warning("No starting gold specified - defaulting to 1000.");
+		updateVault();
 		
 		shrineUpdater = new BukkitRunnable() {
 			@Override
@@ -166,7 +177,8 @@ public class GameMap {
 	
 	
 	public void unload() {
-		shrineUpdater.cancel();
+		if (Game.getGame().getPhase().hasGameStarted())
+			shrineUpdater.cancel();
 	}
 	
 	// ------ GOLD ------
@@ -250,6 +262,7 @@ public class GameMap {
 				currentMobProtection = newShrine.getMobProtection();
 			}
 		}.runTaskLater(DvZPlugin.getPlugin(), newShrine.getSwapoverDelay());
+		newShrine.onActive();
 	}
 	
 	

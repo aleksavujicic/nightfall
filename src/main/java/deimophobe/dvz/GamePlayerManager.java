@@ -79,6 +79,9 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		UUID uuid = player.getUniqueId();
 		if (players.containsKey(uuid)) return null;
 		
+		if (player.isDead())
+			player.spigot().respawn();
+		
 		P gamePlayer = createGamePlayerFromPlayer(player);
 		players.put(uuid, gamePlayer);
 		addToTeam(player.getName());
