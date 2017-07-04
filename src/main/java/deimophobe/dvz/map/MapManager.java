@@ -106,7 +106,12 @@ public class MapManager {
 		}
 		Configuration mapConfig = YamlConfiguration.loadConfiguration(mapConfigFile);
 		ConfigurationSection mapSection = mapConfig.getConfigurationSection("maps");
-		
+
+		if (mapSection == null) {
+			Bukkit.getLogger().severe("No section found for maps in maps.yml - no maps will be created.");
+			return;
+		}
+
 		for (String mapName : mapSection.getKeys(false)) {
 			String mapFilename = mapSection.getString(mapName);
 			if (mapFilename == null) {

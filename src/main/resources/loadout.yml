@@ -491,7 +491,7 @@ page2:
     type: consumable
     name: wizard_mortar
     quantity: 16
-    cost: 4
+    cost: 2
     item:
       name: "Wizard Mortar I"
       base: menu-wizmortar
@@ -500,16 +500,25 @@ page2:
     type: consumable
     name: wizard_mortar
     quantity: 32
-    cost: 8
+    cost: 4
     item:
       name: "Wizard Mortar II"
       base: menu-wizmortar2
+  wizard_three:
+    index: 27
+    type: consumable
+    name: wizard_mortar
+    quantity: 64
+    cost: 8
+    item:
+      name: "Wizard Mortar III"
+      base: menu-wizmortar
 
   lamps_one:
     index: 10
     type: consumable
     name: lamp
-    quantity: 10
+    quantity: 16
     cost: 2
     item:
       name: "Enchanted Lamps I"
@@ -518,18 +527,27 @@ page2:
     index: 19
     type: consumable
     name: lamp
-    quantity: 24
-    cost: 6
+    quantity: 32
+    cost: 4
     item:
       name: "Enchanted Lamps II"
       base: menu-lamp2
+  lamps_three:
+    index: 28
+    type: consumable
+    name: lamp
+    quantity: 64
+    cost: 8
+    item:
+      name: "Enchanted Lamps III"
+      base: menu-lamp
 
   wrench_one:
     index: 11
     type: consumable
     name: wrench
-    quantity: 2
-    cost: 4
+    quantity: 1
+    cost: 2
     item:
       name: "Wiggly Wrench I"
       base: menu-wrench
@@ -537,18 +555,27 @@ page2:
     index: 20
     type: consumable
     name: wrench
-    quantity: 3
-    cost: 8
+    quantity: 2
+    cost: 4
     item:
       name: "Wiggly Wrench II"
       base: menu-wrench2
+  wrench_three:
+    index: 29
+    type: consumable
+    name: wrench
+    quantity: 3
+    cost: 8
+    item:
+      name: "Wiggly Wrench III"
+      base: menu-wrench
 
   healing_one:
     index: 12
     type: consumable
     name: heal_station
     quantity: 4
-    cost: 4
+    cost: 2
     item:
       name: "'Healing Station' I"
       base: healitem
@@ -556,10 +583,19 @@ page2:
     index: 21
     type: consumable
     name: heal_station
-    quantity: 6
-    cost: 8
+    quantity: 8
+    cost: 4
     item:
       name: "'Healing Station' II"
+      base: healitem
+  healing_three:
+    index: 30
+    type: consumable
+    name: heal_station
+    quantity: 16
+    cost: 8
+    item:
+      name: "'Healing Station' III"
       base: healitem
 
   sos_one:
@@ -580,13 +616,22 @@ page2:
     item:
       name: "SOS II"
       base: menu-sos2
+  sos_three:
+    index: 31
+    type: consumable
+    name: sos
+    quantity: 3
+    cost: 18
+    item:
+      name: "SOS III"
+      base: menu-sos
 
   slab_one:
     index: 14
     type: consumable
     name: slab
     quantity: 1
-    cost: 4
+    cost: 2
     item:
       name: "Slab I"
       base: slab
@@ -595,34 +640,53 @@ page2:
     type: consumable
     name: slab
     quantity: 2
-    cost: 8
+    cost: 4
     item:
       name: "Slab II"
+      base: slab
+  slab_three:
+    index: 32
+    type: consumable
+    name: slab
+    quantity: 4
+    cost: 8
+    item:
+      name: "Slab III"
       base: slab
 
   builder_one:
     index: 15
-    cost: 4
+    cost: 2
     type: multi
     consumables:
-      torch: 24
-      mortar: 24
+      torch: 32
+      mortar: 32
       cobblestone: 96
     item:
       name: "Builder's Pack I"
       material: diamond_hoe
   builder_two:
     index: 24
-    cost: 8
+    cost: 4
     type: multi
     consumables:
-      torch: 40
-      mortar: 40
-      cobblestone: 160
+      torch: 64
+      mortar: 64
+      cobblestone: 192
     item:
       name: "Builder's Pack II"
       material: diamond_hoe
-
+  builder_three:
+    index: 33
+    cost: 8
+    type: multi
+    consumables:
+      torch: 128
+      mortar: 128
+      cobblestone: 384
+    item:
+      name: "Builder's Pack III"
+      material: diamond_hoe
 
 
 page3:
