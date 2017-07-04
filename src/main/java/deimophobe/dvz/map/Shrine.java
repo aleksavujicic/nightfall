@@ -82,6 +82,7 @@ public class Shrine {
 		this.shrineCenter = map.getLocation(section, "shrine.center");
 		
 		this.maxShrinePower = section.getInt("power");
+		shrinePower = maxShrinePower;
 		this.goldWeight = section.getDouble("goldweight");
 		
 		this.shrineNum = shrineNum;
@@ -219,7 +220,7 @@ public class Shrine {
 	}
 	
 	
-	void explodeShrine() {
+	private void explodeShrine() {
 		World world = shrineCenter.getWorld();
 		
 		world.spawnParticle(Particle.EXPLOSION_LARGE, shrineCenter, 4, 5, 2, 5);

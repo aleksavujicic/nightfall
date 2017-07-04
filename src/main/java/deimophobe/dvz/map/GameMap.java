@@ -169,7 +169,8 @@ public class GameMap {
 	
 	
 	public void unload() {
-		shrineUpdater.cancel();
+		if (Game.getGame().getPhase().hasGameStarted())
+			shrineUpdater.cancel();
 	}
 	
 	// ------ GOLD ------

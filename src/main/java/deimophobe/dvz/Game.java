@@ -74,12 +74,12 @@ public class Game {
 	
 	private Game() {
 		Bukkit.getScheduler().cancelTasks(DvZPlugin.getPlugin());
+		Loadout.restartAutoSaver();
 		
 		Game oldGame = game;
 		game = this;
 		
-		map = MapManager.getManager().loadNextMap();
-		
+		// Setup scoreboards and teams
 		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
 		Objective oldObj = board.getObjective(OBJ_NAME);
 		if (oldObj != null)
@@ -99,6 +99,9 @@ public class Game {
 		bossBar.setProgress(1);
 		
 		
+		map = MapManager.getManager().loadNextMap();
+		
+		
 		dwarfManager = new DwarfManager();
 		monsterManager = new MonsterManager();
 		DvZPlugin.getPlugin().updateManagers();
@@ -114,8 +117,6 @@ public class Game {
 		monsterManager.stop();
 		GlobalUpgrade.reset();
 		TimedBlock.cancelAllBlocks();
-		
-		Loadout.restartAutoSaver();
 		
 		MapManager.getManager().unloadMap(map);
 	}

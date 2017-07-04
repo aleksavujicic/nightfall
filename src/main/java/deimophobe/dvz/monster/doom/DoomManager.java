@@ -41,7 +41,8 @@ public class DoomManager {
 	}
 	
 	public void stop() {
-		runner.cancel();
+		if (Game.getGame().getPhase().hasGameStarted())
+			runner.cancel();
 	}
 	
 	private void resetDoomTimers() {

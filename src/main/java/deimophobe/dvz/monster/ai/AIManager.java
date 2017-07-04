@@ -44,8 +44,8 @@ public class AIManager {
 	private final static int UPDATE_FREQ =  3*20;
 	
 	
-	private Team aiTeam;
-	private BukkitRunnable runner;
+	private final Team aiTeam;
+	private final BukkitRunnable runner;
 	
 	public AIManager() {
 		runner = new BukkitRunnable() {
@@ -73,7 +73,8 @@ public class AIManager {
 	}
 	
 	public void stop() {
-		runner.cancel();
+		if (Game.getGame().getPhase().hasGameStarted())
+			runner.cancel();
 		removeAllAIs();
 	}
 	
