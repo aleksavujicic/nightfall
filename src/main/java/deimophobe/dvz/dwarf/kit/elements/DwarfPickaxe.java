@@ -1,5 +1,6 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
+import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.blocks.blocktype.BlockType;
 import deimophobe.dvz.dwarf.Dwarf;
@@ -9,8 +10,8 @@ import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.dwarf.consumable.ConsumableType;
 import deimophobe.dvz.effects.GameEffect;
 import deimophobe.dvz.items.CustomItem;
-import deimophobe.dvz.shrine.Shrine;
-import deimophobe.dvz.shrine.ShrineManager;
+import deimophobe.dvz.map.GameMap;
+import deimophobe.dvz.map.region.Region;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -40,8 +41,9 @@ class DwarfPickaxe extends AbstractItem {
 		if (Misc.isRightClick(action) && cooldown == 0) {
 			// PICK REPAIRING ANOTHER DWARF
 			Dwarf repairee = dwarf.getLookingAt(2, 5, DwarfManager.getManager().getGamePlayers(), (d) -> !d.getArmour().isAtMax());
-			Shrine shrine = ShrineManager.getManager().getShrine();
-			if (repairee != null && (shrine.getShrineRegion().containsPlayer(repairee) || shrine.getShrineProtection().containsPlayer(repairee)) && ShrineManager.getManager().useGold(50)) {
+			Region shrineRegion = GameMap.getCurrentMap().getCurrentShrineRegion();
+			Region shrineProtection = GameMap.getCurrentMap().getCurrentShrineProtection();
+			if (repairee != null && (shrineRegion.containsPlayer(repairee) || shrineProtection.containsPlayer(repairee)) && GameMap.getCurrentMap().useGold(50)) {
 				repairee.getArmour().repair(400);
 				GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, repairee);
 				

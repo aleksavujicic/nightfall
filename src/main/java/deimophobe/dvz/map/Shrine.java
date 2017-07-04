@@ -118,12 +118,12 @@ public class Shrine {
 			if (shrineRegion.containsPlayer(dwarf)) {
 				dwarvesOnShrine++;
 				if (!dwarf.getArmour().isAtMax())
-					if (map.useGold(3))
-						dwarf.getArmour().repair(15);
+					if (map.useGold(1))
+						dwarf.getArmour().repair(5);
 			}
 		}
 		
-		map.stealGold(Math.max(4*mobsOnShrine - 3*dwarvesOnShrine, 0));
+		map.stealGold(Math.max(3*mobsOnShrine - 3*dwarvesOnShrine, 0));
 		damageShrine(mobsOnShrine, dwarvesOnShrine);
 		
 		if (shrinePower <= 0)
