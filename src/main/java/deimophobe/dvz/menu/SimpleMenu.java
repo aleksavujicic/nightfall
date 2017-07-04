@@ -2,7 +2,9 @@ package deimophobe.dvz.menu;
 
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Deimophobe on 2/03/17.

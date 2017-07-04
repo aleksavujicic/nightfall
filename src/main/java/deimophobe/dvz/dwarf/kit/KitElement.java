@@ -1,7 +1,7 @@
 package deimophobe.dvz.dwarf.kit;
 
-import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.GameEntity;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 
 /**

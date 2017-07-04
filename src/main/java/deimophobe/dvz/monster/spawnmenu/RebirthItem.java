@@ -2,7 +2,6 @@ package deimophobe.dvz.monster.spawnmenu;
 
 import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.menu.MenuSession;
-import deimophobe.dvz.menu.SimpleItem;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.doom.DoomManager;
 import org.bukkit.ChatColor;

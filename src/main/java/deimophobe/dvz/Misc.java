@@ -9,9 +9,10 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.metadata.Metadatable;
-import org.bukkit.util.*;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
+import org.bukkit.scoreboard.Team;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
@@ -54,13 +55,6 @@ public class Misc {
 		return (type == Action.RIGHT_CLICK_AIR || type == Action.RIGHT_CLICK_BLOCK);
 	}
 	
-	public static Location createLocation(List<Double> doubleList) {
-		if (doubleList.size() >= 4)
-			return new Location(MapManager.getManager().getWorld(), doubleList.get(0), doubleList.get(1), doubleList.get(2),  (float) doubleList.get(3).doubleValue(), 0f);
-		else
-			return new Location(MapManager.getManager().getWorld(), doubleList.get(0), doubleList.get(1) ,doubleList.get(2));
-	}
-	
 	public static Location moveParallel(Location loc, double dist) {
 		double yaw = loc.getYaw() * Math.PI/180;
 		return loc.add(dist*-Math.sin(yaw), 0, dist*Math.cos(yaw));
@@ -79,7 +73,7 @@ public class Misc {
 	}
 	
 	public static YamlConfiguration getInternalFileConfig(String name) {
-		InputStream stream = Game.getGame().getPlugin().getResource(name);
+		InputStream stream = DvZPlugin.getPlugin().getResource(name);
 		return YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
 	}
 	
@@ -145,5 +139,31 @@ public class Misc {
 			Bukkit.getLogger().warning("More than one block face candidate?! (size: " + possibleFaces.size() +", " + possibleFaces.toString() + ")");
 		}
 		return (BlockFace) possibleFaces.toArray()[0];
+	}
+	
+	private static final Set<String> registeredTeams = new HashSet<>();
+	
+	public static Team getNewTeam(String teamName) {
+		registeredTeams.add(teamName);
+		
+		ScoreboardManager manager = Bukkit.getScoreboardManager();
+		Scoreboard board = manager.getMainScoreboard();
+		
+		Team oldTeam = board.getTeam(teamName);
+		if (oldTeam != null)
+			oldTeam.unregister();
+		
+		return board.registerNewTeam(teamName);
+	}
+	
+	public static void removeAllTeams() {
+		ScoreboardManager manager = Bukkit.getScoreboardManager();
+		Scoreboard board = manager.getMainScoreboard();
+		
+		for (String teamName : registeredTeams) {
+			Team team = board.getTeam(teamName);
+			if (team != null)
+				team.unregister();
+		}
 	}
 }

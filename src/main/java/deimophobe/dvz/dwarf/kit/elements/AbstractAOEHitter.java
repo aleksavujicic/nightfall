@@ -1,7 +1,7 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.GameEntity;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.ai.AIEntity;
@@ -33,7 +33,7 @@ abstract class AbstractAOEHitter extends AbstractItem {
 					entity.setVelocity(0, 0.4, 0);
 			}
 		}
-		return damage;
+		return Math.max(damage, getDamageToMonster(monster));
 	}
 	
 	protected abstract double getDamageToMonster(GameEntity entity);

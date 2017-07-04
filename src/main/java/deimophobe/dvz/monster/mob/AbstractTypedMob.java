@@ -1,18 +1,15 @@
 package deimophobe.dvz.monster.mob;
 
-import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.Skin;
+import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.items.modifiers.ItemModifierType;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.upgrade.GlobalUpgrade;
-import deimophobe.dvz.shrine.ShrineManager;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.potion.PotionEffectType;
 
-import java.util.*;
+import java.util.Map;
 
 /**
  * Created by Deimophobe on 18/01/17.

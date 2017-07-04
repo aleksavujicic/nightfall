@@ -7,7 +7,8 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * Created by Deimophobe on 28/03/17.

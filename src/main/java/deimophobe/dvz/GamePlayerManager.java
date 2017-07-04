@@ -1,13 +1,12 @@
 package deimophobe.dvz;
 
-import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterManager;
-import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
@@ -20,21 +19,32 @@ import java.util.*;
 public abstract class GamePlayerManager<P extends GamePlayer> {
 	private final Map<UUID, P> players = new HashMap<>();
 	private final String whoName;
-	private Team mcTeam;
+	private final Team mcTeam;
+	private final BukkitRunnable updateRunner;
 	
-	protected GamePlayerManager(String whoName) {
+	protected GamePlayerManager(String whoName, String teamName, ChatColor teamColour) {
 		this.whoName = whoName;
-	}
-	
-	protected Team setupTeams(String teamName, ChatColor teamColour) {
-		ScoreboardManager manager = Bukkit.getScoreboardManager();
-		Scoreboard board = manager.getMainScoreboard();
 		
-		Team oldTeam = board.getTeam(teamName);
-		if (oldTeam != null)
-			oldTeam.unregister();
+		updateRunner = new BukkitRunnable() {
+			int counter = 0;
+			@Override
+			public void run() {
+				counter++;
+				for (GamePlayer gp : getGamePlayers()) {
+					gp.update(
+							(counter % 5) == 0,
+							(counter % 10) == 0,
+							(counter % 20) == 0,
+							(counter % 40) == 0,
+							(counter % 80) == 0
+					);
+				}
+			}
+		};
+		updateRunner.runTaskTimer(DvZPlugin.getPlugin(), 1, 1);
 		
-		mcTeam = board.registerNewTeam(teamName);
+		// Teams
+		this.mcTeam = Misc.getNewTeam(teamName);
 		
 		mcTeam.setColor(teamColour);
 		mcTeam.setPrefix(String.valueOf(teamColour));
@@ -43,14 +53,17 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		mcTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
 		mcTeam.setCanSeeFriendlyInvisibles(true);
 		mcTeam.setAllowFriendlyFire(false);
-		
-		return mcTeam;
 	}
 	
+	public void stop() {
+		removeAllGamePlayers();
+		updateRunner.cancel();
+	}
+	
+	protected Team getTeam() { return mcTeam; }
 	public void addToTeam(String name) {
 		mcTeam.addEntry(name);
 	}
-	
 	
 	protected abstract P createGamePlayerFromPlayer(Player player);
 	
@@ -70,6 +83,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		players.put(uuid, gamePlayer);
 		addToTeam(player.getName());
 		Game.getGame().updateDwarfCount();
+		Bukkit.getLogger().info("Adding game player: " + player.getName() + " to " + whoName);
 		return gamePlayer;
 	}
 	protected void registerGamePlayer(P player) {
@@ -123,6 +137,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		if (reset) gamePlayer.resetPlayer();
 		mcTeam.removeEntry(gamePlayer.getName());
 		Game.getGame().updateDwarfCount();
+		Bukkit.getLogger().info("Removing game player: " + gamePlayer.getName() + " from " + whoName);
 		
 		return true;
 	}

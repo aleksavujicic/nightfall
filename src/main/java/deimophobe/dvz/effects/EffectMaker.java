@@ -1,6 +1,5 @@
 package deimophobe.dvz.effects;
 
-import deimophobe.dvz.Game;
 import deimophobe.dvz.GamePlayer;
 import org.bukkit.Location;
 import org.bukkit.block.Block;

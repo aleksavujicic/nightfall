@@ -2,8 +2,8 @@ package deimophobe.dvz.monster.mob;
 
 import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.map.GameMap;
 import deimophobe.dvz.monster.MonsterPlayer;
-import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
@@ -37,7 +37,7 @@ public class Bopen extends AbstractTypedMob {
 	
 	@Override
 	public double onHit(Dwarf dwarf, DamageType type, double damage) {
-		ShrineManager.getManager().stealGold(20);
+		GameMap.getCurrentMap().stealGold(20);
 		return damage;
 	}
 	

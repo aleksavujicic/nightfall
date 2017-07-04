@@ -1,8 +1,8 @@
 package deimophobe.dvz.dwarf;
 
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GamePlayerManager;
-import deimophobe.dvz.dwarf.armour.Armour;
 import deimophobe.dvz.dwarf.hero.Hero;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
 import org.bukkit.Bukkit;
@@ -10,7 +10,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -20,48 +19,13 @@ import java.util.Set;
  * Created by Deimophobe on 15/01/17.
  */
 public class DwarfManager extends GamePlayerManager<Dwarf> {
-	private static DwarfManager ourManager = new DwarfManager();
 	public static DwarfManager getManager() {
-		return ourManager;
+		return Game.getGame().getDwarfManager();
 	}
 	
 	public DwarfManager() {
-		super(ChatColor.DARK_AQUA + "DWARVES");
+		super(ChatColor.DARK_AQUA + "Dwarves","dwarves", ChatColor.AQUA);
 	}
-	
-	
-	private BukkitRunnable runner;
-	
-	public void setupManager() {
-		Plugin plugin = Game.getGame().getPlugin();
-		
-		runner = new BukkitRunnable() {
-			int counter = 0;
-			@Override
-			public void run() {
-				counter++;
-				for (Dwarf dwarf : getGamePlayers()) {
-					dwarf.update(
-							(counter % 5) == 0,
-							(counter % 10) == 0,
-							(counter % 20) == 0,
-							(counter % 40) == 0,
-							(counter % 80) == 0
-					);
-				}
-			}
-		};
-		runner.runTaskTimer(plugin, 1, 1);
-		
-		setupTeams("dwarves", ChatColor.DARK_AQUA);
-	}
-	public void reset() {
-		if (runner != null)
-			runner.cancel();
-		removeAllGamePlayers();
-		ourManager = new DwarfManager();
-	}
-	
 	
 	public Dwarf createDwarf(Player player, DwarfData data) {
 		Dwarf dwarf = new Dwarf(player, data);

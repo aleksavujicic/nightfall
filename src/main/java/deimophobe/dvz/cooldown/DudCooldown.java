@@ -1,7 +1,5 @@
 package deimophobe.dvz.cooldown;
 
-import deimophobe.dvz.*;
-
 /**
  * Created by Deimophobe on 20/05/17.
  */

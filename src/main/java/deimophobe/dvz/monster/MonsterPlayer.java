@@ -1,15 +1,18 @@
 package deimophobe.dvz.monster;
 
 import com.connorlinfoot.actionbarapi.ActionBarAPI;
-import deimophobe.dvz.*;
+import deimophobe.dvz.DvZPlugin;
+import deimophobe.dvz.Game;
+import deimophobe.dvz.GameEntity;
+import deimophobe.dvz.GamePlayer;
 import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.map.GameMap;
 import deimophobe.dvz.menu.SessionData;
 import deimophobe.dvz.monster.mob.Bopen;
 import deimophobe.dvz.monster.mob.Mob;
 import deimophobe.dvz.monster.mob.MobType;
 import deimophobe.dvz.monster.mob.Rebirthable;
-import deimophobe.dvz.shrine.ShrineManager;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.bukkit.*;
@@ -37,9 +40,6 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	
 	public MonsterPlayer(Player player) {
 		super(player);
-		
-		entity.sendMessage("You are monster now. Deimo make this cool.");
-		
 		mob = null;
 	}
 	
@@ -50,7 +50,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	}
 	
 	public void resetToMobspawn() {
-		teleportTo(ShrineManager.getManager().getCurrentMobspawn());
+		teleportTo(GameMap.getCurrentMap().getCurrentMobspawn());
 		kill();
 	}
 	
@@ -89,7 +89,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 			public void run() {
 				kill();
 			}
-		}.runTaskLater(Game.getGame().getPlugin(), 1);
+		}.runTaskLater(DvZPlugin.getPlugin(), 1);
 	}
 	
 	public void kill() {
@@ -138,7 +138,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	}
 	
 	public void spawnMob(Mob mob) {
-		spawnMobAt(mob, ShrineManager.getManager().getCurrentMobspawn());
+		spawnMobAt(mob, GameMap.getCurrentMap().getCurrentMobspawn());
 	}
 	
 	public void spawnMobAt(Mob mob, Location location) {
@@ -149,6 +149,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		if (location != null)
 			teleportTo(location);
 		entity.setGameMode(GameMode.SURVIVAL);
+		Bukkit.getLogger().info("Spawning " + getName() + " as a mob.");
 	}
 	
 	// ----- REBIRTH -----
@@ -176,7 +177,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		rebirthKiller = new BukkitRunnable() {
 			@Override public void run() {removeRebirth();}
 		};
-		rebirthKiller.runTaskLater(Game.getGame().getPlugin(), REBIRTH_TIME);
+		rebirthKiller.runTaskLater(DvZPlugin.getPlugin(), REBIRTH_TIME);
 	}
 	
 	public void rebirth() {
@@ -248,6 +249,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		Game.getGame().setMana(entity, experience);
 	}
 	
+	
+	private boolean inShrine;
+	public boolean isInShrine() {return inShrine;}
+	public void setInShrine(boolean inShrine) {this.inShrine = inShrine;}
 	
 	
 	// ------ SPAWN/UPGRADE MENUS ------
@@ -393,7 +398,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 			public void run() {
 				cancelFreeze();
 			}
-		}.runTaskLater(Game.getGame().getPlugin(), time);
+		}.runTaskLater(DvZPlugin.getPlugin(), time);
 		
 		// Snap back into place if fast moving and lag changed position.
 		new BukkitRunnable() {
@@ -401,7 +406,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 			public void run() {
 				resetFrozen();
 			}
-		}.runTaskLater(Game.getGame().getPlugin(), 5);
+		}.runTaskLater(DvZPlugin.getPlugin(), 5);
 	}
 	
 	private void cancelFreeze() {
@@ -473,9 +478,5 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		meta.setLore(lore);
 		
 		seppuku.setItemMeta(meta);
-	}
-	
-	private boolean isInShrine() {
-		return ShrineManager.getManager().getShrine().getShrineRegion().containsPlayer(this);
 	}
 }

@@ -3,21 +3,18 @@ package deimophobe.dvz;
 import deimophobe.dvz.blocks.BlockConverter;
 import deimophobe.dvz.blocks.BlockManager;
 import deimophobe.dvz.blocks.blocktype.BlockType;
+import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.loadout.LoadoutMenu;
+import deimophobe.dvz.map.GameMap;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIEntity;
-import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import deimophobe.dvz.monster.mob.Bopen;
-import deimophobe.dvz.shrine.ShrineManager;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
@@ -38,8 +35,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
 /**
@@ -51,9 +46,7 @@ public class GameListener implements Listener {
 	private DwarfManager dm;
 	private MonsterManager mm;
 
-	public GameListener() {
-		updateManagers();
-	}
+	public GameListener() {}
 	
 	public void updateManagers() {
 		game = Game.getGame();
@@ -66,7 +59,7 @@ public class GameListener implements Listener {
 		Player player = event.getPlayer();
 		
 		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(1024);
-		ShrineManager.getManager().giveShrineBarToPlayer(player);
+		Game.getGame().giveShrineBarToPlayer(player);
 		
 		if (player.isDead())
 			return;
@@ -170,7 +163,7 @@ public class GameListener implements Listener {
 						public void run() {
 							game.resetPlayer(player);
 						}
-					}.runTaskLater(game.getPlugin(), 20);
+					}.runTaskLater(DvZPlugin.getPlugin(), 20);
 				}
 				return;
 			}
@@ -397,7 +390,7 @@ public class GameListener implements Listener {
 					arrow.teleport(arrow.getLocation().add(-0.15*Math.cos(yaw), 0, 0.15*Math.sin(yaw)));
 					
 					// Label it with force
-					arrow.setMetadata("force", new FixedMetadataValue(game.getPlugin(), event.getForce()));
+					arrow.setMetadata("force", new FixedMetadataValue(DvZPlugin.getPlugin(), event.getForce()));
 					
 					// FIRE
 					Projectile newProj = gp.onBowFire(arrow, event.getForce());
@@ -449,7 +442,7 @@ public class GameListener implements Listener {
 			// Delayed to prevent concurrent modification exceptions hopefully ._.
 			new BukkitRunnable() {
 				@Override public void run() {dm.removeGamePlayer(dwarf, true);}
-			}.runTaskLater(game.getPlugin(), 1);
+			}.runTaskLater(DvZPlugin.getPlugin(), 1);
 		}
 	}
 	
@@ -462,7 +455,7 @@ public class GameListener implements Listener {
 				public void run() {
 					Game.getGame().resetPlayer(event.getPlayer());
 				}
-			}.runTaskLater(Game.getGame().getPlugin(), 10);
+			}.runTaskLater(DvZPlugin.getPlugin(), 10);
 			
 		} else {
 			new BukkitRunnable() {
@@ -471,9 +464,9 @@ public class GameListener implements Listener {
 					MonsterPlayer mp = mm.addGamePlayer(event.getPlayer());
 					mp.kill();
 				}
-			}.runTaskLater(Game.getGame().getPlugin(), 10);
+			}.runTaskLater(DvZPlugin.getPlugin(), 10);
 		}
-		event.setRespawnLocation(ShrineManager.getManager().getLobbySpawn());
+		event.setRespawnLocation(GameMap.getCurrentMap().getLobbySpawn());
 	}
 	
 	@EventHandler

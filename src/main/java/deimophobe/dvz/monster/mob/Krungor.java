@@ -1,6 +1,6 @@
 package deimophobe.dvz.monster.mob;
 
-import deimophobe.dvz.Game;
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
@@ -89,7 +89,7 @@ class Krungor extends AbstractTypedMob {
 					radius++;
 					if (radius > MAX_BLOCKS) this.cancel();
 				}
-			}.runTaskTimer(Game.getGame().getPlugin(), 0, 2);
+			}.runTaskTimer(DvZPlugin.getPlugin(), 0, 2);
 			
 			
 			cooldown = MAX_CD;
@@ -123,7 +123,7 @@ class Krungor extends AbstractTypedMob {
 					if (lifetime == 0)
 						this.cancel();
 				}
-			}.runTaskTimer(Game.getGame().getPlugin(), 0, 2);
+			}.runTaskTimer(DvZPlugin.getPlugin(), 0, 2);
 		}
 	}
 	

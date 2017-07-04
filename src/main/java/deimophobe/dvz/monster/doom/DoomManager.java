@@ -1,52 +1,47 @@
 package deimophobe.dvz.monster.doom;
 
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.Game;
-import deimophobe.dvz.MapManager;
 import deimophobe.dvz.Misc;
-import deimophobe.dvz.Phase;
+import deimophobe.dvz.map.GameMap;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
-import deimophobe.dvz.monster.ai.AIManager;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Deimophobe on 27/01/17.
  */
 public class DoomManager {
-	private static DoomManager manager = new DoomManager();
 	public static DoomManager getManager() {
-		return manager;
+		return Game.getGame().getMonsterManager().getDoomManager();
 	}
-	
-	private DoomManager() {}
 	
 	private int doomTimer;
 	private int internalDoomTimer;
 	
 	private List<DoomType> occuredDooms = new ArrayList<>();
 	
-	private BukkitRunnable runner;
-	public void setup() {
-		resetDoomTimers();
-		
-		runner = new BukkitRunnable() {
+	private final BukkitRunnable runner;
+	public DoomManager() {
+		this.runner = new BukkitRunnable() {
 			@Override
 			public void run() {
 				updateDoom();
 			}
 		};
-		runner.runTaskTimer(Game.getGame().getPlugin(), 20, 20);
 	}
 	
-	public void reset() {
-		if (runner != null)
-			runner.cancel();
-		manager = new DoomManager();
+	public void start() {
+		resetDoomTimers();
+		runner.runTaskTimer(DvZPlugin.getPlugin(), 20, 20);
+	}
+	
+	public void stop() {
+		runner.cancel();
 	}
 	
 	private void resetDoomTimers() {
@@ -65,7 +60,7 @@ public class DoomManager {
 				doomTimer--;
 			
 			if (doomTimer == 0) {
-				MapManager.getManager().getWorld().setTime(18000);
+				GameMap.getCurrentMap().getWorld().setTime(18000);
 				isDoom = true;
 				
 				showDoomMessage();

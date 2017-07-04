@@ -2,7 +2,6 @@ package deimophobe.dvz.items.base;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.PotionMeta;
 
 /**
  * Created by Deimophobe on 15/04/17.

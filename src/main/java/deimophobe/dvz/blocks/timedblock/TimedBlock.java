@@ -1,9 +1,8 @@
 package deimophobe.dvz.blocks.timedblock;
 
-import deimophobe.dvz.Game;
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.GamePlayer;
-import deimophobe.dvz.blocks.BlockManager;
 import deimophobe.dvz.blocks.blocktype.BlockType;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -55,7 +54,7 @@ public abstract class TimedBlock {
 				onDestroy(false);
 			}
 		};
-		runnable.runTaskLater(Game.getGame().getPlugin(), lifeTime);
+		runnable.runTaskLater(DvZPlugin.getPlugin(), lifeTime);
 		onPlace();
 	}
 	

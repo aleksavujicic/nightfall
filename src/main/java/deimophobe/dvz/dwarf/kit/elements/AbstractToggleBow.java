@@ -1,6 +1,6 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.Game;
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import org.bukkit.block.Block;
@@ -23,7 +23,7 @@ public abstract class AbstractToggleBow extends AbstractBow {
 	public Projectile onBowFire(Projectile arrow, float force) {
 		arrow = super.onBowFire(arrow, force);
 		if (active) {
-			arrow.setMetadata(ARROW_METADATA_KEY, new FixedMetadataValue(Game.getGame().getPlugin(), true));
+			arrow.setMetadata(ARROW_METADATA_KEY, new FixedMetadataValue(DvZPlugin.getPlugin(), true));
 		}
 		return arrow;
 	}

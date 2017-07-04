@@ -1,7 +1,5 @@
 package deimophobe.dvz.items.modifiers;
 
-import org.bukkit.inventory.ItemStack;
-
 /**
  * Created by Deimophobe on 27/04/17.
  */

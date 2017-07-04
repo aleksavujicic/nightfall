@@ -1,12 +1,15 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.Game;
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitCooldownElement;
 import deimophobe.dvz.items.CustomItem;
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
@@ -87,7 +90,7 @@ class Warpweaver extends AbstractBow implements KitCooldownElement {
 	public Projectile onBowFire(Projectile arrow, float force) {
 		arrow = super.onBowFire(arrow, force);
 		if (canWarp() && active) {
-			arrow.setMetadata(ARROW_METADATA_KEY, new FixedMetadataValue(Game.getGame().getPlugin(), true));
+			arrow.setMetadata(ARROW_METADATA_KEY, new FixedMetadataValue(DvZPlugin.getPlugin(), true));
 		}
 		return arrow;
 	}

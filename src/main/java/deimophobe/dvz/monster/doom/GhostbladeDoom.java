@@ -1,7 +1,6 @@
 package deimophobe.dvz.monster.doom;
 
 import deimophobe.dvz.monster.MonsterManager;
-import deimophobe.dvz.monster.mob.MobType;
 import org.bukkit.configuration.ConfigurationSection;
 
 /**

@@ -1,9 +1,9 @@
 package deimophobe.dvz.dwarf.loadout;
 
 import deimophobe.dvz.Hat;
-import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.dwarf.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
+import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.items.lore.LoreTemplate;
 import deimophobe.dvz.menu.MenuItem;
 import deimophobe.dvz.menu.MenuSession;
@@ -12,7 +12,10 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 7/03/17.

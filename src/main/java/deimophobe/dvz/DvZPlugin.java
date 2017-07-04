@@ -1,6 +1,11 @@
 package deimophobe.dvz;
 
-import deimophobe.dvz.blocks.timedblock.TimedBlock;
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.EnumWrappers;
 import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
@@ -12,6 +17,8 @@ import deimophobe.dvz.dwarf.loadout.Loadout;
 import deimophobe.dvz.dwarf.loadout.LoadoutMenu;
 import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.items.ItemManager;
+import deimophobe.dvz.map.GameMap;
+import deimophobe.dvz.map.MapManager;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.ai.AIManager;
@@ -20,7 +27,6 @@ import deimophobe.dvz.monster.doom.DoomType;
 import deimophobe.dvz.monster.mob.MobType;
 import deimophobe.dvz.plague.Plague;
 import deimophobe.dvz.plague.PlagueType;
-import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -28,7 +34,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -38,34 +43,42 @@ import java.util.*;
  * Created by Deimophobe on 15/01/17.
  */
 public class DvZPlugin extends JavaPlugin {
-	private Game game = Game.getGame();
-	private DwarfManager dm = DwarfManager.getManager();
-	private MonsterManager mm = MonsterManager.getManager();
+	
+	private static DvZPlugin plugin;
+	private GameListener gl;
+	
+	public static DvZPlugin getPlugin() {return plugin;}
+	
+	private Game game;
+	private DwarfManager dm;
+	private MonsterManager mm;
 	
 	@Override
 	public void onEnable() {
 		//Bukkit.getLogger().info("AYYYY LMAO");
-		game.setupGame(this);
+		plugin = this;
 		
+		gl = new GameListener();
+		Bukkit.getPluginManager().registerEvents(gl, DvZPlugin.getPlugin());
+		
+		setupPacketEvents();
+		Loadout.setupLoadouts();
+		
+		
+		Game.createGame();
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			Game.getGame().resetPlayer(player);
+			game.resetPlayer(player);
 		}
 	}
 
 	@Override
 	public void onDisable() {
-		//Fired when the server stops and disables all plugins
-		Bukkit.getScoreboardManager().getMainScoreboard().getTeam("dwarves").unregister();
-		Bukkit.getScoreboardManager().getMainScoreboard().getTeam("mobs").unregister();
-		Bukkit.getScoreboardManager().getMainScoreboard().getObjective("MySidebar").unregister();
-		AIManager.getManager().removeAllAIs();
-		ShrineManager.getManager().removeShrineBar();
-		TimedBlock.cancelAllBlocks();
 		Loadout.saveLoadouts();
+		game.stop();
+		Misc.removeAllTeams();
 		
-		MapManager.getManager().deleteAllGameWorlds();
+		
 		World mainWorld = Bukkit.getWorlds().get(0);
-		
 		if (MapManager.getManager().isEnabled()) {
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				player.teleport(mainWorld.getSpawnLocation());
@@ -81,7 +94,40 @@ public class DvZPlugin extends JavaPlugin {
 		game = Game.getGame();
 		dm = DwarfManager.getManager();
 		mm = MonsterManager.getManager();
+		gl.updateManagers();
 	}
+	
+	private void setupPacketEvents() {
+		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+		protocolManager.addPacketListener(new PacketAdapter(DvZPlugin.getPlugin(), PacketType.Play.Server.ENTITY_EQUIPMENT) {
+			@Override
+			public void onPacketSending(PacketEvent event) {
+				EnumWrappers.ItemSlot slot = event.getPacket().getItemSlots().read(0);
+				if (slot == EnumWrappers.ItemSlot.OFFHAND) {
+					event.setCancelled(true);
+				}
+			}
+		});
+		
+		protocolManager.addPacketListener(new PacketAdapter(DvZPlugin.getPlugin(), PacketType.Play.Server.NAMED_SOUND_EFFECT) {
+			@Override
+			public void onPacketSending(PacketEvent event) {
+				Sound sound = event.getPacket().getSoundEffects().read(0);
+				switch (sound) {
+					case ENTITY_PLAYER_ATTACK_CRIT:
+					case ENTITY_PLAYER_ATTACK_KNOCKBACK:
+					case ENTITY_PLAYER_ATTACK_NODAMAGE:
+					case ENTITY_PLAYER_ATTACK_STRONG:
+					case ENTITY_PLAYER_ATTACK_SWEEP:
+					case ENTITY_PLAYER_ATTACK_WEAK:
+						event.setCancelled(true);
+				}
+			}
+		});
+	}
+	
+	
+	// ~~~~~ COMMAND STUFF ~~~~~
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
@@ -485,7 +531,7 @@ public class DvZPlugin extends JavaPlugin {
 			if (sender instanceof Player) {
 				Player player = (Player) sender;
 				if (Game.getGame().isLobbyPlayer(player)) {
-					player.teleport(ShrineManager.getManager().getDwarfSpawn());
+					player.teleport(GameMap.getCurrentMap().getDwarfSpawn());
 				}
 				
 				return true;
@@ -546,9 +592,10 @@ public class DvZPlugin extends JavaPlugin {
 			return true;
 		}
 		
+		/*
 		if (name.equalsIgnoreCase("loadmap")) {
 			if (!MapManager.getManager().isEnabled()) {
-				sender.sendMessage(ChatColor.RED + "Map loading is currently disabled.");
+				sender.sendMessage(ChatColor.RED + "GameMap loading is currently disabled.");
 				return true;
 			}
 			if (args.length == 0) {
@@ -569,6 +616,7 @@ public class DvZPlugin extends JavaPlugin {
 				return true;
 			}
 		}
+		*/
 		if (name.equalsIgnoreCase("enableMapLoading")) {
 			try {
 				MapManager.getManager().setMapsEnabled(true);
@@ -603,6 +651,7 @@ public class DvZPlugin extends JavaPlugin {
 				return true;
 			}
 
+			/*
 			if (args.length == 1) {
 				if (args[0].equalsIgnoreCase("kill")) {
 					ShrineManager.getManager().commandDamageShrine(100);
@@ -630,6 +679,8 @@ public class DvZPlugin extends JavaPlugin {
 				}
 			}
 			return false;
+			*/
+			throw new UnsupportedOperationException("Deimo fix this later");
 		}
 		return false;
 	}

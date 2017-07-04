@@ -5,7 +5,6 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockSpreadEvent;
 
 /**
  * Created by Deimophobe on 10/03/17.

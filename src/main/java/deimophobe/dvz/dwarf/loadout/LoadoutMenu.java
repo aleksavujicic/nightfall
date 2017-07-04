@@ -1,7 +1,7 @@
 package deimophobe.dvz.dwarf.loadout;
 
-import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.Misc;
+import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.items.lore.LoreTemplate;
 import deimophobe.dvz.menu.*;
 import minecraft.spigot.community.michel_0.api.Slot;

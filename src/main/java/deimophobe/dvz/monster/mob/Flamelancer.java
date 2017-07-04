@@ -1,6 +1,6 @@
 package deimophobe.dvz.monster.mob;
 
-import deimophobe.dvz.Game;
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
@@ -48,7 +48,7 @@ class Flamelancer extends SkeletonMob {
 		final int arrowsToFire = (int) (ARROWS_FIRED*(force*force*force));
 		for (int i=0; i<arrowsToFire; i++) {
 			Arrow newArrow = world.spawnArrow(arrow.getLocation(), arrow.getVelocity(), force*2, 30f);
-			newArrow.setMetadata("force", new FixedMetadataValue(Game.getGame().getPlugin(), force));
+			newArrow.setMetadata("force", new FixedMetadataValue(DvZPlugin.getPlugin(), force));
 			newArrow.setPickupStatus(Arrow.PickupStatus.DISALLOWED);
 			newArrow.setShooter(monster.getPlayer());
 			newArrow.setCritical(false);

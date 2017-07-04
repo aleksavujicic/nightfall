@@ -1,18 +1,17 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.Game;
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.items.CustomItem;
-import deimophobe.dvz.shrine.CompassLocation;
-import deimophobe.dvz.shrine.ShrineManager;
+import deimophobe.dvz.map.CompassLocation;
+import deimophobe.dvz.map.GameMap;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -35,7 +34,7 @@ class DwarfCompass extends AbstractItem {
 		if (!canUse) return false;
 		
 		// Get compass list
-		List<CompassLocation> locations = ShrineManager.getManager().getCompassLocations();
+		List<CompassLocation> locations = GameMap.getCurrentMap().getCompassLocations();
 		
 		// Change index
 		if (dwarf.getPlayer().isSneaking())
@@ -54,7 +53,7 @@ class DwarfCompass extends AbstractItem {
 		canUse = false;
 		new BukkitRunnable() {
 			@Override public void run() {canUse = true;}
-		}.runTaskLater(Game.getGame().getPlugin(), 4);
+		}.runTaskLater(DvZPlugin.getPlugin(), 4);
 		
 		return true;
 	}

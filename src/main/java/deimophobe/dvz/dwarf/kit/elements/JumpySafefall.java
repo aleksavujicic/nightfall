@@ -1,7 +1,7 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.GameEntity;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;

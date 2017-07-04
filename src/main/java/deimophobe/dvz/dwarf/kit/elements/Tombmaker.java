@@ -1,6 +1,9 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.*;
+import deimophobe.dvz.Game;
+import deimophobe.dvz.GameEntity;
+import deimophobe.dvz.Misc;
+import deimophobe.dvz.Phase;
 import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
@@ -12,7 +15,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 /**

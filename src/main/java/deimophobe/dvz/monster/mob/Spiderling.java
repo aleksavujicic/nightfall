@@ -1,8 +1,8 @@
 package deimophobe.dvz.monster.mob;
 
-import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.blocks.BlockConverter;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Location;

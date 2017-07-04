@@ -1,13 +1,20 @@
-package deimophobe.dvz.shrine;
+package deimophobe.dvz.map;
 
-import deimophobe.dvz.MapManager;
+import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
-import deimophobe.dvz.shrine.region.CenteredRegion;
-import deimophobe.dvz.shrine.region.Region;
+import deimophobe.dvz.damage.DamageType;
+import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.dwarf.ProcType;
+import deimophobe.dvz.map.region.Region;
+import deimophobe.dvz.monster.MonsterManager;
+import deimophobe.dvz.monster.MonsterPlayer;
+import deimophobe.dvz.monster.ai.AIManager;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.FallingBlock;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import java.util.HashSet;
@@ -17,7 +24,11 @@ import java.util.Set;
  * Created by Deimophobe on 21/01/17.
  */
 public class Shrine {
+	private final GameMap map;
+	
 	private final String name;
+	private final String fallName;
+	
 	private final Location mobSpawn;
 	
 	private final Region mobProtection;
@@ -31,6 +42,8 @@ public class Shrine {
 	
 	private final double goldWeight;
 	private final int shrineNum;
+	
+	private final int swapoverDelay;
 
 	public String getName() {
 		return name;
@@ -55,44 +68,77 @@ public class Shrine {
 	
 	public double getGoldWeight() { return goldWeight; }
 	
-	public Shrine(String name, Location mobSpawn, Region mobProtection, Region shrineProtection, Region shrineRegion, Location shrineCenter, int maxShrinePower, double goldWeight, int shrineNum) {
-		this.name = name;
-		this.mobSpawn = mobSpawn;
-		this.mobProtection = mobProtection;
-		this.shrineProtection = shrineProtection;
-		this.shrineRegion = shrineRegion;
-		this.shrineCenter = shrineCenter;
+	public Shrine(GameMap map, ConfigurationSection section, int shrineNum) throws InvalidMapConfigException {
+		this.map = map;
 		
-		this.shrinePower = maxShrinePower;
-		this.maxShrinePower = maxShrinePower;
-		this.goldWeight = goldWeight;
+		this.name = section.getString("name");
+		this.fallName = "THE " + name.toUpperCase();
+		this.mobSpawn = map.getLocation(section, "mobspawn");
+		
+		this.mobProtection = Region.createRegion(map, section.getConfigurationSection("mobprot"));
+		this.shrineProtection = Region.createRegion(map, section.getConfigurationSection("shrineprot"));
+		this.shrineRegion = Region.createRegion(map, section.getConfigurationSection("shrine"));
+		
+		this.shrineCenter = map.getLocation(section, "shrine.center");
+		
+		this.maxShrinePower = section.getInt("power");
+		this.goldWeight = section.getDouble("goldweight");
+		
 		this.shrineNum = shrineNum;
+		
+		this.swapoverDelay = section.getInt("delay");
+		
+		// TODO sanitise inputs
 	}
 	
-	public static Shrine createShrine(ConfigurationSection section, int shrineNum) {
-		
-		String name = section.getString("name");
-		Location mobSpawn = Misc.createLocation(section.getDoubleList("mobspawn"));
-		
-		Region mobProt = Region.createRegion(section.getConfigurationSection("mobprot"));
-		Region shrineProt = Region.createRegion(section.getConfigurationSection("shrineprot"));
-		Region shrine = Region.createRegion(section.getConfigurationSection("shrine"));
-		
-		Location shrineCenter = Misc.createLocation(section.getDoubleList("shrine.center"));
-		
-		int maxShrinePower = section.getInt("power");
-		double goldWeight = section.getDouble("goldweight");
-
-		return new Shrine(name, mobSpawn, mobProt, shrineProt, shrine, shrineCenter, maxShrinePower, goldWeight, shrineNum);
+	public int getSwapoverDelay() {
+		return swapoverDelay;
 	}
 	
-	public boolean damageShrine(int mobNum, int dwarfNum) {
+	public void update() {
+		int mobsOnShrine = 0;
+		int dwarvesOnShrine = 0;
+		for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
+			if (shrineProtection.containsPlayer(monster)) {
+				if (!monster.getMob().isShrineImmune()) {
+					monster.customDamage(null, DamageType.SHRINE_PROTECTION, 10000);
+					Location loc = monster.getLocation();
+					loc.getWorld().strikeLightningEffect(loc);
+				}
+			}
+			
+			boolean inShrine = shrineRegion.containsPlayer(monster);
+			monster.setInShrine(inShrine);
+			if (inShrine) {
+				mobsOnShrine++;
+			}
+			
+		}
+		for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
+			if (shrineRegion.containsPlayer(dwarf)) {
+				dwarvesOnShrine++;
+				if (!dwarf.getArmour().isAtMax())
+					if (map.useGold(1))
+						dwarf.getArmour().repair(5);
+			}
+		}
+		
+		map.stealGold(Math.max(3*mobsOnShrine - 3*dwarvesOnShrine, 0));
+		damageShrine(mobsOnShrine, dwarvesOnShrine);
+		
+		if (shrinePower <= 0)
+			killShrine();
+		else
+			Game.getGame().setShrineBarPower((double) shrinePower/maxShrinePower);
+	}
+	
+	private void damageShrine(int mobNum, int dwarfNum) {
 		int damage = 0;
 		int recovery = 0;
 		// Making shrines a bit stronger
 		if (shrineNum == 0) {
 			dwarfNum += 0;
-		} else if ((shrineNum + 1) == ShrineManager.getManager().getNumShrines()) {
+		} else if ((shrineNum + 1) == map.getNumShrines()) {
 			dwarfNum += 0;
 
 			// Final shrine should not fall until most dwarves are dead
@@ -123,7 +169,7 @@ public class Shrine {
 		}
 		// At 500 gold shrine regen drops off linearly until at 100 gold to 20% regen speed, also recovery is always nonnegative
 		if (recovery > 0) {
-			recovery = recovery * Math.max(100, Math.min(500, ShrineManager.getManager().getGold())) / 500;
+			recovery = recovery * Math.max(100, Math.min(500, map.getGold())) / 500;
 		}
 		else
 		{
@@ -139,7 +185,6 @@ public class Shrine {
 		if (shrinePower > maxShrinePower){
 			shrinePower = maxShrinePower;
 		}
-		return (shrinePower <= 0);
 	}
 
 	public boolean damageShrine(int damage) {
@@ -149,10 +194,30 @@ public class Shrine {
 		}
 		return (shrinePower <= 0);
 	}
-
-	public float getFractionalShrinePower() {
-		return (float) shrinePower/maxShrinePower;
+	
+	
+	private void killShrine() {
+		if (MapManager.getManager().isEnabled())
+			explodeShrine();
+		Bukkit.broadcastMessage(ChatColor.GOLD + "==================================================");
+		Bukkit.broadcastMessage(ChatColor.YELLOW + fallName + " HAS FALLEN!");
+		Bukkit.broadcastMessage(ChatColor.GOLD + "==================================================");
+		AIManager.getManager().removeAllAIs();
+		
+		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
+			dwarf.giveProc(ProcType.SHRINE_FALL);
+			dwarf.getArmour().repair(1000);
+			dwarf.regenMana(200);
+		}
+		for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
+			monster.givePotionEffect(PotionEffectType.SLOW, 180, 3, true, false, true);
+			monster.givePotionEffect(PotionEffectType.CONFUSION, 180, 1, true, false, true);
+			monster.forceGainXP(500);
+		}
+		
+		map.changeShrine();
 	}
+	
 	
 	void explodeShrine() {
 		World world = shrineCenter.getWorld();

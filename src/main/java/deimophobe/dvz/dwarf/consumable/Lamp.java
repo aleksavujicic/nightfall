@@ -1,8 +1,8 @@
 package deimophobe.dvz.dwarf.consumable;
 
-import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.blocks.timedblock.LampBlock;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
+import deimophobe.dvz.dwarf.Dwarf;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;

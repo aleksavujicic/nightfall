@@ -1,8 +1,8 @@
 package deimophobe.dvz.plague;
 
-import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.Phase;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.mob.AbstractMob;

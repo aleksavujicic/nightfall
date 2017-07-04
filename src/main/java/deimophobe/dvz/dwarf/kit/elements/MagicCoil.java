@@ -1,12 +1,9 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
-import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashSet;
 import java.util.Set;

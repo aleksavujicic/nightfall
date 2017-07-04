@@ -1,14 +1,17 @@
 package deimophobe.dvz.monster.mob;
 
-import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.Misc;
+import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.items.lore.LoreTemplate;
 import deimophobe.dvz.items.modifiers.ItemModifierType;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 27/01/17.

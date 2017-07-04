@@ -2,8 +2,6 @@ package deimophobe.dvz.menu;
 
 import org.bukkit.inventory.ItemStack;
 
-import java.awt.*;
-
 /**
  * Created by Deimophobe on 16/06/17.
  */

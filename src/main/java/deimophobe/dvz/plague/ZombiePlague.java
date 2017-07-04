@@ -1,6 +1,6 @@
 package deimophobe.dvz.plague;
 
-import deimophobe.dvz.Game;
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
@@ -64,7 +64,7 @@ class ZombiePlague extends AbstractPlague {
 				numZombiesAlive++;
 				
 			}
-		}.runTaskLater(Game.getGame().getPlugin(), SICK_MSG_TIME);
+		}.runTaskLater(DvZPlugin.getPlugin(), SICK_MSG_TIME);
 		
 		if (getAmountToKill() == 0) {
 			new BukkitRunnable() {
@@ -72,7 +72,7 @@ class ZombiePlague extends AbstractPlague {
 				public void run() {
 					notifyEnd();
 				}
-			}.runTaskLater(Game.getGame().getPlugin(), 600);
+			}.runTaskLater(DvZPlugin.getPlugin(), 600);
 		}
 	}
 	

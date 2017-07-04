@@ -1,12 +1,8 @@
 package deimophobe.dvz.blocks;
 
-import deimophobe.dvz.Game;
 import deimophobe.dvz.GamePlayer;
-import deimophobe.dvz.Phase;
 import deimophobe.dvz.blocks.blocktype.BlockType;
-import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.shrine.region.Region;
-import org.bukkit.*;
+import deimophobe.dvz.map.region.Region;
 import org.bukkit.block.Block;
 
 import java.util.HashSet;

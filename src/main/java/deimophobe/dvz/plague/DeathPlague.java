@@ -1,10 +1,9 @@
 package deimophobe.dvz.plague;
 
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.damage.DamageType;
-import deimophobe.dvz.Game;
-import deimophobe.dvz.MapManager;
 import deimophobe.dvz.dwarf.Dwarf;
-import deimophobe.dvz.shrine.ShrineManager;
+import deimophobe.dvz.map.GameMap;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -26,19 +25,19 @@ class DeathPlague extends AbstractPlague {
 	public void startPlague(Set<Dwarf> plagueables, Set<Dwarf> plagued, int killAmt) {
 		super.startPlague(plagueables, plagued, killAmt);
 		
-		World world = MapManager.getManager().getWorld();
+		World world = GameMap.getCurrentMap().getWorld();
 		
-		Location spawnLoc = ShrineManager.getManager().getDwarfSpawn().clone();
+		Location spawnLoc = GameMap.getCurrentMap().getDwarfSpawn().clone();
 		spawnLoc.setY(0);
 		
 		death = (Enderman) world.spawnEntity(spawnLoc, EntityType.ENDERMAN);
-		death.setMetadata("death", new FixedMetadataValue(Game.getGame().getPlugin(), true));
+		death.setMetadata("death", new FixedMetadataValue(DvZPlugin.getPlugin(), true));
 		death.setAI(false);
 		death.setInvulnerable(true);
 		death.setCollidable(false);
 		death.setSilent(true);
 		death.setRemoveWhenFarAway(false);
-		world.playSound(ShrineManager.getManager().getDwarfSpawn(), Sound.ENTITY_ENDERMEN_STARE, 100, 1);
+		world.playSound(GameMap.getCurrentMap().getDwarfSpawn(), Sound.ENTITY_ENDERMEN_STARE, 100, 1);
 		
 		new BukkitRunnable() {
 			@Override
@@ -56,7 +55,7 @@ class DeathPlague extends AbstractPlague {
 					notifyEnd();
 				}
 			}
-		}.runTaskTimer(Game.getGame().getPlugin(), 160, 40);
+		}.runTaskTimer(DvZPlugin.getPlugin(), 160, 40);
 	}
 	
 	private Dwarf getNearestPlagueable() {

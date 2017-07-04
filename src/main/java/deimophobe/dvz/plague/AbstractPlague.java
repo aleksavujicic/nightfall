@@ -1,7 +1,5 @@
 package deimophobe.dvz.plague;
 
-import deimophobe.dvz.Game;
-import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.Dwarf;
 
 import java.util.Iterator;

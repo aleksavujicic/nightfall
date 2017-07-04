@@ -1,6 +1,6 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.Game;
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
@@ -13,7 +13,6 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -69,7 +68,7 @@ class Wand extends AbstractCooldownItem {
 					}
 					
 				}
-			}.runTaskTimer(Game.getGame().getPlugin(), 0, 2);
+			}.runTaskTimer(DvZPlugin.getPlugin(), 0, 2);
 		}
 	}
 	
@@ -104,7 +103,7 @@ class Wand extends AbstractCooldownItem {
 						this.cancel();
 					}
 				}
-			}.runTaskTimer(Game.getGame().getPlugin(), 0, 1);
+			}.runTaskTimer(DvZPlugin.getPlugin(), 0, 1);
 		}
 	}
 }

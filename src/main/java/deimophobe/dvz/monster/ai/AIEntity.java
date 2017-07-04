@@ -1,12 +1,13 @@
 package deimophobe.dvz.monster.ai;
 
-import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.GameEntity;
-import deimophobe.dvz.MapManager;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
+import deimophobe.dvz.map.GameMap;
 import deimophobe.dvz.monster.MonsterPlayer;
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Zombie;
@@ -20,7 +21,7 @@ import org.bukkit.potion.PotionEffectType;
 public class AIEntity extends GameEntity<Zombie> {
 	
 	private static Zombie spawnZombie(Location location, String name, Dwarf target) {
-		Zombie zombie = (Zombie) MapManager.getManager().getWorld().spawnEntity(location, EntityType.ZOMBIE);
+		Zombie zombie = (Zombie) GameMap.getCurrentMap().getWorld().spawnEntity(location, EntityType.ZOMBIE);
 		zombie.setCustomName(name);
 		
 		int speedLvl = (zombie.isBaby() ? 0 : 3);

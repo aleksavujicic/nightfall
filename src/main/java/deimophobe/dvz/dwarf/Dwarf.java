@@ -5,19 +5,20 @@ import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.armour.Armour;
 import deimophobe.dvz.dwarf.armour.DwarvenArmour;
 import deimophobe.dvz.dwarf.armour.NakedArmour;
+import deimophobe.dvz.dwarf.consumable.Consumable;
+import deimophobe.dvz.dwarf.consumable.ConsumableType;
 import deimophobe.dvz.dwarf.kit.Kit;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
-import deimophobe.dvz.dwarf.consumable.Consumable;
-import deimophobe.dvz.dwarf.consumable.ConsumableType;
+import deimophobe.dvz.map.GameMap;
 import deimophobe.dvz.monster.MonsterPlayer;
-import deimophobe.dvz.GameEntity;
-import deimophobe.dvz.shrine.ShrineManager;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -101,11 +102,11 @@ public class Dwarf extends GamePlayer {
 	
 	public void respawn() {
 		delayedHealMax();
-		teleportTo(ShrineManager.getManager().getDwarfSpawn());
+		teleportTo(GameMap.getCurrentMap().getDwarfSpawn());
 		entity.setFireTicks(0);
 	}
 	
-	public void teleportToFinalAndStrip(Location location) {
+	public void teleportAndStrip(Location location) {
 		teleportTo(location);
 		setArmour(new NakedArmour(this));
 	}
@@ -326,7 +327,7 @@ public class Dwarf extends GamePlayer {
 		}
 		//mobspawn
 		if (quadSec && Game.getGame().getPhase() == Phase.GAME) {
-			boolean inMobspawn = ShrineManager.getManager().getShrine().getMobProtection().containsPlayer(this);
+			boolean inMobspawn = GameMap.getCurrentMap().getCurrentMobProtection().containsPlayer(this);
 			if (inMobspawn) {
 				mobspawnCount++;
 				mobspawnDamage();
@@ -503,7 +504,7 @@ public class Dwarf extends GamePlayer {
 				break;
 				
 			case GOLD_ORE:
-				ShrineManager.getManager().mineGold();
+				GameMap.getCurrentMap().mineGold();
 				float pitch = (float) (Math.random() * 0.8 + 1.1);
 				playSound("block.note.bell", 1f, pitch, false);
 				break;

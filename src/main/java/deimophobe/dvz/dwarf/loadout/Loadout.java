@@ -1,5 +1,6 @@
 package deimophobe.dvz.dwarf.loadout;
 
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.dwarf.kit.elements.KitElementType;
 import deimophobe.dvz.menu.SessionData;
@@ -164,7 +165,7 @@ public class Loadout implements SessionData {
 				saveLoadouts();
 			}
 		};
-		autosaver.runTaskTimer(Game.getGame().getPlugin(), 1200, 1200);
+		autosaver.runTaskTimer(DvZPlugin.getPlugin(), 1200, 1200);
 	}
 	
 	public static void saveLoadouts() {
@@ -184,7 +185,7 @@ public class Loadout implements SessionData {
 	
 	private static final String FILENAME = "loadouts.yml";
 	private static File getLoadoutFile() {
-		return new File(Game.getGame().getPlugin().getDataFolder(), FILENAME);
+		return new File(DvZPlugin.getPlugin().getDataFolder(), FILENAME);
 	}
 	
 	

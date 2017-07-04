@@ -1,9 +1,9 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.damage.DamageType;
-import deimophobe.dvz.Game;
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.Misc;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
@@ -95,7 +95,7 @@ class Wildfire extends AbstractItem {
 					
 					if (lifeLeft <= 0) this.cancel();
 				}
-			}.runTaskTimer(Game.getGame().getPlugin(), 0, FLAME_DELAY);
+			}.runTaskTimer(DvZPlugin.getPlugin(), 0, FLAME_DELAY);
 		}
 	}
 }

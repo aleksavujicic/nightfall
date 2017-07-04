@@ -1,5 +1,6 @@
 package deimophobe.dvz.monster;
 
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.GamePlayerManager;
@@ -7,9 +8,8 @@ import deimophobe.dvz.monster.ai.AIManager;
 import deimophobe.dvz.monster.doom.DoomManager;
 import deimophobe.dvz.monster.mob.MobType;
 import deimophobe.dvz.monster.spawnmenu.SpawnMenu;
-import org.bukkit.*;
-import org.bukkit.entity.*;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
@@ -19,49 +19,33 @@ import java.util.*;
  * Created by Deimophobe on 17/01/17.
  */
 public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
-	private static MonsterManager ourManager = new MonsterManager();
 	public static MonsterManager getManager() {
-		return ourManager;
+		return Game.getGame().getMonsterManager();
 	}
+	
+	private final AIManager aiManager;
+	private final DoomManager doomManager;
+	
+	public AIManager getAiManager() {return aiManager;}
+	public DoomManager getDoomManager() {return doomManager;}
 	
 	public MonsterManager() {
-		super(ChatColor.DARK_RED + "MONSTERS");
-	}
-	
-	
-	private BukkitRunnable runner;
-	public void setupManager() {
-		Plugin plugin = Game.getGame().getPlugin();
+		super(ChatColor.DARK_RED + "MONSTERS", "mobs", ChatColor.DARK_RED);
 		
-		runner = new BukkitRunnable() {
-			int counter = 0;
-			@Override
-			public void run() {
-				counter++;
-				for (MonsterPlayer mob : getGamePlayers()) {
-					mob.update(
-							(counter % 5) == 0,
-							(counter % 10) == 0,
-							(counter % 20) == 0,
-							(counter % 40) == 0,
-							(counter % 80) == 0
-					);
-				}
-			}
-		};
-		runner.runTaskTimer(plugin, 1, 1);
-		
-		Team team = setupTeams("mobs", ChatColor.DARK_RED);
-		team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
+		getTeam().setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
 		
 		menu = new SpawnMenu();
 		GoboQueue = new LinkedList<>();
+		
+		aiManager = new AIManager();
+		doomManager = new DoomManager();
 	}
-	public void reset() {
-		if (runner != null)
-			runner.cancel();
-		removeAllGamePlayers();
-		ourManager = new MonsterManager();
+	
+	@Override
+	public void stop() {
+		super.stop();
+		aiManager.stop();
+		doomManager.stop();
 	}
 	
 	@Override
@@ -96,15 +80,15 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	private SpawnMenu menu;
 	
 	public void onMobRelease() {
-		AIManager.getManager().setup();
-		DoomManager.getManager().setup();
+		aiManager.start();
+		doomManager.start();
 		
 		new BukkitRunnable() {
 			@Override
 			public void run() {
 				menu.updateEggs();
 			}
-		}.runTaskTimer(Game.getGame().getPlugin(), 1, 300);
+		}.runTaskTimer(DvZPlugin.getPlugin(), 1, 300);
 	}
 	
 	public void showMobMenu(MonsterPlayer monster) {

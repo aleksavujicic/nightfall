@@ -1,6 +1,8 @@
 package deimophobe.dvz.monster.spawnmenu;
 
-import deimophobe.dvz.menu.*;
+import deimophobe.dvz.menu.MenuItem;
+import deimophobe.dvz.menu.MultiItem;
+import deimophobe.dvz.menu.SimpleMenu;
 import deimophobe.dvz.monster.MonsterPlayer;
 import deimophobe.dvz.monster.mob.MobType;
 import org.bukkit.configuration.ConfigurationSection;

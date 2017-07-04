@@ -1,8 +1,8 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.Misc;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.DwarvenItems;

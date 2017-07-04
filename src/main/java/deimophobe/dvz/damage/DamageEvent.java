@@ -2,7 +2,7 @@ package deimophobe.dvz.damage;
 
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.GamePlayer;
-import deimophobe.dvz.MapManager;
+import deimophobe.dvz.map.GameMap;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -46,7 +46,7 @@ public class DamageEvent<A extends GameEntity, R extends GameEntity> {
 		this.receiver = receiver;
 		this.force = force;
 		
-		this.time = MapManager.getManager().getWorld().getTime();
+		this.time = GameMap.getCurrentMap().getWorld().getTime();
 		this.itemName = getHeldItemOfDamager(attacker);
 		
 		this.damage = damage;

@@ -1,12 +1,12 @@
 package deimophobe.dvz.monster.mob;
 
-import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
 import deimophobe.dvz.cooldown.ComplexCooldown;
 import deimophobe.dvz.cooldown.Cooldown;
 import deimophobe.dvz.cooldown.DudCooldown;
 import deimophobe.dvz.cooldown.SimpleCooldown;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.items.modifiers.ItemModifierType;
 import deimophobe.dvz.monster.MonsterPlayer;

@@ -1,5 +1,7 @@
-package deimophobe.dvz.shrine.region;
+package deimophobe.dvz.map.region;
 
+import deimophobe.dvz.map.GameMap;
+import deimophobe.dvz.map.InvalidMapConfigException;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -18,12 +20,9 @@ class HalfRegion implements Region {
 	private final Coordinate coordinate;
 	private final double divider;
 	
-	HalfRegion(Coordinate coordinate, double divider) {
-		this.coordinate = coordinate;
-		this.divider = divider;
-	}
-	
-	HalfRegion(ConfigurationSection section) {
+	HalfRegion(GameMap map, ConfigurationSection section) throws InvalidMapConfigException {
+		if (!section.contains("coordinate"))
+			throw new InvalidMapConfigException("Half region must specify coordinate.", section);
 		String coord = section.getString("coordinate");
 		switch (coord) {
 			case "x+":
@@ -45,10 +44,12 @@ class HalfRegion implements Region {
 				coordinate = Coordinate.Z_MINUS;
 				break;
 			default:
-				coordinate = null;
 				Bukkit.getLogger().severe("Half region coordinate unknown: '"+coord+"'");
-				break;
+				throw new InvalidMapConfigException("Invalid coordinate '" + coord + "'.", section);
 		}
+		
+		if (!section.contains("divider"))
+			throw new InvalidMapConfigException("Half region must specify divider.", section);
 		this.divider = section.getDouble("divider");
 	}
 	
@@ -69,7 +70,7 @@ class HalfRegion implements Region {
 			case Z_MINUS:
 				return loc.getZ() <= divider;
 		}
-		Bukkit.getLogger().warning("HalfRegion Coordinate not set properly?!");
+		Bukkit.getLogger().severe("HalfRegion Coordinate not set properly?!");
 		return false;
 	}
 }

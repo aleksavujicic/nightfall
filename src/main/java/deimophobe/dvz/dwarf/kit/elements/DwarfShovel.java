@@ -4,7 +4,6 @@ import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarvenItems;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.items.CustomItem;
-import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by Deimophobe on 28/03/17.

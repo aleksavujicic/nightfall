@@ -1,6 +1,6 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.Game;
+import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.dwarf.Dwarf;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -46,7 +46,7 @@ class RocketBoots extends AbstractCooldown {
 						player.setFlying(false);
 					}
 				}
-			}.runTaskTimer(Game.getGame().getPlugin(), 0, 2);
+			}.runTaskTimer(DvZPlugin.getPlugin(), 0, 2);
 			
 			resetCooldown();
 		}

@@ -1,7 +1,10 @@
-package deimophobe.dvz.shrine.region;
+package deimophobe.dvz.map.region;
 
+import deimophobe.dvz.Game;
 import deimophobe.dvz.GameEntity;
 import deimophobe.dvz.GamePlayer;
+import deimophobe.dvz.map.GameMap;
+import deimophobe.dvz.map.InvalidMapConfigException;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -24,7 +27,7 @@ public interface Region {
 	}
 	default boolean continsGameEntity(GameEntity ge) {return containsLocation(ge.getLocation()); }
 	
-	static Region createRegion(ConfigurationSection section) {
+	static Region createRegion(GameMap map, ConfigurationSection section) throws InvalidMapConfigException {
 		if (!section.contains("type")) {
 			Bukkit.getLogger().severe("Regions must have a type!");
 			return null;
@@ -33,20 +36,20 @@ public interface Region {
 		String type = section.getString("type");
 		switch (type) {
 			case "spherical":
-				return new SphericalRegion(section);
+				return new SphericalRegion(map, section);
 			case "cylindrical":
-				return new CylindricalRegion(section);
+				return new CylindricalRegion(map, section);
 			case "halfspace":
-				return new HalfRegion(section);
+				return new HalfRegion(map, section);
 			case "nullregion":
 				return new NullRegion();
 			case "or":
-				return new OrRegion(section);
+				return new OrRegion(map, section);
 			case "and":
-				return new AndRegion(section);
+				return new AndRegion(map, section);
 			default:
 				Bukkit.getLogger().severe("Region type unknown: '"+type+"'");
-				return null;
+				throw new InvalidMapConfigException("Unknown region type: '" + type + "' at " + section.getCurrentPath());
 		}
 	}
 }

@@ -1,7 +1,7 @@
 package deimophobe.dvz.dwarf.kit.elements;
 
-import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.GameEntity;
+import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
 import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.dwarf.DwarvenItems;
@@ -9,7 +9,9 @@ import deimophobe.dvz.dwarf.ProcType;
 import deimophobe.dvz.dwarf.kit.KitGiveType;
 import deimophobe.dvz.items.CustomItem;
 import deimophobe.dvz.monster.MonsterManager;
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.entity.Projectile;
 import org.bukkit.util.Vector;
 
