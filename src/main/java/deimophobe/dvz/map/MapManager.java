@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -104,9 +105,10 @@ public class MapManager {
 			return;
 		}
 		Configuration mapConfig = YamlConfiguration.loadConfiguration(mapConfigFile);
+		ConfigurationSection mapSection = mapConfig.getConfigurationSection("maps");
 		
-		for (String mapName : mapConfig.getKeys(false)) {
-			String mapFilename = mapConfig.getString(mapName);
+		for (String mapName : mapSection.getKeys(false)) {
+			String mapFilename = mapSection.getString(mapName);
 			if (mapFilename == null) {
 				Bukkit.getLogger().severe("No map folder given for key '" + mapName +"' in maps.yml.");
 				continue;
@@ -114,7 +116,7 @@ public class MapManager {
 			
 			File mapFile = new File(mapWorldFolder, mapFilename);
 			if (!mapFile.exists()) {
-				Bukkit.getLogger().severe("No map found in map folder with name '" + mapFilename +"'.");
+				Bukkit.getLogger().severe("No map found in map folder with name '" + mapFilename +"' in maps.yml.");
 				continue;
 			}
 			
