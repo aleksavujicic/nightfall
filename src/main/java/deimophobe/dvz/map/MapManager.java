@@ -1,25 +1,22 @@
 package deimophobe.dvz.map;
 
 import deimophobe.dvz.DvZPlugin;
-import deimophobe.dvz.Game;
 import deimophobe.dvz.Misc;
-import deimophobe.dvz.dwarf.DwarfManager;
-import deimophobe.dvz.monster.MonsterManager;
-import deimophobe.dvz.plague.Plague;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 
 /**
@@ -34,28 +31,55 @@ public class MapManager {
 	private final List<String> worlds = new ArrayList<>(Arrays.asList("Nightfall1","Nightfall2","Nightfall3"));
 	private int worldIndex = 0;
 	
-	private final Set<String> maps = new HashSet<>();
-	
-	private final File mapConfigFolder;
+	private final Map<String, File> maps = new HashMap<>();
+	private final File mapConfigFile;
 	private final File mapWorldFolder;
-	
-	private File mapsConfigFile;
 	
 	private boolean loading = false;
 	
 	private MapManager() {
+		// Save default config
+		World defaultWorld = Bukkit.getWorlds().get(0);
+		File configFile = getNightfallConfig(defaultWorld);
+		InputStream is = DvZPlugin.getPlugin().getResource("default-map.yml");
+		try {
+			Files.copy(is, configFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			Bukkit.getLogger().severe("Failed to save default config!");
+			e.printStackTrace();
+		}
+		
+		
 		// Map config files and folders
-		mapsConfigFile = new File(DvZPlugin.getPlugin().getDataFolder(), "maps.yml");
-		mapConfigFolder = new File(DvZPlugin.getPlugin().getDataFolder(), "maps");
+		mapConfigFile = new File(DvZPlugin.getPlugin().getDataFolder(), "maps.yml");
 		mapWorldFolder = new File(Bukkit.getWorldContainer(), "maps");
 		
-		if (!mapsConfigFile.exists())
+		if (!mapConfigFile.exists()) {
 			DvZPlugin.getPlugin().saveResource("maps.yml", false);
+			Bukkit.getLogger().warning("No maps.yml file found - creating default. This may not have the neccesary maps.");
+		}
 		
-		Configuration mapConfig = YamlConfiguration.loadConfiguration(mapsConfigFile);
+		if (!mapWorldFolder.exists()) {
+			Bukkit.getLogger().warning("No maps folder found - creating empty folder. This has no maps and will disable map loading.");
+			boolean success = mapWorldFolder.mkdir();
+			if (!success) {
+				Bukkit.getLogger().severe("Failed to create map folder!?");
+			}
+		}
+		
+		
+		// Load config
+		reloadConfig();
+		
+		// Check maps exist
+		if (maps.isEmpty()) {
+			Bukkit.getLogger().severe("No maps were found. Disabling map loading.");
+			enabled = false;
+			return;
+		}
+		
+		Configuration mapConfig = YamlConfiguration.loadConfiguration(mapConfigFile);
 		enabled = mapConfig.getBoolean("enabled", true);
-		
-		loadConfig();
 	}
 	
 	// ~~~~~ MAP CONFIG ~~~~~
@@ -65,34 +89,37 @@ public class MapManager {
 		return enabled;
 	}
 	public void setMapsEnabled(boolean enabled) throws IOException {
-		YamlConfiguration mapConfig = YamlConfiguration.loadConfiguration(mapsConfigFile);
+		YamlConfiguration mapConfig = YamlConfiguration.loadConfiguration(mapConfigFile);
 		mapConfig.set("enabled", enabled);
-		mapConfig.save(mapsConfigFile);
-	}
-	
-	public void loadConfig() {
-		// Find all maps in config folder and add them to list of maps
-		maps.clear();
-		File[] files = mapConfigFolder.listFiles();
-		if (files != null) {
-			for (File file : files) {
-				String name = file.getName();
-				if (FilenameUtils.isExtension(name, "yml")) {
-					maps.add(FilenameUtils.getBaseName(name));
-				}
-			}
-		} else {
-			
-		}
-		
-	}
-	
-	public boolean isMap(String map) {
-		return maps.contains(map);
+		mapConfig.save(mapConfigFile);
 	}
 	
 	public Set<String> getMaps() {
-		return maps;
+		return maps.keySet();
+	}
+	
+	public void reloadConfig() {
+		if (!mapWorldFolder.exists()) {
+			Bukkit.getLogger().severe("No map folder found - no maps will be created.");
+			return;
+		}
+		Configuration mapConfig = YamlConfiguration.loadConfiguration(mapConfigFile);
+		
+		for (String mapName : mapConfig.getKeys(false)) {
+			String mapFilename = mapConfig.getString(mapName);
+			if (mapFilename == null) {
+				Bukkit.getLogger().severe("No map folder given for key '" + mapName +"' in maps.yml.");
+				continue;
+			}
+			
+			File mapFile = new File(mapWorldFolder, mapFilename);
+			if (!mapFile.exists()) {
+				Bukkit.getLogger().severe("No map found in map folder with name '" + mapFilename +"'.");
+				continue;
+			}
+			
+			maps.put(mapName, mapFile);
+		}
 	}
 	
 	// ~~~~~ MAP LOADING ~~~~~
@@ -109,35 +136,32 @@ public class MapManager {
 	
 	private GameMap loadDefaultMap() {
 		World world = Bukkit.getWorlds().get(0);
-		FileConfiguration defaultMapConfig = Misc.getInternalFileConfig("default-map.yml");
 		try {
-			return new GameMap(defaultMapConfig, world);
+			return new GameMap(world);
 		} catch (InvalidMapConfigException e) {
 			throw new RuntimeException("Default map config is invalid, can't start game",e);
 		}
 	}
 	
 	private GameMap loadRandomMap() {
-		String map = Misc.getRandom(maps);
-		return loadMap(YamlConfiguration.loadConfiguration(new File(mapConfigFolder, map + ".yml")));
+		String mapName = Misc.getRandom(maps.keySet());
+		return loadMap(maps.get(mapName));
 	}
 	
-	private GameMap loadMap(FileConfiguration config) {
+	private GameMap loadMap(File mapFolder) {
 		Bukkit.getLogger().info("Begin loading map");
 		// Don't do anything if disabled
 		if (!enabled)
 			throw new IllegalStateException("Attempted to load map while map loading is disabled");
-		
-		String mapName = config.getString("world");
-		
+				
 		if (loading)
 			throw new IllegalStateException("Attempted to load another map while loading");
 		loading = true;
 		
 		World world = null;
 		try {
-			world = createMapWorld(mapName);
-			return new GameMap(config, world);
+			world = createMapWorld(mapFolder);
+			return new GameMap(world);
 		} catch (MapLoadingException | InvalidMapConfigException e) {
 			e.printStackTrace();
 			Bukkit.unloadWorld(world, false);
@@ -148,57 +172,22 @@ public class MapManager {
 		}
 	}
 	
-	public void unloadMap(GameMap map) {
-		Bukkit.getLogger().info("Begin unloading map");
-		World mapWorld = map.getWorld();
-		World safeWorld;
-		if (GameMap.getCurrentMap() == map)
-			safeWorld = Bukkit.getWorlds().get(0);
-		else
-			safeWorld = GameMap.getCurrentMap().getWorld();
-		
-		for (Player player : mapWorld.getPlayers()) {
-			player.teleport(safeWorld.getSpawnLocation());
-		}
-		map.unload();
-		
-		boolean success = Bukkit.unloadWorld(mapWorld, false);
-		if (!success)
-			Bukkit.getLogger().severe("Failed to unload world + " );
-		
-		try {
-			File file = mapWorld.getWorldFolder();
-			if (file.exists()) {
-				Bukkit.getLogger().warning("World folder exists!");
-				Bukkit.broadcastMessage("World folder exists!");
-				FileUtils.deleteDirectory(file);
-			}
-		} catch (IOException e) {
-			throw new RuntimeException("Failed to delete world folder: ", e);
-		}
-		Bukkit.getLogger().info("Finished unloading map");
-	}
-	
-	private World createMapWorld(String mapFilename) throws MapLoadingException {
-		Bukkit.getLogger().info("Begin creation of map world: " + mapFilename);
+	private World createMapWorld(File mapFolder) throws MapLoadingException {
+		Bukkit.getLogger().info("Begin creation of map world: " + mapFolder.toString());
 		
 		String worldFilename = getNextWorldName();
-		//if (Bukkit.getWorld(getNextWorldName()) != null)
-		//	throw new MapLoadingException("World called '" + worldFilename + "' already is active.");
 		
 		// Figure out stored map folder and folder of world to play on.
-		File mapFolder = new File(mapWorldFolder, mapFilename);
 		File worldFolder = new File(Bukkit.getWorldContainer(), worldFilename);
 		
 		// If map folder is empty
 		if (!mapFolder.exists())
-			throw new MapLoadingException("GameMap world " + mapFilename + " does not exist");
+			throw new MapLoadingException("Game map folder " + mapFolder.toString() + " does not exist");
 		
 		// Delete world folder if it exists
 		try {
 			if (worldFolder.exists()) {
-				Bukkit.getLogger().warning("World folder exists!");
-				Bukkit.broadcastMessage("World folder exists!");
+				Bukkit.getLogger().warning("World folder '"+worldFilename+"' exists!");
 				FileUtils.deleteDirectory(worldFolder);
 			}
 		} catch (IOException e) {
@@ -223,13 +212,48 @@ public class MapManager {
 			throw new MapLoadingException("Failed to delete lock file.");
 		
 		World world = Bukkit.createWorld(new WorldCreator(worldFilename));
-		Bukkit.getLogger().info("Finished creating world");
+		Bukkit.getLogger().info("Finished creating world.");
 		return world;
+	}
+	
+	public void unloadMap(GameMap map) {
+		Bukkit.getLogger().info("Begin unloading map.");
+		World mapWorld = map.getWorld();
+		World safeWorld;
+		if (GameMap.getCurrentMap() == map)
+			safeWorld = Bukkit.getWorlds().get(0);
+		else
+			safeWorld = GameMap.getCurrentMap().getWorld();
+		
+		for (Player player : mapWorld.getPlayers()) {
+			player.teleport(safeWorld.getSpawnLocation());
+		}
+		map.unload();
+		
+		boolean success = Bukkit.unloadWorld(mapWorld, true);
+		if (!success)
+			Bukkit.getLogger().severe("Failed to unload world");
+		
+		try {
+			File file = mapWorld.getWorldFolder();
+			if (file.exists()) {
+				Bukkit.getLogger().warning("World folder exists!");
+				Bukkit.broadcastMessage("World folder exists!");
+				FileUtils.deleteDirectory(file);
+			}
+		} catch (IOException e) {
+			throw new RuntimeException("Failed to delete world folder: ", e);
+		}
+		Bukkit.getLogger().info("Finished unloading map");
 	}
 	
 	private String getNextWorldName() {
 		worldIndex++;
 		worldIndex = worldIndex % worlds.size();
 		return worlds.get(worldIndex);
+	}
+	
+	public File getNightfallConfig(World world) {
+		return new File(world.getWorldFolder(), "nightfall.yml");
 	}
 }

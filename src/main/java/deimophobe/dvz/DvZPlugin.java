@@ -598,7 +598,7 @@ public class DvZPlugin extends JavaPlugin {
 				return false;
 			} else {
 				String map = args[0];
-				if (MapManager.getManager().isMap(map)) {
+				if (MapManager.getManager().getMaps().contains(map)) {
 					sender.sendMessage(ChatColor.GOLD + "LOADING MAP: " + ChatColor.GREEN + args[0] + ChatColor.GOLD + "!");
 					Game.createGame();
 				} else {

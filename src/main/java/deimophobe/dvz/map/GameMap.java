@@ -12,8 +12,10 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -67,13 +69,17 @@ public class GameMap {
 	}
 	
 	
-	GameMap(FileConfiguration config, World world) throws InvalidMapConfigException {
+	GameMap(World world) throws InvalidMapConfigException {
+		this.world = world;
+		
+		File configFile = MapManager.getManager().getNightfallConfig(world);
+		if (!configFile.exists())
+			throw new InvalidMapConfigException("Config file (nightfall.yml) does not exist!");
+		FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+		
 		this.name = config.getString("name");
 		if (name == null)
 			throw new InvalidMapConfigException("GameMap must have a name.");
-		
-		this.world = world;
-		setWorldSettings();
 		
 		this.dwarfSpawn = getLocation(config, "dwarfspawn");
 		if (dwarfSpawn == null)
@@ -125,6 +131,8 @@ public class GameMap {
 		} else {
 			Bukkit.getLogger().warning("No compass section found.");
 		}
+		
+		setWorldSettings();
 		
 		vault = config.getInt("gold", 1000);
 		if (!config.contains("gold"))
