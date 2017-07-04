@@ -60,6 +60,7 @@ public class GameListener implements Listener {
 		
 		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(1024);
 		Game.getGame().giveShrineBarToPlayer(player);
+		Game.getGame().giveScoreboard(player);
 		
 		if (player.isDead())
 			return;

@@ -1,6 +1,7 @@
 package deimophobe.dvz;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -22,6 +23,10 @@ import java.util.*;
  * Created by Deimophobe on 9/03/17.
  */
 public class Misc {
+	public static String getNightfallText() {
+		return ChatColor.DARK_BLUE + "Night" + ChatColor.BLUE + "fall";
+	}
+	
 	public static <T> T getRandom(T[] items) {
 		int rand = new Random().nextInt(items.length);
 		return items[rand];
@@ -141,27 +146,22 @@ public class Misc {
 		return (BlockFace) possibleFaces.toArray()[0];
 	}
 	
-	private static final Set<String> registeredTeams = new HashSet<>();
+	private static final Set<Team> registeredTeams = new HashSet<>();
 	
 	public static Team getNewTeam(String teamName) {
-		registeredTeams.add(teamName);
+		Scoreboard scoreboard = Game.getGame().getScoreboard();
 		
-		ScoreboardManager manager = Bukkit.getScoreboardManager();
-		Scoreboard board = manager.getMainScoreboard();
-		
-		Team oldTeam = board.getTeam(teamName);
+		Team oldTeam = scoreboard.getTeam(teamName);
 		if (oldTeam != null)
 			oldTeam.unregister();
 		
-		return board.registerNewTeam(teamName);
+		Team team = scoreboard.registerNewTeam(teamName);
+		registeredTeams.add(team);
+		return team;
 	}
 	
 	public static void removeAllTeams() {
-		ScoreboardManager manager = Bukkit.getScoreboardManager();
-		Scoreboard board = manager.getMainScoreboard();
-		
-		for (String teamName : registeredTeams) {
-			Team team = board.getTeam(teamName);
+		for (Team team : registeredTeams) {
 			if (team != null)
 				team.unregister();
 		}

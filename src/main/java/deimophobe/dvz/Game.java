@@ -28,10 +28,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitScheduler;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
+import org.bukkit.scoreboard.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -81,6 +78,8 @@ public class Game {
 	public MonsterManager getMonsterManager() {return monsterManager;}
 	
 	
+	private final Scoreboard scoreboard;
+	public Scoreboard getScoreboard() {return scoreboard;}
 	
 	private final Objective sidebarObj;
 	private final static String OBJ_NAME = "MySidebar";
@@ -98,18 +97,19 @@ public class Game {
 		game = this;
 		
 		// Setup scoreboards and teams
-		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
-		Objective oldObj = board.getObjective(OBJ_NAME);
+		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+		
+		for (Player player : Bukkit.getOnlinePlayers())
+			giveScoreboard(player);
+		
+		Objective oldObj = scoreboard.getObjective(OBJ_NAME);
 		if (oldObj != null)
 			oldObj.unregister();
 		
-		sidebarObj = board.registerNewObjective(OBJ_NAME, "dummy");
-		sidebarObj.setDisplayName(ChatColor.AQUA + "Dwarves");
+		sidebarObj = scoreboard.registerNewObjective(OBJ_NAME, "dummy");
+		sidebarObj.setDisplayName(Misc.getNightfallText());
 		
-		Team oldTeam = board.getTeam("lobbyTeam");
-		if (oldTeam != null)
-			oldTeam.unregister();
-		lobbyTeam = board.registerNewTeam("lobbyTeam");
+		lobbyTeam = Misc.getNewTeam("lobbyTeam");
 		lobbyTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
 		
 		
@@ -180,6 +180,10 @@ public class Game {
 	
 	
 	// ------ SCOREBOARD -------
+	public void giveScoreboard(Player player) {
+		player.setScoreboard(scoreboard);
+	}
+	
 	public void updateDwarfCount() {
 		sidebarObj.getScore(ChatColor.GREEN + "Remaining").setScore(dwarfManager.getGamePlayers().size());
 	}
@@ -220,8 +224,9 @@ public class Game {
 	
 	// ------ SHRINE BAR ------
 	public void giveShrineBarToPlayer(Player player) {
-		if (phase.hasGameStarted())
+		if (phase.hasGameStarted()) {
 			bossBar.addPlayer(player);
+		}
 	}
 	
 	public void removeShrineBar() {
@@ -355,6 +360,9 @@ public class Game {
 				player.setHealth(20);
 				player.setSaturation(100000);
 				player.setFoodLevel(100000);
+				player.setExp(0);
+				player.setLevel(0);
+				player.setDisplayName(player.getName());
 				Loadout.updateLoadoutDisplay(player);
 				lobbyTeam.addEntry(player.getName());
 				break;

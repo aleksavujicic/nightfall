@@ -30,7 +30,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	public DoomManager getDoomManager() {return doomManager;}
 	
 	public MonsterManager() {
-		super(ChatColor.DARK_RED + "MONSTERS", "mobs", ChatColor.DARK_RED);
+		super(ChatColor.DARK_RED + "Monsters", "mobs", ChatColor.DARK_RED);
 		
 		getTeam().setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
 		

@@ -24,7 +24,7 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	}
 	
 	public DwarfManager() {
-		super(ChatColor.DARK_AQUA + "Dwarves","dwarves", ChatColor.AQUA);
+		super(ChatColor.AQUA + "Dwarves","dwarves", ChatColor.DARK_AQUA);
 	}
 	
 	public Dwarf createDwarf(Player player, DwarfData data) {
