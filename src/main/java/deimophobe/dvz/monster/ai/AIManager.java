@@ -144,8 +144,8 @@ public class AIManager {
 			int dwarves = DwarfManager.getManager().getNumberOfPlayers();
 			int mobs = MonsterManager.getManager().getNumberOfPlayers();
 			
-			double spawnChance = (10 + mobs + dwarves*4) * 0.006;
-			spawnChance += (Game.getGame().isNight() ? 0.05 : 0);
+			double spawnChance = (10 + mobs + dwarves*4) * 0.008;
+			spawnChance += (Game.getGame().isNight() ? 0.03 : 0);
 			
 			int maxAIs = BASE_MAX_AIS;
 			maxAIs += (mobs + dwarves*2);
@@ -157,16 +157,11 @@ public class AIManager {
 				if (ais.size() >= maxAIs) break;
 				
 				double random = Math.random();
-				if (random > 0.95) { // Try remove
+				if (random > 0.9) { // Try remove
 					int count = 0;
 					for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
-						if (spawnSpot.distance(dwarf.getLocation()) <= 5) {
+						if (spawnSpot.distance(dwarf.getLocation()) <= 7) {
 							count++;
-						}
-					}
-					for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
-						if (spawnSpot.distance(monster.getLocation()) <= 5) {
-							count--;
 						}
 					}
 					if (count >= 2)
@@ -195,6 +190,11 @@ public class AIManager {
 				AIEntity ai = new AIEntity(spawnSpot, getRandomName(), closestDwarf);
 				aiTeam.addEntry(ai.getUniqueId().toString());
 				ais.put(ai.getUniqueId(), ai);
+
+				// Destroy spawnspots after average of 3 AI spawns
+				if (Math.random() < 0.333) {
+					spotsToRemove.add(spawnSpot);
+				}
 			}
 			
 			for (Location toRemove : spotsToRemove) {

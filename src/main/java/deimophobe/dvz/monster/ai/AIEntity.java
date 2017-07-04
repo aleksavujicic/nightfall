@@ -50,7 +50,7 @@ public class AIEntity extends GameEntity<Zombie> {
 			return -1;
 		}
 		if (entity instanceof Dwarf) {
-			((Dwarf) entity).getArmour().damage(10);
+			((Dwarf) entity).getArmour().damage(5);
 			return 15;
 		} else {
 			return damage;

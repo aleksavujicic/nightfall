@@ -422,8 +422,8 @@ public class GameListener implements Listener {
 		BlockConverter.convert(BlockConverter.Type.THROWNEXPLOSION, centerLoc, power);
 		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
 		world.playSound(centerLoc, "entity.generic.explode", 2, 1);
-		//Bukkit.broadcastMessage(mm.peekGoboThrower().getName());
-		(new Explosion(mm.dequeueGoboThrower(), centerLoc, DamageType.DVZ_EXPLOSION, 40, 5, 3)).explode();
+		// Bukkit.broadcastMessage(mm.peekGoboThrower().getName());
+		(new Explosion(mm.dequeueGoboThrower(), DwarfManager.getManager().getGamePlayers(), centerLoc, DamageType.DVZ_EXPLOSION, 40, 5, 3)).explode();
 	}
 	
 	// --------------------------------------------------------

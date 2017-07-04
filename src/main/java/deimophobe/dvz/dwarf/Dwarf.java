@@ -55,7 +55,7 @@ public class Dwarf extends GamePlayer {
 		clearEffects();
 		clearInventory();
 		entity.setGameMode(GameMode.SURVIVAL);
-		
+		givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 5, false, false, true);
 		// Set armour
 		armour = new DwarvenArmour(this);
 		

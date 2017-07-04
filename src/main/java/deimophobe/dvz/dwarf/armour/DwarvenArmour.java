@@ -21,7 +21,7 @@ public class DwarvenArmour implements Armour {
 	
 	private boolean armoured = false;
 	
-	private static final int DEFAULT_MAX = 2000;
+	private static final int DEFAULT_MAX = 1000;
 	private int armour = DEFAULT_MAX;
 	private int max = DEFAULT_MAX;
 	

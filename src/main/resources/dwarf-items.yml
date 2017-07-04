@@ -7,8 +7,8 @@ sword:
        - "A runeblade that has yet to be enchanted\n
           with &bwind&r magic."
       flavour:
-       - "These blades can still kill a monster\n
-          You are just going to have a\n
+       - "These blades can still kill a monster.\n
+          You're just going to have a\n
           tougher time doing it."
     modifiers:
       attack: 15
@@ -17,12 +17,12 @@ sword:
     name: Greater Runeblade
     lore:
       description:
-       - "A fully procable weapon\n
+       - "A fully proccable weapon\n
           Right click to &brunedash&r into\n
-          monsters heavily damaging or killing them\n
+          monsters, damaging or killing them\n
           instantly with a proc."
       flavour:
-       - "The mighty weapon thats said to send\n
+       - "The mighty weapon that's said to send\n
           dwarves into a fury of &bsparkles&r."
     modifiers:
       attack: 15
@@ -31,11 +31,11 @@ sword:
     name: Axe of Malice
     lore:
       description:
-       - "Right click to go into a &4Bloodrage&r\n
+       - "Right click to go into a &4Blood rage&r,\n
           allowing you to proc for a short duration."
       flavour:
-       - "Be careful with those ones jimmy, they've\n
-          gone &cmad&r."
+       - "Be careful with those ones jimmy,\n
+          people using these have gone &cmad&r."
     modifiers:
       attack: 20
   dagger:
@@ -43,13 +43,14 @@ sword:
     name: Elven Dagger
     lore:
       description:
-       - "Right click to &bEviscerate&r a monster\n
+       - "An elven blade, dipped in poison.\n
+          Right click to &bEviscerate&r a monster,\n
           dealing massive damage."
       flavour:
        - "A dagger used long ago by keen elven allies,\n 
       now passed down to the dwarves that can keep up with\n 
-      it's great speed. Equipped with an ancient pointed\n
-      poison that seeps through the skin of any that dares\n 
+      its great speed. Equipped with an ancient poison\n
+      that seeps through the skin of any that dares\n
       threaten it."
        - "Forged with the &2worst of poisons&r and given\n
           to only the quickest of &efoot&r and &bmind&r."
@@ -73,7 +74,7 @@ sword:
     name: Tombmaker
     lore:
       description:
-       - "A shovel with the ability to roll procs\n
+       - "A shovel with the ability to roll procs.\n
           Right click for a Haste buff to dig faster."
       flavour:
        - "Entrusted with the toughest task of all,\n
@@ -111,10 +112,10 @@ bow:
     name: Dragonskin Bow
     lore:
       description:
-       - "Kills with this bow\n
-          gives a proc for 3 seconds."
+       - "Kills with this bow give\n
+          a proc for 3 seconds."
       flavour:
-       - "Rawr,Rawr,Rawwwwwwwr."
+       - "Rawr, Rawr, Rawwwwwwwr."
   longbow:
     base: longbow
     name: Longbow
@@ -130,11 +131,11 @@ bow:
     name: Crossbow
     lore:
       description:
-       - "A special bow made to fire\n
-          immediately with no draw time\n
-          has a slight reload time."
+       - "A crossbow that can fire\n
+          immediately with no draw time.\n
+          Has a slight reload time."
       flavour:
-       - "Real dwarves use crossbows\n
+       - "Real dwarves use crossbows,\n
           not some fancy elven bow."
   lightbow:
     base: lightbow
@@ -142,7 +143,7 @@ bow:
     lore:
       description:
        - "This bow fires special arrows that\n
-          create lamps in the walls\n
+          create lamps in the walls.\n
           You are also immune to darkness."
       flavour:
        - "No lamp jumping for you Jimmy."
@@ -151,23 +152,23 @@ bow:
     name: Emerald Bow
     lore:
       description:
-       - "A very fragile and weak bow\n
+       - "A magical bow, made from emerald.\n
           Monsters hit with this bow\n
           give off a proc to dwarves\n
           within range."
       flavour:
        - "I'm sure glad we found use\n
-          for the rest of\n
-          that Emerald City."
+          for the rest of that Emerald City."
   warpweaver:
     base: warpweaver
     name: Warpweaver Bow
     lore:
       description:
        - "Shooting an arrow with this bow\n
-          cause you to switch places with it\n
-          for a few seconds before\n
-          warping back."
+          cause you to switch places \n
+          the arrow for a few seconds \n
+          before warping back.\n
+          Left click to activate."
       flavour:
        - "No endermen were harmed in\n
           the crafting of this bow."
@@ -189,7 +190,7 @@ ale:
     name: Jimmy Juice
     lore:
       description:
-       - "The starting ale for new players\n
+       - "The starting ale for new players.\n
           Auto heal for &b120&r mana or\n
           Left Click to heal for &b100&r mana."
       flavour:
@@ -212,8 +213,8 @@ ale:
       description:
        - "Left click to heal yourself\n
           for &b200&r mana and gain\n
-          &b20 absorption hearts&r\n
-          You also gain perma regen."
+          &b20 absorption hearts&r.\n
+          You also gain permanent regen."
       flavour:
        - "Boy! This is really expensive!."
   regrowth:
@@ -222,7 +223,7 @@ ale:
     lore:
       description:
        - "Left click to heal yourself\n
-          for &b100&r mana\n
+          for &b100&r mana.\n
           Right click on dwarves heals\n
           them and their armour at the cost\n
           of your mana."
@@ -238,7 +239,7 @@ consumable:
       description:
        - "Places a lamp down for &b60&r seconds."
       flavour:
-       - "One if by land, two if by sea\n
+       - "One if by land, two if by sea,\n
           and three if by waves of undead hordes."
   slab:
     base: slab
@@ -248,16 +249,14 @@ consumable:
        - "Left click to Summons a thick wall\n
           to patch in holes, or slow mobs."
       flavour:
-       - "Rule 1 Don't wall off\n
-          Rule 2 Don't slab mob heroes
-          Rule 3 Don't slab Jimmys."
+       - "Don't wall off, jimmy."
   sos:
     base: sos
     name: Sword of Santification
     lore:
       description:
        - "Left click to call upon the mighty sword\n
-          freezing mobs caught inside its aoe\n
+          freezing mobs caught inside its area,\n
           and allowing you to finish them off."
       flavour:
        - "The old swords were just a test model\n
@@ -268,7 +267,7 @@ consumable:
     lore:
       description:
        - "Left click to fully repair your\n
-          Dwarven armour at the cost of gold\n
+          dwarven armour at the cost of gold.\n
           Needs gold to work."
       flavour:
        - "Good ol wrenchy, never leave home without it."
@@ -287,8 +286,7 @@ consumable:
     name: Wizard Mortar
     lore:
       description:
-       - "Left click toFully repair\n
-          walls to blue\n
+       - "Left click toFully repair walls to blue.\n
           Only works after mobs are released."
       flavour:
        - "Don't ask what makes it blue."
@@ -376,8 +374,8 @@ misc:
     name: Dwarven Pickaxe
     lore:
       description:
-       - "Right click to heal others armour\n
-          using gold\n
+       - "Right click on others to \n
+          repair armour using gold.\n
           Right click on a piston to\n
           make gold blocks to make armour."
       flavour:
@@ -387,7 +385,7 @@ misc:
     name: Dwarven Axe
     lore:
       description:
-       - "Right click to chop trees for logs."
+       - "Break wood blocks to chop trees for logs."
       flavour:
        - "Sometimes it's a makeshift weapon."
   shovel:
@@ -397,15 +395,15 @@ misc:
       description:
        - "Used to dig gravel for cobblestone."
       flavour:
-       - "Not quite a tombmaker, but points for trying."
+       - "The real gravediggers use these."
 
   arrow:
     material: arrow
     name: Arrow
     lore:
       description:
-       - "Dwarven Ammo\n
-          regens over time."
+       - "Dwarven Ammo.\n
+          Regenerates over time."
       flavour:
        - "Pew pew."
   wildfirefuel:
@@ -413,17 +411,16 @@ misc:
     name: Wildfire Fuel
     lore:
       description:
-       - "Tuis Ammo for wildfire."
+       - "Tui's Ammo for wildfire."
       flavour:
-       - "Careful its hot."
+       - "Careful, its hot."
 
   compass:
     material: compass
     name: "&6&lTHE MIGHTY DWARVEN COMPASS"
     lore:
       description:
-       - "Clicking cycles through various\n
-          locations."
+       - "Clicking cycles through various locations."
       flavour:
        - "&dUsed by only the greatest of warriors."
 
@@ -432,10 +429,9 @@ misc:
     name: "Chest-o-matic"
     lore:
       description:
-       - "Click to access the dwarven\n
-        shared chest."
+       - "Click to access the dwarven shared chest."
       flavour:
-       - "Drk fill dis in pls :)."
+       - "Sharing is caring."
 
 
 hero:
@@ -479,7 +475,7 @@ hero:
           at a mob dealing heavy damage\n
           and knocking you back."
       flavour:
-       - "This thing cuts really good too."
+       - "This thing cuts really well too."
     modifiers:
       attack: 20
   wand:
@@ -529,11 +525,11 @@ hero:
     name: Elystria The Divine Blade
     lore:
       description:
-       - "The true form of Caduceus\n
-          You have 1 minute to live\n
+       - "The true form of Caduceus.\n
+          You have 1 minute to live.\n
           Slay as much as you can."
       flavour:
-       - "Enim lucis aeternae."
+       - "For the eternal light."
     modifiers:
       attack: 60
       kb_resist: 1

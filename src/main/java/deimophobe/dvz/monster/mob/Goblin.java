@@ -7,6 +7,7 @@ import deimophobe.dvz.blocks.timedblock.GoboBox;
 import deimophobe.dvz.blocks.timedblock.TimedBlock;
 import deimophobe.dvz.damage.DamageType;
 import deimophobe.dvz.dwarf.Dwarf;
+import deimophobe.dvz.dwarf.DwarfManager;
 import deimophobe.dvz.monster.MonsterManager;
 import deimophobe.dvz.monster.MonsterPlayer;
 import org.bukkit.Location;
@@ -106,7 +107,7 @@ class Goblin extends AbstractTypedMob {
 		BlockConverter.convert(BlockConverter.Type.EXPLOSION, loc, 8);
 		world.spawnParticle(Particle.EXPLOSION_HUGE, loc, 3, 1, 1, 1);
 		world.playSound(loc, "entity.generic.explode", 2, 1);
-		(new Explosion(monster, loc, DamageType.DVZ_EXPLOSION, 80, 6, 4)).explode();
+		(new Explosion(monster, DwarfManager.getManager().getGamePlayers(), loc, DamageType.DVZ_EXPLOSION, 80, 6, 4)).explode();
 	}
 
 	@Override
