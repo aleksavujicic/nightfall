@@ -96,6 +96,11 @@ public class Shrine {
 		return swapoverDelay;
 	}
 	
+	public void onActive() {
+		Game.getGame().setShrineBarPower(1);
+		Game.getGame().setShrineBarName(name, shrineNum);
+	}
+	
 	public void update() {
 		int mobsOnShrine = 0;
 		int dwarvesOnShrine = 0;

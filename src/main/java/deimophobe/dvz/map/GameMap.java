@@ -93,7 +93,7 @@ public class GameMap {
 		shrines = new ArrayList<>();
 		ConfigurationSection shrineConfig = config.getConfigurationSection("shrines");
 		for (String key : shrineConfig.getKeys(false)) {
-			shrines.add(new Shrine(this, shrineConfig.getConfigurationSection(key), shrines.size()));
+			shrines.add(new Shrine(this, shrineConfig.getConfigurationSection(key), shrines.size()+1));
 		}
 		if (shrines.size() == 0)
 			throw new InvalidMapConfigException("GameMap must have at least one shrine.");
@@ -262,6 +262,7 @@ public class GameMap {
 				currentMobProtection = newShrine.getMobProtection();
 			}
 		}.runTaskLater(DvZPlugin.getPlugin(), newShrine.getSwapoverDelay());
+		newShrine.onActive();
 	}
 	
 	
