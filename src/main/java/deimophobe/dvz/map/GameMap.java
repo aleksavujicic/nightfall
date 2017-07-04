@@ -126,7 +126,10 @@ public class GameMap {
 			Bukkit.getLogger().warning("No compass section found.");
 		}
 		
-		
+		vault = config.getInt("gold", 1000);
+		if (!config.contains("gold"))
+			Bukkit.getLogger().warning("No starting gold specified - defaulting to 1000.");
+		updateVault();
 		
 		shrineUpdater = new BukkitRunnable() {
 			@Override
