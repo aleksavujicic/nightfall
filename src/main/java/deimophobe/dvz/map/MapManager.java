@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -118,16 +119,15 @@ public class MapManager {
 	
 	private GameMap loadRandomMap() {
 		String map = Misc.getRandom(maps);
-		return loadMap(map);
+		return loadMap(YamlConfiguration.loadConfiguration(new File(mapConfigFolder, map + ".yml")));
 	}
 	
-	private GameMap loadMap(String mapName) {
+	private GameMap loadMap(FileConfiguration config) {
 		// Don't do anything if disabled
 		if (!enabled)
 			throw new IllegalStateException("Attempted to load map while map loading is disabled");
 		
-		if (!maps.contains(mapName))
-			throw new IllegalArgumentException("Map name '" + mapName + "' is not a valid map.");
+		String mapName = config.getString("world");
 		
 		if (loading)
 			throw new IllegalStateException("Attempted to load another map while loading");
@@ -136,7 +136,7 @@ public class MapManager {
 		World world = null;
 		try {
 			world = createMapWorld(mapName);
-			return new GameMap(null, world);
+			return new GameMap(config, world);
 		} catch (MapLoadingException | InvalidMapConfigException e) {
 			e.printStackTrace();
 			Bukkit.unloadWorld(world, false);
