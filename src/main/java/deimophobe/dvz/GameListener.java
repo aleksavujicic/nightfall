@@ -462,7 +462,8 @@ public class GameListener implements Listener {
 				@Override
 				public void run() {
 					MonsterPlayer mp = mm.addGamePlayer(event.getPlayer());
-					mp.kill();
+					if (mp != null)
+						mp.kill();
 				}
 			}.runTaskLater(DvZPlugin.getPlugin(), 10);
 		}

@@ -343,6 +343,9 @@ public class Game {
 		removeGamePlayer(player);
 		switch (phase) {
 			case STARTING:
+				if (player.isDead())
+					player.spigot().respawn();
+				
 				player.teleport(GameMap.getCurrentMap().getLobbySpawn());
 				player.getInventory().clear();
 				for (PotionEffect effect : player.getActivePotionEffects()){
