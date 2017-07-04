@@ -27,6 +27,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -41,11 +42,28 @@ import java.util.Set;
  */
 public class Game {
 	private static Game game = null;
-	public static Game createGame() {
-		return new Game();
-	}
+	private static boolean loading = false;
 	public static Game getGame() {
 		return game;
+	}
+	public static Game createGame() {
+		Bukkit.getLogger().info("Begin loading game.");
+		broadcastWorlds();
+		if (loading) throw new IllegalStateException("Game already loading");
+		loading = true;
+		try {
+			return new Game();
+		} finally {
+			new BukkitRunnable() {
+				@Override public void run() {
+					loading = false;
+					Bukkit.getLogger().info("Finished loading game.");
+				}
+			}.runTaskLater(DvZPlugin.getPlugin(), 40);
+		}
+	}
+	private static void broadcastWorlds() {
+		Bukkit.broadcastMessage("Worlds ("+Bukkit.getWorlds().size() + "): " + Bukkit.getWorlds().toString());
 	}
 	
 	

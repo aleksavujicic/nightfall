@@ -123,6 +123,7 @@ public class MapManager {
 	}
 	
 	private GameMap loadMap(FileConfiguration config) {
+		Bukkit.getLogger().info("Begin loading map");
 		// Don't do anything if disabled
 		if (!enabled)
 			throw new IllegalStateException("Attempted to load map while map loading is disabled");
@@ -143,29 +144,47 @@ public class MapManager {
 			return loadDefaultMap();
 		} finally {
 			loading = false;
+			Bukkit.getLogger().info("Finished loading map");
 		}
 	}
 	
 	public void unloadMap(GameMap map) {
+		Bukkit.getLogger().info("Begin unloading map");
 		World mapWorld = map.getWorld();
-		World defaultWorld = Bukkit.getWorlds().get(0);
+		World safeWorld;
+		if (GameMap.getCurrentMap() == map)
+			safeWorld = Bukkit.getWorlds().get(0);
+		else
+			safeWorld = GameMap.getCurrentMap().getWorld();
 		
-		map.unload();
-		
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			player.teleport(defaultWorld.getSpawnLocation());
+		for (Player player : mapWorld.getPlayers()) {
+			player.teleport(safeWorld.getSpawnLocation());
 		}
+		map.unload();
 		
 		boolean success = Bukkit.unloadWorld(mapWorld, false);
 		if (!success)
 			Bukkit.getLogger().severe("Failed to unload world + " );
 		
+		try {
+			File file = mapWorld.getWorldFolder();
+			if (file.exists()) {
+				Bukkit.getLogger().warning("World folder exists!");
+				Bukkit.broadcastMessage("World folder exists!");
+				FileUtils.deleteDirectory(file);
+			}
+		} catch (IOException e) {
+			throw new RuntimeException("Failed to delete world folder: ", e);
+		}
+		Bukkit.getLogger().info("Finished unloading map");
 	}
 	
 	private World createMapWorld(String mapFilename) throws MapLoadingException {
 		Bukkit.getLogger().info("Begin creation of map world: " + mapFilename);
 		
 		String worldFilename = getNextWorldName();
+		//if (Bukkit.getWorld(getNextWorldName()) != null)
+		//	throw new MapLoadingException("World called '" + worldFilename + "' already is active.");
 		
 		// Figure out stored map folder and folder of world to play on.
 		File mapFolder = new File(mapWorldFolder, mapFilename);
@@ -177,9 +196,13 @@ public class MapManager {
 		
 		// Delete world folder if it exists
 		try {
-			FileUtils.deleteDirectory(worldFolder);
+			if (worldFolder.exists()) {
+				Bukkit.getLogger().warning("World folder exists!");
+				Bukkit.broadcastMessage("World folder exists!");
+				FileUtils.deleteDirectory(worldFolder);
+			}
 		} catch (IOException e) {
-			throw new MapLoadingException("Failed to delete existing world folder: " + worldFilename);
+			throw new MapLoadingException("Failed to delete existing world folder: " + worldFilename, e);
 		}
 		
 		// Copy map over
@@ -199,7 +222,9 @@ public class MapManager {
 		if (lockFile.exists())
 			throw new MapLoadingException("Failed to delete lock file.");
 		
-		return Bukkit.createWorld(new WorldCreator(worldFilename));
+		World world = Bukkit.createWorld(new WorldCreator(worldFilename));
+		Bukkit.getLogger().info("Finished creating world");
+		return world;
 	}
 	
 	private String getNextWorldName() {
