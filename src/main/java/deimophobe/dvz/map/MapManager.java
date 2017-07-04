@@ -239,8 +239,6 @@ public class MapManager {
 		try {
 			File file = mapWorld.getWorldFolder();
 			if (file.exists()) {
-				Bukkit.getLogger().warning("World folder exists!");
-				Bukkit.broadcastMessage("World folder exists!");
 				FileUtils.deleteDirectory(file);
 			}
 		} catch (IOException e) {
