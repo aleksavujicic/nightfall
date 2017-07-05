@@ -156,6 +156,8 @@ public class GameMap {
 				}
 			}
 		};
+		
+		// Add shrine features
 	}
 	
 	private void setWorldSettings() {
@@ -285,6 +287,9 @@ public class GameMap {
 	
 	public void onEnd() {
 		shrineUpdater.cancel();
+		for (MapFeature feature : features) {
+			feature.deactivate();
+		}
 	}
 	
 	
