@@ -12,6 +12,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,11 +34,14 @@ public class MapManager {
 	private final List<String> worlds = new ArrayList<>(Arrays.asList("Nightfall1","Nightfall2","Nightfall3"));
 	private int worldIndex = 0;
 	
-	private final Map<String, File> maps = new HashMap<>();
 	private final File mapConfigFile;
 	private final File mapWorldFolder;
 	
 	private final Deque<String> mapQueue = new LinkedList<>();
+	
+	private final Map<String, File> maps = new HashMap<>();
+	private boolean autocycle;
+	private int cycleTime;
 	
 	private MapManager() {
 		// Save default config
@@ -101,12 +105,23 @@ public class MapManager {
 	}
 	
 	public void reloadConfig() {
+		Bukkit.getLogger().info("Reloading map config.");
+		Configuration mapConfig = YamlConfiguration.loadConfiguration(mapConfigFile);
+		ConfigurationSection mapSection = mapConfig.getConfigurationSection("maps");
+		
+		autocycle = mapConfig.getBoolean("auto-cycle", true);
+		cycleTime = mapConfig.getInt("cycle-time", 30);
+		
+		if (cycleTime <= 0) {
+			Bukkit.getLogger().severe("Cycle time should be positive.");
+			cycleTime = 30;
+		}
+				
+		
 		if (!mapWorldFolder.exists()) {
 			Bukkit.getLogger().severe("No map folder found - no maps will be created.");
 			return;
 		}
-		Configuration mapConfig = YamlConfiguration.loadConfiguration(mapConfigFile);
-		ConfigurationSection mapSection = mapConfig.getConfigurationSection("maps");
 
 		if (mapSection == null) {
 			Bukkit.getLogger().severe("No section found for maps in maps.yml - no maps will be created.");
@@ -316,7 +331,23 @@ public class MapManager {
 		return worlds.get(worldIndex);
 	}
 	
+	
+	// ~~~~~ MISC ~~~~~
+	
 	public File getNightfallConfig(World world) {
 		return new File(world.getWorldFolder(), "nightfall.yml");
 	}
+	
+	public void scheduleNewGame() {
+		if (!autocycle) return;
+		
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				Game.createNewGame();
+			}
+		}.runTaskLater(DvZPlugin.getPlugin(), cycleTime*20);
+	}
+	
+	
 }

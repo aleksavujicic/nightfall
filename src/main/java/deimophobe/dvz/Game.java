@@ -331,6 +331,8 @@ public class Game {
 		bossBar.setProgress(0);
 		bossBar.setTitle(ChatColor.RED + "The Dwarves Have Fallen!");
 		bossBar.setColor(BarColor.RED);
+		
+		MapManager.getManager().scheduleNewGame();
 	}
 	
 	
