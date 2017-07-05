@@ -6,7 +6,7 @@
 image: maven:3.5.0
 
 pipelines:
-  custom:
+  branches:
     build:
       - step:
           script: # Modify the commands below to build your repository.
