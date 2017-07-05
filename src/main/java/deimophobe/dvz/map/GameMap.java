@@ -92,8 +92,15 @@ public class GameMap {
 		// Setup shrines
 		shrines = new ArrayList<>();
 		ConfigurationSection shrineConfig = config.getConfigurationSection("shrines");
+		int shrineNum = 1;
+		int shrineAmt = shrineConfig.getKeys(false).size();
 		for (String key : shrineConfig.getKeys(false)) {
-			shrines.add(new Shrine(this, shrineConfig.getConfigurationSection(key), shrines.size()+1));
+			if (shrineNum == shrineAmt) {
+				shrines.add(new FinalShrine(this, shrineConfig.getConfigurationSection(key), shrineNum));
+			} else {
+				shrines.add(new Shrine(this, shrineConfig.getConfigurationSection(key), shrineNum));
+			}
+			shrineNum++;
 		}
 		if (shrines.size() == 0)
 			throw new InvalidMapConfigException("Map config must have at least one shrine.");
@@ -177,7 +184,7 @@ public class GameMap {
 	
 	
 	public void unload() {
-		if (Game.getGame().getPhase().hasGameStarted())
+		if (Game.getGame().getPhase() == Phase.GAME)
 			shrineUpdater.cancel();
 		
 		MapManager.getManager().unloadAndDeleteWorld(world);
@@ -265,6 +272,19 @@ public class GameMap {
 			}
 		}.runTaskLater(DvZPlugin.getPlugin(), newShrine.getSwapoverDelay());
 		newShrine.onActive();
+	}
+	
+	public void damageShrine(int damage) {
+		shrines.get(currentShrineIndex).damageShrine(damage);
+	}
+	
+	public void recoverShrine(int recovery) {
+		shrines.get(currentShrineIndex).recoverShrine(recovery);
+	}
+	
+	
+	public void onEnd() {
+		shrineUpdater.cancel();
 	}
 	
 	

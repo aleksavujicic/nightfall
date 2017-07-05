@@ -24,7 +24,7 @@ import java.util.Set;
  * Created by Deimophobe on 21/01/17.
  */
 public class Shrine {
-	private final GameMap map;
+	protected final GameMap map;
 	
 	private final String name;
 	private final String fallName;
@@ -130,15 +130,10 @@ public class Shrine {
 		}
 		
 		map.stealGold(Math.max(3*mobsOnShrine - 3*dwarvesOnShrine, 0));
-		damageShrine(mobsOnShrine, dwarvesOnShrine);
-		
-		if (shrinePower <= 0)
-			killShrine();
-		else
-			Game.getGame().setShrineBarPower((double) shrinePower/maxShrinePower);
+		doUpdateDamage(mobsOnShrine, dwarvesOnShrine);
 	}
 	
-	private void damageShrine(int mobNum, int dwarfNum) {
+	private void doUpdateDamage(int mobNum, int dwarfNum) {
 		int damage = 0;
 		int recovery = 0;
 		// Making shrines a bit stronger
@@ -184,8 +179,8 @@ public class Shrine {
 		// Shrine damage and recovery are capped at 20%
 		damage = Math.min((maxShrinePower / 5), damage);
 		recovery = Math.min((maxShrinePower / 5), recovery);
+		recoverShrine(recovery);
 		shrinePower -= damage;
-		shrinePower += recovery;
 
 		// Shrine Power capped at max shrine power
 		if (shrinePower > maxShrinePower){
@@ -193,16 +188,26 @@ public class Shrine {
 		}
 	}
 
-	public boolean damageShrine(int damage) {
-		shrinePower -= damage * maxShrinePower / 100;
-		if (shrinePower > maxShrinePower){
-			shrinePower = maxShrinePower;
-		}
-		return (shrinePower <= 0);
+	public void damageShrine(int damage) {
+		shrinePower -= damage;
+		
+		if (shrinePower <= 0)
+			killShrine();
+		else
+			updateShrineHealth();
+	}
+	
+	public void recoverShrine(int recovery) {
+		shrinePower = Math.min(shrinePower + recovery, maxShrinePower);
+		updateShrineHealth();
+	}
+	
+	private void updateShrineHealth() {
+		Game.getGame().setShrineBarPower((double) shrinePower/maxShrinePower);
 	}
 	
 	
-	private void killShrine() {
+	protected void killShrine() {
 		if (MapManager.getManager().isEnabled())
 			explodeShrine();
 		Bukkit.broadcastMessage(ChatColor.GOLD + "==================================================");
@@ -225,7 +230,7 @@ public class Shrine {
 	}
 	
 	
-	private void explodeShrine() {
+	protected void explodeShrine() {
 		World world = shrineCenter.getWorld();
 		
 		world.spawnParticle(Particle.EXPLOSION_LARGE, shrineCenter, 4, 5, 2, 5);

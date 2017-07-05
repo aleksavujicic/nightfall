@@ -19,6 +19,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -351,7 +352,8 @@ public class Game {
 					player.removePotionEffect(effect.getType());
 				}
 				player.setGameMode(GameMode.ADVENTURE);
-				player.setHealth(20);
+				double maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+				player.setHealth(maxHealth);
 				player.setSaturation(100000);
 				player.setFoodLevel(100000);
 				player.setExp(0);

@@ -690,11 +690,11 @@ public class DvZPlugin extends JavaPlugin {
 				sender.sendMessage(ChatColor.RED + "The game has not yet begun! Use /forcestart and /forceplague.");
 				return true;
 			}
-
-			/*
+			
+			GameMap map = GameMap.getCurrentMap();
 			if (args.length == 1) {
 				if (args[0].equalsIgnoreCase("kill")) {
-					ShrineManager.getManager().commandDamageShrine(100);
+					map.damageShrine(100000);
 					return true;
 				} else {
 					return false;
@@ -704,23 +704,21 @@ public class DvZPlugin extends JavaPlugin {
 				try{
 					percent = Integer.parseInt(args[1]);
 				}catch(NumberFormatException e) {
+					sender.sendMessage("" + ChatColor.YELLOW + ChatColor.ITALIC + args[0] + ChatColor.RED + " is not a number!");
 					return false;
 				}
 				switch (args[0]) {
 					case "kill":
-						ShrineManager.getManager().commandDamageShrine(100);
+						map.damageShrine(100000);
 						return true;
 					case "damage":
-						ShrineManager.getManager().commandDamageShrine(percent);
+						map.damageShrine(percent);
 						return true;
 					case "recover":
-						ShrineManager.getManager().commandDamageShrine(percent * -1);
+						map.recoverShrine(percent);
 						return true;
 				}
 			}
-			return false;
-			*/
-			throw new UnsupportedOperationException("Deimo fix this later");
 		}
 		return false;
 	}
