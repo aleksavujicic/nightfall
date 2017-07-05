@@ -27,6 +27,10 @@ public class Misc {
 		return ChatColor.DARK_BLUE + "Night" + ChatColor.BLUE + "fall";
 	}
 	
+	public static <T> T getRandomFrom(T... items) {
+		return getRandom(items);
+	}
+	
 	public static <T> T getRandom(T[] items) {
 		int rand = new Random().nextInt(items.length);
 		return items[rand];

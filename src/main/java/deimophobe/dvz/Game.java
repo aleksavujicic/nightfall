@@ -254,6 +254,8 @@ public class Game {
 		
 		sidebarObj.setDisplaySlot(DisplaySlot.SIDEBAR);
 		
+		dwarfManager.selectHeroes(Bukkit.getOnlinePlayers());
+		
 		// Add dwarves
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			monsterManager.removeAllGamePlayers();

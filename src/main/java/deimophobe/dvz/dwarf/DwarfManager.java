@@ -3,6 +3,7 @@ package deimophobe.dvz.dwarf;
 import deimophobe.dvz.DvZPlugin;
 import deimophobe.dvz.Game;
 import deimophobe.dvz.GamePlayerManager;
+import deimophobe.dvz.Misc;
 import deimophobe.dvz.dwarf.hero.Hero;
 import deimophobe.dvz.dwarf.loadout.DwarfData;
 import org.bukkit.Bukkit;
@@ -77,5 +78,26 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 		plagued.removeIf(Dwarf::isPlagueImmune);
 		plagued.removeIf((Dwarf d) -> !d.isForcePlagued());
 		return plagued;
+	}
+	
+	
+	public void selectHeroes(Collection<? extends Player> players) {
+		players.removeIf(this::isGamePlayer);
+		
+		int numPlayers = Bukkit.getOnlinePlayers().size();
+		int numHeroes = 0;
+		
+		if (numPlayers >= 15) numHeroes++;
+		if (numPlayers >= 25) numHeroes++;
+		if (numPlayers >= 35) numHeroes++;
+		
+		while (numHeroes > 0) {
+			Player hero = Misc.getRandom(players);
+			players.remove(hero);
+			
+			Hero.Type type = Misc.getRandomFrom(Hero.Type.ARTHEA, Hero.Type.TUI, Hero.Type.NOSOVIN);
+			addHero(hero, type);
+			numHeroes--;
+		}
 	}
 }
