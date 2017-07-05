@@ -87,7 +87,7 @@ public class Shrine {
 		
 		this.shrineNum = shrineNum;
 		
-		this.swapoverDelay = section.getInt("delay");
+		this.swapoverDelay = section.getInt("delay", 8);
 		
 		// TODO sanitise inputs
 	}
