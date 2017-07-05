@@ -27,9 +27,11 @@ import deimophobe.dvz.monster.doom.DoomType;
 import deimophobe.dvz.monster.mob.MobType;
 import deimophobe.dvz.plague.Plague;
 import deimophobe.dvz.plague.PlagueType;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.libs.joptsimple.internal.Strings;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -64,7 +66,7 @@ public class DvZPlugin extends JavaPlugin {
 		setupPacketEvents();
 		Loadout.setupLoadouts();
 		
-		Game.createGame();
+		Game.createNewGame();
 	}
 
 	@Override
@@ -523,7 +525,7 @@ public class DvZPlugin extends JavaPlugin {
 				return true;
 			}
 		}
-		if (name.equalsIgnoreCase("map")) {
+		if (name.equalsIgnoreCase("explore")) {
 			if (sender instanceof Player) {
 				Player player = (Player) sender;
 				if (Game.getGame().isLobbyPlayer(player)) {
@@ -588,46 +590,94 @@ public class DvZPlugin extends JavaPlugin {
 			return true;
 		}
 		
-		if (name.equalsIgnoreCase("loadmap")) {
-			if (!MapManager.getManager().isEnabled()) {
+		if (name.equalsIgnoreCase("map")) {
+			if (args.length == 0)
+				return false;
+			
+			MapManager man = MapManager.getManager();
+			
+			switch (args[0]) {
+				case "enable":
+					try {
+						man.setMapsEnabled(true);
+					} catch (IOException e) {
+						e.printStackTrace();
+						sender.sendMessage(ChatColor.RED + "Failed to enable map loading.");
+						return true;
+					}
+					sender.sendMessage(ChatColor.GOLD + "Enabled map loading. This will make reloads take longer.");
+					sender.sendMessage(ChatColor.GREEN + "You must reload before changes will take effect.");
+					return true;
+					
+				case "disable":
+					try {
+						man.setMapsEnabled(false);
+					} catch (IOException e) {
+						e.printStackTrace();
+						sender.sendMessage(ChatColor.RED + "Failed to disable map loading.");
+						return true;
+					}
+					sender.sendMessage(ChatColor.GOLD + "Disabled map loading.");
+					sender.sendMessage(ChatColor.GREEN + "You must reload before changes will take effect.");
+					return true;
+			}
+			if (!man.isEnabled()) {
 				sender.sendMessage(ChatColor.RED + "GameMap loading is currently disabled.");
 				return true;
 			}
-			if (args.length == 0) {
+			
+			switch (args[0]) {
+				case "reload":
+					man.reloadConfig();
+					sender.sendMessage(ChatColor.GOLD + "Reloaded map config. " + ChatColor.GRAY + ChatColor.ITALIC + "(Enabling/disabling requires a reload).");
+					return true;
+				case "list":
+					List<String> mapList = man.getMapQueue();
+					if (mapList.isEmpty()) {
+						sender.sendMessage(ChatColor.GOLD + "No maps queued!");
+						return true;
+					}
+					String maps = StringUtils.join(mapList, ChatColor.RESET + ", " + ChatColor.GREEN);
+					sender.sendMessage(ChatColor.GOLD + "Current map list:");
+					sender.sendMessage(ChatColor.GREEN + "  " + maps);
+					return true;
+				case "clear":
+					man.clearMapQueue();
+					sender.sendMessage(ChatColor.GOLD + "Cleared map queue.");
+					return true;
+				case "next":
+					sender.sendMessage(ChatColor.GOLD + "Starting new game. Map will be: " + ChatColor.GREEN + man.peekMap());
+					Game.createNewGame();
+					sender.sendMessage(ChatColor.GOLD + "Game loaded");
+					return true;
+			}
+			
+			if (args.length == 1) {
 				sender.sendMessage(ChatColor.RED + "Please specify a map.");
 				return false;
-			} else {
-				String map = args[0];
-				if (MapManager.getManager().getMaps().contains(map)) {
-					sender.sendMessage(ChatColor.GOLD + "LOADING MAP: " + ChatColor.GREEN + args[0] + ChatColor.GOLD + "!");
-					Game.createGame();
-				} else {
-					sender.sendMessage(ChatColor.RED + "No such map: " + ChatColor.GREEN + args[0] + ChatColor.RED + "!");
-				}
-				return true;
 			}
-		}
-		if (name.equalsIgnoreCase("enableMapLoading")) {
-			try {
-				MapManager.getManager().setMapsEnabled(true);
-			} catch (IOException e) {
-				sender.sendMessage(ChatColor.RED + "Failed to enable map loading.");
-				return true;
+			String map = args[1].toLowerCase();
+			switch (args[0]) {
+				case "queue":
+					boolean success = man.tryEnqueueMap(map);
+					if (success)
+						sender.sendMessage(ChatColor.GOLD + "Successfully queued map " + ChatColor.GREEN +  map);
+					else
+						sender.sendMessage(ChatColor.RED + "Unknown map " + ChatColor.YELLOW + map);
+					return true;
+				case "play":
+				case "load":
+					boolean success2 = man.tryInsertMap(map);
+					if (success2) {
+						sender.sendMessage(ChatColor.GOLD + "Starting new game on map " + ChatColor.GREEN + map);
+						Game.createNewGame();
+						sender.sendMessage(ChatColor.GOLD + "Game loaded");
+					} else {
+						sender.sendMessage(ChatColor.RED + "Unknown map " + ChatColor.YELLOW + map);
+					}
+					return true;
 			}
-			sender.sendMessage(ChatColor.GOLD + "Enabled map loading. This will cause reloads to kick people!");
-			sender.sendMessage(ChatColor.GREEN + "You must reload before changes will take effect.");
-			return true;
-		}
-		if (name.equalsIgnoreCase("disableMapLoading")) {
-			try {
-				MapManager.getManager().setMapsEnabled(false);
-			} catch (IOException e) {
-				sender.sendMessage(ChatColor.RED + "Failed to disable map loading.");
-				return true;
-			}
-			sender.sendMessage(ChatColor.GOLD + "Disabled map loading.");
-			sender.sendMessage(ChatColor.GREEN + "You must reload before changes will take effect.");
-			return true;
+			return false;
 		}
 		if (name.equalsIgnoreCase("kills")) {
 			if (sender instanceof Player) {
@@ -678,34 +728,43 @@ public class DvZPlugin extends JavaPlugin {
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 		String name = command.getName();
-		if (name.equalsIgnoreCase("loadmap")) {
-			return startsWithPrefix(MapManager.getManager().getMaps(), args[0]);
+		if (name.equalsIgnoreCase("map")) {
+			if (args.length == 1) {
+				return startsWithPrefix(args[0], "enable", "disable", "reload", "list", "clear", "next", "queue", "play", "load");
+			} else if (args.length == 2) {
+				switch (args[0]) {
+					case "queue":
+					case "play":
+					case "load":
+						return startsWithPrefix(args[1], MapManager.getManager().getMaps());
+				}
+			}
 		}
 		
 		if (name.equalsIgnoreCase("setdwarf") && args.length >= 2) {
 			Collection<String> elements = KitElementType.getElementNames();
 			if (args.length == 2) elements.add("all");
-			return startsWithPrefix(elements, args[args.length-1]);
+			return startsWithPrefix(args[args.length-1], elements);
 		}
 		
 		if (name.equalsIgnoreCase("sethero") && args.length == 2) {
-			return startsWithPrefix(Hero.Type.getHeroList(), args[args.length-1]);
+			return startsWithPrefix(args[args.length-1], Hero.Type.getHeroList());
 		}
 
 		if (name.equalsIgnoreCase("setmob") && args.length == 2) {
-			return startsWithPrefix(MobType.getAllMobTypes(), args[args.length-1]);
+			return startsWithPrefix(args[args.length-1], MobType.getAllMobTypes());
 		}
 		
 		if (name.equalsIgnoreCase("forceplague") && args.length == 1) {
-			return startsWithPrefix(PlagueType.getPlagues(), args[args.length-1]);
+			return startsWithPrefix(args[args.length-1], PlagueType.getPlagues());
 		}
 
 		if (name.equalsIgnoreCase("spawnmob") && args.length == 2) {
-			return startsWithPrefix(MobType.getAllMobTypes(), args[args.length-1]);
+			return startsWithPrefix(args[args.length-1], MobType.getAllMobTypes());
 		}
 		
 		if (name.equalsIgnoreCase("summondoom") && args.length == 1) {
-			return startsWithPrefix(DoomType.getAllTypes(), args[args.length-1]);
+			return startsWithPrefix(args[args.length-1], DoomType.getAllTypes());
 		}
 		
 		if (name.equalsIgnoreCase("armour") && args.length == 1) {
@@ -713,7 +772,7 @@ public class DvZPlugin extends JavaPlugin {
 		}
 		
 		if (name.equalsIgnoreCase("giveitem")) {
-			return startsWithPrefix(ItemManager.getManager().getNames(), args[args.length-1]);
+			return startsWithPrefix(args[args.length-1], ItemManager.getManager().getNames());
 		}
 
 		if (name.equalsIgnoreCase("shrine") && args.length == 1) {
@@ -724,10 +783,10 @@ public class DvZPlugin extends JavaPlugin {
 	}
 	
 	private static List<String> startsWithPrefix(String prefix, String... strings) {
-		return startsWithPrefix(Arrays.asList(strings), prefix);
+		return startsWithPrefix(prefix, Arrays.asList(strings));
 	}
 	
-	private static List<String> startsWithPrefix(Collection<String> strings, String prefix) {
+	private static List<String> startsWithPrefix(String prefix, Collection<String> strings) {
 		List<String> matchStrings = new ArrayList<>();
 		for (String string : strings) {
 			if (string.toLowerCase().startsWith(prefix.toLowerCase()))

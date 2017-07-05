@@ -43,7 +43,7 @@ public class Game {
 	public static Game getGame() {
 		return game;
 	}
-	public static Game createGame() {
+	public static Game createNewGame() {
 		Bukkit.getLogger().info("Begin loading game.");
 		if (loading) throw new IllegalStateException("Game already loading");
 		loading = true;

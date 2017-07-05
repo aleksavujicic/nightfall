@@ -37,7 +37,7 @@ public class MapManager {
 	private final File mapConfigFile;
 	private final File mapWorldFolder;
 	
-	private boolean loading = false;
+	private final Deque<String> mapQueue = new LinkedList<>();
 	
 	private MapManager() {
 		// Save default config
@@ -130,6 +130,42 @@ public class MapManager {
 		}
 	}
 	
+	// ~~~~~ MAP QUEUEING ~~~~~
+	
+	/** Places map at tail of queue if valid map. */
+	public boolean tryEnqueueMap(String map) {
+		if (maps.containsKey(map)) {
+			mapQueue.add(map);
+			return true;
+		} else {
+			Bukkit.getLogger().warning("Tried to enqueue invalid map '" + map + "'.");
+			return false;
+		}
+	}
+	
+	/** Places map at head of queue if valid map. */
+	public boolean tryInsertMap(String map) {
+		if (maps.containsKey(map)) {
+			mapQueue.addFirst(map);
+			return true;
+		} else {
+			Bukkit.getLogger().warning("Tried to enqueue invalid map '" + map + "'.");
+			return false;
+		}
+	}
+	
+	public List<String> getMapQueue() {
+		return new ArrayList<>(mapQueue);
+	}
+	
+	public void clearMapQueue() {
+		mapQueue.clear();
+	}
+	
+	public String peekMap() {
+		return mapQueue.peek();
+	}
+	
 	// ~~~~~ MAP LOADING ~~~~~
 	
 	public GameMap loadNextMap() {
@@ -137,8 +173,13 @@ public class MapManager {
 		if (!enabled) {
 			Bukkit.getLogger().warning("Map loading disabled, loading default map.");
 			return loadDefaultMap();
-		} else {
+		}
+		
+		String nextMap = mapQueue.poll();
+		if (nextMap == null) {
 			return loadRandomMap();
+		} else {
+			return loadMap(nextMap);
 		}
 	}
 	
@@ -147,24 +188,25 @@ public class MapManager {
 		try {
 			return new GameMap(world);
 		} catch (InvalidMapConfigException e) {
-			throw new RuntimeException("Default map config is invalid, can't start game",e);
+			throw new RuntimeException("Default map config is invalid, can't start game.", e);
 		}
 	}
 	
 	private GameMap loadRandomMap() {
 		String mapName = Misc.getRandom(maps.keySet());
-		return loadMap(maps.get(mapName));
+		return loadMap(mapName);
 	}
 	
-	private GameMap loadMap(File mapFolder) {
-		Bukkit.getLogger().info("Begin loading map");
+	private GameMap loadMap(String name) {
+		Bukkit.getLogger().info("Begin loading map " + name);
 		// Don't do anything if disabled
 		if (!enabled)
-			throw new IllegalStateException("Attempted to load map while map loading is disabled");
-				
-		if (loading)
-			throw new IllegalStateException("Attempted to load another map while loading");
-		loading = true;
+			throw new IllegalStateException("Attempted to load map while map loading is disabled.");
+		
+		if (!maps.containsKey(name))
+			throw new IllegalArgumentException("Attempted to load map '" + name + "' but it is not a map.");
+		
+		File mapFolder = maps.get(name);
 		
 		World world = null;
 		try {
@@ -175,8 +217,7 @@ public class MapManager {
 			unloadAndDeleteWorld(world);
 			return loadDefaultMap();
 		} finally {
-			loading = false;
-			Bukkit.getLogger().info("Finished loading map");
+			Bukkit.getLogger().info("Finished loading map " + name);
 		}
 	}
 	
