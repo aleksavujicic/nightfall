@@ -45,22 +45,14 @@ public class Game {
 	}
 	public static Game createGame() {
 		Bukkit.getLogger().info("Begin loading game.");
-		broadcastWorlds();
 		if (loading) throw new IllegalStateException("Game already loading");
 		loading = true;
 		try {
 			return new Game();
 		} finally {
-			new BukkitRunnable() {
-				@Override public void run() {
-					loading = false;
-					Bukkit.getLogger().info("Finished loading game.");
-				}
-			}.runTaskLater(DvZPlugin.getPlugin(), 40);
+			loading = false;
+			Bukkit.getLogger().info("Finished loading game.");
 		}
-	}
-	private static void broadcastWorlds() {
-		Bukkit.broadcastMessage("Worlds ("+Bukkit.getWorlds().size() + "): " + Bukkit.getWorlds().toString());
 	}
 	
 	
