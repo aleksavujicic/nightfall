@@ -172,7 +172,7 @@ public class MapManager {
 			return new GameMap(world);
 		} catch (MapLoadingException | InvalidMapConfigException e) {
 			e.printStackTrace();
-			Bukkit.unloadWorld(world, false);
+			unloadAndDeleteWorld(world);
 			return loadDefaultMap();
 		} finally {
 			loading = false;
@@ -225,6 +225,11 @@ public class MapManager {
 	}
 	
 	public void unloadAndDeleteWorld(World world) {
+		if (world == null) {
+			Bukkit.getLogger().severe("Cannot unload null world");
+			return;
+		}
+		
 		Bukkit.getLogger().info("Begin unloading map.");
 		World defaultWorld = Bukkit.getWorlds().get(0);
 		World gameWorld = GameMap.getCurrentMap().getWorld();
