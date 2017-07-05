@@ -87,6 +87,7 @@ public class Loadout implements SessionData {
 	}
 	
 	private void updateDisplay() { // TODO move this elsewhere maybe? Make lobbyer class maybe?
+		/*
 		Player player = Bukkit.getPlayer(playerUUID);
 		if (player != null && Game.getGame().isLobbyPlayer(player)) {
 			PlayerInventory inv = player.getInventory();
@@ -99,6 +100,7 @@ public class Loadout implements SessionData {
 				i++;
 			}
 		}
+		*/
 	}
 	
 	
@@ -112,7 +114,7 @@ public class Loadout implements SessionData {
 		return getLoadout(player.getUniqueId());
 	}
 	static Loadout getLoadout(UUID uuid) {
-		return loadouts.computeIfAbsent(uuid, k -> new Loadout(k));
+		return loadouts.computeIfAbsent(uuid, Loadout::new);
 	}
 	
 	

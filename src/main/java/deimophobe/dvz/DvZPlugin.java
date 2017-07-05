@@ -60,13 +60,14 @@ public class DvZPlugin extends JavaPlugin {
 		//Bukkit.getLogger().info("AYYYY LMAO");
 		plugin = this;
 		
-		gl = new GameListener();
-		Bukkit.getPluginManager().registerEvents(gl, DvZPlugin.getPlugin());
-		
 		setupPacketEvents();
 		Loadout.setupLoadouts();
 		
+		gl = new GameListener();
+		
 		Game.createNewGame();
+		
+		Bukkit.getPluginManager().registerEvents(gl, DvZPlugin.getPlugin());
 	}
 
 	@Override
