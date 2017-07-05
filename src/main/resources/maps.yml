@@ -1,5 +1,10 @@
 enabled: true
 
 maps:
-  nurah: Nurah
-  machi: MyMachine
+  nurah: "Nurah"
+  machine: "The Machine"
+  finalretreat: "FinalRetreat"
+  justmore: "Mount Justmore"
+  spooder: "spooder"
+  westeros: "Westeros"
+  test: "Testmap"
