@@ -1,8 +1,8 @@
-main: deimophobe.dvz.DvZPlugin
-name: CustomDvZ
-version: 1.0
-author: Deimo
-description: Deimo's custom dvz thing
+main: deimophobe.nightfall.NightfallPlugin
+name: Nightfall
+version: 0.1
+author: Deimophobe
+description: The main plugin for the nightfall game.
 depend: [ProtocolLib]
 commands:
   setdwarf:
