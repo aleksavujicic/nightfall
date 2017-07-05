@@ -75,18 +75,6 @@ public class DvZPlugin extends JavaPlugin {
 		Loadout.saveLoadouts();
 		game.stop();
 		Misc.removeAllTeams();
-		
-		
-		World mainWorld = Bukkit.getWorlds().get(0);
-		if (MapManager.getManager().isEnabled()) {
-			for (Player player : Bukkit.getOnlinePlayers()) {
-				player.teleport(mainWorld.getSpawnLocation());
-			}
-			
-			for (World world : Bukkit.getWorlds()) {
-				Bukkit.unloadWorld(world, false);
-			}
-		}
 	}
 	
 	public void updateManagers() {
