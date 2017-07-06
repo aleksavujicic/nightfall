@@ -25,10 +25,10 @@ class Flamelancer extends SkeletonMob {
 		super(monster);
 	}
 	
-	private static final int ARROWS_FIRED = 20;
+	private static final int ARROWS_FIRED = 15;
 	
 	private static final double FLAME_CHANCE_STAND = 0.15;
-	private static final double FLAME_CHANCE_ARROW = 0.35;
+	private static final double FLAME_CHANCE_ARROW = 0.3;
 	
 	@Override
 	public void spawn() {
@@ -45,7 +45,7 @@ class Flamelancer extends SkeletonMob {
 		World world = arrow.getWorld();
 		arrow.setFireTicks(10000);
 		arrow.setCritical(false);
-		final int arrowsToFire = (int) (ARROWS_FIRED*(force*force*force));
+		final int arrowsToFire = (int) (ARROWS_FIRED*(force*force));
 		for (int i=0; i<arrowsToFire; i++) {
 			Arrow newArrow = world.spawnArrow(arrow.getLocation(), arrow.getVelocity(), force*2, 30f);
 			newArrow.setMetadata("force", new FixedMetadataValue(NightfallPlugin.getPlugin(), force));
