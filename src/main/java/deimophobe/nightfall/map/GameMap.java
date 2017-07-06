@@ -272,7 +272,7 @@ public class GameMap {
 				currentMobSpawn = newShrine.getMobSpawn();
 				currentMobProtection = newShrine.getMobProtection();
 			}
-		}.runTaskLater(NightfallPlugin.getPlugin(), newShrine.getSwapoverDelay());
+		}.runTaskLater(NightfallPlugin.getPlugin(), newShrine.getSwapoverDelay()*20);
 		newShrine.onActive();
 	}
 	
