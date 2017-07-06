@@ -290,7 +290,7 @@ public class Game {
 		//int toKill = plagueables.size();
 		int toKill = dwarfManager.getDwarves().size()/3+1;
 		
-		if (toKill == 0 || plagueables.size() == 0) {
+		if (toKill == 0 || plagueables.size() + plagued.size() == 0) {
 			releaseMonsters();
 			return;
 		}

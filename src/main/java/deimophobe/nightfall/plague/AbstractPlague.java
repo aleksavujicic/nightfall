@@ -38,12 +38,8 @@ public abstract class AbstractPlague implements Plague {
 	
 	protected void removeDwarf(Dwarf dwarf) {
 		toKill--;
-		if (plagued.contains(dwarf)) {
-			plagued.remove(dwarf);
-		}
-		else {
-			plagueables.remove(dwarf);
-		}
+		plagued.remove(dwarf);
+		plagueables.remove(dwarf);
 	}
 	
 	protected void killDwarf(Dwarf dwarf) {

@@ -6,11 +6,13 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -23,7 +25,7 @@ class ZombiePlague extends AbstractPlague {
 	@Override
 	public void startPlague(Set<Dwarf> plagueables, Set<Dwarf> plagued, int killAmt) {
 		super.startPlague(plagueables, plagued, killAmt);
-		for (Dwarf dwarf : plagued) {
+		for (Dwarf dwarf : new HashSet<>(plagued)) {
 			convertToZombie(dwarf);
 		}
 		infectMore();
@@ -40,10 +42,10 @@ class ZombiePlague extends AbstractPlague {
 	private static final String SICK_MSG = ChatColor.GREEN + "You begin to feel a little " + ChatColor.LIGHT_PURPLE + "sick" + ChatColor.GREEN + "!";
 	private static final int SICK_MSG_TIME = 160;
 	
-	void convertToZombie(Dwarf dwarf) {
+	boolean convertToZombie(Dwarf dwarf) {
 		// If dwarf is plagued, make sure to plague
 		// Otherwise stop if the dwarf is not plagueable, or amt to kill is zero.
-		if (!isPlagued(dwarf) && (getAmountToKill() == 0 || !isPlaguable(dwarf))) return;
+		if (!isPlagued(dwarf) && (getAmountToKill() == 0 || !isPlaguable(dwarf))) return false;
 		
 		removeDwarf(dwarf);
 		
@@ -74,6 +76,7 @@ class ZombiePlague extends AbstractPlague {
 				}
 			}.runTaskLater(NightfallPlugin.getPlugin(), 600);
 		}
+		return true;
 	}
 	
 	void notifyZombieDeath() {

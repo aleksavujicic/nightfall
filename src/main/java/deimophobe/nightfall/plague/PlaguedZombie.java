@@ -7,6 +7,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.mob.AbstractMob;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -29,14 +30,19 @@ public class PlaguedZombie extends AbstractMob {
 	@Override
 	public double onGotHit(Dwarf dwarf, DamageType type, double damage) {
 		if (type == DamageType.POISON)
-			damage *= 0.1;
+			damage *= 0.2;
 		return damage;
 	}
 	
 	@Override
 	public double onHit(Dwarf dwarf, DamageType type, double damage) {
-		if (canSpread && Math.random() <= 0.5) {
-			plague.convertToZombie(dwarf);
+		if (canSpread && Math.random() <= 0.3) {
+			boolean plagued = plague.convertToZombie(dwarf);
+			if (plagued) {
+				monster.sendMessage(ChatColor.GREEN + "You have spread the " + ChatColor.LIGHT_PURPLE + ChatColor.ITALIC + "plague" +
+						ChatColor.GREEN + " to " + dwarf.getDisplayName() + ChatColor.GREEN + "!");
+				monster.gainXP(100, false);
+			}
 		}
 		return damage;
 	}
