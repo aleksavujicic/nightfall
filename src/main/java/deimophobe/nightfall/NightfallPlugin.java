@@ -337,18 +337,25 @@ public class NightfallPlugin extends JavaPlugin {
 			if (sender instanceof Player) {
 				Dwarf dwarf = dm.getGamePlayer((Player)sender);
 				if (dwarf != null) {
-					if (args.length >= 1) {
+					if (args.length == 1) {
+						if (args[0].equals("equip")) {
+							dwarf.getArmour().putOn();
+							return true;
+						}
+					} else if (args.length == 2) {
+						int amt;
+						try {
+							amt = Integer.parseInt(args[1]);
+						} catch (NumberFormatException e) {
+							sender.sendMessage("" + ChatColor.YELLOW + ChatColor.ITALIC + args[0] + ChatColor.RED + " is not a number!");
+							return false;
+						}
 						switch (args[0]) {
-							case "equip":
-								dwarf.getArmour().putOn();
-								return true;
 							case "damage":
-								if (args.length == 1) return false;
-								dwarf.getArmour().damage(Integer.parseInt(args[1]));
+								dwarf.getArmour().damage(amt);
 								return true;
 							case "repair":
-								if (args.length == 1) return false;
-								dwarf.getArmour().repair(Integer.parseInt(args[1]));
+								dwarf.getArmour().repair(amt);
 								return true;
 						}
 					}
