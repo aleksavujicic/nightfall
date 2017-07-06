@@ -39,7 +39,7 @@ class ZombiePlague extends AbstractPlague {
 		}
 	}
 	
-	private static final String SICK_MSG = ChatColor.GREEN + "You begin to feel a little " + ChatColor.LIGHT_PURPLE + "sick" + ChatColor.GREEN + "!";
+	private static final String SICK_MSG = ChatColor.GREEN + "You begin to feel a little " + ChatColor.LIGHT_PURPLE + ChatColor.ITALIC + "sick" + ChatColor.GREEN + "!";
 	private static final int SICK_MSG_TIME = 160;
 	
 	boolean convertToZombie(Dwarf dwarf) {
@@ -61,7 +61,7 @@ class ZombiePlague extends AbstractPlague {
 				DwarfManager.getManager().removeGamePlayer(dwarf, false);
 				MonsterManager.getManager().addGamePlayer(player);
 				MonsterPlayer mp = MonsterManager.getManager().getGamePlayer(player);
-				mp.spawnMobAt(new PlaguedZombie(mp, ZombiePlague.this, plagued.contains(dwarf)),null);
+				mp.spawnMobAt(new PlaguedZombie(mp, ZombiePlague.this, !plagued.contains(dwarf)),null);
 				
 				numZombiesAlive++;
 				
