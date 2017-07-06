@@ -1,9 +1,11 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -11,9 +13,14 @@ import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 26/01/17.
@@ -45,21 +52,36 @@ class Krungor extends AbstractTypedMob {
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action) && cooldown == 0 && isPlayerHoldingWeapon()) {
-			/*
 			
-			Location loc = monster.getLocation();
-			loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 1,0, 0, 0, 0);
-			*/
 			
-			//Set<Launcher> launchers = new HashSet<>();
+			Set<Dwarf> launched = new HashSet<>();
 			for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
 				double distance = monster.distanceTo(dwarf);
 				if (distance <= RANGE) {
-					new Launcher(dwarf, distance).launch();
+					dwarf.givePotionEffect(PotionEffectType.LEVITATION, 30, 100, true, false, true);
+					launched.add(dwarf);
 				}
 			}
 			
+			// Particles from launched dwarves
+			new BukkitRunnable() {
+				private int lifetime = 15;
+				private World world = GameMap.getCurrentMap().getWorld();
+				@Override
+				public void run() {
+					for (Dwarf dwarf : launched) {
+						Player player = dwarf.getPlayer();
+						if (player != null)
+							world.spawnParticle(Particle.END_ROD, player.getLocation(), 0, 0, -1, 0, 1);
+					}
+					
+					lifetime--;
+					if (lifetime == 0)
+						this.cancel();
+				}
+			}.runTaskTimer(NightfallPlugin.getPlugin(), 0, 2);
 			
+			// Play effect around krungor
 			monster.getLocation().getWorld().playSound(monster.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1, 0.7f);
 			new BukkitRunnable() {
 				Location center = monster.getLocation();
@@ -79,7 +101,6 @@ class Krungor extends AbstractTypedMob {
 						
 						particleLoc.add(0, 1, 0);
 						world.spawnParticle(Particle.SMOKE_LARGE, particleLoc, 2, 0.3, 0.15, 0.3, 0);
-						//world.spawnParticle(Particle.DRAGON_BREATH, particleLoc, 3, 0.2, 0.2, 0.2, 0);
 						
 					}
 					
@@ -93,37 +114,6 @@ class Krungor extends AbstractTypedMob {
 			
 			
 			cooldown = MAX_CD;
-		}
-	}
-	
-	private static class Launcher {
-		private final Dwarf dwarf;
-		private final double range;
-		
-		private Launcher(Dwarf dwarf, double range) {
-			this.dwarf = dwarf;
-			this.range = range;
-		}
-		
-		private void launch() {
-			//dwarf.givePotionEffect(PotionEffectType.GLOWING, 30, 1, true, true, false);
-			World world = dwarf.getLocation().getWorld();
-			
-			new BukkitRunnable() {
-				private int lifetime = 15;
-				@Override
-				public void run() {
-					Vector vel = dwarf.getPlayer().getVelocity().clone();
-					vel.setY(10);
-					dwarf.getPlayer().setVelocity(vel);
-					
-					world.spawnParticle(Particle.END_ROD, dwarf.getLocation(), 0, 0, -1, 0, 1);
-					
-					lifetime--;
-					if (lifetime == 0)
-						this.cancel();
-				}
-			}.runTaskTimer(NightfallPlugin.getPlugin(), 0, 2);
 		}
 	}
 	
