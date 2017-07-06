@@ -347,7 +347,7 @@ public class NightfallPlugin extends JavaPlugin {
 						try {
 							amt = Integer.parseInt(args[1]);
 						} catch (NumberFormatException e) {
-							sender.sendMessage("" + ChatColor.YELLOW + ChatColor.ITALIC + args[0] + ChatColor.RED + " is not a number!");
+							sender.sendMessage("" + ChatColor.YELLOW + ChatColor.ITALIC + args[1] + ChatColor.RED + " is not a number!");
 							return false;
 						}
 						switch (args[0]) {
