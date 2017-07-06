@@ -509,7 +509,7 @@ hero:
   totem:
     template: dwarf-hero
     base: hammer
-    name: Healing Lantern
+    name: Asclepius
     lore:
       description:
        - "Right click to heal and buff dwarves\n
