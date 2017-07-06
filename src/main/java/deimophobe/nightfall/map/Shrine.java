@@ -179,7 +179,7 @@ public class Shrine {
 		damage = Math.min((maxShrinePower / 5), damage);
 		recovery = Math.min((maxShrinePower / 5), recovery);
 		recoverShrine(recovery);
-		shrinePower -= damage;
+		damageShrine(damage);
 
 		// Shrine Power capped at max shrine power
 		if (shrinePower > maxShrinePower){
