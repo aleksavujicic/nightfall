@@ -196,6 +196,10 @@ public class GameMap {
 		if (Game.getGame().getPhase() == Phase.GAME)
 			shrineUpdater.cancel();
 		
+		for (MapFeature feature : features) {
+			feature.deactivate();
+		}
+		
 		MapManager.getManager().unloadAndDeleteWorld(world);
 	}
 	
@@ -294,9 +298,6 @@ public class GameMap {
 	
 	public void onEnd() {
 		shrineUpdater.cancel();
-		for (MapFeature feature : features) {
-			feature.deactivate();
-		}
 	}
 	
 	
