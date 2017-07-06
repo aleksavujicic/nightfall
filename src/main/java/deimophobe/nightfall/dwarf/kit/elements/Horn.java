@@ -7,6 +7,7 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.items.CustomItem;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -37,7 +38,7 @@ public class Horn extends AbstractCooldownItem {
 	}
 	
 	public static void tootHorn() {
-		Game.getGame().playGlobalSound("horn", 1f);
+		Sounds.DWARF_ITEM_HORN.playSound();
 		new BukkitRunnable() {
 			@Override
 			public void run() {

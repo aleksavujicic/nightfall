@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 /**
  * Created by Deimophobe on 10/03/17.
  */
+@Deprecated
 public enum GameEffect {
 	DWARF_ARMOURED(new ArmourEffectMaker()),
 	DWARF_ARMOUR_CLOUD(new ArmourCloudMaker()),

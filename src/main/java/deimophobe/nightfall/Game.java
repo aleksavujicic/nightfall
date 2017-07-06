@@ -382,10 +382,4 @@ public class Game {
 		long time = GameMap.getCurrentMap().getWorld().getTime();
 		return (12500 < time && time < 23450);
 	}
-	
-	@Deprecated
-	public void playGlobalSound(String sound, float pitch) {
-		Location loc = GameMap.getCurrentMap().getDwarfSpawn();
-		loc.getWorld().playSound(loc, sound, 10000f, pitch);
-	}
 }

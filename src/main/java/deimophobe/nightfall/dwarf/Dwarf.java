@@ -11,6 +11,7 @@ import deimophobe.nightfall.dwarf.kit.Kit;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.dwarf.loadout.DwarfData;
+import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.*;
@@ -505,8 +506,7 @@ public class Dwarf extends GamePlayer {
 				
 			case GOLD_ORE:
 				GameMap.getCurrentMap().mineGold();
-				float pitch = (float) (Math.random() * 0.8 + 1.1);
-				playSound("block.note.bell", 1f, pitch, false);
+				Sounds.DWARF_MINE_GOLD.playSound(this);
 				break;
 		}
 	}

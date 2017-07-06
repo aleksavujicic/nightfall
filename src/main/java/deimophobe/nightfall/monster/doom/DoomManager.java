@@ -3,6 +3,7 @@ package deimophobe.nightfall.monster.doom;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -100,10 +101,9 @@ public class DoomManager {
 	
 	private void playDoomDrum() {
 		if (Math.random() <= 0.0001) {
-			Game.getGame().playGlobalSound("manamadrum", 1f);
+			Sounds.MONSTER_DOOM_DRUM_MANAMA.playSound();
 		} else {
-			float pitch = (float) (Math.random() * 0.3 + 0.7);
-			Game.getGame().playGlobalSound("drum", pitch);
+			Sounds.MONSTER_DOOM_DRUM.playSound();
 		}
 	}
 	
