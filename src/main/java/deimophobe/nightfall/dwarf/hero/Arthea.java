@@ -7,6 +7,7 @@ import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import me.libraryaddict.disguise.DisguiseAPI;
+import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -141,7 +142,11 @@ public class Arthea extends Hero {
 		entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
 		
 		setTitle(ChatColor.DARK_PURPLE, "Arthea", true);
-		DisguiseAPI.disguiseEntity(entity, Skin.getSkin("arthea").getDisguise(ChatColor.DARK_PURPLE + "Arthea"));
+		PlayerDisguise disguise = Skin.getSkin("arthea").getDisguise(ChatColor.DARK_PURPLE + "Arthea");
+		disguise.setKeepDisguiseOnPlayerDeath(false);
+		disguise.setViewSelfDisguise(false);
+		disguise.setDisplayedInTab(true);
+		DisguiseAPI.disguiseEntity(entity, disguise);
 	}
 	
 	private void startEnrage() {
