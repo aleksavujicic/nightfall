@@ -101,6 +101,8 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void useItems(PlayerInteractEvent event) {
+		Block block = event.getClickedBlock();
+		Material mat = event.getMaterial();
 		GamePlayer gp = game.getGamePlayer(event.getPlayer());
 		if (gp != null) {
 			
@@ -109,17 +111,15 @@ public class GameListener implements Listener {
 				return;
 			}
 			
-			Block block = event.getClickedBlock();
 			if (block == null)
 				block = gp.getTargetBlock(null, 5);
 			gp.onUse(event.getAction(), block, event.getBlockFace());
 			
 			TimedBlock.hitBlock(block, gp);
-			
-			Material mat = event.getMaterial();
-			if (mat == Material.BARRIER || mat == Material.CHEST || (block != null && BlockType.UNINTERACTABLE_BLOCKS.matchesBlock(block))) {
-				event.setCancelled(true);
-			}
+		}
+		
+		if (mat == Material.BARRIER || mat == Material.CHEST || (block != null && BlockType.UNINTERACTABLE_BLOCKS.matchesBlock(block))) {
+			event.setCancelled(true);
 		}
 	}
 	
