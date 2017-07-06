@@ -17,14 +17,12 @@ import deimophobe.nightfall.monster.mob.Bopen;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockBurnEvent;
-import org.bukkit.event.block.BlockSpreadEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -485,17 +483,18 @@ public class GameListener implements Listener {
 	// Blocks
 	@EventHandler
 	public void preventFireSpread(BlockSpreadEvent event){
-		if (event.getNewState().getType() == Material.FIRE) {
-			event.setCancelled(true);
-			if (event.getSource().getType() == Material.FIRE) {
-				event.getSource().setType(Material.AIR);
-			}
-		}
+		event.setCancelled(true);
 	}
 	
 	@EventHandler
 	public void preventBlockBurn(BlockBurnEvent event){
 		event.setCancelled(true);
+	}
+	
+	@EventHandler
+	public void preventIceMelt(BlockFadeEvent event) {
+		if (event.getNewState().getType() == Material.STATIONARY_WATER)
+			event.setCancelled(true);
 	}
 	
 	@EventHandler

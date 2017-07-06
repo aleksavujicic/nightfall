@@ -105,7 +105,8 @@ public class BlockType {
 					
 					Material.SIGN,
 					Material.SIGN_POST,
-					Material.WALL_SIGN
+					Material.WALL_SIGN,
+					Material.ICE
 			)
 	);
 	
