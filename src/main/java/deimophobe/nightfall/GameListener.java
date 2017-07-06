@@ -31,6 +31,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.spigotmc.event.entity.EntityDismountEvent;
@@ -422,7 +423,9 @@ public class GameListener implements Listener {
 		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
 		world.playSound(centerLoc, "entity.generic.explode", 2, 1);
 		// Bukkit.broadcastMessage(mm.peekGoboThrower().getName());
-		(new Explosion(mm.dequeueGoboThrower(), DwarfManager.getManager().getGamePlayers(), centerLoc, DamageType.CUSTOM_EXPLOSION, 40, 5, 3)).explode();
+		Object value = event.getEntity().getMetadata("thrower").get(0).value();
+		if (value instanceof MonsterPlayer)
+			(new Explosion((MonsterPlayer) value, DwarfManager.getManager().getGamePlayers(), centerLoc, DamageType.CUSTOM_EXPLOSION, 40, 5, 3)).explode();
 	}
 	
 	// --------------------------------------------------------

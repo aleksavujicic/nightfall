@@ -2,6 +2,7 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Explosion;
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.blocks.timedblock.GoboBox;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
@@ -18,6 +19,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.block.Action;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -82,8 +84,8 @@ class Goblin extends AbstractTypedMob {
 			direction.setX((direction.getX() / 1.8));
 			direction.setY(0.4);
 			direction.setZ((direction.getZ() / 1.8));
-			MonsterManager.getManager().enqueueGoboThrower(monster);
 			TNTPrimed tnt = monster.getLocation().getWorld().spawn(monster.getEyeLocation().add(direction), TNTPrimed.class);
+			tnt.setMetadata("thrower", new FixedMetadataValue(NightfallPlugin.getPlugin(), monster));
 			tnt.setVelocity(direction);
 			tnt.setFuseTicks(60);
 			world.playSound(loc, "entity.firework.launch", 2, (float) 0.5);

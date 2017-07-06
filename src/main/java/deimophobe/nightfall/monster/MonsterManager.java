@@ -35,7 +35,6 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		getTeam().setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
 		
 		menu = new SpawnMenu();
-		GoboQueue = new LinkedList<>();
 		
 		aiManager = new AIManager();
 		doomManager = new DoomManager();
@@ -101,24 +100,6 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	
 	public Set<String> getUpgradeSet(MobType type) {
 		return menu.getUpgradeSet(type);
-	}
-
-	// ------------------------------------------------------------
-	// Really hacky way of resolving thrown gobo box responsibility
-	// ------------------------------------------------------------
-
-	private Queue<GameEntity> GoboQueue;
-
-	public void enqueueGoboThrower(GameEntity gobo) {
-		GoboQueue.add(gobo);
-	}
-
-	public GameEntity peekGoboThrower() {
-		return GoboQueue.peek();
-	}
-
-	public GameEntity dequeueGoboThrower() {
-		return GoboQueue.poll();
 	}
 }
 	
