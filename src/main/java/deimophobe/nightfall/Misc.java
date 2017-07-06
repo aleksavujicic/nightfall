@@ -23,7 +23,7 @@ import java.util.*;
  */
 public class Misc {
 	public static String getNightfallText() {
-		return ChatColor.DARK_BLUE + "Night" + ChatColor.BLUE + "fall";
+		return ChatColor.BLUE + "Night" + ChatColor.DARK_RED + "Fall";
 	}
 	
 	public static <T> T getRandomFrom(T... items) {
