@@ -1,0 +1,46 @@
+package deimophobe.nightfall.map.feature;
+
+import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.map.GameMap;
+import deimophobe.nightfall.map.InvalidMapConfigException;
+import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Created by Deimophobe on 1/07/17.
+ */
+public class FeatureCreator {
+	private static final Map<String, Class<? extends  MapFeature>> FEATURES;
+	static {
+		FEATURES = new HashMap<>();
+		FEATURES.put("tp-pads", TeleportPad.class);
+	}
+	
+	public static MapFeature createFeature(GameMap map, ConfigurationSection config) throws InvalidMapConfigException {
+		String name = config.getName();
+		Class<? extends MapFeature> featureClass = FEATURES.get(name);
+		
+		if (featureClass == null)
+			throw new InvalidMapConfigException("No map feature called " + name);
+		
+		MapFeature feature;
+		try {
+			feature = featureClass.getDeclaredConstructor().newInstance();
+		} catch (NoSuchMethodException e) {
+			throw new IllegalArgumentException("Unable to find constructor for map feature '" + name + "'", e);
+		} catch (IllegalAccessException e) {
+			throw new IllegalArgumentException("Failed to access constructor of map feature '" + name+ "'", e);
+		} catch (InstantiationException e) {
+			throw new IllegalArgumentException("Cannot create abstract map feature '" + name + "'", e);
+		} catch (InvocationTargetException e) {
+			throw new IllegalArgumentException("Exception thrown in constructor of map feature '" + name + "'", e);
+		}
+		
+		feature.activate(map, config);
+		return feature;
+	}
+}

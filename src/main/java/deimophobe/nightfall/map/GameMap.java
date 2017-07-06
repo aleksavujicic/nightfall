@@ -3,6 +3,7 @@ package deimophobe.nightfall.map;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.map.feature.FeatureCreator;
 import deimophobe.nightfall.map.feature.MapFeature;
 import deimophobe.nightfall.map.region.NullRegion;
 import deimophobe.nightfall.map.region.Region;
@@ -158,6 +159,12 @@ public class GameMap {
 		};
 		
 		// Add shrine features
+		if (config.contains("features")) {
+			ConfigurationSection featSection = config.getConfigurationSection("features");
+			for (String key : featSection.getKeys(false)) {
+				features.add(FeatureCreator.createFeature(this, featSection.getConfigurationSection(key)));
+			}
+		}
 	}
 	
 	private void setWorldSettings() {

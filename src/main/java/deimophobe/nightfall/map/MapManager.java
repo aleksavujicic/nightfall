@@ -285,20 +285,13 @@ public class MapManager {
 		}
 		
 		Bukkit.getLogger().info("Begin unloading map.");
-		World defaultWorld = Bukkit.getWorlds().get(0);
-		World gameWorld = GameMap.getCurrentMap().getWorld();
-		
-		World safeWorld;
-		if (world == defaultWorld) {
+		if (world == getDefaultWorld()) {
 			Bukkit.getLogger().warning("Cannot unload default world (this is normal if map loading is disabled).");
 			return;
-		} else if (world == gameWorld) {
-			Bukkit.getLogger().warning("Attempting to unload game world (this is normal if server is stopping/reloading).");
-			safeWorld = defaultWorld;
-		} else {
-			safeWorld = gameWorld;
 		}
 		
+		// TP everyone away
+		World safeWorld = getSafeWorld(world);
 		for (Player player : world.getPlayers()) {
 			if (player.isDead())
 				player.spigot().respawn();
@@ -321,6 +314,28 @@ public class MapManager {
 			throw new RuntimeException("Failed to delete world folder: ", e);
 		}
 		Bukkit.getLogger().info("Finished unloading map");
+	}
+	
+	private World getSafeWorld(World unsafe) {
+		GameMap map = GameMap.getCurrentMap();
+		if (map == null)
+			return getDefaultWorld();
+		
+		World gameWorld = map.getWorld();
+		if (gameWorld == null) {
+			Bukkit.getLogger().severe("Game world is null!?");
+			return getDefaultWorld();
+		}
+		
+		if (unsafe == gameWorld) {
+			return getDefaultWorld();
+		}
+
+		return gameWorld;
+	}
+	
+	private World getDefaultWorld() {
+		return Bukkit.getWorlds().get(0);
 	}
 	
 	private String getNextWorldName() {
