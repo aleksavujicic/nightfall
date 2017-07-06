@@ -135,7 +135,11 @@ public class BlockType {
 					Material.DISPENSER,
 					Material.DROPPER,
 					Material.BEACON,
-					Material.ENCHANTMENT_TABLE
+					Material.ENCHANTMENT_TABLE,
+					Material.COMMAND,
+					Material.COMMAND_CHAIN,
+					Material.COMMAND_MINECART,
+					Material.COMMAND_REPEATING
 			)
 	);
 	
