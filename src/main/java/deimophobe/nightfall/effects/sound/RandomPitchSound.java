@@ -29,12 +29,12 @@ public class RandomPitchSound implements GlobalSound, LocalSound, PlayerSound {
 	
 	@Override
 	public void playSound(Location location) {
-		location.getWorld().playSound(location, sound, category.getCategory(), getPitch(), volume);
+		location.getWorld().playSound(location, sound, category.getCategory(), volume, getPitch());
 	}
 	
 	@Override
 	public void playSound(GamePlayer player) {
-		player.getPlayer().playSound(player.getLocation(), sound, category.getCategory(), getPitch(), volume);
+		player.getPlayer().playSound(player.getLocation(), sound, category.getCategory(), volume, getPitch());
 	}
 	
 	@Override
