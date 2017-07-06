@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>deimophobe</groupId>
-    <artifactId>dvz</artifactId>
+    <artifactId>nightfall</artifactId>
     <version>0.1-SNAPSHOT</version>
 
     <properties>
@@ -20,7 +20,7 @@
                 <excludes>
                     <exclude>**/*.java</exclude>
                     <exclude>main/resources/**</exclude>
-                    <exclude>main/java/deimophobe/dvz/monster/spawnmenu/**</exclude>
+                    <exclude>main/java/deimophobe/nightfall/monster/spawnmenu/**</exclude>
                 </excludes>
             </resource>
             <resource>
@@ -51,7 +51,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
-                    <finalName>CustomDvZ</finalName>
+                    <finalName>Nightfall</finalName>
                 </configuration>
             </plugin>
             <plugin>
@@ -162,25 +162,6 @@
             <groupId>minecraft.spigot.community.michel_0</groupId>
             <artifactId>api</artifactId>
             <version>1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.inventivetalent</groupId>
-            <artifactId>glowapi</artifactId>
-            <version>1.4.4</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.comphenix.protocol</groupId>
-                    <artifactId>ProtocolLib</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.spigotmc</groupId>
-                    <artifactId>spigot-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.spigotmc</groupId>
-                    <artifactId>spigot</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 </project>

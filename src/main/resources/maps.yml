@@ -1,5 +1,19 @@
+# To disable loading maps set this to false. This will use the
+# main world instead.
+# Defaults to false.
 enabled: true
 
+# Set to true to have a new map loaded once the game has ended.
+# Defaults to true.
+auto-cycle: true
+# Time (in seconds) after game end that a new map will be loaded.
+# Defaults to 30 seconds
+cycle-time: 30
+
+# List of maps that can be loaded.
+# The keys are a map identifier, and the values are the
+# folder which the maps are contained in.
+# If this is empty map loading will be disabled.
 maps:
   nurah: "Nurah"
   machine: "The Machine"

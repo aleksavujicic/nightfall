@@ -1,12 +1,12 @@
-main: deimophobe.dvz.DvZPlugin
-name: CustomDvZ
-version: 1.0
-author: Deimo
-description: Deimo's custom dvz thing
+main: deimophobe.nightfall.NightfallPlugin
+name: Nightfall
+version: 0.1
+author: Deimophobe
+description: The main plugin for the nightfall game.
 depend: [ProtocolLib]
 commands:
   setdwarf:
-    usage: /setdwarf <name> [ item1 item2 ... ]
+    usage: /setdwarf <name>  <item1 item2 ...>
     description: Sets a player to be a dwarf.
   sethero:
     usage: /sethero <name> <herotype>
@@ -55,10 +55,10 @@ commands:
     aliases: kit
   stuck:
     description: For when you're stuck (before the game starts).
-  map:
+  explore:
     description: Teleport to the map (before the game starts).
   who:
-    description: Who is what and where is why
+    description: See who is online.
     aliases: list
 
   toggleais:
@@ -76,7 +76,7 @@ commands:
     usage: /forceplague <plague-type>
   plagueimmune:
     description: Makes a player (un)immune to plague.
-    usage: /plagueimmune [player]
+    usage: /plagueimmune <player>
   plague:
     description: Makes yourself plague up to the limit.
     usage: /plague
@@ -88,15 +88,10 @@ commands:
     description: Summons the specific doom type. Does not affect doom clock.
     usage: /summondoom <doom type>
 
-  loadmap:
-    description: Loads a specified map.
-    usage: /loadmap <mapname>
-  enableMapLoading:
-    description: Allows maps to be loaded. Causes reloads to kick people.
-    usage: /enableMapLoading
-  disableMapLoading:
-    description: Disables map loading. Game will be played on default map instead.
-    usage: /disableMapLoading
+  map:
+    description: Manage the map loading system.
+    usage: /map [enable|disable|reload|list|clear|next] | /map [queue|play|load] <map>
+
 
   kills:
     description: Only for toxic people.
@@ -104,4 +99,4 @@ commands:
 
   Shrine:
     description: Damage or recover shrine power.
-    usage: /Shrine <kill|damage|recover> <percent (0-100)>
+    usage: /shrine kill | /shrine [damage|recover] <percent (0-100)>
