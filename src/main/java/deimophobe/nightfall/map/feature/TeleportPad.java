@@ -75,6 +75,8 @@ class TeleportPad implements MapFeature {
 	private class TeleListener implements Listener {
 		@EventHandler
 		public void onShift(PlayerToggleSneakEvent event) {
+			if (!event.isSneaking()) return;
+			
 			for (Teleport teleport : teleports) {
 				boolean success = teleport.tryTeleport(event.getPlayer());
 				if (success) return;
