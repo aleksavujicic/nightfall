@@ -65,17 +65,13 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	
-	protected static final int POTION_LENGTH = 27*60*20;
-	protected void givePermanentPotionEffect(PotionEffectType type, int amplifier) {
-		monster.givePotionEffect(type, POTION_LENGTH, amplifier, true, true, true);
-	}
 	protected void giveSpawnProtection(int time) {
 		monster.givePotionEffect(PotionEffectType.LUCK, time, 1, true, false, true);
 	}
 	
 	@Override
 	public void spawn() {
-		givePermanentPotionEffect(PotionEffectType.NIGHT_VISION, 1);
+		monster.givePermanentPotionEffect(PotionEffectType.NIGHT_VISION, 1);
 	}
 	
 	

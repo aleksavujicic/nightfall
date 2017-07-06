@@ -42,7 +42,7 @@ class Spiderling extends AbstractTypedMob {
 	@Override
 	public void spawn() {
 		super.spawn();
-		givePermanentPotionEffect(PotionEffectType.JUMP, 3);
+		monster.givePermanentPotionEffect(PotionEffectType.JUMP, 3);
 	}
 	
 	@Override

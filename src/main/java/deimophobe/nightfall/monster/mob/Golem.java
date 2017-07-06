@@ -32,7 +32,7 @@ class Golem extends AbstractTypedMob {
 	@Override
 	public void spawn() {
 		super.spawn();
-		givePermanentPotionEffect(PotionEffectType.SLOW_DIGGING, 4);
+		monster.givePermanentPotionEffect(PotionEffectType.SLOW_DIGGING, 4);
 	}
 	
 	@Override

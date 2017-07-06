@@ -62,8 +62,8 @@ public class PlaguedZombie extends AbstractMob {
 		
 		setTitle(false, "Zombie");
 		setupMobDisguise(DisguiseType.ZOMBIE);
-		givePermanentPotionEffect(PotionEffectType.NIGHT_VISION, 2);
-		givePermanentPotionEffect(PotionEffectType.WITHER, 2);
+		monster.givePermanentPotionEffect(PotionEffectType.NIGHT_VISION, 2);
+		monster.givePermanentPotionEffect(PotionEffectType.WITHER, 2);
 		
 		PlayerInventory inv = monster.getPlayer().getInventory();
 		inv.setChestplate(null);

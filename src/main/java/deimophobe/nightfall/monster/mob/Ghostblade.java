@@ -45,7 +45,7 @@ class Ghostblade extends AbstractTypedMob {
 	@Override
 	public void spawn() {
 		super.spawn();
-		givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
+		monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
 	}
 	
 	@Override
