@@ -18,7 +18,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-import org.inventivetalent.glow.GlowAPI;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
@@ -218,20 +217,6 @@ public abstract class GameEntity<E extends LivingEntity> {
 	private static final int MAX_POTION_LENGTH = 10*60*60*20;
 	public void givePermanentPotionEffect(PotionEffectType type, int amplifier) {
 		givePotionEffect(type, MAX_POTION_LENGTH, amplifier, true, true, true);
-	}
-	
-	public void setGlowing(int duration, GlowAPI.Color color) {
-		GlowAPI.setGlowing(entity, color, Bukkit.getOnlinePlayers());
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				GlowAPI.setGlowing(entity, false, Bukkit.getOnlinePlayers());
-			}
-		}.runTaskLater(NightfallPlugin.getPlugin(), duration);
-	}
-	
-	public void setGlowing(GlowAPI.Color color) {
-		GlowAPI.setGlowing(entity, color, Bukkit.getOnlinePlayers());
 	}
 	
 	public void clearEffects() {

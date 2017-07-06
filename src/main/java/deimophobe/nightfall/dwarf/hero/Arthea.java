@@ -2,15 +2,17 @@ package deimophobe.nightfall.dwarf.hero;
 
 import deimophobe.nightfall.GameEntity;
 import deimophobe.nightfall.Hat;
+import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import me.libraryaddict.disguise.DisguiseAPI;
+import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
-import org.inventivetalent.glow.GlowAPI;
 
 /**
  * Created by Deimophobe on 7/05/17.
@@ -138,8 +140,8 @@ public class Arthea extends Hero {
 		
 		entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
 		
-		setGlowing(GlowAPI.Color.WHITE);
 		setTitle(ChatColor.DARK_PURPLE, "Arthea", true);
+		DisguiseAPI.disguiseEntity(entity, Skin.getSkin("arthea").getDisguise(ChatColor.DARK_PURPLE + "Arthea"));
 	}
 	
 	private void startEnrage() {
@@ -157,7 +159,5 @@ public class Arthea extends Hero {
 		Hat.ARTHEA.putOn(this);
 		giveKitItems(KitGiveType.ARTHEA_SPECIAL);
 		entity.getInventory().setHeldItemSlot(0);
-		
-		setGlowing(ENRAGE_DURATION, GlowAPI.Color.RED);
 	}
 }

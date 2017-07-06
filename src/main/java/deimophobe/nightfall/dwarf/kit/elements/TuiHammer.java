@@ -18,7 +18,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
-import org.inventivetalent.glow.GlowAPI;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 11/03/17.
@@ -74,7 +74,7 @@ class TuiHammer extends AbstractAOEHitter implements KitCooldownElement {
 				dwarf.playSound("dragonroar", 1, 1, true);
 			
 			dwarf.getPlayer().getWorld().spawnParticle(Particle.FLAME, dwarf.getLocation(), 200, 1, 1, 1, 0.1);
-			dwarf.setGlowing(ProcType.ROAR.getDuration(), GlowAPI.Color.GOLD);
+			dwarf.givePotionEffect(PotionEffectType.GLOWING, ProcType.ROAR.getDuration(), 1, true, false, true);
 			dwarf.giveProc(ProcType.ROAR);
 			
 			for (AIEntity ai : AIManager.getManager().getAIs()) {

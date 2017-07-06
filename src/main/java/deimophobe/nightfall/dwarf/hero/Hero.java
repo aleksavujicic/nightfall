@@ -18,7 +18,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.inventivetalent.glow.GlowAPI;
 
 import java.util.*;
 
@@ -73,22 +72,6 @@ public class Hero extends Dwarf {
 	@Override
 	public void regenMana(int amt) {
 		super.regenMana(amt/3);
-	}
-	
-	
-	@Override
-	public void setGlowing(int duration, GlowAPI.Color color) {
-		GlowAPI.setGlowing(entity, color, Bukkit.getOnlinePlayers());
-		if (getDisguise() != null)
-			GlowAPI.setGlowing(getDisguise().getEntity(), color, Bukkit.getOnlinePlayers());
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				GlowAPI.setGlowing(entity, false, Bukkit.getOnlinePlayers());
-				if (getDisguise() != null)
-					GlowAPI.setGlowing(getDisguise().getEntity(), false, Bukkit.getOnlinePlayers());
-			}
-		}.runTaskLater(NightfallPlugin.getPlugin(), duration);
 	}
 	
 	
