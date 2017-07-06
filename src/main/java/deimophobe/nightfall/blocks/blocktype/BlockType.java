@@ -4,6 +4,7 @@ import deimophobe.nightfall.map.GameMap;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.ShulkerBox;
 
 /**
  * Created by Deimophobe on 17/06/17.
@@ -120,8 +121,9 @@ public class BlockType {
 			)
 	);
 	
+	public static final ComparableBlock SHULKER_BOX = block -> (block.getState() instanceof ShulkerBox);
 	public static final ComparableBlock UNINTERACTABLE_BLOCKS = new BlockSet(
-			
+			SHULKER_BOX,
 			new MaterialSet(
 					Material.CHEST,
 					Material.ENDER_CHEST,
@@ -131,7 +133,9 @@ public class BlockType {
 					Material.ANVIL,
 					Material.BREWING_STAND,
 					Material.DISPENSER,
-					Material.DROPPER
+					Material.DROPPER,
+					Material.BEACON,
+					Material.ENCHANTMENT_TABLE
 			)
 	);
 	
