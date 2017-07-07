@@ -7,6 +7,7 @@ import deimophobe.nightfall.GamePlayerManager;
 import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.doom.DoomManager;
 import deimophobe.nightfall.monster.mob.MobType;
+import deimophobe.nightfall.monster.spawnmenu.SpawnEggMenuItem;
 import deimophobe.nightfall.monster.spawnmenu.SpawnMenu;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -35,6 +36,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		getTeam().setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
 		
 		menu = new SpawnMenu();
+		SpawnEggMenuItem.resetEggs();
 		
 		aiManager = new AIManager();
 		doomManager = new DoomManager();

@@ -36,6 +36,15 @@ wolf:
   quantity: 4
   chance: 0.03
 
+hellhound:
+  mobtype: hellhound
+  egg:
+    base: bite
+    name: Spawn Hellhound
+    shiny: true
+  quantity: 4
+  chance: 0.03
+
 spiderling:
   mobtype: spiderling
   egg:
@@ -77,5 +86,6 @@ ghostblade:
   egg:
     base: dagger
     name: Spawn Ghostblade
+    shiny: true
   quantity: 3
   chance: 0.06

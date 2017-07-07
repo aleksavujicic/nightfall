@@ -118,4 +118,8 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 	public static SpawnEggMenuItem getEgg(MobType type) {
 		return eggMap.get(type.toString().toLowerCase());
 	}
+	public static void resetEggs() {
+		for (SpawnEggMenuItem egg : eggMap.values())
+			egg.quantity = 0;
+	}
 }
