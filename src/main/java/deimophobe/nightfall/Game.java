@@ -265,7 +265,7 @@ public class Game {
 		map.getWorld().setTime(0);
 		
 		// Start countdown to plague
-		int buildTime = 10*60*20 + (int)(60*20*Math.random());
+		int buildTime = 12*60*20 + (int)(60*20*Math.random());
 		new BukkitRunnable() {
 			@Override
 			public void run() {
