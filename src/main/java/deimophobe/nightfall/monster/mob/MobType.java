@@ -26,11 +26,14 @@ public enum MobType {
 	GB_AXE("gb-axe"),
 	GB_HAMMER("gb-hammer"),
 	
+	HELLHOUND("hellhound"),
+	
 	KRUNGOR("krungor"),
 	BOPEN("bopen"),
 	
 	
 	TESTMOB,
+	
 	;
 	
 	private final MobData mobData;
@@ -70,6 +73,9 @@ public enum MobType {
 			case GB_AXE:
 			case GB_HAMMER:
 				return new Ghostblade(monster, this);
+				
+			case HELLHOUND:
+				return new Hellhound(monster);
 				
 			case TESTMOB:
 				return new TestMob(monster);

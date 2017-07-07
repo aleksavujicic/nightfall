@@ -15,6 +15,7 @@ public enum ItemModifierType {
 	POWER(new DudApplier(), "Power", false, false),
 	
 	KNOCKBACK(new EnchantApplier(Enchantment.KNOCKBACK), "Knockback", false, false),
+	BURNING(new EnchantApplier(Enchantment.FIRE_ASPECT), "Flame", false, false),
 	
 	HEALTH(new AttributeApplier(Attribute.MAX_HEALTH, (i) -> (double) i*2), "Health", false, false){
 		@Override

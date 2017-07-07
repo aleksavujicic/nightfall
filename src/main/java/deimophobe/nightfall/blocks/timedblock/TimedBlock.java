@@ -17,7 +17,7 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 23/01/17.
  */
-public abstract class TimedBlock {
+public class TimedBlock {
 	
 	final Block block;
 	private final Material newType;

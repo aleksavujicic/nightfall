@@ -32,36 +32,26 @@ class Wolf extends AbstractTypedMob {
 	
 	@Override protected MobType getType() {return MobType.WOLF;}
 		
-	private final ComplexCooldown leapCD = new ComplexCooldown(140);
+	private final ComplexCooldown leapCD = new ComplexCooldown(200);
 	
-	private final ComplexCooldown furySound = new ComplexCooldown(10, () -> {
-		monster.playSound("entity.wolf.growl", 1f, 1, true);
-		if (Game.getGame().isNight())
-			monster.playSound("entity.zombie_villager.converted", 1f, 1.5f, true);
-	}, ComplexCooldown.DO_NOTHING);
-	
-	private final boolean dire;
+	private final ComplexCooldown furySound;
 	
 	Wolf(MonsterPlayer monster) {
 		super(monster);
 		
-		this.dire = DoomManager.getManager().hasDoomSpawned(DoomType.DIREWOLF);
-		if (dire)
-			getArmour().addModifier(ItemModifierType.UNPROCCABLE, 1, "Direwolf");
-	}
-	
-	@Override
-	public void spawn() {
-		super.spawn();
-		
-		if (dire) {
-			Disguise disguise = getDisguise();
-			FlagWatcher watcher = disguise.getWatcher();
-			if (watcher instanceof WolfWatcher) {
-				((WolfWatcher) watcher).setAngry(true);
-			} else {
-				Bukkit.getLogger().warning("Direwolf not disguised as wolf?");
-			}
+		if (isHellhound()) {
+			furySound = new ComplexCooldown(25, () -> {
+				monster.playSound("entity.wolf.growl", 1f, 0.85f, true);
+				if (Game.getGame().isNight())
+					monster.playSound("entity.zombie_villager.converted", 1f, 1.45f, true);
+			}, ComplexCooldown.DO_NOTHING);
+		} else {
+			furySound = new ComplexCooldown(20, () -> {
+				monster.playSound("entity.wolf.growl", 1f, 1f, true);
+				if (Game.getGame().isNight())
+					monster.playSound("entity.zombie_villager.converted", 1f, 1.5f, true);
+			}, ComplexCooldown.DO_NOTHING);
+			
 		}
 	}
 	
@@ -104,8 +94,9 @@ class Wolf extends AbstractTypedMob {
 						}
 					}
 				});
-				monster.playSound(wolfHowl, 2, 1, true);
-				monster.playSound(wolfHowl, 10, 1, false);
+				float pitch = (isHellhound() ? 0.95f : 1f);
+				monster.playSound(wolfHowl, 2, pitch, true);
+				monster.playSound(wolfHowl, 10, pitch, false);
 				
 				double yaw = monster.getPlayer().getLocation().getYaw();
 				double radYaw = yaw*Math.PI/180;
@@ -124,15 +115,24 @@ class Wolf extends AbstractTypedMob {
 	@Override
 	public double onHit(Dwarf dwarf, DamageType type, double damage) {
 		if (dwarf != null) {
-			monster.heal((Game.getGame().isNight() ? 3 : 6));
-			monster.givePotionEffect(PotionEffectType.SPEED, 140, 3, true, false, true);
+			double heal;
+			if (isHellhound())
+				heal = (Game.getGame().isNight() ? 4 : 7);
+			else
+				heal = (Game.getGame().isNight() ? 2 : 4);
+			
+			monster.heal(heal);
+			monster.givePotionEffect(PotionEffectType.SPEED, 120, 3, true, false, true);
+			
+			if (Game.getGame().isNight())
+				dwarf.useMana(5);
+			
 			furySound.tryUse();
 		}
 		return damage;
 	}
 	
-	@Override
-	public boolean isProccable() {
-		return !dire;
+	private boolean isHellhound() {
+		return (this instanceof Hellhound);
 	}
 }

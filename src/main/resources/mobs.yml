@@ -160,13 +160,13 @@ witherskele:
 
 
 wolf:
-  title: Wolverine
+  title: Wolf
 
   disguisetype: wolf
 
   attack: 16
-  health: 40
-  speed: 15
+  health: 30
+  speed: 5
 
   shred: 20
 
@@ -188,6 +188,18 @@ wolf:
           Right click to Leap, hold shift to leap up."
       flavour:
        - "Arooooooooo."
+
+hellhound:
+  parent: wolf
+  title: Hellhound
+
+  disguisetype: wolf
+
+  attack: 20
+  health: 40
+  speed: 20
+
+  shred: 30
 
 
 spiderling:

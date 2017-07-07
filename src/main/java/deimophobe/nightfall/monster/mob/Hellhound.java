@@ -1,0 +1,70 @@
+package deimophobe.nightfall.monster.mob;
+
+import deimophobe.nightfall.Game;
+import deimophobe.nightfall.blocks.timedblock.TimedBlock;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.damage.DamageType;
+import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.monster.MonsterPlayer;
+import me.libraryaddict.disguise.disguisetypes.Disguise;
+import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
+import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.potion.PotionEffectType;
+
+import java.util.Random;
+
+/**
+ * Created by Deimophobe on 8/07/17.
+ */
+public class Hellhound extends Wolf {
+	
+	@Override protected MobType getType() {return MobType.HELLHOUND;}
+	
+	Hellhound(MonsterPlayer monster) {
+		super(monster);
+		getWeapon().addModifier(ItemModifierType.BURNING, 1, "Breath of Hell");
+	}
+	
+	
+	@Override
+	public void spawn() {
+		super.spawn();
+		
+		Disguise disguise = getDisguise();
+		FlagWatcher watcher = disguise.getWatcher();
+		if (watcher instanceof WolfWatcher) {
+			((WolfWatcher) watcher).setAngry(true);
+		} else {
+			Bukkit.getLogger().severe("Hellhound not disguised as wolf?");
+		}
+		
+	}
+	
+	@Override
+	public void update(boolean a, boolean b, boolean sec, boolean d, boolean e) {
+		super.update(a,b,sec,d,e);
+		if (sec)
+			tryPlaceMagmaBlock();
+	}
+	
+	@Override
+	public double onHit(Dwarf dwarf, DamageType type, double damage) {
+		damage = super.onHit(dwarf, type, damage);
+		tryPlaceMagmaBlock();
+		return damage;
+	}
+	
+	private void tryPlaceMagmaBlock() {
+		Random random = new Random();
+		double dx = random.nextDouble()*6 - 3;
+		double dy = random.nextDouble()*6 - 3;
+		double dz = random.nextDouble()*6 - 3;
+		Block block = monster.getLocation().add(dx, dy, dz).getBlock();
+		if (block.getType().isSolid())
+			TimedBlock.placeTimedBlock(new TimedBlock(block, Material.MAGMA, 140, monster));
+	}
+}

@@ -16,11 +16,11 @@ public enum DamageType {
 	
 	CONTACT(2, -1),
 	DROWNING(4, -1),
-	HOT_FLOOR(2, -1),
+	HOT_FLOOR(12, -1, 2),
 	CRAMMING(3, -1),
 	FALLING_BLOCK(3, -1),
 	LIGHTNING(20, -1),
-	LAVA(10, -1, 20),
+	LAVA(8, -1, 10),
 	FIRE(5, -1, 2),
 	
 	FALL(2, -1) {
