@@ -22,7 +22,7 @@ class Wrench extends Consumable {
 		if (Misc.isRightClick(action)) return FAILED_CD;
 		if (!checkPhase(dwarf)) return FAILED_CD;
 		
-		boolean success = GameMap.getCurrentMap().useGold(60);
+		boolean success = GameMap.getCurrentMap().tryUseGold(60);
 		if (success) {
 			dwarf.getArmour().repair(2000);
 			dwarf.playSound("block.anvil.use", 20, 0.8f, false);

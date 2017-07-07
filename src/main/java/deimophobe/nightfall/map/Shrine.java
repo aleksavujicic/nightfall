@@ -104,7 +104,9 @@ public class Shrine {
 		int mobsOnShrine = 0;
 		int dwarvesOnShrine = 0;
 		for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
-			if (shrineProtection.containsPlayer(monster)) {
+			if (shrineRegion.containsPlayer(monster)) {
+				mobsOnShrine++;
+			} else if (shrineProtection.containsPlayer(monster)) {
 				if (!monster.getMob().isShrineImmune()) {
 					monster.customDamage(null, DamageType.SHRINE_PROTECTION, 10000);
 					Location loc = monster.getLocation();
@@ -112,23 +114,17 @@ public class Shrine {
 				}
 			}
 			
-			boolean inShrine = shrineRegion.containsPlayer(monster);
-			monster.setInShrine(inShrine);
-			if (inShrine) {
-				mobsOnShrine++;
-			}
-			
 		}
 		for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
 			if (shrineRegion.containsPlayer(dwarf)) {
 				dwarvesOnShrine++;
 				if (!dwarf.getArmour().isAtMax())
-					if (map.useGold(1))
-						dwarf.getArmour().repair(5);
+					if (map.tryUseGold(2))
+						dwarf.getArmour().repair(10);
 			}
 		}
 		
-		map.stealGold(Math.max(3*mobsOnShrine - 3*dwarvesOnShrine, 0));
+		//map.stealGold(Math.max(3*mobsOnShrine - 3*dwarvesOnShrine, 0));
 		doUpdateDamage(mobsOnShrine, dwarvesOnShrine);
 	}
 	
@@ -138,7 +134,7 @@ public class Shrine {
 		// Making shrines a bit stronger
 		if (shrineNum == 0) {
 			dwarfNum += 0;
-		} else if ((shrineNum + 1) == map.getNumShrines()) {
+		} else if (shrineNum == map.getNumShrines()) {
 			dwarfNum += 0;
 
 			// Final shrine should not fall until most dwarves are dead
@@ -148,8 +144,9 @@ public class Shrine {
 		}
 		if (mobNum == 0) {
 			// Regen when no mobs around, first shrine has slower regen
-			if (shrineNum == 0) {
-				if (shrinePower < (maxShrinePower / 4)) {recovery = dwarfNum * (maxShrinePower / 100);
+			if (shrineNum == 1) {
+				if (shrinePower < (maxShrinePower / 4)) {
+					recovery = dwarfNum * (maxShrinePower / 100);
 				}
 			}
 			else {
@@ -178,6 +175,9 @@ public class Shrine {
 		// Shrine damage and recovery are capped at 20%
 		damage = Math.min((maxShrinePower / 5), damage);
 		recovery = Math.min((maxShrinePower / 5), recovery);
+		
+		map.stealGold(recovery);
+		
 		recoverShrine(recovery);
 		damageShrine(damage);
 

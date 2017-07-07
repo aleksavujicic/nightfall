@@ -42,7 +42,7 @@ class DwarfPickaxe extends AbstractItem {
 			Dwarf repairee = dwarf.getLookingAt(2, 5, DwarfManager.getManager().getGamePlayers(), (d) -> !d.getArmour().isAtMax());
 			Region shrineRegion = GameMap.getCurrentMap().getCurrentShrineRegion();
 			Region shrineProtection = GameMap.getCurrentMap().getCurrentShrineProtection();
-			if (repairee != null && (shrineRegion.containsPlayer(repairee) || shrineProtection.containsPlayer(repairee)) && GameMap.getCurrentMap().useGold(50)) {
+			if (repairee != null && (shrineRegion.containsPlayer(repairee) || shrineProtection.containsPlayer(repairee)) && GameMap.getCurrentMap().tryUseGold(50)) {
 				repairee.getArmour().repair(400);
 				GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, repairee);
 				

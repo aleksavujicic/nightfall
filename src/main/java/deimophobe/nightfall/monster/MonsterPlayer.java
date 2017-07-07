@@ -250,9 +250,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	}
 	
 	
-	private boolean inShrine;
-	public boolean isInShrine() {return inShrine;}
-	public void setInShrine(boolean inShrine) {this.inShrine = inShrine;}
+	public boolean isInShrine() {return GameMap.getCurrentMap().getCurrentShrineRegion().containsPlayer(this);}
 	
 	
 	// ------ SPAWN/UPGRADE MENUS ------

@@ -227,7 +227,7 @@ public class GameMap {
 		updateVault();
 	}
 	
-	public boolean useGold(int amt) {
+	public boolean tryUseGold(int amt) {
 		if (amt < 0)
 			throw new IllegalArgumentException("Using less than 0 gold. Amount: " + amt);
 		
