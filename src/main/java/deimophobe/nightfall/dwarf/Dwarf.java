@@ -283,14 +283,12 @@ public class Dwarf extends GamePlayer {
 		if (sec && mana <= 300) {
 			Location bloodLoc = entity.getLocation().add(0, 1, 0);
 			entity.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 10, var, var, var, 0);
-		}
-		if (halfSec && mana <= 150) {
+		} else if (halfSec && mana <= 150) {
 			Location bloodLoc = entity.getLocation().add(0, 1, 0);
-			entity.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 10, var, var, var, 0);
-		}
-		if (quartSec && mana <= 20) {
+			entity.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 20, var, var, var, 0);
+		} else if (quartSec && mana <= 50) {
 			Location bloodLoc = entity.getLocation().add(0, 1, 0);
-			entity.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 10, var, var, var, 0);
+			entity.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 30, var, var, var, 0);
 		}
 	}
 	
