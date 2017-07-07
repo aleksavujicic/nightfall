@@ -95,7 +95,7 @@ class Goblin extends AbstractTypedMob {
 		}
 
 		if (Misc.isLeftClick(action) && isPlayerHoldingItem("kaboom") && kaboomCD == 0) {
-			monster.givePotionEffect(PotionEffectType.SPEED, MAX_KABOOM_CD, 3, true, true, true);
+			monster.givePotionEffect(PotionEffectType.SPEED, MAX_KABOOM_CD, 4, true, true, true);
 			kaboomCD = 1;
 		}
 	}
