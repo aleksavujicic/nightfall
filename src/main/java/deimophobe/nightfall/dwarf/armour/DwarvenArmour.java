@@ -109,8 +109,8 @@ public class DwarvenArmour implements Armour {
 	public int getManaRegenRate() {
 		if (!isArmoured()) return 0;
 		
-		if (isAtMax()) return 15; // Otherwise formula below would give 16 only when full (which is kinda weird).
-		return (int) Math.floor(Math.atan(3 * armourFraction()) * 16/Math.atan(3));
+		if (isAtMax()) return 10; // Otherwise formula below would give 16 only when full (which is kinda weird).
+		return (int) Math.floor(Math.atan(3 * armourFraction()) * 12/Math.atan(3)) - 1;
 	}
 	
 	
