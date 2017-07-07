@@ -23,7 +23,7 @@ import org.bukkit.potion.PotionEffectType;
 class Dagger extends AbstractCooldownItem {
 	
 	Dagger(Dwarf dwarf) {
-		super(dwarf, 800);
+		super(dwarf, 60*20);
 	}
 	
 	
@@ -37,7 +37,7 @@ class Dagger extends AbstractCooldownItem {
 	
 	@Override
 	public void onKill(GameEntity monster, DamageType b) {
-		reduceCooldown(40);
+		reduceCooldown(20);
 	}
 	
 	@Override
