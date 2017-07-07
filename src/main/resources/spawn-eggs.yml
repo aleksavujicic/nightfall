@@ -34,7 +34,7 @@ wolf:
     base: bite
     name: Spawn Wolf
   quantity: 4
-  chance: 0.05
+  chance: 0.03
 
 spiderling:
   mobtype: spiderling
