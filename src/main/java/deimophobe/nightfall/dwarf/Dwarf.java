@@ -87,7 +87,8 @@ public class Dwarf extends GamePlayer {
 		if (hat != null)
 			hat.putOn(this);
 		
-
+		giveArrows(40);
+		
 		mobspawnCount = 0;
 
 		updateManaBar();
@@ -192,16 +193,27 @@ public class Dwarf extends GamePlayer {
 			arrows.setAmount(amt+1);
 		}
 	}
+	public void giveArrows(int amt) {
+		for (int i=0; i<amt; i++)
+			giveArrow();
+	}
+	public int getArrowCount() {
+		ItemStack arrows = entity.getInventory().getItemInOffHand();
+		return (arrows.getAmount());
+	}
 	public boolean hasArrows(int amt) {
 		ItemStack arrows = entity.getInventory().getItemInOffHand();
 		return (arrows.getAmount() >= amt);
+	}
+	public void useArrow() {
+		useArrows(1);
 	}
 	public void useArrows(int amt) {
 		ItemStack arrows = entity.getInventory().getItemInOffHand();
 		int currAmt = arrows.getAmount();
 		if (currAmt <= amt) {
 			if (currAmt < amt)
-				Bukkit.getLogger().warning("Dwarf " + getName() + "using more arrows than held!?");
+				Bukkit.getLogger().warning("Dwarf " + getName() + " using more arrows than held!?");
 			
 			entity.getInventory().setItemInOffHand(null);
 		} else {

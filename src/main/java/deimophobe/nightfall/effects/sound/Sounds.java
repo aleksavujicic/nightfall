@@ -4,6 +4,7 @@ package deimophobe.nightfall.effects.sound;
  * Created by Deimophobe on 6/07/17.
  */
 public class Sounds {
+	public static final PlayerSound DWARF_ITEM_EBOW_GIVE_PROC = new StringSound("proc", Category.ITEMS, 1.2f, 0.6f);
 	public static final GlobalSound DWARF_ITEM_HORN = new StringGlobalSound("horn", Category.ITEMS);
 	public static final PlayerSound DWARF_MINE_GOLD = new RandomPitchSound("block.note.bell", Category.SOUND_EFFECT, 0.8f, 1.9f);
 	
