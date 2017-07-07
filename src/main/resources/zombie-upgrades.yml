@@ -50,7 +50,7 @@ health-inf:
 
 shred:
   index: 10
-  cost: [50, 100, 150, 200, 250]
+  cost: [20, 40, 60, 80, 100]
   value: [5, 8, 12, 15, 20]
   prereq:
     attack: 3
@@ -115,7 +115,7 @@ rebirth:
 
 vampirism:
   index: 16
-  cost: [50, 100, 150]
+  cost: [30, 70, 100]
   prereq:
     health: 3
   item:
@@ -129,7 +129,7 @@ vampirism:
 
 fury:
   index: 22
-  cost: 500
+  cost: 300
   prereq:
     attack: 5
     health: 5
