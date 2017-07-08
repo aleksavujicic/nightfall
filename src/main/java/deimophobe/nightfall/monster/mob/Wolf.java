@@ -96,7 +96,7 @@ class Wolf extends AbstractMob {
 						}
 					}
 				});
-				float pitch = (isHellhound() ? 0.95f : 1f);
+				float pitch = (isHellhound() ? 0.85f : 1f);
 				monster.playSound(wolfHowl, 1, pitch, true);
 				monster.playSound(wolfHowl, 1000, pitch, false);
 				
@@ -141,6 +141,7 @@ class Wolf extends AbstractMob {
 	private void packBuff() {
 		int wolfCount = 0;
 		for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
+			if (monster == this.monster) continue;
 			if (monster.getMob() instanceof Wolf) {
 				if (monster.getLocation().distance(this.monster.getLocation()) <= 6) {
 					wolfCount++;
@@ -148,6 +149,6 @@ class Wolf extends AbstractMob {
 			}
 		}
 		if (wolfCount == 0) return;
-		monster.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, 5*20, wolfCount, true, false, true);
+		monster.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, 5*20, wolfCount, true, true, true);
 	}
 }
