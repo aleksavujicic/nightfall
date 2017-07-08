@@ -15,9 +15,7 @@ import org.bukkit.event.block.Action;
 /**
  * Created by Deimophobe on 15/03/17.
  */
-public class Bopen extends AbstractTypedMob {
-	
-	@Override protected MobType getType() {return MobType.BOPEN;}
+public class Bopen extends AbstractMob {
 	
 	private int cooldown = 0;
 	private final static int MAX_CD = 100;
@@ -25,7 +23,7 @@ public class Bopen extends AbstractTypedMob {
 	private SkeletonHorse horse = null;
 	
 	protected Bopen(MonsterPlayer mons) {
-		super(mons);
+		super(mons, MobType.BOPEN);
 	}
 	
 	@Override

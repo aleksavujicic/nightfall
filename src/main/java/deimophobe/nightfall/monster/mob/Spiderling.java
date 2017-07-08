@@ -20,11 +20,10 @@ import org.bukkit.util.Vector;
 /**
  * Created by Deimophobe on 20/01/17.
  */
-class Spiderling extends AbstractTypedMob {
-	@Override protected MobType getType() {return MobType.SPIDERLING;}
+class Spiderling extends AbstractMob {
 	
 	Spiderling(MonsterPlayer monster) {
-		super(monster);
+		super(monster, MobType.SPIDERLING);
 	}
 	
 	@Override

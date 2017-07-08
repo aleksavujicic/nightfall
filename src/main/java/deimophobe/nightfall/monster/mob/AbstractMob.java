@@ -1,10 +1,15 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.upgrade.GlobalUpgrade;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
@@ -17,7 +22,10 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
+
+import java.util.Map;
 
 /**
  * Created by Deimophobe on 13/04/17.
@@ -26,10 +34,59 @@ public abstract class AbstractMob implements Mob {
 	
 	protected final MonsterPlayer monster;
 	
-	protected AbstractMob(MonsterPlayer monster) {
+	private final Map<String, CustomItem> items;
+	private final MobData mobData;
+	
+	private final MobType type;
+	@Override public MobType getType() { return type; }
+	
+	protected AbstractMob(MonsterPlayer monster, MobType type) {
 		this.monster = monster;
+		this.type = type;
+		this.mobData = type.getMobData();
+		this.items = mobData.getItems();
 	}
 	
+	@Override
+	public void spawn() {
+		setTitle(mobData.forceTitle, mobData.title);
+		giveItems();
+		
+		DisguiseType type = mobData.disguiseType;
+		if (type != null) {
+			if (type == DisguiseType.PLAYER) {
+				setupPlayerDisguise(Skin.getSkin(mobData.skinName), ChatColor.RED + mobData.playerName);
+			} else {
+				setupMobDisguise(type);
+			}
+		}
+		
+		
+		monster.clearEffects();
+		if (mobData.immuneTime != 0) {
+			giveSpawnProtection(mobData.immuneTime*20);
+		}
+		
+		monster.givePermanentPotionEffect(PotionEffectType.NIGHT_VISION, 1);
+		tpToSpawn();
+	}
+	
+	protected void setTitle(boolean force, String title) {
+		ChatColor titleColor;
+		if (force)
+			titleColor = ChatColor.RED;
+		else
+			titleColor = ChatColor.DARK_RED;
+		
+		monster.setTitle(titleColor, title, force);
+	}
+	
+	protected void tpToSpawn() {
+		monster.teleportTo(GameMap.getCurrentMap().getCurrentMobspawn());
+	}
+	
+	
+	// ~~~~ DISGUISES ~~~~~
 	protected void setupMobDisguise(DisguiseType type) {
 		Player player = monster.getPlayer();
 		
@@ -54,29 +111,89 @@ public abstract class AbstractMob implements Mob {
 		DisguiseAPI.disguiseEntity(player, disguise);
 	}
 	
-	protected void setTitle(boolean force, String title) {
-		ChatColor titleColor;
-		if (force)
-			titleColor = ChatColor.RED;
-		else
-			titleColor = ChatColor.DARK_RED;
-		
-		monster.setTitle(titleColor, title, force);
+	@Override
+	public Disguise getDisguise() {
+		return DisguiseAPI.getDisguise(monster.getPlayer());
 	}
+	
+	
+	// ~~~~ ITEMS ~~~~~
+	protected void giveItems() {
+		monster.clearInventory();
+		
+		if (mobData.hasWeapon()) {
+			if (GlobalUpgrade.KRUNGOR.isUnlocked()) {
+				getWeapon().addModifier(ItemModifierType.ATTACK, 10, "Krungor Doom");
+			}
+			
+			giveItem("weapon");
+		}
+		if (mobData.hasArmour()) {
+			setArmour();
+		}
+		monster.delayedHealMax();
+	}
+	
+	protected void setArmour() {
+		PlayerInventory inv = monster.getPlayer().getInventory();
+		mobData.slot.equipArmour(inv, getArmour().createItemStack());
+	}
+	
+	
+	protected CustomItem getWeapon() {
+		return getItem("weapon");
+	}
+	protected CustomItem getArmour() {
+		return getItem("armour");
+	}
+	
+	protected CustomItem getItem(String name) {
+		return items.get(name);
+	}
+	
+	protected void giveItem(String name) {
+		giveItem(name, 1);
+	}
+	
+	protected void giveItem(String name, int quantity) {
+		monster.giveItem(items.get(name), quantity);
+	}
+	
+	protected boolean isPlayerHoldingItem(String name) {
+		CustomItem item = items.get(name);
+		if (item == null)
+			throw new IllegalArgumentException("No monster item found with name: " + name);
+		return item.isSimilar(monster.getHeldItem());
+	}
+	
+	protected boolean isPlayerHoldingWeapon() {
+		return isPlayerHoldingItem("weapon");
+	}
+	
 	
 	
 	protected void giveSpawnProtection(int time) {
 		monster.givePotionEffect(PotionEffectType.LUCK, time, 1, true, false, true);
 	}
 	
-	@Override
-	public void spawn() {
-		monster.givePermanentPotionEffect(PotionEffectType.NIGHT_VISION, 1);
+	
+	@Override public boolean isProccable() {
+		return mobData.proccable;
 	}
-	
-	
-	@Override public Disguise getDisguise() {
-		return DisguiseAPI.getDisguise(monster.getPlayer());
+	@Override public double getResistance() {
+		return mobData.damageRes;
+	}
+	@Override public double getArrowRes() {
+		return mobData.arrowRes;
+	}
+	@Override public int getArmourShred() {
+		return mobData.armourShred;
+	}
+	@Override public int getTorchXP() {
+		return mobData.torchXP;
+	}
+	@Override public boolean isShrineImmune() {
+		return mobData.shrineImmune;
 	}
 	
 	@Override public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {}

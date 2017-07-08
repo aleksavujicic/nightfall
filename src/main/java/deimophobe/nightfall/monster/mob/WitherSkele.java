@@ -9,12 +9,11 @@ import deimophobe.nightfall.monster.MonsterPlayer;
  */
 class WitherSkele extends SkeletonMob {
 	
-	@Override protected MobType getType() {return MobType.WITHERSKELE;}
 	@Override protected double getPower() {return 40;}
 	private double damageBoost = 0;
 	
 	WitherSkele(MonsterPlayer monster) {
-		super(monster);
+		super(monster, MobType.WITHERSKELE);
 	}
 	
 	@Override

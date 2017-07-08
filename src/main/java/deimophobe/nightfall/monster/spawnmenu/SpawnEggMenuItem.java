@@ -95,7 +95,7 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 			return false;
 		}
 		
-		monster.spawnMobType(Misc.getRandom(mobTypes));
+		monster.spawnMob(Misc.getRandom(mobTypes));
 		quantity -= 1;
 		session.closeSession();
 		return false;

@@ -18,12 +18,10 @@ import org.bukkit.potion.PotionEffectType;
 /**
  * Created by Deimophobe on 20/01/17.
  */
-class Golem extends AbstractTypedMob {
-	
-	@Override protected MobType getType() {return MobType.GOLEM;}
+class Golem extends AbstractMob {
 	
 	Golem(MonsterPlayer monster) {
-		super(monster);
+		super(monster, MobType.GOLEM);
 	}
 	
 	private static final int BREAK_CD_MAX = 10;

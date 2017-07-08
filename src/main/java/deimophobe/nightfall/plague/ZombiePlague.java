@@ -61,7 +61,7 @@ class ZombiePlague extends AbstractPlague {
 				DwarfManager.getManager().removeGamePlayer(dwarf, false);
 				MonsterManager.getManager().addGamePlayer(player);
 				MonsterPlayer mp = MonsterManager.getManager().getGamePlayer(player);
-				mp.spawnMobAt(new PlaguedZombie(mp, ZombiePlague.this, !plagued.contains(dwarf)),null);
+				mp.spawnMob(new PlaguedZombie(mp, ZombiePlague.this, !plagued.contains(dwarf)));
 				
 				numZombiesAlive++;
 				

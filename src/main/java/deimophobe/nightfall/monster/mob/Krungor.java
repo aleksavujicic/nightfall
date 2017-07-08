@@ -1,6 +1,5 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -17,7 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,15 +23,13 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 26/01/17.
  */
-class Krungor extends AbstractTypedMob {
-	
-	@Override protected MobType getType() {return MobType.KRUNGOR;}
+class Krungor extends AbstractMob {
 	
 	private int cooldown = 0;
 	private final static int MAX_CD = 30*20;
 	
 	Krungor(MonsterPlayer monster) {
-		super(monster);
+		super(monster, MobType.KRUNGOR);
 	}
 	
 	@Override

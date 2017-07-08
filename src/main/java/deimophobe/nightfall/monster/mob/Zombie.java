@@ -10,6 +10,7 @@ import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -21,7 +22,7 @@ import java.util.Map;
 /**
  * Created by Deimophobe on 2/02/17.
  */
-class Zombie extends AbstractTypedMob implements Rebirthable {
+class Zombie extends AbstractMob implements Rebirthable {
 	
 	private final Cooldown leapCD;
 	private final int leapLvl;
@@ -37,11 +38,11 @@ class Zombie extends AbstractTypedMob implements Rebirthable {
 	private final boolean fury;
 	private final ComplexCooldown furySound;
 	
+	private Location rebirthLoc = null;
 	
-	@Override protected MobType getType() {return MobType.ZOMBIE;}
 	
 	protected Zombie(MonsterPlayer mons) {
-		super(mons);
+		super(mons, MobType.ZOMBIE);
 		
 		// TODO: Make these not hardcoded. Requires bit of work so later.
 		Integer[] shredValues = {0, 5, 8, 12, 15, 20};
@@ -88,8 +89,18 @@ class Zombie extends AbstractTypedMob implements Rebirthable {
 	}
 	
 	@Override
-	public void rebirth() {
+	public void rebirth(Location location) {
+		this.rebirthLoc = location;
+		spawn();
 		giveSpawnProtection(12);
+	}
+	
+	@Override
+	public void tpToSpawn() {
+		if (rebirthLoc == null)
+			super.tpToSpawn();
+		else
+			monster.teleportTo(rebirthLoc);
 	}
 	
 	@Override

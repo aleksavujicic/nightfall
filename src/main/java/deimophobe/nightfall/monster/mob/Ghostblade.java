@@ -15,12 +15,7 @@ import org.bukkit.util.Vector;
 /**
  * Created by Deimophobe on 31/01/17.
  */
-class Ghostblade extends AbstractTypedMob {
-	
-	@Override
-	protected MobType getType() {
-		return type.mobType;
-	}
+class Ghostblade extends AbstractMob {
 	
 	private int cooldown = 0;
 	private final int MAX_CD;

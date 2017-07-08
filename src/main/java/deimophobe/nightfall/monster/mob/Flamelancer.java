@@ -18,11 +18,10 @@ import org.bukkit.metadata.FixedMetadataValue;
  */
 class Flamelancer extends SkeletonMob {
 	
-	@Override protected MobType getType() {return MobType.FLAMELANCER;}
 	@Override protected double getPower() {return 15;}
 	
 	Flamelancer(MonsterPlayer monster) {
-		super(monster);
+		super(monster, MobType.FLAMELANCER);
 	}
 	
 	private static final int ARROWS_FIRED = 15;

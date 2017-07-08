@@ -2,6 +2,7 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ArmourSlot;
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.lore.LoreTemplate;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
@@ -57,20 +58,19 @@ public class MobData {
 		attack = 5;
 		health = 10;
 		speed = 0;
+		armourShred = 10;
 		
 		proccable = true;
 		damageRes = 0.6;
 		arrowRes = 0;
-		armourShred = 10;
 		torchXP = 10;
 		shrineImmune = false;
+		immuneTime = 8;
 		
 		slot = ArmourSlot.CHEST;
 		armour = null;
 		weapon = null;
 		items = new LinkedHashMap<>();
-		
-		immuneTime = 8;
 	}
 	
 	private MobData(ConfigurationSection section, MobData parent) {
@@ -80,7 +80,12 @@ public class MobData {
 		forceTitle = section.getBoolean("forcetitle", parent.forceTitle);
 		
 		if (section.contains("disguisetype")) {
-			disguiseType = DisguiseType.valueOf(section.getString("disguisetype").toUpperCase());
+			String disguiseName = section.getString("disguisetype");
+			try {
+				disguiseType = DisguiseType.valueOf(disguiseName.toUpperCase());
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException("Invalid disguise type '" + disguiseName + "' for mob " + name, e);
+			}
 		} else {
 			disguiseType = parent.disguiseType;
 		}
@@ -90,6 +95,14 @@ public class MobData {
 		attack = section.getInt("attack", parent.attack);
 		health = section.getInt("health", parent.health);
 		speed = section.getInt("speed", parent.speed);
+		armourShred = section.getInt("shred", parent.armourShred);
+		
+		proccable = section.getBoolean("proccable", parent.proccable);
+		damageRes = section.getDouble("resistance", parent.damageRes);
+		arrowRes = section.getDouble("arrowres", parent.arrowRes);
+		torchXP = section.getInt("torchxp", parent.torchXP);
+		shrineImmune = section.getBoolean("shrineimmune", parent.shrineImmune);
+		immuneTime = section.getInt("immunetime", parent.immuneTime);
 		
 		if (section.contains("armourslot")) slot = ArmourSlot.fromString(section.getString("armourslot"));
 		else slot = parent.slot;
@@ -105,14 +118,6 @@ public class MobData {
 				items.put(item, CustomItem.getItem(itemSection.getConfigurationSection(item), LoreTemplate.MOB, Slot.MAIN_HAND));
 			}
 		}
-		immuneTime = section.getInt("immunetime", parent.immuneTime);
-		
-		proccable = section.getBoolean("proccable", parent.proccable);
-		damageRes = section.getDouble("resistance", parent.damageRes);
-		arrowRes = section.getDouble("arrowres", parent.arrowRes);
-		armourShred = section.getInt("shred", parent.armourShred);
-		torchXP = section.getInt("torchxp", parent.torchXP);
-		shrineImmune = section.getBoolean("shrineimmune", parent.shrineImmune);
 	}
 	
 	private void compile() {
@@ -141,10 +146,45 @@ public class MobData {
 	
 	Map<String, CustomItem> getItems() {
 		Map<String, CustomItem> newItems = new HashMap<>(items);
-		newItems.put("weapon", weapon.clone());
-		newItems.put("armour", armour.clone());
+		if (weapon != null)
+			newItems.put("weapon", weapon.clone());
+		if (armour != null)
+			newItems.put("armour", armour.clone());
 		
 		return newItems;
+	}
+	
+	boolean hasWeapon() {
+		return weapon != null;
+	}
+	boolean hasArmour() {
+		return armour != null;
+	}
+	
+	/** Verifies that the values of this MobData
+	 * are valid (so no nulls etc.). This is only done
+	 * on those which are to be used as mobs. (So that base
+	 * types such as 'ghostblade-base' can be in an invalid state).
+	 */
+	void verify() {
+		// This should be practically impossible - but checking just in case
+		if (name == null)
+			throw new IllegalStateException("Mobdata name is missing?!");
+		
+		if (title == null)
+			throw new IllegalStateException("Title for mob " + name + " is not defined.");
+		
+		if (disguiseType == DisguiseType.PLAYER) {
+			if (playerName == null)
+				throw new IllegalStateException("Mob " + name + " has player disguise but no player name.");
+			if (skinName == null)
+				throw new IllegalStateException("Mob " + name + " has player disguise but no skin name.");
+			if (!Skin.skinExists(skinName))
+				throw new IllegalStateException("Mob " + name + " has player disguise with skin '" + skinName + "' but skin does not exist.");
+		}
+		
+		if (health == 0)
+			throw new IllegalStateException("Mob " + name + " has zero health.");
 	}
 	
 	private static final Map<String, MobData> mobs = new HashMap<>();
@@ -159,7 +199,9 @@ public class MobData {
 		for (MobData data : mobs.values())
 			data.compile();
 	}
-	public static MobData getMobData(String type) {
+	static MobData getMobData(String type) {
+		if (!mobs.containsKey(type))
+			throw new IllegalArgumentException("No mobdata with key " + type);
 		return mobs.get(type);
 	}
 }

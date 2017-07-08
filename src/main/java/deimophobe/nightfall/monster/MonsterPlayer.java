@@ -133,23 +133,17 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		mob = null;
 	}
 	
-	public void spawnMobType(MobType type) {
+	public void spawnMob(MobType type) {
 		spawnMob(type.createMob(this));
 	}
 	
 	public void spawnMob(Mob mob) {
-		spawnMobAt(mob, GameMap.getCurrentMap().getCurrentMobspawn());
-	}
-	
-	public void spawnMobAt(Mob mob, Location location) {
 		this.mob = mob;
 		mob.spawn();
 		entity.setAllowFlight(false);
 		entity.getInventory().setItem(9, seppuku);
-		if (location != null)
-			teleportTo(location);
 		entity.setGameMode(GameMode.SURVIVAL);
-		Bukkit.getLogger().info("Spawning " + getName() + " as a mob.");
+		Bukkit.getLogger().info("Spawning " + getName() + " as mob: " + mob.getType());
 	}
 	
 	// ----- REBIRTH -----
@@ -187,8 +181,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		}
 		
 		this.mob = MobType.ZOMBIE.createMob(this);
-		spawnMobAt(mob, lastRebirth);
-		((Rebirthable) mob).rebirth();
+		((Rebirthable) mob).rebirth(lastRebirth);
 		rebirthKiller.cancel();
 	}
 	

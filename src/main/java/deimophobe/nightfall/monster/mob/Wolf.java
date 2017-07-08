@@ -10,11 +10,8 @@ import deimophobe.nightfall.Game;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import deimophobe.nightfall.monster.doom.DoomManager;
-import deimophobe.nightfall.monster.doom.DoomType;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
@@ -29,16 +26,18 @@ import org.bukkit.util.Vector;
 /**
  * Created by Deimophobe on 19/01/17.
  */
-class Wolf extends AbstractTypedMob {
-	
-	@Override protected MobType getType() {return MobType.WOLF;}
+class Wolf extends AbstractMob {
 		
 	private final ComplexCooldown leapCD = new ComplexCooldown(200);
 	
 	private final ComplexCooldown furySound;
 	
-	Wolf(MonsterPlayer monster) {
-		super(monster);
+	protected Wolf(MonsterPlayer monster) {
+		this(monster, MobType.WOLF);
+	}
+	
+	protected Wolf(MonsterPlayer monster, MobType type) {
+		super(monster, type);
 		
 		if (isHellhound()) {
 			furySound = new ComplexCooldown(25, () -> {

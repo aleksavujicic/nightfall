@@ -6,6 +6,7 @@ import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.mob.AbstractMob;
+import deimophobe.nightfall.monster.mob.MobType;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -22,7 +23,7 @@ public class PlaguedZombie extends AbstractMob {
 	private final boolean canSpread;
 	
 	protected PlaguedZombie(MonsterPlayer mons, ZombiePlague plague, boolean canSpread) {
-		super(mons);
+		super(mons, MobType.PLAGUE_ZOMBIE);
 		this.plague = plague;
 		this.canSpread = canSpread;
 	}
@@ -47,34 +48,19 @@ public class PlaguedZombie extends AbstractMob {
 		return damage;
 	}
 	
-	@Override public boolean isProccable() {return true;}
-	@Override public double getResistance() {return 0.6;}
-	@Override public double getArrowRes() {return 0;}
-	@Override public int getArmourShred() {return 10;}
-	@Override public int getTorchXP() {return 5;}
 	@Override public boolean isShrineImmune() {
 		return Game.getGame().getPhase() == Phase.PLAGUE;
 	}
+	@Override protected void giveItems() {}
 	
 	@Override
 	public void spawn() {
-		monster.getPlayer().setGameMode(GameMode.SURVIVAL);
-		
-		setTitle(false, "Zombie");
-		setupMobDisguise(DisguiseType.ZOMBIE);
-		monster.givePermanentPotionEffect(PotionEffectType.NIGHT_VISION, 2);
+		super.spawn();
 		monster.givePermanentPotionEffect(PotionEffectType.WITHER, 2);
-		
-		PlayerInventory inv = monster.getPlayer().getInventory();
-		inv.setChestplate(null);
-		inv.setBoots(null);
-		inv.setLeggings(PANTS);
 	}
 	
 	@Override
 	public void onDeath() {
 		plague.notifyZombieDeath();
 	}
-	
-	private static final ItemStack PANTS = new ItemStack(Material.IRON_LEGGINGS);
 }

@@ -33,4 +33,6 @@ public interface Mob {
 	void onProjectileLand(Projectile proj, Block hitBlock);
 	float getCooldown();
 	void onDeath();
+	
+	MobType getType();
 }

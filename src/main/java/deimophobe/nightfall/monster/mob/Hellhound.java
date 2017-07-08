@@ -22,10 +22,8 @@ import java.util.Random;
  */
 public class Hellhound extends Wolf {
 	
-	@Override protected MobType getType() {return MobType.HELLHOUND;}
-	
 	Hellhound(MonsterPlayer monster) {
-		super(monster);
+		super(monster, MobType.HELLHOUND);
 		getWeapon().addModifier(ItemModifierType.BURNING, 1, "Breath of Hell");
 	}
 	

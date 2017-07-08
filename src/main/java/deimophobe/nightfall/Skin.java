@@ -30,7 +30,14 @@ public class Skin {
 		}
 	}
 	
+	public static boolean skinExists(String name) {
+		return skins.containsKey(name);
+	}
+	
 	public static Skin getSkin(String name) {
+		if (!skinExists(name))
+			throw new IllegalArgumentException("Tried to get skin '" + name + "' but does not exist.");
+		
 		return skins.get(name);
 	}
 	

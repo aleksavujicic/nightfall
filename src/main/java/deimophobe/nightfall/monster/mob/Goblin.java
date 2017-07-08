@@ -9,7 +9,6 @@ import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
-import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -26,7 +25,7 @@ import org.bukkit.util.Vector;
 /**
  * Created by Deimophobe on 28/02/17.
  */
-class Goblin extends AbstractTypedMob {
+class Goblin extends AbstractMob {
 
 	@Override
 	public void spawn() {
@@ -34,11 +33,9 @@ class Goblin extends AbstractTypedMob {
 		giveItem("gobo-box", 8);
 		giveItem("kaboom", 1);
 	}
-
-	@Override protected MobType getType() {return MobType.GOBO;}
 	
 	protected Goblin(MonsterPlayer mons) {
-		super(mons);
+		super(mons, MobType.GOBO);
 	}
 	
 	@Override

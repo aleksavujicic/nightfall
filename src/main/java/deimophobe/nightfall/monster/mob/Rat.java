@@ -12,12 +12,10 @@ import org.bukkit.event.block.Action;
 /**
  * Created by Deimophobe on 20/01/17.
  */
-class Rat extends AbstractTypedMob {
-	
-	@Override protected MobType getType() {return MobType.RAT;}
+class Rat extends AbstractMob {
 	
 	Rat(MonsterPlayer monster) {
-		super(monster);
+		super(monster, MobType.RAT);
 	}
 	
 	private int stealCD = 0;

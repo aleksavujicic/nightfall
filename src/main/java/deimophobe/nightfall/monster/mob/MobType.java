@@ -3,6 +3,7 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
@@ -10,31 +11,30 @@ import java.util.*;
  * Created by Deimophobe on 19/01/17.
  */
 public enum MobType {
-	ZOMBIE("zombie"),
-	GOBO("gobo"),
+	ZOMBIE,
+	GOBO,
 	
-	WITHERSKELE("witherskele"),
-	FLAMELANCER("flamelancer"),
-	WOLF("wolf"),
-	SPIDERLING("spiderling"),
-	RAT("rat"),
-	GOLEM("golem"),
-	OGRE("ogre"),
+	WITHERSKELE,
+	FLAMELANCER,
+	WOLF,
+	SPIDERLING,
+	RAT,
+	GOLEM,
+	OGRE,
 	
-	GB_DAGGER("gb-dagger"),
-	GB_RUNEBLADE("gb-runeblade"),
-	GB_AXE("gb-axe"),
-	GB_HAMMER("gb-hammer"),
+	GB_DAGGER,
+	GB_RUNEBLADE,
+	GB_AXE,
+	GB_HAMMER,
 	
-	HELLHOUND("hellhound"),
+	HELLHOUND,
 	
-	KRUNGOR("krungor"),
-	BOPEN("bopen"),
-	
+	KRUNGOR,
+	BOPEN,
 	
 	TESTMOB,
 	
-	;
+	PLAGUE_ZOMBIE;
 	
 	private final MobData mobData;
 	public MobData getMobData() {
@@ -42,14 +42,12 @@ public enum MobType {
 	}
 	
 	public String getName() {
-		return name().toLowerCase();
+		return name().replace('_','-').toLowerCase();
 	}
 	
-	MobType(String name) {
-		this.mobData = MobData.getMobData(name);
-	}
 	MobType() {
-		mobData = null;
+		this.mobData = MobData.getMobData(getName());
+		mobData.verify();
 	}
 	
 	public Mob createMob(MonsterPlayer monster) {
@@ -63,7 +61,7 @@ public enum MobType {
 			case SPIDERLING: return new Spiderling(monster);
 			case RAT: return new Rat(monster);
 			case GOLEM: return new Golem(monster);
-			case OGRE: return new Ogre(monster);
+			case OGRE: return new SimpleMob(monster, OGRE);
 			
 			case KRUNGOR: return new Krungor(monster);
 			case BOPEN: return new Bopen(monster);
@@ -79,30 +77,32 @@ public enum MobType {
 				
 			case TESTMOB:
 				return new TestMob(monster);
+				
+			case PLAGUE_ZOMBIE:
+				throw new IllegalArgumentException("Plague zombie cannot be created normally.");
+				
 		}
 		Bukkit.getLogger().severe("Unknown mobtype: " + this);
-		throw new NullPointerException("Unknown mobtype: " + this);
-	}
-	
-	public Map<String, CustomItem> getItems() {
-		if (mobData == null) return Collections.emptyMap();
-		return mobData.getItems();
+		throw new IllegalArgumentException("Unknown mobtype: " + this + ". Did deimo forgot to set a case for this?");
 	}
 	
 	public static Collection<String> getAllMobTypes() {
 		Set<String> mobs = new HashSet<>();
 		for (MobType type : values())
-			mobs.add(type.name().toLowerCase());
+			mobs.add(type.getName());
 		return mobs;
 	}
 	
 	public static MobType getMobType(String type) {
-		type = type.replace('-','_');
 		for (MobType mobType : values()) {
-			if (mobType.name().equalsIgnoreCase(type))
+			if (mobType.getName().equalsIgnoreCase(type))
 				return mobType;
 		}
-		Bukkit.getLogger().warning("No mob of type '" + type + "'!?");
-		return null;
+		throw new IllegalArgumentException("No mob of type '" + type + "'!?");
+	}
+	
+	// Used for ItemManager.
+	public Map<String, CustomItem> getItems() {
+		return mobData.getItems();
 	}
 }

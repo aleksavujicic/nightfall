@@ -520,14 +520,27 @@ bopen:
          - "Mmmmm.... comfy."
 
 
+plague-zombie:
+  title: Plagued
+
+  disguisetype: zombie
+
+  immunetime: 0
+
+  armourslot: legs
+  armour:
+    material: iron_leggings
+    name: Temp
+    lore:
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+
 
 # To get format codes:
 # http://minecraft.gamepedia.com/Formatting_codes
 # http://minecraft.tools/en/color-code.php
 
-test:
+testmob:
   title: Tester
-
-  disguisetype: zombie
-
-  attack: 10

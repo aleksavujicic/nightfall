@@ -15,10 +15,10 @@ import org.bukkit.event.block.Action;
 /**
  * Created by Deimophobe on 27/01/17.
  */
-abstract class SkeletonMob extends AbstractTypedMob {
+abstract class SkeletonMob extends AbstractMob {
 	
-	protected SkeletonMob(MonsterPlayer mons) {
-		super(mons);
+	protected SkeletonMob(MonsterPlayer mons, MobType type) {
+		super(mons, type);
 		getWeapon().addModifier(ItemModifierType.POWER, (int) getPower());
 	}
 	
