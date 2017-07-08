@@ -41,7 +41,7 @@ class TuiHammer extends AbstractAOEHitter implements KitCooldownElement {
 		if (entity instanceof MonsterPlayer) {
 			return (dwarf.hasProc() ? 15 : 10);
 		} else if (entity instanceof AIEntity) {
-			return (dwarf.hasProc() ? 40 : 20);
+			return (dwarf.hasProc() ? 120 : 60);
 		}
 		return 0;
 	}
