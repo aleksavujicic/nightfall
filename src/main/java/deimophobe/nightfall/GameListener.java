@@ -103,7 +103,7 @@ public class GameListener implements Listener {
 		Block block = event.getClickedBlock();
 		Material mat = event.getMaterial();
 		GamePlayer gp = game.getGamePlayer(event.getPlayer());
-		if (gp != null) {
+		if (gp != null && event.getAction() != Action.PHYSICAL) {
 			
 			if ((gp instanceof MonsterPlayer) && ((MonsterPlayer) gp).isFrozen()) {
 				event.setCancelled(true);
