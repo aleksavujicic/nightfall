@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ArmourSlot;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.lore.LoreTemplate;
@@ -30,7 +31,7 @@ public class MobData {
 	private final int health;
 	private final int speed;
 	
-	final boolean armourOnChest;
+	final ArmourSlot slot;
 	private final CustomItem armour;
 	private final CustomItem weapon;
 	private final Map<String, CustomItem> items;
@@ -57,19 +58,19 @@ public class MobData {
 		health = 10;
 		speed = 0;
 		
-		armourOnChest = true;
+		proccable = true;
+		damageRes = 0.6;
+		arrowRes = 0;
+		armourShred = 10;
+		torchXP = 10;
+		shrineImmune = false;
+		
+		slot = ArmourSlot.CHEST;
 		armour = null;
 		weapon = null;
 		items = new LinkedHashMap<>();
 		
 		immuneTime = 8;
-		
-		proccable = true;
-		damageRes = 0.5;
-		arrowRes = 0;
-		armourShred = 10;
-		torchXP = 10;
-		shrineImmune = false;
 	}
 	
 	private MobData(ConfigurationSection section, MobData parent) {
@@ -90,8 +91,9 @@ public class MobData {
 		health = section.getInt("health", parent.health);
 		speed = section.getInt("speed", parent.speed);
 		
-		armourOnChest = section.getBoolean("armouronchest", parent.armourOnChest);
-		if (section.contains("armour")) armour = CustomItem.getItem(section.getConfigurationSection("armour"), LoreTemplate.MOB, (armourOnChest ? Slot.CHEST : Slot.HEAD));
+		if (section.contains("armourslot")) slot = ArmourSlot.fromString(section.getString("armourslot"));
+		else slot = parent.slot;
+		if (section.contains("armour")) armour = CustomItem.getItem(section.getConfigurationSection("armour"), LoreTemplate.MOB, slot.getSlot());
 		else armour = CustomItem.tryClone(parent.armour);
 		if (section.contains("weapon")) weapon = CustomItem.getItem(section.getConfigurationSection("weapon"), LoreTemplate.MOB, Slot.MAIN_HAND);
 		else weapon = CustomItem.tryClone(parent.weapon);

@@ -71,11 +71,7 @@ abstract class AbstractTypedMob extends AbstractMob {
 	
 	protected void setArmour() {
 		PlayerInventory inv = monster.getPlayer().getInventory();
-		if (mobData.armourOnChest) {
-			inv.setChestplate(getArmour().createItemStack());
-		} else {
-			inv.setHelmet(getArmour().createItemStack());
-		}
+		mobData.slot.equipArmour(inv, getArmour().createItemStack());
 	}
 	
 	

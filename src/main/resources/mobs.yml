@@ -438,7 +438,7 @@ krungor:
   shred: 25
   shrineimmune: true
 
-  armouronchest: false
+  armourslot: head
   armour:
     template: monster-hero
     base: bonecrown
@@ -476,7 +476,7 @@ bopen:
   shred: 25
   shrineimmune: true
 
-  armouronchest: false
+  armourslot: head
   armour:
     template: monster-hero
     base: bonecrown
