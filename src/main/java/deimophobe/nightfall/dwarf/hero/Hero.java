@@ -159,7 +159,10 @@ public class Hero extends Dwarf {
 			this.data = new DwarfData(title, true, hat, allElements, HERO_CONSUMABLES);
 			data.addConsumables(extraConsumables);
 			
-			this.skin = Skin.getSkin(skin);
+			if (skin == null)
+				this.skin = null;
+			else
+				this.skin = Skin.getSkin(skin);
 			this.nametag = nametag;
 		}
 		
