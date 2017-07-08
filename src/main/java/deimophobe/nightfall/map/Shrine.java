@@ -176,9 +176,11 @@ public class Shrine {
 		damage = Math.min((maxShrinePower / 5), damage);
 		recovery = Math.min((maxShrinePower / 5), recovery);
 		
-		map.stealGold(recovery);
+		if (map.hasGold()) {
+			int recovered = recoverShrine(recovery);
+			map.stealGold(recovered/2);
+		}
 		
-		recoverShrine(recovery);
 		damageShrine(damage);
 
 		// Shrine Power capped at max shrine power
@@ -196,9 +198,12 @@ public class Shrine {
 			updateShrineHealth();
 	}
 	
-	public void recoverShrine(int recovery) {
-		shrinePower = Math.min(shrinePower + recovery, maxShrinePower);
+	public int recoverShrine(int recovery) {
+		int newShrinePower = Math.min(shrinePower + recovery, maxShrinePower);
+		int recovered = newShrinePower - shrinePower;
+		shrinePower = newShrinePower;
 		updateShrineHealth();
+		return recovered;
 	}
 	
 	private void updateShrineHealth() {
