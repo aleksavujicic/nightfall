@@ -164,7 +164,7 @@ wolf:
 
   disguisetype: wolf
 
-  attack: 16
+  attack: 14
   health: 30
   speed: 5
 
@@ -195,11 +195,13 @@ hellhound:
 
   disguisetype: wolf
 
-  attack: 20
+  attack: 18
   health: 40
   speed: 20
 
   shred: 30
+
+  proccable: false
 
 
 spiderling:

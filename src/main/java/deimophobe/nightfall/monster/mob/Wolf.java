@@ -11,6 +11,7 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.doom.DoomManager;
 import deimophobe.nightfall.monster.doom.DoomType;
@@ -64,6 +65,8 @@ class Wolf extends AbstractTypedMob {
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		furySound.update();
 		leapCD.update();
+		if (quadSec)
+			packBuff();
 	}
 	
 	@Override
@@ -95,8 +98,8 @@ class Wolf extends AbstractTypedMob {
 					}
 				});
 				float pitch = (isHellhound() ? 0.95f : 1f);
-				monster.playSound(wolfHowl, 2, pitch, true);
-				monster.playSound(wolfHowl, 10, pitch, false);
+				monster.playSound(wolfHowl, 1, pitch, true);
+				monster.playSound(wolfHowl, 1000, pitch, false);
 				
 				double yaw = monster.getPlayer().getLocation().getYaw();
 				double radYaw = yaw*Math.PI/180;
@@ -117,9 +120,9 @@ class Wolf extends AbstractTypedMob {
 		if (dwarf != null) {
 			double heal;
 			if (isHellhound())
-				heal = (Game.getGame().isNight() ? 4 : 7);
+				heal = (Game.getGame().isNight() ? 7 : 4);
 			else
-				heal = (Game.getGame().isNight() ? 2 : 4);
+				heal = (Game.getGame().isNight() ? 5 : 3);
 			
 			monster.heal(heal);
 			monster.givePotionEffect(PotionEffectType.SPEED, 120, 3, true, false, true);
@@ -134,5 +137,18 @@ class Wolf extends AbstractTypedMob {
 	
 	private boolean isHellhound() {
 		return (this instanceof Hellhound);
+	}
+	
+	private void packBuff() {
+		int wolfCount = 0;
+		for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
+			if (monster.getMob() instanceof Wolf) {
+				if (monster.getLocation().distance(this.monster.getLocation()) <= 6) {
+					wolfCount++;
+				}
+			}
+		}
+		if (wolfCount == 0) return;
+		monster.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, 5*20, wolfCount, true, false, true);
 	}
 }
