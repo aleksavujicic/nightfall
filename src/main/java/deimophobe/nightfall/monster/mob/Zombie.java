@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * Created by Deimophobe on 2/02/17.
  */
-class Zombie extends AbstractMob implements Rebirthable {
+public class Zombie extends AbstractMob {
 	
 	private final Cooldown leapCD;
 	private final int leapLvl;
@@ -38,11 +38,16 @@ class Zombie extends AbstractMob implements Rebirthable {
 	private final boolean fury;
 	private final ComplexCooldown furySound;
 	
-	private Location rebirthLoc = null;
-	
+	private final Location rebirthLoc;
 	
 	protected Zombie(MonsterPlayer mons) {
+		this(mons, null);
+	}
+	
+	public Zombie(MonsterPlayer mons, Location rebirth) {
 		super(mons, MobType.ZOMBIE);
+		
+		this.rebirthLoc = rebirth;
 		
 		// TODO: Make these not hardcoded. Requires bit of work so later.
 		Integer[] shredValues = {0, 5, 8, 12, 15, 20};
@@ -88,19 +93,23 @@ class Zombie extends AbstractMob implements Rebirthable {
 		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
 	}
 	
+	private boolean didRebirth() {
+		return rebirthLoc != null;
+	}
+	
 	@Override
-	public void rebirth(Location location) {
-		this.rebirthLoc = location;
-		spawn();
-		giveSpawnProtection(12);
+	public void spawn() {
+		super.spawn();
+		if (didRebirth())
+			giveSpawnProtection(12);
 	}
 	
 	@Override
 	public void tpToSpawn() {
-		if (rebirthLoc == null)
-			super.tpToSpawn();
-		else
+		if (didRebirth())
 			monster.teleportTo(rebirthLoc);
+		else
+			super.tpToSpawn();
 	}
 	
 	@Override

@@ -9,10 +9,8 @@ import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.menu.SessionData;
-import deimophobe.nightfall.monster.mob.Bopen;
-import deimophobe.nightfall.monster.mob.Mob;
-import deimophobe.nightfall.monster.mob.MobType;
-import deimophobe.nightfall.monster.mob.Rebirthable;
+import deimophobe.nightfall.monster.mob.*;
+import deimophobe.nightfall.monster.mob.Zombie;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.bukkit.*;
@@ -180,8 +178,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 			return;
 		}
 		
-		this.mob = MobType.ZOMBIE.createMob(this);
-		((Rebirthable) mob).rebirth(lastRebirth);
+		Mob zombie = new Zombie(this, lastRebirth);
+		spawnMob(zombie);
 		rebirthKiller.cancel();
 	}
 	
