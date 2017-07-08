@@ -51,7 +51,13 @@ public class PlaguedZombie extends AbstractMob {
 	@Override public boolean isShrineImmune() {
 		return Game.getGame().getPhase() == Phase.PLAGUE;
 	}
-	@Override protected void giveItems() {}
+	@Override protected void setupItems() {
+		PlayerInventory inv = monster.getPlayer().getInventory();
+		inv.setChestplate(null);
+		inv.setBoots(null);
+		setArmour();
+	}
+	@Override protected void tpToSpawn() {}
 	
 	@Override
 	public void spawn() {

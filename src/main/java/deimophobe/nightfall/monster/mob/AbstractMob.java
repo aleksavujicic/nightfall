@@ -1,6 +1,5 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -50,7 +49,7 @@ public abstract class AbstractMob implements Mob {
 	@Override
 	public void spawn() {
 		setTitle(mobData.forceTitle, mobData.title);
-		giveItems();
+		setupItems();
 		
 		DisguiseType type = mobData.disguiseType;
 		if (type != null) {
@@ -118,7 +117,7 @@ public abstract class AbstractMob implements Mob {
 	
 	
 	// ~~~~ ITEMS ~~~~~
-	protected void giveItems() {
+	protected void setupItems() {
 		monster.clearInventory();
 		
 		if (mobData.hasWeapon()) {
