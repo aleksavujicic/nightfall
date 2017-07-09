@@ -29,26 +29,37 @@ public enum MobType {
 	GB_HAMMER,
 	
 	HELLHOUND,
+	BANSHEE,
 	
 	KRUNGOR,
 	BOPEN,
 	
 	TESTMOB,
 	
-	PLAGUE_ZOMBIE;
+	PLAGUE_ZOMBIE(false),
+	
+	;
 	
 	private final MobData mobData;
 	public MobData getMobData() {
 		return mobData;
 	}
 	
+	private final boolean spawnable;
+	
 	public String getName() {
 		return name().replace('_','-').toLowerCase();
 	}
 	
-	MobType() {
+	MobType(boolean spawnable) {
 		this.mobData = MobData.getMobData(getName());
 		mobData.verify();
+		
+		this.spawnable = spawnable;
+	}
+	
+	MobType() {
+		this(true);
 	}
 	
 	public Mob createMob(MonsterPlayer monster) {
@@ -73,11 +84,10 @@ public enum MobType {
 			case GB_HAMMER:
 				return new Ghostblade(monster, this);
 				
-			case HELLHOUND:
-				return new Hellhound(monster);
+			case HELLHOUND: return new Hellhound(monster);
+			case BANSHEE: return new Banshee(monster);
 				
-			case TESTMOB:
-				return new TestMob(monster);
+			case TESTMOB: return new TestMob(monster);
 				
 			case PLAGUE_ZOMBIE:
 				throw new IllegalArgumentException("Plague zombie cannot be created normally.");
@@ -90,13 +100,14 @@ public enum MobType {
 	public static Collection<String> getAllMobTypes() {
 		Set<String> mobs = new HashSet<>();
 		for (MobType type : values())
-			mobs.add(type.getName());
+			if (type.spawnable)
+				mobs.add(type.getName());
 		return mobs;
 	}
 	
 	public static MobType getMobType(String type) {
 		for (MobType mobType : values()) {
-			if (mobType.getName().equalsIgnoreCase(type))
+			if (mobType.spawnable && mobType.getName().equalsIgnoreCase(type))
 				return mobType;
 		}
 		throw new IllegalArgumentException("No mob of type '" + type + "'!?");
