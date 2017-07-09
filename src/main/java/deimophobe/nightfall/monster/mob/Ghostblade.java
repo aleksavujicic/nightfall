@@ -38,8 +38,8 @@ class Ghostblade extends AbstractMob {
 	}
 	
 	@Override
-	public void spawn() {
-		super.spawn();
+	public void onSpawn() {
+		super.onSpawn();
 		monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
 	}
 	
@@ -106,6 +106,6 @@ class Ghostblade extends AbstractMob {
 	
 	@Override
 	public void onDeath() {
-		monster.playSound("block.end_portal.spawn", 1f, 2f, true);
+		monster.playSound("block.end_portal.onSpawn", 1f, 2f, true);
 	}
 }

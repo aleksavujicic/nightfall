@@ -7,11 +7,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.mob.AbstractMob;
 import deimophobe.nightfall.monster.mob.MobType;
-import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
 
@@ -60,8 +56,8 @@ public class PlaguedZombie extends AbstractMob {
 	@Override protected void tpToSpawn() {}
 	
 	@Override
-	public void spawn() {
-		super.spawn();
+	public void onSpawn() {
+		super.onSpawn();
 		monster.givePermanentPotionEffect(PotionEffectType.WITHER, 2);
 	}
 	

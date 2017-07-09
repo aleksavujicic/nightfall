@@ -39,8 +39,8 @@ class Spiderling extends AbstractMob {
 	private static final double CORRODE_DISTANCE = 15;
 	
 	@Override
-	public void spawn() {
-		super.spawn();
+	public void onSpawn() {
+		super.onSpawn();
 		monster.givePermanentPotionEffect(PotionEffectType.JUMP, 3);
 	}
 	

@@ -1,8 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.Game;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
-import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
@@ -13,7 +11,6 @@ import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.Random;
 
@@ -29,8 +26,8 @@ public class Hellhound extends Wolf {
 	
 	
 	@Override
-	public void spawn() {
-		super.spawn();
+	public void onSpawn() {
+		super.onSpawn();
 		
 		Disguise disguise = getDisguise();
 		FlagWatcher watcher = disguise.getWatcher();

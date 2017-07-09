@@ -47,7 +47,7 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	@Override
-	public void spawn() {
+	public void onSpawn() {
 		setTitle(mobData.forceTitle, mobData.title);
 		setupItems();
 		

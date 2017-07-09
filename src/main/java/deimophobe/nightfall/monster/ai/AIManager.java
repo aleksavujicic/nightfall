@@ -99,7 +99,7 @@ public class AIManager {
 	private final Queue<Location> spawnSpots = new LinkedList<>();
 	
 	private void addAISpawnLocation(Location loc) {
-		// Prevent spawning if spawn spot is too close to another
+		// Prevent spawning if onSpawn spot is too close to another
 		for (Location spawnSpot : spawnSpots) {
 			if (loc.distance(spawnSpot) <= AI_MARK_DISTANCE)
 				return;
@@ -140,7 +140,7 @@ public class AIManager {
 			ais.remove(uuid);
 		
 		
-		// Try spawn more AIs
+		// Try onSpawn more AIs
 		if (aisSpawnable && Game.getGame().getPhase() == Phase.GAME && !DoomManager.getManager().isDoom()) {
 			int dwarves = DwarfManager.getManager().getNumberOfPlayers();
 			int mobs = MonsterManager.getManager().getNumberOfPlayers();
@@ -175,7 +175,7 @@ public class AIManager {
 					continue;
 				}
 				
-				// Find closest dwarf and set as target. If no such dwarf, dont spawn.
+				// Find closest dwarf and set as target. If no such dwarf, dont onSpawn.
 				double leastDistance = 25;
 				Dwarf closestDwarf = null;
 				for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {

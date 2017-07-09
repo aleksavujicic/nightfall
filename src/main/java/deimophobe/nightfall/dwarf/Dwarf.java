@@ -379,7 +379,7 @@ public class Dwarf extends GamePlayer {
 	protected void mobspawnDamage() {
 		if (mobspawnCount == 0) return;
 		
-		entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (" + mobspawnCount + ")");
+		entity.sendMessage(ChatColor.RED + "You are too close to monster onSpawn! (" + mobspawnCount + ")");
 			
 		switch (mobspawnCount) {
 			case 0:

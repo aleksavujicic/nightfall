@@ -28,8 +28,8 @@ class Golem extends AbstractMob {
 	private int breakCD = 0;
 	
 	@Override
-	public void spawn() {
-		super.spawn();
+	public void onSpawn() {
+		super.onSpawn();
 		monster.givePermanentPotionEffect(PotionEffectType.SLOW_DIGGING, 4);
 	}
 	

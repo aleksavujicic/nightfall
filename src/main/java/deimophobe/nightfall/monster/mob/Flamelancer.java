@@ -30,8 +30,8 @@ class Flamelancer extends SkeletonMob {
 	private static final double FLAME_CHANCE_ARROW = 0.3;
 	
 	@Override
-	public void spawn() {
-		super.spawn();
+	public void onSpawn() {
+		super.onSpawn();
 		getDisguise().getWatcher().setBurning(true);
 		giveArrows(64);
 	}

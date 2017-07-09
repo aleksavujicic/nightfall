@@ -84,7 +84,7 @@ public class GameMap {
 		
 		this.dwarfSpawn = getLocation(config, "dwarfspawn");
 		if (dwarfSpawn == null)
-			throw new InvalidMapConfigException("GameMap must specify a dwarf spawn.");
+			throw new InvalidMapConfigException("GameMap must specify a dwarf onSpawn.");
 		
 		this.lobby = getLocation(config, "lobby");
 		if (lobby == null)
@@ -116,10 +116,10 @@ public class GameMap {
 		// Setup compass
 		compassLocations = new ArrayList<>();
 		
-		// Add dwarf/mob spawn and current shrine
+		// Add dwarf/mob onSpawn and current shrine
 		compassLocations.add(new CompassLocation() {
 			@Override public Location getLocation() {return getDwarfSpawn();}
-			@Override public String getName() {return "Dwarf spawn";}
+			@Override public String getName() {return "Dwarf onSpawn";}
 		});
 		compassLocations.add(new CompassLocation() {
 			@Override public Location getLocation() {return shrines.get(currentShrineIndex).getShrineCenter();}
@@ -127,7 +127,7 @@ public class GameMap {
 		});
 		compassLocations.add(new CompassLocation() {
 			@Override public Location getLocation() {return getCurrentMobspawn();}
-			@Override public String getName() {return "Current mob spawn";}
+			@Override public String getName() {return "Current mob onSpawn";}
 		});
 		
 		ConfigurationSection compassConfig = config.getConfigurationSection("compass");

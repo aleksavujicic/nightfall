@@ -27,8 +27,8 @@ public class Bopen extends AbstractMob {
 	}
 	
 	@Override
-	public void spawn() {
-		super.spawn();
+	public void onSpawn() {
+		super.onSpawn();
 		mountHorse();
 		giveItem("steed");
 	}

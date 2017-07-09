@@ -137,7 +137,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	
 	public void spawnMob(Mob mob) {
 		this.mob = mob;
-		mob.spawn();
+		mob.onSpawn();
 		entity.setAllowFlight(false);
 		entity.getInventory().setItem(9, seppuku);
 		entity.setGameMode(GameMode.SURVIVAL);

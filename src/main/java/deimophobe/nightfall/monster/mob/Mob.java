@@ -21,7 +21,7 @@ public interface Mob {
 	boolean isShrineImmune();
 	Disguise getDisguise();
 	
-	void spawn();
+	void onSpawn();
 	
 	void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec);
 	void onShift(boolean sneaking);

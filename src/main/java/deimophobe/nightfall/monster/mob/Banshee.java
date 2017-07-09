@@ -10,5 +10,8 @@ class Banshee extends AbstractMob {
 		super(monster, MobType.BANSHEE);
 	}
 	
-	
+	@Override
+	public void onSpawn() {
+		
+	}
 }

@@ -17,8 +17,8 @@ class WitherSkele extends SkeletonMob {
 	}
 	
 	@Override
-	public void spawn() {
-		super.spawn();
+	public void onSpawn() {
+		super.onSpawn();
 		giveArrows(128);
 	}
 	

@@ -28,8 +28,8 @@ import org.bukkit.util.Vector;
 class Goblin extends AbstractMob {
 
 	@Override
-	public void spawn() {
-		super.spawn();
+	public void onSpawn() {
+		super.onSpawn();
 		giveItem("gobo-box", 8);
 		giveItem("kaboom", 1);
 	}
