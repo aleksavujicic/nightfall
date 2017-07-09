@@ -19,7 +19,7 @@ public class ComplexCooldown {
 	}
 	
 	public ComplexCooldown(int maxCD, Runnable useAction, Runnable cooldownAction) {
-		this.cd = 0;
+		this.cd = -1;
 		this.maxCD = maxCD;
 		
 		this.useAction = useAction;
@@ -30,12 +30,14 @@ public class ComplexCooldown {
 		if (cd > 0)
 			cd--;
 		
-		if (cd == 0)
+		if (cd == 0) {
+			cd = -1;
 			cooldownAction.run();
+		}
 	}
 	
 	public boolean isAvailable() {
-		return cd == 0;
+		return cd == -1;
 	}
 	
 	public boolean tryUse() {
@@ -54,7 +56,7 @@ public class ComplexCooldown {
 		cd -= amt;
 		if (cd <= 0) {
 			cooldownAction.run();
-			cd = 0;
+			cd = -1;
 		}
 	}
 	
@@ -62,7 +64,14 @@ public class ComplexCooldown {
 		cd = maxCD;
 	}
 	
+	public void stop() {
+		cd = -1;
+	}
+	
 	public float fractionComplete() {
-		return 1 - (float) cd/maxCD;
+		if (cd == -1)
+			return 1;
+		else
+			return 1 - (float) cd/maxCD;
 	}
 }

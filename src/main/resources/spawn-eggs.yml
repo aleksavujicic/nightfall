@@ -69,6 +69,14 @@ golem:
   quantity: 1
   chance: 0.03
 
+banshee:
+  mobtype: golem
+  egg:
+    base: golempick
+    name: Spawn Golem
+  quantity: 1
+  chance: 0.02
+
 ogre:
   mobtype: ogre
   egg:

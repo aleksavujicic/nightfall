@@ -40,6 +40,8 @@ public class BaseItemManager {
 		
 		addItem("upgrade_zombie", new SimpleBaseItem(Material.SKULL_ITEM, 2));
 		
+		addItem("temporary", new SimpleBaseItem(Material.SLIME_BALL));
+		
 		// Add items from base-items.yml file
 		FileConfiguration config = Misc.getInternalFileConfig("base-items.yml");
 		for (String key : config.getKeys(false)) {

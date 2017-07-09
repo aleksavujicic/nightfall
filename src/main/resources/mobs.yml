@@ -421,6 +421,38 @@ gb-hammer:
       knockback: 10
 
 
+banshee:
+  title: "Banshee"
+
+  disguisetype: stray
+
+  attack: 25
+  health: 40
+  shred: 50
+  speed: -20
+
+  proccable: false
+  resistance: 0.8
+  arrowres: 0.5
+
+  armour:
+    base: temporary
+    name: "Temp"
+    lore:
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+  weapon:
+    base: temporary
+    name: "Temp"
+    lore:
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+
+
 krungor:
   title: Krungor
   forcetitle: true
