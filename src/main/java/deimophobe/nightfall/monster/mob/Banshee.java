@@ -8,9 +8,11 @@ import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -31,6 +33,7 @@ class Banshee extends AbstractMob {
 		monster.givePermanentPotionEffect(PotionEffectType.JUMP, 30);
 		
 		FlagWatcher watch = getDisguise().getWatcher();
+		watch.setItemInMainHand(new ItemStack(Material.AIR));
 		if (watch instanceof SkeletonWatcher) {
 			((SkeletonWatcher) watch).setSwingArms(true);
 		} else {

@@ -66,14 +66,16 @@ golem:
   egg:
     base: golempick
     name: Spawn Golem
+    shiny: true
   quantity: 1
   chance: 0.03
 
 banshee:
-  mobtype: golem
+  mobtype: banshee
   egg:
-    base: golempick
-    name: Spawn Golem
+    base: temporary
+    name: Spawn Banshee
+    shiny: true
   quantity: 1
   chance: 0.02
 
