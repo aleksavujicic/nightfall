@@ -468,4 +468,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		
 		seppuku.setItemMeta(meta);
 	}
+	
+	public Entity getDisguiseEntity() {
+		if (mob == null || mob.getDisguise() == null)
+			return null;
+		return mob.getDisguise().getEntity();
+	}
 }

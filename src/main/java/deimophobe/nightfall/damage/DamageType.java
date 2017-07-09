@@ -49,7 +49,7 @@ public enum DamageType {
 	WILDFIRE(true, false),
 	TINDERFLAME(false, false),
 	
-	;
+	TEMPORARY(false, false);
 	
 	private final boolean instaKill;
 	private final double dwarfMult;

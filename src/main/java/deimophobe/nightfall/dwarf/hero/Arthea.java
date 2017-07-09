@@ -1,19 +1,33 @@
 package deimophobe.nightfall.dwarf.hero;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.*;
+import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 import deimophobe.nightfall.GameEntity;
 import deimophobe.nightfall.Hat;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.monster.MonsterManager;
+import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.ai.AIEntity;
 import me.libraryaddict.disguise.DisguiseAPI;
-import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Created by Deimophobe on 7/05/17.
@@ -59,8 +73,8 @@ public class Arthea extends Hero {
 	
 	
 	@Override
-	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
-		super.update(a,b,c,d,e);
+	public void update(boolean a, boolean b, boolean c, boolean d, boolean quadSec) {
+		super.update(a,b,c,d,quadSec);
 		
 		if (isEnraged()) {
 			if (enrageTimer > 0)
@@ -75,6 +89,9 @@ public class Arthea extends Hero {
 				World world = location.getWorld();
 				world.spawnParticle(Particle.REDSTONE, location, 5 ,0.5, 0.5, 0.5, 0);
 			}
+			
+			//if (quadSec)
+			//	updateMobList();
 			
 			if (enrageTimer == ENRAGE_DURATION)
 				startEnrage();
@@ -95,8 +112,11 @@ public class Arthea extends Hero {
 		if (type == DamageType.VOID)
 			return damage;
 			
-		if (isEnraged() && enrageTimer != 0)
+		if (isEnraged() && enrageTimer != 0) {
+			if (entity instanceof AIEntity)
+				entity.customDamage(this, DamageType.TEMPORARY, 1000);
 			return -1;
+		}
 		
 		double dmg = super.onGotHit(entity, type, damage);
 		if (getHealth() - dmg <= 0.1 && !isEnraged()) {
@@ -108,8 +128,10 @@ public class Arthea extends Hero {
 	
 	@Override
 	public void notifyDeath(Dwarf dwarf) {
-		if (dwarf == this)
+		if (dwarf == this) {
 			entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
+			//cancelGlow();
+		}
 	}
 	
 	@Override
@@ -164,5 +186,52 @@ public class Arthea extends Hero {
 		Hat.ARTHEA.putOn(this);
 		giveKitItems(KitGiveType.ARTHEA_SPECIAL);
 		entity.getInventory().setHeldItemSlot(0);
+		
+		//makeMobsGlow();
+	}
+	
+	private PacketListener glower;
+	private Set<Integer> mobIDs = new HashSet<>();
+	private void makeMobsGlow() {
+		updateMobList();
+		
+		// https://www.spigotmc.org/threads/simulating-potion-effect-glowing-with-protocollib.218828/#post-2246160
+		// http://wiki.vg/Entities#Entity
+		// https://bukkit.org/threads/glowing-for-one-person.446790/
+		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+		
+		glower = new PacketAdapter(NightfallPlugin.getPlugin(), ListenerPriority.HIGHEST, PacketType.Play.Server.ENTITY_METADATA) {
+			@Override
+			public void onPacketSending(PacketEvent event) {
+				if (event.getPlayer() != entity) return;
+				PacketContainer packet = event.getPacket();
+				int id = packet.getIntegers().read(0);
+				if (!mobIDs.contains(id)) return;
+				
+				List<WrappedWatchableObject> objects = packet.getWatchableCollectionModifier().read(0);
+				for (WrappedWatchableObject object : objects) {
+					if (object.getIndex() != 0) continue;
+					byte b = (byte) object.getValue();
+					b = (byte) (b | 0b01000000);
+					object.setValue(b);
+				}
+			}
+		};
+		
+		protocolManager.addPacketListener(glower);
+	}
+	private void updateMobList() {
+		for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
+			Entity visibleEntity = monster.getDisguiseEntity();
+			if (visibleEntity == null)
+				visibleEntity = monster.getEntity();
+			
+			mobIDs.add(visibleEntity.getEntityId());
+		}
+	}
+	
+	private void cancelGlow() {
+		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+		protocolManager.removePacketListener(glower);
 	}
 }
