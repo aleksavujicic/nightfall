@@ -77,7 +77,7 @@ banshee:
     name: Spawn Banshee
     shiny: true
   quantity: 1
-  chance: 0.02
+  chance: 0.03
 
 ogre:
   mobtype: ogre
