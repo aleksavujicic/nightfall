@@ -123,10 +123,17 @@ public class GameListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onUseOnEntity(PlayerAnimationEvent event) {
+	public void onLeftClick(PlayerAnimationEvent event) {
 		GamePlayer gp = game.getGamePlayer(event.getPlayer());
 		if (gp != null) {
 			gp.onUse(Action.LEFT_CLICK_AIR, gp.getTargetBlock(null, 5), null);
+		}
+	}
+	
+	@EventHandler
+	public void onArmourStandClick(PlayerInteractAtEntityEvent event) {
+		if (event.getRightClicked().getType() == EntityType.ARMOR_STAND) {
+			event.setCancelled(true);
 		}
 	}
 	
