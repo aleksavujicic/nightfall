@@ -3,12 +3,14 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.damage.DamageType;
+import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -25,12 +27,19 @@ class Banshee extends AbstractMob {
 		super(monster, MobType.BANSHEE);
 	}
 	
+	
+	private static final int MAX_CHARGE_CD = 100;
+	private static final int CLOUD_TIME = 30;
+	private static final int FLOAT_TIME = 40;
+	private int chargerCD;
+	private boolean chargeActive = false;
+	
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
 		setFloatiness();
 		monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
-		monster.givePermanentPotionEffect(PotionEffectType.JUMP, 30);
+		monster.givePermanentPotionEffect(PotionEffectType.JUMP, 25);
 		
 		FlagWatcher watch = getDisguise().getWatcher();
 		watch.setItemInMainHand(new ItemStack(Material.AIR));
@@ -51,30 +60,57 @@ class Banshee extends AbstractMob {
 		if (!Misc.isRightClick(action)) return;
 		if (!isPlayerHoldingWeapon()) return;
 		
-		charger.tryUse();
+		if (chargerCD == 0) {
+			chargerCD = MAX_CHARGE_CD;
+			chargeActive = true;
+			charge();
+		}
 	}
 	
 	@Override
 	public float getCooldown() {
-		return charger.fractionComplete();
+		return 1 - (float) chargerCD/MAX_CHARGE_CD;
 	}
 	
 	@Override
 	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
-		charger.update();
+		if (chargerCD > 0) {
+			chargerCD--;
+			
+			if (chargeActive && chargerCD >= MAX_CHARGE_CD - CLOUD_TIME) {
+				Location loc = monster.getLocation();
+				loc.getWorld().spawnParticle(Particle.CLOUD, loc, 20, 0.7, 0.7, 0.7, 0.03);
+				aoeDamage();
+			}
+			
+			if (chargeActive && chargerCD < MAX_CHARGE_CD - FLOAT_TIME) {
+				chargeActive = false;
+				setFloatiness();
+			}
+		}
 	}
 	
-	private final ComplexCooldown charger = new ComplexCooldown(40, this::charge,  this::setFloatiness);
+	@Override
+	public double onGotHit(Dwarf dwarf, DamageType type, double damage) {
+		if (chargeActive) {
+			chargeActive = false;
+			chargerCD += 20;
+			setFloatiness();
+		}
+		return super.onGotHit(dwarf, type, damage);
+	}
+	
+	//private final ComplexCooldown charger = new ComplexCooldown(40, this::charge,  this::setFloatiness);
 	
 	private void setFloatiness() {
 		setFloatiness(monster.getPlayer().isSneaking());
 	}
 	
 	private void setFloatiness(boolean sneaking) {
-		charger.stop();
+		chargeActive = false;
 		
 		if (sneaking) {
-			monster.givePermanentPotionEffect(PotionEffectType.LEVITATION, -15);
+			monster.givePermanentPotionEffect(PotionEffectType.LEVITATION, -8);
 		} else {
 			monster.givePermanentPotionEffect(PotionEffectType.LEVITATION, -1);
 		}
@@ -85,6 +121,27 @@ class Banshee extends AbstractMob {
 		double radYaw = yaw*Math.PI/180;
 		Vector velocity = new Vector(-3 * Math.sin(radYaw), -3, 3 * Math.cos(radYaw));
 		monster.setVelocity(velocity);
-		monster.givePotionEffect(PotionEffectType.LEVITATION, 1000, 7, true, false, true);
+		monster.givePotionEffect(PotionEffectType.LEVITATION, FLOAT_TIME, 7, true, false, true);
+		
+		monster.playSound("entity.ghast.hurt", 2f, 0.7f, true);
+		monster.playSound("entity.ghast.shoot", 1f, 0.5f, true);
+	}
+	
+	private static final double AOE_RADIUS = 3.5;
+	private static final int AOE_DMG = 35; // This is a one off hit so its not as strong as it seems.
+	private static final int AOE_SHRED = 25;
+	private void aoeDamage() {
+		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
+			if (dwarf.distanceTo(monster) <= AOE_RADIUS) {
+				if (dwarf.getPlayer().getNoDamageTicks() == 0)
+					dwarf.getArmour().damage(AOE_SHRED);
+				dwarf.customDamage(dwarf, DamageType.TEMPORARY, AOE_DMG);
+			}
+		}
+	}
+	
+	@Override
+	public void onDeath() {
+		monster.playSound("entity.ghast.death", 2f, 0.5f, true);
 	}
 }

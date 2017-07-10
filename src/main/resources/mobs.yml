@@ -345,7 +345,7 @@ banshee:
 
   attack: 25
   health: 40
-  shred: 40
+  shred: 25
   speed: -20
 
   proccable: false

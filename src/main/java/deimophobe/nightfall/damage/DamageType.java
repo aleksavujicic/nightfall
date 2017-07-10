@@ -49,6 +49,7 @@ public enum DamageType {
 	WILDFIRE(true, false),
 	TINDERFLAME(false, false),
 	
+	@Deprecated
 	TEMPORARY(false, false);
 	
 	private final boolean instaKill;
