@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf;
 
 import deimophobe.nightfall.*;
+import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
@@ -543,7 +544,7 @@ public class Dwarf extends GamePlayer {
 			}
 		}
 		
-		if (Misc.isRightClick(type) && clickedBlock != null && (clickedBlock.getType() == Material.CHEST || clickedBlock.getType() == Material.ENDER_CHEST)) {
+		if (Misc.isRightClick(type) && clickedBlock != null && BlockType.SHARED_CHEST.matchesBlock(clickedBlock)) {
 			showSharedChest();
 			return;
 		}

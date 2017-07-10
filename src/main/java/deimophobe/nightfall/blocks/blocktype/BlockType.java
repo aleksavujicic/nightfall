@@ -62,6 +62,8 @@ public class BlockType {
 			);
 	public static final ComparableBlock ANY_SHRINE_BLOCK = new MaterialBlock(Material.ENDER_PORTAL_FRAME);
 	
+	public static final ComparableBlock SHARED_CHEST = new MaterialSet(Material.CHEST, Material.ENDER_CHEST, Material.TRAPPED_CHEST);
+	
 	
 	// ----- Blocksets -----
 	public static final ComparableBlock UNTIMEABLE_BLOCKS = new BlockSet(
@@ -71,6 +73,7 @@ public class BlockType {
 			CRACKED_GOLD_3,
 			
 			ANY_SHRINE_BLOCK,
+			SHARED_CHEST,
 			
 			new MaterialSet(
 					Material.AIR,
@@ -85,9 +88,6 @@ public class BlockType {
 					Material.LADDER,
 					Material.REDSTONE_TORCH_ON,
 					Material.REDSTONE_TORCH_OFF,
-					
-					Material.CHEST,
-					Material.TRAPPED_CHEST,
 					
 					Material.JACK_O_LANTERN,
 					Material.PURPUR_BLOCK,
@@ -127,9 +127,8 @@ public class BlockType {
 	public static final ComparableBlock SHULKER_BOX = block -> (block.getState() instanceof ShulkerBox);
 	public static final ComparableBlock UNINTERACTABLE_BLOCKS = new BlockSet(
 			SHULKER_BOX,
+			SHARED_CHEST,
 			new MaterialSet(
-					Material.CHEST,
-					Material.ENDER_CHEST,
 					Material.HOPPER,
 					Material.WORKBENCH,
 					Material.FURNACE,
