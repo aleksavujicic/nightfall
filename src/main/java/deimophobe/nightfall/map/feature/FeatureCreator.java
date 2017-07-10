@@ -18,6 +18,7 @@ public class FeatureCreator {
 	static {
 		FEATURES = new HashMap<>();
 		FEATURES.put("tp-pads", TeleportPad.class);
+		FEATURES.put("nro-map", NroMap.class);
 	}
 	
 	public static MapFeature createFeature(GameMap map, ConfigurationSection config) throws InvalidMapConfigException {
@@ -31,13 +32,13 @@ public class FeatureCreator {
 		try {
 			feature = featureClass.getDeclaredConstructor().newInstance();
 		} catch (NoSuchMethodException e) {
-			throw new IllegalArgumentException("Unable to find constructor for map feature '" + name + "'", e);
+			throw new RuntimeException("Unable to find constructor for map feature '" + name + "'", e);
 		} catch (IllegalAccessException e) {
-			throw new IllegalArgumentException("Failed to access constructor of map feature '" + name+ "'", e);
+			throw new RuntimeException("Failed to access constructor of map feature '" + name+ "'", e);
 		} catch (InstantiationException e) {
-			throw new IllegalArgumentException("Cannot create abstract map feature '" + name + "'", e);
+			throw new RuntimeException("Cannot create abstract map feature '" + name + "'", e);
 		} catch (InvocationTargetException e) {
-			throw new IllegalArgumentException("Exception thrown in constructor of map feature '" + name + "'", e);
+			throw new RuntimeException("Exception thrown in constructor of map feature '" + name + "'", e);
 		}
 		
 		feature.activate(map, config);
