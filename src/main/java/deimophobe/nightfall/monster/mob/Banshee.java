@@ -93,7 +93,6 @@ class Banshee extends AbstractMob {
 	public double onGotHit(Dwarf dwarf, DamageType type, double damage) {
 		if (chargeActive) {
 			chargeActive = false;
-			chargerCD += 20;
 			setFloatiness();
 		}
 		return super.onGotHit(dwarf, type, damage);
@@ -127,7 +126,7 @@ class Banshee extends AbstractMob {
 	}
 	
 	private static final double AOE_RADIUS = 3.5;
-	private static final int AOE_DMG = 35; // This is a one off hit so its not as strong as it seems.
+	private static final int AOE_DMG = 40; // This is a one off hit so its not as strong as it seems.
 	private static final int AOE_SHRED = 25;
 	private void aoeDamage() {
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
