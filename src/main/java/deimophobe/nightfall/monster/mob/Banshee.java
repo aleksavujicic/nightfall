@@ -38,7 +38,6 @@ class Banshee extends AbstractMob {
 	public void onSpawn() {
 		super.onSpawn();
 		setFloatiness();
-		monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
 		monster.givePermanentPotionEffect(PotionEffectType.JUMP, 25);
 		
 		FlagWatcher watch = getDisguise().getWatcher();
