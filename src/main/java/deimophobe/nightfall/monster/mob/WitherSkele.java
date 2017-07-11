@@ -9,7 +9,7 @@ import deimophobe.nightfall.monster.MonsterPlayer;
  */
 class WitherSkele extends SkeletonMob {
 	
-	@Override protected double getPower() {return 40;}
+	@Override protected double getPower() {return 30;}
 	private double damageBoost = 0;
 	
 	WitherSkele(MonsterPlayer monster) {
@@ -31,10 +31,10 @@ class WitherSkele extends SkeletonMob {
 	@Override
 	public double onHit(Dwarf dwarf, DamageType type, double damage) {
 		if (type.isArrow()) {
-			damageBoost += 5;
+			damageBoost = Math.min(damageBoost + 1, 50);
 			dwarf.getArmour().damage((int) damageBoost*3 + 20);
 			monster.heal(5);
-			return getPower() + damageBoost;
+			return getPower() + damageBoost*3;
 		} else {
 			return damage;
 		}
