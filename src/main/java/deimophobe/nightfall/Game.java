@@ -8,6 +8,7 @@ import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.loadout.Loadout;
+import deimophobe.nightfall.event.PhaseChangeEvent;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.MapManager;
 import deimophobe.nightfall.monster.MonsterManager;
@@ -244,6 +245,8 @@ public class Game {
 			for (Player player : Bukkit.getOnlinePlayers())
 				resetPlayer(player);
 		}
+		
+		Bukkit.getServer().getPluginManager().callEvent(new PhaseChangeEvent(phase));
 	}
 	
 	public void startGame() {
@@ -273,6 +276,8 @@ public class Game {
 					startPlague();
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), buildTime);
+		
+		Bukkit.getServer().getPluginManager().callEvent(new PhaseChangeEvent(phase));
 	}
 	
 	void startPlague() {
@@ -304,6 +309,8 @@ public class Game {
 					plague.forceEnd();
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), 120*20);
+		
+		Bukkit.getServer().getPluginManager().callEvent(new PhaseChangeEvent(phase));
 	}
 	
 	public void notifyPlagueFinish() {
@@ -323,6 +330,8 @@ public class Game {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			bossBar.addPlayer(player);
 		}
+		
+		Bukkit.getServer().getPluginManager().callEvent(new PhaseChangeEvent(phase));
 	}
 	
 	public void endGame() {
@@ -334,6 +343,8 @@ public class Game {
 		bossBar.setColor(BarColor.RED);
 		
 		MapManager.getManager().scheduleNewGame();
+		
+		Bukkit.getServer().getPluginManager().callEvent(new PhaseChangeEvent(phase));
 	}
 	
 	
