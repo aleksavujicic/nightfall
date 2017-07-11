@@ -24,7 +24,7 @@ public class AIEntity extends GameEntity<Zombie> {
 		Zombie zombie = (Zombie) GameMap.getCurrentMap().getWorld().spawnEntity(location, EntityType.ZOMBIE);
 		zombie.setCustomName(name);
 		
-		int speedLvl = (zombie.isBaby() ? 0 : 2);
+		int speedLvl = (zombie.isBaby() ? -1 : 1);
 		zombie.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 300000, speedLvl, false,false), true);
 		
 		zombie.getEquipment().setItemInMainHand(new ItemStack(Material.SHEARS, 1, (short) 100));
