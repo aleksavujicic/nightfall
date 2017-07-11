@@ -28,7 +28,7 @@ class Banshee extends AbstractMob {
 	}
 	
 	
-	private static final int MAX_CHARGE_CD = 100;
+	private static final int MAX_CHARGE_CD = 80;
 	private static final int CLOUD_TIME = 30;
 	private static final int FLOAT_TIME = 40;
 	private int chargerCD;
