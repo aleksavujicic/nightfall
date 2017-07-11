@@ -91,7 +91,7 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 		}
 		
 		if (DoomManager.getManager().isDoom()) {
-			monster.sendMessage(ChatColor.RED + "You cannot onSpawn during doom!");
+			monster.sendMessage(ChatColor.RED + "You cannot spawn during doom!");
 			return false;
 		}
 		

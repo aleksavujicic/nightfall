@@ -16,7 +16,7 @@ commands:
     description: Sets a player to be a mob
   spawnmob:
     usage: /spawnmob <name> <mobtype>
-    description: Forces a player to onSpawn as a mob
+    description: Forces a player to spawn as a mob
   removeplayer:
     usage: /removeplayer <name>
     description: Removes a player (from both dwarf and mob).

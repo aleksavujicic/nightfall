@@ -38,7 +38,7 @@ class RebirthItem implements MenuItem<MonsterPlayer> {
 				return true;
 			}
 		} else {
-			monster.sendMessage(ChatColor.RED + "You cannot onSpawn during doom!");
+			monster.sendMessage(ChatColor.RED + "You cannot spawn during doom!");
 		}
 		return false;
 	}
