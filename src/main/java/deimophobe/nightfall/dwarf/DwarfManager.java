@@ -5,6 +5,7 @@ import deimophobe.nightfall.GamePlayerManager;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.dwarf.loadout.DwarfData;
+import deimophobe.nightfall.event.DwarfCreateEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -34,8 +35,12 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	
 	@Override
 	protected Dwarf createGamePlayerFromPlayer(Player player) {
-		return new Dwarf(player);
+		Dwarf dwarf = new Dwarf(player);
+		DwarfCreateEvent event = new DwarfCreateEvent(dwarf);
+		Bukkit.getPluginManager().callEvent(event);
+		return dwarf;
 	}
+	
 	
 	
 	public boolean addHero(String name, Hero.Type type) {

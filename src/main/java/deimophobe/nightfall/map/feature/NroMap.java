@@ -2,7 +2,11 @@ package deimophobe.nightfall.map.feature;
 
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.armour.Armour;
+import deimophobe.nightfall.event.DwarfCreateEvent;
 import deimophobe.nightfall.event.PhaseChangeEvent;
+import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.InvalidMapConfigException;
 import org.bukkit.Bukkit;
@@ -25,8 +29,6 @@ public class NroMap implements MapFeature {
 	public void activate(GameMap map, ConfigurationSection config) throws InvalidMapConfigException {
 		 this.map = map;
 		
-		Bukkit.broadcastMessage("NRO");
-		
 		World world = map.getWorld();
 		world.setSpawnFlags(false, true);
 		Bukkit.getPluginManager().registerEvents(listener, NightfallPlugin.getPlugin());
@@ -34,15 +36,13 @@ public class NroMap implements MapFeature {
 	
 	@Override
 	public void deactivate() {
-		
+		HandlerList.unregisterAll(listener);
 	}
 	
 	private class GameStartListener implements Listener {
 		@EventHandler
 		public void gameStart(PhaseChangeEvent event) {
 			if (event.getPhase() != Phase.BUILD) return;
-			
-			Bukkit.broadcastMessage("BUILD");
 			
 			// remove command blocks
 			World world = map.getWorld();
@@ -52,8 +52,11 @@ public class NroMap implements MapFeature {
 			world.getBlockAt(-684, 66, -22).setType(Material.STONE);
 			world.getBlockAt(-685, 66, -22).setType(Material.STONE);
 			world.getBlockAt(-686, 66, -22).setType(Material.STONE);
-			
-			HandlerList.unregisterAll(this);
+		}
+		
+		@EventHandler
+		public void giveBlessing(DwarfCreateEvent event) {
+			event.getDwarf().getArmour().addModifier(ItemModifierType.DEPTH_STRIDER, 2, "Mermaid's Blessing");
 		}
 	}
 }

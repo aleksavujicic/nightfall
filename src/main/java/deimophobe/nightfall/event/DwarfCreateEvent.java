@@ -1,0 +1,30 @@
+package deimophobe.nightfall.event;
+
+import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.dwarf.Dwarf;
+import org.bukkit.event.Event;
+import org.bukkit.event.HandlerList;
+
+/**
+ * Created by Deimophobe on 11/07/17.
+ */
+public class DwarfCreateEvent extends Event {
+	private static final HandlerList handlers = new HandlerList();
+	private final Dwarf dwarf;
+	
+	public DwarfCreateEvent(Dwarf dwarf) {
+		this.dwarf = dwarf;
+	}
+	
+	public Dwarf getDwarf() {
+		return dwarf;
+	}
+	
+	public HandlerList getHandlers() {
+		return handlers;
+	}
+	
+	public static HandlerList getHandlerList() {
+		return handlers;
+	}
+}
