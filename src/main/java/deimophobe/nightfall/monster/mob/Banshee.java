@@ -78,7 +78,7 @@ class Banshee extends AbstractMob {
 			
 			if (chargeActive && chargerCD >= MAX_CHARGE_CD - CLOUD_TIME) {
 				Location loc = monster.getLocation();
-				loc.getWorld().spawnParticle(Particle.CLOUD, loc, 20, 0.7, 0.7, 0.7, 0.03);
+				loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 30, 0.7, 0.7, 0.7, 0.03);
 				aoeDamage();
 			}
 			
