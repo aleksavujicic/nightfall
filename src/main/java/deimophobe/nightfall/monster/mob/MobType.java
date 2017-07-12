@@ -3,8 +3,6 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
@@ -29,7 +27,7 @@ public enum MobType {
 	GB_HAMMER,
 	
 	HELLHOUND,
-	BANSHEE,
+	WRAITH,
 	
 	KRUNGOR,
 	BOPEN,
@@ -85,7 +83,7 @@ public enum MobType {
 				return new Ghostblade(monster, this);
 				
 			case HELLHOUND: return new Hellhound(monster);
-			case BANSHEE: return new Banshee(monster);
+			case WRAITH: return new Wraith(monster);
 				
 			case TESTMOB: return new TestMob(monster);
 				

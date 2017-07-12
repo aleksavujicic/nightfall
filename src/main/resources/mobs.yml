@@ -338,8 +338,8 @@ ogre:
       knockback: 3
 
 
-banshee:
-  title: "Banshee"
+wraith:
+  title: "Wraith"
 
   disguisetype: stray
 

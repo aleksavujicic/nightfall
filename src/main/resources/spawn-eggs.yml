@@ -70,11 +70,11 @@ golem:
   quantity: 1
   chance: 0.03
 
-banshee:
-  mobtype: banshee
+wraith:
+  mobtype: wraith
   egg:
     base: temporary
-    name: Spawn Banshee
+    name: Spawn Wraith
     shiny: true
   quantity: 1
   chance: 0.03

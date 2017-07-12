@@ -1,13 +1,10 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Misc;
-import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
 import org.bukkit.*;
@@ -16,15 +13,14 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 /**
  * Created by Deimophobe on 9/07/17.
  */
-class Banshee extends AbstractMob {
-	Banshee(MonsterPlayer monster) {
-		super(monster, MobType.BANSHEE);
+class Wraith extends AbstractMob {
+	Wraith(MonsterPlayer monster) {
+		super(monster, MobType.WRAITH);
 	}
 	
 	
@@ -45,7 +41,7 @@ class Banshee extends AbstractMob {
 		if (watch instanceof SkeletonWatcher) {
 			((SkeletonWatcher) watch).setSwingArms(true);
 		} else {
-			Bukkit.getLogger().severe("Banshee not disguised as skeletal mob?!");
+			Bukkit.getLogger().severe("Wraith not disguised as skeletal mob?!");
 		}
 	}
 	
