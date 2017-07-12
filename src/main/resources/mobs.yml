@@ -225,7 +225,7 @@ spiderling:
        - "Chitinous."
     bound: true
   weapon:
-    base: aisword
+    base: temporary
     name: Spider Thingies
     lore:
       description:
@@ -256,7 +256,7 @@ rat:
        - "Squeak."
     bound: true
   weapon:
-    base: aisword
+    base: temporary
     name: Rat Talons
     lore:
       description:
