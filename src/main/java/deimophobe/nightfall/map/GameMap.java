@@ -162,7 +162,7 @@ public class GameMap {
 		if (config.contains("features")) {
 			ConfigurationSection featSection = config.getConfigurationSection("features");
 			for (String key : featSection.getKeys(false)) {
-				features.add(FeatureCreator.createFeature(this, featSection.getConfigurationSection(key)));
+				features.add(FeatureCreator.createFeature(this, key, featSection.getConfigurationSection(key)));
 			}
 		}
 	}

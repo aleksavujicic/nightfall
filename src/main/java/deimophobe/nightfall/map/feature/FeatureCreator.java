@@ -21,8 +21,8 @@ public class FeatureCreator {
 		FEATURES.put("nro-map", NroMap.class);
 	}
 	
-	public static MapFeature createFeature(GameMap map, ConfigurationSection config) throws InvalidMapConfigException {
-		String name = config.getName();
+	// Uses seperate name parameter instead of config.getName() as config might be null.
+	public static MapFeature createFeature(GameMap map, String name, ConfigurationSection config) throws InvalidMapConfigException {
 		Class<? extends MapFeature> featureClass = FEATURES.get(name);
 		
 		if (featureClass == null)
