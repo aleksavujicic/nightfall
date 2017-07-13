@@ -30,12 +30,12 @@ public class StringSound implements GlobalSound, LocalSound, PlayerSound {
 	
 	@Override
 	public void playSound(Location location) {
-		location.getWorld().playSound(location, sound, category.getCategory(), pitch, volume);
+		location.getWorld().playSound(location, sound, category.getCategory(), volume, pitch);
 	}
 	
 	@Override
 	public void playSound(GamePlayer player) {
-		player.getPlayer().playSound(player.getLocation(), sound, category.getCategory(), pitch, volume);
+		player.getPlayer().playSound(player.getLocation(), sound, category.getCategory(), volume, pitch);
 	}
 	
 	@Override
