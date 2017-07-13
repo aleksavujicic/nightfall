@@ -68,7 +68,7 @@ sword:
        - "\"Take this and battle alongside me for all\n
           that's right, for the &e&olight&r!\" - &4Tui"
     modifiers:
-      attack: 10
+      attack: 15
   tombmaker:
     base: tombmaker
     name: Tombmaker

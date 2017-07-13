@@ -9,6 +9,7 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
+import deimophobe.nightfall.monster.mob.MobType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -106,7 +107,12 @@ class Hammer extends AbstractAOEHitter implements KitCooldownElement {
 	@Override
 	protected double getDamageToMonster(GameEntity entity) {
 		if (entity instanceof MonsterPlayer) {
-			return (dwarf.hasProc() ? 10 : 5);
+			MobType type = ((MonsterPlayer) entity).getMob().getType();
+			if (type == MobType.ZOMBIE) {
+				return (dwarf.hasProc() ? 25 : 15);
+			} else {
+				return (dwarf.hasProc() ? 10 : 5);
+			}
 		} else if (entity instanceof AIEntity) {
 			return  (dwarf.hasProc() ? 70 : 40);
 		}
