@@ -15,7 +15,7 @@ public enum PlagueType {
 	INSTA(InstaPlague.class, false),
 	DEATH(DeathPlague.class, true);
 	
-	private final Plague plague;
+	private final Class<? extends Plague> plagueClass;
 	private final boolean active;
 	
 	PlagueType(Class<? extends Plague> plagueClass) {
@@ -23,11 +23,16 @@ public enum PlagueType {
 	}
 	
 	PlagueType(Class<? extends Plague> plagueClass, boolean active) {
+		this.plagueClass = plagueClass;
 		
+		// Test to see if it can create a plague.
+		getPlague();
 		this.active = active;
-		
+	}
+	
+	public Plague getPlague() {
 		try {
-			this.plague = plagueClass.getDeclaredConstructor().newInstance();
+			return plagueClass.getDeclaredConstructor().newInstance();
 		} catch (NoSuchMethodException e) {
 			throw new IllegalArgumentException("Unable to find constructor for plague object '" + name() + "'", e);
 		} catch (IllegalAccessException e) {
@@ -37,10 +42,6 @@ public enum PlagueType {
 		} catch (InvocationTargetException e) {
 			throw new IllegalArgumentException("Exception thrown in constructor of plague object '" + name() + "'", e);
 		}
-	}
-	
-	public Plague getPlague() {
-		return plague;
 	}
 	
 	public static Plague getRandomPlague() {
