@@ -3,6 +3,7 @@ package deimophobe.nightfall.map;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.map.feature.FeatureCreator;
 import deimophobe.nightfall.map.feature.MapFeature;
 import deimophobe.nightfall.map.region.NullRegion;
@@ -11,16 +12,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 1/07/17.
@@ -48,6 +47,8 @@ public class GameMap {
 	private final Location lobby;
 	public Location getDwarfSpawn() {return dwarfSpawn;}
 	public Location getLobbySpawn() {return lobby;}
+	
+	private static final Set<Region> unbreakableRegions = new HashSet<>();
 	
 	
 	private final List<CompassLocation> compassLocations;
@@ -189,6 +190,20 @@ public class GameMap {
 		world.setGameRuleValue("showDeathMessages", "true");
 		world.setGameRuleValue("spectatorsGenerateChunks", "false");
 		world.setGameRuleValue("randomTickSpeed", "1");
+	}
+	
+	public boolean isBlockBreakable(Block block) {
+		if (block == null) return false;
+		
+		if (BlockType.UNBREAKABLE_BLOCKS.matchesBlock(block))
+			return false;
+		
+		for (Region region : unbreakableRegions) {
+			if (region.containsBlock(block))
+				return false;
+		}
+		
+		return true;
 	}
 	
 	

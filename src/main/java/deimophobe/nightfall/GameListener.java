@@ -1,7 +1,6 @@
 package deimophobe.nightfall;
 
 import deimophobe.nightfall.blocks.BlockConverter;
-import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.damage.DamageType;
@@ -17,7 +16,6 @@ import deimophobe.nightfall.monster.mob.Bopen;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -31,7 +29,6 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.spigotmc.event.entity.EntityDismountEvent;
@@ -510,8 +507,18 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
 		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
-		boolean canBreak = BlockManager.getManager().breakBlockEvent(game.getGamePlayer(event.getPlayer()), event.getBlock());
-		event.setCancelled(!canBreak);
+		
+		Block block = event.getBlock();
+		GameMap map = GameMap.getCurrentMap();
+		
+		if (!map.isBlockBreakable(block)) {
+			event.setCancelled(true);
+			return;
+		}
+		
+		GamePlayer gp = game.getGamePlayer(event.getPlayer());
+		if (gp != null)
+			gp.onBlockBreak(event.getBlock());
 	}
 	
 	

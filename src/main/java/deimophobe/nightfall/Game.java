@@ -64,7 +64,6 @@ public class Game {
 	
 	private final DwarfManager dwarfManager;
 	private final MonsterManager monsterManager;
-	//TODO INCLUE BLOCK MANAGER
 	
 	public DwarfManager getDwarfManager() {return dwarfManager;}
 	public MonsterManager getMonsterManager() {return monsterManager;}
