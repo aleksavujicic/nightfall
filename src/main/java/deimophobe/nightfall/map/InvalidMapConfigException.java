@@ -18,6 +18,10 @@ public class InvalidMapConfigException extends Exception {
 		this(s + "\nPath: " + config.getCurrentPath());
 	}
 	
+	public InvalidMapConfigException(String s, ConfigurationSection config, String key) {
+		this(s + "\nPath: " + config.getCurrentPath() + "." + key);
+	}
+	
 	public InvalidMapConfigException(String s, Throwable throwable) {
 		super(s, throwable);
 	}

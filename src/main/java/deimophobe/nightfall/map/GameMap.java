@@ -81,15 +81,15 @@ public class GameMap {
 		
 		this.name = config.getString("name");
 		if (name == null)
-			throw new InvalidMapConfigException("Map config must have a name.");
+			throw new InvalidMapConfigException("Map config must specify a name.", config, "name");
 		
 		this.dwarfSpawn = getLocation(config, "dwarfspawn");
 		if (dwarfSpawn == null)
-			throw new InvalidMapConfigException("GameMap must specify a dwarf spawn.");
+			throw new InvalidMapConfigException("GameMap must specify a dwarf spawn.", config, "dwarfspawn");
 		
 		this.lobby = getLocation(config, "lobby");
 		if (lobby == null)
-			throw new InvalidMapConfigException("Map config must specify a lobby.");
+			throw new InvalidMapConfigException("Map config must specify a lobby.", config, "lobby");
 		
 		// Setup shrines
 		shrines = new ArrayList<>();
@@ -148,6 +148,14 @@ public class GameMap {
 			Bukkit.getLogger().warning("No starting gold specified - defaulting to 1000.");
 		updateVault();
 		
+		// Add shrine features
+		if (config.contains("features")) {
+			ConfigurationSection featSection = config.getConfigurationSection("features");
+			for (String key : featSection.getKeys(false)) {
+				features.add(FeatureCreator.createFeature(this, key, featSection.getConfigurationSection(key)));
+			}
+		}
+		
 		shrineUpdater = new BukkitRunnable() {
 			@Override
 			public void run() {
@@ -158,14 +166,6 @@ public class GameMap {
 				}
 			}
 		};
-		
-		// Add shrine features
-		if (config.contains("features")) {
-			ConfigurationSection featSection = config.getConfigurationSection("features");
-			for (String key : featSection.getKeys(false)) {
-				features.add(FeatureCreator.createFeature(this, key, featSection.getConfigurationSection(key)));
-			}
-		}
 	}
 	
 	private void setWorldSettings() {
@@ -320,7 +320,7 @@ public class GameMap {
 	
 	public Location getLocation(ConfigurationSection section, String key) throws InvalidMapConfigException {
 		if (!section.contains(key))
-			return null;
+			throw new InvalidMapConfigException("Map config does not contain location key: '"+key+"'", section);
 		
 		List<Double> doubleList = section.getDoubleList(key);
 		
