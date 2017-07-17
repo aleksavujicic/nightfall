@@ -31,6 +31,7 @@ public class GameMap {
 	
 	private final List<Shrine> shrines;
 	private int currentShrineIndex;
+	private Game game;
 	
 	public int getNumShrines() {return shrines.size();}
 	
@@ -141,12 +142,9 @@ public class GameMap {
 			Bukkit.getLogger().warning("No compass section found.");
 		}
 		
-		setWorldSettings();
-		
 		vault = config.getInt("gold", 1000);
 		if (!config.contains("gold"))
 			Bukkit.getLogger().warning("No starting gold specified - defaulting to 1000.");
-		updateVault();
 		
 		// Add shrine features
 		if (config.contains("features")) {
@@ -159,7 +157,7 @@ public class GameMap {
 		shrineUpdater = new BukkitRunnable() {
 			@Override
 			public void run() {
-				if (Game.getGame().getPhase() == Phase.END) {
+				if (game.getPhase() == Phase.END) {
 					this.cancel();
 				} else {
 					shrines.get(currentShrineIndex).update();
@@ -168,28 +166,9 @@ public class GameMap {
 		};
 	}
 	
-	private void setWorldSettings() {
-		world.setTime(0);
-		world.setAutoSave(false);
-		world.setDifficulty(Difficulty.NORMAL);
-		world.setKeepSpawnInMemory(false);
-		world.setSpawnFlags(false, false);
-		
-		world.setGameRuleValue("announceAdvancements", "false");
-		world.setGameRuleValue("doDaylightCycle", "true");
-		world.setGameRuleValue("doEntityDrops", "false");
-		world.setGameRuleValue("doFireTick", "true");
-		world.setGameRuleValue("doMobLoot", "false");
-		world.setGameRuleValue("doMobSpawning", "false");
-		world.setGameRuleValue("doTileDrops", "false");
-		world.setGameRuleValue("doWeatherCycle", "false");
-		world.setGameRuleValue("keepInventory", "false");
-		world.setGameRuleValue("maxEntityCramming", "-1");
-		world.setGameRuleValue("mobGriefing", "false");
-		world.setGameRuleValue("naturalRegeneration", "false");
-		world.setGameRuleValue("showDeathMessages", "true");
-		world.setGameRuleValue("spectatorsGenerateChunks", "false");
-		world.setGameRuleValue("randomTickSpeed", "1");
+	public void setupGame(Game game) {
+		this.game = game;
+		updateVault();
 	}
 	
 	public boolean isBlockBreakable(Block block) {
@@ -208,7 +187,7 @@ public class GameMap {
 	
 	
 	public void unload() {
-		if (Game.getGame().getPhase() == Phase.GAME)
+		if (game.getPhase() == Phase.GAME)
 			shrineUpdater.cancel();
 		
 		for (MapFeature feature : features) {
@@ -230,7 +209,7 @@ public class GameMap {
 	}
 	
 	public void mineGold() {
-		switch (Game.getGame().getPhase()) {
+		switch (game.getPhase()) {
 			case BUILD:
 			case PLAGUE:
 				vault += 5;
@@ -266,10 +245,10 @@ public class GameMap {
 	}
 	
 	private void updateGold() {
-		Game.getGame().setGold(gold);
+		game.setGold(gold);
 	}
 	private void updateVault() {
-		Game.getGame().setVault(vault);
+		game.setVault(vault);
 	}
 	
 	

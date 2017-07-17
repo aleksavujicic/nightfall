@@ -47,8 +47,13 @@ public class Game {
 		Bukkit.getLogger().info("Begin loading game.");
 		if (loading) throw new IllegalStateException("Game already loading");
 		loading = true;
+		
+		if (game !=  null)
+			game.stop();
+		
 		try {
-			return new Game();
+			GameMap map = MapManager.getManager().loadNextMap();
+			return new Game(map);
 		} finally {
 			loading = false;
 			Bukkit.getLogger().info("Finished loading game.");
@@ -80,12 +85,11 @@ public class Game {
 	private final Team lobbyTeam;
 	
 	
-	private Game() {
+	private Game(GameMap map) {
+		game = this;
+		
 		Bukkit.getScheduler().cancelTasks(NightfallPlugin.getPlugin());
 		Loadout.restartAutoSaver();
-		
-		Game oldGame = game;
-		game = this;
 		
 		// Setup scoreboards and teams
 		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
@@ -108,7 +112,8 @@ public class Game {
 		bossBar.setProgress(1);
 		
 		
-		map = MapManager.getManager().loadNextMap();
+		this.map = map;
+		map.setupGame(this);
 		
 		
 		dwarfManager = new DwarfManager();
@@ -116,8 +121,6 @@ public class Game {
 		NightfallPlugin.getPlugin().updateManagers();
 		
 		startLobby();
-		
-		if (oldGame != null) oldGame.stop();
 	}
 	
 	public void stop() {

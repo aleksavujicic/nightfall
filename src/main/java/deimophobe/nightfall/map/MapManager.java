@@ -5,6 +5,7 @@ import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Misc;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.configuration.Configuration;
@@ -36,6 +37,7 @@ public class MapManager {
 	private final File mapWorldFolder;
 	
 	private final Deque<String> mapQueue = new LinkedList<>();
+	private final Set<GameMap> loadedMaps = new HashSet<>();
 	
 	private final Map<String, File> maps = new HashMap<>();
 	private boolean autocycle;
@@ -189,11 +191,14 @@ public class MapManager {
 		}
 		
 		String nextMap = mapQueue.poll();
+		GameMap map;
 		if (nextMap == null) {
-			return loadRandomMap();
+			map = loadRandomMap();
 		} else {
-			return loadMap(nextMap);
+			map = loadMap(nextMap);
 		}
+		loadedMaps.add(map);
+		return map;
 	}
 	
 	private GameMap loadDefaultMap() {
@@ -274,11 +279,12 @@ public class MapManager {
 			throw new MapLoadingException("Failed to delete lock file.");
 		
 		World world = Bukkit.createWorld(new WorldCreator(worldFilename));
+		setDefaultWorldSettings(world);
 		Bukkit.getLogger().info("Finished creating world.");
 		return world;
 	}
 	
-	public void unloadAndDeleteWorld(World world) {
+	void unloadAndDeleteWorld(World world) {
 		if (world == null) {
 			Bukkit.getLogger().severe("Cannot unload null world");
 			return;
@@ -302,8 +308,10 @@ public class MapManager {
 		// release lock on world files immediately and can later cause world
 		// corruption
 		boolean success = Bukkit.unloadWorld(world, true);
-		if (!success)
+		if (!success) {
 			Bukkit.getLogger().severe("Failed to unload world");
+			throw new IllegalStateException("Failed to unload world " + world.getName());
+		}
 		
 		try {
 			File file = world.getWorldFolder();
@@ -362,5 +370,27 @@ public class MapManager {
 		}.runTaskLater(NightfallPlugin.getPlugin(), cycleTime*20);
 	}
 	
-	
+	private void setDefaultWorldSettings(World world) {
+		world.setTime(0);
+		world.setAutoSave(false);
+		world.setDifficulty(Difficulty.NORMAL);
+		world.setKeepSpawnInMemory(false);
+		world.setSpawnFlags(false, false);
+		
+		world.setGameRuleValue("announceAdvancements", "false");
+		world.setGameRuleValue("doDaylightCycle", "true");
+		world.setGameRuleValue("doEntityDrops", "false");
+		world.setGameRuleValue("doFireTick", "true");
+		world.setGameRuleValue("doMobLoot", "false");
+		world.setGameRuleValue("doMobSpawning", "false");
+		world.setGameRuleValue("doTileDrops", "false");
+		world.setGameRuleValue("doWeatherCycle", "false");
+		world.setGameRuleValue("keepInventory", "false");
+		world.setGameRuleValue("maxEntityCramming", "-1");
+		world.setGameRuleValue("mobGriefing", "false");
+		world.setGameRuleValue("naturalRegeneration", "false");
+		world.setGameRuleValue("showDeathMessages", "true");
+		world.setGameRuleValue("spectatorsGenerateChunks", "false");
+		world.setGameRuleValue("randomTickSpeed", "1");
+	}
 }
