@@ -56,7 +56,7 @@ public class NroMap implements MapFeature {
 		
 		@EventHandler
 		public void giveBlessing(DwarfCreateEvent event) {
-			event.getDwarf().getArmour().addModifier(ItemModifierType.DEPTH_STRIDER, 2, "Mermaid's Blessing");
+			event.getDwarf().getArmour().addModifier(ItemModifierType.DEPTH_STRIDER, 3, "Mermaid's Blessing");
 		}
 	}
 }
