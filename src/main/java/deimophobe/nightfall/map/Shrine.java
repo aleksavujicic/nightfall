@@ -70,8 +70,18 @@ public class Shrine {
 	public Shrine(GameMap map, ConfigurationSection section, int shrineNum) throws InvalidMapConfigException {
 		this.map = map;
 		
+		if (!section.contains("name"))
+			throw new InvalidMapConfigException("Shrine must have a name", section, "name");
 		this.name = section.getString("name");
-		this.fallName = "THE " + name.toUpperCase();
+		
+		if (!section.contains("fallname")) {
+			this.fallName = "THE " + name.toUpperCase();
+			Bukkit.getLogger().warning("No fallname for shrine '" + name + "' specified.");
+		} else {
+			this.fallName = section.getString("fallname");
+		}
+		
+		
 		this.mobSpawn = map.getLocation(section, "mobspawn");
 		
 		this.mobProtection = Region.createRegion(map, section.getConfigurationSection("mobprot"));
@@ -79,6 +89,7 @@ public class Shrine {
 		this.shrineRegion = Region.createRegion(map, section.getConfigurationSection("shrine"));
 		
 		this.shrineCenter = map.getLocation(section, "shrine.center");
+		
 		
 		this.maxShrinePower = section.getInt("power");
 		shrinePower = maxShrinePower;
