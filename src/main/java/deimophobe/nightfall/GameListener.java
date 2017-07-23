@@ -359,7 +359,7 @@ public class GameListener implements Listener {
 					
 					// Prevent killing a monster and set to spectator instead
 					if (damagee instanceof MonsterPlayer) {
-						((MonsterPlayer)damagee).kill();
+						((MonsterPlayer)damagee).kill(false);
 						event.setDamage(0);
 					}
 					
@@ -469,7 +469,7 @@ public class GameListener implements Listener {
 				public void run() {
 					MonsterPlayer mp = mm.addGamePlayer(event.getPlayer());
 					if (mp != null)
-						mp.kill();
+						mp.kill(true);
 				}
 			}.runTaskLater(NightfallPlugin.getPlugin(), 10);
 		}

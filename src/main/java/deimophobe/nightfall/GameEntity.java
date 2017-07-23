@@ -196,7 +196,7 @@ public abstract class GameEntity<E extends LivingEntity> {
 		return meta.getDisplayName();
 	}
 	
-	public void kill() {
+	public void forceKill() {
 		customDamage(null, DamageType.KILL, 10000);
 	}
 	

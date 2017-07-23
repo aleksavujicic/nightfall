@@ -196,7 +196,6 @@ public class NightfallPlugin extends JavaPlugin {
 							sender.sendMessage(ChatColor.RED + "Unknown mob type: " + ChatColor.YELLOW + args[1] + ChatColor.RED + "!");
 							return true;
 						} else {
-							monster.kill();
 							monster.spawnMob(type);
 
 							sender.sendMessage(ChatColor.AQUA + "Spawned " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a " + ChatColor.YELLOW + args[1] + ChatColor.AQUA + "!");
@@ -229,7 +228,6 @@ public class NightfallPlugin extends JavaPlugin {
 					sender.sendMessage(ChatColor.RED + "Unknown mob type: " + ChatColor.YELLOW + args[1] + ChatColor.RED + "!");
 					return true;
 				} else {
-					monster.kill();
 					monster.spawnMob(type);
 					
 					sender.sendMessage(ChatColor.AQUA + "Spawned " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a " + ChatColor.YELLOW + args[1] + ChatColor.AQUA + "!");

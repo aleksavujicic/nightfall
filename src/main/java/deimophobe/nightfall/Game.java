@@ -385,7 +385,7 @@ public class Game {
 			case END:
 				MonsterPlayer mp = monsterManager.addGamePlayer(player);
 				player.teleport(GameMap.getCurrentMap().getCurrentMobspawn());
-				mp.kill();
+				mp.kill(true);
 				break;
 		}
 		updateDwarfCount();

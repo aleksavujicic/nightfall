@@ -38,7 +38,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 	
 	public MonsterPlayer(Player player) {
 		super(player);
-		mob = null;
+		kill(true);
 	}
 	
 	@Override
@@ -47,9 +47,15 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		resetToMobspawn();
 	}
 	
+	@Override
+	public void resetPlayer() {
+		super.resetPlayer();
+		resetToMobspawn();
+	}
+	
 	public void resetToMobspawn() {
 		teleportTo(GameMap.getCurrentMap().getCurrentMobspawn());
-		kill();
+		kill(true);
 	}
 	
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
@@ -81,23 +87,14 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		return (entity.getGameMode() == GameMode.SURVIVAL && mob != null);
 	}
 	
-	private void killLater() {
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				kill();
-			}
-		}.runTaskLater(NightfallPlugin.getPlugin(), 1);
-	}
-	
-	public void kill() {
-		if (isAlive()) {
+	public void kill(boolean silent) {
+		if (!silent && isAlive()) {
 			ActionBarAPI.sendActionBarToAllPlayers(generateDeathMessage(), 60);
 			//Bukkit.broadcastMessage(generateDeathMessage());
 			entity.playSound(entity.getLocation(), "proc", 1f, 0.7f);
 		}
 		
-		killMob();
+		killMob(silent);
 		cancelFreeze();
 		
 		setTitle(ChatColor.GRAY, null, false);
@@ -108,13 +105,13 @@ public class MonsterPlayer extends GamePlayer implements SessionData {
 		clearEffects();
 	}
 	
-	private void killMob() {
+	private void killMob(boolean silent) {
 		if (mob == null) return;
 		
 		mob.onDeath();
 		
 		Disguise disguise = DisguiseAPI.getDisguise(entity);
-		if (disguise != null) {
+		if (disguise != null && !silent) {
 			EntityType entityType = disguise.getType().getEntityType();
 			if (entityType.isAlive() && entityType != EntityType.PLAYER) {
 				LivingEntity dyingEntity = (LivingEntity) entity.getWorld().spawnEntity(entity.getLocation(), entityType);

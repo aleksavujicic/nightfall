@@ -24,12 +24,12 @@ public abstract class AbstractPlague implements Plague {
 	public void forceEnd() {
 		Iterator<Dwarf> iter = plagued.iterator();
 		while (iter.hasNext() && toKill > 0) {
-			iter.next().kill();
+			iter.next().forceKill();
 			toKill--;
 		}
 		iter = plagueables.iterator();
 		while (iter.hasNext() && toKill > 0) {
-			iter.next().kill();
+			iter.next().forceKill();
 			toKill--;
 		}
 		notifyEnd();
@@ -43,7 +43,7 @@ public abstract class AbstractPlague implements Plague {
 	}
 	
 	protected void killDwarf(Dwarf dwarf) {
-		dwarf.kill();
+		dwarf.forceKill();
 		removeDwarf(dwarf);
 	}
 	

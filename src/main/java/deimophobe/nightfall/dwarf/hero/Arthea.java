@@ -97,7 +97,7 @@ public class Arthea extends Hero {
 				startEnrage();
 				
 			if (enrageTimer == 0)
-				kill();
+				forceKill();
 		}
 	}
 	
