@@ -392,6 +392,8 @@ minotaur:
        - "Temp"
       flavour:
        - "Temp"
+    modifiers:
+      kb-resist: 1
   weapon:
     base: temporary
     name: "Temp"
