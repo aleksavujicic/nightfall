@@ -12,17 +12,16 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 class TitlePlayer extends BukkitRunnable {
 	private static final Title[] titles = new Title[] {
-			new Title(ChatColor.BLUE + "Be prepared for", "subtitle", 104),
-			new Title(ChatColor.BLUE + "", 20),
-			new Title(ChatColor.BLUE + "N", 3),
-			new Title(ChatColor.BLUE + "Ni", 3),
-			new Title(ChatColor.BLUE + "Nig" , 3),
-			new Title(ChatColor.BLUE + "Nigh" , 3),
-			new Title(ChatColor.BLUE + "Night" , 3),
-			new Title(ChatColor.BLUE + "NightF" , 3),
-			new Title(ChatColor.BLUE + "NightFa" , 3),
-			new Title(ChatColor.BLUE + "NightFal" , 3),
-			new Title(ChatColor.BLUE + "NightFall" , 60),
+			new Title(  "", ChatColor.BLUE + "Be prepared for", 60),
+			new Title(ChatColor.BLUE + "N", "Be prepared for", 3),
+			new Title(ChatColor.BLUE + "Ni", "Be prepared for",  3),
+			new Title(ChatColor.BLUE + "Nig", "Be prepared for", 3),
+			new Title(ChatColor.BLUE + "Nigh", "Be prepared for",  3),
+			new Title(ChatColor.BLUE + "Night", "Be prepared for",  3),
+			new Title(ChatColor.BLUE + "NightF", "Be prepared for",  3),
+			new Title(ChatColor.BLUE + "NightFa", "Be prepared for", 3),
+			new Title(ChatColor.BLUE + "NightFal", "Be prepared for",  3),
+			new Title(ChatColor.BLUE + "NightFall", "Be prepared for",  60),
 	};
 	
 	static void playTitle(Dwarf dwarf) {
