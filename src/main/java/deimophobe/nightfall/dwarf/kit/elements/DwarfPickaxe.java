@@ -8,10 +8,12 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.effects.GameEffect;
+import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.region.Region;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -60,6 +62,9 @@ class DwarfPickaxe extends AbstractItem {
 				
 				success = BlockType.tryConvertBlock(goldBlock, BlockType.AIR, BlockType.CRACKED_GOLD_1);
 				affectedBlock = goldBlock;
+				
+				if (success)
+					Sounds.DWARF_MAKE_ARMOUR.playSound(affectedBlock.getLocation());
 			} else {
 				success = (
 						BlockType.tryConvertBlock(clickedBlock, BlockType.CRACKED_GOLD_1, BlockType.CRACKED_GOLD_2) ||
