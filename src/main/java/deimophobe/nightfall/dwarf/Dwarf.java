@@ -96,11 +96,7 @@ public class Dwarf extends GamePlayer {
 		
 		respawn();
 		
-		playIntro();
-	}
-	
-	private void playIntro() {
-		entity.sendMessage("You are a dwarf. This will be cooler later");
+		TitlePlayer.playTitle(this);
 	}
 	
 	public void respawn() {
