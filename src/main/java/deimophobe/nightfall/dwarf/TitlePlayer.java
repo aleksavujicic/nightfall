@@ -56,10 +56,15 @@ class TitlePlayer extends BukkitRunnable {
 			titleIndex++;
 			
 			if (titleIndex >= titles.length) {
-				Sounds.DWARF_INTRO_MUSIC.playSound(player);
-				player.playSound("entity.wolf.howl", 1000, 0.95f, false);
 				this.cancel();
 				return;
+			}
+			
+			if (titleIndex == titles.length -1)
+				Sounds.DWARF_INTRO_MUSIC.playSound(player);
+			
+			if (titleIndex == 1) {
+				player.playSound("entity.wolf.howl", 1000, 0.8f, false);
 			}
 			
 			Title title = titles[titleIndex];
