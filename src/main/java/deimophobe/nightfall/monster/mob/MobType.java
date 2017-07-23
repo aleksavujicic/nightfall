@@ -28,6 +28,7 @@ public enum MobType {
 	
 	HELLHOUND,
 	WRAITH,
+	MINOTAUR,
 	
 	KRUNGOR,
 	BOPEN,
@@ -35,7 +36,6 @@ public enum MobType {
 	TESTMOB,
 	
 	PLAGUE_ZOMBIE(false),
-	
 	;
 	
 	private final MobData mobData;
@@ -84,6 +84,7 @@ public enum MobType {
 				
 			case HELLHOUND: return new Hellhound(monster);
 			case WRAITH: return new Wraith(monster);
+			case MINOTAUR: return new Minotaur(monster);
 				
 			case TESTMOB: return new TestMob(monster);
 				

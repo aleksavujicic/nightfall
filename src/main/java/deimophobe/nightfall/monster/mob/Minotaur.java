@@ -1,0 +1,115 @@
+package deimophobe.nightfall.monster.mob;
+
+import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.blocks.BlockConverter;
+import deimophobe.nightfall.damage.DamageType;
+import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.monster.MonsterPlayer;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.event.block.Action;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
+
+/**
+ * Created by Deimophobe on 23/07/17.
+ */
+public class Minotaur extends AbstractMob {
+	protected Minotaur(MonsterPlayer monster) {
+		super(monster, MobType.MINOTAUR);
+	}
+	
+	@Override
+	public void onSpawn() {
+		super.onSpawn();
+	}
+	
+	@Override
+	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(action, clickedBlock, blockFace);
+		
+		if (Misc.isRightClick(action) && isPlayerHoldingWeapon()) {
+			charge();
+		}
+	}
+	
+	private final static int MAX_CHARGE_TIME = 20;
+	private void charge() {
+		//monster.playSound(wolfHowl, 1000, pitch, false);
+		BukkitRunnable charger = new BukkitRunnable() {
+			private int lifetime = MAX_CHARGE_TIME;
+			@Override
+			public void run() {
+				if (lifetime > 0) {
+					lifetime--;
+					
+					// If in air don't charge, unless its the first tick.
+					if (!monster.getPlayer().isOnGround() && lifetime != MAX_CHARGE_TIME-1) {
+						return;
+					}
+					
+					// Check if ahead is a wall, and if so destroy it.
+					Location aheadUp = Misc.moveParallel(monster.getEyeLocation(), 0.6);
+					Location aheadDown = aheadUp.clone().subtract(0,1,0);
+					if (checkBlock(aheadUp) || checkBlock(aheadDown)) {
+						this.cancel();
+						return;
+					}
+					
+					// Do cloud and damage
+					Location loc = monster.getLocation();
+					loc.getWorld().spawnParticle(Particle.CLOUD, loc, 5, 0.5, 0.5, 0.5, 0.03);
+					aoeDamage();
+					
+					// Charge
+					double yaw = monster.getLocation().getYaw();
+					double radYaw = yaw * Math.PI / 180;
+					double vy = monster.getVelocity().getY();
+					Vector velocity = new Vector(-1.2 * Math.sin(radYaw), vy, 1.2 * Math.cos(radYaw));
+					monster.setVelocity(velocity);
+				} else {
+					this.cancel();
+				}
+			}
+		};
+		charger.runTaskTimer(NightfallPlugin.getPlugin(), 0, 2);
+	}
+	
+	/**
+	 * Checks the block at location loc and applies damage if collided.
+	 * @param loc
+	 * @return true if the block is solid and cause the minotaur to 'crash'.
+	 */
+	private static boolean checkBlock(Location loc) {
+		Block block = loc.getBlock();
+		if (block.getType().isSolid()) {
+			BlockConverter.convert(BlockConverter.Type.MINOTAUR_CHARGE, loc, 2);
+			return true;
+		}
+		return false;
+	}
+	
+	private static final double AOE_RADIUS = 2.5;
+	private static final int AOE_DMG = 30; // This is a one off hit so its not as strong as it seems.
+	private static final int AOE_SHRED = 15;
+	private void aoeDamage() {
+		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
+			if (dwarf.distanceTo(monster) <= AOE_RADIUS) {
+				if (dwarf.getPlayer().getNoDamageTicks() == 0) {
+					dwarf.getArmour().damage(AOE_SHRED);
+					dwarf.customDamage(dwarf, DamageType.TEMPORARY, AOE_DMG);
+					
+					Vector vel = dwarf.getLocation().subtract(monster.getLocation()).toVector();
+					vel.setY(vel.getY() + 0.5);
+					dwarf.setVelocity(vel);
+				}
+			}
+		}
+	}
+}

@@ -370,6 +370,38 @@ wraith:
        - "Temp"
 
 
+minotaur:
+  title: "Minotaur"
+
+  disguisetype: pig_zombie
+
+  attack: 30
+  health: 40
+  shred: 25
+  speed: -30
+
+  proccable: false
+  resistance: 0.8
+  arrowres: 0.3
+
+  armour:
+    base: temporary
+    name: "Temp"
+    lore:
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+  weapon:
+    base: temporary
+    name: "Temp"
+    lore:
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+
+
 
 ghostblade-base:
   title: Ghostblade

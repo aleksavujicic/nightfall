@@ -48,7 +48,15 @@ public class BlockConverter {
 				new Conversion(BlockType.CRACKED_WALL, 4.5, 0.8, BlockType.DAMAGED_WALL),
 				new Conversion(BlockType.ALL_WOOLS, 2.0, 1.0, BlockType.AIR)
 		),
-		ARROW_DAMAGE,;
+		MINOTAUR_CHARGE(
+				new Conversion(BlockType.ENCHANTED_WALL, 2.3, 0.5, BlockType.NORMAL_WALL),
+				new Conversion(BlockType.NORMAL_WALL, 1.5, 0.3, BlockType.CRACKED_WALL),
+				new Conversion(BlockType.CRACKED_WALL, 1, 0.3, BlockType.DAMAGED_WALL),
+				new Conversion(BlockType.DAMAGED_WALL, 1, 0.2, BlockType.BROKEN_WALL),
+				new Conversion(BlockType.BROKEN_WALL, 0.5, 0.1, BlockType.AIR)
+		),
+		ARROW_DAMAGE,
+		;
 		
 		
 		private final List<Conversion> conversions = new ArrayList<>();
