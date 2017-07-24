@@ -513,7 +513,6 @@ public class GameListener implements Listener {
 		
 		if (!map.isBlockBreakable(block)) {
 			event.setCancelled(true);
-			return;
 		}
 		
 		GamePlayer gp = game.getGamePlayer(event.getPlayer());
