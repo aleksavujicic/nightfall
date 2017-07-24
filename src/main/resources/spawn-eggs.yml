@@ -79,6 +79,15 @@ wraith:
   quantity: 1
   chance: 0.03
 
+minotaur:
+  mobtype: minotaur
+  egg:
+    base: temporary
+    name: Spawn Minotaur
+    shiny: true
+  quantity: 2
+  chance: 1
+
 ogre:
   mobtype: ogre
   egg:
