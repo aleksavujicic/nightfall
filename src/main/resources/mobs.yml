@@ -407,6 +407,8 @@ minotaur:
 walker:
   title: "Walker"
 
+  disguisetype: skeleton
+
   attack: 20
   health: 40
   shred: 25

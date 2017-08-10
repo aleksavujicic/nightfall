@@ -2,6 +2,7 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -15,7 +16,7 @@ import org.bukkit.util.Vector;
  */
 class Walker extends AbstractMob {
 	
-	private final ComplexCooldown kb_cd = new ComplexCooldown(20, this::knockback, null);
+	private final ComplexCooldown kb_cd = new ComplexCooldown(300, this::knockback, null);
 	
 	protected Walker(MonsterPlayer monster) {
 		super(monster, MobType.WALKER);
@@ -35,6 +36,11 @@ class Walker extends AbstractMob {
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		kb_cd.update();
+		
+		if (halfSec && !isPlayerHoldingWeapon()) {
+			monster.getPlayer().getInventory().setHeldItemSlot(0);
+			monster.customDamage(null, DamageType.NOT_HOLDING_GHOSTBLADE, 4);
+		}
 	}
 	
 	@Override
@@ -42,6 +48,11 @@ class Walker extends AbstractMob {
 		super.onUse(action, clickedBlock, blockFace);
 		if (isPlayerHoldingWeapon() && Misc.isRightClick(action))
 			kb_cd.tryUse();
+	}
+	
+	@Override
+	public float getCooldown() {
+		return kb_cd.fractionComplete();
 	}
 	
 	private void knockback() {
