@@ -43,6 +43,7 @@ diamond_spade:
   pinkribbon: 9
   lightblueribbon: 10
   blueribbon: 11
+  firefly: 12
 
 diamond_pickaxe:
   hammergb: 0

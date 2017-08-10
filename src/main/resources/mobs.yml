@@ -404,6 +404,38 @@ minotaur:
        - "Temp"
 
 
+walker:
+  title: "Walker"
+
+  attack: 20
+  health: 40
+  shred: 25
+  speed: 50
+
+  proccable: true
+  resistance: 0.7
+
+  armourslot: head
+  armour:
+    base: firefly
+    name: "Temp"
+    lore:
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+    modifiers:
+      kb-resist: 1
+  weapon:
+    base: tigerfist
+    name: "Temp"
+    lore:
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+
+
 
 ghostblade-base:
   title: Ghostblade

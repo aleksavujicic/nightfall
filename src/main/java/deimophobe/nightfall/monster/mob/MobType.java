@@ -29,6 +29,7 @@ public enum MobType {
 	HELLHOUND,
 	WRAITH,
 	MINOTAUR,
+	WALKER,
 	
 	KRUNGOR,
 	BOPEN,
@@ -85,6 +86,7 @@ public enum MobType {
 			case HELLHOUND: return new Hellhound(monster);
 			case WRAITH: return new Wraith(monster);
 			case MINOTAUR: return new Minotaur(monster);
+			case WALKER: return new Walker(monster);
 				
 			case TESTMOB: return new TestMob(monster);
 				
