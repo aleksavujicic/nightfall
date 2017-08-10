@@ -40,15 +40,16 @@ class Walker extends AbstractMob {
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		super.onUse(action, clickedBlock, blockFace);
-		kb_cd.tryUse();
+		if (isPlayerHoldingWeapon() && Misc.isRightClick(action))
+			kb_cd.tryUse();
 	}
 	
 	private void knockback() {
 		Vector facing = monster.getLocation().getDirection();
 		facing.setY(0);
 		facing.normalize();
-		facing.multiply(-0.3);
-		facing.setY(0.2);
+		facing.multiply(-2);
+		facing.setY(0.4);
 		monster.setVelocity(facing);
 	}
 }
