@@ -89,7 +89,7 @@ public class NightfallPlugin extends JavaPlugin {
 			@Override
 			public void onPacketSending(PacketEvent event) {
 				EnumWrappers.ItemSlot slot = event.getPacket().getItemSlots().read(0);
-				if (slot == EnumWrappers.ItemSlot.OFFHAND) {
+				if (slot == EnumWrappers.ItemSlot.OFFHAND && event.getPacket().getItemModifier().read(0).getType() == Material.ARROW) {
 					event.setCancelled(true);
 				}
 			}

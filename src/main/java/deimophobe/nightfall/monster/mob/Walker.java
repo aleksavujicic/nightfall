@@ -1,6 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -13,6 +14,8 @@ import org.bukkit.util.Vector;
  * Created by Deimophobe on 10/08/17.
  */
 class Walker extends AbstractMob {
+	
+	private final ComplexCooldown kb_cd = new ComplexCooldown(20, this::knockback, null);
 	
 	protected Walker(MonsterPlayer monster) {
 		super(monster, MobType.WALKER);
@@ -29,16 +32,23 @@ class Walker extends AbstractMob {
 	}
 	
 	@Override
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+		kb_cd.update();
+	}
+	
+	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		super.onUse(action, clickedBlock, blockFace);
-		
-		if (monster.getPlayer().isOnGround()) {
-			Vector facing = monster.getLocation().getDirection();
-			facing.setY(0);
-			facing.normalize();
-			facing.multiply(-0.5);
-			facing.setY(0.2);
-			monster.setVelocity(facing);
-		}
+		kb_cd.tryUse();
+	}
+	
+	private void knockback() {
+		Vector facing = monster.getLocation().getDirection();
+		facing.setY(0);
+		facing.normalize();
+		facing.multiply(-0.3);
+		facing.setY(0.2);
+		monster.setVelocity(facing);
 	}
 }
