@@ -19,7 +19,6 @@ public enum MobType {
 	SPIDERLING,
 	RAT,
 	GOLEM,
-	OGRE,
 	
 	GB_DAGGER,
 	GB_RUNEBLADE,
@@ -72,7 +71,6 @@ public enum MobType {
 			case SPIDERLING: return new Spiderling(monster);
 			case RAT: return new Rat(monster);
 			case GOLEM: return new Golem(monster);
-			case OGRE: return new SimpleMob(monster, OGRE);
 			
 			case KRUNGOR: return new Krungor(monster);
 			case BOPEN: return new Bopen(monster);
