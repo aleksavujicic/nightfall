@@ -37,7 +37,6 @@ public class MapManager {
 	private final File mapWorldFolder;
 	
 	private final Deque<String> mapQueue = new LinkedList<>();
-	private final Set<GameMap> loadedMaps = new HashSet<>();
 	
 	private final Map<String, File> maps = new HashMap<>();
 	private boolean autocycle;
@@ -197,7 +196,6 @@ public class MapManager {
 		} else {
 			map = loadMap(nextMap);
 		}
-		loadedMaps.add(map);
 		return map;
 	}
 	
