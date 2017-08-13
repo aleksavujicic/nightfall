@@ -53,9 +53,15 @@ public class Minotaur extends AbstractMob {
 		return cooldown.fractionComplete();
 	}
 	
-	private final static int MAX_CHARGE_TIME = 20;
+	private final static int MAX_CHARGE_TIME = 15;
 	private void charge() {
-		//monster.playSound(wolfHowl, 1000, pitch, false);
+		
+		double yaw = monster.getLocation().getYaw();
+		double radYaw = yaw * Math.PI / 180;
+		double vy = monster.getVelocity().getY();
+		Vector velocity = new Vector(-1.35 * Math.sin(radYaw), vy-0.1, 1.35 * Math.cos(radYaw));
+		Vector lookAhead = velocity.clone().normalize().multiply(0.5);
+		
 		BukkitRunnable charger = new BukkitRunnable() {
 			private int lifetime = MAX_CHARGE_TIME;
 			@Override
@@ -69,9 +75,11 @@ public class Minotaur extends AbstractMob {
 					}
 					
 					// Check if ahead is a wall, and if so destroy it.
-					Location aheadUp = Misc.moveParallel(monster.getEyeLocation(), 0.6);
+					Location aheadUp = monster.getEyeLocation().add(lookAhead);
 					Location aheadDown = aheadUp.clone().subtract(0,1,0);
 					if (checkBlock(aheadUp) || checkBlock(aheadDown)) {
+						monster.playSound("entity.zombie.attack_iron_door", 1f, 0.5f, true);
+						monster.getLocation().getWorld().spawnParticle(Particle.EXPLOSION_LARGE, monster.getEyeLocation(), 1);
 						this.cancel();
 						return;
 					}
@@ -82,10 +90,7 @@ public class Minotaur extends AbstractMob {
 					aoeDamage();
 					
 					// Charge
-					double yaw = monster.getLocation().getYaw();
-					double radYaw = yaw * Math.PI / 180;
-					double vy = monster.getVelocity().getY();
-					Vector velocity = new Vector(-1.2 * Math.sin(radYaw), vy, 1.2 * Math.cos(radYaw));
+					monster.playSound("entity.horse.gallop", 1f, 0.6f, true);
 					monster.setVelocity(velocity);
 				} else {
 					this.cancel();
@@ -120,8 +125,10 @@ public class Minotaur extends AbstractMob {
 					dwarf.customDamage(dwarf, DamageType.TEMPORARY, AOE_DMG);
 					
 					Vector vel = dwarf.getLocation().subtract(monster.getLocation()).toVector();
+					vel.normalize().multiply(2);
 					vel.setY(vel.getY() + 0.5);
 					dwarf.setVelocity(vel);
+					monster.playSound("entity.zombie.attack_iron_door", 1f, 1.7f, true);
 				}
 			}
 		}
