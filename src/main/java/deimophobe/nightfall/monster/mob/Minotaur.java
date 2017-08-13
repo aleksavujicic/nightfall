@@ -10,6 +10,7 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -56,12 +57,6 @@ public class Minotaur extends AbstractMob {
 	private final static int MAX_CHARGE_TIME = 15;
 	private void charge() {
 		
-		double yaw = monster.getLocation().getYaw();
-		double radYaw = yaw * Math.PI / 180;
-		double vy = monster.getVelocity().getY();
-		Vector velocity = new Vector(-1.35 * Math.sin(radYaw), vy-0.1, 1.35 * Math.cos(radYaw));
-		Vector lookAhead = velocity.clone().normalize().multiply(0.5);
-		
 		BukkitRunnable charger = new BukkitRunnable() {
 			private int lifetime = MAX_CHARGE_TIME;
 			@Override
@@ -69,9 +64,17 @@ public class Minotaur extends AbstractMob {
 				if (lifetime > 0) {
 					lifetime--;
 					
-					// If in air don't charge, unless its the first tick.
-					if (!monster.getPlayer().isOnGround() && lifetime != MAX_CHARGE_TIME-1) {
-						return;
+					double yaw = monster.getLocation().getYaw();
+					double radYaw = yaw * Math.PI / 180;
+					double vy = monster.getVelocity().getY();
+					Vector velocity = new Vector(-1.35 * Math.sin(radYaw), vy-0.1, 1.35 * Math.cos(radYaw));
+					Vector lookAhead = velocity.clone().normalize().multiply(0.5);
+					
+					
+					// Charge if on ground, or its the first tick.
+					if (monster.getPlayer().isOnGround() || lifetime == MAX_CHARGE_TIME-1) {
+						monster.playSound("entity.horse.gallop", 1f, 0.6f, true);
+						monster.setVelocity(velocity);
 					}
 					
 					// Check if ahead is a wall, and if so destroy it.
@@ -88,10 +91,6 @@ public class Minotaur extends AbstractMob {
 					Location loc = monster.getLocation();
 					loc.getWorld().spawnParticle(Particle.CLOUD, loc, 5, 0.5, 0.5, 0.5, 0.03);
 					aoeDamage();
-					
-					// Charge
-					monster.playSound("entity.horse.gallop", 1f, 0.6f, true);
-					monster.setVelocity(velocity);
 				} else {
 					this.cancel();
 				}
@@ -107,7 +106,8 @@ public class Minotaur extends AbstractMob {
 	 */
 	private static boolean checkBlock(Location loc) {
 		Block block = loc.getBlock();
-		if (block.getType().isSolid()) {
+		Material type = block.getType();
+		if (type.isSolid()) {
 			BlockConverter.convert(BlockConverter.Type.MINOTAUR_CHARGE, loc, 2);
 			return true;
 		}
