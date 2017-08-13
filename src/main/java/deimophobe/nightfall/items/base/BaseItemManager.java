@@ -18,7 +18,7 @@ public class BaseItemManager {
 		BaseItem item = baseItems.get(name.toLowerCase());
 		if (item == null) throw new IllegalArgumentException("No base item named: " + name);
 		
-		return item.clone();
+		return item;
 	}
 	
 	public static BaseItem getErrorItem() {

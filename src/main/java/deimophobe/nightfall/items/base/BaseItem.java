@@ -9,6 +9,4 @@ public interface BaseItem extends Cloneable {
 	ItemStack createItem();
 	boolean isSimilar(BaseItem item);
 	boolean isSimilar(ItemStack item);
-	
-	BaseItem clone();
 }
