@@ -125,8 +125,8 @@ public class Minotaur extends AbstractMob {
 					dwarf.customDamage(dwarf, DamageType.TEMPORARY, AOE_DMG);
 					
 					Vector vel = dwarf.getLocation().subtract(monster.getLocation()).toVector();
-					vel.normalize().multiply(2);
-					vel.setY(vel.getY() + 0.5);
+					vel.normalize().multiply(3);
+					vel.setY(vel.getY() + 1.5);
 					dwarf.setVelocity(vel);
 					monster.playSound("entity.zombie.attack_iron_door", 1f, 1.7f, true);
 				}
