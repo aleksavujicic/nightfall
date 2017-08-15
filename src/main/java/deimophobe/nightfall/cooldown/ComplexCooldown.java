@@ -22,8 +22,8 @@ public class ComplexCooldown {
 		this.cd = -1;
 		this.maxCD = maxCD;
 		
-		this.useAction = useAction;
-		this.cooldownAction = cooldownAction;
+		this.useAction = (useAction == null ? DO_NOTHING : useAction);
+		this.cooldownAction = (cooldownAction == null ? DO_NOTHING : cooldownAction);
 	}
 	
 	public void update() {
