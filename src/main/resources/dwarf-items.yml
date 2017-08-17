@@ -7,9 +7,9 @@ sword:
        - "A runeblade that has yet to be enchanted\n
           with &bwind&r magic."
       flavour:
-       - "These blades can still kill a monster.\n
-          You're just going to have a\n
-          tougher time doing it."
+       - "\"Not the best, but eh... It can make do.\" - Arthea"
+       - "\"That blade could do with a bit of sharpening.\" - Velvetine"
+       - "\"Hey it's not &othat&r bad, I've seen worse things used as weapons!\" - Tui"
     modifiers:
       attack: 15
   grb:
@@ -22,8 +22,7 @@ sword:
           monsters, damaging or killing them\n
           instantly with a proc."
       flavour:
-       - "The mighty weapon that's said to send\n
-          dwarves into a fury of &bsparkles&r."
+       - "\"Keep PROC'ing Jimmy! You can't stop now.\" - Velvetine"
     modifiers:
       attack: 15
   axe:
@@ -34,8 +33,7 @@ sword:
        - "Right click to go into a &4Blood rage&r,\n
           allowing you to proc for a short duration."
       flavour:
-       - "Be careful with those ones jimmy,\n
-          people using these have gone &cmad&r."
+       - "\"You &oreally&r shouldn't be using that thing on rats.\" - Arthea"
     modifiers:
       attack: 20
   dagger:
@@ -47,13 +45,9 @@ sword:
           Right click to &bEviscerate&r a monster,\n
           dealing massive damage."
       flavour:
-       - "A dagger used long ago by keen elven allies,\n 
-      now passed down to the dwarves that can keep up with\n 
-      its great speed. Equipped with an ancient poison\n
-      that seeps through the skin of any that dares\n
-      threaten it."
-       - "Forged with the &2worst of poisons&r and given\n
-          to only the quickest of &efoot&r and &bmind&r."
+       - "\"Put that speed to good use, and that poison to better use.\" - Velvetine"
+       - "\"I can't keep up with you jimmy! You're too fast!!\" - Tui"
+       - "\"You're not any better than the rest of us by using that.\" - Arthea"
     modifiers:
       attack: 15
       speed: 30
@@ -65,8 +59,7 @@ sword:
        - "Right click to regenerate armour and mana
           over time."
       flavour:
-       - "\"Take this and battle alongside me for all\n
-          that's right, for the &e&olight&r!\" - &4Tui"
+       - "\"Time to really prove what you're worth.\" - Tui"
     modifiers:
       attack: 15
   tombmaker:
@@ -77,8 +70,9 @@ sword:
        - "A shovel with the ability to roll procs.\n
           Right click for a Haste buff to dig faster."
       flavour:
-       - "Entrusted with the toughest task of all,\n
-          burying the fallen. &9Why not let them fight?"
+       - "\"I used to dig graves with these things. It's insane.\" - Tui"
+       - "\"Two in the grave, two for the banshees.\" - Velvetine"
+       - "\"It sickens me how we're using a grave digger for war.\" - Arthea"
     modifiers:
       attack: 8
   tigerfist:
@@ -91,8 +85,7 @@ sword:
           that extends with each monster\n
           killed."
       flavour:
-       - "Wait these are Fists?\n
-          It kinda looks like a shield."
+       - "\"Stop bunny hopping and get to work!\" - Tui"
     modifiers:
       attack: 20
 
@@ -105,8 +98,7 @@ bow:
        - "A bow made with oak wood and\n
           hempen rope."
       flavour:
-       - "Not very strong is it?\n
-          Well it is a shortbow after all."
+       - "\"Don't insult it, I've used this thing plenty of times.\" - Velvetine"
   dragonskin:
     base: dskin
     name: Dragonskin Bow
@@ -115,7 +107,7 @@ bow:
        - "Kills with this bow give\n
           a proc for 3 seconds."
       flavour:
-       - "Rawr, Rawr, Rawwwwwwwr."
+       - "\"Feel the PROC pulsing through your bow.\" - Velvetine"
   longbow:
     base: longbow
     name: Longbow
@@ -125,7 +117,7 @@ bow:
           up to 6 times for a total\n
           of 200 Power."
       flavour:
-       - "27..28...29!"
+       - "\"Aim for the wolves, they're ankle-biters!\" - Velvetine"
   crossbow:
     base: crossbow
     name: Crossbow
@@ -135,8 +127,7 @@ bow:
           immediately with no draw time.\n
           Has a slight reload time."
       flavour:
-       - "Real dwarves use crossbows,\n
-          not some fancy elven bow."
+       - "\"What do you mean these take skill to use?\" - Arthea"
   lightbow:
     base: lightbow
     name: Lightbow
@@ -146,7 +137,7 @@ bow:
           create lamps in the walls.\n
           You are also immune to darkness."
       flavour:
-       - "No lamp jumping for you Jimmy."
+       - "\"Hey can I get some light? Thanks.\" - Tui"
   ebow:
     base: ebow
     name: Emerald Bow
@@ -170,8 +161,7 @@ bow:
           before warping back.\n
           Left click to activate."
       flavour:
-       - "No endermen were harmed in\n
-          the crafting of this bow."
+       - "\"Hey look at this thing! Isn't it cool!?\" - Tui"
 ale:
   healing:
     base: healing_ale
@@ -180,11 +170,7 @@ ale:
       description:
        - "Left click to heal yourself for &b100&r mana."
       flavour:
-       - "Manual healing takes time\n
-          to learn, but once you\n
-          master it, you will\n
-          last longer than any\n
-          Jimmy Juicer."
+       - "\"Less fancier than the stars, but still nifty.\" - Arthea"
   jj:
     base: jimmyjuice
     name: Jimmy Juice
@@ -194,7 +180,7 @@ ale:
           Auto heal for &b120&r mana or\n
           Left Click to heal for &b100&r mana."
       flavour:
-       - "Drink your juice Jimmy!"
+       - "\"I'm just glad that you &ocan&r drink your juice.\" - Velvetine"
   holy:
     base: holy_ale
     name: Holy Ale
@@ -204,8 +190,7 @@ ale:
          for &b100&r mana\n and gain
          &b8&r absorption hearts."
       flavour:
-       - "Holy ale is NOT light beer\n
-          it's light ale."
+       - "\"It's in the name! This things the holy grail of dwarves.\" - Tui"
   trinket:
     base: trinket
     name: Star Trinket
@@ -216,7 +201,7 @@ ale:
           &b20 absorption hearts&r.\n
           You also gain permanent regen."
       flavour:
-       - "Boy! This is really expensive!."
+       - "\"Drink your... Gem? How do you use this thing?\" - Velvetine"
   regrowth:
     base: regrowth
     name: Regrowth Star
@@ -228,8 +213,7 @@ ale:
           them and their armour at the cost\n
           of your mana."
       flavour:
-       - "Twinkle, twinkle Regrowth Star\n
-          healing jimmies at range subpar."
+       - "\"For those who want others to live another night.\" - Arthea"
 
 consumable:
   lamp:
@@ -239,8 +223,7 @@ consumable:
       description:
        - "Places a lamp down for &b60&r seconds."
       flavour:
-       - "One if by land, two if by sea,\n
-          and three if by waves of undead hordes."
+       - "\"These aren't shiny; why are they called enchanted?\" - Velvetine"
   slab:
     base: slab
     name: EZ Fix Slab
@@ -249,7 +232,7 @@ consumable:
        - "Left click to Summons a thick wall\n
           to patch in holes, or slow mobs."
       flavour:
-       - "Don't wall off, jimmy."
+       - "\"Slab! And a slab! And another slab!\" - Tui"
   sos:
     base: sos
     name: Sword of Santification
@@ -259,8 +242,7 @@ consumable:
           freezing mobs caught inside its area,\n
           and allowing you to finish them off."
       flavour:
-       - "The old swords were just a test model\n
-          these work much better."
+       - "\"Better make them worthwhile, jimmy.\" - Velvetine"
   wrench:
     base: wrench
     name: Wrench
@@ -270,7 +252,7 @@ consumable:
           dwarven armour at the cost of gold.\n
           Needs gold to work."
       flavour:
-       - "Good ol wrenchy, never leave home without it."
+       - "\"Who needs teamwork when you got these?\" - Tui"
   mortar:
     base: mortar
     name: Mortar
@@ -307,8 +289,7 @@ consumable:
           healing totem that gives an\n
           AoE &4Regen&r buff."
       flavour:
-       - "The dwarven clerics specialty\n
-          use them wisely."
+       - "\"Kinda like being a healer, but requires less work.\" - Arthea"
 
   log:
     base: logs
@@ -405,7 +386,7 @@ misc:
        - "Dwarven Ammo.\n
           Regenerates over time."
       flavour:
-       - "Pew pew."
+       - "\"How am I supposed to hit skellies without a bow!?\" - Tui"
   wildfirefuel:
     base: fireball
     name: Wildfire Fuel
