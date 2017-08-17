@@ -88,14 +88,6 @@ minotaur:
   quantity: 2
   chance: 0.03
 
-ogre:
-  mobtype: ogre
-  egg:
-    base: ogreclub
-    name: Spawn Ogre
-  quantity: 2
-  chance: 0.05
-
 ghostblade:
   mobtype:
     - gb-axe
