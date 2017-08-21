@@ -114,8 +114,9 @@ bow:
     lore:
       description:
        - "Kills with this bow stack\n
-          up to 6 times for a total\n
-          of 200 Power."
+          up to 25 times for a total\n
+          of 210 Power, losing 30 power over\n
+          an 8 second timer without a kill."
       flavour:
        - "\"Aim for the wolves, they're ankle-biters!\" - Velvetine"
   crossbow:
