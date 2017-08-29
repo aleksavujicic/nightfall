@@ -2,8 +2,8 @@ package deimophobe.nightfall.blocks.timedblock;
 
 import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.Explosion;
-import deimophobe.nightfall.GameEntity;
-import deimophobe.nightfall.GamePlayer;
+import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;

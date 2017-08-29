@@ -1,15 +1,17 @@
 package deimophobe.nightfall.monster;
 
-import com.connorlinfoot.actionbarapi.ActionBarAPI;
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Game;
-import deimophobe.nightfall.GameEntity;
-import deimophobe.nightfall.GamePlayer;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.entity.GamePlayer;
+import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.menu.SessionData;
-import deimophobe.nightfall.monster.mob.*;
+import deimophobe.nightfall.monster.mob.Bopen;
+import deimophobe.nightfall.monster.mob.Mob;
+import deimophobe.nightfall.monster.mob.MobType;
 import deimophobe.nightfall.monster.mob.Zombie;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
@@ -30,7 +32,7 @@ import java.util.*;
 /**
  * Created by Deimophobe on 17/01/17.
  */
-public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEntity {
+public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEntity<Player> {
 	
 	private Mob mob;
 	
@@ -59,8 +61,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		entity.setFoodLevel(20);
-		entity.setSaturation(20);
+		player.setFoodLevel(20);
+		player.setSaturation(20);
 		
 		updateSeppuku();
 		
@@ -68,9 +70,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			mob.update(quartSec, halfSec, sec, doubleSec, quadSec);
 			
 			if (seppukuCD > 0) {
-				entity.setExp(1 - (float)seppukuCD/MAX_SEPPUKU_CD);
+				player.setExp(1 - (float)seppukuCD/MAX_SEPPUKU_CD);
 			} else if (mob != null) {// Update could kill mob so need to do another null check
-				entity.setExp(mob.getCooldown());
+				player.setExp(mob.getCooldown());
 			}
 		}
 		
@@ -84,14 +86,14 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	// ------ SPAWN AND DEATH ------
 	public boolean isAlive() {
-		return (entity.getGameMode() == GameMode.SURVIVAL && mob != null);
+		return (player.getGameMode() == GameMode.SURVIVAL && mob != null);
 	}
 	
 	public void kill(boolean silent) {
 		if (!silent && isAlive()) {
-			ActionBarAPI.sendActionBarToAllPlayers(generateDeathMessage(), 60);
+			//ActionBarAPI.sendActionBarToAllPlayers(generateDeathMessage(), 60);
 			//Bukkit.broadcastMessage(generateDeathMessage());
-			entity.playSound(entity.getLocation(), "proc", 1f, 0.7f);
+			player.playSound(player.getLocation(), "proc", 1f, 0.7f);
 		}
 		
 		killMob(silent);
@@ -99,8 +101,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		
 		setTitle(ChatColor.GRAY, null, false);
 		
-		entity.setAllowFlight(true);
-		entity.setGameMode(GameMode.SPECTATOR);
+		player.setAllowFlight(true);
+		player.setGameMode(GameMode.SPECTATOR);
 		clearInventory();
 		clearEffects();
 	}
@@ -110,20 +112,20 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		
 		mob.onDeath();
 		
-		Disguise disguise = DisguiseAPI.getDisguise(entity);
+		Disguise disguise = DisguiseAPI.getDisguise(player);
 		if (disguise != null && !silent) {
 			EntityType entityType = disguise.getType().getEntityType();
 			if (entityType.isAlive() && entityType != EntityType.PLAYER) {
-				LivingEntity dyingEntity = (LivingEntity) entity.getWorld().spawnEntity(entity.getLocation(), entityType);
+				LivingEntity dyingEntity = (LivingEntity) player.getWorld().spawnEntity(player.getLocation(), entityType);
 				dyingEntity.teleport(dyingEntity);
 				dyingEntity.setVelocity(dyingEntity.getVelocity());
 				dyingEntity.setCustomName(disguise.getWatcher().getCustomName());
-				dyingEntity.getEquipment().setArmorContents(entity.getInventory().getArmorContents());
+				dyingEntity.getEquipment().setArmorContents(player.getInventory().getArmorContents());
 				dyingEntity.getEquipment().setItemInMainHand(getHeldItem());
 				dyingEntity.damage(10000);
 			}
 		}
-		DisguiseAPI.undisguiseToAll(entity);
+		DisguiseAPI.undisguiseToAll(player);
 		
 		mob = null;
 	}
@@ -135,9 +137,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	public void spawnMob(Mob mob) {
 		this.mob = mob;
 		mob.onSpawn();
-		entity.setAllowFlight(false);
-		entity.getInventory().setItem(9, seppuku);
-		entity.setGameMode(GameMode.SURVIVAL);
+		player.setAllowFlight(false);
+		player.getInventory().setItem(9, seppuku);
+		player.setGameMode(GameMode.SURVIVAL);
 		Bukkit.getLogger().info("Spawning " + getName() + " as mob: " + mob.getType());
 	}
 	
@@ -196,7 +198,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		seppukuCD--;
 		
 		if (seppukuCD == 0) {
-			customDamage(null, DamageType.SEPPUKU, 10000);
+			//customDamage(null, DamageType.SEPPUKU, 10000);
 		}
 	}
 	
@@ -233,8 +235,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	private void updateXPDisplay() {
-		entity.setLevel(experience);
-		Game.getGame().setMana(entity, experience);
+		player.setLevel(experience);
+		Game.getGame().setMana(player, experience);
 	}
 	
 	
@@ -297,7 +299,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			mob.onUse(action, clickedBlock, blockFace);
 	}
 	
-	@Override
+	//@Override
 	public double onHit(GameEntity gamePlayer, DamageType type, double damage) {
 		if (mob != null) {
 			if (gamePlayer instanceof Dwarf) {
@@ -313,10 +315,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		}
 	}
 	
-	@Override
+	//@Override
 	public double onGotHit(GameEntity gameEntity, DamageType type, double damage) {
 		// Spawn protection
-		if (entity.hasPotionEffect(PotionEffectType.LUCK)) {
+		if (player.hasPotionEffect(PotionEffectType.LUCK)) {
 			return -1;
 		}
 		
@@ -371,11 +373,11 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 				dis.getWatcher().setGlowing(true);
 		}
 		
-		entity.setAllowFlight(true);
-		entity.setFlying(true);
-		entity.setFlySpeed(0);
-		entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
-		entity.setVelocity(new Vector(0,0,0));
+		player.setAllowFlight(true);
+		player.setFlying(true);
+		player.setFlySpeed(0);
+		player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
+		player.setVelocity(new Vector(0,0,0));
 		
 		freezeLocation = getLocation();
 		
@@ -397,15 +399,15 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	private void cancelFreeze() {
 		if (!isFrozen()) return;
-		entity.removePotionEffect(PotionEffectType.LEVITATION);
-		entity.removePotionEffect(PotionEffectType.GLOWING);
+		player.removePotionEffect(PotionEffectType.LEVITATION);
+		player.removePotionEffect(PotionEffectType.GLOWING);
 		
-		entity.setFlySpeed(0.1f);
-		entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
+		player.setFlySpeed(0.1f);
+		player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
 		
 		if (isAlive()) {
-			entity.setFlying(false);
-			entity.setAllowFlight(false);
+			player.setFlying(false);
+			player.setAllowFlight(false);
 			
 			Disguise dis = mob.getDisguise();
 			if (dis != null)
@@ -427,7 +429,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	private boolean isFreezable() {
-		if (entity.hasPotionEffect(PotionEffectType.LUCK))
+		if (player.hasPotionEffect(PotionEffectType.LUCK))
 			return false;
 		
 		return true;

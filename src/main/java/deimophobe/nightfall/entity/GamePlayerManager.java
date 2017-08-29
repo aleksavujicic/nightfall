@@ -1,5 +1,8 @@
-package deimophobe.nightfall;
+package deimophobe.nightfall.entity;
 
+import deimophobe.nightfall.Game;
+import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterManager;
 import org.bukkit.Bukkit;
@@ -143,7 +146,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		return true;
 	}
 	
-	protected void removeAllGamePlayers() {
+	public void removeAllGamePlayers() {
 		for (UUID uuid : new HashSet<>(players.keySet())) {
 			removeGamePlayer(uuid, true);
 		}

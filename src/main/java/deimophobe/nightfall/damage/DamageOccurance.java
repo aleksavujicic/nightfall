@@ -1,8 +1,6 @@
 package deimophobe.nightfall.damage;
 
-import deimophobe.nightfall.GameEntity;
-import deimophobe.nightfall.GamePlayer;
-import deimophobe.nightfall.monster.ai.AIEntity;
+import deimophobe.nightfall.entity.GameEntity;
 import org.bukkit.ChatColor;
 
 /**

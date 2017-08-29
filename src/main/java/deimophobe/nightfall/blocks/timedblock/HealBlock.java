@@ -1,8 +1,8 @@
 package deimophobe.nightfall.blocks.timedblock;
 
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.GameEntity;
-import deimophobe.nightfall.GamePlayer;
+import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;

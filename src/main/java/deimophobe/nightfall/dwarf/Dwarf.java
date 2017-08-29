@@ -1,6 +1,9 @@
 package deimophobe.nightfall.dwarf;
 
-import deimophobe.nightfall.*;
+import deimophobe.nightfall.Game;
+import deimophobe.nightfall.Hat;
+import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.armour.Armour;
@@ -13,6 +16,9 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.dwarf.loadout.DwarfData;
 import deimophobe.nightfall.effects.sound.Sounds;
+import deimophobe.nightfall.entity.DwarfEntity;
+import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.*;
@@ -31,7 +37,7 @@ import java.util.Map;
 /**
  * Created by Deimophobe on 15/01/17.
  */
-public class Dwarf extends GamePlayer {
+public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	// Kits
 	private final Kit kit;
@@ -56,7 +62,7 @@ public class Dwarf extends GamePlayer {
 		// Clear potion effects/inventory
 		clearEffects();
 		clearInventory();
-		entity.setGameMode(GameMode.SURVIVAL);
+		player.setGameMode(GameMode.SURVIVAL);
 		givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 5, false, false, true);
 		// Set armour
 		armour = new DwarvenArmour(this);
@@ -102,7 +108,7 @@ public class Dwarf extends GamePlayer {
 	public void respawn() {
 		delayedHealMax();
 		teleportTo(GameMap.getCurrentMap().getDwarfSpawn());
-		entity.setFireTicks(0);
+		player.setFireTicks(0);
 	}
 	
 	public void teleportAndStrip(Location location) {
@@ -165,11 +171,11 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	public void updateManaBar() {
-		entity.setLevel(mana);
+		player.setLevel(mana);
 	}
 	
 	public void updateCooldownBar() {
-		entity.setExp(Math.max(0, kit.fractionComplete()));
+		player.setExp(Math.max(0, kit.fractionComplete()));
 	}
 	
 	
@@ -182,10 +188,10 @@ public class Dwarf extends GamePlayer {
 	}
 	
 	public void giveArrow() {
-		ItemStack arrows = entity.getInventory().getItemInOffHand();
+		ItemStack arrows = player.getInventory().getItemInOffHand();
 		int amt = arrows.getAmount();
 		if (amt == 0) {
-			entity.getInventory().setItemInOffHand(getArrow());
+			player.getInventory().setItemInOffHand(getArrow());
 		} else if (amt < maxArrows) {
 			arrows.setAmount(amt+1);
 		}
@@ -195,24 +201,24 @@ public class Dwarf extends GamePlayer {
 			giveArrow();
 	}
 	public int getArrowCount() {
-		ItemStack arrows = entity.getInventory().getItemInOffHand();
+		ItemStack arrows = player.getInventory().getItemInOffHand();
 		return (arrows.getAmount());
 	}
 	public boolean hasArrows(int amt) {
-		ItemStack arrows = entity.getInventory().getItemInOffHand();
+		ItemStack arrows = player.getInventory().getItemInOffHand();
 		return (arrows.getAmount() >= amt);
 	}
 	public void useArrow() {
 		useArrows(1);
 	}
 	public void useArrows(int amt) {
-		ItemStack arrows = entity.getInventory().getItemInOffHand();
+		ItemStack arrows = player.getInventory().getItemInOffHand();
 		int currAmt = arrows.getAmount();
 		if (currAmt <= amt) {
 			if (currAmt < amt)
 				Bukkit.getLogger().warning("Dwarf " + getName() + " using more arrows than held!?");
 			
-			entity.getInventory().setItemInOffHand(null);
+			player.getInventory().setItemInOffHand(null);
 		} else {
 			arrows.setAmount(currAmt - amt);
 		}
@@ -225,11 +231,11 @@ public class Dwarf extends GamePlayer {
 	
 	// ------ INVENTORIES ------
 	public void showTrash() {
-		entity.openInventory(Bukkit.createInventory(null, 9, ChatColor.DARK_RED + "---------- TRASH ----------"));
+		player.openInventory(Bukkit.createInventory(null, 9, ChatColor.DARK_RED + "---------- TRASH ----------"));
 	}
 	
 	public void showSharedChest() {
-		entity.openInventory(DwarfManager.getManager().getSharedChest());
+		player.openInventory(DwarfManager.getManager().getSharedChest());
 	}
 	
 	public void giveConsumable(ConsumableType type, int quantity) {
@@ -252,9 +258,9 @@ public class Dwarf extends GamePlayer {
 	}
 	public void updateVisibility() {
 		if (canSee()) {
-			entity.removePotionEffect(PotionEffectType.BLINDNESS);
+			player.removePotionEffect(PotionEffectType.BLINDNESS);
 		} else {
-			entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0, true, false), true);
+			player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0, true, false), true);
 		}
 	}
 	private boolean canSee() {
@@ -267,7 +273,7 @@ public class Dwarf extends GamePlayer {
 				hasProc() ||
 				Game.getGame().getPhase() == Phase.BUILD ||
 				Game.getGame().getPhase() == Phase.PLAGUE ||
-				entity.hasPotionEffect(PotionEffectType.NIGHT_VISION)
+				player.hasPotionEffect(PotionEffectType.NIGHT_VISION)
 		);
 	}
 	
@@ -278,14 +284,14 @@ public class Dwarf extends GamePlayer {
 		double var = 0.2;
 		
 		if (sec && mana <= 300) {
-			Location bloodLoc = entity.getLocation().add(0, 1, 0);
-			entity.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 10, var, var, var, 0);
+			Location bloodLoc = player.getLocation().add(0, 1, 0);
+			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 10, var, var, var, 0);
 		} else if (halfSec && mana <= 150) {
-			Location bloodLoc = entity.getLocation().add(0, 1, 0);
-			entity.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 20, var, var, var, 0);
+			Location bloodLoc = player.getLocation().add(0, 1, 0);
+			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 20, var, var, var, 0);
 		} else if (quartSec && mana <= 50) {
-			Location bloodLoc = entity.getLocation().add(0, 1, 0);
-			entity.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 30, var, var, var, 0);
+			Location bloodLoc = player.getLocation().add(0, 1, 0);
+			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 30, var, var, var, 0);
 		}
 	}
 	
@@ -322,7 +328,7 @@ public class Dwarf extends GamePlayer {
 		kit.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		updateCooldownBar();
 		
-		entity.setSaturation(10);
+		player.setSaturation(10);
 		
 		if (consumableGrabCD > 0)
 			consumableGrabCD--;
@@ -338,7 +344,7 @@ public class Dwarf extends GamePlayer {
 			boolean inMobspawn = GameMap.getCurrentMap().getCurrentMobProtection().containsPlayer(this);
 			if (inMobspawn) {
 				mobspawnCount++;
-				mobspawnDamage();
+				//mobspawnDamage();
 			}
 			else {
 				if (mobspawnCount > 0)
@@ -362,7 +368,7 @@ public class Dwarf extends GamePlayer {
 	
 	// ------ PROC ------
 	public boolean hasProc() {
-		return entity.hasPotionEffect(PotionEffectType.SPEED);
+		return player.hasPotionEffect(PotionEffectType.SPEED);
 	}
 	
 	public void giveProc(ProcType procType) {
@@ -373,10 +379,11 @@ public class Dwarf extends GamePlayer {
 	// ------ MOB SPAWN ------
 	private int mobspawnCount;
 	
+	/* TODO
 	protected void mobspawnDamage() {
 		if (mobspawnCount == 0) return;
 		
-		entity.sendMessage(ChatColor.RED + "You are too close to monster spawn! (" + mobspawnCount + ")");
+		player.sendMessage(ChatColor.RED + "You are too close to monster spawn! (" + mobspawnCount + ")");
 			
 		switch (mobspawnCount) {
 			case 0:
@@ -441,6 +448,7 @@ public class Dwarf extends GamePlayer {
 		if (mobspawnCount == 6)
 			givePermanentPotionEffect(PotionEffectType.CONFUSION, 1);
 	}
+	 */
 	
 	// ------ EVENTS ------
 	@Override
@@ -455,7 +463,7 @@ public class Dwarf extends GamePlayer {
 		kit.onKill(monster, type);
 	}
 	
-	@Override
+	//@Override
 	public double onHit(GameEntity monster, DamageType type, double damage) {
 		double newDam = kit.onHit(monster, type, damage);
 		if (newDam != -1)
@@ -473,7 +481,7 @@ public class Dwarf extends GamePlayer {
 		return damage;
 	}
 
-	@Override
+	//@Override
 	public double onGotHit(GameEntity player, DamageType type, double damage) {
 		
 		// In built resistance from dwarf armour

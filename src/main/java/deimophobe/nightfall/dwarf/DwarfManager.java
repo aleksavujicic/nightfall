@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf;
 
 import deimophobe.nightfall.Game;
-import deimophobe.nightfall.GamePlayerManager;
+import deimophobe.nightfall.entity.GamePlayerManager;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.dwarf.loadout.DwarfData;

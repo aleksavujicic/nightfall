@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.GameEntity;
+import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitBow;

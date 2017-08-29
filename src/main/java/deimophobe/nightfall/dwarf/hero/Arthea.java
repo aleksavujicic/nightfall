@@ -5,7 +5,7 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.*;
 import com.comphenix.protocol.wrappers.WrappedWatchableObject;
-import deimophobe.nightfall.GameEntity;
+import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.Hat;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Skin;
@@ -27,7 +27,6 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * Created by Deimophobe on 7/05/17.

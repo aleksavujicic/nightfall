@@ -1,6 +1,6 @@
 package deimophobe.nightfall.effects.sound;
 
-import deimophobe.nightfall.GamePlayer;
+import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Location;
 

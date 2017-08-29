@@ -1,6 +1,8 @@
 package deimophobe.nightfall;
 
 import deimophobe.nightfall.damage.DamageType;
+import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.entity.GamePlayer;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 

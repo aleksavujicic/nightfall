@@ -15,6 +15,7 @@ import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.dwarf.loadout.DwarfData;
 import deimophobe.nightfall.dwarf.loadout.Loadout;
 import deimophobe.nightfall.dwarf.loadout.LoadoutMenu;
+import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.ItemManager;
 import deimophobe.nightfall.map.GameMap;

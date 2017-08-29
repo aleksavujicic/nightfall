@@ -1,11 +1,10 @@
 package deimophobe.nightfall.monster.ai;
 
-import deimophobe.nightfall.GameEntity;
+import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.map.GameMap;
-import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -19,7 +18,14 @@ import org.bukkit.potion.PotionEffectType;
 /**
  * Created by Deimophobe on 24/01/17.
  */
-public class AIEntity extends GameEntity<Zombie> implements MonsterEntity {
+public class AIEntity implements GameEntity<Zombie> {
+	
+	private final Zombie zombie;
+	
+	@Override
+	public Zombie getEntity() {
+		return zombie;
+	}
 	
 	private static Zombie spawnZombie(Location location, String name, Dwarf target) {
 		Zombie zombie = (Zombie) GameMap.getCurrentMap().getWorld().spawnEntity(location, EntityType.ZOMBIE);
@@ -41,7 +47,7 @@ public class AIEntity extends GameEntity<Zombie> implements MonsterEntity {
 	}
 	
 	public AIEntity(Location location, String name, Dwarf target) {
-		super(spawnZombie(location, name, target));
+		zombie = spawnZombie(location, name, target);
 	}
 	
 	@Override
@@ -82,7 +88,7 @@ public class AIEntity extends GameEntity<Zombie> implements MonsterEntity {
 	}
 	
 	public void setTarget(Dwarf dwarf) {
-		entity.setTarget(dwarf.getPlayer());
+		zombie.setTarget(dwarf.getPlayer());
 	}
 	
 	private static final int MAX_TARGET_COUNT = 2;
@@ -91,12 +97,12 @@ public class AIEntity extends GameEntity<Zombie> implements MonsterEntity {
 	private static final double MAX_TARGET_RANGE = 20;
 	
 	void forceUpdateTarget() {
-		entity.setTarget(null);
+		zombie.setTarget(null);
 		updateTarget();
 	}
 	
 	void updateTarget() {
-		if (entity.getTarget() != null) return;
+		if (zombie.getTarget() != null) return;
 		
 		Dwarf newTarget = DwarfManager.getManager().getNearest(getLocation());
 		if (newTarget == null) {

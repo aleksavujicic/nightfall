@@ -1,5 +1,6 @@
 package deimophobe.nightfall;
 
+import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.lore.LoreTemplate;
 import minecraft.spigot.community.michel_0.api.Slot;

@@ -1,6 +1,5 @@
-package deimophobe.nightfall;
+package deimophobe.nightfall.entity;
 
-import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.items.CustomItem;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.ChatColor;
@@ -25,17 +24,23 @@ import java.util.function.Predicate;
 /**
  * Created by Deimophobe on 17/01/17.
  */
-public abstract class GamePlayer extends GameEntity<Player> {
+public abstract class GamePlayer implements GameEntity<Player> {
+	protected Player player;
 	protected GamePlayer(Player player) {
-		super(player);
+		this.player = player;
+	}
+	
+	@Override
+	public Player getEntity() {
+		return player;
 	}
 	
 	public Player getPlayer() {
-		return getEntity();
+		return player;
 	}
 	
 	public UUID getUniqueId() {
-		return entity.getUniqueId();
+		return player.getUniqueId();
 	}
 	
 	
@@ -45,17 +50,17 @@ public abstract class GamePlayer extends GameEntity<Player> {
 	private boolean forcedTitle;
 	@Override
 	public String getDisplayName() {
-		return entity.getDisplayName();
+		return player.getDisplayName();
 	}
 	
 	public void setTitle(ChatColor colour, String title, boolean force) {
 		if (force) {
-			entity.setDisplayName(colour + title + ChatColor.RESET);
+			player.setDisplayName(colour + title + ChatColor.RESET);
 		} else {
 			if (title != null)
-				entity.setDisplayName(colour + title + " " + entity.getName() + ChatColor.RESET);
+				player.setDisplayName(colour + title + " " + player.getName() + ChatColor.RESET);
 			else
-				entity.setDisplayName(colour + entity.getName() + ChatColor.RESET);
+				player.setDisplayName(colour + player.getName() + ChatColor.RESET);
 		}
 		this.colour = colour;
 		this.title = title;
@@ -64,7 +69,7 @@ public abstract class GamePlayer extends GameEntity<Player> {
 	
 	public String getWhoDisplay() {
 		if (forcedTitle)
-			return getDisplayName() + ChatColor.RESET + "(" + entity.getName() + ")";
+			return getDisplayName() + ChatColor.RESET + "(" + player.getName() + ")";
 		else
 			return getDisplayName() + ChatColor.RESET;
 	}
@@ -79,13 +84,13 @@ public abstract class GamePlayer extends GameEntity<Player> {
 	public final void playSound(String sound, float vol, float pitch, boolean toAll) {
 		if (sound == null) return;
 		
-		World world = entity.getWorld();
-		Location loc = entity.getLocation();
+		World world = player.getWorld();
+		Location loc = player.getLocation();
 		
 		if (toAll) {
 			world.playSound(loc, sound, vol, pitch);
 		} else {
-			entity.playSound(loc, sound, vol, pitch);
+			player.playSound(loc, sound, vol, pitch);
 		}
 	}
 	
@@ -96,7 +101,7 @@ public abstract class GamePlayer extends GameEntity<Player> {
 	
 	// ------ INVENTORY ------
 	public ItemStack getHeldItem() {
-		return entity.getInventory().getItemInMainHand();
+		return player.getInventory().getItemInMainHand();
 	}
 	
 	public boolean isHolding(ItemStack item) {
@@ -114,7 +119,7 @@ public abstract class GamePlayer extends GameEntity<Player> {
 		if (item == null) return;
 		ItemStack copy = item.clone();
 		copy.setAmount(quantity);
-		entity.getInventory().addItem(copy);
+		player.getInventory().addItem(copy);
 	}
 	public void giveItem(ItemStack item) {giveItem(item,1);}
 	
@@ -127,26 +132,26 @@ public abstract class GamePlayer extends GameEntity<Player> {
 	}
 	
 	public void clearInventory() {
-		entity.getInventory().clear();
+		player.getInventory().clear();
 	}
 	
 	public  void showInventory(Inventory inventory) {
-		entity.openInventory(inventory);
+		player.openInventory(inventory);
 	}
 	
 	
 	
 	// ------ MESSAGING ------
 	public void sendMessage(String message) {
-		entity.sendMessage(message);
+		player.sendMessage(message);
 	}
 	public void sendTitleMessage(String message) {
-		entity.sendTitle("", message, 5, 30, 5);
+		player.sendTitle("", message, 5, 30, 5);
 	}
 	
 	// ------ ONLINE/OFFLINE ------
 	public void goOnline(Player newPlayer) {
-		resetEntity(newPlayer);
+		this.player = newPlayer;
 		resetTitle();
 	}
 	public void goOffline() {}
@@ -156,106 +161,16 @@ public abstract class GamePlayer extends GameEntity<Player> {
 	public void resetPlayer() {
 		clearEffects();
 		clearInventory();
-		entity.setDisplayName(entity.getName());
-		DisguiseAPI.undisguiseToAll(entity);
-	}
-	
-	public String generateDeathMessage() {
-		
-		String name = getDisplayName();
-		
-		DamageType type = getLastDamageType();
-		if (type == null) return name + " died.";
-		
-		String killMsg;
-		
-		switch (type) {
-			case HAMMER_AOE:
-			case REGULAR_MELEE:
-				killMsg = "slain";
-				break;
-			case REGULAR_RANGED:
-				killMsg = "shot";
-				break;
-			case EBOW:
-				killMsg = "pierced";
-				break;
-			case EVISCERATE:
-				killMsg = "eviscerated";
-				break;
-			case WILDFIRE:
-				killMsg = "incinerated";
-				break;
-			case TINDERFLAME:
-				killMsg = "zooped";
-				break;
-			case CUSTOM_EXPLOSION:
-				killMsg = "blown up";
-				break;
-				
-			case POISON:
-				return name + " withered away.";
-			
-			
-			case CONTACT:
-				return name + " was pricked to death.";
-			case DROWNING:
-				return name + " drowned.";
-			case FALL:
-				return name + " fell to their doom.";
-			case HOT_FLOOR:
-				return name + " burnt their feet.";
-			case CRAMMING:
-				return name + " was crushed.";
-			case FALLING_BLOCK:
-				return name + " was squished.";
-			case LIGHTNING:
-				return name + " angered the gods.";
-			case LAVA:
-				return name + " tried to swim in lava.";
-			case FIRE:
-				return name + " couldn't find water.";
-				
-			case NOT_HOLDING_GHOSTBLADE:
-				return name + " was a bit of a klutz and dropped their blade.";
-			
-			case VOID:
-				return name + " was swallowed by the abyss.";
-			case SEPPUKU:
-				return name + " committed sudoku.";
-			case SHRINE_PROTECTION:
-				return name + " was zapped by lightning.";
-			case RELOG:
-				return name + " combat logged.";
-			case KABOOM:
-				return name + " went kaboom.";
-			case DEATH_PLAGUE:
-				return name + " was touched by " + ChatColor.BLACK + "DEATH" + ChatColor.RESET + ".";
-			case MOBSPAWN:
-				return name + " was consumed by the source of the darkness.";
-				
-			default:
-				return name + " died.";
-		}
-		
-		if (getLastDamager() == null)
-			return name + " died.";
-		
-		String damagerName = getLastDamager().getDisplayName();
-		String itemName = getLastItemName();
-		if (itemName != null)
-			return name + " was " + killMsg + " by " + damagerName + " using " + itemName + ".";
-		else
-			return name + " was " + killMsg + " by " + damagerName + ".";
-		
+		player.setDisplayName(player.getName());
+		DisguiseAPI.undisguiseToAll(player);
 	}
 	
 	public boolean isBlocking() {
-		return entity.isBlocking();
+		return player.isBlocking();
 	}
-	public boolean isSneaking() { return entity.isSneaking(); }
+	public boolean isSneaking() { return player.isSneaking(); }
 	public Block getTargetBlock(Set<Material> materials, int i) {
-		return entity.getTargetBlock(materials, i);
+		return player.getTargetBlock(materials, i);
 	}
 	
 	public <P extends GameEntity> P getLookingAt(double epsilon, double range, Collection<P> targets) {
@@ -263,7 +178,7 @@ public abstract class GamePlayer extends GameEntity<Player> {
 	}
 	
 	public <P extends GameEntity> P getLookingAt(double epsilon, double range, Collection<P> targets, Predicate<P> requirement) {
-		Location playerLoc = entity.getLocation();
+		Location playerLoc = player.getLocation();
 		Vector lookDir = playerLoc.getDirection();
 		
 		P closestPlayer = null;

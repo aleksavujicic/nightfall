@@ -1,15 +1,11 @@
 package deimophobe.nightfall.damage;
 
 import deimophobe.nightfall.Game;
-import deimophobe.nightfall.GameEntity;
-import deimophobe.nightfall.GamePlayer;
+import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.damage.type.GameDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
-import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.map.GameMap;
-import deimophobe.nightfall.monster.MonsterPlayer;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -186,7 +182,8 @@ public class GameDamage<A extends GameEntity, R extends GameEntity> {
 			case POISON:
 				break;
 		}
+		return null;
 	}
 	
-	public static
+	//public static
 }

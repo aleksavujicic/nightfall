@@ -1,7 +1,6 @@
 package deimophobe.nightfall.damage;
 
-import deimophobe.nightfall.Game;
-import deimophobe.nightfall.GameEntity;
+import deimophobe.nightfall.entity.GameEntity;
 import org.bukkit.entity.Arrow;
 
 /**

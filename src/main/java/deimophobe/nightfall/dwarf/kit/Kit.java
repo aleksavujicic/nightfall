@@ -1,6 +1,6 @@
 package deimophobe.nightfall.dwarf.kit;
 
-import deimophobe.nightfall.GameEntity;
+import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractBow;

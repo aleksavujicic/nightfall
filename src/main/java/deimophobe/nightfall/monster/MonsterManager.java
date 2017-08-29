@@ -2,8 +2,8 @@ package deimophobe.nightfall.monster;
 
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Game;
-import deimophobe.nightfall.GameEntity;
-import deimophobe.nightfall.GamePlayerManager;
+import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.entity.GamePlayerManager;
 import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.doom.DoomManager;
 import deimophobe.nightfall.monster.mob.MobType;

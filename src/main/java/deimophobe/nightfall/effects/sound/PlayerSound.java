@@ -1,6 +1,6 @@
 package deimophobe.nightfall.effects.sound;
 
-import deimophobe.nightfall.GamePlayer;
+import deimophobe.nightfall.entity.GamePlayer;
 
 /**
  * Created by Deimophobe on 6/07/17.
