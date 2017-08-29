@@ -5,6 +5,7 @@ import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.map.GameMap;
+import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,7 +19,7 @@ import org.bukkit.potion.PotionEffectType;
 /**
  * Created by Deimophobe on 24/01/17.
  */
-public class AIEntity extends GameEntity<Zombie> {
+public class AIEntity extends GameEntity<Zombie> implements MonsterEntity {
 	
 	private static Zombie spawnZombie(Location location, String name, Dwarf target) {
 		Zombie zombie = (Zombie) GameMap.getCurrentMap().getWorld().spawnEntity(location, EntityType.ZOMBIE);

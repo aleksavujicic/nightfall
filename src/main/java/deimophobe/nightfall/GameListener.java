@@ -267,7 +267,7 @@ public class GameListener implements Listener {
 			if ((damager instanceof MonsterPlayer) && ((MonsterPlayer) damager).isFrozen()) {
 				event.setCancelled(true);
 				return;
-			}
+			} // TODO Move to Monsterplayer
 			
 			// Notify if not custom
 			if (cause != EntityDamageEvent.DamageCause.CUSTOM)
@@ -284,12 +284,13 @@ public class GameListener implements Listener {
 			if (damager instanceof MonsterPlayer && damagee instanceof AIEntity) {
 				event.setCancelled(true);
 				return;
-			}
+			} // TODO Move to AIEntity
 			
 			// Ignore blocking and armor damage
 			if (event.getEntityType() == EntityType.PLAYER)
 				event.setDamage(EntityDamageEvent.DamageModifier.BLOCKING, 0);
 			event.setDamage(EntityDamageEvent.DamageModifier.ARMOR, 0);
+			// TODO Remove
 			
 			// Ignore crit
 			/*
@@ -330,7 +331,7 @@ public class GameListener implements Listener {
 				} else {
 					Bukkit.getLogger().warning("Arrow has no attached force?");
 				}
-			}
+			} // TODO Move to arrow create part
 			//Bukkit.broadcastMessage("After arrow calc " + damage);
 			
 			// apply damage and cancel if -1
@@ -339,7 +340,7 @@ public class GameListener implements Listener {
 				event.setCancelled(true);
 			} else {
 				event.setDamage(damage);
-			}
+			} // TODO Remove
 			
 			// Kill detection for dwarves before shrine falling
 			if (Game.getGame().getPhase() == Phase.BUILD && damagee instanceof Dwarf) {

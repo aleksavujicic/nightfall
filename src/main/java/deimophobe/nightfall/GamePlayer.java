@@ -294,10 +294,12 @@ public abstract class GamePlayer extends GameEntity<Player> {
 	
 	// Abstract methods
 	public abstract void updateHotbarSlot(ItemStack heldItem, int slot);
-	public abstract void onBlockBreak(Block block);
-	public abstract void onUse(Action action, Block clickedBlock, BlockFace blockFace);
+	public abstract void onBlockBreak(Block block); // TODO: boolean for if broken
+	public abstract void onUse(Action action, Block clickedBlock, BlockFace blockFace); // TODO: tidyup
 	public abstract void onShift(boolean sneaking);
-	public abstract Projectile onBowFire(Arrow arrow, float force);
+	public abstract Projectile onBowFire(Arrow arrow, float force); // TODO: bowfire event
 	public abstract void onProjectileLand(Projectile arrow, Block hitBlock);
+	
+	@Deprecated
 	public abstract void update(boolean b, boolean b1, boolean b2, boolean b3, boolean b4);
 }

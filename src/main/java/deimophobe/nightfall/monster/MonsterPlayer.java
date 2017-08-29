@@ -30,7 +30,7 @@ import java.util.*;
 /**
  * Created by Deimophobe on 17/01/17.
  */
-public class MonsterPlayer extends GamePlayer implements SessionData {
+public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEntity {
 	
 	private Mob mob;
 	

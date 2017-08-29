@@ -141,27 +141,36 @@ public abstract class GameEntity<E extends LivingEntity> {
 	
 	
 	// ------ DAMAGE ------
+	@Deprecated
 	private long lastDamageTime = 0;
+	@Deprecated
 	private GameEntity lastDamager;
+	@Deprecated
 	private DamageType lastDamageType;
+	@Deprecated
 	private String lastItemName;
 	
 	private static final long MAX_PREV_DMG_STORE_TIME = 200;
 	
+	@Deprecated
 	public GameEntity getLastDamager() {
 		return lastDamager;
 	}
+	@Deprecated
 	public DamageType getLastDamageType() {
 		return lastDamageType;
 	}
+	@Deprecated
 	public String getLastItemName() {
 		return lastItemName;
 	}
 	
+	@Deprecated
 	public void customDamage(GameEntity damager, DamageType type, double damage) {
 		customDamage(damager, type, damage, false);
 	}
 	
+	@Deprecated
 	public void customDamage(GameEntity damager, DamageType type, double damage, boolean force) {
 		registerDamage(damager, type);
 		
@@ -171,6 +180,7 @@ public abstract class GameEntity<E extends LivingEntity> {
 		entity.damage(damage);
 	}
 	
+	@Deprecated
 	public void registerDamage(GameEntity damager, DamageType type) {
 		lastDamageType = type;
 		if (type.doesOverwriteAttacker() || lastDamager instanceof AIEntity) {
@@ -194,6 +204,10 @@ public abstract class GameEntity<E extends LivingEntity> {
 		if (meta == null) return null;
 		
 		return meta.getDisplayName();
+	}
+	
+	public void damage() {
+		
 	}
 	
 	public void forceKill() {
@@ -229,7 +243,9 @@ public abstract class GameEntity<E extends LivingEntity> {
 		entity.removePotionEffect(type);
 	}
 	
+	@Deprecated
 	public abstract double onHit(GameEntity entity, DamageType type, double damage);
+	@Deprecated
 	public abstract double onGotHit(GameEntity entity, DamageType type, double damage);
 	
 }

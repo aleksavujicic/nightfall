@@ -3,6 +3,7 @@ package deimophobe.nightfall.damage;
 /**
  * Created by Deimophobe on 20/01/17.
  */
+@Deprecated
 public enum DamageType {
 	REGULAR_MELEE(true, false),
 	REGULAR_RANGED(false, true),
