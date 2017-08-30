@@ -3,6 +3,8 @@ package deimophobe.nightfall.monster;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.DamageType;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
@@ -297,6 +299,18 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		
 		if (mob != null)
 			mob.onUse(action, clickedBlock, blockFace);
+	}
+	
+	@Override
+	public void onDamageAttack(DwarfDamage damage) {
+		if (mob != null)
+			mob.onDamageAttack(damage);
+	}
+	
+	@Override
+	public void onDamageReceive(MonsterDamage damage) {
+		if (mob != null)
+			mob.onDamageReceive(damage);
 	}
 	
 	//@Override

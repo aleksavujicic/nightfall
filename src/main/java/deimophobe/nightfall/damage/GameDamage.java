@@ -28,26 +28,33 @@ public class GameDamage<A extends GameEntity, R extends GameEntity> {
 	/** The GameEntity which receives the damage. */
 	private final R receiver;
 	/** How much damage to do. */
-	private double damage;
-	/** How much knockback to do. */
-	private Vector knockback;
 	
 	/** The time which the damage occured. */
 	private final long time;
 	/** The name of the item which was used to hit. If not applicable this value is null. */
 	private final String itemName;
+	
+	private double damage;
+	/** How much knockback to do. */
+	private Vector knockback;
 	/** If set to true, the damage will no longer occur. Overrides force. */
 	private boolean cancelled;
 	/** If set to true, damage will occur regardless of invincibility ticks. Overrided by force. */
-	private final boolean force;
+	private boolean force;
+	/** If set to true, damage will occur regardless of invincibility ticks. Overrided by force. */
+	private boolean instaKill;
 	
 	
 	private final ArrowDamageData arrowData;
-	public ArrowDamageData arrowData() {return arrowData;}
+	public boolean hasArrowData() {return  arrowData != null;}
+	public ArrowDamageData arrowData() {
+		if (arrowData == null) throw new IllegalStateException("Tried to access arrow data of damage which has not arrow.");
+		return arrowData;
+	}
 	
-	/** True if the final damage has been calculated and applied. No further calculations
+	/** True if the final damage has been applied and applied. No further calculations
 	 * should be done if this is true. */
-	private boolean calculated = false;
+	private boolean applied = false;
 	
 	private static String getHeldItemOfDamager(GameEntity damager) {
 		if (!(damager instanceof GamePlayer)) return null;
@@ -62,7 +69,7 @@ public class GameDamage<A extends GameEntity, R extends GameEntity> {
 		return meta.getDisplayName();
 	}
 	
-	public GameDamage(EntityDamageEvent event, GameDamageType type, A attacker, R receiver, double damage, boolean force, Projectile arrow) {
+	public GameDamage(EntityDamageEvent event, GameDamageType type, A attacker, R receiver, double damage, Projectile arrow) {
 		this.event = event;
 		
 		this.type = type;
@@ -74,7 +81,12 @@ public class GameDamage<A extends GameEntity, R extends GameEntity> {
 		this.itemName = getHeldItemOfDamager(attacker);
 		
 		this.damage = damage;
+		
+		this.knockback = null;
+		
 		this.cancelled = false;
+		this.force = false;
+		this.instaKill = false;
 		
 		this.arrowData = ((arrow != null) ? new ArrowDamageData(arrow) : null);
 	}
@@ -92,7 +104,12 @@ public class GameDamage<A extends GameEntity, R extends GameEntity> {
 	public void cancel() {
 		cancelled = true;
 	}
-	boolean isCancelled() { return cancelled; }
+	public void force() {
+		force = true;
+	}
+	public void instaKill() {
+		instaKill = true;
+	}
 	
 	public void multiplyDamage(double multiplier) {damage *= multiplier;}
 	public double getCurrentDamage() {
@@ -110,11 +127,38 @@ public class GameDamage<A extends GameEntity, R extends GameEntity> {
 	 * @throws IllegalStateException If the event has been cancelled or has already been called.
 	 */
 	double getFinalDamage() {
-		if (calculated) throw new IllegalStateException("Attempted to get final damage even though already accessed.");
+		if (applied) throw new IllegalStateException("Attempted to get final damage even though already accessed.");
 		if (cancelled) throw new IllegalStateException("Attempted to get final damage but the event has been cancelled.");
 		
-		calculated = true;
+		applied = true;
 		return damage;
+	}
+	
+	private static final double INSTA_KILL_DMG = 100000;
+	boolean applyDamage() {
+		if (applied) throw new IllegalStateException("Attempted to get final damage even though already accessed.");
+		
+		boolean successful = true;
+		// Calculate damage
+		// Priority: insta > cancelled > force > none ?
+		if (instaKill) {
+			event.setDamage(INSTA_KILL_DMG);
+			event.setCancelled(false);
+		} else if (cancelled) {
+			event.setDamage(0);
+			event.setCancelled(true);
+			successful = false;
+		} else  {
+			event.setDamage(damage);
+			// TODO
+		}
+		
+		if (successful && knockback != null)
+			receiver.setVelocity(knockback);
+		
+		applied = true;
+		
+		return successful;
 	}
 	
 	
@@ -136,12 +180,12 @@ public class GameDamage<A extends GameEntity, R extends GameEntity> {
 			
 			case ENTITY_ATTACK:
 				damager = Game.getGame().getGameEntity( ((EntityDamageByEntityEvent) event).getDamager() );
-				return new GameDamage<>(event, NaturalDamageType.MELEE, damager, damagee, event.getDamage(), false, null);
+				return new GameDamage<>(event, NaturalDamageType.MELEE, damager, damagee, event.getDamage(), null);
 			
 			case PROJECTILE:
 				Projectile proj = (Projectile) ((EntityDamageByEntityEvent) event).getDamager();
 				damager = Game.getGame().getGameEntity((Entity) proj.getShooter());
-				return new GameDamage<>(event, NaturalDamageType.MELEE, damager, damagee, event.getDamage(), false, proj);
+				return new GameDamage<>(event, NaturalDamageType.MELEE, damager, damagee, event.getDamage(), proj);
 			
 			case CONTACT: type = NaturalDamageType.CONTACT; break;
 			case DROWNING: type = NaturalDamageType.DROWNING; break;
