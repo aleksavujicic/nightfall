@@ -1,12 +1,18 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Misc;
-import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.damage.DamageManager;
+import deimophobe.nightfall.damage.DwarfDamageModifier;
+import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -85,12 +91,12 @@ class Wraith extends AbstractMob {
 	}
 	
 	@Override
-	public double onGotHit(Dwarf dwarf, DamageType type, double damage) {
+	public void onDamageReceive(MonsterDamage damage) {
+		super.onDamageReceive(damage);
 		if (chargeActive) {
 			chargeActive = false;
 			setFloatiness();
 		}
-		return super.onGotHit(dwarf, type, damage);
 	}
 	
 	//private final ComplexCooldown charger = new ComplexCooldown(40, this::charge,  this::setFloatiness);
@@ -121,16 +127,13 @@ class Wraith extends AbstractMob {
 	}
 	
 	private static final double AOE_RADIUS = 3.5;
-	private static final int AOE_DMG = 40; // This is a one off hit so its not as strong as it seems.
-	private static final int AOE_SHRED = 25;
+	private static final int AOE_DMG = 50; // This is a one off hit so its not as strong as it seems.
+	private static final int AOE_SHRED = 50;
 	private void aoeDamage() {
-		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
-			if (dwarf.distanceTo(monster) <= AOE_RADIUS) {
-				if (dwarf.getPlayer().getNoDamageTicks() == 0)
-					dwarf.getArmour().damage(AOE_SHRED);
-				dwarf.customDamage(dwarf, DamageType.TEMPORARY, AOE_DMG);
-			}
-		}
+		DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), monster,
+				CustomDamageType.WRAITH_CHARGE, AOE_RADIUS, AOE_DMG, 1,
+				new DwarfDamageModifier().setArmourShred(AOE_SHRED)
+		);
 	}
 	
 	@Override

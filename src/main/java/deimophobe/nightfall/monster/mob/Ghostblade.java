@@ -1,6 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -49,7 +50,7 @@ class Ghostblade extends AbstractMob {
 		
 		if (halfSec && !isPlayerHoldingWeapon()) {
 			monster.getPlayer().getInventory().setHeldItemSlot(0);
-			monster.customDamage(null, DamageType.NOT_HOLDING_GHOSTBLADE, 4);
+			monster.damage(null, CustomDamageType.INCORRECT_HELD_ITEM, 4);
 			monster.givePotionEffect(PotionEffectType.GLOWING, 20, 1, true, true, true);
 		}
 	}

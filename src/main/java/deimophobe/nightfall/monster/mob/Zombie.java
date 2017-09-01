@@ -6,7 +6,8 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.DudCooldown;
 import deimophobe.nightfall.cooldown.SimpleCooldown;
-import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
@@ -117,13 +118,9 @@ public class Zombie extends AbstractMob {
 	}
 	
 	@Override
-	public double getArrowRes() {
-		return super.getArrowRes() + arrowRes;
-	}
-	
-	@Override
-	public int getArmourShred() {
-		return super.getArmourShred() + armourShred;
+	public void onDamageReceive(MonsterDamage damage) {
+		super.onDamageReceive(damage);
+		damage.addArrowRes(arrowRes);
 	}
 	
 	@Override
@@ -143,17 +140,18 @@ public class Zombie extends AbstractMob {
 	}
 	
 	@Override
-	public double onHit(Dwarf dwarf, DamageType type, double damage) {
-		if (dwarf != null) {
-			int healAmt = vampirism;
-			if (fury) {
-				healAmt += 5;
-				furySound.tryUse();
-			}
-			monster.heal(healAmt);
-			monster.givePotionEffect(PotionEffectType.SPEED, 140, pursuit, true, false, true);
+	public void onDamageAttack(DwarfDamage damage) {
+		super.onDamageAttack(damage);
+		
+		damage.addArmourShred(armourShred);
+		
+		int healAmt = vampirism;
+		if (fury) {
+			healAmt += 5;
+			furySound.tryUse();
 		}
-		return damage;
+		monster.heal(healAmt);
+		monster.givePotionEffect(PotionEffectType.SPEED, 140, pursuit, true, false, true);
 	}
 	
 	@Override

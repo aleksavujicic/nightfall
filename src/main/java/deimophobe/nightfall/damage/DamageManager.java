@@ -6,10 +6,15 @@ import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.util.Vector;
+
+import java.util.Collection;
+import java.util.function.Function;
 
 /**
  * Created by Deimophobe on 25/08/17.
@@ -34,7 +39,6 @@ public class DamageManager {
 		if (!event.isCancelled())
 			receiver.getEntity().damage(event.getDamage());
 	}
-			
 	
 	public void processDamageEvent(EntityDamageEvent event) {
 		GameEntity damagee = Game.getGame().getGameEntity(event.getEntity());
@@ -91,5 +95,46 @@ public class DamageManager {
 		GameDamage damage = GameDamage.createDamage(event, null, damagee, type, event.getDamage());
 		type.applyDamage(damage);
 		damage.fire();
+	}
+	
+	
+	// ==============================
+	// ----------EXPLOSIONS----------
+	// ==============================
+	
+	
+	public void AOEDamage(Collection<? extends GameEntity> receivers, GameEntity attacker, CustomDamageType type, double range, double damage, double kbStrength, DamageModifier modifier) {
+		AOEDamage(receivers, attacker, type, attacker.getLocation(), range, damage, kbStrength, modifier);
+	}
+	
+	public void AOEDamage(Collection<? extends GameEntity> receivers, GameEntity attacker, CustomDamageType type, Location origin, double range, double damage, double kbStrength) {
+		AOEDamage(receivers, attacker, type, origin, range, damage, kbStrength, new DamageModifier());
+	}
+	
+	public void AOEDamage(Collection<? extends GameEntity> receivers, GameEntity attacker, CustomDamageType type, Location origin, double range, double damage, double kbStrength, DamageModifier modifier) {
+		AOEDamage(receivers, attacker, type, origin, range,
+						(Vector v) -> damage,
+						(Vector v) -> v.clone().multiply(kbStrength / Math.sqrt(Math.max(1, v.length())) ),
+						modifier);
+	}
+	
+	public void AOEDamage(Collection<? extends GameEntity> receivers, GameEntity attacker, CustomDamageType type, Location origin, double range, Function<Vector, Double> damageFunction, Function<Vector, Vector> knockbackFunction, DamageModifier modifier) {
+		for (GameEntity receiver : receivers) {
+			Vector offset = origin.subtract(receiver.getLocation()).toVector();
+			if (offset.length() > range) continue;
+			
+			double damage = damageFunction.apply(offset);
+			Vector knockback = knockbackFunction.apply(offset);
+			
+			// WHY THIS SO UGLY
+			EntityDamageEvent event = new EntityDamageEvent(receiver.getEntity(), EntityDamageEvent.DamageCause.CUSTOM, damage);
+			GameDamage gameDamage = GameDamage.createDamage(event, attacker, receiver, type, damage);
+			gameDamage.setKnockback(knockback);
+			modifier.applyToDamage(gameDamage);
+			gameDamage.fire();
+			
+			if (!event.isCancelled())
+				receiver.getEntity().damage(event.getDamage());
+		}
 	}
 }

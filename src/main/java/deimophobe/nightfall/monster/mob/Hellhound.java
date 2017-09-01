@@ -1,7 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
-import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
@@ -46,10 +46,9 @@ public class Hellhound extends Wolf {
 	}
 	
 	@Override
-	public double onHit(Dwarf dwarf, DamageType type, double damage) {
-		damage = super.onHit(dwarf, type, damage);
+	public void onDamageAttack(DwarfDamage damage) {
+		super.onDamageAttack(damage);
 		tryPlaceMagmaBlock();
-		return damage;
 	}
 	
 	private void tryPlaceMagmaBlock() {

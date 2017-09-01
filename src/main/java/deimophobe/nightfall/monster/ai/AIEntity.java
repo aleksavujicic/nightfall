@@ -1,10 +1,14 @@
 package deimophobe.nightfall.monster.ai;
 
-import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.damage.DamageModifier;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.map.GameMap;
-import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -17,7 +21,7 @@ import org.bukkit.potion.PotionEffectType;
 /**
  * Created by Deimophobe on 24/01/17.
  */
-public class AIEntity implements GameEntity<Zombie> {
+public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 	
 	private final Zombie zombie;
 	
@@ -50,40 +54,29 @@ public class AIEntity implements GameEntity<Zombie> {
 	}
 	
 	@Override
-	public double onHit(GameEntity entity, DamageType type, double damage) {
+	public void onDamageAttack(DwarfDamage damage) {
+		damage.setArmourShred(5);
+		damage.setDamage(12);
+		
+		/* TODO
 		if (entity instanceof MonsterPlayer) {
 			forceUpdateTarget();
 			return -1;
 		}
-		if (entity instanceof Dwarf) {
-			((Dwarf) entity).getArmour().damage(5);
-			return 15;
-		} else {
-			return damage;
-		}
+		*/
 	}
 	
 	@Override
-	public double onGotHit(GameEntity entity, DamageType type, double damage) {
-		if (type == DamageType.AI_REMOVAL) return 10000;
-		if (type == null) return damage;
-		if (entity instanceof MonsterPlayer) return -1;
+	public void onDamageReceive(MonsterDamage damage) {
+		damage.multiplyDamage(0.3);
+		damage.setArrowRes(-2); // Kinda hacky? Makes sense tho
 		
-		damage = type.getMobDamage(damage);
-		if (damage == -1)
-			return -1;
-		
-		if (type == DamageType.REGULAR_RANGED)
-			damage *= 0.3;
-		else
-			damage *= 0.1;
-		
-		if (getHealth() - damage <= 0.1) {
-			float pitch = (getEntity().isBaby() ? 1.5f : 1f);
-			getLocation().getWorld().playSound(getLocation(), "entity.zombie.death", 1f, pitch);
-			return 10000;
-		}
-		return damage;
+	}
+	
+	// TODO
+	public void onDeath() {
+		float pitch = (getEntity().isBaby() ? 1.5f : 1f);
+		getLocation().getWorld().playSound(getLocation(), "entity.zombie.death", 1f, pitch);
 	}
 	
 	public void setTarget(Dwarf dwarf) {
@@ -120,6 +113,6 @@ public class AIEntity implements GameEntity<Zombie> {
 	}
 	
 	public void remove() {
-		customDamage(null, DamageType.AI_REMOVAL, 10000);
+		damage(null, CustomDamageType.AI_REMOVER, 10000, new DamageModifier().setInstaKill(true));
 	}
 }

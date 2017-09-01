@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
+import deimophobe.nightfall.damage.type.GameDamageType;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.dwarf.Dwarf;
 
@@ -13,7 +14,7 @@ class Quiver extends AbstractElement {
 	}
 	
 	@Override
-	public void onKill(GameEntity monster, DamageType type) {
-		dwarf.giveArrow();
+	public void onKill(GameEntity monster, GameDamageType type) {
+		dwarf.giveArrows(2);
 	}
 }

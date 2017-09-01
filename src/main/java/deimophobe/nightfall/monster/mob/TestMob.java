@@ -1,6 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Bukkit;
 
@@ -14,18 +15,18 @@ public class TestMob extends AbstractMob {
 	}
 	
 	@Override
-	public double onHit(Dwarf dwarf, DamageType type, double damage){
-		String dwarfName = (dwarf == null ? "null" : dwarf.getName());
-		String typeName = (type == null ? "type" : type.name());
+	public void onDamageAttack(DwarfDamage damage) {
+		super.onDamageAttack(damage);
+		String dwarfName = damage.getDwarf().toString();
+		String typeName = damage.getType().toString();
 		Bukkit.broadcastMessage("Hit dwarf " + dwarfName + " for " + damage + " damage of type " + typeName);
-		return 0;
 	}
 	
 	@Override
-	public double onGotHit(Dwarf dwarf, DamageType type, double damage) {
-		String dwarfName = (dwarf == null ? "null" : dwarf.getName());
-		String typeName = (type == null ? "type" : type.name());
+	public void onDamageReceive(MonsterDamage damage) {
+		super.onDamageReceive(damage);
+		String dwarfName = damage.getDwarf().toString();
+		String typeName = damage.getType().toString();
 		Bukkit.broadcastMessage("Got hit by dwarf " + dwarfName + " for " + damage + " damage of type " + typeName);
-		return 0;
 	}
 }

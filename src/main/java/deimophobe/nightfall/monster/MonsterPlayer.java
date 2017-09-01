@@ -278,9 +278,6 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	@Override
 	public void onBlockBreak(Block block) {
 		if (mob != null) {
-			if (block.getType() == Material.TORCH)
-				gainXP(mob.getTorchXP(), false);
-			
 			mob.onBlockBreak(block);
 		}
 	}
@@ -310,50 +307,6 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	public void onDamageReceive(MonsterDamage damage) {
 		if (mob != null)
 			mob.onDamageReceive(damage);
-	}
-	
-	//@Override
-	public double onHit(GameEntity gamePlayer, DamageType type, double damage) {
-		if (mob != null) {
-			if (gamePlayer instanceof Dwarf) {
-				((Dwarf) gamePlayer).getArmour().damage(mob.getArmourShred());
-				gainXP(2, true);
-				return mob.onHit((Dwarf) gamePlayer, type, damage);
-			} else {
-				Bukkit.getLogger().warning("GameEntity in onGotHit should be a Dwarf");
-				return damage;
-			}
-		} else {
-			return damage;
-		}
-	}
-	
-	//@Override
-	public double onGotHit(GameEntity gameEntity, DamageType type, double damage) {
-		// Spawn protection
-		if (player.hasPotionEffect(PotionEffectType.LUCK)) {
-			return -1;
-		}
-		
-		damage = type.getMobDamage(damage);
-		if (damage == -1)
-			return -1;
-		
-		if (mob != null) {
-			damage *= (1 - mob.getResistance());
-			
-			if (type.isArrow())
-				damage *= (1 - mob.getArrowRes());
-			
-			if (gameEntity instanceof Dwarf || gameEntity == null) {
-				return mob.onGotHit((Dwarf) gameEntity, type, damage);
-			} else {
-				Bukkit.getLogger().warning("GameEntity in onGotHit should be a Dwarf");
-				return damage;
-			}
-		} else {
-			return damage;
-		}
 	}
 	
 	@Override

@@ -340,7 +340,7 @@ minotaur:
 
   attack: 30
   health: 40
-  shred: 25
+  shred: 10
   speed: -30
 
   proccable: false

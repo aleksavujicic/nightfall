@@ -5,6 +5,9 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.damage.DamageManager;
+import deimophobe.nightfall.damage.DamageModifier;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
@@ -124,6 +127,16 @@ public interface GameEntity<E extends LivingEntity> {
 	}
 	
 	
+	// ------ DAMAGE ------
+	default void damage(GameEntity attacker, CustomDamageType type, double damage) {
+		damage(attacker, type, damage, new DamageModifier());
+	}
+	
+	default void damage(GameEntity attacker, CustomDamageType type, double damage, DamageModifier modifier) {
+		DamageManager.getManager().customDamage(attacker, this, type, damage, modifier);
+	}
+	
+	
 	// ------ POTION EFFECTS ------
 	default void givePotionEffect(PotionEffectType type, int duration, int amplifier, boolean showAbove, boolean colourBlue, boolean force) {
 		if (amplifier == 0) return;
@@ -146,6 +159,10 @@ public interface GameEntity<E extends LivingEntity> {
 		for (PotionEffect effect : getEntity().getActivePotionEffects()){
 			removePotionEffect(effect.getType());
 		}
+	}
+	
+	default boolean hasPotionEffect(PotionEffectType type) {
+		return getEntity().hasPotionEffect(type);
 	}
 	
 	default void removePotionEffect(PotionEffectType type) {

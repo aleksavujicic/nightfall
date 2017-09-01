@@ -1,12 +1,16 @@
 package deimophobe.nightfall.blocks.timedblock;
 
-import deimophobe.nightfall.Explosion;
-import deimophobe.nightfall.entity.GameEntity;
-import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.blocks.BlockConverter;
+import deimophobe.nightfall.damage.DamageManager;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
-import org.bukkit.*;
+import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.entity.GamePlayer;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 
 /**
@@ -29,7 +33,8 @@ public class GoboBox extends TimedBlock {
 			world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
 			world.playSound(centerLoc, "entity.generic.explode", 2, 1);
 
-			(new Explosion(this.getPlacer(), DwarfManager.getManager().getGamePlayers(), centerLoc, DamageType.CUSTOM_EXPLOSION, 40, 5, 3)).explode();
+			DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), getPlacer(),
+					CustomDamageType.GOBO_BOX_EXPLOSION, centerLoc, 5, 40, 3);
 		}
 	}
 	

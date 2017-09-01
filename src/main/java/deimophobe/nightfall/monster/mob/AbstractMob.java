@@ -1,7 +1,8 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Skin;
-import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.map.GameMap;
@@ -14,6 +15,7 @@ import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
@@ -169,41 +171,42 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	
-	
 	protected void giveSpawnProtection(int time) {
 		monster.givePotionEffect(PotionEffectType.LUCK, time, 1, true, false, true);
 	}
 	
 	
-	@Override public boolean isProccable() {
-		return mobData.proccable;
+	
+	@Override
+	public void onDamageAttack(DwarfDamage damage) {
+		damage.setArmourShred(mobData.armourShred);
+		monster.gainXP(2, true);
 	}
-	@Override public double getResistance() {
-		return mobData.damageRes;
+	
+	@Override
+	public void onDamageReceive(MonsterDamage damage) {
+		if (monster.hasPotionEffect(PotionEffectType.LUCK))
+			damage.cancel();
+		
+		if (mobData.proccable) damage.setProc(false);
+		damage.setArrowRes(mobData.arrowRes);
+		damage.multiplyDamage(1 - mobData.damageRes);
 	}
-	@Override public double getArrowRes() {
-		return mobData.arrowRes;
+	
+	@Override
+	public void onBlockBreak(Block block) {
+		if (block.getType() == Material.TORCH)
+			monster.gainXP(mobData.torchXP, false);
 	}
-	@Override public int getArmourShred() {
-		return mobData.armourShred;
-	}
-	@Override public int getTorchXP() {
-		return mobData.torchXP;
-	}
+	
+	
 	@Override public boolean isShrineImmune() {
 		return mobData.shrineImmune;
 	}
 	
 	@Override public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {}
 	@Override public void onShift(boolean sneaking) {}
-	@Override public void onBlockBreak(Block block) {}
 	@Override public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {}
-	@Override public double onHit(Dwarf dwarf, DamageType type, double damage) {
-		return damage;
-	}
-	@Override public double onGotHit(Dwarf dwarf, DamageType type, double damage) {
-		return damage;
-	}
 	@Override public Projectile onBowFire(Arrow arrow, float force) {
 		return null;
 	}

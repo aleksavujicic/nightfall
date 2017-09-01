@@ -1,6 +1,5 @@
 package deimophobe.nightfall.dwarf.hero;
 
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Hat;
 import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -17,7 +16,6 @@ import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
@@ -47,11 +45,11 @@ public class Hero extends Dwarf {
 	}
 	
 	private void announceHero() {
-		Bukkit.broadcastMessage(ChatColor.DARK_AQUA + entity.getName() + ChatColor.LIGHT_PURPLE + " has become the " + type.getDescriptor() + " " + entity.getDisplayName() + ChatColor.LIGHT_PURPLE + "!");
+		Bukkit.broadcastMessage(ChatColor.DARK_AQUA + player.getName() + ChatColor.LIGHT_PURPLE + " has become the " + type.getDescriptor() + " " + player.getDisplayName() + ChatColor.LIGHT_PURPLE + "!");
 	}
 	
 	public Disguise getDisguise() {
-		return DisguiseAPI.getDisguise(entity);
+		return DisguiseAPI.getDisguise(player);
 	}
 	
 	@Override

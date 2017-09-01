@@ -1,6 +1,6 @@
 package deimophobe.nightfall.dwarf.hero;
 
-import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -68,10 +68,11 @@ class Tui extends Hero {
 	private static final ItemStack fuel = DwarvenItems.createItemStack("misc.wildfirefuel");
 	
 	@Override
-	public double onGotHit(GameEntity entity, DamageType type, double damage) {
-		damage = super.onGotHit(entity, type, damage);
-		if (entity instanceof AIEntity) damage = 0;
-		return damage;
+	public void onDamageReceive(DwarfDamage damage) {
+		super.onDamageReceive(damage);
+		if (damage.getAttacker() instanceof AIEntity)
+			damage.setDamage(0);
+		
 	}
 	
 	@Override

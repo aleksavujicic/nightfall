@@ -1,8 +1,8 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Misc;
-import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -74,12 +74,10 @@ class Flamelancer extends SkeletonMob {
 	
 	
 	@Override
-	public double onHit(Dwarf dwarf, DamageType type, double damage) {
-		if (type.isArrow()) {
-			dwarf.getArmour().damage(10);
-			return getPower();
-		} else {
-			return damage;
+	public void onDamageAttack(DwarfDamage damage) {
+		super.onDamageAttack(damage);
+		if (damage.hasArrowData()) {
+			damage.setArmourShred(10);
 		}
 	}
 	

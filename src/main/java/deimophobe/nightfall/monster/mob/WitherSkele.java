@@ -1,6 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
 
 /**
@@ -28,14 +28,13 @@ class WitherSkele extends SkeletonMob {
 	}
 	
 	@Override
-	public double onHit(Dwarf dwarf, DamageType type, double damage) {
-		if (type.isArrow()) {
+	public void onDamageAttack(DwarfDamage damage) {
+		super.onDamageAttack(damage);
+		if (damage.hasArrowData()) {
 			damageBoost = Math.min(damageBoost + 1, 50);
-			dwarf.getArmour().damage((int) damageBoost*3 + 20);
+			damage.setArmourShred((int) damageBoost*3 + 20);
+			damage.setDamage(getPower() + damageBoost*3);
 			monster.heal(5);
-			return getPower() + damageBoost*3;
-		} else {
-			return damage;
 		}
 	}
 }

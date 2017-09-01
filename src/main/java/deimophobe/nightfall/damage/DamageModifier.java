@@ -8,6 +8,7 @@ import org.bukkit.util.Vector;
 public class DamageModifier {
 	/** How much knockback to do. */
 	private Vector knockback = null;
+	private boolean addKnockback = false;
 	/** If set to true, the damage will no longer occur. Overrides force. */
 	private boolean cancelled = false;
 	/** If set to true, damage will occur regardless of invincibility ticks. Overrided by force. */
@@ -15,26 +16,46 @@ public class DamageModifier {
 	/** If set to true, damage will be 'infinite'. */
 	private boolean instaKill = false;
 	
-	public void setKnockback(Vector knockback) {
+	public DamageModifier setKnockback(Vector knockback) {
 		this.knockback = knockback;
+		addKnockback = false;
+		return this;
 	}
 	
-	public void setCancelled(boolean cancelled) {
+	public DamageModifier addKnockback(double x, double y, double z) {
+		return addKnockback(new Vector(x,y,z));
+	}
+	
+	public DamageModifier addKnockback(Vector knockback) {
+		this.knockback = knockback;
+		addKnockback = true;
+		return this;
+	}
+	
+	public DamageModifier setCancelled(boolean cancelled) {
 		this.cancelled = cancelled;
+		return this;
 	}
 	
-	public void setForce(boolean force) {
+	public DamageModifier setForce(boolean force) {
 		this.force = force;
+		return this;
 	}
 	
-	public void setInstaKill(boolean instaKill) {
+	public DamageModifier setInstaKill(boolean instaKill) {
 		this.instaKill = instaKill;
+		return this;
 	}
 	
 	public DamageModifier() {}
 	
 	void applyToDamage(GameDamage damage) {
-		if (knockback != null) damage.setKnockback(knockback);
+		if (knockback != null) {
+			if (addKnockback)
+				damage.addKnockback(knockback);
+			else
+				damage.setKnockback(knockback);
+		}
 		if (cancelled) damage.cancel();
 		if (force) damage.force();
 		if (instaKill) damage.instaKill();

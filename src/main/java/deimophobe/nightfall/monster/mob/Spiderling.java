@@ -2,7 +2,7 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.blocks.BlockConverter;
-import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -26,9 +26,9 @@ class Spiderling extends AbstractMob {
 	}
 	
 	@Override
-	public double onHit(Dwarf dwarf, DamageType type, double damage) {
-		dwarf.givePotionEffect(PotionEffectType.POISON, 50, 4, true, false, true);
-		return damage;
+	public void onDamageAttack(DwarfDamage damage) {
+		super.onDamageAttack(damage);
+		damage.getReceiver().givePotionEffect(PotionEffectType.POISON, 50, 4, true, false, true);
 	}
 	
 	

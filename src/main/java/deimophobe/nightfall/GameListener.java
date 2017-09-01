@@ -4,6 +4,7 @@ import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.damage.DamageManager;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -262,9 +263,10 @@ public class GameListener implements Listener {
 		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
 		world.playSound(centerLoc, "entity.generic.explode", 2, 1);
 		// Bukkit.broadcastMessage(mm.peekGoboThrower().getName());
-		Object value = event.getEntity().getMetadata("thrower").get(0).value();
-		if (value instanceof MonsterPlayer)
-			(new Explosion((MonsterPlayer) value, DwarfManager.getManager().getGamePlayers(), centerLoc, DamageType.CUSTOM_EXPLOSION, 40, 5, 3)).explode();
+		Object thrower = event.getEntity().getMetadata("thrower").get(0).value();
+		if (thrower instanceof MonsterPlayer)
+			DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), (GameEntity) thrower,
+					CustomDamageType.GOBO_BOX_EXPLOSION, centerLoc, 5, 40, 3);
 	}
 	
 	// --------------------------------------------------------

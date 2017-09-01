@@ -1,11 +1,13 @@
 package deimophobe.nightfall.dwarf.kit;
 
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.GameDamageType;
-import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractBow;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.dwarf.loadout.DwarfData;
+import deimophobe.nightfall.entity.GameEntity;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
@@ -76,21 +78,19 @@ public class Kit {
 			item.update(quartSec, halfSec, sec, doubleSec, quadSec);
 	}
 	
-	public double onHit(GameEntity monster, DamageType type, double damage) {
+	public void onDamageAttack(MonsterDamage damage) {
 		for (KitElement item : kitElements.values()) {
-			damage = item.onHit(monster, type, damage);
+			item.onDamageAttack(damage);
 		}
-		return damage;
 	}
 	
-	public double onGotHit(GameEntity monster, DamageType type, double damage) {
+	public void onDamageReceive(DwarfDamage damage) {
 		for (KitElement item : kitElements.values()) {
-			damage = item.onGotHit(monster, type, damage);
+			item.onDamageReceive(damage);
 		}
 		for (KitElement item : kitElements.values()) {
-			item.onLateGotHit(monster, type, damage);
+			item.damageNotify(damage);
 		}
-		return damage;
 	}
 	
 	public void onKill(GameEntity monster, GameDamageType type) {

@@ -133,6 +133,8 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 	public void instaKill() {instaKill = true;}
 	
 	public void setKnockback(Vector kb) {knockback = kb;}
+	public void addKnockback(Vector kb) {knockback.add(kb);}
+	public void multiplyKnockback(double mult) {knockback.multiply(mult);}
 	
 	public void setDamage(double damage) {this.damage = damage;}
 	public void addDamage(double damage) {this.damage += damage;}

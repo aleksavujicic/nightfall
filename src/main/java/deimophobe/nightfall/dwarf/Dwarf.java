@@ -5,7 +5,10 @@ import deimophobe.nightfall.Hat;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.GameDamageType;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.armour.NakedArmour;
@@ -20,7 +23,6 @@ import deimophobe.nightfall.entity.DwarfEntity;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
-import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -463,44 +465,23 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		kit.onKill(monster, type);
 	}
 	
-	//@Override
-	public double onHit(GameEntity monster, DamageType type, double damage) {
-		double newDam = kit.onHit(monster, type, damage);
-		if (newDam != -1)
-			damage = newDam;
+	
+	@Override
+	public void onDamageAttack(MonsterDamage damage) {
+		if (damage.getType() == NaturalDamageType.MELEE && hasProc())
+			damage.setProc(true);
 		
-		if (type.isProccable() && hasProc()) {// && !getHeldItem().isSimilar(Sword.getItemStack(SwordType.HAMMER))) {
-			if (monster instanceof MonsterPlayer) {
-				if (((MonsterPlayer) monster).getMob().isProccable()) {
-					return 10000;
-				}
-			} else {
-				return 10000;
-			}
-		}
-		return damage;
+		kit.onDamageAttack(damage);
 	}
-
-	//@Override
-	public double onGotHit(GameEntity player, DamageType type, double damage) {
+	
+	@Override
+	public void onDamageReceive(DwarfDamage damage) {
+		damage.multiplyDamage(1 - armour.getResistance());
 		
-		// In built resistance from dwarf armour
-		damage *= (1d - armour.getResistance());
+		kit.onDamageReceive(damage);
 		
-		// Damage from damage type (more for lava etc.)
-		damage = type.getDwarfDamage(damage);
-		if (damage == -1) return -1;
-		
-		armour.damage(type.getDwarfArmourDmg());
-		
-		// Any other changes from kit
-		damage = kit.onGotHit(player, type, damage);
-		
-		// Smoother landing for safefall
-		if (type == DamageType.FALL && damage <= 0.2)
-			return -1;
-		
-		return damage;
+		if (damage.getType() == NaturalDamageType.FALL && damage.getCurrentDamage() <= 0.2)
+			damage.cancel();
 	}
 	
 	@Override

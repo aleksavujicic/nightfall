@@ -1,7 +1,5 @@
 package deimophobe.nightfall.damage.type;
 
-import deimophobe.nightfall.damage.*;
-
 /**
  * Created by Deimophobe on 29/08/17.
  */
@@ -9,20 +7,26 @@ public enum CustomDamageType implements GameDamageType {
 	// Mob damage
 	SEPPUKU,
 	SHRINE_PROTECTION,
+	SELF_GOBO_KABOOM,
 	
 	EBOW,
 	EVISCERATE,
 	HAMMER_AOE,
-	NOT_HOLDING_GHOSTBLADE,
+	INCORRECT_HELD_ITEM,
 	TINDERFLAME,
 	WILDFIRE,
+	
+	AI_REMOVER,
 	
 	// Dwarf damage
 	DEATH_PLAGUE,
 	GOBO_KABOOM,
-	GOBO_EXPLOSION,
+	GOBO_BOX_EXPLOSION,
 	MOBSPAWN,
 	
+	MINOTAUR_CHARGE,
+	WRAITH_CHARGE,
+	 
 	
 	@Deprecated
 	TEMPORARY

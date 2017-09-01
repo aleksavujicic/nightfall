@@ -2,6 +2,7 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -38,7 +39,7 @@ class Walker extends AbstractMob {
 		
 		if (halfSec && !isPlayerHoldingWeapon()) {
 			monster.getPlayer().getInventory().setHeldItemSlot(0);
-			monster.customDamage(null, DamageType.NOT_HOLDING_GHOSTBLADE, 4);
+			monster.damage(null, CustomDamageType.INCORRECT_HELD_ITEM, 4);
 		}
 	}
 	

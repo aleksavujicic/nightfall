@@ -1,12 +1,14 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.Explosion;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.blocks.timedblock.GoboBox;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
-import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.damage.DamageManager;
+import deimophobe.nightfall.damage.DamageModifier;
+import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
@@ -97,7 +99,7 @@ class Goblin extends AbstractMob {
 	}
 	
 	private void kaboom() {
-		monster.customDamage(null, DamageType.KABOOM, 10000);
+		monster.damage(null, CustomDamageType.SELF_GOBO_KABOOM, 10000, new DamageModifier().setInstaKill(true));
 		
 		Location loc = monster.getLocation();
 		World world = monster.getLocation().getWorld();
@@ -105,13 +107,16 @@ class Goblin extends AbstractMob {
 		BlockConverter.convert(BlockConverter.Type.EXPLOSION, loc, 8);
 		world.spawnParticle(Particle.EXPLOSION_HUGE, loc, 3, 1, 1, 1);
 		world.playSound(loc, "entity.generic.explode", 2, 1);
-		(new Explosion(monster, DwarfManager.getManager().getGamePlayers(), loc, DamageType.CUSTOM_EXPLOSION, 80, 6, 4)).explode();
+		
+		DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), monster,
+				CustomDamageType.GOBO_KABOOM, loc, 6, 80, 4);
 	}
-
+	
+	
 	@Override
-	public double onGotHit(Dwarf dwarf, DamageType type, double damage) {
+	public void onDamageReceive(MonsterDamage damage) {
+		super.onDamageReceive(damage);
 		kaboomCD = 0;
-		return damage;
 	}
 
 	@Override

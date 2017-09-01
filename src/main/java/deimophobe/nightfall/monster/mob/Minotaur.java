@@ -4,7 +4,9 @@ import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.damage.DamageManager;
+import deimophobe.nightfall.damage.DwarfDamageModifier;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
@@ -112,9 +114,16 @@ public class Minotaur extends AbstractMob {
 	}
 	
 	private static final double AOE_RADIUS = 2.5;
-	private static final int AOE_DMG = 30; // This is a one off hit so its not as strong as it seems.
-	private static final int AOE_SHRED = 15;
+	private static final int AOE_DMG = 40; // This is a one off hit so its not as strong as it seems.
+	private static final int AOE_SHRED = 10;
 	private void aoeDamage() {
+		DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), monster,
+				CustomDamageType.MINOTAUR_CHARGE, AOE_RADIUS, AOE_DMG, 10,
+				new DwarfDamageModifier().setArmourShred(AOE_SHRED).addKnockback(0, 1.5, 0)
+		);
+		//TODO monster.playSound("entity.zombie.attack_iron_door", 1f, 1.7f, true);
+		
+		/*
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			if (dwarf.distanceTo(monster) <= AOE_RADIUS) {
 				if (dwarf.getPlayer().getNoDamageTicks() == 0) {
@@ -125,9 +134,9 @@ public class Minotaur extends AbstractMob {
 					vel.normalize().multiply(3);
 					vel.setY(vel.getY() + 1.5);
 					dwarf.setVelocity(vel);
-					monster.playSound("entity.zombie.attack_iron_door", 1f, 1.7f, true);
 				}
 			}
 		}
+		*/
 	}
 }

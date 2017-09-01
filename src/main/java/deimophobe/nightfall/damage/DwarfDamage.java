@@ -15,15 +15,25 @@ public class DwarfDamage extends GameDamage<MonsterEntity, Dwarf> {
 	private int armourShred = 0;
 	public int getArmourShred() {return armourShred;}
 	public void setArmourShred(int armourShred) {this.armourShred = armourShred;}
+	public void addArmourShred(int amt) {this.armourShred += amt;}
 	public void multiplyArmourShred(double multiply) {this.armourShred *= multiply;}
 	
 	private int manaDrain = 0;
 	public int getManaDrain() {return manaDrain;}
 	public void setManaDrain(int manaDrain) {this.manaDrain = manaDrain;}
+	public void addManaDrain(int manaDrain) {this.manaDrain += manaDrain;}
 	public void multiplyManaDrain(double multiply) {this.manaDrain *= multiply;}
 	
 	DwarfDamage(EntityDamageEvent event, MonsterEntity attacker, Dwarf receiver, GameDamageType type, double damage, Projectile arrow) {
 		super(event, attacker, receiver, type, damage, arrow);
+	}
+	
+	public MonsterEntity getMonster() {
+		return getAttacker();
+	}
+	
+	public Dwarf getDwarf() {
+		return getReceiver();
 	}
 	
 	@Override

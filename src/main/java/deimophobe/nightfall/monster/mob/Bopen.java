@@ -1,6 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
@@ -33,9 +33,9 @@ public class Bopen extends AbstractMob {
 	}
 	
 	@Override
-	public double onHit(Dwarf dwarf, DamageType type, double damage) {
+	public void onDamageAttack(DwarfDamage damage) {
+		super.onDamageAttack(damage);
 		GameMap.getCurrentMap().stealGold(20);
-		return damage;
 	}
 	
 	@Override

@@ -6,7 +6,7 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
-import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -48,10 +48,11 @@ class Golem extends AbstractMob {
 		}
 	}
 	
-	public double onHit(Dwarf dwarf, DamageType type, double damage) {
+	@Override
+	public void onDamageAttack(DwarfDamage damage) {
+		super.onDamageAttack(damage);
 		swingArms();
 		breakCD = BREAK_CD_MAX;
-		return damage;
 	}
 	
 	@Override

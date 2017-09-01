@@ -1,7 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Misc;
-import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
@@ -39,11 +39,11 @@ abstract class SkeletonMob extends AbstractMob {
 	}
 	
 	@Override
-	public double onHit(Dwarf dwarf, DamageType type, double damage) {
-		if (type.isArrow())
-			return getPower();
-		else
-			return damage;
+	public void onDamageAttack(DwarfDamage damage) {
+		super.onDamageAttack(damage);
+		if (damage.hasArrowData()) {
+			damage.setDamage(getPower());
+		}
 	}
 	
 	protected void giveArrows(int quantity) {

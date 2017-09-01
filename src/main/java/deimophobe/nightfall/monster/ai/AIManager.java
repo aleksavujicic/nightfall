@@ -229,7 +229,7 @@ public class AIManager {
 	public void clearArea(Location center, double range) {
 		for (AIEntity entity : ais.values()) {
 			if (center.distance(entity.getLocation()) <= range)
-				entity.forceKill();
+				entity.remove();
 		}
 		
 		spawnSpots.removeIf(location -> center.distance(location) <= range);

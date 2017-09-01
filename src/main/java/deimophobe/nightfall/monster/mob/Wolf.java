@@ -8,6 +8,7 @@ import com.comphenix.protocol.events.PacketEvent;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -114,11 +115,13 @@ class Wolf extends AbstractMob {
 	}
 	
 	@Override
-	public double onHit(Dwarf dwarf, DamageType type, double damage) {
+	public void onDamageAttack(DwarfDamage damage) {
+		super.onDamageAttack(damage);
+		Dwarf dwarf = damage.getReceiver();
 		if (dwarf != null) {
 			double heal;
 			if (isHellhound())
-				heal = (Game.getGame().isNight() ? 7 : 4);
+				heal = (Game.getGame().isNight() ? 6 : 4);
 			else
 				heal = (Game.getGame().isNight() ? 5 : 3);
 			
@@ -126,11 +129,10 @@ class Wolf extends AbstractMob {
 			monster.givePotionEffect(PotionEffectType.SPEED, 120, 3, true, false, true);
 			
 			if (Game.getGame().isNight())
-				dwarf.useMana(5);
+				damage.setManaDrain(5);
 			
 			furySound.tryUse();
 		}
-		return damage;
 	}
 	
 	private boolean isHellhound() {
