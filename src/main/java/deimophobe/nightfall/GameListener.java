@@ -3,7 +3,7 @@ package deimophobe.nightfall;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
-import deimophobe.nightfall.damage.DamageType;
+import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -13,7 +13,6 @@ import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.mob.Bopen;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -199,180 +198,13 @@ public class GameListener implements Listener {
 				return;
 		}
 		
-		// The grunt of the work
+		if (event.getEntityType() == EntityType.PLAYER)
+			event.setDamage(EntityDamageEvent.DamageModifier.BLOCKING, 0);
+		event.setDamage(EntityDamageEvent.DamageModifier.ARMOR, 0);
+		
 		GameEntity damagee = game.getGameEntity(event.getEntity());
-		if (damagee == null) {
-			// Cancel event if not to game entity
-			//event.setDamage(0);
-			//event.setCancelled(true);
-		} else {
-			double damage = event.getDamage();
-			
-			DamageType type = null;
-			GameEntity damager = null;
-			
-			// Work out what caused it, and allocate the appropriate damagee and damager
-			switch (cause) {
-				case STARVATION:
-				case SUFFOCATION:
-					Bukkit.broadcastMessage("Failed to cancel starve/suffocate damage?!");
-					return;
-					
-				case VOID:
-					type = DamageType.VOID;
-					break;
-				case CUSTOM:
-					type = damagee.getLastDamageType();
-					damager = damagee.getLastDamager();
-					break;
-				
-				case CONTACT: type = DamageType.CONTACT; break;
-				case DROWNING: type = DamageType.DROWNING; break;
-				case FALL: type = DamageType.FALL; break;
-				case HOT_FLOOR: type = DamageType.HOT_FLOOR; break;
-				case CRAMMING: type = DamageType.CRAMMING; break;
-				case FALLING_BLOCK: type = DamageType.FALLING_BLOCK; break;
-				case LIGHTNING: type = DamageType.LIGHTNING; break;
-				case LAVA: type = DamageType.LAVA; break;
-				
-				case FIRE:
-				case FIRE_TICK:
-					type = DamageType.FIRE; break;
-				
-				case BLOCK_EXPLOSION:
-				case ENTITY_EXPLOSION:
-					type = DamageType.EXPLOSION; break;
-					
-				case ENTITY_ATTACK:
-				case ENTITY_SWEEP_ATTACK:
-					type = DamageType.REGULAR_MELEE;
-					damager = game.getGameEntity( ((EntityDamageByEntityEvent) event).getDamager() );
-					break;
-					
-				case PROJECTILE:
-					type = DamageType.REGULAR_RANGED;
-					Projectile proj = (Projectile) ((EntityDamageByEntityEvent) event).getDamager();
-					damager = game.getGameEntity((Entity) proj.getShooter());
-					break;
-					
-				case POISON:
-				case WITHER:
-					type = DamageType.POISON;
-					break;
-					
-				default:
-					Bukkit.broadcastMessage("Unhandled damage: " + cause);
-					break;
-			}
-			
-			// Ignore if damager is frozen
-			if ((damager instanceof MonsterPlayer) && ((MonsterPlayer) damager).isFrozen()) {
-				event.setCancelled(true);
-				return;
-			} // TODO Move to Monsterplayer
-			
-			// Notify if not custom
-			if (cause != EntityDamageEvent.DamageCause.CUSTOM)
-				damagee.registerDamage(damager, type);
-			
-			// Debug messages
-			//if (damager != null)
-			//	Bukkit.broadcastMessage(damage + " damage type " + cause + " to " + damagee.getName() + " by " + damager.getName());
-			//else
-			//	Bukkit.broadcastMessage(damage + " damage type " + cause + " to " + damagee.getName() + " by null");
-			
-						
-			// Prevent mobs hitting ais
-			if (damager instanceof MonsterPlayer && damagee instanceof AIEntity) {
-				event.setCancelled(true);
-				return;
-			} // TODO Move to AIEntity
-			
-			// Ignore blocking and armor damage
-			if (event.getEntityType() == EntityType.PLAYER)
-				event.setDamage(EntityDamageEvent.DamageModifier.BLOCKING, 0);
-			event.setDamage(EntityDamageEvent.DamageModifier.ARMOR, 0);
-			// TODO Remove
-			
-			// Ignore crit
-			/*
-			if (damager instanceof GamePlayer) {
-				Player damagerPl = ((GamePlayer) damager).getPlayer();
-				Material material = damagerPl.getLocation().getBlock().getType();
-				boolean crit = (
-						(damagerPl.getFallDistance() > 0) &&
-						(!damagerPl.isOnGround()) &&
-						(material != Material.LADDER) &&
-						(material != Material.VINE) &&
-						(!damagerPl.getLocation().getBlock().isLiquid()) &&
-						(!damagerPl.hasPotionEffect(PotionEffectType.BLINDNESS)) &&
-						(damagerPl.getVehicle() == null) &&
-						(!damagerPl.isSprinting())
-				);
-				
-				if (crit)
-					damage /= 1.5;
-			}
-			*/
-			
-			// Notify both parties about the damage
-			if (damager != null) {
-				damage = damager.onHit(damagee, type, damage);
-			}
-			//Bukkit.broadcastMessage("After hit " + damage);
-			if (damagee != null && damage != -1) {
-				damage = damagee.onGotHit(damager, type, damage);
-			}
-			//Bukkit.broadcastMessage("After gothit " + damage);
-			
-			// Apply force calculations to arrow
-			if (type == DamageType.REGULAR_RANGED && damage != -1) {
-				Entity arrow = ((EntityDamageByEntityEvent) event).getDamager();
-				if (arrow.hasMetadata("force")) {
-					damage *= arrow.getMetadata("force").get(0).asDouble();
-				} else {
-					Bukkit.getLogger().warning("Arrow has no attached force?");
-				}
-			} // TODO Move to arrow create part
-			//Bukkit.broadcastMessage("After arrow calc " + damage);
-			
-			// apply damage and cancel if -1
-			if (damage == -1) {
-				event.setDamage(0);
-				event.setCancelled(true);
-			} else {
-				event.setDamage(damage);
-			} // TODO Remove
-			
-			// Kill detection for dwarves before shrine falling
-			if (Game.getGame().getPhase() == Phase.BUILD && damagee instanceof Dwarf) {
-				double dmg = event.getFinalDamage();
-				if (damagee.getHealth() - dmg <= 0.1 || type.isInstaKill()) {
-					event.setDamage(0);
-					event.setCancelled(true);
-					
-					((Dwarf) damagee).respawn();
-				}
-			}
-			
-			// Kill detection for monsters and AIs
-			if (damagee instanceof MonsterPlayer || damagee instanceof  AIEntity) {
-				double dmg = event.getFinalDamage();
-				if (damagee.getHealth() - dmg <= 0.1 || type.isInstaKill()) {
-					
-					// Prevent killing a monster and set to spectator instead
-					if (damagee instanceof MonsterPlayer) {
-						((MonsterPlayer)damagee).kill(false);
-						event.setDamage(0);
-					}
-					
-					// Notify dwarf if there is one
-					if (damager instanceof Dwarf) {
-						((Dwarf)damager).onKill(damagee, type);
-					}
-				}
-			}
-		}
+		if (damagee != null)
+			DamageManager.getManager().processDamageEvent(event);
 	}
 	
 	@EventHandler
@@ -446,7 +278,7 @@ public class GameListener implements Listener {
 			for (Dwarf dwarf2 : dm.getGamePlayers()) {
 				dwarf2.notifyDeath(dwarf);
 			}
-			event.setDeathMessage(dwarf.generateDeathMessage());
+			//event.setDeathMessage(dwarf.generateDeathMessage());
 			
 			// Delayed to prevent concurrent modification exceptions hopefully ._.
 			new BukkitRunnable() {

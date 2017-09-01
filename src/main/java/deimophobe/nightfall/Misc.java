@@ -6,10 +6,8 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
-import org.bukkit.metadata.Metadatable;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
@@ -43,16 +41,6 @@ public class Misc {
 		for (int i=0; i<rand; i++)
 			iter.next();
 		return iter.next();
-	}
-	
-	public static float getArrowForce(Metadatable arrow) {
-		if (!(arrow instanceof Arrow))
-			throw new IllegalArgumentException("Arrow not actually an arrow.");
-		
-		if (!arrow.hasMetadata("force"))
-			throw new IllegalArgumentException("Arrow is not player arrow so has no force.");
-		
-		return arrow.getMetadata("force").get(0).asFloat();
 	}
 	
 	public static boolean isLeftClick(Action type) {

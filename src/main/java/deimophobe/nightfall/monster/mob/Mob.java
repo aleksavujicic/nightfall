@@ -1,6 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.damage.DamageType;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.bukkit.block.Block;
@@ -27,8 +28,12 @@ public interface Mob {
 	void onShift(boolean sneaking);
 	void onBlockBreak(Block block);
 	void onUse(Action action, Block clickedBlock, BlockFace blockFace);
+	@Deprecated
 	double onHit(Dwarf dwarf, DamageType type, double damage);
+	@Deprecated
 	double onGotHit(Dwarf dwarf, DamageType type, double damage);
+	void onDamageAttack(DwarfDamage damage);
+	void onDamageReceive(MonsterDamage damage);
 	Projectile onBowFire(Arrow arrow, float force);
 	void onProjectileLand(Projectile proj, Block hitBlock);
 	float getCooldown();

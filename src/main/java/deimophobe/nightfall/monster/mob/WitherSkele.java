@@ -1,6 +1,5 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterPlayer;
 

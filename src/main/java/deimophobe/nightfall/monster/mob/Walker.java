@@ -2,7 +2,6 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;

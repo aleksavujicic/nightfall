@@ -2,7 +2,6 @@ package deimophobe.nightfall.plague;
 
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Phase;
-import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.mob.AbstractMob;

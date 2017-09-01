@@ -1,7 +1,6 @@
 package deimophobe.nightfall.plague;
 
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Location;

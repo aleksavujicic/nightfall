@@ -1,7 +1,6 @@
 package deimophobe.nightfall.map;
 
 import deimophobe.nightfall.Game;
-import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.ProcType;

@@ -8,7 +8,6 @@ import com.comphenix.protocol.events.PacketEvent;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;

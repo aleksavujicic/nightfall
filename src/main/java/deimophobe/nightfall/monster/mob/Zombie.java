@@ -6,7 +6,6 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.DudCooldown;
 import deimophobe.nightfall.cooldown.SimpleCooldown;
-import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;

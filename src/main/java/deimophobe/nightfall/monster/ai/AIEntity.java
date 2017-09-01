@@ -1,7 +1,6 @@
 package deimophobe.nightfall.monster.ai;
 
 import deimophobe.nightfall.entity.GameEntity;
-import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.map.GameMap;

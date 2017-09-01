@@ -2,7 +2,6 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.blocks.BlockConverter;
-import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;

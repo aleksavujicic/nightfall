@@ -1,7 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Skin;
-import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;

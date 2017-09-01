@@ -5,7 +5,7 @@ import deimophobe.nightfall.Hat;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
-import deimophobe.nightfall.damage.DamageType;
+import deimophobe.nightfall.damage.type.GameDamageType;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.armour.NakedArmour;
@@ -459,7 +459,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		kit.updateHotbarSlot(heldItem);
 	}
 	
-	public void onKill(GameEntity monster, DamageType type) {
+	public void onKill(GameEntity monster, GameDamageType type) {
 		kit.onKill(monster, type);
 	}
 	

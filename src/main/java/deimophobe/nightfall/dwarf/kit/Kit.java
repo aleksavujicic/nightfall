@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf.kit;
 
+import deimophobe.nightfall.damage.type.GameDamageType;
 import deimophobe.nightfall.entity.GameEntity;
-import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractBow;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
@@ -93,7 +93,7 @@ public class Kit {
 		return damage;
 	}
 	
-	public void onKill(GameEntity monster, DamageType type) {
+	public void onKill(GameEntity monster, GameDamageType type) {
 		for (KitElement item : kitElements.values()) {
 			item.onKill(monster, type);
 		}

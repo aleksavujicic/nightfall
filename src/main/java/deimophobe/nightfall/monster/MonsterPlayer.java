@@ -2,7 +2,6 @@ package deimophobe.nightfall.monster;
 
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;

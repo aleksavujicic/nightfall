@@ -6,7 +6,6 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
-import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Particle;

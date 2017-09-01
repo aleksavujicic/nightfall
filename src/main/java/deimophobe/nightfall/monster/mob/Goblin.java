@@ -6,7 +6,6 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.blocks.timedblock.GoboBox;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
-import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;

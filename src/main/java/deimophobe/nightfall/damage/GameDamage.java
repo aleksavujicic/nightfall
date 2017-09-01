@@ -1,14 +1,13 @@
 package deimophobe.nightfall.damage;
 
-import deimophobe.nightfall.Game;
+import deimophobe.nightfall.damage.type.GameDamageType;
+import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
-import deimophobe.nightfall.damage.type.GameDamageType;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
+import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.map.GameMap;
-import org.bukkit.entity.Entity;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,16 +16,16 @@ import org.bukkit.util.Vector;
 /**
  * Created by Deimophobe on 6/05/17.
  */
-public class GameDamage<A extends GameEntity, R extends GameEntity> {
+public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 	/** The event which caused this game damage. */
-	private final EntityDamageEvent event;
+	protected final EntityDamageEvent event;
 	
 	/** The type of damage. */
-	private final GameDamageType type;
+	protected final GameDamageType type;
 	/** The GameEntity which initiated the damage. */
-	private final A attacker;
+	protected final A attacker;
 	/** The GameEntity which receives the damage. */
-	private final R receiver;
+	protected final R receiver;
 	/** How much damage to do. */
 	
 	/** The time which the damage occured. */
@@ -34,21 +33,21 @@ public class GameDamage<A extends GameEntity, R extends GameEntity> {
 	/** The name of the item which was used to hit. If not applicable this value is null. */
 	private final String itemName;
 	
-	private double damage;
+	protected double damage;
 	/** How much knockback to do. */
-	private Vector knockback;
+	protected Vector knockback;
 	/** If set to true, the damage will no longer occur. Overrides force. */
-	private boolean cancelled;
+	protected boolean cancelled;
 	/** If set to true, damage will occur regardless of invincibility ticks. Overrided by force. */
-	private boolean force;
-	/** If set to true, damage will occur regardless of invincibility ticks. Overrided by force. */
-	private boolean instaKill;
+	protected boolean force;
+	/** If set to true, damage will be 'infinite'. */
+	protected boolean instaKill;
 	
 	
 	private final ArrowDamageData arrowData;
 	public boolean hasArrowData() {return  arrowData != null;}
 	public ArrowDamageData arrowData() {
-		if (arrowData == null) throw new IllegalStateException("Tried to access arrow data of damage which has not arrow.");
+		if (arrowData == null) throw new IllegalStateException("Tried to access arrow data of game damage which has no arrow.");
 		return arrowData;
 	}
 	
@@ -69,7 +68,35 @@ public class GameDamage<A extends GameEntity, R extends GameEntity> {
 		return meta.getDisplayName();
 	}
 	
-	public GameDamage(EntityDamageEvent event, GameDamageType type, A attacker, R receiver, double damage, Projectile arrow) {
+	
+	
+	static <B extends GameEntity,S extends GameEntity> GameDamage createDamage(
+			B attacker, S receiver, GameDamageType type, double damage) {
+		return createDamage(null, attacker, receiver, type, damage, null);
+	}
+	
+	static <B extends GameEntity,S extends GameEntity> GameDamage createDamage(
+			B attacker, S receiver, GameDamageType type, double damage, Projectile arrow) {
+		return createDamage(null, attacker, receiver, type, damage, arrow);
+	}
+	
+	static <B extends GameEntity,S extends GameEntity> GameDamage createDamage(
+			EntityDamageEvent event, B attacker, S receiver, GameDamageType type, double damage) {
+		return createDamage(event, attacker, receiver, type, damage, null);
+	}
+	
+	
+	static <B extends GameEntity,S extends GameEntity> GameDamage createDamage(EntityDamageEvent event, B attacker, S receiver, GameDamageType type, double damage, Projectile arrow) {
+		if ((attacker == null || attacker instanceof Dwarf) && receiver instanceof MonsterEntity) {
+			return new MonsterDamage(event, (Dwarf) attacker, (MonsterEntity) receiver, type, damage, arrow);
+		} else if ((attacker == null || attacker instanceof MonsterEntity) && receiver instanceof Dwarf) {
+			return new DwarfDamage(event, (MonsterEntity) attacker, (Dwarf) receiver, type, damage, arrow);
+		} else {
+			throw new IllegalArgumentException("Game damage must have attacker/receiver be dwarf/monster or monster/dwarf.");
+		}
+	}
+	
+	protected GameDamage(EntityDamageEvent event, A attacker, R receiver, GameDamageType type, double damage, Projectile arrow) {
 		this.event = event;
 		
 		this.type = type;
@@ -101,42 +128,33 @@ public class GameDamage<A extends GameEntity, R extends GameEntity> {
 		return receiver;
 	}
 	
-	public void cancel() {
-		cancelled = true;
-	}
-	public void force() {
-		force = true;
-	}
-	public void instaKill() {
-		instaKill = true;
-	}
+	public void cancel() {cancelled = true;}
+	public void force() {force = true;}
+	public void instaKill() {instaKill = true;}
 	
+	public void setKnockback(Vector kb) {knockback = kb;}
+	
+	public void setDamage(double damage) {this.damage = damage;}
+	public void addDamage(double damage) {this.damage += damage;}
 	public void multiplyDamage(double multiplier) {damage *= multiplier;}
 	public double getCurrentDamage() {
 		return damage;
 	}
 	
-	/**
-	 * Gets the damage as in {@link #getCurrentDamage()}, however it should only be called by the event handler.
-	 * Marks any future attempt at getting the damage as invalid, and any attempt to do so will throw an
-	 * {@link IllegalStateException}.
-	 *
-	 * One should also check that the event has not been cancelled as this will also throw an {@link IllegalStateException}.
-	 *
-	 * @return The final damage of the event.
-	 * @throws IllegalStateException If the event has been cancelled or has already been called.
-	 */
-	double getFinalDamage() {
-		if (applied) throw new IllegalStateException("Attempted to get final damage even though already accessed.");
-		if (cancelled) throw new IllegalStateException("Attempted to get final damage but the event has been cancelled.");
-		
-		applied = true;
-		return damage;
-	}
+	public abstract void fire();
 	
 	private static final double INSTA_KILL_DMG = 100000;
-	boolean applyDamage() {
+	protected boolean applyDamage() {
 		if (applied) throw new IllegalStateException("Attempted to get final damage even though already accessed.");
+		
+		if (hasArrowData()) {
+			Projectile arrow = arrowData.getArrow();
+			if (arrow.hasMetadata("force")) {
+				damage *= arrow.getMetadata("force").get(0).asDouble();
+			} else {
+				Bukkit.getLogger().warning("Arrow has no attached force?");
+			}
+		}
 		
 		boolean successful = true;
 		// Calculate damage
@@ -160,74 +178,4 @@ public class GameDamage<A extends GameEntity, R extends GameEntity> {
 		
 		return successful;
 	}
-	
-	
-	
-	// =================
-	// DAMAGE PROCESSING
-	// =================
-	
-	public static GameDamage<?, ?> createDamageFromEvent(EntityDamageEvent event) {
-		GameEntity damagee = Game.getGame().getGameEntity(event.getEntity());
-		NaturalDamageType type = null;
-		GameEntity damager = null;
-		
-		switch (event.getCause()) {
-			case STARVATION:
-			case SUFFOCATION:
-			default:
-				throw new IllegalArgumentException("Cannot create GameDamage with event cause " + event.getCause());
-			
-			case ENTITY_ATTACK:
-				damager = Game.getGame().getGameEntity( ((EntityDamageByEntityEvent) event).getDamager() );
-				return new GameDamage<>(event, NaturalDamageType.MELEE, damager, damagee, event.getDamage(), null);
-			
-			case PROJECTILE:
-				Projectile proj = (Projectile) ((EntityDamageByEntityEvent) event).getDamager();
-				damager = Game.getGame().getGameEntity((Entity) proj.getShooter());
-				return new GameDamage<>(event, NaturalDamageType.MELEE, damager, damagee, event.getDamage(), proj);
-			
-			case CONTACT: type = NaturalDamageType.CONTACT; break;
-			case DROWNING: type = NaturalDamageType.DROWNING; break;
-			case HOT_FLOOR: type = NaturalDamageType.MAGMA_BLOCK; break;
-			case FALL: type = NaturalDamageType.FALL; break;
-			case LAVA: type = NaturalDamageType.LAVA; break;
-			
-			case FIRE:
-			case FIRE_TICK:
-				type = NaturalDamageType.FIRE;
-				break;
-			
-			case POISON:
-			case WITHER:
-				type = NaturalDamageType.POISON;
-				break;
-			
-			case VOID:
-				type = NaturalDamageType.VOID;
-				break;
-		}
-		
-		switch (type) {
-			case CONTACT:
-				break;
-			case DROWNING:
-				break;
-			case FIRE:
-				break;
-			case LAVA:
-				break;
-			case MAGMA_BLOCK:
-				break;
-			case FALL:
-				break;
-			case VOID:
-				break;
-			case POISON:
-				break;
-		}
-		return null;
-	}
-	
-	//public static
 }

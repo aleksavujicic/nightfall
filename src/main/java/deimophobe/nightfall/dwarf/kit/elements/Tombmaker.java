@@ -4,7 +4,6 @@ import deimophobe.nightfall.Game;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.Phase;
-import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;

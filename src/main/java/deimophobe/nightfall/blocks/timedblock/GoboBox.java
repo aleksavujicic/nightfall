@@ -1,6 +1,5 @@
 package deimophobe.nightfall.blocks.timedblock;
 
-import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.Explosion;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;

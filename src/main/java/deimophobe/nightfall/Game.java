@@ -5,6 +5,7 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
+import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.loadout.Loadout;
@@ -70,9 +71,11 @@ public class Game {
 	
 	private final DwarfManager dwarfManager;
 	private final MonsterManager monsterManager;
+	private final DamageManager damageManager;
 	
 	public DwarfManager getDwarfManager() {return dwarfManager;}
 	public MonsterManager getMonsterManager() {return monsterManager;}
+	public DamageManager getDamageManager() {return damageManager;}
 	
 	
 	private final Scoreboard scoreboard;
@@ -119,6 +122,7 @@ public class Game {
 		
 		dwarfManager = new DwarfManager();
 		monsterManager = new MonsterManager();
+		damageManager = new DamageManager();
 		NightfallPlugin.getPlugin().updateManagers();
 		
 		startLobby();

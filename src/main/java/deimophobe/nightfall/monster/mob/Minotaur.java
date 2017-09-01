@@ -4,18 +4,15 @@ import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 

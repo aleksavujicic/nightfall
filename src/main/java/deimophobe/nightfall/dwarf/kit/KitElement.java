@@ -1,7 +1,9 @@
 package deimophobe.nightfall.dwarf.kit;
 
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.GameDamageType;
 import deimophobe.nightfall.entity.GameEntity;
-import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 
 /**
@@ -9,10 +11,18 @@ import deimophobe.nightfall.dwarf.Dwarf;
  */
 public interface KitElement {
 	void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec);
+	@Deprecated
 	double onHit(GameEntity monster, DamageType type, double damage);
+	@Deprecated
 	double onGotHit(GameEntity monster, DamageType type, double damage);
+	@Deprecated
 	void onLateGotHit(GameEntity monster, DamageType type, double damage);
-	void onKill(GameEntity monster, DamageType type);
+	
+	void onDamageAttack(MonsterDamage damage);
+	void onDamageReceive(DwarfDamage damage);
+	void damageNotify(DwarfDamage damage);
+	
+	void onKill(GameEntity monster, GameDamageType type);
 	void onShift(boolean sneaking);
 	void notifyDeath(Dwarf deadDwarf);
 }

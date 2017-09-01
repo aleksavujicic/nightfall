@@ -9,7 +9,6 @@ import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.Hat;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Skin;
-import deimophobe.nightfall.damage.DamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.monster.MonsterManager;
