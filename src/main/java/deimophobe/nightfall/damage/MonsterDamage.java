@@ -37,7 +37,8 @@ public class MonsterDamage extends GameDamage<Dwarf, MonsterEntity> {
 	
 	@Override
 	void notifyEntities() {
-		attacker.onDamageAttack(this);
+		if (attacker != null)
+			attacker.onDamageAttack(this);
 		receiver.onDamageReceive(this);
 	}
 	
