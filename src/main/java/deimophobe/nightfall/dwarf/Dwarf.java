@@ -7,7 +7,6 @@ import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.GameDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
@@ -20,7 +19,6 @@ import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.dwarf.loadout.DwarfData;
 import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.entity.DwarfEntity;
-import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.*;
@@ -345,7 +343,8 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		if (quadSec && Game.getGame().getPhase() == Phase.GAME) {
 			boolean inMobspawn = GameMap.getCurrentMap().getCurrentMobProtection().containsPlayer(this);
 			if (inMobspawn) {
-				mobspawnCount++;
+				// TODO
+				//mobspawnCount++;
 				//mobspawnDamage();
 			}
 			else {

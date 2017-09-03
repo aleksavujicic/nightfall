@@ -8,6 +8,7 @@ import deimophobe.nightfall.cooldown.DudCooldown;
 import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
@@ -118,7 +119,7 @@ public class Zombie extends AbstractMob {
 	}
 	
 	@Override
-	public void onDamageReceive(MonsterDamage damage) {
+	public void onDamageReceive(MonsterDamage<? extends Dwarf> damage) {
 		super.onDamageReceive(damage);
 		damage.addArrowRes(arrowRes);
 	}

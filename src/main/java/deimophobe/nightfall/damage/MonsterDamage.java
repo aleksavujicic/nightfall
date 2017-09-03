@@ -4,6 +4,7 @@ import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.GameDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.entity.Projectile;
@@ -12,7 +13,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 /**
  * Created by Deimophobe on 29/08/17.
  */
-public class MonsterDamage extends GameDamage<Dwarf, MonsterEntity> {
+public class MonsterDamage<A extends GameEntity> extends GameDamage<A, MonsterEntity> {
 	
 	private boolean proc;
 	public void setProc(boolean proc) { this.proc = proc;}
@@ -23,12 +24,8 @@ public class MonsterDamage extends GameDamage<Dwarf, MonsterEntity> {
 	public void multiplyArrowRes(double mult) { this.arrowRes *= mult; }
 	public void removeArrowRes() { this.arrowRes = 0; }
 	
-	public MonsterDamage(Dwarf attacker, MonsterEntity receiver, GameDamageType type, double damage, Projectile arrow) {
+	public MonsterDamage(A attacker, MonsterEntity receiver, GameDamageType type, double damage, Projectile arrow) {
 		super(attacker, receiver, type, damage, arrow);
-	}
-	
-	public Dwarf getDwarf() {
-		return getAttacker();
 	}
 	
 	public MonsterEntity getMonster() {
@@ -37,8 +34,8 @@ public class MonsterDamage extends GameDamage<Dwarf, MonsterEntity> {
 	
 	@Override
 	void notifyEntities() {
-		if (attacker != null)
-			attacker.onDamageAttack(this);
+		if (attacker instanceof Dwarf)
+			((Dwarf) attacker).onDamageAttack(this);
 		receiver.onDamageReceive(this);
 	}
 	
@@ -60,8 +57,8 @@ public class MonsterDamage extends GameDamage<Dwarf, MonsterEntity> {
 			}
 			
 			// Notify dwarf if there is one
-			if (attacker != null)
-				attacker.onKill(this);
+			if (attacker instanceof Dwarf)
+				((Dwarf) attacker).onKill(this);
 		}
 		
 		return successful;

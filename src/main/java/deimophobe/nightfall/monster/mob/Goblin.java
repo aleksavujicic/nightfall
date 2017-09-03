@@ -9,6 +9,7 @@ import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.damage.DamageModifier;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
@@ -114,7 +115,7 @@ class Goblin extends AbstractMob {
 	
 	
 	@Override
-	public void onDamageReceive(MonsterDamage damage) {
+	public void onDamageReceive(MonsterDamage<? extends Dwarf> damage) {
 		super.onDamageReceive(damage);
 		kaboomCD = 0;
 	}

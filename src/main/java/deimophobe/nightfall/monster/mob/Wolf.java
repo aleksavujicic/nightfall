@@ -117,7 +117,7 @@ class Wolf extends AbstractMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		Dwarf dwarf = damage.getReceiver();
+		Dwarf dwarf = damage.getDwarf();
 		if (dwarf != null) {
 			double heal;
 			if (isHellhound())

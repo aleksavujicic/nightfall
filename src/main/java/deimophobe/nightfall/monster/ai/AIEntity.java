@@ -88,7 +88,7 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 	
 	private static final double MAX_TARGET_RANGE = 20;
 	
-	void forceUpdateTarget() {
+	public void forceUpdateTarget() {
 		zombie.setTarget(null);
 		updateTarget();
 	}

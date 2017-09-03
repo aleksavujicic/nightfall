@@ -4,8 +4,6 @@ import deimophobe.nightfall.Game;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.entity.GameEntity;
-import deimophobe.nightfall.monster.MonsterPlayer;
-import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -40,6 +38,7 @@ public class DamageManager {
 			Bukkit.getLogger().severe("Last damage used was not null!?");
 		}
 		
+		lastUsedCustomDamage = gameDamage;
 		receiver.getEntity().damage(1);
 	}
 	
@@ -64,13 +63,6 @@ public class DamageManager {
 			
 			case ENTITY_ATTACK: {
 				GameEntity damager = Game.getGame().getGameEntity(((EntityDamageByEntityEvent) event).getDamager());
-				
-				if ((damager instanceof MonsterPlayer && damagee instanceof AIEntity) ||
-						(damagee instanceof MonsterPlayer && damager instanceof AIEntity)) {
-					event.setCancelled(true);
-					return;
-				} // TODO Move to AIEntity
-				
 				GameDamage damage = GameDamage.createDamage(damager, damagee, NaturalDamageType.MELEE, event.getDamage());
 				damage.notifyEntities();
 				damage.applyDamage(event);

@@ -4,6 +4,7 @@ import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.damage.type.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -11,7 +12,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 /**
  * Created by Deimophobe on 29/08/17.
  */
-public class DwarfDamage extends GameDamage<MonsterEntity, Dwarf> {
+public class DwarfDamage<A extends GameEntity> extends GameDamage<A, Dwarf> {
 	private int armourShred = 0;
 	public int getArmourShred() {return armourShred;}
 	public void setArmourShred(int armourShred) {this.armourShred = armourShred;}
@@ -24,12 +25,8 @@ public class DwarfDamage extends GameDamage<MonsterEntity, Dwarf> {
 	public void addManaDrain(int manaDrain) {this.manaDrain += manaDrain;}
 	public void multiplyManaDrain(double multiply) {this.manaDrain *= multiply;}
 	
-	DwarfDamage(MonsterEntity attacker, Dwarf receiver, GameDamageType type, double damage, Projectile arrow) {
+	DwarfDamage(A attacker, Dwarf receiver, GameDamageType type, double damage, Projectile arrow) {
 		super(attacker, receiver, type, damage, arrow);
-	}
-	
-	public MonsterEntity getMonster() {
-		return getAttacker();
 	}
 	
 	public Dwarf getDwarf() {
@@ -38,8 +35,8 @@ public class DwarfDamage extends GameDamage<MonsterEntity, Dwarf> {
 	
 	@Override
 	void notifyEntities() {
-		if (attacker != null)
-			attacker.onDamageAttack(this);
+		if (attacker instanceof MonsterEntity)
+			((MonsterEntity) attacker).onDamageAttack(this);
 		receiver.onDamageReceive(this);
 	}
 	
@@ -48,7 +45,7 @@ public class DwarfDamage extends GameDamage<MonsterEntity, Dwarf> {
 		boolean successful = super.applyDamage(event);
 		
 		if (successful) {
-			receiver.getArmour().damage(manaDrain);
+			receiver.getArmour().damage(armourShred);
 			receiver.useMana(manaDrain);
 			
 			if (Game.getGame().getPhase() == Phase.BUILD) {

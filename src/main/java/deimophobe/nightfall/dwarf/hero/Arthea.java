@@ -14,7 +14,7 @@ import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.entity.MonsterEntity;
+import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -114,12 +114,11 @@ public class Arthea extends Hero {
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
 		if (damage.getType() == NaturalDamageType.VOID) {
-			
 			return;
 		}
 			
 		if (isEnraged() && enrageTimer != 0) {
-			MonsterEntity monster = damage.getMonster();
+			GameEntity monster = damage.getAttacker();
 			if (monster instanceof AIEntity)
 				monster.damage(this, CustomDamageType.TEMPORARY, 1000, new DamageModifier().instaKill());
 			

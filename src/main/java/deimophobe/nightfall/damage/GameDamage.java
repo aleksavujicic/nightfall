@@ -86,7 +86,6 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		this.type = type;
 		this.attacker = attacker;
 		this.receiver = receiver;
-		this.force = force;
 		
 		this.time = GameMap.getCurrentMap().getWorld().getTime();
 		this.itemName = getHeldItemOfDamager(attacker);
@@ -117,8 +116,17 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 	public void instaKill() {instaKill = true;}
 	
 	public void setKnockback(Vector kb) {knockback = kb;}
-	public void addKnockback(Vector kb) {knockback.add(kb);}
-	public void multiplyKnockback(double mult) {knockback.multiply(mult);}
+	private void checkKBNotNull() {
+		if (knockback == null) knockback = new Vector(0,0,0);
+	}
+	public void addKnockback(Vector kb) {
+		checkKBNotNull();
+		knockback.add(kb);
+	}
+	public void multiplyKnockback(double mult) {
+		checkKBNotNull();
+		knockback.multiply(mult);
+	}
 	
 	public void setDamage(double damage) {this.damage = damage;}
 	public void addDamage(double damage) {this.damage += damage;}

@@ -6,6 +6,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractBow;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.dwarf.loadout.DwarfData;
+import deimophobe.nightfall.entity.MonsterEntity;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
@@ -82,7 +83,7 @@ public class Kit {
 		}
 	}
 	
-	public void onDamageReceive(DwarfDamage damage) {
+	public void onDamageReceive(DwarfDamage<MonsterEntity> damage) {
 		for (KitElement item : kitElements.values()) {
 			item.onDamageReceive(damage);
 		}

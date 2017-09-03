@@ -10,6 +10,7 @@ import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.menu.SessionData;
+import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.mob.Bopen;
 import deimophobe.nightfall.monster.mob.Mob;
 import deimophobe.nightfall.monster.mob.MobType;
@@ -305,8 +306,15 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
-		if (mob != null)
-			mob.onDamageReceive(damage);
+		if (mob != null) {
+			GameEntity attacker = damage.getAttacker();
+			if (attacker instanceof Dwarf)
+				mob.onDamageReceive(damage);
+			if (attacker instanceof AIEntity) {
+				((AIEntity) attacker).forceUpdateTarget();
+				damage.cancel();
+			}
+		}
 	}
 	
 	@Override
