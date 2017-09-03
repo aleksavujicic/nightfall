@@ -11,8 +11,6 @@ public enum NaturalDamageType implements GameDamageType {
 	MELEE(1, 1),
 	RANGED(1, 1),
 	
-	COMMAND(1, 1),
-	
 	// Natural Damage
 	CONTACT(2, 1),
 	DROWNING(4, 1),

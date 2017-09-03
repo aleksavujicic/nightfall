@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
@@ -21,6 +21,7 @@ import org.bukkit.util.Vector;
 class TigerFist extends AbstractCooldownItem {
 	TigerFist(Dwarf dwarf) {
 		super(dwarf, 120);
+		dwarf.sendMessage("Tiger fist is broke");
 	}
 	private final static CustomItem ITEM = DwarvenItems.getItem("sword.tigerfist", Slot.MAIN_HAND);
 	@Override public CustomItem getItem() {
@@ -31,7 +32,7 @@ class TigerFist extends AbstractCooldownItem {
 	}
 
 	@Override
-	public void onKill(GameEntity monster, DamageType b) {
+	public void onKill(MonsterDamage damage) {
 		reduceCooldown(20);
 	}
 

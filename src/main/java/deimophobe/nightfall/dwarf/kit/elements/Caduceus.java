@@ -1,6 +1,8 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.damage.DamageModifier;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -51,7 +53,7 @@ class Caduceus extends AbstractCooldownItem {
 			
 			if (bloodSwap) {
 				dwarf.useMana(MANA_COST);
-				dwarf.customDamage(null, DamageType.GENERIC_MAGIC, 50, true);
+				dwarf.damage(null, CustomDamageType.BLOOD_MAGIC, 50, new DamageModifier().force());
 			} else {
 				resetCooldown();
 			}

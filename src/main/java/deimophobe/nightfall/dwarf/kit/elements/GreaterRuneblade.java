@@ -1,8 +1,10 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
@@ -33,8 +35,9 @@ class GreaterRuneblade extends AbstractCooldownItem {
 	}
 	
 	@Override
-	public void onKill(GameEntity monster, DamageType type) {
-		if (type == DamageType.REGULAR_MELEE && isHoldingItem())
+	public void onKill(MonsterDamage damage) {
+		super.onKill(damage);
+		if (itemCausedDamage(damage))
 			dwarf.giveProc(ProcType.REGULAR);
 		
 		reduceCooldown(20);
@@ -58,11 +61,10 @@ class GreaterRuneblade extends AbstractCooldownItem {
 	private static final int SAFEFALL_TIME = 60;
 	
 	@Override
-	public double onGotHit(GameEntity monster, DamageType type, double damage) {
-		if (getCooldown() >= CD_TIME - SAFEFALL_TIME && type == DamageType.FALL) {
-			return -1;
+	public void onDamageReceive(DwarfDamage damage) {
+		if (getCooldown() >= CD_TIME - SAFEFALL_TIME && damage.getType() == NaturalDamageType.FALL) {
+			damage.cancel();
 		}
-		return damage;
 	}
 	
 	@Override

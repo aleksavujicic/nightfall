@@ -1,6 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
@@ -26,7 +26,8 @@ class Dragonskin extends AbstractBow {
 	@Override public int getPower() {return POWER;}
 	
 	@Override
-	public void onSelfKill(GameEntity monster, DamageType type) {
-		dwarf.giveProc(ProcType.DRAGONSKIN);
+	public void onKill(MonsterDamage damage) {
+		if (damageFromItem(damage))
+			dwarf.giveProc(ProcType.DRAGONSKIN);
 	}
 }

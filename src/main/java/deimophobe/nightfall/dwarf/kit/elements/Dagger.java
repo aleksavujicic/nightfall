@@ -1,7 +1,8 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
@@ -22,7 +23,7 @@ import org.bukkit.potion.PotionEffectType;
 class Dagger extends AbstractCooldownItem {
 	
 	Dagger(Dwarf dwarf) {
-		super(dwarf, 60*20);
+		super(dwarf, 300*20);
 	}
 	
 	
@@ -33,16 +34,17 @@ class Dagger extends AbstractCooldownItem {
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 	
 	
-	
 	@Override
-	public void onKill(GameEntity monster, DamageType b) {
+	public void onKill(MonsterDamage damage) {
 		reduceCooldown(20);
 	}
 	
 	@Override
-	public double onSelfHit(GameEntity monster, DamageType type, double damage) {
-		monster.givePotionEffect(PotionEffectType.WITHER, 100, 1, true, false, true);
-		return damage;
+	public void onDamageAttack(MonsterDamage damage) {
+		super.onDamageAttack(damage);
+		if (itemCausedDamage(damage)) {
+			damage.getMonster().givePotionEffect(PotionEffectType.WITHER, 100, 1, true, false, true);
+		}
 	}
 	
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
@@ -52,7 +54,7 @@ class Dagger extends AbstractCooldownItem {
 			if (closestMonster != null) {
 				Location loc = closestMonster.getPlayer().getEyeLocation();
 				
-				closestMonster.customDamage(dwarf, DamageType.EVISCERATE, 100);
+				closestMonster.damage(dwarf, CustomDamageType.EVISCERATE, 200);
 				loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 20, 0.3, 0.3, 0.3, 1);
 				//world.spigot().playEffect(loc, GameEffect.COLOURED_DUST, 0, 1, red, green, blue, 1, 0, 64);
 				//world.spawnParticle(Particle.SPELL_INSTANT, ltarget.getEyeLocation(), 1, 0.3, 0.3, 0.3, 0);

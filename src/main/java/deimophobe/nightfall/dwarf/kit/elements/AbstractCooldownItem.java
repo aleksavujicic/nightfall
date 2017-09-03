@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitItemElement;
 import org.bukkit.block.Block;
@@ -18,21 +19,6 @@ public abstract class AbstractCooldownItem extends AbstractCooldown implements K
 	}
 	
 	@Override
-	public double onHit(GameEntity monster, DamageType type, double damage) {
-		if (type == DamageType.REGULAR_MELEE && isHoldingItem())
-			return onSelfHit(monster, type, damage);
-		else
-			return damage;
-	}
-	
-	@Override
-	public void onKill(GameEntity monster, DamageType type) {
-		if (type == DamageType.REGULAR_MELEE && isHoldingItem())
-			onSelfKill(monster, type);
-	}
-	
-	
-	@Override
 	public boolean matchesItem(ItemStack toMatch) {
 		if (toMatch == null) return false;
 		return getItem().isSimilar(toMatch);
@@ -43,16 +29,20 @@ public abstract class AbstractCooldownItem extends AbstractCooldown implements K
 		return (matchesItem(dwarf.getHeldItem()));
 	}
 	
+	protected boolean itemCausedDamage(MonsterDamage damage) {
+		return (damage.getType() == NaturalDamageType.MELEE && isHoldingItem());
+	}
+	
+	@Override
+	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {return false;}
+	
+	@Override
+	public void onBlockBreak(Block block) {}
+	
 	@Override
 	public ItemStack getCooldownToggleItem() {
 		return getItem().createItemStack();
 	}
-	
-	
-	@Override public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) { return false; }
-	@Override public void onBlockBreak(Block block) {}
-	public double onSelfHit(GameEntity monster, DamageType type, double damage) {return damage;}
-	public void onSelfKill(GameEntity monster, DamageType type) {}
 	
 	
 }

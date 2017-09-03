@@ -113,6 +113,6 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 	}
 	
 	public void remove() {
-		damage(null, CustomDamageType.AI_REMOVER, 10000, new DamageModifier().setInstaKill(true));
+		damage(null, CustomDamageType.AI_REMOVER, 10000, new DamageModifier().instaKill());
 	}
 }

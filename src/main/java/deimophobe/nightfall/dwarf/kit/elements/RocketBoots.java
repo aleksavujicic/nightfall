@@ -13,7 +13,7 @@ import org.bukkit.util.Vector;
  */
 class RocketBoots extends AbstractCooldown {
 	public RocketBoots(Dwarf dwarf) {
-		super(dwarf, 30*20);
+		super(dwarf, 60*20);
 	}
 	
 	@Override

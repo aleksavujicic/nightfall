@@ -1,7 +1,8 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitBow;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
@@ -21,22 +22,16 @@ public abstract class AbstractBow extends AbstractItem implements KitBow {
 	public KitGiveType getGiveType() { return KitGiveType.BOW; }
 	
 	@Override
-	public double onHit(GameEntity monster, DamageType type, double damage) {
-		if (type == DamageType.REGULAR_RANGED)
-			return onSelfHit(monster, type, damage);
-		else
-			return damage;
+	public void onDamageAttack(MonsterDamage damage) {
+		if (damageFromItem(damage))
+			damage.setDamage(getPower());
 	}
 	
 	@Override
-	public double onSelfHit(GameEntity monster, DamageType type, double damage) {
-		return getPower();
-	}
-	
-	@Override
-	public void onKill(GameEntity monster, DamageType type) {
-		if (type == DamageType.REGULAR_RANGED)
-			onSelfKill(monster, type);
+	protected boolean damageFromItem(MonsterDamage damage) {
+		return (damage.getType() == NaturalDamageType.RANGED &&
+				damage.hasArrowData() &&
+				belongsToBow(damage.arrowData().getArrow()));
 	}
 	
 	

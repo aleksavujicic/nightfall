@@ -1,7 +1,7 @@
 package deimophobe.nightfall.damage;
 
+import deimophobe.nightfall.damage.type.GameDamageType;
 import deimophobe.nightfall.entity.GameEntity;
-import org.bukkit.ChatColor;
 
 /**
  * Created by Deimophobe on 17/07/17.
@@ -9,11 +9,11 @@ import org.bukkit.ChatColor;
 public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 	private final GameEntity attacker;
 	private final GameEntity receiver;
-	private final DamageType type;
+	private final GameDamageType type;
 	private final long time;
 	private final String itemName;
 	
-	public DamageOccurance(GameEntity attacker, GameEntity receiver, DamageType type, long time, String itemName) {
+	public DamageOccurance(GameEntity attacker, GameEntity receiver, GameDamageType type, long time, String itemName) {
 		this.attacker = attacker;
 		this.receiver = receiver;
 		this.type = type;
@@ -22,6 +22,7 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 	}
 	
 	public String generateDeathMessage() {
+		/*
 		String name = receiver.getDisplayName();
 		
 		if (type == null) return name + " died.";
@@ -102,7 +103,8 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 			return name + " was " + killMsg + " by " + damagerName + " using " + itemName + ".";
 		else
 			return name + " was " + killMsg + " by " + damagerName + ".";
-		
+		*/
+		return null;
 	}
 	
 	/*

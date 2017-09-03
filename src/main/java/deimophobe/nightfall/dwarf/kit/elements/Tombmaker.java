@@ -1,9 +1,9 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.Game;
-import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
@@ -34,8 +34,8 @@ class Tombmaker extends AbstractCooldownItem {
 	
 	
 	@Override
-	public void onKill(GameEntity monster, DamageType type) {
-		if (type == DamageType.REGULAR_MELEE && dwarf.hasProc() && isHoldingItem())
+	public void onKill(MonsterDamage damage) {
+		if (itemCausedDamage(damage) && dwarf.hasProc())
 			dwarf.giveProc(ProcType.REGULAR);
 	}
 	

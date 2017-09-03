@@ -1,6 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.items.CustomItem;
@@ -18,9 +18,10 @@ class JimmyJuice extends AbstractAle {
 	@Override public CustomItem getItem() { return ITEM; }
 	
 	@Override
-	public void onLateGotHit(GameEntity monster, DamageType type, double damage) {
+	public void damageNotify(DwarfDamage damage) {
+		super.damageNotify(damage);
 		double health = dwarf.getPlayer().getHealth();
-		if (health - damage <= 0.1 || health <= 16) {
+		if (health - damage.getCurrentDamage() <= 0.1 || health <= 16) {
 			if (dwarf.tryUseMana(120)) {
 				heal();
 			}

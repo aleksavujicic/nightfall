@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitElement;
 
@@ -16,17 +17,19 @@ public class AbstractElement implements KitElement {
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {}
 	
-	@Override
-	public double onHit(GameEntity monster, DamageType type, double damage) {return damage;}
 	
 	@Override
-	public double onGotHit(GameEntity monster, DamageType type, double damage) {return damage;}
+	public void onDamageAttack(MonsterDamage damage) {}
 	
 	@Override
-	public void onLateGotHit(GameEntity monster, DamageType type, double damage) {}
+	public void onKill(MonsterDamage damage) {}
 	
 	@Override
-	public void onKill(GameEntity monster, DamageType type) {}
+	public void onDamageReceive(DwarfDamage damage) {}
+	
+	@Override
+	public void damageNotify(DwarfDamage damage) {}
+	
 	
 	@Override
 	public void onShift(boolean sneaking) {}

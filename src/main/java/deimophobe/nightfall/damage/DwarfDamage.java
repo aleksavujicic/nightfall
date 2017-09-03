@@ -24,8 +24,8 @@ public class DwarfDamage extends GameDamage<MonsterEntity, Dwarf> {
 	public void addManaDrain(int manaDrain) {this.manaDrain += manaDrain;}
 	public void multiplyManaDrain(double multiply) {this.manaDrain *= multiply;}
 	
-	DwarfDamage(EntityDamageEvent event, MonsterEntity attacker, Dwarf receiver, GameDamageType type, double damage, Projectile arrow) {
-		super(event, attacker, receiver, type, damage, arrow);
+	DwarfDamage(MonsterEntity attacker, Dwarf receiver, GameDamageType type, double damage, Projectile arrow) {
+		super(attacker, receiver, type, damage, arrow);
 	}
 	
 	public MonsterEntity getMonster() {
@@ -37,15 +37,14 @@ public class DwarfDamage extends GameDamage<MonsterEntity, Dwarf> {
 	}
 	
 	@Override
-	public void fire() {
+	void notifyEntities() {
 		attacker.onDamageAttack(this);
 		receiver.onDamageReceive(this);
-		applyDamage();
 	}
 	
 	@Override
-	protected boolean applyDamage() {
-		boolean successful = super.applyDamage();
+	boolean applyDamage(EntityDamageEvent event) {
+		boolean successful = super.applyDamage(event);
 		
 		if (successful) {
 			receiver.getArmour().damage(manaDrain);

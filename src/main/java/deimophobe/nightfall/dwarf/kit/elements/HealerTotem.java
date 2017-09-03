@@ -1,13 +1,13 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.items.CustomItem;
-import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -59,18 +59,9 @@ class HealerTotem extends AbstractItem {
 	}
 	
 	@Override
-	public double onSelfHit(GameEntity entity, DamageType type, double damage) {
-		if (entity instanceof AIEntity)
-			damage *= 2.5;
-		return damage;
-	}
-	
-	@Override
-	public double onGotHit(GameEntity entity, DamageType type, double damage) {
-		if (groupHealingActive && type == DamageType.FALL) return -1;
-		if (groupHealingActive) return damage*2;
-		
-		return damage;
+	public void onDamageReceive(DwarfDamage damage) {
+		if (groupHealingActive && damage.getType() == NaturalDamageType.FALL) damage.cancel();
+		else if (groupHealingActive) damage.multiplyDamage(2);
 	}
 	
 	@Override

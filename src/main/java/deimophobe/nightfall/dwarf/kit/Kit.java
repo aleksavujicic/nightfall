@@ -2,12 +2,10 @@ package deimophobe.nightfall.dwarf.kit;
 
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractBow;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.dwarf.loadout.DwarfData;
-import deimophobe.nightfall.entity.GameEntity;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
@@ -93,9 +91,9 @@ public class Kit {
 		}
 	}
 	
-	public void onKill(GameEntity monster, GameDamageType type) {
+	public void onKill(MonsterDamage damage) {
 		for (KitElement item : kitElements.values()) {
-			item.onKill(monster, type);
+			item.onKill(damage);
 		}
 	}
 	

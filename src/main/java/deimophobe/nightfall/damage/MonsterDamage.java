@@ -23,8 +23,8 @@ public class MonsterDamage extends GameDamage<Dwarf, MonsterEntity> {
 	public void multiplyArrowRes(double mult) { this.arrowRes *= mult; }
 	public void removeArrowRes() { this.arrowRes = 0; }
 	
-	public MonsterDamage(EntityDamageEvent event, Dwarf attacker, MonsterEntity receiver, GameDamageType type, double damage, Projectile arrow) {
-		super(event, attacker, receiver, type, damage, arrow);
+	public MonsterDamage(Dwarf attacker, MonsterEntity receiver, GameDamageType type, double damage, Projectile arrow) {
+		super(attacker, receiver, type, damage, arrow);
 	}
 	
 	public Dwarf getDwarf() {
@@ -36,20 +36,19 @@ public class MonsterDamage extends GameDamage<Dwarf, MonsterEntity> {
 	}
 	
 	@Override
-	public void fire() {
+	void notifyEntities() {
 		attacker.onDamageAttack(this);
 		receiver.onDamageReceive(this);
-		applyDamage();
 	}
 	
 	@Override
-	protected boolean applyDamage() {
+	boolean applyDamage(EntityDamageEvent event) {
 		if (proc) instaKill();
 		
 		if (type == NaturalDamageType.RANGED || type == CustomDamageType.EBOW)
 			multiplyDamage(1 - arrowRes);
 		
-		boolean successful = super.applyDamage();
+		boolean successful = super.applyDamage(event);
 		
 		if (receiver.getHealth() - damage <= 0.1) {
 			
@@ -60,7 +59,8 @@ public class MonsterDamage extends GameDamage<Dwarf, MonsterEntity> {
 			}
 			
 			// Notify dwarf if there is one
-			attacker.onKill(receiver, type);
+			if (attacker != null)
+				attacker.onKill(this);
 		}
 		
 		return successful;

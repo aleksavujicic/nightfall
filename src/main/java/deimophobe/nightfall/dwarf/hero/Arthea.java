@@ -5,12 +5,16 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.*;
 import com.comphenix.protocol.wrappers.WrappedWatchableObject;
-import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.Hat;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Skin;
+import deimophobe.nightfall.damage.DamageModifier;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -52,7 +56,7 @@ public class Arthea extends Hero {
 		if (!isEnraged())
 			super.updateManaBar();
 		else
-			entity.setLevel(enrageTimer/20);
+			player.setLevel(enrageTimer/20);
 	}
 	
 	@Override
@@ -65,7 +69,7 @@ public class Arthea extends Hero {
 				frac = 1 - (float) (enrageTimer - ENRAGE_DURATION)/ENRAGE_TRANSITION_DURATION;
 			else
 				frac = (float) enrageTimer/ENRAGE_DURATION;
-			entity.setExp(frac);
+			player.setExp(frac);
 		}
 	}
 	
@@ -99,39 +103,45 @@ public class Arthea extends Hero {
 		}
 	}
 	
+	/* TODO
 	@Override
 	protected void mobspawnDamage() {
 		if (!isEnraged())
 			super.mobspawnDamage();
 	}
+	*/
 	
 	@Override
-	public double onGotHit(GameEntity entity, DamageType type, double damage) {
-		if (type == DamageType.VOID)
-			return damage;
+	public void onDamageReceive(DwarfDamage damage) {
+		if (damage.getType() == NaturalDamageType.VOID) {
+			
+			return;
+		}
 			
 		if (isEnraged() && enrageTimer != 0) {
-			if (entity instanceof AIEntity)
-				entity.customDamage(this, DamageType.TEMPORARY, 1000);
-			return -1;
+			MonsterEntity monster = damage.getMonster();
+			if (monster instanceof AIEntity)
+				monster.damage(this, CustomDamageType.TEMPORARY, 1000, new DamageModifier().instaKill());
+			
+			damage.cancel();
 		}
 		
-		double dmg = super.onGotHit(entity, type, damage);
-		if (getHealth() - dmg <= 0.1 && !isEnraged()) {
+		 super.onDamageReceive(damage);
+		if (getHealth() - damage.getCurrentDamage() <= 0.1 && !isEnraged()) {
 			startTransition();
-			return 0;
+			damage.setDamage(0);
 		}
-		return dmg;
 	}
 	
 	@Override
 	public void notifyDeath(Dwarf dwarf) {
 		if (dwarf == this) {
-			entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
+			player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
 			//cancelGlow();
 		}
 	}
 	
+	/* TODO
 	@Override
 	public String generateDeathMessage() {
 		if (isEnraged())
@@ -139,6 +149,7 @@ public class Arthea extends Hero {
 		else
 			return super.generateDeathMessage();
 	}
+	*/
 	
 	private static final int ENRAGE_TRANSITION_DURATION = 10*20;
 	private static final int ENRAGE_DURATION = 60*20;
@@ -159,14 +170,14 @@ public class Arthea extends Hero {
 		//super.givePotionEffect(PotionEffectType.SLOW_DIGGING, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
 		super.givePotionEffect(PotionEffectType.BLINDNESS, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
 		
-		entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
+		player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
 		
 		setTitle(ChatColor.DARK_PURPLE, "Arthea", true);
 		PlayerDisguise disguise = Skin.getSkin("arthea").getDisguise(ChatColor.DARK_PURPLE + "Arthea");
 		disguise.setKeepDisguiseOnPlayerDeath(false);
 		disguise.setViewSelfDisguise(false);
 		disguise.setDisplayedInTab(true);
-		DisguiseAPI.disguiseEntity(entity, disguise);
+		DisguiseAPI.disguiseEntity(player, disguise);
 	}
 	
 	private void startEnrage() {
@@ -176,14 +187,14 @@ public class Arthea extends Hero {
 		super.givePotionEffect(PotionEffectType.FIRE_RESISTANCE, ENRAGE_DURATION, 1, true, false, true);
 		super.givePotionEffect(PotionEffectType.JUMP, ENRAGE_DURATION, 3, true, false, true);
 		
-		customDamage(null, DamageType.GENERIC_MAGIC, 10);
+		damage(null, CustomDamageType.TEMPORARY, 10);
 		
-		PlayerInventory inv = entity.getInventory();
+		PlayerInventory inv = player.getInventory();
 		inv.clear();
 		
 		Hat.ARTHEA.putOn(this);
 		giveKitItems(KitGiveType.ARTHEA_SPECIAL);
-		entity.getInventory().setHeldItemSlot(0);
+		player.getInventory().setHeldItemSlot(0);
 		
 		//makeMobsGlow();
 	}
@@ -201,7 +212,7 @@ public class Arthea extends Hero {
 		glower = new PacketAdapter(NightfallPlugin.getPlugin(), ListenerPriority.HIGHEST, PacketType.Play.Server.ENTITY_METADATA) {
 			@Override
 			public void onPacketSending(PacketEvent event) {
-				if (event.getPlayer() != entity) return;
+				if (event.getPlayer() != player) return;
 				PacketContainer packet = event.getPacket();
 				int id = packet.getIntegers().read(0);
 				if (!mobIDs.contains(id)) return;

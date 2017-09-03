@@ -1,9 +1,11 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
+import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -24,6 +26,7 @@ class Longbow extends AbstractBow implements KitCooldownElement {
 	private static final int PLAYER_STACK_GAIN = 3;
 	private static final int MAX_STACKS = 25;
 	private static final int STACK_LOSS = 5;
+	private static final double DMG_PER_STACK = 6;
 	
 	
 	Longbow(Dwarf dwarf) {
@@ -39,21 +42,35 @@ class Longbow extends AbstractBow implements KitCooldownElement {
 	@Override public String getBowIdentifier() {return "LONGBOW";}
 	@Override public int getPower() {return POWER;}
 	
+	
+	
 	@Override
-	public double onSelfHit(GameEntity monster, DamageType type, double damage) {
-		return getPower() + stacks*6;
+	public void onDamageAttack(MonsterDamage damage) {
+		super.onDamageAttack(damage);
+		if (damageFromItem(damage)) {
+			damage.addDamage(stacks*DMG_PER_STACK);
+		}
 	}
 	
 	@Override
-	public void onSelfKill(GameEntity monster, DamageType type) {
-		if (monster instanceof MonsterPlayer)
-			stacks += PLAYER_STACK_GAIN;
-		else if (monster instanceof AIEntity)
-			stacks += AI_STACK_GAIN;
-		
-		if (stacks > MAX_STACKS) stacks = MAX_STACKS;
-		
-		stackCD = MAX_STACK_CD;
+	public void onDamageReceive(DwarfDamage damage) {
+		super.onDamageReceive(damage);
+	}
+	
+	@Override
+	public void onKill(MonsterDamage damage) {
+		super.onKill(damage);
+		if (damageFromItem(damage)) {
+			MonsterEntity monster = damage.getMonster();
+			if (monster instanceof MonsterPlayer)
+				stacks += PLAYER_STACK_GAIN;
+			else if (monster instanceof AIEntity)
+				stacks += AI_STACK_GAIN;
+			
+			if (stacks > MAX_STACKS) stacks = MAX_STACKS;
+			
+			stackCD = MAX_STACK_CD;
+		}
 	}
 	
 	@Override

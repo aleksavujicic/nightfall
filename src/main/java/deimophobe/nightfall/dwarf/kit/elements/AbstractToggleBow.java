@@ -24,6 +24,7 @@ public abstract class AbstractToggleBow extends AbstractBow {
 		arrow = super.onBowFire(arrow, force);
 		if (active) {
 			arrow.setMetadata(ARROW_METADATA_KEY, new FixedMetadataValue(NightfallPlugin.getPlugin(), true));
+			arrow.setGlowing(true);
 		}
 		return arrow;
 	}

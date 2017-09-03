@@ -1,6 +1,5 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
@@ -38,6 +37,7 @@ abstract class AbstractAle extends AbstractItem {
 		return false;
 	}
 	
+	/*
 	@Override
 	public double onSelfHit(GameEntity monster, DamageType type, double damage) {
 		if (isOffCD() && dwarf.tryUseMana(manaCost)) {
@@ -46,6 +46,7 @@ abstract class AbstractAle extends AbstractItem {
 		}
 		return damage;
 	}
+	*/
 	
 	protected void heal() {
 		dwarf.healMax();

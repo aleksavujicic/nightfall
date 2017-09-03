@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -82,7 +83,7 @@ class Ebow extends AbstractBow {
 				
 				// If close enough damage mob
 				if (radialOffset <= THICKNESS) {
-					monster.customDamage(dwarf, DamageType.EBOW, getPower()*force);
+					monster.damage(dwarf, CustomDamageType.EBOW, getPower()*force);
 				}
 			}
 		}

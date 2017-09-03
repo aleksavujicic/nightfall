@@ -22,8 +22,8 @@ public class DamageModifier {
 		return this;
 	}
 	
-	public DamageModifier addKnockback(double x, double y, double z) {
-		return addKnockback(new Vector(x,y,z));
+	public DamageModifier setKnockback(double x, double y, double z) {
+		return setKnockback(new Vector(x,y,z));
 	}
 	
 	public DamageModifier addKnockback(Vector knockback) {
@@ -32,18 +32,22 @@ public class DamageModifier {
 		return this;
 	}
 	
-	public DamageModifier setCancelled(boolean cancelled) {
-		this.cancelled = cancelled;
+	public DamageModifier addKnockback(double x, double y, double z) {
+		return addKnockback(new Vector(x,y,z));
+	}
+	
+	public DamageModifier cancel() {
+		this.cancelled = true;
 		return this;
 	}
 	
-	public DamageModifier setForce(boolean force) {
-		this.force = force;
+	public DamageModifier force() {
+		this.force = true;
 		return this;
 	}
 	
-	public DamageModifier setInstaKill(boolean instaKill) {
-		this.instaKill = instaKill;
+	public DamageModifier instaKill() {
+		this.instaKill = true;
 		return this;
 	}
 	

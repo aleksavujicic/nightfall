@@ -17,9 +17,6 @@ import org.bukkit.util.Vector;
  * Created by Deimophobe on 6/05/17.
  */
 public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
-	/** The event which caused this game damage. */
-	protected final EntityDamageEvent event;
-	
 	/** The type of damage. */
 	protected final GameDamageType type;
 	/** The GameEntity which initiated the damage. */
@@ -70,35 +67,22 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 	
 	
 	
-	static <B extends GameEntity,S extends GameEntity> GameDamage createDamage(
-			B attacker, S receiver, GameDamageType type, double damage) {
-		return createDamage(null, attacker, receiver, type, damage, null);
-	}
-	
-	static <B extends GameEntity,S extends GameEntity> GameDamage createDamage(
-			B attacker, S receiver, GameDamageType type, double damage, Projectile arrow) {
-		return createDamage(null, attacker, receiver, type, damage, arrow);
-	}
-	
-	static <B extends GameEntity,S extends GameEntity> GameDamage createDamage(
-			EntityDamageEvent event, B attacker, S receiver, GameDamageType type, double damage) {
-		return createDamage(event, attacker, receiver, type, damage, null);
+	static <B extends GameEntity,S extends GameEntity> GameDamage createDamage(B attacker, S receiver, GameDamageType type, double damage) {
+		return createDamage(attacker, receiver, type, damage, null);
 	}
 	
 	
-	static <B extends GameEntity,S extends GameEntity> GameDamage createDamage(EntityDamageEvent event, B attacker, S receiver, GameDamageType type, double damage, Projectile arrow) {
+	static <B extends GameEntity,S extends GameEntity> GameDamage createDamage(B attacker, S receiver, GameDamageType type, double damage, Projectile arrow) {
 		if ((attacker == null || attacker instanceof Dwarf) && receiver instanceof MonsterEntity) {
-			return new MonsterDamage(event, (Dwarf) attacker, (MonsterEntity) receiver, type, damage, arrow);
+			return new MonsterDamage((Dwarf) attacker, (MonsterEntity) receiver, type, damage, arrow);
 		} else if ((attacker == null || attacker instanceof MonsterEntity) && receiver instanceof Dwarf) {
-			return new DwarfDamage(event, (MonsterEntity) attacker, (Dwarf) receiver, type, damage, arrow);
+			return new DwarfDamage((MonsterEntity) attacker, (Dwarf) receiver, type, damage, arrow);
 		} else {
 			throw new IllegalArgumentException("Game damage must have attacker/receiver be dwarf/monster or monster/dwarf.");
 		}
 	}
 	
-	protected GameDamage(EntityDamageEvent event, A attacker, R receiver, GameDamageType type, double damage, Projectile arrow) {
-		this.event = event;
-		
+	protected GameDamage(A attacker, R receiver, GameDamageType type, double damage, Projectile arrow) {
 		this.type = type;
 		this.attacker = attacker;
 		this.receiver = receiver;
@@ -143,10 +127,10 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		return damage;
 	}
 	
-	public abstract void fire();
+	abstract void notifyEntities();
 	
 	private static final double INSTA_KILL_DMG = 100000;
-	protected boolean applyDamage() {
+	boolean applyDamage(EntityDamageEvent event) {
 		if (applied) throw new IllegalStateException("Attempted to get final damage even though already accessed.");
 		
 		if (hasArrowData()) {

@@ -1,10 +1,13 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.damage.DamageModifier;
+import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -67,7 +70,7 @@ class Tinderflame extends AbstractCooldownItem {
 			
 			// Do damage
 			if (success) {
-				monster.customDamage(dwarf, DamageType.TINDERFLAME, 50, true);
+				monster.damage(dwarf, CustomDamageType.TINDERFLAME, 25, new DamageModifier().force());
 				dwarf.playSound("entity.experience_orb.pickup", 1, 2, true);
 				
 				World world = dwarf.getLocation().getWorld();
@@ -88,9 +91,9 @@ class Tinderflame extends AbstractCooldownItem {
 	}
 	
 	@Override
-	public double onHit(GameEntity monster, DamageType type, double damage) {
-		if (monster instanceof AIEntity && type == DamageType.REGULAR_MELEE) return damage + 35;
-		else return damage;
+	public void onDamageAttack(MonsterDamage damage) {
+		if (damage.getMonster() instanceof AIEntity)
+			damage.instaKill();
 	}
 	
 	@Override

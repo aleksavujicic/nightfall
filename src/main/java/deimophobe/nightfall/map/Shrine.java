@@ -120,7 +120,7 @@ public class Shrine {
 				mobsOnShrine++;
 			} else if (shrineProtection.containsPlayer(monster)) {
 				if (!monster.getMob().isShrineImmune()) {
-					monster.damage(null, CustomDamageType.SHRINE_PROTECTION, 10000, new DamageModifier().setInstaKill(true));
+					monster.damage(null, CustomDamageType.SHRINE_PROTECTION, 10000, new DamageModifier().instaKill());
 					Location loc = monster.getLocation();
 					loc.getWorld().strikeLightningEffect(loc);
 				}

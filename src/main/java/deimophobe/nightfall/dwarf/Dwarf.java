@@ -461,8 +461,8 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		kit.updateHotbarSlot(heldItem);
 	}
 	
-	public void onKill(GameEntity monster, GameDamageType type) {
-		kit.onKill(monster, type);
+	public void onKill(MonsterDamage damage) {
+		kit.onKill(damage);
 	}
 	
 	

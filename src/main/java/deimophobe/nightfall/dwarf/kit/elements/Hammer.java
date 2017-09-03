@@ -1,5 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -34,15 +36,15 @@ class Hammer extends AbstractAOEHitter implements KitCooldownElement {
 	private static final int MAX_CD = 40;
 	
 	@Override
-	public double onHit(GameEntity monster, DamageType type, double damage) {
+	public void onDamageAttack(MonsterDamage damage) {
+		super.onDamageAttack(damage);
 		cooldown = 0;
-		return super.onHit(monster, type, damage);
 	}
 	
 	@Override
-	public double onGotHit(GameEntity monster, DamageType type, double damage) {
+	public void onDamageReceive(DwarfDamage damage) {
+		super.onDamageReceive(damage);
 		cooldown = 0;
-		return super.onGotHit(monster, type, damage);
 	}
 	
 	@Override

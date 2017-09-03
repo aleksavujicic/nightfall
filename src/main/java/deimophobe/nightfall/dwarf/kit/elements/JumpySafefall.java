@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
@@ -14,11 +15,10 @@ public class JumpySafefall extends AbstractCooldown {
 	}
 	
 	@Override
-	public double onGotHit(GameEntity monster, DamageType type, double damage) {
-		if (type == DamageType.FALL) {
-			damage *= 0.1;
-		}
-		return damage;
+	public void onDamageReceive(DwarfDamage damage) {
+		super.onDamageReceive(damage);
+		if (damage.getType() == NaturalDamageType.FALL)
+			damage.multiplyDamage(0.1);
 	}
 	
 	@Override

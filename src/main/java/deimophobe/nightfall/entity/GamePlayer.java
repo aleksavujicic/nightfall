@@ -1,5 +1,7 @@
 package deimophobe.nightfall.entity;
 
+import deimophobe.nightfall.damage.DamageModifier;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.items.CustomItem;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.ChatColor;
@@ -205,6 +207,11 @@ public abstract class GamePlayer implements GameEntity<Player> {
 			}
 		}
 		return closestPlayer;
+	}
+	
+	@Deprecated
+	public void forceKill() {
+		damage(null, CustomDamageType.TEMPORARY, 1, new DamageModifier().instaKill());
 	}
 	
 	// Abstract methods

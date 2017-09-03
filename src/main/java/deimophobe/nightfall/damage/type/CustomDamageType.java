@@ -26,7 +26,12 @@ public enum CustomDamageType implements GameDamageType {
 	
 	MINOTAUR_CHARGE,
 	WRAITH_CHARGE,
-	 
+	
+	BLOOD_MAGIC, // Current for arthea's teleport
+	
+	
+	// Misc
+	COMMAND,
 	
 	@Deprecated
 	TEMPORARY

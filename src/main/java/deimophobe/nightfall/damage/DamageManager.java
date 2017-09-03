@@ -6,6 +6,7 @@ import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
@@ -25,19 +26,20 @@ public class DamageManager {
 	
 	public DamageManager() {}
 	
+	private GameDamage lastUsedCustomDamage = null;
+	
 	public void customDamage(GameEntity attacker, GameEntity receiver, CustomDamageType type, double damage) {
 		customDamage(attacker, receiver, type, damage, new DamageModifier());
 	}
 	
 	public void customDamage(GameEntity attacker, GameEntity receiver, CustomDamageType type, double damage, DamageModifier modifier) {
-		// Kinda a hack but eh im sick of this
-		EntityDamageEvent event = new EntityDamageEvent(receiver.getEntity(), EntityDamageEvent.DamageCause.CUSTOM, damage);
-		GameDamage gameDamage = GameDamage.createDamage(event, attacker, receiver, type, damage);
+		GameDamage gameDamage = GameDamage.createDamage(attacker, receiver, type, damage);
 		modifier.applyToDamage(gameDamage);
-		gameDamage.fire();
 		
-		if (!event.isCancelled())
-			receiver.getEntity().damage(event.getDamage());
+		if (lastUsedCustomDamage != null) {
+			Bukkit.getLogger().severe("Last damage used was not null!?");
+		}
+		
 	}
 	
 	public void processDamageEvent(EntityDamageEvent event) {
@@ -45,9 +47,16 @@ public class DamageManager {
 		NaturalDamageType type;
 		
 		switch (event.getCause()) {
-			// Already processed
-			case CUSTOM:
+			case CUSTOM: {
+				if (lastUsedCustomDamage == null) {
+					throw new IllegalStateException("Custom damage called but none stored in damage manager?");
+				}
+				GameDamage damage = lastUsedCustomDamage;
+				lastUsedCustomDamage = null;
+				damage.notifyEntities();
+				damage.applyDamage(event);
 				return;
+			}
 				
 			default:
 				throw new IllegalArgumentException("Cannot create GameDamage with event cause " + event.getCause());
@@ -61,13 +70,20 @@ public class DamageManager {
 					return;
 				} // TODO Move to AIEntity
 				
-				GameDamage.createDamage(event, damager, damagee, NaturalDamageType.MELEE, event.getDamage()).fire();
+				GameDamage damage = GameDamage.createDamage(damager, damagee, NaturalDamageType.MELEE, event.getDamage());
+				damage.notifyEntities();
+				damage.applyDamage(event);
+				return;
 			}
 			
 			case PROJECTILE: {
 				Projectile proj = (Projectile) ((EntityDamageByEntityEvent) event).getDamager();
 				GameEntity damager = Game.getGame().getGameEntity((Entity) proj.getShooter());
-				GameDamage.createDamage(event, damager, damagee, NaturalDamageType.RANGED, event.getDamage(), proj).fire();
+				
+				GameDamage damage = GameDamage.createDamage(damager, damagee, NaturalDamageType.RANGED, event.getDamage(), proj);
+				damage.notifyEntities();
+				damage.applyDamage(event);
+				return;
 			}
 			
 				
@@ -92,9 +108,10 @@ public class DamageManager {
 				type = NaturalDamageType.VOID;
 				break;
 		}
-		GameDamage damage = GameDamage.createDamage(event, null, damagee, type, event.getDamage());
-		type.applyDamage(damage);
-		damage.fire();
+		GameDamage damage = GameDamage.createDamage(null, damagee, type, event.getDamage());
+		type.applyDamage(damage); // TODO change to modifier
+		damage.notifyEntities();
+		damage.applyDamage(event);
 	}
 	
 	
@@ -125,16 +142,9 @@ public class DamageManager {
 			
 			double damage = damageFunction.apply(offset);
 			Vector knockback = knockbackFunction.apply(offset);
+			modifier.addKnockback(knockback);
 			
-			// WHY THIS SO UGLY
-			EntityDamageEvent event = new EntityDamageEvent(receiver.getEntity(), EntityDamageEvent.DamageCause.CUSTOM, damage);
-			GameDamage gameDamage = GameDamage.createDamage(event, attacker, receiver, type, damage);
-			gameDamage.setKnockback(knockback);
-			modifier.applyToDamage(gameDamage);
-			gameDamage.fire();
-			
-			if (!event.isCancelled())
-				receiver.getEntity().damage(event.getDamage());
+			customDamage(attacker, receiver, type, damage, modifier);
 		}
 	}
 }

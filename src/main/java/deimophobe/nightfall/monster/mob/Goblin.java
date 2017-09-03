@@ -99,7 +99,7 @@ class Goblin extends AbstractMob {
 	}
 	
 	private void kaboom() {
-		monster.damage(null, CustomDamageType.SELF_GOBO_KABOOM, 10000, new DamageModifier().setInstaKill(true));
+		monster.damage(null, CustomDamageType.SELF_GOBO_KABOOM, 10000, new DamageModifier().instaKill());
 		
 		Location loc = monster.getLocation();
 		World world = monster.getLocation().getWorld();

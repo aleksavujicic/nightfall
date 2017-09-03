@@ -1,11 +1,13 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.damage.DamageModifier;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterManager;
 import minecraft.spigot.community.michel_0.api.Slot;
@@ -89,7 +91,7 @@ class Wildfire extends AbstractItem {
 					// Damage mobs
 					for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
 						if (monster.getEyeLocation().distance(position) <= FLAME_RADIUS)
-							monster.customDamage(dwarf, DamageType.WILDFIRE, FLAME_DPT*FLAME_DELAY, true);
+							monster.damage(dwarf, CustomDamageType.WILDFIRE, FLAME_DPT*FLAME_DELAY, new DamageModifier().force());
 					}
 					
 					if (lifeLeft <= 0) this.cancel();
