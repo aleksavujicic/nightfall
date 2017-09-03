@@ -39,7 +39,7 @@ public class DamageManager {
 		}
 		
 		lastUsedCustomDamage = gameDamage;
-		receiver.getEntity().damage(1);
+		receiver.getEntity().damage(100000);
 	}
 	
 	public void processDamageEvent(EntityDamageEvent event) {
@@ -130,7 +130,7 @@ public class DamageManager {
 	
 	public void AOEDamage(Collection<? extends GameEntity> receivers, GameEntity attacker, CustomDamageType type, Location origin, double range, Function<Vector, Double> damageFunction, Function<Vector, Vector> knockbackFunction, DamageModifier modifier) {
 		for (GameEntity receiver : receivers) {
-			Vector offset = origin.subtract(receiver.getLocation()).toVector();
+			Vector offset = receiver.getLocation().subtract(origin).toVector();
 			if (offset.length() > range) continue;
 			
 			double damage = damageFunction.apply(offset);

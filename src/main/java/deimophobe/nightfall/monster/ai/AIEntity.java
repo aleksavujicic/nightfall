@@ -57,19 +57,15 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 	public void onDamageAttack(DwarfDamage damage) {
 		damage.setArmourShred(5);
 		damage.setDamage(12);
-		
-		/* TODO
-		if (entity instanceof MonsterPlayer) {
-			forceUpdateTarget();
-			return -1;
-		}
-		*/
 	}
 	
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		damage.multiplyDamage(0.3);
 		damage.setArrowRes(-2); // Kinda hacky? Makes sense tho
+		
+		if (damage.getAttacker() instanceof MonsterEntity)
+			damage.cancel();
 		
 	}
 	

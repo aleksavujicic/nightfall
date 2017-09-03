@@ -308,14 +308,6 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		if (mob != null) {
-			GameEntity attacker = damage.getAttacker();
-			if (attacker instanceof Dwarf)
-				mob.onDamageReceive(damage);
-			if (attacker instanceof AIEntity) {
-				((AIEntity) attacker).forceUpdateTarget();
-				damage.cancel();
-			}
-			
 			if (damage.getType() instanceof NaturalDamageType) {
 				switch ((NaturalDamageType) damage.getType()) {
 					case CONTACT:
@@ -326,6 +318,15 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 					case FALL:
 						damage.cancel();
 				}
+			}
+			
+			GameEntity attacker = damage.getAttacker();
+			
+			if (attacker instanceof Dwarf)
+				mob.onDamageReceive(damage);
+			if (attacker instanceof AIEntity) {
+				((AIEntity) attacker).forceUpdateTarget();
+				damage.cancel();
 			}
 		}
 	}

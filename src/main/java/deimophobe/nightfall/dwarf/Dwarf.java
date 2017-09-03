@@ -29,7 +29,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Map;
@@ -258,9 +257,9 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	public void updateVisibility() {
 		if (canSee()) {
-			player.removePotionEffect(PotionEffectType.BLINDNESS);
+			removePotionEffect(PotionEffectType.BLINDNESS);
 		} else {
-			player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0, true, false), true);
+			givePermanentPotionEffect(PotionEffectType.BLINDNESS, 0);
 		}
 	}
 	private boolean canSee() {
