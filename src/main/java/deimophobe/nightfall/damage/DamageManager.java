@@ -40,7 +40,7 @@ public class DamageManager {
 			Bukkit.getLogger().severe("Last damage used was not null!?");
 		}
 		
-		receiver.getEntity().damage(0);
+		receiver.getEntity().damage(1);
 	}
 	
 	public void processDamageEvent(EntityDamageEvent event) {
