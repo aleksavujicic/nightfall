@@ -4,6 +4,7 @@ import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
@@ -313,6 +314,18 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			if (attacker instanceof AIEntity) {
 				((AIEntity) attacker).forceUpdateTarget();
 				damage.cancel();
+			}
+			
+			if (damage.getType() instanceof NaturalDamageType) {
+				switch ((NaturalDamageType) damage.getType()) {
+					case CONTACT:
+					case DROWNING:
+					case FIRE:
+					case LAVA:
+					case MAGMA_BLOCK:
+					case FALL:
+						damage.cancel();
+				}
 			}
 		}
 	}
