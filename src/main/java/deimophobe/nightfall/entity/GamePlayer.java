@@ -214,6 +214,8 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		damage(null, CustomDamageType.TEMPORARY, 1, new DamageModifier().instaKill());
 	}
 	
+	public void onRemove() {}
+	
 	// Abstract methods
 	public abstract void updateHotbarSlot(ItemStack heldItem, int slot);
 	public abstract void onBlockBreak(Block block); // TODO: boolean for if broken

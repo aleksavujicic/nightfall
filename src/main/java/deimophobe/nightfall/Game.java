@@ -72,10 +72,12 @@ public class Game {
 	private final DwarfManager dwarfManager;
 	private final MonsterManager monsterManager;
 	private final DamageManager damageManager;
+	private final SkinManager skinManager;
 	
 	public DwarfManager getDwarfManager() {return dwarfManager;}
 	public MonsterManager getMonsterManager() {return monsterManager;}
 	public DamageManager getDamageManager() {return damageManager;}
+	public SkinManager getSkinManager() {return skinManager;}
 	
 	
 	private final Scoreboard scoreboard;
@@ -123,6 +125,7 @@ public class Game {
 		dwarfManager = new DwarfManager();
 		monsterManager = new MonsterManager();
 		damageManager = new DamageManager();
+		skinManager = new SkinManager();
 		NightfallPlugin.getPlugin().updateManagers();
 		
 		startLobby();
@@ -132,6 +135,7 @@ public class Game {
 		removeShrineBar();
 		dwarfManager.stop();
 		monsterManager.stop();
+		skinManager.stop();
 		GlobalUpgrade.reset();
 		TimedBlock.cancelAllBlocks();
 		

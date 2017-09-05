@@ -139,6 +139,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		if (gamePlayer == null) return false;
 		
 		if (reset) gamePlayer.resetPlayer();
+		gamePlayer.onRemove();
 		mcTeam.removeEntry(gamePlayer.getName());
 		Game.getGame().updateDwarfCount();
 		Bukkit.getLogger().info("Removing game player: " + gamePlayer.getName() + " from " + whoName);

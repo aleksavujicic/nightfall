@@ -2,6 +2,7 @@ package deimophobe.nightfall.dwarf.hero;
 
 import deimophobe.nightfall.Hat;
 import deimophobe.nightfall.Skin;
+import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.HeroArmour;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
@@ -12,7 +13,6 @@ import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
-import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -42,6 +42,14 @@ public class Hero extends Dwarf {
 		
 		giveKitItems(KitGiveType.PICK);
 		giveKitItems(KitGiveType.SHOVEL);
+		
+		SkinManager.getManager().addSkinChange(this, type.skin);
+	}
+	
+	@Override
+	public void onRemove() {
+		super.onRemove();
+		SkinManager.getManager().removeSkinChange(this);
 	}
 	
 	private void announceHero() {
@@ -166,6 +174,8 @@ public class Hero extends Dwarf {
 		
 		public DwarfData getData() {return data;}
 		
+		public Disguise getDisguise() { return null; }
+		/*
 		public Disguise getDisguise() {
 			PlayerDisguise disguise = skin.getDisguise(ChatColor.GOLD + nametag);
 			disguise.setKeepDisguiseOnPlayerDeath(false);
@@ -173,6 +183,7 @@ public class Hero extends Dwarf {
 			disguise.setDisplayedInTab(true);
 			return disguise;
 		}
+		*/
 		
 		public String getDescriptor() {
 			return descriptor;

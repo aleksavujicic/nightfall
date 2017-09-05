@@ -103,7 +103,7 @@ public abstract class AbstractMob implements Mob {
 	protected void setupPlayerDisguise(Skin skin, String name) {
 		Player player = monster.getPlayer();
 		
-		PlayerDisguise disguise = skin.getDisguise(name);
+		PlayerDisguise disguise = skin.getDisguise();
 		disguise.setDisplayedInTab(true);
 		disguise = disguise.setViewSelfDisguise(false);
 		disguise.getWatcher().setCustomNameVisible(false);
