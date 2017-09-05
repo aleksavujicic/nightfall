@@ -105,7 +105,7 @@ public class Hero extends Dwarf {
 				KitElementType.TUI_HAMMER,
 				KitElementType.WILDFIRE),
 		
-		NOSOVIN("Nosovin's Illustration", Hat.NOSOVIN, "tui", "Nosovin", "Dwarven Hero",
+		NOSOVIN("Nosovin's Illustration", Hat.NOSOVIN, "nosovin", "Nosovin", "Dwarven Hero",
 				KitElementType.TINDERFLAME,
 				KitElementType.WAND,
 				KitElementType.ROCKET_BOOTS),
@@ -121,7 +121,7 @@ public class Hero extends Dwarf {
 				KitElementType.HORN
 				),
 		
-		HERANA("Herana", Hat.HERANA, "herana", "Herana", "Mermaid Hero",
+		HERANA("Herana", Hat.HERANA, "herana", "Herana", "Mermaid Queen",
 				KitElementType.GRB,
 				KitElementType.DRAGONSKIN,
 				KitElementType.HORN
