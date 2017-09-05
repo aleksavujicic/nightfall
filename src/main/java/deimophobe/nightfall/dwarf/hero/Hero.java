@@ -101,33 +101,33 @@ public class Hero extends Dwarf {
 	}
 	
 	public enum Type {
-		TUI("Tui the Lightbringer", Hat.TUI, "tui", "Tui", "Dwarven Hero",
+		TUI("Tui the Lightbringer", Hat.TUI, "tui", "Dwarven Hero",
 				KitElementType.TUI_HAMMER,
 				KitElementType.WILDFIRE),
 		
-		NOSOVIN("Nosovin's Illustration", Hat.NOSOVIN, "nosovin", "Nosovin", "Dwarven Hero",
+		NOSOVIN("Nosovin's Illustration", Hat.NOSOVIN, "nosovin", "Dwarven Hero",
 				KitElementType.TINDERFLAME,
 				KitElementType.WAND,
 				KitElementType.ROCKET_BOOTS),
 		
-		ARTHEA("Arthea", Hat.ARTHEA, "arthea", "Arthea",  "Dwarven Hero", EXTRA_ARTHEA_CONSUMABLES,
+		ARTHEA("Arthea", Hat.ARTHEA, "arthea", "Dwarven Hero", EXTRA_ARTHEA_CONSUMABLES,
 				KitElementType.HEALER_TOTEM,
 				KitElementType.CADUCEUS,
 				KitElementType.ELYSTRIA),
 		
-		VELVETINE("Velvetine", Hat.VELVETINE, "velvetine", "Velvetine", "Dwarven Hero",
+		VELVETINE("Velvetine", Hat.VELVETINE, "velvetine", "Dwarven Hero",
 				KitElementType.GRB,
 				KitElementType.DRAGONSKIN,
 				KitElementType.HORN
 				),
 		
-		HERANA("Herana", Hat.HERANA, "herana", "Herana", "Mermaid Queen",
+		HERANA("Herana", Hat.HERANA, "herana", "Mermaid Queen",
 				KitElementType.GRB,
 				KitElementType.DRAGONSKIN,
 				KitElementType.HORN
 				),
 		
-		OXYSIS("Oxysis", Hat.VELVETINE, null, "Oxysis", "Pixie Hero",
+		OXYSIS("Oxysis", Hat.VELVETINE, "oxysis", "Pixie Hero",
 				KitElementType.GRB,
 				KitElementType.DRAGONSKIN,
 				KitElementType.HORN
@@ -147,14 +147,13 @@ public class Hero extends Dwarf {
 		
 		private final DwarfData data;
 		private final Skin skin;
-		private final String nametag;
 		private final String descriptor;
 		
-		Type(String title, Hat hat, String skin, String nametag, String descriptor, KitElementType... elements) {
-			this(title, hat, skin, nametag, descriptor, Collections.emptyMap(), elements);
+		Type(String title, Hat hat, String skin, String descriptor, KitElementType... elements) {
+			this(title, hat, skin, descriptor, Collections.emptyMap(), elements);
 		}
 		
-		Type(String title, Hat hat, String skin, String nametag, String descriptor, Map<ConsumableType, Integer> extraConsumables, KitElementType... elements) {
+		Type(String title, Hat hat, String skin, String descriptor, Map<ConsumableType, Integer> extraConsumables, KitElementType... elements) {
 			this.descriptor = descriptor;
 			Set<KitElementType> allElements = new HashSet<>();
 			allElements.add(KitElementType.HERO_ALE);
@@ -169,7 +168,6 @@ public class Hero extends Dwarf {
 				this.skin = null;
 			else
 				this.skin = Skin.getSkin(skin);
-			this.nametag = nametag;
 		}
 		
 		public DwarfData getData() {return data;}
