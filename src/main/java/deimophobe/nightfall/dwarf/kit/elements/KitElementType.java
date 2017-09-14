@@ -10,6 +10,8 @@ import java.util.Set;
  * Created by Deimophobe on 24/03/17.
  */
 public enum KitElementType {
+	TEST,
+	
 	DRB,
 	GRB,
 	AXE,
@@ -94,6 +96,9 @@ public enum KitElementType {
 	
 	public KitElement createElement(Dwarf dwarf) {
 		switch (this) {
+			case TEST: return new TestItem(dwarf);
+			
+			
 			case DRB: return new DwarvenRuneblade(dwarf);
 			case GRB: return new GreaterRuneblade(dwarf);
 			case AXE: return new AxeOfMalice(dwarf);

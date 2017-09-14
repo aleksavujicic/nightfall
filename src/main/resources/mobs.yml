@@ -607,3 +607,5 @@ plague-zombie:
 
 testmob:
   title: Tester
+
+  proccable: false

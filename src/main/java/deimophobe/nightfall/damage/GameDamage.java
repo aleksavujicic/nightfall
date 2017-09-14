@@ -183,4 +183,31 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		
 		return successful;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder extraString = new StringBuilder();
+		
+		if (instaKill)
+			extraString.append("Instakill, ");
+		
+		if (cancelled)
+			extraString.append("Cancelled, ");
+		
+		if (force)
+			extraString.append("Forced, ");
+		
+		if (hasArrow())
+			extraString.append("Has Arrow, ");
+		
+		if (instaKill || cancelled || force || hasArrow())
+			extraString.setLength(extraString.length() - 2);
+		
+		String attackerName = (attacker == null ? "NONE" : attacker.getName());
+		
+		return "GameDamage at " + time + " from " + attackerName + " to " + receiver.getName() + " of type: " + type + ". "
+				+ "DAMAGES - Base: " + baseDamage + " Boost: " + damageBooster + " Mult: " + damageMultiplier + ". "
+				+ (knockback != null ? "Knockback: " + knockback.length() + ". " : "")
+				+ "EXTRA - " + extraString.toString() + ". ";
+	}
 }
