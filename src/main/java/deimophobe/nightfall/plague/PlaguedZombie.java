@@ -29,7 +29,7 @@ public class PlaguedZombie extends AbstractMob {
 	@Override
 	public void onDamageReceive(MonsterDamage<? extends Dwarf> damage) {
 		if (damage.getType() == NaturalDamageType.POISON)
-			damage.multiplyDamage(0.2);
+			damage.timesMultiplier(0.2);
 	}
 	
 	@Override

@@ -474,11 +474,11 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
-		damage.multiplyDamage(1 - armour.getResistance());
+		damage.setMultiplier(1 - armour.getResistance());
 		
 		kit.onDamageReceive(damage);
 		
-		if (damage.getType() == NaturalDamageType.FALL && damage.getCurrentDamage() <= 0.2)
+		if (damage.getType() == NaturalDamageType.FALL && damage.getFinalDamage() <= 0.2)
 			damage.cancel();
 	}
 	

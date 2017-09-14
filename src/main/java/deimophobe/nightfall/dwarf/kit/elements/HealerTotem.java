@@ -61,7 +61,7 @@ class HealerTotem extends AbstractItem {
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
 		if (groupHealingActive && damage.getType() == NaturalDamageType.FALL) damage.cancel();
-		else if (groupHealingActive) damage.multiplyDamage(2);
+		else if (groupHealingActive) damage.timesMultiplier(2);
 	}
 	
 	@Override

@@ -3,6 +3,8 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
@@ -190,8 +192,9 @@ public abstract class AbstractMob implements Mob {
 			damage.cancel();
 		
 		if (!mobData.proccable) damage.setProc(false);
-		damage.setArrowRes(mobData.arrowRes);
-		damage.multiplyDamage(1 - mobData.damageRes);
+		damage.setMultiplier(1 - mobData.damageRes);
+		if (damage.getType() == NaturalDamageType.RANGED || damage.getType() == CustomDamageType.EBOW)
+			damage.timesMultiplier(1- mobData.arrowRes);
 	}
 	
 	@Override

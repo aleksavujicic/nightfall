@@ -3,6 +3,7 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -76,7 +77,7 @@ class Flamelancer extends SkeletonMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		if (damage.hasArrowData()) {
+		if (damage.getType() == NaturalDamageType.RANGED) {
 			damage.setArmourShred(10);
 		}
 	}

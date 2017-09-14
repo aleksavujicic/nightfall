@@ -35,6 +35,8 @@ class Crossbow extends AbstractBow implements KitCooldownElement {
 	private int cooldown = 0;
 	private final static int MAX_COOLDOWN = 40;
 	
+	private final static int ARROW_COST = 2;
+	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		if (cooldown > 0)
@@ -49,7 +51,7 @@ class Crossbow extends AbstractBow implements KitCooldownElement {
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (cooldown == 0 && dwarf.hasArrows(1)) {
+		if (cooldown == 0 && dwarf.hasArrows(ARROW_COST)) {
 			Location spawnLoc = dwarf.getEyeLocation().add(0, -0.15, 0);
 			Misc.moveLocation(spawnLoc, 0.3, 0.15);
 			spawnLoc.add(dwarf.getVelocity().multiply(0.5f));
@@ -59,7 +61,7 @@ class Crossbow extends AbstractBow implements KitCooldownElement {
 			arrow.setMetadata("force", new FixedMetadataValue(NightfallPlugin.getPlugin(), 1));
 			cooldown = MAX_COOLDOWN;
 			
-			dwarf.useArrows(1);
+			dwarf.useArrows(ARROW_COST);
 			return true;
 		}
 		return false;

@@ -12,7 +12,7 @@ class HeroAle extends AbstractElement {
 	@Override
 	public void damageNotify(DwarfDamage damage) {
 		double health = dwarf.getPlayer().getHealth();
-		if (health - damage.getCurrentDamage() <= 0.1 || health <= 16) {
+		if (damage.willKill() || health <= 16) {
 			if (dwarf.tryUseMana(100)) {
 				dwarf.healMax();
 				dwarf.playSound("entity.generic.drink", 0.6f, 0.9f, true);

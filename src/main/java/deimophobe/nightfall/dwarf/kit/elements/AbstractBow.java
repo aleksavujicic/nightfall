@@ -7,6 +7,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitBow;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -21,23 +22,19 @@ public abstract class AbstractBow extends AbstractItem implements KitBow {
 	@Override
 	public KitGiveType getGiveType() { return KitGiveType.BOW; }
 	
-	@Override
-	public void onDamageAttack(MonsterDamage damage) {
-		if (damageFromItem(damage))
-			damage.setDamage(getPower());
-	}
-	
-	@Override
-	protected boolean damageFromItem(MonsterDamage damage) {
+	protected boolean damageFromBow(MonsterDamage damage) {
 		return (damage.getType() == NaturalDamageType.RANGED &&
-				damage.hasArrowData() &&
-				belongsToBow(damage.arrowData().getArrow()));
+				damage.hasArrow() &&
+				belongsToBow(damage.getArrow()));
 	}
 	
 	
 	@Override
 	public Projectile onBowFire(Projectile proj, float force) {
-		proj.setMetadata(getBowIdentifier(), new FixedMetadataValue(NightfallPlugin.getPlugin(), true));
+		if (proj instanceof Arrow) {
+			proj.setMetadata(getBowIdentifier(), new FixedMetadataValue(NightfallPlugin.getPlugin(), true));
+			((Arrow)proj).spigot().setDamage(getPower());
+		}
 		return proj;
 	}
 	

@@ -28,11 +28,11 @@ class Dragonskin extends AbstractToggleBow {
 	
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
-		if (damageFromItem(damage) && damage.hasArrowData()) {
-			Projectile arrow  = damage.arrowData().getArrow();
+		if (damageFromItem(damage) && damage.hasArrow()) {
+			Projectile arrow  = damage.getArrow();
 			if (isActiveProjectile(arrow)) {
-				damage.setDamage(100);
-				damage.multiplyArrowRes(0.5);
+				damage.setBaseDamage(100);
+				//TODO damage.multiplyArrowRes(0.5);
 			}
 		}
 	}

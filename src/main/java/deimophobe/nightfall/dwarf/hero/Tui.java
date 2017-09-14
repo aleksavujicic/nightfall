@@ -71,7 +71,7 @@ class Tui extends Hero {
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
 		if (damage.getAttacker() instanceof AIEntity)
-			damage.setDamage(0);
+			damage.softCancel();
 		
 	}
 	

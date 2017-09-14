@@ -30,10 +30,10 @@ class WitherSkele extends SkeletonMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		if (damage.hasArrowData()) {
+		if (damage.hasArrow()) {
 			damageBoost = Math.min(damageBoost + 1, 50);
 			damage.setArmourShred((int) damageBoost*3 + 20);
-			damage.setDamage(getPower() + damageBoost*3);
+			damage.setBooster(damageBoost*3);
 			monster.heal(5);
 		}
 	}

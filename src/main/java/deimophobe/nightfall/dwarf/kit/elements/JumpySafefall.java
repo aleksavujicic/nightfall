@@ -18,7 +18,7 @@ public class JumpySafefall extends AbstractCooldown {
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
 		if (damage.getType() == NaturalDamageType.FALL)
-			damage.multiplyDamage(0.1);
+			damage.timesMultiplier(0.1);
 	}
 	
 	@Override

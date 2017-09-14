@@ -41,8 +41,8 @@ abstract class SkeletonMob extends AbstractMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		if (damage.hasArrowData()) {
-			damage.setDamage(getPower());
+		if (damage.hasArrow()) {
+			damage.setBaseDamage(getPower());
 		}
 	}
 	

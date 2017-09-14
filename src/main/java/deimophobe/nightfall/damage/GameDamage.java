@@ -6,7 +6,7 @@ import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.map.GameMap;
-import org.bukkit.Bukkit;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
@@ -24,13 +24,18 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 	/** The GameEntity which receives the damage. */
 	protected final R receiver;
 	/** How much damage to do. */
+	private double baseDamage;
 	
 	/** The time which the damage occured. */
 	private final long time;
 	/** The name of the item which was used to hit. If not applicable this value is null. */
 	private final String itemName;
 	
-	protected double damage;
+	/** The amount the damage will be boosted by. */
+	private double damageBooster = 0;
+	/** The amount the damage will be multiplied by. */
+	private double damageMultiplier = 1;
+	
 	/** How much knockback to do. */
 	protected Vector knockback;
 	/** If set to true, the damage will no longer occur. Overrides force. */
@@ -41,11 +46,13 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 	protected boolean instaKill;
 	
 	
-	private final ArrowDamageData arrowData;
-	public boolean hasArrowData() {return  arrowData != null;}
-	public ArrowDamageData arrowData() {
-		if (arrowData == null) throw new IllegalStateException("Tried to access arrow data of game damage which has no arrow.");
-		return arrowData;
+	private final Projectile arrow;
+	public boolean hasArrow() {return  arrow instanceof Arrow;}
+	public Arrow getArrow() {
+		if (arrow instanceof Arrow)
+			return (Arrow) arrow;
+		else
+			throw new IllegalStateException("Tried to access arrow of game damage which has no arrow.");
 	}
 	
 	/** True if the final damage has been applied and applied. No further calculations
@@ -65,24 +72,22 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		return meta.getDisplayName();
 	}
 	
-	
-	
 	static <B extends GameEntity,S extends GameEntity> GameDamage createDamage(B attacker, S receiver, GameDamageType type, double damage) {
 		return createDamage(attacker, receiver, type, damage, null);
 	}
 	
 	
 	static <B extends GameEntity,S extends GameEntity> GameDamage createDamage(B attacker, S receiver, GameDamageType type, double damage, Projectile arrow) {
-		if ((attacker == null || attacker instanceof Dwarf) && receiver instanceof MonsterEntity) {
-			return new MonsterDamage((Dwarf) attacker, (MonsterEntity) receiver, type, damage, arrow);
-		} else if ((attacker == null || attacker instanceof MonsterEntity) && receiver instanceof Dwarf) {
-			return new DwarfDamage((MonsterEntity) attacker, (Dwarf) receiver, type, damage, arrow);
+		if (receiver instanceof MonsterEntity) {
+			return new MonsterDamage<>(attacker, (MonsterEntity) receiver, type, damage, arrow);
+		} else if (receiver instanceof Dwarf) {
+			return new DwarfDamage<>(attacker, (Dwarf) receiver, type, damage, arrow);
 		} else {
 			throw new IllegalArgumentException("Game damage must have attacker/receiver be dwarf/monster or monster/dwarf.");
 		}
 	}
 	
-	protected GameDamage(A attacker, R receiver, GameDamageType type, double damage, Projectile arrow) {
+	protected GameDamage(A attacker, R receiver, GameDamageType type, double baseDamage, Projectile arrow) {
 		this.type = type;
 		this.attacker = attacker;
 		this.receiver = receiver;
@@ -90,15 +95,14 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		this.time = GameMap.getCurrentMap().getWorld().getTime();
 		this.itemName = getHeldItemOfDamager(attacker);
 		
-		this.damage = damage;
-		
+		this.baseDamage = baseDamage;
 		this.knockback = null;
 		
 		this.cancelled = false;
 		this.force = false;
 		this.instaKill = false;
 		
-		this.arrowData = ((arrow != null) ? new ArrowDamageData(arrow) : null);
+		this.arrow = arrow;
 	}
 	
 	public GameDamageType getType() {
@@ -114,6 +118,11 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 	public void cancel() {cancelled = true;}
 	public void force() {force = true;}
 	public void instaKill() {instaKill = true;}
+	public void softCancel() {
+		baseDamage = 0;
+		damageBooster = 0;
+		damageMultiplier = 0;
+	}
 	
 	public void setKnockback(Vector kb) {knockback = kb;}
 	private void checkKBNotNull() {
@@ -128,11 +137,25 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		knockback.multiply(mult);
 	}
 	
-	public void setDamage(double damage) {this.damage = damage;}
-	public void addDamage(double damage) {this.damage += damage;}
-	public void multiplyDamage(double multiplier) {damage *= multiplier;}
-	public double getCurrentDamage() {
-		return damage;
+	public void setBaseDamage(double dmg) {this.baseDamage = dmg;}
+	public void setBooster(double amt) {this.damageBooster = amt;}
+	public void addBooster(double amt) {this.damageBooster += amt;}
+	public void setMultiplier(double amt) {this.damageMultiplier = amt;}
+	public void addMultiplier(double amt) {this.damageMultiplier += amt;}
+	public void timesMultiplier(double amt) {this.damageMultiplier *= amt;}
+	
+	public double getFinalDamage() {
+		if (instaKill) {
+			return INSTA_KILL_DMG;
+		} else if (cancelled) {
+			return 0;
+		} else  {
+			return (baseDamage + damageBooster) * damageMultiplier;
+		}
+	}
+	
+	public boolean willKill() {
+		return (receiver.getHealth() - getFinalDamage() <= 0.1 || instaKill);
 	}
 	
 	abstract void notifyEntities();
@@ -141,29 +164,17 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 	boolean applyDamage(EntityDamageEvent event) {
 		if (applied) throw new IllegalStateException("Attempted to get final damage even though already accessed.");
 		
-		if (hasArrowData()) {
-			Projectile arrow = arrowData.getArrow();
-			if (arrow.hasMetadata("force")) {
-				damage *= arrow.getMetadata("force").get(0).asDouble();
-			} else {
-				Bukkit.getLogger().warning("Arrow has no attached force?");
-			}
-		}
 		
 		boolean successful = true;
 		// Calculate damage
 		// Priority: insta > cancelled > force > none ?
 		if (instaKill) {
-			event.setDamage(INSTA_KILL_DMG);
 			event.setCancelled(false);
 		} else if (cancelled) {
-			event.setDamage(0);
 			event.setCancelled(true);
 			successful = false;
-		} else  {
-			event.setDamage(damage);
-			// TODO
 		}
+		event.setDamage(getFinalDamage());
 		
 		if (successful && knockback != null)
 			receiver.setVelocity(knockback);

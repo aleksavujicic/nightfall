@@ -19,8 +19,8 @@ public class TestMob extends AbstractMob {
 		super.onDamageAttack(damage);
 		String dwarfName = damage.getDwarf().getName();
 		String typeName = damage.getType().toString();
-		monster.sendMessage("Attacked dwarf " + dwarfName + " for " + damage.getCurrentDamage() + " damage of type " + typeName);
-		damage.setDamage(0);
+		monster.sendMessage("Attacked dwarf " + dwarfName + " for " + damage.getFinalDamage() + " damage of type " + typeName);
+		damage.softCancel();
 	}
 	
 	@Override
@@ -29,7 +29,7 @@ public class TestMob extends AbstractMob {
 		Dwarf dwarf = damage.getAttacker();
 		String dwarfName = (dwarf == null ? "NONE" : dwarf.getName());
 		String typeName = damage.getType().toString();
-		monster.sendMessage("Received damage from dwarf " + dwarfName + " for " + damage.getCurrentDamage() + " damage of type " + typeName);
-		damage.setDamage(0);
+		monster.sendMessage("Received damage from dwarf " + dwarfName + " for " + damage.getFinalDamage() + " damage of type " + typeName);
+		damage.softCancel();
 	}
 }

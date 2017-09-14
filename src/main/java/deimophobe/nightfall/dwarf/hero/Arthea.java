@@ -123,9 +123,9 @@ public class Arthea extends Hero {
 		}
 		
 		 super.onDamageReceive(damage);
-		if (getHealth() - damage.getCurrentDamage() <= 0.1 && !isEnraged()) {
+		if (damage.willKill() && !isEnraged()) {
 			startTransition();
-			damage.setDamage(0);
+			damage.softCancel();
 		}
 	}
 	

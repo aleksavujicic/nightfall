@@ -1,8 +1,6 @@
 package deimophobe.nightfall.damage;
 
-import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.GameDamageType;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
@@ -17,12 +15,6 @@ public class MonsterDamage<A extends GameEntity> extends GameDamage<A, MonsterEn
 	
 	private boolean proc;
 	public void setProc(boolean proc) { this.proc = proc;}
-	
-	private double arrowRes = 0;
-	public void setArrowRes(double res) { this.arrowRes = res; }
-	public void addArrowRes(double res) { this.arrowRes += res; }
-	public void multiplyArrowRes(double mult) { this.arrowRes *= mult; }
-	public void removeArrowRes() { this.arrowRes = 0; }
 	
 	public MonsterDamage(A attacker, MonsterEntity receiver, GameDamageType type, double damage, Projectile arrow) {
 		super(attacker, receiver, type, damage, arrow);
@@ -43,12 +35,9 @@ public class MonsterDamage<A extends GameEntity> extends GameDamage<A, MonsterEn
 	boolean applyDamage(EntityDamageEvent event) {
 		if (proc) instaKill();
 		
-		if (type == NaturalDamageType.RANGED || type == CustomDamageType.EBOW)
-			multiplyDamage(1 - arrowRes);
-		
 		boolean successful = super.applyDamage(event);
 		
-		if (receiver.getHealth() - damage <= 0.1) {
+		if (willKill()) {
 			
 			// Prevent killing a monster and set to spectator instead
 			if (receiver instanceof MonsterPlayer) {

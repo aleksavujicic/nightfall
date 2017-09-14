@@ -49,7 +49,7 @@ public class DwarfDamage<A extends GameEntity> extends GameDamage<A, Dwarf> {
 			receiver.useMana(manaDrain);
 			
 			if (Game.getGame().getPhase() == Phase.BUILD) {
-				if (receiver.getHealth() - getCurrentDamage() <= 0.1 || instaKill) {
+				if (willKill()) {
 					event.setDamage(0);
 					event.setCancelled(true);
 					
