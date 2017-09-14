@@ -534,6 +534,7 @@ armour:
     chest:
       material: diamond_chestplate
       name: Dwarven Chestplate
+      bound: true
       lore:
         description:
          - "Fully repaired armour."
@@ -546,6 +547,7 @@ armour:
     legs:
       material: diamond_leggings
       name: Dwarven Leggings
+      bound: true
       lore:
         description:
          - "Fully repaired armour."
@@ -556,6 +558,7 @@ armour:
     boots:
       material: diamond_boots
       name: Dwarven Boots
+      bound: true
       lore:
         description:
          - "Fully repaired armour."
@@ -567,6 +570,7 @@ armour:
     chest:
       material: iron_chestplate
       name: Dwarven Chestplate
+      bound: true
       lore:
         description:
          - "Damaged armour."
@@ -577,6 +581,7 @@ armour:
     legs:
       material: iron_leggings
       name: Dwarven Leggings
+      bound: true
       lore:
         description:
          - "Damaged armour."
@@ -585,6 +590,7 @@ armour:
     boots:
       material: iron_boots
       name: Dwarven Boots
+      bound: true
       lore:
         description:
          - "Damaged armour."
@@ -595,6 +601,7 @@ armour:
     chest:
       material: chainmail_chestplate
       name: Dwarven Chestplate
+      bound: true
       lore:
         description:
          - "Shattered armour."
@@ -605,6 +612,7 @@ armour:
     legs:
       material: chainmail_leggings
       name: Dwarven Leggings
+      bound: true
       lore:
         description:
          - "Shattered armour."
@@ -613,6 +621,7 @@ armour:
     boots:
       material: chainmail_boots
       name: Dwarven Boots
+      bound: true
       lore:
         description:
          - "Shattered armour."

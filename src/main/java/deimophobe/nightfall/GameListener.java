@@ -199,10 +199,6 @@ public class GameListener implements Listener {
 				return;
 		}
 		
-		//if (event.getEntityType() == EntityType.PLAYER)
-		//	event.setDamage(EntityDamageEvent.DamageModifier.BLOCKING, 0);
-		event.setDamage(EntityDamageEvent.DamageModifier.ARMOR, 0);
-		
 		GameEntity damagee = game.getGameEntity(event.getEntity());
 		if (damagee != null)
 			DamageManager.getManager().processDamageEvent(event);

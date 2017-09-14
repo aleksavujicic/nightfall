@@ -8,6 +8,7 @@ import deimophobe.nightfall.items.lore.Lore;
 import deimophobe.nightfall.items.lore.LoreTemplate;
 import deimophobe.nightfall.items.modifiers.ItemModifier;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
+import minecraft.spigot.community.michel_0.api.ItemAttributes;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -91,11 +92,14 @@ public class CustomItem implements Cloneable {
 		// Set unbreakable and give item flags.
 		meta.setUnbreakable(true);
 		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_POTION_EFFECTS);
-		
+				
 		// Add lore/name
 		meta.setDisplayName(lore.createName());
 		meta.setLore(lore.createLore(modifiers));
 		item.setItemMeta(meta);
+		
+		// Remove existing attributes (mainly for armour)
+		item = new ItemAttributes().apply(item);
 		
 		// Add modifiers
 		for (Map.Entry<ItemModifierType, Set<ItemModifier>> entry : modifiers.entrySet()) {
@@ -110,6 +114,7 @@ public class CustomItem implements Cloneable {
 		// Give bound and shiny
 		if (bound) item.addUnsafeEnchantment(Enchantment.BINDING_CURSE, 1);
 		if (shiny) item.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+		
 		
 		return item;
 	}
