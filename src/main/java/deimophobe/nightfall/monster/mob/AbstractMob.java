@@ -1,6 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Skin;
+import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -14,7 +15,6 @@ import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
-import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -53,15 +53,7 @@ public abstract class AbstractMob implements Mob {
 		setTitle(mobData.forceTitle, mobData.title);
 		setupItems();
 		
-		DisguiseType type = mobData.disguiseType;
-		if (type != null) {
-			if (type == DisguiseType.PLAYER) {
-				setupPlayerDisguise(Skin.getSkin(mobData.skinName), ChatColor.RED + mobData.playerName);
-			} else {
-				setupMobDisguise(type);
-			}
-		}
-		
+		setupDisguise();
 		
 		monster.clearEffects();
 		if (mobData.immuneTime != 0) {
@@ -88,6 +80,25 @@ public abstract class AbstractMob implements Mob {
 	
 	
 	// ~~~~ DISGUISES ~~~~~
+	protected void setupDisguise() {
+		DisguiseType type = mobData.disguiseType;
+		if (type != null) {
+			if (hasPlayerDisguise()) {
+				setupPlayerDisguise();
+			} else {
+				setupMobDisguise(type);
+			}
+		}
+	}
+	
+	protected void setupPlayerDisguise() {
+		SkinManager.getManager().addSkinChange(monster, Skin.getSkin(mobData.skinName));
+	}
+	
+	protected void removePlayerDisguise() {
+		SkinManager.getManager().removeSkinChange(monster);
+	}
+	
 	protected void setupMobDisguise(DisguiseType type) {
 		Player player = monster.getPlayer();
 		
@@ -100,16 +111,8 @@ public abstract class AbstractMob implements Mob {
 		MonsterManager.getManager().addToTeam(disguise.getEntity().getUniqueId().toString());
 	}
 	
-	protected void setupPlayerDisguise(Skin skin, String name) {
-		Player player = monster.getPlayer();
-		
-		PlayerDisguise disguise = skin.getDisguise();
-		disguise.setDisplayedInTab(true);
-		disguise = disguise.setViewSelfDisguise(false);
-		disguise.getWatcher().setCustomNameVisible(false);
-		disguise.getWatcher().setCustomName(name);
-		MonsterManager.getManager().addToTeam(name);
-		DisguiseAPI.disguiseEntity(player, disguise);
+	private boolean hasPlayerDisguise() {
+		return (mobData.disguiseType == DisguiseType.PLAYER);
 	}
 	
 	@Override
@@ -215,5 +218,10 @@ public abstract class AbstractMob implements Mob {
 	@Override public float getCooldown() {
 		return 0;
 	}
-	@Override public void onDeath() {}
+	
+	@Override
+	public void onDeath() {
+		if (hasPlayerDisguise())
+			removePlayerDisguise();
+	}
 }
