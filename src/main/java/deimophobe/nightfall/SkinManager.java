@@ -102,16 +102,22 @@ public class SkinManager {
 			// Shamelessly stolen from:
 			// https://github.com/games647/ChangeSkin/blob/master/bukkit/src/main/java/com/github/games647/changeskin/bukkit/tasks/SkinUpdater.java
 			// TODO clean up a bit?
-			WrappedGameProfile gameProfile = WrappedGameProfile.fromPlayer(player);
-			Player receiver = player;
+			WrappedGameProfile gameProfile;
+			WrappedChatComponent displayName;
+			if (alteredSkins.containsKey(uuid)) {
+				gameProfile = alteredSkins.get(uuid).getProfile(uuid);
+			 	displayName = WrappedChatComponent.fromText(gameProfile.getName());
+			} else {
+				gameProfile = WrappedGameProfile.fromPlayer(player);
+				displayName = WrappedChatComponent.fromText(player.getPlayerListName());
+			}
 			
 			ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-			EnumWrappers.NativeGameMode gamemode = EnumWrappers.NativeGameMode.fromBukkit(receiver.getGameMode());
+			EnumWrappers.NativeGameMode gamemode = EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode());
 			
 			PacketContainer removeInfo = protocolManager.createPacket(PacketType.Play.Server.PLAYER_INFO);
 			removeInfo.getPlayerInfoAction().write(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
 			
-			WrappedChatComponent displayName = WrappedChatComponent.fromText(receiver.getPlayerListName());
 			PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, 0, gamemode, displayName);
 			removeInfo.getPlayerInfoDataLists().write(0, Lists.newArrayList(playerInfoData));
 			
@@ -122,12 +128,12 @@ public class SkinManager {
 			
 			//Respawn packet
 			PacketContainer respawn = protocolManager.createPacket(RESPAWN);
-			respawn.getIntegers().write(0, receiver.getWorld().getEnvironment().getId());
-			respawn.getDifficulties().write(0, EnumWrappers.Difficulty.valueOf(receiver.getWorld().getDifficulty().toString()));
+			respawn.getIntegers().write(0, player.getWorld().getEnvironment().getId());
+			respawn.getDifficulties().write(0, EnumWrappers.Difficulty.valueOf(player.getWorld().getDifficulty().toString()));
 			respawn.getGameModes().write(0, gamemode);
-			respawn.getWorldTypeModifier().write(0, receiver.getWorld().getWorldType());
+			respawn.getWorldTypeModifier().write(0, player.getWorld().getWorldType());
 			
-			Location location = receiver.getLocation().clone();
+			Location location = player.getLocation().clone();
 			
 			PacketContainer teleport = protocolManager.createPacket(POSITION);
 			teleport.getModifier().writeDefaults();
@@ -141,25 +147,28 @@ public class SkinManager {
 			
 			try {
 				//remove the old skin - client updates it only on a complete remove and add
-				protocolManager.sendServerPacket(receiver, removeInfo);
+				protocolManager.sendServerPacket(player, removeInfo);
 				//adds the skin
-				protocolManager.sendServerPacket(receiver, addInfo);
+				protocolManager.sendServerPacket(player, addInfo);
 				//notify the client that it should update the own skin
-				protocolManager.sendServerPacket(receiver, respawn);
 				
-				//prevent the moved too quickly message
-				protocolManager.sendServerPacket(receiver, teleport);
-				
-				//send the current inventory - otherwise player would have an empty inventory
-				receiver.updateInventory();
-				
-				PlayerInventory inventory = receiver.getInventory();
-				inventory.setHeldItemSlot(inventory.getHeldItemSlot());
-				
-				//set to the correct hand position
-				setItemInHand(receiver);
-				//triggers updateAbilities
-				receiver.setWalkSpeed(receiver.getWalkSpeed());
+				if (!player.isDead()) {
+					protocolManager.sendServerPacket(player, respawn);
+					
+					//prevent the moved too quickly message
+					protocolManager.sendServerPacket(player, teleport);
+					
+					//send the current inventory - otherwise player would have an empty inventory
+					player.updateInventory();
+					
+					PlayerInventory inventory = player.getInventory();
+					inventory.setHeldItemSlot(inventory.getHeldItemSlot());
+					
+					//set to the correct hand position
+					setItemInHand(player);
+					//triggers updateAbilities
+					player.setWalkSpeed(player.getWalkSpeed());
+				}
 			} catch (InvocationTargetException ex) {
 				Bukkit.getLogger().severe("Exception sending instant skin change packet");
 				ex.printStackTrace();
