@@ -25,7 +25,7 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 	
 	private final Map<MobType, Set<String>> upgradeSets;
 	
-	@Override public String getTitle() { return "MonsterEntity Menu"; }
+	@Override public String getTitle() { return "Monster Menu"; }
 	@Override public MonsterPlayer getDataFromPlayer(Player player) {return MonsterManager.getManager().getGamePlayer(player);}
 	@Override protected PageType getDefault() {return PageType.MAIN;}
 	
