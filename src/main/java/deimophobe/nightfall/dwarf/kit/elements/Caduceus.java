@@ -80,6 +80,9 @@ class Caduceus extends AbstractCooldownItem {
 		grabCD--;
 		
 		if (grabCD == 0) {
+			dwarf.getPlayer().setFallDistance(0);
+			target.getPlayer().setFallDistance(0);
+			
 			dwarf.teleportTo(returnSpot);
 			target.teleportTo(returnSpot);
 			

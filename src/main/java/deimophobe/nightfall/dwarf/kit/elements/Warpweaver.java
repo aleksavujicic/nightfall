@@ -95,6 +95,7 @@ class Warpweaver extends AbstractToggleBow implements KitCooldownElement {
 	
 	private void teleportTo(Location location) {
 		Location here = dwarf.getLocation();
+		dwarf.getPlayer().setFallDistance(0);
 		dwarf.teleportTo(location);
 		
 		World world = location.getWorld();
