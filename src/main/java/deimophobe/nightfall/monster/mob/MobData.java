@@ -44,6 +44,7 @@ public class MobData {
 	final int armourShred;
 	final int torchXP;
 	final boolean shrineImmune;
+	final boolean canRun;
 	
 	private MobData() {
 		name = "default";
@@ -66,6 +67,7 @@ public class MobData {
 		torchXP = 10;
 		shrineImmune = false;
 		immuneTime = 8;
+		canRun = true;
 		
 		slot = ArmourSlot.CHEST;
 		armour = null;
@@ -103,6 +105,7 @@ public class MobData {
 		torchXP = section.getInt("torchxp", parent.torchXP);
 		shrineImmune = section.getBoolean("shrineimmune", parent.shrineImmune);
 		immuneTime = section.getInt("immunetime", parent.immuneTime);
+		canRun = section.getBoolean("canrun", parent.canRun);
 		
 		if (section.contains("armourslot")) slot = ArmourSlot.fromString(section.getString("armourslot"));
 		else slot = parent.slot;

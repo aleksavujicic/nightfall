@@ -60,6 +60,15 @@ public abstract class AbstractMob implements Mob {
 			giveSpawnProtection(mobData.immuneTime*20);
 		}
 		
+		
+		Player player = monster.getPlayer();
+		if (mobData.canRun) {
+			player.setFoodLevel(20);
+		} else {
+			player.setFoodLevel(0);
+		}
+		player.setSaturation(1000000);
+		
 		monster.givePermanentPotionEffect(PotionEffectType.NIGHT_VISION, 1);
 		tpToSpawn();
 	}
@@ -208,7 +217,9 @@ public abstract class AbstractMob implements Mob {
 		return mobData.shrineImmune;
 	}
 	
-	@Override public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {}
+	@Override
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+	}
 	@Override public void onShift(boolean sneaking) {}
 	@Override public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {}
 	@Override public Projectile onBowFire(Arrow arrow, float force) {
