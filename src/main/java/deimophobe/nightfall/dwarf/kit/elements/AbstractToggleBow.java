@@ -24,21 +24,31 @@ public abstract class AbstractToggleBow extends AbstractBow {
 		arrow = super.onBowFire(arrow, force);
 		if (active) {
 			arrow.setMetadata(ARROW_METADATA_KEY, new FixedMetadataValue(NightfallPlugin.getPlugin(), true));
-			arrow.setGlowing(true);
 		}
 		return arrow;
 	}
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isLeftClick(action) && canToggle()) {
+		if (Misc.isLeftClick(action)) {
 			setActive(!active);
 			return true;
 		}
 		return false;
 	}
 	
+	protected void updateActive() {
+		setActive(active);
+	}
+	
 	protected void setActive(boolean setActive) {
+		// Force false if disabled
+		if (!canActivate()) setActive = false;
+		
+		// Don't do anything if not changed
+		if (setActive == active) return;
+		
+		// Replace all instances in inv with shiny bow
 		for (ItemStack item : dwarf.getPlayer().getInventory().getStorageContents()) {
 			if (!matchesItem(item)) continue;
 			
@@ -59,5 +69,5 @@ public abstract class AbstractToggleBow extends AbstractBow {
 		return proj.hasMetadata(ARROW_METADATA_KEY);
 	}
 	
-	protected abstract boolean canToggle();
+	protected abstract boolean canActivate();
 }

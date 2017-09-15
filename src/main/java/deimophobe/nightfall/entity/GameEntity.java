@@ -9,6 +9,7 @@ import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.damage.DamageModifier;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -65,6 +66,9 @@ public interface GameEntity<E extends LivingEntity> {
 		return getLocation().distance(entity.getLocation());
 	}
 	
+	default World getWorld() {
+		return getEntity().getWorld();
+	}
 	
 	// ------ VELOCITY ------
 	default Vector getVelocity() {

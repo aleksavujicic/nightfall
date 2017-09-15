@@ -1,27 +1,23 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.items.CustomItem;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 
 /**
  * Created by Deimophobe on 20/01/17.
  */
-class Warpweaver extends AbstractBow implements KitCooldownElement {
+class Warpweaver extends AbstractToggleBow implements KitCooldownElement {
 	Warpweaver(Dwarf dwarf) {
 		super(dwarf);
 	}
@@ -38,8 +34,6 @@ class Warpweaver extends AbstractBow implements KitCooldownElement {
 	private Location warpSpot;
 	private boolean warping = false;
 	private int cooldown = 0;
-	
-	private boolean active = false;
 	
 	private final static int TELEPORT_TIME = 20*20;
 	private final static int MAX_COOLDOWN = 20*20;
@@ -66,76 +60,47 @@ class Warpweaver extends AbstractBow implements KitCooldownElement {
 			return 1 - (float)cooldown/MAX_COOLDOWN;
 	}
 	
-	private final static String ARROW_METADATA_KEY = "warp";
 	@Override
 	public void onProjectileLand(Projectile proj, Block hitBlock) {
-		if (canWarp() && proj.hasMetadata(ARROW_METADATA_KEY) && active) {
+		if (isActive() && isActiveProjectile(proj)) {
 			warping = true;
 			setActive(false);
 			
 			warpSpot = dwarf.getLocation();
 			Location newSpot = proj.getLocation().add(0, 0.25, 0);
+			newSpot.setDirection(warpSpot.getDirection());
 			
-			dwarf.teleportTo(newSpot.setDirection(warpSpot.getDirection()));
-			
-			World world = warpSpot.getWorld();
-			world.spawnParticle(Particle.SPELL_WITCH, warpSpot, 20, 0.5, 0.5, 0.5);
-			world.spawnParticle(Particle.SPELL_WITCH, newSpot, 20, 0.5, 0.5, 0.5);
-			world.playSound(warpSpot, "entity.illusion_illager.mirror_move", 1f, 0.95f);
-			world.playSound(newSpot, "entity.illusion_illager.mirror_move", 1f, 0.95f);
+			teleportTo(newSpot);
 		}
 	}
 	
 	@Override
 	public Projectile onBowFire(Projectile arrow, float force) {
 		arrow = super.onBowFire(arrow, force);
-		if (canWarp() && active) {
-			arrow.setMetadata(ARROW_METADATA_KEY, new FixedMetadataValue(NightfallPlugin.getPlugin(), true));
+		if (isActive()) {
+			ArrowMisc.setGlowColour((Arrow) arrow, ChatColor.DARK_PURPLE);
 		}
 		return arrow;
 	}
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isLeftClick(action) && canWarp()) {
-			setActive(!active);
-			return true;
-		}
-		return false;
-	}
-	
-	@Override
-	public boolean matchesItem(ItemStack toMatch) {
-		return (toMatch != null && toMatch.getType() == Material.BOW && toMatch.getDurability() == 6);
-	}
-	
-	private void setActive(boolean setActive) {
-		for (ItemStack item : dwarf.getPlayer().getInventory().getStorageContents()) {
-			if (!matchesItem(item)) continue;
-			
-			if (setActive)
-				item.addEnchantment(Enchantment.DURABILITY, 1);
-			else
-				item.removeEnchantment(Enchantment.DURABILITY);
-		}
-		dwarf.getPlayer().updateInventory();
-		active = setActive;
-	}
-	
-	private boolean canWarp() {
+	protected boolean canActivate() {
 		return !warping && cooldown <= 0;
 	}
 	
 	private void teleportBack() {
 		warping = false;
+		teleportTo(warpSpot);
+	}
+	
+	private void teleportTo(Location location) {
+		Location here = dwarf.getLocation();
+		dwarf.teleportTo(location);
 		
-		Location curSpot = dwarf.getLocation();
-		dwarf.teleportTo(warpSpot);
-		
-		World world = warpSpot.getWorld();
-		world.spawnParticle(Particle.SPELL_WITCH, warpSpot, 20, 0.5, 0.5, 0.5);
-		world.spawnParticle(Particle.SPELL_WITCH, curSpot, 20, 0.5, 0.5, 0.5);
-		world.playSound(warpSpot, "entity.illusion_illager.mirror_move", 1f, 0.95f);
-		world.playSound(curSpot, "entity.illusion_illager.mirror_move", 1f, 0.95f);
+		World world = location.getWorld();
+		world.spawnParticle(Particle.SPELL_WITCH, location, 20, 0.5, 0.5, 0.5);
+		world.spawnParticle(Particle.SPELL_WITCH, here, 20, 0.5, 0.5, 0.5);
+		world.playSound(location, "entity.illusion_illager.mirror_move", 1f, 0.95f);
+		world.playSound(here, "entity.illusion_illager.mirror_move", 1f, 0.95f);
 	}
 }

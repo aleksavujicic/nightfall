@@ -1,19 +1,14 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.items.CustomItem;
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Arrow;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.util.Vector;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -52,13 +47,7 @@ class Crossbow extends AbstractBow implements KitCooldownElement {
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (cooldown == 0 && dwarf.hasArrows(ARROW_COST)) {
-			Location spawnLoc = dwarf.getEyeLocation().add(0, -0.15, 0);
-			Misc.moveLocation(spawnLoc, 0.3, 0.15);
-			spawnLoc.add(dwarf.getVelocity().multiply(0.5f));
-			
-			Arrow arrow = spawnLoc.getWorld().spawnArrow(spawnLoc, spawnLoc.getDirection().add(new Vector(0,0.05,0)), 3f, 0.05f);
-			arrow.setShooter(dwarf.getPlayer());
-			arrow.setMetadata("force", new FixedMetadataValue(NightfallPlugin.getPlugin(), 1));
+			ArrowMisc.summonArrow(dwarf, getPower(), 3f, 1, 0.05f);
 			cooldown = MAX_COOLDOWN;
 			
 			dwarf.useArrows(ARROW_COST);
