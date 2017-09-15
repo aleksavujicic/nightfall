@@ -11,6 +11,8 @@ import deimophobe.nightfall.damage.type.CustomDamageType;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -171,5 +173,11 @@ public interface GameEntity<E extends LivingEntity> {
 	
 	default void removePotionEffect(PotionEffectType type) {
 		getEntity().removePotionEffect(type);
+	}
+	
+	default boolean isUnderwater() {
+		Block lowerBlock = getEntity().getLocation().getBlock();
+		Block upperBlock = lowerBlock.getRelative(BlockFace.UP);
+		return (lowerBlock.isLiquid() || upperBlock.isLiquid());
 	}
 }

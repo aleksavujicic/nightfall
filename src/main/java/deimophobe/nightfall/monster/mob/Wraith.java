@@ -117,9 +117,15 @@ class Wraith extends AbstractMob {
 	}
 	
 	private void charge() {
-		double yaw = monster.getPlayer().getLocation().getYaw();
-		double radYaw = yaw*Math.PI/180;
-		Vector velocity = new Vector(-3 * Math.sin(radYaw), -3, 3 * Math.cos(radYaw));
+		Vector velocity;
+		if (monster.isUnderwater()) {
+			velocity = new Vector(0, 3, 0);
+		} else {
+			double yaw = monster.getPlayer().getLocation().getYaw();
+			double radYaw = yaw*Math.PI/180;
+			velocity = new Vector(-3 * Math.sin(radYaw), -3, 3 * Math.cos(radYaw));
+		}
+		
 		monster.setVelocity(velocity);
 		monster.givePotionEffect(PotionEffectType.LEVITATION, FLOAT_TIME, 7, true, false, true);
 		
