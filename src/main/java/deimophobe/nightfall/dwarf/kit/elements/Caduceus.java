@@ -48,17 +48,18 @@ class Caduceus extends AbstractCooldownItem {
 			
 			
 			if (!shouldTeleport) return false;
-			target = dwarf.getLookingAt(3, (bloodSwap ? 30 : 10), DwarfManager.getManager().getDwarves());
+			target = dwarf.getLookingAt(3, (bloodSwap ? 40 : 10), DwarfManager.getManager().getDwarves());
 			if (target == null) return false;
 			
 			if (bloodSwap) {
 				dwarf.useMana(MANA_COST);
 				dwarf.damage(null, CustomDamageType.BLOOD_MAGIC, 50, new DamageModifier().force());
+				grabCD = MAX_GRAB_CD/2;
 			} else {
 				resetCooldown();
+				grabCD = MAX_GRAB_CD;
 			}
 			
-			grabCD = MAX_GRAB_CD;
 			returnSpot = dwarf.getLocation();
 			
 			Location targetLoc = target.getLocation();
