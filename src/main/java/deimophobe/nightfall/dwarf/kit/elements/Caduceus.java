@@ -12,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
+import org.bukkit.util.Vector;
 
 /**
  * Created by Deimophobe on 6/05/17.
@@ -48,12 +49,13 @@ class Caduceus extends AbstractCooldownItem {
 			
 			
 			if (!shouldTeleport) return false;
-			target = dwarf.getLookingAt(3, (bloodSwap ? 40 : 10), DwarfManager.getManager().getDwarves());
+			target = dwarf.getLookingAt(3, (bloodSwap ? 40 : 20), DwarfManager.getManager().getDwarves());
 			if (target == null) return false;
 			
 			if (bloodSwap) {
 				dwarf.useMana(MANA_COST);
 				dwarf.damage(null, CustomDamageType.BLOOD_MAGIC, 50, new DamageModifier().force());
+				dwarf.setVelocity(new Vector(0,0,0));
 				grabCD = MAX_GRAB_CD/2;
 			} else {
 				resetCooldown();
