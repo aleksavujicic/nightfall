@@ -109,7 +109,8 @@ public class SkinManager {
 			 	displayName = WrappedChatComponent.fromText(gameProfile.getName());
 			} else {
 				gameProfile = WrappedGameProfile.fromPlayer(player);
-				displayName = WrappedChatComponent.fromText(player.getPlayerListName());
+				//displayName = WrappedChatComponent.fromText(player.getPlayerListName());
+				displayName = null;
 			}
 			
 			ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
