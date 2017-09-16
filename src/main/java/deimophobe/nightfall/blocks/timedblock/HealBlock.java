@@ -18,11 +18,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class HealBlock extends TimedBlock {
 	
 	public HealBlock(Location loc, int lifeTime, GameEntity placer) {
-		super(loc, Material.PURPUR_BLOCK, lifeTime, placer);
+		super(loc, Material.PURPUR_BLOCK, lifeTime, placer, false);
 	}
 	
 	public HealBlock(Block block, int lifeTime, GameEntity placer) {
-		super(block, Material.PURPUR_BLOCK, lifeTime, placer);
+		super(block, Material.PURPUR_BLOCK, lifeTime, placer, false);
 	}
 	
 	private int hitsLeft = 20;

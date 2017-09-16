@@ -19,7 +19,7 @@ import org.bukkit.block.Block;
 public class GoboBox extends TimedBlock {
 	private final double power;
 	public GoboBox(Block block, int lifeTime, double power, GameEntity placer) {
-		super(block, Material.ENDER_STONE, lifeTime, placer);
+		super(block, Material.ENDER_STONE, lifeTime, placer, true);
 		this.power = power;
 	}
 	

@@ -147,7 +147,11 @@ public class BlockType {
 			)
 	);
 	
-	
+	public static final ComparableBlock GOBOPLACABLE_BLOCKS = new BlockSet(
+			new MaterialSet(
+					Material.AIR
+			)
+	);
 	
 	public static boolean tryConvertBlock(Block block, ComparableBlock from, SettableBlock to) {
 		boolean matches = from.matchesBlock(block);
