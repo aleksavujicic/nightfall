@@ -30,7 +30,6 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.spigotmc.event.entity.EntityDismountEvent;
@@ -226,7 +225,7 @@ public class GameListener implements Listener {
 					arrow.teleport(arrow.getLocation().add(-0.15*Math.cos(yaw), 0, 0.15*Math.sin(yaw)));
 					
 					// Label it with force
-					arrow.setMetadata("force", new FixedMetadataValue(NightfallPlugin.getPlugin(), event.getForce()));
+					ArrowMisc.setArrowForce(arrow, event.getForce());
 					
 					// FIRE
 					Projectile newProj = gp.onBowFire(arrow, event.getForce());

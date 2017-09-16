@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
+import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
@@ -33,7 +34,7 @@ public abstract class AbstractBow extends AbstractItem implements KitBow {
 	public Projectile onBowFire(Projectile proj, float force) {
 		if (proj instanceof Arrow) {
 			proj.setMetadata(getBowIdentifier(), new FixedMetadataValue(NightfallPlugin.getPlugin(), true));
-			((Arrow)proj).spigot().setDamage(getPower());
+			ArrowMisc.setArrowDamage((Arrow) proj, getPower());
 		}
 		return proj;
 	}

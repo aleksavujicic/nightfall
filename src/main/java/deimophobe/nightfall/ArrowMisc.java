@@ -52,6 +52,20 @@ public class ArrowMisc {
 		return ARROW_TEAM_NAME_PREFIX + colour.ordinal();
 	}
 	
+	
+	
+	public static void setArrowDamage(Arrow arrow, double damage) {
+		arrow.spigot().setDamage(damage);
+	}
+	
+	public static void setArrowForce(Arrow arrow, double force) {
+		arrow.setMetadata("force", new FixedMetadataValue(NightfallPlugin.getPlugin(), force));
+	}
+	
+	public static double getArrowDamage(Arrow arrow) {
+		return arrow.spigot().getDamage();
+	}
+	
 	public static float getArrowForce(Arrow arrow) {
 		if (!arrow.hasMetadata("force"))
 			throw new IllegalArgumentException("Arrow is has no force metadata attached.");
