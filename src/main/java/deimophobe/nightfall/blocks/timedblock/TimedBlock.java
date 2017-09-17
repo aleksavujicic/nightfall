@@ -83,10 +83,13 @@ public class TimedBlock {
 		Block block = timedBlock.block;
 		
 		// If its already a timed block or its not breakable, don't overwrite!
-		if (isGoboBox && BlockType.GOBOPLACABLE_BLOCKS.matchesBlock(block)) {
-			timedBlock.placeBlock();
-			activeTimedBlocks.put(block, timedBlock);
-			return true;
+		if (isGoboBox) {
+			if (BlockType.GOBOPLACABLE_BLOCKS.matchesBlock(block)) {
+				timedBlock.placeBlock();
+				activeTimedBlocks.put(block, timedBlock);
+				return true;
+			}
+			return false;
 		}
 		else if (activeTimedBlocks.containsKey(block) || BlockType.UNTIMEABLE_BLOCKS.matchesBlock(block)) {
 			return false;
