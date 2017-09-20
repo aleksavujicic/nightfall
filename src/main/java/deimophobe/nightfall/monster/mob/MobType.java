@@ -11,6 +11,10 @@ import java.util.*;
  */
 public enum MobType {
 	ZOMBIE,
+	//ZOMBIE_FURY,
+	ZOMBIE_HUSK,
+	//ZOMBIE_SABOTEUR,
+
 	GOBO,
 	
 	WITHERSKELE,
@@ -63,6 +67,7 @@ public enum MobType {
 	public Mob createMob(MonsterPlayer monster) {
 		switch (this) {
 			case ZOMBIE: return new Zombie(monster);
+			case ZOMBIE_HUSK: return new Zombie_Husk(monster);
 			case GOBO: return new Goblin(monster);
 			
 			case WITHERSKELE: return new WitherSkele(monster);

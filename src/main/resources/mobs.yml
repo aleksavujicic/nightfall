@@ -29,6 +29,37 @@ zombie:
           plank debris. The dead use anything of\n
           their fallen comrades."
 
+zombie-husk:
+  title: Husk Zombie
+
+  disguisetype: husk
+
+  attack: 10
+
+  armour:
+    material: rotten_flesh
+    name: Tough Flesh
+    lore:
+      description:
+       - "Hardened flesh of the undead\n
+          making it as tough as armour."
+      flavour:
+       - "The harder they beat you down\n
+          The stronger your hunger grows."
+    bound: true
+  weapon:
+    material: wood_pickaxe
+    name: Makeshift Pick
+    lore:
+      description:
+       - "Left click to attack dwarves, shredding\n
+          their armour and dealing damage.\n
+          Right click to leap with the upgrade."
+      flavour:
+       - "A cross between a runeblade hilt and\n
+          plank debris. The dead use anything of\n
+          their fallen comrades."
+
 gobo:
   title: Goblin
 
