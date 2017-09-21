@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
+import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -9,8 +10,11 @@ import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -43,13 +47,14 @@ class Longbow extends AbstractBow implements KitCooldownElement {
 	@Override public int getPower() {return POWER;}
 	
 	
-	
 	@Override
-	public void onDamageAttack(MonsterDamage damage) {
-		super.onDamageAttack(damage);
-		if (damageFromItem(damage)) {
-			damage.getDamage().addBoost(stacks*DMG_PER_STACK);
+	public Projectile onBowFire(Projectile proj, float force) {
+		Arrow arrow = (Arrow) super.onBowFire(proj, force);
+		ArrowMisc.setArrowDamage(arrow, POWER + stacks*DMG_PER_STACK);
+		if (stacks == MAX_STACKS) {
+			ArrowMisc.setGlowColour(arrow, ChatColor.LIGHT_PURPLE);
 		}
+		return arrow;
 	}
 	
 	@Override
