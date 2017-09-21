@@ -2,8 +2,11 @@ package deimophobe.nightfall.monster;
 
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.entity.GameEntity;
@@ -198,7 +201,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		seppukuCD--;
 		
 		if (seppukuCD == 0) {
-			//customDamage(null, DamageType.SEPPUKU, 10000);
+			GameDamage damage = createDamage(null, CustomDamageType.SEPPUKU, 10000);
+			damage.instaKill();
+			DamageManager.getManager().customDamage(damage);
 		}
 	}
 	
@@ -259,6 +264,12 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		return upgrades.get(type);
 	}
 	
+	
+	// ------ DAMAGE ------
+	@Override
+	public MonsterDamage createDamage(GameEntity attacker, CustomDamageType type, double damage) {
+		return new MonsterDamage(attacker, this, type, damage);
+	}
 	
 	
 	

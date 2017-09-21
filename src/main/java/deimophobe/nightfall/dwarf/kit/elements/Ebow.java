@@ -81,7 +81,7 @@ class Ebow extends AbstractBow {
 				Vector radialPostion = direction.clone().multiply(monsterOffset.clone().dot(direction)); // ((m - p) dot u) times u
 				double radialOffset = radialPostion.subtract(monsterOffset).length();
 				
-				// If close enough damage mob
+				// If close enough getDamage mob
 				if (radialOffset <= THICKNESS) {
 					monster.damage(dwarf, CustomDamageType.EBOW, getPower()*force);
 				}

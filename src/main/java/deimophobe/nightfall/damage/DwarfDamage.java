@@ -12,7 +12,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 /**
  * Created by Deimophobe on 29/08/17.
  */
-public class DwarfDamage<A extends GameEntity> extends GameDamage<A, Dwarf> {
+public class DwarfDamage extends GameDamage<GameEntity, Dwarf> {
 	private int armourShred = 0;
 	public int getArmourShred() {return armourShred;}
 	public void setArmourShred(int armourShred) {this.armourShred = armourShred;}
@@ -25,7 +25,11 @@ public class DwarfDamage<A extends GameEntity> extends GameDamage<A, Dwarf> {
 	public void addManaDrain(int manaDrain) {this.manaDrain += manaDrain;}
 	public void multiplyManaDrain(double multiply) {this.manaDrain *= multiply;}
 	
-	DwarfDamage(A attacker, Dwarf receiver, GameDamageType type, double damage, Projectile arrow) {
+	public DwarfDamage(GameEntity attacker, Dwarf receiver, GameDamageType type, double damage) {
+		super(attacker, receiver, type, damage);
+	}
+	
+	DwarfDamage(GameEntity attacker, Dwarf receiver, GameDamageType type, double damage, Projectile arrow) {
 		super(attacker, receiver, type, damage, arrow);
 	}
 	

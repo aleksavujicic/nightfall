@@ -7,6 +7,7 @@ import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
@@ -19,6 +20,7 @@ import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.dwarf.loadout.DwarfData;
 import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.entity.DwarfEntity;
+import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.*;
@@ -48,8 +50,8 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	// Armours
 	private Armour armour;
-	public Armour getArmour() { return armour; };
-	protected void setArmour(Armour armour) { this.armour = armour; };
+	public Armour getArmour() { return armour; }
+	protected void setArmour(Armour armour) { this.armour = armour; }
 	
 	Dwarf(Player player) {
 		this(player, DwarfData.getData(player));
@@ -376,6 +378,12 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		updateVisibility();
 	}
 	
+	// ------ DAMAGE ------
+	@Override
+	public DwarfDamage createDamage(GameEntity attacker, CustomDamageType type, double damage) {
+		return new DwarfDamage(attacker, this, type, damage);
+	}
+	
 	// ------ MOB SPAWN ------
 	private int mobspawnCount;
 	
@@ -392,48 +400,48 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 				break;
 			case 2:
 				useMana(100);
-				armour.damage(50);
+				armour.getDamage(50);
 				this.customDamage(null, DamageType.MOBSPAWN, 1);
 				break;
 			case 3:
 				useMana(100);
-				armour.damage(100);
+				armour.getDamage(100);
 				this.customDamage(null, DamageType.MOBSPAWN, 1);
 				break;
 			case 4:
 				useMana(200);
-				armour.damage(150);
+				armour.getDamage(150);
 				this.customDamage(null, DamageType.MOBSPAWN, 1);
 				break;
 			case 5:
 				useMana(200);
-				armour.damage(200);
+				armour.getDamage(200);
 				this.customDamage(null, DamageType.MOBSPAWN, 30);
 				break;
 			case 6:
 				useMana(250);
-				armour.damage(300);
+				armour.getDamage(300);
 				this.customDamage(null, DamageType.MOBSPAWN, 60);
 				break;
 			case 7:
 				useMana(300);
-				armour.damage(500);
+				armour.getDamage(500);
 				this.customDamage(null, DamageType.MOBSPAWN, 90);
 				break;
 			case 8:
 				useMana(300);
-				armour.damage(700);
+				armour.getDamage(700);
 				this.customDamage(null, DamageType.MOBSPAWN, 120);
 				break;
 			case 9:
 				useMana(500);
-				armour.damage(1000);
+				armour.getDamage(1000);
 				this.customDamage(null, DamageType.MOBSPAWN, 150);
 				givePotionEffect(PotionEffectType.POISON, 80, 1, true, true, true);
 				break;
 			case 10:
 				useMana(1000);
-				armour.damage(10000);
+				armour.getDamage(10000);
 				this.customDamage(null, DamageType.MOBSPAWN, 180);
 				givePotionEffect(PotionEffectType.POISON, 80, 3, true, true, true);
 				break;
@@ -474,7 +482,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
-		damage.setMultiplier(1 - armour.getResistance());
+		damage.getDamage().timesMult(1 - armour.getResistance());
 		
 		kit.onDamageReceive(damage);
 		

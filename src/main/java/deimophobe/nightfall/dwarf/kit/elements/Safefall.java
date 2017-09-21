@@ -17,6 +17,6 @@ class Safefall extends AbstractElement {
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
 		if (damage.getType() == NaturalDamageType.FALL)
-			damage.timesMultiplier(0.1);
+			damage.getDamage().timesMult(0.1);
 	}
 }

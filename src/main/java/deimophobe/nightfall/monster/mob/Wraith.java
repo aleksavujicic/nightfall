@@ -5,7 +5,6 @@ import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.damage.DwarfDamageModifier;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
-import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
@@ -92,7 +91,7 @@ class Wraith extends AbstractMob {
 	}
 	
 	@Override
-	public void onDamageReceive(MonsterDamage<? extends Dwarf> damage) {
+	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
 		if (chargeActive) {
 			chargeActive = false;

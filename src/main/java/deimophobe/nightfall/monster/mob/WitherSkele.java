@@ -33,7 +33,7 @@ class WitherSkele extends SkeletonMob {
 		if (damage.hasArrow()) {
 			damageBoost = Math.min(damageBoost + 1, 50);
 			damage.setArmourShred((int) damageBoost*3 + 20);
-			damage.setBooster(damageBoost*3);
+			damage.getDamage().addBoost(damageBoost*3);
 			monster.heal(5);
 		}
 	}

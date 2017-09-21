@@ -39,12 +39,12 @@ abstract class AbstractAle extends AbstractItem {
 	
 	/*
 	@Override
-	public double onSelfHit(GameEntity monster, DamageType type, double damage) {
+	public double onSelfHit(GameEntity monster, DamageType type, double getDamage) {
 		if (isOffCD() && dwarf.tryUseMana(manaCost)) {
 			heal();
 			resetCD();
 		}
-		return damage;
+		return getDamage;
 	}
 	*/
 	

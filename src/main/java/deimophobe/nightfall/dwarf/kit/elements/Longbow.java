@@ -48,7 +48,7 @@ class Longbow extends AbstractBow implements KitCooldownElement {
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
 		if (damageFromItem(damage)) {
-			damage.addBooster(stacks*DMG_PER_STACK);
+			damage.getDamage().addBoost(stacks*DMG_PER_STACK);
 		}
 	}
 	

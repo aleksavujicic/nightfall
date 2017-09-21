@@ -86,7 +86,7 @@ public class Minotaur extends AbstractMob {
 						return;
 					}
 					
-					// Do cloud and damage
+					// Do cloud and getDamage
 					Location loc = monster.getLocation();
 					loc.getWorld().spawnParticle(Particle.CLOUD, loc, 5, 0.5, 0.5, 0.5, 0.03);
 					aoeDamage();
@@ -99,7 +99,7 @@ public class Minotaur extends AbstractMob {
 	}
 	
 	/**
-	 * Checks the block at location loc and applies damage if collided.
+	 * Checks the block at location loc and applies getDamage if collided.
 	 * @param loc
 	 * @return true if the block is solid and cause the minotaur to 'crash'.
 	 */
@@ -127,7 +127,7 @@ public class Minotaur extends AbstractMob {
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			if (dwarf.distanceTo(monster) <= AOE_RADIUS) {
 				if (dwarf.getPlayer().getNoDamageTicks() == 0) {
-					dwarf.getArmour().damage(AOE_SHRED);
+					dwarf.getArmour().getDamage(AOE_SHRED);
 					dwarf.customDamage(dwarf, DamageType.TEMPORARY, AOE_DMG);
 					
 					Vector vel = dwarf.getLocation().subtract(monster.getLocation()).toVector();

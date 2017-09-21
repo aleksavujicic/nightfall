@@ -29,7 +29,7 @@ commands:
     description: Cheaty self-armour.
     aliases: armor
   damage:
-    usage: /damage <amount> | /damage <player> <amount>
+    usage: /getDamage <amount> | /getDamage <player> <amount>
     description: Damage someone.
     aliases: dmg
   xp:

@@ -2,7 +2,6 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterPlayer;
 
 /**
@@ -22,7 +21,7 @@ public class TestMob extends AbstractMob {
 	}
 	
 	@Override
-	public void onDamageReceive(MonsterDamage<? extends Dwarf> damage) {
+	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
 		monster.sendMessage(damage.toString());
 		damage.softCancel();

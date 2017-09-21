@@ -56,14 +56,14 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		damage.setArmourShred(5);
-		damage.setBaseDamage(12);
+		damage.getDamage().setBase(12);
 	}
 	
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
-		damage.setMultiplier(0.3);
+		damage.getDamage().setMultiplier(0.3);
 		if (damage.hasArrow())
-			damage.addBooster(10); // Kinda hacky? Makes sense tho
+			damage.getDamage().addBoost(10);
 		
 		if (damage.getAttacker() instanceof MonsterEntity)
 			damage.cancel();

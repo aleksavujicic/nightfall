@@ -4,7 +4,6 @@ import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.map.GameMap;
@@ -197,13 +196,13 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	@Override
-	public void onDamageReceive(MonsterDamage<? extends Dwarf> damage) {
+	public void onDamageReceive(MonsterDamage damage) {
 		if (monster.hasPotionEffect(PotionEffectType.LUCK))
 			damage.cancel();
 		
 		if (!mobData.proccable) damage.setProc(false);
-		damage.setMultiplier(1 - mobData.damageRes);
-		damage.setArrowRes(mobData.arrowRes);
+		damage.getDamage().setMultiplier(1 - mobData.damageRes);
+		damage.getArrowRes().setBase(mobData.arrowRes);
 	}
 	
 	@Override

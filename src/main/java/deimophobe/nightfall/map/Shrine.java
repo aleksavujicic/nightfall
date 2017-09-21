@@ -166,7 +166,7 @@ public class Shrine {
 			}
 		}
 		// 1:1 dwarf:zombie, but as long as there's a mob on shrine it will lose power slowly
-		// First two zombies do half shrine damage
+		// First two zombies do half shrine getDamage
 		else {
 			damage += Math.min(2, mobNum) * (maxShrinePower / 50) +  Math.max(0, (mobNum - 2)) * (maxShrinePower / 25);
 			damage -= Math.min(2, dwarfNum) * (maxShrinePower / 50) + Math.max(0, (dwarfNum - 2)) * (maxShrinePower / 25);
@@ -184,7 +184,7 @@ public class Shrine {
 		{
 			recovery = 0;
 		}
-		// Shrine damage and recovery are capped at 20%
+		// Shrine getDamage and recovery are capped at 20%
 		damage = Math.min((maxShrinePower / 5), damage);
 		recovery = Math.min((maxShrinePower / 5), recovery);
 		

@@ -13,18 +13,19 @@ import org.bukkit.event.entity.EntityDamageEvent;
 /**
  * Created by Deimophobe on 29/08/17.
  */
-public class MonsterDamage<A extends GameEntity> extends GameDamage<A, MonsterEntity> {
+public class MonsterDamage extends GameDamage<GameEntity, MonsterEntity> {
 	
 	private boolean proc;
 	public void setProc(boolean proc) { this.proc = proc;}
 	
-	private double arrowRes = 0;
-	public void setArrowRes(double res) { this.arrowRes = res; }
-	public void addArrowRes(double res) { this.arrowRes += res; }
-	public void multiplyArrowRes(double mult) { this.arrowRes *= mult; }
-	public void removeArrowRes() { this.arrowRes = 0; }
+	private MultiPartValue arrowRes = new MultiPartValue(0);
+	public MultiPartValue getArrowRes() { return arrowRes; }
 	
-	public MonsterDamage(A attacker, MonsterEntity receiver, GameDamageType type, double damage, Projectile arrow) {
+	public MonsterDamage(GameEntity attacker, MonsterEntity receiver, GameDamageType type, double damage) {
+		super(attacker, receiver, type, damage);
+	}
+	
+	MonsterDamage(GameEntity attacker, MonsterEntity receiver, GameDamageType type, double damage, Projectile arrow) {
 		super(attacker, receiver, type, damage, arrow);
 	}
 	
@@ -44,7 +45,7 @@ public class MonsterDamage<A extends GameEntity> extends GameDamage<A, MonsterEn
 		if (proc) instaKill();
 		
 		if (type == NaturalDamageType.RANGED || type == CustomDamageType.EBOW)
-			timesMultiplier(1 - arrowRes);
+			getDamage().timesMult(1 - arrowRes.getValue());
 		
 		boolean successful = super.applyDamage(event);
 		

@@ -4,7 +4,7 @@ package deimophobe.nightfall.damage.type;
  * Created by Deimophobe on 29/08/17.
  */
 public enum CustomDamageType implements GameDamageType {
-	// Mob damage
+	// Mob getDamage
 	SEPPUKU,
 	SHRINE_PROTECTION,
 	SELF_GOBO_KABOOM,
@@ -18,7 +18,7 @@ public enum CustomDamageType implements GameDamageType {
 	
 	AI_REMOVER,
 	
-	// Dwarf damage
+	// Dwarf getDamage
 	DEATH_PLAGUE,
 	GOBO_KABOOM,
 	GOBO_BOX_EXPLOSION,
