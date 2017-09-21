@@ -3,7 +3,6 @@ package deimophobe.nightfall.dwarf.kit.elements;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.damage.GameDamage;
-import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -72,6 +71,8 @@ class Tinderflame extends AbstractCooldownItem {
 			// Do getDamage
 			if (success) {
 				GameDamage damage = monster.createDamage(dwarf, CustomDamageType.TINDERFLAME, 25);
+				if (monster instanceof AIEntity)
+					damage.instaKill();
 				DamageManager.getManager().customDamage(damage, true);
 				
 				
@@ -92,12 +93,6 @@ class Tinderflame extends AbstractCooldownItem {
 			return true;
 		}
 		return false;
-	}
-	
-	@Override
-	public void onDamageAttack(MonsterDamage damage) {
-		if (damage.getMonster() instanceof AIEntity)
-			damage.instaKill();
 	}
 	
 	@Override
