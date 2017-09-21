@@ -12,11 +12,11 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 2/02/17.
  */
-class CommonUpgradeMenu extends SimpleMenu<MonsterPlayer> {
+class ZombieCommonUpgradeMenu extends SimpleMenu<MonsterPlayer> {
     private static final int MENU_SIZE = 27;
     private final Set<String> upgrades;
 
-    CommonUpgradeMenu(ConfigurationSection section, MobType type) {
+    ZombieCommonUpgradeMenu(ConfigurationSection section, MobType type) {
         super(MENU_SIZE);
 
         upgrades = section.getKeys(false);
