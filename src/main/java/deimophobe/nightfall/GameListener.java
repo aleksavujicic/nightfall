@@ -193,6 +193,8 @@ public class GameListener implements Listener {
 			case STARVATION:
 			case SUFFOCATION:
 			case THORNS:
+			case BLOCK_EXPLOSION:
+			case ENTITY_EXPLOSION:
 				event.setDamage(0);
 				event.setCancelled(true);
 				return;
@@ -257,7 +259,6 @@ public class GameListener implements Listener {
 		BlockConverter.convert(BlockConverter.Type.THROWNEXPLOSION, centerLoc, power);
 		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
 		world.playSound(centerLoc, "entity.generic.explode", 2, 1);
-		// Bukkit.broadcastMessage(mm.peekGoboThrower().getName());
 		Object thrower = event.getEntity().getMetadata("thrower").get(0).value();
 		if (thrower instanceof MonsterPlayer)
 			DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), (GameEntity) thrower,
