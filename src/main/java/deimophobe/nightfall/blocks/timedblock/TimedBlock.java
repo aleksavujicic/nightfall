@@ -23,17 +23,19 @@ public class TimedBlock {
 	private final Material newType;
 	private final int lifeTime;
 	private final GameEntity placer;
+	private static boolean isGoboBox;
 	
 	
-	public TimedBlock(Location loc, Material blockType, int lifeTime, GameEntity placer) {
-		this(loc.getBlock(), blockType, lifeTime, placer);
+	public TimedBlock(Location loc, Material blockType, int lifeTime, GameEntity placer, boolean isGoboBox) {
+		this(loc.getBlock(), blockType, lifeTime, placer, isGoboBox);
 	}
 	
-	public TimedBlock(Block block, Material blockType, int lifeTime, GameEntity placer) {
+	public TimedBlock(Block block, Material blockType, int lifeTime, GameEntity placer, boolean isGoboBox) {
 		this.block = block;
 		this.newType = blockType;
 		this.lifeTime = lifeTime;
 		this.placer = placer;
+		this.isGoboBox = isGoboBox;
 	}
 	
 	
@@ -81,7 +83,15 @@ public class TimedBlock {
 		Block block = timedBlock.block;
 		
 		// If its already a timed block or its not breakable, don't overwrite!
-		if (activeTimedBlocks.containsKey(block) || BlockType.UNTIMEABLE_BLOCKS.matchesBlock(block)) {
+		if (isGoboBox) {
+			if (BlockType.GOBOPLACABLE_BLOCKS.matchesBlock(block)) {
+				timedBlock.placeBlock();
+				activeTimedBlocks.put(block, timedBlock);
+				return true;
+			}
+			return false;
+		}
+		else if (activeTimedBlocks.containsKey(block) || BlockType.UNTIMEABLE_BLOCKS.matchesBlock(block)) {
 			return false;
 		} else {
 			timedBlock.placeBlock();
