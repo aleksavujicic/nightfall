@@ -34,6 +34,10 @@ public class ArrowMisc {
 		team.addEntry(arrow.getUniqueId().toString());
 	}
 	
+	public static void removeGlow(Arrow arrow) {
+		arrow.setGlowing(false);
+	}
+	
 	private static final String ARROW_TEAM_NAME_PREFIX = "arrow";
 	private static Team getTeamColour(ChatColor colour) {
 		if (!colour.isColor()) throw new IllegalArgumentException("Cannot get colour of team: "+colour.name());

@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.ArrowMisc;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
@@ -13,6 +14,10 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -31,47 +36,51 @@ class Warpweaver extends AbstractToggleBow implements KitCooldownElement {
 	@Override public String getBowIdentifier() {return "WARPBOW";}
 	@Override public int getPower() {return POWER;}
 	
+	/*
 	private Location warpSpot;
 	private boolean warping = false;
 	private int cooldown = 0;
 	
 	private final static int TELEPORT_TIME = 20*20;
 	private final static int MAX_COOLDOWN = 20*20;
+	*/
+	
+	private final ComplexCooldown cooldown = new ComplexCooldown(30 * 20);
+	private final Set<Arrow> activeArrows = new HashSet<>();
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		if (warping) {
-			cooldown++;
-			if (cooldown >= TELEPORT_TIME) {
-				cooldown = MAX_COOLDOWN;
-				teleportBack();
-			}
-		} else {
-			if (cooldown > 0)
-				cooldown--;
-		}
+		cooldown.update();
 	}
 	
 	@Override
 	public float fractionComplete() {
-		if (warping)
-			return 1 - (float)cooldown/TELEPORT_TIME;
-		else
-			return 1 - (float)cooldown/MAX_COOLDOWN;
+		return cooldown.fractionComplete();
 	}
 	
 	@Override
 	public void onProjectileLand(Projectile proj, Block hitBlock) {
-		if (isActive() && isActiveProjectile(proj)) {
-			warping = true;
+		if (cooldown.isAvailable() && isActive() && isActiveProjectile(proj)) {
 			setActive(false);
 			
-			warpSpot = dwarf.getLocation();
 			Location newSpot = proj.getLocation().add(0, 0.25, 0);
-			newSpot.setDirection(warpSpot.getDirection());
-			
+			newSpot.add(proj.getLocation().getDirection().multiply(0.25));
+			newSpot.setDirection(dwarf.getLocation().getDirection());
 			teleportTo(newSpot);
+			
+			cooldown.reset();
+			
+			activeArrows.remove(proj);
 		}
+	}
+	
+	@Override
+	protected void onToggle() {
+		super.onToggle();
+		for (Arrow arrow : activeArrows) {
+			ArrowMisc.removeGlow(arrow);
+		}
+		activeArrows.clear();
 	}
 	
 	@Override
@@ -79,18 +88,14 @@ class Warpweaver extends AbstractToggleBow implements KitCooldownElement {
 		arrow = super.onBowFire(arrow, force);
 		if (isActive()) {
 			ArrowMisc.setGlowColour((Arrow) arrow, ChatColor.DARK_PURPLE);
+			activeArrows.add((Arrow) arrow);
 		}
 		return arrow;
 	}
 	
 	@Override
 	protected boolean canActivate() {
-		return !warping && cooldown <= 0;
-	}
-	
-	private void teleportBack() {
-		warping = false;
-		teleportTo(warpSpot);
+		return cooldown.isAvailable();
 	}
 	
 	private void teleportTo(Location location) {
@@ -103,5 +108,17 @@ class Warpweaver extends AbstractToggleBow implements KitCooldownElement {
 		world.spawnParticle(Particle.SPELL_WITCH, here, 20, 0.5, 0.5, 0.5);
 		world.playSound(location, "entity.illusion_illager.mirror_move", 1f, 0.95f);
 		world.playSound(here, "entity.illusion_illager.mirror_move", 1f, 0.95f);
+		
+		
+		Vector direction = location.clone().subtract(here).toVector();
+		double distance = direction.length();
+		Vector delta = direction.multiply(1 / distance);
+		int times = (int) (distance / 1);
+		
+		Location partLoc = here.clone();
+		for (int i = 0; i <= times; i++) {
+			partLoc.add(delta);
+			dwarf.getPlayer().getWorld().spawnParticle(Particle.END_ROD, partLoc, 1, 0.3, 0.3, 0.3, 0.03);
+		}
 	}
 }
