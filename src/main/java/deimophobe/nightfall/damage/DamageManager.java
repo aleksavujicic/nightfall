@@ -44,7 +44,7 @@ public class DamageManager {
 		LivingEntity receiver = damage.getReceiver().getEntity();
 		if (force || receiver.getNoDamageTicks() == 0) {
 			if (lastUsedCustomDamage != null) {
-				Bukkit.getLogger().severe("Last getDamage used was not null!?");
+				Bukkit.getLogger().severe("Last damage used was not null!?");
 			}
 			
 			lastUsedCustomDamage = damage;
@@ -64,7 +64,7 @@ public class DamageManager {
 		switch (event.getCause()) {
 			case CUSTOM: {
 				if (lastUsedCustomDamage == null) {
-					throw new IllegalStateException("Custom getDamage called but none stored in getDamage manager?");
+					throw new IllegalStateException("Custom damage called but none stored in getDamage manager?");
 				}
 				GameDamage damage = lastUsedCustomDamage;
 				lastUsedCustomDamage = null;

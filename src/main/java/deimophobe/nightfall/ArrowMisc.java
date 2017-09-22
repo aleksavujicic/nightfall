@@ -19,8 +19,8 @@ public class ArrowMisc {
 		spawnLoc.add(shooter.getVelocity().multiply(0.5f));
 		
 		Arrow arrow = shooter.getWorld().spawnArrow(spawnLoc, spawnLoc.getDirection().add(new Vector(0,0.05,0)), speed, spread);
-		arrow.spigot().setDamage(damage);
-		arrow.setMetadata("force", new FixedMetadataValue(NightfallPlugin.getPlugin(), force));
+		setArrowDamage(arrow, damage);
+		setArrowForce(arrow, force);
 		arrow.setPickupStatus(Arrow.PickupStatus.DISALLOWED);
 		arrow.setShooter(shooter.getPlayer());
 		
