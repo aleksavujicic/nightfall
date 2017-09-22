@@ -59,9 +59,9 @@ class ZombieUpgradeMenu extends IndexedMenu<MonsterPlayer, ZombieUpgradeMenu.Pag
 
 	enum PageType {
 		ZOMBIE_COMMON_UPGRADE("zombie-upgrades.yml", MobType.ZOMBIE),
-		ZOMBIE_HUSK_UPGRADE("husk-upgrades.yml", MobType.ZOMBIE_HUSK),
-		ZOMBIE_SABOTEUR_UPGRADE,
-		ZOMBIE_FURY_UPGRADE,
+		ZOMBIE_HUSK_UPGRADE("husk-upgrades.yml", MobType.ZOMBIE_HUSK)//,
+		//ZOMBIE_SABOTEUR_UPGRADE,
+		//ZOMBIE_FURY_UPGRADE
 		;
 
 		private final String filename;
