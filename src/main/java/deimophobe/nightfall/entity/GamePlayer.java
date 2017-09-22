@@ -136,6 +136,7 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	
 	public void clearInventory() {
 		player.getInventory().clear();
+		player.setItemOnCursor(null);
 	}
 	
 	public  void showInventory(Inventory inventory) {
