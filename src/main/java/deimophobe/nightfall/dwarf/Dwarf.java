@@ -599,9 +599,5 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	public void notifyDeath(Dwarf dwarf) {
 		kit.notifyDeath(dwarf);
-		if (dwarf == this && Game.getGame().getPhase() == Phase.GAME) {
-			for (Player player : Bukkit.getOnlinePlayers())
-				player.sendTitle("", getDisplayName() + ChatColor.DARK_RED + " has fallen!", 20, 60, 20);
-		}
 	}
 }

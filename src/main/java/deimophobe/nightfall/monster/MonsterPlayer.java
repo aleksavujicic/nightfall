@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster;
 
+import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.DamageManager;
@@ -93,8 +94,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	public void kill(boolean silent) {
 		if (!silent && isAlive()) {
-			//ActionBarAPI.sendActionBarToAllPlayers(generateDeathMessage(), 60);
-			//Bukkit.broadcastMessage(generateDeathMessage());
+			ActionBarAPI.sendActionBarToAllPlayers(getDeathMessage(), 60);
 			player.playSound(player.getLocation(), "proc", 1f, 0.7f);
 		}
 		

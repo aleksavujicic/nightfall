@@ -141,15 +141,6 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		knockback.multiply(mult);
 	}
 	
-	/*
-	public void setBaseDamage(double dmg) {this.baseDamage = dmg;}
-	public void setBooster(double amt) {this.damageBooster = amt;}
-	public void addBooster(double amt) {this.damageBooster += amt;}
-	public void setMultiplier(double amt) {this.damageMultiplier = amt;}
-	public void addMultiplier(double amt) {this.damageMultiplier += amt;}
-	public void timesMultiplier(double amt) {this.damageMultiplier *= amt;}
-	*/
-	
 	public double getFinalDamage() {
 		if (instaKill) {
 			return INSTA_KILL_DMG;
@@ -186,6 +177,11 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 			receiver.setVelocity(knockback);
 		
 		applied = true;
+		
+		if (receiver instanceof GamePlayer) {
+			DamageOccurance occurance = new DamageOccurance(attacker, receiver, type, time, itemName);
+			((GamePlayer) receiver).notifyDamage(occurance);
+		}
 		
 		return successful;
 	}

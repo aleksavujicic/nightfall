@@ -1,6 +1,7 @@
 package deimophobe.nightfall.entity;
 
 import deimophobe.nightfall.damage.DamageManager;
+import deimophobe.nightfall.damage.DamageOccurance;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.items.CustomItem;
@@ -159,6 +160,24 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		resetTitle();
 	}
 	public void goOffline() {}
+	
+	
+	// ------ DAMAGE ------
+	private DamageOccurance lastDamage;
+	public DamageOccurance getLastDamage() { return lastDamage; }
+	
+	public boolean notifyDamage(DamageOccurance occur) {
+		if (occur.shoulReplace(lastDamage)) {
+			lastDamage = occur;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public String getDeathMessage() {
+		return lastDamage.getDeathMessage();
+	}
 	
 	
 	// ------ MISC ------

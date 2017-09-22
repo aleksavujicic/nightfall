@@ -14,6 +14,7 @@ import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -233,5 +234,8 @@ public abstract class AbstractMob implements Mob {
 	public void onDeath() {
 		if (hasPlayerDisguise())
 			removePlayerDisguise();
+		
+		if (mobData.forceTitle)
+			Bukkit.broadcastMessage(monster.getDeathMessage());
 	}
 }

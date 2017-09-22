@@ -276,7 +276,12 @@ public class GameListener implements Listener {
 			for (Dwarf dwarf2 : dm.getGamePlayers()) {
 				dwarf2.notifyDeath(dwarf);
 			}
-			//event.setDeathMessage(dwarf.generateDeathMessage());
+			event.setDeathMessage(dwarf.getDeathMessage());
+			
+			if (Game.getGame().getPhase() == Phase.GAME) {
+				for (Player player : Bukkit.getOnlinePlayers())
+					player.sendTitle("", dwarf.getDisplayName() + ChatColor.DARK_RED + " has fallen!", 20, 60, 20);
+			}
 			
 			// Delayed to prevent concurrent modification exceptions hopefully ._.
 			new BukkitRunnable() {
