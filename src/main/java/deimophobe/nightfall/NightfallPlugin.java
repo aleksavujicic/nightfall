@@ -350,7 +350,7 @@ public class NightfallPlugin extends JavaPlugin {
 							return false;
 						}
 						switch (args[0]) {
-							case "getDamage":
+							case "damage":
 								dwarf.getArmour().damage(amt);
 								return true;
 							case "repair":
@@ -398,7 +398,7 @@ public class NightfallPlugin extends JavaPlugin {
 				if (args.length == 1 && sender instanceof Player) {
 					double dmg = Double.parseDouble(args[0]);
 					((Player) sender).damage(dmg, (Entity) sender);
-					sender.sendMessage(ChatColor.YELLOW + "Damaged you for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " getDamage.");
+					sender.sendMessage(ChatColor.YELLOW + "Damaged you for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " damage.");
 					return true;
 				} else if (args.length >= 2) {
 					double dmg = Double.parseDouble(args[1]);
@@ -415,8 +415,8 @@ public class NightfallPlugin extends JavaPlugin {
 						gp.doDamage(null, CustomDamageType.COMMAND, dmg);
 					}
 					
-					sender.sendMessage(ChatColor.YELLOW + "Damaged " + target.getDisplayName() + ChatColor.YELLOW + " for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " getDamage.");
-					target.sendMessage(ChatColor.YELLOW + "You got damaged by " + ChatColor.RED +  sender.getName() + ChatColor.YELLOW + " for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " getDamage.");
+					sender.sendMessage(ChatColor.YELLOW + "Damaged " + target.getDisplayName() + ChatColor.YELLOW + " for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " damage.");
+					target.sendMessage(ChatColor.YELLOW + "You got damaged by " + ChatColor.RED +  sender.getName() + ChatColor.YELLOW + " for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " damage.");
 					return true;
 				} else {
 					return false;
@@ -705,7 +705,7 @@ public class NightfallPlugin extends JavaPlugin {
 					case "kill":
 						map.damageShrine(100000);
 						return true;
-					case "getDamage":
+					case "damage":
 						map.damageShrine(percent);
 						return true;
 					case "recover":
@@ -760,7 +760,7 @@ public class NightfallPlugin extends JavaPlugin {
 		}
 		
 		if (name.equalsIgnoreCase("armour") && args.length == 1) {
-			return startsWithPrefix(args[args.length-1], "getDamage", "repair", "equip");
+			return startsWithPrefix(args[args.length-1], "damage", "repair", "equip");
 		}
 		
 		if (name.equalsIgnoreCase("giveitem")) {
@@ -768,7 +768,7 @@ public class NightfallPlugin extends JavaPlugin {
 		}
 
 		if (name.equalsIgnoreCase("shrine") && args.length == 1) {
-			return startsWithPrefix(args[args.length-1], "kill", "getDamage", "recover");
+			return startsWithPrefix(args[args.length-1], "kill", "damage", "recover");
 		}
 
 		return null;
