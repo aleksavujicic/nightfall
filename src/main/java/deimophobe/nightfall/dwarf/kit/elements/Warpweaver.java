@@ -6,6 +6,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.map.GameMap;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -61,16 +62,18 @@ class Warpweaver extends AbstractToggleBow implements KitCooldownElement {
 	@Override
 	public void onProjectileLand(Projectile proj, Block hitBlock) {
 		if (cooldown.isAvailable() && isActive() && isActiveProjectile(proj)) {
-			setActive(false);
-			
-			Location newSpot = proj.getLocation().add(0, 0.25, 0);
-			newSpot.add(proj.getLocation().getDirection().multiply(0.25));
-			newSpot.setDirection(dwarf.getLocation().getDirection());
-			teleportTo(newSpot);
-			
-			cooldown.reset();
-			
-			activeArrows.remove(proj);
+			if (!GameMap.getCurrentMap().getCurrentMobProtection().continsEntity(proj)) {
+				setActive(false);
+				
+				Location newSpot = proj.getLocation().add(0, 0.25, 0);
+				newSpot.add(proj.getLocation().getDirection().multiply(0.25));
+				newSpot.setDirection(dwarf.getLocation().getDirection());
+				teleportTo(newSpot);
+				
+				cooldown.reset();
+				
+				activeArrows.remove(proj);
+			}
 		}
 	}
 	
