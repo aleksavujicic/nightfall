@@ -55,6 +55,11 @@ public class BlockType {
 	
 	
 	// ----- MISC -----
+	public static final ComparableBlock GRASS = new MaterialSet(
+			Material.DOUBLE_PLANT, Material.LONG_GRASS, Material.YELLOW_FLOWER, Material.RED_ROSE, Material.DEAD_BUSH
+	);
+	
+	
 	public static final ComparableBlock ACTIVE_SHRINE_BLOCK =
 			block -> (
 					block.getType() == Material.ENDER_PORTAL_FRAME
