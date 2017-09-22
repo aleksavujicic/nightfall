@@ -116,7 +116,7 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 		return eggMap.get(key);
 	}
 	public static SpawnEggMenuItem getEgg(MobType type) {
-		return eggMap.get(type.toString().toLowerCase());
+		return eggMap.get(type.toString().toLowerCase().replace("_", "-"));
 	}
 	public static void resetEggs() {
 		for (SpawnEggMenuItem egg : eggMap.values())
