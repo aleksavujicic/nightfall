@@ -53,23 +53,29 @@ public class ArrowMisc {
 	}
 	
 	
-	
+	private final static String FORCE_KEY = "force";
+	private final static String DAMAGE_KEY = "damage";
 	public static void setArrowDamage(Arrow arrow, double damage) {
-		arrow.spigot().setDamage(damage);
+		arrow.setMetadata(DAMAGE_KEY, new FixedMetadataValue(NightfallPlugin.getPlugin(), damage));
+		//arrow.spigot().setDamage(damage);
 	}
 	
 	public static void setArrowForce(Arrow arrow, double force) {
-		arrow.setMetadata("force", new FixedMetadataValue(NightfallPlugin.getPlugin(), force));
+		arrow.setMetadata(FORCE_KEY, new FixedMetadataValue(NightfallPlugin.getPlugin(), force));
 	}
 	
 	public static double getArrowDamage(Arrow arrow) {
-		return arrow.spigot().getDamage();
+		if (!arrow.hasMetadata(DAMAGE_KEY))
+			throw new IllegalArgumentException("Arrow is has no damage metadata attached.");
+		
+		return arrow.getMetadata(DAMAGE_KEY).get(0).asDouble()*getArrowForce(arrow);
+		//return arrow.spigot().getDamage();
 	}
 	
 	public static float getArrowForce(Arrow arrow) {
-		if (!arrow.hasMetadata("force"))
+		if (!arrow.hasMetadata(FORCE_KEY))
 			throw new IllegalArgumentException("Arrow is has no force metadata attached.");
 		
-		return arrow.getMetadata("force").get(0).asFloat();
+		return arrow.getMetadata(FORCE_KEY).get(0).asFloat();
 	}
 }

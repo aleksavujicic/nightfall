@@ -1,11 +1,13 @@
 package deimophobe.nightfall.damage;
 
+import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.entity.GameEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
@@ -76,9 +78,14 @@ public class DamageManager {
 			
 			case PROJECTILE: {
 				Projectile proj = (Projectile) ((EntityDamageByEntityEvent) event).getDamager();
+				double damage;
+				if (proj instanceof Arrow)
+					damage = ArrowMisc.getArrowDamage((Arrow) proj);
+				else
+					damage = event.getDamage();
 				GameEntity attacker = Game.getGame().getGameEntity((Entity) proj.getShooter());
 				
-				return GameDamage.createDamage(attacker, receiver, NaturalDamageType.RANGED, event.getDamage(), proj);
+				return GameDamage.createDamage(attacker, receiver, NaturalDamageType.RANGED, damage, proj);
 			}
 			
 			default: {
