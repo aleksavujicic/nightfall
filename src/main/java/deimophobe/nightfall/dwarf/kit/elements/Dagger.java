@@ -54,7 +54,7 @@ class Dagger extends AbstractCooldownItem {
 			if (closestMonster != null) {
 				Location loc = closestMonster.getPlayer().getEyeLocation();
 				
-				closestMonster.damage(dwarf, CustomDamageType.EVISCERATE, 200);
+				closestMonster.doDamage(dwarf, CustomDamageType.EVISCERATE, 200, true);
 				loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 20, 0.3, 0.3, 0.3, 1);
 				//world.spigot().playEffect(loc, GameEffect.COLOURED_DUST, 0, 1, red, green, blue, 1, 0, 64);
 				//world.spawnParticle(Particle.SPELL_INSTANT, ltarget.getEyeLocation(), 1, 0.3, 0.3, 0.3, 0);

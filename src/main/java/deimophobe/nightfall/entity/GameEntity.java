@@ -6,7 +6,6 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.DamageManager;
-import deimophobe.nightfall.damage.DamageModifier;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import org.bukkit.Location;
@@ -135,18 +134,23 @@ public interface GameEntity<E extends LivingEntity> {
 	
 	
 	// ------ DAMAGE ------
-	@Deprecated
-	default void damage(GameEntity attacker, CustomDamageType type, double damage) {
-		damage(attacker, type, damage, new DamageModifier());
+	default void doDamage(GameEntity attacker, CustomDamageType type, double damage) {
+		doDamage(attacker, type, damage, false, false);
+	}
+	
+	default void doDamage(GameEntity attacker, CustomDamageType type, double damage, boolean force) {
+		doDamage(attacker, type, damage, force, false);
+	}
+	
+	default void doDamage(GameEntity attacker, CustomDamageType type, double damage, boolean force, boolean instaKill) {
+		GameDamage gameDamage = createDamage(attacker, type, damage);
+		if (instaKill)
+			gameDamage.instaKill();
+		DamageManager.getManager().customDamage(gameDamage, force);
 	}
 	
 	default GameDamage createDamage(GameEntity attacker, CustomDamageType type, double damage) {
 		return GameDamage.createDamage(attacker, this, type, damage);
-	}
-	
-	@Deprecated
-	default void damage(GameEntity attacker, CustomDamageType type, double damage, DamageModifier modifier) {
-		DamageManager.getManager().customDamage(attacker, this, type, damage, modifier);
 	}
 	
 	

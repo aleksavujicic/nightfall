@@ -39,7 +39,7 @@ class Walker extends AbstractMob {
 		
 		if (halfSec && !isPlayerHoldingWeapon()) {
 			monster.getPlayer().getInventory().setHeldItemSlot(0);
-			monster.damage(null, CustomDamageType.INCORRECT_HELD_ITEM, 4);
+			monster.doDamage(null, CustomDamageType.INCORRECT_HELD_ITEM, 4, true);
 		}
 	}
 	

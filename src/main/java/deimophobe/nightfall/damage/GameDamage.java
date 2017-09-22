@@ -127,6 +127,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 	}
 	
 	public void setKnockback(Vector kb) {knockback = kb;}
+	public void setKnockback(double x, double y, double z) {setKnockback(new Vector(x,y,z));}
 	private void checkKBNotNull() {
 		if (knockback == null) knockback = new Vector(0,0,0);
 	}
@@ -134,6 +135,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		checkKBNotNull();
 		knockback.add(kb);
 	}
+	public void addKnockback(double x, double y, double z) {addKnockback(new Vector(x,y,z));}
 	public void multiplyKnockback(double mult) {
 		checkKBNotNull();
 		knockback.multiply(mult);

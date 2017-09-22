@@ -1,6 +1,5 @@
 package deimophobe.nightfall.monster.ai;
 
-import deimophobe.nightfall.damage.DamageModifier;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
@@ -110,6 +109,6 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 	}
 	
 	public void remove() {
-		damage(null, CustomDamageType.AI_REMOVER, 10000, new DamageModifier().instaKill());
+		doDamage(null, CustomDamageType.AI_REMOVER, 10000, true, true);
 	}
 }

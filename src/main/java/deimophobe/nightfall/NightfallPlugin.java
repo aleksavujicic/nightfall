@@ -393,7 +393,7 @@ public class NightfallPlugin extends JavaPlugin {
 				return false;
 			}
 		}
-		if (name.equalsIgnoreCase("getDamage")) {
+		if (name.equalsIgnoreCase("damage")) {
 			try {
 				if (args.length == 1 && sender instanceof Player) {
 					double dmg = Double.parseDouble(args[0]);
@@ -412,7 +412,7 @@ public class NightfallPlugin extends JavaPlugin {
 						else
 							target.damage(dmg);
 					} else {
-						gp.damage(null, CustomDamageType.COMMAND, dmg);
+						gp.doDamage(null, CustomDamageType.COMMAND, dmg);
 					}
 					
 					sender.sendMessage(ChatColor.YELLOW + "Damaged " + target.getDisplayName() + ChatColor.YELLOW + " for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " getDamage.");

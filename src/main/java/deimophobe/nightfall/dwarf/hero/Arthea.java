@@ -7,7 +7,6 @@ import com.comphenix.protocol.events.*;
 import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 import deimophobe.nightfall.Hat;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.damage.DamageModifier;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
@@ -117,7 +116,7 @@ public class Arthea extends Hero {
 		if (isEnraged() && enrageTimer != 0) {
 			GameEntity monster = damage.getAttacker();
 			if (monster instanceof AIEntity)
-				monster.damage(this, CustomDamageType.TEMPORARY, 1000, new DamageModifier().instaKill());
+				monster.doDamage(this, CustomDamageType.BLOOD_MAGIC, 1000, true, true);
 			
 			damage.cancel();
 		}
@@ -185,7 +184,7 @@ public class Arthea extends Hero {
 		super.givePotionEffect(PotionEffectType.FIRE_RESISTANCE, ENRAGE_DURATION, 1, true, false, true);
 		super.givePotionEffect(PotionEffectType.JUMP, ENRAGE_DURATION, 3, true, false, true);
 		
-		damage(null, CustomDamageType.TEMPORARY, 10);
+		doDamage(null, CustomDamageType.BLOOD_MAGIC, 10, true);
 		
 		PlayerInventory inv = player.getInventory();
 		inv.clear();

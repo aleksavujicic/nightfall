@@ -8,7 +8,6 @@ import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
-import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
@@ -329,13 +328,14 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			}
 			
 			GameEntity attacker = damage.getAttacker();
-			
-			if (attacker instanceof Dwarf)
-				mob.onDamageReceive(damage);
 			if (attacker instanceof AIEntity) {
 				((AIEntity) attacker).forceUpdateTarget();
 				damage.cancel();
+			} else {
+				mob.onDamageReceive(damage);
 			}
+		} else {
+			damage.cancel();
 		}
 	}
 	

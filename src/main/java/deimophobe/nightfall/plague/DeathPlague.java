@@ -45,7 +45,10 @@ class DeathPlague extends AbstractPlague {
 				if (getAmountToKill() > 0) {
 					Dwarf target = getNearestPlagueable();
 					death.teleport(target.getLocation());
-					target.damage(null, CustomDamageType.DEATH_PLAGUE, 10000);
+					
+					target.doDamage(null, CustomDamageType.DEATH_PLAGUE, 10000, true, true);
+					
+					
 					world.playSound(target.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 1, 1);
 					world.playSound(target.getLocation(), "entity.endermen.scream", 1, 1);
 					removeDwarf(target);

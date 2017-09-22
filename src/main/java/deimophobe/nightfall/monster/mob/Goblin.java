@@ -6,7 +6,7 @@ import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.blocks.timedblock.GoboBox;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.damage.DamageManager;
-import deimophobe.nightfall.damage.DamageModifier;
+import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -100,7 +100,9 @@ class Goblin extends AbstractMob {
 	}
 	
 	private void kaboom() {
-		monster.damage(null, CustomDamageType.SELF_GOBO_KABOOM, 10000, new DamageModifier().instaKill());
+		GameDamage damage = monster.createDamage(null, CustomDamageType.SELF_GOBO_KABOOM, 1000);
+		damage.instaKill();
+		DamageManager.getManager().customDamage(damage, true);
 		
 		Location loc = monster.getLocation();
 		World world = monster.getLocation().getWorld();
