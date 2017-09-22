@@ -5,6 +5,13 @@ zombie:
     name: Spawn Zombie
   permanent: true
 
+zombie-husk:
+  mobtype: zombie
+  egg:
+    material: wood_pickaxe
+    name: Spawn Husk Zombie
+  permanent: true
+
 gobo:
   mobtype: gobo
   egg:
