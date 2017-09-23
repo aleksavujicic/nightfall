@@ -261,7 +261,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		if (canSee()) {
 			removePotionEffect(PotionEffectType.BLINDNESS);
 		} else {
-			givePermanentPotionEffect(PotionEffectType.BLINDNESS, 0);
+			givePermanentPotionEffect(PotionEffectType.BLINDNESS, 1);
 		}
 	}
 	private boolean canSee() {
