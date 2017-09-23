@@ -40,6 +40,10 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 	protected boolean instaKill;
 	
 	
+	private static int idCount = 0;
+	private final int ID;
+	
+	
 	private final Projectile arrow;
 	public boolean hasArrow() {return  arrow instanceof Arrow;}
 	public Arrow getArrow() {
@@ -101,6 +105,9 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		this.instaKill = false;
 		
 		this.arrow = arrow;
+		
+		this.ID = idCount;
+		idCount++;
 	}
 	
 	public GameDamageType getType() {
@@ -203,7 +210,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		
 		String attackerName = (attacker == null ? "NONE" : attacker.getName());
 		
-		return "GameDamage at " + time + " from " + attackerName + " to " + receiver.getName() + " of type: " + type + ". "
+		return "GameDamage ID" + ID + " at " + time + " from " + attackerName + " to " + receiver.getName() + " of type: " + type + ". "
 				+ "DAMAGES - " + damage.toString() + ". "
 				+ (knockback != null ? "Knockback: " + knockback.length() + ". " : "")
 				+ "NoDmgTicks: " + noDmgTicks + ". "

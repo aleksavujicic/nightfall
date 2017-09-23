@@ -9,6 +9,7 @@ import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.ai.AIEntity;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 /**
@@ -23,7 +24,9 @@ abstract class AbstractAOEHitter extends AbstractItem {
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (damageFromItem(damage))  {
+		
+		if (damageFromItem(damage)) {
+			Bukkit.broadcastMessage("DAMAGE" + damage.toString());
 			MonsterEntity monster = damage.getMonster();
 			
 			Location center = monster.getLocation();
@@ -38,8 +41,7 @@ abstract class AbstractAOEHitter extends AbstractItem {
 					if (entity instanceof AIEntity)
 						newDamage.setKnockback(0, 0.4, 0);
 					
-					DamageManager.getManager().customDamage(damage);
-					
+					DamageManager.getManager().customDamage(newDamage);
 				}
 			}
 		}

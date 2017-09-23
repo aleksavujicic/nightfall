@@ -9,9 +9,9 @@ public class DamageModifier {
 	/** How much knockback to do. */
 	private Vector knockback = null;
 	private boolean addKnockback = false;
-	/** If set to true, the getDamage will no longer occur. Overrides force. */
+	/** If set to true, the damage will no longer occur. Overrides force. */
 	private boolean cancelled = false;
-	/** If set to true, getDamage will be 'infinite'. */
+	/** If set to true, damage will be 'infinite'. */
 	private boolean instaKill = false;
 	
 	public DamageModifier setKnockback(Vector knockback) {
