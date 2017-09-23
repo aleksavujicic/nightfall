@@ -1,10 +1,10 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Misc;
-import deimophobe.nightfall.damage.DamageManager;
-import deimophobe.nightfall.damage.DwarfDamageModifier;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
@@ -136,10 +136,19 @@ class Wraith extends AbstractMob {
 	private static final int AOE_DMG = 50; // This is a one off hit so its not as strong as it seems.
 	private static final int AOE_SHRED = 50;
 	private void aoeDamage() {
-		DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), monster,
-				CustomDamageType.WRAITH_CHARGE, AOE_RADIUS, AOE_DMG, 1,
-				new DwarfDamageModifier().setArmourShred(AOE_SHRED)
-		);
+		//DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), monster,
+		//		CustomDamageType.WRAITH_CHARGE, AOE_RADIUS, AOE_DMG, 1,
+		//		new DwarfDamageModifier().setArmourShred(AOE_SHRED).setManaDrain(25)
+		//);
+		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
+			if (monster.distanceTo(dwarf) <= AOE_RADIUS) {
+				DwarfDamage damage = dwarf.createDamage(monster, CustomDamageType.WRAITH_CHARGE, AOE_DMG);
+				damage.setArmourShred(AOE_SHRED);
+				damage.setManaDrain(50);
+				damage.setNoDmgTicks(10);
+				damage.fire();
+			}
+		}
 	}
 	
 	@Override

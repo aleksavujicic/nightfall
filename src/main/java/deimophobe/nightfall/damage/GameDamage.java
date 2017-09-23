@@ -39,7 +39,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 	/** If set to true, getDamage will be 'infinite'. */
 	protected boolean instaKill;
 	
-	/** Whether the event has been triggered or not. Can trigger by {@link #trigger} */
+	/** Whether the event has been triggered or not. */
 	private boolean triggered = false;
 	
 	/** True if the final getDamage has been applied and applied. No further calculations
@@ -183,6 +183,10 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		}
 		
 		return successful;
+	}
+	
+	void applyNoDmgTicks() {
+		receiver.getEntity().setNoDamageTicks(noDmgTicks);
 	}
 	
 	

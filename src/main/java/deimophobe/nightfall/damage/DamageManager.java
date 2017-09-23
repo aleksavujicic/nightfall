@@ -39,6 +39,8 @@ public class DamageManager {
 			lastUsedCustomDamage = damage;
 			if (force) receiver.setNoDamageTicks(0);
 			receiver.damage(100);
+			
+			damage.applyNoDmgTicks();
 		}
 	}
 	
