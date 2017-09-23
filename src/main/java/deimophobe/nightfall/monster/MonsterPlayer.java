@@ -323,6 +323,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 					case MAGMA_BLOCK:
 					case FALL:
 						damage.cancel();
+						return;
 				}
 			}
 			
