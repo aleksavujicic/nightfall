@@ -126,19 +126,18 @@ public class AIManager {
 	private void updateAIs() {
 		// Get rid of unnecessary ai
 		Region shrineProt = GameMap.getCurrentMap().getCurrentShrineProtection();
-		Set<UUID> deadAIs = new HashSet<>();
-		for (AIEntity ai : ais.values()) {
+		for (AIEntity ai : new HashSet<>(ais.values())) {
 			ai.updateTarget();
 			
 			if (shrineProt.continsGameEntity(ai))
 				ai.remove();
 			
 			if (ai.isDead())
-				deadAIs.add(ai.getUniqueId());
+				unregisterAI(ai);
 		}
-		for (UUID uuid : deadAIs)
-			ais.remove(uuid);
 		
+		if (Game.getGame().getPhase() != Phase.GAME)
+			return;
 		
 		// Try onSpawn more AIs
 		if (aisSpawnable && Game.getGame().getPhase() == Phase.GAME && !DoomManager.getManager().isDoom()) {
@@ -222,6 +221,11 @@ public class AIManager {
 		AIEntity ai = new AIEntity(location, getRandomName());
 		aiTeam.addEntry(ai.getUniqueId().toString());
 		ais.put(ai.getUniqueId(), ai);
+	}
+	
+	void unregisterAI(AIEntity entity) {
+		ais.remove(entity.getUniqueId());
+		aiTeam.removeEntry(entity.getUniqueId().toString());
 	}
 	
 	

@@ -79,6 +79,7 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 	public void onDeath() {
 		float pitch = (getEntity().isBaby() ? 1.5f : 1f);
 		getLocation().getWorld().playSound(getLocation(), "entity.zombie.death", 1f, pitch);
+		AIManager.getManager().unregisterAI(this);
 	}
 	
 	public void setTarget(Dwarf dwarf) {

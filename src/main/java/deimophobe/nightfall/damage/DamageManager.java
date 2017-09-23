@@ -33,7 +33,7 @@ public class DamageManager {
 		LivingEntity receiver = damage.getReceiver().getEntity();
 		if (force || receiver.getNoDamageTicks() == 0) {
 			if (lastUsedCustomDamage != null) {
-				Bukkit.getLogger().severe("Last damage used was not null!?");
+				Bukkit.getLogger().severe("Last damage used was not null!? Damage: \n" + lastUsedCustomDamage.toString());
 			}
 			
 			lastUsedCustomDamage = damage;

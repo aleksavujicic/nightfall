@@ -40,6 +40,8 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		
 		aiManager = new AIManager();
 		doomManager = new DoomManager();
+		
+		aiManager.start();
 	}
 	
 	@Override
@@ -81,7 +83,6 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	private SpawnMenu menu;
 	
 	public void onMobRelease() {
-		aiManager.start();
 		doomManager.start();
 		
 		new BukkitRunnable() {
