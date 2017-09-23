@@ -5,6 +5,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -240,7 +241,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		
 		String attackerName = (attacker == null ? "NONE" : attacker.getName());
 		
-		return "GameDamage ID" + ID + " at " + time + " from " + attackerName + " to " + receiver.getName() + " of type: " + type + ". "
+		return "GameDamage ID" + ID + " at " + time + " from " + attackerName + ChatColor.RESET + " to " + receiver.getName() + ChatColor.RESET + " of type: " + type + ". "
 				+ "DAMAGES - " + damage.toString() + ". "
 				+ (knockback != null ? "Knockback: " + knockback.length() + ". " : "")
 				+ "NoDmgTicks: " + noDmgTicks + ". "
