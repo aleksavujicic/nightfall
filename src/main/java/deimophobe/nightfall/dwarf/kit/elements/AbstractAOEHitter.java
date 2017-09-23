@@ -1,6 +1,5 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
@@ -41,7 +40,7 @@ abstract class AbstractAOEHitter extends AbstractItem {
 					if (entity instanceof AIEntity)
 						newDamage.setKnockback(0, 0.4, 0);
 					
-					DamageManager.getManager().customDamage(newDamage);
+					newDamage.fire();
 				}
 			}
 		}

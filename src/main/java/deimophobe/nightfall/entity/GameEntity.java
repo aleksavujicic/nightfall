@@ -5,7 +5,6 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import org.bukkit.Location;
@@ -146,7 +145,7 @@ public interface GameEntity<E extends LivingEntity> {
 		GameDamage gameDamage = createDamage(attacker, type, damage);
 		if (instaKill)
 			gameDamage.instaKill();
-		DamageManager.getManager().customDamage(gameDamage, force);
+		gameDamage.fire(force);
 	}
 	
 	default GameDamage createDamage(GameEntity attacker, CustomDamageType type, double damage) {

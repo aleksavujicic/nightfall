@@ -1,6 +1,5 @@
 package deimophobe.nightfall.entity;
 
-import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.damage.DamageOccurance;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
@@ -234,7 +233,7 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	public void forceKill() {
 		GameDamage damage = createDamage(null, CustomDamageType.TEMPORARY, 10000);
 		damage.instaKill();
-		DamageManager.getManager().customDamage(damage);
+		damage.fire();
 	}
 	
 	public void onRemove() {}

@@ -28,19 +28,8 @@ public class DamageManager {
 	public DamageManager() {}
 	
 	private GameDamage lastUsedCustomDamage = null;
-	
-	@Deprecated
-	public void customDamage(GameEntity attacker, GameEntity receiver, CustomDamageType type, double damage, DamageModifier modifier) {
-		GameDamage gameDamage = GameDamage.createDamage(attacker, receiver, type, damage);
-		modifier.applyToDamage(gameDamage);
-		customDamage(gameDamage);
-	}
-	
-	public void customDamage(GameDamage damage) {
-		customDamage(damage, false);
-	}
-	
-	public void customDamage(GameDamage damage, boolean force) {
+		
+	void customDamage(GameDamage damage, boolean force) {
 		LivingEntity receiver = damage.getReceiver().getEntity();
 		if (force || receiver.getNoDamageTicks() == 0) {
 			if (lastUsedCustomDamage != null) {
@@ -55,6 +44,7 @@ public class DamageManager {
 	
 	public void processDamageEvent(EntityDamageEvent event) {
 		GameDamage damage = getDamageFromEvent(event);
+		damage.activateTrigger();
 		damage.notifyEntities();
 		damage.applyDamage(event);
 	}
@@ -127,7 +117,9 @@ public class DamageManager {
 			Vector knockback = knockbackFunction.apply(offset);
 			modifier.addKnockback(knockback);
 			
-			customDamage(attacker, receiver, type, damage, modifier);
+			GameDamage gameDamage = GameDamage.createDamage(attacker, receiver, type, damage);
+			modifier.applyToDamage(gameDamage);
+			gameDamage.fire();
 		}
 	}
 }

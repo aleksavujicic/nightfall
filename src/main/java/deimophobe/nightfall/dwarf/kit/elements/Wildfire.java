@@ -2,7 +2,6 @@ package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -93,7 +92,8 @@ class Wildfire extends AbstractItem {
 					for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
 						if (monster.getEyeLocation().distance(position) <= FLAME_RADIUS) {
 							GameDamage damage = monster.createDamage(dwarf, CustomDamageType.WILDFIRE, FLAME_DPT * FLAME_DELAY);
-							DamageManager.getManager().customDamage(damage, true);
+							damage.setNoDmgTicks(3);
+							damage.fire(true);
 						}
 					}
 					

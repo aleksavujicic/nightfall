@@ -3,7 +3,6 @@ package deimophobe.nightfall.monster;
 import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -202,7 +201,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		if (seppukuCD == 0) {
 			GameDamage damage = createDamage(null, CustomDamageType.SEPPUKU, 10000);
 			damage.instaKill();
-			DamageManager.getManager().customDamage(damage);
+			damage.fire(true);
 		}
 	}
 	
