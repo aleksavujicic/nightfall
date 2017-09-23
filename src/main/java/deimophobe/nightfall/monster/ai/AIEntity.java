@@ -24,6 +24,10 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 	
 	private final Zombie zombie;
 	
+	public AIEntity(Location location, String randomName) {
+		this(location, randomName, null);
+	}
+	
 	@Override
 	public Zombie getEntity() {
 		return zombie;
@@ -44,7 +48,9 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 		chestplate.addUnsafeEnchantment(Enchantment.DEPTH_STRIDER, 2);
 		zombie.getEquipment().setChestplate(chestplate);
 		
-		zombie.setTarget(target.getPlayer());
+		if (target != null)
+			zombie.setTarget(target.getPlayer());
+		
 		return zombie;
 	}
 	

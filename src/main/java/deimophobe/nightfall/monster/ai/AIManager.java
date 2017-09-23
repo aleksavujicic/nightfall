@@ -175,7 +175,7 @@ public class AIManager {
 					continue;
 				}
 				
-				// Find closest dwarf and set as target. If no such dwarf, dont onSpawn.
+				// Find closest dwarf and set as target. If no such dwarf, dont spawn.
 				double leastDistance = 25;
 				Dwarf closestDwarf = null;
 				for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
@@ -211,6 +211,19 @@ public class AIManager {
 					addAISpawnLocation(monster.getLocation());
 		}
 	}
+	
+	
+	public void spawnAIs(Location location, int num) {
+		for (int i=0; i<num; i++)
+			spawnAI(location);
+	}
+	
+	public void spawnAI(Location location) {
+		AIEntity ai = new AIEntity(location, getRandomName());
+		aiTeam.addEntry(ai.getUniqueId().toString());
+		ais.put(ai.getUniqueId(), ai);
+	}
+	
 	
 	public Collection<AIEntity> getAIs() {
 		return ais.values();

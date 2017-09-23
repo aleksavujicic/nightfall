@@ -585,6 +585,26 @@ public class NightfallPlugin extends JavaPlugin {
 			
 			return true;
 		}
+		if (name.equalsIgnoreCase("spawnai")) {
+			if (sender instanceof Player) {
+				int num;
+				if (args.length == 0) {
+					num = 1;
+				} else {
+					try {
+						num = Integer.parseInt(args[0]);
+					} catch (NumberFormatException e) {
+						sender.sendMessage("" + ChatColor.YELLOW + ChatColor.ITALIC + args[0] + ChatColor.RED + " is not a number!");
+						return false;
+					}
+					num = Math.min(num, 300);
+				}
+				
+				AIManager.getManager().spawnAIs(((Player) sender).getLocation(), num);
+			} else {
+				sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
+			}
+		}
 		if (name.equalsIgnoreCase("who")) {
 			sender.sendMessage(dm.getPlayerList() + "\n" +  mm.getPlayerList());
 			return true;
