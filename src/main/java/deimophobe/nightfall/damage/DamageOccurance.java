@@ -115,7 +115,7 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 			return name + " was " + killMsg + " by " + damagerName + ".";
 	}
 	
-	private static final int MAX_LIFETIME = 10*20;
+	private static final int MAX_LIFETIME = 10*1000;
 	public boolean shoulReplace(DamageOccurance occurance) {
 		if (occurance == null) return true;
 		

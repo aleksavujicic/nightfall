@@ -5,7 +5,6 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
-import deimophobe.nightfall.map.GameMap;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -91,7 +90,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		this.attacker = attacker;
 		this.receiver = receiver;
 		
-		this.time = GameMap.getCurrentMap().getWorld().getFullTime();
+		this.time = System.currentTimeMillis();
 		this.itemName = getHeldItemOfDamager(attacker);
 		
 		this.damage = new MultiPartValue(damage);
