@@ -119,7 +119,8 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 	public boolean shoulReplace(DamageOccurance occurance) {
 		if (occurance == null) return true;
 		
-		if (time < occurance.time) throw new IllegalArgumentException("shouldReplace should only be called on previous events");
+		if (time < occurance.time) throw new IllegalArgumentException("shouldReplace should only be called on previous events.\n" +
+				"New time: " + time + " Existing time: " + occurance.time);
 			
 		// Return true if old even expired
 		if (time > occurance.time + MAX_LIFETIME) return true;

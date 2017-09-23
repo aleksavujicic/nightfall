@@ -91,7 +91,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		this.attacker = attacker;
 		this.receiver = receiver;
 		
-		this.time = GameMap.getCurrentMap().getWorld().getTime();
+		this.time = GameMap.getCurrentMap().getWorld().getFullTime();
 		this.itemName = getHeldItemOfDamager(attacker);
 		
 		this.damage = new MultiPartValue(damage);
