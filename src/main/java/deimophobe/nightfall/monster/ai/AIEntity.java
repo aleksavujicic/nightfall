@@ -28,6 +28,9 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 		this(location, randomName, null);
 	}
 	
+	private static final int MAX_TARGET_COUNT = 3;
+	private int targetCounter = MAX_TARGET_COUNT;
+	
 	@Override
 	public Zombie getEntity() {
 		return zombie;
@@ -56,6 +59,7 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 	
 	public AIEntity(Location location, String name, Dwarf target) {
 		zombie = spawnZombie(location, name, target);
+		targetCounter = MAX_TARGET_COUNT;
 	}
 	
 	@Override
@@ -75,19 +79,13 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 		
 	}
 	
-	// TODO
-	public void onDeath() {
-		float pitch = (getEntity().isBaby() ? 1.5f : 1f);
-		getLocation().getWorld().playSound(getLocation(), "entity.zombie.death", 1f, pitch);
+	public void onDeath(MonsterDamage damage) {
+		if (damage.getType() != CustomDamageType.AI_REMOVER) {
+			float pitch = (getEntity().isBaby() ? 1.5f : 1f);
+			getLocation().getWorld().playSound(getLocation(), "entity.zombie.death", 1f, pitch);
+		}
 		AIManager.getManager().unregisterAI(this);
 	}
-	
-	public void setTarget(Dwarf dwarf) {
-		zombie.setTarget(dwarf.getPlayer());
-	}
-	
-	private static final int MAX_TARGET_COUNT = 2;
-	private int targetCounter = MAX_TARGET_COUNT;
 	
 	private static final double MAX_TARGET_RANGE = 20;
 	
@@ -97,22 +95,32 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 	}
 	
 	void updateTarget() {
-		if (zombie.getTarget() != null) return;
-		
-		Dwarf newTarget = DwarfManager.getManager().getNearest(getLocation());
-		if (newTarget == null) {
-			remove();
-			return;
+		if (zombie.getTarget() != null) {
+			Location zomLoc = zombie.getLocation();
+			Location tarLoc = zombie.getTarget().getLocation();
+			
+			if (zomLoc.distance(tarLoc) <= MAX_TARGET_RANGE) {
+				// If target exists and is within range, do nothing
+				return;
+			} else {
+				// Otherwise if target exists but outside of range, reset target and continue
+				zombie.setTarget(null);
+			}
 		}
 		
-		if (newTarget.distanceTo(this) <= MAX_TARGET_RANGE) {
-			targetCounter = MAX_TARGET_COUNT;
+		Dwarf newTarget = DwarfManager.getManager().getNearest(getLocation());
+		if (newTarget != null && newTarget.distanceTo(this) <= MAX_TARGET_RANGE) {
 			setTarget(newTarget);
 		} else {
 			targetCounter--;
 			if (targetCounter == 0)
 				remove();
 		}
+	}
+	
+	public void setTarget(Dwarf dwarf) {
+		targetCounter = MAX_TARGET_COUNT;
+		zombie.setTarget(dwarf.getPlayer());
 	}
 	
 	public void remove() {

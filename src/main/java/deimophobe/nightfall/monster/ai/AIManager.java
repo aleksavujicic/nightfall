@@ -41,7 +41,7 @@ public class AIManager {
 	private final static int MAX_AI_MARKS = 40;
 	private final static double AI_MARK_DISTANCE = 5;
 	
-	private final static int UPDATE_FREQ =  3*20;
+	private final static int UPDATE_FREQ =  5*20;
 	
 	
 	private final Team aiTeam;

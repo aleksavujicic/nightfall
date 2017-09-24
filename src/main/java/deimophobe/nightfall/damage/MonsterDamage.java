@@ -59,7 +59,7 @@ public class MonsterDamage extends GameDamage<GameEntity, MonsterEntity> {
 			}
 			
 			if (receiver instanceof AIEntity) {
-				((AIEntity) receiver).onDeath();
+				((AIEntity) receiver).onDeath(this);
 			}
 			
 			// Notify dwarf if there is one
