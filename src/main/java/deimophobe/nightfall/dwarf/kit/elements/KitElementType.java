@@ -14,6 +14,7 @@ public enum KitElementType {
 	
 	DRB,
 	GRB,
+	GREATSWORD,
 	AXE,
 	HAMMER,
 	DAGGER,
@@ -101,6 +102,7 @@ public enum KitElementType {
 			
 			case DRB: return new DwarvenRuneblade(dwarf);
 			case GRB: return new GreaterRuneblade(dwarf);
+			case GREATSWORD: return new Greatsword(dwarf);
 			case AXE: return new AxeOfMalice(dwarf);
 			case DAGGER: return new Dagger(dwarf);
 			case TOMBMAKER: return new Tombmaker(dwarf);

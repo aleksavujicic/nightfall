@@ -25,6 +25,16 @@ sword:
        - "\"Keep PROC'ing Jimmy! You can't stop now.\" - Velvetine"
     modifiers:
       attack: 15
+  grb:
+    base: runeblade
+    name: Greatsword
+    lore:
+      description:
+       - "hi"
+      flavour:
+       - "Drk fill dis in"
+    modifiers:
+      attack: 25
   axe:
     base: malice
     name: Axe of Malice
