@@ -177,13 +177,14 @@ public class GameListener implements Listener {
 		// Special cases for void/suffocation/starvation.
 		if (event.getEntity().getType() == EntityType.PLAYER) {
 			Player player = (Player) event.getEntity();
-			// Instakill if in survival and void getDamage
+			// Instakill if in survival and void damage
 			if (event.getCause() == EntityDamageEvent.DamageCause.VOID) {
 				if (player.getGameMode() == GameMode.SURVIVAL) {
 					event.setDamage(10000);
 				} else {
 					event.setDamage(0);
 					event.setCancelled(true);
+					return;
 				}
 			}
 		}
