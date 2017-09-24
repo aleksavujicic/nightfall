@@ -140,10 +140,12 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		idCount++;
 	}
 	
+	/** Fires a custom damage event */
 	public void fire() {
 		fire(false);
 	}
 	
+	/** Fires a custom damage event */
 	public void fire(boolean force) {
 		DamageManager.getManager().customDamage(this, force);
 	}
