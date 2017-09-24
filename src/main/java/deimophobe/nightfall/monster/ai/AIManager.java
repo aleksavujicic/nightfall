@@ -187,9 +187,7 @@ public class AIManager {
 				if (closestDwarf == null) continue;
 				
 				// Create zombie with all right stuff
-				AIEntity ai = new AIEntity(spawnSpot, getRandomName(), closestDwarf);
-				aiTeam.addEntry(ai.getUniqueId().toString());
-				ais.put(ai.getUniqueId(), ai);
+				spawnAI(spawnSpot, closestDwarf);
 
 				// Destroy spawnspots after average of 3 AI spawns
 				if (Math.random() < 0.333) {
@@ -219,6 +217,12 @@ public class AIManager {
 	
 	public void spawnAI(Location location) {
 		AIEntity ai = new AIEntity(location, getRandomName());
+		aiTeam.addEntry(ai.getUniqueId().toString());
+		ais.put(ai.getUniqueId(), ai);
+	}
+	
+	public void spawnAI(Location location, Dwarf target) {
+		AIEntity ai = new AIEntity(location, getRandomName(), target);
 		aiTeam.addEntry(ai.getUniqueId().toString());
 		ais.put(ai.getUniqueId(), ai);
 	}
