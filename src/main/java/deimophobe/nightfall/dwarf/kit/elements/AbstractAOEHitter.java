@@ -38,6 +38,8 @@ abstract class AbstractAOEHitter extends AbstractItem {
 					if (entity instanceof AIEntity)
 						newDamage.setKnockback(0, 0.4, 0);
 					
+					newDamage.setNoDmgTicks(10);
+					
 					newDamage.fire();
 				}
 			}
