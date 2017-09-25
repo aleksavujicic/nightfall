@@ -81,6 +81,5 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		MAIN,
 		ZOMBIE_UPGRADE,
 		GOBO_UPGRADE
-		;
 	}
 }
