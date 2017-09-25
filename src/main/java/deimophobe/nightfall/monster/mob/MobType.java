@@ -66,7 +66,14 @@ public enum MobType {
 	
 	public Mob createMob(MonsterPlayer monster) {
 		switch (this) {
-			case ZOMBIE: return new Zombie(monster);
+			case ZOMBIE: {
+				if (monster.getUpgrades(MobType.ZOMBIE).get("husk") == 1) {
+					return new Zombie_Husk(monster);
+				}
+				else {
+					return new Zombie(monster);
+				}
+			}
 			case ZOMBIE_HUSK: return new Zombie_Husk(monster);
 			case GOBO: return new Goblin(monster);
 			

@@ -4,14 +4,6 @@ zombie:
     material: wood_pickaxe
     name: Spawn Zombie
   permanent: true
-  zombieroot: true
-
-zombie-husk:
-  mobtype: zombie
-  egg:
-    material: wood_pickaxe
-    name: Spawn Husk Zombie
-  permanent: true
 
 gobo:
   mobtype: gobo
@@ -19,7 +11,6 @@ gobo:
     base: kaboom
     name: Spawn Goblin
   permanent: true
-  goboroot: true
 
 witherskele:
   mobtype: witherskele
