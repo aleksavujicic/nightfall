@@ -126,6 +126,19 @@ vampirism:
         - "Increases your life steal."
 
 
+husk:
+  index: 21
+  cost: 200
+  prereq:
+    attack: 3
+    health: 3
+  item:
+    material: iron_chestplate
+    name: "Husk Zombie"
+    lore:
+      description:
+        - "Become a Husk Zombie!"
+
 
 fury:
   index: 22

@@ -30,7 +30,10 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 	private int quantity;
 	private final int maxQuantity;
 	private final double spawnChance;
-	
+
+	private boolean zombieroot;
+	private boolean goboroot;
+
 	private SpawnEggMenuItem(ConfigurationSection section) {
 		this.item = CustomItem.getItem(section.getConfigurationSection("egg"), "monster-egg", Slot.HEAD).createItemStack();
 		
@@ -46,9 +49,12 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 		this.maxQuantity = section.getInt("quantity", 1);
 		this.spawnChance = section.getDouble("chance", 0.5);
 		
-		this.permanent = !(section.contains("quantity") && section.contains("chance"));
+		this.permanent = section.getBoolean("permanent", false);
 		
 		this.enabled = section.getBoolean("enabled", true);
+
+		this.zombieroot = section.getBoolean("zombieroot", false);
+		this.goboroot = section.getBoolean("goboroot", false);
 	}
 	
 	boolean tryRestock() {
@@ -67,9 +73,13 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 	
 	@Override
 	public ItemStack getDisplayItem(MenuSession<MonsterPlayer> session) {
-		if (permanent)
+		if (zombieroot) {
+			if (session.getData().getUpgrades(MobType.ZOMBIE).get("husk") == 1)
+				return item;
+		}
+		if (permanent) {
 			return item;
-		
+		}
 		if (isAvailable()) {
 			ItemStack newitem = item.clone();
 				newitem.setAmount(quantity);
@@ -94,8 +104,17 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 			monster.sendMessage(ChatColor.RED + "You cannot spawn during doom!");
 			return false;
 		}
-		
-		monster.spawnMob(Misc.getRandom(mobTypes));
+		if (zombieroot) {
+			if (monster.getUpgrades(MobType.ZOMBIE).get("husk") == 1) {
+				monster.spawnMob(MobType.ZOMBIE_HUSK);
+			}
+		}
+		//else if (goboroot) {
+
+		//}
+		else {
+			monster.spawnMob(Misc.getRandom(mobTypes));
+		}
 		quantity -= 1;
 		session.closeSession();
 		return false;
