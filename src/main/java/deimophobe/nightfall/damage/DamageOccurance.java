@@ -82,7 +82,7 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 					killMsg = "drained";
 					break;
 				case MINOTAUR_CHARGE:
-					killMsg = "stampeded";
+					killMsg = "trampled";
 					break;
 				
 				case INCORRECT_HELD_ITEM:
