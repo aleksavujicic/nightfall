@@ -18,6 +18,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.HashSet;
+
 /**
  * Created by Deimophobe on 23/07/17.
  */
@@ -27,6 +29,7 @@ public class Minotaur extends AbstractMob {
 	}
 	
 	private final ComplexCooldown cooldown = new ComplexCooldown(200, this::charge, ComplexCooldown.DO_NOTHING);
+	private final HashSet<Dwarf> hitDwarves = new HashSet<>();
 	
 	@Override
 	public void onSpawn() {
@@ -55,7 +58,7 @@ public class Minotaur extends AbstractMob {
 	
 	private final static int MAX_CHARGE_TIME = 15;
 	private void charge() {
-		
+		hitDwarves.clear();
 		BukkitRunnable charger = new BukkitRunnable() {
 			private int lifetime = MAX_CHARGE_TIME;
 			@Override
@@ -114,7 +117,7 @@ public class Minotaur extends AbstractMob {
 	}
 	
 	private static final double AOE_RADIUS = 2.5;
-	private static final int AOE_DMG = 60; // This is a one off hit so its not as strong as it seems.
+	private static final int AOE_DMG = 50; // This is a one off hit so its not as strong as it seems.
 	private static final int AOE_SHRED = 25;
 	private void aoeDamage() {
 		/*
@@ -125,18 +128,20 @@ public class Minotaur extends AbstractMob {
 		//TODO monster.playSound("entity.zombie.attack_iron_door", 1f, 1.7f, true);
 		*/
 		
+		
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
-			if (dwarf.distanceTo(monster) <= AOE_RADIUS) {
-				if (dwarf.getPlayer().getNoDamageTicks() == 0) {
-					Vector vel = dwarf.getLocation().subtract(monster.getLocation()).toVector();
-					vel.normalize().multiply(3);
-					vel.setY(vel.getY() + 1.5);
+			if (!hitDwarves.contains(dwarf) && dwarf.distanceTo(monster) <= AOE_RADIUS) {
+				hitDwarves.add(dwarf);
+				Vector vel = dwarf.getLocation().subtract(monster.getLocation()).toVector();
+				vel.normalize().multiply(3);
+				vel.setY(vel.getY() + 1.5);
+				
+				DwarfDamage damage = dwarf.createDamage(monster, CustomDamageType.MINOTAUR_CHARGE, AOE_DMG);
+				damage.setKnockback(vel);
+				damage.setArmourShred(AOE_SHRED);
+				damage.fire(true);
 					
-					DwarfDamage damage = dwarf.createDamage(monster, CustomDamageType.MINOTAUR_CHARGE, AOE_DMG);
-					damage.setKnockback(vel);
-					damage.setArmourShred(AOE_SHRED);
-					damage.fire(true);
-				}
+				monster.playSound("entity.zombie.attack_iron_door", 1f, 1.7f, true);
 			}
 		}
 	}
