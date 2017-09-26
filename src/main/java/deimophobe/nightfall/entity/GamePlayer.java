@@ -175,7 +175,10 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	}
 	
 	public String getDeathMessage() {
-		return lastDamage.getDeathMessage();
+		if (lastDamage == null)
+			return getDisplayName() + ChatColor.RESET + " has died.";
+		else
+			return lastDamage.getDeathMessage();
 	}
 	
 	
