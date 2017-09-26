@@ -236,19 +236,22 @@ public class AIManager {
 	public Collection<AIEntity> getAIs() {
 		return ais.values();
 	}
+	public Collection<AIEntity> getRemoveableAIs() {
+		return new HashSet<>(ais.values());
+	}
 	public AIEntity getAI(Entity entity) {
 		return ais.get(entity.getUniqueId());
 	}
 	
 	public void removeAllAIs() {
-		for (AIEntity ai : ais.values()) {
+		for (AIEntity ai : getRemoveableAIs()) {
 			ai.remove();
 		}
 		ais.clear();
 	}
 	
 	public void clearArea(Location center, double range) {
-		for (AIEntity entity : ais.values()) {
+		for (AIEntity entity : getRemoveableAIs()) {
 			if (center.distance(entity.getLocation()) <= range)
 				entity.remove();
 		}
