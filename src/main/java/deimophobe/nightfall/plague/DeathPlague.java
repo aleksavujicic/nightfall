@@ -51,6 +51,14 @@ class DeathPlague extends AbstractPlague {
 					} else {
 						target = getRandomPlagueable();
 					}
+					
+					if (target == null) {
+						this.cancel();
+						death.remove();
+						notifyEnd();
+						return;
+					}
+					
 					killedOne = true;
 					death.teleport(target.getLocation());
 					
