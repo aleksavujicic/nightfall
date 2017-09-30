@@ -20,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
+import java.util.ListIterator;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -139,8 +140,29 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		player.setItemOnCursor(null);
 	}
 	
-	public  void showInventory(Inventory inventory) {
+	public void showInventory(Inventory inventory) {
 		player.openInventory(inventory);
+	}
+	
+	public int replaceItem(ItemStack oldItem, ItemStack newItem) {
+		return replaceItem(oldItem::isSimilar, newItem);
+	}
+	
+	public int replaceItem(CustomItem oldItem, ItemStack newItem) {
+		return replaceItem(oldItem::isSimilar, newItem);
+	}
+	
+	public int replaceItem(Predicate<ItemStack> matcher, ItemStack newItem) {
+		ListIterator<ItemStack> iterator = player.getInventory().iterator();
+		int replaced = 0;
+		while (iterator.hasNext()) {
+			ItemStack item = iterator.next();
+			if (matcher.test(item)) {
+				iterator.set(newItem);
+				replaced++;
+			}
+		}
+		return replaced;
 	}
 	
 	

@@ -48,10 +48,15 @@ public class BaseItemManager {
 			ConfigurationSection keyConfig = config.getConfigurationSection(key);
 			Material material = Material.matchMaterial(key);
 			
-			for (String itemName : keyConfig.getKeys(true)) {
-				int damage = keyConfig.getInt(itemName);
-				
-				addItem(itemName, new SimpleBaseItem(material, damage));
+			if (keyConfig == null) {
+				String itemName = config.getString(key);
+				addItem(itemName, new SimpleBaseItem(material, 0));
+			} else {
+				for (String itemName : keyConfig.getKeys(true)) {
+					int damage = keyConfig.getInt(itemName);
+					
+					addItem(itemName, new SimpleBaseItem(material, damage));
+				}
 			}
 		}
 	}

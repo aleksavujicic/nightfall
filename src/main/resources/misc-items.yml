@@ -1,0 +1,21 @@
+seppuku:
+  template: monster
+  base: seppuku
+  name: Seppuku
+  lore:
+    description:
+     - "u die"
+    flavour:
+     - "What a failure of a monster \n
+        you have become."
+
+lightning-seppuku:
+  template: monster-hero
+  base: lightning-seppuku
+  name: Insta Seppuku
+  lore:
+    description:
+     - "u die"
+    flavour:
+     - "Temp"
+  shiny: true

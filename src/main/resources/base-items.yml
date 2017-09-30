@@ -19,6 +19,7 @@ shears:
   caduceus: 49
   aisword: 100
   kaboom: 102
+  lightning-seppuku: 102
   bite: 103
   golempick: 104
   ogreclub: 105
@@ -104,3 +105,5 @@ shield:
   hammer: 1
 #  herohammer: 2
   axe: 3
+
+ghast_tear: seppuku
