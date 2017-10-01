@@ -46,4 +46,8 @@ public enum Hat {
 		}
 		return null;
 	}
+	
+	public ItemStack asItemStack() {
+		return hat;
+	}
 }

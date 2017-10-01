@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.ai;
 
+import deimophobe.nightfall.Hat;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
@@ -50,6 +51,7 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 			chestplate = new ItemStack(Material.DIAMOND);
 		chestplate.addUnsafeEnchantment(Enchantment.DEPTH_STRIDER, 2);
 		zombie.getEquipment().setChestplate(chestplate);
+		zombie.getEquipment().setHelmet(Hat.WITCH.asItemStack());
 		
 		if (target != null)
 			zombie.setTarget(target.getPlayer());
