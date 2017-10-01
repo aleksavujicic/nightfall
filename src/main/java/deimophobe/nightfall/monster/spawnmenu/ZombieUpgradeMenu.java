@@ -22,7 +22,9 @@ import java.util.Set;
 class ZombieUpgradeMenu extends IndexedMenu<MonsterPlayer, ZombieUpgradeMenu.PageType> {
 	private final Map<MobType, Set<String>> upgradeSets;
 
-	@Override protected ZombieUpgradeMenu.PageType getDefault() {return ZombieUpgradeMenu.PageType.ZOMBIE_COMMON_UPGRADE;}
+	@Override protected ZombieUpgradeMenu.PageType getDefault() {return ZombieUpgradeMenu.PageType.ZOMBIE_UPGRADE;}
+
+	//private ZombieUpgradeMenu.PageType getHusk() {return ZombieUpgradeMenu.PageType.ZOMBIE_HUSK_UPGRADE;}
 
 	public ZombieUpgradeMenu(MenuItem<MonsterPlayer> backItem) {
 		upgradeSets = new HashMap<>();
@@ -42,11 +44,20 @@ class ZombieUpgradeMenu extends IndexedMenu<MonsterPlayer, ZombieUpgradeMenu.Pag
 				upgradeSets.put(type, upgradeMenu.getUpgrades());
 			}
 		}
-
 	}
 	private static final YamlConfiguration itemConfig = Misc.getInternalFileConfig("mobmenu-items.yml");
 	private ItemStack getConfigItem(String name) {
 		return CustomItem.getItem(itemConfig.getConfigurationSection(name), "monster-menu", Slot.MAIN_HAND).createItemStack();
+	}
+
+	@Override
+	protected ZombieUpgradeMenu.PageType getPageIndex(MenuSession<MonsterPlayer> session) {
+		/*
+		if (session.getData().getUpgrades(MobType.ZOMBIE).computeIfAbsent("husk", (k) -> 0) == 1) {
+			return storedIndices.computeIfAbsent(session, (k) -> getHusk());
+		}
+		*/
+		return storedIndices.computeIfAbsent(session, (k) -> getDefault());
 	}
 
 	public Set<String> getUpgradeSet(MobType type) {
@@ -57,9 +68,10 @@ class ZombieUpgradeMenu extends IndexedMenu<MonsterPlayer, ZombieUpgradeMenu.Pag
 		}
 	}
 
+
 	enum PageType {
-		ZOMBIE_COMMON_UPGRADE("zombie-upgrades.yml", MobType.ZOMBIE),
-		ZOMBIE_HUSK_UPGRADE("husk-upgrades.yml", MobType.ZOMBIE_HUSK)//,
+		ZOMBIE_UPGRADE("zombie-upgrades.yml", MobType.ZOMBIE),
+		//ZOMBIE_HUSK_UPGRADE("husk-upgrades.yml", MobType.ZOMBIE_HUSK)//,
 		//ZOMBIE_SABOTEUR_UPGRADE,
 		//ZOMBIE_FURY_UPGRADE
 		;
