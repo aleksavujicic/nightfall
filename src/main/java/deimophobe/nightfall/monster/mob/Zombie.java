@@ -24,7 +24,7 @@ import java.util.Map;
  * Created by Deimophobe on 2/02/17.
  */
 public class Zombie extends AbstractMob {
-	
+	/*
 	private final Cooldown leapCD;
 	private final int leapLvl;
 	
@@ -38,7 +38,11 @@ public class Zombie extends AbstractMob {
 	
 	private final boolean fury;
 	private final ComplexCooldown furySound;
-	
+	*/
+
+	protected double rebirthChance;
+	protected Map<String, Integer> upgrades;
+
 	private final Location rebirthLoc;
 	
 	protected Zombie(MonsterPlayer mons) {
@@ -47,36 +51,44 @@ public class Zombie extends AbstractMob {
 	
 	public Zombie(MonsterPlayer mons, Location rebirth) {
 		super(mons, MobType.ZOMBIE);
-		
+		this.rebirthChance = 0;
 		this.rebirthLoc = rebirth;
 		
 		// TODO: Make these not hardcoded. Requires bit of work so later.
+		/*
 		Integer[] shredValues = {0, 5, 8, 12, 15, 20};
-		Integer[] arrowResValues = {0, 25, 50, 60, 70, 75};
+		Integer[] arrowResValues = {0, 25, 40, 50};
 		Integer[] rebirthValues = {0, 25, 50, 60, 70, 75};
+		*/
 		
 		
-		
-		Map<String, Integer> upgrades = monster.getUpgrades(MobType.ZOMBIE);
+		upgrades = monster.getUpgrades(MobType.ZOMBIE);
 		
 		int attack = upgrades.get("attack") + upgrades.get("attack-inf");
 		int health = (upgrades.get("health") + upgrades.get("health-inf"))*2;
 		getWeapon().addModifier(ItemModifierType.ATTACK, attack, "Upgrade");
 		getArmour().addModifier(ItemModifierType.HEALTH, health, "Upgrade");
-		
+
+		/*
 		int leapLvl = upgrades.get("leap");
 		if (leapLvl != 0)
 			leapCD = new SimpleCooldown(200);
 		else
 			leapCD = new DudCooldown();
 		this.leapLvl = upgrades.get("leap");
-		
-		this.vampirism = upgrades.get("vampirism");
+
+
 		this.pursuit = upgrades.get("pursuit");
 		
+
+		this.armourShred = shredValues[upgrades.computeIfAbsent("shred", (k) -> 0)];
+		this.vampirism = upgrades.computeIfAbsent("vampirism", (k) -> 0);
+
 		int arrowRes = arrowResValues[upgrades.get("arrow")];
 		this.arrowRes = (double) arrowRes/100;
-		this.armourShred = shredValues[upgrades.get("shred")];
+
+		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
+		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
 		
 		int rebirthChance = rebirthValues[upgrades.get("rebirth")];
 		this.rebirthChance = (double) rebirthChance/100;
@@ -90,8 +102,11 @@ public class Zombie extends AbstractMob {
 		else
 			furySound = new ComplexCooldown(10);
 		
-		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
-		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
+
+		*/
+
+
+
 	}
 	
 	private boolean didRebirth() {
@@ -112,12 +127,22 @@ public class Zombie extends AbstractMob {
 		else
 			super.tpToSpawn();
 	}
-	
+
 	@Override
+	public void onDeath() {
+		boolean setRebirth = (Math.random() <= rebirthChance);
+		if (setRebirth)
+			monster.setRebirthSpot(monster.getLocation());
+		else
+			monster.removeRebirth();
+	}
+	/*
+	@Override
+
 	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
 		leapCD.update();
 	}
-	
+
 	@Override
 	public void onDamageReceive(MonsterDamage<? extends Dwarf> damage) {
 		super.onDamageReceive(damage);
@@ -159,13 +184,6 @@ public class Zombie extends AbstractMob {
 	public float getCooldown() {
 		return leapCD.fractionComplete();
 	}
-	
-	@Override
-	public void onDeath() {
-		boolean setRebirth = (Math.random() <= rebirthChance);
-		if (setRebirth)
-			monster.setRebirthSpot(monster.getLocation());
-		else
-			monster.removeRebirth();
-	}
+	*/
+
 }
