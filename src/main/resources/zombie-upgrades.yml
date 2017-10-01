@@ -46,88 +46,8 @@ health-inf:
       description:
         - "Further increases your health."
 
-
-
-shred:
-  index: 10
-  cost: [20, 40, 60, 80, 100]
-  value: [5, 8, 12, 15, 20]
-  prereq:
-    attack: 3
-  item:
-    material: gold_pickaxe
-    name: "Armour Shred"
-    lore:
-      description:
-        - "Increases your armour shred."
-
-pursuit:
-  index: 11
-  cost: [25, 50, 75]
-  prereq:
-    attack: 3
-  item:
-    material: coal
-    name: "Pursuit"
-    lore:
-      description:
-        - "Speed on hit."
-
-leap:
-  index: 12
-  cost: [10, 20, 30, 40, 50]
-  prereq:
-    attack: 3
-  item:
-    material: sugar
-    name: "Leap"
-    lore:
-      description:
-        - "Improves your leap"
-
-
-
-arrow:
-  index: 14
-  cost: [20, 40, 60, 80, 100]
-  value: [25, 50, 60, 70, 75]
-  prereq:
-    health: 3
-  item:
-    material: arrow
-    name: "Arrow Resistance"
-    lore:
-      description:
-        - "Increases your arrow resistance to $value%"
-
-rebirth:
-  index: 15
-  cost: [20, 40, 60, 80, 100]
-  value: [25, 50, 60, 70, 75]
-  prereq:
-    health: 3
-  item:
-    material: eye_of_ender
-    name: "Rebirth Chance"
-    lore:
-      description:
-        - "Increases your respawn chance to $value%"
-
-vampirism:
-  index: 16
-  cost: [30, 70, 100]
-  prereq:
-    health: 3
-  item:
-    material: redstone
-    name: "Vampirism"
-    lore:
-      description:
-        - "Increases your life steal."
-
-
 husk:
-  index: 21
+  index: 11
   cost: 200
   prereq:
     attack: 3
@@ -139,24 +59,105 @@ husk:
       description:
         - "Become a Husk Zombie!"
 
+##########################
+# HUSK SUBCLASS UPGRADES #
+##########################
 
-fury:
+shred-husk:
+  index: 10
+  cost: [20, 40, 60, 80, 100]
+  value: [6, 12, 18, 24, 30]
+  prereq:
+    husk: 1
+  item:
+    material: gold_pickaxe
+    name: "Armour Shred"
+    lore:
+      description:
+        - "Increases your armour shred."
+
+
+rebirth-husk:
+  index: 11
+  cost: [20, 40, 60, 80, 100]
+  value: [40, 60, 70, 80, 85]
+  prereq:
+    husk: 1
+  item:
+    material: eye_of_ender
+    name: "Rebirth Chance"
+    lore:
+      description:
+        - "Increases your respawn chance to $value%"
+
+
+arrow-husk:
+  index: 14
+  cost: [50, 100, 150]
+  value: [20, 40, 50]
+  prereq:
+    husk: 1
+  item:
+    material: arrow
+    name: "Arrow Resistance"
+    lore:
+      description:
+        - "Increases your arrow resistance to $value%"
+
+
+vampirism-husk:
+  index: 16
+  cost: [30, 70, 100]
+  prereq:
+    husk: 1
+  item:
+    material: redstone
+    name: "Vampirism"
+    lore:
+      description:
+        - "Increases your life steal."
+
+
+toughskin:
+  index: 14
+  cost: [20, 40, 60, 80, 100]
+  prereq:
+    husk: 1
+  item:
+      material: iron_chestplate
+      name: "Tough Skin"
+      lore:
+        description:
+          - "Gives you extra hearts at spawn."
+
+regen:
+  index: 15
+  cost: [100, 150]
+  prereq:
+    husk: 1
+  item:
+      base: potion-regeneration
+      name: "Regeneration"
+      lore:
+        description:
+          - "Slowly Restores your health."
+
+stagger:
   index: 22
-  cost: 300
+  cost: [300]
   prereq:
     attack: 5
     health: 5
-
-    shred: 5
-    pursuit: 3
-    leap: 5
-
-    arrow: 5
-    rebirth: 5
-    vampirism: 3
+    husk: 1
+    shred-husk: 5
+    arrow-husk: 3
+    rebirth-husk: 5
+    vampirism-husk: 3
+    toughskin: 5
+    regen: 2
   item:
-    material: exp_bottle
-    name: Fury of the Night
+    material: iron_sword
+    name: "Staggering Hit"
     lore:
       description:
-        - "Become a fury zombie"
+        - "Your hits will inflict slowness and do more armor damage"

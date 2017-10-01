@@ -104,3 +104,6 @@ shield:
   hammer: 1
 #  herohammer: 2
   axe: 3
+
+potion:
+  potion-regeneration: 1
