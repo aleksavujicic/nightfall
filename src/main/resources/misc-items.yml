@@ -19,3 +19,10 @@ lightning-seppuku:
     flavour:
      - "Temp"
   shiny: true
+
+ai-sword:
+  template: monster
+  base: aisword
+  name: Makeshift Stick
+  modifiers:
+    attack: 14

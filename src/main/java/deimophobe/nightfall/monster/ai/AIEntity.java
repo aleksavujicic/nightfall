@@ -1,6 +1,7 @@
 package deimophobe.nightfall.monster.ai;
 
 import deimophobe.nightfall.Hat;
+import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
@@ -32,6 +33,8 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 	private static final int MAX_TARGET_COUNT = 3;
 	private int targetCounter = MAX_TARGET_COUNT;
 	
+	private static final ItemStack sword = Misc.getItem("ai-sword").createItemStack();
+	
 	@Override
 	public Zombie getEntity() {
 		return zombie;
@@ -44,7 +47,8 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 		int speedLvl = (zombie.isBaby() ? -1 : 1);
 		zombie.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 300000, speedLvl, false,false), true);
 		
-		zombie.getEquipment().setItemInMainHand(new ItemStack(Material.SHEARS, 1, (short) 100));
+		zombie.getEquipment().setArmorContents(new ItemStack[]{null, null, null, null});
+		zombie.getEquipment().setItemInMainHand(sword);
 		
 		ItemStack chestplate = zombie.getEquipment().getChestplate();
 		if (chestplate == null || chestplate.getType() == Material.AIR)
@@ -67,7 +71,6 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		damage.setArmourShred(5);
-		damage.getDamage().setBase(12);
 	}
 	
 	@Override

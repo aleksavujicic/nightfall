@@ -601,6 +601,7 @@ public class NightfallPlugin extends JavaPlugin {
 				}
 				
 				AIManager.getManager().spawnAIs(((Player) sender).getLocation(), num);
+				return true;
 			} else {
 				sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
 			}
