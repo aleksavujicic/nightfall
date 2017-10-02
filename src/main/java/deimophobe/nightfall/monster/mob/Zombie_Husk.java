@@ -33,7 +33,9 @@ public class Zombie_Husk extends Zombie {
     private final boolean stagger;
     private final ComplexCooldown furySound;
 
-    private final Location rebirthLoc;
+    private static Integer[] shredValues = {0, 6, 12, 18, 24, 30};
+    private static Integer[] arrowResValues = {0, 20, 40, 50};
+    private static Integer[] rebirthValues = {0, 40, 60, 70, 80, 85};
 
     protected Zombie_Husk(MonsterPlayer mons) {
         this(mons, null);
@@ -41,15 +43,6 @@ public class Zombie_Husk extends Zombie {
 
     public Zombie_Husk(MonsterPlayer mons, Location rebirth) {
         super(mons, rebirth, MobType.ZOMBIE_HUSK);
-
-        this.rebirthLoc = rebirth;
-
-        // TODO: Make these not hardcoded. Requires bit of work so later.
-        Integer[] shredValues = {0, 6, 12, 18, 24, 30};
-        Integer[] arrowResValues = {0, 20, 40, 50};
-        Integer[] rebirthValues = {0, 40, 60, 70, 80, 85};
-
-
 
         Map<String, Integer> upgrades = monster.getUpgrades(MobType.ZOMBIE);
 
@@ -74,30 +67,6 @@ public class Zombie_Husk extends Zombie {
         getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
     }
 
-    private boolean didRebirth() {
-        return rebirthLoc != null;
-    }
-
-    @Override
-    public void onSpawn() {
-        super.onSpawn();
-        if (didRebirth())
-            giveSpawnProtection(12);
-    }
-
-    @Override
-    public void tpToSpawn() {
-        if (didRebirth())
-            monster.teleportTo(rebirthLoc);
-        else
-            super.tpToSpawn();
-    }
-
-    @Override
-    public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
-
-    }
-
     @Override
     public void onDamageReceive(MonsterDamage<? extends Dwarf> damage) {
         super.onDamageReceive(damage);
@@ -115,15 +84,5 @@ public class Zombie_Husk extends Zombie {
             furySound.tryUse();
         }
         monster.heal(healAmt);
-    }
-
-
-    @Override
-    public void onDeath() {
-        boolean setRebirth = (Math.random() <= rebirthChance);
-        if (setRebirth)
-            monster.setRebirthSpot(monster.getLocation());
-        else
-            monster.removeRebirth();
     }
 }

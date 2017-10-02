@@ -12,9 +12,7 @@ import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.menu.SessionData;
 import deimophobe.nightfall.monster.ai.AIEntity;
-import deimophobe.nightfall.monster.mob.Bopen;
-import deimophobe.nightfall.monster.mob.Mob;
-import deimophobe.nightfall.monster.mob.MobType;
+import deimophobe.nightfall.monster.mob.*;
 import deimophobe.nightfall.monster.mob.Zombie;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
@@ -176,8 +174,15 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			Bukkit.getLogger().warning("Trying to rebirth for " + getName() + " but rebirth not active?!");
 			return;
 		}
-		
-		Mob zombie = new Zombie(this, lastRebirth);
+
+
+		Mob zombie;
+		if (this.getUpgrades(MobType.ZOMBIE).computeIfAbsent("husk", (k) -> 0) == 1) {
+			zombie = new Zombie_Husk(this, lastRebirth);
+		}
+		else {
+			zombie = new Zombie(this, lastRebirth); // TODO: change to ZOMBIE_FURY when that is implemented
+		}
 		spawnMob(zombie);
 		rebirthKiller.cancel();
 	}
