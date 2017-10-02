@@ -63,6 +63,7 @@ public class Bopen extends AbstractMob {
 	
 	@Override
 	public void onDeath() {
+		super.onDeath();
 		dismountHorse();
 	}
 	
