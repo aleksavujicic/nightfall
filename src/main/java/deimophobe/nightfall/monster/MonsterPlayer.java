@@ -387,6 +387,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		
 		givePotionEffect(PotionEffectType.LEVITATION, time, 0, true, true, true);
 		givePotionEffect(PotionEffectType.GLOWING, time, 1, true, true, true);
+		givePotionEffect(PotionEffectType.BLINDNESS, time, 1, true, true, true);
 		
 		if (mob != null) {
 			Disguise dis = mob.getDisguise();
@@ -422,6 +423,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		if (!isFrozen()) return;
 		player.removePotionEffect(PotionEffectType.LEVITATION);
 		player.removePotionEffect(PotionEffectType.GLOWING);
+		player.removePotionEffect(PotionEffectType.BLINDNESS);
 		
 		player.setFlySpeed(0.1f);
 		player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
