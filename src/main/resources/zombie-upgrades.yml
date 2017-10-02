@@ -47,7 +47,7 @@ health-inf:
         - "Further increases your health."
 
 husk:
-  index: 11
+  index: 15
   cost: 200
   prereq:
     attack: 3
@@ -91,6 +91,19 @@ rebirth-husk:
         - "Increases your respawn chance to $value%"
 
 
+vampirism-husk:
+  index: 12
+  cost: [30, 70, 100]
+  prereq:
+    husk: 1
+  item:
+    material: redstone
+    name: "Vampirism"
+    lore:
+      description:
+        - "Increases your life steal."
+
+
 arrow-husk:
   index: 14
   cost: [50, 100, 150]
@@ -105,21 +118,8 @@ arrow-husk:
         - "Increases your arrow resistance to $value%"
 
 
-vampirism-husk:
-  index: 16
-  cost: [30, 70, 100]
-  prereq:
-    husk: 1
-  item:
-    material: redstone
-    name: "Vampirism"
-    lore:
-      description:
-        - "Increases your life steal."
-
-
 toughskin:
-  index: 14
+  index: 15
   cost: [20, 40, 60, 80, 100]
   prereq:
     husk: 1
@@ -131,7 +131,7 @@ toughskin:
           - "Gives you extra hearts at spawn."
 
 regen:
-  index: 15
+  index: 16
   cost: [100, 150]
   prereq:
     husk: 1

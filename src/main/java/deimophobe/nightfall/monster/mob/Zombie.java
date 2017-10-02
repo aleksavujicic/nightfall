@@ -43,14 +43,18 @@ public class Zombie extends AbstractMob {
 	protected double rebirthChance;
 	protected Map<String, Integer> upgrades;
 
-	private final Location rebirthLoc;
+	protected final Location rebirthLoc;
 	
 	protected Zombie(MonsterPlayer mons) {
 		this(mons, null);
 	}
-	
+
 	public Zombie(MonsterPlayer mons, Location rebirth) {
-		super(mons, MobType.ZOMBIE);
+		this(mons, rebirth, MobType.ZOMBIE);
+	}
+
+	protected Zombie(MonsterPlayer mons, Location rebirth, MobType zombieType) {
+		super(mons, zombieType);
 		this.rebirthChance = 0;
 		this.rebirthLoc = rebirth;
 		

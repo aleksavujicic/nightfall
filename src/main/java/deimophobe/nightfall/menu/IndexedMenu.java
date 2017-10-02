@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public abstract class IndexedMenu<T extends SessionData, I> implements SubMenu<T> {
 	
-	private final Map<MenuSession<T>, I> storedIndices = new HashMap<>();
+	protected final Map<MenuSession<T>, I> storedIndices = new HashMap<>();
 	private final Map<I, SubMenu<T>> pages;
 	private int size = 0;
 	
