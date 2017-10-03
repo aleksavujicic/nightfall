@@ -2,11 +2,13 @@ package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.map.GameMap;
+import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -46,7 +48,7 @@ class Warpweaver extends AbstractToggleBow implements KitCooldownElement {
 	private final static int MAX_COOLDOWN = 20*20;
 	*/
 	
-	private final ComplexCooldown cooldown = new ComplexCooldown(30 * 20);
+	private final ComplexCooldown cooldown = new ComplexCooldown(40 * 20);
 	private final Set<Arrow> activeArrows = new HashSet<>();
 	
 	@Override
@@ -80,10 +82,7 @@ class Warpweaver extends AbstractToggleBow implements KitCooldownElement {
 	@Override
 	protected void onToggle() {
 		super.onToggle();
-		for (Arrow arrow : activeArrows) {
-			ArrowMisc.removeGlow(arrow);
-		}
-		activeArrows.clear();
+		removeActiveArrows();
 	}
 	
 	@Override
@@ -99,6 +98,20 @@ class Warpweaver extends AbstractToggleBow implements KitCooldownElement {
 	@Override
 	protected boolean canActivate() {
 		return cooldown.isAvailable();
+	}
+	
+	@Override
+	public void onDamageReceive(DwarfDamage damage) {
+		super.onDamageReceive(damage);
+		if (damage.getAttacker() instanceof MonsterPlayer)
+			removeActiveArrows();
+	}
+	
+	private void removeActiveArrows() {
+		for (Arrow arrow : activeArrows) {
+			ArrowMisc.removeGlow(arrow);
+		}
+		activeArrows.clear();
 	}
 	
 	private void teleportTo(Location location) {
