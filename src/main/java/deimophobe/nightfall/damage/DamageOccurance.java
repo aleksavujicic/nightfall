@@ -84,6 +84,11 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 				case MINOTAUR_CHARGE:
 					killMsg = "trampled";
 					break;
+					
+				case GOBO_BOX_EXPLOSION:
+				case GOBO_KABOOM:
+					killMsg = "exploded";
+					break;
 				
 				case INCORRECT_HELD_ITEM:
 					return name + " was a bit of a klutz and dropped their blade.";
@@ -91,8 +96,6 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 					return name + " committed sudoku.";
 				case SHRINE_PROTECTION:
 					return name + " was zapped by lightning.";
-				case GOBO_BOX_EXPLOSION:
-				case GOBO_KABOOM:
 				case SELF_GOBO_KABOOM:
 					return name + " went kaboom.";
 				case DEATH_PLAGUE:
