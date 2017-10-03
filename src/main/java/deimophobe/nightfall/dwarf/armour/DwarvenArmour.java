@@ -25,7 +25,7 @@ public class DwarvenArmour implements Armour {
 	private int armour = DEFAULT_MAX;
 	private int max = DEFAULT_MAX;
 	
-	private ArmourLevel currentLevel = ArmourLevel.HIGH;
+	private ArmourLevel currentLevel = ArmourLevel.SHINY;
 	private Map<ArmourLevel, ArmourSet> setMap = new HashMap<>();
 	
 	public DwarvenArmour(Dwarf dwarf) {
@@ -109,7 +109,7 @@ public class DwarvenArmour implements Armour {
 	public int getManaRegenRate() {
 		if (!isArmoured()) return 0;
 		
-		if (isAtMax()) return 10; // Otherwise formula below would give 16 only when full (which is kinda weird).
+		if (isAtMax()) return 10; // Otherwise formula below would give 11 only when full (which is kinda weird).
 		return (int) Math.floor(Math.atan(3 * armourFraction()) * 12/Math.atan(3)) - 1;
 	}
 	
@@ -126,8 +126,9 @@ public class DwarvenArmour implements Armour {
 	
 	
 	private enum ArmourLevel {
-		HIGH("high", 0.7, 1),
-		MED("med", 0.3, 0.7),
+		SHINY("shiny", 0.8, 1),
+		HIGH("high", 0.6, 0.8),
+		MED("med", 0.3, 0.6),
 		LOW("low", 0, 0.3)
 		;
 		

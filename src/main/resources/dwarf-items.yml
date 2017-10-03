@@ -540,7 +540,7 @@ hero:
 
 
 armour:
-  high:
+  shiny:
     chest:
       material: diamond_chestplate
       name: Dwarven Chestplate
@@ -563,7 +563,6 @@ armour:
          - "Fully repaired armour."
         flavour:
          - "Now get out there and fight."
-      shiny: true
 
     boots:
       material: diamond_boots
@@ -574,13 +573,41 @@ armour:
          - "Fully repaired armour."
         flavour:
          - "Now get out there and fight."
-      shiny: true
+
+  high:
+    chest:
+      material: diamond_chestplate
+      name: Dwarven Chestplate
+      lore:
+        description:
+         - "Fully repaired armour."
+        flavour:
+         - "Now get out there and fight!."
+      modifiers:
+        health: 10
+
+    legs:
+      material: diamond_leggings
+      name: Dwarven Leggings
+      lore:
+        description:
+         - "Fully repaired armour."
+        flavour:
+         - "Now get out there and fight."
+
+    boots:
+      material: diamond_boots
+      name: Dwarven Boots
+      lore:
+        description:
+         - "Fully repaired armour."
+        flavour:
+         - "Now get out there and fight."
 
   med:
     chest:
       material: iron_chestplate
       name: Dwarven Chestplate
-      bound: true
       lore:
         description:
          - "Damaged armour."
@@ -591,7 +618,6 @@ armour:
     legs:
       material: iron_leggings
       name: Dwarven Leggings
-      bound: true
       lore:
         description:
          - "Damaged armour."
@@ -600,7 +626,6 @@ armour:
     boots:
       material: iron_boots
       name: Dwarven Boots
-      bound: true
       lore:
         description:
          - "Damaged armour."
@@ -611,7 +636,6 @@ armour:
     chest:
       material: chainmail_chestplate
       name: Dwarven Chestplate
-      bound: true
       lore:
         description:
          - "Shattered armour."
@@ -622,7 +646,6 @@ armour:
     legs:
       material: chainmail_leggings
       name: Dwarven Leggings
-      bound: true
       lore:
         description:
          - "Shattered armour."
@@ -631,7 +654,6 @@ armour:
     boots:
       material: chainmail_boots
       name: Dwarven Boots
-      bound: true
       lore:
         description:
          - "Shattered armour."
