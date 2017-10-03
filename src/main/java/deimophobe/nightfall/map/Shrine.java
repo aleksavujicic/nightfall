@@ -240,6 +240,7 @@ public class Shrine {
 			monster.givePotionEffect(PotionEffectType.CONFUSION, 180, 1, true, false, true);
 			monster.forceGainXP(500);
 		}
+		MonsterManager.getManager().giveFutureXP(500);
 		
 		map.changeShrine();
 	}

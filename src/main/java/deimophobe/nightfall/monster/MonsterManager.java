@@ -30,6 +30,8 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	public AIManager getAiManager() {return aiManager;}
 	public DoomManager getDoomManager() {return doomManager;}
 	
+	private int xpCount;
+	
 	public MonsterManager() {
 		super(ChatColor.DARK_RED + "Monsters", "mobs", ChatColor.DARK_RED);
 		
@@ -53,7 +55,9 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	
 	@Override
 	protected MonsterPlayer createGamePlayerFromPlayer(Player player) {
-		return new MonsterPlayer(player);
+		MonsterPlayer p = new MonsterPlayer(player);
+		p.forceGainXP(xpCount);
+		return p;
 	}
 	
 	public Collection<MonsterPlayer> getAlivePlayerMobs() {
@@ -76,14 +80,18 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	}
 	
 	
-	// --------------------------------------------------------
-	//                   MENUS N STUFF
-	// --------------------------------------------------------
-	
-	private SpawnMenu menu;
+	public void giveFutureXP(int amt) {
+		xpCount += amt;
+	}
 	
 	public void onMobRelease() {
 		doomManager.start();
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				xpCount++;
+			}
+		}.runTaskTimer(NightfallPlugin.getPlugin(), 20, 20);
 		
 		new BukkitRunnable() {
 			@Override
@@ -92,6 +100,13 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 			}
 		}.runTaskTimer(NightfallPlugin.getPlugin(), 1, 600);
 	}
+	
+	
+	// --------------------------------------------------------
+	//                   MENUS N STUFF
+	// --------------------------------------------------------
+	
+	private SpawnMenu menu;
 	
 	public void showMobMenu(MonsterPlayer monster) {
 		menu.startSession(monster.getPlayer());
@@ -104,5 +119,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	public Set<String> getUpgradeSet(MobType type) {
 		return menu.getUpgradeSet(type);
 	}
+	
+	
 }
 	
