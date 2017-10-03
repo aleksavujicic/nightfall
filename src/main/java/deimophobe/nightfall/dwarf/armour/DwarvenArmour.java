@@ -99,7 +99,7 @@ public class DwarvenArmour implements Armour {
 	public double getResistance() {
 		if (isArmoured()) {
 			double x = armourFraction();
-			return (x * 0.15 + 0.7);
+			return (x * 0.125 + 0.7);
 		} else {
 			return 0.6;
 		}
