@@ -98,7 +98,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 			public void run() {
 				menu.updateEggs();
 			}
-		}.runTaskTimer(NightfallPlugin.getPlugin(), 1, 600);
+		}.runTaskTimer(NightfallPlugin.getPlugin(), 90*20, 600);
 	}
 	
 	
