@@ -26,15 +26,16 @@ import java.util.Map;
 public class Zombie_Husk extends Zombie {
 
     private final int vampirism;
-
     private final double arrowRes;
     private final int armourShred;
+    private final int toughskin;
+    private final int regen;
 
     private final boolean stagger;
     private final ComplexCooldown furySound;
 
     private static Integer[] shredValues = {0, 6, 12, 18, 24, 30};
-    private static Integer[] arrowResValues = {0, 20, 40, 50};
+    private static Integer[] arrowResValues = {0, 25, 40, 50};
     private static Integer[] rebirthValues = {0, 40, 60, 70, 80, 85};
 
     protected Zombie_Husk(MonsterPlayer mons) {
@@ -50,6 +51,8 @@ public class Zombie_Husk extends Zombie {
         this.vampirism = upgrades.get("vampirism-husk");
         int arrowRes = arrowResValues[upgrades.get("arrow-husk")];
         int rebirthChance = rebirthValues[upgrades.get("rebirth-husk")];
+        this.toughskin = upgrades.get("toughskin");
+        this.regen = upgrades.get("regen");
 
         this.arrowRes = (double) arrowRes/100;
         this.rebirthChance = (double) rebirthChance/100;
@@ -64,7 +67,15 @@ public class Zombie_Husk extends Zombie {
             furySound = new ComplexCooldown(10);
 
         getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
+        getArmour().addModifier(ItemModifierType.SPEED, -20, "Husk Zombie");
+        getArmour().addModifier(ItemModifierType.HEALTH, 5, "Husk Zombie");
         getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
+        getWeapon().addModifier(ItemModifierType.ATTACK, 5, "Husk Zombie");
+        if (stagger) {
+            getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, 10, "Staggering Hit");
+        }
+        monster.givePermanentPotionEffect(PotionEffectType.ABSORPTION, toughskin);
+        monster.givePermanentPotionEffect(PotionEffectType.REGENERATION, regen);
     }
 
     @Override
@@ -82,6 +93,8 @@ public class Zombie_Husk extends Zombie {
         int healAmt = vampirism;
         if (stagger) {
             furySound.tryUse();
+            damage.addArmourShred(10);
+            damage.getDwarf().givePotionEffect(PotionEffectType.SLOW, 40, 1, false, false, true);
         }
         monster.heal(healAmt);
     }
