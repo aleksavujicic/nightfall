@@ -1,9 +1,5 @@
 package deimophobe.nightfall.entity;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketContainer;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
@@ -13,14 +9,12 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 
 /**
@@ -104,6 +98,7 @@ public interface GameEntity<E extends LivingEntity> {
 		double maxHealth = getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
 		getEntity().setHealth(maxHealth);
 		
+		/*
 		if (getEntity() instanceof Player) {
 			Player p = (Player) getEntity();
 			
@@ -119,6 +114,7 @@ public interface GameEntity<E extends LivingEntity> {
 				e.printStackTrace();
 			}
 		}
+		*/
 		//getEntity().getDamage(0);
 	}
 	
