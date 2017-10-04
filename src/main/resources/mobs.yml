@@ -493,15 +493,15 @@ krungor:
   playername: Capmergor
   skin: capmergor
 
-  attack: 50
-  health: 100
-  speed: 40
+  attack: 5
+  health: 5
+  speed: -10
 
   immunetime: 10
   proccable: false
-  resistance: 0.9
-  arrowres: 0.9
-  shred: 25
+  resistance: 0.5
+  arrowres: 0
+  shred: 0
   shrineimmune: true
 
   armourslot: head
