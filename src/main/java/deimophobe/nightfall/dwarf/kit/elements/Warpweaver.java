@@ -110,6 +110,7 @@ class Warpweaver extends AbstractToggleBow implements KitCooldownElement {
 	private void removeActiveArrows() {
 		for (Arrow arrow : activeArrows) {
 			ArrowMisc.removeGlow(arrow);
+			removeArrow(arrow);
 		}
 		activeArrows.clear();
 	}

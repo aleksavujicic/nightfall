@@ -28,6 +28,10 @@ public abstract class AbstractToggleBow extends AbstractBow {
 		return arrow;
 	}
 	
+	protected void removeArrow(Projectile arrow) {
+		arrow.removeMetadata(ARROW_METADATA_KEY, NightfallPlugin.getPlugin());
+	}
+	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isLeftClick(action)) {
