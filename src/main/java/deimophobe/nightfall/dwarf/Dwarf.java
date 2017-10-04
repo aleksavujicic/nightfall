@@ -52,6 +52,9 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	private Armour armour;
 	public Armour getArmour() { return armour; }
 	protected void setArmour(Armour armour) { this.armour = armour; }
+	public void stripArmour() {
+		setArmour(new NakedArmour(this));
+	}
 	
 	Dwarf(Player player) {
 		this(player, DwarfData.getData(player));
@@ -110,11 +113,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		delayedHealMax();
 		teleportTo(GameMap.getCurrentMap().getDwarfSpawn());
 		player.setFireTicks(0);
-	}
-	
-	public void teleportAndStrip(Location location) {
-		teleportTo(location);
-		setArmour(new NakedArmour(this));
 	}
 	
 	

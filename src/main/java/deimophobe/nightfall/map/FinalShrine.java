@@ -26,7 +26,8 @@ public class FinalShrine extends Shrine {
 		Bukkit.broadcastMessage(ChatColor.RED + "==================================================");
 		
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
-			dwarf.teleportAndStrip(getShrineCenter());
+			dwarf.teleportTo(getShrineCenter());
+			dwarf.stripArmour();
 		}
 		map.onEnd();
 		AIManager.getManager().removeAllAIs();
