@@ -52,12 +52,50 @@ husk:
   prereq:
     attack: 3
     health: 3
+  exclusiveWith:
+    fury: 1
+    saboteur: 1
   item:
     material: iron_chestplate
     name: "Husk Zombie"
     lore:
       description:
         - "Become a Husk Zombie!"
+
+
+fury:
+  index: 13
+  cost: 200
+  prereq:
+    attack: 3
+    health: 3
+  exclusiveWith:
+    husk: 1
+    saboteur: 1
+  item:
+    material: eye_of_ender
+    name: "Fury Zombie"
+    lore:
+      description:
+        - "Become a Fury Zombie!"
+
+
+saboteur:
+  index: 11
+  cost: 200
+  prereq:
+    attack: 3
+    health: 3
+  exclusiveWith:
+    husk: 1
+    fury: 1
+  item:
+    material: iron_sword
+    name: "Saboteur Zombie"
+    lore:
+      description:
+        - "Become a Saboteur Zombie!"
+
 
 ##########################
 # HUSK SUBCLASS UPGRADES #
@@ -144,7 +182,7 @@ regen:
 
 stagger:
   index: 22
-  cost: [300]
+  cost: 300
   prereq:
     attack: 5
     health: 5
