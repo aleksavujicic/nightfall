@@ -49,7 +49,7 @@ class UpgradeMenuItem implements MenuItem<MonsterPlayer> {
 		ConfigurationSection exclusiveWithSec = config.getConfigurationSection("exclusiveWith");
 		if (exclusiveWithSec != null) {
 			for (String key : exclusiveWithSec.getKeys(false))
-				prereqs.put(key, config.getInt("exclusiveWith."+key));
+				exclusiveWith.put(key, config.getInt("exclusiveWith."+key));
 		}
 
 		this.item = CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.MOB_UPGRADE, Slot.MAIN_HAND);
