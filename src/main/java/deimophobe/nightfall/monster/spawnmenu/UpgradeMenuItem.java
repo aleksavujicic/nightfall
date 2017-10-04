@@ -23,6 +23,7 @@ class UpgradeMenuItem implements MenuItem<MonsterPlayer> {
 	
 	private final String label;
 	private final Map<String, Integer> prereqs;
+	private final Map<String, Integer> exclusiveWith;
 	private final MobType mob;
 	
 	private final List<Integer> costs;
@@ -43,7 +44,14 @@ class UpgradeMenuItem implements MenuItem<MonsterPlayer> {
 			for (String key : prereqSec.getKeys(false))
 				prereqs.put(key, config.getInt("prereq."+key));
 		}
-		
+
+		this.exclusiveWith = new HashMap<>();
+		ConfigurationSection exclusiveWithSec = config.getConfigurationSection("exclusiveWith");
+		if (exclusiveWithSec != null) {
+			for (String key : exclusiveWithSec.getKeys(false))
+				prereqs.put(key, config.getInt("exclusiveWith."+key));
+		}
+
 		this.item = CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.MOB_UPGRADE, Slot.MAIN_HAND);
 		this.costs = config.getIntegerList("cost");
 		if (costs.size() == 0)
@@ -72,6 +80,10 @@ class UpgradeMenuItem implements MenuItem<MonsterPlayer> {
 		Map<String, Integer> upgrades = getUpgrades(session);
 		for (String prereq : prereqs.keySet()) {
 			if (upgrades.get(prereq) < prereqs.get(prereq))
+				return false;
+		}
+		for (String prereq : exclusiveWith.keySet()) {
+			if (upgrades.get(prereq) >= exclusiveWith.get(prereq))
 				return false;
 		}
 		
