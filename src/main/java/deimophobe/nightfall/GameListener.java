@@ -227,8 +227,9 @@ public class GameListener implements Listener {
 					double yaw = arrow.getLocation().getYaw() * Math.PI/180;
 					arrow.teleport(arrow.getLocation().add(-0.15*Math.cos(yaw), 0, 0.15*Math.sin(yaw)));
 					
-					// Label it with force
+					// Label it with force and damage
 					ArrowMisc.setArrowForce(arrow, event.getForce());
+					ArrowMisc.setArrowDamage(arrow, 0);
 					
 					// FIRE
 					Projectile newProj = gp.onBowFire(arrow, event.getForce());
