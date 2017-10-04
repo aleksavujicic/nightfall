@@ -233,6 +233,10 @@ public class GameListener implements Listener {
 					
 					// FIRE
 					Projectile newProj = gp.onBowFire(arrow, event.getForce());
+					
+					if (ArrowMisc.getArrowDamage(arrow) == 0) {
+						Bukkit.getLogger().severe("Arrow fired with 0 damage - meaning game player did not update!\nGameplayer: " + gp.getName() + " (" + gp.getDisplayName() + ").");
+					}
 					event.setProjectile(newProj);
 				}
 			}
