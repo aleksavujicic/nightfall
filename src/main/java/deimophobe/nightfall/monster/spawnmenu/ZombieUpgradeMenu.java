@@ -24,8 +24,6 @@ class ZombieUpgradeMenu extends IndexedMenu<MonsterPlayer, ZombieUpgradeMenu.Pag
 
 	@Override protected ZombieUpgradeMenu.PageType getDefault() {return ZombieUpgradeMenu.PageType.ZOMBIE_UPGRADE;}
 
-	//private ZombieUpgradeMenu.PageType getHusk() {return ZombieUpgradeMenu.PageType.ZOMBIE_HUSK_UPGRADE;}
-
 	public ZombieUpgradeMenu(MenuItem<MonsterPlayer> backItem) {
 		upgradeSets = new HashMap<>();
 
@@ -52,11 +50,6 @@ class ZombieUpgradeMenu extends IndexedMenu<MonsterPlayer, ZombieUpgradeMenu.Pag
 
 	@Override
 	protected ZombieUpgradeMenu.PageType getPageIndex(MenuSession<MonsterPlayer> session) {
-		/*
-		if (session.getData().getUpgrades(MobType.ZOMBIE).computeIfAbsent("husk", (k) -> 0) == 1) {
-			return storedIndices.computeIfAbsent(session, (k) -> getHusk());
-		}
-		*/
 		return storedIndices.computeIfAbsent(session, (k) -> getDefault());
 	}
 
@@ -70,11 +63,7 @@ class ZombieUpgradeMenu extends IndexedMenu<MonsterPlayer, ZombieUpgradeMenu.Pag
 
 
 	enum PageType {
-		ZOMBIE_UPGRADE("zombie-upgrades.yml", MobType.ZOMBIE),
-		//ZOMBIE_HUSK_UPGRADE("husk-upgrades.yml", MobType.ZOMBIE_HUSK)//,
-		//ZOMBIE_SABOTEUR_UPGRADE,
-		//ZOMBIE_FURY_UPGRADE
-		;
+		ZOMBIE_UPGRADE("zombie-upgrades.yml", MobType.ZOMBIE);
 
 		private final String filename;
 		private final MobType type;
