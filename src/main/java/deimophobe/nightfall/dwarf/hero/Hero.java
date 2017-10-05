@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.hero;
 
 import deimophobe.nightfall.Hat;
+import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -16,6 +17,7 @@ import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Team;
 
 import java.util.*;
 
@@ -101,7 +103,7 @@ public class Hero extends Dwarf {
 	}
 	
 	public enum Type {
-		TUI("Tui the Lightbringer", Hat.TUI, "tui", "Dwarven Hero",
+		TUI("Tui the Lightbringer", Hat.TUI, "tui", "Dwarven Hero", ChatColor.GOLD,
 				KitElementType.TUI_HAMMER,
 				KitElementType.WILDFIRE),
 		
@@ -150,10 +152,18 @@ public class Hero extends Dwarf {
 		private final String descriptor;
 		
 		Type(String title, Hat hat, String skin, String descriptor, KitElementType... elements) {
-			this(title, hat, skin, descriptor, Collections.emptyMap(), elements);
+			this(title, hat, skin, descriptor, ChatColor.AQUA, Collections.emptyMap(), elements);
+		}
+		
+		Type(String title, Hat hat, String skin, String descriptor, ChatColor glowColour, KitElementType... elements) {
+			this(title, hat, skin, descriptor, glowColour, Collections.emptyMap(), elements);
 		}
 		
 		Type(String title, Hat hat, String skin, String descriptor, Map<ConsumableType, Integer> extraConsumables, KitElementType... elements) {
+			this(title, hat, skin, descriptor, ChatColor.AQUA, extraConsumables, elements);
+		}
+		
+		Type(String title, Hat hat, String skin, String descriptor, ChatColor glowColour, Map<ConsumableType, Integer> extraConsumables, KitElementType... elements) {
 			this.descriptor = descriptor;
 			Set<KitElementType> allElements = new HashSet<>();
 			allElements.add(KitElementType.HERO_ALE);
@@ -164,10 +174,17 @@ public class Hero extends Dwarf {
 			this.data = new DwarfData(title, true, hat, allElements, HERO_CONSUMABLES);
 			data.addConsumables(extraConsumables);
 			
-			if (skin == null)
+			if (skin == null) {
 				this.skin = null;
-			else
+			} else {
 				this.skin = Skin.getSkin(skin);
+				
+				String name = this.skin.getName();
+				Team team = Misc.getNewTeam("hero" + name);
+				team.setColor(glowColour);
+				team.setPrefix(glowColour.toString());
+				team.addEntry(name);
+			}
 		}
 		
 		public DwarfData getData() {return data;}
