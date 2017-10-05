@@ -144,7 +144,7 @@ public class AIManager {
 			int dwarves = DwarfManager.getManager().getNumberOfPlayers();
 			int mobs = MonsterManager.getManager().getNumberOfPlayers();
 			
-			double spawnChance = (10 + mobs + dwarves*4) * 0.008;
+			double spawnChance = (12 + mobs + dwarves*5) * 0.008;
 			spawnChance += (Game.getGame().isNight() ? 0.03 : 0);
 			
 			int maxAIs = BASE_MAX_AIS;
