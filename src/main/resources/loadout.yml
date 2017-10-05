@@ -286,6 +286,7 @@ page1:
       name: "Tombmaker"
       base: tombmaker
   tigerfist:
+    enabled: false
     index: 5
     type: item
     name: tigerfist
@@ -352,6 +353,7 @@ page1:
       name: "Warpweaver Bow"
       base: warpweaver
   turret:
+    enabled: false
     index: 15
     type: item
     name: turret
