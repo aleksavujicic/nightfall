@@ -40,22 +40,6 @@ import java.util.Map;
  */
 public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
-	// Kits
-	private final Kit kit;
-	
-	public boolean hasKitElement(KitElementType type) {
-		return kit.containsElement(type);
-	}
-	public void giveKitItems(KitGiveType type) {kit.giveItems(type);}
-	
-	// Armours
-	private Armour armour;
-	public Armour getArmour() { return armour; }
-	protected void setArmour(Armour armour) { this.armour = armour; }
-	public void stripArmour() {
-		setArmour(new NakedArmour(this));
-	}
-	
 	Dwarf(Player player) {
 		this(player, DwarfData.getData(player));
 	}
@@ -117,6 +101,12 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	
 	// ------ KIT ITEMS -------
+	private final Kit kit;
+	
+	public boolean hasKitElement(KitElementType type) {
+		return kit.containsElement(type);
+	}
+	public void giveKitItems(KitGiveType type) {kit.giveItems(type);}
 	
 	protected void giveStartingItems(Map<ConsumableType, Integer> consumables) {
 		kit.giveItems(KitGiveType.START);
@@ -137,6 +127,18 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		kit.giveItems(KitGiveType.COMPASS);
 	}
 	
+	
+	// ------ ARMOUR STUFF ------
+	private Armour armour;
+	public Armour getArmour() { return armour; }
+	protected void setArmour(Armour armour) { this.armour = armour; }
+	public void stripArmour() {
+		setArmour(new NakedArmour(this));
+	}
+	
+	public void onArmourEquip() {
+		kit.onArmourEquip();
+	}
 	
 	// ------ MANA STUFF ------
 	private final int maxMana = 1000;

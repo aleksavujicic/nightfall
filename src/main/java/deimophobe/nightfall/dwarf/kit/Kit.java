@@ -146,6 +146,13 @@ public class Kit {
 		}
 	}
 	
+	public void onArmourEquip() {
+		for (KitElement item : kitElements.values()) {
+			if (item instanceof KitArmour)
+				((KitArmour) item).onArmourEquip();
+		}
+	}
+	
 	
 	// ------ HELD ITEM ------
 	private KitCooldownElement lastHeld = null;

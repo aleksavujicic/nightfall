@@ -8,6 +8,7 @@ import deimophobe.nightfall.effects.GameEffect;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.util.HashMap;
@@ -45,9 +46,14 @@ public class DwarvenArmour implements Armour {
 	
 	@Override
 	public void putOn() {
-		armoured = true;
-		setMap.get(currentLevel).equip(dwarf);
-		GameEffect.playEffect(GameEffect.DWARF_ARMOURED, dwarf.getPlayer());
+		if (!armoured) {
+			armoured = true;
+			setMap.get(currentLevel).equip(dwarf);
+			GameEffect.playEffect(GameEffect.DWARF_ARMOURED, dwarf.getPlayer());
+			dwarf.onArmourEquip();
+		} else {
+			Bukkit.getLogger().severe("Tried to equip armour on dwarf which is already equipped!\nDwarf: " + dwarf.getName());
+		}
 	}
 	
 	@Override
