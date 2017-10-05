@@ -28,7 +28,7 @@ public class VolcanicBow extends AbstractBow {
 	@Override public String getBowIdentifier() {return "VOLCANIC";}
 	@Override public int getPower() {return POWER;}
 	
-	private static final double MAX_RANGE = 20;
+	private static final double MAX_RANGE = 30;
 	private static final double THICKNESS = 1.5;
 	private static final double PARTICLE_OFFSET = THICKNESS/10;
 	private static final double AOE_RADIUS = 2;
