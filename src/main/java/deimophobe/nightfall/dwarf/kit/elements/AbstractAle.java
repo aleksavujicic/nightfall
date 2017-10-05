@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import org.bukkit.block.Block;
@@ -12,26 +13,29 @@ import org.bukkit.event.block.Action;
  */
 abstract class AbstractAle extends AbstractItem {
 	
-	private final static int MAX_CD = 20;
-	private int cooldown = 0;
+	private final static int DEFAULT_MAX_CD = 20;
 	private final int manaCost;
+	protected final ComplexCooldown cooldown;
 	
 	public AbstractAle(Dwarf dwarf, int manaCost) {
+		this(dwarf, manaCost, DEFAULT_MAX_CD);
+	}
+	
+	public AbstractAle(Dwarf dwarf, int manaCost, int maxCD) {
 		super(dwarf);
 		this.manaCost = manaCost;
+		this.cooldown = new ComplexCooldown(maxCD, this::heal, null);
 	}
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		if (cooldown > 0)
-			cooldown--;
+		cooldown.update();
 	}
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (doesActionHeal(action) && isOffCD() && dwarf.tryUseMana(manaCost)) {
-			heal();
-			resetCD();
+		if (doesActionHeal(action) && cooldown.isAvailable() && dwarf.tryUseMana(manaCost)) {
+			cooldown.tryUse();
 			return true;
 		}
 		return false;
@@ -60,15 +64,6 @@ abstract class AbstractAle extends AbstractItem {
 	
 	protected boolean doesActionHeal(Action action) {
 		return (Misc.isLeftClick(action));
-	}
-	
-	
-	protected void resetCD() {
-		cooldown = MAX_CD;
-	}
-	
-	protected boolean isOffCD() {
-		return cooldown == 0;
 	}
 	
 	

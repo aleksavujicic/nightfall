@@ -390,6 +390,15 @@ page1:
     item:
       name: "Regrowth Star"
       base: regrowth
+  chug:
+    index: 22
+    type: item
+    name: chugging_ale
+    category: ale
+    cost: 8
+    item:
+      name: "Chugging Ale"
+      base: chug
 
 
   # ------ ARMOURS ------

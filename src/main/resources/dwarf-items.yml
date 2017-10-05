@@ -225,6 +225,14 @@ ale:
           of your mana."
       flavour:
        - "\"For those who want others to live another night.\" - Arthea"
+  chug:
+    base: chug
+    name: Chugging Ale
+    lore:
+      description:
+       - "DRK FILL DIS IN TY"
+      flavour:
+       - "poop"
 
 consumable:
   lamp:
