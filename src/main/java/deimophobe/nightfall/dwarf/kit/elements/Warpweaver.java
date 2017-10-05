@@ -135,7 +135,8 @@ class Warpweaver extends AbstractToggleBow implements KitCooldownElement {
 		Location partLoc = here.clone();
 		for (int i = 0; i <= times; i++) {
 			partLoc.add(delta);
-			dwarf.getPlayer().getWorld().spawnParticle(Particle.END_ROD, partLoc, 1, 0.3, 0.3, 0.3, 0.03);
+			dwarf.getPlayer().getWorld().spawnParticle(Particle.END_ROD, partLoc, 1, 0, 0, 0, 0);
+			dwarf.getPlayer().getWorld().spawnParticle(Particle.DRAGON_BREATH, partLoc, 3, 0.1, 0.1, 0.1, 0.01);
 		}
 	}
 }
