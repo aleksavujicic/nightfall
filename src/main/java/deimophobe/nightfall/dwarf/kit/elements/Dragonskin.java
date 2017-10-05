@@ -67,7 +67,7 @@ class Dragonskin extends AbstractToggleBow implements KitCooldownElement {
 	
 	@Override
 	public void onKill(MonsterDamage damage) {
-		if (damageFromBow(damage))
+		if (damageFromBow(damage) && isActiveProjectile(damage.getArrow()))
 			dwarf.giveProc(ProcType.DRAGONSKIN);
 	}
 	
