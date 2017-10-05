@@ -33,6 +33,8 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	protected GamePlayer(Player player) {
 		this.player = player;
 		
+		player.setFoodLevel(20);
+		
 		// To clear out any fake hearts
 		new BukkitRunnable() {
 			@Override
