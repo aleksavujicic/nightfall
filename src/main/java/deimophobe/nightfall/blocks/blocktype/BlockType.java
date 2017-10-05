@@ -163,6 +163,9 @@ public class BlockType {
 					Material.AIR
 			)
 	);
+	public static final ComparableBlock IGNITEABLE = new MaterialSet(
+			Material.AIR, Material.DOUBLE_PLANT, Material.LONG_GRASS, Material.YELLOW_FLOWER, Material.RED_ROSE
+	);
 	
 	public static boolean tryConvertBlock(Block block, ComparableBlock from, SettableBlock to) {
 		boolean matches = from.matchesBlock(block);
