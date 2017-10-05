@@ -84,7 +84,7 @@ diamond_hoe:
   points: 4
   coil: 5
   darkvision: 6
-  safefall: 7
+  slowfall: 7
   avenge: 8
   menu-mortar: 9
   menu-mortar2: 10

@@ -43,7 +43,7 @@ public enum KitElementType {
 	
 	COMPASS,
 	CHESTO,
-	SAFEFALL,
+	SLOWFALL,
 	DARKVISION,
 	AVENGE,
 	
@@ -53,7 +53,7 @@ public enum KitElementType {
 	DWARF_AXE,
 	
 	
-	HERO_SAFEFALL,
+	HERO_SLOWFALL,
 	HERO_ALE,
 	
 	TUI_HAMMER,
@@ -131,7 +131,7 @@ public enum KitElementType {
 				
 			case COMPASS: return new DwarfCompass(dwarf);
 			case CHESTO: return new Chestomatic(dwarf);
-			case SAFEFALL: return new JumpySafefall(dwarf);
+			case SLOWFALL: return new Slowfall(dwarf, true);
 			case DARKVISION: return new DarkVision(dwarf);
 			case AVENGE: return new Avenge(dwarf);
 			
@@ -141,7 +141,7 @@ public enum KitElementType {
 			case DWARF_SHOVEL: return new DwarfShovel(dwarf);
 			
 			
-			case HERO_SAFEFALL: return new Safefall(dwarf);
+			case HERO_SLOWFALL: return new Slowfall(dwarf, false);
 			case HERO_ALE: return new HeroAle(dwarf);
 			
 			case TUI_HAMMER: return new TuiHammer(dwarf);

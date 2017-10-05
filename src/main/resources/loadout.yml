@@ -46,7 +46,7 @@ page0:
       - longbow
       - quiver
       - trinket
-      - safefall
+      - slowfall
     consumables:
       torch: 32
       mortar: 32
@@ -459,14 +459,14 @@ page2:
     item:
       name: "Chestomatic"
       material: chest
-  safefall:
+  slowfall:
     index: 2
     type: item
-    name: safefall
+    name: slowfall
     cost: 4
     item:
-      name: "Safefall"
-      base: safefall
+      name: "Slowfall"
+      base: slowfall
   darkvision:
     index: 3
     type: item

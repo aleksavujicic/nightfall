@@ -157,7 +157,7 @@ public class Hero extends Dwarf {
 			this.descriptor = descriptor;
 			Set<KitElementType> allElements = new HashSet<>();
 			allElements.add(KitElementType.HERO_ALE);
-			allElements.add(KitElementType.HERO_SAFEFALL);
+			allElements.add(KitElementType.HERO_SLOWFALL);
 			
 			allElements.addAll(Arrays.asList(elements));
 			
