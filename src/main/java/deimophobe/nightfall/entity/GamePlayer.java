@@ -1,14 +1,12 @@
 package deimophobe.nightfall.entity;
 
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.DamageOccurance;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.items.CustomItem;
 import me.libraryaddict.disguise.DisguiseAPI;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
@@ -17,6 +15,8 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
@@ -32,6 +32,14 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	protected Player player;
 	protected GamePlayer(Player player) {
 		this.player = player;
+		
+		// To clear out any fake hearts
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				givePotionEffect(PotionEffectType.ABSORPTION, 1, 1, false, false, true);
+			}
+		}.runTaskLater(NightfallPlugin.getPlugin(), 20);
 	}
 	
 	@Override

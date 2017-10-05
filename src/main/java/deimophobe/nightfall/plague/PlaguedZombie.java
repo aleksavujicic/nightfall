@@ -64,7 +64,6 @@ public class PlaguedZombie extends AbstractMob {
 	public void onSpawn() {
 		super.onSpawn();
 		monster.givePermanentPotionEffect(PotionEffectType.WITHER, 2);
-		monster.givePotionEffect(PotionEffectType.ABSORPTION, 10, 2, false, false, true);
 	}
 	
 	@Override
