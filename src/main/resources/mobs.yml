@@ -501,7 +501,7 @@ krungor:
   proccable: false
   resistance: 0.85
   arrowres: 0.5
-  shred: 0
+  shred: 20
   shrineimmune: true
 
   armourslot: head
