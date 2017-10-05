@@ -33,6 +33,6 @@ public enum CustomDamageType implements GameDamageType {
 	// Misc
 	COMMAND,
 	
-	@Deprecated
+	VOLCANIC_BOW, @Deprecated
 	TEMPORARY
 }

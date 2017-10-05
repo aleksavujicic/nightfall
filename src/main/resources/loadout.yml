@@ -352,9 +352,18 @@ page1:
     item:
       name: "Warpweaver Bow"
       base: warpweaver
+  volcanic:
+    index: 15
+    type: item
+    name: volcanic_bow
+    category: bow
+    cost: 16
+    item:
+      name: "Volcanic Bow"
+      base: volcanic
   turret:
     enabled: false
-    index: 15
+    index: 16
     type: item
     name: turret
     category: bow

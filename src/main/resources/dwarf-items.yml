@@ -181,6 +181,14 @@ bow:
        - ""
       flavour:
        - ""
+  volcanic:
+    base: volcanic
+    name: Volcanic Bow
+    lore:
+      description:
+       - ""
+      flavour:
+       - ""
 ale:
   healing:
     base: healing_ale

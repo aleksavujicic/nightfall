@@ -68,6 +68,9 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 				case EBOW:
 					killMsg = "pierced";
 					break;
+				case VOLCANIC_BOW:
+					killMsg = "scorched";
+					break;
 				case EVISCERATE:
 					killMsg = "eviscerated";
 					break;
