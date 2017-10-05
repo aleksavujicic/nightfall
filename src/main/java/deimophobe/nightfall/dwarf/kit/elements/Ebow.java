@@ -33,7 +33,7 @@ class Ebow extends AbstractBow {
 	@Override public String getBowIdentifier() {return "EBOW";}
 	@Override public int getPower() {return POWER;}
 	
-	private static final double MAX_RANGE = 30;
+	private static final double MAX_RANGE = 40;
 	private static final double THICKNESS = 1.5;
 	private static final double MIN_DISTANCE_FROM_SHOOTER = 1;
 	
