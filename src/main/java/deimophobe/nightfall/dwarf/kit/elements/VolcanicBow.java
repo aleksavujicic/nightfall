@@ -90,8 +90,8 @@ public class VolcanicBow extends AbstractBow {
 			}
 		}
 		
-		dwarf.playSound("entity.generic.burn", 1f, 0.7f, true);
-		dwarf.playSound("entity.ghast.shoot", 1f, 0.85f, true);
+		dwarf.playSound("entity.generic.burn", 1f, 1.2f - force*0.5f, true);
+		dwarf.playSound("entity.ghast.shoot", 1f, 1.35f - force*0.5f, true);
 		
 		return null;
 	}
