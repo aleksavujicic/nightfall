@@ -35,6 +35,7 @@ public enum KitElementType {
 	TRINKET,
 	REGROWTH_STAR,
 	CHUGGING_ALE,
+	STRONG_ALE,
 	
 	RUNEBLESSED,
 	QUIVER,
@@ -125,6 +126,7 @@ public enum KitElementType {
 			case TRINKET: return new Trinket(dwarf);
 			case REGROWTH_STAR: return new Regrowth(dwarf);
 			case CHUGGING_ALE: return new ChuggingAle(dwarf);
+			case STRONG_ALE: return new StrongAle(dwarf);
 				
 			case RUNEBLESSED: return new Runeblessed(dwarf);
 			case QUIVER: return new Quiver(dwarf);

@@ -37,6 +37,7 @@ public class BaseItemManager {
 		addItem("jimmyjuice", new PotionItem(Color.RED));
 		addItem("holy_ale", new PotionItem(Color.fromRGB(17, 108, 244)));
 		addItem("chug", new PotionItem(Color.fromRGB(17, 108, 244)));
+		addItem("strong", new PotionItem(Color.fromRGB(17, 108, 244)));
 		
 		addItem("stick", new SimpleBaseItem(Material.STICK));
 		

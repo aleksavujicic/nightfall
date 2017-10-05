@@ -233,6 +233,14 @@ ale:
        - "DRK FILL DIS IN TY"
       flavour:
        - "poop"
+  strong:
+    base: strong
+    name: Strong Ale
+    lore:
+      description:
+       - "This probably needs a better name"
+      flavour:
+       - ":banana:"
 
 consumable:
   lamp:
