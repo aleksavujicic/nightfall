@@ -186,9 +186,10 @@ bow:
     name: Volcanic Bow
     lore:
       description:
-       - ""
+       - "Fire an arrow that pierces everything in\n
+          its path. Uses 3 arrows a shot."
       flavour:
-       - ""
+       - "\"And then the Firelords attacked.\" -Tui"
 ale:
   healing:
     base: healing_ale
