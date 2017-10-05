@@ -351,6 +351,16 @@ page1:
     item:
       name: "Warpweaver Bow"
       base: warpweaver
+  turret:
+    index: 15
+    type: item
+    name: turret
+    category: bow
+    cost: 16
+    item:
+      name: "Turret"
+      material: dispenser
+
 
 
   # ------ ALES ------

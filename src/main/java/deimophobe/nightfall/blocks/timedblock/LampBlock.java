@@ -11,10 +11,10 @@ import org.bukkit.block.Block;
 public class LampBlock extends TimedBlock {
 	
 	public LampBlock(Location loc, int lifeTime, GameEntity placer) {
-		super(loc, Material.JACK_O_LANTERN, lifeTime, placer, false);
+		super(loc, Material.JACK_O_LANTERN, lifeTime, placer);
 	}
 	
 	public LampBlock(Block block, int lifeTime, GameEntity placer) {
-		super(block, Material.JACK_O_LANTERN, lifeTime, placer, false);
+		super(block, Material.JACK_O_LANTERN, lifeTime, placer);
 	}
 }

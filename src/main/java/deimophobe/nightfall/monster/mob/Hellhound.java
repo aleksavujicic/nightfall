@@ -58,6 +58,6 @@ public class Hellhound extends Wolf {
 		double dz = random.nextDouble()*6 - 3;
 		Block block = monster.getLocation().add(dx, dy, dz).getBlock();
 		if (block.getType().isSolid())
-			TimedBlock.placeTimedBlock(new TimedBlock(block, Material.MAGMA, 140, monster, false));
+			TimedBlock.placeTimedBlock(new TimedBlock(block, Material.MAGMA, 140, monster));
 	}
 }

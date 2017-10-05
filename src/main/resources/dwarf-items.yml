@@ -173,6 +173,14 @@ bow:
           Left click to activate."
       flavour:
        - "\"Hey look at this thing! Isn't it cool!?\" - Tui"
+  turret:
+    material: dispenser
+    name: Turret
+    lore:
+      description:
+       - ""
+      flavour:
+       - ""
 ale:
   healing:
     base: healing_ale

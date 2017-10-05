@@ -19,23 +19,21 @@ import java.util.Set;
  */
 public class TimedBlock {
 	
-	final Block block;
+	protected final Block block;
 	private final Material newType;
 	private final int lifeTime;
 	private final GameEntity placer;
-	private static boolean isGoboBox;
 	
 	
-	public TimedBlock(Location loc, Material blockType, int lifeTime, GameEntity placer, boolean isGoboBox) {
-		this(loc.getBlock(), blockType, lifeTime, placer, isGoboBox);
+	public TimedBlock(Location loc, Material blockType, int lifeTime, GameEntity placer) {
+		this(loc.getBlock(), blockType, lifeTime, placer);
 	}
 	
-	public TimedBlock(Block block, Material blockType, int lifeTime, GameEntity placer, boolean isGoboBox) {
+	public TimedBlock(Block block, Material blockType, int lifeTime, GameEntity placer) {
 		this.block = block;
 		this.newType = blockType;
 		this.lifeTime = lifeTime;
 		this.placer = placer;
-		this.isGoboBox = isGoboBox;
 	}
 	
 	
@@ -72,7 +70,7 @@ public class TimedBlock {
 	void onHit(GamePlayer player) {}
 	
 	
-	void cancel() {
+	public void cancel() {
 		runnable.cancel();
 		unPlaceBlock();
 		onDestroy(true);
@@ -83,7 +81,7 @@ public class TimedBlock {
 		Block block = timedBlock.block;
 		
 		// If its already a timed block or its not breakable, don't overwrite!
-		if (isGoboBox) {
+		if (timedBlock instanceof GoboBox) {
 			if (BlockType.GOBOPLACABLE_BLOCKS.matchesBlock(block)) {
 				timedBlock.placeBlock();
 				activeTimedBlocks.put(block, timedBlock);

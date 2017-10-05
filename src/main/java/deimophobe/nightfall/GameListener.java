@@ -99,7 +99,6 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void useItems(PlayerInteractEvent event) {
 		Block block = event.getClickedBlock();
-		Material mat = event.getMaterial();
 		GamePlayer gp = game.getGamePlayer(event.getPlayer());
 		if (gp != null && event.getAction() != Action.PHYSICAL) {
 			
@@ -115,7 +114,16 @@ public class GameListener implements Listener {
 			TimedBlock.hitBlock(block, gp);
 		}
 		
-		if (mat == Material.BARRIER || mat == Material.CHEST || (block != null && BlockType.UNINTERACTABLE_BLOCKS.matchesBlock(block))) {
+		if (block != null && BlockType.UNINTERACTABLE_BLOCKS.matchesBlock(block)) {
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler
+	public void onPlace(BlockPlaceEvent event) {
+		Block block = event.getBlockPlaced();
+		Player player = event.getPlayer();
+		if (player.getGameMode() != GameMode.CREATIVE && block != null && BlockType.UNPLACEABLE_BLOCKS.matchesBlock(block)) {
 			event.setCancelled(true);
 		}
 	}
