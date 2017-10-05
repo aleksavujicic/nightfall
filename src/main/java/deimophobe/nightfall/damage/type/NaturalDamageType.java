@@ -14,10 +14,10 @@ public enum NaturalDamageType implements GameDamageType {
 	
 	// Natural Damage
 	CONTACT(2, 1),
-	DROWNING(4, 1),
-	FIRE(4, 4),
-	LAVA(6, 10),
-	MAGMA_BLOCK(2, 4),
+	DROWNING(8, 1),
+	FIRE(5, 4),
+	LAVA(12, 10),
+	MAGMA_BLOCK(4, 4),
 	
 	FALL(1, 1) {
 		@Override
