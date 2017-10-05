@@ -168,6 +168,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	public void regenMana(int amt) {
 		mana += amt;
 		if (mana > maxMana) mana = maxMana;
+		if (mana < 0) mana = 0;
 		updateManaBar();
 	}
 	
