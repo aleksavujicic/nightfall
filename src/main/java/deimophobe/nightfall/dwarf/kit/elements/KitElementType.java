@@ -40,6 +40,7 @@ public enum KitElementType {
 	STUDDED,
 	COIL,
 	STURDY,
+	NATURE_SUIT,
 	
 	COMPASS,
 	CHESTO,
@@ -128,6 +129,7 @@ public enum KitElementType {
 			case STUDDED: return new StuddedArmour(dwarf);
 			case COIL: return new MagicCoil(dwarf);
 			case STURDY: return new Sturdy(dwarf);
+			case NATURE_SUIT: return new NatureSuit(dwarf);
 				
 			case COMPASS: return new DwarfCompass(dwarf);
 			case CHESTO: return new Chestomatic(dwarf);
