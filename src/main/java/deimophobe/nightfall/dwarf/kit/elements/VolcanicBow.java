@@ -84,7 +84,9 @@ public class VolcanicBow extends AbstractBow {
 				double radialOffset = radialPostion.subtract(monsterOffset).length();
 				
 				// If close enough damage mob
-				if (radialOffset <= THICKNESS || monster.distanceTo(dwarf) <= AOE_RADIUS) {
+				if (radialOffset <= THICKNESS) {
+					monster.doDamage(dwarf, CustomDamageType.VOLCANIC_BOW, getPower()*force/2);
+				} else  if (monster.distanceTo(dwarf) <= AOE_RADIUS) {
 					monster.doDamage(dwarf, CustomDamageType.VOLCANIC_BOW, getPower()*force);
 				}
 			}
