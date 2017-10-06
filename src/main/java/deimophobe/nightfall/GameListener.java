@@ -244,8 +244,10 @@ public class GameListener implements Listener {
 					
 					if (newProj instanceof Arrow && ArrowMisc.getArrowDamage((Arrow) newProj) == 0) {
 						Bukkit.getLogger().severe("Arrow fired with 0 damage - meaning game player did not update!\nGameplayer: " + gp.getName() + " (" + gp.getDisplayName() + ").");
+						event.setProjectile(null);
+					} else {
+						event.setProjectile(newProj);
 					}
-					event.setProjectile(newProj);
 				}
 			}
 		}
