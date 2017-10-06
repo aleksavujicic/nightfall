@@ -33,6 +33,10 @@ public class VolcanicBow extends AbstractBow {
 	private static final double PARTICLE_OFFSET = THICKNESS/10;
 	private static final double AOE_RADIUS = 2;
 	
+	
+	private static final float ONE_ARROW_FORCE = 0.6f;
+	private static final float TWO_ARROW_FORCE = 0.8f;
+	
 	@Override
 	public Projectile onBowFire(Projectile arrow, float force) {
 		Location location = dwarf.getPlayer().getEyeLocation();
@@ -43,17 +47,18 @@ public class VolcanicBow extends AbstractBow {
 		// This code makes it so that if force is >= 0.5, then it requires
 		// an extra arrow to fire (and a further arrow when >=0.8),
 		if (!dwarf.hasArrows(2))
-			force = Math.min(force, 0.4f);
+			force = Math.min(force, ONE_ARROW_FORCE);
 		
 		if (!dwarf.hasArrows(3))
-			force = Math.min(force, 0.7f);
+			force = Math.min(force, TWO_ARROW_FORCE);
 		
-		if (force >= 0.4f)
+		if (force >= ONE_ARROW_FORCE)
 			dwarf.useArrow();
-		if (force >= 0.7f)
+		if (force >= TWO_ARROW_FORCE)
 			dwarf.useArrow();
 		
 		double range = MAX_RANGE * force * force;
+		double radius = AOE_RADIUS * force;
 		
 		// Show particles
 		Vector delta = direction.clone().multiply(0.33);
@@ -70,7 +75,9 @@ public class VolcanicBow extends AbstractBow {
 				break;
 			}
 		}
-		world.spawnParticle(Particle.FLAME, dwarf.getLocation(), (int) (200*force), 1f, 0.5f, 1f, 0.07);
+		Location feets = dwarf.getLocation().add(0, 0.25, 0);
+		world.spawnParticle(Particle.FLAME, feets, (int) (50*force), 1f, 1f, 1f, 0.07);
+		world.spawnParticle(Particle.FLAME, feets, (int) (150*force*force), radius/2, 0.1f, radius/2, 0);
 		
 		// Calculate collision
 		for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
@@ -84,9 +91,9 @@ public class VolcanicBow extends AbstractBow {
 				double radialOffset = radialPostion.subtract(monsterOffset).length();
 				
 				// If close enough damage mob
-				if (radialOffset <= THICKNESS) {
+				if (monster.distanceTo(dwarf) <= radius) {
 					monster.doDamage(dwarf, CustomDamageType.VOLCANIC_BOW, getPower()*force/2);
-				} else  if (monster.distanceTo(dwarf) <= AOE_RADIUS) {
+				} else  if (radialOffset <= THICKNESS) {
 					monster.doDamage(dwarf, CustomDamageType.VOLCANIC_BOW, getPower()*force);
 				}
 			}
