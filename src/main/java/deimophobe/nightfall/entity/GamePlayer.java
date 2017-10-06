@@ -32,6 +32,7 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	protected Player player;
 	protected GamePlayer(Player player) {
 		this.player = player;
+		player.spigot().respawn();
 		
 		player.setFoodLevel(20);
 		
