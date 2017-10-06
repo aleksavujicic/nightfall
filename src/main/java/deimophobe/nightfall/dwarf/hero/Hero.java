@@ -116,18 +116,19 @@ public class Hero extends Dwarf {
 				KitElementType.WAND,
 				KitElementType.ROCKET_BOOTS),
 		
-		ARTHEA("Arthea", Hat.ARTHEA, "arthea", "Dwarven Hero", EXTRA_ARTHEA_CONSUMABLES,
+		ARTHEA("Arthea", Hat.ARTHEA, "arthea", "Dwarven Hero", ChatColor.RED,
+				EXTRA_ARTHEA_CONSUMABLES,
 				KitElementType.HEALER_TOTEM,
 				KitElementType.CADUCEUS,
 				KitElementType.ELYSTRIA),
 		
-		VELVETINE("Velvetine", Hat.VELVETINE, "velvetine", "Dwarven Hero",
+		VELVETINE("Velvetine", Hat.VELVETINE, "velvetine", "Dwarven Hero", ChatColor.DARK_PURPLE,
 				KitElementType.GRB,
 				KitElementType.DRAGONSKIN,
 				KitElementType.HORN
 				),
 		
-		HERANA("Herana", Hat.HERANA, "herana", "Mermaid Queen",
+		HERANA("Herana", Hat.HERANA, "herana", "Mermaid Queen", ChatColor.AQUA,
 				KitElementType.GRB,
 				KitElementType.DRAGONSKIN,
 				KitElementType.HORN
@@ -156,7 +157,7 @@ public class Hero extends Dwarf {
 		private final String descriptor;
 		
 		Type(String title, Hat hat, String skin, String descriptor, KitElementType... elements) {
-			this(title, hat, skin, descriptor, ChatColor.AQUA, Collections.emptyMap(), elements);
+			this(title, hat, skin, descriptor, ChatColor.DARK_AQUA, Collections.emptyMap(), elements);
 		}
 		
 		Type(String title, Hat hat, String skin, String descriptor, ChatColor glowColour, KitElementType... elements) {
@@ -164,7 +165,7 @@ public class Hero extends Dwarf {
 		}
 		
 		Type(String title, Hat hat, String skin, String descriptor, Map<ConsumableType, Integer> extraConsumables, KitElementType... elements) {
-			this(title, hat, skin, descriptor, ChatColor.AQUA, extraConsumables, elements);
+			this(title, hat, skin, descriptor, ChatColor.DARK_AQUA, extraConsumables, elements);
 		}
 		
 		Type(String title, Hat hat, String skin, String descriptor, ChatColor glowColour, Map<ConsumableType, Integer> extraConsumables, KitElementType... elements) {
