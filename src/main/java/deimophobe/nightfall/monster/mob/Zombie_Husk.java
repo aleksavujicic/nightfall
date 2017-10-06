@@ -74,6 +74,11 @@ public class Zombie_Husk extends Zombie {
         if (stagger) {
             getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, 10, "Staggering Hit");
         }
+    }
+
+    @Override
+    public void onSpawn() {
+        super.onSpawn();
         monster.givePermanentPotionEffect(PotionEffectType.ABSORPTION, toughskin);
         monster.givePermanentPotionEffect(PotionEffectType.REGENERATION, regen);
     }
