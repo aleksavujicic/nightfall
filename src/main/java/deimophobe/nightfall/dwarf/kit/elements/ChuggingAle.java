@@ -11,7 +11,7 @@ import minecraft.spigot.community.michel_0.api.Slot;
 class ChuggingAle extends AbstractAle {
 	
 	public ChuggingAle(Dwarf dwarf) {
-		super(dwarf, 30, 2);
+		super(dwarf, 30, 4);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("ale.chug", Slot.MAIN_HAND);
