@@ -11,9 +11,9 @@ import java.util.*;
  */
 public enum MobType {
 	ZOMBIE,
-	//ZOMBIE_FURY,
+	ZOMBIE_FURY,
 	ZOMBIE_HUSK,
-	//ZOMBIE_SABOTEUR,
+	ZOMBIE_SABOTEUR,
 
 	GOBO,
 	
@@ -69,6 +69,12 @@ public enum MobType {
 			case ZOMBIE: {
 				if (monster.getUpgrades(MobType.ZOMBIE).computeIfAbsent("husk", (k) -> 0) == 1) {
 					return new Zombie_Husk(monster);
+				}
+				else if (monster.getUpgrades(MobType.ZOMBIE).computeIfAbsent("fury", (k) -> 0) == 1) {
+					return new Zombie_Fury(monster);
+				}
+				else if (monster.getUpgrades(MobType.ZOMBIE).computeIfAbsent("saboteur", (k) -> 0) == 1) {
+					return new Zombie_Saboteur(monster);
 				}
 				else {
 					return new Zombie(monster);
