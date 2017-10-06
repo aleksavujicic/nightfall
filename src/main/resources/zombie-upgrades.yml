@@ -56,7 +56,7 @@ husk:
     fury: 1
     saboteur: 1
   item:
-    material: iron_chestplate
+    material: leather_chestplate
     name: "Husk Zombie"
     lore:
       description:
@@ -90,7 +90,7 @@ saboteur:
     husk: 1
     fury: 1
   item:
-    material: iron_sword
+    material: stone_sword
     name: "Saboteur Zombie"
     lore:
       description:
@@ -145,7 +145,7 @@ vampirism-husk:
 arrow-husk:
   index: 14
   cost: [50, 100, 150]
-  value: [20, 40, 50]
+  value: [25, 40, 50]
   prereq:
     husk: 1
   item:
@@ -194,8 +194,113 @@ stagger:
     toughskin: 5
     regen: 2
   item:
-    material: iron_sword
+    material: stone_sword
     name: "Staggering Hit"
     lore:
       description:
         - "Your hits will inflict slowness and do more armor damage"
+
+
+##########################
+# FURY SUBCLASS UPGRADES #
+##########################
+
+shred-fury:
+  index: 10
+  cost: [20, 40, 60, 80, 100]
+  value: [5, 10, 15, 20, 25]
+  prereq:
+    fury: 1
+  item:
+    material: gold_pickaxe
+    name: "Armour Shred"
+    lore:
+      description:
+        - "Increases your armour shred."
+
+
+rebirth-fury:
+  index: 11
+  cost: [20, 40, 60, 80, 100]
+  value: [30, 40, 50, 60, 70]
+  prereq:
+    fury: 1
+  item:
+    material: eye_of_ender
+    name: "Rebirth Chance"
+    lore:
+      description:
+        - "Increases your respawn chance to $value%"
+
+
+vampirism-fury:
+  index: 12
+  cost: [30, 70, 100]
+  prereq:
+    fury: 1
+  item:
+    material: redstone
+    name: "Vampirism"
+    lore:
+      description:
+        - "Increases your life steal."
+
+
+arrow-fury:
+  index: 14
+  cost: [50, 100, 150]
+  value: [25, 40, 50]
+  prereq:
+    fury: 1
+  item:
+    material: arrow
+    name: "Arrow Resistance"
+    lore:
+      description:
+        - "Increases your arrow resistance to $value%"
+
+
+leap:
+  index: 15
+  cost: [10, 20, 30, 40, 50]
+  prereq:
+    attack: 3
+  item:
+    material: sugar
+    name: "Leap"
+    lore:
+      description:
+        - "Improves your leap"
+
+pursuit:
+  index: 11
+  cost: [25, 50, 75]
+  prereq:
+    attack: 3
+  item:
+    material: coal
+    name: "Pursuit"
+    lore:
+      description:
+        - "Speed on hit."
+
+fury:
+  index: 22
+  cost: 300
+  prereq:
+    attack: 5
+    health: 5
+
+    shred-fury: 5
+    pursuit: 3
+    leap: 5
+
+    arrow-fury: 3
+    rebirth-fury: 5
+    vampirism-fury: 3
+  item:
+    material: exp_bottle
+    name: Fury of the Night
+    lore:
+      description:
+        - "Drain mana on hit and extra vampirism at night!"
