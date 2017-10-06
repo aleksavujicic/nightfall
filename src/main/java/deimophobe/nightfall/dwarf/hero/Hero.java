@@ -1,9 +1,6 @@
 package deimophobe.nightfall.dwarf.hero;
 
-import deimophobe.nightfall.Hat;
-import deimophobe.nightfall.Misc;
-import deimophobe.nightfall.Skin;
-import deimophobe.nightfall.SkinManager;
+import deimophobe.nightfall.*;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.HeroArmour;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
@@ -17,6 +14,7 @@ import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
 import java.util.*;
@@ -51,7 +49,13 @@ public class Hero extends Dwarf {
 	@Override
 	public void onRemove() {
 		super.onRemove();
-		SkinManager.getManager().removeSkinChange(this);
+		
+		// Bit of a hack but should rarely be a problem
+		new BukkitRunnable() {
+			@Override public void run() {
+				SkinManager.getManager().removeSkinChange(Hero.this);
+			}
+		}.runTaskLater(NightfallPlugin.getPlugin(), 20);
 	}
 	
 	private void announceHero() {
