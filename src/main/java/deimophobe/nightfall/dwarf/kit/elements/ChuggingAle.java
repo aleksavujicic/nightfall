@@ -11,7 +11,7 @@ import minecraft.spigot.community.michel_0.api.Slot;
 class ChuggingAle extends AbstractAle {
 	
 	public ChuggingAle(Dwarf dwarf) {
-		super(dwarf, 30, 4);
+		super(dwarf, 25, 4);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("ale.chug", Slot.MAIN_HAND);
@@ -19,7 +19,7 @@ class ChuggingAle extends AbstractAle {
 	
 	@Override
 	public void heal() {
-		dwarf.heal(10);
+		dwarf.heal(12);
 		playDefaultHealSound();
 	}
 }

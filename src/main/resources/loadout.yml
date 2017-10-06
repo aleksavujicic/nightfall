@@ -425,7 +425,7 @@ page1:
     type: item
     name: strong_ale
     category: ale
-    cost: 8
+    cost: 4
     item:
       name: "Strong Ale"
       base: strong
