@@ -6,6 +6,7 @@ import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.lore.LoreTemplate;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;
@@ -45,6 +46,8 @@ public class MobData {
 	final int torchXP;
 	final boolean shrineImmune;
 	final boolean canRun;
+	
+	private final Map<String, MobSound> sounds = new HashMap<>();
 	
 	private MobData() {
 		name = "default";
@@ -206,5 +209,27 @@ public class MobData {
 		if (!mobs.containsKey(type))
 			throw new IllegalArgumentException("No mobdata with key " + type);
 		return mobs.get(type);
+	}
+	
+	
+	
+	void playSound(String sound, MonsterPlayer monster) {
+		MobSound mobSound = sounds.get(sound);
+		if (mobSound != null)
+			mobSound.play(monster);
+	}
+	
+	private class MobSound {
+		private final String sound;
+		private final float pitch;
+		
+		private MobSound(String sound, float pitch) {
+			this.sound = sound;
+			this.pitch = pitch;
+		}
+		
+		private void play(MonsterPlayer monster) {
+			monster.playSound(sound, 1f, pitch, true);
+		}
 	}
 }
