@@ -21,7 +21,7 @@ import org.bukkit.util.Vector;
 import java.util.Map;
 
 /**
- * Created by Deimophobe on 2/02/17.
+ * Created by TKiwisi on 9/22/17.
  */
 public class Zombie_Husk extends Zombie {
 
