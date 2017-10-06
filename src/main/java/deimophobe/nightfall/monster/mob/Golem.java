@@ -49,6 +49,12 @@ class Golem extends AbstractMob {
 	}
 	
 	@Override
+	public void onDeath() {
+		super.onDeath();
+		monster.playSound("item.totem.use", 1f, 0.75f, true);
+	}
+	
+	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
 		swingArms();
