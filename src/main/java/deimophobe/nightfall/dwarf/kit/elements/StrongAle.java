@@ -13,7 +13,7 @@ import minecraft.spigot.community.michel_0.api.Slot;
 class StrongAle extends AbstractAle {
 	public StrongAle(Dwarf dwarf) {
 		super(dwarf, 400, 60);
-		dwarf.getArmour().addModifier(ItemModifierType.HEALTH, 5, "Strong Ale");
+		dwarf.getArmour().addModifier(ItemModifierType.HEALTH, 2, "Strong Ale");
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("ale.strong", Slot.MAIN_HAND);

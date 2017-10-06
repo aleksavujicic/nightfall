@@ -252,12 +252,12 @@ ale:
        - "poop"
   strong:
     base: strong
-    name: Strong Ale
+    name: Potion Seller's Strongest Potion
     lore:
       description:
-       - "This probably needs a better name"
+       - ""
       flavour:
-       - ":banana:"
+       - "\"My potions are too strong for you traveller.\" - Potion Seller"
 
 consumable:
   lamp:
