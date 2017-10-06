@@ -5,10 +5,12 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -34,6 +36,7 @@ public class Minotaur extends AbstractMob {
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
+		((MobDisguise)getDisguise()).setHearSelfDisguise(false);
 	}
 	
 	@Override
@@ -49,6 +52,20 @@ public class Minotaur extends AbstractMob {
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		cooldown.update();
+	}
+	
+	@Override
+	public void onDeath() {
+		super.onDeath();
+		monster.playSound("entity.shulker.death", 1f, 0.6f, true);
+	}
+	
+	@Override
+	public void onDamageReceive(MonsterDamage damage) {
+		super.onDamageReceive(damage);
+		if (Math.random() <= 0.5) {
+			monster.playSound("entity.shulker.hurt", 1f, 0.5f, true);
+		}
 	}
 	
 	@Override
@@ -89,7 +106,7 @@ public class Minotaur extends AbstractMob {
 						return;
 					}
 					
-					// Do cloud and getDamage
+					// Do cloud and damage
 					Location loc = monster.getLocation();
 					loc.getWorld().spawnParticle(Particle.CLOUD, loc, 5, 0.5, 0.5, 0.5, 0.03);
 					aoeDamage();

@@ -68,6 +68,10 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 	public void cancel() {cancelled = true;}
 	public void instaKill() {instaKill = true;}
 	
+	public boolean isCancelled() {
+		return cancelled;
+	}
+	
 	public void setKnockback(Vector kb) {knockback = kb;}
 	public void setKnockback(double x, double y, double z) {setKnockback(new Vector(x,y,z));}
 	private void checkKBNotNull() {

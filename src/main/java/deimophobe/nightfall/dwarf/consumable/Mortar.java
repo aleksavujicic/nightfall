@@ -34,7 +34,7 @@ class Mortar extends Consumable {
 		
 		BlockConverter.mortar(clickedBlock, shouldWizzy);
 		
-		dwarf.playSound("entity.slime.hurt", 1, (float) (0.5 + 0.1 * Math.random() + (wizzy ? 0.1 : 0)), false);
+		dwarf.playSound("entity.slime.hurt", 1, (float) (0.5 + 0.05 * Math.random() + (wizzy ? 0.2 : 0)), false);
 		
 		return DEFAULT_CD;
 	}

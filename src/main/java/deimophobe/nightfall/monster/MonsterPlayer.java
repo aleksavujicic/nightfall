@@ -359,7 +359,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			} else {
 				mob.onDamageReceive(damage);
 				
-				if (mob.hasDisguise()) {
+				if (!damage.isCancelled() && mob.hasDisguise()) {
 					playSound("entity.generic.hurt", 1f, 1f, true);
 				}
 			}

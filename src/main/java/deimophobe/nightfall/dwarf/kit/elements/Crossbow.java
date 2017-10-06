@@ -51,6 +51,7 @@ class Crossbow extends AbstractBow implements KitCooldownElement {
 			
 			dwarf.useArrows(ARROW_COST);
 			dwarf.playSound("entity.arrow.shoot", 1f, 1.1f, true);
+			dwarf.playSound("entity.shulker.shoot", 1f, 0.8f, true);
 			return true;
 		}
 		return false;
