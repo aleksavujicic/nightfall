@@ -4,6 +4,7 @@ import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.map.GameMap;
@@ -192,7 +193,8 @@ public abstract class AbstractMob implements Mob {
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
-		damage.setArmourShred(mobData.armourShred);
+		if (damage.getType() == NaturalDamageType.MELEE)
+			damage.setArmourShred(mobData.armourShred);
 		monster.gainXP(2, true);
 	}
 	

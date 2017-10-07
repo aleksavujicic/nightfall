@@ -28,3 +28,14 @@ hellhounds:
   mobs:
     regular:
       - hellhound
+
+tickers:
+  title: Witty Name Here
+  subtitle:
+    - Tick.
+    - Tick. Tock.
+    - Boom.
+
+  mobs:
+    regular:
+      - ticker

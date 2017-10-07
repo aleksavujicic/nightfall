@@ -29,6 +29,7 @@ public enum MobType {
 	WRAITH,
 	MINOTAUR,
 	WALKER,
+	TICKER,
 	
 	KRUNGOR,
 	BOPEN,
@@ -36,6 +37,7 @@ public enum MobType {
 	TESTMOB,
 	
 	PLAGUE_ZOMBIE(false),
+	
 	;
 	
 	private final MobData mobData;
@@ -85,6 +87,7 @@ public enum MobType {
 			case WRAITH: return new Wraith(monster);
 			case MINOTAUR: return new Minotaur(monster);
 			case WALKER: return new Walker(monster);
+			case TICKER: return new Ticker(monster);
 				
 			case TESTMOB: return new TestMob(monster);
 				

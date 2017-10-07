@@ -402,6 +402,16 @@ walker:
        - "Temp"
 
 
+ticker:
+  title: "Ticker"
+
+  attack: 0
+  health: 10
+  shred: 0
+
+  resistance: 1
+
+
 
 ghostblade-base:
   title: Ghostblade

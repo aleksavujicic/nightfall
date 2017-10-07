@@ -191,6 +191,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	
 	// ------ SEPPUKU ------
+	private static final ItemStack seppuku = Misc.getItem("seppuku").createItemStack();
+	private static final ItemStack lightnigSeppuku = Misc.getItem("lightning-seppuku").createItemStack();
 	private final int MAX_SEPPUKU_CD = 100;
 	private int seppukuCD;
 	private void seppukuClick() {
@@ -456,6 +458,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	private boolean isFreezable() {
+		if (mob != null && mob.getType() == MobType.TICKER)
+			return false;
+		
 		if (player.hasPotionEffect(PotionEffectType.LUCK))
 			return false;
 		
@@ -480,9 +485,6 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	
 	// ------ MISC ------
-	
-	private static final ItemStack seppuku = Misc.getItem("seppuku").createItemStack();
-	private static final ItemStack lightnigSeppuku = Misc.getItem("lightning-seppuku").createItemStack();
 	
 	public Entity getDisguiseEntity() {
 		if (mob == null || mob.getDisguise() == null)
