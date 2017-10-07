@@ -290,11 +290,10 @@ fury:
   prereq:
     attack: 5
     health: 5
-
+    fury: 1
     shred-fury: 5
     pursuit: 3
     leap: 5
-
     arrow-fury: 3
     rebirth-fury: 5
     vampirism-fury: 3
@@ -303,4 +302,4 @@ fury:
     name: Fury of the Night
     lore:
       description:
-        - "Drain mana on hit and extra vampirism at night!"
+        - "Drain mana on hit!"
