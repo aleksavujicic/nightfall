@@ -64,7 +64,7 @@ public class Zombie_Fury extends Zombie {
         this.arrowRes = (double) arrowRes/100;
         this.rebirthChance = (double) rebirthChance/100;
 
-        this.fury = upgrades.get("fury") >= 1;
+        this.fury = upgrades.get("furynight") >= 1;
 
         if (fury)
             furySound = new ComplexCooldown(10, () ->
