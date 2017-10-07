@@ -1,0 +1,128 @@
+package deimophobe.nightfall.monster.mob;
+
+import deimophobe.nightfall.Game;
+import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.DudCooldown;
+import deimophobe.nightfall.cooldown.SimpleCooldown;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.monster.MonsterPlayer;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.event.block.Action;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
+
+import java.util.Map;
+
+/**
+ * Created by TKiwisi on 10/06/17.
+ */
+public class Zombie_Fury extends Zombie {
+
+    private final int vampirism;
+    private final double arrowRes;
+    private final int armourShred;
+    private final Cooldown leapCD;
+    private final int leapLvl;
+    private final int pursuit;
+
+    private final boolean fury;
+    private final ComplexCooldown furySound;
+
+    private static Integer[] shredValues = {0, 5, 10, 15, 20, 25};
+    private static Integer[] arrowResValues = {0, 25, 40, 50};
+    private static Integer[] rebirthValues = {0, 40, 60, 70, 80, 85};
+
+    protected Zombie_Fury(MonsterPlayer mons) {
+        this(mons, null);
+    }
+
+    public Zombie_Fury(MonsterPlayer mons, Location rebirth) {
+        super(mons, rebirth, MobType.ZOMBIE_FURY);
+
+        Map<String, Integer> upgrades = monster.getUpgrades(MobType.ZOMBIE);
+
+        this.armourShred = shredValues[upgrades.get("shred-husk")];
+        this.vampirism = upgrades.get("vampirism-husk");
+        int arrowRes = arrowResValues[upgrades.get("arrow-husk")];
+        int rebirthChance = rebirthValues[upgrades.get("rebirth-husk")];
+        this.pursuit = upgrades.get("pursuit");
+        int leapLvl = upgrades.get("leap");
+
+        if (leapLvl != 0)
+            leapCD = new SimpleCooldown(200);
+        else
+            leapCD = new DudCooldown();
+        this.leapLvl = upgrades.get("leap");
+
+        this.arrowRes = (double) arrowRes/100;
+        this.rebirthChance = (double) rebirthChance/100;
+
+        this.fury = upgrades.get("fury") >= 1;
+
+        if (fury)
+            furySound = new ComplexCooldown(10, () ->
+                    monster.playSound("entity.zombie_villager.converted", 1f, 1.5f, true)
+                    , ComplexCooldown.DO_NOTHING);
+        else
+            furySound = new ComplexCooldown(10);
+
+        getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
+        getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
+    }
+
+    @Override
+    public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
+        leapCD.update();
+        furySound.update();
+    }
+
+    @Override
+    public void onDamageReceive(MonsterDamage<? extends Dwarf> damage) {
+        super.onDamageReceive(damage);
+        damage.addArrowRes(arrowRes);
+    }
+
+    @Override
+    public void onUse(Action action, Block block, BlockFace face) {
+        if (Misc.isRightClick(action) && isPlayerHoldingWeapon()) {
+            if (leapCD.isAvailable()) {
+                leapCD.reset();
+
+                double yaw = monster.getPlayer().getLocation().getYaw();
+                double radYaw = yaw*Math.PI/180;
+
+                double hVel = (double) leapLvl/2;
+                double vVel = (double) leapLvl/10;
+                monster.getPlayer().setVelocity(new Vector(-hVel * Math.sin(radYaw), vVel, hVel * Math.cos(radYaw)));
+            }
+        }
+    }
+
+    @Override
+    public void onDamageAttack(DwarfDamage damage) {
+        super.onDamageAttack(damage);
+
+        damage.addArmourShred(armourShred);
+
+        int healAmt = vampirism;
+        if (fury) {
+            healAmt += 3;
+            furySound.tryUse();
+            damage.setManaDrain(10);
+        }
+        monster.heal(healAmt);
+        monster.givePotionEffect(PotionEffectType.SPEED, 140, pursuit, true, false, true);
+    }
+
+    @Override
+    public float getCooldown() {
+        return leapCD.fractionComplete();
+    }
+}
