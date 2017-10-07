@@ -4,6 +4,7 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -12,6 +13,8 @@ import org.bukkit.potion.PotionEffectType;
 public class Slowfall extends AbstractElement {
 	private final ComplexCooldown cooldown;
 	
+	private static final double RESISTANCE = 0.8;
+	
 	public Slowfall(Dwarf dwarf, boolean hasSlow) {
 		super(dwarf);
 		if (hasSlow) {
@@ -19,6 +22,7 @@ public class Slowfall extends AbstractElement {
 		} else {
 			cooldown = new ComplexCooldown(-1);
 		}
+		dwarf.getArmour().addModifier(ItemModifierType.FALL_DAMAGE, (int) (-RESISTANCE*100), "Slowfall");
 	}
 	
 	@Override
@@ -34,7 +38,7 @@ public class Slowfall extends AbstractElement {
 			if (cooldown.wasUsedWithin(8*20))
 				damage.cancel();
 			else
-				damage.getDamage().timesMult(0.2);
+				damage.getDamage().timesMult(1 - RESISTANCE);
 		}
 	}
 	
