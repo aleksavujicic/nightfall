@@ -40,7 +40,7 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				givePotionEffect(PotionEffectType.ABSORPTION, 1, 1, false, false, true);
+				givePotionEffect(PotionEffectType.ABSORPTION, 5, 1, false, false, true);
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), 20);
 	}
