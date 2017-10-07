@@ -32,7 +32,7 @@ public class Zombie_Husk extends Zombie {
     private final int regen;
 
     private final boolean stagger;
-    private final ComplexCooldown furySound;
+    private final ComplexCooldown staggerSound;
 
     private static Integer[] shredValues = {0, 6, 12, 18, 24, 30};
     private static Integer[] arrowResValues = {0, 25, 40, 50};
@@ -60,11 +60,11 @@ public class Zombie_Husk extends Zombie {
         this.stagger = upgrades.get("stagger") >= 1;
 
         if (stagger)
-            furySound = new ComplexCooldown(10, () ->
+            staggerSound = new ComplexCooldown(10, () ->
                 monster.playSound("entity.zombie_villager.converted", 1f, 0.5f, true)
             , ComplexCooldown.DO_NOTHING);
         else
-            furySound = new ComplexCooldown(10);
+            staggerSound = new ComplexCooldown(10);
 
         getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
         getArmour().addModifier(ItemModifierType.SPEED, -20, "Husk Zombie");
@@ -74,6 +74,11 @@ public class Zombie_Husk extends Zombie {
         if (stagger) {
             getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, 10, "Staggering Hit");
         }
+    }
+
+    @Override
+    public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
+        staggerSound.update();
     }
 
     @Override
@@ -97,7 +102,7 @@ public class Zombie_Husk extends Zombie {
 
         int healAmt = vampirism;
         if (stagger) {
-            furySound.tryUse();
+            staggerSound.tryUse();
             damage.addArmourShred(10);
             damage.getDwarf().givePotionEffect(PotionEffectType.SLOW, 40, 1, false, false, true);
         }
