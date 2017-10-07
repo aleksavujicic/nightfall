@@ -17,7 +17,7 @@ zombie:
           The stronger your hunger grows."
     bound: true
   weapon:
-    material: wood_pickaxe
+    base: zombiesword
     name: Makeshift Pick
     lore:
       description:
@@ -48,7 +48,7 @@ zombie-husk:
           The stronger your hunger grows."
     bound: true
   weapon:
-    material: wood_sword
+    base: zombiesword
     name: Makeshift Sword
     lore:
       description:
@@ -79,7 +79,7 @@ zombie-fury:
           The stronger your hunger grows."
     bound: true
   weapon:
-    material: wood_sword
+    base: zombiesword
     name: Makeshift Sword
     lore:
       description:
@@ -110,7 +110,7 @@ zombie-saboteur:
           The stronger your hunger grows."
     bound: true
   weapon:
-    material: wood_sword
+    base: zombiesword
     name: Makeshift Sword
     lore:
       description:
