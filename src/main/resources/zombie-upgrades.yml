@@ -273,7 +273,7 @@ leap:
         - "Improves your leap"
 
 pursuit:
-  index: 11
+  index: 16
   cost: [25, 50, 75]
   prereq:
     attack: 3
@@ -284,7 +284,7 @@ pursuit:
       description:
         - "Speed on hit."
 
-fury:
+furynight:
   index: 22
   cost: 300
   prereq:
@@ -303,3 +303,105 @@ fury:
     lore:
       description:
         - "Drain mana on hit!"
+
+
+##############################
+# SABOTEUR SUBCLASS UPGRADES #
+##############################
+
+shred-sabo:
+  index: 10
+  cost: [50, 100, 150]
+  value: [5, 10, 15]
+  prereq:
+    saboteur: 1
+  item:
+    material: gold_pickaxe
+    name: "Armour Shred"
+    lore:
+      description:
+        - "Increases your armour shred."
+
+
+pick:
+  index: 11
+  cost: [50, 100, 150]
+  prereq:
+    saboteur: 1
+  item:
+    material: wood_pickaxe
+    name: "Sabotage pick"
+    lore:
+      description:
+        - "Destroy walls with this pick."
+
+
+vampirism-sabo:
+  index: 12
+  cost: [30, 70, 100]
+  prereq:
+    saboteur: 1
+  item:
+    material: redstone
+    name: "Vampirism"
+    lore:
+      description:
+        - "Increases your life steal."
+
+
+epinephrine:
+  index: 14
+  cost: [20, 40, 60, 80, 100]
+  prereq:
+    saboteur: 1
+  item:
+    material: sugar
+    name: "Epinephrine"
+    lore:
+      description:
+        - "Run even faster!%"
+
+
+leap:
+  index: 15
+  cost: [10, 20, 30, 40, 50]
+  prereq:
+    saboteur: 1
+  item:
+    material: sugar
+    name: "Leap"
+    lore:
+      description:
+        - "Improves your leap"
+
+poisoned-hit:
+  index: 16
+  cost: [50, 100, 150]
+  prereq:
+    saboteur: 1
+  item:
+    base: potion-poison
+    name: "Poisoned hit"
+    lore:
+      description:
+        - "Poison dwarves with each hit."
+
+assassination:
+  index: 22
+  cost: 300
+  prereq:
+    attack: 5
+    health: 5
+    saboteur: 1
+    shred-sabo: 5
+    posion: 3
+    leap: 5
+    pick: 3
+    epinephrine: 5
+    vampirism-sabo: 3
+  item:
+    material: exp_bottle
+    name: Assassination
+    lore:
+      description:
+        - "Disappear in the shadows and assassinate dwarves!"
