@@ -8,6 +8,7 @@ import deimophobe.nightfall.effects.GameEffect;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.util.HashMap;
@@ -25,7 +26,7 @@ public class DwarvenArmour implements Armour {
 	private int armour = DEFAULT_MAX;
 	private int max = DEFAULT_MAX;
 	
-	private ArmourLevel currentLevel = ArmourLevel.HIGH;
+	private ArmourLevel currentLevel = ArmourLevel.SHINY;
 	private Map<ArmourLevel, ArmourSet> setMap = new HashMap<>();
 	
 	public DwarvenArmour(Dwarf dwarf) {
@@ -45,9 +46,14 @@ public class DwarvenArmour implements Armour {
 	
 	@Override
 	public void putOn() {
-		armoured = true;
-		setMap.get(currentLevel).equip(dwarf);
-		GameEffect.playEffect(GameEffect.DWARF_ARMOURED, dwarf.getPlayer());
+		if (!armoured) {
+			armoured = true;
+			setMap.get(currentLevel).equip(dwarf);
+			GameEffect.playEffect(GameEffect.DWARF_ARMOURED, dwarf.getPlayer());
+			dwarf.onArmourEquip();
+		} else {
+			Bukkit.getLogger().severe("Tried to equip armour on dwarf which is already equipped!\nDwarf: " + dwarf.getName());
+		}
 	}
 	
 	@Override
@@ -99,7 +105,7 @@ public class DwarvenArmour implements Armour {
 	public double getResistance() {
 		if (isArmoured()) {
 			double x = armourFraction();
-			return (x * 0.15 + 0.7);
+			return (x * 0.125 + 0.7);
 		} else {
 			return 0.6;
 		}
@@ -109,7 +115,7 @@ public class DwarvenArmour implements Armour {
 	public int getManaRegenRate() {
 		if (!isArmoured()) return 0;
 		
-		if (isAtMax()) return 10; // Otherwise formula below would give 16 only when full (which is kinda weird).
+		if (isAtMax()) return 10; // Otherwise formula below would give 11 only when full (which is kinda weird).
 		return (int) Math.floor(Math.atan(3 * armourFraction()) * 12/Math.atan(3)) - 1;
 	}
 	
@@ -126,8 +132,9 @@ public class DwarvenArmour implements Armour {
 	
 	
 	private enum ArmourLevel {
-		HIGH("high", 0.7, 1),
-		MED("med", 0.3, 0.7),
+		SHINY("shiny", 0.8, 1),
+		HIGH("high", 0.6, 0.8),
+		MED("med", 0.3, 0.6),
 		LOW("low", 0, 0.3)
 		;
 		

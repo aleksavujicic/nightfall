@@ -1,5 +1,6 @@
 package deimophobe.nightfall.plague;
 
+import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -20,6 +21,7 @@ import java.util.Set;
  */
 class DeathPlague extends AbstractPlague {
 	private Enderman death;
+	private boolean killedOne = false;
 	
 	@Override
 	public void startPlague(Set<Dwarf> plagueables, Set<Dwarf> plagued, int killAmt) {
@@ -43,9 +45,26 @@ class DeathPlague extends AbstractPlague {
 			@Override
 			public void run() {
 				if (getAmountToKill() > 0) {
-					Dwarf target = getNearestPlagueable();
+					Dwarf target;
+					if (killedOne) {
+						target = getNearestPlagueable();
+					} else {
+						target = getRandomPlagueable();
+					}
+					
+					if (target == null) {
+						this.cancel();
+						death.remove();
+						notifyEnd();
+						return;
+					}
+					
+					killedOne = true;
 					death.teleport(target.getLocation());
-					target.damage(null, CustomDamageType.DEATH_PLAGUE, 10000);
+					
+					target.doDamage(null, CustomDamageType.DEATH_PLAGUE, 10000, true, true);
+					
+					
 					world.playSound(target.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 1, 1);
 					world.playSound(target.getLocation(), "entity.endermen.scream", 1, 1);
 					removeDwarf(target);
@@ -56,6 +75,10 @@ class DeathPlague extends AbstractPlague {
 				}
 			}
 		}.runTaskTimer(NightfallPlugin.getPlugin(), 160, 40);
+	}
+	
+	private Dwarf getRandomPlagueable() {
+		return Misc.getRandom(plagueables);
 	}
 	
 	private Dwarf getNearestPlagueable() {

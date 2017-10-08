@@ -397,7 +397,13 @@ public class NightfallPlugin extends JavaPlugin {
 			try {
 				if (args.length == 1 && sender instanceof Player) {
 					double dmg = Double.parseDouble(args[0]);
-					((Player) sender).damage(dmg, (Entity) sender);
+					
+					GamePlayer gp = Game.getGame().getGamePlayer((Player) sender);
+					if (gp == null) {
+						((Player) sender).damage(dmg, (Entity) sender);
+					} else {
+						gp.doDamage(null, CustomDamageType.COMMAND, dmg, true);
+					}
 					sender.sendMessage(ChatColor.YELLOW + "Damaged you for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " damage.");
 					return true;
 				} else if (args.length >= 2) {
@@ -412,7 +418,7 @@ public class NightfallPlugin extends JavaPlugin {
 						else
 							target.damage(dmg);
 					} else {
-						gp.damage(null, CustomDamageType.COMMAND, dmg);
+						gp.doDamage(null, CustomDamageType.COMMAND, dmg, true);
 					}
 					
 					sender.sendMessage(ChatColor.YELLOW + "Damaged " + target.getDisplayName() + ChatColor.YELLOW + " for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " damage.");
@@ -578,6 +584,27 @@ public class NightfallPlugin extends JavaPlugin {
 			}
 			
 			return true;
+		}
+		if (name.equalsIgnoreCase("spawnai")) {
+			if (sender instanceof Player) {
+				int num;
+				if (args.length == 0) {
+					num = 1;
+				} else {
+					try {
+						num = Integer.parseInt(args[0]);
+					} catch (NumberFormatException e) {
+						sender.sendMessage("" + ChatColor.YELLOW + ChatColor.ITALIC + args[0] + ChatColor.RED + " is not a number!");
+						return false;
+					}
+					num = Math.min(num, 300);
+				}
+				
+				AIManager.getManager().spawnAIs(((Player) sender).getLocation(), num);
+				return true;
+			} else {
+				sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
+			}
 		}
 		if (name.equalsIgnoreCase("who")) {
 			sender.sendMessage(dm.getPlayerList() + "\n" +  mm.getPlayerList());

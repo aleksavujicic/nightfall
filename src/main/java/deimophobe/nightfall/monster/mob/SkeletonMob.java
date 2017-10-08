@@ -1,7 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.Misc;
-import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
@@ -35,15 +35,8 @@ abstract class SkeletonMob extends AbstractMob {
 	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {
 		((SkeletonWatcher) getDisguise().getWatcher()).setSwingArms(false);
+		ArrowMisc.setArrowDamage(arrow, getPower());
 		return arrow;
-	}
-	
-	@Override
-	public void onDamageAttack(DwarfDamage damage) {
-		super.onDamageAttack(damage);
-		if (damage.hasArrow()) {
-			damage.setBaseDamage(getPower());
-		}
 	}
 	
 	protected void giveArrows(int quantity) {

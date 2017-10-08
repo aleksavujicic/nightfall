@@ -55,6 +55,11 @@ public class BlockType {
 	
 	
 	// ----- MISC -----
+	public static final ComparableBlock GRASS = new MaterialSet(
+			Material.DOUBLE_PLANT, Material.LONG_GRASS, Material.YELLOW_FLOWER, Material.RED_ROSE, Material.DEAD_BUSH
+	);
+	
+	
 	public static final ComparableBlock ACTIVE_SHRINE_BLOCK =
 			block -> (
 					block.getType() == Material.ENDER_PORTAL_FRAME
@@ -94,6 +99,12 @@ public class BlockType {
 					
 					Material.BEACON
 			)
+	);
+	
+	public static final ComparableBlock UNPLACEABLE_BLOCKS = new MaterialSet(
+			Material.BARRIER,
+			Material.DISPENSER,
+			Material.CHEST
 	);
 	
 	public static final ComparableBlock UNBREAKABLE_BLOCKS = new BlockSet(
@@ -151,6 +162,9 @@ public class BlockType {
 			new MaterialSet(
 					Material.AIR
 			)
+	);
+	public static final ComparableBlock IGNITEABLE = new MaterialSet(
+			Material.AIR, Material.DOUBLE_PLANT, Material.LONG_GRASS, Material.YELLOW_FLOWER, Material.RED_ROSE
 	);
 	
 	public static boolean tryConvertBlock(Block block, ComparableBlock from, SettableBlock to) {

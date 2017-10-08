@@ -1,5 +1,8 @@
 package deimophobe.nightfall;
 
+import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.items.lore.LoreTemplate;
+import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -24,6 +27,13 @@ public class Misc {
 		return ChatColor.BLUE + "Night" + ChatColor.DARK_RED + "Fall";
 	}
 	
+	public static YamlConfiguration getInternalFileConfig(String name) {
+		InputStream stream = NightfallPlugin.getPlugin().getResource(name);
+		return YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
+	}
+	
+	// ------ RANDOM ------
+	
 	public static <T> T getRandomFrom(T... items) {
 		return getRandom(items);
 	}
@@ -43,6 +53,8 @@ public class Misc {
 		return iter.next();
 	}
 	
+	// ------ ACTION CLICK -------
+	
 	public static boolean isLeftClick(Action type) {
 		return (type == Action.LEFT_CLICK_AIR || type == Action.LEFT_CLICK_BLOCK || type == Action.PHYSICAL);
 	}
@@ -50,6 +62,8 @@ public class Misc {
 	public static boolean isRightClick(Action type) {
 		return (type == Action.RIGHT_CLICK_AIR || type == Action.RIGHT_CLICK_BLOCK);
 	}
+	
+	// ------- LOCATION -------
 	
 	public static Location moveParallel(Location loc, double dist) {
 		double yaw = loc.getYaw() * Math.PI/180;
@@ -66,11 +80,6 @@ public class Misc {
 		double sin = Math.sin(yaw);
 		double cos = Math.cos(yaw);
 		return loc.add(-parallel*sin - perpendicular*cos , 0, parallel*cos - perpendicular*sin);
-	}
-	
-	public static YamlConfiguration getInternalFileConfig(String name) {
-		InputStream stream = NightfallPlugin.getPlugin().getResource(name);
-		return YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
 	}
 	
 	public static BlockFace getBlockFaceProjectileHit(Projectile proj, Block hitBlock) {
@@ -137,6 +146,8 @@ public class Misc {
 		return (BlockFace) possibleFaces.toArray()[0];
 	}
 	
+	
+	// ------- TEAMS -------
 	private static final Set<Team> registeredTeams = new HashSet<>();
 	
 	public static Team getNewTeam(String teamName) {
@@ -156,5 +167,11 @@ public class Misc {
 			if (team != null)
 				team.unregister();
 		}
+	}
+	
+	
+	// ------ ITEMS ------
+	public static CustomItem getItem(String name) {
+		return CustomItem.getItem(getInternalFileConfig("misc-items.yml").getConfigurationSection(name), LoreTemplate.DEFAULT, Slot.MAIN_HAND);
 	}
 }

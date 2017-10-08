@@ -41,6 +41,7 @@ class Rat extends AbstractMob {
 	
 	@Override
 	public void onBlockBreak(Block block) {
+		super.onBlockBreak(block);
 		if (block.getType() == Material.TORCH)
 			monster.playSound("entity.silverfish.ambient", 1f, 1f, true);
 	}

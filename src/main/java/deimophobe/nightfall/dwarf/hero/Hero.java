@@ -1,8 +1,6 @@
 package deimophobe.nightfall.dwarf.hero;
 
-import deimophobe.nightfall.Hat;
-import deimophobe.nightfall.Skin;
-import deimophobe.nightfall.SkinManager;
+import deimophobe.nightfall.*;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.HeroArmour;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
@@ -16,6 +14,8 @@ import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.Team;
 
 import java.util.*;
 
@@ -49,7 +49,13 @@ public class Hero extends Dwarf {
 	@Override
 	public void onRemove() {
 		super.onRemove();
-		SkinManager.getManager().removeSkinChange(this);
+		
+		// Bit of a hack but should rarely be a problem
+		new BukkitRunnable() {
+			@Override public void run() {
+				SkinManager.getManager().removeSkinChange(Hero.this);
+			}
+		}.runTaskLater(NightfallPlugin.getPlugin(), 20);
 	}
 	
 	private void announceHero() {
@@ -101,7 +107,7 @@ public class Hero extends Dwarf {
 	}
 	
 	public enum Type {
-		TUI("Tui the Lightbringer", Hat.TUI, "tui", "Dwarven Hero",
+		TUI("Tui the Lightbringer", Hat.TUI, "tui", "Dwarven Hero", ChatColor.GOLD,
 				KitElementType.TUI_HAMMER,
 				KitElementType.WILDFIRE),
 		
@@ -110,18 +116,19 @@ public class Hero extends Dwarf {
 				KitElementType.WAND,
 				KitElementType.ROCKET_BOOTS),
 		
-		ARTHEA("Arthea", Hat.ARTHEA, "arthea", "Dwarven Hero", EXTRA_ARTHEA_CONSUMABLES,
+		ARTHEA("Arthea", Hat.ARTHEA, "arthea", "Dwarven Hero", ChatColor.RED,
+				EXTRA_ARTHEA_CONSUMABLES,
 				KitElementType.HEALER_TOTEM,
 				KitElementType.CADUCEUS,
 				KitElementType.ELYSTRIA),
 		
-		VELVETINE("Velvetine", Hat.VELVETINE, "velvetine", "Dwarven Hero",
+		VELVETINE("Velvetine", Hat.VELVETINE, "velvetine", "Dwarven Hero", ChatColor.DARK_PURPLE,
 				KitElementType.GRB,
 				KitElementType.DRAGONSKIN,
 				KitElementType.HORN
 				),
 		
-		HERANA("Herana", Hat.HERANA, "herana", "Mermaid Queen",
+		HERANA("Herana", Hat.HERANA, "herana", "Mermaid Queen", ChatColor.AQUA,
 				KitElementType.GRB,
 				KitElementType.DRAGONSKIN,
 				KitElementType.HORN
@@ -150,24 +157,39 @@ public class Hero extends Dwarf {
 		private final String descriptor;
 		
 		Type(String title, Hat hat, String skin, String descriptor, KitElementType... elements) {
-			this(title, hat, skin, descriptor, Collections.emptyMap(), elements);
+			this(title, hat, skin, descriptor, ChatColor.DARK_AQUA, Collections.emptyMap(), elements);
+		}
+		
+		Type(String title, Hat hat, String skin, String descriptor, ChatColor glowColour, KitElementType... elements) {
+			this(title, hat, skin, descriptor, glowColour, Collections.emptyMap(), elements);
 		}
 		
 		Type(String title, Hat hat, String skin, String descriptor, Map<ConsumableType, Integer> extraConsumables, KitElementType... elements) {
+			this(title, hat, skin, descriptor, ChatColor.DARK_AQUA, extraConsumables, elements);
+		}
+		
+		Type(String title, Hat hat, String skin, String descriptor, ChatColor glowColour, Map<ConsumableType, Integer> extraConsumables, KitElementType... elements) {
 			this.descriptor = descriptor;
 			Set<KitElementType> allElements = new HashSet<>();
 			allElements.add(KitElementType.HERO_ALE);
-			allElements.add(KitElementType.HERO_SAFEFALL);
+			allElements.add(KitElementType.HERO_SLOWFALL);
 			
 			allElements.addAll(Arrays.asList(elements));
 			
 			this.data = new DwarfData(title, true, hat, allElements, HERO_CONSUMABLES);
 			data.addConsumables(extraConsumables);
 			
-			if (skin == null)
+			if (skin == null) {
 				this.skin = null;
-			else
+			} else {
 				this.skin = Skin.getSkin(skin);
+				
+				String name = this.skin.getName();
+				Team team = Misc.getNewTeam("hero" + name);
+				team.setColor(glowColour);
+				team.setPrefix(glowColour.toString());
+				team.addEntry(name);
+			}
 		}
 		
 		public DwarfData getData() {return data;}

@@ -2,6 +2,7 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -61,7 +62,7 @@ class Flamelancer extends SkeletonMob {
 		BlockFace face = Misc.getBlockFaceProjectileHit(proj, hitBlock);
 		Block block = hitBlock.getRelative(face);
 		
-		if (block.getType() == Material.AIR && Math.random() < FLAME_CHANCE_ARROW) {
+		if (BlockType.IGNITEABLE.matchesBlock(block) && Math.random() < FLAME_CHANCE_ARROW) {
 			block.setType(Material.FIRE);
 		}
 	}

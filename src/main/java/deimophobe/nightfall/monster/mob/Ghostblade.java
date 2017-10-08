@@ -50,7 +50,7 @@ class Ghostblade extends AbstractMob {
 		
 		if (halfSec && !isPlayerHoldingWeapon()) {
 			monster.getPlayer().getInventory().setHeldItemSlot(0);
-			monster.damage(null, CustomDamageType.INCORRECT_HELD_ITEM, 4);
+			monster.doDamage(null, CustomDamageType.INCORRECT_HELD_ITEM, 4, true);
 			monster.givePotionEffect(PotionEffectType.GLOWING, 20, 1, true, true, true);
 		}
 	}

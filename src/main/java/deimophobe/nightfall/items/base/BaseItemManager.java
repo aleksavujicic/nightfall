@@ -27,12 +27,17 @@ public class BaseItemManager {
 	
 	private static final Map<String, BaseItem> baseItems = new HashMap<>();
 	private static void addItem(String name, BaseItem item) {
-		baseItems.put(name.toLowerCase(), item);
+		name = name.toLowerCase();
+		if (baseItems.containsKey(name))
+			throw new IllegalArgumentException("Trying to add base item '" + name + "' twice?!");
+		baseItems.put(name, item);
 	}
 	static {
 		addItem("healing_ale", new PotionItem(Color.fromRGB(93, 244, 17)));
 		addItem("jimmyjuice", new PotionItem(Color.RED));
 		addItem("holy_ale", new PotionItem(Color.fromRGB(17, 108, 244)));
+		addItem("chug", new PotionItem(Color.fromRGB(17, 108, 244)));
+		addItem("strong", new PotionItem(Color.fromRGB(17, 108, 244)));
 		
 		addItem("stick", new SimpleBaseItem(Material.STICK));
 		
@@ -40,7 +45,9 @@ public class BaseItemManager {
 		
 		addItem("upgrade_zombie", new SimpleBaseItem(Material.SKULL_ITEM, 2));
 		
-		addItem("temporary", new SimpleBaseItem(Material.RAW_FISH, 3));
+		BaseItem temp = new SimpleBaseItem(Material.FERMENTED_SPIDER_EYE);
+		addItem("temp", temp);
+		addItem("temporary", temp);
 		
 		// Add items from base-items.yml file
 		FileConfiguration config = Misc.getInternalFileConfig("base-items.yml");
@@ -48,10 +55,15 @@ public class BaseItemManager {
 			ConfigurationSection keyConfig = config.getConfigurationSection(key);
 			Material material = Material.matchMaterial(key);
 			
-			for (String itemName : keyConfig.getKeys(true)) {
-				int damage = keyConfig.getInt(itemName);
-				
-				addItem(itemName, new SimpleBaseItem(material, damage));
+			if (keyConfig == null) {
+				String itemName = config.getString(key);
+				addItem(itemName, new SimpleBaseItem(material));
+			} else {
+				for (String itemName : keyConfig.getKeys(true)) {
+					int damage = keyConfig.getInt(itemName);
+					
+					addItem(itemName, new SimpleBaseItem(material, damage));
+				}
 			}
 		}
 	}

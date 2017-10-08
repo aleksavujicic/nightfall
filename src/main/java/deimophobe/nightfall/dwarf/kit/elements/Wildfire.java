@@ -2,7 +2,7 @@ package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.damage.DamageModifier;
+import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -90,8 +90,11 @@ class Wildfire extends AbstractItem {
 					
 					// Damage mobs
 					for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
-						if (monster.getEyeLocation().distance(position) <= FLAME_RADIUS)
-							monster.damage(dwarf, CustomDamageType.WILDFIRE, FLAME_DPT*FLAME_DELAY, new DamageModifier().force());
+						if (monster.getEyeLocation().distance(position) <= FLAME_RADIUS) {
+							GameDamage damage = monster.createDamage(dwarf, CustomDamageType.WILDFIRE, FLAME_DPT * FLAME_DELAY);
+							damage.setNoDmgTicks(3);
+							damage.fire(true);
+						}
 					}
 					
 					if (lifeLeft <= 0) this.cancel();

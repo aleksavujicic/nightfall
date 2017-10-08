@@ -1,11 +1,13 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
+import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.blocks.timedblock.LampBlock;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.items.CustomItem;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 
 /**
@@ -27,7 +29,7 @@ class Lightbow extends AbstractBow {
 	
 	@Override
 	public void onProjectileLand(Projectile arrow, Block hitBlock) {
-		//if (Misc.getArrowForce(arrow) == 1) TODO
+		if (ArrowMisc.getArrowForce((Arrow) arrow) >= 0.8)
 			TimedBlock.placeTimedBlock(new LampBlock(hitBlock, 10*20, dwarf));
 	}
 }

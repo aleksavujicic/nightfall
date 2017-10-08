@@ -30,7 +30,6 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.spigotmc.event.entity.EntityDismountEvent;
@@ -100,7 +99,6 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void useItems(PlayerInteractEvent event) {
 		Block block = event.getClickedBlock();
-		Material mat = event.getMaterial();
 		GamePlayer gp = game.getGamePlayer(event.getPlayer());
 		if (gp != null && event.getAction() != Action.PHYSICAL) {
 			
@@ -116,7 +114,16 @@ public class GameListener implements Listener {
 			TimedBlock.hitBlock(block, gp);
 		}
 		
-		if (mat == Material.BARRIER || mat == Material.CHEST || (block != null && BlockType.UNINTERACTABLE_BLOCKS.matchesBlock(block))) {
+		if (block != null && BlockType.UNINTERACTABLE_BLOCKS.matchesBlock(block)) {
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler
+	public void onPlace(BlockPlaceEvent event) {
+		Block block = event.getBlockPlaced();
+		Player player = event.getPlayer();
+		if (player.getGameMode() != GameMode.CREATIVE && block != null && BlockType.UNPLACEABLE_BLOCKS.matchesBlock(block)) {
 			event.setCancelled(true);
 		}
 	}
@@ -155,7 +162,7 @@ public class GameListener implements Listener {
 		Entity entity = event.getEntity();
 		EntityDamageEvent.DamageCause cause = event.getCause();
 		
-		// Don't damage lobbyers and respawn if void.
+		// Don't getDamage lobbyers and respawn if void.
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
 			if (game.isLobbyPlayer(player)) {
@@ -185,6 +192,7 @@ public class GameListener implements Listener {
 				} else {
 					event.setDamage(0);
 					event.setCancelled(true);
+					return;
 				}
 			}
 		}
@@ -194,6 +202,8 @@ public class GameListener implements Listener {
 			case STARVATION:
 			case SUFFOCATION:
 			case THORNS:
+			case BLOCK_EXPLOSION:
+			case ENTITY_EXPLOSION:
 				event.setDamage(0);
 				event.setCancelled(true);
 				return;
@@ -225,12 +235,21 @@ public class GameListener implements Listener {
 					double yaw = arrow.getLocation().getYaw() * Math.PI/180;
 					arrow.teleport(arrow.getLocation().add(-0.15*Math.cos(yaw), 0, 0.15*Math.sin(yaw)));
 					
-					// Label it with force
-					arrow.setMetadata("force", new FixedMetadataValue(NightfallPlugin.getPlugin(), event.getForce()));
+					// Label it with force and damage
+					ArrowMisc.setArrowForce(arrow, event.getForce());
+					ArrowMisc.setArrowDamage(arrow, 0);
 					
 					// FIRE
 					Projectile newProj = gp.onBowFire(arrow, event.getForce());
-					event.setProjectile(newProj);
+					
+					if (newProj == null) {
+						event.setCancelled(true);
+					} else if (newProj instanceof Arrow && ArrowMisc.getArrowDamage((Arrow) newProj) == 0) {
+						Bukkit.getLogger().severe("Arrow fired with 0 damage - meaning game player did not update!\nGameplayer: " + gp.getName() + " (" + gp.getDisplayName() + ").");
+						event.setCancelled(true);
+					} else {
+						event.setProjectile(newProj);
+					}
 				}
 			}
 		}
@@ -258,7 +277,6 @@ public class GameListener implements Listener {
 		BlockConverter.convert(BlockConverter.Type.THROWNEXPLOSION, centerLoc, power);
 		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
 		world.playSound(centerLoc, "entity.generic.explode", 2, 1);
-		// Bukkit.broadcastMessage(mm.peekGoboThrower().getName());
 		Object thrower = event.getEntity().getMetadata("thrower").get(0).value();
 		if (thrower instanceof MonsterPlayer)
 			DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), (GameEntity) thrower,
@@ -276,7 +294,12 @@ public class GameListener implements Listener {
 			for (Dwarf dwarf2 : dm.getGamePlayers()) {
 				dwarf2.notifyDeath(dwarf);
 			}
-			//event.setDeathMessage(dwarf.generateDeathMessage());
+			event.setDeathMessage(dwarf.getDeathMessage());
+			
+			if (Game.getGame().getPhase() == Phase.GAME) {
+				for (Player player : Bukkit.getOnlinePlayers())
+					player.sendTitle("", dwarf.getDisplayName() + ChatColor.DARK_RED + " has fallen!", 20, 60, 20);
+			}
 			
 			// Delayed to prevent concurrent modification exceptions hopefully ._.
 			new BukkitRunnable() {

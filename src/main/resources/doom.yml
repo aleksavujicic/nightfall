@@ -28,3 +28,17 @@ hellhounds:
   mobs:
     regular:
       - hellhound
+
+tickers:
+  title: Witty Name Here
+  cycle-time: 20
+  subtitle:
+    - Tick.
+    - Tick. Tock.
+    - Tick. Tock. Tick.
+    - Tick. Tock. Tick. Tock.
+    - Boom
+
+  mobs:
+    regular:
+      - ticker

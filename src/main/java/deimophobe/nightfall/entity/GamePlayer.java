@@ -1,13 +1,12 @@
 package deimophobe.nightfall.entity;
 
-import deimophobe.nightfall.damage.DamageModifier;
+import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.damage.DamageOccurance;
+import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.items.CustomItem;
 import me.libraryaddict.disguise.DisguiseAPI;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
@@ -16,9 +15,12 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
+import java.util.ListIterator;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -30,6 +32,17 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	protected Player player;
 	protected GamePlayer(Player player) {
 		this.player = player;
+		player.spigot().respawn();
+		
+		player.setFoodLevel(20);
+		
+		// To clear out any fake hearts
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				givePotionEffect(PotionEffectType.ABSORPTION, 5, 1, false, false, true);
+			}
+		}.runTaskLater(NightfallPlugin.getPlugin(), 20);
 	}
 	
 	@Override
@@ -135,10 +148,32 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	
 	public void clearInventory() {
 		player.getInventory().clear();
+		player.setItemOnCursor(null);
 	}
 	
-	public  void showInventory(Inventory inventory) {
+	public void showInventory(Inventory inventory) {
 		player.openInventory(inventory);
+	}
+	
+	public int replaceItem(ItemStack oldItem, ItemStack newItem) {
+		return replaceItem(oldItem::isSimilar, newItem);
+	}
+	
+	public int replaceItem(CustomItem oldItem, ItemStack newItem) {
+		return replaceItem(oldItem::isSimilar, newItem);
+	}
+	
+	public int replaceItem(Predicate<ItemStack> matcher, ItemStack newItem) {
+		ListIterator<ItemStack> iterator = player.getInventory().iterator();
+		int replaced = 0;
+		while (iterator.hasNext()) {
+			ItemStack item = iterator.next();
+			if (matcher.test(item)) {
+				iterator.set(newItem);
+				replaced++;
+			}
+		}
+		return replaced;
 	}
 	
 	
@@ -157,6 +192,27 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		resetTitle();
 	}
 	public void goOffline() {}
+	
+	
+	// ------ DAMAGE ------
+	private DamageOccurance lastDamage;
+	public DamageOccurance getLastDamage() { return lastDamage; }
+	
+	public boolean notifyDamage(DamageOccurance occur) {
+		if (occur.shoulReplace(lastDamage)) {
+			lastDamage = occur;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public String getDeathMessage() {
+		if (lastDamage == null)
+			return getDisplayName() + ChatColor.RESET + " has died.";
+		else
+			return lastDamage.getDeathMessage();
+	}
 	
 	
 	// ------ MISC ------
@@ -211,7 +267,9 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	
 	@Deprecated
 	public void forceKill() {
-		damage(null, CustomDamageType.TEMPORARY, 1, new DamageModifier().instaKill());
+		GameDamage damage = createDamage(null, CustomDamageType.TEMPORARY, 10000);
+		damage.instaKill();
+		damage.fire();
 	}
 	
 	public void onRemove() {}

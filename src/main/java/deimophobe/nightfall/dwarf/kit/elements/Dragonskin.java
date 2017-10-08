@@ -41,19 +41,16 @@ class Dragonskin extends AbstractToggleBow implements KitCooldownElement {
 	}
 	
 	@Override
-	public float fractionComplete() {
-		return cooldown.fractionComplete();
+	public void onDamageAttack(MonsterDamage damage) {
+		super.onDamageAttack(damage);
+		if (damageFromBow(damage) && isActiveProjectile(damage.getArrow())) {
+			damage.getArrowRes().timesMult(0.5);
+		}
 	}
 	
 	@Override
-	public void onDamageAttack(MonsterDamage damage) {
-		if (damageFromItem(damage) && damage.hasArrow()) {
-			Projectile arrow  = damage.getArrow();
-			if (isActiveProjectile(arrow)) {
-				damage.setBaseDamage(100);
-				damage.multiplyArrowRes(0.5); //TODO doesn't work
-			}
-		}
+	public float fractionComplete() {
+		return cooldown.fractionComplete();
 	}
 	
 	@Override
@@ -61,6 +58,7 @@ class Dragonskin extends AbstractToggleBow implements KitCooldownElement {
 		arrow = super.onBowFire(arrow, force);
 		if (isActive()) {
 			ArrowMisc.setGlowColour((Arrow) arrow, ChatColor.RED);
+			ArrowMisc.setArrowDamage((Arrow) arrow, 125);
 			cooldown.tryUse();
 			updateActive();
 		}
@@ -69,7 +67,7 @@ class Dragonskin extends AbstractToggleBow implements KitCooldownElement {
 	
 	@Override
 	public void onKill(MonsterDamage damage) {
-		if (damageFromItem(damage))
+		if (damageFromBow(damage) && isActiveProjectile(damage.getArrow()))
 			dwarf.giveProc(ProcType.DRAGONSKIN);
 	}
 	

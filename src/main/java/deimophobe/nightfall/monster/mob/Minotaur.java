@@ -4,11 +4,13 @@ import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.damage.DamageManager;
-import deimophobe.nightfall.damage.DwarfDamageModifier;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -18,6 +20,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.HashSet;
+
 /**
  * Created by Deimophobe on 23/07/17.
  */
@@ -26,11 +30,13 @@ public class Minotaur extends AbstractMob {
 		super(monster, MobType.MINOTAUR);
 	}
 	
-	private final ComplexCooldown cooldown = new ComplexCooldown(200, this::charge, ComplexCooldown.DO_NOTHING);
+	private final ComplexCooldown cooldown = new ComplexCooldown(30*20, this::charge, ComplexCooldown.DO_NOTHING);
+	private final HashSet<Dwarf> hitDwarves = new HashSet<>();
 	
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
+		((MobDisguise)getDisguise()).setHearSelfDisguise(false);
 	}
 	
 	@Override
@@ -49,13 +55,27 @@ public class Minotaur extends AbstractMob {
 	}
 	
 	@Override
+	public void onDeath() {
+		super.onDeath();
+		monster.playSound("entity.shulker.death", 1f, 0.6f, true);
+	}
+	
+	@Override
+	public void onDamageReceive(MonsterDamage damage) {
+		super.onDamageReceive(damage);
+		if (Math.random() <= 0.5) {
+			monster.playSound("entity.shulker.hurt", 1f, 0.5f, true);
+		}
+	}
+	
+	@Override
 	public float getCooldown() {
 		return cooldown.fractionComplete();
 	}
 	
 	private final static int MAX_CHARGE_TIME = 15;
 	private void charge() {
-		
+		hitDwarves.clear();
 		BukkitRunnable charger = new BukkitRunnable() {
 			private int lifetime = MAX_CHARGE_TIME;
 			@Override
@@ -99,7 +119,7 @@ public class Minotaur extends AbstractMob {
 	}
 	
 	/**
-	 * Checks the block at location loc and applies damage if collided.
+	 * Checks the block at location loc and applies getDamage if collided.
 	 * @param loc
 	 * @return true if the block is solid and cause the minotaur to 'crash'.
 	 */
@@ -114,29 +134,32 @@ public class Minotaur extends AbstractMob {
 	}
 	
 	private static final double AOE_RADIUS = 2.5;
-	private static final int AOE_DMG = 40; // This is a one off hit so its not as strong as it seems.
-	private static final int AOE_SHRED = 10;
+	private static final int AOE_DMG = 50; // This is a one off hit so its not as strong as it seems.
+	private static final int AOE_SHRED = 25;
 	private void aoeDamage() {
+		/*
 		DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), monster,
 				CustomDamageType.MINOTAUR_CHARGE, AOE_RADIUS, AOE_DMG, 10,
 				new DwarfDamageModifier().setArmourShred(AOE_SHRED).addKnockback(0, 1.5, 0)
 		);
 		//TODO monster.playSound("entity.zombie.attack_iron_door", 1f, 1.7f, true);
+		*/
 		
-		/*
+		
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
-			if (dwarf.distanceTo(monster) <= AOE_RADIUS) {
-				if (dwarf.getPlayer().getNoDamageTicks() == 0) {
-					dwarf.getArmour().damage(AOE_SHRED);
-					dwarf.customDamage(dwarf, DamageType.TEMPORARY, AOE_DMG);
+			if (!hitDwarves.contains(dwarf) && dwarf.distanceTo(monster) <= AOE_RADIUS) {
+				hitDwarves.add(dwarf);
+				Vector vel = dwarf.getLocation().subtract(monster.getLocation()).toVector();
+				vel.normalize().multiply(3);
+				vel.setY(vel.getY() + 1.5);
+				
+				DwarfDamage damage = dwarf.createDamage(monster, CustomDamageType.MINOTAUR_CHARGE, AOE_DMG);
+				damage.setKnockback(vel);
+				damage.setArmourShred(AOE_SHRED);
+				damage.fire(true);
 					
-					Vector vel = dwarf.getLocation().subtract(monster.getLocation()).toVector();
-					vel.normalize().multiply(3);
-					vel.setY(vel.getY() + 1.5);
-					dwarf.setVelocity(vel);
-				}
+				monster.playSound("entity.zombie.attack_iron_door", 1f, 1.7f, true);
 			}
 		}
-		*/
 	}
 }

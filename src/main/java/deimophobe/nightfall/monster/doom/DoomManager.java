@@ -62,11 +62,7 @@ public class DoomManager {
 				doomTimer--;
 			
 			if (doomTimer == 0) {
-				GameMap.getCurrentMap().getWorld().setTime(18000);
-				isDoom = true;
-				
-				showDoomMessage();
-				playDoomDrum();
+				startDoom();
 			}
 			updateDoomCount();
 			
@@ -84,11 +80,22 @@ public class DoomManager {
 			
 			
 			if (internalDoomTimer == 0) {
-				spawnDoom(nextDoom());
-				resetDoomTimers();
-				isDoom = false;
+				endDoom();
 			}
 		}
+	}
+	
+	// ------ START DOOM -------
+	
+	private void startDoom() {
+		GameMap.getCurrentMap().getWorld().setTime(18000);
+		isDoom = true;
+		
+		for (MonsterPlayer player : MonsterManager.getManager().getAlivePlayerMobs())
+			player.replaceSeppuku();
+		
+		showDoomMessage();
+		playDoomDrum();
 	}
 	
 	private void showDoomMessage() {
@@ -108,12 +115,26 @@ public class DoomManager {
 	}
 	
 	
+	// ------ END DOOM -------
+	
+	private void endDoom() {
+		isDoom = false;
+		
+		for (MonsterPlayer player : MonsterManager.getManager().getAlivePlayerMobs())
+			player.replaceSeppuku();
+		
+		spawnDoom(nextDoom());
+		resetDoomTimers();
+	}
 	
 	private DoomType nextDoom() {
 		return Misc.getRandom(DoomType.values());
 	}
 	
 	public void spawnDoom(DoomType doomType) {
+		for (MonsterPlayer player : MonsterManager.getManager().getAlivePlayerMobs())
+			player.replaceSeppuku();
+		
 		occuredDooms.add(doomType);
 		doomType.getDoom().startDoom();
 	}

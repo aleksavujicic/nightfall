@@ -81,6 +81,11 @@ commands:
     description: Makes yourself plague up to the limit.
     usage: /plague
 
+  spawnai:
+    description: Spawns an AI at your location
+    usage: /spawnai [amt]
+    alias: aispawn
+
   forcedoom:
     description: Forces the doom timer to hit 0.
     usage: /forcedoom

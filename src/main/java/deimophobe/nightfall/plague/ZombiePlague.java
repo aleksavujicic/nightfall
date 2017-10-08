@@ -1,14 +1,14 @@
 package deimophobe.nightfall.plague;
 
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -58,8 +58,10 @@ class ZombiePlague extends AbstractPlague {
 				Player player = dwarf.getPlayer();
 				player.removePotionEffect(PotionEffectType.CONFUSION);
 				
+				ItemStack[] inv = player.getInventory().getContents();
 				DwarfManager.getManager().removeGamePlayer(dwarf, false);
 				MonsterManager.getManager().addGamePlayer(player);
+				player.getInventory().setContents(inv);
 				MonsterPlayer mp = MonsterManager.getManager().getGamePlayer(player);
 				mp.spawnMob(new PlaguedZombie(mp, ZombiePlague.this, !plagued.contains(dwarf)));
 				

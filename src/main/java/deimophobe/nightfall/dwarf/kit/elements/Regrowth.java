@@ -30,9 +30,9 @@ class Regrowth extends AbstractAle {
 		boolean selfHealSuccess = super.onUse(action, clickedBlock, blockFace);
 		
 		boolean otherHealSuccess = false;
-		if (Misc.isRightClick(action) && isOffCD()) {
+		if (Misc.isRightClick(action) && cooldown.isAvailable()) {
 			tryHealOthers();
-			resetCD();
+			cooldown.tryUse();
 			otherHealSuccess = true;
 		}
 		return  (selfHealSuccess || otherHealSuccess);

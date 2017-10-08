@@ -61,4 +61,8 @@ public class Skin {
 		
 		return new PlayerDisguise(profile);
 	}
+	
+	public String getName() {
+		return name;
+	}
 }

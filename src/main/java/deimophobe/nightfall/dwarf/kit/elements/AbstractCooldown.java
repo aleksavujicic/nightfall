@@ -5,7 +5,10 @@ import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 
 /**
  * Created by Deimophobe on 24/03/17.
+ *
+ * @deprecated To be replaced by cooldown fields. These will allow for more flexibility.
  */
+@Deprecated
 public abstract class AbstractCooldown extends AbstractElement implements KitCooldownElement {
 	
 	private final int maxCooldown;

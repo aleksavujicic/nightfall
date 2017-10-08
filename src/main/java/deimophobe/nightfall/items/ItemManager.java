@@ -1,7 +1,11 @@
 package deimophobe.nightfall.items;
 
+import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.dwarf.DwarvenItems;
+import deimophobe.nightfall.items.lore.LoreTemplate;
 import deimophobe.nightfall.monster.mob.MobType;
+import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,6 +29,7 @@ public class ItemManager {
 		items = new HashMap<>();
 		items.putAll(addPrefix("dwarf", getDwarfItems()));
 		items.putAll(addPrefix("mob", getMobItems()));
+		items.putAll(addPrefix("misc", getMiscItems()));
 	}
 	
 	private final Map<String, CustomItem> getDwarfItems() {
@@ -35,6 +40,15 @@ public class ItemManager {
 		Map<String, CustomItem> items = new HashMap<>();
 		for (MobType type : MobType.values()) {
 			items.putAll(addPrefix(type.getName(), type.getItems()));
+		}
+		return items;
+	}
+	
+	private final Map<String, CustomItem> getMiscItems() {
+		Map<String, CustomItem> items = new HashMap<>();
+		ConfigurationSection config = Misc.getInternalFileConfig("misc-items.yml");
+		for (String key : config.getKeys(false)) {
+			items.put(key, CustomItem.getItem(config.getConfigurationSection(key), LoreTemplate.DEFAULT, Slot.MAIN_HAND));
 		}
 		return items;
 	}

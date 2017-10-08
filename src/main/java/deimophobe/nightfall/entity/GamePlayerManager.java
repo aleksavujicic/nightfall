@@ -84,10 +84,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 			player.spigot().respawn();
 		
 		P gamePlayer = createGamePlayerFromPlayer(player);
-		players.put(uuid, gamePlayer);
-		addToTeam(player.getName());
-		Game.getGame().updateDwarfCount();
-		Bukkit.getLogger().info("Adding game player: " + player.getName() + " to " + whoName);
+		registerGamePlayer(gamePlayer);
 		return gamePlayer;
 	}
 	protected void registerGamePlayer(P player) {
@@ -100,6 +97,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		players.put(uuid, player);
 		addToTeam(player.getName());
 		Game.getGame().updateDwarfCount();
+		Bukkit.getLogger().info("Adding game player: " + player.getName() + " to " + whoName);
 	}
 	
 	public P getGamePlayer(String name) {
@@ -183,6 +181,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		P gamePlayer = offline.remove(uuid);
 		gamePlayer.goOnline(player);
 		players.put(uuid, gamePlayer);
+		addToTeam(player.getName());
 		return true;
 	}
 	
@@ -193,6 +192,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		P gamePlayer = players.remove(uuid);
 		gamePlayer.goOffline();
 		offline.put(uuid, gamePlayer);
+		mcTeam.removeEntry(gamePlayer.getName());
 		return true;
 	}
 	

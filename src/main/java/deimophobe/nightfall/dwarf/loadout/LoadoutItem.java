@@ -23,8 +23,10 @@ import java.util.Set;
 class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 	
 	private final ItemStack itemStack;
+	private final boolean enabled;
 	
 	LoadoutItem(ConfigurationSection config) {
+		enabled = config.getBoolean("enabled", true);
 		String type = config.getString("type", null);
 		if (type == null)
 			throw new IllegalArgumentException("Type for config item: " + config.getCurrentPath() + " not specified.");
@@ -128,6 +130,8 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 	
 	@Override
 	public ItemStack getDisplayItem(MenuSession<Loadout> session) {
+		if (!enabled) return null;
+		
 		Loadout loadout = session.getData();
 		if (loadout.hasItem(this)) {
 			ItemStack item = itemStack.clone();
@@ -138,12 +142,10 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 		}
 	}
 	
-	public ItemStack getItemStack() {
-		return itemStack;
-	}
-	
 	@Override
 	public boolean onClick(MenuSession<Loadout> session) {
+		if (!enabled) return false;
+		
 		Loadout loadout = session.getData();
 		return loadout.selectItem(this);
 	}

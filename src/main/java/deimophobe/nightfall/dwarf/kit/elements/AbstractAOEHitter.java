@@ -1,10 +1,10 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.damage.DamageModifier;
+import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
-import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -22,7 +22,8 @@ abstract class AbstractAOEHitter extends AbstractItem {
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (damageFromItem(damage))  {
+		
+		if (damageFromItem(damage)) {
 			MonsterEntity monster = damage.getMonster();
 			
 			Location center = monster.getLocation();
@@ -32,11 +33,14 @@ abstract class AbstractAOEHitter extends AbstractItem {
 					continue;
 				
 				if (center.distance(entity.getLocation()) <= radius) {
-					if (entity instanceof AIEntity)
-						entity.damage(dwarf, CustomDamageType.HAMMER_AOE, getDamageToMonster(entity), new DamageModifier().setKnockback(0, 0.4, 0));
-					else
-						entity.damage(dwarf, CustomDamageType.HAMMER_AOE, getDamageToMonster(entity));
+					GameDamage newDamage = entity.createDamage(dwarf, CustomDamageType.HAMMER_AOE, getDamageToMonster(entity));
 					
+					if (entity instanceof AIEntity)
+						newDamage.setKnockback(0, 0.4, 0);
+					
+					newDamage.setNoDmgTicks(10);
+					
+					newDamage.fire();
 				}
 			}
 		}

@@ -11,8 +11,6 @@ public class DamageModifier {
 	private boolean addKnockback = false;
 	/** If set to true, the damage will no longer occur. Overrides force. */
 	private boolean cancelled = false;
-	/** If set to true, damage will occur regardless of invincibility ticks. Overrided by force. */
-	private boolean force = false;
 	/** If set to true, damage will be 'infinite'. */
 	private boolean instaKill = false;
 	
@@ -41,11 +39,6 @@ public class DamageModifier {
 		return this;
 	}
 	
-	public DamageModifier force() {
-		this.force = true;
-		return this;
-	}
-	
 	public DamageModifier instaKill() {
 		this.instaKill = true;
 		return this;
@@ -61,7 +54,6 @@ public class DamageModifier {
 				damage.setKnockback(knockback);
 		}
 		if (cancelled) damage.cancel();
-		if (force) damage.force();
 		if (instaKill) damage.instaKill();
 	}
 }

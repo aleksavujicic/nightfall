@@ -4,7 +4,7 @@ import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.map.GameMap;
@@ -15,6 +15,7 @@ import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -136,7 +137,7 @@ public abstract class AbstractMob implements Mob {
 		
 		if (mobData.hasWeapon()) {
 			if (GlobalUpgrade.KRUNGOR.isUnlocked()) {
-				getWeapon().addModifier(ItemModifierType.ATTACK, 10, "Krungor Doom");
+				getWeapon().addModifier(ItemModifierType.ATTACK, 5, "Krungor Doom");
 			}
 			
 			giveItem("weapon");
@@ -192,18 +193,19 @@ public abstract class AbstractMob implements Mob {
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
-		damage.setArmourShred(mobData.armourShred);
+		if (damage.getType() == NaturalDamageType.MELEE)
+			damage.setArmourShred(mobData.armourShred);
 		monster.gainXP(2, true);
 	}
 	
 	@Override
-	public void onDamageReceive(MonsterDamage<? extends Dwarf> damage) {
+	public void onDamageReceive(MonsterDamage damage) {
 		if (monster.hasPotionEffect(PotionEffectType.LUCK))
 			damage.cancel();
 		
 		if (!mobData.proccable) damage.setProc(false);
-		damage.setMultiplier(1 - mobData.damageRes);
-		damage.setArrowRes(mobData.arrowRes);
+		damage.getDamage().setMultiplier(1 - mobData.damageRes);
+		damage.getArrowRes().setBase(mobData.arrowRes);
 	}
 	
 	@Override
@@ -234,5 +236,8 @@ public abstract class AbstractMob implements Mob {
 	public void onDeath() {
 		if (hasPlayerDisguise())
 			removePlayerDisguise();
+		
+		if (mobData.forceTitle)
+			Bukkit.broadcastMessage(monster.getDeathMessage());
 	}
 }

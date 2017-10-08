@@ -1,6 +1,7 @@
 package deimophobe.nightfall.monster.ai;
 
-import deimophobe.nightfall.damage.DamageModifier;
+import deimophobe.nightfall.Hat;
+import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
@@ -25,6 +26,15 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 	
 	private final Zombie zombie;
 	
+	public AIEntity(Location location, String randomName) {
+		this(location, randomName, null);
+	}
+	
+	private static final int MAX_TARGET_COUNT = 3;
+	private int targetCounter = MAX_TARGET_COUNT;
+	
+	private static final ItemStack sword = Misc.getItem("ai-sword").createItemStack();
+	
 	@Override
 	public Zombie getEntity() {
 		return zombie;
@@ -37,51 +47,50 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 		int speedLvl = (zombie.isBaby() ? -1 : 1);
 		zombie.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 300000, speedLvl, false,false), true);
 		
-		zombie.getEquipment().setItemInMainHand(new ItemStack(Material.SHEARS, 1, (short) 100));
+		zombie.getEquipment().setArmorContents(new ItemStack[]{null, null, null, null});
+		zombie.getEquipment().setItemInMainHand(sword);
 		
 		ItemStack chestplate = zombie.getEquipment().getChestplate();
 		if (chestplate == null || chestplate.getType() == Material.AIR)
 			chestplate = new ItemStack(Material.DIAMOND);
 		chestplate.addUnsafeEnchantment(Enchantment.DEPTH_STRIDER, 2);
 		zombie.getEquipment().setChestplate(chestplate);
+		zombie.getEquipment().setHelmet(Hat.WITCH.asItemStack());
 		
-		zombie.setTarget(target.getPlayer());
+		if (target != null)
+			zombie.setTarget(target.getPlayer());
+		
 		return zombie;
 	}
 	
 	public AIEntity(Location location, String name, Dwarf target) {
 		zombie = spawnZombie(location, name, target);
+		targetCounter = MAX_TARGET_COUNT;
 	}
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		damage.setArmourShred(5);
-		damage.setBaseDamage(12);
 	}
 	
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
-		damage.setMultiplier(0.3);
+		damage.getDamage().setMultiplier(0.3);
 		if (damage.hasArrow())
-			damage.addBooster(10); // Kinda hacky? Makes sense tho
+			damage.getDamage().addBoost(10);
 		
 		if (damage.getAttacker() instanceof MonsterEntity)
 			damage.cancel();
 		
 	}
 	
-	// TODO
-	public void onDeath() {
-		float pitch = (getEntity().isBaby() ? 1.5f : 1f);
-		getLocation().getWorld().playSound(getLocation(), "entity.zombie.death", 1f, pitch);
+	public void onDeath(MonsterDamage damage) {
+		if (damage.getType() != CustomDamageType.AI_REMOVER) {
+			float pitch = (getEntity().isBaby() ? 1.5f : 1f);
+			getLocation().getWorld().playSound(getLocation(), "entity.zombie.death", 1f, pitch);
+		}
+		AIManager.getManager().unregisterAI(this);
 	}
-	
-	public void setTarget(Dwarf dwarf) {
-		zombie.setTarget(dwarf.getPlayer());
-	}
-	
-	private static final int MAX_TARGET_COUNT = 2;
-	private int targetCounter = MAX_TARGET_COUNT;
 	
 	private static final double MAX_TARGET_RANGE = 20;
 	
@@ -91,16 +100,21 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 	}
 	
 	void updateTarget() {
-		if (zombie.getTarget() != null) return;
-		
-		Dwarf newTarget = DwarfManager.getManager().getNearest(getLocation());
-		if (newTarget == null) {
-			remove();
-			return;
+		if (zombie.getTarget() != null) {
+			Location zomLoc = zombie.getLocation();
+			Location tarLoc = zombie.getTarget().getLocation();
+			
+			if (zomLoc.distance(tarLoc) <= MAX_TARGET_RANGE) {
+				// If target exists and is within range, do nothing
+				return;
+			} else {
+				// Otherwise if target exists but outside of range, reset target and continue
+				zombie.setTarget(null);
+			}
 		}
 		
-		if (newTarget.distanceTo(this) <= MAX_TARGET_RANGE) {
-			targetCounter = MAX_TARGET_COUNT;
+		Dwarf newTarget = DwarfManager.getManager().getNearest(getLocation());
+		if (newTarget != null && newTarget.distanceTo(this) <= MAX_TARGET_RANGE) {
 			setTarget(newTarget);
 		} else {
 			targetCounter--;
@@ -109,7 +123,12 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 		}
 	}
 	
+	public void setTarget(Dwarf dwarf) {
+		targetCounter = MAX_TARGET_COUNT;
+		zombie.setTarget(dwarf.getPlayer());
+	}
+	
 	public void remove() {
-		damage(null, CustomDamageType.AI_REMOVER, 10000, new DamageModifier().instaKill());
+		doDamage(null, CustomDamageType.AI_REMOVER, 10000, true, true);
 	}
 }

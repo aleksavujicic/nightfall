@@ -1,6 +1,5 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
@@ -47,10 +46,12 @@ class Crossbow extends AbstractBow implements KitCooldownElement {
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (cooldown == 0 && dwarf.hasArrows(ARROW_COST)) {
-			ArrowMisc.summonArrow(dwarf, getPower(), 3f, 1, 0.05f);
+			fireArrow(3f, 1, 0.05f);
 			cooldown = MAX_COOLDOWN;
 			
 			dwarf.useArrows(ARROW_COST);
+			dwarf.playSound("entity.arrow.shoot", 1f, 1.1f, true);
+			dwarf.playSound("entity.shulker.shoot", 1f, 0.8f, true);
 			return true;
 		}
 		return false;

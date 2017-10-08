@@ -18,9 +18,13 @@ public class ArrowMisc {
 		Misc.moveLocation(spawnLoc, 0.3, 0.15);
 		spawnLoc.add(shooter.getVelocity().multiply(0.5f));
 		
-		Arrow arrow = shooter.getWorld().spawnArrow(spawnLoc, spawnLoc.getDirection().add(new Vector(0,0.05,0)), speed, spread);
-		arrow.spigot().setDamage(damage);
-		arrow.setMetadata("force", new FixedMetadataValue(NightfallPlugin.getPlugin(), force));
+		return summonArrow(shooter, spawnLoc, damage, speed, force, spread);
+	}
+	
+	public static Arrow summonArrow(GamePlayer shooter, Location location, double damage, float speed, float force, float spread) {
+		Arrow arrow = shooter.getWorld().spawnArrow(location, location.getDirection().add(new Vector(0,0.05,0)), speed, spread);
+		setArrowDamage(arrow, damage);
+		setArrowForce(arrow, force);
 		arrow.setPickupStatus(Arrow.PickupStatus.DISALLOWED);
 		arrow.setShooter(shooter.getPlayer());
 		
@@ -32,6 +36,10 @@ public class ArrowMisc {
 		arrow.setGlowing(true);
 		Team team = getTeamColour(colour);
 		team.addEntry(arrow.getUniqueId().toString());
+	}
+	
+	public static void removeGlow(Arrow arrow) {
+		arrow.setGlowing(false);
 	}
 	
 	private static final String ARROW_TEAM_NAME_PREFIX = "arrow";
@@ -52,10 +60,30 @@ public class ArrowMisc {
 		return ARROW_TEAM_NAME_PREFIX + colour.ordinal();
 	}
 	
+	
+	private final static String FORCE_KEY = "force";
+	private final static String DAMAGE_KEY = "damage";
+	public static void setArrowDamage(Arrow arrow, double damage) {
+		arrow.setMetadata(DAMAGE_KEY, new FixedMetadataValue(NightfallPlugin.getPlugin(), damage));
+		//arrow.spigot().setDamage(damage);
+	}
+	
+	public static void setArrowForce(Arrow arrow, double force) {
+		arrow.setMetadata(FORCE_KEY, new FixedMetadataValue(NightfallPlugin.getPlugin(), force));
+	}
+	
+	public static double getArrowDamage(Arrow arrow) {
+		if (!arrow.hasMetadata(DAMAGE_KEY))
+			throw new IllegalArgumentException("Arrow is has no damage metadata attached.");
+		
+		return arrow.getMetadata(DAMAGE_KEY).get(0).asDouble()*getArrowForce(arrow);
+		//return arrow.spigot().getDamage();
+	}
+	
 	public static float getArrowForce(Arrow arrow) {
-		if (!arrow.hasMetadata("force"))
+		if (!arrow.hasMetadata(FORCE_KEY))
 			throw new IllegalArgumentException("Arrow is has no force metadata attached.");
 		
-		return arrow.getMetadata("force").get(0).asFloat();
+		return arrow.getMetadata(FORCE_KEY).get(0).asFloat();
 	}
 }

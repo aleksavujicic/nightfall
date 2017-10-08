@@ -27,9 +27,9 @@ public class PlaguedZombie extends AbstractMob {
 	}
 	
 	@Override
-	public void onDamageReceive(MonsterDamage<? extends Dwarf> damage) {
+	public void onDamageReceive(MonsterDamage damage) {
 		if (damage.getType() == NaturalDamageType.POISON)
-			damage.timesMultiplier(0.2);
+			damage.getDamage().timesMult(0.2);
 	}
 	
 	@Override
@@ -45,14 +45,18 @@ public class PlaguedZombie extends AbstractMob {
 		}
 	}
 	
-	@Override public boolean isShrineImmune() {
+	@Override
+	public boolean isShrineImmune() {
 		return Game.getGame().getPhase() == Phase.PLAGUE;
 	}
-	@Override protected void setupItems() {
+	@Override
+	protected void setupItems() {
 		PlayerInventory inv = monster.getPlayer().getInventory();
 		inv.setChestplate(null);
 		inv.setBoots(null);
 		setArmour();
+		
+		monster.delayedHealMax();
 	}
 	@Override protected void tpToSpawn() {}
 	

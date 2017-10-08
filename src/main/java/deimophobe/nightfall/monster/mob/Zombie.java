@@ -30,7 +30,7 @@ public class Zombie extends AbstractMob {
 	protected Map<String, Integer> upgrades;
 
 	protected final Location rebirthLoc;
-	
+
 	protected Zombie(MonsterPlayer mons) {
 		this(mons, null);
 	}
@@ -83,5 +83,4 @@ public class Zombie extends AbstractMob {
 			monster.resetRebirthCount();
 		}
 	}
-
 }

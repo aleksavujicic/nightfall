@@ -1,7 +1,6 @@
 package deimophobe.nightfall.map;
 
 import deimophobe.nightfall.Game;
-import deimophobe.nightfall.damage.DamageModifier;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -120,7 +119,7 @@ public class Shrine {
 				mobsOnShrine++;
 			} else if (shrineProtection.containsPlayer(monster)) {
 				if (!monster.getMob().isShrineImmune()) {
-					monster.damage(null, CustomDamageType.SHRINE_PROTECTION, 10000, new DamageModifier().instaKill());
+					monster.doDamage(null, CustomDamageType.SHRINE_PROTECTION, 10000, true, true);
 					Location loc = monster.getLocation();
 					loc.getWorld().strikeLightningEffect(loc);
 				}
@@ -166,7 +165,7 @@ public class Shrine {
 			}
 		}
 		// 1:1 dwarf:zombie, but as long as there's a mob on shrine it will lose power slowly
-		// First two zombies do half shrine damage
+		// First two zombies do half shrine getDamage
 		else {
 			damage += Math.min(2, mobNum) * (maxShrinePower / 50) +  Math.max(0, (mobNum - 2)) * (maxShrinePower / 25);
 			damage -= Math.min(2, dwarfNum) * (maxShrinePower / 50) + Math.max(0, (dwarfNum - 2)) * (maxShrinePower / 25);
@@ -184,7 +183,7 @@ public class Shrine {
 		{
 			recovery = 0;
 		}
-		// Shrine damage and recovery are capped at 20%
+		// Shrine getDamage and recovery are capped at 20%
 		damage = Math.min((maxShrinePower / 5), damage);
 		recovery = Math.min((maxShrinePower / 5), recovery);
 		
@@ -241,6 +240,7 @@ public class Shrine {
 			monster.givePotionEffect(PotionEffectType.CONFUSION, 180, 1, true, false, true);
 			monster.forceGainXP(500);
 		}
+		MonsterManager.getManager().giveFutureXP(500);
 		
 		map.changeShrine();
 	}

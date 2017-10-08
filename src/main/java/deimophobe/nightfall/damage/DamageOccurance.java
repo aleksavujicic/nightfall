@@ -1,7 +1,11 @@
 package deimophobe.nightfall.damage;
 
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.GameDamageType;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.monster.ai.AIEntity;
+import org.bukkit.ChatColor;
 
 /**
  * Created by Deimophobe on 17/07/17.
@@ -21,78 +25,90 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 		this.itemName = itemName;
 	}
 	
-	public String generateDeathMessage() {
-		/*
+	public String getDeathMessage() {
 		String name = receiver.getDisplayName();
 		
 		if (type == null) return name + " died.";
 		
-		String killMsg;
+		String killMsg = null;
 		
-		switch (type) {
-			case HAMMER_AOE:
-			case REGULAR_MELEE:
-				killMsg = "slain";
-				break;
-			case REGULAR_RANGED:
-				killMsg = "shot";
-				break;
-			case EBOW:
-				killMsg = "pierced";
-				break;
-			case EVISCERATE:
-				killMsg = "eviscerated";
-				break;
-			case WILDFIRE:
-				killMsg = "incinerated";
-				break;
-			case TINDERFLAME:
-				killMsg = "zooped";
-				break;
-			
-			case POISON:
-				return name + " withered away.";
-			
-			
-			case CONTACT:
-				return name + " was pricked to death.";
-			case DROWNING:
-				return name + " drowned.";
-			case FALL:
-				return name + " fell to their doom.";
-			case HOT_FLOOR:
-				return name + " burnt their feet.";
-			case CRAMMING:
-				return name + " was crushed.";
-			case FALLING_BLOCK:
-				return name + " was squished.";
-			case LIGHTNING:
-				return name + " angered the gods.";
-			case LAVA:
-				return name + " tried to swim in lava.";
-			case FIRE:
-				return name + " couldn't find water.";
-			
-			case NOT_HOLDING_GHOSTBLADE:
-				return name + " was a bit of a klutz and dropped their blade.";
-			
-			case VOID:
-				return name + " was swallowed by the abyss.";
-			case SEPPUKU:
-				return name + " committed sudoku.";
-			case SHRINE_PROTECTION:
-				return name + " was zapped by lightning.";
-			case RELOG:
-				return name + " combat logged.";
-			case KABOOM:
-				return name + " went kaboom.";
-			case DEATH_PLAGUE:
-				return name + " was touched by " + ChatColor.BLACK + "DEATH" + ChatColor.RESET + ".";
-			case MOBSPAWN:
-				return name + " was consumed by the source of the darkness.";
-			
-			default:
-				return name + " died.";
+		if (type instanceof NaturalDamageType) {
+			switch ((NaturalDamageType) type) {
+				case MELEE:
+					killMsg = "slain";
+					break;
+				case RANGED:
+					killMsg = "shot";
+					break;
+						
+				case CONTACT:
+					return name + " was pricked to death.";
+				case DROWNING:
+					return name + " drowned.";
+				case FALL:
+					return name + " fell to their doom.";
+				case MAGMA_BLOCK:
+					return name + " burnt their feet.";
+				case LAVA:
+					return name + " tried to swim in lava.";
+				case FIRE:
+					return name + " couldn't find water.";
+				
+				case VOID:
+					return name + " was swallowed by the abyss.";
+				
+				case POISON:
+					return name + " withered away.";
+			}
+		}
+		
+		if (type instanceof CustomDamageType) {
+			switch ((CustomDamageType) type) {
+				case HAMMER_AOE:
+				case EBOW:
+					killMsg = "pierced";
+					break;
+				case VOLCANIC_BOW:
+					killMsg = "scorched";
+					break;
+				case EVISCERATE:
+					killMsg = "eviscerated";
+					break;
+				case WILDFIRE:
+					killMsg = "incinerated";
+					break;
+				case TINDERFLAME:
+					killMsg = "zooped";
+					break;
+				
+				case WRAITH_CHARGE:
+					killMsg = "drained";
+					break;
+				case MINOTAUR_CHARGE:
+					killMsg = "trampled";
+					break;
+					
+				case GOBO_BOX_EXPLOSION:
+				case GOBO_KABOOM:
+					killMsg = "exploded";
+					break;
+				
+				case INCORRECT_HELD_ITEM:
+					return name + " was a bit of a klutz and dropped their blade.";
+				case SEPPUKU:
+					return name + " committed sudoku.";
+				case SHRINE_PROTECTION:
+					return name + " was zapped by lightning.";
+				case SELF_GOBO_KABOOM:
+					return name + " went kaboom.";
+				case DEATH_PLAGUE:
+					return name + " was touched by " + ChatColor.BLACK + "DEATH" + ChatColor.RESET + ".";
+				case MOBSPAWN:
+					return name + " was consumed by the source of the darkness.";
+				
+				default:
+					return name + " died.";
+			}
 		}
 		
 		if (attacker == null)
@@ -103,8 +119,29 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 			return name + " was " + killMsg + " by " + damagerName + " using " + itemName + ".";
 		else
 			return name + " was " + killMsg + " by " + damagerName + ".";
-		*/
-		return null;
+	}
+	
+	private static final int MAX_LIFETIME = 10*1000;
+	public boolean shoulReplace(DamageOccurance occurance) {
+		if (occurance == null) return true;
+		
+		if (time < occurance.time) throw new IllegalArgumentException("shouldReplace should only be called on previous events.\n" +
+				"New time: " + time + " Existing time: " + occurance.time);
+			
+		// Return true if old even expired
+		if (time > occurance.time + MAX_LIFETIME) return true;
+		
+		// Return true if no attacker on old...
+		if (occurance.attacker == null) return true;
+		// But return false if its not null and new is null
+		if (attacker == null) return false;
+		
+		// Always replace AIEntity first
+		if (occurance.attacker instanceof AIEntity) return true;
+		// But not allow it to replace others
+		if (attacker instanceof AIEntity) return false;
+		
+		return true;
 	}
 	
 	/*

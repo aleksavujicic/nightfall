@@ -20,7 +20,7 @@ import org.bukkit.inventory.ItemStack;
  */
 class AxeOfMalice extends AbstractItem implements KitCooldownElement {
 	
-	private final ComplexCooldown cd = new ComplexCooldown(60*20, this::giveProc, this::notifyOffCD);
+	private final ComplexCooldown cd = new ComplexCooldown(75*20, this::giveProc, this::notifyOffCD);
 	
 	AxeOfMalice(Dwarf dwarf) {
 		super(dwarf);
@@ -42,6 +42,10 @@ class AxeOfMalice extends AbstractItem implements KitCooldownElement {
 	@Override
 	public void onKill(MonsterDamage damage) {
 		cd.reduceCooldown(20);
+		if (dwarf.hasProc() && damageFromItem(damage)) {
+			dwarf.heal(2);
+			dwarf.regenMana(5);
+		}
 	}
 	
 	@Override

@@ -33,7 +33,7 @@ class Ebow extends AbstractBow {
 	@Override public String getBowIdentifier() {return "EBOW";}
 	@Override public int getPower() {return POWER;}
 	
-	private static final double MAX_RANGE = 30;
+	private static final double MAX_RANGE = 40;
 	private static final double THICKNESS = 1.5;
 	private static final double MIN_DISTANCE_FROM_SHOOTER = 1;
 	
@@ -81,9 +81,9 @@ class Ebow extends AbstractBow {
 				Vector radialPostion = direction.clone().multiply(monsterOffset.clone().dot(direction)); // ((m - p) dot u) times u
 				double radialOffset = radialPostion.subtract(monsterOffset).length();
 				
-				// If close enough damage mob
+				// If close enough getDamage mob
 				if (radialOffset <= THICKNESS) {
-					monster.damage(dwarf, CustomDamageType.EBOW, getPower()*force);
+					monster.doDamage(dwarf, CustomDamageType.EBOW, getPower()*force);
 				}
 			}
 		}

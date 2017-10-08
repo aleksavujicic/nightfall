@@ -22,7 +22,7 @@ zombie:
     lore:
       description:
        - "Left click to attack dwarves, shredding\n
-          their armour and dealing damage.\n
+          their armour and dealing getDamage.\n
           Right click to leap with the upgrade."
       flavour:
        - "A cross between a runeblade hilt and\n
@@ -165,9 +165,9 @@ gobo:
       lore:
         description:
          - "Left click to throw a box, dealing\n
-            damage to dwarves and nearby walls.\n
+            getDamage to dwarves and nearby walls.\n
             &aRight click to place boxes, which\n
-            &aheavily damage walls once they explode&r."
+            &aheavily getDamage walls once they explode&r."
         flavour:
          - "Gobos Primed and Ready."
     kaboom:
@@ -288,7 +288,7 @@ wolf:
     name: Wolf Fangs
     lore:
       description:
-       - "Attacking dwarves at night deals extra damage.\n
+       - "Attacking dwarves at night deals extra getDamage.\n
           Right click to Leap, hold shift to leap up."
       flavour:
        - "Arooooooooo."
@@ -375,12 +375,12 @@ golem:
 
   disguisetype: iron_golem
 
-  attack: 35
+  attack: 40
   health: 80
   speed: -100
 
   proccable: false
-  resistance: 0.8
+  resistance: 0.85
   arrowres: 0.5
   shred: 40
 
@@ -400,7 +400,7 @@ golem:
     name: Ancient Pick
     lore:
       description:
-       - "Deals heavy damage and armour shred."
+       - "Deals heavy getDamage and armour shred."
       flavour:
        - "Smash dwarves in melee!"
 
@@ -506,6 +506,16 @@ walker:
        - "Temp"
 
 
+ticker:
+  title: "Ticker"
+
+  attack: 0
+  health: 10
+  shred: 0
+
+  resistance: 1
+
+
 
 ghostblade-base:
   title: Ghostblade
@@ -597,15 +607,15 @@ krungor:
   playername: Capmergor
   skin: capmergor
 
-  attack: 50
+  attack: 45
   health: 100
-  speed: 40
+  speed: 25
 
   immunetime: 10
   proccable: false
-  resistance: 0.9
-  arrowres: 0.9
-  shred: 25
+  resistance: 0.85
+  arrowres: 0.5
+  shred: 20
   shrineimmune: true
 
   armourslot: head

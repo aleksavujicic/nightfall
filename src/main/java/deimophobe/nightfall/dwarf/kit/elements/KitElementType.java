@@ -14,6 +14,7 @@ public enum KitElementType {
 	
 	DRB,
 	GRB,
+	GREATSWORD,
 	AXE,
 	HAMMER,
 	DAGGER,
@@ -27,22 +28,27 @@ public enum KitElementType {
 	LIGHTBOW,
 	WARPWEAVER,
 	CROSSBOW,
+	VOLCANIC_BOW,
+	TURRET,
 	
 	HEALING_ALE,
 	HOLY_ALE,
 	JIMMY_JUICE,
 	TRINKET,
 	REGROWTH_STAR,
+	CHUGGING_ALE,
+	STRONG_ALE,
 	
 	RUNEBLESSED,
 	QUIVER,
 	STUDDED,
 	COIL,
 	STURDY,
+	NATURE_SUIT,
 	
 	COMPASS,
 	CHESTO,
-	SAFEFALL,
+	SLOWFALL,
 	DARKVISION,
 	AVENGE,
 	
@@ -52,7 +58,7 @@ public enum KitElementType {
 	DWARF_AXE,
 	
 	
-	HERO_SAFEFALL,
+	HERO_SLOWFALL,
 	HERO_ALE,
 	
 	TUI_HAMMER,
@@ -101,6 +107,7 @@ public enum KitElementType {
 			
 			case DRB: return new DwarvenRuneblade(dwarf);
 			case GRB: return new GreaterRuneblade(dwarf);
+			case GREATSWORD: return new Greatsword(dwarf);
 			case AXE: return new AxeOfMalice(dwarf);
 			case DAGGER: return new Dagger(dwarf);
 			case TOMBMAKER: return new Tombmaker(dwarf);
@@ -114,22 +121,27 @@ public enum KitElementType {
 			case LIGHTBOW: return new Lightbow(dwarf);
 			case WARPWEAVER: return new Warpweaver(dwarf);
 			case CROSSBOW: return new Crossbow(dwarf);
+			case VOLCANIC_BOW: return new VolcanicBow(dwarf);
+			case TURRET: return new TurretBow(dwarf);
 				
 			case HEALING_ALE: return new HealingAle(dwarf);
 			case HOLY_ALE: return new HolyAle(dwarf);
 			case JIMMY_JUICE: return new JimmyJuice(dwarf);
 			case TRINKET: return new Trinket(dwarf);
 			case REGROWTH_STAR: return new Regrowth(dwarf);
+			case CHUGGING_ALE: return new ChuggingAle(dwarf);
+			case STRONG_ALE: return new StrongAle(dwarf);
 				
 			case RUNEBLESSED: return new Runeblessed(dwarf);
 			case QUIVER: return new Quiver(dwarf);
 			case STUDDED: return new StuddedArmour(dwarf);
 			case COIL: return new MagicCoil(dwarf);
 			case STURDY: return new Sturdy(dwarf);
+			case NATURE_SUIT: return new NatureSuit(dwarf);
 				
 			case COMPASS: return new DwarfCompass(dwarf);
 			case CHESTO: return new Chestomatic(dwarf);
-			case SAFEFALL: return new JumpySafefall(dwarf);
+			case SLOWFALL: return new Slowfall(dwarf, true);
 			case DARKVISION: return new DarkVision(dwarf);
 			case AVENGE: return new Avenge(dwarf);
 			
@@ -139,7 +151,7 @@ public enum KitElementType {
 			case DWARF_SHOVEL: return new DwarfShovel(dwarf);
 			
 			
-			case HERO_SAFEFALL: return new Safefall(dwarf);
+			case HERO_SLOWFALL: return new Slowfall(dwarf, false);
 			case HERO_ALE: return new HeroAle(dwarf);
 			
 			case TUI_HAMMER: return new TuiHammer(dwarf);

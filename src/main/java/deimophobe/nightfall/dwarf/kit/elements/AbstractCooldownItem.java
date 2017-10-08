@@ -11,7 +11,10 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by Deimophobe on 24/03/17.
+ *
+ * @deprecated Do not use. Use AbstractItem and implement KitCooldown. See {@link AbstractCooldown} for why.
  */
+@Deprecated
 public abstract class AbstractCooldownItem extends AbstractCooldown implements KitItemElement {
 	
 	public AbstractCooldownItem(Dwarf dwarf, int maxCooldown) {

@@ -46,7 +46,7 @@ page0:
       - longbow
       - quiver
       - trinket
-      - safefall
+      - slowfall
     consumables:
       torch: 32
       mortar: 32
@@ -286,6 +286,7 @@ page1:
       name: "Tombmaker"
       base: tombmaker
   tigerfist:
+    enabled: false
     index: 5
     type: item
     name: tigerfist
@@ -351,6 +352,26 @@ page1:
     item:
       name: "Warpweaver Bow"
       base: warpweaver
+  volcanic:
+    index: 15
+    type: item
+    name: volcanic_bow
+    category: bow
+    cost: 16
+    item:
+      name: "Volcanic Bow"
+      base: volcanic
+  turret:
+    enabled: false
+    index: 16
+    type: item
+    name: turret
+    category: bow
+    cost: 16
+    item:
+      name: "Turret"
+      material: dispenser
+
 
 
   # ------ ALES ------
@@ -390,6 +411,24 @@ page1:
     item:
       name: "Regrowth Star"
       base: regrowth
+  chug:
+    index: 22
+    type: item
+    name: chugging_ale
+    category: ale
+    cost: 8
+    item:
+      name: "Chugging Ale"
+      base: chug
+  strong:
+    index: 23
+    type: item
+    name: strong_ale
+    category: ale
+    cost: 4
+    item:
+      name: "Strong Ale"
+      base: strong
 
 
   # ------ ARMOURS ------
@@ -438,6 +477,15 @@ page1:
     item:
       name: "Sturdy Armour"
       base: runeblessed
+  nature_suit:
+    index: 32
+    type: item
+    name: nature_suit
+    category: armour
+    cost: 8
+    item:
+      name: "Nature Suit"
+      base: temp
 
 
 
@@ -459,14 +507,14 @@ page2:
     item:
       name: "Chestomatic"
       material: chest
-  safefall:
+  slowfall:
     index: 2
     type: item
-    name: safefall
+    name: slowfall
     cost: 4
     item:
-      name: "Safefall"
-      base: safefall
+      name: "Slowfall"
+      base: slowfall
   darkvision:
     index: 3
     type: item

@@ -15,6 +15,7 @@ import java.util.*;
 public class LoreTemplate {
 	
 	public static final String BASIC = "basic";
+	public static final String DEFAULT = BASIC;
 	public static final String DWARF = "dwarf";
 	public static final String DWARF_HERO = "dwarf-hero";
 	public static final String LOADOUT = "loadout";

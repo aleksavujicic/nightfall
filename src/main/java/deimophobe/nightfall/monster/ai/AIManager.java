@@ -41,7 +41,7 @@ public class AIManager {
 	private final static int MAX_AI_MARKS = 40;
 	private final static double AI_MARK_DISTANCE = 5;
 	
-	private final static int UPDATE_FREQ =  3*20;
+	private final static int UPDATE_FREQ =  5*20;
 	
 	
 	private final Team aiTeam;
@@ -126,26 +126,25 @@ public class AIManager {
 	private void updateAIs() {
 		// Get rid of unnecessary ai
 		Region shrineProt = GameMap.getCurrentMap().getCurrentShrineProtection();
-		Set<UUID> deadAIs = new HashSet<>();
-		for (AIEntity ai : ais.values()) {
+		for (AIEntity ai : new HashSet<>(ais.values())) {
 			ai.updateTarget();
 			
 			if (shrineProt.continsGameEntity(ai))
 				ai.remove();
 			
 			if (ai.isDead())
-				deadAIs.add(ai.getUniqueId());
+				unregisterAI(ai);
 		}
-		for (UUID uuid : deadAIs)
-			ais.remove(uuid);
 		
+		if (Game.getGame().getPhase() != Phase.GAME)
+			return;
 		
 		// Try onSpawn more AIs
 		if (aisSpawnable && Game.getGame().getPhase() == Phase.GAME && !DoomManager.getManager().isDoom()) {
 			int dwarves = DwarfManager.getManager().getNumberOfPlayers();
 			int mobs = MonsterManager.getManager().getNumberOfPlayers();
 			
-			double spawnChance = (10 + mobs + dwarves*4) * 0.008;
+			double spawnChance = (12 + mobs + dwarves*5) * 0.008;
 			spawnChance += (Game.getGame().isNight() ? 0.03 : 0);
 			
 			int maxAIs = BASE_MAX_AIS;
@@ -175,7 +174,7 @@ public class AIManager {
 					continue;
 				}
 				
-				// Find closest dwarf and set as target. If no such dwarf, dont onSpawn.
+				// Find closest dwarf and set as target. If no such dwarf, dont spawn.
 				double leastDistance = 25;
 				Dwarf closestDwarf = null;
 				for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
@@ -188,9 +187,7 @@ public class AIManager {
 				if (closestDwarf == null) continue;
 				
 				// Create zombie with all right stuff
-				AIEntity ai = new AIEntity(spawnSpot, getRandomName(), closestDwarf);
-				aiTeam.addEntry(ai.getUniqueId().toString());
-				ais.put(ai.getUniqueId(), ai);
+				spawnAI(spawnSpot, closestDwarf);
 
 				// Destroy spawnspots after average of 3 AI spawns
 				if (Math.random() < 0.333) {
@@ -212,22 +209,49 @@ public class AIManager {
 		}
 	}
 	
+	
+	public void spawnAIs(Location location, int num) {
+		for (int i=0; i<num; i++)
+			spawnAI(location);
+	}
+	
+	public void spawnAI(Location location) {
+		AIEntity ai = new AIEntity(location, getRandomName());
+		aiTeam.addEntry(ai.getUniqueId().toString());
+		ais.put(ai.getUniqueId(), ai);
+	}
+	
+	public void spawnAI(Location location, Dwarf target) {
+		AIEntity ai = new AIEntity(location, getRandomName(), target);
+		aiTeam.addEntry(ai.getUniqueId().toString());
+		ais.put(ai.getUniqueId(), ai);
+	}
+	
+	void unregisterAI(AIEntity entity) {
+		ais.remove(entity.getUniqueId());
+		aiTeam.removeEntry(entity.getUniqueId().toString());
+	}
+	
+	
 	public Collection<AIEntity> getAIs() {
 		return ais.values();
+	}
+	public Collection<AIEntity> getRemoveableAIs() {
+		return new HashSet<>(ais.values());
 	}
 	public AIEntity getAI(Entity entity) {
 		return ais.get(entity.getUniqueId());
 	}
 	
 	public void removeAllAIs() {
-		for (AIEntity ai : ais.values()) {
+		for (AIEntity ai : getRemoveableAIs()) {
 			ai.remove();
 		}
 		ais.clear();
 	}
 	
 	public void clearArea(Location center, double range) {
-		for (AIEntity entity : ais.values()) {
+		for (AIEntity entity : getRemoveableAIs()) {
 			if (center.distance(entity.getLocation()) <= range)
 				entity.remove();
 		}

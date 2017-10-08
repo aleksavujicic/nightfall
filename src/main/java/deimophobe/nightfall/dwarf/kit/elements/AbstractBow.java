@@ -1,11 +1,13 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
+import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitBow;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
@@ -28,12 +30,28 @@ public abstract class AbstractBow extends AbstractItem implements KitBow {
 				belongsToBow(damage.getArrow()));
 	}
 	
+	protected Arrow fireArrow(float speed, float force, float spread) {
+		Arrow arrow = ArrowMisc.summonArrow(dwarf, getPower(), speed, force, spread);
+		addMetadata(arrow);
+		return arrow;
+	}
+	
+	protected Arrow fireArrow(Location location, float speed, float force, float spread) {
+		Arrow arrow = ArrowMisc.summonArrow(dwarf, location, getPower(), speed, force, spread);
+		addMetadata(arrow);
+		return arrow;
+	}
+	
+	private void addMetadata(Arrow arrow) {
+		arrow.setMetadata(getBowIdentifier(), new FixedMetadataValue(NightfallPlugin.getPlugin(), true));
+	}
+	
 	
 	@Override
 	public Projectile onBowFire(Projectile proj, float force) {
 		if (proj instanceof Arrow) {
-			proj.setMetadata(getBowIdentifier(), new FixedMetadataValue(NightfallPlugin.getPlugin(), true));
-			((Arrow)proj).spigot().setDamage(getPower());
+			addMetadata((Arrow) proj);
+			ArrowMisc.setArrowDamage((Arrow) proj, getPower());
 		}
 		return proj;
 	}

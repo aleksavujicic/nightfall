@@ -2,28 +2,29 @@ package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
+import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
+import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.effects.GameEffect;
 import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.map.GameMap;
-import deimophobe.nightfall.map.region.Region;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Directional;
 import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 28/03/17.
  */
-class DwarfPickaxe extends AbstractItem {
+class DwarfPickaxe extends AbstractItem implements KitCooldownElement {
 	
 	DwarfPickaxe(Dwarf dwarf) {
 		super(dwarf);
@@ -32,24 +33,33 @@ class DwarfPickaxe extends AbstractItem {
 	private static final CustomItem ITEM = DwarvenItems.getItem("misc.pick");
 	@Override public CustomItem getItem() {return ITEM;}
 	@Override public KitGiveType getGiveType() { return KitGiveType.PICK; }
+	@Override public ItemStack getCooldownToggleItem() {return ITEM.createItemStack();}
 	
 	private static final int MAX_CD = 30;
 	private static final int MAX_HASTE_CD = 15;
 	private int cooldown = 0;
+	
+	private final ComplexCooldown armourCD = new ComplexCooldown(40*20);
+	
+	@Override
+	public float fractionComplete() {
+		return armourCD.fractionComplete();
+	}
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace face) {
 		if (Misc.isRightClick(action) && cooldown == 0) {
 			// PICK REPAIRING ANOTHER DWARF
 			Dwarf repairee = dwarf.getLookingAt(2, 5, DwarfManager.getManager().getGamePlayers(), (d) -> !d.getArmour().isAtMax());
-			Region shrineRegion = GameMap.getCurrentMap().getCurrentShrineRegion();
-			Region shrineProtection = GameMap.getCurrentMap().getCurrentShrineProtection();
-			if (repairee != null && (shrineRegion.containsPlayer(repairee) || shrineProtection.containsPlayer(repairee)) && GameMap.getCurrentMap().tryUseGold(50)) {
-				repairee.getArmour().repair(400);
-				GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, repairee);
-				
-				resetCD();
-				return true;
+			if (repairee != null && armourCD.isAvailable()) {
+				if (GameMap.getCurrentMap().tryUseGold(50)) {
+					armourCD.reset();
+					repairee.getArmour().repair(400);
+					GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, repairee);
+					
+					resetCD();
+					return true;
+				}
 			}
 			
 			boolean success;
@@ -100,6 +110,7 @@ class DwarfPickaxe extends AbstractItem {
 	
 	@Override
 	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
+		armourCD.update();
 		if (cooldown > 0)
 			cooldown--;
 	}

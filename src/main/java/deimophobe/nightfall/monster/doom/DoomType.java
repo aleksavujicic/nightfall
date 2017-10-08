@@ -16,6 +16,7 @@ public enum DoomType {
 	KRUNGOR("krungor", KrungorDoom.class),
 	GHOSTBLADES("ghostblades", GhostbladeDoom.class),
 	HELLHOUNDS("hellhounds", Hellhounds.class),
+	TICKERS("tickers", TickerDoom.class),
 	
 	;
 	

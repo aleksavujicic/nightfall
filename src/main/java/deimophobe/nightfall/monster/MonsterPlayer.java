@@ -1,34 +1,45 @@
 package deimophobe.nightfall.monster;
 
+import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
-import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.menu.SessionData;
 import deimophobe.nightfall.monster.ai.AIEntity;
+import deimophobe.nightfall.monster.doom.DoomManager;
+import deimophobe.nightfall.monster.mob.Bopen;
+import deimophobe.nightfall.monster.mob.Mob;
+import deimophobe.nightfall.monster.mob.MobType;
 import deimophobe.nightfall.monster.mob.*;
 import deimophobe.nightfall.monster.mob.Zombie;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 17/01/17.
@@ -102,8 +113,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	public void kill(boolean silent) {
 		if (!silent && isAlive()) {
-			//ActionBarAPI.sendActionBarToAllPlayers(generateDeathMessage(), 60);
-			//Bukkit.broadcastMessage(generateDeathMessage());
+			ActionBarAPI.sendActionBarToAllPlayers(getDeathMessage(), 60);
 			player.playSound(player.getLocation(), "proc", 1f, 0.7f);
 		}
 		
@@ -205,6 +215,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	
 	// ------ SEPPUKU ------
+	private static final ItemStack seppuku = Misc.getItem("seppuku").createItemStack();
+	private static final ItemStack lightnigSeppuku = Misc.getItem("lightning-seppuku").createItemStack();
 	private final int MAX_SEPPUKU_CD = 100;
 	private int seppukuCD;
 	private void seppukuClick() {
@@ -219,7 +231,24 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		seppukuCD--;
 		
 		if (seppukuCD == 0) {
-			//customDamage(null, DamageType.SEPPUKU, 10000);
+			seppukuKill();
+		}
+	}
+	private void instaSeppuku() {
+		seppukuKill();
+		getWorld().strikeLightningEffect(getLocation());
+		seppukuCD = 0;
+	}
+	private void seppukuKill() {
+		GameDamage damage = createDamage(null, CustomDamageType.SEPPUKU, 10000);
+		damage.instaKill();
+		damage.fire(true);
+	}
+	public void replaceSeppuku() {
+		if (DoomManager.getManager().isDoom()) {
+			replaceItem(seppuku, lightnigSeppuku);
+		} else {
+			replaceItem(lightnigSeppuku, seppuku);
 		}
 	}
 	
@@ -281,7 +310,13 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	
-	
+	// ------ DAMAGE ------
+	@Override
+	public MonsterDamage createDamage(GameEntity attacker, CustomDamageType type, double damage) {
+		return new MonsterDamage(attacker, this, type, damage);
+	}
+
+
 	
 	// ------ EVENT METHODS ------
 	@Override
@@ -308,8 +343,12 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		if (usedThisTick) return;
 		usedThisTick = true;
 		
-		if (isHolding(seppuku)) {
-			seppukuClick();
+		if (isHolding(seppuku) || isHolding(lightnigSeppuku)) {
+			if (DoomManager.getManager().isDoom()) {
+				instaSeppuku();
+			} else {
+				seppukuClick();
+			}
 			return;
 		}
 		
@@ -335,17 +374,23 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 					case MAGMA_BLOCK:
 					case FALL:
 						damage.cancel();
+						return;
 				}
 			}
 			
 			GameEntity attacker = damage.getAttacker();
-			
-			if (attacker instanceof Dwarf)
-				mob.onDamageReceive(damage);
 			if (attacker instanceof AIEntity) {
 				((AIEntity) attacker).forceUpdateTarget();
 				damage.cancel();
+			} else {
+				mob.onDamageReceive(damage);
+
+				if (!damage.isCancelled() && mob.hasDisguise()) {
+					playSound("entity.generic.hurt", 1f, 1f, true);
+				}
 			}
+		} else {
+			damage.cancel();
 		}
 	}
 	
@@ -372,7 +417,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		
 		givePotionEffect(PotionEffectType.LEVITATION, time, 0, true, true, true);
 		givePotionEffect(PotionEffectType.GLOWING, time, 1, true, true, true);
-		
+		givePotionEffect(PotionEffectType.BLINDNESS, time, 1, true, true, true);
+
 		if (mob != null) {
 			Disguise dis = mob.getDisguise();
 			if (dis != null)
@@ -407,7 +453,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		if (!isFrozen()) return;
 		player.removePotionEffect(PotionEffectType.LEVITATION);
 		player.removePotionEffect(PotionEffectType.GLOWING);
-		
+		player.removePotionEffect(PotionEffectType.BLINDNESS);
+
 		player.setFlySpeed(0.1f);
 		player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
 		
@@ -435,6 +482,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	private boolean isFreezable() {
+		if (mob != null && mob.getType() == MobType.TICKER)
+			return false;
+
 		if (player.hasPotionEffect(PotionEffectType.LUCK))
 			return false;
 		
@@ -459,21 +509,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	
 	// ------ MISC ------
-	
-	private static final ItemStack seppuku;
-	static {
-		seppuku = new ItemStack(Material.GHAST_TEAR, 1);
-		ItemMeta meta = seppuku.getItemMeta();
-		meta.setDisplayName(ChatColor.RED + "Seppuku");
-		
-		List<String> lore = new ArrayList<>();
-		lore.add(ChatColor.DARK_PURPLE + "What a failure of a monster");
-		lore.add(ChatColor.DARK_PURPLE + "you have become.");
-		meta.setLore(lore);
-		
-		seppuku.setItemMeta(meta);
-	}
-	
+
 	public Entity getDisguiseEntity() {
 		if (mob == null || mob.getDisguise() == null)
 			return null;
