@@ -215,7 +215,7 @@ public class GameMap {
 				vault += 5;
 				break;
 			case GAME:
-				vault += 2;
+				vault += 3;
 				break;
 		}
 		updateVault();
