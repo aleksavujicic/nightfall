@@ -54,7 +54,6 @@ zombie-husk:
       description:
        - "Left click to attack dwarves, shredding\n
           their armour and dealing damage.\n
-          Right click to leap with the upgrade."
       flavour:
        - "A cross between a runeblade hilt and\n
           plank debris. The dead use anything of\n
@@ -129,7 +128,6 @@ zombie-saboteur:
         description:
         - "Left click to attack dwarves, shredding\n
            their armour and dealing damage.\n
-           Right click to leap with the upgrade."
         flavour:
         - "A cross between a runeblade hilt and\n
            plank debris. The dead use anything of\n
