@@ -53,7 +53,7 @@ zombie-husk:
     lore:
       description:
        - "Left click to attack dwarves, shredding\n
-          their armour and dealing damage.\n
+          their armour and dealing damage.\n"
       flavour:
        - "A cross between a runeblade hilt and\n
           plank debris. The dead use anything of\n

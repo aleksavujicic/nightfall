@@ -9,8 +9,11 @@ import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import me.libraryaddict.disguise.disguisetypes.watchers.AgeableWatcher;
+import me.libraryaddict.disguise.disguisetypes.watchers.ZombieWatcher;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -61,7 +64,7 @@ public class Zombie_Saboteur extends Zombie {
             this.poison = temp_poison;
         }
 
-        this.leapLvl = upgrades.get("leap");
+        this.leapLvl = upgrades.get("leap-sabo");
         if (leapLvl != 0)
             leapCD = new SimpleCooldown(200);
         else
@@ -83,16 +86,18 @@ public class Zombie_Saboteur extends Zombie {
         getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
         getWeapon().addModifier(ItemModifierType.ATTACK, 5, "Saboteur Zombie");
         getArmour().addModifier(ItemModifierType.HEALTH, -5, "Saboteur Zombie");
-        getArmour().addModifier(ItemModifierType.SPEED, 30, "Saboteur Zombie");
+        getArmour().addModifier(ItemModifierType.SPEED, 50, "Saboteur Zombie");
         getArmour().addModifier(ItemModifierType.SPEED, speed, "Epinephrine");
     }
 
     @Override
     public void onSpawn() {
         super.onSpawn();
+        ((ZombieWatcher)getDisguise().getWatcher()).setBaby(true);
         if (pick > 0) {
-            getItem("wood-pickaxe").addModifier(ItemModifierType.EFFICIENCY, (pick - 1), "Pick Upgrade");
-            giveItem("wood-pickaxe", 1);
+            CustomItem item = getItem("wood-pickaxe").clone();
+            item.addModifier(ItemModifierType.EFFICIENCY, (pick - 1), "Pick Upgrade");
+            monster.giveItem(item);
         }
     }
 
@@ -102,7 +107,7 @@ public class Zombie_Saboteur extends Zombie {
         assaSound.update();
         assaCD.update();
         if (b && assaCD.isAvailable()) {
-            monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY,1);
+            monster.givePotionEffect(PotionEffectType.INVISIBILITY,200, 1, false, false, true);
         }
     }
 

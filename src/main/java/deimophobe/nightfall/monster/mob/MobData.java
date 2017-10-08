@@ -146,7 +146,7 @@ public class MobData {
 		for (String name : itemNames) {
 			items.compute(name, (k,v) -> v.immutableCopy());
 		}
-		
+
 	}
 	
 	Map<String, CustomItem> getItems() {

@@ -53,13 +53,12 @@ public class Zombie_Fury extends Zombie {
         int arrowRes = arrowResValues[upgrades.get("arrow-fury")];
         int rebirthChance = rebirthValues[upgrades.get("rebirth-fury")];
         this.pursuit = upgrades.get("pursuit");
-        int leapLvl = upgrades.get("leap");
+        this.leapLvl = upgrades.get("leap-fury");
 
         if (leapLvl != 0)
             leapCD = new SimpleCooldown(200);
         else
             leapCD = new DudCooldown();
-        this.leapLvl = upgrades.get("leap");
 
         this.arrowRes = (double) arrowRes/100;
         this.rebirthChance = (double) rebirthChance/100;

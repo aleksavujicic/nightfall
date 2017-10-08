@@ -181,7 +181,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			zombie = new Zombie_Husk(this, lastRebirth);
 		}
 		else {
-			zombie = new Zombie(this, lastRebirth); // TODO: change to ZOMBIE_FURY when that is implemented
+			zombie = new Zombie_Fury(this, lastRebirth);
 		}
 		spawnMob(zombie);
 		rebirthKiller.cancel();

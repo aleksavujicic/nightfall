@@ -224,7 +224,7 @@ pursuit:
   index: 11
   cost: [25, 50, 75]
   prereq:
-    attack: 3
+    fury: 1
   item:
     material: coal
     name: "Pursuit"
@@ -233,11 +233,11 @@ pursuit:
         - "Speed on hit."
 
 
-leap:
+leap-fury:
   index: 12
   cost: [10, 20, 30, 40, 50]
   prereq:
-    attack: 3
+    fury: 1
   item:
     material: sugar
     name: "Leap"
@@ -296,7 +296,7 @@ furynight:
     fury: 1
     shred-fury: 5
     pursuit: 3
-    leap: 5
+    leap-fury: 5
     arrow-fury: 3
     rebirth-fury: 5
     vampirism-fury: 3
@@ -339,7 +339,7 @@ poison:
         - "Poison dwarves with each hit."
 
 
-leap:
+leap-sabo:
   index: 12
   cost: [10, 20, 30, 40, 50]
   prereq:
@@ -371,7 +371,7 @@ epinephrine:
   prereq:
     saboteur: 1
   item:
-    material: sugar
+    material: glowstone_dust
     name: "Epinephrine"
     lore:
       description:
@@ -398,9 +398,9 @@ assassination:
     attack: 5
     health: 5
     saboteur: 1
-    shred-sabo: 5
-    posion: 3
-    leap: 5
+    shred-sabo: 3
+    poison: 3
+    leap-sabo: 5
     pick: 3
     epinephrine: 5
     vampirism-sabo: 3
@@ -410,3 +410,4 @@ assassination:
     lore:
       description:
         - "Disappear in the shadows and assassinate dwarves!"
+
