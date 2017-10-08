@@ -27,11 +27,4 @@ final class ImmutableCustomItem extends CustomItem {
 	public void addModifier(ItemModifierType type, int value, String reason) {
 		throw new UnsupportedOperationException("Cannot apply modifier to an immutable custom item.");
 	}
-	
-	@Override
-	public CustomItem clone() {
-		return immutableCopy();
-	}
-
-	public CustomItem mutableCopy() { return super.clone(); }
 }
