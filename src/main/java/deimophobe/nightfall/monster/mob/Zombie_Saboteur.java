@@ -112,7 +112,7 @@ public class Zombie_Saboteur extends Zombie {
     }
 
     @Override
-    public void onDamageReceive(MonsterDamage<? extends Dwarf> damage) {
+    public void onDamageReceive(MonsterDamage damage) {
         super.onDamageReceive(damage);
         assaCD.reset();
         monster.removePotionEffect(PotionEffectType.INVISIBILITY);
@@ -147,7 +147,7 @@ public class Zombie_Saboteur extends Zombie {
 
         if (assa && assaCD.isAvailable()) {
             assaSound.tryUse();
-            damage.addBooster(60);
+            damage.getDamage().addBoost(60);
             assaCD.reset();
         }
         monster.removePotionEffect(PotionEffectType.INVISIBILITY);

@@ -88,9 +88,9 @@ public class Zombie_Husk extends Zombie {
     }
 
     @Override
-    public void onDamageReceive(MonsterDamage<? extends Dwarf> damage) {
+    public void onDamageReceive(MonsterDamage damage) {
         super.onDamageReceive(damage);
-        damage.addArrowRes(arrowRes);
+        damage.getArrowRes().addBoost(arrowRes);
     }
 
     @Override
