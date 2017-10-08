@@ -37,7 +37,7 @@ public class Zombie_Fury extends Zombie {
 
     private static Integer[] shredValues = {0, 5, 10, 15, 20, 25};
     private static Integer[] arrowResValues = {0, 25, 40, 50};
-    private static Integer[] rebirthValues = {0, 40, 60, 70, 80, 85};
+    private static Integer[] rebirthValues = {0, 30, 60, 90, 120, 150};
 
     protected Zombie_Fury(MonsterPlayer mons) {
         this(mons, null);

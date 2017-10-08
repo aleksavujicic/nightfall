@@ -11,6 +11,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -72,11 +73,15 @@ public class Zombie extends AbstractMob {
 
 	@Override
 	public void onDeath() {
-		boolean setRebirth = (Math.random() <= rebirthChance);
-		if (setRebirth)
+		boolean setRebirth = (Math.random() < rebirthChance - (monster.getRebirthCount() * 0.3));
+		if (setRebirth) {
 			monster.setRebirthSpot(monster.getLocation());
-		else
+			monster.incrementRebirthCount();
+		}
+		else {
 			monster.removeRebirth();
+			monster.resetRebirthCount();
+		}
 	}
 
 }

@@ -36,11 +36,13 @@ import java.util.*;
 public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEntity<Player> {
 	
 	private Mob mob;
-	
+	private int rebirthCount;
+
 	public Mob getMob() { return mob; }
 	
 	public MonsterPlayer(Player player) {
 		super(player);
+		rebirthCount = 0;
 		kill(true);
 	}
 	
@@ -80,7 +82,18 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		
 		usedThisTick = false;
 	}
-	
+
+	public void incrementRebirthCount() {
+		rebirthCount++;
+	}
+
+	public void resetRebirthCount() {
+		rebirthCount = 0;
+	}
+
+	public int getRebirthCount() {
+		return rebirthCount;
+	}
 	
 	// ------ SPAWN AND DEATH ------
 	public boolean isAlive() {
@@ -180,8 +193,11 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		if (this.getUpgrades(MobType.ZOMBIE).computeIfAbsent("husk", (k) -> 0) == 1) {
 			zombie = new Zombie_Husk(this, lastRebirth);
 		}
-		else {
+		else if (this.getUpgrades(MobType.ZOMBIE).computeIfAbsent("fury", (k) -> 0) == 1) {
 			zombie = new Zombie_Fury(this, lastRebirth);
+		}
+		else {
+			return;
 		}
 		spawnMob(zombie);
 		rebirthKiller.cancel();
