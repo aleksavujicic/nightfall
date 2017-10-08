@@ -48,10 +48,10 @@ public class Zombie_Fury extends Zombie {
 
         Map<String, Integer> upgrades = monster.getUpgrades(MobType.ZOMBIE);
 
-        this.armourShred = shredValues[upgrades.get("shred-husk")];
-        this.vampirism = upgrades.get("vampirism-husk");
-        int arrowRes = arrowResValues[upgrades.get("arrow-husk")];
-        int rebirthChance = rebirthValues[upgrades.get("rebirth-husk")];
+        this.armourShred = shredValues[upgrades.get("shred-fury")];
+        this.vampirism = upgrades.get("vampirism-fury");
+        int arrowRes = arrowResValues[upgrades.get("arrow-fury")];
+        int rebirthChance = rebirthValues[upgrades.get("rebirth-fury")];
         this.pursuit = upgrades.get("pursuit");
         int leapLvl = upgrades.get("leap");
 
