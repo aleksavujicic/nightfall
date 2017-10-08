@@ -405,7 +405,7 @@ assassination:
     epinephrine: 5
     vampirism-sabo: 3
   item:
-    material: exp_bottle
+    material: iron_sword
     name: Assassination
     lore:
       description:
