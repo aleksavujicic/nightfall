@@ -32,5 +32,6 @@ final class ImmutableCustomItem extends CustomItem {
 	public CustomItem clone() {
 		return immutableCopy();
 	}
-	
+
+	public CustomItem mutableCopy() { return super.clone(); }
 }
