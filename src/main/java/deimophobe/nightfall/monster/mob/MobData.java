@@ -142,9 +142,11 @@ public class MobData {
 		
 		// Make items immutable
 		Set<String> itemNames = items.keySet();
+
 		for (String name : itemNames) {
 			items.compute(name, (k,v) -> v.immutableCopy());
 		}
+		
 	}
 	
 	Map<String, CustomItem> getItems() {
