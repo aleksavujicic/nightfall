@@ -76,7 +76,11 @@ class Wraith extends AbstractMob {
 	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
 		if (chargerCD > 0) {
 			chargerCD--;
-			
+
+			if (chargerCD == 60) {
+				monster.givePermanentPotionEffect(PotionEffectType.JUMP, 25);
+			}
+
 			if (chargeActive && chargerCD >= MAX_CHARGE_CD - CLOUD_TIME) {
 				Location loc = monster.getLocation();
 				loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 30, 0.7, 0.7, 0.7, 0.03);
@@ -127,7 +131,8 @@ class Wraith extends AbstractMob {
 		
 		monster.setVelocity(velocity);
 		monster.givePotionEffect(PotionEffectType.LEVITATION, FLOAT_TIME, 7, true, false, true);
-		
+		monster.removePotionEffect(PotionEffectType.JUMP);
+		monster.givePotionEffect(PotionEffectType.JUMP, 20, -1, false, true, true);
 		monster.playSound("entity.ghast.hurt", 2f, 0.7f, true);
 		monster.playSound("entity.ghast.shoot", 1f, 0.5f, true);
 	}
