@@ -115,31 +115,30 @@ shred-husk:
         - "Increases your armour shred."
 
 
-rebirth-husk:
+toughskin:
   index: 11
   cost: [20, 40, 60, 80, 100]
-  value: [40, 60, 70, 80, 85]
   prereq:
     husk: 1
   item:
-    material: eye_of_ender
-    name: "Rebirth Chance"
-    lore:
-      description:
-        - "Increases your respawn chance to $value%"
+      material: iron_chestplate
+      name: "Tough Skin"
+      lore:
+        description:
+          - "Gives you extra hearts at spawn."
 
 
-vampirism-husk:
+regen:
   index: 12
-  cost: [30, 70, 100]
+  cost: [100, 150]
   prereq:
     husk: 1
   item:
-    material: redstone
-    name: "Vampirism"
-    lore:
-      description:
-        - "Increases your life steal."
+      base: potion-regeneration
+      name: "Regeneration"
+      lore:
+        description:
+          - "Slowly Restores your health."
 
 
 arrow-husk:
@@ -156,29 +155,32 @@ arrow-husk:
         - "Increases your arrow resistance to $value%"
 
 
-toughskin:
+rebirth-husk:
   index: 15
   cost: [20, 40, 60, 80, 100]
+  value: [40, 60, 70, 80, 85]
   prereq:
     husk: 1
   item:
-      material: iron_chestplate
-      name: "Tough Skin"
-      lore:
-        description:
-          - "Gives you extra hearts at spawn."
+    material: eye_of_ender
+    name: "Rebirth Chance"
+    lore:
+      description:
+        - "Increases your respawn chance to $value%"
 
-regen:
+
+vampirism-husk:
   index: 16
-  cost: [100, 150]
+  cost: [30, 70, 100]
   prereq:
     husk: 1
   item:
-      base: potion-regeneration
-      name: "Regeneration"
-      lore:
-        description:
-          - "Slowly Restores your health."
+    material: redstone
+    name: "Vampirism"
+    lore:
+      description:
+        - "Increases your life steal."
+
 
 stagger:
   index: 22
@@ -188,11 +190,11 @@ stagger:
     health: 5
     husk: 1
     shred-husk: 5
+    toughskin: 5
+    regen: 2
     arrow-husk: 3
     rebirth-husk: 5
     vampirism-husk: 3
-    toughskin: 5
-    regen: 2
   item:
     material: stone_sword
     name: "Staggering Hit"
@@ -218,32 +220,30 @@ shred-fury:
       description:
         - "Increases your armour shred."
 
-
-rebirth-fury:
+pursuit:
   index: 11
-  cost: [20, 40, 60, 80, 100]
-  value: [30, 40, 50, 60, 70]
+  cost: [25, 50, 75]
   prereq:
-    fury: 1
+    attack: 3
   item:
-    material: eye_of_ender
-    name: "Rebirth Chance"
+    material: coal
+    name: "Pursuit"
     lore:
       description:
-        - "Increases your respawn chance to $value%"
+        - "Speed on hit."
 
 
-vampirism-fury:
+leap:
   index: 12
-  cost: [30, 70, 100]
+  cost: [10, 20, 30, 40, 50]
   prereq:
-    fury: 1
+    attack: 3
   item:
-    material: redstone
-    name: "Vampirism"
+    material: sugar
+    name: "Leap"
     lore:
       description:
-        - "Increases your life steal."
+        - "Improves your leap"
 
 
 arrow-fury:
@@ -260,29 +260,32 @@ arrow-fury:
         - "Increases your arrow resistance to $value%"
 
 
-leap:
+rebirth-fury:
   index: 15
-  cost: [10, 20, 30, 40, 50]
+  cost: [20, 40, 60, 80, 100]
+  value: [30, 40, 50, 60, 70]
   prereq:
-    attack: 3
+    fury: 1
   item:
-    material: sugar
-    name: "Leap"
+    material: eye_of_ender
+    name: "Rebirth Chance"
     lore:
       description:
-        - "Improves your leap"
+        - "Increases your respawn chance to $value%"
 
-pursuit:
+
+vampirism-fury:
   index: 16
-  cost: [25, 50, 75]
+  cost: [30, 70, 100]
   prereq:
-    attack: 3
+    fury: 1
   item:
-    material: coal
-    name: "Pursuit"
+    material: redstone
+    name: "Vampirism"
     lore:
       description:
-        - "Speed on hit."
+        - "Increases your life steal."
+
 
 furynight:
   index: 22
@@ -323,8 +326,34 @@ shred-sabo:
         - "Increases your armour shred."
 
 
-pick:
+poison:
   index: 11
+  cost: [50, 100, 150]
+  prereq:
+    saboteur: 1
+  item:
+    base: potion-poison
+    name: "Poisoned hit"
+    lore:
+      description:
+        - "Poison dwarves with each hit."
+
+
+leap:
+  index: 12
+  cost: [10, 20, 30, 40, 50]
+  prereq:
+    saboteur: 1
+  item:
+    material: sugar
+    name: "Leap"
+    lore:
+      description:
+        - "Improves your leap"
+
+
+pick:
+  index: 14
   cost: [50, 100, 150]
   prereq:
     saboteur: 1
@@ -336,21 +365,8 @@ pick:
         - "Destroy walls with this pick."
 
 
-vampirism-sabo:
-  index: 12
-  cost: [30, 70, 100]
-  prereq:
-    saboteur: 1
-  item:
-    material: redstone
-    name: "Vampirism"
-    lore:
-      description:
-        - "Increases your life steal."
-
-
 epinephrine:
-  index: 14
+  index: 15
   cost: [20, 40, 60, 80, 100]
   prereq:
     saboteur: 1
@@ -362,29 +378,18 @@ epinephrine:
         - "Run even faster!%"
 
 
-leap:
-  index: 15
-  cost: [10, 20, 30, 40, 50]
-  prereq:
-    saboteur: 1
-  item:
-    material: sugar
-    name: "Leap"
-    lore:
-      description:
-        - "Improves your leap"
-
-poisoned-hit:
+vampirism-sabo:
   index: 16
-  cost: [50, 100, 150]
+  cost: [30, 70, 100]
   prereq:
     saboteur: 1
   item:
-    base: potion-poison
-    name: "Poisoned hit"
+    material: redstone
+    name: "Vampirism"
     lore:
       description:
-        - "Poison dwarves with each hit."
+        - "Increases your life steal."
+
 
 assassination:
   index: 22
