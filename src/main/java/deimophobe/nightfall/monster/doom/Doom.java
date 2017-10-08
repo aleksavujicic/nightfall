@@ -24,6 +24,8 @@ class Doom {
 	private final String title;
 	private final List<String> subtitle;
 	
+	private final int titleCycleTime;
+	
 	private final List<MobType> specialMobs = new ArrayList<>();
 	private final List<MobType> regularMobs = new ArrayList<>();
 	
@@ -32,6 +34,8 @@ class Doom {
 		subtitle = section.getStringList("subtitle");
 		if (subtitle.size() == 0)
 			subtitle.add(section.getString("subtitle"));
+		
+		titleCycleTime = section.getInt("cycle-time", 40);
 		
 		for (String special : section.getStringList("mobs.special")) {
 			MobType type = MobType.getMobType(special);
@@ -67,9 +71,9 @@ class Doom {
 			new BukkitRunnable() {
 				@Override
 				public void run() {
-					player.sendTitle(null, ChatColor.GOLD + subtitle.get(index), 0, 60, 20);
+					player.sendTitle(null, ChatColor.GOLD + subtitle.get(index), 0, titleCycleTime + 20, 20);
 				}
-			}.runTaskLater(NightfallPlugin.getPlugin(), 40 + i*40);
+			}.runTaskLater(NightfallPlugin.getPlugin(), titleCycleTime*(i+1));
 		}
 	}
 	

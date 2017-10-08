@@ -77,7 +77,9 @@ class Ticker extends AbstractMob {
 			colour = ChatColor.YELLOW;
 		else
 			colour = ChatColor.RED;
-		monster.sendTitleMessage(colour.toString() + deathTimer);
+		
+		if (maxTime - deathTimer >= 10) // Don't override doom title
+			monster.sendTitleMessage(colour.toString() + deathTimer);
 	}
 	
 	
