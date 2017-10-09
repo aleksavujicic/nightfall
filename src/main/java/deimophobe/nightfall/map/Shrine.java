@@ -160,7 +160,7 @@ public class Shrine {
 					recovery = dwarfNum * maxShrinePower / 50;
 				}
 				else {
-					recovery = dwarfNum * maxShrinePower / 300;
+					recovery = dwarfNum * maxShrinePower / 1000;
 				}
 			}
 			else {
