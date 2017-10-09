@@ -86,7 +86,7 @@ public class Zombie_Saboteur extends Zombie {
         getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
         getWeapon().addModifier(ItemModifierType.ATTACK, 5, "Saboteur Zombie");
         getArmour().addModifier(ItemModifierType.HEALTH, -5, "Saboteur Zombie");
-        getArmour().addModifier(ItemModifierType.SPEED, 50, "Saboteur Zombie");
+        getArmour().addModifier(ItemModifierType.SPEED, 20, "Saboteur Zombie");
         getArmour().addModifier(ItemModifierType.SPEED, speed, "Epinephrine");
     }
 
@@ -144,12 +144,12 @@ public class Zombie_Saboteur extends Zombie {
         if (poison > 0) {
             damage.getDwarf().givePotionEffect(PotionEffectType.POISON, 40, poison, true, false, true);
         }
-
         if (assa && assaCD.isAvailable()) {
             assaSound.tryUse();
             damage.getDamage().addBoost(60);
             assaCD.reset();
         }
+        assaCD.reset();
         monster.removePotionEffect(PotionEffectType.INVISIBILITY);
         monster.heal(healAmt);
     }

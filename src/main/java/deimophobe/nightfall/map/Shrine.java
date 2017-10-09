@@ -137,7 +137,6 @@ public class Shrine {
 						map.tryUseGold(1);
 						int repairAmount = Math.max(Math.min(shrineNum * 2 - 1, 5), 0);
 						dwarf.getArmour().repair(repairAmount);
-						Bukkit.broadcastMessage("" + repairAmount);
 					}
 			}
 		}
