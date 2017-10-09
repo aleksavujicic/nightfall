@@ -130,8 +130,15 @@ public class Shrine {
 			if (shrineRegion.containsPlayer(dwarf)) {
 				dwarvesOnShrine++;
 				if (!dwarf.getArmour().isAtMax())
-					if (map.tryUseGold(2))
+					if (map.tryUseGold(2)) {
 						dwarf.getArmour().repair(10);
+					}
+					else {
+						map.tryUseGold(1);
+						int repairAmount = Math.max(Math.min(shrineNum * 2 - 1, 5), 0);
+						dwarf.getArmour().repair(repairAmount);
+						Bukkit.broadcastMessage("" + repairAmount);
+					}
 			}
 		}
 		
@@ -143,41 +150,36 @@ public class Shrine {
 		int damage = 0;
 		int recovery = 0;
 		// Making shrines a bit stronger
-		if (shrineNum == 0) {
-			dwarfNum += 0;
-		} else if (shrineNum == map.getNumShrines()) {
-			dwarfNum += 0;
-
+		if (shrineNum == map.getNumShrines()) {
 			// Final shrine should not fall until most dwarves are dead
 			dwarfNum *= 3;
-		} else {
-			dwarfNum += 0;
 		}
 		if (mobNum == 0) {
 			// Regen when no mobs around, first shrine has slower regen
 			if (shrineNum == 1) {
 				if (shrinePower < (maxShrinePower / 4)) {
-					recovery = dwarfNum * (maxShrinePower / 100);
+					recovery = dwarfNum * maxShrinePower / 50;
+				}
+				else {
+					recovery = dwarfNum * maxShrinePower / 300;
 				}
 			}
 			else {
-				recovery = dwarfNum * (maxShrinePower / 40);
+				recovery = dwarfNum * maxShrinePower / 30;
 			}
 		}
-		// 1:1 dwarf:zombie, but as long as there's a mob on shrine it will lose power slowly
-		// First two zombies do half shrine getDamage
 		else {
-			damage += Math.min(2, mobNum) * (maxShrinePower / 50) +  Math.max(0, (mobNum - 2)) * (maxShrinePower / 25);
-			damage -= Math.min(2, dwarfNum) * (maxShrinePower / 50) + Math.max(0, (dwarfNum - 2)) * (maxShrinePower / 25);
-			if (damage < (maxShrinePower / 100)) damage = (maxShrinePower / 100);
+			damage += mobNum * maxShrinePower / 50;
+			damage -= dwarfNum * maxShrinePower / 30;
+			if (damage < (maxShrinePower / 200)) damage = (maxShrinePower / 200);
 		}
-		// 3 times or above as much dwarves will prevent shrine from losing power
-		if (damage > 0 && (dwarfNum >= (mobNum * 3))) {
+		// 2 times or above as much dwarves will prevent shrine from losing power
+		if (damage > 0 && (dwarfNum >= (mobNum * 2))) {
 			damage = 0;
 		}
-		// At 500 gold shrine regen drops off linearly until at 100 gold to 20% regen speed, also recovery is always nonnegative
+		// At 500 gold shrine regen drops off linearly until at 200 gold to 40% regen speed, also recovery is always nonnegative
 		if (recovery > 0) {
-			recovery = recovery * Math.max(100, Math.min(500, map.getGold())) / 500;
+			recovery = recovery * Math.max(200, Math.min(500, map.getGold())) / 500;
 		}
 		else
 		{

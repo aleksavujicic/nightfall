@@ -36,7 +36,7 @@ class Dagger extends AbstractCooldownItem {
 	
 	@Override
 	public void onKill(MonsterDamage damage) {
-		reduceCooldown(20);
+		reduceCooldown(60);
 	}
 	
 	@Override

@@ -215,7 +215,7 @@ public class GameMap {
 				vault += 5;
 				break;
 			case GAME:
-				vault += 2;
+				vault += 3;
 				break;
 		}
 		updateVault();
@@ -243,7 +243,23 @@ public class GameMap {
 		
 		updateGold();
 	}
-	
+
+	public void addGold(int amt) {
+		gold += amt;
+		if (gold < 0) {
+			gold = 0;
+		}
+		updateGold();
+	}
+
+	public void addVaultGold(int amt) {
+		vault += amt;
+		if (vault < 0) {
+			vault = 0;
+		}
+		updateVault();
+	}
+
 	private void updateGold() {
 		game.setGold(gold);
 	}

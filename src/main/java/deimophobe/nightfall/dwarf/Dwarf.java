@@ -85,7 +85,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		giveArrows(40);
 		
 		mobspawnCount = 0;
-
+		mobSpawnFourthCounter = 0;
 		updateManaBar();
 		
 		respawn();
@@ -326,6 +326,8 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 
 	// ------ UPDATE ------
+	private int mobSpawnFourthCounter;
+
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		kit.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		updateCooldownBar();
@@ -342,17 +344,22 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 
 		}
 		//mobspawn
-		if (quadSec && Game.getGame().getPhase() == Phase.GAME) {
-			boolean inMobspawn = GameMap.getCurrentMap().getCurrentMobProtection().containsPlayer(this);
-			if (inMobspawn) {
-				// TODO
-				//mobspawnCount++;
-				//mobspawnDamage();
+		if (sec && Game.getGame().getPhase() == Phase.GAME) {
+			if (mobSpawnFourthCounter < 4) {
+				mobSpawnFourthCounter++; // Trying to make mobspawn happen a bit more regularly
 			}
 			else {
-				if (mobspawnCount > 0)
-					mobspawnCount--;
-				removePotionEffect(PotionEffectType.CONFUSION);
+				mobSpawnFourthCounter = 0;
+				boolean inMobspawn = GameMap.getCurrentMap().getCurrentMobProtection().containsPlayer(this);
+				if (inMobspawn) {
+					mobspawnCount++;
+					mobspawnDamage();
+				}
+				else {
+					if (mobspawnCount > 0)
+						mobspawnCount--;
+					removePotionEffect(PotionEffectType.CONFUSION);
+				}
 			}
 		}
 
@@ -388,10 +395,8 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	// ------ MOB SPAWN ------
 	private int mobspawnCount;
 	
-	/* TODO
+
 	protected void mobspawnDamage() {
-		if (mobspawnCount == 0) return;
-		
 		player.sendMessage(ChatColor.RED + "You are too close to monster spawn! (" + mobspawnCount + ")");
 			
 		switch (mobspawnCount) {
@@ -401,63 +406,63 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 				break;
 			case 2:
 				useMana(100);
-				armour.getDamage(50);
-				this.customDamage(null, DamageType.MOBSPAWN, 1);
+				armour.damage(50);
+				this.doDamage(null, CustomDamageType.MOBSPAWN, 1, true);
 				break;
 			case 3:
 				useMana(100);
-				armour.getDamage(100);
-				this.customDamage(null, DamageType.MOBSPAWN, 1);
+				armour.damage(150);
+				this.doDamage(null, CustomDamageType.MOBSPAWN, 1, true);
 				break;
 			case 4:
 				useMana(200);
-				armour.getDamage(150);
-				this.customDamage(null, DamageType.MOBSPAWN, 1);
+				armour.damage(150);
+				this.doDamage(null, CustomDamageType.MOBSPAWN, 1, true);
 				break;
 			case 5:
 				useMana(200);
-				armour.getDamage(200);
-				this.customDamage(null, DamageType.MOBSPAWN, 30);
+				armour.damage(150);
+				this.doDamage(null, CustomDamageType.MOBSPAWN, 50, true);
 				break;
 			case 6:
-				useMana(250);
-				armour.getDamage(300);
-				this.customDamage(null, DamageType.MOBSPAWN, 60);
+				useMana(200);
+				armour.damage(200);
+				this.doDamage(null, CustomDamageType.MOBSPAWN, 50, true);
 				break;
 			case 7:
-				useMana(300);
-				armour.getDamage(500);
-				this.customDamage(null, DamageType.MOBSPAWN, 90);
+				useMana(200);
+				armour.damage(200);
+				this.doDamage(null, CustomDamageType.MOBSPAWN, 50, true);
 				break;
 			case 8:
-				useMana(300);
-				armour.getDamage(700);
-				this.customDamage(null, DamageType.MOBSPAWN, 120);
+				useMana(250);
+				armour.damage(250);
+				this.doDamage(null, CustomDamageType.MOBSPAWN, 100, true);
 				break;
 			case 9:
-				useMana(500);
-				armour.getDamage(1000);
-				this.customDamage(null, DamageType.MOBSPAWN, 150);
+				useMana(300);
+				armour.damage(300);
+				this.doDamage(null, CustomDamageType.MOBSPAWN, 100, true);
 				givePotionEffect(PotionEffectType.POISON, 80, 1, true, true, true);
 				break;
 			case 10:
-				useMana(1000);
-				armour.getDamage(10000);
-				this.customDamage(null, DamageType.MOBSPAWN, 180);
-				givePotionEffect(PotionEffectType.POISON, 80, 3, true, true, true);
+				useMana(500);
+				armour.damage(1000);
+				this.doDamage(null, CustomDamageType.MOBSPAWN, 190, true);
+				givePotionEffect(PotionEffectType.POISON, 80, 1, true, true, true);
 				break;
 			default:
-				this.customDamage(null, DamageType.MOBSPAWN, 10000);
+				this.doDamage(null, CustomDamageType.MOBSPAWN, 10000, true);
 				break;
 		}
 		
-		if (mobspawnCount < 6)
+		if (mobspawnCount < 6 && mobspawnCount > 2)
 			givePotionEffect(PotionEffectType.CONFUSION, 120, 1, true, true, true);
 		
 		if (mobspawnCount == 6)
-			givePermanentPotionEffect(PotionEffectType.CONFUSION, 1);
+			givePermanentPotionEffect(PotionEffectType.CONFUSION,1);
 	}
-	 */
+
 	
 	// ------ EVENTS ------
 	@Override

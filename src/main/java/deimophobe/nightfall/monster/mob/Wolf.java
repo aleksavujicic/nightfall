@@ -121,15 +121,14 @@ class Wolf extends AbstractMob {
 		if (dwarf != null) {
 			double heal;
 			if (isHellhound())
-				heal = (Game.getGame().isNight() ? 6 : 4);
+				heal = 5;
 			else
-				heal = (Game.getGame().isNight() ? 5 : 3);
+				heal = 4;
 			
 			monster.heal(heal);
 			monster.givePotionEffect(PotionEffectType.SPEED, 120, 3, true, false, true);
 			
-			if (Game.getGame().isNight())
-				damage.setManaDrain(5);
+			damage.setManaDrain(10);
 			
 			furySound.tryUse();
 		}

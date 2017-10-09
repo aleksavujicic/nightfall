@@ -432,6 +432,37 @@ public class NightfallPlugin extends JavaPlugin {
 				return false;
 			}
 		}
+
+		if (name.equalsIgnoreCase("gold")) {
+			try {
+				if (args.length == 1) {
+					int gold = Integer.parseInt(args[0]);
+					GameMap.getCurrentMap().addGold(gold);
+					return true;
+				}
+				else if (args.length == 2) {
+					if (args[0].equalsIgnoreCase("shrine")) {
+						int gold = Integer.parseInt(args[1]);
+						GameMap.getCurrentMap().addGold(gold);
+						return true;
+					} else if (args[0].equalsIgnoreCase("vault")) {
+						int gold = Integer.parseInt(args[1]);
+						GameMap.getCurrentMap().addVaultGold(gold);
+						return true;
+					} else {
+						return false;
+					}
+				}
+				else {
+					return false;
+				}
+			}
+			catch (NumberFormatException e) {
+				sender.sendMessage("" + ChatColor.YELLOW + ChatColor.ITALIC + args[0] + ChatColor.RED + " is not an integer!");
+				return false;
+			}
+		}
+
 		if (name.equalsIgnoreCase("plagueimmune")) {
 			if (args.length == 0) {
 				Player player;
@@ -506,7 +537,6 @@ public class NightfallPlugin extends JavaPlugin {
 			}
 			return true;
 		}
-
 
 		if (name.equalsIgnoreCase("loadout")) {
 			if (sender instanceof Player) {
@@ -700,12 +730,16 @@ public class NightfallPlugin extends JavaPlugin {
 			}
 			return false;
 		}
+
+		/*
 		if (name.equalsIgnoreCase("kills")) {
 			if (sender instanceof Player) {
 				((Player) sender).kickPlayer("Don't be toxic.");
 			}
 			return true;
 		}
+		*/
+
 		if (name.equalsIgnoreCase("shrine")) {
 			if (game.getPhase() != Phase.GAME) {
 				sender.sendMessage(ChatColor.RED + "The game has not yet begun! Use /forcestart and /forceplague.");
@@ -721,9 +755,9 @@ public class NightfallPlugin extends JavaPlugin {
 					return false;
 				}
 			} else if (args.length == 2) {
-				int percent = 0;
+				int value;
 				try{
-					percent = Integer.parseInt(args[1]);
+					value = Integer.parseInt(args[1]);
 				}catch(NumberFormatException e) {
 					sender.sendMessage("" + ChatColor.YELLOW + ChatColor.ITALIC + args[0] + ChatColor.RED + " is not a number!");
 					return false;
@@ -733,10 +767,10 @@ public class NightfallPlugin extends JavaPlugin {
 						map.damageShrine(100000);
 						return true;
 					case "damage":
-						map.damageShrine(percent);
+						map.damageShrine(value);
 						return true;
 					case "recover":
-						map.recoverShrine(percent);
+						map.recoverShrine(value);
 						return true;
 				}
 			}
@@ -796,6 +830,10 @@ public class NightfallPlugin extends JavaPlugin {
 
 		if (name.equalsIgnoreCase("shrine") && args.length == 1) {
 			return startsWithPrefix(args[args.length-1], "kill", "damage", "recover");
+		}
+
+		if (name.equalsIgnoreCase("gold") && args.length == 1) {
+			return startsWithPrefix(args[args.length-1], "shrine", "vault");
 		}
 
 		return null;

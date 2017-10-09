@@ -76,7 +76,11 @@ class Wraith extends AbstractMob {
 	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
 		if (chargerCD > 0) {
 			chargerCD--;
-			
+
+			if (chargerCD == 60) {
+				monster.givePermanentPotionEffect(PotionEffectType.JUMP, 25);
+			}
+
 			if (chargeActive && chargerCD >= MAX_CHARGE_CD - CLOUD_TIME) {
 				Location loc = monster.getLocation();
 				loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 30, 0.7, 0.7, 0.7, 0.03);
@@ -127,14 +131,15 @@ class Wraith extends AbstractMob {
 		
 		monster.setVelocity(velocity);
 		monster.givePotionEffect(PotionEffectType.LEVITATION, FLOAT_TIME, 7, true, false, true);
-		
+		monster.removePotionEffect(PotionEffectType.JUMP);
+		monster.givePotionEffect(PotionEffectType.JUMP, 20, -1, false, true, true);
 		monster.playSound("entity.ghast.hurt", 2f, 0.7f, true);
 		monster.playSound("entity.ghast.shoot", 1f, 0.5f, true);
 	}
 	
 	private static final double AOE_RADIUS = 3.5;
-	private static final int AOE_DMG = 50; // This is a one off hit so its not as strong as it seems.
-	private static final int AOE_SHRED = 50;
+	private static final int AOE_DMG = 80; // This is a one off hit so its not as strong as it seems.
+	private static final int AOE_SHRED = 100;
 	private void aoeDamage() {
 		//DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), monster,
 		//		CustomDamageType.WRAITH_CHARGE, AOE_RADIUS, AOE_DMG, 1,
@@ -144,6 +149,9 @@ class Wraith extends AbstractMob {
 			if (monster.distanceTo(dwarf) <= AOE_RADIUS) {
 				DwarfDamage damage = dwarf.createDamage(monster, CustomDamageType.WRAITH_CHARGE, AOE_DMG);
 				damage.setArmourShred(AOE_SHRED);
+				damage.getDwarf().givePotionEffect(PotionEffectType.BLINDNESS, 15, 1, false, true, true);
+				damage.getDwarf().givePotionEffect(PotionEffectType.SLOW, 30, 3, false, true, true);
+				damage.getDwarf().givePotionEffect(PotionEffectType.WITHER, 40, 5, false, true, true);
 				damage.setManaDrain(50);
 				damage.setNoDmgTicks(10);
 				damage.fire();

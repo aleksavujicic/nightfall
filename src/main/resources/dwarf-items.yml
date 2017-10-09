@@ -59,7 +59,7 @@ sword:
        - "\"I can't keep up with you jimmy! You're too fast!!\" - Tui"
        - "\"You're not any better than the rest of us by using that.\" - Arthea"
     modifiers:
-      attack: 15
+      attack: 20
       speed: 30
   hammer:
     base: hammer
