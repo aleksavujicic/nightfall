@@ -17,6 +17,11 @@ public enum Hat {
 	DVGOGGLES("darkvisgoggles"),
 	GOGGLES("goggles"),
 	JIMMYCAP("jimmycap"),
+	ARROWBAND("arrowband"),
+	BAGHEAD("baghead"),
+	BATHAT("bathat"),
+	HORNS("horns"),
+	SKULLMASK("skullmask"),
 	
 	TUI("tuihat"),
 	NOSOVIN("nosovinhat"),
