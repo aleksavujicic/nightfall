@@ -165,7 +165,7 @@ gobo:
       lore:
         description:
          - "Left click to throw a box, dealing\n
-            getDamage to dwarves and nearby walls.\n
+            damage to dwarves and nearby walls.\n
             &aRight click to place boxes, which\n
             &aheavily getDamage walls once they explode&r."
         flavour:
@@ -269,7 +269,7 @@ wolf:
   disguisetype: wolf
 
   attack: 15
-  health: 25
+  health: 30
   speed: 10
 
   shred: 35
@@ -382,7 +382,7 @@ golem:
   proccable: false
   resistance: 0.85
   arrowres: 0.5
-  shred: 40
+  shred: 100
 
   armour:
     material: iron_block
@@ -400,7 +400,7 @@ golem:
     name: Ancient Pick
     lore:
       description:
-       - "Deals heavy getDamage and armour shred."
+       - "Deals heavy damage and armour shred."
       flavour:
        - "Smash dwarves in melee!"
 
@@ -411,13 +411,12 @@ wraith:
   disguisetype: stray
 
   attack: 25
-  health: 40
+  health: 50
   shred: 25
   speed: -20
 
   proccable: false
   canrun: false
-  resistance: 0.7
   arrowres: 0.5
 
   armour:
@@ -450,7 +449,7 @@ minotaur:
 
   proccable: false
   resistance: 0.85
-  arrowres: 0.3
+  arrowres: 0.25
 
   armour:
     base: temporary
@@ -478,12 +477,11 @@ walker:
   disguisetype: skeleton
 
   attack: 20
-  health: 40
+  health: 50
   shred: 25
   speed: 50
 
   proccable: true
-  resistance: 0.7
 
   armourslot: head
   armour:
@@ -652,7 +650,7 @@ bopen:
 
   proccable: false
   resistance: 0.85
-  arrowres: 0.8
+  arrowres: 0.5
   shred: 25
   shrineimmune: true
 
