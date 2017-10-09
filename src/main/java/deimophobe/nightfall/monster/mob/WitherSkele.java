@@ -31,9 +31,9 @@ class WitherSkele extends SkeletonMob {
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
 		if (damage.hasArrow()) {
-			damageBoost = Math.min(damageBoost + 10, 50);
+			damageBoost = Math.min(damageBoost + 10, 20);
 			damage.setArmourShred((int) damageBoost*3 + 100);
-			damage.getDamage().addBoost(damageBoost*3);
+			damage.getDamage().addBoost(damageBoost*2);
 			monster.heal(5);
 		}
 	}
