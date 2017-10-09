@@ -22,6 +22,26 @@ jimmycap:
   material: diamond_helmet
   name: "Jimmy Cap"
 
+arrowband:
+  base: arrowband
+  name: "Arrow Band"
+
+baghead:
+  base: baghead
+  name: "Bag Head"
+
+bathat:
+  base: bathat
+  name: "Bat Hat"
+
+horns:
+  base: horns
+  name: "Horns"
+
+skullmask:
+  base: skullmask
+  name: "Skull Mask"
+
 tuihat:
   template: dwarf-hero
   base: tuihat

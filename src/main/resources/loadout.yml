@@ -416,7 +416,7 @@ page1:
     type: item
     name: chugging_ale
     category: ale
-    cost: 8
+    cost: 4
     item:
       name: "Chugging Ale"
       base: chug
@@ -425,9 +425,9 @@ page1:
     type: item
     name: strong_ale
     category: ale
-    cost: 4
+    cost: 8
     item:
-      name: "Strong Ale"
+      name: "Potion Seller's Strongest Potion"
       base: strong
 
 
@@ -482,7 +482,7 @@ page1:
     type: item
     name: nature_suit
     category: armour
-    cost: 8
+    cost: 4
     item:
       name: "Nature Suit"
       base: temp
@@ -780,6 +780,41 @@ page3:
     item:
       name: "Goggles"
       base: goggles
+  arrowband:
+    index: 6
+    type: hat
+    name: arrowband
+    item:
+      base: arrowband
+      name: "Arrow Band"
+  baghead:
+    index: 7
+    type: hat
+    name: baghead
+    item:
+      base: baghead
+      name: "Bag Head"
+  bathat:
+    index: 8
+    type: hat
+    name: bathat
+    item:
+      base: bathat
+      name: "Bat Hat"
+  horns:
+    index: 9
+    type: hat
+    name: horns
+    item:
+      base: horns
+      name: "Horns"
+  skullmask:
+    index: 10
+    type: hat
+    name: skullmask
+    item:
+      base: skullmask
+      name: "Skull Mask"
 
   ranger:
     index: 18

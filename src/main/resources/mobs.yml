@@ -288,7 +288,7 @@ wolf:
     name: Wolf Fangs
     lore:
       description:
-       - "Attacking dwarves with other dwarves deal extra damage.\n
+       - "Attacking dwarves with other wolves deals extra damage.\n
           Right click to Leap, hold shift to leap up."
       flavour:
        - "Arooooooooo."

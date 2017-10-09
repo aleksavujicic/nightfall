@@ -145,6 +145,8 @@ class Wolf extends AbstractMob {
 			if (monster.getMob() instanceof Wolf) {
 				if (monster.getLocation().distance(this.monster.getLocation()) <= 6) {
 					wolfCount++;
+					
+					if (wolfCount == 5) break;
 				}
 			}
 		}
