@@ -36,7 +36,7 @@ public class Zombie_Husk extends Zombie {
 
     private static Integer[] shredValues = {0, 6, 12, 18, 24, 30};
     private static Integer[] arrowResValues = {0, 25, 40, 50};
-    private static Integer[] rebirthValues = {0, 45, 90, 135, 180, 225};
+    private static Integer[] rebirthValues = {0, 50, 100, 150, 200, 250};
 
     protected Zombie_Husk(MonsterPlayer mons) {
         this(mons, null);
@@ -68,9 +68,8 @@ public class Zombie_Husk extends Zombie {
 
         getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
         getArmour().addModifier(ItemModifierType.SPEED, -20, "Husk Zombie");
-        getArmour().addModifier(ItemModifierType.HEALTH, 5, "Husk Zombie");
         getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
-        getWeapon().addModifier(ItemModifierType.ATTACK, 5, "Husk Zombie");
+        getWeapon().addModifier(ItemModifierType.ATTACK, 10, "Husk Zombie");
         if (stagger) {
             getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, 10, "Staggering Hit");
         }
@@ -84,8 +83,11 @@ public class Zombie_Husk extends Zombie {
     @Override
     public void onSpawn() {
         super.onSpawn();
-        monster.givePermanentPotionEffect(PotionEffectType.ABSORPTION, toughskin);
+        monster.givePermanentPotionEffect(PotionEffectType.ABSORPTION, (2 * toughskin));
         monster.givePermanentPotionEffect(PotionEffectType.REGENERATION, regen);
+        if (didRebirth()) {
+            giveSpawnProtection(24);
+        }
     }
 
     @Override
