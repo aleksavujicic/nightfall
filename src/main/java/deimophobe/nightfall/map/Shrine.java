@@ -130,8 +130,15 @@ public class Shrine {
 			if (shrineRegion.containsPlayer(dwarf)) {
 				dwarvesOnShrine++;
 				if (!dwarf.getArmour().isAtMax())
-					if (map.tryUseGold(2))
+					if (map.tryUseGold(2)) {
 						dwarf.getArmour().repair(10);
+					}
+					else {
+						map.tryUseGold(1);
+						int repairAmount = Math.max(Math.min(shrineNum * 2 - 1, 5), 0);
+						dwarf.getArmour().repair(repairAmount);
+						Bukkit.broadcastMessage("" + repairAmount);
+					}
 			}
 		}
 		
