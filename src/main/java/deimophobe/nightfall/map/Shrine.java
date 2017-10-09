@@ -184,7 +184,7 @@ public class Shrine {
 		{
 			recovery = 0;
 		}
-		// Shrine getDamage and recovery are capped at 20%
+		// Shrine damage and recovery are capped at 20%
 		damage = Math.min((maxShrinePower / 5), damage);
 		recovery = Math.min((maxShrinePower / 5), recovery);
 		

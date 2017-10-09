@@ -17,33 +17,33 @@ import org.bukkit.util.Vector;
  * Created by Deimophobe on 6/05/17.
  */
 public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
-	/** The type of getDamage. */
+	/** The type of damage. */
 	protected final GameDamageType type;
-	/** The GameEntity which initiated the getDamage. */
+	/** The GameEntity which initiated the damage. */
 	protected final A attacker;
-	/** The GameEntity which receives the getDamage. */
+	/** The GameEntity which receives the damage. */
 	protected final R receiver;
-	/** How much getDamage to do. */
+	/** How much damage to do. */
 	private MultiPartValue damage;
 	
-	/** The time which the getDamage occured. */
+	/** The time which the damage occured. */
 	private final long time;
 	/** The name of the item which was used to hit. If not applicable this value is null. */
 	private final String itemName;
 	
 	/** How much knockback to do. */
 	protected Vector knockback;
-	/** If set to true, the getDamage will no longer occur. Overrides force. */
+	/** If set to true, the damage will no longer occur. Overrides force. */
 	protected boolean cancelled;
-	/** If set to true, getDamage will occur regardless of invincibility ticks. Overrided by force. */
+	/** If set to true, damage will occur regardless of invincibility ticks. Overrided by force. */
 	protected int noDmgTicks;
-	/** If set to true, getDamage will be 'infinite'. */
+	/** If set to true, damage will be 'infinite'. */
 	protected boolean instaKill;
 	
 	/** Whether the event has been triggered or not. */
 	private boolean triggered = false;
 	
-	/** True if the final getDamage has been applied and applied. No further calculations
+	/** True if the final damage has been applied and applied. No further calculations
 	 * should be done if this is true. */
 	private boolean applied = false;
 	
@@ -169,7 +169,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		applied = true;
 		
 		boolean successful = true;
-		// Calculate getDamage
+		// Calculate damage
 		// Priority: insta > cancelled > none
 		if (instaKill) {
 			event.setCancelled(false);
@@ -223,7 +223,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		} else if (receiver instanceof Dwarf) {
 			return new DwarfDamage(attacker, (Dwarf) receiver, type, damage, arrow);
 		} else {
-			throw new IllegalArgumentException("Game getDamage must have attacker/receiver be dwarf/monster or monster/dwarf.");
+			throw new IllegalArgumentException("Game damage must have attacker/receiver be dwarf/monster or monster/dwarf.");
 		}
 	}
 	

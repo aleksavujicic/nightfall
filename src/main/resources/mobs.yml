@@ -22,7 +22,7 @@ zombie:
     lore:
       description:
        - "Left click to attack dwarves, shredding\n
-          their armour and dealing getDamage.\n
+          their armour and dealing damage.\n
           Right click to leap with the upgrade."
       flavour:
        - "A cross between a runeblade hilt and\n
@@ -165,9 +165,9 @@ gobo:
       lore:
         description:
          - "Left click to throw a box, dealing\n
-            getDamage to dwarves and nearby walls.\n
+            damage to dwarves and nearby walls.\n
             &aRight click to place boxes, which\n
-            &aheavily getDamage walls once they explode&r."
+            &aheavily damage walls once they explode&r."
         flavour:
          - "Gobos Primed and Ready."
     kaboom:
@@ -400,7 +400,7 @@ golem:
     name: Ancient Pick
     lore:
       description:
-       - "Deals heavy getDamage and armour shred."
+       - "Deals heavy damage and armour shred."
       flavour:
        - "Smash dwarves in melee!"
 

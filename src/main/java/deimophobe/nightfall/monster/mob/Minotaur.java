@@ -119,7 +119,7 @@ public class Minotaur extends AbstractMob {
 	}
 	
 	/**
-	 * Checks the block at location loc and applies getDamage if collided.
+	 * Checks the block at location loc and applies damage if collided.
 	 * @param loc
 	 * @return true if the block is solid and cause the minotaur to 'crash'.
 	 */

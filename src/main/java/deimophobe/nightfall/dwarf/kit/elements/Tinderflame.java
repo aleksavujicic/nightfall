@@ -67,7 +67,7 @@ class Tinderflame extends AbstractCooldownItem {
 				success = true;
 			}
 			
-			// Do getDamage
+			// Do damage
 			if (success) {
 				GameDamage damage = monster.createDamage(dwarf, CustomDamageType.TINDERFLAME, 25);
 				if (monster instanceof AIEntity)

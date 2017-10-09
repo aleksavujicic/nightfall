@@ -162,7 +162,7 @@ public class GameListener implements Listener {
 		Entity entity = event.getEntity();
 		EntityDamageEvent.DamageCause cause = event.getCause();
 		
-		// Don't getDamage lobbyers and respawn if void.
+		// Don't damage lobbyers and respawn if void.
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
 			if (game.isLobbyPlayer(player)) {
