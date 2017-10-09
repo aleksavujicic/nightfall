@@ -31,7 +31,7 @@ public class VolcanicBow extends AbstractBow {
 	private static final double MAX_RANGE = 25;
 	private static final double THICKNESS = 1.5;
 	private static final double PARTICLE_OFFSET = THICKNESS/10;
-	private static final double AOE_RADIUS = 2;
+	private static final double AOE_RADIUS = 1;
 	
 	
 	private static final float ONE_ARROW_FORCE = 0.6f;
@@ -76,8 +76,8 @@ public class VolcanicBow extends AbstractBow {
 			}
 		}
 		Location feets = dwarf.getLocation().add(0, 0.25, 0);
-		world.spawnParticle(Particle.FLAME, feets, (int) (50*force), 1f, 1f, 1f, 0.07);
-		world.spawnParticle(Particle.FLAME, feets, (int) (150*force*force), radius/2, 0.1f, radius/2, 0);
+		world.spawnParticle(Particle.FLAME, feets, (int) (30*force), 1f, 1f, 1f, 0.07);
+		world.spawnParticle(Particle.FLAME, feets, (int) (100*force*force), radius/2, 0.1f, radius/2, 0);
 		
 		// Calculate collision
 		for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
@@ -92,7 +92,7 @@ public class VolcanicBow extends AbstractBow {
 				
 				// If close enough damage mob
 				if (monster.distanceTo(dwarf) <= radius) {
-					monster.doDamage(dwarf, CustomDamageType.VOLCANIC_BOW, getPower()*force/2);
+					monster.doDamage(dwarf, CustomDamageType.VOLCANIC_BOW, getPower()*force/3);
 				} else  if (radialOffset <= THICKNESS) {
 					monster.doDamage(dwarf, CustomDamageType.VOLCANIC_BOW, getPower()*force);
 				}
