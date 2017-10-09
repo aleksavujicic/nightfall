@@ -23,7 +23,7 @@ commands:
 
   horn:
     usage: /horn
-    description: HRON
+    description: HORN
   armour:
     usage: /armour equip | /armour [damage|repair] <amount>
     description: Cheaty self-armour.
@@ -83,7 +83,7 @@ commands:
 
   spawnai:
     description: Spawns an AI at your location
-    usage: /spawnai [amt]
+    usage: /spawnai <amount>
     alias: aispawn
 
   forcedoom:
@@ -102,6 +102,10 @@ commands:
     description: Only for toxic people.
     usage: /kills
 
-  Shrine:
+  shrine:
     description: Damage or recover shrine power.
     usage: /shrine kill | /shrine [damage|recover] <percent (0-100)>
+
+  gold:
+    description: Add (or remove) gold based on input number.
+    usage: /gold <amount> | /gold [shrine|vault] <amount>
