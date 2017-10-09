@@ -33,10 +33,6 @@ public class VolcanicBow extends AbstractBow {
 	private static final double PARTICLE_OFFSET = THICKNESS/10;
 	private static final double AOE_RADIUS = 1;
 	
-	
-	private static final float ONE_ARROW_FORCE = 0.6f;
-	private static final float TWO_ARROW_FORCE = 0.8f;
-	
 	@Override
 	public Projectile onBowFire(Projectile arrow, float force) {
 		Location location = dwarf.getPlayer().getEyeLocation();
@@ -44,18 +40,8 @@ public class VolcanicBow extends AbstractBow {
 		location.add(-0.3*Math.cos(yaw), -0.3, -0.3*Math.sin(yaw));
 		Vector direction = location.getDirection();
 		
-		// This code makes it so that if force is >= 0.5, then it requires
-		// an extra arrow to fire (and a further arrow when >=0.8),
-		if (!dwarf.hasArrows(2))
-			force = Math.min(force, ONE_ARROW_FORCE);
-		
-		if (!dwarf.hasArrows(3))
-			force = Math.min(force, TWO_ARROW_FORCE);
-		
-		if (force >= ONE_ARROW_FORCE)
-			dwarf.useArrow();
-		if (force >= TWO_ARROW_FORCE)
-			dwarf.useArrow();
+		if (!dwarf.hasArrows(3)) return null;
+		dwarf.useArrows(2);
 		
 		double range = MAX_RANGE * force * force;
 		double radius = AOE_RADIUS * force;
