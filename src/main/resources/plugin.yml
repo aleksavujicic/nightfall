@@ -98,9 +98,9 @@ commands:
     usage: /map [enable|disable|reload|list|clear|next] | /map [queue|play|load] <map>
 
 
-  kills:
-    description: Only for toxic people.
-    usage: /kills
+# kills:
+#   description: Only for toxic people.
+#   usage: /kills
 
   shrine:
     description: Damage or recover shrine power.

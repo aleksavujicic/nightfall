@@ -730,12 +730,16 @@ public class NightfallPlugin extends JavaPlugin {
 			}
 			return false;
 		}
+
+		/*
 		if (name.equalsIgnoreCase("kills")) {
 			if (sender instanceof Player) {
 				((Player) sender).kickPlayer("Don't be toxic.");
 			}
 			return true;
 		}
+		*/
+
 		if (name.equalsIgnoreCase("shrine")) {
 			if (game.getPhase() != Phase.GAME) {
 				sender.sendMessage(ChatColor.RED + "The game has not yet begun! Use /forcestart and /forceplague.");
