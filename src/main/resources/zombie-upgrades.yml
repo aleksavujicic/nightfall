@@ -172,7 +172,7 @@ rebirth-husk:
 
 vampirism-husk:
   index: 16
-  cost: [30, 70, 100]
+  cost: [50, 100, 150]
   prereq:
     husk: 1
   item:
@@ -185,7 +185,7 @@ vampirism-husk:
 
 stagger:
   index: 22
-  cost: 300
+  cost: 500
   prereq:
     attack: 5
     health: 5
@@ -278,7 +278,7 @@ rebirth-fury:
 
 vampirism-fury:
   index: 16
-  cost: [30, 70, 100]
+  cost: [50, 100, 150]
   prereq:
     fury: 1
   item:
@@ -291,7 +291,7 @@ vampirism-fury:
 
 furynight:
   index: 22
-  cost: 300
+  cost: 500
   prereq:
     attack: 5
     health: 5
@@ -382,7 +382,7 @@ epinephrine:
 
 vampirism-sabo:
   index: 16
-  cost: [30, 70, 100]
+  cost: [50, 100, 150]
   prereq:
     saboteur: 1
   item:
@@ -395,7 +395,7 @@ vampirism-sabo:
 
 assassination:
   index: 22
-  cost: 300
+  cost: 500
   prereq:
     attack: 5
     health: 5
