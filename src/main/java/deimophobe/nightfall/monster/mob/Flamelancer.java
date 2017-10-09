@@ -73,7 +73,7 @@ class Flamelancer extends SkeletonMob {
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
 		if (damage.getType() == NaturalDamageType.RANGED) {
-			damage.setArmourShred(10);
+			damage.setArmourShred(30);
 		}
 	}
 	
