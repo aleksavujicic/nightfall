@@ -268,11 +268,11 @@ wolf:
 
   disguisetype: wolf
 
-  attack: 14
-  health: 30
-  speed: 5
+  attack: 15
+  health: 25
+  speed: 10
 
-  shred: 20
+  shred: 35
 
   armour:
     material: leather
@@ -288,7 +288,7 @@ wolf:
     name: Wolf Fangs
     lore:
       description:
-       - "Attacking dwarves at night deals extra getDamage.\n
+       - "Attacking dwarves with other dwarves deal extra damage.\n
           Right click to Leap, hold shift to leap up."
       flavour:
        - "Arooooooooo."
@@ -299,11 +299,11 @@ hellhound:
 
   disguisetype: wolf
 
-  attack: 18
-  health: 40
-  speed: 20
+  attack: 20
+  health: 30
+  speed: 10
 
-  shred: 30
+  shred: 40
 
   proccable: false
 
