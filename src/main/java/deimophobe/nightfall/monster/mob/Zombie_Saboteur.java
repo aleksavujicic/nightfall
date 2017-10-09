@@ -144,12 +144,12 @@ public class Zombie_Saboteur extends Zombie {
         if (poison > 0) {
             damage.getDwarf().givePotionEffect(PotionEffectType.POISON, 40, poison, true, false, true);
         }
-        assaCD.reset();
         if (assa && assaCD.isAvailable()) {
             assaSound.tryUse();
             damage.getDamage().addBoost(60);
             assaCD.reset();
         }
+        assaCD.reset();
         monster.removePotionEffect(PotionEffectType.INVISIBILITY);
         monster.heal(healAmt);
     }
