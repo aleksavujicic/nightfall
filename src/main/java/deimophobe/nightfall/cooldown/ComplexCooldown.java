@@ -18,6 +18,10 @@ public class ComplexCooldown {
 		this(maxCD, DO_NOTHING, DO_NOTHING);
 	}
 	
+	public ComplexCooldown(int maxCD, Runnable useAction) {
+		this(maxCD, useAction, DO_NOTHING);
+	}
+	
 	public ComplexCooldown(int maxCD, Runnable useAction, Runnable cooldownAction) {
 		this.cd = -1;
 		this.maxCD = maxCD;

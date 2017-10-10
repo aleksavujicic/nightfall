@@ -1,7 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.Game;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -20,7 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class Horn extends AbstractCooldownItem {
 	
 	Horn(Dwarf dwarf) {
-		super(dwarf, 60*20);
+		super(dwarf, 120*20);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero.horn");

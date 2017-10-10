@@ -1,87 +1,20 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.Misc;
-import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.items.CustomItem;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
-import org.bukkit.event.block.Action;
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Created by Deimophobe on 20/01/17.
  */
-class GreaterRuneblade extends AbstractCooldownItem {
-	private static final int CD_TIME = 400;
-	
+class GreaterRuneblade extends AbstractRuneblade {
 	GreaterRuneblade(Dwarf dwarf) {
-		super(dwarf, CD_TIME);
+		super(dwarf, 20*20, ProcType.REGULAR, ProcType.RUNEDASH);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("sword.grb");
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public KitGiveType getGiveType() {
-		return KitGiveType.SWORD;
-	}
-	
-	@Override
-	public void onKill(MonsterDamage damage) {
-		super.onKill(damage);
-		if (itemCausedDamage(damage))
-			dwarf.giveProc(ProcType.REGULAR);
-		
-		reduceCooldown(20);
-	}
-	
-	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isRightClick(action) && isOffCD()) {
-			Player player = dwarf.getPlayer();
-			
-			dwarf.playSound("dash", 1f, 1f, true);
-			dwarf.giveProc(ProcType.RUNEDASH);
-			player.setVelocity(player.getLocation().getDirection().setY(0).normalize().multiply(5));
-			resetCooldown();
-			
-			return true;
-		}
-		return false;
-	}
-	
-	private static final int SAFEFALL_TIME = 60;
-	
-	@Override
-	public void onDamageReceive(DwarfDamage damage) {
-		if (getCooldown() >= CD_TIME - SAFEFALL_TIME && damage.getType() == NaturalDamageType.FALL) {
-			damage.cancel();
-		}
-	}
-	
-	@Override
-	public void onOffCD() {
-		dwarf.playSound("offcd", 1, 1.5f, false);
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				dwarf.playSound("offcd", 1, 2f, false);
-			}
-		}.runTaskLater(NightfallPlugin.getPlugin(), 5);
-	}
-	
-	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		reduceCooldown();
-		
-	}
-	
 }

@@ -7,17 +7,19 @@ import org.bukkit.potion.PotionEffectType;
  * Created by Deimophobe on 6/05/17.
  */
 public enum ProcType {
-	REGULAR		(60, 1, 6, 0, true, true, true),
-	DRAGONSKIN	(100, 1, 6, 0, true, true, true),
+	REGULAR		(80, 1, 5, 0, true, true, true),
+	DRAGONSKIN	(100, 1, 5, 0, true, true, true),
 	GRAVEL_PROC	(60, 1, 6, 0, true, true, true),
 	EBOW		(60, 1, 3, 0, true, true, true),
+	MALICE		(160, 2, 6, 0, true, true, true),
+	
+	VELSWORD	(80, 2, 5, 0, true, true, true),
 	
 	HORN		(160, 4, 8, 3, true, true, true),
 	AVENGE		(160, 4, 8, 3, true, true, true),
-	MALICE		(160, 2, 6, 0, true, true, true),
 	SHRINE_FALL	(160, 2, 3, 3, false, false, true),
 	
-	RUNEDASH	(12, 1, 25, 0, false, false, false),
+	RUNEDASH	(12, 1, 15, 0, false, false, false),
 	
 	ROAR		(160, 2, 0, 0, false, false, true),
 	
