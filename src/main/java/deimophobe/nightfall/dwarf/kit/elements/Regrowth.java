@@ -45,7 +45,13 @@ class Regrowth extends AbstractAle {
 
 		return  (selfHealSuccess || otherHealSuccess);
 	}
-	
+
+	@Override
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+		healOthersCD.update();
+	}
+
 	private void tryHealOthers() {
 		Dwarf healee = dwarf.getLookingAt(3, 15, DwarfManager.getManager().getDwarves());
 		if (healee == null) return;
