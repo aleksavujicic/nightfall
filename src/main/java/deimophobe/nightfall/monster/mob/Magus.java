@@ -41,15 +41,24 @@ class Magus extends AbstractMob {
 	
 	private void throwDwarves() {
 		Dwarf dwarf = monster.getLookingAt(1, 20, DwarfManager.getManager().getDwarves());
-		dwarf.givePotionEffect(PotionEffectType.LEVITATION, 15, 25, false, false, true);
+		if (dwarf == null) return;
+		
+		dwarf.givePotionEffect(PotionEffectType.LEVITATION, 40, 5, false, false, true);
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				dwarf.setVelocity(new Vector(0,0,0));
+				dwarf.givePotionEffect(PotionEffectType.LEVITATION, 80, 256, false, false, true);
+			}
+		}.runTaskLater(NightfallPlugin.getPlugin(), 40);
 		new BukkitRunnable() {
 			@Override
 			public void run() {
 				Vector offset = dwarf.offsetFrom(monster);
-				offset.normalize().multiply(3);
+				offset.normalize().multiply(2);
 				dwarf.setVelocity(offset);
 			}
-		}.runTaskLater(NightfallPlugin.getPlugin(), 15);
+		}.runTaskLater(NightfallPlugin.getPlugin(), 120);
 	}
 	
 	private void startStorm() {
