@@ -266,13 +266,10 @@ public class Game {
 		
 		sidebarObj.setDisplaySlot(DisplaySlot.SIDEBAR);
 		
-		dwarfManager.selectHeroes(Bukkit.getOnlinePlayers());
+		monsterManager.removeAllGamePlayers();
+		dwarfManager.removeAllGamePlayers();
 		
-		// Add dwarves
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			monsterManager.removeAllGamePlayers();
-			dwarfManager.addGamePlayer(player);
-		}
+		dwarfManager.onGameStart();
 		updateDwarfCount();
 		
 		// Set time
