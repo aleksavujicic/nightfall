@@ -82,7 +82,7 @@ bow:
   lightbow: 5
   warpweaver: 6
   flamebow: 7
-  volcanic: 7
+  volcanic: 8
 
 diamond_hoe:
   leftarrow: 1

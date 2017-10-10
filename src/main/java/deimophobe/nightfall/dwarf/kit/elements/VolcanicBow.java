@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
+import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -29,33 +30,18 @@ public class VolcanicBow extends AbstractBow {
 	@Override public int getPower() {return POWER;}
 	
 	private static final double MAX_RANGE = 25;
-	private static final double THICKNESS = 1.5;
+	private static final double THICKNESS = 1;
 	private static final double PARTICLE_OFFSET = THICKNESS/10;
-	private static final double AOE_RADIUS = 2;
-	
-	
-	private static final float ONE_ARROW_FORCE = 0.6f;
-	private static final float TWO_ARROW_FORCE = 0.8f;
+	private static final double AOE_RADIUS = 1.25;
 	
 	@Override
 	public Projectile onBowFire(Projectile arrow, float force) {
 		Location location = dwarf.getPlayer().getEyeLocation();
-		double yaw = location.getYaw() * Math.PI/180;
-		location.add(-0.3*Math.cos(yaw), -0.3, -0.3*Math.sin(yaw));
+		Misc.moveLocation(location, 0, 0.3, -0.3);
 		Vector direction = location.getDirection();
 		
-		// This code makes it so that if force is >= 0.5, then it requires
-		// an extra arrow to fire (and a further arrow when >=0.8),
-		if (!dwarf.hasArrows(2))
-			force = Math.min(force, ONE_ARROW_FORCE);
-		
-		if (!dwarf.hasArrows(3))
-			force = Math.min(force, TWO_ARROW_FORCE);
-		
-		if (force >= ONE_ARROW_FORCE)
-			dwarf.useArrow();
-		if (force >= TWO_ARROW_FORCE)
-			dwarf.useArrow();
+		if (!dwarf.hasArrows(3)) return null;
+		dwarf.useArrows(3);
 		
 		double range = MAX_RANGE * force * force;
 		double radius = AOE_RADIUS * force;
@@ -76,8 +62,9 @@ public class VolcanicBow extends AbstractBow {
 			}
 		}
 		Location feets = dwarf.getLocation().add(0, 0.25, 0);
-		world.spawnParticle(Particle.FLAME, feets, (int) (50*force), 1f, 1f, 1f, 0.07);
-		world.spawnParticle(Particle.FLAME, feets, (int) (150*force*force), radius/2, 0.1f, radius/2, 0);
+		world.spawnParticle(Particle.FLAME, feets, (int) (30*force), 1f, 1f, 1f, 0.07);
+		world.spawnParticle(Particle.FLAME, feets, (int) (100*force*force), radius/2, 0.1f, radius/2, 0);
+		world.spawnParticle(Particle.LAVA, feets, (int) (20*force*force), radius/2, 0.1f, radius/2, 0);
 		
 		// Calculate collision
 		for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
@@ -92,7 +79,7 @@ public class VolcanicBow extends AbstractBow {
 				
 				// If close enough damage mob
 				if (monster.distanceTo(dwarf) <= radius) {
-					monster.doDamage(dwarf, CustomDamageType.VOLCANIC_BOW, getPower()*force/2);
+					monster.doDamage(dwarf, CustomDamageType.VOLCANIC_BOW, getPower()*force/3);
 				} else  if (radialOffset <= THICKNESS) {
 					monster.doDamage(dwarf, CustomDamageType.VOLCANIC_BOW, getPower()*force);
 				}

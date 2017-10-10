@@ -56,7 +56,7 @@ public class DamageManager {
 		switch (event.getCause()) {
 			case CUSTOM: {
 				if (lastUsedCustomDamage == null) {
-					throw new IllegalStateException("Custom damage called but none stored in getDamage manager?");
+					throw new IllegalStateException("Custom damage called but none stored in damage manager?");
 				}
 				GameDamage damage = lastUsedCustomDamage;
 				lastUsedCustomDamage = null;

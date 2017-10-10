@@ -82,6 +82,13 @@ public class Misc {
 		return loc.add(-parallel*sin - perpendicular*cos , 0, parallel*cos - perpendicular*sin);
 	}
 	
+	public static Location moveLocation(Location loc, double parallel, double perpendicular, double y) {
+		double yaw = loc.getYaw() * Math.PI/180;
+		double sin = Math.sin(yaw);
+		double cos = Math.cos(yaw);
+		return loc.add(-parallel*sin - perpendicular*cos , y, parallel*cos - perpendicular*sin);
+	}
+	
 	public static BlockFace getBlockFaceProjectileHit(Projectile proj, Block hitBlock) {
 		org.bukkit.util.Vector offset = proj.getLocation().subtract(hitBlock.getLocation().add(0.5,0.5,0.5)).toVector();
 		Set<BlockFace> possibleFaces = new HashSet<>();

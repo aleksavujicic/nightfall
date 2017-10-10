@@ -8,7 +8,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
  * Created by Deimophobe on 29/08/17.
  */
 public enum NaturalDamageType implements GameDamageType {
-	// 'Regular' getDamage
+	// 'Regular' damage
 	MELEE(1, 1),
 	RANGED(1, 1),
 	

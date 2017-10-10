@@ -44,14 +44,14 @@ public class Slowfall extends AbstractElement {
 	
 	@Override
 	public void onShift(boolean sneaking) {
-		if (!sneaking && !dwarf.hasPotionEffect(PotionEffectType.LEVITATION)) {
+		if (!sneaking && !dwarf.hasPotionEffect(PotionEffectType.LEVITATION) && !dwarf.getPlayer().isOnGround()) {
 			cooldown.tryUse();
 		}
 	}
 	
 	private void slowfall() {
-		dwarf.givePotionEffect(PotionEffectType.JUMP, 8*20, 3, true, false, true);
-		dwarf.givePotionEffect(PotionEffectType.LEVITATION, 8*20, -5, true, false, true);
+		dwarf.givePotionEffect(PotionEffectType.JUMP, 8 * 20, 3, true, false, true);
+		dwarf.givePotionEffect(PotionEffectType.LEVITATION, 8 * 20, -5, true, false, true);
 		dwarf.getPlayer().setFallDistance(0);
 	}
 }

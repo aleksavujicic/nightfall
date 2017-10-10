@@ -22,7 +22,7 @@ zombie:
     lore:
       description:
        - "Left click to attack dwarves, shredding\n
-          their armour and dealing getDamage.\n
+          their armour and dealing damage.\n
           Right click to leap with the upgrade."
       flavour:
        - "A cross between a runeblade hilt and\n
@@ -167,7 +167,7 @@ gobo:
          - "Left click to throw a box, dealing\n
             damage to dwarves and nearby walls.\n
             &aRight click to place boxes, which\n
-            &aheavily getDamage walls once they explode&r."
+            &aheavily damage walls once they explode&r."
         flavour:
          - "Gobos Primed and Ready."
     kaboom:
@@ -410,13 +410,14 @@ wraith:
 
   disguisetype: stray
 
-  attack: 25
-  health: 50
+  attack: 20
+  health: 25
   shred: 25
   speed: -20
 
   proccable: false
   canrun: false
+  resistance: 0.85
   arrowres: 0.5
 
   armour:
@@ -442,7 +443,7 @@ minotaur:
 
   disguisetype: pig_zombie
 
-  attack: 30
+  attack: 25
   health: 40
   shred: 10
   speed: -10
