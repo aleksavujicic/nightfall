@@ -411,7 +411,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 				break;
 			case 3:
 				useMana(100);
-				armour.damage(150);
+				armour.damage(100);
 				this.doDamage(null, CustomDamageType.MOBSPAWN, 1, true);
 				break;
 			case 4:
@@ -456,7 +456,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 				break;
 		}
 		
-		if (mobspawnCount < 6 && mobspawnCount > 2)
+		if (mobspawnCount < 6 && mobspawnCount > 0)
 			givePotionEffect(PotionEffectType.CONFUSION, 120, 1, true, true, true);
 		
 		if (mobspawnCount == 6)
