@@ -50,8 +50,10 @@ public class Slowfall extends AbstractElement {
 	}
 	
 	private void slowfall() {
-		dwarf.givePotionEffect(PotionEffectType.JUMP, 8*20, 3, true, false, true);
-		dwarf.givePotionEffect(PotionEffectType.LEVITATION, 8*20, -5, true, false, true);
-		dwarf.getPlayer().setFallDistance(0);
+		if (!dwarf.getPlayer().isOnGround()) {
+			dwarf.givePotionEffect(PotionEffectType.JUMP, 8 * 20, 3, true, false, true);
+			dwarf.givePotionEffect(PotionEffectType.LEVITATION, 8 * 20, -5, true, false, true);
+			dwarf.getPlayer().setFallDistance(0);
+		}
 	}
 }
