@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
+import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -29,19 +30,18 @@ public class VolcanicBow extends AbstractBow {
 	@Override public int getPower() {return POWER;}
 	
 	private static final double MAX_RANGE = 25;
-	private static final double THICKNESS = 1.5;
+	private static final double THICKNESS = 1;
 	private static final double PARTICLE_OFFSET = THICKNESS/10;
-	private static final double AOE_RADIUS = 1;
+	private static final double AOE_RADIUS = 1.25;
 	
 	@Override
 	public Projectile onBowFire(Projectile arrow, float force) {
 		Location location = dwarf.getPlayer().getEyeLocation();
-		double yaw = location.getYaw() * Math.PI/180;
-		location.add(-0.3*Math.cos(yaw), -0.3, -0.3*Math.sin(yaw));
+		Misc.moveLocation(location, 0, 0.3, -0.3);
 		Vector direction = location.getDirection();
 		
 		if (!dwarf.hasArrows(3)) return null;
-		dwarf.useArrows(2);
+		dwarf.useArrows(3);
 		
 		double range = MAX_RANGE * force * force;
 		double radius = AOE_RADIUS * force;
@@ -64,6 +64,7 @@ public class VolcanicBow extends AbstractBow {
 		Location feets = dwarf.getLocation().add(0, 0.25, 0);
 		world.spawnParticle(Particle.FLAME, feets, (int) (30*force), 1f, 1f, 1f, 0.07);
 		world.spawnParticle(Particle.FLAME, feets, (int) (100*force*force), radius/2, 0.1f, radius/2, 0);
+		world.spawnParticle(Particle.LAVA, feets, (int) (20*force*force), radius/2, 0.1f, radius/2, 0);
 		
 		// Calculate collision
 		for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
