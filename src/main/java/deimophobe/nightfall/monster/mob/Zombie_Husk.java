@@ -86,7 +86,7 @@ public class Zombie_Husk extends Zombie {
         monster.givePermanentPotionEffect(PotionEffectType.ABSORPTION, (2 * toughskin));
         monster.givePermanentPotionEffect(PotionEffectType.REGENERATION, regen);
         if (didRebirth()) {
-            giveSpawnProtection(24);
+            giveSpawnProtection(30);
         }
     }
 
