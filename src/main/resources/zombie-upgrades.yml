@@ -1,6 +1,6 @@
 attack:
   index: 2
-  cost: [20, 40, 60, 80, 100]
+  cost: [50, 75, 100, 125, 150]
   item:
     material: wood_sword
     name: "Upgrade Attack"
@@ -24,7 +24,7 @@ attack-inf:
 
 health:
   index: 6
-  cost: [20, 40, 60, 80, 100]
+  cost: [50, 75, 100, 125, 150]
   item:
     material: rotten_flesh
     name: "Upgrade Health"
@@ -48,7 +48,7 @@ health-inf:
 
 husk:
   index: 15
-  cost: 200
+  cost: 300
   prereq:
     attack: 3
     health: 3
@@ -60,12 +60,14 @@ husk:
     name: "Husk Zombie"
     lore:
       description:
-        - "Become a Husk Zombie!"
+        - "Become a Husk Zombie.\n
+           A slow, tanky zombie variant that can\n
+           take many hits and rebirth as many times."
 
 
 fury:
   index: 13
-  cost: 200
+  cost: 300
   prereq:
     attack: 3
     health: 3
@@ -77,12 +79,14 @@ fury:
     name: "Fury Zombie"
     lore:
       description:
-        - "Become a Fury Zombie!"
+        - "Become a Fury Zombie.\n
+           An agile, strong zombie variant that\n
+           break armor and chase dwarves down."
 
 
 saboteur:
   index: 11
-  cost: 200
+  cost: 300
   prereq:
     attack: 3
     health: 3
@@ -94,7 +98,9 @@ saboteur:
     name: "Saboteur Zombie"
     lore:
       description:
-        - "Become a Saboteur Zombie!"
+        - "Become a Saboteur Zombie.\n
+           A speedy, sneaky zombie variant that\n
+           can destroy walls and poison dwarves."
 
 
 ##########################
@@ -103,7 +109,7 @@ saboteur:
 
 shred-husk:
   index: 10
-  cost: [20, 40, 60, 80, 100]
+  cost: [50, 75, 100, 125, 150]
   value: [6, 12, 18, 24, 30]
   prereq:
     husk: 1
@@ -117,7 +123,7 @@ shred-husk:
 
 toughskin:
   index: 11
-  cost: [20, 40, 60, 80, 100]
+  cost: [50, 75, 100, 125, 150]
   prereq:
     husk: 1
   item:
@@ -125,12 +131,12 @@ toughskin:
       name: "Tough Skin"
       lore:
         description:
-          - "Gives you extra hearts at spawn."
+          - "Gives you 4 hearts at spawn per level."
 
 
 regen:
   index: 12
-  cost: [100, 150]
+  cost: [100, 200]
   prereq:
     husk: 1
   item:
@@ -143,7 +149,7 @@ regen:
 
 arrow-husk:
   index: 14
-  cost: [50, 100, 150]
+  cost: [100, 150, 200]
   value: [25, 40, 50]
   prereq:
     husk: 1
@@ -157,8 +163,8 @@ arrow-husk:
 
 rebirth-husk:
   index: 15
-  cost: [20, 40, 60, 80, 100]
-  value: [40, 80, 120, 160, 200]
+  cost: [50, 75, 100, 125, 150]
+  value: [50, 100, 150, 200, 250]
   prereq:
     husk: 1
   item:
@@ -172,7 +178,7 @@ rebirth-husk:
 
 vampirism-husk:
   index: 16
-  cost: [50, 100, 150]
+  cost: [100, 150, 200]
   prereq:
     husk: 1
   item:
@@ -180,7 +186,7 @@ vampirism-husk:
     name: "Vampirism"
     lore:
       description:
-        - "Increases your life steal."
+        - "Gives 0.5 hearts life steal per level."
 
 
 stagger:
@@ -201,7 +207,8 @@ stagger:
     name: "Staggering Hit"
     lore:
       description:
-        - "Your hits will inflict slowness and do more armor damage"
+        - "Your hits will inflict slowness\n
+           and do 10 more armor damage."
 
 
 ##########################
@@ -210,7 +217,7 @@ stagger:
 
 shred-fury:
   index: 10
-  cost: [20, 40, 60, 80, 100]
+  cost: [50, 75, 100, 125, 150]
   value: [5, 10, 15, 20, 25]
   prereq:
     fury: 1
@@ -223,7 +230,7 @@ shred-fury:
 
 pursuit:
   index: 11
-  cost: [25, 50, 75]
+  cost: [100, 150, 200]
   prereq:
     fury: 1
   item:
@@ -231,12 +238,13 @@ pursuit:
     name: "Pursuit"
     lore:
       description:
-        - "Speed on hit."
+        - "Gives speed when attacking dwarves.\n
+           Higher levels give more speed."
 
 
 leap-fury:
   index: 12
-  cost: [10, 20, 30, 40, 50]
+  cost: [20, 40, 60, 80, 100]
   prereq:
     fury: 1
   item:
@@ -244,12 +252,12 @@ leap-fury:
     name: "Leap"
     lore:
       description:
-        - "Improves your leap"
+        - "Improves your leap."
 
 
 arrow-fury:
   index: 14
-  cost: [50, 100, 150]
+  cost: [100, 150, 200]
   value: [25, 40, 50]
   prereq:
     fury: 1
@@ -263,7 +271,7 @@ arrow-fury:
 
 rebirth-fury:
   index: 15
-  cost: [20, 40, 60, 80, 100]
+  cost: [50, 75, 100, 125, 150]
   value: [30, 60, 90, 120, 150]
   prereq:
     fury: 1
@@ -278,7 +286,7 @@ rebirth-fury:
 
 vampirism-fury:
   index: 16
-  cost: [50, 100, 150]
+  cost: [100, 150, 200]
   prereq:
     fury: 1
   item:
@@ -286,7 +294,7 @@ vampirism-fury:
     name: "Vampirism"
     lore:
       description:
-        - "Increases your life steal."
+        - "Gives 0.5 hearts life steal per level."
 
 
 furynight:
@@ -307,7 +315,8 @@ furynight:
     name: Fury of the Night
     lore:
       description:
-        - "Drain mana on hit!"
+        - "Gives 1.5 hearts more lifesteal\n
+           and drains 10 mana per hit."
 
 
 ##############################
@@ -316,7 +325,7 @@ furynight:
 
 shred-sabo:
   index: 10
-  cost: [50, 100, 150]
+  cost: [100, 150, 200]
   value: [5, 10, 15]
   prereq:
     saboteur: 1
@@ -330,7 +339,7 @@ shred-sabo:
 
 poison:
   index: 11
-  cost: [50, 100, 150]
+  cost: [100, 150, 200]
   prereq:
     saboteur: 1
   item:
@@ -338,12 +347,13 @@ poison:
     name: "Poisoned hit"
     lore:
       description:
-        - "Poison dwarves with each hit."
+        - "Poison dwarves with each hit.\n
+           Higher levels give higher poison level."
 
 
 leap-sabo:
   index: 12
-  cost: [10, 20, 30, 40, 50]
+  cost: [20, 40, 60, 80, 100]
   prereq:
     saboteur: 1
   item:
@@ -351,12 +361,12 @@ leap-sabo:
     name: "Leap"
     lore:
       description:
-        - "Improves your leap"
+        - "Improves your leap."
 
 
 pick:
   index: 14
-  cost: [50, 100, 150]
+  cost: [150, 200, 250]
   prereq:
     saboteur: 1
   item:
@@ -364,12 +374,13 @@ pick:
     name: "Sabotage pick"
     lore:
       description:
-        - "Destroy walls with this pick."
+        - "Destroy walls with this pick.\n
+           Higher levels give efficiency for the pick."
 
 
 epinephrine:
   index: 15
-  cost: [20, 40, 60, 80, 100]
+  cost: [50, 75, 100, 125, 150]
   prereq:
     saboteur: 1
   item:
@@ -377,12 +388,12 @@ epinephrine:
     name: "Epinephrine"
     lore:
       description:
-        - "Run even faster!%"
+        - "Run even faster!"
 
 
 vampirism-sabo:
   index: 16
-  cost: [50, 100, 150]
+  cost: [100, 150, 200]
   prereq:
     saboteur: 1
   item:
@@ -390,7 +401,7 @@ vampirism-sabo:
     name: "Vampirism"
     lore:
       description:
-        - "Increases your life steal."
+        - "Gives 0.5 hearts life steal per level."
 
 
 assassination:
@@ -411,5 +422,9 @@ assassination:
     name: Assassination
     lore:
       description:
-        - "Disappear in the shadows and assassinate dwarves!"
+        - "After not taking damage, doing damage\n
+           or breaking blocks for 10 seconds,\n
+           disappear into the shadows, becoming invisible\n
+           and dealing 60 more damage your next hit."
+
 
