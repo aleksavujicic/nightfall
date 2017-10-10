@@ -106,7 +106,8 @@ public class Zombie_Saboteur extends Zombie {
         assaSound.update();
         assaCD.update();
         if (b && assaCD.isAvailable()) {
-            monster.givePotionEffect(PotionEffectType.INVISIBILITY,200, 1, false, false, true);
+            monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
+            monster.givePermanentPotionEffect(PotionEffectType.INCREASE_DAMAGE, 1);
         }
     }
 
@@ -115,6 +116,7 @@ public class Zombie_Saboteur extends Zombie {
         super.onDamageReceive(damage);
         assaCD.reset();
         monster.removePotionEffect(PotionEffectType.INVISIBILITY);
+        monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
     }
 
     @Override
@@ -145,11 +147,12 @@ public class Zombie_Saboteur extends Zombie {
         }
         if (assa && assaCD.isAvailable()) {
             assaSound.tryUse();
-            damage.getDamage().addBoost(60);
+            damage.getDamage().addBoost(57); // 60 - 3 due to str 1
             assaCD.reset();
         }
         assaCD.reset();
         monster.removePotionEffect(PotionEffectType.INVISIBILITY);
+        monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
         monster.heal(healAmt);
     }
 
