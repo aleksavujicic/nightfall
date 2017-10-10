@@ -60,7 +60,9 @@ husk:
     name: "Husk Zombie"
     lore:
       description:
-        - "Become a Husk Zombie!"
+        - "Become a Husk Zombie.\n
+           A slow, tanky zombie variant that can\n
+           take many hits and rebirth as many times."
 
 
 fury:
@@ -77,7 +79,9 @@ fury:
     name: "Fury Zombie"
     lore:
       description:
-        - "Become a Fury Zombie!"
+        - "Become a Fury Zombie.\n
+           An agile, strong zombie variant that\n
+           break armor and chase dwarves down."
 
 
 saboteur:
@@ -94,7 +98,9 @@ saboteur:
     name: "Saboteur Zombie"
     lore:
       description:
-        - "Become a Saboteur Zombie!"
+        - "Become a Saboteur Zombie.\n
+           A speedy, sneaky zombie variant that\n
+           can destroy walls and poison dwarves."
 
 
 ##########################
@@ -125,7 +131,7 @@ toughskin:
       name: "Tough Skin"
       lore:
         description:
-          - "Gives you extra hearts at spawn."
+          - "Gives you 4 hearts at spawn per level."
 
 
 regen:
@@ -180,7 +186,7 @@ vampirism-husk:
     name: "Vampirism"
     lore:
       description:
-        - "Increases your life steal."
+        - "Gives 0.5 hearts life steal per level."
 
 
 stagger:
@@ -201,7 +207,8 @@ stagger:
     name: "Staggering Hit"
     lore:
       description:
-        - "Your hits will inflict slowness and do more armor damage"
+        - "Your hits will inflict slowness\n
+           and do 10 more armor damage."
 
 
 ##########################
@@ -231,7 +238,8 @@ pursuit:
     name: "Pursuit"
     lore:
       description:
-        - "Speed on hit."
+        - "Gives speed when attacking dwarves.\n
+           Higher levels give more speed."
 
 
 leap-fury:
@@ -244,7 +252,7 @@ leap-fury:
     name: "Leap"
     lore:
       description:
-        - "Improves your leap"
+        - "Improves your leap."
 
 
 arrow-fury:
@@ -286,7 +294,7 @@ vampirism-fury:
     name: "Vampirism"
     lore:
       description:
-        - "Increases your life steal."
+        - "Gives 0.5 hearts life steal per level."
 
 
 furynight:
@@ -307,7 +315,8 @@ furynight:
     name: Fury of the Night
     lore:
       description:
-        - "Drain mana on hit!"
+        - "Gives 1.5 hearts more lifesteal\n
+           and drains 10 mana per hit."
 
 
 ##############################
@@ -338,7 +347,8 @@ poison:
     name: "Poisoned hit"
     lore:
       description:
-        - "Poison dwarves with each hit."
+        - "Poison dwarves with each hit.\n
+           Higher levels give higher poison level."
 
 
 leap-sabo:
@@ -351,7 +361,7 @@ leap-sabo:
     name: "Leap"
     lore:
       description:
-        - "Improves your leap"
+        - "Improves your leap."
 
 
 pick:
@@ -364,7 +374,8 @@ pick:
     name: "Sabotage pick"
     lore:
       description:
-        - "Destroy walls with this pick."
+        - "Destroy walls with this pick.\n
+           Higher levels give efficiency for the pick."
 
 
 epinephrine:
@@ -377,7 +388,7 @@ epinephrine:
     name: "Epinephrine"
     lore:
       description:
-        - "Run even faster!%"
+        - "Run even faster!"
 
 
 vampirism-sabo:
@@ -390,7 +401,7 @@ vampirism-sabo:
     name: "Vampirism"
     lore:
       description:
-        - "Increases your life steal."
+        - "Gives 0.5 hearts life steal per level."
 
 
 assassination:
@@ -411,5 +422,9 @@ assassination:
     name: Assassination
     lore:
       description:
-        - "Disappear in the shadows and assassinate dwarves!"
+        - "After not taking damage, doing damage\n
+           or breaking blocks for 10 seconds,\n
+           disappear into the shadows, becoming invisible\n
+           and dealing 60 more damage your next hit."
+
 
