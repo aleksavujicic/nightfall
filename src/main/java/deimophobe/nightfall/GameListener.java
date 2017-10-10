@@ -204,6 +204,7 @@ public class GameListener implements Listener {
 			case THORNS:
 			case BLOCK_EXPLOSION:
 			case ENTITY_EXPLOSION:
+			case ENTITY_SWEEP_ATTACK:
 				event.setDamage(0);
 				event.setCancelled(true);
 				return;
