@@ -410,14 +410,14 @@ wraith:
 
   disguisetype: stray
 
-  attack: 25
-  health: 40
+  attack: 20
+  health: 30
   shred: 25
   speed: -20
 
   proccable: false
   canrun: false
-  resistance: 0.7
+  resistance: 0.8
   arrowres: 0.5
 
   armour:
@@ -443,7 +443,7 @@ minotaur:
 
   disguisetype: pig_zombie
 
-  attack: 30
+  attack: 25
   health: 40
   shred: 10
   speed: -10
