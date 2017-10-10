@@ -489,8 +489,9 @@ public class GameListener implements Listener {
 	}
 	
 	@EventHandler
-	public void preventMobPickup(PlayerPickupItemEvent event){
-		if (mm.isGamePlayer(event.getPlayer())) {
+	public void preventMobPickup(EntityPickupItemEvent event){
+		LivingEntity entity = event.getEntity();
+		if (entity instanceof Player && mm.isGamePlayer((Player) entity)) {
 			event.setCancelled(true);
 		}
 	}
