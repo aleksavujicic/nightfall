@@ -11,9 +11,9 @@ import java.util.*;
  */
 public enum MobType {
 	ZOMBIE,
-	ZOMBIE_FURY,
-	ZOMBIE_HUSK,
-	ZOMBIE_SABOTEUR,
+	ZOMBIE_FURY(false),
+	ZOMBIE_HUSK(false),
+	ZOMBIE_SABOTEUR(false),
 
 	GOBO,
 	
