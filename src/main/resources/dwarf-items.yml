@@ -560,6 +560,19 @@ hero:
       kb_resist: 1
     shiny: true
 
+  velsword:
+    template: dwarf-hero
+    base: velsword
+    name: "Batman"
+    lore:
+      description:
+       - "You can thank fawn for the name."
+      flavour:
+       - "NANANANANANANANANANANANANANA BATMAN"
+    modifiers:
+      attack: 25
+      kb_resist: 1
+    shiny: true
   horn:
     template: dwarf-hero
     base: horn

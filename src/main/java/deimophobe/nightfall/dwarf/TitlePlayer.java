@@ -1,5 +1,7 @@
 package deimophobe.nightfall.dwarf;
 
+import deimophobe.nightfall.Game;
+import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.effects.sound.Sounds;
@@ -59,7 +61,7 @@ class TitlePlayer extends BukkitRunnable {
 				return;
 			}
 			
-			if (titleIndex == titles.length -1)
+			if (titleIndex == titles.length -1 && Game.getGame().getPhase() != Phase.STARTING)
 				Sounds.DWARF_INTRO_MUSIC.playSound(player);
 			
 			if (titleIndex == 1) {

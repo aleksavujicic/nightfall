@@ -123,7 +123,7 @@ public class Hero extends Dwarf {
 				KitElementType.ELYSTRIA),
 		
 		VELVETINE("Velvetine", Hat.VELVETINE, "velvetine", "Dwarven Hero", ChatColor.DARK_PURPLE,
-				KitElementType.GRB,
+				KitElementType.VELSWORD,
 				KitElementType.DRAGONSKIN,
 				KitElementType.HORN
 				),
