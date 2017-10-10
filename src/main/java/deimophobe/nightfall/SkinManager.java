@@ -63,6 +63,10 @@ public class SkinManager {
 	
 	public void stop() {
 		ProtocolLibrary.getProtocolManager().removePacketListener(skinChanger);
+		
+		for (UUID uuid : new HashSet<>(alteredSkins.keySet())) {
+			removeSkinChange(uuid);
+		}
 	}
 	
 	public void addSkinChange(GamePlayer player, Skin skin) {
@@ -88,7 +92,7 @@ public class SkinManager {
 		refreshSkin(uuid);
 	}
 	
-	public void refreshSkin(UUID uuid) {
+	private void refreshSkin(UUID uuid) {
 		Player player = Bukkit.getPlayer(uuid);
 		if (player == null) {
 			Bukkit.getLogger().warning("Trying to refresh player who isn't there?");
