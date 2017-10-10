@@ -513,6 +513,7 @@ ticker:
   shred: 0
 
   resistance: 1
+  proccable: false
   shrineimmune: true
 
 
