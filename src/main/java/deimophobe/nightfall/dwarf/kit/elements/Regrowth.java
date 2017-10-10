@@ -1,11 +1,14 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.items.CustomItem;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -17,24 +20,29 @@ import org.bukkit.util.Vector;
  * Created by Deimophobe on 22/01/17.
  */
 class Regrowth extends AbstractAle {
-	
+
+	private ComplexCooldown healOthersCD;
+
 	Regrowth(Dwarf dwarf) {
 		super(dwarf, 100);
+		this.healOthersCD = new ComplexCooldown(20, this::tryHealOthers, null);
 	}
-	
+
 	private final static CustomItem ITEM = DwarvenItems.getItem("ale.regrowth", Slot.MAIN_HAND);
 	@Override public CustomItem getItem() { return ITEM; }
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		boolean selfHealSuccess = super.onUse(action, clickedBlock, blockFace);
-		
+		boolean selfHealSuccess = false;
 		boolean otherHealSuccess = false;
-		if (Misc.isRightClick(action) && cooldown.isAvailable()) {
-			tryHealOthers();
-			cooldown.tryUse();
+		if (Misc.isLeftClick(action)) {
+			selfHealSuccess = super.onUse(action, clickedBlock, blockFace);
+		}
+		else if (Misc.isRightClick(action) && cooldown.isAvailable()) {
+			healOthersCD.tryUse();
 			otherHealSuccess = true;
 		}
+
 		return  (selfHealSuccess || otherHealSuccess);
 	}
 	
