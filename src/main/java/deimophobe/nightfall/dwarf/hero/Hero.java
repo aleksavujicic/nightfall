@@ -40,6 +40,9 @@ public class Hero extends Dwarf {
 		makeBlindImmune();
 		makePlagueImmune();
 		
+		// For temporary bow stuff
+		giveKitItems(KitGiveType.BOW);
+		
 		giveKitItems(KitGiveType.PICK);
 		giveKitItems(KitGiveType.SHOVEL);
 		
