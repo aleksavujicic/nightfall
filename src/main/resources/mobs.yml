@@ -696,6 +696,63 @@ bopen:
         flavour:
          - "Mmmmm.... comfy."
 
+magus:
+  title: Bopen
+  forcetitle: true
+
+  disguisetype: wither_skeleton
+
+  attack: 40
+  health: 100
+  speed: 10
+
+  proccable: false
+  resistance: 0.85
+  arrowres: 0.5
+  shred: 25
+  shrineimmune: true
+
+  armourslot: head
+  armour:
+    template: monster-hero
+    base: bonecrown
+    name: Crown of the Skeleton King
+    lore:
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+    modifiers:
+      kb-resist: 1
+  weapon:
+    template: monster-hero
+    material: gold_sword
+    name: Sharp Cutlass
+    lore:
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+  items:
+    steed:
+      template: monster-hero
+      base: aisword
+      name: "Skeleton King's Steed"
+      lore:
+        description:
+         - "Temp"
+        flavour:
+         - "Temp"
+    saddle:
+      template: monster-hero
+      material: saddle
+      name: "Skeleton King's Comfy Chair"
+      lore:
+        description:
+         - "Temp"
+        flavour:
+         - "Mmmmm.... comfy."
+
 
 plague-zombie:
   title: Plagued
