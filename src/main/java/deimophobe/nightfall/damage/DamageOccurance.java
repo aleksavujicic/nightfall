@@ -105,7 +105,10 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 					return name + " was touched by " + ChatColor.BLACK + "DEATH" + ChatColor.RESET + ".";
 				case MOBSPAWN:
 					return name + " was consumed by the source of the darkness.";
-				
+				case MISC_EXPLOSION:
+					return name + " was pushed to death.";
+
+
 				default:
 					return name + " died.";
 			}

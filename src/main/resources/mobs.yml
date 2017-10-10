@@ -269,7 +269,7 @@ wolf:
   disguisetype: wolf
 
   attack: 15
-  health: 25
+  health: 30
   speed: 10
 
   shred: 35
@@ -382,7 +382,7 @@ golem:
   proccable: false
   resistance: 0.85
   arrowres: 0.5
-  shred: 40
+  shred: 100
 
   armour:
     material: iron_block
@@ -411,13 +411,13 @@ wraith:
   disguisetype: stray
 
   attack: 20
-  health: 30
+  health: 25
   shred: 25
   speed: -20
 
   proccable: false
   canrun: false
-  resistance: 0.8
+  resistance: 0.85
   arrowres: 0.5
 
   armour:
@@ -450,7 +450,7 @@ minotaur:
 
   proccable: false
   resistance: 0.85
-  arrowres: 0.3
+  arrowres: 0.25
 
   armour:
     base: temporary
@@ -478,12 +478,11 @@ walker:
   disguisetype: skeleton
 
   attack: 20
-  health: 40
+  health: 50
   shred: 25
   speed: 50
 
   proccable: true
-  resistance: 0.7
 
   armourslot: head
   armour:
@@ -652,7 +651,7 @@ bopen:
 
   proccable: false
   resistance: 0.85
-  arrowres: 0.8
+  arrowres: 0.5
   shred: 25
   shrineimmune: true
 

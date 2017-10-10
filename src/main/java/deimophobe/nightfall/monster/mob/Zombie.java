@@ -6,9 +6,12 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.DudCooldown;
 import deimophobe.nightfall.cooldown.SimpleCooldown;
+import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Bukkit;
@@ -52,21 +55,25 @@ public class Zombie extends AbstractMob {
 		getArmour().addModifier(ItemModifierType.HEALTH, health, "Upgrade");
 	}
 	
-	private boolean didRebirth() {
+	protected boolean didRebirth() {
 		return rebirthLoc != null;
 	}
 	
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
-		if (didRebirth())
+		if (didRebirth()) {
 			giveSpawnProtection(12);
+		}
 	}
 	
 	@Override
 	public void tpToSpawn() {
-		if (didRebirth())
+		if (didRebirth()) {
 			monster.teleportTo(rebirthLoc);
+			DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), monster, CustomDamageType.GOBO_BOX_EXPLOSION, rebirthLoc, 2, 0, 1);
+		}
+
 		else
 			super.tpToSpawn();
 	}
