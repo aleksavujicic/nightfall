@@ -1,9 +1,8 @@
 package deimophobe.nightfall.map.feature;
 
-import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.InvalidMapConfigException;
-import org.bukkit.configuration.Configuration;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.lang.reflect.InvocationTargetException;
@@ -41,6 +40,7 @@ public class FeatureCreator {
 			throw new RuntimeException("Exception thrown in constructor of map feature '" + name + "'", e);
 		}
 		
+		Bukkit.getLogger().info("Activating feature '" + name + "'.");
 		feature.activate(map, config);
 		return feature;
 	}
