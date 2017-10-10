@@ -40,6 +40,9 @@ public class Hero extends Dwarf {
 		makeBlindImmune();
 		makePlagueImmune();
 		
+		// For temporary bow stuff
+		giveKitItems(KitGiveType.BOW);
+		
 		giveKitItems(KitGiveType.PICK);
 		giveKitItems(KitGiveType.SHOVEL);
 		
@@ -91,15 +94,16 @@ public class Hero extends Dwarf {
 	private static final Map<ConsumableType, Integer> EXTRA_ARTHEA_CONSUMABLES = new HashMap<>();
 	static {
 		HERO_CONSUMABLES.put(ConsumableType.COBBLESTONE, 256);
-		HERO_CONSUMABLES.put(ConsumableType.TORCH, 128);
-		HERO_CONSUMABLES.put(ConsumableType.WIZARD_MORTAR, 32);
+		HERO_CONSUMABLES.put(ConsumableType.WIZARD_MORTAR, 16);
 		HERO_CONSUMABLES.put(ConsumableType.MORTAR, 64);
-		HERO_CONSUMABLES.put(ConsumableType.LAMP, 20);
+		HERO_CONSUMABLES.put(ConsumableType.LAMP, 24);
+		HERO_CONSUMABLES.put(ConsumableType.SLAB, 3);
 		HERO_CONSUMABLES.put(ConsumableType.SOS, 1);
 		
 		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.SOS, 1);
-		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.LAMP, 44);
-		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.WIZARD_MORTAR, 32);
+		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.LAMP, 40);;
+		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.SLAB, 2);
+		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.WIZARD_MORTAR, 16);
 		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.COBBLESTONE, 128);
 		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.TORCH, 64);
 		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.MORTAR, 32);

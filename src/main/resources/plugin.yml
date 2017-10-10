@@ -39,6 +39,9 @@ commands:
   giveitem:
     usage: /giveitem <item-name>
     description: Give a custom item to yourself.
+  givearrow:
+    usage: /givearrow [amount]
+    description: Give arrows if you are a dwarf.
   hat:
     usage: /hat
     description: Lets kuude wear a fancy hat.
