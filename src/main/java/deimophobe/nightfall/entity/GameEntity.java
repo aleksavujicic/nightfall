@@ -61,6 +61,10 @@ public interface GameEntity<E extends LivingEntity> {
 		return getLocation().distance(entity.getLocation());
 	}
 	
+	default Vector offsetFrom(GameEntity entity) {
+		return getLocation().subtract(entity.getLocation()).toVector();
+	}
+	
 	default World getWorld() {
 		return getEntity().getWorld();
 	}

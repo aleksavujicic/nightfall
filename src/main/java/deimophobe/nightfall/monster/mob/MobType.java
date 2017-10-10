@@ -37,11 +37,11 @@ public enum MobType {
 	
 	KRUNGOR,
 	BOPEN,
+	MAGUS,
 	
 	TESTMOB,
 	
-	PLAGUE_ZOMBIE(false),
-	
+	PLAGUE_ZOMBIE(false)
 	;
 	
 	private final MobData mobData;
@@ -93,6 +93,7 @@ public enum MobType {
 			
 			case KRUNGOR: return new Krungor(monster);
 			case BOPEN: return new Bopen(monster);
+			case MAGUS: return new Magus(monster);
 			
 			case GB_DAGGER:
 			case GB_RUNEBLADE:
