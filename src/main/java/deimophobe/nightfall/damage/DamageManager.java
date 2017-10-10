@@ -93,24 +93,27 @@ public class DamageManager {
 	// ==============================
 	// ----------EXPLOSIONS----------
 	// ==============================
-	
-	
-	public void AOEDamage(Collection<? extends GameEntity> receivers, GameEntity attacker, CustomDamageType type, double range, double damage, double kbStrength, DamageModifier modifier) {
-		AOEDamage(receivers, attacker, type, attacker.getLocation(), range, damage, kbStrength, modifier);
-	}
-	
+
 	public void AOEDamage(Collection<? extends GameEntity> receivers, GameEntity attacker, CustomDamageType type, Location origin, double range, double damage, double kbStrength) {
-		AOEDamage(receivers, attacker, type, origin, range, damage, kbStrength, new DamageModifier());
+		AOEDamage(receivers, attacker, type, origin, range, damage, kbStrength, new DamageModifier(), false);
 	}
 	
-	public void AOEDamage(Collection<? extends GameEntity> receivers, GameEntity attacker, CustomDamageType type, Location origin, double range, double damage, double kbStrength, DamageModifier modifier) {
+	public void AOEDamage(Collection<? extends GameEntity> receivers, GameEntity attacker, CustomDamageType type, Location origin, double range, double damage, double kbStrength, boolean force) {
+		AOEDamage(receivers, attacker, type, origin, range, damage, kbStrength, new DamageModifier(), force);
+	}
+
+	public void AOEDamage(Collection<? extends GameEntity> receivers, GameEntity attacker, CustomDamageType type, double range, double damage, double kbStrength, DamageModifier modifier, boolean force) {
+		AOEDamage(receivers, attacker, type, attacker.getLocation(), range, damage, kbStrength, modifier, force);
+	}
+	
+	public void AOEDamage(Collection<? extends GameEntity> receivers, GameEntity attacker, CustomDamageType type, Location origin, double range, double damage, double kbStrength, DamageModifier modifier, boolean force) {
 		AOEDamage(receivers, attacker, type, origin, range,
 						(Vector v) -> damage,
 						(Vector v) -> v.clone().multiply(kbStrength / Math.sqrt(Math.max(1, v.length())) ),
-						modifier);
+						modifier, force);
 	}
 	
-	public void AOEDamage(Collection<? extends GameEntity> receivers, GameEntity attacker, CustomDamageType type, Location origin, double range, Function<Vector, Double> damageFunction, Function<Vector, Vector> knockbackFunction, DamageModifier modifier) {
+	public void AOEDamage(Collection<? extends GameEntity> receivers, GameEntity attacker, CustomDamageType type, Location origin, double range, Function<Vector, Double> damageFunction, Function<Vector, Vector> knockbackFunction, DamageModifier modifier, boolean force) {
 		for (GameEntity receiver : receivers) {
 			Vector offset = receiver.getLocation().subtract(origin).toVector();
 			if (offset.length() > range) continue;
@@ -121,7 +124,7 @@ public class DamageManager {
 			
 			GameDamage gameDamage = GameDamage.createDamage(attacker, receiver, type, damage);
 			modifier.applyToDamage(gameDamage);
-			gameDamage.fire();
+			gameDamage.fire(force);
 		}
 	}
 }

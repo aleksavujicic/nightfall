@@ -8,6 +8,7 @@ import deimophobe.nightfall.cooldown.DudCooldown;
 import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -85,8 +86,9 @@ public class Zombie_Husk extends Zombie {
         super.onSpawn();
         monster.givePermanentPotionEffect(PotionEffectType.ABSORPTION, (2 * toughskin));
         monster.givePermanentPotionEffect(PotionEffectType.REGENERATION, regen);
+        monster.doDamage(null, CustomDamageType.COMMAND, 0, true);
         if (didRebirth()) {
-            giveSpawnProtection(24);
+            giveSpawnProtection(30);
         }
     }
 
