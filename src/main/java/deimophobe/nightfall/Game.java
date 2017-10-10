@@ -94,7 +94,6 @@ public class Game {
 	private Game(GameMap map) {
 		game = this;
 		
-		Bukkit.getScheduler().cancelTasks(NightfallPlugin.getPlugin());
 		Loadout.restartAutoSaver();
 		
 		// Setup scoreboards and teams
@@ -140,6 +139,7 @@ public class Game {
 		TimedBlock.cancelAllBlocks();
 		
 		map.unload();
+		Bukkit.getScheduler().cancelTasks(NightfallPlugin.getPlugin());
 	}
 	
 	

@@ -204,6 +204,7 @@ public class GameListener implements Listener {
 			case THORNS:
 			case BLOCK_EXPLOSION:
 			case ENTITY_EXPLOSION:
+			case ENTITY_SWEEP_ATTACK:
 				event.setDamage(0);
 				event.setCancelled(true);
 				return;
@@ -376,6 +377,28 @@ public class GameListener implements Listener {
 			gp.onBlockBreak(event.getBlock());
 	}
 	
+	@EventHandler
+	public void preventWaterFlow(BlockFromToEvent event) {
+		Block toBlock = event.getToBlock();
+		if (event.getBlock().getType() == Material.STATIONARY_WATER) {
+			if (!toBlock.getRelative(0,-1,0).getType().isSolid()) return;
+			
+			int numFaceWaterBlocks = 0;
+			if (toBlock.getRelative(1,0,0).getType() == Material.STATIONARY_WATER)
+				numFaceWaterBlocks++;
+			if (toBlock.getRelative(-1,0,0).getType() == Material.STATIONARY_WATER)
+				numFaceWaterBlocks++;
+			if (toBlock.getRelative(0,0,1).getType() == Material.STATIONARY_WATER)
+				numFaceWaterBlocks++;
+			if (toBlock.getRelative(0,0,-1).getType() == Material.STATIONARY_WATER)
+				numFaceWaterBlocks++;
+			
+			if (numFaceWaterBlocks >= 2) return;
+			
+			event.setCancelled(true);
+		}
+	}
+	
 	
 	// Inventory/Items
 	@EventHandler
@@ -489,8 +512,9 @@ public class GameListener implements Listener {
 	}
 	
 	@EventHandler
-	public void preventMobPickup(PlayerPickupItemEvent event){
-		if (mm.isGamePlayer(event.getPlayer())) {
+	public void preventMobPickup(EntityPickupItemEvent event){
+		LivingEntity entity = event.getEntity();
+		if (entity instanceof Player && mm.isGamePlayer((Player) entity)) {
 			event.setCancelled(true);
 		}
 	}
