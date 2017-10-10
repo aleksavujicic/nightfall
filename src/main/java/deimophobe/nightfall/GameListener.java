@@ -376,6 +376,28 @@ public class GameListener implements Listener {
 			gp.onBlockBreak(event.getBlock());
 	}
 	
+	@EventHandler
+	public void preventWaterFlow(BlockFromToEvent event) {
+		Block toBlock = event.getToBlock();
+		if (event.getBlock().getType() == Material.STATIONARY_WATER) {
+			if (!toBlock.getRelative(0,-1,0).getType().isSolid()) return;
+			
+			int numFaceWaterBlocks = 0;
+			if (toBlock.getRelative(1,0,0).getType() == Material.STATIONARY_WATER)
+				numFaceWaterBlocks++;
+			if (toBlock.getRelative(-1,0,0).getType() == Material.STATIONARY_WATER)
+				numFaceWaterBlocks++;
+			if (toBlock.getRelative(0,0,1).getType() == Material.STATIONARY_WATER)
+				numFaceWaterBlocks++;
+			if (toBlock.getRelative(0,0,-1).getType() == Material.STATIONARY_WATER)
+				numFaceWaterBlocks++;
+			
+			if (numFaceWaterBlocks >= 2) return;
+			
+			event.setCancelled(true);
+		}
+	}
+	
 	
 	// Inventory/Items
 	@EventHandler
