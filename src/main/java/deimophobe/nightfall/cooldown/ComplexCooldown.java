@@ -76,6 +76,6 @@ public class ComplexCooldown {
 	}
 	
 	public boolean wasUsedWithin(int time) {
-		return (cd >= time);
+		return (cd >= maxCD - time);
 	}
 }
