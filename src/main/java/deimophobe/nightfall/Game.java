@@ -4,6 +4,7 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
+import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -31,10 +32,12 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.*;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -91,8 +94,6 @@ public class Game {
 	private final BossBar bossBar;
 	
 	private final Team lobbyTeam;
-	
-	public final Set<Player> readyPlayers;
 
 	private Game(GameMap map) {
 		game = this;
@@ -115,6 +116,13 @@ public class Game {
 		lobbyTeam = Misc.getNewTeam("lobbyTeam");
 		lobbyTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
 		readyPlayers = new HashSet<>();
+		readyNotifier = new BukkitRunnable() {
+			@Override
+			public void run() {
+				readyNotify();
+			}
+		};
+		readyNotifier.runTaskTimer(NightfallPlugin.getPlugin(), 0, 20);
 		
 		bossBar = Bukkit.createBossBar("", BarColor.BLUE, BarStyle.SOLID);
 		bossBar.setProgress(1);
@@ -182,6 +190,58 @@ public class Game {
 	
 	public boolean removeGamePlayer(Player player) {
 		return dwarfManager.removeGamePlayer(player, true) | monsterManager.removeGamePlayer(player, true);
+	}
+	
+	
+	// ------ PLAYER READINESS ------
+	private final Set<Player> readyPlayers;
+	private final BukkitRunnable readyNotifier;
+	
+	public boolean isReady(Player player) {
+		return readyPlayers.contains(player);
+	}
+	
+	public void readyPlayer(Player player) {
+		readyPlayers.add(player);
+		readyNotify(player);
+		
+		int numPlayers = Bukkit.getOnlinePlayers().size();
+		int numReady = readyPlayers.size();
+				
+		Bukkit.broadcastMessage(ChatColor.DARK_AQUA+ player.getName() + ChatColor.YELLOW + " is ready! (" +
+				ChatColor.AQUA + numReady + ChatColor.YELLOW + "/" + ChatColor.AQUA + numPlayers + ChatColor.YELLOW + ")");
+		
+		if (numReady == numPlayers) {
+			readyPlayers.clear();
+			startGame();
+			readyNotifier.cancel();
+		}
+	}
+	
+	public void unreadyPlayer(Player player) {
+		readyPlayers.remove(player);
+		readyNotify(player);
+		
+		int numPlayers = Bukkit.getOnlinePlayers().size();
+		int numReady = readyPlayers.size();
+		
+		Bukkit.broadcastMessage(ChatColor.DARK_AQUA + player.getName() + ChatColor.YELLOW + " is no longer ready! (" +
+				ChatColor.AQUA + numReady + ChatColor.YELLOW + "/" + ChatColor.AQUA + numPlayers + ChatColor.YELLOW + ")");
+	}
+	
+	private void readyNotify() {
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (isLobbyPlayer(player))
+				readyNotify(player);
+		}
+	}
+	
+	private void readyNotify(Player player) {
+		if (isReady(player))
+			ActionBarAPI.sendActionBar(player, ChatColor.GREEN + "You are ready!");
+		else
+			ActionBarAPI.sendActionBar(player, ChatColor.RED + "Do /ready when you have chosen a kit!");
+			
 	}
 	
 	
