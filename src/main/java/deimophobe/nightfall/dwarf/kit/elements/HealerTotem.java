@@ -10,6 +10,7 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.items.CustomItem;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -116,21 +117,27 @@ class HealerTotem extends AbstractItem {
 				target.regenMana(25);
 				target.getArmour().repair(50);
 				target.heal(8);
-				
-				Location healerLoc = dwarf.getPlayer().getEyeLocation().subtract(0, 0.5, 0);
-				Location healeeLoc = target.getPlayer().getEyeLocation().subtract(0, 0.5, 0);
-				
-				Vector direction = healeeLoc.subtract(healerLoc).toVector();
-				Vector delta = direction.multiply(0.5 / distance);
-				
-				int times = (int) (distance / 0.5);
-				dwarf.getPlayer().getWorld().spawnParticle(Particle.END_ROD, healerLoc, 3, 0.2, 0.2, 0.2, 0.03);
-				for (int i = 0; i <= times; i++) {
-					Location newLoc = healerLoc.add(delta.multiply(1));
-					dwarf.getPlayer().getWorld().spawnParticle(Particle.END_ROD, newLoc, 3, 0.2, 0.2, 0.2, 0.03);
-				}
 			} else {
 				deactivateTargetHealing();
+			}
+		}
+		if (hasTarget()) {
+			double distance = dwarf.distanceTo(target);
+			World world = dwarf.getWorld();
+			
+			Location healerLoc = dwarf.getPlayer().getEyeLocation().subtract(0, 0.5, 0);
+			Location healeeLoc = target.getPlayer().getEyeLocation().subtract(0, 0.5, 0);
+			world.spawnParticle(Particle.END_ROD, healeeLoc, 1, 0.3, 0.3, 0.3, 0.03);
+			world.spawnParticle(Particle.END_ROD, healerLoc, 1, 0.3, 0.3, 0.3, 0.03);
+			
+			Vector direction = healeeLoc.subtract(healerLoc).toVector();
+			Vector delta = direction.multiply(0.25 / distance);
+			
+			int times = (int) (distance / 0.25);
+			world.spawnParticle(Particle.REDSTONE, healerLoc, 0, 1, 0, 0.2, 1);
+			for (int i = 0; i <= times; i++) {
+				Location newLoc = healerLoc.add(delta);
+				world.spawnParticle(Particle.REDSTONE, newLoc, 0, 1, 0, 0.2, 1);
 			}
 		}
 	}

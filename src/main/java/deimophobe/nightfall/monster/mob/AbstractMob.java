@@ -200,12 +200,19 @@ public abstract class AbstractMob implements Mob {
 	
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
-		if (monster.hasPotionEffect(PotionEffectType.LUCK))
+		if (monster.hasPotionEffect(PotionEffectType.LUCK)) {
+			damage.setProc(false);
 			damage.cancel();
+			return;
+		}
 		
 		if (!mobData.proccable) damage.setProc(false);
 		damage.getDamage().setMultiplier(1 - mobData.damageRes);
 		damage.getArrowRes().setBase(mobData.arrowRes);
+		
+		if (!damage.isCancelled() && hasDisguise()) {
+			monster.playSound("entity.generic.hurt", 1f, 1f, true);
+		}
 	}
 	
 	@Override

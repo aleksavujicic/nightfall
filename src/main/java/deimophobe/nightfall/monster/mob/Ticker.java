@@ -42,6 +42,18 @@ class Ticker extends AbstractMob {
 			else
 				tick();
 		}
+		
+		float frac = 1 - (float)deathTimer/maxTime;
+		
+		double red = (r2 - r1)*frac + r1;
+		double green = (g2 - g1)*frac + g1;
+		double blue = (b2 - b1)*frac + b1;
+		red *= 1d/256;
+		green *= 1d/256;
+		blue *= 1d/256;
+		
+		Location loc = monster.getEyeLocation();
+		loc.getWorld().spawnParticle(Particle.REDSTONE,loc, 0, red, green, blue,1);
 	}
 	
 	@Override
@@ -62,9 +74,11 @@ class Ticker extends AbstractMob {
 		return (float)deathTimer/maxTime;
 	}
 	
+	
+	private static final double r1 = 51, g1 = 248, b1 = 14;
+	private static final double r2 = 249, g2 = 53, b2 = 14;
+	
 	private void tick() {
-		Location loc = monster.getEyeLocation();
-		loc.getWorld().spawnParticle(Particle.NOTE,loc, 0, 0, 0, 0,0);
 		
 		// Sound
 		monster.playSound("block.note.hat", 1f, 1f, true);
@@ -101,7 +115,7 @@ class Ticker extends AbstractMob {
 				
 				Vector offset = dwarf.getLocation().subtract(monster.getLocation()).toVector();
 				offset.normalize();
-				offset.add(new Vector(0,1,0));
+				offset.add(new Vector(0,5,0));
 				offset.multiply(5*affectRate);
 				
 				double damageDealt = DAMAGE*affectRate;

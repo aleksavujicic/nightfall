@@ -610,22 +610,19 @@ public class NightfallPlugin extends JavaPlugin {
 			if (sender instanceof Player) {
 				Player player = (Player) sender;
 				if (game.isLobbyPlayer(player)) {
-					int numPlayers = Bukkit.getOnlinePlayers().size();
-					if (game.readyPlayers.remove(player)) {
-						Bukkit.broadcastMessage(ChatColor.DARK_AQUA + player.getName() + ChatColor.YELLOW + " is no longer ready! (" +
-								ChatColor.AQUA + game.readyPlayers.size() + ChatColor.YELLOW + "/" + ChatColor.AQUA + numPlayers + ChatColor.YELLOW + ")");
+					if (!game.isReady(player)) {
+						game.readyPlayer(player);
 					} else {
-						game.readyPlayers.add(player);
-						Bukkit.broadcastMessage(ChatColor.DARK_AQUA+ player.getName() + ChatColor.YELLOW + " is ready! (" +
-								ChatColor.AQUA + game.readyPlayers.size() + ChatColor.YELLOW + "/" + ChatColor.AQUA + numPlayers + ChatColor.YELLOW + ")");
-						if (game.readyPlayers.size() == numPlayers) {
-							game.readyPlayers.clear();
-							game.startGame();
-						}
+						game.unreadyPlayer(player);
 					}
 				}
 				return true;
 			}
+		}
+		
+		if (name.equalsIgnoreCase("readylist")) {
+			sender.sendMessage(game.readyList());
+			return true;
 		}
 
 		if (name.equalsIgnoreCase("forcestart")) {
