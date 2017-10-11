@@ -34,6 +34,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -90,7 +92,8 @@ public class Game {
 	
 	private final Team lobbyTeam;
 	
-	
+	public final Set<Player> readyPlayers;
+
 	private Game(GameMap map) {
 		game = this;
 		
@@ -111,7 +114,7 @@ public class Game {
 		
 		lobbyTeam = Misc.getNewTeam("lobbyTeam");
 		lobbyTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-		
+		readyPlayers = new HashSet<>();
 		
 		bossBar = Bukkit.createBossBar("", BarColor.BLUE, BarStyle.SOLID);
 		bossBar.setProgress(1);

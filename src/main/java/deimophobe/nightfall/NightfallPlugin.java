@@ -57,7 +57,6 @@ public class NightfallPlugin extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
-		//Bukkit.getLogger().info("AYYYY LMAO");
 		plugin = this;
 		
 		setupPacketEvents();
@@ -572,6 +571,7 @@ public class NightfallPlugin extends JavaPlugin {
 				return true;
 			}
 		}
+
 		if (name.equalsIgnoreCase("stuck")) {
 			if (sender instanceof Player) {
 				Player player = (Player) sender;
@@ -582,6 +582,7 @@ public class NightfallPlugin extends JavaPlugin {
 				return true;
 			}
 		}
+
 		if (name.equalsIgnoreCase("explore")) {
 			if (sender instanceof Player) {
 				Player player = (Player) sender;
@@ -592,6 +593,7 @@ public class NightfallPlugin extends JavaPlugin {
 				return true;
 			}
 		}
+
 		if (name.equalsIgnoreCase("hat")) {
 			if (sender instanceof Player) {
 				Player player = (Player) sender;
@@ -603,10 +605,34 @@ public class NightfallPlugin extends JavaPlugin {
 				return true;
 			}
 		}
+
+		if (name.equalsIgnoreCase("ready")) {
+			if (sender instanceof Player) {
+				Player player = (Player) sender;
+				if (game.isLobbyPlayer(player)) {
+					int numPlayers = Bukkit.getOnlinePlayers().size();
+					if (game.readyPlayers.remove(player)) {
+						Bukkit.broadcastMessage(ChatColor.DARK_AQUA + player.getName() + ChatColor.YELLOW + " is no longer ready! (" +
+								ChatColor.AQUA + game.readyPlayers.size() + ChatColor.YELLOW + "/" + ChatColor.AQUA + numPlayers + ChatColor.YELLOW + ")");
+					} else {
+						game.readyPlayers.add(player);
+						Bukkit.broadcastMessage(ChatColor.DARK_AQUA+ player.getName() + ChatColor.YELLOW + " is ready! (" +
+								ChatColor.AQUA + game.readyPlayers.size() + ChatColor.YELLOW + "/" + ChatColor.AQUA + numPlayers + ChatColor.YELLOW + ")");
+						if (game.readyPlayers.size() == numPlayers) {
+							game.readyPlayers.clear();
+							game.startGame();
+						}
+					}
+				}
+				return true;
+			}
+		}
+
 		if (name.equalsIgnoreCase("forcestart")) {
 			game.startGame();
 			return true;
 		}
+
 		if (name.equalsIgnoreCase("forceplague")) {
 			if (args.length == 0) {
 				game.startPlague();
@@ -627,6 +653,7 @@ public class NightfallPlugin extends JavaPlugin {
 				DoomManager.getManager().reduceDoom(10000);
 			return true;
 		}
+
 		if (name.equalsIgnoreCase("summondoom")) {
 			if (args.length == 0) {
 				sender.sendMessage(ChatColor.RED + "Please specify a doom.");
@@ -663,6 +690,7 @@ public class NightfallPlugin extends JavaPlugin {
 				sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
 			}
 		}
+
 		if (name.equalsIgnoreCase("who")) {
 			sender.sendMessage(dm.getPlayerList() + "\n" +  mm.getPlayerList());
 			return true;
