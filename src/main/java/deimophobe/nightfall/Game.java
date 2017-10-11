@@ -39,8 +39,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 15/01/17.
@@ -248,7 +247,37 @@ public class Game {
 			ActionBarAPI.sendActionBar(player, ChatColor.GREEN + "You are ready!");
 		else
 			ActionBarAPI.sendActionBar(player, ChatColor.RED + "Do /ready when you have chosen a kit!");
-			
+	}
+	
+	public String readyList() {
+		StringBuilder sb = new StringBuilder();
+		SortedSet<String> readyPlayers = new TreeSet<>();
+		SortedSet<String> unreadyPlayers = new TreeSet<>();
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (isReady(player))
+				readyPlayers.add(player.getName());
+			else
+				unreadyPlayers.add(player.getName());
+		}
+		
+		sb.append(ChatColor.GREEN + "READY: " + ChatColor.RESET);
+		for (String name : readyPlayers) {
+			sb.append(name);
+			sb.append(", ");
+		}
+		if (readyPlayers.size() != 0)
+			sb.setLength(sb.length() - 2);
+		
+		sb.append("\n");
+		sb.append(ChatColor.RED + "UNREADY: " + ChatColor.RESET);
+		for (String name : unreadyPlayers) {
+			sb.append(name);
+			sb.append(", ");
+		}
+		if (unreadyPlayers.size() != 0)
+			sb.setLength(sb.length() - 2);
+		
+		return sb.toString();
 	}
 	
 	

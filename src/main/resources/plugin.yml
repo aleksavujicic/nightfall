@@ -74,6 +74,9 @@ commands:
   ready:
     description: Before game start, use to alert the game that you are ready.
     usage: /ready
+  readylist:
+    description: List all ready players
+    usage: /readylist
   forcestart:
     description: Forces the game to start.
     usage: /forcestart

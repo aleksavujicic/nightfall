@@ -619,6 +619,11 @@ public class NightfallPlugin extends JavaPlugin {
 				return true;
 			}
 		}
+		
+		if (name.equalsIgnoreCase("readylist")) {
+			sender.sendMessage(game.readyList());
+			return true;
+		}
 
 		if (name.equalsIgnoreCase("forcestart")) {
 			game.startGame();
