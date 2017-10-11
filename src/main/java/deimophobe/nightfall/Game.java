@@ -203,6 +203,8 @@ public class Game {
 	}
 	
 	public void readyPlayer(Player player) {
+		if (phase != Phase.STARTING) return;
+		
 		readyPlayers.add(player);
 		readyNotify(player);
 		
@@ -222,6 +224,8 @@ public class Game {
 	}
 	
 	public void unreadyPlayer(Player player) {
+		if (phase != Phase.STARTING) return;
+		
 		readyPlayers.remove(player);
 		readyNotify(player);
 		
