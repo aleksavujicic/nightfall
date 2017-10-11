@@ -136,7 +136,7 @@ toughskin:
 
 regen:
   index: 12
-  cost: [100, 200]
+  cost: [50, 100, 150]
   prereq:
     husk: 1
   item:
@@ -198,7 +198,7 @@ stagger:
     husk: 1
     shred-husk: 5
     toughskin: 5
-    regen: 2
+    regen: 3
     arrow-husk: 3
     rebirth-husk: 5
     vampirism-husk: 3
