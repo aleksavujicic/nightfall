@@ -52,13 +52,20 @@ public class Hero extends Dwarf {
 	@Override
 	public void onRemove() {
 		super.onRemove();
-		
-		// Bit of a hack but should rarely be a problem
-		new BukkitRunnable() {
-			@Override public void run() {
-				SkinManager.getManager().removeSkinChange(Hero.this);
-			}
-		}.runTaskLater(NightfallPlugin.getPlugin(), 20);
+	}
+	
+	@Override
+	public void notifyDeath(Dwarf dwarf) {
+		super.notifyDeath(dwarf);
+		if (dwarf == this) {
+			// Bit of a hack but should rarely be a problem
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					SkinManager.getManager().removeSkinChange(Hero.this);
+				}
+			}.runTaskLater(NightfallPlugin.getPlugin(), 20);
+		}
 	}
 	
 	private void announceHero() {
@@ -120,7 +127,7 @@ public class Hero extends Dwarf {
 				KitElementType.WAND,
 				KitElementType.ROCKET_BOOTS),
 		
-		ARTHEA("Arthea", Hat.ARTHEA, "arthea", "Dwarven Hero", ChatColor.RED,
+		ARTHEA("Arthea", Hat.ARTHEA, "arthea", "Dwarven Hero", ChatColor.DARK_RED,
 				EXTRA_ARTHEA_CONSUMABLES,
 				KitElementType.HEALER_TOTEM,
 				KitElementType.CADUCEUS,
