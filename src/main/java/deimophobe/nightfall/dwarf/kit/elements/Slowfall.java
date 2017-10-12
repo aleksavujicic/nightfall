@@ -5,7 +5,9 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
+import org.bukkit.Particle;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 /**
  * Created by Deimophobe on 27/03/17.
@@ -29,6 +31,11 @@ public class Slowfall extends AbstractElement {
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		cooldown.update();
+		if (cooldown.isAvailable()) {
+			randomSparkle();
+		} else if (cooldown.wasUsedWithin(8*20)) {
+			usedSparkle();
+		}
 	}
 	
 	@Override
@@ -47,6 +54,27 @@ public class Slowfall extends AbstractElement {
 		if (!sneaking && !dwarf.hasPotionEffect(PotionEffectType.LEVITATION) && !dwarf.getPlayer().isOnGround()) {
 			cooldown.tryUse();
 		}
+	}
+	
+	private void randomSparkle() {
+		if (Math.random() <= 0.5) {
+			double dx = Math.random() - 0.5;
+			double dy = Math.random()*0.2;
+			double dz = Math.random() - 0.5;
+			dwarf.getWorld().spawnParticle(Particle.REDSTONE, dwarf.getLocation().add(dx, dy, dz), 0, 1, 1, 1, 1);
+		}
+		if (Math.random() <= 0.2) {
+			dwarf.getWorld().spawnParticle(Particle.END_ROD, dwarf.getLocation(), 1, 0.3, 0.2, 0.3, 0);
+		}
+	}
+	
+	private double theta = 0;
+	private void usedSparkle() {
+		theta = (theta + 0.25) % (2 * Math.PI);
+		Vector offset = new Vector(Math.cos(theta), 0, Math.sin(theta)).multiply(0.2);
+		dwarf.getWorld().spawnParticle(Particle.END_ROD, dwarf.getLocation().add(offset), 1, 0, 0, 0, 0);
+		dwarf.getWorld().spawnParticle(Particle.END_ROD, dwarf.getLocation().add(offset.multiply(-1)), 1, 0, 0, 0, 0);
+		
 	}
 	
 	private void slowfall() {
