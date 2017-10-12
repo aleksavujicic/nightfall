@@ -80,7 +80,6 @@ public class SkinManager {
 		refreshSkin(uuid);
 	}
 	
-	
 	public void removeSkinChange(GamePlayer player) {
 		removeSkinChange(player.getUniqueId());
 	}
@@ -91,6 +90,21 @@ public class SkinManager {
 		alteredSkins.remove(uuid);
 		refreshSkin(uuid);
 	}
+	
+	public void silentlyRemoveSkinChange(GamePlayer player) {
+		silentlyRemoveSkinChange(player.getUniqueId());
+	}
+	public void silentlyRemoveSkinChange(UUID uuid) {
+		alteredSkins.remove(uuid);
+	}
+	
+	public void updateSkin(GamePlayer player) {
+		updateSkin(player.getUniqueId());
+	}
+	public void updateSkin(UUID uuid) {
+		refreshSkin(uuid);
+	}
+	
 	
 	private void refreshSkin(UUID uuid) {
 		Player player = Bukkit.getPlayer(uuid);
