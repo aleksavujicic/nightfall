@@ -15,7 +15,7 @@ warrior-class:
     cobblestone: 128
     wrench: 2
   item:
-    template: "loadout-drk"
+    template: "loadout-class"
     name: "Warrior Kit"
     material: diamond_hoe
     lore:
@@ -54,7 +54,7 @@ ranger-class:
     wizard_mortar: 32
     lamp: 24
   item:
-    template: "loadout-drk"
+    template: "loadout-class"
     name: "Ranger Kit"
     material: diamond_hoe
     lore:
@@ -95,7 +95,7 @@ beserker-class:
     sos: 1
     wrench: 2
   item:
-    template: "loadout-drk"
+    template: "loadout-class"
     name: "Beserker Kit"
     material: diamond_hoe
     lore:
@@ -135,7 +135,7 @@ elven-class:
     sos: 1
     heal_station: 1
   item:
-    template: "loadout-drk"
+    template: "loadout-class"
     name: "Elven Kit"
     material: diamond_hoe
     lore:
@@ -173,7 +173,7 @@ gnome-class:
     sos: 2
     slab: 3
   item:
-    template: "loadout-drk"
+    template: "loadout-class"
     name: "Gnome Kit"
     material: diamond_hoe
     lore:
@@ -211,7 +211,7 @@ paladin-class:
     wizard_mortar: 32
     lamp: 24
   item:
-    template: "loadout-drk"
+    template: "loadout-class"
     name: "Paladin Kit"
     material: diamond_hoe
     lore:
@@ -253,7 +253,7 @@ cleric-class:
     wizard_mortar: 64
     lamp: 32
   item:
-    template: "loadout-drk"
+    template: "loadout-class"
     name: "Cleric Kit"
     material: diamond_hoe
     lore:
@@ -294,7 +294,7 @@ hunter-class:
     sos: 1
     wrench: 2
   item:
-    template: "loadout-drk"
+    template: "loadout-class"
     name: "Hunter Kit"
     material: diamond_hoe
     lore:
