@@ -37,23 +37,25 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 
 		// Setup back/rebirth/doom items
 		MenuItem<MonsterPlayer> zombiePage = new IndexedPageChanger<>(getConfigItem("zombie-page"), this, PageType.ZOMBIE_UPGRADE);
+		MenuItem<MonsterPlayer> goboPage = new IndexedPageChanger<>(getConfigItem("gobo-page"), this, PageType.GOBO_UPGRADE);
 		MenuItem<MonsterPlayer> rebirthItem = new RebirthItem(getConfigItem("rebirth"));
 		MenuItem<MonsterPlayer> doomItem = new DoomClockItem(getConfigItem("doomclock"), 250, 15);
 		
 		// Add items to front menu
 		addSpawnEgg(0, "zombie");
-		addSpawnEgg(1, "gobo");
-		addSpawnEgg(11, "witherskele");
-		addSpawnEgg(12, "flamelancer");
-		addSpawnEgg(13, "wolf");
-		addSpawnEgg(14, "spiderling");
-		addSpawnEgg(15, "rat");
-		addSpawnEgg(16, "golem");
+		addSpawnEgg(2, "gobo");
+		addSpawnEgg(12, "witherskele");
+		addSpawnEgg(13, "flamelancer");
+		addSpawnEgg(14, "wolf");
+		addSpawnEgg(15, "spiderling");
+		addSpawnEgg(16, "rat");
+		addSpawnEgg(23, "golem");
 		addSpawnEgg(24, "minotaur");
 		addSpawnEgg(25, "wraith");
 		
 		frontMenu.setItem(8, doomItem);
 		frontMenu.setItem(9, zombiePage);
+		frontMenu.setItem(11, goboPage);
 		frontMenu.setItem(18, rebirthItem);
 
 		for (SpawnMenu.PageType pageType : SpawnMenu.PageType.values()) {
