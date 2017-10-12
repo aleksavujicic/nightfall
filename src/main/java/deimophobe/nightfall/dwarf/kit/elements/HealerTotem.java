@@ -134,10 +134,10 @@ class HealerTotem extends AbstractItem {
 			Vector delta = direction.multiply(0.25 / distance);
 			
 			int times = (int) (distance / 0.25);
-			world.spawnParticle(Particle.REDSTONE, healerLoc, 0, 1, 1, 1, 1);
+			world.spawnParticle(Particle.REDSTONE, healerLoc, 0, 0.8, 0.1, 0.6, 1);
 			for (int i = 0; i <= times; i++) {
 				Location newLoc = healerLoc.add(delta);
-				world.spawnParticle(Particle.REDSTONE, newLoc, 0, 1, 1, 1, 1);
+				world.spawnParticle(Particle.REDSTONE, newLoc, 0, 0.8, 0.1, 0.6, 1);
 			}
 		}
 	}
