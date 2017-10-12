@@ -1,26 +1,11 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.Game;
-import deimophobe.nightfall.Misc;
-import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.cooldown.Cooldown;
-import deimophobe.nightfall.cooldown.DudCooldown;
-import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.damage.DamageManager;
-import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
-import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import java.util.Map;
 
@@ -39,11 +24,11 @@ public class Zombie extends AbstractMob {
 	}
 
 	public Zombie(MonsterPlayer mons, Location rebirth) {
-		this(mons, rebirth, MobType.ZOMBIE);
+		this(mons, rebirth, MobType.ZOMBIE.getMobData());
 	}
 
-	protected Zombie(MonsterPlayer mons, Location rebirth, MobType zombieType) {
-		super(mons, zombieType);
+	protected Zombie(MonsterPlayer mons, Location rebirth, MobData zombieData) {
+		super(mons, MobType.ZOMBIE, zombieData);
 		this.rebirthChance = 0;
 		this.rebirthLoc = rebirth;
 		
