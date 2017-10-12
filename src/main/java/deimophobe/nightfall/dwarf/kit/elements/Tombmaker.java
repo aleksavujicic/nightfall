@@ -1,8 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Misc;
-import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -10,7 +8,6 @@ import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.items.CustomItem;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -35,7 +32,7 @@ class Tombmaker extends AbstractCooldownItem {
 	
 	@Override
 	public void onKill(MonsterDamage damage) {
-		if (itemCausedDamage(damage) && dwarf.hasProc())
+		if (itemCausedDamage(damage) && dwarf.hasKitElement(KitElementType.GRB))
 			dwarf.giveProc(ProcType.REGULAR);
 	}
 	
@@ -52,8 +49,10 @@ class Tombmaker extends AbstractCooldownItem {
 	
 	@Override
 	public void onBlockBreak(Block block) {
+		/*
 		if (block.getType() == Material.GRAVEL && Game.getGame().getPhase() == Phase.GAME) {
 			dwarf.giveProc(ProcType.GRAVEL_PROC);
 		}
+		*/
 	}
 }

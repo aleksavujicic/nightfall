@@ -276,15 +276,6 @@ page1:
     item:
       name: "Dagger"
       base: dagger
-  tombmaker:
-    index: 4
-    type: item
-    name: tombmaker
-    category: sword
-    cost: 4
-    item:
-      name: "Tombmaker"
-      base: tombmaker
   tigerfist:
     enabled: false
     index: 5
@@ -531,6 +522,14 @@ page2:
     item:
       name: "Avenge"
       base: avenge
+  tombmaker:
+    index: 5
+    type: item
+    name: tombmaker
+    cost: 8
+    item:
+      name: "Tombmaker"
+      base: tombmaker
 
 
   # ------ CONSUMABLES ------
