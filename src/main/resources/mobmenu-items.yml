@@ -2,6 +2,10 @@ zombie-page:
   base: upgrade_zombie
   name: Upgrade Zombie
 
+gobo-page:
+  base: upgrade_gobo
+  name: Upgrade Goblin
+
 doomclock:
   base: doom_clock
   name: Reduce Doom
