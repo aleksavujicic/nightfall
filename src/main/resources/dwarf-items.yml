@@ -178,9 +178,9 @@ bow:
     name: Turret
     lore:
       description:
-       - ""
+       - "A turret that fires arrows."
       flavour:
-       - ""
+       - "\"It still needs some work.\" - Nosovin"
   volcanic:
     base: volcanic
     name: Volcanic Bow
@@ -247,15 +247,20 @@ ale:
     name: Chugging Ale
     lore:
       description:
-       - "DRK FILL DIS IN TY"
+       - "Left click to heal for a small\n
+          amount of health. You are able to\n
+          spam this as much as you want\n
+          be careful and watch your Mana!"
       flavour:
-       - "poop"
+       - "\"One of Potion Sellers experimental potions. Use with care.\" "
   strong:
     base: strong
     name: Potion Seller's Strongest Potion
     lore:
       description:
-       - ""
+       - "A very strong potion, making you feel like a hero\n
+          with damage reduction, however it uses 300\n
+          mana."
       flavour:
        - "\"My potions are too strong for you traveller.\" - Potion Seller"
 
