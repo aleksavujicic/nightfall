@@ -14,15 +14,15 @@ import org.bukkit.scheduler.BukkitRunnable;
 class TitlePlayer extends BukkitRunnable {
 	private static final Title[] titles = new Title[] {
 			new Title(  "", ChatColor.BLUE + "Be prepared for", 40),
-            new Title(ChatColor.BLUE + "N", ChatColor.BLUE + "Be prepared for", 2),
+            /*new Title(ChatColor.BLUE + "N", ChatColor.BLUE + "Be prepared for", 2),
             new Title(ChatColor.BLUE + "Ni", ChatColor.BLUE + "Be prepared for",  2),
             new Title(ChatColor.BLUE + "Nig", ChatColor.BLUE + "Be prepared for", 2),
             new Title(ChatColor.BLUE + "Nigh", ChatColor.BLUE + "Be prepared for",  2),
             new Title(ChatColor.BLUE + "Night", ChatColor.BLUE + "Be prepared for",  2),
             new Title(ChatColor.BLUE + "NightF", ChatColor.BLUE + "Be prepared for",  2),
             new Title(ChatColor.BLUE + "NightFa", ChatColor.BLUE + "Be prepared for", 2),
-            new Title(ChatColor.BLUE + "NightFal", ChatColor.BLUE + "Be prepared for",  2),
-            new Title(ChatColor.BLUE + "NightFall", ChatColor.BLUE + "Be prepared for",  20),
+            new Title(ChatColor.BLUE + "NightFal", ChatColor.BLUE + "Be prepared for",  2),*/
+            new Title(ChatColor.BLUE + "NightFall", ChatColor.BLUE + "Be prepared for",  40),
             new Title(ChatColor.DARK_RED + "N" + ChatColor.BLUE + "ightFall" , ChatColor.BLUE + "Be prepared for",  2),
             new Title(ChatColor.DARK_RED + "Ni" + ChatColor.BLUE + "ghtFall" , ChatColor.BLUE + "Be prepared for",  2),
             new Title(ChatColor.DARK_RED + "Nig" + ChatColor.BLUE + "htFall" , ChatColor.BLUE + "Be prepared for",  2),
@@ -65,7 +65,8 @@ class TitlePlayer extends BukkitRunnable {
 				Sounds.DWARF_INTRO_MUSIC.playSound(player);
 			
 			if (titleIndex == 1) {
-				player.playSound("entity.wolf.howl", 1000, 0.8f, false);
+				//player.playSound("entity.wolf.howl", 1000, 0.8f, false);
+				player.playSound("entity.wither.spawn", 1000, 0.5f, false);
 			}
 			
 			Title title = titles[titleIndex];
@@ -96,7 +97,7 @@ class TitlePlayer extends BukkitRunnable {
 		}
 		
 		private void play(GamePlayer player) {
-			player.getPlayer().sendTitle(title, subtitle, 0, duration, 20);
+			player.getPlayer().sendTitle(title, "", 0, duration, 20);
 		}
 	}
 }
