@@ -127,6 +127,9 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 	
 	
 	
+	public boolean isEnabled() {
+		return enabled;
+	}
 	
 	@Override
 	public ItemStack getDisplayItem(MenuSession<Loadout> session) {
