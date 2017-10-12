@@ -351,6 +351,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			return;
 		}
 		
+		if (isFrozen())
+			return;
+		
 		if (mob != null)
 			mob.onUse(action, clickedBlock, blockFace);
 	}
