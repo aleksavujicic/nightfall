@@ -1,30 +1,20 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.Game;
-import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.cooldown.Cooldown;
-import deimophobe.nightfall.cooldown.DudCooldown;
-import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
-import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import java.util.Map;
 
 /**
  * Created by TKiwisi on 9/22/17.
  */
-public class Zombie_Husk extends Zombie {
+public class ZombieHusk extends Zombie {
 
     private final int vampirism;
     private final double arrowRes;
@@ -39,11 +29,11 @@ public class Zombie_Husk extends Zombie {
     private static Integer[] arrowResValues = {0, 25, 40, 50};
     private static Integer[] rebirthValues = {0, 50, 100, 150, 200, 250};
 
-    protected Zombie_Husk(MonsterPlayer mons) {
+    protected ZombieHusk(MonsterPlayer mons) {
         this(mons, null);
     }
 
-    public Zombie_Husk(MonsterPlayer mons, Location rebirth) {
+    public ZombieHusk(MonsterPlayer mons, Location rebirth) {
         super(mons, rebirth, MobType.ZOMBIE_HUSK);
 
         Map<String, Integer> upgrades = monster.getUpgrades(MobType.ZOMBIE);

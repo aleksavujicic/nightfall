@@ -1,6 +1,5 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
@@ -8,11 +7,9 @@ import deimophobe.nightfall.cooldown.DudCooldown;
 import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import me.libraryaddict.disguise.disguisetypes.watchers.AgeableWatcher;
 import me.libraryaddict.disguise.disguisetypes.watchers.ZombieWatcher;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -26,7 +23,7 @@ import java.util.Map;
 /**
  * Created by TKiwisi on 10/06/17.
  */
-public class Zombie_Saboteur extends Zombie {
+public class ZombieSaboteur extends Zombie {
 
     private final int vampirism;
     private final int armourShred;
@@ -42,11 +39,11 @@ public class Zombie_Saboteur extends Zombie {
 
     private static Integer[] shredValues = {0, 5, 10, 15};
 
-    protected Zombie_Saboteur(MonsterPlayer mons) {
+    protected ZombieSaboteur(MonsterPlayer mons) {
         this(mons, null);
     }
 
-    public Zombie_Saboteur(MonsterPlayer mons, Location rebirth) {
+    public ZombieSaboteur(MonsterPlayer mons, Location rebirth) {
         super(mons, rebirth, MobType.ZOMBIE_SABOTEUR);
 
         Map<String, Integer> upgrades = monster.getUpgrades(MobType.ZOMBIE);

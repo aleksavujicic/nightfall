@@ -70,13 +70,13 @@ public enum MobType {
 		switch (this) {
 			case ZOMBIE: {
 				if (monster.getUpgrades(MobType.ZOMBIE).computeIfAbsent("husk", (k) -> 0) == 1) {
-					return new Zombie_Husk(monster);
+					return new ZombieHusk(monster);
 				}
 				else if (monster.getUpgrades(MobType.ZOMBIE).computeIfAbsent("fury", (k) -> 0) == 1) {
-					return new Zombie_Fury(monster);
+					return new ZombieFury(monster);
 				}
 				else if (monster.getUpgrades(MobType.ZOMBIE).computeIfAbsent("saboteur", (k) -> 0) == 1) {
-					return new Zombie_Saboteur(monster);
+					return new ZombieSaboteur(monster);
 				}
 				else {
 					return new Zombie(monster);
