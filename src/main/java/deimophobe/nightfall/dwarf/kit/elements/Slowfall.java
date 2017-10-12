@@ -14,11 +14,13 @@ import org.bukkit.util.Vector;
  */
 public class Slowfall extends AbstractElement {
 	private final ComplexCooldown cooldown;
+	private final boolean hasSlow;
 	
 	private static final double RESISTANCE = 0.8;
 	
 	public Slowfall(Dwarf dwarf, boolean hasSlow) {
 		super(dwarf);
+		this.hasSlow = hasSlow;
 		if (hasSlow) {
 			cooldown = new ComplexCooldown(30*20, this::slowfall, null);
 		} else {
@@ -31,10 +33,12 @@ public class Slowfall extends AbstractElement {
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		cooldown.update();
-		if (cooldown.isAvailable()) {
-			randomSparkle();
-		} else if (cooldown.wasUsedWithin(8*20)) {
-			usedSparkle();
+		if (hasSlow) {
+			if (cooldown.isAvailable()) {
+				randomSparkle();
+			} else if (cooldown.wasUsedWithin(8 * 20)) {
+				usedSparkle();
+			}
 		}
 	}
 	
