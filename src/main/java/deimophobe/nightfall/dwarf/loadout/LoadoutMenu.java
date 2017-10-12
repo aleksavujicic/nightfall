@@ -16,7 +16,7 @@ import java.util.List;
  * Created by Deimophobe on 2/03/17.
  */
 public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Loadout> {
-	private static final LoadoutMenu menu = new LoadoutMenu(Misc.getInternalFileConfig("loadout.yml"));
+	private static final LoadoutMenu menu = new LoadoutMenu();
 	public static LoadoutMenu getMenu() {return menu;}
 	
 	public static void loadMenu() {
@@ -27,16 +27,14 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 	private static final int EXTRA_SIZE = 1*9;
 	private static final String TITLE = "Select a kit";
 	
-	private static final String ITEM_SECTION = "specialitems";
-	
-	private LoadoutMenu(ConfigurationSection config) {
+	private LoadoutMenu() {
 		// Setup menus
 		List<LoadoutPage> tempPages = new ArrayList<>();
-		for (String key : config.getKeys(false)) {
-			if (!key.equals(ITEM_SECTION)) {
-				tempPages.add(new LoadoutPage(config.getConfigurationSection(key)));
-			}
-		}
+		tempPages.add(new LoadoutPage(Misc.getInternalFileConfig("loadout/page-classes.yml")));
+		tempPages.add(new LoadoutPage(Misc.getInternalFileConfig("loadout/page-weapons.yml")));
+		tempPages.add(new LoadoutPage(Misc.getInternalFileConfig("loadout/page-accessory.yml")));
+		tempPages.add(new LoadoutPage(Misc.getInternalFileConfig("loadout/page-cosmetic.yml")));
+		
 		MultiPageMenu<Loadout> pages = new MultiPageMenu<>(tempPages);
 		SimpleMenu<Loadout> toolbar = new SimpleMenu<>(EXTRA_SIZE);
 		
@@ -44,7 +42,7 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 		addSubMenu(toolbar);
 		
 		// Add items for toolbar
-		ConfigurationSection itemConfig = config.getConfigurationSection(ITEM_SECTION);
+		ConfigurationSection itemConfig = Misc.getInternalFileConfig("loadout/special-items.yml");
 		ItemStack back = CustomItem.getItem(itemConfig.getConfigurationSection("back"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
 		ItemStack forward = CustomItem.getItem(itemConfig.getConfigurationSection("forward"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
 		ItemStack close = CustomItem.getItem(itemConfig.getConfigurationSection("close"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
