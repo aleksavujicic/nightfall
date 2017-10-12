@@ -133,7 +133,7 @@ elven-class:
     mortar: 32
     cobblestone: 256
     sos: 1
-    heal_station: 1
+    heal_station: 2
   item:
     template: "loadout-class"
     name: "Elven Kit"
@@ -152,7 +152,7 @@ elven-class:
           *32 Mortar\n
           *256 Cobblestone\n
           *1 Sword of Santification\n
-          *1 Heal Station"
+          *2 Heal Station"
 
 gnome-class:
   index: 4
@@ -188,7 +188,7 @@ gnome-class:
           *Avenge\n
           *32 Torches\n
           *32 Mortar\n
-          *19 Cobblestone\n
+          *128 Cobblestone\n
           *2 Swords of Santification\n
           *3 Slabs"
 
