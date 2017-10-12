@@ -11,6 +11,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -20,8 +22,8 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 	
 	private static final int SIZE = 27;
 	private final SimpleMenu<MonsterPlayer> frontMenu;
-	private final ZombieUpgradeMenu zombieMenu;
-	
+	private final Map<MobType, Set<String>> upgradeSets;
+
 	@Override public String getTitle() { return "Monster Menu"; }
 	@Override public MonsterPlayer getDataFromPlayer(Player player) {return MonsterManager.getManager().getGamePlayer(player);}
 	@Override protected PageType getDefault() {return PageType.MAIN;}
@@ -30,9 +32,9 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		// Setup front menu
 		frontMenu = new SimpleMenu<>(SIZE);
 		MenuItem<MonsterPlayer> backItem = new IndexedPageChanger<>(getConfigItem("back"), this, PageType.MAIN);
-		zombieMenu = new ZombieUpgradeMenu(backItem);
 		setPage(PageType.MAIN, frontMenu);
-		setPage(PageType.ZOMBIE_UPGRADE, zombieMenu);
+		upgradeSets = new HashMap<>();
+
 		// Setup back/rebirth/doom items
 		MenuItem<MonsterPlayer> zombiePage = new IndexedPageChanger<>(getConfigItem("zombie-page"), this, PageType.ZOMBIE_UPGRADE);
 		MenuItem<MonsterPlayer> rebirthItem = new RebirthItem(getConfigItem("rebirth"));
@@ -53,6 +55,22 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		frontMenu.setItem(8, doomItem);
 		frontMenu.setItem(9, zombiePage);
 		frontMenu.setItem(18, rebirthItem);
+
+		for (SpawnMenu.PageType pageType : SpawnMenu.PageType.values()) {
+			String file = pageType.filename;
+			MobType type = pageType.type;
+			if (file != null) {
+				UpgradeMenu upgradeMenu = new UpgradeMenu(Misc.getInternalFileConfig(file), type);
+				upgradeMenu.setItem(0, SpawnEggMenuItem.getEgg(type));
+				if (type == MobType.ZOMBIE) {
+					upgradeMenu.setItem(9, rebirthItem);
+				}
+				upgradeMenu.setItem(18, backItem);
+
+				setPage(pageType, upgradeMenu);
+				upgradeSets.put(type, upgradeMenu.getUpgrades());
+			}
+		}
 	}
 	
 	private static final YamlConfiguration itemConfig = Misc.getInternalFileConfig("mobmenu-items.yml");
@@ -72,14 +90,29 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 	}
 
 	public Set<String> getUpgradeSet(MobType type) {
-
-		return zombieMenu.getUpgradeSet(type);
+		if (upgradeSets.containsKey(type)) {
+			return upgradeSets.get(type);
+		} else {
+			throw new IllegalArgumentException("Mob type: " + type + " has no upgrade page.");
+		}
 	}
 
-	// This is a bit hacky but does the job p well.
 	enum PageType {
 		MAIN,
-		ZOMBIE_UPGRADE,
-		GOBO_UPGRADE
+		ZOMBIE_UPGRADE("zombie-upgrades.yml", MobType.ZOMBIE),
+		GOBO_UPGRADE("gobo-upgrades.yml", MobType.GOBO);
+
+		private final String filename;
+		private final MobType type;
+
+		PageType() {
+			filename = null;
+			type = null;
+		}
+
+		PageType(String filename, MobType type) {
+			this.filename = filename;
+			this.type = type;
+		}
 	}
 }
