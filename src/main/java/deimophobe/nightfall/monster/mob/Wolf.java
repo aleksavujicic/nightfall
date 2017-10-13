@@ -121,7 +121,7 @@ class Wolf extends AbstractMob {
 		if (dwarf != null) {
 			double heal;
 			if (isHellhound())
-				heal = 8;
+				heal = 6;
 			else
 				heal = 6;
 			
