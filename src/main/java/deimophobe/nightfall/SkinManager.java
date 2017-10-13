@@ -67,6 +67,10 @@ public class SkinManager {
 		for (UUID uuid : new HashSet<>(alteredSkins.keySet())) {
 			removeSkinChange(uuid);
 		}
+		
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			updateSkin(player);
+		}
 	}
 	
 	public void addSkinChange(GamePlayer player, Skin skin) {
@@ -94,11 +98,17 @@ public class SkinManager {
 	public void silentlyRemoveSkinChange(GamePlayer player) {
 		silentlyRemoveSkinChange(player.getUniqueId());
 	}
+	public void silentlyRemoveSkinChange(Player player) {
+		silentlyRemoveSkinChange(player.getUniqueId());
+	}
 	public void silentlyRemoveSkinChange(UUID uuid) {
 		alteredSkins.remove(uuid);
 	}
 	
 	public void updateSkin(GamePlayer player) {
+		updateSkin(player.getUniqueId());
+	}
+	public void updateSkin(Player player) {
 		updateSkin(player.getUniqueId());
 	}
 	public void updateSkin(UUID uuid) {

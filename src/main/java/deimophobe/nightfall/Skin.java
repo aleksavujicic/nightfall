@@ -28,6 +28,17 @@ public class Skin {
 		sign = section.getString("sign");
 	}
 	
+	private Skin(Skin existing, String newName) {
+		this.name = newName;
+		this.value = existing.value;
+		this.sign = existing.sign;
+	}
+	
+	public Skin withNewName(String name) {
+		return new Skin(this, name);
+	}
+	
+	
 	private static Map<String, Skin> skins = new HashMap<>();
 	static {
 		ConfigurationSection skinData =Misc.getInternalFileConfig("skin.yml");
@@ -46,6 +57,7 @@ public class Skin {
 		
 		return skins.get(skinName);
 	}
+	
 	
 	
 	public WrappedGameProfile getProfile(UUID uuid) {
