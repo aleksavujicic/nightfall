@@ -45,3 +45,19 @@ health-inf:
     lore:
       description:
         - "Further increases your health."
+
+kaboom:
+  index: 11
+  cost: 300
+  prereq:
+    supplies: 3
+    health: 3
+  exclusiveWith:
+  # blaze: 1
+  item:
+    base: kaboom
+    name: "Kaboom"
+    lore:
+      description:
+        - "Become a gobo that can kaboom,\n
+           blowing yourself up to deal huge damage."

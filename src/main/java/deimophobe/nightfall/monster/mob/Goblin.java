@@ -5,6 +5,9 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.blocks.timedblock.GoboBox;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.DudCooldown;
+import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -34,6 +37,16 @@ class Goblin extends AbstractMob {
 	protected Map<String, Integer> upgrades;
 
 	private int supplies;
+	private boolean kaboom;
+	private boolean kaboomTrigger;
+
+	private Cooldown placeboxCD;
+	private Cooldown throwboxCD;
+	private Cooldown kaboomCD;
+
+	private static final int MAX_PLACE_CD = 10;
+	private static final int MAX_THROW_CD = 20;
+	private static final int MAX_KABOOM_CD = 40;
 
 	protected Goblin(MonsterPlayer mons) {
 		super(mons, MobType.GOBO);
@@ -42,55 +55,58 @@ class Goblin extends AbstractMob {
 
 		this.supplies = (upgrades.get("supplies") + upgrades.get("supplies-inf"))*2;
 		int health = (upgrades.get("health") + upgrades.get("health-inf"));
+		if (upgrades.get("kaboom") == 1) {
+			this.kaboom = true;
+			kaboomCD = new ComplexCooldown(MAX_KABOOM_CD);
+			kaboomCD.reset();
+		} else {
+			this.kaboom = false;
+			kaboomCD = new DudCooldown();
+		}
+		this.kaboomTrigger = false;
+
 		getArmour().addModifier(ItemModifierType.HEALTH, health, "Upgrade");
+
+		this.placeboxCD = new ComplexCooldown(MAX_PLACE_CD);
+		this.throwboxCD = new ComplexCooldown(MAX_THROW_CD);
+
 	}
 
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
 		giveItem("gobo-box", (2+ supplies));
-		giveItem("kaboom", 1);
+		if (kaboom) {
+			giveItem("kaboom", 1);
+		}
 	}
 
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		if (placeBoxCD > 0)
-			placeBoxCD--;
-
-		if (throwBoxCD > 0)
-			throwBoxCD--;
-
-		if (kaboomCD > 0 && kaboomCD < MAX_KABOOM_CD) {
-			kaboomCD++;
-		}
-
-		if (kaboomCD == MAX_KABOOM_CD) {
-			kaboom();
+		placeboxCD.update();
+		throwboxCD.update();
+		if (kaboomTrigger) {
+			kaboomCD.update();
+			if (kaboomCD.isAvailable()) {
+				kaboom();
+			}
 		}
 	}
-	
-	private static final int MAX_PLACE_CD = 10;
-	private static final int MAX_THROW_CD = 20;
-	private int placeBoxCD = 0;
-	private int throwBoxCD = 0;
-	
-	private static final int MAX_KABOOM_CD = 40;
-	private int kaboomCD = 0;
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		Location loc = monster.getLocation();
 		World world = monster.getLocation().getWorld();
 
-		if (Misc.isRightClick(action) && isPlayerHoldingItem("gobo-box") && placeBoxCD == 0 && clickedBlock != null && clickedBlock.getType() != Material.ENDER_STONE) {
+		if (Misc.isRightClick(action) && isPlayerHoldingItem("gobo-box") && placeboxCD.isAvailable() && clickedBlock != null && clickedBlock.getType() != Material.ENDER_STONE) {
 			Block block = clickedBlock.getRelative(blockFace);
 			if ((monster.getTargetBlock(null, 5).getType() != Material.AIR) && (TimedBlock.placeTimedBlock(new GoboBox(block, 100, 5, monster)))) {
 				monster.useHeldItem();
-				placeBoxCD = MAX_PLACE_CD;
+				placeboxCD.reset();
 			}
 		}
 		// Throw gobo box
-		if (Misc.isLeftClick(action) && isPlayerHoldingItem("gobo-box") && (monster.getHeldItem().getAmount() >= 2) && throwBoxCD == 0) {
+		if (Misc.isLeftClick(action) && isPlayerHoldingItem("gobo-box") && (monster.getHeldItem().getAmount() >= 2) && throwboxCD.isAvailable()) {
 
 			Vector direction = monster.getEyeLocation().getDirection();
 			direction.setX((direction.getX() / 1.8));
@@ -103,12 +119,12 @@ class Goblin extends AbstractMob {
 			world.playSound(loc, "entity.firework.launch", 2, (float) 0.5);
 			monster.useHeldItem();
 			monster.useHeldItem();
-			throwBoxCD = MAX_THROW_CD;
+			throwboxCD.reset();
 		}
 
-		if (Misc.isLeftClick(action) && isPlayerHoldingItem("kaboom") && kaboomCD == 0) {
+		if (Misc.isLeftClick(action) && isPlayerHoldingItem("kaboom") && !kaboomTrigger) {
 			monster.givePotionEffect(PotionEffectType.SPEED, MAX_KABOOM_CD, 4, true, true, true);
-			kaboomCD = 1;
+			kaboomTrigger = true;
 		}
 	}
 	
@@ -132,11 +148,12 @@ class Goblin extends AbstractMob {
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
-		kaboomCD = 0;
+		kaboomCD.reset();
+		kaboomTrigger = false;
 	}
 
 	@Override
 	public float getCooldown() {
-		return (float)kaboomCD/MAX_KABOOM_CD;
+		return kaboomCD.fractionComplete();
 	}
 }
