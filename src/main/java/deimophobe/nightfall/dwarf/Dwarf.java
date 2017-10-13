@@ -529,6 +529,13 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 				GameMap.getCurrentMap().mineGold();
 				Sounds.DWARF_MINE_GOLD.playSound(this);
 				break;
+				
+			case DIAMOND_ORE:
+				int newLevel = Math.min(getPotionEffectLevel(PotionEffectType.ABSORPTION) + 1, 5);
+				int duration = Math.min(getPotionEffectDuration(PotionEffectType.ABSORPTION) + 30*20, 5*30*20);
+				givePotionEffect(PotionEffectType.ABSORPTION, duration, newLevel, true, false, true);
+				Sounds.DWARF_MINE_DIAMOND.playSound(this);
+				break;
 		}
 	}
 	

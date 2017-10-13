@@ -190,6 +190,16 @@ bow:
           its path. Uses 3 arrows a shot."
       flavour:
        - "\"And then the Firelords attacked.\" -Tui"
+  velbow:
+    template: dwarf-hero
+    base: dskin
+    name: "Pyrrhic"
+    lore:
+      description:
+       - "Kills with this bow give\n
+          a proc for 3 seconds."
+      flavour:
+       - "\"Feel the PROC pulsing through your bow.\" - Velvetine"
 ale:
   healing:
     base: healing_ale
@@ -568,12 +578,12 @@ hero:
   velsword:
     template: dwarf-hero
     base: velsword
-    name: "Pyrrhic"
+    name: "Nyneve"
     lore:
       description:
-       - "You can thank fawn for the name."
+       - ""
       flavour:
-       - "NANANANANANANANANANANANANANA BATMAN"
+       - ""
     modifiers:
       attack: 25
       kb_resist: 1

@@ -181,6 +181,18 @@ public interface GameEntity<E extends LivingEntity> {
 		return getEntity().hasPotionEffect(type);
 	}
 	
+	default int getPotionEffectLevel(PotionEffectType type) {
+		PotionEffect effect = getEntity().getPotionEffect(type);
+		if (effect == null) return 0;
+		return effect.getAmplifier() + 1;
+	}
+	
+	default int getPotionEffectDuration(PotionEffectType type) {
+		PotionEffect effect = getEntity().getPotionEffect(type);
+		if (effect == null) return 0;
+		return effect.getDuration();
+	}
+	
 	default void removePotionEffect(PotionEffectType type) {
 		getEntity().removePotionEffect(type);
 	}
