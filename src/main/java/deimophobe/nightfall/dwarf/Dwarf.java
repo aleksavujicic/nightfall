@@ -466,7 +466,16 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		if (mobspawnCount == 6)
 			givePermanentPotionEffect(PotionEffectType.CONFUSION,1);
 	}
-
+	
+	
+	// ------ MISC -------
+	@Override
+	public void heal(double amt) {
+		if (hasKitElement(KitElementType.STRONG_ALE))
+			amt = amt/3;
+		
+		super.heal(amt);
+	}
 	
 	// ------ EVENTS ------
 	@Override
