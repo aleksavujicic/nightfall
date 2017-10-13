@@ -196,7 +196,7 @@ ale:
     name: Healing Ale
     lore:
       description:
-       - "Left click to heal yourself for &b100&r mana."
+       - "Left click to heal yourself for &b$manacost&r mana."
       flavour:
        - "\"Less fancier than the stars, but still nifty.\" - Arthea"
   jj:
@@ -205,8 +205,8 @@ ale:
     lore:
       description:
        - "The starting ale for new players.\n
-          Auto heal for &b120&r mana or\n
-          Left Click to heal for &b100&r mana."
+          Auto heal for &b$autocost&r mana or\n
+          Left Click to heal for &b$manacost&r mana."
       flavour:
        - "\"I'm just glad that you &ocan&r drink your juice.\" - Velvetine"
   holy:
@@ -215,7 +215,7 @@ ale:
     lore:
       description:
        - "Left click to heal yourself
-         for &b100&r mana\n and gain
+         for &b$manacost&r mana\n and gain
          &b8&r absorption hearts."
       flavour:
        - "\"It's in the name! This things the holy grail of dwarves.\" - Tui"
@@ -225,7 +225,7 @@ ale:
     lore:
       description:
        - "Left click to heal yourself\n
-          for &b200&r mana and gain\n
+          for &b$manacost&r mana and gain\n
           &b20 absorption hearts&r.\n
           You also gain permanent regen."
       flavour:
@@ -236,7 +236,7 @@ ale:
     lore:
       description:
        - "Left click to heal yourself\n
-          for &b100&r mana.\n
+          for &b$manacost&r mana.\n
           Right click on dwarves heals\n
           them and their armour at the cost\n
           of your mana."
@@ -259,7 +259,7 @@ ale:
     lore:
       description:
        - "A very strong potion, making you feel like a hero\n
-          with damage reduction, however it uses 300\n
+          with damage reduction, however it uses $manacost\n
           mana."
       flavour:
        - "\"My potions are too strong for you traveller.\" - Potion Seller"

@@ -1,20 +1,20 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.items.CustomItem;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 22/01/17.
  */
 class HolyAle extends AbstractAle {
+	private final static int MANA_COST = 100;
+	
 	HolyAle(Dwarf dwarf) {
-		super(dwarf, 100);
+		super(dwarf, MANA_COST);
 	}
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("ale.holy", Slot.MAIN_HAND);
+	private final static CustomItem ITEM = getAle("holy", MANA_COST);
 	@Override public CustomItem getItem() { return ITEM; }
 	
 	@Override

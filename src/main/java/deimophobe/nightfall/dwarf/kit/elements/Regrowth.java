@@ -2,13 +2,9 @@ package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
-import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.items.CustomItem;
-import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -20,15 +16,15 @@ import org.bukkit.util.Vector;
  * Created by Deimophobe on 22/01/17.
  */
 class Regrowth extends AbstractAle {
+	private final static int MANA_COST = 100;
 
-	private ComplexCooldown healOthersCD;
+	private final ComplexCooldown healOthersCD = new ComplexCooldown(20, this::tryHealOthers);
 
 	Regrowth(Dwarf dwarf) {
-		super(dwarf, 100);
-		this.healOthersCD = new ComplexCooldown(20, this::tryHealOthers, null);
+		super(dwarf, MANA_COST);
 	}
-
-	private final static CustomItem ITEM = DwarvenItems.getItem("ale.regrowth", Slot.MAIN_HAND);
+	
+	private final static CustomItem ITEM = getAle("regrowth", MANA_COST);
 	@Override public CustomItem getItem() { return ITEM; }
 	
 	@Override
@@ -75,7 +71,7 @@ class Regrowth extends AbstractAle {
 		}
 		
 		
-		healee.getArmour().repair(10);
+		healee.getArmour().repair(15);
 		healee.heal(5);
 		healee.regenMana(5);
 	}

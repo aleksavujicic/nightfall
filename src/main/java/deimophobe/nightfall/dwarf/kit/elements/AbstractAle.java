@@ -3,7 +3,9 @@ package deimophobe.nightfall.dwarf.kit.elements;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.items.CustomItem;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -16,6 +18,12 @@ abstract class AbstractAle extends AbstractItem {
 	private final static int DEFAULT_MAX_CD = 20;
 	private final int manaCost;
 	protected final ComplexCooldown cooldown;
+	
+	protected static CustomItem getAle(String name, int manaCost) {
+		CustomItem item = DwarvenItems.getItem("ale." + name);
+		item.applyVariable("manacost", ""+manaCost);
+		return item;
+	}
 	
 	public AbstractAle(Dwarf dwarf, int manaCost) {
 		this(dwarf, manaCost, DEFAULT_MAX_CD);
