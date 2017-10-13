@@ -71,7 +71,7 @@ class Goblin extends AbstractMob {
 
 		if (Misc.isRightClick(action) && isPlayerHoldingItem("gobo-box") && placeBoxCD == 0 && clickedBlock != null && clickedBlock.getType() != Material.ENDER_STONE) {
 			Block block = clickedBlock.getRelative(blockFace);
-			if (TimedBlock.placeTimedBlock(new GoboBox(block, 50, 5, monster))) {
+			if (TimedBlock.placeTimedBlock(new GoboBox(block, 100, 5, monster))) {
 				monster.useHeldItem();
 			}
 			placeBoxCD = MAX_PLACE_CD;
