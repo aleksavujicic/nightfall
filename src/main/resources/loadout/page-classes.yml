@@ -140,7 +140,10 @@ elven-class:
     material: diamond_hoe
     lore:
       description:
-       - ""
+       - "Unlike their Ranger counterparts, this class\n
+          makes you feel like an Elf, with increased speed\n
+          low light vision, and quick strikes. However\n
+          armour is quite weak so it is best to keep moving."
 
       contains:
        - "*Dagger\n
@@ -178,7 +181,11 @@ gnome-class:
     material: diamond_hoe
     lore:
       description:
-       - ""
+       - "Gnomes were always magically adept, and this\n
+          shows with their mighty volcanic bows. Using three\n
+          arrows per shot, demons burn and crumble. Using the\n
+          magic of the Quiver artifact, the Gnomes were able to\n
+          sustain their rate of fire."
 
       contains:
        - "*Hammer\n
