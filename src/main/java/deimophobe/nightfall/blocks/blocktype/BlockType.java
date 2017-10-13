@@ -142,6 +142,8 @@ public class BlockType {
 			SHULKER_BOX,
 			SHARED_CHEST,
 			new MaterialSet(
+					Material.BED,
+					Material.BED_BLOCK,
 					Material.HOPPER,
 					Material.WORKBENCH,
 					Material.FURNACE,
