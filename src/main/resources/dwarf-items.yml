@@ -568,7 +568,7 @@ hero:
   velsword:
     template: dwarf-hero
     base: velsword
-    name: "Batman"
+    name: "Pyrrhic"
     lore:
       description:
        - "You can thank fawn for the name."
