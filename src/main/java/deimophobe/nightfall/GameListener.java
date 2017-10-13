@@ -374,7 +374,7 @@ public class GameListener implements Listener {
 		
 		GamePlayer gp = game.getGamePlayer(event.getPlayer());
 		if (gp != null)
-			gp.onBlockBreak(event.getBlock());
+			gp.onBlockBreak(event.getBlock(), !event.isCancelled());
 	}
 	
 	@EventHandler

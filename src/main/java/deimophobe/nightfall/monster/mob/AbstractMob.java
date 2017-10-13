@@ -223,8 +223,8 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	@Override
-	public void onBlockBreak(Block block) {
-		if (block.getType() == Material.TORCH)
+	public void onBlockBreak(Block block, boolean didBreak) {
+		if (block.getType() == Material.TORCH && didBreak)
 			monster.gainXP(mobData.torchXP, false);
 	}
 	

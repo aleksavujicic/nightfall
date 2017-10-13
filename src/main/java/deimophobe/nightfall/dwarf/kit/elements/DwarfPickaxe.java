@@ -101,8 +101,8 @@ class DwarfPickaxe extends AbstractItem implements KitCooldownElement {
 	}
 	
 	@Override
-	public void onBlockBreak(Block block) {
-		if (block != null && block.getType() == Material.GOLD_BLOCK) {
+	public void onBlockBreak(Block block, boolean didBreak) {
+		if (block != null && block.getType() == Material.GOLD_BLOCK && didBreak) {
 			dwarf.giveConsumable(ConsumableType.ARMOUR_ITEM);
 			dwarf.playSound("block.anvil.destroy", 1, 0.5f, true);
 		}

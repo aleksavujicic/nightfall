@@ -26,7 +26,7 @@ class DwarfAxe extends AbstractItem {
 	
 	
 	@Override
-	public void onBlockBreak(Block block) {
+	public void onBlockBreak(Block block, boolean didBreak) {
 		if (block.getType() == Material.LOG || block.getType() == Material.LOG_2) {
 			dwarf.giveConsumable(ConsumableType.LOG, 2);
 		}

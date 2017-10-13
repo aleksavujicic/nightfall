@@ -37,5 +37,5 @@ abstract class AbstractItem extends AbstractElement implements KitItemElement {
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {return false;}
 	
 	@Override
-	public void onBlockBreak(Block block) {}
+	public void onBlockBreak(Block block, boolean didBreak) {}
 }
