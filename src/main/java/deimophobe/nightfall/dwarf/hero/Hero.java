@@ -40,9 +40,6 @@ public class Hero extends Dwarf {
 		makeBlindImmune();
 		makePlagueImmune();
 		
-		// For temporary bow stuff
-		giveKitItems(KitGiveType.BOW);
-		
 		giveKitItems(KitGiveType.PICK);
 		giveKitItems(KitGiveType.SHOVEL);
 		
@@ -136,7 +133,7 @@ public class Hero extends Dwarf {
 		
 		VELVETINE("Velvetine", Hat.VELVETINE, "velvetine", "Dwarven Hero", ChatColor.DARK_PURPLE,
 				KitElementType.VELSWORD,
-				KitElementType.DRAGONSKIN,
+				KitElementType.VELBOW,
 				KitElementType.HORN
 				),
 		

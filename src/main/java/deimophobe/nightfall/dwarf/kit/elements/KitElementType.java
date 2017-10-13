@@ -73,7 +73,8 @@ public enum KitElementType {
 	ELYSTRIA,
 	
 	HORN,
-	VELSWORD
+	VELSWORD,
+	VELBOW
 	
 	;
 	
@@ -168,6 +169,7 @@ public enum KitElementType {
 			
 			case HORN: return new Horn(dwarf);
 			case VELSWORD: return new VelSword(dwarf);
+			case VELBOW: return new VelBow(dwarf);
 		}
 		throw new UnsupportedOperationException("Unimplemented element type: " + this);
 	}
