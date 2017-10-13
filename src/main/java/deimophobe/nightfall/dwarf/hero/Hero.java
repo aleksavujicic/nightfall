@@ -50,6 +50,8 @@ public class Hero extends Dwarf {
 	public void onRemove() {
 		super.onRemove();
 		SkinManager.getManager().silentlyRemoveSkinChange(this);
+		if (!player.isDead())
+			SkinManager.getManager().updateSkin(this);
 	}
 	
 	@Override

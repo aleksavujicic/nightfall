@@ -7,6 +7,8 @@ import com.comphenix.protocol.events.*;
 import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 import deimophobe.nightfall.Hat;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.Skin;
+import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
@@ -130,6 +132,7 @@ public class Arthea extends Hero {
 	
 	@Override
 	public void notifyDeath(Dwarf dwarf) {
+		super.notifyDeath(dwarf);
 		if (dwarf == this) {
 			player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
 			//cancelGlow();
@@ -167,14 +170,9 @@ public class Arthea extends Hero {
 		
 		player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
 		
-		setTitle(ChatColor.DARK_PURPLE, "Arthea", true);
-		/* TODO
-		PlayerDisguise disguise = Skin.getSkin("arthea").getDisguise(ChatColor.DARK_PURPLE + "Arthea");
-		disguise.setKeepDisguiseOnPlayerDeath(false);
-		disguise.setViewSelfDisguise(false);
-		disguise.setDisplayedInTab(true);
-		DisguiseAPI.disguiseEntity(player, disguise);
-		*/
+		setTitle(ChatColor.DARK_RED, "Arthea", true);
+		Skin newSkin = Skin.getSkin("arthea").withNewName(ChatColor.DARK_RED + "Arthea");
+		SkinManager.getManager().addSkinChange(this, newSkin);
 	}
 	
 	private void startEnrage() {
@@ -183,6 +181,7 @@ public class Arthea extends Hero {
 		super.givePotionEffect(PotionEffectType.NIGHT_VISION, ENRAGE_DURATION, 1, true, false, true);
 		super.givePotionEffect(PotionEffectType.FIRE_RESISTANCE, ENRAGE_DURATION, 1, true, false, true);
 		super.givePotionEffect(PotionEffectType.JUMP, ENRAGE_DURATION, 3, true, false, true);
+		super.givePotionEffect(PotionEffectType.GLOWING, ENRAGE_DURATION, 3, true, false, true);
 		
 		doDamage(null, CustomDamageType.BLOOD_MAGIC, 10, true);
 		
