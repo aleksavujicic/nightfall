@@ -1,0 +1,47 @@
+supplies:
+  index: 2
+  cost: [50, 75, 100, 125, 150]
+  item:
+    material: ender_stone
+    name: "Upgrade Supplies"
+    lore:
+      description:
+        - "Increases your amount of explosives."
+
+supplies-inf:
+  index: 2
+  cost: 250
+  permanent: true
+  prereq:
+    supplies: 5
+  item:
+    material: ender_stone
+    name: "Upgrade Supplies (inf)"
+    shiny: true
+    lore:
+      description:
+        - "Further increases your amount of explosives."
+
+health:
+  index: 6
+  cost: [50, 75, 100, 125, 150]
+  item:
+    material: rotten_flesh
+    name: "Upgrade Health"
+    lore:
+      description:
+        - "Increases your health."
+
+health-inf:
+  index: 6
+  cost: 250
+  permanent: true
+  prereq:
+    health: 5
+  item:
+    material: rotten_flesh
+    name: "Upgrade Health (inf)"
+    shiny: true
+    lore:
+      description:
+        - "Further increases your health."

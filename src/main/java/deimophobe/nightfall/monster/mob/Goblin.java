@@ -10,6 +10,7 @@ import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -23,22 +24,34 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import java.util.Map;
+
 /**
  * Created by Deimophobe on 28/02/17.
  */
 class Goblin extends AbstractMob {
 
+	protected Map<String, Integer> upgrades;
+
+	private int supplies;
+
+	protected Goblin(MonsterPlayer mons) {
+		super(mons, MobType.GOBO);
+
+		upgrades = monster.getUpgrades(MobType.GOBO);
+
+		this.supplies = (upgrades.get("supplies") + upgrades.get("supplies-inf"))*2;
+		int health = (upgrades.get("health") + upgrades.get("health-inf"));
+		getArmour().addModifier(ItemModifierType.HEALTH, health, "Upgrade");
+	}
+
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
-		giveItem("gobo-box", 8);
+		giveItem("gobo-box", (2+ supplies));
 		giveItem("kaboom", 1);
 	}
-	
-	protected Goblin(MonsterPlayer mons) {
-		super(mons, MobType.GOBO);
-	}
-	
+
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		if (placeBoxCD > 0)
