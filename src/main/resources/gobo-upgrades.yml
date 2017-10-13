@@ -6,7 +6,10 @@ supplies:
     name: "Upgrade Supplies"
     lore:
       description:
-        - "Increases your amount of explosives."
+        - "Increases your amount of explosives.\n
+           Upgrade supplies and health to lvl 3\n
+           to unlock subclasses."
+
 
 supplies-inf:
   index: 2
@@ -22,6 +25,7 @@ supplies-inf:
       description:
         - "Further increases your amount of explosives."
 
+
 health:
   index: 6
   cost: [50, 75, 100, 125, 150]
@@ -30,7 +34,10 @@ health:
     name: "Upgrade Health"
     lore:
       description:
-        - "Increases your health."
+        - "Increases your health.\n
+           Upgrade supplies and health to lvl 3\n
+           to unlock subclasses."
+
 
 health-inf:
   index: 6
@@ -45,6 +52,7 @@ health-inf:
     lore:
       description:
         - "Further increases your health."
+
 
 kaboom:
   index: 11
@@ -61,3 +69,33 @@ kaboom:
       description:
         - "Become a gobo that can kaboom,\n
            blowing yourself up to deal huge damage."
+
+
+############################
+# KABOOM SUBCLASS UPGRADES #
+############################
+
+dest:
+  index: 10
+  cost: [20, 40, 60, 80, 100]
+  prereq:
+    saboteur: 1
+  item:
+    material: tnt
+    name: Destruction
+    lore:
+      description:
+        - "Explosions destroy more blocks."
+
+
+shrapnel:
+  index: 10
+  cost: [20, 40, 60, 80, 100]
+  prereq:
+    saboteur: 1
+  item:
+    material: tnt
+    name: Destruction
+    lore:
+      description:
+        - "Explosions destroy more blocks."
