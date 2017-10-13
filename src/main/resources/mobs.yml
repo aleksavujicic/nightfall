@@ -23,7 +23,6 @@ zombie:
       description:
        - "Left click to attack dwarves, shredding\n
           their armour and dealing damage.\n
-          Right click to leap with the upgrade."
       flavour:
        - "A cross between a runeblade hilt and\n
           plank debris. The dead use anything of\n
@@ -148,8 +147,8 @@ gobo:
        - "Kaaaaaaaaaaaaaa."
     bound: true
   weapon:
-    material: wood_pickaxe
-    name: Gobo Pick
+    base: zombiesword
+    name: Gobo Dagger
     lore:
       description:
        - "A weak weapon that is used\n
