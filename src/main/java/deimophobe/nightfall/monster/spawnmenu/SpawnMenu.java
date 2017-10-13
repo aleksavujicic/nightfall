@@ -102,6 +102,7 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 	enum PageType {
 		MAIN,
 		ZOMBIE_UPGRADE("zombie-upgrades.yml", MobType.ZOMBIE),
+
 		GOBO_UPGRADE("gobo-upgrades.yml", MobType.GOBO);
 
 		private final String filename;
