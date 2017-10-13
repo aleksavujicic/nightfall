@@ -176,6 +176,14 @@ gobo:
             large explosion around you in a few seconds."
         flavour:
          - "It's KAAAAAAAAABOOOM!"
+    wood-pickaxe:
+      material: wood_pickaxe
+      name: Gobo Pick
+      lore:
+        description:
+        - "Break through defenses with this pick."
+        flavour:
+        - "A tool to place explosives within defenses."
 
 
 flamelancer:
