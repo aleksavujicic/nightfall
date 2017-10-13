@@ -18,7 +18,7 @@ zombie:
     bound: true
   weapon:
     base: zombiesword
-    name: Makeshift Pick
+    name: Makeshift Sword
     lore:
       description:
        - "Left click to attack dwarves, shredding\n
@@ -126,12 +126,10 @@ zombie-saboteur:
       name: Makeshift Pick
       lore:
         description:
-        - "Left click to attack dwarves, shredding\n
-           their armour and dealing damage.\n"
+        - "Break through defenses with this pick."
         flavour:
-        - "A cross between a runeblade hilt and\n
-           plank debris. The dead use anything of\n
-           their fallen comrades."
+        - "A saboteur's tool,\n
+           made to sneak through defenses"
 
 gobo:
   title: Goblin
