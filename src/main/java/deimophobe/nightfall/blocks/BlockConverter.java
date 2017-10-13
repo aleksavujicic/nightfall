@@ -37,10 +37,10 @@ public class BlockConverter {
 				new Conversion(BlockType.LIGHT, 1.0, 0.0, BlockType.AIR)
 		),
 		CORROSION(
-				new Conversion(BlockType.WALL, 4.0, 1.5, BlockType.CORRODED_WALL),
-				new Conversion(BlockType.ALL_STAIRS, 4.0, 1.5, BlockType.CORRODED_WALL),
-				new Conversion(BlockType.ALL_SLABS, 4.0, 1.5, BlockType.CORRODED_WALL),
-				new Conversion(BlockType.CORRODED_WALL, 3.0, 1.0, BlockType.AIR),
+				new Conversion(BlockType.WALL, 3.5, 1.0, BlockType.CORRODED_WALL),
+				new Conversion(BlockType.ALL_STAIRS, 3.5, 1.0, BlockType.CORRODED_WALL),
+				new Conversion(BlockType.ALL_SLABS, 3.5, 1.0, BlockType.CORRODED_WALL),
+				new Conversion(BlockType.CORRODED_WALL, 1.5, 1.0, BlockType.AIR),
 				new Conversion(BlockType.LIGHT, 1.0, 0.0, BlockType.AIR),
 				new Conversion(BlockType.GRASS, 0.5, 0.0, BlockType.AIR)
 		),
