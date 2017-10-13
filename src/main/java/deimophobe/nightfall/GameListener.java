@@ -123,7 +123,7 @@ public class GameListener implements Listener {
 	public void onPlace(BlockPlaceEvent event) {
 		Block block = event.getBlockPlaced();
 		Player player = event.getPlayer();
-		if (player.getGameMode() != GameMode.CREATIVE && block != null && BlockType.UNPLACEABLE_BLOCKS.matchesBlock(block)) {
+		if (player.getGameMode() != GameMode.CREATIVE && !GameMap.getCurrentMap().isBlockPlaceable(block)) {
 			event.setCancelled(true);
 		}
 	}

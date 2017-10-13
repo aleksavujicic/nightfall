@@ -1,7 +1,7 @@
 package deimophobe.nightfall.map;
 
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.map.feature.FeatureCreator;
@@ -9,7 +9,6 @@ import deimophobe.nightfall.map.feature.MapFeature;
 import deimophobe.nightfall.map.region.NullRegion;
 import deimophobe.nightfall.map.region.Region;
 import org.bukkit.Bukkit;
-import org.bukkit.Difficulty;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -49,7 +48,7 @@ public class GameMap {
 	public Location getDwarfSpawn() {return dwarfSpawn;}
 	public Location getLobbySpawn() {return lobby;}
 	
-	private static final Set<Region> unbreakableRegions = new HashSet<>();
+	private final Set<Region> unbreakableRegions = new HashSet<>();
 	
 	
 	private final List<CompassLocation> compassLocations;
@@ -171,10 +170,28 @@ public class GameMap {
 		updateVault();
 	}
 	
+	public void addUnbreakableRegion(Region region) {
+		unbreakableRegions.add(region);
+	}
+	
 	public boolean isBlockBreakable(Block block) {
 		if (block == null) return false;
 		
 		if (BlockType.UNBREAKABLE_BLOCKS.matchesBlock(block))
+			return false;
+		
+		for (Region region : unbreakableRegions) {
+			if (region.containsBlock(block))
+				return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean isBlockPlaceable(Block block) {
+		if (block == null) return false;
+		
+		if (BlockType.UNPLACEABLE_BLOCKS.matchesBlock(block))
 			return false;
 		
 		for (Region region : unbreakableRegions) {
