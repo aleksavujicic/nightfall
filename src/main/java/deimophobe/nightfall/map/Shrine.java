@@ -99,6 +99,8 @@ public class Shrine {
 		
 		this.swapoverDelay = section.getInt("delay", 8);
 		
+		map.addUnbreakableRegion(shrineRegion);
+		
 		// TODO sanitise inputs
 	}
 	
