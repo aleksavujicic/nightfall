@@ -115,7 +115,7 @@ public class DamageManager {
 		for (GameEntity receiver : receivers) {
 			Vector offset = receiver.getLocation().subtract(origin).toVector();
 			if (offset.length() > range) continue;
-			
+
 			double damage = damageFunction.apply(offset);
 			Vector knockback = knockbackFunction.apply(offset);
 			modifier.addKnockback(knockback);
@@ -126,13 +126,14 @@ public class DamageManager {
 		}
 	}
 
-	public void DwarfAOEDamage(GameEntity attacker, CustomDamageType type, Location origin, double range, Function<Vector, Double> damageFunction, Function<Vector, Vector> knockbackFunction, DamageModifier modifier, boolean force, int armorShred) {
+	public void DwarfAOEDamage(GameEntity attacker, CustomDamageType type, Location origin, double range, double damage, double kbStrength, boolean force, int armorShred) {
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			Vector offset = dwarf.getLocation().subtract(origin).toVector();
 			if (offset.length() > range) continue;
 
-			double damage = damageFunction.apply(offset);
-			Vector knockback = knockbackFunction.apply(offset);
+			DamageModifier modifier = new DamageModifier();
+
+			Vector knockback = offset.multiply(kbStrength / Math.sqrt(Math.max(1, offset.length())) );
 			modifier.addKnockback(knockback);
 
 			DwarfDamage aoeDamage = dwarf.createDamage(attacker, type, damage);
