@@ -2,19 +2,23 @@ package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.items.CustomItem;
-import minecraft.spigot.community.michel_0.api.Slot;
 
 /**
  * Created by Deimophobe on 22/01/17.
  */
 class JimmyJuice extends AbstractAle {
+	private final static int MANA_COST = 100;
+	private final static int AUTO_COST = 120;
+	
 	JimmyJuice(Dwarf dwarf) {
-		super(dwarf, 100);
+		super(dwarf, MANA_COST);
 	}
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("ale.jj", Slot.MAIN_HAND);
+	private final static CustomItem ITEM = getAle("jj", MANA_COST);
+	static {
+		ITEM.applyVariable("autocost", ""+AUTO_COST);
+	}
 	@Override public CustomItem getItem() { return ITEM; }
 	
 	@Override
@@ -22,7 +26,7 @@ class JimmyJuice extends AbstractAle {
 		super.damageNotify(damage);
 		double health = dwarf.getPlayer().getHealth();
 		if (health - damage.getFinalDamage() <= 0.1 || health <= 16) {
-			if (dwarf.tryUseMana(120)) {
+			if (dwarf.tryUseMana(AUTO_COST)) {
 				heal();
 			}
 		}

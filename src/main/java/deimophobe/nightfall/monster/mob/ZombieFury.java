@@ -1,6 +1,5 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
@@ -8,7 +7,6 @@ import deimophobe.nightfall.cooldown.DudCooldown;
 import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
@@ -23,7 +21,7 @@ import java.util.Map;
 /**
  * Created by TKiwisi on 10/06/17.
  */
-public class Zombie_Fury extends Zombie {
+public class ZombieFury extends Zombie {
 
     private final int vampirism;
     private final double arrowRes;
@@ -39,12 +37,12 @@ public class Zombie_Fury extends Zombie {
     private static Integer[] arrowResValues = {0, 25, 40, 50};
     private static Integer[] rebirthValues = {0, 30, 60, 90, 120, 150};
 
-    protected Zombie_Fury(MonsterPlayer mons) {
+    protected ZombieFury(MonsterPlayer mons) {
         this(mons, null);
     }
 
-    public Zombie_Fury(MonsterPlayer mons, Location rebirth) {
-        super(mons, rebirth, MobType.ZOMBIE_FURY);
+    public ZombieFury(MonsterPlayer mons, Location rebirth) {
+        super(mons, rebirth, MobData.getMobData("zombie-fury"));
 
         Map<String, Integer> upgrades = monster.getUpgrades(MobType.ZOMBIE);
 

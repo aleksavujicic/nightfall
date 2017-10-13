@@ -34,10 +34,10 @@ public class BaseItemManager {
 	}
 	static {
 		addItem("healing_ale", new PotionItem(Color.fromRGB(93, 244, 17)));
-		addItem("jimmyjuice", new PotionItem(Color.RED));
-		addItem("holy_ale", new PotionItem(Color.fromRGB(17, 108, 244)));
+		addItem("jimmyjuice", new PotionItem(Color.fromRGB(249, 204, 24)));
+		addItem("holy_ale", new PotionItem(Color.fromRGB(115, 5, 193)));
 		addItem("chug", new PotionItem(Color.fromRGB(17, 108, 244)));
-		addItem("strong", new PotionItem(Color.fromRGB(17, 108, 244)));
+		addItem("strong", new PotionItem(Color.fromRGB(183, 37, 18)));
 		
 		addItem("stick", new SimpleBaseItem(Material.STICK));
 		

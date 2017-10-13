@@ -43,7 +43,7 @@ class AxeOfMalice extends AbstractItem implements KitCooldownElement {
 	public void onKill(MonsterDamage damage) {
 		cd.reduceCooldown(20);
 		if (dwarf.hasProc() && damageFromItem(damage)) {
-			dwarf.heal(2);
+			dwarf.heal(5);
 			dwarf.regenMana(5);
 		}
 	}

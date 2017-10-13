@@ -17,6 +17,8 @@ public class HealStation extends Consumable {
 	
 	@Override
 	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
+		if (!checkPhase(dwarf)) return FAILED_CD;
+		
 		if (clickedBlock == null) return FAILED_CD;
 		boolean success =  TimedBlock.placeTimedBlock(new HealBlock(clickedBlock, 30*20, dwarf));
 		

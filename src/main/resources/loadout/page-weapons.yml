@@ -1,0 +1,239 @@
+
+# ------ SWORDS ------
+grb:
+  index: 0
+  type: item
+  name: grb
+  category: sword
+  cost: 24
+  item:
+    name: "Greater Runeblade"
+    base: runeblade
+malice:
+  index: 1
+  type: item
+  name: axe
+  category: sword
+  cost: 24
+  item:
+    name: "Axe of Malice"
+    base: malice
+hammer:
+  index: 2
+  type: item
+  name: hammer
+  category: sword
+  cost: 16
+  item:
+    name: "Hammer"
+    base: hammer
+dagger:
+  index: 3
+  type: item
+  name: dagger
+  category: sword
+  cost: 16
+  item:
+    name: "Dagger"
+    base: dagger
+tigerfist:
+  enabled: false
+  index: 5
+  type: item
+  name: tigerfist
+  category: sword
+  cost: 24
+  item:
+    name: "Tiger Fist"
+    base: tigerfist
+
+
+# ------ BOWS ------
+dragonskin:
+  index: 9
+  type: item
+  name: dragonskin
+  category: bow
+  cost: 16
+  item:
+    name: "Dragonskin Bow"
+    base: dskin
+longbow:
+  index: 10
+  type: item
+  name: longbow
+  category: bow
+  cost: 16
+  item:
+    name: "Longbow"
+    base: longbow
+lightbow:
+  index: 11
+  type: item
+  name: lightbow
+  category: bow
+  cost: 12
+  item:
+    name: "Lightbow"
+    base: lightbow
+crossbow:
+  index: 12
+  type: item
+  name: crossbow
+  category: bow
+  cost: 12
+  item:
+    name: "Crossbow"
+    base: crossbow
+ebow:
+  index: 13
+  type: item
+  name: ebow
+  category: bow
+  cost: 12
+  item:
+    name: "Emerald Bow"
+    base: ebow
+warpweaver:
+  index: 14
+  type: item
+  name: warpweaver
+  category: bow
+  cost: 12
+  item:
+    name: "Warpweaver Bow"
+    base: warpweaver
+volcanic:
+  index: 15
+  type: item
+  name: volcanic_bow
+  category: bow
+  cost: 16
+  item:
+    name: "Volcanic Bow"
+    base: volcanic
+turret:
+  enabled: false
+  index: 16
+  type: item
+  name: turret
+  category: bow
+  cost: 16
+  item:
+    name: "Turret"
+    material: dispenser
+
+
+
+# ------ ALES ------
+jj:
+  index: 18
+  type: item
+  name: jimmy_juice
+  category: ale
+  cost: 8
+  item:
+    name: "Jimmy Juice"
+    base: jimmyjuice
+holy:
+  index: 19
+  type: item
+  name: holy_ale
+  category: ale
+  cost: 8
+  item:
+    name: "Holy Ale"
+    base: holy_ale
+trinket:
+  index: 20
+  type: item
+  name: trinket
+  category: ale
+  cost: 8
+  item:
+    name: "Star Trinket"
+    base: trinket
+regrowth:
+  index: 21
+  type: item
+  name: regrowth_star
+  category: ale
+  cost: 8
+  item:
+    name: "Regrowth Star"
+    base: regrowth
+chug:
+  index: 22
+  type: item
+  name: chugging_ale
+  category: ale
+  cost: 4
+  item:
+    name: "Chugging Ale"
+    base: chug
+strong:
+  index: 23
+  type: item
+  name: strong_ale
+  category: ale
+  cost: 8
+  item:
+    name: "Potion Seller's Strongest Potion"
+    base: strong
+
+
+# ------ ARMOURS ------
+runeblessed:
+  index: 27
+  type: item
+  name: runeblessed
+  category: armour
+  cost: 8
+  item:
+    name: "Runeblessed Armour"
+    base: runeblessed
+quiver:
+  index: 28
+  type: item
+  name: quiver
+  category: armour
+  cost: 8
+  item:
+    name: "Massive Quiver"
+    base: quiver
+studded:
+  index: 29
+  type: item
+  name: studded
+  category: armour
+  cost: 8
+  item:
+    name: "Studded Armour"
+    base: studded
+coil:
+  index: 30
+  type: item
+  name: coil
+  category: armour
+  cost: 8
+  item:
+    name: "Magic Coil"
+    base: coil
+sturdy:
+  index: 31
+  type: item
+  name: sturdy
+  category: armour
+  cost: 8
+  item:
+    name: "Sturdy Armour"
+    base: runeblessed
+nature_suit:
+  index: 32
+  type: item
+  name: nature_suit
+  category: armour
+  cost: 4
+  item:
+    name: "Nature Suit"
+    base: temp

@@ -49,6 +49,13 @@ public abstract class AbstractMob implements Mob {
 		this.items = mobData.getItems();
 	}
 	
+	protected AbstractMob(MonsterPlayer monster, MobType type, MobData data) {
+		this.monster = monster;
+		this.type = type;
+		this.mobData = data;
+		this.items = data.getItems();
+	}
+	
 	@Override
 	public void onSpawn() {
 		setTitle(mobData.forceTitle, mobData.title);

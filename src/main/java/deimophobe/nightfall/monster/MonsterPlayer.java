@@ -20,7 +20,6 @@ import deimophobe.nightfall.monster.mob.Bopen;
 import deimophobe.nightfall.monster.mob.Mob;
 import deimophobe.nightfall.monster.mob.MobType;
 import deimophobe.nightfall.monster.mob.*;
-import deimophobe.nightfall.monster.mob.Zombie;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.bukkit.Bukkit;
@@ -201,10 +200,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 
 		Mob zombie;
 		if (this.getUpgrades(MobType.ZOMBIE).computeIfAbsent("husk", (k) -> 0) == 1) {
-			zombie = new Zombie_Husk(this, lastRebirth);
+			zombie = new ZombieHusk(this, lastRebirth);
 		}
 		else if (this.getUpgrades(MobType.ZOMBIE).computeIfAbsent("fury", (k) -> 0) == 1) {
-			zombie = new Zombie_Fury(this, lastRebirth);
+			zombie = new ZombieFury(this, lastRebirth);
 		}
 		else {
 			return;
@@ -351,6 +350,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			}
 			return;
 		}
+		
+		if (isFrozen())
+			return;
 		
 		if (mob != null)
 			mob.onUse(action, clickedBlock, blockFace);

@@ -52,6 +52,7 @@ public class Hero extends Dwarf {
 	@Override
 	public void onRemove() {
 		super.onRemove();
+		SkinManager.getManager().silentlyRemoveSkinChange(this);
 	}
 	
 	@Override
@@ -62,7 +63,7 @@ public class Hero extends Dwarf {
 			new BukkitRunnable() {
 				@Override
 				public void run() {
-					SkinManager.getManager().removeSkinChange(Hero.this);
+					SkinManager.getManager().updateSkin(Hero.this);
 				}
 			}.runTaskLater(NightfallPlugin.getPlugin(), 20);
 		}

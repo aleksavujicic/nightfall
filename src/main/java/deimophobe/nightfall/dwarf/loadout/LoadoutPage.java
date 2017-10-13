@@ -12,7 +12,9 @@ class LoadoutPage extends SimpleMenu<Loadout> {
 		
 		for (String key : config.getKeys(false)) {
 			ConfigurationSection itemConfig = config.getConfigurationSection(key);
-			setItem(itemConfig.getInt("index"), new LoadoutItem(itemConfig));
+			LoadoutItem item = new LoadoutItem(itemConfig);
+			if (item.isEnabled())
+				setItem(itemConfig.getInt("index"), item);
 		}
 	}
 }

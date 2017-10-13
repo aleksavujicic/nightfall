@@ -1,0 +1,323 @@
+warrior-class:
+  index: 0
+  cost: 64
+  category: kit
+  type: multi
+  elements:
+    - grb
+    - dragonskin
+    - jimmy_juice
+    - runeblessed
+    - avenge
+  consumables:
+    torch: 32
+    mortar: 32
+    cobblestone: 128
+    wrench: 2
+  item:
+    template: "loadout-class"
+    name: "Warrior Kit"
+    material: diamond_hoe
+    lore:
+      description:
+       - "The basic all around fighter with the \n
+          ability to dash and constantly rampage\n
+          as well as automated healing."
+
+      contains:
+       - "*Greater Runeblade\n
+          *Dragonskin Bow\n
+          *Jimmy Juice\n
+          *Runeblessed Armour\n
+          *Avenge\n
+          *32 Torches\n
+          *32 Mortar\n
+          *128 Cobblestone\n
+          *2 Wrenches"
+
+ranger-class:
+  index: 1
+  cost: 64
+  category: kit
+  type: multi
+  elements:
+    - dagger
+    - longbow
+    - quiver
+    - trinket
+    - slowfall
+  consumables:
+    torch: 32
+    mortar: 32
+    cobblestone: 128
+    sos: 1
+    wizard_mortar: 32
+    lamp: 24
+  item:
+    template: "loadout-class"
+    name: "Ranger Kit"
+    material: diamond_hoe
+    lore:
+      description:
+       - "Quick and agile, The Ranger is a perfect\n
+          choice for single target combat.\n
+          With the ability to poison and eviscerate\n
+          as well as fire hard hitting bow shots."
+
+      contains:
+       - "*Elven Dagger\n
+          *Rangers Longbow\n
+          *Star Trinket\n
+          *Massive Quiver\n
+          *Safefall\n
+          *32 Torches\n
+          *32 Mortar\n
+          *128 Cobblestone\n
+          *1 Sword of Santification\n
+          *32 Wizard Mortar\n
+          *24 Enchanted Lamps"
+
+beserker-class:
+  index: 2
+  cost: 64
+  category: kit
+  type: multi
+  elements:
+    - axe
+    - crossbow
+    - jimmy_juice
+    - studded
+    - darkvision
+  consumables:
+    torch: 32
+    mortar: 32
+    cobblestone: 128
+    sos: 1
+    wrench: 2
+  item:
+    template: "loadout-class"
+    name: "Beserker Kit"
+    material: diamond_hoe
+    lore:
+      description:
+       - "Brute strength is all that matters\n
+          With less defense and higher mobility\n
+          These fighters cut through foes like butter\n
+          but can be taken down just as fast."
+
+      contains:
+       - "*Axe of Malice\n
+          *Crossbow\n
+          *Jimmy Juice\n
+          *Studded Armour\n
+          *Darkvision\n
+          *32 Torches\n
+          *32 Mortar\n
+          *128 Cobblestone\n
+          *1 Sword of Santification\n
+          *2 Wrenches"
+
+elven-class:
+  index: 3
+  cost: 64
+  category: kit
+  type: multi
+  elements:
+    - dagger
+    - lightbow
+    - jimmy_juice
+    - studded
+    - slowfall
+    - avenge
+  consumables:
+    mortar: 32
+    cobblestone: 256
+    sos: 1
+    heal_station: 2
+  item:
+    template: "loadout-class"
+    name: "Elven Kit"
+    material: diamond_hoe
+    lore:
+      description:
+       - "Unlike their Ranger counterparts, this class\n
+          makes you feel like an Elf, with increased speed\n
+          low light vision, and quick strikes. However\n
+          armour is quite weak so it is best to keep moving."
+
+      contains:
+       - "*Dagger\n
+          *Lightbow\n
+          *Jimmy Juice\n
+          *Studded Armour\n
+          *Slowfall\n
+          *Avenge\n
+          *32 Mortar\n
+          *256 Cobblestone\n
+          *1 Sword of Santification\n
+          *2 Heal Station"
+
+gnome-class:
+  index: 4
+  cost: 64
+  category: kit
+  type: multi
+  elements:
+    - hammer
+    - volcanic_bow
+    - trinket
+    - quiver
+    - tombmaker
+    - avenge
+  consumables:
+    torch: 32
+    mortar: 32
+    cobblestone: 128
+    sos: 2
+    slab: 3
+  item:
+    template: "loadout-class"
+    name: "Gnome Kit"
+    material: diamond_hoe
+    lore:
+      description:
+       - "Gnomes were always magically adept, and this\n
+          shows with their mighty volcanic bows. Using three\n
+          arrows per shot, demons burn and crumble. Using the\n
+          magic of the Quiver artifact, the Gnomes were able to\n
+          sustain their rate of fire."
+
+      contains:
+       - "*Hammer\n
+          *Volcanic Bow\n
+          *Star Trinket\n
+          *Massive Quiver\n
+          *Avenge\n
+          *32 Torches\n
+          *32 Mortar\n
+          *128 Cobblestone\n
+          *2 Swords of Santification\n
+          *3 Slabs"
+
+paladin-class:
+  enabled: false
+  index: 3
+  cost: 64
+  category: kit
+  type: multi
+  elements:
+    - hammer
+    - lightbow
+    - holy_ale
+    - runeblessed
+  consumables:
+    torch: 32
+    mortar: 32
+    cobblestone: 128
+    sos: 3
+    wizard_mortar: 32
+    lamp: 24
+  item:
+    template: "loadout-class"
+    name: "Paladin Kit"
+    material: diamond_hoe
+    lore:
+      description:
+       - "The Followers of the Light\n
+          Able to restore both their mana and armour\n
+          with blessed warhammers, these warriors\n
+          can remain longer on the defense then\n
+          most other classes."
+
+      contains:
+       - "*Warhammer\n
+          *Lightbow\n
+          *Holy Ale\n
+          *Runeblessed Armour\n
+          *32 Torches\n
+          *32 Mortar\n
+          *128 Cobblestone\n
+          *3 Sword of Santification\n
+          *32 Wizard Mortar\n
+          *24 Enchanted Lamps"
+
+cleric-class:
+  enabled: false
+  index: 4
+  cost: 64
+  category: kit
+  type: multi
+  elements:
+    - hammer
+    - ebow
+    - regrowth_star
+    - coil
+  consumables:
+    torch: 64
+    mortar: 64
+    cobblestone: 256
+    sos: 2
+    wizard_mortar: 64
+    lamp: 32
+  item:
+    template: "loadout-class"
+    name: "Cleric Kit"
+    material: diamond_hoe
+    lore:
+      description:
+       - "Mystical healers not suited for front line\n
+          combat. Able to heal others give others a rampage\n
+          as well as restore their own energy, but can be killed\n
+          if not well protected."
+
+      contains:
+       - "*Warhammer\n
+          *Emerald Bow\n
+          *Regrowth Star\n
+          *Magic Coil\n
+          *64 Torches\n
+          *64 Mortar\n
+          *256 Cobblestone\n
+          *2 Sword of Santification\n
+          *64 Wizard Mortar\n
+          *32 Enchanted Lamps"
+
+hunter-class:
+  enabled: false
+  index: 5
+  cost: 64
+  category: kit
+  type: multi
+  elements:
+    - tigerfist
+    - warpweaver
+    - trinket
+    - studded
+    - avenge
+  consumables:
+    torch: 32
+    mortar: 32
+    cobblestone: 128
+    sos: 1
+    wrench: 2
+  item:
+    template: "loadout-class"
+    name: "Hunter Kit"
+    material: diamond_hoe
+    lore:
+      description:
+       - "Here and there, without a trace\n
+          These sneaky assassins can warp around\n
+          the battlefield striking with their furious claws."
+
+      contains:
+       - "*Tiger Fist\n
+          *Warpweaver Bow\n
+          *Star Trinket\n
+          *Studded Armour\n
+          *Avenge\n
+          *32 Torches\n
+          *32 Mortar\n
+          *128 Cobblestone\n
+          *1 Sword of Santification\n
+          *2 Wrenches"
