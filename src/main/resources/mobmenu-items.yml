@@ -4,7 +4,7 @@ zombie-page:
 
 gobo-page:
   base: upgrade_gobo
-  name: Upgrade Goblin
+  name: Upgrade Goblin (WIP)
 
 doomclock:
   base: doom_clock
