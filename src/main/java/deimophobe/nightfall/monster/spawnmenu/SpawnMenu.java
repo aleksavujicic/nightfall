@@ -39,7 +39,7 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		MenuItem<MonsterPlayer> zombiePage = new IndexedPageChanger<>(getConfigItem("zombie-page"), this, PageType.ZOMBIE_UPGRADE);
 		MenuItem<MonsterPlayer> goboPage = new IndexedPageChanger<>(getConfigItem("gobo-page"), this, PageType.GOBO_UPGRADE);
 		MenuItem<MonsterPlayer> rebirthItem = new RebirthItem(getConfigItem("rebirth"));
-		MenuItem<MonsterPlayer> doomItem = new DoomClockItem(getConfigItem("doomclock"), 250, 15);
+		//MenuItem<MonsterPlayer> doomItem = new DoomClockItem(getConfigItem("doomclock"), 250, 15);
 		
 		// Add items to front menu
 		addSpawnEgg(0, "zombie");
@@ -53,7 +53,7 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		addSpawnEgg(24, "minotaur");
 		addSpawnEgg(25, "wraith");
 		
-		frontMenu.setItem(8, doomItem);
+		//frontMenu.setItem(8, doomItem);
 		frontMenu.setItem(9, zombiePage);
 		frontMenu.setItem(11, goboPage);
 		frontMenu.setItem(18, rebirthItem);
