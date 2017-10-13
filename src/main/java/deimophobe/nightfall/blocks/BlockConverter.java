@@ -34,15 +34,15 @@ public class BlockConverter {
 				new Conversion(BlockType.NORMAL_SLAB, 4.0, 1.8, BlockType.DAMAGED_SLAB),
 				new Conversion(BlockType.DAMAGED_SLAB, 3.5, 1.8, BlockType.AIR),
 				
-				new Conversion(BlockType.LIGHT, 3.0, 1.5, BlockType.AIR)
+				new Conversion(BlockType.LIGHT, 1.0, 0.0, BlockType.AIR)
 		),
 		CORROSION(
 				new Conversion(BlockType.WALL, 4.0, 1.5, BlockType.CORRODED_WALL),
 				new Conversion(BlockType.ALL_STAIRS, 4.0, 1.5, BlockType.CORRODED_WALL),
 				new Conversion(BlockType.ALL_SLABS, 4.0, 1.5, BlockType.CORRODED_WALL),
-				new Conversion(BlockType.CORRODED_WALL, 4.0, 1.5, BlockType.AIR),
-				new Conversion(BlockType.LIGHT, 3.0, 1.5, BlockType.AIR),
-				new Conversion(BlockType.GRASS, 1.0, 0.5, BlockType.AIR)
+				new Conversion(BlockType.CORRODED_WALL, 3.0, 1.0, BlockType.AIR),
+				new Conversion(BlockType.LIGHT, 1.0, 0.0, BlockType.AIR),
+				new Conversion(BlockType.GRASS, 0.5, 0.0, BlockType.AIR)
 		),
 		THROWNEXPLOSION(
 				new Conversion(BlockType.NORMAL_WALL, 4.5, 0.8, BlockType.CRACKED_WALL),
@@ -54,7 +54,9 @@ public class BlockConverter {
 				new Conversion(BlockType.NORMAL_WALL, 1.5, 0.3, BlockType.CRACKED_WALL),
 				new Conversion(BlockType.CRACKED_WALL, 1, 0.3, BlockType.DAMAGED_WALL),
 				new Conversion(BlockType.DAMAGED_WALL, 1, 0.2, BlockType.BROKEN_WALL),
-				new Conversion(BlockType.BROKEN_WALL, 0.5, 0.1, BlockType.AIR)
+				new Conversion(BlockType.BROKEN_WALL, 0.5, 0.1, BlockType.AIR),
+				new Conversion(BlockType.ALL_WOOLS, 0.5, 0.1, BlockType.AIR),
+				new Conversion(BlockType.LIGHT, 0.5, 0.0, BlockType.AIR)
 		),
 		ARROW_DAMAGE,
 		;
