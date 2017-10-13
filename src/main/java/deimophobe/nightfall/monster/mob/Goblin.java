@@ -41,7 +41,7 @@ class Goblin extends AbstractMob {
 		upgrades = monster.getUpgrades(MobType.GOBO);
 
 		this.supplies = (upgrades.get("supplies") + upgrades.get("supplies-inf"))*2;
-		int health = (upgrades.get("health") + upgrades.get("health-inf"))*2;
+		int health = (upgrades.get("health") + upgrades.get("health-inf"));
 		getArmour().addModifier(ItemModifierType.HEALTH, health, "Upgrade");
 	}
 
