@@ -39,7 +39,7 @@ class Krungor extends AbstractMob {
 		super(monster, MobType.KRUNGOR);
 		
 		// Krungor buffs if enough ppl on
-		if (Game.getGame().getNumPlayers() >= 2) {
+		if (Game.getGame().getNumPlayers() >= 15) {
 			buffed = true;
 			getArmour().addModifier(ItemModifierType.RESISTANCE, 5);
 			getArmour().addModifier(ItemModifierType.SPEED, 5);
