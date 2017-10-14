@@ -15,6 +15,7 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import me.libraryaddict.disguise.disguisetypes.watchers.CreeperWatcher;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -89,6 +90,9 @@ public class Goblin extends AbstractMob {
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
+		if (superKaboom == 1) {
+			((CreeperWatcher)getDisguise().getWatcher()).setPowered(true);
+		}
 		giveItem("gobo-box", (2+ supplies));
 		if (kaboom) {
 			giveItem("kaboom", 1);
