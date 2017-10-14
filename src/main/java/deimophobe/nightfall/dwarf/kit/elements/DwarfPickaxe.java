@@ -13,7 +13,6 @@ import deimophobe.nightfall.effects.GameEffect;
 import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.map.GameMap;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -55,10 +54,10 @@ class DwarfPickaxe extends AbstractItem implements KitCooldownElement {
 			if (repairee != null && armourCD.isAvailable()) {
 				GameMap currentMap = GameMap.getCurrentMap();
 				if (currentMap.tryUseGold(50)) {
+					armourCD.setMaxCD((int)(45*20 - (((double)currentMap.getCurrentShrineIndex()) / (currentMap.getNumShrines() - 1))*30*20));
 					armourCD.reset();
 					repairee.getArmour().repair(400);
 					GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, repairee);
-					armourCD.setMaxCD((int)(45*20 - (((double)currentMap.getCurrentShrineIndex()) / (currentMap.getNumShrines() - 1))*30*20));
 					resetCD();
 					return true;
 				}
