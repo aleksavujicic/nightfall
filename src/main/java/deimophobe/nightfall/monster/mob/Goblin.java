@@ -121,7 +121,7 @@ public class Goblin extends AbstractMob {
 			Block block = clickedBlock.getRelative(blockFace);
 			double damage = 40 + 2 * shrapnel;
 			double power = 4.5 + 0.25 * dest;
-			double kb = 2.5 + 0.15 * force;
+			double kb = 1 + 0.1 * force;
 			if ((monster.getTargetBlock(null, 5).getType() != Material.AIR) && (TimedBlock.placeTimedBlock(new GoboBox(block, 100, damage, power, kb, monster)))) {
 				monster.useHeldItem();
 				placeboxCD.reset();
@@ -155,7 +155,7 @@ public class Goblin extends AbstractMob {
 		double dwarfDamage = 60 + 5 * shrapnel + 25 * superKaboom;
 		int armorShred = 50 + 5 * shrapnel + 25 * superKaboom;
 		double power = 6 + 0.5 * dest + 1.5 * superKaboom;
-		double kb = 2.5 + 0.25 * force + 1.25 * superKaboom;
+		double kb = 1.5 + 0.25 * force + 1.25 * superKaboom;
 
 		Location loc = monster.getLocation();
 		World world = monster.getLocation().getWorld();
@@ -170,8 +170,8 @@ public class Goblin extends AbstractMob {
 
 			DamageModifier modifier = new DamageModifier();
 
-			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(1.5, offset.length())) );
-			knockback.setY(knockback.getY() / 2 + 0.5);
+			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
+			knockback.setY(knockback.getY() / 2 + 0.3);
 			modifier.addKnockback(knockback);
 
 			DwarfDamage aoeDamage = dwarf.createDamage(monster, CustomDamageType.GOBO_KABOOM, dwarfDamage);
@@ -204,7 +204,7 @@ public class Goblin extends AbstractMob {
 		double damage = 40 + 2 * shrapnel;
 		int armorShred = 10 + 5 * shrapnel;
 		double power = 4.5 + 0.25 * dest;
-		double kb = 2.5 + 0.15 * force;
+		double kb = 1.5 + 0.15 * force;
 
 		BlockConverter.convert(BlockConverter.Type.THROWNEXPLOSION, centerLoc, power);
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
@@ -213,8 +213,8 @@ public class Goblin extends AbstractMob {
 
 			DamageModifier modifier = new DamageModifier();
 
-			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(1.5, offset.length())) );
-			knockback.setY(knockback.getY() / 2 + 0.5);
+			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
+			knockback.setY(knockback.getY() / 2 + 0.3);
 			modifier.addKnockback(knockback);
 
 			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.GOBO_BOX_EXPLOSION, damage);

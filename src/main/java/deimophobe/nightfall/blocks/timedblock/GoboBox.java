@@ -47,8 +47,8 @@ public class GoboBox extends TimedBlock {
 
 				DamageModifier modifier = new DamageModifier();
 
-				Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(1.5, offset.length())) );
-				knockback.setY(knockback.getY() / 2 + 0.5);
+				Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
+				knockback.setY(knockback.getY() / 2);
 				modifier.addKnockback(knockback);
 
 				DwarfDamage aoeDamage = dwarf.createDamage(getPlacer(), CustomDamageType.GOBO_BOX_EXPLOSION, damage);
