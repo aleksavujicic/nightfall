@@ -46,7 +46,7 @@ public class DamageModifier {
 	
 	public DamageModifier() {}
 	
-	void applyToDamage(GameDamage damage) {
+	public void applyToDamage(GameDamage damage) {
 		if (knockback != null) {
 			if (addKnockback)
 				damage.addKnockback(knockback);

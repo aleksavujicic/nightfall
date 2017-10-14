@@ -8,10 +8,9 @@ import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.DudCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
-import deimophobe.nightfall.damage.DamageManager;
-import deimophobe.nightfall.damage.GameDamage;
-import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.*;
 import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
@@ -33,7 +32,7 @@ import java.util.Map;
 /**
  * Created by Deimophobe on 28/02/17.
  */
-class Goblin extends AbstractMob {
+public class Goblin extends AbstractMob {
 
 	protected Map<String, Integer> upgrades;
 
@@ -80,7 +79,7 @@ class Goblin extends AbstractMob {
 		this.superKaboom = upgrades.get("superkaboom");
 
 		getArmour().addModifier(ItemModifierType.HEALTH, health, "Upgrade");
-		getArmour().addModifier(ItemModifierType.SPEED, (speed * 10), "Upgrade");
+		getArmour().addModifier(ItemModifierType.SPEED, (speed * 5), "Upgrade");
 
 		this.placeboxCD = new ComplexCooldown(MAX_PLACE_CD);
 		this.throwboxCD = new ComplexCooldown(MAX_THROW_CD);
@@ -136,15 +135,7 @@ class Goblin extends AbstractMob {
 			direction.setY(0.4);
 			direction.setZ((direction.getZ() / 1.8));
 			TNTPrimed tnt = monster.getLocation().getWorld().spawn(monster.getEyeLocation().add(direction), TNTPrimed.class);
-			double damage = 40 + 2 * shrapnel;
-			int armorShred = 25 + 5 * shrapnel;
-			double power = 4.5 + 0.25 * dest;
-			double kb = 2.5 + 0.15 * force;
 			tnt.setMetadata("thrower", new FixedMetadataValue(NightfallPlugin.getPlugin(), monster));
-			tnt.setMetadata("damage", new FixedMetadataValue(NightfallPlugin.getPlugin(), damage));
-			tnt.setMetadata("armorShred", new FixedMetadataValue(NightfallPlugin.getPlugin(), armorShred));
-			tnt.setMetadata("power", new FixedMetadataValue(NightfallPlugin.getPlugin(), power));
-			tnt.setMetadata("kb", new FixedMetadataValue(NightfallPlugin.getPlugin(), kb));
 			tnt.setVelocity(direction);
 			tnt.setFuseTicks(60);
 			world.playSound(loc, "entity.firework.launch", 2, (float) 0.5);
@@ -160,11 +151,8 @@ class Goblin extends AbstractMob {
 	}
 
 	private void kaboom() {
-		GameDamage damage = monster.createDamage(null, CustomDamageType.SELF_GOBO_KABOOM, 1000);
-		damage.instaKill();
-		damage.fire(true);
 
-		double dwarfDamage = 60 + 5 * shrapnel + 10 * superKaboom;
+		double dwarfDamage = 60 + 5 * shrapnel + 25 * superKaboom;
 		int armorShred = 50 + 5 * shrapnel + 25 * superKaboom;
 		double power = 6 + 0.5 * dest + 1.5 * superKaboom;
 		double kb = 2.5 + 0.25 * force + 1.25 * superKaboom;
@@ -178,6 +166,10 @@ class Goblin extends AbstractMob {
 		
 		DamageManager.getManager().DwarfAOEDamage(monster,
 				CustomDamageType.GOBO_KABOOM, loc, 6 + superKaboom, dwarfDamage, kb, false, armorShred);
+
+		GameDamage damage = monster.createDamage(null, CustomDamageType.SELF_GOBO_KABOOM, 1000);
+		damage.instaKill();
+		damage.fire(true);
 	}
 	
 	
@@ -192,5 +184,28 @@ class Goblin extends AbstractMob {
 	@Override
 	public float getCooldown() {
 		return kaboomCD.fractionComplete();
+	}
+
+	public void thrownGoboBox(Location centerLoc) {
+		double damage = 40 + 2 * shrapnel;
+		int armorShred = 25 + 5 * shrapnel;
+		double power = 4.5 + 0.25 * dest;
+		double kb = 2.5 + 0.15 * force;
+
+		BlockConverter.convert(BlockConverter.Type.THROWNEXPLOSION, centerLoc, power);
+		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
+			Vector offset = dwarf.getLocation().subtract(centerLoc).toVector();
+			if (offset.length() > 5) continue;
+
+			DamageModifier modifier = new DamageModifier();
+
+			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(1.5, offset.length())) );
+			modifier.addKnockback(knockback);
+
+			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.GOBO_BOX_EXPLOSION, damage);
+			modifier.applyToDamage(aoeDamage);
+			aoeDamage.setArmourShred(armorShred);
+			aoeDamage.fire();
+		}
 	}
 }

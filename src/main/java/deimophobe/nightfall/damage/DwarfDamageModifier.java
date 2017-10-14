@@ -20,7 +20,7 @@ public class DwarfDamageModifier extends DamageModifier {
 	public DwarfDamageModifier() {}
 	
 	@Override
-	void applyToDamage(GameDamage damage) {
+	public void applyToDamage(GameDamage damage) {
 		if (!(damage instanceof DwarfDamage)) throw new IllegalArgumentException("DwarfDamageModifier can only apply to DwarfDamage.");
 		DwarfDamage dwarfDamage = (DwarfDamage) damage;
 		

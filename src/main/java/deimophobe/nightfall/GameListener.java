@@ -15,6 +15,7 @@ import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.mob.Bopen;
+import deimophobe.nightfall.monster.mob.Goblin;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
@@ -277,14 +278,7 @@ public class GameListener implements Listener {
 		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
 		world.playSound(centerLoc, "entity.generic.explode", 2, 1);
 		Object thrower = event.getEntity().getMetadata("thrower").get(0).value();
-		Object damage = event.getEntity().getMetadata("damage").get(0).value();
-		Object armorShred = event.getEntity().getMetadata("armorShred").get(0).value();
-		Object power = event.getEntity().getMetadata("power").get(0).value();
-		Object kb = event.getEntity().getMetadata("kb").get(0).value();
-		BlockConverter.convert(BlockConverter.Type.THROWNEXPLOSION, centerLoc, (Double)power);
-		if (thrower instanceof MonsterPlayer)
-			DamageManager.getManager().DwarfAOEDamage((GameEntity) thrower,
-					CustomDamageType.GOBO_BOX_EXPLOSION, centerLoc, 5, (Double)damage, (Double)kb, false, (Integer)armorShred);
+		((Goblin)thrower).thrownGoboBox(centerLoc);
 	}
 	
 	// --------------------------------------------------------
