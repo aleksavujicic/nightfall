@@ -163,9 +163,23 @@ public class Goblin extends AbstractMob {
 		BlockConverter.convert(BlockConverter.Type.EXPLOSION, loc, power);
 		world.spawnParticle(Particle.EXPLOSION_HUGE, loc, 3, 1, 1, 1);
 		world.playSound(loc, "entity.generic.explode", 2, 1);
-		
-		DamageManager.getManager().DwarfAOEDamage(monster,
-				CustomDamageType.GOBO_KABOOM, loc, 6 + superKaboom, dwarfDamage, kb, false, armorShred);
+
+		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
+			Vector offset = dwarf.getLocation().subtract(loc).toVector();
+			if (offset.length() > (6 + superKaboom)) continue;
+
+			DamageModifier modifier = new DamageModifier();
+
+			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(1.5, offset.length())) );
+			knockback.setY(knockback.getY() / 2 + 0.5);
+			modifier.addKnockback(knockback);
+
+			DwarfDamage aoeDamage = dwarf.createDamage(monster, CustomDamageType.GOBO_KABOOM, dwarfDamage);
+			modifier.applyToDamage(aoeDamage);
+			aoeDamage.setArmourShred(armorShred);
+			aoeDamage.fire();
+		}
+
 
 		GameDamage damage = monster.createDamage(null, CustomDamageType.SELF_GOBO_KABOOM, 1000);
 		damage.instaKill();
@@ -188,7 +202,7 @@ public class Goblin extends AbstractMob {
 
 	public void thrownGoboBox(Location centerLoc) {
 		double damage = 40 + 2 * shrapnel;
-		int armorShred = 25 + 5 * shrapnel;
+		int armorShred = 10 + 5 * shrapnel;
 		double power = 4.5 + 0.25 * dest;
 		double kb = 2.5 + 0.15 * force;
 
@@ -200,6 +214,7 @@ public class Goblin extends AbstractMob {
 			DamageModifier modifier = new DamageModifier();
 
 			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(1.5, offset.length())) );
+			knockback.setY(knockback.getY() / 2 + 0.5);
 			modifier.addKnockback(knockback);
 
 			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.GOBO_BOX_EXPLOSION, damage);
