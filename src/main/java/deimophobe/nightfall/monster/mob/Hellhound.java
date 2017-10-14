@@ -41,14 +41,14 @@ public class Hellhound extends Wolf {
 	@Override
 	public void update(boolean a, boolean b, boolean sec, boolean d, boolean e) {
 		super.update(a,b,sec,d,e);
-		if (sec)
-			tryPlaceMagmaBlock();
+		//if (sec)
+			//tryPlaceMagmaBlock();
 	}
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		tryPlaceMagmaBlock();
+		//tryPlaceMagmaBlock();
 	}
 	
 	private void tryPlaceMagmaBlock() {

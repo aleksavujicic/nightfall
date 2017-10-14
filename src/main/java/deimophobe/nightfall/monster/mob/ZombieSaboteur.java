@@ -133,11 +133,13 @@ public class ZombieSaboteur extends Zombie {
     }
 
     @Override
-    public void onBlockBreak(Block block) {
-        super.onBlockBreak(block);
-        assaCD.reset();
-        monster.removePotionEffect(PotionEffectType.INVISIBILITY);
-        monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
+    public void onBlockBreak(Block block, boolean didBreak) {
+        super.onBlockBreak(block, didBreak);
+        if (didBreak) {
+            assaCD.reset();
+            monster.removePotionEffect(PotionEffectType.INVISIBILITY);
+            monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
+        }
     }
 
     @Override

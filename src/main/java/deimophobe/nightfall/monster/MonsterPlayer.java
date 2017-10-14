@@ -330,9 +330,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	@Override
-	public void onBlockBreak(Block block) {
+	public void onBlockBreak(Block block, boolean didBreak) {
 		if (mob != null) {
-			mob.onBlockBreak(block);
+			mob.onBlockBreak(block, didBreak);
 		}
 	}
 	

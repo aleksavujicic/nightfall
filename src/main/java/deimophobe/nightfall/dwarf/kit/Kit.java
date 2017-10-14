@@ -107,11 +107,11 @@ public class Kit {
 		return false;
 	}
 	
-	public void onBlockBreak(Block block) {
+	public void onBlockBreak(Block block, boolean didBreak) {
 		ItemStack held = dwarf.getHeldItem();
 		for (KitItemElement item : itemElements) {
 			if (item.matchesItem(held)) {
-				item.onBlockBreak(block);
+				item.onBlockBreak(block, didBreak);
 			}
 		}
 	}

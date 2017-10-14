@@ -224,6 +224,7 @@ public class Game {
 	
 	public void unreadyPlayer(Player player) {
 		if (phase != Phase.STARTING) return;
+		if (!isReady(player)) return;
 		
 		readyPlayers.remove(player);
 		readyNotify(player);

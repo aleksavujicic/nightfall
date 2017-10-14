@@ -43,6 +43,14 @@ public class Hero extends Dwarf {
 		giveKitItems(KitGiveType.PICK);
 		giveKitItems(KitGiveType.SHOVEL);
 		
+		if (type.skin != null) {
+			String name = type.skin.getName();
+			Team team = Misc.getNewTeam("hero" + name);
+			team.setColor(type.glowColour);
+			team.setPrefix(type.glowColour.toString());
+			team.addEntry(name);
+		}
+		
 		SkinManager.getManager().addSkinChange(this, type.skin);
 	}
 	
@@ -165,6 +173,7 @@ public class Hero extends Dwarf {
 		
 		private final DwarfData data;
 		private final Skin skin;
+		private final ChatColor glowColour;
 		private final String descriptor;
 		
 		Type(String title, Hat hat, String skin, String descriptor, KitElementType... elements) {
@@ -194,13 +203,8 @@ public class Hero extends Dwarf {
 				this.skin = null;
 			} else {
 				this.skin = Skin.getSkin(skin);
-				
-				String name = this.skin.getName();
-				Team team = Misc.getNewTeam("hero" + name);
-				team.setColor(glowColour);
-				team.setPrefix(glowColour.toString());
-				team.addEntry(name);
 			}
+			this.glowColour = glowColour;
 		}
 		
 		public DwarfData getData() {return data;}

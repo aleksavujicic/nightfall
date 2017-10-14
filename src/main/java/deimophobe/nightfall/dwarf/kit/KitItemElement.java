@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public interface KitItemElement extends KitElement {
 	boolean onUse(Action action, Block clickedBlock, BlockFace blockFace);
-	void onBlockBreak(Block block);
+	void onBlockBreak(Block block, boolean didBreak);
 	
 	CustomItem getItem();
 	boolean matchesItem(ItemStack toMatch);

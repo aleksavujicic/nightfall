@@ -142,6 +142,8 @@ public class BlockType {
 			SHULKER_BOX,
 			SHARED_CHEST,
 			new MaterialSet(
+					Material.BED,
+					Material.BED_BLOCK,
 					Material.HOPPER,
 					Material.WORKBENCH,
 					Material.FURNACE,
@@ -164,6 +166,9 @@ public class BlockType {
 			)
 	);
 	public static final ComparableBlock IGNITEABLE = new MaterialSet(
+			Material.AIR, Material.DOUBLE_PLANT, Material.LONG_GRASS, Material.YELLOW_FLOWER, Material.RED_ROSE
+	);
+	public static final ComparableBlock SLABBABLE = new MaterialSet(
 			Material.AIR, Material.DOUBLE_PLANT, Material.LONG_GRASS, Material.YELLOW_FLOWER, Material.RED_ROSE
 	);
 	

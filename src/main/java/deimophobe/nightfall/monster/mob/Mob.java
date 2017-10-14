@@ -21,7 +21,7 @@ public interface Mob {
 	
 	void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec);
 	void onShift(boolean sneaking);
-	void onBlockBreak(Block block);
+	void onBlockBreak(Block block, boolean didBreak);
 	void onUse(Action action, Block clickedBlock, BlockFace blockFace);
 	void onDamageAttack(DwarfDamage damage);
 	void onDamageReceive(MonsterDamage damage);

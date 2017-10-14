@@ -377,7 +377,7 @@ public class GameListener implements Listener {
 		
 		GamePlayer gp = game.getGamePlayer(event.getPlayer());
 		if (gp != null)
-			gp.onBlockBreak(event.getBlock());
+			gp.onBlockBreak(event.getBlock(), !event.isCancelled());
 	}
 	
 	@EventHandler
@@ -400,6 +400,11 @@ public class GameListener implements Listener {
 			
 			event.setCancelled(true);
 		}
+	}
+	
+	@EventHandler
+	public void disablePortalTravel(PlayerPortalEvent event) {
+		event.setCancelled(true);
 	}
 	
 	

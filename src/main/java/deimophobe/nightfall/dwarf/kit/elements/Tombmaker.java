@@ -48,7 +48,7 @@ class Tombmaker extends AbstractCooldownItem {
 	}
 	
 	@Override
-	public void onBlockBreak(Block block) {
+	public void onBlockBreak(Block block, boolean didBreak) {
 		/*
 		if (block.getType() == Material.GRAVEL && Game.getGame().getPhase() == Phase.GAME) {
 			dwarf.giveProc(ProcType.GRAVEL_PROC);
