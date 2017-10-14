@@ -13,6 +13,7 @@ import deimophobe.nightfall.effects.GameEffect;
 import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.map.GameMap;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -39,7 +40,7 @@ class DwarfPickaxe extends AbstractItem implements KitCooldownElement {
 	private static final int MAX_HASTE_CD = 15;
 	private int cooldown = 0;
 	
-	private final ComplexCooldown armourCD = new ComplexCooldown(40*20);
+	private final ComplexCooldown armourCD = new ComplexCooldown(45*20);
 	
 	@Override
 	public float fractionComplete() {
@@ -52,11 +53,12 @@ class DwarfPickaxe extends AbstractItem implements KitCooldownElement {
 			// PICK REPAIRING ANOTHER DWARF
 			Dwarf repairee = dwarf.getLookingAt(2, 5, DwarfManager.getManager().getGamePlayers(), (d) -> !d.getArmour().isAtMax());
 			if (repairee != null && armourCD.isAvailable()) {
-				if (GameMap.getCurrentMap().tryUseGold(50)) {
+				GameMap currentMap = GameMap.getCurrentMap();
+				if (currentMap.tryUseGold(50)) {
 					armourCD.reset();
 					repairee.getArmour().repair(400);
 					GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, repairee);
-					
+					armourCD.setMaxCD((int)(45*20 - (((double)currentMap.getCurrentShrineIndex()) / (currentMap.getNumShrines() - 1))*30*20));
 					resetCD();
 					return true;
 				}

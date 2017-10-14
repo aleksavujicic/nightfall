@@ -6,7 +6,7 @@ package deimophobe.nightfall.cooldown;
  * Created by Deimophobe on 2/06/17.
  */
 public class ComplexCooldown implements Cooldown{
-	private final int maxCD;
+	private int maxCD;
 	private int cd;
 	
 	private final Runnable useAction;
@@ -29,7 +29,15 @@ public class ComplexCooldown implements Cooldown{
 		this.useAction = (useAction == null ? DO_NOTHING : useAction);
 		this.cooldownAction = (cooldownAction == null ? DO_NOTHING : cooldownAction);
 	}
-	
+
+	public int getMaxCD(int newCD) {
+		return maxCD;
+	}
+
+	public void setMaxCD(int newCD) {
+		maxCD = newCD;
+	}
+
 	public void update() {
 		if (cd > 0)
 			cd--;

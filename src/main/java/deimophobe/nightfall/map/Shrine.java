@@ -133,7 +133,7 @@ public class Shrine {
 				dwarvesOnShrine++;
 				if (!dwarf.getArmour().isAtMax())
 					if (map.tryUseGold(2)) {
-						dwarf.getArmour().repair(10);
+						dwarf.getArmour().repair(Math.min(shrineNum * 2 + 8, 16)); // shrineNum starts at 1
 					}
 					else {
 						map.tryUseGold(1);

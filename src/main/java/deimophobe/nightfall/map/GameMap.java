@@ -321,7 +321,8 @@ public class GameMap {
 	public void recoverShrine(int recovery) {
 		shrines.get(currentShrineIndex).recoverShrine(recovery);
 	}
-	
+
+	public int getCurrentShrineIndex() { return currentShrineIndex;}
 	
 	public void onEnd() {
 		shrineUpdater.cancel();
