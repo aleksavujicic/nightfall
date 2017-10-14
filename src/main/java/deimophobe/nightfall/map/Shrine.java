@@ -97,7 +97,7 @@ public class Shrine {
 		
 		this.shrineNum = shrineNum;
 		
-		this.swapoverDelay = section.getInt("delay", 8);
+		this.swapoverDelay = section.getInt("delay", 15);
 		
 		map.addUnbreakableRegion(shrineRegion);
 		
