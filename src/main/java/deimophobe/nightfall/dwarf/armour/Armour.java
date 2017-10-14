@@ -22,4 +22,6 @@ public interface Armour {
 	double getResistance();
 	int getManaRegenRate();
 	int getMaxArmor();
+	
+	int getValue();
 }

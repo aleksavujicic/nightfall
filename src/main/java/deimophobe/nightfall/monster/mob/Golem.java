@@ -41,7 +41,7 @@ class Golem extends AbstractMob {
 				swingArms();
 				breakCD = BREAK_CD_MAX;
 				
-				if (!BlockType.GOLEM_UNBREAKABLE_BLOCKS.matchesBlock(clickedBlock) && !GameMap.getCurrentMap().isBlockBreakable(clickedBlock)) {
+				if (!BlockType.GOLEM_UNBREAKABLE_BLOCKS.matchesBlock(clickedBlock) && GameMap.getCurrentMap().isBlockBreakable(clickedBlock)) {
 					clickedBlock.getWorld().spawnParticle(Particle.BLOCK_CRACK, clickedBlock.getLocation().add(0.5, 0.5, 0.5), 40, 0.5, 0.5, 0.5, 0, clickedBlock.getState().getData());
 					clickedBlock.breakNaturally();
 				}

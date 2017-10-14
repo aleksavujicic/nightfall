@@ -25,7 +25,7 @@ commands:
     usage: /horn
     description: HORN
   armour:
-    usage: /armour equip | /armour [damage|repair] <amount>
+    usage: /armour [equip|amount] | /armour [damage|repair] <amount>
     description: Cheaty self-armour.
     aliases: armor
   damage:

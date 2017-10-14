@@ -32,4 +32,9 @@ public class NakedArmour implements Armour {
 	}
 	
 	@Override public int getMaxArmor() {return 0;}
+	
+	@Override
+	public int getValue() {
+		return 0;
+	}
 }
