@@ -5,7 +5,7 @@ compass:
   name: compass
   cost: 0
   item:
-    name: "&6&lThe Mighty Dwarven Compass"
+    name: "Compass"
     material: compass
 chesto:
   index: 1

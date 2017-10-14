@@ -3,6 +3,7 @@ package deimophobe.nightfall.blocks;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.blocktype.ComparableBlock;
 import deimophobe.nightfall.blocks.blocktype.SettableBlock;
+import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -78,11 +79,13 @@ public class BlockConverter {
 			int startY = bottomCorner.getBlockY();
 			int startZ = bottomCorner.getBlockZ();
 			
+			GameMap map = GameMap.getCurrentMap();
 			for (int x = startX; x<startX+size; x++) {
 				for (int y = startY; y<startY+size; y++) {
 					for (int z = startZ; z<startZ+size; z++) {
 						Block block = world.getBlockAt(x, y, z);
 						if (block.getType() == Material.AIR) continue;
+						if (!map.isBlockBreakable(block)) continue;
 						
 						double appliedForce = (force / Math.max(1 , Math.sqrt(loc.distance(new Location(world, 0.5 + x, 0.5 + y, 0.5 + z)))));
 						// Bukkit.broadcastMessage(""+appliedForce);

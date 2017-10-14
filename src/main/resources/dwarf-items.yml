@@ -457,12 +457,14 @@ misc:
 
   compass:
     material: compass
-    name: "&6&lTHE MIGHTY DWARVEN COMPASS"
+    name: "Trusty Compass"
     lore:
       description:
-       - "Clicking cycles through various locations."
+       - "Left click to see current location.\n
+          Right click to cycle through various\n
+          locations on the map."
       flavour:
-       - "&dUsed by only the greatest of warriors."
+       - "A simple but useful tool."
 
   chesto:
     material: chest

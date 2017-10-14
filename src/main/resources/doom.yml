@@ -12,7 +12,7 @@ krungor:
 
 ghostblades:
   title: Ghost Blades
-  subtitle: Nowhere is safe
+  subtitle: ""
 
   mobs:
     regular:
@@ -23,14 +23,14 @@ ghostblades:
 
 hellhounds:
   title: Hellhounds
-  subtitle: Hopefully not as lame as dires
+  subtitle: ""
 
   mobs:
     regular:
       - hellhound
 
 tickers:
-  title: Witty Name Here
+  title: Tickers
   cycle-time: 20
   subtitle:
     - Tick.

@@ -52,6 +52,9 @@ class Ticker extends AbstractMob {
 		green *= 1d/256;
 		blue *= 1d/256;
 		
+		red = 1 - Math.pow(1-red,2);
+		green = 1 - Math.pow(1-green,2);
+		
 		Location loc = monster.getEyeLocation();
 		loc.getWorld().spawnParticle(Particle.REDSTONE,loc, 0, red, green, blue,1);
 	}
@@ -76,7 +79,7 @@ class Ticker extends AbstractMob {
 	
 	
 	private static final double r1 = 51, g1 = 248, b1 = 14;
-	private static final double r2 = 249, g2 = 53, b2 = 14;
+	private static final double r2 = 255, g2 = 14, b2 = 14;
 	
 	private void tick() {
 		
@@ -97,23 +100,25 @@ class Ticker extends AbstractMob {
 	}
 	
 	
-	private final static double RADIUS = 5;
+	private final static double RADIUS = 6;
 	private final static double DAMAGE = 200;
-	private final static int ARMOUR_SHRED = 750;
+	private final static int ARMOUR_SHRED = 600;
 	private final static int MANA_DRAIN = 250;
 	
 	private void explode() {
 		Location loc = monster.getEyeLocation();
 		loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 10, 1, 1, 1,0);
+		loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 25, 1.5, 1.5, 1.5,0.3);
+		loc.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, loc, 100, 1, 1, 1,0.5);
 		monster.playSound("entity.generic.explode", 1f, 0.7f, true);
 		
 		
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
-			double distance = dwarf.distanceTo(monster);
+			Vector offset = dwarf.getEyeLocation().subtract(monster.getLocation()).toVector();
+			double distance = offset.length();
 			if (distance <= RADIUS) {
 				double affectRate = 1.5/Math.max(distance,1.5);
 				
-				Vector offset = dwarf.getLocation().subtract(monster.getLocation()).toVector();
 				offset.normalize();
 				offset.add(new Vector(0,5,0));
 				offset.multiply(5*affectRate);

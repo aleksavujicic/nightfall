@@ -35,7 +35,7 @@ public class PlaguedZombie extends AbstractMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		Dwarf dwarf = damage.getDwarf();
-		if (canSpread && Math.random() <= 0.3) {
+		if (canSpread && Math.random() <= 0.5) {
 			boolean plagued = plague.convertToZombie(dwarf);
 			if (plagued) {
 				monster.sendMessage(ChatColor.GREEN + "You have spread the " + ChatColor.LIGHT_PURPLE + ChatColor.ITALIC + "plague" +

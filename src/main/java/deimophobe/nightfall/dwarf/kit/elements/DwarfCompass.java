@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
+import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -37,16 +38,22 @@ class DwarfCompass extends AbstractItem {
 		List<CompassLocation> locations = GameMap.getCurrentMap().getCompassLocations();
 		
 		// Change index
-		if (dwarf.getPlayer().isSneaking())
-			nextIndex = (nextIndex == 0 ? locations.size() - 1 : nextIndex - 1);
-		else
-			nextIndex = (nextIndex + 1) % locations.size();
+		if (Misc.isRightClick(action)) {
+			if (dwarf.getPlayer().isSneaking()) {
+				nextIndex = (nextIndex == 0 ? locations.size() - 1 : nextIndex - 1);
+			} else {
+				nextIndex = (nextIndex + 1) % locations.size();
+			}
+		}
 		
 		// Get new compass location
 		CompassLocation cl = locations.get(nextIndex);
 		
 		// Set location
-		dwarf.sendMessage(ChatColor.LIGHT_PURPLE + "Compass is now pointing at: " + ChatColor.YELLOW + cl.getName());
+		//dwarf.sendMessage(ChatColor.LIGHT_PURPLE + "Compass is now pointing at: " + ChatColor.YELLOW + cl.getName());
+		//String leftArrow = (wentLeft ? ChatColor.GOLD : ChatColor.WHITE ) + "←";
+		//String rightArrow = (!wentLeft ? ChatColor.GOLD : ChatColor.WHITE ) + "→";
+		dwarf.sendTitleMessage(ChatColor.LIGHT_PURPLE + cl.getName());
 		dwarf.getPlayer().setCompassTarget(cl.getLocation());
 		
 		// Lock to prevent 'double clicking'

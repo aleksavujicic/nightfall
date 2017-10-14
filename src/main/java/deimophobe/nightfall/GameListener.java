@@ -1,10 +1,8 @@
 package deimophobe.nightfall;
 
-import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.damage.DamageManager;
-import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -59,6 +57,9 @@ public class GameListener implements Listener {
 		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(1024);
 		Game.getGame().giveShrineBarToPlayer(player);
 		Game.getGame().giveScoreboard(player);
+		
+		if (game.getPhase() == Phase.STARTING)
+			Misc.loadSound(player, "division");
 		
 		if (player.isDead())
 			return;

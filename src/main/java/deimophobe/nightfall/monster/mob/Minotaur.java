@@ -36,6 +36,7 @@ public class Minotaur extends AbstractMob {
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
+		((MobDisguise)getDisguise()).setReplaceSounds(false);
 		((MobDisguise)getDisguise()).setHearSelfDisguise(false);
 	}
 	
@@ -63,7 +64,7 @@ public class Minotaur extends AbstractMob {
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
-		if (Math.random() <= 0.5) {
+		if (Math.random() <= 0.5 && !damage.isCancelled()) {
 			monster.playSound("entity.shulker.hurt", 1f, 0.5f, true);
 		}
 	}

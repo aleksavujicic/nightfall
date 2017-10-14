@@ -72,7 +72,7 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 		}
 		if (isAvailable()) {
 			ItemStack newitem = item.clone();
-				newitem.setAmount(quantity);
+			//newitem.setAmount(quantity);
 			return newitem;
 		} else {
 			return null;

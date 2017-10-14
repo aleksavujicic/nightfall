@@ -58,7 +58,7 @@ class VelBow extends AbstractToggleBow implements KitCooldownElement {
 		arrow = super.onBowFire(arrow, force);
 		if (isActive()) {
 			ArrowMisc.setGlowColour((Arrow) arrow, ChatColor.DARK_PURPLE);
-			ArrowMisc.setArrowDamage((Arrow) arrow, 150);
+			ArrowMisc.setArrowDamage((Arrow) arrow, 200);
 			cooldown.tryUse();
 			updateActive();
 		}

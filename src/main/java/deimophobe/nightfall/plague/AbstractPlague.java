@@ -17,7 +17,7 @@ public abstract class AbstractPlague implements Plague {
 	public void startPlague(Set<Dwarf> plagueables, Set<Dwarf> plagued, int killAmt) {
 		this.plagueables = plagueables;
 		this.plagued = plagued;
-		this.toKill = killAmt;
+		this.toKill = Math.max(killAmt, plagued.size());
 	}
 	
 	@Override
