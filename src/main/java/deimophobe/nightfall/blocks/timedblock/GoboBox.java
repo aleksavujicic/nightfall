@@ -18,9 +18,14 @@ import org.bukkit.block.Block;
  */
 public class GoboBox extends TimedBlock {
 	private final double power;
-	public GoboBox(Block block, int lifeTime, double power, GameEntity placer) {
+	private final double damage;
+	private final double kb;
+
+	public GoboBox(Block block, int lifeTime, double damage, double power, double kb, GameEntity placer) {
 		super(block, Material.ENDER_STONE, lifeTime, placer);
+		this.damage = damage;
 		this.power = power;
+		this.kb = kb;
 	}
 	
 	@Override
@@ -34,7 +39,7 @@ public class GoboBox extends TimedBlock {
 			world.playSound(centerLoc, "entity.generic.explode", 2, 1);
 
 			DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), getPlacer(),
-					CustomDamageType.GOBO_BOX_EXPLOSION, centerLoc, 5, 40, 3);
+					CustomDamageType.GOBO_BOX_EXPLOSION, centerLoc, 5, damage, kb);
 		}
 	}
 	

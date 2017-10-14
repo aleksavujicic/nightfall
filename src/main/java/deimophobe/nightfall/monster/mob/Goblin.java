@@ -13,6 +13,7 @@ import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
@@ -39,6 +40,12 @@ class Goblin extends AbstractMob {
 	private int supplies;
 	private boolean kaboom;
 	private boolean kaboomTrigger;
+	private int pick;
+	private int dest;
+	private int shrapnel;
+	private int force;
+	private int speed;
+	private int superKaboom;
 
 	private Cooldown placeboxCD;
 	private Cooldown throwboxCD;
@@ -65,7 +72,15 @@ class Goblin extends AbstractMob {
 		}
 		this.kaboomTrigger = false;
 
+		this.pick = upgrades.get("pick");
+		this.dest = upgrades.get("dest");
+		this.shrapnel = upgrades.get("shrapnel");
+		this.force = upgrades.get("force");
+		this.speed = upgrades.get("speed");
+		this.superKaboom = upgrades.get("superkaboom");
+
 		getArmour().addModifier(ItemModifierType.HEALTH, health, "Upgrade");
+		getArmour().addModifier(ItemModifierType.SPEED, (speed * 10), "Upgrade");
 
 		this.placeboxCD = new ComplexCooldown(MAX_PLACE_CD);
 		this.throwboxCD = new ComplexCooldown(MAX_THROW_CD);
@@ -78,6 +93,11 @@ class Goblin extends AbstractMob {
 		giveItem("gobo-box", (2+ supplies));
 		if (kaboom) {
 			giveItem("kaboom", 1);
+		}
+		if (pick > 0) {
+			CustomItem item = getItem("wood-pickaxe").clone();
+			item.addModifier(ItemModifierType.EFFICIENCY, (pick - 1), "Pick Upgrade");
+			monster.giveItem(item);
 		}
 	}
 
@@ -100,7 +120,10 @@ class Goblin extends AbstractMob {
 
 		if (Misc.isRightClick(action) && isPlayerHoldingItem("gobo-box") && placeboxCD.isAvailable() && clickedBlock != null && clickedBlock.getType() != Material.ENDER_STONE) {
 			Block block = clickedBlock.getRelative(blockFace);
-			if ((monster.getTargetBlock(null, 5).getType() != Material.AIR) && (TimedBlock.placeTimedBlock(new GoboBox(block, 100, 5, monster)))) {
+			double damage = 40 + 2 * shrapnel;
+			double power = 4.5 + 0.25 * dest;
+			double kb = 2.5 + 0.15 * force;
+			if ((monster.getTargetBlock(null, 5).getType() != Material.AIR) && (TimedBlock.placeTimedBlock(new GoboBox(block, 100, damage, power, kb, monster)))) {
 				monster.useHeldItem();
 				placeboxCD.reset();
 			}
@@ -113,7 +136,15 @@ class Goblin extends AbstractMob {
 			direction.setY(0.4);
 			direction.setZ((direction.getZ() / 1.8));
 			TNTPrimed tnt = monster.getLocation().getWorld().spawn(monster.getEyeLocation().add(direction), TNTPrimed.class);
+			double damage = 40 + 2 * shrapnel;
+			int armorShred = 25 + 5 * shrapnel;
+			double power = 4.5 + 0.25 * dest;
+			double kb = 2.5 + 0.15 * force;
 			tnt.setMetadata("thrower", new FixedMetadataValue(NightfallPlugin.getPlugin(), monster));
+			tnt.setMetadata("damage", new FixedMetadataValue(NightfallPlugin.getPlugin(), damage));
+			tnt.setMetadata("armorShred", new FixedMetadataValue(NightfallPlugin.getPlugin(), armorShred));
+			tnt.setMetadata("power", new FixedMetadataValue(NightfallPlugin.getPlugin(), power));
+			tnt.setMetadata("kb", new FixedMetadataValue(NightfallPlugin.getPlugin(), kb));
 			tnt.setVelocity(direction);
 			tnt.setFuseTicks(60);
 			world.playSound(loc, "entity.firework.launch", 2, (float) 0.5);
@@ -123,31 +154,37 @@ class Goblin extends AbstractMob {
 		}
 
 		if (Misc.isLeftClick(action) && isPlayerHoldingItem("kaboom") && !kaboomTrigger) {
-			monster.givePotionEffect(PotionEffectType.SPEED, MAX_KABOOM_CD, 4, true, true, true);
+			monster.givePotionEffect(PotionEffectType.SPEED, MAX_KABOOM_CD, speed, true, true, true);
 			kaboomTrigger = true;
 		}
 	}
-	
+
 	private void kaboom() {
 		GameDamage damage = monster.createDamage(null, CustomDamageType.SELF_GOBO_KABOOM, 1000);
 		damage.instaKill();
 		damage.fire(true);
-		
+
+		double dwarfDamage = 60 + 5 * shrapnel + 10 * superKaboom;
+		int armorShred = 50 + 5 * shrapnel + 25 * superKaboom;
+		double power = 6 + 0.5 * dest + 1.5 * superKaboom;
+		double kb = 2.5 + 0.25 * force + 1.25 * superKaboom;
+
 		Location loc = monster.getLocation();
 		World world = monster.getLocation().getWorld();
 
-		BlockConverter.convert(BlockConverter.Type.EXPLOSION, loc, 8);
+		BlockConverter.convert(BlockConverter.Type.EXPLOSION, loc, power);
 		world.spawnParticle(Particle.EXPLOSION_HUGE, loc, 3, 1, 1, 1);
 		world.playSound(loc, "entity.generic.explode", 2, 1);
 		
-		DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), monster,
-				CustomDamageType.GOBO_KABOOM, loc, 6, 80, 4);
+		DamageManager.getManager().DwarfAOEDamage(monster,
+				CustomDamageType.GOBO_KABOOM, loc, 6 + superKaboom, dwarfDamage, kb, false, armorShred);
 	}
 	
 	
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
+		monster.removePotionEffect(PotionEffectType.SPEED);
 		kaboomCD.reset();
 		kaboomTrigger = false;
 	}
