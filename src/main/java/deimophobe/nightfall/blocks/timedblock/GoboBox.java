@@ -2,6 +2,8 @@ package deimophobe.nightfall.blocks.timedblock;
 
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.damage.DamageManager;
+import deimophobe.nightfall.damage.DamageModifier;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -12,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.util.Vector;
 
 /**
  * Created by Deimophobe on 28/02/17.
@@ -38,8 +41,21 @@ public class GoboBox extends TimedBlock {
 			world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
 			world.playSound(centerLoc, "entity.generic.explode", 2, 1);
 
-			DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), getPlacer(),
-					CustomDamageType.GOBO_BOX_EXPLOSION, centerLoc, 5, damage, kb);
+			for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
+				Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
+				if (offset.length() > 5) continue;
+
+				DamageModifier modifier = new DamageModifier();
+
+				Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
+				knockback.setY(knockback.getY() / 2);
+				modifier.addKnockback(knockback);
+
+				DwarfDamage aoeDamage = dwarf.createDamage(getPlacer(), CustomDamageType.GOBO_BOX_EXPLOSION, damage);
+				modifier.applyToDamage(aoeDamage);
+				aoeDamage.setArmourShred(25);
+				aoeDamage.fire();
+			}
 		}
 	}
 	

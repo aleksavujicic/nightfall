@@ -15,6 +15,7 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import me.libraryaddict.disguise.disguisetypes.watchers.CreeperWatcher;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -89,6 +90,9 @@ public class Goblin extends AbstractMob {
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
+		if (superKaboom == 1) {
+			((CreeperWatcher)getDisguise().getWatcher()).setPowered(true);
+		}
 		giveItem("gobo-box", (2+ supplies));
 		if (kaboom) {
 			giveItem("kaboom", 1);
@@ -121,7 +125,7 @@ public class Goblin extends AbstractMob {
 			Block block = clickedBlock.getRelative(blockFace);
 			double damage = 40 + 2 * shrapnel;
 			double power = 4.5 + 0.25 * dest;
-			double kb = 2.5 + 0.15 * force;
+			double kb = 0.3 + 0.02 * force;
 			if ((monster.getTargetBlock(null, 5).getType() != Material.AIR) && (TimedBlock.placeTimedBlock(new GoboBox(block, 100, damage, power, kb, monster)))) {
 				monster.useHeldItem();
 				placeboxCD.reset();
@@ -135,7 +139,7 @@ public class Goblin extends AbstractMob {
 			direction.setY(0.4);
 			direction.setZ((direction.getZ() / 1.8));
 			TNTPrimed tnt = monster.getLocation().getWorld().spawn(monster.getEyeLocation().add(direction), TNTPrimed.class);
-			tnt.setMetadata("thrower", new FixedMetadataValue(NightfallPlugin.getPlugin(), monster));
+			tnt.setMetadata("thrower", new FixedMetadataValue(NightfallPlugin.getPlugin(), this));
 			tnt.setVelocity(direction);
 			tnt.setFuseTicks(60);
 			world.playSound(loc, "entity.firework.launch", 2, (float) 0.5);
@@ -155,7 +159,7 @@ public class Goblin extends AbstractMob {
 		double dwarfDamage = 60 + 5 * shrapnel + 25 * superKaboom;
 		int armorShred = 50 + 5 * shrapnel + 25 * superKaboom;
 		double power = 6 + 0.5 * dest + 1.5 * superKaboom;
-		double kb = 2.5 + 0.25 * force + 1.25 * superKaboom;
+		double kb = 0.75 + 0.15 * force + 1 * superKaboom;
 
 		Location loc = monster.getLocation();
 		World world = monster.getLocation().getWorld();
@@ -163,9 +167,23 @@ public class Goblin extends AbstractMob {
 		BlockConverter.convert(BlockConverter.Type.EXPLOSION, loc, power);
 		world.spawnParticle(Particle.EXPLOSION_HUGE, loc, 3, 1, 1, 1);
 		world.playSound(loc, "entity.generic.explode", 2, 1);
-		
-		DamageManager.getManager().DwarfAOEDamage(monster,
-				CustomDamageType.GOBO_KABOOM, loc, 6 + superKaboom, dwarfDamage, kb, false, armorShred);
+
+		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
+			Vector offset = dwarf.getEyeLocation().subtract(loc).toVector();
+			if (offset.length() > 6) continue;
+
+			DamageModifier modifier = new DamageModifier();
+
+			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
+			knockback.setY(knockback.getY() / 2 + 0.1 + 0.3 * superKaboom);
+			modifier.addKnockback(knockback);
+
+			DwarfDamage aoeDamage = dwarf.createDamage(monster, CustomDamageType.GOBO_KABOOM, dwarfDamage);
+			modifier.applyToDamage(aoeDamage);
+			aoeDamage.setArmourShred(armorShred);
+			aoeDamage.fire();
+		}
+
 
 		GameDamage damage = monster.createDamage(null, CustomDamageType.SELF_GOBO_KABOOM, 1000);
 		damage.instaKill();
@@ -188,24 +206,25 @@ public class Goblin extends AbstractMob {
 
 	public void thrownGoboBox(Location centerLoc) {
 		double damage = 40 + 2 * shrapnel;
-		int armorShred = 25 + 5 * shrapnel;
+		int armorShred = 10 + 5 * shrapnel;
 		double power = 4.5 + 0.25 * dest;
-		double kb = 2.5 + 0.15 * force;
+		double kb = 0.5 + 0.06 * force;
 
 		BlockConverter.convert(BlockConverter.Type.THROWNEXPLOSION, centerLoc, power);
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
-			Vector offset = dwarf.getLocation().subtract(centerLoc).toVector();
+			Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
 			if (offset.length() > 5) continue;
 
 			DamageModifier modifier = new DamageModifier();
 
-			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(1.5, offset.length())) );
+			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
+			knockback.setY(knockback.getY() / 2 + 0.1);
 			modifier.addKnockback(knockback);
 
 			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.GOBO_BOX_EXPLOSION, damage);
 			modifier.applyToDamage(aoeDamage);
 			aoeDamage.setArmourShred(armorShred);
-			aoeDamage.fire();
+			aoeDamage.fire(true);
 		}
 	}
 }
