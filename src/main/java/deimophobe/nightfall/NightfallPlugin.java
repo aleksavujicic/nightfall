@@ -335,10 +335,18 @@ public class NightfallPlugin extends JavaPlugin {
 			if (sender instanceof Player) {
 				Dwarf dwarf = dm.getGamePlayer((Player)sender);
 				if (dwarf != null) {
-					if (args.length == 1) {
-						if (args[0].equals("equip")) {
-							dwarf.getArmour().putOn();
-							return true;
+					if (args.length == 0) {
+						dwarf.getArmour().putOn();
+						return true;
+					} else if (args.length == 1) {
+						switch (args[0]) {
+							case "equip":
+								dwarf.getArmour().putOn();
+								return true;
+							case "amount":
+								int armour = dwarf.getArmour().getValue();
+								sender.sendMessage("" + ChatColor.YELLOW + "You have " + ChatColor.AQUA + armour + ChatColor.YELLOW + " armour left.");
+								return true;
 						}
 					} else if (args.length == 2) {
 						int amt;
@@ -873,7 +881,7 @@ public class NightfallPlugin extends JavaPlugin {
 		}
 		
 		if (name.equalsIgnoreCase("armour") && args.length == 1) {
-			return startsWithPrefix(args[args.length-1], "damage", "repair", "equip");
+			return startsWithPrefix(args[args.length-1], "damage", "repair", "equip", "amount");
 		}
 		
 		if (name.equalsIgnoreCase("giveitem")) {

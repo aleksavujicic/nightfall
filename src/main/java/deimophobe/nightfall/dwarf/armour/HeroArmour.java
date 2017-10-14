@@ -31,7 +31,12 @@ public class HeroArmour implements Armour {
 	public int getMaxArmor() {
 		return 0;
 	}
-
+	
+	@Override
+	public int getValue() {
+		return 1000;
+	}
+	
 	@Override
 	public void damage(int damage) {}
 	

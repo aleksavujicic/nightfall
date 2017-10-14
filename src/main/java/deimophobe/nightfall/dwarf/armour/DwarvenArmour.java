@@ -83,7 +83,12 @@ public class DwarvenArmour implements Armour {
 	public int getMaxArmor() {
 		return max;
 	}
-
+	
+	@Override
+	public int getValue() {
+		return armour;
+	}
+	
 	@Override
 	public void damage(int damage) {
 		if (Game.getGame().getPhase() == Phase.BUILD) return;
