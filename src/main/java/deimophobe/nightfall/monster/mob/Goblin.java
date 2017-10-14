@@ -220,7 +220,7 @@ public class Goblin extends AbstractMob {
 			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.GOBO_BOX_EXPLOSION, damage);
 			modifier.applyToDamage(aoeDamage);
 			aoeDamage.setArmourShred(armorShred);
-			aoeDamage.fire();
+			aoeDamage.fire(true);
 		}
 	}
 }
