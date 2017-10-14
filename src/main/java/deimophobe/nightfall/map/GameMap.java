@@ -123,7 +123,9 @@ public class GameMap {
 			@Override public String getName() {return "Dwarf spawn";}
 		});
 		compassLocations.add(new CompassLocation() {
-			@Override public Location getLocation() {return shrines.get(currentShrineIndex).getShrineCenter();}
+			@Override public Location getLocation() {
+				if (currentShrineIndex == -1) return shrines.get(0).getShrineCenter();
+				return shrines.get(currentShrineIndex).getShrineCenter();}
 			@Override public String getName() {return "Current shrine";}
 		});
 		compassLocations.add(new CompassLocation() {
