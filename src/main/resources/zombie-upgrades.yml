@@ -6,7 +6,9 @@ attack:
     name: "Upgrade Attack"
     lore:
       description:
-        - "Increases your attack."
+        - "Increases your attack.\n
+           Upgrade attack and health to lvl 3\n
+           to unlock subclasses."
 
 attack-inf:
   index: 2
@@ -30,7 +32,9 @@ health:
     name: "Upgrade Health"
     lore:
       description:
-        - "Increases your health."
+        - "Increases your health.\n
+           Upgrade attack and health to lvl 3\n
+           to unlock subclasses."
 
 health-inf:
   index: 6
@@ -62,7 +66,7 @@ husk:
       description:
         - "Become a Husk Zombie.\n
            A slow, tanky zombie variant that can\n
-           take many hits and rebirth as many times."
+           take many hits and rebirth many times."
 
 
 fury:

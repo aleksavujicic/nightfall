@@ -4,6 +4,8 @@ import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
+import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.entity.GameEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -101,10 +103,6 @@ public class DamageManager {
 	public void AOEDamage(Collection<? extends GameEntity> receivers, GameEntity attacker, CustomDamageType type, Location origin, double range, double damage, double kbStrength, boolean force) {
 		AOEDamage(receivers, attacker, type, origin, range, damage, kbStrength, new DamageModifier(), force);
 	}
-
-	public void AOEDamage(Collection<? extends GameEntity> receivers, GameEntity attacker, CustomDamageType type, double range, double damage, double kbStrength, DamageModifier modifier, boolean force) {
-		AOEDamage(receivers, attacker, type, attacker.getLocation(), range, damage, kbStrength, modifier, force);
-	}
 	
 	public void AOEDamage(Collection<? extends GameEntity> receivers, GameEntity attacker, CustomDamageType type, Location origin, double range, double damage, double kbStrength, DamageModifier modifier, boolean force) {
 		AOEDamage(receivers, attacker, type, origin, range,
@@ -117,7 +115,7 @@ public class DamageManager {
 		for (GameEntity receiver : receivers) {
 			Vector offset = receiver.getLocation().subtract(origin).toVector();
 			if (offset.length() > range) continue;
-			
+
 			double damage = damageFunction.apply(offset);
 			Vector knockback = knockbackFunction.apply(offset);
 			modifier.addKnockback(knockback);
@@ -125,6 +123,23 @@ public class DamageManager {
 			GameDamage gameDamage = GameDamage.createDamage(attacker, receiver, type, damage);
 			modifier.applyToDamage(gameDamage);
 			gameDamage.fire(force);
+		}
+	}
+
+	public void DwarfAOEDamage(GameEntity attacker, CustomDamageType type, Location origin, double range, double damage, double kbStrength, boolean force, int armorShred) {
+		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
+			Vector offset = dwarf.getLocation().subtract(origin).toVector();
+			if (offset.length() > range) continue;
+
+			DamageModifier modifier = new DamageModifier();
+
+			Vector knockback = offset.multiply(kbStrength / Math.sqrt(Math.max(1, offset.length())) );
+			modifier.addKnockback(knockback);
+
+			DwarfDamage aoeDamage = dwarf.createDamage(attacker, type, damage);
+			modifier.applyToDamage(aoeDamage);
+			aoeDamage.setArmourShred(armorShred);
+			aoeDamage.fire(force);
 		}
 	}
 }

@@ -272,16 +272,19 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void thrownGoboBoxExplosion(EntityExplodeEvent event) {
 		event.setCancelled(true);
-		double power = 5;
 		Location centerLoc = event.getLocation();
 		World world = centerLoc.getWorld();
-		BlockConverter.convert(BlockConverter.Type.THROWNEXPLOSION, centerLoc, power);
 		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
 		world.playSound(centerLoc, "entity.generic.explode", 2, 1);
 		Object thrower = event.getEntity().getMetadata("thrower").get(0).value();
+		Object damage = event.getEntity().getMetadata("damage").get(0).value();
+		Object armorShred = event.getEntity().getMetadata("armorShred").get(0).value();
+		Object power = event.getEntity().getMetadata("power").get(0).value();
+		Object kb = event.getEntity().getMetadata("kb").get(0).value();
+		BlockConverter.convert(BlockConverter.Type.THROWNEXPLOSION, centerLoc, (Double)power);
 		if (thrower instanceof MonsterPlayer)
-			DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), (GameEntity) thrower,
-					CustomDamageType.GOBO_BOX_EXPLOSION, centerLoc, 5, 40, 3);
+			DamageManager.getManager().DwarfAOEDamage((GameEntity) thrower,
+					CustomDamageType.GOBO_BOX_EXPLOSION, centerLoc, 5, (Double)damage, (Double)kb, false, (Integer)armorShred);
 	}
 	
 	// --------------------------------------------------------

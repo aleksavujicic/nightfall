@@ -1,12 +1,15 @@
 supplies:
   index: 2
-  cost: [50, 75, 100, 125, 150]
+  cost: [20, 40, 60, 80, 100]
   item:
     material: ender_stone
     name: "Upgrade Supplies"
     lore:
       description:
-        - "Increases your amount of explosives."
+        - "Increases your amount of explosives.\n
+           Upgrade supplies and health to lvl 3\n
+           to unlock subclasses."
+
 
 supplies-inf:
   index: 2
@@ -22,15 +25,19 @@ supplies-inf:
       description:
         - "Further increases your amount of explosives."
 
+
 health:
   index: 6
-  cost: [50, 75, 100, 125, 150]
+  cost: [20, 40, 60, 80, 100]
   item:
     material: rotten_flesh
     name: "Upgrade Health"
     lore:
       description:
-        - "Increases your health."
+        - "Increases your health.\n
+           Upgrade supplies and health to lvl 3\n
+           to unlock subclasses."
+
 
 health-inf:
   index: 6
@@ -45,6 +52,7 @@ health-inf:
     lore:
       description:
         - "Further increases your health."
+
 
 kaboom:
   index: 11
@@ -61,3 +69,92 @@ kaboom:
       description:
         - "Become a gobo that can kaboom,\n
            blowing yourself up to deal huge damage."
+
+
+############################
+# KABOOM SUBCLASS UPGRADES #
+############################
+
+pick:
+  index: 11
+  cost: [50, 100, 150]
+  prereq:
+    kaboom: 1
+  item:
+    material: wood_pickaxe
+    name: "Gobo pick"
+    lore:
+      description:
+        - "Destroy walls with this pick.\n
+           Higher levels give efficiency for the pick."
+
+
+dest:
+  index: 12
+  cost: [20, 40, 60, 80, 100]
+  prereq:
+    kaboom: 1
+  item:
+    material: cobblestone
+    name: "Destruction"
+    lore:
+      description:
+        - "Explosions destroy more blocks."
+
+
+shrapnel:
+  index: 13
+  cost: [20, 40, 60, 80, 100]
+  prereq:
+    kaboom: 1
+  item:
+    material: tnt
+    name: "Shrapnel"
+    lore:
+      description:
+        - "Explosions do more damage."
+
+
+force:
+  index: 14
+  cost: [20, 40, 60, 80, 100]
+  prereq:
+    kaboom: 1
+  item:
+    material: cactus
+    name: "Force"
+    lore:
+      description:
+        - "Explosions do more knockback."
+
+
+speed:
+  index: 15
+  cost: [50, 100, 150]
+  prereq:
+    kaboom: 1
+  item:
+    material: glowstone_dust
+    name: "Speed"
+    lore:
+      description:
+        - "Run more quickly when you go kaboom.\n
+           Also slightly increases base speed."
+
+
+superkaboom:
+  index: 22
+  cost: 300
+  prereq:
+      pick: 3
+      dest: 5
+      shrapnel: 5
+      force: 5
+      speed: 3
+      kaboom: 1
+  item:
+    base: kaboom
+    name: "Super Kaboom"
+    lore:
+      description:
+        - "Make a large explosion when you kaboom!\n"
