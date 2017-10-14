@@ -152,9 +152,9 @@ superkaboom:
       force: 5
       speed: 3
       kaboom: 1
-    item:
-      base: kaboom
-      name: "Super Kaboom"
-      lore:
-        description:
-          - "Make a large explosion when you kaboom!\n"
+  item:
+    base: kaboom
+    name: "Super Kaboom"
+    lore:
+      description:
+        - "Make a large explosion when you kaboom!\n"
