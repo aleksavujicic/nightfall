@@ -1,11 +1,14 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.hero.Hero;
+import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
@@ -27,11 +30,23 @@ import java.util.Set;
  */
 class Krungor extends AbstractMob {
 	
+	private final boolean buffed;
+	
 	private int cooldown = 0;
 	private final static int MAX_CD = 60*20;
 	
 	Krungor(MonsterPlayer monster) {
 		super(monster, MobType.KRUNGOR);
+		
+		// Krungor buffs if enough ppl on
+		if (Game.getGame().getNumPlayers() >= 2) {
+			buffed = true;
+			getArmour().addModifier(ItemModifierType.RESISTANCE, 5);
+			getArmour().addModifier(ItemModifierType.SPEED, 5);
+			getWeapon().addModifier(ItemModifierType.ATTACK, 5);
+		} else {
+			buffed = false;
+		}
 	}
 	
 	@Override
@@ -43,6 +58,20 @@ class Krungor extends AbstractMob {
 	@Override
 	public float getCooldown() {
 		return 1 - (float)cooldown/MAX_CD;
+	}
+	
+	@Override
+	public void onDamageAttack(DwarfDamage damage) {
+		super.onDamageAttack(damage);
+		if (damage.getReceiver() instanceof Hero)
+			damage.getDamage().setBoost(20);
+	}
+	
+	@Override
+	public void onDamageReceive(MonsterDamage damage) {
+		super.onDamageReceive(damage);
+		if (buffed)
+			damage.getDamage().timesMult(2d/3d); // Changes from 85% res to 90%
 	}
 	
 	private static final int MAX_BLOCKS = 6;
@@ -113,12 +142,5 @@ class Krungor extends AbstractMob {
 			
 			cooldown = MAX_CD;
 		}
-	}
-	
-	@Override
-	public void onDamageAttack(DwarfDamage damage) {
-		super.onDamageAttack(damage);
-		if (damage.getReceiver() instanceof Hero)
-			damage.getDamage().setBoost(20);
 	}
 }

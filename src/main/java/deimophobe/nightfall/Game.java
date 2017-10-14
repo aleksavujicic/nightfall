@@ -192,6 +192,10 @@ public class Game {
 		return dwarfManager.removeGamePlayer(player, true) | monsterManager.removeGamePlayer(player, true);
 	}
 	
+	public int getNumPlayers() {
+		return dwarfManager.getNumberOfPlayers() + monsterManager.getNumberOfPlayers();
+	}
+	
 	
 	// ------ PLAYER READINESS ------
 	private final Set<Player> readyPlayers;
