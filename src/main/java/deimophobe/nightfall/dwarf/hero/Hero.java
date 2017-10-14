@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.hero;
 
 import deimophobe.nightfall.*;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.HeroArmour;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
@@ -98,6 +99,12 @@ public class Hero extends Dwarf {
 	
 	@Override
 	public void updateVisibility() {}
+	
+	@Override
+	public void onDamageReceive(DwarfDamage damage) {
+		super.onDamageReceive(damage);
+		damage.multiplyManaDrain(0.2);
+	}
 	
 	@Override
 	public void regenMana(int amt) {
