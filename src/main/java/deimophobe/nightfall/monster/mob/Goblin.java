@@ -155,7 +155,7 @@ public class Goblin extends AbstractMob {
 		double dwarfDamage = 60 + 5 * shrapnel + 25 * superKaboom;
 		int armorShred = 50 + 5 * shrapnel + 25 * superKaboom;
 		double power = 6 + 0.5 * dest + 1.5 * superKaboom;
-		double kb = 1.5 + 0.25 * force + 1.25 * superKaboom;
+		double kb = 1.5 + 0.25 * force + 1.5 * superKaboom;
 
 		Location loc = monster.getLocation();
 		World world = monster.getLocation().getWorld();
@@ -171,7 +171,7 @@ public class Goblin extends AbstractMob {
 			DamageModifier modifier = new DamageModifier();
 
 			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
-			knockback.setY(knockback.getY() / 2 + 0.3);
+			knockback.setY(knockback.getY() / 2 + 0.3 + 0.3 * superKaboom);
 			modifier.addKnockback(knockback);
 
 			DwarfDamage aoeDamage = dwarf.createDamage(monster, CustomDamageType.GOBO_KABOOM, dwarfDamage);
