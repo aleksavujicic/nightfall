@@ -399,6 +399,11 @@ public class GameListener implements Listener {
 		}
 	}
 	
+	@EventHandler
+	public void disablePortalTravel(PlayerPortalEvent event) {
+		event.setCancelled(true);
+	}
+	
 	
 	// Inventory/Items
 	@EventHandler
