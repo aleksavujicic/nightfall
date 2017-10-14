@@ -165,7 +165,7 @@ public class Goblin extends AbstractMob {
 		world.playSound(loc, "entity.generic.explode", 2, 1);
 
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
-			Vector offset = dwarf.getLocation().subtract(loc).toVector();
+			Vector offset = dwarf.getEyeLocation().subtract(loc).toVector();
 			if (offset.length() > (6 + superKaboom)) continue;
 
 			DamageModifier modifier = new DamageModifier();
@@ -208,7 +208,7 @@ public class Goblin extends AbstractMob {
 
 		BlockConverter.convert(BlockConverter.Type.THROWNEXPLOSION, centerLoc, power);
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
-			Vector offset = dwarf.getLocation().subtract(centerLoc).toVector();
+			Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
 			if (offset.length() > 5) continue;
 
 			DamageModifier modifier = new DamageModifier();

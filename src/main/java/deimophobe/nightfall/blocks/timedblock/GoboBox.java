@@ -42,7 +42,7 @@ public class GoboBox extends TimedBlock {
 			world.playSound(centerLoc, "entity.generic.explode", 2, 1);
 
 			for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
-				Vector offset = dwarf.getLocation().subtract(centerLoc).toVector();
+				Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
 				if (offset.length() > 5) continue;
 
 				DamageModifier modifier = new DamageModifier();
