@@ -11,6 +11,8 @@ class InstaPlague extends AbstractPlague {
 	@Override
 	public void startPlague(Set<Dwarf> plagueables, Set<Dwarf> plagued, int killAmt) {
 		super.startPlague(plagueables, plagued, killAmt);
+		for (Dwarf dwarf : plagued)
+			killDwarf(dwarf);
 		forceEnd();
 	}
 }

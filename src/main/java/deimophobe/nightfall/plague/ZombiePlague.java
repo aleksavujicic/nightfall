@@ -32,6 +32,8 @@ class ZombiePlague extends AbstractPlague {
 	}
 	
 	private void infectMore() {
+		if (getAmountToKill() == 0) return;
+		
 		int toPlague = (int) Math.ceil((double) getAmountToKill()/4);
 		for (int i=0; i<toPlague; i++) {
 			Dwarf dwarf = Misc.getRandom(plagueables);
@@ -84,14 +86,6 @@ class ZombiePlague extends AbstractPlague {
 	void notifyZombieDeath() {
 		numZombiesAlive--;
 		if (numZombiesAlive == 0) {
-			if (plagued.isEmpty()) {
-				Dwarf dwarf = Misc.getRandom(plagueables);
-				convertToZombie(dwarf);
-			}
-			else {
-				Dwarf dwarf = Misc.getRandom(plagued);
-				convertToZombie(dwarf);
-			}
 			infectMore();
 		}
 	}

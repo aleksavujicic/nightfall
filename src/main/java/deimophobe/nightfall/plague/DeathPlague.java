@@ -13,7 +13,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -32,49 +31,41 @@ class DeathPlague extends AbstractPlague {
 		Location spawnLoc = GameMap.getCurrentMap().getDwarfSpawn().clone();
 		spawnLoc.setY(0);
 		
-		death = (Enderman) world.spawnEntity(spawnLoc, EntityType.ENDERMAN);
-		death.setMetadata("death", new FixedMetadataValue(NightfallPlugin.getPlugin(), true));
-		death.setAI(false);
-		death.setInvulnerable(true);
-		death.setCollidable(false);
-		death.setSilent(true);
-		death.setRemoveWhenFarAway(false);
+		death = createDeath(spawnLoc);
 		world.playSound(GameMap.getCurrentMap().getDwarfSpawn(), Sound.ENTITY_ENDERMEN_STARE, 100, 1);
 		
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				if (getAmountToKill() > 0) {
-					Dwarf target;
-					if (killedOne) {
-						target = getNearestPlagueable();
-					} else {
-						target = getRandomPlagueable();
-					}
-					
-					if (target == null) {
-						this.cancel();
-						death.remove();
-						notifyEnd();
-						return;
-					}
-					
-					killedOne = true;
-					death.teleport(target.getLocation());
-					
-					target.doDamage(null, CustomDamageType.DEATH_PLAGUE, 10000, true, true);
-					
-					
-					world.playSound(target.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 1, 1);
-					world.playSound(target.getLocation(), "entity.endermen.scream", 1, 1);
-					removeDwarf(target);
-				} else {
+				Dwarf target = getNextTarget();
+				
+				if (getAmountToKill() == 0 || target == null) {
 					this.cancel();
 					death.remove();
 					notifyEnd();
+					return;
 				}
+					
+				death.teleport(target.getLocation());
+				target.doDamage(null, CustomDamageType.DEATH_PLAGUE, 10000, true, true);
+				world.playSound(target.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 1, 1);
+				world.playSound(target.getLocation(), "entity.endermen.scream", 1, 1);
+				removeDwarf(target);
 			}
 		}.runTaskTimer(NightfallPlugin.getPlugin(), 160, 40);
+	}
+	
+	private Dwarf getNextTarget() {
+		if (!plagued.isEmpty()) {
+			return Misc.getRandom(plagued);
+		}
+		
+		if (!killedOne) {
+			killedOne = true;
+			return getRandomPlagueable();
+		} else {
+			return getNearestPlagueable();
+		}
 	}
 	
 	private Dwarf getRandomPlagueable() {
@@ -87,19 +78,25 @@ class DeathPlague extends AbstractPlague {
 		Dwarf nearestDwarf = null;
 		double nearestDistance = Double.MAX_VALUE;
 
-		if (plagued.isEmpty()) {
-			for (Dwarf dwarf : plagueables) {
-				double distance = deathLoc.distance(dwarf.getLocation());
-				if (distance < nearestDistance) {
-					nearestDwarf = dwarf;
-					nearestDistance = distance;
-				}
+		for (Dwarf dwarf : plagueables) {
+			double distance = deathLoc.distance(dwarf.getLocation());
+			if (distance < nearestDistance) {
+				nearestDwarf = dwarf;
+				nearestDistance = distance;
 			}
 		}
-		else {
-			Iterator<Dwarf> iter = plagued.iterator();
-			nearestDwarf = iter.next();
-		}
+		
 		return nearestDwarf;
+	}
+	
+	private static Enderman createDeath(Location spawnLoc) {
+		Enderman enderman = (Enderman) spawnLoc.getWorld().spawnEntity(spawnLoc, EntityType.ENDERMAN);
+		enderman.setMetadata("death", new FixedMetadataValue(NightfallPlugin.getPlugin(), true));
+		enderman.setAI(false);
+		enderman.setInvulnerable(true);
+		enderman.setCollidable(false);
+		enderman.setSilent(true);
+		enderman.setRemoveWhenFarAway(false);
+		return enderman;
 	}
 }
