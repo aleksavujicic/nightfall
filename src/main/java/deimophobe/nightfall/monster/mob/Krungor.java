@@ -1,9 +1,11 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
@@ -113,4 +115,10 @@ class Krungor extends AbstractMob {
 		}
 	}
 	
+	@Override
+	public void onDamageAttack(DwarfDamage damage) {
+		super.onDamageAttack(damage);
+		if (damage.getReceiver() instanceof Hero)
+			damage.getDamage().setBoost(20);
+	}
 }
