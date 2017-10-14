@@ -55,6 +55,10 @@ abstract class AbstractRuneblade extends AbstractItem implements KitCooldownElem
 	
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
+		if (cooldown.wasUsedWithin(dashProc.getDuration())) {
+			damage.cancel();
+		}
+		
 		if (cooldown.wasUsedWithin(60) && damage.getType() == NaturalDamageType.FALL) {
 			damage.cancel();
 		}
