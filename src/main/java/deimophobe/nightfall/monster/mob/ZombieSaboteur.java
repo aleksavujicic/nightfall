@@ -71,7 +71,7 @@ public class ZombieSaboteur extends Zombie {
         if (assa) {
             assaCD = new SimpleCooldown(200);
             assaSound = new ComplexCooldown(10, () ->
-                    monster.playSound("entity.zombie_villager.converted", 1f, 1f, true)
+                    monster.playSound("entity.zombie_villager.converted", 1f, 2f, true)
                     , ComplexCooldown.DO_NOTHING);
         }
 
