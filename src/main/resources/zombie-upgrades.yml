@@ -1,13 +1,13 @@
 attack:
   index: 2
-  cost: [50, 75, 100, 125, 150]
+  cost: [20, 40, 60, 80, 100]
   item:
     material: wood_sword
     name: "Upgrade Attack"
     lore:
       description:
         - "Increases your attack.\n
-           Upgrade attack and health to lvl 3\n
+           Upgrade attack and health to lvl 5\n
            to unlock subclasses."
 
 attack-inf:
@@ -26,14 +26,14 @@ attack-inf:
 
 health:
   index: 6
-  cost: [50, 75, 100, 125, 150]
+  cost: [20, 40, 60, 80, 100]
   item:
     material: rotten_flesh
     name: "Upgrade Health"
     lore:
       description:
         - "Increases your health.\n
-           Upgrade attack and health to lvl 3\n
+           Upgrade attack and health to lvl 5\n
            to unlock subclasses."
 
 health-inf:
@@ -52,10 +52,10 @@ health-inf:
 
 husk:
   index: 15
-  cost: 300
+  cost: 500
   prereq:
-    attack: 3
-    health: 3
+    attack: 5
+    health: 5
   exclusiveWith:
     fury: 1
     saboteur: 1
@@ -71,10 +71,10 @@ husk:
 
 fury:
   index: 13
-  cost: 300
+  cost: 500
   prereq:
-    attack: 3
-    health: 3
+    attack: 5
+    health: 5
   exclusiveWith:
     husk: 1
     saboteur: 1
@@ -90,10 +90,10 @@ fury:
 
 saboteur:
   index: 11
-  cost: 300
+  cost: 500
   prereq:
-    attack: 3
-    health: 3
+    attack: 5
+    health: 5
   exclusiveWith:
     husk: 1
     fury: 1
@@ -195,7 +195,7 @@ vampirism-husk:
 
 stagger:
   index: 22
-  cost: 500
+  cost: 700
   prereq:
     attack: 5
     health: 5
@@ -303,7 +303,7 @@ vampirism-fury:
 
 furynight:
   index: 22
-  cost: 500
+  cost: 700
   prereq:
     attack: 5
     health: 5
@@ -410,7 +410,7 @@ vampirism-sabo:
 
 assassination:
   index: 22
-  cost: 500
+  cost: 700
   prereq:
     attack: 5
     health: 5
