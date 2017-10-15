@@ -41,7 +41,9 @@ zombie-husk:
     lore:
       description:
        - "Hardened flesh of the undead\n
-          making it as tough as armour."
+          making it as tough as armour.\n
+          Right click to ground smash\n
+          with the upgrade."
       flavour:
        - "The harder they beat you down\n
           The stronger your hunger grows."

@@ -52,7 +52,7 @@ health-inf:
 
 husk:
   index: 15
-  cost: 500
+  cost: 250
   prereq:
     attack: 5
     health: 5
@@ -72,7 +72,7 @@ husk:
 
 fury:
   index: 13
-  cost: 500
+  cost: 250
   prereq:
     attack: 5
     health: 5
@@ -92,7 +92,7 @@ fury:
 
 saboteur:
   index: 11
-  cost: 500
+  cost: 250
   prereq:
     attack: 5
     health: 5
@@ -199,7 +199,7 @@ vampirism-husk:
 
 stagger:
   index: 22
-  cost: 700
+  cost: 1000
   prereq:
     attack: 5
     health: 5
@@ -217,7 +217,8 @@ stagger:
     lore:
       description:
         - "Your hits will inflict slowness\n
-           and do 10 more armor damage."
+           and do 10 more armor damage.\n
+           In addition, you will resist knockback."
 
 
 ##########################
@@ -308,7 +309,7 @@ vampirism-fury:
 
 furynight:
   index: 22
-  cost: 700
+  cost: 1000
   prereq:
     attack: 5
     health: 5
@@ -376,7 +377,7 @@ leap-sabo:
 
 pick:
   index: 14
-  cost: [150, 200, 250]
+  cost: [150, 150, 200]
   prereq:
     saboteur: 1
   item:
@@ -416,7 +417,7 @@ vampirism-sabo:
 
 assassination:
   index: 22
-  cost: 700
+  cost: 1000
   prereq:
     attack: 5
     health: 5
