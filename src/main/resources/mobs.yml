@@ -277,7 +277,7 @@ wolf:
   health: 30
   speed: 10
 
-  shred: 20
+  shred: 25
 
   armour:
     material: leather
@@ -308,7 +308,7 @@ hellhound:
   health: 30
   speed: 10
 
-  shred: 25
+  shred: 30
 
   proccable: false
 
@@ -387,7 +387,7 @@ golem:
   proccable: false
   resistance: 0.85
   arrowres: 0.5
-  shred: 65
+  shred: 100
 
   armour:
     material: iron_block
@@ -416,7 +416,7 @@ wraith:
   disguisetype: stray
 
   attack: 20
-  health: 25
+  health: 20
   shred: 15
   speed: -20
 
