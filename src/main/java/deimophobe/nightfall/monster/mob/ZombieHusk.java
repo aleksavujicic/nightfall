@@ -62,7 +62,7 @@ public class ZombieHusk extends Zombie {
         this.regen = upgrades.get("regen");
 
         if (leapLvl != 0) {
-            leapCD = new SimpleCooldown(300);
+            leapCD = new SimpleCooldown(400);
             smashCD = new ComplexCooldown(10);
             smashCD.reset();
         }
@@ -111,12 +111,12 @@ public class ZombieHusk extends Zombie {
                 monster.playSound("entity.generic.explode", 0.5f, 0.5f, true);
                 for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
                     Vector offset = dwarf.getEyeLocation().subtract(monster.getLocation()).toVector();
-                    if (offset.length() > 4) continue;
+                    if (offset.length() > 5) continue;
 
                     DamageModifier modifier = new DamageModifier();
-
-                    Vector knockback = offset.multiply((0.4 + 0.1 * leapLvl) / Math.sqrt(Math.max(2, offset.length())) );
-                    knockback.setY(knockback.getY() / 2 + 0.1);
+                    Vector distance = offset.setY(0).normalize();
+                    Vector knockback = distance.multiply((0.6 + 0.2 * leapLvl) / Math.sqrt(Math.max(1, offset.length())) );
+                    knockback.setY(knockback.getY() / 2 + 0.5);
                     modifier.addKnockback(knockback);
 
                     DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.GOBO_BOX_EXPLOSION, 10 * leapLvl);
