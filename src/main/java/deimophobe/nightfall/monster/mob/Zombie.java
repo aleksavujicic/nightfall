@@ -56,7 +56,6 @@ public class Zombie extends AbstractMob {
 	public void tpToSpawn() {
 		if (didRebirth()) {
 			monster.teleportTo(rebirthLoc);
-			DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), monster, CustomDamageType.GOBO_BOX_EXPLOSION, rebirthLoc, 2.5, 0, 1.5, true);
 		}
 
 		else
