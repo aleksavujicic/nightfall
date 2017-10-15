@@ -37,7 +37,7 @@ public class ZombieSaboteur extends Zombie {
     private final boolean assa;
     private final ComplexCooldown assaSound;
 
-    private static Integer[] shredValues = {0, 5, 10, 15};
+    private static Integer[] shredValues = {0, 3, 6, 10};
 
     protected ZombieSaboteur(MonsterPlayer mons) {
         this(mons, null);
