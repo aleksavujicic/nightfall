@@ -125,17 +125,18 @@ shred-husk:
         - "Increases your armour shred."
 
 
-toughskin:
+groundsmash:
   index: 11
-  cost: [50, 75, 100, 125, 150]
+  cost: [100, 150, 200]
   prereq:
     husk: 1
   item:
-      material: iron_chestplate
-      name: "Tough Skin"
+      material: anvil
+      name: "Ground Smash"
       lore:
         description:
-          - "Gives you 4 hearts at spawn per level."
+          - "Leap away and into the ground,\n
+             pushing dwarves away."
 
 
 regen:
@@ -201,7 +202,7 @@ stagger:
     health: 5
     husk: 1
     shred-husk: 5
-    toughskin: 5
+    groundsmash: 3
     regen: 3
     arrow-husk: 3
     rebirth-husk: 5

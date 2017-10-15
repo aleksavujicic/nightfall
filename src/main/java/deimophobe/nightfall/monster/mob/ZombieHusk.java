@@ -1,13 +1,26 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.DudCooldown;
+import deimophobe.nightfall.cooldown.SimpleCooldown;
+import deimophobe.nightfall.damage.DamageModifier;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import java.util.Map;
 
@@ -19,8 +32,11 @@ public class ZombieHusk extends Zombie {
     private final int vampirism;
     private final double arrowRes;
     private final int armourShred;
-    private final int toughskin;
+    private final int leapLvl;
     private final int regen;
+    private final Cooldown leapCD;
+    private final Cooldown smashCD;
+    private boolean smashing;
 
     private final boolean stagger;
     private final ComplexCooldown staggerSound;
@@ -42,8 +58,19 @@ public class ZombieHusk extends Zombie {
         this.vampirism = upgrades.get("vampirism-husk");
         int arrowRes = arrowResValues[upgrades.get("arrow-husk")];
         int rebirthChance = rebirthValues[upgrades.get("rebirth-husk")];
-        this.toughskin = upgrades.get("toughskin");
+        this.leapLvl = upgrades.get("groundsmash");
         this.regen = upgrades.get("regen");
+
+        if (leapLvl != 0) {
+            leapCD = new SimpleCooldown(300);
+            smashCD = new ComplexCooldown(10);
+            smashCD.reset();
+        }
+        else {
+            leapCD = new DudCooldown();
+            smashCD = new DudCooldown();
+        }
+        this.smashing = false;
 
         this.arrowRes = (double) arrowRes/100;
         this.rebirthChance = (double) rebirthChance/100;
@@ -52,13 +79,14 @@ public class ZombieHusk extends Zombie {
 
         if (stagger)
             staggerSound = new ComplexCooldown(10, () ->
-                monster.playSound("entity.zombie_villager.converted", 1f, 0.5f, true)
+                monster.playSound("entity.zombie_villager.converted", 1f, 1f, true)
             , ComplexCooldown.DO_NOTHING);
         else
             staggerSound = new ComplexCooldown(10);
 
         getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
         getArmour().addModifier(ItemModifierType.SPEED, -20, "Husk Zombie");
+        getArmour().addModifier(ItemModifierType.HEALTH, 10, "Husk Zombie");
         getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
         getWeapon().addModifier(ItemModifierType.ATTACK, 10, "Husk Zombie");
         if (stagger) {
@@ -68,7 +96,37 @@ public class ZombieHusk extends Zombie {
 
     @Override
     public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
+        leapCD.update();
         staggerSound.update();
+        if (smashing) {
+            smashCD.update();
+            if (smashCD.isAvailable()) {
+                smashCD.reset();
+                monster.getPlayer().setVelocity(new Vector(monster.getPlayer().getVelocity().getX(), -1.5, monster.getPlayer().getVelocity().getZ()));
+            }
+            if (monster.getPlayer().isOnGround()) {
+                World world = monster.getPlayer().getWorld();
+                world.spawnParticle(Particle.EXPLOSION_LARGE, monster.getLocation(), 3, 1, 1, 1);
+                monster.playSound("drum", 1f, 0.5f, true);
+                monster.playSound("entity.generic.explode", 0.5f, 0.5f, true);
+                for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
+                    Vector offset = dwarf.getEyeLocation().subtract(monster.getLocation()).toVector();
+                    if (offset.length() > 4) continue;
+
+                    DamageModifier modifier = new DamageModifier();
+
+                    Vector knockback = offset.multiply((0.4 + 0.1 * leapLvl) / Math.sqrt(Math.max(2, offset.length())) );
+                    knockback.setY(knockback.getY() / 2 + 0.1);
+                    modifier.addKnockback(knockback);
+
+                    DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.GOBO_BOX_EXPLOSION, 10 * leapLvl);
+                    modifier.applyToDamage(aoeDamage);
+                    aoeDamage.fire(true);
+                }
+                smashCD.reset();
+                smashing = false;
+            }
+        }
     }
 
     @Override
@@ -76,7 +134,6 @@ public class ZombieHusk extends Zombie {
         super.onSpawn();
         monster.givePermanentPotionEffect(PotionEffectType.ABSORPTION, 1);
         monster.removePotionEffect(PotionEffectType.ABSORPTION);
-        monster.givePermanentPotionEffect(PotionEffectType.ABSORPTION, (2 * toughskin));
         monster.givePermanentPotionEffect(PotionEffectType.REGENERATION, regen);
         monster.doDamage(null, CustomDamageType.TEMPORARY, 0, true);
         if (didRebirth()) {
@@ -100,8 +157,30 @@ public class ZombieHusk extends Zombie {
         if (stagger) {
             staggerSound.tryUse();
             damage.addArmourShred(10);
-            damage.getDwarf().givePotionEffect(PotionEffectType.SLOW, 40, 1, false, false, true);
+            damage.getDwarf().givePotionEffect(PotionEffectType.SLOW, 40, 2, false, false, true);
         }
         monster.heal(healAmt);
+    }
+
+    @Override
+    public void onUse(Action action, Block block, BlockFace face) {
+        if (Misc.isRightClick(action) && isPlayerHoldingWeapon()) {
+            if (leapCD.isAvailable()) {
+                leapCD.reset();
+
+                double yaw = monster.getPlayer().getLocation().getYaw();
+                double radYaw = yaw*Math.PI/180;
+
+                double hVel = (double) leapLvl/10+0.4;
+                double vVel = (double) leapLvl/30+0.5;
+                monster.getPlayer().setVelocity(new Vector(-hVel * Math.sin(radYaw), vVel, hVel * Math.cos(radYaw)));
+                smashing = true;
+            }
+        }
+    }
+
+    @Override
+    public float getCooldown() {
+        return leapCD.fractionComplete();
     }
 }
