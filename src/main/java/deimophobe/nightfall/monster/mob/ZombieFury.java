@@ -95,7 +95,7 @@ public class ZombieFury extends Zombie {
                 double yaw = monster.getPlayer().getLocation().getYaw();
                 double radYaw = yaw*Math.PI/180;
 
-                double hVel = (double) leapLvl/2;
+                double hVel = (double) leapLvl/3;
                 double vVel = (double) leapLvl/10;
                 monster.getPlayer().setVelocity(new Vector(-hVel * Math.sin(radYaw), vVel, hVel * Math.cos(radYaw)));
             }
