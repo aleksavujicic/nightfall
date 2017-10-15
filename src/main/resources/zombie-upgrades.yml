@@ -213,7 +213,8 @@ stagger:
     lore:
       description:
         - "Your hits will inflict slowness\n
-           and do 10 more armor damage."
+           and do 10 more armor damage.\n
+           In addition, you will resist knockback."
 
 
 ##########################
