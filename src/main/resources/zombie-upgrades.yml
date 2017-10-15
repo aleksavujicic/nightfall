@@ -62,6 +62,7 @@ husk:
   item:
     material: leather_chestplate
     name: "Husk Zombie"
+    shiny: true
     lore:
       description:
         - "Become a Husk Zombie.\n
@@ -81,6 +82,7 @@ fury:
   item:
     material: eye_of_ender
     name: "Fury Zombie"
+    shiny: true
     lore:
       description:
         - "Become a Fury Zombie.\n
@@ -100,6 +102,7 @@ saboteur:
   item:
     material: stone_sword
     name: "Saboteur Zombie"
+    shiny: true
     lore:
       description:
         - "Become a Saboteur Zombie.\n
@@ -210,6 +213,7 @@ stagger:
   item:
     material: stone_sword
     name: "Staggering Hit"
+    shiny: true
     lore:
       description:
         - "Your hits will inflict slowness\n
@@ -318,6 +322,7 @@ furynight:
   item:
     material: exp_bottle
     name: Fury of the Night
+    shiny: true
     lore:
       description:
         - "Gives 1.5 hearts more lifesteal\n
@@ -425,6 +430,7 @@ assassination:
   item:
     material: iron_sword
     name: Assassination
+    shiny: true
     lore:
       description:
         - "After not taking damage, doing damage\n
