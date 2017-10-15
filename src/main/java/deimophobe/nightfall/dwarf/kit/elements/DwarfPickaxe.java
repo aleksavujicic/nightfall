@@ -58,7 +58,7 @@ class DwarfPickaxe extends AbstractItem implements KitCooldownElement {
 					armourCD.reset();
 					repairee.getArmour().repair(400);
 					GameEffect.playEffect(GameEffect.DWARF_ARMOUR_CLOUD, repairee);
-					armourCD.setMaxCD(25 * 20 - 20 * 20 * currentMap.getCurrentShrineIndex() / (currentMap.getNumShrines()-1));
+					armourCD.setMaxCD(30 * 20 - 25 * 20 * currentMap.getCurrentShrineIndex() / (currentMap.getNumShrines()-1));
 					resetCD();
 					return true;
 				}

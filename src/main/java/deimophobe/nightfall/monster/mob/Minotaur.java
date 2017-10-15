@@ -30,7 +30,7 @@ public class Minotaur extends AbstractMob {
 		super(monster, MobType.MINOTAUR);
 	}
 	
-	private final ComplexCooldown cooldown = new ComplexCooldown(30*20, this::charge, ComplexCooldown.DO_NOTHING);
+	private final ComplexCooldown cooldown = new ComplexCooldown(20*20, this::charge, ComplexCooldown.DO_NOTHING);
 	private final HashSet<Dwarf> hitDwarves = new HashSet<>();
 	
 	@Override
