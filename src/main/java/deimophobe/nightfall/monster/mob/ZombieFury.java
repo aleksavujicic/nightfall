@@ -33,7 +33,7 @@ public class ZombieFury extends Zombie {
     private final boolean fury;
     private final ComplexCooldown furySound;
 
-    private static Integer[] shredValues = {0, 5, 10, 15, 20, 25};
+    private static Integer[] shredValues = {0, 4, 8, 12, 16, 20};
     private static Integer[] arrowResValues = {0, 25, 40, 50};
     private static Integer[] rebirthValues = {0, 30, 60, 90, 120, 150};
 

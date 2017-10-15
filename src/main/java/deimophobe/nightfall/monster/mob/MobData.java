@@ -62,7 +62,7 @@ public class MobData {
 		attack = 5;
 		health = 10;
 		speed = 0;
-		armourShred = 10;
+		armourShred = 5;
 		
 		proccable = true;
 		damageRes = 0.6;

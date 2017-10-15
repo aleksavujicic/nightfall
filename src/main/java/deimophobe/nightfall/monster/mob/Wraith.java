@@ -139,7 +139,7 @@ class Wraith extends AbstractMob {
 	
 	private static final double AOE_RADIUS = 3.5;
 	private static final int AOE_DMG = 60; // This is a one off hit so its not as strong as it seems.
-	private static final int AOE_SHRED = 100;
+	private static final int AOE_SHRED = 40;
 	private void aoeDamage() {
 		//DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), monster,
 		//		CustomDamageType.WRAITH_CHARGE, AOE_RADIUS, AOE_DMG, 1,

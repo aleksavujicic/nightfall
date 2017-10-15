@@ -277,7 +277,7 @@ wolf:
   health: 30
   speed: 10
 
-  shred: 35
+  shred: 20
 
   armour:
     material: leather
@@ -308,7 +308,7 @@ hellhound:
   health: 30
   speed: 10
 
-  shred: 40
+  shred: 25
 
   proccable: false
 
@@ -387,7 +387,7 @@ golem:
   proccable: false
   resistance: 0.85
   arrowres: 0.5
-  shred: 100
+  shred: 65
 
   armour:
     material: iron_block
@@ -417,7 +417,7 @@ wraith:
 
   attack: 20
   health: 25
-  shred: 25
+  shred: 15
   speed: -20
 
   proccable: false
@@ -484,7 +484,7 @@ walker:
 
   attack: 20
   health: 50
-  shred: 25
+  shred: 15
   speed: 50
 
   proccable: true
@@ -531,7 +531,7 @@ ghostblade-base:
 
   proccable: true
   arrowres: 0.9
-  shred: 20
+  shred: 15
   shrineimmune: true
 
   armour:
@@ -579,7 +579,7 @@ gb-axe:
 
   attack: 30
 
-  shred: 30
+  shred: 25
 
   weapon:
     base: malice
@@ -621,7 +621,7 @@ krungor:
   proccable: false
   resistance: 0.85
   arrowres: 0.5
-  shred: 20
+  shred: 25
   shrineimmune: true
 
   armourslot: head
