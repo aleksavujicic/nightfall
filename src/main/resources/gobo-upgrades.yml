@@ -7,7 +7,7 @@ supplies:
     lore:
       description:
         - "Increases your amount of explosives.\n
-           Upgrade supplies and health to lvl 3\n
+           Upgrade supplies and health to lvl 5\n
            to unlock subclasses."
 
 
@@ -58,8 +58,8 @@ kaboom:
   index: 11
   cost: 300
   prereq:
-    supplies: 3
-    health: 3
+    supplies: 5
+    health: 5
   exclusiveWith:
   # blaze: 1
   item:
@@ -146,12 +146,14 @@ superkaboom:
   index: 22
   cost: 300
   prereq:
-      pick: 3
-      dest: 5
-      shrapnel: 5
-      force: 5
-      speed: 3
-      kaboom: 1
+    supplies: 5
+    health: 5
+    pick: 3
+    dest: 5
+    shrapnel: 5
+    force: 5
+    speed: 3
+    kaboom: 1
   item:
     base: kaboom
     name: "Super Kaboom"
