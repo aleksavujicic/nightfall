@@ -203,14 +203,14 @@ blaze:
     bound: true
   items:
       blaze-ammo:
-        material: fire_charge
+        material: fireball
         name: Gobo Box
         lore:
           description:
            - "&aRight click to throw fireballs, which\n
               damage dwarves and walls as they explode&r."
           flavour:
-           - "Gobos Primed and Ready."
+           - "Death from afar."
 
 
 flamelancer:

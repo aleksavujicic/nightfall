@@ -80,7 +80,7 @@ blaze:
   exclusiveWith:
     kaboom: 1
   item:
-    base: kaboom
+    material: blaze_rod
     name: "Blaze"
     shiny: true
     lore:
