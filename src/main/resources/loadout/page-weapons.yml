@@ -331,7 +331,10 @@ coil:
           -Regeneration\n
           -Haste\n
           -Resistance\n
-          -Night Vision."
+          -Night Vision\n
+          -Speed\n
+          -Strength\n
+          -Health Boost"
 sturdy:
   index: 31
   type: item
