@@ -13,7 +13,8 @@ public enum MobType {
 	ZOMBIE,
 
 	GOBO,
-	
+	BLAZE,
+
 	WITHERSKELE,
 	FLAMELANCER,
 	WOLF,
@@ -79,7 +80,14 @@ public enum MobType {
 					return new Zombie(monster);
 				}
 			}
-			case GOBO: return new Goblin(monster);
+			case GOBO: {
+				if (monster.getUpgrades(MobType.GOBO).computeIfAbsent("blaze", (k) -> 0) == 1) {
+					return new Blaze(monster);
+				}
+				else {
+					return new Goblin(monster);
+				}
+			}
 			
 			case WITHERSKELE: return new WitherSkele(monster);
 			case FLAMELANCER: return new Flamelancer(monster);
@@ -110,8 +118,8 @@ public enum MobType {
 				throw new IllegalArgumentException("Plague zombie cannot be created normally.");
 				
 		}
-		Bukkit.getLogger().severe("Unknown mobtype: " + this);
-		throw new IllegalArgumentException("Unknown mobtype: " + this + ". Did deimo forgot to set a case for this?");
+		Bukkit.getLogger().severe("Unknown mobtype: " + this + ".");
+		throw new IllegalArgumentException("Unknown mobtype: " + this + ".");
 	}
 	
 	public static Collection<String> getAllMobTypes() {

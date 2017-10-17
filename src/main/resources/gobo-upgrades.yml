@@ -61,7 +61,7 @@ kaboom:
     supplies: 5
     health: 5
   exclusiveWith:
-  # blaze: 1
+    blaze: 1
   item:
     base: kaboom
     name: "Kaboom"
@@ -70,6 +70,23 @@ kaboom:
       description:
         - "Become a gobo that can kaboom,\n
            blowing yourself up to deal huge damage."
+
+blaze:
+  index: 15
+  cost: 300
+  prereq:
+    supplies: 5
+    health: 5
+  exclusiveWith:
+    kaboom: 1
+  item:
+    base: kaboom
+    name: "Blaze"
+    shiny: true
+    lore:
+      description:
+        - "Become a blaze that can shoot fireballs,\n
+           bombarding dwarves from afar."
 
 
 ############################
@@ -162,3 +179,8 @@ superkaboom:
     lore:
       description:
         - "Make a large explosion when you kaboom!\n"
+
+###########################
+# BLAZE SUBCLASS UPGRADES #
+###########################
+
