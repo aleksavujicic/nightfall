@@ -1,7 +1,7 @@
 sword:
   drb:
     base: runeblade
-    name: Dwarven Runeblade
+    name: Lesser Runeblade
     lore:
       description:
        - "A runeblade that has yet to be enchanted\n
