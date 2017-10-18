@@ -9,6 +9,12 @@ grb:
   item:
     name: "Greater Runeblade"
     base: runeblade
+    lore:
+      description:
+       - "A fully proccable weapon\n
+          Right click to &brunedash&r into\n
+          monsters, damaging or killing them\n
+          instantly with a proc."
 malice:
   index: 1
   type: item
@@ -18,6 +24,10 @@ malice:
   item:
     name: "Axe of Malice"
     base: malice
+    lore:
+      description:
+       - "Right click to go into a &4Blood rage&r,\n
+          allowing you to proc for a short duration."
 hammer:
   index: 2
   type: item
@@ -27,6 +37,10 @@ hammer:
   item:
     name: "Hammer"
     base: hammer
+    lore:
+      description:
+       - "Right click to regenerate armour and mana\n
+          over time."
 dagger:
   index: 3
   type: item
@@ -36,6 +50,11 @@ dagger:
   item:
     name: "Dagger"
     base: dagger
+    lore:
+      description:
+       - "An elven blade, dipped in poison.\n
+          Right click to &bEviscerate&r a monster,\n
+          dealing massive damage."
 tigerfist:
   enabled: false
   index: 5
@@ -46,6 +65,9 @@ tigerfist:
   item:
     name: "Tiger Fist"
     base: tigerfist
+    lore:
+      description:
+       - "DO NOT USE."
 
 
 # ------ BOWS ------
@@ -58,6 +80,11 @@ dragonskin:
   item:
     name: "Dragonskin Bow"
     base: dskin
+    lore:
+      description:
+       - "Left click to enable POWER SHOT MODE\n
+          letting deal massive damage and proc\n
+          on kill. Cooldown is 30s."
 longbow:
   index: 10
   type: item
@@ -67,6 +94,12 @@ longbow:
   item:
     name: "Longbow"
     base: longbow
+    lore:
+      description:
+       - "Kills with this bow stack\n
+          up to 25 times for a total\n
+          of 210 Power, losing 30 power over\n
+          an 8 second timer without a kill."
 lightbow:
   index: 11
   type: item
@@ -76,6 +109,11 @@ lightbow:
   item:
     name: "Lightbow"
     base: lightbow
+    lore:
+      description:
+       - "This bow fires special arrows that\n
+          create lamps in the walls.\n
+          You are also immune to darkness."
 crossbow:
   index: 12
   type: item
@@ -85,6 +123,11 @@ crossbow:
   item:
     name: "Crossbow"
     base: crossbow
+    lore:
+      description:
+       - "A crossbow that can fire\n
+          immediately with no draw time.\n
+          Has a slight reload time."
 ebow:
   index: 13
   type: item
@@ -94,6 +137,12 @@ ebow:
   item:
     name: "Emerald Bow"
     base: ebow
+    lore:
+      description:
+       - "A magical bow, made from emerald.\n
+          Monsters hit with this bow\n
+          give off a proc to dwarves\n
+          within range."
 warpweaver:
   index: 14
   type: item
@@ -103,6 +152,12 @@ warpweaver:
   item:
     name: "Warpweaver Bow"
     base: warpweaver
+    lore:
+      description:
+       - "Shooting an arrow with this bow\n
+          cause you to teleport one way\n
+          where the arrow lands\n
+          Left click to activate."
 volcanic:
   index: 15
   type: item
@@ -112,6 +167,10 @@ volcanic:
   item:
     name: "Volcanic Bow"
     base: volcanic
+    lore:
+      description:
+       - "Fire an arrow that pierces everything in\n
+          its path. Uses 3 arrows a shot."
 turret:
   enabled: false
   index: 16
@@ -122,6 +181,9 @@ turret:
   item:
     name: "Turret"
     material: dispenser
+    lore:
+      description:
+       - "A turret that fires arrows."
 
 
 
@@ -135,6 +197,11 @@ jj:
   item:
     name: "Jimmy Juice"
     base: jimmyjuice
+    lore:
+      description:
+       - "The starting ale for new players.\n
+          Auto heal for &b$autocost&r mana or\n
+          Left Click to heal for &b$manacost&r mana."
 holy:
   index: 19
   type: item
@@ -144,6 +211,11 @@ holy:
   item:
     name: "Holy Ale"
     base: holy_ale
+    lore:
+      description:
+       - "Left click to heal yourself
+         for &b$manacost&r mana\n and gain
+         &b8&r absorption hearts."
 trinket:
   index: 20
   type: item
@@ -153,6 +225,12 @@ trinket:
   item:
     name: "Star Trinket"
     base: trinket
+    lore:
+      description:
+       - "Left click to heal yourself\n
+          for &b$manacost&r mana and gain\n
+          &b20 absorption hearts&r.\n
+          You also gain permanent regen."
 regrowth:
   index: 21
   type: item
@@ -162,6 +240,13 @@ regrowth:
   item:
     name: "Regrowth Star"
     base: regrowth
+    lore:
+      description:
+       - "Left click to heal yourself\n
+          for &b$manacost&r mana.\n
+          Right click on dwarves heals\n
+          them and their armour at the cost\n
+          of your mana."
 chug:
   index: 22
   type: item
@@ -171,6 +256,12 @@ chug:
   item:
     name: "Chugging Ale"
     base: chug
+    lore:
+      description:
+       - "Left click to heal for a small\n
+          amount of health. You are able to\n
+          spam this as much as you want\n
+          be careful and watch your Mana!"
 strong:
   index: 23
   type: item
@@ -180,6 +271,11 @@ strong:
   item:
     name: "Potion Seller's Strongest Potion"
     base: strong
+    lore:
+      description:
+       - "A very strong potion, making you feel like a hero\n
+          with damage reduction, however it uses $manacost\n
+          mana."
 
 
 # ------ ARMOURS ------
@@ -192,6 +288,9 @@ runeblessed:
   item:
     name: "Runeblessed Armour"
     base: runeblessed
+    lore:
+      description:
+       - "Wearing this doubles your armour."
 quiver:
   index: 28
   type: item
@@ -201,6 +300,10 @@ quiver:
   item:
     name: "Massive Quiver"
     base: quiver
+    lore:
+      description:
+       - "Increases your max arrow capacity to 40\n
+          and grants 1 arrow per kill."
 studded:
   index: 29
   type: item
@@ -210,6 +313,9 @@ studded:
   item:
     name: "Studded Armour"
     base: studded
+    lore:
+      description:
+       - "Increases movement speed by 20%."
 coil:
   index: 30
   type: item
@@ -219,6 +325,16 @@ coil:
   item:
     name: "Magic Coil"
     base: coil
+    lore:
+      description:
+       - "Grants a buff cycle of the following.\n
+          -Regeneration\n
+          -Haste\n
+          -Resistance\n
+          -Night Vision\n
+          -Speed\n
+          -Strength\n
+          -Health Boost"
 sturdy:
   index: 31
   type: item
@@ -228,6 +344,10 @@ sturdy:
   item:
     name: "Sturdy Armour"
     base: runeblessed
+    lore:
+      description:
+       - "Grants more hearts allowing you to\n
+       survive longer"
 nature_suit:
   index: 32
   type: item
@@ -237,3 +357,7 @@ nature_suit:
   item:
     name: "Nature Suit"
     base: temp
+    lore:
+      description:
+       - "Grants Water Breathing,Poison and\n
+          Fire Resistance."

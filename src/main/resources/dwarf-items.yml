@@ -114,8 +114,9 @@ bow:
     name: Dragonskin Bow
     lore:
       description:
-       - "Kills with this bow give\n
-          a proc for 3 seconds."
+       - "Left click to enable POWER SHOT MODE\n
+          letting deal massive damage and proc\n
+          on kill. Cooldown is 30s."
       flavour:
        - "\"Feel the PROC pulsing through your bow.\" - Velvetine"
   longbow:
@@ -167,9 +168,8 @@ bow:
     lore:
       description:
        - "Shooting an arrow with this bow\n
-          cause you to switch places \n
-          the arrow for a few seconds \n
-          before warping back.\n
+          cause you to teleport one way\n
+          where the arrow lands\n
           Left click to activate."
       flavour:
        - "\"Hey look at this thing! Isn't it cool!?\" - Tui"

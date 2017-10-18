@@ -429,20 +429,21 @@ wraith:
 
   armour:
     base: temporary
-    name: "Temp"
+    name: "Ethereal Being"
     lore:
       description:
-       - "Temp"
+       - "Wraith Armour"
       flavour:
-       - "Temp"
+       - "Spooky"
   weapon:
     base: temporary
-    name: "Temp"
+    name: "Ghastly Dive"
     lore:
       description:
-       - "Temp"
+       - "Right click to swoop, and leave a\n
+          damaging mist behind you."
       flavour:
-       - "Temp"
+       - "Wooooooo"
 
 
 minotaur:
@@ -461,22 +462,23 @@ minotaur:
 
   armour:
     base: temporary
-    name: "Temp"
+    name: "Minotaur Hide"
     lore:
       description:
-       - "Temp"
+       - "The hard skin of a minotaur"
       flavour:
-       - "Temp"
+       - "Chaaarge."
     modifiers:
       kb-resist: 1
   weapon:
     base: temporary
-    name: "Temp"
+    name: "Minotaur Axe"
     lore:
       description:
-       - "Temp"
+       - "Right click to charge, dealing\n
+          damage and great knockback."
       flavour:
-       - "Temp"
+       - "We are from maze, human."
 
 
 walker:
@@ -558,7 +560,7 @@ gb-dagger:
     name: Spooky Dagger
     lore:
       description:
-       - "Temp"
+       - "An animated dagger."
       flavour:
        - "Temp"
 
@@ -572,7 +574,7 @@ gb-runeblade:
     name: Spooky Blade
     lore:
       description:
-       - "Temp"
+       - "An animated runeblade."
       flavour:
        - "Temp"
 
@@ -588,7 +590,7 @@ gb-axe:
     name: Spooky Axe
     lore:
       description:
-       - "Temp"
+       - "An animated axe."
       flavour:
        - "Temp"
 
@@ -600,7 +602,7 @@ gb-hammer:
     name: Spooky Hammer
     lore:
       description:
-       - "Temp"
+       - "An animated hammer."
       flavour:
        - "Temp"
     modifiers:
@@ -644,7 +646,8 @@ krungor:
     name: "Krungor's Axe"
     lore:
       description:
-       - "Temp"
+       - "Right click to send dwarves fying high\n
+          in the sky."
       flavour:
        - "Temp"
 
