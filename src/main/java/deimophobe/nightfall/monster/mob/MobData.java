@@ -9,6 +9,7 @@ import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashMap;
@@ -216,22 +217,22 @@ public class MobData {
 	
 	
 	void playSound(String sound, MonsterPlayer monster) {
-		MobSound mobSound = sounds.get(sound);
-		if (mobSound != null)
-			mobSound.play(monster);
+		MobSound mobSound = sounds.putIfAbsent(sound, new MobSound(sound, 1));
+		mobSound.play(monster);
 	}
 	
 	private class MobSound {
-		private final String sound;
+		private final String soundName;
 		private final float pitch;
 		
-		private MobSound(String sound, float pitch) {
-			this.sound = sound;
+		private MobSound(String name, float pitch) {
+			this.soundName =  "mob."+MobData.this.name+"."+name;
 			this.pitch = pitch;
 		}
 		
 		private void play(MonsterPlayer monster) {
-			monster.playSound(sound, 1f, pitch, true);
+			Bukkit.broadcastMessage("Play " + soundName);
+			monster.playSound(soundName, 1f, pitch, true);
 		}
 	}
 }

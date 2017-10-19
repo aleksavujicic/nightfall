@@ -79,6 +79,7 @@ public abstract class AbstractMob implements Mob {
 		
 		monster.givePermanentPotionEffect(PotionEffectType.NIGHT_VISION, 1);
 		tpToSpawn();
+		playSound("spawn");
 	}
 	
 	protected void setTitle(boolean force, String title) {
@@ -196,12 +197,18 @@ public abstract class AbstractMob implements Mob {
 		monster.givePotionEffect(PotionEffectType.LUCK, time, 1, true, false, true);
 	}
 	
+	protected void playSound(String soundName) {
+		mobData.playSound(soundName, monster);
+	}
+	
 	
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
-		if (damage.getType() == NaturalDamageType.MELEE)
+		if (damage.getType() == NaturalDamageType.MELEE) {
+			playSound("melee");
 			damage.setArmourShred(mobData.armourShred);
+		}
 		monster.gainXP(2, true);
 	}
 	
@@ -217,8 +224,10 @@ public abstract class AbstractMob implements Mob {
 		damage.getDamage().setMultiplier(1 - mobData.damageRes);
 		damage.getArrowRes().setBase(mobData.arrowRes);
 		
-		if (!damage.isCancelled() && hasDisguise()) {
-			monster.playSound("entity.generic.hurt", 1f, 1f, true);
+		if (!damage.isCancelled()) {
+			playSound("hurt");
+			if (hasDisguise())
+				monster.playSound("entity.generic.hurt", 1f, 1f, true);
 		}
 	}
 	
@@ -248,6 +257,8 @@ public abstract class AbstractMob implements Mob {
 	
 	@Override
 	public void onDeath() {
+		playSound("death");
+		
 		if (hasPlayerDisguise())
 			removePlayerDisguise();
 		
