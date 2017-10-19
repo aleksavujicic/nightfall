@@ -4,8 +4,9 @@ disguisetype: silverfish
 
 attack: 1
 health: 5
+speed: 75
 shred: 5
-torchxp: 40
+torchxp: 60
 
 armour:
   material: prismarine_crystals
