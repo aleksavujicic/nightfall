@@ -21,7 +21,7 @@ import java.util.Set;
  * Created by Deimophobe on 27/01/17.
  */
 public class MobData {
-	final String name;
+	final String fullName;
 	
 	final String title;
 	final boolean forceTitle;
@@ -53,7 +53,7 @@ public class MobData {
 	
 	private static final MobData DEFAULT_DATA = new MobData();
 	private MobData() {
-		name = "default";
+		fullName = "default";
 		
 		title = null;
 		forceTitle = false;
@@ -81,15 +81,15 @@ public class MobData {
 		items = new LinkedHashMap<>();
 	}
 	
-	private MobData(ConfigurationSection section) {
-		name = section.getName();
+	private MobData(String fullKey, ConfigurationSection section) {
+		fullName = fullKey;
 		
 		String parentString = section.getString("parent", null);
 		MobData parent;
 		if (parentString == null)
 			parent = DEFAULT_DATA;
 		else
-			parent = getMobDataWithContext(parentString, section.getRoot());
+			parent = getMobDataWithContext(parentString, section.getRoot(), fullKey.split("\\.")[0]);
 		
 		title = section.getString("title", parent.title);
 		forceTitle = section.getBoolean("forcetitle", parent.forceTitle);
@@ -99,7 +99,7 @@ public class MobData {
 			try {
 				disguiseType = DisguiseType.valueOf(disguiseName.toUpperCase());
 			} catch (IllegalArgumentException e) {
-				throw new IllegalArgumentException("Invalid disguise type '" + disguiseName + "' for mob " + name, e);
+				throw new IllegalArgumentException("Invalid disguise type '" + disguiseName + "' for mob " + fullName, e);
 			}
 		} else {
 			disguiseType = parent.disguiseType;
@@ -186,23 +186,23 @@ public class MobData {
 	 */
 	void verify() {
 		// This should be practically impossible - but checking just in case
-		if (name == null)
+		if (fullName == null)
 			throw new IllegalStateException("Mobdata name is missing?!");
 		
 		if (title == null)
-			throw new IllegalStateException("Title for mob " + name + " is not defined.");
+			throw new IllegalStateException("Title for mob " + fullName + " is not defined.");
 		
 		if (disguiseType == DisguiseType.PLAYER) {
 			if (playerName == null)
-				throw new IllegalStateException("Mob " + name + " has player disguise but no player name.");
+				throw new IllegalStateException("Mob " + fullName + " has player disguise but no player name.");
 			if (skinName == null)
-				throw new IllegalStateException("Mob " + name + " has player disguise but no skin name.");
+				throw new IllegalStateException("Mob " + fullName + " has player disguise but no skin name.");
 			if (!Skin.skinExists(skinName))
-				throw new IllegalStateException("Mob " + name + " has player disguise with skin '" + skinName + "' but skin does not exist.");
+				throw new IllegalStateException("Mob " + fullName + " has player disguise with skin '" + skinName + "' but skin does not exist.");
 		}
 		
 		if (health == 0)
-			throw new IllegalStateException("Mob " + name + " has zero health.");
+			throw new IllegalStateException("Mob " + fullName + " has zero health.");
 	}
 	
 	static MobData getMobData(String fullKey) {
@@ -219,11 +219,11 @@ public class MobData {
 		ConfigurationSection file = Misc.getInternalFileConfig("mobs/" + base + ".yml");
 		MobData data;
 		if (sub.equals("base")) {
-			if (file.contains(sub)) data = new MobData(file.getConfigurationSection(sub));
-			else data = new MobData(file);
+			if (file.contains(sub)) data = new MobData(fullKey, file.getConfigurationSection(sub));
+			else data = new MobData(fullKey, file);
 		} else {
 			if (!file.contains(sub)) throw new IllegalArgumentException("MobData key '" + fullKey + "' is invalid. Key not found.");
-			data = new MobData(file.getConfigurationSection(sub));
+			data = new MobData(fullKey, file.getConfigurationSection(sub));
 		}
 		
 		if (verify) {
@@ -234,9 +234,9 @@ public class MobData {
 		return data;
 	}
 	
-	private static MobData getMobDataWithContext(String name, ConfigurationSection context) {
+	private static MobData getMobDataWithContext(String name, ConfigurationSection context, String oldKeyBase) {
 		if (context.contains(name)) {
-			return new MobData(context.getConfigurationSection(name));
+			return new MobData(oldKeyBase + "." + name, context.getConfigurationSection(name));
 		} else {
 			return getMobData(name, false);
 		}
@@ -246,7 +246,8 @@ public class MobData {
 	
 	
 	void playSound(String sound, MonsterPlayer monster) {
-		MobSound mobSound = sounds.putIfAbsent(sound, new MobSound(sound));
+		sounds.putIfAbsent(sound, new MobSound(sound));
+		MobSound mobSound = sounds.get(sound);
 		mobSound.play(monster);
 	}
 	
@@ -256,20 +257,20 @@ public class MobData {
 		private final double chance;
 		
 		private MobSound(String name) {
-			this.soundPath =  "mob."+MobData.this.name+"."+name;
+			this.soundPath =  "mob."+MobData.this.fullName +"."+name;
 			this.pitch = 1;
 			this.chance = 1;
 		}
 		
 		private MobSound(ConfigurationSection section) {
-			this.soundPath = section.getString("path", "mob."+MobData.this.name+"."+section.getName());
+			this.soundPath = section.getString("path", "mob."+MobData.this.fullName +"."+section.getName());
 			this.pitch = (float) section.getDouble("pitch", 1);
 			this.chance = section.getDouble("chance");
 		}
 		
 		private void play(MonsterPlayer monster) {
 			Bukkit.broadcastMessage("Play " + soundPath);
-			if (Math. random() <= chance)
+			if (Math.random() <= chance)
 				monster.playSound(soundPath, 1f, pitch, true);
 		}
 	}

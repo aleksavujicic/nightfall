@@ -50,7 +50,7 @@ public class ZombieHusk extends Zombie {
     }
 
     public ZombieHusk(MonsterPlayer mons, Location rebirth) {
-        super(mons, rebirth, MobData.getMobData("zombie-husk"));
+        super(mons, rebirth, MobData.getMobData("zombie.husk"));
 
         Map<String, Integer> upgrades = monster.getUpgrades(MobType.ZOMBIE);
 
