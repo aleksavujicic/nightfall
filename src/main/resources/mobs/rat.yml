@@ -4,7 +4,7 @@ disguisetype: silverfish
 
 attack: 1
 health: 5
-speed: 75
+speed: 30
 shred: 5
 torchxp: 60
 
