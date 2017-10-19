@@ -50,6 +50,8 @@ public class MobData {
 	
 	private final Map<String, MobSound> sounds = new HashMap<>();
 	
+	
+	private static final MobData DEFAULT_DATA = new MobData();
 	private MobData() {
 		name = "default";
 		
@@ -79,8 +81,15 @@ public class MobData {
 		items = new LinkedHashMap<>();
 	}
 	
-	private MobData(ConfigurationSection section, MobData parent) {
+	private MobData(ConfigurationSection section) {
 		name = section.getName();
+		
+		String parentString = section.getString("parent", null);
+		MobData parent;
+		if (parentString == null)
+			parent = DEFAULT_DATA;
+		else
+			parent = getMobDataWithContext(parentString, section.getRoot());
 		
 		title = section.getString("title", parent.title);
 		forceTitle = section.getBoolean("forcetitle", parent.forceTitle);
@@ -127,7 +136,7 @@ public class MobData {
 		}
 	}
 	
-	private void compile() {
+	private void compileItems() {
 		// Add stats to weapon
 		if (weapon != null) {
 			weapon.addModifier(ItemModifierType.ATTACK, attack);
@@ -196,43 +205,72 @@ public class MobData {
 			throw new IllegalStateException("Mob " + name + " has zero health.");
 	}
 	
-	private static final Map<String, MobData> mobs = new HashMap<>();
-	static {
-		ConfigurationSection mobData = Misc.getInternalFileConfig("mobs.yml");
-		mobs.put("default", new MobData());
-		for (String key : mobData.getKeys(false)) {
-			String parentKey = mobData.getConfigurationSection(key).getString("parent", "default");
-			mobs.put(key.toLowerCase(), new MobData(mobData.getConfigurationSection(key), getMobData(parentKey)));
+	static MobData getMobData(String fullKey) {
+		return getMobData(fullKey, true);
+	}
+	
+	private static MobData getMobData(String fullKey, boolean verify) {
+		String[] keySplit = fullKey.split("\\.");
+		if (keySplit.length > 2) throw new IllegalArgumentException("MobData key '" + fullKey + "' is invalid. Keys can contain at most two levels.");
+		
+		String base = keySplit[0];
+		String sub = (keySplit.length == 2 ? keySplit[1] : "base");
+		
+		ConfigurationSection file = Misc.getInternalFileConfig("mobs/" + base + ".yml");
+		MobData data;
+		if (sub.equals("base")) {
+			if (file.contains(sub)) data = new MobData(file.getConfigurationSection(sub));
+			else data = new MobData(file);
+		} else {
+			if (!file.contains(sub)) throw new IllegalArgumentException("MobData key '" + fullKey + "' is invalid. Key not found.");
+			data = new MobData(file.getConfigurationSection(sub));
 		}
 		
-		for (MobData data : mobs.values())
-			data.compile();
+		if (verify) {
+			data.compileItems();
+			data.verify();
+		}
+		
+		return data;
 	}
-	static MobData getMobData(String type) {
-		if (!mobs.containsKey(type))
-			throw new IllegalArgumentException("No mobdata with key " + type);
-		return mobs.get(type);
+	
+	private static MobData getMobDataWithContext(String name, ConfigurationSection context) {
+		if (context.contains(name)) {
+			return new MobData(context.getConfigurationSection(name));
+		} else {
+			return getMobData(name, false);
+		}
 	}
+	
 	
 	
 	
 	void playSound(String sound, MonsterPlayer monster) {
-		MobSound mobSound = sounds.putIfAbsent(sound, new MobSound(sound, 1));
+		MobSound mobSound = sounds.putIfAbsent(sound, new MobSound(sound));
 		mobSound.play(monster);
 	}
 	
 	private class MobSound {
-		private final String soundName;
+		private final String soundPath;
 		private final float pitch;
+		private final double chance;
 		
-		private MobSound(String name, float pitch) {
-			this.soundName =  "mob."+MobData.this.name+"."+name;
-			this.pitch = pitch;
+		private MobSound(String name) {
+			this.soundPath =  "mob."+MobData.this.name+"."+name;
+			this.pitch = 1;
+			this.chance = 1;
+		}
+		
+		private MobSound(ConfigurationSection section) {
+			this.soundPath = section.getString("path", "mob."+MobData.this.name+"."+section.getName());
+			this.pitch = (float) section.getDouble("pitch", 1);
+			this.chance = section.getDouble("chance");
 		}
 		
 		private void play(MonsterPlayer monster) {
-			Bukkit.broadcastMessage("Play " + soundName);
-			monster.playSound(soundName, 1f, pitch, true);
+			Bukkit.broadcastMessage("Play " + soundPath);
+			if (Math. random() <= chance)
+				monster.playSound(soundPath, 1f, pitch, true);
 		}
 	}
 }

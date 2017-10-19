@@ -1,0 +1,28 @@
+title: Spiderling
+
+disguisetype: cave_spider
+
+attack: 15
+health: 5
+speed: 30
+
+shred: 5
+
+armour:
+  material: snow_ball
+  name: Squishy Spider Body Thing
+  lore:
+    description:
+     - "Spider's Carapace."
+    flavour:
+     - "Chitinous."
+  bound: true
+weapon:
+  base: temporary
+  name: Spider Thingies
+  lore:
+    description:
+     - "Right click to melt walls\n
+        and to poison dwarves on hit."
+    flavour:
+     - "Spiders are gross."

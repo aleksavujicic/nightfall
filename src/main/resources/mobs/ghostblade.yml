@@ -1,0 +1,80 @@
+base:
+  title: Ghostblade
+
+  health: 40
+  attack: 20
+
+  proccable: true
+  arrowres: 0.9
+  shred: 15
+  shrineimmune: true
+
+  armour:
+    material: slime_ball
+    name: Spooky Body
+    lore:
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+    modifiers:
+      kb-resist: true
+    bound: true
+
+dagger:
+  parent: base
+
+  speed: 75
+
+  weapon:
+    base: dagger
+    name: Spooky Dagger
+    lore:
+      description:
+       - "An animated dagger."
+      flavour:
+       - "Temp"
+
+runeblade:
+  parent: base
+
+  proccable: false
+
+  weapon:
+    base: runeblade
+    name: Spooky Blade
+    lore:
+      description:
+       - "An animated runeblade."
+      flavour:
+       - "Temp"
+
+axe:
+  parent: base
+
+  attack: 30
+
+  shred: 25
+
+  weapon:
+    base: malice
+    name: Spooky Axe
+    lore:
+      description:
+       - "An animated axe."
+      flavour:
+       - "Temp"
+
+hammer:
+  parent: base
+
+  weapon:
+    base: hammergb
+    name: Spooky Hammer
+    lore:
+      description:
+       - "An animated hammer."
+      flavour:
+       - "Temp"
+    modifiers:
+      knockback: 10

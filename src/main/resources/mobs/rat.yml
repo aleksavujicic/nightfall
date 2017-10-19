@@ -1,0 +1,27 @@
+title: Rat
+
+disguisetype: silverfish
+
+attack: 1
+health: 5
+shred: 5
+torchxp: 40
+
+armour:
+  material: prismarine_crystals
+  name: Rat Thing
+  lore:
+    description:
+     - "Rat Armour."
+    flavour:
+     - "Squeak."
+  bound: true
+weapon:
+  base: temporary
+  name: Rat Talons
+  lore:
+    description:
+     - "Left click to break torches to gain extra mana.\n
+        Right click on the shrine to steal gold."
+    flavour:
+     - "Now where did those wrenches go?"

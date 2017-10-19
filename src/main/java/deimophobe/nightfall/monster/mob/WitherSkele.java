@@ -12,7 +12,7 @@ class WitherSkele extends SkeletonMob {
 	private double damageBoost = 0;
 	
 	WitherSkele(MonsterPlayer monster) {
-		super(monster, MobType.WITHERSKELE);
+		super(monster, MobType.WITHER);
 	}
 	
 	@Override

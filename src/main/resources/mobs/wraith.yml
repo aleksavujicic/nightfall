@@ -1,0 +1,31 @@
+title: "Wraith"
+
+disguisetype: stray
+
+attack: 20
+health: 20
+shred: 15
+speed: -20
+
+proccable: false
+canrun: false
+resistance: 0.85
+arrowres: 0.5
+
+armour:
+  base: temporary
+  name: "Ethereal Being"
+  lore:
+    description:
+     - "Wraith Armour"
+    flavour:
+     - "Spooky"
+weapon:
+  base: temporary
+  name: "Ghastly Dive"
+  lore:
+    description:
+     - "Right click to swoop, and leave a\n
+        damaging mist behind you."
+    flavour:
+     - "Wooooooo"

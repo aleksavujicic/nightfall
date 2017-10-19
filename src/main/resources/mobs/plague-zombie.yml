@@ -1,0 +1,15 @@
+title: Plagued
+
+disguisetype: zombie
+
+immunetime: 0
+
+armourslot: legs
+armour:
+  material: iron_leggings
+  name: Temp
+  lore:
+    description:
+     - "Temp"
+    flavour:
+     - "Temp"
