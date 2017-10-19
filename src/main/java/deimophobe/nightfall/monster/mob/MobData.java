@@ -9,7 +9,6 @@ import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashMap;
@@ -269,7 +268,6 @@ public class MobData {
 		}
 		
 		private void play(MonsterPlayer monster) {
-			Bukkit.broadcastMessage("Play " + soundPath);
 			if (Math.random() <= chance)
 				monster.playSound(soundPath, 1f, pitch, true);
 		}
