@@ -583,9 +583,10 @@ hero:
     name: "Nyneve"
     lore:
       description:
-       - ""
+       - "The legendary runeblade.\n
+          Twin to Elystria."
       flavour:
-       - ""
+       - "\"It was there, glowing in the lake.\" - Velvetine"
     modifiers:
       attack: 25
       kb_resist: 1
