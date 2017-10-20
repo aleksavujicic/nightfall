@@ -203,8 +203,8 @@ blaze:
     bound: true
   items:
       blaze-ammo:
-        material: fireball
-        name: Gobo Box
+        material: blaze_powder
+        name: Fireball
         lore:
           description:
            - "&aRight click to throw fireballs, which\n
