@@ -42,7 +42,7 @@ public class ZombieHusk extends Zombie {
     private final ComplexCooldown staggerSound;
 
     private static Integer[] shredValues = {0, 4, 8, 12, 16, 20};
-    private static Integer[] arrowResValues = {0, 25, 40, 50};
+    private static Integer[] arrowResValues = {0, 25, 50, 75};
     private static Integer[] rebirthValues = {0, 50, 100, 150, 200, 250};
 
     protected ZombieHusk(MonsterPlayer mons) {
