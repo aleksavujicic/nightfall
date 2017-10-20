@@ -184,3 +184,86 @@ superkaboom:
 # BLAZE SUBCLASS UPGRADES #
 ###########################
 
+firepower:
+  index: 11
+  cost: [20, 40, 60, 80, 100]
+  prereq:
+    blaze: 1
+  item:
+    material: fireball
+    name: "Firepower"
+    lore:
+      description:
+        - "Explosions do more damage."
+
+
+reload:
+  index: 12
+  cost: [20, 40, 60, 80, 100]
+  prereq:
+    blaze: 1
+  item:
+    material: blaze_powder
+    name: "Reload"
+    lore:
+      description:
+        - "Recharge your fireballs faster."
+
+
+force:
+  index: 13
+  cost: [20, 40, 60, 80, 100]
+  prereq:
+    blaze: 1
+  item:
+    material: cactus
+    name: "Force"
+    lore:
+      description:
+        - "Explosions do more knockback."
+
+
+launch:
+  index: 14
+  cost: [20, 40, 60, 80, 100]
+  prereq:
+    blaze: 1
+  item:
+    material: firework
+    name: "Launch"
+    lore:
+      description:
+        - "Sneak to launch yourself up high!"
+
+
+flame:
+  index: 15
+  cost: [50, 100, 150]
+  prereq:
+    blaze: 1
+  item:
+    material: flint_and_steel
+    name: "Flame"
+    lore:
+      description:
+        - "Explosions light blocks on fire."
+
+superblast:
+  index: 22
+  cost: 300
+  prereq:
+    supplies: 5
+    health: 5
+    firepower: 5
+    reload: 5
+    force: 5
+    launch: 5
+    flame: 3
+    blaze: 1
+  item:
+    base: kaboom
+    name: "Super Blast"
+    shiny: true
+    lore:
+      description:
+        - "Make a large explosion when you shoot fireballs!\n"
