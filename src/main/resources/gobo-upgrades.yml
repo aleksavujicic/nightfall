@@ -169,7 +169,7 @@ superkaboom:
     pick: 3
     dest: 5
     shrapnel: 5
-    force: 5
+    force-gobo: 5
     speed: 3
     kaboom: 1
   item:
@@ -256,7 +256,7 @@ superblast:
     health: 5
     firepower: 5
     reload: 5
-    force: 5
+    force-blaze: 5
     launch: 5
     flame: 3
     blaze: 1
