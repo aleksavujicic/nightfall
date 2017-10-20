@@ -21,6 +21,11 @@ base:
       kb-resist: true
     bound: true
 
+  sounds:
+    death:
+      path: "block.end_portal.spawn"
+      pitch: 2
+
 dagger:
   parent: base
 

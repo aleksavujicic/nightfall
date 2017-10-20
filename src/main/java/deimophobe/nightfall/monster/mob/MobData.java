@@ -47,7 +47,7 @@ public class MobData {
 	final boolean shrineImmune;
 	final boolean canRun;
 	
-	private final Map<String, MobSound> sounds = new HashMap<>();
+	private final Map<String, MobSound> sounds;
 	
 	
 	private static final MobData DEFAULT_DATA = new MobData();
@@ -78,6 +78,8 @@ public class MobData {
 		armour = null;
 		weapon = null;
 		items = new LinkedHashMap<>();
+		
+		sounds = new HashMap<>();
 	}
 	
 	private MobData(String fullKey, ConfigurationSection section) {
@@ -133,6 +135,14 @@ public class MobData {
 				items.put(item, CustomItem.getItem(itemSection.getConfigurationSection(item), LoreTemplate.MOB, Slot.MAIN_HAND));
 			}
 		}
+		
+		sounds = new HashMap<>(parent.sounds);
+		if (section.contains("sounds")) {
+			ConfigurationSection soundSec = section.getConfigurationSection("sounds");
+			for (String soundName : soundSec.getKeys(false)) {
+				sounds.put(soundName, new MobSound(soundSec.getConfigurationSection(soundName)));
+			}
+		}
 	}
 	
 	private void compileItems() {
@@ -183,7 +193,7 @@ public class MobData {
 	 * on those which are to be used as mobs. (So that base
 	 * types such as 'ghostblade-base' can be in an invalid state).
 	 */
-	void verify() {
+	private void verify() {
 		// This should be practically impossible - but checking just in case
 		if (fullName == null)
 			throw new IllegalStateException("Mobdata name is missing?!");
@@ -264,7 +274,7 @@ public class MobData {
 		private MobSound(ConfigurationSection section) {
 			this.soundPath = section.getString("path", "mob."+MobData.this.fullName +"."+section.getName());
 			this.pitch = (float) section.getDouble("pitch", 1);
-			this.chance = section.getDouble("chance");
+			this.chance = section.getDouble("chance", 1);
 		}
 		
 		private void play(MonsterPlayer monster) {
