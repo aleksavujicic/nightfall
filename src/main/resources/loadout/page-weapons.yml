@@ -90,7 +90,7 @@ longbow:
   type: item
   name: longbow
   category: bow
-  cost: 16
+  cost: 18
   item:
     name: "Longbow"
     base: longbow
