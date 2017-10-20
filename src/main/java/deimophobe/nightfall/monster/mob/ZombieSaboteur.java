@@ -25,7 +25,7 @@ import java.util.Map;
  */
 public class ZombieSaboteur extends Zombie {
 
-    private final int vampirism;
+    private final double vampirism;
     private final int armourShred;
     private final int poison;
     private final int pick;
@@ -49,7 +49,7 @@ public class ZombieSaboteur extends Zombie {
         Map<String, Integer> upgrades = monster.getUpgrades(MobType.ZOMBIE);
 
         this.armourShred = shredValues[upgrades.get("shred-sabo")];
-        this.vampirism = upgrades.get("vampirism-sabo");
+        this.vampirism = (double)upgrades.get("vampirism-sabo")/2;
         int temp_poison = upgrades.get("poison");
         this.pick = upgrades.get("pick");
         this.epinephrine = upgrades.get("epinephrine");
@@ -147,7 +147,7 @@ public class ZombieSaboteur extends Zombie {
         super.onDamageAttack(damage);
 
         damage.addArmourShred(armourShred);
-        int healAmt = vampirism;
+        double healAmt = vampirism;
 
         if (poison > 0) {
             damage.getDwarf().givePotionEffect(PotionEffectType.POISON, 40, poison, true, false, true);

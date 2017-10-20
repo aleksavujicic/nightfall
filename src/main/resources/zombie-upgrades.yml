@@ -412,7 +412,7 @@ vampirism-sabo:
     name: "Vampirism"
     lore:
       description:
-        - "Gives 0.5 hearts life steal per level."
+        - "Gives 0.25 hearts life steal per level."
 
 
 assassination:
