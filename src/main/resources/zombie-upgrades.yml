@@ -158,7 +158,7 @@ regen:
 arrow-husk:
   index: 14
   cost: [100, 150, 200]
-  value: [25, 40, 50]
+  value: [25, 50, 75]
   prereq:
     husk: 1
   item:
@@ -412,7 +412,7 @@ vampirism-sabo:
     name: "Vampirism"
     lore:
       description:
-        - "Gives 0.5 hearts life steal per level."
+        - "Gives 0.25 hearts life steal per level."
 
 
 assassination:

@@ -264,7 +264,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	public void gainXP(int amt, boolean affectedByShrine) {
 		if (affectedByShrine && isInShrine())
-			amt *= 3;
+			amt *= 2;
 		experience = Math.min(Math.max(experience, MAX_XP), experience + amt);
 		updateXPDisplay();
 	}
