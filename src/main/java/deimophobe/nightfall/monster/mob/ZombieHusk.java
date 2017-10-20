@@ -120,7 +120,7 @@ public class ZombieHusk extends Zombie {
                     knockback.setY(knockback.getY() / 2 + 0.5);
                     modifier.addKnockback(knockback);
 
-                    DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.GOBO_BOX_EXPLOSION, 10 * leapLvl);
+                    DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.HUSK_STOMP, 10 * leapLvl);
                     modifier.applyToDamage(aoeDamage);
                     aoeDamage.fire(true);
                 }
