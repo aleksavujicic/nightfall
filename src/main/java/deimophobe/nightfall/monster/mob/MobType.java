@@ -81,7 +81,14 @@ public enum MobType {
 					return new Zombie(monster);
 				}
 			}
-			case GOBO: return new Goblin(monster);
+			case GOBO: {
+				if (monster.getUpgrades(MobType.GOBO).computeIfAbsent("blaze", (k) -> 0) == 1) {
+					return new Blaze(monster);
+				}
+				else {
+					return new Goblin(monster);
+				}
+			}
 			
 			case WITHER: return new WitherSkele(monster);
 			case FLAMELANCER: return new Flamelancer(monster);
