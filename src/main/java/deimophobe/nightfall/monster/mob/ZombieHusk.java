@@ -102,13 +102,14 @@ public class ZombieHusk extends Zombie {
         staggerSound.update();
         if (smashing) {
             smashCD.update();
+            World world = monster.getPlayer().getWorld();
             if (smashCD.isAvailable()) {
                 smashCD.reset();
                 Vector currentVelocity = monster.getPlayer().getVelocity();
+                world.spawnParticle(Particle.EXPLOSION_NORMAL, monster.getLocation(), 3, 1, 1, 1);
                 monster.getPlayer().setVelocity(new Vector(currentVelocity.getX()*2.5, -1.5, currentVelocity.getZ()*2.5));
             }
             if (monster.getPlayer().isOnGround()) {
-                World world = monster.getPlayer().getWorld();
                 world.spawnParticle(Particle.EXPLOSION_LARGE, monster.getLocation(), 3, 1, 1, 1);
                 monster.playSound("drum", 1f, 0.5f, true);
                 monster.playSound("entity.generic.explode", 0.5f, 0.5f, true);
