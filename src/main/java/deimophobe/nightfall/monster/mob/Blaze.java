@@ -154,7 +154,7 @@ public class Blaze extends AbstractMob {
     private void blazeExplosion(Location centerLoc) {
         World world = monster.getLocation().getWorld();
 
-        double damage = 10 + 5 * firepower + 15 * superblast;
+        double damage = 15 + 3 * firepower + 15 * superblast;
         int armorShred = 10 + 2 * firepower + 10 * superblast;
         double power = 4.25 + 0.25 * superblast;
         double kb = 0.5 + 0.06 * force + 0.15 * superblast;
