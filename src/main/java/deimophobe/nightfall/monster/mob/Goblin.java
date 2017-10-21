@@ -142,7 +142,7 @@ public class Goblin extends AbstractMob {
 			tnt.setMetadata("thrower", new FixedMetadataValue(NightfallPlugin.getPlugin(), this));
 			tnt.setVelocity(direction);
 			tnt.setFuseTicks(60);
-			world.playSound(loc, "entity.firework.launch", 2, (float) 0.5);
+			world.playSound(loc, "entity.firework.launch", 2, 0.5f);
 			monster.useHeldItem();
 			monster.useHeldItem();
 			throwboxCD.reset();
