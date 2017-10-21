@@ -240,7 +240,7 @@ shred-fury:
 
 pursuit:
   index: 11
-  cost: [100, 150, 200]
+  cost: [50, 100, 150]
   prereq:
     fury: 1
   item:
@@ -296,7 +296,7 @@ rebirth-fury:
 
 vampirism-fury:
   index: 16
-  cost: [100, 150, 200]
+  cost: [50, 100, 150]
   prereq:
     fury: 1
   item:
@@ -336,7 +336,7 @@ furynight:
 
 shred-sabo:
   index: 10
-  cost: [100, 150, 200]
+  cost: [50, 100, 150]
   value: [3, 6, 10]
   prereq:
     saboteur: 1
@@ -377,7 +377,7 @@ leap-sabo:
 
 pick:
   index: 14
-  cost: [150, 150, 200]
+  cost: [100, 150, 200]
   prereq:
     saboteur: 1
   item:
@@ -404,7 +404,7 @@ epinephrine:
 
 vampirism-sabo:
   index: 16
-  cost: [100, 150, 200]
+  cost: [50, 100, 150]
   prereq:
     saboteur: 1
   item:
