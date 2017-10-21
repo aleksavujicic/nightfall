@@ -43,7 +43,7 @@ tombmaker:
   index: 5
   type: item
   name: tombmaker
-  cost: 8
+  cost: 4
   item:
     name: "Tombmaker"
     base: tombmaker
