@@ -139,7 +139,7 @@ public class AIManager {
 		if (Game.getGame().getPhase() != Phase.GAME)
 			return;
 		
-		// Try onSpawn more AIs
+		// Try spawn more AIs
 		if (aisSpawnable && Game.getGame().getPhase() == Phase.GAME && !DoomManager.getManager().isDoom()) {
 			int dwarves = DwarfManager.getManager().getNumberOfPlayers();
 			int mobs = MonsterManager.getManager().getNumberOfPlayers();
