@@ -78,15 +78,15 @@ public class ZombieHusk extends Zombie {
         this.stagger = upgrades.get("stagger") >= 1;
 
         if (stagger)
-            staggerSound = new ComplexCooldown(10, () ->
+            staggerSound = new ComplexCooldown(40, () ->
                 monster.playSound("entity.zombie_villager.converted", 1f, 1f, true)
             , ComplexCooldown.DO_NOTHING);
         else
             staggerSound = new ComplexCooldown(10);
 
         getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
-        getArmour().addModifier(ItemModifierType.SPEED, -20, "Husk Zombie");
-        getArmour().addModifier(ItemModifierType.HEALTH, 10, "Husk Zombie");
+        getArmour().addModifier(ItemModifierType.SPEED, -25, "Husk Zombie");
+        getArmour().addModifier(ItemModifierType.HEALTH, 5, "Husk Zombie");
         getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
         getWeapon().addModifier(ItemModifierType.ATTACK, 10, "Husk Zombie");
         if (stagger) {
@@ -133,12 +133,9 @@ public class ZombieHusk extends Zombie {
     @Override
     public void onSpawn() {
         super.onSpawn();
-        monster.givePermanentPotionEffect(PotionEffectType.ABSORPTION, 1);
-        monster.removePotionEffect(PotionEffectType.ABSORPTION);
         monster.givePermanentPotionEffect(PotionEffectType.REGENERATION, regen);
-        monster.doDamage(null, CustomDamageType.TEMPORARY, 0, true);
         if (didRebirth()) {
-            giveSpawnProtection(30);
+            giveSpawnProtection(12);
         }
     }
 
@@ -175,6 +172,7 @@ public class ZombieHusk extends Zombie {
                 double hVel = (double) leapLvl/10+0.4;
                 double vVel = (double) leapLvl/30+0.5;
                 monster.getPlayer().setVelocity(new Vector(-hVel * Math.sin(radYaw), vVel, hVel * Math.cos(radYaw)));
+                giveSpawnProtection(30);
                 smashing = true;
             }
         }
