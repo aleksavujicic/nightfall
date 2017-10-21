@@ -13,7 +13,7 @@ public enum MobType {
 	ZOMBIE,
 
 	GOBO,
-	BLAZE,
+	BLAZE(false),
 
 	WITHERSKELE,
 	FLAMELANCER,

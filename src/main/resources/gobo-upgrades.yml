@@ -35,7 +35,7 @@ health:
     lore:
       description:
         - "Increases your health.\n
-           Upgrade supplies and health to lvl 3\n
+           Upgrade supplies and health to lvl 5\n
            to unlock subclasses."
 
 
@@ -233,7 +233,8 @@ launch:
     name: "Launch"
     lore:
       description:
-        - "Sneak to launch yourself up!"
+        - "Sneak to launch yourself up.\n
+           Upgrades lower cooldown and increase height."
 
 
 flame:

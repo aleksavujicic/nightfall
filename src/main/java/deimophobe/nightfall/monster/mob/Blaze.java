@@ -3,21 +3,16 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockConverter;
-import deimophobe.nightfall.blocks.timedblock.GoboBox;
-import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.DudCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
-import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.damage.*;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
-import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import me.libraryaddict.disguise.disguisetypes.watchers.CreeperWatcher;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -26,7 +21,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -68,9 +62,9 @@ public class Blaze extends AbstractMob {
 
         this.currentSupplies = supplies;
         this.fireCD = new ComplexCooldown(10);
-        this.reloadCD = new ComplexCooldown(80 - this.reload * 5);
+        this.reloadCD = new ComplexCooldown(75 - this.reload * 5);
         if (launch > 0) {
-            this.launchCD = new ComplexCooldown(10);
+            this.launchCD = new ComplexCooldown(400 - this.launch * 20);
         } else {
             this.launchCD = new DudCooldown();
         }
@@ -85,6 +79,7 @@ public class Blaze extends AbstractMob {
         super.onSpawn();
         giveItem("blaze-ammo", (supplies));
         monster.givePermanentPotionEffect(PotionEffectType.LEVITATION, -2);
+        monster.givePermanentPotionEffect(PotionEffectType.JUMP, 2);
     }
 
     @Override
@@ -111,6 +106,7 @@ public class Blaze extends AbstractMob {
             Entity fireball = world.spawnEntity(loc, EntityType.FIREBALL);
             ((Fireball) fireball).setShooter(monster.getPlayer());
             fireball.setVelocity(loc.getDirection().multiply(1.5f));
+            world.playSound(loc, "entity.blaze.shoot", 2, 1f);
             monster.useHeldItem();
             fireCD.reset();
             reloadCD.reset();
@@ -122,7 +118,7 @@ public class Blaze extends AbstractMob {
         super.onDamageAttack(damage);
         if (damage.getType() != NaturalDamageType.MELEE) {
             if (flame > 0) {
-                damage.getDwarf().getPlayer().setFireTicks(60);
+                damage.getDwarf().getPlayer().setFireTicks(40);
             }
             blazeExplosion(damage.getDwarf().getEyeLocation());
         }
@@ -136,8 +132,13 @@ public class Blaze extends AbstractMob {
             World world = loc.getWorld();
             blazeExplosion(loc);
             world.playSound(loc, "entity.firework.launch", 3, 0.8f);
-            monster.setVelocity(0, 0.5+0.5 * launch, 0);
+            monster.setVelocity(0, 1+0.6 * launch, 0);
         }
+    }
+
+    @Override
+    public float getCooldown() {
+        return launchCD.fractionComplete();
     }
 
     @Override
@@ -150,8 +151,8 @@ public class Blaze extends AbstractMob {
     private void blazeExplosion(Location centerLoc) {
         World world = monster.getLocation().getWorld();
 
-        double damage = 50 + 5 * firepower + 15 * superblast;
-        int armorShred = 10 + 5 * firepower + 15 * superblast;
+        double damage = 40 + 5 * firepower + 15 * superblast;
+        int armorShred = 10 + 3 * firepower + 10 * superblast;
         double power = 4.25 + 0.25 * superblast;
         double kb = 0.5 + 0.06 * force + 0.15 * superblast;
 
@@ -167,7 +168,7 @@ public class Blaze extends AbstractMob {
                     Block block = centerLoc.clone().add(x, y, z).getBlock();
                     Block blockBelow = centerLoc.clone().add(x,y-1, z).getBlock();
 
-                    if (block.getType() == Material.AIR && blockBelow.getType() != Material.AIR && (Math.random() < 0.03 * flame)) {
+                    if (block.getType() == Material.AIR && blockBelow.getType() != Material.AIR && (Math.random() < 0.025 * flame)) {
                         block.setType(Material.FIRE);
                     }
                 }
@@ -176,7 +177,7 @@ public class Blaze extends AbstractMob {
 
         for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
             Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
-            if (offset.length() > 4 + superblast * 1.5) continue;
+            if (offset.length() > 4.5 + superblast) continue;
 
             DamageModifier modifier = new DamageModifier();
 
