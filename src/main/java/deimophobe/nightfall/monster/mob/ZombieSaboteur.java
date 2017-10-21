@@ -35,7 +35,6 @@ public class ZombieSaboteur extends Zombie {
     private final int leapLvl;
 
     private final boolean assa;
-    private final ComplexCooldown assaSound;
 
     private static Integer[] shredValues = {0, 3, 6, 10};
 
@@ -70,14 +69,10 @@ public class ZombieSaboteur extends Zombie {
         this.assa = upgrades.get("assassination") >= 1;
         if (assa) {
             assaCD = new SimpleCooldown(200);
-            assaSound = new ComplexCooldown(10, () ->
-                    monster.playSound("entity.zombie_villager.converted", 1f, 2f, true)
-                    , ComplexCooldown.DO_NOTHING);
         }
 
         else {
             assaCD = new DudCooldown();
-            assaSound = new ComplexCooldown(10);
         }
 
         getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
@@ -100,7 +95,6 @@ public class ZombieSaboteur extends Zombie {
     @Override
     public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
         leapCD.update();
-        assaSound.update();
         assaCD.update();
         if (b && assaCD.isAvailable()) {
             monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
@@ -153,7 +147,7 @@ public class ZombieSaboteur extends Zombie {
             damage.getDwarf().givePotionEffect(PotionEffectType.POISON, 40, poison, true, false, true);
         }
         if (assa && assaCD.isAvailable()) {
-            assaSound.tryUse();
+            monster.playSound("entity.wither.shoot", 1f, 2f, true);
             damage.getDamage().addBoost(57); // 60 - 3 due to str 1
             assaCD.reset();
         }
