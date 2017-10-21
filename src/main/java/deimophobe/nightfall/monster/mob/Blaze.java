@@ -120,7 +120,7 @@ public class Blaze extends AbstractMob {
             if (flame > 0) {
                 damage.getDwarf().getPlayer().setFireTicks(40);
             }
-            if (damage.getType() != NaturalDamageType.RANGED) {
+            if (damage.getType() == NaturalDamageType.RANGED) {
                 blazeExplosion(damage.getDwarf().getEyeLocation());
             }
         }
