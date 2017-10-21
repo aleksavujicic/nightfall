@@ -62,7 +62,7 @@ public class Blaze extends AbstractMob {
 
         this.currentSupplies = supplies;
         this.fireCD = new ComplexCooldown(10);
-        this.reloadCD = new ComplexCooldown(75 - this.reload * 5);
+        this.reloadCD = new ComplexCooldown(80 - this.reload * 5);
         if (launch > 0) {
             this.launchCD = new ComplexCooldown(400 - this.launch * 20);
         } else {
@@ -154,8 +154,8 @@ public class Blaze extends AbstractMob {
     private void blazeExplosion(Location centerLoc) {
         World world = monster.getLocation().getWorld();
 
-        double damage = 30 + 5 * firepower + 15 * superblast;
-        int armorShred = 10 + 3 * firepower + 10 * superblast;
+        double damage = 10 + 5 * firepower + 15 * superblast;
+        int armorShred = 10 + 2 * firepower + 10 * superblast;
         double power = 4.25 + 0.25 * superblast;
         double kb = 0.5 + 0.06 * force + 0.15 * superblast;
 
