@@ -164,7 +164,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	// ----- REBIRTH -----
-	private final static int REBIRTH_TIME = 10*20;
+	private final static int REBIRTH_TIME = 6*20;
 	private Location lastRebirth = null;
 	private BukkitRunnable rebirthKiller;
 	
