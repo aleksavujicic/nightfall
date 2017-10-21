@@ -13,6 +13,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -103,7 +104,8 @@ public class ZombieHusk extends Zombie {
             smashCD.update();
             if (smashCD.isAvailable()) {
                 smashCD.reset();
-                monster.getPlayer().setVelocity(new Vector(monster.getPlayer().getVelocity().getX(), -1.5, monster.getPlayer().getVelocity().getZ()));
+                Vector currentVelocity = monster.getPlayer().getVelocity();
+                monster.getPlayer().setVelocity(new Vector(currentVelocity.getX()*2.5, -1.5, currentVelocity.getZ()*2.5));
             }
             if (monster.getPlayer().isOnGround()) {
                 World world = monster.getPlayer().getWorld();
