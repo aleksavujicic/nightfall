@@ -61,8 +61,8 @@ public class Blaze extends AbstractMob {
         this.superblast = upgrades.get("superblast");
 
         this.currentSupplies = supplies;
-        this.fireCD = new ComplexCooldown(10);
-        this.reloadCD = new ComplexCooldown(80 - this.reload * 5);
+        this.fireCD = new ComplexCooldown(13);
+        this.reloadCD = new ComplexCooldown(75 - this.reload * 5);
         if (launch > 0) {
             this.launchCD = new ComplexCooldown(400 - this.launch * 20);
         } else {
@@ -157,7 +157,7 @@ public class Blaze extends AbstractMob {
         double damage = 15 + 3 * firepower + 15 * superblast;
         int armorShred = 10 + 2 * firepower + 10 * superblast;
         double power = 4.25 + 0.25 * superblast;
-        double kb = 0.5 + 0.06 * force + 0.15 * superblast;
+        double kb = 0.3 + 0.04 * force + 0.15 * superblast;
 
         BlockConverter.convert(BlockConverter.Type.EXPLOSION, centerLoc, power);
         world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
@@ -180,7 +180,7 @@ public class Blaze extends AbstractMob {
 
         for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
             Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
-            if (offset.length() > 4.5 + superblast) continue;
+            if (offset.length() > 4 + superblast) continue;
 
             DamageModifier modifier = new DamageModifier();
 
