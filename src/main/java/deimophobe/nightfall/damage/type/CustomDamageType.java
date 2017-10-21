@@ -22,6 +22,8 @@ public enum CustomDamageType implements GameDamageType {
 	DEATH_PLAGUE,
 	GOBO_KABOOM,
 	GOBO_BOX_EXPLOSION,
+	BLAZE_EXPLOSION,
+	HUSK_STOMP,
 	MOBSPAWN,
 	
 	MINOTAUR_CHARGE,

@@ -61,7 +61,7 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 					return name + " withered away.";
 			}
 		}
-		
+
 		if (type instanceof CustomDamageType) {
 			switch ((CustomDamageType) type) {
 				case HAMMER_AOE:
@@ -92,6 +92,14 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 				case GOBO_KABOOM:
 					killMsg = "exploded";
 					break;
+
+				case BLAZE_EXPLOSION:
+					killMsg = "blasted";
+					break;
+
+				case HUSK_STOMP:
+					killMsg = "stomped";
+					break;
 				
 				case INCORRECT_HELD_ITEM:
 					return name + " was a bit of a klutz and dropped their blade.";
@@ -116,7 +124,7 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 		
 		if (attacker == null)
 			return name + " was " + killMsg + ".";
-		
+
 		String damagerName = attacker.getDisplayName();
 		if (itemName != null)
 			return name + " was " + killMsg + " by " + damagerName + " using " + itemName + ".";

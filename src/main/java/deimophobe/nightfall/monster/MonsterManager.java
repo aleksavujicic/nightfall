@@ -91,7 +91,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 			public void run() {
 				xpCount++;
 			}
-		}.runTaskTimer(NightfallPlugin.getPlugin(), 20, 20);
+		}.runTaskTimer(NightfallPlugin.getPlugin(), 30, 30);
 		
 		new BukkitRunnable() {
 			@Override
