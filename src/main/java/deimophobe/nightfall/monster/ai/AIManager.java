@@ -19,6 +19,7 @@ import deimophobe.nightfall.monster.doom.DoomManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
@@ -204,8 +205,16 @@ public class AIManager {
 		for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
 			if (monster.isAlive())
 				// If mob on ground or a bit above it
-				if (monster.getPlayer().isOnGround() || monster.getLocation().getBlock().getRelative(0,-2,0).getType().isSolid())
+				if (monster.getPlayer().isOnGround() || monster.getLocation().getBlock().getRelative(0,-2,0).getType().isSolid()) {
 					addAISpawnLocation(monster.getLocation());
+					int a = (int)(6*Math.random());
+					int b = (int)(6*Math.random());
+					Block nearby = monster.getLocation().getBlock().getRelative((int)(-3 + a),-2,(int)(-3 + b));
+					// TODO: temp solution for ais for now
+					if (nearby.getType().isSolid()) {
+						addAISpawnLocation(monster.getLocation().add(a, 0, b));
+					}
+				}
 		}
 	}
 	
