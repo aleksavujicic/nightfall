@@ -110,6 +110,7 @@ class Wolf extends AbstractMob {
 				}
 				
 				monster.getPlayer().setVelocity(velocity);
+				monster.removePotionEffect(PotionEffectType.LUCK);
 			}
 		}
 	}
