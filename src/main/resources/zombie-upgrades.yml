@@ -117,7 +117,7 @@ saboteur:
 shred-husk:
   index: 10
   cost: [50, 75, 100, 125, 150]
-  value: [6, 12, 18, 24, 30]
+  value: [4, 8, 12, 16, 20]
   prereq:
     husk: 1
   item:
@@ -228,7 +228,7 @@ stagger:
 shred-fury:
   index: 10
   cost: [50, 75, 100, 125, 150]
-  value: [5, 10, 15, 20, 25]
+  value: [4, 8, 12, 16, 20]
   prereq:
     fury: 1
   item:
@@ -337,7 +337,7 @@ furynight:
 shred-sabo:
   index: 10
   cost: [100, 150, 200]
-  value: [5, 10, 15]
+  value: [3, 6, 10]
   prereq:
     saboteur: 1
   item:
