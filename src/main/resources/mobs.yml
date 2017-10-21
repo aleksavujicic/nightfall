@@ -192,6 +192,8 @@ blaze:
 
   disguisetype: blaze
 
+  canrun: false
+
   armour:
     material: blaze_rod
     name: Fiery Rods
@@ -202,15 +204,15 @@ blaze:
        - "Protecting flame, wreathed around you."
     bound: true
   items:
-      blaze-ammo:
-        material: blaze_powder
-        name: Fireball
-        lore:
-          description:
-           - "&aRight click to throw fireballs, which\n
-              damage dwarves and walls as they explode&r."
-          flavour:
-           - "Death from afar."
+    blaze-ammo:
+      material: blaze_powder
+      name: Fireball
+      lore:
+        description:
+         - "&aRight click to throw fireballs, which\n
+            damage dwarves and walls as they explode&r."
+        flavour:
+         - "Death from afar."
 
 
 flamelancer:
