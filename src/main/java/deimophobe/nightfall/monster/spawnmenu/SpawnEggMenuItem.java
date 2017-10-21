@@ -47,8 +47,8 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 		this.quantity = 0;
 		this.maxQuantity = section.getInt("quantity", 1);
 		double rawSpawnChance = section.getDouble("chance", 0.5);
-		double playerNum = Game.getGame().getNumPlayers();
-		this.spawnChance = Math.min(0.5, rawSpawnChance * Math.max(playerNum / 8.0, 1));
+		//double playerNum = Game.getGame().getNumPlayers();
+		this.spawnChance = rawSpawnChance;//Math.min(0.5, rawSpawnChance * Math.max(playerNum / 8.0, 1));
 		this.permanent = section.getBoolean("permanent", false);
 		
 		this.enabled = section.getBoolean("enabled", true);
