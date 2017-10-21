@@ -212,7 +212,7 @@ public class AIManager {
 					Block nearby = monster.getLocation().getBlock().getRelative((int)(-3 + a),-2,(int)(-3 + b));
 					// TODO: temp solution for ais for now
 					if (nearby.getType().isSolid()) {
-						addAISpawnLocation(monster.getLocation().add(a, 0, b));
+						addAISpawnLocation(monster.getLocation().add(5, 0, 5));
 					}
 				}
 		}
