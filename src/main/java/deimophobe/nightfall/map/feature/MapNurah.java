@@ -1,0 +1,124 @@
+package deimophobe.nightfall.map.feature;
+
+import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.event.PhaseChangeEvent;
+import deimophobe.nightfall.map.GameMap;
+import deimophobe.nightfall.map.InvalidMapConfigException;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.LinkedHashSet;
+
+/**
+ * Created by Deimophobe on 21/10/17.
+ */
+public class MapNurah implements MapFeature {
+	
+	private MapNurah.GameEndListener listener = new MapNurah.GameEndListener();
+	
+	@Override
+	public void activate(GameMap map, ConfigurationSection config) throws InvalidMapConfigException {
+		center = map.getLocation(config, "center");
+		map.getWorld().setGameRuleValue("doFireTick", "false");
+		Bukkit.getPluginManager().registerEvents(listener, NightfallPlugin.getPlugin());
+		
+		
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				double dx = 400*Math.random() - 200;
+				double dz = 400*Math.random() - 200;
+				double dy = 100*Math.random() - 60;
+				
+				particlePop(center.clone().add(dx,dy,dz));
+			}
+		}.runTaskTimer(NightfallPlugin.getPlugin(), 1,1);
+	}
+	
+	@Override
+	public void deactivate() {
+		HandlerList.unregisterAll(listener);
+	}
+	
+	
+	private void particlePop(Location loc) {
+		World world = loc.getWorld();
+		world.spawnParticle(Particle.LAVA, loc, 10, 0, 0, 0, 0.3);
+		world.playSound(loc, "block.lava.pop", 1f, 1f);
+	}
+	
+	
+	
+	private class GameEndListener implements Listener {
+		@EventHandler
+		public void gameEnd(PhaseChangeEvent event) {
+			if (event.getPhase() != Phase.END) return;
+			lavaExplode();
+		}
+	}
+	
+	private Location center;
+	private void lavaExplode() {
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				increaseLavaLevel();
+			}
+		}.runTaskTimer(NightfallPlugin.getPlugin(), 60, 20);
+		
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				double dx = 40*Math.random() - 20;
+				double dz = 40*Math.random() - 20;
+				double dy = 20*Math.random();
+				
+				explode(center.clone().add(dx,dy,dz));
+			}
+		}.runTaskTimer(NightfallPlugin.getPlugin(), 30, 2);
+	}
+	
+	private void explode(Location loc) {
+		World world = loc.getWorld();
+		world.spawnParticle(Particle.EXPLOSION_HUGE, loc, 1);
+		world.spawnParticle(Particle.FLAME, loc, 30, 2, 2, 2, 0.3);
+		world.spawnParticle(Particle.LAVA, loc, 50, 2, 2, 2, 0.3);
+		
+		world.playSound(loc, "entity.generic.burn", 2f, 0.5f);
+		world.playSound(loc, "entity.ghast.shoot", 2f, 0.5f);
+	}
+	
+	private int lavaLevel = 0;
+	private static final BlockFace[] OFFSETS = {BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST};
+	private static int MAX_RECURSION = 3000;
+	private void increaseLavaLevel() {
+		lavaLevel++;
+		
+		// x-z flood fill
+		LinkedHashSet<Block> toChange = new LinkedHashSet<>();
+		toChange.add(center.clone().add(0, lavaLevel, 0).getBlock());
+		
+		int i = 0;
+		while (!toChange.isEmpty()) {
+			Block changee = toChange.iterator().next();
+			changee.setType(Material.STATIONARY_LAVA);
+			for (BlockFace offset : OFFSETS) {
+				Block newBlock = changee.getRelative(offset);
+				if (!toChange.contains(newBlock) && newBlock.getType() == Material.AIR)
+					toChange.add(newBlock);
+			}
+			toChange.remove(changee);
+			
+			i++;
+			if (i >= MAX_RECURSION)
+				break;
+		}
+	}
+}
