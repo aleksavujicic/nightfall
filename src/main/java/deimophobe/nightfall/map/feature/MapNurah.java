@@ -78,7 +78,7 @@ public class MapNurah implements MapFeature {
 			public void run() {
 				double dx = 40*Math.random() - 20;
 				double dz = 40*Math.random() - 20;
-				double dy = 20*Math.random();
+				double dy = 20*Math.random() + lavaLevel;
 				
 				explode(center.clone().add(dx,dy,dz));
 			}
