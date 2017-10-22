@@ -71,7 +71,7 @@ public class MapNurah implements MapFeature {
 			public void run() {
 				increaseLavaLevel();
 			}
-		}.runTaskTimer(NightfallPlugin.getPlugin(), 60, 20);
+		}.runTaskTimer(NightfallPlugin.getPlugin(), 60, 60);
 		
 		new BukkitRunnable() {
 			@Override
@@ -117,8 +117,10 @@ public class MapNurah implements MapFeature {
 			toChange.remove(changee);
 			
 			i++;
-			if (i >= MAX_RECURSION)
+			if (i >= MAX_RECURSION) {
+				Bukkit.getLogger().warning("Nurah Map - Hit lava place recursion limit.");
 				break;
+			}
 		}
 	}
 }
