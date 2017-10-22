@@ -137,9 +137,6 @@ public class ZombieHusk extends Zombie {
     public void onSpawn() {
         super.onSpawn();
         monster.givePermanentPotionEffect(PotionEffectType.REGENERATION, regen);
-        if (didRebirth()) {
-            giveSpawnProtection(12);
-        }
     }
 
     @Override
@@ -175,7 +172,7 @@ public class ZombieHusk extends Zombie {
                 double hVel = (double) leapLvl/10+0.4;
                 double vVel = (double) leapLvl/30+0.5;
                 monster.getPlayer().setVelocity(new Vector(-hVel * Math.sin(radYaw), vVel, hVel * Math.cos(radYaw)));
-                giveSpawnProtection(30);
+                giveSpawnProtection(40);
                 smashing = true;
             }
         }
