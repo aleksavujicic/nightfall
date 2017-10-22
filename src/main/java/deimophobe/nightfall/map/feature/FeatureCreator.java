@@ -18,6 +18,7 @@ public class FeatureCreator {
 		FEATURES = new HashMap<>();
 		FEATURES.put("tp-pads", TeleportPad.class);
 		FEATURES.put("nro-map", NroMap.class);
+		FEATURES.put("map-nurah", MapNurah.class);
 	}
 	
 	// Uses seperate name parameter instead of config.getName() as config might be null.
