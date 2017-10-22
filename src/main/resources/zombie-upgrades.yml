@@ -216,8 +216,7 @@ stagger:
     shiny: true
     lore:
       description:
-        - "Your hits will inflict slowness 2\n
-           and do 10 more armor damage.\n
+        - "Your hits will inflict slowness 2.\n
            In addition, you will resist knockback."
 
 

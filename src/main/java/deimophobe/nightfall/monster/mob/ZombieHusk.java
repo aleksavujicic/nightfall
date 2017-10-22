@@ -89,7 +89,7 @@ public class ZombieHusk extends Zombie {
         getArmour().addModifier(ItemModifierType.SPEED, -25, "Husk Zombie");
         getArmour().addModifier(ItemModifierType.HEALTH, 5, "Husk Zombie");
         getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
-        getWeapon().addModifier(ItemModifierType.ATTACK, 10, "Husk Zombie");
+        getWeapon().addModifier(ItemModifierType.ATTACK, 5, "Husk Zombie");
         if (stagger) {
             getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, 10, "Staggering Hit");
             getArmour().addModifier(ItemModifierType.KB_RESIST, 1, "Staggering Hit");
@@ -154,7 +154,6 @@ public class ZombieHusk extends Zombie {
         int healAmt = vampirism;
         if (stagger) {
             staggerSound.tryUse();
-            damage.addArmourShred(10);
             damage.getDwarf().givePotionEffect(PotionEffectType.SLOW, 40, 2, false, false, true);
         }
         monster.heal(healAmt);
