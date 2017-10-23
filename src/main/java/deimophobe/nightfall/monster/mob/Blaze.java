@@ -52,7 +52,7 @@ public class Blaze extends AbstractMob {
         upgrades = monster.getUpgrades(MobType.GOBO);
 
         this.supplies = (upgrades.get("supplies") + upgrades.get("supplies-inf"));
-        int health = (upgrades.get("health") + upgrades.get("health-inf"));
+        int health = (upgrades.get("health") + upgrades.get("health-inf")) * 2;
         this.firepower = upgrades.get("firepower");
         this.force = upgrades.get("force-blaze");
         this.reload = upgrades.get("reload");
@@ -70,7 +70,6 @@ public class Blaze extends AbstractMob {
         }
 
         getArmour().addModifier(ItemModifierType.HEALTH, health, "Upgrade");
-        getArmour().addModifier(ItemModifierType.HEALTH, 5, "Blaze");
         getArmour().addModifier(ItemModifierType.SPEED, -25, "Blaze");
     }
 
