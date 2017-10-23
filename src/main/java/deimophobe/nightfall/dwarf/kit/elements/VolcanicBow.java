@@ -32,7 +32,7 @@ public class VolcanicBow extends AbstractBow {
 	private static final double MAX_RANGE = 25;
 	private static final double THICKNESS = 1.25;
 	private static final double PARTICLE_OFFSET = THICKNESS/10;
-	private static final double AOE_RADIUS = 1.25;
+	private static final double AOE_RADIUS = 1.35;
 	
 	@Override
 	public Projectile onBowFire(Projectile arrow, float force) {
