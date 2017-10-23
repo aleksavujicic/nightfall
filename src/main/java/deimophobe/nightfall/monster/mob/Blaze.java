@@ -64,7 +64,7 @@ public class Blaze extends AbstractMob {
         this.fireCD = new ComplexCooldown(13);
         this.reloadCD = new ComplexCooldown(75 - this.reload * 5);
         if (launch > 0) {
-            this.launchCD = new ComplexCooldown(400 - this.launch * 20);
+            this.launchCD = new ComplexCooldown(600 - this.launch * 20);
         } else {
             this.launchCD = new DudCooldown();
         }
@@ -117,7 +117,7 @@ public class Blaze extends AbstractMob {
         super.onDamageAttack(damage);
         if (damage.getType() != NaturalDamageType.MELEE) {
             if (flame > 0) {
-                damage.getDwarf().getPlayer().setFireTicks(40);
+                damage.getDwarf().getPlayer().setFireTicks(60);
             }
             if (damage.getType() == NaturalDamageType.RANGED) {
                 damage.cancel();
@@ -134,7 +134,7 @@ public class Blaze extends AbstractMob {
             World world = loc.getWorld();
             blazeExplosion(loc);
             world.playSound(loc, "entity.firework.launch", 3, 0.8f);
-            monster.setVelocity(0, 1+0.6 * launch, 0);
+            monster.setVelocity(0, 0.5+0.5 * launch, 0);
         }
     }
 
