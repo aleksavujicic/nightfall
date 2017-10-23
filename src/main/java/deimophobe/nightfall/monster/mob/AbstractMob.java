@@ -77,7 +77,7 @@ public abstract class AbstractMob implements Mob {
 		}
 		player.setSaturation(1000000);
 		
-		monster.givePermanentPotionEffect(PotionEffectType.NIGHT_VISION, 1);
+		monster.givePotionEffect(PotionEffectType.NIGHT_VISION, 10*60*60*20,1, false, false, true);
 		tpToSpawn();
 	}
 	
@@ -157,6 +157,7 @@ public abstract class AbstractMob implements Mob {
 	
 	protected void setArmour() {
 		PlayerInventory inv = monster.getPlayer().getInventory();
+		getArmour().addModifier(ItemModifierType.DEPTH_STRIDER, 3);
 		mobData.slot.equipArmour(inv, getArmour().createItemStack());
 	}
 	
