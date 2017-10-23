@@ -33,9 +33,9 @@ public class ZombieFury extends Zombie {
     private final boolean fury;
     private final ComplexCooldown furySound;
 
-    private static Integer[] shredValues = {0, 4, 8, 12, 16, 20};
+    private static Integer[] shredValues = {0, 6, 12, 18, 24, 30};
     private static Integer[] arrowResValues = {0, 25, 40, 50};
-    private static Integer[] rebirthValues = {0, 30, 60, 90, 120, 150};
+    private static Integer[] rebirthValues = {0, 36, 72, 108, 144, 180};
 
     protected ZombieFury(MonsterPlayer mons) {
         this(mons, null);
@@ -71,6 +71,7 @@ public class ZombieFury extends Zombie {
             furySound = new ComplexCooldown(10);
 
         getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
+        getArmour().addModifier(ItemModifierType.SPEED, pursuit * 5, "Upgrade");
         getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
     }
 
@@ -116,7 +117,7 @@ public class ZombieFury extends Zombie {
             damage.setManaDrain(15);
         }
         monster.heal(healAmt);
-        monster.givePotionEffect(PotionEffectType.SPEED, 140, pursuit, true, false, true);
+        monster.givePotionEffect(PotionEffectType.SPEED, 160, pursuit, true, false, true);
     }
 
     @Override
