@@ -13,10 +13,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
@@ -115,14 +112,22 @@ public class Blaze extends AbstractMob {
     @Override
     public void onDamageAttack(DwarfDamage damage) {
         super.onDamageAttack(damage);
-        if (damage.getType() != NaturalDamageType.MELEE) {
-            if (flame > 0) {
+        if (damage.getType() == NaturalDamageType.RANGED) {
+            damage.cancel();
+            blazeExplosion(damage.getDwarf().getEyeLocation());
+            if (Math.random() < 0.05 * flame) {
                 damage.getDwarf().getPlayer().setFireTicks(60);
             }
-            if (damage.getType() == NaturalDamageType.RANGED) {
-                damage.cancel();
-                blazeExplosion(damage.getDwarf().getEyeLocation());
-            }
+        }
+    }
+
+    // Workaround for Blaze fireballs being blocked by ais
+    public void onDamageAttack(MonsterDamage damage) {
+        if (damage.getType() == NaturalDamageType.RANGED) {
+            damage.cancel();
+            blazeExplosion(damage.getMonster().getEyeLocation());
+        } else {
+            damage.cancel();
         }
     }
 
