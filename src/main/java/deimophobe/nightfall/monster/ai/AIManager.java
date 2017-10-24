@@ -37,12 +37,10 @@ public class AIManager {
 		return Game.getGame().getMonsterManager().getAiManager();
 	}
 		
-	private final static int BASE_MAX_AIS = 60;
-	
-	private final static int MAX_AI_MARKS = 40;
-	private final static double AI_MARK_DISTANCE = 5;
-	
-	private final static int UPDATE_FREQ =  5*20;
+	private int maxAIs;
+	private int maxMarks;
+	private int updateFreq;
+	private final static double AI_MARK_DISTANCE = 4;
 	
 	
 	private final Team aiTeam;
@@ -67,10 +65,13 @@ public class AIManager {
 		aiTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.ALWAYS);
 		aiTeam.setCanSeeFriendlyInvisibles(true);
 		aiTeam.setAllowFriendlyFire(false);
+		this.maxAIs = 20;
+		this.maxMarks = 10;
+		this.updateFreq = 4*20;
 	}
 	
 	public void start() {
-		runner.runTaskTimer(NightfallPlugin.getPlugin(), UPDATE_FREQ, UPDATE_FREQ);
+		runner.runTaskTimer(NightfallPlugin.getPlugin(), updateFreq, updateFreq);
 	}
 	
 	public void stop() {
@@ -107,7 +108,7 @@ public class AIManager {
 		}
 		
 		spawnSpots.add(loc);
-		while (spawnSpots.size() > MAX_AI_MARKS)
+		while (spawnSpots.size() > maxMarks)
 			spawnSpots.remove();
 	}
 	
@@ -145,11 +146,11 @@ public class AIManager {
 			int dwarves = DwarfManager.getManager().getNumberOfPlayers();
 			int mobs = MonsterManager.getManager().getNumberOfPlayers();
 			
-			double spawnChance = (12 + mobs + dwarves*5) * 0.008;
-			spawnChance += (Game.getGame().isNight() ? 0.03 : 0);
+			double spawnChance = 0.3;
+			spawnChance += (Game.getGame().isNight() ? 0.1 : 0);
 			
-			int maxAIs = BASE_MAX_AIS;
-			maxAIs += (mobs + dwarves*2);
+			maxAIs = 20 + mobs + 8 * dwarves;
+			maxMarks = 10 + mobs + 8 * dwarves;
 			
 			Collection<Location> spotsToRemove = new HashSet<>();
 			
@@ -158,6 +159,7 @@ public class AIManager {
 				if (ais.size() >= maxAIs) break;
 				
 				double random = Math.random();
+				/*
 				if (random > 0.9) { // Try remove
 					int count = 0;
 					for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
@@ -169,6 +171,7 @@ public class AIManager {
 						spotsToRemove.add(spawnSpot);
 					continue;
 				}
+				*/
 				if (random > spawnChance) continue;
 				if (shrineProt.containsLocation(spawnSpot)) {
 					spotsToRemove.add(spawnSpot);
@@ -186,12 +189,12 @@ public class AIManager {
 					}
 				}
 				if (closestDwarf == null) continue;
-				
+
 				// Create zombie with all right stuff
 				spawnAI(spawnSpot, closestDwarf);
 
-				// Destroy spawnspots after average of 3 AI spawns
-				if (Math.random() < 0.333) {
+				// Destroy spawnspots after average of 4 AI spawns
+				if (Math.random() < 0.25) {
 					spotsToRemove.add(spawnSpot);
 				}
 			}
