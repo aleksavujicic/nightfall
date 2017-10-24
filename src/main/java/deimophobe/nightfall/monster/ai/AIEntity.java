@@ -47,6 +47,7 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 		
 		int speedLvl = (zombie.isBaby() ? -1 : 1);
 		zombie.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 300000, speedLvl, false,false), true);
+		zombie.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 300000, 1, false,false), true);
 		
 		zombie.getEquipment().setArmorContents(new ItemStack[]{null, null, null, null});
 		zombie.getEquipment().setItemInMainHand(sword);
