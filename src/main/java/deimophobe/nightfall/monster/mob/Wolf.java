@@ -39,20 +39,11 @@ class Wolf extends AbstractMob {
 	protected Wolf(MonsterPlayer monster, MobType type) {
 		super(monster, type);
 		
-		if (isHellhound()) {
-			furySound = new ComplexCooldown(25, () -> {
-				monster.playSound("entity.wolf.growl", 1f, 0.85f, true);
-				if (Game.getGame().isNight())
-					monster.playSound("entity.zombie_villager.converted", 1f, 1.45f, true);
-			}, ComplexCooldown.DO_NOTHING);
-		} else {
-			furySound = new ComplexCooldown(20, () -> {
-				monster.playSound("entity.wolf.growl", 1f, 1f, true);
-				if (Game.getGame().isNight())
-					monster.playSound("entity.zombie_villager.converted", 1f, 1.5f, true);
-			}, ComplexCooldown.DO_NOTHING);
-			
-		}
+		furySound = new ComplexCooldown(20, () -> {
+			playSound("growl");
+			if (Game.getGame().isNight())
+				monster.playSound("entity.zombie_villager.converted", 1f, 1.5f, true);
+		});
 	}
 	
 	@Override

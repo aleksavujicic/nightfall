@@ -82,6 +82,12 @@ public interface GameEntity<E extends LivingEntity> {
 		setVelocity(new Vector(vx, vy, vz));
 	}
 	
+	default void leap(double horizontal, double vertical) {
+		double yaw = getEntity().getLocation().getYaw();
+		double radYaw = yaw*Math.PI/180;
+		setVelocity(-horizontal * Math.sin(radYaw), vertical, horizontal * Math.cos(radYaw));
+	}
+	
 	// ------ HEALTH ------
 	default double getHealth() {
 		return getEntity().getHealth();

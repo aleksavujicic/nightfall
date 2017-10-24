@@ -1,0 +1,30 @@
+title: "Walker"
+
+disguisetype: skeleton
+
+attack: 20
+health: 50
+shred: 15
+speed: 50
+
+proccable: true
+
+armourslot: head
+armour:
+  base: firefly
+  name: "Temp"
+  lore:
+    description:
+     - "Temp"
+    flavour:
+     - "Temp"
+  modifiers:
+    kb-resist: 1
+weapon:
+  base: tigerfist
+  name: "Temp"
+  lore:
+    description:
+     - "Temp"
+    flavour:
+     - "Temp"

@@ -13,21 +13,20 @@ public enum MobType {
 	ZOMBIE,
 
 	GOBO,
-	BLAZE(false),
-
-	WITHERSKELE,
+	
+	WITHER,
 	FLAMELANCER,
 	WOLF,
 	SPIDERLING,
 	RAT,
 	GOLEM,
 	
-	GB_DAGGER,
-	GB_RUNEBLADE,
-	GB_AXE,
-	GB_HAMMER,
+	GB_DAGGER("ghostblade.dagger"),
+	GB_RUNEBLADE("ghostblade.runeblade"),
+	GB_AXE("ghostblade.axe"),
+	GB_HAMMER("ghostblade.hammer"),
 	
-	HELLHOUND,
+	HELLHOUND("wolf.hellhound"),
 	WRAITH,
 	MINOTAUR,
 	WALKER,
@@ -53,16 +52,18 @@ public enum MobType {
 		return name().replace('_','-').toLowerCase();
 	}
 	
-	MobType(boolean spawnable) {
-		this.mobData = MobData.getMobData(getName());
-		mobData.verify();
+	MobType() { this(null, true); }
+	MobType(String mobDataKey) { this(mobDataKey, true); }
+	MobType(boolean spawnable) { this(null, spawnable); }
+	
+	MobType(String mobDataKey, boolean spawnable) {
+		if (mobDataKey == null)
+			mobDataKey = getName();
 		
+		this.mobData = MobData.getMobData(mobDataKey);
 		this.spawnable = spawnable;
 	}
 	
-	MobType() {
-		this(true);
-	}
 	
 	public Mob createMob(MonsterPlayer monster) {
 		switch (this) {
@@ -89,7 +90,7 @@ public enum MobType {
 				}
 			}
 			
-			case WITHERSKELE: return new WitherSkele(monster);
+			case WITHER: return new WitherSkele(monster);
 			case FLAMELANCER: return new Flamelancer(monster);
 			case WOLF: return new Wolf(monster);
 			case SPIDERLING: return new Spiderling(monster);
@@ -118,8 +119,8 @@ public enum MobType {
 				throw new IllegalArgumentException("Plague zombie cannot be created normally.");
 				
 		}
-		Bukkit.getLogger().severe("Unknown mobtype: " + this + ".");
-		throw new IllegalArgumentException("Unknown mobtype: " + this + ".");
+		Bukkit.getLogger().severe("Unknown mobtype: " + this);
+		throw new IllegalArgumentException("Unknown mobtype: " + this + ". Did deimo forgot to set a case for this?");
 	}
 	
 	public static Collection<String> getAllMobTypes() {

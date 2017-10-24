@@ -30,6 +30,7 @@ public class Misc {
 	
 	public static YamlConfiguration getInternalFileConfig(String name) {
 		InputStream stream = NightfallPlugin.getPlugin().getResource(name);
+		if (stream == null) throw new IllegalArgumentException("Unknown config file: " + name);
 		return YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
 	}
 	

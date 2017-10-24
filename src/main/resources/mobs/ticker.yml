@@ -1,0 +1,9 @@
+title: "Ticker"
+
+attack: 0
+health: 10
+shred: 0
+
+resistance: 1
+proccable: false
+shrineimmune: true

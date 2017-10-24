@@ -1,22 +1,29 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Misc;
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.cooldown.DudCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
-import deimophobe.nightfall.damage.*;
+import deimophobe.nightfall.cooldown.DudCooldown;
+import deimophobe.nightfall.damage.DamageModifier;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Fireball;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -44,7 +51,7 @@ public class Blaze extends AbstractMob {
     private Cooldown launchCD;
 
     protected Blaze(MonsterPlayer mons) {
-        super(mons, MobType.BLAZE);
+        super(mons, MobType.GOBO, MobData.getMobData("gobo.blaze"));
 
         upgrades = monster.getUpgrades(MobType.GOBO);
 

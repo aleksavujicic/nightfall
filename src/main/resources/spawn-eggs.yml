@@ -13,7 +13,7 @@ gobo:
   permanent: true
 
 witherskele:
-  mobtype: witherskele
+  mobtype: wither
   egg:
     base: wither
     name: Spawn Wither Skeleton

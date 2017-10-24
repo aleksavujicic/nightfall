@@ -1,0 +1,40 @@
+title: Krungor
+forcetitle: true
+
+disguisetype: player
+playername: Capmergor
+skin: capmergor
+
+attack: 50
+health: 100
+speed: 30
+
+immunetime: 10
+proccable: false
+resistance: 0.9
+arrowres: 0.5
+shred: 50
+shrineimmune: true
+
+armourslot: head
+armour:
+  template: monster-hero
+  base: bonecrown
+  name: Crown of the Ogre King
+  lore:
+    description:
+     - "Temp"
+    flavour:
+     - "Temp"
+  modifiers:
+    kb-resist: 1
+weapon:
+  template: monster-hero
+  base: malice
+  name: "Krungor's Axe"
+  lore:
+    description:
+     - "Right click to send dwarves fying high\n
+        in the sky."
+    flavour:
+     - "Temp"
