@@ -18,6 +18,7 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.doom.DoomManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -148,8 +149,8 @@ public class AIManager {
 			int dwarves = DwarfManager.getManager().getNumberOfPlayers();
 			int mobs = MonsterManager.getManager().getNumberOfPlayers();
 			
-			double spawnChance = 0.1 + 0.008 * dwarves;
-			spawnChance += (Game.getGame().isNight() ? 0.05 : 0);
+			double spawnChance = 0.12 + 0.005 * dwarves;
+			spawnChance += (Game.getGame().isNight() ? 0.06 : 0);
 			
 			maxAIs = 20 + mobs + 7 * dwarves;
 			maxMarks = 10 + mobs + 5 * dwarves;
@@ -215,7 +216,8 @@ public class AIManager {
 					int xOffset = 4 * (int)Math.floor(Math.random() * 3 - 1);
 					int zOffset = 4 * (int)Math.floor(Math.random() * 3 - 1);
 					Block nearby = monster.getLocation().getBlock().getRelative(xOffset,-2,zOffset);
-					if (nearby.getType().isSolid()) {
+					Block atSpawnPoint = monster.getLocation().getBlock().getRelative(xOffset,0,zOffset);
+					if (nearby.getType().isSolid() && atSpawnPoint.getType() == Material.AIR) {
 						addAISpawnLocation(monster.getLocation().add(xOffset, 0, zOffset));
 					}
 				}
