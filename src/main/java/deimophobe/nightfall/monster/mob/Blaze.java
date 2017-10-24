@@ -1,6 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
@@ -26,6 +27,7 @@ import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.Map;
@@ -106,7 +108,15 @@ public class Blaze extends AbstractMob {
 
         if (Misc.isRightClick(action) && isPlayerHoldingItem("blaze-ammo") && fireCD.isAvailable()) {
             currentSupplies--;
-            Entity fireball = world.spawnEntity(loc, EntityType.FIREBALL);
+            Entity fireball = world.spawnEntity(loc, EntityType.SMALL_FIREBALL);
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (fireball != null) {
+                        fireball.remove();
+                    }
+                }
+            }.runTaskLater(NightfallPlugin.getPlugin(), 3*20);
             ((Fireball) fireball).setShooter(monster.getPlayer());
             fireball.setVelocity(loc.getDirection().multiply(1.5f));
             world.playSound(loc, "entity.blaze.shoot", 2, 1f);
