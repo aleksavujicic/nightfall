@@ -453,9 +453,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		player.removePotionEffect(PotionEffectType.GLOWING);
 		player.removePotionEffect(PotionEffectType.BLINDNESS);
 		if (this.getMob() instanceof Blaze) {
-			this.givePermanentPotionEffect(PotionEffectType.LEVITATION, 2);
+			this.givePermanentPotionEffect(PotionEffectType.LEVITATION, -2);
 		} else if (this.getMob() instanceof Wraith) {
-			this.givePermanentPotionEffect(PotionEffectType.LEVITATION, 1);
+			this.givePermanentPotionEffect(PotionEffectType.LEVITATION, -1);
 		} else {
 			player.removePotionEffect(PotionEffectType.LEVITATION);
 		}
