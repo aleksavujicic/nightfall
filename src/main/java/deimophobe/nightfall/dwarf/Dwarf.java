@@ -53,6 +53,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		clearInventory();
 		
 		stopSounds();
+		Misc.loadSound(player, "division");
 		
 		player.setGameMode(GameMode.SURVIVAL);
 		givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 5, false, false, true);
