@@ -35,7 +35,7 @@ public class ZombieFury extends Zombie {
 
     private static Integer[] shredValues = {0, 6, 12, 18, 24, 30};
     private static Integer[] arrowResValues = {0, 20, 40, 60};
-    private static Integer[] rebirthValues = {0, 36, 72, 108, 144, 180};
+    private static Integer[] rebirthValues = {0, 25, 50, 75, 100, 125};
 
     protected ZombieFury(MonsterPlayer mons) {
         this(mons, null);
@@ -54,7 +54,7 @@ public class ZombieFury extends Zombie {
         this.leapLvl = upgrades.get("leap-fury");
 
         if (leapLvl != 0)
-            leapCD = new SimpleCooldown(200);
+            leapCD = new SimpleCooldown(160);
         else
             leapCD = new DudCooldown();
 
@@ -63,16 +63,20 @@ public class ZombieFury extends Zombie {
 
         this.fury = upgrades.get("furynight") >= 1;
 
-        if (fury)
+        if (fury) {
             furySound = new ComplexCooldown(10, () ->
                     monster.playSound("entity.zombie_villager.converted", 1f, 1.5f, true)
                     , ComplexCooldown.DO_NOTHING);
-        else
+            getWeapon().addModifier(ItemModifierType.ATTACK, 5, "Fury of the Night");
+        }
+        else {
             furySound = new ComplexCooldown(10);
+        }
 
         getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
         getArmour().addModifier(ItemModifierType.SPEED, pursuit * 5, "Upgrade");
         getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
+        getWeapon().addModifier(ItemModifierType.ATTACK, 5, "Fury Zombie");
     }
 
     @Override
