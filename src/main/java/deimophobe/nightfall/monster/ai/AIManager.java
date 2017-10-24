@@ -103,7 +103,7 @@ public class AIManager {
 	private final Queue<Location> spawnSpots = new LinkedList<>();
 	
 	private void addAISpawnLocation(Location loc) {
-		// Prevent spawning if onSpawn spot is too close to another
+		// Prevent spawning if spawn spot is too close to another
 		for (Location spawnSpot : spawnSpots) {
 			if (loc.distance(spawnSpot) <= AI_MARK_DISTANCE)
 				return;

@@ -117,7 +117,7 @@ public class GameMap {
 		// Setup compass
 		compassLocations = new ArrayList<>();
 		
-		// Add dwarf/mob onSpawn and current shrine
+		// Add dwarf/mob spawn and current shrine
 		compassLocations.add(new CompassLocation() {
 			@Override public Location getLocation() {return getDwarfSpawn();}
 			@Override public String getName() {return "Dwarf spawn";}
