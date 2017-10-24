@@ -90,7 +90,7 @@ public enum MobType {
 				}
 			}
 			
-			case WITHER: return new WitherSkele(monster);
+			case WITHER: return new Wither(monster);
 			case FLAMELANCER: return new Flamelancer(monster);
 			case WOLF: return new Wolf(monster);
 			case SPIDERLING: return new Spiderling(monster);
