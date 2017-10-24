@@ -249,8 +249,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	public void giveConsumable(ConsumableType type, int quantity) {
-		ItemStack item = Consumable.getItemStack(type);
-		giveItem(item, quantity);
+		giveItem(type.getItemStack(), quantity);
 	}
 	
 	public void giveConsumable(ConsumableType type) {
@@ -375,7 +374,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			regenMana(armour.getManaRegenRate());
 			
 			ItemStack heldItem = getHeldItem();
-			holdingLightItem = (Consumable.isSimilar(ConsumableType.TORCH, heldItem) || Consumable.isSimilar(ConsumableType.LAMP, heldItem));
+			holdingLightItem = (ConsumableType.TORCH.matchesItem(heldItem) || ConsumableType.LAMP.matchesItem(heldItem));
 			updateVisibility();
 		}
 		
@@ -484,7 +483,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	// ------ EVENTS ------
 	@Override
 	public void updateHotbarSlot(ItemStack heldItem, int slot) {
-		holdingLightItem = (Consumable.isSimilar(ConsumableType.TORCH, heldItem) || Consumable.isSimilar(ConsumableType.LAMP, heldItem));
+		holdingLightItem = (ConsumableType.TORCH.matchesItem(heldItem) || ConsumableType.LAMP.matchesItem(heldItem));
 		updateVisibility();
 		
 		kit.updateHotbarSlot(heldItem);
