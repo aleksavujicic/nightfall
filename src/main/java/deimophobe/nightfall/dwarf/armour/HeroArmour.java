@@ -1,12 +1,18 @@
 package deimophobe.nightfall.dwarf.armour;
 
+import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.map.GameMap;
+import deimophobe.nightfall.map.region.Region;
 
 /**
  * Created by Deimophobe on 6/05/17.
  */
 public class HeroArmour implements Armour {
-	public HeroArmour() {}
+	private final Hero hero;
+	public HeroArmour(Hero hero) {
+		this.hero = hero;
+	}
 	
 	@Override
 	public boolean isArmoured() {
@@ -46,7 +52,13 @@ public class HeroArmour implements Armour {
 	
 	@Override
 	public double getResistance() {
-		return 0.84;
+		GameMap map = GameMap.getCurrentMap();
+		Region shrine = map.getCurrentShrineRegion();
+		
+		if (shrine == null || !shrine.containsPlayer(hero)) return 0.8;
+		
+		int gold = map.getGold();
+		return 0.8 + 0.05*(double) gold/500;
 	}
 	
 	@Override

@@ -8,6 +8,8 @@ import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
+import deimophobe.nightfall.monster.mob.Blaze;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageEvent;
 
@@ -36,8 +38,13 @@ public class MonsterDamage extends GameDamage<GameEntity, MonsterEntity> {
 	
 	@Override
 	void notifyEntities() {
-		if (attacker instanceof Dwarf)
+		if (attacker instanceof Dwarf) {
 			((Dwarf) attacker).onDamageAttack(this);
+		}
+		// Workaround for Blaze fireballs being blocked by ais
+		if (attacker instanceof MonsterPlayer && ((MonsterPlayer) attacker).getMob() instanceof Blaze) {
+			((Blaze)((MonsterPlayer) attacker).getMob()).onDamageAttack(this);
+		}
 		receiver.onDamageReceive(this);
 	}
 	

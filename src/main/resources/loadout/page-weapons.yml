@@ -193,7 +193,7 @@ jj:
   type: item
   name: jimmy_juice
   category: ale
-  cost: 8
+  cost: 4
   item:
     name: "Jimmy Juice"
     base: jimmyjuice

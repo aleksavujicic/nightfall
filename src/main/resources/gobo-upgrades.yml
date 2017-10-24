@@ -162,7 +162,7 @@ speed:
 
 superkaboom:
   index: 22
-  cost: 300
+  cost: 500
   prereq:
     supplies: 5
     health: 5
@@ -251,7 +251,7 @@ flame:
 
 superblast:
   index: 22
-  cost: 300
+  cost: 500
   prereq:
     supplies: 5
     health: 5

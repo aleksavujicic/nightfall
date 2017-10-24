@@ -2,9 +2,11 @@ package deimophobe.nightfall.monster.spawnmenu;
 
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.menu.MenuItem;
 import deimophobe.nightfall.menu.MenuSession;
+import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.doom.DoomManager;
 import deimophobe.nightfall.monster.mob.MobType;
@@ -44,8 +46,9 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 		
 		this.quantity = 0;
 		this.maxQuantity = section.getInt("quantity", 1);
-		this.spawnChance = section.getDouble("chance", 0.5);
-		
+		double rawSpawnChance = section.getDouble("chance", 0.5);
+		//double playerNum = Game.getGame().getNumPlayers();
+		this.spawnChance = rawSpawnChance;//Math.min(0.5, rawSpawnChance * Math.max(playerNum / 8.0, 1));
 		this.permanent = section.getBoolean("permanent", false);
 		
 		this.enabled = section.getBoolean("enabled", true);

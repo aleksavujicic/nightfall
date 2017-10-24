@@ -148,7 +148,7 @@ public class Goblin extends AbstractMob {
 			throwboxCD.reset();
 		}
 
-		if (isPlayerHoldingItem("kaboom") && Misc.isLeftClick(action) && Misc.isRightClick(action) && !kaboomTrigger) {
+		if (Misc.isLeftClick(action) && isPlayerHoldingItem("kaboom") && !kaboomTrigger) {
 			monster.givePotionEffect(PotionEffectType.SPEED, MAX_KABOOM_CD, speed, true, true, true);
 			kaboomTrigger = true;
 		}

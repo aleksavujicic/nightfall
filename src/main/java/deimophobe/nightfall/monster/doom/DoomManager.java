@@ -88,7 +88,7 @@ public class DoomManager {
 	// ------ START DOOM -------
 	
 	private void startDoom() {
-		GameMap.getCurrentMap().getWorld().setTime(18000);
+		GameMap.getCurrentMap().getWorld().setTime(14000);
 		isDoom = true;
 		
 		for (MonsterPlayer player : MonsterManager.getManager().getAlivePlayerMobs())

@@ -110,6 +110,7 @@ class Wolf extends AbstractMob {
 				}
 				
 				monster.getPlayer().setVelocity(velocity);
+				monster.removePotionEffect(PotionEffectType.LUCK);
 			}
 		}
 	}
@@ -128,7 +129,7 @@ class Wolf extends AbstractMob {
 			monster.heal(heal);
 			monster.givePotionEffect(PotionEffectType.SPEED, 120, 3, true, false, true);
 			
-			damage.setManaDrain(10);
+			damage.setManaDrain(15);
 			
 			furySound.tryUse();
 		}
