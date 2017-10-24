@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
+import static java.lang.Math.floor;
+
 /**
  * Created by Deimophobe on 27/01/17.
  */
@@ -210,12 +212,11 @@ public class AIManager {
 				// If mob on ground or a bit above it
 				if (monster.getPlayer().isOnGround() || monster.getLocation().getBlock().getRelative(0,-2,0).getType().isSolid()) {
 					addAISpawnLocation(monster.getLocation());
-					int a = (int)(6*Math.random());
-					int b = (int)(6*Math.random());
-					Block nearby = monster.getLocation().getBlock().getRelative((int)(-3 + a),-2,(int)(-3 + b));
-					// TODO: temp solution for ais for now
+					int xOffset = 4 * (int)Math.floor(Math.random() * 3 - 1);
+					int zOffset = 4 * (int)Math.floor(Math.random() * 3 - 1);
+					Block nearby = monster.getLocation().getBlock().getRelative(xOffset,-2,zOffset);
 					if (nearby.getType().isSolid()) {
-						addAISpawnLocation(monster.getLocation().add(5, 0, 5));
+						addAISpawnLocation(monster.getLocation().add(xOffset, 0, zOffset));
 					}
 				}
 		}
