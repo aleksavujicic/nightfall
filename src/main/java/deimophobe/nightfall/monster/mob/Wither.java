@@ -8,13 +8,13 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 /**
  * Created by Deimophobe on 20/01/17.
  */
-class WitherSkele extends SkeletonMob {
+class Wither extends SkeletonMob {
 	
 	@Override protected double getPower() {return 30;}
 	private double damageBoost = 0;
 	
-	WitherSkele(MonsterPlayer monster) {
-		super(monster, MobType.WITHERSKELE);
+	Wither(MonsterPlayer monster) {
+		super(monster, MobType.WITHER);
 		getArmour().addModifier(ItemModifierType.SPEED, -10, "Wither");
 	}
 	

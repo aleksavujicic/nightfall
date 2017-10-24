@@ -43,7 +43,7 @@ public class ZombieSaboteur extends Zombie {
     }
 
     public ZombieSaboteur(MonsterPlayer mons, Location rebirth) {
-        super(mons, rebirth, MobData.getMobData("zombie-saboteur"));
+        super(mons, rebirth, MobData.getMobData("zombie.saboteur"));
 
         Map<String, Integer> upgrades = monster.getUpgrades(MobType.ZOMBIE);
 

@@ -79,6 +79,7 @@ public abstract class AbstractMob implements Mob {
 		
 		monster.givePotionEffect(PotionEffectType.NIGHT_VISION, 10*60*60*20,1, false, false, true);
 		tpToSpawn();
+		playSound("spawn");
 	}
 	
 	protected void setTitle(boolean force, String title) {
@@ -119,10 +120,13 @@ public abstract class AbstractMob implements Mob {
 	protected void setupMobDisguise(DisguiseType type) {
 		Player player = monster.getPlayer();
 		
-		Disguise disguise = new MobDisguise(type);
+		MobDisguise disguise = new MobDisguise(type);
 		disguise.getWatcher().setCustomNameVisible(false);
 		disguise.getWatcher().setCustomName(monster.getDisplayName());
-		disguise = disguise.setViewSelfDisguise(false);
+		disguise.setReplaceSounds(false);
+		//TODO add more sounds so this isn't weird
+		//disguise.setHearSelfDisguise(false);
+		//disguise.setViewSelfDisguise(false);
 		DisguiseAPI.disguiseEntity(player, disguise);
 		
 		MonsterManager.getManager().addToTeam(disguise.getEntity().getUniqueId().toString());
@@ -197,12 +201,18 @@ public abstract class AbstractMob implements Mob {
 		monster.givePotionEffect(PotionEffectType.LUCK, time, 1, true, false, true);
 	}
 	
+	protected void playSound(String soundName) {
+		mobData.playSound(soundName, monster);
+	}
+	
 	
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
-		if (damage.getType() == NaturalDamageType.MELEE)
+		if (damage.getType() == NaturalDamageType.MELEE) {
+			playSound("melee");
 			damage.setArmourShred(mobData.armourShred);
+		}
 		monster.gainXP(2, true);
 	}
 	
@@ -218,8 +228,10 @@ public abstract class AbstractMob implements Mob {
 		damage.getDamage().setMultiplier(1 - mobData.damageRes);
 		damage.getArrowRes().setBase(mobData.arrowRes);
 		
-		if (!damage.isCancelled() && hasDisguise()) {
-			monster.playSound("entity.generic.hurt", 1f, 1f, true);
+		if (!damage.isCancelled()) {
+			playSound("hurt");
+			if (hasDisguise())
+				monster.playSound("entity.generic.hurt", 1f, 1f, true);
 		}
 	}
 	
@@ -235,8 +247,7 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-	}
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {}
 	@Override public void onShift(boolean sneaking) {}
 	@Override public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {}
 	@Override public Projectile onBowFire(Arrow arrow, float force) {
@@ -249,6 +260,8 @@ public abstract class AbstractMob implements Mob {
 	
 	@Override
 	public void onDeath() {
+		playSound("death");
+		
 		if (hasPlayerDisguise())
 			removePlayerDisguise();
 		

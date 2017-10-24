@@ -158,9 +158,4 @@ public class Wraith extends AbstractMob {
 			}
 		}
 	}
-	
-	@Override
-	public void onDeath() {
-		monster.playSound("entity.ghast.death", 2f, 0.5f, true);
-	}
 }
