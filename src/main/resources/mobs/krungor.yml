@@ -5,15 +5,15 @@ disguisetype: player
 playername: Capmergor
 skin: capmergor
 
-attack: 45
+attack: 50
 health: 100
-speed: 25
+speed: 30
 
 immunetime: 10
 proccable: false
-resistance: 0.85
+resistance: 0.9
 arrowres: 0.5
-shred: 25
+shred: 50
 shrineimmune: true
 
 armourslot: head
