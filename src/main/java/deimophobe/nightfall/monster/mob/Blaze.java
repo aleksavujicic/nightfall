@@ -49,6 +49,7 @@ public class Blaze extends AbstractMob {
 
     private int currentSupplies;
     private Cooldown fireCD;
+    private Cooldown preloadCD;
     private Cooldown reloadCD;
     private Cooldown launchCD;
 
@@ -68,7 +69,8 @@ public class Blaze extends AbstractMob {
 
         this.currentSupplies = supplies;
         this.fireCD = new ComplexCooldown(13);
-        this.reloadCD = new ComplexCooldown(75 - this.reload * 5);
+        this.preloadCD = new ComplexCooldown(40);
+        this.reloadCD = new ComplexCooldown(70 - this.reload * 5);
         if (launch > 0) {
             this.launchCD = new ComplexCooldown(600 - this.launch * 20);
         } else {
@@ -92,11 +94,14 @@ public class Blaze extends AbstractMob {
         fireCD.update();
         launchCD.update();
         if (currentSupplies < supplies) {
-            reloadCD.update();
-            if (reloadCD.isAvailable()) {
-                currentSupplies++;
-                giveItem("blaze-ammo", 1);
-                reloadCD.reset();
+            preloadCD.update();
+            if (preloadCD.isAvailable()) {
+                reloadCD.update();
+                if (reloadCD.isAvailable()) {
+                    currentSupplies++;
+                    giveItem("blaze-ammo", 1);
+                    reloadCD.reset();
+                }
             }
         }
     }
@@ -116,13 +121,14 @@ public class Blaze extends AbstractMob {
                         fireball.remove();
                     }
                 }
-            }.runTaskLater(NightfallPlugin.getPlugin(), 3*20);
+            }.runTaskLater(NightfallPlugin.getPlugin(), 4*20);
             ((Fireball) fireball).setShooter(monster.getPlayer());
             fireball.setVelocity(loc.getDirection().multiply(1.5f));
             world.playSound(loc, "entity.blaze.shoot", 2, 1f);
             monster.useHeldItem();
             fireCD.reset();
             reloadCD.reset();
+            preloadCD.reset();
         }
     }
 

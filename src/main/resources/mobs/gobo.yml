@@ -76,6 +76,7 @@ blaze:
       lore:
         description:
          - "&aRight click to throw fireballs, which\n
-            damage dwarves and walls as they explode&r."
+            &adamage dwarves and walls as they explode&r.\n
+            Fireballs regenerate 2 seconds after stopping fire."
         flavour:
          - "Death from afar."
