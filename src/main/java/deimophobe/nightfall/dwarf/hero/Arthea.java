@@ -170,8 +170,8 @@ public class Arthea extends Hero {
 		
 		player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
 		
-		setTitle(ChatColor.DARK_RED, "Arthea", true);
-		Skin newSkin = Skin.getSkin("arthea").withNewName(ChatColor.DARK_RED + "Arthea");
+		setTitle(ChatColor.LIGHT_PURPLE, "Arthea", true);
+		Skin newSkin = Skin.getSkin("arthea").withNewName(ChatColor.LIGHT_PURPLE + "Arthea");
 		SkinManager.getManager().addSkinChange(this, newSkin);
 	}
 	

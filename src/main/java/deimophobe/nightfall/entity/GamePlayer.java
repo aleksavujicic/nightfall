@@ -113,6 +113,11 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		playSound(sound, 20, 1, false);
 	}
 	
+	public void stopSounds() {
+		player.stopSound("");
+	}
+	
+	
 	
 	// ------ INVENTORY ------
 	public ItemStack getHeldItem() {

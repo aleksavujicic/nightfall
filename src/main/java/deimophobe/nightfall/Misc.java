@@ -185,6 +185,6 @@ public class Misc {
 	
 	// ------ MISC ------
 	public static void loadSound(Player player, String soundName) {
-		player.playSound(player.getLocation().add(0,3,0), soundName, 0.01f, 1f);
+		player.playSound(player.getLocation().add(0,0,0), soundName, 0.01f, 1f);
 	}
 }

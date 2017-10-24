@@ -35,7 +35,7 @@ public class Slowfall extends AbstractElement {
 		cooldown.update();
 		if (hasSlow) {
 			if (cooldown.isAvailable()) {
-				randomSparkle();
+				//randomSparkle();
 			} else if (cooldown.wasUsedWithin(8 * 20)) {
 				usedSparkle();
 			}
