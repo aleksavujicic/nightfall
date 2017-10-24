@@ -1,6 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 
 /**
@@ -13,6 +14,7 @@ class WitherSkele extends SkeletonMob {
 	
 	WitherSkele(MonsterPlayer monster) {
 		super(monster, MobType.WITHERSKELE);
+		getArmour().addModifier(ItemModifierType.SPEED, -10, "Wither");
 	}
 	
 	@Override
@@ -31,9 +33,9 @@ class WitherSkele extends SkeletonMob {
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
 		if (damage.hasArrow()) {
-			damageBoost = Math.min(damageBoost + 10, 20);
+			damageBoost = Math.min(damageBoost + 8, 20);
 			damage.setArmourShred((int) damageBoost*3 + 35);
-			damage.getDamage().addBoost(damageBoost*2);
+			damage.getDamage().addBoost(damageBoost);
 			monster.heal(5);
 		}
 	}
