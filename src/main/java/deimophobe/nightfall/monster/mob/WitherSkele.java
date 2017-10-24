@@ -32,7 +32,7 @@ class WitherSkele extends SkeletonMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		if (damage.hasArrow()) {
+		if (damage.hasArrow() && damage.getArrow().isCritical()) {
 			damageBoost = Math.min(damageBoost + 8, 20);
 			damage.setArmourShred((int) damageBoost*3 + 35);
 			damage.getDamage().addBoost(damageBoost);
