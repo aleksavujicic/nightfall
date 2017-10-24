@@ -45,7 +45,7 @@ public class Blaze extends AbstractMob {
     private int force;
     private int launch;
     private int flame;
-    private int superblast;
+    private int tripleshot;
 
     private int currentSupplies;
     private Cooldown fireCD;
@@ -65,7 +65,7 @@ public class Blaze extends AbstractMob {
         this.reload = upgrades.get("reload");
         this.launch = upgrades.get("launch");
         this.flame = upgrades.get("flame");
-        this.superblast = upgrades.get("superblast");
+        this.tripleshot = upgrades.get("tripleshot");
 
         this.currentSupplies = supplies;
         this.fireCD = new ComplexCooldown(13);
@@ -138,7 +138,7 @@ public class Blaze extends AbstractMob {
         if (damage.getType() == NaturalDamageType.RANGED) {
             damage.cancel();
             blazeExplosion(damage.getDwarf().getEyeLocation());
-            if (Math.random() < 0.05 * flame) {
+            if (Math.random() < 0.4 * flame) {
                 damage.getDwarf().getPlayer().setFireTicks(60);
             }
         }
@@ -181,10 +181,10 @@ public class Blaze extends AbstractMob {
     private void blazeExplosion(Location centerLoc) {
         World world = monster.getLocation().getWorld();
 
-        double damage = 15 + 3 * firepower + 15 * superblast;
-        int armorShred = 10 + 2 * firepower + 10 * superblast;
-        double power = 4.25 + 0.25 * superblast;
-        double kb = 0.3 + 0.04 * force + 0.15 * superblast;
+        double damage = 15 + 5 * firepower;
+        int armorShred = 10 + 3 * firepower;
+        double power = 4.5;
+        double kb = 0.35 + 0.05 * force;
 
         BlockConverter.convert(BlockConverter.Type.EXPLOSION, centerLoc, power);
         world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
@@ -207,7 +207,7 @@ public class Blaze extends AbstractMob {
 
         for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
             Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
-            if (offset.length() > 4 + superblast) continue;
+            if (offset.length() > 4) continue;
 
             DamageModifier modifier = new DamageModifier();
 
