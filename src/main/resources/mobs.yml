@@ -479,7 +479,7 @@ minotaur:
   disguisetype: pig_zombie
 
   attack: 25
-  health: 40
+  health: 50
   shred: 10
   speed: -10
 
