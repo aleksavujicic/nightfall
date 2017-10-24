@@ -123,10 +123,10 @@ public abstract class AbstractMob implements Mob {
 		MobDisguise disguise = new MobDisguise(type);
 		disguise.getWatcher().setCustomNameVisible(false);
 		disguise.getWatcher().setCustomName(monster.getDisplayName());
-		disguise.setReplaceSounds(false);
 		//TODO add more sounds so this isn't weird
 		//disguise.setHearSelfDisguise(false);
-		//disguise.setViewSelfDisguise(false);
+		//disguise.setReplaceSounds(false);
+		disguise.setViewSelfDisguise(false);
 		DisguiseAPI.disguiseEntity(player, disguise);
 		
 		MonsterManager.getManager().addToTeam(disguise.getEntity().getUniqueId().toString());
