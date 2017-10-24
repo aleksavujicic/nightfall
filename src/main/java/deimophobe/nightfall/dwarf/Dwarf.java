@@ -51,6 +51,9 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		// Clear potion effects/inventory
 		clearEffects();
 		clearInventory();
+		
+		stopSounds();
+		
 		player.setGameMode(GameMode.SURVIVAL);
 		givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 5, false, false, true);
 		// Set armour
