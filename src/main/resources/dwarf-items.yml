@@ -57,7 +57,6 @@ sword:
       flavour:
        - "\"Put that speed to good use, and that poison to better use.\" - Velvetine"
        - "\"I can't keep up with you jimmy! You're too fast!!\" - Tui"
-       - "\"You're not any better than the rest of us by using that.\" - Arthea"
     modifiers:
       attack: 20
       speed: 30
@@ -197,7 +196,7 @@ bow:
     lore:
       description:
        - "Kills with this bow give\n
-          a proc for 3 seconds."
+          a proc for 5 seconds."
       flavour:
        - "\"Feel the PROC pulsing through your bow.\" - Velvetine"
 ale:
@@ -546,8 +545,9 @@ hero:
       flavour:
        - "Swoooosh."
     modifiers:
-      attack: 15
+      attack: 20
       knockback: 2
+      kb_resist: 1
   totem:
     template: dwarf-hero
     base: hammer
@@ -558,9 +558,6 @@ hero:
           at the cost of your own mana."
       flavour:
        - "Illuminate!"
-    modifiers:
-      attack: 10
-      kb_resist: 1
   elystria:
     template: dwarf-hero
     base: elystria
@@ -613,7 +610,7 @@ armour:
         description:
          - "Fully repaired armour."
         flavour:
-         - "Now get out there and fight!."
+         - "Forged by the finest blacksmiths."
       shiny: true
       modifiers:
         health: 10
@@ -626,7 +623,7 @@ armour:
         description:
          - "Fully repaired armour."
         flavour:
-         - "Now get out there and fight."
+         - "Forged by the finest blacksmiths."
 
     boots:
       material: diamond_boots
@@ -636,7 +633,7 @@ armour:
         description:
          - "Fully repaired armour."
         flavour:
-         - "Now get out there and fight."
+         - "Forged by the finest blacksmiths."
 
   high:
     chest:
@@ -646,7 +643,7 @@ armour:
         description:
          - "Fully repaired armour."
         flavour:
-         - "Now get out there and fight!."
+         - "The shine has worn off after battle."
       modifiers:
         health: 10
 
@@ -657,7 +654,7 @@ armour:
         description:
          - "Fully repaired armour."
         flavour:
-         - "Now get out there and fight."
+         - "The shine has worn off after battle."
 
     boots:
       material: diamond_boots
@@ -666,7 +663,7 @@ armour:
         description:
          - "Fully repaired armour."
         flavour:
-         - "Now get out there and fight."
+         - "The shine has worn off after battle."
 
   med:
     chest:
@@ -676,7 +673,7 @@ armour:
         description:
          - "Damaged armour."
         flavour:
-         - "Just a few dents, keep fighting."
+         - "Just a few dents, but still good for combat."
       modifiers:
         health: 10
     legs:
@@ -686,7 +683,7 @@ armour:
         description:
          - "Damaged armour."
         flavour:
-         - "Just a few dents, keep fighting."
+         - "Just a few dents, but still good for combat."
     boots:
       material: iron_boots
       name: Dwarven Boots
@@ -694,7 +691,7 @@ armour:
         description:
          - "Damaged armour."
         flavour:
-         - "Just a few dents, keep fighting."
+         - "Just a few dents, but still good for combat."
 
   low:
     chest:
@@ -704,7 +701,7 @@ armour:
         description:
          - "Shattered armour."
         flavour:
-         - "You need repairs, as you are taking extra damage."
+         - "Needs repairs as you are taking extra damage."
       modifiers:
         health: 10
     legs:
@@ -714,7 +711,7 @@ armour:
         description:
          - "Shattered armour."
         flavour:
-         - "You need repairs, as you are taking extra damage."
+         - "Needs repairs as you are taking extra damage."
     boots:
       material: chainmail_boots
       name: Dwarven Boots
@@ -722,7 +719,7 @@ armour:
         description:
          - "Shattered armour."
         flavour:
-         - "You need repairs, as you are taking extra damage."
+         - "Needs repairs as you are taking extra damage."
 
 
 # To get format codes:
