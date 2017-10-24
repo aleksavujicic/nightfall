@@ -30,3 +30,12 @@ weapon:
         damage and great knockback."
     flavour:
      - "We are from maze, human."
+
+sounds:
+  death:
+    path: "entity.shulker.death"
+    pitch: 0.6
+  hurt:
+    path: "entity.shulker.hurt"
+    pitch: 0.5
+    chance: 0.5

@@ -5,7 +5,6 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -53,20 +52,6 @@ public class Minotaur extends AbstractMob {
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		cooldown.update();
-	}
-	
-	@Override
-	public void onDeath() {
-		super.onDeath();
-		monster.playSound("entity.shulker.death", 1f, 0.6f, true);
-	}
-	
-	@Override
-	public void onDamageReceive(MonsterDamage damage) {
-		super.onDamageReceive(damage);
-		if (Math.random() <= 0.5 && !damage.isCancelled()) {
-			monster.playSound("entity.shulker.hurt", 1f, 0.5f, true);
-		}
 	}
 	
 	@Override

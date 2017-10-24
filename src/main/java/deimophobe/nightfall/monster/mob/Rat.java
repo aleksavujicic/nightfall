@@ -55,8 +55,8 @@ class Rat extends AbstractMob {
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (stealCD == 0 && Misc.isRightClick(action) && clickedBlock != null) {
 			if (BlockType.ACTIVE_SHRINE_BLOCK.matchesBlock(clickedBlock) && GameMap.getCurrentMap().hasGold()) {
-				monster.playSound("coin", 1f, 1f, true);
-				monster.gainXP(1, false);
+				playSound("steal");
+				monster.gainXP(2, false);
 				GameMap.getCurrentMap().stealGold(1);
 				stealCD = STEAL_MAX_CD;
 			}
@@ -67,7 +67,7 @@ class Rat extends AbstractMob {
 	public void onBlockBreak(Block block, boolean didBreak) {
 		super.onBlockBreak(block, didBreak);
 		if (block.getType() == Material.TORCH && didBreak)
-			monster.playSound("entity.silverfish.ambient", 1f, 1f, true);
+			playSound("torch");
 	}
 	
 	@Override

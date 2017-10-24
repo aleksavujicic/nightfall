@@ -120,10 +120,13 @@ public abstract class AbstractMob implements Mob {
 	protected void setupMobDisguise(DisguiseType type) {
 		Player player = monster.getPlayer();
 		
-		Disguise disguise = new MobDisguise(type);
+		MobDisguise disguise = new MobDisguise(type);
 		disguise.getWatcher().setCustomNameVisible(false);
 		disguise.getWatcher().setCustomName(monster.getDisplayName());
-		disguise = disguise.setViewSelfDisguise(false);
+		disguise.setReplaceSounds(false);
+		//TODO add more sounds so this isn't weird
+		//disguise.setHearSelfDisguise(false);
+		//disguise.setViewSelfDisguise(false);
 		DisguiseAPI.disguiseEntity(player, disguise);
 		
 		MonsterManager.getManager().addToTeam(disguise.getEntity().getUniqueId().toString());
@@ -244,10 +247,7 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		if (sec)
-			playSound("idle");
-	}
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {}
 	@Override public void onShift(boolean sneaking) {}
 	@Override public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {}
 	@Override public Projectile onBowFire(Arrow arrow, float force) {

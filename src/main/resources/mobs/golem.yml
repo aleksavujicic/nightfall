@@ -30,3 +30,12 @@ weapon:
      - "Deals heavy damage and armour shred."
     flavour:
      - "Smash dwarves in melee!"
+
+sounds:
+  idle:
+    path: "entity.irongolem.hurt"
+    pitch: 0.5
+    volume: 0.8
+  death:
+    path: "item.totem.use"
+    pitch: 0.75

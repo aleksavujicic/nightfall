@@ -27,6 +27,10 @@ base:
           Right click to Leap, hold shift to leap up."
       flavour:
        - "Arooooooooo."
+  sounds:
+    growl:
+      path: "entity.wolf.growl"
+      pitch: 0.5
 
 hellhound:
   parent: wolf
@@ -41,3 +45,8 @@ hellhound:
   shred: 30
 
   proccable: false
+
+  sounds:
+    growl:
+      path: "entity.wolf.growl"
+      pitch: 0.85

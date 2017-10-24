@@ -29,3 +29,9 @@ weapon:
         damaging mist behind you."
     flavour:
      - "Wooooooo"
+
+sounds:
+  death:
+    path: "entity.ghast.death"
+    pitch: 0.5
+    volume: 2

@@ -263,23 +263,26 @@ public class MobData {
 	private class MobSound {
 		private final String soundPath;
 		private final float pitch;
+		private final float volume;
 		private final double chance;
 		
 		private MobSound(String name) {
 			this.soundPath =  "mob."+MobData.this.fullName +"."+name;
 			this.pitch = 1;
 			this.chance = 1;
+			this.volume = 1;
 		}
 		
 		private MobSound(ConfigurationSection section) {
 			this.soundPath = section.getString("path", "mob."+MobData.this.fullName +"."+section.getName());
 			this.pitch = (float) section.getDouble("pitch", 1);
+			this.volume = (float) section.getDouble("volume", 1);
 			this.chance = section.getDouble("chance", 1);
 		}
 		
 		private void play(MonsterPlayer monster) {
 			if (Math.random() <= chance)
-				monster.playSound(soundPath, 1f, pitch, true);
+				monster.playSound(soundPath, volume, pitch, true);
 		}
 	}
 }

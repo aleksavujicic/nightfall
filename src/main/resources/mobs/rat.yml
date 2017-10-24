@@ -26,3 +26,9 @@ weapon:
         Right click on the shrine to steal gold."
     flavour:
      - "Now where did those wrenches go?"
+
+sounds:
+  steal:
+    path: "coin"
+  torch:
+    path: "entity.silverfish.ambient"
