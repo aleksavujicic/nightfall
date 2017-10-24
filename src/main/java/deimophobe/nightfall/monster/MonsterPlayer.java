@@ -113,7 +113,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	public void kill(boolean silent) {
 		if (!silent && isAlive()) {
-			ActionBarAPI.sendActionBarToAllPlayers(getDeathMessage(), 60);
+			ActionBarAPI.sendActionBarToAllPlayers(getDeathMessage());
 			player.playSound(player.getLocation(), "proc", 1f, 0.7f);
 		}
 		

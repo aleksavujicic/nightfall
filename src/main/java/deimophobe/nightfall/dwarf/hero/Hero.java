@@ -31,7 +31,7 @@ public class Hero extends Dwarf {
 		
 		this.type = type;
 		
-		setArmour(new HeroArmour());
+		setArmour(new HeroArmour(this));
 		
 		Disguise disguise = type.getDisguise();
 		if (disguise != null)
