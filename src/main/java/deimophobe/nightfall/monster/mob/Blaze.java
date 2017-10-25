@@ -21,10 +21,7 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Fireball;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -86,7 +83,7 @@ public class Blaze extends AbstractMob {
         super.onSpawn();
         giveItem("blaze-ammo", (supplies));
         monster.givePermanentPotionEffect(PotionEffectType.LEVITATION, -2);
-        monster.givePermanentPotionEffect(PotionEffectType.JUMP, 2);
+        monster.givePermanentPotionEffect(PotionEffectType.JUMP, 5);
     }
 
     @Override
@@ -108,28 +105,39 @@ public class Blaze extends AbstractMob {
 
     @Override
     public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-        Location loc = monster.getEyeLocation();
-        World world = loc.getWorld();
-
         if (Misc.isRightClick(action) && isPlayerHoldingItem("blaze-ammo") && fireCD.isAvailable()) {
-            currentSupplies--;
-            Entity fireball = world.spawnEntity(loc, EntityType.SMALL_FIREBALL);
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    if (fireball != null) {
-                        fireball.remove();
-                    }
+            Location loc = monster.getEyeLocation();
+            shootFireball(loc.getDirection().multiply(1.5f));
+            if (tripleshot > 0) {
+                for (int i = 0; i < 2; i++) {
+                    loc.setYaw(loc.getYaw() + (float)(2 * Math.random() - 1) * 20f);
+                    loc.setPitch(loc.getPitch() + (float)(2 * Math.random() - 1) * 20f);
+                    shootFireball(loc.getDirection().multiply(1.2f));
                 }
-            }.runTaskLater(NightfallPlugin.getPlugin(), 4*20);
-            ((Fireball) fireball).setShooter(monster.getPlayer());
-            fireball.setVelocity(loc.getDirection().multiply(1.5f));
-            world.playSound(loc, "entity.blaze.shoot", 2, 1f);
+            }
             monster.useHeldItem();
+            currentSupplies--;
             fireCD.reset();
             reloadCD.reset();
             preloadCD.reset();
         }
+    }
+
+    private void shootFireball(Vector velocity) {
+        Location loc = monster.getEyeLocation();
+        World world = loc.getWorld();
+        Entity fireball = world.spawnEntity(loc, EntityType.SMALL_FIREBALL);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (fireball != null) {
+                    fireball.remove();
+                }
+            }
+        }.runTaskLater(NightfallPlugin.getPlugin(), 4*20);
+        ((Fireball) fireball).setShooter(monster.getPlayer());
+        fireball.setVelocity(velocity);
+        world.playSound(loc, "entity.blaze.shoot", 2, 1f);
     }
 
     @Override
@@ -198,7 +206,7 @@ public class Blaze extends AbstractMob {
                     Block block = centerLoc.clone().add(x, y, z).getBlock();
                     Block blockBelow = centerLoc.clone().add(x,y-1, z).getBlock();
 
-                    if (block.getType() == Material.AIR && blockBelow.getType() != Material.AIR && (Math.random() < 0.015 * flame)) {
+                    if (block.getType() == Material.AIR && blockBelow.getType() != Material.AIR && (Math.random() < 0.008 * flame)) {
                         block.setType(Material.FIRE);
                     }
                 }
