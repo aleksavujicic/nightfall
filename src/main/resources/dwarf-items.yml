@@ -27,12 +27,13 @@ sword:
       attack: 15
   greatsword:
     base: runeblade
-    name: Greatsword
+    name: Loremasters Greatsword
     lore:
       description:
-       - "hi"
+       - "A broken and heavy weapon\n
+          that prevents constant swinging."
       flavour:
-       - "Drk fill dis in"
+       - "\"I dúr hir comes, a hon reign shall n- uireb.\" -Loremaster"
     modifiers:
       attack: 25
   axe:
