@@ -107,11 +107,11 @@ public class Blaze extends AbstractMob {
     public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
         if (Misc.isRightClick(action) && isPlayerHoldingItem("blaze-ammo") && fireCD.isAvailable()) {
             Location loc = monster.getEyeLocation();
-            shootFireball(loc.getDirection().multiply(1.5f));
+            shootFireball(loc);
             if (doubleshot > 0) {
                 loc.setYaw(loc.getYaw() + (float)(2 * Math.random() - 1) * 15f);
                 loc.setPitch(loc.getPitch() + (float)(2 * Math.random() - 1) * 15f);
-                shootFireball(loc.getDirection().multiply(1.2f));
+                shootFireball(loc);
             }
             monster.useHeldItem();
             currentSupplies--;
@@ -121,8 +121,7 @@ public class Blaze extends AbstractMob {
         }
     }
 
-    private void shootFireball(Vector velocity) {
-        Location loc = monster.getEyeLocation();
+    private void shootFireball(Location loc) {
         World world = loc.getWorld();
         Entity fireball = world.spawnEntity(loc, EntityType.SMALL_FIREBALL);
         new BukkitRunnable() {
@@ -134,7 +133,7 @@ public class Blaze extends AbstractMob {
             }
         }.runTaskLater(NightfallPlugin.getPlugin(), 4*20);
         ((Fireball) fireball).setShooter(monster.getPlayer());
-        fireball.setVelocity(velocity);
+        fireball.setVelocity(loc.getDirection().multiply(1.2f));
         world.playSound(loc, "entity.blaze.shoot", 2, 1f);
     }
 
@@ -168,7 +167,7 @@ public class Blaze extends AbstractMob {
             World world = loc.getWorld();
             blazeExplosion(loc);
             world.playSound(loc, "entity.firework.launch", 3, 0.8f);
-            monster.setVelocity(0, 0.5+0.5 * launch, 0);
+            monster.setVelocity(0, 0.5 + 0.5 * launch, 0);
         }
     }
 
