@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
@@ -18,7 +19,7 @@ import org.bukkit.util.Vector;
  * Created by Deimophobe on 7/10/17.
  */
 class Ticker extends AbstractMob {
-	private final int maxTime = 30 + (int) (60*Math.random());
+	private final int maxTime = 30 + (int) (120*Math.random());
 	private int deathTimer = maxTime;
 	
 	protected Ticker(MonsterPlayer monster) {
@@ -107,10 +108,10 @@ class Ticker extends AbstractMob {
 	}
 	
 	
-	private final static double RADIUS = 6;
+	private final static double RADIUS = 9;
 	private final static double DAMAGE = 200;
-	private final static int ARMOUR_SHRED = 600;
-	private final static int MANA_DRAIN = 250;
+	private final static int ARMOUR_SHRED = 1000;
+	private final static int MANA_DRAIN = 500;
 	
 	private void explode() {
 		Location loc = monster.getEyeLocation();
@@ -127,7 +128,7 @@ class Ticker extends AbstractMob {
 				double affectRate = 1.5/Math.max(distance,1.5);
 				
 				offset.normalize();
-				offset.add(new Vector(0,5,0));
+				offset.add(new Vector(0,6,0));
 				offset.multiply(5*affectRate);
 				
 				double damageDealt = DAMAGE*affectRate;
@@ -141,6 +142,7 @@ class Ticker extends AbstractMob {
 				damage.fire(true);
 			}
 		}
+		BlockConverter.convert(BlockConverter.Type.EXPLOSION, monster.getLocation(), 10);
 		monster.doDamage(null, CustomDamageType.SELF_GOBO_KABOOM, 100000, true, true);
 		
 		DoomManager.getManager().reduceDoom(maxTime);
