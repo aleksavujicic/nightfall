@@ -257,9 +257,9 @@ ale:
     lore:
       description:
        - "Left click to heal for a small\n
-          amount of health. You are able to\n
-          spam this as much as you want\n
-          be careful and watch your Mana!"
+          amount of health. Uses &b$manacost&r mana.\n
+          You are able to spam this as much as you want\n
+          so be careful and watch your mana!"
       flavour:
        - "\"One of Potion Sellers experimental potions. Use with care.\" "
   strong:

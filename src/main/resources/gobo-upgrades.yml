@@ -249,7 +249,7 @@ flame:
       description:
         - "Explosions light blocks on fire."
 
-superblast:
+doubleshot:
   index: 22
   cost: 500
   prereq:
@@ -263,8 +263,8 @@ superblast:
     blaze: 1
   item:
     base: kaboom
-    name: "Super Blast"
+    name: "Double Shot"
     shiny: true
     lore:
       description:
-        - "Make a large explosion when you shoot fireballs!\n"
+        - "Fire two shots every time you fire!\n"
