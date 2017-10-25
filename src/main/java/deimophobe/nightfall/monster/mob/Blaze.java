@@ -42,7 +42,7 @@ public class Blaze extends AbstractMob {
     private int force;
     private int launch;
     private int flame;
-    private int tripleshot;
+    private int doubleshot;
 
     private int currentSupplies;
     private Cooldown fireCD;
@@ -62,7 +62,7 @@ public class Blaze extends AbstractMob {
         this.reload = upgrades.get("reload");
         this.launch = upgrades.get("launch");
         this.flame = upgrades.get("flame");
-        this.tripleshot = upgrades.get("tripleshot");
+        this.doubleshot = upgrades.get("doubleshot");
 
         this.currentSupplies = supplies;
         this.fireCD = new ComplexCooldown(13);
@@ -108,12 +108,10 @@ public class Blaze extends AbstractMob {
         if (Misc.isRightClick(action) && isPlayerHoldingItem("blaze-ammo") && fireCD.isAvailable()) {
             Location loc = monster.getEyeLocation();
             shootFireball(loc.getDirection().multiply(1.5f));
-            if (tripleshot > 0) {
-                for (int i = 0; i < 2; i++) {
-                    loc.setYaw(loc.getYaw() + (float)(2 * Math.random() - 1) * 20f);
-                    loc.setPitch(loc.getPitch() + (float)(2 * Math.random() - 1) * 20f);
-                    shootFireball(loc.getDirection().multiply(1.2f));
-                }
+            if (doubleshot > 0) {
+                loc.setYaw(loc.getYaw() + (float)(2 * Math.random() - 1) * 15f);
+                loc.setPitch(loc.getPitch() + (float)(2 * Math.random() - 1) * 15f);
+                shootFireball(loc.getDirection().multiply(1.2f));
             }
             monster.useHeldItem();
             currentSupplies--;

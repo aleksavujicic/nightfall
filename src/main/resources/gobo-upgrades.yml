@@ -249,7 +249,7 @@ flame:
       description:
         - "Explosions light blocks on fire."
 
-tripleshot:
+doubleshot:
   index: 22
   cost: 500
   prereq:
@@ -263,8 +263,8 @@ tripleshot:
     blaze: 1
   item:
     base: kaboom
-    name: "Triple Shot"
+    name: "Double Shot"
     shiny: true
     lore:
       description:
-        - "Fire two extra shots every time you fire!\n"
+        - "Fire two shots every time you fire!\n"
