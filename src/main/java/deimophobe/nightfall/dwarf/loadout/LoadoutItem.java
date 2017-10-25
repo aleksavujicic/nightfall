@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.loadout;
 
 import deimophobe.nightfall.Hat;
+import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.items.CustomItem;
@@ -42,7 +43,7 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 					this.category = null;
 				
 				break;
-				
+			
 			case "consumable":
 				int quant = config.getInt("quantity");
 				ConsumableType consType = ConsumableType.valueOf(config.getString("name").toUpperCase());
@@ -72,26 +73,39 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 				else
 					this.category = null;
 				break;
-				
+			
 			case "hat":
 				this.modifier = new HatModifier(Hat.getHat(config.getString("name")));
 				this.cost = 0;
 				this.category = Category.HAT;
 				break;
-				
+			
 			case "title":
 				this.modifier = new TitleModifier(config.getString("name"));
 				this.cost = 0;
 				this.category = Category.TITLE;
 				break;
-				
+			
+			case "random":
+				this.modifier = new RandomModifier();
+				this.cost = 64;
+				this.category = Category.KIT;
+				break;
+			
 			default:
 				throw new IllegalArgumentException("Unknown loadout item type: " + type);
 		}
 		
+		if (enabled) {
+			if (category == null)
+				Category.addEmptyItem(this);
+			else
+				category.addItem(this);
+		}
+		
 		
 		CustomItem item = CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.LOADOUT, Slot.MAIN_HAND);
-		item.applyVariable("cost", ""+cost);
+		item.applyVariable("cost", "" + cost);
 		item.applyVariable("category", (category == null ? "" : category.getLore()));
 		itemStack = item.createItemStack();
 		
@@ -103,18 +117,21 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 	
 	private final int position;
 	private final String id;
+	
 	@Override
 	public String toString() {
 		return id;
 	}
 	
 	private final static Map<String, LoadoutItem> items = new HashMap<>();
+	
 	private static int registerItem(LoadoutItem item) {
 		if (items.containsKey(item.id))
 			throw new IllegalArgumentException("Cannot register loadout item '" + item.id + "'. There already exists an item with same name.");
 		items.put(item.id, item);
 		return items.size();
 	}
+	
 	public static LoadoutItem getItem(String id) {
 		return items.get(id);
 	}
@@ -123,8 +140,6 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 	public int compareTo(LoadoutItem item) {
 		return position - item.position;
 	}
-	
-	
 	
 	
 	public boolean isEnabled() {
@@ -152,7 +167,6 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 		Loadout loadout = session.getData();
 		return loadout.selectItem(this);
 	}
-	
 	
 	
 	private final PropertyModifier modifier;
@@ -212,11 +226,13 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 		private final Map<ConsumableType, Integer> consumables = new HashMap<>();
 		private final Set<KitElementType> elements = new HashSet<>();
 		
-		private MultiModifer() {}
+		private MultiModifer() {
+		}
 		
 		private void addConsumable(ConsumableType type, int quantity) {
 			consumables.put(type, quantity);
 		}
+		
 		private void addElement(KitElementType type) {
 			elements.add(type);
 		}
@@ -243,6 +259,7 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 			dwarfData.setHat(hat);
 		}
 	}
+	
 	private static class TitleModifier extends PropertyModifier {
 		private final String title;
 		
@@ -253,6 +270,28 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 		@Override
 		void modify(DwarfData dwarfData) {
 			dwarfData.setTitle(title);
+		}
+	}
+	
+	private static class RandomModifier extends PropertyModifier {
+		@Override
+		void modify(DwarfData dwarfData) {
+			int pointsRemaining = 64;
+			for (Category category : Category.values()) {
+				if (category == Category.KIT) continue;
+				
+				LoadoutItem item = Misc.getRandom(category.getItems());
+				pointsRemaining -= item.getCost();
+				item.modify(dwarfData);
+			}
+			
+			Set<LoadoutItem> remaining = new HashSet<>(Category.getEmptyItems());
+			while (pointsRemaining >= 0) {
+				LoadoutItem item = Misc.getRandom(remaining);
+				pointsRemaining -= item.getCost();
+				item.modify(dwarfData);
+				remaining.remove(item);
+			}
 		}
 	}
 }

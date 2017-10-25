@@ -97,7 +97,17 @@ public class BlockType {
 					Material.JACK_O_LANTERN,
 					Material.PURPUR_BLOCK,
 					
-					Material.BEACON
+					Material.BEACON,
+					
+					Material.BED_BLOCK,
+					Material.DARK_OAK_DOOR,
+					Material.ACACIA_DOOR,
+					Material.BIRCH_DOOR,
+					Material.IRON_DOOR,
+					Material.JUNGLE_DOOR,
+					Material.SPRUCE_DOOR,
+					Material.WOOD_DOOR,
+					Material.WOODEN_DOOR
 			)
 	);
 	

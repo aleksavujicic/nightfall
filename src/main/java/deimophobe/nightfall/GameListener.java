@@ -139,7 +139,14 @@ public class GameListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onArmourStandClick(PlayerInteractAtEntityEvent event) {
+	public void cancelSheepClick(PlayerInteractEntityEvent event) {
+		if (event.getRightClicked().getType() == EntityType.SHEEP) {
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler
+	public void cancelArmourStandClick(PlayerInteractAtEntityEvent event) {
 		if (event.getRightClicked().getType() == EntityType.ARMOR_STAND) {
 			event.setCancelled(true);
 		}
