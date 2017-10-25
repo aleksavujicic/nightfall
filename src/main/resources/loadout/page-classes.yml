@@ -321,3 +321,14 @@ hunter-class:
           *128 Cobblestone\n
           *1 Sword of Santification\n
           *2 Wrenches"
+
+random-class:
+  index: 44
+  type: random
+  item:
+    template: "loadout"
+    name: "Random Kit"
+    material: dead_bush
+    lore:
+      description:
+       - "Who knows what you'll get?"
