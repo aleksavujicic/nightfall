@@ -110,7 +110,7 @@ class Ticker extends AbstractMob {
 	
 	private final static double RADIUS = 9;
 	private final static double DAMAGE = 200;
-	private final static int ARMOUR_SHRED = 1000;
+	private final static int ARMOUR_SHRED = 800;
 	private final static int MANA_DRAIN = 500;
 	
 	private void explode() {
@@ -142,7 +142,7 @@ class Ticker extends AbstractMob {
 				damage.fire(true);
 			}
 		}
-		BlockConverter.convert(BlockConverter.Type.EXPLOSION, monster.getLocation(), 10);
+		BlockConverter.convert(BlockConverter.Type.EXPLOSION, monster.getLocation(), 15);
 		monster.doDamage(null, CustomDamageType.SELF_GOBO_KABOOM, 100000, true, true);
 		
 		DoomManager.getManager().reduceDoom(maxTime);
