@@ -4,6 +4,7 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitArmour;
+import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -12,6 +13,7 @@ import org.bukkit.potion.PotionEffectType;
 class NatureSuit extends AbstractElement implements KitArmour {
 	public NatureSuit(Dwarf dwarf) {
 		super(dwarf);
+		dwarf.getArmour().addModifier(ItemModifierType.DEPTH_STRIDER, 1, "Nature Suit");
 	}
 	
 	@Override
