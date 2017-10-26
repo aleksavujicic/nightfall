@@ -218,6 +218,9 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		ItemStack arrows = player.getInventory().getItemInOffHand();
 		return (arrows.getAmount() >= amt);
 	}
+	public boolean hasFullArrows() {
+		return getArrowCount() == maxArrows;
+	}
 	public void useArrow() {
 		useArrows(1);
 	}

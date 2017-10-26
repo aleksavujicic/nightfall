@@ -30,6 +30,7 @@ public enum KitElementType {
 	CROSSBOW,
 	VOLCANIC_BOW,
 	TURRET,
+	MINIGUN,
 	
 	HEALING_ALE,
 	HOLY_ALE,
@@ -125,6 +126,7 @@ public enum KitElementType {
 			case CROSSBOW: return new Crossbow(dwarf);
 			case VOLCANIC_BOW: return new VolcanicBow(dwarf);
 			case TURRET: return new TurretBow(dwarf);
+			case MINIGUN: return new Minigun(dwarf);
 				
 			case HEALING_ALE: return new HealingAle(dwarf);
 			case HOLY_ALE: return new HolyAle(dwarf);

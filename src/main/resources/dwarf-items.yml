@@ -190,6 +190,14 @@ bow:
           its path. Uses 3 arrows a shot."
       flavour:
        - "\"And then the Firelords attacked.\" -Tui"
+  minigun:
+    base: crossbow
+    name: Minigun
+    lore:
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   velbow:
     template: dwarf-hero
     base: dskin
