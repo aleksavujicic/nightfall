@@ -2,6 +2,7 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Material;
@@ -22,22 +23,20 @@ class Rat extends AbstractMob {
 	private int stealCD = 0;
 	private static final int STEAL_MAX_CD = 5;
 	
-	private boolean preparingJump = false;
-	private int jumpCD = 0;
-	private static final int JUMP_TIME = 20;
-	private static final int JUMP_ALLOWANCE = 13;
+	private boolean jumpState;
+	private ComplexCooldown toggleCD = new ComplexCooldown(5*20, this::toggleJumpState);
 	
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
-		monster.givePermanentPotionEffect(PotionEffectType.JUMP, -2);
+		jumpState = true;
+		toggleJumpState();
 	}
 	
 	@Override
 	public void onShift(boolean sneaking) {
 		super.onShift(sneaking);
-		if (sneaking) prepareJump();
-		else tryJump();
+		if (!sneaking) toggleCD.tryUse();
 	}
 	
 	@Override
@@ -45,10 +44,7 @@ class Rat extends AbstractMob {
 		if (stealCD > 0)
 			stealCD--;
 		
-		if (preparingJump) {
-			if (jumpCD < JUMP_TIME)
-				jumpCD++;
-		}
+		toggleCD.update();
 	}
 	
 	@Override
@@ -72,22 +68,17 @@ class Rat extends AbstractMob {
 	
 	@Override
 	public float getCooldown() {
-		return (float) jumpCD/JUMP_TIME;
+		return toggleCD.fractionComplete();
 	}
 	
-	private void prepareJump() {
-		preparingJump = true;
-		jumpCD = 0;
-		monster.givePermanentPotionEffect(PotionEffectType.SLOW, 3);
-	}
-	
-	private void tryJump() {
-		preparingJump = false;
-		monster.removePotionEffect(PotionEffectType.SLOW);
-		if (monster.getPlayer().isOnGround() && jumpCD >= JUMP_TIME - JUMP_ALLOWANCE) {
-			double weaker = 1 - (double)(JUMP_TIME - jumpCD)/JUMP_ALLOWANCE;
-			monster.leap(weaker * 1, weaker * 0.55);
+	private void toggleJumpState() {
+		jumpState = !jumpState;
+		if (jumpState) {
+			monster.givePermanentPotionEffect(PotionEffectType.SLOW, 4);
+			monster.removePotionEffect(PotionEffectType.JUMP);
+		} else {
+			monster.givePermanentPotionEffect(PotionEffectType.JUMP, -5);
+			monster.removePotionEffect(PotionEffectType.SLOW);
 		}
-		jumpCD = 0;
 	}
 }
