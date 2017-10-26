@@ -133,7 +133,7 @@ public class Blaze extends AbstractMob {
             }
         }.runTaskLater(NightfallPlugin.getPlugin(), 4*20);
         ((Fireball) fireball).setShooter(monster.getPlayer());
-        fireball.setVelocity(loc.getDirection().multiply(1.2f));
+        fireball.setVelocity(loc.getDirection().multiply(1.5f));
         world.playSound(loc, "entity.blaze.shoot", 2, 1f);
     }
 
@@ -195,7 +195,7 @@ public class Blaze extends AbstractMob {
         world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
         world.playSound(centerLoc, "entity.generic.explode", 2, 1);
 
-        int radius = 2;
+        int radius = 1;
 
         for (int x = -radius; x <= radius; x++) {
             for (int y = -1; y <= 1; y++) {
@@ -203,7 +203,7 @@ public class Blaze extends AbstractMob {
                     Block block = centerLoc.clone().add(x, y, z).getBlock();
                     Block blockBelow = centerLoc.clone().add(x,y-1, z).getBlock();
 
-                    if (block.getType() == Material.AIR && blockBelow.getType() != Material.AIR && (Math.random() < 0.008 * flame)) {
+                    if (block.getType() == Material.AIR && blockBelow.getType() != Material.AIR && (Math.random() < 0.004 * flame)) {
                         block.setType(Material.FIRE);
                     }
                 }
