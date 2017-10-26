@@ -58,7 +58,9 @@ public class BlockType {
 	public static final ComparableBlock GRASS = new MaterialSet(
 			Material.DOUBLE_PLANT, Material.LONG_GRASS, Material.YELLOW_FLOWER, Material.RED_ROSE, Material.DEAD_BUSH
 	);
-	
+	public static final ComparableBlock GRASS_BLOCK = new MaterialSet(Material.GRASS, Material.MYCEL);
+	public static final CustomBlock DIRT_BLOCK = new DataBlock(Material.DIRT, (byte) 1);
+	public static final CustomBlock PODZOL_BLOCK = new DataBlock(Material.DIRT, (byte) 2);
 	
 	public static final ComparableBlock ACTIVE_SHRINE_BLOCK =
 			block -> (
@@ -97,7 +99,17 @@ public class BlockType {
 					Material.JACK_O_LANTERN,
 					Material.PURPUR_BLOCK,
 					
-					Material.BEACON
+					Material.BEACON,
+					
+					Material.BED_BLOCK,
+					Material.DARK_OAK_DOOR,
+					Material.ACACIA_DOOR,
+					Material.BIRCH_DOOR,
+					Material.IRON_DOOR,
+					Material.JUNGLE_DOOR,
+					Material.SPRUCE_DOOR,
+					Material.WOOD_DOOR,
+					Material.WOODEN_DOOR
 			)
 	);
 	

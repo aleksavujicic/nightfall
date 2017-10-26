@@ -16,6 +16,7 @@ import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.menu.SessionData;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.doom.DoomManager;
+import deimophobe.nightfall.monster.mob.Blaze;
 import deimophobe.nightfall.monster.mob.Bopen;
 import deimophobe.nightfall.monster.mob.Mob;
 import deimophobe.nightfall.monster.mob.MobType;
@@ -112,7 +113,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	public void kill(boolean silent) {
 		if (!silent && isAlive()) {
-			ActionBarAPI.sendActionBarToAllPlayers(getDeathMessage(), 60);
+			ActionBarAPI.sendActionBarToAllPlayers(getDeathMessage());
 			player.playSound(player.getLocation(), "proc", 1f, 0.7f);
 		}
 		
@@ -164,7 +165,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	// ----- REBIRTH -----
-	private final static int REBIRTH_TIME = 10*20;
+	private final static int REBIRTH_TIME = 6*20;
 	private Location lastRebirth = null;
 	private BukkitRunnable rebirthKiller;
 	
@@ -264,7 +265,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	public void gainXP(int amt, boolean affectedByShrine) {
 		if (affectedByShrine && isInShrine())
-			amt *= 3;
+			amt *= 2;
 		experience = Math.min(Math.max(experience, MAX_XP), experience + amt);
 		updateXPDisplay();
 	}
@@ -449,9 +450,15 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	private void cancelFreeze() {
 		if (!isFrozen()) return;
-		player.removePotionEffect(PotionEffectType.LEVITATION);
 		player.removePotionEffect(PotionEffectType.GLOWING);
 		player.removePotionEffect(PotionEffectType.BLINDNESS);
+		if (this.getMob() instanceof Blaze) {
+			this.givePermanentPotionEffect(PotionEffectType.LEVITATION, -2);
+		} else if (this.getMob() instanceof Wraith) {
+			this.givePermanentPotionEffect(PotionEffectType.LEVITATION, -1);
+		} else {
+			player.removePotionEffect(PotionEffectType.LEVITATION);
+		}
 
 		player.setFlySpeed(0.1f);
 		player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);

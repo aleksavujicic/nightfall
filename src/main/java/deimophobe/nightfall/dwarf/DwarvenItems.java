@@ -1,7 +1,6 @@
 package deimophobe.nightfall.dwarf;
 
 import deimophobe.nightfall.Misc;
-import deimophobe.nightfall.dwarf.consumable.Consumable;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.lore.LoreTemplate;
@@ -66,9 +65,8 @@ public class DwarvenItems {
 			if (item.isSimilar(droppable))
 				return true;
 		
-		for (ConsumableType consumableType : Consumable.droppableConsumables)
-			if (item.isSimilar(Consumable.getItemStack(consumableType)))
-				return true;
+		if (ConsumableType.isDroppable(item))
+			return true;
 		
 		return false;
 	}

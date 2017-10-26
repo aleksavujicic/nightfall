@@ -35,7 +35,10 @@ public class BlockConverter {
 				new Conversion(BlockType.NORMAL_SLAB, 4.0, 1.8, BlockType.DAMAGED_SLAB),
 				new Conversion(BlockType.DAMAGED_SLAB, 3.5, 1.8, BlockType.AIR),
 				
-				new Conversion(BlockType.LIGHT, 1.0, 0.0, BlockType.AIR)
+				new Conversion(BlockType.LIGHT, 1.0, 0.0, BlockType.AIR),
+				new Conversion(BlockType.GRASS, 1.0, 0.0, BlockType.AIR),
+				new Conversion(BlockType.GRASS_BLOCK, 11.0, 5.0, BlockType.DIRT_BLOCK),
+				new Conversion(BlockType.GRASS_BLOCK, 21.0, 15.0, BlockType.PODZOL_BLOCK)
 		),
 		CORROSION(
 				new Conversion(BlockType.WALL, 3.5, 1.0, BlockType.CORRODED_WALL),
@@ -48,7 +51,10 @@ public class BlockConverter {
 		THROWNEXPLOSION(
 				new Conversion(BlockType.NORMAL_WALL, 4.5, 0.8, BlockType.CRACKED_WALL),
 				new Conversion(BlockType.CRACKED_WALL, 4.5, 0.8, BlockType.DAMAGED_WALL),
-				new Conversion(BlockType.ALL_WOOLS, 2.0, 1.0, BlockType.AIR)
+				new Conversion(BlockType.ALL_WOOLS, 2.0, 1.0, BlockType.AIR),
+				new Conversion(BlockType.GRASS, 1.0, 0.0, BlockType.AIR),
+				new Conversion(BlockType.GRASS_BLOCK, 11.0, 5.0, BlockType.DIRT_BLOCK),
+				new Conversion(BlockType.GRASS_BLOCK, 21.0, 15.0, BlockType.PODZOL_BLOCK)
 		),
 		MINOTAUR_CHARGE(
 				new Conversion(BlockType.ENCHANTED_WALL, 2.3, 0.5, BlockType.NORMAL_WALL),

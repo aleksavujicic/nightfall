@@ -1,0 +1,52 @@
+base:
+  title: Wolf
+
+  disguisetype: wolf
+
+  attack: 15
+  health: 30
+  speed: 10
+
+  shred: 25
+
+  armour:
+    material: leather
+    name: Tough Flesh
+    lore:
+      description:
+       - "Wolf Armour"
+      flavour:
+       - "So Furry."
+    bound: true
+  weapon:
+    base: bite
+    name: Wolf Fangs
+    lore:
+      description:
+       - "Attacking dwarves with other wolves deals extra damage.\n
+          Right click to Leap, hold shift to leap up."
+      flavour:
+       - "Arooooooooo."
+  sounds:
+    growl:
+      path: "entity.wolf.growl"
+      pitch: 0.85
+
+hellhound:
+  parent: wolf
+  title: Hellhound
+
+  disguisetype: wolf
+
+  attack: 20
+  health: 30
+  speed: 10
+
+  shred: 30
+
+  proccable: false
+
+  sounds:
+    growl:
+      path: "entity.wolf.growl"
+      pitch: 0.75

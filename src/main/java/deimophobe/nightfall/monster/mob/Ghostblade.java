@@ -103,9 +103,4 @@ class Ghostblade extends AbstractMob {
 			throw new IllegalArgumentException("Attempted to create ghostblade from mob type '" + mobType + "' but is not a ghostblade type.");
 		}
 	}
-	
-	@Override
-	public void onDeath() {
-		monster.playSound("block.end_portal.spawn", 1f, 2f, true);
-	}
 }

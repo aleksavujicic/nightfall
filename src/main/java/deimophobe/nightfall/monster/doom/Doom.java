@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.doom;
 
+import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.monster.MonsterManager;
@@ -36,13 +37,16 @@ class Doom {
 			subtitle.add(section.getString("subtitle"));
 		
 		titleCycleTime = section.getInt("cycle-time", 40);
-		
-		for (String special : section.getStringList("mobs.special")) {
-			MobType type = MobType.getMobType(special);
-			if (type != null)
-				specialMobs.add(type);
-			else
-				Bukkit.getLogger().severe("Unknown mob of type: " + special + " for doom " + title);
+
+		// Mob heroes only for games of size that support player heroes
+		if (Game.getGame().getNumPlayers() >= 15) {
+			for (String special : section.getStringList("mobs.special")) {
+				MobType type = MobType.getMobType(special);
+				if (type != null)
+					specialMobs.add(type);
+				else
+					Bukkit.getLogger().severe("Unknown mob of type: " + special + " for doom " + title);
+			}
 		}
 		
 		for (String regular : section.getStringList("mobs.regular")) {

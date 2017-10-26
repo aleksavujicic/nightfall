@@ -25,7 +25,7 @@ import java.util.Map;
  */
 public class ZombieSaboteur extends Zombie {
 
-    private final int vampirism;
+    private final double vampirism;
     private final int armourShred;
     private final int poison;
     private final int pick;
@@ -35,7 +35,6 @@ public class ZombieSaboteur extends Zombie {
     private final int leapLvl;
 
     private final boolean assa;
-    private final ComplexCooldown assaSound;
 
     private static Integer[] shredValues = {0, 3, 6, 10};
 
@@ -44,12 +43,12 @@ public class ZombieSaboteur extends Zombie {
     }
 
     public ZombieSaboteur(MonsterPlayer mons, Location rebirth) {
-        super(mons, rebirth, MobData.getMobData("zombie-saboteur"));
+        super(mons, rebirth, MobData.getMobData("zombie.saboteur"));
 
         Map<String, Integer> upgrades = monster.getUpgrades(MobType.ZOMBIE);
 
         this.armourShred = shredValues[upgrades.get("shred-sabo")];
-        this.vampirism = upgrades.get("vampirism-sabo");
+        this.vampirism = (double)upgrades.get("vampirism-sabo")/2;
         int temp_poison = upgrades.get("poison");
         this.pick = upgrades.get("pick");
         this.epinephrine = upgrades.get("epinephrine");
@@ -70,19 +69,16 @@ public class ZombieSaboteur extends Zombie {
         this.assa = upgrades.get("assassination") >= 1;
         if (assa) {
             assaCD = new SimpleCooldown(200);
-            assaSound = new ComplexCooldown(10, () ->
-                    monster.playSound("entity.zombie_villager.converted", 1f, 2f, true)
-                    , ComplexCooldown.DO_NOTHING);
         }
 
         else {
             assaCD = new DudCooldown();
-            assaSound = new ComplexCooldown(10);
         }
 
         getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
-        getArmour().addModifier(ItemModifierType.HEALTH, -5, "Saboteur Zombie");
         getArmour().addModifier(ItemModifierType.SPEED, 25, "Saboteur Zombie");
+        int saboHealthMalus = (upgrades.get("health") + upgrades.get("health-inf")) * -1;
+        getArmour().addModifier(ItemModifierType.HEALTH, saboHealthMalus, "Saboteur Zombie");
         getArmour().addModifier(ItemModifierType.SPEED, speed, "Epinephrine");
     }
 
@@ -100,7 +96,6 @@ public class ZombieSaboteur extends Zombie {
     @Override
     public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
         leapCD.update();
-        assaSound.update();
         assaCD.update();
         if (b && assaCD.isAvailable()) {
             monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
@@ -147,13 +142,13 @@ public class ZombieSaboteur extends Zombie {
         super.onDamageAttack(damage);
 
         damage.addArmourShred(armourShred);
-        int healAmt = vampirism;
+        double healAmt = vampirism;
 
         if (poison > 0) {
             damage.getDwarf().givePotionEffect(PotionEffectType.POISON, 40, poison, true, false, true);
         }
         if (assa && assaCD.isAvailable()) {
-            assaSound.tryUse();
+            monster.playSound("entity.wither.shoot", 1f, 2f, true);
             damage.getDamage().addBoost(57); // 60 - 3 due to str 1
             assaCD.reset();
         }

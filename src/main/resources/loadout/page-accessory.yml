@@ -7,6 +7,10 @@ compass:
   item:
     name: "Compass"
     material: compass
+    lore:
+      description:
+       - "Right click to cycle through\n
+          key locations."
 chesto:
   index: 1
   type: item
@@ -15,6 +19,10 @@ chesto:
   item:
     name: "Chestomatic"
     material: chest
+    lore:
+      description:
+       - "Gives you a portable shared\n
+          resource chest."
 slowfall:
   index: 2
   type: item
@@ -23,6 +31,10 @@ slowfall:
   item:
     name: "Slowfall"
     base: slowfall
+    lore:
+      description:
+       - "SHIFT to give yourself Jump Boost\n
+          and a slowfalling effect."
 darkvision:
   index: 3
   type: item
@@ -31,6 +43,10 @@ darkvision:
   item:
     name: "Dark Vision"
     base: darkvision
+    lore:
+      description:
+       - "Shift to give yourself a brief\n
+          Night Vision effect."
 avenge:
   index: 4
   type: item
@@ -39,14 +55,22 @@ avenge:
   item:
     name: "Avenge"
     base: avenge
+    lore:
+      description:
+       - "Gain a PROC when a dwarf dies."
 tombmaker:
   index: 5
   type: item
   name: tombmaker
-  cost: 8
+  cost: 4
   item:
     name: "Tombmaker"
     base: tombmaker
+    lore:
+      description:
+       - "Replaces your shovel with a tombmaker\n
+          allowing you to right click and dig faster\n
+          for a few seconds."
 
 
 # ------ CONSUMABLES ------

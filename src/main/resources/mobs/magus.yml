@@ -1,0 +1,45 @@
+title: Grand Magus
+forcetitle: true
+
+disguisetype: illusioner
+
+attack: 20
+health: 100
+
+proccable: false
+resistance: 0.85
+arrowres: 0.5
+shred: 10
+shrineimmune: true
+
+armourslot: head
+armour:
+  template: monster-hero
+  base: horns
+  name: Magic Hat
+  lore:
+    description:
+     - "Temp"
+    flavour:
+     - "Temp"
+  modifiers:
+    kb-resist: 1
+weapon:
+  template: monster-hero
+  base: caduceus
+  name: A staff
+  lore:
+    description:
+     - "Temp"
+    flavour:
+     - "Temp"
+items:
+  orb:
+    template: monster-hero
+    material: magma_cream
+    name: "An orb"
+    lore:
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"

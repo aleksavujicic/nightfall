@@ -3,9 +3,11 @@ package deimophobe.nightfall.dwarf.kit.elements;
 import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.blocks.timedblock.LampBlock;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
@@ -26,6 +28,19 @@ class Lightbow extends AbstractBow {
 	}
 	@Override public String getBowIdentifier() {return "LIGHTBOW";}
 	@Override public int getPower() {return POWER;}
+	
+	@Override
+	public void onDamageAttack(MonsterDamage damage) {
+		super.onDamageAttack(damage);
+		if (damageFromBow(damage)) {
+			if (damage.getMonster() instanceof AIEntity) {
+				if (ArrowMisc.getArrowForce(damage.getArrow()) >= 0.5)
+					damage.instaKill();
+			} else {
+				damage.getArrowRes().timesMult(0.5);
+			}
+		}
+	}
 	
 	@Override
 	public void onProjectileLand(Projectile arrow, Block hitBlock) {

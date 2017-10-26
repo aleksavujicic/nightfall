@@ -39,20 +39,11 @@ class Wolf extends AbstractMob {
 	protected Wolf(MonsterPlayer monster, MobType type) {
 		super(monster, type);
 		
-		if (isHellhound()) {
-			furySound = new ComplexCooldown(25, () -> {
-				monster.playSound("entity.wolf.growl", 1f, 0.85f, true);
-				if (Game.getGame().isNight())
-					monster.playSound("entity.zombie_villager.converted", 1f, 1.45f, true);
-			}, ComplexCooldown.DO_NOTHING);
-		} else {
-			furySound = new ComplexCooldown(20, () -> {
-				monster.playSound("entity.wolf.growl", 1f, 1f, true);
-				if (Game.getGame().isNight())
-					monster.playSound("entity.zombie_villager.converted", 1f, 1.5f, true);
-			}, ComplexCooldown.DO_NOTHING);
-			
-		}
+		furySound = new ComplexCooldown(20, () -> {
+			playSound("growl");
+			if (Game.getGame().isNight())
+				monster.playSound("entity.zombie_villager.converted", 1f, 1.5f, true);
+		});
 	}
 	
 	@Override
@@ -110,6 +101,7 @@ class Wolf extends AbstractMob {
 				}
 				
 				monster.getPlayer().setVelocity(velocity);
+				monster.removePotionEffect(PotionEffectType.LUCK);
 			}
 		}
 	}
@@ -128,7 +120,7 @@ class Wolf extends AbstractMob {
 			monster.heal(heal);
 			monster.givePotionEffect(PotionEffectType.SPEED, 120, 3, true, false, true);
 			
-			damage.setManaDrain(10);
+			damage.setManaDrain(15);
 			
 			furySound.tryUse();
 		}

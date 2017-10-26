@@ -13,6 +13,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -42,7 +43,7 @@ public class ZombieHusk extends Zombie {
     private final ComplexCooldown staggerSound;
 
     private static Integer[] shredValues = {0, 4, 8, 12, 16, 20};
-    private static Integer[] arrowResValues = {0, 25, 40, 50};
+    private static Integer[] arrowResValues = {0, 25, 50, 75};
     private static Integer[] rebirthValues = {0, 50, 100, 150, 200, 250};
 
     protected ZombieHusk(MonsterPlayer mons) {
@@ -50,7 +51,7 @@ public class ZombieHusk extends Zombie {
     }
 
     public ZombieHusk(MonsterPlayer mons, Location rebirth) {
-        super(mons, rebirth, MobData.getMobData("zombie-husk"));
+        super(mons, rebirth, MobData.getMobData("zombie.husk"));
 
         Map<String, Integer> upgrades = monster.getUpgrades(MobType.ZOMBIE);
 
@@ -78,19 +79,18 @@ public class ZombieHusk extends Zombie {
         this.stagger = upgrades.get("stagger") >= 1;
 
         if (stagger)
-            staggerSound = new ComplexCooldown(10, () ->
+            staggerSound = new ComplexCooldown(40, () ->
                 monster.playSound("entity.zombie_villager.converted", 1f, 1f, true)
             , ComplexCooldown.DO_NOTHING);
         else
             staggerSound = new ComplexCooldown(10);
 
         getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
-        getArmour().addModifier(ItemModifierType.SPEED, -20, "Husk Zombie");
-        getArmour().addModifier(ItemModifierType.HEALTH, 10, "Husk Zombie");
+        getArmour().addModifier(ItemModifierType.SPEED, -25, "Husk Zombie");
+        getArmour().addModifier(ItemModifierType.HEALTH, 5, "Husk Zombie");
         getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
-        getWeapon().addModifier(ItemModifierType.ATTACK, 10, "Husk Zombie");
+        getWeapon().addModifier(ItemModifierType.ATTACK, 5, "Husk Zombie");
         if (stagger) {
-            getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, 10, "Staggering Hit");
             getArmour().addModifier(ItemModifierType.KB_RESIST, 1, "Staggering Hit");
         }
     }
@@ -101,12 +101,14 @@ public class ZombieHusk extends Zombie {
         staggerSound.update();
         if (smashing) {
             smashCD.update();
+            World world = monster.getPlayer().getWorld();
             if (smashCD.isAvailable()) {
                 smashCD.reset();
-                monster.getPlayer().setVelocity(new Vector(monster.getPlayer().getVelocity().getX(), -1.5, monster.getPlayer().getVelocity().getZ()));
+                Vector currentVelocity = monster.getPlayer().getVelocity();
+                world.spawnParticle(Particle.EXPLOSION_NORMAL, monster.getLocation(), 3, 1, 1, 1);
+                monster.getPlayer().setVelocity(new Vector(currentVelocity.getX()*2.5, -1.5, currentVelocity.getZ()*2.5));
             }
             if (monster.getPlayer().isOnGround()) {
-                World world = monster.getPlayer().getWorld();
                 world.spawnParticle(Particle.EXPLOSION_LARGE, monster.getLocation(), 3, 1, 1, 1);
                 monster.playSound("drum", 1f, 0.5f, true);
                 monster.playSound("entity.generic.explode", 0.5f, 0.5f, true);
@@ -120,7 +122,7 @@ public class ZombieHusk extends Zombie {
                     knockback.setY(knockback.getY() / 2 + 0.5);
                     modifier.addKnockback(knockback);
 
-                    DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.GOBO_BOX_EXPLOSION, 10 * leapLvl);
+                    DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.HUSK_STOMP, 10 * leapLvl);
                     modifier.applyToDamage(aoeDamage);
                     aoeDamage.fire(true);
                 }
@@ -133,13 +135,7 @@ public class ZombieHusk extends Zombie {
     @Override
     public void onSpawn() {
         super.onSpawn();
-        monster.givePermanentPotionEffect(PotionEffectType.ABSORPTION, 1);
-        monster.removePotionEffect(PotionEffectType.ABSORPTION);
         monster.givePermanentPotionEffect(PotionEffectType.REGENERATION, regen);
-        monster.doDamage(null, CustomDamageType.TEMPORARY, 0, true);
-        if (didRebirth()) {
-            giveSpawnProtection(30);
-        }
     }
 
     @Override
@@ -157,7 +153,6 @@ public class ZombieHusk extends Zombie {
         int healAmt = vampirism;
         if (stagger) {
             staggerSound.tryUse();
-            damage.addArmourShred(10);
             damage.getDwarf().givePotionEffect(PotionEffectType.SLOW, 40, 2, false, false, true);
         }
         monster.heal(healAmt);
@@ -175,6 +170,7 @@ public class ZombieHusk extends Zombie {
                 double hVel = (double) leapLvl/10+0.4;
                 double vVel = (double) leapLvl/30+0.5;
                 monster.getPlayer().setVelocity(new Vector(-hVel * Math.sin(radYaw), vVel, hVel * Math.cos(radYaw)));
+                giveSpawnProtection(40);
                 smashing = true;
             }
         }

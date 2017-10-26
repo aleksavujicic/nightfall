@@ -23,7 +23,7 @@ import org.bukkit.util.Vector;
 /**
  * Created by Deimophobe on 9/07/17.
  */
-class Wraith extends AbstractMob {
+public class Wraith extends AbstractMob {
 	Wraith(MonsterPlayer monster) {
 		super(monster, MobType.WRAITH);
 	}
@@ -157,10 +157,5 @@ class Wraith extends AbstractMob {
 				damage.fire();
 			}
 		}
-	}
-	
-	@Override
-	public void onDeath() {
-		monster.playSound("entity.ghast.death", 2f, 0.5f, true);
 	}
 }

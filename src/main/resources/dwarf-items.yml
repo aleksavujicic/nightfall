@@ -1,7 +1,7 @@
 sword:
   drb:
     base: runeblade
-    name: Dwarven Runeblade
+    name: Lesser Runeblade
     lore:
       description:
        - "A runeblade that has yet to be enchanted\n
@@ -27,12 +27,13 @@ sword:
       attack: 15
   greatsword:
     base: runeblade
-    name: Greatsword
+    name: Loremasters Greatsword
     lore:
       description:
-       - "hi"
+       - "A broken and heavy weapon\n
+          that prevents constant swinging."
       flavour:
-       - "Drk fill dis in"
+       - "\"I dúr hir comes, a hon reign shall n- uireb.\" -Loremaster"
     modifiers:
       attack: 25
   axe:
@@ -57,7 +58,6 @@ sword:
       flavour:
        - "\"Put that speed to good use, and that poison to better use.\" - Velvetine"
        - "\"I can't keep up with you jimmy! You're too fast!!\" - Tui"
-       - "\"You're not any better than the rest of us by using that.\" - Arthea"
     modifiers:
       attack: 20
       speed: 30
@@ -200,6 +200,14 @@ bow:
           its path. Uses 3 arrows a shot."
       flavour:
        - "\"And then the Firelords attacked.\" -Tui"
+  minigun:
+    base: crossbow
+    name: Minigun
+    lore:
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   velbow:
     template: dwarf-hero
     base: dskin
@@ -207,7 +215,7 @@ bow:
     lore:
       description:
        - "Kills with this bow give\n
-          a proc for 3 seconds."
+          a proc for 5 seconds."
       flavour:
        - "\"Feel the PROC pulsing through your bow.\" - Velvetine"
 ale:
@@ -268,9 +276,9 @@ ale:
     lore:
       description:
        - "Left click to heal for a small\n
-          amount of health. You are able to\n
-          spam this as much as you want\n
-          be careful and watch your Mana!"
+          amount of health. Uses &b$manacost&r mana.\n
+          You are able to spam this as much as you want\n
+          so be careful and watch your mana!"
       flavour:
        - "\"One of Potion Sellers experimental potions. Use with care.\" "
   strong:
@@ -564,8 +572,9 @@ hero:
       flavour:
        - "Swoooosh."
     modifiers:
-      attack: 15
+      attack: 20
       knockback: 2
+      kb_resist: 1
   totem:
     template: dwarf-hero
     base: hammer
@@ -576,9 +585,6 @@ hero:
           at the cost of your own mana."
       flavour:
        - "Illuminate!"
-    modifiers:
-      attack: 10
-      kb_resist: 1
   elystria:
     template: dwarf-hero
     base: elystria
@@ -601,9 +607,10 @@ hero:
     name: "Nyneve"
     lore:
       description:
-       - ""
+       - "The legendary runeblade.\n
+          Twin to Elystria."
       flavour:
-       - ""
+       - "\"It was there, glowing in the lake.\" - Velvetine"
     modifiers:
       attack: 25
       kb_resist: 1
@@ -630,7 +637,7 @@ armour:
         description:
          - "Fully repaired armour."
         flavour:
-         - "Now get out there and fight!."
+         - "Forged by the finest blacksmiths."
       shiny: true
       modifiers:
         health: 10
@@ -643,7 +650,7 @@ armour:
         description:
          - "Fully repaired armour."
         flavour:
-         - "Now get out there and fight."
+         - "Forged by the finest blacksmiths."
 
     boots:
       material: diamond_boots
@@ -653,7 +660,7 @@ armour:
         description:
          - "Fully repaired armour."
         flavour:
-         - "Now get out there and fight."
+         - "Forged by the finest blacksmiths."
 
   high:
     chest:
@@ -663,7 +670,7 @@ armour:
         description:
          - "Fully repaired armour."
         flavour:
-         - "Now get out there and fight!."
+         - "The shine has worn off after battle."
       modifiers:
         health: 10
 
@@ -674,7 +681,7 @@ armour:
         description:
          - "Fully repaired armour."
         flavour:
-         - "Now get out there and fight."
+         - "The shine has worn off after battle."
 
     boots:
       material: diamond_boots
@@ -683,7 +690,7 @@ armour:
         description:
          - "Fully repaired armour."
         flavour:
-         - "Now get out there and fight."
+         - "The shine has worn off after battle."
 
   med:
     chest:
@@ -693,7 +700,7 @@ armour:
         description:
          - "Damaged armour."
         flavour:
-         - "Just a few dents, keep fighting."
+         - "Just a few dents, but still good for combat."
       modifiers:
         health: 10
     legs:
@@ -703,7 +710,7 @@ armour:
         description:
          - "Damaged armour."
         flavour:
-         - "Just a few dents, keep fighting."
+         - "Just a few dents, but still good for combat."
     boots:
       material: iron_boots
       name: Dwarven Boots
@@ -711,7 +718,7 @@ armour:
         description:
          - "Damaged armour."
         flavour:
-         - "Just a few dents, keep fighting."
+         - "Just a few dents, but still good for combat."
 
   low:
     chest:
@@ -721,7 +728,7 @@ armour:
         description:
          - "Shattered armour."
         flavour:
-         - "You need repairs, as you are taking extra damage."
+         - "Needs repairs as you are taking extra damage."
       modifiers:
         health: 10
     legs:
@@ -731,7 +738,7 @@ armour:
         description:
          - "Shattered armour."
         flavour:
-         - "You need repairs, as you are taking extra damage."
+         - "Needs repairs as you are taking extra damage."
     boots:
       material: chainmail_boots
       name: Dwarven Boots
@@ -739,7 +746,7 @@ armour:
         description:
          - "Shattered armour."
         flavour:
-         - "You need repairs, as you are taking extra damage."
+         - "Needs repairs as you are taking extra damage."
 
 
 # To get format codes:

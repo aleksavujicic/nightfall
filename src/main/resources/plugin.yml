@@ -106,6 +106,10 @@ commands:
     description: Manage the map loading system.
     usage: /map [enable|disable|reload|list|clear|next] | /map [queue|play|load] <map>
 
+  fixplayers:
+    usage: /fixplayers
+    description: Might help show players if some are invisible.
+
 
 # kills:
 #   description: Only for toxic people.

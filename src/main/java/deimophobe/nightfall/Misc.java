@@ -30,6 +30,7 @@ public class Misc {
 	
 	public static YamlConfiguration getInternalFileConfig(String name) {
 		InputStream stream = NightfallPlugin.getPlugin().getResource(name);
+		if (stream == null) throw new IllegalArgumentException("Unknown config file: " + name);
 		return YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
 	}
 	
@@ -185,6 +186,6 @@ public class Misc {
 	
 	// ------ MISC ------
 	public static void loadSound(Player player, String soundName) {
-		player.playSound(player.getLocation().add(0,3,0), soundName, 0.01f, 1f);
+		player.playSound(player.getLocation().add(0,0,0), soundName, 0.01f, 1f);
 	}
 }

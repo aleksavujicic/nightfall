@@ -10,6 +10,7 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.map.GameMap;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -46,6 +47,7 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 		
 		int speedLvl = (zombie.isBaby() ? -1 : 1);
 		zombie.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 300000, speedLvl, false,false), true);
+		zombie.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 300000, 1, false,false), true);
 		
 		zombie.getEquipment().setArmorContents(new ItemStack[]{null, null, null, null});
 		zombie.getEquipment().setItemInMainHand(sword);
@@ -76,12 +78,13 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		damage.getDamage().setMultiplier(0.3);
-		if (damage.hasArrow())
+		if (damage.hasArrow()) {
 			damage.getDamage().addBoost(10);
+		}
 		
-		if (damage.getAttacker() instanceof MonsterEntity)
+		if (damage.getAttacker() instanceof MonsterEntity) {
 			damage.cancel();
-		
+		}
 	}
 	
 	public void onDeath(MonsterDamage damage) {

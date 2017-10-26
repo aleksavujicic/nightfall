@@ -1,0 +1,82 @@
+base:
+  title: Goblin
+
+  disguisetype: creeper
+
+  attack: 5
+
+  armour:
+    material: sulphur
+    name: Explosive Flesh
+    lore:
+      description:
+       - "Keep away from TNT Crates."
+      flavour:
+       - "Kaaaaaaaaaaaaaa."
+    bound: true
+  weapon:
+    base: zombiesword
+    name: Gobo Dagger
+    lore:
+      description:
+       - "A weak weapon that is used\n
+          for piercing armour."
+      flavour:
+       - "Hehehehehehe."
+  items:
+    gobo-box:
+      base: tnt
+      name: Gobo Box
+      lore:
+        description:
+         - "Left click to throw a box, dealing\n
+            damage to dwarves and nearby walls.\n
+            &aRight click to place boxes, which\n
+            &aheavily damage walls once they explode&r."
+        flavour:
+         - "Gobos Primed and Ready."
+    kaboom:
+      base: kaboom
+      name: KABOOM
+      lore:
+        description:
+         - "Left click to prime yourself, creating a\n
+            large explosion around you in a few seconds."
+        flavour:
+         - "It's KAAAAAAAAABOOOM!"
+    wood-pickaxe:
+      material: wood_pickaxe
+      name: Gobo Pick
+      lore:
+        description:
+        - "Break through defenses with this pick."
+        flavour:
+        - "A tool to place explosives within defenses."
+
+blaze:
+  title: Blaze
+
+  disguisetype: blaze
+
+  canrun: false
+
+  armour:
+    material: blaze_rod
+    name: Fiery Rods
+    lore:
+      description:
+       - "Molten rods, suspended in flame."
+      flavour:
+       - "Protecting flame, wreathed around you."
+    bound: true
+  items:
+    blaze-ammo:
+      material: blaze_powder
+      name: Fireball
+      lore:
+        description:
+         - "&aRight click to throw fireballs, which\n
+            &adamage dwarves and walls as they explode&r.\n
+            Fireballs regenerate 2 seconds after stopping fire."
+        flavour:
+         - "Death from afar."

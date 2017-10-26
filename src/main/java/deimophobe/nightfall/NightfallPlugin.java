@@ -835,6 +835,22 @@ public class NightfallPlugin extends JavaPlugin {
 				}
 			}
 		}
+		
+		if (name.equalsIgnoreCase("fixplayers")) {
+			if (sender instanceof Player) {
+				Player player = (Player) sender;
+				for (Player other : Bukkit.getOnlinePlayers()) {
+					if (player.canSee(other)) {
+						player.hidePlayer(other);
+						player.showPlayer(other);
+					}
+				}
+				return true;
+			} else {
+				sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
+			}
+		}
+		
 		return false;
 	}
 	
