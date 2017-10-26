@@ -3,6 +3,7 @@ package deimophobe.nightfall.dwarf.armour;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.effects.GameEffect;
 import deimophobe.nightfall.items.CustomItem;
@@ -110,7 +111,8 @@ public class DwarvenArmour implements Armour {
 	public double getResistance() {
 		if (isArmoured()) {
 			double x = armourFraction();
-			return (x * 0.125 + 0.7);
+			int n = DwarfManager.getManager().getNumberOfPlayers();
+			return (x * 0.125 + 0.7 + 0.06d/n);
 		} else {
 			return 0.6;
 		}
