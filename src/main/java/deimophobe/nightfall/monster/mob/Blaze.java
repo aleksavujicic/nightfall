@@ -195,7 +195,7 @@ public class Blaze extends AbstractMob {
         world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
         world.playSound(centerLoc, "entity.generic.explode", 2, 1);
 
-        int radius = 2;
+        int radius = 1;
 
         for (int x = -radius; x <= radius; x++) {
             for (int y = -1; y <= 1; y++) {
@@ -203,7 +203,7 @@ public class Blaze extends AbstractMob {
                     Block block = centerLoc.clone().add(x, y, z).getBlock();
                     Block blockBelow = centerLoc.clone().add(x,y-1, z).getBlock();
 
-                    if (block.getType() == Material.AIR && blockBelow.getType() != Material.AIR && (Math.random() < 0.003 * flame)) {
+                    if (block.getType() == Material.AIR && blockBelow.getType() != Material.AIR && (Math.random() < 0.004 * flame)) {
                         block.setType(Material.FIRE);
                     }
                 }
