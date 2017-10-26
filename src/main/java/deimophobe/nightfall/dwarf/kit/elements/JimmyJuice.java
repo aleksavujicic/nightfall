@@ -26,7 +26,7 @@ class JimmyJuice extends AbstractAle {
 		super.damageNotify(damage);
 		double health = dwarf.getPlayer().getHealth();
 		if (health - damage.getFinalDamage() <= 0.1 || health <= 16) {
-			if (dwarf.tryUseMana(AUTO_COST)) {
+			if (dwarf.tryUseMana(AUTO_COST)){
 				heal();
 				cooldown.reset();
 			}

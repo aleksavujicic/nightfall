@@ -98,6 +98,16 @@ sword:
        - "\"Stop bunny hopping and get to work!\" - Tui"
     modifiers:
       attack: 20
+  scepterofmagma:
+    base: runeblade
+    name: Scepter of Magma
+    lore:
+      description:
+        - "Blah"
+      flavour:
+        - "bleh"
+    modifiers:
+      attack: 10
 
 bow:
   shortbow:
@@ -281,6 +291,14 @@ ale:
           mana."
       flavour:
        - "\"My potions are too strong for you traveller.\" - Potion Seller"
+  glow:
+    base: jimmyjuice
+    name: Healing Glow
+    lore:
+      description:
+        - "Drk fix this."
+      flavour:
+        - "Drk fix this."
 
 consumable:
   lamp:

@@ -75,8 +75,11 @@ public enum KitElementType {
 	
 	HORN,
 	VELSWORD,
-	VELBOW
-	
+	VELBOW,
+
+	RAINBOWLOVE,
+	SCEPTEROFMAGMA,
+	HEALINGGLOW,
 	;
 	
 	public static boolean isElement(String name) {
@@ -172,6 +175,10 @@ public enum KitElementType {
 			case HORN: return new Horn(dwarf);
 			case VELSWORD: return new VelSword(dwarf);
 			case VELBOW: return new VelBow(dwarf);
+
+			case RAINBOWLOVE: return new RAINBOWLOVE(dwarf);
+			case SCEPTEROFMAGMA: return new ScepterOfMagma(dwarf);
+			case HEALINGGLOW: return new HealingGlow(dwarf);
 		}
 		throw new UnsupportedOperationException("Unimplemented element type: " + this);
 	}
