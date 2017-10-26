@@ -58,6 +58,20 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		return player.getUniqueId();
 	}
 	
+	// ------ DEBUG ------
+	private boolean debugMode = false;
+	public boolean toggleDebug() {
+		debugMode = !debugMode;
+		return debugMode;
+	}
+	public boolean isDebugMode() { return debugMode; }
+	
+	public void debugDamage(GameDamage damage) {
+		if (debugMode) {
+			sendMessage(damage.toString());
+		}
+	}
+	
 	
 	// ------ TITLE ------
 	private ChatColor colour;

@@ -848,6 +848,27 @@ public class NightfallPlugin extends JavaPlugin {
 				return true;
 			} else {
 				sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
+				return true;
+			}
+		}
+		
+		if (name.equalsIgnoreCase("debug")) {
+			if (sender instanceof Player) {
+				GamePlayer gp = Game.getGame().getGamePlayer((Player) sender);
+				if (gp != null) {
+					boolean enabled = gp.toggleDebug();
+					if (enabled)
+						sender.sendMessage(ChatColor.GREEN + "Debug mode enabled.");
+					else
+						sender.sendMessage(ChatColor.RED + "Debug mode disabled.");
+					return true;
+				} else {
+					sender.sendMessage(ChatColor.RED + "You must be a game player to do that!");
+					return true;
+				}
+			} else {
+				sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
+				return true;
 			}
 		}
 		

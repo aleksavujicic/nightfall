@@ -16,14 +16,12 @@ public class TestMob extends AbstractMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		monster.sendMessage(damage.toString());
 		damage.softCancel();
 	}
 	
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
-		monster.sendMessage(damage.toString());
 		damage.softCancel();
 	}
 }

@@ -7,6 +7,7 @@ import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.entity.GamePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
@@ -51,6 +52,14 @@ public class DamageManager {
 		damage.activateTrigger();
 		damage.notifyEntities();
 		damage.applyDamage(event);
+		
+		GameEntity attacker = damage.getAttacker();
+		if (attacker instanceof GamePlayer)
+			((GamePlayer) attacker).debugDamage(damage);
+		
+		GameEntity receiver = damage.getReceiver();
+		if (receiver instanceof GamePlayer)
+			((GamePlayer) receiver).debugDamage(damage);
 	}
 	
 	private GameDamage getDamageFromEvent(EntityDamageEvent event) {

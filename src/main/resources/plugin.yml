@@ -70,6 +70,10 @@ commands:
   toggledoom:
     description: Enables/disables doom clock.
     usage: /toggledoom
+  spawnai:
+    description: Spawns an AI at your location
+    usage: /spawnai <amount>
+    alias: aispawn
 
   ready:
     description: Before game start, use to alert the game that you are ready.
@@ -90,11 +94,6 @@ commands:
     description: Makes yourself plague up to the limit.
     usage: /plague
 
-  spawnai:
-    description: Spawns an AI at your location
-    usage: /spawnai <amount>
-    alias: aispawn
-
   forcedoom:
     description: Forces the doom timer to hit 0.
     usage: /forcedoom
@@ -105,6 +104,9 @@ commands:
   map:
     description: Manage the map loading system.
     usage: /map [enable|disable|reload|list|clear|next] | /map [queue|play|load] <map>
+  debug:
+    description: Enable debug mode! Why wasn't this a thing earlier.
+    usage: /debug
 
   fixplayers:
     usage: /fixplayers
