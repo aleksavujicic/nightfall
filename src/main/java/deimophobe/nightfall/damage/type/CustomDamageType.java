@@ -34,5 +34,8 @@ public enum CustomDamageType implements GameDamageType {
 	COMMAND,
 	MISC_EXPLOSION,
 	VOLCANIC_BOW,
+
+	SCEPTER_OF_MAGMA,
+
 	@Deprecated TEMPORARY
 }
