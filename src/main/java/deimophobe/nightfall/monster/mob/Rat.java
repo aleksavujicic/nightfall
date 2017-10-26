@@ -8,6 +8,7 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 
@@ -24,7 +25,7 @@ class Rat extends AbstractMob {
 	private static final int STEAL_MAX_CD = 5;
 	
 	private boolean jumpState;
-	private ComplexCooldown toggleCD = new ComplexCooldown(5*20, this::toggleJumpState);
+	private ComplexCooldown toggleCD = new ComplexCooldown(4*20, this::toggleJumpState);
 	
 	@Override
 	public void onSpawn() {
@@ -73,12 +74,15 @@ class Rat extends AbstractMob {
 	
 	private void toggleJumpState() {
 		jumpState = !jumpState;
+		Player player = monster.getPlayer();
 		if (jumpState) {
 			monster.givePermanentPotionEffect(PotionEffectType.SLOW, 4);
 			monster.removePotionEffect(PotionEffectType.JUMP);
+			player.setFoodLevel(0);
 		} else {
 			monster.givePermanentPotionEffect(PotionEffectType.JUMP, -5);
 			monster.removePotionEffect(PotionEffectType.SLOW);
+			player.setFoodLevel(20);
 		}
 	}
 }
