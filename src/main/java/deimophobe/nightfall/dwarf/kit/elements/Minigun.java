@@ -3,17 +3,15 @@ package deimophobe.nightfall.dwarf.kit.elements;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.items.CustomItem;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by Deimophobe on 26/10/17.
  */
-class Minigun extends AbstractBow implements KitCooldownElement {
+class Minigun extends AbstractBow {
 	Minigun(Dwarf dwarf) {
 		super(dwarf);
 	}
@@ -23,7 +21,6 @@ class Minigun extends AbstractBow implements KitCooldownElement {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public ItemStack getCooldownToggleItem() {return ITEM.createItemStack();}
 	@Override public String getBowIdentifier() {return "Minigun";}
 	@Override public int getPower() {return POWER;}
 	
@@ -36,11 +33,6 @@ class Minigun extends AbstractBow implements KitCooldownElement {
 		cooldown.update();
 		if (firing)
 			cooldown.tryUse();
-	}
-	
-	@Override
-	public float fractionComplete() {
-		return cooldown.fractionComplete();
 	}
 	
 	
@@ -56,11 +48,12 @@ class Minigun extends AbstractBow implements KitCooldownElement {
 	}
 	
 	private void fireArrow() {
-		if (dwarf.hasArrows(1)) {
-			dwarf.useArrows(1);
-			fireArrow(3f, 1, 0.05f);
-			dwarf.playSound("entity.arrow.shoot", 1f, 0.9f, true);
+		if (dwarf.hasArrows(1) && isHoldingItem()) {
+			dwarf.useArrow();
+			fireArrow(3f, 1, 1f);
+			dwarf.playSound("entity.arrow.shoot", 5f, 0.9f, true);
 		} else {
+			dwarf.useArrows(10);
 			firing = false;
 		}
 	}
