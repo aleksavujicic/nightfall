@@ -41,8 +41,7 @@ class Wolf extends AbstractMob {
 		
 		furySound = new ComplexCooldown(20, () -> {
 			playSound("growl");
-			if (Game.getGame().isNight())
-				monster.playSound("entity.zombie_villager.converted", 1f, 1.5f, true);
+			monster.playSound("entity.zombie_villager.converted", 1f, 1.5f, true);
 		});
 	}
 	

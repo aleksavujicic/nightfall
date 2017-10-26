@@ -64,12 +64,12 @@ public class ZombieFury extends Zombie {
         this.fury = upgrades.get("furynight") >= 1;
 
         if (fury) {
-            furySound = new ComplexCooldown(10, () ->
+            furySound = new ComplexCooldown(20, () ->
                     monster.playSound("entity.zombie_villager.converted", 1f, 1.5f, true)
                     , ComplexCooldown.DO_NOTHING);
         }
         else {
-            furySound = new ComplexCooldown(10);
+            furySound = new ComplexCooldown(20);
         }
 
         getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
