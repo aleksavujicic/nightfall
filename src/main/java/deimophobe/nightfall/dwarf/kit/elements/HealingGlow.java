@@ -5,7 +5,6 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.items.CustomItem;
-import org.bukkit.potion.PotionEffectType;
 
 class HealingGlow extends AbstractAle {
 
@@ -26,8 +25,9 @@ class HealingGlow extends AbstractAle {
 
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+		cd.update();
 		int fire = dwarf.getPlayer().getFireTicks();
-		if(fire >= 1){
+		if (fire >= 1 && cd.tryUse()){
 			dwarf.heal(3);
 			dwarf.regenMana(10);
 		}

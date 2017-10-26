@@ -176,7 +176,7 @@ public enum KitElementType {
 			case VELSWORD: return new VelSword(dwarf);
 			case VELBOW: return new VelBow(dwarf);
 
-			case RAINBOWLOVE: return new RAINBOWLOVE(dwarf);
+			case RAINBOWLOVE: return new RainbowLove(dwarf);
 			case SCEPTEROFMAGMA: return new ScepterOfMagma(dwarf);
 			case HEALINGGLOW: return new HealingGlow(dwarf);
 		}

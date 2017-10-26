@@ -7,7 +7,6 @@ import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.Kit;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.GameEntity;
@@ -102,6 +101,8 @@ class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 			spawnLoc.add(looking.clone().multiply(3));
 
 			dwarf.playSound("foosh", 1, 1, true);
+			dwarf.playSound("entity.generic.burn", 1f, 0.5f, true);
+			dwarf.playSound("entity.ghast.shoot", 1f, 0.5f, true);
 
 			new Inferno(spawnLoc, looking);
 
@@ -109,11 +110,11 @@ class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 		return true;
 	}
 
-	private static final int INFERNO_LIFE = 40;
+	private static final int INFERNO_LIFE = 60;
 	private static final int INFERNO_DELAY = 4;
 	private static final double INFERNO_RADIUS = 2;
-	private static final double INFERNO_VELOCITY = 0.4;
-	private static final double INFERNO_DPT = 3; // Damage per tick
+	private static final double INFERNO_VELOCITY = 0.6;
+	private static final double INFERNO_DPT = 10; // Damage per tick
 
 	private class Inferno {
 		private int lifeLeft = INFERNO_LIFE;

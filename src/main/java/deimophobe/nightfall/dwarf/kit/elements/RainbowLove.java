@@ -3,28 +3,24 @@ package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.GameEntity;
-import deimophobe.nightfall.items.CustomItem;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
-class RAINBOWLOVE extends AbstractElement implements KitCooldownElement{
+class RainbowLove extends AbstractElement implements KitCooldownElement{
 
     private final ComplexCooldown cd = new ComplexCooldown(90*20);
 
 
-    public RAINBOWLOVE(Dwarf dwarf) {
+    public RainbowLove(Dwarf dwarf) {
         super(dwarf);
     }
 
@@ -79,7 +75,7 @@ class RAINBOWLOVE extends AbstractElement implements KitCooldownElement{
 
 }
 //    @Override
-//    public void onDamageReceive (CustomDamageType RAINBOWLOVE){
+//    public void onDamageReceive (CustomDamageType RainbowLove){
 //        if (dwarf.hasKitCooldownElement){
 //            cd.reduceCooldown(2*60*20);
 //        }

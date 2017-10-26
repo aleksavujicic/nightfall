@@ -4,7 +4,6 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitItemElement;
-import deimophobe.nightfall.items.CustomItem;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -33,8 +32,6 @@ abstract class AbstractItem extends AbstractElement implements KitItemElement {
 	protected boolean damageFromItem(MonsterDamage damage) {
 		return (damage.getType() == NaturalDamageType.MELEE && isHoldingItem());
 	}
-
-	public abstract CustomItem getItem();
 
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {return false;}
