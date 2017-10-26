@@ -171,6 +171,18 @@ volcanic:
       description:
        - "Fire an arrow that pierces everything in\n
           its path. Uses 3 arrows a shot."
+minigun:
+  index: 16
+  type: item
+  name: minigun
+  category: bow
+  cost: 14
+  item:
+    name: "Minigun"
+    base: crossbow
+    lore:
+      description:
+       - "Pew pew pew pew pew pew pew pew pew pew."
 turret:
   enabled: false
   index: 16
