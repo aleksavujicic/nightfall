@@ -21,7 +21,7 @@ public enum ProcType {
 	
 	RUNEDASH	(12, 1, 15, 0, false, false, false),
 	
-	ROAR		(160, 2, 0, 0, false, false, true),
+	ROAR		(160, 2, 0, 0, false, false, true)
 	
 	;
 	

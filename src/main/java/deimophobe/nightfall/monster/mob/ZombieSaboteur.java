@@ -36,7 +36,7 @@ public class ZombieSaboteur extends Zombie {
 
     private final boolean assa;
 
-    private static Integer[] shredValues = {0, 3, 6, 10};
+    private static Integer[] shredValues = {0, 2, 4, 6, 8, 10};
 
     protected ZombieSaboteur(MonsterPlayer mons) {
         this(mons, null);
@@ -52,7 +52,7 @@ public class ZombieSaboteur extends Zombie {
         int temp_poison = upgrades.get("poison");
         this.pick = upgrades.get("pick");
         this.epinephrine = upgrades.get("epinephrine");
-        int speed = epinephrine * 10;
+        int speed = epinephrine * 5;
         if (temp_poison == 3) {
             this.poison = 5; // This is as poison is weird: 1 is 1 damage per 25, 2~4 is 1 damage per 12, 5 is 1 damage per 10
         }
@@ -76,8 +76,9 @@ public class ZombieSaboteur extends Zombie {
         }
 
         getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
-        getArmour().addModifier(ItemModifierType.HEALTH, -5, "Saboteur Zombie");
         getArmour().addModifier(ItemModifierType.SPEED, 25, "Saboteur Zombie");
+        int saboHealthMalus = (upgrades.get("health") + upgrades.get("health-inf")) * -1;
+        getArmour().addModifier(ItemModifierType.HEALTH, saboHealthMalus, "Saboteur Zombie");
         getArmour().addModifier(ItemModifierType.SPEED, speed, "Epinephrine");
     }
 

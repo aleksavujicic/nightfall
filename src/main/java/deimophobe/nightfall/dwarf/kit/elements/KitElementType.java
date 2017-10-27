@@ -10,8 +10,6 @@ import java.util.Set;
  * Created by Deimophobe on 24/03/17.
  */
 public enum KitElementType {
-	TEST,
-	
 	DRB,
 	GRB,
 	GREATSWORD,
@@ -31,6 +29,7 @@ public enum KitElementType {
 	CROSSBOW,
 	VOLCANIC_BOW,
 	TURRET,
+	MINIGUN,
 	
 	HEALING_ALE,
 	HOLY_ALE,
@@ -75,8 +74,10 @@ public enum KitElementType {
 	
 	HORN,
 	VELSWORD,
-	VELBOW
-	
+	VELBOW,
+
+	SCEPTEROFMAGMA,
+	HEALINGGLOW,
 	;
 	
 	public static boolean isElement(String name) {
@@ -105,9 +106,6 @@ public enum KitElementType {
 	
 	public KitElement createElement(Dwarf dwarf) {
 		switch (this) {
-			case TEST: return new TestItem(dwarf);
-			
-			
 			case DRB: return new DwarvenRuneblade(dwarf);
 			case GRB: return new GreaterRuneblade(dwarf);
 			case GREATSWORD: return new Greatsword(dwarf);
@@ -127,6 +125,7 @@ public enum KitElementType {
 			case CROSSBOW: return new Crossbow(dwarf);
 			case VOLCANIC_BOW: return new VolcanicBow(dwarf);
 			case TURRET: return new TurretBow(dwarf);
+			case MINIGUN: return new Minigun(dwarf);
 				
 			case HEALING_ALE: return new HealingAle(dwarf);
 			case HOLY_ALE: return new HolyAle(dwarf);
@@ -172,6 +171,9 @@ public enum KitElementType {
 			case HORN: return new Horn(dwarf);
 			case VELSWORD: return new VelSword(dwarf);
 			case VELBOW: return new VelBow(dwarf);
+
+			case SCEPTEROFMAGMA: return new ScepterOfMagma(dwarf);
+			case HEALINGGLOW: return new HealingGlow(dwarf);
 		}
 		throw new UnsupportedOperationException("Unimplemented element type: " + this);
 	}

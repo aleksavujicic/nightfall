@@ -286,6 +286,23 @@ public class Game {
 	}
 	
 	
+	// ------ DEBUG MODE -------
+	private final Set<UUID> debugPlayers = new HashSet<>();
+	public boolean toggleDebug(Player player) {
+		UUID id = player.getUniqueId();
+		if (debugPlayers.contains(id)) {
+			debugPlayers.remove(id);
+			return false;
+		} else {
+			debugPlayers.add(id);
+			return true;
+		}
+	}
+	public boolean isDebug(Player player) {
+		return debugPlayers.contains(player.getUniqueId());
+	}
+	
+	
 	// ------ SCOREBOARD -------
 	public void giveScoreboard(Player player) {
 		player.setScoreboard(scoreboard);
@@ -375,6 +392,16 @@ public class Game {
 		
 		dwarfManager.onGameStart();
 		updateDwarfCount();
+		
+		// Fix players
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			for (Player viewee : Bukkit.getOnlinePlayers()) {
+				if (player.canSee(viewee)) {
+					player.hidePlayer(viewee);
+					player.showPlayer(viewee);
+				}
+			}
+		}
 		
 		// Set time
 		map.getWorld().setTime(0);

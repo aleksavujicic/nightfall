@@ -32,7 +32,7 @@ abstract class AbstractItem extends AbstractElement implements KitItemElement {
 	protected boolean damageFromItem(MonsterDamage damage) {
 		return (damage.getType() == NaturalDamageType.MELEE && isHoldingItem());
 	}
-	
+
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {return false;}
 	

@@ -98,16 +98,16 @@ sword:
        - "\"Stop bunny hopping and get to work!\" - Tui"
     modifiers:
       attack: 20
-  glaive:
-    base: glaive
-    name: Glaive
+  scepterofmagma:
+    base: runeblade
+    name: Scepter of Magma
     lore:
-     description:
-      - "Right click to do nothing"
-     flavour:
-      - "\"Finally, the hammer is getting changed!\" - Everyone"
+      description:
+        - "Blah"
+      flavour:
+        - "bleh"
     modifiers:
-      attack: 20
+      attack: 10
 
 bow:
   shortbow:
@@ -200,6 +200,14 @@ bow:
           its path. Uses 3 arrows a shot."
       flavour:
        - "\"And then the Firelords attacked.\" -Tui"
+  minigun:
+    base: crossbow
+    name: Minigun
+    lore:
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
   velbow:
     template: dwarf-hero
     base: dskin
@@ -283,6 +291,14 @@ ale:
           mana."
       flavour:
        - "\"My potions are too strong for you traveller.\" - Potion Seller"
+  glow:
+    base: jimmyjuice
+    name: Healing Glow
+    lore:
+      description:
+        - "Drk fix this."
+      flavour:
+        - "Drk fix this."
 
 consumable:
   lamp:

@@ -213,7 +213,7 @@ public abstract class AbstractMob implements Mob {
 			playSound("melee");
 			damage.setArmourShred(mobData.armourShred);
 		}
-		monster.gainXP(2, true);
+		monster.gainXP(3, true);
 	}
 	
 	@Override

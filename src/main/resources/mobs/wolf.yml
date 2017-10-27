@@ -30,7 +30,7 @@ base:
   sounds:
     growl:
       path: "entity.wolf.growl"
-      pitch: 0.5
+      pitch: 0.85
 
 hellhound:
   parent: wolf
@@ -49,4 +49,4 @@ hellhound:
   sounds:
     growl:
       path: "entity.wolf.growl"
-      pitch: 0.85
+      pitch: 0.75

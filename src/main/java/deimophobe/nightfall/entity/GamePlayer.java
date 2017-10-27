@@ -1,5 +1,6 @@
 package deimophobe.nightfall.entity;
 
+import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.DamageOccurance;
 import deimophobe.nightfall.damage.GameDamage;
@@ -56,6 +57,15 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	
 	public UUID getUniqueId() {
 		return player.getUniqueId();
+	}
+	
+	// ------ DEBUG ------
+	public boolean isDebugMode() { return Game.getGame().isDebug(player); }
+	
+	public void debugDamage(GameDamage damage) {
+		if (isDebugMode()) {
+			sendMessage(damage.toString());
+		}
 	}
 	
 	

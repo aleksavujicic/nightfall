@@ -88,7 +88,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		}
 		
 		if (sec && isAlive()) {
-			gainXP(1, true);
+			gainXP(10, true);
 		}
 		
 		usedThisTick = false;
@@ -256,7 +256,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	// ------ EXPERIENCE ------
 	private int experience = 0;
-	private static final int MAX_XP = 1000;
+	private static final int MAX_XP = 10000;
 	
 	public void forceGainXP(int amt) {
 		experience += amt;

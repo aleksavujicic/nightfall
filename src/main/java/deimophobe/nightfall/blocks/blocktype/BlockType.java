@@ -58,7 +58,9 @@ public class BlockType {
 	public static final ComparableBlock GRASS = new MaterialSet(
 			Material.DOUBLE_PLANT, Material.LONG_GRASS, Material.YELLOW_FLOWER, Material.RED_ROSE, Material.DEAD_BUSH
 	);
-	
+	public static final ComparableBlock GRASS_BLOCK = new MaterialSet(Material.GRASS, Material.MYCEL);
+	public static final CustomBlock DIRT_BLOCK = new DataBlock(Material.DIRT, (byte) 1);
+	public static final CustomBlock PODZOL_BLOCK = new DataBlock(Material.DIRT, (byte) 2);
 	
 	public static final ComparableBlock ACTIVE_SHRINE_BLOCK =
 			block -> (
