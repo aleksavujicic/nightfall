@@ -6,6 +6,10 @@ gobo-page:
   base: upgrade_gobo
   name: Upgrade Goblin
 
+reset-page:
+  base: trash
+  name: Reset Upgrades
+
 doomclock:
   base: doom_clock
   name: Reduce Doom
@@ -13,6 +17,10 @@ doomclock:
 back:
   base: leftarrow
   name: Go Back
+
+cancel:
+  base: cancel
+  name: Cancel Reset
 
 rebirth:
   material: eye_of_ender
