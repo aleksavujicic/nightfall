@@ -196,7 +196,7 @@ public class Shrine {
 		}
 		else {
 			if (dwarfNum == 0) {
-				damageShrine(maxShrinePower / 30);
+				damage += maxShrinePower / 50;
 			}
 			else {
 				recoverShrine(recovery/2);
