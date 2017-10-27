@@ -73,6 +73,19 @@ public class BlockType {
 	
 	
 	// ----- Blocksets -----
+	public static final ComparableBlock ALWAYS_BREAKABLE = new BlockSet(
+			LIGHT,
+			
+			new MaterialSet(
+					Material.TORCH,
+					
+					Material.DOUBLE_PLANT,
+					Material.LONG_GRASS,
+					Material.YELLOW_FLOWER,
+					Material.RED_ROSE
+			)
+	);
+	
 	public static final ComparableBlock UNTIMEABLE_BLOCKS = new BlockSet(
 			PISTON_BASE,
 			CRACKED_GOLD_1,
