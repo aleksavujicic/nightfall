@@ -51,7 +51,6 @@ commands:
 
   trash:
     description: For deleting your duplicate items.
-    aliases: fawn
   chest:
     description: For sharing resources with your fellow dwarves.
   compass:
@@ -108,21 +107,16 @@ commands:
     description: Manage the map loading system.
     usage: /map [enable|disable|reload|list|clear|next] | /map [queue|play|load] <map>
   debug:
-    description: Enable debug mode! Why wasn't this a thing earlier.
+    description: Enable debug mode.
     usage: /debug
 
   fixplayers:
     usage: /fixplayers
     description: Might help show players if some are invisible.
 
-
-# kills:
-#   description: Only for toxic people.
-#   usage: /kills
-
   shrine:
     description: Damage or recover shrine power.
-    usage: /shrine kill | /shrine [damage|recover] <percent (0-100)>
+    usage: /shrine kill | /shrine [damage|recover] <amount (0-1000)>
 
   gold:
     description: Add (or remove) gold based on input number.

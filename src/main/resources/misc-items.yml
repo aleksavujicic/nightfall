@@ -4,20 +4,17 @@ seppuku:
   name: Seppuku
   lore:
     description:
-     - "u die"
-    flavour:
-     - "What a failure of a monster \n
-        you have become."
+     - "Use this to respawn."
 
 lightning-seppuku:
   template: monster-hero
   base: lightning-seppuku
-  name: Insta Seppuku
+  name: Instant Seppuku
   lore:
     description:
-     - "u die"
+     - "Use this to join doom."
     flavour:
-     - "Temp"
+     - "Drums and lightning come before doom."
   shiny: true
 
 ai-sword:
