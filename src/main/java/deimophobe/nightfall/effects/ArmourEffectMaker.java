@@ -1,24 +1,18 @@
 package deimophobe.nightfall.effects;
 
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.entity.GamePlayer;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Created by Deimophobe on 10/03/17.
  */
-class ArmourEffectMaker implements EffectMaker {
-	
+class ArmourEffectMaker implements PlayerEffectMaker {
 	@Override
-	public void playEffect(final Location location) {
-		throw new UnsupportedOperationException("Armour effect can only be applied on a player!");
-	}
-	
-	@Override
-	public void playEffect(Player player) {
+	public void playEffect(GamePlayer player) {
 		World world = player.getLocation().getWorld();
 		
 		// PLAY SOUNDS!

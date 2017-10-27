@@ -88,7 +88,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		}
 		
 		if (sec && isAlive()) {
-			gainXP(10, true);
+			gainXP(10);
+		}
+		if (quartSec && isAlive() && isInShrine()) {
+			gainXP(2);
 		}
 		
 		usedThisTick = false;
@@ -131,22 +134,11 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	private void killMob(boolean silent) {
 		if (mob == null) return;
 		
-		mob.onDeath();
+		mob.onDeath(silent);
 		
-		Disguise disguise = DisguiseAPI.getDisguise(player);
-		if (disguise != null && !silent) {
-			EntityType entityType = disguise.getType().getEntityType();
-			if (entityType.isAlive() && entityType != EntityType.PLAYER) {
-				LivingEntity dyingEntity = (LivingEntity) player.getWorld().spawnEntity(player.getLocation(), entityType);
-				dyingEntity.teleport(dyingEntity);
-				dyingEntity.setVelocity(dyingEntity.getVelocity());
-				dyingEntity.setCustomName(disguise.getWatcher().getCustomName());
-				dyingEntity.getEquipment().setArmorContents(player.getInventory().getArmorContents());
-				dyingEntity.getEquipment().setItemInMainHand(getHeldItem());
-				dyingEntity.damage(10000);
-			}
-		}
-		DisguiseAPI.undisguiseToAll(player);
+		new BukkitRunnable() {
+			@Override public void run() { DisguiseAPI.undisguiseToAll(player); }
+		}.runTaskLater(NightfallPlugin.getPlugin(), 1);
 		
 		mob = null;
 	}
@@ -264,9 +256,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		updateXPDisplay();
 	}
 	
-	public void gainXP(int amt, boolean affectedByShrine) {
-		if (affectedByShrine && isInShrine())
-			amt *= 2;
+	public void gainXP(int amt) {
 		experience = Math.min(Math.max(experience, MAX_XP), experience + amt);
 		updateXPDisplay();
 	}

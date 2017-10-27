@@ -9,6 +9,7 @@ import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.InvalidMapConfigException;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -49,7 +50,12 @@ public class NroMap implements MapFeature {
 				
 				for (Player player : Bukkit.getOnlinePlayers()) {
 					if (isLobbyPlayerUnderwater(player)) {
-						Game.getGame().resetPlayer(player);
+						Block below = player.getLocation().subtract(0,1,0).getBlock();
+						Block above = player.getLocation().add(0,1,0).getBlock();
+						if (below.isLiquid() || above.isLiquid()) {
+							player.sendTitle("", ChatColor.AQUA +"Now is not the time for a swim!", 5, 80, 20);
+							Game.getGame().resetPlayer(player);
+						}
 					}
 				}
 			}

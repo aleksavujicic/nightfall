@@ -65,7 +65,7 @@ class CraftingConsumable extends Consumable {
 		
 		private boolean tryUseOn(Material material, Dwarf dwarf) {
 			if (material == required) {
-				dwarf.giveConsumable(newConsumable, count);
+				dwarf.giveConsumable(newConsumable, count, true);
 				
 				//TODO fix hack
 				if (material == Material.SPONGE)

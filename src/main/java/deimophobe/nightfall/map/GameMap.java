@@ -179,6 +179,9 @@ public class GameMap {
 	public boolean isBlockBreakable(Block block) {
 		if (block == null) return false;
 		
+		if (BlockType.ALWAYS_BREAKABLE.matchesBlock(block))
+			return true;
+		
 		if (BlockType.UNBREAKABLE_BLOCKS.matchesBlock(block))
 			return false;
 		
@@ -192,6 +195,9 @@ public class GameMap {
 	
 	public boolean isBlockPlaceable(Block block) {
 		if (block == null) return false;
+		
+		if (BlockType.ALWAYS_BREAKABLE.matchesBlock(block))
+			return true;
 		
 		if (BlockType.UNPLACEABLE_BLOCKS.matchesBlock(block))
 			return false;

@@ -20,10 +20,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.Collection;
-import java.util.ListIterator;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Predicate;
 
 /**
@@ -145,20 +142,23 @@ public abstract class GamePlayer implements GameEntity<Player> {
 			held.setAmount(held.getAmount() - 1);
 	}
 	
-	public void giveItem(ItemStack item, int quantity) {
+	public void giveItem(ItemStack item, int quantity, boolean dropRemaining) {
 		if (item == null) return;
 		ItemStack copy = item.clone();
 		copy.setAmount(quantity);
-		player.getInventory().addItem(copy);
+		HashMap<Integer, ItemStack> remaining = player.getInventory().addItem(copy);
+		if (dropRemaining) {
+			player.getWorld().dropItemNaturally(player.getLocation(), remaining.get(0));
+		}
 	}
-	public void giveItem(ItemStack item) {giveItem(item,1);}
+	public void giveItem(ItemStack item) {giveItem(item,1, false);}
 	
 	public void giveItem(CustomItem item) {
 		giveItem(item.createItemStack());
 	}
 	
 	public void giveItem(CustomItem item, int quantity) {
-		giveItem(item.createItemStack(), quantity);
+		giveItem(item.createItemStack(), quantity, false);
 	}
 	
 	public void clearInventory() {

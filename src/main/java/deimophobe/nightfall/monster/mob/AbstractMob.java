@@ -20,9 +20,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
@@ -141,6 +139,22 @@ public abstract class AbstractMob implements Mob {
 		return DisguiseAPI.getDisguise(monster.getPlayer());
 	}
 	
+	protected void showFakeDeadMob() {
+		Disguise disguise = getDisguise();
+		if (disguise != null) {
+			EntityType entityType = disguise.getType().getEntityType();
+			Player player = monster.getPlayer();
+			if (entityType.isAlive() && entityType != EntityType.PLAYER) {
+				LivingEntity dyingEntity = (LivingEntity) player.getWorld().spawnEntity(player.getLocation(), entityType);
+				dyingEntity.teleport(dyingEntity);
+				dyingEntity.setVelocity(dyingEntity.getVelocity());
+				dyingEntity.setCustomName(disguise.getWatcher().getCustomName());
+				dyingEntity.getEquipment().setArmorContents(player.getInventory().getArmorContents());
+				dyingEntity.getEquipment().setItemInMainHand(monster.getHeldItem());
+				dyingEntity.damage(10000);
+			}
+		}
+	}
 	
 	// ~~~~ ITEMS ~~~~~
 	protected void setupItems() {
@@ -213,7 +227,7 @@ public abstract class AbstractMob implements Mob {
 			playSound("melee");
 			damage.setArmourShred(mobData.armourShred);
 		}
-		monster.gainXP(3, true);
+		monster.gainXP(3);
 	}
 	
 	@Override
@@ -238,7 +252,7 @@ public abstract class AbstractMob implements Mob {
 	@Override
 	public void onBlockBreak(Block block, boolean didBreak) {
 		if (block.getType() == Material.TORCH && didBreak)
-			monster.gainXP(mobData.torchXP, false);
+			monster.gainXP(mobData.torchXP);
 	}
 	
 	
@@ -259,13 +273,16 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	@Override
-	public void onDeath() {
+	public void onDeath(boolean silent) {
 		playSound("death");
+		
+		if (!silent)
+			showFakeDeadMob();
 		
 		if (hasPlayerDisguise())
 			removePlayerDisguise();
 		
-		if (mobData.forceTitle)
+		if (!silent && mobData.forceTitle)
 			Bukkit.broadcastMessage(monster.getDeathMessage());
 	}
 }
