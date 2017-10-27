@@ -50,7 +50,7 @@ public class DwarvenArmour implements Armour {
 		if (!armoured) {
 			armoured = true;
 			setMap.get(currentLevel).equip(dwarf);
-			GameEffect.playEffect(GameEffect.DWARF_ARMOURED, dwarf.getPlayer());
+			GameEffect.DWARF_ARMOURED.playEffect(dwarf);
 			dwarf.onArmourEquip();
 		} else {
 			Bukkit.getLogger().severe("Tried to equip armour on dwarf which is already equipped!\nDwarf: " + dwarf.getName());

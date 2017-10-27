@@ -18,6 +18,7 @@ import deimophobe.nightfall.dwarf.kit.Kit;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.dwarf.loadout.DwarfData;
+import deimophobe.nightfall.effects.GameEffect;
 import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.entity.DwarfEntity;
 import deimophobe.nightfall.entity.GameEntity;
@@ -531,7 +532,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 				
 				case GOLD_ORE:
 					GameMap.getCurrentMap().mineGold();
-					Sounds.DWARF_MINE_GOLD.playSound(this);
+					GameEffect.SMALL_GOLD_MINE.playEffect(this, block);
 					break;
 				
 				case DIAMOND_ORE:

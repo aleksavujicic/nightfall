@@ -7,4 +7,5 @@ public class GameEffect {
 	public static final PlayerEffectMaker DWARF_ARMOURED = new ArmourEffectMaker();
 	public static final LocationEffectMaker DWARF_ARMOUR_CLOUD = new ArmourCloudMaker();
 	
+	public static final PlayerBlockEffectMaker SMALL_GOLD_MINE = new SmallGoldMineMaker();
 }
