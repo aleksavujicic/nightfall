@@ -267,8 +267,12 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		player.openInventory(DwarfManager.getManager().getSharedChest());
 	}
 	
+	public void giveConsumable(ConsumableType type, int quantity, boolean dropRemaining) {
+		giveItem(type.getItemStack(), quantity, dropRemaining);
+	}
+	
 	public void giveConsumable(ConsumableType type, int quantity) {
-		giveItem(type.getItemStack(), quantity);
+		giveConsumable(type, quantity, false);
 	}
 	
 	public void giveConsumable(ConsumableType type) {
@@ -523,9 +527,9 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			switch (block.getType()) {
 				case GRAVEL:
 					if (Game.getGame().getPhase() == Phase.BUILD)
-						giveConsumable(ConsumableType.COBBLESTONE, 4);
+						giveConsumable(ConsumableType.COBBLESTONE, 4, true);
 					else
-						giveConsumable(ConsumableType.COBBLESTONE, 2);
+						giveConsumable(ConsumableType.COBBLESTONE, 2, true);
 					playSound("block.anvil.place", 0.2f, 0.8f, true);
 					playSound("block.anvil.break", 1f, 0.8f, true);
 					break;
