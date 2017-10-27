@@ -249,9 +249,9 @@ public class Shrine {
 			monster.givePotionEffect(PotionEffectType.CONFUSION, 180, 1, true, false, true);
 		}
 		for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
-			monster.forceGainXP(200);
+			monster.forceGainXP(1000);
 		}
-		MonsterManager.getManager().giveFutureXP(200);
+		MonsterManager.getManager().giveFutureXP(1000);
 		
 		map.changeShrine();
 	}

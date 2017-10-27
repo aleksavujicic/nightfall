@@ -34,7 +34,7 @@ public class ZombieFury extends Zombie {
     private final ComplexCooldown furySound;
 
     private static Integer[] shredValues = {0, 6, 12, 18, 24, 30};
-    private static Integer[] arrowResValues = {0, 20, 40, 50};
+    private static Integer[] arrowResValues = {0, 10, 20, 30, 40, 50};
     private static Integer[] rebirthValues = {0, 20, 40, 60, 80, 100};
 
     protected ZombieFury(MonsterPlayer mons) {
