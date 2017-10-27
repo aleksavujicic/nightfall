@@ -42,6 +42,9 @@ commands:
   givearrow:
     usage: /givearrow [amount]
     description: Give arrows if you are a dwarf.
+  mana:
+    usage: /mana [amount]
+    description: Give mana if you are a dwarf.
   hat:
     usage: /hat
     description: Lets kuude wear a fancy hat.
