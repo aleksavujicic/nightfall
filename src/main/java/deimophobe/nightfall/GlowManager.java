@@ -8,6 +8,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 import deimophobe.nightfall.entity.GamePlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -44,7 +45,8 @@ public class GlowManager {
 					if (visEntity != null && visEntity.getEntityId() != id) continue;
 					
 					// If found match, alter packet appropriately
-					List<WrappedWatchableObject> objects = packet.getWatchableCollectionModifier().read(0);
+					PacketContainer newPacket = packet.deepClone();
+					List<WrappedWatchableObject> objects = newPacket.getWatchableCollectionModifier().read(0);
 					for (WrappedWatchableObject object : objects) {
 						// Setting a bit to make glow
 						if (object.getIndex() != 0) continue;
@@ -52,6 +54,10 @@ public class GlowManager {
 						byte b = (byte) object.getValue();
 						b = (byte) (b | 0b01000000);
 						object.setValue(b);
+						Bukkit.broadcastMessage("Set glow value for: " + event.getPlayer().getDisplayName());
+						Bukkit.broadcastMessage("Packet: " +newPacket.toString());
+						event.setReadOnly(false);
+						event.setPacket(newPacket);
 					}
 					return;
 				}
