@@ -37,7 +37,20 @@ public class MapNurah implements MapFeature {
 				double dz = 400*Math.random() - 200;
 				double dy = 100*Math.random() - 60;
 				
-				particlePop(center.clone().add(dx,dy,dz));
+				particlePop(center.clone().add(dx,dy,dz), true);
+			}
+		}.runTaskTimer(NightfallPlugin.getPlugin(), 1,10);
+		
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				for (int i=0; i<20; i++) {
+					double dx = 400 * Math.random() - 200;
+					double dz = 400 * Math.random() - 200;
+					double dy = 100 * Math.random() - 60;
+					
+					particlePop(center.clone().add(dx, dy, dz), false);
+				}
 			}
 		}.runTaskTimer(NightfallPlugin.getPlugin(), 1,1);
 	}
@@ -48,10 +61,14 @@ public class MapNurah implements MapFeature {
 	}
 	
 	
-	private void particlePop(Location loc) {
-		World world = loc.getWorld();
-		world.spawnParticle(Particle.LAVA, loc, 10, 0, 0, 0, 0.3);
-		world.playSound(loc, "block.lava.pop", 1f, 1f);
+	private void particlePop(Location loc, boolean force) {
+		Material type = loc.getBlock().getRelative(0,-1,0).getType();
+		if (force || type.isSolid()) {
+			World world = loc.getWorld();
+			world.spawnParticle(Particle.LAVA, loc, 10, 0, 0, 0, 0.3);
+			world.playSound(loc, "block.lava.pop", 1f, 1f);
+			world.playSound(loc, "block.lava.ambient", 1f, 1f);
+		}
 	}
 	
 	
