@@ -116,6 +116,16 @@ sword:
         - "Right click to do nothing."
       flavour:
         - "\"Finally the hammer is getting changed!\" - Everyone"
+  rapier:
+    base: rapier
+    name: Rapier
+    lore:
+      description:
+        - "Hit things lots."
+      flavour:
+        - "Don't ask me to write quotes."
+    modifiers:
+      attack: 15
 
 bow:
   shortbow:

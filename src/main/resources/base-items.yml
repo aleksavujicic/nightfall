@@ -4,6 +4,7 @@ shears:
   malice: 1
   dagger: 2
   tigerfist: 3
+  rapier: 4
   crossbow: 25
   glaive: 26
   trinket: 30
