@@ -11,7 +11,7 @@ import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.items.CustomItem;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -71,22 +71,22 @@ class Tombmaker extends AbstractCooldownItem {
 		private static double MAX_WEIGHT;
 		private static final Set<ScavengeItem> ITEMS = new HashSet<>();
 		static {
-			new ScavengeItem(ConsumableType.SLAB, 1, 5);
-			new ScavengeItem(ConsumableType.SLAB, 2, 3);
-			new ScavengeItem(ConsumableType.SLAB, 3, 1);
-			new ScavengeItem(ConsumableType.HEAL_STATION, 2, 5);
-			new ScavengeItem(ConsumableType.HEAL_STATION, 4, 2);
-			new ScavengeItem(ConsumableType.HEAL_STATION, 8, 1);
-			new ScavengeItem(ConsumableType.LAMP, 5, 5);
-			new ScavengeItem(ConsumableType.LAMP, 10, 2);
-			new ScavengeItem(ConsumableType.LAMP, 15, 1);
-			new ScavengeItem(ConsumableType.SOS, 1, 1.5);
-			new ScavengeItem(ConsumableType.SOS, 2, 0.5);
-			new ScavengeItem(ConsumableType.WRENCH, 1, 2);
-			new ScavengeItem(ConsumableType.WRENCH, 2, 0.5);
-			new ScavengeItem(ConsumableType.WIZARD_MORTAR, 16, 5);
-			new ScavengeItem(ConsumableType.WIZARD_MORTAR, 32, 2);
-			new ScavengeItem(ConsumableType.WIZARD_MORTAR, 48, 1);
+			new ScavengeItem(ConsumableType.SLAB, 1, 5, "slab");
+			new ScavengeItem(ConsumableType.SLAB, 2, 3, "slabs");
+			new ScavengeItem(ConsumableType.SLAB, 3, 1, "slabs");
+			new ScavengeItem(ConsumableType.HEAL_STATION, 2, 5, "healing stations");
+			new ScavengeItem(ConsumableType.HEAL_STATION, 4, 2, "healing stations");
+			new ScavengeItem(ConsumableType.HEAL_STATION, 8, 1, "healing stations");
+			new ScavengeItem(ConsumableType.LAMP, 5, 5, "lamps");
+			new ScavengeItem(ConsumableType.LAMP, 10, 2, "lamps");
+			new ScavengeItem(ConsumableType.LAMP, 15, 1, "lamps");
+			new ScavengeItem(ConsumableType.SOS, 1, 1.5, "sos");
+			new ScavengeItem(ConsumableType.SOS, 2, 0.5, "sos");
+			new ScavengeItem(ConsumableType.WRENCH, 1, 2, "wrench");
+			new ScavengeItem(ConsumableType.WRENCH, 2, 0.5, "wrenches");
+			new ScavengeItem(ConsumableType.WIZARD_MORTAR, 16, 5, "wizard mortar");
+			new ScavengeItem(ConsumableType.WIZARD_MORTAR, 32, 2, "wizard mortar");
+			new ScavengeItem(ConsumableType.WIZARD_MORTAR, 48, 1, "wizard mortar");
 			
 			for (ScavengeItem item : ITEMS)
 				item.computeAdjWeight();
@@ -95,14 +95,16 @@ class Tombmaker extends AbstractCooldownItem {
 		private final ConsumableType type;
 		private final int amt;
 		private final double rawWeight;
+		private final String displayName;
 		private double adjustedWeight;
 		
-		private ScavengeItem(ConsumableType type, int amt, double rawWeight) {
+		private ScavengeItem(ConsumableType type, int amt, double rawWeight, String displayName) {
 			this.type = type;
 			this.amt = amt;
 			this.rawWeight = rawWeight;
 			
 			MAX_WEIGHT += rawWeight;
+			this.displayName = displayName;
 			ITEMS.add(this);
 		}
 		
@@ -112,6 +114,27 @@ class Tombmaker extends AbstractCooldownItem {
 		
 		private void giveToDwarf(Dwarf dwarf) {
 			dwarf.giveConsumable(type, amt);
+			
+			// SHOW PARTICLES!
+			Location bodyCentre = dwarf.getEyeLocation().add(0, -0.5, 0);
+			World world = dwarf.getWorld();
+			for (int i=0; i<10; i++) {
+				for (int j=0; j<5; j++) {
+					double velocity = 0.2;
+					double theta = 2*Math.PI*i/8;
+					double phi = Math.PI*j/4;
+					
+					double vx = velocity*Math.sin(theta)*Math.cos(phi);
+					double vy = velocity*Math.sin(theta)*Math.sin(phi);
+					double vz = velocity*Math.cos(theta);
+					world.spawnParticle(Particle.FIREWORKS_SPARK, bodyCentre, 0, vx, vy, vz, 1);
+				}
+			}
+			
+			Bukkit.broadcastMessage(dwarf.getDisplayName() + ChatColor.YELLOW + " has found " +
+					ChatColor.GREEN + amt + " " + displayName + ChatColor.YELLOW + "!");
+			
+			dwarf.playSound("entity.player.levelup", 2f, 0.6f, true);
 		}
 		
 		private static ScavengeItem getRandom() {
