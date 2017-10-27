@@ -53,6 +53,15 @@ public class MapNurah implements MapFeature {
 				}
 			}
 		}.runTaskTimer(NightfallPlugin.getPlugin(), 1,1);
+		
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				if (Math.random() <= 0.1) {
+					center.getWorld().playSound(center, "block.lava.ambient", 1000f, 1f);
+				}
+			}
+		}.runTaskTimer(NightfallPlugin.getPlugin(), 1,15*20);
 	}
 	
 	@Override
@@ -67,7 +76,6 @@ public class MapNurah implements MapFeature {
 			World world = loc.getWorld();
 			world.spawnParticle(Particle.LAVA, loc, 10, 0, 0, 0, 0.3);
 			world.playSound(loc, "block.lava.pop", 1f, 1f);
-			world.playSound(loc, "block.lava.ambient", 1f, 1f);
 		}
 	}
 	
