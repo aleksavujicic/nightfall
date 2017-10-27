@@ -248,6 +248,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	// ------ EXPERIENCE ------
 	private int experience = 0;
+	private int amountSpent = 0;
 	private static final int MAX_XP = 10000;
 	
 	public void forceGainXP(int amt) {
@@ -265,6 +266,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			return false;
 		} else {
 			experience -= xpCost;
+			amountSpent += xpCost;
 			updateXPDisplay();
 			return true;
 		}
@@ -273,7 +275,15 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	public int getXP() {
 		return experience;
 	}
-	
+
+	public int getSpent() {
+		return amountSpent;
+	}
+
+	public void resetSpent() {
+		amountSpent = 0;
+	}
+
 	private void updateXPDisplay() {
 		player.setLevel(experience);
 		Game.getGame().setMana(player, experience);
@@ -284,7 +294,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	
 	// ------ SPAWN/UPGRADE MENUS ------
-	private final Map<MobType, Map<String, Integer>> upgrades = new HashMap<>();
+	private Map<MobType, Map<String, Integer>> upgrades = new HashMap<>();
 	
 	public Map<String, Integer> getUpgrades(MobType type) {
 		if (!upgrades.containsKey(type)) {
@@ -298,7 +308,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		}
 		return upgrades.get(type);
 	}
-	
+
+	public void clearUpgrades() {
+		upgrades = new HashMap<>();
+	}
 	
 	// ------ DAMAGE ------
 	@Override

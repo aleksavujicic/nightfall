@@ -22,6 +22,7 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 	
 	private static final int SIZE = 27;
 	private final SimpleMenu<MonsterPlayer> frontMenu;
+	private final SimpleMenu<MonsterPlayer> resetMenu;
 	private final Map<MobType, Set<String>> upgradeSets;
 
 	@Override public String getTitle() { return "Monster Menu"; }
@@ -39,8 +40,17 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		MenuItem<MonsterPlayer> zombiePage = new IndexedPageChanger<>(getConfigItem("zombie-page"), this, PageType.ZOMBIE_UPGRADE);
 		MenuItem<MonsterPlayer> goboPage = new IndexedPageChanger<>(getConfigItem("gobo-page"), this, PageType.GOBO_UPGRADE);
 		MenuItem<MonsterPlayer> rebirthItem = new RebirthItem(getConfigItem("rebirth"));
+		MenuItem<MonsterPlayer> resetItem = new ResetItem(getConfigItem("reset-page"));
 		//MenuItem<MonsterPlayer> doomItem = new DoomClockItem(getConfigItem("doomclock"), 250, 15);
-		
+
+		// Setup reset menu
+		resetMenu = new SimpleMenu<>(SIZE);
+		MenuItem<MonsterPlayer> resetPage = new IndexedPageChanger<>(getConfigItem("reset-page"), this, PageType.RESETXP);
+		MenuItem<MonsterPlayer> cancelItem = new IndexedPageChanger<>(getConfigItem("cancel"), this, PageType.MAIN);
+		setPage(PageType.RESETXP, resetMenu);
+		resetMenu.setItem(11, resetItem);
+		resetMenu.setItem(15, cancelItem);
+
 		// Add items to front menu
 		addSpawnEgg(0, "zombie");
 		addSpawnEgg(2, "gobo");
@@ -53,7 +63,7 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		addSpawnEgg(24, "minotaur");
 		addSpawnEgg(25, "wraith");
 		
-		//frontMenu.setItem(8, doomItem);
+		frontMenu.setItem(8, resetPage);
 		frontMenu.setItem(9, zombiePage);
 		frontMenu.setItem(11, goboPage);
 		frontMenu.setItem(18, rebirthItem);
@@ -103,7 +113,8 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		MAIN,
 		ZOMBIE_UPGRADE("zombie-upgrades.yml", MobType.ZOMBIE),
 
-		GOBO_UPGRADE("gobo-upgrades.yml", MobType.GOBO);
+		GOBO_UPGRADE("gobo-upgrades.yml", MobType.GOBO),
+		RESETXP;
 
 		private final String filename;
 		private final MobType type;
