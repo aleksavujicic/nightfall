@@ -74,19 +74,19 @@ class Tombmaker extends AbstractCooldownItem {
 			new ScavengeItem(ConsumableType.SLAB, 1, 5);
 			new ScavengeItem(ConsumableType.SLAB, 2, 3);
 			new ScavengeItem(ConsumableType.SLAB, 3, 1);
-			new ScavengeItem(ConsumableType.HEAL_STATION, 1, 8);
 			new ScavengeItem(ConsumableType.HEAL_STATION, 2, 5);
 			new ScavengeItem(ConsumableType.HEAL_STATION, 4, 2);
-			new ScavengeItem(ConsumableType.LAMP, 2, 10);
-			new ScavengeItem(ConsumableType.LAMP, 6, 5);
-			new ScavengeItem(ConsumableType.LAMP, 12, 2);
+			new ScavengeItem(ConsumableType.HEAL_STATION, 8, 1);
+			new ScavengeItem(ConsumableType.LAMP, 5, 5);
+			new ScavengeItem(ConsumableType.LAMP, 10, 2);
+			new ScavengeItem(ConsumableType.LAMP, 15, 1);
 			new ScavengeItem(ConsumableType.SOS, 1, 1.5);
 			new ScavengeItem(ConsumableType.SOS, 2, 0.5);
 			new ScavengeItem(ConsumableType.WRENCH, 1, 2);
 			new ScavengeItem(ConsumableType.WRENCH, 2, 0.5);
-			new ScavengeItem(ConsumableType.WIZARD_MORTAR, 8, 10);
 			new ScavengeItem(ConsumableType.WIZARD_MORTAR, 16, 5);
 			new ScavengeItem(ConsumableType.WIZARD_MORTAR, 32, 2);
+			new ScavengeItem(ConsumableType.WIZARD_MORTAR, 48, 1);
 			
 			for (ScavengeItem item : ITEMS)
 				item.computeAdjWeight();
