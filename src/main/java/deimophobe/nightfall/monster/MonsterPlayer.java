@@ -88,7 +88,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		}
 		
 		if (sec && isAlive()) {
-			gainXP(10, true);
+			gainXP(10);
+		}
+		if (quartSec && isAlive() && isInShrine()) {
+			gainXP(2);
 		}
 		
 		usedThisTick = false;
@@ -252,9 +255,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		updateXPDisplay();
 	}
 	
-	public void gainXP(int amt, boolean affectedByShrine) {
-		if (affectedByShrine && isInShrine())
-			amt *= 2;
+	public void gainXP(int amt) {
 		experience = Math.min(Math.max(experience, MAX_XP), experience + amt);
 		updateXPDisplay();
 	}

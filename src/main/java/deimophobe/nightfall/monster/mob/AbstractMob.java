@@ -227,7 +227,7 @@ public abstract class AbstractMob implements Mob {
 			playSound("melee");
 			damage.setArmourShred(mobData.armourShred);
 		}
-		monster.gainXP(3, true);
+		monster.gainXP(3);
 	}
 	
 	@Override
@@ -252,7 +252,7 @@ public abstract class AbstractMob implements Mob {
 	@Override
 	public void onBlockBreak(Block block, boolean didBreak) {
 		if (block.getType() == Material.TORCH && didBreak)
-			monster.gainXP(mobData.torchXP, false);
+			monster.gainXP(mobData.torchXP);
 	}
 	
 	

@@ -40,7 +40,7 @@ public class PlaguedZombie extends AbstractMob {
 			if (plagued) {
 				monster.sendMessage(ChatColor.GREEN + "You have spread the " + ChatColor.LIGHT_PURPLE + ChatColor.ITALIC + "plague" +
 						ChatColor.GREEN + " to " + dwarf.getDisplayName() + ChatColor.GREEN + "!");
-				monster.gainXP(100, false);
+				monster.gainXP(100);
 			}
 		}
 	}
