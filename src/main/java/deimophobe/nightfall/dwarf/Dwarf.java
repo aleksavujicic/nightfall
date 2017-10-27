@@ -532,7 +532,11 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 				
 				case GOLD_ORE:
 					GameMap.getCurrentMap().mineGold();
-					GameEffect.SMALL_GOLD_MINE.playEffect(this, block);
+					if (Math.random() <= 0.0002) {
+						GameEffect.LARGE_GOLD_MINE.playEffect(this, block);
+					} else {
+						GameEffect.SMALL_GOLD_MINE.playEffect(this, block);
+					}
 					break;
 				
 				case DIAMOND_ORE:
