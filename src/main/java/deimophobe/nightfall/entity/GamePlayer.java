@@ -153,7 +153,9 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		copy.setAmount(quantity);
 		HashMap<Integer, ItemStack> remaining = player.getInventory().addItem(copy);
 		if (dropRemaining) {
-			player.getWorld().dropItemNaturally(player.getLocation(), remaining.get(0));
+			ItemStack drop = remaining.get(0);
+			if (drop != null)
+				player.getWorld().dropItemNaturally(player.getLocation(), drop);
 		}
 	}
 	public void giveItem(ItemStack item) {giveItem(item,1, false);}

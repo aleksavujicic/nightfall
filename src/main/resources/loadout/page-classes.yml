@@ -201,7 +201,7 @@ gnome-class:
 
 paladin-class:
   enabled: false
-  index: 3
+  index: 9
   cost: 64
   category: kit
   type: multi
@@ -243,7 +243,7 @@ paladin-class:
 
 cleric-class:
   enabled: false
-  index: 4
+  index: 10
   cost: 64
   category: kit
   type: multi
@@ -284,7 +284,7 @@ cleric-class:
 
 hunter-class:
   enabled: false
-  index: 5
+  index: 11
   cost: 64
   category: kit
   type: multi

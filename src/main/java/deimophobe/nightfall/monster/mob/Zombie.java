@@ -61,6 +61,7 @@ public class Zombie extends AbstractMob {
 
 	@Override
 	public void onDeath(boolean silent) {
+		super.onDeath(silent);
 		boolean setRebirth = (Math.random() < rebirthChance - (monster.getRebirthCount() * 0.3));
 		if (setRebirth) {
 			monster.setRebirthSpot(monster.getLocation());

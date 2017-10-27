@@ -32,7 +32,11 @@ public class CustomItem implements Cloneable {
 	private final SortedMap<ItemModifierType, Set<ItemModifier>> modifiers;
 	
 	private final boolean bound;
-	private final boolean shiny;
+	private boolean shiny;
+	
+	public void setShiny(boolean shiny) {
+		this.shiny = shiny;
+	}
 	
 	public CustomItem(BaseItem base, Lore lore, SortedMap<ItemModifierType, Set<ItemModifier>> modifiers, Slot slot, boolean bound, boolean shiny) {
 		this.slot = slot;

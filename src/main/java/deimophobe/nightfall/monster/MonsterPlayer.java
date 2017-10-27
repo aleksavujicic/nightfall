@@ -120,13 +120,15 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			player.playSound(player.getLocation(), "proc", 1f, 0.7f);
 		}
 		
-		killMob(silent);
-		cancelFreeze();
 		
-		setTitle(ChatColor.GRAY, null, false);
+		cancelFreeze();
 		
 		player.setAllowFlight(true);
 		player.setGameMode(GameMode.SPECTATOR);
+		
+		killMob(silent);
+		
+		setTitle(ChatColor.GRAY, null, false);
 		clearInventory();
 		clearEffects();
 	}
