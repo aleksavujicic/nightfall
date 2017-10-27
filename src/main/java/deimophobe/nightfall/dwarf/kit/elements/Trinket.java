@@ -21,7 +21,7 @@ class Trinket extends AbstractAle {
 	public void heal() {
 		dwarf.givePotionEffect(PotionEffectType.ABSORPTION, 720000, 10 ,true, true, true);
 		dwarf.givePotionEffect(PotionEffectType.REGENERATION, 720000, 4 ,true, true, true);
-		dwarf.playSound("entity.evocation_illager.cast_spell", 1f, 1.5f, false);
+		dwarf.playSound("block.enchantment_table.use", 1f, 1.1f, true);
 		dwarf.playSound("entity.experience_orb.pickup", 1f, 1f, false);
 	}
 }

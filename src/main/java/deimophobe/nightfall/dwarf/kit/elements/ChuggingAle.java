@@ -2,6 +2,7 @@ package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.items.CustomItem;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 5/10/17.
@@ -20,5 +21,6 @@ class ChuggingAle extends AbstractAle {
 	public void heal() {
 		dwarf.heal(12);
 		playDefaultHealSound();
+		dwarf.givePotionEffect(PotionEffectType.SLOW, 50, -2, true, false, true);
 	}
 }

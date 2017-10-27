@@ -393,6 +393,16 @@ public class Game {
 		dwarfManager.onGameStart();
 		updateDwarfCount();
 		
+		// Fix players
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			for (Player viewee : Bukkit.getOnlinePlayers()) {
+				if (player.canSee(viewee)) {
+					player.hidePlayer(viewee);
+					player.showPlayer(viewee);
+				}
+			}
+		}
+		
 		// Set time
 		map.getWorld().setTime(0);
 		

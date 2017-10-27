@@ -9,6 +9,7 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -25,10 +26,12 @@ public class HealBlock extends TimedBlock {
 		super(block, Material.PURPUR_BLOCK, lifeTime, placer);
 	}
 	
-	private int hitsLeft = 20;
+	private int hitsLeft = 8;
 	private BukkitRunnable updater;
 	private static final double RANGE = 6;
-	private static final double HEAL_AMT = 5;
+	private static final double HEAL_AMT = 6;
+	private static final int MANA_HEAL = 5;
+	private static final int ARMOUR_HEAL = 5;
 	@Override
 	void onPlace() {
 		updater = new BukkitRunnable() {
@@ -38,6 +41,8 @@ public class HealBlock extends TimedBlock {
 				for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
 					if (position.distance(dwarf.getLocation()) <= RANGE) {
 						dwarf.heal(HEAL_AMT);
+						dwarf.regenMana(MANA_HEAL);
+						dwarf.getArmour().repair(ARMOUR_HEAL);
 					}
 				}
 				position.getWorld().spawnParticle(Particle.HEART, position.add(0.5, 1.5, 0.5), 5, 0.2, 0.3, 0.2);
@@ -57,6 +62,10 @@ public class HealBlock extends TimedBlock {
 			hitsLeft--;
 			if (hitsLeft == 0)
 				cancel();
+			
+			World world = block.getWorld();
+			world.playSound(block.getLocation(), "block.note.harp", 0.5f, 2f - hitsLeft*0.05f);
+			world.playSound(block.getLocation(), "block.anvil.break", 1f, 1f);
 		}
 	}
 }
