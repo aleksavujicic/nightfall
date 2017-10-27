@@ -11,6 +11,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
@@ -54,6 +55,10 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	
 	public UUID getUniqueId() {
 		return player.getUniqueId();
+	}
+	
+	public Entity getVisibleEntity() {
+		return player;
 	}
 	
 	// ------ DEBUG ------

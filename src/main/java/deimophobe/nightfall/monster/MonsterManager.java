@@ -10,6 +10,7 @@ import deimophobe.nightfall.monster.mob.MobType;
 import deimophobe.nightfall.monster.spawnmenu.SpawnEggMenuItem;
 import deimophobe.nightfall.monster.spawnmenu.SpawnMenu;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
@@ -80,6 +81,11 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	}
 	
 	
+	public MonsterPlayer getNearestAlive(Location location) {
+		return getNearest(location, MonsterPlayer::isAlive);
+	}
+	
+	
 	public void giveFutureXP(int amt) {
 		xpCount += amt;
 	}
@@ -119,7 +125,5 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	public Set<String> getUpgradeSet(MobType type) {
 		return menu.getUpgradeSet(type);
 	}
-	
-	
 }
 	

@@ -13,6 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * Created by Deimophobe on 4/02/17.
@@ -159,10 +160,12 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		return players.size();
 	}
 	
-	public P getNearest(Location location) {
+	public P getNearest(Location location, Predicate<P> requirement) {
 		P nearestPlayer = null;
 		double nearestDistance = Double.MAX_VALUE;
 		for (P player : getGamePlayers()) {
+			if (!requirement.test(player)) continue;
+			
 			double distance = location.distance(player.getLocation());
 			if (distance <= nearestDistance) {
 				nearestPlayer = player;
@@ -170,6 +173,10 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 			}
 		}
 		return nearestPlayer;
+	}
+	
+	public P getNearest(Location location) {
+		return getNearest(location, (P p) -> true);
 	}
 	
 	// ------ OFFLINE MODE ------

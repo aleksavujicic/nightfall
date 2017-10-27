@@ -10,7 +10,6 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.map.GameMap;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -116,7 +115,7 @@ public class AIEntity implements GameEntity<Zombie>, MonsterEntity<Zombie> {
 			}
 		}
 		
-		Dwarf newTarget = DwarfManager.getManager().getNearest(getLocation());
+		Dwarf newTarget = DwarfManager.getManager().getNearest(getLocation(), (Dwarf d) -> !d.hasPotionEffect(PotionEffectType.INVISIBILITY));
 		if (newTarget != null && newTarget.distanceTo(this) <= MAX_TARGET_RANGE) {
 			setTarget(newTarget);
 		} else {

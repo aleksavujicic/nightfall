@@ -510,4 +510,13 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			return null;
 		return mob.getDisguise().getEntity();
 	}
+	
+	@Override
+	public Entity getVisibleEntity() {
+		Entity visibleEntity = getDisguiseEntity();
+		if (visibleEntity == null)
+			visibleEntity = getEntity();
+		
+		return visibleEntity;
+	}
 }
