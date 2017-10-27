@@ -193,12 +193,14 @@ public class Shrine {
 		if (map.hasGold()) {
 			int recovered = recoverShrine(recovery);
 			map.stealGold(recovered/2);
+		}
+		else {
 			if (dwarfNum == 0) {
 				damageShrine(maxShrinePower / 30);
 			}
-		}
-		else {
-			recoverShrine(recovery/2);
+			else {
+				recoverShrine(recovery/2);
+			}
 		}
 
 		damageShrine(damage);
@@ -249,9 +251,9 @@ public class Shrine {
 			monster.givePotionEffect(PotionEffectType.CONFUSION, 180, 1, true, false, true);
 		}
 		for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
-			monster.forceGainXP(200);
+			monster.forceGainXP(1000);
 		}
-		MonsterManager.getManager().giveFutureXP(200);
+		MonsterManager.getManager().giveFutureXP(1000);
 		
 		map.changeShrine();
 	}

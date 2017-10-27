@@ -1,6 +1,6 @@
 attack:
   index: 2
-  cost: [20, 40, 60, 80, 100]
+  cost: [100, 200, 300, 400, 500]
   item:
     material: wood_sword
     name: "Upgrade Attack"
@@ -12,7 +12,7 @@ attack:
 
 attack-inf:
   index: 2
-  cost: 250
+  cost: 2500
   permanent: true
   prereq:
     attack: 5
@@ -26,7 +26,7 @@ attack-inf:
 
 health:
   index: 6
-  cost: [20, 40, 60, 80, 100]
+  cost: [100, 200, 300, 400, 500]
   item:
     material: rotten_flesh
     name: "Upgrade Health"
@@ -38,7 +38,7 @@ health:
 
 health-inf:
   index: 6
-  cost: 250
+  cost: 2500
   permanent: true
   prereq:
     health: 5
@@ -52,7 +52,7 @@ health-inf:
 
 husk:
   index: 15
-  cost: 250
+  cost: 2000
   prereq:
     attack: 5
     health: 5
@@ -72,7 +72,7 @@ husk:
 
 fury:
   index: 13
-  cost: 250
+  cost: 2000
   prereq:
     attack: 5
     health: 5
@@ -92,7 +92,7 @@ fury:
 
 saboteur:
   index: 11
-  cost: 250
+  cost: 2000
   prereq:
     attack: 5
     health: 5
@@ -116,8 +116,8 @@ saboteur:
 
 shred-husk:
   index: 10
-  cost: [50, 75, 100, 125, 150]
-  value: [5, 10, 15, 20, 25]
+  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+  value: [2, 5, 7, 10, 12, 15, 17, 20, 22, 25]
   prereq:
     husk: 1
   item:
@@ -130,7 +130,7 @@ shred-husk:
 
 groundsmash:
   index: 11
-  cost: [100, 150, 200]
+  cost: [500, 1000, 1500]
   prereq:
     husk: 1
   item:
@@ -144,7 +144,7 @@ groundsmash:
 
 regen:
   index: 12
-  cost: [50, 100, 150]
+  cost: [500, 1000, 1500]
   prereq:
     husk: 1
   item:
@@ -157,8 +157,8 @@ regen:
 
 arrow-husk:
   index: 14
-  cost: [100, 150, 200]
-  value: [25, 50, 75]
+  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+  value: [10, 20, 30, 40, 50, 55, 60, 65, 70, 75]
   prereq:
     husk: 1
   item:
@@ -171,8 +171,8 @@ arrow-husk:
 
 rebirth-husk:
   index: 15
-  cost: [50, 75, 100, 125, 150]
-  value: [50, 100, 150, 200, 250]
+  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+  value: [25, 50, 75, 100, 125, 150, 175, 200, 225, 250]
   prereq:
     husk: 1
   item:
@@ -186,7 +186,7 @@ rebirth-husk:
 
 vampirism-husk:
   index: 16
-  cost: [100, 150, 200]
+  cost: [500, 1000, 1500]
   prereq:
     husk: 1
   item:
@@ -199,16 +199,16 @@ vampirism-husk:
 
 stagger:
   index: 22
-  cost: 1000
+  cost: 10000
   prereq:
     attack: 5
     health: 5
     husk: 1
-    shred-husk: 5
+    shred-husk: 10
     groundsmash: 3
     regen: 3
-    arrow-husk: 3
-    rebirth-husk: 5
+    arrow-husk: 10
+    rebirth-husk: 10
     vampirism-husk: 3
   item:
     material: stone_sword
@@ -226,8 +226,8 @@ stagger:
 
 shred-fury:
   index: 10
-  cost: [50, 75, 100, 125, 150]
-  value: [6, 12, 18, 24, 30]
+  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+  value: [3, 6, 9, 12, 15, 18, 21, 24, 27, 30]
   prereq:
     fury: 1
   item:
@@ -239,7 +239,7 @@ shred-fury:
 
 pursuit:
   index: 11
-  cost: [50, 100, 150]
+  cost: [500, 1000, 1500]
   prereq:
     fury: 1
   item:
@@ -254,7 +254,7 @@ pursuit:
 
 leap-fury:
   index: 12
-  cost: [20, 40, 60, 80, 100]
+  cost: [100, 200, 300, 400, 500]
   prereq:
     fury: 1
   item:
@@ -267,8 +267,8 @@ leap-fury:
 
 arrow-fury:
   index: 14
-  cost: [100, 150, 200]
-  value: [20, 40, 50]
+  cost: [100, 200, 300, 400, 500]
+  value: [10, 20, 30, 40, 50]
   prereq:
     fury: 1
   item:
@@ -281,8 +281,8 @@ arrow-fury:
 
 rebirth-fury:
   index: 15
-  cost: [50, 75, 100, 125, 150]
-  value: [20, 40, 60, 80, 100]
+  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+  value: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
   prereq:
     fury: 1
   item:
@@ -296,7 +296,7 @@ rebirth-fury:
 
 vampirism-fury:
   index: 16
-  cost: [50, 100, 150]
+  cost: [500, 1000, 1500]
   prereq:
     fury: 1
   item:
@@ -309,16 +309,16 @@ vampirism-fury:
 
 furynight:
   index: 22
-  cost: 1000
+  cost: 10000
   prereq:
     attack: 5
     health: 5
     fury: 1
-    shred-fury: 5
+    shred-fury: 10
     pursuit: 3
     leap-fury: 5
-    arrow-fury: 3
-    rebirth-fury: 5
+    arrow-fury: 5
+    rebirth-fury: 10
     vampirism-fury: 3
   item:
     material: exp_bottle
@@ -336,8 +336,8 @@ furynight:
 
 shred-sabo:
   index: 10
-  cost: [50, 100, 150]
-  value: [3, 6, 10]
+  cost: [200, 400, 600, 800, 1000]
+  value: [2, 4, 6, 8, 10]
   prereq:
     saboteur: 1
   item:
@@ -350,7 +350,7 @@ shred-sabo:
 
 poison:
   index: 11
-  cost: [100, 150, 200]
+  cost: [500, 1000, 1500]
   prereq:
     saboteur: 1
   item:
@@ -364,7 +364,7 @@ poison:
 
 leap-sabo:
   index: 12
-  cost: [20, 40, 60, 80, 100]
+  cost: [100, 200, 300, 400, 500]
   prereq:
     saboteur: 1
   item:
@@ -377,7 +377,7 @@ leap-sabo:
 
 pick:
   index: 14
-  cost: [100, 150, 200]
+  cost: [500, 1000, 1500]
   prereq:
     saboteur: 1
   item:
@@ -391,7 +391,7 @@ pick:
 
 epinephrine:
   index: 15
-  cost: [50, 75, 100, 125, 150]
+  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
   prereq:
     saboteur: 1
   item:
@@ -404,7 +404,7 @@ epinephrine:
 
 vampirism-sabo:
   index: 16
-  cost: [50, 100, 150]
+  cost: [500, 1000, 1500]
   prereq:
     saboteur: 1
   item:
@@ -417,16 +417,16 @@ vampirism-sabo:
 
 assassination:
   index: 22
-  cost: 1000
+  cost: 10000
   prereq:
     attack: 5
     health: 5
     saboteur: 1
-    shred-sabo: 3
+    shred-sabo: 5
     poison: 3
     leap-sabo: 5
     pick: 3
-    epinephrine: 5
+    epinephrine: 10
     vampirism-sabo: 3
   item:
     material: iron_sword
