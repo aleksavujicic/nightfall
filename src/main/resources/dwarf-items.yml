@@ -108,6 +108,14 @@ sword:
         - "bleh"
     modifiers:
       attack: 10
+  glaive:
+    base: glaive
+    name: Glaive
+    lore:
+      description:
+        - "Right click to do nothing."
+      flavour:
+        - "\"Finally the hammer is getting changed!\" - Everyone"
 
 bow:
   shortbow:
