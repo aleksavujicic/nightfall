@@ -98,6 +98,16 @@ sword:
        - "\"Stop bunny hopping and get to work!\" - Tui"
     modifiers:
       attack: 20
+  glaive:
+    base: glaive
+    name: Glaive
+    lore:
+     description:
+      - "Right click to do nothing"
+     flavour:
+      - "\"Finally, the hammer is getting changed!\" - Everyone"
+    modifiers:
+      attack: 20
 
 bow:
   shortbow:
