@@ -55,6 +55,19 @@ dagger:
        - "An elven blade, dipped in poison.\n
           Right click to &bEviscerate&r a monster,\n
           dealing massive damage."
+rapier:
+  index: 4
+  type: item
+  name: rapier
+  category: sword
+  cost: 20
+  item:
+    name: "Rapier"
+    base: rapier
+    lore:
+      description:
+       - "Hit things for more damage or something"
+
 tigerfist:
   enabled: false
   index: 5

@@ -26,7 +26,7 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 	private static final int INVINC_TIME = 2*20;
 	private static final int MAX_STACKS = 80;
 	private static final int MAX_AI_STACKS = 30;
-	private static final int PARRY_COST = 10;
+	private static final int PARRY_COST = 8;
 	
 	private int inivincCD;
 	private int stackCD;
@@ -63,15 +63,15 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 		
 		for (int i = 0; i < stacks; i++) {
 			double frac = (double) i / MAX_STACKS;
-			double red = (87d + frac * 148);
-			double green = (99d - frac * 70);
-			double blue = (237d - frac * 158);
+			double red = (3d + frac * 248);
+			double green = (39d - frac * 30);
+			double blue = (237d - frac * 208);
 			double myTheta = theta - frac * 2 * Math.PI;
 			
 			if (stacks == MAX_STACKS) {
-				red = 220;
-				green = 58;
-				blue = 252;
+				red = 251;
+				green = 9;
+				blue = 29;
 			}
 			red *= 1d/256;
 			green *= 1d/256;
