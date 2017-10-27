@@ -402,6 +402,33 @@ public class NightfallPlugin extends JavaPlugin {
 				return false;
 			}
 		}
+		if (name.equalsIgnoreCase("mana")) {
+			if (sender instanceof Player) {
+				Dwarf dwarf = dm.getGamePlayer((Player)sender);
+				if (dwarf != null) {
+					int amt;
+					
+					if (args.length == 0) {
+						amt = 1;
+					} else {
+						try {
+							amt = Integer.parseInt(args[0]);
+						} catch (NumberFormatException e) {
+							sender.sendMessage("" + ChatColor.YELLOW + ChatColor.ITALIC + args[1] + ChatColor.RED + " is not a number!");
+							return false;
+						}
+					}
+					dwarf.regenMana(amt);
+					return true;
+				} else {
+					sender.sendMessage(ChatColor.RED + "You must be a dwarf to do that");
+				}
+				
+				return true;
+			} else {
+				return false;
+			}
+		}
 		if (name.equalsIgnoreCase("xp")) {
 			if (sender instanceof Player) {
 				MonsterPlayer monster = mm.getGamePlayer((Player) sender);
