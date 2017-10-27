@@ -7,6 +7,7 @@ import deimophobe.nightfall.cooldown.DudCooldown;
 import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -107,6 +108,9 @@ public class ZombieSaboteur extends Zombie {
     public void onDamageReceive(MonsterDamage damage) {
         super.onDamageReceive(damage);
         assaCD.reset();
+        if (damage.getType() == NaturalDamageType.MELEE) {
+            monster.givePotionEffect(PotionEffectType.SLOW, 20, 2,true, true,true);
+        }
         monster.removePotionEffect(PotionEffectType.INVISIBILITY);
         monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
     }
