@@ -192,7 +192,7 @@ public class Shrine {
 		
 		if (map.hasGold()) {
 			int recovered = recoverShrine(recovery);
-			map.stealGold(recovered/2);
+			map.stealGold(recovered/20);
 		}
 		else {
 			if (dwarfNum == 0) {
