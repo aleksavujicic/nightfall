@@ -155,6 +155,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		Bukkit.getLogger().info("Spawning " + getName() + " as mob: " + mob.getType());
 	}
 	
+	public boolean hasSpawnProtection() {
+		return (mob != null && mob.hasSpawnProtection());
+	}
+	
 	// ----- REBIRTH -----
 	private final static int REBIRTH_TIME = 6*20;
 	private Location lastRebirth = null;

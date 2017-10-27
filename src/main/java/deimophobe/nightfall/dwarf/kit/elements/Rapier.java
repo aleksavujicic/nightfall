@@ -7,7 +7,9 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
@@ -86,12 +88,13 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
 		if (damageFromItem(damage)) {
-			if (damage.getMonster() instanceof AIEntity) {
+			MonsterEntity monster = damage.getMonster();
+			if (monster instanceof AIEntity) {
 				damage.getDamage().timesMult(0.5);
 				if (stacks < MAX_AI_STACKS)
 					stacks++;
-			} else {
-				if (stacks < MAX_STACKS)
+			} else if (monster instanceof MonsterPlayer) {
+				if (((MonsterPlayer) monster).hasSpawnProtection() && stacks < MAX_STACKS)
 					stacks++;
 			}
 			
