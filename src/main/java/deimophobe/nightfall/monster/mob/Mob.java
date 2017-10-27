@@ -28,7 +28,7 @@ public interface Mob {
 	Projectile onBowFire(Arrow arrow, float force);
 	void onProjectileLand(Projectile proj, Block hitBlock);
 	float getCooldown();
-	void onDeath();
+	void onDeath(boolean silent);
 	
 	MobType getType();
 	

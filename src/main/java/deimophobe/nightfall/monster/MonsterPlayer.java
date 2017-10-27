@@ -131,22 +131,11 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	private void killMob(boolean silent) {
 		if (mob == null) return;
 		
-		mob.onDeath();
+		mob.onDeath(silent);
 		
-		Disguise disguise = DisguiseAPI.getDisguise(player);
-		if (disguise != null && !silent) {
-			EntityType entityType = disguise.getType().getEntityType();
-			if (entityType.isAlive() && entityType != EntityType.PLAYER) {
-				LivingEntity dyingEntity = (LivingEntity) player.getWorld().spawnEntity(player.getLocation(), entityType);
-				dyingEntity.teleport(dyingEntity);
-				dyingEntity.setVelocity(dyingEntity.getVelocity());
-				dyingEntity.setCustomName(disguise.getWatcher().getCustomName());
-				dyingEntity.getEquipment().setArmorContents(player.getInventory().getArmorContents());
-				dyingEntity.getEquipment().setItemInMainHand(getHeldItem());
-				dyingEntity.damage(10000);
-			}
-		}
-		DisguiseAPI.undisguiseToAll(player);
+		new BukkitRunnable() {
+			@Override public void run() { DisguiseAPI.undisguiseToAll(player); }
+		}.runTaskLater(NightfallPlugin.getPlugin(), 1);
 		
 		mob = null;
 	}
