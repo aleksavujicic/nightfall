@@ -55,6 +55,9 @@ public class NightfallPlugin extends JavaPlugin {
 	private DwarfManager dm;
 	private MonsterManager mm;
 	
+	private boolean disabling = false;
+	public boolean isDisabling() { return disabling; }
+	
 	@Override
 	public void onEnable() {
 		plugin = this;
@@ -71,6 +74,7 @@ public class NightfallPlugin extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
+		disabling = true;
 		Loadout.saveLoadouts();
 		game.stop();
 		Misc.removeAllTeams();

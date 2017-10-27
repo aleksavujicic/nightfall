@@ -135,10 +135,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		if (mob == null) return;
 		
 		mob.onDeath(silent);
-		
-		new BukkitRunnable() {
-			@Override public void run() { DisguiseAPI.undisguiseToAll(player); }
-		}.runTaskLater(NightfallPlugin.getPlugin(), 1);
+		DisguiseAPI.undisguiseToAll(player);
 		
 		mob = null;
 	}
@@ -522,5 +519,14 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		if (mob == null || mob.getDisguise() == null)
 			return null;
 		return mob.getDisguise().getEntity();
+	}
+	
+	@Override
+	public Entity getVisibleEntity() {
+		Entity visibleEntity = getDisguiseEntity();
+		if (visibleEntity == null)
+			visibleEntity = getEntity();
+		
+		return visibleEntity;
 	}
 }
