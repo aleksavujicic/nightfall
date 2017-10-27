@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.loadout;
 
+import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Hat;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
@@ -105,6 +106,8 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 		
 		
 		CustomItem item = CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.LOADOUT, Slot.MAIN_HAND);
+		if (!enabled)
+			item.setShiny(true);
 		item.applyVariable("cost", "" + cost);
 		item.applyVariable("category", (category == null ? "" : category.getLore()));
 		itemStack = item.createItemStack();
@@ -142,13 +145,13 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 	}
 	
 	
-	public boolean isEnabled() {
-		return enabled;
+	private boolean canSee(MenuSession<Loadout> session) {
+		return enabled || Game.getGame().isDebug(session.getPlayer());
 	}
 	
 	@Override
 	public ItemStack getDisplayItem(MenuSession<Loadout> session) {
-		if (!enabled) return null;
+		if (!canSee(session)) return null;
 		
 		Loadout loadout = session.getData();
 		if (loadout.hasItem(this)) {
@@ -162,7 +165,7 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 	
 	@Override
 	public boolean onClick(MenuSession<Loadout> session) {
-		if (!enabled) return false;
+		if (!canSee(session)) return false;
 		
 		Loadout loadout = session.getData();
 		return loadout.selectItem(this);

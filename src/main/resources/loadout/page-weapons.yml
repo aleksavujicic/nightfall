@@ -198,7 +198,7 @@ minigun:
        - "Pew pew pew pew pew pew pew pew pew pew."
 turret:
   enabled: false
-  index: 16
+  index: 17
   type: item
   name: turret
   category: bow
