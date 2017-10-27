@@ -8,7 +8,7 @@ import org.bukkit.World;
 /**
  * Created by Deimophobe on 10/03/17.
  */
-public class ArmourCloudMaker implements EffectMaker {
+class ArmourCloudMaker implements LocationEffectMaker {
 	@Override
 	public void playEffect(Location location) {
 		World world = location.getWorld();

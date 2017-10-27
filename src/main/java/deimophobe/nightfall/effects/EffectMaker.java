@@ -1,10 +1,8 @@
 package deimophobe.nightfall.effects;
 
-import deimophobe.nightfall.entity.GamePlayer;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
-import org.bukkit.entity.Player;
 
 /**
  * Created by Deimophobe on 10/03/17.
@@ -12,13 +10,6 @@ import org.bukkit.entity.Player;
 interface EffectMaker {
 	
 	void playEffect(Location location);
-	
-	default void playEffect(GamePlayer player) {
-		playEffect(player.getEyeLocation());
-	}
-	default void playEffect(Player player) {
-		playEffect(player.getEyeLocation());
-	}
 	default void playEffect(Block block) {
 		playEffect(block.getLocation().add(0.5, 0.5, 0.5));
 	}
