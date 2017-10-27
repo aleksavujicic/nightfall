@@ -128,12 +128,14 @@ public class Shrine {
 			}
 			
 		}
+		int shrineRepCost = 2*shrineNum;
+		int shrineRepAmt = Math.min(shrineNum * 2 + 8, 16)*shrineNum;
 		for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
 			if (shrineRegion.containsPlayer(dwarf)) {
 				dwarvesOnShrine++;
 				if (!dwarf.getArmour().isAtMax())
-					if (map.tryUseGold(2)) {
-						dwarf.getArmour().repair(Math.min(shrineNum * 2 + 8, 16)); // shrineNum starts at 1
+					if (map.tryUseGold(shrineRepCost)) {
+						dwarf.getArmour().repair(shrineRepAmt); // shrineNum starts at 1
 					}
 					else {
 						map.tryUseGold(1);
