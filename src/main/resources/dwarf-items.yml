@@ -125,7 +125,7 @@ sword:
       flavour:
         - "Don't ask me to write quotes."
     modifiers:
-      attack: 15
+      attack: 10
 
 bow:
   shortbow:

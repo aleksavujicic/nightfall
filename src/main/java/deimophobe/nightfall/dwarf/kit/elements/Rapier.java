@@ -8,7 +8,10 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.monster.ai.AIEntity;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -20,13 +23,15 @@ import org.bukkit.inventory.ItemStack;
 class Rapier extends AbstractItem implements KitCooldownElement {
 	
 	private static final int STACK_CD_TIME = 5*20;
-	private static final int INVINC_TIME = 3*20;
-	private static final int MAX_STACKS = 60;
-	private static final int PARRY_COST = 3;
+	private static final int INVINC_TIME = 2*20;
+	private static final int MAX_STACKS = 80;
+	private static final int MAX_AI_STACKS = 30;
+	private static final int PARRY_COST = 10;
 	
 	private int inivincCD;
 	private int stackCD;
 	private int stacks;
+	private double theta;
 	
 	Rapier(Dwarf dwarf) {
 		super(dwarf);
@@ -51,17 +56,46 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 			if (stacks > 0)
 				stacks--;
 		}
+		
+		theta = (theta + 0.05) % (2 * Math.PI);
+		
+		Location playerLoc = dwarf.getPlayer().getEyeLocation();
+		
+		for (int i = 0; i < stacks; i++) {
+			double frac = (double) i / MAX_STACKS;
+			double red = (87d + frac * 148);
+			double green = (99d - frac * 70);
+			double blue = (237d - frac * 158);
+			double myTheta = theta - frac * 2 * Math.PI;
+			
+			if (stacks == MAX_STACKS) {
+				red = 220;
+				green = 58;
+				blue = 252;
+			}
+			red *= 1d/256;
+			green *= 1d/256;
+			blue *= 1d/256;
+			
+			Location particleLoc = playerLoc.clone().add(Math.cos(myTheta), -1, Math.sin(myTheta));
+			particleLoc.getWorld().spawnParticle(Particle.REDSTONE, particleLoc, 0, red, green, blue, 1);
+		}
 	}
 	
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
 		if (damageFromItem(damage)) {
-			stacks++;
-			if (stacks > MAX_STACKS)
-				stacks = MAX_STACKS;
+			if (damage.getMonster() instanceof AIEntity) {
+				damage.getDamage().timesMult(0.5);
+				if (stacks < MAX_AI_STACKS)
+					stacks++;
+			} else {
+				if (stacks < MAX_STACKS)
+					stacks++;
+			}
 			
-			damage.getDamage().addBoost(stacks);
+			damage.getDamage().addBoost(stacks/2);
 			stackCD = STACK_CD_TIME;
 		}
 	}
@@ -81,6 +115,7 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 				stacks -= PARRY_COST;
 				dwarf.leap(2,0.5);
 				dwarf.playSound("entity.zombie.attack_iron_door", 1f, 1.5f, true);
+				inivincCD = INVINC_TIME;
 				
 				return true;
 			}
@@ -90,6 +125,6 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 	
 	@Override
 	public float fractionComplete() {
-		return (float) stacks/stackCD;
+		return (float) stacks/MAX_STACKS;
 	}
 }
