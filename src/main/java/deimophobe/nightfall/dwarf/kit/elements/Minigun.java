@@ -50,7 +50,7 @@ class Minigun extends AbstractBow {
 	private void fireArrow() {
 		if (dwarf.hasArrows(1) && isHoldingItem()) {
 			dwarf.useArrow();
-			fireArrow(3f, 1, 1f);
+			fireArrow(3f, 1, 10f);
 			dwarf.playSound("entity.arrow.shoot", 5f, 0.9f, true);
 		} else {
 			dwarf.useArrows(10);
