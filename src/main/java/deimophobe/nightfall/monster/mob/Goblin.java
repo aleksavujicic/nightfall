@@ -80,7 +80,7 @@ public class Goblin extends AbstractMob {
 		this.superKaboom = upgrades.get("superkaboom");
 
 		getArmour().addModifier(ItemModifierType.HEALTH, health, "Upgrade");
-		getArmour().addModifier(ItemModifierType.SPEED, (speed * 5), "Upgrade");
+		getArmour().addModifier(ItemModifierType.SPEED, (10 * speed / 3), "Upgrade");
 
 		this.placeboxCD = new ComplexCooldown(MAX_PLACE_CD);
 		this.throwboxCD = new ComplexCooldown(MAX_THROW_CD);

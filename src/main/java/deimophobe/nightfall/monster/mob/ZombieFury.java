@@ -33,7 +33,7 @@ public class ZombieFury extends Zombie {
     private final boolean fury;
     private final ComplexCooldown furySound;
 
-    private static Integer[] shredValues = {0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30};
+    private static Integer[] shredValues = {0, 2, 5, 7, 10, 12, 15, 17, 20, 22, 25};
     private static Integer[] arrowResValues = {0, 10, 20, 30, 40, 50};
     private static Integer[] rebirthValues = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
 
@@ -73,7 +73,7 @@ public class ZombieFury extends Zombie {
         }
 
         getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
-        getArmour().addModifier(ItemModifierType.SPEED, pursuit * 5, "Upgrade");
+        getArmour().addModifier(ItemModifierType.SPEED, (10 * pursuit / 3), "Upgrade");
         getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
         getWeapon().addModifier(ItemModifierType.ATTACK, 5, "Fury Zombie");
     }
