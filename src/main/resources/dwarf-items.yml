@@ -33,7 +33,7 @@ sword:
        - "A broken and heavy weapon\n
           that prevents constant swinging."
       flavour:
-       - "\"I dÃºr hir comes, a hon reign shall n- uireb.\" -Loremaster"
+       - "\"I dúr hir comes, a hon reign shall n- uireb.\" -Loremaster"
     modifiers:
       attack: 25
   axe:
@@ -42,7 +42,8 @@ sword:
     lore:
       description:
        - "Right click to go into a &4Blood rage&r,\n
-          allowing you to proc for a short duration."
+          allowing you to proc, regaining health and mana\n
+          for a short duration."
       flavour:
        - "\"You &oreally&r shouldn't be using that thing on rats.\" - Arthea"
     modifiers:
@@ -184,9 +185,8 @@ bow:
     lore:
       description:
        - "A magical bow, made from emerald.\n
-          Monsters hit with this bow\n
-          give off a proc to dwarves\n
-          within range."
+          Shooting other dwarves gives them\n
+          a short duration proc."
       flavour:
        - "I'm sure glad we found use\n
           for the rest of that Emerald City."
@@ -195,10 +195,11 @@ bow:
     name: Warpweaver Bow
     lore:
       description:
-       - "Shooting an arrow with this bow\n
+       - "Left click to activate effect.\n
+          Shooting an arrow with this bow\n
           cause you to teleport one way\n
           where the arrow lands\n
-          Left click to activate."
+          Getting hit will cancel the teleport."
       flavour:
        - "\"Hey look at this thing! Isn't it cool!?\" - Tui"
   turret:
@@ -515,7 +516,7 @@ misc:
     name: "Chest-o-matic"
     lore:
       description:
-       - "Click to access the dwarven shared chest."
+       - "Click to access the shared resource chest."
       flavour:
        - "Sharing is caring."
 
