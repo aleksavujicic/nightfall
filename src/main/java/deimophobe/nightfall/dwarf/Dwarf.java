@@ -119,7 +119,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	protected void giveStartingItems(Map<ConsumableType, Integer> consumables) {
 		kit.giveItems(KitGiveType.START);
-		kit.giveItems(KitGiveType.COMPASS);
+		kit.giveItems(KitGiveType.COMPASS, true);
 		
 		// Add consumables
 		for (ConsumableType type : consumables.keySet()) {

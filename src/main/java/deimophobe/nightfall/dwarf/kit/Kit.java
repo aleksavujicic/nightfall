@@ -29,12 +29,17 @@ public class Kit {
 	private final Set<KitItemElement> itemElements = new HashSet<>();
 	private final Set<KitBow> bowElements = new HashSet<>();
 	
+	private final Map<KitGiveType, Integer> giveTimes = new HashMap<>();
+	
 	public Kit(Dwarf dwarf, DwarfData dwarfData) {
 		this.dwarf = dwarf;
 		
 		for (KitElementType type : dwarfData.getElements()) {
 			addElement(type);
 		}
+		
+		for (KitGiveType type : KitGiveType.values())
+			giveTimes.put(type, 0);
 	}
 	
 	public boolean containsElement(KitElementType type) {
@@ -62,16 +67,31 @@ public class Kit {
 	}
 	
 	public void giveItems(KitGiveType giveType) {
+		giveItems(giveType, false);
+	}
+	
+	public void giveItems(KitGiveType giveType, boolean force) {
+		if (!force) {
+			if (giveTimes.get(giveType) > 0) return;
+			
+			giveTimes.put(giveType, giveType.getMaxDelay());
+		}
+		
 		for (KitItemElement itemElement : itemElements) {
 			if (itemElement.getGiveType() == giveType)
 				dwarf.giveItem(itemElement.getItem().createItemStack());
 		}
+		
 		updateHotbarSlot(dwarf.getHeldItem());
 	}
 	
 	
 	// ------ EVENTS ------
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		// Reduce kit times if non-zero
+		for (KitGiveType type : KitGiveType.values())
+			giveTimes.compute(type, (k, i) -> (i == 0 ? 0 : i-1));
+		
 		for (KitElement item : kitElements.values())
 			item.update(quartSec, halfSec, sec, doubleSec, quadSec);
 	}

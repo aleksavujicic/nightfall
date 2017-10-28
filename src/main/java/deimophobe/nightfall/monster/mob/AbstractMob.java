@@ -210,13 +210,17 @@ public abstract class AbstractMob implements Mob {
 		return isPlayerHoldingItem("weapon");
 	}
 	
+	protected void playSound(String soundName) {
+		mobData.playSound(soundName, monster);
+	}
+	
 	
 	protected void giveSpawnProtection(int time) {
 		monster.givePotionEffect(PotionEffectType.LUCK, time, 1, true, false, true);
 	}
 	
-	protected void playSound(String soundName) {
-		mobData.playSound(soundName, monster);
+	public boolean hasSpawnProtection() {
+		return monster.hasPotionEffect(PotionEffectType.LUCK);
 	}
 	
 	
@@ -232,7 +236,7 @@ public abstract class AbstractMob implements Mob {
 	
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
-		if (monster.hasPotionEffect(PotionEffectType.LUCK)) {
+		if (hasSpawnProtection()) {
 			damage.setProc(false);
 			damage.cancel();
 			return;

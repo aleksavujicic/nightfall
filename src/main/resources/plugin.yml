@@ -51,6 +51,7 @@ commands:
 
   trash:
     description: For deleting your duplicate items.
+    aliases: fawn
   chest:
     description: For sharing resources with your fellow dwarves.
   compass:

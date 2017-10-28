@@ -5,6 +5,9 @@ seppuku:
   lore:
     description:
      - "Use this to respawn."
+    flavour:
+     - "What a failure of a monster\n
+        you have become."
 
 lightning-seppuku:
   template: monster-hero
