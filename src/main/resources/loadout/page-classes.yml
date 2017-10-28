@@ -213,8 +213,9 @@ magmar-class:
     - quiver
     - slowfall
   consumables:
-    healstation: 10
+    heal_station: 10
     slab: 2
+    mortar: 32
     cobblestone: 128
     sos: 2
   item:
