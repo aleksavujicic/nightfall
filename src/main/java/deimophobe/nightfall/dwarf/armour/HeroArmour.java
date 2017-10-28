@@ -60,7 +60,7 @@ public class HeroArmour implements Armour {
 		if (shrine == null || !shrine.containsPlayer(hero)) return 0.8;
 		
 		int gold = map.getGold();
-		return 0.8 + 0.05*(double) gold/500;
+		return Math.min(0.8 + 0.05*(double) gold/500, 0.9);
 	}
 	
 	@Override
