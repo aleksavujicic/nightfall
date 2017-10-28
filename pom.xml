@@ -20,7 +20,6 @@
                 <excludes>
                     <exclude>**/*.java</exclude>
                     <exclude>main/resources/**</exclude>
-                    <exclude>main/java/deimophobe/nightfall/monster/spawnmenu/**</exclude>
                 </excludes>
             </resource>
             <resource>
@@ -75,6 +74,13 @@
             </plugin>
         </plugins>
     </build>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>snapshots</id>
+            <url>https://repository.apache.org/content/repositories/snapshots</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <repositories>
         <repository>
