@@ -153,9 +153,8 @@ ebow:
     lore:
       description:
        - "A magical bow, made from emerald.\n
-          Monsters hit with this bow\n
-          give off a proc to dwarves\n
-          within range."
+          Shooting other dwarves gives them\n
+          a short duration proc."
 warpweaver:
   index: 14
   type: item
