@@ -139,7 +139,7 @@ public class Shrine {
 					}
 					else {
 						map.tryUseGold(1);
-						int repairAmount = 5 * shrineNum / map.getNumShrines();
+						int repairAmount = 5 * shrineNum / map.getNumShrines() + 1;
 						dwarf.getArmour().repair(repairAmount);
 					}
 			}
