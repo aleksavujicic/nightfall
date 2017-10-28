@@ -234,13 +234,15 @@ public class GameMap {
 	}
 	
 	public void mineGold() {
+		int random1 = (int)(Math.random() * 2);
+		int random2 = (int)(Math.random() * 2);
 		switch (game.getPhase()) {
 			case BUILD:
 			case PLAGUE:
-				vault += 5;
+				vault += 4 + random1 + random2;
 				break;
 			case GAME:
-				vault += 3;
+				vault += 2 + random1;
 				break;
 		}
 		updateVault();
