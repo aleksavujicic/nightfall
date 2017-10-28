@@ -4,7 +4,7 @@ base:
   disguisetype: wolf
 
   attack: 15
-  health: 30
+  health: 40
   speed: 10
 
   shred: 25
@@ -39,7 +39,7 @@ hellhound:
   disguisetype: wolf
 
   attack: 20
-  health: 30
+  health: 40
   speed: 10
 
   shred: 30

@@ -112,9 +112,9 @@ class Wolf extends AbstractMob {
 		if (dwarf != null) {
 			double heal;
 			if (isHellhound())
-				heal = 6;
+				heal = 5;
 			else
-				heal = 6;
+				heal = 4;
 			
 			monster.heal(heal);
 			monster.givePotionEffect(PotionEffectType.SPEED, 120, 3, true, false, true);
