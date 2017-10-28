@@ -199,7 +199,7 @@ public class AIManager {
 				// Create zombie with all right stuff
 				spawnAI(spawnSpot, closestDwarf);
 
-				// Destroy spawnspots after average of 4 AI spawns
+				// Destroy spawnspots after average of 3 AI spawns
 				if (Math.random() < 0.333) {
 					spotsToRemove.add(spawnSpot);
 				}
