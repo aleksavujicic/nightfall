@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -24,16 +25,16 @@ import org.bukkit.inventory.ItemStack;
  */
 class Rapier extends AbstractItem implements KitCooldownElement {
 	
-	private static final int STACK_CD_TIME = 5*20;
+	private static final int STACK_CD_TIME = 4*20;
 	private static final int INVINC_TIME = 2*20;
-	private static final int MAX_STACKS = 80;
-	private static final int MAX_AI_STACKS = 30;
-	private static final int PARRY_COST = 8;
+	private static final int MAX_STACKS = 20;
+	private static final int PARRY_COST = 5;
 	
 	private int inivincCD;
 	private int stackCD;
 	private int stacks;
 	private double theta;
+	private ComplexCooldown leapCD = new ComplexCooldown(1*20, this::leap);
 	
 	Rapier(Dwarf dwarf) {
 		super(dwarf);
@@ -54,7 +55,7 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 		if (inivincCD > 0)
 			inivincCD--;
 		
-		if (stackCD == 0) {
+		if (stackCD == 0 && quartSec) {
 			if (stacks > 0)
 				stacks--;
 		}
@@ -91,14 +92,12 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 			MonsterEntity monster = damage.getMonster();
 			if (monster instanceof AIEntity) {
 				damage.getDamage().timesMult(0.5);
-				if (stacks < MAX_AI_STACKS)
-					stacks++;
 			} else if (monster instanceof MonsterPlayer) {
-				if (((MonsterPlayer) monster).hasSpawnProtection() && stacks < MAX_STACKS)
+				if (!((MonsterPlayer) monster).hasSpawnProtection() && stacks < MAX_STACKS)
 					stacks++;
 			}
 			
-			damage.getDamage().addBoost(stacks/2);
+			damage.getDamage().addBoost(stacks*2);
 			stackCD = STACK_CD_TIME;
 		}
 	}
@@ -114,16 +113,18 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		super.onUse(action, clickedBlock, blockFace);
 		if (Misc.isRightClick(action) && isHoldingItem()) {
-			if (stacks >= PARRY_COST) {
+			if (stacks >= PARRY_COST && leapCD.tryUse()) {
 				stacks -= PARRY_COST;
-				dwarf.leap(2,0.5);
-				dwarf.playSound("entity.zombie.attack_iron_door", 1f, 1.5f, true);
-				inivincCD = INVINC_TIME;
-				
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	private void leap() {
+		dwarf.leap(1.5,0.5);
+		dwarf.playSound("entity.zombie.attack_iron_door", 1f, 1.5f, true);
+		inivincCD = INVINC_TIME;
 	}
 	
 	@Override

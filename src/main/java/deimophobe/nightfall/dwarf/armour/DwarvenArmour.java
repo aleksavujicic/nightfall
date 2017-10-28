@@ -75,6 +75,10 @@ public class DwarvenArmour implements Armour {
 	public boolean isAtMax() {
 		return armour == max;
 	}
+	@Override
+	public boolean canRepair() {
+		return armour <= 0.65*max;
+	}
 	
 	private double armourFraction() {
 		return (double) armour/max;
@@ -122,7 +126,7 @@ public class DwarvenArmour implements Armour {
 	public int getManaRegenRate() {
 		if (!isArmoured()) return 0;
 		
-		if (isAtMax()) return 10; // Otherwise formula below would give 11 only when full (which is kinda weird).
+		if (canRepair()) return 10; // Otherwise formula below would give 11 only when full (which is kinda weird).
 		return (int) Math.floor(Math.atan(2 * armourFraction()) * 10/Math.atan(2)) + 1;
 	}
 	

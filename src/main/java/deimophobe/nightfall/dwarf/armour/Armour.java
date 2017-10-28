@@ -15,6 +15,7 @@ public interface Armour {
 	void increaseMax(int amt);
 	
 	boolean isAtMax();
+	boolean canRepair();
 	
 	void damage(int damage);
 	void repair(int amount);

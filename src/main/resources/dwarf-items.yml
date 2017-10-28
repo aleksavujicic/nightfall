@@ -98,7 +98,7 @@ sword:
     modifiers:
       attack: 20
   scepterofmagma:
-    base: runeblade
+    base: scepter
     name: Scepter of Magma
     lore:
       description:
@@ -214,13 +214,16 @@ bow:
        - "\"It still needs some work.\" - Nosovin"
   volcanic:
     base: volcanic
-    name: Volcanic Bow
+    name: Volcanic Gauntlet
     lore:
       description:
        - "Fire an arrow that pierces everything in\n
           its path. Uses 3 arrows a shot."
       flavour:
        - "\"This bow can even burn hellhounds.\" -Tui"
+    modifiers:
+      attack: 10
+
   minigun:
     base: crossbow
     name: Minigun
@@ -314,7 +317,7 @@ ale:
       flavour:
        - "\"My potions are too strong for you traveller.\" - Potion Seller"
   glow:
-    base: jimmyjuice
+    base: glow
     name: Healing Glow
     lore:
       description:

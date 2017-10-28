@@ -16,8 +16,8 @@ import org.bukkit.util.Vector;
 /**
  * Created by Deimophobe on 5/10/17.
  */
-public class VolcanicBow extends AbstractBow {
-	VolcanicBow(Dwarf dwarf) {
+public class VolcanicGauntlet extends AbstractBow {
+	VolcanicGauntlet(Dwarf dwarf) {
 		super(dwarf);
 	}
 	

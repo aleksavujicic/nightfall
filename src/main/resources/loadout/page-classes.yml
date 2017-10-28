@@ -164,7 +164,7 @@ gnome-class:
   type: multi
   elements:
     - hammer
-    - volcanic_bow
+    - volcanic
     - trinket
     - quiver
     - tombmaker
@@ -182,14 +182,14 @@ gnome-class:
     lore:
       description:
        - "Gnomes were always magically adept, and this\n
-          shows with their mighty volcanic bows. Using three\n
+          shows with their mighty volcanic gauntlets. Using three\n
           arrows per shot, demons burn and crumble. Using the\n
           magic of the Quiver artifact, the Gnomes were able to\n
           sustain their rate of fire."
 
       contains:
        - "*Hammer\n
-          *Volcanic Bow\n
+          *Volcanic Gauntlet\n
           *Star Trinket\n
           *Massive Quiver\n
           *Avenge\n
