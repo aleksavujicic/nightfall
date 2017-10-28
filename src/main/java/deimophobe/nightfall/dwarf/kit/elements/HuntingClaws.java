@@ -27,7 +27,7 @@ import org.bukkit.util.Vector;
 /**
  * Created by Deimophobe on 27/10/17.
  */
-class HunterWep extends AbstractItem implements KitCooldownElement {
+class HuntingClaws extends AbstractItem implements KitCooldownElement {
 	
 	private final static int HUNT_DURATION = 12*20;
 	
@@ -36,11 +36,11 @@ class HunterWep extends AbstractItem implements KitCooldownElement {
 	private MonsterPlayer target;
 	private int huntTime;
 	
-	HunterWep(Dwarf dwarf) {
+	HuntingClaws(Dwarf dwarf) {
 		super(dwarf);
 	}
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("sword.tigerfist", Slot.MAIN_HAND);
+	private final static CustomItem ITEM = DwarvenItems.getItem("sword.hunting", Slot.MAIN_HAND);
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

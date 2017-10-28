@@ -31,7 +31,7 @@ class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 		super(dwarf);
 	}
 
-	private final static CustomItem ITEM = DwarvenItems.getItem("sword.scepterofmagma", Slot.MAIN_HAND);
+	private final static CustomItem ITEM = DwarvenItems.getItem("sword.scepter", Slot.MAIN_HAND);
 
 	@Override public CustomItem getItem() {
 		return ITEM;

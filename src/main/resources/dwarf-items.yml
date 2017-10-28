@@ -48,6 +48,17 @@ sword:
        - "\"You &oreally&r shouldn't be using that thing on rats.\" - Arthea"
     modifiers:
       attack: 20
+  hammer:
+    base: hammer
+    name: Warhammer
+    lore:
+      description:
+       - "Right click to regenerate armour and mana
+          over time."
+      flavour:
+       - "\"Time to really prove what you're worth.\" - Tui"
+    modifiers:
+      attack: 15
   dagger:
     base: dagger
     name: Elven Dagger
@@ -62,28 +73,47 @@ sword:
     modifiers:
       attack: 20
       speed: 30
-  hammer:
-    base: hammer
-    name: Warhammer
+  rapier:
+    base: rapier
+    name: Rapier
     lore:
       description:
-       - "Right click to regenerate armour and mana
-          over time."
+        - "Hit things lots."
       flavour:
-       - "\"Time to really prove what you're worth.\" - Tui"
+        - "Don't ask me to write quotes."
     modifiers:
-      attack: 15
-  tombmaker:
-    base: tombmaker
-    name: Tombmaker
+      attack: 10
+  glaive:
+    base: glaive
+    name: Glaive
     lore:
       description:
-       - "Right click for a Haste buff to dig faster."
+        - "Right click to do nothing."
       flavour:
-       - "\"I used to dig graves with these things. It's insane.\" - Tui"
-       - "\"Two in the grave, two for the banshees.\" - Velvetine"
+        - "\"Finally the hammer is getting changed!\" - Everyone"
+  scepter:
+    base: scepter
+    name: Scepter of Magma
+    lore:
+      description:
+        - "Left click to release waves of fire\n
+           upon your foes. Right click to channel\n
+           flames around you for &b$manacost&r mana\n
+           damaging mobs."
+      flavour:
+        - "Insert Flavour Text Here"
     modifiers:
-      attack: 8
+      attack: 10
+  hunting:
+    base: hunting
+    name: Hunting Claws
+    lore:
+      description:
+       - "Temp"
+      flavour:
+       - "Temp"
+    modifiers:
+      attack: 20
   tigerfist:
     base: tigerfist
     name: Tiger Fist
@@ -97,37 +127,6 @@ sword:
        - "\"Stop bunny hopping and get to work!\" - Tui"
     modifiers:
       attack: 20
-  scepterofmagma:
-    base: scepter
-    name: Scepter of Magma
-    lore:
-      description:
-        - "Left click to release waves of fire\n
-           upon your foes. Right click to channel\n
-           flames around you for &b$manacost&r mana\n
-           damaging mobs."
-      flavour:
-        - "Insert Flavour Text Here"
-    modifiers:
-      attack: 10
-  glaive:
-    base: glaive
-    name: Glaive
-    lore:
-      description:
-        - "Right click to do nothing."
-      flavour:
-        - "\"Finally the hammer is getting changed!\" - Everyone"
-  rapier:
-    base: rapier
-    name: Rapier
-    lore:
-      description:
-        - "Hit things lots."
-      flavour:
-        - "Don't ask me to write quotes."
-    modifiers:
-      attack: 10
 
 bow:
   shortbow:
@@ -489,6 +488,18 @@ misc:
        - "Used to dig gravel for cobblestone."
       flavour:
        - "The real gravediggers use these."
+
+  tombmaker:
+    base: tombmaker
+    name: Tombmaker
+    lore:
+      description:
+       - "Right click for a Haste buff to dig faster."
+      flavour:
+       - "\"I used to dig graves with these things. It's insane.\" - Tui"
+       - "\"Two in the grave, two for the banshees.\" - Velvetine"
+    modifiers:
+      attack: 8
 
   arrow:
     material: arrow

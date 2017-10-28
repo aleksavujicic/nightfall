@@ -208,7 +208,7 @@ magmar-class:
   category: kit
   type: multi
   elements:
-    - scepterofmagma
+    - scepter
     - volcanic
     - healingglow
     - quiver
