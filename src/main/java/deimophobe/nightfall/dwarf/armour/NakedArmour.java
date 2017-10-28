@@ -17,6 +17,7 @@ public class NakedArmour implements Armour {
 	@Override public void putOn() {}
 	@Override public void addModifier(ItemModifierType type, int value, String reason) {}
 	@Override public void increaseMax(int amt) {}
+	@Override public boolean canRepair() {return false;}
 	@Override public boolean isAtMax() {return false;}
 	@Override public void damage(int damage) {}
 	@Override public void repair(int amount) {}

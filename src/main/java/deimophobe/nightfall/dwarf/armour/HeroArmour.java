@@ -29,9 +29,11 @@ public class HeroArmour implements Armour {
 	public void increaseMax(int max) {}
 	
 	@Override
-	public boolean isAtMax() {
-		return true;
+	public boolean canRepair() {
+		return false;
 	}
+	@Override
+	public boolean isAtMax() {return true;}
 
 	@Override
 	public int getMaxArmor() {
