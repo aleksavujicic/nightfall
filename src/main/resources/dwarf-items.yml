@@ -102,9 +102,12 @@ sword:
     name: Scepter of Magma
     lore:
       description:
-        - "Blah"
+        - "Left click to release waves of fire\n
+           upon your foes. Right click to channel\n
+           flames around you for &b$manacost&r mana\n
+           damaging mobs."
       flavour:
-        - "bleh"
+        - "Insert Flavour Text Here"
     modifiers:
       attack: 10
   glaive:
@@ -315,9 +318,11 @@ ale:
     name: Healing Glow
     lore:
       description:
-        - "Drk fix this."
+        - "While taking fire tick damage\n
+           gain fire resistance and mana regeneration
+           costs &b$manacost&r mana."
       flavour:
-        - "Drk fix this."
+        - "Hm, this stuff seems like it's boiling."
 
 consumable:
   lamp:
