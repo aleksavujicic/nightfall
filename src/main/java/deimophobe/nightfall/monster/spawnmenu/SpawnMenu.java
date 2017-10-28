@@ -40,7 +40,7 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		MenuItem<MonsterPlayer> zombiePage = new IndexedPageChanger<>(getConfigItem("zombie-page"), this, PageType.ZOMBIE_UPGRADE);
 		MenuItem<MonsterPlayer> goboPage = new IndexedPageChanger<>(getConfigItem("gobo-page"), this, PageType.GOBO_UPGRADE);
 		MenuItem<MonsterPlayer> rebirthItem = new RebirthItem(getConfigItem("rebirth"));
-		MenuItem<MonsterPlayer> resetItem = new ResetItem(getConfigItem("reset-page"));
+		MenuItem<MonsterPlayer> resetItem = new ResetItem(getConfigItem("reset-page"), this, PageType.MAIN);
 		//MenuItem<MonsterPlayer> doomItem = new DoomClockItem(getConfigItem("doomclock"), 250, 15);
 
 		// Setup reset menu

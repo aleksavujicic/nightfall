@@ -2,16 +2,15 @@ package deimophobe.nightfall.monster.spawnmenu;
 
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.menu.IndexedPageChanger;
 import deimophobe.nightfall.menu.MenuItem;
 import deimophobe.nightfall.menu.MenuSession;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.inventory.ItemStack;
 
-public class ResetItem implements MenuItem<MonsterPlayer> {
-    private final ItemStack item;
-
-    ResetItem(ItemStack item) {
-        this.item = item;
+public class ResetItem extends IndexedPageChanger<MonsterPlayer, SpawnMenu.PageType> implements MenuItem<MonsterPlayer> {
+    ResetItem(ItemStack item, SpawnMenu spawnMenu, SpawnMenu.PageType mainPage) {
+        super(item, spawnMenu, mainPage);
     }
 
     @Override
@@ -31,6 +30,7 @@ public class ResetItem implements MenuItem<MonsterPlayer> {
         monster.clearUpgrades();
         monster.forceGainXP((int)(monster.getSpent()*0.85));
         monster.resetSpent();
-        return true;
+        monster.sendMessage("§eYour upgrades have been reset!§r");
+        return super.onClick(session);
     }
 }
