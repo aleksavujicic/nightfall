@@ -182,8 +182,8 @@ gnome-class:
     lore:
       description:
        - "Gnomes were always magically adept\n
-          and this shows with their mighty volcanic gauntlets.\n
-          Using three arrows per shot\n
+          and this shows with their mighty volcanic\n
+          gauntlets. Using three arrows per shot\n
           demons burn and crumble. Using the\n
           magic of the Quiver artifact\n
           the Gnomes were able to\n
@@ -202,6 +202,7 @@ gnome-class:
           *3 Slabs"
 
 magmar-class:
+  enabled: false
   index: 5
   cost: 64
   category: kit
@@ -236,6 +237,7 @@ magmar-class:
           *Slowfall\n
           *10 Healing Stations\n
           *2 SOS\n
+          *32 Mortar\n
           *128 Cobblestone\n
           *2 Slabs"
 
