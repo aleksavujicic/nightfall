@@ -201,6 +201,43 @@ gnome-class:
           *2 Swords of Santification\n
           *3 Slabs"
 
+magmar-class:
+  index: 5
+  cost: 64
+  category: kit
+  type: multi
+  elements:
+    - scepterofmagma
+    - volcanic
+    - healingglow
+    - quiver
+    - slowfall
+  consumables:
+    healstation: 10
+    slab: 2
+    cobblestone: 128
+    sos: 2
+  item:
+    template: "loadout-class"
+    name: "Magmar Kit"
+    material: diamond_hoe
+    lore:
+      description:
+       - "These mages harnessed the power of\n
+          Magma to imbue into their\n
+          weaponry and potions."
+
+      contains:
+       - "*Scepter of Magma\n
+          *Volcanic Gauntlet\n
+          *Healing Glow\n
+          *Massive Quiver\n
+          *Slowfall\n
+          *10 Healing Stations\n
+          *2 SOS\n
+          *128 Cobblestone\n
+          *2 Slabs"
+
 paladin-class:
   enabled: false
   index: 9
@@ -323,43 +360,6 @@ hunter-class:
           *128 Cobblestone\n
           *1 Sword of Santification\n
           *2 Wrenches"
-
-magmar-class:
-  index: 12
-  cost: 64
-  category: kit
-  type: multi
-  elements:
-    - scepterofmagma
-    - volcanic
-    - glow
-    - quiver
-    - slowfall
-  consumables:
-    healstation: 10
-    slab: 2
-    cobblestone: 128
-    sos: 2
-  item:
-    template: "loadout-class"
-    name: "Magmar Kit"
-    material: diamond_hoe
-    lore:
-      description:
-       - "These mages harnessed the power of\n
-          Magma to imbue into their\n
-          weaponry and potions."
-
-      contains:
-       - "*Scepter of Magma\n
-          *Volcanic Gauntlet\n
-          *Healing Glow\n
-          *Massive Quiver\n
-          *Slowfall\n
-          *10 Healing Stations\n
-          *2 SOS\n
-          *128 Cobblestone\n
-          *2 Slabs"
 
 random-class:
   index: 44
