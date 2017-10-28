@@ -181,10 +181,12 @@ gnome-class:
     material: diamond_hoe
     lore:
       description:
-       - "Gnomes were always magically adept, and this\n
-          shows with their mighty volcanic gauntlets. Using three\n
-          arrows per shot, demons burn and crumble. Using the\n
-          magic of the Quiver artifact, the Gnomes were able to\n
+       - "Gnomes were always magically adept\n
+          and this shows with their mighty volcanic\n
+          gauntlets. Using three arrows per shot\n
+          demons burn and crumble. Using the\n
+          magic of the Quiver artifact\n
+          the Gnomes were able to\n
           sustain their rate of fire."
 
       contains:
@@ -198,6 +200,46 @@ gnome-class:
           *128 Cobblestone\n
           *2 Swords of Santification\n
           *3 Slabs"
+
+magmar-class:
+  enabled: false
+  index: 5
+  cost: 64
+  category: kit
+  type: multi
+  elements:
+    - scepter
+    - volcanic
+    - healingglow
+    - quiver
+    - slowfall
+  consumables:
+    heal_station: 10
+    slab: 2
+    mortar: 32
+    cobblestone: 128
+    sos: 2
+  item:
+    template: "loadout-class"
+    name: "Magmar Kit"
+    material: diamond_hoe
+    lore:
+      description:
+       - "These mages harnessed the power of\n
+          Magma to imbue into their\n
+          weaponry and potions."
+
+      contains:
+       - "*Scepter of Magma\n
+          *Volcanic Gauntlet\n
+          *Healing Glow\n
+          *Massive Quiver\n
+          *Slowfall\n
+          *10 Healing Stations\n
+          *2 SOS\n
+          *32 Mortar\n
+          *128 Cobblestone\n
+          *2 Slabs"
 
 paladin-class:
   enabled: false

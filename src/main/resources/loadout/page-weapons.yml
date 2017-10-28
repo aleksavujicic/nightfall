@@ -68,9 +68,51 @@ rapier:
       description:
        - "Hit things for more damage or something"
 
-tigerfist:
+glaive:
   enabled: false
   index: 5
+  type: item
+  name: glaive
+  category: sword
+  cost: 16
+  item:
+    name: "Glaive"
+    base: glaive
+    lore:
+      description:
+       - "ED make this work."
+
+scepter:
+  enabled: false
+  index: 6
+  type: item
+  name: scepter
+  category: sword
+  cost: 16
+  item:
+    name: "Scepter of Magma"
+    base: scepter
+    lore:
+      description:
+       - "El make this work."
+
+hunting-claws:
+  enabled: false
+  index: 7
+  type: item
+  name: hunting_claws
+  category: sword
+  cost: 20
+  item:
+    name: "Hunting Claws"
+    base: hunting
+    lore:
+      description:
+       - "Still broked."
+
+tigerfist:
+  enabled: false
+  index: 8
   type: item
   name: tigerfist
   category: sword

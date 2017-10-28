@@ -30,7 +30,7 @@ class Tombmaker extends AbstractCooldownItem {
 	}
 	
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("sword.tombmaker", Slot.MAIN_HAND);
+	private final static CustomItem ITEM = DwarvenItems.getItem("misc.tombmaker", Slot.MAIN_HAND);
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

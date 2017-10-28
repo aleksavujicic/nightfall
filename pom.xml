@@ -20,7 +20,6 @@
                 <excludes>
                     <exclude>**/*.java</exclude>
                     <exclude>main/resources/**</exclude>
-                    <exclude>main/java/deimophobe/nightfall/monster/spawnmenu/**</exclude>
                 </excludes>
             </resource>
             <resource>
