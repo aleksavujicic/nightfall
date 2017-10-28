@@ -98,7 +98,7 @@ sword:
     modifiers:
       attack: 20
   scepterofmagma:
-    base: runeblade
+    base: scepter
     name: Scepter of Magma
     lore:
       description:
@@ -314,7 +314,7 @@ ale:
       flavour:
        - "\"My potions are too strong for you traveller.\" - Potion Seller"
   glow:
-    base: jimmyjuice
+    base: glow
     name: Healing Glow
     lore:
       description:
