@@ -13,6 +13,7 @@ import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.watchers.ZombieWatcher;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -36,6 +37,7 @@ public class ZombieSaboteur extends Zombie {
     private final int leapLvl;
 
     private final boolean assa;
+    private boolean isInvisible;
 
     private static Integer[] shredValues = {0, 2, 4, 6, 8, 10};
 
@@ -76,6 +78,8 @@ public class ZombieSaboteur extends Zombie {
             assaCD = new DudCooldown();
         }
 
+        isInvisible = false;
+
         getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
         getArmour().addModifier(ItemModifierType.SPEED, 25, "Saboteur Zombie");
         int saboHealthMalus = (upgrades.get("health") + upgrades.get("health-inf")) * -1;
@@ -99,8 +103,13 @@ public class ZombieSaboteur extends Zombie {
         leapCD.update();
         assaCD.update();
         if (b && assaCD.isAvailable()) {
+            isInvisible = true;
             monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
             monster.givePermanentPotionEffect(PotionEffectType.INCREASE_DAMAGE, 1);
+        }
+        if (d && isInvisible) {
+            Location loc = monster.getLocation();
+            loc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, loc, 5, 0.3, 0.3, 0.3);
         }
     }
 
@@ -111,6 +120,7 @@ public class ZombieSaboteur extends Zombie {
         if (damage.getType() == NaturalDamageType.MELEE) {
             monster.givePotionEffect(PotionEffectType.SLOW, 20, 2,true, true,true);
         }
+        isInvisible = false;
         monster.removePotionEffect(PotionEffectType.INVISIBILITY);
         monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
     }
@@ -136,6 +146,7 @@ public class ZombieSaboteur extends Zombie {
         super.onBlockBreak(block, didBreak);
         if (didBreak) {
             assaCD.reset();
+            isInvisible = false;
             monster.removePotionEffect(PotionEffectType.INVISIBILITY);
             monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
         }
@@ -157,6 +168,7 @@ public class ZombieSaboteur extends Zombie {
             assaCD.reset();
         }
         assaCD.reset();
+        isInvisible = false;
         monster.removePotionEffect(PotionEffectType.INVISIBILITY);
         monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
         monster.heal(healAmt);
