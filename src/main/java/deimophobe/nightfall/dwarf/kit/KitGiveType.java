@@ -10,10 +10,26 @@ public enum KitGiveType {
 	BOW,
 	ALE,
 	
-	PICK,
-	AXE,
-	SHOVEL,
+	PICK(true),
+	AXE(true),
+	SHOVEL(true),
 	
-	COMPASS,
-	ARTHEA_SPECIAL
+	COMPASS(true),
+	ARTHEA_SPECIAL;
+	
+	private final boolean multiPickup;
+	public int getMaxDelay() {
+		if (multiPickup)
+			return 15*20;
+		else
+			return Integer.MAX_VALUE;
+	}
+	
+	KitGiveType() {
+		this(false);
+	}
+	
+	KitGiveType(boolean multiPickup) {
+		this.multiPickup = multiPickup;
+	}
 }
