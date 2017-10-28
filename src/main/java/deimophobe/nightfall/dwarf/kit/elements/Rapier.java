@@ -26,9 +26,8 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 	
 	private static final int STACK_CD_TIME = 5*20;
 	private static final int INVINC_TIME = 2*20;
-	private static final int MAX_STACKS = 80;
-	private static final int MAX_AI_STACKS = 30;
-	private static final int PARRY_COST = 8;
+	private static final int MAX_STACKS = 20;
+	private static final int PARRY_COST = 5;
 	
 	private int inivincCD;
 	private int stackCD;
@@ -54,7 +53,7 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 		if (inivincCD > 0)
 			inivincCD--;
 		
-		if (stackCD == 0) {
+		if (stackCD == 0 && quartSec) {
 			if (stacks > 0)
 				stacks--;
 		}
@@ -91,14 +90,12 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 			MonsterEntity monster = damage.getMonster();
 			if (monster instanceof AIEntity) {
 				damage.getDamage().timesMult(0.5);
-				if (stacks < MAX_AI_STACKS)
-					stacks++;
 			} else if (monster instanceof MonsterPlayer) {
-				if (((MonsterPlayer) monster).hasSpawnProtection() && stacks < MAX_STACKS)
+				if (!((MonsterPlayer) monster).hasSpawnProtection() && stacks < MAX_STACKS)
 					stacks++;
 			}
 			
-			damage.getDamage().addBoost(stacks/2);
+			damage.getDamage().addBoost(stacks*2);
 			stackCD = STACK_CD_TIME;
 		}
 	}
@@ -116,7 +113,7 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 		if (Misc.isRightClick(action) && isHoldingItem()) {
 			if (stacks >= PARRY_COST) {
 				stacks -= PARRY_COST;
-				dwarf.leap(2,0.5);
+				dwarf.leap(1.5,0.5);
 				dwarf.playSound("entity.zombie.attack_iron_door", 1f, 1.5f, true);
 				inivincCD = INVINC_TIME;
 				
