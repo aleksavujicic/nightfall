@@ -149,11 +149,11 @@ public class AIManager {
 			int dwarves = DwarfManager.getManager().getNumberOfPlayers();
 			int mobs = MonsterManager.getManager().getNumberOfPlayers();
 			
-			double spawnChance = 0.13 + 0.005 * dwarves + 0.2 * (maxAIs - ais.size()) / maxAIs;
-			spawnChance += (Game.getGame().isNight() ? 0.07 : 0);
+			double spawnChance = 0.05 + 0.005 * dwarves + 0.2 * (maxAIs - ais.size()) / maxAIs;
+			spawnChance *= (Game.getGame().isNight() ? 1.2 : 1);
 			
-			maxAIs = 20 + mobs + 7 * dwarves;
-			maxMarks = 20 + mobs + 5 * dwarves;
+			maxAIs = 15 + 2 * mobs + 7 * dwarves;
+			maxMarks = 15 + 2 * mobs + 5 * dwarves;
 			
 			Collection<Location> spotsToRemove = new HashSet<>();
 			
@@ -162,11 +162,10 @@ public class AIManager {
 				if (ais.size() >= maxAIs) break;
 				
 				double random = Math.random();
-				/*
-				if (random > 0.9) { // Try remove
+				if (random < 0.2) { // Try remove if too close to dwarves
 					int count = 0;
 					for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
-						if (spawnSpot.distance(dwarf.getLocation()) <= 7) {
+						if (spawnSpot.distance(dwarf.getLocation()) <= 5) {
 							count++;
 						}
 					}
@@ -174,7 +173,6 @@ public class AIManager {
 						spotsToRemove.add(spawnSpot);
 					continue;
 				}
-				*/
 				if (random > spawnChance) continue;
 				if (shrineProt.containsLocation(spawnSpot)) {
 					spotsToRemove.add(spawnSpot);
