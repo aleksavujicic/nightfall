@@ -173,11 +173,11 @@ warpweaver:
 volcanic:
   index: 15
   type: item
-  name: volcanic_bow
+  name: volcanic
   category: bow
   cost: 16
   item:
-    name: "Volcanic Bow"
+    name: "Volcanic Gauntlet"
     base: volcanic
     lore:
       description:
