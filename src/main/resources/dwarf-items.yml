@@ -78,7 +78,7 @@ sword:
     lore:
       description:
         - "Hitting player controlled mobs grants\n
-           a stack up to &b20&r stacks for &b50&r max power.\n
+           a stack up to &b20&r stacks for &b50&r max attack.\n
            Right click to leap forward, using &e5&r stacks."
       flavour:
         - "\"Strike at their weak points, and then finish them quickly.\" - Velvetine"

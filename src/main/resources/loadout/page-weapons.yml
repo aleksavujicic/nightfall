@@ -70,7 +70,7 @@ rapier:
     lore:
       description:
        - "Hitting player controlled mobs grants\n
-          a stack up to &b20&r stacks for &b50&r max power.\n
+          a stack up to &b20&r stacks for &b50&r max attack.\n
           Right click to leap forward, using &e5&r stacks.\n
           &3Attack: &b10&r"
 
