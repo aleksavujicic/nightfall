@@ -62,11 +62,14 @@ rapier:
   category: sword
   cost: 20
   item:
-    name: "Rapier"
+    name: "Flambert"
     base: rapier
     lore:
       description:
-       - "Hit things for more damage or something"
+       - "Hitting player controlled mobs grants\n
+           a stack of power up to 20 stacks.\n
+           Right click to leap forward, using\n
+           a quarter of your stacks."
 
 glaive:
   enabled: false
@@ -223,7 +226,8 @@ volcanic:
     base: volcanic
     lore:
       description:
-       - "Fire an arrow that pierces everything in\n
+       - "Charge up a lined blast of fire\n
+          that pierces everything in\n
           its path. Uses 3 arrows a shot."
 minigun:
   index: 16
@@ -236,7 +240,9 @@ minigun:
     base: crossbow
     lore:
       description:
-       - "Pew pew pew pew pew pew pew pew pew pew."
+       - "An automatic crossbow that will\n
+          continue to fire until your arrows\n
+          are depleted."
 turret:
   enabled: false
   index: 17

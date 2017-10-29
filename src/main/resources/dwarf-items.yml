@@ -75,12 +75,15 @@ sword:
       speed: 30
   rapier:
     base: rapier
-    name: Rapier
+    name: Flambert
     lore:
       description:
-        - "Hit things lots."
+        - "Hitting player controlled mobs grants\n
+           a stack of power up to 20 stacks.\n
+           Right click to leap forward, using\n
+           a quarter of your stacks."
       flavour:
-        - "Don't ask me to write quotes."
+        - "\"Strike at their weakpoints, then finish them quick.\." - Velvetine"
     modifiers:
       attack: 10
   glaive:
@@ -216,10 +219,11 @@ bow:
     name: Volcanic Gauntlet
     lore:
       description:
-       - "Fire an arrow that pierces everything in\n
+       - "Charge up a lined blast of fire\n
+          that pierces everything in\n
           its path. Uses 3 arrows a shot."
       flavour:
-       - "\"This bow can even burn hellhounds.\" -Tui"
+       - "\"This gauntlet can even burn hellhounds.\" -Tui"
     modifiers:
       attack: 10
 
@@ -228,9 +232,11 @@ bow:
     name: Minigun
     lore:
       description:
-       - "Temp"
+       - "An automatic crossbow that will\n
+          continue to fire until your arrows\n
+          are depleted."
       flavour:
-       - "Temp"
+       - "Pew pew!"
   velbow:
     template: dwarf-hero
     base: dskin
