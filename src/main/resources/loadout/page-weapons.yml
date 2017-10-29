@@ -62,14 +62,14 @@ rapier:
   category: sword
   cost: 20
   item:
-    name: "Flambert"
+    name: "Rapier"
     base: rapier
     lore:
       description:
        - "Hitting player controlled mobs grants\n
            a stack of power up to 20 stacks.\n
            Right click to leap forward, using\n
-           a quarter of your stacks."
+           a fifth of your stacks."
 
 glaive:
   enabled: false

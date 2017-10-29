@@ -11,7 +11,6 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import deimophobe.nightfall.monster.ai.AIEntity;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -25,10 +24,10 @@ import org.bukkit.inventory.ItemStack;
  */
 class Rapier extends AbstractItem implements KitCooldownElement {
 	
-	private static final int STACK_CD_TIME = 4*20;
+	private static final int STACK_CD_TIME = 5*20;
 	private static final int INVINC_TIME = 2*20;
 	private static final int MAX_STACKS = 20;
-	private static final int PARRY_COST = 5;
+	private static final int PARRY_COST = 4;
 	
 	private int inivincCD;
 	private int stackCD;
@@ -91,9 +90,7 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 		super.onDamageAttack(damage);
 		if (damageFromItem(damage)) {
 			MonsterEntity monster = damage.getMonster();
-			if (monster instanceof AIEntity) {
-				damage.getDamage().timesMult(0.5);
-			} else if (monster instanceof MonsterPlayer) {
+			if (monster instanceof MonsterPlayer) {
 				if (!((MonsterPlayer) monster).hasSpawnProtection() && stacks < MAX_STACKS)
 					stacks++;
 			}

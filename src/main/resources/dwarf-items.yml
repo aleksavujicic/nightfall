@@ -75,15 +75,15 @@ sword:
       speed: 30
   rapier:
     base: rapier
-    name: Flambert
+    name: Rapier
     lore:
       description:
         - "Hitting player controlled mobs grants\n
            a stack of power up to 20 stacks.\n
            Right click to leap forward, using\n
-           a quarter of your stacks."
+           a fifth of your stacks."
       flavour:
-        - "\"Strike at their weakpoints, then finish them quick.\." - Velvetine"
+        - "\"Strike at their weakpoints, then finish them quick.\" - Velvetine"
     modifiers:
       attack: 10
   glaive:
