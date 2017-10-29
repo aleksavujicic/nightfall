@@ -54,6 +54,7 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 			stackCD--;
 		if (inivincCD > 0)
 			inivincCD--;
+		leapCD.update();
 		
 		if (stackCD == 0 && quartSec) {
 			if (stacks > 0)
