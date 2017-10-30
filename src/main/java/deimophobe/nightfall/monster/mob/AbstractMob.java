@@ -175,7 +175,6 @@ public abstract class AbstractMob implements Mob {
 	
 	protected void setArmour() {
 		PlayerInventory inv = monster.getPlayer().getInventory();
-		getArmour().addModifier(ItemModifierType.DEPTH_STRIDER, 3);
 		mobData.slot.equipArmour(inv, getArmour().createItemStack());
 	}
 	
