@@ -20,7 +20,6 @@ public enum KitElementType {
 	GLAIVE,
 	SCEPTER,
 	HUNTING_CLAWS,
-	TIGERFIST,
 	GREATSWORD,
 
 	// Bows
@@ -129,7 +128,6 @@ public enum KitElementType {
 			case GLAIVE: return new Glaive(dwarf);
 			case SCEPTER: return new ScepterOfMagma(dwarf);
 			case HUNTING_CLAWS: return new HuntingClaws(dwarf);
-			case TIGERFIST: return new TigerFist(dwarf);
 			case GREATSWORD: return new Greatsword(dwarf);
 			
 			// Bows

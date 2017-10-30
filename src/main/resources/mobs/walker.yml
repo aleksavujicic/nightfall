@@ -21,7 +21,7 @@ armour:
   modifiers:
     kb-resist: 1
 weapon:
-  base: tigerfist
+  base: hunting
   name: "Temp"
   lore:
     description:

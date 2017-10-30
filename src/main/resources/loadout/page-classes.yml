@@ -17,7 +17,7 @@ warrior-class:
   item:
     template: "loadout-class"
     name: "Warrior Kit"
-    material: diamond_hoe
+    base: runeblade
     lore:
       description:
        - "The basic all around fighter with the \n
@@ -56,7 +56,7 @@ ranger-class:
   item:
     template: "loadout-class"
     name: "Ranger Kit"
-    material: diamond_hoe
+    base: longbow
     lore:
       description:
        - "Quick and agile, The Ranger is a perfect\n
@@ -97,7 +97,7 @@ beserker-class:
   item:
     template: "loadout-class"
     name: "Beserker Kit"
-    material: diamond_hoe
+    base: malice
     lore:
       description:
        - "Brute strength is all that matters\n
@@ -137,7 +137,7 @@ elven-class:
   item:
     template: "loadout-class"
     name: "Elven Kit"
-    material: diamond_hoe
+    base: dagger
     lore:
       description:
        - "Unlike their Ranger counterparts, this class\n
@@ -178,7 +178,7 @@ gnome-class:
   item:
     template: "loadout-class"
     name: "Gnome Kit"
-    material: diamond_hoe
+    base: volcanic
     lore:
       description:
        - "Gnomes were always magically adept\n
@@ -331,7 +331,7 @@ hunter-class:
   category: kit
   type: multi
   elements:
-    - tigerfist
+    - hunting_claws
     - warpweaver
     - trinket
     - studded
@@ -353,7 +353,7 @@ hunter-class:
           the battlefield striking with their furious claws."
 
       contains:
-       - "*Tiger Fist\n
+       - "*Hunting Claws\n
           *Warpweaver Bow\n
           *Star Trinket\n
           *Studded Armour\n

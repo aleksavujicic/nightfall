@@ -17,8 +17,7 @@ sword:
     name: Greater Runeblade
     lore:
       description:
-       - "A fully proccable weapon\n
-          Right click to &brunedash&r into\n
+       - "Right click to &brunedash&r into\n
           monsters, damaging or killing them\n
           instantly with a proc."
       flavour:
@@ -79,11 +78,10 @@ sword:
     lore:
       description:
         - "Hitting player controlled mobs grants\n
-           a stack of power up to 20 stacks.\n
-           Right click to leap forward, using\n
-           a fifth of your stacks."
+           a stack up to &b20&r stacks for &b50&r max attack.\n
+           Right click to leap forward, using &e5&r stacks."
       flavour:
-        - "\"Strike at their weakpoints, then finish them quick.\" - Velvetine"
+        - "\"Strike at their weak points, and then finish them quickly.\" - Velvetine"
     modifiers:
       attack: 10
   glaive:
@@ -117,19 +115,6 @@ sword:
        - "Temp"
     modifiers:
       attack: 20
-  tigerfist:
-    base: tigerfist
-    name: Tiger Fist
-    lore:
-      description:
-       - "Right click and hold for\n
-          a fully charged and constant leap\n
-          that extends with each monster\n
-          killed."
-      flavour:
-       - "\"Stop bunny hopping and get to work!\" - Tui"
-    modifiers:
-      attack: 20
 
 bow:
   shortbow:
@@ -147,10 +132,10 @@ bow:
     lore:
       description:
        - "Left click to enable &bPower Shot Mode&r.\n
-          Power shots do 125 power damage that\n
+          Power shots do &b125&r power damage that\n
           pierces half of target arrow resistance\n
-          and gives a 5 second proc on kill.\n
-          Cooldown of 30s."
+          and gives a &b5&r second proc on kill.\n
+          Cooldown of &e30s&r."
       flavour:
        - "\"Feel the PROC pulsing through your bow.\" - Velvetine"
   longbow:
@@ -160,8 +145,8 @@ bow:
       description:
        - "Kills with this bow stack\n
           up to 25 times for a total\n
-          of 210 Power, losing 30 power over\n
-          an 8 second timer without a kill."
+          of &b210&r Power, losing &b30&r power over\n
+          &e8 seconds&r without a kill."
       flavour:
        - "\"Aim for the wolves, they're ankle-biters!\" - Velvetine"
   crossbow:
@@ -293,10 +278,9 @@ ale:
     lore:
       description:
        - "Left click to heal yourself\n
-          for &b$manacost&r mana.\n
-          Right click on dwarves heals\n
-          them and their armour at the cost\n
-          of your mana."
+          for &b100&r mana.\n
+          Right click on dwarves to heal\n
+          them and their armour for &b10&r mana."
       flavour:
        - "\"For those who want others to live another night.\" - Arthea"
   chug:
@@ -308,7 +292,7 @@ ale:
           amount of health. Uses &b$manacost&r mana.\n
           You are able to spam this as much as you want\n
           so be careful and watch your mana!\n
-          You also gain speed for 2.5 seconds each sip."
+          You also gain &espeed for 2.5 seconds&r each sip."
       flavour:
        - "\"One of Potion Sellers experimental potions. Use with care.\" "
   strong:
@@ -316,9 +300,8 @@ ale:
     name: Potion Seller's Strongest Potion
     lore:
       description:
-       - "A very strong potion, making you feel like a hero\n
-          with damage reduction, however it uses $manacost\n
-          mana."
+       - "A very strong potion, which gives you %e75% resistance&r\n
+          making you feel like a hero, however it uses &b$manacost&r mana."
       flavour:
        - "\"My potions are too strong for you traveller.\" - Potion Seller"
   glow:
@@ -326,9 +309,8 @@ ale:
     name: Healing Glow
     lore:
       description:
-        - "While taking fire tick damage\n
-           gain fire resistance and mana regeneration
-           costs &b$manacost&r mana."
+        - "Gain fire resistance and mana regeneration\n
+           While taking fire damage. Costs &b$manacost&r mana."
       flavour:
         - "Hm, this stuff seems like it's boiling."
 
@@ -346,8 +328,7 @@ consumable:
     name: EZ Fix Slab
     lore:
       description:
-       - "Left click to Summons a thick wall\n
-          to patch in holes, or slow mobs."
+       - "Left click to summon a thick wall."
       flavour:
        - "\"Slab! And a slab! And another slab!\" - Tui"
   sos:
@@ -355,7 +336,7 @@ consumable:
     name: Sword of Santification
     lore:
       description:
-       - "Left click to call upon the mighty sword\n
+       - "Left click to call upon the mighty swords\n
           freezing mobs caught inside its area,\n
           and allowing you to finish them off."
       flavour:
@@ -367,7 +348,7 @@ consumable:
       description:
        - "Left click to fully repair your\n
           dwarven armour at the cost of gold.\n
-          Needs gold to work."
+          Needs 50 gold to work."
       flavour:
        - "\"Who needs teamwork when you got these?\" - Tui"
   mortar:
@@ -385,7 +366,7 @@ consumable:
     name: Wizard Mortar
     lore:
       description:
-       - "Left click toFully repair walls to blue.\n
+       - "Left click to fully repair walls to blue.\n
           Only works after mobs are released."
       flavour:
        - "Don't ask what makes it blue."
@@ -445,7 +426,7 @@ consumable:
        - "Right click on oil to turn\n
           into mortar."
       flavour:
-       - "Careful jimmy, it's very sticky."
+       - "It's a large bowl, could hold mortar."
 
   torch:
     material: torch
@@ -554,8 +535,8 @@ hero:
     shiny: true
     lore:
       description:
-       - "Right click to Roar!\n
-          Attracting all AIs to you."
+       - "Right click to Roar, giving a proc and\n
+          attracting all AIs to you."
       flavour:
         - |-
           Rank 11? Psssh, that's nothing. When you've lived your whole
