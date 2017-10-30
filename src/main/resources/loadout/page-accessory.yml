@@ -86,7 +86,7 @@ wizard_one:
     lore:
       description:
        - "Gives you 16 Wizard Mortar\n
-          which can instantly blue thr walls."
+          which can instantly blue the walls."
 wizard_two:
   index: 18
   type: consumable
