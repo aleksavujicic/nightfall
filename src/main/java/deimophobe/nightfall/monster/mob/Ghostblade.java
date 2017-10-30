@@ -31,10 +31,15 @@ class Ghostblade extends AbstractMob {
 		super(mons, type.mobType);
 		
 		this.type = type;
-		if (type == GBType.DAGGER)
-			MAX_CD = 50;
-		else
-			MAX_CD = 100;
+		switch (type) {
+			case SPAWN:
+			case DAGGER:
+				MAX_CD = 50;
+				break;
+			default:
+				MAX_CD = 100;
+				break;
+		}
 	}
 	
 	@Override
@@ -50,7 +55,7 @@ class Ghostblade extends AbstractMob {
 		
 		if (halfSec && !isPlayerHoldingWeapon()) {
 			monster.getPlayer().getInventory().setHeldItemSlot(0);
-			monster.doDamage(null, CustomDamageType.INCORRECT_HELD_ITEM, 4, true);
+			monster.doDamage(null, CustomDamageType.INCORRECT_HELD_ITEM, 10, true);
 			monster.givePotionEffect(PotionEffectType.GLOWING, 20, 1, true, true, true);
 		}
 	}
@@ -87,6 +92,7 @@ class Ghostblade extends AbstractMob {
 		AXE(MobType.GB_AXE),
 		DAGGER(MobType.GB_DAGGER),
 		HAMMER(MobType.GB_HAMMER),
+		SPAWN(MobType.GB_SPAWN),
 		
 		;
 		
