@@ -383,6 +383,10 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			updateVisibility();
 		}
 		
+		if (hasProc()) {
+			getWorld().spawnParticle(Particle.VILLAGER_HAPPY, getEyeLocation(), 1, 0.5, 0.5, 0.5);
+		}
+		
 		usedThisTick = false;
 	}
 	

@@ -52,7 +52,7 @@ public enum ProcType {
 		dwarf.givePotionEffect(PotionEffectType.FAST_DIGGING, duration, hasteLvl, true, false, overwrite);
 		
 		if (showParticles)
-			dwarf.getPlayer().getWorld().spawnParticle(Particle.VILLAGER_HAPPY, dwarf.getPlayer().getLocation(), 60, 1, 1, 1);
+			dwarf.getPlayer().getWorld().spawnParticle(Particle.VILLAGER_HAPPY, dwarf.getPlayer().getEyeLocation(), 60, 1, 1, 1);
 		
 		if (playSound)
 			dwarf.playSound("proc", 100f, 1f, false);
