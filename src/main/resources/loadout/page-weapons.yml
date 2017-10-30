@@ -28,7 +28,7 @@ malice:
       description:
        - "Right click to go into a &4Blood rage&r,\n
           allowing you to proc, regaining health and mana\n
-          for a short duration."
+          for a short duration.
           &3Attack: &b20&r"
 hammer:
   index: 2
