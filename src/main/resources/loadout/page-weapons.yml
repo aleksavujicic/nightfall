@@ -232,21 +232,6 @@ volcanic:
           that pierces everything in\n
           its path. Uses 3 arrows a shot.\n
           &3Power: &b60&r"
-minigun:
-  index: 16
-  type: item
-  name: minigun
-  category: bow
-  cost: 14
-  item:
-    name: "Minigun"
-    base: crossbow
-    lore:
-      description:
-       - "An automatic crossbow that will\n
-          continue to fire until your arrows\n
-          are depleted.\n
-          &3Power: &b60&r"
 turret:
   enabled: false
   index: 17
