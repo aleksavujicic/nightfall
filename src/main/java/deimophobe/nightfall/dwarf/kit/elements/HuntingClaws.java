@@ -14,6 +14,7 @@ import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -52,6 +53,11 @@ class HuntingClaws extends AbstractItem implements KitCooldownElement {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		warpCD.update();
 		if (huntTime > 0) {
+			
+			if (target != null) {
+				dwarf.getPlayer().spawnParticle(Particle.SPELL_WITCH, target.getLocation(), 5, 0.3, 0.3, 0.3, 0);
+			}
+			
 			huntTime--;
 			if (huntTime == 0)
 				endHunt();
@@ -170,6 +176,7 @@ class HuntingClaws extends AbstractItem implements KitCooldownElement {
 	
 	private void setupTarget() {
 		GlowManager.getManager().makeGlowFor(target, dwarf);
+		dwarf.sendTitleMessage(ChatColor.GOLD + "Target: " + target.getDisplayName());
 	}
 	
 	
