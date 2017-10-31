@@ -14,16 +14,15 @@ import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
+
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 27/10/17.
@@ -188,9 +187,10 @@ class HuntingClaws extends AbstractItem implements KitCooldownElement {
 	// ----- WARP -----
 	
 	private void warp() {
-		Block block = dwarf.getTargetBlock(null, 15);
+		Block block = dwarf.getPlayer().getLastTwoTargetBlocks((Set<Material>) null, 15).get(0);
+		Vector facing = dwarf.getLocation().getDirection();
 		Location loc = block.getLocation();
-		loc.setDirection(dwarf.getLocation().getDirection());
+		loc.setDirection(facing);
 		teleportTo(loc);
 	}
 	
