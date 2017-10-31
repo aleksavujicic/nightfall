@@ -8,9 +8,14 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 import deimophobe.nightfall.entity.GamePlayer;
+import me.libraryaddict.disguise.DisguiseAPI;
+import me.libraryaddict.disguise.disguisetypes.Disguise;
+import me.libraryaddict.disguise.events.DisguiseEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 import java.util.*;
 
@@ -22,21 +27,22 @@ public class GlowManager {
 		return Game.getGame().getGlowManager();
 	}
 	
-	private final Map<GamePlayer, Set<GamePlayer>> glowMap = new HashMap<>();
+	private final Map<UUID, Set<GamePlayer>> glowMap = new HashMap<>();
 	private final PacketAdapter glowChanger;
 	
 	GlowManager() {
 		// It's bad that we need to use ListenerPriority.Monitor,
 		// but Lib's Disguises seems to take highest, and we need
 		// a higher priority.
-		glowChanger = new PacketAdapter(NightfallPlugin.getPlugin(), ListenerPriority.MONITOR, PacketType.Play.Server.ENTITY_METADATA) {
+		glowChanger = new PacketAdapter(NightfallPlugin.getPlugin(), ListenerPriority.HIGHEST, PacketType.Play.Server.ENTITY_METADATA) {
 			@Override
 			public void onPacketSending(PacketEvent event) {
 				// First get players that are force glowed - return if there are none.
-				Set<GamePlayer> gpToGlow = glowMap.get(Game.getGame().getGamePlayer(event.getPlayer()));
+				Set<GamePlayer> gpToGlow = glowMap.get(event.getPlayer().getUniqueId());
 				if (gpToGlow == null) return;
 				
 				// Get entity id
+				event.setPacket(event.getPacket().deepClone());
 				PacketContainer packet = event.getPacket();
 				int id = packet.getIntegers().read(0);
 				for (GamePlayer gp : gpToGlow) {
@@ -45,8 +51,7 @@ public class GlowManager {
 					if (visEntity != null && visEntity.getEntityId() != id) continue;
 					
 					// If found match, alter packet appropriately
-					PacketContainer newPacket = packet.deepClone();
-					List<WrappedWatchableObject> objects = newPacket.getWatchableCollectionModifier().read(0);
+					List<WrappedWatchableObject> objects = packet.getWatchableCollectionModifier().read(0);
 					for (WrappedWatchableObject object : objects) {
 						// Setting a bit to make glow
 						if (object.getIndex() != 0) continue;
@@ -54,10 +59,7 @@ public class GlowManager {
 						byte b = (byte) object.getValue();
 						b = (byte) (b | 0b01000000);
 						object.setValue(b);
-						Bukkit.broadcastMessage("Set glow value for: " + event.getPlayer().getDisplayName());
-						Bukkit.broadcastMessage("Packet: " +newPacket.toString());
-						event.setReadOnly(false);
-						event.setPacket(newPacket);
+						event.setPacket(packet);
 					}
 					return;
 				}
@@ -72,16 +74,39 @@ public class GlowManager {
 	
 	public void makeGlowFor(GamePlayer glower, GamePlayer glowFor) {
 		if (glower == null || glowFor == null) return;
-		checkIfEmpty(glowFor);
-		glowMap.get(glowFor).add(glower);
+		
+		UUID glowForID = glowFor.getUniqueId();
+		checkIfEmpty(glowForID);
+		glowMap.get(glowForID).add(glower);
+		//makeDisguiseGlow(glower, glowFor);
 		refresh(glower, glowFor);
 	}
 	
 	public void disableGlowFor(GamePlayer glower, GamePlayer glowFor) {
 		if (glower == null || glowFor == null) return;
-		checkIfEmpty(glowFor);
-		glowMap.get(glowFor).remove(glower);
+		
+		UUID glowForID = glowFor.getUniqueId();
+		checkIfEmpty(glowForID);
+		glowMap.get(glowForID).remove(glower);
+		//stopDisguiseGlow(glower, glowFor);
+		if (glowMap.get(glowForID).isEmpty())
+			reset(glowFor);
+		
 		refresh(glower, glowFor);
+	}
+	
+	public void reset(GamePlayer glowFor) {
+		glowMap.remove(glowFor.getUniqueId());
+		refreshAll(glowFor);
+	}
+	
+	public void refreshAll(GamePlayer glowFor) {
+		Player playerFor = glowFor.getPlayer();
+		
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			playerFor.hidePlayer(player);
+			playerFor.showPlayer(player);
+		}
 	}
 	
 	public void refresh(GamePlayer glower, GamePlayer glowFor) {
@@ -93,7 +118,30 @@ public class GlowManager {
 		playerFor.showPlayer(playerer);
 	}
 	
-	private void checkIfEmpty(GamePlayer key) {
+	private void checkIfEmpty(UUID key) {
 		glowMap.putIfAbsent(key, new HashSet<>());
+	}
+	
+	// ------ DISGUISE STUFF ------
+	
+	private void makeDisguiseGlow(GamePlayer glower, GamePlayer glowFor) {
+		Disguise disguise = glower.getDisguise();
+		if (disguise != null) {
+			Disguise clone = disguise.clone();
+			clone.getWatcher().setGlowing(true);
+			DisguiseAPI.disguiseToPlayers(glower.getEntity(), clone, glowFor.getPlayer());
+		}
+	}
+	
+	private void stopDisguiseGlow(GamePlayer glower, GamePlayer glowFor) {
+		DisguiseAPI.disguiseToPlayers(glower.getEntity(), glowFor.getDisguise(), glowFor.getPlayer());
+	}
+	
+	private class DisguiseGlowChanger implements Listener {
+		@EventHandler
+		public void onDisguise(DisguiseEvent event) {
+		
+		}
+		
 	}
 }

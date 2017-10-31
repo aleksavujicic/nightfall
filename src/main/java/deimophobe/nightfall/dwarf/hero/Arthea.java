@@ -1,12 +1,6 @@
 package deimophobe.nightfall.dwarf.hero;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.*;
-import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 import deimophobe.nightfall.Hat;
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -15,19 +9,12 @@ import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.GameEntity;
-import deimophobe.nightfall.monster.MonsterManager;
-import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Deimophobe on 7/05/17.
@@ -195,48 +182,48 @@ public class Arthea extends Hero {
 		//makeMobsGlow();
 	}
 	
-	private PacketListener glower;
-	private Set<Integer> mobIDs = new HashSet<>();
-	private void makeMobsGlow() {
-		updateMobList();
-		
-		// https://www.spigotmc.org/threads/simulating-potion-effect-glowing-with-protocollib.218828/#post-2246160
-		// http://wiki.vg/Entities#Entity
-		// https://bukkit.org/threads/glowing-for-one-person.446790/
-		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-		
-		glower = new PacketAdapter(NightfallPlugin.getPlugin(), ListenerPriority.HIGHEST, PacketType.Play.Server.ENTITY_METADATA) {
-			@Override
-			public void onPacketSending(PacketEvent event) {
-				if (event.getPlayer() != player) return;
-				PacketContainer packet = event.getPacket();
-				int id = packet.getIntegers().read(0);
-				if (!mobIDs.contains(id)) return;
-				
-				List<WrappedWatchableObject> objects = packet.getWatchableCollectionModifier().read(0);
-				for (WrappedWatchableObject object : objects) {
-					if (object.getIndex() != 0) continue;
-					byte b = (byte) object.getValue();
-					b = (byte) (b | 0b01000000);
-					object.setValue(b);
-				}
-			}
-		};
-		
-		protocolManager.addPacketListener(glower);
-	}
-	private void updateMobList() {
-		for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
-			Entity visibleEntity = monster.getDisguiseEntity();
-			if (visibleEntity == null)
-				visibleEntity = monster.getEntity();
-			
-			mobIDs.add(visibleEntity.getEntityId());
-		}
-	}
-	
-	private void cancelGlow() {
-		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-		protocolManager.removePacketListener(glower);
-	}
+//	private PacketListener glower;
+//	private Set<Integer> mobIDs = new HashSet<>();
+//	private void makeMobsGlow() {
+//		updateMobList();
+//
+//		// https://www.spigotmc.org/threads/simulating-potion-effect-glowing-with-protocollib.218828/#post-2246160
+//		// http://wiki.vg/Entities#Entity
+//		// https://bukkit.org/threads/glowing-for-one-person.446790/
+//		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+//
+//		glower = new PacketAdapter(NightfallPlugin.getPlugin(), ListenerPriority.HIGHEST, PacketType.Play.Server.ENTITY_METADATA) {
+//			@Override
+//			public void onPacketSending(PacketEvent event) {
+//				if (event.getPlayer() != player) return;
+//				PacketContainer packet = event.getPacket();
+//				int id = packet.getIntegers().read(0);
+//				if (!mobIDs.contains(id)) return;
+//
+//				List<WrappedWatchableObject> objects = packet.getWatchableCollectionModifier().read(0);
+//				for (WrappedWatchableObject object : objects) {
+//					if (object.getIndex() != 0) continue;
+//					byte b = (byte) object.getValue();
+//					b = (byte) (b | 0b01000000);
+//					object.setValue(b);
+//				}
+//			}
+//		};
+//
+//		protocolManager.addPacketListener(glower);
+//	}
+//	private void updateMobList() {
+//		for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
+//			Entity visibleEntity = monster.getDisguiseEntity();
+//			if (visibleEntity == null)
+//				visibleEntity = monster.getEntity();
+//
+//			mobIDs.add(visibleEntity.getEntityId());
+//		}
+//	}
+//
+//	private void cancelGlow() {
+//		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+//		protocolManager.removePacketListener(glower);
+//	}
 }

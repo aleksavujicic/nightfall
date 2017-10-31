@@ -520,22 +520,4 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		if (!isFrozen())
 			super.setVelocity(vel);
 	}
-	
-	
-	// ------ MISC ------
-
-	public Entity getDisguiseEntity() {
-		if (mob == null || mob.getDisguise() == null)
-			return null;
-		return mob.getDisguise().getEntity();
-	}
-	
-	@Override
-	public Entity getVisibleEntity() {
-		Entity visibleEntity = getDisguiseEntity();
-		if (visibleEntity == null)
-			visibleEntity = getEntity();
-		
-		return visibleEntity;
-	}
 }

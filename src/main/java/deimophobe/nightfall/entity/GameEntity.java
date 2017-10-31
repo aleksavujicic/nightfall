@@ -3,6 +3,8 @@ package deimophobe.nightfall.entity;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
+import me.libraryaddict.disguise.DisguiseAPI;
+import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
@@ -203,9 +205,17 @@ public interface GameEntity<E extends LivingEntity> {
 		getEntity().removePotionEffect(type);
 	}
 	
+	
+	
+	// ----- MISC -----
+	
 	default boolean isUnderwater() {
 		Block lowerBlock = getEntity().getLocation().getBlock();
 		Block upperBlock = lowerBlock.getRelative(BlockFace.UP);
 		return (lowerBlock.isLiquid() || upperBlock.isLiquid());
+	}
+	
+	default Disguise getDisguise() {
+		return DisguiseAPI.getDisguise(getEntity());
 	}
 }
