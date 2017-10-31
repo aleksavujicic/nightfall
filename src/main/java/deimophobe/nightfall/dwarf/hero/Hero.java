@@ -146,7 +146,8 @@ public class Hero extends Dwarf {
 				EXTRA_ARTHEA_CONSUMABLES,
 				KitElementType.HEALER_TOTEM,
 				KitElementType.CADUCEUS,
-				KitElementType.ELYSTRIA),
+				KitElementType.ELYSTRIA,
+		        KitElementType.LUMINOUS),
 		
 		VELVETINE("Velvetine", Hat.VELVETINE, "velvetine", "Dwarven Hero", ChatColor.DARK_PURPLE,
 				KitElementType.VELSWORD,
