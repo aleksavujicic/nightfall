@@ -59,9 +59,6 @@ public class GameListener implements Listener {
 		Game.getGame().giveShrineBarToPlayer(player);
 		Game.getGame().giveScoreboard(player);
 		
-		if (game.getPhase() == Phase.STARTING)
-			Misc.loadSound(player, "division");
-		
 		if (player.isDead())
 			return;
 		

@@ -9,7 +9,6 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.scoreboard.Scoreboard;
@@ -182,10 +181,5 @@ public class Misc {
 	// ------ ITEMS ------
 	public static CustomItem getItem(String name) {
 		return CustomItem.getItem(getInternalFileConfig("misc-items.yml").getConfigurationSection(name), LoreTemplate.DEFAULT, Slot.MAIN_HAND);
-	}
-	
-	// ------ MISC ------
-	public static void loadSound(Player player, String soundName) {
-		player.playSound(player.getLocation().add(0,0,0), soundName, 0.01f, 1f);
 	}
 }
