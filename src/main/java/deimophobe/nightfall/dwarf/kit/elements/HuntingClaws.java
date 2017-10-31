@@ -171,7 +171,8 @@ class HuntingClaws extends AbstractItem implements KitCooldownElement {
 	private void reselectTarget() {
 		GlowManager.getManager().disableGlowFor(target, dwarf);
 		target = MonsterManager.getManager().getNearestAlive(dwarf.getLocation());
-		setupTarget();
+		if (target != null)
+			setupTarget();
 	}
 	
 	private void setupTarget() {
