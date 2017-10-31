@@ -109,6 +109,7 @@ public class ZombieHusk extends Zombie {
                 monster.getPlayer().setVelocity(new Vector(currentVelocity.getX()*2.5, -1.5, currentVelocity.getZ()*2.5));
             }
             if (monster.getPlayer().isOnGround()) {
+                monster.removePotionEffect(PotionEffectType.LUCK);
                 world.spawnParticle(Particle.EXPLOSION_LARGE, monster.getLocation(), 3, 1, 1, 1);
                 monster.playSound("drum", 1f, 0.5f, true);
                 monster.playSound("entity.generic.explode", 0.5f, 0.5f, true);
@@ -170,7 +171,7 @@ public class ZombieHusk extends Zombie {
                 double hVel = (double) leapLvl/10+0.4;
                 double vVel = (double) leapLvl/30+0.5;
                 monster.getPlayer().setVelocity(new Vector(-hVel * Math.sin(radYaw), vVel, hVel * Math.cos(radYaw)));
-                giveSpawnProtection(40);
+                giveSpawnProtection(50);
                 smashing = true;
             }
         }
