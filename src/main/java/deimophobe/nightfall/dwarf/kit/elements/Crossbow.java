@@ -97,7 +97,7 @@ class Crossbow extends AbstractBow implements KitCooldownElement {
 	private void fireRapidArrow() {
 		if (dwarf.hasArrows(1) && isHoldingItem()) {
 			dwarf.useArrow();
-			fireArrow(3f, 1, 10f);
+			fireArrow(3f, 1, 4f);
 			dwarf.playSound("entity.arrow.shoot", 5f, 0.9f, true);
 		} else {
 			stopFiring();
