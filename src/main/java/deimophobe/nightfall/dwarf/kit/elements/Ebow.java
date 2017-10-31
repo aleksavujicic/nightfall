@@ -46,8 +46,9 @@ class Ebow extends AbstractBow {
 		
 		// This code makes it so that if force is >= 0.6, then it requires
 		// an extra arrow to fire (otherwise it is capped at 0.6),
-		if (!dwarf.hasArrows(2)) return null;
-		dwarf.useArrows(2);
+		int arrowUse = (int)(2 * force);
+		if (!dwarf.hasArrows(arrowUse)) return null;
+		dwarf.useArrows(arrowUse);
 		
 		double range = MAX_RANGE * force * force;
 		
