@@ -10,7 +10,7 @@ public enum ProcType {
 	REGULAR		(60, 1, 5, 0, true, true, true),
 	DRAGONSKIN	(100, 1, 5, 0, true, true, true),
 	GRAVEL_PROC	(60, 1, 5, 0, true, true, true),
-	EBOW		(40, 1, 3, 0, true, true, true),
+	EBOW		(40, 1, 3, 0, true, true, false),
 	MALICE		(160, 2, 6, 0, true, true, true),
 	
 	VELSWORD	(80, 2, 8, 0, true, true, true),
@@ -52,7 +52,7 @@ public enum ProcType {
 		dwarf.givePotionEffect(PotionEffectType.FAST_DIGGING, duration, hasteLvl, true, false, overwrite);
 		
 		if (showParticles)
-			dwarf.getPlayer().getWorld().spawnParticle(Particle.VILLAGER_HAPPY, dwarf.getPlayer().getLocation(), 60, 1, 1, 1);
+			dwarf.getPlayer().getWorld().spawnParticle(Particle.VILLAGER_HAPPY, dwarf.getPlayer().getEyeLocation(), 60, 1, 1, 1);
 		
 		if (playSound)
 			dwarf.playSound("proc", 100f, 1f, false);

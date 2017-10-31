@@ -11,7 +11,6 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import deimophobe.nightfall.monster.ai.AIEntity;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -25,7 +24,7 @@ import org.bukkit.inventory.ItemStack;
  */
 class Rapier extends AbstractItem implements KitCooldownElement {
 	
-	private static final int STACK_CD_TIME = 4*20;
+	private static final int STACK_CD_TIME = 5*20;
 	private static final int INVINC_TIME = 2*20;
 	private static final int MAX_STACKS = 20;
 	private static final int PARRY_COST = 5;
@@ -47,6 +46,10 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 	@Override public ItemStack getCooldownToggleItem() { return ITEM.createItemStack();}
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 	
+	
+	private static final double r1 = 10, g1 = 252, b1 = 234;
+	private static final double r2 = 10, g2 = 47, b2 = 254;
+	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
@@ -67,21 +70,22 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 		
 		for (int i = 0; i < stacks; i++) {
 			double frac = (double) i / MAX_STACKS;
-			double red = (3d + frac * 248);
-			double green = (39d - frac * 30);
-			double blue = (237d - frac * 208);
+			double red = (r1 + frac * (r2 - r1));
+			double green = (g1 + frac * (g2 - g1));
+			double blue = (b1 + frac * (b2 - b1));
 			double myTheta = theta - frac * 2 * Math.PI;
 			
 			if (stacks == MAX_STACKS) {
-				red = 251;
-				green = 9;
-				blue = 29;
+				red = 15;
+				green = 20;
+				blue = 256;
 			}
 			red *= 1d/256;
 			green *= 1d/256;
 			blue *= 1d/256;
 			
-			Location particleLoc = playerLoc.clone().add(Math.cos(myTheta), -1, Math.sin(myTheta));
+			double r = 0.75*Math.pow(Math.sin(myTheta + theta),2);
+			Location particleLoc = playerLoc.clone().add(r*Math.cos(myTheta), 0.5, r*Math.sin(myTheta));
 			particleLoc.getWorld().spawnParticle(Particle.REDSTONE, particleLoc, 0, red, green, blue, 1);
 		}
 	}
@@ -91,9 +95,7 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 		super.onDamageAttack(damage);
 		if (damageFromItem(damage)) {
 			MonsterEntity monster = damage.getMonster();
-			if (monster instanceof AIEntity) {
-				damage.getDamage().timesMult(0.5);
-			} else if (monster instanceof MonsterPlayer) {
+			if (monster instanceof MonsterPlayer) {
 				if (!((MonsterPlayer) monster).hasSpawnProtection() && stacks < MAX_STACKS)
 					stacks++;
 			}

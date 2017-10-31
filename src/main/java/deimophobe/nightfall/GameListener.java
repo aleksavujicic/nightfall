@@ -23,6 +23,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.*;
+import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -533,6 +534,16 @@ public class GameListener implements Listener {
 	public void preventAITarget(EntityTargetEvent event) {
 		Entity target = event.getTarget();
 		if (target instanceof Player && mm.isGamePlayer((Player) target))
+			event.setCancelled(true);
+	}
+	
+	
+	// Other Miscellani
+	@EventHandler
+	public void preventPaintingsDestroy(HangingBreakByEntityEvent event) {
+		Entity remover = event.getRemover();
+		// Cancel event if not destroyed by player in creative
+		if (!(remover instanceof Player && ((Player) remover).getGameMode() == GameMode.CREATIVE))
 			event.setCancelled(true);
 	}
 }

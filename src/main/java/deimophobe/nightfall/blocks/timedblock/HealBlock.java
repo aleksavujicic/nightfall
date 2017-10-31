@@ -29,9 +29,9 @@ public class HealBlock extends TimedBlock {
 	private int hitsLeft = 8;
 	private BukkitRunnable updater;
 	private static final double RANGE = 6;
-	private static final double HEAL_AMT = 6;
-	private static final int MANA_HEAL = 5;
-	private static final int ARMOUR_HEAL = 5;
+	private static final double HEAL_AMT = 10;
+	private static final int MANA_HEAL = 10;
+	private static final int ARMOUR_HEAL = 10;
 	@Override
 	void onPlace() {
 		updater = new BukkitRunnable() {

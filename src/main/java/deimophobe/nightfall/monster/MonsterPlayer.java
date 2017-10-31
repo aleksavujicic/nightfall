@@ -147,6 +147,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	public void spawnMob(Mob mob) {
+		if (this.mob != null)
+			kill(false);
+		
 		this.mob = mob;
 		mob.onSpawn();
 		player.setAllowFlight(false);

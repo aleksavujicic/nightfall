@@ -159,6 +159,8 @@ public class MobData {
 			armour.addModifier(ItemModifierType.SPEED, speed);
 			armour.addModifier(ItemModifierType.RESISTANCE, (int) (damageRes*100));
 			armour.addModifier(ItemModifierType.ARROW_RESISTANCE, (int) (arrowRes*100));
+			if (speed >= 0)
+				armour.addModifier(ItemModifierType.DEPTH_STRIDER, 3);
 			if (!proccable) armour.addModifier(ItemModifierType.UNPROCCABLE, 1);
 		}
 		

@@ -16,10 +16,7 @@ ghostblades:
 
   mobs:
     regular:
-      - gb-dagger
-      - gb-runeblade
-      - gb-axe
-      - gb-hammer
+      - gb-spawn
 
 hellhounds:
   title: Hellhounds

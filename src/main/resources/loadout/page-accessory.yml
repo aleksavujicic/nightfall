@@ -83,6 +83,10 @@ wizard_one:
   item:
     name: "Wizard Mortar I"
     base: menu-wizmortar
+    lore:
+      description:
+       - "Gives you 16 Wizard Mortar\n
+          which can instantly blue the walls."
 wizard_two:
   index: 18
   type: consumable
@@ -92,6 +96,10 @@ wizard_two:
   item:
     name: "Wizard Mortar II"
     base: menu-wizmortar2
+    lore:
+      description:
+       - "Gives you 32 Wizard Mortar\n
+          which can instantly blue the walls."
 wizard_three:
   index: 27
   type: consumable
@@ -101,6 +109,10 @@ wizard_three:
   item:
     name: "Wizard Mortar III"
     base: menu-wizmortar
+    lore:
+      description:
+       - "Gives you 64 Wizard Mortar\n
+          which can instantly blue the walls."
 
 lamps_one:
   index: 10
@@ -111,6 +123,11 @@ lamps_one:
   item:
     name: "Enchanted Lamps I"
     base: menu-lamp
+    lore:
+      description:
+       - "Gives you 16 Lamps\n
+          Which can be placed as a\n
+          unbreakable light source."
 lamps_two:
   index: 19
   type: consumable
@@ -120,6 +137,11 @@ lamps_two:
   item:
     name: "Enchanted Lamps II"
     base: menu-lamp2
+    lore:
+      description:
+       - "Gives you 32 Lamps\n
+          Which can be placed as a\n
+          unbreakable light source."
 lamps_three:
   index: 28
   type: consumable
@@ -129,6 +151,11 @@ lamps_three:
   item:
     name: "Enchanted Lamps III"
     base: menu-lamp
+    lore:
+      description:
+       - "Gives you 64 Lamps\n
+          Which can be placed as a\n
+          unbreakable light source."
 
 wrench_one:
   index: 11
@@ -139,6 +166,11 @@ wrench_one:
   item:
     name: "Wiggly Wrench I"
     base: menu-wrench
+    lore:
+      description:
+       - "Gives you 1 Wrench\n
+          to fully repair your armour\n
+          while shrine still has gold."
 wrench_two:
   index: 20
   type: consumable
@@ -148,6 +180,11 @@ wrench_two:
   item:
     name: "Wiggly Wrench II"
     base: menu-wrench2
+    lore:
+      description:
+       - "Gives you 2 Wrenches\n
+          to fully repair your armour\n
+          while shrine still has gold."
 wrench_three:
   index: 29
   type: consumable
@@ -157,6 +194,11 @@ wrench_three:
   item:
     name: "Wiggly Wrench III"
     base: menu-wrench
+    lore:
+      description:
+       - "Gives you 3 Wrenches\n
+          to fully repair your armour\n
+          while shrine still has gold."
 
 healing_one:
   index: 12
@@ -167,6 +209,12 @@ healing_one:
   item:
     name: "'Healing Station' I"
     base: healitem
+    lore:
+      description:
+       - "Gives you 4 Healing Stations\n
+          Which can be placed to regen\n
+          health mana and armour.\n
+          Can be broken by Mobs."
 healing_two:
   index: 21
   type: consumable
@@ -176,6 +224,12 @@ healing_two:
   item:
     name: "'Healing Station' II"
     base: healitem
+    lore:
+      description:
+       - "Gives you 8 Healing Stations\n
+          Which can be placed to regen\n
+          health mana and armour.\n
+          Can be broken by Mobs."
 healing_three:
   index: 30
   type: consumable
@@ -185,6 +239,12 @@ healing_three:
   item:
     name: "'Healing Station' III"
     base: healitem
+    lore:
+      description:
+       - "Gives you 16 Healing Stations\n
+          Which can be placed to regen\n
+          health mana and armour.\n
+          Can be broken by Mobs."
 
 sos_one:
   index: 13
@@ -195,6 +255,12 @@ sos_one:
   item:
     name: "SOS I"
     base: menu-sos
+    lore:
+      description:
+       - "Gives you 1 Sword of Santification\n
+          Which can stop and blind any mobs within\n
+          the area of effect, Mobs can still attack\n
+          if you are too close."
 sos_two:
   index: 22
   type: consumable
@@ -204,6 +270,12 @@ sos_two:
   item:
     name: "SOS II"
     base: menu-sos2
+    lore:
+      description:
+       - "Gives you 2 Sword of Santifications\n
+          Which can stop and blind any mobs within\n
+          the area of effect, Mobs can still attack\n
+          if you are too close."
 sos_three:
   index: 31
   type: consumable
@@ -213,6 +285,12 @@ sos_three:
   item:
     name: "SOS III"
     base: menu-sos
+    lore:
+      description:
+       - "Gives you 3 Sword of Santifications\n
+          Which can stop and blind any mobs within\n
+          the area of effect, Mobs can still attack\n
+          if you are too close."
 
 slab_one:
   index: 14
@@ -223,6 +301,11 @@ slab_one:
   item:
     name: "Slab I"
     base: slab
+    lore:
+      description:
+       - "Gives you 1 Slab\n
+          Which create a thick blue wall in front\n
+          when used."
 slab_two:
   index: 23
   type: consumable
@@ -232,6 +315,11 @@ slab_two:
   item:
     name: "Slab II"
     base: slab
+    lore:
+      description:
+       - "Gives you 2 Slabs\n
+          Which create a thick blue wall in front\n
+          when used."
 slab_three:
   index: 32
   type: consumable
@@ -241,6 +329,11 @@ slab_three:
   item:
     name: "Slab III"
     base: slab
+    lore:
+      description:
+       - "Gives you 4 Slabs\n
+          Which create a thick blue wall in front\n
+          when used."
 
 builder_one:
   index: 15
@@ -253,6 +346,13 @@ builder_one:
   item:
     name: "Builder's Pack I"
     material: diamond_hoe
+    lore:
+      description:
+       - "Gives you a Tier 1 Builder's Pack\n
+          Which contains the following items\n
+          *32 Torches\n
+          *32 Mortar\n
+          *96 Cobblestone."
 builder_two:
   index: 24
   cost: 4
@@ -264,6 +364,13 @@ builder_two:
   item:
     name: "Builder's Pack II"
     material: diamond_hoe
+    lore:
+      description:
+       - "Gives you a Tier 2 Builder's Pack\n
+          Which contains the following items\n
+          *64 Torches\n
+          *64 Mortar\n
+          *192 Cobblestone."
 builder_three:
   index: 33
   cost: 8
@@ -275,3 +382,10 @@ builder_three:
   item:
     name: "Builder's Pack III"
     material: diamond_hoe
+    lore:
+      description:
+       - "Gives you a Tier 3 Builder's Pack\n
+          Which contains the following items\n
+          *128 Torches\n
+          *128 Mortar\n
+          *384 Cobblestone."

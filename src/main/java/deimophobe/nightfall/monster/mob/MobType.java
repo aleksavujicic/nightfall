@@ -25,6 +25,7 @@ public enum MobType {
 	GB_RUNEBLADE("ghostblade.runeblade"),
 	GB_AXE("ghostblade.axe"),
 	GB_HAMMER("ghostblade.hammer"),
+	GB_SPAWN("ghostblade.spawn"),
 	
 	HELLHOUND("wolf.hellhound"),
 	WRAITH,
@@ -105,6 +106,7 @@ public enum MobType {
 			case GB_RUNEBLADE:
 			case GB_AXE:
 			case GB_HAMMER:
+			case GB_SPAWN:
 				return new Ghostblade(monster, this);
 				
 			case HELLHOUND: return new Hellhound(monster);

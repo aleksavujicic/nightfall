@@ -24,47 +24,60 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
-
-	private final ComplexCooldown cd = new ComplexCooldown(30*20);
-
-	ScepterOfMagma(Dwarf dwarf) {
-		super(dwarf);
-	}
+	ScepterOfMagma(Dwarf dwarf) { super(dwarf); }
 
 	private final static CustomItem ITEM = DwarvenItems.getItem("sword.scepter", Slot.MAIN_HAND);
-
-	@Override public CustomItem getItem() {
-		return ITEM;
-	}
-	@Override public ItemStack getCooldownToggleItem() {
-		return ITEM.createItemStack();
-	}
-	@Override public KitGiveType getGiveType() {
-		return KitGiveType.SWORD;
-	}
+	@Override public CustomItem getItem() { return ITEM; }
+	@Override public ItemStack getCooldownToggleItem() { return ITEM.createItemStack(); }
+	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
+	
+	
+	private final ComplexCooldown cd = new ComplexCooldown(20*20, this::createInferno);
+	
 
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		cd.update();
 		//To increase mana regen because weapon is mana-heavy
-		if (doubleSec){
+		if (doubleSec) {
 			dwarf.regenMana(5);
+		}
+		if (sec){
+			if(dwarf.getMana() >= 800){
+				cd.setMaxCD(20*20);
+			}
+			else if (dwarf.getMana() < 800 && dwarf.getMana() >= 600){
+				cd.setMaxCD(16*20);
+			}
+			else if(dwarf.getMana() < 600 && dwarf.getMana() >= 400){
+				cd.setMaxCD(12*20);
+			}
+			else if(dwarf.getMana() < 400 && dwarf.getMana() >= 200){
+				cd.setMaxCD(8*20);
+			}
+			else if(dwarf.getMana() < 200){
+				cd.setMaxCD(4*20);
+			}
 		}
 		if (isHoldingItem()){
 			dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, 5*20, 3, true, false, true);
-			//To play the particle effect
-			scepterParticle();
+			if(fireRing && dwarf.hasMana(100)){
+				//To play the particle effect
+				spawnParticles();
+			}
 		}
 	}
-
+	
+	
+	private final int NUM_PARTICLES = 4;
+	private final double PARTICLE_DPT = 3;
+	private final double PARTICLE_INFLUENCE = 1;
 	private double theta = 0;
-	private static final int NUM_PARTICLES = 4;
-	private static final double PARTICLE_DPT = 1;
-	private static final double PARTICLE_INFLUENCE = .5;
 
-	private void scepterParticle(){
+	private void spawnParticles() {
 		//UHHHHMMMM THE THING WHERE THE FIRE GOES WOOSHY WOOSH
 		theta = (theta + 0.1) % (2 * Math.PI);
+		dwarf.useMana(1);
 
 		Location playerLoc = dwarf.getPlayer().getEyeLocation();
 
@@ -79,35 +92,12 @@ class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 				Location monsterLoc = monster.getEyeLocation().subtract(0, 1, 0);
 
 				if (monsterLoc.distance(particleLoc) <= PARTICLE_INFLUENCE) {
-					GameDamage damage = monster.createDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, PARTICLE_DPT *1);
-					damage.setNoDmgTicks(1);
+					GameDamage damage = monster.createDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, PARTICLE_DPT *2);
+					damage.setNoDmgTicks(2);
 					damage.fire(true);
 				}
 			}
 		}
-	}
-
-
-	@Override
-	public boolean onUse(Action action, Block block, BlockFace blockFace){
-		if (Misc.isRightClick(action) && dwarf.hasMana(200) && cd.tryUse()){
-			dwarf.useMana(60);
-
-			Location spawnLoc = dwarf.getEyeLocation();
-			Vector looking = spawnLoc.getDirection();
-
-			looking.normalize().multiply(INFERNO_VELOCITY);
-			looking.add(dwarf.getVelocity().setY(0));
-			spawnLoc.add(looking.clone().multiply(3));
-
-			dwarf.playSound("foosh", 1, 1, true);
-			dwarf.playSound("entity.generic.burn", 1f, 0.5f, true);
-			dwarf.playSound("entity.ghast.shoot", 1f, 0.5f, true);
-
-			new Inferno(spawnLoc, looking);
-
-		}
-		return true;
 	}
 
 	private static final int INFERNO_LIFE = 60;
@@ -115,16 +105,26 @@ class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 	private static final double INFERNO_RADIUS = 2;
 	private static final double INFERNO_VELOCITY = 0.6;
 	private static final double INFERNO_DPT = 10; // Damage per tick
+	
+	private void createInferno() {
+		Location spawnLoc = dwarf.getEyeLocation();
+		Vector looking = spawnLoc.getDirection();
+		
+		looking.normalize().multiply(INFERNO_VELOCITY);
+		looking.add(dwarf.getVelocity().setY(0));
+		spawnLoc.add(looking.clone().multiply(3));
+		
+		dwarf.playSound("foosh", 1, 1, true);
+		dwarf.playSound("entity.generic.burn", 1f, 0.5f, true);
+		dwarf.playSound("entity.ghast.shoot", 1f, 0.5f, true);
+		
+		new Inferno(spawnLoc, looking);
+	}
 
 	private class Inferno {
 		private int lifeLeft = INFERNO_LIFE;
-		private Location position;
-		private final Vector velocity;
 
 		private Inferno(Location position, Vector velocity) {
-			this.position = position;
-			this.velocity = velocity;
-
 			new BukkitRunnable() {
 				@Override
 				public void run() {
@@ -133,7 +133,7 @@ class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 					position.add(velocity);
 
 					// Flame particles
-					position.getWorld().spawnParticle(Particle.FLAME, position, 50, 0.35, 0.35, 0.35, 0);
+					position.getWorld().spawnParticle(Particle.FLAME, position, 50, 0.5, 0.5, 0.5, .05);
 
 					// Damage mobs
 					for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
@@ -150,6 +150,17 @@ class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 
 		}
 	}
+
+	private boolean fireRing = false;
+	public boolean onUse (Action action, Block clickedBlock, BlockFace face){
+		if (Misc.isRightClick(action)){
+			fireRing = !fireRing;
+			return true;
+		} else {
+			return cd.tryUse();
+		}
+	}
+
 	@Override
 	public float fractionComplete() {
 		return cd.fractionComplete();
