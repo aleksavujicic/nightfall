@@ -14,15 +14,15 @@ import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import minecraft.spigot.community.michel_0.api.Slot;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
+
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 27/10/17.
@@ -52,6 +52,11 @@ class HuntingClaws extends AbstractItem implements KitCooldownElement {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		warpCD.update();
 		if (huntTime > 0) {
+			
+			if (target != null) {
+				dwarf.getPlayer().spawnParticle(Particle.SPELL_WITCH, target.getLocation(), 5, 0.3, 0.3, 0.3, 0);
+			}
+			
 			huntTime--;
 			if (huntTime == 0)
 				endHunt();
@@ -92,8 +97,12 @@ class HuntingClaws extends AbstractItem implements KitCooldownElement {
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (isHunting() && damage.getMonster() instanceof MonsterPlayer && damage.getMonster() != target) {
-			endHunt();
+		if (isHunting() && damage.getMonster() instanceof MonsterPlayer) {
+			if (damage.getMonster() == target) {
+				damage.setProc(true);
+			} else {
+				endHunt();
+			}
 		}
 	}
 	
@@ -165,20 +174,23 @@ class HuntingClaws extends AbstractItem implements KitCooldownElement {
 	private void reselectTarget() {
 		GlowManager.getManager().disableGlowFor(target, dwarf);
 		target = MonsterManager.getManager().getNearestAlive(dwarf.getLocation());
-		setupTarget();
+		if (target != null)
+			setupTarget();
 	}
 	
 	private void setupTarget() {
 		GlowManager.getManager().makeGlowFor(target, dwarf);
+		dwarf.sendTitleMessage(ChatColor.GOLD + "Target: " + target.getDisplayName());
 	}
 	
 	
 	// ----- WARP -----
 	
 	private void warp() {
-		Block block = dwarf.getTargetBlock(null, 15);
+		Block block = dwarf.getPlayer().getLastTwoTargetBlocks((Set<Material>) null, 15).get(0);
+		Vector facing = dwarf.getLocation().getDirection();
 		Location loc = block.getLocation();
-		loc.setDirection(dwarf.getLocation().getDirection());
+		loc.setDirection(facing);
 		teleportTo(loc);
 	}
 	

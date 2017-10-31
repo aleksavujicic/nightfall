@@ -384,7 +384,10 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		}
 		
 		if (hasProc()) {
-			getWorld().spawnParticle(Particle.VILLAGER_HAPPY, getEyeLocation(), 1, 0.5, 0.5, 0.5);
+			if (getProc().shouldShowCtsParticles())
+				getWorld().spawnParticle(Particle.VILLAGER_HAPPY, getEyeLocation(), 1, 0.5, 0.5, 0.5);
+		} else {
+			lastProc = null;
 		}
 		
 		usedThisTick = false;
@@ -393,12 +396,21 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	
 	// ------ PROC ------
+	private ProcType lastProc = null;
+	
+	public ProcType getProc() {
+		return lastProc;
+	}
+	
 	public boolean hasProc() {
-		return player.hasPotionEffect(PotionEffectType.SPEED);
+		return lastProc != null && player.hasPotionEffect(PotionEffectType.SPEED);
 	}
 	
 	public void giveProc(ProcType procType) {
-		procType.giveProc(this);
+		boolean success = procType.giveProc(this);
+		if (success)
+			lastProc = procType;
+		
 		updateVisibility();
 	}
 	

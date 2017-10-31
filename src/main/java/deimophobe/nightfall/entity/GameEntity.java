@@ -3,6 +3,8 @@ package deimophobe.nightfall.entity;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
+import me.libraryaddict.disguise.DisguiseAPI;
+import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
@@ -160,8 +162,8 @@ public interface GameEntity<E extends LivingEntity> {
 	
 	
 	// ------ POTION EFFECTS ------
-	default void givePotionEffect(PotionEffectType type, int duration, int amplifier, boolean showAbove, boolean colourBlue, boolean force) {
-		if (amplifier == 0) return;
+	default boolean givePotionEffect(PotionEffectType type, int duration, int amplifier, boolean showAbove, boolean colourBlue, boolean force) {
+		if (amplifier == 0) return false;
 		
 		if (!force) {
 			PotionEffect effect = getEntity().getPotionEffect(type);
@@ -169,7 +171,7 @@ public interface GameEntity<E extends LivingEntity> {
 				force = true;
 		}
 		
-		getEntity().addPotionEffect(new PotionEffect(type, duration, amplifier-1, colourBlue, showAbove), force);
+		return getEntity().addPotionEffect(new PotionEffect(type, duration, amplifier-1, colourBlue, showAbove), force);
 	}
 	
 	int MAX_POTION_LENGTH = 10*60*60*20;
@@ -203,9 +205,17 @@ public interface GameEntity<E extends LivingEntity> {
 		getEntity().removePotionEffect(type);
 	}
 	
+	
+	
+	// ----- MISC -----
+	
 	default boolean isUnderwater() {
 		Block lowerBlock = getEntity().getLocation().getBlock();
 		Block upperBlock = lowerBlock.getRelative(BlockFace.UP);
 		return (lowerBlock.isLiquid() || upperBlock.isLiquid());
+	}
+	
+	default Disguise getDisguise() {
+		return DisguiseAPI.getDisguise(getEntity());
 	}
 }
