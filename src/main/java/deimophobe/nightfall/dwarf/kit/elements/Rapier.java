@@ -27,7 +27,7 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 	private static final int STACK_CD_TIME = 5*20;
 	private static final int INVINC_TIME = 2*20;
 	private static final int MAX_STACKS = 20;
-	private static final int PARRY_COST = 4;
+	private static final int PARRY_COST = 5;
 	
 	private int inivincCD;
 	private int stackCD;
