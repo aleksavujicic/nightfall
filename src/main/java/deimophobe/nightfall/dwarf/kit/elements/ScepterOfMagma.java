@@ -4,7 +4,9 @@ import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.GameDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
@@ -25,7 +27,9 @@ import org.bukkit.util.Vector;
 
 class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 
-	private final ComplexCooldown cd = new ComplexCooldown(30*20);
+	private final ComplexCooldown cd = new ComplexCooldown(20*20);
+
+
 
 	ScepterOfMagma(Dwarf dwarf) {
 		super(dwarf);
@@ -43,6 +47,8 @@ class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 		return KitGiveType.SWORD;
 	}
 
+	private double cooldown;
+
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		cd.update();
@@ -50,64 +56,85 @@ class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 		if (doubleSec){
 			dwarf.regenMana(5);
 		}
+		if(sec){
+			if(dwarf.getMana() >= 800){
+				cd.setMaxCD(20*20);
+			}
+			else if (dwarf.getMana() < 800 && dwarf.getMana() >= 600){
+				cd.setMaxCD(16*20);
+			}
+			else if(dwarf.getMana() < 600 && dwarf.getMana() >= 400){
+				cd.setMaxCD(12*20);
+			}
+			else if(dwarf.getMana() < 400 && dwarf.getMana() >= 200){
+				cd.setMaxCD(8*20);
+			}
+			else if(dwarf.getMana() < 200){
+				cd.setMaxCD(4*20);
+			}
+		}
 		if (isHoldingItem()){
 			dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, 5*20, 3, true, false, true);
-			//To play the particle effect
-			scepterParticle();
-		}
-	}
+			if(fireRing && dwarf.hasMana(100)){
+				//To play the particle effect
+				double theta = 0;
+				final int NUM_PARTICLES = 4;
+				final double PARTICLE_DPT = 3;
+				final double PARTICLE_INFLUENCE = 1;
 
-	private double theta = 0;
-	private static final int NUM_PARTICLES = 4;
-	private static final double PARTICLE_DPT = 1;
-	private static final double PARTICLE_INFLUENCE = .5;
+				//UHHHHMMMM THE THING WHERE THE FIRE GOES WOOSHY WOOSH
+				theta = (theta + 0.1) % (2 * Math.PI);
 
-	private void scepterParticle(){
-		//UHHHHMMMM THE THING WHERE THE FIRE GOES WOOSHY WOOSH
-		theta = (theta + 0.1) % (2 * Math.PI);
+				Location playerLoc = dwarf.getPlayer().getEyeLocation();
 
-		Location playerLoc = dwarf.getPlayer().getEyeLocation();
+				for (int i = 0; i < NUM_PARTICLES; i++) {
+					double frac = (double) i / NUM_PARTICLES;
+					double myTheta = theta - frac * 2 * Math.PI;
 
-		for (int i = 0; i < NUM_PARTICLES; i++) {
-			double frac = (double) i / NUM_PARTICLES;
-			double myTheta = theta - frac * 2 * Math.PI;
+					Location particleLoc = playerLoc.clone().add(Math.cos(myTheta), -1, Math.sin(myTheta));
+					particleLoc.getWorld().spawnParticle(Particle.FLAME, particleLoc, 2, 0,0,0,0);
 
-			Location particleLoc = playerLoc.clone().add(Math.cos(myTheta), -1, Math.sin(myTheta));
-			particleLoc.getWorld().spawnParticle(Particle.FLAME, particleLoc, 2, 0,0,0,0);
+					for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
+						Location monsterLoc = monster.getEyeLocation().subtract(0, 1, 0);
 
-			for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
-				Location monsterLoc = monster.getEyeLocation().subtract(0, 1, 0);
-
-				if (monsterLoc.distance(particleLoc) <= PARTICLE_INFLUENCE) {
-					GameDamage damage = monster.createDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, PARTICLE_DPT *1);
-					damage.setNoDmgTicks(1);
-					damage.fire(true);
+						if (monsterLoc.distance(particleLoc) <= PARTICLE_INFLUENCE) {
+							GameDamage damage = monster.createDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, PARTICLE_DPT *2);
+							damage.setNoDmgTicks(2);
+							damage.fire(true);
+						}
+					}
+				}
+				if(quadSec){
+					dwarf.useMana(5);
 				}
 			}
 		}
 	}
 
 
-	@Override
-	public boolean onUse(Action action, Block block, BlockFace blockFace){
-		if (Misc.isRightClick(action) && dwarf.hasMana(200) && cd.tryUse()){
-			dwarf.useMana(60);
+	private boolean itemCausedDamage(MonsterDamage damage) {
+		return (damage.getType() == NaturalDamageType.MELEE && isHoldingItem());
+	}
 
-			Location spawnLoc = dwarf.getEyeLocation();
-			Vector looking = spawnLoc.getDirection();
+	public void onDamageAttack(MonsterDamage damage){
+		super.onDamageAttack(damage);
+		if(itemCausedDamage(damage)){
+			if (cd.tryUse()) {
 
-			looking.normalize().multiply(INFERNO_VELOCITY);
-			looking.add(dwarf.getVelocity().setY(0));
-			spawnLoc.add(looking.clone().multiply(3));
+				Location spawnLoc = dwarf.getEyeLocation();
+				Vector looking = spawnLoc.getDirection();
 
-			dwarf.playSound("foosh", 1, 1, true);
-			dwarf.playSound("entity.generic.burn", 1f, 0.5f, true);
-			dwarf.playSound("entity.ghast.shoot", 1f, 0.5f, true);
+				looking.normalize().multiply(INFERNO_VELOCITY);
+				looking.add(dwarf.getVelocity().setY(0));
+				spawnLoc.add(looking.clone().multiply(3));
 
-			new Inferno(spawnLoc, looking);
+				dwarf.playSound("foosh", 1, 1, true);
+				dwarf.playSound("entity.generic.burn", 1f, 0.5f, true);
+				dwarf.playSound("entity.ghast.shoot", 1f, 0.5f, true);
 
+				new Inferno(spawnLoc, looking);
+			}
 		}
-		return true;
 	}
 
 	private static final int INFERNO_LIFE = 60;
@@ -133,7 +160,7 @@ class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 					position.add(velocity);
 
 					// Flame particles
-					position.getWorld().spawnParticle(Particle.FLAME, position, 50, 0.35, 0.35, 0.35, 0);
+					position.getWorld().spawnParticle(Particle.FLAME, position, 50, 0.35, 0.35, 0.35, .25);
 
 					// Damage mobs
 					for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
@@ -150,6 +177,28 @@ class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 
 		}
 	}
+
+	private boolean fireRing;
+	public boolean onUse (Action action, Block clickedBlock, BlockFace face){
+		if(Misc.isRightClick(action)){
+			if(!fireRing) {
+				activatescepterParticle();
+			}
+			if(fireRing){
+				deactivatescepterPaticle();
+			}
+		}
+		return false;
+	}
+
+	private void activatescepterParticle(){
+		fireRing = true;
+	}
+
+	private void deactivatescepterPaticle(){
+		fireRing = false;
+	}
+
 	@Override
 	public float fractionComplete() {
 		return cd.fractionComplete();
