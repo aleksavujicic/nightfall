@@ -34,7 +34,7 @@ public class GlowManager {
 		// It's bad that we need to use ListenerPriority.Monitor,
 		// but Lib's Disguises seems to take highest, and we need
 		// a higher priority.
-		glowChanger = new PacketAdapter(NightfallPlugin.getPlugin(), ListenerPriority.HIGHEST, PacketType.Play.Server.ENTITY_METADATA) {
+		glowChanger = new PacketAdapter(NightfallPlugin.getPlugin(), ListenerPriority.MONITOR, PacketType.Play.Server.ENTITY_METADATA) {
 			@Override
 			public void onPacketSending(PacketEvent event) {
 				// First get players that are force glowed - return if there are none.
@@ -42,6 +42,7 @@ public class GlowManager {
 				if (gpToGlow == null) return;
 				
 				// Get entity id
+				event.setReadOnly(false);
 				event.setPacket(event.getPacket().deepClone());
 				PacketContainer packet = event.getPacket();
 				int id = packet.getIntegers().read(0);
@@ -58,8 +59,7 @@ public class GlowManager {
 						
 						byte b = (byte) object.getValue();
 						b = (byte) (b | 0b01000000);
-						object.setValue(b);
-						event.setPacket(packet);
+						object.setValue(b, true);
 					}
 					return;
 				}
