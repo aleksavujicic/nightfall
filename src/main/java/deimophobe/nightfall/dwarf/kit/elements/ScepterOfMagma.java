@@ -4,9 +4,7 @@ import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.GameDamage;
-import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
@@ -26,36 +24,25 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
-
-	private final ComplexCooldown cd = new ComplexCooldown(20*20);
-
-
-
-	ScepterOfMagma(Dwarf dwarf) {
-		super(dwarf);
-	}
+	ScepterOfMagma(Dwarf dwarf) { super(dwarf); }
 
 	private final static CustomItem ITEM = DwarvenItems.getItem("sword.scepter", Slot.MAIN_HAND);
-
-	@Override public CustomItem getItem() {
-		return ITEM;
-	}
-	@Override public ItemStack getCooldownToggleItem() {
-		return ITEM.createItemStack();
-	}
-	@Override public KitGiveType getGiveType() {
-		return KitGiveType.SWORD;
-	}
-
+	@Override public CustomItem getItem() { return ITEM; }
+	@Override public ItemStack getCooldownToggleItem() { return ITEM.createItemStack(); }
+	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
+	
+	
+	private final ComplexCooldown cd = new ComplexCooldown(20*20, this::createInferno);
+	
 
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		cd.update();
 		//To increase mana regen because weapon is mana-heavy
-		if (doubleSec){
+		if (doubleSec) {
 			dwarf.regenMana(5);
 		}
-		if(sec){
+		if (sec){
 			if(dwarf.getMana() >= 800){
 				cd.setMaxCD(20*20);
 			}
@@ -76,24 +63,21 @@ class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 			dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, 5*20, 3, true, false, true);
 			if(fireRing && dwarf.hasMana(100)){
 				//To play the particle effect
-				scepterparticle();
-				if(quadSec){
-					dwarf.useMana(15);
-				}
+				spawnParticles();
 			}
 		}
 	}
-
+	
+	
+	private final int NUM_PARTICLES = 4;
+	private final double PARTICLE_DPT = 3;
+	private final double PARTICLE_INFLUENCE = 1;
 	private double theta = 0;
 
-	private void scepterparticle(){
-
-		final int NUM_PARTICLES = 4;
-		final double PARTICLE_DPT = 3;
-		final double PARTICLE_INFLUENCE = 1;
-
+	private void spawnParticles() {
 		//UHHHHMMMM THE THING WHERE THE FIRE GOES WOOSHY WOOSH
 		theta = (theta + 0.1) % (2 * Math.PI);
+		dwarf.useMana(1);
 
 		Location playerLoc = dwarf.getPlayer().getEyeLocation();
 
@@ -116,25 +100,31 @@ class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 		}
 	}
 
-	private boolean itemCausedDamage(MonsterDamage damage) {
-		return (damage.getType() == NaturalDamageType.MELEE && isHoldingItem());
-	}
-
 	private static final int INFERNO_LIFE = 60;
 	private static final int INFERNO_DELAY = 4;
 	private static final double INFERNO_RADIUS = 2;
 	private static final double INFERNO_VELOCITY = 0.6;
 	private static final double INFERNO_DPT = 10; // Damage per tick
+	
+	private void createInferno() {
+		Location spawnLoc = dwarf.getEyeLocation();
+		Vector looking = spawnLoc.getDirection();
+		
+		looking.normalize().multiply(INFERNO_VELOCITY);
+		looking.add(dwarf.getVelocity().setY(0));
+		spawnLoc.add(looking.clone().multiply(3));
+		
+		dwarf.playSound("foosh", 1, 1, true);
+		dwarf.playSound("entity.generic.burn", 1f, 0.5f, true);
+		dwarf.playSound("entity.ghast.shoot", 1f, 0.5f, true);
+		
+		new Inferno(spawnLoc, looking);
+	}
 
 	private class Inferno {
 		private int lifeLeft = INFERNO_LIFE;
-		private Location position;
-		private final Vector velocity;
 
 		private Inferno(Location position, Vector velocity) {
-			this.position = position;
-			this.velocity = velocity;
-
 			new BukkitRunnable() {
 				@Override
 				public void run() {
@@ -143,7 +133,7 @@ class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 					position.add(velocity);
 
 					// Flame particles
-					position.getWorld().spawnParticle(Particle.FLAME, position, 50, 0.5, 0.5, 0.5, .25);
+					position.getWorld().spawnParticle(Particle.FLAME, position, 50, 0.5, 0.5, 0.5, .05);
 
 					// Damage mobs
 					for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
@@ -163,39 +153,12 @@ class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 
 	private boolean fireRing = false;
 	public boolean onUse (Action action, Block clickedBlock, BlockFace face){
-		if(Misc.isRightClick(action)){
-			if(!fireRing) {
-				activatescepterParticle();
-			}
-			else if(fireRing){
-				deactivatescepterPaticle();
-			}
+		if (Misc.isRightClick(action)){
+			fireRing = !fireRing;
+			return true;
+		} else {
+			return cd.tryUse();
 		}
-		else if(Misc.isLeftClick(action))
-			if(cd.tryUse()) {
-
-				Location spawnLoc = dwarf.getEyeLocation();
-				Vector looking = spawnLoc.getDirection();
-
-				looking.normalize().multiply(INFERNO_VELOCITY);
-				looking.add(dwarf.getVelocity().setY(0));
-				spawnLoc.add(looking.clone().multiply(3));
-
-				dwarf.playSound("foosh", 1, 1, true);
-				dwarf.playSound("entity.generic.burn", 1f, 0.5f, true);
-				dwarf.playSound("entity.ghast.shoot", 1f, 0.5f, true);
-
-				new Inferno(spawnLoc, looking);
-			}
-		return false;
-	}
-
-	private void activatescepterParticle(){
-		fireRing = true;
-	}
-
-	private void deactivatescepterPaticle(){
-		fireRing = false;
 	}
 
 	@Override
