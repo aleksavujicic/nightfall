@@ -98,8 +98,12 @@ class HuntingClaws extends AbstractItem implements KitCooldownElement {
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (isHunting() && damage.getMonster() instanceof MonsterPlayer && damage.getMonster() != target) {
-			endHunt();
+		if (isHunting() && damage.getMonster() instanceof MonsterPlayer) {
+			if (damage.getMonster() == target) {
+				damage.setProc(true);
+			} else {
+				endHunt();
+			}
 		}
 	}
 	

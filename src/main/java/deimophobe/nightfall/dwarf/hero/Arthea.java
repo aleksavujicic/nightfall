@@ -4,6 +4,7 @@ import deimophobe.nightfall.Hat;
 import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -25,9 +26,11 @@ public class Arthea extends Hero {
 	}
 	
 	@Override
-	public void givePotionEffect(PotionEffectType type, int duration, int amplifier, boolean showAbove, boolean colourBlue, boolean force) {
+	public boolean givePotionEffect(PotionEffectType type, int duration, int amplifier, boolean showAbove, boolean colourBlue, boolean force) {
 		if (!isEnraged())
-			super.givePotionEffect(type, duration, amplifier, showAbove, colourBlue, force);
+			return super.givePotionEffect(type, duration, amplifier, showAbove, colourBlue, force);
+		else
+			return false;
 	}
 	
 	@Override
@@ -95,6 +98,13 @@ public class Arthea extends Hero {
 			super.mobspawnDamage();
 	}
 	*/
+	
+	@Override
+	public void onDamageAttack(MonsterDamage damage) {
+		super.onDamageAttack(damage);
+		if (isEnraged())
+			damage.setProc(true);
+	}
 	
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
