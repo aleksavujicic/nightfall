@@ -43,12 +43,9 @@ class Ebow extends AbstractBow {
 		double yaw = location.getYaw() * Math.PI/180;
 		location.add(-0.3*Math.cos(yaw), -0.3, -0.3*Math.sin(yaw));
 		Vector direction = location.getDirection();
-		
-		// This code makes it so that if force is >= 0.6, then it requires
-		// an extra arrow to fire (otherwise it is capped at 0.6),
-		int arrowUse = (int)(2 * force);
-		if (!dwarf.hasArrows(arrowUse)) return null;
-		dwarf.useArrows(arrowUse);
+
+		if (!dwarf.hasArrows(2)) return null;
+		dwarf.useArrows(2);
 		
 		double range = MAX_RANGE * force * force;
 		

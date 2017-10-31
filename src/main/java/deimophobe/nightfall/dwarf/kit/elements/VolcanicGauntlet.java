@@ -40,9 +40,8 @@ public class VolcanicGauntlet extends AbstractBow {
 		Misc.moveLocation(location, 0, 0.3, -0.3);
 		Vector direction = location.getDirection();
 
-		int arrowUse = (int)(3 * force);
-		if (!dwarf.hasArrows(arrowUse)) return null;
-		dwarf.useArrows(arrowUse);
+		if (!dwarf.hasArrows(3)) return null;
+		dwarf.useArrows(3);
 		
 		double range = MAX_RANGE * force * force;
 		double radius = AOE_RADIUS * force;
