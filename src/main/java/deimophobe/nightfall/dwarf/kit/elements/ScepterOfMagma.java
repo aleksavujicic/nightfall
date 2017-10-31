@@ -47,7 +47,6 @@ class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 		return KitGiveType.SWORD;
 	}
 
-	private double cooldown;
 
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
@@ -77,64 +76,48 @@ class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 			dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, 5*20, 3, true, false, true);
 			if(fireRing && dwarf.hasMana(100)){
 				//To play the particle effect
-				double theta = 0;
-				final int NUM_PARTICLES = 4;
-				final double PARTICLE_DPT = 3;
-				final double PARTICLE_INFLUENCE = 1;
-
-				//UHHHHMMMM THE THING WHERE THE FIRE GOES WOOSHY WOOSH
-				theta = (theta + 0.1) % (2 * Math.PI);
-
-				Location playerLoc = dwarf.getPlayer().getEyeLocation();
-
-				for (int i = 0; i < NUM_PARTICLES; i++) {
-					double frac = (double) i / NUM_PARTICLES;
-					double myTheta = theta - frac * 2 * Math.PI;
-
-					Location particleLoc = playerLoc.clone().add(Math.cos(myTheta), -1, Math.sin(myTheta));
-					particleLoc.getWorld().spawnParticle(Particle.FLAME, particleLoc, 2, 0,0,0,0);
-
-					for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
-						Location monsterLoc = monster.getEyeLocation().subtract(0, 1, 0);
-
-						if (monsterLoc.distance(particleLoc) <= PARTICLE_INFLUENCE) {
-							GameDamage damage = monster.createDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, PARTICLE_DPT *2);
-							damage.setNoDmgTicks(2);
-							damage.fire(true);
-						}
-					}
-				}
+				scepterparticle();
 				if(quadSec){
-					dwarf.useMana(5);
+					dwarf.useMana(15);
 				}
 			}
 		}
 	}
 
+	private double theta = 0;
+
+	private void scepterparticle(){
+
+		final int NUM_PARTICLES = 4;
+		final double PARTICLE_DPT = 3;
+		final double PARTICLE_INFLUENCE = 1;
+
+		//UHHHHMMMM THE THING WHERE THE FIRE GOES WOOSHY WOOSH
+		theta = (theta + 0.1) % (2 * Math.PI);
+
+		Location playerLoc = dwarf.getPlayer().getEyeLocation();
+
+		for (int i = 0; i < NUM_PARTICLES; i++) {
+			double frac = (double) i / NUM_PARTICLES;
+			double myTheta = theta - frac * 2 * Math.PI;
+
+			Location particleLoc = playerLoc.clone().add(Math.cos(myTheta), -1, Math.sin(myTheta));
+			particleLoc.getWorld().spawnParticle(Particle.FLAME, particleLoc, 2, 0,0,0,0);
+
+			for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
+				Location monsterLoc = monster.getEyeLocation().subtract(0, 1, 0);
+
+				if (monsterLoc.distance(particleLoc) <= PARTICLE_INFLUENCE) {
+					GameDamage damage = monster.createDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, PARTICLE_DPT *2);
+					damage.setNoDmgTicks(2);
+					damage.fire(true);
+				}
+			}
+		}
+	}
 
 	private boolean itemCausedDamage(MonsterDamage damage) {
 		return (damage.getType() == NaturalDamageType.MELEE && isHoldingItem());
-	}
-
-	public void onDamageAttack(MonsterDamage damage){
-		super.onDamageAttack(damage);
-		if(itemCausedDamage(damage)){
-			if (cd.tryUse()) {
-
-				Location spawnLoc = dwarf.getEyeLocation();
-				Vector looking = spawnLoc.getDirection();
-
-				looking.normalize().multiply(INFERNO_VELOCITY);
-				looking.add(dwarf.getVelocity().setY(0));
-				spawnLoc.add(looking.clone().multiply(3));
-
-				dwarf.playSound("foosh", 1, 1, true);
-				dwarf.playSound("entity.generic.burn", 1f, 0.5f, true);
-				dwarf.playSound("entity.ghast.shoot", 1f, 0.5f, true);
-
-				new Inferno(spawnLoc, looking);
-			}
-		}
 	}
 
 	private static final int INFERNO_LIFE = 60;
@@ -160,7 +143,7 @@ class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 					position.add(velocity);
 
 					// Flame particles
-					position.getWorld().spawnParticle(Particle.FLAME, position, 50, 0.35, 0.35, 0.35, .25);
+					position.getWorld().spawnParticle(Particle.FLAME, position, 50, 0.5, 0.5, 0.5, .25);
 
 					// Damage mobs
 					for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
@@ -178,16 +161,32 @@ class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 		}
 	}
 
-	private boolean fireRing;
+	private boolean fireRing = false;
 	public boolean onUse (Action action, Block clickedBlock, BlockFace face){
 		if(Misc.isRightClick(action)){
 			if(!fireRing) {
 				activatescepterParticle();
 			}
-			if(fireRing){
+			else if(fireRing){
 				deactivatescepterPaticle();
 			}
 		}
+		else if(Misc.isLeftClick(action))
+			if(cd.tryUse()) {
+
+				Location spawnLoc = dwarf.getEyeLocation();
+				Vector looking = spawnLoc.getDirection();
+
+				looking.normalize().multiply(INFERNO_VELOCITY);
+				looking.add(dwarf.getVelocity().setY(0));
+				spawnLoc.add(looking.clone().multiply(3));
+
+				dwarf.playSound("foosh", 1, 1, true);
+				dwarf.playSound("entity.generic.burn", 1f, 0.5f, true);
+				dwarf.playSound("entity.ghast.shoot", 1f, 0.5f, true);
+
+				new Inferno(spawnLoc, looking);
+			}
 		return false;
 	}
 
