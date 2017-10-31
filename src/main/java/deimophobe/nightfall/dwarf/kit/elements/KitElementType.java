@@ -83,6 +83,7 @@ public enum KitElementType {
 	HEALER_TOTEM,
 	CADUCEUS,
 	ELYSTRIA,
+	LUMINOUS,
 	
 	// Velvetine
 	HORN,
@@ -189,6 +190,7 @@ public enum KitElementType {
 			case HEALER_TOTEM: return new HealerTotem(dwarf);
 			case CADUCEUS: return new Caduceus(dwarf);
 			case ELYSTRIA: return new Elystria(dwarf);
+			case LUMINOUS: return new Luminous(dwarf);
 			
 			// Velvetine
 			case HORN: return new Horn(dwarf);

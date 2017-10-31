@@ -232,6 +232,18 @@ bow:
           a proc for 5 seconds."
       flavour:
        - "\"Feel the PROC pulsing through your bow.\" - Velvetine"
+  luminous:
+    template: dwarf-hero
+    base: ebow
+    name: "Luminous"
+    lore:
+      description:
+       - "Shoots a powerful beam of light,\n
+          which gives procs to dwarves and\n
+          pierces 50% arrow resistance."
+      flavour:
+       - "\"Forward, dwarves! Let the light guide you.\" - Arthea"
+
 ale:
   healing:
     base: healing_ale

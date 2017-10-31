@@ -32,14 +32,14 @@ public class VolcanicGauntlet extends AbstractBow {
 	private static final double MAX_RANGE = 40;
 	private static final double THICKNESS = 1.4;
 	private static final double PARTICLE_OFFSET = THICKNESS/10;
-	private static final double AOE_RADIUS = 1.35;
+	private static final double AOE_RADIUS = 1.4;
 	
 	@Override
 	public Projectile onBowFire(Projectile arrow, float force) {
 		Location location = dwarf.getPlayer().getEyeLocation();
 		Misc.moveLocation(location, 0, 0.3, -0.3);
 		Vector direction = location.getDirection();
-		
+
 		if (!dwarf.hasArrows(3)) return null;
 		dwarf.useArrows(3);
 		
@@ -79,8 +79,8 @@ public class VolcanicGauntlet extends AbstractBow {
 				
 				// If close enough damage mob
 				if (monster.distanceTo(dwarf) <= radius) {
-					monster.doDamage(dwarf, CustomDamageType.VOLCANIC_BOW, getPower()*force/3);
-				} else  if (radialOffset <= THICKNESS) {
+					monster.doDamage(dwarf, CustomDamageType.VOLCANIC_BOW, getPower()*force/2);
+				} else if (radialOffset <= THICKNESS) {
 					monster.doDamage(dwarf, CustomDamageType.VOLCANIC_BOW, getPower()*force);
 				}
 			}
