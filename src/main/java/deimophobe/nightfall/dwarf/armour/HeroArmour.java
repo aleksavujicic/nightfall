@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.armour;
 
+import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.map.GameMap;
@@ -57,10 +58,12 @@ public class HeroArmour implements Armour {
 		GameMap map = GameMap.getCurrentMap();
 		Region shrine = map.getCurrentShrineRegion();
 		
-		if (shrine == null || !shrine.containsPlayer(hero)) return 0.8;
+		double goldboost = 0;
+		if (shrine != null && shrine.containsPlayer(hero))
+			goldboost = 0.02;
 		
-		int gold = map.getGold();
-		return Math.min(0.8 + 0.05*(double) gold/500, 0.9);
+		double dwarfBoost = 0.01 * Math.sqrt(DwarfManager.getManager().getNumberOfPlayers());
+		return Math.min(0.8 + goldboost + dwarfBoost,0.9);
 	}
 	
 	@Override
