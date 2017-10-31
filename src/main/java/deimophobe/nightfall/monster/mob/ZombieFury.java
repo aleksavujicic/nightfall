@@ -29,9 +29,10 @@ public class ZombieFury extends Zombie {
     private final Cooldown leapCD;
     private final int leapLvl;
     private final int pursuit;
-
     private final boolean fury;
     private final ComplexCooldown furySound;
+
+    private Boolean isLeaping;
 
     private static Integer[] shredValues = {0, 2, 5, 7, 10, 12, 15, 17, 20, 22, 25};
     private static Integer[] arrowResValues = {0, 10, 20, 30, 40, 50};
@@ -57,6 +58,7 @@ public class ZombieFury extends Zombie {
             leapCD = new SimpleCooldown(160);
         else
             leapCD = new DudCooldown();
+        isLeaping = false;
 
         this.arrowRes = (double) arrowRes/100;
         this.rebirthChance = (double) rebirthChance/100;
@@ -82,6 +84,10 @@ public class ZombieFury extends Zombie {
     public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
         leapCD.update();
         furySound.update();
+        if (isLeaping && monster.getPlayer().isOnGround()) {
+            isLeaping = false;
+            monster.removePotionEffect(PotionEffectType.LUCK);
+        }
     }
 
     @Override
@@ -95,6 +101,7 @@ public class ZombieFury extends Zombie {
         if (Misc.isRightClick(action) && isPlayerHoldingWeapon()) {
             if (leapCD.isAvailable()) {
                 leapCD.reset();
+                isLeaping = true;
 
                 double yaw = monster.getPlayer().getLocation().getYaw();
                 double radYaw = yaw*Math.PI/180;
@@ -102,7 +109,7 @@ public class ZombieFury extends Zombie {
                 double hVel = (double) leapLvl/2.5;
                 double vVel = (double) leapLvl/10;
                 monster.getPlayer().setVelocity(new Vector(-hVel * Math.sin(radYaw), vVel, hVel * Math.cos(radYaw)));
-                giveSpawnProtection(30);
+                giveSpawnProtection(50);
             }
         }
     }

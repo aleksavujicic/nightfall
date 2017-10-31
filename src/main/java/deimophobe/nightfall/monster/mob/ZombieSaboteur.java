@@ -35,9 +35,10 @@ public class ZombieSaboteur extends Zombie {
     private final Cooldown leapCD;
     private final Cooldown assaCD;
     private final int leapLvl;
-
     private final boolean assa;
+
     private boolean isInvisible;
+    private Boolean isLeaping;
 
     private static Integer[] shredValues = {0, 2, 4, 6, 8, 10};
 
@@ -79,6 +80,7 @@ public class ZombieSaboteur extends Zombie {
         }
 
         isInvisible = false;
+        isLeaping = false;
 
         getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
         getArmour().addModifier(ItemModifierType.SPEED, 25, "Saboteur Zombie");
@@ -111,6 +113,10 @@ public class ZombieSaboteur extends Zombie {
             Location loc = monster.getLocation();
             loc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, loc, 5, 0.3, 0.3, 0.3);
         }
+        if (isLeaping && monster.getPlayer().isOnGround()) {
+            isLeaping = false;
+            monster.removePotionEffect(PotionEffectType.LUCK);
+        }
     }
 
     @Override
@@ -130,13 +136,15 @@ public class ZombieSaboteur extends Zombie {
         if (Misc.isRightClick(action) && isPlayerHoldingWeapon()) {
             if (leapCD.isAvailable()) {
                 leapCD.reset();
+                isLeaping = true;
 
                 double yaw = monster.getPlayer().getLocation().getYaw();
                 double radYaw = yaw*Math.PI/180;
 
                 double hVel = (double) leapLvl/2;
-                double vVel = (double) leapLvl/10;
+                double vVel = (double) leapLvl/10 + 0.05;
                 monster.getPlayer().setVelocity(new Vector(-hVel * Math.sin(radYaw), vVel, hVel * Math.cos(radYaw)));
+                giveSpawnProtection(50);
             }
         }
     }
