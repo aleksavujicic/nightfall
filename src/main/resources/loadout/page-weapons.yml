@@ -421,3 +421,16 @@ nature_suit:
       description:
        - "Grants Water Breathing, Poison and\n
           Fire Resistance."
+berserker:
+  index: 33
+  type: item
+  name: berserker
+  category: armour
+  cost: 8
+  item:
+    name: "Berserker Armour"
+    base: temp
+    lore:
+      description:
+       - "Gives you 10 extra attack and some bonus\n
+          speed, at the cost of 4 hearts and armour."
