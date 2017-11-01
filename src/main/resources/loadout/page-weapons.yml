@@ -13,8 +13,10 @@ grb:
       description:
        - "Right click to &brunedash&r into\n
           monsters, damaging or killing them\n
-          instantly with a proc.\n
-          &3Attack: &b15&r"
+          instantly with a proc."
+    modifiers:
+      attack:
+        15
 malice:
   index: 1
   type: item
@@ -28,8 +30,10 @@ malice:
       description:
        - "Right click to go into a &4Blood rage&r,\n
           allowing you to proc, regaining health and mana\n
-          for a short duration.
-          &3Attack: &b20&r"
+          for a short duration."
+    modifiers:
+      attack:
+        20
 hammer:
   index: 2
   type: item
@@ -42,8 +46,10 @@ hammer:
     lore:
       description:
        - "Does AOE damage every hit. Right click to \n
-          regenerate armour and mana over time.\n
-          &3Attack: &b15&r"
+          regenerate armour and mana over time."
+    modifiers:
+      attack:
+        15
 dagger:
   index: 3
   type: item
@@ -57,8 +63,10 @@ dagger:
       description:
        - "An elven blade, dipped in poison.\n
           Right click to &bEviscerate&r a monster,\n
-          dealing massive damage.\n
-          &3Attack: &b20&r"
+          dealing massive damage."
+    modifiers:
+      attack:
+        20
 rapier:
   index: 4
   type: item
@@ -72,8 +80,10 @@ rapier:
       description:
        - "Hitting player controlled mobs grants\n
           a stack up to &b20&r stacks for &b50&r max attack.\n
-          Right click to leap forward, using &e5&r stacks.\n
-          &3Attack: &b10&r"
+          Right click to leap forward, using &e5&r stacks."
+    modifiers:
+      attack:
+        15
 
 glaive:
   enabled: false
@@ -104,8 +114,10 @@ scepter:
        - "Left click to release waves of fire\n
           upon your foes. Right click to channel\n
           flames around you for &b$manacost&r mana\n
-          damaging mobs.\n
-          &3Attack: &b10&r"
+          damaging mobs."
+    modifiers:
+      attack:
+        10
 
 hunting-claws:
   enabled: false
@@ -138,8 +150,11 @@ dragonskin:
           Power shots do &b125&r power damage that\n
           pierces half of target arrow resistance\n
           and gives a &b5&r second proc on kill.\n
-          Cooldown of &e30s&r.\n
-          &3Power: &b50&r"
+          Cooldown of &e30s&r."
+    modifiers:
+      power:
+        50
+
 longbow:
   index: 10
   type: item
@@ -154,8 +169,11 @@ longbow:
        - "Kills with this bow stack\n
           up to 25 times for a total\n
           of &b210&r Power, losing &b30&r power over\n
-          &e8 seconds&r without a kill.\n
-          &3Power: &b60&r"
+          &e8 seconds&r without a kill."
+    modifiers:
+      power:
+        60
+
 lightbow:
   index: 11
   type: item
@@ -170,8 +188,11 @@ lightbow:
        - "This bow fires special arrows that\n
           create lamps in the walls.\n
           Pierces half of target arrow resistance.\n
-          You are also immune to darkness.\n
-          &3Power: &b30&r"
+          You are also immune to darkness."
+    modifiers:
+      power:
+        30
+
 crossbow:
   index: 12
   type: item
@@ -184,8 +205,11 @@ crossbow:
     lore:
       description:
        - "A crossbow that can fire with no draw time.\n
-          Uses two arrows and has a slight reload time.\n
-          &3Power: &b100&r"
+          Uses two arrows and has a slight reload time."
+    modifiers:
+      power:
+        100
+
 ebow:
   index: 13
   type: item
@@ -199,8 +223,11 @@ ebow:
       description:
        - "A magical bow, made from emerald.\n
           Shooting other dwarves gives them\n
-          a short duration proc.\n
-          &3Power: &b10&r"
+          a short duration proc."
+    modifiers:
+      power:
+        10
+
 warpweaver:
   index: 14
   type: item
@@ -215,8 +242,11 @@ warpweaver:
        - "Left click to activate effect.\n
           When activated, you will teleport\n
           to where the arrow lands.\n
-          Getting hit will cancel the teleport.\n
-          &3Power: &b30&r"
+          Getting hit will cancel the teleport."
+    modifiers:
+      power:
+        30
+
 volcanic:
   index: 15
   type: item
@@ -230,8 +260,11 @@ volcanic:
       description:
        - "Charge up a lined blast of fire\n
           that pierces everything in\n
-          its path. Uses 3 arrows a shot.\n
-          &3Power: &b60&r"
+          its path. Uses 3 arrows a shot."
+    modifiers:
+      power:
+        60
+
 turret:
   enabled: false
   index: 17
@@ -244,8 +277,10 @@ turret:
     material: dispenser
     lore:
       description:
-       - "A turret that fires arrows.\n
-          &3Power: &b80&r"
+       - "A turret that fires arrows."
+    modifiers:
+      power:
+        80
 
 
 
