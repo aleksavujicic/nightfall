@@ -7,6 +7,7 @@ import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -25,6 +26,7 @@ public class DoomManager {
 	private int internalDoomTimer;
 	
 	private List<DoomType> occuredDooms = new ArrayList<>();
+	private DoomType prevDoom = DoomType.KRUNGOR; // Prevents krungor from being first doom
 	
 	private final BukkitRunnable runner;
 	public DoomManager() {
@@ -128,7 +130,10 @@ public class DoomManager {
 	}
 	
 	private DoomType nextDoom() {
-		return Misc.getRandom(DoomType.values());
+		DoomType[] dooms = DoomType.values();
+		dooms = (DoomType[]) ArrayUtils.removeElement(dooms, prevDoom);
+		prevDoom = Misc.getRandom(dooms);
+		return prevDoom;
 	}
 	
 	public void spawnDoom(DoomType doomType) {

@@ -197,6 +197,9 @@ public class Game {
 	}
 	
 	public int getNumPlayers() {
+		if (dwarfManager == null || monsterManager == null) {
+			return 0;
+		}
 		return dwarfManager.getNumberOfPlayers() + monsterManager.getNumberOfPlayers();
 	}
 	
