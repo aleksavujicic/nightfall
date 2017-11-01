@@ -170,7 +170,7 @@ public class ZombieSaboteur extends Zombie {
         if (poison > 0) {
             damage.getDwarf().givePotionEffect(PotionEffectType.POISON, 40, poison, true, false, true);
         }
-        if (assa && assaCD.isAvailable()) {
+        if (assaCD.isAvailable()) {
             monster.playSound("entity.wither.shoot", 1f, 2f, true);
             damage.getDamage().addBoost(57); // 60 - 3 due to str 1
             assaCD.reset();
