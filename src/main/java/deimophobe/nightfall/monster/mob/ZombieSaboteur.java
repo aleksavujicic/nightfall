@@ -111,7 +111,7 @@ public class ZombieSaboteur extends Zombie {
         }
         if (d && isInvisible) {
             Location loc = monster.getLocation();
-            loc.getWorld().spawnParticle(Particle.SMOKE_NORMAL, loc, 5, 0.3, 0.3, 0.3);
+            loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 10, 0.3, 0.3, 0.3, 0);
         }
         if (isLeaping && monster.getPlayer().isOnGround()) {
             isLeaping = false;
