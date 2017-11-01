@@ -62,6 +62,7 @@ public class DwarvenArmour implements Armour {
 		for (ArmourSet set : setMap.values()) {
 			set.chest.addModifier(type, value, reason);
 		}
+		updateArmour(true);
 	}
 	
 	@Override
@@ -130,9 +131,12 @@ public class DwarvenArmour implements Armour {
 		return (int) Math.floor(Math.atan(2 * armourFraction()) * 10/Math.atan(2)) + 1;
 	}
 	
-	
 	private void updateArmour() {
-		if (isArmoured() && !currentLevel.isValid(this)) {
+		updateArmour(false);
+	}
+	
+	private void updateArmour(boolean force) {
+		if (isArmoured() && (force ||!currentLevel.isValid(this))) {
 			currentLevel = ArmourLevel.getLevel(this);
 			setMap.get(currentLevel).equip(dwarf);
 		}

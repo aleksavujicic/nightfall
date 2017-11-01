@@ -58,6 +58,7 @@ public enum KitElementType {
 	DARKVISION,
 	AVENGE,
 	TOMBMAKER,
+	RESURRECTION,
 	
 	// Tools
 	DWARF_PICK,
@@ -166,6 +167,7 @@ public enum KitElementType {
 			case DARKVISION: return new DarkVision(dwarf);
 			case AVENGE: return new Avenge(dwarf);
 			case TOMBMAKER: return new Tombmaker(dwarf);
+			case RESURRECTION: return new Resurrection(dwarf);
 			
 			// Tools
 			case DWARF_AXE: return new DwarfAxe(dwarf);

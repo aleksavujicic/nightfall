@@ -58,6 +58,7 @@ avenge:
     lore:
       description:
        - "Gain a PROC when a dwarf dies."
+
 tombmaker:
   index: 5
   type: item
@@ -71,6 +72,20 @@ tombmaker:
        - "Replaces your shovel with a tombmaker\n
           allowing you to right click and dig faster\n
           for a few seconds."
+
+resurrection:
+  index: 6
+  type: item
+  name: resurrection
+  cost: 8
+  item:
+    name: "Resurrection"
+    base: resurrection
+    lore:
+      description:
+       - "You shall be resurrected once upon death.\n
+          This resurrection will heal you, but will\n
+          also permanently cost you 5 hearts."
 
 
 # ------ CONSUMABLES ------

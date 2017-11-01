@@ -119,6 +119,8 @@ shield:
 
 ghast_tear: seppuku
 
+totem: resurrection
+
 potion:
   potion-regeneration: 1
   potion-poison: 4
