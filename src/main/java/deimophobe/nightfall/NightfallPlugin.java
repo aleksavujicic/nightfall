@@ -678,7 +678,7 @@ public class NightfallPlugin extends JavaPlugin {
 					Plague plague = PlagueType.valueOf(args[0].toUpperCase()).getPlague();
 					game.startPlague(plague);
 					return true;
-				} catch (IllegalStateException e) {
+				} catch (IllegalArgumentException e) {
 					sender.sendMessage(ChatColor.RED + "Unknown plague: " + ChatColor.YELLOW + args[0]);
 					return false;
 				}
