@@ -95,6 +95,10 @@ public interface GameEntity<E extends LivingEntity> {
 		return getEntity().getHealth();
 	}
 	
+	default double getMaxHealth() {
+		return getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+	}
+	
 	default void heal(double amt) {
 		double newHealth = amt + getEntity().getHealth();
 		double maxHealth = getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
