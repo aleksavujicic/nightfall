@@ -89,7 +89,8 @@ sword:
     name: Glaive
     lore:
       description:
-        - "Right click to do nothing."
+        - "Right click to go slooow.\n
+          Drk plz change"
       flavour:
         - "\"Finally the hammer is getting changed!\" - Everyone"
   scepter:
