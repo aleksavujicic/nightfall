@@ -13,6 +13,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
+import org.bukkit.util.Vector;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -181,5 +182,35 @@ public class Misc {
 	// ------ ITEMS ------
 	public static CustomItem getItem(String name) {
 		return CustomItem.getItem(getInternalFileConfig("misc-items.yml").getConfigurationSection(name), LoreTemplate.DEFAULT, Slot.MAIN_HAND);
+	}
+	
+	
+	// ------ MISC ------
+	public static class Pair<T> {
+		public final T first;
+		public final T second;
+		
+		public Pair(T first, T second) {
+			this.first = first;
+			this.second = second;
+		}
+		
+	}
+	
+	private final static double THRESHOLD = 10^-5;
+	public static Pair<Vector> orthonormalBasisOfPlaneFromNormal(Vector normal) {
+		Vector n = normal.clone().normalize();
+		
+		Vector offset = new Vector(1,0,0);
+		
+		// If lies on the line of normal (or close to it), change it.
+		if (Math.abs(offset.dot(n)) >= 1 - THRESHOLD)
+			offset = new Vector(0,0,1);
+		
+		// Project offset onto plane by removing n component of offset.
+		Vector u1 = offset.subtract(n.clone().multiply(offset.dot(n))).normalize();
+		Vector u2 = u1.clone().crossProduct(n);
+		
+		return new Pair<>(u1,u2);
 	}
 }

@@ -1,15 +1,15 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.ArrowMisc;
+import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
-import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.effects.sound.Sounds;
+import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterManager;
 import org.bukkit.Location;
@@ -65,10 +65,28 @@ public class Luminous extends AbstractBow {
         int times = (int) (range/0.33);
         Location particlePos = location.clone();
         World world = particlePos.getWorld();
+		
+		Misc.Pair<Vector> planeBasis = Misc.orthonormalBasisOfPlaneFromNormal(delta);
+		planeBasis.first.multiply(0.125);
+		planeBasis.second.multiply(0.125);
+		double theta = 0;
         for (int i = 0; i<= times; i++) {
             particlePos.add(delta);
-            world.spawnParticle(Particle.VILLAGER_HAPPY, particlePos, 3, PARTICLE_OFFSET, PARTICLE_OFFSET, PARTICLE_OFFSET);
-            world.spawnParticle(Particle.FLAME, particlePos, 2, PARTICLE_OFFSET, PARTICLE_OFFSET, PARTICLE_OFFSET, 0);
+            
+			Vector u1 = planeBasis.first.clone();
+			Vector u2 = planeBasis.second.clone();
+            
+            theta = (theta + 0.2) % (2*Math.PI);
+            Vector offset = u1.multiply(Math.cos(theta)).add(u2.multiply(Math.sin(theta)));
+            Location firePos = particlePos.clone().add(offset);
+			Location emerPos = particlePos.clone().subtract(offset);
+			
+			world.spawnParticle(Particle.FLAME, firePos, 1, 0, 0, 0, 0);
+			world.spawnParticle(Particle.VILLAGER_HAPPY, emerPos, 1, 0, 0, 0, 0);
+			
+            //world.spawnParticle(Particle.VILLAGER_HAPPY, particlePos, 3, PARTICLE_OFFSET, PARTICLE_OFFSET, PARTICLE_OFFSET);
+            //world.spawnParticle(Particle.FLAME, particlePos, 2, PARTICLE_OFFSET, PARTICLE_OFFSET, PARTICLE_OFFSET, 0);
+			//world.spawnParticle(Particle.END_ROD, location, 0, dx, dy, dz, i*0.05);
 
             // Stop beam if it hits a block
             if (particlePos.getBlock().getType().isSolid()) {
