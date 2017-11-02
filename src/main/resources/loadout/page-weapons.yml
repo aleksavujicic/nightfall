@@ -388,7 +388,10 @@ runeblessed:
     base: runeblessed
     lore:
       description:
-       - "Wearing this improves your armour capacity by 50%."
+       - "Wearing this improves your armour capacity by 100%."
+    modifiers:
+      durability: 2000
+
 quiver:
   index: 28
   type: item
@@ -402,6 +405,9 @@ quiver:
       description:
        - "Increases your max arrow capacity to 40\n
           and grants 1 arrow per kill."
+    modifiers:
+      quiver: 40
+
 studded:
   index: 29
   type: item
@@ -414,6 +420,8 @@ studded:
     lore:
       description:
        - "Increases movement speed by 20%."
+    modifiers:
+      speed: 20
 coil:
   index: 30
   type: item
@@ -446,6 +454,9 @@ sturdy:
       description:
        - "Grants 4 more hearts allowing you to\n
           survive longer"
+    modifiers:
+      health: 14
+
 nature_suit:
   index: 32
   type: item
@@ -459,6 +470,9 @@ nature_suit:
       description:
        - "Grants Water Breathing, Poison and\n
           Fire Resistance."
+    modifiers:
+      depth-strider: 1
+
 berserker:
   index: 33
   type: item
@@ -472,3 +486,8 @@ berserker:
       description:
        - "Gives you 10 extra attack and some bonus\n
           speed, at the cost of 4 hearts and armour."
+    modifiers:
+      attack: 10
+      speed: 10
+      health: 6
+      durability: 700

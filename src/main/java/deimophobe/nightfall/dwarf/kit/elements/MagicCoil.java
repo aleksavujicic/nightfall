@@ -2,6 +2,7 @@ package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
@@ -31,6 +32,8 @@ class MagicCoil extends AbstractCooldown {
 	
 	protected MagicCoil(Dwarf dwarf) {
 		super(dwarf, DURATION);
+		
+		dwarf.getArmour().addModifier(ItemModifierType.MAGIC_COIL, 1);
 		
 		// Update in half a second
 		resetCooldown();

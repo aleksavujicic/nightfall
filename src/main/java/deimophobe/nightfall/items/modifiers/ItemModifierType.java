@@ -27,9 +27,15 @@ public enum ItemModifierType {
 		}
 	},
 	RESISTANCE(new DudApplier(), "Resistance", true, false),
-	DURABILITY(new DudApplier(), "Durability", false, false),
-	FALL_DAMAGE(new DudApplier(), "Fall Damage", true, false),
 	ARROW_RESISTANCE(new DudApplier(), "Arrow Res", true, false),
+	
+	DURABILITY(new DudApplier(), "Durability", false, false),
+	QUIVER(new DudApplier(), "Quiver Size", false, false),
+	FALL_DAMAGE(new DudApplier(), "Fall Damage", true, false),
+	MAGIC_COIL(new DudApplier(), "Magic Coil", false, true),
+	NATURE_SUIT(new DudApplier(), "Nature Suit", false, true),
+	
+	MANA_COST(new DudApplier(), "Mana Cost", false, false),
 	
 	SPEED(new AttributeApplier(Attribute.MOVEMENT_SPEED, 2, (i) -> (double)i/100), "Speed", true, false),
 	DEPTH_STRIDER(new EnchantApplier(Enchantment.DEPTH_STRIDER), "Depth Strider", false, false),
@@ -37,7 +43,8 @@ public enum ItemModifierType {
 	KB_RESIST(new AttributeApplier(Attribute.KNOCKBACK_RESISTANCE, AttributeApplier.BOOLEAN_FUNCTION), "KB Resist", false, true),
 	UNPROCCABLE(new DudApplier(), "Unproccable", false, true),
 	
-	MANA_COST(new DudApplier(), "Mana Cost", false, false);
+	
+	;
 	
 	private final ModifierApplier applier;
 	private final String name;
