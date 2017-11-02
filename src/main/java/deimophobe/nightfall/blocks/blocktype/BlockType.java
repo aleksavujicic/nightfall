@@ -193,8 +193,14 @@ public class BlockType {
 	public static final ComparableBlock IGNITEABLE = new MaterialSet(
 			Material.AIR, Material.DOUBLE_PLANT, Material.LONG_GRASS, Material.YELLOW_FLOWER, Material.RED_ROSE
 	);
-	public static final ComparableBlock SLABBABLE = new MaterialSet(
-			Material.AIR, Material.DOUBLE_PLANT, Material.LONG_GRASS, Material.YELLOW_FLOWER, Material.RED_ROSE
+	public static final ComparableBlock SLABBABLE = new BlockSet(
+			NORMAL_WALL,
+			CRACKED_WALL,
+			DAMAGED_WALL,
+			BROKEN_WALL,
+			ALL_SLABS,
+			ALL_STAIRS,
+			new MaterialSet(Material.AIR, Material.DOUBLE_PLANT, Material.LONG_GRASS, Material.YELLOW_FLOWER, Material.RED_ROSE, Material.SMOOTH_BRICK)
 	);
 	
 	public static boolean tryConvertBlock(Block block, ComparableBlock from, SettableBlock to) {
