@@ -15,8 +15,7 @@ grb:
           monsters, damaging or killing them\n
           instantly with a proc."
     modifiers:
-      attack:
-        15
+      attack: 15
 malice:
   index: 1
   type: item
@@ -32,8 +31,7 @@ malice:
           allowing you to proc, regaining health and mana\n
           for a short duration."
     modifiers:
-      attack:
-        20
+      attack: 20
 hammer:
   index: 2
   type: item
@@ -48,8 +46,7 @@ hammer:
        - "Does AOE damage every hit. Right click to \n
           regenerate armour and mana over time."
     modifiers:
-      attack:
-        15
+      attack: 15
 dagger:
   index: 3
   type: item
@@ -65,8 +62,7 @@ dagger:
           Right click to &bEviscerate&r a monster,\n
           dealing massive damage."
     modifiers:
-      attack:
-        20
+      attack: 20
 rapier:
   index: 4
   type: item
@@ -82,8 +78,7 @@ rapier:
           a stack up to &b20&r stacks for &b50&r max attack.\n
           Right click to leap forward, using &e5&r stacks."
     modifiers:
-      attack:
-        15
+      attack: 15
 
 glaive:
   enabled: false
@@ -116,8 +111,7 @@ scepter:
           flames around you for &b$manacost&r mana\n
           damaging mobs."
     modifiers:
-      attack:
-        10
+      attack: 10
 
 hunting-claws:
   enabled: false
@@ -152,8 +146,7 @@ dragonskin:
           and gives a &b5&r second proc on kill.\n
           Cooldown of &e30s&r."
     modifiers:
-      power:
-        50
+      power: 50
 
 longbow:
   index: 10
@@ -171,8 +164,7 @@ longbow:
           of &b210&r Power, losing &b30&r power over\n
           &e8 seconds&r without a kill."
     modifiers:
-      power:
-        60
+      power: 60
 
 lightbow:
   index: 11
@@ -190,8 +182,7 @@ lightbow:
           Pierces half of target arrow resistance.\n
           You are also immune to darkness."
     modifiers:
-      power:
-        30
+      power: 30
 
 crossbow:
   index: 12
@@ -207,8 +198,7 @@ crossbow:
        - "A crossbow that can fire with no draw time.\n
           Uses two arrows and has a slight reload time."
     modifiers:
-      power:
-        100
+      power: 100
 
 ebow:
   index: 13
@@ -225,8 +215,7 @@ ebow:
           Shooting other dwarves gives them\n
           a short duration proc."
     modifiers:
-      power:
-        10
+      power: 10
 
 warpweaver:
   index: 14
@@ -244,8 +233,7 @@ warpweaver:
           to where the arrow lands.\n
           Getting hit will cancel the teleport."
     modifiers:
-      power:
-        30
+      power: 30
 
 volcanic:
   index: 15
@@ -262,8 +250,7 @@ volcanic:
           that pierces everything in\n
           its path. Uses 3 arrows a shot."
     modifiers:
-      power:
-        60
+      power: 60
 
 turret:
   enabled: false
@@ -279,8 +266,7 @@ turret:
       description:
        - "A turret that fires arrows."
     modifiers:
-      power:
-        80
+      power: 80
 
 
 
