@@ -37,7 +37,7 @@ public enum ItemModifierType {
 	KB_RESIST(new AttributeApplier(Attribute.KNOCKBACK_RESISTANCE, AttributeApplier.BOOLEAN_FUNCTION), "KB Resist", false, true),
 	UNPROCCABLE(new DudApplier(), "Unproccable", false, true),
 	
-	;
+	MANA_COST(new DudApplier(), "Mana Cost", false, false);
 	
 	private final ModifierApplier applier;
 	private final String name;
