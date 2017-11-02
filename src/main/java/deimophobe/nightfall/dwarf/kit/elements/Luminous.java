@@ -34,7 +34,6 @@ public class Luminous extends AbstractBow {
 
     private static final double MAX_RANGE = 50;
     private static final double THICKNESS = 1.5;
-    private static final double PARTICLE_OFFSET = THICKNESS/10;
     private static final double MIN_DISTANCE_FROM_SHOOTER = 1;
     private static final double AOE_RADIUS = 1.5;
 
@@ -81,8 +80,8 @@ public class Luminous extends AbstractBow {
             Location firePos = particlePos.clone().add(offset);
 			Location emerPos = particlePos.clone().subtract(offset);
 			
-			world.spawnParticle(Particle.FLAME, firePos, 1, 0, 0, 0, 0);
-			world.spawnParticle(Particle.VILLAGER_HAPPY, emerPos, 1, 0, 0, 0, 0);
+			world.spawnParticle(Particle.FLAME, firePos, 2, 0.05, 0.05, 0.05, 0);
+			world.spawnParticle(Particle.VILLAGER_HAPPY, emerPos, 2, 0.05, 0.05, 0.05, 0);
 			
             //world.spawnParticle(Particle.VILLAGER_HAPPY, particlePos, 3, PARTICLE_OFFSET, PARTICLE_OFFSET, PARTICLE_OFFSET);
             //world.spawnParticle(Particle.FLAME, particlePos, 2, PARTICLE_OFFSET, PARTICLE_OFFSET, PARTICLE_OFFSET, 0);
@@ -96,18 +95,16 @@ public class Luminous extends AbstractBow {
         }
 
         Location feets = dwarf.getLocation().add(0, 0.25, 0);
-        world.spawnParticle(Particle.FLAME, feets, (int) (20*force), 1f, 1f, 1f, 0.07);
-        world.spawnParticle(Particle.VILLAGER_HAPPY, feets, (int) (20*force), 1f, 1f, 1f, 0.07);
-        world.spawnParticle(Particle.FIREWORKS_SPARK, feets, (int) (30*force), 1f, 1f, 1f, 0.07);
-        world.spawnParticle(Particle.FLAME, feets, (int) (50*force*force), radius/2, 0.1f, radius/2, 0);
-        world.spawnParticle(Particle.LAVA, feets, (int) (20*force*force), radius/2, 0.1f, radius/2, 0);
+        world.spawnParticle(Particle.FLAME, feets, (int) (30*force), 1f, 1f, 1f, 0.07);
+        world.spawnParticle(Particle.VILLAGER_HAPPY, feets, (int) (30*force), 1f, 1f, 1f, 0.07);
+        world.spawnParticle(Particle.END_ROD, feets, (int) (20*force), 1f, 1f, 1f, 0.07);
 
         // Calculate collision
         for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
             // Skip if further than distance shot or too close
             Location monsterLocation = monster.getEyeLocation();
             double distance = location.distance(monsterLocation);
-            if (MIN_DISTANCE_FROM_SHOOTER <= distance && distance <= range) {
+            if (distance <= range) {
                 // Find if close enough to beam
                 Vector monsterOffset = monsterLocation.clone().subtract(location).toVector();
                 Vector radialPostion = direction.clone().multiply(monsterOffset.clone().dot(direction)); // ((m - p) dot u) times u
@@ -115,7 +112,7 @@ public class Luminous extends AbstractBow {
 
                 // If close enough damage mob
                 if (monster.distanceTo(dwarf) <= radius) {
-                    monster.doDamage(dwarf, CustomDamageType.VOLCANIC_BOW, getPower()*force/2);
+                    monster.doDamage(dwarf, CustomDamageType.EBOW, getPower()*force/2);
                 } else if (radialOffset <= THICKNESS) {
                     monster.doDamage(dwarf, CustomDamageType.EBOW, getPower()*force);
                 }
