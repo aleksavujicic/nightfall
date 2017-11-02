@@ -6,6 +6,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -22,6 +23,7 @@ abstract class AbstractAle extends AbstractItem {
 	protected static CustomItem getAle(String name, int manaCost) {
 		CustomItem item = DwarvenItems.getItem("ale." + name);
 		item.applyVariable("manacost", ""+manaCost);
+		item.addModifier(ItemModifierType.MANA_COST, manaCost);
 		return item;
 	}
 	

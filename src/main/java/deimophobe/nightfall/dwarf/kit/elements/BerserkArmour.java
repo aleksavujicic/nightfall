@@ -14,6 +14,7 @@ class BerserkArmour extends AbstractElement {
 		armour.addModifier(ItemModifierType.ATTACK, 10, "Berserker");
 		armour.addModifier(ItemModifierType.SPEED, 10, "Berserker");
 		armour.addModifier(ItemModifierType.HEALTH, -4, "Berserker");
+		dwarf.getArmour().addModifier(ItemModifierType.DURABILITY, -300, "Berserker Armour");
 		armour.increaseMax(-300);
 	}
 }
