@@ -10,6 +10,7 @@ public enum CustomDamageType implements GameDamageType {
 	SELF_GOBO_KABOOM,
 	
 	EBOW,
+	VOLCANIC_BOW,
 	EVISCERATE,
 	HAMMER_AOE,
 	INCORRECT_HELD_ITEM,
@@ -35,7 +36,6 @@ public enum CustomDamageType implements GameDamageType {
 	// Misc
 	COMMAND,
 	MISC_EXPLOSION,
-	VOLCANIC_BOW,
 
 	SCEPTER_OF_MAGMA,
 
