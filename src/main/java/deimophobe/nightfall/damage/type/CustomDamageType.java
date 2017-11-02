@@ -11,6 +11,7 @@ public enum CustomDamageType implements GameDamageType {
 	
 	EBOW,
 	VOLCANIC_BOW,
+	LUMINOUS,
 	EVISCERATE,
 	HAMMER_AOE,
 	INCORRECT_HELD_ITEM,
