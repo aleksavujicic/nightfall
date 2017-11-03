@@ -6,26 +6,22 @@ import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.blocks.timedblock.GoboBox;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.cooldown.DudCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
-import deimophobe.nightfall.damage.*;
+import deimophobe.nightfall.damage.DamageModifier;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
-import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import me.libraryaddict.disguise.disguisetypes.watchers.CreeperWatcher;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.block.Action;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import java.util.Map;
@@ -37,87 +33,57 @@ public class Goblin extends AbstractMob {
 
 	protected Map<String, Integer> upgrades;
 
-	private int supplies;
-	private boolean kaboom;
-	private boolean kaboomTrigger;
-	private int pick;
-	private int dest;
-	private int shrapnel;
-	private int force;
-	private int speed;
-	private int superKaboom;
+	private final int supplies;
+	
+	protected final int dest;
+	protected final int shrapnel;
+	protected final int force;
 
 	private Cooldown placeboxCD;
 	private Cooldown throwboxCD;
-	private Cooldown kaboomCD;
 
 	private static final int MAX_PLACE_CD = 10;
 	private static final int MAX_THROW_CD = 20;
-	private static final int MAX_KABOOM_CD = 40;
-
-	protected Goblin(MonsterPlayer mons) {
-		super(mons, MobType.GOBO);
+	
+	
+	Goblin(MonsterPlayer mons) {
+		this(mons, MobData.getMobData("gobo"));
+	}
+	
+	protected Goblin(MonsterPlayer mons, MobData data) {
+		super(mons, MobType.GOBO, data);
 
 		upgrades = monster.getUpgrades(MobType.GOBO);
 
 		this.supplies = (upgrades.get("supplies") + upgrades.get("supplies-inf"))*2;
 		int health = (upgrades.get("health") + upgrades.get("health-inf"));
-		if (upgrades.get("kaboom") == 1) {
-			this.kaboom = true;
-			kaboomCD = new ComplexCooldown(MAX_KABOOM_CD);
-			kaboomCD.reset();
-		} else {
-			this.kaboom = false;
-			kaboomCD = new DudCooldown();
-		}
-		this.kaboomTrigger = false;
-
-		this.pick = upgrades.get("pick");
+		
 		this.dest = upgrades.get("dest");
 		this.shrapnel = upgrades.get("shrapnel");
 		this.force = upgrades.get("force-gobo");
-		this.speed = upgrades.get("speed");
-		this.superKaboom = upgrades.get("superkaboom");
 
 		getArmour().addModifier(ItemModifierType.HEALTH, health, "Upgrade");
-		getArmour().addModifier(ItemModifierType.SPEED, (10 * speed / 3), "Upgrade");
 
 		this.placeboxCD = new ComplexCooldown(MAX_PLACE_CD);
 		this.throwboxCD = new ComplexCooldown(MAX_THROW_CD);
-
 	}
 
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
-		if (superKaboom == 1) {
-			((CreeperWatcher)getDisguise().getWatcher()).setPowered(true);
-		}
 		giveItem("gobo-box", (2+ supplies));
-		if (kaboom) {
-			giveItem("kaboom", 1);
-		}
-		if (pick > 0) {
-			CustomItem item = getItem("wood-pickaxe").clone();
-			item.addModifier(ItemModifierType.EFFICIENCY, (pick - 1), "Pick Upgrade");
-			monster.giveItem(item);
-		}
 	}
 
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		placeboxCD.update();
 		throwboxCD.update();
-		if (kaboomTrigger) {
-			kaboomCD.update();
-			if (kaboomCD.isAvailable()) {
-				kaboom();
-			}
-		}
 	}
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(action, clickedBlock, blockFace);
 		Location loc = monster.getLocation();
 		World world = monster.getLocation().getWorld();
 
@@ -147,61 +113,6 @@ public class Goblin extends AbstractMob {
 			monster.useHeldItem();
 			throwboxCD.reset();
 		}
-
-		if (Misc.isLeftClick(action) && isPlayerHoldingItem("kaboom") && !kaboomTrigger) {
-			monster.givePotionEffect(PotionEffectType.SPEED, MAX_KABOOM_CD, speed, true, true, true);
-			kaboomTrigger = true;
-		}
-	}
-
-	private void kaboom() {
-
-		double dwarfDamage = 60 + 5 * shrapnel + 25 * superKaboom;
-		int armorShred = 50 + 5 * shrapnel + 25 * superKaboom;
-		double power = 6 + 0.5 * dest + 1.5 * superKaboom;
-		double kb = 0.75 + 0.15 * force + 1 * superKaboom;
-
-		Location loc = monster.getLocation();
-		World world = monster.getLocation().getWorld();
-
-		BlockConverter.convert(BlockConverter.Type.EXPLOSION, loc, power);
-		world.spawnParticle(Particle.EXPLOSION_HUGE, loc, 3, 1, 1, 1);
-		world.playSound(loc, "entity.generic.explode", 2, 1);
-
-		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
-			Vector offset = dwarf.getEyeLocation().subtract(loc).toVector();
-			if (offset.length() > 6) continue;
-
-			DamageModifier modifier = new DamageModifier();
-
-			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
-			knockback.setY(knockback.getY() / 2 + 0.1 + 0.3 * superKaboom);
-			modifier.addKnockback(knockback);
-
-			DwarfDamage aoeDamage = dwarf.createDamage(monster, CustomDamageType.GOBO_KABOOM, dwarfDamage);
-			modifier.applyToDamage(aoeDamage);
-			aoeDamage.setArmourShred(armorShred);
-			aoeDamage.fire();
-		}
-
-
-		GameDamage damage = monster.createDamage(null, CustomDamageType.SELF_GOBO_KABOOM, 1000);
-		damage.instaKill();
-		damage.fire(true);
-	}
-	
-	
-	@Override
-	public void onDamageReceive(MonsterDamage damage) {
-		super.onDamageReceive(damage);
-		monster.removePotionEffect(PotionEffectType.SPEED);
-		kaboomCD.reset();
-		kaboomTrigger = false;
-	}
-
-	@Override
-	public float getCooldown() {
-		return kaboomCD.fractionComplete();
 	}
 
 	public void thrownGoboBox(Location centerLoc) {

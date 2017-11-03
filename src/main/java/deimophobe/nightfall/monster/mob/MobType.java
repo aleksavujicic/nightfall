@@ -83,7 +83,10 @@ public enum MobType {
 				}
 			}
 			case GOBO: {
-				if (monster.getUpgrades(MobType.GOBO).computeIfAbsent("blaze", (k) -> 0) == 1) {
+				if (monster.getUpgrades(MobType.GOBO).computeIfAbsent("kaboom", (k) -> 0) == 1) {
+					return new GoblinKaboom(monster);
+				}
+				else if (monster.getUpgrades(MobType.GOBO).computeIfAbsent("blaze", (k) -> 0) == 1) {
 					return new Blaze(monster);
 				}
 				else {
