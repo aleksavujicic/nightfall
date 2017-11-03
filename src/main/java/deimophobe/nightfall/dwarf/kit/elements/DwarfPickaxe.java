@@ -13,6 +13,7 @@ import deimophobe.nightfall.effects.GameEffect;
 import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.map.GameMap;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -63,7 +64,7 @@ class DwarfPickaxe extends AbstractItem implements KitCooldownElement {
 				}
 			}
 			
-			boolean success;
+			boolean success = false;
 			Block affectedBlock;
 			if (BlockType.PISTON_BASE.matchesBlock(clickedBlock) && face == BlockFace.UP) {
 				// CLICKING ON A PISTON TO CREATE A BLOCK
@@ -76,13 +77,22 @@ class DwarfPickaxe extends AbstractItem implements KitCooldownElement {
 				
 				if (success)
 					Sounds.DWARF_MAKE_ARMOUR.playSound(affectedBlock.getLocation());
-			} else {
+			} else if (
+					BlockType.PISTON_BASE.matchesBlock(clickedBlock.getRelative(0, - 1, 0)) ||
+					BlockType.PISTON_BASE.matchesBlock(clickedBlock.getRelative(0, 1, 0)) ||
+					BlockType.PISTON_BASE.matchesBlock(clickedBlock.getRelative(-1, 0, 0)) ||
+					BlockType.PISTON_BASE.matchesBlock(clickedBlock.getRelative(1, 0, 0)) ||
+					BlockType.PISTON_BASE.matchesBlock(clickedBlock.getRelative(0, 0, -1)) ||
+					BlockType.PISTON_BASE.matchesBlock(clickedBlock.getRelative(0, 0, 1))){
 				success = (
 						BlockType.tryConvertBlock(clickedBlock, BlockType.CRACKED_GOLD_1, BlockType.CRACKED_GOLD_2) ||
 						BlockType.tryConvertBlock(clickedBlock, BlockType.CRACKED_GOLD_2, BlockType.CRACKED_GOLD_3) ||
 						BlockType.tryConvertBlock(clickedBlock, BlockType.CRACKED_GOLD_3, BlockType.REFINED_GOLD));
 				affectedBlock = clickedBlock;
+			} else {
+				affectedBlock = clickedBlock;
 			}
+
 			
 			if (success) {
 				GameEffect.DWARF_ARMOUR_CLOUD.playEffect(affectedBlock);
