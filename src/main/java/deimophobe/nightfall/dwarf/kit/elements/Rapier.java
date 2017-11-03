@@ -26,8 +26,8 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 	
 	private static final int STACK_CD_TIME = 5*20;
 	private static final int INVINC_TIME = 2*20;
-	private static final int MAX_STACKS = 20;
-	private static final int PARRY_COST = 5;
+	private static final int MAX_STACKS = 40;
+	private static final int PARRY_COST = 8;
 	
 	private int inivincCD;
 	private int stackCD;
@@ -100,7 +100,7 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 					stacks++;
 			}
 			
-			damage.getDamage().addBoost(stacks*2);
+			damage.getDamage().addBoost(stacks);
 			stackCD = STACK_CD_TIME;
 		}
 	}
