@@ -487,7 +487,7 @@ berserker:
        - "Gives you 10 extra attack and some bonus\n
           speed, at the cost of 4 hearts and armour."
     modifiers:
-      attack: 10
+      attack: 5
       speed: 10
-      health: 6
+      health: 7
       durability: 700
