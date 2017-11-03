@@ -1,11 +1,6 @@
 base:
   title: Skeleton
-
   disguisetype: skeleton
-
-  attack: 0
-  shred: 5
-
   armour:
     material: bone
     name: Tough Bones
@@ -36,6 +31,7 @@ base:
 wither:
   parent: base
   title: Wither
+  disguisetype: wither_skeleton
   weapon:
     base: wither
     name: Nether Tooth Bow
@@ -48,7 +44,7 @@ wither:
 
 flamelancer:
   parent: base
-  title: flamelancer
+  title: Flamelancer
   weapon:
     base: flamebow
     name: Nether Tooth Bow
@@ -60,3 +56,15 @@ flamelancer:
        - "Forged in the fiery nether,\n
           any arrows fired burst into flames."
 
+impact:
+  parent: base
+  title: Impact Skeleton
+  weapon:
+    base: longbow
+    name: Strong Bow
+    lore:
+      description:
+       - "Your arrows knock dwarves away."
+      flavour:
+       - "The heavy arrows fired by this bow\n
+          can knock away dwarves."

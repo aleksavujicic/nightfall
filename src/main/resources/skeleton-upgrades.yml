@@ -6,7 +6,7 @@ power:
     name: "Upgrade Power"
     lore:
       description:
-        - "Increases your power.\n
+        - "Increases your power and armor shred.\n
            Upgrade power and health to lvl 5\n
            to unlock subclasses."
 
@@ -22,7 +22,7 @@ power-inf:
     shiny: true
     lore:
       description:
-        - "Further increases your power."
+        - "Further increases your power and armor shred."
 
 health:
   index: 6
@@ -49,3 +49,62 @@ health-inf:
     lore:
       description:
         - "Further increases your health."
+
+wither:
+  index: 11
+  cost: 2000
+  prereq:
+    power: 5
+    health: 5
+  exclusiveWith:
+    flamelancer: 1
+    impact: 1
+  item:
+    base: wither_skull
+    name: "Wither"
+    shiny: true
+    lore:
+      description:
+        - "Become a Wither.\n
+           A powerful skeleton variant that specializes\n
+           in chaining shots and breaking armor."
+
+
+flamelancer:
+  index: 13
+  cost: 2000
+  prereq:
+    power: 5
+    health: 5
+  exclusiveWith:
+    wither: 1
+    impact: 1
+  item:
+    base: flamebow
+    name: "Flamelancer"
+    shiny: true
+    lore:
+      description:
+        - "Become a Flamelancer.\n
+           A fast skeleton variant that specializes\n
+           in lighting dwarves on fire."
+
+
+impact:
+  index: 15
+  cost: 2000
+  prereq:
+    power: 5
+    health: 5
+  exclusiveWith:
+    wither: 1
+    flamelancer: 1
+  item:
+    base: Impact Skeleton"
+    shiny: true
+    lore:
+      description:
+        - "Become an Impact Skeleton.\n
+           A sneaky skeleton variant that can\n
+           scale walls and knock dwarves away."
+

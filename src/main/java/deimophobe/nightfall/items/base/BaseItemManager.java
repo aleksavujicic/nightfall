@@ -45,7 +45,9 @@ public class BaseItemManager {
 		addItem("doom_clock", new SimpleBaseItem(Material.WATCH, 0));
 		
 		addItem("upgrade_zombie", new SimpleBaseItem(Material.SKULL_ITEM, 2));
+		addItem("upgrade_skeleton", new SimpleBaseItem(Material.SKULL_ITEM, 0));
 		addItem("upgrade_gobo", new SimpleBaseItem(Material.SKULL_ITEM, 4));
+		addItem("wither_skull", new SimpleBaseItem(Material.SKULL_ITEM, 1));
 		
 		BaseItem temp = new SimpleBaseItem(Material.FERMENTED_SPIDER_EYE);
 		addItem("temp", temp);
