@@ -42,6 +42,10 @@ skullmask:
   base: skullmask
   name: "Skull Mask"
 
+catears:
+  base: catears
+  name: "Cat Ears"
+
 tuihat:
   template: dwarf-hero
   base: tuihat

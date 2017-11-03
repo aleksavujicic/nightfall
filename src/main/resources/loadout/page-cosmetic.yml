@@ -75,6 +75,13 @@ skullmask:
   item:
     base: skullmask
     name: "Skull Mask"
+catears:
+  index: 11
+  type: hat
+  name: catears
+  item:
+    base: catears
+    name: "Cat Ears"
 
 ranger:
   index: 18
