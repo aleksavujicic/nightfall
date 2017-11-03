@@ -189,7 +189,7 @@ crossbow:
   type: item
   name: crossbow
   category: bow
-  cost: 12
+  cost: 16
   item:
     name: "Crossbow"
     base: crossbow

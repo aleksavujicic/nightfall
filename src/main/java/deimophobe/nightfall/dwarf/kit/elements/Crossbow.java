@@ -20,7 +20,7 @@ class Crossbow extends AbstractBow implements KitCooldownElement {
 	}
 	
 	private final static int POWER = 100;
-	private final static int FIRING_POWER = 60;
+	private final static int FIRING_POWER = 30;
 	private final static CustomItem ITEM = DwarvenItems.getBow("crossbow", POWER);
 	@Override public CustomItem getItem() {
 		return ITEM;
@@ -32,7 +32,7 @@ class Crossbow extends AbstractBow implements KitCooldownElement {
 	
 	private boolean firing = false;
 	private ComplexCooldown rapidCD = new ComplexCooldown(4, this::fireRapidArrow);
-	private ComplexCooldown longRapid = new ComplexCooldown(20*20, this::startFiring);
+	private ComplexCooldown longRapid = new ComplexCooldown(40*20, this::startFiring);
 	
 	private final static int ARROW_COST = 2;
 	
@@ -54,10 +54,8 @@ class Crossbow extends AbstractBow implements KitCooldownElement {
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (firing) {
-			stopFiring();
-			return true;
-		}
+		if (firing) return true;
+		
 		
 		if (Misc.isRightClick(action) && dwarf.hasArrows(ARROW_COST)) {
 			arrowCD.tryUse();
