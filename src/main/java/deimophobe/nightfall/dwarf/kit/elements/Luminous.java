@@ -82,10 +82,6 @@ public class Luminous extends AbstractBow {
 			
 			world.spawnParticle(Particle.FLAME, firePos, 2, 0.05, 0.05, 0.05, 0);
 			world.spawnParticle(Particle.VILLAGER_HAPPY, emerPos, 2, 0.05, 0.05, 0.05, 0);
-			
-            //world.spawnParticle(Particle.VILLAGER_HAPPY, particlePos, 3, PARTICLE_OFFSET, PARTICLE_OFFSET, PARTICLE_OFFSET);
-            //world.spawnParticle(Particle.FLAME, particlePos, 2, PARTICLE_OFFSET, PARTICLE_OFFSET, PARTICLE_OFFSET, 0);
-			//world.spawnParticle(Particle.END_ROD, location, 0, dx, dy, dz, i*0.05);
 
             // Stop beam if it hits a block
             if (particlePos.getBlock().getType().isSolid()) {
