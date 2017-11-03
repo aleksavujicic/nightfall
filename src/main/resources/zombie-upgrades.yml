@@ -61,11 +61,11 @@ husk:
     saboteur: 1
   item:
     material: leather_chestplate
-    name: "Husk Zombie"
+    name: "Husk"
     shiny: true
     lore:
       description:
-        - "Become a Husk Zombie.\n
+        - "Become a Husk.\n
            A slow zombie variant that can\n
            rapidly regenerate and rebirth many times."
 
@@ -101,11 +101,11 @@ saboteur:
     fury: 1
   item:
     material: stone_sword
-    name: "Saboteur Zombie"
+    name: "Saboteur"
     shiny: true
     lore:
       description:
-        - "Become a Saboteur Zombie.\n
+        - "Become a Saboteur.\n
            A speedy, sneaky zombie variant that\n
            can destroy walls and poison dwarves."
 
