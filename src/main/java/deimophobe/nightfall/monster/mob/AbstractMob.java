@@ -229,8 +229,12 @@ public abstract class AbstractMob implements Mob {
 		if (damage.getType() == NaturalDamageType.MELEE) {
 			playSound("melee");
 			damage.setArmourShred(mobData.armourShred);
+			monster.gainXP(3);
+		} else if (damage.getType() == NaturalDamageType.MELEE) {
+			monster.gainXP(10);
+		} else {
+			monster.gainXP(3);
 		}
-		monster.gainXP(3);
 	}
 	
 	@Override
