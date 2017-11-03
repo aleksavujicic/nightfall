@@ -112,9 +112,9 @@ public class Luminous extends AbstractBow {
 
                 // If close enough damage mob
                 if (monster.distanceTo(dwarf) <= radius) {
-                    monster.doDamage(dwarf, CustomDamageType.EBOW, getPower()*force/2);
+                    monster.doDamage(dwarf, CustomDamageType.LUMINOUS, getPower()*force/2);
                 } else if (radialOffset <= THICKNESS) {
-                    monster.doDamage(dwarf, CustomDamageType.EBOW, getPower()*force);
+                    monster.doDamage(dwarf, CustomDamageType.LUMINOUS, getPower()*force);
                 }
             }
         }
@@ -136,7 +136,7 @@ public class Luminous extends AbstractBow {
                 // If close enough to give dwarf proc
                 if (radialOffset <= THICKNESS) {
                     gaveProc = true;
-                    dwarf.giveProc(ProcType.EBOW);
+                    dwarf.giveProc(ProcType.LUMINOUS);
                 }
             }
         }
