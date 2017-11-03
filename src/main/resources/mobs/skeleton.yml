@@ -1,0 +1,62 @@
+base:
+  title: Skeleton
+
+  disguisetype: skeleton
+
+  attack: 0
+  shred: 5
+
+  armour:
+    material: bone
+    name: Tough Bones
+    lore:
+      description:
+       - "The bones of an undead,\n
+          reanimated by dark magic."
+    bound: true
+  weapon:
+    base: shortbow
+    name: Skeletal Bow
+    lore:
+      description:
+       - "Hold right click to fire an arrow.\n"
+      flavour:
+       - "An old bow wielded by the dead."
+  items:
+    arrow:
+      material: arrow
+      name: Skeletal Arrow
+      lore:
+        description:
+         - "A skeleton's quiver of arrows."
+        flavour:
+         - "The cursed arrows of undead skeletons,\n
+            capable of piercing even runeblessed armour."
+
+wither:
+  parent: base
+  title: Wither
+  weapon:
+    base: wither
+    name: Nether Tooth Bow
+    lore:
+      description:
+       - "Shots shred armour and damage dwarves,\n
+          becoming more powerful every consecutive hit."
+      flavour:
+       - "No mortal can touch this bow and live."
+
+flamelancer:
+  parent: base
+  title: flamelancer
+  weapon:
+    base: flamebow
+    name: Nether Tooth Bow
+    lore:
+      description:
+       - "Your arrows are set on fire,\n
+          and with upgrades you can fire volleys."
+      flavour:
+       - "Forged in the fiery nether,\n
+          any arrows fired burst into flames."
+

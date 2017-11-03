@@ -15,12 +15,12 @@ import org.bukkit.entity.Projectile;
 /**
  * Created by Deimophobe on 20/01/17.
  */
-class Flamelancer extends SkeletonMob {
+class SkeletonFlamelancer extends Skeleton {
 	
 	@Override protected double getPower() {return 15;}
 	
-	Flamelancer(MonsterPlayer monster) {
-		super(monster, MobType.FLAMELANCER);
+	SkeletonFlamelancer(MonsterPlayer monster) {
+		super(monster, MobData.getMobData("skeleton.flamelancer"));
 	}
 	
 	private static final int ARROWS_FIRED = 15;

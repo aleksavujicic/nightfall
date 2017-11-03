@@ -5,19 +5,28 @@ import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 
+import java.util.Map;
+
 /**
  * Created by Deimophobe on 27/01/17.
  */
-abstract class SkeletonMob extends AbstractMob {
-	
-	protected SkeletonMob(MonsterPlayer mons, MobType type) {
-		super(mons, type);
+class Skeleton extends AbstractMob {
+
+	protected Map<String, Integer> upgrades;
+
+	public Skeleton(MonsterPlayer mons) {
+		this(mons, MobType.SKELETON.getMobData());
+	}
+
+	protected Skeleton(MonsterPlayer mons, MobData zombieData) {
+		super(mons, MobType.SKELETON);
 		getWeapon().addModifier(ItemModifierType.POWER, (int) getPower());
 	}
 	
@@ -43,5 +52,7 @@ abstract class SkeletonMob extends AbstractMob {
 		giveItem("arrow", quantity);
 	}
 	
-	protected abstract double getPower();
+	protected double getPower() {
+		return 15;
+	}
 }

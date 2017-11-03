@@ -1,0 +1,51 @@
+power:
+  index: 2
+  cost: [100, 200, 300, 400, 500]
+  item:
+    material: arrow
+    name: "Upgrade Power"
+    lore:
+      description:
+        - "Increases your power.\n
+           Upgrade power and health to lvl 5\n
+           to unlock subclasses."
+
+power-inf:
+  index: 2
+  cost: 2500
+  permanent: true
+  prereq:
+    attack: 5
+  item:
+    material: wood_sword
+    name: "Upgrade Power (inf)"
+    shiny: true
+    lore:
+      description:
+        - "Further increases your power."
+
+health:
+  index: 6
+  cost: [100, 200, 300, 400, 500]
+  item:
+    material: bone
+    name: "Upgrade Health"
+    lore:
+      description:
+        - "Increases your health.\n
+           Upgrade power and health to lvl 5\n
+           to unlock subclasses."
+
+health-inf:
+  index: 6
+  cost: 2500
+  permanent: true
+  prereq:
+    health: 5
+  item:
+    material: bone
+    name: "Upgrade Health (inf)"
+    shiny: true
+    lore:
+      description:
+        - "Further increases your health."
