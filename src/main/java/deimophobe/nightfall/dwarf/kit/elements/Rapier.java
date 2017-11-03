@@ -98,10 +98,11 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 			if (monster instanceof MonsterPlayer) {
 				if (!((MonsterPlayer) monster).hasSpawnProtection() && stacks < MAX_STACKS)
 					stacks++;
+				
+				stackCD = STACK_CD_TIME;
 			}
 			
 			damage.getDamage().addBoost(stacks);
-			stackCD = STACK_CD_TIME;
 		}
 	}
 	
