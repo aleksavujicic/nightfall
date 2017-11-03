@@ -27,7 +27,7 @@ import org.bukkit.potion.PotionEffectType;
  */
 class Glaive extends AbstractAOEHitter implements KitCooldownElement {
 
-    private final ComplexCooldown cd = new ComplexCooldown(45*20, this::Spin);
+    private final ComplexCooldown spinCD = new ComplexCooldown(45*20, this::Spin);
 
     Glaive(Dwarf dwarf) {
         super(dwarf);
@@ -39,38 +39,23 @@ class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     }
     @Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 
-    private int cooldown;
-    private static final int MAX_CD = 40;
-
-    @Override
-    public void onDamageAttack(MonsterDamage damage) {
-        super.onDamageAttack(damage);
-        cooldown = 0;
-    }
-
-    @Override
-    public void onDamageReceive(DwarfDamage damage) {
-        super.onDamageReceive(damage);
-        cooldown = 0;
-    }
-
     @Override
     public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
         super.update(quartSec, halfSec, sec, doubleSec, quadSec);
-        cd.update();
+        spinCD.update();
     }
 
     @Override
     public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace){
         if(Misc.isRightClick(action)){
-            cd.tryUse();
+            spinCD.tryUse();
         }
         return false;
     }
 
     private void Spin(){
         dwarf.givePotionEffect(PotionEffectType.SLOW,20,3,false,false,true);
-        dwarf.givePotionEffect(PotionEffectType.LUCK,20,100, false,true,true);
+        dwarf.givePotionEffect(PotionEffectType.LUCK,20,1, false,true,true);
         //dwarf.playSound("ENTER-SOUND-HERE", 1, 1f, false);
         //Damage
     }
@@ -104,7 +89,7 @@ class Glaive extends AbstractAOEHitter implements KitCooldownElement {
 
     @Override
     public float fractionComplete() {
-        return cd.fractionComplete();
+        return spinCD.fractionComplete();
     }
 
     @Override
@@ -117,19 +102,17 @@ class Glaive extends AbstractAOEHitter implements KitCooldownElement {
         if (entity instanceof MonsterPlayer) {
             MobType type = ((MonsterPlayer) entity).getMob().getType();
             if (type == MobType.ZOMBIE) {
-                return (dwarf.hasProc() ? 25 : 15);
+                return 20;
             } else {
-                return (dwarf.hasProc() ? 10 : 5);
+                return (dwarf.hasProc() ? 30 : 15);
             }
-        } else if (entity instanceof AIEntity) {
-            return  (dwarf.hasProc() ? 70 : 40);
+        } else {
+            return  (dwarf.hasProc() ? 70 : 30);
         }
-
-        return 0;
     }
 
     @Override
     protected double getRadius() {
-        return  (dwarf.hasProc() ? 4 : 3);
+        return  (dwarf.hasProc() ? 3 : 2.5);
     }
 }
