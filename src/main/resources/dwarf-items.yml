@@ -293,7 +293,7 @@ ale:
        - "Left click to heal yourself\n
           for &b100&r mana.\n
           Right click on dwarves to heal\n
-          them and their armour for &b10&r mana."
+          them and their armour for &b20&r mana."
       flavour:
        - "\"For those who want others to live another night.\" - Arthea"
   chug:
