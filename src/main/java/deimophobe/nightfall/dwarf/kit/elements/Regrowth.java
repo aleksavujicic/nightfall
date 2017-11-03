@@ -12,6 +12,9 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Deimophobe on 22/01/17.
  */
@@ -52,24 +55,27 @@ class Regrowth extends AbstractAle {
 		Dwarf healee = dwarf.getLookingAt(3, 15, DwarfManager.getManager().getDwarves());
 		if (healee == null) return;
 		if (!dwarf.tryUseMana(20)) return;
-		
-		dwarf.playSound("entity.experience_orb.pickup", 10f, 0.5f, false);
-		healee.playSound("entity.experience_orb.pickup", 10f, 0.5f, false);
-		
-		
+
 		Location healerLoc = dwarf.getPlayer().getEyeLocation().subtract(0, 1.2, 0);
 		Location healeeLoc = healee.getPlayer().getEyeLocation().subtract(0, 1.2, 0);
 		
 		Vector direction = healeeLoc.subtract(healerLoc).toVector();
 		double distance = direction.length();
 		Vector delta = direction.multiply(0.5 / distance);
-		
+		List<Location> locs = new ArrayList<>();
+
 		int times = (int) (distance / 0.5);
 		for (int i = 0; i <= times; i++) {
 			Location newLoc = healerLoc.add(delta.multiply(1));
-			dwarf.getPlayer().getWorld().spawnParticle(Particle.HEART, newLoc, 3, 0.1, 0.1, 0.1);
+			locs.add(newLoc);
+			if (newLoc.getBlock().getType().isSolid()) return;
 		}
-		
+		for (Location loc : locs) {
+			dwarf.getPlayer().getWorld().spawnParticle(Particle.HEART, loc, 3, 0.1, 0.1, 0.1);
+		}
+
+		dwarf.playSound("entity.experience_orb.pickup", 10f, 0.5f, false);
+		healee.playSound("entity.experience_orb.pickup", 10f, 0.5f, false);
 		
 		healee.getArmour().repair(15);
 		healee.heal(5);
