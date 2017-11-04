@@ -231,6 +231,7 @@ public class AIManager {
 	public void spawnAIs(Location location, int num) {
 		for (int i=0; i<num; i++)
 			spawnAI(location);
+			spawnAI(location.add(Math.random()-0.5, 0, Math.random()-0.5));
 	}
 	
 	public void spawnAI(Location location) {
