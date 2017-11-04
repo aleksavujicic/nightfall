@@ -169,6 +169,12 @@ public class GameListener implements Listener {
 		Entity entity = event.getEntity();
 		EntityDamageEvent.DamageCause cause = event.getCause();
 		
+		// Protect santa
+		if (entity.getType() == EntityType.ARMOR_STAND) {
+			event.setCancelled(true);
+			return;
+		}
+		
 		// Don't damage lobbyers and respawn if void.
 		if (entity instanceof Player) {
 			Player player = (Player) entity;

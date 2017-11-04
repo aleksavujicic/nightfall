@@ -20,7 +20,10 @@ class MapWinterland implements MapFeature {
 			@Override
 			public void run() {
 				for (Player player : Bukkit.getOnlinePlayers()) {
-					player.spawnParticle(Particle.FIREWORKS_SPARK, player.getLocation(), 50, 10, 10, 10, 0);
+					int skyLight = player.getLocation().getBlock().getLightFromSky();
+					
+					if (skyLight >= 11)
+						player.spawnParticle(Particle.FIREWORKS_SPARK, player.getLocation(), (skyLight - 10)*10, 10, 10, 10, 0);
 				}
 			}
 		}.runTaskTimer(NightfallPlugin.getPlugin(), 0, 1);
