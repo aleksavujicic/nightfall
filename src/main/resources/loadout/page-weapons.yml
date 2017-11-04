@@ -484,8 +484,9 @@ berserker:
     base: temp
     lore:
       description:
-       - "Gives you 10 extra attack and some bonus\n
-          speed, at the cost of 4 hearts and armour."
+       - "Gives you 5 extra attack and 10%\n
+          speed, and reduces hearts by 3\n
+          and armour durability by 300."
     modifiers:
       attack: 10
       speed: 10
