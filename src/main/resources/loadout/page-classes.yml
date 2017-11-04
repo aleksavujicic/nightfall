@@ -86,7 +86,7 @@ beserker-class:
     - axe
     - crossbow
     - jimmy_juice
-    - studded
+    - berserker
     - darkvision
   consumables:
     torch: 32
@@ -109,7 +109,7 @@ beserker-class:
        - "*Axe of Malice\n
           *Crossbow\n
           *Jimmy Juice\n
-          *Studded Armour\n
+          *Bererker Armour\n
           *Darkvision\n
           *32 Torches\n
           *32 Mortar\n
