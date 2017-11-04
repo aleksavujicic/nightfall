@@ -24,7 +24,7 @@ import org.bukkit.inventory.ItemStack;
  */
 class Rapier extends AbstractItem implements KitCooldownElement {
 	
-	private static final int STACK_CD_TIME = 5*20;
+	private static final int STACK_CD_TIME = 8*20;
 	private static final int INVINC_TIME = 2*20;
 	private static final int MAX_STACKS = 40;
 	private static final int PARRY_COST = 8;
