@@ -362,6 +362,10 @@ public class GameListener implements Listener {
 	public void preventIceMelt(BlockFadeEvent event) {
 		if (event.getNewState().getType() == Material.STATIONARY_WATER)
 			event.setCancelled(true);
+		
+		// Prevent snow melt too
+		if (event.getBlock().getType() == Material.SNOW)
+			event.setCancelled(true);
 	}
 	
 	@EventHandler
