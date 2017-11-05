@@ -16,9 +16,7 @@ import org.bukkit.entity.Projectile;
  * Created by Deimophobe on 20/01/17.
  */
 class SkeletonFlamelancer extends Skeleton {
-	
-	@Override protected double getPower() {return 15;}
-	
+
 	SkeletonFlamelancer(MonsterPlayer monster) {
 		super(monster, MobData.getMobData("skeleton.flamelancer"));
 	}
@@ -44,7 +42,7 @@ class SkeletonFlamelancer extends Skeleton {
 		arrow.setCritical(false);
 		final int arrowsToFire = (int) (ARROWS_FIRED*(force*force));
 		for (int i=0; i<arrowsToFire; i++) {
-			Arrow newArrow = ArrowMisc.summonArrow(monster, getPower(), force*2, force, 30f);
+			Arrow newArrow = ArrowMisc.summonArrow(monster, power, force*2, force, 30f);
 			newArrow.setCritical(false);
 			newArrow.setFireTicks(10000);
 		}

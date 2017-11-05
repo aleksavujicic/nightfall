@@ -9,13 +9,11 @@ import deimophobe.nightfall.monster.MonsterPlayer;
  * Created by Deimophobe on 20/01/17.
  */
 class SkeletonWither extends Skeleton {
-	
-	@Override protected double getPower() {return 30;}
+
 	private double damageBoost = 0;
 	
 	SkeletonWither(MonsterPlayer monster) {
 		super(monster, MobData.getMobData("skeleton.wither"));
-		getArmour().addModifier(ItemModifierType.SPEED, -10, "Wither");
 	}
 	
 	@Override
