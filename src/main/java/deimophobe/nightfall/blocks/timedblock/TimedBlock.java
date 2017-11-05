@@ -82,7 +82,8 @@ public class TimedBlock {
 		
 		// If its already a timed block or its not breakable, don't overwrite!
 		if (timedBlock instanceof GoboBox) {
-			if (BlockType.GOBOPLACABLE_BLOCKS.matchesBlock(block)) {
+			if (BlockType.EMPTY_BLOCKS.matchesBlock(block)) {
+				block.setType(Material.AIR);
 				timedBlock.placeBlock();
 				activeTimedBlocks.put(block, timedBlock);
 				return true;
