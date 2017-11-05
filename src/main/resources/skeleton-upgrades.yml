@@ -38,7 +38,7 @@ health:
 
 health-inf:
   index: 6
-  cost: 2500
+  cost: 1500
   permanent: true
   prereq:
     health: 5
@@ -107,4 +107,7 @@ impact:
         - "Become an Impact Skeleton.\n
            A sneaky skeleton variant that can\n
            scale walls and knock dwarves away."
+
+
+
 
