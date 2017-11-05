@@ -52,7 +52,7 @@ health-inf:
 
 wither:
   index: 11
-  cost: 2000
+  cost: 1000
   prereq:
     power: 5
     health: 5
@@ -72,7 +72,7 @@ wither:
 
 flamelancer:
   index: 13
-  cost: 2000
+  cost: 1000
   prereq:
     power: 5
     health: 5
@@ -92,7 +92,7 @@ flamelancer:
 
 impact:
   index: 15
-  cost: 2000
+  cost: 1000
   prereq:
     power: 5
     health: 5
@@ -109,5 +109,277 @@ impact:
            scale walls and knock dwarves away."
 
 
+############################
+# WITHER SUBCLASS UPGRADES #
+############################
+
+piercing:
+  index: 11
+  cost: [200, 400, 600, 800, 1000]
+  prereq:
+    wither: 1
+  item:
+    material: coal
+    name: "Piercing"
+    lore:
+      description:
+        - "Arrows do more armor piercing."
 
 
+sniper:
+  index: 12
+  cost: [200, 400, 600, 800, 1000]
+  prereq:
+    wither: 1
+  item:
+    base: shortbow
+    name: "Sniper"
+    lore:
+      description:
+        - "Shooting a dwarf gives you more damage\n
+           and armor piercing, which wear off after\n
+           a few seconds."
+
+
+siphon:
+  index: 13
+  cost: [200, 400, 600, 800, 1000]
+  prereq:
+    wither: 1
+  item:
+    material: redstone
+    name: "Energy Siphon"
+    lore:
+      description:
+        - "Shooting dwarves drains their health\n
+           and recovers your health."
+
+
+arrowres:
+  index: 14
+  cost: [200, 400, 600, 800, 1000]
+  prereq:
+    wither: 1
+  item:
+    material: arrow
+    name: "Arrow Resistance"
+    lore:
+      description:
+        - "Increases your arrow resistance."
+
+
+extrahealth:
+  index: 15
+  cost: [200, 400, 600, 800, 1000]
+  prereq:
+    wither: 1
+  item:
+    material: bone
+    name: "Extra Health"
+    lore:
+      description:
+        - "Gives you extra health."
+
+
+withering:
+  index: 22
+  cost: 3000
+  prereq:
+    power: 5
+    health: 5
+    wither: 1
+    piercing: 5
+    sniper: 5
+    siphon: 5
+    arrowres: 5
+    extrahealth: 5
+  item:
+    base: wither_skull
+    name: "Withering Arrows"
+    shiny: true
+    lore:
+      description:
+        - "Wither dwarves with your arrows!\n
+           You will also deal more armor shred."
+
+
+#################################
+# FLAMELANCER SUBCLASS UPGRADES #
+#################################
+
+flame:
+  index: 11
+  cost: [200, 400, 600, 800, 1000]
+  prereq:
+    flamelancer: 1
+  item:
+    base: fireball
+    name: "Flame"
+    lore:
+      description:
+        - "Fire from your arrows last longer."
+
+
+volley:
+  index: 12
+  cost: [200, 400, 600, 800, 1000]
+  prereq:
+    flamelancer: 1
+  item:
+    base: flamebow
+    name: "Volley"
+    lore:
+      description:
+        - "Have a higher chance of volleying."
+
+
+speed:
+  index: 13
+  cost: [200, 400, 600, 800, 1000]
+  prereq:
+    flamelancer: 1
+  item:
+    material: glowstone
+    name: "Speed"
+    lore:
+      description:
+        - "Move faster."
+
+
+arrowres:
+  index: 14
+  cost: [200, 400, 600, 800, 1000]
+  prereq:
+    flamelancer: 1
+  item:
+    material: arrow
+    name: "Arrow Resistance"
+    lore:
+      description:
+        - "Increases your arrow resistance."
+
+
+firepath:
+  index: 15
+  cost: [200, 400, 600, 800, 1000]
+  prereq:
+    flamelancer: 1
+  item:
+    material: magma_block
+    name: "Fiery Path"
+    lore:
+      description:
+        - "Spawns fire where you walk."
+
+
+fireai:
+  index: 22
+  cost: 3000
+  prereq:
+    power: 5
+    health: 5
+    flamelancer: 1
+    flame: 5
+    volley: 5
+    speed: 5
+    arrowres: 5
+    firepath: 5
+  item:
+    base: upgrade_skeleton
+    name: "Fire Summoning"
+    shiny: true
+    lore:
+      description:
+        - "Summon fire spirits where your arrows land!"
+
+
+############################
+# IMPACT SUBCLASS UPGRADES #
+############################
+
+punch:
+  index: 11
+  cost: [200, 400, 600, 800, 1000]
+  prereq:
+    impact: 1
+  item:
+    base: longbow
+    name: "Punch"
+    lore:
+      description:
+        - "Fire from your arrows last longer."
+
+
+meleekb:
+  index: 12
+  cost: [500, 1000, 1500]
+  prereq:
+    impact: 1
+  item:
+    material: stone_sword
+    name: "Melee Knockback"
+    lore:
+      description:
+        - "Knock people away by hitting them."
+
+
+vines:
+  index: 13
+  cost: [500, 1000, 1500]
+  prereq:
+    impact: 1
+  item:
+    material: vine
+    name: "Infiltration Vines"
+    lore:
+      description:
+        - "Get several temporary vines.
+           When placed they will last one minute."
+
+
+arrowres:
+  index: 14
+  cost: [200, 400, 600, 800, 1000]
+  prereq:
+    impact: 1
+  item:
+    material: arrow
+    name: "Arrow Resistance"
+    lore:
+      description:
+        - "Increases your arrow resistance."
+
+
+extrahealth:
+  index: 15
+  cost: [200, 400, 600, 800, 1000]
+  prereq:
+    impact: 1
+  item:
+    material: bone
+    name: "Extra Health"
+    lore:
+      description:
+        - "Gives you extra health."
+
+
+aoe:
+  index: 22
+  cost: 3000
+  prereq:
+    power: 5
+    health: 5
+    impact: 1
+    punch: 5
+    meleekb: 3
+    vines: 3
+    arrowres: 5
+    extrahealth: 5
+  item:
+    base: kaboom
+    name: "aoe"
+    shiny: true
+    lore:
+      description:
+        - "Knock away dwarves from a small area\n
+           where your arrow lands!"
