@@ -3,6 +3,7 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -22,6 +23,7 @@ import java.util.Map;
 class Skeleton extends AbstractMob {
 
 	protected Map<String, Integer> upgrades;
+	protected double realArrowRes = 0;
 
 	public Skeleton(MonsterPlayer mons) {
 		this(mons, MobType.SKELETON.getMobData());
@@ -54,6 +56,12 @@ class Skeleton extends AbstractMob {
 		if (damage.getType() == NaturalDamageType.RANGED && damage.hasArrow() && ArrowMisc.getArrowForce(damage.getArrow()) > 0.7) {
 			damage.setArmourShred(getArmourShred());
 		}
+	}
+
+	@Override
+	public void onDamageReceive(MonsterDamage damage) {
+		super.onDamageReceive(damage);
+		damage.getArrowRes().addBoost(realArrowRes);
 	}
 
 	@Override
