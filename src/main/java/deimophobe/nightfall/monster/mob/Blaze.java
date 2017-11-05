@@ -3,6 +3,7 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockConverter;
+import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.DudCooldown;
@@ -203,7 +204,7 @@ public class Blaze extends AbstractMob {
                     Block block = centerLoc.clone().add(x, y, z).getBlock();
                     Block blockBelow = centerLoc.clone().add(x,y-1, z).getBlock();
 
-                    if (block.getType() == Material.AIR && blockBelow.getType() != Material.AIR && (Math.random() < 0.002 * flame)) {
+                    if (BlockType.IGNORABLE.matchesBlock(block) && !BlockType.IGNORABLE.matchesBlock(blockBelow) && (Math.random() < 0.002 * flame)) {
                         block.setType(Material.FIRE);
                     }
                 }
