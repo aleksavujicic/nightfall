@@ -29,7 +29,7 @@ class HealingGlow extends AbstractAle {
 		int fire = dwarf.getPlayer().getFireTicks();
 		if (fire >= 1 && cd.tryUse()){
 			dwarf.heal(3);
-			dwarf.regenMana(10);
+			dwarf.regenMana(15);
 		}
 	}
 

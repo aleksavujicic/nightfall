@@ -17,6 +17,8 @@ public enum CustomDamageType implements GameDamageType {
 	INCORRECT_HELD_ITEM,
 	TINDERFLAME,
 	WILDFIRE,
+	SILENT_STRIKE,
+	MYST,
 	
 	AI_REMOVER,
 	

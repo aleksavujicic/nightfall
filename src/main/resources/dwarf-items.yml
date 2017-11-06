@@ -663,7 +663,26 @@ hero:
           into a powerful rampage!"
       flavour:
        - "Vroooooom!"
-
+  drucrist:
+    base: runeblade
+    name: Drucrist
+    lore:
+      description:
+        - "Drk fix this."
+      flavour:
+        - "Drk fix this."
+    modifiers:
+      attack: 20
+  wildestaff:
+    base: runeblade
+    name: Wilde Staff
+    lore:
+      description:
+        - "Drk fix this."
+      flavour:
+        - "Drk fix this."
+    modifiers:
+      attack: 5
 
 armour:
   shiny:
