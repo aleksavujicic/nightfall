@@ -19,6 +19,7 @@ public enum CustomDamageType implements GameDamageType {
 	WILDFIRE,
 	SILENT_STRIKE,
 	MYST,
+	SHADOW_STRIKE,
 	
 	AI_REMOVER,
 	

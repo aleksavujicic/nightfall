@@ -34,7 +34,7 @@ class WildeStaff extends AbstractItem implements KitCooldownElement{
 
 	private final ComplexCooldown pixieflyCD = new ComplexCooldown(10*20);
 	private final ComplexCooldown shadowwalkCD = new ComplexCooldown(120*20);
-	private final ComplexCooldown enchantedmystCD = new ComplexCooldown(20*20, this::enchantedmyst);
+	private final ComplexCooldown enchantedmystCD = new ComplexCooldown(30*20, this::enchantedmyst);
 
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero.wildestaff", Slot.MAIN_HAND);
 	@Override public CustomItem getItem() {
@@ -117,18 +117,14 @@ class WildeStaff extends AbstractItem implements KitCooldownElement{
 								monster.removeRebirth();
 							} else if (monster.getMob().getType() == MobType.MINOTAUR) {
 								//Minotaurs confused
-								monster.givePotionEffect(PotionEffectType.CONFUSION, 15 * 20, 5, true, true, true);
+								monster.setVelocity(0,0,0);
 							} else if (monster.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
 								//Ghostblades are visible
 								monster.givePotionEffect(PotionEffectType.GLOWING, 10 * 20, 3, true, true, true);
 							} else if (monster.getMob().getType() == MobType.HELLHOUND || monster.getMob().getType() == MobType.WOLF){
 								//Wolves and Hellhounds
 								monster.givePotionEffect(PotionEffectType.BLINDNESS,15*20,3,true,true,true);
-							} else if (monster.getMob().getType() == MobType.TICKER){
-								//Ticker freeze
-								monster.setVelocity(0,0,0);
 							}
-
 						}
 					}
 					for(AIEntity ai : AIManager.getManager().getAIs()){
@@ -154,6 +150,6 @@ class WildeStaff extends AbstractItem implements KitCooldownElement{
 
 	@Override
 	public float fractionComplete() {
-		return 0;
+		return enchantedmystCD.fractionComplete();
 	}
 }

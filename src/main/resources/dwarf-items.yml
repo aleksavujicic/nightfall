@@ -116,6 +116,16 @@ sword:
        - "Temp"
     modifiers:
       attack: 20
+  shadowblade:
+    base: dagger
+    name: Shadow Blade
+    lore:
+      description:
+        - "Drk fix this."
+      flavour:
+        - "Drk fix this."
+    modifiers:
+      attack: 15
 
 bow:
   shortbow:

@@ -19,16 +19,16 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-class Drucrist extends AbstractItem implements KitCooldownElement {
+class ShadowBlade extends AbstractItem implements KitCooldownElement {
 
-
-	Drucrist(Dwarf dwarf) {
+	ShadowBlade(Dwarf dwarf){
 		super(dwarf);
 	}
 
-	private final static CustomItem ITEM = DwarvenItems.getItem("hero.drucrist", Slot.MAIN_HAND);
+	private final static CustomItem ITEM = DwarvenItems.getItem("sword.shadowblade", Slot.MAIN_HAND);
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
@@ -36,7 +36,7 @@ class Drucrist extends AbstractItem implements KitCooldownElement {
 		return ITEM.createItemStack();
 	}
 	@Override public KitGiveType getGiveType() {
-		return  KitGiveType.START;
+		return KitGiveType.SWORD;
 	}
 
 	private final ComplexCooldown cd = new ComplexCooldown(10*20);
@@ -48,7 +48,6 @@ class Drucrist extends AbstractItem implements KitCooldownElement {
 		cd.update();
 	}
 
-
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action)) {
@@ -56,13 +55,15 @@ class Drucrist extends AbstractItem implements KitCooldownElement {
 				MonsterPlayer closestPlayerMonster = dwarf.getLookingAt(2.5, 13, MonsterManager.getManager().getAlivePlayerMobs());
 
 				AIEntity closestAIMonster = dwarf.getLookingAt(2.5,13, AIManager.getManager().getAIs());
+				dwarf.givePotionEffect(PotionEffectType.INVISIBILITY, 10*20,3,true,true,true);
 
 				if (closestPlayerMonster != null) {
 					Location monsterLoc = closestPlayerMonster.getLocation();
 
 					Vector lookDir = monsterLoc.getDirection().setY(0);
 					Location newLoc = monsterLoc.subtract(lookDir);
-					closestPlayerMonster.doDamage(dwarf, CustomDamageType.SILENT_STRIKE, 140, true);
+					closestPlayerMonster.doDamage(dwarf, CustomDamageType.SHADOW_STRIKE, 80, true);
+
 
 					if (!newLoc.getBlock().getType().isSolid()) {
 						dwarf.teleportTo(newLoc);
@@ -75,7 +76,7 @@ class Drucrist extends AbstractItem implements KitCooldownElement {
 
 					Vector lookDir = monsterLoc.getDirection().setY(0);
 					Location newLoc = monsterLoc.subtract(lookDir);
-					closestAIMonster.doDamage(dwarf, CustomDamageType.SILENT_STRIKE, 40, true);
+					closestAIMonster.doDamage(dwarf, CustomDamageType.SHADOW_STRIKE, 50, true);
 
 					cd.reduceCooldown(5*20);
 

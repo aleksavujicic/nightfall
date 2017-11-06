@@ -21,6 +21,7 @@ public enum KitElementType {
 	SCEPTER,
 	HUNTING_CLAWS,
 	GREATSWORD,
+	SHADOW_BLADE,
 
 	// Bows
 	SHORTBOW,
@@ -135,6 +136,7 @@ public enum KitElementType {
 			case SCEPTER: return new ScepterOfMagma(dwarf);
 			case HUNTING_CLAWS: return new HuntingClaws(dwarf);
 			case GREATSWORD: return new Greatsword(dwarf);
+			case SHADOW_BLADE: return new ShadowBlade(dwarf);
 			
 			// Bows
 			case SHORTBOW: return new Shortbow(dwarf);
