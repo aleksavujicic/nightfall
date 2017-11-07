@@ -14,6 +14,7 @@ public enum CustomDamageType implements GameDamageType {
 	LUMINOUS,
 	EVISCERATE,
 	HAMMER_AOE,
+	GLAIVE_AOE,
 	INCORRECT_HELD_ITEM,
 	TINDERFLAME,
 	WILDFIRE,
