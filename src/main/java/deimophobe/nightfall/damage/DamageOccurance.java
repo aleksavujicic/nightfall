@@ -65,7 +65,10 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 		if (type instanceof CustomDamageType) {
 			switch ((CustomDamageType) type) {
 				case HAMMER_AOE:
+					killMsg = "slain";
+					break;
 				case EBOW:
+				case LUMINOUS:
 					killMsg = "pierced";
 					break;
 				case VOLCANIC_BOW:

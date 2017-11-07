@@ -186,6 +186,11 @@ public abstract class AbstractMob implements Mob {
 		return getItem("armour");
 	}
 	
+	protected CustomItem setWeapon(String newWepName) {
+		return items.put("weapon", mobData.getAsWeapon(newWepName));
+	}
+	
+	
 	protected CustomItem getItem(String name) {
 		return items.get(name);
 	}

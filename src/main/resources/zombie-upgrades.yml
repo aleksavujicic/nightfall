@@ -199,7 +199,7 @@ vampirism-husk:
 
 stagger:
   index: 22
-  cost: 10000
+  cost: 5000
   prereq:
     attack: 5
     health: 5
@@ -309,7 +309,7 @@ vampirism-fury:
 
 furynight:
   index: 22
-  cost: 10000
+  cost: 5000
   prereq:
     attack: 5
     health: 5
@@ -417,7 +417,7 @@ vampirism-sabo:
 
 assassination:
   index: 22
-  cost: 10000
+  cost: 5000
   prereq:
     attack: 5
     health: 5

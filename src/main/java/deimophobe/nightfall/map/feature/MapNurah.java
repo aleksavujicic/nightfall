@@ -9,6 +9,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -21,11 +22,18 @@ import java.util.LinkedHashSet;
  */
 public class MapNurah implements MapFeature {
 	
+	private Location center;
 	private MapNurah.GameEndListener listener = new MapNurah.GameEndListener();
+	private double popDistance;
+	
+	private BukkitRunnable lobbyPopper;
+	private Location lobbyCenter;
+	private double lobbyRadius;
 	
 	@Override
 	public void activate(GameMap map, ConfigurationSection config) throws InvalidMapConfigException {
 		center = map.getLocation(config, "center");
+		popDistance = config.getDouble("pop-dist",50);
 		map.getWorld().setGameRuleValue("doFireTick", "false");
 		Bukkit.getPluginManager().registerEvents(listener, NightfallPlugin.getPlugin());
 		
@@ -62,6 +70,23 @@ public class MapNurah implements MapFeature {
 				}
 			}
 		}.runTaskTimer(NightfallPlugin.getPlugin(), 1,15*20);
+		
+		
+		lobbyCenter = map.getLocation(config, "lobby.center");
+		lobbyRadius = config.getDouble("lobby.radius",10);
+		lobbyPopper = new BukkitRunnable() {
+			@Override
+			public void run() {
+				for (int i=0; i<1; i++) {
+					double dx = lobbyRadius * Math.random() - lobbyRadius/2;
+					double dz = lobbyRadius * Math.random() - lobbyRadius/2;
+					double dy = lobbyRadius/2 * Math.random() - lobbyRadius/4;
+					
+					particlePop(lobbyCenter.clone().add(dx, dy, dz), false);
+				}
+			}
+		};
+		lobbyPopper.runTaskTimer(NightfallPlugin.getPlugin(), 1,1);
 	}
 	
 	@Override
@@ -73,9 +98,12 @@ public class MapNurah implements MapFeature {
 	private void particlePop(Location loc, boolean force) {
 		Material type = loc.getBlock().getRelative(0,-1,0).getType();
 		if (force || type.isSolid()) {
-			World world = loc.getWorld();
-			world.spawnParticle(Particle.LAVA, loc, 10, 0, 0, 0, 0.3);
-			world.playSound(loc, "block.lava.pop", 1f, 1f);
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				if (force || loc.distance(player.getLocation()) <= popDistance) {
+					player.spawnParticle(Particle.LAVA, loc, 10, 0, 0, 0, 0.3);
+					player.playSound(loc, "block.lava.pop", 1f, 1f);
+				}
+			}
 		}
 	}
 	
@@ -84,12 +112,16 @@ public class MapNurah implements MapFeature {
 	private class GameEndListener implements Listener {
 		@EventHandler
 		public void gameEnd(PhaseChangeEvent event) {
-			if (event.getPhase() != Phase.END) return;
-			lavaExplode();
+			if (event.getPhase() == Phase.BUILD) {
+				lobbyPopper.cancel();
+			}
+			
+			
+			if (event.getPhase() == Phase.END)
+				lavaExplode();
 		}
 	}
 	
-	private Location center;
 	private void lavaExplode() {
 		new BukkitRunnable() {
 			@Override

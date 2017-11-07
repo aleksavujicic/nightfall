@@ -1,14 +1,12 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Misc;
-import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.DudCooldown;
 import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
-import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.watchers.ZombieWatcher;
@@ -81,6 +79,15 @@ public class ZombieSaboteur extends Zombie {
 
         isInvisible = false;
         isLeaping = false;
+        
+        if (pick > 0) {
+            setWeapon("wood-pickaxe");
+            getWeapon().addModifier(ItemModifierType.EFFICIENCY, (pick - 1), "Pick Upgrade");
+            
+            // Reapply attack as it was lost with weapon override
+            int attack = upgrades.get("attack") + upgrades.get("attack-inf");
+            getWeapon().addModifier(ItemModifierType.ATTACK, attack, "Upgrade");
+        }
 
         getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
         getArmour().addModifier(ItemModifierType.SPEED, 25, "Saboteur Zombie");
@@ -93,11 +100,6 @@ public class ZombieSaboteur extends Zombie {
     public void onSpawn() {
         super.onSpawn();
         ((ZombieWatcher)getDisguise().getWatcher()).setBaby(true);
-        if (pick > 0) {
-            CustomItem item = getItem("wood-pickaxe").clone();
-            item.addModifier(ItemModifierType.EFFICIENCY, (pick - 1), "Pick Upgrade");
-            monster.giveItem(item);
-        }
     }
 
     @Override

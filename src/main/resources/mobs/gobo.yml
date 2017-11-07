@@ -35,6 +35,19 @@ base:
             &aheavily damage walls once they explode&r."
         flavour:
          - "Gobos Primed and Ready."
+
+kaboom:
+  parent: base
+
+  weapon:
+    material: wood_pickaxe
+    name: Gobo Pick
+    lore:
+      description:
+      - "Break through defenses with this pick."
+      flavour:
+      - "A tool to place explosives within defenses."
+  items:
     kaboom:
       base: kaboom
       name: KABOOM
@@ -44,14 +57,6 @@ base:
             large explosion around you in a few seconds."
         flavour:
          - "It's KAAAAAAAAABOOOM!"
-    wood-pickaxe:
-      material: wood_pickaxe
-      name: Gobo Pick
-      lore:
-        description:
-        - "Break through defenses with this pick."
-        flavour:
-        - "A tool to place explosives within defenses."
 
 blaze:
   title: Blaze

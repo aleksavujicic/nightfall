@@ -22,6 +22,7 @@ public enum Hat {
 	BATHAT("bathat"),
 	HORNS("horns"),
 	SKULLMASK("skullmask"),
+	CATEARS("catears"),
 	
 	TUI("tuihat"),
 	NOSOVIN("nosovinhat"),

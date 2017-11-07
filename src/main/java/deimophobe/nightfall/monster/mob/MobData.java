@@ -183,6 +183,15 @@ public class MobData {
 		return newItems;
 	}
 	
+	CustomItem getAsWeapon(String name) {
+		if (!items.containsKey(name)) throw new IllegalArgumentException("No item called '" + name + "' for mob " + this.fullName);
+		
+		CustomItem item = items.get(name).clone();
+		item.addModifier(ItemModifierType.ATTACK, attack);
+		item.addModifier(ItemModifierType.ARMOUR_SHRED, armourShred);
+		return item;
+	}
+	
 	boolean hasWeapon() {
 		return weapon != null;
 	}

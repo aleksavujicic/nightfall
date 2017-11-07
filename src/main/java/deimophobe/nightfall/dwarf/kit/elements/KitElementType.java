@@ -21,6 +21,7 @@ public enum KitElementType {
 	SCEPTER,
 	HUNTING_CLAWS,
 	GREATSWORD,
+	SHADOW_BLADE,
 
 	// Bows
 	SHORTBOW,
@@ -92,6 +93,10 @@ public enum KitElementType {
 	VELSWORD,
 	VELBOW,
 
+	// Oxysis
+	DRUCRIST,
+	WILDE_STAFF,
+
 	;
 	
 	public static boolean isElement(String name) {
@@ -131,6 +136,7 @@ public enum KitElementType {
 			case SCEPTER: return new ScepterOfMagma(dwarf);
 			case HUNTING_CLAWS: return new HuntingClaws(dwarf);
 			case GREATSWORD: return new Greatsword(dwarf);
+			case SHADOW_BLADE: return new ShadowBlade(dwarf);
 			
 			// Bows
 			case SHORTBOW: return new Shortbow(dwarf);
@@ -200,6 +206,10 @@ public enum KitElementType {
 			case HORN: return new Horn(dwarf);
 			case VELSWORD: return new VelSword(dwarf);
 			case VELBOW: return new VelBow(dwarf);
+
+			// Oxysis
+			case DRUCRIST: return new Drucrist(dwarf);
+			case WILDE_STAFF: return new WildeStaff(dwarf);
 		}
 		throw new UnsupportedOperationException("Unimplemented element type: " + this);
 	}
