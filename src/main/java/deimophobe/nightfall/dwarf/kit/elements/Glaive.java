@@ -77,7 +77,7 @@ class Glaive extends AbstractAOEHitter implements KitCooldownElement {
             Location center = dwarf.getLocation();
             double radius = RANGE;
             for (GameEntity entity : MonsterManager.getManager().getAliveMobsAndAIs()) {
-                if (entity instanceof Mob || entity instanceof AIZombie)
+                if (entity instanceof Mob || entity instanceof AIEntity)
                     continue;
 
                 if (center.distance(entity.getLocation()) <= radius) {
@@ -106,9 +106,8 @@ class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     protected double getDamageToMonster(GameEntity entity) {
         if (entity instanceof MonsterPlayer) {
             return (dwarf.hasProc() ? 30 : 15);//If player
-        } else {
-            return  (dwarf.hasProc() ? 70 : 30);//If AI
         }
+        return  (dwarf.hasProc() ? 70 : 30);//If AI
     }
 
     @Override
@@ -116,7 +115,7 @@ class Glaive extends AbstractAOEHitter implements KitCooldownElement {
         return  (dwarf.hasProc() ? 3 : 2.5);
     }
 
-/*MIGHT NOT BE REQUIRED
+/*WILL BE USED LATER
     private double theta = 0;
     private static final double r1 = 249, g1 = 245, b1 = 14;
     private static final double r2 = 237, g2 = 87, b2 = 68;
