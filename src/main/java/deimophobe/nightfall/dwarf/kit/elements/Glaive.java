@@ -91,6 +91,33 @@ class Glaive extends AbstractAOEHitter implements KitCooldownElement {
             }
     }
 
+
+    @Override
+    public float fractionComplete() {
+        return spinCD.fractionComplete();
+    }
+
+    @Override
+    public ItemStack getCooldownToggleItem() {
+        return getItem().createItemStack();
+    }
+
+
+    @Override
+    protected double getDamageToMonster(GameEntity entity) {
+        if (entity instanceof MonsterPlayer) {
+            return (dwarf.hasProc() ? 30 : 15);//If player
+        } else {
+            return  (dwarf.hasProc() ? 70 : 30);//If AI
+        }
+    }
+
+    @Override
+    protected double getRadius() {
+        return  (dwarf.hasProc() ? 3 : 2.5);
+    }
+
+/*MIGHT NOT BE REQUIRED
     private double theta = 0;
     private static final double r1 = 249, g1 = 245, b1 = 14;
     private static final double r2 = 237, g2 = 87, b2 = 68;
@@ -116,34 +143,5 @@ class Glaive extends AbstractAOEHitter implements KitCooldownElement {
             Location particleLoc = playerLoc.clone().add(Math.cos(myTheta), -1, Math.sin(myTheta));
             particleLoc.getWorld().spawnParticle(Particle.REDSTONE, particleLoc, 0, red, green, blue, 1);
         }
-    }
-
-    @Override
-    public float fractionComplete() {
-        return spinCD.fractionComplete();
-    }
-
-    @Override
-    public ItemStack getCooldownToggleItem() {
-        return getItem().createItemStack();
-    }
-
-    @Override
-    protected double getDamageToMonster(GameEntity entity) {
-        if (entity instanceof MonsterPlayer) {
-            MobType type = ((MonsterPlayer) entity).getMob().getType();
-            if (type == MobType.ZOMBIE) {
-                return 20;
-            } else {
-                return (dwarf.hasProc() ? 30 : 15);
-            }
-        } else {
-            return  (dwarf.hasProc() ? 70 : 30);
-        }
-    }
-
-    @Override
-    protected double getRadius() {
-        return  (dwarf.hasProc() ? 3 : 2.5);
-    }
+    }*/
 }
