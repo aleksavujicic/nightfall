@@ -17,6 +17,7 @@ import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
+import deimophobe.nightfall.monster.ai.AIZombie;
 import deimophobe.nightfall.monster.mob.AbstractMob;
 import deimophobe.nightfall.monster.mob.Mob;
 import deimophobe.nightfall.monster.mob.MobType;
@@ -41,6 +42,7 @@ class Glaive extends AbstractAOEHitter implements KitCooldownElement {
 
     private final ComplexCooldown spinCD = new ComplexCooldown(45*20, this::Spin);
     private final static double RANGE = 3;
+    private final int spinDuration = 15;
 
     Glaive(Dwarf dwarf) {
         super(dwarf);
@@ -67,23 +69,20 @@ class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     }
 
     private void Spin(){
-        dwarf.givePotionEffect(PotionEffectType.SLOW,10,3,false,false,true);
-        dwarf.givePotionEffect(PotionEffectType.LUCK,10,1, false,true,true);
+        dwarf.givePotionEffect(PotionEffectType.SLOW,spinDuration,3,false,false,true);
+        dwarf.givePotionEffect(PotionEffectType.LUCK,spinDuration,1, false,true,true);
         //dwarf.playSound("ENTER-SOUND-HERE", 1, 1f, false);
 
 
             Location center = dwarf.getLocation();
             double radius = RANGE;
             for (GameEntity entity : MonsterManager.getManager().getAliveMobsAndAIs()) {
-                if (entity instanceof Mob)
+                if (entity instanceof Mob || entity instanceof AIZombie)
                     continue;
 
                 if (center.distance(entity.getLocation()) <= radius) {
                     GameDamage newDamage = entity.createDamage(dwarf, CustomDamageType.GLAIVE_AOE, getDamageToMonster(entity));
-
-                    if (entity instanceof AIEntity)
-                        newDamage.setKnockback(0, .7, 0);
-
+                    newDamage.setKnockback(0, .7, 0);
                     newDamage.setNoDmgTicks(10);
 
                     newDamage.fire();
