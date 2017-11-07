@@ -28,6 +28,7 @@ class SkeletonFlamelancer extends Skeleton {
 
 	private static final int ARROWS_FIRED = 20;
 	private double flameBlock;
+	private double chargeBonus = 0;
 
 	SkeletonFlamelancer(MonsterPlayer monster) {
 		super(monster, MobData.getMobData("skeleton.flamelancer"));
@@ -39,7 +40,7 @@ class SkeletonFlamelancer extends Skeleton {
 		this.fireAI = upgrades.get("fireai");
 		realArrowRes = arrowRes * 0.01;
 
-		flameBlock = 0.15 + flame * 0.04;
+		flameBlock = 0.1 + flame * 0.04;
 
 		getArmour().addModifier(ItemModifierType.SPEED, 10, "Flamelancer");
 		getArmour().addModifier(ItemModifierType.SPEED, speed * 10, "Upgrade");
@@ -61,6 +62,7 @@ class SkeletonFlamelancer extends Skeleton {
 			} else {
 				monster.getPlayer().setFireTicks(0);
 			}
+			chargeBonus = Math.min(chargeBonus+0.01, 0.15);
 		}
 	}
 	
@@ -71,12 +73,13 @@ class SkeletonFlamelancer extends Skeleton {
 		arrow.setFireTicks(10000);
 		arrow.setCritical(false);
 		final int arrowsToFire = (int) (ARROWS_FIRED*(force*force));
-		if (Math.random() < (volley * 0.04 + 0.15)) {
+		if (Math.random() < (volley * 0.04 + 0.05 + chargeBonus)) {
 			for (int i=0; i<arrowsToFire; i++) {
 				Arrow newArrow = ArrowMisc.summonArrow(monster, getPower(), force*2, force, 30f);
 				newArrow.setCritical(false);
 				newArrow.setFireTicks(10000);
 			}
+			chargeBonus = 0;
 		}
 		return arrow;
 	}
