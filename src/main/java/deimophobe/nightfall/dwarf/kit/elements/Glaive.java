@@ -4,7 +4,6 @@ import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamage;
-import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.entity.GameEntity;
@@ -17,11 +16,7 @@ import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
-import deimophobe.nightfall.monster.ai.AIZombie;
-import deimophobe.nightfall.monster.mob.AbstractMob;
 import deimophobe.nightfall.monster.mob.Mob;
-import deimophobe.nightfall.monster.mob.MobType;
-import deimophobe.nightfall.monster.mob.Zombie;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -32,6 +27,8 @@ import org.bukkit.entity.Monster;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,8 +38,9 @@ import java.util.Set;
 class Glaive extends AbstractAOEHitter implements KitCooldownElement {
 
     private final ComplexCooldown spinCD = new ComplexCooldown(45*20, this::Spin);
-    private final static double RANGE = 3;
     private final int spinDuration = 15;
+    private final double knockbackDistance = .3;
+    private final double knockY = .7;
 
     Glaive(Dwarf dwarf) {
         super(dwarf);
@@ -75,14 +73,14 @@ class Glaive extends AbstractAOEHitter implements KitCooldownElement {
 
 
             Location center = dwarf.getLocation();
-            double radius = RANGE;
+            double radius = getRadius();
             for (GameEntity entity : MonsterManager.getManager().getAliveMobsAndAIs()) {
                 if (entity instanceof Mob || entity instanceof AIEntity)
                     continue;
 
                 if (center.distance(entity.getLocation()) <= radius) {
                     GameDamage newDamage = entity.createDamage(dwarf, CustomDamageType.GLAIVE_AOE, getDamageToMonster(entity));
-                    newDamage.setKnockback(0, .7, 0);
+                    newDamage.setKnockback(knockBack(entity));
                     newDamage.setNoDmgTicks(10);
 
                     newDamage.fire();
@@ -90,6 +88,16 @@ class Glaive extends AbstractAOEHitter implements KitCooldownElement {
             }
     }
 
+    private Vector knockBack(GameEntity entity){
+        double entityX = entity.getLocation().getX();
+        double entityZ = entity.getLocation().getZ();
+        double newX = entityX - dwarf.getLocation().getX();
+        double newZ = entityZ - dwarf.getLocation().getZ();
+        double knockX = newX/knockbackDistance;
+        double knockZ = newZ/knockbackDistance;
+        Vector newKnockBack = new Vector (knockX, knockY, knockZ);
+        return newKnockBack;
+    }
 
     @Override
     public float fractionComplete() {
@@ -112,7 +120,7 @@ class Glaive extends AbstractAOEHitter implements KitCooldownElement {
 
     @Override
     protected double getRadius() {
-        return  (dwarf.hasProc() ? 3 : 2.5);
+        return  (dwarf.hasProc() ? 3.5 : 3);
     }
 
 /*WILL BE USED LATER
