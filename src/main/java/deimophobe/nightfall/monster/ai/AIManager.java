@@ -152,8 +152,8 @@ public class AIManager {
 			double spawnChance = 0.05 + 0.005 * dwarves + 0.2 * (maxAIs - ais.size()) / maxAIs;
 			spawnChance *= (Game.getGame().isNight() ? 1.2 : 1);
 			
-			maxAIs = 15 + 2 * mobs + 7 * dwarves;
-			maxMarks = 15 + 2 * mobs + 5 * dwarves;
+			maxAIs = 20 + 2 * mobs + 10 * dwarves;
+			maxMarks = 10 + 2 * mobs + 10 * dwarves;
 			
 			Collection<Location> spotsToRemove = new HashSet<>();
 			
@@ -245,7 +245,13 @@ public class AIManager {
 		aiTeam.addEntry(ai.getUniqueId().toString());
 		ais.put(ai.getUniqueId(), ai);
 	}
-	
+
+	public void spawnAISkeleton(Location location) {
+		AIEntity ai = new AIFireSkeleton(location, getRandomName());
+		aiTeam.addEntry(ai.getUniqueId().toString());
+		ais.put(ai.getUniqueId(), ai);
+	}
+
 	void unregisterAI(AIEntity entity) {
 		ais.remove(entity.getUniqueId());
 		aiTeam.removeEntry(entity.getUniqueId().toString());

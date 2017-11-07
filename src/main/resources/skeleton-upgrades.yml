@@ -92,7 +92,7 @@ flamelancer:
 
 impact:
   index: 15
-  cost: 1000
+  cost: 999999
   prereq:
     power: 5
     health: 5
@@ -107,7 +107,8 @@ impact:
       description:
         - "Become an Impact Skeleton.\n
            A sneaky skeleton variant that can\n
-           scale walls and knock dwarves away."
+           scale walls and knock dwarves away.\n
+           Work in progress."
 
 
 ############################
@@ -240,7 +241,7 @@ speed:
   prereq:
     flamelancer: 1
   item:
-    material: glowstone
+    material: glowstone_dust
     name: "Dragon's Speed"
     lore:
       description:

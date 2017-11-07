@@ -7,6 +7,7 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.ai.AIManager;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -25,7 +26,7 @@ class SkeletonFlamelancer extends Skeleton {
 	private int firePath;
 	private int fireAI;
 
-	private static final int ARROWS_FIRED = 25;
+	private static final int ARROWS_FIRED = 20;
 	private double flameBlock;
 
 	SkeletonFlamelancer(MonsterPlayer monster) {
@@ -38,7 +39,7 @@ class SkeletonFlamelancer extends Skeleton {
 		this.fireAI = upgrades.get("fireai");
 		realArrowRes = arrowRes * 0.01;
 
-		flameBlock = 0.15 + flame * 0.5;
+		flameBlock = 0.15 + flame * 0.04;
 
 		getArmour().addModifier(ItemModifierType.SPEED, 10, "Flamelancer");
 		getArmour().addModifier(ItemModifierType.SPEED, speed * 10, "Upgrade");
@@ -54,9 +55,12 @@ class SkeletonFlamelancer extends Skeleton {
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
         Block block = monster.getLocation().getBlock();
-		if (BlockType.IGNORABLE.matchesBlock(block) && Math.random() < firePath * 0.15) {
-			block.setType(Material.FIRE);
+        if (halfSec) {
+			if (BlockType.IGNORABLE.matchesBlock(block) && Math.random() < firePath * 0.2) {
+				block.setType(Material.FIRE);
+			}
 		}
+        monster.getPlayer().setFireTicks(0);
 	}
 	
 	@Override
@@ -66,7 +70,7 @@ class SkeletonFlamelancer extends Skeleton {
 		arrow.setFireTicks(10000);
 		arrow.setCritical(false);
 		final int arrowsToFire = (int) (ARROWS_FIRED*(force*force));
-		if (Math.random() < (volley * 0.05 + 0.25)) {
+		if (Math.random() < (volley * 0.04 + 0.15)) {
 			for (int i=0; i<arrowsToFire; i++) {
 				Arrow newArrow = ArrowMisc.summonArrow(monster, getPower(), force*2, force, 30f);
 				newArrow.setCritical(false);
@@ -84,8 +88,14 @@ class SkeletonFlamelancer extends Skeleton {
 		if (Math.random() < flameBlock) {
 			if (BlockType.IGNORABLE.matchesBlock(hitBlock)) {
 				hitBlock.setType(Material.FIRE);
+				if (fireAI == 1 && Math.random() < 0.5) {
+					AIManager.getManager().spawnAISkeleton(hitBlock.getLocation());
+				}
 			} else if (BlockType.IGNORABLE.matchesBlock(block)) {
 				block.setType(Material.FIRE);
+				if (fireAI == 1 && Math.random() < 0.5) {
+					AIManager.getManager().spawnAISkeleton(hitBlock.getLocation());
+				}
 			}
 		}
 	}

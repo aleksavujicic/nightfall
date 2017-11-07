@@ -40,7 +40,7 @@ public class AIFireSkeleton extends AIEntity {
         Skeleton skeleton = (Skeleton) GameMap.getCurrentMap().getWorld().spawnEntity(location, EntityType.SKELETON);
         skeleton.setCustomName(name);
 
-        skeleton.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 300000, 3, false,false), true);
+        skeleton.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 300000, 2, false,false), true);
         skeleton.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 300000, 1, false,false), true);
         skeleton.setFireTicks(300000);
 
