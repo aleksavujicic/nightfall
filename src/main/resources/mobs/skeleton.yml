@@ -1,5 +1,13 @@
 base:
   title: Skeleton
+
+  health: 10
+  attack: 0
+
+  proccable: true
+  resistance: 0.6
+  shred: 0
+
   disguisetype: skeleton
   armour:
     material: bone

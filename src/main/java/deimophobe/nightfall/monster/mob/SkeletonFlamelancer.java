@@ -33,7 +33,7 @@ class SkeletonFlamelancer extends Skeleton {
 		this.flame = upgrades.get("flame");
 		this.volley = upgrades.get("volley");
 		this.speed = upgrades.get("speed");
-		this.arrowRes = upgrades.get("arrowres");
+		this.arrowRes = upgrades.get("arrowres-flamelancer");
 		this.firePath = upgrades.get("firepath");
 		this.fireAI = upgrades.get("fireai");
 		realArrowRes = arrowRes * 0.01;
@@ -49,7 +49,6 @@ class SkeletonFlamelancer extends Skeleton {
 	public void onSpawn() {
 		super.onSpawn();
 		getDisguise().getWatcher().setBurning(true);
-		giveArrows(64);
 	}
 
 	@Override

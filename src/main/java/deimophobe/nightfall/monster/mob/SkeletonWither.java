@@ -24,19 +24,20 @@ class SkeletonWither extends Skeleton {
 		this.piercing = upgrades.get("piercing");
 		this.damageBooster = upgrades.get("sniper");
 		this.siphon = upgrades.get("siphon");
-		this.arrowRes = upgrades.get("arrowres");
-		this.extraHealth = upgrades.get("extrahealth");
+		this.arrowRes = upgrades.get("arrowres-wither");
+		this.extraHealth = upgrades.get("extrahealth-wither");
 		this.withering = upgrades.get("withering");
 		realArrowRes = arrowRes * 0.01;
 
 		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes * 10, "Upgrade");
 		getArmour().addModifier(ItemModifierType.HEALTH, extraHealth * 2, "Upgrade");
+		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, piercing * 5 + withering * 15);
 	}
 	
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
-		giveArrows(128);
+		giveArrows(64);
 	}
 	
 	@Override

@@ -15,9 +15,9 @@ power-inf:
   cost: 2500
   permanent: true
   prereq:
-    attack: 5
+    power: 5
   item:
-    material: wood_sword
+    material: arrow
     name: "Upgrade Power (inf)"
     shiny: true
     lore:
@@ -101,6 +101,7 @@ impact:
     flamelancer: 1
   item:
     base: longbow
+    name: "Impact Skeleton"
     shiny: true
     lore:
       description:
@@ -155,7 +156,7 @@ siphon:
            and recovers your health."
 
 
-arrowres:
+arrowres-wither:
   index: 14
   cost: [200, 400, 600, 800, 1000]
   prereq:
@@ -168,7 +169,7 @@ arrowres:
         - "Increases your arrow resistance."
 
 
-extrahealth:
+extrahealth-wither:
   index: 15
   cost: [200, 400, 600, 800, 1000]
   prereq:
@@ -191,8 +192,8 @@ withering:
     piercing: 5
     sniper: 5
     siphon: 5
-    arrowres: 5
-    extrahealth: 5
+    arrowres-wither: 5
+    extrahealth-wither: 5
   item:
     base: wither_skull
     name: "Withering Arrows"
@@ -246,7 +247,7 @@ speed:
         - "Move faster."
 
 
-arrowres:
+arrowres-flamelancer:
   index: 14
   cost: [200, 400, 600, 800, 1000]
   prereq:
@@ -265,7 +266,7 @@ firepath:
   prereq:
     flamelancer: 1
   item:
-    material: magma_block
+    material: magma
     name: "Fiery Path"
     lore:
       description:
@@ -282,7 +283,7 @@ fireai:
     flame: 5
     volley: 5
     speed: 5
-    arrowres: 5
+    arrowres-flamelancer: 5
     firepath: 5
   item:
     base: upgrade_skeleton
@@ -337,7 +338,7 @@ vines:
            When placed they will last one minute."
 
 
-arrowres:
+arrowres-impact:
   index: 14
   cost: [200, 400, 600, 800, 1000]
   prereq:
@@ -350,7 +351,7 @@ arrowres:
         - "Increases your arrow resistance."
 
 
-extrahealth:
+extrahealth-impact:
   index: 15
   cost: [200, 400, 600, 800, 1000]
   prereq:
@@ -373,8 +374,8 @@ aoe:
     punch: 5
     meleekb: 3
     vines: 3
-    arrowres: 5
-    extrahealth: 5
+    arrowres-impact: 5
+    extrahealth-impact: 5
   item:
     base: kaboom
     name: "aoe"

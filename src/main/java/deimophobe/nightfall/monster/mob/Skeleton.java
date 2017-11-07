@@ -37,6 +37,13 @@ class Skeleton extends AbstractMob {
 		getArmour().addModifier(ItemModifierType.HEALTH, health, "Upgrade");
 		getArmour().addModifier(ItemModifierType.SPEED, -10, "Skeleton");
 		getWeapon().addModifier(ItemModifierType.POWER, getPower());
+		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, getArmourShred());
+	}
+
+	@Override
+	public void onSpawn() {
+		super.onSpawn();
+		giveArrows(64);
 	}
 	
 	@Override
