@@ -215,7 +215,7 @@ flame:
     flamelancer: 1
   item:
     base: fireball
-    name: "Flame"
+    name: "Dragon's Flame"
     lore:
       description:
         - "Fire from your arrows last longer."
@@ -241,7 +241,7 @@ speed:
     flamelancer: 1
   item:
     material: glowstone
-    name: "Speed"
+    name: "Dragon's Speed"
     lore:
       description:
         - "Move faster."
@@ -287,7 +287,7 @@ fireai:
     firepath: 5
   item:
     base: upgrade_skeleton
-    name: "Fire Summoning"
+    name: "Dragon's Teeth"
     shiny: true
     lore:
       description:
