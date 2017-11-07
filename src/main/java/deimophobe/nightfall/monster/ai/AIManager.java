@@ -235,13 +235,13 @@ public class AIManager {
 	}
 	
 	public void spawnAI(Location location) {
-		AIEntity ai = new AIEntity(location, getRandomName());
+		AIEntity ai = new AIZombie(location, getRandomName());
 		aiTeam.addEntry(ai.getUniqueId().toString());
 		ais.put(ai.getUniqueId(), ai);
 	}
 	
 	public void spawnAI(Location location, Dwarf target) {
-		AIEntity ai = new AIEntity(location, getRandomName(), target);
+		AIEntity ai = new AIZombie(location, getRandomName(), target);
 		aiTeam.addEntry(ai.getUniqueId().toString());
 		ais.put(ai.getUniqueId(), ai);
 	}
