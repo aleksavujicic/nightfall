@@ -51,7 +51,6 @@ public class AIZombie extends AIEntity {
             chestplate = new ItemStack(Material.DIAMOND);
         chestplate.addUnsafeEnchantment(Enchantment.DEPTH_STRIDER, 2);
         zombie.getEquipment().setChestplate(chestplate);
-        zombie.getEquipment().setHelmet(Hat.WITCH.asItemStack());
 
         if (target != null)
             zombie.setTarget(target.getPlayer());
