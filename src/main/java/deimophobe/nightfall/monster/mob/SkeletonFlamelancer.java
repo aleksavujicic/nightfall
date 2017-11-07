@@ -58,9 +58,10 @@ class SkeletonFlamelancer extends Skeleton {
         if (halfSec) {
 			if (BlockType.IGNORABLE.matchesBlock(block) && Math.random() < firePath * 0.2) {
 				block.setType(Material.FIRE);
+			} else {
+				monster.getPlayer().setFireTicks(0);
 			}
 		}
-        monster.getPlayer().setFireTicks(0);
 	}
 	
 	@Override
@@ -94,7 +95,7 @@ class SkeletonFlamelancer extends Skeleton {
 			} else if (BlockType.IGNORABLE.matchesBlock(block)) {
 				block.setType(Material.FIRE);
 				if (fireAI == 1 && Math.random() < 0.5) {
-					AIManager.getManager().spawnAISkeleton(hitBlock.getLocation());
+					AIManager.getManager().spawnAISkeleton(block.getLocation());
 				}
 			}
 		}
