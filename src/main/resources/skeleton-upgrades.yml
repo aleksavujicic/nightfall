@@ -100,7 +100,7 @@ impact:
     wither: 1
     flamelancer: 1
   item:
-    base: Impact Skeleton"
+    base: longbow
     shiny: true
     lore:
       description:

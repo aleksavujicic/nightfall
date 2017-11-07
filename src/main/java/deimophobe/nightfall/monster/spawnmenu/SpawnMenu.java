@@ -38,6 +38,7 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 
 		// Setup back/rebirth/doom items
 		MenuItem<MonsterPlayer> zombiePage = new IndexedPageChanger<>(getConfigItem("zombie-page"), this, PageType.ZOMBIE_UPGRADE);
+		MenuItem<MonsterPlayer> skeletonPage = new IndexedPageChanger<>(getConfigItem("skeleton-page"), this, PageType.SKELETON_UPGRADE);
 		MenuItem<MonsterPlayer> goboPage = new IndexedPageChanger<>(getConfigItem("gobo-page"), this, PageType.GOBO_UPGRADE);
 		MenuItem<MonsterPlayer> rebirthItem = new RebirthItem(getConfigItem("rebirth"));
 		MenuItem<MonsterPlayer> resetItem = new ResetItem(getConfigItem("reset-page"), this, PageType.MAIN);
@@ -53,9 +54,8 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 
 		// Add items to front menu
 		addSpawnEgg(0, "zombie");
+		addSpawnEgg(1, "skeleton");
 		addSpawnEgg(2, "gobo");
-		addSpawnEgg(12, "witherskele");
-		addSpawnEgg(13, "flamelancer");
 		addSpawnEgg(14, "wolf");
 		addSpawnEgg(15, "spiderling");
 		addSpawnEgg(16, "rat");
@@ -65,6 +65,7 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		
 		frontMenu.setItem(8, resetPage);
 		frontMenu.setItem(9, zombiePage);
+		frontMenu.setItem(10, skeletonPage);
 		frontMenu.setItem(11, goboPage);
 		frontMenu.setItem(18, rebirthItem);
 
@@ -112,7 +113,7 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 	enum PageType {
 		MAIN,
 		ZOMBIE_UPGRADE("zombie-upgrades.yml", MobType.ZOMBIE),
-
+        SKELETON_UPGRADE("skeleton-upgrades.yml", MobType.SKELETON),
 		GOBO_UPGRADE("gobo-upgrades.yml", MobType.GOBO),
 		RESETXP;
 
