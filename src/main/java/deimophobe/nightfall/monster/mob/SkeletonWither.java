@@ -63,6 +63,6 @@ class SkeletonWither extends Skeleton {
 
 	@Override
 	protected int getArmourShred() {
-		return super.getArmourShred() + damageBoost * + piercing * 5 + withering * 15;
+		return super.getArmourShred() + damageBoost + piercing * 5 + withering * 15;
 	}
 }
