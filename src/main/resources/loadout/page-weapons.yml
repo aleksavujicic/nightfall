@@ -308,6 +308,7 @@ holy:
           for &b100&r mana and gain\n
           &b8&r absorption hearts."
     modifiers:
+      health: -2
       mana-cost: 100
 
 trinket:
