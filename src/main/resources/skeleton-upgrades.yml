@@ -7,7 +7,7 @@ power:
     lore:
       description:
         - "Increases your power and armor shred.\n
-           Upgrade power and health to lvl 5\n
+           Upgrade power and quiver to lvl 5\n
            to unlock subclasses."
 
 power-inf:
@@ -24,38 +24,38 @@ power-inf:
       description:
         - "Further increases your power and armor shred."
 
-health:
+quiver:
   index: 6
   cost: [100, 200, 300, 400, 500]
   item:
     material: bone
-    name: "Upgrade Health"
+    name: "Upgrade Quiver"
     lore:
       description:
-        - "Increases your health.\n
-           Upgrade power and health to lvl 5\n
+        - "Increases your quiver.\n
+           Upgrade power and quiver to lvl 5\n
            to unlock subclasses."
 
-health-inf:
+quiver-inf:
   index: 6
   cost: 1500
   permanent: true
   prereq:
-    health: 5
+    quiver: 5
   item:
     material: bone
-    name: "Upgrade Health (inf)"
+    name: "Upgrade Quiver (inf)"
     shiny: true
     lore:
       description:
-        - "Further increases your health."
+        - "Further increases your quiver."
 
 wither:
   index: 11
   cost: 1000
   prereq:
     power: 5
-    health: 5
+    quiver: 5
   exclusiveWith:
     flamelancer: 1
     impact: 1
@@ -75,7 +75,7 @@ flamelancer:
   cost: 1000
   prereq:
     power: 5
-    health: 5
+    quiver: 5
   exclusiveWith:
     wither: 1
     impact: 1
@@ -95,7 +95,7 @@ impact:
   cost: 999999
   prereq:
     power: 5
-    health: 5
+    quiver: 5
   exclusiveWith:
     wither: 1
     flamelancer: 1
@@ -188,7 +188,7 @@ withering:
   cost: 3000
   prereq:
     power: 5
-    health: 5
+    quiver: 5
     wither: 1
     piercing: 5
     sniper: 5
@@ -279,7 +279,7 @@ fireai:
   cost: 3000
   prereq:
     power: 5
-    health: 5
+    quiver: 5
     flamelancer: 1
     flame: 5
     volley: 5
@@ -370,7 +370,7 @@ aoe:
   cost: 3000
   prereq:
     power: 5
-    health: 5
+    quiver: 5
     impact: 1
     punch: 5
     meleekb: 3

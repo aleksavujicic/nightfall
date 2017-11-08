@@ -30,14 +30,13 @@ class SkeletonWither extends Skeleton {
 		realArrowRes = arrowRes * 0.01;
 
 		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes * 10, "Upgrade");
-		getArmour().addModifier(ItemModifierType.HEALTH, extraHealth * 2, "Upgrade");
+		getArmour().addModifier(ItemModifierType.HEALTH, extraHealth * 3, "Upgrade");
 		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, piercing * 5 + withering * 15);
 	}
 	
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
-		giveArrows(64);
 	}
 	
 	@Override
