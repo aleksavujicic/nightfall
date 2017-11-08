@@ -39,7 +39,7 @@ class ShadowBlade extends AbstractItem implements KitCooldownElement {
 		return KitGiveType.SWORD;
 	}
 
-	private final ComplexCooldown cd = new ComplexCooldown(10*20);
+	private final ComplexCooldown cd = new ComplexCooldown(90*20);
 
 
 	@Override
@@ -51,7 +51,7 @@ class ShadowBlade extends AbstractItem implements KitCooldownElement {
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action)) {
-			if (cd.tryUse()) {
+			if (cd.isAvailable()) {
 				MonsterPlayer closestPlayerMonster = dwarf.getLookingAt(2.5, 13, MonsterManager.getManager().getAlivePlayerMobs());
 
 				AIEntity closestAIMonster = dwarf.getLookingAt(2.5,13, AIManager.getManager().getAIs());
@@ -68,7 +68,8 @@ class ShadowBlade extends AbstractItem implements KitCooldownElement {
 					if (!newLoc.getBlock().getType().isSolid()) {
 						dwarf.teleportTo(newLoc);
 						dwarf.playSound("entity.endermen.teleport", 1, 1, true);
-
+						cd.reset();
+						cd.setMaxCD(90*20);
 					}
 				}
 				else if (closestAIMonster != null) {
@@ -76,14 +77,13 @@ class ShadowBlade extends AbstractItem implements KitCooldownElement {
 
 					Vector lookDir = monsterLoc.getDirection().setY(0);
 					Location newLoc = monsterLoc.subtract(lookDir);
-					closestAIMonster.doDamage(dwarf, CustomDamageType.SHADOW_STRIKE, 50, true);
-
-					cd.reduceCooldown(5*20);
+					closestAIMonster.doDamage(dwarf, CustomDamageType.SHADOW_STRIKE, 80, true,true);
 
 					if (!newLoc.getBlock().getType().isSolid()) {
 						dwarf.teleportTo(newLoc);
 						dwarf.playSound("entity.endermen.teleport", 1, 1, true);
-
+						cd.reset();
+						cd.setMaxCD(20*20);
 					}
 				}
 			}
@@ -93,7 +93,7 @@ class ShadowBlade extends AbstractItem implements KitCooldownElement {
 
 	@Override
 	public void onKill(MonsterDamage damage){
-		cd.reduceCooldown(1*10);
+		cd.reduceCooldown(2*10);
 	}
 
 	@Override

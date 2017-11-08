@@ -126,6 +126,7 @@ sword:
         - "Drk fix this."
     modifiers:
       attack: 15
+      speed: 30
 
 bow:
   shortbow:
