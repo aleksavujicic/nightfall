@@ -52,8 +52,10 @@ class SkeletonWither extends Skeleton {
 		if (damage.hasArrow() && ArrowMisc.getArrowForce(damage.getArrow()) > 0.7) {
 			damageBoost = Math.min(damageBoost + 2 * damageBooster, 30);
 			monster.heal(this.siphon);
+			if (withering >= 1) {
+				damage.getDwarf().givePotionEffect(PotionEffectType.WITHER, 50, 2, true, false, false);
+			}
 		}
-		damage.getDwarf().givePotionEffect(PotionEffectType.WITHER, 40, 2, true, false, false);
 	}
 
 	@Override
