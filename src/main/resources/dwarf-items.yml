@@ -89,10 +89,12 @@ sword:
     name: Glaive
     lore:
       description:
-        - "Right click to go slooow.\n
+        - "Right click to spin.\n
           Drk plz change"
       flavour:
         - "\"Finally the hammer is getting changed!\" - Everyone"
+    modifiers:
+      attack: 15
   scepter:
     base: scepter
     name: Scepter of Magma
