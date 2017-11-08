@@ -124,7 +124,7 @@ public class ZombieFury extends Zombie {
         if (fury) {
             healAmt += 3;
             furySound.tryUse();
-            damage.setManaDrain(15);
+            damage.setManaDrain(10);
         }
         monster.heal(healAmt);
         monster.givePotionEffect(PotionEffectType.SPEED, 160, pursuit, true, false, true);

@@ -119,7 +119,7 @@ class Wolf extends AbstractMob {
 			monster.heal(heal);
 			monster.givePotionEffect(PotionEffectType.SPEED, 120, 3, true, false, true);
 			
-			damage.setManaDrain(15);
+			damage.setManaDrain(10);
 			
 			furySound.tryUse();
 		}
