@@ -109,10 +109,10 @@ class Ticker extends AbstractMob {
 	}
 	
 	
-	private final static double RADIUS = 9;
-	private final static double DAMAGE = 200;
-	private final static int ARMOUR_SHRED = 800;
-	private final static int MANA_DRAIN = 500;
+	private final static double RADIUS = 12;
+	private final static double DAMAGE = 250;
+	private final static int ARMOUR_SHRED = 900;
+	private final static int MANA_DRAIN = 700;
 	
 	private void explode() {
 		Location loc = monster.getEyeLocation();
