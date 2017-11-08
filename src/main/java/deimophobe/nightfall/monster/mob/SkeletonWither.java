@@ -30,14 +30,13 @@ class SkeletonWither extends Skeleton {
 		realArrowRes = arrowRes * 0.01;
 
 		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes * 10, "Upgrade");
-		getArmour().addModifier(ItemModifierType.HEALTH, extraHealth * 2, "Upgrade");
+		getArmour().addModifier(ItemModifierType.HEALTH, extraHealth * 3, "Upgrade");
 		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, piercing * 5 + withering * 15);
 	}
 	
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
-		giveArrows(64);
 	}
 	
 	@Override
@@ -52,8 +51,10 @@ class SkeletonWither extends Skeleton {
 		if (damage.hasArrow() && ArrowMisc.getArrowForce(damage.getArrow()) > 0.7) {
 			damageBoost = Math.min(damageBoost + 2 * damageBooster, 30);
 			monster.heal(this.siphon);
+			if (withering >= 1) {
+				damage.getDwarf().givePotionEffect(PotionEffectType.WITHER, 50, 2, true, false, false);
+			}
 		}
-		damage.getDwarf().givePotionEffect(PotionEffectType.WITHER, 40, 2, true, false, false);
 	}
 
 	@Override
@@ -63,6 +64,6 @@ class SkeletonWither extends Skeleton {
 
 	@Override
 	protected int getArmourShred() {
-		return super.getArmourShred() + damageBoost * + piercing * 5 + withering * 15;
+		return super.getArmourShred() + damageBoost + piercing * 5 + withering * 15;
 	}
 }

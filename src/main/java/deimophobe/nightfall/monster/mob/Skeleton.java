@@ -24,6 +24,7 @@ class Skeleton extends AbstractMob {
 
 	protected Map<String, Integer> upgrades;
 	protected double realArrowRes = 0;
+	protected int quiver;
 
 	public Skeleton(MonsterPlayer mons) {
 		this(mons, MobType.SKELETON.getMobData());
@@ -33,8 +34,7 @@ class Skeleton extends AbstractMob {
 		super(mons, MobType.SKELETON, skeletonData);
 		upgrades = monster.getUpgrades(MobType.SKELETON);
 
-		int health = (upgrades.get("health") + upgrades.get("health-inf"));
-		getArmour().addModifier(ItemModifierType.HEALTH, health, "Upgrade");
+		this.quiver = (upgrades.get("quiver") + upgrades.get("quiver-inf"));
 		getArmour().addModifier(ItemModifierType.SPEED, -10, "Skeleton");
 		getWeapon().addModifier(ItemModifierType.POWER, getPower());
 		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, getArmourShred());
@@ -43,7 +43,8 @@ class Skeleton extends AbstractMob {
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
-		giveArrows(64);
+		giveArrows(14);
+		giveArrows(10 * quiver);
 	}
 	
 	@Override

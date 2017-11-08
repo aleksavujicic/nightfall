@@ -57,7 +57,7 @@ class SkeletonFlamelancer extends Skeleton {
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
         Block block = monster.getLocation().getBlock();
         if (halfSec) {
-			if (BlockType.IGNORABLE.matchesBlock(block) && Math.random() < firePath * 0.2) {
+			if (BlockType.IGNORABLE.matchesBlock(block) && Math.random() < firePath * 0.1) {
 				block.setType(Material.FIRE);
 			} else {
 				monster.getPlayer().setFireTicks(0);
