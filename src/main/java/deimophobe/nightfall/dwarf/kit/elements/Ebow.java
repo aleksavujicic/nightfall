@@ -79,6 +79,7 @@ class Ebow extends AbstractBow {
 				// If close enough damage mob
 				if (radialOffset <= THICKNESS) {
 					monster.doDamage(dwarf, CustomDamageType.EBOW, getPower()*force);
+					dwarf.playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
 				}
 			}
 		}
