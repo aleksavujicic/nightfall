@@ -127,13 +127,14 @@ elven-class:
     - lightbow
     - jimmy_juice
     - studded
+    - nature_suit
     - slowfall
     - avenge
   consumables:
     mortar: 32
-    cobblestone: 256
-    sos: 1
-    heal_station: 2
+    cobblestone: 192
+    wrench: 2
+    heal_station: 8
   item:
     template: "loadout-class"
     name: "Elven Kit"
@@ -150,12 +151,13 @@ elven-class:
           *Lightbow\n
           *Jimmy Juice\n
           *Studded Armour\n
+          *Nature Suit\n
           *Slowfall\n
           *Avenge\n
           *32 Mortar\n
-          *256 Cobblestone\n
-          *1 Sword of Santification\n
-          *2 Heal Station"
+          *192 Cobblestone\n
+          *2 Wrenches\n
+          *8 Heal Stations"
 
 gnome-class:
   index: 4
@@ -178,7 +180,7 @@ gnome-class:
   item:
     template: "loadout-class"
     name: "Gnome Kit"
-    base: volcanic
+    base: trinket
     lore:
       description:
        - "Gnomes were always magically adept\n
@@ -200,6 +202,45 @@ gnome-class:
           *128 Cobblestone\n
           *2 Swords of Santification\n
           *3 Slabs"
+
+brawler-class:
+  index: 18
+  cost: 64
+  category: kit
+  type: multi
+  elements:
+    - volcanic
+    - berserker
+    - sturdy
+    - runeblessed
+    - strong_ale
+    - avenge
+    - resurrection
+    - slowfall
+  consumables:
+    wrench: 4
+    slab: 2
+  item:
+    template: "loadout-class"
+    name: "Brawler Kit"
+    base: volcanic
+    lore:
+      description:
+       - "PUNCHY PUNCHY PUNCHY"
+
+      contains:
+       - "*Volcanic Gauntlet\n
+          *Strong Ale\n
+          *Berserker Armour\n
+          *Runeblessed Armour\n
+          *Sturdy Armour\n
+          *Slowfall\n
+          *Avenge\n
+          *Resurrection\n
+          *32 Mortar\n
+          *192 Cobblestone\n
+          *4 Wrenches\n
+          *2 Slabs"
 
 magmar-class:
   enabled: false
