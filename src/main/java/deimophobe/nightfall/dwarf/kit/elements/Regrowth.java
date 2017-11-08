@@ -12,16 +12,20 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 22/01/17.
  */
 class Regrowth extends AbstractAle {
 	private final static int MANA_COST = 100;
-
-	private final ComplexCooldown healOthersCD = new ComplexCooldown(20, this::tryHealOthers);
+	
+	private Dwarf target = null;
+	private void resetTarget() { target = null; }
+	private final ComplexCooldown targetClearer = new ComplexCooldown(25, null, this::resetTarget);
+	
+	private final ComplexCooldown healOthersCD = new ComplexCooldown(12, this::tryHealOthers);
 
 	Regrowth(Dwarf dwarf) {
 		super(dwarf, MANA_COST);
@@ -37,7 +41,7 @@ class Regrowth extends AbstractAle {
 		if (Misc.isLeftClick(action)) {
 			selfHealSuccess = super.onUse(action, clickedBlock, blockFace);
 		}
-		else if (Misc.isRightClick(action) && cooldown.isAvailable()) {
+		else if (Misc.isRightClick(action)) {
 			healOthersCD.tryUse();
 			otherHealSuccess = true;
 		}
@@ -49,36 +53,44 @@ class Regrowth extends AbstractAle {
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		healOthersCD.update();
+		targetClearer.update();
 	}
 
 	private void tryHealOthers() {
-		Dwarf healee = dwarf.getLookingAt(3, 15, DwarfManager.getManager().getDwarves());
-		if (healee == null) return;
-		if (!dwarf.tryUseMana(20)) return;
+		if (target == null || dwarf.distanceTo(target) > 20)
+			target = dwarf.getLookingAt(3, 20, DwarfManager.getManager().getDwarves());
+		
+		targetClearer.reset();
+		
+		if (target == null) return;
 
-		Location healerLoc = dwarf.getPlayer().getEyeLocation().subtract(0, 1.2, 0);
-		Location healeeLoc = healee.getPlayer().getEyeLocation().subtract(0, 1.2, 0);
+		Location healerLoc = dwarf.getPlayer().getEyeLocation();
+		Location healeeLoc = target.getPlayer().getEyeLocation();
 		
 		Vector direction = healeeLoc.subtract(healerLoc).toVector();
 		double distance = direction.length();
 		Vector delta = direction.multiply(0.5 / distance);
-		List<Location> locs = new ArrayList<>();
+		Set<Location> locs = new HashSet<>();
 
 		int times = (int) (distance / 0.5);
 		for (int i = 0; i <= times; i++) {
 			Location newLoc = healerLoc.add(delta.multiply(1));
-			locs.add(newLoc);
+			locs.add(newLoc.clone());
 			if (newLoc.getBlock().getType().isSolid()) return;
 		}
-		for (Location loc : locs) {
-			dwarf.getPlayer().getWorld().spawnParticle(Particle.HEART, loc, 3, 0.1, 0.1, 0.1);
-		}
-
-		dwarf.playSound("entity.experience_orb.pickup", 10f, 0.5f, false);
-		healee.playSound("entity.experience_orb.pickup", 10f, 0.5f, false);
 		
-		healee.getArmour().repair(15);
-		healee.heal(5);
-		healee.regenMana(5);
+		if (!dwarf.tryUseMana(15)) return;
+		
+		dwarf.playSound("entity.experience_orb.pickup", 0.5f, 0.5f, false);
+		target.playSound("entity.experience_orb.pickup", 0.5f, 0.5f, false);
+		
+		target.getArmour().repair(10);
+		dwarf.heal(0.5);
+		target.heal(3);
+		target.regenMana(2);
+		
+		for (Location loc : locs) {
+			dwarf.getPlayer().getWorld().spawnParticle(Particle.HEART, loc.subtract(0,1.2,0), 3, 0.1, 0.1, 0.1);
+		}
 	}
 }
