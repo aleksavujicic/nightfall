@@ -15,7 +15,7 @@ chesto:
   index: 1
   type: item
   name: chesto
-  cost: 2
+  cost: 0
   item:
     name: "Chestomatic"
     material: chest
@@ -266,7 +266,7 @@ sos_one:
   type: consumable
   name: sos
   quantity: 1
-  cost: 4
+  cost: 6
   item:
     name: "SOS I"
     base: menu-sos
@@ -281,7 +281,7 @@ sos_two:
   type: consumable
   name: sos
   quantity: 2
-  cost: 10
+  cost: 12
   item:
     name: "SOS II"
     base: menu-sos2
