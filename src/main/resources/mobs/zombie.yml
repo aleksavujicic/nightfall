@@ -32,7 +32,7 @@ base:
 husk:
   parent: base
 
-  title: Husk Zombie
+  title: Husk
 
   disguisetype: husk
 
@@ -46,7 +46,7 @@ fury:
 saboteur:
   parent: base
 
-  title: Saboteur Zombie
+  title: Saboteur
 
   items:
     wood-pickaxe:

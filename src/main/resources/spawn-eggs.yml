@@ -5,28 +5,19 @@ zombie:
     name: Spawn Zombie
   permanent: true
 
+skeleton:
+  mobtype: skeleton
+  egg:
+    base: shortbow
+    name: Spawn Skeleton
+  permanent: true
+
 gobo:
   mobtype: gobo
   egg:
     base: kaboom
     name: Spawn Goblin
   permanent: true
-
-witherskele:
-  mobtype: wither
-  egg:
-    base: wither
-    name: Spawn Wither Skeleton
-  quantity: 2
-  chance: 0.08
-
-flamelancer:
-  mobtype: flamelancer
-  egg:
-    base: flamebow
-    name: Spawn Flamelancer
-  quantity: 2
-  chance: 0.08
 
 wolf:
   mobtype: wolf

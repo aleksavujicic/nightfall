@@ -184,15 +184,32 @@ public class BlockType {
 					Material.COMMAND_REPEATING
 			)
 	);
-	
-	public static final ComparableBlock GOBOPLACABLE_BLOCKS = new BlockSet(
+
+	public static final ComparableBlock PLANTS = new BlockSet(
 			new MaterialSet(
-					Material.AIR
+					Material.DOUBLE_PLANT,
+					Material.LONG_GRASS,
+					Material.YELLOW_FLOWER,
+					Material.RED_ROSE
 			)
 	);
-	public static final ComparableBlock IGNITEABLE = new MaterialSet(
-			Material.AIR, Material.DOUBLE_PLANT, Material.LONG_GRASS, Material.YELLOW_FLOWER, Material.RED_ROSE
+
+	public static final ComparableBlock EMPTY_BLOCKS = new BlockSet(
+			PLANTS,
+			new MaterialSet(
+					Material.AIR,
+					Material.FIRE
+			)
 	);
+
+	public static final ComparableBlock IGNORABLE = new BlockSet(
+			EMPTY_BLOCKS,
+			new MaterialSet(
+					Material.SNOW,
+					Material.CARPET
+			)
+	);
+
 	public static final ComparableBlock SLABBABLE = new BlockSet(
 			NORMAL_WALL,
 			CRACKED_WALL,
@@ -200,9 +217,12 @@ public class BlockType {
 			BROKEN_WALL,
 			ALL_SLABS,
 			ALL_STAIRS,
-			new MaterialSet(Material.AIR, Material.DOUBLE_PLANT, Material.LONG_GRASS, Material.YELLOW_FLOWER, Material.RED_ROSE, Material.SMOOTH_BRICK)
+			IGNORABLE,
+			new MaterialSet(Material.SMOOTH_BRICK, Material.FIRE)
 	);
-	
+
+
+
 	public static boolean tryConvertBlock(Block block, ComparableBlock from, SettableBlock to) {
 		boolean matches = from.matchesBlock(block);
 		if (!matches) return false;

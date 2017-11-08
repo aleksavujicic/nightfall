@@ -11,26 +11,25 @@ import java.util.*;
  */
 public enum MobType {
 	ZOMBIE,
-
+    SKELETON,
 	GOBO,
-	
-	WITHER,
-	FLAMELANCER,
+
 	WOLF,
+	HELLHOUND("wolf.hellhound"),
 	SPIDERLING,
 	RAT,
 	GOLEM,
+	WRAITH,
+	MINOTAUR,
+
+	WALKER,
 	
 	GB_DAGGER("ghostblade.dagger"),
 	GB_RUNEBLADE("ghostblade.runeblade"),
 	GB_AXE("ghostblade.axe"),
 	GB_HAMMER("ghostblade.hammer"),
 	GB_SPAWN("ghostblade.spawn"),
-	
-	HELLHOUND("wolf.hellhound"),
-	WRAITH,
-	MINOTAUR,
-	WALKER,
+
 	TICKER,
 	
 	KRUNGOR,
@@ -82,6 +81,20 @@ public enum MobType {
 					return new Zombie(monster);
 				}
 			}
+			case SKELETON: {
+				if (monster.getUpgrades(MobType.SKELETON).computeIfAbsent("wither", (k) -> 0) == 1) {
+					return new SkeletonWither(monster);
+				}
+				else if (monster.getUpgrades(MobType.SKELETON).computeIfAbsent("flamelancer", (k) -> 0) == 1) {
+					return new SkeletonFlamelancer(monster);
+				}
+				else if (monster.getUpgrades(MobType.SKELETON).computeIfAbsent("impact", (k) -> 0) == 1) {
+					return new SkeletonImpact(monster);
+				}
+				else {
+					return new Skeleton(monster);
+				}
+			}
 			case GOBO: {
 				if (monster.getUpgrades(MobType.GOBO).computeIfAbsent("kaboom", (k) -> 0) == 1) {
 					return new GoblinKaboom(monster);
@@ -93,14 +106,17 @@ public enum MobType {
 					return new Goblin(monster);
 				}
 			}
-			
-			case WITHER: return new Wither(monster);
-			case FLAMELANCER: return new Flamelancer(monster);
+
 			case WOLF: return new Wolf(monster);
+			case HELLHOUND: return new Hellhound(monster);
 			case SPIDERLING: return new Spiderling(monster);
 			case RAT: return new Rat(monster);
 			case GOLEM: return new Golem(monster);
-			
+			case WRAITH: return new Wraith(monster);
+			case MINOTAUR: return new Minotaur(monster);
+
+			case WALKER: return new Walker(monster);
+
 			case KRUNGOR: return new Krungor(monster);
 			case BOPEN: return new Bopen(monster);
 			case MAGUS: return new Magus(monster);
@@ -111,11 +127,7 @@ public enum MobType {
 			case GB_HAMMER:
 			case GB_SPAWN:
 				return new Ghostblade(monster, this);
-				
-			case HELLHOUND: return new Hellhound(monster);
-			case WRAITH: return new Wraith(monster);
-			case MINOTAUR: return new Minotaur(monster);
-			case WALKER: return new Walker(monster);
+
 			case TICKER: return new Ticker(monster);
 				
 			case TESTMOB: return new TestMob(monster);

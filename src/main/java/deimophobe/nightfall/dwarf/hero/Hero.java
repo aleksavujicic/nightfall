@@ -162,9 +162,8 @@ public class Hero extends Dwarf {
 				),
 		
 		OXYSIS("Oxysis", Hat.VELVETINE, "oxysis", "Pixie Hero",
-				KitElementType.GRB,
-				KitElementType.DRAGONSKIN,
-				KitElementType.HORN
+				KitElementType.DRUCRIST,
+				KitElementType.WILDE_STAFF
 				)
 		{
 			@Override

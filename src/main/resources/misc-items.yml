@@ -27,6 +27,13 @@ ai-sword:
   modifiers:
     attack: 14
 
+aiskelly-wep:
+  template: monster
+  material: arrow
+  name: Fiery hands
+  modifiers:
+    attack: 20
+
 reset-xp:
   template: monster
   base: trash

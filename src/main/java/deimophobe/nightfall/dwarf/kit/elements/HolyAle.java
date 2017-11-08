@@ -2,7 +2,7 @@ package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.items.CustomItem;
-import org.bukkit.potion.PotionEffectType;
+import deimophobe.nightfall.items.modifiers.ItemModifierType;
 
 /**
  * Created by Deimophobe on 22/01/17.
@@ -12,14 +12,9 @@ class HolyAle extends AbstractAle {
 	
 	HolyAle(Dwarf dwarf) {
 		super(dwarf, MANA_COST);
+		dwarf.getArmour().addModifier(ItemModifierType.HEALTH, 8, "Holy Ale");
 	}
 	
 	private final static CustomItem ITEM = getAle("holy", MANA_COST);
 	@Override public CustomItem getItem() { return ITEM; }
-	
-	@Override
-	public void heal() {
-		super.heal();
-		dwarf.givePotionEffect(PotionEffectType.ABSORPTION, 720000, 4, true, true, true);
-	}
 }
