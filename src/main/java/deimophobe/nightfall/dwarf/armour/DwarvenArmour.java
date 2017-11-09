@@ -78,7 +78,7 @@ public class DwarvenArmour implements Armour {
 	
 	@Override
 	public boolean canPickRepair() {
-		return armourFraction() >= 0.35;
+		return armourFraction() <= 0.65;
 	}
 	@Override
 	public boolean canShrineRepair() {
