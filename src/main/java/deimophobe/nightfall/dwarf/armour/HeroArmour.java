@@ -24,7 +24,8 @@ public class HeroArmour extends StaticArmour {
 	public HeroArmour(Hero hero, String hatName, ArmourSlot slot) {
 		this.hero = hero;
 		this.slot = slot;
-		this.armour = DwarvenItems.getItem("hero-hat", hatName);
+		this.armour = DwarvenItems.getItem("hero-hat", hatName, slot.getSlot());
+		updateEquipment();
 	}
 	
 	@Override
