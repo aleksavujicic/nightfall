@@ -2,16 +2,14 @@ package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
-import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -22,15 +20,10 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Monster;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by ED{Kegoir} and DIV on 25/10/17.
@@ -41,6 +34,8 @@ class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     private final int spinDuration = 15;
     private final double knockbackDistance = .3;
     private final double knockY = .7;
+    private static final int MAX_EXHAUSTION = 3*20;
+    private int exhaustion = 0;
 
     Glaive(Dwarf dwarf) {
         super(dwarf);
@@ -56,6 +51,22 @@ class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
         super.update(quartSec, halfSec, sec, doubleSec, quadSec);
         spinCD.update();
+        if (exhaustion > 0)
+            exhaustion--;
+    }
+
+    @Override
+    public void onDamageAttack(MonsterDamage damage){
+        if (exhaustion > 0) {
+            damage.cancel();
+        }else if (damageFromItem(damage)){
+            giveExhaustion();
+        }
+    }
+
+    private void giveExhaustion() {
+        dwarf.givePotionEffect(PotionEffectType.SLOW_DIGGING, MAX_EXHAUSTION, 200, true, false, true);
+        exhaustion = MAX_EXHAUSTION;
     }
 
     @Override
