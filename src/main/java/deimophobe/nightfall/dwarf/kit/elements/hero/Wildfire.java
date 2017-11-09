@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.elements.hero;
 
+import deimophobe.nightfall.CustomProjectile;
 import deimophobe.nightfall.Misc;
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -11,13 +11,11 @@ import deimophobe.nightfall.dwarf.kit.elements.AbstractItem;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterManager;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 /**
@@ -64,43 +62,31 @@ public class Wildfire extends AbstractItem {
 		return true;
 	}
 	
-	private static final int FLAME_LIFE = 40;
-	private static final int FLAME_DELAY = 4;
 	private static final double FLAME_RADIUS = 2;
-	private static final double FLAME_VELOCITY = 0.4;
+	private static final double FLAME_VELOCITY = 0.3;
 	private static final double FLAME_DPT = 2; // Damage per tick
 	
-	private class Flame {
-		private int lifeLeft = FLAME_LIFE;
-		private Location position;
-		private final Vector velocity;
+	private class Flame extends CustomProjectile {
 		
-		private Flame(Location position, Vector velocity) {
-			this.position = position;
-			this.velocity = velocity;
+		private Flame(Location location, Vector velocity) {
+			super(40, location, velocity, 0, 1);
+		}
+		
+		@Override
+		public void run() {
+			super.run();
 			
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					lifeLeft -= FLAME_DELAY;
-					
-					position.add(velocity);
-					
-					// Flame particles
-					position.getWorld().spawnParticle(Particle.FLAME, position, 15, 0.35, 0.35, 0.35, 0);
-					
-					// Damage mobs
-					for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
-						if (monster.getEyeLocation().distance(position) <= FLAME_RADIUS) {
-							GameDamage damage = monster.createDamage(dwarf, CustomDamageType.WILDFIRE, FLAME_DPT * FLAME_DELAY);
-							damage.setNoDmgTicks(3);
-							damage.fire(true);
-						}
-					}
-					
-					if (lifeLeft <= 0) this.cancel();
+			// Flame particles
+			world.spawnParticle(Particle.FLAME, location, 15, 0.35, 0.35, 0.35, 0);
+			
+			// Damage mobs
+			for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
+				if (monster.getEyeLocation().distance(location) <= FLAME_RADIUS) {
+					GameDamage damage = monster.createDamage(dwarf, CustomDamageType.WILDFIRE, FLAME_DPT);
+					damage.setNoDmgTicks(1);
+					damage.fire(false);
 				}
-			}.runTaskTimer(NightfallPlugin.getPlugin(), 0, FLAME_DELAY);
+			}
 		}
 	}
 }
