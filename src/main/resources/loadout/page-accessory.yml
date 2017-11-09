@@ -1,6 +1,7 @@
 # ------ PASSIVES ------
 compass:
   index: 0
+  category: accessory
   type: item
   name: compass
   cost: 0
@@ -13,6 +14,7 @@ compass:
           key locations."
 chesto:
   index: 1
+  category: accessory
   type: item
   name: chesto
   cost: 0
@@ -25,6 +27,7 @@ chesto:
           resource chest."
 slowfall:
   index: 2
+  category: accessory
   type: item
   name: slowfall
   cost: 4
@@ -37,6 +40,7 @@ slowfall:
           and a slowfalling effect."
 darkvision:
   index: 3
+  category: accessory
   type: item
   name: darkvision
   cost: 4
@@ -49,6 +53,7 @@ darkvision:
           Night Vision effect."
 avenge:
   index: 4
+  category: accessory
   type: item
   name: avenge
   cost: 8
@@ -61,6 +66,7 @@ avenge:
 
 tombmaker:
   index: 5
+  category: accessory
   type: item
   name: tombmaker
   cost: 4
@@ -75,6 +81,7 @@ tombmaker:
 
 resurrection:
   index: 6
+  category: accessory
   type: item
   name: resurrection
   cost: 8
@@ -353,6 +360,7 @@ slab_three:
 builder_one:
   index: 15
   cost: 2
+  category: consumable
   type: multi
   consumables:
     torch: 32
@@ -371,6 +379,7 @@ builder_one:
 builder_two:
   index: 24
   cost: 4
+  category: consumable
   type: multi
   consumables:
     torch: 64
@@ -389,6 +398,7 @@ builder_two:
 builder_three:
   index: 33
   cost: 8
+  category: consumable
   type: multi
   consumables:
     torch: 128

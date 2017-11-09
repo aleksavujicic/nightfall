@@ -41,7 +41,7 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 				if (config.contains("category"))
 					this.category = Category.valueOf(config.getString("category").toUpperCase());
 				else
-					this.category = null;
+					throw new IllegalArgumentException("Category for item '" + config.getName() + "' is missing.");
 				
 				break;
 			
@@ -51,7 +51,7 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 				this.modifier = new ConsumableModifier(consType, quant);
 				
 				this.cost = config.getInt("cost");
-				this.category = null;
+				this.category = Category.CONSUMABLE;
 				break;
 			
 			case "multi":
@@ -72,7 +72,7 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 				if (config.contains("category"))
 					this.category = Category.valueOf(config.getString("category").toUpperCase());
 				else
-					this.category = null;
+					throw new IllegalArgumentException("Category for item '" + config.getName() + "' is missing.");
 				break;
 			
 			case "hat":
@@ -98,10 +98,7 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 		}
 		
 		if (enabled) {
-			if (category == null)
-				Category.addEmptyItem(this);
-			else
-				category.addItem(this);
+			category.addItem(this);
 		}
 		
 		
@@ -109,7 +106,7 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 		if (!enabled)
 			item.setShiny(true);
 		item.applyVariable("cost", "" + cost);
-		item.applyVariable("category", (category == null ? "" : category.getLore()));
+		item.applyVariable("category", category.getLore());
 		itemStack = item.createItemStack();
 		
 		itemStack.setAmount(cost == 0 ? 1 : cost);
@@ -288,7 +285,9 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 				item.modify(dwarfData);
 			}
 			
-			Set<LoadoutItem> remaining = new HashSet<>(Category.getEmptyItems());
+			Set<LoadoutItem> remaining = new HashSet<>();
+			remaining.addAll(Category.ACCESSORY.getItems());
+			remaining.addAll(Category.CONSUMABLE.getItems());
 			while (pointsRemaining >= 0) {
 				LoadoutItem item = Misc.getRandom(remaining);
 				pointsRemaining -= item.getCost();
