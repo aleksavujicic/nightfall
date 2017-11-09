@@ -6,6 +6,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -57,6 +58,7 @@ class Slab extends Consumable {
 					Block toReplace = world.getBlockAt(x,y,z);
 					if (map.isBlockPlaceable(toReplace) && BlockType.SLABBABLE.matchesBlock(toReplace)) {
 						toReplace.setType(Material.LAPIS_ORE);
+						world.spawnParticle(Particle.CLOUD, x+0.5,y+0.5,z+0.5, 4, 0.5,0.5,0.5, 0.1);
 					}
 				}
 			}
