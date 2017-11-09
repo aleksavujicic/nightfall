@@ -119,9 +119,10 @@ public class Arthea extends Hero {
 				monster.doDamage(this, CustomDamageType.BLOOD_MAGIC, 1000, true, true);
 			
 			damage.cancel();
+		} else {
+			super.onDamageReceive(damage);
 		}
 		
-		 super.onDamageReceive(damage);
 		if (damage.willKill() && !isEnraged()) {
 			startTransition();
 			damage.softCancel();
@@ -155,35 +156,28 @@ public class Arthea extends Hero {
 	}
 	
 	private void startTransition() {
-		Bukkit.broadcastMessage(getDisplayName() + " has been fatally wounded!");
-		enrageTimer = ENRAGE_TRANSITION_DURATION + ENRAGE_DURATION;
-		super.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, ENRAGE_DURATION + ENRAGE_TRANSITION_DURATION, 5, true, true, true);
-		super.givePotionEffect(PotionEffectType.REGENERATION, ENRAGE_DURATION + ENRAGE_TRANSITION_DURATION, 3, true, true, true);
-		super.givePotionEffect(PotionEffectType.SLOW, ENRAGE_TRANSITION_DURATION, 100, false, false, true);
-		super.givePotionEffect(PotionEffectType.JUMP, ENRAGE_TRANSITION_DURATION, -50, true, true, true);
-		super.givePotionEffect(PotionEffectType.CONFUSION, ENRAGE_TRANSITION_DURATION + 20, -100, false, false, true);
-		super.givePotionEffect(PotionEffectType.WEAKNESS, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
-		//super.givePotionEffect(PotionEffectType.SLOW_DIGGING, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
-		super.givePotionEffect(PotionEffectType.BLINDNESS, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
-		
-		player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
-		
-		player.getInventory().clear();
-		player.setHealth(0.1);
 		
 		setTitle(ChatColor.LIGHT_PURPLE, "Arthea", true);
 		Skin newSkin = Skin.getSkin("arthea").withNewName(ChatColor.LIGHT_PURPLE + "Arthea");
 		SkinManager.getManager().addSkinChange(this, newSkin);
+		
+		player.getInventory().clear();
+		player.setHealth(3);
+		
+		super.clearEffects();
+		Bukkit.broadcastMessage(getDisplayName() + " has been fatally wounded!");
+		enrageTimer = ENRAGE_TRANSITION_DURATION + ENRAGE_DURATION;
+		super.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, ENRAGE_DURATION + ENRAGE_TRANSITION_DURATION, 5, true, true, true);
+		super.givePotionEffect(PotionEffectType.REGENERATION, ENRAGE_DURATION + ENRAGE_TRANSITION_DURATION, 3, true, true, true);
+		super.givePotionEffect(PotionEffectType.SLOW, ENRAGE_TRANSITION_DURATION, 100, true, true, true);
+		super.givePotionEffect(PotionEffectType.JUMP, ENRAGE_TRANSITION_DURATION, -50, true, true, true);
+		super.givePotionEffect(PotionEffectType.CONFUSION, ENRAGE_TRANSITION_DURATION + 20, -100, true, true, true);
+		super.givePotionEffect(PotionEffectType.WEAKNESS, ENRAGE_TRANSITION_DURATION + 20, 100, true, true, true);
+		//super.givePotionEffect(PotionEffectType.SLOW_DIGGING, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
+		super.givePotionEffect(PotionEffectType.BLINDNESS, ENRAGE_TRANSITION_DURATION + 20, 100, true, true, true);
 	}
 	
 	private void startEnrage() {
-		super.givePotionEffect(PotionEffectType.SPEED, ENRAGE_DURATION, 5, true, false, true);
-		super.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, ENRAGE_DURATION, 5, true, false, true);
-		super.givePotionEffect(PotionEffectType.NIGHT_VISION, ENRAGE_DURATION, 1, true, false, true);
-		super.givePotionEffect(PotionEffectType.FIRE_RESISTANCE, ENRAGE_DURATION, 1, true, false, true);
-		super.givePotionEffect(PotionEffectType.JUMP, ENRAGE_DURATION, 3, true, false, false);
-		super.givePotionEffect(PotionEffectType.GLOWING, ENRAGE_DURATION, 3, true, false, false);
-		
 		doDamage(null, CustomDamageType.BLOOD_MAGIC, 10, true);
 		
 		PlayerInventory inv = player.getInventory();
@@ -194,6 +188,16 @@ public class Arthea extends Hero {
 		
 		player.updateInventory();
 		inv.setHelmet(DwarvenItems.getItem("hero-hat", type.hat, Slot.HEAD).createItemStack());
+		
+		super.clearEffects();
+		
+		super.givePotionEffect(PotionEffectType.HEAL, 5, 20, false, false, true);
+		super.givePotionEffect(PotionEffectType.SPEED, ENRAGE_DURATION, 5, true, true, true);
+		super.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, ENRAGE_DURATION, 5, true, true, true);
+		super.givePotionEffect(PotionEffectType.NIGHT_VISION, ENRAGE_DURATION, 1, true, true, true);
+		super.givePotionEffect(PotionEffectType.FIRE_RESISTANCE, ENRAGE_DURATION, 1, true, true, true);
+		super.givePotionEffect(PotionEffectType.JUMP, ENRAGE_DURATION, 3, true, true, true);
+		super.givePotionEffect(PotionEffectType.GLOWING, ENRAGE_DURATION, 3, true, true, true);
 		
 		//makeMobsGlow();
 	}
