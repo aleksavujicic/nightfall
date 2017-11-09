@@ -23,7 +23,6 @@ import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.entity.DwarfEntity;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
-import deimophobe.nightfall.event.DwarfCreateEvent;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -96,9 +95,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		respawn();
 		
 		TitlePlayer.playTitle(this);
-		
-		DwarfCreateEvent event = new DwarfCreateEvent(this);
-		Bukkit.getPluginManager().callEvent(event);
 	}
 	
 	public void respawn() {
