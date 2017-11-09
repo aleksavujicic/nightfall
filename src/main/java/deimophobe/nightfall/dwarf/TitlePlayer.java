@@ -22,16 +22,16 @@ class TitlePlayer extends BukkitRunnable {
             new Title(ChatColor.BLUE + "NightF", ChatColor.BLUE + "Be prepared for",  2),
             new Title(ChatColor.BLUE + "NightFa", ChatColor.BLUE + "Be prepared for", 2),
             new Title(ChatColor.BLUE + "NightFal", ChatColor.BLUE + "Be prepared for",  2),*/
-            new Title(ChatColor.BLUE + "NightFall", ChatColor.BLUE + "Be prepared for",  40),
-            new Title(ChatColor.DARK_RED + "N" + ChatColor.BLUE + "ightFall" , ChatColor.BLUE + "Be prepared for",  2),
-            new Title(ChatColor.DARK_RED + "Ni" + ChatColor.BLUE + "ghtFall" , ChatColor.BLUE + "Be prepared for",  2),
-            new Title(ChatColor.DARK_RED + "Nig" + ChatColor.BLUE + "htFall" , ChatColor.BLUE + "Be prepared for",  2),
-            new Title(ChatColor.DARK_RED + "Nigh" + ChatColor.BLUE + "tFall" , ChatColor.BLUE + "Be prepared for",  2),
-			new Title(ChatColor.BLUE + "N" + ChatColor.DARK_RED + "ight"  + ChatColor.BLUE + "Fall", ChatColor.BLUE + "Be prepared for",  2),
-            new Title(ChatColor.BLUE + "Ni" + ChatColor.DARK_RED + "ghtF"  + ChatColor.BLUE + "all", ChatColor.BLUE + "Be prepared for",  2),
-            new Title(ChatColor.BLUE + "Nig" + ChatColor.DARK_RED + "htFa"  + ChatColor.BLUE + "ll", ChatColor.BLUE + "Be prepared for",  2),
-            new Title(ChatColor.BLUE + "Nigh" + ChatColor.DARK_RED + "tFal"  + ChatColor.BLUE + "l", ChatColor.BLUE + "Be prepared for",  2),
-            new Title(ChatColor.BLUE + "Night" + ChatColor.DARK_RED + "Fall"  + ChatColor.BLUE + "", ChatColor.BLUE + "Be prepared for",  60, false),
+            new Title(ChatColor.BLUE + "Nightfall", ChatColor.BLUE + "Be prepared for",  40),
+            new Title(ChatColor.DARK_RED + "N" + ChatColor.BLUE + "ightfall" , ChatColor.BLUE + "Be prepared for",  2),
+            new Title(ChatColor.DARK_RED + "Ni" + ChatColor.BLUE + "ghtfall" , ChatColor.BLUE + "Be prepared for",  2),
+            new Title(ChatColor.DARK_RED + "Nig" + ChatColor.BLUE + "htfall" , ChatColor.BLUE + "Be prepared for",  2),
+            new Title(ChatColor.DARK_RED + "Nigh" + ChatColor.BLUE + "tfall" , ChatColor.BLUE + "Be prepared for",  2),
+			new Title(ChatColor.BLUE + "N" + ChatColor.DARK_RED + "ight"  + ChatColor.BLUE + "fall", ChatColor.BLUE + "Be prepared for",  2),
+            new Title(ChatColor.BLUE + "Ni" + ChatColor.DARK_RED + "ghtf"  + ChatColor.BLUE + "all", ChatColor.BLUE + "Be prepared for",  2),
+            new Title(ChatColor.BLUE + "Nig" + ChatColor.DARK_RED + "htfa"  + ChatColor.BLUE + "ll", ChatColor.BLUE + "Be prepared for",  2),
+            new Title(ChatColor.BLUE + "Nigh" + ChatColor.DARK_RED + "tfal"  + ChatColor.BLUE + "l", ChatColor.BLUE + "Be prepared for",  2),
+            new Title(ChatColor.BLUE + "Night" + ChatColor.DARK_RED + "fall"  + ChatColor.BLUE + "", ChatColor.BLUE + "Be prepared for",  60, false),
 	};
 	
 	static void playTitle(Dwarf dwarf) {

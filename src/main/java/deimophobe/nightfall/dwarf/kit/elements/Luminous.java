@@ -109,8 +109,10 @@ public class Luminous extends AbstractBow {
                 // If close enough damage mob
                 if (monster.distanceTo(dwarf) <= radius) {
                     monster.doDamage(dwarf, CustomDamageType.LUMINOUS, getPower()*force/2);
+                    dwarf.playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
                 } else if (radialOffset <= THICKNESS) {
                     monster.doDamage(dwarf, CustomDamageType.LUMINOUS, getPower()*force);
+                    dwarf.playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
                 }
             }
         }

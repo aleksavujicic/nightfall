@@ -68,14 +68,17 @@ class Rapier extends AbstractItem implements KitCooldownElement {
 		
 		Location playerLoc = dwarf.getPlayer().getEyeLocation();
 		
-		for (int i = 0; i < stacks; i++) {
-			double frac = (double) i / MAX_STACKS;
+		int particles = stacks/4;
+		int MAX_PARTICLES = MAX_STACKS/4;
+		
+		for (int i = 0; i < particles; i++) {
+			double frac = (double) i / MAX_PARTICLES;
 			double red = (r1 + frac * (r2 - r1));
 			double green = (g1 + frac * (g2 - g1));
 			double blue = (b1 + frac * (b2 - b1));
 			double myTheta = theta - frac * 2 * Math.PI;
 			
-			if (stacks == MAX_STACKS) {
+			if (particles == MAX_PARTICLES) {
 				red = 15;
 				green = 20;
 				blue = 256;

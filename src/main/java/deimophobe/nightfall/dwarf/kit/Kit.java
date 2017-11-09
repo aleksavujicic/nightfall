@@ -38,7 +38,7 @@ public class Kit {
 			addElement(type);
 		}
 		
-		for (KitGiveType type : KitGiveType.values())
+		for (KitGiveType type : KitGiveType.fixedValues())
 			giveTimes.put(type, 0);
 	}
 	
@@ -89,7 +89,7 @@ public class Kit {
 	// ------ EVENTS ------
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		// Reduce kit times if non-zero
-		for (KitGiveType type : KitGiveType.values())
+		for (KitGiveType type : KitGiveType.fixedValues())
 			giveTimes.compute(type, (k, i) -> (i == 0 ? 0 : i-1));
 		
 		for (KitElement item : kitElements.values())
