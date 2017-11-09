@@ -120,8 +120,8 @@ public class DwarvenArmour implements Armour {
 	}
 	
 	
+	public double armourFraction() { return armourValue/DEFAULT_MAX; }
 	private boolean isAtMax() { return armourFraction() >= 1; }
-	private double armourFraction() { return armourValue/DEFAULT_MAX; }
 	private void updateArmour() { updateArmour(false);	}
 	private void updateArmour(boolean force) {
 		if (isArmoured() && (force ||!currentLevel.isValid(this))) {
