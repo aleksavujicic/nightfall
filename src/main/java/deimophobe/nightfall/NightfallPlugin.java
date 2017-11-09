@@ -10,7 +10,7 @@ import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.hero.Hero;
-import deimophobe.nightfall.dwarf.kit.elements.Horn;
+import deimophobe.nightfall.dwarf.kit.elements.hero.Horn;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.dwarf.loadout.DwarfData;
 import deimophobe.nightfall.dwarf.loadout.Loadout;
