@@ -24,7 +24,7 @@ public class Dragonskin extends AbstractToggleBow implements KitCooldownElement 
 	}
 	
 	private final static int POWER = 50;
-	private final static CustomItem ITEM = DwarvenItems.getBow("dragonskin", POWER);
+	private final static CustomItem ITEM = getBow("dragonskin", POWER);
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

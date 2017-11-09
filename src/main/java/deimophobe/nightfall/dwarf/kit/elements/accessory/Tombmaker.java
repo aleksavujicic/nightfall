@@ -12,7 +12,6 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractCooldownItem;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.items.CustomItem;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -32,7 +31,7 @@ public class Tombmaker extends AbstractCooldownItem {
 	}
 	
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("misc.tombmaker", Slot.MAIN_HAND);
+	private final static CustomItem ITEM = DwarvenItems.getItem("accessory", "tombmaker");
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

@@ -28,7 +28,7 @@ public class Wildfire extends AbstractItem {
 		super(dwarf);
 	}
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("hero.wildfire", Slot.MAIN_HAND);
+	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "wildfire");
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

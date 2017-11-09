@@ -158,7 +158,7 @@ public class DwarvenArmour implements Armour {
 		private final double minArmour;
 		private final double maxArmour;
 		ArmourLevel(String sectionName, double minArmour, double maxArmour) {
-			this.setName = "armour." + sectionName;
+			this.setName = sectionName;
 			this.minArmour = minArmour;
 			this.maxArmour = maxArmour;
 		}
@@ -188,9 +188,9 @@ public class DwarvenArmour implements Armour {
 		private final CustomItem boots;
 		
 		private ArmourSet(String section) {
-			chest = DwarvenItems.getItem(section + ".chest", Slot.CHEST);
-			legs = DwarvenItems.getItem(section + ".legs", Slot.LEGS);
-			boots = DwarvenItems.getItem(section + ".boots", Slot.FEET);
+			chest = DwarvenItems.getItem("armour", section + ".chest", Slot.CHEST);
+			legs = DwarvenItems.getItem("armour", section + ".legs", Slot.LEGS);
+			boots = DwarvenItems.getItem("armour", section + ".boots", Slot.FEET);
 		}
 		
 		private void equip(Dwarf dwarf) {

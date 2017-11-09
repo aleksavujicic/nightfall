@@ -15,7 +15,7 @@ public class VelSword extends AbstractRuneblade {
 		super(dwarf, 15*20, ProcType.VELSWORD, ProcType.RUNEDASH);
 	}
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("hero.velsword");
+	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "velsword");
 	@Override public CustomItem getItem() {return ITEM;}
 	@Override public KitGiveType getGiveType() { return KitGiveType.START;}
 }

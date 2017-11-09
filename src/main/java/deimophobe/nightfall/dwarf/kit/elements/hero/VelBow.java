@@ -4,7 +4,6 @@ import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
@@ -25,7 +24,7 @@ public class VelBow extends AbstractToggleBow implements KitCooldownElement {
 	}
 	
 	private final static int POWER = 60;
-	private final static CustomItem ITEM = DwarvenItems.getBow("velbow", POWER);
+	private final static CustomItem ITEM = getBow("hero", "velbow", POWER);
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

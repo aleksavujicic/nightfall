@@ -27,7 +27,7 @@ import org.bukkit.util.Vector;
 public class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 	public ScepterOfMagma(Dwarf dwarf) { super(dwarf); }
 
-	private final static CustomItem ITEM = DwarvenItems.getItem("sword.scepter", Slot.MAIN_HAND);
+	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "scepter");
 	@Override public CustomItem getItem() { return ITEM; }
 	@Override public ItemStack getCooldownToggleItem() { return ITEM.createItemStack(); }
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }

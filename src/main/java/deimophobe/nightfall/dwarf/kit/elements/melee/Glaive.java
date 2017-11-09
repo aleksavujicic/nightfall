@@ -40,7 +40,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
         super(dwarf);
     }
 
-    private final static CustomItem ITEM = DwarvenItems.getItem("sword.glaive", Slot.MAIN_HAND);
+    private final static CustomItem ITEM = DwarvenItems.getItem("melee", "glaive");
     @Override public CustomItem getItem() {
         return ITEM;
     }

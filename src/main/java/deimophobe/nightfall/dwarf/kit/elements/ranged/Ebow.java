@@ -25,7 +25,7 @@ public class Ebow extends AbstractBow {
 	}
 	
 	private final static int POWER = 10;
-	private final static CustomItem ITEM = DwarvenItems.getBow("ebow", POWER);
+	private final static CustomItem ITEM = getBow("ebow", POWER);
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

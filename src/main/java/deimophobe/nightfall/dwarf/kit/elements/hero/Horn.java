@@ -23,7 +23,7 @@ public class Horn extends AbstractCooldownItem {
 		super(dwarf, 120*20);
 	}
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("hero.horn");
+	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "horn");
 	@Override public CustomItem getItem() {return ITEM;}
 	@Override public KitGiveType getGiveType() {return KitGiveType.START;}
 	

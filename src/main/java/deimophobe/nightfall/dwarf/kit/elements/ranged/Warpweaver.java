@@ -4,7 +4,6 @@ import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.map.GameMap;
@@ -31,7 +30,7 @@ public class Warpweaver extends AbstractToggleBow implements KitCooldownElement 
 	}
 	
 	private final static int POWER = 30;
-	private final static CustomItem ITEM = DwarvenItems.getBow("warpweaver", POWER);
+	private final static CustomItem ITEM = getBow("warpweaver", POWER);
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

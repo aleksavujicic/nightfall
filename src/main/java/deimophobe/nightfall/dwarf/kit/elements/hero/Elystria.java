@@ -22,7 +22,7 @@ public class Elystria extends AbstractCooldownItem {
 		super(dwarf, 50);
 	}
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("hero.elystria");
+	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "elystria");
 	@Override public CustomItem getItem() {return ITEM;}
 	@Override public KitGiveType getGiveType() {return KitGiveType.ARTHEA_SPECIAL;}
 	

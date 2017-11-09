@@ -21,7 +21,7 @@ public class Crossbow extends AbstractBow implements KitCooldownElement {
 	
 	private final static int POWER = 100;
 	private final static int FIRING_POWER = 30;
-	private final static CustomItem ITEM = DwarvenItems.getBow("crossbow", POWER);
+	private final static CustomItem ITEM = getBow("crossbow", POWER);
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

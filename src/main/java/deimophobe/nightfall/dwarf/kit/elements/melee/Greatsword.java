@@ -17,7 +17,7 @@ public class Greatsword extends AbstractItem {
 		super(dwarf);
 	}
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("sword.greatsword");
+	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "greatsword");
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

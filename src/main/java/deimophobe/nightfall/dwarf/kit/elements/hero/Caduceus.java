@@ -31,7 +31,7 @@ public class Caduceus extends AbstractCooldownItem {
 		super(dwarf, 30*20);
 	}
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("hero.caduceus");
+	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "caduceus");
 	@Override public CustomItem getItem() {return ITEM;}
 	@Override public KitGiveType getGiveType() {return KitGiveType.START;}
 	

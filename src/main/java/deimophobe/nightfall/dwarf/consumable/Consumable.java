@@ -30,7 +30,7 @@ public abstract class Consumable {
 	}
 	
 	protected Consumable(String itemName) {
-		this.item = DwarvenItems.getItem("consumable."+itemName);
+		this.item = DwarvenItems.getItem("consumable", itemName);
 		if (item == null) {
 			Bukkit.getLogger().severe("Consumable item '" + itemName + "' does not exist.");
 			throw new NullPointerException("Consumable item '" + itemName + "' does not exist.");

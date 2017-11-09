@@ -25,7 +25,7 @@ public class Wand extends AbstractCooldownItem {
 		super(dwarf, 180*20);
 	}
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("hero.wand", Slot.MAIN_HAND);
+	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "wand");
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

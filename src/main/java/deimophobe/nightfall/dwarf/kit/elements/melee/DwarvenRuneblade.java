@@ -15,7 +15,7 @@ public class DwarvenRuneblade extends AbstractItem {
 		super(dwarf);
 	}
 	
-	private static final CustomItem ITEM = DwarvenItems.getItem("sword.drb");
+	private static final CustomItem ITEM = DwarvenItems.getItem("melee", "drb");
 	@Override public CustomItem getItem() {return ITEM;}
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 }

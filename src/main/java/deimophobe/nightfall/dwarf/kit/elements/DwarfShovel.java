@@ -13,7 +13,7 @@ class DwarfShovel extends AbstractItem {
 		super(dwarf);
 	}
 	
-	private static final CustomItem ITEM = DwarvenItems.getItem("misc.shovel");
+	private static final CustomItem ITEM = DwarvenItems.getItem("misc", "shovel");
 	@Override public CustomItem getItem() {return ITEM;}
 	
 	

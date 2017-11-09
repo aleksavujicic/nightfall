@@ -1,0 +1,31 @@
+tombmaker:
+  base: tombmaker
+  name: Tombmaker
+  lore:
+    description:
+     - "Right click for a Haste buff to dig faster."
+    flavour:
+     - "\"I used to dig graves with these things. It's insane.\" - Tui"
+     - "\"Two in the grave, two for the banshees.\" - Velvetine"
+  modifiers:
+    attack: 8
+
+compass:
+  material: compass
+  name: "Trusty Compass"
+  lore:
+    description:
+     - "Left click to see current location.\n
+        Right click to cycle through various\n
+        locations on the map."
+    flavour:
+     - "A simple but useful tool."
+
+chesto:
+  material: chest
+  name: "Chest-o-matic"
+  lore:
+    description:
+     - "Click to access the shared resource chest."
+    flavour:
+     - "Sharing is caring."

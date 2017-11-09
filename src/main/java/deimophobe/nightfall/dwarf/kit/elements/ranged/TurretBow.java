@@ -20,7 +20,7 @@ import java.util.Set;
 public class TurretBow extends AbstractBow {
 	
 	private final static int POWER = 80;
-	private final static CustomItem ITEM = DwarvenItems.getBow("turret", POWER);
+	private final static CustomItem ITEM = getBow("turret", POWER);
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

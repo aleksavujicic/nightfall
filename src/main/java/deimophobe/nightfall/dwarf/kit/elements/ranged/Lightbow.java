@@ -22,7 +22,7 @@ public class Lightbow extends AbstractBow {
 	}
 	
 	private final static int POWER = 30;
-	private final static CustomItem ITEM = DwarvenItems.getBow("lightbow", POWER);
+	private final static CustomItem ITEM = getBow("lightbow", POWER);
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

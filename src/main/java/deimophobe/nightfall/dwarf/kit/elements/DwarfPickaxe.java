@@ -13,7 +13,6 @@ import deimophobe.nightfall.effects.GameEffect;
 import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.map.GameMap;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -31,7 +30,7 @@ class DwarfPickaxe extends AbstractItem implements KitCooldownElement {
 		super(dwarf);
 	}
 	
-	private static final CustomItem ITEM = DwarvenItems.getItem("misc.pick");
+	private static final CustomItem ITEM = DwarvenItems.getItem("misc", "pick");
 	@Override public CustomItem getItem() {return ITEM;}
 	@Override public KitGiveType getGiveType() { return KitGiveType.PICK; }
 	@Override public ItemStack getCooldownToggleItem() {return ITEM.createItemStack();}

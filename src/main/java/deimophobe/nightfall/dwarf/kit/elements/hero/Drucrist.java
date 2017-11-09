@@ -29,7 +29,7 @@ public class Drucrist extends AbstractItem implements KitCooldownElement {
 		super(dwarf);
 	}
 
-	private final static CustomItem ITEM = DwarvenItems.getItem("hero.drucrist", Slot.MAIN_HAND);
+	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "drucrist");
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

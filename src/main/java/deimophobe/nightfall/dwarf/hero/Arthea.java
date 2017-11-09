@@ -1,6 +1,5 @@
 package deimophobe.nightfall.dwarf.hero;
 
-import deimophobe.nightfall.Hat;
 import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -8,9 +7,11 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
+import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
@@ -159,13 +160,16 @@ public class Arthea extends Hero {
 		super.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, ENRAGE_DURATION + ENRAGE_TRANSITION_DURATION, 5, true, true, true);
 		super.givePotionEffect(PotionEffectType.REGENERATION, ENRAGE_DURATION + ENRAGE_TRANSITION_DURATION, 3, true, true, true);
 		super.givePotionEffect(PotionEffectType.SLOW, ENRAGE_TRANSITION_DURATION, 100, false, false, true);
-		super.givePotionEffect(PotionEffectType.JUMP, ENRAGE_TRANSITION_DURATION, -100, false, false, true);
+		super.givePotionEffect(PotionEffectType.JUMP, ENRAGE_TRANSITION_DURATION, -50, true, true, true);
 		super.givePotionEffect(PotionEffectType.CONFUSION, ENRAGE_TRANSITION_DURATION + 20, -100, false, false, true);
 		super.givePotionEffect(PotionEffectType.WEAKNESS, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
 		//super.givePotionEffect(PotionEffectType.SLOW_DIGGING, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
 		super.givePotionEffect(PotionEffectType.BLINDNESS, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
 		
 		player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
+		
+		player.getInventory().clear();
+		player.setHealth(0.1);
 		
 		setTitle(ChatColor.LIGHT_PURPLE, "Arthea", true);
 		Skin newSkin = Skin.getSkin("arthea").withNewName(ChatColor.LIGHT_PURPLE + "Arthea");
@@ -177,17 +181,19 @@ public class Arthea extends Hero {
 		super.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, ENRAGE_DURATION, 5, true, false, true);
 		super.givePotionEffect(PotionEffectType.NIGHT_VISION, ENRAGE_DURATION, 1, true, false, true);
 		super.givePotionEffect(PotionEffectType.FIRE_RESISTANCE, ENRAGE_DURATION, 1, true, false, true);
-		super.givePotionEffect(PotionEffectType.JUMP, ENRAGE_DURATION, 3, true, false, true);
-		super.givePotionEffect(PotionEffectType.GLOWING, ENRAGE_DURATION, 3, true, false, true);
+		super.givePotionEffect(PotionEffectType.JUMP, ENRAGE_DURATION, 3, true, false, false);
+		super.givePotionEffect(PotionEffectType.GLOWING, ENRAGE_DURATION, 3, true, false, false);
 		
 		doDamage(null, CustomDamageType.BLOOD_MAGIC, 10, true);
 		
 		PlayerInventory inv = player.getInventory();
 		inv.clear();
 		
-		Hat.ARTHEA.putOn(this);
 		giveKitItems(KitGiveType.ARTHEA_SPECIAL);
-		player.getInventory().setHeldItemSlot(0);
+		inv.setHeldItemSlot(0);
+		
+		player.updateInventory();
+		inv.setHelmet(DwarvenItems.getItem("hero-hat", type.hat, Slot.HEAD).createItemStack());
 		
 		//makeMobsGlow();
 	}

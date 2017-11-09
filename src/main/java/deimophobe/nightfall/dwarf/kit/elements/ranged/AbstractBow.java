@@ -5,9 +5,12 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitBow;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractItem;
+import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
@@ -18,6 +21,21 @@ import org.bukkit.metadata.FixedMetadataValue;
  * Created by Deimophobe on 19/03/17.
  */
 public abstract class AbstractBow extends AbstractItem implements KitBow {
+	
+	
+	protected static CustomItem getBow(String bow, int power) {
+		return getBow("ranged", bow, power);
+	}
+	
+	protected static CustomItem getBow(String section, String bow, int power) {
+		CustomItem item = DwarvenItems.getItem(section, bow);
+		item.applyVariable("power", ""+power);
+		item.addModifier(ItemModifierType.POWER, power);
+		return item;
+	}
+	
+	
+	
 	public AbstractBow(Dwarf dwarf) {
 		super(dwarf);
 	}

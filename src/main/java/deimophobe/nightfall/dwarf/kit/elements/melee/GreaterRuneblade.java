@@ -13,7 +13,7 @@ public class GreaterRuneblade extends AbstractRuneblade {
 		super(dwarf, 20*20, ProcType.REGULAR, ProcType.RUNEDASH);
 	}
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("sword.grb");
+	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "grb");
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

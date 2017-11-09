@@ -1,0 +1,87 @@
+healing:
+  base: healing_ale
+  name: Healing Ale
+  lore:
+    description:
+     - "Left click to heal yourself for &b$manacost&r mana."
+    flavour:
+     - "\"Less fancier than the stars, but still nifty.\" - Arthea"
+
+jj:
+  base: jimmyjuice
+  name: Jimmy Juice
+  lore:
+    description:
+     - "The starting ale for new players.\n
+        Auto heal for &b$autocost&r mana or\n
+        Left Click to heal for &b$manacost&r mana."
+    flavour:
+     - "\"I'm just glad that you &ocan&r drink your juice.\" - Velvetine"
+
+holy:
+  base: holy_ale
+  name: Holy Ale
+  lore:
+    description:
+     - "Left click to heal yourself
+       for &b$manacost&r mana\n and gain
+       &b8&r absorption hearts."
+    flavour:
+     - "\"It's in the name! This things the holy grail of dwarves.\" - Tui"
+
+trinket:
+  base: trinket
+  name: Star Trinket
+  lore:
+    description:
+     - "Left click to heal yourself\n
+        for &b$manacost&r mana and gain\n
+        &b20 absorption hearts&r.\n
+        You also gain permanent regen."
+    flavour:
+     - "\"Drink your... Gem? How do you use this thing?\" - Velvetine"
+
+regrowth:
+  base: regrowth
+  name: Regrowth Star
+  lore:
+    description:
+     - "Left click to heal yourself\n
+        for &b100&r mana.\n
+        Right click on dwarves to heal\n
+        them and their armour for &b20&r mana."
+    flavour:
+     - "\"For those who want others to live another night.\" - Arthea"
+
+chug:
+  base: chug
+  name: Chugging Ale
+  lore:
+    description:
+     - "Left click to heal for a small\n
+        amount of health. Uses &b$manacost&r mana.\n
+        You are able to spam this as much as you want\n
+        so be careful and watch your mana!\n
+        You also gain &espeed for 2.5 seconds&r each sip."
+    flavour:
+     - "\"One of Potion Sellers experimental potions. Use with care.\" "
+
+strong:
+  base: strong
+  name: Potion Seller's Strongest Potion
+  lore:
+    description:
+     - "A very strong potion, which gives you %e75% resistance&r\n
+        making you feel like a hero, however it uses &b$manacost&r mana."
+    flavour:
+     - "\"My potions are too strong for you traveller.\" - Potion Seller"
+
+glow:
+  base: glow
+  name: Healing Glow
+  lore:
+    description:
+      - "Gain fire resistance and mana regeneration\n
+         While taking fire damage. Costs &b$manacost&r mana."
+    flavour:
+      - "Hm, this stuff seems like it's boiling."

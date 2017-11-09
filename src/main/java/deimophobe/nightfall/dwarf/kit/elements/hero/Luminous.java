@@ -5,7 +5,6 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
-import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.ranged.AbstractBow;
@@ -25,7 +24,7 @@ public class Luminous extends AbstractBow {
     }
 
     private final static int POWER = 60;
-    private final static CustomItem ITEM = DwarvenItems.getBow("luminous", POWER);
+    private final static CustomItem ITEM = getBow("hero", "luminous", POWER);
     @Override public CustomItem getItem() {
         return ITEM;
     }

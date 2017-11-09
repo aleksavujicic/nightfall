@@ -24,12 +24,6 @@ public enum Hat {
 	SKULLMASK("skullmask"),
 	CATEARS("catears"),
 	
-	TUI("tuihat"),
-	NOSOVIN("nosovinhat"),
-	ARTHEA("arthea-hat"),
-	VELVETINE("velvetine-hat"),
-	HERANA("herana-hat"),
-	
 	;
 	
 	private final ItemStack hat;

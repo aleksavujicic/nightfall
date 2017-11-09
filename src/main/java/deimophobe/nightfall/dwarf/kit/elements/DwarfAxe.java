@@ -18,7 +18,7 @@ class DwarfAxe extends AbstractItem {
 		super(dwarf);
 	}
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("misc.axe", Slot.MAIN_HAND);
+	private final static CustomItem ITEM = DwarvenItems.getItem("misc", "axe");
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

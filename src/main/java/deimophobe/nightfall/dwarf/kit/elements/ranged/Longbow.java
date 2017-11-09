@@ -38,7 +38,7 @@ public class Longbow extends AbstractBow implements KitCooldownElement {
 	}
 	
 	private final static int POWER = 60;
-	private final static CustomItem ITEM = DwarvenItems.getBow("longbow", POWER);
+	private final static CustomItem ITEM = getBow("longbow", POWER);
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

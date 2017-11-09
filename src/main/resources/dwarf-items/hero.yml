@@ -1,0 +1,179 @@
+##### TUI #####
+tuihammer:
+  base: herohammer
+  name: Kindled Light
+  shiny: true
+  lore:
+    description:
+     - "Right click to Roar, giving a proc and\n
+        attracting all AIs to you."
+    flavour:
+      - |-
+        Rank 11? Psssh, that's nothing. When you've lived your whole
+        life with the flames, the holy light is all you see. I've bathed
+        in embers, emerged victorious from scorching coals. This
+        hammer's been with me through it all.
+  modifiers:
+    attack: 25
+    kb_resist: 1
+
+wildfire:
+  base: flamestaff
+  name: Wildfire
+  lore:
+    description:
+     - "Right click to send out a stream\n
+        of fire to harm mobs.\n
+        Uses ammo."
+    flavour:
+     - "Begone foul demons of the night!"
+
+wildfirefuel:
+  base: fireball
+  name: Wildfire Fuel
+  lore:
+    description:
+     - "Tui's Ammo for wildfire."
+    flavour:
+     - "Careful, its hot."
+
+
+##### NOSOVIN #####
+tinderflame:
+  base: tinderflame
+  name: Not Tinderflame
+  lore:
+    description:
+     - "Right click to shoot a beam\n
+        at a mob dealing heavy damage\n
+        and knocking you back."
+    flavour:
+     - "This thing cuts really well too."
+  modifiers:
+    attack: 20
+
+wand:
+  base: wand
+  name: Wand of No Particular Reference
+  lore:
+    description:
+     - "Right click to cast a\n
+        Wormhole, pulling in all\n
+        mobs near it."
+    flavour:
+     - "WOOORRMMMMHOOOLEEEE"
+  modifiers:
+    attack: 5
+    kb_resist: 1
+
+
+##### ARTHEA #####
+caduceus:
+  base: caduceus
+  name: Caduceus
+  lore:
+    description:
+     - "Right click to pull a dwarf\n
+        to your location."
+    flavour:
+     - "Swoooosh."
+  modifiers:
+    attack: 20
+    knockback: 2
+    kb_resist: 1
+
+totem:
+  base: hammer
+  name: Asclepius
+  lore:
+    description:
+     - "Right click to heal and buff dwarves\n
+        at the cost of your own mana."
+    flavour:
+     - "Illuminate!"
+
+luminous:
+  base: ebow
+  name: "Luminous"
+  lore:
+    description:
+     - "Shoots a powerful beam of light,\n
+        which gives procs to dwarves and\n
+        pierces 50% arrow resistance."
+    flavour:
+     - "\"Forward, dwarves! Let the light guide you.\" - Arthea"
+
+elystria:
+  base: elystria
+  name: Elystria The Divine Blade
+  lore:
+    description:
+     - "The true form of Caduceus.\n
+        You have 1 minute to live.\n
+        Slay as much as you can."
+    flavour:
+     - "For the eternal light."
+  modifiers:
+    attack: 60
+    kb_resist: 1
+  shiny: true
+
+
+##### VELVETINE #####
+velsword:
+  base: velsword
+  name: "Nyneve"
+  lore:
+    description:
+     - "The legendary runeblade.\n
+        Twin to Elystria."
+    flavour:
+     - "\"It was there, glowing in the lake.\" - Velvetine"
+  modifiers:
+    attack: 25
+    kb_resist: 1
+  shiny: true
+
+velbow:
+  base: dskin
+  name: "Pyrrhic"
+  lore:
+    description:
+     - "Kills with this bow give\n
+        a proc for 5 seconds."
+    flavour:
+     - "\"Feel the PROC pulsing through your bow.\" - Velvetine"
+
+horn:
+  base: horn
+  name: Horn
+  lore:
+    description:
+     - "Left click to send every dwarf\n
+        into a powerful rampage!"
+    flavour:
+     - "Vroooooom!"
+
+
+##### OXYSIS #####
+drucrist:
+  base: runeblade
+  name: Drucrist
+  lore:
+    description:
+      - "Drk fix this."
+    flavour:
+      - "Drk fix this."
+  modifiers:
+    attack: 20
+
+wildestaff:
+  base: runeblade
+  name: Wilde Staff
+  lore:
+    description:
+      - "Drk fix this."
+    flavour:
+      - "Drk fix this."
+  modifiers:
+    attack: 5

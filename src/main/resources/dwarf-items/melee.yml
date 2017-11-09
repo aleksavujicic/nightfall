@@ -1,0 +1,140 @@
+drb:
+  base: runeblade
+  name: Lesser Runeblade
+  lore:
+    description:
+     - "A runeblade that has yet to be enchanted\n
+        with &bwind&r magic."
+    flavour:
+     - "\"Not the best, but eh... It can make do.\" - Arthea"
+     - "\"That blade could do with a bit of sharpening.\" - Velvetine"
+     - "\"Hey it's not &othat&r bad, I've seen worse things used as weapons!\" - Tui"
+  modifiers:
+    attack: 15
+
+grb:
+  base: runeblade
+  name: Greater Runeblade
+  lore:
+    description:
+     - "Right click to &brunedash&r into\n
+        monsters, damaging or killing them\n
+        instantly with a proc."
+    flavour:
+     - "\"Keep PROC'ing Jimmy! You can't stop now.\" - Velvetine"
+  modifiers:
+    attack: 15
+
+greatsword:
+  base: runeblade
+  name: Loremasters Greatsword
+  lore:
+    description:
+     - "A broken and heavy weapon\n
+        that prevents constant swinging."
+    flavour:
+     - "\"I d�r hir comes, a hon reign shall n- uireb.\" -Loremaster"
+  modifiers:
+    attack: 25
+
+axe:
+  base: malice
+  name: Axe of Malice
+  lore:
+    description:
+     - "Right click to go into a &4Blood rage&r,\n
+        allowing you to proc, regaining health and mana\n
+        for a short duration."
+    flavour:
+     - "\"You &oreally&r shouldn't be using that thing on rats.\" - Arthea"
+  modifiers:
+    attack: 20
+
+hammer:
+  base: hammer
+  name: Warhammer
+  lore:
+    description:
+     - "Right click to regenerate armour and mana
+        over time."
+    flavour:
+     - "\"Time to really prove what you're worth.\" - Tui"
+  modifiers:
+    attack: 15
+
+dagger:
+  base: dagger
+  name: Elven Dagger
+  lore:
+    description:
+     - "An elven blade, dipped in poison.\n
+        Right click to &bEviscerate&r a monster,\n
+        dealing massive damage."
+    flavour:
+     - "\"Put that speed to good use, and that poison to better use.\" - Velvetine"
+     - "\"I can't keep up with you jimmy! You're too fast!!\" - Tui"
+  modifiers:
+    attack: 20
+    speed: 30
+
+rapier:
+  base: rapier
+  name: Rapier
+  lore:
+    description:
+      - "Hitting player controlled mobs grants\n
+         a stack up to &b20&r stacks for &b50&r max attack.\n
+         Right click to leap forward, using &e5&r stacks."
+    flavour:
+      - "\"Strike at their weak points, and then finish them quickly.\" - Velvetine"
+  modifiers:
+    attack: 10
+
+glaive:
+  base: glaive
+  name: Glaive
+  lore:
+    description:
+      - "Right click to spin.\n
+        Drk plz change"
+    flavour:
+      - "\"Finally the hammer is getting changed!\" - Everyone"
+  modifiers:
+    attack: 15
+
+scepter:
+  base: scepter
+  name: Scepter of Magma
+  lore:
+    description:
+      - "Left click to release waves of fire\n
+         upon your foes. Right click to channel\n
+         flames around you for &b$manacost&r mana\n
+         damaging mobs."
+    flavour:
+      - "Insert Flavour Text Here"
+  modifiers:
+    attack: 10
+
+hunting:
+  base: hunting
+  name: Hunting Claws
+  lore:
+    description:
+     - "Temp"
+    flavour:
+     - "Temp"
+  modifiers:
+    attack: 20
+
+shadowblade:
+  base: dagger
+  name: Shadow Blade
+  lore:
+    description:
+      - "Drk fix this."
+    flavour:
+      - "Drk fix this."
+  modifiers:
+    attack: 15
+    speed: 30

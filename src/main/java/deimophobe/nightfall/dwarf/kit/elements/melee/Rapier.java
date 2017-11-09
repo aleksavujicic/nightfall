@@ -40,7 +40,7 @@ public class Rapier extends AbstractItem implements KitCooldownElement {
 		super(dwarf);
 	}
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("sword.rapier", Slot.MAIN_HAND);
+	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "rapier");
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

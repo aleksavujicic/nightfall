@@ -251,7 +251,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			arrows.setAmount(currAmt - amt);
 		}
 	}
-	private final static ItemStack arrow = DwarvenItems.createItemStack("misc.arrow");
+	private final static ItemStack arrow = DwarvenItems.getItem("misc","arrow").createItemStack();
 	protected ItemStack getArrow() {
 		return arrow;
 	}

@@ -10,7 +10,6 @@ import deimophobe.nightfall.dwarf.kit.elements.AbstractCooldownItem;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -28,7 +27,7 @@ public class Dagger extends AbstractCooldownItem {
 	}
 	
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("sword.dagger", Slot.MAIN_HAND);
+	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "dagger");
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

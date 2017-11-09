@@ -22,7 +22,7 @@ abstract class AbstractAle extends AbstractItem {
 	protected final ComplexCooldown cooldown;
 	
 	protected static CustomItem getAle(String name, int manaCost) {
-		CustomItem item = DwarvenItems.getItem("ale." + name);
+		CustomItem item = DwarvenItems.getItem("healing", name);
 		item.applyVariable("manacost", ""+manaCost);
 		item.addModifier(ItemModifierType.MANA_COST, manaCost);
 		return item;

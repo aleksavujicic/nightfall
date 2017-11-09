@@ -37,7 +37,7 @@ public class WildeStaff extends AbstractItem implements KitCooldownElement{
 	private final ComplexCooldown shadowwalkCD = new ComplexCooldown(120*20);
 	private final ComplexCooldown enchantedmystCD = new ComplexCooldown(30*20, this::enchantedmyst);
 
-	private final static CustomItem ITEM = DwarvenItems.getItem("hero.wildestaff", Slot.MAIN_HAND);
+	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "wildestaff");
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

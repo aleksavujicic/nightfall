@@ -1,0 +1,144 @@
+lamp:
+  base: lamp
+  name: Enchanted Lamp
+  lore:
+    description:
+     - "Places a lamp down for &b60&r seconds."
+    flavour:
+     - "\"These aren't shiny; why are they called enchanted?\" - Velvetine"
+
+slab:
+  base: slab
+  name: EZ Fix Slab
+  lore:
+    description:
+     - "Left click to summon a thick wall."
+    flavour:
+     - "\"Slab! And a slab! And another slab!\" - Tui"
+
+sos:
+  base: sos
+  name: Sword of Santification
+  lore:
+    description:
+     - "Left click to call upon the mighty swords\n
+        freezing mobs caught inside its area,\n
+        and allowing you to finish them off."
+    flavour:
+     - "\"Better make them worthwhile, jimmy.\" - Velvetine"
+
+wrench:
+  base: wrench
+  name: Wrench
+  lore:
+    description:
+     - "Left click to fully repair your\n
+        dwarven armour at the cost of gold.\n
+        Needs 50 gold to work."
+    flavour:
+     - "\"Who needs teamwork when you got these?\" - Tui"
+
+mortar:
+  base: mortar
+  name: Mortar
+  lore:
+    description:
+     - "Left click to repair walls to their\n
+        max level during build phase.\n
+        Makes grey walls after mobs are released."
+    flavour:
+     - "Blue the walls dwarves."
+
+wizardmortar:
+  base: wizmortar
+  name: Wizard Mortar
+  lore:
+    description:
+     - "Left click to fully repair walls to blue.\n
+        Only works after mobs are released."
+    flavour:
+     - "Don't ask what makes it blue."
+
+armouritem:
+  base: armour
+  name: Dwarven Armour
+  lore:
+    description:
+     - "Left click to armour a dwarf."
+    flavour:
+     - "Make sure every dwarf gets one."
+
+healstation:
+  base: healitem
+  name: Healing Station
+  lore:
+    description:
+     - "Left click to place down a\n
+        healing totem that gives an\n
+        AoE &4Regen&r buff."
+    flavour:
+     - "\"Kinda like being a healer, but requires less work.\" - Arthea"
+
+
+
+log:
+  base: logs
+  name: Wooden Log
+  lore:
+    description:
+     - "Right click on a saw to turn\n
+        into wooden planks."
+    flavour:
+     - "Wood from a mighty oak tree."
+
+plank:
+  base: planks
+  name: Wooden Plank
+  lore:
+    description:
+     - "Right click on a saw to turn\n
+        into sticks."
+    flavour:
+     - "Planks from a mighty oak tree."
+
+stick:
+  material: stick
+  name: Stick
+  lore:
+    description:
+     - "Right click on a saw to turn\n
+        into bowls.\n
+        Right click on oil to turn\n
+        into a torch."
+    flavour:
+     - "A stick. Looks like a stick."
+
+bowl:
+  material: bowl
+  name: Wooden Bowl
+  lore:
+    description:
+     - "Right click on oil to turn\n
+        into mortar."
+    flavour:
+     - "It's a large bowl, could hold mortar."
+
+torch:
+  material: torch
+  name: Torch
+  lore:
+    description:
+     - "Hold a torch in your hand\n
+        makes you immune to darkness."
+    flavour:
+     - "Keeps the darkness away."
+
+cobble:
+  material: cobblestone
+  name: Cobblestone
+  lore:
+    description:
+     - "Mined from gravel, turns into Bricks\n
+        when mortared."
+    flavour:
+     - "It's stone."

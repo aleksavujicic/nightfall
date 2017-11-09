@@ -22,7 +22,7 @@ public class VolcanicGauntlet extends AbstractBow {
 	}
 	
 	private final static int POWER = 60;
-	private final static CustomItem ITEM = DwarvenItems.getBow("volcanic", POWER);
+	private final static CustomItem ITEM = getBow("volcanic", POWER);
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

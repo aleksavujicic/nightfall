@@ -11,7 +11,6 @@ import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.ai.AIEntity;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -31,7 +30,7 @@ public class Tinderflame extends AbstractCooldownItem {
 		super(dwarf, 40);
 	}
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("hero.tinderflame", Slot.MAIN_HAND);
+	private final static CustomItem ITEM = DwarvenItems.getItem("hero","tinderflame");
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

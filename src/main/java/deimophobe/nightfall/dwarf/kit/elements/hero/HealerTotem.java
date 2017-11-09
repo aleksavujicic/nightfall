@@ -35,7 +35,7 @@ public class HealerTotem extends AbstractItem {
 		super(dwarf);
 	}
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("hero.totem");
+	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "totem");
 	@Override public CustomItem getItem() {return ITEM;}
 	@Override public KitGiveType getGiveType() {return KitGiveType.START;}
 	

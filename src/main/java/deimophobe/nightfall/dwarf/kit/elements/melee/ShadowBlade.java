@@ -29,7 +29,7 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 		super(dwarf);
 	}
 
-	private final static CustomItem ITEM = DwarvenItems.getItem("sword.shadowblade", Slot.MAIN_HAND);
+	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "shadowblade");
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
