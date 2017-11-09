@@ -6,6 +6,7 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.Game;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -118,7 +119,7 @@ class Wolf extends AbstractMob {
 			monster.heal(heal);
 			monster.givePotionEffect(PotionEffectType.SPEED, 120, 3, true, false, true);
 			
-			damage.setManaDrain(5);
+			damage.setManaDrain(10);
 			
 			furySound.tryUse();
 		}

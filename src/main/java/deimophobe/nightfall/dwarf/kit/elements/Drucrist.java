@@ -52,7 +52,7 @@ class Drucrist extends AbstractItem implements KitCooldownElement {
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action)) {
-			if (cd.tryUse()) {
+			if (cd.isAvailable()) {
 				MonsterPlayer closestPlayerMonster = dwarf.getLookingAt(2.5, 13, MonsterManager.getManager().getAlivePlayerMobs());
 
 				AIEntity closestAIMonster = dwarf.getLookingAt(2.5,13, AIManager.getManager().getAIs());
@@ -67,7 +67,7 @@ class Drucrist extends AbstractItem implements KitCooldownElement {
 					if (!newLoc.getBlock().getType().isSolid()) {
 						dwarf.teleportTo(newLoc);
 						dwarf.playSound("entity.endermen.teleport", 1, 1, true);
-
+						cd.reset();
 					}
 				}
 				else if (closestAIMonster != null) {
@@ -75,14 +75,14 @@ class Drucrist extends AbstractItem implements KitCooldownElement {
 
 					Vector lookDir = monsterLoc.getDirection().setY(0);
 					Location newLoc = monsterLoc.subtract(lookDir);
-					closestAIMonster.doDamage(dwarf, CustomDamageType.SILENT_STRIKE, 40, true);
+					closestAIMonster.doDamage(dwarf, CustomDamageType.SILENT_STRIKE, 40, true,true);
 
-					cd.reduceCooldown(5*20);
+
 
 					if (!newLoc.getBlock().getType().isSolid()) {
 						dwarf.teleportTo(newLoc);
 						dwarf.playSound("entity.endermen.teleport", 1, 1, true);
-
+						cd.reset();
 					}
 				}
 			}
@@ -92,7 +92,7 @@ class Drucrist extends AbstractItem implements KitCooldownElement {
 
 	@Override
 	public void onKill(MonsterDamage damage){
-		cd.reduceCooldown(1*10);
+		cd.reduceCooldown(2*10);
 	}
 
 	@Override
