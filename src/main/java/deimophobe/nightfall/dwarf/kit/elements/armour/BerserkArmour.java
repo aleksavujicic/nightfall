@@ -80,7 +80,10 @@ public class BerserkArmour extends AbstractElement {
 		}
 		
 		private void apply(Dwarf dwarf) {
-			dwarf.givePermanentPotionEffect(PotionEffectType.INCREASE_DAMAGE, strLevel, isBlue);
+			if (strLevel == 0)
+				dwarf.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
+			else
+				dwarf.givePermanentPotionEffect(PotionEffectType.INCREASE_DAMAGE, strLevel, isBlue);
 		}
 	}
 }
