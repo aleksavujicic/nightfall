@@ -1,5 +1,7 @@
 package deimophobe.nightfall;
 
+import deimophobe.nightfall.entity.GamePlayer;
+import deimophobe.nightfall.items.CustomItem;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -26,6 +28,9 @@ public enum ArmourSlot {
 	
 	public void equipArmour(PlayerInventory inv, ItemStack armour) {
 		equipper.accept(inv, armour);
+	}
+	public void equipArmour(GamePlayer player, CustomItem armour) {
+		equipper.accept(player.getPlayer().getInventory(), armour.createItemStack());
 	}
 	
 	public Slot getSlot() {

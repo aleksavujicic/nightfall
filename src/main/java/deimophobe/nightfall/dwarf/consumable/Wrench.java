@@ -21,7 +21,7 @@ class Wrench extends Consumable {
 	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
 		if (Misc.isRightClick(action)) return FAILED_CD;
 		if (!checkPhase(dwarf)) return FAILED_CD;
-		if (!dwarf.getArmour().canRepair()) {
+		if (!dwarf.getArmour().canPickRepair()) {
 			dwarf.sendTitleMessage(ChatColor.GOLD + "Your armour is nearly full!");
 			return FAILED_CD;
 		}

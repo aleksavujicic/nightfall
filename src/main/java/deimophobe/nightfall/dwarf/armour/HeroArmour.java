@@ -1,7 +1,10 @@
 package deimophobe.nightfall.dwarf.armour;
 
+import deimophobe.nightfall.ArmourSlot;
 import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.hero.Hero;
+import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.region.Region;
@@ -9,49 +12,31 @@ import deimophobe.nightfall.map.region.Region;
 /**
  * Created by Deimophobe on 6/05/17.
  */
-public class HeroArmour implements Armour {
+public class HeroArmour extends StaticArmour {
 	private final Hero hero;
-	public HeroArmour(Hero hero) {
+	private final ArmourSlot slot;
+	private final CustomItem armour;
+	
+	public HeroArmour(Hero hero, String hatName) {
+		this(hero, hatName, ArmourSlot.HEAD);
+	}
+	
+	public HeroArmour(Hero hero, String hatName, ArmourSlot slot) {
 		this.hero = hero;
+		this.slot = slot;
+		this.armour = DwarvenItems.getItem("hero-hat", hatName);
 	}
 	
 	@Override
-	public boolean isArmoured() {
-		return true;
+	public void addModifier(ItemModifierType type, int value, String reason) {
+		armour.addModifier(type, value, reason);
+		updateEquipment();
 	}
 	
 	@Override
-	public void putOn() {}
-	
-	@Override
-	public void addModifier(ItemModifierType type, int value, String reason) {}
-	
-	@Override
-	public void increaseMax(int max) {}
-	
-	@Override
-	public boolean canRepair() {
-		return false;
+	public void updateEquipment() {
+		slot.equipArmour(hero, armour);
 	}
-	@Override
-	public boolean isAtMax() {return true;}
-
-	@Override
-	public int getMaxArmor() {
-		return 0;
-	}
-	
-	@Override
-	public int getValue() {
-		return 1000;
-	}
-	
-	@Override
-	public void damage(int damage) {}
-	
-	@Override
-	public void repair(int amount) {}
-
 	
 	@Override
 	public double getResistance() {

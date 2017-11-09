@@ -7,11 +7,9 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
@@ -187,7 +185,7 @@ public class Arthea extends Hero {
 		inv.setHeldItemSlot(0);
 		
 		player.updateInventory();
-		inv.setHelmet(DwarvenItems.getItem("hero-hat", type.hat, Slot.HEAD).createItemStack());
+		getArmour().updateEquipment();
 		
 		super.clearEffects();
 		

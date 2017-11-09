@@ -23,9 +23,9 @@ public class DwarvenArmour implements Armour {
 	
 	private boolean armoured = false;
 	
-	private static final int DEFAULT_MAX = 1000;
-	private int armour = DEFAULT_MAX;
-	private int max = DEFAULT_MAX;
+	private static final double DEFAULT_MAX = 1000;
+	private double armourValue = DEFAULT_MAX;
+	private double durability = 100;
 	
 	private ArmourLevel currentLevel = ArmourLevel.SHINY;
 	private Map<ArmourLevel, ArmourSet> setMap = new HashMap<>();
@@ -37,16 +37,11 @@ public class DwarvenArmour implements Armour {
 			ArmourSet set = level.getSet();
 			setMap.put(level, set);
 		}
-		addModifier(ItemModifierType.DURABILITY, DEFAULT_MAX);
 		addModifier(ItemModifierType.QUIVER, 20);
 	}
 	
 	@Override
-	public boolean isArmoured() {
-		return armoured;
-	}
-	
-	@Override
+	public boolean isArmoured() { return armoured; }
 	public void putOn() {
 		if (!armoured) {
 			armoured = true;
@@ -54,9 +49,19 @@ public class DwarvenArmour implements Armour {
 			GameEffect.DWARF_ARMOURED.playEffect(dwarf);
 			dwarf.onArmourEquip();
 		} else {
-			Bukkit.getLogger().severe("Tried to equip armour on dwarf which is already equipped!\nDwarf: " + dwarf.getName());
+			Bukkit.getLogger().warning("Tried to equip armour on dwarf which is already equipped!\nDwarf: " + dwarf.getName());
 		}
 	}
+	
+	
+	public double getValue() {
+		return armourValue;
+	}
+	public void changeDurability(double amt, String reason) {
+		addModifier(ItemModifierType.ARMOUR_DURABILITY, (int) amt, reason);
+		durability += amt;
+	}
+	
 	
 	@Override
 	public void addModifier(ItemModifierType type, int value, String reason) {
@@ -65,50 +70,33 @@ public class DwarvenArmour implements Armour {
 		}
 		updateArmour(true);
 	}
-	
 	@Override
-	public void increaseMax(int amt) {
-		this.max += amt;
-		this.armour += amt;
-		updateArmour();
+	public void updateEquipment() {
+		updateArmour(true);
 	}
 	
-	@Override
-	public boolean isAtMax() {
-		return armour == max;
-	}
-	@Override
-	public boolean canRepair() {
-		return max - armour >= 350;
-	}
 	
-	private double armourFraction() {
-		return (double) armour/max;
-	}
-
 	@Override
-	public int getMaxArmor() {
-		return max;
+	public boolean canPickRepair() {
+		return armourFraction() >= 0.35;
+	}
+	@Override
+	public boolean canShrineRepair() {
+		return isAtMax();
 	}
 	
 	@Override
-	public int getValue() {
-		return armour;
-	}
-	
-	@Override
-	public void damage(int damage) {
+	public void damage(double damage) {
 		if (Game.getGame().getPhase() == Phase.BUILD) return;
 		
-		armour -= damage;
-		if (armour <= 0) armour = 0;
+		armourValue -= damage/(durability/100);
+		if (armourValue <= 0) armourValue = 0;
 		updateArmour();
 	}
-	
 	@Override
-	public void repair(int amount) {
-		armour += amount;
-		if (armour >= max) armour = max;
+	public void repair(double amount) {
+		armourValue += amount;
+		if (armourValue >= DEFAULT_MAX) armourValue = DEFAULT_MAX;
 		updateArmour();
 	}
 	
@@ -123,7 +111,6 @@ public class DwarvenArmour implements Armour {
 			return 0.6;
 		}
 	}
-	
 	@Override
 	public int getManaRegenRate() {
 		if (!isArmoured()) return 0;
@@ -132,10 +119,10 @@ public class DwarvenArmour implements Armour {
 		return (int) Math.floor(Math.atan(2 * armourFraction()) * 10/Math.atan(2)) + 1;
 	}
 	
-	private void updateArmour() {
-		updateArmour(false);
-	}
 	
+	private boolean isAtMax() { return armourFraction() >= 1; }
+	private double armourFraction() { return armourValue/DEFAULT_MAX; }
+	private void updateArmour() { updateArmour(false);	}
 	private void updateArmour(boolean force) {
 		if (isArmoured() && (force ||!currentLevel.isValid(this))) {
 			currentLevel = ArmourLevel.getLevel(this);

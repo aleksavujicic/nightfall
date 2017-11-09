@@ -1,9 +1,11 @@
 package deimophobe.nightfall.dwarf.hero;
 
-import deimophobe.nightfall.*;
+import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.Skin;
+import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.armour.HeroArmour;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
@@ -13,7 +15,6 @@ import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -31,12 +32,9 @@ public class Hero extends Dwarf {
 	protected Hero(Player player, Type type) {
 		super(player, type.getData());
 		
-		// Temporary
-		player.getInventory().setHelmet(DwarvenItems.getItem("hero-hat", type.hat, Slot.HEAD).createItemStack());
-		
 		this.type = type;
 		
-		setArmour(new HeroArmour(this));
+		setArmour(new HeroArmour(this, type.hat));
 		
 		Disguise disguise = type.getDisguise();
 		if (disguise != null)

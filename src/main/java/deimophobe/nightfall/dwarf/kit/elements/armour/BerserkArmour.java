@@ -2,6 +2,7 @@ package deimophobe.nightfall.dwarf.kit.elements.armour;
 
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.Armour;
+import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractElement;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 
@@ -15,7 +16,10 @@ public class BerserkArmour extends AbstractElement {
 		armour.addModifier(ItemModifierType.ATTACK, 5, "Berserker");
 		armour.addModifier(ItemModifierType.SPEED, 10, "Berserker");
 		armour.addModifier(ItemModifierType.HEALTH, -3, "Berserker");
-		dwarf.getArmour().addModifier(ItemModifierType.DURABILITY, -300, "Berserker");
-		armour.increaseMax(-300);
+		
+		if (armour instanceof DwarvenArmour)
+			((DwarvenArmour) armour).changeDurability(-30, "Berserker");
 	}
+	
+	
 }
