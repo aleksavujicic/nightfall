@@ -67,12 +67,6 @@ class Skeleton extends AbstractMob {
 	}
 
 	@Override
-	public void onDamageReceive(MonsterDamage damage) {
-		super.onDamageReceive(damage);
-		damage.getArrowRes().addBoost(realArrowRes);
-	}
-
-	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {
 		((SkeletonWatcher) getDisguise().getWatcher()).setSwingArms(false);
 		ArrowMisc.setArrowDamage(arrow, getPower());
