@@ -206,45 +206,47 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		maxArrows = max;
 	}
 	
-	public void giveArrow() {
-		ItemStack arrows = player.getInventory().getItemInOffHand();
-		int amt = arrows.getAmount();
-		if (amt == 0) {
-			player.getInventory().setItemInOffHand(getArrow());
-		} else if (amt < maxArrows) {
-			arrows.setAmount(amt+1);
-		}
-	}
-	public void giveArrows(int amt) {
-		for (int i=0; i<amt; i++)
-			giveArrow();
-	}
-	public int getArrowCount() {
-		ItemStack arrows = player.getInventory().getItemInOffHand();
-		return (arrows.getAmount());
-	}
-	public boolean hasArrows(int amt) {
-		ItemStack arrows = player.getInventory().getItemInOffHand();
-		return (arrows.getAmount() >= amt);
-	}
+	private int arrows = maxArrows;
+	
+	public int getArrowCount() { return arrows; }
+	public boolean hasArrows(int amt) { return (arrows >= amt); }
 	public boolean hasFullArrows() {
-		return getArrowCount() == maxArrows;
+		return arrows == maxArrows;
+	}
+	
+	public void giveArrow() { giveArrows(1); }
+	public void giveArrows(int amt) {
+		arrows += amt;
+		if (arrows > maxArrows)
+			arrows = maxArrows;
+		
+		updateArrowDisplay();
 	}
 	public void useArrow() {
 		useArrows(1);
 	}
 	public void useArrows(int amt) {
-		ItemStack arrows = player.getInventory().getItemInOffHand();
-		int currAmt = arrows.getAmount();
-		if (currAmt <= amt) {
-			if (currAmt < amt)
-				Bukkit.getLogger().warning("Dwarf " + getName() + " using more arrows than held!?");
-			
-			player.getInventory().setItemInOffHand(null);
-		} else {
-			arrows.setAmount(currAmt - amt);
-		}
+		arrows -= amt;
+		if (arrows < 0)
+			arrows = 0;
+		
+		updateArrowDisplay();
 	}
+	
+	private void updateArrowDisplay() {
+		ItemStack arrow = player.getInventory().getItemInOffHand();
+		if (arrow == null || arrow.getType() == Material.AIR) {
+			arrow = getArrow().clone();
+			player.getInventory().setItemInOffHand(arrow);
+		}
+		
+		arrow.setAmount(arrows);
+	}
+	
+	private void bowFiredArrow() {
+		arrows--;
+	}
+	
 	private final static ItemStack arrow = DwarvenItems.getItem("misc","arrow").createItemStack();
 	protected ItemStack getArrow() {
 		return arrow;
@@ -609,7 +611,12 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {
-		return kit.onBowFire(arrow, force);
+		Projectile proj = kit.onBowFire(arrow, force);
+		
+		if (proj instanceof Arrow)
+			bowFiredArrow();
+		
+		return proj;
 	}
 	
 	@Override
