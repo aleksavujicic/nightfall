@@ -1,6 +1,8 @@
 package deimophobe.nightfall.dwarf.kit.elements.accessory;
 
+import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractElement;
@@ -26,7 +28,7 @@ public class Resurrection extends AbstractElement {
 	public void damageNotify(DwarfDamage damage) {
 		super.damageNotify(damage);
 		
-		if (!used && !canJJHeal(damage) && damage.willKill()) {
+		if (!used && !canJJHeal(damage) && damage.willKill() && Game.getGame().getPhase() == Phase.GAME) {
 			used = true;
 			
 			dwarf.getArmour().addModifier(ItemModifierType.HEALTH, -5, "Resurrection");
