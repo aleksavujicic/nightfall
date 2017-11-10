@@ -18,12 +18,9 @@ import deimophobe.nightfall.dwarf.kit.Kit;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.dwarf.loadout.DwarfData;
-import deimophobe.nightfall.effects.GameEffect;
-import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.entity.DwarfEntity;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
-import deimophobe.nightfall.event.DwarfCreateEvent;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -96,9 +93,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		respawn();
 		
 		TitlePlayer.playTitle(this);
-		
-		DwarfCreateEvent event = new DwarfCreateEvent(this);
-		Bukkit.getPluginManager().callEvent(event);
 	}
 	
 	public void respawn() {
@@ -212,46 +206,48 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		maxArrows = max;
 	}
 	
-	public void giveArrow() {
-		ItemStack arrows = player.getInventory().getItemInOffHand();
-		int amt = arrows.getAmount();
-		if (amt == 0) {
-			player.getInventory().setItemInOffHand(getArrow());
-		} else if (amt < maxArrows) {
-			arrows.setAmount(amt+1);
-		}
-	}
-	public void giveArrows(int amt) {
-		for (int i=0; i<amt; i++)
-			giveArrow();
-	}
-	public int getArrowCount() {
-		ItemStack arrows = player.getInventory().getItemInOffHand();
-		return (arrows.getAmount());
-	}
-	public boolean hasArrows(int amt) {
-		ItemStack arrows = player.getInventory().getItemInOffHand();
-		return (arrows.getAmount() >= amt);
-	}
+	private int arrows = maxArrows;
+	
+	public int getArrowCount() { return arrows; }
+	public boolean hasArrows(int amt) { return (arrows >= amt); }
 	public boolean hasFullArrows() {
-		return getArrowCount() == maxArrows;
+		return arrows == maxArrows;
+	}
+	
+	public void giveArrow() { giveArrows(1); }
+	public void giveArrows(int amt) {
+		arrows += amt;
+		if (arrows > maxArrows)
+			arrows = maxArrows;
+		
+		updateArrowDisplay();
 	}
 	public void useArrow() {
 		useArrows(1);
 	}
 	public void useArrows(int amt) {
-		ItemStack arrows = player.getInventory().getItemInOffHand();
-		int currAmt = arrows.getAmount();
-		if (currAmt <= amt) {
-			if (currAmt < amt)
-				Bukkit.getLogger().warning("Dwarf " + getName() + " using more arrows than held!?");
-			
-			player.getInventory().setItemInOffHand(null);
-		} else {
-			arrows.setAmount(currAmt - amt);
-		}
+		arrows -= amt;
+		if (arrows < 0)
+			arrows = 0;
+		
+		updateArrowDisplay();
 	}
-	private final static ItemStack arrow = DwarvenItems.createItemStack("misc.arrow");
+	
+	private void updateArrowDisplay() {
+		ItemStack arrow = player.getInventory().getItemInOffHand();
+		if (arrow == null || arrow.getType() == Material.AIR) {
+			arrow = getArrow().clone();
+			player.getInventory().setItemInOffHand(arrow);
+		}
+		
+		arrow.setAmount(arrows);
+	}
+	
+	private void bowFiredArrow() {
+		arrows--;
+	}
+	
+	private final static ItemStack arrow = DwarvenItems.getItem("misc","arrow").createItemStack();
 	protected ItemStack getArrow() {
 		return arrow;
 	}
@@ -537,35 +533,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		if (block == null) return;
 		
 		kit.onBlockBreak(block, didBreak);
-		
-		if (didBreak) {
-			switch (block.getType()) {
-				case GRAVEL:
-					if (Game.getGame().getPhase() == Phase.BUILD)
-						giveConsumable(ConsumableType.COBBLESTONE, 4, true);
-					else
-						giveConsumable(ConsumableType.COBBLESTONE, 2, true);
-					playSound("block.anvil.place", 0.2f, 0.8f, true);
-					playSound("block.anvil.break", 1f, 0.8f, true);
-					break;
-				
-				case GOLD_ORE:
-					GameMap.getCurrentMap().mineGold();
-					if (Math.random() <= 0.0002) {
-						GameEffect.LARGE_GOLD_MINE.playEffect(this, block);
-					} else {
-						GameEffect.SMALL_GOLD_MINE.playEffect(this, block);
-					}
-					break;
-				
-				case DIAMOND_ORE:
-					int newLevel = Math.min(getPotionEffectLevel(PotionEffectType.ABSORPTION) + 1, 5);
-					int duration = Math.min(getPotionEffectDuration(PotionEffectType.ABSORPTION) + 30 * 20, 60 * 20);
-					givePotionEffect(PotionEffectType.ABSORPTION, duration, newLevel, true, false, true);
-					Sounds.DWARF_MINE_DIAMOND.playSound(this);
-					break;
-			}
-		}
 	}
 	
 	private boolean usedThisTick = false;
@@ -644,7 +611,12 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {
-		return kit.onBowFire(arrow, force);
+		Projectile proj = kit.onBowFire(arrow, force);
+		
+		if (proj instanceof Arrow)
+			bowFiredArrow();
+		
+		return proj;
 	}
 	
 	@Override

@@ -396,7 +396,7 @@ runeblessed:
       description:
        - "Wearing this improves your armour capacity by 100%."
     modifiers:
-      durability: 2000
+      armour-durability: 100
 
 quiver:
   index: 28
@@ -428,6 +428,7 @@ studded:
        - "Increases movement speed by 20%."
     modifiers:
       speed: 20
+
 coil:
   index: 30
   type: item
@@ -488,11 +489,12 @@ berserker:
     base: temp
     lore:
       description:
-       - "Gives you 5 extra attack and 10%\n
-          speed, and reduces hearts by 3\n
-          and armour durability by 300."
+       - "Gives you extra attack and speed,\n
+          but reduces your hearts and\n
+          durability. Lower armour durability\n
+          give you more strength."
     modifiers:
-      attack: 5
+      attack: 4
       speed: 10
-      health: 7
-      durability: 700
+      health: 6
+      armour-durability: -40

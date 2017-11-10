@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 /**
  * Created by Deimophobe on 24/03/17.
  */
-abstract class AbstractItem extends AbstractElement implements KitItemElement {
+public abstract class AbstractItem extends AbstractElement implements KitItemElement {
 	
 	public AbstractItem(Dwarf dwarf) {
 		super(dwarf);

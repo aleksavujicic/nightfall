@@ -1,0 +1,26 @@
+package deimophobe.nightfall.dwarf.kit.elements.healing;
+
+import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.items.CustomItem;
+import org.bukkit.potion.PotionEffectType;
+
+/**
+ * Created by Deimophobe on 5/10/17.
+ */
+public class ChuggingAle extends AbstractAle {
+	private final static int MANA_COST = 25;
+	
+	public ChuggingAle(Dwarf dwarf) {
+		super(dwarf, MANA_COST, 4);
+	}
+	
+	private final static CustomItem ITEM = getAle("chug", MANA_COST);
+	@Override public CustomItem getItem() { return ITEM; }
+	
+	@Override
+	public void heal() {
+		dwarf.heal(12);
+		playDefaultHealSound();
+		dwarf.givePotionEffect(PotionEffectType.SLOW, 50, -2, true, false, true);
+	}
+}

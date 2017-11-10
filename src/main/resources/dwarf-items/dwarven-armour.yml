@@ -1,0 +1,122 @@
+shiny:
+  chest:
+    material: diamond_chestplate
+    name: Dwarven Chestplate
+    bound: true
+    lore:
+      description:
+       - "Fully repaired armour."
+      flavour:
+       - "Forged by the finest blacksmiths."
+    shiny: true
+    modifiers:
+      health: 10
+
+  legs:
+    material: diamond_leggings
+    name: Dwarven Leggings
+    bound: true
+    lore:
+      description:
+       - "Fully repaired armour."
+      flavour:
+       - "Forged by the finest blacksmiths."
+
+  boots:
+    material: diamond_boots
+    name: Dwarven Boots
+    bound: true
+    lore:
+      description:
+       - "Fully repaired armour."
+      flavour:
+       - "Forged by the finest blacksmiths."
+
+
+high:
+  chest:
+    material: diamond_chestplate
+    name: Dwarven Chestplate
+    lore:
+      description:
+       - "Fully repaired armour."
+      flavour:
+       - "The shine has worn off after battle."
+    modifiers:
+      health: 10
+
+  legs:
+    material: diamond_leggings
+    name: Dwarven Leggings
+    lore:
+      description:
+       - "Fully repaired armour."
+      flavour:
+       - "The shine has worn off after battle."
+
+  boots:
+    material: diamond_boots
+    name: Dwarven Boots
+    lore:
+      description:
+       - "Fully repaired armour."
+      flavour:
+       - "The shine has worn off after battle."
+
+
+med:
+  chest:
+    material: iron_chestplate
+    name: Dwarven Chestplate
+    lore:
+      description:
+       - "Damaged armour."
+      flavour:
+       - "Just a few dents, but still good for combat."
+    modifiers:
+      health: 10
+  legs:
+    material: iron_leggings
+    name: Dwarven Leggings
+    lore:
+      description:
+       - "Damaged armour."
+      flavour:
+       - "Just a few dents, but still good for combat."
+  boots:
+    material: iron_boots
+    name: Dwarven Boots
+    lore:
+      description:
+       - "Damaged armour."
+      flavour:
+       - "Just a few dents, but still good for combat."
+
+
+low:
+  chest:
+    material: chainmail_chestplate
+    name: Dwarven Chestplate
+    lore:
+      description:
+       - "Shattered armour."
+      flavour:
+       - "Needs repairs as you are taking extra damage."
+    modifiers:
+      health: 10
+  legs:
+    material: chainmail_leggings
+    name: Dwarven Leggings
+    lore:
+      description:
+       - "Shattered armour."
+      flavour:
+       - "Needs repairs as you are taking extra damage."
+  boots:
+    material: chainmail_boots
+    name: Dwarven Boots
+    lore:
+      description:
+       - "Shattered armour."
+      flavour:
+       - "Needs repairs as you are taking extra damage."

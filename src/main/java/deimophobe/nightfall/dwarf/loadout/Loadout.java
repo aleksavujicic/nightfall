@@ -39,12 +39,9 @@ public class Loadout implements SessionData {
 		} else {
 			// The amount of extra points one would get from removing a similar item.
 			int extraPoints = 0;
-			LoadoutItem categoryItem = null;
-			if (cat != null) {
-				categoryItem = categoryItems.get(cat);
-				if (categoryItem != null) {
-					extraPoints = categoryItem.getCost();
-				}
+			LoadoutItem categoryItem = categoryItems.get(cat);
+			if (categoryItem != null) {
+				extraPoints = categoryItem.getCost();
 			}
 			
 			// If there are still points after adding this item, let it be added
@@ -52,7 +49,9 @@ public class Loadout implements SessionData {
 				if (categoryItem != null) items.remove(categoryItem);
 				
 				items.add(item);
-				if (cat != null) categoryItems.put(cat, item);
+				if (cat.isSingleItem())
+					categoryItems.put(cat, item);
+				
 				updateDisplay();
 				return true;
 			}

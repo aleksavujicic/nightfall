@@ -3,7 +3,7 @@ package deimophobe.nightfall.dwarf.kit;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.kit.elements.AbstractBow;
+import deimophobe.nightfall.dwarf.kit.elements.ranged.AbstractBow;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.dwarf.loadout.DwarfData;
 import org.bukkit.block.Block;
@@ -38,7 +38,7 @@ public class Kit {
 			addElement(type);
 		}
 		
-		for (KitGiveType type : KitGiveType.values())
+		for (KitGiveType type : KitGiveType.fixedValues())
 			giveTimes.put(type, 0);
 	}
 	
@@ -89,7 +89,7 @@ public class Kit {
 	// ------ EVENTS ------
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		// Reduce kit times if non-zero
-		for (KitGiveType type : KitGiveType.values())
+		for (KitGiveType type : KitGiveType.fixedValues())
 			giveTimes.compute(type, (k, i) -> (i == 0 ? 0 : i-1));
 		
 		for (KitElement item : kitElements.values())
@@ -128,11 +128,8 @@ public class Kit {
 	}
 	
 	public void onBlockBreak(Block block, boolean didBreak) {
-		ItemStack held = dwarf.getHeldItem();
 		for (KitItemElement item : itemElements) {
-			if (item.matchesItem(held)) {
-				item.onBlockBreak(block, didBreak);
-			}
+			item.onBlockBreak(block, didBreak);
 		}
 	}
 	

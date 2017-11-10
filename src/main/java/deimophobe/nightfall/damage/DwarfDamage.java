@@ -13,10 +13,10 @@ import org.bukkit.event.entity.EntityDamageEvent;
  * Created by Deimophobe on 29/08/17.
  */
 public class DwarfDamage extends GameDamage<GameEntity, Dwarf> {
-	private int armourShred = 0;
-	public int getArmourShred() {return armourShred;}
-	public void setArmourShred(int armourShred) {this.armourShred = armourShred;}
-	public void addArmourShred(int amt) {this.armourShred += amt;}
+	private double armourShred = 0;
+	public double getArmourShred() {return armourShred;}
+	public void setArmourShred(double armourShred) {this.armourShred = armourShred;}
+	public void addArmourShred(double amt) {this.armourShred += amt;}
 	public void multiplyArmourShred(double multiply) {this.armourShred *= multiply;}
 	
 	private int manaDrain = 0;

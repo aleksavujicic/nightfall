@@ -9,8 +9,10 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.dwarf.armour.Armour;
+import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.hero.Hero;
-import deimophobe.nightfall.dwarf.kit.elements.Horn;
+import deimophobe.nightfall.dwarf.kit.elements.hero.Horn;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.dwarf.loadout.DwarfData;
 import deimophobe.nightfall.dwarf.loadout.Loadout;
@@ -339,17 +341,24 @@ public class NightfallPlugin extends JavaPlugin {
 			if (sender instanceof Player) {
 				Dwarf dwarf = dm.getGamePlayer((Player)sender);
 				if (dwarf != null) {
+					Armour armour = dwarf.getArmour();
+					if (!(armour instanceof DwarvenArmour)) {
+						sender.sendMessage(ChatColor.RED + "You need to have regular armour to use /armour");
+						return false;
+					}
+					DwarvenArmour darmour = (DwarvenArmour) armour;
+					
 					if (args.length == 0) {
-						dwarf.getArmour().putOn();
+						darmour.putOn();
 						return true;
 					} else if (args.length == 1) {
 						switch (args[0]) {
 							case "equip":
-								dwarf.getArmour().putOn();
+								darmour.putOn();
 								return true;
 							case "amount":
-								int armour = dwarf.getArmour().getValue();
-								sender.sendMessage("" + ChatColor.YELLOW + "You have " + ChatColor.AQUA + armour + ChatColor.YELLOW + " armour left.");
+								double value = darmour.getValue();
+								sender.sendMessage("" + ChatColor.YELLOW + "You have " + ChatColor.AQUA + (int)value + ChatColor.YELLOW + " armour left.");
 								return true;
 						}
 					} else if (args.length == 2) {

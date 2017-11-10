@@ -65,7 +65,7 @@ class Tui extends Hero {
 		return fuel;
 	}
 	
-	private static final ItemStack fuel = DwarvenItems.createItemStack("misc.wildfirefuel");
+	private static final ItemStack fuel = DwarvenItems.getItem("hero", "wildfirefuel").createItemStack();
 	
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {

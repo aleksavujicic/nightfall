@@ -1,0 +1,39 @@
+pick:
+  material: iron_pickaxe
+  name: Dwarven Pickaxe
+  lore:
+    description:
+     - "Right click on others to \n
+        repair armour using gold.\n
+        Right click on a piston to\n
+        make gold blocks to make armour."
+    flavour:
+     - "This pickaxe is mighty indeed."
+
+axe:
+  material: iron_axe
+  name: Dwarven Axe
+  lore:
+    description:
+     - "Break wood blocks to chop trees for logs."
+    flavour:
+     - "Sometimes it's a makeshift weapon."
+
+shovel:
+  material: iron_spade
+  name: Dwarven Shovel
+  lore:
+    description:
+     - "Used to dig gravel for cobblestone."
+    flavour:
+     - "The real gravediggers use these."
+
+arrow:
+  material: arrow
+  name: Arrow
+  lore:
+    description:
+     - "Dwarven Ammo.\n
+        Regenerates over time."
+    flavour:
+     - "\"How am I supposed to hit skellies without a bow!?\" - Tui"

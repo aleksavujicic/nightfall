@@ -9,13 +9,6 @@ import org.bukkit.inventory.ItemStack;
  * Created by Deimophobe on 27/04/17.
  */
 public enum ItemModifierType {
-	// Dwarf Armours
-	DURABILITY(new DudApplier(), "Durability", false, false),
-	QUIVER(new DudApplier(), "Quiver Size", false, false),
-	FALL_DAMAGE(new DudApplier(), "Fall Damage", true, false),
-	MAGIC_COIL(new DudApplier(), "Magic Coil", false, true),
-	NATURE_SUIT(new DudApplier(), "Nature Suit", false, true),
-	
 	// Weapons
 	ATTACK(new AttributeApplier(Attribute.ATTACK_DAMAGE), "Attack", false, false),
 	ARMOUR_SHRED(new DudApplier(), "Armour Shred", false, false),
@@ -38,6 +31,13 @@ public enum ItemModifierType {
 	},
 	RESISTANCE(new DudApplier(), "Resistance", true, false),
 	ARROW_RESISTANCE(new DudApplier(), "Arrow Res", true, false),
+	
+	// Dwarf Armours
+	ARMOUR_DURABILITY(new DudApplier(), "Durability", true, false),
+	QUIVER(new DudApplier(), "Quiver Size", false, false),
+	FALL_DAMAGE(new DudApplier(), "Fall Damage", true, false),
+	MAGIC_COIL(new DudApplier(), "Magic Coil", false, true),
+	NATURE_SUIT(new DudApplier(), "Nature Suit", false, true),
 	
 	// Other bonuses
 	SPEED(new AttributeApplier(Attribute.MOVEMENT_SPEED, 2, (i) -> (double)i/100), "Speed", true, false),

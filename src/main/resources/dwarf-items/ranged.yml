@@ -1,0 +1,102 @@
+shortbow:
+  material: bow
+  name: Shortbow
+  lore:
+    description:
+     - "A bow made with oak wood and\n
+        hempen rope."
+    flavour:
+     - "\"Don't insult it, I've used this thing plenty of times.\" - Velvetine"
+
+dragonskin:
+  base: dskin
+  name: Dragonskin Bow
+  lore:
+    description:
+     - "Left click to enable &bPower Shot Mode&r.\n
+        Power shots do &b125&r power damage that\n
+        pierces half of target arrow resistance\n
+        and gives a &b5&r second proc on kill.\n
+        Cooldown of &e30s&r."
+    flavour:
+     - "\"Feel the PROC pulsing through your bow.\" - Velvetine"
+
+longbow:
+  base: longbow
+  name: Longbow
+  lore:
+    description:
+     - "Kills with this bow stack\n
+        up to 25 times for a total\n
+        of &b210&r Power, losing &b30&r power over\n
+        &e8 seconds&r without a kill."
+    flavour:
+     - "\"Aim for the wolves, they're ankle-biters!\" - Velvetine"
+
+crossbow:
+  base: crossbow
+  name: Crossbow
+  lore:
+    description:
+     - "A crossbow that can fire with no draw time.\n
+        Uses two arrows and has a slight reload time."
+    flavour:
+     - "\"What do you mean these take skill to use?\" - Arthea"
+
+lightbow:
+  base: lightbow
+  name: Lightbow
+  lore:
+    description:
+     - "This bow fires special arrows that\n
+        create lamps in the walls.\n
+        Pierces half of target arrow resistance.\n
+        You are also immune to darkness."
+    flavour:
+     - "\"Hey can I get some light? Thanks.\" - Tui"
+
+ebow:
+  base: ebow
+  name: Emerald Bow
+  lore:
+    description:
+     - "A magical bow, made from emerald.\n
+        Shooting other dwarves gives them\n
+        a short duration proc."
+    flavour:
+     - "I'm sure glad we found use\n
+        for the rest of that Emerald City."
+
+warpweaver:
+  base: warpweaver
+  name: Warpweaver Bow
+  lore:
+    description:
+     - "Left click to activate effect.\n
+        When activated, you will teleport\n
+        to where the arrow lands.\n
+        Getting hit will cancel the teleport."
+    flavour:
+     - "\"Hey look at this thing! Isn't it cool!?\" - Tui"
+
+turret:
+  material: dispenser
+  name: Turret
+  lore:
+    description:
+     - "A turret that fires arrows."
+    flavour:
+     - "\"It still needs some work.\" - Nosovin"
+
+volcanic:
+  base: volcanic
+  name: Volcanic Gauntlet
+  lore:
+    description:
+     - "Charge up a lined blast of fire\n
+        that pierces everything in\n
+        its path. Uses 3 arrows a shot."
+    flavour:
+     - "\"This gauntlet can even burn hellhounds.\" -Tui"
+  modifiers:
+    attack: 10

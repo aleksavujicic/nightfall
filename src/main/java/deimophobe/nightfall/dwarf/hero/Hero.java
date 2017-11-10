@@ -1,6 +1,9 @@
 package deimophobe.nightfall.dwarf.hero;
 
-import deimophobe.nightfall.*;
+import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.Skin;
+import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.HeroArmour;
@@ -24,14 +27,14 @@ import java.util.*;
  * Created by Deimophobe on 10/03/17.
  */
 public class Hero extends Dwarf {
-	private final Type type;
+	protected final Type type;
 	
 	protected Hero(Player player, Type type) {
 		super(player, type.getData());
 		
 		this.type = type;
 		
-		setArmour(new HeroArmour(this));
+		setArmour(new HeroArmour(this, type.hat));
 		
 		Disguise disguise = type.getDisguise();
 		if (disguise != null)
@@ -133,35 +136,35 @@ public class Hero extends Dwarf {
 	}
 	
 	public enum Type {
-		TUI("Tui the Lightbringer", Hat.TUI, "tui", "Dwarven Hero", ChatColor.GOLD,
+		TUI("Tui the Lightbringer", "tui", "Dwarven Hero", ChatColor.GOLD,
 				KitElementType.TUI_HAMMER,
 				KitElementType.WILDFIRE),
 		
-		NOSOVIN("Nosovin's Illustration", Hat.NOSOVIN, "nosovin", "Dwarven Hero",
+		NOSOVIN("Nosovin's Illustration", "nosovin", "Dwarven Hero",
 				KitElementType.TINDERFLAME,
 				KitElementType.WAND,
 				KitElementType.ROCKET_BOOTS),
 		
-		ARTHEA("Arthea", Hat.ARTHEA, "arthea", "Dwarven Hero", ChatColor.DARK_RED,
+		ARTHEA("Arthea", "arthea", "Dwarven Hero", ChatColor.DARK_RED,
 				EXTRA_ARTHEA_CONSUMABLES,
 				KitElementType.HEALER_TOTEM,
 				KitElementType.CADUCEUS,
 				KitElementType.ELYSTRIA,
 		        KitElementType.LUMINOUS),
 		
-		VELVETINE("Velvetine", Hat.VELVETINE, "velvetine", "Dwarven Hero", ChatColor.DARK_PURPLE,
+		VELVETINE("Velvetine", "velvetine", "Dwarven Hero", ChatColor.DARK_PURPLE,
 				KitElementType.VELSWORD,
 				KitElementType.VELBOW,
 				KitElementType.HORN
 				),
 		
-		HERANA("Herana", Hat.HERANA, "herana", "Mermaid Queen", ChatColor.AQUA,
+		HERANA("Herana", "herana", "Mermaid Queen", ChatColor.AQUA,
 				KitElementType.GRB,
 				KitElementType.DRAGONSKIN,
 				KitElementType.HORN
 				),
 		
-		OXYSIS("Oxysis", Hat.VELVETINE, "oxysis", "Pixie Hero",
+		OXYSIS("Oxysis", "oxysis", "Pixie Hero",
 				KitElementType.DRUCRIST,
 				KitElementType.WILDE_STAFF
 				)
@@ -179,23 +182,24 @@ public class Hero extends Dwarf {
 		;
 		
 		private final DwarfData data;
+		protected final String hat;
 		private final Skin skin;
 		private final ChatColor glowColour;
 		private final String descriptor;
 		
-		Type(String title, Hat hat, String skin, String descriptor, KitElementType... elements) {
-			this(title, hat, skin, descriptor, ChatColor.DARK_AQUA, Collections.emptyMap(), elements);
+		Type(String title, String skin, String descriptor, KitElementType... elements) {
+			this(title, skin, descriptor, ChatColor.DARK_AQUA, Collections.emptyMap(), elements);
 		}
 		
-		Type(String title, Hat hat, String skin, String descriptor, ChatColor glowColour, KitElementType... elements) {
-			this(title, hat, skin, descriptor, glowColour, Collections.emptyMap(), elements);
+		Type(String title, String skin, String descriptor, ChatColor glowColour, KitElementType... elements) {
+			this(title, skin, descriptor, glowColour, Collections.emptyMap(), elements);
 		}
 		
-		Type(String title, Hat hat, String skin, String descriptor, Map<ConsumableType, Integer> extraConsumables, KitElementType... elements) {
-			this(title, hat, skin, descriptor, ChatColor.DARK_AQUA, extraConsumables, elements);
+		Type(String title, String skin, String descriptor, Map<ConsumableType, Integer> extraConsumables, KitElementType... elements) {
+			this(title, skin, descriptor, ChatColor.DARK_AQUA, extraConsumables, elements);
 		}
 		
-		Type(String title, Hat hat, String skin, String descriptor, ChatColor glowColour, Map<ConsumableType, Integer> extraConsumables, KitElementType... elements) {
+		Type(String title, String skin, String descriptor, ChatColor glowColour, Map<ConsumableType, Integer> extraConsumables, KitElementType... elements) {
 			this.descriptor = descriptor;
 			Set<KitElementType> allElements = new HashSet<>();
 			allElements.add(KitElementType.HERO_ALE);
@@ -203,7 +207,7 @@ public class Hero extends Dwarf {
 			
 			allElements.addAll(Arrays.asList(elements));
 			
-			this.data = new DwarfData(title, true, hat, allElements, HERO_CONSUMABLES);
+			this.data = new DwarfData(title, true, null, allElements, HERO_CONSUMABLES);
 			data.addConsumables(extraConsumables);
 			
 			if (skin == null) {
@@ -211,6 +215,7 @@ public class Hero extends Dwarf {
 			} else {
 				this.skin = Skin.getSkin(skin);
 			}
+			this.hat = skin;
 			this.glowColour = glowColour;
 		}
 		

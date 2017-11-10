@@ -180,7 +180,11 @@ public interface GameEntity<E extends LivingEntity> {
 	
 	int MAX_POTION_LENGTH = 10*60*60*20;
 	default void givePermanentPotionEffect(PotionEffectType type, int amplifier) {
-		givePotionEffect(type, MAX_POTION_LENGTH, amplifier, true, true, true);
+		givePermanentPotionEffect(type, amplifier, true);
+	}
+	
+	default void givePermanentPotionEffect(PotionEffectType type, int amplifier, boolean isBlue) {
+		givePotionEffect(type, MAX_POTION_LENGTH, amplifier, true, isBlue, true);
 	}
 	
 	default void clearEffects() {

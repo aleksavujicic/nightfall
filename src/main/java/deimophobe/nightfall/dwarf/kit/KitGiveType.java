@@ -17,6 +17,16 @@ public enum KitGiveType {
 	COMPASS(true),
 	ARTHEA_SPECIAL;
 	
+	
+	// Store these values in one common array
+	// Calling values() in Java initialises a new array each time.
+	private static final KitGiveType[] VALUES = values();
+	public static KitGiveType[] fixedValues() {
+		return VALUES;
+	}
+	
+	
+	
 	private final boolean multiPickup;
 	public int getMaxDelay() {
 		if (multiPickup)

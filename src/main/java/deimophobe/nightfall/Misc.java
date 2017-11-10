@@ -25,7 +25,7 @@ import java.util.*;
  */
 public class Misc {
 	public static String getNightfallText() {
-		return ChatColor.BLUE + "Night" + ChatColor.DARK_RED + "Fall";
+		return ChatColor.BLUE + "Night" + ChatColor.DARK_RED + "fall";
 	}
 	
 	public static YamlConfiguration getInternalFileConfig(String name) {

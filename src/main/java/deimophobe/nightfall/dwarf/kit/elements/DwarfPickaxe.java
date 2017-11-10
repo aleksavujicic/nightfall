@@ -1,6 +1,8 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
+import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -13,8 +15,6 @@ import deimophobe.nightfall.effects.GameEffect;
 import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.map.GameMap;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -31,7 +31,7 @@ class DwarfPickaxe extends AbstractItem implements KitCooldownElement {
 		super(dwarf);
 	}
 	
-	private static final CustomItem ITEM = DwarvenItems.getItem("misc.pick");
+	private static final CustomItem ITEM = DwarvenItems.getItem("misc", "pick");
 	@Override public CustomItem getItem() {return ITEM;}
 	@Override public KitGiveType getGiveType() { return KitGiveType.PICK; }
 	@Override public ItemStack getCooldownToggleItem() {return ITEM.createItemStack();}
@@ -51,7 +51,7 @@ class DwarfPickaxe extends AbstractItem implements KitCooldownElement {
 	public boolean onUse(Action action, Block clickedBlock, BlockFace face) {
 		if (Misc.isRightClick(action) && cooldown == 0) {
 			// PICK REPAIRING ANOTHER DWARF
-			Dwarf repairee = dwarf.getLookingAt(2, 5, DwarfManager.getManager().getGamePlayers(), (d) -> d.getArmour().canRepair());
+			Dwarf repairee = dwarf.getLookingAt(2, 5, DwarfManager.getManager().getGamePlayers(), (d) -> d.getArmour().canPickRepair());
 			if (repairee != null && armourCD.isAvailable()) {
 				GameMap currentMap = GameMap.getCurrentMap();
 				if (currentMap.tryUseGold(50)) {
@@ -113,9 +113,34 @@ class DwarfPickaxe extends AbstractItem implements KitCooldownElement {
 	
 	@Override
 	public void onBlockBreak(Block block, boolean didBreak) {
-		if (block != null && block.getType() == Material.GOLD_BLOCK && didBreak) {
-			dwarf.giveConsumable(ConsumableType.ARMOUR_ITEM);
-			dwarf.playSound("block.anvil.destroy", 1, 0.5f, true);
+		if (didBreak) {
+			switch (block.getType()) {
+				case GOLD_BLOCK: {
+					if (isHoldingItem()) {
+						dwarf.giveConsumable(ConsumableType.ARMOUR_ITEM);
+						dwarf.playSound("block.anvil.destroy", 1, 0.5f, true);
+					}
+					break;
+				}
+				
+				case GOLD_ORE: {
+					GameMap.getCurrentMap().mineGold();
+					if (Math.random() <= 0.0002 && Game.getGame().getPhase() == Phase.BUILD) {
+						GameEffect.LARGE_GOLD_MINE.playEffect(dwarf, block);
+					} else {
+						GameEffect.SMALL_GOLD_MINE.playEffect(dwarf, block);
+					}
+					break;
+				}
+				
+				case DIAMOND_ORE: {
+					int newLevel = Math.min(dwarf.getPotionEffectLevel(PotionEffectType.ABSORPTION) + 1, 5);
+					int duration = Math.min(dwarf.getPotionEffectDuration(PotionEffectType.ABSORPTION) + 30 * 20, 60 * 20);
+					dwarf.givePotionEffect(PotionEffectType.ABSORPTION, duration, newLevel, true, false, true);
+					Sounds.DWARF_MINE_DIAMOND.playSound(dwarf);
+					break;
+				}
+			}
 		}
 	}
 	

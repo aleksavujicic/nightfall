@@ -2,6 +2,12 @@ package deimophobe.nightfall.dwarf.kit.elements;
 
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitElement;
+import deimophobe.nightfall.dwarf.kit.elements.accessory.*;
+import deimophobe.nightfall.dwarf.kit.elements.armour.*;
+import deimophobe.nightfall.dwarf.kit.elements.healing.*;
+import deimophobe.nightfall.dwarf.kit.elements.hero.*;
+import deimophobe.nightfall.dwarf.kit.elements.melee.*;
+import deimophobe.nightfall.dwarf.kit.elements.ranged.*;
 
 import java.util.HashSet;
 import java.util.Set;
