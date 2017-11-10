@@ -19,13 +19,16 @@ class SkeletonWither extends Skeleton {
 	private int arrowRes;
 	private int extraHealth;
 	private int withering;
-	
+	private double realArrowRes = 0;
+
+	private static Integer[] arrowResValues = {0, 10, 20, 30, 40, 50};
+
 	SkeletonWither(MonsterPlayer monster) {
 		super(monster, MobData.getMobData("skeleton.wither"));
 		this.piercing = upgrades.get("piercing");
 		this.damageBooster = upgrades.get("sniper");
 		this.siphon = upgrades.get("siphon");
-		this.arrowRes = upgrades.get("arrowres-wither");
+		this.arrowRes = arrowResValues[upgrades.get("arrowres-wither")];
 		this.extraHealth = upgrades.get("extrahealth-wither");
 		this.withering = upgrades.get("withering");
 		realArrowRes = arrowRes * 0.01;
