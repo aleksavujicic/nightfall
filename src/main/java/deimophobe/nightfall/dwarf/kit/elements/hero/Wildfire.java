@@ -65,7 +65,7 @@ public class Wildfire extends AbstractItem {
 	
 	private static final double FLAME_RADIUS = 2;
 	private static final double FLAME_VELOCITY = 0.3;
-	private static final double FLAME_DPT = 3; // Damage per tick
+	private static final double FLAME_DPT = 1.5; // Damage per tick
 	
 	private class Flame extends CustomProjectile {
 		
