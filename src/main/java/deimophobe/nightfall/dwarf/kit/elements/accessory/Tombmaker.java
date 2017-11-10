@@ -3,13 +3,14 @@ package deimophobe.nightfall.dwarf.kit.elements.accessory;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.dwarf.kit.elements.AbstractCooldownItem;
+import deimophobe.nightfall.dwarf.kit.elements.DwarfShovel;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.items.CustomItem;
 import org.bukkit.*;
@@ -24,12 +25,13 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 20/01/17.
  */
-public class Tombmaker extends AbstractCooldownItem {
+public class Tombmaker extends DwarfShovel {
 	
 	public Tombmaker(Dwarf dwarf) {
-		super(dwarf, 60*20);
+		super(dwarf);
 	}
 	
+	private final ComplexCooldown hasteCD = new ComplexCooldown(60*20, this::hasteBuff);
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("accessory", "tombmaker");
 	@Override public CustomItem getItem() {
@@ -40,25 +42,35 @@ public class Tombmaker extends AbstractCooldownItem {
 	
 	@Override
 	public void onKill(MonsterDamage damage) {
-		if (itemCausedDamage(damage) && dwarf.hasKitElement(KitElementType.GRB))
+		if (damageFromItem(damage) && dwarf.hasKitElement(KitElementType.GRB))
 			dwarf.giveProc(ProcType.REGULAR);
 	}
 	
 	@Override
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+		hasteCD.update();
+	}
+	
+	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isRightClick(action) && isOffCD()) {
-			dwarf.playSound("proc", 1, 1, false);
-			dwarf.givePotionEffect(PotionEffectType.FAST_DIGGING, 20*20 , 3, true, false, true);
-			resetCooldown();
-			return true;
+		if (Misc.isRightClick(action)) {
+			return hasteCD.tryUse();
 		}
 		return false;
 	}
+	
+	private void hasteBuff() {
+		dwarf.playSound("proc", 1, 1, false);
+		dwarf.givePotionEffect(PotionEffectType.FAST_DIGGING, 20*20 , 3, true, false, true);
+	}
+	
 	
 	private static final double FIND_CHANCE = 0.001;
 	
 	@Override
 	public void onBlockBreak(Block block, boolean didBreak) {
+		super.onBlockBreak(block, didBreak);
 		if (block.getType() == Material.GRAVEL && Game.getGame().getPhase() == Phase.BUILD && didBreak) {
 			if (Math.random() <= FIND_CHANCE) {
 				ScavengeItem.getRandom().giveToDwarf(dwarf);

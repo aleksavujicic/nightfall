@@ -128,11 +128,8 @@ public class Kit {
 	}
 	
 	public void onBlockBreak(Block block, boolean didBreak) {
-		ItemStack held = dwarf.getHeldItem();
 		for (KitItemElement item : itemElements) {
-			if (item.matchesItem(held)) {
-				item.onBlockBreak(block, didBreak);
-			}
+			item.onBlockBreak(block, didBreak);
 		}
 	}
 	

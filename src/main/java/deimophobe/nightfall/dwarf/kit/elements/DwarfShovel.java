@@ -1,15 +1,20 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
+import deimophobe.nightfall.Game;
+import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
+import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.items.CustomItem;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 
 /**
  * Created by Deimophobe on 28/03/17.
  */
-class DwarfShovel extends AbstractItem {
-	DwarfShovel(Dwarf dwarf) {
+public class DwarfShovel extends AbstractItem {
+	protected DwarfShovel(Dwarf dwarf) {
 		super(dwarf);
 	}
 	
@@ -19,9 +24,19 @@ class DwarfShovel extends AbstractItem {
 	
 	@Override
 	public KitGiveType getGiveType() {
-		if (dwarf.hasKitElement(KitElementType.TOMBMAKER))
-			return null;
-		else
-			return KitGiveType.SHOVEL;
+		return KitGiveType.SHOVEL;
+	}
+	
+	@Override
+	public void onBlockBreak(Block block, boolean didBreak) {
+		super.onBlockBreak(block, didBreak);
+		if (didBreak && block.getType() == Material.GRAVEL) {
+			if (Game.getGame().getPhase() == Phase.BUILD)
+				dwarf.giveConsumable(ConsumableType.COBBLESTONE, 4, true);
+			else
+				dwarf.giveConsumable(ConsumableType.COBBLESTONE, 2, true);
+			dwarf.playSound("block.anvil.place", 0.2f, 0.8f, true);
+			dwarf.playSound("block.anvil.break", 1f, 0.8f, true);
+		}
 	}
 }

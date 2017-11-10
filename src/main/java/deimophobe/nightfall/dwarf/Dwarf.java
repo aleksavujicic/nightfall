@@ -18,8 +18,6 @@ import deimophobe.nightfall.dwarf.kit.Kit;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.dwarf.loadout.DwarfData;
-import deimophobe.nightfall.effects.GameEffect;
-import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.entity.DwarfEntity;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
@@ -533,35 +531,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		if (block == null) return;
 		
 		kit.onBlockBreak(block, didBreak);
-		
-		if (didBreak) {
-			switch (block.getType()) {
-				case GRAVEL:
-					if (Game.getGame().getPhase() == Phase.BUILD)
-						giveConsumable(ConsumableType.COBBLESTONE, 4, true);
-					else
-						giveConsumable(ConsumableType.COBBLESTONE, 2, true);
-					playSound("block.anvil.place", 0.2f, 0.8f, true);
-					playSound("block.anvil.break", 1f, 0.8f, true);
-					break;
-				
-				case GOLD_ORE:
-					GameMap.getCurrentMap().mineGold();
-					if (Math.random() <= 0.0002) {
-						GameEffect.LARGE_GOLD_MINE.playEffect(this, block);
-					} else {
-						GameEffect.SMALL_GOLD_MINE.playEffect(this, block);
-					}
-					break;
-				
-				case DIAMOND_ORE:
-					int newLevel = Math.min(getPotionEffectLevel(PotionEffectType.ABSORPTION) + 1, 5);
-					int duration = Math.min(getPotionEffectDuration(PotionEffectType.ABSORPTION) + 30 * 20, 60 * 20);
-					givePotionEffect(PotionEffectType.ABSORPTION, duration, newLevel, true, false, true);
-					Sounds.DWARF_MINE_DIAMOND.playSound(this);
-					break;
-			}
-		}
 	}
 	
 	private boolean usedThisTick = false;

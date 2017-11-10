@@ -49,6 +49,9 @@ public class DwarfData {
 			this.consumables = new TreeMap<>(consumables);
 		
 		addDefaults();
+		
+		if (this.elements.contains(KitElementType.TOMBMAKER))
+			this.elements.remove(KitElementType.DWARF_SHOVEL);
 	}
 	
 	private void addDefaults() {
@@ -69,6 +72,9 @@ public class DwarfData {
 	
 	public void addElement(KitElementType type) {
 		elements.add(type);
+		
+		if (type == KitElementType.TOMBMAKER)
+			elements.remove(KitElementType.DWARF_SHOVEL);
 	}
 	
 	public void addConsumables(Map<ConsumableType, Integer> consumables) {
