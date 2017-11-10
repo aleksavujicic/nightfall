@@ -3,10 +3,10 @@ package deimophobe.nightfall.dwarf.kit.elements.ranged;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterManager;
+import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -78,13 +78,17 @@ public class VolcanicGauntlet extends AbstractBow {
 				double radialOffset = radialPostion.subtract(monsterOffset).length();
 				
 				// If close enough damage mob
+				boolean hit = false;
 				if (monster.distanceTo(dwarf) <= radius) {
 					monster.doDamage(dwarf, CustomDamageType.VOLCANIC_BOW, getPower()*force/2);
-					dwarf.playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
+					hit = true;
 				} else if (radialOffset <= THICKNESS) {
 					monster.doDamage(dwarf, CustomDamageType.VOLCANIC_BOW, getPower()*force);
-					dwarf.playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
+					hit = true;
 				}
+				
+				if (hit && monster instanceof MonsterPlayer)
+					dwarf.playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
 			}
 		}
 		
