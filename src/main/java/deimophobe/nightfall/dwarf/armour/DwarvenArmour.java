@@ -82,7 +82,7 @@ public class DwarvenArmour implements Armour {
 	}
 	@Override
 	public boolean canShrineRepair() {
-		return isAtMax();
+		return !isAtMax();
 	}
 	
 	@Override
