@@ -2,6 +2,7 @@ package deimophobe.nightfall.dwarf.kit.elements.hero;
 
 import deimophobe.nightfall.CustomProjectile;
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -32,39 +33,39 @@ public class Wildfire extends AbstractItem {
 	}
 	@Override public KitGiveType getGiveType() { return KitGiveType.START; }
 	
-	private int cooldown = 0;
-	private final static int MAX_COOLDOWN = 4;
+	private final ComplexCooldown cooldown = new ComplexCooldown(3, this::fire);
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		if (cooldown > 0)
-			cooldown--;
+		cooldown.update();
 	}
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (cooldown == 0 && dwarf.hasArrows(1) && Misc.isRightClick(action)) {
-			cooldown = MAX_COOLDOWN;
-			
-			Location spawnLoc = dwarf.getEyeLocation();
-			Vector looking = spawnLoc.getDirection();
-			
-			looking.normalize().multiply(FLAME_VELOCITY);
-			looking.add(dwarf.getVelocity().setY(0));
-			spawnLoc.add(looking.clone().multiply(3));
-			
-			dwarf.playSound("foosh", 1, 1, true);
-			
-			new Flame(spawnLoc, looking);
-			
-			dwarf.useArrows(1);
+		if (dwarf.hasArrows(1) && Misc.isRightClick(action)) {
+			return cooldown.tryUse();
 		}
 		return true;
 	}
 	
+	private void fire() {
+		Location spawnLoc = dwarf.getEyeLocation();
+		Vector looking = spawnLoc.getDirection();
+		
+		looking.normalize().multiply(FLAME_VELOCITY);
+		looking.add(dwarf.getVelocity().setY(0));
+		spawnLoc.add(looking.clone().multiply(3));
+		
+		dwarf.playSound("foosh", 1, 1, true);
+		
+		new Flame(spawnLoc, looking);
+		
+		dwarf.useArrows(1);
+	}
+	
 	private static final double FLAME_RADIUS = 2;
 	private static final double FLAME_VELOCITY = 0.3;
-	private static final double FLAME_DPT = 2; // Damage per tick
+	private static final double FLAME_DPT = 3; // Damage per tick
 	
 	private class Flame extends CustomProjectile {
 		
@@ -84,7 +85,7 @@ public class Wildfire extends AbstractItem {
 				if (monster.getEyeLocation().distance(location) <= FLAME_RADIUS) {
 					GameDamage damage = monster.createDamage(dwarf, CustomDamageType.WILDFIRE, FLAME_DPT);
 					damage.setNoDmgTicks(1);
-					damage.fire(false);
+					damage.fire(true);
 				}
 			}
 		}
