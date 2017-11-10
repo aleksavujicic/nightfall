@@ -56,7 +56,8 @@ public class HealerTotem extends AbstractItem implements KitCooldownElement {
 	}
 	
 	private void groupHeal() {
-		if (dwarf.tryUseMana(10)) {
+		if (dwarf.tryUseMana(15)) {
+			boolean healedDwarf = false;
 			for (Dwarf target : DwarfManager.getManager().getGamePlayers()) {
 				if (dwarf == target) continue;
 				double distance = dwarf.distanceTo(target);
@@ -76,11 +77,14 @@ public class HealerTotem extends AbstractItem implements KitCooldownElement {
 						if (newLoc.getBlock().getType().isSolid()) return;
 					}
 					
+					healedDwarf = true;
+					
 					target.playSound("entity.experience_orb.pickup", 0.5f, 0.5f, false);
 					
 					dwarf.useMana(5);
-					dwarf.heal(0.5);
-					target.regenMana(5);
+					dwarf.heal(0.25);
+					target.regenMana(15);
+					target.heal(8);
 					target.getArmour().repair(20);
 					
 					for (Location loc : locs) {
@@ -88,6 +92,9 @@ public class HealerTotem extends AbstractItem implements KitCooldownElement {
 					}
 				}
 			}
+			
+			if (healedDwarf)
+				dwarf.playSound("entity.experience_orb.pickup", 0.5f, 0.5f, false);
 		}
 	}
 	
