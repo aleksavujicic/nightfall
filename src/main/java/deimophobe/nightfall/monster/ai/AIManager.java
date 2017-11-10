@@ -148,8 +148,9 @@ public class AIManager {
 		if (aisSpawnable && Game.getGame().getPhase() == Phase.GAME && !DoomManager.getManager().isDoom()) {
 			int dwarves = DwarfManager.getManager().getNumberOfPlayers();
 			int mobs = MonsterManager.getManager().getNumberOfPlayers();
-			
-			double spawnChance = 0.05 + 0.005 * dwarves + 0.2 * (maxAIs - ais.size()) / maxAIs;
+
+			double proportion = (maxAIs - ais.size()) / maxAIs;
+			double spawnChance = (0.2 + 0.01 * dwarves) * proportion * proportion;
 			spawnChance *= (Game.getGame().isNight() ? 1.2 : 1);
 			
 			maxAIs = 20 + 2 * mobs + 10 * dwarves;
@@ -197,7 +198,7 @@ public class AIManager {
 				}
 
 				// Create zombie with all right stuff
-				spawnAI(spawnSpot, closestDwarf);
+				spawnAIs(spawnSpot, closestDwarf, 3);
 
 				// Destroy spawnspots after average of 3 AI spawns
 				if (Math.random() < 0.333) {
@@ -231,9 +232,13 @@ public class AIManager {
 	public void spawnAIs(Location location, int num) {
 		for (int i=0; i<num; i++)
 			spawnAI(location);
-			spawnAI(location.add(Math.random()-0.5, 0, Math.random()-0.5));
 	}
-	
+
+	public void spawnAIs(Location location, Dwarf target, int num) {
+		for (int i=0; i<num; i++)
+			spawnAI(location, target);
+	}
+
 	public void spawnAI(Location location) {
 		AIEntity ai = new AIZombie(location, getRandomName());
 		aiTeam.addEntry(ai.getUniqueId().toString());
