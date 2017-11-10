@@ -93,12 +93,12 @@ class SkeletonFlamelancer extends Skeleton {
 		if (Math.random() < flameBlock) {
 			if (BlockType.IGNORABLE.matchesBlock(hitBlock)) {
 				hitBlock.setType(Material.FIRE);
-				if (fireAI == 1 && Math.random() < 0.5) {
+				if (fireAI == 1 && Math.random() < 0.3) {
 					AIManager.getManager().spawnAISkeleton(hitBlock.getLocation());
 				}
 			} else if (BlockType.IGNORABLE.matchesBlock(block)) {
 				block.setType(Material.FIRE);
-				if (fireAI == 1 && Math.random() < 0.5) {
+				if (fireAI == 1 && Math.random() < 0.3) {
 					AIManager.getManager().spawnAISkeleton(block.getLocation());
 				}
 			}
