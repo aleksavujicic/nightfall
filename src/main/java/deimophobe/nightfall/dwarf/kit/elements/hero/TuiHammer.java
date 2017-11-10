@@ -1,18 +1,18 @@
 package deimophobe.nightfall.dwarf.kit.elements.hero;
 
-import deimophobe.nightfall.dwarf.kit.elements.melee.AbstractAOEHitter;
-import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.elements.melee.AbstractAOEHitter;
+import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.ai.AIManager;
-import minecraft.spigot.community.michel_0.api.Slot;
+import deimophobe.nightfall.monster.mob.MobType;
 import org.bukkit.ChatColor;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -38,26 +38,37 @@ public class TuiHammer extends AbstractAOEHitter implements KitCooldownElement {
 	}
 	
 	@Override
-	protected double getDamageToMonster(GameEntity entity) {
+	protected double getDamageToMonster(MonsterEntity entity) {
 		if (entity instanceof MonsterPlayer) {
-			return (dwarf.hasProc() ? 15 : 10);
+			if (((MonsterPlayer) entity).getMob().getType() == MobType.ZOMBIE) {
+				return 25;
+			} else {
+				return 15;
+			}
 		} else if (entity instanceof AIEntity) {
-			return (dwarf.hasProc() ? 120 : 60);
+			return 30;
 		}
+		
 		return 0;
 	}
 	
 	@Override
-	protected double getRadius() {
-		return  (dwarf.hasProc() ? 5 : 4);
+	protected double getRadius(MonsterEntity entity) {
+		if (entity instanceof MonsterPlayer) {
+			return 3;
+		} else if (entity instanceof AIEntity) {
+			return 4;
+		}
+		return 0;
 	}
 	
 	
 	private int cooldown;
-	private static final int MAX_CD = 60 * 20;
+	private static final int MAX_CD = 90 * 20;
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		if (cooldown >0)
 			cooldown--;
 	}

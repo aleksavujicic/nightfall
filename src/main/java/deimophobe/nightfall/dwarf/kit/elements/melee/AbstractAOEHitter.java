@@ -1,11 +1,10 @@
 package deimophobe.nightfall.dwarf.kit.elements.melee;
 
-import deimophobe.nightfall.damage.GameDamage;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractItem;
-import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -16,37 +15,45 @@ import org.bukkit.Location;
  */
 public abstract class AbstractAOEHitter extends AbstractItem {
 	
+	private final ComplexCooldown hitter = new ComplexCooldown(10, this::hit);
+	
 	protected AbstractAOEHitter(Dwarf dwarf) {
 		super(dwarf);
 	}
 	
 	@Override
-	public void onDamageAttack(MonsterDamage damage) {
-		super.onDamageAttack(damage);
-		
-		if (damageFromItem(damage)) {
-			MonsterEntity monster = damage.getMonster();
-			
-			Location center = monster.getLocation();
-			double radius = getRadius();
-			for (GameEntity entity : MonsterManager.getManager().getAliveMobsAndAIs()) {
-				if (entity == monster)
-					continue;
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+		hitter.update();
+	}
+	
+	private void hit() {
+		Location center = dwarf.getLocation().add(dwarf.getLocation().getDirection().multiply(1.5));
+		for (MonsterEntity entity : MonsterManager.getManager().getAliveMobsAndAIs()) {
+			if (entity.distanceTo(center) <= getRadius(entity)) {
+				MonsterDamage damage = (MonsterDamage) entity.createDamage(dwarf, CustomDamageType.HAMMER_AOE, getDamageToMonster(entity));
 				
-				if (center.distance(entity.getLocation()) <= radius) {
-					GameDamage newDamage = entity.createDamage(dwarf, CustomDamageType.HAMMER_AOE, getDamageToMonster(entity));
-					
-					if (entity instanceof AIEntity)
-						newDamage.setKnockback(0, 0.4, 0);
-					
-					newDamage.setNoDmgTicks(10);
-					
-					newDamage.fire();
-				}
+				if (entity instanceof AIEntity)
+					damage.setKnockback(0, 0.4, 0);
+				
+				if (dwarf.hasProc())
+					damage.setProc(true);
+				
+				damage.setNoDmgTicks(15);
+				damage.fire(true);
 			}
 		}
 	}
 	
-	protected abstract double getDamageToMonster(GameEntity entity);
-	protected abstract double getRadius();
+	@Override
+	public void onDamageAttack(MonsterDamage damage) {
+		super.onDamageAttack(damage);
+		if (damageFromItem(damage)) {
+			damage.cancel();
+			hitter.tryUse();
+		}
+	}
+	
+	protected abstract double getDamageToMonster(MonsterEntity entity);
+	protected abstract double getRadius(MonsterEntity entity);
 }

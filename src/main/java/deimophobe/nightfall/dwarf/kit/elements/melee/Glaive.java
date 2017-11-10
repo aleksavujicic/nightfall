@@ -10,12 +10,12 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.mob.Mob;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -70,6 +70,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
 
     @Override
     public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace){
+        super.onUse(action, clickedBlock, blockFace);
         if(Misc.isRightClick(action)){
             spinCD.tryUse();
         }
@@ -83,8 +84,8 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
 
 
             Location center = dwarf.getLocation();
-            double radius = getRadius();
-            for (GameEntity entity : MonsterManager.getManager().getAliveMobsAndAIs()) {
+            double radius = 3;
+            for (MonsterEntity entity : MonsterManager.getManager().getAliveMobsAndAIs()) {
                 if (entity instanceof Mob || entity instanceof AIEntity)
                     continue;
 
@@ -121,7 +122,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
 
 
     @Override
-    protected double getDamageToMonster(GameEntity entity) {
+    protected double getDamageToMonster(MonsterEntity entity) {
         if (entity instanceof MonsterPlayer) {
             return (dwarf.hasProc() ? 30 : 15);//If player
         }
@@ -129,8 +130,13 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     }
 
     @Override
-    protected double getRadius() {
-        return  (dwarf.hasProc() ? 3.5 : 3);
+    protected double getRadius(MonsterEntity entity) {
+        if (entity instanceof MonsterPlayer) {
+            return 1.5;
+        } else if (entity instanceof AIEntity) {
+            return 3;
+        }
+        return 0;
     }
 
 /*WILL BE USED LATER

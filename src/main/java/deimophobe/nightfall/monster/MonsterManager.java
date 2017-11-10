@@ -1,9 +1,9 @@
 package deimophobe.nightfall.monster;
 
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Game;
-import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.entity.GamePlayerManager;
+import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.doom.DoomManager;
 import deimophobe.nightfall.monster.mob.MobType;
@@ -15,7 +15,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 17/01/17.
@@ -67,8 +70,8 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		return aliveMobs;
 	}
 	
-	public Collection<GameEntity> getAliveMobsAndAIs() {
-		Collection<GameEntity> entities = new ArrayList<>();
+	public Collection<MonsterEntity> getAliveMobsAndAIs() {
+		Collection<MonsterEntity> entities = new ArrayList<>();
 		entities.addAll(getAlivePlayerMobs());
 		entities.addAll(AIManager.getManager().getAIs());
 		return entities;

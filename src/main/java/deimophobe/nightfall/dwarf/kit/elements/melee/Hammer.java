@@ -6,12 +6,11 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.mob.MobType;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.inventory.ItemStack;
@@ -49,6 +48,7 @@ public class Hammer extends AbstractAOEHitter implements KitCooldownElement {
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		if (!dwarf.isBlocking()) {
 			if (cooldown > 0)
 				cooldown--;
@@ -106,23 +106,22 @@ public class Hammer extends AbstractAOEHitter implements KitCooldownElement {
 	}
 	
 	@Override
-	protected double getDamageToMonster(GameEntity entity) {
+	protected double getDamageToMonster(MonsterEntity entity) {
 		if (entity instanceof MonsterPlayer) {
-			MobType type = ((MonsterPlayer) entity).getMob().getType();
-			if (type == MobType.ZOMBIE) {
-				return (dwarf.hasProc() ? 25 : 15);
+			if (((MonsterPlayer) entity).getMob().getType() == MobType.ZOMBIE) {
+				return 20;
 			} else {
-				return (dwarf.hasProc() ? 10 : 5);
+				return 10;
 			}
 		} else if (entity instanceof AIEntity) {
-			return  (dwarf.hasProc() ? 70 : 40);
+			return 20;
 		}
 		
 		return 0;
 	}
 	
 	@Override
-	protected double getRadius() {
-		return  (dwarf.hasProc() ? 4 : 3);
+	protected double getRadius(MonsterEntity entity) {
+		return 3;
 	}
 }
