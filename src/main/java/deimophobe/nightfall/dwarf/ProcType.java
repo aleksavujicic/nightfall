@@ -11,7 +11,7 @@ public enum ProcType {
 	DRAGONSKIN	(100, 1, 5, 0, true, true, true, true),
 	GRAVEL_PROC	(60, 1, 5, 0, true, true, true, true),
 	EBOW		(40, 1, 3, 0, true, true, true, false),
-	LUMINOUS	(60, 2, 5, 0, true, true, true, false),
+	LUMINOUS	(80, 2, 5, 0, true, true, true, false),
 	MALICE		(200, 2, 7, 0, true, true, true, true),
 	
 	VELSWORD	(80, 2, 8, 0, true, true, true, true),
