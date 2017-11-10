@@ -108,7 +108,8 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 		if (numPlayers >= 15) {
 			Player hero = Misc.getRandom(selectablePlayers);
 			selectablePlayers.remove(hero);
-			addHero(hero, Hero.Type.VELVETINE);
+			Hero.Type type = Misc.getRandomFrom(Hero.Type.VELVETINE, Hero.Type.ARTHEA, Hero.Type.TUI);
+			addHero(hero, type);
 		}
 		
 		/*
