@@ -8,7 +8,6 @@ import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import deimophobe.nightfall.monster.doom.DoomManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -145,7 +144,5 @@ class Ticker extends AbstractMob {
 		}
 		BlockConverter.convert(BlockConverter.Type.EXPLOSION, monster.getLocation(), 15);
 		monster.doDamage(null, CustomDamageType.SELF_GOBO_KABOOM, 100000, true, true);
-		
-		DoomManager.getManager().reduceDoom(maxTime);
 	}
 }
