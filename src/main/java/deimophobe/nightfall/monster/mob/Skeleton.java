@@ -23,7 +23,6 @@ import java.util.Map;
 class Skeleton extends AbstractMob {
 
 	protected Map<String, Integer> upgrades;
-	protected double realArrowRes = 0;
 	protected int quiver;
 
 	public Skeleton(MonsterPlayer mons) {

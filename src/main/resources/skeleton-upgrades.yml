@@ -125,7 +125,7 @@ piercing:
     name: "Piercing"
     lore:
       description:
-        - "Arrows do more armor piercing."
+        - "Arrows do more 5 armor shred."
 
 
 sniper:
@@ -154,12 +154,13 @@ siphon:
     lore:
       description:
         - "Shooting dwarves drains their health\n
-           and recovers your health."
+           and recovers your health by 0.5 hearts."
 
 
 arrowres-wither:
   index: 14
   cost: [200, 400, 600, 800, 1000]
+  value: [10, 20, 30, 40, 50]
   prereq:
     wither: 1
   item:
@@ -167,7 +168,7 @@ arrowres-wither:
     name: "Arrow Resistance"
     lore:
       description:
-        - "Increases your arrow resistance."
+        - "Increases your arrow resistance to $value."
 
 
 extrahealth-wither:
@@ -180,7 +181,7 @@ extrahealth-wither:
     name: "Extra Health"
     lore:
       description:
-        - "Gives you extra health."
+        - "Gives you 3 extra hearts per level."
 
 
 withering:
@@ -202,7 +203,7 @@ withering:
     lore:
       description:
         - "Wither dwarves with your arrows!\n
-           You will also deal more armor shred."
+           You will also deal 15 more armor shred."
 
 
 #################################
@@ -251,6 +252,7 @@ speed:
 arrowres-flamelancer:
   index: 14
   cost: [200, 400, 600, 800, 1000]
+  value: [10, 20, 30, 40, 50]
   prereq:
     flamelancer: 1
   item:
@@ -258,7 +260,7 @@ arrowres-flamelancer:
     name: "Arrow Resistance"
     lore:
       description:
-        - "Increases your arrow resistance."
+        - "Increases your arrow resistance to $value."
 
 
 firepath:
@@ -342,6 +344,7 @@ vines:
 arrowres-impact:
   index: 14
   cost: [200, 400, 600, 800, 1000]
+  value: [10, 20, 30, 40, 50]
   prereq:
     impact: 1
   item:
@@ -349,7 +352,7 @@ arrowres-impact:
     name: "Arrow Resistance"
     lore:
       description:
-        - "Increases your arrow resistance."
+        - "Increases your arrow resistance to $value."
 
 
 extrahealth-impact:

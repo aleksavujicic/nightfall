@@ -26,17 +26,20 @@ class SkeletonFlamelancer extends Skeleton {
 	private int arrowRes;
 	private int firePath;
 	private int fireAI;
+	private double realArrowRes = 0;
 
 	private static final int ARROWS_FIRED = 20;
 	private double flameBlock;
 	private double chargeBonus = 0;
+
+	private static Integer[] arrowResValues = {0, 10, 20, 30, 40, 50};
 
 	SkeletonFlamelancer(MonsterPlayer monster) {
 		super(monster, MobData.getMobData("skeleton.flamelancer"));
 		this.flame = upgrades.get("flame");
 		this.volley = upgrades.get("volley");
 		this.speed = upgrades.get("speed");
-		this.arrowRes = upgrades.get("arrowres-flamelancer");
+		this.arrowRes = arrowResValues[upgrades.get("arrowres-flamelancer")];
 		this.firePath = upgrades.get("firepath");
 		this.fireAI = upgrades.get("fireai");
 		realArrowRes = arrowRes * 0.01;
