@@ -83,12 +83,13 @@ caduceus:
     kb_resist: 1
 
 totem:
-  base: hammer
+  base: asclepius
   name: Asclepius
   lore:
     description:
      - "Right click to heal and buff dwarves\n
-        at the cost of your own mana."
+        at the cost of your own mana. Left\n
+        click to give all dwarves a shield."
     flavour:
      - "Illuminate!"
 
