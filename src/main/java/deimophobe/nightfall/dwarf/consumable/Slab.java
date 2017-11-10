@@ -12,8 +12,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 
-import java.util.Set;
-
 /**
  * Created by Deimophobe on 22/01/17.
  */
@@ -27,11 +25,6 @@ class Slab extends Consumable {
 	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
 		if (Misc.isRightClick(action)) return FAILED_CD;
 		if (!checkPhase(dwarf)) return FAILED_CD;
-		
-		if (clickedBlock == null)
-			clickedBlock = dwarf.getPlayer().getTargetBlock((Set<Material>) null, 5);
-		
-		if (clickedBlock.getType() != Material.AIR) return FAILED_CD;
 			
 		Location center = clickedBlock.getLocation();
 		double facing = dwarf.getLocation().getYaw() % 360;
