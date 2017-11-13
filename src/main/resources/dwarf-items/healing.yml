@@ -27,7 +27,8 @@ holy:
         for &b100&r mana.\n
         Gains&b8&r perma hearts."
     flavour:
-     - "\"It's in the name! This things the holy grail of dwarves.\" - Tui"
+     - "\"It's in the name! This things the\n
+        holy grail of dwarves.\" - Tui"
 
 trinket:
   base: trinket
