@@ -309,6 +309,18 @@ public class Game {
 		return debugPlayers.contains(player.getUniqueId());
 	}
 	
+	public Collection<Player> getOnlineDebugPlayers() {
+		Set<Player> debuggers = new HashSet<>();
+		for (UUID uuid : debugPlayers) {
+			Player player = Bukkit.getPlayer(uuid);
+			if (player != null) {
+				debuggers.add(player);
+			}
+		}
+		
+		return debuggers;
+	}
+	
 	
 	// ------ SCOREBOARD -------
 	public void giveScoreboard(Player player) {

@@ -5,9 +5,9 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -30,8 +30,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-import static java.lang.Math.floor;
-
 /**
  * Created by Deimophobe on 27/01/17.
  */
@@ -39,9 +37,7 @@ public class AIManager {
 	public static AIManager getManager() {
 		return Game.getGame().getMonsterManager().getAiManager();
 	}
-		
-	private int maxAIs;
-	private int maxMarks;
+	
 	private int updateFreq;
 	private final static double AI_MARK_DISTANCE = 4;
 	
@@ -101,18 +97,39 @@ public class AIManager {
 	}
 	
 	// ------ SPAWN LOCATIONS ------
-	private final Queue<Location> spawnSpots = new LinkedList<>();
+	private final Queue<AISpawnLocation> spawnSpots = new LinkedList<>();
 	
 	private void addAISpawnLocation(Location loc) {
 		// Prevent spawning if spawn spot is too close to another
-		for (Location spawnSpot : spawnSpots) {
-			if (loc.distance(spawnSpot) <= AI_MARK_DISTANCE)
-				return;
+		for (AISpawnLocation spawnSpot : spawnSpots) {
+			if (spawnSpot.isWithinRange(loc, AI_MARK_DISTANCE)) return;
 		}
 		
-		spawnSpots.add(loc);
+		if (GameMap.getCurrentMap().getCurrentShrineProtection().containsLocation(loc)) return;
+		
+		spawnSpots.add(new AISpawnLocation(loc));
 		while (spawnSpots.size() > maxMarks)
 			spawnSpots.remove();
+	}
+	
+	private double spawnChance = 0;
+	private int maxAIs;
+	private int maxMarks;
+	double getBaseSpawnChance() { return spawnChance; }
+	private void updateSpawnRates() {
+		int dwarves = DwarfManager.getManager().getNumberOfPlayers();
+		int mobs = MonsterManager.getManager().getNumberOfPlayers();
+		
+		double proportion = 1 - (double) ais.size()/ maxAIs;
+		spawnChance = (0.2 + 0.01 * dwarves) * proportion * proportion;
+		spawnChance *= (Game.getGame().isNight() ? 1.2 : 1);
+		
+		maxAIs = 20 + mobs + 10 * dwarves;
+		maxMarks = 10 + mobs + 10 * dwarves;
+		
+		if (ais.size() >= maxAIs) {
+			spawnChance = 0;
+		}
 	}
 	
 	// ------ ARE AIS SPAWNABLE ------
@@ -124,6 +141,9 @@ public class AIManager {
 		return aisSpawnable;
 	}
 	
+	private boolean canAIsSpawn() {
+		return aisSpawnable && Game.getGame().getPhase() == Phase.GAME && !DoomManager.getManager().isDoom();
+	}
 	
 	// ------ AI MANAGEMENT ------
 	private final Map<UUID, AIEntity> ais = new HashMap<>();
@@ -141,102 +161,38 @@ public class AIManager {
 				unregisterAI(ai);
 		}
 		
-		if (Game.getGame().getPhase() != Phase.GAME)
-			return;
+		if (Game.getGame().getPhase() != Phase.GAME) return;
 		
 		// Try spawn more AIs
-		if (aisSpawnable && Game.getGame().getPhase() == Phase.GAME && !DoomManager.getManager().isDoom()) {
-			int dwarves = DwarfManager.getManager().getNumberOfPlayers();
-			int mobs = MonsterManager.getManager().getNumberOfPlayers();
-
-			double proportion = (maxAIs - ais.size()) / maxAIs;
-			double spawnChance = (0.4 + 0.01 * dwarves) * proportion * proportion;
-			spawnChance *= (Game.getGame().isNight() ? 1.2 : 1);
+		if (canAIsSpawn()) {
+			updateSpawnRates();
 			
-			maxAIs = 20 + mobs + 10 * dwarves;
-			maxMarks = 10 + mobs + 10 * dwarves;
-			
-			Collection<Location> spotsToRemove = new HashSet<>();
-			
-			for (Location spawnSpot : spawnSpots) {
-				//spawnSpot.getWorld().spawnParticle(Particle.HEART, spawnSpot, 1, 0, 0, 0);
-				if (ais.size() >= maxAIs) break;
-				
-				double random = Math.random();
-				if (random < 0.2) { // Try remove if too close to dwarves
-					int count = 0;
-					for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
-						if (spawnSpot.distance(dwarf.getLocation()) <= 5) {
-							count++;
-						}
-					}
-					if (count >= 2)
-						spotsToRemove.add(spawnSpot);
-					continue;
+			Iterator<AISpawnLocation> spawnIterator = spawnSpots.iterator();
+			while (spawnIterator.hasNext()) {
+				AISpawnLocation spawnSpot = spawnIterator.next();
+				if (spawnSpot.isValid()) {
+					spawnSpot.update();
+				} else {
+					spawnIterator.remove();
 				}
-				if (random > spawnChance) continue;
-				if (shrineProt.containsLocation(spawnSpot)) {
-					spotsToRemove.add(spawnSpot);
-					continue;
-				}
-				
-				// Find closest dwarf and set as target. If no such dwarf, dont spawn.
-				double leastDistance = 25;
-				Dwarf closestDwarf = null;
-				for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
-					double dist = spawnSpot.distance(dwarf.getLocation());
-					if (dist <= leastDistance) {
-						leastDistance = dist;
-						closestDwarf = dwarf;
-					}
-				}
-				if (closestDwarf == null) {
-					if (Math.random() < 0.05) {
-						spotsToRemove.add(spawnSpot); // If there's no dwarf to spawn on then slowly phase the spawnspots out
-					}
-					continue;
-				}
-
-				// Create zombie with all right stuff
-				spawnAI(spawnSpot, closestDwarf);
-				if (Math.random() < 0.5) {
-					spawnAI(spawnSpot, closestDwarf);
-				}
-				if (Math.random() < 0.5) {
-					spawnAI(spawnSpot, closestDwarf);
-				}
-				if (Math.random() < 0.25) {
-					spawnAIs(spawnSpot, closestDwarf, 2);
-				}
-				if (Math.random() < 0.25) {
-					spawnAIs(spawnSpot, closestDwarf, 2);
-				}
-
-				// Destroy spawnspots after average of 3 AI spawns
-				if (Math.random() < 0.25) {
-					spotsToRemove.add(spawnSpot);
-				}
-			}
-			
-			for (Location toRemove : spotsToRemove) {
-				spawnSpots.remove(toRemove);
 			}
 		}
 		
 		// Update ai marks spots
 		for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
-			if (monster.isAlive())
+			if (monster.isAlive()) {
 				// If mob on ground or a bit above it
-				if (monster.getPlayer().isOnGround() || monster.getLocation().getBlock().getRelative(0,-2,0).getType().isSolid()) {
+				if (monster.getPlayer().isOnGround() || monster.getLocation().getBlock().getRelative(0, -2, 0).getType().isSolid()) {
 					addAISpawnLocation(monster.getLocation());
-					int xOffset = 4 * (int)Math.floor(Math.random() * 3 - 1);
-					int zOffset = 4 * (int)Math.floor(Math.random() * 3 - 1);
-					Block nearby = monster.getLocation().getBlock().getRelative(xOffset,-2,zOffset);
-					Block atSpawnPoint = monster.getLocation().getBlock().getRelative(xOffset,0,zOffset);
+					int xOffset = 4 * (int) Math.floor(Math.random() * 3 - 1);
+					int zOffset = 4 * (int) Math.floor(Math.random() * 3 - 1);
+					Block nearby = monster.getLocation().getBlock().getRelative(xOffset, -2, zOffset);
+					Block atSpawnPoint = monster.getLocation().getBlock().getRelative(xOffset, 0, zOffset);
 					if (nearby.getType().isSolid() && atSpawnPoint.getType() == Material.AIR) {
 						addAISpawnLocation(monster.getLocation().add(xOffset, 0, zOffset));
 					}
 				}
+			}
 		}
 	}
 	
@@ -298,7 +254,7 @@ public class AIManager {
 				entity.remove();
 		}
 		
-		spawnSpots.removeIf(location -> center.distance(location) <= range);
+		spawnSpots.removeIf(location -> location.isWithinRange(center,range));
 	}
 	
 	static {
