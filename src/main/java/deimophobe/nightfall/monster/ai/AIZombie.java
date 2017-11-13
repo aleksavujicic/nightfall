@@ -1,14 +1,9 @@
 package deimophobe.nightfall.monster.ai;
 
-import deimophobe.nightfall.Hat;
 import deimophobe.nightfall.Misc;
-import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarfManager;
-import deimophobe.nightfall.entity.GameEntity;
-import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,6 +13,7 @@ import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 /**
  * Created by Deimophobe on 24/01/17.
@@ -36,7 +32,8 @@ public class AIZombie extends AIEntity {
     }
 
     private static Zombie spawnZombie(Location location, String name, Dwarf target) {
-        Zombie zombie = (Zombie) GameMap.getCurrentMap().getWorld().spawnEntity(location, EntityType.ZOMBIE);
+        Zombie zombie = (Zombie) GameMap.getCurrentMap().getWorld().spawnEntity(location.clone().subtract(0,2,0), EntityType.ZOMBIE);
+        zombie.setVelocity(new Vector(0,0.75,0));
         zombie.setCustomName(name);
 
         int speedLvl = (zombie.isBaby() ? -1 : 1);

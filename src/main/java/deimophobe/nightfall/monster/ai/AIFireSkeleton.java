@@ -1,24 +1,19 @@
 package deimophobe.nightfall.monster.ai;
 
-import deimophobe.nightfall.Hat;
 import deimophobe.nightfall.Misc;
-import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarfManager;
-import deimophobe.nightfall.entity.GameEntity;
-import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Skeleton;
-import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 /**
  * Created by Deimophobe on 24/01/17.
@@ -37,7 +32,8 @@ public class AIFireSkeleton extends AIEntity {
     }
 
     private static Skeleton spawnFireSkeleton(Location location, String name, Dwarf target) {
-        Skeleton skeleton = (Skeleton) GameMap.getCurrentMap().getWorld().spawnEntity(location, EntityType.SKELETON);
+        Skeleton skeleton = (Skeleton) GameMap.getCurrentMap().getWorld().spawnEntity(location.clone().subtract(0,2,0), EntityType.SKELETON);
+        skeleton.setVelocity(new Vector(0,0.75,0));
         skeleton.setCustomName(name);
 
         skeleton.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 300000, 2, false,false), true);
