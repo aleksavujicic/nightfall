@@ -4,21 +4,16 @@ import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 /**
  * Created by Deimophobe on 24/01/17.
  */
-public class AIZombie extends AIEntity {
+public class AIZombie extends AIEntity<Zombie> {
 
     public AIZombie(Location location, String randomName) {
         this(location, randomName, null);
@@ -26,41 +21,21 @@ public class AIZombie extends AIEntity {
 
     private static final ItemStack sword = Misc.getItem("ai-sword").createItemStack();
 
-    @Override
-    public Zombie getEntity() {
-        return (Zombie) monster;
-    }
-
-    private static Zombie spawnZombie(Location location, String name, Dwarf target) {
-        Zombie zombie = (Zombie) GameMap.getCurrentMap().getWorld().spawnEntity(location.clone().subtract(0,2,0), EntityType.ZOMBIE);
-        zombie.setVelocity(new Vector(0,0.6,0));
-        zombie.setCustomName(name);
-
-        int speedLvl = (zombie.isBaby() ? -1 : 1);
-        zombie.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 300000, speedLvl, false,false), true);
-        zombie.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 300000, 1, false,false), true);
-
-        zombie.getEquipment().setArmorContents(new ItemStack[]{null, null, null, null});
-        zombie.getEquipment().setItemInMainHand(sword);
-
-        ItemStack chestplate = zombie.getEquipment().getChestplate();
-        if (chestplate == null || chestplate.getType() == Material.AIR)
-            chestplate = new ItemStack(Material.DIAMOND);
-        chestplate.addUnsafeEnchantment(Enchantment.DEPTH_STRIDER, 2);
-        zombie.getEquipment().setChestplate(chestplate);
-
-        if (target != null)
-            zombie.setTarget(target.getPlayer());
-
-        return zombie;
-    }
-
     public AIZombie(Location location, String name, Dwarf target) {
-        super();
-        monster = spawnZombie(location, name, target);
-        targetCounter = MAX_TARGET_COUNT;
+        super(location, name, target, EntityType.ZOMBIE);
     }
-
+    
+    @Override
+    protected void setupMonster(String name, Dwarf target) {
+        super.setupMonster(name, target);
+	
+		int speedLvl = (monster.isBaby() ? 0 : 2);
+		givePermanentPotionEffect(PotionEffectType.SPEED, speedLvl);
+		givePermanentPotionEffect(PotionEffectType.FIRE_RESISTANCE, 1);
+	
+		monster.getEquipment().setItemInMainHand(sword);
+    }
+    
     @Override
     public void onDeath(MonsterDamage damage) {
         if (damage.getType() != CustomDamageType.AI_REMOVER) {
