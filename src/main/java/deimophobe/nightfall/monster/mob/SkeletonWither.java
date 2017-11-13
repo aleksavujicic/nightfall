@@ -45,7 +45,7 @@ class SkeletonWither extends Skeleton {
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		if (sec && damageBoost > 0)
+		if (halfSec && damageBoost > 0)
 			damageBoost = Math.max(damageBoost - 1, 0);
 	}
 	
@@ -53,7 +53,7 @@ class SkeletonWither extends Skeleton {
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
 		if (damage.hasArrow() && ArrowMisc.getArrowForce(damage.getArrow()) > 0.7) {
-			damageBoost = Math.min(damageBoost + 3 + damageBooster, 20);
+			damageBoost = Math.min(damageBoost + 5 + damageBooster, 20);
 			monster.heal(this.siphon);
 			if (withering >= 1) {
 				damage.getDwarf().givePotionEffect(PotionEffectType.WITHER, 50, 2, true, false, false);
