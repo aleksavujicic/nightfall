@@ -34,7 +34,7 @@ public class ZombieFury extends Zombie {
 
     private Boolean isLeaping;
 
-    private static Integer[] shredValues = {0, 2, 5, 7, 10, 12, 15, 17, 20, 22, 25};
+    private static Integer[] shredValues = {0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20};
     private static Integer[] arrowResValues = {0, 10, 20, 30, 40, 50};
     private static Integer[] rebirthValues = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
 

@@ -125,7 +125,7 @@ piercing:
     name: "Piercing"
     lore:
       description:
-        - "Arrows do more 5 armor shred."
+        - "Arrows do more 4 armor shred."
 
 
 sniper:
@@ -203,7 +203,7 @@ withering:
     lore:
       description:
         - "Wither dwarves with your arrows!\n
-           You will also deal 15 more armor shred."
+           You will also deal 10 more armor shred."
 
 
 #################################
