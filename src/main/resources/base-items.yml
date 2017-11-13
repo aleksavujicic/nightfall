@@ -113,6 +113,10 @@ diamond_hoe:
   studded: 20
   runeblessed: 21
   trash: 22
+  menu-builder: 23
+  menu-builder2: 24
+  sturdy: 25
+  chestomatic: 26
 
 shield:
   hammer: 1

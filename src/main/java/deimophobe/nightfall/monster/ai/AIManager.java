@@ -150,11 +150,11 @@ public class AIManager {
 			int mobs = MonsterManager.getManager().getNumberOfPlayers();
 
 			double proportion = (maxAIs - ais.size()) / maxAIs;
-			double spawnChance = (0.2 + 0.01 * dwarves) * proportion * proportion;
+			double spawnChance = (0.4 + 0.01 * dwarves) * proportion * proportion;
 			spawnChance *= (Game.getGame().isNight() ? 1.2 : 1);
 			
-			maxAIs = 20 + 2 * mobs + 10 * dwarves;
-			maxMarks = 10 + 2 * mobs + 10 * dwarves;
+			maxAIs = 20 + mobs + 10 * dwarves;
+			maxMarks = 10 + mobs + 10 * dwarves;
 			
 			Collection<Location> spotsToRemove = new HashSet<>();
 			
@@ -191,17 +191,29 @@ public class AIManager {
 					}
 				}
 				if (closestDwarf == null) {
-					if (Math.random() < 0.2) {
+					if (Math.random() < 0.05) {
 						spotsToRemove.add(spawnSpot); // If there's no dwarf to spawn on then slowly phase the spawnspots out
 					}
 					continue;
 				}
 
 				// Create zombie with all right stuff
-				spawnAIs(spawnSpot, closestDwarf, 3);
+				spawnAI(spawnSpot, closestDwarf);
+				if (Math.random() < 0.5) {
+					spawnAI(spawnSpot, closestDwarf);
+				}
+				if (Math.random() < 0.5) {
+					spawnAI(spawnSpot, closestDwarf);
+				}
+				if (Math.random() < 0.25) {
+					spawnAIs(spawnSpot, closestDwarf, 2);
+				}
+				if (Math.random() < 0.25) {
+					spawnAIs(spawnSpot, closestDwarf, 2);
+				}
 
 				// Destroy spawnspots after average of 3 AI spawns
-				if (Math.random() < 0.333) {
+				if (Math.random() < 0.25) {
 					spotsToRemove.add(spawnSpot);
 				}
 			}

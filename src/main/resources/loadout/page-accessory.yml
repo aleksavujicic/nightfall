@@ -20,7 +20,7 @@ chesto:
   cost: 0
   item:
     name: "Chestomatic"
-    material: chest
+    base: chestomatic
     lore:
       description:
        - "Gives you a portable shared\n
@@ -368,7 +368,7 @@ builder_one:
     cobblestone: 96
   item:
     name: "Builder's Pack I"
-    material: diamond_hoe
+    base: menu-builder
     lore:
       description:
        - "Gives you a Tier 1 Builder's Pack\n
@@ -387,7 +387,7 @@ builder_two:
     cobblestone: 192
   item:
     name: "Builder's Pack II"
-    material: diamond_hoe
+    base: menu-builder2
     lore:
       description:
        - "Gives you a Tier 2 Builder's Pack\n
@@ -406,7 +406,7 @@ builder_three:
     cobblestone: 384
   item:
     name: "Builder's Pack III"
-    material: diamond_hoe
+    base: menu-builder
     lore:
       description:
        - "Gives you a Tier 3 Builder's Pack\n
