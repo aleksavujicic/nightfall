@@ -22,7 +22,7 @@ compass:
      - "A simple but useful tool."
 
 chesto:
-  material: chest
+  base: chestomatic
   name: "Chest-o-matic"
   lore:
     description:

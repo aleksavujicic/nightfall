@@ -456,7 +456,7 @@ sturdy:
   cost: 8
   item:
     name: "Sturdy Armour"
-    base: runeblessed
+    base: sturdy
     lore:
       description:
        - "Grants 4 more hearts allowing you to\n
