@@ -22,7 +22,7 @@ armour:
   modifiers:
     kb-resist: 1
 weapon:
-  base: temporary
+  base: minotaur-wep
   name: "Minotaur Axe"
   lore:
     description:
