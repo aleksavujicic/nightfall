@@ -262,8 +262,11 @@ public class AIManager {
 		protocolManager.addPacketListener(new PacketAdapter(NightfallPlugin.getPlugin(), PacketType.Play.Server.NAMED_SOUND_EFFECT) {
 			@Override
 			public void onPacketSending(PacketEvent event) {
-				if (event.getPacket().getSoundEffects().read(0) == Sound.ENTITY_ZOMBIE_DEATH) {
-					event.setCancelled(true);
+				Sound sound = event.getPacket().getSoundEffects().read(0);
+				switch (sound) {
+					case ENTITY_ZOMBIE_DEATH:
+					case ENTITY_SKELETON_DEATH:
+						event.setCancelled(true);
 				}
 			}
 		});
