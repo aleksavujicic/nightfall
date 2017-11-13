@@ -125,7 +125,7 @@ public class AIManager {
 		spawnChance *= (Game.getGame().isNight() ? 1.2 : 1);
 		
 		maxAIs = 20 + mobs + 10 * dwarves;
-		maxMarks = 10 + mobs + 10 * dwarves;
+		maxMarks = 40 + 10 * mobs + dwarves;
 		
 		if (ais.size() >= maxAIs) {
 			spawnChance = 0;
