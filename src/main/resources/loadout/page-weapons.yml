@@ -305,8 +305,8 @@ holy:
     lore:
       description:
        - "Left click to heal yourself\n
-          for &b100&r mana and gain\n
-          &b8&r absorption hearts."
+          for &b100&r mana.\n
+          Gains&b8&r perma hearts."
     modifiers:
       health: -2
       mana-cost: 100
