@@ -77,7 +77,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
         return false;
     }
 
-    private void Spin(){
+    private void Spin(){//ISSUE IS WHEN ONE TYPE OF MONSTER (AI/PLAYER) IS SELECTED, OTHER IS NOT AFFECTED
         dwarf.givePotionEffect(PotionEffectType.SLOW,spinDuration,3,false,false,true);
         dwarf.givePotionEffect(PotionEffectType.LUCK,spinDuration,1, false,true,true);
         //dwarf.playSound("ENTER-SOUND-HERE", 1, 1f, false);
@@ -104,8 +104,8 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
         double entityZ = entity.getLocation().getZ();
         double newX = entityX - dwarf.getLocation().getX();
         double newZ = entityZ - dwarf.getLocation().getZ();
-        double knockX = newX/knockbackDistance;
-        double knockZ = newZ/knockbackDistance;
+        double knockX = newX*knockbackDistance;
+        double knockZ = newZ*knockbackDistance;
         Vector newKnockBack = new Vector (knockX, knockY, knockZ);
         return newKnockBack;
     }
@@ -126,7 +126,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
         if (entity instanceof MonsterPlayer) {
             return (dwarf.hasProc() ? 30 : 15);//If player
         }
-        return  (dwarf.hasProc() ? 70 : 30);//If AI
+        return  10000;//If AI
     }
 
     @Override
