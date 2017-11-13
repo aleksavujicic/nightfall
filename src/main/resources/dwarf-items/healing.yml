@@ -23,11 +23,12 @@ holy:
   name: Holy Ale
   lore:
     description:
-     - "Left click to heal yourself
-       for &b$manacost&r mana\n and gain
-       &b8&r absorption hearts."
+     - "Left click to heal yourself\n
+        for &b100&r mana.\n
+        Gains&b8&r perma hearts."
     flavour:
-     - "\"It's in the name! This things the holy grail of dwarves.\" - Tui"
+     - "\"It's in the name! This things the\n
+        holy grail of dwarves.\" - Tui"
 
 trinket:
   base: trinket
