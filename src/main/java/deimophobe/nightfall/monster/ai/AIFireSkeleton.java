@@ -33,7 +33,7 @@ public class AIFireSkeleton extends AIEntity {
 
     private static Skeleton spawnFireSkeleton(Location location, String name, Dwarf target) {
         Skeleton skeleton = (Skeleton) GameMap.getCurrentMap().getWorld().spawnEntity(location.clone().subtract(0,2,0), EntityType.SKELETON);
-        skeleton.setVelocity(new Vector(0,0.75,0));
+        skeleton.setVelocity(new Vector(0,0.6,0));
         skeleton.setCustomName(name);
 
         skeleton.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 300000, 2, false,false), true);

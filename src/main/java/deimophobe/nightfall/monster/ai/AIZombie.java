@@ -33,7 +33,7 @@ public class AIZombie extends AIEntity {
 
     private static Zombie spawnZombie(Location location, String name, Dwarf target) {
         Zombie zombie = (Zombie) GameMap.getCurrentMap().getWorld().spawnEntity(location.clone().subtract(0,2,0), EntityType.ZOMBIE);
-        zombie.setVelocity(new Vector(0,0.75,0));
+        zombie.setVelocity(new Vector(0,0.6,0));
         zombie.setCustomName(name);
 
         int speedLvl = (zombie.isBaby() ? -1 : 1);
