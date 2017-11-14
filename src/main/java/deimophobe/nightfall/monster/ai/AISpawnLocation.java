@@ -35,38 +35,45 @@ class AISpawnLocation {
 		// Decay every update tick
 		life--;
 		
-		// Every now and then try decay based on proximity to dwarves
-		if (Math.random() < 0.2) {
-			for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
-				if (location.distance(dwarf.getLocation()) <= 5) {
-					life--;
-				}
-			}
-		}
-		
 		trySpawnAIs();
 	}
 	
 	private void trySpawnAIs() {
 		double spawnChance = manager.getBaseSpawnChance() * (1 + (double) life/50);
 		
-		// Find closest dwarf and set as target. If no such dwarf, much smaller spawn chance;
-		Dwarf closestDwarf = DwarfManager.getManager().getNearest(location);
-		if (closestDwarf == null || closestDwarf.distanceTo(location) > 25) {
-			closestDwarf = null;
-			spawnChance *= 0.1;
-		}
-		
 		// If failed to spawn, stop.
 		if (Math.random() > spawnChance) return;
 		
+		// Find closest dwarf and set as target.
+		Dwarf closestDwarf = null;
+		double closestDistance = 25;
+		int closeDwarves = 0;
+		for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
+			double distance = location.distance(dwarf.getLocation());
+			if (distance <= 6) {
+				closeDwarves++;
+			}
+			if (distance <= closestDistance) {
+				closestDwarf = dwarf;
+				closestDistance = distance;
+			}
+		}
+		
+		// If no close enough dwarf, greatly reduce spawn chance
+		if (closestDwarf == null) {
+			if (Math.random() > 0.1) return;
+		}
+		
+		// Choose amt of AIs to spawn
 		int amtToSpawn = 1;
 		double rand = Math.random();
-		if (rand < 0.5) amtToSpawn++;
-		if (rand < 0.25) amtToSpawn++;
-		
-		life -= amtToSpawn*5;
+		if (rand < 0.35) amtToSpawn++;
+		if (rand < 0.15) amtToSpawn++;
+		// Spawn them
 		manager.spawnAIs(location, closestDwarf, amtToSpawn);
+		
+		// Reduce life based on ais spawned and number of close dwarves
+		life -= amtToSpawn*(4 + 2*closeDwarves);
 	}
 	
 	boolean isWithinRange(Location loc, double range) {

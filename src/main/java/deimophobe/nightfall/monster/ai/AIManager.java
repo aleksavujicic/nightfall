@@ -66,7 +66,7 @@ public class AIManager {
 		aiTeam.setAllowFriendlyFire(false);
 		this.maxAIs = 20;
 		this.maxMarks = 10;
-		this.updateFreq = 4*20;
+		this.updateFreq = 5*20;
 	}
 	
 	public void start() {
@@ -121,7 +121,7 @@ public class AIManager {
 		int mobs = MonsterManager.getManager().getNumberOfPlayers();
 		
 		double proportion = 1 - (double) ais.size()/ maxAIs;
-		spawnChance = (0.2 + 0.01 * dwarves) * proportion * proportion;
+		spawnChance = (0.1 + 0.01 * dwarves) * proportion * proportion;
 		spawnChance *= (Game.getGame().isNight() ? 1.2 : 1);
 		
 		maxAIs = 20 + mobs + 10 * dwarves;
