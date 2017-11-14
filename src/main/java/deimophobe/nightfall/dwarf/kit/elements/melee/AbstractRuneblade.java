@@ -91,11 +91,11 @@ public abstract class AbstractRuneblade extends AbstractItem implements KitCoold
 	}
 	
 	private void offCDSound() {
-		dwarf.playSound("offcd", 1, 1.5f, false);
+		dwarf.playSound("offcd", 1, 1.2f, false);
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				dwarf.playSound("offcd", 1, 2f, false);
+				dwarf.playSound("offcd", 1, 1.5f, false);
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), 5);
 	}
