@@ -18,7 +18,6 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.doom.DoomManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -99,17 +98,31 @@ public class AIManager {
 	// ------ SPAWN LOCATIONS ------
 	private final Queue<AISpawnLocation> spawnSpots = new LinkedList<>();
 	
-	private void addAISpawnLocation(Location loc) {
+	private boolean addAISpawnLocation(Location loc) {
 		// Prevent spawning if spawn spot is too close to another
 		for (AISpawnLocation spawnSpot : spawnSpots) {
-			if (spawnSpot.isWithinRange(loc, AI_MARK_DISTANCE)) return;
+			if (spawnSpot.isWithinRange(loc, AI_MARK_DISTANCE)) return false;
 		}
 		
-		if (GameMap.getCurrentMap().getCurrentShrineProtection().containsLocation(loc)) return;
+		// Don't add in shrine
+		if (GameMap.getCurrentMap().getCurrentShrineProtection().containsLocation(loc)) return false;
+		
+		// Only add if in air above solid ground
+		Block block = loc.getBlock();
+		Block below = block.getRelative(0, -1, 0);
+		Block twoBelow = block.getRelative(0, -2, 0);
+		boolean validSpot =
+				!block.getType().isSolid()
+				&& below.getType().isSolid()
+				&& twoBelow.getType().isSolid();
+		
+		if (!validSpot) return false;
 		
 		spawnSpots.add(new AISpawnLocation(loc));
 		while (spawnSpots.size() > maxMarks)
 			spawnSpots.remove();
+		
+		return true;
 	}
 	
 	private double spawnChance = 0;
@@ -179,20 +192,17 @@ public class AIManager {
 		}
 		
 		// Update ai marks spots
-		for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
-			if (monster.isAlive()) {
-				// If mob on ground or a bit above it
-				if (monster.getPlayer().isOnGround() || monster.getLocation().getBlock().getRelative(0, -2, 0).getType().isSolid()) {
-					addAISpawnLocation(monster.getLocation());
-					int xOffset = 4 * (int) Math.floor(Math.random() * 3 - 1);
-					int zOffset = 4 * (int) Math.floor(Math.random() * 3 - 1);
-					Block nearby = monster.getLocation().getBlock().getRelative(xOffset, -2, zOffset);
-					Block atSpawnPoint = monster.getLocation().getBlock().getRelative(xOffset, 0, zOffset);
-					if (nearby.getType().isSolid() && atSpawnPoint.getType() == Material.AIR) {
-						addAISpawnLocation(monster.getLocation().add(xOffset, 0, zOffset));
-					}
-				}
-			}
+		for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
+			// If mob on ground or a bit above it
+			Location location = monster.getLocation();
+			boolean success = addAISpawnLocation(location);
+			if (!success) continue;
+			
+			// Also add offset if previous was successfull - will be either -5, 0, +5 for x and z
+			int xOffset = 5 * Misc.randomInt(-1,2);
+			int zOffset = 5 * Misc.randomInt(-1,2);
+			Location offset = location.clone().add(xOffset, 0, zOffset);
+			addAISpawnLocation(offset);
 		}
 	}
 	

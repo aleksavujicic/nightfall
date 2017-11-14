@@ -55,6 +55,14 @@ public class Misc {
 		return iter.next();
 	}
 	
+	public static int randomInt(int min, int max) {
+		return min + (int) (Math.random() * (max - min));
+	}
+	
+	public static double randomDouble(double min, double max) {
+		return min + (Math.random() * (max - min));
+	}
+	
 	// ------ ACTION CLICK -------
 	
 	public static boolean isLeftClick(Action type) {
