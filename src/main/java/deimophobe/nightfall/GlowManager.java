@@ -75,7 +75,7 @@ public class GlowManager {
 		UUID glowForID = glowFor.getUniqueId();
 		checkIfEmpty(glowForID);
 		glowMap.get(glowForID).add(glower);
-		makeDisguiseGlow(glower, glowFor);
+		//makeDisguiseGlow(glower, glowFor);
 		refresh(glower, glowFor);
 	}
 	
@@ -85,7 +85,7 @@ public class GlowManager {
 		UUID glowForID = glowFor.getUniqueId();
 		checkIfEmpty(glowForID);
 		glowMap.get(glowForID).remove(glower);
-		stopDisguiseGlow(glower, glowFor);
+		//stopDisguiseGlow(glower, glowFor);
 		if (glowMap.get(glowForID).isEmpty())
 			reset(glowFor);
 		
