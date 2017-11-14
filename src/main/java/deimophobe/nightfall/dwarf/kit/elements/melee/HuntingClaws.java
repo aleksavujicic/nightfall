@@ -29,7 +29,7 @@ import java.util.Set;
  */
 public class HuntingClaws extends AbstractItem implements KitCooldownElement {
 	
-	private final static int HUNT_DURATION = 12*20;
+	private final static int HUNT_DURATION = 120*20;
 	
 	private final ComplexCooldown huntingCD = new ComplexCooldown(60*20, this::startHunt);
 	private final ComplexCooldown warpCD = new ComplexCooldown(3*20, this::warp);
