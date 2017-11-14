@@ -13,14 +13,12 @@ import deimophobe.nightfall.dwarf.kit.elements.AbstractItem;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterManager;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -39,10 +37,6 @@ public class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		cd.update();
-		//To increase mana regen because weapon is mana-heavy
-		if (doubleSec) {
-			dwarf.regenMana(5);
-		}
 		if (sec){
 			if(dwarf.getMana() >= 800){
 				cd.setMaxCD(20*20);
@@ -60,9 +54,8 @@ public class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 				cd.setMaxCD(4*20);
 			}
 		}
-		if (isHoldingItem()){
-			dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, 5*20, 3, true, false, true);
-			if(fireRing && dwarf.hasMana(100)){
+		if (isHoldingItem()) {
+			if (fireRing && dwarf.hasMana(100)) {
 				//To play the particle effect
 				spawnParticles();
 			}
