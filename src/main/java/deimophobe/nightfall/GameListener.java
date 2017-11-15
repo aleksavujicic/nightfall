@@ -77,7 +77,7 @@ public class GameListener implements Listener {
 	public void onLogoff(PlayerQuitEvent event) {
 		boolean wasDwarf = dm.goOffline(event.getPlayer());
 		mm.goOffline(event.getPlayer());
-		game.unreadyPlayer(event.getPlayer());
+		game.unreadyPlayer(event.getPlayer(), true);
 		if (wasDwarf)
 			game.updateDwarfCount();
 	}
