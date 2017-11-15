@@ -13,7 +13,7 @@ supplies:
 
 supplies-inf:
   index: 2
-  cost: 2500
+  cost: 2000
   permanent: true
   prereq:
     supplies: 5
