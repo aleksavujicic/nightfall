@@ -35,54 +35,27 @@ import java.util.Map;
  */
 public class Blaze extends AbstractMob {
 
-    protected Map<String, Integer> upgrades;
-
-    private int supplies;
-    private int reload;
-    private int firepower;
-    private int force;
-    private int launch;
-    private int flame;
-    private int doubleshot;
-
-    private int currentSupplies;
     private Cooldown fireCD;
     private Cooldown preloadCD;
     private Cooldown reloadCD;
     private Cooldown launchCD;
+    private final int MAX_AMMO = 6;
+    private int currentAmmo;
 
-    protected Blaze(MonsterPlayer mons) {
-        super(mons, MobType.GOBO, MobData.getMobData("gobo.blaze"));
+    public Blaze(MonsterPlayer mons) {
+        super(mons, MobType.BLAZE);
 
-        upgrades = monster.getUpgrades(MobType.GOBO);
-
-        this.supplies = (upgrades.get("supplies") + upgrades.get("supplies-inf"));
-        int health = (upgrades.get("health") + upgrades.get("health-inf")) * 2;
-        this.firepower = upgrades.get("firepower");
-        this.force = upgrades.get("force-blaze");
-        this.reload = upgrades.get("reload");
-        this.launch = upgrades.get("launch");
-        this.flame = upgrades.get("flame");
-        this.doubleshot = upgrades.get("doubleshot");
-
-        this.currentSupplies = supplies;
         this.fireCD = new ComplexCooldown(13);
         this.preloadCD = new ComplexCooldown(40);
-        this.reloadCD = new ComplexCooldown(70 - this.reload * 5);
-        if (launch > 0) {
-            this.launchCD = new ComplexCooldown(600 - this.launch * 20);
-        } else {
-            this.launchCD = new DudCooldown();
-        }
-
-        getArmour().addModifier(ItemModifierType.HEALTH, health, "Upgrade");
-        getArmour().addModifier(ItemModifierType.SPEED, -25, "Blaze");
+        this.reloadCD = new ComplexCooldown(40);
+        this.launchCD = new ComplexCooldown(300);
+        currentAmmo = MAX_AMMO;
     }
 
     @Override
     public void onSpawn() {
         super.onSpawn();
-        giveItem("blaze-ammo", (supplies));
+        giveItem("blaze-ammo", MAX_AMMO);
         monster.givePermanentPotionEffect(PotionEffectType.LEVITATION, -2);
         monster.givePermanentPotionEffect(PotionEffectType.JUMP, 5);
     }
@@ -91,12 +64,12 @@ public class Blaze extends AbstractMob {
     public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
         fireCD.update();
         launchCD.update();
-        if (currentSupplies < supplies) {
+        if (currentAmmo < MAX_AMMO) {
             preloadCD.update();
             if (preloadCD.isAvailable()) {
                 reloadCD.update();
                 if (reloadCD.isAvailable()) {
-                    currentSupplies++;
+                    currentAmmo++;
                     giveItem("blaze-ammo", 1);
                     reloadCD.reset();
                 }
@@ -109,13 +82,8 @@ public class Blaze extends AbstractMob {
         if (Misc.isRightClick(action) && isPlayerHoldingItem("blaze-ammo") && fireCD.isAvailable()) {
             Location loc = monster.getEyeLocation();
             shootFireball(loc);
-            if (doubleshot > 0) {
-                loc.setYaw(loc.getYaw() + (float)(2 * Math.random() - 1) * 15f);
-                loc.setPitch(loc.getPitch() + (float)(2 * Math.random() - 1) * 15f);
-                shootFireball(loc);
-            }
             monster.useHeldItem();
-            currentSupplies--;
+            currentAmmo--;
             fireCD.reset();
             reloadCD.reset();
             preloadCD.reset();
@@ -144,9 +112,7 @@ public class Blaze extends AbstractMob {
         if (damage.getType() == NaturalDamageType.RANGED) {
             damage.cancel();
             blazeExplosion(damage.getDwarf().getEyeLocation());
-            if (Math.random() < 0.4 * flame) {
-                damage.getDwarf().getPlayer().setFireTicks(60);
-            }
+            damage.getDwarf().getPlayer().setFireTicks(60);
         }
     }
 
@@ -168,7 +134,7 @@ public class Blaze extends AbstractMob {
             World world = loc.getWorld();
             blazeExplosion(loc);
             world.playSound(loc, "entity.firework.launch", 3, 0.8f);
-            monster.setVelocity(0, 0.5 + 0.5 * launch, 0);
+            monster.setVelocity(0, 3, 0);
         }
     }
 
@@ -187,10 +153,10 @@ public class Blaze extends AbstractMob {
     private void blazeExplosion(Location centerLoc) {
         World world = monster.getLocation().getWorld();
 
-        double damage = 15 + 5 * firepower;
-        int armorShred = 10 + 3 * firepower;
+        double damage = 40;
+        int armorShred = 35;
         double power = 4.5;
-        double kb = 0.35 + 0.05 * force;
+        double kb = 0.6;
 
         BlockConverter.convert(BlockConverter.Type.EXPLOSION, centerLoc, power);
         world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
@@ -204,7 +170,7 @@ public class Blaze extends AbstractMob {
                     Block block = centerLoc.clone().add(x, y, z).getBlock();
                     Block blockBelow = centerLoc.clone().add(x,y-1, z).getBlock();
 
-                    if (BlockType.IGNORABLE.matchesBlock(block) && !BlockType.IGNORABLE.matchesBlock(blockBelow) && (Math.random() < 0.002 * flame)) {
+                    if (BlockType.IGNORABLE.matchesBlock(block) && !BlockType.IGNORABLE.matchesBlock(blockBelow) && (Math.random() < 0.015)) {
                         block.setType(Material.FIRE);
                     }
                 }
@@ -213,7 +179,7 @@ public class Blaze extends AbstractMob {
 
         for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
             Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
-            if (offset.length() > 4) continue;
+            if (offset.length() > 4.5) continue;
 
             DamageModifier modifier = new DamageModifier();
 

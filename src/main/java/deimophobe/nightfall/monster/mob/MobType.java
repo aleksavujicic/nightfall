@@ -14,6 +14,7 @@ public enum MobType {
     SKELETON,
 	GOBO,
 
+	BLAZE,
 	WOLF,
 	HELLHOUND("wolf.hellhound"),
 	SPIDERLING,
@@ -99,14 +100,12 @@ public enum MobType {
 				if (monster.getUpgrades(MobType.GOBO).computeIfAbsent("kaboom", (k) -> 0) == 1) {
 					return new GoblinKaboom(monster);
 				}
-				else if (monster.getUpgrades(MobType.GOBO).computeIfAbsent("blaze", (k) -> 0) == 1) {
-					return new Blaze(monster);
-				}
 				else {
 					return new Goblin(monster);
 				}
 			}
 
+			case BLAZE: return new Blaze(monster);
 			case WOLF: return new Wolf(monster);
 			case HELLHOUND: return new Hellhound(monster);
 			case SPIDERLING: return new Spiderling(monster);
