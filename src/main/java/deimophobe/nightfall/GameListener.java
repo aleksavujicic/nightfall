@@ -291,6 +291,7 @@ public class GameListener implements Listener {
 		world.playSound(centerLoc, "entity.generic.explode", 2, 1);
 		Object thrower = event.getEntity().getMetadata("thrower").get(0).value();
 		((Goblin)thrower).thrownGoboBox(centerLoc);
+		event.getEntity().remove();
 	}
 	
 	// --------------------------------------------------------

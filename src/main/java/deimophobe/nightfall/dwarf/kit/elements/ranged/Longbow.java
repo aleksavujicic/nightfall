@@ -23,21 +23,20 @@ import org.bukkit.inventory.ItemStack;
 public class Longbow extends AbstractBow implements KitCooldownElement {
 	
 	private int stackCD = 0;
-	private static final int MAX_STACK_CD = 160;
+	private static final int MAX_STACK_CD = 200;
 	
 	private int stacks = 0;
-	private static final int AI_STACK_GAIN = 1;
-	private static final int PLAYER_STACK_GAIN = 3;
-	private static final int MAX_STACKS = 25;
-	private static final int STACK_LOSS = 5;
-	private static final double DMG_PER_STACK = 6;
+	private static final int PLAYER_STACK_GAIN = 1;
+	private static final int MAX_STACKS = 6;
+	private static final int STACK_LOSS = 2;
+	private static final double DMG_PER_STACK = 20;
 	
 	
 	public Longbow(Dwarf dwarf) {
 		super(dwarf);
 	}
 	
-	private final static int POWER = 60;
+	private final static int POWER = 80;
 	private final static CustomItem ITEM = getBow("longbow", POWER);
 	@Override public CustomItem getItem() {
 		return ITEM;
@@ -56,7 +55,22 @@ public class Longbow extends AbstractBow implements KitCooldownElement {
 		}
 		return arrow;
 	}
-	
+
+	@Override
+	public void onDamageAttack(MonsterDamage damage) {
+		super.onDamageAttack(damage);
+		if (damage.hasArrow() && ArrowMisc.getArrowForce(damage.getArrow()) > 0.5) {
+			MonsterEntity monster = damage.getMonster();
+			if (monster instanceof MonsterPlayer) {
+				stacks += PLAYER_STACK_GAIN;
+				stackCD = MAX_STACK_CD;
+			} else if (monster instanceof AIEntity) {
+				stackCD = Math.min(MAX_STACK_CD, stackCD + 40);
+			}
+			if (stacks > MAX_STACKS) stacks = MAX_STACKS;
+		}
+	}
+
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
@@ -65,17 +79,6 @@ public class Longbow extends AbstractBow implements KitCooldownElement {
 	@Override
 	public void onKill(MonsterDamage damage) {
 		super.onKill(damage);
-		if (damageFromBow(damage)) {
-			MonsterEntity monster = damage.getMonster();
-			if (monster instanceof MonsterPlayer)
-				stacks += PLAYER_STACK_GAIN;
-			else if (monster instanceof AIEntity)
-				stacks += AI_STACK_GAIN;
-			
-			if (stacks > MAX_STACKS) stacks = MAX_STACKS;
-			
-			stackCD = MAX_STACK_CD;
-		}
 	}
 	
 	@Override

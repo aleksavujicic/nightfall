@@ -24,7 +24,9 @@ public class BlockType {
 	// ----- WALLS N STUFF -----
 	public static final CustomBlock ENCHANTED_WALL = new MaterialBlock(Material.LAPIS_ORE);
 	public static final CustomBlock NORMAL_WALL = new DataBlock(Material.SMOOTH_BRICK, (byte) 0);
+	public static final CustomBlock MOSSY_WALL = new DataBlock(Material.SMOOTH_BRICK, (byte) 1);
 	public static final CustomBlock CRACKED_WALL = new DataBlock(Material.SMOOTH_BRICK, (byte) 2);
+	public static final CustomBlock CHISELED_WALL = new DataBlock(Material.SMOOTH_BRICK, (byte) 3);
 	public static final CustomBlock DAMAGED_WALL = new MaterialSet(Material.COBBLESTONE, Material.MOSSY_COBBLESTONE);
 	public static final CustomBlock BROKEN_WALL = new MaterialBlock(Material.GRAVEL);
 	
