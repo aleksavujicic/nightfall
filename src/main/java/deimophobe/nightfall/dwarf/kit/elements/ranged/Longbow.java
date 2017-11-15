@@ -60,7 +60,7 @@ public class Longbow extends AbstractBow implements KitCooldownElement {
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
 		MonsterEntity monster = damage.getMonster();
-		if (damage.hasArrow() && ArrowMisc.getArrowForce(damage.getArrow()) > 0.5 ) {
+		if (damage.hasArrow() && this.damageFromBow(damage) && ArrowMisc.getArrowForce(damage.getArrow()) > 0.5 ) {
 			if (monster instanceof MonsterPlayer && !((MonsterPlayer) monster).hasSpawnProtection()) {
 				stacks += PLAYER_STACK_GAIN;
 				stackCD = MAX_STACK_CD;
