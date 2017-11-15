@@ -35,7 +35,7 @@ class SkeletonWither extends Skeleton {
 
 		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes * 10, "Upgrade");
 		getArmour().addModifier(ItemModifierType.HEALTH, extraHealth * 3, "Upgrade");
-		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, piercing * 5 + withering * 15);
+		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, piercing * 4 + withering * 10);
 	}
 	
 	@Override
