@@ -83,7 +83,7 @@ public class Longbow extends AbstractBow implements KitCooldownElement {
 	
 	@Override
 	public float fractionComplete() {
-		return (float) stacks/MAX_STACKS;
+		return (float) stackCD/MAX_STACK_CD;
 	}
 	
 	
