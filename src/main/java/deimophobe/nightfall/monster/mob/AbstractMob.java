@@ -14,6 +14,7 @@ import deimophobe.nightfall.monster.upgrade.GlobalUpgrade;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
+import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,6 +27,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * Created by Deimophobe on 13/04/17.
@@ -137,6 +139,18 @@ public abstract class AbstractMob implements Mob {
 	@Override
 	public Disguise getDisguise() {
 		return DisguiseAPI.getDisguise(monster.getPlayer());
+	}
+	
+	protected void changeDisguise(Consumer<Disguise> changer) {
+		for (Disguise disguise : DisguiseAPI.getDisguises(monster.getPlayer())) {
+			changer.accept(disguise);
+		}
+	}
+	
+	protected void changeDisguiseWatcher(Consumer<FlagWatcher> changer) {
+		for (Disguise disguise : DisguiseAPI.getDisguises(monster.getPlayer())) {
+			changer.accept(disguise.getWatcher());
+		}
 	}
 	
 	protected void showFakeDeadMob() {

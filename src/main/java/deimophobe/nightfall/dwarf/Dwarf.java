@@ -507,6 +507,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	public void onKill(MonsterDamage damage) {
 		kit.onKill(damage);
+		playSound("entity.experience_orb.pickup", 1f, 1f, false);
 	}
 	
 	

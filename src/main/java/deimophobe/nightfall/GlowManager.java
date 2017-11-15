@@ -10,12 +10,9 @@ import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 import deimophobe.nightfall.entity.GamePlayer;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
-import me.libraryaddict.disguise.events.DisguiseEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 
 import java.util.*;
 
@@ -134,14 +131,11 @@ public class GlowManager {
 	}
 	
 	private void stopDisguiseGlow(GamePlayer glower, GamePlayer glowFor) {
-		DisguiseAPI.disguiseToPlayers(glower.getEntity(), glowFor.getDisguise(), glowFor.getPlayer());
-	}
-	
-	private class DisguiseGlowChanger implements Listener {
-		@EventHandler
-		public void onDisguise(DisguiseEvent event) {
-		
+		Disguise disguise = glower.getDisguise();
+		if (disguise != null) {
+			DisguiseAPI.disguiseToPlayers(glower.getEntity(), glowFor.getDisguise(), glowFor.getPlayer());
+		} else {
+			DisguiseAPI.undisguiseToAll(glower.getEntity());
 		}
-		
 	}
 }

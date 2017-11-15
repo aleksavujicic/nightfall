@@ -28,7 +28,7 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	@Override public T getEntity() { return monster; }
 	
 	protected AIEntity(Location location, String name, Dwarf target, EntityType type) {
-		this.monster = (T) GameMap.getCurrentMap().getWorld().spawnEntity(location.clone().subtract(0,2,0), type);
+		this.monster = (T) GameMap.getCurrentMap().getWorld().spawnEntity(location.clone().subtract(0,1.8,0), type);
 		this.targetCounter = MAX_TARGET_COUNT;
 		setupMonster(name, target);
 	}

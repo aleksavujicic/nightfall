@@ -1,5 +1,9 @@
 package deimophobe.nightfall.dwarf.kit.elements.accessory;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketContainer;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Phase;
@@ -8,10 +12,13 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractElement;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
+import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by Deimophobe on 1/11/17.
@@ -51,6 +58,18 @@ public class Resurrection extends AbstractElement {
 						this.cancel();
 				}
 			}.runTaskTimer(NightfallPlugin.getPlugin(), 0, 1);
+			
+			// Send animation packet
+			ProtocolManager pm = ProtocolLibrary.getProtocolManager();
+			PacketContainer pc = pm.createPacket(PacketType.Play.Server.ENTITY_STATUS);
+			pc.getIntegers().write(0, dwarf.getPlayer().getEntityId());
+			pc.getBytes().write(0, (byte) 35);
+			try {
+				pm.sendServerPacket(dwarf.getPlayer(), pc);
+			} catch (InvocationTargetException e) {
+				Bukkit.getLogger().severe("Exception sending animation packet");
+				e.printStackTrace();
+			}
 			
 			damage.softCancel();
 		}

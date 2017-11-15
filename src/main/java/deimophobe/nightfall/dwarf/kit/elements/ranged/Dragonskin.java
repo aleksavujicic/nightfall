@@ -1,10 +1,10 @@
 package deimophobe.nightfall.dwarf.kit.elements.ranged;
 
 import deimophobe.nightfall.ArrowMisc;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
@@ -13,6 +13,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -33,7 +34,7 @@ public class Dragonskin extends AbstractToggleBow implements KitCooldownElement 
 	@Override public int getPower() {return POWER;}
 	@Override public ItemStack getCooldownToggleItem() {return ITEM.createItemStack();}
 	
-	private ComplexCooldown cooldown = new ComplexCooldown(30*20);
+	private ComplexCooldown cooldown = new ComplexCooldown(30*20, null, this::offCDSound);
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
@@ -74,5 +75,16 @@ public class Dragonskin extends AbstractToggleBow implements KitCooldownElement 
 	@Override
 	protected boolean canActivate() {
 		return cooldown.isAvailable();
+	}
+	
+	
+	private void offCDSound() {
+		dwarf.playSound("offcd", 1, 1.5f, false);
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				dwarf.playSound("offcd", 1, 2f, false);
+			}
+		}.runTaskLater(NightfallPlugin.getPlugin(), 5);
 	}
 }

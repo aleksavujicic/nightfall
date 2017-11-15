@@ -6,14 +6,11 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.Game;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import me.libraryaddict.disguise.DisguiseAPI;
-import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
 import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
 import org.bukkit.Bukkit;
@@ -22,6 +19,8 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
+
+import java.util.function.Consumer;
 
 /**
  * Created by Deimophobe on 19/01/17.
@@ -60,13 +59,14 @@ class Wolf extends AbstractMob {
 	
 	@Override
 	public void onShift(boolean sneaking) {
-		Disguise disguise = DisguiseAPI.getDisguise(monster.getPlayer());
-		FlagWatcher watcher = disguise.getWatcher();
-		if (watcher instanceof WolfWatcher) {
-			((WolfWatcher) watcher).setSitting(sneaking);
-		} else {
-			Bukkit.getLogger().warning("Wolf not disguised as wolf?");
-		}
+		Consumer<FlagWatcher> changer = watcher -> {
+			if (watcher instanceof WolfWatcher) {
+				((WolfWatcher) watcher).setSitting(sneaking);
+			} else {
+				Bukkit.getLogger().severe("Wolf not disguised as wolf?");
+			}
+		};
+		changeDisguiseWatcher(changer);
 	}
 	
 	@Override

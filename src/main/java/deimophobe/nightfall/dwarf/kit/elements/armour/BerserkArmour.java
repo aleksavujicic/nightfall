@@ -40,40 +40,39 @@ public class BerserkArmour extends AbstractElement {
 	
 	private void update() {
 		if (dwarf.getArmour() instanceof DwarvenArmour) {
-			DwarvenArmour armour = (DwarvenArmour) dwarf.getArmour();
-			if (!state.isValid(armour)) {
-				state = State.getLevel(armour);
+			if (!state.isValid(dwarf)) {
+				state = State.getLevel(dwarf);
 				state.apply(dwarf);
 			}
 		}
 	}
 	
 	private enum State {
-		HIGH(0.4, 1, 0, false),
-		MED(0.2, 0.4, 1, false),
-		LOW(0, 0.2, 2, true)
+		HIGH(400, 1000, 0, false),
+		MED(200, 400, 1, false),
+		LOW(-1, 200, 3, true)
 		;
 		
-		private final double minArmour;
-		private final double maxArmour;
+		private final int minMana;
+		private final int maxMana;
 		private final int strLevel;
 		private final boolean isBlue;
-		State(double minArmour, double maxArmour, int strLevel, boolean isBlue) {
-			this.minArmour = minArmour;
-			this.maxArmour = maxArmour;
+		State(int minMana, int maxMana, int strLevel, boolean isBlue) {
+			this.minMana = minMana;
+			this.maxMana = maxMana;
 			this.strLevel = strLevel;
 			this.isBlue = isBlue;
 		}
 		
-		private boolean isValid(DwarvenArmour armour) {
-			double frac = armour.armourFraction();
-			return  (minArmour <= frac && frac <= maxArmour);
+		private boolean isValid(Dwarf dwarf) {
+			int mana = dwarf.getMana();
+			return  (minMana < mana && mana <= maxMana);
 		}
 		
-		private static State getLevel(DwarvenArmour armour) {
-			double frac = armour.armourFraction();
+		private static State getLevel(Dwarf dwarf) {
+			int mana = dwarf.getMana();
 			for (State state : values()) {
-				if (frac >= state.minArmour)
+				if (mana >= state.minMana)
 					return state;
 			}
 			return LOW;
