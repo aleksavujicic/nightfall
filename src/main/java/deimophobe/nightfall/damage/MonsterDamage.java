@@ -9,7 +9,6 @@ import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.mob.Blaze;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageEvent;
 
@@ -50,7 +49,7 @@ public class MonsterDamage extends GameDamage<GameEntity, MonsterEntity> {
 	
 	@Override
 	boolean applyDamage(EntityDamageEvent event) {
-		if (proc) instaKill();
+		if (proc && !isCancelled()) instaKill();
 		
 		if (type == NaturalDamageType.RANGED || type == CustomDamageType.EBOW || type == CustomDamageType.VOLCANIC_BOW)
 			getDamage().timesMult(1 - arrowRes.getValue());
