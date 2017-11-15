@@ -37,8 +37,8 @@ class Slab extends Consumable {
 		int z_center = center.getBlockZ();
 		
 		int x_size = 1; // actual size is double this plus 1 (so 3)
-		int y_size = 3; // actual size 5
-		int z_size = 6; // actual size 11
+		int y_size = 2; // actual size 5
+		int z_size = 6; // actual size 13
 		if ((135 < facing && facing <= 215) || facing > 315 || facing <= 45) {
 			x_size = 6;
 			z_size = 1;
