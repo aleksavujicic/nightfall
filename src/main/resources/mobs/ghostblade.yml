@@ -5,7 +5,7 @@ base:
   attack: 20
 
   proccable: true
-  resistance: 0.8
+  resistance: 0.85
   arrowres: 0.9
   shred: 15
   shrineimmune: true
