@@ -23,7 +23,9 @@ public class BlockConverter {
 		EXPLOSION(
 				new Conversion(BlockType.ENCHANTED_WALL, 4.5, 0.7, BlockType.NORMAL_WALL),
 				new Conversion(BlockType.NORMAL_WALL, 4.0, 0.8, BlockType.CRACKED_WALL),
+				new Conversion(BlockType.CHISELED_WALL, 4.0, 0.8, BlockType.CRACKED_WALL),
 				new Conversion(BlockType.CRACKED_WALL, 4.0, 0.8, BlockType.DAMAGED_WALL),
+				new Conversion(BlockType.MOSSY_WALL, 4.0, 0.8, BlockType.DAMAGED_WALL),
 				new Conversion(BlockType.DAMAGED_WALL, 3.5, 1.5, BlockType.BROKEN_WALL),
 				new Conversion(BlockType.BROKEN_WALL, 3.0, 1.5, BlockType.AIR),
 				new Conversion(BlockType.ALL_WOOLS, 2.0, 0.5, BlockType.AIR),
@@ -49,8 +51,11 @@ public class BlockConverter {
 				new Conversion(BlockType.GRASS, 0.5, 0.0, BlockType.AIR)
 		),
 		THROWNEXPLOSION(
+				new Conversion(BlockType.ENCHANTED_WALL, 4.5, 0.5, BlockType.NORMAL_WALL),
 				new Conversion(BlockType.NORMAL_WALL, 4.5, 0.8, BlockType.CRACKED_WALL),
+				new Conversion(BlockType.CHISELED_WALL, 4.5, 0.8, BlockType.CRACKED_WALL),
 				new Conversion(BlockType.CRACKED_WALL, 4.5, 0.8, BlockType.DAMAGED_WALL),
+				new Conversion(BlockType.MOSSY_WALL, 4.5, 0.8, BlockType.DAMAGED_WALL),
 				new Conversion(BlockType.ALL_WOOLS, 2.0, 1.0, BlockType.AIR),
 				new Conversion(BlockType.GRASS, 1.0, 0.0, BlockType.AIR),
 				new Conversion(BlockType.GRASS_BLOCK, 11.0, 5.0, BlockType.DIRT_BLOCK),
@@ -59,7 +64,9 @@ public class BlockConverter {
 		MINOTAUR_CHARGE(
 				new Conversion(BlockType.ENCHANTED_WALL, 2.3, 0.5, BlockType.NORMAL_WALL),
 				new Conversion(BlockType.NORMAL_WALL, 1.5, 0.3, BlockType.CRACKED_WALL),
+				new Conversion(BlockType.CHISELED_WALL, 1.5, 0.3, BlockType.CRACKED_WALL),
 				new Conversion(BlockType.CRACKED_WALL, 1, 0.3, BlockType.DAMAGED_WALL),
+				new Conversion(BlockType.MOSSY_WALL, 1, 0.3, BlockType.DAMAGED_WALL),
 				new Conversion(BlockType.DAMAGED_WALL, 1, 0.2, BlockType.BROKEN_WALL),
 				new Conversion(BlockType.BROKEN_WALL, 0.5, 0.1, BlockType.AIR),
 				new Conversion(BlockType.ALL_WOOLS, 0.5, 0.1, BlockType.AIR),
