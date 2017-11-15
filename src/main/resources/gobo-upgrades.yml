@@ -60,8 +60,6 @@ kaboom:
   prereq:
     supplies: 5
     health: 5
-  exclusiveWith:
-    blaze: 1
   item:
     base: kaboom
     name: "Kaboom"
