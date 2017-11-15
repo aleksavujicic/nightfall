@@ -17,6 +17,6 @@ public class Quiver extends AbstractElement {
 	
 	@Override
 	public void onKill(MonsterDamage damage) {
-		dwarf.giveArrows(2);
+		dwarf.giveArrows(1);
 	}
 }
