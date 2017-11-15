@@ -25,7 +25,7 @@ holy:
     description:
      - "Left click to heal yourself\n
         for &b100&r mana.\n
-        Gains&b8&r perma hearts."
+        Gains &b8&r perma hearts."
     flavour:
      - "\"It's in the name! This things the\n
         holy grail of dwarves.\" - Tui"
@@ -59,11 +59,12 @@ chug:
   name: Chugging Ale
   lore:
     description:
-     - "Left click to heal for a small\n
-        amount of health. Uses &b$manacost&r mana.\n
-        You are able to spam this as much as you want\n
-        so be careful and watch your mana!\n
-        You also gain &espeed for 2.5 seconds&r each sip."
+     - "Left click to heal for &b6&r hearts.\n 
+          Uses &b25&r mana. You are able to spam\n
+          this as much as you want\n
+          so be careful and watch your mana!\n
+          You also gain &espeed for 2.5 seconds&r\n
+          each sip."
     flavour:
      - "\"One of Potion Sellers experimental potions. Use with care.\" "
 
@@ -72,8 +73,9 @@ strong:
   name: Potion Seller's Strongest Potion
   lore:
     description:
-     - "A very strong potion, which gives you %e75% resistance&r\n
-        making you feel like a hero, however it uses &b$manacost&r mana."
+     - "A very strong potion, which gives\n
+          you &e75% resistance&r making you feel like\n
+          a hero, however it uses &b400&r mana."
     flavour:
      - "\"My potions are too strong for you traveller.\" - Potion Seller"
 
