@@ -164,12 +164,13 @@ longbow:
     base: longbow
     lore:
       description:
-       - "Kills with this bow stack\n
-          up to 25 times for a total\n
-          of &b210&r Power, losing &b30&r power over\n
-          &e8 seconds&r without a kill."
+       - "Shooting player controlled mobs\n
+          temporarily increases bow power by &b20&r,\n
+          for a max of &b200&r power for &e10 seconds&r.\n
+          Shooting AI controlled mobs lengthens\n
+          the increase time by &e2 seconds&r."
     modifiers:
-      power: 60
+      power: 80
 
 lightbow:
   index: 11
