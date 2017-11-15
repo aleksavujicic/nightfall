@@ -233,14 +233,14 @@ public class Game {
 		}
 	}
 	
-	public void unreadyPlayer(Player player) {
+	public void unreadyPlayer(Player player, boolean leaving) {
 		if (phase != Phase.STARTING) return;
 		if (!isReady(player)) return;
 		
 		readyPlayers.remove(player);
 		readyNotify(player);
 		
-		int numPlayers = Bukkit.getOnlinePlayers().size();
+		int numPlayers = Bukkit.getOnlinePlayers().size() - (leaving ? 1 : 0);
 		int numReady = readyPlayers.size();
 		
 		Bukkit.broadcastMessage(ChatColor.DARK_AQUA + player.getName() + ChatColor.YELLOW + " is no longer ready! (" +

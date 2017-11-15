@@ -661,7 +661,7 @@ public class NightfallPlugin extends JavaPlugin {
 					if (!game.isReady(player)) {
 						game.readyPlayer(player);
 					} else {
-						game.unreadyPlayer(player);
+						game.unreadyPlayer(player, false);
 					}
 				}
 				return true;
