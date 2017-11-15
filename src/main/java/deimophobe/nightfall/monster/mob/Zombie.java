@@ -45,7 +45,7 @@ public class Zombie extends AbstractMob {
 	public void onSpawn() {
 		super.onSpawn();
 		if (didRebirth()) {
-			giveSpawnProtection(20);
+			giveSpawnProtection(30);
 		}
 	}
 	

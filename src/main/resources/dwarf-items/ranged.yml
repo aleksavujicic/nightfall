@@ -38,8 +38,10 @@ crossbow:
   name: Crossbow
   lore:
     description:
-     - "A crossbow that can fire with no draw time.\n
-        Uses two arrows and has a slight reload time."
+     - "A crossbow that can fire with\n
+          no draw time.\n
+          Uses two arrows and has a\n
+          slight reload time."
     flavour:
      - "\"What do you mean these take skill to use?\" - Arthea"
 
