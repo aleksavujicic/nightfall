@@ -1,0 +1,10 @@
+# Main folder with all the stuff - relative to bungee server folder
+nightfall-folder: ..
+
+# All other paths are relative to nightfall-folder
+
+lobby:
+  folder: Lobby
+  jar: spigot-1.12.jar
+
+running-server-folder: Running
