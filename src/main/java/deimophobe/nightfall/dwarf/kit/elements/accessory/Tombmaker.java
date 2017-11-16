@@ -9,6 +9,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
+import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.DwarfShovel;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
@@ -17,6 +18,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashSet;
@@ -25,7 +27,7 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 20/01/17.
  */
-public class Tombmaker extends DwarfShovel {
+public class Tombmaker extends DwarfShovel implements KitCooldownElement {
 	
 	public Tombmaker(Dwarf dwarf) {
 		super(dwarf);
@@ -38,6 +40,7 @@ public class Tombmaker extends DwarfShovel {
 		return ITEM;
 	}
 	@Override public KitGiveType getGiveType() { return KitGiveType.SHOVEL; }
+	@Override public ItemStack getCooldownToggleItem() { return null; }
 	
 	
 	@Override
@@ -78,7 +81,10 @@ public class Tombmaker extends DwarfShovel {
 		}
 	}
 	
-	
+	@Override
+	public float fractionComplete() {
+		return hasteCD.fractionComplete();
+	}
 	
 	private static class ScavengeItem {
 		private static double MAX_WEIGHT;
