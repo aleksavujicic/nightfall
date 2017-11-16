@@ -160,7 +160,7 @@ public class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 		world.spawnParticle(Particle.END_ROD, feets, (int) (20), 1f, 1f, 1f, 0.07);
 
 		// Calculate collision
-		for (GameEntity monster : MonsterManager.getManager().getAlivePlayerMobs()) {
+		for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
 			// Skip if further than distance shot or too close
 			Location monsterLocation = monster.getEyeLocation();
 			double distance = location.distance(monsterLocation);
@@ -173,11 +173,22 @@ public class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 				// If close enough damage mob
 				boolean hit = false;
 				if (monster.distanceTo(dwarf) <= radius) {
-					monster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, INFERNO_DAMAGE);
-					hit = true;
+					if(monster instanceof AIEntity){
+						monster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, INFERNO_DAMAGE,true,true);
+					}
+					else {
+						monster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, INFERNO_DAMAGE);
+						hit = true;
+					}
+
 				} else if (radialOffset <= THICKNESS) {
-					monster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, INFERNO_DAMAGE);
-					hit = true;
+					if(monster instanceof AIEntity){
+						monster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, INFERNO_DAMAGE,true,true);
+					}
+					else {
+						monster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, INFERNO_DAMAGE);
+						hit = true;
+					}
 				}
 
 				if (hit && monster instanceof MonsterPlayer)
@@ -185,32 +196,32 @@ public class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 			}
 		}
 
-		for (AIEntity aiMonster : AIManager.getManager().getAIs()){
-			Location monsterLocation = aiMonster.getEyeLocation();
-			double distance = location.distance(monsterLocation);
-			if (distance <= range) {
-				// Find if close enough to beam
-				Vector aimonsterOffset = monsterLocation.clone().subtract(location).toVector();
-				Vector airadialPostion = direction.clone().multiply(aimonsterOffset.clone().dot(direction)); // ((m - p) dot u) times u
-				double airadialOffset = airadialPostion.subtract(aimonsterOffset).length();
-
-				// If close enough damage mob
-				boolean hit = false;
-				if (aiMonster.distanceTo(dwarf) <= radius) {
-					aiMonster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, INFERNO_DAMAGE,true,true);
-					hit = true;
-				} else if (airadialOffset <= THICKNESS) {
-					aiMonster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, INFERNO_DAMAGE,true,true);
-					hit = true;
-				}
-
-				if (hit)
-					dwarf.playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
-			}
-		}
+//		for (AIEntity aiMonster : AIManager.getManager().getAIs()){
+//			Location monsterLocation = aiMonster.getEyeLocation();
+//			double distance = location.distance(monsterLocation);
+//			if (distance <= range) {
+//				// Find if close enough to beam
+//				Vector aimonsterOffset = monsterLocation.clone().subtract(location).toVector();
+//				Vector airadialPostion = direction.clone().multiply(aimonsterOffset.clone().dot(direction)); // ((m - p) dot u) times u
+//				double airadialOffset = airadialPostion.subtract(aimonsterOffset).length();
+//
+//				// If close enough damage mob
+//				boolean hit = false;
+//				if (aiMonster.distanceTo(dwarf) <= radius) {
+//					aiMonster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, INFERNO_DAMAGE,true,true);
+//					hit = true;
+//				} else if (airadialOffset <= THICKNESS) {
+//					aiMonster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, INFERNO_DAMAGE,true,true);
+//					hit = true;
+//				}
+//
+//				if (hit)
+//					dwarf.playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
+//			}
+//		}
 
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
-			// Dont give proc to self
+			// Dont give buff to self
 			if (dwarf == this.dwarf) continue;
 
 			// Skip if further than distance shot or too close
@@ -225,9 +236,8 @@ public class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 				// If close enough to give dwarf proc
 				if (radialOffset <= THICKNESS) {
 					if(dwarf.hasPotionEffect(PotionEffectType.BLINDNESS)){
-						dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION,10*20, 1,true,true,true);
+						dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION,10*20, 3,true,true,true);
 					}
-
 					if(dwarf.getMana() < 300){
 						dwarf.regenMana(50);
 					}
@@ -247,13 +257,8 @@ public class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 
 	private void createBuffPool(){
 		Location spawnLoc = dwarf.getEyeLocation().add(0,-1.25,0);
-		Vector looking = spawnLoc.getDirection();
 
-		looking.normalize().multiply(BUFFPOOL_VELOCITY);
-		looking.add(dwarf.getVelocity().setY(0));
-		spawnLoc.add(looking.clone().multiply(3));
-
-		new BuffPool(spawnLoc, looking);
+		new BuffPool(spawnLoc, new Vector());
 	}
 
 	private class BuffPool{
@@ -274,14 +279,13 @@ public class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 					for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 						if (dwarf.getEyeLocation().distance(position) <= BUFFPOOL_RADIUS) {
 
-							if(dwarf.hasPotionEffect(PotionEffectType.BLINDNESS) || dwarf.getMana() > 300){
-								if(dwarf.hasPotionEffect(PotionEffectType.BLINDNESS)){
-									dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION,10*20, 3,true,true,true);
-								}
-								if(dwarf.getMana() < 300){
-									dwarf.regenMana(50);
-								}
-							}else{
+							if(dwarf.hasPotionEffect(PotionEffectType.BLINDNESS)){
+								dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION,10*20, 3,true,true,true);
+							}
+							if(dwarf.getMana() < 300){
+								dwarf.regenMana(50);
+							}
+							else{
 								dwarf.givePotionEffect(PotionEffectType.INCREASE_DAMAGE,5*20,1,true,true,true);
 							}
 
