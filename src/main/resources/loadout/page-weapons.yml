@@ -23,7 +23,7 @@ malice:
   category: sword
   cost: 24
   item:
-    name: "Axe of Malice"
+    name: "Bloodied Waraxe"
     base: malice
     lore:
       description:
