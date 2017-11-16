@@ -5,6 +5,8 @@ import deimophobe.nightfall.Hat;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.RepeatingCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
@@ -201,12 +203,12 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	// ------ ARROWS ------
 	private int maxArrows = 20;
+	private int arrows = maxArrows;
+	protected ComplexCooldown arrowRegen = new RepeatingCooldown(4*20, this::giveArrow);
 	
 	public void setMaxArrows(int max) {
 		maxArrows = max;
 	}
-	
-	private int arrows = maxArrows;
 	
 	public int getArrowCount() { return arrows; }
 	public boolean hasArrows(int amt) { return (arrows >= amt); }
@@ -339,17 +341,17 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		kit.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		updateCooldownBar();
 		
-		player.setSaturation(10);
-		
 		if (consumableGrabCD > 0)
 			consumableGrabCD--;
 		
 		updateBlood(quartSec, halfSec, sec);
 		
 		if (quadSec) {
-			giveArrow();
-
+			player.setSaturation(10);
 		}
+		
+		arrowRegen.update();
+		
 		//mobspawn
 		if (sec && Game.getGame().getPhase() == Phase.GAME) {
 			if (mobSpawnFourthCounter < 4) {

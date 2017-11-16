@@ -39,7 +39,7 @@ greatsword:
 
 axe:
   base: malice
-  name: Axe of Malice
+  name: Bloodied Waraxe
   lore:
     description:
      - "Right click to go into a &4Blood rage&r,\n

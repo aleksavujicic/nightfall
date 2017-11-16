@@ -52,7 +52,7 @@ public class Wildfire extends AbstractItem {
 		Location spawnLoc = dwarf.getEyeLocation();
 		Vector looking = spawnLoc.getDirection();
 		
-		looking.normalize().multiply(FLAME_VELOCITY);
+		looking.normalize().multiply(Flame.FLAME_VELOCITY);
 		looking.add(dwarf.getVelocity().setY(0));
 		spawnLoc.add(looking.clone().multiply(3));
 		
@@ -63,27 +63,31 @@ public class Wildfire extends AbstractItem {
 		dwarf.useArrows(1);
 	}
 	
-	private static final double FLAME_RADIUS = 2;
-	private static final double FLAME_VELOCITY = 0.3;
-	private static final double FLAME_DPT = 1.5; // Damage per tick
 	
 	private class Flame extends CustomProjectile {
 		
+		private static final double FLAME_RADIUS = 2;
+		private static final double FLAME_VELOCITY = 0.3;
+		private static final int FLAME_LIFE = 40;
+		
 		private Flame(Location location, Vector velocity) {
-			super(40, location, velocity, 0, 1);
+			super(FLAME_LIFE, location, velocity, 0, 1);
 		}
 		
 		@Override
 		public void run() {
 			super.run();
 			
+			double frac = (double) getLifeLeft() / FLAME_LIFE;
+			double damageAmt = frac*4;
+			
 			// Flame particles
-			world.spawnParticle(Particle.FLAME, location, 15, 0.35, 0.35, 0.35, 0);
+			world.spawnParticle(Particle.FLAME, location, (int) (frac*20), 0.35, 0.35, 0.35, 0);
 			
 			// Damage mobs
 			for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
 				if (monster.getEyeLocation().distance(location) <= FLAME_RADIUS) {
-					GameDamage damage = monster.createDamage(dwarf, CustomDamageType.WILDFIRE, FLAME_DPT);
+					GameDamage damage = monster.createDamage(dwarf, CustomDamageType.WILDFIRE, damageAmt);
 					damage.setNoDmgTicks(1);
 					damage.fire(true);
 				}
