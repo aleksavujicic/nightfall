@@ -174,7 +174,7 @@ public class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 				boolean hit = false;
 				if (monster.distanceTo(dwarf) <= radius) {
 					if(monster instanceof AIEntity){
-						monster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, INFERNO_DAMAGE,true,true);
+						monster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, 10,true);
 					}
 					else {
 						monster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, INFERNO_DAMAGE);
@@ -183,7 +183,7 @@ public class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 
 				} else if (radialOffset <= THICKNESS) {
 					if(monster instanceof AIEntity){
-						monster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, INFERNO_DAMAGE,true,true);
+						monster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, 10,true);
 					}
 					else {
 						monster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, INFERNO_DAMAGE);
@@ -253,7 +253,6 @@ public class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 	private static final int BUFFPOOL_LIFE = 30*20;
 	private static final int BUFFPOOL_DELAY = 1;
 	private static final double BUFFPOOL_RADIUS = 3.5;
-	private static final double BUFFPOOL_VELOCITY = 0;
 
 	private void createBuffPool(){
 		Location spawnLoc = dwarf.getEyeLocation().add(0,-1.25,0);
@@ -273,7 +272,7 @@ public class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 					position.add(velocity);
 
 					// BuffPool particles
-					position.getWorld().spawnParticle(Particle.DRAGON_BREATH, position, 50, 0.5, 0, 0.5, 0);
+					position.getWorld().spawnParticle(Particle.DRAGON_BREATH, position, 15, 0.5, 0, 0.5, 0);
 
 					// Buff Dwarves
 					for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
