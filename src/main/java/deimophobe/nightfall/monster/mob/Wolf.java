@@ -8,6 +8,8 @@ import com.comphenix.protocol.events.PacketEvent;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -124,7 +126,15 @@ class Wolf extends AbstractMob {
 			furySound.tryUse();
 		}
 	}
-	
+
+	@Override
+	public void onDamageReceive(MonsterDamage damage) {
+		super.onDamageReceive(damage);
+		if (damage.getType() == NaturalDamageType.MELEE) {
+			monster.givePotionEffect(PotionEffectType.SLOW, 20, 2,true, true,true);
+		}
+	}
+
 	private boolean isHellhound() {
 		return (this instanceof Hellhound);
 	}
