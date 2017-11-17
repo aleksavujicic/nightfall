@@ -304,7 +304,7 @@ holy:
   category: ale
   cost: 8
   item:
-    name: "Holy Ale"
+    name: "Hearty Ale"
     base: holy_ale
     lore:
       description:

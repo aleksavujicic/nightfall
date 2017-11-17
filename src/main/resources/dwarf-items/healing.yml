@@ -20,7 +20,7 @@ jj:
 
 holy:
   base: holy_ale
-  name: Holy Ale
+  name: Hearty Ale
   lore:
     description:
      - "Left click to heal yourself\n
