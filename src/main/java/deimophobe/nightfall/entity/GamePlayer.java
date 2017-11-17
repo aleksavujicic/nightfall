@@ -1,13 +1,21 @@
 package deimophobe.nightfall.entity;
 
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.DamageOccurance;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.monster.MonsterManager;
 import me.libraryaddict.disguise.DisguiseAPI;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
@@ -22,6 +30,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -306,4 +315,106 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	
 	@Deprecated
 	public abstract void update(boolean b, boolean b1, boolean b2, boolean b3, boolean b4);
+	
+	
+	// BEAM FIRING
+	public void fireBeam(
+			double range, double thickness,
+			double particlePeriod, Consumer<Location> particlePlacer,
+			Consumer<Dwarf> dwarfConsumer, Consumer<MonsterEntity> mobConsumber) {
+		
+		Location location = getEyeLocation();
+		Misc.moveLocation(location, 0, 0.3, -0.3);
+		Vector direction = location.getDirection();
+		
+		Vector delta = direction.clone().multiply(particlePeriod);
+		int times = (int) (range/particlePeriod);
+		Location particlePos = location.clone();
+		
+		// Place particles if placer not null
+		if (particlePlacer != null) {
+			for (int i = 0; i <= times; i++) {
+				particlePos.add(delta);
+				particlePlacer.accept(particlePos);
+				
+				// Stop beam if it hits a block
+				if (particlePos.getBlock().getType().isSolid()) {
+					range = location.distance(particlePos);
+					break;
+				}
+			}
+		}
+		if (dwarfConsumer != null) {
+			consumeEntitiesInLine(location, direction, range, thickness, dwarfConsumer, DwarfManager.getManager().getDwarves());
+		}
+		
+		if (mobConsumber != null) {
+			consumeEntitiesInLine(location, direction, range, thickness, mobConsumber, MonsterManager.getManager().getAliveMobsAndAIs());
+		}
+	}
+	
+	private <P extends GameEntity> void consumeEntitiesInLine(
+			Location location, Vector direction,
+			double range, double thickness,
+			Consumer<P> applier, Collection<P> entities) {
+		
+		for (P entity : entities) {
+			// Dont affect self
+			if (entity == this) continue;
+			
+			// Skip if further than distance shot or too close
+			Location entityLoc = entity.getEyeLocation();
+			double distance = location.distance(entityLoc);
+			if (distance <= range) {
+				// Find if close enough to beam
+				Vector monsterOffset = entityLoc.clone().subtract(location).toVector();
+				Vector radialPostion = direction.clone().multiply(monsterOffset.clone().dot(direction)); // ((m - p) dot u) times u
+				double radialOffset = radialPostion.subtract(monsterOffset).length();
+				
+				// If close enough to give dwarf proc
+				if (radialOffset <= thickness) {
+					applier.accept(entity);
+				}
+			}
+		}
+	}
+	
+	public class ProcGiver implements Consumer<Dwarf> {
+		private final ProcType type;
+		private final double minDistance;
+		private boolean gaveProc = false;
+		
+		public ProcGiver(ProcType type, double minDistance) {
+			this.type = type;
+			this.minDistance = minDistance;
+		}
+		
+		@Override
+		public void accept(Dwarf dwarf) {
+			if (dwarf.distanceTo(GamePlayer.this) >= minDistance) {
+				gaveProc = true;
+				dwarf.giveProc(ProcType.EBOW);
+			}
+		}
+		
+		public boolean gaveProc() {
+			return gaveProc;
+		}
+	}
+	
+	public class GameEntityDamager<P extends GameEntity> implements Consumer<P> {
+		private final CustomDamageType type;
+		private final double damage;
+		
+		public GameEntityDamager(CustomDamageType type, double damage) {
+			this.type = type;
+			this.damage = damage;
+		}
+		
+		@Override
+		public void accept(P entity) {
+			entity.doDamage(GamePlayer.this, type, damage);
+			if (entity instanceof GamePlayer) playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
+		}
+	}
 }

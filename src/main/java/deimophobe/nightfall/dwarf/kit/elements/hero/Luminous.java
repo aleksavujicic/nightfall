@@ -4,20 +4,20 @@ import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.ranged.AbstractBow;
 import deimophobe.nightfall.effects.sound.Sounds;
-import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.entity.GamePlayer;
+import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.CustomItem;
-import deimophobe.nightfall.monster.MonsterManager;
-import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.Projectile;
 import org.bukkit.util.Vector;
+
+import java.util.function.Consumer;
 
 public class Luminous extends AbstractBow {
     public Luminous(Dwarf dwarf) {
@@ -36,128 +36,71 @@ public class Luminous extends AbstractBow {
     private static final double MAX_RANGE = 50;
     private static final double THICKNESS = 1.6;
     private static final double MIN_DISTANCE_FROM_SHOOTER = 1;
-    private static final double AOE_RADIUS = 1.5;
 
     @Override
     public void onDamageAttack(MonsterDamage damage) {
         super.onDamageAttack(damage);
-        if (damageFromBow(damage)) {
+        if (damage.getType() == CustomDamageType.LUMINOUS) {
             damage.getArrowRes().timesMult(0.5);
         }
     }
 
     @Override
     public Projectile onBowFire(Projectile arrow, float force) {
-        Location location = dwarf.getPlayer().getEyeLocation();
-        double yaw = location.getYaw() * Math.PI/180;
-        location.add(-0.3*Math.cos(yaw), -0.3, -0.3*Math.sin(yaw));
-        Vector direction = location.getDirection();
-
-
         if (!dwarf.hasArrows(3)) return null;
         dwarf.useArrows(3);
 
         double range = MAX_RANGE * force * force;
-        double radius = AOE_RADIUS * force;
-
-        // Show particles
-        Vector delta = direction.clone().multiply(0.33);
-        int times = (int) (range/0.33);
-        Location particlePos = location.clone();
-        World world = particlePos.getWorld();
+	
+		ParticleSwirler swirler = new ParticleSwirler(dwarf.getLocation().getDirection());
+		GamePlayer.ProcGiver procGiver = dwarf.new ProcGiver(ProcType.LUMINOUS, MIN_DISTANCE_FROM_SHOOTER);
+		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(CustomDamageType.LUMINOUS, getPower()*force);
+		dwarf.fireBeam(range, THICKNESS, 0.33, swirler, procGiver, entityDamager);
+	
+		if (procGiver.gaveProc()) {
+			Sounds.DWARF_ITEM_EBOW_GIVE_PROC.playSound(dwarf);
+		}
+		dwarf.playSound("entity.ghast.shoot", 1f, 1.35f - force*0.5f, true);
 		
-		Misc.Pair<Vector> planeBasis = Misc.orthonormalBasisOfPlaneFromNormal(delta);
-		planeBasis.first.multiply(0.125);
-		planeBasis.second.multiply(0.125);
-		double theta = 0;
-        for (int i = 0; i<= times; i++) {
-            particlePos.add(delta);
-            
-			Vector u1 = planeBasis.first;
-			Vector u2 = planeBasis.second;
-            
-            theta = (theta + 0.3) % (2*Math.PI);
-            double emerTheta = (theta + 2d/3 * Math.PI) % (2*Math.PI);
-			double purpTheta = (theta + 4d/3 * Math.PI) % (2*Math.PI);
-   
-			// u1 * cos(theta) + u2*sin(theta)
-            Vector fireOffset = u1.clone().multiply(Math.cos(theta)).add(u2.clone().multiply(Math.sin(theta)));
-            Vector emerOffset = u1.clone().multiply(Math.cos(emerTheta)).add(u2.clone().multiply(Math.sin(emerTheta)));
-            Vector purpOffset = u1.clone().multiply(Math.cos(purpTheta)).add(u2.clone().multiply(Math.sin(purpTheta)));
-            Location firePos = particlePos.clone().add(fireOffset);
-			Location emerPos = particlePos.clone().add(emerOffset);
-			Location purpPos = particlePos.clone().add(purpOffset);
-			
-			world.spawnParticle(Particle.FLAME, firePos, 3, 0.05, 0.05, 0.05, 0);
-			world.spawnParticle(Particle.VILLAGER_HAPPY, emerPos, 2, 0.05, 0.05, 0.05, 0);
-			world.spawnParticle(Particle.DRAGON_BREATH, purpPos, 1, 0.05, 0.05, 0.05, 0);
-
-            // Stop beam if it hits a block
-            if (particlePos.getBlock().getType().isSolid()) {
-                range = location.distance(particlePos);
-                break;
-            }
-        }
-
-        Location feets = dwarf.getLocation().add(0, 0.25, 0);
-        world.spawnParticle(Particle.FLAME, feets, (int) (30*force), 1f, 1f, 1f, 0.07);
-        world.spawnParticle(Particle.VILLAGER_HAPPY, feets, (int) (30*force), 1f, 1f, 1f, 0.07);
-        world.spawnParticle(Particle.END_ROD, feets, (int) (20*force), 1f, 1f, 1f, 0.07);
-		world.spawnParticle(Particle.DRAGON_BREATH, feets, (int) (10*force), 0.05, 0.05, 0.05, 0);
-
-        // Calculate collision
-        for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
-            // Skip if further than distance shot or too close
-            Location monsterLocation = monster.getEyeLocation();
-            double distance = location.distance(monsterLocation);
-            if (distance <= range) {
-                // Find if close enough to beam
-                Vector monsterOffset = monsterLocation.clone().subtract(location).toVector();
-                Vector radialPostion = direction.clone().multiply(monsterOffset.clone().dot(direction)); // ((m - p) dot u) times u
-                double radialOffset = radialPostion.subtract(monsterOffset).length();
-
-                // If close enough damage mob
-                boolean hit = false;
-                if (monster.distanceTo(dwarf) <= radius) {
-                    monster.doDamage(dwarf, CustomDamageType.LUMINOUS, getPower()*force/2);
-                    hit = true;
-                } else if (radialOffset <= THICKNESS) {
-                    monster.doDamage(dwarf, CustomDamageType.LUMINOUS, getPower()*force);
-                    hit = true;
-                }
-    
-                if (hit && monster instanceof MonsterPlayer)
-                    dwarf.playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
-            }
-        }
-
-        boolean gaveProc = false;
-        for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
-            // Dont give proc to self
-            if (dwarf == this.dwarf) continue;
-
-            // Skip if further than distance shot or too close
-            Location dwarfLoc = dwarf.getEyeLocation();
-            double distance = location.distance(dwarfLoc);
-            if (MIN_DISTANCE_FROM_SHOOTER <= distance && distance <= range) {
-                // Find if close enough to beam
-                Vector monsterOffset = dwarfLoc.clone().subtract(location).toVector();
-                Vector radialPostion = direction.clone().multiply(monsterOffset.clone().dot(direction)); // ((m - p) dot u) times u
-                double radialOffset = radialPostion.subtract(monsterOffset).length();
-
-                // If close enough to give dwarf proc
-                if (radialOffset <= THICKNESS) {
-                    gaveProc = true;
-                    dwarf.giveProc(ProcType.LUMINOUS);
-                }
-            }
-        }
-
-        if (gaveProc) {
-            Sounds.DWARF_ITEM_EBOW_GIVE_PROC.playSound(dwarf);
-        }
-        dwarf.playSound("entity.ghast.shoot", 1f, 1.35f - force*0.5f, true);
+		Location chest = dwarf.getEyeLocation().subtract(0, 0.5, 0);
+		World world = chest.getWorld();
+		world.spawnParticle(Particle.FLAME, chest, (int) (20*force), 0.6f, 0.6f, 0.6f, 0.07);
+		world.spawnParticle(Particle.VILLAGER_HAPPY, chest, (int) (15*force), 0.6f, 0.6f, 0.6f, 0.07);
+		world.spawnParticle(Particle.END_ROD, chest, (int) (10*force), 0.6f, 0.6f, 0.6f, 0.07);
+		world.spawnParticle(Particle.DRAGON_BREATH, chest, (int) (5*force), 0.6f, 0.6f, 0.6f, 0.07);
 
         return null;
     }
+    
+    private static class ParticleSwirler implements Consumer<Location> {
+    	private final Vector u1;
+		private final Vector u2;
+		private double theta = 0;
+	
+		private ParticleSwirler(Vector planeNormal) {
+			Misc.Pair<Vector> planeBasis = Misc.orthonormalBasisOfPlaneFromNormal(planeNormal);
+			u1 = planeBasis.first.multiply(0.125);
+			u2 = planeBasis.second.multiply(0.125);
+		}
+	
+		@Override
+		public void accept(Location location) {
+			theta = (theta + 0.3) % (2*Math.PI);
+			double emerTheta = (theta + 2d/3 * Math.PI) % (2*Math.PI);
+			double purpTheta = (theta + 4d/3 * Math.PI) % (2*Math.PI);
+			
+			// u1 * cos(theta) + u2*sin(theta)
+			Vector fireOffset = u1.clone().multiply(Math.cos(theta)).add(u2.clone().multiply(Math.sin(theta)));
+			Vector emerOffset = u1.clone().multiply(Math.cos(emerTheta)).add(u2.clone().multiply(Math.sin(emerTheta)));
+			Vector purpOffset = u1.clone().multiply(Math.cos(purpTheta)).add(u2.clone().multiply(Math.sin(purpTheta)));
+			Location firePos = location.clone().add(fireOffset);
+			Location emerPos = location.clone().add(emerOffset);
+			Location purpPos = location.clone().add(purpOffset);
+			
+			World world = location.getWorld();
+			world.spawnParticle(Particle.FLAME, firePos, 3, 0.05, 0.05, 0.05, 0);
+			world.spawnParticle(Particle.VILLAGER_HAPPY, emerPos, 2, 0.05, 0.05, 0.05, 0);
+			world.spawnParticle(Particle.DRAGON_BREATH, purpPos, 1, 0.05, 0.05, 0.05, 0);
+		}
+	}
 }
