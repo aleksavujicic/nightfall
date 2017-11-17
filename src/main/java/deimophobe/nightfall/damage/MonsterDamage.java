@@ -51,8 +51,13 @@ public class MonsterDamage extends GameDamage<GameEntity, MonsterEntity> {
 	boolean applyDamage(EntityDamageEvent event) {
 		if (proc && !isCancelled()) instaKill();
 		
-		if (type == NaturalDamageType.RANGED || type == CustomDamageType.EBOW || type == CustomDamageType.VOLCANIC_BOW)
+		if (type == NaturalDamageType.RANGED
+				|| type == CustomDamageType.EBOW
+				|| type == CustomDamageType.VOLCANIC_BOW
+				|| type == CustomDamageType.LUMINOUS)
+		{
 			getDamage().timesMult(1 - arrowRes.getValue());
+		}
 		
 		boolean successful = super.applyDamage(event);
 		
