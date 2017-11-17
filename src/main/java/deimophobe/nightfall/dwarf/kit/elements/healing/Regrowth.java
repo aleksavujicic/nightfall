@@ -23,7 +23,7 @@ public class Regrowth extends AbstractAle {
 	
 	private Dwarf target = null;
 	private void resetTarget() { target = null; }
-	private final ComplexCooldown targetClearer = new ComplexCooldown(25, null, this::resetTarget);
+	private final ComplexCooldown targetClearer = new ComplexCooldown(20, null, this::resetTarget);
 	
 	private final ComplexCooldown healOthersCD = new ComplexCooldown(12, this::tryHealOthers);
 
