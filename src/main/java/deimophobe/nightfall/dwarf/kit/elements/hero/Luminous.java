@@ -34,7 +34,7 @@ public class Luminous extends AbstractBow {
     @Override public int getPower() {return POWER;}
 
     private static final double MAX_RANGE = 50;
-    private static final double THICKNESS = 1.5;
+    private static final double THICKNESS = 1.6;
     private static final double MIN_DISTANCE_FROM_SHOOTER = 1;
     private static final double AOE_RADIUS = 1.5;
 
@@ -73,16 +73,24 @@ public class Luminous extends AbstractBow {
         for (int i = 0; i<= times; i++) {
             particlePos.add(delta);
             
-			Vector u1 = planeBasis.first.clone();
-			Vector u2 = planeBasis.second.clone();
+			Vector u1 = planeBasis.first;
+			Vector u2 = planeBasis.second;
             
-            theta = (theta + 0.2) % (2*Math.PI);
-            Vector offset = u1.multiply(Math.cos(theta)).add(u2.multiply(Math.sin(theta)));
-            Location firePos = particlePos.clone().add(offset);
-			Location emerPos = particlePos.clone().subtract(offset);
+            theta = (theta + 0.3) % (2*Math.PI);
+            double emerTheta = (theta + 2d/3 * Math.PI) % (2*Math.PI);
+			double purpTheta = (theta + 4d/3 * Math.PI) % (2*Math.PI);
+   
+			// u1 * cos(theta) + u2*sin(theta)
+            Vector fireOffset = u1.clone().multiply(Math.cos(theta)).add(u2.clone().multiply(Math.sin(theta)));
+            Vector emerOffset = u1.clone().multiply(Math.cos(emerTheta)).add(u2.clone().multiply(Math.sin(emerTheta)));
+            Vector purpOffset = u1.clone().multiply(Math.cos(purpTheta)).add(u2.clone().multiply(Math.sin(purpTheta)));
+            Location firePos = particlePos.clone().add(fireOffset);
+			Location emerPos = particlePos.clone().add(emerOffset);
+			Location purpPos = particlePos.clone().add(purpOffset);
 			
-			world.spawnParticle(Particle.FLAME, firePos, 2, 0.05, 0.05, 0.05, 0);
+			world.spawnParticle(Particle.FLAME, firePos, 3, 0.05, 0.05, 0.05, 0);
 			world.spawnParticle(Particle.VILLAGER_HAPPY, emerPos, 2, 0.05, 0.05, 0.05, 0);
+			world.spawnParticle(Particle.DRAGON_BREATH, purpPos, 1, 0.05, 0.05, 0.05, 0);
 
             // Stop beam if it hits a block
             if (particlePos.getBlock().getType().isSolid()) {
@@ -95,6 +103,7 @@ public class Luminous extends AbstractBow {
         world.spawnParticle(Particle.FLAME, feets, (int) (30*force), 1f, 1f, 1f, 0.07);
         world.spawnParticle(Particle.VILLAGER_HAPPY, feets, (int) (30*force), 1f, 1f, 1f, 0.07);
         world.spawnParticle(Particle.END_ROD, feets, (int) (20*force), 1f, 1f, 1f, 0.07);
+		world.spawnParticle(Particle.DRAGON_BREATH, feets, (int) (10*force), 0.05, 0.05, 0.05, 0);
 
         // Calculate collision
         for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
