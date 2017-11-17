@@ -33,7 +33,7 @@ public class VolcanicGauntlet extends AbstractBow {
 	private static final double PARTICLE_OFFSET = THICKNESS/10;
 	private static final double AOE_RADIUS = 1.4;
 	
-	private static final Consumer<Location> particlePlacer =
+	private static final Consumer<Location> PARTICLE_PLACER =
 			(location) -> location.getWorld().spawnParticle(Particle.FLAME, location, 3, PARTICLE_OFFSET, PARTICLE_OFFSET, PARTICLE_OFFSET, 0);
 	
 	@Override
@@ -46,7 +46,7 @@ public class VolcanicGauntlet extends AbstractBow {
 		double radius = AOE_RADIUS * force;
 		
 		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(CustomDamageType.VOLCANIC_BOW, getPower()*force);
-		dwarf.fireBeam(range, THICKNESS, 0.33, particlePlacer, null, entityDamager);
+		dwarf.fireBeam(range, THICKNESS, 0.33, PARTICLE_PLACER, null, entityDamager);
 		
 		Location feets = dwarf.getLocation().add(0, 0.25, 0);
 		World world = feets.getWorld();

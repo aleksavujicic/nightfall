@@ -8,20 +8,16 @@ import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractItem;
-import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.entity.GamePlayer;
+import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterManager;
-import deimophobe.nightfall.monster.MonsterPlayer;
-import deimophobe.nightfall.monster.ai.AIEntity;
-import deimophobe.nightfall.monster.ai.AIManager;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -30,6 +26,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.function.Consumer;
+
 public class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 	public ScepterOfMagma(Dwarf dwarf) { super(dwarf); }
 
@@ -37,6 +35,9 @@ public class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 	@Override public CustomItem getItem() { return ITEM; }
 	@Override public ItemStack getCooldownToggleItem() { return ITEM.createItemStack(); }
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
+	
+	private static final Consumer<Location> PARTICLE_PLACER =
+			(location) -> location.getWorld().spawnParticle(Particle.DRAGON_BREATH, location, 2, 0.07, 0.07, 0.07, 0);
 	
 	
 	private final ComplexCooldown cd = new ComplexCooldown(1*20);
@@ -108,118 +109,16 @@ public class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 		}
 	}
 
-	private static final double MAX_RANGE = 10;
 	private static final double THICKNESS = 1.5;
 	private static final double MIN_DISTANCE_FROM_SHOOTER = 1;
-	private static final double AOE_RADIUS = 1.5;
-	private static final double INFERNO_DAMAGE = 15;
 
-	private void createInferno(){
-		Location location = dwarf.getPlayer().getEyeLocation();
-		double yaw = location.getYaw() * Math.PI/180;
-		location.add(-0.3*Math.cos(yaw), -0.3, -0.3*Math.sin(yaw));
-		Vector direction = location.getDirection();
+	private void createInferno() {
+		
+		GamePlayer.GameEntityDamager<MonsterEntity> damager = dwarf.new GameEntityDamager<MonsterEntity>(CustomDamageType.SCEPTER_OF_MAGMA, 12);
+		dwarf.fireBeam(10, 1.25, 0.25, PARTICLE_PLACER, null, damager);
 
-		double range = MAX_RANGE;
-		double radius = AOE_RADIUS;
-
-		// Show particles
-		Vector delta = direction.clone().multiply(0.33);
-		int times = (int) (range/0.33);
-		Location particlePos = location.clone();
-		World world = particlePos.getWorld();
-
-		Misc.Pair<Vector> planeBasis = Misc.orthonormalBasisOfPlaneFromNormal(delta);
-		planeBasis.first.multiply(0.125);
-		planeBasis.second.multiply(0.125);
-		double theta = 0;
-		for (int i = 0; i<= times; i++) {
-			particlePos.add(delta);
-
-			Vector u1 = planeBasis.first.clone();
-			Vector u2 = planeBasis.second.clone();
-
-			theta = (theta + 0.2) % (2*Math.PI);
-			Vector offset = u1.multiply(Math.cos(theta)).add(u2.multiply(Math.sin(theta)));
-			Location firePos = particlePos.clone().add(offset);
-			Location emerPos = particlePos.clone().subtract(offset);
-
-			world.spawnParticle(Particle.FLAME, firePos, 2, 0.05, 0.05, 0.05, 0);
-			world.spawnParticle(Particle.DRAGON_BREATH, emerPos, 2, 0.05, 0.05, 0.05, 0);
-
-			// Stop beam if it hits a block
-			if (particlePos.getBlock().getType().isSolid()) {
-				range = location.distance(particlePos);
-				break;
-			}
-		}
-
-		Location feets = dwarf.getLocation().add(0, 0.25, 0);
-		world.spawnParticle(Particle.FLAME, feets, (int) (30), 1f, 1f, 1f, 0.07);
-		world.spawnParticle(Particle.DRAGON_BREATH, feets, (int) (30), 1f, 1f, 1f, 0.07);
-		world.spawnParticle(Particle.END_ROD, feets, (int) (20), 1f, 1f, 1f, 0.07);
-
-		// Calculate collision
-		for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
-			// Skip if further than distance shot or too close
-			Location monsterLocation = monster.getEyeLocation();
-			double distance = location.distance(monsterLocation);
-			if (distance <= range) {
-				// Find if close enough to beam
-				Vector monsterOffset = monsterLocation.clone().subtract(location).toVector();
-				Vector radialPostion = direction.clone().multiply(monsterOffset.clone().dot(direction)); // ((m - p) dot u) times u
-				double radialOffset = radialPostion.subtract(monsterOffset).length();
-
-				// If close enough damage mob
-				boolean hit = false;
-				if (monster.distanceTo(dwarf) <= radius) {
-					if(monster instanceof AIEntity){
-						monster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, 10,true);
-					}
-					else {
-						monster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, INFERNO_DAMAGE);
-						hit = true;
-					}
-
-				} else if (radialOffset <= THICKNESS) {
-					if(monster instanceof AIEntity){
-						monster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, 10,true);
-					}
-					else {
-						monster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, INFERNO_DAMAGE);
-						hit = true;
-					}
-				}
-
-				if (hit && monster instanceof MonsterPlayer)
-					dwarf.playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
-			}
-		}
-
-//		for (AIEntity aiMonster : AIManager.getManager().getAIs()){
-//			Location monsterLocation = aiMonster.getEyeLocation();
-//			double distance = location.distance(monsterLocation);
-//			if (distance <= range) {
-//				// Find if close enough to beam
-//				Vector aimonsterOffset = monsterLocation.clone().subtract(location).toVector();
-//				Vector airadialPostion = direction.clone().multiply(aimonsterOffset.clone().dot(direction)); // ((m - p) dot u) times u
-//				double airadialOffset = airadialPostion.subtract(aimonsterOffset).length();
-//
-//				// If close enough damage mob
-//				boolean hit = false;
-//				if (aiMonster.distanceTo(dwarf) <= radius) {
-//					aiMonster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, INFERNO_DAMAGE,true,true);
-//					hit = true;
-//				} else if (airadialOffset <= THICKNESS) {
-//					aiMonster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, INFERNO_DAMAGE,true,true);
-//					hit = true;
-//				}
-//
-//				if (hit)
-//					dwarf.playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
-//			}
-//		}
-
+	
+		/*
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			// Dont give buff to self
 			if (dwarf == this.dwarf) continue;
@@ -247,6 +146,7 @@ public class ScepterOfMagma extends AbstractItem implements KitCooldownElement {
 				}
 			}
 		}
+		*/
 
 	}
 

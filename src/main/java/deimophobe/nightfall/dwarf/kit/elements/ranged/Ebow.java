@@ -35,7 +35,7 @@ public class Ebow extends AbstractBow {
 	private static final double THICKNESS = 1.5;
 	private static final double MIN_DISTANCE_FROM_SHOOTER = 1;
 	
-	private static final Consumer<Location> particlePlacer =
+	private static final Consumer<Location> PARTICLE_PLACER =
 			(location) -> location.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, location, 4, 0.1, 0.1, 0.1);
 	
 	@Override
@@ -47,7 +47,7 @@ public class Ebow extends AbstractBow {
 		
 		GamePlayer.ProcGiver procGiver = dwarf.new ProcGiver(ProcType.EBOW, MIN_DISTANCE_FROM_SHOOTER);
 		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(CustomDamageType.EBOW, getPower()*force);
-		dwarf.fireBeam(range, THICKNESS, 0.33, particlePlacer, procGiver, entityDamager);
+		dwarf.fireBeam(range, THICKNESS, 0.33, PARTICLE_PLACER, procGiver, entityDamager);
 		
 		if (procGiver.gaveProc()) {
 			Sounds.DWARF_ITEM_EBOW_GIVE_PROC.playSound(dwarf);
