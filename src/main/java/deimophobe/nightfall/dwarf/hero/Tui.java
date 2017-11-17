@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.hero;
 
+import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -17,22 +18,19 @@ class Tui extends Hero {
 		super(player, type);
 		
 		setMaxArrows(64);
+		arrowRegen = new ComplexCooldown(1);
 	}
 	
-	private int flameCD = 0;
-	private static final int MAX_FLAME_CD = 5*20;
+	private final ComplexCooldown flameCD = new ComplexCooldown(5*20);
+	private final ComplexCooldown arrowGiver = new ComplexCooldown(25, this::giveArrow);
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		
-		if (flameCD > 0) {
-			flameCD--;
-		} else {
-			if (halfSec && !quadSec) {
-				giveArrow();
-			}
-		}
+		flameCD.update();
+		arrowGiver.update();
+		if (flameCD.isAvailable()) arrowGiver.tryUse();
 		
 		if (sec && Math.random() < 0.1) {
 			Location loc = getEyeLocation();
@@ -49,15 +47,9 @@ class Tui extends Hero {
 	}
 	
 	@Override
-	public void giveArrow() {
-		if (flameCD == 0)
-			super.giveArrow();
-	}
-	
-	@Override
 	public void useArrows(int amt) {
-		flameCD = MAX_FLAME_CD;
 		super.useArrows(amt);
+		flameCD.reset();
 	}
 	
 	@Override

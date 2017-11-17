@@ -63,10 +63,9 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 
 					Vector lookDir = monsterLoc.getDirection().setY(0);
 					Location newLoc = monsterLoc.subtract(lookDir);
-					closestPlayerMonster.doDamage(dwarf, CustomDamageType.SHADOW_STRIKE, 80, true);
-
 
 					if (!newLoc.getBlock().getType().isSolid()) {
+						closestPlayerMonster.doDamage(dwarf, CustomDamageType.SHADOW_STRIKE, 80, true);
 						dwarf.teleportTo(newLoc);
 						dwarf.playSound("entity.endermen.teleport", 1, 1, true);
 						cd.reset();
@@ -78,9 +77,9 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 
 					Vector lookDir = monsterLoc.getDirection().setY(0);
 					Location newLoc = monsterLoc.subtract(lookDir);
-					closestAIMonster.doDamage(dwarf, CustomDamageType.SHADOW_STRIKE, 80, true,true);
 
 					if (!newLoc.getBlock().getType().isSolid()) {
+						closestAIMonster.doDamage(dwarf, CustomDamageType.SHADOW_STRIKE, 80, true,true);
 						dwarf.teleportTo(newLoc);
 						dwarf.playSound("entity.endermen.teleport", 1, 1, true);
 						cd.reset();

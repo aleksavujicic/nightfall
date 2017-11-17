@@ -47,4 +47,8 @@ public abstract class CustomProjectile extends BukkitRunnable {
 		super.cancel();
 		lifetime = 0;
 	}
+	
+	protected int getLifeLeft() {
+		return lifetime;
+	}
 }
