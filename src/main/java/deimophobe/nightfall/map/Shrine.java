@@ -245,13 +245,8 @@ public class Shrine {
 		
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			dwarf.giveProc(ProcType.SHRINE_FALL);
-			if (shrineProtection.containsPlayer(dwarf) || shrineRegion.containsPlayer(dwarf)) {
-				dwarf.getArmour().repair(1000);
-				dwarf.regenMana(500);
-			} else {
-				dwarf.getArmour().repair(500);
-				dwarf.regenMana(100);
-			}
+			dwarf.getArmour().repair(1000);
+			dwarf.regenMana(200);
 		}
 		for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
 			monster.givePotionEffect(PotionEffectType.SLOW, 180, 3, true, false, true);
