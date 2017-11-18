@@ -114,7 +114,7 @@ public class Hammer extends AbstractAOEHitter implements KitCooldownElement {
 				return 10;
 			}
 		} else if (entity instanceof AIEntity) {
-			return 30;
+			return 25;
 		}
 		
 		return 0;
