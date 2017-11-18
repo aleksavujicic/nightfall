@@ -17,7 +17,7 @@ public class BerserkArmour extends AbstractElement {
 	public BerserkArmour(Dwarf dwarf) {
 		super(dwarf);
 		Armour armour = dwarf.getArmour();
-		armour.addModifier(ItemModifierType.ATTACK, 4, "Berserker");
+		armour.addModifier(ItemModifierType.ATTACK, 5, "Berserker");
 		armour.addModifier(ItemModifierType.SPEED, 10, "Berserker");
 		armour.addModifier(ItemModifierType.HEALTH, -4, "Berserker");
 		

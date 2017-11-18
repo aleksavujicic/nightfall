@@ -500,7 +500,7 @@ berserker:
           durability. Lower armour durability\n
           give you more strength."
     modifiers:
-      attack: 4
+      attack: 5
       speed: 10
       health: 6
       armour-durability: -40
