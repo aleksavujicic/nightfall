@@ -4,11 +4,15 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractItem;
+import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
+import deimophobe.nightfall.dwarf.kit.elements.armour.BerserkArmour;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Location;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 10/03/17.
@@ -26,12 +30,19 @@ public abstract class AbstractAOEHitter extends AbstractItem {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		hitter.update();
 	}
-	
+
 	private void hit() {
 		Location center = dwarf.getLocation().add(dwarf.getLocation().getDirection().multiply(1.5));
 		for (MonsterEntity entity : MonsterManager.getManager().getAliveMobsAndAIs()) {
 			if (entity.distanceTo(center) <= getRadius(entity)) {
-				MonsterDamage damage = (MonsterDamage) entity.createDamage(dwarf, CustomDamageType.HAMMER_AOE, getDamageToMonster(entity));
+				double rawDamage = getDamageToMonster(entity);
+				int strength = dwarf.getPotionEffectLevel(PotionEffectType.INCREASE_DAMAGE);
+				rawDamage += strength * 3;
+				if (dwarf.hasKitElement(KitElementType.BERSERKER)) {
+					rawDamage += BerserkArmour.getAttackBonus();
+				}
+
+				MonsterDamage damage = (MonsterDamage) entity.createDamage(dwarf, CustomDamageType.HAMMER_AOE, rawDamage);
 				
 				if (entity instanceof AIEntity)
 					damage.setKnockback(0, 0.4, 0);
