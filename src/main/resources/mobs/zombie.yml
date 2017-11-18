@@ -42,11 +42,14 @@ fury:
 
   title: Fury Zombie
 
-
 saboteur:
   parent: base
 
   title: Saboteur
+
+  disguisetype: zombie_villager
+
+  resistance: 0.4
 
   items:
     wood-pickaxe:
