@@ -93,7 +93,7 @@ ranger:
 paladin:
   index: 19
   type: title
-  name: "Ploodin"
+  name: "Paladin"
   item:
     name: "Paladin"
     material: diamond_hoe
