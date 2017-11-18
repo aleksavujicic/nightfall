@@ -49,8 +49,8 @@ blaze:
   egg:
     material: blaze_rod
     name: Spawn Blaze
-  quantity: 4
-  chance: 0.05
+  quantity: 2
+  chance: 0.06
 
 rat:
   mobtype: rat
