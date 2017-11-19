@@ -289,7 +289,7 @@ paladin-class:
   elements:
     - hammer
     - lightbow
-    - holy_ale
+    - hearty_ale
     - runeblessed
   consumables:
     torch: 32
@@ -313,7 +313,7 @@ paladin-class:
       contains:
        - "*Warhammer\n
           *Lightbow\n
-          *Holy Ale\n
+          *Hearty Ale\n
           *Runeblessed Armour\n
           *32 Torches\n
           *32 Mortar\n

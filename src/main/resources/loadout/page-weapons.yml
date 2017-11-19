@@ -297,20 +297,19 @@ jj:
     modifiers:
       mana-cost: 120
 
-holy:
+hearty:
   index: 19
   type: item
-  name: holy_ale
+  name: hearty_ale
   category: ale
   cost: 8
   item:
     name: "Hearty Ale"
-    base: holy_ale
+    base: hearty_ale
     lore:
       description:
-       - "Left click to heal yourself\n
-          for &b100&r mana.\n
-          Gains &b8&r perma hearts."
+       - "Left click to heal yourself for &b100&r mana.\n
+          Has passive &b8&r extra hearts."
     modifiers:
       health: -2
       mana-cost: 100
@@ -327,9 +326,9 @@ trinket:
     lore:
       description:
        - "Left click to heal yourself\n
-          for &b200&r mana and gain\n
+          for &b$manacost&r mana and gain\n
           &b20&r absorption hearts.\n
-          You also gain permanent regen."
+          Has passive regeneration."
     modifiers:
       mana-cost: 200
 
@@ -347,7 +346,7 @@ regrowth:
        - "Left click to heal yourself\n
           for &b100&r mana.\n
           Right click on dwarves to heal\n
-          them and their armour for &b10&r mana."
+          them and their armour for &b20&r mana."
     modifiers:
       mana-cost: 100
 
@@ -384,7 +383,7 @@ strong:
       description:
        - "A very strong potion, which gives\n
           you &e75% resistance&r making you feel like\n
-          a hero, however it uses &b400&r mana."
+          a hero. However, it uses &b400&r mana."
     modifiers:
       mana-cost: 400
 
@@ -501,7 +500,7 @@ berserker:
           durability. Lower armour durability\n
           give you more strength."
     modifiers:
-      attack: 4
+      attack: 5
       speed: 10
       health: 6
       armour-durability: -40

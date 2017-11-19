@@ -42,7 +42,7 @@ public enum KitElementType {
 	
 	// Ales
 	HEALING_ALE,
-	HOLY_ALE,
+	HEARTY_ALE,
 	JIMMY_JUICE,
 	TRINKET,
 	REGROWTH_STAR,
@@ -157,7 +157,7 @@ public enum KitElementType {
 			
 			// Ales
 			case HEALING_ALE: return new HealingAle(dwarf);
-			case HOLY_ALE: return new HolyAle(dwarf);
+			case HEARTY_ALE: return new HeartyAle(dwarf);
 			case JIMMY_JUICE: return new JimmyJuice(dwarf);
 			case TRINKET: return new Trinket(dwarf);
 			case REGROWTH_STAR: return new Regrowth(dwarf);

@@ -14,21 +14,20 @@ jj:
     description:
      - "The starting ale for new players.\n
         Auto heal for &b$autocost&r mana or\n
-        Left Click to heal for &b$manacost&r mana."
+        Left click to heal for &b$manacost&r mana."
     flavour:
      - "\"I'm just glad that you &ocan&r drink your juice.\" - Velvetine"
 
-holy:
-  base: holy_ale
+hearty:
+  base: hearty_ale
   name: Hearty Ale
   lore:
     description:
-     - "Left click to heal yourself\n
-        for &b100&r mana.\n
-        Gains &b8&r perma hearts."
+     - "Left click to heal yourself for &b100&r mana.\n
+        Has passive &b8&r extra hearts."
     flavour:
-     - "\"It's in the name! This things the\n
-        holy grail of dwarves.\" - Tui"
+     - "\"This is the good stuff, better than\n
+          the regular ales!\" - Tui"
 
 trinket:
   base: trinket
@@ -37,8 +36,8 @@ trinket:
     description:
      - "Left click to heal yourself\n
         for &b$manacost&r mana and gain\n
-        &b20 absorption hearts&r.\n
-        You also gain permanent regen."
+        &b20&r absorption hearts.\n
+        Has passive regeneration."
     flavour:
      - "\"Drink your... Gem? How do you use this thing?\" - Velvetine"
 
@@ -60,13 +59,13 @@ chug:
   lore:
     description:
      - "Left click to heal for &b6&r hearts.\n 
-          Uses &b25&r mana. You are able to spam\n
-          this as much as you want\n
-          so be careful and watch your mana!\n
-          You also gain &espeed for 2.5 seconds&r\n
-          each sip."
+        Uses &b25&r mana. You are able to spam\n
+        this as much as you want\n
+        so be careful and watch your mana!\n
+        You also gain &espeed for 2.5 seconds&r\n
+        each sip."
     flavour:
-     - "\"One of Potion Sellers experimental potions. Use with care.\" "
+     - "\"One of Potion Seller's experimental potions. Use with care.\" "
 
 strong:
   base: strong
@@ -74,8 +73,8 @@ strong:
   lore:
     description:
      - "A very strong potion, which gives\n
-          you &e75% resistance&r making you feel like\n
-          a hero, however it uses &b400&r mana."
+        you &e75% resistance&r making you feel like\n
+        a hero. However, it uses &b400&r mana."
     flavour:
      - "\"My potions are too strong for you traveller.\" - Potion Seller"
 
@@ -84,7 +83,7 @@ glow:
   name: Healing Glow
   lore:
     description:
-      - "Gain fire resistance and mana regeneration\n
-         While taking fire damage. Costs &b$manacost&r mana."
+      - "Has passive fire resistance and mana regeneration\n
+         while taking fire damage. Costs &b$manacost&r mana."
     flavour:
       - "Hm, this stuff seems like it's boiling."

@@ -44,7 +44,7 @@ class SkeletonFlamelancer extends Skeleton {
 		this.fireAI = upgrades.get("fireai");
 		realArrowRes = arrowRes * 0.01;
 
-		flameBlock = 0.1 + flame * 0.04;
+		flameBlock = 0.03 + flame * 0.015;
 
 		getArmour().addModifier(ItemModifierType.SPEED, 10, "Flamelancer");
 		getArmour().addModifier(ItemModifierType.SPEED, speed * 10, "Upgrade");
@@ -66,7 +66,7 @@ class SkeletonFlamelancer extends Skeleton {
 			} else {
 				monster.getPlayer().setFireTicks(0);
 			}
-			chargeBonus = Math.min(chargeBonus+0.01, 0.15);
+			chargeBonus = Math.min(chargeBonus+0.01, 0.2);
 		}
 	}
 	
@@ -77,7 +77,7 @@ class SkeletonFlamelancer extends Skeleton {
 		arrow.setFireTicks(10000);
 		arrow.setCritical(false);
 		final int arrowsToFire = (int) (ARROWS_FIRED*(force*force));
-		if (Math.random() < (volley * 0.04 + 0.05 + chargeBonus)) {
+		if (Math.random() < (volley * 0.06 + 0.1 + chargeBonus)) {
 			for (int i=0; i<arrowsToFire; i++) {
 				Arrow newArrow = ArrowMisc.summonArrow(monster, getPower(), force*2, force, 30f);
 				newArrow.setCritical(false);
@@ -96,12 +96,12 @@ class SkeletonFlamelancer extends Skeleton {
 		if (Math.random() < flameBlock) {
 			if (BlockType.IGNORABLE.matchesBlock(hitBlock)) {
 				hitBlock.setType(Material.FIRE);
-				if (fireAI == 1 && Math.random() < 0.25) {
+				if (fireAI == 1 && Math.random() < 0.5) {
 					AIManager.getManager().spawnAISkeleton(hitBlock.getLocation());
 				}
 			} else if (BlockType.IGNORABLE.matchesBlock(block)) {
 				block.setType(Material.FIRE);
-				if (fireAI == 1 && Math.random() < 0.25) {
+				if (fireAI == 1 && Math.random() < 0.5) {
 					AIManager.getManager().spawnAISkeleton(block.getLocation());
 				}
 			}

@@ -13,11 +13,12 @@ import org.bukkit.potion.PotionEffectType;
  */
 public class BerserkArmour extends AbstractElement {
 	private State state = State.HIGH;
+	private final static int ATTACK_BONUS = 5;
 	
 	public BerserkArmour(Dwarf dwarf) {
 		super(dwarf);
 		Armour armour = dwarf.getArmour();
-		armour.addModifier(ItemModifierType.ATTACK, 4, "Berserker");
+		armour.addModifier(ItemModifierType.ATTACK, ATTACK_BONUS, "Berserker");
 		armour.addModifier(ItemModifierType.SPEED, 10, "Berserker");
 		armour.addModifier(ItemModifierType.HEALTH, -4, "Berserker");
 		
@@ -46,7 +47,11 @@ public class BerserkArmour extends AbstractElement {
 			}
 		}
 	}
-	
+
+	public static int getAttackBonus() {
+		return ATTACK_BONUS;
+	}
+
 	private enum State {
 		HIGH(400, 1000, 0, false),
 		MED(200, 400, 1, false),
@@ -77,7 +82,7 @@ public class BerserkArmour extends AbstractElement {
 			}
 			return LOW;
 		}
-		
+
 		private void apply(Dwarf dwarf) {
 			if (strLevel == 0)
 				dwarf.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
