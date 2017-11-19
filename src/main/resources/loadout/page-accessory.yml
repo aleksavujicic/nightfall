@@ -107,7 +107,7 @@ wizard_one:
     base: menu-wizmortar
     lore:
       description:
-       - "Gives you 16 Wizard Mortar\n
+       - "Gives you $quantity Wizard Mortar\n
           which can instantly blue the walls."
 wizard_two:
   index: 18
@@ -120,7 +120,7 @@ wizard_two:
     base: menu-wizmortar2
     lore:
       description:
-       - "Gives you 32 Wizard Mortar\n
+       - "Gives you $quantity Wizard Mortar\n
           which can instantly blue the walls."
 wizard_three:
   index: 27
@@ -133,7 +133,7 @@ wizard_three:
     base: menu-wizmortar
     lore:
       description:
-       - "Gives you 64 Wizard Mortar\n
+       - "Gives you $quantity Wizard Mortar\n
           which can instantly blue the walls."
 
 lamps_one:
@@ -147,7 +147,7 @@ lamps_one:
     base: menu-lamp
     lore:
       description:
-       - "Gives you 16 Lamps\n
+       - "Gives you $quantity Lamps\n
           Which can be placed as a\n
           unbreakable light source."
 lamps_two:
@@ -161,7 +161,7 @@ lamps_two:
     base: menu-lamp2
     lore:
       description:
-       - "Gives you 32 Lamps\n
+       - "Gives you $quantity Lamps\n
           Which can be placed as a\n
           unbreakable light source."
 lamps_three:
@@ -175,7 +175,7 @@ lamps_three:
     base: menu-lamp
     lore:
       description:
-       - "Gives you 64 Lamps\n
+       - "Gives you $quantity Lamps\n
           Which can be placed as a\n
           unbreakable light source."
 
@@ -190,7 +190,7 @@ wrench_one:
     base: menu-wrench
     lore:
       description:
-       - "Gives you 1 Wrench\n
+       - "Gives you $quantity Wrench\n
           to fully repair your armour\n
           while shrine still has gold."
 wrench_two:
@@ -204,7 +204,7 @@ wrench_two:
     base: menu-wrench2
     lore:
       description:
-       - "Gives you 2 Wrenches\n
+       - "Gives you $quantity Wrenches\n
           to fully repair your armour\n
           while shrine still has gold."
 wrench_three:
@@ -218,7 +218,7 @@ wrench_three:
     base: menu-wrench
     lore:
       description:
-       - "Gives you 3 Wrenches\n
+       - "Gives you $quantity Wrenches\n
           to fully repair your armour\n
           while shrine still has gold."
 
@@ -226,14 +226,14 @@ healing_one:
   index: 12
   type: consumable
   name: heal_station
-  quantity: 4
+  quantity: 2
   cost: 2
   item:
     name: "'Healing Station' I"
     base: healitem
     lore:
       description:
-       - "Gives you 4 Healing Stations\n
+       - "Gives you $quantity Healing Stations\n
           Which can be placed to regen\n
           health mana and armour.\n
           Can be broken by Mobs."
@@ -241,14 +241,14 @@ healing_two:
   index: 21
   type: consumable
   name: heal_station
-  quantity: 8
+  quantity: 4
   cost: 4
   item:
     name: "'Healing Station' II"
     base: healitem
     lore:
       description:
-       - "Gives you 8 Healing Stations\n
+       - "Gives you $quantity Healing Stations\n
           Which can be placed to regen\n
           health mana and armour.\n
           Can be broken by Mobs."
@@ -256,14 +256,14 @@ healing_three:
   index: 30
   type: consumable
   name: heal_station
-  quantity: 16
+  quantity: 8
   cost: 8
   item:
     name: "'Healing Station' III"
     base: healitem
     lore:
       description:
-       - "Gives you 16 Healing Stations\n
+       - "Gives you $quantity Healing Stations\n
           Which can be placed to regen\n
           health mana and armour.\n
           Can be broken by Mobs."
@@ -279,7 +279,7 @@ sos_one:
     base: menu-sos
     lore:
       description:
-       - "Gives you 1 Sword of Santification\n
+       - "Gives you $quantity Sword of Santification\n
           Which can stop and blind any mobs within\n
           the area of effect, Mobs can still attack\n
           if you are too close."
@@ -294,7 +294,7 @@ sos_two:
     base: menu-sos2
     lore:
       description:
-       - "Gives you 2 Sword of Santifications\n
+       - "Gives you $quantity Sword of Santifications\n
           Which can stop and blind any mobs within\n
           the area of effect, Mobs can still attack\n
           if you are too close."
@@ -309,7 +309,7 @@ sos_three:
     base: menu-sos
     lore:
       description:
-       - "Gives you 3 Sword of Santifications\n
+       - "Gives you $quantity Sword of Santifications\n
           Which can stop and blind any mobs within\n
           the area of effect, Mobs can still attack\n
           if you are too close."
@@ -325,7 +325,7 @@ slab_one:
     base: slab
     lore:
       description:
-       - "Gives you 1 Slab\n
+       - "Gives you $quantity slab\n
           Which create a thick blue wall in front\n
           when used."
 slab_two:
@@ -353,7 +353,7 @@ slab_three:
     base: slab
     lore:
       description:
-       - "Gives you 4 Slabs\n
+       - "Gives you $quantity Slabs\n
           Which create a thick blue wall in front\n
           when used."
 
