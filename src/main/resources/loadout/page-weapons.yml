@@ -97,7 +97,8 @@ scepter:
         description:
         - "Left click to shoot a beam that damages mobs,\n
           and buffs dwarves. Right click to create a\n
-          buffpool that strengthens all dwarves inside it."
+          buffpool that strengthens all dwarves inside it.\n
+          Also gives a passive mana regen buff."
     modifiers:
       power: 12
 
