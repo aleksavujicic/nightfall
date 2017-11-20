@@ -50,8 +50,6 @@ public abstract class AbstractRuneblade extends AbstractItem implements KitCoold
 		super.onKill(damage);
 		if (damageFromItem(damage))
 			dwarf.giveProc(regProc);
-		
-		cooldown.reduceCooldown(20);
 	}
 	
 	@Override
