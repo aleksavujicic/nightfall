@@ -393,7 +393,7 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		public void accept(Dwarf dwarf) {
 			if (dwarf.distanceTo(GamePlayer.this) >= minDistance) {
 				gaveProc = true;
-				dwarf.giveProc(ProcType.EBOW);
+				dwarf.giveProc(type);
 			}
 		}
 		
