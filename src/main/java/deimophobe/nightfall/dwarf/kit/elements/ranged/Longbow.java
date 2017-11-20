@@ -4,7 +4,6 @@ import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.CustomItem;
@@ -108,7 +107,7 @@ public class Longbow extends AbstractBow implements KitCooldownElement {
 		
 		Location playerLoc = dwarf.getPlayer().getEyeLocation();
 		
-		for (int i = 0; i < stacks; i++) {
+		for (int i = 0; i < stacks*2; i++) {
 			double frac = (double) i / MAX_STACKS;
 			double red = (87d + frac * 118);
 			double green = (179d - frac * 90);

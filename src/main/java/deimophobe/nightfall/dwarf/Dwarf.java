@@ -5,6 +5,7 @@ import deimophobe.nightfall.Hat;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.timedblock.HealBlock;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.RepeatingCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -497,6 +498,21 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		
 		super.heal(amt);
 	}
+	
+	private HealBlock placedHealBlock = null;
+	
+	public boolean hasPlacedHealBlock() {
+		if (placedHealBlock == null) return false;
+		
+		if (!placedHealBlock.isActive()) {
+			placedHealBlock = null;
+			return false;
+		} else {
+			return true;
+		}
+	}
+	public void setPlacedHealBlock(HealBlock placedHealBlock) { this.placedHealBlock = placedHealBlock; }
+	
 	
 	// ------ EVENTS ------
 	@Override

@@ -139,7 +139,7 @@ public enum KitElementType {
 			case DAGGER: return new Dagger(dwarf);
 			case RAPIER: return new Rapier(dwarf);
 			case GLAIVE: return new Glaive(dwarf);
-			case SCEPTER: return new ScepterOfMagma(dwarf);
+			case SCEPTER: return new Scepter(dwarf);
 			case HUNTING_CLAWS: return new HuntingClaws(dwarf);
 			case GREATSWORD: return new Greatsword(dwarf);
 			case SHADOW_BLADE: return new ShadowBlade(dwarf);

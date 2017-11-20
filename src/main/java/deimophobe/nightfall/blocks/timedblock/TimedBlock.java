@@ -23,6 +23,7 @@ public class TimedBlock {
 	private final Material newType;
 	private final int lifeTime;
 	private final GameEntity placer;
+	private boolean active = false;
 	
 	
 	public TimedBlock(Location loc, Material blockType, int lifeTime, GameEntity placer) {
@@ -42,6 +43,7 @@ public class TimedBlock {
 	private byte data;
 	
 	private void placeBlock() {
+		active = true;
 		oldType = block.getType();
 		data = block.getData();
 		
@@ -59,6 +61,7 @@ public class TimedBlock {
 	}
 	
 	private void unPlaceBlock() {
+		active = false;
 		block.setType(oldType);
 		block.setData(data);
 		activeTimedBlocks.remove(block);
@@ -68,6 +71,10 @@ public class TimedBlock {
 	void onPlace() {}
 	void onDestroy(boolean cancelled) {}
 	void onHit(GamePlayer player) {}
+	
+	public boolean isActive() {
+		return active;
+	}
 	
 	
 	public void cancel() {

@@ -84,9 +84,26 @@ rapier:
     modifiers:
       attack: 15
 
+scepter:
+  index: 5
+  type: item
+  name: scepter
+  category: sword
+  cost: 14
+  item:
+    name: "Healing Scepter"
+    base: scepter
+    lore:
+        description:
+        - "Left click to shoot a beam that damages mobs,\n
+          and buffs dwarves. Right click to create a\n
+          buffpool that strengthens all dwarves inside it."
+    modifiers:
+      power: 12
+
 glaive:
   enabled: false
-  index: 5
+  index: 6
   type: item
   name: glaive
   category: sword
@@ -97,25 +114,6 @@ glaive:
     lore:
       description:
        - "ED make this work."
-
-scepter:
-  enabled: false
-  index: 6
-  type: item
-  name: scepter
-  category: sword
-  cost: 16
-  item:
-    name: "Scepter of Magma"
-    base: scepter
-    lore:
-      description:
-       - "Left click to release waves of fire\n
-          upon your foes. Right click to channel\n
-          flames around you for &b$manacost&r mana\n
-          damaging mobs."
-    modifiers:
-      attack: 10
 
 hunting-claws:
   enabled: false

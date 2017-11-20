@@ -323,9 +323,17 @@ public abstract class GamePlayer implements GameEntity<Player> {
 			double particlePeriod, Consumer<Location> particlePlacer,
 			Consumer<Dwarf> dwarfConsumer, Consumer<MonsterEntity> mobConsumber) {
 		
+		// Offset the start of the beam so it doesnt come from the middle of the screen
 		Location location = getEyeLocation();
 		Misc.moveLocation(location, 0, 0.3, -0.3);
 		Vector direction = location.getDirection();
+		
+		// Offset the looking direction, so that the beam ends at the crosshairs
+		double yaw = location.getYaw() * Math.PI/180;
+		double sin = Math.sin(yaw);
+		double cos = Math.cos(yaw);
+		direction.add(new Vector(0.3*cos , 0.3, 0.3*sin).multiply(1/range));
+		
 		
 		Vector delta = direction.clone().multiply(particlePeriod);
 		int times = (int) (range/particlePeriod);
@@ -393,7 +401,7 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		public void accept(Dwarf dwarf) {
 			if (dwarf.distanceTo(GamePlayer.this) >= minDistance) {
 				gaveProc = true;
-				dwarf.giveProc(ProcType.EBOW);
+				dwarf.giveProc(type);
 			}
 		}
 		

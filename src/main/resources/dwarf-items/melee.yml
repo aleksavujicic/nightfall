@@ -104,17 +104,17 @@ glaive:
 
 scepter:
   base: scepter
-  name: Scepter of Magma
+  name: Healing Scepter
   lore:
     description:
-      - "Left click to release waves of fire\n
-         upon your foes. Right click to channel\n
-         flames around you for &b$manacost&r mana\n
-         damaging mobs."
+      - "Left click to shoot a beam that damages mobs,\n
+        and buffs dwarves. Right click to create a\n
+        buffpool that strengthens all dwarves inside it."
     flavour:
       - "Insert Flavour Text Here"
   modifiers:
-    attack: 10
+    power: 12
+    knockback: 1
 
 hunting:
   base: hunting
