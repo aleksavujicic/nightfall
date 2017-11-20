@@ -7,31 +7,18 @@ import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Deimophobe on 11/03/17.
  */
-public enum Hat {
-	CROWN("crown"),
-	FLOWER("flowers"),
-	WITCH("witch"),
-	DVGOGGLES("darkvisgoggles"),
-	GOGGLES("goggles"),
-	JIMMYCAP("jimmycap"),
-	ARROWBAND("arrowband"),
-	BAGHEAD("baghead"),
-	BATHAT("bathat"),
-	HORNS("horns"),
-	SKULLMASK("skullmask"),
-	CATEARS("catears"),
-	
-	;
-	
+public class Hat {
 	private final ItemStack hat;
 	private final String name;
 	
-	Hat(String hat) {
-		name = hat;
-		ConfigurationSection config = Misc.getInternalFileConfig("hats.yml").getConfigurationSection(hat);
+	Hat(ConfigurationSection config) {
+		name = config.getName().toLowerCase();
 		this.hat = CustomItem.getItem(config, LoreTemplate.BASIC, Slot.HEAD).createItemStack();
 	}
 	
@@ -39,15 +26,22 @@ public enum Hat {
 		player.getPlayer().getInventory().setHelmet(hat);
 	}
 	
-	public static Hat getHat(String name) {
-		for (Hat hat : values()) {
-			if (hat.name.equalsIgnoreCase(name))
-				return hat;
-		}
-		return null;
-	}
-	
 	public ItemStack asItemStack() {
 		return hat;
+	}
+	
+	
+	
+	private static final Map<String, Hat> HATS = new HashMap<>();
+	static {
+		ConfigurationSection config = Misc.getInternalFileConfig("hats.yml");
+		for (String key : config.getKeys(false)) {
+			Hat hat = new Hat(config.getConfigurationSection(key));
+			HATS.put(hat.name, hat);
+		}
+	}
+	
+	public static Hat getHat(String name) {
+		return HATS.get(name.toLowerCase());
 	}
 }

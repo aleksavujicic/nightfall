@@ -43,6 +43,7 @@ shears:
   bathat: 210
   horns: 211
   skullmask: 212
+  egghat: 213
 
 diamond_spade:
   tombmaker: 0

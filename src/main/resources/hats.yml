@@ -45,3 +45,7 @@ skullmask:
 catears:
   base: catears
   name: "Cat Ears"
+
+egghat:
+  base: egghat
+  name: "Egg Hat"
