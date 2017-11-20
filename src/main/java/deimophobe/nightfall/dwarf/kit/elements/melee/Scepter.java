@@ -114,7 +114,7 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 			// Buffpool particles
 			World world = location.getWorld();
 			world.spawnParticle(Particle.SPELL_WITCH, location, 3, VISIBLE_RADIUS/2, 0, VISIBLE_RADIUS/2, 0);
-			for (int i = 0; i < 30; i++) {
+			for (int i = 0; i < 50; i++) {
 				double dx = Misc.randomDouble(-1,1);
 				double maxZ = Math.sqrt(1 - dx*dx);
 				double dz = Misc.randomDouble(-maxZ, maxZ);
