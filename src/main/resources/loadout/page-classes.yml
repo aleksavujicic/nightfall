@@ -223,7 +223,7 @@ healer-class:
   item:
     template: "loadout-class"
     name: "Healer Kit"
-    material: diamond_hoe
+    base: regrowth
     lore:
       description:
        - "Go heal ppl."
