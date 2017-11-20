@@ -94,6 +94,21 @@ resurrection:
           This resurrection will heal you, but will\n
           also permanently cost you 5 hearts."
 
+bricklayer:
+  index: 7
+  category: accessory
+  type: item
+  name: bricklayer
+  cost: 4
+  item:
+    name: "Bricklayer"
+    base: bricklayer
+    lore:
+      description:
+       - "You shall be resurrected once upon death.\n
+          This resurrection will heal you, but will\n
+          also permanently cost you 5 hearts."
+
 
 # ------ CONSUMABLES ------
 wizard_one:

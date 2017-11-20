@@ -207,6 +207,23 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		return replaced;
 	}
 	
+	public boolean hasItem(Material material) {
+		return player.getInventory().contains(material);
+	}
+	
+	public boolean forceUseItem(Material material) {
+		if (material == null) throw new NullPointerException("Cannot force use null item.");
+		
+		ListIterator<ItemStack> iterator = player.getInventory().iterator();
+		while (iterator.hasNext()) {
+			ItemStack invItem = iterator.next();
+			if (invItem != null && invItem.getType() == material) {
+				invItem.setAmount(invItem.getAmount() - 1);
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	
 	// ------ MESSAGING ------
