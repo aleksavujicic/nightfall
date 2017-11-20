@@ -52,7 +52,8 @@ public class BlockType {
 	public static final ComparableBlock REDSTONE_LAMP = new MaterialSet(Material.REDSTONE_LAMP_OFF, Material.REDSTONE_LAMP_ON);
 	public static final CustomBlock GLOWSTONE = new MaterialBlock(Material.GLOWSTONE);
 	public static final CustomBlock SEA_LANTERN = new MaterialBlock(Material.SEA_LANTERN);
-	public static final ComparableBlock LIGHT = new BlockSet(REDSTONE_LAMP, GLOWSTONE, SEA_LANTERN);
+	public static final CustomBlock END_ROD = new MaterialBlock(Material.END_ROD);
+	public static final ComparableBlock LIGHT = new BlockSet(REDSTONE_LAMP, GLOWSTONE, SEA_LANTERN, END_ROD);
 	
 	
 	
