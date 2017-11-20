@@ -35,7 +35,6 @@ public class AIFireSkeleton extends AIEntity<Skeleton> {
 		super.setupMonster(name, target);
 		
 		givePermanentPotionEffect(PotionEffectType.SPEED, 3);
-		givePermanentPotionEffect(PotionEffectType.FIRE_RESISTANCE, 1);
 		monster.setFireTicks(300000);
 		
 		monster.getEquipment().setItemInMainHand(sword);

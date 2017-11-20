@@ -31,7 +31,6 @@ public class AIZombie extends AIEntity<Zombie> {
 	
 		int speedLvl = (monster.isBaby() ? 0 : 2);
 		givePermanentPotionEffect(PotionEffectType.SPEED, speedLvl);
-		givePermanentPotionEffect(PotionEffectType.FIRE_RESISTANCE, 1);
 	
 		monster.getEquipment().setItemInMainHand(sword);
     }

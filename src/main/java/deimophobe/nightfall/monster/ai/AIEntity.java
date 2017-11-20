@@ -3,6 +3,7 @@ package deimophobe.nightfall.monster.ai;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.entity.GameEntity;
@@ -56,13 +57,26 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
-		damage.getDamage().setMultiplier(0.3);
+		damage.getDamage().timesMult(0.3);
 		if (damage.hasArrow()) {
 			damage.getDamage().addBoost(10);
 		}
 
 		if (damage.getAttacker() instanceof MonsterEntity) {
 			damage.cancel();
+		}
+
+		if (damage.getType() instanceof NaturalDamageType) {
+			switch ((NaturalDamageType) damage.getType()) {
+				case CONTACT:
+				case DROWNING:
+				case FIRE:
+				case LAVA:
+				case MAGMA_BLOCK:
+				case FALL:
+					damage.cancel();
+					return;
+			}
 		}
 	}
 

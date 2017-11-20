@@ -166,7 +166,7 @@ drucrist:
     flavour:
       - "Drk fix this."
   modifiers:
-    attack: 20
+    attack: 10
 
 wildestaff:
   base: runeblade
