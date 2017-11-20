@@ -2,11 +2,9 @@ package deimophobe.nightfall.monster.spawnmenu;
 
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Misc;
-import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.menu.MenuItem;
 import deimophobe.nightfall.menu.MenuSession;
-import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.doom.DoomManager;
 import deimophobe.nightfall.monster.mob.MobType;
@@ -62,6 +60,10 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 		} else {
 			return false;
 		}
+	}
+	
+	void restock() {
+		quantity = maxQuantity;
 	}
 	
 	private boolean isAvailable() {
