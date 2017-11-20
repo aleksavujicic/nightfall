@@ -23,9 +23,9 @@ public class GreaterRuneblade extends AbstractRuneblade {
 	
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
-		super.onDamageAttack(damage);
 		if (damage.getMonster() instanceof AIEntity) {
 			damage.getDamage().timesMult(0.8);
 		}
+		super.onDamageAttack(damage);
 	}
 }
