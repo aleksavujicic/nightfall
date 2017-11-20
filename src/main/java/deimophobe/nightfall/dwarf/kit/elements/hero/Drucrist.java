@@ -40,7 +40,7 @@ public class Drucrist extends AbstractItem implements KitCooldownElement {
 		return  KitGiveType.START;
 	}
 
-	private final ComplexCooldown cd = new ComplexCooldown(10*20);
+	private final ComplexCooldown cd = new ComplexCooldown(20*20);
 
 
 	@Override
@@ -65,7 +65,7 @@ public class Drucrist extends AbstractItem implements KitCooldownElement {
 					Location newLoc = monsterLoc.subtract(lookDir);
 
 					if (!newLoc.getBlock().getType().isSolid()) {
-						closestPlayerMonster.doDamage(dwarf, CustomDamageType.SILENT_STRIKE, 140, true);
+						closestPlayerMonster.doDamage(dwarf, CustomDamageType.SILENT_STRIKE, 100, true);
 						dwarf.teleportTo(newLoc);
 						dwarf.playSound("entity.endermen.teleport", 1, 1, true);
 						cd.reset();
@@ -82,7 +82,7 @@ public class Drucrist extends AbstractItem implements KitCooldownElement {
 						dwarf.teleportTo(newLoc);
 						dwarf.playSound("entity.endermen.teleport", 1, 1, true);
 						cd.reset();
-						cd.setMaxCD(5*20);
+						cd.setMaxCD(10*20);
 					}
 				}
 			}
