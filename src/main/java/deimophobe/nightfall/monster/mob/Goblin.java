@@ -79,6 +79,7 @@ public class Goblin extends AbstractMob {
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		if (halfSec) {
+			monster.removePotionEffect(PotionEffectType.WITHER);
 			monster.removePotionEffect(PotionEffectType.POISON);
 		}
 		placeboxCD.update();
