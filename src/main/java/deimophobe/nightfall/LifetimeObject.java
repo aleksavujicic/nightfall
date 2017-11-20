@@ -5,7 +5,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 /**
  * Created by Deimophobe on 20/11/17.
  */
-public class LifetimeObject extends BukkitRunnable {
+public abstract class LifetimeObject extends BukkitRunnable {
 	private int lifetime;
 	private final int updateFreq;
 	
