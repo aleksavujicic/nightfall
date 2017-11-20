@@ -22,6 +22,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.block.Action;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import java.util.Map;
@@ -77,6 +78,9 @@ public class Goblin extends AbstractMob {
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+		if (halfSec) {
+			monster.removePotionEffect(PotionEffectType.POISON);
+		}
 		placeboxCD.update();
 		throwboxCD.update();
 	}
