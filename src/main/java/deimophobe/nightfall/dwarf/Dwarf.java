@@ -652,4 +652,10 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	public void notifyDeath(Dwarf dwarf) {
 		kit.notifyDeath(dwarf);
 	}
+	
+	@Override
+	public void onRemove() {
+		super.onRemove();
+		kit.onRemove();
+	}
 }
