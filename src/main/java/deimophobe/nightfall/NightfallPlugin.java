@@ -315,7 +315,7 @@ public class NightfallPlugin extends JavaPlugin {
 			if (sender instanceof Player) {
 				Dwarf dwarf = dm.getGamePlayer((Player)sender);
 				if (dwarf != null)
-					dwarf.showSharedChest();
+					dwarf.giveChesto();
 				else
 					sender.sendMessage(ChatColor.RED + "You must be a dwarf to do that");
 				

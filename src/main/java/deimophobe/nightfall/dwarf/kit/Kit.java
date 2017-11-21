@@ -46,8 +46,8 @@ public class Kit {
 		return kitElements.containsKey(type);
 	}
 	
-	public void addElement(KitElementType type) {
-		if (kitElements.containsKey(type)) return;
+	public KitElement addElement(KitElementType type) {
+		if (kitElements.containsKey(type)) return null;
 		
 		KitElement element = type.createElement(dwarf);
 		kitElements.put(type, element);
@@ -64,6 +64,8 @@ public class Kit {
 		
 		if (element instanceof AbstractBow)
 			bowElements.add((AbstractBow) element);
+		
+		return element;
 	}
 	
 	public void giveItems(KitGiveType giveType) {
@@ -83,6 +85,15 @@ public class Kit {
 		}
 		
 		updateHotbarSlot(dwarf.getHeldItem());
+	}
+	
+	public void addAndGiveItem(KitElementType type) {
+		KitElement element = addElement(type);
+		if (element instanceof KitItemElement) {
+			dwarf.giveItem(((KitItemElement) element).getItem());
+		} else {
+			throw new IllegalArgumentException("Cannot give dwarf element '" + type + "' as it is not an item.");
+		}
 	}
 	
 	
