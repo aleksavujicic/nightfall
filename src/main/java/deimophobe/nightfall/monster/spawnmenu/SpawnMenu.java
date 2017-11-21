@@ -102,6 +102,13 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 				((SpawnEggMenuItem)item).tryRestock();
 		}
 	}
+	
+	public void restockAllEggs() {
+		for (MenuItem item : frontMenu.getMenuItems()) {
+			if (item instanceof SpawnEggMenuItem)
+				((SpawnEggMenuItem)item).restock();
+		}
+	}
 
 	public Set<String> getUpgradeSet(MobType type) {
 		if (upgradeSets.containsKey(type)) {

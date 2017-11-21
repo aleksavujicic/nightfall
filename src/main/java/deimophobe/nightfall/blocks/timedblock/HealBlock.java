@@ -26,12 +26,12 @@ public class HealBlock extends TimedBlock {
 		super(block, Material.PURPUR_BLOCK, lifeTime, placer);
 	}
 	
-	private int hitsLeft = 8;
+	private int hitsLeft = 12;
 	private BukkitRunnable updater;
 	private static final double RANGE = 6;
 	private static final double HEAL_AMT = 10;
 	private static final int MANA_HEAL = 10;
-	private static final int ARMOUR_HEAL = 10;
+	private static final int ARMOUR_HEAL = 15;
 	@Override
 	void onPlace() {
 		updater = new BukkitRunnable() {

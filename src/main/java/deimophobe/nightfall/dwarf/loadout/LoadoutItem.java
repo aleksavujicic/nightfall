@@ -29,6 +29,8 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 	
 	LoadoutItem(ConfigurationSection config) {
 		enabled = config.getBoolean("enabled", true);
+		CustomItem item = CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.LOADOUT, Slot.MAIN_HAND);
+		
 		String type = config.getString("type", null);
 		if (type == null)
 			throw new IllegalArgumentException("Type for config item: " + config.getCurrentPath() + " not specified.");
@@ -47,6 +49,8 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 			
 			case "consumable":
 				int quant = config.getInt("quantity");
+				item.applyVariable("quantity", ""+quant);
+				
 				ConsumableType consType = ConsumableType.valueOf(config.getString("name").toUpperCase());
 				this.modifier = new ConsumableModifier(consType, quant);
 				
@@ -62,8 +66,8 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 					int quantity = consumables.getInt(key);
 					multiModifer.addConsumable(consumable, quantity);
 				}
-				for (String item : config.getStringList("elements")) {
-					multiModifer.addElement(KitElementType.get(item));
+				for (String item1 : config.getStringList("elements")) {
+					multiModifer.addElement(KitElementType.get(item1));
 				}
 				this.modifier = multiModifer;
 				
@@ -102,7 +106,6 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 		}
 		
 		
-		CustomItem item = CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.LOADOUT, Slot.MAIN_HAND);
 		if (!enabled)
 			item.setShiny(true);
 		item.applyVariable("cost", "" + cost);

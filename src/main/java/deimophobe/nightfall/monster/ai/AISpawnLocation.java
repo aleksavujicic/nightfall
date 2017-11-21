@@ -18,7 +18,7 @@ class AISpawnLocation {
 	
 	AISpawnLocation(Location location) {
 		this.manager = AIManager.getManager();
-		this.location = location;
+		this.location = location.getBlock().getLocation().add(0.5, 0, 0.5);
 		this.life = 50;
 	}
 	

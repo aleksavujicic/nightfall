@@ -67,6 +67,7 @@ public enum KitElementType {
 	AVENGE,
 	TOMBMAKER,
 	RESURRECTION,
+	BRICKLAYER,
 	
 	// Tools
 	DWARF_PICK,
@@ -139,7 +140,7 @@ public enum KitElementType {
 			case DAGGER: return new Dagger(dwarf);
 			case RAPIER: return new Rapier(dwarf);
 			case GLAIVE: return new Glaive(dwarf);
-			case SCEPTER: return new ScepterOfMagma(dwarf);
+			case SCEPTER: return new Scepter(dwarf);
 			case HUNTING_CLAWS: return new HuntingClaws(dwarf);
 			case GREATSWORD: return new Greatsword(dwarf);
 			case SHADOW_BLADE: return new ShadowBlade(dwarf);
@@ -182,6 +183,7 @@ public enum KitElementType {
 			case AVENGE: return new Avenge(dwarf);
 			case TOMBMAKER: return new Tombmaker(dwarf);
 			case RESURRECTION: return new Resurrection(dwarf);
+			case BRICKLAYER: return new BrickLayer(dwarf);
 			
 			// Tools
 			case DWARF_AXE: return new DwarfAxe(dwarf);

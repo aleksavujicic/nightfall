@@ -53,9 +53,9 @@ public class BerserkArmour extends AbstractElement {
 	}
 
 	private enum State {
-		HIGH(400, 1000, 0, false),
-		MED(200, 400, 1, false),
-		LOW(-1, 200, 3, true)
+		HIGH(350, 1000, 0, false),
+		MED(150, 350, 1, false),
+		LOW(-1, 150, 3, true)
 		;
 		
 		private final int minMana;

@@ -78,16 +78,33 @@ rapier:
     base: rapier
     lore:
       description:
-       - "Hitting player controlled mobs grants\n
-          a stack up to &b20&r stacks for\n
-          &b50&r max attack. Right click to leap forward\n
-          using &e5&r stacks."
+      - "Hitting player controlled mobs grants\n
+         a stack up to &b40&r stacks for &b50&r max attack.\n
+         Right click to leap forward, using &e8&r stacks."
     modifiers:
       attack: 15
 
+scepter:
+  index: 5
+  type: item
+  name: scepter
+  category: sword
+  cost: 14
+  item:
+    name: "Healing Scepter"
+    base: scepter
+    lore:
+        description:
+        - "Left click to shoot a beam that damages mobs,\n
+          and buffs dwarves. Right click to create a\n
+          buffpool that strengthens all dwarves inside it.\n
+          Also gives a passive mana regen buff."
+    modifiers:
+      power: 12
+
 glaive:
   enabled: false
-  index: 5
+  index: 6
   type: item
   name: glaive
   category: sword
@@ -98,25 +115,6 @@ glaive:
     lore:
       description:
        - "ED make this work."
-
-scepter:
-  enabled: false
-  index: 6
-  type: item
-  name: scepter
-  category: sword
-  cost: 16
-  item:
-    name: "Scepter of Magma"
-    base: scepter
-    lore:
-      description:
-       - "Left click to release waves of fire\n
-          upon your foes. Right click to channel\n
-          flames around you for &b$manacost&r mana\n
-          damaging mobs."
-    modifiers:
-      attack: 10
 
 hunting-claws:
   enabled: false

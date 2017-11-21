@@ -79,14 +79,13 @@ public class Regrowth extends AbstractAle {
 			if (newLoc.getBlock().getType().isSolid()) return;
 		}
 		
-		if (!dwarf.tryUseMana(15)) return;
+		if (!dwarf.tryUseMana(25)) return;
 		
 		dwarf.playSound("entity.experience_orb.pickup", 0.5f, 0.5f, false);
 		target.playSound("entity.experience_orb.pickup", 0.5f, 0.5f, false);
 		
 		target.getArmour().repair(10);
-		dwarf.heal(0.5);
-		target.heal(3);
+		target.heal(5);
 		target.regenMana(2);
 		
 		for (Location loc : locs) {

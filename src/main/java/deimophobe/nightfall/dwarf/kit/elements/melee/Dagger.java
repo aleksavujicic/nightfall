@@ -42,9 +42,6 @@ public class Dagger extends AbstractCooldownItem {
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (itemCausedDamage(damage)) {
-			damage.getMonster().givePotionEffect(PotionEffectType.WITHER, 100, 1, true, false, true);
-		}
 	}
 	
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {

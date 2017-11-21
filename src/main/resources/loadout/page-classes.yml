@@ -85,7 +85,7 @@ beserker-class:
   elements:
     - axe
     - crossbow
-    - jimmy_juice
+    - strong_ale
     - berserker
     - darkvision
   consumables:
@@ -108,7 +108,7 @@ beserker-class:
       contains:
        - "*Axe of Malice\n
           *Crossbow\n
-          *Jimmy Juice\n
+          *Strong Ale\n
           *Berserker Armour\n
           *Darkvision\n
           *32 Torches\n
@@ -134,7 +134,7 @@ elven-class:
     mortar: 32
     cobblestone: 192
     wrench: 2
-    heal_station: 8
+    heal_station: 3
   item:
     template: "loadout-class"
     name: "Elven Kit"
@@ -157,7 +157,7 @@ elven-class:
           *32 Mortar\n
           *192 Cobblestone\n
           *2 Wrenches\n
-          *8 Heal Stations"
+          *3 Heal Stations"
 
 gnome-class:
   index: 4
@@ -203,6 +203,43 @@ gnome-class:
           *2 Swords of Santification\n
           *3 Slabs"
 
+healer-class:
+  index: 5
+  cost: 64
+  category: kit
+  type: multi
+  elements:
+    - scepter
+    - ebow
+    - regrowth_star
+    - nature_suit
+    - slowfall
+  consumables:
+    heal_station: 12
+    sos: 2
+    lamp: 32
+    wizard_mortar: 32
+    cobblestone: 192
+  item:
+    template: "loadout-class"
+    name: "Healer Kit"
+    base: regrowth
+    lore:
+      description:
+       - "Go heal ppl."
+
+      contains:
+       - "*Healing Scepter\n
+          *Ebow\n/
+          *Regrowth Star\n
+          *Nature Suit\n
+          *Slowfall\n
+          *12 Healing Stations\n
+          *2 SOS\n
+          *32 Lamps\n
+          *32 Wizard Mortar\n
+          *192 Cobblestone"
+
 brawler-class:
   index: 18
   cost: 64
@@ -242,7 +279,7 @@ brawler-class:
 
 magmar-class:
   enabled: false
-  index: 5
+  index: 12
   cost: 64
   category: kit
   type: multi

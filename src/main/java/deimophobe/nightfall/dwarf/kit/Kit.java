@@ -163,6 +163,12 @@ public class Kit {
 		}
 	}
 	
+	public void onRemove() {
+		for (KitElement item : kitElements.values()) {
+			item.onRemove();
+		}
+	}
+	
 	public void onArmourEquip() {
 		for (KitElement item : kitElements.values()) {
 			if (item instanceof KitArmour)

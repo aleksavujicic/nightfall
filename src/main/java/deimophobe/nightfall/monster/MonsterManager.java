@@ -128,5 +128,9 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	public Set<String> getUpgradeSet(MobType type) {
 		return menu.getUpgradeSet(type);
 	}
+	
+	public SpawnMenu getSpawnMenu() {
+		return menu;
+	}
 }
 	
