@@ -98,21 +98,6 @@ public class Loadout implements SessionData {
 		*/
 	}
 	
-	
-	
-	public static void updateLoadoutDisplay(Player player) {
-		getLoadout(player).updateDisplay();
-	}
-	
-	private static final Map<UUID, Loadout> loadouts = new HashMap<>();
-	static Loadout getLoadout(Player player) {
-		return getLoadout(player.getUniqueId());
-	}
-	static Loadout getLoadout(UUID uuid) {
-		return loadouts.computeIfAbsent(uuid, Loadout::new);
-	}
-	
-	
 	DwarfData constructProperties() {
 		DwarfData data = new DwarfData();
 		boolean hasKit = false;
@@ -120,6 +105,12 @@ public class Loadout implements SessionData {
 			item.modify(data);
 			if (item.getCategory() == Category.KIT)
 				hasKit = true;
+		}
+		
+		// Apply warrior class if kit is empty
+		if (items.isEmpty()) {
+			LoadoutItem.getItem("warrior-class").modify(data);
+			hasKit = true;
 		}
 		
 		// Add defaults if missing
@@ -133,6 +124,20 @@ public class Loadout implements SessionData {
 			}
 		}
 		return data;
+	}
+	
+	
+	
+	public static void updateLoadoutDisplay(Player player) {
+		getLoadout(player).updateDisplay();
+	}
+	
+	private static final Map<UUID, Loadout> loadouts = new HashMap<>();
+	static Loadout getLoadout(Player player) {
+		return getLoadout(player.getUniqueId());
+	}
+	static Loadout getLoadout(UUID uuid) {
+		return loadouts.computeIfAbsent(uuid, Loadout::new);
 	}
 	
 	

@@ -277,6 +277,14 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		giveConsumable(type, 1);
 	}
 	
+	public boolean hasConsumable(ConsumableType type) {
+		return hasItem(type.getItemStack().getType());
+	}
+	
+	public boolean forceUseConsumable(ConsumableType type) {
+		return forceUseItem(type.getItemStack().getType());
+	}
+	
 	
 	// ------ VISIBILITY ------
 	private boolean blindImmune = false;

@@ -18,4 +18,5 @@ public interface KitElement {
 	
 	void onShift(boolean sneaking);
 	void notifyDeath(Dwarf deadDwarf);
+	void onRemove();
 }

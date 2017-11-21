@@ -56,7 +56,6 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 				MonsterPlayer closestPlayerMonster = dwarf.getLookingAt(2.5, 13, MonsterManager.getManager().getAlivePlayerMobs());
 
 				AIEntity closestAIMonster = dwarf.getLookingAt(2.5,13, AIManager.getManager().getAIs());
-				dwarf.givePotionEffect(PotionEffectType.INVISIBILITY, 10*20,3,true,true,true);
 
 				if (closestPlayerMonster != null) {
 					Location monsterLoc = closestPlayerMonster.getLocation();
@@ -67,9 +66,9 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 					if (!newLoc.getBlock().getType().isSolid()) {
 						closestPlayerMonster.doDamage(dwarf, CustomDamageType.SHADOW_STRIKE, 80, true);
 						dwarf.teleportTo(newLoc);
+						dwarf.givePotionEffect(PotionEffectType.INVISIBILITY, 10*20,3,true,true,true);
 						dwarf.playSound("entity.endermen.teleport", 1, 1, true);
 						cd.reset();
-						cd.setMaxCD(90*20);
 					}
 				}
 				else if (closestAIMonster != null) {
@@ -81,9 +80,10 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 					if (!newLoc.getBlock().getType().isSolid()) {
 						closestAIMonster.doDamage(dwarf, CustomDamageType.SHADOW_STRIKE, 80, true,true);
 						dwarf.teleportTo(newLoc);
+						dwarf.givePotionEffect(PotionEffectType.INVISIBILITY, 10*20,3,true,true,true);
 						dwarf.playSound("entity.endermen.teleport", 1, 1, true);
 						cd.reset();
-						cd.setMaxCD(20*20);
+						cd.reduceCooldown(70*20);
 					}
 				}
 			}

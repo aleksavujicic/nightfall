@@ -29,3 +29,12 @@ chesto:
      - "Click to access the shared resource chest."
     flavour:
      - "Sharing is caring."
+
+bricklayer:
+  base: bricklayer
+  name: "Bricklayer"
+  lore:
+    description:
+     - "Bricks."
+    flavour:
+     - "More bricks."

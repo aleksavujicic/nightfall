@@ -82,6 +82,13 @@ catears:
   item:
     base: catears
     name: "Cat Ears"
+egghat:
+  index: 12
+  type: hat
+  name: egghat
+  item:
+    base: egghat
+    name: "Egg Hat"
 
 ranger:
   index: 18

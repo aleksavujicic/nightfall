@@ -36,4 +36,7 @@ public class AbstractElement implements KitElement {
 	
 	@Override
 	public void notifyDeath(Dwarf deadDwarf) {}
+	
+	@Override
+	public void onRemove() {}
 }

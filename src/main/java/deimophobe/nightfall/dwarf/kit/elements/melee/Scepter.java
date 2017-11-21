@@ -67,20 +67,26 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 
 	
 	// ----- LANCE -----
-	private static final Consumer<Location> PARTICLE_PLACER = (location) ->
-			location.getWorld().spawnParticle(Particle.REDSTONE, location, 0, 0.8, 0.05, 0.9, 1);
+	private static final Consumer<Location> PARTICLE_PLACER = (location) -> {
+		double dx = Misc.randomDouble(-0.1,0.1);
+		double dy = Misc.randomDouble(-0.1,0.1);
+		double dz = Misc.randomDouble(-0.1,0.1);
+		
+		for (int i=0; i<3; i++)
+			location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(dx, dy, dz), 0, 0.8, 0.05, 0.9, 1);
+	};
 	
 	private static final Consumer<Dwarf> DWARF_BUFFER = (dwarf1) ->
 			dwarf1.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 5*20, 1, true, false, false);
 	
 	private static final Consumer<MonsterEntity> AI_SLOWER = (monster) -> {
 		if (monster instanceof AIEntity)
-			monster.givePotionEffect(PotionEffectType.SLOW, 5*20, 1, true, true, true);
+			monster.givePotionEffect(PotionEffectType.SLOW, 5*20, 2, true, true, true);
 	};
 	
 	private void shootLance() {
 		GamePlayer.GameEntityDamager<MonsterEntity> damager = dwarf.new GameEntityDamager<MonsterEntity>(CustomDamageType.SCEPTER_OF_MAGMA, 12);
-		dwarf.fireBeam(10, 1.25, 0.1, PARTICLE_PLACER, DWARF_BUFFER, damager.andThen(AI_SLOWER));
+		dwarf.fireBeam(10, 1.25, 0.2, PARTICLE_PLACER, DWARF_BUFFER, damager.andThen(AI_SLOWER));
 	}
 	
 	

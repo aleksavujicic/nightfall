@@ -85,7 +85,7 @@ beserker-class:
   elements:
     - axe
     - crossbow
-    - jimmy_juice
+    - strong_ale
     - berserker
     - darkvision
   consumables:
@@ -108,7 +108,7 @@ beserker-class:
       contains:
        - "*Axe of Malice\n
           *Crossbow\n
-          *Jimmy Juice\n
+          *Strong Ale\n
           *Berserker Armour\n
           *Darkvision\n
           *32 Torches\n
@@ -223,14 +223,14 @@ healer-class:
   item:
     template: "loadout-class"
     name: "Healer Kit"
-    material: diamond_hoe
+    base: regrowth
     lore:
       description:
        - "Go heal ppl."
 
       contains:
        - "*Healing Scepter\n
-          *Ebow\n
+          *Ebow\n/
           *Regrowth Star\n
           *Nature Suit\n
           *Slowfall\n
