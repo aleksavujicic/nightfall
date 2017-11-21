@@ -105,9 +105,7 @@ bricklayer:
     base: bricklayer
     lore:
       description:
-       - "You shall be resurrected once upon death.\n
-          This resurrection will heal you, but will\n
-          also permanently cost you 5 hearts."
+       - "Doesn't resurrect you."
 
 
 # ------ CONSUMABLES ------
