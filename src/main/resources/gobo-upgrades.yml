@@ -56,7 +56,7 @@ health-inf:
 
 kaboom:
   index: 13
-  cost: 2000
+  cost: 1000
   prereq:
     supplies: 5
     health: 5
@@ -143,7 +143,7 @@ speed:
 
 superkaboom:
   index: 22
-  cost: 5000
+  cost: 3000
   prereq:
     supplies: 5
     health: 5
