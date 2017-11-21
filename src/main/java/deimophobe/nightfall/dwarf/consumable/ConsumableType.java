@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
  * Created by Deimophobe on 22/01/17.
  */
 public enum ConsumableType {
-	LAMP(new Lamp("lamp"), false),
+	LAMP(new Lamp("lamp"), true),
 	SLAB(new Slab("slab"), false),
 	SOS(new SOS("sos"), false),
 	WRENCH(new Wrench("wrench"), false),
