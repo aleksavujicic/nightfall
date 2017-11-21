@@ -14,7 +14,8 @@ public enum ItemModifierType {
 	ARMOUR_SHRED(new DudApplier(), "Armour Shred", false, false),
 	
 	POWER(new DudApplier(), "Power", false, false),
-	
+
+	PUNCH(new EnchantApplier(Enchantment.ARROW_KNOCKBACK), "Punch", false, false),
 	KNOCKBACK(new EnchantApplier(Enchantment.KNOCKBACK), "Knockback", false, false),
 	BURNING(new EnchantApplier(Enchantment.FIRE_ASPECT), "Flame", false, false),
 	EFFICIENCY(new EnchantApplier(Enchantment.DIG_SPEED), "Efficiency", false, false),
