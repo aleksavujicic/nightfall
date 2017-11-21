@@ -23,7 +23,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 /**
  * Created by Deimophobe on 20/11/17.
  */
-public class BrickLayer extends AbstractItem {
+public class Bricklayer extends AbstractItem {
 	private final static CustomItem ITEM = DwarvenItems.getItem("accessory", "bricklayer");
 	@Override public CustomItem getItem() {
 		return ITEM;
@@ -42,7 +42,7 @@ public class BrickLayer extends AbstractItem {
 	
 	//private final RemoveListener listener;
 	
-	public BrickLayer(Dwarf dwarf) {
+	public Bricklayer(Dwarf dwarf) {
 		super(dwarf);
 	//	listener = new RemoveListener();
 	//	Bukkit.getPluginManager().registerEvents(listener, NightfallPlugin.getPlugin());
