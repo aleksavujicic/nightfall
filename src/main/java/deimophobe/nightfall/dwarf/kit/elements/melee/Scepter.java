@@ -4,6 +4,7 @@ import deimophobe.nightfall.LifetimeObject;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.GameDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -38,7 +39,7 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 	
 	
-	private final ComplexCooldown lanceCD = new ComplexCooldown(1*20, this::shootLance);
+	private final ComplexCooldown lanceCD = new ComplexCooldown(10, this::shootLance);
 	private final ComplexCooldown buffpoolCD = new ComplexCooldown(60*20, this::createBuffpool);
 	
 	@Override
@@ -48,6 +49,14 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 		buffpoolCD.update();
 		
 		if (sec) dwarf.regenMana(3);
+	}
+	
+	@Override
+	public void onDamageAttack(MonsterDamage damage) {
+		super.onDamageAttack(damage);
+		if (damageFromItem(damage)) {
+			damage.cancel();
+		}
 	}
 	
 	@Override

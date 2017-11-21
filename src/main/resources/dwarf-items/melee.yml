@@ -115,7 +115,6 @@ scepter:
       - "Insert Flavour Text Here"
   modifiers:
     power: 12
-    knockback: 1
 
 hunting:
   base: hunting
