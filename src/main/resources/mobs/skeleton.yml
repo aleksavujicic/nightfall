@@ -68,7 +68,7 @@ impact:
   parent: base
   title: Impact Skeleton
   weapon:
-    base: longbow
+    base: warpweaver
     name: Strong Bow
     lore:
       description:

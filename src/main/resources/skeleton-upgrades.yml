@@ -92,7 +92,7 @@ flamelancer:
 
 impact:
   index: 15
-  cost: 999999
+  cost: 1000
   prereq:
     power: 5
     quiver: 5
@@ -311,7 +311,7 @@ punch:
     name: "Punch"
     lore:
       description:
-        - "Fire from your arrows last longer."
+        - "Fling dwarves away when hitting them."
 
 
 meleekb:
@@ -327,18 +327,18 @@ meleekb:
         - "Knock people away by hitting them."
 
 
-vines:
+aoe:
   index: 13
-  cost: [500, 1000, 1500]
+  cost: [200, 400, 600, 800, 1000]
   prereq:
     impact: 1
   item:
-    material: vine
-    name: "Infiltration Vines"
+    base: kaboom
+    name: "Heavy Impact"
     lore:
       description:
-        - "Get several temporary vines.
-           When placed they will last one minute."
+        - "Knock away dwarves from a small area\n
+           where your arrow lands."
 
 
 arrowres-impact:
@@ -368,7 +368,7 @@ extrahealth-impact:
         - "Gives you extra health."
 
 
-aoe:
+warpweaver:
   index: 22
   cost: 3000
   prereq:
@@ -377,14 +377,14 @@ aoe:
     impact: 1
     punch: 5
     meleekb: 3
-    vines: 3
+    aoe: 5
     arrowres-impact: 5
     extrahealth-impact: 5
   item:
-    base: kaboom
-    name: "aoe"
+    material: ender_pearl
+    name: "Warpweaver"
     shiny: true
     lore:
       description:
-        - "Knock away dwarves from a small area\n
-           where your arrow lands!"
+        - "Teleport to where your arrow lands.\n
+           Left click your bow to activate."
