@@ -387,20 +387,23 @@ strong:
 
 
 # ------ ARMOURS ------
-runeblessed:
+sturdy:
   index: 27
   type: item
-  name: runeblessed
+  name: sturdy
   category: armour
   cost: 8
   item:
-    name: "Runeblessed Armour"
-    base: runeblessed
+    name: "Sturdy Armour"
+    base: sturdy
     lore:
       description:
-       - "Wearing this improves your armour capacity by 100%."
+       - "Wearing this improves your armour\n
+          capacity by 100% and grants you 4 more\n
+          hearts allowing you to survive longer."
     modifiers:
-      armour-durability: 100
+      health: 14
+      armour-durability: 40
 
 quiver:
   index: 28
@@ -452,21 +455,6 @@ coil:
           -Speed\n
           -Strength\n
           -Health Boost"
-sturdy:
-  index: 31
-  type: item
-  name: sturdy
-  category: armour
-  cost: 8
-  item:
-    name: "Sturdy Armour"
-    base: sturdy
-    lore:
-      description:
-       - "Grants 4 more hearts allowing you to\n
-          survive longer"
-    modifiers:
-      health: 14
 
 nature_suit:
   index: 32
@@ -483,7 +471,7 @@ nature_suit:
           Fire Resistance."
 
 berserker:
-  index: 33
+  index: 31
   type: item
   name: berserker
   category: armour

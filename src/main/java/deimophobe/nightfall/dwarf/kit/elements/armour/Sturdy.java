@@ -1,6 +1,8 @@
 package deimophobe.nightfall.dwarf.kit.elements.armour;
 
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.armour.Armour;
+import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractElement;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 
@@ -10,6 +12,10 @@ import deimophobe.nightfall.items.modifiers.ItemModifierType;
 public class Sturdy extends AbstractElement {
 	public Sturdy(Dwarf dwarf) {
 		super(dwarf);
-		dwarf.getArmour().addModifier(ItemModifierType.HEALTH, 4, "Sturdy Armour");
+		dwarf.getArmour().addModifier(ItemModifierType.HEALTH, 4, "Sturdy");
+		
+		Armour armour = dwarf.getArmour();
+		if (armour instanceof DwarvenArmour)
+			((DwarvenArmour) armour).changeDurability(40, "Sturdy");
 	}
 }
