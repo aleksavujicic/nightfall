@@ -4,6 +4,7 @@ import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.ConsumerCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -163,8 +164,9 @@ public class Bricklayer extends AbstractItem {
 			
 			boolean placed = false;
 			while (!placed) {
-				if (nextBlock.getType() == Material.AIR && GameMap.getCurrentMap().isBlockPlaceable(nextBlock)) {
+				if (BlockType.IGNORABLE.matchesBlock(nextBlock) && GameMap.getCurrentMap().isBlockPlaceable(nextBlock)) {
 					dwarf.forceUseConsumable(ConsumableType.COBBLESTONE);
+					nextBlock.getWorld().playSound(nextBlock.getLocation(), "block.stone.place", 1f, 1f);
 					dwarf.playSound("block.stone.place");
 					nextBlock.setType(Material.COBBLESTONE);
 					placed = true;
@@ -231,23 +233,8 @@ public class Bricklayer extends AbstractItem {
 		}
 	}
 	
-	
-	/*
-	private class RemoveListener implements Listener {
-		@EventHandler
-		public void onPhaseChange(PhaseChangeEvent event) {
-			if (event.getPhase() == Phase.GAME) {
-				if (builder != null) builder.cancel();
-				dwarf.replaceItem(ITEM, null);
-				
-				HandlerList.unregisterAll(this);
-			}
-		}
-	}
-	
 	@Override
 	public void onRemove() {
-		HandlerList.unregisterAll(listener);
+		if (builder != null) builder.cancel();
 	}
-	*/
 }
