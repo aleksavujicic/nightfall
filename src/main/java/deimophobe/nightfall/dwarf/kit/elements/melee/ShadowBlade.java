@@ -4,6 +4,7 @@ import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
@@ -47,6 +48,16 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		cd.update();
+	}
+
+	@Override
+	public void onDamageAttack(MonsterDamage damage){
+		super.onDamageAttack(damage);
+		if (dwarf.hasPotionEffect(PotionEffectType.INVISIBILITY)){
+			if(damage.getMonster() instanceof AIEntity && damage.getType() == NaturalDamageType.MELEE){
+				damage.getDamage().timesMult(2.5);
+			}
+		}
 	}
 
 	@Override
