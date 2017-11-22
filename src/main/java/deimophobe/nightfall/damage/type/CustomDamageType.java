@@ -21,6 +21,8 @@ public enum CustomDamageType implements GameDamageType {
 	SILENT_STRIKE,
 	MYST,
 	SHADOW_STRIKE,
+	SCEPTER_OF_MAGMA,
+	BUFFPOOL,
 	
 	AI_REMOVER,
 	
@@ -41,8 +43,6 @@ public enum CustomDamageType implements GameDamageType {
 	// Misc
 	COMMAND,
 	MISC_EXPLOSION,
-
-	SCEPTER_OF_MAGMA,
 
 	@Deprecated TEMPORARY
 }

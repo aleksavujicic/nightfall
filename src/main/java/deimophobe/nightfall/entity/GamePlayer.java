@@ -438,7 +438,7 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		
 		@Override
 		public void accept(P entity) {
-			entity.doDamage(GamePlayer.this, type, damage);
+			entity.doDamage(GamePlayer.this, type, damage, true);
 			if (entity instanceof GamePlayer) playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
 		}
 	}

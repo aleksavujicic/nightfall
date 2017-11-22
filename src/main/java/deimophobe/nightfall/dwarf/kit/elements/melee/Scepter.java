@@ -13,9 +13,9 @@ import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractItem;
 import deimophobe.nightfall.entity.GameEntity;
-import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Location;
@@ -32,15 +32,19 @@ import java.util.function.Consumer;
 
 public class Scepter extends AbstractItem implements KitCooldownElement {
 	public Scepter(Dwarf dwarf) { super(dwarf); }
-
+	
 	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "scepter");
 	@Override public CustomItem getItem() { return ITEM; }
 	@Override public ItemStack getCooldownToggleItem() { return ITEM.createItemStack(); }
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 	
 	
+	private final static double DAMAGE = 10;
+	static { ITEM.addModifier(ItemModifierType.POWER, (int) DAMAGE); }
+	
+	
 	private final ComplexCooldown lanceCD = new ComplexCooldown(10, this::shootLance);
-	private final ComplexCooldown buffpoolCD = new ComplexCooldown(60*20, this::createBuffpool);
+	private final ComplexCooldown buffpoolCD = new ComplexCooldown(90*20, this::createBuffpool);
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
@@ -81,21 +85,21 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 		double dy = Misc.randomDouble(-0.1,0.1);
 		double dz = Misc.randomDouble(-0.1,0.1);
 		
-		for (int i=0; i<3; i++)
+		for (int i=0; i<2; i++)
 			location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(dx, dy, dz), 0, 0.8, 0.05, 0.9, 1);
 	};
 	
 	private static final Consumer<Dwarf> DWARF_BUFFER = (dwarf1) ->
 			dwarf1.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 5*20, 1, true, false, false);
 	
-	private static final Consumer<MonsterEntity> AI_SLOWER = (monster) -> {
+	private final Consumer<MonsterEntity> DAMAGER = (monster) -> {
+		monster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, DAMAGE, true);
 		if (monster instanceof AIEntity)
 			monster.givePotionEffect(PotionEffectType.SLOW, 5*20, 2, true, true, true);
 	};
 	
 	private void shootLance() {
-		GamePlayer.GameEntityDamager<MonsterEntity> damager = dwarf.new GameEntityDamager<MonsterEntity>(CustomDamageType.SCEPTER_OF_MAGMA, 12);
-		dwarf.fireBeam(10, 1.25, 0.2, PARTICLE_PLACER, DWARF_BUFFER, damager.andThen(AI_SLOWER));
+		dwarf.fireBeam(10, 1.25, 0.2, PARTICLE_PLACER, DWARF_BUFFER, DAMAGER);
 	}
 	
 	
@@ -118,7 +122,7 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 		private final Location location;
 		
 		private Buffpool() {
-			super(10*20, 1);
+			super(15*20, 1);
 			this.location = dwarf.getLocation().add(0, 0.5, 0);
 		}
 		
@@ -129,7 +133,7 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 			// Buffpool particles
 			World world = location.getWorld();
 			world.spawnParticle(Particle.SPELL_WITCH, location, 3, VISIBLE_RADIUS/2, 0, VISIBLE_RADIUS/2, 0);
-			for (int i = 0; i < 50; i++) {
+			for (int i = 0; i < 25; i++) {
 				double dx = Misc.randomDouble(-1,1);
 				double maxZ = Math.sqrt(1 - dx*dx);
 				double dz = Misc.randomDouble(-maxZ, maxZ);
@@ -159,8 +163,9 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 			for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 				if (dwarf.getLocation().distance(location) <= BUFFPOOL_RADIUS) {
 					if (getLifeLeft() % 3 == 0) dwarf.regenMana(1);
-					dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION,11*20, 3,true,false,false);
-					dwarf.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE,11*20,2,true,false,false);
+					dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, getLifeLeft(), 3,true,false,false);
+					dwarf.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Math.min(20, getLifeLeft()),2,true,false,false);
+					dwarf.givePotionEffect(PotionEffectType.REGENERATION, Math.min(20, getLifeLeft()),2,true,false,false);
 					dwarf.updateVisibility();
 				}
 			}
@@ -169,7 +174,7 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 			if (getLifeLeft() % 5 == 0) {
 				for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
 					if (monster.getLocation().distance(location) <= BUFFPOOL_RADIUS) {
-						GameDamage damage = monster.createDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, 6);
+						GameDamage damage = monster.createDamage(dwarf, CustomDamageType.BUFFPOOL, 6);
 						if (monster instanceof AIEntity) damage.instaKill();
 						damage.setNoDmgTicks(1);
 						damage.fire(true);

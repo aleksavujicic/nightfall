@@ -100,7 +100,7 @@ scepter:
           buffpool that strengthens all dwarves inside it.\n
           Also gives a passive mana regen buff."
     modifiers:
-      power: 12
+      power: 10
 
 glaive:
   enabled: false

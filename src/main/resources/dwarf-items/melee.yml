@@ -113,8 +113,6 @@ scepter:
         Also gives a passive mana regen buff."
     flavour:
       - "Insert Flavour Text Here"
-  modifiers:
-    power: 12
 
 hunting:
   base: hunting

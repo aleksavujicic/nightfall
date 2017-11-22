@@ -69,6 +69,7 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 					break;
 				case EBOW:
 				case LUMINOUS:
+				case SCEPTER_OF_MAGMA:
 					killMsg = "pierced";
 					break;
 				case VOLCANIC_BOW:
@@ -82,6 +83,10 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 					break;
 				case TINDERFLAME:
 					killMsg = "zooped";
+					break;
+				
+				case BUFFPOOL:
+					killMsg = "consumed";
 					break;
 				
 				case WRAITH_CHARGE:
