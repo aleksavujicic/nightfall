@@ -1,6 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -84,6 +85,14 @@ class Ghostblade extends AbstractMob {
 					}
 				}
 			}
+		}
+	}
+	
+	@Override
+	public void onDamageReceive(MonsterDamage damage) {
+		super.onDamageReceive(damage);
+		if (!damage.isCancelled()) {
+			monster.givePotionEffect(PotionEffectType.GLOWING, 10, 1, true, true, true);
 		}
 	}
 	
