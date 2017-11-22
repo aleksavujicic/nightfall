@@ -21,6 +21,6 @@ public class ChuggingAle extends AbstractAle {
 	public void heal() {
 		dwarf.heal(12);
 		playDefaultHealSound();
-		dwarf.givePotionEffect(PotionEffectType.SLOW, 50, -2, true, false, true);
+		dwarf.givePotionEffect(PotionEffectType.SLOW, 20, -2, true, false, true);
 	}
 }
