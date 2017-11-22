@@ -21,11 +21,9 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
@@ -95,7 +93,7 @@ class SkeletonImpact extends Skeleton {
     @Override
     public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
         super.onUse(action, clickedBlock, blockFace);
-        if (Misc.isLeftClick(action) && monster.getHeldItem().isSimilar(getWeapon().createItemStack())) {
+        if (Misc.isLeftClick(action) && isPlayerHoldingWeapon()) {
             setActive(!active);
             onToggle();
             removeActiveArrows();
@@ -114,7 +112,7 @@ class SkeletonImpact extends Skeleton {
     @Override
     public void onProjectileLand(Projectile proj, Block block) {
         if (warpCD.isAvailable() && isActive() && isActiveProjectile(proj)) {
-            if (!GameMap.getCurrentMap().getCurrentMobProtection().continsEntity(proj)) {
+            if (!GameMap.getCurrentMap().getCurrentShrineProtection().continsEntity(proj)) {
                 setActive(false);
 
                 Location newSpot = proj.getLocation().add(0, 0.25, 0);
@@ -183,8 +181,7 @@ class SkeletonImpact extends Skeleton {
     public Projectile onBowFire(Arrow arrow, float force) {
         Projectile proj = super.onBowFire(arrow, force);
         if (ArrowMisc.getArrowForce(arrow) < 0.5) {
-            arrow.remove();
-            return proj;
+            return null;
         }
         if (active) {
             proj.setMetadata(ARROW_METADATA_KEY, new FixedMetadataValue(NightfallPlugin.getPlugin(), true));
@@ -242,7 +239,7 @@ class SkeletonImpact extends Skeleton {
         World world = location.getWorld();
         world.spawnParticle(Particle.SPELL_WITCH, location, 20, 0.5, 0.5, 0.5);
         world.spawnParticle(Particle.SPELL_WITCH, here, 20, 0.5, 0.5, 0.5);
-        world.playSound(location, "entity.illusion_illager.mirror_move", 1f, 0.95f);
-        world.playSound(here, "entity.illusion_illager.mirror_move", 1f, 0.95f);
+        world.playSound(location, "entity.illusion_illager.mirror_move", 0.6f, 0.95f);
+        world.playSound(here, "entity.illusion_illager.mirror_move", 0.6f, 0.95f);
     }
 }
