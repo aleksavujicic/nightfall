@@ -51,8 +51,6 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		lanceCD.update();
 		buffpoolCD.update();
-		
-		if (sec) dwarf.regenMana(3);
 	}
 	
 	@Override
@@ -65,7 +63,7 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace face){
-		if (Misc.isRightClick(action) && dwarf.hasMana(BUFFPOOL_COST)) {
+		if (Misc.isRightClick(action)) {
 			return buffpoolCD.tryUse();
 		} else if (Misc.isLeftClick(action)) {
 			return lanceCD.tryUse();
@@ -104,11 +102,9 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 	
 	
 	// ----- BUFFPOOL -----
-	private static final int BUFFPOOL_COST = 100;
 	private Buffpool activePool;
 	
 	private void createBuffpool() {
-		dwarf.useMana(BUFFPOOL_COST);
 		activePool = new Buffpool();
 	}
 
@@ -165,7 +161,7 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 					if (getLifeLeft() % 3 == 0) dwarf.regenMana(1);
 					dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, getLifeLeft(), 3,true,false,false);
 					dwarf.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Math.min(20, getLifeLeft()),2,true,false,false);
-					dwarf.givePotionEffect(PotionEffectType.REGENERATION, Math.min(20, getLifeLeft()),2,true,false,false);
+					dwarf.givePotionEffect(PotionEffectType.REGENERATION, getLifeLeft(),3,true,false,false);
 					dwarf.updateVisibility();
 				}
 			}
