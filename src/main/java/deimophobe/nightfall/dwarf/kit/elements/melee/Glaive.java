@@ -8,6 +8,10 @@ import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.ai.AIEntity;
+import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -25,7 +29,11 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     private final int abilityDuration = 3*20;//Might be changed when testing abilities, OG value is 1*20 (1 second)
     private final ComplexCooldown cd = new ComplexCooldown(maxCD, this::TestAbility);//WILL NEED TO CHANGE ONCE ABILITY IS DECIDED
     //Ability variables below
+    private final String currentTest = ("ChangeStance");//PUT NAME OF TESTING ABILITY HERE
 
+    private boolean altStance = false;//ChangeStance
+    private final int highDamage = 25;//ChangeStance
+    private final int lowDamage = 5;//ChangeStance
     //End of Ability variables
 
     public Glaive (Dwarf dwarf){super(dwarf);}
@@ -52,7 +60,34 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
         dwarf.givePotionEffect(PotionEffectType.SPEED, abilityDuration,3,false,false,true);
     }
     //Possible Abilities (Being built and tested) (Only one of these will be used for Glaive, but I(ED) might keep some for other weapons
-    private void ChangeStance(){}//Will change stance to do more damage to AIs, less damage to PlayerMobs, and vice versa
+
+    private void ChangeStance(){//Will change stance to do more damage to AIs, less damage to PlayerMobs, and vice versa
+        altStance = !altStance;
+        if (altStance){
+            CreateStanceParticles();
+        }
+        //CHANGE ITEM MODEL HERE
+    }
+    private double theta = 0;//COPIED FROM HAMMER
+    private static final double r1 = 249, g1 = 245, b1 = 14;
+    private static final double r2 = 237, g2 = 87, b2 = 68;
+    private static final int NUM_PARTICLES = 5;
+    private void CreateStanceParticles(){
+        theta = (theta + 0.1) % (2 * Math.PI);
+        Location playerLoc = dwarf.getPlayer().getEyeLocation();
+        double red = (r1 - r2)/2 * Math.sin(theta) + (r1 + r2)/2;
+        double green = (g1 - g2)/2 * Math.sin(theta) + (g1 + g2)/2;
+        double blue = (b1 - b2)/2 * Math.sin(theta) + (b1 + b2)/2;
+        red *= 1d/256;
+        green *= 1d/256;
+        blue *= 1d/256;
+        for (int i = 0; i < NUM_PARTICLES; i++) {
+            double frac = (double) i / NUM_PARTICLES;
+            double myTheta = theta - frac * 2 * Math.PI;
+            Location particleLoc = playerLoc.clone().add(Math.cos(myTheta), -1, Math.sin(myTheta));
+            particleLoc.getWorld().spawnParticle(Particle.REDSTONE, particleLoc, 0, red, green, blue, 1);
+        }
+    }
 
     private void AltHit(){}//Will be a different attack with a very fast cooldown(.5 to 1.5 seconds) dealing more damage to playermobs or AIs, and less damage to other
 
@@ -64,7 +99,28 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
 
 
     @Override
-    protected double getDamageToMonster(MonsterEntity entity){return basicAttackDamage;}//Maybe change this to be more effective against AIs
+    protected double getDamageToMonster(MonsterEntity entity){//Maybe change this to be more effective against AIs
+        if (currentTest == "ChangeStance"){
+            if (!altStance){
+                if (entity instanceof MonsterPlayer) {
+                    return highDamage;
+                }else if (entity instanceof AIEntity){
+                    return lowDamage;
+                }
+                return 0;
+            }else if (altStance){
+                if (entity instanceof MonsterPlayer) {
+                    return lowDamage;
+                }else if (entity instanceof AIEntity){
+                    return highDamage;
+                }
+                return 0;
+            }
+
+        }
+
+        return basicAttackDamage;
+    }
 
     @Override public CustomItem getItem(){return ITEM;}
     @Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
