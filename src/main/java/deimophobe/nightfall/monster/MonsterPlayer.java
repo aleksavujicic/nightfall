@@ -164,6 +164,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		resetRebirthCount();
 	}
 	
+	public Location getRebirthLocation() {
+		return lastRebirth;
+	}
+	
 	public void setRebirthSpot(Location location) {
 		if (location == null) {
 			removeRebirth();

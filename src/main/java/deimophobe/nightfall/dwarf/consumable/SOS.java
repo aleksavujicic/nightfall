@@ -1,11 +1,13 @@
 package deimophobe.nightfall.dwarf.consumable;
 
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIManager;
+import deimophobe.nightfall.monster.mob.Mob;
+import deimophobe.nightfall.monster.mob.Zombie;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -33,7 +35,7 @@ class SOS extends Consumable {
 	}
 	
 	private static final double RANGE = 12;
-	private static final int FREEZE_TIME = 200;
+	private static final int FREEZE_TIME = 160;
 	private static final int NUM_SWORDS = 3;
 	
 	@Override
@@ -43,10 +45,19 @@ class SOS extends Consumable {
 		
 		Location center = dwarf.getEyeLocation();
 		for (MonsterPlayer mp : MonsterManager.getManager().getGamePlayers()) {
-			if (mp.isAlive() && center.distance(mp.getLocation()) <= RANGE)
+			if (mp.isAlive() && center.distance(mp.getLocation()) <= RANGE) {
 				mp.freeze(FREEZE_TIME);
+			}
+			
+			Location rebirth = mp.getRebirthLocation();
+			if (rebirth != null && center.distance(rebirth) <= RANGE) {
+				mp.removeRebirth();
+			}
+			
+			Mob mob = mp.getMob();
+			if (mob instanceof Zombie) ((Zombie) mob).disableRebirth();
 		}
-		AIManager.getManager().clearArea(center, RANGE);
+		AIManager.getManager().clearArea(center, 2*RANGE);
 		dwarf.playSound("entity.evocation_illager.prepare_summon", 1, 1f, true);
 		
 		
