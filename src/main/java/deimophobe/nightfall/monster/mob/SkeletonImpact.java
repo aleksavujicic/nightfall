@@ -79,9 +79,9 @@ class SkeletonImpact extends Skeleton {
         theta = (theta + 0.05) % (2 * Math.PI);
         if (active) {
             for (int i = 0; i < 8; i++) {
-                double red = 220d/256;
-                double green = 58d/256;
-                double blue = 252d/256;
+                double red = 40d/256;
+                double green = 8d/256;
+                double blue = 70d/256;
                 double myTheta = theta - (double)i/8 * 2 * Math.PI;
 
                 Location particleLoc = monster.getEyeLocation().clone().add(Math.cos(myTheta), -1, Math.sin(myTheta));
@@ -135,7 +135,7 @@ class SkeletonImpact extends Skeleton {
     private void impactExplosion(Location centerLoc, Dwarf exempt) {
         World world = monster.getLocation().getWorld();
         world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
-        double kb = 0.15 + aoe * 0.15;
+        double kb = 0.25 + aoe * 0.15;
         for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
             if (dwarf == exempt) {
                 continue;
