@@ -79,6 +79,12 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		}
 	}
 	
+	public void sendDebugMsg(String message) {
+		if (isDebugMode()) {
+			sendMessage(ChatColor.GREEN + message);
+		}
+	}
+	
 	
 	// ------ TITLE ------
 	private ChatColor colour;
