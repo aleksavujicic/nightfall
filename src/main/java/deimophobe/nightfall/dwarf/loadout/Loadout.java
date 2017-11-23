@@ -163,13 +163,14 @@ public class Loadout implements SessionData {
 		if (autosaver != null)
 			autosaver.cancel();
 		
+		// TODO AUTOSAVER SHOULD BE ASYNC
 		autosaver = new BukkitRunnable() {
 			@Override
 			public void run() {
 				saveLoadouts();
 			}
 		};
-		autosaver.runTaskTimer(NightfallPlugin.getPlugin(), 1200, 1200);
+		//autosaver.runTaskTimer(NightfallPlugin.getPlugin(), 1200, 1200);
 	}
 	
 	public static void saveLoadouts() {
@@ -209,6 +210,8 @@ public class Loadout implements SessionData {
 			LoadoutItem item = LoadoutItem.getItem(string);
 			if (item != null) {
 				loadout.selectItem(item);
+			} else {
+				Bukkit.getLogger().severe("Unknown loadout item name '" + string + "' while loading " + uuid + " loadout.");
 			}
 		}
 		return loadout;
