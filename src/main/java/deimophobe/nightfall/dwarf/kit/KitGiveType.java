@@ -14,7 +14,6 @@ public enum KitGiveType {
 	AXE(true),
 	SHOVEL(true),
 	
-	COMPASS(true),
 	ARTHEA_SPECIAL;
 	
 	

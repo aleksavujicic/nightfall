@@ -135,9 +135,11 @@ class GoblinKaboom extends Goblin {
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
-		monster.removePotionEffect(PotionEffectType.SPEED);
-		kaboomCD.reset();
-		kaboomTrigger = false;
+		if (superKaboom == 0) {
+			monster.removePotionEffect(PotionEffectType.SPEED);
+			kaboomCD.reset();
+			kaboomTrigger = false;
+		}
 	}
 	
 	@Override

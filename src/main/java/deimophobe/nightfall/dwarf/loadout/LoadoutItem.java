@@ -192,6 +192,10 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 		return category;
 	}
 	
+	public ItemStack getItemStack() {
+		return itemStack;
+	}
+	
 	
 	private static abstract class PropertyModifier {
 		abstract void modify(DwarfData dwarfData);

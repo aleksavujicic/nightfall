@@ -47,13 +47,11 @@ import java.util.Set;
 public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEntity<Player> {
 	
 	private Mob mob;
-	private int rebirthCount;
 
 	public Mob getMob() { return mob; }
 	
 	public MonsterPlayer(Player player) {
 		super(player);
-		rebirthCount = 0;
 		kill(true);
 	}
 	
@@ -95,18 +93,6 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		}
 		
 		usedThisTick = false;
-	}
-
-	public void incrementRebirthCount() {
-		rebirthCount++;
-	}
-
-	public void resetRebirthCount() {
-		rebirthCount = 0;
-	}
-
-	public int getRebirthCount() {
-		return rebirthCount;
 	}
 	
 	// ------ SPAWN AND DEATH ------
@@ -166,13 +152,20 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	private final static int REBIRTH_TIME = 6*20;
 	private Location lastRebirth = null;
 	private BukkitRunnable rebirthKiller;
+	private int rebirthCount;
 	
 	public boolean canRebirth() {
 		return lastRebirth != null;
 	}
 	
 	public void removeRebirth() {
+		sendDebugMsg("Removing rebirth");
 		lastRebirth = null;
+		resetRebirthCount();
+	}
+	
+	public Location getRebirthLocation() {
+		return lastRebirth;
 	}
 	
 	public void setRebirthSpot(Location location) {
@@ -187,7 +180,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		rebirthKiller = new BukkitRunnable() {
 			@Override public void run() {removeRebirth();}
 		};
-		rebirthKiller.runTaskLater(NightfallPlugin.getPlugin(), REBIRTH_TIME);
+		
+		// Running a task while disabling throws an exception and causes badness
+		if (!NightfallPlugin.getPlugin().isDisabling())
+			rebirthKiller.runTaskLater(NightfallPlugin.getPlugin(), REBIRTH_TIME);
 	}
 	
 	public void rebirth() {
@@ -209,6 +205,18 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		}
 		spawnMob(zombie);
 		rebirthKiller.cancel();
+	}
+	
+	public void incrementRebirthCount() {
+		rebirthCount++;
+	}
+	
+	public void resetRebirthCount() {
+		rebirthCount = 0;
+	}
+	
+	public int getRebirthCount() {
+		return rebirthCount;
 	}
 	
 	

@@ -60,9 +60,9 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		addSpawnEgg(14, "wolf");
 		addSpawnEgg(15, "spiderling");
 		addSpawnEgg(16, "rat");
-		addSpawnEgg(23, "golem");
-		addSpawnEgg(24, "minotaur");
-		addSpawnEgg(25, "wraith");
+		addSpawnEgg(24, "golem");
+		addSpawnEgg(25, "minotaur");
+		addSpawnEgg(26, "wraith");
 		
 		frontMenu.setItem(8, resetPage);
 		frontMenu.setItem(9, zombiePage);

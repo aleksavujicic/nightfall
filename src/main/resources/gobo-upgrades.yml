@@ -159,5 +159,6 @@ superkaboom:
     shiny: true
     lore:
       description:
-        - "Make a large explosion when you kaboom!\n"
+        - "Make a large explosion when you kaboom!\n
+           Dwarves can no longer interrupt your kabooms."
 

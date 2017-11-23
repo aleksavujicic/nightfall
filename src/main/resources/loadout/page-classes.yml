@@ -7,7 +7,7 @@ warrior-class:
     - grb
     - dragonskin
     - jimmy_juice
-    - runeblessed
+    - sturdy
     - avenge
   consumables:
     torch: 32
@@ -28,7 +28,7 @@ warrior-class:
        - "*Greater Runeblade\n
           *Dragonskin Bow\n
           *Jimmy Juice\n
-          *Runeblessed Armour\n
+          *Sturdy Armour\n
           *Avenge\n
           *32 Torches\n
           *32 Mortar\n
@@ -230,7 +230,7 @@ healer-class:
 
       contains:
        - "*Healing Scepter\n
-          *Ebow\n/
+          *Ebow\n
           *Regrowth Star\n
           *Nature Suit\n
           *Slowfall\n
@@ -249,11 +249,11 @@ brawler-class:
     - volcanic
     - berserker
     - sturdy
-    - runeblessed
-    - strong_ale
+    - quiver
+    - hearty_ale
     - avenge
     - resurrection
-    - slowfall
+    - darkvision
   consumables:
     wrench: 4
     slab: 2
@@ -267,11 +267,11 @@ brawler-class:
 
       contains:
        - "*Volcanic Gauntlet\n
-          *Strong Ale\n
+          *Hearty Ale\n
           *Berserker Armour\n
-          *Runeblessed Armour\n
           *Sturdy Armour\n
-          *Slowfall\n
+          *Massive Quiver\n
+          *Dark Vision\n
           *Avenge\n
           *Resurrection\n
           *4 Wrenches\n
@@ -327,7 +327,7 @@ paladin-class:
     - hammer
     - lightbow
     - hearty_ale
-    - runeblessed
+    - sturdy
   consumables:
     torch: 32
     mortar: 32
@@ -351,7 +351,7 @@ paladin-class:
        - "*Warhammer\n
           *Lightbow\n
           *Hearty Ale\n
-          *Runeblessed Armour\n
+          *Sturdy Armour\n
           *32 Torches\n
           *32 Mortar\n
           *128 Cobblestone\n

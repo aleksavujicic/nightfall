@@ -51,13 +51,12 @@ public enum KitElementType {
 	HEALINGGLOW,
 	
 	// Armours
-	RUNEBLESSED,
+	STURDY,
 	QUIVER,
 	STUDDED,
 	COIL,
-	STURDY,
-	NATURE_SUIT,
 	BERSERKER,
+	NATURE_SUIT,
 	
 	// Accessories
 	COMPASS,
@@ -167,13 +166,12 @@ public enum KitElementType {
 			case HEALINGGLOW: return new HealingGlow(dwarf);
 			
 			// Armours
-			case RUNEBLESSED: return new Runeblessed(dwarf);
+			case STURDY: return new Sturdy(dwarf);
 			case QUIVER: return new Quiver(dwarf);
 			case STUDDED: return new StuddedArmour(dwarf);
 			case COIL: return new MagicCoil(dwarf);
-			case STURDY: return new Sturdy(dwarf);
-			case NATURE_SUIT: return new NatureSuit(dwarf);
 			case BERSERKER: return new BerserkArmour(dwarf);
+			case NATURE_SUIT: return new NatureSuit(dwarf);
 			
 			// Accessory
 			case COMPASS: return new DwarfCompass(dwarf);
@@ -183,7 +181,7 @@ public enum KitElementType {
 			case AVENGE: return new Avenge(dwarf);
 			case TOMBMAKER: return new Tombmaker(dwarf);
 			case RESURRECTION: return new Resurrection(dwarf);
-			case BRICKLAYER: return new BrickLayer(dwarf);
+			case BRICKLAYER: return new Bricklayer(dwarf);
 			
 			// Tools
 			case DWARF_AXE: return new DwarfAxe(dwarf);

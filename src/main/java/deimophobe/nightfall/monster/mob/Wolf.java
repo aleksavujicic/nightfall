@@ -9,7 +9,6 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -112,17 +111,8 @@ class Wolf extends AbstractMob {
 		super.onDamageAttack(damage);
 		Dwarf dwarf = damage.getDwarf();
 		if (dwarf != null) {
-			double heal;
-			if (isHellhound()) {
-				heal = 4;
-			}
-			else {
-				heal = 4;
-			}
-			
-			monster.heal(heal);
-			monster.givePotionEffect(PotionEffectType.SPEED, 120, 3, true, false, true);
-			
+			monster.heal(2);
+			monster.givePotionEffect(PotionEffectType.SPEED, 140, 2, true, false, true);
 			furySound.tryUse();
 		}
 	}
@@ -130,9 +120,6 @@ class Wolf extends AbstractMob {
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
-		if (damage.getType() == NaturalDamageType.MELEE) {
-			monster.givePotionEffect(PotionEffectType.SLOW, 20, 2,true, true,true);
-		}
 	}
 
 	private boolean isHellhound() {
@@ -144,14 +131,14 @@ class Wolf extends AbstractMob {
 		for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
 			if (monster == this.monster) continue;
 			if (monster.getMob() instanceof Wolf) {
-				if (monster.getLocation().distance(this.monster.getLocation()) <= 6) {
+				if (monster.getLocation().distance(this.monster.getLocation()) <= 10) {
 					wolfCount++;
 					
-					if (wolfCount == 5) break;
+					if (wolfCount == 4) break;
 				}
 			}
 		}
 		if (wolfCount == 0) return;
-		monster.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, 5*20, wolfCount, true, true, true);
+		monster.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, 10*20, wolfCount, true, true, false);
 	}
 }

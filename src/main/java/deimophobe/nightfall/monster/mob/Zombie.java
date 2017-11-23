@@ -15,6 +15,7 @@ public class Zombie extends AbstractMob {
 	protected Map<String, Integer> upgrades;
 
 	protected final Location rebirthLoc;
+	private boolean disabledRebirth = false;
 
 	protected Zombie(MonsterPlayer mons) {
 		this(mons, null);
@@ -58,12 +59,16 @@ public class Zombie extends AbstractMob {
 		else
 			super.tpToSpawn();
 	}
+	
+	public void disableRebirth() {
+		disabledRebirth = true;
+	}
 
 	@Override
 	public void onDeath(boolean silent) {
 		super.onDeath(silent);
 		boolean setRebirth = (Math.random() < rebirthChance - (monster.getRebirthCount() * 0.3));
-		if (setRebirth) {
+		if (setRebirth && !disabledRebirth) {
 			monster.setRebirthSpot(monster.getLocation());
 			monster.incrementRebirthCount();
 		}

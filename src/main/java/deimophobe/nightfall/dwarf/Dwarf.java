@@ -115,7 +115,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	protected void giveStartingItems(Map<ConsumableType, Integer> consumables) {
 		kit.giveItems(KitGiveType.START);
-		kit.giveItems(KitGiveType.COMPASS, true);
 		
 		// Add consumables
 		for (ConsumableType type : consumables.keySet()) {
@@ -123,13 +122,12 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		}
 	}
 	
-	public void addKitItem(KitElementType type) {
-		kit.addElement(type);
+	public void giveCompass() {
+		if (!hasKitElement(KitElementType.COMPASS)) kit.addAndGiveItem(KitElementType.COMPASS);
 	}
 	
-	public void giveCompass() {
-		addKitItem(KitElementType.COMPASS);
-		kit.giveItems(KitGiveType.COMPASS);
+	public void giveChesto() {
+		if (!hasKitElement(KitElementType.CHESTO)) kit.addAndGiveItem(KitElementType.CHESTO);
 	}
 	
 	
@@ -653,5 +651,11 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	public void notifyDeath(Dwarf dwarf) {
 		kit.notifyDeath(dwarf);
+	}
+	
+	@Override
+	public void onRemove() {
+		super.onRemove();
+		kit.onRemove();
 	}
 }

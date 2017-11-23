@@ -25,7 +25,7 @@ public class DwarfCompass extends AbstractItem {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("accessory", "compass");
 	@Override public CustomItem getItem() { return ITEM; }
-	@Override public KitGiveType getGiveType() {return KitGiveType.COMPASS;}
+	@Override public KitGiveType getGiveType() {return KitGiveType.START;}
 	
 	private int nextIndex = 0;
 	private boolean canUse = true;

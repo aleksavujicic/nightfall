@@ -3,6 +3,7 @@ package deimophobe.nightfall.dwarf.loadout;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.menu.SessionData;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -82,20 +83,18 @@ public class Loadout implements SessionData {
 	}
 	
 	private void updateDisplay() { // TODO move this elsewhere maybe? Make lobbyer class maybe?
-		/*
-		Player player = Bukkit.getPlayer(playerUUID);
-		if (player != null && Game.getGame().isLobbyPlayer(player)) {
-			PlayerInventory inv = player.getInventory();
-			inv.clear();
-			int i = 9;
-			for (LoadoutItem item : items) {
-				ItemStack itemStack = item.getItemStack().clone();
-				itemStack.setAmount(1);
-				inv.setItem(i, itemStack);
-				i++;
-			}
-		}
-		*/
+//		Player player = Bukkit.getPlayer(playerUUID);
+//		if (player != null && Game.getGame().isLobbyPlayer(player)) {
+//			PlayerInventory inv = player.getInventory();
+//			inv.clear();
+//			int i = 9;
+//			for (LoadoutItem item : items) {
+//				ItemStack itemStack = item.getItemStack().clone();
+//				itemStack.setAmount(1);
+//				inv.setItem(i, itemStack);
+//				i++;
+//			}
+//		}
 	}
 	
 	DwarfData constructProperties() {
@@ -161,13 +160,14 @@ public class Loadout implements SessionData {
 		if (autosaver != null)
 			autosaver.cancel();
 		
-		autosaver = new BukkitRunnable() {
-			@Override
-			public void run() {
-				saveLoadouts();
-			}
-		};
-		autosaver.runTaskTimer(NightfallPlugin.getPlugin(), 1200, 1200);
+		// TODO AUTOSAVER SHOULD BE ASYNC
+//		autosaver = new BukkitRunnable() {
+//			@Override
+//			public void run() {
+//				saveLoadouts();
+//			}
+//		};
+		//autosaver.runTaskTimer(NightfallPlugin.getPlugin(), 1200, 1200);
 	}
 	
 	public static void saveLoadouts() {
@@ -207,6 +207,8 @@ public class Loadout implements SessionData {
 			LoadoutItem item = LoadoutItem.getItem(string);
 			if (item != null) {
 				loadout.selectItem(item);
+			} else {
+				Bukkit.getLogger().severe("Unknown loadout item name '" + string + "' while loading " + uuid + " loadout.");
 			}
 		}
 		return loadout;

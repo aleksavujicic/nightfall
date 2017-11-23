@@ -4,6 +4,7 @@ import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.ConsumerCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -23,7 +24,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 /**
  * Created by Deimophobe on 20/11/17.
  */
-public class BrickLayer extends AbstractItem {
+public class Bricklayer extends AbstractItem {
 	private final static CustomItem ITEM = DwarvenItems.getItem("accessory", "bricklayer");
 	@Override public CustomItem getItem() {
 		return ITEM;
@@ -42,7 +43,7 @@ public class BrickLayer extends AbstractItem {
 	
 	//private final RemoveListener listener;
 	
-	public BrickLayer(Dwarf dwarf) {
+	public Bricklayer(Dwarf dwarf) {
 		super(dwarf);
 	//	listener = new RemoveListener();
 	//	Bukkit.getPluginManager().registerEvents(listener, NightfallPlugin.getPlugin());
@@ -163,8 +164,9 @@ public class BrickLayer extends AbstractItem {
 			
 			boolean placed = false;
 			while (!placed) {
-				if (nextBlock.getType() == Material.AIR && GameMap.getCurrentMap().isBlockPlaceable(nextBlock)) {
+				if (BlockType.IGNORABLE.matchesBlock(nextBlock) && GameMap.getCurrentMap().isBlockPlaceable(nextBlock)) {
 					dwarf.forceUseConsumable(ConsumableType.COBBLESTONE);
+					nextBlock.getWorld().playSound(nextBlock.getLocation(), "block.stone.place", 1f, 1f);
 					dwarf.playSound("block.stone.place");
 					nextBlock.setType(Material.COBBLESTONE);
 					placed = true;
@@ -231,23 +233,8 @@ public class BrickLayer extends AbstractItem {
 		}
 	}
 	
-	
-	/*
-	private class RemoveListener implements Listener {
-		@EventHandler
-		public void onPhaseChange(PhaseChangeEvent event) {
-			if (event.getPhase() == Phase.GAME) {
-				if (builder != null) builder.cancel();
-				dwarf.replaceItem(ITEM, null);
-				
-				HandlerList.unregisterAll(this);
-			}
-		}
-	}
-	
 	@Override
 	public void onRemove() {
-		HandlerList.unregisterAll(listener);
+		if (builder != null) builder.cancel();
 	}
-	*/
 }

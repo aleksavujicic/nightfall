@@ -96,11 +96,10 @@ scepter:
     lore:
         description:
         - "Left click to shoot a beam that damages mobs,\n
-          and buffs dwarves. Right click to create a\n
-          buffpool that strengthens all dwarves inside it.\n
-          Also gives a passive mana regen buff."
+           and buffs dwarves. Right click to create a\n
+           buffpool that strengthens all dwarves inside it."
     modifiers:
-      power: 12
+      power: 10
 
 glaive:
   enabled: false
@@ -363,7 +362,7 @@ chug:
           Uses &b25&r mana. You are able to spam\n
           this as much as you want\n
           so be careful and watch your mana!\n
-          You also gain &espeed for 2.5 seconds&r\n
+          You also gain &espeed for 1 second&r\n
           each sip."
     modifiers:
       mana-cost: 25
@@ -387,20 +386,23 @@ strong:
 
 
 # ------ ARMOURS ------
-runeblessed:
+sturdy:
   index: 27
   type: item
-  name: runeblessed
+  name: sturdy
   category: armour
   cost: 8
   item:
-    name: "Runeblessed Armour"
-    base: runeblessed
+    name: "Sturdy Armour"
+    base: sturdy
     lore:
       description:
-       - "Wearing this improves your armour capacity by 100%."
+       - "Wearing this improves your armour\n
+          capacity by 100% and grants you 4 more\n
+          hearts allowing you to survive longer."
     modifiers:
-      armour-durability: 100
+      health: 14
+      armour-durability: 40
 
 quiver:
   index: 28
@@ -452,21 +454,6 @@ coil:
           -Speed\n
           -Strength\n
           -Health Boost"
-sturdy:
-  index: 31
-  type: item
-  name: sturdy
-  category: armour
-  cost: 8
-  item:
-    name: "Sturdy Armour"
-    base: sturdy
-    lore:
-      description:
-       - "Grants 4 more hearts allowing you to\n
-          survive longer"
-    modifiers:
-      health: 14
 
 nature_suit:
   index: 32
@@ -483,7 +470,7 @@ nature_suit:
           Fire Resistance."
 
 berserker:
-  index: 33
+  index: 31
   type: item
   name: berserker
   category: armour

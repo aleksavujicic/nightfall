@@ -24,8 +24,8 @@ wolf:
   egg:
     base: bite
     name: Spawn Wolf
-  quantity: 4
-  chance: 0.03
+  quantity: 2
+  chance: 0.04
 
 hellhound:
   mobtype: hellhound
@@ -33,8 +33,8 @@ hellhound:
     base: bite
     name: Spawn Hellhound
     shiny: true
-  quantity: 4
-  chance: 0.03
+  quantity: 1
+  chance: 0.02
 
 spiderling:
   mobtype: spiderling

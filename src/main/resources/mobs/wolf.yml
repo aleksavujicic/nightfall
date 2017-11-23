@@ -4,10 +4,11 @@ base:
   disguisetype: wolf
 
   attack: 15
-  health: 40
+  health: 30
   speed: 10
 
   shred: 25
+  resistance: 0.7
 
   armour:
     material: leather
@@ -36,8 +37,6 @@ hellhound:
   parent: wolf
   title: Hellhound
 
-  disguisetype: wolf
-
   attack: 20
   health: 40
   speed: 10
@@ -45,6 +44,7 @@ hellhound:
   shred: 30
 
   proccable: false
+  arrowres: 0.5
 
   sounds:
     growl:
