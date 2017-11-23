@@ -1,10 +1,14 @@
 package deimophobe.nightfall.dwarf.loadout;
 
+import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.menu.SessionData;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
@@ -82,7 +86,6 @@ public class Loadout implements SessionData {
 	}
 	
 	private void updateDisplay() { // TODO move this elsewhere maybe? Make lobbyer class maybe?
-		/*
 		Player player = Bukkit.getPlayer(playerUUID);
 		if (player != null && Game.getGame().isLobbyPlayer(player)) {
 			PlayerInventory inv = player.getInventory();
@@ -95,7 +98,6 @@ public class Loadout implements SessionData {
 				i++;
 			}
 		}
-		*/
 	}
 	
 	DwarfData constructProperties() {
