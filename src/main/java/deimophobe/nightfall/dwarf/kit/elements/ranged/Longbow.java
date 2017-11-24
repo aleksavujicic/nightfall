@@ -27,7 +27,7 @@ public class Longbow extends AbstractBow implements KitCooldownElement {
 	private int stacks = 0;
 	private static final int PLAYER_STACK_GAIN = 1;
 	private static final int MAX_STACKS = 6;
-	private static final int STACK_LOSS = 2;
+	private static final int STACK_LOSS = 6;
 	private static final double DMG_PER_STACK = 20;
 	
 	
