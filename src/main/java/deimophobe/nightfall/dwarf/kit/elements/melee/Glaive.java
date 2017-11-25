@@ -2,168 +2,135 @@ package deimophobe.nightfall.dwarf.kit.elements.melee;
 
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.damage.GameDamage;
-import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.CustomItem;
-import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
-import deimophobe.nightfall.monster.mob.Mob;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 /**
- * Created by ED{Kegoir} and DIV on 25/10/17.
+ * Created by ED{Kegoir} and Div on 23/11/17
  */
+
 public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
+    private final double aoeRadius = 3;
+    private final int basicAttackDamage = 15;//Might be changed when testing abilities, OG value is 15
+    private final int maxCD = 1*20;//Broken AF right now
+    private final int abilityDuration = 3*20;//Might be changed when testing abilities, OG value is 1*20 (1 second)
+    private final ComplexCooldown cd = new ComplexCooldown(maxCD, this::TestAbility);//WILL NEED TO CHANGE ONCE ABILITY IS DECIDED
+    //Ability variables below
+    private final String currentTest = ("ChangeStance");//PUT NAME OF TESTING ABILITY HERE
 
-    private final ComplexCooldown spinCD = new ComplexCooldown(45*20, this::Spin);
-    private final int spinDuration = 15;
-    private final double knockbackDistance = .3;
-    private final double knockY = .7;
-    private static final int MAX_EXHAUSTION = 3*20;
-    private int exhaustion = 0;
+    private boolean altStance = false;//ChangeStance
+    private final int highDamage = 25;//ChangeStance
+    private final int lowDamage = 5;//ChangeStance
+    //End of Ability variables
 
-    public Glaive(Dwarf dwarf) {
-        super(dwarf);
-    }
-
+    public Glaive (Dwarf dwarf){super(dwarf);}
     private final static CustomItem ITEM = DwarvenItems.getItem("melee", "glaive");
-    @Override public CustomItem getItem() {
-        return ITEM;
-    }
-    @Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 
     @Override
     public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
         super.update(quartSec, halfSec, sec, doubleSec, quadSec);
-        spinCD.update();
-        if (exhaustion > 0)
-            exhaustion--;
+        cd.update();
     }
-
-    @Override
-    public void onDamageAttack(MonsterDamage damage){
-        if (exhaustion > 0) {
-            damage.cancel();
-        }else if (damageFromItem(damage)){
-            giveExhaustion();
-        }
-    }
-
-    private void giveExhaustion() {
-        dwarf.givePotionEffect(PotionEffectType.SLOW_DIGGING, MAX_EXHAUSTION, 200, true, false, true);
-        exhaustion = MAX_EXHAUSTION;
-    }
-
     @Override
     public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace){
         super.onUse(action, clickedBlock, blockFace);
         if(Misc.isRightClick(action)){
-            spinCD.tryUse();
+            cd.tryUse();
         }
         return false;
     }
 
-    private void Spin(){//ISSUE IS WHEN ONE TYPE OF MONSTER (AI/PLAYER) IS SELECTED, OTHER IS NOT AFFECTED
-        dwarf.givePotionEffect(PotionEffectType.SLOW,spinDuration,3,false,false,true);
-        dwarf.givePotionEffect(PotionEffectType.LUCK,spinDuration,1, false,true,true);
-        //dwarf.playSound("ENTER-SOUND-HERE", 1, 1f, false);
+    private void TestAbility(){TempAbility();}//Test abilities here. Must give basicAttackDamage a value based on ability.
 
-
-            Location center = dwarf.getLocation();
-            double radius = 3;
-            for (MonsterEntity entity : MonsterManager.getManager().getAliveMobsAndAIs()) {
-                if (entity instanceof Mob || entity instanceof AIEntity)
-                    continue;
-
-                if (center.distance(entity.getLocation()) <= radius) {
-                    GameDamage newDamage = entity.createDamage(dwarf, CustomDamageType.GLAIVE_AOE, getDamageToMonster(entity));
-                    newDamage.setKnockback(knockBack(entity));
-                    newDamage.setNoDmgTicks(10);
-
-                    newDamage.fire();
-                }
-            }
+    private void TempAbility(){//For use while abilities are being decided
+        dwarf.givePotionEffect(PotionEffectType.INVISIBILITY,abilityDuration,1,false,false,true);
+        dwarf.givePotionEffect(PotionEffectType.SPEED, abilityDuration,3,false,false,true);
     }
+    //Possible Abilities (Being built and tested) (Only one of these will be used for Glaive, but I(ED) might keep some for other weapons
 
-    private Vector knockBack(GameEntity entity){
-        double entityX = entity.getLocation().getX();
-        double entityZ = entity.getLocation().getZ();
-        double newX = entityX - dwarf.getLocation().getX();
-        double newZ = entityZ - dwarf.getLocation().getZ();
-        double knockX = newX*knockbackDistance;
-        double knockZ = newZ*knockbackDistance;
-        Vector newKnockBack = new Vector (knockX, knockY, knockZ);
-        return newKnockBack;
-    }
-
-    @Override
-    public float fractionComplete() {
-        return spinCD.fractionComplete();
-    }
-
-    @Override
-    public ItemStack getCooldownToggleItem() {
-        return getItem().createItemStack();
-    }
-
-
-    @Override
-    protected double getDamageToMonster(MonsterEntity entity) {
-        if (entity instanceof MonsterPlayer) {
-            return (dwarf.hasProc() ? 30 : 15);//If player
+    private void ChangeStance(){//Will change stance to do more damage to AIs, less damage to PlayerMobs, and vice versa
+        altStance = !altStance;
+        if (altStance){
+            CreateStanceParticles();
         }
-        return  10000;//If AI
+        //CHANGE ITEM MODEL HERE
     }
-
-    @Override
-    protected double getRadius(MonsterEntity entity) {
-        if (entity instanceof MonsterPlayer) {
-            return 1.5;
-        } else if (entity instanceof AIEntity) {
-            return 3;
-        }
-        return 0;
-    }
-
-/*WILL BE USED LATER
-    private double theta = 0;
+    private double theta = 0;//COPIED FROM HAMMER
     private static final double r1 = 249, g1 = 245, b1 = 14;
     private static final double r2 = 237, g2 = 87, b2 = 68;
     private static final int NUM_PARTICLES = 5;
-    private void showParticles() {//ALTER TO MAKE SWEEPY
+    private void CreateStanceParticles(){
         theta = (theta + 0.1) % (2 * Math.PI);
-
         Location playerLoc = dwarf.getPlayer().getEyeLocation();
-
-
         double red = (r1 - r2)/2 * Math.sin(theta) + (r1 + r2)/2;
         double green = (g1 - g2)/2 * Math.sin(theta) + (g1 + g2)/2;
         double blue = (b1 - b2)/2 * Math.sin(theta) + (b1 + b2)/2;
         red *= 1d/256;
         green *= 1d/256;
         blue *= 1d/256;
-
-
         for (int i = 0; i < NUM_PARTICLES; i++) {
             double frac = (double) i / NUM_PARTICLES;
             double myTheta = theta - frac * 2 * Math.PI;
-
             Location particleLoc = playerLoc.clone().add(Math.cos(myTheta), -1, Math.sin(myTheta));
             particleLoc.getWorld().spawnParticle(Particle.REDSTONE, particleLoc, 0, red, green, blue, 1);
         }
-    }*/
+    }
+
+    private void AltHit(){}//Will be a different attack with a very fast cooldown(.5 to 1.5 seconds) dealing more damage to playermobs or AIs, and less damage to other
+
+    private void PowerAttack(){}//Will have a slight delay (1 to 2 seconds) before hitting for a lot of damage(maybe an unrolling proc?)
+
+    private void ChargeAttack(){}//Will slow player and charge up damage while held down (up to maybe 5 seconds), dealing charged damage when released
+
+    private void FlurryOfBlows(){}//Will make a few aoe slashes or precise stabs in front of player, while slowing player down
+
+
+    @Override
+    protected double getDamageToMonster(MonsterEntity entity){//Maybe change this to be more effective against AIs
+        if (currentTest == "ChangeStance"){
+            if (!altStance){
+                if (entity instanceof MonsterPlayer) {
+                    return highDamage;
+                }else if (entity instanceof AIEntity){
+                    return lowDamage;
+                }
+                return 0;
+            }else if (altStance){
+                if (entity instanceof MonsterPlayer) {
+                    return lowDamage;
+                }else if (entity instanceof AIEntity){
+                    return highDamage;
+                }
+                return 0;
+            }
+
+        }
+
+        return basicAttackDamage;
+    }
+
+    @Override public CustomItem getItem(){return ITEM;}
+    @Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
+    @Override public ItemStack getCooldownToggleItem() {
+        return getItem().createItemStack();
+    }
+    @Override public float fractionComplete() {
+        return cd.fractionComplete();
+    }
+    @Override protected double getRadius(MonsterEntity entity) {
+        return aoeRadius;
+    }
 }
