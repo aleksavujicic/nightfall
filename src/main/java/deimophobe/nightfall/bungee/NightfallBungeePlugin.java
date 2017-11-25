@@ -2,6 +2,7 @@ package deimophobe.nightfall.bungee;
 
 import com.google.common.io.ByteStreams;
 import deimophobe.nightfall.bungee.command.AddServerCommand;
+import deimophobe.nightfall.bungee.command.TestCommand;
 import deimophobe.nightfall.bungee.server.ServerManager;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
@@ -56,13 +57,14 @@ public class NightfallBungeePlugin extends Plugin {
 		}
 		
 		PluginManager pm = getProxy().getPluginManager();
-		pm.registerListener(this, new LoginListener());
+		pm.registerListener(this, new QueryListener());
 		pm.registerCommand(this, new AddServerCommand());
+		pm.registerCommand(this, new TestCommand());
 	}
 	
 	@Override
 	public void onDisable() {
-		serverManager.stopAllServers();
+		if (serverManager != null) serverManager.stopAllServers();
 	}
 	
 	

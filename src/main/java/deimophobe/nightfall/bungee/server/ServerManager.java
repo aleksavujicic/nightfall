@@ -34,7 +34,7 @@ public class ServerManager {
 		}
 	}
 	
-	public MinecraftServer getLobby() {
+	public LobbyServer getLobby() {
 		return lobby;
 	}
 	

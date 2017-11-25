@@ -21,6 +21,7 @@ public abstract class MinecraftServer {
 	private final ServerInfo info;
 	
 	private final Process serverProcess;
+	private final String screenName;
 	private final int port;
 	
 	private final String displayName;
@@ -40,7 +41,8 @@ public abstract class MinecraftServer {
 		File serverFolder = createServerFolder();
 		String internalName = serverFolder.getName();
 		ProcessBuilder builder = new ProcessBuilder();
-		builder.command("screen", "-dmS","Nightfall-"+internalName,"java","-jar",type.getJarName(),"--port",""+port);
+		screenName = "Nightfall-"+internalName;
+		builder.command("screen", "-dmS", screenName, "java", "-jar", type.getJarName(), "--port", ""+port);
 		//builder.command("java", "-jar", type.getJarName(), "--port", ""+port);
 		builder.directory(serverFolder);
 		serverProcess = builder.start();
@@ -93,9 +95,20 @@ public abstract class MinecraftServer {
 		
 		PortReserver.getReserver().releasePort(port);
 		serverProcess.destroyForcibly();
+		
+		Runtime runtime = Runtime.getRuntime();
+		try {
+			runtime.exec("screen -X -S " + screenName + " quit");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void sendRawData(String channel, byte[] data) {
 		info.sendData(channel, data);
+	}
+	
+	public Process getProcess() {
+		return serverProcess;
 	}
 }
