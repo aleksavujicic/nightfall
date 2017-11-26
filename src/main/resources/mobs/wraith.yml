@@ -21,7 +21,7 @@ armour:
     flavour:
      - "Spooky"
 weapon:
-  base: temporary
+  base: wraith-claw
   name: "Ghastly Dive"
   lore:
     description:
