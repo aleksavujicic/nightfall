@@ -41,7 +41,7 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 		return KitGiveType.SWORD;
 	}
 
-	private final ComplexCooldown cd = new ComplexCooldown(90*20);
+	private final ComplexCooldown cd = new ComplexCooldown(60*20);
 
 
 	@Override
@@ -55,7 +55,10 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 		super.onDamageAttack(damage);
 		if (dwarf.hasPotionEffect(PotionEffectType.INVISIBILITY)){
 			if(damage.getMonster() instanceof AIEntity && damage.getType() == NaturalDamageType.MELEE){
-				damage.getDamage().timesMult(2.5);
+				damage.getDamage().timesMult(3);
+			}
+			else if (damage.getMonster() instanceof MonsterPlayer && damage.getType() == NaturalDamageType.MELEE){
+				damage.getDamage().timesMult(1.5);
 			}
 		}
 	}
@@ -75,7 +78,7 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 					Location newLoc = monsterLoc.subtract(lookDir);
 
 					if (!newLoc.getBlock().getType().isSolid()) {
-						closestPlayerMonster.doDamage(dwarf, CustomDamageType.SHADOW_STRIKE, 80, true);
+						closestPlayerMonster.doDamage(dwarf, CustomDamageType.SHADOW_STRIKE, 100, true);
 						dwarf.teleportTo(newLoc);
 						dwarf.givePotionEffect(PotionEffectType.INVISIBILITY, 10*20,3,true,true,true);
 						dwarf.playSound("entity.endermen.teleport", 1, 1, true);
@@ -94,7 +97,7 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 						dwarf.givePotionEffect(PotionEffectType.INVISIBILITY, 10*20,3,true,true,true);
 						dwarf.playSound("entity.endermen.teleport", 1, 1, true);
 						cd.reset();
-						cd.reduceCooldown(70*20);
+						cd.reduceCooldown(40*20);
 					}
 				}
 			}
@@ -104,7 +107,14 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 
 	@Override
 	public void onKill(MonsterDamage damage){
-		cd.reduceCooldown(2*10);
+		if (damage.getMonster() instanceof AIEntity){
+			cd.reduceCooldown(3*20);
+			dwarf.givePotionEffect(PotionEffectType.INVISIBILITY, 10*20,3,true,true,true);
+		}
+		else if(damage.getMonster() instanceof MonsterPlayer){
+			cd.reduceCooldown(5*20);
+			dwarf.givePotionEffect(PotionEffectType.INVISIBILITY, 10*20,3,true,true,true);
+		}
 	}
 
 	@Override
