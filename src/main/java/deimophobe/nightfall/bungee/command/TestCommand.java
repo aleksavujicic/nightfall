@@ -5,10 +5,7 @@ import deimophobe.nightfall.bungee.server.ServerManager;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 
 /**
  * Created by Deimophobe on 21/11/17.
@@ -21,11 +18,9 @@ public class TestCommand extends Command {
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		LobbyServer server = ServerManager.getManager().getLobby();
-		OutputStream stdin = server.getProcess().getOutputStream();
-		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin));
+		//server.checkAlive();
 		try {
-			writer.write("stop");
-			writer.flush();
+			server.restart();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

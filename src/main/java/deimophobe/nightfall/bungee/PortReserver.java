@@ -9,8 +9,8 @@ import java.util.Set;
  * Created by Deimophobe on 16/11/17.
  */
 public class PortReserver {
-	private static final PortReserver allocator = new PortReserver();
-	public static PortReserver getReserver() { return allocator; }
+	private static final PortReserver reserver = new PortReserver();
+	public static PortReserver getReserver() { return reserver; }
 	
 	private PortReserver() {}
 	
