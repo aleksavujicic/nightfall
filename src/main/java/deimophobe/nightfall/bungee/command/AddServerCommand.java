@@ -1,7 +1,9 @@
 package deimophobe.nightfall.bungee.command;
 
-import deimophobe.nightfall.bungee.server.NightfallServerSettings;
+import deimophobe.nightfall.bungee.server.ServerManager;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
 
 /**
@@ -14,12 +16,8 @@ public class AddServerCommand extends Command {
 	
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		NightfallServerSettings settings = new NightfallServerSettings();
-//		try {
-//			NightfallServer server = new NightfallServer(settings);
-//			ServerManager.getManager().create(server);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		ServerManager.getManager().createGameServer(server -> {
+			sender.sendMessage(new TextComponent(ChatColor.GREEN + "Server " + ChatColor.AQUA + server.getName() + ChatColor.GREEN + " created."));
+		});
 	}
 }

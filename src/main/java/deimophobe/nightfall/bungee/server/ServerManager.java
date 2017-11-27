@@ -1,13 +1,13 @@
 package deimophobe.nightfall.bungee.server;
 
+import deimophobe.nightfall.bungee.NightfallBungeeConfig;
 import deimophobe.nightfall.bungee.NightfallBungeePlugin;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.config.Configuration;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * Created by Deimophobe on 14/11/17.
@@ -34,30 +34,39 @@ public class ServerManager {
 	}
 	
 	private LobbyServer createLobby() throws IOException {
-		NightfallBungeePlugin plugin = NightfallBungeePlugin.getPlugin();
-		Configuration config = plugin.getConfig();
-		
-		String jarName = config.getString("lobby.jar", "spigot-1.12.jar");
-		String srcName = config.getString("lobby.src-folder");
-		File srcFolder = new File(plugin.getRunningFolder(), srcName);
 		
 		try {
-			return new LobbyServer(srcFolder, jarName);
+			return new LobbyServer(NightfallBungeeConfig.getNBConfig().getLobbyFolder());
 		} catch (IOException e) {
 			plugin.getProxy().getLogger().severe("Failed to start lobby server");
 			throw new IOException("Failed to start lobby server", e);
 		}
 	}
 	
-	/*
-	public void create(MinecraftServer server) {
-		
-		ServerInfo info = server.getInfo();
-		String name = info.getName();
-		
-		servers.put(name, server);
-		proxyServer.getServers().put(name, info);
+	
+	public void createGameServer() {
+		createGameServer((ignore) -> {});
 	}
+	
+	public void createGameServer(Consumer<NightfallServer> onceDone) {
+		proxyServer.getScheduler().runAsync(plugin, () -> {
+			try {
+				NightfallServer server = new NightfallServer();
+				servers.put(server.getName(), server);
+				onceDone.accept(server);
+			} catch (IOException e) {
+				e.printStackTrace();
+				proxyServer.getLogger().severe("Failed to start game server.");
+			}
+		});
+	}
+	
+	public void stopServer(String name) {
+		MinecraftServer server = servers.get(name);
+		if (server != null) server.stop();
+	}
+	
+	/*
 	
 	public void stopServer(MinecraftServer server) {
 		server.stop();
@@ -72,7 +81,6 @@ public class ServerManager {
 	public void stopAllServers() {
 		for (MinecraftServer server : servers.values()) {
 			server.stop();
-			//proxyServer.getServers().remove(server.getInfo().getName());
 		}
 		servers.clear();
 		lobby.stop();

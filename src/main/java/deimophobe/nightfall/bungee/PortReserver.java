@@ -1,8 +1,9 @@
 package deimophobe.nightfall.bungee;
 
+import com.google.common.collect.Sets;
+
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -15,18 +16,19 @@ public class PortReserver {
 	private PortReserver() {}
 	
 	private static final int MAX_PORT = 25700;
-	private final Set<Integer> usedPorts = new HashSet<>();
+	private final Set<Integer> usedPorts = Sets.newConcurrentHashSet();
 	
-	public int findFreePort() {
+	public synchronized int findAndReservePort() {
 		for (int port = 25567; port < MAX_PORT; port++) {
 			if (isAvailable(port)) {
+				usedPorts.add(port);
 				return port;
 			}
 		}
 		throw new IllegalStateException("No free ports remaining");
 	}
 	
-	public void reservePort(int port) {
+	public synchronized void reservePort(int port) {
 		if (isAvailable(port)) {
 			usedPorts.add(port);
 		} else {
@@ -34,8 +36,8 @@ public class PortReserver {
 		}
 	}
 	
-	public void releasePort(int port) {
-		if (!usedPorts.contains(port)) {
+	public synchronized void releasePort(int port) {
+		if (usedPorts.contains(port)) {
 			usedPorts.remove(port);
 		} else {
 			throw new IllegalArgumentException("Tried to release port '" + port + "' which has not been reserved?");

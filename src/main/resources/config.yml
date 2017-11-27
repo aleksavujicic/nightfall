@@ -4,15 +4,15 @@ nightfall-folder: Nightfall/Server
 # All other paths are relative to nightfall-folder
 
 
-lobby:
-  jar: spigot-1.12.jar
-  src-folder: Lobby
-
-nightfall:
-  jar: spigot-1.12.jar
+nightfall-game:
   src-folder: Nightfall
-  run-folder-prefix: Nightfall
+  run-folder-prefix: nightfall-game-
+
+map-editor:
+  src-folder: MapEditor
+  run-folder-prefix: map-edit-
 
 
 template-folder: Template
 run-folder: Running
+lobby-folder: Lobby

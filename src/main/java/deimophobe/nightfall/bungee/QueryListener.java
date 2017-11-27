@@ -2,16 +2,21 @@ package deimophobe.nightfall.bungee;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
+import deimophobe.nightfall.bungee.server.ServerManager;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.Connection;
-import net.md_5.bungee.api.event.PluginMessageEvent;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.event.*;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
 /**
@@ -48,5 +53,27 @@ public class QueryListener implements Listener {
 	
 	public void registerListner(Connection connection, Consumer<String> listener) {
 		listeners.put(connection, listener);
+	}
+	
+	private final Set<ProxiedPlayer> loggingPlayers = new HashSet<>();
+	
+	@EventHandler
+	public void onPlayerPreLogin(PreLoginEvent event) {
+		if (!ServerManager.getManager().getLobby().isAlive()) {
+			event.setCancelled(true);
+			event.setCancelReason(new TextComponent("The Nightfall lobby is down - please try again later."));
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerLogin(PostLoginEvent event) {
+		loggingPlayers.add(event.getPlayer());
+	}
+	
+	@EventHandler
+	public void onServerConnect(ServerConnectEvent event) {
+		boolean removed = loggingPlayers.remove(event.getPlayer());
+		if (removed)
+			event.setTarget(ServerManager.getManager().getLobby().getInfo());
 	}
 }

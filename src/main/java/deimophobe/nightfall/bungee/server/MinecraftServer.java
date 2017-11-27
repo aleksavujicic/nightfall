@@ -22,23 +22,37 @@ public abstract class MinecraftServer {
 	private Process serverProcess;
 	private final String name;
 	private final String screenName;
-	private final int port;
+	private boolean alive;
 	
-	public MinecraftServer(File serverFolder, String jarName, String name, int port) throws IOException {
-		this.port = port;
+	public ServerInfo getInfo() {
+		return info;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public boolean isAlive() {
+		return alive;
+	}
+	
+	public MinecraftServer(File serverFolder, String name, int port) throws IOException {
 		this.name = name;
 		this.screenName = "Nightfall-"+name;
+		this.alive = false;
 		
 		this.builder = new ProcessBuilder();
-		builder.command("screen", "-dmS", screenName, "java", "-jar", jarName, "--port", ""+port);
-		//builder.command("java", "-jar", type.getJarName(), "--port", ""+port);
+		builder.command("screen", "-dmS", screenName, "bash", "start.sh", ""+port);
 		builder.directory(serverFolder);
 		this.serverProcess = builder.start();
 		
 		ProxyServer server = ProxyServer.getInstance();
 		this.info = server.constructServerInfo(name, new InetSocketAddress(port), "Temp", false);
 		
-		checkAlive(((result, error) -> server.getServers().put(name, info)));
+		checkAlive(((result, error) -> {
+			alive = true;
+			server.getServers().put(name, info);
+		}));
 	}
 	
 	private ScheduledTask lifeCheckerTask = null;
@@ -87,19 +101,6 @@ public abstract class MinecraftServer {
 		stop();
 	}
 	
-	public void restart() throws IOException {
-		serverProcess.destroyForcibly();
-		
-		Runtime runtime = Runtime.getRuntime();
-		try {
-			runtime.exec("screen -X -S " + screenName + " quit");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		serverProcess = builder.start();
-	}
-	
 	public void stop() {
 		serverProcess.destroy();
 		
@@ -111,6 +112,7 @@ public abstract class MinecraftServer {
 		}
 		
 		ProxyServer.getInstance().getServers().remove(name);
+		alive = false;
 	}
 	
 	/*
