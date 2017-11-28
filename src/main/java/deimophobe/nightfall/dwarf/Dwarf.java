@@ -95,7 +95,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		
 		respawn();
 		
-		TitlePlayer.playTitle(this);
+		if (!isDebugMode()) TitlePlayer.playTitle(this);
 		
 		Game.getGame().hideManaAndDoom(player);
 	}
