@@ -1,6 +1,6 @@
 supplies:
   index: 2
-  cost: [100, 200, 300, 400, 500]
+  cost: [200, 400, 600, 800, 1000]
   item:
     material: ender_stone
     name: "Upgrade Supplies"
@@ -28,7 +28,7 @@ supplies-inf:
 
 health:
   index: 6
-  cost: [100, 200, 300, 400, 500]
+  cost: [200, 400, 600, 800, 1000]
   item:
     material: rotten_flesh
     name: "Upgrade Health"

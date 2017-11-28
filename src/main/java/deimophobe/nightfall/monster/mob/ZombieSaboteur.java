@@ -12,6 +12,7 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.watchers.ZombieWatcher;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -30,13 +31,10 @@ public class ZombieSaboteur extends Zombie {
     private final int poison;
     private final int pick;
     private final int epinephrine;
-    private final Cooldown leapCD;
+    private final Cooldown sneakCD;
     private final Cooldown assaCD;
-    private final int leapLvl;
+    private final int sneakLvl;
     private final boolean assa;
-
-    private boolean isInvisible;
-    private Boolean isLeaping;
 
     private static Integer[] shredValues = {0, 2, 4, 6, 8, 10};
 
@@ -62,11 +60,11 @@ public class ZombieSaboteur extends Zombie {
             this.poison = temp_poison;
         }
 
-        this.leapLvl = upgrades.get("leap-sabo");
-        if (leapLvl != 0)
-            leapCD = new SimpleCooldown(200);
+        this.sneakLvl = upgrades.get("sneak");
+        if (sneakLvl != 0)
+            sneakCD = new SimpleCooldown((30 - sneakLvl * 4) * 20);
         else
-            leapCD = new DudCooldown();
+            sneakCD = new DudCooldown();
 
         this.assa = upgrades.get("assassination") >= 1;
         if (assa) {
@@ -76,9 +74,6 @@ public class ZombieSaboteur extends Zombie {
         else {
             assaCD = new DudCooldown();
         }
-
-        isInvisible = false;
-        isLeaping = false;
         
         if (pick > 0) {
             setWeapon("wood-pickaxe");
@@ -104,20 +99,15 @@ public class ZombieSaboteur extends Zombie {
 
     @Override
     public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
-        leapCD.update();
+        sneakCD.update();
         assaCD.update();
         if (b && assaCD.isAvailable()) {
-            isInvisible = true;
-            monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
             monster.givePermanentPotionEffect(PotionEffectType.INCREASE_DAMAGE, 1);
         }
-        if (d && isInvisible) {
+
+        if (c && monster.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
             Location loc = monster.getLocation();
-            loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 10, 0.3, 0.3, 0.3, 0);
-        }
-        if (isLeaping && monster.getPlayer().isOnGround()) {
-            isLeaping = false;
-            monster.removePotionEffect(PotionEffectType.LUCK);
+            loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 6, 0.3, 0.3, 0.3, 0);
         }
     }
 
@@ -126,28 +116,22 @@ public class ZombieSaboteur extends Zombie {
         super.onDamageReceive(damage);
         assaCD.reset();
         if (damage.getType() == NaturalDamageType.MELEE) {
-            monster.givePotionEffect(PotionEffectType.SLOW, 20, 2,true, true,true);
+            monster.givePotionEffect(PotionEffectType.SLOW, 30, 2,true, true,true);
         }
-        isInvisible = false;
         monster.removePotionEffect(PotionEffectType.INVISIBILITY);
         monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
     }
 
     @Override
     public void onUse(Action action, Block block, BlockFace face) {
-        if (Misc.isRightClick(action) && isPlayerHoldingWeapon()) {
-            if (leapCD.isAvailable()) {
-                leapCD.reset();
-                isLeaping = true;
-
-                double yaw = monster.getPlayer().getLocation().getYaw();
-                double radYaw = yaw*Math.PI/180;
-
-                double hVel = (double) leapLvl/2;
-                double vVel = (double) leapLvl/10 + 0.05;
-                monster.getPlayer().setVelocity(new Vector(-hVel * Math.sin(radYaw), vVel, hVel * Math.cos(radYaw)));
-                giveSpawnProtection(50);
-            }
+        if (Misc.isRightClick(action) && isPlayerHoldingWeapon() && sneakCD.isAvailable()) {
+            monster.givePotionEffect(PotionEffectType.INVISIBILITY, 10 * 20, 1, true, true, true);
+            monster.givePotionEffect(PotionEffectType.SPEED, 30, 3, true, true, true);
+            Location loc = monster.getLocation();
+            World world = loc.getWorld();
+            world.spawnParticle(Particle.SMOKE_LARGE, loc, 150, 0.7, 0.7, 0.7, 0);
+            world.playSound(loc, "entity.generic.burn", 1f, 0.7f);
+            sneakCD.reset();
         }
     }
 
@@ -155,10 +139,7 @@ public class ZombieSaboteur extends Zombie {
     public void onBlockBreak(Block block, boolean didBreak) {
         super.onBlockBreak(block, didBreak);
         if (didBreak) {
-            assaCD.reset();
-            isInvisible = false;
             monster.removePotionEffect(PotionEffectType.INVISIBILITY);
-            monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
         }
     }
 
@@ -178,7 +159,6 @@ public class ZombieSaboteur extends Zombie {
             assaCD.reset();
         }
         assaCD.reset();
-        isInvisible = false;
         monster.removePotionEffect(PotionEffectType.INVISIBILITY);
         monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
         monster.heal(healAmt);
@@ -186,6 +166,6 @@ public class ZombieSaboteur extends Zombie {
 
     @Override
     public float getCooldown() {
-        return leapCD.fractionComplete();
+        return sneakCD.fractionComplete();
     }
 }

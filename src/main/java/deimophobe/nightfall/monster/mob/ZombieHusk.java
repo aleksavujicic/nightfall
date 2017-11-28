@@ -44,7 +44,7 @@ public class ZombieHusk extends Zombie {
 
     private static Integer[] shredValues = {0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20};
     private static Integer[] arrowResValues = {0, 10, 20, 30, 40, 50, 55, 60, 65, 70, 75};
-    private static Integer[] rebirthValues = {0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250};
+    private static Integer[] rebirthValues = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
 
     protected ZombieHusk(MonsterPlayer mons) {
         this(mons, null);
@@ -87,7 +87,9 @@ public class ZombieHusk extends Zombie {
 
         getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
         getArmour().addModifier(ItemModifierType.SPEED, -25, "Husk Zombie");
-        getArmour().addModifier(ItemModifierType.HEALTH, 5, "Husk Zombie");
+        getArmour().addModifier(ItemModifierType.HEALTH, 10, "Husk Zombie");
+        int huskExtraHealth = (upgrades.get("health") + upgrades.get("health-inf")) * 2;
+        getArmour().addModifier(ItemModifierType.HEALTH, huskExtraHealth, "Upgrade");
         getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
         getWeapon().addModifier(ItemModifierType.ATTACK, 5, "Husk Zombie");
         if (stagger) {

@@ -35,7 +35,7 @@ husk:
   title: Husk
 
   disguisetype: husk
-
+  proccable: false
 
 fury:
   parent: base
@@ -48,8 +48,6 @@ saboteur:
   title: Saboteur
 
   disguisetype: zombie_villager
-
-  resistance: 0.4
 
   items:
     wood-pickaxe:
