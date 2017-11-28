@@ -46,7 +46,6 @@ public class NatureSuit extends AbstractElement implements KitArmour {
 	
 	private void rebuff() {
 		if (dwarf.getArmour().isArmoured()) {
-			dwarf.givePermanentPotionEffect(PotionEffectType.FIRE_RESISTANCE, 1);
 			dwarf.givePermanentPotionEffect(PotionEffectType.WATER_BREATHING, 1);
 			dwarf.getPlayer().setFireTicks(0);
 		}
