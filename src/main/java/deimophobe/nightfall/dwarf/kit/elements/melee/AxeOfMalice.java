@@ -21,7 +21,7 @@ import org.bukkit.potion.PotionEffectType;
  */
 public class AxeOfMalice extends AbstractItem implements KitCooldownElement {
 	
-	private final ComplexCooldown cd = new ComplexCooldown(75*20, this::giveProc, this::notifyOffCD);
+	private final ComplexCooldown cd = new ComplexCooldown(60*20, this::giveProc, this::notifyOffCD);
 	
 	public AxeOfMalice(Dwarf dwarf) {
 		super(dwarf);
