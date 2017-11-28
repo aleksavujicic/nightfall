@@ -101,8 +101,15 @@ public class Arthea extends Hero {
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (isEnraged())
+		if (isEnraged()) {
 			damage.setProc(true);
+		}
+		if (damage.getType() == NaturalDamageType.MELEE) {
+			if (damage.getMonster() instanceof AIEntity) {
+				damage.getDamage().addBoost(20);
+			}
+			damage.getMonster().givePotionEffect(PotionEffectType.SLOW, 20, 2, true, false, true);
+		}
 	}
 	
 	@Override
