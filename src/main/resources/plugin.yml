@@ -45,9 +45,6 @@ commands:
   mana:
     usage: /mana [amount]
     description: Give mana if you are a dwarf.
-  hat:
-    usage: /hat
-    description: Lets kuude wear a fancy hat.
 
   trash:
     description: For deleting your duplicate items.
