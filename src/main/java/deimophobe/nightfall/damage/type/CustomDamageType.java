@@ -42,7 +42,7 @@ public enum CustomDamageType implements GameDamageType {
 	
 	// Misc
 	COMMAND,
-	MISC_EXPLOSION,
+	IMPACT_AOE,
 
 	@Deprecated TEMPORARY
 }
