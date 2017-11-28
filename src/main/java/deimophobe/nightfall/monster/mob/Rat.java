@@ -25,7 +25,7 @@ class Rat extends AbstractMob {
 	private static final int STEAL_MAX_CD = 5;
 	
 	private boolean jumpState;
-	private ComplexCooldown toggleCD = new ComplexCooldown(20, this::toggleJumpState);
+	private ComplexCooldown toggleCD = new ComplexCooldown(1, this::toggleJumpState);
 	
 	@Override
 	public void onSpawn() {
@@ -37,7 +37,7 @@ class Rat extends AbstractMob {
 	@Override
 	public void onShift(boolean sneaking) {
 		super.onShift(sneaking);
-		if (!sneaking) toggleCD.tryUse();
+		if (sneaking) toggleCD.tryUse();
 	}
 	
 	@Override
@@ -67,11 +67,6 @@ class Rat extends AbstractMob {
 		super.onBlockBreak(block, didBreak);
 		if (block.getType() == Material.TORCH && didBreak)
 			playSound("torch");
-	}
-	
-	@Override
-	public float getCooldown() {
-		return toggleCD.fractionComplete();
 	}
 	
 	private void toggleJumpState() {
