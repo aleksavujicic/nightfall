@@ -189,15 +189,16 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	// ------ BLOOD ------
 	private void updateBlood(boolean quartSec, boolean halfSec, boolean sec) {
 		
-		if (sec && mana <= 300) {
+		if (sec && mana <= 300
+			|| halfSec && mana <= 200
+			|| quartSec && mana <= 100) {
+			
+			int count = 8000 / (mana + 100);
+			double radius = 0.4 - (double) mana/2000;
+			double height = 0.25 - (double) mana/3000;
+			
 			Location bloodLoc = player.getLocation().add(0, 1, 0);
-			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 20, 0.25, 0.15, 0.25, 0);
-		} else if (halfSec && mana <= 200) {
-			Location bloodLoc = player.getLocation().add(0, 1, 0);
-			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 40, 0.3, 0.2, 0.3, 0);
-		} else if (quartSec && mana <= 100) {
-			Location bloodLoc = player.getLocation().add(0, 1, 0);
-			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 60, 0.35, 0.2, 0.35, 0);
+			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, count, radius, height, radius, 0);
 		}
 	}
 	
