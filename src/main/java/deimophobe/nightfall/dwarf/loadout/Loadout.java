@@ -107,7 +107,7 @@ public class Loadout implements SessionData {
 		}
 		
 		// Apply warrior class if kit is empty
-		if (items.isEmpty()) {
+		if (getRemainingPoints() == MAX_POINTS) {
 			LoadoutItem.getItem("warrior-class").modify(data);
 			hasKit = true;
 		}
