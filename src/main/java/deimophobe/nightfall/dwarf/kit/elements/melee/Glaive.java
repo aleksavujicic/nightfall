@@ -8,7 +8,6 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterManager;
@@ -18,7 +17,6 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Monster;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
@@ -39,7 +37,6 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     private boolean altStance = false;//ChangeStance
     private final int highDamage = 25;//ChangeStance MAYBE ADD COOLDOWN IF WE WANT 25 DAMAGE
     private final int lowDamage = 5;//ChangeStance
-    private final int maxCharge = 20*5;//ChargeAttack
     private final double altRange = 4.0;//altAttack AND powerAttack
     private final int knockBack = 3;//altAttack
     private final int vertKnockBack = 2;//altAttack
