@@ -487,22 +487,6 @@ public class GameListener implements Listener {
 	
 	// ------ MOB STUFF ------
 	@EventHandler
-	public void deadLRClick(PlayerAnimationEvent event) {
-		Player player = event.getPlayer();
-		boolean succ = tryShowMobMenu(player);
-		if (succ) event.setCancelled(true);
-	}
-	
-	private boolean tryShowMobMenu(Player player) {
-		MonsterPlayer monster = mm.getGamePlayer(player);
-		if (monster != null && !monster.isAlive()) {
-			mm.showMobMenu(monster);
-			return true;
-		}
-		return false;
-	}
-	
-	@EventHandler
 	public void preventAIBurning(EntityCombustEvent event) {
 		if (event.getEntityType() == EntityType.ZOMBIE)
 			event.setCancelled(true);
