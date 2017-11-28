@@ -14,6 +14,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -59,6 +60,7 @@ public class AxeOfMalice extends AbstractItem implements KitCooldownElement {
 	private void giveProc() {
 		dwarf.giveProc(ProcType.MALICE);
 		dwarf.playSound("maliceuse", 20f, 1f, false);
+		dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, ProcType.MALICE.getDuration(), 1,true,false,true);
 	}
 	
 	private void notifyOffCD() {
