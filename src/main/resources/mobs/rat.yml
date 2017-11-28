@@ -6,7 +6,7 @@ attack: 1
 health: 5
 speed: 40
 shred: 5
-torchxp: 500
+torchxp: 200
 
 armour:
   material: prismarine_crystals
