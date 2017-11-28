@@ -112,7 +112,7 @@ class Wolf extends AbstractMob {
 		Dwarf dwarf = damage.getDwarf();
 		if (dwarf != null) {
 			monster.heal(2);
-			monster.givePotionEffect(PotionEffectType.SPEED, 140, 2, true, false, true);
+			monster.givePotionEffect(PotionEffectType.SPEED, 160, 2, true, false, true);
 			furySound.tryUse();
 		}
 	}
