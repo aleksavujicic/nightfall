@@ -11,6 +11,7 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractItem;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
@@ -65,6 +66,15 @@ public abstract class AbstractBow extends AbstractItem implements KitBow {
 		arrow.setMetadata(getBowIdentifier(), new FixedMetadataValue(NightfallPlugin.getPlugin(), true));
 	}
 	
+	@Override
+	public void onDamageAttack(MonsterDamage damage) {
+		super.onDamageAttack(damage);
+		if (damageFromBow(damage) && damage.getMonster() instanceof AIEntity) {
+			if (ArrowMisc.getArrowForce(damage.getArrow()) == 1) {
+				damage.instaKill();
+			}
+		}
+	}
 	
 	@Override
 	public Projectile onBowFire(Projectile proj, float force) {
