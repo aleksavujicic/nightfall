@@ -118,9 +118,9 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 				case SELF_GOBO_KABOOM:
 					return name + " went kaboom.";
 				case DEATH_PLAGUE:
-					return name + " was touched by " + ChatColor.BLACK + "DEATH" + ChatColor.RESET + ".";
+					return name + " was touched by " + ChatColor.DARK_GRAY + "DEATH" + ChatColor.RESET + ".";
 				case MOBSPAWN:
-					return name + " was consumed by the "  + ChatColor.BLACK + "Night" + ChatColor.RESET + ".";
+					return name + " was consumed by the "  + ChatColor.DARK_GRAY + "Night" + ChatColor.RESET + ".";
 				case MISC_EXPLOSION:
 					return name + " was pushed to death.";
 
