@@ -34,6 +34,7 @@ public abstract class AbstractPowerBow extends AbstractToggleBow implements KitC
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		cooldown.update();
 	}
 	
