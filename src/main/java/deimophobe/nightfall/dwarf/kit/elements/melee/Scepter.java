@@ -44,7 +44,7 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 	
 	
 	private final ComplexCooldown lanceCD = new ComplexCooldown(10, this::shootLance);
-	private final ComplexCooldown buffpoolCD = new ComplexCooldown(90*20, this::createBuffpool);
+	private final ComplexCooldown buffpoolCD = new ComplexCooldown(120*20, this::createBuffpool);
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
@@ -91,7 +91,11 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 			dwarf1.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 5*20, 1, true, false, false);
 	
 	private final Consumer<MonsterEntity> DAMAGER = (monster) -> {
-		monster.doDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, DAMAGE, true);
+		MonsterDamage damage = (MonsterDamage) monster.createDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, DAMAGE);
+		if (dwarf.hasProc()) damage.setProc(true);
+		damage.setNoDmgTicks(1);
+		damage.fire(true);
+		
 		if (monster instanceof AIEntity)
 			monster.givePotionEffect(PotionEffectType.SLOW, 5*20, 2, true, true, true);
 	};
