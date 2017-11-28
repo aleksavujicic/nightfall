@@ -29,10 +29,10 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     private final int abilityDuration = 3*20;//Might be changed when testing abilities, OG value is 1*20 (1 second)
     private final ComplexCooldown cd = new ComplexCooldown(maxCD, this::TestAbility);//WILL NEED TO CHANGE ONCE ABILITY IS DECIDED
     //Ability variables below
-    private final String currentTest = ("ChangeStance");//PUT NAME OF TESTING ABILITY HERE
+    private final String currentTest = ("changeStance");//PUT NAME OF TESTING ABILITY HERE
 
     private boolean altStance = false;//ChangeStance
-    private final int highDamage = 25;//ChangeStance
+    private final int highDamage = 25;//ChangeStance MAYBE ADD COOLDOWN IF WE WANT 25 DAMAGE
     private final int lowDamage = 5;//ChangeStance
     //End of Ability variables
 
@@ -43,6 +43,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
         super.update(quartSec, halfSec, sec, doubleSec, quadSec);
         cd.update();
+        if (altStance){createStanceParticles();}//changeStance
     }
     @Override
     public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace){
@@ -53,26 +54,19 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
         return false;
     }
 
-    private void TestAbility(){TempAbility();}//Test abilities here. Must give basicAttackDamage a value based on ability.
+    private void TestAbility(){changeStance();}//Test abilities here. Must give basicAttackDamage a value based on ability.
 
-    private void TempAbility(){//For use while abilities are being decided
-        dwarf.givePotionEffect(PotionEffectType.INVISIBILITY,abilityDuration,1,false,false,true);
-        dwarf.givePotionEffect(PotionEffectType.SPEED, abilityDuration,3,false,false,true);
-    }
     //Possible Abilities (Being built and tested) (Only one of these will be used for Glaive, but I(ED) might keep some for other weapons
 
-    private void ChangeStance(){//Will change stance to do more damage to AIs, less damage to PlayerMobs, and vice versa
+    private void changeStance(){//Will change stance to do more damage to AIs, less damage to PlayerMobs, and vice versa
         altStance = !altStance;
-        if (altStance){
-            CreateStanceParticles();
-        }
         //CHANGE ITEM MODEL HERE
     }
-    private double theta = 0;//COPIED FROM HAMMER
+    private double theta = 0;//COPIED FROM HAMMER...Temporary while we have no models
     private static final double r1 = 249, g1 = 245, b1 = 14;
     private static final double r2 = 237, g2 = 87, b2 = 68;
     private static final int NUM_PARTICLES = 5;
-    private void CreateStanceParticles(){
+    private void createStanceParticles(){
         theta = (theta + 0.1) % (2 * Math.PI);
         Location playerLoc = dwarf.getPlayer().getEyeLocation();
         double red = (r1 - r2)/2 * Math.sin(theta) + (r1 + r2)/2;
@@ -89,18 +83,19 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
         }
     }
 
-    private void AltHit(){}//Will be a different attack with a very fast cooldown(.5 to 1.5 seconds) dealing more damage to playermobs or AIs, and less damage to other
+    private void altHit(){}//Will be a different attack with a very fast cooldown(.5 to 1.5 seconds) dealing more damage to playermobs or AIs, and less damage to other
 
-    private void PowerAttack(){}//Will have a slight delay (1 to 2 seconds) before hitting for a lot of damage(maybe an unrolling proc?)
+    private void powerAttack(){}//Will have a slight delay (1 to 2 seconds) before hitting for a lot of damage(maybe an unrolling proc?)
 
-    private void ChargeAttack(){}//Will slow player and charge up damage while held down (up to maybe 5 seconds), dealing charged damage when released
+    private void chargeAttack(){}//Will slow player and charge up damage while held down (up to maybe 5 seconds), dealing charged damage when released
 
-    private void FlurryOfBlows(){}//Will make a few aoe slashes or precise stabs in front of player, while slowing player down
+    private void flurryOfBlows(){}//Will make a few aoe slashes or precise stabs in front of player, while slowing player down
 
+    private void changeBlade(){}//Will alternate from lower AOE damage to higher precision damage
 
     @Override
     protected double getDamageToMonster(MonsterEntity entity){//Maybe change this to be more effective against AIs
-        if (currentTest == "ChangeStance"){
+        if (currentTest == "changeStance"){
             if (!altStance){
                 if (entity instanceof MonsterPlayer) {
                     return highDamage;

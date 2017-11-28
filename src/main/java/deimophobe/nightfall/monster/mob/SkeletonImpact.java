@@ -61,7 +61,7 @@ class SkeletonImpact extends Skeleton {
         }
 
         getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
-        getArmour().addModifier(ItemModifierType.HEALTH, extraHealth * 4, "Upgrade");
+        getArmour().addModifier(ItemModifierType.HEALTH, extraHealth * 2, "Upgrade");
         getWeapon().addModifier(ItemModifierType.PUNCH, punch, "Upgrade");
         getWeapon().addModifier(ItemModifierType.KNOCKBACK, meleekb, "Upgrade");
     }
@@ -135,13 +135,13 @@ class SkeletonImpact extends Skeleton {
     private void impactExplosion(Location centerLoc, Dwarf exempt) {
         World world = monster.getLocation().getWorld();
         world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
-        double kb = 0.25 + aoe * 0.15;
+        double kb = 0.15 + aoe * 0.15;
         for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
             if (dwarf == exempt) {
                 continue;
             }
             Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
-            if (offset.length() > 4) {
+            if (offset.length() > 3) {
                 continue;
             }
 

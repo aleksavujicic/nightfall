@@ -398,7 +398,7 @@ sturdy:
     lore:
       description:
        - "Wearing this improves your armour\n
-          capacity by 100% and grants you 4 more\n
+          capacity by 40% and grants you 4 more\n
           hearts allowing you to survive longer."
     modifiers:
       health: 14
