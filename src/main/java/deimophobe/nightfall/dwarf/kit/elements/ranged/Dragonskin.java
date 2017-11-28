@@ -68,7 +68,7 @@ public class Dragonskin extends AbstractToggleBow implements KitCooldownElement 
 		arrow = super.onBowFire(arrow, force);
 		if (isActive()) {
 			ArrowMisc.setGlowColour((Arrow) arrow, ChatColor.RED);
-			ArrowMisc.setArrowDamage((Arrow) arrow, 125);
+			ArrowMisc.setArrowDamage((Arrow) arrow, 150);
 			cooldown.tryUse();
 			updateActive();
 		}
