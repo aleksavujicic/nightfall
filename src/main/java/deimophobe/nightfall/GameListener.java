@@ -189,7 +189,7 @@ public class GameListener implements Listener {
 						public void run() {
 							game.resetPlayer(player);
 						}
-					}.runTaskLater(NightfallPlugin.getPlugin(), 20);
+					}.runTaskLater(NightfallPlugin.getPlugin(), 1);
 				}
 				return;
 			}

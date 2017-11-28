@@ -1,6 +1,7 @@
 package deimophobe.nightfall.damage;
 
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.damage.type.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -8,6 +9,7 @@ import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Created by Deimophobe on 29/08/17.
@@ -58,6 +60,11 @@ public class DwarfDamage extends GameDamage<GameEntity, Dwarf> {
 					event.setCancelled(true);
 					
 					receiver.respawn();
+					
+					new BukkitRunnable() {
+						@Override public void run() { receiver.respawn(); }
+					}
+					.runTaskLater(NightfallPlugin.getPlugin(), 1);
 				}
 			}
 		}

@@ -56,7 +56,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		stopSounds();
 		
 		player.setGameMode(GameMode.SURVIVAL);
-		givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 5, false, false, true);
 		// Set armour
 		armour = new DwarvenArmour(this);
 		
@@ -104,6 +103,8 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		delayedHealMax();
 		teleportTo(GameMap.getCurrentMap().getDwarfSpawn());
 		player.setFireTicks(0);
+		player.setFallDistance(0);
+		givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 5, false, false, true);
 	}
 	
 	
