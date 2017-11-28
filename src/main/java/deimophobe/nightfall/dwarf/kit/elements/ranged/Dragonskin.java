@@ -11,6 +11,7 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.ChatColor;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
@@ -73,7 +74,14 @@ public class Dragonskin extends AbstractToggleBow implements KitCooldownElement 
 		}
 		return arrow;
 	}
-	
+
+	@Override
+	public void onProjectileLand(Projectile arrow, Block hitBlock) {
+		if (isActiveProjectile(arrow)) {
+			cooldown.reduceCooldown(20*20);
+		}
+	}
+
 	@Override
 	public void onKill(MonsterDamage damage) {
 		if (damageFromBow(damage) && isActiveProjectile(damage.getArrow()))
