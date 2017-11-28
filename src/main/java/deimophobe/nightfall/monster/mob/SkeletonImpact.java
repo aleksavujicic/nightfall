@@ -151,7 +151,7 @@ class SkeletonImpact extends Skeleton {
             knockback.setY(knockback.getY() / 2 + 0.1);
             modifier.addKnockback(knockback);
 
-            DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.MISC_EXPLOSION, 5 * aoe);
+            DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.IMPACT_AOE, 5 * aoe);
             modifier.applyToDamage(aoeDamage);
             aoeDamage.fire(true);
 

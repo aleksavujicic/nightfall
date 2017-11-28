@@ -40,8 +40,8 @@ public class Ebow extends AbstractBow {
 	
 	@Override
 	public Projectile onBowFire(Projectile arrow, float force) {
-		if (!dwarf.hasArrows(2)) return null;
-		dwarf.useArrows(2);
+		if (!dwarf.hasArrows(3)) return null;
+		dwarf.useArrows(3);
 		
 		double range = MAX_RANGE * force * force;
 		

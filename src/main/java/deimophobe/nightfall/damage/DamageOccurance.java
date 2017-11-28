@@ -108,6 +108,10 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 				case HUSK_STOMP:
 					killMsg = "stomped";
 					break;
+					
+				case IMPACT_AOE:
+					killMsg = "pushed";
+					break;
 				
 				case INCORRECT_HELD_ITEM:
 					return name + " was a bit of a klutz and dropped their blade.";
@@ -118,11 +122,9 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 				case SELF_GOBO_KABOOM:
 					return name + " went kaboom.";
 				case DEATH_PLAGUE:
-					return name + " was touched by " + ChatColor.BLACK + "DEATH" + ChatColor.RESET + ".";
+					return name + " was touched by " + ChatColor.DARK_GRAY + "DEATH" + ChatColor.RESET + ".";
 				case MOBSPAWN:
-					return name + " was consumed by the "  + ChatColor.BLACK + "Night" + ChatColor.RESET + ".";
-				case MISC_EXPLOSION:
-					return name + " was pushed to death.";
+					return name + " was consumed by the "  + ChatColor.DARK_GRAY + "Night" + ChatColor.RESET + ".";
 
 
 				default:

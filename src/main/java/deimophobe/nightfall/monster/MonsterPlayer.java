@@ -4,6 +4,7 @@ import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -46,8 +47,9 @@ import java.util.Set;
  */
 public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEntity<Player> {
 	
+	private final ComplexCooldown mobMenuShower = new ComplexCooldown(20, () -> MonsterManager.getManager().showMobMenu(this));
+	
 	private Mob mob;
-
 	public Mob getMob() { return mob; }
 	
 	public MonsterPlayer(Player player) {
@@ -93,7 +95,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		}
 		
 		usedThisTick = false;
+		mobMenuShower.update();
 	}
+	
+	
 	
 	// ------ SPAWN AND DEATH ------
 	public boolean isAlive() {
@@ -104,6 +109,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		if (!silent && isAlive()) {
 			ActionBarAPI.sendActionBarToAllPlayers(getDeathMessage());
 			player.playSound(player.getLocation(), "proc", 1f, 0.7f);
+			sendTitleMessage(ChatColor.DARK_RED + "You died!");
 		}
 		
 		
@@ -117,6 +123,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		setTitle(ChatColor.GRAY, null, false);
 		clearInventory();
 		clearEffects();
+		mobMenuShower.reset();
 	}
 	
 	private void killMob(boolean silent) {
@@ -359,6 +366,11 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (usedThisTick) return;
 		usedThisTick = true;
+		
+		if (!isAlive()) {
+			mobMenuShower.tryUse();
+			return;
+		}
 		
 		if (isHolding(seppuku) || isHolding(lightnigSeppuku)) {
 			if (DoomManager.getManager().isDoom()) {

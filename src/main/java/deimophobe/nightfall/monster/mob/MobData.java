@@ -69,7 +69,7 @@ public class MobData {
 		proccable = true;
 		damageRes = 0.6;
 		arrowRes = 0;
-		torchXP = 100;
+		torchXP = 50;
 		shrineImmune = false;
 		immuneTime = 8;
 		canRun = true;
