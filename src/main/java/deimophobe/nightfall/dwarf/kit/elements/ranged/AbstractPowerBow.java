@@ -8,6 +8,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import org.bukkit.ChatColor;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -62,7 +63,14 @@ public abstract class AbstractPowerBow extends AbstractToggleBow implements KitC
 		}
 		return arrow;
 	}
-	
+
+	@Override
+ 	public void onProjectileLand(Projectile arrow, Block hitBlock) {
+		if (isActiveProjectile(arrow)) {
+			cooldown.reduceCooldown(cooldown.getMaxCD() - 10*20);
+		}
+	}
+
 	@Override
 	public void onKill(MonsterDamage damage) {
 		if (damageFromBow(damage) && isActiveProjectile(damage.getArrow()))

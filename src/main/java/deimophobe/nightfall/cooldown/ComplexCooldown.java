@@ -30,7 +30,7 @@ public class ComplexCooldown implements Cooldown{
 		this.cooldownAction = (cooldownAction == null ? DO_NOTHING : cooldownAction);
 	}
 
-	public int getMaxCD(int newCD) {
+	public int getMaxCD() {
 		return maxCD;
 	}
 
