@@ -9,6 +9,7 @@ import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
@@ -44,8 +45,15 @@ public class Dragonskin extends AbstractToggleBow implements KitCooldownElement 
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (damageFromBow(damage) && isActiveProjectile(damage.getArrow())) {
-			damage.getArrowRes().timesMult(0.5);
+		if (damageFromBow(damage)) {
+			if (damage.getMonster() instanceof AIEntity) {
+				if (ArrowMisc.getArrowForce(damage.getArrow()) >= 0.5) {
+					damage.instaKill();
+				}
+			}
+			if (isActiveProjectile(damage.getArrow())) {
+				damage.getArrowRes().timesMult(0.5);
+			}
 		}
 	}
 	

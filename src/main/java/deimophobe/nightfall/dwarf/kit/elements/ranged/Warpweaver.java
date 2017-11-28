@@ -3,11 +3,13 @@ package deimophobe.nightfall.dwarf.kit.elements.ranged;
 import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -98,7 +100,18 @@ public class Warpweaver extends AbstractToggleBow implements KitCooldownElement 
 	protected boolean canActivate() {
 		return cooldown.isAvailable();
 	}
-	
+
+	@Override
+	public void onDamageAttack(MonsterDamage damage) {
+		super.onDamageAttack(damage);
+		if (damageFromBow(damage)) {
+			if (damage.getMonster() instanceof AIEntity) {
+				if (ArrowMisc.getArrowForce(damage.getArrow()) >= 0.5)
+					damage.instaKill();
+			}
+		}
+	}
+
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
