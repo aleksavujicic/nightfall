@@ -135,7 +135,7 @@ class SkeletonImpact extends Skeleton {
     private void impactExplosion(Location centerLoc, Dwarf exempt) {
         World world = monster.getLocation().getWorld();
         world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
-        double kb = 0.15 + aoe * 0.15;
+        double kb = 0.25 + aoe * 0.15;
         for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
             if (dwarf == exempt) {
                 continue;
@@ -167,7 +167,7 @@ class SkeletonImpact extends Skeleton {
 
     @Override
     protected int getPower() {
-        return super.getPower() + 5 * aoe;
+        return super.getPower() + 3 * aoe;
     }
 
     @Override

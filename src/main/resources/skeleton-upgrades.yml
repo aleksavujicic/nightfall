@@ -125,7 +125,7 @@ piercing:
     name: "Piercing"
     lore:
       description:
-        - "Arrows do more 4 armor shred."
+        - "Arrows do more 5 armor shred."
 
 
 sniper:
