@@ -1,7 +1,8 @@
 package deimophobe.nightfall.dwarf.kit.elements.ranged;
 
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -19,6 +20,14 @@ public abstract class AbstractToggleBow extends AbstractBow {
 	private boolean active = false;
 	private final static String ARROW_METADATA_KEY = "active";
 	
+	private ComplexCooldown toggler = new ComplexCooldown(1, this::onToggle);
+	
+	@Override
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+		toggler.update();
+	}
+	
 	@Override
 	public Projectile onBowFire(Projectile arrow, float force) {
 		arrow = super.onBowFire(arrow, force);
@@ -35,9 +44,7 @@ public abstract class AbstractToggleBow extends AbstractBow {
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isLeftClick(action)) {
-			setActive(!active);
-			onToggle();
-			return true;
+			return toggler.tryUse();
 		}
 		return false;
 	}
@@ -75,5 +82,7 @@ public abstract class AbstractToggleBow extends AbstractBow {
 	}
 	
 	protected abstract boolean canActivate();
-	protected void onToggle() {};
+	protected void onToggle() {
+		setActive(!active);
+	}
 }

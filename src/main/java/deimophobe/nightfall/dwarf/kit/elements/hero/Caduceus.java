@@ -2,6 +2,7 @@ package deimophobe.nightfall.dwarf.kit.elements.hero;
 
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.damage.GameDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -9,10 +10,12 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractCooldownItem;
 import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 /**
@@ -99,5 +102,13 @@ public class Caduceus extends AbstractCooldownItem {
 		}
 	}
 	
-	
+	@Override
+	public void onDamageAttack(MonsterDamage damage) {
+		super.onDamageAttack(damage);
+		
+		if (damage.getMonster() instanceof AIEntity) {
+			damage.getDamage().addBoost(20);
+		}
+		damage.getMonster().givePotionEffect(PotionEffectType.SLOW, 20, 2, true, false, true);
+	}
 }

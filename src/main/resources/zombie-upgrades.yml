@@ -1,6 +1,6 @@
 attack:
   index: 2
-  cost: [100, 200, 300, 400, 500]
+  cost: [200, 400, 600, 800, 1000]
   item:
     material: wood_sword
     name: "Upgrade Attack"
@@ -26,7 +26,7 @@ attack-inf:
 
 health:
   index: 6
-  cost: [100, 200, 300, 400, 500]
+  cost: [200, 400, 600, 800, 1000]
   item:
     material: rotten_flesh
     name: "Upgrade Health"
@@ -66,8 +66,8 @@ husk:
     lore:
       description:
         - "Become a Husk.\n
-           A slow zombie variant that can\n
-           rapidly regenerate and rebirth many times."
+           A slow zombie variant that is proc resistant\n
+           and can rapidly regenerate."
 
 
 fury:
@@ -172,7 +172,7 @@ arrow-husk:
 rebirth-husk:
   index: 15
   cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
-  value: [25, 50, 75, 100, 125, 150, 175, 200, 225, 250]
+  value: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
   prereq:
     husk: 1
   item:
@@ -362,17 +362,20 @@ poison:
            Higher levels give higher poison level."
 
 
-leap-sabo:
+sneak:
   index: 12
   cost: [100, 200, 300, 400, 500]
   prereq:
     saboteur: 1
   item:
     material: sugar
-    name: "Leap"
+    name: "Sneak"
     lore:
       description:
-        - "Improves your leap."
+        - "Right click to create a smoke screen\n
+           and disappear into the shadows.\n
+           Taking or dealing damage and breaking blocks\n
+           will negate your invisibility."
 
 
 pick:
@@ -399,7 +402,7 @@ epinephrine:
     name: "Epinephrine"
     lore:
       description:
-        - "Run even faster!"
+        - "Increases speed by 5%."
 
 
 vampirism-sabo:
@@ -424,7 +427,7 @@ assassination:
     saboteur: 1
     shred-sabo: 5
     poison: 3
-    leap-sabo: 5
+    sneak: 5
     pick: 3
     epinephrine: 10
     vampirism-sabo: 3
@@ -434,9 +437,7 @@ assassination:
     shiny: true
     lore:
       description:
-        - "After not taking damage, doing damage\n
-           or breaking blocks for 10 seconds,\n
-           disappear into the shadows, becoming invisible\n
-           and dealing 60 more damage your next hit."
+        - "After not taking damage or doing damage\n
+           for 10 seconds, deal 60 more damage your next hit."
 
 

@@ -241,11 +241,19 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	}
 	
 	// ------ ONLINE/OFFLINE ------
+	private boolean online = true;
+	
+	public boolean isOnline() { return online; }
+	
 	public void goOnline(Player newPlayer) {
+		online = true;
 		this.player = newPlayer;
 		resetTitle();
 	}
-	public void goOffline() {}
+	public void goOffline() {
+		online = false;
+	}
+	
 	
 	
 	// ------ DAMAGE ------

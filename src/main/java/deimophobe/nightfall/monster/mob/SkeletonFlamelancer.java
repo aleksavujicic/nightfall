@@ -44,7 +44,7 @@ class SkeletonFlamelancer extends Skeleton {
 		this.fireAI = upgrades.get("fireai");
 		realArrowRes = arrowRes * 0.01;
 
-		flameBlock = 0.03 + flame * 0.015;
+		flameBlock = 0.05 + flame * 0.02;
 
 		getArmour().addModifier(ItemModifierType.SPEED, 10, "Flamelancer");
 		getArmour().addModifier(ItemModifierType.SPEED, speed * 10, "Upgrade");

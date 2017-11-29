@@ -101,8 +101,9 @@ public class Arthea extends Hero {
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (isEnraged())
+		if (isEnraged()) {
 			damage.setProc(true);
+		}
 	}
 	
 	@Override

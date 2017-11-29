@@ -20,7 +20,6 @@ public class MagicCoil extends AbstractCooldown {
 	private static final Set<Buff> BUFFS = new HashSet<>();
 	static {
 		BUFFS.add(new Buff(PotionEffectType.DAMAGE_RESISTANCE, 2));
-		BUFFS.add(new Buff(PotionEffectType.FIRE_RESISTANCE, 1));
 		BUFFS.add(new Buff(PotionEffectType.SLOW, -1));
 		BUFFS.add(new Buff(PotionEffectType.NIGHT_VISION, 1));
 		BUFFS.add(new Buff(PotionEffectType.INCREASE_DAMAGE, 3));

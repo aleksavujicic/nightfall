@@ -100,7 +100,7 @@ public class Blaze extends AbstractMob {
                     fireball.remove();
                 }
             }
-        }.runTaskLater(NightfallPlugin.getPlugin(), 50); // 2.5 seconds
+        }.runTaskLater(NightfallPlugin.getPlugin(), 2 * 20); // 2 seconds
         ((Fireball) fireball).setShooter(monster.getPlayer());
         fireball.setVelocity(loc.getDirection().multiply(1.5f));
         world.playSound(loc, "entity.blaze.shoot", 2, 1f);

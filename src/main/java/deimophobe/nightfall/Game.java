@@ -4,6 +4,7 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.damage.DamageManager;
@@ -323,28 +324,40 @@ public class Game {
 	
 	
 	// ------ SCOREBOARD -------
+	
+	private static final String DWARF_REMAINING = ChatColor.GREEN + "Remaining";
+	private static final String VAULT = ChatColor.GOLD + "Vault";
+	private static final String GOLD = ChatColor.YELLOW + "Shrine Gold";
+	private static final String DOOM_CLOCK = ChatColor.DARK_RED + "Doom Clock";
+	private static final String MANA = ChatColor.LIGHT_PURPLE + "Mana";
+	
 	public void giveScoreboard(Player player) {
 		player.setScoreboard(scoreboard);
 	}
 	
 	public void updateDwarfCount() {
-		sidebarObj.getScore(ChatColor.GREEN + "Remaining").setScore(dwarfManager.getGamePlayers().size());
+		sidebarObj.getScore(DWARF_REMAINING).setScore(dwarfManager.getGamePlayers().size());
 	}
 	
 	public void setVault(int vault) {
-		sidebarObj.getScore(ChatColor.GOLD + "Vault").setScore(vault);
+		sidebarObj.getScore(VAULT).setScore(vault);
 	}
 	public void setGold(int gold) {
-		sidebarObj.getScore(ChatColor.YELLOW + "Shrine Gold").setScore(gold);
+		sidebarObj.getScore(GOLD).setScore(gold);
 	}
 	
 	public void setDoomSidebar(int doomTimer) {
 		for (MonsterPlayer mp : monsterManager.getGamePlayers())
-			showCustomScore(mp.getPlayer(), ChatColor.DARK_RED + "Doom Clock", doomTimer);
+			showCustomScore(mp.getPlayer(), DOOM_CLOCK, doomTimer);
 	}
 	
 	public void setMana(Player player, int mana) {
-		showCustomScore(player, ChatColor.LIGHT_PURPLE + "Mana", mana);
+		showCustomScore(player, MANA, mana);
+	}
+	
+	public void hideManaAndDoom(Player player) {
+		hideScore(player, DOOM_CLOCK);
+		hideScore(player, MANA);
 	}
 	
 	
@@ -353,8 +366,22 @@ public class Game {
 		PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.SCOREBOARD_SCORE);
 		packet.getStrings().write(0, name);
 		packet.getStrings().write(1, OBJ_NAME);
-		//packet.getIntegers();
 		packet.getIntegers().write(0, amt);
+		
+		try {
+			protocolManager.sendServerPacket(player, packet);
+		} catch (InvocationTargetException e) {
+			Bukkit.getLogger().severe("Failed to send " + name + " packet.");
+			e.printStackTrace();
+		}
+	}
+	
+	private void hideScore(Player player, String name) {
+		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+		PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.SCOREBOARD_SCORE);
+		packet.getStrings().write(0, name);
+		packet.getStrings().write(1, OBJ_NAME);
+		packet.getScoreboardActions().write(0, EnumWrappers.ScoreboardAction.REMOVE);
 		
 		try {
 			protocolManager.sendServerPacket(player, packet);
@@ -456,6 +483,9 @@ public class Game {
 
 		if (dwarfManager.getDwarves().size() == 1) {
 			toKill = 1;
+		}
+		if (dwarfManager.getDwarves().size() == 4) {
+			toKill = 2;
 		}
 
 		if (toKill == 0 || plagueables.size() + plagued.size() == 0) {

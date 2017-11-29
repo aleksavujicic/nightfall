@@ -12,8 +12,8 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.hero.Hero;
-import deimophobe.nightfall.dwarf.kit.elements.hero.Horn;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
+import deimophobe.nightfall.dwarf.kit.elements.hero.Horn;
 import deimophobe.nightfall.dwarf.loadout.DwarfData;
 import deimophobe.nightfall.dwarf.loadout.Loadout;
 import deimophobe.nightfall.dwarf.loadout.LoadoutMenu;
@@ -36,8 +36,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -638,18 +636,6 @@ public class NightfallPlugin extends JavaPlugin {
 					player.teleport(GameMap.getCurrentMap().getDwarfSpawn());
 				}
 				
-				return true;
-			}
-		}
-
-		if (name.equalsIgnoreCase("hat")) {
-			if (sender instanceof Player) {
-				Player player = (Player) sender;
-				PlayerInventory inv = player.getInventory();
-				ItemStack item = inv.getItemInMainHand();
-				ItemStack hat = inv.getHelmet();
-				inv.setHelmet(item);
-				inv.setItemInMainHand(hat);
 				return true;
 			}
 		}

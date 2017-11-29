@@ -16,10 +16,13 @@ import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.function.Supplier;
 
 /**
  * Created by Deimophobe on 20/11/17.
@@ -41,12 +44,8 @@ public class Bricklayer extends AbstractItem {
 	
 	private Builder builder = null;
 	
-	//private final RemoveListener listener;
-	
 	public Bricklayer(Dwarf dwarf) {
 		super(dwarf);
-	//	listener = new RemoveListener();
-	//	Bukkit.getPluginManager().registerEvents(listener, NightfallPlugin.getPlugin());
 	}
 	
 	@Override
@@ -128,28 +127,19 @@ public class Bricklayer extends AbstractItem {
 	}
 	
 	private class Builder extends BukkitRunnable {
-		private Block nextBlock;
-		
-		private final Dimension xDim;
-		private final Dimension yDim;
-		private final Dimension zDim;
-		
+		private BlockSupplier supplier;
 		private boolean paused = false;
 		
 		protected Builder(Block firstCorner, Block secondCorner) {
-			this.nextBlock = firstCorner;
-			
-			xDim = new Dimension(firstCorner.getX(), secondCorner.getX());
-			yDim = new Dimension(firstCorner.getY(), secondCorner.getY());
-			zDim = new Dimension(firstCorner.getZ(), secondCorner.getZ());
-			
+			supplier = new BlockSupplier(firstCorner, secondCorner);
 			runTaskTimer(NightfallPlugin.getPlugin(), 0, 4);
-			
 			dwarf.sendTitleMessage(ChatColor.YELLOW + "Placing blocks...");
 		}
 		
 		@Override
 		public void run() {
+			if (!dwarf.isOnline()) paused = true;
+			
 			if (paused) return;
 			if (!canUseInCurrentPhase()) {
 				cancel();
@@ -162,30 +152,22 @@ public class Bricklayer extends AbstractItem {
 				return;
 			}
 			
-			boolean placed = false;
-			while (!placed) {
+			while (true) {
+				Block nextBlock = supplier.get();
+				
+				if (nextBlock == null) {
+					dwarf.sendTitleMessage(ChatColor.GREEN + "Finished placing cobble");
+					this.cancel();
+					return;
+				}
+				
 				if (BlockType.IGNORABLE.matchesBlock(nextBlock) && GameMap.getCurrentMap().isBlockPlaceable(nextBlock)) {
 					dwarf.forceUseConsumable(ConsumableType.COBBLESTONE);
 					nextBlock.getWorld().playSound(nextBlock.getLocation(), "block.stone.place", 1f, 1f);
 					dwarf.playSound("block.stone.place");
 					nextBlock.setType(Material.COBBLESTONE);
-					placed = true;
+					break;
 				}
-				
-				boolean xOverrun = xDim.increment();
-				if (xOverrun) {
-					boolean zOverrun = zDim.increment();
-					if (zOverrun) {
-						boolean yOverrun = yDim.increment();
-						if (yOverrun) {
-							dwarf.sendTitleMessage(ChatColor.GREEN + "Finished placing cobble");
-							this.cancel();
-							return;
-						}
-					}
-				}
-				
-				nextBlock = nextBlock.getWorld().getBlockAt(xDim.getValue(), yDim.getValue(), zDim.getValue());
 			}
 		}
 		
@@ -200,6 +182,54 @@ public class Bricklayer extends AbstractItem {
 		public synchronized void cancel() throws IllegalStateException {
 			super.cancel();
 			builder = null;
+		}
+	}
+	
+	private static class BlockSupplier implements Supplier<Block> {
+		private final World world;
+		
+		private final Dimension xDim;
+		private final Dimension yDim;
+		private final Dimension zDim;
+		
+		private boolean finished = false;
+		
+		protected BlockSupplier(Block firstCorner, Block secondCorner) {
+			world = firstCorner.getWorld();
+			
+			// Swap corners if first corner above first
+			// so that places blocks from bottom to top
+			if (firstCorner.getY() > secondCorner.getY()) {
+				Block temp = secondCorner;
+				secondCorner = firstCorner;
+				firstCorner = temp;
+			}
+			
+			xDim = new Dimension(firstCorner.getX(), secondCorner.getX());
+			yDim = new Dimension(firstCorner.getY(), secondCorner.getY());
+			zDim = new Dimension(firstCorner.getZ(), secondCorner.getZ());
+		}
+		
+		@Override
+		public Block get() {
+			if (finished) return null;
+			
+			// Get block
+			Block block = world.getBlockAt(xDim.getValue(), yDim.getValue(), zDim.getValue());
+			
+			// Increment dimensions
+			boolean xOverrun = xDim.increment();
+			if (xOverrun) {
+				boolean zOverrun = zDim.increment();
+				if (zOverrun) {
+					boolean yOverrun = yDim.increment();
+					if (yOverrun) {
+						finished = true;
+					}
+				}
+			}
+			
+			return block;
 		}
 	}
 	

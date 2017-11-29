@@ -56,7 +56,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		stopSounds();
 		
 		player.setGameMode(GameMode.SURVIVAL);
-		givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 5, false, false, true);
 		// Set armour
 		armour = new DwarvenArmour(this);
 		
@@ -95,13 +94,17 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		
 		respawn();
 		
-		TitlePlayer.playTitle(this);
+		if (!isDebugMode()) TitlePlayer.playTitle(this);
+		
+		Game.getGame().hideManaAndDoom(player);
 	}
 	
 	public void respawn() {
 		delayedHealMax();
 		teleportTo(GameMap.getCurrentMap().getDwarfSpawn());
 		player.setFireTicks(0);
+		player.setFallDistance(0);
+		givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 5, false, false, true);
 	}
 	
 	
@@ -187,15 +190,16 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	// ------ BLOOD ------
 	private void updateBlood(boolean quartSec, boolean halfSec, boolean sec) {
 		
-		if (sec && mana <= 300) {
+		if (sec && mana <= 300
+			|| halfSec && mana <= 200
+			|| quartSec && mana <= 100) {
+			
+			int count = 8000 / (mana + 100);
+			double radius = 0.4 - (double) mana/2000;
+			double height = 0.25 - (double) mana/3000;
+			
 			Location bloodLoc = player.getLocation().add(0, 1, 0);
-			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 20, 0.25, 0.15, 0.25, 0);
-		} else if (halfSec && mana <= 200) {
-			Location bloodLoc = player.getLocation().add(0, 1, 0);
-			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 40, 0.3, 0.2, 0.3, 0);
-		} else if (quartSec && mana <= 100) {
-			Location bloodLoc = player.getLocation().add(0, 1, 0);
-			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, 60, 0.35, 0.2, 0.35, 0);
+			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, count, radius, height, radius, 0);
 		}
 	}
 	

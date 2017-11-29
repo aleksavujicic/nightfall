@@ -19,11 +19,7 @@ public class HeroAle extends AbstractElement {
 				dwarf.playSound("entity.generic.drink", 0.6f, 0.9f, true);
 				dwarf.playSound("entity.experience_orb.pickup", 1f, 1f, false);
 				
-				if (damage.willKill()) {
-					damage.getDamage().setMultiplier(1);
-					damage.getDamage().setBoost(0);
-					damage.getDamage().setBase(dwarf.getMaxHealth() - 2);
-				}
+				damage.softCancel();
 			}
 		}
 	}

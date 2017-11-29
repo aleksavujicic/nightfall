@@ -95,6 +95,9 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	
 	public void onMobRelease() {
 		doomManager.start();
+		// Plague extra mana
+		this.giveFutureXP(5000);
+		
 		new BukkitRunnable() {
 			@Override
 			public void run() {

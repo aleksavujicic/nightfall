@@ -131,27 +131,8 @@ hunting-claws:
 
 
 # ------ BOWS ------
-dragonskin:
-  index: 9
-  type: item
-  name: dragonskin
-  category: bow
-  cost: 16
-  item:
-    name: "Dragonskin Bow"
-    base: dskin
-    lore:
-      description:
-       - "Left click to enable &bPower Shot Mode&r.\n
-          Power shots do &b125&r power damage that\n
-          pierces half of target arrow resistance\n
-          and gives a &b5&r second proc on kill.\n
-          Cooldown of &e30s&r."
-    modifiers:
-      power: 50
-
 longbow:
-  index: 10
+  index: 9
   type: item
   name: longbow
   category: bow
@@ -169,23 +150,42 @@ longbow:
     modifiers:
       power: 80
 
-lightbow:
-  index: 11
+volcanic:
+  index: 10
   type: item
-  name: lightbow
+  name: volcanic
   category: bow
-  cost: 12
+  cost: 18
   item:
-    name: "Lightbow"
-    base: lightbow
+    name: "Volcanic Gauntlet"
+    base: volcanic
     lore:
       description:
-       - "This bow fires special arrows that\n
-          create lamps in the walls.\n
-          Pierces half of target arrow resistance.\n
-          You are also immune to darkness."
+       - "Charge up a lined blast of fire\n
+          that pierces everything in\n
+          its path. Uses 3 arrows a shot."
     modifiers:
-      power: 30
+      attack: 10
+      power: 60
+
+dragonskin:
+  index: 11
+  type: item
+  name: dragonskin
+  category: bow
+  cost: 16
+  item:
+    name: "Dragonskin Bow"
+    base: dskin
+    lore:
+      description:
+       - "Left click to enable &bPower Shot Mode&r.\n
+          Power shots do &b125&r power damage that\n
+          pierces half of target arrow resistance\n
+          and gives a &b5&r second proc on kill.\n
+          Cooldown of &e30s&r."
+    modifiers:
+      power: 50
 
 crossbow:
   index: 12
@@ -205,8 +205,26 @@ crossbow:
     modifiers:
       power: 100
 
-ebow:
+lightbow:
   index: 13
+  type: item
+  name: lightbow
+  category: bow
+  cost: 12
+  item:
+    name: "Lightbow"
+    base: lightbow
+    lore:
+      description:
+       - "This bow fires special arrows that\n
+          create lamps in the walls.\n
+          Pierces half of target arrow resistance.\n
+          You are also immune to darkness."
+    modifiers:
+      power: 30
+
+ebow:
+  index: 14
   type: item
   name: ebow
   category: bow
@@ -223,7 +241,7 @@ ebow:
       power: 10
 
 warpweaver:
-  index: 14
+  index: 15
   type: item
   name: warpweaver
   category: bow
@@ -239,24 +257,6 @@ warpweaver:
           Getting hit will cancel the teleport."
     modifiers:
       power: 30
-
-volcanic:
-  index: 15
-  type: item
-  name: volcanic
-  category: bow
-  cost: 16
-  item:
-    name: "Volcanic Gauntlet"
-    base: volcanic
-    lore:
-      description:
-       - "Charge up a lined blast of fire\n
-          that pierces everything in\n
-          its path. Uses 3 arrows a shot."
-    modifiers:
-      attack: 10
-      power: 60
 
 turret:
   enabled: false
