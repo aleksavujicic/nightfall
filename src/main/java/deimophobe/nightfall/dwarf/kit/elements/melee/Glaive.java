@@ -17,7 +17,6 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Monster;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
@@ -45,7 +44,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     private final int lowDamage = 5;//ChangeStance
     private final double altRange = 4.0;//altAttack AND powerAttack AND flurryOfBlows
     private final int knockBack = 3;//altAttack AND flurryOfBlows
-    private final int vertKnockBack = 2;//altAttack
+    private final int vertKnockBack = 2;//altAttack AND flurryOfBlows
     private final int chargeTime = 1*20;//powerAttack
     private final double powerDamage = 30;//powerAttack
     private final int stunTime = 2*20;//flurryOfBlows
@@ -61,7 +60,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
         super.update(quartSec, halfSec, sec, doubleSec, quadSec);
         cd.update();
-        if (altStance){createStanceParticles();}//changeStance
+        if (altStance && currentTest == "changeStance"){createStanceParticles();}//changeStance
     }
     @Override
     public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace){
@@ -151,7 +150,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
             if (currentTicks == stunTime-1){//Third hit, with large knockback
                 for (MonsterEntity stunnedEntity : stunned){
                     flurryDamage = stunnedEntity.createDamage(dwarf,CustomDamageType.GLAIVE_ALT,flurryDamageHigh);
-                    flurryDamage.addKnockback(knockBack,vertKnockBack,knockBack);
+                    flurryDamage.addKnockback(2*knockBack,2*vertKnockBack,2*knockBack);
                     flurryDamage.fire();
                 }
             }
