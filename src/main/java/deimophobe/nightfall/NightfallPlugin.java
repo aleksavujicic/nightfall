@@ -335,6 +335,33 @@ public class NightfallPlugin extends JavaPlugin {
 				return false;
 			}
 		}
+		if (name.equalsIgnoreCase("addkititem")) {
+			if (args.length == 0) {
+				sender.sendMessage(ChatColor.RED + "Please specify an item.");
+				return false;
+			} else {
+				if (sender instanceof Player) {
+					Dwarf dwarf = dm.getGamePlayer((Player)sender);
+					if (dwarf != null) {
+						for (String arg : args) {
+							if (!KitElementType.isElement(arg)) {
+								sender.sendMessage(ChatColor.RED + "Unknown kit item: " + ChatColor.DARK_AQUA + arg + ChatColor.RED + "!");
+							} else {
+								dwarf.giveKitItem(KitElementType.get(arg));
+							}
+						}
+					} else {
+						sender.sendMessage(ChatColor.RED + "You must be a dwarf to do that");
+					}
+					
+					return true;
+				} else {
+					sender.sendMessage(ChatColor.RED + "You must be a dwarf to do that");
+					return false;
+				}
+			}
+		}
+		
 		if (name.equalsIgnoreCase("armour")) {
 			if (sender instanceof Player) {
 				Dwarf dwarf = dm.getGamePlayer((Player)sender);
@@ -924,6 +951,11 @@ public class NightfallPlugin extends JavaPlugin {
 
 		if (name.equalsIgnoreCase("setmob") && args.length == 2) {
 			return startsWithPrefix(args[args.length-1], MobType.getAllMobTypes());
+		}
+		
+		if (name.equalsIgnoreCase("addkititem") && args.length >= 1) {
+			Collection<String> elements = KitElementType.getElementNames();
+			return startsWithPrefix(args[args.length-1], elements);
 		}
 		
 		if (name.equalsIgnoreCase("forceplague") && args.length == 1) {

@@ -134,6 +134,12 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		if (!hasKitElement(KitElementType.CHESTO)) kit.addAndGiveItem(KitElementType.CHESTO);
 	}
 	
+	public void giveKitItem(KitElementType type) {
+		if (!hasKitElement(type)) {
+			kit.addAndGiveElement(type);
+		}
+	}
+	
 	
 	// ------ ARMOUR STUFF ------
 	private Armour armour;

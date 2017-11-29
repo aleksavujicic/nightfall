@@ -36,6 +36,10 @@ commands:
     usage: /xp <amount>
     description: Give yourself some mob xp.
     aliases: [exp, mana]
+  addkititem:
+    usage: /givekititem <item-names>
+    description: Give a dwarf kit item to yourself.
+    aliases: [givekititem]
   giveitem:
     usage: /giveitem <item-name>
     description: Give a custom item to yourself.
