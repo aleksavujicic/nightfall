@@ -1,6 +1,14 @@
 package deimophobe.nightfall.dwarf.armour;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.EnumWrappers;
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -10,10 +18,12 @@ import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * Created by Deimophobe on 5/05/17.
@@ -27,8 +37,13 @@ public class DwarvenArmour implements Armour {
 	private double armourValue = DEFAULT_MAX;
 	private double durability = 100;
 	
+	private boolean invisible = false;
+	
 	private ArmourLevel currentLevel = ArmourLevel.SHINY;
 	private Map<ArmourLevel, ArmourSet> setMap = new HashMap<>();
+	
+	
+	
 	
 	public DwarvenArmour(Dwarf dwarf) {
 		this.dwarf = dwarf;
@@ -133,6 +148,67 @@ public class DwarvenArmour implements Armour {
 	}
 	
 	
+	// Item Invis stuff
+	public void hideArmour() {
+		invisible = true;
+		updateArmourVisibility();
+	}
+	public void showArmour() {
+		invisible = false;
+		updateArmourVisibility();
+	}
+	
+	private static final Map<EnumWrappers.ItemSlot, Function<PlayerInventory, ItemStack>> slotToItemGetter = new HashMap();
+	static {
+		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+		protocolManager.addPacketListener(new PacketAdapter(NightfallPlugin.getPlugin(), PacketType.Play.Server.ENTITY_EQUIPMENT) {
+			@Override
+			public void onPacketSending(PacketEvent event) {
+				setupEntityEquipmentPacket(event.getPacket());
+			}
+		});
+		
+		slotToItemGetter.put(EnumWrappers.ItemSlot.HEAD, PlayerInventory::getHelmet);
+		slotToItemGetter.put(EnumWrappers.ItemSlot.CHEST, PlayerInventory::getChestplate);
+		slotToItemGetter.put(EnumWrappers.ItemSlot.LEGS, PlayerInventory::getLeggings);
+		slotToItemGetter.put(EnumWrappers.ItemSlot.FEET, PlayerInventory::getBoots);
+	}
+	
+	private void updateArmourVisibility() {
+		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+		
+		for (EnumWrappers.ItemSlot slot : slotToItemGetter.keySet()) {
+			PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.ENTITY_EQUIPMENT);
+			packet.getIntegers().write(0, dwarf.getEntity().getEntityId());
+			packet.getItemSlots().write(0, slot);
+			packet.getItemModifier().write(0, slotToItemGetter.get(slot).apply(dwarf.getPlayer().getInventory()));
+			protocolManager.broadcastServerPacket(packet);
+		}
+	}
+	
+	private static void setupEntityEquipmentPacket(PacketContainer packet) {
+		EnumWrappers.ItemSlot slot = packet.getItemSlots().read(0);
+		
+		switch (slot) {
+			case HEAD:
+			case CHEST:
+			case LEGS:
+			case FEET: {
+				int id = packet.getIntegers().read(0);
+				Dwarf dwarf = DwarfManager.getManager().getGamePlayer(id);
+				if (dwarf == null) return;
+				if (!(dwarf.getArmour() instanceof DwarvenArmour)) return;
+				
+				DwarvenArmour armour = (DwarvenArmour) dwarf.getArmour();
+				if (armour.invisible) {
+					packet.getItemModifier().write(0, null);
+				}
+			}
+		}
+	}
+	
+	
+	// Helper classes
 	
 	private enum ArmourLevel {
 		SHINY("shiny", 0.8, 1),

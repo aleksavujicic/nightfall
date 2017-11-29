@@ -111,6 +111,13 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 	public P getGamePlayer(UUID uuid) {
 		return players.get(uuid);
 	}
+	public P getGamePlayer(int entityID) {
+		for (P player : players.values()) {
+			if (player.getEntity().getEntityId() == entityID)
+				return player;
+		}
+		return null;
+	}
 	
 	public boolean isGamePlayer(String name) {
 		return isGamePlayer(Bukkit.getPlayer(name));
