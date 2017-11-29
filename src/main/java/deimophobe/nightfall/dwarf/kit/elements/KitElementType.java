@@ -74,6 +74,10 @@ public enum KitElementType {
 	DWARF_AXE,
 	
 	
+	// Stupid joke shit
+	PENY_STICK,
+	
+	
 	// ---- HERO STUFF ----
 	// Base
 	HERO_SLOWFALL,
@@ -187,6 +191,9 @@ public enum KitElementType {
 			case DWARF_AXE: return new DwarfAxe(dwarf);
 			case DWARF_PICK: return new DwarfPickaxe(dwarf);
 			case DWARF_SHOVEL: return new DwarfShovel(dwarf);
+			
+			// Stupid joke poop
+			case PENY_STICK: return new PenyStick(dwarf);
 			
 			// ---- HERO STUFF -----
 			// Base

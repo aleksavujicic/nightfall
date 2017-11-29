@@ -38,3 +38,12 @@ bricklayer:
      - "Bricks."
     flavour:
      - "More bricks."
+
+penystick:
+  material: blaze_rod
+  name: "Penny Stick"
+  lore:
+    description:
+     - "Penny"
+    flavour:
+     - "She is more popular"
