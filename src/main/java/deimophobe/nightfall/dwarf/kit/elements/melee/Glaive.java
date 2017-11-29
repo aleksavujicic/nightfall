@@ -17,10 +17,16 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Monster;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import static java.lang.System.in;
 
 /**
  * Created by ED{Kegoir} and Div on 23/11/17
@@ -37,11 +43,15 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     private boolean altStance = false;//ChangeStance
     private final int highDamage = 25;//ChangeStance MAYBE ADD COOLDOWN IF WE WANT 25 DAMAGE
     private final int lowDamage = 5;//ChangeStance
-    private final double altRange = 4.0;//altAttack AND powerAttack
-    private final int knockBack = 3;//altAttack
+    private final double altRange = 4.0;//altAttack AND powerAttack AND flurryOfBlows
+    private final int knockBack = 3;//altAttack AND flurryOfBlows
     private final int vertKnockBack = 2;//altAttack
     private final int chargeTime = 1*20;//powerAttack
     private final double powerDamage = 30;//powerAttack
+    private final int stunTime = 2*20;//flurryOfBlows
+    private final double range = 3;//flurryOfBlows
+    private final int flurryDamageLow = 15;//flurryOfBlows
+    private final int flurryDamageHigh = 25;//flurryOfBlows
     //End of Ability variables
 
     public Glaive (Dwarf dwarf){super(dwarf);}
@@ -110,7 +120,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
         }
         MonsterEntity entity = dwarf.getLookingAt(2.5, altRange, MonsterManager.getManager().getAliveMobsAndAIs());
         GameDamage powerHit = entity.createDamage(dwarf, CustomDamageType.GLAIVE_ALT, powerDamage);
-        powerHit.addKnockback(knockBack,knockBack,vertKnockBack);
+        powerHit.addKnockback(knockBack,vertKnockBack,knockBack);
         powerHit.fire(true);
     }
 
@@ -118,6 +128,36 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     }
 
     private void flurryOfBlows() {//Will make a few aoe slashes or precise stabs in front of player, while slowing player down
+        boolean done = false;
+        int currentTicks = 0;
+        dwarf.givePotionEffect(PotionEffectType.SLOW,stunTime,1, false, false, true);
+        MonsterEntity targetEntity = dwarf.getLookingAt(2.5, altRange, MonsterManager.getManager().getAliveMobsAndAIs());
+        Location center = targetEntity.getLocation();
+        Set<MonsterEntity> stunned = new HashSet<>();
+        for (MonsterEntity stunnedEntity : MonsterManager.getManager().getAliveMobsAndAIs()){
+            if (center.distance(stunnedEntity.getLocation())<= range){
+                stunned.add(stunnedEntity);
+                stunnedEntity.givePotionEffect(PotionEffectType.SLOW,stunTime, 3, false, false, true);
+            }
+        }
+        GameDamage flurryDamage;
+        while (!done){
+            if (currentTicks == 0 || currentTicks == 4*(stunTime/5)) {//First and second hit
+                for (MonsterEntity stunnedEntity : stunned){
+                    flurryDamage = stunnedEntity.createDamage(dwarf,CustomDamageType.GLAIVE_ALT, flurryDamageLow);
+                    flurryDamage.fire();
+                }
+            }
+            if (currentTicks == stunTime-1){//Third hit, with large knockback
+                for (MonsterEntity stunnedEntity : stunned){
+                    flurryDamage = stunnedEntity.createDamage(dwarf,CustomDamageType.GLAIVE_ALT,flurryDamageHigh);
+                    flurryDamage.addKnockback(knockBack,vertKnockBack,knockBack);
+                    flurryDamage.fire();
+                }
+            }
+            currentTicks++;
+            if (currentTicks >= stunTime){done = true;}
+        }
     }
 
     private void changeBlade() {//Will alternate from lower AOE damage to higher precision damage
