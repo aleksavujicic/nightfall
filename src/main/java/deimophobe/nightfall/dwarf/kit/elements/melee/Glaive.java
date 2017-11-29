@@ -2,21 +2,31 @@ package deimophobe.nightfall.dwarf.kit.elements.melee;
 
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.damage.GameDamage;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Monster;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import static java.lang.System.in;
 
 /**
  * Created by ED{Kegoir} and Div on 23/11/17
@@ -26,7 +36,6 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     private final double aoeRadius = 3;
     private final int basicAttackDamage = 15;//Might be changed when testing abilities, OG value is 15
     private final int maxCD = 1*20;//Broken AF right now
-    private final int abilityDuration = 3*20;//Might be changed when testing abilities, OG value is 1*20 (1 second)
     private final ComplexCooldown cd = new ComplexCooldown(maxCD, this::TestAbility);//WILL NEED TO CHANGE ONCE ABILITY IS DECIDED
     //Ability variables below
     private final String currentTest = ("changeStance");//PUT NAME OF TESTING ABILITY HERE
@@ -34,6 +43,15 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     private boolean altStance = false;//ChangeStance
     private final int highDamage = 25;//ChangeStance MAYBE ADD COOLDOWN IF WE WANT 25 DAMAGE
     private final int lowDamage = 5;//ChangeStance
+    private final double altRange = 4.0;//altAttack AND powerAttack AND flurryOfBlows
+    private final int knockBack = 3;//altAttack AND flurryOfBlows
+    private final int vertKnockBack = 2;//altAttack
+    private final int chargeTime = 1*20;//powerAttack
+    private final double powerDamage = 30;//powerAttack
+    private final int stunTime = 2*20;//flurryOfBlows
+    private final double range = 3;//flurryOfBlows
+    private final int flurryDamageLow = 15;//flurryOfBlows
+    private final int flurryDamageHigh = 25;//flurryOfBlows
     //End of Ability variables
 
     public Glaive (Dwarf dwarf){super(dwarf);}
@@ -60,7 +78,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
 
     private void changeStance(){//Will change stance to do more damage to AIs, less damage to PlayerMobs, and vice versa
         altStance = !altStance;
-        //CHANGE ITEM MODEL HERE
+        //CHANGE ITEM MODEL HERE, REMOVE PARTICLE CHUNK
     }
     private double theta = 0;//COPIED FROM HAMMER...Temporary while we have no models
     private static final double r1 = 249, g1 = 245, b1 = 14;
@@ -83,16 +101,67 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
         }
     }
 
-    private void altHit(){}//Will be a different attack with a very fast cooldown(.5 to 1.5 seconds) dealing more damage to playermobs or AIs, and less damage to other
+    private void altHit() {//Will be a different attack with a very fast cooldown(.5 to 1.5 seconds) dealing more damage to playermobs or AIs, and less damage to other
+        MonsterEntity entity = dwarf.getLookingAt(2.5, altRange, MonsterManager.getManager().getAliveMobsAndAIs());
+        double damage;
+        damage = (entity instanceof MonsterPlayer ? 20:15);
+        GameDamage altDamage = entity.createDamage(dwarf, CustomDamageType.GLAIVE_ALT,damage);
+        altDamage.addKnockback(new Vector(knockBack, knockBack, vertKnockBack));//Might need to do maths for Vector
+        altDamage.fire(true);
+    }
 
-    private void powerAttack(){}//Will have a slight delay (1 to 2 seconds) before hitting for a lot of damage(maybe an unrolling proc?)
+    private void powerAttack() {//Will have a slight delay (1 to 2 seconds) before hitting for a lot of damage(maybe an unrolling proc?)
+        dwarf.givePotionEffect(PotionEffectType.SLOW, chargeTime,2, false, false, true);
+        int currentTicks = 0;
+        boolean ready = false;
+        while (!ready) {
+            currentTicks++;
+            if (currentTicks >= chargeTime){ready = true;}
+        }
+        MonsterEntity entity = dwarf.getLookingAt(2.5, altRange, MonsterManager.getManager().getAliveMobsAndAIs());
+        GameDamage powerHit = entity.createDamage(dwarf, CustomDamageType.GLAIVE_ALT, powerDamage);
+        powerHit.addKnockback(knockBack,vertKnockBack,knockBack);
+        powerHit.fire(true);
+    }
 
-    private void chargeAttack(){}//Will slow player and charge up damage while held down (up to maybe 5 seconds), dealing charged damage when released
+    private void chargeAttack() {//Will slow player and charge up damage while held down (up to maybe 5 seconds), dealing charged damage when released
+    }
 
-    private void flurryOfBlows(){}//Will make a few aoe slashes or precise stabs in front of player, while slowing player down
+    private void flurryOfBlows() {//Will make a few aoe slashes or precise stabs in front of player, while slowing player down
+        boolean done = false;
+        int currentTicks = 0;
+        dwarf.givePotionEffect(PotionEffectType.SLOW,stunTime,1, false, false, true);
+        MonsterEntity targetEntity = dwarf.getLookingAt(2.5, altRange, MonsterManager.getManager().getAliveMobsAndAIs());
+        Location center = targetEntity.getLocation();
+        Set<MonsterEntity> stunned = new HashSet<>();
+        for (MonsterEntity stunnedEntity : MonsterManager.getManager().getAliveMobsAndAIs()){
+            if (center.distance(stunnedEntity.getLocation())<= range){
+                stunned.add(stunnedEntity);
+                stunnedEntity.givePotionEffect(PotionEffectType.SLOW,stunTime, 3, false, false, true);
+            }
+        }
+        GameDamage flurryDamage;
+        while (!done){
+            if (currentTicks == 0 || currentTicks == 4*(stunTime/5)) {//First and second hit
+                for (MonsterEntity stunnedEntity : stunned){
+                    flurryDamage = stunnedEntity.createDamage(dwarf,CustomDamageType.GLAIVE_ALT, flurryDamageLow);
+                    flurryDamage.fire();
+                }
+            }
+            if (currentTicks == stunTime-1){//Third hit, with large knockback
+                for (MonsterEntity stunnedEntity : stunned){
+                    flurryDamage = stunnedEntity.createDamage(dwarf,CustomDamageType.GLAIVE_ALT,flurryDamageHigh);
+                    flurryDamage.addKnockback(knockBack,vertKnockBack,knockBack);
+                    flurryDamage.fire();
+                }
+            }
+            currentTicks++;
+            if (currentTicks >= stunTime){done = true;}
+        }
+    }
 
-    private void changeBlade(){}//Will alternate from lower AOE damage to higher precision damage
-
+    private void changeBlade() {//Will alternate from lower AOE damage to higher precision damage
+    }
     @Override
     protected double getDamageToMonster(MonsterEntity entity){//Maybe change this to be more effective against AIs
         if (currentTest == "changeStance"){
