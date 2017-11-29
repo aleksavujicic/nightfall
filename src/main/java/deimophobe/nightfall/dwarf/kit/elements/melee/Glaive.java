@@ -119,7 +119,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
         }
         MonsterEntity entity = dwarf.getLookingAt(2.5, altRange, MonsterManager.getManager().getAliveMobsAndAIs());
         GameDamage powerHit = entity.createDamage(dwarf, CustomDamageType.GLAIVE_ALT, powerDamage);
-        powerHit.addKnockback(knockBack,vertKnockBack,knockBack);
+        powerHit.addKnockback(knockBack,vertKnockBack,knockBack);//definitely broken
         powerHit.fire(true);
     }
 
@@ -150,7 +150,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
             if (currentTicks == stunTime-1){//Third hit, with large knockback
                 for (MonsterEntity stunnedEntity : stunned){
                     flurryDamage = stunnedEntity.createDamage(dwarf,CustomDamageType.GLAIVE_ALT,flurryDamageHigh);
-                    flurryDamage.addKnockback(2*knockBack,2*vertKnockBack,2*knockBack);
+                    flurryDamage.addKnockback(2*knockBack,2*vertKnockBack,2*knockBack);//Definitely broken
                     flurryDamage.fire();
                 }
             }
