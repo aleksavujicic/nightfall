@@ -3,6 +3,7 @@ package deimophobe.nightfall.map;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.VoidChunkGenerator;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
@@ -276,7 +277,11 @@ public class MapManager {
 		if (lockFile.exists())
 			throw new MapLoadingException("Failed to delete lock file.");
 		
-		World world = Bukkit.createWorld(new WorldCreator(worldFilename));
+		WorldCreator wc = new WorldCreator(worldFilename);
+		wc.generator(new VoidChunkGenerator());
+		wc.generateStructures(false);
+		
+		World world = Bukkit.createWorld(wc);
 		setDefaultWorldSettings(world);
 		Bukkit.getLogger().info("Finished creating world.");
 		return world;
