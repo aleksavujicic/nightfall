@@ -1,6 +1,7 @@
 package deimophobe.nightfall.plague;
 
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.monster.MonsterManager;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -40,6 +41,7 @@ public abstract class AbstractPlague implements Plague {
 		toKill--;
 		plagued.remove(dwarf);
 		plagueables.remove(dwarf);
+		MonsterManager.getManager().addPlaguedPlayer(dwarf);
 	}
 	
 	protected void killDwarf(Dwarf dwarf) {
