@@ -49,8 +49,8 @@ darkvision:
     base: darkvision
     lore:
       description:
-       - "Shift to give yourself a brief\n
-          Night Vision effect."
+       - "Press and hold shift to give\n
+          yourself a Night Vision effect."
 avenge:
   index: 4
   category: accessory

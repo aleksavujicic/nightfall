@@ -526,6 +526,13 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		super.heal(amt);
 	}
 	
+	@Override
+	public boolean givePotionEffect(PotionEffectType type, int duration, int amplifier, boolean showAbove, boolean colourBlue, boolean force) {
+		boolean success = super.givePotionEffect(type, duration, amplifier, showAbove, colourBlue, force);
+		if (type == PotionEffectType.NIGHT_VISION) updateVisibility();
+		return success;
+	}
+	
 	private HealBlock placedHealBlock = null;
 	
 	public boolean hasPlacedHealBlock() {
