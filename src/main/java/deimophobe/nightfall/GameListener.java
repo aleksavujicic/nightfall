@@ -12,6 +12,8 @@ import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.ai.AIEntity;
+import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.mob.Bopen;
 import deimophobe.nightfall.monster.mob.Goblin;
 import org.bukkit.*;
@@ -524,9 +526,13 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void preventAITarget(EntityTargetEvent event) {
-		Entity target = event.getTarget();
-		if (target instanceof Player && mm.isGamePlayer((Player) target))
+		Entity targetter = event.getEntity();
+		AIEntity ai = AIManager.getManager().getAI(targetter);
+		
+		if (ai != null && event.getReason() != EntityTargetEvent.TargetReason.CUSTOM) {
 			event.setCancelled(true);
+			if (ai.getTarget() == null) ai.forceUpdateTarget();
+		}
 	}
 	
 	

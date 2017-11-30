@@ -110,6 +110,9 @@ public class NightfallPlugin extends JavaPlugin {
 					case ENTITY_PLAYER_ATTACK_STRONG:
 					case ENTITY_PLAYER_ATTACK_SWEEP:
 					case ENTITY_PLAYER_ATTACK_WEAK:
+					case ITEM_ARMOR_EQUIP_CHAIN:
+					case ITEM_ARMOR_EQUIP_DIAMOND:
+					case ITEM_ARMOR_EQUIP_IRON:
 						event.setCancelled(true);
 				}
 			}

@@ -150,12 +150,16 @@ public class DwarvenArmour implements Armour {
 	
 	// Item Invis stuff
 	public void hideArmour() {
-		invisible = true;
-		updateArmourVisibility();
+		if (!invisible) {
+			invisible = true;
+			updateArmourVisibility();
+		}
 	}
 	public void showArmour() {
-		invisible = false;
-		updateArmourVisibility();
+		if (invisible) {
+			invisible = false;
+			updateArmourVisibility();
+		}
 	}
 	
 	private static final Map<EnumWrappers.ItemSlot, Function<PlayerInventory, ItemStack>> slotToItemGetter = new HashMap();

@@ -2,11 +2,13 @@ package deimophobe.nightfall.dwarf.kit.elements.melee;
 
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
+import deimophobe.nightfall.dwarf.armour.Armour;
+import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractItem;
@@ -15,8 +17,8 @@ import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.ai.AIManager;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -42,27 +44,43 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 	}
 
 	private final ComplexCooldown cd = new ComplexCooldown(60*20);
+	private final ComplexCooldown invisPreventer = new ComplexCooldown(20, null, this::updateInvisibility);
+	private boolean invisible = false;
 
 
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		cd.update();
+		invisPreventer.update();
+		
+		if (invisible && Math.random() <= 0.5) {
+			dwarf.getWorld().spawnParticle(Particle.SMOKE_NORMAL, dwarf.getLocation().add(0,0.5,0), 5, 0.2, 0.5, 0.2, 0.03);
+		}
 	}
 
 	@Override
 	public void onDamageAttack(MonsterDamage damage){
 		super.onDamageAttack(damage);
-		if (dwarf.hasPotionEffect(PotionEffectType.INVISIBILITY)){
-			if(damage.getMonster() instanceof AIEntity && damage.getType() == NaturalDamageType.MELEE){
-				damage.getDamage().timesMult(3);
-			}
-			else if (damage.getMonster() instanceof MonsterPlayer && damage.getType() == NaturalDamageType.MELEE){
-				damage.getDamage().timesMult(1.5);
-			}
+		resetInvisibility();
+	}
+	
+	@Override
+	public void onDamageReceive(DwarfDamage damage) {
+		super.onDamageReceive(damage);
+		
+		// Prevent attacks from ais if invisible
+		if (invisible && damage.getAttacker() instanceof AIEntity) {
+			((AIEntity) damage.getAttacker()).forceUpdateTarget();
+			damage.cancel();
+		}
+		
+		// Otherwise cancel invisibility
+		if (damage.getAttacker() instanceof MonsterPlayer) {
+			resetInvisibility();
 		}
 	}
-
+	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action)) {
@@ -104,19 +122,45 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 		}
 		return false;
 	}
-
+	
 	@Override
-	public void onKill(MonsterDamage damage){
-		if (damage.getMonster() instanceof AIEntity){
-			cd.reduceCooldown(3*20);
-			dwarf.givePotionEffect(PotionEffectType.INVISIBILITY, 10*20,3,true,true,true);
-		}
-		else if(damage.getMonster() instanceof MonsterPlayer){
-			cd.reduceCooldown(5*20);
-			dwarf.givePotionEffect(PotionEffectType.INVISIBILITY, 10*20,3,true,true,true);
+	public void onShift(boolean sneaking) {
+		super.onShift(sneaking);
+		updateInvisibility(sneaking);
+	}
+	
+	private void resetInvisibility() {
+		invisPreventer.reset();
+		updateInvisibility();
+	}
+	
+	private void updateInvisibility() {
+		updateInvisibility(dwarf.isSneaking());
+	}
+	
+	private void updateInvisibility(boolean sneaking) {
+		Armour armour = dwarf.getArmour();
+		
+		if (sneaking && invisPreventer.isAvailable()) {
+			if (armour instanceof DwarvenArmour) ((DwarvenArmour) armour).hideArmour();
+			dwarf.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
+			invisible = true;
+			updateTargettingAIs();
+		} else {
+			if (armour instanceof DwarvenArmour) ((DwarvenArmour) armour).showArmour();
+			dwarf.removePotionEffect(PotionEffectType.INVISIBILITY);
+			invisible = false;
 		}
 	}
-
+	
+	private void updateTargettingAIs() {
+		for (AIEntity aiEntity : AIManager.getManager().getAIs()) {
+			if (aiEntity.getTarget() == dwarf.getPlayer()) {
+				aiEntity.forceUpdateTarget();
+			}
+		}
+	}
+	
 	@Override
 	public float fractionComplete() {
 		return cd.fractionComplete();

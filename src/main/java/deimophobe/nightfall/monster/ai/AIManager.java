@@ -165,7 +165,7 @@ public class AIManager {
 		// Get rid of unnecessary ai
 		Region shrineProt = GameMap.getCurrentMap().getCurrentShrineProtection();
 		for (AIEntity ai : new HashSet<>(ais.values())) {
-			ai.updateTarget();
+			ai.naturalUpdateTarget();
 			
 			if (shrineProt.continsGameEntity(ai))
 				ai.remove();
