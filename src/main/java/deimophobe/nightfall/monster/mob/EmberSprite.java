@@ -6,7 +6,6 @@ import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
-import deimophobe.nightfall.cooldown.DudCooldown;
 import deimophobe.nightfall.damage.DamageModifier;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -14,7 +13,6 @@ import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
-import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -22,18 +20,19 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Fireball;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.Map;
-
 /**
  * Created by TKiwisi on 10/16/17.
  */
-public class Blaze extends AbstractMob {
+public class EmberSprite extends AbstractMob {
 
     private Cooldown fireCD;
     private Cooldown preloadCD;
@@ -42,8 +41,8 @@ public class Blaze extends AbstractMob {
     private final int MAX_AMMO = 6;
     private int currentAmmo;
 
-    public Blaze(MonsterPlayer mons) {
-        super(mons, MobType.BLAZE);
+    public EmberSprite(MonsterPlayer mons) {
+        super(mons, MobType.EMBER_SPRITE);
 
         this.fireCD = new ComplexCooldown(13);
         this.preloadCD = new ComplexCooldown(40);
@@ -116,7 +115,7 @@ public class Blaze extends AbstractMob {
         }
     }
 
-    // Workaround for Blaze fireballs being blocked by ais
+    // Workaround for EmberSprite fireballs being blocked by ais
     public void onDamageAttack(MonsterDamage damage) {
         if (damage.getType() == NaturalDamageType.RANGED) {
             damage.cancel();

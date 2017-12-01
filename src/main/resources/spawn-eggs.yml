@@ -44,11 +44,11 @@ spiderling:
   quantity: 2
   chance: 0.06
 
-blaze:
-  mobtype: blaze
+ember_sprite:
+  mobtype: ember-sprite
   egg:
     material: blaze_rod
-    name: Spawn Blaze
+    name: Spawn Ember Sprite
   quantity: 3
   chance: 0.03
 

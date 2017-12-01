@@ -17,7 +17,7 @@ import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.menu.SessionData;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.doom.DoomManager;
-import deimophobe.nightfall.monster.mob.Blaze;
+import deimophobe.nightfall.monster.mob.EmberSprite;
 import deimophobe.nightfall.monster.mob.Bopen;
 import deimophobe.nightfall.monster.mob.Mob;
 import deimophobe.nightfall.monster.mob.MobType;
@@ -481,7 +481,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		if (!isFrozen()) return;
 		player.removePotionEffect(PotionEffectType.GLOWING);
 		player.removePotionEffect(PotionEffectType.BLINDNESS);
-		if (this.getMob() instanceof Blaze) {
+		if (this.getMob() instanceof EmberSprite) {
 			this.givePermanentPotionEffect(PotionEffectType.LEVITATION, -2);
 		} else if (this.getMob() instanceof Wraith) {
 			this.givePermanentPotionEffect(PotionEffectType.LEVITATION, -1);
