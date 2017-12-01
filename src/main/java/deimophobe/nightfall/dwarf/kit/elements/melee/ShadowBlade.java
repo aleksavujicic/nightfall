@@ -70,13 +70,13 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 		super.onDamageReceive(damage);
 		
 		// Prevent attacks from ais if invisible
-		if (invisible && damage.getAttacker() instanceof AIEntity) {
-			((AIEntity) damage.getAttacker()).forceUpdateTarget();
-			damage.cancel();
-		}
-		
-		// Otherwise cancel invisibility
-		if (damage.getAttacker() instanceof MonsterPlayer) {
+		if (damage.getAttacker() instanceof AIEntity) {
+			if (invisible) {
+				((AIEntity) damage.getAttacker()).forceUpdateTarget();
+				damage.cancel();
+			}
+		} else {
+			// Otherwise cancel invisibility
 			resetInvisibility();
 		}
 	}
