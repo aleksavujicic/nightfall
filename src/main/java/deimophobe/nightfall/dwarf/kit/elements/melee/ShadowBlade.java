@@ -43,15 +43,15 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 		return KitGiveType.SWORD;
 	}
 
-	private final ComplexCooldown cd = new ComplexCooldown(60*20);
-	private final ComplexCooldown invisPreventer = new ComplexCooldown(20, null, this::updateInvisibility);
+	private final ComplexCooldown shadowStrikeCD = new ComplexCooldown(60*20, this::shadowStrike);
+	private final ComplexCooldown invisPreventer = new ComplexCooldown(3*20, null, this::updateInvisibility);
 	private boolean invisible = false;
 
 
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
-		cd.update();
+		shadowStrikeCD.update();
 		invisPreventer.update();
 		
 		if (invisible && Math.random() <= 0.5) {
@@ -84,43 +84,29 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action)) {
-			if (cd.isAvailable()) {
-				MonsterPlayer closestPlayerMonster = dwarf.getLookingAt(2.5, 13, MonsterManager.getManager().getAlivePlayerMobs());
-
-				AIEntity closestAIMonster = dwarf.getLookingAt(2.5,13, AIManager.getManager().getAIs());
-
-				if (closestPlayerMonster != null) {
-					Location monsterLoc = closestPlayerMonster.getLocation();
-
-					Vector lookDir = monsterLoc.getDirection().setY(0);
-					Location newLoc = monsterLoc.subtract(lookDir);
-
-					if (!newLoc.getBlock().getType().isSolid()) {
-						closestPlayerMonster.doDamage(dwarf, CustomDamageType.SHADOW_STRIKE, 100, true);
-						dwarf.teleportTo(newLoc);
-						dwarf.givePotionEffect(PotionEffectType.INVISIBILITY, 10*20,3,true,true,true);
-						dwarf.playSound("entity.endermen.teleport", 1, 1, true);
-						cd.reset();
-					}
-				}
-				else if (closestAIMonster != null) {
-					Location monsterLoc = closestAIMonster.getLocation();
-
-					Vector lookDir = monsterLoc.getDirection().setY(0);
-					Location newLoc = monsterLoc.subtract(lookDir);
-
-					if (!newLoc.getBlock().getType().isSolid()) {
-						closestAIMonster.doDamage(dwarf, CustomDamageType.SHADOW_STRIKE, 80, true,true);
-						dwarf.teleportTo(newLoc);
-						dwarf.givePotionEffect(PotionEffectType.INVISIBILITY, 10*20,3,true,true,true);
-						dwarf.playSound("entity.endermen.teleport", 1, 1, true);
-						cd.reset();
-						cd.reduceCooldown(40*20);
-					}
-				}
-			}
+			shadowStrikeCD.tryUse();
 		}
 		return false;
+	}
+	
+	private void shadowStrike() {
+		MonsterPlayer closestPlayerMonster = dwarf.getLookingAt(2.5, 10, MonsterManager.getManager().getAlivePlayerMobs());
+		
+		if (closestPlayerMonster != null) {
+			Location monsterLoc = closestPlayerMonster.getLocation();
+			
+			Vector lookDir = monsterLoc.getDirection().setY(0);
+			Location newLoc = monsterLoc.subtract(lookDir);
+			
+			if (!newLoc.getBlock().getType().isSolid()) {
+				closestPlayerMonster.doDamage(dwarf, CustomDamageType.SHADOW_STRIKE, 100, true);
+				dwarf.teleportTo(newLoc);
+				dwarf.givePotionEffect(PotionEffectType.INVISIBILITY, 10*20,3,true,true,true);
+				dwarf.playSound("entity.endermen.teleport", 1, 1, true);
+			} else {
+				shadowStrikeCD.reduceCooldown(10000);
+			}
+		}
 	}
 	
 	@Override
@@ -141,16 +127,19 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 	private void updateInvisibility(boolean sneaking) {
 		Armour armour = dwarf.getArmour();
 		
-		if (sneaking && invisPreventer.isAvailable()) {
+		invisible = shouldBeInvisible(sneaking);
+		if (invisible) {
 			if (armour instanceof DwarvenArmour) ((DwarvenArmour) armour).hideArmour();
 			dwarf.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
-			invisible = true;
 			updateTargettingAIs();
 		} else {
 			if (armour instanceof DwarvenArmour) ((DwarvenArmour) armour).showArmour();
 			dwarf.removePotionEffect(PotionEffectType.INVISIBILITY);
-			invisible = false;
 		}
+	}
+	
+	private boolean shouldBeInvisible(boolean sneaking) {
+		return (sneaking && invisPreventer.isAvailable()) || shadowStrikeCD.wasUsedWithin(5*20);
 	}
 	
 	private void updateTargettingAIs() {
@@ -163,6 +152,6 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 	
 	@Override
 	public float fractionComplete() {
-		return cd.fractionComplete();
+		return shadowStrikeCD.fractionComplete();
 	}
 }
