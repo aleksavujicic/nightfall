@@ -10,7 +10,6 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Particle;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -43,8 +42,7 @@ class Golem extends AbstractMob {
 				breakCD = BREAK_CD_MAX;
 				
 				if (clickedBlock != null) {
-					World world = clickedBlock.getWorld();
-					world.spawnParticle(Particle.SMOKE_NORMAL, clickedBlock.getLocation().add(0.5,0.5,0.5), 15, 0, 0.25, 0, 0.05);
+					monster.getPlayer().spawnParticle(Particle.SMOKE_NORMAL, clickedBlock.getLocation().add(0.5,0.5,0.5), 15, 0, 0.25, 0, 0.05);
 				}
 				
 				if (!BlockType.GOLEM_UNBREAKABLE_BLOCKS.matchesBlock(clickedBlock) && GameMap.getCurrentMap().isBlockBreakable(clickedBlock)) {
