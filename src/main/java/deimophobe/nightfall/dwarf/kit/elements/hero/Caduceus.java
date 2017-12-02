@@ -4,6 +4,7 @@ import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -106,7 +107,7 @@ public class Caduceus extends AbstractCooldownItem {
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
 		
-		if (damage.getMonster() instanceof AIEntity) {
+		if (damage.getMonster() instanceof AIEntity && damage.getType() == NaturalDamageType.MELEE) {
 			damage.getDamage().addBoost(20);
 		}
 		damage.getMonster().givePotionEffect(PotionEffectType.SLOW, 20, 2, true, false, true);
