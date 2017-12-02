@@ -84,8 +84,8 @@ public abstract class AbstractRuneblade extends AbstractItem implements KitCoold
 	private void dash() {
 		dwarf.playSound("dash", 1f, 1f, true);
 		dwarf.giveProc(dashProc);
-		dwarf.setVelocity(dwarf.getLocation().getDirection().setY(0).normalize().multiply(5));
-		
+		//dwarf.setVelocity(dwarf.getLocation().getDirection().setY(0).normalize().multiply(5));
+		dwarf.leap(5, 0);
 	}
 	
 	private void offCDSound() {
