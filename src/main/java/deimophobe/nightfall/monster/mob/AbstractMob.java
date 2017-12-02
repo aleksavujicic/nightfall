@@ -176,7 +176,7 @@ public abstract class AbstractMob implements Mob {
 		
 		if (mobData.hasWeapon()) {
 			if (GlobalUpgrade.KRUNGOR.isUnlocked()) {
-				getWeapon().addModifier(ItemModifierType.ATTACK, 5, "Krungor Doom");
+				getWeapon().addModifier(ItemModifierType.ATTACK, 5, "Torus Doom");
 			}
 			
 			giveItem("weapon");
