@@ -11,6 +11,7 @@ import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -42,6 +43,10 @@ public class Luminous extends AbstractBow {
         super.onDamageAttack(damage);
         if (damage.getType() == CustomDamageType.LUMINOUS) {
             damage.getArrowRes().timesMult(0.5);
+            
+            if (damage.getMonster() instanceof AIEntity) {
+            	damage.getDamage().timesMult(1.5);
+			}
         }
     }
 

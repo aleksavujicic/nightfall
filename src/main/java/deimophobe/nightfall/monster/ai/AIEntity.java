@@ -59,9 +59,6 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		damage.getDamage().timesMult(0.3);
-		if (damage.hasArrow()) {
-			damage.getDamage().addBoost(10);
-		}
 
 		if (damage.getAttacker() instanceof MonsterEntity) {
 			damage.cancel();
