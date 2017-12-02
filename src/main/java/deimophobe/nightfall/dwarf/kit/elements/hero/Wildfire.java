@@ -66,7 +66,6 @@ public class Wildfire extends AbstractItem {
 	
 	private class Flame extends CustomProjectile {
 		
-		private static final double FLAME_RADIUS = 2;
 		private static final double FLAME_VELOCITY = 0.3;
 		private static final int FLAME_LIFE = 40;
 		
@@ -79,14 +78,15 @@ public class Wildfire extends AbstractItem {
 			super.run();
 			
 			double frac = (double) getLifeLeft() / FLAME_LIFE;
-			double damageAmt = frac*4;
+			double radius = 2.5 - 2*frac;
+			double damageAmt = frac*6;
 			
 			// Flame particles
-			world.spawnParticle(Particle.FLAME, location, (int) (frac*20), 0.35, 0.35, 0.35, 0);
+			world.spawnParticle(Particle.FLAME, location, (int) (frac*10 + 2), radius/4, radius/4, radius/4, 0);
 			
 			// Damage mobs
 			for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
-				if (monster.getEyeLocation().distance(location) <= FLAME_RADIUS) {
+				if (monster.getEyeLocation().distance(location) <= radius) {
 					GameDamage damage = monster.createDamage(dwarf, CustomDamageType.WILDFIRE, damageAmt);
 					damage.setNoDmgTicks(1);
 					damage.fire(true);
