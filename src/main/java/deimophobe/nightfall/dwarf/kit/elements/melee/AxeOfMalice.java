@@ -59,7 +59,7 @@ public class AxeOfMalice extends AbstractItem implements KitCooldownElement {
 	
 	private void giveProc() {
 		dwarf.giveProc(ProcType.MALICE);
-		dwarf.playSound("maliceuse", 20f, 1f, false);
+		//dwarf.playSound("maliceuse", 20f, 1f, false);
 		dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, ProcType.MALICE.getDuration(), 1,true,false,true);
 	}
 	
