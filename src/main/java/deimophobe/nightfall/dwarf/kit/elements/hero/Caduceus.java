@@ -106,9 +106,11 @@ public class Caduceus extends AbstractCooldownItem {
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
 		
-		if (damage.getMonster() instanceof AIEntity) {
-			damage.getDamage().addBoost(20);
+		if (itemCausedDamage(damage)) {
+			if (damage.getMonster() instanceof AIEntity) {
+				damage.getDamage().addBoost(20);
+			}
+			damage.getMonster().givePotionEffect(PotionEffectType.SLOW, 20, 2, true, false, true);
 		}
-		damage.getMonster().givePotionEffect(PotionEffectType.SLOW, 20, 2, true, false, true);
 	}
 }

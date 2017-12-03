@@ -13,8 +13,8 @@ public enum MobType {
 	ZOMBIE,
     SKELETON,
 	GOBO,
-
-	BLAZE,
+	
+	EMBER_SPRITE,
 	WOLF,
 	HELLHOUND("wolf.hellhound"),
 	SPIDERLING,
@@ -105,7 +105,7 @@ public enum MobType {
 				}
 			}
 
-			case BLAZE: return new Blaze(monster);
+			case EMBER_SPRITE: return new EmberSprite(monster);
 			case WOLF: return new Wolf(monster);
 			case HELLHOUND: return new Hellhound(monster);
 			case SPIDERLING: return new Spiderling(monster);

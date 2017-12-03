@@ -13,6 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
@@ -58,9 +59,6 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		damage.getDamage().timesMult(0.3);
-		if (damage.hasArrow()) {
-			damage.getDamage().addBoost(10);
-		}
 
 		if (damage.getAttacker() instanceof MonsterEntity) {
 			damage.cancel();
@@ -91,7 +89,17 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 		updateTarget();
 	}
 	
-	void updateTarget() {
+	void naturalUpdateTarget() {
+		updateTarget();
+		
+		if (getTarget() == null) {
+			targetCounter--;
+			if (targetCounter == 0)
+				remove();
+		}
+	}
+	
+	private void updateTarget() {
 		if (monster.getTarget() != null) {
 			Location zomLoc = monster.getLocation();
 			Location tarLoc = monster.getTarget().getLocation();
@@ -108,16 +116,16 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 		Dwarf newTarget = DwarfManager.getManager().getNearest(monster.getLocation(), (Dwarf d) -> !d.hasPotionEffect(PotionEffectType.INVISIBILITY));
 		if (newTarget != null && newTarget.distanceTo(this) <= MAX_TARGET_RANGE) {
 			setTarget(newTarget);
-		} else {
-			targetCounter--;
-			if (targetCounter == 0)
-				remove();
 		}
 	}
 	
 	public void setTarget(Dwarf dwarf) {
 		targetCounter = MAX_TARGET_COUNT;
 		monster.setTarget(dwarf.getPlayer());
+	}
+	
+	public LivingEntity getTarget() {
+		return monster.getTarget();
 	}
 	
 	public void remove() {

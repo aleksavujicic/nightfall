@@ -1,29 +1,23 @@
 package deimophobe.nightfall.dwarf.kit.elements.accessory;
 
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.kit.elements.AbstractCooldown;
-import org.bukkit.inventory.ItemStack;
+import deimophobe.nightfall.dwarf.kit.elements.AbstractElement;
 import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 27/03/17.
  */
-public class DarkVision extends AbstractCooldown {
+public class DarkVision extends AbstractElement {
 	public DarkVision(Dwarf dwarf) {
-		super(dwarf, 60*20);
+		super(dwarf);
 	}
 	
 	@Override
 	public void onShift(boolean sneaking) {
-		if (isOffCD() && !sneaking) {
-			dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, 8*20, 3, true, false, true);
-			dwarf.updateVisibility();
-			resetCooldown();
+		if (sneaking) {
+			dwarf.givePermanentPotionEffect(PotionEffectType.NIGHT_VISION, 1);
+		} else {
+			dwarf.removePotionEffect(PotionEffectType.NIGHT_VISION);
 		}
-	}
-	
-	@Override
-	public ItemStack getCooldownToggleItem() {
-		return null;
 	}
 }

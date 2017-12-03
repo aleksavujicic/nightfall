@@ -36,6 +36,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -110,6 +111,9 @@ public class NightfallPlugin extends JavaPlugin {
 					case ENTITY_PLAYER_ATTACK_STRONG:
 					case ENTITY_PLAYER_ATTACK_SWEEP:
 					case ENTITY_PLAYER_ATTACK_WEAK:
+					case ITEM_ARMOR_EQUIP_CHAIN:
+					case ITEM_ARMOR_EQUIP_DIAMOND:
+					case ITEM_ARMOR_EQUIP_IRON:
 						event.setCancelled(true);
 				}
 			}
@@ -335,6 +339,33 @@ public class NightfallPlugin extends JavaPlugin {
 				return false;
 			}
 		}
+		if (name.equalsIgnoreCase("addkititem")) {
+			if (args.length == 0) {
+				sender.sendMessage(ChatColor.RED + "Please specify an item.");
+				return false;
+			} else {
+				if (sender instanceof Player) {
+					Dwarf dwarf = dm.getGamePlayer((Player)sender);
+					if (dwarf != null) {
+						for (String arg : args) {
+							if (!KitElementType.isElement(arg)) {
+								sender.sendMessage(ChatColor.RED + "Unknown kit item: " + ChatColor.DARK_AQUA + arg + ChatColor.RED + "!");
+							} else {
+								dwarf.giveKitItem(KitElementType.get(arg));
+							}
+						}
+					} else {
+						sender.sendMessage(ChatColor.RED + "You must be a dwarf to do that");
+					}
+					
+					return true;
+				} else {
+					sender.sendMessage(ChatColor.RED + "You must be a dwarf to do that");
+					return false;
+				}
+			}
+		}
+		
 		if (name.equalsIgnoreCase("armour")) {
 			if (sender instanceof Player) {
 				Dwarf dwarf = dm.getGamePlayer((Player)sender);
@@ -926,6 +957,11 @@ public class NightfallPlugin extends JavaPlugin {
 			return startsWithPrefix(args[args.length-1], MobType.getAllMobTypes());
 		}
 		
+		if (name.equalsIgnoreCase("addkititem") && args.length >= 1) {
+			Collection<String> elements = KitElementType.getElementNames();
+			return startsWithPrefix(args[args.length-1], elements);
+		}
+		
 		if (name.equalsIgnoreCase("forceplague") && args.length == 1) {
 			return startsWithPrefix(args[args.length-1], PlagueType.getPlagues());
 		}
@@ -968,5 +1004,10 @@ public class NightfallPlugin extends JavaPlugin {
 				matchStrings.add(string);
 		}
 		return matchStrings;
+	}
+	
+	@Override
+	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
+		return new VoidChunkGenerator();
 	}
 }

@@ -26,7 +26,6 @@ public class MobData {
 	final boolean forceTitle;
 	
 	final DisguiseType disguiseType;
-	final String playerName;
 	final String skinName;
 	
 	private final int attack;
@@ -58,7 +57,6 @@ public class MobData {
 		forceTitle = false;
 		
 		disguiseType = null;
-		playerName = null;
 		skinName = null;
 		
 		attack = 5;
@@ -105,7 +103,6 @@ public class MobData {
 		} else {
 			disguiseType = parent.disguiseType;
 		}
-		playerName = section.getString("playername", parent.playerName);
 		skinName = section.getString("skin", parent.skinName);
 		
 		attack = section.getInt("attack", parent.attack);
@@ -213,8 +210,6 @@ public class MobData {
 			throw new IllegalStateException("Title for mob " + fullName + " is not defined.");
 		
 		if (disguiseType == DisguiseType.PLAYER) {
-			if (playerName == null)
-				throw new IllegalStateException("Mob " + fullName + " has player disguise but no player name.");
 			if (skinName == null)
 				throw new IllegalStateException("Mob " + fullName + " has player disguise but no skin name.");
 			if (!Skin.skinExists(skinName))

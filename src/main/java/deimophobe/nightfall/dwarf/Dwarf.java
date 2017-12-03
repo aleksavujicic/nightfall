@@ -20,6 +20,7 @@ import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.Kit;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
+import deimophobe.nightfall.dwarf.kit.elements.armour.BerserkArmour;
 import deimophobe.nightfall.dwarf.loadout.DwarfData;
 import deimophobe.nightfall.entity.DwarfEntity;
 import deimophobe.nightfall.entity.GameEntity;
@@ -131,6 +132,12 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	public void giveChesto() {
 		if (!hasKitElement(KitElementType.CHESTO)) kit.addAndGiveItem(KitElementType.CHESTO);
+	}
+	
+	public void giveKitItem(KitElementType type) {
+		if (!hasKitElement(type)) {
+			kit.addAndGiveElement(type);
+		}
 	}
 	
 	
@@ -428,6 +435,16 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		return new DwarfDamage(attacker, this, type, damage);
 	}
 	
+	public double getBonusMeleeDamage() {
+		double damage = 0;
+		int strength = getPotionEffectLevel(PotionEffectType.INCREASE_DAMAGE);
+		damage += strength * 3;
+		if (hasKitElement(KitElementType.BERSERKER)) {
+			damage += BerserkArmour.getAttackBonus();
+		}
+		return damage;
+	}
+	
 	// ------ MOB SPAWN ------
 	private int mobspawnCount;
 	
@@ -507,6 +524,13 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			amt = amt/3;
 		
 		super.heal(amt);
+	}
+	
+	@Override
+	public boolean givePotionEffect(PotionEffectType type, int duration, int amplifier, boolean showAbove, boolean colourBlue, boolean force) {
+		boolean success = super.givePotionEffect(type, duration, amplifier, showAbove, colourBlue, force);
+		if (type == PotionEffectType.NIGHT_VISION) updateVisibility();
+		return success;
 	}
 	
 	private HealBlock placedHealBlock = null;

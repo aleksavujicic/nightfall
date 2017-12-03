@@ -130,7 +130,7 @@ shred-husk:
 
 groundsmash:
   index: 11
-  cost: [500, 1000, 1500]
+  cost: [100, 200, 300, 400, 500]
   prereq:
     husk: 1
   item:
@@ -172,7 +172,7 @@ arrow-husk:
 rebirth-husk:
   index: 15
   cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
-  value: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+  value: [15, 30, 45, 60, 75, 90, 105, 120, 135, 150]
   prereq:
     husk: 1
   item:
@@ -184,17 +184,17 @@ rebirth-husk:
            This decreases by 30% each successive rebirth."
 
 
-vampirism-husk:
+procresist:
   index: 16
-  cost: [500, 1000, 1500]
+  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
   prereq:
     husk: 1
   item:
-    material: redstone
-    name: "Vampirism"
+    material: barrier
+    name: "Proc Resistance"
     lore:
       description:
-        - "Gives 0.5 hearts life steal per level."
+        - "Gives 10% chance to resist a proc each level."
 
 
 stagger:
@@ -205,11 +205,11 @@ stagger:
     health: 5
     husk: 1
     shred-husk: 10
-    groundsmash: 3
+    groundsmash: 5
     regen: 3
     arrow-husk: 10
     rebirth-husk: 10
-    vampirism-husk: 3
+    procresist: 10
   item:
     material: stone_sword
     name: "Staggering Bulk"

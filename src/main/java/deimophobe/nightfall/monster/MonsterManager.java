@@ -2,6 +2,7 @@ package deimophobe.nightfall.monster;
 
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.GamePlayerManager;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.ai.AIManager;
@@ -15,10 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 17/01/17.
@@ -30,6 +28,8 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	
 	private final AIManager aiManager;
 	private final DoomManager doomManager;
+	
+	private final Set<UUID> plaguedPlayers = new HashSet<>();
 	
 	public AIManager getAiManager() {return aiManager;}
 	public DoomManager getDoomManager() {return doomManager;}
@@ -61,6 +61,9 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	protected MonsterPlayer createGamePlayerFromPlayer(Player player) {
 		MonsterPlayer p = new MonsterPlayer(player);
 		p.forceGainXP(xpCount);
+		if (plaguedPlayers.contains(p.getUniqueId())) {
+			p.forceGainXP(5000);
+		}
 		return p;
 	}
 	
@@ -83,6 +86,10 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		return deadMobs;
 	}
 	
+	public void addPlaguedPlayer(GamePlayer player) {
+		plaguedPlayers.add(player.getUniqueId());
+	}
+	
 	
 	public MonsterPlayer getNearestAlive(Location location) {
 		return getNearest(location, MonsterPlayer::isAlive);
@@ -95,9 +102,6 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	
 	public void onMobRelease() {
 		doomManager.start();
-		// Plague extra mana
-		this.giveFutureXP(5000);
-		
 		new BukkitRunnable() {
 			@Override
 			public void run() {

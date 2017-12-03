@@ -8,43 +8,60 @@ commands:
   setdwarf:
     usage: /setdwarf <name>  <item1 item2 ...>
     description: Sets a player to be a dwarf.
+    permission: nightfall.op
   sethero:
     usage: /sethero <name> <herotype>
     description: Sets a player to be a hero.
+    permission: nightfall.op
   setmob:
     usage: /setmob <name>
     description: Sets a player to be a mob
+    permission: nightfall.op
   spawnmob:
     usage: /spawnmob <name> <mobtype>
     description: Forces a player to spawn as a mob
+    permission: nightfall.op
   removeplayer:
     usage: /removeplayer <name>
     description: Removes a player (from both dwarf and mob).
+    permission: nightfall.op
 
   horn:
     usage: /horn
     description: HORN
+    permission: nightfall.op
   armour:
     usage: /armour [equip|amount] | /armour [damage|repair] <amount>
     description: Cheaty self-armour.
     aliases: armor
+    permission: nightfall.op
   damage:
     usage: /damage <amount> | /damage <player> <amount>
     description: Damage someone.
     aliases: dmg
+    permission: nightfall.op
   xp:
     usage: /xp <amount>
     description: Give yourself some mob xp.
     aliases: [exp, mana]
+    permission: nightfall.op
+  addkititem:
+    usage: /givekititem <item-names>
+    description: Give a dwarf kit item to yourself.
+    aliases: [givekititem]
+    permission: nightfall.op
   giveitem:
     usage: /giveitem <item-name>
     description: Give a custom item to yourself.
+    permission: nightfall.op
   givearrow:
     usage: /givearrow [amount]
     description: Give arrows if you are a dwarf.
+    permission: nightfall.op
   mana:
     usage: /mana [amount]
     description: Give mana if you are a dwarf.
+    permission: nightfall.op
 
   trash:
     description: For deleting your duplicate items.
@@ -67,13 +84,16 @@ commands:
   toggleais:
     description: Enables/disables AI spawning.
     usage: /toggleais
+    permission: nightfall.op
   toggledoom:
     description: Enables/disables doom clock.
     usage: /toggledoom
+    permission: nightfall.op
   spawnai:
     description: Spawns an AI at your location
     usage: /spawnai <amount>
     alias: aispawn
+    permission: nightfall.op
 
   ready:
     description: Before game start, use to alert the game that you are ready.
@@ -84,12 +104,15 @@ commands:
   forcestart:
     description: Forces the game to start.
     usage: /forcestart
+    permission: nightfall.op
   forceplague:
     description: Forces the plague to occur.
     usage: /forceplague <plague-type>
+    permission: nightfall.op
   plagueimmune:
     description: Makes a player (un)immune to plague.
     usage: /plagueimmune <player>
+    permission: nightfall.op
   plague:
     description: Makes yourself plague up to the limit.
     usage: /plague
@@ -97,16 +120,20 @@ commands:
   forcedoom:
     description: Forces the doom timer to hit 0.
     usage: /forcedoom
+    permission: nightfall.op
   summondoom:
     description: Summons the specific doom type. Does not affect doom clock.
     usage: /summondoom <doom type>
+    permission: nightfall.op
 
   map:
     description: Manage the map loading system.
     usage: /map [enable|disable|reload|list|clear|next] | /map [queue|play|load] <map>
+    permission: nightfall.op
   debug:
     description: Enable debug mode.
     usage: /debug
+    permission: nightfall.op
 
   fixplayers:
     usage: /fixplayers
@@ -115,7 +142,14 @@ commands:
   shrine:
     description: Damage or recover shrine power.
     usage: /shrine kill | /shrine [damage|recover] <amount (0-1000)>
+    permission: nightfall.op
 
   gold:
     description: Add (or remove) gold based on input number.
     usage: /gold <amount> | /gold [shrine|vault] <amount>
+    permission: nightfall.op
+
+permissions:
+  nightfall.op:
+    description: Allows use of all Nightfall commands.
+    default: op

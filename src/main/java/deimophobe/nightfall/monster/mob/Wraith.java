@@ -52,7 +52,9 @@ public class Wraith extends AbstractMob {
 	
 	@Override
 	public void onShift(boolean sneaking) {
-		setFloatiness(sneaking);
+		if (!chargeActive) {
+			setFloatiness(sneaking);
+		}
 	}
 	
 	@Override

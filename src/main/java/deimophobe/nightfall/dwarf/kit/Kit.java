@@ -96,6 +96,13 @@ public class Kit {
 		}
 	}
 	
+	public void addAndGiveElement(KitElementType type) {
+		KitElement element = addElement(type);
+		if (element instanceof KitItemElement) {
+			dwarf.giveItem(((KitItemElement) element).getItem());
+		}
+	}
+	
 	
 	// ------ EVENTS ------
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {

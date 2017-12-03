@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 public class Dragonskin extends AbstractPowerBow {
 	
 	public Dragonskin(Dwarf dwarf) {
-		super(dwarf, 40*20, ChatColor.RED, 150, 0.5, ProcType.DRAGONSKIN);
+		super(dwarf, 30*20, ChatColor.RED, 200, 0.5, ProcType.DRAGONSKIN);
 	}
 	
 	private final static int POWER = 50;
