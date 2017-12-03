@@ -35,7 +35,6 @@ husk:
   title: Husk
 
   disguisetype: husk
-  proccable: false
 
 fury:
   parent: base

@@ -126,7 +126,7 @@ public class ZombieSaboteur extends Zombie {
     public void onUse(Action action, Block block, BlockFace face) {
         if (Misc.isRightClick(action) && isPlayerHoldingWeapon() && sneakCD.isAvailable()) {
             monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
-            monster.givePotionEffect(PotionEffectType.SPEED, 30, 3, true, true, true);
+            monster.givePotionEffect(PotionEffectType.SPEED, 40, 3, true, true, true);
             Location loc = monster.getLocation();
             World world = loc.getWorld();
             world.spawnParticle(Particle.SMOKE_LARGE, loc, 150, 0.7, 0.7, 0.7, 0);
