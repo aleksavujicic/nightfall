@@ -169,28 +169,17 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
 
     private void changeBlade() {//Will alternate from lower AOE damage to higher precision damage
     }
-    
+
     @Override
     protected double getDamageToMonster(MonsterEntity entity){//Maybe change this to be more effective against AIs
         if (currentTest == "changeStance"){
             if (!altStance){
-                if (entity instanceof MonsterPlayer) {
-                    return highDamage;
-                }else if (entity instanceof AIEntity){
-                    return lowDamage;
-                }
-                return 0;
+                return entity instanceof MonsterPlayer ? highDamage : lowDamage;
             }else if (altStance){
-                if (entity instanceof MonsterPlayer) {
-                    return lowDamage;
-                }else if (entity instanceof AIEntity){
-                    return highDamage;
-                }
-                return 0;
+                return entity instanceof AIEntity ? highDamage : lowDamage;
             }
-
+            return basicAttackDamage;
         }
-
         return basicAttackDamage;
     }
 
