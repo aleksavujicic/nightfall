@@ -89,6 +89,13 @@ egghat:
   item:
     base: egghat
     name: "Egg Hat"
+xmashat:
+  index: 13
+  type: hat
+  name: xmashat
+  item:
+    base: xmashat
+    name: "Chirstmas Hat"
 
 ranger:
   index: 18

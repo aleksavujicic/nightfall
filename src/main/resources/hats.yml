@@ -49,3 +49,7 @@ catears:
 egghat:
   base: egghat
   name: "Egg Hat"
+
+xmashat:
+  base: xmashat
+  name: "Christmas Hat"
