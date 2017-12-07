@@ -98,7 +98,7 @@ public abstract class MinecraftServer {
 	
 	private void failedToCheckAlive() {
 		NightfallBungeePlugin.getPlugin().getLogger().warning("Server is not alive, forcefully stopping: "+ name);
-		stop();
+		ServerManager.getManager().stopServer(name);
 	}
 	
 	public void stop() {
