@@ -2,7 +2,6 @@ package deimophobe.nightfall.dwarf.kit.elements.ranged;
 
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.items.CustomItem;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -67,11 +66,14 @@ public class TurretBow extends AbstractBow {
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		super.onUse(action, clickedBlock, blockFace);
+		return false;
+		/*
 		if (isHoldingItem()) {
 			placeTurret(clickedBlock.getRelative(blockFace));
 			return true;
 		}
 		return false;
+		*/
 	}
 	
 	private void placeTurret(Block block) {
