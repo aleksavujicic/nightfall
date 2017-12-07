@@ -30,7 +30,7 @@ import java.util.Map;
  */
 public class ZombieHusk extends Zombie {
 
-    private final int vampirism;
+    private final int procRes;
     private final double arrowRes;
     private final int armourShred;
     private final int leapLvl;
@@ -44,7 +44,7 @@ public class ZombieHusk extends Zombie {
 
     private static Integer[] shredValues = {0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20};
     private static Integer[] arrowResValues = {0, 10, 20, 30, 40, 50, 55, 60, 65, 70, 75};
-    private static Integer[] rebirthValues = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
+    private static Integer[] rebirthValues = {0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150};
 
     protected ZombieHusk(MonsterPlayer mons) {
         this(mons, null);
@@ -56,7 +56,7 @@ public class ZombieHusk extends Zombie {
         Map<String, Integer> upgrades = monster.getUpgrades(MobType.ZOMBIE);
 
         this.armourShred = shredValues[upgrades.get("shred-husk")];
-        this.vampirism = upgrades.get("vampirism-husk");
+        this.procRes = upgrades.get("procresist");
         int arrowRes = arrowResValues[upgrades.get("arrow-husk")];
         int rebirthChance = rebirthValues[upgrades.get("rebirth-husk")];
         this.leapLvl = upgrades.get("groundsmash");
@@ -87,8 +87,8 @@ public class ZombieHusk extends Zombie {
 
         getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
         getArmour().addModifier(ItemModifierType.SPEED, -25, "Husk Zombie");
-        getArmour().addModifier(ItemModifierType.HEALTH, 10, "Husk Zombie");
-        int huskExtraHealth = (upgrades.get("health") + upgrades.get("health-inf")) * 2;
+        getArmour().addModifier(ItemModifierType.HEALTH, 5, "Husk Zombie");
+        int huskExtraHealth = (upgrades.get("health") + upgrades.get("health-inf"));
         getArmour().addModifier(ItemModifierType.HEALTH, huskExtraHealth, "Upgrade");
         getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
         getWeapon().addModifier(ItemModifierType.ATTACK, 5, "Husk Zombie");
@@ -121,11 +121,11 @@ public class ZombieHusk extends Zombie {
 
                     DamageModifier modifier = new DamageModifier();
                     Vector distance = offset.setY(0).normalize();
-                    Vector knockback = distance.multiply((0.6 + 0.2 * leapLvl) / Math.sqrt(Math.max(1, offset.length())) );
+                    Vector knockback = distance.multiply((0.3 + 0.2 * leapLvl) / Math.sqrt(Math.max(1, offset.length())) );
                     knockback.setY(knockback.getY() / 2 + 0.5);
                     modifier.addKnockback(knockback);
 
-                    DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.HUSK_STOMP, 10 * leapLvl);
+                    DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.HUSK_STOMP, 6 * leapLvl);
                     modifier.applyToDamage(aoeDamage);
                     aoeDamage.fire(true);
                 }
@@ -145,6 +145,9 @@ public class ZombieHusk extends Zombie {
     public void onDamageReceive(MonsterDamage damage) {
         super.onDamageReceive(damage);
         damage.getArrowRes().addBoost(arrowRes);
+        if (Math.random() < procRes * 0.1) {
+            damage.setProc(false);
+        }
     }
 
     @Override
@@ -153,12 +156,10 @@ public class ZombieHusk extends Zombie {
 
         damage.addArmourShred(armourShred);
 
-        int healAmt = vampirism;
         if (stagger) {
             staggerSound.tryUse();
             damage.getDwarf().givePotionEffect(PotionEffectType.SLOW, 40, 2, false, false, true);
         }
-        monster.heal(healAmt);
     }
 
     @Override
@@ -170,8 +171,8 @@ public class ZombieHusk extends Zombie {
                 double yaw = monster.getPlayer().getLocation().getYaw();
                 double radYaw = yaw*Math.PI/180;
 
-                double hVel = (double) leapLvl/10+0.4;
-                double vVel = (double) leapLvl/30+0.5;
+                double hVel = (double) leapLvl/15+0.4;
+                double vVel = (double) leapLvl/50+0.5;
                 monster.getPlayer().setVelocity(new Vector(-hVel * Math.sin(radYaw), vVel, hVel * Math.cos(radYaw)));
                 giveSpawnProtection(50);
                 smashing = true;
