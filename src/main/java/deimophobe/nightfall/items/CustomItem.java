@@ -248,7 +248,7 @@ public class CustomItem implements Cloneable {
 			String name = itemConfig.getString("base");
 			
 			try {
-				return BaseItemManager.getItem(name);
+				return BaseItemManager.getManager().getItem(name);
 			} catch (IllegalArgumentException e) {
 				throw new InvalidConfigurationException("Unknown base item '" + name + "' for item " + itemConfig.getCurrentPath());
 			}
