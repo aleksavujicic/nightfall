@@ -96,7 +96,7 @@ class Doom {
 		
 		private MobSelector() {
 			// TODO Should do a better selection than this
-			spawnSpecials = (Game.getGame().getNumPlayers() >= 2);
+			spawnSpecials = (Game.getGame().getNumPlayers() >= 15);
 		}
 		
 		@Override
