@@ -26,6 +26,8 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	protected static final int MAX_TARGET_COUNT = 3;
 	protected int targetCounter = MAX_TARGET_COUNT;
 	
+	private int suffocationCounter = 50;
+	
 	protected final T monster;
 	@Override public T getEntity() { return monster; }
 	
@@ -130,5 +132,12 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	
 	public void remove() {
 		this.doDamage(null, CustomDamageType.AI_REMOVER, 10000, true, true);
+	}
+	
+	public void suffocationTick() {
+		suffocationCounter--;
+		if (suffocationCounter == 0) {
+			remove();
+		}
 	}
 }

@@ -214,6 +214,16 @@ public class GameListener implements Listener {
 			}
 		}
 		
+		if (cause == EntityDamageEvent.DamageCause.SUFFOCATION) {
+			AIEntity ai = AIManager.getManager().getAI(entity);
+			if (ai != null) {
+				ai.suffocationTick();
+				event.setDamage(0);
+				event.setCancelled(true);
+				return;
+			}
+		}
+		
 		// Ignore starvation/suffocation/thorns
 		switch (cause) {
 			case STARVATION:
