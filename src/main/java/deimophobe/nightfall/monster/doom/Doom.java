@@ -1,8 +1,8 @@
 package deimophobe.nightfall.monster.doom;
 
 import deimophobe.nightfall.Game;
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.mob.MobType;
@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * Created by Deimophobe on 26/01/17.
@@ -39,14 +40,12 @@ class Doom {
 		titleCycleTime = section.getInt("cycle-time", 40);
 
 		// Mob heroes only for games of size that support player heroes
-		if (Game.getGame().getNumPlayers() >= 15) {
-			for (String special : section.getStringList("mobs.special")) {
-				MobType type = MobType.getMobType(special);
-				if (type != null)
-					specialMobs.add(type);
-				else
-					Bukkit.getLogger().severe("Unknown mob of type: " + special + " for doom " + title);
-			}
+		for (String special : section.getStringList("mobs.special")) {
+			MobType type = MobType.getMobType(special);
+			if (type != null)
+				specialMobs.add(type);
+			else
+				Bukkit.getLogger().severe("Unknown mob of type: " + special + " for doom " + title);
 		}
 		
 		for (String regular : section.getStringList("mobs.regular")) {
@@ -85,12 +84,27 @@ class Doom {
 		List<MonsterPlayer> monsterList = new ArrayList<>(MonsterManager.getManager().getDeadPlayers());
 		Collections.shuffle(monsterList);
 		
-		Iterator<MobType> iterator = specialMobs.iterator();
+		MobSelector selector = new MobSelector();
 		for (MonsterPlayer monster : monsterList) {
-			if (iterator.hasNext()) {
-				monster.spawnMob(iterator.next());
+			monster.spawnMob(selector.get());
+		}
+	}
+	
+	private class MobSelector implements Supplier<MobType> {
+		private final Iterator<MobType> iterator = specialMobs.iterator();
+		private final boolean spawnSpecials;
+		
+		private MobSelector() {
+			// TODO Should do a better selection than this
+			spawnSpecials = (Game.getGame().getNumPlayers() >= 2);
+		}
+		
+		@Override
+		public MobType get() {
+			if (iterator.hasNext() && spawnSpecials) {
+				return iterator.next();
 			} else {
-				monster.spawnMob(Misc.getRandom(regularMobs));
+				return Misc.getRandom(regularMobs);
 			}
 		}
 	}
