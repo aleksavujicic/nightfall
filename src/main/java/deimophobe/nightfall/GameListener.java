@@ -101,17 +101,35 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void useItems(PlayerInteractEvent event) {
 		Block block = event.getClickedBlock();
+		Action action = event.getAction();
 		GamePlayer gp = game.getGamePlayer(event.getPlayer());
-		if (gp != null && event.getAction() != Action.PHYSICAL) {
+		if (gp != null && action != Action.PHYSICAL) {
 			
+			// Prevent frozen mobs using stuff
 			if ((gp instanceof MonsterPlayer) && ((MonsterPlayer) gp).isFrozen()) {
 				event.setCancelled(true);
 				return;
 			}
 			
-			if (block == null)
-				block = gp.getTargetBlock(null, 5);
-			gp.onUse(event.getAction(), block, event.getBlockFace());
+			// Prevent right click shovel/hoe
+			ItemStack item = gp.getHeldItem();
+			if (block != null && item != null && action == Action.RIGHT_CLICK_BLOCK) {
+				switch (block.getType()) {
+					case DIRT:
+					case GRASS:
+					case GRASS_PATH: {
+						switch (item.getType()) {
+							case DIAMOND_HOE:
+							case DIAMOND_SPADE:
+							case IRON_SPADE:
+								event.setCancelled(true);
+						}
+					}
+				}
+			}
+			
+			if (block == null) block = gp.getTargetBlock(null, 5);
+			gp.onUse(action, block, event.getBlockFace());
 			
 			TimedBlock.hitBlock(block, gp);
 		}

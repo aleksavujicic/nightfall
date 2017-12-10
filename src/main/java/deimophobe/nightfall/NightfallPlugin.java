@@ -114,6 +114,8 @@ public class NightfallPlugin extends JavaPlugin {
 					case ITEM_ARMOR_EQUIP_CHAIN:
 					case ITEM_ARMOR_EQUIP_DIAMOND:
 					case ITEM_ARMOR_EQUIP_IRON:
+					case ITEM_SHOVEL_FLATTEN:
+					case ITEM_HOE_TILL:
 						event.setCancelled(true);
 				}
 			}
