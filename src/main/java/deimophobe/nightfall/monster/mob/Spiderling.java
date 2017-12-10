@@ -2,6 +2,7 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.blocks.BlockConverter;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
@@ -31,9 +32,7 @@ class Spiderling extends AbstractMob {
 		damage.getReceiver().givePotionEffect(PotionEffectType.POISON, 50, 4, true, false, true);
 	}
 	
-	
-	private static final int SPIDER_SPIT_CD_MAX = 5;
-	private int spiderSpitCd = 0;
+	private ComplexCooldown spitter = new ComplexCooldown(8, this::spit);
 	
 	private static final double CORRODE_DISTANCE = 15;
 	
@@ -45,25 +44,24 @@ class Spiderling extends AbstractMob {
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		if (spiderSpitCd > 0)
-			spiderSpitCd--;
+		spitter.update();
 	}
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action) && isPlayerHoldingWeapon()) {
-			if (spiderSpitCd == 0) {
-				spiderSpitCd = SPIDER_SPIT_CD_MAX;
-				
-				Location loc = monster.getLocation();
-				World world = loc.getWorld();
-				
-				Entity snow = world.spawnEntity(loc.add(0,0.25,0), EntityType.SNOWBALL);
-				((Snowball) snow).setShooter(monster.getPlayer());
-				snow.setVelocity(loc.getDirection().add(new Vector(0,0.25,0)));
-				world.playSound(loc, "entity.spider.step", 0.3f, 1);
-			}
+			spitter.tryUse();
 		}
+	}
+	
+	private void spit() {
+		Location loc = monster.getLocation();
+		World world = loc.getWorld();
+		
+		Entity snow = world.spawnEntity(loc.add(0,0.25,0), EntityType.SNOWBALL);
+		((Snowball) snow).setShooter(monster.getPlayer());
+		snow.setVelocity(loc.getDirection().add(new Vector(0,0.25,0)));
+		world.playSound(loc, "entity.spider.step", 0.3f, 1);
 	}
 	
 	@Override
