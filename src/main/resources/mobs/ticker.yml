@@ -3,7 +3,12 @@ title: "Ticker"
 attack: 0
 health: 10
 shred: 0
+speed: 20
 
 resistance: 1
 proccable: false
 shrineimmune: true
+
+armour:
+  name: Temp
+  base: temporary
