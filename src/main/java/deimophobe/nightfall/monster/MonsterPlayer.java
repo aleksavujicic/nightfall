@@ -47,7 +47,7 @@ import java.util.Set;
  */
 public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEntity<Player> {
 	
-	private final ComplexCooldown mobMenuShower = new ComplexCooldown(20, () -> MonsterManager.getManager().showMobMenu(this));
+	private final ComplexCooldown mobMenuShower = new ComplexCooldown(10, () -> MonsterManager.getManager().showMobMenu(this));
 	
 	private Mob mob;
 	public Mob getMob() { return mob; }
