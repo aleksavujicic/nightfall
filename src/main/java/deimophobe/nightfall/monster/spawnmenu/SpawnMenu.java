@@ -103,10 +103,13 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		}
 	}
 	
-	public void restockAllEggs() {
+	public void doomRestockAllEggs() {
+		// A shitty hack so that not all eggs proc but some do
 		for (MenuItem item : frontMenu.getMenuItems()) {
-			if (item instanceof SpawnEggMenuItem)
-				((SpawnEggMenuItem)item).restock();
+			if (item instanceof SpawnEggMenuItem) {
+				for (int i=0; i<10; i++)
+					((SpawnEggMenuItem) item).tryRestock();
+			}
 		}
 	}
 
