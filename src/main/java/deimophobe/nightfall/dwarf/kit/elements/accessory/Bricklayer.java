@@ -66,11 +66,6 @@ public class Bricklayer extends AbstractItem {
 	}
 	
 	private void selectBlock(Block block) {
-		if (!canUseInCurrentPhase()) {
-			dwarf.sendTitleMessage(ChatColor.RED + "You can't use this now.");
-			return;
-		}
-		
 		if (builder != null) {
 			builder.cancel();
 		}
@@ -87,18 +82,15 @@ public class Bricklayer extends AbstractItem {
 	}
 	
 	private void startOrPause() {
-		if (!canUseInCurrentPhase()) {
-			dwarf.sendTitleMessage(ChatColor.RED + "You can't use this now.");
-			return;
-		}
-		
 		if (firstCorner == null || secondCorner == null) {
 			dwarf.sendTitleMessage(ChatColor.RED + "Select corner blocks first");
 			return;
 		}
 		
 		if (builder == null) {
-			if (getVolume() > MAX_VOLUME) {
+			int maxVol = MAX_VOLUME;
+			if (!isBuildPhase()) maxVol /= 2;
+			if (getVolume() > maxVol) {
 				dwarf.sendTitleMessage(ChatColor.RED + "Your selected region is too big");
 				return;
 			}
@@ -121,30 +113,37 @@ public class Bricklayer extends AbstractItem {
 		);
 	}
 	
-	private boolean canUseInCurrentPhase() {
+	private boolean isBuildPhase() {
 		Phase phase = Game.getGame().getPhase();
-		return phase == Phase.STARTING || phase == Phase.BUILD || phase == Phase.PLAGUE;
+		return (phase == Phase.STARTING || phase == Phase.BUILD || phase == Phase.PLAGUE);
 	}
 	
 	private class Builder extends BukkitRunnable {
 		private BlockSupplier supplier;
 		private boolean paused = false;
 		
+		
 		protected Builder(Block firstCorner, Block secondCorner) {
 			supplier = new BlockSupplier(firstCorner, secondCorner);
-			runTaskTimer(NightfallPlugin.getPlugin(), 0, 4);
+			
+			int freq;
+			int delay;
+			if (isBuildPhase()) {
+				delay = 0;
+				freq = 4;
+			} else {
+				delay = 40;
+				freq = 15;
+			}
+			
+			runTaskTimer(NightfallPlugin.getPlugin(), delay, freq);
 			dwarf.sendTitleMessage(ChatColor.YELLOW + "Placing blocks...");
 		}
 		
 		@Override
 		public void run() {
 			if (!dwarf.isOnline()) paused = true;
-			
 			if (paused) return;
-			if (!canUseInCurrentPhase()) {
-				cancel();
-				return;
-			}
 			
 			if (!dwarf.hasConsumable(ConsumableType.COBBLESTONE)) {
 				dwarf.sendTitleMessage(ChatColor.RED + "No more cobble to place");
