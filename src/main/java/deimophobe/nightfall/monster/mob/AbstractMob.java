@@ -265,7 +265,7 @@ public abstract class AbstractMob implements Mob {
 		}
 		
 		if (!mobData.proccable) damage.setProc(false);
-		damage.getDamage().setMultiplier(1 - mobData.damageRes);
+		damage.getDamage().timesMult(1 - mobData.damageRes);
 		damage.getArrowRes().setBase(mobData.arrowRes);
 		
 		if (!damage.isCancelled()) {
