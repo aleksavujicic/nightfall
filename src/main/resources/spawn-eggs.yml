@@ -25,7 +25,7 @@ wolf:
     base: bite
     name: Spawn Wolf
   quantity: 2
-  chance: 0.04
+  chance: 0.03
 
 hellhound:
   mobtype: hellhound
@@ -41,15 +41,15 @@ spiderling:
   egg:
     material: snow_ball
     name: Spawn Spiderling
-  quantity: 2
-  chance: 0.06
+  quantity: 1
+  chance: 0.05
 
 ember_sprite:
   mobtype: ember-sprite
   egg:
     material: blaze_rod
     name: Spawn Ember Sprite
-  quantity: 3
+  quantity: 2
   chance: 0.03
 
 rat:
@@ -67,7 +67,7 @@ golem:
     name: Spawn Golem
     shiny: true
   quantity: 1
-  chance: 0.03
+  chance: 0.02
 
 wraith:
   mobtype: wraith
@@ -76,7 +76,7 @@ wraith:
     name: Spawn Wraith
     shiny: true
   quantity: 1
-  chance: 0.03
+  chance: 0.02
 
 minotaur:
   mobtype: minotaur
@@ -98,4 +98,4 @@ ghostblade:
     name: Spawn Ghostblade
     shiny: true
   quantity: 3
-  chance: 0.06
+  chance: 0.03
