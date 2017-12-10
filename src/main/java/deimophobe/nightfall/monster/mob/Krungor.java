@@ -1,15 +1,13 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.hero.Hero;
-import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.map.GameMap;
+import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -42,6 +40,10 @@ class Krungor extends AbstractMob {
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		if (cooldown > 0)
 			cooldown--;
+		
+		if (quadSec) {
+			buffNearbyMobs();
+		}
 	}
 	
 	@Override
@@ -124,6 +126,15 @@ class Krungor extends AbstractMob {
 			
 			
 			cooldown = MAX_CD;
+		}
+	}
+	
+	private void buffNearbyMobs() {
+		for (MonsterPlayer mp : MonsterManager.getManager().getAlivePlayerMobs()) {
+			if (mp == monster) continue;
+			if (monster.distanceTo(mp) <= 10) {
+				mp.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, 10*20, 2, true, false, true);
+			}
 		}
 	}
 }
