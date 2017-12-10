@@ -140,8 +140,10 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void cancelSheepClick(PlayerInteractEntityEvent event) {
-		if (event.getRightClicked().getType() == EntityType.SHEEP) {
-			event.setCancelled(true);
+		switch (event.getRightClicked().getType()) {
+			case SHEEP:
+			case VILLAGER:
+				event.setCancelled(true);
 		}
 	}
 	
