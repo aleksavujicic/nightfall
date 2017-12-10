@@ -26,7 +26,7 @@ shears:
   zombiesword: 101
   kaboom: 102
   lightning-seppuku: 102
-  bite: 103
+#  bite: 103
   golempick: 104
   ogreclub: 105
   minotaur-wep: 105
@@ -129,8 +129,8 @@ shield:
   axe: 3
 
 ghast_tear: seppuku
-
 totem: resurrection
+sugar: fang
 
 potion:
   potion-regeneration: 1
