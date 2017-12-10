@@ -3,11 +3,11 @@ package deimophobe.nightfall.dwarf.kit.elements.ranged;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.items.CustomItem;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Arrow;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
@@ -76,7 +76,8 @@ public class Crossbow extends AbstractBow implements KitCooldownElement {
 	}
 	
 	private void fireNormalArrow() {
-		fireArrow(3f, 1, 0.05f);
+		Arrow arrow = fireArrow(3f, 1, 0.05f);
+		arrow.setCritical(true);
 		dwarf.useArrows(ARROW_COST);
 		dwarf.playSound("entity.arrow.shoot", 1f, 1.1f, true);
 		dwarf.playSound("entity.shulker.shoot", 1f, 0.8f, true);
