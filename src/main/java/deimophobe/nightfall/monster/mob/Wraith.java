@@ -52,7 +52,7 @@ public class Wraith extends AbstractMob {
 	
 	@Override
 	public void onShift(boolean sneaking) {
-		if (!chargeActive) {
+		if (chargerCD < MAX_CHARGE_CD - 5) {
 			setFloatiness(sneaking);
 		}
 	}
