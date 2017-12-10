@@ -10,17 +10,12 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.items.CustomItem;
-import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by Deimophobe on 6/05/17.
@@ -56,45 +51,30 @@ public class HealerTotem extends AbstractItem implements KitCooldownElement {
 	}
 	
 	private void groupHeal() {
-		if (dwarf.tryUseMana(15)) {
+		if (dwarf.tryUseMana(20)) {
 			boolean healedDwarf = false;
 			for (Dwarf target : DwarfManager.getManager().getGamePlayers()) {
 				if (dwarf == target) continue;
-				double distance = dwarf.distanceTo(target);
-				if (distance <= 13) {
+				if (dwarf.distanceTo(target) > 15) continue;
 					
-					Location healerLoc = dwarf.getPlayer().getEyeLocation();
-					Location healeeLoc = target.getPlayer().getEyeLocation();
-					
-					Vector direction = healeeLoc.subtract(healerLoc).toVector();
-					Vector delta = direction.multiply(0.5 / distance);
-					Set<Location> locs = new HashSet<>();
-					
-					int times = (int) (distance / 0.5);
-					for (int i = 0; i <= times; i++) {
-						Location newLoc = healerLoc.add(delta.multiply(1));
-						locs.add(newLoc.clone());
-						if (newLoc.getBlock().getType().isSolid()) return;
-					}
-					
-					healedDwarf = true;
-					
-					target.playSound("entity.experience_orb.pickup", 0.5f, 0.5f, false);
-					
-					dwarf.useMana(5);
-					dwarf.heal(0.25);
-					target.regenMana(15);
-					target.heal(8);
-					target.getArmour().repair(20);
-					
-					for (Location loc : locs) {
-						dwarf.getPlayer().getWorld().spawnParticle(Particle.HEART, loc.subtract(0,1.2,0), 3, 0.1, 0.1, 0.1);
-					}
-				}
+				boolean canConnect = dwarf.canConnectToPlayer(target, 0.5,
+						(location) -> location.getWorld().spawnParticle(Particle.HEART, location.subtract(0,1.2,0), 3, 0.1, 0.1, 0.1)
+				);
+				if (!canConnect) continue;
+				
+				healedDwarf = true;
+				
+				target.playSound("entity.experience_orb.pickup", 0.5f, 0.5f, false);
+				
+				dwarf.useMana(2);
+				target.regenMana(15);
+				target.heal(5);
+				target.getArmour().repair(15);
 			}
 			
-			if (healedDwarf)
+			if (healedDwarf) {
 				dwarf.playSound("entity.experience_orb.pickup", 0.5f, 0.5f, false);
+			}
 		}
 	}
 	

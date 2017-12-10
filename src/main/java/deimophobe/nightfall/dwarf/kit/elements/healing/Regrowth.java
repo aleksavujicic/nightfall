@@ -5,15 +5,10 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.items.CustomItem;
-import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.util.Vector;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by Deimophobe on 22/01/17.
@@ -63,33 +58,19 @@ public class Regrowth extends AbstractAle {
 		targetClearer.reset();
 		
 		if (target == null) return;
-
-		Location healerLoc = dwarf.getPlayer().getEyeLocation();
-		Location healeeLoc = target.getPlayer().getEyeLocation();
+		if (!dwarf.hasMana(25)) return;
+		boolean canConnect = dwarf.canConnectToPlayer(target, 0.5,
+				(location) -> location.getWorld().spawnParticle(Particle.HEART, location.subtract(0,1.2,0), 3, 0.1, 0.1, 0.1)
+		);
+		if (!canConnect) return;
 		
-		Vector direction = healeeLoc.subtract(healerLoc).toVector();
-		double distance = direction.length();
-		Vector delta = direction.multiply(0.5 / distance);
-		Set<Location> locs = new HashSet<>();
-
-		int times = (int) (distance / 0.5);
-		for (int i = 0; i <= times; i++) {
-			Location newLoc = healerLoc.add(delta.multiply(1));
-			locs.add(newLoc.clone());
-			if (newLoc.getBlock().getType().isSolid()) return;
-		}
-		
-		if (!dwarf.tryUseMana(25)) return;
+		dwarf.useMana(25);
 		
 		dwarf.playSound("entity.experience_orb.pickup", 0.5f, 0.5f, false);
 		target.playSound("entity.experience_orb.pickup", 0.5f, 0.5f, false);
 		
-		target.getArmour().repair(10);
+		target.getArmour().repair(8);
 		target.heal(5);
 		target.regenMana(2);
-		
-		for (Location loc : locs) {
-			dwarf.getPlayer().getWorld().spawnParticle(Particle.HEART, loc.subtract(0,1.2,0), 3, 0.1, 0.1, 0.1);
-		}
 	}
 }

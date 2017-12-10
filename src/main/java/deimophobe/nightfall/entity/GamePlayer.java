@@ -348,7 +348,37 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	public abstract void update(boolean b, boolean b1, boolean b2, boolean b3, boolean b4);
 	
 	
-	// BEAM FIRING
+	
+	// ------ PLAYER BEAMING ------
+	public boolean canConnectToPlayer(GamePlayer player, double particlePeriod, Consumer<Location> particlePlacer) {
+		return canConnectToLocation(player.getEyeLocation(), particlePeriod, particlePlacer);
+	}
+	
+	public boolean canConnectToLocation(Location location, double particlePeriod, Consumer<Location> particlePlacer) {
+		
+		Location currentLocation = getEyeLocation();
+		
+		Vector direction = location.clone().subtract(currentLocation).toVector();
+		double distance = direction.length();
+		Vector delta = direction.multiply(particlePeriod / distance);
+		Set<Location> particleLocations = new HashSet<>();
+		
+		int times = (int) (distance / particlePeriod);
+		for (int i = 0; i <= times; i++) {
+			Location newLoc = currentLocation.add(delta);
+			particleLocations.add(newLoc.clone());
+			if (newLoc.getBlock().getType().isSolid()) return false;
+		}
+		
+		for (Location particleLocation : particleLocations) {
+			particlePlacer.accept(particleLocation);
+		}
+		
+		return true;
+	}
+	
+	
+	// ------ BEAM FIRING ------
 	public void fireBeam(
 			double range, double thickness,
 			double particlePeriod, Consumer<Location> particlePlacer,
