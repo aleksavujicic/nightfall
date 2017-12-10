@@ -1,7 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.elements.ranged;
 
 import deimophobe.nightfall.ArrowMisc;
-import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
@@ -27,7 +26,6 @@ public class Longbow extends AbstractBow implements KitCooldownElement {
 	private int stacks = 0;
 	private static final int PLAYER_STACK_GAIN = 1;
 	private static final int MAX_STACKS = 6;
-	private static final int STACK_LOSS = 6;
 	private static final double DMG_PER_STACK = 20;
 	
 	
@@ -69,20 +67,11 @@ public class Longbow extends AbstractBow implements KitCooldownElement {
 			if (stacks > MAX_STACKS) stacks = MAX_STACKS;
 		}
 	}
-
-	@Override
-	public void onDamageReceive(DwarfDamage damage) {
-		super.onDamageReceive(damage);
-	}
-	
-	@Override
-	public void onKill(MonsterDamage damage) {
-		super.onKill(damage);
-	}
 	
 	@Override
 	public float fractionComplete() {
-		return (float) stackCD/MAX_STACK_CD;
+		if (stacks == 0) return 0;
+		else return (float) stackCD/MAX_STACK_CD;
 	}
 	
 	
@@ -95,12 +84,8 @@ public class Longbow extends AbstractBow implements KitCooldownElement {
 		
 		if (stackCD <= 0) {
 			stackCD = MAX_STACK_CD;
-			stacks -= STACK_LOSS;
+			stacks = 0;
 			dwarf.playSound("entity.experience_orb.pickup", 10f, 0.5f, false);
-			if (stacks <= 0) {
-				stacks = 0;
-				return;
-			}
 		}
 		
 		theta = (theta + 0.05) % (2 * Math.PI);
