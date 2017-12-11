@@ -11,12 +11,10 @@ import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -42,7 +40,7 @@ public class Wraith extends AbstractMob {
 		monster.givePermanentPotionEffect(PotionEffectType.JUMP, 25);
 		
 		FlagWatcher watch = getDisguise().getWatcher();
-		watch.setItemInMainHand(new ItemStack(Material.AIR));
+		watch.setItemInMainHand(getWeapon().createItemStack());
 		if (watch instanceof SkeletonWatcher) {
 			((SkeletonWatcher) watch).setSwingArms(true);
 		} else {
