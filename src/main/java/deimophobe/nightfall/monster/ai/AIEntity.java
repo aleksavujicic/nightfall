@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.ai;
 
+import deimophobe.nightfall.Hat;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
@@ -15,6 +16,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
+import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -37,18 +39,20 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 		setupMonster(name, target);
 	}
 	
+	
+	private static final ItemStack CHESTPLATE = new ItemStack(Material.DIAMOND);
+	static {CHESTPLATE.addUnsafeEnchantment(Enchantment.DEPTH_STRIDER, 2);}
+	private static final ItemStack NOTHING = new ItemStack(Material.DIAMOND);
+	
 	protected void setupMonster(String name, Dwarf target) {
 		monster.setVelocity(new Vector(0,0.6,0));
 		monster.setCustomName(name);
 		
-		monster.getEquipment().setArmorContents(new ItemStack[]{null, null, null, null});
-		
-		ItemStack chestplate = monster.getEquipment().getChestplate();
-		if (chestplate == null || chestplate.getType() == Material.AIR)
-			chestplate = new ItemStack(Material.DIAMOND);
-		chestplate.addUnsafeEnchantment(Enchantment.DEPTH_STRIDER, 2);
-		monster.getEquipment().setChestplate(chestplate);
-		monster.getEquipment().setHelmet(new ItemStack(Material.SHEARS, 213));
+		EntityEquipment equipment = monster.getEquipment();
+		equipment.setHelmet(Hat.getHat("xmashat").asItemStack());
+		equipment.setChestplate(CHESTPLATE);
+		equipment.setLeggings(NOTHING);
+		equipment.setBoots(NOTHING);
 		
 		if (target != null)
 			monster.setTarget(target.getPlayer());
