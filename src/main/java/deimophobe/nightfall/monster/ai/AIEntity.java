@@ -48,6 +48,7 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 			chestplate = new ItemStack(Material.DIAMOND);
 		chestplate.addUnsafeEnchantment(Enchantment.DEPTH_STRIDER, 2);
 		monster.getEquipment().setChestplate(chestplate);
+		monster.getEquipment().setHelmet(new ItemStack(Material.SHEARS, 213));
 		
 		if (target != null)
 			monster.setTarget(target.getPlayer());
