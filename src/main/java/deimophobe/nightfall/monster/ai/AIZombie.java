@@ -29,8 +29,8 @@ public class AIZombie extends AIEntity<Zombie> {
     protected void setupMonster(String name, Dwarf target) {
         super.setupMonster(name, target);
 	
-		int speedLvl = (monster.isBaby() ? 0 : 2);
-		givePermanentPotionEffect(PotionEffectType.SPEED, speedLvl);
+        monster.setBaby(false);
+		givePermanentPotionEffect(PotionEffectType.SPEED, 2);
 	
 		monster.getEquipment().setItemInMainHand(sword);
     }
