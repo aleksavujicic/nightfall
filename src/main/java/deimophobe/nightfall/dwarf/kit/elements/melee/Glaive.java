@@ -52,6 +52,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     private final int flurryDamageHigh = 25;//flurryOfBlows
     private final double knockbackDistance = .5;//altAttack AND flurryOfBlows (Will throw an entity as far as (this*distance) to enemy
     private final double kbHeightDivisor = 2;//USE WITH getKnockBack AND knockBackDistance
+    private boolean altBlade = false;//changeBlade
     //End of Ability variables
 
     public Glaive (Dwarf dwarf){super(dwarf);}
@@ -62,6 +63,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
         super.update(quartSec, halfSec, sec, doubleSec, quadSec);
         cd.update();
         if (altStance && currentTest == "changeStance"){createStanceParticles();}//changeStance
+        if (altBlade && currentTest == "changeBlade"){createStanceParticles();}//changeBlade
     }
     @Override
     public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace){
@@ -169,7 +171,15 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     }
 
     private void changeBlade() {//Will alternate from lower AOE damage to higher precision damage
+        altBlade = !altBlade;
+        //CHANGE MODEL HERE
     }
+    private void altBladeHit(MonsterEntity entity){
+        GameDamage altDamage = entity.createDamage(dwarf, CustomDamageType.GLAIVE_ALT,highDamage);
+        altDamage.addKnockback(getKnockBack(entity));
+        altDamage.fire();
+    }
+
 
     @Override
     protected double getDamageToMonster(MonsterEntity entity){//Maybe change this to be more effective against AIs
@@ -179,7 +189,16 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
             }else if (altStance){
                 return entity instanceof AIEntity ? highDamage : lowDamage;
             }
-            return basicAttackDamage;
+            return 0;
+        }
+        if (currentTest == "changeBlade"){
+            if (!altBlade){
+                return basicAttackDamage;
+            }else if (altBlade){
+                altBladeHit(entity);
+                return 0;
+            }
+            return 0;
         }
         return basicAttackDamage;
     }
