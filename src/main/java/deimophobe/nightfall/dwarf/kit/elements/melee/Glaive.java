@@ -38,7 +38,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     private final int maxCD = 1*20;//Broken AF right now
     private final ComplexCooldown cd = new ComplexCooldown(maxCD, this::TestAbility);//WILL NEED TO CHANGE ONCE ABILITY IS DECIDED
     //Ability variables below
-    private final String currentTest = ("altHit");//PUT NAME OF TESTING ABILITY HERE
+    private final String currentTest = ("changeStance");//PUT NAME OF TESTING ABILITY HERE
 
     private boolean altStance = false;//ChangeStance
     private final int highDamage = 25;//ChangeStance MAYBE ADD COOLDOWN IF WE WANT 25 DAMAGE
@@ -72,7 +72,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
         return false;
     }
 
-    private void TestAbility(){altHit();}//Test abilities here. Must give basicAttackDamage a value based on ability.
+    private void TestAbility(){changeStance();}//Test abilities here. Must give basicAttackDamage a value based on ability.
 
     //Possible Abilities (Being built and tested) (Only one of these will be used for Glaive, but I(ED) might keep some for other weapons
 
