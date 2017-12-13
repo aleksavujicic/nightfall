@@ -133,18 +133,18 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     private void flurryOfBlows() {//Will make a few aoe slashes or precise stabs in front of player, while slowing player down BROKEN(ONLY FIRST WILL HIT)
         boolean done = false;
         int currentTicks = 0;
-        dwarf.givePotionEffect(PotionEffectType.SLOW,stunTime,1, false, false, true);
+        dwarf.givePotionEffect(PotionEffectType.SLOW,stunTime,3, false, false, true);
         MonsterEntity targetEntity = dwarf.getLookingAt(2.5, altRange, MonsterManager.getManager().getAliveMobsAndAIs());
         Location center = targetEntity.getLocation();
         Set<MonsterEntity> stunned = new HashSet<>();
         for (MonsterEntity stunnedEntity : MonsterManager.getManager().getAliveMobsAndAIs()){
             if (center.distance(stunnedEntity.getLocation())<= range){
                 stunned.add(stunnedEntity);
-                stunnedEntity.givePotionEffect(PotionEffectType.SLOW,stunTime, 3, false, false, true);
+                stunnedEntity.givePotionEffect(PotionEffectType.SLOW,stunTime, 5, false, false, true);
             }
         }
-        GameDamage flurryDamage;
         while (!done){
+            GameDamage flurryDamage;
             if (currentTicks == 0 || currentTicks == 4*(stunTime/5)) {//First and second hit
                 for (MonsterEntity stunnedEntity : stunned){
                     flurryDamage = stunnedEntity.createDamage(dwarf,CustomDamageType.GLAIVE_ALT, flurryDamageLow);
