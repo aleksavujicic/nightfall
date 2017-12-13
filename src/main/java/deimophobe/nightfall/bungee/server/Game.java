@@ -53,7 +53,7 @@ public class Game {
 		
 		state = State.STARTED;
 		this.server = server;
-		infoLog("Started on server " + server.getName());
+		infoLog("Starting on server " + server.getName());
 		
 		map.copyToServer(server);
 		
@@ -61,7 +61,10 @@ public class Game {
 		
 		while (true) {
 			// Try start the server - and if does then finish
-			if (server.start()) break;
+			if (server.start()) {
+				infoLog("Successfully started");
+				break;
+			}
 			
 			startAttempts++;
 			if (startAttempts >= MAX_START_ATTEMPTS) {
