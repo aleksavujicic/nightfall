@@ -26,6 +26,12 @@ public class ServerManager {
 	private final Queue<Game> queuedGames;
 	private final Map<SubServer, Game> activeGames;
 	
+	public SubServer getLobby() { return SubAPI.getInstance().getSubServer("Lobby"); }
+	public boolean isLobbyRunning() {
+		SubServer lobby = getLobby();
+		return (lobby != null && lobby.isRunning());
+	}
+	
 	
 	public ServerManager() {
 		this.plugin = NightfallBungeePlugin.getPlugin();
