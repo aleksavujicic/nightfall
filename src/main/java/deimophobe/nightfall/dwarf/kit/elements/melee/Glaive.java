@@ -181,7 +181,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
             entityLoc.getWorld().spawnParticle(Particle.SPIT,entityLoc, 0, 249,245,14);
             GameDamage altDamage = entity.createDamage(dwarf, CustomDamageType.GLAIVE_ALT,highDamage);
             altDamage.addKnockback(getKnockBack(entity));
-            altDamage.fire();
+            altDamage.fire(true);
         }
     }
 
