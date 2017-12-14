@@ -176,7 +176,9 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     }
     private void altBladeHit(MonsterEntity entity){
         GameEntity lookingAt = dwarf.getLookingAt(2.5, range, MonsterManager.getManager().getAliveMobsAndAIs());
-        if (lookingAt == entity){//Not sure if this actually works...
+        if (lookingAt == entity){
+            Location entityLoc = entity.getLocation();
+            entityLoc.getWorld().spawnParticle(Particle.SPIT,entityLoc, 0, 249,245,14);
             GameDamage altDamage = entity.createDamage(dwarf, CustomDamageType.GLAIVE_ALT,highDamage);
             altDamage.addKnockback(getKnockBack(entity));
             altDamage.fire();
