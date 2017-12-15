@@ -38,7 +38,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     private final int maxCD = 1*20;//Broken AF right now
     private final ComplexCooldown cd = new ComplexCooldown(maxCD, this::TestAbility);//WILL NEED TO CHANGE ONCE ABILITY IS DECIDED
     //Ability variables below
-    private final String currentTest = ("altHit");//PUT NAME OF TESTING ABILITY HERE
+    private final String currentTest = ("changeBlade");//PUT NAME OF TESTING ABILITY HERE
 
     private boolean altStance = false;//ChangeStance
     private final int highDamage = 25;//ChangeStance MAYBE ADD COOLDOWN IF WE WANT 25 DAMAGE
@@ -52,6 +52,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     private final int flurryDamageHigh = 25;//flurryOfBlows
     private final double knockbackDistance = .5;//altAttack AND flurryOfBlows (Will throw an entity as far as (this*distance) to enemy
     private final double kbHeightDivisor = 2;//USE WITH getKnockBack AND knockBackDistance
+    private boolean altBlade = false;//changeBlade
     //End of Ability variables
 
     public Glaive (Dwarf dwarf){super(dwarf);}
@@ -62,6 +63,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
         super.update(quartSec, halfSec, sec, doubleSec, quadSec);
         cd.update();
         if (altStance && currentTest == "changeStance"){createStanceParticles();}//changeStance
+        if (altBlade && currentTest == "changeBlade"){createStanceParticles();}//changeBlade
     }
     @Override
     public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace){
@@ -72,7 +74,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
         return false;
     }
 
-    private void TestAbility(){altHit();}//Test abilities here. Must give basicAttackDamage a value based on ability.
+    private void TestAbility(){changeBlade();}//Test abilities here. Must give basicAttackDamage a value based on ability.
 
     //Possible Abilities (Being built and tested) (Only one of these will be used for Glaive, but I(ED) might keep some for other weapons
 
@@ -131,18 +133,18 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     private void flurryOfBlows() {//Will make a few aoe slashes or precise stabs in front of player, while slowing player down BROKEN(ONLY FIRST WILL HIT)
         boolean done = false;
         int currentTicks = 0;
-        dwarf.givePotionEffect(PotionEffectType.SLOW,stunTime,1, false, false, true);
+        dwarf.givePotionEffect(PotionEffectType.SLOW,stunTime,3, false, false, true);
         MonsterEntity targetEntity = dwarf.getLookingAt(2.5, altRange, MonsterManager.getManager().getAliveMobsAndAIs());
         Location center = targetEntity.getLocation();
         Set<MonsterEntity> stunned = new HashSet<>();
         for (MonsterEntity stunnedEntity : MonsterManager.getManager().getAliveMobsAndAIs()){
             if (center.distance(stunnedEntity.getLocation())<= range){
                 stunned.add(stunnedEntity);
-                stunnedEntity.givePotionEffect(PotionEffectType.SLOW,stunTime, 3, false, false, true);
+                stunnedEntity.givePotionEffect(PotionEffectType.SLOW,stunTime, 5, false, false, true);
             }
         }
-        GameDamage flurryDamage;
         while (!done){
+            GameDamage flurryDamage;
             if (currentTicks == 0 || currentTicks == 4*(stunTime/5)) {//First and second hit
                 for (MonsterEntity stunnedEntity : stunned){
                     flurryDamage = stunnedEntity.createDamage(dwarf,CustomDamageType.GLAIVE_ALT, flurryDamageLow);
@@ -169,7 +171,20 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     }
 
     private void changeBlade() {//Will alternate from lower AOE damage to higher precision damage
+        altBlade = !altBlade;
+        //CHANGE MODEL HERE
     }
+    private void altBladeHit(MonsterEntity entity){
+        GameEntity lookingAt = dwarf.getLookingAt(100, range, MonsterManager.getManager().getAliveMobsAndAIs());
+        if (lookingAt == entity){
+            Location entityLoc = entity.getLocation();
+            entityLoc.getWorld().spawnParticle(Particle.SPIT,entityLoc, 0, 249,245,14);
+            GameDamage altDamage = entity.createDamage(dwarf, CustomDamageType.GLAIVE_ALT,highDamage);
+            altDamage.addKnockback(getKnockBack(entity));
+            altDamage.fire(true);
+        }
+    }
+
 
     @Override
     protected double getDamageToMonster(MonsterEntity entity){//Maybe change this to be more effective against AIs
@@ -179,7 +194,16 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
             }else if (altStance){
                 return entity instanceof AIEntity ? highDamage : lowDamage;
             }
-            return basicAttackDamage;
+            return 0;
+        }
+        if (currentTest == "changeBlade"){
+            if (!altBlade){
+                return basicAttackDamage;
+            }else if (altBlade){
+                altBladeHit(entity);
+                return 0;
+            }
+            return 0;
         }
         return basicAttackDamage;
     }
