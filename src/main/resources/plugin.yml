@@ -1,0 +1,9 @@
+main: deimophobe.nightfall.lobby.NightfallLobbyPlugin
+name: Nightfall-Lobby
+version: 0.1
+author: Deimophobe
+description: The plugin for the Nightfall lobby.
+commands:
+  loadout:
+    description: Choose a kit!
+    aliases: kit
