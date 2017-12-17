@@ -1,6 +1,6 @@
 package deimophobe.nightfall.bungee.command;
 
-import deimophobe.nightfall.bungee.GameMap;
+import deimophobe.nightfall.bungee.map.GameMap;
 import deimophobe.nightfall.bungee.server.ServerManager;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;

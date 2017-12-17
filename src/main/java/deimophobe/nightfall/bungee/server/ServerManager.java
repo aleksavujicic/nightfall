@@ -1,7 +1,8 @@
 package deimophobe.nightfall.bungee.server;
 
-import deimophobe.nightfall.bungee.GameMap;
+import deimophobe.nightfall.bungee.map.GameMap;
 import deimophobe.nightfall.bungee.NightfallBungeePlugin;
+import deimophobe.nightfall.bungee.map.MapManager;
 import net.ME1312.SubServers.Bungee.Host.Server;
 import net.ME1312.SubServers.Bungee.Host.SubServer;
 import net.ME1312.SubServers.Bungee.SubAPI;
@@ -93,6 +94,12 @@ public class ServerManager {
 			stoppedGame.notifyStop();
 		}
 		flushQueuedGames();
+		checkToAddRotationMap();
+	}
+	
+	private void checkToAddRotationMap() {
+		if (!queuedGames.isEmpty() || !activeGames.isEmpty()) return;
+		createGame(MapManager.getManager().getNextRotationMap());
 	}
 	
 	public void onProxyStop() {

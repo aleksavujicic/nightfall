@@ -1,6 +1,6 @@
 package deimophobe.nightfall.bungee.server;
 
-import deimophobe.nightfall.bungee.GameMap;
+import deimophobe.nightfall.bungee.map.GameMap;
 import deimophobe.nightfall.bungee.NightfallBungeePlugin;
 import net.ME1312.SubServers.Bungee.Host.SubServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -28,7 +28,7 @@ public class Game {
 		this.map = map;
 		
 		this.state = State.QUEUED;
-		infoLog("Created game on map " + map.getName());
+		infoLog("Created game on map " + map.getId());
 	}
 	
 	public Game(Game game) {
@@ -36,7 +36,7 @@ public class Game {
 		this.map = game.map;
 		
 		this.state = State.QUEUED;
-		infoLog("Created game from game " + game.gameID + " on map " + map.getName());
+		infoLog("Created game from game " + game.gameID + " on map " + map.getId());
 	}
 	
 	/** Starts the game on a specified {@link SubServer}. Should be run async. */
@@ -114,7 +114,7 @@ public class Game {
 				serverStatus = "ended on server " + server.getName();
 				break;
 		}
-		return getGameName() + " on map " + map.getName() + " " + serverStatus;
+		return getGameName() + " on map " + map.getId() + " " + serverStatus;
 	}
 	
 	private String getGameName() {
