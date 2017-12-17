@@ -99,6 +99,7 @@ public class ServerManager {
 	
 	private void checkToAddRotationMap() {
 		if (!queuedGames.isEmpty() || !activeGames.isEmpty()) return;
+		if (NightfallBungeePlugin.getPlugin().isShuttingDown()) return;
 		createGame(MapManager.getManager().getNextRotationMap());
 	}
 	
