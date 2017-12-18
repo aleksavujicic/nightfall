@@ -69,6 +69,7 @@ class SkeletonImpact extends Skeleton {
     @Override
     public void onSpawn() {
         super.onSpawn();
+        warpCD.reset();
     }
 
     private double theta = 0;
@@ -133,15 +134,18 @@ class SkeletonImpact extends Skeleton {
     }
 
     private void impactExplosion(Location centerLoc, Dwarf exempt) {
+        if (monster.getLocation().getY() - centerLoc.getY() > 30) {
+            return; // prevents impact shooting down from too high up
+        }
         World world = monster.getLocation().getWorld();
         world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
-        double kb = 0.25 + aoe * 0.15;
+        double kb = 0.35 + aoe * 0.15;
         for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
             if (dwarf == exempt) {
                 continue;
             }
             Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
-            if (offset.length() > 3) {
+            if (offset.length() > 3.5) {
                 continue;
             }
 
