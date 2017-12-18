@@ -385,9 +385,17 @@ public abstract class GamePlayer implements GameEntity<Player> {
 			double particlePeriod, Consumer<Location> particlePlacer,
 			Consumer<Dwarf> dwarfConsumer, Consumer<MonsterEntity> mobConsumber) {
 		
+		fireBeam(range, thickness, 0.3, particlePeriod, particlePlacer, dwarfConsumer, mobConsumber);
+	}
+	
+	public void fireBeam(
+			double range, double thickness, double offset,
+			double particlePeriod, Consumer<Location> particlePlacer,
+			Consumer<Dwarf> dwarfConsumer, Consumer<MonsterEntity> mobConsumber) {
+		
 		// Offset the start of the beam so it doesnt come from the middle of the screen
 		Location location = getEyeLocation();
-		Misc.moveLocation(location, 0, 0.3, -0.3);
+		Misc.moveLocation(location, 0, offset, -offset);
 		Vector direction = location.getDirection();
 		
 		// Offset the looking direction, so that the beam ends at the crosshairs

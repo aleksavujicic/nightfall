@@ -101,7 +101,7 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 	};
 	
 	private void shootLance() {
-		dwarf.fireBeam(10, 1.25, 0.2, PARTICLE_PLACER, DWARF_BUFFER, DAMAGER);
+		dwarf.fireBeam(8, 1.25, 0.2, 0.2, PARTICLE_PLACER, DWARF_BUFFER, DAMAGER);
 	}
 	
 	
