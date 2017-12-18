@@ -33,12 +33,7 @@ public class Lightbow extends AbstractBow {
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
 		if (damageFromBow(damage)) {
-			if (damage.getMonster() instanceof AIEntity) {
-				if (ArrowMisc.getArrowForce(damage.getArrow()) >= 0.5)
-					damage.instaKill();
-			} else {
-				damage.getArrowRes().timesMult(0.5);
-			}
+			damage.getArrowRes().timesMult(0.5);
 		}
 	}
 	

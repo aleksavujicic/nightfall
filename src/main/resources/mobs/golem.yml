@@ -3,7 +3,7 @@ title: Golem
 disguisetype: iron_golem
 
 attack: 40
-health: 80
+health: 100
 speed: -100
 
 proccable: false

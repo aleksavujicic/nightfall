@@ -70,7 +70,7 @@ public abstract class AbstractBow extends AbstractItem implements KitBow {
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
 		if (damageFromBow(damage) && damage.getMonster() instanceof AIEntity) {
-			if (ArrowMisc.getArrowForce(damage.getArrow()) == 1) {
+			if (ArrowMisc.getArrowForce(damage.getArrow()) >= 0.6) {
 				damage.instaKill();
 			}
 		}

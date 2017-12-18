@@ -15,11 +15,12 @@ class AISpawnLocation {
 	private final AIManager manager;
 	private final Location location;
 	private int life;
+	private static int LIFETIME = 60;
 	
 	AISpawnLocation(Location location) {
 		this.manager = AIManager.getManager();
 		this.location = location.getBlock().getLocation().add(0.5, 0, 0.5);
-		this.life = 50;
+		this.life = LIFETIME;
 	}
 	
 	void update() {
@@ -39,7 +40,7 @@ class AISpawnLocation {
 	}
 	
 	private void trySpawnAIs() {
-		double spawnChance = manager.getBaseSpawnChance() * (1 + (double) life/50);
+		double spawnChance = manager.getBaseSpawnChance() * (1 + (double) life/LIFETIME);
 		
 		// If failed to spawn, stop.
 		if (Math.random() > spawnChance) return;
