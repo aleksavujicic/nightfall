@@ -134,7 +134,8 @@ class DwarfPickaxe extends AbstractItem implements KitCooldownElement {
 				}
 				
 				case DIAMOND_ORE: {
-					int newLevel = Math.min(dwarf.getPotionEffectLevel(PotionEffectType.ABSORPTION) + 1, 5);
+					int maxDiamondLevel = (dwarf.hasKitElement(KitElementType.STRONG_ALE) ? 1 : 5);
+					int newLevel = Math.min(dwarf.getPotionEffectLevel(PotionEffectType.ABSORPTION) + 1, maxDiamondLevel);
 					int duration = Math.min(dwarf.getPotionEffectDuration(PotionEffectType.ABSORPTION) + 30 * 20, 60 * 20);
 					dwarf.givePotionEffect(PotionEffectType.ABSORPTION, duration, newLevel, true, false, true);
 					Sounds.DWARF_MINE_DIAMOND.playSound(dwarf);
