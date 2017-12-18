@@ -13,7 +13,6 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -95,6 +94,12 @@ public class ZombieHusk extends Zombie {
         if (stagger) {
             getArmour().addModifier(ItemModifierType.KB_RESIST, 1, "Staggering Hit");
         }
+        
+        if (procRes == 10) {
+        	getArmour().addModifier(ItemModifierType.UNPROCCABLE, 1);
+		} else if (procRes != 0) {
+			getArmour().addModifier(ItemModifierType.PROC_RESIST, procRes*10, "Upgrade");
+		}
     }
 
     @Override

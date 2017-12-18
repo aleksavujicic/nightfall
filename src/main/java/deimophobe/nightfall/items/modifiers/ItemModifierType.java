@@ -45,6 +45,7 @@ public enum ItemModifierType {
 	DEPTH_STRIDER(new EnchantApplier(Enchantment.DEPTH_STRIDER), "Depth Strider", false, false),
 	
 	KB_RESIST(new AttributeApplier(Attribute.KNOCKBACK_RESISTANCE, AttributeApplier.BOOLEAN_FUNCTION), "KB Resist", false, true),
+	PROC_RESIST(new DudApplier(), "Proc Resistance", true, false),
 	UNPROCCABLE(new DudApplier(), "Unproccable", false, true),
 	
 	// Misc
