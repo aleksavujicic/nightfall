@@ -5,6 +5,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -45,7 +46,12 @@ public class VolcanicGauntlet extends AbstractBow {
 		double range = MAX_RANGE * force * force;
 		double radius = AOE_RADIUS * force;
 		
-		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(CustomDamageType.VOLCANIC_BOW, getPower()*force);
+		double damage = POWER * force * force;
+		
+		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(
+				CustomDamageType.VOLCANIC_BOW,
+				(monster) -> ((monster instanceof MonsterPlayer) ? damage : damage*2d/3d)
+		);
 		dwarf.fireBeam(range, THICKNESS, 0.33, PARTICLE_PLACER, null, entityDamager);
 		
 		Location feets = dwarf.getLocation().add(0, 0.25, 0);

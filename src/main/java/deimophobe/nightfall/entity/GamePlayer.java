@@ -31,6 +31,7 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
@@ -473,16 +474,21 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	
 	public class GameEntityDamager<P extends GameEntity> implements Consumer<P> {
 		private final CustomDamageType type;
-		private final double damage;
+		private final Function<P,Double> damage;
 		
 		public GameEntityDamager(CustomDamageType type, double damage) {
+			this.type = type;
+			this.damage = (m) -> damage;
+		}
+		
+		public GameEntityDamager(CustomDamageType type, Function<P, Double> damage) {
 			this.type = type;
 			this.damage = damage;
 		}
 		
 		@Override
 		public void accept(P entity) {
-			entity.doDamage(GamePlayer.this, type, damage, true);
+			entity.doDamage(GamePlayer.this, type, damage.apply(entity), true);
 			if (entity instanceof GamePlayer) playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
 		}
 	}
