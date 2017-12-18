@@ -38,6 +38,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 import java.util.*;
@@ -654,8 +655,22 @@ public class NightfallPlugin extends JavaPlugin {
 		if (name.equalsIgnoreCase("stuck")) {
 			if (sender instanceof Player) {
 				Player player = (Player) sender;
-				if (player.getGameMode() == GameMode.ADVENTURE) {
-					Game.getGame().resetPlayer(player);
+				Game game = Game.getGame();
+				if (game.isLobbyPlayer(player)) {
+					game.resetPlayer(player);
+				} else  {
+					Dwarf dwarf = DwarfManager.getManager().getGamePlayer(player);
+					if (dwarf != null && game.getPhase() == Phase.BUILD) {
+						dwarf.sendTitleMessage(ChatColor.YELLOW + "Teleporting in 10 seconds...");
+						new BukkitRunnable() {
+							@Override
+							public void run() {
+								if (dwarf.isOnline() && Game.getGame().getPhase() == Phase.BUILD) {
+									dwarf.teleportTo(GameMap.getCurrentMap().getDwarfSpawn());
+								}
+							}
+						}.runTaskLater(this, 10*20);
+					}
 				}
 				
 				return true;
