@@ -9,10 +9,11 @@ warrior-class:
     - jimmy_juice
     - sturdy
     - avenge
+    - resurrection
   consumables:
-    torch: 32
-    mortar: 32
-    cobblestone: 128
+    torch: 64
+    mortar: 64
+    cobblestone: 192
     wrench: 2
   item:
     template: "loadout-class"
@@ -30,9 +31,10 @@ warrior-class:
           *Jimmy Juice\n
           *Sturdy Armour\n
           *Avenge\n
-          *32 Torches\n
-          *32 Mortar\n
-          *128 Cobblestone\n
+          *Resurrection\n
+          *64 Torches\n
+          *64 Mortar\n
+          *192 Cobblestone\n
           *2 Wrenches"
 
 ranger-class:
@@ -47,12 +49,12 @@ ranger-class:
     - trinket
     - slowfall
   consumables:
-    torch: 32
-    mortar: 32
-    cobblestone: 128
+    torch: 64
+    mortar: 64
+    cobblestone: 194
     sos: 1
     wizard_mortar: 32
-    lamp: 24
+    lamp: 64
   item:
     template: "loadout-class"
     name: "Ranger Kit"
@@ -70,14 +72,14 @@ ranger-class:
           *Star Trinket\n
           *Massive Quiver\n
           *Safefall\n
-          *32 Torches\n
-          *32 Mortar\n
-          *128 Cobblestone\n
+          *64 Torches\n
+          *64 Mortar\n
+          *192 Cobblestone\n
           *1 Sword of Santification\n
           *32 Wizard Mortar\n
-          *24 Enchanted Lamps"
+          *64 Enchanted Lamps"
 
-beserker-class:
+berserker-class:
   index: 2
   cost: 64
   category: kit
@@ -87,20 +89,19 @@ beserker-class:
     - crossbow
     - strong_ale
     - berserker
-    - darkvision
+    - avenge
   consumables:
-    torch: 32
-    mortar: 32
-    cobblestone: 128
-    sos: 1
+    torch: 64
+    mortar: 64
+    cobblestone: 192
     wrench: 2
   item:
     template: "loadout-class"
-    name: "Beserker Kit"
+    name: "Berserker Kit"
     base: malice
     lore:
       description:
-       - "Brute strength is all that matters\n
+       - "Brute strength is all that matters. \n
           With less defense and higher mobility\n
           These fighters cut through foes like butter\n
           but can be taken down just as fast."
@@ -110,11 +111,10 @@ beserker-class:
           *Crossbow\n
           *Strong Ale\n
           *Berserker Armour\n
-          *Darkvision\n
-          *32 Torches\n
-          *32 Mortar\n
-          *128 Cobblestone\n
-          *1 Sword of Santification\n
+          *Avenge\n
+          *64 Torches\n
+          *64 Mortar\n
+          *192 Cobblestone\n
           *2 Wrenches"
 
 elven-class:
@@ -131,10 +131,9 @@ elven-class:
     - slowfall
     - avenge
   consumables:
-    mortar: 32
+    mortar: 64
     cobblestone: 192
     wrench: 2
-    heal_station: 3
   item:
     template: "loadout-class"
     name: "Elven Kit"
@@ -142,9 +141,8 @@ elven-class:
     lore:
       description:
        - "Unlike their Ranger counterparts, this class\n
-          makes you feel like an Elf, with increased speed\n
-          low light vision, and quick strikes. However\n
-          armour is quite weak so it is best to keep moving."
+          makes you feel like an elf, with increased speed, \n
+          low light vision, and quick strikes."
 
       contains:
        - "*Dagger\n
@@ -154,10 +152,9 @@ elven-class:
           *Nature Suit\n
           *Slowfall\n
           *Avenge\n
-          *32 Mortar\n
+          *64 Mortar\n
           *192 Cobblestone\n
-          *2 Wrenches\n
-          *3 Heal Stations"
+          *2 Wrenches\n"
 
 gnome-class:
   index: 4
@@ -172,9 +169,9 @@ gnome-class:
     - tombmaker
     - avenge
   consumables:
-    torch: 32
-    mortar: 32
-    cobblestone: 128
+    torch: 64
+    mortar: 64
+    cobblestone: 192
     sos: 2
     slab: 3
   item:
@@ -197,9 +194,9 @@ gnome-class:
           *Star Trinket\n
           *Massive Quiver\n
           *Avenge\n
-          *32 Torches\n
-          *32 Mortar\n
-          *128 Cobblestone\n
+          *64 Torches\n
+          *64 Mortar\n
+          *192 Cobblestone\n
           *2 Swords of Santification\n
           *3 Slabs"
 
@@ -215,10 +212,10 @@ healer-class:
     - nature_suit
     - slowfall
   consumables:
-    heal_station: 12
-    sos: 2
-    lamp: 32
-    wizard_mortar: 32
+    heal_station: 16
+    sos: 1
+    torch: 64
+    mortar: 64
     cobblestone: 192
   item:
     template: "loadout-class"
@@ -230,14 +227,14 @@ healer-class:
 
       contains:
        - "*Healing Scepter\n
-          *Ebow\n
+          *Emerald Bow\n
           *Regrowth Star\n
           *Nature Suit\n
           *Slowfall\n
-          *12 Healing Stations\n
-          *2 SOS\n
-          *32 Lamps\n
-          *32 Wizard Mortar\n
+          *16 Healing Stations\n
+          *1 Sword of Santification\n
+          *64 Torches\n
+          *64 Mortar\n
           *192 Cobblestone"
 
 brawler-class:
@@ -257,6 +254,10 @@ brawler-class:
   consumables:
     wrench: 4
     slab: 2
+    sos: 1
+    torch: 64
+    mortar: 64
+    cobblestone: 192
   item:
     template: "loadout-class"
     name: "Brawler Kit"
@@ -274,8 +275,12 @@ brawler-class:
           *Dark Vision\n
           *Avenge\n
           *Resurrection\n
+          *1 Sword of Santification\n
           *4 Wrenches\n
-          *2 Slabs"
+          *2 Slabs\n
+          *64 Torches\n
+          *64 Mortar\n
+          *192 Cobblestone"
 
 magmar-class:
   enabled: false

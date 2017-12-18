@@ -56,7 +56,7 @@ avenge:
   category: accessory
   type: item
   name: avenge
-  cost: 8
+  cost: 4
   item:
     name: "Avenge"
     base: avenge
