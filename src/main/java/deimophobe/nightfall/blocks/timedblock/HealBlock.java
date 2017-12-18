@@ -76,7 +76,7 @@ public class HealBlock extends TimedBlock {
 		private boolean canHeal(Dwarf dwarf) {
 			return (
 					(position.distance(dwarf.getLocation()) <= RANGE)
-					&& (dwarf.canConnectToLocation(position, 0.5, (location) -> {}))
+					&& (dwarf.canConnectToLocation(position, 0.1, (location) -> {}))
 			);
 		}
 	}

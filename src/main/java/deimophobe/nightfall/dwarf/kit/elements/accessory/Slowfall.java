@@ -56,7 +56,7 @@ public class Slowfall extends AbstractElement {
 	
 	@Override
 	public void onShift(boolean sneaking) {
-		if (!sneaking && !dwarf.hasPotionEffect(PotionEffectType.LEVITATION) && !dwarf.getPlayer().isOnGround()) {
+		if (!dwarf.hasPotionEffect(PotionEffectType.LEVITATION) && !dwarf.getPlayer().isOnGround()) {
 			cooldown.tryUse();
 		}
 	}
@@ -75,6 +75,9 @@ public class Slowfall extends AbstractElement {
 	
 	private double theta = 0;
 	private void usedSparkle() {
+		// Don't show if invisible
+		if (dwarf.hasPotionEffect(PotionEffectType.INVISIBILITY)) return;
+		
 		theta = (theta + 0.25) % (2 * Math.PI);
 		Vector offset = new Vector(Math.cos(theta), 0, Math.sin(theta)).multiply(0.2);
 		dwarf.getWorld().spawnParticle(Particle.END_ROD, dwarf.getLocation().add(offset), 1, 0, 0, 0, 0);

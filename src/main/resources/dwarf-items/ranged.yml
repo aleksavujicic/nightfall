@@ -78,7 +78,9 @@ warpweaver:
      - "Left click to activate effect.\n
         When activated, you will teleport\n
         to where the arrow lands.\n
-        Getting hit will cancel the teleport."
+        Getting hit will cancel the teleport.\n
+        Uses 15 arrows per warp, with no\n
+        cooldown"
     flavour:
      - "\"Hey look at this thing! Isn't it cool!?\" - Tui"
 

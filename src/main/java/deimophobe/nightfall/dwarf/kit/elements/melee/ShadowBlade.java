@@ -1,10 +1,12 @@
 package deimophobe.nightfall.dwarf.kit.elements.melee;
 
 import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.cooldown.BooleanCooldown;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.armour.Armour;
@@ -43,8 +45,8 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 		return KitGiveType.SWORD;
 	}
 
-	private final ComplexCooldown shadowStrikeCD = new ComplexCooldown(60*20, this::shadowStrike);
-	private final ComplexCooldown invisPreventer = new ComplexCooldown(3*20, null, this::updateInvisibility);
+	private final BooleanCooldown shadowStrikeCD = new BooleanCooldown(60*20, this::shadowStrike);
+	private final ComplexCooldown invisPreventer = new ComplexCooldown(2*20, null, this::updateInvisibility);
 	private boolean invisible = false;
 
 
@@ -54,8 +56,8 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 		shadowStrikeCD.update();
 		invisPreventer.update();
 		
-		if (invisible && Math.random() <= 0.5) {
-			dwarf.getWorld().spawnParticle(Particle.SMOKE_NORMAL, dwarf.getLocation().add(0,0.5,0), 5, 0.2, 0.5, 0.2, 0.03);
+		if (invisible && quartSec && Math.random() <= 0.5) {
+			dwarf.getWorld().spawnParticle(Particle.SMOKE_NORMAL, dwarf.getLocation().add(0,0.5,0), 6, 0.2, 0.5, 0.2, 0.03);
 		}
 	}
 
@@ -76,8 +78,10 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 				damage.cancel();
 			}
 		} else {
-			// Otherwise cancel invisibility
-			resetInvisibility();
+			if (!damage.isCancelled() && damage.getType() != NaturalDamageType.FALL) {
+				// Otherwise cancel invisibility
+				resetInvisibility();
+			}
 		}
 	}
 	
@@ -89,7 +93,7 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 		return false;
 	}
 	
-	private void shadowStrike() {
+	private boolean shadowStrike() {
 		MonsterPlayer closestPlayerMonster = dwarf.getLookingAt(2.5, 10, MonsterManager.getManager().getAlivePlayerMobs());
 		
 		if (closestPlayerMonster != null) {
@@ -101,12 +105,17 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 			if (!newLoc.getBlock().getType().isSolid()) {
 				closestPlayerMonster.doDamage(dwarf, CustomDamageType.SHADOW_STRIKE, 100, true);
 				dwarf.teleportTo(newLoc);
-				dwarf.givePotionEffect(PotionEffectType.INVISIBILITY, 10*20,3,true,true,true);
 				dwarf.playSound("entity.endermen.teleport", 1, 1, true);
-			} else {
-				shadowStrikeCD.reduceCooldown(10000);
+				updateInvisibility();
+				return true;
 			}
 		}
+		return false;
+	}
+	
+	@Override
+	public float fractionComplete() {
+		return shadowStrikeCD.fractionComplete();
 	}
 	
 	@Override
@@ -127,7 +136,10 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 	private void updateInvisibility(boolean sneaking) {
 		Armour armour = dwarf.getArmour();
 		
-		invisible = shouldBeInvisible(sneaking);
+		boolean newState = shouldBeInvisible(sneaking);
+		if (invisible == newState) return;
+		
+		invisible = newState;
 		if (invisible) {
 			if (armour instanceof DwarvenArmour) ((DwarvenArmour) armour).hideArmour();
 			dwarf.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
@@ -148,10 +160,5 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 				aiEntity.forceUpdateTarget();
 			}
 		}
-	}
-	
-	@Override
-	public float fractionComplete() {
-		return shadowStrikeCD.fractionComplete();
 	}
 }
