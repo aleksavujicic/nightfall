@@ -54,7 +54,10 @@ public class Crossbow extends AbstractBow implements KitCooldownElement {
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (firing) return true;
+		if (firing) {
+			stopFiring(); // both left and right click stops rapidfire
+			return true;
+		}
 		
 		
 		if (Misc.isRightClick(action) && dwarf.hasArrows(ARROW_COST)) {
