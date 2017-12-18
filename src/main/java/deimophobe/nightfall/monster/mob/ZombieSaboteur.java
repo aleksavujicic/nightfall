@@ -115,6 +115,7 @@ public class ZombieSaboteur extends Zombie {
     public void onDamageReceive(MonsterDamage damage) {
         super.onDamageReceive(damage);
         assaCD.reset();
+        sneakCD.reset();
         if (damage.getType() == NaturalDamageType.MELEE) {
             monster.givePotionEffect(PotionEffectType.SLOW, 30, 2,true, true,true);
         }
