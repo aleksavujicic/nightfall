@@ -437,14 +437,19 @@ public class Game {
 		updateDwarfCount();
 		
 		// Fix players
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			for (Player viewee : Bukkit.getOnlinePlayers()) {
-				if (player.canSee(viewee)) {
-					player.hidePlayer(viewee);
-					player.showPlayer(viewee);
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				for (Player player : Bukkit.getOnlinePlayers()) {
+					for (Player viewee : Bukkit.getOnlinePlayers()) {
+						if (player.canSee(viewee)) {
+							player.hidePlayer(viewee);
+							player.showPlayer(viewee);
+						}
+					}
 				}
 			}
-		}
+		}.runTaskLater(NightfallPlugin.getPlugin(), 20);
 		
 		// Set time
 		map.getWorld().setTime(0);
