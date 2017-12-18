@@ -91,7 +91,7 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 			dwarf1.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 5*20, 1, true, false, false);
 	
 	private final Consumer<MonsterEntity> DAMAGER = (monster) -> {
-		MonsterDamage damage = (MonsterDamage) monster.createDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, DAMAGE + dwarf.getBonusMeleeDamage());
+		MonsterDamage damage = (MonsterDamage) monster.createDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, DAMAGE + dwarf.getBonusMeleeDamage()/2);
 		if (dwarf.hasProc()) damage.setProc(true);
 		damage.setNoDmgTicks(1);
 		damage.fire(true);
