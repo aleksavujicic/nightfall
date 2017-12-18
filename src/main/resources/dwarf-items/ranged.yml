@@ -104,4 +104,4 @@ volcanic:
     flavour:
      - "\"This gauntlet can even burn hellhounds.\" -Tui"
   modifiers:
-    attack: 10
+    attack: 15
