@@ -89,7 +89,7 @@ scepter:
   type: item
   name: scepter
   category: sword
-  cost: 14
+  cost: 16
   item:
     name: "Healing Scepter"
     base: scepter
