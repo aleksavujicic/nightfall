@@ -1,13 +1,22 @@
 package deimophobe.nightfall.lobby;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
+import deimophobe.nightfall.lobby.game.GameListener;
+import deimophobe.nightfall.lobby.game.GameManager;
+import deimophobe.nightfall.lobby.game.map.MapManager;
+import deimophobe.nightfall.lobby.packet.GameCreatePacketIn;
+import deimophobe.nightfall.lobby.packet.GameEndPacketIn;
+import deimophobe.nightfall.lobby.packet.GameStartPacketIn;
+import net.ME1312.SubServers.Client.Bukkit.Network.SubDataClient;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
+import org.bukkit.GameMode;
 import org.bukkit.World;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+
+import java.io.IOException;
 
 /**
  * Created by Deimophobe on 2/11/17.
@@ -17,35 +26,35 @@ public class NightfallLobbyPlugin extends JavaPlugin {
 	private static NightfallLobbyPlugin plugin;
 	public static NightfallLobbyPlugin getPlugin() { return plugin;}
 	
+	private MapManager mapManager;
+	public MapManager getMapManager() { return mapManager; }
+	
+	private GameManager gameManager;
+	public GameManager getGameManager() { return gameManager; }
+	
 	@Override
 	public void onEnable() {
+		plugin = this;
 		super.onEnable();
 		
-		plugin = this;
-		
-		LobbyListener ll = new LobbyListener();
-		Bukkit.getPluginManager().registerEvents(ll, this);
+		try {
+			mapManager = new MapManager();
+		} catch (IOException e) {
+			getLogger().severe("Failed to load map config files.");
+			e.printStackTrace();
+		}
+		gameManager = new GameManager();
 		
 		setDefaultWorldSettings(Bukkit.getWorlds().get(0));
 		
+		Bukkit.getPluginManager().registerEvents(new LobbyListener(), this);
+		Bukkit.getPluginManager().registerEvents(new GameListener(), this);
+		
 		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "Nightfall");
-		this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", ll);
 		
-		ByteArrayDataOutput out = ByteStreams.newDataOutput();
-		out.writeUTF("HELLO");
-		getServer().sendPluginMessage(this, "Nightfall", out.toByteArray());
-	}
-	
-	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		super.onCommand(sender, command, label, args);
-		
-		Bukkit.broadcastMessage("Blah");
-		ByteArrayDataOutput out = ByteStreams.newDataOutput();
-		out.writeUTF("HELLO");
-		getServer().sendPluginMessage(this, "Nightfall", out.toByteArray());
-		return true;
+		SubDataClient.registerPacket( new GameCreatePacketIn(), GameCreatePacketIn.handle() );
+		SubDataClient.registerPacket( new GameStartPacketIn(),  GameStartPacketIn.handle()  );
+		SubDataClient.registerPacket( new GameEndPacketIn(),    GameEndPacketIn.handle()    );
 	}
 	
 	private void setDefaultWorldSettings(World world) {
@@ -70,5 +79,25 @@ public class NightfallLobbyPlugin extends JavaPlugin {
 		world.setGameRuleValue("showDeathMessages", "false");
 		world.setGameRuleValue("spectatorsGenerateChunks", "false");
 		world.setGameRuleValue("randomTickSpeed", "0");
+	}
+	
+	public void resetPlayer(Player player, boolean teleport) {
+		if (player.isDead())
+			player.spigot().respawn();
+		
+		if (teleport)
+			player.teleport(player.getWorld().getSpawnLocation());
+		player.getInventory().clear();
+		for (PotionEffect effect : player.getActivePotionEffects()){
+			player.removePotionEffect(effect.getType());
+		}
+		player.setGameMode(GameMode.ADVENTURE);
+		double maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+		player.setHealth(maxHealth);
+		player.setSaturation(100000);
+		player.setFoodLevel(100000);
+		player.setExp(0);
+		player.setLevel(0);
+		player.setDisplayName(player.getName());
 	}
 }

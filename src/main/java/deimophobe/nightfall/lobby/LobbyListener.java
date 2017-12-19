@@ -1,11 +1,7 @@
 package deimophobe.nightfall.lobby;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -16,8 +12,6 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.player.*;
-import org.bukkit.plugin.messaging.PluginMessageListener;
-import org.bukkit.potion.PotionEffect;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,37 +19,7 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 2/11/17.
  */
-public class LobbyListener implements Listener, PluginMessageListener {
-	
-	@EventHandler
-	public void portalJoinEvent(EntityPortalEnterEvent event) {
-		Entity entity = event.getEntity();
-		if (entity instanceof Player) {
-			Player player = (Player) entity;
-			player.teleport(player.getLocation().subtract(0,300,0));
-			
-			ByteArrayDataOutput out = ByteStreams.newDataOutput();
-			out.writeUTF("Connect");
-			out.writeUTF("NightfallGame1");
-			
-			player.sendPluginMessage(NightfallLobbyPlugin.getPlugin(), "BungeeCord", out.toByteArray());
-		}
-	}
-	
-	@Override
-	public void onPluginMessageReceived(String channel, Player player, byte[] message) {
-		if (!channel.equals("BungeeCord")) {
-			return;
-		}
-		
-		ByteArrayDataInput in = ByteStreams.newDataInput(message);
-		String subchannel = in.readUTF();
-		if (subchannel.equals("SomeSubChannel")) {
-			// Use the code sample in the 'Response' sections below to read
-			// the data.
-		}
-	}
-	
+public class LobbyListener implements Listener {
 	// =====================================
 	// ===        Event Canceling        ===
 	// =====================================
@@ -64,23 +28,7 @@ public class LobbyListener implements Listener, PluginMessageListener {
 	// ---- Player Events ----
 	
 	private void resetPlayer(Player player, boolean teleport) {
-		if (player.isDead())
-			player.spigot().respawn();
-		
-		if (teleport)
-			player.teleport(player.getWorld().getSpawnLocation());
-		player.getInventory().clear();
-		for (PotionEffect effect : player.getActivePotionEffects()){
-			player.removePotionEffect(effect.getType());
-		}
-		player.setGameMode(GameMode.ADVENTURE);
-		double maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
-		player.setHealth(maxHealth);
-		player.setSaturation(100000);
-		player.setFoodLevel(100000);
-		player.setExp(0);
-		player.setLevel(0);
-		player.setDisplayName(player.getName());
+		NightfallLobbyPlugin.getPlugin().resetPlayer(player, teleport);
 	}
 	
 	@EventHandler
