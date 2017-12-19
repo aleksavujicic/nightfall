@@ -1,9 +1,13 @@
 package deimophobe.nightfall.bungee.server;
 
-import deimophobe.nightfall.bungee.map.GameMap;
 import deimophobe.nightfall.bungee.NightfallBungeePlugin;
+import deimophobe.nightfall.bungee.event.GameCreateEvent;
+import deimophobe.nightfall.bungee.event.GameEvent;
+import deimophobe.nightfall.bungee.event.GameStartEvent;
+import deimophobe.nightfall.bungee.event.GameStopEvent;
+import deimophobe.nightfall.bungee.map.GameMap;
 import net.ME1312.SubServers.Bungee.Host.SubServer;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.ProxyServer;
 
 import java.io.IOException;
 
@@ -13,30 +17,50 @@ import java.io.IOException;
 public class Game {
 	private static final int MAX_START_ATTEMPTS = 20;
 	private static int idCounter = 0;
-	private static int getID() {
+	private static synchronized int getNextID() {
 		idCounter++;
 		return idCounter;
 	}
 	
 	private final int gameID;
 	private final GameMap map;
+	private final GameSettings settings;
 	private State state;
 	private SubServer server = null;
 	
+	public int getID() { return gameID; }
+	public GameMap getMap() { return map; }
+	public GameSettings getSettings() { return settings; }
+	public State getState() {
+		return state;
+	}
+	public SubServer getServer() { return server; }
+	
+	
 	public Game(GameMap map) {
-		this.gameID = getID();
+		this(map, new GameSettings());
+	}
+	
+	public Game(GameMap map, GameSettings settings) {
+		this.gameID = getNextID();
 		this.map = map;
+		this.settings = settings;
 		
 		this.state = State.QUEUED;
 		infoLog("Created game on map " + map.getId());
+		
+		dispatchGameEvent(new GameCreateEvent(this));
 	}
 	
 	public Game(Game game) {
-		this.gameID = getID();
+		this.gameID = getNextID();
 		this.map = game.map;
+		this.settings = game.settings;
 		
 		this.state = State.QUEUED;
 		infoLog("Created game from game " + game.gameID + " on map " + map.getId());
+		
+		dispatchGameEvent(new GameCreateEvent(this));
 	}
 	
 	/** Starts the game on a specified {@link SubServer}. Should be run async. */
@@ -51,7 +75,7 @@ public class Game {
 			throw new IllegalArgumentException("Cannot start game '" + this.toString() + "' on server '" + server.getName() + "' as it is running");
 		}
 		
-		state = State.STARTED;
+		this.state = State.STARTED;
 		this.server = server;
 		infoLog("Starting on server " + server.getName());
 		
@@ -63,6 +87,7 @@ public class Game {
 			// Try start the server - and if does then finish
 			if (server.start()) {
 				infoLog("Successfully started");
+				dispatchGameEvent(new GameStartEvent(this));
 				break;
 			}
 			
@@ -77,19 +102,18 @@ public class Game {
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 				NightfallBungeePlugin.getPlugin().getLogger().severe("Interrupted start thread of " + getGameName());
-				break;
+				return;
 			}
 		}
 	}
 	
-	public State getState() {
-		return state;
-	}
 	
 	void notifyStop() {
 		server = null;
 		state = State.ENDED;
 		infoLog("Ended game");
+		
+		dispatchGameEvent(new GameStopEvent(this));
 	}
 	
 	void forceStop(String reason) {
@@ -121,12 +145,13 @@ public class Game {
 		return "Game " + gameID;
 	}
 	
-	private void connectPlayer(ProxiedPlayer player) {
-		player.connect(server);
-	}
-	
 	private void infoLog(String info) {
 		NightfallBungeePlugin.getPlugin().getLogger().info("[" + getGameName() + "] " + info);
+	}
+	
+	private void dispatchGameEvent(GameEvent event) {
+		if (!NightfallBungeePlugin.getPlugin().isShuttingDown())
+			ProxyServer.getInstance().getPluginManager().callEvent(event);
 	}
 	
 	public enum State {

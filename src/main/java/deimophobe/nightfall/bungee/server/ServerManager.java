@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Deimophobe on 14/11/17.
@@ -87,6 +88,8 @@ public class ServerManager {
 	}
 	
 	void onServerStop(SubServer server) {
+		if (NightfallBungeePlugin.getPlugin().isShuttingDown()) return;
+		
 		Game stoppedGame = activeGames.remove(server);
 		if (stoppedGame == null) {
 			plugin.getLogger().warning("Game server stopped with no game? Server: " + server.getName());
@@ -94,7 +97,8 @@ public class ServerManager {
 			stoppedGame.notifyStop();
 		}
 		flushQueuedGames();
-		checkToAddRotationMap();
+		
+		proxyServer.getScheduler().schedule(plugin, this::checkToAddRotationMap, 3, TimeUnit.SECONDS);
 	}
 	
 	private void checkToAddRotationMap() {

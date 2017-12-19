@@ -5,7 +5,12 @@ import deimophobe.nightfall.bungee.command.GameListCommand;
 import deimophobe.nightfall.bungee.command.TestCommand;
 import deimophobe.nightfall.bungee.map.InvalidRotationConfigException;
 import deimophobe.nightfall.bungee.map.MapManager;
+import deimophobe.nightfall.bungee.packet.GameCreatePacketOut;
+import deimophobe.nightfall.bungee.packet.GameEndPacketOut;
+import deimophobe.nightfall.bungee.packet.GameMessenger;
+import deimophobe.nightfall.bungee.packet.GameStartPacketOut;
 import deimophobe.nightfall.bungee.server.ServerManager;
+import net.ME1312.SubServers.Bungee.Network.SubDataServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 
@@ -26,7 +31,7 @@ public class NightfallBungeePlugin extends Plugin {
 	public MapManager getMapManager() { return mapManager; }
 	
 	private boolean shuttingDown = false;
-	public boolean isShuttingDown() { return shuttingDown; }
+	public boolean isShuttingDown() { return shuttingDown; } // TODO Doesn't get triggered early enough?
 	
 	@Override
 	public void onEnable() {
@@ -48,6 +53,11 @@ public class NightfallBungeePlugin extends Plugin {
 		pm.registerCommand(this, new CreateGameCommand());
 		pm.registerCommand(this, new GameListCommand());
 		pm.registerCommand(this, new TestCommand());
+		
+		pm.registerListener(this, new GameMessenger());
+		SubDataServer.registerPacket( GameCreatePacketOut.class, GameCreatePacketOut.handle() );
+		SubDataServer.registerPacket( GameStartPacketOut.class,  GameStartPacketOut.handle()  );
+		SubDataServer.registerPacket( GameEndPacketOut.class,    GameEndPacketOut.handle()    );
 	}
 	
 	@Override
