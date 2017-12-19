@@ -33,7 +33,7 @@ public class Hammer extends AbstractAOEHitter implements KitCooldownElement {
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 	
 	
-	private final ComplexCooldown cooldown = new ComplexCooldown(30*20, this::roar);
+	private final ComplexCooldown cooldown = new ComplexCooldown(40*20, this::roar);
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
@@ -56,11 +56,10 @@ public class Hammer extends AbstractAOEHitter implements KitCooldownElement {
 	}
 	
 	
-	private static final double ROAR_RADIUS = 25;
-	private static final double ROAR_CHANCE = 0.5;
+	private static final double ROAR_RADIUS = 20;
 	private void roar() {
 		for (AIEntity ai : AIManager.getManager().getAIs()) {
-			if (dwarf.distanceTo(ai) <= ROAR_RADIUS && Math.random() <= ROAR_CHANCE) {
+			if (dwarf.distanceTo(ai) <= ROAR_RADIUS) {
 				ai.setTarget(dwarf);
 			}
 		}

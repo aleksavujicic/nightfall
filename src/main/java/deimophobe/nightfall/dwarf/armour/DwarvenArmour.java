@@ -121,7 +121,7 @@ public class DwarvenArmour implements Armour {
 		if (isArmoured()) {
 			double x = armourFraction();
 			int n = DwarfManager.getManager().getNumberOfPlayers();
-			return (x * 0.125 + 0.7 + 0.06d/n);
+			return (0.75 + 0.075 * x + 0.1d/(n+1));
 		} else {
 			return 0.6;
 		}

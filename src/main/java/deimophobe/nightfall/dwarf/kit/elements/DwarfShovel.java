@@ -1,7 +1,5 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
-import deimophobe.nightfall.Game;
-import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
@@ -31,10 +29,13 @@ public class DwarfShovel extends AbstractItem {
 	public void onBlockBreak(Block block, boolean didBreak) {
 		super.onBlockBreak(block, didBreak);
 		if (didBreak && block.getType() == Material.GRAVEL) {
-			if (Game.getGame().getPhase() == Phase.BUILD)
-				dwarf.giveConsumable(ConsumableType.COBBLESTONE, 4, true);
-			else
-				dwarf.giveConsumable(ConsumableType.COBBLESTONE, 2, true);
+			int quantity = 2;
+			
+			//if (Game.getGame().getPhase() == Phase.BUILD) quantity = 4;
+			//else quantity = 2;
+			
+			dwarf.giveConsumable(ConsumableType.COBBLESTONE, quantity, true);
+			
 			dwarf.playSound("block.anvil.place", 0.2f, 0.8f, true);
 			dwarf.playSound("block.anvil.break", 1f, 0.8f, true);
 		}

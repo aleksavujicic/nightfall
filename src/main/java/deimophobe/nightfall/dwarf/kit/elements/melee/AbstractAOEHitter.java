@@ -31,7 +31,7 @@ public abstract class AbstractAOEHitter extends AbstractItem {
 		Location center = dwarf.getLocation().add(dwarf.getLocation().getDirection().multiply(1.5));
 		for (MonsterEntity entity : MonsterManager.getManager().getAliveMobsAndAIs()) {
 			if (entity.distanceTo(center) <= getRadius(entity)) {
-				double rawDamage = getDamageToMonster(entity) + dwarf.getBonusMeleeDamage();
+				double rawDamage = getDamageToMonster(entity) + dwarf.getBonusMeleeDamage()/2;
 				MonsterDamage damage = (MonsterDamage) entity.createDamage(dwarf, CustomDamageType.HAMMER_AOE, rawDamage);
 				
 				if (entity instanceof AIEntity)

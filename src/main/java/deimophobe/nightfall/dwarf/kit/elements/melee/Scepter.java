@@ -91,7 +91,7 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 			dwarf1.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 5*20, 1, true, false, false);
 	
 	private final Consumer<MonsterEntity> DAMAGER = (monster) -> {
-		MonsterDamage damage = (MonsterDamage) monster.createDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, DAMAGE + dwarf.getBonusMeleeDamage());
+		MonsterDamage damage = (MonsterDamage) monster.createDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, DAMAGE + dwarf.getBonusMeleeDamage()/2);
 		if (dwarf.hasProc()) damage.setProc(true);
 		damage.setNoDmgTicks(1);
 		damage.fire(true);
@@ -101,7 +101,7 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 	};
 	
 	private void shootLance() {
-		dwarf.fireBeam(10, 1.25, 0.2, PARTICLE_PLACER, DWARF_BUFFER, DAMAGER);
+		dwarf.fireBeam(8, 1.25, 0.2, 0.2, PARTICLE_PLACER, DWARF_BUFFER, DAMAGER);
 	}
 	
 	

@@ -161,6 +161,7 @@ public class GameListener implements Listener {
 		switch (event.getRightClicked().getType()) {
 			case SHEEP:
 			case VILLAGER:
+			case ITEM_FRAME:
 				event.setCancelled(true);
 		}
 	}

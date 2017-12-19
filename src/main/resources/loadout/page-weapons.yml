@@ -47,7 +47,7 @@ hammer:
        - "Does AOE damage every hit. Right click to \n
           regenerate armour and mana over time."
     modifiers:
-      attack: 15
+      attack: 10
 
 dagger:
   index: 3
@@ -89,7 +89,7 @@ scepter:
   type: item
   name: scepter
   category: sword
-  cost: 14
+  cost: 16
   item:
     name: "Healing Scepter"
     base: scepter

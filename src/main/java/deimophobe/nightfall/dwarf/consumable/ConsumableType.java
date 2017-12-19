@@ -7,36 +7,38 @@ import org.bukkit.inventory.ItemStack;
  * Created by Deimophobe on 22/01/17.
  */
 public enum ConsumableType {
-	LAMP(new Lamp("lamp"), true),
-	SLAB(new Slab("slab"), false),
-	SOS(new SOS("sos"), false),
-	WRENCH(new Wrench("wrench"), false),
-	HEAL_STATION(new HealStation("healstation"), false),
+	LAMP(new Lamp("lamp"), true, false),
+	SLAB(new Slab("slab"), false, false),
+	SOS(new SOS("sos"), false, false),
+	WRENCH(new Wrench("wrench"), false, false),
+	HEAL_STATION(new HealStation("healstation"), false, false),
 	
-	MORTAR(new Mortar("mortar", false), true),
-	WIZARD_MORTAR(new Mortar("wizardmortar", true), true),
+	MORTAR(new Mortar("mortar", false), true, true),
+	WIZARD_MORTAR(new Mortar("wizardmortar", true), true, false),
 	
-	ARMOUR_ITEM(new ArmourItem("armouritem"), true),
+	ARMOUR_ITEM(new ArmourItem("armouritem"), true, true),
 	
-	TORCH(new DummyConsumable("torch"), true),
-	COBBLESTONE(new DummyConsumable("cobble"), true),
+	TORCH(new DummyConsumable("torch"), true, true),
+	COBBLESTONE(new DummyConsumable("cobble"), true, true),
 	
-	BOWL(new CraftingConsumable("bowl", Material.SPONGE, MORTAR), true),
+	BOWL(new CraftingConsumable("bowl", Material.SPONGE, MORTAR), true, false),
 	STICK(new CraftingConsumable("stick",
 			new CraftingConsumable.Conversion(Material.IRON_FENCE, BOWL),
 			new CraftingConsumable.Conversion(Material.SPONGE, TORCH)
-	), true),
-	PLANK(new CraftingConsumable("plank", Material.IRON_FENCE, STICK, 2), true),
-	LOG(new CraftingConsumable("log", Material.IRON_FENCE, PLANK), true),
+	), true, false),
+	PLANK(new CraftingConsumable("plank", Material.IRON_FENCE, STICK, 2), true, false),
+	LOG(new CraftingConsumable("log", Material.IRON_FENCE, PLANK), true, false),
 	
 	;
 	
 	private final Consumable consumable;
 	private final boolean droppable;
+	private final boolean dupable;
 	
-	ConsumableType(Consumable consumable, boolean droppable) {
+	ConsumableType(Consumable consumable, boolean droppable, boolean dupable) {
 		this.consumable = consumable;
 		this.droppable = droppable;
+		this.dupable = dupable;
 	}
 	
 	public ItemStack getItemStack() {
@@ -65,5 +67,9 @@ public enum ConsumableType {
 		if (type == null) return false;
 		
 		return type.droppable;
+	}
+	
+	public boolean isDupable() {
+		return dupable;
 	}
 }

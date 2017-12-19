@@ -60,7 +60,7 @@ hammer:
     flavour:
      - "\"Time to really prove what you're worth.\" - Tui"
   modifiers:
-    attack: 15
+    attack: 10
 
 dagger:
   base: dagger

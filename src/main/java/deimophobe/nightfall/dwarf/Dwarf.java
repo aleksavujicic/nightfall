@@ -276,6 +276,12 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	public void giveConsumable(ConsumableType type, int quantity, boolean dropRemaining) {
 		giveItem(type.getItemStack(), quantity, dropRemaining);
+		
+		if (type.isDupable() && hasPotionEffect(PotionEffectType.FAST_DIGGING)) {
+			ItemStack item = type.getItemStack().clone();
+			item.setAmount(quantity);
+			DwarfManager.getManager().getSharedChest().addItem(item);
+		}
 	}
 	
 	public void giveConsumable(ConsumableType type, int quantity) {
