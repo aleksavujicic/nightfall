@@ -165,7 +165,7 @@ volcanic:
           that pierces everything in\n
           its path. Uses 3 arrows a shot."
     modifiers:
-      attack: 10
+      attack: 15
       power: 60
 
 dragonskin:
