@@ -1,6 +1,5 @@
 package deimophobe.nightfall.dwarf.kit.elements.melee;
 
-import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -10,9 +9,8 @@ import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractItem;
 import deimophobe.nightfall.entity.MonsterEntity;
-import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;

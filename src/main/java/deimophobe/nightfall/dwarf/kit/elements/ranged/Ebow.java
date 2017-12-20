@@ -7,7 +7,7 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
-import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.common.items.CustomItem;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Projectile;

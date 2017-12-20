@@ -5,7 +5,7 @@ import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
-import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.monster.ai.AIEntity;
 
 /**

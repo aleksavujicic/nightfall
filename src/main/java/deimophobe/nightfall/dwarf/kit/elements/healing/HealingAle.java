@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.elements.healing;
 
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.common.items.CustomItem;
 
 /**
  * Created by Deimophobe on 22/01/17.

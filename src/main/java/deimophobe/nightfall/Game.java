@@ -7,10 +7,11 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
-import deimophobe.nightfall.dwarf.loadout.Loadout;
+import deimophobe.nightfall.common.loadout.Loadout;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.event.PhaseChangeEvent;
@@ -101,8 +102,6 @@ public class Game {
 	private Game(GameMap map) {
 		game = this;
 		
-		Loadout.restartAutoSaver();
-		
 		// Setup scoreboards and teams
 		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 		
@@ -116,7 +115,7 @@ public class Game {
 		sidebarObj = scoreboard.registerNewObjective(OBJ_NAME, "dummy");
 		sidebarObj.setDisplayName(Misc.getNightfallText());
 		
-		lobbyTeam = Misc.getNewTeam("lobbyTeam");
+		lobbyTeam = this.getNewTeam("lobbyTeam");
 		lobbyTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
 		readyPlayers = new HashSet<>();
 		readyNotifier = new BukkitRunnable() {
@@ -386,6 +385,14 @@ public class Game {
 			Bukkit.getLogger().severe("Failed to send " + name + " packet.");
 			e.printStackTrace();
 		}
+	}
+	
+	public Team getNewTeam(String teamName) {
+		Team oldTeam = scoreboard.getTeam(teamName);
+		if (oldTeam != null)
+			oldTeam.unregister();
+		
+		return scoreboard.registerNewTeam(teamName);
 	}
 	
 	

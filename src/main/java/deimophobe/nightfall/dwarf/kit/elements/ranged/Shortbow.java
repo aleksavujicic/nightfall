@@ -1,8 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.elements.ranged;
 
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.common.items.CustomItem;
 
 /**
  * Created by Deimophobe on 31/03/17.

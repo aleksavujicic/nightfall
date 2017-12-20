@@ -1,11 +1,10 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ArmourSlot;
-import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.Skin;
-import deimophobe.nightfall.items.CustomItem;
-import deimophobe.nightfall.items.lore.LoreTemplate;
-import deimophobe.nightfall.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.common.items.lore.LoreTemplate;
+import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import minecraft.spigot.community.michel_0.api.Slot;

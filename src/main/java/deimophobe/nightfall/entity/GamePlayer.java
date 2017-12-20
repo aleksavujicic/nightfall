@@ -1,7 +1,6 @@
 package deimophobe.nightfall.entity;
 
 import deimophobe.nightfall.Game;
-import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.DamageOccurance;
 import deimophobe.nightfall.damage.GameDamage;
@@ -9,7 +8,7 @@ import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.ProcType;
-import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterManager;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.ChatColor;

@@ -11,7 +11,7 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractElement;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
-import deimophobe.nightfall.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.World;

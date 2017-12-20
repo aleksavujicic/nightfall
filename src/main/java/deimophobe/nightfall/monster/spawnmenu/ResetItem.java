@@ -1,10 +1,9 @@
 package deimophobe.nightfall.monster.spawnmenu;
 
-import deimophobe.nightfall.Misc;
-import deimophobe.nightfall.items.CustomItem;
-import deimophobe.nightfall.menu.IndexedPageChanger;
-import deimophobe.nightfall.menu.MenuItem;
-import deimophobe.nightfall.menu.MenuSession;
+import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.common.menu.IndexedPageChanger;
+import deimophobe.nightfall.common.menu.MenuItem;
+import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.inventory.ItemStack;
 

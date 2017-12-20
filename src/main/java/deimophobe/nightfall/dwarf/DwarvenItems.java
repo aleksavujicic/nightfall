@@ -1,9 +1,8 @@
 package deimophobe.nightfall.dwarf;
 
-import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
-import deimophobe.nightfall.items.CustomItem;
-import deimophobe.nightfall.items.lore.LoreTemplate;
+import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;

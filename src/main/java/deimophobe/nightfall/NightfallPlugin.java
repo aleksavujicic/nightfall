@@ -6,6 +6,8 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.EnumWrappers;
+import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -14,12 +16,11 @@ import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.dwarf.kit.elements.hero.Horn;
-import deimophobe.nightfall.dwarf.loadout.DwarfData;
-import deimophobe.nightfall.dwarf.loadout.Loadout;
-import deimophobe.nightfall.dwarf.loadout.LoadoutMenu;
+import deimophobe.nightfall.common.loadout.DwarfData;
+import deimophobe.nightfall.common.loadout.Loadout;
+import deimophobe.nightfall.common.loadout.LoadoutMenu;
 import deimophobe.nightfall.entity.GamePlayer;
-import deimophobe.nightfall.items.CustomItem;
-import deimophobe.nightfall.items.ItemManager;
+import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.MapManager;
 import deimophobe.nightfall.monster.MonsterManager;
@@ -63,6 +64,8 @@ public class NightfallPlugin extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		plugin = this;
+		Misc.setPlugin(this);
+		LoreTemplate.registerTemplateFile(Misc.getInternalFileConfig("lore-templates.yml"));
 		
 		setupPacketEvents();
 		Loadout.setupLoadouts();
@@ -77,9 +80,7 @@ public class NightfallPlugin extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		disabling = true;
-		Loadout.saveLoadouts();
 		game.stop();
-		Misc.removeAllTeams();
 	}
 	
 	public void updateManagers() {

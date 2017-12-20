@@ -1,6 +1,5 @@
 package deimophobe.nightfall.dwarf.consumable;
 
-import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.armour.Armour;

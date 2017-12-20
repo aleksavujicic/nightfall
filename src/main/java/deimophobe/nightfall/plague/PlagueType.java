@@ -1,7 +1,5 @@
 package deimophobe.nightfall.plague;
 
-import deimophobe.nightfall.Misc;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashSet;

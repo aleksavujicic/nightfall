@@ -1,8 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.elements.healing;
 
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.kit.elements.healing.AbstractAle;
-import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.common.items.CustomItem;
 import org.bukkit.potion.PotionEffectType;
 
 /**

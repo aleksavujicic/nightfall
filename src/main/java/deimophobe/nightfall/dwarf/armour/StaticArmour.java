@@ -1,6 +1,6 @@
 package deimophobe.nightfall.dwarf.armour;
 
-import deimophobe.nightfall.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 
 /**
  * Created by Deimophobe on 9/11/17.

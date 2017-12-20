@@ -1,8 +1,8 @@
 package deimophobe.nightfall;
 
 import deimophobe.nightfall.entity.GamePlayer;
-import deimophobe.nightfall.items.CustomItem;
-import deimophobe.nightfall.items.lore.LoreTemplate;
+import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;

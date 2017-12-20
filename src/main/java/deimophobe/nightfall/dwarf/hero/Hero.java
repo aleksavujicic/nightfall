@@ -1,6 +1,5 @@
 package deimophobe.nightfall.dwarf.hero;
 
-import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.SkinManager;
@@ -10,7 +9,7 @@ import deimophobe.nightfall.dwarf.armour.HeroArmour;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
-import deimophobe.nightfall.dwarf.loadout.DwarfData;
+import deimophobe.nightfall.common.loadout.DwarfData;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;

@@ -1,6 +1,5 @@
 package deimophobe.nightfall.monster.doom;
 
-import deimophobe.nightfall.Misc;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;

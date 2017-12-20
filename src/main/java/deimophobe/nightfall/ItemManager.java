@@ -1,8 +1,9 @@
-package deimophobe.nightfall.items;
+package deimophobe.nightfall;
 
-import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.items.lore.LoreTemplate;
 import deimophobe.nightfall.monster.mob.MobType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;
@@ -68,5 +69,11 @@ public class ItemManager {
 	
 	public CustomItem getItem(String name) {
 		return items.get(name);
+	}
+	
+	
+	// ------ ITEMS ------
+	public static CustomItem getMiscItem(String name) {
+		return CustomItem.getItem(Misc.getInternalFileConfig("misc-items.yml").getConfigurationSection(name), LoreTemplate.DEFAULT, Slot.MAIN_HAND);
 	}
 }

@@ -1,8 +1,8 @@
 package deimophobe.nightfall.monster.spawnmenu;
 
-import deimophobe.nightfall.menu.MenuItem;
-import deimophobe.nightfall.menu.MultiItem;
-import deimophobe.nightfall.menu.SimpleMenu;
+import deimophobe.nightfall.common.menu.MenuItem;
+import deimophobe.nightfall.common.menu.MultiItem;
+import deimophobe.nightfall.common.menu.SimpleMenu;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.mob.MobType;
 import org.bukkit.configuration.ConfigurationSection;

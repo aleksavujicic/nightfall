@@ -3,7 +3,7 @@ package deimophobe.nightfall.dwarf.kit.elements.ranged;
 import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.ChatColor;

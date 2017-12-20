@@ -2,7 +2,6 @@ package deimophobe.nightfall.map;
 
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Game;
-import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.VoidChunkGenerator;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
