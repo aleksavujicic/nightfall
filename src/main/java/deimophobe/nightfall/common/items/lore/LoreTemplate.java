@@ -1,11 +1,10 @@
 package deimophobe.nightfall.common.items.lore;
 
-import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifier;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.*;
 
@@ -18,7 +17,7 @@ public class LoreTemplate {
 	public static final String DEFAULT = BASIC;
 	public static final String DWARF = "dwarf";
 	public static final String DWARF_HERO = "dwarf-hero";
-	public static final String LOADOUT = "loadout";
+	public static final String LOADOUT = "common/loadout";
 	public static final String MOB = "monster";
 	public static final String MOB_HERO = "monster-hero";
 	public static final String MOB_UPGRADE = "monster-upgrade";
@@ -121,13 +120,13 @@ public class LoreTemplate {
 	
 	
 	private static final HashMap<String, LoreTemplate> templates = new HashMap<>();
-	static {
-		YamlConfiguration templatesFile = Misc.getInternalFileConfig("lore-templates.yml");
+	public static LoreTemplate getLoreTemplate(String name) {
+		return templates.get(name);
+	}
+	public static void registerTemplateFile(Configuration templatesFile) {
 		for (String key : templatesFile.getKeys(false)) {
 			templates.put(key, new LoreTemplate(templatesFile.getConfigurationSection(key)));
 		}
 	}
-	public static LoreTemplate getLoreTemplate(String name) {
-		return templates.get(name);
-	}
+	
 }

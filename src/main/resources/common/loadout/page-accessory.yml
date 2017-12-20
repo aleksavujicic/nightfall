@@ -1,0 +1,429 @@
+# ------ PASSIVES ------
+compass:
+  index: 0
+  category: accessory
+  type: item
+  name: compass
+  cost: 0
+  item:
+    name: "Compass"
+    material: compass
+    lore:
+      description:
+       - "Right click to cycle through\n
+          key locations."
+chesto:
+  index: 1
+  category: accessory
+  type: item
+  name: chesto
+  cost: 0
+  item:
+    name: "Chestomatic"
+    base: chestomatic
+    lore:
+      description:
+       - "Gives you a portable shared\n
+          resource chest."
+slowfall:
+  index: 2
+  category: accessory
+  type: item
+  name: slowfall
+  cost: 4
+  item:
+    name: "Slowfall"
+    base: slowfall
+    lore:
+      description:
+       - "SHIFT to give yourself Jump Boost\n
+          and a slowfalling effect."
+darkvision:
+  index: 3
+  category: accessory
+  type: item
+  name: darkvision
+  cost: 4
+  item:
+    name: "Dark Vision"
+    base: darkvision
+    lore:
+      description:
+       - "Press and hold shift to give\n
+          yourself a Night Vision effect."
+avenge:
+  index: 4
+  category: accessory
+  type: item
+  name: avenge
+  cost: 4
+  item:
+    name: "Avenge"
+    base: avenge
+    lore:
+      description:
+       - "Gain a PROC when a dwarf dies."
+
+tombmaker:
+  index: 5
+  category: accessory
+  type: item
+  name: tombmaker
+  cost: 4
+  item:
+    name: "Tombmaker"
+    base: tombmaker
+    lore:
+      description:
+       - "Replaces your shovel with a tombmaker\n
+          allowing you to right click and dig faster\n
+          for a few seconds."
+
+resurrection:
+  index: 6
+  category: accessory
+  type: item
+  name: resurrection
+  cost: 8
+  item:
+    name: "Resurrection"
+    base: resurrection
+    lore:
+      description:
+       - "You shall be resurrected once upon death.\n
+          This resurrection will heal you, but will\n
+          also permanently cost you 5 hearts."
+
+bricklayer:
+  index: 7
+  category: accessory
+  type: item
+  name: bricklayer
+  cost: 4
+  item:
+    name: "Bricklayer"
+    base: bricklayer
+    lore:
+      description:
+       - "Doesn't resurrect you."
+
+
+# ------ CONSUMABLES ------
+wizard_one:
+  index: 9
+  type: consumable
+  name: wizard_mortar
+  quantity: 16
+  cost: 2
+  item:
+    name: "Wizard Mortar I"
+    base: menu-wizmortar
+    lore:
+      description:
+       - "Gives you $quantity Wizard Mortar\n
+          which can instantly blue the walls."
+wizard_two:
+  index: 18
+  type: consumable
+  name: wizard_mortar
+  quantity: 32
+  cost: 4
+  item:
+    name: "Wizard Mortar II"
+    base: menu-wizmortar2
+    lore:
+      description:
+       - "Gives you $quantity Wizard Mortar\n
+          which can instantly blue the walls."
+wizard_three:
+  index: 27
+  type: consumable
+  name: wizard_mortar
+  quantity: 64
+  cost: 8
+  item:
+    name: "Wizard Mortar III"
+    base: menu-wizmortar
+    lore:
+      description:
+       - "Gives you $quantity Wizard Mortar\n
+          which can instantly blue the walls."
+
+lamps_one:
+  index: 10
+  type: consumable
+  name: lamp
+  quantity: 16
+  cost: 2
+  item:
+    name: "Enchanted Lamps I"
+    base: menu-lamp
+    lore:
+      description:
+       - "Gives you $quantity Lamps\n
+          Which can be placed as a\n
+          unbreakable light source."
+lamps_two:
+  index: 19
+  type: consumable
+  name: lamp
+  quantity: 32
+  cost: 4
+  item:
+    name: "Enchanted Lamps II"
+    base: menu-lamp2
+    lore:
+      description:
+       - "Gives you $quantity Lamps\n
+          Which can be placed as a\n
+          unbreakable light source."
+lamps_three:
+  index: 28
+  type: consumable
+  name: lamp
+  quantity: 64
+  cost: 8
+  item:
+    name: "Enchanted Lamps III"
+    base: menu-lamp
+    lore:
+      description:
+       - "Gives you $quantity Lamps\n
+          Which can be placed as a\n
+          unbreakable light source."
+
+wrench_one:
+  index: 11
+  type: consumable
+  name: wrench
+  quantity: 1
+  cost: 2
+  item:
+    name: "Wiggly Wrench I"
+    base: menu-wrench
+    lore:
+      description:
+       - "Gives you $quantity Wrench\n
+          to fully repair your armour\n
+          while shrine still has gold."
+wrench_two:
+  index: 20
+  type: consumable
+  name: wrench
+  quantity: 2
+  cost: 4
+  item:
+    name: "Wiggly Wrench II"
+    base: menu-wrench2
+    lore:
+      description:
+       - "Gives you $quantity Wrenches\n
+          to fully repair your armour\n
+          while shrine still has gold."
+wrench_three:
+  index: 29
+  type: consumable
+  name: wrench
+  quantity: 3
+  cost: 8
+  item:
+    name: "Wiggly Wrench III"
+    base: menu-wrench
+    lore:
+      description:
+       - "Gives you $quantity Wrenches\n
+          to fully repair your armour\n
+          while shrine still has gold."
+
+healing_one:
+  index: 12
+  type: consumable
+  name: heal_station
+  quantity: 2
+  cost: 2
+  item:
+    name: "'Healing Station' I"
+    base: healitem
+    lore:
+      description:
+       - "Gives you $quantity Healing Stations\n
+          Which can be placed to regen\n
+          health mana and armour.\n
+          Can be broken by Mobs."
+healing_two:
+  index: 21
+  type: consumable
+  name: heal_station
+  quantity: 4
+  cost: 4
+  item:
+    name: "'Healing Station' II"
+    base: healitem
+    lore:
+      description:
+       - "Gives you $quantity Healing Stations\n
+          Which can be placed to regen\n
+          health mana and armour.\n
+          Can be broken by Mobs."
+healing_three:
+  index: 30
+  type: consumable
+  name: heal_station
+  quantity: 8
+  cost: 8
+  item:
+    name: "'Healing Station' III"
+    base: healitem
+    lore:
+      description:
+       - "Gives you $quantity Healing Stations\n
+          Which can be placed to regen\n
+          health mana and armour.\n
+          Can be broken by Mobs."
+
+sos_one:
+  index: 13
+  type: consumable
+  name: sos
+  quantity: 1
+  cost: 6
+  item:
+    name: "SOS I"
+    base: menu-sos
+    lore:
+      description:
+       - "Gives you $quantity Sword of Santification\n
+          Which can stop and blind any mobs within\n
+          the area of effect, Mobs can still attack\n
+          if you are too close."
+sos_two:
+  index: 22
+  type: consumable
+  name: sos
+  quantity: 2
+  cost: 12
+  item:
+    name: "SOS II"
+    base: menu-sos2
+    lore:
+      description:
+       - "Gives you $quantity Sword of Santifications\n
+          Which can stop and blind any mobs within\n
+          the area of effect, Mobs can still attack\n
+          if you are too close."
+sos_three:
+  index: 31
+  type: consumable
+  name: sos
+  quantity: 3
+  cost: 18
+  item:
+    name: "SOS III"
+    base: menu-sos
+    lore:
+      description:
+       - "Gives you $quantity Sword of Santifications\n
+          Which can stop and blind any mobs within\n
+          the area of effect, Mobs can still attack\n
+          if you are too close."
+
+slab_one:
+  index: 14
+  type: consumable
+  name: slab
+  quantity: 1
+  cost: 2
+  item:
+    name: "Slab I"
+    base: slab
+    lore:
+      description:
+       - "Gives you $quantity slab\n
+          Which create a thick blue wall in front\n
+          when used."
+slab_two:
+  index: 23
+  type: consumable
+  name: slab
+  quantity: 2
+  cost: 4
+  item:
+    name: "Slab II"
+    base: slab
+    lore:
+      description:
+       - "Gives you 2 Slabs\n
+          Which create a thick blue wall in front\n
+          when used."
+slab_three:
+  index: 32
+  type: consumable
+  name: slab
+  quantity: 4
+  cost: 8
+  item:
+    name: "Slab III"
+    base: slab
+    lore:
+      description:
+       - "Gives you $quantity Slabs\n
+          Which create a thick blue wall in front\n
+          when used."
+
+builder_one:
+  index: 15
+  cost: 2
+  category: consumable
+  type: multi
+  consumables:
+    torch: 32
+    mortar: 32
+    cobblestone: 96
+  item:
+    name: "Builder's Pack I"
+    base: menu-builder
+    lore:
+      description:
+       - "Gives you a Tier 1 Builder's Pack\n
+          Which contains the following items\n
+          *32 Torches\n
+          *32 Mortar\n
+          *96 Cobblestone."
+builder_two:
+  index: 24
+  cost: 4
+  category: consumable
+  type: multi
+  consumables:
+    torch: 64
+    mortar: 64
+    cobblestone: 192
+  item:
+    name: "Builder's Pack II"
+    base: menu-builder2
+    lore:
+      description:
+       - "Gives you a Tier 2 Builder's Pack\n
+          Which contains the following items\n
+          *64 Torches\n
+          *64 Mortar\n
+          *192 Cobblestone."
+builder_three:
+  index: 33
+  cost: 8
+  category: consumable
+  type: multi
+  consumables:
+    torch: 128
+    mortar: 128
+    cobblestone: 384
+  item:
+    name: "Builder's Pack III"
+    base: menu-builder
+    lore:
+      description:
+       - "Gives you a Tier 3 Builder's Pack\n
+          Which contains the following items\n
+          *128 Torches\n
+          *128 Mortar\n
+          *384 Cobblestone."
