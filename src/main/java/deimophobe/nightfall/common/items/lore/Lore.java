@@ -1,5 +1,7 @@
 package deimophobe.nightfall.common.items.lore;
 
+import deimophobe.nightfall.common.Misc;
+
 import deimophobe.nightfall.common.items.modifiers.ItemModifier;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import org.bukkit.ChatColor;

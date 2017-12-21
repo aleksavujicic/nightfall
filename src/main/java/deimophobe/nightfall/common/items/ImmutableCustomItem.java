@@ -1,5 +1,7 @@
 package deimophobe.nightfall.common.items;
 
+import deimophobe.nightfall.common.Misc;
+
 import deimophobe.nightfall.common.items.base.BaseItem;
 import deimophobe.nightfall.common.items.lore.Lore;
 import deimophobe.nightfall.common.items.modifiers.ItemModifier;

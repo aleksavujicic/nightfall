@@ -1,5 +1,7 @@
 package deimophobe.nightfall.common.menu.submenu;
 
+import deimophobe.nightfall.common.Misc;
+
 import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.SessionData;
 import org.bukkit.inventory.ItemStack;

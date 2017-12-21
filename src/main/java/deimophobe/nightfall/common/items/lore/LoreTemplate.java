@@ -1,9 +1,9 @@
 package deimophobe.nightfall.common.items.lore;
 
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifier;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.*;
@@ -123,7 +123,8 @@ public class LoreTemplate {
 	public static LoreTemplate getLoreTemplate(String name) {
 		return templates.get(name);
 	}
-	public static void registerTemplateFile(Configuration templatesFile) {
+	public static void registerTemplateFile(String filename) {
+		ConfigurationSection templatesFile = Misc.getInternalFileConfig(filename);
 		for (String key : templatesFile.getKeys(false)) {
 			templates.put(key, new LoreTemplate(templatesFile.getConfigurationSection(key)));
 		}

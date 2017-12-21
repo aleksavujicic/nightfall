@@ -1,5 +1,7 @@
 package deimophobe.nightfall.common.menu;
 
+import deimophobe.nightfall.common.Misc;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;

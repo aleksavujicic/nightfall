@@ -1,0 +1,142 @@
+package deimophobe.nightfall.common.loadout.item;
+
+import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.common.items.lore.LoreTemplate;
+import deimophobe.nightfall.common.loadout.Category;
+import deimophobe.nightfall.common.loadout.DwarfData;
+import deimophobe.nightfall.common.loadout.Loadout;
+import deimophobe.nightfall.common.loadout.LoadoutManager;
+import deimophobe.nightfall.common.menu.MenuSession;
+import deimophobe.nightfall.common.menu.item.MenuItem;
+import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
+
+/**
+ * Created by Deimophobe on 7/03/17.
+ */
+public abstract class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
+	
+	private final CustomItem item;
+	private final Category category;
+	private final int cost;
+	
+	protected CustomItem getItem() { return item; }
+	public int getCost() { return cost; }
+	public Category getCategory() { return category; }
+	
+	private ItemStack itemStack;
+	private final boolean enabled;
+	private final int position;
+	private final String id;
+	
+	
+	private static Category getCategory(ConfigurationSection config) {
+		if (config.contains("category"))
+			return Category.valueOf(config.getString("category").toUpperCase());
+		else
+			throw new IllegalArgumentException("Category for item '" + config.getName() + "' is missing.");
+	}
+	
+	protected LoadoutItem(ConfigurationSection config) {
+		this(config, getCategory(config), config.getInt("cost", 64));
+	}
+	
+	protected LoadoutItem(ConfigurationSection config, Category category) {
+		this(config, category, config.getInt("cost", 64));
+	}
+	
+	protected LoadoutItem(ConfigurationSection config, Category category, int cost) {
+		this.category = category;
+		this.cost = cost;
+		
+		this.enabled = config.getBoolean("enabled", true);
+		if (enabled) category.addItem(this);
+		
+		
+		
+		this.item = CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.LOADOUT, Slot.MAIN_HAND);
+		if (!enabled) item.setShiny(true);
+		item.applyVariable("cost", "" + cost);
+		item.applyVariable("category", category.getLore());
+		
+		this.id = config.getName();
+		this.position = LoadoutManager.getManager().registerLoadoutItem(this, id);
+	}
+	
+	public static LoadoutItem createItem(ConfigurationSection config) {
+		LoadoutItem item;
+		
+		String type = config.getString("type", null);
+		if (type == null)
+			throw new IllegalArgumentException("Type for config item: " + config.getCurrentPath() + " not specified.");
+		
+		switch (type) {
+			case "item":
+				item = new SimpleLoadoutItem(config);
+				break;
+			case "consumable":
+				item = new ConsumableLoadoutItem(config);
+				break;
+			case "multi":
+				item = new MultiLoadoutItem(config);
+				break;
+			case "random":
+				item = new RandomLoadoutItem(config);
+				break;
+			default:
+				throw new IllegalArgumentException("Unknown loadout item type: " + type);
+		}
+		
+		item.compileItem();
+		
+		return item;
+	}
+	
+	protected void compileItem() {
+		itemStack = item.createItemStack();
+		itemStack.setAmount(cost == 0 ? 1 : cost);
+	}
+	
+	public abstract void modify(DwarfData dwarfData);
+	
+	
+	private boolean canSee(MenuSession<Loadout> session) {
+		return enabled ;
+	}
+	
+	@Override
+	public ItemStack getDisplayItem(MenuSession<Loadout> session) {
+		if (!canSee(session)) return null;
+		
+		Loadout loadout = session.getData();
+		if (loadout.hasItem(this)) {
+			ItemStack item = itemStack.clone();
+			item.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+			return item;
+		} else {
+			return itemStack;
+		}
+	}
+	
+	@Override
+	public boolean onClick(MenuSession<Loadout> session) {
+		if (!canSee(session)) return false;
+		
+		Loadout loadout = session.getData();
+		return loadout.selectItem(this);
+	}
+	
+	
+	
+	@Override
+	public int compareTo(LoadoutItem item) {
+		return position - item.position;
+	}
+	
+	@Override
+	public String toString() {
+		return id;
+	}
+}

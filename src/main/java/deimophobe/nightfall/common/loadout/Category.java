@@ -1,5 +1,8 @@
 package deimophobe.nightfall.common.loadout;
 
+import deimophobe.nightfall.common.Misc;
+
+import deimophobe.nightfall.common.loadout.item.LoadoutItem;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 
 import java.util.HashSet;
@@ -8,27 +11,24 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 24/03/17.
  */
-enum Category {
-	KIT(null, "CLASS", true, true),
+public enum Category {
+	KIT(null, "CLASS", true),
 	
-	SWORD(KitElementType.DRB, "MELEE WEAPON", true, true),
-	BOW(KitElementType.SHORTBOW, "RANGED WEAPON", true, true),
-	ALE(KitElementType.HEALING_ALE, "HEALING ITEM", true, true),
-	ARMOUR(null, "ARMOUR ITEM", true, true),
-	CONSUMABLE(null, "CONSUMABLE", true, false),
-	ACCESSORY(null, "ACCESSORY", true, false),
-	HAT(null, "HAT", false, true),
-	TITLE(null, "TITLE", false, true);
+	SWORD(KitElementType.DRB, "MELEE WEAPON", true),
+	BOW(KitElementType.SHORTBOW, "RANGED WEAPON", true),
+	ALE(KitElementType.HEALING_ALE, "HEALING ITEM", true),
+	ARMOUR(null, "ARMOUR ITEM", true),
+	CONSUMABLE(null, "CONSUMABLE", false),
+	ACCESSORY(null, "ACCESSORY", false)
+	
+	;
 	
 	
-	private final KitElementType def;
-	public KitElementType getDefault() {return def;}
+	private final KitElementType defaultItem;
+	public KitElementType getDefault() {return defaultItem;}
 	
 	private final String lore;
 	public String getLore() {return lore;}
-	
-	private final boolean clearable;
-	public boolean isClearable() {return clearable;}
 	
 	private final boolean singleItem;
 	public boolean isSingleItem() {return singleItem;}
@@ -37,10 +37,9 @@ enum Category {
 	public void addItem(LoadoutItem item) { items.add(item); }
 	public Set<LoadoutItem> getItems() { return items; }
 	
-	Category(KitElementType def, String lore, boolean clearable, boolean singleItem) {
-		this.def = def;
+	Category(KitElementType defaultItem, String lore, boolean singleItem) {
+		this.defaultItem = defaultItem;
 		this.lore = lore;
-		this.clearable = clearable;
 		this.singleItem = singleItem;
 	}
 	

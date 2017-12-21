@@ -1,5 +1,7 @@
 package deimophobe.nightfall.common.items.modifiers;
 
+import deimophobe.nightfall.common.Misc;
+
 /**
  * Created by Deimophobe on 27/04/17.
  */

@@ -1,15 +1,13 @@
 package deimophobe.nightfall.common.loadout;
 
+import deimophobe.nightfall.common.Misc;
+
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.common.loadout.item.LoadoutItem;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.common.menu.SessionData;
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -17,18 +15,18 @@ import java.util.*;
  */
 public class Loadout implements SessionData {
 	
-	private static final int MAX_POINTS = 64;
+	public static final int MAX_POINTS = 64;
 	
 	private final SortedSet<LoadoutItem> items = new TreeSet<>();
 	private final Map<Category, LoadoutItem> categoryItems = new HashMap<>();
 	
 	private final UUID playerUUID;
 	
-	private Loadout(UUID playerUUID) {
+	Loadout(UUID playerUUID) {
 		this.playerUUID = playerUUID;
 	}
 	
-	boolean selectItem(LoadoutItem item) {
+	public boolean selectItem(LoadoutItem item) {
 		Category cat = item.getCategory();
 		
 		if (items.contains(item)) {
@@ -60,11 +58,11 @@ public class Loadout implements SessionData {
 		}
 	}
 	
-	boolean hasItem(LoadoutItem item) {
+	public boolean hasItem(LoadoutItem item) {
 		return items.contains(item);
 	}
 	
-	int getRemainingPoints() {
+	public int getRemainingPoints() {
 		int usedPoints = 0;
 		for (LoadoutItem item : items) {
 			usedPoints += item.getCost();
@@ -72,13 +70,10 @@ public class Loadout implements SessionData {
 		return MAX_POINTS - usedPoints;
 	}
 	
-	void clear() {
-		items.removeIf(LoadoutItem::isClearable);
+	public void clear() {
+		items.clear();
+		categoryItems.clear();
 		
-		for (Category category : Category.values()) {
-			if (category.isClearable())
-				categoryItems.remove(category);
-		}
 		updateDisplay();
 	}
 	
@@ -97,7 +92,7 @@ public class Loadout implements SessionData {
 //		}
 	}
 	
-	DwarfData constructProperties() {
+	public DwarfData constructProperties() {
 		DwarfData data = new DwarfData();
 		boolean hasKit = false;
 		for (LoadoutItem item : items) {
@@ -108,7 +103,7 @@ public class Loadout implements SessionData {
 		
 		// Apply warrior class if kit is empty
 		if (getRemainingPoints() == MAX_POINTS) {
-			LoadoutItem.getItem("warrior-class").modify(data);
+			LoadoutManager.getManager().getDefaultKit().modify(data);
 			hasKit = true;
 		}
 		
@@ -123,25 +118,5 @@ public class Loadout implements SessionData {
 			}
 		}
 		return data;
-	}
-	
-	
-	
-	public static void updateLoadoutDisplay(Player player) {
-		getLoadout(player).updateDisplay();
-	}
-	
-	private static final Map<UUID, Loadout> loadouts = new HashMap<>();
-	static Loadout getLoadout(Player player) {
-		return getLoadout(player.getUniqueId());
-	}
-	static Loadout getLoadout(UUID uuid) {
-		return loadouts.computeIfAbsent(uuid, Loadout::new);
-	}
-	
-	
-	// ------ SAVING AND LOADING TO FILE
-	public static void setupLoadouts() {
-		LoadoutMenu.loadMenu();
 	}
 }

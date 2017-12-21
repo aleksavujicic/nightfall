@@ -1,5 +1,6 @@
 package deimophobe.nightfall.common.loadout;
 
+import deimophobe.nightfall.common.loadout.item.LoadoutItem;
 import deimophobe.nightfall.common.menu.submenu.SimpleMenu;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -12,7 +13,7 @@ class LoadoutPage extends SimpleMenu<Loadout> {
 		
 		for (String key : config.getKeys(false)) {
 			ConfigurationSection itemConfig = config.getConfigurationSection(key);
-			LoadoutItem item = new LoadoutItem(itemConfig);
+			LoadoutItem item = LoadoutItem.createItem(itemConfig);
 			setItem(itemConfig.getInt("index"), item);
 		}
 	}

@@ -1,5 +1,7 @@
 package deimophobe.nightfall.common;
 
+import deimophobe.nightfall.common.items.lore.LoreTemplate;
+import deimophobe.nightfall.common.menu.MenuManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -21,7 +23,15 @@ import java.util.*;
  */
 public class Misc {
 	private static Plugin plugin;
-	public static void setPlugin(Plugin plugin) { Misc.plugin = plugin; }
+	public static void initialiseNightfallCommon(Plugin plugin) {
+		Misc.plugin = plugin;
+		MenuManager.initialiseMenuManager(plugin);
+		LoreTemplate.registerTemplateFile("common/loadout/lore-templates.yml");
+	}
+	
+	
+	
+	
 	
 	public static String getNightfallText() {
 		return ChatColor.BLUE + "Night" + ChatColor.DARK_RED + "fall";

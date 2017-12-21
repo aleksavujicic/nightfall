@@ -1,5 +1,7 @@
 package deimophobe.nightfall.common.items.modifiers;
 
+import deimophobe.nightfall.common.Misc;
+
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;

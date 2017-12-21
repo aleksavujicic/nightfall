@@ -1,5 +1,7 @@
 package deimophobe.nightfall.common.items.lore;
 
+import deimophobe.nightfall.common.Misc;
+
 import java.util.Map;
 
 /**

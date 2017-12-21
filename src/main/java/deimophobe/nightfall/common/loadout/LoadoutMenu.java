@@ -40,7 +40,7 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 		tempPages.add(new LoadoutPage(Misc.getInternalFileConfig("common/loadout/page-classes.yml")));
 		tempPages.add(new LoadoutPage(Misc.getInternalFileConfig("common/loadout/page-weapons.yml")));
 		tempPages.add(new LoadoutPage(Misc.getInternalFileConfig("common/loadout/page-accessory.yml")));
-		tempPages.add(new LoadoutPage(Misc.getInternalFileConfig("common/loadout/page-cosmetic.yml")));
+		//tempPages.add(new LoadoutPage(Misc.getInternalFileConfig("common/loadout/page-cosmetic.yml")));
 		
 		MultiPageMenu<Loadout> pages = new MultiPageMenu<Loadout>(tempPages);
 		SimpleMenu<Loadout> toolbar = new SimpleMenu<>(EXTRA_SIZE);
@@ -70,7 +70,7 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 	
 	@Override
 	public Loadout getDataFromPlayer(Player player) {
-		return Loadout.getLoadout(player);
+		return LoadoutManager.getManager().getLoadout(player);
 	}
 	
 	private class PointsItem implements MenuItem<Loadout> {

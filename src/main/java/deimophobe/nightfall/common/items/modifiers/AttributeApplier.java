@@ -1,5 +1,7 @@
 package deimophobe.nightfall.common.items.modifiers;
 
+import deimophobe.nightfall.common.Misc;
+
 import minecraft.spigot.community.michel_0.api.Attribute;
 import minecraft.spigot.community.michel_0.api.AttributeModifier;
 import minecraft.spigot.community.michel_0.api.ItemAttributes;
