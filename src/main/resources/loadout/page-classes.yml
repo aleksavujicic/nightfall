@@ -51,7 +51,7 @@ ranger-class:
   consumables:
     torch: 64
     mortar: 64
-    cobblestone: 194
+    cobblestone: 192
     sos: 1
     wizard_mortar: 32
     lamp: 64
