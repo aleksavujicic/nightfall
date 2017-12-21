@@ -10,12 +10,12 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.effects.GameEffect;
-import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
@@ -162,7 +162,7 @@ public class DwarvenArmour implements Armour {
 		}
 	}
 	
-	private static final Map<EnumWrappers.ItemSlot, Function<PlayerInventory, ItemStack>> slotToItemGetter = new HashMap();
+	private static final Map<EnumWrappers.ItemSlot, Function<PlayerInventory, ItemStack>> slotToItemGetter = new HashMap<>();
 	static {
 		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 		protocolManager.addPacketListener(new PacketAdapter(NightfallPlugin.getPlugin(), PacketType.Play.Server.ENTITY_EQUIPMENT) {

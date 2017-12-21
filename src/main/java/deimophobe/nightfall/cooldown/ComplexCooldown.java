@@ -1,6 +1,5 @@
 package deimophobe.nightfall.cooldown;
 
-
 //TODO RENAME
 /**
  * Created by Deimophobe on 2/06/17.

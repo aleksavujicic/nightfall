@@ -1,7 +1,8 @@
 package deimophobe.nightfall.monster.doom;
 
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;

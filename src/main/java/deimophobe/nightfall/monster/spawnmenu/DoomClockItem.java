@@ -1,7 +1,7 @@
 package deimophobe.nightfall.monster.spawnmenu;
 
-import deimophobe.nightfall.common.menu.MenuItem;
 import deimophobe.nightfall.common.menu.MenuSession;
+import deimophobe.nightfall.common.menu.item.MenuItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.doom.DoomManager;
 import org.bukkit.ChatColor;

@@ -1,10 +1,10 @@
 package deimophobe.nightfall.dwarf.kit.elements.healing;
 
+import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.common.items.CustomItem;
 
 public class HealingGlow extends AbstractAle {
 

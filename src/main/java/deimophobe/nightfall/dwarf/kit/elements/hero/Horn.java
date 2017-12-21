@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.elements.hero;
 
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -8,7 +9,6 @@ import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractCooldownItem;
 import deimophobe.nightfall.effects.sound.Sounds;
-import deimophobe.nightfall.common.items.CustomItem;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;

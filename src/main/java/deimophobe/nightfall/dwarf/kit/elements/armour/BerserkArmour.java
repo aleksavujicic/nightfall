@@ -1,11 +1,11 @@
 package deimophobe.nightfall.dwarf.kit.elements.armour;
 
+import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractElement;
-import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import org.bukkit.potion.PotionEffectType;
 
 /**

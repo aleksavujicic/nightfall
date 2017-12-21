@@ -2,8 +2,8 @@ package deimophobe.nightfall.monster.spawnmenu;
 
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
-import deimophobe.nightfall.common.menu.MenuItem;
 import deimophobe.nightfall.common.menu.MenuSession;
+import deimophobe.nightfall.common.menu.item.MenuItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.mob.MobType;
 import minecraft.spigot.community.michel_0.api.Slot;
@@ -87,11 +87,7 @@ class UpgradeMenuItem implements MenuItem<MonsterPlayer> {
 				return false;
 		}
 		
-		if (!permanent && upgrades.get(label) >= maxLevel)
-			return false;
-		
-		
-		return true;
+		return permanent || upgrades.get(label) < maxLevel;
 	}
 	
 	@Override

@@ -1,11 +1,11 @@
 package deimophobe.nightfall.dwarf.kit;
 
+import deimophobe.nightfall.common.loadout.DwarfData;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.kit.elements.ranged.AbstractBow;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
-import deimophobe.nightfall.common.loadout.DwarfData;
+import deimophobe.nightfall.dwarf.kit.elements.ranged.AbstractBow;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;

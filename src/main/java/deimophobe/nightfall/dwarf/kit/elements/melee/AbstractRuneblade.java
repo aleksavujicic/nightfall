@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.elements.melee;
 
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -35,7 +36,7 @@ public abstract class AbstractRuneblade extends AbstractItem implements KitCoold
 	
 	@Override public KitGiveType getGiveType() {
 		return KitGiveType.SWORD;
-	};
+	}
 	
 	
 	

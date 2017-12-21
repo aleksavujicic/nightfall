@@ -15,7 +15,7 @@ import org.bukkit.event.block.Action;
 public interface Mob {
 	boolean isShrineImmune();
 	Disguise getDisguise();
-	default boolean hasDisguise() {return getDisguise() != null;};
+	default boolean hasDisguise() {return getDisguise() != null;}
 	
 	void onSpawn();
 	

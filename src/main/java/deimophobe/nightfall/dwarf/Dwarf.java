@@ -1,10 +1,11 @@
 package deimophobe.nightfall.dwarf;
 
 import deimophobe.nightfall.Game;
-import deimophobe.nightfall.Hat;
 import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.HealBlock;
+import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.loadout.DwarfData;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.RepeatingCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -20,7 +21,6 @@ import deimophobe.nightfall.dwarf.kit.Kit;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.dwarf.kit.elements.armour.BerserkArmour;
-import deimophobe.nightfall.common.loadout.DwarfData;
 import deimophobe.nightfall.entity.DwarfEntity;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
@@ -66,25 +66,25 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		mana = maxMana;
 		
 		// Set title
-		String title = data.getTitle();
-		boolean forceTitle = data.getForceTitle();
-		
-		ChatColor color;
-		if (forceTitle)
-			color = ChatColor.GOLD;
-		else
-			if (data.getTitle() != null)
-				color = ChatColor.AQUA;
-			else
-				color = ChatColor.DARK_AQUA;
-		
-		setTitle(color, title, forceTitle);
+//		String title = data.getTitle();
+//		boolean forceTitle = data.getForceTitle();
+//
+//		ChatColor color;
+//		if (forceTitle)
+//			color = ChatColor.GOLD;
+//		else
+//			if (data.getTitle() != null)
+//				color = ChatColor.AQUA;
+//			else
+//				color = ChatColor.DARK_AQUA;
+//
+//		setTitle(color, title, forceTitle);
 		
 		
 		// Put on hat
-		Hat hat = data.getHat();
-		if (hat != null)
-			hat.putOn(this);
+//		Hat hat = data.getHat();
+//		if (hat != null)
+//			hat.putOn(this);
 		
 		giveArrows(40);
 		

@@ -1,15 +1,16 @@
 package deimophobe.nightfall.dwarf.hero;
 
+import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.SkinManager;
+import deimophobe.nightfall.common.loadout.DwarfData;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.HeroArmour;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
-import deimophobe.nightfall.common.loadout.DwarfData;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
@@ -48,7 +49,7 @@ public class Hero extends Dwarf {
 		
 		if (type.skin != null) {
 			String name = type.skin.getName();
-			Team team = Misc.getNewTeam("hero" + name);
+			Team team = Game.getGame().getNewTeam("hero" + name);
 			team.setColor(type.glowColour);
 			team.setPrefix(type.glowColour.toString());
 			team.addEntry(name);
@@ -125,7 +126,7 @@ public class Hero extends Dwarf {
 		HERO_CONSUMABLES.put(ConsumableType.SOS, 1);
 		
 		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.SOS, 1);
-		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.LAMP, 40);;
+		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.LAMP, 40);
 		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.SLAB, 2);
 		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.WIZARD_MORTAR, 16);
 		EXTRA_ARTHEA_CONSUMABLES.put(ConsumableType.COBBLESTONE, 128);

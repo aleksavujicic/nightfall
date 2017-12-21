@@ -2,6 +2,7 @@ package deimophobe.nightfall;
 
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedSignedProperty;
+import deimophobe.nightfall.common.Misc;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -41,7 +42,7 @@ public class Skin {
 	
 	private static Map<String, Skin> skins = new HashMap<>();
 	static {
-		ConfigurationSection skinData =Misc.getInternalFileConfig("skin.yml");
+		ConfigurationSection skinData = Misc.getInternalFileConfig("skin.yml");
 		for (String key : skinData.getKeys(false)) {
 			skins.put(key.toLowerCase(), new Skin(skinData.getConfigurationSection(key)));
 		}

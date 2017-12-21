@@ -1,9 +1,9 @@
 package deimophobe.nightfall.dwarf.consumable;
 
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.common.items.CustomItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;

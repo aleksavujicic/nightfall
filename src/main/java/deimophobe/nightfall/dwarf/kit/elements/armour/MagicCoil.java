@@ -1,8 +1,9 @@
 package deimophobe.nightfall.dwarf.kit.elements.armour;
 
+import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractCooldown;
-import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 

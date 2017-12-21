@@ -4,7 +4,10 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Bukkit;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 19/01/17.

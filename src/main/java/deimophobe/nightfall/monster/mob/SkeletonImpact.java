@@ -2,6 +2,8 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.DudCooldown;
@@ -11,7 +13,6 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
-import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.ChatColor;

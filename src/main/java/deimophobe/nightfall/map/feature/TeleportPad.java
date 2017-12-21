@@ -1,6 +1,5 @@
 package deimophobe.nightfall.map.feature;
 
-import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.InvalidMapConfigException;

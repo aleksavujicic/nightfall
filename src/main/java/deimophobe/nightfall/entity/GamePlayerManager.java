@@ -45,7 +45,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		updateRunner.runTaskTimer(NightfallPlugin.getPlugin(), 1, 1);
 		
 		// Teams
-		this.mcTeam = Misc.getNewTeam(teamName);
+		this.mcTeam = Game.getGame().getNewTeam(teamName);
 		
 		mcTeam.setColor(teamColour);
 		mcTeam.setPrefix(String.valueOf(teamColour));

@@ -1,9 +1,9 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ArrowMisc;
+import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.potion.PotionEffectType;
 

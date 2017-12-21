@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.elements.ranged;
 
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.block.Block;

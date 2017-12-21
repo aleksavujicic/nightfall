@@ -2,7 +2,9 @@ package deimophobe.nightfall.monster;
 
 import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.common.menu.SessionData;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamage;
@@ -13,13 +15,8 @@ import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.map.GameMap;
-import deimophobe.nightfall.common.menu.SessionData;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.doom.DoomManager;
-import deimophobe.nightfall.monster.mob.EmberSprite;
-import deimophobe.nightfall.monster.mob.Bopen;
-import deimophobe.nightfall.monster.mob.Mob;
-import deimophobe.nightfall.monster.mob.MobType;
 import deimophobe.nightfall.monster.mob.*;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
@@ -30,7 +27,9 @@ import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
@@ -227,8 +226,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	
 	// ------ SEPPUKU ------
-	private static final ItemStack seppuku = Misc.getItem("seppuku").createItemStack();
-	private static final ItemStack lightnigSeppuku = Misc.getItem("lightning-seppuku").createItemStack();
+	private static final ItemStack seppuku = ItemManager.getMiscItem("seppuku").createItemStack();
+	private static final ItemStack lightnigSeppuku = ItemManager.getMiscItem("lightning-seppuku").createItemStack();
 	private final int MAX_SEPPUKU_CD = 100;
 	private int seppukuCD;
 	private void seppukuClick() {
@@ -517,11 +516,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	private boolean isFreezable() {
 		if (mob != null && mob.getType() == MobType.TICKER)
 			return false;
-
-		if (player.hasPotionEffect(PotionEffectType.LUCK))
-			return false;
 		
-		return true;
+		return !player.hasPotionEffect(PotionEffectType.LUCK);
 	}
 	
 	@Override

@@ -1,11 +1,12 @@
 package deimophobe.nightfall.dwarf.kit.elements.accessory;
 
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractItem;
-import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.map.CompassLocation;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.ChatColor;

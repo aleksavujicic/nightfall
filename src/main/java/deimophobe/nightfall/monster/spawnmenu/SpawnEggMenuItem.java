@@ -1,9 +1,10 @@
 package deimophobe.nightfall.monster.spawnmenu;
 
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.common.menu.MenuItem;
 import deimophobe.nightfall.common.menu.MenuSession;
+import deimophobe.nightfall.common.menu.item.MenuItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.doom.DoomManager;
 import deimophobe.nightfall.monster.mob.MobType;

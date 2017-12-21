@@ -1,8 +1,8 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
-import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.FlagWatcher;

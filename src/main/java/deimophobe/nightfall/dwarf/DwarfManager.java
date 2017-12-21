@@ -1,8 +1,9 @@
 package deimophobe.nightfall.dwarf;
 
 import deimophobe.nightfall.Game;
-import deimophobe.nightfall.dwarf.hero.Hero;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.loadout.DwarfData;
+import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.entity.GamePlayerManager;
 import deimophobe.nightfall.event.DwarfCreateEvent;
 import org.bukkit.Bukkit;

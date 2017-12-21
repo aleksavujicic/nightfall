@@ -1,6 +1,5 @@
 package deimophobe.nightfall.event;
 
-import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

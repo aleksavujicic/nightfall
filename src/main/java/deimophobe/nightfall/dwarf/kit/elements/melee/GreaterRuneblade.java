@@ -1,11 +1,11 @@
 package deimophobe.nightfall.dwarf.kit.elements.melee;
 
+import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
-import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.monster.ai.AIEntity;
 
 /**

@@ -2,6 +2,8 @@ package deimophobe.nightfall.dwarf.kit.elements.ranged;
 
 import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -9,8 +11,6 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitBow;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractItem;
-import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Location;
 import org.bukkit.block.Block;

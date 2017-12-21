@@ -1,8 +1,8 @@
 package deimophobe.nightfall.dwarf.kit.elements.ranged;
 
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
-import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

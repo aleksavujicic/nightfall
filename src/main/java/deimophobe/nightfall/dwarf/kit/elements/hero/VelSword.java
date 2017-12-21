@@ -1,11 +1,11 @@
 package deimophobe.nightfall.dwarf.kit.elements.hero;
 
+import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.melee.AbstractRuneblade;
-import deimophobe.nightfall.common.items.CustomItem;
 
 /**
  * Created by Deimophobe on 10/10/17.

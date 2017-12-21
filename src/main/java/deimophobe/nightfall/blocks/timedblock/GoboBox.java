@@ -1,7 +1,6 @@
 package deimophobe.nightfall.blocks.timedblock;
 
 import deimophobe.nightfall.blocks.BlockConverter;
-import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.damage.DamageModifier;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;

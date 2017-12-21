@@ -1,8 +1,9 @@
 package deimophobe.nightfall.dwarf;
 
-import deimophobe.nightfall.dwarf.consumable.ConsumableType;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
+import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
@@ -78,10 +79,8 @@ public class DwarvenItems {
 			if (item.isSimilar(droppable))
 				return true;
 		
-		if (ConsumableType.isDroppable(item))
-			return true;
+		return ConsumableType.isDroppable(item);
 		
-		return false;
 	}
 	
 	public static Map<String,CustomItem> getAllItems() {

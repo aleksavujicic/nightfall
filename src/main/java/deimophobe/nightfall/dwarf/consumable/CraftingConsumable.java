@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.consumable;
 
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

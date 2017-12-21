@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.ai;
 
+import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -19,7 +20,7 @@ public class AIFireSkeleton extends AIEntity<Skeleton> {
         this(location, randomName, null);
     }
 
-    private static final ItemStack sword = Misc.getItem("aiskelly-wep").createItemStack();
+    private static final ItemStack sword = ItemManager.getMiscItem("aiskelly-wep").createItemStack();
     static {
 		sword.addUnsafeEnchantment(Enchantment.KNOCKBACK, 1);
 		sword.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 1);

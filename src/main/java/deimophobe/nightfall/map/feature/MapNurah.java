@@ -154,7 +154,7 @@ public class MapNurah implements MapFeature {
 	
 	private int lavaLevel = 0;
 	private static final BlockFace[] OFFSETS = {BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST};
-	private static int MAX_RECURSION = 3000;
+	private static final int MAX_RECURSION = 3000;
 	private void increaseLavaLevel() {
 		lavaLevel++;
 		

@@ -2,11 +2,11 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.SkinManager;
+import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
-import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;

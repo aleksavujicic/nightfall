@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.consumable;
 
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.armour.Armour;
@@ -23,7 +24,7 @@ class ArmourItem extends Consumable {
 		if (Misc.isLeftClick(action)) {
 			Predicate<Dwarf> armourChecker = checkee -> {
 				Armour armour = checkee.getArmour();
-				return (armour instanceof DwarvenArmour && !((DwarvenArmour) armour).isArmoured());
+				return (armour instanceof DwarvenArmour && !armour.isArmoured());
 			};
 			
 			Dwarf toArmour = dwarf.getLookingAt(2, 7, DwarfManager.getManager().getDwarves(), armourChecker);

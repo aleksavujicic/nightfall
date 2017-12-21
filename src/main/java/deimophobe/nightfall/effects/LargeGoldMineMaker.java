@@ -23,7 +23,7 @@ class LargeGoldMineMaker extends SmallGoldMineMaker {
 		super.playEffect(player, block);
 		
 		GameMap map = GameMap.getCurrentMap();
-		Location start = block.getLocation().add(0.5,0.5,0.5);;
+		Location start = block.getLocation().add(0.5,0.5,0.5);
 		Set<GoldParticle> particles = new HashSet<>();
 		for (int i = 0; i <NUM_PARTICLES; i++) {
 			particles.add(new GoldParticle(start, 2*Math.PI*i/NUM_PARTICLES, player));

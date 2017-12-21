@@ -1,7 +1,7 @@
 package deimophobe.nightfall;
 
-import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.entity.GamePlayer;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -15,7 +15,8 @@ public enum ArmourSlot {
 	HEAD(Slot.HEAD, PlayerInventory::setHelmet),
 	CHEST(Slot.CHEST, PlayerInventory::setChestplate),
 	LEGS(Slot.LEGS, PlayerInventory::setLeggings),
-	FEET(Slot.FEET, PlayerInventory::setBoots);
+	FEET(Slot.FEET, PlayerInventory::setBoots),
+	
 	;
 	
 	private final Slot slot;

@@ -8,6 +8,7 @@ import com.comphenix.protocol.events.PacketEvent;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.map.GameMap;
@@ -54,7 +55,7 @@ public class AIManager {
 		String teamName = "ais";
 		ChatColor teamColour = ChatColor.DARK_RED;
 		
-		aiTeam = Misc.getNewTeam("ais");
+		aiTeam = Game.getGame().getNewTeam("ais");
 		
 		aiTeam.setPrefix(String.valueOf(teamColour));
 		aiTeam.setDisplayName(teamColour + teamName);

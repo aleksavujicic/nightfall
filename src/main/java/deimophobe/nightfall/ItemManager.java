@@ -33,11 +33,11 @@ public class ItemManager {
 		items.putAll(addPrefix("misc", getMiscItems()));
 	}
 	
-	private final Map<String, CustomItem> getDwarfItems() {
+	private Map<String, CustomItem> getDwarfItems() {
 		return DwarvenItems.getAllItems();
 	}
 	
-	private final Map<String, CustomItem> getMobItems() {
+	private Map<String, CustomItem> getMobItems() {
 		Map<String, CustomItem> items = new HashMap<>();
 		for (MobType type : MobType.values()) {
 			items.putAll(addPrefix(type.getName(), type.getItems()));
@@ -45,7 +45,7 @@ public class ItemManager {
 		return items;
 	}
 	
-	private final Map<String, CustomItem> getMiscItems() {
+	private Map<String, CustomItem> getMiscItems() {
 		Map<String, CustomItem> items = new HashMap<>();
 		ConfigurationSection config = Misc.getInternalFileConfig("misc-items.yml");
 		for (String key : config.getKeys(false)) {
@@ -54,7 +54,7 @@ public class ItemManager {
 		return items;
 	}
 	
-	private static final Map<String, CustomItem> addPrefix(String prefix, Map<String, CustomItem> items) {
+	private static Map<String, CustomItem> addPrefix(String prefix, Map<String, CustomItem> items) {
 		Map<String, CustomItem> newItems = new HashMap<>();
 		for (String key : items.keySet()) {
 			newItems.put(prefix + "." + key, items.get(key));

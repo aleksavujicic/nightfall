@@ -1,6 +1,6 @@
 package deimophobe.nightfall.monster.ai;
 
-import deimophobe.nightfall.Hat;
+import deimophobe.nightfall.common.Hat;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;

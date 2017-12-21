@@ -160,9 +160,7 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 		// Always replace AIEntity first
 		if (occurance.attacker instanceof AIEntity) return true;
 		// But not allow it to replace others
-		if (attacker instanceof AIEntity) return false;
-		
-		return true;
+		return !(attacker instanceof AIEntity);
 	}
 	
 	/*

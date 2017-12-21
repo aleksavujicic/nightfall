@@ -1,10 +1,12 @@
 package deimophobe.nightfall.monster.spawnmenu;
 
+import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.common.menu.IndexedPageChanger;
-import deimophobe.nightfall.common.menu.MenuItem;
 import deimophobe.nightfall.common.menu.MenuSession;
+import deimophobe.nightfall.common.menu.item.IndexedPageChanger;
+import deimophobe.nightfall.common.menu.item.MenuItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
 public class ResetItem extends IndexedPageChanger<MonsterPlayer, SpawnMenu.PageType> implements MenuItem<MonsterPlayer> {
@@ -17,7 +19,7 @@ public class ResetItem extends IndexedPageChanger<MonsterPlayer, SpawnMenu.PageT
         MonsterPlayer monster = session.getData();
         Integer xp = monster.getSpent();
         Integer xpRefund = (int)(xp * 0.85);
-        CustomItem customItem = Misc.getItem("reset-xp");
+        CustomItem customItem = ItemManager.getMiscItem("reset-xp");
         customItem.applyVariable("xp", xp.toString());
         customItem.applyVariable("refund", xpRefund.toString());
         return customItem.createItemStack();
@@ -29,7 +31,7 @@ public class ResetItem extends IndexedPageChanger<MonsterPlayer, SpawnMenu.PageT
         monster.clearUpgrades();
         monster.forceGainXP((int)(monster.getSpent()*0.85));
         monster.resetSpent();
-        monster.sendMessage("§eYour upgrades have been reset!§r");
+        monster.sendMessage(ChatColor.YELLOW + "Your upgrades have been reset!");
         return super.onClick(session);
     }
 }

@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.ai;
 
+import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -18,7 +19,7 @@ public class AIZombie extends AIEntity<Zombie> {
         this(location, randomName, null);
     }
 
-    private static final ItemStack sword = Misc.getItem("ai-sword").createItemStack();
+    private static final ItemStack sword = ItemManager.getMiscItem("ai-sword").createItemStack();
 
     public AIZombie(Location location, String name, Dwarf target) {
         super(location, name, target, EntityType.ZOMBIE);

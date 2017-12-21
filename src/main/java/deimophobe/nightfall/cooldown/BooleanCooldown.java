@@ -1,9 +1,8 @@
 package deimophobe.nightfall.cooldown;
 
+import java.util.function.Supplier;
 
 //TODO RENAME
-
-import java.util.function.Supplier;
 
 /**
  * Created by Deimophobe on 2/06/17.
