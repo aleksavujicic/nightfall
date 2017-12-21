@@ -44,8 +44,8 @@ hammer:
     base: hammer
     lore:
       description:
-       - "Does AOE damage every hit. Right click to \n
-          regenerate armour and mana over time."
+       - "Right click to roar\n
+          Attracting AIs toward you."
     modifiers:
       attack: 10
 
