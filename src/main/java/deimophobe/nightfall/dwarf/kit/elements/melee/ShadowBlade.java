@@ -46,7 +46,7 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 	}
 
 	private final BooleanCooldown shadowStrikeCD = new BooleanCooldown(60*20, this::shadowStrike);
-	private final ComplexCooldown invisPreventer = new ComplexCooldown(2*20, null, this::updateInvisibility);
+	private final ComplexCooldown invisPreventer = new ComplexCooldown(10, null, this::updateInvisibility);
 	private boolean invisible = false;
 
 
@@ -55,6 +55,14 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		shadowStrikeCD.update();
 		invisPreventer.update();
+
+		if(strikeBuffTime > 0){
+			strikeBuffTime --;
+			strikeBuffed = true;
+			if(strikeBuffTime == 0){
+				stopStrikeBuff();
+			}
+		}
 		
 		if (invisible && quartSec && Math.random() <= 0.5) {
 			dwarf.getWorld().spawnParticle(Particle.SMOKE_NORMAL, dwarf.getLocation().add(0,0.5,0), 6, 0.2, 0.5, 0.2, 0.03);
@@ -64,7 +72,30 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 	@Override
 	public void onDamageAttack(MonsterDamage damage){
 		super.onDamageAttack(damage);
-		resetInvisibility();
+		if(strikeBuffed){
+			if(damage.getReceiver() instanceof AIEntity){
+				damage.getDamage().timesMult(3);
+			}else {
+				damage.getDamage().timesMult(1.5);
+			}
+		}
+		else {
+			resetInvisibility();
+		}
+	}
+
+	@Override
+	public void onKill(MonsterDamage damage){
+		super.onKill(damage);
+		if(strikeBuffed){
+			startStrikeBuff();
+		}
+		if(damage.getReceiver() instanceof MonsterPlayer) {
+			shadowStrikeCD.reduceCooldown(2*20);
+		}
+		if(damage.getReceiver() instanceof AIEntity){
+			shadowStrikeCD.reduceCooldown(1*20);
+		}
 	}
 	
 	@Override
@@ -78,7 +109,7 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 				damage.cancel();
 			}
 		} else {
-			if (!damage.isCancelled() && damage.getType() != NaturalDamageType.FALL) {
+			if (!damage.isCancelled() && damage.getType() != NaturalDamageType.FALL && !strikeBuffed) {
 				// Otherwise cancel invisibility
 				resetInvisibility();
 			}
@@ -106,6 +137,7 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 				closestPlayerMonster.doDamage(dwarf, CustomDamageType.SHADOW_STRIKE, 100, true);
 				dwarf.teleportTo(newLoc);
 				dwarf.playSound("entity.endermen.teleport", 1, 1, true);
+				startStrikeBuff();
 				updateInvisibility();
 				return true;
 			}
@@ -115,7 +147,11 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 	
 	@Override
 	public float fractionComplete() {
-		return shadowStrikeCD.fractionComplete();
+		if(strikeBuffed){
+			return Math.min(1, (float) strikeBuffTime/STRIKEBUFF_TIME);
+		} else {
+			return shadowStrikeCD.fractionComplete();
+		}
 	}
 	
 	@Override
@@ -149,9 +185,9 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 			dwarf.removePotionEffect(PotionEffectType.INVISIBILITY);
 		}
 	}
-	
+
 	private boolean shouldBeInvisible(boolean sneaking) {
-		return (sneaking && invisPreventer.isAvailable()) || shadowStrikeCD.wasUsedWithin(5*20);
+		return (sneaking && invisPreventer.isAvailable()) || strikeBuffed;
 	}
 	
 	private void updateTargettingAIs() {
@@ -160,5 +196,21 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 				aiEntity.forceUpdateTarget();
 			}
 		}
+	}
+
+	//Shadow Strike Shit
+
+	private final static int STRIKEBUFF_TIME = 10*20;
+	private int strikeBuffTime;
+	private boolean strikeBuffed = false;
+
+	private void startStrikeBuff(){
+		strikeBuffTime = STRIKEBUFF_TIME;
+	}
+
+	private void stopStrikeBuff(){
+		strikeBuffTime = 0;
+		strikeBuffed = false;
+		resetInvisibility();
 	}
 }

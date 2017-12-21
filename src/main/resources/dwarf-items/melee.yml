@@ -133,5 +133,5 @@ shadowblade:
     flavour:
       - "Drk fix this."
   modifiers:
-    attack: 15
+    attack: 20
     speed: 30
