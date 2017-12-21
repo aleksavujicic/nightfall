@@ -46,7 +46,7 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 	}
 
 	private final BooleanCooldown shadowStrikeCD = new BooleanCooldown(60*20, this::shadowStrike);
-	private final ComplexCooldown invisPreventer = new ComplexCooldown(10, null, this::updateInvisibility);
+	private final ComplexCooldown invisPreventer = new ComplexCooldown(20, null, this::updateInvisibility);
 	private boolean invisible = false;
 
 
@@ -92,9 +92,11 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 		}
 		if(damage.getReceiver() instanceof MonsterPlayer) {
 			shadowStrikeCD.reduceCooldown(2*20);
+			increaseStrikeBuff(3*20);
 		}
 		if(damage.getReceiver() instanceof AIEntity){
 			shadowStrikeCD.reduceCooldown(1*20);
+			increaseStrikeBuff(2*20);
 		}
 	}
 	
@@ -206,6 +208,10 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 
 	private void startStrikeBuff(){
 		strikeBuffTime = STRIKEBUFF_TIME;
+	}
+
+	private void increaseStrikeBuff(int time){
+		strikeBuffTime += time;
 	}
 
 	private void stopStrikeBuff(){
