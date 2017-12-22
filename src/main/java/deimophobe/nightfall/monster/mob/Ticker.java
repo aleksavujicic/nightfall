@@ -18,7 +18,7 @@ import org.bukkit.util.Vector;
  * Created by Deimophobe on 7/10/17.
  */
 class Ticker extends AbstractMob {
-	private final int maxTime = 30 + (int) (60*Math.random());
+	private final int maxTime = 40 + (int) (60*Math.random());
 	private int deathTimer = maxTime;
 	
 	protected Ticker(MonsterPlayer monster) {
