@@ -72,7 +72,7 @@ class AISpawnLocation {
 		manager.spawnAIs(location, closestDwarf, amtToSpawn);
 		
 		// Reduce life based on ais spawned and number of close dwarves
-		life -= amtToSpawn*(4 + 2*closeDwarves);
+		life -= 2 + amtToSpawn*(2 + closeDwarves);
 	}
 	
 	boolean isWithinRange(Location loc, double range) {
