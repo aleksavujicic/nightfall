@@ -53,7 +53,7 @@ public class Regrowth extends AbstractAle {
 
 	private void tryHealOthers() {
 		if (target == null || dwarf.distanceTo(target) > 20)
-			target = dwarf.getLookingAt(3, 20, DwarfManager.getManager().getDwarves());
+			target = dwarf.getLookingAt(20, 3, DwarfManager.getManager().getDwarves());
 		
 		targetClearer.reset();
 		

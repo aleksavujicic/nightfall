@@ -1,9 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.elements.hero;
 
 import deimophobe.nightfall.Misc;
-import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -23,15 +21,14 @@ import org.bukkit.util.Vector;
  */
 public class Caduceus extends AbstractCooldownItem {
 	
-	private static final int MAX_GRAB_CD = 30;
-	private static final int MANA_COST = 200;
+	private static final int MAX_GRAB_CD = 15;
 	
 	private int grabCD = 0;
 	private Location returnSpot;
 	private Dwarf target;
 	
 	public Caduceus(Dwarf dwarf) {
-		super(dwarf, 30*20);
+		super(dwarf, 20*20);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "caduceus");
@@ -41,31 +38,13 @@ public class Caduceus extends AbstractCooldownItem {
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action) && grabCD == 0) {
-			boolean shouldTeleport = false;
-			boolean bloodSwap = false;
-			if (dwarf.isSneaking() && dwarf.getMana() >= MANA_COST) {
-				shouldTeleport = true;
-				bloodSwap = true;
-			} else if (isOffCD()) {
-				shouldTeleport = true;
-				bloodSwap = false;
-			}
+			if (isOffCD()) return false;
 			
-			
-			if (!shouldTeleport) return false;
-			target = dwarf.getLookingAt(3, (bloodSwap ? 40 : 20), DwarfManager.getManager().getDwarves());
+			target = dwarf.getLookingAt(40, 3, DwarfManager.getManager().getDwarves(), (d) -> dwarf.distanceTo(d) >= 8);
 			if (target == null) return false;
 			
-			if (bloodSwap) {
-				dwarf.useMana(MANA_COST);
-				GameDamage damage = dwarf.createDamage(null, CustomDamageType.BLOOD_MAGIC, 50);
-				damage.fire(true);
-				dwarf.setVelocity(new Vector(0,0,0));
-				grabCD = MAX_GRAB_CD/2;
-			} else {
-				resetCooldown();
-				grabCD = MAX_GRAB_CD;
-			}
+			dwarf.setVelocity(new Vector(0,0,0));
+			grabCD = MAX_GRAB_CD;
 			
 			returnSpot = dwarf.getLocation();
 			
@@ -74,6 +53,7 @@ public class Caduceus extends AbstractCooldownItem {
 			targetLoc.setDirection(targetLoc.getDirection().multiply(-1));
 			
 			dwarf.teleportTo(targetLoc);
+			dwarf.setVelocity(target.getVelocity());
 			dwarf.playSound("entity.endermen.teleport", 1f, 1f, true);
 			return true;
 		}
@@ -94,6 +74,9 @@ public class Caduceus extends AbstractCooldownItem {
 			dwarf.teleportTo(returnSpot);
 			target.teleportTo(returnSpot);
 			
+			dwarf.setVelocity(new Vector(0,0,0));
+			target.setVelocity(new Vector(0,0,0));
+			
 			dwarf.playSound("entity.endermen.teleport", 1f, 1f, true);
 			
 			grabCD = 0;
@@ -109,8 +92,8 @@ public class Caduceus extends AbstractCooldownItem {
 		if (itemCausedDamage(damage)) {
 			if (damage.getMonster() instanceof AIEntity) {
 				damage.getDamage().addBoost(20);
+				damage.getMonster().givePotionEffect(PotionEffectType.SLOW, 20, 2, true, false, true);
 			}
-			damage.getMonster().givePotionEffect(PotionEffectType.SLOW, 20, 2, true, false, true);
 		}
 	}
 }

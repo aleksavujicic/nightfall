@@ -27,8 +27,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static java.lang.System.in;
-
 /**
  * Created by ED{Kegoir} and Div on 23/11/17
  */
@@ -121,7 +119,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     }
 
     private void altHit() {//Will be a different attack with a very fast cooldown(.5 to 1.5 seconds) dealing more damage to playermobs or AIs, and less damage to other
-        MonsterEntity entity = dwarf.getLookingAt(2.5, altRange, MonsterManager.getManager().getAliveMobsAndAIs());
+        MonsterEntity entity = dwarf.getLookingAt(altRange, 2.5, MonsterManager.getManager().getAliveMobsAndAIs());
         double damage;
         damage = (entity instanceof MonsterPlayer ? 20:15);
         GameDamage altDamage = entity.createDamage(dwarf, CustomDamageType.GLAIVE_ALT,damage);
@@ -137,7 +135,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
             currentTicks++;
             if (currentTicks >= chargeTime){ready = true;}
         }
-        MonsterEntity entity = dwarf.getLookingAt(2.5, altRange, MonsterManager.getManager().getAliveMobsAndAIs());
+        MonsterEntity entity = dwarf.getLookingAt(altRange, 2.5, MonsterManager.getManager().getAliveMobsAndAIs());
         GameDamage powerHit = entity.createDamage(dwarf, CustomDamageType.GLAIVE_ALT, powerDamage);
         powerHit.addKnockback(getKnockBack(entity));//might be fixed now
         powerHit.fire(true);
@@ -151,7 +149,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
         boolean done = false;
         int currentTicks = 0;
         dwarf.givePotionEffect(PotionEffectType.SLOW,stunTime,3, false, false, true);
-        MonsterEntity targetEntity = dwarf.getLookingAt(2.5, altRange, MonsterManager.getManager().getAliveMobsAndAIs());
+        MonsterEntity targetEntity = dwarf.getLookingAt(altRange, 2.5, MonsterManager.getManager().getAliveMobsAndAIs());
         Location center = targetEntity.getLocation();
         Set<MonsterEntity> stunned = new HashSet<>();
         for (MonsterEntity stunnedEntity : MonsterManager.getManager().getAliveMobsAndAIs()){
@@ -192,7 +190,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
         //CHANGE MODEL HERE
     }
     private void altBladeHit(MonsterEntity entity){
-        GameEntity lookingAt = dwarf.getLookingAt(100, range, MonsterManager.getManager().getAliveMobsAndAIs());
+        GameEntity lookingAt = dwarf.getLookingAt(range, 100, MonsterManager.getManager().getAliveMobsAndAIs());
         if (lookingAt == entity){
             Location entityLoc = entity.getLocation();
             entityLoc.getWorld().spawnParticle(Particle.SPIT,entityLoc, 0, 249,245,14);
