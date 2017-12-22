@@ -45,6 +45,11 @@ commands:
     description: Give yourself some mob xp.
     aliases: [exp, mana]
     permission: nightfall.op
+  kitlist:
+    usage: /kitlist
+    description: List all your kit items.
+    aliases: [listkit]
+    permission: nightfall.op
   addkititem:
     usage: /givekititem <item-names>
     description: Give a dwarf kit item to yourself.
@@ -113,9 +118,9 @@ commands:
     description: Makes a player (un)immune to plague.
     usage: /plagueimmune <player>
     permission: nightfall.op
-  plague:
-    description: Makes yourself plague up to the limit.
-    usage: /plague
+#  plague:
+#    description: Makes yourself plague up to the limit.
+#    usage: /plague
 
   forcedoom:
     description: Forces the doom timer to hit 0.
