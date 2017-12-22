@@ -41,8 +41,8 @@ public class VolcanicGauntlet extends AbstractBow {
 	@Override
 	public Projectile onBowFire(Projectile arrow, float force) {
 
-		if (!dwarf.hasArrows(3)) return null;
-		dwarf.useArrows(3);
+		if (!dwarf.hasArrows(4)) return null;
+		dwarf.useArrows(4);
 		
 		double force2 = force*force;
 		double range = MAX_RANGE * force2;
