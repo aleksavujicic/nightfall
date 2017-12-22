@@ -15,7 +15,7 @@ class AISpawnLocation {
 	private final AIManager manager;
 	private final Location location;
 	private int life;
-	private static int LIFETIME = 60;
+	private static int LIFETIME = 50;
 	
 	AISpawnLocation(Location location) {
 		this.manager = AIManager.getManager();
