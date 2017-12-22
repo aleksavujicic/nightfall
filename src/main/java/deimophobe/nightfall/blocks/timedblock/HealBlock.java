@@ -65,7 +65,7 @@ public class HealBlock extends TimedBlock {
 			for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
 				if (!canHeal(dwarf)) continue;
 				
-				dwarf.heal(10);
+				dwarf.heal(6);
 				dwarf.regenMana(5);
 				dwarf.getArmour().repair(10);
 				dwarf.playSound("entity.experience_orb.pickup", 0.5f, 0.5f, false);
