@@ -164,7 +164,7 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 				if (dwarf.getLocation().distance(location) <= BUFFPOOL_RADIUS) {
 					if (getLifeLeft() % 3 == 0) {
 						dwarf.regenMana(1);
-						dwarf.heal(0.5);
+						dwarf.heal(1);
 					}
 					dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, getLifeLeft(), 3,true,true,false);
 					dwarf.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 10,2,true,true,false);
