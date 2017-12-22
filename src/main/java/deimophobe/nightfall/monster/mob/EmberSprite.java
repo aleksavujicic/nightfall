@@ -95,7 +95,7 @@ public class EmberSprite extends AbstractMob {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (fireball != null) {
+                if (!fireball.isDead()) {
                     blazeExplosion(fireball.getLocation());
                     fireball.remove();
                 }
