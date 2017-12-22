@@ -62,7 +62,7 @@ public class ZombieSaboteur extends Zombie {
 
         this.sneakLvl = upgrades.get("sneak");
         if (sneakLvl != 0)
-            sneakCD = new SimpleCooldown((30 - sneakLvl * 4) * 20);
+            sneakCD = new SimpleCooldown((15 - sneakLvl * 2) * 20);
         else
             sneakCD = new DudCooldown();
 
@@ -99,15 +99,18 @@ public class ZombieSaboteur extends Zombie {
 
     @Override
     public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
-        sneakCD.update();
         assaCD.update();
         if (b && assaCD.isAvailable()) {
             monster.givePermanentPotionEffect(PotionEffectType.INCREASE_DAMAGE, 1);
         }
 
-        if (c && monster.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
-            Location loc = monster.getLocation();
-            loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 6, 0.3, 0.3, 0.3, 0);
+        if (monster.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
+            if (c) {
+                Location loc = monster.getLocation();
+                loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 6, 0.3, 0.3, 0.3, 0);
+            }
+        } else {
+            sneakCD.update();
         }
     }
 
@@ -115,7 +118,6 @@ public class ZombieSaboteur extends Zombie {
     public void onDamageReceive(MonsterDamage damage) {
         super.onDamageReceive(damage);
         assaCD.reset();
-        sneakCD.reset();
         if (damage.getType() == NaturalDamageType.MELEE) {
             monster.givePotionEffect(PotionEffectType.SLOW, 30, 2,true, true,true);
         }
@@ -127,10 +129,11 @@ public class ZombieSaboteur extends Zombie {
     public void onUse(Action action, Block block, BlockFace face) {
         if (Misc.isRightClick(action) && isPlayerHoldingWeapon() && sneakCD.isAvailable()) {
             monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
-            monster.givePotionEffect(PotionEffectType.SPEED, 40, 3, true, true, true);
+            monster.givePotionEffect(PotionEffectType.SPEED, 8 * sneakLvl, 3, true, true, true);
+            monster.givePotionEffect(PotionEffectType.REGENERATION, 8 * sneakLvl, 3, true, true, true);
             Location loc = monster.getLocation();
             World world = loc.getWorld();
-            world.spawnParticle(Particle.SMOKE_LARGE, loc, 150, 0.7, 0.7, 0.7, 0);
+            world.spawnParticle(Particle.SMOKE_LARGE, loc, 160, 0.8, 0.8, 0.8, 0);
             world.playSound(loc, "entity.generic.burn", 1f, 0.7f);
             sneakCD.reset();
         }
