@@ -351,7 +351,7 @@ public class GameListener implements Listener {
 			// Delayed to prevent concurrent modification exceptions hopefully ._.
 			new BukkitRunnable() {
 				@Override public void run() {dm.removeGamePlayer(dwarf, true);}
-			}.runTaskLater(NightfallPlugin.getPlugin(), 1);
+			}.runTaskLater(NightfallPlugin.getPlugin(), 22);
 		}
 	}
 	
