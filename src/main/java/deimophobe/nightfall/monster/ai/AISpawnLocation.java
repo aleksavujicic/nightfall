@@ -15,7 +15,7 @@ class AISpawnLocation {
 	private final AIManager manager;
 	private final Location location;
 	private int life;
-	private static int LIFETIME = 60;
+	private static final int LIFETIME = 60;
 	
 	AISpawnLocation(Location location) {
 		this.manager = AIManager.getManager();
@@ -40,10 +40,8 @@ class AISpawnLocation {
 	}
 	
 	private void trySpawnAIs() {
-		double spawnChance = manager.getBaseSpawnChance() * (1 + (double) life/LIFETIME);
-		
 		// If failed to spawn, stop.
-		if (Math.random() > spawnChance) return;
+		if (Math.random() > manager.getBaseSpawnChance()) return;
 		
 		// Find closest dwarf and set as target.
 		Dwarf closestDwarf = null;
