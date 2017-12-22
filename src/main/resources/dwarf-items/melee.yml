@@ -55,8 +55,8 @@ hammer:
   name: Warhammer
   lore:
     description:
-     - "Right click to regenerate armour and mana
-        over time."
+     - "Right click to roar\n
+        Attracting AIs toward you."
     flavour:
      - "\"Time to really prove what you're worth.\" - Tui"
   modifiers:
@@ -133,5 +133,5 @@ shadowblade:
     flavour:
       - "Drk fix this."
   modifiers:
-    attack: 15
+    attack: 20
     speed: 30

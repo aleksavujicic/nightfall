@@ -1,7 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.elements.melee;
 
-import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
@@ -11,6 +10,7 @@ import deimophobe.nightfall.dwarf.kit.KitCooldownElement;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
+import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -25,6 +25,7 @@ import org.bukkit.util.Vector;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by ED{Kegoir} and Div on 23/11/17
@@ -36,11 +37,13 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     private final int maxCD = 1*20;//Broken AF right now
     private final ComplexCooldown cd = new ComplexCooldown(maxCD, this::TestAbility);//WILL NEED TO CHANGE ONCE ABILITY IS DECIDED
     //Ability variables below
-    private final String currentTest = ("changeBlade");//PUT NAME OF TESTING ABILITY HERE
+    private final String currentTest = ("changeStance");//PUT NAME OF TESTING ABILITY HERE
 
     private boolean altStance = false;//ChangeStance
     private final int highDamage = 25;//ChangeStance MAYBE ADD COOLDOWN IF WE WANT 25 DAMAGE
     private final int lowDamage = 5;//ChangeStance
+    private final int aiReps = 1;//ChangeStance (FOR AI PARTICLES)
+    private final int pmReps = 5;//ChangeStance (FOR PLAYERMOB PARTICLES)
     private final double altRange = 4.0;//altAttack AND powerAttack AND flurryOfBlows
     private final int chargeTime = 1*20;//powerAttack
     private final double powerDamage = 30;//powerAttack
@@ -72,7 +75,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
         return false;
     }
 
-    private void TestAbility(){changeBlade();}//Test abilities here. Must give basicAttackDamage a value based on ability.
+    private void TestAbility(){changeStance();}//Test abilities here. Must give basicAttackDamage a value based on ability.
 
     //Possible Abilities (Being built and tested) (Only one of these will be used for Glaive, but I(ED) might keep some for other weapons
 
@@ -100,9 +103,23 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
             particleLoc.getWorld().spawnParticle(Particle.REDSTONE, particleLoc, 0, red, green, blue, 1);
         }
     }
+    private void applyParticles(MonsterEntity entity){
+        int totalReps = entity instanceof MonsterPlayer ? pmReps : aiReps;
+        for (int reps = 0; reps <totalReps; reps++){
+            Location centerLocation = entity.getLocation();
+            double newY = centerLocation.getY();
+            newY += 1.25;
+            double newX = ThreadLocalRandom.current().nextDouble(centerLocation.getX()-.5,centerLocation.getX()+.5);
+            double newZ = ThreadLocalRandom.current().nextDouble(centerLocation.getZ()-.5,centerLocation.getZ()+.5);
+            centerLocation.setX(newX);
+            centerLocation.setY(newY);
+            centerLocation.setZ(newZ);
+            centerLocation.getWorld().spawnParticle(Particle.REDSTONE, centerLocation, 0, 152,13,5);
+        }
+    }
 
     private void altHit() {//Will be a different attack with a very fast cooldown(.5 to 1.5 seconds) dealing more damage to playermobs or AIs, and less damage to other
-        MonsterEntity entity = dwarf.getLookingAt(2.5, altRange, MonsterManager.getManager().getAliveMobsAndAIs());
+        MonsterEntity entity = dwarf.getLookingAt(altRange, 2.5, MonsterManager.getManager().getAliveMobsAndAIs());
         double damage;
         damage = (entity instanceof MonsterPlayer ? 20:15);
         GameDamage altDamage = entity.createDamage(dwarf, CustomDamageType.GLAIVE_ALT,damage);
@@ -118,7 +135,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
             currentTicks++;
             if (currentTicks >= chargeTime){ready = true;}
         }
-        MonsterEntity entity = dwarf.getLookingAt(2.5, altRange, MonsterManager.getManager().getAliveMobsAndAIs());
+        MonsterEntity entity = dwarf.getLookingAt(altRange, 2.5, MonsterManager.getManager().getAliveMobsAndAIs());
         GameDamage powerHit = entity.createDamage(dwarf, CustomDamageType.GLAIVE_ALT, powerDamage);
         powerHit.addKnockback(getKnockBack(entity));//might be fixed now
         powerHit.fire(true);
@@ -132,7 +149,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
         boolean done = false;
         int currentTicks = 0;
         dwarf.givePotionEffect(PotionEffectType.SLOW,stunTime,3, false, false, true);
-        MonsterEntity targetEntity = dwarf.getLookingAt(2.5, altRange, MonsterManager.getManager().getAliveMobsAndAIs());
+        MonsterEntity targetEntity = dwarf.getLookingAt(altRange, 2.5, MonsterManager.getManager().getAliveMobsAndAIs());
         Location center = targetEntity.getLocation();
         Set<MonsterEntity> stunned = new HashSet<>();
         for (MonsterEntity stunnedEntity : MonsterManager.getManager().getAliveMobsAndAIs()){
@@ -173,7 +190,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
         //CHANGE MODEL HERE
     }
     private void altBladeHit(MonsterEntity entity){
-        GameEntity lookingAt = dwarf.getLookingAt(100, range, MonsterManager.getManager().getAliveMobsAndAIs());
+        GameEntity lookingAt = dwarf.getLookingAt(range, 100, MonsterManager.getManager().getAliveMobsAndAIs());
         if (lookingAt == entity){
             Location entityLoc = entity.getLocation();
             entityLoc.getWorld().spawnParticle(Particle.SPIT,entityLoc, 0, 249,245,14);
@@ -186,11 +203,21 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
 
     @Override
     protected double getDamageToMonster(MonsterEntity entity){//Maybe change this to be more effective against AIs
-        if (currentTest == "changeStance"){
-            if (!altStance){
-                return entity instanceof MonsterPlayer ? highDamage : lowDamage;
-            }else if (altStance){
-                return entity instanceof AIEntity ? highDamage : lowDamage;
+        if (currentTest == "changeStance") {
+            if (!altStance) {
+                if (entity instanceof MonsterPlayer) {
+                    applyParticles(entity);
+                    return highDamage;
+                } else {
+                    return lowDamage;
+                }
+            } else if (altStance) {
+                if (entity instanceof AIEntity) {
+                    applyParticles(entity);
+                    return highDamage;
+                } else {
+                    return lowDamage;
+                }
             }
             return 0;
         }

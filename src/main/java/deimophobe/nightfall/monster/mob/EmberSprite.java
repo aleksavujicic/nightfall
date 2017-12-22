@@ -95,11 +95,12 @@ public class EmberSprite extends AbstractMob {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (fireball != null) {
+                if (!fireball.isDead()) {
+                    blazeExplosion(fireball.getLocation());
                     fireball.remove();
                 }
             }
-        }.runTaskLater(NightfallPlugin.getPlugin(), 20); // 1 second lifetime
+        }.runTaskLater(NightfallPlugin.getPlugin(), 26); // 1.3 second lifetime
         ((Fireball) fireball).setShooter(monster.getPlayer());
         fireball.setVelocity(loc.getDirection().multiply(1.5f));
         world.playSound(loc, "entity.blaze.shoot", 2, 1f);

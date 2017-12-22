@@ -53,9 +53,9 @@ public class Drucrist extends AbstractItem implements KitCooldownElement {
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action)) {
 			if (cd.isAvailable()) {
-				MonsterPlayer closestPlayerMonster = dwarf.getLookingAt(2.5, 13, MonsterManager.getManager().getAlivePlayerMobs());
+				MonsterPlayer closestPlayerMonster = dwarf.getLookingAt(13, 2.5, MonsterManager.getManager().getAlivePlayerMobs());
 
-				AIEntity closestAIMonster = dwarf.getLookingAt(2.5,13, AIManager.getManager().getAIs());
+				AIEntity closestAIMonster = dwarf.getLookingAt(13, 2.5, AIManager.getManager().getAIs());
 
 				if (closestPlayerMonster != null) {
 					Location monsterLoc = closestPlayerMonster.getLocation();

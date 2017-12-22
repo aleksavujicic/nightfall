@@ -70,7 +70,7 @@ class Ghostblade extends AbstractMob {
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action)) {
 			if (cooldown == 0) {
-				Dwarf dwarf = monster.getLookingAt(2, 16, DwarfManager.getManager().getDwarves());
+				Dwarf dwarf = monster.getLookingAt(16, 2, DwarfManager.getManager().getDwarves());
 				if (dwarf != null) {
 					Location dwarfLoc = dwarf.getLocation();
 					

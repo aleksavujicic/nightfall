@@ -12,6 +12,7 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.monster.MonsterManager;
 import me.libraryaddict.disguise.DisguiseAPI;
+import org.apache.commons.lang3.tuple.Triple;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -292,17 +293,17 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		return player.getTargetBlock(materials, i);
 	}
 	
-	public <P extends GameEntity> P getLookingAt(double epsilon, double range, Collection<P> targets) {
-		return getLookingAt(epsilon, range, targets, (p) -> true);
+	public <P extends GameEntity> P getLookingAt(double range, double offset, Collection<P> targets) {
+		return getLookingAt(range, offset, targets, (p) -> true);
 	}
 	
-	public <P extends GameEntity> P getLookingAt(double epsilon, double range, Collection<P> targets, Predicate<P> requirement) {
+	public <P extends GameEntity> P getLookingAt(double range, double offset, Collection<P> targets, Predicate<P> requirement) {
 		Location playerLoc = player.getLocation();
 		Vector lookDir = playerLoc.getDirection();
 		
 		P closestPlayer = null;
 		double closestRange = range;
-		double closestOffset = epsilon;
+		double closestOffset = offset;
 		for (P testPlayer : targets) {
 			if (testPlayer == this) continue;
 			if (!requirement.test(testPlayer)) continue;
@@ -315,7 +316,7 @@ public abstract class GamePlayer implements GameEntity<Player> {
 			
 			double eyeOffset = distance * Math.acos(offsetDir.dot(lookDir) / distance);
 			
-			if (eyeOffset > epsilon) continue;
+			if (eyeOffset > offset) continue;
 			
 			if (distance <= closestRange - 1 || (distance <= closestRange + 1 && eyeOffset <= closestOffset)) {
 				closestPlayer = testPlayer;

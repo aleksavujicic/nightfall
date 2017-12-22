@@ -29,7 +29,7 @@ public class Elystria extends AbstractCooldownItem {
 	@Override
 	public boolean onUse(Action action, Block block, BlockFace face) {
 		if (isOffCD() && Misc.isRightClick(action)) {
-			MonsterPlayer target = dwarf.getLookingAt(2, 10, MonsterManager.getManager().getAlivePlayerMobs());
+			MonsterPlayer target = dwarf.getLookingAt(10, 2, MonsterManager.getManager().getAlivePlayerMobs());
 			if (target != null) {
 				resetCooldown();
 				Location location = target.getLocation();

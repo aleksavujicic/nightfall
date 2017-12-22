@@ -22,7 +22,7 @@ public enum NaturalDamageType implements GameDamageType {
 	FALL(1, 1) {
 		@Override
 		public void applyDamage(GameDamage damage) {
-			damage.getDamage().timesMult(2*(1 - Math.pow(Math.random(),2)/2));
+			damage.getDamage().timesMult(3*(1 - Math.pow(Math.random(),2)/2));
 			if (damage instanceof DwarfDamage)
 				((DwarfDamage) damage).setArmourShred(1);
 		}

@@ -113,7 +113,7 @@ public class HuntingClaws extends AbstractItem implements KitCooldownElement {
 				warpCD.tryUse();
 			} else {
 				if (huntingCD.isAvailable()) {
-					target = dwarf.getLookingAt(2, 50, MonsterManager.getManager().getAlivePlayerMobs());
+					target = dwarf.getLookingAt(50, 2, MonsterManager.getManager().getAlivePlayerMobs());
 					if (target != null)
 						huntingCD.tryUse();
 				}

@@ -370,6 +370,30 @@ public class NightfallPlugin extends JavaPlugin {
 				}
 			}
 		}
+		if (name.equalsIgnoreCase("kitlist")) {
+			if (sender instanceof Player) {
+				Dwarf dwarf = dm.getGamePlayer((Player)sender);
+				if (dwarf != null) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(ChatColor.AQUA);
+					sb.append("You have the following kit items:\n");
+					sb.append(ChatColor.RESET);
+					for (KitElementType type : dwarf.getKitElementTypes()) {
+						sb.append(type.toString().toLowerCase());
+						sb.append(", ");
+					}
+					sb.setLength(sb.length() - 2);
+					sender.sendMessage(sb.toString());
+				} else {
+					sender.sendMessage(ChatColor.RED + "You must be a dwarf to do that");
+				}
+				
+				return true;
+			} else {
+				sender.sendMessage(ChatColor.RED + "You must be a dwarf to do that");
+				return false;
+				}
+		}
 		
 		if (name.equalsIgnoreCase("armour")) {
 			if (sender instanceof Player) {

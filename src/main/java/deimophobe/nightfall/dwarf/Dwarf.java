@@ -35,6 +35,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -110,6 +111,10 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	// ------ KIT ITEMS -------
 	private final Kit kit;
+	
+	public Collection<KitElementType> getKitElementTypes() {
+		return kit.getKitElementTypes();
+	}
 	
 	public boolean hasKitElement(KitElementType type) {
 		return kit.containsElement(type);

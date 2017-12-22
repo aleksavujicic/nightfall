@@ -27,7 +27,7 @@ class ArmourItem extends Consumable {
 				return (armour instanceof DwarvenArmour && !armour.isArmoured());
 			};
 			
-			Dwarf toArmour = dwarf.getLookingAt(2, 7, DwarfManager.getManager().getDwarves(), armourChecker);
+			Dwarf toArmour = dwarf.getLookingAt(7, 2, DwarfManager.getManager().getDwarves(), armourChecker);
 			if (toArmour != null) {
 				((DwarvenArmour) toArmour.getArmour()).putOn();
 				return DEFAULT_CD;

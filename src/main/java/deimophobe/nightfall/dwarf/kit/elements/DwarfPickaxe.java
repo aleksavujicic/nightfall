@@ -51,7 +51,7 @@ class DwarfPickaxe extends AbstractItem implements KitCooldownElement {
 	public boolean onUse(Action action, Block clickedBlock, BlockFace face) {
 		if (Misc.isRightClick(action) && cooldown == 0) {
 			// PICK REPAIRING ANOTHER DWARF
-			Dwarf repairee = dwarf.getLookingAt(2, 5, DwarfManager.getManager().getGamePlayers(), (d) -> d.getArmour().canPickRepair());
+			Dwarf repairee = dwarf.getLookingAt(5, 2, DwarfManager.getManager().getGamePlayers(), (d) -> d.getArmour().canPickRepair());
 			if (repairee != null && armourCD.isAvailable()) {
 				GameMap currentMap = GameMap.getCurrentMap();
 				if (currentMap.tryUseGold(50)) {

@@ -13,10 +13,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 16/01/17.
@@ -40,6 +37,10 @@ public class Kit {
 		
 		for (KitGiveType type : KitGiveType.fixedValues())
 			giveTimes.put(type, 0);
+	}
+	
+	public Collection<KitElementType> getKitElementTypes() {
+		return kitElements.keySet();
 	}
 	
 	public boolean containsElement(KitElementType type) {

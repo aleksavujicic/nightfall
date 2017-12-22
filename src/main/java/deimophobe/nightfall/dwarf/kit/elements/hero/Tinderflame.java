@@ -42,7 +42,7 @@ public class Tinderflame extends AbstractCooldownItem {
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action) && isOffCD()) {
-			GameEntity monster = dwarf.getLookingAt(3, 100, MonsterManager.getManager().getAliveMobsAndAIs());
+			GameEntity monster = dwarf.getLookingAt(100, 3, MonsterManager.getManager().getAliveMobsAndAIs());
 			
 			boolean success = false;
 			Set<Location> particleSpots = new HashSet<>();
