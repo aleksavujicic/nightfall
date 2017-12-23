@@ -2,8 +2,8 @@ package deimophobe.nightfall.dwarf;
 
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.common.loadout.DwarfData;
 import deimophobe.nightfall.dwarf.hero.Hero;
+import deimophobe.nightfall.dwarf.hero.HeroType;
 import deimophobe.nightfall.entity.GamePlayerManager;
 import deimophobe.nightfall.event.DwarfCreateEvent;
 import org.bukkit.Bukkit;
@@ -25,6 +25,9 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	
 	public DwarfManager() {
 		super(ChatColor.AQUA + "Dwarves","dwarves", ChatColor.DARK_AQUA);
+		
+		// Loads all the heroes
+		HeroType.getHeroList();
 	}
 	
 	public Dwarf createDwarf(Player player, DwarfData data) {
@@ -46,10 +49,10 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	
 	
 	
-	public boolean addHero(String name, Hero.Type type) {
+	public boolean addHero(String name, HeroType type) {
 		return addHero(Bukkit.getPlayer(name), type);
 	}
-	public boolean addHero(Player player, Hero.Type type) {
+	public boolean addHero(Player player, HeroType type) {
 		if (player == null || isGamePlayer(player)) return false;
 		
 		Hero hero = type.createHero(player);
@@ -108,7 +111,7 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 		if (numPlayers >= 15) {
 			Player hero = Misc.getRandom(selectablePlayers);
 			selectablePlayers.remove(hero);
-			Hero.Type type = Misc.getRandomFrom(Hero.Type.VELVETINE, Hero.Type.ARTHEA, Hero.Type.TUI);
+			HeroType type = Misc.getRandomFrom(HeroType.VELVETINE, HeroType.ARTHEA, HeroType.TUI);
 			addHero(hero, type);
 		}
 		

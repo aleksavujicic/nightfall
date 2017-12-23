@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
  * Created by Deimophobe on 12/03/17.
  */
 class Tui extends Hero {
-	protected Tui(Player player, Type type) {
+	protected Tui(Player player, HeroType type) {
 		super(player, type);
 		
 		setMaxArrows(64);

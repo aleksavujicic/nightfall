@@ -1,0 +1,140 @@
+velvetine:
+  full-name: Velvetine
+  nametag: Velvetine
+  descriptor: Dwarven Hero
+
+  hat: velvetine
+  skin: velvetine
+  colour: dark_purple
+
+  items:
+  - velsword
+  - velbow
+  - horn
+
+  consumables:
+    cobblestone: 384
+    wizard-mortar: 16
+    mortar: 64
+    lamp: 32
+    slab: 5
+    sos: 1
+
+tui:
+  full-name: Tui the Lightbringer
+  nametag: Tui
+  descriptor: Dwarven Hero
+
+  hat: tui
+  skin: tui
+  colour: gold
+
+  class: deimophobe.nightfall.dwarf.hero.Tui
+
+  items:
+  - tui-hammer
+  - wildfire
+
+  consumables:
+    cobblestone: 384
+    wizard-mortar: 32
+    mortar: 64
+    lamp: 64
+    slab: 3
+    sos: 2
+
+arthea:
+  full-name: Arthea
+  nametag: Arthea
+  descriptor: Dwarven Hero
+
+  hat: arthea
+  skin: arthea
+  colour: dark_red
+
+  class: deimophobe.nightfall.dwarf.hero.Arthea
+
+  items:
+  - healer-totem
+  - caduceus
+  - elystria
+  - luminous
+
+  consumables:
+    cobblestone: 512
+    wizard-mortar: 64
+    mortar: 64
+    lamp: 64
+    slab: 2
+    sos: 2
+    torch: 64
+    heal-station: 10
+
+herana:
+  full-name: Herana
+  nametag: Herana
+  descriptor: Mermaid Queen
+
+  hat: herana
+  skin: herana
+  colour: aqua
+
+  items:
+  - velsword
+  - velbow
+  - horn
+
+  consumables:
+    cobblestone: 384
+    wizard-mortar: 16
+    mortar: 64
+    lamp: 32
+    slab: 5
+    sos: 1
+
+oxysis:
+  full-name: Oxysis
+  nametag: Oxysis
+  descriptor: Pixie Hero
+
+  hat: oxysis
+  skin: oxysis
+  colour: yellow
+
+  health: 25 # Does not work atm
+
+  class: deimophobe.nightfall.dwarf.hero.Oxysis
+
+  items:
+  - drucrist
+  - wilde-staff
+
+  consumables:
+    cobblestone: 384
+    wizard-mortar: 16
+    mortar: 64
+    lamp: 32
+    slab: 5
+    sos: 1
+
+nosovin:
+  full-name: Nosovin's Illustration
+  nametag: Nosovin
+  descriptor: Dwarven Hero
+
+  hat: tui
+  skin: tui
+  colour: white
+
+  items:
+  - tinderflame
+  - wand
+  - rocket-boots
+
+  consumables:
+    cobblestone: 384
+    wizard-mortar: 16
+    mortar: 64
+    lamp: 32
+    slab: 5
+    sos: 1

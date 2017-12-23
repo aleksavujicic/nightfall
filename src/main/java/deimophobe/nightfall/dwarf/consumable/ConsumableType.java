@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.consumable;
 
+import deimophobe.nightfall.common.Misc;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -74,11 +75,6 @@ public enum ConsumableType {
 	}
 	
 	public static ConsumableType fromString(String name) {
-		name = name.toLowerCase().replace('-','_');
-		for (ConsumableType type : values()) {
-			if (type.name().equalsIgnoreCase(name))
-				return type;
-		}
-		throw new IllegalArgumentException("Unknown consumable type: " + name);
+		return Misc.getEnumMemberFromString(name, values(), "consumable type");
 	}
 }

@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.elements;
 
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitElement;
 import deimophobe.nightfall.dwarf.kit.elements.accessory.*;
@@ -120,12 +121,7 @@ public enum KitElementType {
 	}
 	
 	public static KitElementType fromString(String name) {
-		name = name.toLowerCase().replace('-','_');
-		for (KitElementType type : values()) {
-			if (type.name().equalsIgnoreCase(name))
-				return type;
-		}
-		throw new IllegalArgumentException("Unknown element type: " + name);
+		return Misc.getEnumMemberFromString(name, values(), "KitPieceType");
 	}
 	
 	public static Set<String> getElementNames() {

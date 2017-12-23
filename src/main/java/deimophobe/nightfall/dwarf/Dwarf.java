@@ -5,7 +5,6 @@ import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.HealBlock;
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.common.loadout.DwarfData;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.RepeatingCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -36,7 +35,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -64,9 +62,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		// Setup kit
 		this.kit = new Kit(this, data);
 		
-		Map<ConsumableType, Integer> consumables = new HashMap<>();
-		data.getConsumables().forEach((k,v) -> consumables.put(ConsumableType.fromString(k), v));
-		giveStartingItems(consumables);
+		giveStartingItems(data.getConsumables());
 		
 		mana = maxMana;
 		

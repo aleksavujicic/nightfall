@@ -20,7 +20,7 @@ import org.bukkit.potion.PotionEffectType;
  * Created by Deimophobe on 7/05/17.
  */
 public class Arthea extends Hero {
-	protected Arthea(Player player, Hero.Type type) {
+	protected Arthea(Player player, HeroType type) {
 		super(player, type);
 	}
 	

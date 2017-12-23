@@ -9,14 +9,14 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
-import deimophobe.nightfall.common.loadout.DwarfData;
 import deimophobe.nightfall.common.loadout.LoadoutMenu;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.DwarfData;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
-import deimophobe.nightfall.dwarf.hero.Hero;
+import deimophobe.nightfall.dwarf.hero.HeroType;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.dwarf.kit.elements.hero.Horn;
 import deimophobe.nightfall.entity.GamePlayer;
@@ -154,18 +154,17 @@ public class NightfallPlugin extends JavaPlugin {
 				
 				dm.removeGamePlayer(args[0], true);
 				mm.removeGamePlayer(args[0], true);
-				Set<String> elements = new HashSet<>();
+				Set<KitElementType> elements = new HashSet<>();
 				if (args[1].equalsIgnoreCase("all")) {
 					sender.sendMessage(ChatColor.YELLOW + "Adding all elements!");
-					for (KitElementType type : KitElementType.values())
-						elements.add(type.toString());
+					elements.addAll(Arrays.asList(KitElementType.values()));
 				} else {
 					for (int i = 1; i < args.length; i++) {
 						if (!KitElementType.isElement(args[i])) {
 							sender.sendMessage(ChatColor.RED + "Unknown kit item: " + ChatColor.DARK_AQUA + args[i] + ChatColor.RED + "!");
 							continue;
 						}
-						elements.add(args[i]);
+						elements.add(KitElementType.fromString(args[i]));
 					}
 				}
 				dm.createDwarf(player, new DwarfData(elements, null));
@@ -180,7 +179,7 @@ public class NightfallPlugin extends JavaPlugin {
 				sender.sendMessage(ChatColor.RED + "Please specify a hero.");
 				return false;
 			} else {
-				Hero.Type type = Hero.Type.getHeroType(args[1]);
+				HeroType type = HeroType.fromString(args[1]);
 				if (type == null) {
 					sender.sendMessage(ChatColor.RED + "Unknown hero type: " + ChatColor.GOLD + args[1] + ChatColor.RED + "!");
 					return true;
@@ -993,7 +992,7 @@ public class NightfallPlugin extends JavaPlugin {
 		}
 		
 		if (name.equalsIgnoreCase("sethero") && args.length == 2) {
-			return startsWithPrefix(args[args.length-1], Hero.Type.getHeroList());
+			return startsWithPrefix(args[args.length-1], HeroType.getHeroList());
 		}
 
 		if (name.equalsIgnoreCase("setmob") && args.length == 2) {
