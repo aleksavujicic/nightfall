@@ -1,6 +1,6 @@
 package deimophobe.nightfall.common.loadout.item;
 
-import deimophobe.nightfall.common.loadout.DwarfData;
+import deimophobe.nightfall.common.loadout.LoadoutConstruct;
 import org.bukkit.configuration.ConfigurationSection;
 
 /**
@@ -15,7 +15,7 @@ public class SimpleLoadoutItem extends LoadoutItem {
 	}
 	
 	@Override
-	public void modify(DwarfData dwarfData) {
-		dwarfData.addElement(type);
+	public void modify(LoadoutConstruct construct) {
+		construct.addElement(type);
 	}
 }

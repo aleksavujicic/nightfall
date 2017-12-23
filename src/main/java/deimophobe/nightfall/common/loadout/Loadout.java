@@ -87,18 +87,17 @@ public class Loadout implements SessionData {
 //		}
 	}
 	
-	public DwarfData constructProperties() {
-		DwarfData data = new DwarfData();
+	public void modifyLoadoutConstruct(LoadoutConstruct construct) {
 		boolean hasKit = false;
 		for (LoadoutItem item : items) {
-			item.modify(data);
+			item.modify(construct);
 			if (item.getCategory() == Category.KIT)
 				hasKit = true;
 		}
 		
 		// Apply warrior class if kit is empty
 		if (getRemainingPoints() == MAX_POINTS) {
-			LoadoutManager.getManager().getDefaultKit().modify(data);
+			LoadoutManager.getManager().getDefaultKit().modify(construct);
 			hasKit = true;
 		}
 		
@@ -108,10 +107,9 @@ public class Loadout implements SessionData {
 				if (!categoryItems.containsKey(category)) {
 					String defaultElement = category.getDefault();
 					if (defaultElement != null)
-						data.addElement(defaultElement);
+						construct.addElement(defaultElement);
 				}
 			}
 		}
-		return data;
 	}
 }

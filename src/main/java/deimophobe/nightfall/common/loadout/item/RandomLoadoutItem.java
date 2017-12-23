@@ -2,8 +2,8 @@ package deimophobe.nightfall.common.loadout.item;
 
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.loadout.Category;
-import deimophobe.nightfall.common.loadout.DwarfData;
 import deimophobe.nightfall.common.loadout.Loadout;
+import deimophobe.nightfall.common.loadout.LoadoutConstruct;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -20,14 +20,14 @@ public class RandomLoadoutItem extends LoadoutItem {
 	}
 	
 	@Override
-	public void modify(DwarfData dwarfData) {
+	public void modify(LoadoutConstruct construct) {
 		int pointsRemaining = Loadout.MAX_POINTS;
 		for (Category category : Category.values()) {
 			if (category == Category.KIT) continue;
 			
 			LoadoutItem item = Misc.getRandom(category.getItems());
 			pointsRemaining -= item.getCost();
-			item.modify(dwarfData);
+			item.modify(construct);
 		}
 		
 		Set<LoadoutItem> remaining = new HashSet<>();
@@ -37,7 +37,7 @@ public class RandomLoadoutItem extends LoadoutItem {
 		while (pointsRemaining >= 0) {
 			LoadoutItem item = Misc.getRandom(remaining);
 			pointsRemaining -= item.getCost();
-			item.modify(dwarfData);
+			item.modify(construct);
 			remaining.remove(item);
 		}
 	}

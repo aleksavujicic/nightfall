@@ -1,6 +1,6 @@
 package deimophobe.nightfall.common.loadout.item;
 
-import deimophobe.nightfall.common.loadout.DwarfData;
+import deimophobe.nightfall.common.loadout.LoadoutConstruct;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashMap;
@@ -28,11 +28,11 @@ public class MultiLoadoutItem extends LoadoutItem {
 	}
 	
 	@Override
-	public void modify(DwarfData dwarfData) {
+	public void modify(LoadoutConstruct construct) {
 		for (Map.Entry<String, Integer> entry : consumables.entrySet())
-			dwarfData.incrementConsumable(entry.getKey(), entry.getValue());
+			construct.incrementConsumable(entry.getKey(), entry.getValue());
 		
 		for (String type : elements)
-			dwarfData.addElement(type);
+			construct.addElement(type);
 	}
 }

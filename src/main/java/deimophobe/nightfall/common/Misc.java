@@ -7,6 +7,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
@@ -200,5 +202,19 @@ public class Misc {
 		Vector u2 = u1.clone().crossProduct(n);
 		
 		return new Pair<>(u1,u2);
+	}
+	
+	
+	public static <T extends Enum<T>> T getEnumMemberFromString(String string, T[] values, String enumName) {
+		string = string.replace('-','_');
+		for (T type : values) {
+			if (type.name().equalsIgnoreCase(string))
+				return type;
+		}
+		throw new UnknownEnumElementException("Unknown " + enumName + ": " + string);
+	}
+	
+	public static void checkConfigStringExists(ConfigurationSection config, String name) throws InvalidConfigurationException {
+		if (!config.contains(name)) throw new InvalidConfigurationException("Invalid config in '" + config.getName() + "'. Failed to find child '" + name + "'");
 	}
 }

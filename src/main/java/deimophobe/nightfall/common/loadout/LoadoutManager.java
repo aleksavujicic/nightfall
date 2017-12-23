@@ -17,6 +17,12 @@ public class LoadoutManager {
 	private final Map<UUID, Loadout> loadouts = new HashMap<>();
 	private final Map<String, LoadoutItem> items = new HashMap<>();
 	
+	private LoadoutManager() {
+		ourManager = this;
+		// Loads the menu, so that it populates the items map
+		LoadoutMenu.getMenu();
+	}
+	
 	public Loadout getLoadout(Player player) {
 		return getLoadout(player.getUniqueId());
 	}
@@ -25,6 +31,7 @@ public class LoadoutManager {
 	}
 	
 	public int registerLoadoutItem(LoadoutItem item, String id) {
+		id = id.toLowerCase().replace('_','-');
 		if (items.containsKey(id))
 			throw new IllegalArgumentException("Cannot register loadout item '" + id + "'. There already exists an item with same name.");
 		

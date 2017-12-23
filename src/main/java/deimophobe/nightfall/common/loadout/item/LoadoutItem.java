@@ -3,8 +3,8 @@ package deimophobe.nightfall.common.loadout.item;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.common.loadout.Category;
-import deimophobe.nightfall.common.loadout.DwarfData;
 import deimophobe.nightfall.common.loadout.Loadout;
+import deimophobe.nightfall.common.loadout.LoadoutConstruct;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
 import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.item.MenuItem;
@@ -99,7 +99,7 @@ public abstract class LoadoutItem implements MenuItem<Loadout>, Comparable<Loado
 		itemStack.setAmount(cost == 0 ? 1 : cost);
 	}
 	
-	public abstract void modify(DwarfData dwarfData);
+	public abstract void modify(LoadoutConstruct construct);
 	
 	
 	private boolean canSee(MenuSession<Loadout> session) {

@@ -1,7 +1,7 @@
 package deimophobe.nightfall.common.loadout.item;
 
 import deimophobe.nightfall.common.loadout.Category;
-import deimophobe.nightfall.common.loadout.DwarfData;
+import deimophobe.nightfall.common.loadout.LoadoutConstruct;
 import org.bukkit.configuration.ConfigurationSection;
 
 /**
@@ -21,7 +21,7 @@ public class ConsumableLoadoutItem extends LoadoutItem {
 	}
 	
 	@Override
-	public void modify(DwarfData dwarfData) {
-		dwarfData.incrementConsumable(consumable, quantity);
+	public void modify(LoadoutConstruct construct) {
+		construct.incrementConsumable(consumable, quantity);
 	}
 }

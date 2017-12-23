@@ -11,9 +11,9 @@ import java.util.Set;
 public enum Category {
 	KIT(null, "CLASS", true),
 	
-	SWORD(KitElementName.DRB, "MELEE WEAPON", true),
-	BOW(KitElementName.SHORTBOW, "RANGED WEAPON", true),
-	ALE(KitElementName.HEALING_ALE, "HEALING ITEM", true),
+	SWORD(KitPieceName.DRB, "MELEE WEAPON", true),
+	BOW(KitPieceName.SHORTBOW, "RANGED WEAPON", true),
+	ALE(KitPieceName.HEALING_ALE, "HEALING ITEM", true),
 	ARMOUR(null, "ARMOUR ITEM", true),
 	CONSUMABLE(null, "CONSUMABLE", false),
 	ACCESSORY(null, "ACCESSORY", false)
