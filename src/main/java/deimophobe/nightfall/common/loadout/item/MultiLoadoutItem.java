@@ -1,7 +1,5 @@
 package deimophobe.nightfall.common.loadout.item;
 
-import deimophobe.nightfall.common.Misc;
-
 import deimophobe.nightfall.common.loadout.DwarfData;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -15,28 +13,26 @@ import java.util.Set;
  */
 public class MultiLoadoutItem extends LoadoutItem {
 	
-	private final Map<ConsumableType, Integer> consumables = new HashMap<>();
-	private final Set<KitElementType> elements = new HashSet<>();
+	private final Map<String, Integer> consumables = new HashMap<>();
+	private final Set<String> elements = new HashSet<>();
 	
 	public MultiLoadoutItem(ConfigurationSection config) {
 		super(config);
 		ConfigurationSection consumablesConfig = config.getConfigurationSection("consumables");
 		for (String key : consumablesConfig.getKeys(false)) {
-			ConsumableType consumable = ConsumableType.valueOf(key.toUpperCase());
+			String consumable = key.toLowerCase();
 			int quantity = consumablesConfig.getInt(key);
 			consumables.put(consumable, quantity);
 		}
-		for (String item : config.getStringList("elements")) {
-			elements.add(KitElementType.get(item));
-		}
+		elements.addAll(config.getStringList("elements"));
 	}
 	
 	@Override
 	public void modify(DwarfData dwarfData) {
-		for (Map.Entry<ConsumableType, Integer> entry : consumables.entrySet())
+		for (Map.Entry<String, Integer> entry : consumables.entrySet())
 			dwarfData.incrementConsumable(entry.getKey(), entry.getValue());
 		
-		for (KitElementType type : elements)
+		for (String type : elements)
 			dwarfData.addElement(type);
 	}
 }

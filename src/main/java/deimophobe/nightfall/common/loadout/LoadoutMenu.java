@@ -26,10 +26,6 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 	private static final LoadoutMenu menu = new LoadoutMenu();
 	public static LoadoutMenu getMenu() {return menu;}
 	
-	public static void loadMenu() {
-		menu.getTitle();
-	}
-	
 	static final int PAGE_SIZE = 5*9;
 	private static final int EXTRA_SIZE = 1*9;
 	private static final String TITLE = "Select a kit";

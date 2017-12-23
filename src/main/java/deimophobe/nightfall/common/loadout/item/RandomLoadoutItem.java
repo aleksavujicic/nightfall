@@ -4,6 +4,7 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.loadout.Category;
 import deimophobe.nightfall.common.loadout.DwarfData;
 import deimophobe.nightfall.common.loadout.Loadout;
+import deimophobe.nightfall.common.loadout.LoadoutManager;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashSet;
@@ -32,6 +33,7 @@ public class RandomLoadoutItem extends LoadoutItem {
 		Set<LoadoutItem> remaining = new HashSet<>();
 		remaining.addAll(Category.ACCESSORY.getItems());
 		remaining.addAll(Category.CONSUMABLE.getItems());
+		remaining.remove(LoadoutManager.getManager().getItem("untimely"));
 		while (pointsRemaining >= 0) {
 			LoadoutItem item = Misc.getRandom(remaining);
 			pointsRemaining -= item.getCost();

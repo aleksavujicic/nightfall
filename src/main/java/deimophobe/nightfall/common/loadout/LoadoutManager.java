@@ -1,7 +1,5 @@
 package deimophobe.nightfall.common.loadout;
 
-import deimophobe.nightfall.common.Misc;
-
 import deimophobe.nightfall.common.loadout.item.LoadoutItem;
 import org.bukkit.entity.Player;
 

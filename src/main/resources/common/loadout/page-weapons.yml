@@ -44,8 +44,8 @@ hammer:
     base: hammer
     lore:
       description:
-       - "Does AOE damage every hit. Right click to \n
-          regenerate armour and mana over time."
+       - "Right click to roar\n
+          Attracting AIs toward you."
     modifiers:
       attack: 10
 
@@ -165,7 +165,7 @@ volcanic:
           that pierces everything in\n
           its path. Uses 3 arrows a shot."
     modifiers:
-      attack: 10
+      attack: 15
       power: 60
 
 dragonskin:
@@ -360,14 +360,14 @@ chug:
     base: chug
     lore:
       description:
-       - "Left click to heal for &b6&r hearts.\n 
-          Uses &b25&r mana. You are able to spam\n
+       - "Left click to heal for &b6&r hearts.\n
+          Uses &b30&r mana. You are able to spam\n
           this as much as you want\n
           so be careful and watch your mana!\n
           You also gain &espeed for 1 second&r\n
           each sip."
     modifiers:
-      mana-cost: 25
+      mana-cost: 30
 
 strong:
   index: 23

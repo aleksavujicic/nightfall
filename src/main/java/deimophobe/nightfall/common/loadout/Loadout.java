@@ -1,12 +1,7 @@
 package deimophobe.nightfall.common.loadout;
 
-import deimophobe.nightfall.common.Misc;
-
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.loadout.item.LoadoutItem;
-import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.common.menu.SessionData;
-import org.bukkit.entity.Player;
 
 import java.util.*;
 
@@ -111,7 +106,7 @@ public class Loadout implements SessionData {
 		if (!hasKit) {
 			for (Category category : Category.values()) {
 				if (!categoryItems.containsKey(category)) {
-					KitElementType defaultElement = category.getDefault();
+					String defaultElement = category.getDefault();
 					if (defaultElement != null)
 						data.addElement(defaultElement);
 				}
