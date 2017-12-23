@@ -207,8 +207,10 @@ public class Hero extends Dwarf {
 			
 			allElements.addAll(Arrays.asList(elements));
 			
-			this.data = new DwarfData(title, true, null, allElements, HERO_CONSUMABLES);
-			data.addConsumables(extraConsumables);
+			// TODO
+			this.data = null;
+			//this.data = new DwarfData(title, true, null, allElements, HERO_CONSUMABLES);
+			//data.addConsumables(extraConsumables);
 			
 			if (skin == null) {
 				this.skin = null;

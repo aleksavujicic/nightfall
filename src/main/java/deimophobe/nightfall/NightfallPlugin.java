@@ -154,21 +154,21 @@ public class NightfallPlugin extends JavaPlugin {
 				
 				dm.removeGamePlayer(args[0], true);
 				mm.removeGamePlayer(args[0], true);
-				Set<KitElementType> elements = new HashSet<>();
+				Set<String> elements = new HashSet<>();
 				if (args[1].equalsIgnoreCase("all")) {
 					sender.sendMessage(ChatColor.YELLOW + "Adding all elements!");
 					for (KitElementType type : KitElementType.values())
-						elements.add(type);
+						elements.add(type.toString());
 				} else {
 					for (int i = 1; i < args.length; i++) {
 						if (!KitElementType.isElement(args[i])) {
 							sender.sendMessage(ChatColor.RED + "Unknown kit item: " + ChatColor.DARK_AQUA + args[i] + ChatColor.RED + "!");
 							continue;
 						}
-						elements.add(KitElementType.get(args[i]));
+						elements.add(args[i]);
 					}
 				}
-				dm.createDwarf(player, new DwarfData(null, false, null, elements, null));
+				dm.createDwarf(player, new DwarfData(elements, null));
 				return true;
 			}
 		}
@@ -356,7 +356,7 @@ public class NightfallPlugin extends JavaPlugin {
 							if (!KitElementType.isElement(arg)) {
 								sender.sendMessage(ChatColor.RED + "Unknown kit item: " + ChatColor.DARK_AQUA + arg + ChatColor.RED + "!");
 							} else {
-								dwarf.giveKitItem(KitElementType.get(arg));
+								dwarf.giveKitItem(KitElementType.fromString(arg));
 							}
 						}
 					} else {

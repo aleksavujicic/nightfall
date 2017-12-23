@@ -72,4 +72,13 @@ public enum ConsumableType {
 	public boolean isDupable() {
 		return dupable;
 	}
+	
+	public static ConsumableType fromString(String name) {
+		name = name.toLowerCase().replace('-','_');
+		for (ConsumableType type : values()) {
+			if (type.name().equalsIgnoreCase(name))
+				return type;
+		}
+		throw new IllegalArgumentException("Unknown consumable type: " + name);
+	}
 }

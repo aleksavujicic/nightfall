@@ -31,8 +31,8 @@ public class Kit {
 	public Kit(Dwarf dwarf, DwarfData dwarfData) {
 		this.dwarf = dwarf;
 		
-		for (KitElementType type : dwarfData.getElements()) {
-			addElement(type);
+		for (String type : dwarfData.getElements()) {
+			addElement(KitElementType.fromString(type));
 		}
 		
 		for (KitGiveType type : KitGiveType.fixedValues())

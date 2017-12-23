@@ -36,6 +36,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -62,7 +63,10 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		
 		// Setup kit
 		this.kit = new Kit(this, data);
-		giveStartingItems(data.getConsumables());
+		
+		Map<ConsumableType, Integer> consumables = new HashMap<>();
+		data.getConsumables().forEach((k,v) -> consumables.put(ConsumableType.fromString(k), v));
+		giveStartingItems(consumables);
 		
 		mana = maxMana;
 		

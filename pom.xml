@@ -65,7 +65,7 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-                                    <include>minecraft.spigot.community.michel_0:api</include>
+                                    <include>deimophobe.nightfall:common</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
@@ -91,6 +91,11 @@
         <repository>
             <id>md_5-public</id>
             <url>http://repo.md-5.net/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>project.local</id>
+            <name>project</name>
+            <url>file:${project.basedir}../Nightfall-Common/</url>
         </repository>
     </repositories>
     <dependencies>

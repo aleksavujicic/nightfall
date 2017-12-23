@@ -8,7 +8,6 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.common.loadout.Loadout;
 import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -572,7 +571,7 @@ public class Game {
 				player.setExp(0);
 				player.setLevel(0);
 				player.setDisplayName(player.getName());
-				Loadout.updateLoadoutDisplay(player);
+				//Loadout.updateLoadoutDisplay(player);
 				lobbyTeam.addEntry(player.getName());
 				break;
 			

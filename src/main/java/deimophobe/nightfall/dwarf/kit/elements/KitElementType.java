@@ -111,6 +111,7 @@ public enum KitElementType {
 	;
 	
 	public static boolean isElement(String name) {
+		name = name.toLowerCase().replace('-','_');
 		for (KitElementType type : values()) {
 			if (type.name().equalsIgnoreCase(name))
 				return true;
@@ -118,7 +119,8 @@ public enum KitElementType {
 		return false;
 	}
 	
-	public static KitElementType get(String name) {
+	public static KitElementType fromString(String name) {
+		name = name.toLowerCase().replace('-','_');
 		for (KitElementType type : values()) {
 			if (type.name().equalsIgnoreCase(name))
 				return type;
