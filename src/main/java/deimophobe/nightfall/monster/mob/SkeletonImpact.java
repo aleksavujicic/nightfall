@@ -63,9 +63,7 @@ class SkeletonImpact extends Skeleton {
         getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
         getArmour().addModifier(ItemModifierType.HEALTH, extraHealth * 2, "Upgrade");
         getWeapon().addModifier(ItemModifierType.PUNCH, punch, "Upgrade");
-        if (meleekb > 0) {
-            getWeapon().addModifier(ItemModifierType.KNOCKBACK, meleekb+2, "Upgrade");
-        }
+        getWeapon().addModifier(ItemModifierType.KNOCKBACK, meleekb, "Upgrade");
     }
 
     @Override
