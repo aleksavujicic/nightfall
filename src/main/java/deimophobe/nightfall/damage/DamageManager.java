@@ -10,10 +10,7 @@ import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.util.Vector;
@@ -49,6 +46,11 @@ public class DamageManager {
 	
 	public void processDamageEvent(EntityDamageEvent event) {
 		GameDamage damage = getDamageFromEvent(event);
+		if (damage == null) {
+			event.setCancelled(true);
+			return;
+		}
+		
 		damage.activateTrigger();
 		damage.notifyEntities();
 		damage.applyDamage(event);
@@ -75,7 +77,14 @@ public class DamageManager {
 			}
 			
 			case ENTITY_ATTACK: {
-				GameEntity attacker = Game.getGame().getGameEntity(((EntityDamageByEntityEvent) event).getDamager());
+				Entity entityAttacker = ((EntityDamageByEntityEvent) event).getDamager();
+				GameEntity attacker = Game.getGame().getGameEntity(entityAttacker);
+				
+				if (attacker == null && entityAttacker != null && entityAttacker instanceof Damageable) {
+					((LivingEntity) entityAttacker).damage(100000);
+					return null;
+				}
+				
 				return GameDamage.createDamage(attacker, receiver, NaturalDamageType.MELEE, event.getDamage());
 			}
 			

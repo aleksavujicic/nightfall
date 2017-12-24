@@ -125,7 +125,9 @@ public class BlockType {
 					Material.JUNGLE_DOOR,
 					Material.SPRUCE_DOOR,
 					Material.WOOD_DOOR,
-					Material.WOODEN_DOOR
+					Material.WOODEN_DOOR,
+					
+					Material.GOLD_ORE
 			)
 	);
 	
@@ -136,7 +138,7 @@ public class BlockType {
 	);
 	
 	public static final ComparableBlock UNBREAKABLE_BLOCKS = new BlockSet(
-			UNTIMEABLE_BLOCKS,
+			UNTIMEABLE_BLOCKS.except(Material.GOLD_ORE),
 			
 			new MaterialSet(
 					Material.LOG,

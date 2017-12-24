@@ -193,9 +193,12 @@ public class GameListener implements Listener {
 		EntityDamageEvent.DamageCause cause = event.getCause();
 		
 		// Protect santa
-		if (entity.getType() == EntityType.ARMOR_STAND) {
-			event.setCancelled(true);
-			return;
+		switch (entity.getType()) {
+			case ARMOR_STAND:
+			case ITEM_FRAME: {
+				event.setCancelled(true);
+				return;
+			}
 		}
 		
 		// Don't damage lobbyers and respawn if void.
@@ -348,7 +351,7 @@ public class GameListener implements Listener {
 			// Delayed to prevent concurrent modification exceptions hopefully ._.
 			new BukkitRunnable() {
 				@Override public void run() {dm.removeGamePlayer(dwarf, true);}
-			}.runTaskLater(NightfallPlugin.getPlugin(), 1);
+			}.runTaskLater(NightfallPlugin.getPlugin(), 22);
 		}
 	}
 	

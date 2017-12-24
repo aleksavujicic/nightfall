@@ -40,7 +40,7 @@ class Magus extends AbstractMob {
 	}
 	
 	private void throwDwarves() {
-		Dwarf dwarf = monster.getLookingAt(1, 20, DwarfManager.getManager().getDwarves());
+		Dwarf dwarf = monster.getLookingAt(20, 1, DwarfManager.getManager().getDwarves());
 		if (dwarf == null) return;
 		
 		dwarf.givePotionEffect(PotionEffectType.LEVITATION, 40, 5, false, false, true);

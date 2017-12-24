@@ -127,7 +127,7 @@ public class ShadowBlade extends AbstractItem implements KitCooldownElement {
 	}
 	
 	private boolean shadowStrike() {
-		MonsterPlayer closestPlayerMonster = dwarf.getLookingAt(2.5, 10, MonsterManager.getManager().getAlivePlayerMobs());
+		MonsterPlayer closestPlayerMonster = dwarf.getLookingAt(10, 2.5, MonsterManager.getManager().getAlivePlayerMobs());
 		
 		if (closestPlayerMonster != null) {
 			Location monsterLoc = closestPlayerMonster.getLocation();

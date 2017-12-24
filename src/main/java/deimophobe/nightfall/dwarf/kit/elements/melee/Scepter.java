@@ -133,7 +133,7 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 			// Buffpool particles
 			World world = location.getWorld();
 			world.spawnParticle(Particle.SPELL_WITCH, location, 3, VISIBLE_RADIUS/2, 0, VISIBLE_RADIUS/2, 0);
-			for (int i = 0; i < 25; i++) {
+			for (int i = 0; i < 20; i++) {
 				double dx = Misc.randomDouble(-1,1);
 				double maxZ = Math.sqrt(1 - dx*dx);
 				double dz = Misc.randomDouble(-maxZ, maxZ);
@@ -162,10 +162,12 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 			// Buff Dwarves
 			for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 				if (dwarf.getLocation().distance(location) <= BUFFPOOL_RADIUS) {
-					if (getLifeLeft() % 3 == 0) dwarf.regenMana(1);
-					dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, getLifeLeft(), 3,true,false,false);
-					dwarf.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Math.min(20, getLifeLeft()),2,true,false,false);
-					dwarf.givePotionEffect(PotionEffectType.REGENERATION, getLifeLeft(),3,true,false,false);
+					if (getLifeLeft() % 3 == 0) {
+						dwarf.regenMana(1);
+						dwarf.heal(1);
+					}
+					dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, getLifeLeft(), 3,true,true,false);
+					dwarf.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 10,2,true,true,false);
 					dwarf.updateVisibility();
 				}
 			}
@@ -174,7 +176,7 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 			if (getLifeLeft() % 5 == 0) {
 				for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
 					if (monster.getLocation().distance(location) <= BUFFPOOL_RADIUS) {
-						GameDamage damage = monster.createDamage(dwarf, CustomDamageType.BUFFPOOL, 6);
+						GameDamage damage = monster.createDamage(dwarf, CustomDamageType.BUFFPOOL, 5);
 						if (monster instanceof AIEntity) damage.instaKill();
 						damage.setNoDmgTicks(1);
 						damage.fire(true);

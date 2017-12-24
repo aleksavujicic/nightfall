@@ -14,7 +14,6 @@ import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.ai.AIManager;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -54,9 +53,9 @@ public class Drucrist extends AbstractItem implements KitCooldownElement {
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action)) {
 			if (cd.isAvailable()) {
-				MonsterPlayer closestPlayerMonster = dwarf.getLookingAt(2.5, 13, MonsterManager.getManager().getAlivePlayerMobs());
+				MonsterPlayer closestPlayerMonster = dwarf.getLookingAt(13, 2.5, MonsterManager.getManager().getAlivePlayerMobs());
 
-				AIEntity closestAIMonster = dwarf.getLookingAt(2.5,13, AIManager.getManager().getAIs());
+				AIEntity closestAIMonster = dwarf.getLookingAt(13, 2.5, AIManager.getManager().getAIs());
 
 				if (closestPlayerMonster != null) {
 					Location monsterLoc = closestPlayerMonster.getLocation();

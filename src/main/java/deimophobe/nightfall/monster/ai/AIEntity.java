@@ -25,8 +25,9 @@ import org.bukkit.util.Vector;
  * Created by Deimophobe on 24/01/17.
  */
 public abstract class AIEntity<T extends Monster> implements GameEntity<T>, MonsterEntity<T> {
-	protected static final int MAX_TARGET_COUNT = 3;
-	protected int targetCounter = MAX_TARGET_COUNT;
+	protected static final int MAX_INACTIVITY_COUNT = 4;
+	protected int inactivityCount = MAX_INACTIVITY_COUNT;
+	private Location lastLocation;
 	
 	private int suffocationCounter = 50;
 	
@@ -34,8 +35,9 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	@Override public T getEntity() { return monster; }
 	
 	protected AIEntity(Location location, String name, Dwarf target, EntityType type) {
+		this.lastLocation = location.clone();
 		this.monster = (T) GameMap.getCurrentMap().getWorld().spawnEntity(location.clone().subtract(0,1.8,0), type);
-		this.targetCounter = MAX_TARGET_COUNT;
+		this.inactivityCount = MAX_INACTIVITY_COUNT;
 		setupMonster(name, target);
 	}
 	
@@ -60,11 +62,13 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
+		resetInactivity();
 		damage.setArmourShred(5);
 	}
 
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
+		resetInactivity();
 		damage.getDamage().timesMult(0.3);
 
 		if (damage.getAttacker() instanceof MonsterEntity) {
@@ -99,11 +103,20 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	void naturalUpdateTarget() {
 		updateTarget();
 		
-		if (getTarget() == null) {
-			targetCounter--;
-			if (targetCounter == 0)
+		if (!didMove() || getTarget() == null) {
+			inactivityCount--;
+			if (inactivityCount == 0)
 				remove();
 		}
+	}
+	
+	private final static double DISTANCE_THRESHOLD = 1;
+	private boolean didMove() {
+		Location currentLocation = monster.getLocation();
+		double distance = lastLocation.distance(currentLocation);
+		lastLocation = currentLocation;
+		
+		return distance >= DISTANCE_THRESHOLD;
 	}
 	
 	private void updateTarget() {
@@ -127,7 +140,7 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	}
 	
 	public void setTarget(Dwarf dwarf) {
-		targetCounter = MAX_TARGET_COUNT;
+		resetInactivity();
 		monster.setTarget(dwarf.getPlayer());
 	}
 	
@@ -144,5 +157,9 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 		if (suffocationCounter == 0) {
 			remove();
 		}
+	}
+	
+	private void resetInactivity() {
+		inactivityCount = MAX_INACTIVITY_COUNT;
 	}
 }

@@ -361,13 +361,13 @@ chug:
     lore:
       description:
        - "Left click to heal for &b6&r hearts.\n 
-          Uses &b25&r mana. You are able to spam\n
+          Uses &b30&r mana. You are able to spam\n
           this as much as you want\n
           so be careful and watch your mana!\n
           You also gain &espeed for 1 second&r\n
           each sip."
     modifiers:
-      mana-cost: 25
+      mana-cost: 30
 
 strong:
   index: 23

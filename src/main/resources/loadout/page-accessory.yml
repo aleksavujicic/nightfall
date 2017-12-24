@@ -427,3 +427,16 @@ builder_three:
           *128 Torches\n
           *128 Mortar\n
           *384 Cobblestone."
+
+untimely:
+  index: 44
+  type: item
+  name: untimely_demise
+  category: accessory
+  item:
+    template: "loadout"
+    name: "Untimely Demise"
+    material: watch
+    lore:
+      description:
+       - "You will be guaranteed to plague."

@@ -295,6 +295,7 @@ class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
 			Set<LoadoutItem> remaining = new HashSet<>();
 			remaining.addAll(Category.ACCESSORY.getItems());
 			remaining.addAll(Category.CONSUMABLE.getItems());
+			remaining.remove(LoadoutItem.getItem("untimely"));
 			while (pointsRemaining >= 0) {
 				LoadoutItem item = Misc.getRandom(remaining);
 				pointsRemaining -= item.getCost();

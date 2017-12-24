@@ -15,7 +15,6 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -46,7 +45,7 @@ public class Dagger extends AbstractCooldownItem {
 	
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action) && isOffCD()) {
-			MonsterPlayer closestMonster = dwarf.getLookingAt(2.5, 5, MonsterManager.getManager().getAlivePlayerMobs());
+			MonsterPlayer closestMonster = dwarf.getLookingAt(5, 2.5, MonsterManager.getManager().getAlivePlayerMobs());
 			
 			if (closestMonster != null) {
 				Location loc = closestMonster.getPlayer().getEyeLocation();
