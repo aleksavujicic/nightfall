@@ -107,8 +107,7 @@ impact:
       description:
         - "Become an Impact Skeleton.\n
            A sneaky skeleton variant that can\n
-           scale walls and knock dwarves away.\n
-           Work in progress."
+           scale walls and knock dwarves away."
 
 
 ############################
@@ -198,12 +197,11 @@ withering:
     extrahealth-wither: 5
   item:
     base: wither_skull
-    name: "Withering Arrows"
+    name: "Withering Beam"
     shiny: true
     lore:
       description:
-        - "Wither dwarves with your arrows!\n
-           You will also deal 10 more armor shred."
+        - "Wither dwarves with your piercing beam."
 
 
 #################################
