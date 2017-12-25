@@ -1,0 +1,59 @@
+ranger:
+  title: "Ranger"
+  item:
+    name: "Ranger"
+    material: diamond_hoe
+
+paladin:
+  title: "Paladin"
+  item:
+    name: "Paladin"
+    material: diamond_hoe
+
+gravedigger:
+  title: "Gravedigger"
+  item:
+    name: "Gravedigger"
+    material: diamond_hoe
+
+ancient:
+  title: "Ancient"
+  item:
+    name: "Ancient"
+    material: diamond_hoe
+
+firelord:
+  title: "Firelord"
+  item:
+    name: "Firelord"
+    material: diamond_hoe
+
+hunter:
+  title: "Hunter"
+  item:
+    name: "Hunter"
+    material: diamond_hoe
+
+necromancer:
+  title: "Necromancer"
+  item:
+    name: "Necromancer"
+    material: diamond_hoe
+
+shadowdancer:
+  title: "Shadowdancer"
+  item:
+    name: "Shadowdancer"
+    material: diamond_hoe
+
+bookkeeper:
+  title: "Bookkeeper"
+  item:
+    name: "Bookkeeper"
+    material: diamond_hoe
+
+squire:
+  title: "Squire"
+  item:
+    name: "Squire"
+    material: diamond_hoe

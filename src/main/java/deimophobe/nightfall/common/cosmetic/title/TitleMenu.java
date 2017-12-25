@@ -1,0 +1,36 @@
+package deimophobe.nightfall.common.cosmetic.title;
+
+import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.cosmetic.Cosmetic;
+import deimophobe.nightfall.common.cosmetic.CosmeticManager;
+import deimophobe.nightfall.common.menu.MainMenu;
+import deimophobe.nightfall.common.menu.submenu.ListMenu;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.entity.Player;
+
+/**
+ * Created by Deimophobe on 23/12/17.
+ */
+public class TitleMenu extends ListMenu<Cosmetic> implements MainMenu<Cosmetic> {
+	public TitleMenu() {
+		ConfigurationSection config = Misc.getInternalFileConfig("common/titles.yml");
+		for (String key : config.getKeys(false)) {
+			try {
+				addItem(new TitleItem(config.getConfigurationSection(key)));
+			} catch (InvalidConfigurationException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@Override
+	public String getTitle() {
+		return "Select a Title";
+	}
+	
+	@Override
+	public Cosmetic getDataFromPlayer(Player player) {
+		return CosmeticManager.getManager().getCosmetic(player);
+	}
+}

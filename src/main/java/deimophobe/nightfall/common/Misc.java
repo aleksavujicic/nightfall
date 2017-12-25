@@ -11,6 +11,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Projectile;
+import org.bukkit.event.Event;
 import org.bukkit.event.block.Action;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
@@ -28,22 +29,13 @@ public class Misc {
 	public static void initialiseNightfallCommon(Plugin plugin) {
 		Misc.plugin = plugin;
 		MenuManager.initialiseMenuManager(plugin);
-		LoreTemplate.registerTemplateFile("common/loadout/lore-templates.yml");
+		LoreTemplate.registerTemplateFile("common/lore-templates.yml");
 	}
 	
 	
 	
 	
 	
-	public static String getNightfallText() {
-		return ChatColor.BLUE + "Night" + ChatColor.DARK_RED + "fall";
-	}
-	
-	public static YamlConfiguration getInternalFileConfig(String name) {
-		InputStream stream = plugin.getResource(name);
-		if (stream == null) throw new IllegalArgumentException("Unknown config file: " + name);
-		return YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
-	}
 	
 	// ------ RANDOM ------
 	
@@ -175,7 +167,27 @@ public class Misc {
 	}
 	
 	
+	// ------ CONFIG ------
+	public static YamlConfiguration getInternalFileConfig(String name) {
+		InputStream stream = plugin.getResource(name);
+		if (stream == null) throw new IllegalArgumentException("Unknown config file: " + name);
+		return YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
+	}
+	
+	public static void checkConfigStringExists(ConfigurationSection config, String name) throws InvalidConfigurationException {
+		if (!config.contains(name)) throw new InvalidConfigurationException("Invalid config in '" + config.getName() + "'. Failed to find child '" + name + "'");
+	}
+	
+	
 	// ------ MISC ------
+	public static String getNightfallText() {
+		return ChatColor.BLUE + "Night" + ChatColor.DARK_RED + "fall";
+	}
+	
+	public static void dispatchEvent(Event event) {
+		Bukkit.getServer().getPluginManager().callEvent(event);
+	}
+	
 	public static class Pair<T> {
 		public final T first;
 		public final T second;
@@ -212,9 +224,5 @@ public class Misc {
 				return type;
 		}
 		throw new UnknownEnumElementException("Unknown " + enumName + ": " + string);
-	}
-	
-	public static void checkConfigStringExists(ConfigurationSection config, String name) throws InvalidConfigurationException {
-		if (!config.contains(name)) throw new InvalidConfigurationException("Invalid config in '" + config.getName() + "'. Failed to find child '" + name + "'");
 	}
 }
