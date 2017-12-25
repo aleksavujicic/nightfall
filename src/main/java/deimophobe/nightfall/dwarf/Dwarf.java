@@ -5,6 +5,7 @@ import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.HealBlock;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.RepeatingCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -35,7 +36,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collection;
-import java.util.Map;
 
 /**
  * Created by Deimophobe on 15/01/17.
@@ -59,33 +59,13 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		// Set armour
 		armour = new DwarvenArmour(this);
 		
-		// Setup kit
-		this.kit = new Kit(this, data);
+		updateTitle();
+		updateHat();
 		
-		giveStartingItems(data.getConsumables());
+		// Setup kit
+		this.kit = data.createKitAndApplyToDwarf(this);
 		
 		mana = maxMana;
-		
-		// Set title
-//		String title = data.getTitle();
-//		boolean forceTitle = data.getForceTitle();
-//
-//		ChatColor color;
-//		if (forceTitle)
-//			color = ChatColor.GOLD;
-//		else
-//			if (data.getTitle() != null)
-//				color = ChatColor.AQUA;
-//			else
-//				color = ChatColor.DARK_AQUA;
-//
-//		setTitle(color, title, forceTitle);
-		
-		
-		// Put on hat
-//		Hat hat = data.getHat();
-//		if (hat != null)
-//			hat.putOn(this);
 		
 		giveArrows(40);
 		
@@ -108,6 +88,20 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 5, false, false, true);
 	}
 	
+	public void updateTitle() {
+		String title = CosmeticManager.getManager().getCosmetic(player).getTitle();
+		
+		ChatColor colour;
+		if (title == null) colour = ChatColor.DARK_AQUA;
+		else colour = ChatColor.AQUA;
+		
+		setTitle(colour, title, false);
+	}
+	
+	public void updateHat() {
+		CosmeticManager.getManager().getCosmetic(player).equipHat();
+	}
+	
 	
 	// ------ KIT ITEMS -------
 	private final Kit kit;
@@ -120,15 +114,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		return kit.containsElement(type);
 	}
 	public void giveKitItems(KitGiveType type) {kit.giveItems(type);}
-	
-	protected void giveStartingItems(Map<ConsumableType, Integer> consumables) {
-		kit.giveItems(KitGiveType.START);
-		
-		// Add consumables
-		for (ConsumableType type : consumables.keySet()) {
-			giveConsumable(type, consumables.get(type));
-		}
-	}
 	
 	public void giveCompass() {
 		if (!hasKitElement(KitElementType.COMPASS)) kit.addAndGiveItem(KitElementType.COMPASS);

@@ -7,6 +7,7 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.common.loadout.LoadoutMenu;
@@ -673,6 +674,21 @@ public class NightfallPlugin extends JavaPlugin {
 			if (sender instanceof Player) {
 				LoadoutMenu.getMenu().startSession((Player) sender);
 				
+				return true;
+			}
+		}
+		
+		if (name.equalsIgnoreCase("title")) {
+			if (sender instanceof Player) {
+				CosmeticManager.getManager().openTitleMenu((Player) sender);
+				
+				return true;
+			}
+		}
+		
+		if (name.equalsIgnoreCase("hat")) {
+			if (sender instanceof Player) {
+				CosmeticManager.getManager().openHatMenu((Player) sender);
 				return true;
 			}
 		}

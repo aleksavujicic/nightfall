@@ -1,6 +1,5 @@
 package deimophobe.nightfall.dwarf.kit;
 
-import deimophobe.nightfall.dwarf.DwarfData;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -28,10 +27,10 @@ public class Kit {
 	
 	private final Map<KitGiveType, Integer> giveTimes = new HashMap<>();
 	
-	public Kit(Dwarf dwarf, DwarfData dwarfData) {
+	public Kit(Dwarf dwarf, Collection<KitElementType> elements) {
 		this.dwarf = dwarf;
 		
-		for (KitElementType type : dwarfData.getElements()) {
+		for (KitElementType type : elements) {
 			addElement(type);
 		}
 		

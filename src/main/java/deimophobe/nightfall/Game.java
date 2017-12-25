@@ -8,6 +8,8 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.cosmetic.Cosmetic;
+import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -570,7 +572,10 @@ public class Game {
 				player.setFoodLevel(100000);
 				player.setExp(0);
 				player.setLevel(0);
-				player.setDisplayName(player.getName());
+				
+				Cosmetic cosmetic = CosmeticManager.getManager().getCosmetic(player);
+				cosmetic.updateTitle();
+				cosmetic.equipHat();
 				//Loadout.updateLoadoutDisplay(player);
 				lobbyTeam.addEntry(player.getName());
 				break;

@@ -2,10 +2,14 @@ package deimophobe.nightfall.dwarf.hero;
 
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Skin;
+import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.UnknownEnumElementException;
+import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfData;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
+import deimophobe.nightfall.dwarf.kit.Kit;
+import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -25,21 +29,24 @@ public class HeroData extends DwarfData {
 	
 	private final HeroType type;
 	
+	private final String fullName;
+	private final String descriptor;
+	
 	private final String hat;
 	private final Skin skin;
 	private final ChatColor glowColour;
-	private final String descriptor;
 	
 	private final Function<Player, Hero> heroCreator;
 	
 	public String getHat() { return hat; }
-	public Skin getSkin() { return skin; }
-	public ChatColor getGlowColour() { return glowColour; }
-	public String getDescriptor() { return descriptor; }
 	
 	public HeroData(ConfigurationSection config, HeroType type) throws InvalidConfigurationException {
 		this.type = type;
 		
+		
+		// Full name
+		Misc.checkConfigStringExists(config, "full-name");
+		this.fullName = config.getString("full-name");
 		
 		// Descriptor
 		Misc.checkConfigStringExists(config, "descriptor");
@@ -50,7 +57,6 @@ public class HeroData extends DwarfData {
 		// Hat
 		Misc.checkConfigStringExists(config, "hat");
 		this.hat = config.getString("hat");
-		
 		
 		// Skin
 		Misc.checkConfigStringExists(config, "skin");
@@ -146,11 +152,11 @@ public class HeroData extends DwarfData {
 		
 	}
 	
-	public Hero createHero(Player player) {
+	Hero createHero(Player player) {
 		return heroCreator.apply(player);
 	}
 	
-	public Team createTeam() {
+	Team createTeam() {
 		String name = skin.getName();
 		Team team = Game.getGame().getNewTeam("hero" + name);
 		team.setColor(glowColour);
@@ -158,5 +164,24 @@ public class HeroData extends DwarfData {
 		team.addEntry(name);
 		
 		return team;
+	}
+	
+	@Override
+	public Kit createKitAndApplyToDwarf(Dwarf dwarf) {
+		Kit kit = super.createKitAndApplyToDwarf(dwarf);
+		kit.giveItems(KitGiveType.PICK);
+		kit.giveItems(KitGiveType.SHOVEL);
+		
+		dwarf.setTitle(ChatColor.GOLD, fullName, true);
+		
+		SkinManager.getManager().addSkinChange(dwarf, skin);
+		
+		Bukkit.broadcastMessage(
+				ChatColor.DARK_AQUA + dwarf.getName()
+				+ ChatColor.LIGHT_PURPLE + " has become the " + descriptor + " "
+				+ ChatColor.GOLD + fullName + ChatColor.LIGHT_PURPLE + "!"
+		);
+		
+		return kit;
 	}
 }

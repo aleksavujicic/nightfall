@@ -76,8 +76,14 @@ commands:
   compass:
     description: Blesses Jimmy with the mighty dwarven compass.
   loadout:
-    description: Choose a kit!
+    description: Choose a kit
     aliases: kit
+  title:
+    description: Choose a title
+    aliases: titles
+  hat:
+    description: Choose a hat
+    aliases: hats
   stuck:
     description: For when you're stuck (before the game starts).
   explore:

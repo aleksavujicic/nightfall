@@ -9,6 +9,13 @@ import org.bukkit.event.HandlerList;
  */
 public class DwarfCreateEvent extends Event {
 	private static final HandlerList handlers = new HandlerList();
+	public HandlerList getHandlers() {
+		return handlers;
+	}
+	public static HandlerList getHandlerList() {
+		return handlers;
+	}
+	
 	private final Dwarf dwarf;
 	
 	public DwarfCreateEvent(Dwarf dwarf) {
@@ -17,13 +24,5 @@ public class DwarfCreateEvent extends Event {
 	
 	public Dwarf getDwarf() {
 		return dwarf;
-	}
-	
-	public HandlerList getHandlers() {
-		return handlers;
-	}
-	
-	public static HandlerList getHandlerList() {
-		return handlers;
 	}
 }

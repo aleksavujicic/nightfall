@@ -4,9 +4,6 @@ import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.HeroArmour;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 /**
@@ -19,24 +16,11 @@ public class Hero extends Dwarf {
 		super(player, type.getData());
 		
 		this.type = type;
-		HeroData data = type.getData();
 		
-		setArmour(new HeroArmour(this, data.getHat()));
-		
-		Bukkit.broadcastMessage(
-				ChatColor.DARK_AQUA + player.getName()
-				+ ChatColor.LIGHT_PURPLE + " has become the "
-				+ data.getDescriptor() + " " + player.getDisplayName()
-				+ ChatColor.LIGHT_PURPLE + "!"
-		);
+		setArmour(new HeroArmour(this, type.getData().getHat()));
 		
 		makeBlindImmune();
 		makePlagueImmune();
-		
-		giveKitItems(KitGiveType.PICK);
-		giveKitItems(KitGiveType.SHOVEL);
-		
-		SkinManager.getManager().addSkinChange(this, data.getSkin());
 	}
 	
 	@Override
@@ -44,6 +28,13 @@ public class Hero extends Dwarf {
 		super.onRemove();
 		SkinManager.getManager().removeSkinChange(this);
 	}
+	
+	@Override
+	public void updateTitle() {}
+	
+	@Override
+	public void updateHat() {}
+	
 	
 	@Override
 	public void showTrash() {}

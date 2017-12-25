@@ -2,6 +2,8 @@ package deimophobe.nightfall;
 
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
+import deimophobe.nightfall.common.event.HatChangeEvent;
+import deimophobe.nightfall.common.event.TitleChangeEvent;
 import deimophobe.nightfall.common.loadout.LoadoutMenu;
 import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -382,6 +384,36 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void onAllDeaths(EntityDeathEvent event) {
 		event.getDrops().clear();
+	}
+	
+	
+	
+	// --------------------------------------------------------
+	//                       CUSTOM
+	// --------------------------------------------------------
+	
+	@EventHandler
+	public void changeTitle(TitleChangeEvent event) {
+		Player player = event.getPlayer();
+		Dwarf dwarf = DwarfManager.getManager().getGamePlayer(player);
+		
+		if (dwarf != null) {
+			dwarf.updateTitle();
+		} else if (game.isLobbyPlayer(player)) {
+			event.setUpdateDisplayName(true);
+		}
+	}
+	
+	@EventHandler
+	public void changeHat(HatChangeEvent event) {
+		Player player = event.getPlayer();
+		Dwarf dwarf = DwarfManager.getManager().getGamePlayer(player);
+		
+		if (dwarf != null) {
+			dwarf.updateHat();
+		} else if (game.isLobbyPlayer(player)) {
+			event.setUpdateHat(true);
+		}
 	}
 	
 	
