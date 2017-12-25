@@ -197,12 +197,11 @@ withering:
     extrahealth-wither: 5
   item:
     base: wither_skull
-    name: "Withering Arrows"
+    name: "Withering Beam"
     shiny: true
     lore:
       description:
-        - "Wither dwarves with your arrows!\n
-           You will also deal 10 more armor shred."
+        - "Wither dwarves with your piercing beam."
 
 
 #################################
@@ -315,7 +314,7 @@ punch:
 
 meleekb:
   index: 12
-  cost: [500, 1000, 1500]
+  cost: [200, 400, 600, 800, 1000]
   prereq:
     impact: 1
   item:
@@ -375,7 +374,7 @@ warpweaver:
     quiver: 5
     impact: 1
     punch: 5
-    meleekb: 3
+    meleekb: 5
     aoe: 5
     arrowres-impact: 5
     extrahealth-impact: 5
