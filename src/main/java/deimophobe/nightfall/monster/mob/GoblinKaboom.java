@@ -97,7 +97,7 @@ class GoblinKaboom extends Goblin {
 	
 	private void kaboom() {
 		
-		double dwarfDamage = 50 + 8 * shrapnel + 40 * superKaboom;
+		double dwarfDamage = 50 + 5 * shrapnel + 40 * superKaboom;
 		int armorShred = 50 + 5 * shrapnel + 25 * superKaboom;
 		double power = 6 + 0.5 * dest + 2.5 * superKaboom;
 		double kb = 0.75 + 0.25 * force + 1.5 * superKaboom;
@@ -111,7 +111,7 @@ class GoblinKaboom extends Goblin {
 		
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			Vector offset = dwarf.getEyeLocation().subtract(loc).toVector();
-			if (offset.length() > 8.5) continue;
+			if (offset.length() > 8) continue;
 			
 			DamageModifier modifier = new DamageModifier();
 			
