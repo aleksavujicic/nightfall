@@ -56,7 +56,8 @@ public class Goblin extends AbstractMob {
 
 		upgrades = monster.getUpgrades(MobType.GOBO);
 
-		this.supplies = (upgrades.get("supplies") + upgrades.get("supplies-inf"))*2;
+		int supplies_inf = upgrades.get("supplies-inf");
+		this.supplies = (upgrades.get("supplies") + supplies_inf)*2;
 		int health = (upgrades.get("health") + upgrades.get("health-inf"));
 		
 		this.dest = upgrades.get("dest");
@@ -66,7 +67,7 @@ public class Goblin extends AbstractMob {
 		getArmour().addModifier(ItemModifierType.HEALTH, health, "Upgrade");
 
 		this.placeboxCD = new ComplexCooldown(MAX_PLACE_CD);
-		this.throwboxCD = new ComplexCooldown(MAX_THROW_CD);
+		this.throwboxCD = new ComplexCooldown(Math.max(MAX_THROW_CD - 5, MAX_THROW_CD - (int)(Math.log((double)supplies) / Math.log(2))));
 	}
 
 	@Override
@@ -106,9 +107,9 @@ public class Goblin extends AbstractMob {
 		if (Misc.isLeftClick(action) && isPlayerHoldingItem("gobo-box") && (monster.getHeldItem().getAmount() >= 2) && throwboxCD.isAvailable()) {
 
 			Vector direction = monster.getEyeLocation().getDirection();
-			direction.setX((direction.getX() / 1.8));
+			direction.setX((direction.getX() / 1.6));
 			direction.setY(0.4);
-			direction.setZ((direction.getZ() / 1.8));
+			direction.setZ((direction.getZ() / 1.6));
 			TNTPrimed tnt = monster.getLocation().getWorld().spawn(monster.getEyeLocation().add(direction), TNTPrimed.class);
 			tnt.setMetadata("thrower", new FixedMetadataValue(NightfallPlugin.getPlugin(), this));
 			tnt.setVelocity(direction);
@@ -129,7 +130,7 @@ public class Goblin extends AbstractMob {
 		BlockConverter.convert(BlockConverter.Type.THROWNEXPLOSION, centerLoc, power);
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
-			if (offset.length() > 5) continue;
+			if (offset.length() > 5.5) continue;
 
 			DamageModifier modifier = new DamageModifier();
 

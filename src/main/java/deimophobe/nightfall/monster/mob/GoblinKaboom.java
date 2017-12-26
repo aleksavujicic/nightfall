@@ -111,7 +111,7 @@ class GoblinKaboom extends Goblin {
 		
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			Vector offset = dwarf.getEyeLocation().subtract(loc).toVector();
-			if (offset.length() > 6) continue;
+			if (offset.length() > 8.5) continue;
 			
 			DamageModifier modifier = new DamageModifier();
 			
