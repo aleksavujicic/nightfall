@@ -98,7 +98,8 @@ class SkeletonWither extends Skeleton {
 
 			double range = MAX_RANGE * force * force;
 			GamePlayer.GameEntityDamager<Dwarf> entityDamager = monster.new GameEntityDamager(CustomDamageType.WITHER_BEAM, getPower()*force*force);
-			monster.fireBeam(range, THICKNESS, 0.33, PARTICLE_PLACER, entityDamager, null);
+			monster.fireBeam(range, THICKNESS, 0.3, PARTICLE_PLACER, entityDamager, null);
+			((SkeletonWatcher) getDisguise().getWatcher()).setSwingArms(false);
 
 			return null;
 		} else {
