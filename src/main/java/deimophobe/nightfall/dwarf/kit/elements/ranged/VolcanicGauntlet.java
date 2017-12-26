@@ -31,9 +31,9 @@ public class VolcanicGauntlet extends AbstractBow {
 	@Override public int getPower() {return POWER;}
 	
 	private static final double MAX_RANGE = 40;
-	private static final double THICKNESS = 1.4;
+	private static final double THICKNESS = 1.25;
 	private static final double PARTICLE_OFFSET = THICKNESS/10;
-	private static final double AOE_RADIUS = 1.4;
+	private static final double AOE_RADIUS = 1.5;
 	
 	private static final Consumer<Location> PARTICLE_PLACER =
 			(location) -> location.getWorld().spawnParticle(Particle.FLAME, location, 3, PARTICLE_OFFSET, PARTICLE_OFFSET, PARTICLE_OFFSET, 0);
