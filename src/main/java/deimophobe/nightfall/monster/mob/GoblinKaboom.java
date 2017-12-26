@@ -97,10 +97,10 @@ class GoblinKaboom extends Goblin {
 	
 	private void kaboom() {
 		
-		double dwarfDamage = 60 + 5 * shrapnel + 25 * superKaboom;
+		double dwarfDamage = 50 + 8 * shrapnel + 40 * superKaboom;
 		int armorShred = 50 + 5 * shrapnel + 25 * superKaboom;
-		double power = 6 + 0.5 * dest + 1.5 * superKaboom;
-		double kb = 0.75 + 0.15 * force + 1 * superKaboom;
+		double power = 6 + 0.5 * dest + 2.5 * superKaboom;
+		double kb = 0.75 + 0.25 * force + 1.5 * superKaboom;
 		
 		Location loc = monster.getLocation();
 		World world = monster.getLocation().getWorld();
@@ -116,7 +116,7 @@ class GoblinKaboom extends Goblin {
 			DamageModifier modifier = new DamageModifier();
 			
 			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
-			knockback.setY(knockback.getY() / 2 + 0.1 + 0.3 * superKaboom);
+			knockback.setY(knockback.getY() / 2 + 0.1 + superKaboom);
 			modifier.addKnockback(knockback);
 			
 			DwarfDamage aoeDamage = dwarf.createDamage(monster, CustomDamageType.GOBO_KABOOM, dwarfDamage);
