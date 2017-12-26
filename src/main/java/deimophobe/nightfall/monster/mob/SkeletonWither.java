@@ -14,6 +14,7 @@ import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
@@ -26,8 +27,8 @@ import java.util.function.Consumer;
  */
 class SkeletonWither extends Skeleton {
 
-	private static final double MAX_RANGE = 40;
-	private static final double THICKNESS = 1.4;
+	private static final double MAX_RANGE = 30;
+	private static final double THICKNESS = 1.25;
 	private static final Consumer<Location> PARTICLE_PLACER =
 			(location) -> location.getWorld().spawnParticle(Particle.REDSTONE, location, 0, 40d/256, 8d/256, 70d/256, 1);
 
@@ -82,10 +83,21 @@ class SkeletonWither extends Skeleton {
 
 	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {
-		if (withering >= 1 && force > 0.5) {
+		if (withering >= 1 && monster.hasItem(Material.ARROW)) {
+			if (force < 0.7 ) {
+				return null;
+			}
+
+			for (int i = 0; i < 3; i++) {
+				try {
+					monster.forceUseItem(Material.ARROW);
+				} catch (NullPointerException exception) {
+					// Bad style to use try catch blocks like this, but want withers to be able to shoot when they have arrows
+				}
+			}
 
 			double range = MAX_RANGE * force * force;
-			GamePlayer.GameEntityDamager<Dwarf> entityDamager = monster.new GameEntityDamager(CustomDamageType.WITHER_BEAM, getPower()*force);
+			GamePlayer.GameEntityDamager<Dwarf> entityDamager = monster.new GameEntityDamager(CustomDamageType.WITHER_BEAM, getPower()*force*force);
 			monster.fireBeam(range, THICKNESS, 0.33, PARTICLE_PLACER, entityDamager, null);
 
 			return null;
