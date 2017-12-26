@@ -225,7 +225,7 @@ wrench_three:
   type: consumable
   name: wrench
   quantity: 3
-  cost: 8
+  cost: 6
   item:
     name: "Wiggly Wrench III"
     base: menu-wrench
