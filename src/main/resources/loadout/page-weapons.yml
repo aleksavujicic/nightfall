@@ -6,7 +6,7 @@ grb:
   category: sword
   cost: 24
   item:
-    name: "Greater Runeblade"
+    name: "Mystic Runesword"
     base: runeblade
     lore:
       description:
