@@ -175,7 +175,7 @@ dragonskin:
   category: bow
   cost: 16
   item:
-    name: "Dragonskin Bow"
+    name: "Phoenix Bow"
     base: dskin
     lore:
       description:
