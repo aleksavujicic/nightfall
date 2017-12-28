@@ -43,7 +43,7 @@ public class TuiHammer extends AbstractAOEHitter implements KitCooldownElement {
 			if (((MonsterPlayer) entity).getMob().getType() == MobType.ZOMBIE) {
 				return 25;
 			} else {
-				return 15;
+				return 20;
 			}
 		} else if (entity instanceof AIEntity) {
 			return 30;

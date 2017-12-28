@@ -8,7 +8,7 @@ import org.bukkit.potion.PotionEffectType;
  * Created by Deimophobe on 5/10/17.
  */
 public class ChuggingAle extends AbstractAle {
-	private final static int MANA_COST = 30;
+	private final static int MANA_COST = 25;
 	
 	public ChuggingAle(Dwarf dwarf) {
 		super(dwarf, MANA_COST, 4);

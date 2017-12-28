@@ -6,7 +6,6 @@ import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.DudCooldown;
-import deimophobe.nightfall.damage.DamageModifier;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -97,10 +96,10 @@ class GoblinKaboom extends Goblin {
 	
 	private void kaboom() {
 		
-		double dwarfDamage = 60 + 5 * shrapnel + 25 * superKaboom;
+		double dwarfDamage = 50 + 5 * shrapnel + 40 * superKaboom;
 		int armorShred = 50 + 5 * shrapnel + 25 * superKaboom;
-		double power = 6 + 0.5 * dest + 1.5 * superKaboom;
-		double kb = 0.75 + 0.15 * force + 1 * superKaboom;
+		double power = 6 + 0.5 * dest + 2.5 * superKaboom;
+		double kb = 0.75 + 0.15 * force + 1.25 * superKaboom;
 		
 		Location loc = monster.getLocation();
 		World world = monster.getLocation().getWorld();
@@ -111,18 +110,15 @@ class GoblinKaboom extends Goblin {
 		
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			Vector offset = dwarf.getEyeLocation().subtract(loc).toVector();
-			if (offset.length() > 6) continue;
+			if (offset.length() > 7.5) continue;
 			
-			DamageModifier modifier = new DamageModifier();
-			
-			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
-			knockback.setY(knockback.getY() / 2 + 0.1 + 0.3 * superKaboom);
-			modifier.addKnockback(knockback);
+			Vector knockback = offset.multiply(kb / Math.max(2, offset.length()));
+			knockback.setY(knockback.getY() / 2 + 0.3 + 0.5 * superKaboom);
 			
 			DwarfDamage aoeDamage = dwarf.createDamage(monster, CustomDamageType.GOBO_KABOOM, dwarfDamage);
-			modifier.applyToDamage(aoeDamage);
+			aoeDamage.setKnockback(knockback);
 			aoeDamage.setArmourShred(armorShred);
-			aoeDamage.fire();
+			aoeDamage.fire(true);
 		}
 		
 		

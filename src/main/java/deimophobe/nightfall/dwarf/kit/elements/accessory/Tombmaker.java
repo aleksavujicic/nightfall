@@ -98,13 +98,14 @@ public class Tombmaker extends DwarfShovel implements KitCooldownElement {
 			new ScavengeItem(ConsumableType.HEAL_STATION, 8, 0.5, "healing stations");
 			new ScavengeItem(ConsumableType.LAMP, 16, 5, "lamps");
 			new ScavengeItem(ConsumableType.LAMP, 32, 2, "lamps");
+			new ScavengeItem(ConsumableType.LAMP, 64, 1, "lamps");
 			new ScavengeItem(ConsumableType.SOS, 1, 1.5, "sos");
 			new ScavengeItem(ConsumableType.SOS, 2, 0.5, "sos");
 			new ScavengeItem(ConsumableType.WRENCH, 1, 2, "wrench");
 			new ScavengeItem(ConsumableType.WRENCH, 2, 0.5, "wrenches");
 			new ScavengeItem(ConsumableType.WIZARD_MORTAR, 16, 5, "wizard mortar");
 			new ScavengeItem(ConsumableType.WIZARD_MORTAR, 32, 2, "wizard mortar");
-			new ScavengeItem(ConsumableType.WIZARD_MORTAR, 48, 1, "wizard mortar");
+			new ScavengeItem(ConsumableType.WIZARD_MORTAR, 64, 1, "wizard mortar");
 			
 			for (ScavengeItem item : ITEMS)
 				item.computeAdjWeight();
