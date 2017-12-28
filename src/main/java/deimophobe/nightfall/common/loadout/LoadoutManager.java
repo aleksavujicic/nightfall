@@ -27,7 +27,7 @@ public class LoadoutManager {
 		return getLoadout(player.getUniqueId());
 	}
 	public Loadout getLoadout(UUID uuid) {
-		return loadouts.computeIfAbsent(uuid, Loadout::new);
+		return loadouts.computeIfAbsent(uuid, (u) -> new Loadout());
 	}
 	
 	public int registerLoadoutItem(LoadoutItem item, String id) {

@@ -15,12 +15,6 @@ public class Loadout implements SessionData {
 	private final SortedSet<LoadoutItem> items = new TreeSet<>();
 	private final Map<Category, LoadoutItem> categoryItems = new HashMap<>();
 	
-	private final UUID playerUUID;
-	
-	Loadout(UUID playerUUID) {
-		this.playerUUID = playerUUID;
-	}
-	
 	public boolean selectItem(LoadoutItem item) {
 		Category cat = item.getCategory();
 		
