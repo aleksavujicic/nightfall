@@ -1,4 +1,4 @@
-package deimophobe.nightfall;
+package deimophobe.nightfall.util;
 
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.items.CustomItem;

@@ -1,11 +1,10 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.ArrowMisc;
+import deimophobe.nightfall.util.ArrowMisc;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIManager;

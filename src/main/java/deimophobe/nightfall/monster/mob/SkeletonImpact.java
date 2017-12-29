@@ -1,6 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.ArrowMisc;
+import deimophobe.nightfall.util.ArrowMisc;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.cooldown.ComplexCooldown;

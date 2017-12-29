@@ -16,6 +16,7 @@ import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.mob.Bopen;
 import deimophobe.nightfall.monster.mob.Goblin;
+import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;

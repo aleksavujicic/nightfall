@@ -1,6 +1,6 @@
 package deimophobe.nightfall.dwarf.armour;
 
-import deimophobe.nightfall.ArmourSlot;
+import deimophobe.nightfall.util.ArmourSlot;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.hero.Hero;

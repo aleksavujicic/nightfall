@@ -1,5 +1,6 @@
-package deimophobe.nightfall;
+package deimophobe.nightfall.util;
 
+import deimophobe.nightfall.NightfallPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**

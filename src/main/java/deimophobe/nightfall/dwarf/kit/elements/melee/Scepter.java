@@ -1,6 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.elements.melee;
 
-import deimophobe.nightfall.LifetimeObject;
+import deimophobe.nightfall.util.LifetimeObject;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.GameDamage;

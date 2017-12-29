@@ -1,4 +1,4 @@
-package deimophobe.nightfall;
+package deimophobe.nightfall.util;
 
 import org.bukkit.Location;
 import org.bukkit.World;

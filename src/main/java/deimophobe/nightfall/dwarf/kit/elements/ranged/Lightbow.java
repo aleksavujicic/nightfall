@@ -1,13 +1,11 @@
 package deimophobe.nightfall.dwarf.kit.elements.ranged;
 
-import deimophobe.nightfall.ArrowMisc;
+import deimophobe.nightfall.util.ArrowMisc;
 import deimophobe.nightfall.blocks.timedblock.LampBlock;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.items.CustomItem;
-import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;

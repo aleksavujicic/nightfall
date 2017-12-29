@@ -1,6 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.elements.ranged;
 
-import deimophobe.nightfall.ArrowMisc;
+import deimophobe.nightfall.util.ArrowMisc;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitCooldownElement;

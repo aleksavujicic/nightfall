@@ -1,6 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.ArmourSlot;
+import deimophobe.nightfall.util.ArmourSlot;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.items.CustomItem;
