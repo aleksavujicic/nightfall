@@ -11,6 +11,7 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterManager;
+import deimophobe.nightfall.util.Util;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.apache.commons.lang3.tuple.Triple;
 import org.bukkit.ChatColor;
@@ -382,16 +383,16 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	public void fireBeam(
 			double range, double thickness,
 			double particlePeriod, Consumer<Location> particlePlacer,
-			Consumer<Dwarf> dwarfConsumer, Consumer<MonsterEntity> mobConsumber) {
-		
+			Consumer<Dwarf> dwarfConsumer, Consumer<MonsterEntity> mobConsumber
+	) {
 		fireBeam(range, thickness, 0.3, particlePeriod, particlePlacer, dwarfConsumer, mobConsumber);
 	}
 	
 	public void fireBeam(
 			double range, double thickness, double offset,
 			double particlePeriod, Consumer<Location> particlePlacer,
-			Consumer<Dwarf> dwarfConsumer, Consumer<MonsterEntity> mobConsumber) {
-		
+			Consumer<Dwarf> dwarfConsumer, Consumer<MonsterEntity> mobConsumber
+	) {
 		// Offset the start of the beam so it doesnt come from the middle of the screen
 		Location location = getEyeLocation();
 		Misc.moveLocation(location, 0, offset, -offset);
@@ -403,57 +404,7 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		double cos = Math.cos(yaw);
 		direction.add(new Vector(0.3*cos , 0.3, 0.3*sin).multiply(1/range));
 		
-		
-		Vector delta = direction.clone().multiply(particlePeriod);
-		int times = (int) (range/particlePeriod);
-		Location particlePos = location.clone();
-		
-		// Place particles if placer not null
-		if (particlePlacer != null) {
-			for (int i = 0; i <= times; i++) {
-				particlePos.add(delta);
-				particlePlacer.accept(particlePos);
-				
-				// Stop beam if it hits a block
-				if (particlePos.getBlock().getType().isSolid()) {
-					range = location.distance(particlePos);
-					break;
-				}
-			}
-		}
-		if (dwarfConsumer != null) {
-			consumeEntitiesInLine(location, direction, range, thickness, dwarfConsumer, DwarfManager.getManager().getDwarves());
-		}
-		
-		if (mobConsumber != null) {
-			consumeEntitiesInLine(location, direction, range, thickness, mobConsumber, MonsterManager.getManager().getAliveMobsAndAIs());
-		}
-	}
-	
-	private <P extends GameEntity> void consumeEntitiesInLine(
-			Location location, Vector direction,
-			double range, double thickness,
-			Consumer<P> applier, Collection<P> entities) {
-		
-		for (P entity : entities) {
-			// Dont affect self
-			if (entity == this) continue;
-			
-			// Skip if further than distance shot or too close
-			Location entityLoc = entity.getEyeLocation();
-			double distance = location.distance(entityLoc);
-			if (distance <= range) {
-				// Find if close enough to beam
-				Vector monsterOffset = entityLoc.clone().subtract(location).toVector();
-				Vector radialPostion = direction.clone().multiply(monsterOffset.clone().dot(direction)); // ((m - p) dot u) times u
-				double radialOffset = radialPostion.subtract(monsterOffset).length();
-				
-				// If close enough to give dwarf proc
-				if (radialOffset <= thickness) {
-					applier.accept(entity);
-				}
-			}
-		}
+		Util.fireBeam(location, direction, range, thickness, particlePeriod, particlePlacer, dwarfConsumer, mobConsumber);
 	}
 	
 	public class ProcGiver implements Consumer<Dwarf> {
@@ -468,6 +419,8 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		
 		@Override
 		public void accept(Dwarf dwarf) {
+			if (dwarf == GamePlayer.this) return;
+			
 			if (dwarf.distanceTo(GamePlayer.this) >= minDistance) {
 				gaveProc = true;
 				dwarf.giveProc(type);
@@ -495,6 +448,8 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		
 		@Override
 		public void accept(P entity) {
+			if (entity == GamePlayer.this) return;
+			
 			entity.doDamage(GamePlayer.this, type, damage.apply(entity), true);
 			if (entity instanceof GamePlayer) playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
 		}
