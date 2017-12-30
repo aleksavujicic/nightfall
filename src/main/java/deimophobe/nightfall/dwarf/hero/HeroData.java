@@ -98,7 +98,6 @@ public class HeroData extends DwarfData {
 			}
 		}
 		addElement(KitElementType.HERO_ALE);
-		addElement(KitElementType.HERO_SLOWFALL);
 		
 		
 		// Consumables
