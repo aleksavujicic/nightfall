@@ -30,7 +30,7 @@ public class VolcanicGauntlet extends AbstractBow {
 	@Override public String getBowIdentifier() {return "VOLCANIC";}
 	@Override public int getPower() {return POWER;}
 	
-	private static final double MAX_RANGE = 40;
+	private static final double MAX_RANGE = 60;
 	private static final double THICKNESS = 1.4;
 	private static final double PARTICLE_OFFSET = THICKNESS/10;
 	private static final double AOE_RADIUS = 1.4;
@@ -52,7 +52,7 @@ public class VolcanicGauntlet extends AbstractBow {
 				CustomDamageType.VOLCANIC_BOW,
 				(monster) -> ((monster instanceof MonsterPlayer) ? damage : damage*2d/3d)
 		);
-		dwarf.fireBeam(range, THICKNESS, 0.33, PARTICLE_PLACER, null, entityDamager);
+		dwarf.fireParticle(3, range, THICKNESS, 0.33, PARTICLE_PLACER, null, entityDamager);
 		
 		Location feets = dwarf.getLocation().add(0, 0.25, 0);
 		World world = feets.getWorld();

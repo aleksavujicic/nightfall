@@ -7,13 +7,11 @@ import deimophobe.nightfall.damage.DamageOccurance;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.items.CustomItem;
-import deimophobe.nightfall.monster.MonsterManager;
+import deimophobe.nightfall.util.HitscanProjectile;
 import deimophobe.nightfall.util.Util;
 import me.libraryaddict.disguise.DisguiseAPI;
-import org.apache.commons.lang3.tuple.Triple;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -380,15 +378,15 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	
 	
 	// ------ BEAM FIRING ------
-	public void fireBeam(
+	public void fireHitscan(
 			double range, double thickness,
 			double particlePeriod, Consumer<Location> particlePlacer,
 			Consumer<Dwarf> dwarfConsumer, Consumer<MonsterEntity> mobConsumber
 	) {
-		fireBeam(range, thickness, 0.3, particlePeriod, particlePlacer, dwarfConsumer, mobConsumber);
+		fireHitscan(range, thickness, 0.3, particlePeriod, particlePlacer, dwarfConsumer, mobConsumber);
 	}
 	
-	public void fireBeam(
+	public void fireHitscan(
 			double range, double thickness, double offset,
 			double particlePeriod, Consumer<Location> particlePlacer,
 			Consumer<Dwarf> dwarfConsumer, Consumer<MonsterEntity> mobConsumber
@@ -404,7 +402,32 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		double cos = Math.cos(yaw);
 		direction.add(new Vector(0.3*cos , 0.3, 0.3*sin).multiply(1/range));
 		
-		Util.fireBeam(location, direction, range, thickness, particlePeriod, particlePlacer, dwarfConsumer, mobConsumber);
+		Util.fireHitscan(location, direction, range, thickness, particlePeriod, particlePlacer, dwarfConsumer, mobConsumber);
+	}
+	
+	public void fireParticle(
+			double velocity,
+			double range,
+			double radius,
+			double particlePeriod,
+			Consumer<Location> particlePlacer,
+			Consumer<Dwarf> dwarfConsumer,
+			Consumer<MonsterEntity> mobConsumber
+	) {
+		// Offset the start of the beam so it doesnt come from the middle of the screen
+		Location location = getEyeLocation();
+		Misc.moveLocation(location, 0, 0.3, -0.3);
+		Vector direction = location.getDirection();
+		
+		// Offset the looking direction, so that the beam ends at the crosshairs
+		double yaw = location.getYaw() * Math.PI/180;
+		double sin = Math.sin(yaw);
+		double cos = Math.cos(yaw);
+		direction.add(new Vector(0.3*cos , 0.3, 0.3*sin).multiply(1/range));
+		
+		direction.normalize().multiply(velocity);
+		
+		new HitscanProjectile(location, direction, radius, range, particlePeriod, particlePlacer, dwarfConsumer, mobConsumber);
 	}
 	
 	public class ProcGiver implements Consumer<Dwarf> {
@@ -433,6 +456,7 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	}
 	
 	public class GameEntityDamager<P extends GameEntity> implements Consumer<P> {
+		private final Set<P> hitPlayers = new HashSet<>();
 		private final CustomDamageType type;
 		private final Function<P,Double> damage;
 		
@@ -449,9 +473,11 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		@Override
 		public void accept(P entity) {
 			if (entity == GamePlayer.this) return;
+			if (hitPlayers.contains(entity)) return;
 			
 			entity.doDamage(GamePlayer.this, type, damage.apply(entity), true);
 			if (entity instanceof GamePlayer) playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
+			hitPlayers.add(entity);
 		}
 	}
 }

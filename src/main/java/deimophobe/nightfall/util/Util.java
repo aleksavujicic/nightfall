@@ -16,11 +16,15 @@ import java.util.function.Consumer;
  */
 public class Util {
 	
-	public static void fireBeam(
-			Location location, Vector direction,
-			double range, double thickness,
-			double particlePeriod, Consumer<Location> particlePlacer,
-			Consumer<Dwarf> dwarfConsumer, Consumer<MonsterEntity> mobConsumber
+	public static boolean fireHitscan(
+			Location location,
+			Vector direction,
+			double range,
+			double thickness,
+			double particlePeriod,
+			Consumer<Location> particlePlacer,
+			Consumer<Dwarf> dwarfConsumer,
+			Consumer<MonsterEntity> mobConsumer
 	) {
 		
 		Vector delta = direction.clone().multiply(particlePeriod);
@@ -28,6 +32,7 @@ public class Util {
 		Location particlePos = location.clone();
 		
 		// Place particles if placer not null
+		boolean success = true;
 		if (particlePlacer != null) {
 			for (int i = 0; i <= times; i++) {
 				particlePos.add(delta);
@@ -36,6 +41,7 @@ public class Util {
 				// Stop beam if it hits a block
 				if (particlePos.getBlock().getType().isSolid()) {
 					range = location.distance(particlePos);
+					success = false;
 					break;
 				}
 			}
@@ -44,15 +50,21 @@ public class Util {
 			consumeEntitiesInLine(location, direction, range, thickness, dwarfConsumer, DwarfManager.getManager().getDwarves());
 		}
 		
-		if (mobConsumber != null) {
-			consumeEntitiesInLine(location, direction, range, thickness, mobConsumber, MonsterManager.getManager().getAliveMobsAndAIs());
+		if (mobConsumer != null) {
+			consumeEntitiesInLine(location, direction, range, thickness, mobConsumer, MonsterManager.getManager().getAliveMobsAndAIs());
 		}
+		
+		return success;
 	}
 	
 	private static  <P extends GameEntity> void consumeEntitiesInLine(
-			Location location, Vector direction,
-			double range, double thickness,
-			Consumer<P> applier, Collection<P> entities) {
+			Location location,
+			Vector direction,
+			double range,
+			double thickness,
+			Consumer<P> applier,
+			Collection<P> entities
+	) {
 		
 		for (P entity : entities) {
 			
