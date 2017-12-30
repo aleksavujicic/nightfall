@@ -434,6 +434,7 @@ untimely:
   cost: 0
   name: untimely_demise
   category: accessory
+  random-selectable: false
   item:
     template: "loadout"
     name: "Untimely Demise"

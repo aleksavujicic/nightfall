@@ -28,6 +28,9 @@ public abstract class LoadoutItem implements MenuItem<Loadout>, Comparable<Loado
 	
 	private ItemStack itemStack;
 	private final boolean enabled;
+	/** If it can be selected by the random kit item */
+	private final boolean randomSelectable;
+	
 	private final int position;
 	private final String id;
 	
@@ -54,7 +57,7 @@ public abstract class LoadoutItem implements MenuItem<Loadout>, Comparable<Loado
 		this.enabled = config.getBoolean("enabled", true);
 		if (enabled) category.addItem(this);
 		
-		
+		this.randomSelectable = config.getBoolean("random-selectable", true);
 		
 		this.item = CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.LOADOUT, Slot.MAIN_HAND);
 		if (!enabled) item.setShiny(true);
@@ -101,6 +104,9 @@ public abstract class LoadoutItem implements MenuItem<Loadout>, Comparable<Loado
 	
 	public abstract void modify(LoadoutConstruct construct);
 	
+	public boolean isRandomSelectable() {
+		return randomSelectable && enabled;
+	}
 	
 	private boolean canSee(MenuSession<Loadout> session) {
 		return enabled ;

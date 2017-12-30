@@ -4,7 +4,6 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.loadout.Category;
 import deimophobe.nightfall.common.loadout.Loadout;
 import deimophobe.nightfall.common.loadout.LoadoutConstruct;
-import deimophobe.nightfall.common.loadout.LoadoutManager;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashSet;
@@ -22,22 +21,31 @@ public class RandomLoadoutItem extends LoadoutItem {
 	@Override
 	public void modify(LoadoutConstruct construct) {
 		int pointsRemaining = Loadout.MAX_POINTS;
+		Set<LoadoutItem> remaining = new HashSet<>();
+		
+		// Go through categories, apply ones with single items
 		for (Category category : Category.values()) {
 			if (category == Category.KIT) continue;
 			
-			LoadoutItem item = Misc.getRandom(category.getItems());
-			pointsRemaining -= item.getCost();
-			item.modify(construct);
+			if (category.isSingleItem()) {
+				LoadoutItem item = Misc.getRandom(category.getItems());
+				pointsRemaining -= item.getCost();
+				item.modify(construct);
+			} else {
+				remaining.addAll(category.getItems());
+			}
 		}
 		
-		Set<LoadoutItem> remaining = new HashSet<>();
-		remaining.addAll(Category.ACCESSORY.getItems());
-		remaining.addAll(Category.CONSUMABLE.getItems());
-		remaining.remove(LoadoutManager.getManager().getItem("untimely"));
+		// Randomly choose from remaing items
 		while (pointsRemaining >= 0) {
 			LoadoutItem item = Misc.getRandom(remaining);
-			pointsRemaining -= item.getCost();
-			item.modify(construct);
+			if (item == null) break;
+			
+			if (item.isRandomSelectable()) {
+				pointsRemaining -= item.getCost();
+				item.modify(construct);
+			}
+			
 			remaining.remove(item);
 		}
 	}
