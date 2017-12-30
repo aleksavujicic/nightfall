@@ -7,7 +7,6 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.ranged.AbstractBow;
-import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.CustomItem;
@@ -63,9 +62,6 @@ public class Luminous extends AbstractBow {
 		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(CustomDamageType.LUMINOUS, getPower()*force);
 		dwarf.fireParticle(3, range, THICKNESS, 0.33, swirler, procGiver, entityDamager);
 	
-		if (procGiver.gaveProc()) {
-			Sounds.DWARF_ITEM_EBOW_GIVE_PROC.playSound(dwarf);
-		}
 		dwarf.playSound("entity.ghast.shoot", 1f, 1.35f - force*0.5f, true);
 		
 		Location chest = dwarf.getEyeLocation().subtract(0, 0.5, 0);

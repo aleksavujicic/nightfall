@@ -4,7 +4,6 @@ import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.CustomItem;
@@ -49,10 +48,6 @@ public class Ebow extends AbstractBow {
 		GamePlayer.ProcGiver procGiver = dwarf.new ProcGiver(ProcType.EBOW, MIN_DISTANCE_FROM_SHOOTER);
 		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(CustomDamageType.EBOW, getPower()*force);
 		dwarf.fireParticle(4, range, THICKNESS, 0.33, PARTICLE_PLACER, procGiver, entityDamager);
-		
-		if (procGiver.gaveProc()) {
-			Sounds.DWARF_ITEM_EBOW_GIVE_PROC.playSound(dwarf);
-		}
 		
 		return null;
 	}

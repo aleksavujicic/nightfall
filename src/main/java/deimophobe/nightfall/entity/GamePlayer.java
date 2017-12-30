@@ -8,6 +8,7 @@ import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
+import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.util.HitscanProjectile;
 import deimophobe.nightfall.util.Util;
@@ -468,7 +469,6 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	
 	public class ProcGiver extends SingleEntityConsumer<Dwarf> {
 		private final ProcType type;
-		private boolean gaveProc = false;
 		
 		public ProcGiver(ProcType type, double minDistance) {
 			super(minDistance);
@@ -477,12 +477,9 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		
 		@Override
 		public void onHit(Dwarf dwarf) {
-			gaveProc = true;
 			dwarf.giveProc(type);
-		}
-		
-		public boolean gaveProc() {
-			return gaveProc;
+			
+			Sounds.DWARF_ITEM_EBOW_GIVE_PROC.playSound(GamePlayer.this);
 		}
 	}
 	
