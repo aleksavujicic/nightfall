@@ -5,7 +5,6 @@ import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
 import org.bukkit.Location;
@@ -31,7 +30,7 @@ public class Ebow extends AbstractBow {
 	@Override public String getBowIdentifier() {return "EBOW";}
 	@Override public int getPower() {return POWER;}
 	
-	private static final double MAX_RANGE = 40;
+	private static final double MAX_RANGE = 50;
 	private static final double THICKNESS = 1.5;
 	private static final double MIN_DISTANCE_FROM_SHOOTER = 1;
 	
@@ -40,6 +39,7 @@ public class Ebow extends AbstractBow {
 	
 	@Override
 	public Projectile onBowFire(Projectile arrow, float force) {
+		if (force < 0.5) return null;
 		if (!dwarf.hasArrows(3)) return null;
 		dwarf.useArrows(3);
 		
@@ -47,11 +47,7 @@ public class Ebow extends AbstractBow {
 		
 		GamePlayer.ProcGiver procGiver = dwarf.new ProcGiver(ProcType.EBOW, MIN_DISTANCE_FROM_SHOOTER);
 		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(CustomDamageType.EBOW, getPower()*force);
-		dwarf.fireBeam(range, THICKNESS, 0.33, PARTICLE_PLACER, procGiver, entityDamager);
-		
-		if (procGiver.gaveProc()) {
-			Sounds.DWARF_ITEM_EBOW_GIVE_PROC.playSound(dwarf);
-		}
+		dwarf.fireParticle(4, range, THICKNESS, 0.33, PARTICLE_PLACER, procGiver, entityDamager);
 		
 		return null;
 	}

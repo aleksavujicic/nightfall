@@ -105,6 +105,11 @@ public class Wildfire extends AbstractItem {
 		
 		
 		public void update() {
+			if (location.getBlock().getType().isSolid()) {
+				life = 0;
+				return;
+			}
+			
 			double frac = (double) life / FLAME_LIFE;
 			double radius = 2.5 - 1.5*frac;
 			double damageAmt = frac*7 + 5;

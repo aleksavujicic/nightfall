@@ -1,9 +1,8 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.ArrowMisc;
+import deimophobe.nightfall.util.ArrowMisc;
+import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.DudCooldown;
@@ -13,6 +12,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.ChatColor;
@@ -32,28 +32,26 @@ import java.util.Set;
 
 class SkeletonImpact extends Skeleton {
 
-    private int punch;
-    private int meleekb;
-    private int aoe;
-    private int arrowRes;
-    private int extraHealth;
-    private int warpweaver;
-    private Cooldown warpCD;
+    private final int aoe;
+    private final Cooldown warpCD;
     private boolean active;
-    private double realArrowRes = 0;
+    
+    private final double realArrowRes;
     private final Set<Arrow> activeArrows = new HashSet<>();
 
     private static Integer[] arrowResValues = {0, 10, 20, 30, 40, 50};
 
     SkeletonImpact(MonsterPlayer monster) {
         super(monster, MobData.getMobData("skeleton.impact"));
-        this.punch = upgrades.get("punch");
-        this.meleekb = upgrades.get("meleekb");
-        this.aoe = upgrades.get("aoe");
-        this.arrowRes = arrowResValues[upgrades.get("arrowres-impact")];
-        this.extraHealth = upgrades.get("extrahealth-impact");
-        this.warpweaver = upgrades.get("warpweaver");
-        realArrowRes = arrowRes * 0.01;
+        int punch = upgrades.get("punch");
+        int meleekb = upgrades.get("meleekb");
+        int arrowRes = arrowResValues[upgrades.get("arrowres-impact")];
+        int extraHealth = upgrades.get("extrahealth-impact");
+        int warpweaver = upgrades.get("warpweaver");
+        
+		this.aoe = upgrades.get("aoe");
+		this.realArrowRes = arrowRes * 0.01;
+		
         if (warpweaver > 0) {
             warpCD = new ComplexCooldown(40 * 20);
         } else {
@@ -139,7 +137,7 @@ class SkeletonImpact extends Skeleton {
         }
         World world = monster.getLocation().getWorld();
         world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
-        double kb = 0.35 + aoe * 0.15;
+        double kb = 0.3 + aoe * 0.1;
         for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
             if (dwarf == exempt) {
                 continue;

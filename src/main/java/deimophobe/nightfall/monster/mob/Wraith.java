@@ -137,7 +137,7 @@ public class Wraith extends AbstractMob {
 		monster.playSound("entity.ghast.shoot", 1f, 0.5f, true);
 	}
 	
-	private static final double AOE_RADIUS = 3.5;
+	private static final double AOE_RADIUS = 3;
 	private static final int AOE_DMG = 60; // This is a one off hit so its not as strong as it seems.
 	private static final int AOE_SHRED = 80;
 	private void aoeDamage() {

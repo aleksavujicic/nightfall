@@ -286,7 +286,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	public boolean forceUseConsumable(ConsumableType type) {
-		return forceUseItem(type.getItemStack().getType());
+		return useItem(type.getItemStack().getType());
 	}
 	
 	

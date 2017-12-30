@@ -1,18 +1,18 @@
 package deimophobe.nightfall.entity;
 
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.DamageOccurance;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.ProcType;
-import deimophobe.nightfall.monster.MonsterManager;
+import deimophobe.nightfall.effects.sound.Sounds;
+import deimophobe.nightfall.items.CustomItem;
+import deimophobe.nightfall.util.HitscanProjectile;
+import deimophobe.nightfall.util.Util;
 import me.libraryaddict.disguise.DisguiseAPI;
-import org.apache.commons.lang3.tuple.Triple;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -219,7 +219,11 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		return player.getInventory().contains(material);
 	}
 	
-	public boolean forceUseItem(Material material) {
+	public boolean hasItem(Material material, int amt) {
+		return player.getInventory().contains(material, amt);
+	}
+	
+	public boolean useItem(Material material) {
 		if (material == null) throw new NullPointerException("Cannot force use null item.");
 		
 		for (ItemStack invItem : player.getInventory()) {
@@ -229,6 +233,14 @@ public abstract class GamePlayer implements GameEntity<Player> {
 			}
 		}
 		return false;
+	}
+	
+	public boolean useItem(Material material, int amt) {
+		for (int i=0; i<amt; i++) {
+			boolean used = useItem(material);
+			if (!used) return false;
+		}
+		return true;
 	}
 	
 	
@@ -379,19 +391,19 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	
 	
 	// ------ BEAM FIRING ------
-	public void fireBeam(
+	public void fireHitscan(
 			double range, double thickness,
 			double particlePeriod, Consumer<Location> particlePlacer,
-			Consumer<Dwarf> dwarfConsumer, Consumer<MonsterEntity> mobConsumber) {
-		
-		fireBeam(range, thickness, 0.3, particlePeriod, particlePlacer, dwarfConsumer, mobConsumber);
+			Consumer<Dwarf> dwarfConsumer, Consumer<MonsterEntity> mobConsumber
+	) {
+		fireHitscan(range, thickness, 0.3, particlePeriod, particlePlacer, dwarfConsumer, mobConsumber);
 	}
 	
-	public void fireBeam(
+	public void fireHitscan(
 			double range, double thickness, double offset,
 			double particlePeriod, Consumer<Location> particlePlacer,
-			Consumer<Dwarf> dwarfConsumer, Consumer<MonsterEntity> mobConsumber) {
-		
+			Consumer<Dwarf> dwarfConsumer, Consumer<MonsterEntity> mobConsumber
+	) {
 		// Offset the start of the beam so it doesnt come from the middle of the screen
 		Location location = getEyeLocation();
 		Misc.moveLocation(location, 0, offset, -offset);
@@ -403,98 +415,98 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		double cos = Math.cos(yaw);
 		direction.add(new Vector(0.3*cos , 0.3, 0.3*sin).multiply(1/range));
 		
-		
-		Vector delta = direction.clone().multiply(particlePeriod);
-		int times = (int) (range/particlePeriod);
-		Location particlePos = location.clone();
-		
-		// Place particles if placer not null
-		if (particlePlacer != null) {
-			for (int i = 0; i <= times; i++) {
-				particlePos.add(delta);
-				particlePlacer.accept(particlePos);
-				
-				// Stop beam if it hits a block
-				if (particlePos.getBlock().getType().isSolid()) {
-					range = location.distance(particlePos);
-					break;
-				}
-			}
-		}
-		if (dwarfConsumer != null) {
-			consumeEntitiesInLine(location, direction, range, thickness, dwarfConsumer, DwarfManager.getManager().getDwarves());
-		}
-		
-		if (mobConsumber != null) {
-			consumeEntitiesInLine(location, direction, range, thickness, mobConsumber, MonsterManager.getManager().getAliveMobsAndAIs());
-		}
+		Util.fireHitscan(location, direction, range, thickness, particlePeriod, particlePlacer, dwarfConsumer, mobConsumber);
 	}
 	
-	private <P extends GameEntity> void consumeEntitiesInLine(
-			Location location, Vector direction,
-			double range, double thickness,
-			Consumer<P> applier, Collection<P> entities) {
+	public void fireParticle(
+			double velocity,
+			double range,
+			double radius,
+			double particlePeriod,
+			Consumer<Location> particlePlacer,
+			Consumer<Dwarf> dwarfConsumer,
+			Consumer<MonsterEntity> mobConsumber
+	) {
+		// Offset the start of the beam so it doesnt come from the middle of the screen
+		Location location = getEyeLocation();
+		Misc.moveLocation(location, 0, 0.3, -0.3);
+		Vector direction = location.getDirection();
 		
-		for (P entity : entities) {
-			// Dont affect self
-			if (entity == this) continue;
-			
-			// Skip if further than distance shot or too close
-			Location entityLoc = entity.getEyeLocation();
-			double distance = location.distance(entityLoc);
-			if (distance <= range) {
-				// Find if close enough to beam
-				Vector monsterOffset = entityLoc.clone().subtract(location).toVector();
-				Vector radialPostion = direction.clone().multiply(monsterOffset.clone().dot(direction)); // ((m - p) dot u) times u
-				double radialOffset = radialPostion.subtract(monsterOffset).length();
-				
-				// If close enough to give dwarf proc
-				if (radialOffset <= thickness) {
-					applier.accept(entity);
-				}
-			}
-		}
+		// Offset the looking direction, so that the beam ends at the crosshairs
+		double yaw = location.getYaw() * Math.PI/180;
+		double sin = Math.sin(yaw);
+		double cos = Math.cos(yaw);
+		direction.add(new Vector(0.3*cos , 0.3, 0.3*sin).multiply(1/range));
+		
+		direction.normalize().multiply(velocity);
+		
+		new HitscanProjectile(location, direction, radius, range, particlePeriod, particlePlacer, dwarfConsumer, mobConsumber);
 	}
 	
-	public class ProcGiver implements Consumer<Dwarf> {
-		private final ProcType type;
+	
+	// ------ HITSCAN CLASSES ------
+	private abstract class SingleEntityConsumer<P extends GameEntity> implements Consumer<P> {
+		private final Set<P> hitPlayers = new HashSet<>();
 		private final double minDistance;
-		private boolean gaveProc = false;
 		
-		public ProcGiver(ProcType type, double minDistance) {
-			this.type = type;
+		protected SingleEntityConsumer(double minDistance) {
 			this.minDistance = minDistance;
 		}
 		
 		@Override
-		public void accept(Dwarf dwarf) {
-			if (dwarf.distanceTo(GamePlayer.this) >= minDistance) {
-				gaveProc = true;
-				dwarf.giveProc(type);
+		public void accept(P entity) {
+			if (entity == GamePlayer.this) return;
+			if (hitPlayers.contains(entity)) return;
+			
+			if (entity.distanceTo(GamePlayer.this) >= minDistance) {
+				onHit(entity);
+				hitPlayers.add(entity);
 			}
 		}
 		
-		public boolean gaveProc() {
-			return gaveProc;
+		abstract void onHit(P entity);
+	}
+	
+	public class ProcGiver extends SingleEntityConsumer<Dwarf> {
+		private final ProcType type;
+		
+		public ProcGiver(ProcType type, double minDistance) {
+			super(minDistance);
+			this.type = type;
+		}
+		
+		@Override
+		public void onHit(Dwarf dwarf) {
+			dwarf.giveProc(type);
+			
+			Sounds.DWARF_ITEM_EBOW_GIVE_PROC.playSound(GamePlayer.this);
 		}
 	}
 	
-	public class GameEntityDamager<P extends GameEntity> implements Consumer<P> {
+	public class GameEntityDamager<P extends GameEntity> extends SingleEntityConsumer<P> {
 		private final CustomDamageType type;
 		private final Function<P,Double> damage;
 		
+		public GameEntityDamager(CustomDamageType type, double damage, double minDistance) {
+			super(minDistance);
+			this.type = type;
+			this.damage = (m) -> damage;
+		}
+		
 		public GameEntityDamager(CustomDamageType type, double damage) {
+			super(0);
 			this.type = type;
 			this.damage = (m) -> damage;
 		}
 		
 		public GameEntityDamager(CustomDamageType type, Function<P, Double> damage) {
+			super(0);
 			this.type = type;
 			this.damage = damage;
 		}
 		
 		@Override
-		public void accept(P entity) {
+		public void onHit(P entity) {
 			entity.doDamage(GamePlayer.this, type, damage.apply(entity), true);
 			if (entity instanceof GamePlayer) playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
 		}

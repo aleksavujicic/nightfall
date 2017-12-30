@@ -82,7 +82,6 @@ public enum KitElementType {
 	
 	// ---- HERO STUFF ----
 	// Base
-	HERO_SLOWFALL,
 	HERO_ALE,
 	
 	// Tui
@@ -179,7 +178,7 @@ public enum KitElementType {
 			// Accessory
 			case COMPASS: return new DwarfCompass(dwarf);
 			case CHESTO: return new Chestomatic(dwarf);
-			case SLOWFALL: return new Slowfall(dwarf, true);
+			case SLOWFALL: return new Slowfall(dwarf);
 			case DARKVISION: return new DarkVision(dwarf);
 			case AVENGE: return new Avenge(dwarf);
 			case TOMBMAKER: return new Tombmaker(dwarf);
@@ -197,7 +196,6 @@ public enum KitElementType {
 			
 			// ---- HERO STUFF -----
 			// Base
-			case HERO_SLOWFALL: return new Slowfall(dwarf, false);
 			case HERO_ALE: return new HeroAle(dwarf);
 			
 			// Tui

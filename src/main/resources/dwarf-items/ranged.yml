@@ -10,7 +10,7 @@ shortbow:
 
 dragonskin:
   base: dskin
-  name: Dragonskin Bow
+  name: Phoenix Bow
   lore:
     description:
      - "Left click to enable &bPower Shot Mode&r.\n

@@ -1,9 +1,9 @@
 package deimophobe.nightfall.dwarf.kit.elements.ranged;
 
-import deimophobe.nightfall.ArrowMisc;
-import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.util.ArrowMisc;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.items.CustomItem;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.ChatColor;
@@ -89,7 +89,7 @@ public class Warpweaver extends AbstractToggleBow {
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
-		if (damage.getAttacker() instanceof MonsterPlayer) {
+		if (damage.getAttacker() instanceof MonsterPlayer && !activeArrows.isEmpty()) {
 			dwarf.sendTitleMessage(ChatColor.DARK_PURPLE + "Warp interrupted by monster player!");
 			removeActiveArrows();
 		}
@@ -107,7 +107,7 @@ public class Warpweaver extends AbstractToggleBow {
 		Location here = dwarf.getLocation();
 		dwarf.getPlayer().setFallDistance(0);
 		dwarf.teleportTo(location);
-		dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, 5*20, 1, true, true, true);
+		dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, 5*20, 1, true, false, true);
 		
 		World world = location.getWorld();
 		world.spawnParticle(Particle.SPELL_WITCH, location, 20, 0.5, 0.5, 0.5);

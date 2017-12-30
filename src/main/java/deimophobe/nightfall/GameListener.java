@@ -18,6 +18,7 @@ import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.mob.Bopen;
 import deimophobe.nightfall.monster.mob.Goblin;
+import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
@@ -146,6 +147,11 @@ public class GameListener implements Listener {
 		Block block = event.getBlockPlaced();
 		Player player = event.getPlayer();
 		if (player.getGameMode() != GameMode.CREATIVE && !GameMap.getCurrentMap().isBlockPlaceable(block)) {
+			event.setCancelled(true);
+		}
+		
+		// Hack to prevent plagued zombies placing blocks
+		if (MonsterManager.getManager().isGamePlayer(player)) {
 			event.setCancelled(true);
 		}
 	}

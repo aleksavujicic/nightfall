@@ -8,7 +8,6 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.ranged.AbstractBow;
-import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -34,7 +33,7 @@ public class Luminous extends AbstractBow {
     @Override public String getBowIdentifier() {return "LUMINOUS";}
     @Override public int getPower() {return POWER;}
 
-    private static final double MAX_RANGE = 50;
+    private static final double MAX_RANGE = 75;
     private static final double THICKNESS = 1.6;
     private static final double MIN_DISTANCE_FROM_SHOOTER = 1;
 
@@ -52,6 +51,7 @@ public class Luminous extends AbstractBow {
 
     @Override
     public Projectile onBowFire(Projectile arrow, float force) {
+		if (force < 0.5) return null;
         if (!dwarf.hasArrows(3)) return null;
         dwarf.useArrows(3);
 
@@ -60,11 +60,8 @@ public class Luminous extends AbstractBow {
 		ParticleSwirler swirler = new ParticleSwirler(dwarf.getLocation().getDirection());
 		GamePlayer.ProcGiver procGiver = dwarf.new ProcGiver(ProcType.LUMINOUS, MIN_DISTANCE_FROM_SHOOTER);
 		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(CustomDamageType.LUMINOUS, getPower()*force);
-		dwarf.fireBeam(range, THICKNESS, 0.33, swirler, procGiver, entityDamager);
+		dwarf.fireParticle(3, range, THICKNESS, 0.33, swirler, procGiver, entityDamager);
 	
-		if (procGiver.gaveProc()) {
-			Sounds.DWARF_ITEM_EBOW_GIVE_PROC.playSound(dwarf);
-		}
 		dwarf.playSound("entity.ghast.shoot", 1f, 1.35f - force*0.5f, true);
 		
 		Location chest = dwarf.getEyeLocation().subtract(0, 0.5, 0);
