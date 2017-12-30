@@ -1,6 +1,5 @@
 package deimophobe.nightfall.dwarf.armour;
 
-import deimophobe.nightfall.ArmourSlot;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -8,6 +7,7 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.region.Region;
+import deimophobe.nightfall.util.ArmourSlot;
 
 /**
  * Created by Deimophobe on 6/05/17.

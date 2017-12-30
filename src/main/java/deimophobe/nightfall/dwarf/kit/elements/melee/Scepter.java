@@ -1,7 +1,8 @@
 package deimophobe.nightfall.dwarf.kit.elements.melee;
 
-import deimophobe.nightfall.util.LifetimeObject;
-import deimophobe.nightfall.Misc;
+import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -14,10 +15,9 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractItem;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
-import deimophobe.nightfall.items.CustomItem;
-import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.ai.AIEntity;
+import deimophobe.nightfall.util.LifetimeObject;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -40,7 +40,7 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 	
 	
 	private final static double DAMAGE = 10;
-	static { ITEM.addModifier(ItemModifierType.POWER, (int) DAMAGE); }
+	static { ITEM.addModifier(ItemModifierType.ATTACK, (int) DAMAGE); }
 	
 	
 	private final ComplexCooldown lanceCD = new ComplexCooldown(10, this::shootLance);
