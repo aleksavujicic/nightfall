@@ -106,11 +106,12 @@ public class Hero extends Dwarf {
 	
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
-		super.onDamageReceive(damage);
 		damage.multiplyManaDrain(0.2);
 		
 		if (damage.getType() == NaturalDamageType.FALL)
 			damage.getDamage().timesMult(0.1);
+		
+		super.onDamageReceive(damage);
 	}
 	
 	@Override
