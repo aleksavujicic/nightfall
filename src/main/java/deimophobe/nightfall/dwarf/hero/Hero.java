@@ -5,6 +5,7 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.HeroArmour;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
@@ -107,6 +108,9 @@ public class Hero extends Dwarf {
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
 		damage.multiplyManaDrain(0.2);
+		
+		if (damage.getType() == NaturalDamageType.FALL)
+			damage.getDamage().timesMult(0.1);
 	}
 	
 	@Override
@@ -203,7 +207,6 @@ public class Hero extends Dwarf {
 			this.descriptor = descriptor;
 			Set<KitElementType> allElements = new HashSet<>();
 			allElements.add(KitElementType.HERO_ALE);
-			allElements.add(KitElementType.HERO_SLOWFALL);
 			
 			allElements.addAll(Arrays.asList(elements));
 			
