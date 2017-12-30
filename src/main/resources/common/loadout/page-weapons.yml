@@ -6,7 +6,7 @@ grb:
   category: sword
   cost: 24
   item:
-    name: "Greater Runeblade"
+    name: "Mystic Runesword"
     base: runeblade
     lore:
       description:
@@ -99,7 +99,7 @@ scepter:
            and buffs dwarves. Right click to create a\n
            buffpool that strengthens all dwarves inside it."
     modifiers:
-      power: 10
+      attack: 10
 
 glaive:
   enabled: false
@@ -175,7 +175,7 @@ dragonskin:
   category: bow
   cost: 16
   item:
-    name: "Dragonskin Bow"
+    name: "Phoenix Bow"
     base: dskin
     lore:
       description:
@@ -361,13 +361,13 @@ chug:
     lore:
       description:
        - "Left click to heal for &b6&r hearts.\n
-          Uses &b30&r mana. You are able to spam\n
+          Uses &b25&r mana. You are able to spam\n
           this as much as you want\n
           so be careful and watch your mana!\n
           You also gain &espeed for 1 second&r\n
           each sip."
     modifiers:
-      mana-cost: 30
+      mana-cost: 25
 
 strong:
   index: 23
