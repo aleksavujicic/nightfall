@@ -431,6 +431,7 @@ builder_three:
 untimely:
   index: 44
   type: item
+  cost: 0
   name: untimely_demise
   category: accessory
   item:
