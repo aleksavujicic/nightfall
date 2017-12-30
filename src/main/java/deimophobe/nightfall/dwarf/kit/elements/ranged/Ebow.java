@@ -31,7 +31,7 @@ public class Ebow extends AbstractBow {
 	@Override public String getBowIdentifier() {return "EBOW";}
 	@Override public int getPower() {return POWER;}
 	
-	private static final double MAX_RANGE = 40;
+	private static final double MAX_RANGE = 50;
 	private static final double THICKNESS = 1.5;
 	private static final double MIN_DISTANCE_FROM_SHOOTER = 1;
 	
@@ -47,7 +47,7 @@ public class Ebow extends AbstractBow {
 		
 		GamePlayer.ProcGiver procGiver = dwarf.new ProcGiver(ProcType.EBOW, MIN_DISTANCE_FROM_SHOOTER);
 		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(CustomDamageType.EBOW, getPower()*force);
-		dwarf.fireParticle(3, range, THICKNESS, 0.33, PARTICLE_PLACER, procGiver, entityDamager);
+		dwarf.fireParticle(4, range, THICKNESS, 0.33, PARTICLE_PLACER, procGiver, entityDamager);
 		
 		if (procGiver.gaveProc()) {
 			Sounds.DWARF_ITEM_EBOW_GIVE_PROC.playSound(dwarf);

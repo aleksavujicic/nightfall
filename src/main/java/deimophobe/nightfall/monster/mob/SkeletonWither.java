@@ -79,18 +79,11 @@ class SkeletonWither extends Skeleton {
 
 	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {
-		if (withering >= 1 && monster.hasItem(Material.ARROW)) {
+		if (withering >= 1 && monster.hasItem(Material.ARROW, 3)) {
 			if (force < 0.7 ) {
 				return null;
 			}
-
-			for (int i = 0; i < 3; i++) {
-				try {
-					monster.forceUseItem(Material.ARROW);
-				} catch (NullPointerException exception) {
-					// Bad style to use try catch blocks like this, but want withers to be able to shoot when they have arrows
-				}
-			}
+			monster.useItem(Material.ARROW, 3);
 
 			double range = MAX_RANGE * force * force;
 			GamePlayer.GameEntityDamager<Dwarf> entityDamager = monster.new GameEntityDamager<Dwarf>(CustomDamageType.WITHER_BEAM, getPower()*force*force);

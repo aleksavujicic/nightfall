@@ -218,7 +218,11 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		return player.getInventory().contains(material);
 	}
 	
-	public boolean forceUseItem(Material material) {
+	public boolean hasItem(Material material, int amt) {
+		return player.getInventory().contains(material, amt);
+	}
+	
+	public boolean useItem(Material material) {
 		if (material == null) throw new NullPointerException("Cannot force use null item.");
 		
 		for (ItemStack invItem : player.getInventory()) {
@@ -228,6 +232,14 @@ public abstract class GamePlayer implements GameEntity<Player> {
 			}
 		}
 		return false;
+	}
+	
+	public boolean useItem(Material material, int amt) {
+		for (int i=0; i<amt; i++) {
+			boolean used = useItem(material);
+			if (!used) return false;
+		}
+		return true;
 	}
 	
 	
@@ -430,44 +442,14 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		new HitscanProjectile(location, direction, radius, range, particlePeriod, particlePlacer, dwarfConsumer, mobConsumber);
 	}
 	
-	public class ProcGiver implements Consumer<Dwarf> {
-		private final ProcType type;
-		private final double minDistance;
-		private boolean gaveProc = false;
-		
-		public ProcGiver(ProcType type, double minDistance) {
-			this.type = type;
-			this.minDistance = minDistance;
-		}
-		
-		@Override
-		public void accept(Dwarf dwarf) {
-			if (dwarf == GamePlayer.this) return;
-			
-			if (dwarf.distanceTo(GamePlayer.this) >= minDistance) {
-				gaveProc = true;
-				dwarf.giveProc(type);
-			}
-		}
-		
-		public boolean gaveProc() {
-			return gaveProc;
-		}
-	}
 	
-	public class GameEntityDamager<P extends GameEntity> implements Consumer<P> {
+	// ------ HITSCAN CLASSES ------
+	private abstract class SingleEntityConsumer<P extends GameEntity> implements Consumer<P> {
 		private final Set<P> hitPlayers = new HashSet<>();
-		private final CustomDamageType type;
-		private final Function<P,Double> damage;
+		private final double minDistance;
 		
-		public GameEntityDamager(CustomDamageType type, double damage) {
-			this.type = type;
-			this.damage = (m) -> damage;
-		}
-		
-		public GameEntityDamager(CustomDamageType type, Function<P, Double> damage) {
-			this.type = type;
-			this.damage = damage;
+		protected SingleEntityConsumer(double minDistance) {
+			this.minDistance = minDistance;
 		}
 		
 		@Override
@@ -475,9 +457,55 @@ public abstract class GamePlayer implements GameEntity<Player> {
 			if (entity == GamePlayer.this) return;
 			if (hitPlayers.contains(entity)) return;
 			
+			if (entity.distanceTo(GamePlayer.this) >= minDistance) {
+				onHit(entity);
+				hitPlayers.add(entity);
+			}
+		}
+		
+		abstract void onHit(P entity);
+	}
+	
+	public class ProcGiver extends SingleEntityConsumer<Dwarf> {
+		private final ProcType type;
+		private boolean gaveProc = false;
+		
+		public ProcGiver(ProcType type, double minDistance) {
+			super(minDistance);
+			this.type = type;
+		}
+		
+		@Override
+		public void onHit(Dwarf dwarf) {
+			gaveProc = true;
+			dwarf.giveProc(type);
+		}
+		
+		public boolean gaveProc() {
+			return gaveProc;
+		}
+	}
+	
+	public class GameEntityDamager<P extends GameEntity> extends SingleEntityConsumer<P> {
+		private final CustomDamageType type;
+		private final Function<P,Double> damage;
+		
+		public GameEntityDamager(CustomDamageType type, double damage) {
+			super(0);
+			this.type = type;
+			this.damage = (m) -> damage;
+		}
+		
+		public GameEntityDamager(CustomDamageType type, Function<P, Double> damage) {
+			super(0);
+			this.type = type;
+			this.damage = damage;
+		}
+		
+		@Override
+		public void onHit(P entity) {
 			entity.doDamage(GamePlayer.this, type, damage.apply(entity), true);
 			if (entity instanceof GamePlayer) playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
-			hitPlayers.add(entity);
 		}
 	}
 }
