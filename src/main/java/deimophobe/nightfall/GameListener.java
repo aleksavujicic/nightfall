@@ -147,6 +147,11 @@ public class GameListener implements Listener {
 		if (player.getGameMode() != GameMode.CREATIVE && !GameMap.getCurrentMap().isBlockPlaceable(block)) {
 			event.setCancelled(true);
 		}
+		
+		// Hack to prevent plagued zombies placing blocks
+		if (MonsterManager.getManager().isGamePlayer(player)) {
+			event.setCancelled(true);
+		}
 	}
 	
 	@EventHandler
