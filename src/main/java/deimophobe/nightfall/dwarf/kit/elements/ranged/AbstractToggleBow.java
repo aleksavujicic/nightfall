@@ -20,7 +20,7 @@ public abstract class AbstractToggleBow extends AbstractBow {
 	private boolean active = false;
 	private final static String ARROW_METADATA_KEY = "active";
 	
-	private ComplexCooldown toggler = new ComplexCooldown(1, this::onToggle);
+	private final ComplexCooldown toggler = new ComplexCooldown(4, this::onToggle);
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
