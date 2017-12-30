@@ -26,6 +26,7 @@ public class Util {
 			Consumer<Dwarf> dwarfConsumer,
 			Consumer<MonsterEntity> mobConsumer
 	) {
+		direction = direction.clone().normalize();
 		
 		Vector delta = direction.clone().multiply(particlePeriod);
 		int times = (int) (range/particlePeriod);

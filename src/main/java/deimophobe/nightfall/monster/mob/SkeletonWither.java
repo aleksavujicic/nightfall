@@ -1,17 +1,13 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.util.ArrowMisc;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.ProcType;
-import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.entity.GamePlayer;
-import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.util.ArrowMisc;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -97,8 +93,8 @@ class SkeletonWither extends Skeleton {
 			}
 
 			double range = MAX_RANGE * force * force;
-			GamePlayer.GameEntityDamager<Dwarf> entityDamager = monster.new GameEntityDamager(CustomDamageType.WITHER_BEAM, getPower()*force*force);
-			monster.fireBeam(range, THICKNESS, 0.3, PARTICLE_PLACER, entityDamager, null);
+			GamePlayer.GameEntityDamager<Dwarf> entityDamager = monster.new GameEntityDamager<Dwarf>(CustomDamageType.WITHER_BEAM, getPower()*force*force);
+			monster.fireParticle(2, range, THICKNESS, 0.3, PARTICLE_PLACER, entityDamager, null);
 			((SkeletonWatcher) getDisguise().getWatcher()).setSwingArms(false);
 
 			return null;

@@ -1,15 +1,13 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.util.ArrowMisc;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
