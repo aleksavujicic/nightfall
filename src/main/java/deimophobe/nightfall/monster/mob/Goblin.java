@@ -56,7 +56,8 @@ public class Goblin extends AbstractMob {
 
 		upgrades = monster.getUpgrades(MobType.GOBO);
 
-		this.supplies = (upgrades.get("supplies") + upgrades.get("supplies-inf"))*2;
+		int supplies_inf = upgrades.get("supplies-inf");
+		this.supplies = (upgrades.get("supplies") + supplies_inf)*2;
 		int health = (upgrades.get("health") + upgrades.get("health-inf"));
 		
 		this.dest = upgrades.get("dest");
@@ -66,7 +67,7 @@ public class Goblin extends AbstractMob {
 		getArmour().addModifier(ItemModifierType.HEALTH, health, "Upgrade");
 
 		this.placeboxCD = new ComplexCooldown(MAX_PLACE_CD);
-		this.throwboxCD = new ComplexCooldown(MAX_THROW_CD);
+		this.throwboxCD = new ComplexCooldown(Math.max(MAX_THROW_CD - 5, MAX_THROW_CD - (int)(Math.log((double)supplies) / Math.log(2))));
 	}
 
 	@Override
@@ -94,9 +95,9 @@ public class Goblin extends AbstractMob {
 
 		if (Misc.isRightClick(action) && isPlayerHoldingItem("gobo-box") && placeboxCD.isAvailable() && clickedBlock != null && clickedBlock.getType() != Material.ENDER_STONE) {
 			Block block = clickedBlock.getRelative(blockFace);
-			double damage = 40 + 2 * shrapnel;
+			double damage = 40 + 6 * shrapnel;
 			double power = 4.5 + 0.25 * dest;
-			double kb = 0.3 + 0.02 * force;
+			double kb = 0.4 + 0.04 * force;
 			if ((monster.getTargetBlock(null, 5).getType() != Material.AIR) && (TimedBlock.placeTimedBlock(new GoboBox(block, 100, damage, power, kb, monster)))) {
 				monster.useHeldItem();
 				placeboxCD.reset();
@@ -106,9 +107,9 @@ public class Goblin extends AbstractMob {
 		if (Misc.isLeftClick(action) && isPlayerHoldingItem("gobo-box") && (monster.getHeldItem().getAmount() >= 2) && throwboxCD.isAvailable()) {
 
 			Vector direction = monster.getEyeLocation().getDirection();
-			direction.setX((direction.getX() / 1.8));
+			direction.setX((direction.getX() / 1.65));
 			direction.setY(0.4);
-			direction.setZ((direction.getZ() / 1.8));
+			direction.setZ((direction.getZ() / 1.65));
 			TNTPrimed tnt = monster.getLocation().getWorld().spawn(monster.getEyeLocation().add(direction), TNTPrimed.class);
 			tnt.setMetadata("thrower", new FixedMetadataValue(NightfallPlugin.getPlugin(), this));
 			tnt.setVelocity(direction);
@@ -121,24 +122,23 @@ public class Goblin extends AbstractMob {
 	}
 
 	public void thrownGoboBox(Location centerLoc) {
-		double damage = 40 + 2 * shrapnel;
-		int armorShred = 10 + 5 * shrapnel;
+		double damage = 40 + 6 * shrapnel;
+		int armorShred = 10 + 4 * shrapnel;
 		double power = 4.5 + 0.25 * dest;
-		double kb = 0.5 + 0.06 * force;
+		double kb = 0.5 + 0.05 * force;
 
 		BlockConverter.convert(BlockConverter.Type.THROWNEXPLOSION, centerLoc, power);
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
-			if (offset.length() > 5) continue;
+			if (offset.length() > 5.5) continue;
 
 			DamageModifier modifier = new DamageModifier();
 
 			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
-			knockback.setY(knockback.getY() / 2 + 0.1);
-			modifier.addKnockback(knockback);
+			knockback.setY(knockback.getY() / 2 + 0.3);
 
 			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.GOBO_BOX_EXPLOSION, damage);
-			modifier.applyToDamage(aoeDamage);
+			aoeDamage.setKnockback(knockback);
 			aoeDamage.setArmourShred(armorShred);
 			aoeDamage.fire(true);
 		}

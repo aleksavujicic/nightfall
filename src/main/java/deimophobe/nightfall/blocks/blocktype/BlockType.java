@@ -126,7 +126,7 @@ public class BlockType {
 					Material.SPRUCE_DOOR,
 					Material.WOOD_DOOR,
 					Material.WOODEN_DOOR,
-					
+
 					Material.GOLD_ORE
 			)
 	);

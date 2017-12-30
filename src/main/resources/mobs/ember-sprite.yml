@@ -4,8 +4,8 @@ disguisetype: blaze
 
 canrun: false
 
-health: 30
-arrowres: 0.25
+health: 15
+arrowres: 0.5
 
 armour:
   material: blaze_rod

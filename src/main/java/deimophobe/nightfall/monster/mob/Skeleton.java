@@ -1,12 +1,15 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.util.ArrowMisc;
+import deimophobe.nightfall.ArrowMisc;
 import deimophobe.nightfall.Misc;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
@@ -58,7 +61,7 @@ class Skeleton extends AbstractMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		if (damage.getType() == NaturalDamageType.RANGED && damage.hasArrow() && ArrowMisc.getArrowForce(damage.getArrow()) > 0.7) {
+		if ((damage.getType() == NaturalDamageType.RANGED && damage.hasArrow() && ArrowMisc.getArrowForce(damage.getArrow()) > 0.7) || damage.getType() == CustomDamageType.WITHER_BEAM) {
 			damage.setArmourShred(getArmourShred());
 		}
 	}
@@ -79,6 +82,6 @@ class Skeleton extends AbstractMob {
 	}
 
 	protected int getArmourShred() {
-		return 5 + (upgrades.get("power") + upgrades.get("power-inf")) * 5;
+		return 15 + (upgrades.get("power") + upgrades.get("power-inf")) * 3;
 	}
 }

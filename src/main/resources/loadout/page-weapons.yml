@@ -6,7 +6,7 @@ grb:
   category: sword
   cost: 24
   item:
-    name: "Greater Runeblade"
+    name: "Mystic Runesword"
     base: runeblade
     lore:
       description:
@@ -175,7 +175,7 @@ dragonskin:
   category: bow
   cost: 16
   item:
-    name: "Dragonskin Bow"
+    name: "Phoenix Bow"
     base: dskin
     lore:
       description:
