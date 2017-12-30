@@ -487,6 +487,12 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		private final CustomDamageType type;
 		private final Function<P,Double> damage;
 		
+		public GameEntityDamager(CustomDamageType type, double damage, double minDistance) {
+			super(minDistance);
+			this.type = type;
+			this.damage = (m) -> damage;
+		}
+		
 		public GameEntityDamager(CustomDamageType type, double damage) {
 			super(0);
 			this.type = type;

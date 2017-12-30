@@ -76,10 +76,10 @@ class Skeleton extends AbstractMob {
 	}
 
 	protected int getPower() {
-		return 15 + (upgrades.get("power") + upgrades.get("power-inf")) * 3;
+		return 15 + (upgrades.get("power") + upgrades.get("power-inf")) * 2;
 	}
 
 	protected int getArmourShred() {
-		return 15 + (upgrades.get("power") + upgrades.get("power-inf")) * 3;
+		return 15 + (upgrades.get("power") + upgrades.get("power-inf")) * 2;
 	}
 }
