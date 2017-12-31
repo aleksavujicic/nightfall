@@ -111,7 +111,9 @@ scepter:
         and buffs dwarves. Right click to create a\n
         buffpool that strengthens all dwarves inside it."
     flavour:
-      - "Insert Flavour Text Here"
+      - "\"This makes one less dwarf to watch over.\" - Arthea"
+      - "\"When buff pools appear, its huddle time!\" - Tui"
+      - "\"Stand proud, and help those that fight.\" - Velvetine"
 
 hunting:
   base: hunting
