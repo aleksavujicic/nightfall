@@ -10,6 +10,7 @@ import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.cosmetic.Cosmetic;
 import deimophobe.nightfall.common.cosmetic.CosmeticManager;
+import deimophobe.nightfall.common.loadout.LoadoutManager;
 import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -146,6 +147,8 @@ public class Game {
 	}
 	
 	public void stop() {
+		LoadoutManager.getManager().saveLoadouts();
+		
 		removeShrineBar();
 		dwarfManager.stop();
 		monsterManager.stop();
