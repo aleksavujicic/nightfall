@@ -193,13 +193,13 @@ public class Shrine {
 		damage = Math.min((maxShrinePower / 5), damage);
 		recovery = Math.min((maxShrinePower / 5), recovery);
 		
-		if (map.hasGold()) {
+		if (map.hasGold() || shrineNum  == map.getNumShrines()) {
 			int recovered = recoverShrine(recovery);
 			map.stealGold(recovered/20);
 		}
 		else {
 			if (dwarfNum == 0) {
-				damage += maxShrinePower / 50;
+				damage += maxShrinePower / 100;
 			}
 			else if (shrineNum != 1){
 				recoverShrine(recovery/2);
