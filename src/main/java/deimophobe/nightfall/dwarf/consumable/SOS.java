@@ -35,7 +35,7 @@ class SOS extends Consumable {
 	}
 	
 	private static final double RANGE = 12;
-	private static final int FREEZE_TIME = 160;
+	private static final int DEFAULT_FREEZE_TIME = 160;
 	private static final int NUM_SWORDS = 3;
 	
 	@Override
@@ -46,7 +46,7 @@ class SOS extends Consumable {
 		Location center = dwarf.getEyeLocation();
 		for (MonsterPlayer mp : MonsterManager.getManager().getGamePlayers()) {
 			if (mp.isAlive() && center.distance(mp.getLocation()) <= RANGE) {
-				mp.freeze(FREEZE_TIME);
+				mp.freeze(mp.getMob().getSOSTime());
 			}
 			
 			Location rebirth = mp.getRebirthLocation();
@@ -114,7 +114,7 @@ class SOS extends Consumable {
 					sword.remove();
 				}
 			}
-		}.runTaskLater(NightfallPlugin.getPlugin(), FREEZE_TIME);
+		}.runTaskLater(NightfallPlugin.getPlugin(), DEFAULT_FREEZE_TIME);
 		
 		return DEFAULT_CD;
 	}
