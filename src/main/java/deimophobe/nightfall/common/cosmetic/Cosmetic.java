@@ -34,9 +34,9 @@ public class Cosmetic implements SessionData {
 	}
 	public void updateTitle() {
 		if (title == null) {
-			player.setDisplayName(ChatColor.DARK_GREEN + player.getName() + ChatColor.RESET);
+			player.setDisplayName(player.getName());
 		} else {
-			player.setDisplayName(ChatColor.GREEN + title + " " + player.getName() + ChatColor.RESET);
+			player.setDisplayName(ChatColor.YELLOW + title + " " + player.getName() + ChatColor.RESET);
 		}
 	}
 	
