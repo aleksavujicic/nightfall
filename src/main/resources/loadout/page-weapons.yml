@@ -180,7 +180,7 @@ dragonskin:
     lore:
       description:
        - "Left click to enable &bPower Shot Mode&r.\n
-          Power shots do &b125&r power damage that\n
+          Power shots do &b200&r power damage that\n
           pierces half of target arrow resistance\n
           and gives a &b5&r second proc on kill.\n
           Cooldown of &e30s&r."
