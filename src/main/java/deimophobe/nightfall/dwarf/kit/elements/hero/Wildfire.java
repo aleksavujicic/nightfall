@@ -95,7 +95,7 @@ public class Wildfire extends AbstractItem {
 			velocity.normalize().multiply(Flame.FLAME_VELOCITY);
 			velocity.add(dwarf.getVelocity().setY(0));
 			
-			spawnLoc.add(velocity.clone().multiply(5));
+			spawnLoc.add(velocity.clone().multiply(2));
 			
 			this.location = spawnLoc;
 			this.velocity = velocity;
@@ -111,12 +111,13 @@ public class Wildfire extends AbstractItem {
 			}
 			
 			double frac = (double) life / FLAME_LIFE;
-			double radius = 2.5 - 1.5*frac;
-			double damageAmt = frac*7 + 5;
+			double radius = 2.5 - 0.5*frac;
+			double visibleRadius = 0.75 - 0.5*frac;
+			double damageAmt = frac*6 + 4;
 			
 			// Flame particles
 			World world = location.getWorld();
-			world.spawnParticle(Particle.FLAME, location, (int) (frac*10 + 2), radius/4, radius/4, radius/4, 0);
+			world.spawnParticle(Particle.FLAME, location, (int) (frac*10 + 2), visibleRadius, visibleRadius, visibleRadius, 0);
 			
 			// Damage mobs
 			for (MonsterEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
