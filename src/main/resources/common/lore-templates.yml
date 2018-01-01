@@ -1,3 +1,15 @@
+basic:
+  nameprefix: "&b"
+
+  lore:
+    - ""
+
+  modifiers:
+    name: "&3"
+    value: "&b"
+    reason: "&d"
+
+
 loadout:
   nameprefix: "&b"
 

@@ -106,4 +106,19 @@ public class Loadout implements SessionData {
 			}
 		}
 	}
+
+
+
+
+
+	// EVERYTHING BELOW THIS IS ONLY TEMPORARY UNTIL WE GET DATABASE STUFF
+	// ------ SAVING AND LOADING TO FILE ------
+
+	public List<String> toStringList() {
+		List<String> strings = new ArrayList<>();
+		for (LoadoutItem item : items) {
+			strings.add(item.toString());
+		}
+		return strings;
+	}
 }

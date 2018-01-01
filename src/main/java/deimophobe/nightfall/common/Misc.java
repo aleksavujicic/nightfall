@@ -1,6 +1,7 @@
 package deimophobe.nightfall.common;
 
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
+import deimophobe.nightfall.common.loadout.LoadoutManager;
 import deimophobe.nightfall.common.menu.MenuManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,6 +17,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
@@ -28,13 +30,16 @@ public class Misc {
 	private static Plugin plugin;
 	public static void initialiseNightfallCommon(Plugin plugin) {
 		Misc.plugin = plugin;
-		MenuManager.initialiseMenuManager(plugin);
 		LoreTemplate.registerTemplateFile("common/lore-templates.yml");
+		MenuManager.initialiseMenuManager(plugin);
+		LoadoutManager.getManager();
 	}
 	
 	
 	
-	
+	public static File getDataFolder() {
+		return plugin.getDataFolder();
+	}
 	
 	
 	// ------ RANDOM ------
