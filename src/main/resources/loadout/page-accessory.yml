@@ -105,7 +105,11 @@ bricklayer:
     material: brick
     lore:
       description:
-       - "Doesn't resurrect you."
+       - "With this item, left click to select\n
+          two corners of a region, and right click\n
+          to automatically place cobblestone.\n
+          Requires cobblestone in your inventory.\n
+          Faster during build phase."
 
 
 # ------ CONSUMABLES ------
