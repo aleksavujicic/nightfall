@@ -26,8 +26,8 @@ warrior-class:
           as well as automated healing."
 
       contains:
-       - "*Greater Runeblade\n
-          *Dragonskin Bow\n
+       - "*Mystic Runesword\n
+          *Phoenix Bow\n
           *Jimmy Juice\n
           *Sturdy Armour\n
           *Avenge\n
@@ -107,7 +107,7 @@ berserker-class:
           but can be taken down just as fast."
 
       contains:
-       - "*Axe of Malice\n
+       - "*Bloodied Waraxe\n
           *Crossbow\n
           *Strong Ale\n
           *Berserker Armour\n
