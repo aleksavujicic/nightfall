@@ -102,7 +102,7 @@ bricklayer:
   cost: 4
   item:
     name: "Bricklayer"
-    base: bricklayer
+    material: brick
     lore:
       description:
        - "Doesn't resurrect you."
