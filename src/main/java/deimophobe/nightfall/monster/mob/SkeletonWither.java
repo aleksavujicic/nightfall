@@ -50,7 +50,7 @@ class SkeletonWither extends Skeleton {
 
 		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
 		getArmour().addModifier(ItemModifierType.HEALTH, extraHealth * 3, "Upgrade");
-		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, piercing * 2);
+		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, piercing * 5);
 	}
 	
 	@Override
@@ -74,10 +74,10 @@ class SkeletonWither extends Skeleton {
 
 	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {
-		if (withering && monster.hasItem(Material.ARROW, 3)) {
+		if (withering && monster.hasItem(Material.ARROW, 2)) {
 			if (force < 0.7) return null;
 			
-			monster.useItem(Material.ARROW, 3);
+			monster.useItem(Material.ARROW, 2);
 
 			double range = MAX_RANGE * force * force;
 			GamePlayer.GameEntityDamager<Dwarf> entityDamager = monster.new GameEntityDamager<Dwarf>(CustomDamageType.WITHER_BEAM, getPower()*force*force, 2);
@@ -103,6 +103,6 @@ class SkeletonWither extends Skeleton {
 
 	@Override
 	protected int getArmourShred() {
-		return super.getArmourShred() + damageBoost + piercing * 2;
+		return super.getArmourShred() + damageBoost + piercing * 5;
 	}
 }
