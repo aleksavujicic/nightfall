@@ -61,7 +61,7 @@ public class ZombieSaboteur extends Zombie {
 
         this.sneakLvl = upgrades.get("sneak");
         if (sneakLvl != 0)
-            sneakCD = new SimpleCooldown((15 - sneakLvl * 2) * 20);
+            sneakCD = new SimpleCooldown((30 - sneakLvl * 4) * 20);
         else
             sneakCD = new DudCooldown();
 

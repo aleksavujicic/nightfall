@@ -9,7 +9,7 @@ speed: -10
 
 proccable: false
 resistance: 0.85
-arrowres: 0.25
+arrowres: 0.5
 
 armour:
   base: temporary

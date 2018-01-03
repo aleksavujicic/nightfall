@@ -52,7 +52,7 @@ quiver-inf:
 
 wither:
   index: 11
-  cost: 1000
+  cost: 2000
   prereq:
     power: 5
     quiver: 5
@@ -72,7 +72,7 @@ wither:
 
 flamelancer:
   index: 13
-  cost: 1000
+  cost: 2000
   prereq:
     power: 5
     quiver: 5
@@ -92,7 +92,7 @@ flamelancer:
 
 impact:
   index: 15
-  cost: 1000
+  cost: 2000
   prereq:
     power: 5
     quiver: 5
@@ -185,7 +185,7 @@ extrahealth-wither:
 
 withering:
   index: 22
-  cost: 3000
+  cost: 5000
   prereq:
     power: 5
     quiver: 5
@@ -276,7 +276,7 @@ firepath:
 
 fireai:
   index: 22
-  cost: 3000
+  cost: 5000
   prereq:
     power: 5
     quiver: 5
@@ -368,7 +368,7 @@ extrahealth-impact:
 
 warpweaver:
   index: 22
-  cost: 3000
+  cost: 5000
   prereq:
     power: 5
     quiver: 5
