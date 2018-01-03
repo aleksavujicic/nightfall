@@ -49,8 +49,8 @@ ember_sprite:
   egg:
     material: blaze_rod
     name: Spawn Ember Sprite
-  quantity: 2
-  chance: 0.03
+  quantity: 1
+  chance: 0.04
 
 rat:
   mobtype: rat

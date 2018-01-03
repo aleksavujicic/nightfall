@@ -38,15 +38,15 @@ public class EmberSprite extends AbstractMob {
     private Cooldown preloadCD;
     private Cooldown reloadCD;
     private Cooldown launchCD;
-    private final int MAX_AMMO = 6;
+    private final int MAX_AMMO = 4;
     private int currentAmmo;
 
     public EmberSprite(MonsterPlayer mons) {
         super(mons, MobType.EMBER_SPRITE);
 
-        this.fireCD = new ComplexCooldown(13);
+        this.fireCD = new ComplexCooldown(10);
         this.preloadCD = new ComplexCooldown(40);
-        this.reloadCD = new ComplexCooldown(40);
+        this.reloadCD = new ComplexCooldown(30);
         this.launchCD = new ComplexCooldown(300);
         currentAmmo = MAX_AMMO;
     }
@@ -100,7 +100,7 @@ public class EmberSprite extends AbstractMob {
                     fireball.remove();
                 }
             }
-        }.runTaskLater(NightfallPlugin.getPlugin(), 26); // 1.3 second lifetime
+        }.runTaskLater(NightfallPlugin.getPlugin(), 18); // 0.9 second lifetime
         ((Fireball) fireball).setShooter(monster.getPlayer());
         fireball.setVelocity(loc.getDirection().multiply(1.5f));
         world.playSound(loc, "entity.blaze.shoot", 2, 1f);
