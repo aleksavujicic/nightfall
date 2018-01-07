@@ -2,10 +2,19 @@ velvetine:
   full-name: Velvetine
   nametag: Velvetine
   descriptor: Dwarven Hero
-
-  hat: velvetine
   skin: velvetine
   colour: dark_purple
+
+  hat:
+    base: flowercrown
+    name: "Velvetine's Hat"
+    lore:
+      description:
+        - "temp"
+      flavour:
+        - "temp"
+    modifiers:
+      health: 20
 
   items:
   - velsword
@@ -21,15 +30,24 @@ velvetine:
     sos: 1
 
 tui:
+  class: deimophobe.nightfall.dwarf.hero.Tui
+
   full-name: Tui the Lightbringer
   nametag: Tui
   descriptor: Dwarven Hero
-
-  hat: tui
   skin: tui
   colour: gold
 
-  class: deimophobe.nightfall.dwarf.hero.Tui
+  hat:
+    base: tuihat
+    name: "Tui's Flame Hat"
+    lore:
+      description:
+        - "temp"
+      flavour:
+        - "temp"
+    modifiers:
+      health: 20
 
   items:
   - tui-hammer
@@ -44,15 +62,24 @@ tui:
     sos: 2
 
 arthea:
+  class: deimophobe.nightfall.dwarf.hero.Arthea
+
   full-name: Arthea
   nametag: Arthea
   descriptor: Dwarven Hero
-
-  hat: arthea
   skin: arthea
   colour: dark_red
 
-  class: deimophobe.nightfall.dwarf.hero.Arthea
+  hat:
+    base: blackribbon
+    name: "Arthea's Flower Crown"
+    lore:
+      description:
+        - "temp"
+      flavour:
+        - "temp"
+    modifiers:
+      health: 20
 
   items:
   - healer-totem
@@ -74,10 +101,20 @@ herana:
   full-name: Herana
   nametag: Herana
   descriptor: Mermaid Queen
-
-  hat: herana
   skin: herana
   colour: aqua
+
+  hat:
+    base: flowercrown
+    name: "Herana's Hat"
+    lore:
+      description:
+        - "temp"
+      flavour:
+        - "temp"
+    modifiers:
+      health: 20
+      depth-strider: 3
 
   items:
   - velsword
@@ -93,17 +130,25 @@ herana:
     sos: 1
 
 oxysis:
+  class: deimophobe.nightfall.dwarf.hero.Oxysis
+
   full-name: Oxysis
   nametag: Oxysis
   descriptor: Pixie Hero
-
-  hat: oxysis
   skin: oxysis
   colour: yellow
 
-  health: 25 # Does not work atm
+  hat:
+    base: flowercrown
+    name: "Oxysis Hat"
+    lore:
+      description:
+        - "temp"
+      flavour:
+        - "temp"
+    modifiers:
+      health: 15
 
-  class: deimophobe.nightfall.dwarf.hero.Oxysis
 
   items:
   - drucrist
@@ -121,10 +166,21 @@ nosovin:
   full-name: Nosovin's Illustration
   nametag: Nosovin
   descriptor: Dwarven Hero
-
   hat: tui
   skin: tui
   colour: white
+
+  hat:
+    base: flowercrown
+    name: "Nosovin's Speed Hat"
+    lore:
+      description:
+        - "temp"
+      flavour:
+        - "temp"
+    modifiers:
+      health: 15
+      speed: 15
 
   items:
   - tinderflame

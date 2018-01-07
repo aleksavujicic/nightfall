@@ -35,7 +35,6 @@ public class DwarvenItems {
 		addConfigSection("misc","misc");
 		
 		addConfigSection("hero","hero");
-		addConfigSection("hero-hat","hero-hat");
 		
 		
 		droppables.add(getItem("misc","pick").createItemStack());
@@ -63,7 +62,6 @@ public class DwarvenItems {
 		LoreTemplate template = LoreTemplate.getLoreTemplate(LoreTemplate.DWARF);
 		switch (section) {
 			case "hero":
-			case "hero-hat":
 				template = LoreTemplate.getLoreTemplate(LoreTemplate.DWARF_HERO);
 		}
 		return CustomItem.getItem(config.getConfigurationSection(name), template, slot);

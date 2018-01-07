@@ -5,12 +5,15 @@ import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.UnknownEnumElementException;
+import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfData;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.Kit;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
+import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -32,13 +35,13 @@ public class HeroData extends DwarfData {
 	private final String fullName;
 	private final String descriptor;
 	
-	private final String hat;
+	private final CustomItem hat;
 	private final Skin skin;
 	private final ChatColor glowColour;
 	
 	private final Function<Player, Hero> heroCreator;
 	
-	public String getHat() { return hat; }
+	public CustomItem getHat() { return hat; }
 	
 	public HeroData(ConfigurationSection config, HeroType type) throws InvalidConfigurationException {
 		this.type = type;
@@ -56,7 +59,7 @@ public class HeroData extends DwarfData {
 		
 		// Hat
 		Misc.checkConfigStringExists(config, "hat");
-		this.hat = config.getString("hat");
+		this.hat = CustomItem.getItem(config.getConfigurationSection("hat"), LoreTemplate.DWARF_HERO, Slot.HEAD);
 		
 		// Skin
 		Misc.checkConfigStringExists(config, "skin");
@@ -137,10 +140,6 @@ public class HeroData extends DwarfData {
 					}
 				};
 			} catch (ClassNotFoundException e) {
-				Bukkit.broadcastMessage(Arthea.class.getCanonicalName());
-				Bukkit.broadcastMessage(Arthea.class.getName());
-				Bukkit.broadcastMessage(Arthea.class.getSimpleName());
-				Bukkit.broadcastMessage(Arthea.class.getTypeName());
 				throw new InvalidConfigurationException("No class called: " + className, e);
 			} catch (NoSuchMethodException e) {
 				throw new InvalidConfigurationException("No valid constructor (Player, HeroType) for class: " + className, e);
