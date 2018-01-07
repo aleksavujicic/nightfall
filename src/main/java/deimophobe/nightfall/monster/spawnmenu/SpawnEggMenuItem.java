@@ -1,6 +1,7 @@
 package deimophobe.nightfall.monster.spawnmenu;
 
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.menu.MenuSession;
@@ -111,7 +112,7 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 	
 	private static final Map<String, SpawnEggMenuItem> eggMap = new HashMap<>();
 	static {
-		Configuration spawnConfig = Misc.getInternalFileConfig("spawn-eggs.yml");
+		Configuration spawnConfig = NightfallPlugin.getInternalFileConfig("spawn-eggs.yml");
 		for (String key : spawnConfig.getKeys(false)) {
 			SpawnEggMenuItem egg = new SpawnEggMenuItem(spawnConfig.getConfigurationSection(key));
 			eggMap.put(key.toLowerCase(), egg);

@@ -1,6 +1,6 @@
 package deimophobe.nightfall.monster.doom;
 
-import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.NightfallPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
@@ -26,7 +26,7 @@ public enum DoomType {
 	}
 	
 	DoomType(String doomName, Class<? extends Doom> doomClass) {
-		Configuration doomConfigFile = Misc.getInternalFileConfig("doom.yml");
+		Configuration doomConfigFile = NightfallPlugin.getInternalFileConfig("doom.yml");
 		ConfigurationSection doomConfig = doomConfigFile.getConfigurationSection(doomName);
 		
 		try {

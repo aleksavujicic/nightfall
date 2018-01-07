@@ -1,6 +1,5 @@
 package deimophobe.nightfall.monster;
 
-import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
@@ -20,6 +19,8 @@ import deimophobe.nightfall.monster.doom.DoomManager;
 import deimophobe.nightfall.monster.mob.*;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -105,7 +106,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	public void kill(boolean silent) {
 		if (!silent && isAlive()) {
-			ActionBarAPI.sendActionBarToAllPlayers(getDeathMessage());
+			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(getDeathMessage()));
 			player.playSound(player.getLocation(), "proc", 1f, 0.7f);
 			sendTitleMessage(ChatColor.DARK_RED + "You died!");
 		}

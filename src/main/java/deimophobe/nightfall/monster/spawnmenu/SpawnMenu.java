@@ -1,6 +1,6 @@
 package deimophobe.nightfall.monster.spawnmenu;
 
-import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.menu.MainMenu;
 import deimophobe.nightfall.common.menu.item.IndexedPageChanger;
@@ -78,7 +78,7 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 			String file = pageType.filename;
 			MobType type = pageType.type;
 			if (file != null) {
-				UpgradeMenu upgradeMenu = new UpgradeMenu(Misc.getInternalFileConfig(file), type);
+				UpgradeMenu upgradeMenu = new UpgradeMenu(NightfallPlugin.getInternalFileConfig(file), type);
 				upgradeMenu.setItem(0, SpawnEggMenuItem.getEgg(type));
 				if (type == MobType.ZOMBIE) {
 					upgradeMenu.setItem(9, rebirthItem);
@@ -91,7 +91,7 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		}
 	}
 	
-	private static final YamlConfiguration itemConfig = Misc.getInternalFileConfig("mobmenu-items.yml");
+	private static final YamlConfiguration itemConfig = NightfallPlugin.getInternalFileConfig("mobmenu-items.yml");
 	private ItemStack getConfigItem(String name) {
 		return CustomItem.getItem(itemConfig.getConfigurationSection(name), "monster-menu", Slot.MAIN_HAND).createItemStack();
 	}

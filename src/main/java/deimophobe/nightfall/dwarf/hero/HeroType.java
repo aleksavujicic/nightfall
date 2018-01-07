@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.hero;
 
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -32,7 +33,7 @@ public enum HeroType {
 	private final Team team;
 	
 	HeroType(String configName) {
-		ConfigurationSection config = Misc.getInternalFileConfig("heroes.yml").getConfigurationSection(configName);
+		ConfigurationSection config = NightfallPlugin.getInternalFileConfig("heroes.yml").getConfigurationSection(configName);
 		
 		if (config != null) {
 			HeroData data;

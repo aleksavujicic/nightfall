@@ -6,10 +6,8 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.EnumWrappers;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.common.loadout.LoadoutMenu;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -38,6 +36,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
@@ -45,6 +44,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -67,8 +68,6 @@ public class NightfallPlugin extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		plugin = this;
-		Misc.initialiseNightfallCommon(this);
-		LoreTemplate.registerTemplateFile("lore-templates.yml");
 		
 		setupPacketEvents();
 		
@@ -90,6 +89,12 @@ public class NightfallPlugin extends JavaPlugin {
 		dm = DwarfManager.getManager();
 		mm = MonsterManager.getManager();
 		gl.updateManagers();
+	}
+	
+	public static YamlConfiguration getInternalFileConfig(String name) {
+		InputStream stream = getPlugin().getResource(name);
+		if (stream == null) throw new IllegalArgumentException("Unknown config file: " + name);
+		return YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
 	}
 	
 	private void setupPacketEvents() {

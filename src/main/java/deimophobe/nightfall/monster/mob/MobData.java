@@ -1,7 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Skin;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
@@ -234,7 +234,7 @@ public class MobData {
 		String base = keySplit[0];
 		String sub = (keySplit.length == 2 ? keySplit[1] : "base");
 		
-		ConfigurationSection file = Misc.getInternalFileConfig("mobs/" + base + ".yml");
+		ConfigurationSection file = NightfallPlugin.getInternalFileConfig("mobs/" + base + ".yml");
 		MobData data;
 		if (sub.equals("base")) {
 			if (file.contains(sub)) data = new MobData(fullKey, file.getConfigurationSection(sub));

@@ -52,26 +52,6 @@
                     <finalName>Nightfall</finalName>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>2.4.3</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <artifactSet>
-                                <includes>
-                                    <include>deimophobe.nightfall:common</include>
-                                </includes>
-                            </artifactSet>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
@@ -98,6 +78,7 @@
             <url>file:${project.basedir}../Nightfall-Common/</url>
         </repository>
     </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
@@ -153,11 +134,6 @@
             </exclusions>
         </dependency>
 
-        <dependency>
-            <groupId>com.connorlinfoot.actionbarapi</groupId>
-            <artifactId>ActionBarAPI</artifactId>
-            <version>1.5.2</version>
-        </dependency>
         <dependency>
             <groupId>minecraft.spigot.community.michel_0</groupId>
             <artifactId>api</artifactId>

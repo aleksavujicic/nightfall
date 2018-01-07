@@ -1,6 +1,6 @@
 package deimophobe.nightfall.dwarf;
 
-import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
@@ -43,7 +43,7 @@ public class DwarvenItems {
 		droppables.add(getItem("misc","axe").createItemStack());
 	}
 	private static void addConfigSection(String section, String filename) {
-		configs.put(section, Misc.getInternalFileConfig("dwarf-items/"+ filename+".yml"));
+		configs.put(section, NightfallPlugin.getInternalFileConfig("dwarf-items/"+ filename+".yml"));
 	}
 	
 	

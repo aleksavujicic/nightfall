@@ -1,6 +1,5 @@
 package deimophobe.nightfall;
 
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -47,7 +46,7 @@ public class ItemManager {
 	
 	private Map<String, CustomItem> getMiscItems() {
 		Map<String, CustomItem> items = new HashMap<>();
-		ConfigurationSection config = Misc.getInternalFileConfig("misc-items.yml");
+		ConfigurationSection config = NightfallPlugin.getInternalFileConfig("misc-items.yml");
 		for (String key : config.getKeys(false)) {
 			items.put(key, CustomItem.getItem(config.getConfigurationSection(key), LoreTemplate.DEFAULT, Slot.MAIN_HAND));
 		}
@@ -74,6 +73,6 @@ public class ItemManager {
 	
 	// ------ ITEMS ------
 	public static CustomItem getMiscItem(String name) {
-		return CustomItem.getItem(Misc.getInternalFileConfig("misc-items.yml").getConfigurationSection(name), LoreTemplate.DEFAULT, Slot.MAIN_HAND);
+		return CustomItem.getItem(NightfallPlugin.getInternalFileConfig("misc-items.yml").getConfigurationSection(name), LoreTemplate.DEFAULT, Slot.MAIN_HAND);
 	}
 }

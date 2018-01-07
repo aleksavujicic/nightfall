@@ -5,7 +5,6 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
-import com.connorlinfoot.actionbarapi.ActionBarAPI;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.cosmetic.Cosmetic;
@@ -24,6 +23,8 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.upgrade.GlobalUpgrade;
 import deimophobe.nightfall.plague.Plague;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -256,10 +257,11 @@ public class Game {
 	}
 	
 	private void readyNotify(Player player) {
-		if (isReady(player))
-			ActionBarAPI.sendActionBar(player, ChatColor.GREEN + "You are ready!");
-		else
-			ActionBarAPI.sendActionBar(player, ChatColor.RED + "Do /ready when you have chosen a kit!");
+		if (isReady(player)) {
+			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.GREEN + "You are ready!"));
+		} else {
+			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.RED + "Do /ready when you have chosen a kit!"));
+		}
 	}
 	
 	public String readyList() {

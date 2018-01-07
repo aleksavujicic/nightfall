@@ -3,7 +3,7 @@ name: Nightfall
 version: 0.1
 author: Deimophobe
 description: The main plugin for the nightfall game.
-depend: [ProtocolLib]
+depend: [ProtocolLib, NightfallCommon]
 commands:
   setdwarf:
     usage: /setdwarf <name>  <item1 item2 ...>
