@@ -1,6 +1,6 @@
 package deimophobe.nightfall.common.cosmetic.title;
 
-import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.NightfallCommonPlugin;
 import deimophobe.nightfall.common.cosmetic.Cosmetic;
 import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.common.menu.MainMenu;
@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
  */
 public class TitleMenu extends ListMenu<Cosmetic> implements MainMenu<Cosmetic> {
 	public TitleMenu() {
-		ConfigurationSection config = Misc.getInternalFileConfig("common/titles.yml");
+		ConfigurationSection config = NightfallCommonPlugin.getInternalFileConfig("titles.yml");
 		for (String key : config.getKeys(false)) {
 			try {
 				addItem(new TitleItem(config.getConfigurationSection(key)));

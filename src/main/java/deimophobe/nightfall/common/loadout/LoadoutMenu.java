@@ -1,6 +1,6 @@
 package deimophobe.nightfall.common.loadout;
 
-import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.NightfallCommonPlugin;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.common.menu.MainMenu;
@@ -33,9 +33,9 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 	private LoadoutMenu() {
 		// Setup menus
 		List<LoadoutPage> tempPages = new ArrayList<>();
-		tempPages.add(new LoadoutPage(Misc.getInternalFileConfig("common/loadout/page-classes.yml")));
-		tempPages.add(new LoadoutPage(Misc.getInternalFileConfig("common/loadout/page-weapons.yml")));
-		tempPages.add(new LoadoutPage(Misc.getInternalFileConfig("common/loadout/page-accessory.yml")));
+		tempPages.add(new LoadoutPage(NightfallCommonPlugin.getInternalFileConfig("loadout/page-classes.yml")));
+		tempPages.add(new LoadoutPage(NightfallCommonPlugin.getInternalFileConfig("loadout/page-weapons.yml")));
+		tempPages.add(new LoadoutPage(NightfallCommonPlugin.getInternalFileConfig("loadout/page-accessory.yml")));
 		
 		MultiPageMenu<Loadout> pages = new MultiPageMenu<Loadout>(tempPages);
 		SimpleMenu<Loadout> toolbar = new SimpleMenu<>(EXTRA_SIZE);
@@ -44,7 +44,7 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 		addSubMenu(toolbar);
 		
 		// Add items for toolbar
-		ConfigurationSection itemConfig = Misc.getInternalFileConfig("common/loadout/special-items.yml");
+		ConfigurationSection itemConfig = NightfallCommonPlugin.getInternalFileConfig("loadout/special-items.yml");
 		ItemStack back = CustomItem.getItem(itemConfig.getConfigurationSection("back"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
 		ItemStack forward = CustomItem.getItem(itemConfig.getConfigurationSection("forward"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
 		ItemStack close = CustomItem.getItem(itemConfig.getConfigurationSection("close"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();

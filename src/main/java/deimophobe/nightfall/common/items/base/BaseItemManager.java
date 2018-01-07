@@ -1,8 +1,6 @@
 package deimophobe.nightfall.common.items.base;
 
-import deimophobe.nightfall.common.Misc;
-
-import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.NightfallCommonPlugin;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -63,7 +61,7 @@ public class BaseItemManager {
 		addItem("temporary", temp);
 		
 		// Add items from base-items.yml file
-		FileConfiguration config = Misc.getInternalFileConfig("common/base-items.yml");
+		FileConfiguration config = NightfallCommonPlugin.getInternalFileConfig("base-items.yml");
 		for (String key : config.getKeys(false)) {
 			ConfigurationSection keyConfig = config.getConfigurationSection(key);
 			Material material = Material.matchMaterial(key);

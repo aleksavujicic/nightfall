@@ -1,6 +1,6 @@
 package deimophobe.nightfall.common.cosmetic;
 
-import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.NightfallCommonPlugin;
 import deimophobe.nightfall.common.cosmetic.hat.Hat;
 import deimophobe.nightfall.common.cosmetic.hat.HatMenu;
 import deimophobe.nightfall.common.cosmetic.title.TitleMenu;
@@ -20,7 +20,7 @@ public class CosmeticManager {
 	private CosmeticManager() {
 		manager = this;
 		
-		ConfigurationSection config = Misc.getInternalFileConfig("common/hats.yml");
+		ConfigurationSection config = NightfallCommonPlugin.getInternalFileConfig("hats.yml");
 		for (String key : config.getKeys(false)) {
 			Hat hat = new Hat(config.getConfigurationSection(key));
 			hats.put(key, hat);

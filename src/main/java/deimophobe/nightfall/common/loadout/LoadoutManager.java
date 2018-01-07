@@ -1,6 +1,6 @@
 package deimophobe.nightfall.common.loadout;
 
-import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.NightfallCommonPlugin;
 import deimophobe.nightfall.common.loadout.item.LoadoutItem;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -8,7 +8,10 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Deimophobe on 20/12/17.
@@ -65,7 +68,7 @@ public class LoadoutManager {
 	// ------ SAVING AND LOADING TO FILE ------
 	
 	private static File getLoadoutFile() {
-		return new File(Misc.getDataFolder(), "loadouts.yml");
+		return new File(NightfallCommonPlugin.getPlugin().getDataFolder(), "loadouts.yml");
 	}
 	
 	

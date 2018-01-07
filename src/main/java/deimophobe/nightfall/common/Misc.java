@@ -1,8 +1,5 @@
 package deimophobe.nightfall.common;
 
-import deimophobe.nightfall.common.items.lore.LoreTemplate;
-import deimophobe.nightfall.common.loadout.LoadoutManager;
-import deimophobe.nightfall.common.menu.MenuManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -10,16 +7,11 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.Action;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -27,21 +19,6 @@ import java.util.*;
  * Created by Deimophobe on 9/03/17.
  */
 public class Misc {
-	private static Plugin plugin;
-	public static void initialiseNightfallCommon(Plugin plugin) {
-		Misc.plugin = plugin;
-		LoreTemplate.registerTemplateFile("common/lore-templates.yml");
-		MenuManager.initialiseMenuManager(plugin);
-		LoadoutManager.getManager();
-	}
-	
-	
-	
-	public static File getDataFolder() {
-		return plugin.getDataFolder();
-	}
-	
-	
 	// ------ RANDOM ------
 	
 	public static <T> T getRandomFrom(T... items) {
@@ -173,12 +150,6 @@ public class Misc {
 	
 	
 	// ------ CONFIG ------
-	public static YamlConfiguration getInternalFileConfig(String name) {
-		InputStream stream = plugin.getResource(name);
-		if (stream == null) throw new IllegalArgumentException("Unknown config file: " + name);
-		return YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
-	}
-	
 	public static void checkConfigStringExists(ConfigurationSection config, String name) throws InvalidConfigurationException {
 		if (!config.contains(name)) throw new InvalidConfigurationException("Invalid config in '" + config.getName() + "'. Failed to find child '" + name + "'");
 	}
