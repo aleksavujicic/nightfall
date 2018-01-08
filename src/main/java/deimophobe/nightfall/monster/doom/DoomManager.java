@@ -127,7 +127,7 @@ public class DoomManager {
 		
 		spawnDoom(nextDoom());
 		resetDoomTimers();
-		MonsterManager.getManager().getSpawnMenu().doomRestockAllEggs();
+		//MonsterManager.getManager().getSpawnMenu().doomRestockAllEggs();
 	}
 	
 	private DoomType nextDoom() {
