@@ -57,3 +57,39 @@ squire:
   item:
     name: "Squire"
     material: diamond_hoe
+
+sir:
+  title: "Sir"
+  item:
+    name: "Sir"
+    material: diamond_hoe
+
+lady:
+  title: "Lady"
+  item:
+    name: "Lady"
+    material: diamond_hoe
+
+healer:
+  title: "Healer"
+  item:
+    name: "Healer"
+    material: diamond_hoe
+
+lucky:
+  title: "Lucky"
+  item:
+    name: "Lucky"
+    material: diamond_hoe
+
+builder:
+  title: "Builder"
+  item:
+    name: "Builder"
+    material: diamond_hoe
+
+miner:
+  title: "Miner"
+  item:
+    name: "Miner"
+    material: diamond_hoe
