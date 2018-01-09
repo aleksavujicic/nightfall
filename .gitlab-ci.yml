@@ -4,6 +4,9 @@ cache:
     - .m2/repository/
 #before_script:
 #  - apt-get update -y && apt-get upgrade -y
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
     
 common_build:
   script:
