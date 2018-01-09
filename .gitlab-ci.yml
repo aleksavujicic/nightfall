@@ -2,13 +2,13 @@ image: maven:3.3.9-jdk-8
 cache:
   paths:
     - /root/.m2/repository/
-before_script:
-  - apt-get update -y && apt-get upgrade -y
+#before_script:
+#  - apt-get update -y && apt-get upgrade -y
     
-NMQC-build:
+common_build:
   script:
     - mvn install -B
   artifacts:
-    name: "NMQC"
+    name: "Nightfall-Common"
     paths:
-      - ./target/NMQC*.jar
+      - ./target/Nightfall-Common.jar
