@@ -32,8 +32,10 @@ class Wrench extends Consumable {
 			dwarf.playSound("block.anvil.use", 20, 0.8f, false);
 			return DEFAULT_CD;
 		} else {
-			dwarf.sendTitleMessage(ChatColor.YELLOW + "Not enough gold in the shrine!");
-			return FAILED_CD;
+			dwarf.getArmour().repair(400);
+			dwarf.playSound("block.anvil.use", 20, 0.8f, false);
+			//dwarf.sendTitleMessage(ChatColor.YELLOW + "Not enough gold in the shrine!");
+			return DEFAULT_CD;
 		}
 	}
 }
