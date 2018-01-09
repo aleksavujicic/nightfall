@@ -27,9 +27,11 @@ public class PenyStick extends AbstractItem {
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		MonsterEntity monster = damage.getMonster();
-		if (monster instanceof MonsterPlayer) {
-			((MonsterPlayer) monster).sendTitleMessage(ChatColor.DARK_AQUA + "Penny" + ChatColor.YELLOW + " is more popular");
+		if (damageFromItem(damage)) {
+			MonsterEntity monster = damage.getMonster();
+			if (monster instanceof MonsterPlayer) {
+				((MonsterPlayer) monster).sendTitleMessage(ChatColor.DARK_AQUA + "Penny" + ChatColor.YELLOW + " is more popular");
+			}
 		}
 	}
 }
