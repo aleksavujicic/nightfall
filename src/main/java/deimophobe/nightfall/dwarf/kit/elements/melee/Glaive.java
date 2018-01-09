@@ -42,8 +42,6 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     private boolean altStance = false;//ChangeStance
     private final int highDamage = 25;//ChangeStance MAYBE ADD COOLDOWN IF WE WANT 25 DAMAGE
     private final int lowDamage = 5;//ChangeStance
-    private final int aiReps = 1;//ChangeStance (FOR AI PARTICLES)
-    private final int pmReps = 5;//ChangeStance (FOR PLAYERMOB PARTICLES)
     private final double altRange = 4.0;//altAttack AND powerAttack AND flurryOfBlows
     private final int chargeTime = 1*20;//powerAttack
     private final double powerDamage = 30;//powerAttack
@@ -103,9 +101,8 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
             particleLoc.getWorld().spawnParticle(Particle.REDSTONE, particleLoc, 0, red, green, blue, 1);
         }
     }
-    private void applyParticles(MonsterEntity entity){
-        int totalReps = entity instanceof MonsterPlayer ? pmReps : aiReps;
-        for (int reps = 0; reps <totalReps; reps++){
+    private void applyParticles(MonsterEntity entity, int totalParticles){
+        for (int reps = 0; reps <totalParticles; reps++){
             Location centerLocation = entity.getLocation();
             double newY = centerLocation.getY();
             newY += 1.25;
@@ -204,33 +201,39 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownElement {
     @Override
     protected double getDamageToMonster(MonsterEntity entity){//Maybe change this to be more effective against AIs
         if (currentTest == "changeStance") {
-            if (!altStance) {
-                if (entity instanceof MonsterPlayer) {
-                    applyParticles(entity);
-                    return highDamage;
-                } else {
-                    return lowDamage;
-                }
-            } else if (altStance) {
-                if (entity instanceof AIEntity) {
-                    applyParticles(entity);
-                    return highDamage;
-                } else {
-                    return lowDamage;
-                }
-            }
-            return 0;
+            return stanceDamage(entity);
         }
-        if (currentTest == "changeBlade"){
-            if (!altBlade){
-                return basicAttackDamage;
-            }else if (altBlade){
-                altBladeHit(entity);
-                return 0;
-            }
-            return 0;
+        if (currentTest == "changeBlade") {
+            return bladeDamage(entity);
         }
         return basicAttackDamage;
+    }
+    private double bladeDamage(MonsterEntity entity) {
+        if (!altBlade){
+            return basicAttackDamage;
+        }else if (altBlade){
+            altBladeHit(entity);
+            return 0;
+        }
+        return 0;
+    }
+    private double stanceDamage(MonsterEntity entity) {
+        if (!altStance) {
+            if (entity instanceof MonsterPlayer) {
+                applyParticles(entity, 5);
+                return highDamage;
+            } else {
+                return lowDamage;
+            }
+        } else if (altStance) {
+            if (entity instanceof AIEntity) {
+                applyParticles(entity, 1);
+                return highDamage;
+            } else {
+                return lowDamage;
+            }
+        }
+        return 0;
     }
 
     @Override public CustomItem getItem(){return ITEM;}
