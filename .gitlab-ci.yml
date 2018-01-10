@@ -1,12 +1,13 @@
 image: maven:3.3.9-jdk-8
+
+
 cache:
   paths:
-    - .m2/repository/
-#before_script:
-#  - apt-get update -y && apt-get upgrade -y
+    - .m2/
 
 variables:
-  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  MAVEN_OPTS: -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2
+
     
 common_build:
   script:
