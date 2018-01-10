@@ -13,6 +13,7 @@ public enum ConsumableType {
 	SOS(new SOS("sos"), false, false),
 	WRENCH(new Wrench("wrench"), false, false),
 	HEAL_STATION(new HealStation("healstation"), false, false),
+	PROC_BOTTLE(new ProcBottle("procbottle"), false, false),
 	
 	MORTAR(new Mortar("mortar", false), true, true),
 	WIZARD_MORTAR(new Mortar("wizardmortar", true), true, false),

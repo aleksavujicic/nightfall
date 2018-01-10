@@ -79,6 +79,15 @@ healstation:
     flavour:
      - "\"Kinda like being a healer, but requires less work.\" - Arthea"
 
+procbottle:
+  base: proc-bottle
+  name: Proc in a Bottle
+  lore:
+    description:
+     - "Proc"
+    flavour:
+     - "fawn add stuff here"
+
 
 
 log:
