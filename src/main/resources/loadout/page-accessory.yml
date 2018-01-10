@@ -433,6 +433,43 @@ builder_three:
           *128 Mortar\n
           *384 Cobblestone."
 
+procbottle_one:
+  index: 16
+  type: consumable
+  name: proc-bottle
+  quantity: 1
+  cost: 2
+  item:
+    name: "Proc in a Bottle I"
+    base: proc-bottle
+    lore:
+      description:
+       - "Stuff"
+procbottle_two:
+  index: 25
+  type: consumable
+  name: proc-bottle
+  quantity: 2
+  cost: 4
+  item:
+    name: "Proc in a Bottle II"
+    base: proc-bottle
+    lore:
+      description:
+       - "Stuff"
+procbottle_three:
+  index: 34
+  type: consumable
+  name: proc-bottle
+  quantity: 3
+  cost: 6
+  item:
+    name: "Proc in a Bottle III"
+    base: proc-bottle
+    lore:
+      description:
+       - "Stuff"
+
 untimely:
   index: 44
   type: item
