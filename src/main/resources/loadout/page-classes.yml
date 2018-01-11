@@ -286,168 +286,168 @@ brawler-class:
           *64 Mortar\n
           *192 Cobblestone"
 
-magmar-class:
-  enabled: false
-  index: 12
-  cost: 64
-  category: kit
-  type: multi
-  elements:
-    - scepter
-    - volcanic
-    - healingglow
-    - quiver
-    - slowfall
-  consumables:
-    heal_station: 10
-    slab: 2
-    mortar: 32
-    cobblestone: 128
-    sos: 2
-  item:
-    template: "loadout-class"
-    name: "Magmar Kit"
-    material: diamond_hoe
-    lore:
-      description:
-       - "These mages harnessed the power of\n
-          Magma to imbue into their\n
-          weaponry and potions."
-
-      contains:
-       - "*Scepter of Magma\n
-          *Volcanic Gauntlet\n
-          *Healing Glow\n
-          *Massive Quiver\n
-          *Slowfall\n
-          *10 Healing Stations\n
-          *2 SOS\n
-          *32 Mortar\n
-          *128 Cobblestone\n
-          *2 Slabs"
-
-paladin-class:
-  enabled: false
-  index: 9
-  cost: 64
-  category: kit
-  type: multi
-  elements:
-    - hammer
-    - lightbow
-    - hearty_ale
-    - sturdy
-  consumables:
-    torch: 32
-    mortar: 32
-    cobblestone: 128
-    sos: 3
-    wizard_mortar: 32
-    lamp: 24
-  item:
-    template: "loadout-class"
-    name: "Paladin Kit"
-    material: diamond_hoe
-    lore:
-      description:
-       - "The Followers of the Light\n
-          Able to restore both their mana and armour\n
-          with blessed warhammers, these warriors\n
-          can remain longer on the defense then\n
-          most other classes."
-
-      contains:
-       - "*Warhammer\n
-          *Lightbow\n
-          *Hearty Ale\n
-          *Sturdy Armour\n
-          *32 Torches\n
-          *32 Mortar\n
-          *128 Cobblestone\n
-          *3 Sword of Santification\n
-          *32 Wizard Mortar\n
-          *24 Enchanted Lamps"
-
-cleric-class:
-  enabled: false
-  index: 10
-  cost: 64
-  category: kit
-  type: multi
-  elements:
-    - hammer
-    - ebow
-    - regrowth_star
-    - coil
-  consumables:
-    torch: 64
-    mortar: 64
-    cobblestone: 256
-    sos: 2
-    wizard_mortar: 64
-    lamp: 32
-  item:
-    template: "loadout-class"
-    name: "Cleric Kit"
-    material: diamond_hoe
-    lore:
-      description:
-       - "Mystical healers not suited for front line\n
-          combat. Able to heal others give others a rampage\n
-          as well as restore their own energy, but can be killed\n
-          if not well protected."
-
-      contains:
-       - "*Warhammer\n
-          *Emerald Bow\n
-          *Regrowth Star\n
-          *Magic Coil\n
-          *64 Torches\n
-          *64 Mortar\n
-          *256 Cobblestone\n
-          *2 Sword of Santification\n
-          *64 Wizard Mortar\n
-          *32 Enchanted Lamps"
-
-hunter-class:
-  enabled: false
-  index: 11
-  cost: 64
-  category: kit
-  type: multi
-  elements:
-    - hunting_claws
-    - warpweaver
-    - trinket
-    - studded
-    - avenge
-  consumables:
-    torch: 32
-    mortar: 32
-    cobblestone: 128
-    sos: 1
-    wrench: 2
-  item:
-    template: "loadout-class"
-    name: "Hunter Kit"
-    material: diamond_hoe
-    lore:
-      description:
-       - "Here and there, without a trace\n
-          These sneaky assassins can warp around\n
-          the battlefield striking with their furious claws."
-
-      contains:
-       - "*Hunting Claws\n
-          *Warpweaver Bow\n
-          *Star Trinket\n
-          *Studded Armour\n
-          *Avenge\n
-          *32 Torches\n
-          *32 Mortar\n
-          *128 Cobblestone\n
-          *1 Sword of Santification\n
-          *2 Wrenches"
+#magmar-class:
+#  enabled: false
+#  index: 12
+#  cost: 64
+#  category: kit
+#  type: multi
+#  elements:
+#    - scepter
+#    - volcanic
+#    - healingglow
+#    - quiver
+#    - slowfall
+#  consumables:
+#    heal_station: 10
+#    slab: 2
+#    mortar: 32
+#    cobblestone: 128
+#    sos: 2
+#  item:
+#    template: "loadout-class"
+#    name: "Magmar Kit"
+#    material: diamond_hoe
+#    lore:
+#      description:
+#       - "These mages harnessed the power of\n
+#          Magma to imbue into their\n
+#          weaponry and potions."
+#
+#      contains:
+#       - "*Scepter of Magma\n
+#          *Volcanic Gauntlet\n
+#          *Healing Glow\n
+#          *Massive Quiver\n
+#          *Slowfall\n
+#          *10 Healing Stations\n
+#          *2 SOS\n
+#          *32 Mortar\n
+#          *128 Cobblestone\n
+#          *2 Slabs"
+#
+#paladin-class:
+#  enabled: false
+#  index: 9
+#  cost: 64
+#  category: kit
+#  type: multi
+#  elements:
+#    - hammer
+#    - lightbow
+#    - hearty_ale
+#    - sturdy
+#  consumables:
+#    torch: 32
+#    mortar: 32
+#    cobblestone: 128
+#    sos: 3
+#    wizard_mortar: 32
+#    lamp: 24
+#  item:
+#    template: "loadout-class"
+#    name: "Paladin Kit"
+#    material: diamond_hoe
+#    lore:
+#      description:
+#       - "The Followers of the Light\n
+#          Able to restore both their mana and armour\n
+#          with blessed warhammers, these warriors\n
+#          can remain longer on the defense then\n
+#          most other classes."
+#
+#      contains:
+#       - "*Warhammer\n
+#          *Lightbow\n
+#          *Hearty Ale\n
+#          *Sturdy Armour\n
+#          *32 Torches\n
+#          *32 Mortar\n
+#          *128 Cobblestone\n
+#          *3 Sword of Santification\n
+#          *32 Wizard Mortar\n
+#          *24 Enchanted Lamps"
+#
+#cleric-class:
+#  enabled: false
+#  index: 10
+#  cost: 64
+#  category: kit
+#  type: multi
+#  elements:
+#    - hammer
+#    - ebow
+#    - regrowth_star
+#    - coil
+#  consumables:
+#    torch: 64
+#    mortar: 64
+#    cobblestone: 256
+#    sos: 2
+#    wizard_mortar: 64
+#    lamp: 32
+#  item:
+#    template: "loadout-class"
+#    name: "Cleric Kit"
+#    material: diamond_hoe
+#    lore:
+#      description:
+#       - "Mystical healers not suited for front line\n
+#          combat. Able to heal others give others a rampage\n
+#          as well as restore their own energy, but can be killed\n
+#          if not well protected."
+#
+#      contains:
+#       - "*Warhammer\n
+#          *Emerald Bow\n
+#          *Regrowth Star\n
+#          *Magic Coil\n
+#          *64 Torches\n
+#          *64 Mortar\n
+#          *256 Cobblestone\n
+#          *2 Sword of Santification\n
+#          *64 Wizard Mortar\n
+#          *32 Enchanted Lamps"
+#
+#hunter-class:
+#  enabled: false
+#  index: 11
+#  cost: 64
+#  category: kit
+#  type: multi
+#  elements:
+#    - hunting_claws
+#    - warpweaver
+#    - trinket
+#    - studded
+#    - avenge
+#  consumables:
+#    torch: 32
+#    mortar: 32
+#    cobblestone: 128
+#    sos: 1
+#    wrench: 2
+#  item:
+#    template: "loadout-class"
+#    name: "Hunter Kit"
+#    material: diamond_hoe
+#    lore:
+#      description:
+#       - "Here and there, without a trace\n
+#          These sneaky assassins can warp around\n
+#          the battlefield striking with their furious claws."
+#
+#      contains:
+#       - "*Hunting Claws\n
+#          *Warpweaver Bow\n
+#          *Star Trinket\n
+#          *Studded Armour\n
+#          *Avenge\n
+#          *32 Torches\n
+#          *32 Mortar\n
+#          *128 Cobblestone\n
+#          *1 Sword of Santification\n
+#          *2 Wrenches"
 
 random-class:
   index: 36
