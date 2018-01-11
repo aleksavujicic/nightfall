@@ -491,4 +491,4 @@ berserker:
       attack: 5
       speed: 10
       health: 6
-      armour-durability: -40
+      armour-durability: -30
