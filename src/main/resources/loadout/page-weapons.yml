@@ -305,7 +305,7 @@ hearty:
   item:
     name: "Hearty Ale"
     base: hearty_ale
-    lore:`
+    lore:
       description:
        - "Left click to heal yourself for &b100&r mana.\n
           Has passive &b6&r extra hearts. Also gives a\n
