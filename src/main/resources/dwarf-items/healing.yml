@@ -25,7 +25,7 @@ hearty:
     description:
      - "Left click to heal yourself for &b100&r mana.\n
         Has passive &b$hearts&r extra hearts. Also gives\n
-        a &eresistance&r buff for &b4&r seconds."ew
+        a &eresistance&r buff for &b4&r seconds."
     flavour:
      - "\"This is the good stuff, better than\n
           the regular ales!\" - Tui"
