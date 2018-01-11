@@ -26,16 +26,9 @@ class Wrench extends Consumable {
 			return FAILED_CD;
 		}
 		
-		boolean success = GameMap.getCurrentMap().tryUseGold(60);
-		if (success) {
-			dwarf.getArmour().repair(2000);
-			dwarf.playSound("block.anvil.use", 20, 0.8f, false);
-			return DEFAULT_CD;
-		} else {
-			dwarf.getArmour().repair(400);
-			dwarf.playSound("block.anvil.use", 20, 0.8f, false);
-			//dwarf.sendTitleMessage(ChatColor.YELLOW + "Not enough gold in the shrine!");
-			return DEFAULT_CD;
-		}
+		boolean success = GameMap.getCurrentMap().tryUseGold(75);
+		dwarf.getArmour().repair( success ? 1000 : 250 );
+		dwarf.playSound("block.anvil.use", 20, 0.8f, false);
+		return DEFAULT_CD;
 	}
 }
