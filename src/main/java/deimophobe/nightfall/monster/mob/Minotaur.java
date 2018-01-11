@@ -62,10 +62,16 @@ public class Minotaur extends AbstractMob {
 	private final static int MAX_CHARGE_TIME = 15;
 	private void charge() {
 		hitDwarves.clear();
+		
+		// TODO move away from bukkit runnable
 		BukkitRunnable charger = new BukkitRunnable() {
 			private int lifetime = MAX_CHARGE_TIME;
 			@Override
 			public void run() {
+				if (!monster.isOnline() || !monster.isAlive() || monster.isFrozen()) {
+					lifetime = 0;
+				}
+				
 				if (lifetime > 0) {
 					lifetime--;
 					
@@ -82,6 +88,11 @@ public class Minotaur extends AbstractMob {
 						monster.setVelocity(velocity);
 					}
 					
+					// Do cloud and damage
+					Location loc = monster.getLocation();
+					loc.getWorld().spawnParticle(Particle.CLOUD, loc, 5, 0.5, 0.5, 0.5, 0.03);
+					aoeDamage();
+					
 					// Check if ahead is a wall, and if so destroy it.
 					Location aheadUp = monster.getEyeLocation().add(lookAhead);
 					Location aheadDown = aheadUp.clone().subtract(0,1,0);
@@ -91,11 +102,6 @@ public class Minotaur extends AbstractMob {
 						this.cancel();
 						return;
 					}
-					
-					// Do cloud and damage
-					Location loc = monster.getLocation();
-					loc.getWorld().spawnParticle(Particle.CLOUD, loc, 5, 0.5, 0.5, 0.5, 0.03);
-					aoeDamage();
 				} else {
 					this.cancel();
 				}
