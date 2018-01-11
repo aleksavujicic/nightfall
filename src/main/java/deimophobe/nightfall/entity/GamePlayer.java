@@ -45,6 +45,7 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		player.spigot().respawn();
 		
 		player.setFoodLevel(20);
+		player.closeInventory();
 		
 		// To clear out any fake hearts
 		new BukkitRunnable() {
