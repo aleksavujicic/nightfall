@@ -86,7 +86,9 @@ procbottle:
     description:
      - "Proc"
     flavour:
-     - "fawn add stuff here"
+     - "\"Chug! Chug! Chug! Chug!\" - Tui"
+     - "\"Brings energy to your veins, and strength to your heart.\" - Velvetine"
+     - "\"For the love of gods don’t get addicted on these!”\" - Arthea"
 
 
 
