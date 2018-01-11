@@ -123,6 +123,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		clearInventory();
 		clearEffects();
 		mobMenuShower.reset();
+		cancelSeppuku();
 	}
 	
 	private void killMob(boolean silent) {
@@ -232,10 +233,11 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	private final int MAX_SEPPUKU_CD = 100;
 	private int seppukuCD;
 	private void seppukuClick() {
-		if (seppukuCD == 0)
+		if (seppukuCD == 0) {
 			seppukuCD = MAX_SEPPUKU_CD;
-		else if (seppukuCD > 0)
-			seppukuCD = 0;
+		} else if (seppukuCD < MAX_SEPPUKU_CD - 4) { // Prevents 'double clicking' the seppuku item
+			cancelSeppuku();
+		}
 	}
 	private void updateSeppuku() {
 		if (seppukuCD == 0) return;
@@ -262,6 +264,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		} else {
 			replaceItem(lightnigSeppuku, seppuku);
 		}
+	}
+	private void cancelSeppuku() {
+		seppukuCD = 0;
 	}
 	
 	
