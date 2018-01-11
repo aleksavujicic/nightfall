@@ -166,7 +166,7 @@ volcanic:
           its path. Uses 3 arrows a shot."
     modifiers:
       attack: 15
-      power: 60
+      power: 70
 
 dragonskin:
   index: 11
