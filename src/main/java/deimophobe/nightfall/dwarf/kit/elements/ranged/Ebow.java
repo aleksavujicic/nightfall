@@ -41,13 +41,13 @@ public class Ebow extends AbstractBow {
 	public Projectile onBowFire(Projectile arrow, float force) {
 		if (force < 0.5) return null;
 		if (!dwarf.hasArrows(3)) return null;
-		dwarf.useArrows(3);
+		dwarf.useArrows(2);
 		
 		double range = MAX_RANGE * force * force;
 		
 		GamePlayer.ProcGiver procGiver = dwarf.new ProcGiver(ProcType.EBOW, MIN_DISTANCE_FROM_SHOOTER);
 		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(CustomDamageType.EBOW, getPower()*force);
-		dwarf.fireParticle(4, range, THICKNESS, 0.33, PARTICLE_PLACER, procGiver, entityDamager);
+		dwarf.fireParticle(2, range, THICKNESS, 0.33, PARTICLE_PLACER, procGiver, entityDamager);
 		
 		return null;
 	}
