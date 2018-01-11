@@ -23,7 +23,7 @@ public class BerserkArmour extends AbstractElement {
 		armour.addModifier(ItemModifierType.HEALTH, -4, "Berserker");
 		
 		if (armour instanceof DwarvenArmour)
-			((DwarvenArmour) armour).changeDurability(-40, "Berserker");
+			((DwarvenArmour) armour).changeDurability(-30, "Berserker");
 	}
 	
 	@Override
