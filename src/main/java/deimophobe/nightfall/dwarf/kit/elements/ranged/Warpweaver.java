@@ -27,11 +27,11 @@ public class Warpweaver extends AbstractToggleBow {
 		super(dwarf);
 	}
 	
-	// Includes cost of fired arrow (so with ARROW_COST = 15,
-	// this will drain 14 arrows on land as 1 arrow was used to fire).
-	private final static int ARROW_COST = 15;
+	// Includes cost of fired arrow (so with ARROW_COST = 10
+	// this will drain 9 arrows on land as 1 arrow was used to fire).
+	private final static int ARROW_COST = 10;
 	
-	private final static int POWER = 30;
+	private final static int POWER = 50;
 	private final static CustomItem ITEM = getBow("warpweaver", POWER);
 	@Override public CustomItem getItem() {
 		return ITEM;
