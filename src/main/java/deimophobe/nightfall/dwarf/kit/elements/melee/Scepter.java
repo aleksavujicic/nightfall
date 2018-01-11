@@ -87,8 +87,10 @@ public class Scepter extends AbstractItem implements KitCooldownElement {
 			location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(dx, dy, dz), 0, 0.8, 0.05, 0.9, 1);
 	};
 	
-	private static final Consumer<Dwarf> DWARF_BUFFER = (dwarf1) ->
-			dwarf1.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 5*20, 1, true, false, false);
+	private final Consumer<Dwarf> DWARF_BUFFER = (dwarf1) -> {
+		if (dwarf1 == dwarf) return;
+		dwarf1.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 5 * 20, 1, true, false, false);
+	};
 	
 	private final Consumer<MonsterEntity> DAMAGER = (monster) -> {
 		MonsterDamage damage = (MonsterDamage) monster.createDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, DAMAGE + dwarf.getBonusMeleeDamage()/2);
