@@ -131,9 +131,11 @@ elven-class:
     - slowfall
     - avenge
   consumables:
-    mortar: 64
+    wizard_mortar: 32
     cobblestone: 192
     wrench: 2
+    sos: 2
+    proc_bottle: 3
   item:
     template: "loadout-class"
     name: "Elven Kit"
@@ -152,9 +154,11 @@ elven-class:
           *Nature Suit\n
           *Slowfall\n
           *Avenge\n
-          *64 Mortar\n
+          *32 Wizard Mortar\n
           *192 Cobblestone\n
-          *2 Wrenches\n"
+          *2 Wrenches\n
+          *2 SOS\n
+          *3 Proc in a Bottles"
 
 gnome-class:
   index: 4
