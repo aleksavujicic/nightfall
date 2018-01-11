@@ -418,10 +418,10 @@ quiver:
     base: quiver
     lore:
       description:
-       - "Increases your max arrow capacity to 40\n
+       - "Increases your max arrow capacity to 30\n
           and grants 1 arrow per kill."
     modifiers:
-      quiver: 40
+      quiver: 30
 
 studded:
   index: 29
