@@ -60,6 +60,8 @@ public class BaseItemManager {
 		addItem("temp", temp);
 		addItem("temporary", temp);
 		
+		addItem("proc-bottle", temp);
+		
 		// Add items from base-items.yml file
 		FileConfiguration config = NightfallCommonPlugin.getInternalFileConfig("base-items.yml");
 		for (String key : config.getKeys(false)) {
