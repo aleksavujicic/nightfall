@@ -22,7 +22,7 @@ public class VolcanicGauntlet extends AbstractBow {
 		super(dwarf);
 	}
 	
-	private final static int POWER = 60;
+	private final static int POWER = 70;
 	private final static CustomItem ITEM = getBow("volcanic", POWER);
 	@Override public CustomItem getItem() {
 		return ITEM;
@@ -30,7 +30,7 @@ public class VolcanicGauntlet extends AbstractBow {
 	@Override public String getBowIdentifier() {return "VOLCANIC";}
 	@Override public int getPower() {return POWER;}
 	
-	private static final double MAX_RANGE = 60;
+	private static final double MAX_RANGE = 45;
 	private static final double THICKNESS = 1.25;
 	private static final double PARTICLE_OFFSET = THICKNESS/10;
 	private static final double AOE_RADIUS = 1.5;
