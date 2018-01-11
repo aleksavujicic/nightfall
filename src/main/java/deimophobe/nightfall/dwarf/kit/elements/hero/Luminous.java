@@ -24,7 +24,7 @@ public class Luminous extends AbstractBow {
         super(dwarf);
     }
 
-    private final static int POWER = 60;
+    private final static int POWER = 80;
     private final static CustomItem ITEM = getBow("hero", "luminous", POWER);
     @Override public CustomItem getItem() {
         return ITEM;
@@ -33,7 +33,7 @@ public class Luminous extends AbstractBow {
     @Override public String getBowIdentifier() {return "LUMINOUS";}
     @Override public int getPower() {return POWER;}
 
-    private static final double MAX_RANGE = 75;
+    private static final double MAX_RANGE = 80;
     private static final double THICKNESS = 1.6;
     private static final double MIN_DISTANCE_FROM_SHOOTER = 1;
 
@@ -52,15 +52,15 @@ public class Luminous extends AbstractBow {
     @Override
     public Projectile onBowFire(Projectile arrow, float force) {
 		if (force < 0.5) return null;
-        if (!dwarf.hasArrows(3)) return null;
-        dwarf.useArrows(3);
+        if (!dwarf.hasArrows(4)) return null;
+        dwarf.useArrows(4);
 
         double range = MAX_RANGE * force * force;
 	
 		ParticleSwirler swirler = new ParticleSwirler(dwarf.getLocation().getDirection());
 		GamePlayer.ProcGiver procGiver = dwarf.new ProcGiver(ProcType.LUMINOUS, MIN_DISTANCE_FROM_SHOOTER);
 		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(CustomDamageType.LUMINOUS, getPower()*force);
-		dwarf.fireParticle(3, range, THICKNESS, 0.33, swirler, procGiver, entityDamager);
+		dwarf.fireParticle(4, range, THICKNESS, 0.33, swirler, procGiver, entityDamager);
 	
 		dwarf.playSound("entity.ghast.shoot", 1f, 1.35f - force*0.5f, true);
 		
