@@ -469,18 +469,3 @@ procbottle_three:
     lore:
       description:
        - "Stuff"
-
-untimely:
-  index: 44
-  type: item
-  cost: 0
-  name: untimely_demise
-  category: accessory
-  random-selectable: false
-  item:
-    template: "loadout"
-    name: "Untimely Demise"
-    material: watch
-    lore:
-      description:
-       - "You will be guaranteed to plague."

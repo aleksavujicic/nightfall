@@ -238,7 +238,7 @@ healer-class:
           *192 Cobblestone"
 
 brawler-class:
-  index: 18
+  index: 9
   cost: 64
   category: kit
   type: multi
@@ -446,7 +446,7 @@ hunter-class:
           *2 Wrenches"
 
 random-class:
-  index: 44
+  index: 36
   type: random
   item:
     template: "loadout"
@@ -455,3 +455,18 @@ random-class:
     lore:
       description:
        - "Who knows what you'll get?"
+
+untimely:
+  index: 44
+  type: item
+  cost: 0
+  name: untimely_demise
+  category: accessory
+  random-selectable: false
+  item:
+    template: "loadout"
+    name: "Untimely Demise"
+    material: watch
+    lore:
+      description:
+       - "You will be guaranteed to plague."
