@@ -11,8 +11,8 @@ import deimophobe.nightfall.dwarf.kit.elements.AbstractElement;
 public class Quiver extends AbstractElement {
 	public Quiver(Dwarf dwarf) {
 		super(dwarf);
-		dwarf.setMaxArrows(40);
-		dwarf.getArmour().addModifier(ItemModifierType.QUIVER, 20, "Massive Quiver");
+		dwarf.setMaxArrows(30);
+		dwarf.getArmour().addModifier(ItemModifierType.QUIVER, 10, "Massive Quiver");
 	}
 	
 	@Override
