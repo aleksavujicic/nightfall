@@ -125,6 +125,8 @@ class GoblinKaboom extends Goblin {
 		GameDamage damage = monster.createDamage(null, CustomDamageType.SELF_GOBO_KABOOM, 1000);
 		damage.instaKill();
 		damage.fire(true);
+		
+		monster.setVelocity(monster.getVelocity().add(monster.getLocation().getDirection()).add(new Vector(0,2,0)));
 	}
 	
 	
