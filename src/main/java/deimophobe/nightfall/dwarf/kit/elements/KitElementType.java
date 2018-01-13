@@ -103,6 +103,9 @@ public enum KitElementType {
 	HORN,
 	VELSWORD,
 	VELBOW,
+	
+	// Herana
+	MERMAID_TAIL,
 
 	// Oxysis
 	DRUCRIST,
@@ -194,7 +197,6 @@ public enum KitElementType {
 			// Stupid joke poop
 			case PENY_STICK: return new PenyStick(dwarf);
 			
-			// ---- HERO STUFF -----
 			// Base
 			case HERO_ALE: return new HeroAle(dwarf);
 			
@@ -217,6 +219,9 @@ public enum KitElementType {
 			case HORN: return new Horn(dwarf);
 			case VELSWORD: return new VelSword(dwarf);
 			case VELBOW: return new VelBow(dwarf);
+			
+			// Herana
+			case MERMAID_TAIL: return new MermaidTail(dwarf);
 
 			// Oxysis
 			case DRUCRIST: return new Drucrist(dwarf);

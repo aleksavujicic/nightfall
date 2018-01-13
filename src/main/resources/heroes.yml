@@ -114,12 +114,9 @@ herana:
         - "temp"
     modifiers:
       health: 20
-      depth-strider: 3
 
   items:
-  - velsword
-  - velbow
-  - horn
+  - mermaid_tail
 
   consumables:
     cobblestone: 384

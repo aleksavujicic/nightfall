@@ -18,7 +18,7 @@ public class Hero extends Dwarf {
 		
 		this.type = type;
 		
-		setArmour(new HeroArmour(this, type.getData().getHat()));
+		setArmour(new HeroArmour(this, type.getData().getHat().clone()));
 		
 		makeBlindImmune();
 		makePlagueImmune();

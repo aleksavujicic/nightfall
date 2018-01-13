@@ -133,7 +133,10 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	// ------ ARMOUR STUFF ------
 	private Armour armour;
 	public Armour getArmour() { return armour; }
-	protected void setArmour(Armour armour) { this.armour = armour; }
+	protected void setArmour(Armour armour) {
+		this.armour = armour;
+		onArmourEquip();
+	}
 	public void stripArmour() {
 		setArmour(new NakedArmour(this));
 	}
