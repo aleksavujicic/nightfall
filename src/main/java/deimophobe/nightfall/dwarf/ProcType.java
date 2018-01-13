@@ -23,7 +23,7 @@ public enum ProcType {
 	
 	PROC_BOTTLE (100, 2, 5, 3, true, true, true, true),
 	
-	RUNEDASH    (12, 1, 15, 0, false, true, false, false),
+	RUNEDASH    (12, 5, 15, 0, false, true, false, false),
 	
 	ROAR        (160, 2, 7, 0, false, false, false, true)
 	
