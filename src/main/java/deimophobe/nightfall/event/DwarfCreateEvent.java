@@ -1,6 +1,8 @@
 package deimophobe.nightfall.event;
 
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.map.GameMap;
+import org.bukkit.Location;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -17,12 +19,17 @@ public class DwarfCreateEvent extends Event {
 	}
 	
 	private final Dwarf dwarf;
+	private Location spawnLocation = GameMap.getCurrentMap().getDwarfSpawn();
+	
 	
 	public DwarfCreateEvent(Dwarf dwarf) {
 		this.dwarf = dwarf;
 	}
 	
+	
 	public Dwarf getDwarf() {
 		return dwarf;
 	}
+	public Location getSpawnLocation() { return spawnLocation; }
+	public void setSpawnLocation(Location spawnLocation) { this.spawnLocation = spawnLocation; }
 }

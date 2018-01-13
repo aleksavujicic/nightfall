@@ -80,9 +80,14 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		Game.getGame().hideManaAndDoom(player);
 	}
 	
+	
 	public void respawn() {
+		respawn(GameMap.getCurrentMap().getDwarfSpawn());
+	}
+	
+	public void respawn(Location location) {
 		delayedHealMax();
-		teleportTo(GameMap.getCurrentMap().getDwarfSpawn());
+		teleportTo(location);
 		player.setFireTicks(0);
 		player.setFallDistance(0);
 		givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 5, false, false, true);

@@ -35,6 +35,8 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 		
 		DwarfCreateEvent event = new DwarfCreateEvent(dwarf);
 		Bukkit.getPluginManager().callEvent(event);
+		dwarf.respawn(event.getSpawnLocation());
+		
 		registerGamePlayer(dwarf);
 		return dwarf;
 	}
@@ -44,6 +46,8 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 		Dwarf dwarf = new Dwarf(player);
 		DwarfCreateEvent event = new DwarfCreateEvent(dwarf);
 		Bukkit.getPluginManager().callEvent(event);
+		dwarf.respawn(event.getSpawnLocation());
+		
 		return dwarf;
 	}
 	
@@ -58,6 +62,8 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 		Hero hero = type.createHero(player);
 		DwarfCreateEvent event = new DwarfCreateEvent(hero);
 		Bukkit.getPluginManager().callEvent(event);
+		hero.respawn(event.getSpawnLocation());
+		
 		registerGamePlayer(hero);
 		
 		return true;

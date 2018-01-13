@@ -13,6 +13,10 @@ import org.bukkit.entity.Player;
 public class Hero extends Dwarf {
 	protected final HeroType type;
 	
+	public HeroType getType() {
+		return type;
+	}
+	
 	protected Hero(Player player, HeroType type) {
 		super(player, type.getData());
 		

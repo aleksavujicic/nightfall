@@ -4,14 +4,14 @@ import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.hero.Hero;
+import deimophobe.nightfall.dwarf.hero.HeroType;
 import deimophobe.nightfall.event.DwarfCreateEvent;
 import deimophobe.nightfall.event.PhaseChangeEvent;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.InvalidMapConfigException;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.ConfigurationSection;
@@ -30,6 +30,9 @@ public class NroMap implements MapFeature {
 	private BukkitRunnable waterChecker;
 	private boolean waterCheckerCancelled;
 	private GameStartListener listener = new GameStartListener();
+	
+	private Location throne;
+	private int blessingLevel;
 	
 	@Override
 	public void activate(GameMap map, ConfigurationSection config) throws InvalidMapConfigException {
@@ -62,6 +65,9 @@ public class NroMap implements MapFeature {
 		};
 		waterChecker.runTaskTimer(NightfallPlugin.getPlugin(), 0, 20);
 		waterCheckerCancelled = false;
+		
+		throne = map.getLocation(config, "throne");
+		blessingLevel = config.getInt("blessing-level", 2);
 	}
 	
 	@Override
@@ -94,7 +100,14 @@ public class NroMap implements MapFeature {
 		
 		@EventHandler
 		public void giveBlessing(DwarfCreateEvent event) {
-			event.getDwarf().getArmour().addModifier(ItemModifierType.DEPTH_STRIDER, 3, "Mermaid's Blessing");
+			Dwarf dwarf = event.getDwarf();
+			Hero hero = ((dwarf instanceof Hero) ? (Hero) dwarf : null);
+			
+			if (hero != null && hero.getType() == HeroType.HERANA) {
+				event.setSpawnLocation(throne);
+			} else {
+				dwarf.getArmour().addModifier(ItemModifierType.DEPTH_STRIDER, blessingLevel, "Mermaid's Blessing");
+			}
 		}
 	}
 }
