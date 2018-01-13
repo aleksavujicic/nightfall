@@ -60,7 +60,7 @@ public class GameListener implements Listener {
 	public void onLogin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		
-		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(1024);
+		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(100000);
 		Game.getGame().giveShrineBarToPlayer(player);
 		Game.getGame().giveScoreboard(player);
 		
