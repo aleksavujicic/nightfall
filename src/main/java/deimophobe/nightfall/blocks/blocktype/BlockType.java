@@ -150,6 +150,8 @@ public class BlockType {
 					Material.SIGN_POST,
 					Material.WALL_SIGN,
 					Material.ICE,
+					Material.FROSTED_ICE,
+					Material.PACKED_ICE,
 					
 					Material.REDSTONE_BLOCK
 			)
