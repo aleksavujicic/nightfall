@@ -166,6 +166,15 @@ trident:
     flavour:
      - "GO"
 
+bubblebeam:
+  base: temp
+  name: Bubble Beam
+  lore:
+    description:
+     - "Lore team go!"
+    flavour:
+     - "GO"
+
 
 ##### OXYSIS #####
 drucrist:

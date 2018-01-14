@@ -118,6 +118,7 @@ herana:
   items:
   - mermaid_tail
   - trident
+  - bubble_beam
 
   consumables:
     cobblestone: 384
