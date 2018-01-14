@@ -117,6 +117,7 @@ herana:
 
   items:
   - mermaid_tail
+  - trident
 
   consumables:
     cobblestone: 384

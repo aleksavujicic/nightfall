@@ -9,6 +9,7 @@ import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
+import deimophobe.nightfall.dwarf.kit.elements.hero.Trident;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
@@ -468,6 +469,13 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void preventWaterFlow(BlockFromToEvent event) {
 		Block toBlock = event.getToBlock();
+		Block fromBlock = event.getBlock();
+		
+		if (Trident.isTridentWaterBlock(toBlock) || Trident.isTridentWaterBlock(fromBlock)) {
+			event.setCancelled(true);
+			return;
+		}
+		
 		if (event.getBlock().getType() == Material.STATIONARY_WATER) {
 			if (!toBlock.getRelative(0,-1,0).getType().isSolid()) return;
 			

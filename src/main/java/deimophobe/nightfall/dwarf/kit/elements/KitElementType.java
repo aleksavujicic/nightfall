@@ -106,6 +106,7 @@ public enum KitElementType {
 	
 	// Herana
 	MERMAID_TAIL,
+	TRIDENT,
 
 	// Oxysis
 	DRUCRIST,
@@ -222,6 +223,7 @@ public enum KitElementType {
 			
 			// Herana
 			case MERMAID_TAIL: return new MermaidTail(dwarf);
+			case TRIDENT: return new Trident(dwarf);
 
 			// Oxysis
 			case DRUCRIST: return new Drucrist(dwarf);

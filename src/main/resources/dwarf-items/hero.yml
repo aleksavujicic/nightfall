@@ -156,6 +156,17 @@ horn:
      - "Vroooooom!"
 
 
+##### HERANA #####
+trident:
+  base: trident
+  name: Nightsong
+  lore:
+    description:
+     - "Lore team go!"
+    flavour:
+     - "GO"
+
+
 ##### OXYSIS #####
 drucrist:
   base: runeblade

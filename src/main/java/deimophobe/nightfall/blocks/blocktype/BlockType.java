@@ -209,6 +209,7 @@ public class BlockType {
 
 	public static final ComparableBlock IGNORABLE = new BlockSet(
 			EMPTY_BLOCKS,
+			PLANTS,
 			new MaterialSet(
 					Material.SNOW,
 					Material.CARPET

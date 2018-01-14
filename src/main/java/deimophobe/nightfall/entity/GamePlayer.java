@@ -305,6 +305,9 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	public Block getTargetBlock(Set<Material> materials, int i) {
 		return player.getTargetBlock(materials, i);
 	}
+	public Block getPrevTargetBlock(Set<Material> materials, int i) {
+		return player.getLastTwoTargetBlocks(materials, i).get(0);
+	}
 	
 	public <P extends GameEntity> P getLookingAt(double range, double offset, Collection<P> targets) {
 		return getLookingAt(range, offset, targets, (p) -> true);
