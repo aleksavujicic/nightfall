@@ -4,6 +4,7 @@ shears:
   malice: 1
   dagger: 2
   hunting: 3
+  claw: 3
   rapier: 4
   scepter: 5
   glaive: 6
