@@ -1,20 +1,27 @@
 package deimophobe.nightfall.blocks.timedblock;
 
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.entity.GameEntity;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Created by Deimophobe on 14/01/18.
  */
 public class IceSlab extends TimedBlock {
-	private static final int LIFETIME = 20*20;
-	private static final int FREQ = LIFETIME/10;
+	private BlockState iceState;
 	
-	public IceSlab(Block block, GameEntity placer) {
-		super(block, Material.FROSTED_ICE, LIFETIME, placer);
+	private IceSlab(Block block, GameEntity placer, int lifetime) {
+		super(block, Material.FROSTED_ICE, lifetime, placer);
+		
+		int freq = lifetime/10;
 		
 		new BukkitRunnable() {
 			byte age = 0;
@@ -28,11 +35,33 @@ public class IceSlab extends TimedBlock {
 				
 				block.setData(age);
 			}
-		}.runTaskTimer(NightfallPlugin.getPlugin(), FREQ*7, FREQ);
+		}.runTaskTimer(NightfallPlugin.getPlugin(), freq*7, freq);
+	}
+	
+	public IceSlab(Block block, GameEntity placer) {
+		this(block, placer, getNewLifetime());
+	}
+	
+	@Override
+	void onPlace() {
+		World world = block.getWorld();
+		Location location = block.getLocation().add(0.5, 0.5, 0.5);
+		
+		world.spawnParticle(Particle.SNOW_SHOVEL, location, 50, 0.5, 0.5, 0.5, 0);
+		world.playSound(location, "block.snow.place", 1, 1);
 	}
 	
 	@Override
 	void onDestroy(boolean cancelled) {
+		World world = block.getWorld();
+		Location location = block.getLocation().add(0.5, 0.5, 0.5);
+		
 		block.setType(Material.AIR);
+		world.spawnParticle(Particle.BLOCK_CRACK, location, 50, 0.5, 0.5, 0.5, 0, new MaterialData(Material.FROSTED_ICE));
+		world.playSound(location, "block.glass.break", 1, 1);
+	}
+	
+	private static int getNewLifetime() {
+		return Misc.randomInt(20*20, 30*20);
 	}
 }
