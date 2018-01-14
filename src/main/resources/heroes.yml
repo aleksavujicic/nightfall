@@ -98,15 +98,46 @@ arthea:
     heal-station: 10
 
 herana:
-  full-name: Herana
+  full-name: Queen Herana
   nametag: Herana
   descriptor: Mermaid Queen
   skin: herana
-  colour: aqua
+  colour: dark_aqua
 
   hat:
     base: flowercrown
     name: "Herana's Hat"
+    lore:
+      description:
+        - "temp"
+      flavour:
+        - "temp"
+    modifiers:
+      health: 20
+
+  items:
+  - mermaid_tail
+  - trident
+  - bubble_beam
+
+  consumables:
+    cobblestone: 384
+    wizard-mortar: 16
+    mortar: 64
+    lamp: 32
+    slab: 5
+    sos: 1
+
+lyra:
+  full-name: Lyra
+  nametag: Lyra
+  descriptor: Silvetris
+  skin: lyra
+  colour: gray
+
+  hat:
+    base: catears
+    name: "Lyra's Ears"
     lore:
       description:
         - "temp"

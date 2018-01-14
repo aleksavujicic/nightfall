@@ -18,8 +18,9 @@ public enum HeroType {
 	VELVETINE("velvetine"),
 	TUI("tui"),
 	ARTHEA("arthea"),
-	
 	HERANA("herana"),
+	LYRA("lyra"),
+	
 	OXYSIS("oxysis"),
 	NOSOVIN("nosovin"),
 	
