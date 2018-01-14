@@ -129,6 +129,8 @@ herana:
     sos: 1
 
 lyra:
+  class: deimophobe.nightfall.dwarf.hero.Lyra
+
   full-name: Lyra
   nametag: Lyra
   descriptor: Silvetris
@@ -147,9 +149,8 @@ lyra:
       health: 20
 
   items:
-  - mermaid_tail
-  - trident
-  - bubble_beam
+  - feral_instinct
+  - silvetris_claws
 
   consumables:
     cobblestone: 384

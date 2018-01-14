@@ -176,6 +176,19 @@ bubblebeam:
      - "GO"
 
 
+##### LYRA #####
+claw:
+  base: claw
+  name: Claw
+  lore:
+    description:
+     - "Lore team go!"
+    flavour:
+     - "GO"
+  modifiers:
+    attack: 25
+
+
 ##### OXYSIS #####
 drucrist:
   base: runeblade

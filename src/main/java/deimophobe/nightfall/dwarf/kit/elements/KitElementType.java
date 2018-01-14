@@ -7,6 +7,8 @@ import deimophobe.nightfall.dwarf.kit.elements.accessory.*;
 import deimophobe.nightfall.dwarf.kit.elements.armour.*;
 import deimophobe.nightfall.dwarf.kit.elements.healing.*;
 import deimophobe.nightfall.dwarf.kit.elements.hero.*;
+import deimophobe.nightfall.dwarf.kit.elements.hero.lyra.FeralInstinct;
+import deimophobe.nightfall.dwarf.kit.elements.hero.lyra.SilvetrisClaws;
 import deimophobe.nightfall.dwarf.kit.elements.melee.*;
 import deimophobe.nightfall.dwarf.kit.elements.ranged.*;
 
@@ -108,6 +110,10 @@ public enum KitElementType {
 	MERMAID_TAIL,
 	TRIDENT,
 	BUBBLE_BEAM,
+	
+	// Lyra
+	SILVETRIS_CLAWS,
+	FERAL_INSTINCT,
 
 	// Oxysis
 	DRUCRIST,
@@ -226,6 +232,10 @@ public enum KitElementType {
 			case MERMAID_TAIL: return new MermaidTail(dwarf);
 			case TRIDENT: return new Trident(dwarf);
 			case BUBBLE_BEAM: return new BubbleBeam(dwarf);
+			
+			// Lyra
+			case FERAL_INSTINCT: return new FeralInstinct(dwarf);
+			case SILVETRIS_CLAWS: return new SilvetrisClaws(dwarf);
 
 			// Oxysis
 			case DRUCRIST: return new Drucrist(dwarf);
