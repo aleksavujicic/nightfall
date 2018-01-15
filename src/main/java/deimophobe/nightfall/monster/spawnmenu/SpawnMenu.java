@@ -64,7 +64,8 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		addSpawnEgg(14, "wolf");
 		addSpawnEgg(15, "spiderling");
 		addSpawnEgg(16, "rat");
-		addSpawnEgg(23, "battering-ram");
+		addSpawnEgg(23, "battering_ram");
+		addSpawnEgg(22, "doppelganger");
 		addSpawnEgg(24, "golem");
 		addSpawnEgg(25, "minotaur");
 		addSpawnEgg(26, "wraith");

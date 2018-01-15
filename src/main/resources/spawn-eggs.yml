@@ -50,7 +50,7 @@ ember_sprite:
     material: blaze_rod
     name: Spawn Ember Sprite
   quantity: 1
-  chance: 0.05
+  chance: 0.04
 
 rat:
   mobtype: rat
@@ -67,7 +67,7 @@ golem:
     name: Spawn Golem
     shiny: true
   quantity: 1
-  chance: 0.04
+  chance: 0.03
 
 wraith:
   mobtype: wraith
@@ -76,7 +76,7 @@ wraith:
     name: Spawn Wraith
     shiny: true
   quantity: 1
-  chance: 0.04
+  chance: 0.03
 
 minotaur:
   mobtype: minotaur
@@ -85,13 +85,22 @@ minotaur:
     name: Spawn Minotaur
     shiny: true
   quantity: 2
-  chance: 0.075
+  chance: 0.06
 
-battering-ram:
-  mobtype: battering_ram
+battering_ram:
+  mobtype: battering-ram
   egg:
     base: temporary
     name: Spawn Battering Ram
+    shiny: true
+  quantity: 1
+  chance: 0.03
+
+doppelganger:
+  mobtype: doppelganger
+  egg:
+    base: temporary
+    name: Spawn Doppelganger
     shiny: true
   quantity: 1
   chance: 0.04

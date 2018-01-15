@@ -1,0 +1,107 @@
+title: Doppelganger
+
+attack: 20
+health: 20
+
+proccable: false
+resistance: 0.85
+shred: 25
+arrowres: 0.75
+shrineimmune: true
+
+armour:
+  material: diamond_chestplate
+  name: Cursed Dwarven Chestplate
+  shiny: true
+  lore:
+    description:
+     - "Blah."
+    flavour:
+     - "Armour stolen off a recently killed dwarf."
+weapon:
+  base: runeblade
+  name: Cursed Mystic Runesword
+  lore:
+    description:
+     - "Blah."
+    flavour:
+     - "Blah"
+
+
+items:
+  legs:
+    material: diamond_leggings
+    name: Cursed Dwarven Leggings
+    shiny: true
+    lore:
+      description:
+       - "Blah."
+      flavour:
+       - "Armour stolen off a recently killed dwarf."
+  boots:
+    material: diamond_boots
+    name: Cursed Dwarven Boots
+    shiny: true
+    lore:
+      description:
+       - "Blah."
+      flavour:
+       - "Armour stolen off a recently killed dwarf."
+
+  # Weapons
+  axe:
+    base: malice
+    name: Cursed Bloodied Waraxe
+    lore:
+      description:
+       - "Blah."
+      flavour:
+       - "Blah"
+  dagger:
+    base: dagger
+    name: Cursed Dagger
+    lore:
+      description:
+       - "Blah."
+      flavour:
+       - "Blah"
+  hammer:
+    base: hammer
+    name: Cursed Hammer
+    lore:
+      description:
+       - "Blah."
+      flavour:
+       - "Blah"
+  scepter:
+    base: scepter
+    name: Cursed Scepter
+    lore:
+      description:
+       - "Blah."
+      flavour:
+       - "Blah"
+  rapier:
+    base: rapier
+    name: Cursed Rapier
+    lore:
+      description:
+       - "Blah."
+      flavour:
+       - "Blah"
+  glaive:
+    base: glaive
+    name: Cursed Glaive
+    lore:
+      description:
+       - "Blah."
+      flavour:
+       - "Blah"
+  shadowblade:
+    base: dagger
+    name: Cursed Shadowblade
+    lore:
+      description:
+       - "Blah."
+      flavour:
+       - "Blah"

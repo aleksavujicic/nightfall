@@ -26,6 +26,7 @@ public enum MobType {
 	WRAITH,
 	MINOTAUR,
 	BATTERING_RAM,
+	DOPPELGANGER,
 
 	WALKER,
 	
@@ -118,6 +119,7 @@ public enum MobType {
 			case WRAITH: return new Wraith(monster);
 			case MINOTAUR: return new Minotaur(monster);
 			case BATTERING_RAM: return new BatteringRam(monster);
+			case DOPPELGANGER: return new Doppelganger(monster);
 
 			case WALKER: return new Walker(monster);
 

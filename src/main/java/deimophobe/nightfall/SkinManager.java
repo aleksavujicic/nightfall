@@ -49,7 +49,12 @@ public class SkinManager {
 						Skin newSkin = alteredSkins.get(uuid);
 						
 						if (newSkin != null) {
-							PlayerInfoData newPID = new PlayerInfoData(newSkin.getProfile(uuid), oldPID.getLatency(), oldPID.getGameMode(), oldPID.getDisplayName());
+							String skinDisplayName = newSkin.getDisplayName();
+							WrappedChatComponent displayName;
+							if (skinDisplayName == null) displayName = oldPID.getDisplayName();
+							else displayName = WrappedChatComponent.fromText(skinDisplayName);
+							
+							PlayerInfoData newPID = new PlayerInfoData(newSkin.getProfile(uuid), oldPID.getLatency(), oldPID.getGameMode(), displayName);
 							newPIDList.set(i, newPID);
 						}
 					}

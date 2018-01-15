@@ -2,10 +2,10 @@ package deimophobe.nightfall;
 
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedSignedProperty;
-import deimophobe.nightfall.common.Misc;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +19,9 @@ public class Skin {
 	private final String name;
 	private final String value;
 	private final String sign;
+	private final String displayName;
+	
+	public String getDisplayName() { return displayName; }
 	
 	private Skin(ConfigurationSection section) {
 		if (!section.contains("name"))
@@ -27,16 +30,32 @@ public class Skin {
 		name = ChatColor.translateAlternateColorCodes('&', section.getString("name"));
 		value = section.getString("skin");
 		sign = section.getString("sign");
+		displayName = section.getString("displayname", name);
 	}
 	
 	private Skin(Skin existing, String newName) {
 		this.name = newName;
 		this.value = existing.value;
 		this.sign = existing.sign;
+		this.displayName = existing.displayName;
 	}
 	
 	public Skin withNewName(String name) {
 		return new Skin(this, name);
+	}
+	
+	public Skin(Player existingPlayer, String displayName) {
+		this.name = existingPlayer.getName();
+		WrappedGameProfile profile = WrappedGameProfile.fromPlayer(existingPlayer);
+		WrappedSignedProperty property = profile.getProperties().get("textures").iterator().next();
+		this.value = property.getValue();
+		this.sign = property.getSignature();
+		
+		if (displayName != null) {
+			this.displayName = displayName;
+		} else {
+			this.displayName = name;
+		}
 	}
 	
 	
