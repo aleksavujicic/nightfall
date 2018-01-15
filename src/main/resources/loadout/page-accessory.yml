@@ -297,7 +297,7 @@ sos_one:
     base: menu-sos
     lore:
       description:
-       - "Gives you $quantity Sword of Santification\n
+       - "Gives you $quantity SOS\n
           Which can stop and blind any mobs within\n
           the area of effect, Mobs can still attack\n
           if you are too close."
@@ -312,7 +312,7 @@ sos_two:
     base: menu-sos2
     lore:
       description:
-       - "Gives you $quantity Sword of Santifications\n
+       - "Gives you $quantity SOS\n
           Which can stop and blind any mobs within\n
           the area of effect, Mobs can still attack\n
           if you are too close."
@@ -327,7 +327,7 @@ sos_three:
     base: menu-sos
     lore:
       description:
-       - "Gives you $quantity Sword of Santifications\n
+       - "Gives you $quantity SOS\n
           Which can stop and blind any mobs within\n
           the area of effect, Mobs can still attack\n
           if you are too close."
@@ -343,7 +343,7 @@ slab_one:
     base: slab
     lore:
       description:
-       - "Gives you $quantity slab\n
+       - "Gives you $quantity Slab\n
           Which create a thick blue wall in front\n
           when used."
 slab_two:
@@ -357,7 +357,7 @@ slab_two:
     base: slab
     lore:
       description:
-       - "Gives you 2 Slabs\n
+       - "Gives you $quantity Slabs\n
           Which create a thick blue wall in front\n
           when used."
 slab_three:
@@ -444,7 +444,8 @@ procbottle_one:
     base: proc-bottle
     lore:
       description:
-       - "Stuff"
+       - "Gives $quantity Proc Bottle\n
+          which lasts for 5 seconds."
 procbottle_two:
   index: 25
   type: consumable
@@ -456,7 +457,8 @@ procbottle_two:
     base: proc-bottle
     lore:
       description:
-       - "Stuff"
+       - "Gives $quantity Proc Bottle\n
+          which lasts for 5 seconds."
 procbottle_three:
   index: 34
   type: consumable
@@ -468,7 +470,8 @@ procbottle_three:
     base: proc-bottle
     lore:
       description:
-       - "Stuff"
+       - "Gives $quantity Proc Bottle\n
+          which lasts for 5 seconds."
 
 untimely:
   index: 44
