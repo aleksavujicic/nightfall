@@ -22,6 +22,8 @@ import deimophobe.nightfall.monster.mob.Goblin;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -63,7 +65,11 @@ public class GameListener implements Listener {
 		Player player = event.getPlayer();
 		
 		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(100000);
-		player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
+		AttributeInstance health = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+		for (AttributeModifier mod : health.getModifiers())
+			health.removeModifier(mod);
+		
+		
 		Game.getGame().giveShrineBarToPlayer(player);
 		Game.getGame().giveScoreboard(player);
 		

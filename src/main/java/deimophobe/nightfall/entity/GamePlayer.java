@@ -17,6 +17,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
@@ -46,6 +47,9 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		
 		player.setFoodLevel(20);
 		player.closeInventory();
+		
+		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(10000);
+		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(100000);
 		
 		// To clear out any fake hearts
 		new BukkitRunnable() {
