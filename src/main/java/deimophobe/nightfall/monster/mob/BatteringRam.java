@@ -29,9 +29,8 @@ public class BatteringRam extends AbstractMob {
 		super.onSpawn();
 		((MobDisguise)getDisguise()).setReplaceSounds(false);
 		((MobDisguise)getDisguise()).setHearSelfDisguise(false);
-		if (isPlayerHoldingWeapon())
-			monster.givePermanentPotionEffect(PotionEffectType.JUMP, -100);
 		
+		monster.givePermanentPotionEffect(PotionEffectType.JUMP, -100);
 	}
 	
 	@Override
@@ -43,7 +42,8 @@ public class BatteringRam extends AbstractMob {
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		super.onUse(action, clickedBlock, blockFace);
-		ram.tryUse();
+		if (isPlayerHoldingWeapon())
+			ram.tryUse();
 	}
 	
 	@Override
