@@ -60,14 +60,22 @@ public class GameListener implements Listener {
 		mm = MonsterManager.getManager();
 	}
 	
+	
 	@EventHandler
 	public void onLogin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		
+		for (Attribute attribute : Attribute.values()) {
+			AttributeInstance instance = player.getAttribute(attribute);
+			
+			if (instance != null) {
+				for (AttributeModifier mod : instance.getModifiers())
+					instance.removeModifier(mod);
+				
+				instance.setBaseValue(instance.getDefaultValue());
+			}
+		}
 		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(100000);
-		AttributeInstance health = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-		for (AttributeModifier mod : health.getModifiers())
-			health.removeModifier(mod);
 		
 		
 		Game.getGame().giveShrineBarToPlayer(player);
