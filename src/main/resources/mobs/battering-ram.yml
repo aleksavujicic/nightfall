@@ -1,9 +1,9 @@
-title: Ram
+title: Battering Ram
 
 disguisetype: ghast
 
 attack: 0
-health: 150
+health: 100
 speed: -50
 
 proccable: false

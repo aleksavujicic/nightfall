@@ -6,6 +6,7 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
+import me.libraryaddict.disguise.disguisetypes.watchers.GhastWatcher;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -17,6 +18,7 @@ import org.bukkit.potion.PotionEffectType;
  */
 public class BatteringRam extends AbstractMob {
 	private final ComplexCooldown ram = new ComplexCooldown(4*20, this::wallRam);
+	private final ComplexCooldown faceResetter = new ComplexCooldown(20, null, this::resetFace);
 	
 	protected BatteringRam(MonsterPlayer monster) {
 		super(monster, MobType.BATTERING_RAM);
@@ -29,6 +31,7 @@ public class BatteringRam extends AbstractMob {
 		((MobDisguise)getDisguise()).setHearSelfDisguise(false);
 		if (isPlayerHoldingWeapon())
 			monster.givePermanentPotionEffect(PotionEffectType.JUMP, -100);
+		
 	}
 	
 	@Override
@@ -69,6 +72,12 @@ public class BatteringRam extends AbstractMob {
 		BlockConverter.convert(BlockConverter.Type.EXPLOSION, center.getLocation(), 8);
 		monster.playSound("entity.generic.explode", 2f, 0.5f, true);
 		monster.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, center.getLocation(), 3, 1, 1,1);
+		
+		((GhastWatcher) getDisguise().getWatcher()).setAggressive(true);
+	}
+	
+	private void resetFace() {
+		((GhastWatcher) getDisguise().getWatcher()).setAggressive(false);
 	}
 	
 	@Override
