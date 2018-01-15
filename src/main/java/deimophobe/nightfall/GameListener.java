@@ -62,6 +62,7 @@ public class GameListener implements Listener {
 		Player player = event.getPlayer();
 		
 		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(100000);
+		player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
 		Game.getGame().giveShrineBarToPlayer(player);
 		Game.getGame().giveScoreboard(player);
 		
@@ -442,12 +443,22 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void preventIceMelt(BlockFadeEvent event) {
-		if (event.getNewState().getType() == Material.STATIONARY_WATER)
-			event.setCancelled(true);
+		switch (event.getNewState().getType()) {
+			case STATIONARY_WATER:
+			case FROSTED_ICE:
+				event.setCancelled(true);
+		}
 		
 		// Prevent snow melt too
 		if (event.getBlock().getType() == Material.SNOW)
 			event.setCancelled(true);
+	}
+	
+	@EventHandler
+	public void preventObsidian(BlockFormEvent event) {
+		if (event.getNewState().getType() == Material.OBSIDIAN) {
+			event.setCancelled(true);
+		}
 	}
 	
 	@EventHandler

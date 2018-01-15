@@ -47,21 +47,22 @@ public class IceSlab extends TimedBlock {
 		World world = block.getWorld();
 		Location location = block.getLocation().add(0.5, 0.5, 0.5);
 		
-		world.spawnParticle(Particle.SNOW_SHOVEL, location, 50, 0.5, 0.5, 0.5, 0);
-		world.playSound(location, "block.snow.place", 1, 1);
+		world.spawnParticle(Particle.SNOW_SHOVEL, location, 5, 0.5, 0.5, 0.5, 0);
 	}
 	
 	@Override
 	void onDestroy(boolean cancelled) {
-		World world = block.getWorld();
-		Location location = block.getLocation().add(0.5, 0.5, 0.5);
-		
-		block.setType(Material.AIR);
-		world.spawnParticle(Particle.BLOCK_CRACK, location, 50, 0.5, 0.5, 0.5, 0, new MaterialData(Material.FROSTED_ICE));
-		world.playSound(location, "block.glass.break", 1, 1);
+		if (!cancelled) {
+			World world = block.getWorld();
+			Location location = block.getLocation().add(0.5, 0.5, 0.5);
+			
+			block.setType(Material.AIR);
+			world.spawnParticle(Particle.BLOCK_CRACK, location, 25, 0.5, 0.5, 0.5, 0, new MaterialData(Material.FROSTED_ICE));
+			world.playSound(location, "block.glass.break", 1, 1);
+		}
 	}
 	
 	private static int getNewLifetime() {
-		return Misc.randomInt(20*20, 30*20);
+		return Misc.randomInt(20*2, 30*2)*10;
 	}
 }

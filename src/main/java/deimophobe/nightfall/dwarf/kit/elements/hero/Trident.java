@@ -14,6 +14,8 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.elements.AbstractItem;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -37,7 +39,7 @@ public class Trident extends AbstractItem implements KitCooldownElement {
 	
 	private final Set<Block> waterBlocks = new HashSet<>();
 	
-	private ComplexCooldown waterCD = new ComplexCooldown(5, this::sprayWater);
+	private ComplexCooldown waterCD = new ComplexCooldown(3, this::sprayWater);
 	private ComplexCooldown waterRegenDelay = new ComplexCooldown(10*20, null, this::clearWaterBlocks);
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero","trident");
@@ -54,7 +56,7 @@ public class Trident extends AbstractItem implements KitCooldownElement {
 		waterRegenDelay.update();
 		
 		if (waterRegenDelay.isAvailable() && water < MAX_WATER) {
-			water = Math.min(water + 0.005, MAX_WATER);
+			water = Math.min(water + 0.0075, MAX_WATER);
 		}
 	}
 	
@@ -71,12 +73,18 @@ public class Trident extends AbstractItem implements KitCooldownElement {
 		return false;
 	}
 	
-	private static final Set<Material> WATER_MATERIALS = Sets.newHashSet(Material.AIR, Material.WATER, Material.STATIONARY_WATER);
+	private static final Set<Material> WATER_MATERIALS =
+			Sets.newHashSet(Material.AIR, Material.CARPET);
+			//Sets.newHashSet(Material.AIR, Material.WATER, Material.STATIONARY_WATER);
 	private void sprayWater() {
 		water = Math.max(water-1, 0);
 		waterRegenDelay.reset();
 		
 		Block looking = dwarf.getPrevTargetBlock(WATER_MATERIALS, 10);
+		dwarf.playSound("item.bucket.empty", 1f, 1f, true);
+		
+		World world = looking.getWorld();
+		world.spawnParticle(Particle.WATER_DROP, looking.getLocation().add(0.5,0.5,0.5), 100, 1.5, 1.5, 1.5);
 		
 		for (int x=-1; x <= 1; x++) {
 			for (int y=-1; y <= 1; y++) {
@@ -98,6 +106,9 @@ public class Trident extends AbstractItem implements KitCooldownElement {
 	}
 	
 	private void freezeWaterBlocks() {
+		if (waterBlocks.isEmpty()) return;
+		
+		dwarf.playSound("block.snow.place", 1, 1, true);
 		for (Block block : waterBlocks) {
 			TimedBlock.placeTimedBlock(new IceSlab(block, dwarf));
 		}
@@ -105,6 +116,8 @@ public class Trident extends AbstractItem implements KitCooldownElement {
 	}
 	
 	private void clearWaterBlocks() {
+		if (waterBlocks.isEmpty()) return;
+		
 		for (Block block : waterBlocks) {
 			block.setType(Material.AIR);
 		}
