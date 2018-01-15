@@ -10,6 +10,9 @@ import deimophobe.nightfall.monster.doom.DoomManager;
 import deimophobe.nightfall.monster.mob.MobType;
 import deimophobe.nightfall.monster.spawnmenu.SpawnEggMenuItem;
 import deimophobe.nightfall.monster.spawnmenu.SpawnMenu;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -48,6 +51,8 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		doomManager = new DoomManager();
 		
 		aiManager.start();
+		
+		messager.runTaskTimer(NightfallPlugin.getPlugin(), 0, DEATH_MSG_UPDATE_FREQ);
 	}
 	
 	@Override
@@ -138,6 +143,29 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	
 	public SpawnMenu getSpawnMenu() {
 		return menu;
+	}
+	
+	
+	// --------------------------------------------------------
+	//                   DEATH MESSAGER
+	// --------------------------------------------------------
+	
+	private static final int DEATH_MSG_UPDATE_FREQ = 5;
+	private final Queue<String> deathMessages = new LinkedList<>();
+	private final BukkitRunnable messager = new BukkitRunnable() {
+		@Override
+		public void run() {
+			if (deathMessages.isEmpty()) return;
+			
+			String message = deathMessages.poll();
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
+			}
+		}
+	};
+	
+	public void queueDeathMessage(String deathMsg) {
+		deathMessages.offer(deathMsg);
 	}
 }
 	
