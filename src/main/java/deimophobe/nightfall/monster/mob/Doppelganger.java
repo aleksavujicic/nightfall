@@ -39,11 +39,12 @@ public class Doppelganger extends AbstractMob {
 	
 	@Override
 	public void onSpawn() {
-		super.onSpawn();
 		//monster.getPlayer().setPlayerListName(ChatColor.DARK_RED + monster.getName());
 		if (target != null) {
 			SkinManager.getManager().addSkinChange(monster, new Skin(target.getPlayer(), ChatColor.DARK_RED + monster.getName()));
 		}
+		
+		super.onSpawn();
 		ArmourSlot.LEGS.equipArmour(monster, getItem("legs"));
 		ArmourSlot.FEET.equipArmour(monster, getItem("boots"));
 		
