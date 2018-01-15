@@ -37,6 +37,7 @@ public class BatteringRam extends AbstractMob {
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		ram.update();
+		faceResetter.update();
 	}
 	
 	@Override
@@ -74,6 +75,7 @@ public class BatteringRam extends AbstractMob {
 		monster.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, center.getLocation(), 3, 1, 1,1);
 		
 		((GhastWatcher) getDisguise().getWatcher()).setAggressive(true);
+		faceResetter.reset();
 	}
 	
 	private void resetFace() {
