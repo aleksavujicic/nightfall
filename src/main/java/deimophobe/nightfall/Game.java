@@ -423,6 +423,10 @@ public class Game {
 		bossBar.setProgress(1);
 	}
 	
+	String getBossBarTitle() {
+		return bossBar.getTitle();
+	}
+	
 	
 	// ------ GAME PHASES -------
 	public void startLobby() {

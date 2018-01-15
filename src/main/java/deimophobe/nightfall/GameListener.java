@@ -34,6 +34,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
+import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
@@ -634,5 +635,59 @@ public class GameListener implements Listener {
 		// Cancel event if not destroyed by player in creative
 		if (!(remover instanceof Player && ((Player) remover).getGameMode() == GameMode.CREATIVE))
 			event.setCancelled(true);
+	}
+	
+	@EventHandler
+	public void onServerMOTD(ServerListPingEvent event) {
+		StringBuilder sb = new StringBuilder();
+		//sb.append(Misc.getNightfallText());
+		//sb.append("\n");
+		
+		GameMap map = GameMap.getCurrentMap();
+		Game game = Game.getGame();
+		if (game == null || map == null) {
+			sb.append(ChatColor.GRAY).append("Map loading...");
+		} else {
+			sb.append(ChatColor.GOLD).append(ChatColor.BOLD).append("Map: ");
+			sb.append(ChatColor.WHITE).append(ChatColor.ITALIC).append(map.getName());
+			
+			Phase phase = game.getPhase();
+			int numDwarves = DwarfManager.getManager().getNumberOfPlayers();
+			int numMobs = MonsterManager.getManager().getNumberOfPlayers();
+			
+			switch (phase) {
+				case BUILD:
+				case PLAGUE:
+				case GAME:
+					sb.append("  ");
+					sb.append(ChatColor.GOLD).append(ChatColor.BOLD).append("Online: ");
+					sb.append(ChatColor.DARK_AQUA).append(numDwarves).append(" dwarves");
+					if (phase == Phase.GAME) {
+						sb.append(ChatColor.WHITE).append(", ");
+						sb.append(ChatColor.RED).append(numMobs).append(" mobs");
+					}
+					break;
+			}
+			
+			sb.append("\n");
+			
+			switch (phase) {
+				case STARTING:
+					sb.append(ChatColor.GRAY).append("Starting soon...");
+					break;
+				case BUILD:
+				case PLAGUE:
+					sb.append(ChatColor.GOLD).append(ChatColor.BOLD).append("Build Phase");
+					break;
+				case GAME:
+					sb.append(ChatColor.GOLD).append(ChatColor.BOLD).append("Shrine: ");
+					sb.append(ChatColor.WHITE).append(ChatColor.ITALIC).append(game.getBossBarTitle());
+					break;
+				case END:
+					sb.append(ChatColor.RED).append(ChatColor.ITALIC).append("The dwarves have fallen!");
+					break;
+			}
+		}
+		event.setMotd(sb.toString());
 	}
 }

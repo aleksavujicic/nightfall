@@ -25,6 +25,7 @@ import java.util.*;
  */
 public class GameMap {
 	private final String name;
+	public String getName() { return name; }
 	
 	private final Collection<MapFeature> features = new HashSet<>();
 	
