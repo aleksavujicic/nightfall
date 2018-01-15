@@ -14,6 +14,6 @@ class Hellhounds extends Doom {
 	@Override
 	void startDoom() {
 		super.startDoom();
-		MonsterManager.getManager().addSpawnEgg(23, "hellhound");
+		MonsterManager.getManager().addSpawnEgg(5, "hellhound");
 	}
 }

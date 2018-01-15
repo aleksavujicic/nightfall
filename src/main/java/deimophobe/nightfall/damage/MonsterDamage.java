@@ -35,6 +35,13 @@ public class MonsterDamage extends GameDamage<GameEntity, MonsterEntity> {
 		return getReceiver();
 	}
 	
+	public boolean isArrow() {
+		return type == NaturalDamageType.RANGED
+				|| type == CustomDamageType.EBOW
+				|| type == CustomDamageType.VOLCANIC_BOW
+				|| type == CustomDamageType.LUMINOUS;
+	}
+	
 	@Override
 	void notifyEntities() {
 		if (attacker instanceof Dwarf) {
@@ -51,11 +58,7 @@ public class MonsterDamage extends GameDamage<GameEntity, MonsterEntity> {
 	boolean applyDamage(EntityDamageEvent event) {
 		if (proc && !isCancelled()) instaKill();
 		
-		if (type == NaturalDamageType.RANGED
-				|| type == CustomDamageType.EBOW
-				|| type == CustomDamageType.VOLCANIC_BOW
-				|| type == CustomDamageType.LUMINOUS)
-		{
+		if (isArrow()) {
 			getDamage().timesMult(1 - arrowRes.getValue());
 		}
 		
