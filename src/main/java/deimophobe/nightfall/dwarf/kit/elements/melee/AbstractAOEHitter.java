@@ -9,6 +9,7 @@ import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 
 /**
  * Created by Deimophobe on 10/03/17.
@@ -44,6 +45,8 @@ public abstract class AbstractAOEHitter extends AbstractItem {
 				damage.fire(true);
 			}
 		}
+		
+		center.getWorld().spawnParticle(Particle.SWEEP_ATTACK, center.add(0, 1, 0), 1, 0,0,0);
 	}
 	
 	@Override
