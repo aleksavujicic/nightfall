@@ -20,7 +20,7 @@ public class MermaidTail extends AbstractElement implements KitArmour {
 	@Override
 	public void onArmourEquip() {
 		dwarf.getArmour().addModifier(ItemModifierType.DEPTH_STRIDER, 3, "Mermaid Tail");
-		dwarf.getArmour().addModifier(ItemModifierType.AQUA_AFFINITY, 3, "Mermaid Tail");
+		dwarf.getArmour().addModifier(ItemModifierType.AQUA_AFFINITY, 1, "Mermaid Tail");
 	}
 	
 	@Override
