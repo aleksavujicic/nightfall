@@ -93,6 +93,8 @@ public class MagicCoil extends AbstractCooldown {
 		
 		public void giveBuff(Dwarf dwarf, int time) {
 			dwarf.givePotionEffect(type, time + CHANGEOVER_DURATION, amplifier, true, false, true);
+			dwarf.playSound("block.note.chime", 10f, 1f, false);
+			dwarf.playSound("item.bottle.fill", 10f, 1.5f, false);
 		}
 		
 		private void removeBuff(Dwarf dwarf) {
