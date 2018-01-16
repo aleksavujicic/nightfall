@@ -34,7 +34,7 @@ public class Trident extends AbstractItem implements KitCooldownElement {
 		TRIDENTS.add(this);
 	}
 	
-	private static final double MAX_WATER = 20;
+	private static final double MAX_WATER = 400;
 	private double water = MAX_WATER;
 	
 	private final Set<Block> waterBlocks = new HashSet<>();
@@ -56,7 +56,7 @@ public class Trident extends AbstractItem implements KitCooldownElement {
 		waterRegenDelay.update();
 		
 		if (waterRegenDelay.isAvailable() && water < MAX_WATER) {
-			water = Math.min(water + 0.0075, MAX_WATER);
+			water = Math.min(water + 0.1, MAX_WATER);
 		}
 	}
 	
@@ -74,30 +74,41 @@ public class Trident extends AbstractItem implements KitCooldownElement {
 	}
 	
 	private static final Set<Material> WATER_MATERIALS =
-			Sets.newHashSet(Material.AIR, Material.CARPET);
+			Sets.newHashSet(Material.AIR, Material.CARPET, Material.WATER, Material.STATIONARY_WATER);
 			//Sets.newHashSet(Material.AIR, Material.WATER, Material.STATIONARY_WATER);
 	private void sprayWater() {
-		water = Math.max(water-1, 0);
-		waterRegenDelay.reset();
 		
-		Block looking = dwarf.getPrevTargetBlock(WATER_MATERIALS, 10);
-		dwarf.playSound("item.bucket.empty", 1f, 1f, true);
-		
-		World world = looking.getWorld();
-		world.spawnParticle(Particle.WATER_DROP, looking.getLocation().add(0.5,0.5,0.5), 100, 1.5, 1.5, 1.5);
-		
-		for (int x=-1; x <= 1; x++) {
-			for (int y=-1; y <= 1; y++) {
-				for (int z=-1; z <= 1; z++) {
-					Block block = looking.getRelative(x,y,z);
-					replaceBlockWithWater(block);
+		Block looking = dwarf.getTargetBlock(WATER_MATERIALS, 10);
+		boolean placedBlock = false;
+		if (water > 0) {
+			for (int x = -1; x <= 1; x++) {
+				for (int y = -1; y <= 1; y++) {
+					for (int z = -1; z <= 1; z++) {
+						Block block = looking.getRelative(x, y, z);
+						placedBlock |= replaceBlockWithWater(block);
+					}
 				}
 			}
+			water = Math.max(water, 0);
+		}
+		
+		if (placedBlock) {
+			waterRegenDelay.reset();
+			dwarf.playSound("item.bucket.empty", 1f, 1f, true);
+			
+			World world = looking.getWorld();
+			world.spawnParticle(Particle.WATER_DROP, looking.getLocation().add(0.5,0.5,0.5), 100, 1.5, 1.5, 1.5);
+		} else {
+			dwarf.playSound("item.bucket.empty", 1f, 2f, false);
+			
+			World world = looking.getWorld();
+			world.spawnParticle(Particle.WATER_DROP, looking.getLocation().add(0.5,0.5,0.5), 5, 0.5, 0.5, 0.5);
 		}
 	}
 	
 	private boolean replaceBlockWithWater(Block block) {
 		if (BlockType.IGNORABLE.matchesBlock(block) && GameMap.getCurrentMap().isBlockPlaceable(block)) {
+			water--;
 			block.setType(Material.STATIONARY_WATER, false);
 			waterBlocks.add(block);
 			return true;
