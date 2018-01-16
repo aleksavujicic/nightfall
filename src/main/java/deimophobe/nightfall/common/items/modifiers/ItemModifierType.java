@@ -1,7 +1,5 @@
 package deimophobe.nightfall.common.items.modifiers;
 
-import deimophobe.nightfall.common.Misc;
-
 import minecraft.spigot.community.michel_0.api.Attribute;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.enchantments.Enchantment;
@@ -45,6 +43,7 @@ public enum ItemModifierType {
 	// Other bonuses
 	SPEED(new AttributeApplier(Attribute.MOVEMENT_SPEED, 2, (i) -> (double)i/100), "Speed", true, false),
 	DEPTH_STRIDER(new EnchantApplier(Enchantment.DEPTH_STRIDER), "Depth Strider", false, false),
+	AQUA_AFFINITY(new EnchantApplier(Enchantment.WATER_WORKER), "Aqua Affinity", false, false),
 	
 	KB_RESIST(new AttributeApplier(Attribute.KNOCKBACK_RESISTANCE, AttributeApplier.BOOLEAN_FUNCTION), "KB Resist", false, true),
 	PROC_RESIST(new DudApplier(), "Proc Resistance", true, false),
