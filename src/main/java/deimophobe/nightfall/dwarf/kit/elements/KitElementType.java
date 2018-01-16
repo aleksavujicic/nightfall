@@ -70,6 +70,8 @@ public enum KitElementType {
 	TOMBMAKER,
 	RESURRECTION,
 	BRICKLAYER,
+	CHISEL,
+	
 	UNTIMELY_DEMISE,
 	
 	// Tools
@@ -195,6 +197,8 @@ public enum KitElementType {
 			case TOMBMAKER: return new Tombmaker(dwarf);
 			case RESURRECTION: return new Resurrection(dwarf);
 			case BRICKLAYER: return new Bricklayer(dwarf);
+			case CHISEL: return new Chisel(dwarf);
+			
 			case UNTIMELY_DEMISE: return new UntimelyDemise(dwarf);
 			
 			// Tools

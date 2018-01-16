@@ -8,20 +8,29 @@ import org.bukkit.material.Step;
 /**
  * Created by Deimophobe on 20/06/17.
  */
-class SlabBlock implements CustomBlock {
+public class SlabBlock implements CustomBlock {
 	
 	private final TexturedBlock stepBlock;
 	private final TexturedBlock doubleSlabBlock;
+	private final Boolean inverted;
 	
 	SlabBlock(Material texture) {
 		stepBlock = new TexturedBlock(Material.STEP, texture);
 		doubleSlabBlock = new TexturedBlock(Material.DOUBLE_STEP, texture);
+		inverted = null;
+	}
+	
+	SlabBlock(SlabBlock block, boolean inverted) {
+		stepBlock = block.stepBlock;
+		doubleSlabBlock = block.doubleSlabBlock;
+		this.inverted = inverted;
 	}
 	
 	@Override
 	public void setAtBlock(Block block) {
 		if (block.getType() == Material.STEP) {
-			boolean inverted = ((Step) block.getState().getData()).isInverted();
+			Boolean inverted = this.inverted;
+			if (inverted == null) inverted = ((Step) block.getState().getData()).isInverted();
 			
 			stepBlock.setAtBlock(block);
 			
@@ -38,5 +47,9 @@ class SlabBlock implements CustomBlock {
 	@Override
 	public boolean matchesBlock(Block block) {
 		return (stepBlock.matchesBlock(block) || doubleSlabBlock.matchesBlock(block));
+	}
+	
+	public SlabBlock withInversion(boolean inversion) {
+		return new SlabBlock(this, inversion);
 	}
 }

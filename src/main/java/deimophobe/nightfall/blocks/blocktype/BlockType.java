@@ -77,6 +77,12 @@ public class BlockType {
 	
 	public static final ComparableBlock HERANA_TRIDENT_WATER = Trident::isTridentWaterBlock;
 	
+	// Chisel
+	public static final CustomBlock COBBLESTONE_BLOCK = new MaterialBlock(Material.COBBLESTONE);
+	public static final StairBlock COBBLESTONE_STAIR = new StairBlock(Material.COBBLESTONE);
+	public static final SlabBlock COBBLESTONE_SLAB = new SlabBlock(Material.COBBLESTONE);
+	
+	
 	// ----- Blocksets -----
 	public static final ComparableBlock ALWAYS_BREAKABLE = new BlockSet(
 			LIGHT,
