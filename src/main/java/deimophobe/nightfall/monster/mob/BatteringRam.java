@@ -30,7 +30,7 @@ public class BatteringRam extends AbstractMob {
 		((MobDisguise)getDisguise()).setReplaceSounds(false);
 		((MobDisguise)getDisguise()).setHearSelfDisguise(false);
 		
-		monster.givePermanentPotionEffect(PotionEffectType.JUMP, -100);
+		monster.givePermanentPotionEffect(PotionEffectType.JUMP, -5);
 	}
 	
 	@Override
