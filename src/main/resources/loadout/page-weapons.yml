@@ -337,7 +337,7 @@ regrowth:
   type: item
   name: regrowth_star
   category: ale
-  cost: 8
+  cost: 6
   item:
     name: "Regrowth Star"
     base: regrowth
