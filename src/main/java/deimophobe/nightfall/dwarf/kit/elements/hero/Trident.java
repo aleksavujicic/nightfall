@@ -74,7 +74,7 @@ public class Trident extends AbstractItem implements KitCooldownElement {
 	}
 	
 	private static final Set<Material> WATER_MATERIALS =
-			Sets.newHashSet(Material.AIR, Material.CARPET, Material.WATER, Material.STATIONARY_WATER);
+			Sets.newHashSet(Material.AIR, Material.CARPET);
 			//Sets.newHashSet(Material.AIR, Material.WATER, Material.STATIONARY_WATER);
 	private void sprayWater() {
 		
