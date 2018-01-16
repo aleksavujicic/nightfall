@@ -120,10 +120,13 @@ public class Trident extends AbstractItem implements KitCooldownElement {
 		if (waterBlocks.isEmpty()) return;
 		
 		dwarf.playSound("block.snow.place", 1, 1, true);
-		for (Block block : waterBlocks) {
+		
+		// Clear water blocks before freezing so they may be placed on by timed ice blocks
+		Set<Block> freezeBlock = new HashSet<>(waterBlocks);
+		waterBlocks.clear();
+		for (Block block : freezeBlock) {
 			TimedBlock.placeTimedBlock(new IceSlab(block, dwarf));
 		}
-		waterBlocks.clear();
 	}
 	
 	private void clearWaterBlocks() {

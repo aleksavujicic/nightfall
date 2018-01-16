@@ -1,5 +1,6 @@
 package deimophobe.nightfall.blocks.blocktype;
 
+import deimophobe.nightfall.dwarf.kit.elements.hero.Trident;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -74,6 +75,7 @@ public class BlockType {
 	
 	public static final ComparableBlock SHARED_CHEST = new MaterialSet(Material.CHEST, Material.ENDER_CHEST, Material.TRAPPED_CHEST);
 	
+	public static final ComparableBlock HERANA_TRIDENT_WATER = Trident::isTridentWaterBlock;
 	
 	// ----- Blocksets -----
 	public static final ComparableBlock ALWAYS_BREAKABLE = new BlockSet(
@@ -97,6 +99,8 @@ public class BlockType {
 			
 			ANY_SHRINE_BLOCK,
 			SHARED_CHEST,
+			
+			HERANA_TRIDENT_WATER,
 			
 			new MaterialSet(
 					Material.AIR,
