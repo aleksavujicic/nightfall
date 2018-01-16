@@ -57,7 +57,7 @@ class Slab extends Consumable {
 			}
 		}
 		
-		dwarf.playSound("block.anvil.place", 20, 0.8f, false);
+		dwarf.playSound("block.anvil.place", 20, 0.8f, true);
 		
 		return DEFAULT_CD;
 	}
