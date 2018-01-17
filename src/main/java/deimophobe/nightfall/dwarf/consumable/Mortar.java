@@ -30,7 +30,7 @@ class Mortar extends Consumable {
 		
 		if (clickedBlock == null)
 			clickedBlock = dwarf.getPlayer().getTargetBlock((Set<Material>) null, 5);
-		boolean shouldWizzy = wizzy || Game.getGame().getPhase() == Phase.BUILD;
+		boolean shouldWizzy = wizzy || Game.getGame().getPhase().hasGameStarted()
 		
 		BlockConverter.mortar(clickedBlock, shouldWizzy);
 		
