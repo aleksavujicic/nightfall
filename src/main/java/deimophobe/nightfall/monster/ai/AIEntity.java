@@ -62,13 +62,13 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
-		resetInactivity();
+		if (!damage.isCancelled()) resetInactivity();
 		damage.setArmourShred(5);
 	}
 
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
-		resetInactivity();
+		if (!damage.isCancelled()) resetInactivity();
 		damage.getDamage().timesMult(0.3);
 
 		if (damage.getAttacker() instanceof MonsterEntity) {
