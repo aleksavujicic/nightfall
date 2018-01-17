@@ -1,6 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.Skin;
+import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
@@ -110,7 +110,7 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	protected void setupPlayerDisguise() {
-		SkinManager.getManager().addSkinChange(monster, Skin.getSkin(mobData.skinName));
+		SkinManager.getManager().addSkinChange(monster, new PlayerSkin(monster.getDisplayName(), mobData.skinName));
 	}
 	
 	protected void removePlayerDisguise() {

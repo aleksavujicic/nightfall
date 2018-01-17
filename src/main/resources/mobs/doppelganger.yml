@@ -17,7 +17,7 @@ armour:
     description:
      - "Blah."
     flavour:
-     - "Armour stolen off a recently killed dwarf."
+     - "Armour stolen off a recently slain dwarf."
 weapon:
   base: runeblade
   name: Cursed Mystic Runesword
@@ -37,7 +37,7 @@ items:
       description:
        - "Blah."
       flavour:
-       - "Armour stolen off a recently killed dwarf."
+       - "Armour stolen off a recently slain dwarf."
   boots:
     material: diamond_boots
     name: Cursed Dwarven Boots
@@ -46,7 +46,18 @@ items:
       description:
        - "Blah."
       flavour:
-       - "Armour stolen off a recently killed dwarf."
+       - "Armour stolen off a recently slain dwarf."
+
+  unhider:
+    material: feather
+    name: Unhide
+    lore:
+      description:
+       - "Removes your invisibility buff,\n
+          so dwarves will now be able to\n
+          see you."
+      flavour:
+       - "Blah"
 
   # Weapons
   axe:

@@ -1,6 +1,6 @@
 package deimophobe.nightfall.dwarf.hero;
 
-import deimophobe.nightfall.Skin;
+import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -157,7 +157,7 @@ public class Arthea extends Hero {
 	private void startTransition() {
 		
 		setTitle(ChatColor.LIGHT_PURPLE, "Arthea", true);
-		Skin newSkin = Skin.getSkin("arthea").withNewName(ChatColor.LIGHT_PURPLE + "Arthea");
+		PlayerSkin newSkin = new PlayerSkin(ChatColor.LIGHT_PURPLE + "Arthea", "arthea");
 		SkinManager.getManager().addSkinChange(this, newSkin);
 		
 		player.getInventory().clear();

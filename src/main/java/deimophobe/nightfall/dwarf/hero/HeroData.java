@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.hero;
 
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.common.Misc;
@@ -36,7 +37,7 @@ public class HeroData extends DwarfData {
 	private final String descriptor;
 	
 	private final CustomItem hat;
-	private final Skin skin;
+	private final PlayerSkin skin;
 	private final ChatColor glowColour;
 	
 	private final Function<Player, Hero> heroCreator;
@@ -71,7 +72,7 @@ public class HeroData extends DwarfData {
 		Misc.checkConfigStringExists(config,"nametag");
 		String nametag = config.getString("nametag");
 		
-		this.skin = Skin.getSkin(skinName).withNewName(ChatColor.GOLD + nametag);
+		this.skin = new PlayerSkin(ChatColor.GOLD + nametag, skinName);
 		
 		
 		// Glow Colour
@@ -155,7 +156,7 @@ public class HeroData extends DwarfData {
 	}
 	
 	Team createTeam() {
-		String name = skin.getName();
+		String name = type.name().toLowerCase();
 		Team team = Game.getGame().getNewTeam("hero" + name);
 		team.setColor(glowColour);
 		team.setPrefix(glowColour.toString());

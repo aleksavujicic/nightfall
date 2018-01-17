@@ -83,6 +83,12 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 		return getGamePlayers();
 	}
 	
+	public Set<Dwarf> getNonHeroDwarves() {
+		Set<Dwarf> nonHeroes = new HashSet<>(getGamePlayers());
+		nonHeroes.removeIf(d -> d instanceof Hero);
+		return nonHeroes;
+	}
+	
 	public Set<Dwarf> getPlagueables() {
 		Set<Dwarf> plagueables = new HashSet<>(getGamePlayers());
 		plagueables.removeIf(Dwarf::isPlagueImmune);

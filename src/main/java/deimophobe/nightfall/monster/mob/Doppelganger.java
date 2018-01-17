@@ -1,5 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.common.Misc;
@@ -11,29 +13,35 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.util.ArmourSlot;
-import org.bukkit.Bukkit;
+import me.libraryaddict.disguise.DisguiseAPI;
+import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
+import org.bukkit.block.BlockFace;
+import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Deimophobe on 15/01/18.
  */
 public class Doppelganger extends AbstractMob {
 	
-	private static final int INVIS_DURATION = 60*20;
+	private static final int INVIS_DURATION = 45*20;
 	
 	private final Dwarf target;
 	private final ComplexCooldown unhider = new ComplexCooldown(INVIS_DURATION, null, this::unhide);
+	private PlayerDisguise disguise = null;
 	private boolean hidden;
 	
 	protected Doppelganger(MonsterPlayer monster) {
 		super(monster, MobType.DOPPELGANGER);
-		target = Misc.getRandom(DwarfManager.getManager().getDwarves());
+		target = Misc.getRandom(DwarfManager.getManager().getNonHeroDwarves());
 		setFakeWeapon();
 	}
 	
@@ -41,7 +49,18 @@ public class Doppelganger extends AbstractMob {
 	public void onSpawn() {
 		//monster.getPlayer().setPlayerListName(ChatColor.DARK_RED + monster.getName());
 		if (target != null) {
-			SkinManager.getManager().addSkinChange(monster, new Skin(target.getPlayer(), ChatColor.DARK_RED + monster.getName()));
+			Skin skin = new Skin(target.getPlayer());
+			PlayerSkin playerSkin = new PlayerSkin(ChatColor.DARK_RED + monster.getName(), skin, false);
+			SkinManager.getManager().addSkinChange(monster, playerSkin);
+			
+			
+			WrappedGameProfile profile = new WrappedGameProfile(UUID.randomUUID(), ChatColor.DARK_AQUA + target.getName());
+			skin.applyToWrappedGameProfile(profile);
+			
+			disguise = new PlayerDisguise(profile);
+			disguise.setDisplayedInTab(false);
+			disguise.setViewSelfDisguise(false);
+			DisguiseAPI.disguiseEntity(monster.getPlayer(), disguise);
 		}
 		
 		super.onSpawn();
@@ -49,10 +68,11 @@ public class Doppelganger extends AbstractMob {
 		ArmourSlot.FEET.equipArmour(monster, getItem("boots"));
 		
 		hide();
+		giveItem("unhider");
 		
 		final String targetMsg;
-		if (target == null) targetMsg = ChatColor.RED + "You have no clone";
-		else targetMsg = ChatColor.GOLD + "Clone: " + target.getDisplayName();
+		if (target == null) targetMsg = ChatColor.RED + "There are no dwarves to clone!";
+		else targetMsg = ChatColor.GOLD + "Clone: " + ChatColor.AQUA + target.getName();
 		monster.sendTitleMessage(targetMsg);
 	}
 	
@@ -60,6 +80,15 @@ public class Doppelganger extends AbstractMob {
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		unhider.update();
+	}
+	
+	@Override
+	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(action, clickedBlock, blockFace);
+		if (isPlayerHoldingItem("unhider")) {
+			monster.useHeldItem();
+			unhide();
+		}
 	}
 	
 	@Override
@@ -89,9 +118,14 @@ public class Doppelganger extends AbstractMob {
 	private void hide() {
 		hidden = true;
 		monster.givePotionEffect(PotionEffectType.INVISIBILITY, INVIS_DURATION, 1, true, false, true);
-		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
-			dwarf.getPlayer().hidePlayer(monster.getPlayer());
+		giveSpawnProtection(INVIS_DURATION);
+		if (disguise != null) {
+			disguise.getWatcher().setInvisible(true);
+			ItemStack air = new ItemStack(Material.AIR);
+			disguise.getWatcher().setArmor(new ItemStack[]{air, air, air, air});
+			disguise.getWatcher().setItemInMainHand(air);
 		}
+		
 		unhider.reset();
 	}
 	
@@ -99,9 +133,13 @@ public class Doppelganger extends AbstractMob {
 		if (!hidden) return;
 		
 		monster.removePotionEffect(PotionEffectType.INVISIBILITY);
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			player.showPlayer(monster.getPlayer());
+		monster.removePotionEffect(PotionEffectType.LUCK);
+		if (disguise != null) {
+			disguise.getWatcher().setInvisible(false);
+			disguise.getWatcher().setArmor(new ItemStack[]{null, null, null, null});
+			disguise.getWatcher().setItemInMainHand(null);
 		}
+		
 		hidden = false;
 	}
 	
