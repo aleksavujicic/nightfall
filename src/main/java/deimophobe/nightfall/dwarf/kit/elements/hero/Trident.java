@@ -147,6 +147,7 @@ public class Trident extends AbstractItem implements KitCooldownElement {
 	public void onRemove() {
 		super.onRemove();
 		TRIDENTS.remove(this);
+		clearWaterBlocks();
 	}
 	
 	private static final Set<Trident> TRIDENTS = new HashSet<>();
