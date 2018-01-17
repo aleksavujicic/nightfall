@@ -515,8 +515,8 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		
 		@Override
 		public void onHit(P entity) {
-			entity.doDamage(GamePlayer.this, type, damage.apply(entity), true);
-			if (entity instanceof GamePlayer) playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
+			boolean cancelled = entity.doDamage(GamePlayer.this, type, damage.apply(entity), true).isCancelled();
+			if (!cancelled && entity instanceof GamePlayer) playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
 		}
 	}
 }
