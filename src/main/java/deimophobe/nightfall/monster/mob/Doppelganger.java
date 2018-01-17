@@ -94,19 +94,19 @@ public class Doppelganger extends AbstractMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		unhide();
+		if (!damage.isCancelled()) unhide();
 	}
 	
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
-		unhide();
+		if (!damage.isCancelled()) unhide();
 	}
 	
 	@Override
 	public void onBlockBreak(Block block, boolean didBreak) {
 		super.onBlockBreak(block, didBreak);
-		unhide();
+		if (didBreak) unhide();
 	}
 	
 	@Override
