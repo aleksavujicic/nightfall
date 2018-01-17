@@ -17,8 +17,8 @@ import org.bukkit.potion.PotionEffectType;
  * Created by Deimophobe on 15/01/18.
  */
 public class BatteringRam extends AbstractMob {
-	private final ComplexCooldown ram = new ComplexCooldown(4*20, this::wallRam);
-	private final ComplexCooldown faceResetter = new ComplexCooldown(20, null, this::resetFace);
+	private final ComplexCooldown ram = new ComplexCooldown(2*20, this::wallRam);
+	private final ComplexCooldown faceResetter = new ComplexCooldown(10, null, this::resetFace);
 	
 	protected BatteringRam(MonsterPlayer monster) {
 		super(monster, MobType.BATTERING_RAM);
