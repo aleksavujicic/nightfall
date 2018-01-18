@@ -101,7 +101,7 @@ public class HeroData extends DwarfData {
 				throw new InvalidConfigurationException("Unknown KitPiece item: " + item, e);
 			}
 		}
-		addElement(KitElementType.HERO_ALE);
+		addElement(KitElementType.HERO_BASE);
 		
 		
 		// Consumables

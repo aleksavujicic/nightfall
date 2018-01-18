@@ -151,7 +151,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	// ------ MANA STUFF ------
-	private final int maxMana = 1000;
+	private int maxMana = 1000;
 	private int mana;
 	
 	public int getMana() {
@@ -180,6 +180,11 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		if (mana > maxMana) mana = maxMana;
 		if (mana < 0) mana = 0;
 		updateManaBar();
+	}
+	
+	public void setMaxMana(int max) {
+		this.maxMana = max;
+		mana = Math.min(mana, maxMana);
 	}
 	
 	public void updateManaBar() {

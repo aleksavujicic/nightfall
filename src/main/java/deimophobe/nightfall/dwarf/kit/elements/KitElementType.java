@@ -86,7 +86,7 @@ public enum KitElementType {
 	
 	// ---- HERO STUFF ----
 	// Base
-	HERO_ALE,
+	HERO_BASE,
 	
 	// Tui
 	TUI_HAMMER,
@@ -210,7 +210,7 @@ public enum KitElementType {
 			case PENY_STICK: return new PenyStick(dwarf);
 			
 			// Base
-			case HERO_ALE: return new HeroAle(dwarf);
+			case HERO_BASE: return new HeroBase(dwarf);
 			
 			// Tui
 			case TUI_HAMMER: return new TuiHammer(dwarf);

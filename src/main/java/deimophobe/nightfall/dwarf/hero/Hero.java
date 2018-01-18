@@ -1,8 +1,6 @@
 package deimophobe.nightfall.dwarf.hero;
 
 import deimophobe.nightfall.SkinManager;
-import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.HeroArmour;
 import org.bukkit.entity.Player;
@@ -23,9 +21,6 @@ public class Hero extends Dwarf {
 		this.type = type;
 		
 		setArmour(new HeroArmour(this, type.getData().getHat().clone()));
-		
-		makeBlindImmune();
-		makePlagueImmune();
 	}
 	
 	@Override
@@ -46,19 +41,4 @@ public class Hero extends Dwarf {
 	
 	@Override
 	public void updateVisibility() {}
-	
-	@Override
-	public void onDamageReceive(DwarfDamage damage) {
-		damage.multiplyManaDrain(0.2);
-		if (damage.getType() == NaturalDamageType.FALL) {
-			damage.getDamage().timesMult(0.1);
-		}
-		
-		super.onDamageReceive(damage);
-	}
-	
-	@Override
-	public void regenMana(int amt) {
-		super.regenMana(amt/3);
-	}
 }
