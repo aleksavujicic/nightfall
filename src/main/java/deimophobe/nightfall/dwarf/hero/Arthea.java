@@ -159,6 +159,8 @@ public class Arthea extends Hero {
 		setTitle(ChatColor.LIGHT_PURPLE, "Arthea", true);
 		PlayerSkin newSkin = new PlayerSkin(ChatColor.LIGHT_PURPLE + "Arthea", "arthea");
 		SkinManager.getManager().addSkinChange(this, newSkin);
+		type.getData().getTeam().addEntry(ChatColor.LIGHT_PURPLE + "Arthea");
+		
 		
 		player.getInventory().clear();
 		player.setHealth(3);
