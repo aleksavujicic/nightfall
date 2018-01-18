@@ -27,3 +27,11 @@ items:
           Fireballs regenerate 2 seconds after stopping fire."
       flavour:
        - "Death from afar."
+
+
+sounds:
+  idle:
+    path: "entity.blaze.ambient"
+    pitch: 1.1
+    volume: 0.6
+    chance: 0.15

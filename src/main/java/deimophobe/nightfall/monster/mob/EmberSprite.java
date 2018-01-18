@@ -53,6 +53,7 @@ public class EmberSprite extends AbstractMob {
 
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		fireCD.update();
 		launchCD.update();
 		
@@ -65,6 +66,7 @@ public class EmberSprite extends AbstractMob {
 
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(action, clickedBlock, blockFace);
 		if (Misc.isRightClick(action) && isPlayerHoldingItem("blaze-ammo")) {
 			fireCD.tryUse();
 		}
@@ -80,11 +82,13 @@ public class EmberSprite extends AbstractMob {
 	
 	@Override
 	public void onProjectileLand(Projectile proj, Block block, Entity hitEntity) {
+		super.onProjectileLand(proj, block, hitEntity);
 		blazeExplosion(proj.getLocation());
 	}
 
 	@Override
 	public void onShift(boolean sneak) {
+		super.onShift(sneak);
 		launchCD.tryUse();
 	}
 
