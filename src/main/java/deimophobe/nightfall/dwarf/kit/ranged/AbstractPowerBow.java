@@ -6,7 +6,7 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
-import deimophobe.nightfall.dwarf.kit.KitCooldownPiece;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
@@ -15,7 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 /**
  * Created by Deimophobe on 28/11/17.
  */
-public abstract class AbstractPowerBow extends AbstractToggleBow implements KitCooldownPiece {
+public abstract class AbstractPowerBow extends AbstractToggleBow implements CooldownPiece {
 	
 	private final ComplexCooldown cooldown;
 	private final ChatColor arrowColour;

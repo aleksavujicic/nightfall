@@ -8,7 +8,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
  * @deprecated To be replaced by cooldown fields. These will allow for more flexibility.
  */
 @Deprecated
-public abstract class AbstractCooldown extends AbstractPiece implements KitCooldownPiece {
+public abstract class AbstractCooldown extends AbstractPiece implements CooldownPiece {
 	
 	private final int maxCooldown;
 	private int cooldown;

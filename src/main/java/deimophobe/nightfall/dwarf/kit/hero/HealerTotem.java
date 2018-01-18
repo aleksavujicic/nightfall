@@ -6,7 +6,7 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.KitCooldownPiece;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
@@ -14,13 +14,12 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 6/05/17.
  */
-public class HealerTotem extends AbstractItem implements KitCooldownPiece {
+public class HealerTotem extends AbstractItem implements CooldownPiece {
 	
 	private final ComplexCooldown healing = new ComplexCooldown(20, this::groupHeal);
 	private final ComplexCooldown shield = new ComplexCooldown(2*60*20, this::shield);
@@ -31,7 +30,7 @@ public class HealerTotem extends AbstractItem implements KitCooldownPiece {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "totem");
 	@Override public CustomItem getItem() {return ITEM;}
-	@Override public ItemStack getCooldownToggleItem() { return null; }
+	
 	@Override public KitGiveType getGiveType() {return KitGiveType.START;}
 	
 	

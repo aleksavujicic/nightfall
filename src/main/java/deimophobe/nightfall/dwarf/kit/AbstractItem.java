@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 /**
  * Created by Deimophobe on 24/03/17.
  */
-public abstract class AbstractItem extends AbstractPiece implements KitItemPiece {
+public abstract class AbstractItem extends AbstractPiece implements ItemPiece {
 	
 	public AbstractItem(Dwarf dwarf) {
 		super(dwarf);

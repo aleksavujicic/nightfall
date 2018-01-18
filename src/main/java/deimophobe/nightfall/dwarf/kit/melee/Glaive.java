@@ -7,7 +7,7 @@ import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.KitCooldownPiece;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
@@ -19,7 +19,6 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -31,7 +30,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * Created by ED{Kegoir} and Div on 23/11/17
  */
 
-public class Glaive extends AbstractAOEHitter implements KitCooldownPiece {
+public class Glaive extends AbstractAOEHitter implements CooldownPiece {
     private final double aoeRadius = 3;
     private final int basicAttackDamage = 15;//Might be changed when testing abilities, OG value is 15
     private final int maxCD = 1*20;//Broken AF right now
@@ -238,9 +237,7 @@ public class Glaive extends AbstractAOEHitter implements KitCooldownPiece {
 
     @Override public CustomItem getItem(){return ITEM;}
     @Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
-    @Override public ItemStack getCooldownToggleItem() {
-        return getItem().createItemStack();
-    }
+    
     @Override public float fractionComplete() {
         return cd.fractionComplete();
     }

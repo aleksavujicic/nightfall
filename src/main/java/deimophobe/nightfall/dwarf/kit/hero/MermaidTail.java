@@ -2,14 +2,14 @@ package deimophobe.nightfall.dwarf.kit.hero;
 
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.kit.KitArmour;
+import deimophobe.nightfall.dwarf.kit.ArmourPiece;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 14/01/18.
  */
-public class MermaidTail extends AbstractPiece implements KitArmour {
+public class MermaidTail extends AbstractPiece implements ArmourPiece {
 	private boolean fastSwimming = false;
 	
 	public MermaidTail(Dwarf dwarf) {

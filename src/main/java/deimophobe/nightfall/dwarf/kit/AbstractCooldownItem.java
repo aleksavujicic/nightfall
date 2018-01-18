@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
  * @deprecated Do not use. Use AbstractItem and implement KitCooldown. See {@link AbstractCooldown} for why.
  */
 @Deprecated
-public abstract class AbstractCooldownItem extends AbstractCooldown implements KitItemPiece {
+public abstract class AbstractCooldownItem extends AbstractCooldown implements ItemPiece {
 	
 	public AbstractCooldownItem(Dwarf dwarf, int maxCooldown) {
 		super(dwarf, maxCooldown);
@@ -40,11 +40,6 @@ public abstract class AbstractCooldownItem extends AbstractCooldown implements K
 	
 	@Override
 	public void onBlockBreak(Block block, boolean didBreak) {}
-	
-	@Override
-	public ItemStack getCooldownToggleItem() {
-		return getItem().createItemStack();
-	}
 	
 	
 }

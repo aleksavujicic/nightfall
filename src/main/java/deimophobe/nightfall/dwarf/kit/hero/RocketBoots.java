@@ -5,7 +5,6 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractCooldown;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -53,8 +52,4 @@ public class RocketBoots extends AbstractCooldown {
 		}
 	}
 	
-	@Override
-	public ItemStack getCooldownToggleItem() {
-		return null;
-	}
 }

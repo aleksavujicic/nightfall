@@ -20,9 +20,9 @@ public class Kit {
 	private final Dwarf dwarf;
 	
 	private final Map<KitPieceType, KitPiece> kitElements = new HashMap<>();
-	private final Set<KitCooldownPiece> cooldownElements = new HashSet<>();
-	private final Set<KitItemPiece> itemElements = new HashSet<>();
-	private final Set<KitBow> bowElements = new HashSet<>();
+	private final Set<CooldownPiece> cooldownElements = new HashSet<>();
+	private final Set<ItemPiece> itemElements = new HashSet<>();
+	private final Set<BowPiece> bowElements = new HashSet<>();
 	
 	private final Map<KitGiveType, Integer> giveTimes = new HashMap<>();
 	
@@ -51,15 +51,15 @@ public class Kit {
 		KitPiece element = type.createElement(dwarf);
 		kitElements.put(type, element);
 		
-		if (element instanceof KitCooldownPiece) {
-			KitCooldownPiece cooldownElement = (KitCooldownPiece) element;
+		if (element instanceof CooldownPiece) {
+			CooldownPiece cooldownElement = (CooldownPiece) element;
 			
 			if (cooldownElement.fractionComplete() != -1)
 				cooldownElements.add(cooldownElement);
 		}
 		
-		if (element instanceof KitItemPiece)
-			itemElements.add((KitItemPiece) element);
+		if (element instanceof ItemPiece)
+			itemElements.add((ItemPiece) element);
 		
 		if (element instanceof AbstractBow)
 			bowElements.add((AbstractBow) element);
@@ -78,7 +78,7 @@ public class Kit {
 			giveTimes.put(giveType, giveType.getMaxDelay());
 		}
 		
-		for (KitItemPiece itemElement : itemElements) {
+		for (ItemPiece itemElement : itemElements) {
 			if (itemElement.getGiveType() == giveType)
 				dwarf.giveItem(itemElement.getItem().createItemStack());
 		}
@@ -88,8 +88,8 @@ public class Kit {
 	
 	public void addAndGiveItem(KitPieceType type) {
 		KitPiece element = addElement(type);
-		if (element instanceof KitItemPiece) {
-			dwarf.giveItem(((KitItemPiece) element).getItem());
+		if (element instanceof ItemPiece) {
+			dwarf.giveItem(((ItemPiece) element).getItem());
 		} else {
 			throw new IllegalArgumentException("Cannot give dwarf element '" + type + "' as it is not an item.");
 		}
@@ -97,8 +97,8 @@ public class Kit {
 	
 	public void addAndGiveElement(KitPieceType type) {
 		KitPiece element = addElement(type);
-		if (element instanceof KitItemPiece) {
-			dwarf.giveItem(((KitItemPiece) element).getItem());
+		if (element instanceof ItemPiece) {
+			dwarf.giveItem(((ItemPiece) element).getItem());
 		}
 	}
 	
@@ -136,7 +136,7 @@ public class Kit {
 	
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		ItemStack held = dwarf.getHeldItem();
-		for (KitItemPiece item : itemElements) {
+		for (ItemPiece item : itemElements) {
 			if (item.matchesItem(held)) {
 				return item.onUse(action, clickedBlock, blockFace);
 			}
@@ -145,14 +145,14 @@ public class Kit {
 	}
 	
 	public void onBlockBreak(Block block, boolean didBreak) {
-		for (KitItemPiece item : itemElements) {
+		for (ItemPiece item : itemElements) {
 			item.onBlockBreak(block, didBreak);
 		}
 	}
 	
 	public Projectile onBowFire(Arrow arrow, float force) {
 		ItemStack held = dwarf.getHeldItem();
-		for (KitBow bow : bowElements) {
+		for (BowPiece bow : bowElements) {
 			if (bow.matchesItem(held)) {
 				return bow.onBowFire(arrow, force);
 			}
@@ -160,7 +160,7 @@ public class Kit {
 		return arrow;
 	}
 	public void onProjectileLand(Projectile proj, Block hitBlock) {
-		for (KitBow bow : bowElements) {
+		for (BowPiece bow : bowElements) {
 			if (bow.belongsToBow(proj)) {
 				bow.onProjectileLand(proj, hitBlock);
 				return;
@@ -188,14 +188,14 @@ public class Kit {
 	
 	public void onArmourEquip() {
 		for (KitPiece item : kitElements.values()) {
-			if (item instanceof KitArmour)
-				((KitArmour) item).onArmourEquip();
+			if (item instanceof ArmourPiece)
+				((ArmourPiece) item).onArmourEquip();
 		}
 	}
 	
 	
 	// ------ HELD ITEM ------
-	private KitCooldownPiece lastHeld = null;
+	private CooldownPiece lastHeld = null;
 	public float fractionComplete() {
 		if (lastHeld == null) return 0;
 		return lastHeld.fractionComplete();
@@ -203,10 +203,10 @@ public class Kit {
 	
 	public void updateHotbarSlot(ItemStack newItem) {
 		if (newItem == null) return;
-		for (KitItemPiece item : itemElements) {
+		for (ItemPiece item : itemElements) {
 			if (item.matchesItem(newItem)) {
 				if (cooldownElements.contains(item))
-					lastHeld = (KitCooldownPiece) item;
+					lastHeld = (CooldownPiece) item;
 				
 				return;
 			}

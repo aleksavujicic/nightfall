@@ -8,7 +8,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.KitBow;
+import deimophobe.nightfall.dwarf.kit.BowPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -21,7 +21,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 /**
  * Created by Deimophobe on 19/03/17.
  */
-public abstract class AbstractBow extends AbstractItem implements KitBow {
+public abstract class AbstractBow extends AbstractItem implements BowPiece {
 	
 	
 	protected static CustomItem getBow(String bow, int power) {

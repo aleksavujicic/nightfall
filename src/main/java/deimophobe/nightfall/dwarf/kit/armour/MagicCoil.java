@@ -4,7 +4,6 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractCooldown;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashSet;
@@ -67,11 +66,6 @@ public class MagicCoil extends AbstractCooldown {
 	public void onShift(boolean sneaking) {
 		if (currentBuff != null && !currentBuff.hasBuff(dwarf))
 			currentBuff.giveBuff(dwarf, getCooldown());
-	}
-	
-	@Override
-	public ItemStack getCooldownToggleItem() {
-		return null;
 	}
 	
 	private static class Buff {

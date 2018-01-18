@@ -3,7 +3,7 @@ package deimophobe.nightfall.dwarf.kit.ranged;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.kit.KitCooldownPiece;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -13,12 +13,11 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
-import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by Deimophobe on 20/01/17.
  */
-public class Longbow extends AbstractBow implements KitCooldownPiece {
+public class Longbow extends AbstractBow implements CooldownPiece {
 	
 	private int stackCD = 0;
 	private static final int MAX_STACK_CD = 200;
@@ -38,7 +37,7 @@ public class Longbow extends AbstractBow implements KitCooldownPiece {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public ItemStack getCooldownToggleItem() {return ITEM.createItemStack(); }
+	
 	@Override public String getBowIdentifier() {return "LONGBOW";}
 	@Override public int getPower() {return POWER;}
 	

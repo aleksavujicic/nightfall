@@ -8,7 +8,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.KitCooldownPiece;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -16,14 +16,13 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 /**
  * Created by Deimophobe on 6/05/17.
  */
-public class Caduceus extends AbstractItem implements KitCooldownPiece {
+public class Caduceus extends AbstractItem implements CooldownPiece {
 	
 	private Location returnSpot;
 	private Dwarf target;
@@ -37,7 +36,7 @@ public class Caduceus extends AbstractItem implements KitCooldownPiece {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "caduceus");
 	@Override public CustomItem getItem() {return ITEM;}
-	@Override public ItemStack getCooldownToggleItem() { return null; }
+	
 	@Override public KitGiveType getGiveType() {return KitGiveType.START;}
 	
 	@Override

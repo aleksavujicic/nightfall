@@ -16,14 +16,13 @@ import deimophobe.nightfall.map.GameMap;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Directional;
 import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 28/03/17.
  */
-class DwarfPickaxe extends AbstractItem implements KitCooldownPiece {
+class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 	
 	DwarfPickaxe(Dwarf dwarf) {
 		super(dwarf);
@@ -32,7 +31,6 @@ class DwarfPickaxe extends AbstractItem implements KitCooldownPiece {
 	private static final CustomItem ITEM = DwarvenItems.getItem("misc", "pick");
 	@Override public CustomItem getItem() {return ITEM;}
 	@Override public KitGiveType getGiveType() { return KitGiveType.PICK; }
-	@Override public ItemStack getCooldownToggleItem() {return ITEM.createItemStack();}
 	
 	private static final int MAX_CD = 30;
 	private static final int MAX_HASTE_CD = 15;

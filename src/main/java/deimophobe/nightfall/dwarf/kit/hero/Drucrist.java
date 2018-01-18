@@ -7,7 +7,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.KitCooldownPiece;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.monster.MonsterManager;
@@ -18,10 +18,9 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-public class Drucrist extends AbstractItem implements KitCooldownPiece {
+public class Drucrist extends AbstractItem implements CooldownPiece {
 
 
 	public Drucrist(Dwarf dwarf) {
@@ -32,9 +31,7 @@ public class Drucrist extends AbstractItem implements KitCooldownPiece {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public ItemStack getCooldownToggleItem() {
-		return ITEM.createItemStack();
-	}
+	
 	@Override public KitGiveType getGiveType() {
 		return  KitGiveType.START;
 	}

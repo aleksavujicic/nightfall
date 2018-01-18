@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 /**
  * Created by Deimophobe on 19/03/17.
  */
-public interface KitItemPiece extends KitPiece {
+public interface ItemPiece extends KitPiece {
 	boolean onUse(Action action, Block clickedBlock, BlockFace blockFace);
 	void onBlockBreak(Block block, boolean didBreak);
 	

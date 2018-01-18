@@ -9,7 +9,7 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.KitCooldownPiece;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.map.GameMap;
@@ -19,7 +19,6 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +26,7 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 14/01/18.
  */
-public class Trident extends AbstractItem implements KitCooldownPiece {
+public class Trident extends AbstractItem implements CooldownPiece {
 	
 	public Trident(Dwarf dwarf) {
 		super(dwarf);
@@ -47,7 +46,6 @@ public class Trident extends AbstractItem implements KitCooldownPiece {
 		return ITEM;
 	}
 	@Override public KitGiveType getGiveType() { return KitGiveType.START; }
-	@Override public ItemStack getCooldownToggleItem() { return null; }
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {

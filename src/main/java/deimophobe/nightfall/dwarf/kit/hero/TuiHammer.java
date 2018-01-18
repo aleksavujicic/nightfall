@@ -5,7 +5,7 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
-import deimophobe.nightfall.dwarf.kit.KitCooldownPiece;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.melee.AbstractAOEHitter;
 import deimophobe.nightfall.entity.MonsterEntity;
@@ -18,13 +18,12 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 11/03/17.
  */
-public class TuiHammer extends AbstractAOEHitter implements KitCooldownPiece {
+public class TuiHammer extends AbstractAOEHitter implements CooldownPiece {
 	public TuiHammer(Dwarf dwarf) {
 		super(dwarf);
 	}
@@ -106,8 +105,4 @@ public class TuiHammer extends AbstractAOEHitter implements KitCooldownPiece {
 		return 1 - ((float)cooldown/MAX_CD);
 	}
 	
-	@Override
-	public ItemStack getCooldownToggleItem() {
-		return getItem().createItemStack();
-	}
 }

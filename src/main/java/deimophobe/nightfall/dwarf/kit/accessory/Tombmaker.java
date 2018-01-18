@@ -10,7 +10,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
-import deimophobe.nightfall.dwarf.kit.KitCooldownPiece;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.DwarfShovel;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
@@ -30,7 +30,7 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 20/01/17.
  */
-public class Tombmaker extends DwarfShovel implements KitCooldownPiece {
+public class Tombmaker extends DwarfShovel implements CooldownPiece {
 	
 	public Tombmaker(Dwarf dwarf) {
 		super(dwarf);
@@ -43,7 +43,6 @@ public class Tombmaker extends DwarfShovel implements KitCooldownPiece {
 		return ITEM;
 	}
 	@Override public KitGiveType getGiveType() { return KitGiveType.SHOVEL; }
-	@Override public ItemStack getCooldownToggleItem() { return null; }
 	
 	
 	@Override

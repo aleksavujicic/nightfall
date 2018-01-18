@@ -8,19 +8,18 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
-import deimophobe.nightfall.dwarf.kit.KitCooldownPiece;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Created by Deimophobe on 10/10/17.
  */
-public abstract class AbstractRuneblade extends AbstractItem implements KitCooldownPiece {
+public abstract class AbstractRuneblade extends AbstractItem implements CooldownPiece {
 	private static final int CD_TIME = 400;
 	
 	private final ComplexCooldown cooldown;
@@ -74,11 +73,6 @@ public abstract class AbstractRuneblade extends AbstractItem implements KitCoold
 	@Override
 	public float fractionComplete() {
 		return cooldown.fractionComplete();
-	}
-	
-	@Override
-	public ItemStack getCooldownToggleItem() {
-		return null;
 	}
 	
 	private void dash() {

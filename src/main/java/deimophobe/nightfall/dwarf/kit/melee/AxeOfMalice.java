@@ -7,19 +7,18 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
-import deimophobe.nightfall.dwarf.kit.KitCooldownPiece;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 20/01/17.
  */
-public class AxeOfMalice extends AbstractItem implements KitCooldownPiece {
+public class AxeOfMalice extends AbstractItem implements CooldownPiece {
 	
 	private final ComplexCooldown cd = new ComplexCooldown(60*20, this::giveProc, this::notifyOffCD);
 	
@@ -31,7 +30,7 @@ public class AxeOfMalice extends AbstractItem implements KitCooldownPiece {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public ItemStack getCooldownToggleItem() { return ITEM.createItemStack();}
+	
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 	
 	@Override

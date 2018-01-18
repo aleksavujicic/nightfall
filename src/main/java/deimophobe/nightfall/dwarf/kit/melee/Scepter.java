@@ -10,7 +10,7 @@ import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.KitCooldownPiece;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.entity.GameEntity;
@@ -24,18 +24,17 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import java.util.function.Consumer;
 
-public class Scepter extends AbstractItem implements KitCooldownPiece {
+public class Scepter extends AbstractItem implements CooldownPiece {
 	public Scepter(Dwarf dwarf) { super(dwarf); }
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "scepter");
 	@Override public CustomItem getItem() { return ITEM; }
-	@Override public ItemStack getCooldownToggleItem() { return ITEM.createItemStack(); }
+	
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 	
 	

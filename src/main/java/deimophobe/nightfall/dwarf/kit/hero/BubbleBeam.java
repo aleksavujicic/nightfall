@@ -37,7 +37,6 @@ public class BubbleBeam extends AbstractItem {
 		return ITEM;
 	}
 	@Override public KitGiveType getGiveType() { return KitGiveType.START; }
-	//@Override public ItemStack getCooldownToggleItem() { return null; }
 	
 	
 	@Override

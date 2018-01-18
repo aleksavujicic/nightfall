@@ -4,14 +4,14 @@ import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.kit.KitArmour;
+import deimophobe.nightfall.dwarf.kit.ArmourPiece;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 14/01/18.
  */
-public class FeralInstinct extends AbstractPiece implements KitArmour {
+public class FeralInstinct extends AbstractPiece implements ArmourPiece {
 	public FeralInstinct(Dwarf dwarf) {
 		super(dwarf);
 		dwarf.givePermanentPotionEffect(PotionEffectType.NIGHT_VISION, 1);

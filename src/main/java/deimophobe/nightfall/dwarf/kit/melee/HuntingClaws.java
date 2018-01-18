@@ -8,7 +8,7 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.KitCooldownPiece;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.monster.MonsterManager;
@@ -18,7 +18,6 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -27,7 +26,7 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 27/10/17.
  */
-public class HuntingClaws extends AbstractItem implements KitCooldownPiece {
+public class HuntingClaws extends AbstractItem implements CooldownPiece {
 	
 	private final static int HUNT_DURATION = 120*20;
 	
@@ -44,7 +43,7 @@ public class HuntingClaws extends AbstractItem implements KitCooldownPiece {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public ItemStack getCooldownToggleItem() { return ITEM.createItemStack();}
+	
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 	
 	@Override

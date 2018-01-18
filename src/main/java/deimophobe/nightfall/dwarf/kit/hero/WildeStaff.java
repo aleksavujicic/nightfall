@@ -8,7 +8,7 @@ import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.KitCooldownPiece;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.monster.MonsterManager;
@@ -21,12 +21,11 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-public class WildeStaff extends AbstractItem implements KitCooldownPiece {
+public class WildeStaff extends AbstractItem implements CooldownPiece {
 
 	public WildeStaff(Dwarf dwarf){
 		super(dwarf);
@@ -40,9 +39,7 @@ public class WildeStaff extends AbstractItem implements KitCooldownPiece {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public ItemStack getCooldownToggleItem() {
-		return ITEM.createItemStack();
-	}
+	
 	@Override public KitGiveType getGiveType() {
 		return KitGiveType.START;
 	}

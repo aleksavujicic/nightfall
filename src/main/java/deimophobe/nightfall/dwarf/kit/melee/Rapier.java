@@ -7,7 +7,7 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.KitCooldownPiece;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.entity.MonsterEntity;
@@ -17,12 +17,11 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by Deimophobe on 28/10/17.
  */
-public class Rapier extends AbstractItem implements KitCooldownPiece {
+public class Rapier extends AbstractItem implements CooldownPiece {
 	
 	private static final int STACK_CD_TIME = 8*20;
 	private static final int INVINC_TIME = 2*20;
@@ -43,7 +42,7 @@ public class Rapier extends AbstractItem implements KitCooldownPiece {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public ItemStack getCooldownToggleItem() { return ITEM.createItemStack();}
+	
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 	
 	

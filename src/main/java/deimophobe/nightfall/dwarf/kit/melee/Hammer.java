@@ -5,7 +5,7 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.KitCooldownPiece;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -15,12 +15,11 @@ import deimophobe.nightfall.monster.mob.MobType;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by Deimophobe on 20/01/17.
  */
-public class Hammer extends AbstractAOEHitter implements KitCooldownPiece {
+public class Hammer extends AbstractAOEHitter implements CooldownPiece {
 	
 	public Hammer(Dwarf dwarf) {
 		super(dwarf);
@@ -64,11 +63,6 @@ public class Hammer extends AbstractAOEHitter implements KitCooldownPiece {
 			}
 		}
 		dwarf.playSound("dragonroar", 1f, 1.5f, true);
-	}
-	
-	@Override
-	public ItemStack getCooldownToggleItem() {
-		return getItem().createItemStack();
 	}
 	
 	@Override

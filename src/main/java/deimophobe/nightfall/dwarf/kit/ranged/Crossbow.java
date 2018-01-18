@@ -4,17 +4,16 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.kit.KitCooldownPiece;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by Deimophobe on 20/01/17.
  */
-public class Crossbow extends AbstractBow implements KitCooldownPiece {
+public class Crossbow extends AbstractBow implements CooldownPiece {
 	public Crossbow(Dwarf dwarf) {
 		super(dwarf);
 	}
@@ -25,7 +24,7 @@ public class Crossbow extends AbstractBow implements KitCooldownPiece {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public ItemStack getCooldownToggleItem() {return ITEM.createItemStack();}
+	
 	@Override public String getBowIdentifier() {return "CROSSBOW";}
 	
 	private ComplexCooldown arrowCD = new ComplexCooldown(40, this::fireNormalArrow);
