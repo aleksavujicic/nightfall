@@ -69,7 +69,7 @@ tombmaker:
   category: accessory
   type: item
   name: tombmaker
-  cost: 4
+  cost: 6
   item:
     name: "Tombmaker"
     base: tombmaker
