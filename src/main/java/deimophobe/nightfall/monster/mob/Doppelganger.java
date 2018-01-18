@@ -1,6 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import deimophobe.nightfall.Game;
 import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.SkinManager;
@@ -22,6 +23,8 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +56,8 @@ public class Doppelganger extends AbstractMob {
 			SkinManager.getManager().addSkinChange(monster, playerSkin);
 			
 			
-			WrappedGameProfile profile = new WrappedGameProfile(target.getUniqueId(), target.getName());
+			WrappedGameProfile profile = new WrappedGameProfile(target.getUniqueId(), ChatColor.DARK_AQUA + target.getName());
+			getTeam().addEntry(ChatColor.DARK_AQUA + target.getName());
 			skin.applyToWrappedGameProfile(profile);
 			
 			disguise = new PlayerDisguise(profile);
@@ -167,5 +171,19 @@ public class Doppelganger extends AbstractMob {
 				return;
 			}
 		}
+	}
+	
+	private static final String TEAM_NAME = "doppelganger";
+	private static Team getTeam() {
+		Scoreboard scoreboard = Game.getGame().getScoreboard();
+		
+		Team team = scoreboard.getTeam(TEAM_NAME);
+		if (team == null) {
+			team = scoreboard.registerNewTeam(TEAM_NAME);
+			team.setColor(ChatColor.DARK_AQUA);
+			team.setPrefix(ChatColor.DARK_AQUA.toString());
+		}
+		
+		return team;
 	}
 }

@@ -287,7 +287,10 @@ public abstract class AbstractMob implements Mob {
 	@Override public int getSOSTime() { return mobData.sosTime; }
 	@Override public double getShrineWeight() { return mobData.shrineWeight; }
 	
-	@Override public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {}
+	@Override public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		if (doubleSec)
+			playSound("idle");
+	}
 	@Override public void onShift(boolean sneaking) {}
 	@Override public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {}
 	@Override public Projectile onBowFire(Arrow arrow, float force) { return null; }

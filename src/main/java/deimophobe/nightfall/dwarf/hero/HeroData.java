@@ -20,6 +20,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.lang.reflect.Constructor;
@@ -90,6 +91,7 @@ public class HeroData extends DwarfData {
 				throw new InvalidConfigurationException("ChatColor '" + colourName + "' is not a colour");
 			}
 		}
+		getTeam().addEntry(ChatColor.GOLD + nametag);
 		
 		
 		// Items
@@ -155,12 +157,16 @@ public class HeroData extends DwarfData {
 		return heroCreator.apply(player);
 	}
 	
-	Team createTeam() {
+	public Team getTeam() {
 		String name = type.name().toLowerCase();
-		Team team = Game.getGame().getNewTeam("hero" + name);
-		team.setColor(glowColour);
-		team.setPrefix(glowColour.toString());
-		team.addEntry(name);
+		Scoreboard scoreboard = Game.getGame().getScoreboard();
+		
+		Team team = scoreboard.getTeam("hero" + name);
+		if (team == null) {
+			team = scoreboard.registerNewTeam(name);
+			team.setColor(glowColour);
+			team.setPrefix(glowColour.toString());
+		}
 		
 		return team;
 	}
