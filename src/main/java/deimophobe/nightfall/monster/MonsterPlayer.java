@@ -88,7 +88,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			gainXP(10);
 		}
 		if (quartSec && isAlive() && isInShrine()) {
-			gainXP(2);
+			if (mob.getType() != MobType.TICKER) gainXP(2);
 		}
 		
 		usedThisTick = false;
