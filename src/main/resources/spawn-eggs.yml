@@ -72,7 +72,7 @@ golem:
 wraith:
   mobtype: wraith
   egg:
-    base: temporary
+    base: wraith-claw
     name: Spawn Wraith
     shiny: true
   quantity: 1
@@ -81,7 +81,7 @@ wraith:
 minotaur:
   mobtype: minotaur
   egg:
-    base: temporary
+    base: ogreclub
     name: Spawn Minotaur
     shiny: true
   quantity: 2
