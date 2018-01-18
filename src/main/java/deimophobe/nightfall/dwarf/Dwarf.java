@@ -29,6 +29,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
@@ -682,8 +683,10 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile arrow, Block hitBlock) {
-		kit.onProjectileLand(arrow, hitBlock);
+	public void onProjectileLand(Projectile arrow, Block hitBlock, Entity hitEntity) {
+		// Should incorporate hitEntity into here as well at some point, and make hitBlock != null a local check, but not necessary for now
+		if (hitBlock != null)
+			kit.onProjectileLand(arrow, hitBlock);
 	}
 	
 	public void notifyDeath(Dwarf dwarf) {

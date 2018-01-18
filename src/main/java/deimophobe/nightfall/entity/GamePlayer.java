@@ -362,7 +362,7 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	public abstract void onUse(Action action, Block clickedBlock, BlockFace blockFace); // TODO: tidyup
 	public abstract void onShift(boolean sneaking);
 	public abstract Projectile onBowFire(Arrow arrow, float force); // TODO: bowfire event
-	public abstract void onProjectileLand(Projectile arrow, Block hitBlock);
+	public abstract void onProjectileLand(Projectile arrow, Block hitBlock, Entity hitEntity);
 	
 	@Deprecated
 	public abstract void update(boolean b, boolean b1, boolean b2, boolean b3, boolean b4);

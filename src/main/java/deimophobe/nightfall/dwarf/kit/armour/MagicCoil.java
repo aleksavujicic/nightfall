@@ -21,6 +21,7 @@ public class MagicCoil extends AbstractCooldown {
 		BUFFS.add(new Buff(PotionEffectType.DAMAGE_RESISTANCE, 2));
 		BUFFS.add(new Buff(PotionEffectType.SLOW, -1));
 		BUFFS.add(new Buff(PotionEffectType.NIGHT_VISION, 1));
+		BUFFS.add(new Buff(PotionEffectType.FIRE_RESISTANCE, 1));
 		BUFFS.add(new Buff(PotionEffectType.INCREASE_DAMAGE, 3));
 		BUFFS.add(new Buff(PotionEffectType.REGENERATION, 4));
 		BUFFS.add(new Buff(PotionEffectType.HEALTH_BOOST, 3));

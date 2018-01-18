@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
 
 /**
@@ -88,7 +89,9 @@ class SkeletonFlamelancer extends Skeleton {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile proj, Block hitBlock) {
+	public void onProjectileLand(Projectile proj, Block hitBlock, Entity hitEntity) {
+		if (hitBlock == null) return;
+		
 		BlockFace face = Misc.getBlockFaceProjectileHit(proj, hitBlock);
 		Block block = hitBlock.getRelative(face);
 		

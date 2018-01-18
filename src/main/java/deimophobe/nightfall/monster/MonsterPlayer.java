@@ -27,6 +27,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
@@ -433,9 +434,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile arrow, Block hitBlock) {
+	public void onProjectileLand(Projectile projectile, Block hitBlock, Entity hitEntity) {
 		if (mob != null)
-			mob.onProjectileLand(arrow, hitBlock);
+			mob.onProjectileLand(projectile, hitBlock, hitEntity);
 	}
 	
 	

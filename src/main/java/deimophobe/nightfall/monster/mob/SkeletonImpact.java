@@ -22,6 +22,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -109,7 +110,9 @@ class SkeletonImpact extends Skeleton {
     }
 
     @Override
-    public void onProjectileLand(Projectile proj, Block block) {
+    public void onProjectileLand(Projectile proj, Block hitBlock, Entity hitEntity) {
+        if (hitBlock == null) return;
+        
         if (warpCD.isAvailable() && isActive() && isActiveProjectile(proj)) {
             if (!GameMap.getCurrentMap().getCurrentShrineProtection().continsEntity(proj)) {
                 setActive(false);
@@ -124,8 +127,8 @@ class SkeletonImpact extends Skeleton {
                 activeArrows.remove(proj);
             }
         } else {
-            BlockFace face = Misc.getBlockFaceProjectileHit(proj, block);
-            Block explosionBlock = block.getRelative(face);
+            BlockFace face = Misc.getBlockFaceProjectileHit(proj, hitBlock);
+            Block explosionBlock = hitBlock.getRelative(face);
             Location centerLoc = explosionBlock.getLocation();
             impactExplosion(centerLoc, null);
         }

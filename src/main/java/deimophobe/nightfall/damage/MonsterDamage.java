@@ -8,7 +8,6 @@ import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
-import deimophobe.nightfall.monster.mob.EmberSprite;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageEvent;
 
@@ -46,10 +45,6 @@ public class MonsterDamage extends GameDamage<GameEntity, MonsterEntity> {
 	void notifyEntities() {
 		if (attacker instanceof Dwarf) {
 			((Dwarf) attacker).onDamageAttack(this);
-		}
-		// Workaround for EmberSprite fireballs being blocked by ais
-		if (attacker instanceof MonsterPlayer && ((MonsterPlayer) attacker).getMob() instanceof EmberSprite) {
-			((EmberSprite)((MonsterPlayer) attacker).getMob()).onDamageAttack(this);
 		}
 		receiver.onDamageReceive(this);
 	}
