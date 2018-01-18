@@ -284,6 +284,7 @@ public abstract class AbstractMob implements Mob {
 	
 	@Override public boolean isShrineImmune() { return mobData.shrineImmune; }
 	@Override public int getSOSTime() { return mobData.sosTime; }
+	@Override public double getShrineWeight() { return mobData.shrineWeight; }
 	
 	@Override public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {}
 	@Override public void onShift(boolean sneaking) {}

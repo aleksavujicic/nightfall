@@ -10,6 +10,7 @@ speed: 20
 resistance: 1
 proccable: false
 shrineimmune: true
+shrineweight: 0
 
 armour:
   name: Temp
