@@ -159,7 +159,7 @@ horn:
 ##### HERANA #####
 trident:
   base: trident
-  name: Nightsong
+  name: Trident of Naia
   lore:
     description:
      - "Lore team go!"
