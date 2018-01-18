@@ -8,6 +8,8 @@ import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import me.libraryaddict.disguise.disguisetypes.Disguise;
+import me.libraryaddict.disguise.disguisetypes.watchers.LivingWatcher;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -30,6 +32,12 @@ class Ticker extends AbstractMob {
 		super.onSpawn();
 		monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
 		giveSpawnProtection(deathTimer*20);
+		
+		Disguise disguise = getDisguise();
+		disguise.setHearSelfDisguise(false);
+		LivingWatcher watcher = (LivingWatcher) disguise.getWatcher();
+		watcher.setInvisible(true);
+		watcher.setArrowsSticking(0);
 	}
 	
 	@Override
