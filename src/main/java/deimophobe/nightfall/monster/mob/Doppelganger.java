@@ -25,7 +25,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Created by Deimophobe on 15/01/18.
@@ -54,7 +53,7 @@ public class Doppelganger extends AbstractMob {
 			SkinManager.getManager().addSkinChange(monster, playerSkin);
 			
 			
-			WrappedGameProfile profile = new WrappedGameProfile(UUID.randomUUID(), ChatColor.DARK_AQUA + target.getName());
+			WrappedGameProfile profile = new WrappedGameProfile(target.getUniqueId(), target.getName());
 			skin.applyToWrappedGameProfile(profile);
 			
 			disguise = new PlayerDisguise(profile);
@@ -74,6 +73,7 @@ public class Doppelganger extends AbstractMob {
 		final String targetMsg;
 		if (target == null) targetMsg = ChatColor.RED + "There are no dwarves to clone!";
 		else targetMsg = ChatColor.GOLD + "Clone: " + ChatColor.AQUA + target.getName();
+		monster.sendMessage(targetMsg);
 		monster.sendTitleMessage(targetMsg);
 	}
 	
