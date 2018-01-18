@@ -1,6 +1,6 @@
 package deimophobe.nightfall.blocks.blocktype;
 
-import deimophobe.nightfall.dwarf.kit.elements.hero.Trident;
+import deimophobe.nightfall.dwarf.kit.hero.Trident;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;

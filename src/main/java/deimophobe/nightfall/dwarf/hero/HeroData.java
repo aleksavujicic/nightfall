@@ -13,7 +13,7 @@ import deimophobe.nightfall.dwarf.DwarfData;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.Kit;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -96,12 +96,12 @@ public class HeroData extends DwarfData {
 		Misc.checkConfigStringExists(config, "items");
 		for (String item : config.getStringList("items")) {
 			try {
-				addElement(KitElementType.fromString(item));
+				addElement(KitPieceType.fromString(item));
 			} catch (UnknownEnumElementException e) {
 				throw new InvalidConfigurationException("Unknown KitPiece item: " + item, e);
 			}
 		}
-		addElement(KitElementType.HERO_BASE);
+		addElement(KitPieceType.HERO_BASE);
 		
 		
 		// Consumables

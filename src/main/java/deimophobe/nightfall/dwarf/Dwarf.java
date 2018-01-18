@@ -19,8 +19,8 @@ import deimophobe.nightfall.dwarf.consumable.Consumable;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.Kit;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
-import deimophobe.nightfall.dwarf.kit.elements.armour.BerserkArmour;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
+import deimophobe.nightfall.dwarf.kit.armour.BerserkArmour;
 import deimophobe.nightfall.entity.DwarfEntity;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
@@ -111,24 +111,24 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	// ------ KIT ITEMS -------
 	private final Kit kit;
 	
-	public Collection<KitElementType> getKitElementTypes() {
+	public Collection<KitPieceType> getKitElementTypes() {
 		return kit.getKitElementTypes();
 	}
 	
-	public boolean hasKitElement(KitElementType type) {
+	public boolean hasKitElement(KitPieceType type) {
 		return kit.containsElement(type);
 	}
 	public void giveKitItems(KitGiveType type) {kit.giveItems(type);}
 	
 	public void giveCompass() {
-		if (!hasKitElement(KitElementType.COMPASS)) kit.addAndGiveItem(KitElementType.COMPASS);
+		if (!hasKitElement(KitPieceType.COMPASS)) kit.addAndGiveItem(KitPieceType.COMPASS);
 	}
 	
 	public void giveChesto() {
-		if (!hasKitElement(KitElementType.CHESTO)) kit.addAndGiveItem(KitElementType.CHESTO);
+		if (!hasKitElement(KitPieceType.CHESTO)) kit.addAndGiveItem(KitPieceType.CHESTO);
 	}
 	
-	public void giveKitItem(KitElementType type) {
+	public void giveKitItem(KitPieceType type) {
 		if (!hasKitElement(type)) {
 			kit.addAndGiveElement(type);
 		}
@@ -447,7 +447,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		double damage = 0;
 		int strength = getPotionEffectLevel(PotionEffectType.INCREASE_DAMAGE);
 		damage += strength * 3;
-		if (hasKitElement(KitElementType.BERSERKER)) {
+		if (hasKitElement(KitPieceType.BERSERKER)) {
 			damage += BerserkArmour.getAttackBonus();
 		}
 		return damage;
@@ -528,7 +528,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	// ------ MISC -------
 	@Override
 	public void heal(double amt) {
-		if (hasKitElement(KitElementType.STRONG_ALE))
+		if (hasKitElement(KitPieceType.STRONG_ALE))
 			amt = amt/3;
 		
 		super.heal(amt);

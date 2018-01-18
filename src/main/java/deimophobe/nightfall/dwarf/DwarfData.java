@@ -6,7 +6,7 @@ import deimophobe.nightfall.common.loadout.LoadoutManager;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.Kit;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -16,10 +16,10 @@ import java.util.*;
  * Created by Deimophobe on 15/01/17.
  */
 public class DwarfData implements LoadoutConstruct {
-	private SortedSet<KitElementType> elements = new TreeSet<>();
+	private SortedSet<KitPieceType> elements = new TreeSet<>();
 	private SortedMap<ConsumableType, Integer> consumables = new TreeMap<>();
 	
-	public Set<KitElementType> getElements() {
+	public Set<KitPieceType> getElements() {
 		return elements;
 	}
 	public Map<ConsumableType, Integer> getConsumables() {
@@ -31,7 +31,7 @@ public class DwarfData implements LoadoutConstruct {
 		addDefaults();
 	}
 	
-	public DwarfData(Set<KitElementType> elements, Map<ConsumableType, Integer> consumables) {
+	public DwarfData(Set<KitPieceType> elements, Map<ConsumableType, Integer> consumables) {
 		if (elements != null)
 			this.elements = new TreeSet<>(elements);
 		if (consumables != null)
@@ -43,22 +43,22 @@ public class DwarfData implements LoadoutConstruct {
 	
 	
 	private void addDefaults() {
-		addElement(KitElementType.DWARF_AXE);
-		addElement(KitElementType.DWARF_PICK);
-		addElement(KitElementType.DWARF_SHOVEL);
+		addElement(KitPieceType.DWARF_AXE);
+		addElement(KitPieceType.DWARF_PICK);
+		addElement(KitPieceType.DWARF_SHOVEL);
 	}
 	
 	private void tombmakerCheck() {
-		if (elements.contains(KitElementType.TOMBMAKER))
-			elements.remove(KitElementType.DWARF_SHOVEL);
+		if (elements.contains(KitPieceType.TOMBMAKER))
+			elements.remove(KitPieceType.DWARF_SHOVEL);
 	}
 	
 	
 	public void addElement(String type) {
 		try {
-			addElement(KitElementType.fromString(type));
+			addElement(KitPieceType.fromString(type));
 		} catch (UnknownEnumElementException e) {
-			Bukkit.getLogger().severe("Unknown KitElementType: " + type);
+			Bukkit.getLogger().severe("Unknown KitPieceType: " + type);
 			e.printStackTrace();
 		}
 	}
@@ -72,7 +72,7 @@ public class DwarfData implements LoadoutConstruct {
 		}
 	}
 	
-	public void addElement(KitElementType type) {
+	public void addElement(KitPieceType type) {
 		elements.add(type);
 		tombmakerCheck();
 	}

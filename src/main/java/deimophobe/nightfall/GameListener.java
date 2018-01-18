@@ -9,7 +9,7 @@ import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.elements.hero.Trident;
+import deimophobe.nightfall.dwarf.kit.hero.Trident;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;

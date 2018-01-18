@@ -10,7 +10,7 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
-import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.util.ArmourSlot;
 import me.libraryaddict.disguise.DisguiseAPI;
@@ -146,21 +146,21 @@ public class Doppelganger extends AbstractMob {
 	}
 	
 	
-	private static final Map<KitElementType, String> DWARF_WEAPONS = new HashMap<>();
+	private static final Map<KitPieceType, String> DWARF_WEAPONS = new HashMap<>();
 	static {
-		DWARF_WEAPONS.put(KitElementType.GRB, null);
-		DWARF_WEAPONS.put(KitElementType.AXE, "axe");
-		DWARF_WEAPONS.put(KitElementType.DAGGER, "dagger");
-		DWARF_WEAPONS.put(KitElementType.HAMMER, "hammer");
-		DWARF_WEAPONS.put(KitElementType.SCEPTER, "scepter");
-		DWARF_WEAPONS.put(KitElementType.RAPIER, "rapier");
-		DWARF_WEAPONS.put(KitElementType.SHADOW_BLADE, "shadowblade");
-		DWARF_WEAPONS.put(KitElementType.GLAIVE, "glaive");
+		DWARF_WEAPONS.put(KitPieceType.GRB, null);
+		DWARF_WEAPONS.put(KitPieceType.AXE, "axe");
+		DWARF_WEAPONS.put(KitPieceType.DAGGER, "dagger");
+		DWARF_WEAPONS.put(KitPieceType.HAMMER, "hammer");
+		DWARF_WEAPONS.put(KitPieceType.SCEPTER, "scepter");
+		DWARF_WEAPONS.put(KitPieceType.RAPIER, "rapier");
+		DWARF_WEAPONS.put(KitPieceType.SHADOW_BLADE, "shadowblade");
+		DWARF_WEAPONS.put(KitPieceType.GLAIVE, "glaive");
 	}
 	private void setFakeWeapon() {
 		if (target == null) return;
 		
-		for (Map.Entry<KitElementType, String> entry : DWARF_WEAPONS.entrySet()) {
+		for (Map.Entry<KitPieceType, String> entry : DWARF_WEAPONS.entrySet()) {
 			if (target.hasKitElement(entry.getKey())) {
 				String itemKey = entry.getValue();
 				if (itemKey != null) setWeapon(itemKey);

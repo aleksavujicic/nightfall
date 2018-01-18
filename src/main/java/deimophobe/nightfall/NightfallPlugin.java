@@ -16,8 +16,8 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.hero.HeroType;
-import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
-import deimophobe.nightfall.dwarf.kit.elements.hero.Horn;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
+import deimophobe.nightfall.dwarf.kit.hero.Horn;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.MapManager;
@@ -161,17 +161,17 @@ public class NightfallPlugin extends JavaPlugin {
 				
 				dm.removeGamePlayer(args[0], true);
 				mm.removeGamePlayer(args[0], true);
-				Set<KitElementType> elements = new HashSet<>();
+				Set<KitPieceType> elements = new HashSet<>();
 				if (args[1].equalsIgnoreCase("all")) {
 					sender.sendMessage(ChatColor.YELLOW + "Adding all elements!");
-					elements.addAll(Arrays.asList(KitElementType.values()));
+					elements.addAll(Arrays.asList(KitPieceType.values()));
 				} else {
 					for (int i = 1; i < args.length; i++) {
-						if (!KitElementType.isElement(args[i])) {
+						if (!KitPieceType.isElement(args[i])) {
 							sender.sendMessage(ChatColor.RED + "Unknown kit item: " + ChatColor.DARK_AQUA + args[i] + ChatColor.RED + "!");
 							continue;
 						}
-						elements.add(KitElementType.fromString(args[i]));
+						elements.add(KitPieceType.fromString(args[i]));
 					}
 				}
 				dm.createDwarf(player, new DwarfData(elements, null));
@@ -375,10 +375,10 @@ public class NightfallPlugin extends JavaPlugin {
 					Dwarf dwarf = dm.getGamePlayer((Player)sender);
 					if (dwarf != null) {
 						for (String arg : args) {
-							if (!KitElementType.isElement(arg)) {
+							if (!KitPieceType.isElement(arg)) {
 								sender.sendMessage(ChatColor.RED + "Unknown kit item: " + ChatColor.DARK_AQUA + arg + ChatColor.RED + "!");
 							} else {
-								dwarf.giveKitItem(KitElementType.fromString(arg));
+								dwarf.giveKitItem(KitPieceType.fromString(arg));
 							}
 						}
 					} else {
@@ -400,7 +400,7 @@ public class NightfallPlugin extends JavaPlugin {
 					sb.append(ChatColor.AQUA);
 					sb.append("You have the following kit items:\n");
 					sb.append(ChatColor.RESET);
-					for (KitElementType type : dwarf.getKitElementTypes()) {
+					for (KitPieceType type : dwarf.getKitElementTypes()) {
 						sb.append(type.toString().toLowerCase());
 						sb.append(", ");
 					}
@@ -1024,7 +1024,7 @@ public class NightfallPlugin extends JavaPlugin {
 		}
 		
 		if (name.equalsIgnoreCase("setdwarf") && args.length >= 2) {
-			Collection<String> elements = KitElementType.getElementNames();
+			Collection<String> elements = KitPieceType.getElementNames();
 			if (args.length == 2) elements.add("all");
 			return startsWithPrefix(args[args.length-1], elements);
 		}
@@ -1038,7 +1038,7 @@ public class NightfallPlugin extends JavaPlugin {
 		}
 		
 		if (name.equalsIgnoreCase("addkititem") && args.length >= 1) {
-			Collection<String> elements = KitElementType.getElementNames();
+			Collection<String> elements = KitPieceType.getElementNames();
 			return startsWithPrefix(args[args.length-1], elements);
 		}
 		
