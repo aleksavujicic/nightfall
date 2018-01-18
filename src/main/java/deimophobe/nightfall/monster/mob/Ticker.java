@@ -12,7 +12,9 @@ import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.watchers.LivingWatcher;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.block.Block;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -86,6 +88,11 @@ class Ticker extends AbstractMob {
 		super.onShift(sneaking);
 		if (!sneaking)
 			monster.setVelocity(0, 0.8, 0);
+	}
+	
+	@Override
+	public boolean onBlockBreak(Block block, boolean didBreak) {
+		return block.getType() != Material.TORCH && didBreak;
 	}
 	
 	@Override

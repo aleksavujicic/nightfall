@@ -590,10 +590,11 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	@Override
-	public void onBlockBreak(Block block, boolean didBreak) {
-		if (block == null) return;
+	public boolean onBlockBreak(Block block, boolean didBreak) {
+		if (block == null) return didBreak;
 		
 		kit.onBlockBreak(block, didBreak);
+		return didBreak;
 	}
 	
 	private boolean usedThisTick = false;

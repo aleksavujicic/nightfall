@@ -105,9 +105,10 @@ public class Doppelganger extends AbstractMob {
 	}
 	
 	@Override
-	public void onBlockBreak(Block block, boolean didBreak) {
-		super.onBlockBreak(block, didBreak);
+	public boolean onBlockBreak(Block block, boolean didBreak) {
+		didBreak = super.onBlockBreak(block, didBreak);
 		if (didBreak) unhide();
+		return didBreak;
 	}
 	
 	@Override

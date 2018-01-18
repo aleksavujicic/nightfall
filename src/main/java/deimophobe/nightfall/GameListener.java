@@ -355,6 +355,24 @@ public class GameListener implements Listener {
 		event.getEntity().remove();
 	}
 	
+	@EventHandler
+	public void onBlockBreak(BlockBreakEvent event) {
+		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
+		
+		Block block = event.getBlock();
+		GameMap map = GameMap.getCurrentMap();
+		
+		if (!map.isBlockBreakable(block)) {
+			event.setCancelled(true);
+		}
+		
+		GamePlayer gp = game.getGamePlayer(event.getPlayer());
+		if (gp != null) {
+			boolean shouldBreak = gp.onBlockBreak(event.getBlock(), !event.isCancelled());
+			event.setCancelled(!shouldBreak);
+		}
+	}
+	
 	// --------------------------------------------------------
 	//                        DEATH
 	// --------------------------------------------------------
@@ -474,22 +492,6 @@ public class GameListener implements Listener {
 		if (event.getNewState().getType() == Material.OBSIDIAN) {
 			event.setCancelled(true);
 		}
-	}
-	
-	@EventHandler
-	public void onBlockBreak(BlockBreakEvent event) {
-		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
-		
-		Block block = event.getBlock();
-		GameMap map = GameMap.getCurrentMap();
-		
-		if (!map.isBlockBreakable(block)) {
-			event.setCancelled(true);
-		}
-		
-		GamePlayer gp = game.getGamePlayer(event.getPlayer());
-		if (gp != null)
-			gp.onBlockBreak(event.getBlock(), !event.isCancelled());
 	}
 	
 	@EventHandler
