@@ -63,7 +63,7 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 		}
 	}
 	
-	void restock() {
+	public void restock() {
 		quantity = maxQuantity;
 	}
 	
@@ -123,6 +123,9 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 	}
 	public static SpawnEggMenuItem getEgg(MobType type) {
 		return eggMap.get(type.toString().toLowerCase().replace("_", "-"));
+	}
+	public static Collection<String> getEggNames() {
+		return eggMap.keySet();
 	}
 	public static void resetEggs() {
 		for (SpawnEggMenuItem egg : eggMap.values())

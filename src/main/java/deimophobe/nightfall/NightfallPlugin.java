@@ -27,6 +27,7 @@ import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.doom.DoomManager;
 import deimophobe.nightfall.monster.doom.DoomType;
 import deimophobe.nightfall.monster.mob.MobType;
+import deimophobe.nightfall.monster.spawnmenu.SpawnEggMenuItem;
 import deimophobe.nightfall.plague.Plague;
 import deimophobe.nightfall.plague.PlagueType;
 import org.apache.commons.lang.StringUtils;
@@ -287,6 +288,22 @@ public class NightfallPlugin extends JavaPlugin {
 			else
 				sender.sendMessage(ChatColor.AQUA + "Doom is now " + ChatColor.RED + "DISABLED");
 			return true;
+		}
+		if (name.equalsIgnoreCase("resetegg")) {
+			if (args.length == 0) {
+				sender.sendMessage(ChatColor.RED + "Please specify a monster.");
+				return false;
+			} else {
+				String eggName = args[0];
+				SpawnEggMenuItem egg = SpawnEggMenuItem.getEgg(eggName);
+				if (egg == null) {
+					sender.sendMessage(ChatColor.RED + "No egg called '" + ChatColor.YELLOW + eggName + ChatColor.RED + "'");
+					return false;
+				}
+				egg.restock();
+				sender.sendMessage(ChatColor.GREEN + "Successfully restocked egg '" + ChatColor.YELLOW + eggName + ChatColor.GREEN + "'");
+				return true;
+			}
 		}
 		if (name.equalsIgnoreCase("horn")) {
 			Horn.tootHorn();
@@ -1023,6 +1040,10 @@ public class NightfallPlugin extends JavaPlugin {
 		if (name.equalsIgnoreCase("addkititem") && args.length >= 1) {
 			Collection<String> elements = KitElementType.getElementNames();
 			return startsWithPrefix(args[args.length-1], elements);
+		}
+		
+		if (name.equalsIgnoreCase("resetegg") && args.length == 1) {
+			return startsWithPrefix(args[args.length-1], SpawnEggMenuItem.getEggNames());
 		}
 		
 		if (name.equalsIgnoreCase("forceplague") && args.length == 1) {

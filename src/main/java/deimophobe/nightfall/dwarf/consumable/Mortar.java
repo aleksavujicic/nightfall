@@ -1,7 +1,6 @@
 package deimophobe.nightfall.dwarf.consumable;
 
 import deimophobe.nightfall.Game;
-import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -30,7 +29,7 @@ class Mortar extends Consumable {
 		
 		if (clickedBlock == null)
 			clickedBlock = dwarf.getPlayer().getTargetBlock((Set<Material>) null, 5);
-		boolean shouldWizzy = wizzy || Game.getGame().getPhase().hasGameStarted()
+		boolean shouldWizzy = wizzy || Game.getGame().getPhase().hasGameStarted();
 		
 		BlockConverter.mortar(clickedBlock, shouldWizzy);
 		
