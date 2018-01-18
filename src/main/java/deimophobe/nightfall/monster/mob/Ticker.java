@@ -33,7 +33,7 @@ class Ticker extends AbstractMob {
 	public void onSpawn() {
 		super.onSpawn();
 		monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
-		giveSpawnProtection(deathTimer*20);
+		giveSpawnProtection(deathTimer*20 + 20);
 		
 		Disguise disguise = getDisguise();
 		disguise.setHearSelfDisguise(false);
