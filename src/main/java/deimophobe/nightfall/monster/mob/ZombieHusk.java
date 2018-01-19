@@ -42,7 +42,7 @@ public class ZombieHusk extends Zombie {
     private final ComplexCooldown staggerSound;
 
     private static Integer[] shredValues = {0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20};
-    private static Integer[] arrowResValues = {0, 10, 20, 30, 40, 50, 55, 60, 65, 70, 75};
+    private static Integer[] arrowResValues = {0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50}; // added by 25 later
     private static Integer[] rebirthValues = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
 
     protected ZombieHusk(MonsterPlayer mons) {
@@ -72,7 +72,7 @@ public class ZombieHusk extends Zombie {
         }
         this.smashing = false;
 
-        this.arrowRes = (double) arrowRes/100;
+        this.arrowRes = (double) (arrowRes + 25)/100; // 25 is base for husks
         this.rebirthChance = (double) rebirthChance/100;
 
         this.stagger = upgrades.get("stagger") >= 1;
@@ -84,6 +84,8 @@ public class ZombieHusk extends Zombie {
         else
             staggerSound = new ComplexCooldown(40);
 
+
+        getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, 25, "Husk Zombie");
         getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
         getArmour().addModifier(ItemModifierType.SPEED, -25, "Husk Zombie");
         getArmour().addModifier(ItemModifierType.HEALTH, 5, "Husk Zombie");
