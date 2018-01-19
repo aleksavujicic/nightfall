@@ -118,6 +118,7 @@ public class Tombmaker extends DwarfShovel implements CooldownPiece {
 		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 3, "proc in a bottles", RewardTier.UNCOMMON);
 		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 5, "proc in a bottles", RewardTier.RARE);
 		
+		new FixedScavengeItem("clover", "Lucky Clover");
 		new FixedScavengeItem("perfect-torch", "The Perfect Torch");
 	}
 	

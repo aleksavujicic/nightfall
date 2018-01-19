@@ -54,3 +54,15 @@ perfect-torch:
      - "Except it doesn't protect you from\n
         the darkness."
 
+clover:
+  template: dwarf-hero
+  base: temp
+  name: Four Leaf Clover
+  shiny: true
+  lore:
+    description:
+     - "Only the luckiest have been,\n
+        able to find this rare clover ."
+    flavour:
+     - ""
+
