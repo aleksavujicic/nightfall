@@ -104,7 +104,7 @@ glaive:
 
 scepter:
   base: scepter
-  name: Healing Scepter
+  name: Magical Scepter
   lore:
     description:
       - "Left click to shoot a beam that damages mobs,\n
