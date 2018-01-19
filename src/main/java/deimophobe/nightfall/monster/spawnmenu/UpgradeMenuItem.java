@@ -23,6 +23,7 @@ class UpgradeMenuItem implements MenuItem<MonsterPlayer> {
 	
 	private final String label;
 	private final Map<String, Integer> prereqs;
+	private final Map<String, Integer> coreqs;
 	private final Map<String, Integer> exclusiveWith;
 	private final MobType mob;
 	
@@ -38,14 +39,21 @@ class UpgradeMenuItem implements MenuItem<MonsterPlayer> {
 		this.mob = mob;
 		this.permanent = config.getBoolean("permanent", false);
 		
-		this.prereqs = new HashMap<>();
+		this.prereqs = new HashMap<>(); // and condition
 		ConfigurationSection prereqSec = config.getConfigurationSection("prereq");
 		if (prereqSec != null) {
 			for (String key : prereqSec.getKeys(false))
 				prereqs.put(key, config.getInt("prereq."+key));
 		}
 
-		this.exclusiveWith = new HashMap<>();
+		this.coreqs = new HashMap<>(); // or condition
+		ConfigurationSection coreqSec = config.getConfigurationSection("coreq");
+		if (coreqSec != null) {
+			for (String key : coreqSec.getKeys(false))
+				coreqs.put(key, config.getInt("coreq."+key));
+		}
+
+		this.exclusiveWith = new HashMap<>(); // xor condition, used for branches
 		ConfigurationSection exclusiveWithSec = config.getConfigurationSection("exclusiveWith");
 		if (exclusiveWithSec != null) {
 			for (String key : exclusiveWithSec.getKeys(false))
@@ -82,8 +90,17 @@ class UpgradeMenuItem implements MenuItem<MonsterPlayer> {
 			if (upgrades.get(prereq) < prereqs.get(prereq))
 				return false;
 		}
-		for (String prereq : exclusiveWith.keySet()) {
-			if (upgrades.get(prereq) >= exclusiveWith.get(prereq))
+
+		boolean buffer = false;
+		for (String coreq : coreqs.keySet()) {
+			buffer = buffer || (upgrades.get(coreq) >= coreqs.get(coreq));
+		}
+		if (!coreqs.isEmpty() && !buffer) {
+			return false;
+		}
+
+		for (String exreq : exclusiveWith.keySet()) {
+			if (upgrades.get(exreq) >= exclusiveWith.get(exreq))
 				return false;
 		}
 		

@@ -59,7 +59,7 @@ class Skeleton extends AbstractMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		if ((damage.getType() == NaturalDamageType.RANGED && damage.hasArrow() && ArrowMisc.getArrowForce(damage.getArrow()) > 0.7) || damage.getType() == CustomDamageType.WITHER_BEAM) {
+		if ((damage.getType() == NaturalDamageType.RANGED && damage.hasArrow() && ArrowMisc.getArrowForce(damage.getArrow()) > 0.7) || damage.getType() == CustomDamageType.WITHER_SKULL) {
 			damage.setArmourShred(getArmourShred());
 		}
 	}

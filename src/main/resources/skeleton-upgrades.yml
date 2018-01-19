@@ -16,6 +16,10 @@ power-inf:
   permanent: true
   prereq:
     power: 5
+  coreq:
+    withering: 1
+    fireai: 1
+    warpweaver: 1
   item:
     material: arrow
     name: "Upgrade Power (inf)"
@@ -42,6 +46,10 @@ quiver-inf:
   permanent: true
   prereq:
     quiver: 5
+  coreq:
+    withering: 1
+    fireai: 1
+    warpweaver: 1
   item:
     material: bone
     name: "Upgrade Quiver (inf)"
@@ -130,6 +138,7 @@ piercing:
 sniper:
   index: 12
   cost: [200, 400, 600, 800, 1000]
+  value: [10, 20, 30, 40, 50]
   prereq:
     wither: 1
   item:
@@ -137,9 +146,9 @@ sniper:
     name: "Sniper"
     lore:
       description:
-        - "Shooting a dwarf gives you more damage\n
-           and armor piercing, which wear off after\n
-           a few seconds."
+        - "Shooting a dwarf increases both\n
+           damage and armor damage by $value%\n
+           for 8 seconds."
 
 
 siphon:
@@ -197,11 +206,12 @@ withering:
     extrahealth-wither: 5
   item:
     base: wither_skull
-    name: "Withering Beam"
+    name: "Wither Skull"
     shiny: true
     lore:
       description:
-        - "Wither dwarves with your piercing beam."
+        - "Shoot wither skulls at dwarves\n
+           inflicting damage in an area."
 
 
 #################################

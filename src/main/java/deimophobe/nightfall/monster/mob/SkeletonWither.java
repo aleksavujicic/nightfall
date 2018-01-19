@@ -1,20 +1,26 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.DudCooldown;
+import deimophobe.nightfall.damage.DamageModifier;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.util.ArrowMisc;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Projectile;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.entity.*;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.function.Consumer;
 
@@ -23,17 +29,13 @@ import java.util.function.Consumer;
  */
 class SkeletonWither extends Skeleton {
 
-	private static final double MAX_RANGE = 30;
-	private static final double THICKNESS = 1.25;
-	private static final Consumer<Location> PARTICLE_PLACER =
-			(location) -> location.getWorld().spawnParticle(Particle.REDSTONE, location, 0, 40d/256, 8d/256, 70d/256, 1);
-
-	private int damageBoost = 0;
 	private final int piercing;
-	private final int damageBooster;
+	private final int sniper;
 	private final double siphon;
 	private final boolean withering;
 	private final double realArrowRes;
+	private int sniperCD;
+	private static final int MAX_SNIPER_CD = 160;
 
 	private static final Integer[] ARROW_RES_VALUES = {0, 10, 20, 30, 40, 50};
 
@@ -41,12 +43,13 @@ class SkeletonWither extends Skeleton {
 		super(monster, MobData.getMobData("skeleton.wither"));
 		
 		this.piercing = upgrades.get("piercing");
-		this.damageBooster = upgrades.get("sniper");
+		this.sniper = upgrades.get("sniper");
 		this.siphon = upgrades.get("siphon");
 		int arrowRes = ARROW_RES_VALUES[upgrades.get("arrowres-wither")];
 		int extraHealth = upgrades.get("extrahealth-wither");
 		this.withering = (upgrades.get("withering") > 0);
 		this.realArrowRes = arrowRes * 0.01;
+		this.sniperCD = 0;
 
 		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
 		getArmour().addModifier(ItemModifierType.HEALTH, extraHealth * 3, "Upgrade");
@@ -55,15 +58,16 @@ class SkeletonWither extends Skeleton {
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		if (halfSec && damageBoost > 0)
-			damageBoost--;
+		if (sniperCD > 0){
+			sniperCD--;
+		}
 	}
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		if ((damage.hasArrow() && ArrowMisc.getArrowForce(damage.getArrow()) > 0.7) || (damage.getType() == CustomDamageType.WITHER_BEAM)) {
-			damageBoost = Math.min(damageBoost + 5 + damageBooster, 20);
+		if ((damage.hasArrow() && ArrowMisc.getArrowForce(damage.getArrow()) > 0.7) || (damage.getType() == CustomDamageType.WITHER_SKULL)) {
+			sniperCD = MAX_SNIPER_CD;
 			monster.heal(siphon);
 			
 			if (withering) {
@@ -73,20 +77,68 @@ class SkeletonWither extends Skeleton {
 	}
 
 	@Override
+	public void onProjectileLand(Projectile proj, Block block, Entity hitEntity) {
+		super.onProjectileLand(proj, block, hitEntity);
+		if (withering) {
+			skullExplosion(proj.getLocation());
+		}
+	}
+
+	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {
 		if (withering && monster.hasItem(Material.ARROW, 2)) {
-			if (force < 0.7) return null;
+			if (force < 0.5) return null;
 			
 			monster.useItem(Material.ARROW, 2);
 
-			double range = MAX_RANGE * force * force;
-			GamePlayer.GameEntityDamager<Dwarf> entityDamager = monster.new GameEntityDamager<Dwarf>(CustomDamageType.WITHER_BEAM, getPower()*force*force, 2);
-			monster.fireParticle(2, range, THICKNESS, 0.3, PARTICLE_PLACER, entityDamager, null);
+			Location loc = monster.getEyeLocation();
+			World world = loc.getWorld();
+
+			WitherSkull skull = (WitherSkull) world.spawnEntity(loc, EntityType.WITHER_SKULL);
+			skull.setShooter(monster.getPlayer());
+			skull.setVelocity(loc.getDirection().multiply(0.8*force*force*force));
+
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					if (!skull.isDead()) {
+						skullExplosion(skull.getLocation());
+						skull.remove();
+					}
+				}
+			}.runTaskLater(NightfallPlugin.getPlugin(), 30); // 1.5 second lifetime
+
+			world.playSound(loc, "entity.wither.break_block", 0.1f, 0.8f);
+
 			((SkeletonWatcher) getDisguise().getWatcher()).setSwingArms(false);
 
 			return null;
 		} else {
 			return super.onBowFire(arrow, force);
+		}
+	}
+
+	private void skullExplosion(Location centerLoc) {
+		World world = monster.getLocation().getWorld();
+
+		double kb = 0.4;
+
+		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 1, 0, 0, 0);
+		world.spawnParticle(Particle.SMOKE_NORMAL, centerLoc, 70, 0.5, 0.5, 0.5, 0.03);
+		world.playSound(centerLoc, "entity.zombie.infect", 2, 0.75f);
+
+
+		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
+			Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
+			double distance = offset.subtract(new Vector(0,1,0)).length();
+			if (distance > 3) continue;
+
+			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.WITHER_SKULL, getPower());
+			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, distance)) );
+			knockback.setY(knockback.getY() / 2 + 0.1);
+			aoeDamage.setKnockback(knockback);
+			aoeDamage.setArmourShred(getArmourShred());
+			aoeDamage.fire(true);
 		}
 	}
 
@@ -98,11 +150,26 @@ class SkeletonWither extends Skeleton {
 
 	@Override
 	protected int getPower() {
-		return super.getPower() + damageBoost;
+		if (sniperCD > 0) {
+			return super.getPower() * (10 + sniper) / 10;
+		}
+		else {
+			return super.getPower();
+		}
 	}
 
 	@Override
 	protected int getArmourShred() {
-		return super.getArmourShred() + damageBoost + piercing * 5;
+		if (sniperCD > 0) {
+			return (super.getArmourShred() + piercing * 5) * (10 + sniper) / 10;
+		}
+		else {
+			return (super.getArmourShred() + piercing * 5);
+		}
+	}
+
+	@Override
+	public float getCooldown() {
+		return (float) sniperCD/MAX_SNIPER_CD;
 	}
 }
