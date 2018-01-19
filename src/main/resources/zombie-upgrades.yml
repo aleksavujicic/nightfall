@@ -16,6 +16,10 @@ attack-inf:
   permanent: true
   prereq:
     attack: 5
+  coreq:
+    stagger: 1
+    furynight: 1
+    assassination: 1
   item:
     material: wood_sword
     name: "Upgrade Attack (inf)"
@@ -42,6 +46,10 @@ health-inf:
   permanent: true
   prereq:
     health: 5
+  coreq:
+    stagger: 1
+    furynight: 1
+    assassination: 1
   item:
     material: rotten_flesh
     name: "Upgrade Health (inf)"

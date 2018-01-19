@@ -17,6 +17,8 @@ supplies-inf:
   permanent: true
   prereq:
     supplies: 5
+  coreq:
+    superkaboom: 1
   item:
     material: ender_stone
     name: "Upgrade Supplies (inf)"
@@ -45,6 +47,8 @@ health-inf:
   permanent: true
   prereq:
     health: 5
+  coreq:
+    superkaboom: 1
   item:
     material: rotten_flesh
     name: "Upgrade Health (inf)"

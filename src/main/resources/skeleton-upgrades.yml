@@ -16,6 +16,10 @@ power-inf:
   permanent: true
   prereq:
     power: 5
+  coreq:
+    withering: 1
+    fireai: 1
+    warpweaver: 1
   item:
     material: arrow
     name: "Upgrade Power (inf)"
@@ -42,6 +46,10 @@ quiver-inf:
   permanent: true
   prereq:
     quiver: 5
+  coreq:
+    withering: 1
+    fireai: 1
+    warpweaver: 1
   item:
     material: bone
     name: "Upgrade Quiver (inf)"
