@@ -4,28 +4,22 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
+import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.dwarf.kit.AbstractItem;
-import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
-import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.ai.AIEntity;
-import deimophobe.nightfall.util.LifetimeObject;
+import deimophobe.nightfall.util.Buffpool;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import java.util.function.Consumer;
 
@@ -34,7 +28,6 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "scepter");
 	@Override public CustomItem getItem() { return ITEM; }
-	
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 	
 	
@@ -50,6 +43,14 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		lanceCD.update();
 		buffpoolCD.update();
+		
+		if (activePool != null) {
+			activePool.update();
+			
+			if (activePool.hasEnded()) {
+				activePool = null;
+			}
+		}
 	}
 	
 	@Override
@@ -109,95 +110,8 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	// ----- BUFFPOOL -----
 	private Buffpool activePool;
 	
+	private static final Buffpool.Colour BUFFPOOL_COLOUR = new Buffpool.Colour(0.2, 0.8, 1);
 	private void createBuffpool() {
-		activePool = new Buffpool();
-	}
-
-	private class Buffpool extends LifetimeObject {
-		
-		private static final double BUFFPOOL_RADIUS = 2;
-		private static final double VISIBLE_RADIUS = BUFFPOOL_RADIUS - 0.3;
-		private final int NUM_PARTICLES = 6;
-		
-		private double theta = 0;
-		private final Location location;
-		
-		private Buffpool() {
-			super(15*20, 1);
-			this.location = dwarf.getLocation().add(0, 0.5, 0);
-		}
-		
-		@Override
-		public void run() {
-			super.run();
-			
-			// Buffpool particles
-			World world = location.getWorld();
-			world.spawnParticle(Particle.SPELL_WITCH, location, 3, VISIBLE_RADIUS/2, 0, VISIBLE_RADIUS/2, 0);
-			for (int i = 0; i < 20; i++) {
-				double dx = Misc.randomDouble(-1,1);
-				double maxZ = Math.sqrt(1 - dx*dx);
-				double dz = Misc.randomDouble(-maxZ, maxZ);
-				
-				double r = 0.2;
-				double g = 0.8;
-				double b = 1;
-				
-				Location particleLoc = location.clone().add(dx*VISIBLE_RADIUS, 0, dz*VISIBLE_RADIUS);
-				world.spawnParticle(Particle.REDSTONE, particleLoc, 0, r, g, b, 1);
-			}
-			
-			// Flame particles
-			theta = (theta + 0.05) % (2 * Math.PI);
-			
-			for (int i = 0; i < NUM_PARTICLES; i++) {
-				double frac = (double) i / NUM_PARTICLES;
-				double myTheta = theta - frac * 2 * Math.PI;
-				
-				Vector offset = new Vector(Math.cos(myTheta), 0, Math.sin(myTheta));
-				offset.multiply(VISIBLE_RADIUS);
-				Location particleLoc = location.clone().add(offset);
-				particleLoc.getWorld().spawnParticle(Particle.FLAME, particleLoc, 1, 0.1,0.03,0.1,0);
-			}
-			
-			// Buff Dwarves
-			for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
-				if (dwarf.getLocation().distance(location) <= BUFFPOOL_RADIUS) {
-					if (getLifeLeft() % 3 == 0) {
-						dwarf.regenMana(1);
-						dwarf.heal(1);
-					}
-					dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, getLifeLeft(), 3,true,true,false);
-					dwarf.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 10,2,true,true,false);
-					dwarf.updateVisibility();
-				}
-			}
-			
-			// Damage Mobs
-			if (getLifeLeft() % 5 == 0) {
-				for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
-					if (monster.getLocation().distance(location) <= BUFFPOOL_RADIUS) {
-						GameDamage damage = monster.createDamage(dwarf, CustomDamageType.BUFFPOOL, 5);
-						if (monster instanceof AIEntity) damage.instaKill();
-						damage.setNoDmgTicks(1);
-						damage.fire(true);
-					}
-				}
-			}
-		}
-		
-		@Override
-		public synchronized void cancel() throws IllegalStateException {
-			super.cancel();
-			activePool = null;
-		}
-	}
-	
-	@Override
-	public void notifyDeath(Dwarf deadDwarf) {
-		super.notifyDeath(deadDwarf);
-		if (deadDwarf == dwarf && activePool != null) {
-			activePool.cancel();
-		}
+		activePool = new Buffpool(dwarf, 12*20, 2, BUFFPOOL_COLOUR, 4, 2);
 	}
 }

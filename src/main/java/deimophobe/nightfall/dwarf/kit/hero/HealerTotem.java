@@ -6,15 +6,14 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
+import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.dwarf.kit.AbstractItem;
-import deimophobe.nightfall.dwarf.kit.KitPieceType;
+import deimophobe.nightfall.util.Buffpool;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 6/05/17.
@@ -22,7 +21,7 @@ import org.bukkit.potion.PotionEffectType;
 public class HealerTotem extends AbstractItem implements CooldownPiece {
 	
 	private final ComplexCooldown healing = new ComplexCooldown(20, this::groupHeal);
-	private final ComplexCooldown shield = new ComplexCooldown(2*60*20, this::shield);
+	private final ComplexCooldown buffpoolCD = new ComplexCooldown(180*20, this::createBuffpool);
 	
 	public HealerTotem(Dwarf dwarf) {
 		super(dwarf);
@@ -30,14 +29,13 @@ public class HealerTotem extends AbstractItem implements CooldownPiece {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "totem");
 	@Override public CustomItem getItem() {return ITEM;}
-	
 	@Override public KitGiveType getGiveType() {return KitGiveType.START;}
 	
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace face) {
 		if (Misc.isLeftClick(action)) {
-			return shield.tryUse();
+			return buffpoolCD.tryUse();
 		} else {
 			return healing.tryUse();
 		}
@@ -46,7 +44,15 @@ public class HealerTotem extends AbstractItem implements CooldownPiece {
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		healing.update();
-		shield.update();
+		buffpoolCD.update();
+		
+		if (activePool != null) {
+			activePool.update();
+			
+			if (activePool.hasEnded()) {
+				activePool = null;
+			}
+		}
 	}
 	
 	private void groupHeal() {
@@ -77,20 +83,16 @@ public class HealerTotem extends AbstractItem implements CooldownPiece {
 		}
 	}
 	
-	private void shield() {
-		for (Dwarf target : DwarfManager.getManager().getGamePlayers()) {
-			int amp = 10;
-			if (target.hasKitElement(KitPieceType.STRONG_ALE))
-				amp = 3;
-			
-			target.givePotionEffect(PotionEffectType.ABSORPTION, 2*60*20, amp, true, false, true);
-			target.playSound("block.enchantment_table.use", 10f, 0.5f, false);
-		}
+	private Buffpool activePool;
+	
+	private static final Buffpool.Colour BUFFPOOL_COLOUR = new Buffpool.Colour(0.7, 0.3, 0.8);
+	private void createBuffpool() {
+		activePool = new Buffpool(dwarf, 20*20, 3, BUFFPOOL_COLOUR, 8, 3);
 	}
 	
 	@Override
 	public float fractionComplete() {
-		return shield.fractionComplete();
+		return buffpoolCD.fractionComplete();
 	}
 	
 }
