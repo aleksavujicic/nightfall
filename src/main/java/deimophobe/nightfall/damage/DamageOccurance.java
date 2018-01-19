@@ -105,7 +105,7 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 					killMsg = "blasted";
 					break;
 
-				case WITHER_BEAM:
+				case WITHER_SKULL:
 					killMsg = "vaporized";
 					break;
 
