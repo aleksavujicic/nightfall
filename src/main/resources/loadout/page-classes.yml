@@ -224,7 +224,7 @@ healer-class:
   item:
     template: "loadout-class"
     name: "Healer Kit"
-    base: regrowth
+    base: scepter
     lore:
       description:
        - "Go heal ppl."

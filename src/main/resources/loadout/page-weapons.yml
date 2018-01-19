@@ -91,7 +91,7 @@ scepter:
   category: sword
   cost: 16
   item:
-    name: "Healing Scepter"
+    name: "Magical Scepter"
     base: scepter
     lore:
         description:
@@ -340,7 +340,7 @@ regrowth:
   cost: 6
   item:
     name: "Regrowth Star"
-    base: regrowth
+    material: diamond
     lore:
       description:
        - "Left click to heal yourself\n
