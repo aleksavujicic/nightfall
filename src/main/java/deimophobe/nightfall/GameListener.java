@@ -9,7 +9,7 @@ import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.elements.hero.Trident;
+import deimophobe.nightfall.dwarf.kit.hero.Trident;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
@@ -334,10 +334,10 @@ public class GameListener implements Listener {
 	public void onProjectileLand(ProjectileHitEvent event) {
 		Projectile proj = event.getEntity();
 		ProjectileSource source = proj.getShooter();
-		if (source instanceof Player && event.getHitBlock() != null) {
+		if (source instanceof Player) {
 			GamePlayer player = game.getGamePlayer((Player) source);
 			if (player != null) {
-				player.onProjectileLand(event.getEntity(), event.getHitBlock());
+				player.onProjectileLand(event.getEntity(), event.getHitBlock(), event.getHitEntity());
 				proj.remove();
 			}
 		}
@@ -353,6 +353,24 @@ public class GameListener implements Listener {
 		Object thrower = event.getEntity().getMetadata("thrower").get(0).value();
 		((Goblin)thrower).thrownGoboBox(centerLoc);
 		event.getEntity().remove();
+	}
+	
+	@EventHandler
+	public void onBlockBreak(BlockBreakEvent event) {
+		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
+		
+		Block block = event.getBlock();
+		GameMap map = GameMap.getCurrentMap();
+		
+		if (!map.isBlockBreakable(block)) {
+			event.setCancelled(true);
+		}
+		
+		GamePlayer gp = game.getGamePlayer(event.getPlayer());
+		if (gp != null) {
+			boolean shouldBreak = gp.onBlockBreak(event.getBlock(), !event.isCancelled());
+			event.setCancelled(!shouldBreak);
+		}
 	}
 	
 	// --------------------------------------------------------
@@ -474,22 +492,6 @@ public class GameListener implements Listener {
 		if (event.getNewState().getType() == Material.OBSIDIAN) {
 			event.setCancelled(true);
 		}
-	}
-	
-	@EventHandler
-	public void onBlockBreak(BlockBreakEvent event) {
-		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
-		
-		Block block = event.getBlock();
-		GameMap map = GameMap.getCurrentMap();
-		
-		if (!map.isBlockBreakable(block)) {
-			event.setCancelled(true);
-		}
-		
-		GamePlayer gp = game.getGamePlayer(event.getPlayer());
-		if (gp != null)
-			gp.onBlockBreak(event.getBlock(), !event.isCancelled());
 	}
 	
 	@EventHandler

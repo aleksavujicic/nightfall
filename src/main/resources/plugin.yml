@@ -100,6 +100,10 @@ commands:
     description: Enables/disables doom clock.
     usage: /toggledoom
     permission: nightfall.op
+  resetegg:
+    description: Restocks one of the mob spawn eggs
+    usage: /resetegg <name>
+    permission: nightfall.op
   spawnai:
     description: Spawns an AI at your location
     usage: /spawnai <amount>

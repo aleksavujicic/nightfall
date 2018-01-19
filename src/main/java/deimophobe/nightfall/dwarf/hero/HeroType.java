@@ -6,7 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.Team;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -31,8 +30,6 @@ public enum HeroType {
 		return data;
 	}
 	
-	private final Team team;
-	
 	HeroType(String configName) {
 		ConfigurationSection config = NightfallPlugin.getInternalFileConfig("heroes.yml").getConfigurationSection(configName);
 		
@@ -49,8 +46,6 @@ public enum HeroType {
 		} else {
 			this.data = null;
 		}
-		
-		this.team = (data != null ? data.createTeam() : null);
 	}
 	
 	public Hero createHero(Player player) {

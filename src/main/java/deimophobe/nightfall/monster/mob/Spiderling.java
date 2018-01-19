@@ -65,8 +65,8 @@ class Spiderling extends AbstractMob {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile proj, Block block) {
+	public void onProjectileLand(Projectile proj, Block hitBlock, Entity hitEntity) {
 		if (proj.getLocation().distance(monster.getLocation()) <= CORRODE_DISTANCE)
-			BlockConverter.convert(BlockConverter.Type.CORROSION, block.getLocation().add(0.5, 0.5, 0.5), 2);
+			BlockConverter.convert(BlockConverter.Type.CORROSION, proj.getLocation(), 2);
 	}
 }

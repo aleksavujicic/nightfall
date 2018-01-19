@@ -48,7 +48,7 @@ public class HealBlock extends TimedBlock {
 			World world = block.getWorld();
 			world.playSound(block.getLocation(), "block.note.harp", 0.5f, 2f - hitsLeft*0.05f);
 			world.playSound(block.getLocation(), "block.anvil.break", 1f, 1f);
-			((MonsterPlayer) player).gainXP(3);
+			((MonsterPlayer) player).gainXP(1);
 		}
 	}
 	

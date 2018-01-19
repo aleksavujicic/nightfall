@@ -21,8 +21,6 @@ import org.bukkit.inventory.PlayerInventory;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-import static com.comphenix.protocol.PacketType.Play.Server.*;
-
 /**
  * Created by Deimophobe on 5/09/17.
  */
@@ -31,14 +29,16 @@ public class SkinManager {
 		return Game.getGame().getSkinManager();
 	}
 	
-	private final Map<UUID, Skin> alteredSkins = new HashMap<>();
+	private final Map<UUID, PlayerSkin> alteredSkins = new HashMap<>();
 	private final PacketAdapter skinChanger;
 	
 	public SkinManager() {
 		skinChanger = new PacketAdapter(NightfallPlugin.getPlugin(), ListenerPriority.HIGHEST, PacketType.Play.Server.PLAYER_INFO) {
 			@Override
 			public void onPacketSending(PacketEvent event) {
+				UUID receiverUUID = event.getPlayer().getUniqueId();
 				PacketContainer pc = event.getPacket();
+				
 				EnumWrappers.PlayerInfoAction pia = pc.getPlayerInfoAction().read(0);
 				if (pia == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
 					List<PlayerInfoData> unalteredPIDList = pc.getPlayerInfoDataLists().read(0);
@@ -46,16 +46,10 @@ public class SkinManager {
 					for (int i=0; i<unalteredPIDList.size(); i++) {
 						PlayerInfoData oldPID = unalteredPIDList.get(i);
 						UUID uuid = oldPID.getProfile().getUUID();
-						Skin newSkin = alteredSkins.get(uuid);
+						PlayerSkin newSkin = alteredSkins.get(uuid);
 						
 						if (newSkin != null) {
-							String skinDisplayName = newSkin.getDisplayName();
-							WrappedChatComponent displayName;
-							if (skinDisplayName == null) displayName = oldPID.getDisplayName();
-							else displayName = WrappedChatComponent.fromText(skinDisplayName);
-							
-							PlayerInfoData newPID = new PlayerInfoData(newSkin.getProfile(uuid), oldPID.getLatency(), oldPID.getGameMode(), displayName);
-							newPIDList.set(i, newPID);
+							newPIDList.set(i, newSkin.getNewPlayerInfoData(oldPID, uuid.equals(receiverUUID)));
 						}
 					}
 					pc.getPlayerInfoDataLists().write(0, newPIDList);
@@ -78,44 +72,28 @@ public class SkinManager {
 		}
 	}
 	
-	public void addSkinChange(GamePlayer player, Skin skin) {
-		addSkinChange(player.getUniqueId(), skin);
-	}
-	public void addSkinChange(Player player, Skin skin) {
-		addSkinChange(player.getUniqueId(), skin);
-	}
-	public void addSkinChange(UUID uuid, Skin skin) {
+	public void addSkinChange(GamePlayer player, PlayerSkin skin) { addSkinChange(player.getUniqueId(), skin); }
+	public void addSkinChange(Player player, PlayerSkin skin) { addSkinChange(player.getUniqueId(), skin); }
+	public void addSkinChange(UUID uuid, PlayerSkin skin) {
 		alteredSkins.put(uuid, skin);
 		refreshSkin(uuid);
 	}
 	
-	public void removeSkinChange(GamePlayer player) {
-		removeSkinChange(player.getUniqueId());
-	}
-	public void removeSkinChange(Player player) {
-		removeSkinChange(player.getUniqueId());
-	}
+	public void removeSkinChange(GamePlayer player) { removeSkinChange(player.getUniqueId()); }
+	public void removeSkinChange(Player player) { removeSkinChange(player.getUniqueId()); }
 	public void removeSkinChange(UUID uuid) {
 		alteredSkins.remove(uuid);
 		refreshSkin(uuid);
 	}
 	
-	public void silentlyRemoveSkinChange(GamePlayer player) {
-		silentlyRemoveSkinChange(player.getUniqueId());
-	}
-	public void silentlyRemoveSkinChange(Player player) {
-		silentlyRemoveSkinChange(player.getUniqueId());
-	}
+	public void silentlyRemoveSkinChange(GamePlayer player) { silentlyRemoveSkinChange(player.getUniqueId()); }
+	public void silentlyRemoveSkinChange(Player player) { silentlyRemoveSkinChange(player.getUniqueId()); }
 	public void silentlyRemoveSkinChange(UUID uuid) {
 		alteredSkins.remove(uuid);
 	}
-	
-	public void updateSkin(GamePlayer player) {
-		updateSkin(player.getUniqueId());
-	}
-	public void updateSkin(Player player) {
-		updateSkin(player.getUniqueId());
-	}
+
+	public void updateSkin(GamePlayer player) { updateSkin(player.getUniqueId()); }
+	public void updateSkin(Player player) { updateSkin(player.getUniqueId()); }
 	public void updateSkin(UUID uuid) {
 		refreshSkin(uuid);
 	}
@@ -130,7 +108,7 @@ public class SkinManager {
 				observer.hidePlayer(player);
 				observer.showPlayer(player);
 			}
-			
+
 			// Update skin for player
 			// Shamelessly stolen from:
 			// https://github.com/games647/ChangeSkin/blob/master/bukkit/src/main/java/com/github/games647/changeskin/bukkit/tasks/SkinUpdater.java
@@ -138,38 +116,38 @@ public class SkinManager {
 			WrappedGameProfile gameProfile;
 			WrappedChatComponent displayName;
 			if (alteredSkins.containsKey(uuid)) {
-				gameProfile = alteredSkins.get(uuid).getProfile(uuid);
-			 	displayName = WrappedChatComponent.fromText(gameProfile.getName());
+				gameProfile = alteredSkins.get(uuid).getWrappedGameProfile(uuid);
+				displayName = WrappedChatComponent.fromText(gameProfile.getName());
 			} else {
 				gameProfile = WrappedGameProfile.fromPlayer(player);
 				//displayName = WrappedChatComponent.fromText(player.getPlayerListName());
 				displayName = null;
 			}
-			
+
 			ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 			EnumWrappers.NativeGameMode gamemode = EnumWrappers.NativeGameMode.fromBukkit(player.getGameMode());
-			
+
 			PacketContainer removeInfo = protocolManager.createPacket(PacketType.Play.Server.PLAYER_INFO);
 			removeInfo.getPlayerInfoAction().write(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-			
+
 			PlayerInfoData playerInfoData = new PlayerInfoData(gameProfile, 0, gamemode, displayName);
 			removeInfo.getPlayerInfoDataLists().write(0, Lists.newArrayList(playerInfoData));
-			
+
 			//add info containing the skin data
-			PacketContainer addInfo = protocolManager.createPacket(PLAYER_INFO);
+			PacketContainer addInfo = protocolManager.createPacket(PacketType.Play.Server.PLAYER_INFO);
 			addInfo.getPlayerInfoAction().write(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
 			addInfo.getPlayerInfoDataLists().write(0, Lists.newArrayList(playerInfoData));
-			
+
 			//Respawn packet
-			PacketContainer respawn = protocolManager.createPacket(RESPAWN);
+			PacketContainer respawn = protocolManager.createPacket(PacketType.Play.Server.RESPAWN);
 			respawn.getIntegers().write(0, player.getWorld().getEnvironment().getId());
 			respawn.getDifficulties().write(0, EnumWrappers.Difficulty.valueOf(player.getWorld().getDifficulty().toString()));
 			respawn.getGameModes().write(0, gamemode);
 			respawn.getWorldTypeModifier().write(0, player.getWorld().getWorldType());
-			
+
 			Location location = player.getLocation().clone();
-			
-			PacketContainer teleport = protocolManager.createPacket(POSITION);
+
+			PacketContainer teleport = protocolManager.createPacket(PacketType.Play.Server.POSITION);
 			teleport.getModifier().writeDefaults();
 			teleport.getDoubles().write(0, location.getX());
 			teleport.getDoubles().write(1, location.getY());
@@ -178,28 +156,30 @@ public class SkinManager {
 			teleport.getFloat().write(1, location.getPitch());
 			//send an invalid teleport id in order to let Bukkit ignore the incoming confirm packet
 			teleport.getIntegers().writeSafely(0, -1337);
-			
+
 			try {
 				//remove the old skin - client updates it only on a complete remove and add
 				protocolManager.sendServerPacket(player, removeInfo);
 				//adds the skin
 				protocolManager.sendServerPacket(player, addInfo);
 				//notify the client that it should update the own skin
-				
+
 				if (!player.isDead()) {
 					protocolManager.sendServerPacket(player, respawn);
-					
+
 					//prevent the moved too quickly message
 					protocolManager.sendServerPacket(player, teleport);
-					
+
 					//send the current inventory - otherwise player would have an empty inventory
 					player.updateInventory();
-					
+
 					PlayerInventory inventory = player.getInventory();
 					inventory.setHeldItemSlot(inventory.getHeldItemSlot());
-					
+
 					//set to the correct hand position
-					setItemInHand(player);
+					player.getInventory().setItemInMainHand(player.getInventory().getItemInMainHand());
+					player.getInventory().setItemInOffHand(player.getInventory().getItemInOffHand());
+
 					//triggers updateAbilities
 					player.setWalkSpeed(player.getWalkSpeed());
 				}
@@ -208,11 +188,5 @@ public class SkinManager {
 				ex.printStackTrace();
 			}
 		}
-		
-	}
-	
-	private void setItemInHand(Player player) {
-		player.getInventory().setItemInMainHand(player.getInventory().getItemInMainHand());
-		player.getInventory().setItemInOffHand(player.getInventory().getItemInOffHand());
 	}
 }

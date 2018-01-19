@@ -8,9 +8,13 @@ import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import me.libraryaddict.disguise.disguisetypes.Disguise;
+import me.libraryaddict.disguise.disguisetypes.watchers.LivingWatcher;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.block.Block;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -29,7 +33,13 @@ class Ticker extends AbstractMob {
 	public void onSpawn() {
 		super.onSpawn();
 		monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
-		giveSpawnProtection(deathTimer*20);
+		giveSpawnProtection(deathTimer*20 + 20);
+		
+		Disguise disguise = getDisguise();
+		disguise.setHearSelfDisguise(false);
+		LivingWatcher watcher = (LivingWatcher) disguise.getWatcher();
+		watcher.setInvisible(true);
+		watcher.setArrowsSticking(0);
 	}
 	
 	@Override
@@ -78,6 +88,11 @@ class Ticker extends AbstractMob {
 		super.onShift(sneaking);
 		if (!sneaking)
 			monster.setVelocity(0, 0.8, 0);
+	}
+	
+	@Override
+	public boolean onBlockBreak(Block block, boolean didBreak) {
+		return block.getType() != Material.TORCH && didBreak;
 	}
 	
 	@Override

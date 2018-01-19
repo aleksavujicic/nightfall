@@ -37,3 +37,20 @@ arrow:
         Regenerates over time."
     flavour:
      - "\"How am I supposed to hit skellies without a bow!?\" - Tui"
+
+
+# Tombmaker special reward items
+perfect-torch:
+  template: dwarf-hero
+  material: torch
+  name: The True Perfect Torch
+  shiny: true
+  lore:
+    description:
+     - "After many years of experimentation,\n
+        we have been able to create the one\n
+        true perfect torch."
+    flavour:
+     - "Except it doesn't protect you from\n
+        the darkness."
+

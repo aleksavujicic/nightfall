@@ -114,11 +114,11 @@ public class Shrine {
 	}
 	
 	public void update() {
-		int mobsOnShrine = 0;
+		double mobsOnShrine = 0;
 		int dwarvesOnShrine = 0;
 		for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
 			if (shrineRegion.containsPlayer(monster)) {
-				mobsOnShrine++;
+				mobsOnShrine += monster.getMob().getShrineWeight();
 			} else if (shrineProtection.containsPlayer(monster)) {
 				if (!monster.getMob().isShrineImmune()) {
 					monster.doDamage(null, CustomDamageType.SHRINE_PROTECTION, 10000, true, true);
@@ -149,7 +149,7 @@ public class Shrine {
 		doUpdateDamage(mobsOnShrine, dwarvesOnShrine);
 	}
 	
-	private void doUpdateDamage(int mobNum, int dwarfNum) {
+	private void doUpdateDamage(double mobNum, int dwarfNum) {
 		int damage = 0;
 		int recovery = 0;
 		// Making shrines a bit stronger

@@ -1,5 +1,6 @@
 package deimophobe.nightfall.blocks;
 
+import deimophobe.nightfall.Game;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.blocktype.ComparableBlock;
 import deimophobe.nightfall.blocks.blocktype.SettableBlock;
@@ -167,11 +168,13 @@ public class BlockConverter {
 	public static void mortar(Block center, boolean wizzy) {
 		World world = center.getWorld();
 		
-		int startX = center.getX() - MORTAR_RANGE;
-		int startY = center.getY() - MORTAR_RANGE;
-		int startZ = center.getZ() - MORTAR_RANGE;
+		int range = (Game.getGame().getPhase().hasGameStarted() ? MORTAR_RANGE/2 : MORTAR_RANGE);
 		
-		int size = MORTAR_RANGE * 2 + 1;
+		int startX = center.getX() - range;
+		int startY = center.getY() - range;
+		int startZ = center.getZ() - range;
+		
+		int size = range * 2 + 1;
 		
 		for (int x = startX; x < startX + size; x++) {
 			for (int y = startY; y < startY + size; y++) {

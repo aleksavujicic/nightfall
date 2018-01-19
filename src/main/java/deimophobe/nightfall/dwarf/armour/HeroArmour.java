@@ -45,14 +45,14 @@ public class HeroArmour extends StaticArmour {
 		
 		double goldboost = 0;
 		if (shrine != null && shrine.containsPlayer(hero))
-			goldboost = 0.03;
+			goldboost = 0.05;
 		
-		double dwarfBoost = 0.01 * Math.sqrt(DwarfManager.getManager().getNumberOfPlayers());
-		return Math.min(0.8 + goldboost + dwarfBoost, 0.9);
+		double dwarfBoost = 0.02 * Math.sqrt(DwarfManager.getManager().getNumberOfPlayers());
+		return Math.min(0.7 + goldboost + dwarfBoost, 0.85);
 	}
 	
 	@Override
 	public int getManaRegenRate() {
-		return 15;
+		return 10;
 	}
 }

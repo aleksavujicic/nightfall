@@ -45,6 +45,7 @@ saboteur:
   parent: base
 
   title: Saboteur
+  shrineweight: 0.5
 
   disguisetype: zombie_villager
 

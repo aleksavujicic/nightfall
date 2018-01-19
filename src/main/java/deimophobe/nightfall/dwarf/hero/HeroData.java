@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.hero;
 
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.common.Misc;
@@ -12,13 +13,14 @@ import deimophobe.nightfall.dwarf.DwarfData;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.Kit;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.dwarf.kit.elements.KitElementType;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.lang.reflect.Constructor;
@@ -36,7 +38,7 @@ public class HeroData extends DwarfData {
 	private final String descriptor;
 	
 	private final CustomItem hat;
-	private final Skin skin;
+	private final PlayerSkin skin;
 	private final ChatColor glowColour;
 	
 	private final Function<Player, Hero> heroCreator;
@@ -71,7 +73,7 @@ public class HeroData extends DwarfData {
 		Misc.checkConfigStringExists(config,"nametag");
 		String nametag = config.getString("nametag");
 		
-		this.skin = Skin.getSkin(skinName).withNewName(ChatColor.GOLD + nametag);
+		this.skin = new PlayerSkin(ChatColor.GOLD + nametag, skinName);
 		
 		
 		// Glow Colour
@@ -89,18 +91,19 @@ public class HeroData extends DwarfData {
 				throw new InvalidConfigurationException("ChatColor '" + colourName + "' is not a colour");
 			}
 		}
+		getTeam().addEntry(ChatColor.GOLD + nametag);
 		
 		
 		// Items
 		Misc.checkConfigStringExists(config, "items");
 		for (String item : config.getStringList("items")) {
 			try {
-				addElement(KitElementType.fromString(item));
+				addElement(KitPieceType.fromString(item));
 			} catch (UnknownEnumElementException e) {
 				throw new InvalidConfigurationException("Unknown KitPiece item: " + item, e);
 			}
 		}
-		addElement(KitElementType.HERO_ALE);
+		addElement(KitPieceType.HERO_BASE);
 		
 		
 		// Consumables
@@ -154,12 +157,16 @@ public class HeroData extends DwarfData {
 		return heroCreator.apply(player);
 	}
 	
-	Team createTeam() {
-		String name = skin.getName();
-		Team team = Game.getGame().getNewTeam("hero" + name);
-		team.setColor(glowColour);
-		team.setPrefix(glowColour.toString());
-		team.addEntry(name);
+	public Team getTeam() {
+		String name = type.name().toLowerCase();
+		Scoreboard scoreboard = Game.getGame().getScoreboard();
+		
+		Team team = scoreboard.getTeam("hero" + name);
+		if (team == null) {
+			team = scoreboard.registerNewTeam(name);
+			team.setColor(glowColour);
+			team.setPrefix(glowColour.toString());
+		}
 		
 		return team;
 	}

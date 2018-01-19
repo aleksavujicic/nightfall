@@ -127,7 +127,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	//                   MENUS N STUFF
 	// --------------------------------------------------------
 	
-	private SpawnMenu menu;
+	private final SpawnMenu menu;
 	
 	public void showMobMenu(MonsterPlayer monster) {
 		menu.startSession(monster.getPlayer());

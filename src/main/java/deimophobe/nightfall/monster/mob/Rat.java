@@ -63,10 +63,12 @@ class Rat extends AbstractMob {
 	}
 	
 	@Override
-	public void onBlockBreak(Block block, boolean didBreak) {
-		super.onBlockBreak(block, didBreak);
+	public boolean onBlockBreak(Block block, boolean didBreak) {
+		didBreak = super.onBlockBreak(block, didBreak);
 		if (block.getType() == Material.TORCH && didBreak)
 			playSound("torch");
+		
+		return didBreak;
 	}
 	
 	private void toggleJumpState() {

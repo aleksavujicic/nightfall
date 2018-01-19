@@ -2,6 +2,7 @@ package deimophobe.nightfall.monster.spawnmenu;
 
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.menu.MenuSession;
@@ -63,7 +64,7 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 		}
 	}
 	
-	void restock() {
+	public void restock() {
 		quantity = maxQuantity;
 	}
 	
@@ -91,7 +92,7 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 		
 		MonsterPlayer monster = session.getData();
 		
-		if (!Game.getGame().getPhase().hasGameStarted()) {
+		if (!Game.getGame().getPhase().hasGameStarted() && Game.getGame().getPhase() != Phase.STARTING) {
 			monster.sendMessage(ChatColor.RED + "You must wait until the mobs are released!");
 			return false;
 		}
@@ -123,6 +124,9 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 	}
 	public static SpawnEggMenuItem getEgg(MobType type) {
 		return eggMap.get(type.toString().toLowerCase().replace("_", "-"));
+	}
+	public static Collection<String> getEggNames() {
+		return eggMap.keySet();
 	}
 	public static void resetEggs() {
 		for (SpawnEggMenuItem egg : eggMap.values())

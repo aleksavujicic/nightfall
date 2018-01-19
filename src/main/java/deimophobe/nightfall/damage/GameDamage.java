@@ -212,12 +212,12 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		return meta.getDisplayName();
 	}
 	
-	public static <B extends GameEntity,S extends GameEntity> GameDamage createDamage(B attacker, S receiver, GameDamageType type, double damage) {
+	public static <B extends GameEntity,S extends GameEntity> GameDamage<?,?> createDamage(B attacker, S receiver, GameDamageType type, double damage) {
 		return createDamage(attacker, receiver, type, damage, null);
 	}
 	
 	
-	static <B extends GameEntity,S extends GameEntity> GameDamage createDamage(B attacker, S receiver, GameDamageType type, double damage, Projectile arrow) {
+	static <B extends GameEntity,S extends GameEntity> GameDamage<?,?> createDamage(B attacker, S receiver, GameDamageType type, double damage, Projectile arrow) {
 		if (receiver instanceof MonsterEntity) {
 			return new MonsterDamage(attacker, (MonsterEntity) receiver, type, damage, arrow);
 		} else if (receiver instanceof Dwarf) {

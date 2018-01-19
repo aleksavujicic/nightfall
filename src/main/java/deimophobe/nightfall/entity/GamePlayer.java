@@ -358,11 +358,11 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	
 	// Abstract methods
 	public abstract void updateHotbarSlot(ItemStack heldItem, int slot);
-	public abstract void onBlockBreak(Block block, boolean didBreak); // TODO: boolean for if broken
+	public abstract boolean onBlockBreak(Block block, boolean didBreak);
 	public abstract void onUse(Action action, Block clickedBlock, BlockFace blockFace); // TODO: tidyup
 	public abstract void onShift(boolean sneaking);
 	public abstract Projectile onBowFire(Arrow arrow, float force); // TODO: bowfire event
-	public abstract void onProjectileLand(Projectile arrow, Block hitBlock);
+	public abstract void onProjectileLand(Projectile arrow, Block hitBlock, Entity hitEntity);
 	
 	@Deprecated
 	public abstract void update(boolean b, boolean b1, boolean b2, boolean b3, boolean b4);
@@ -515,8 +515,8 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		
 		@Override
 		public void onHit(P entity) {
-			entity.doDamage(GamePlayer.this, type, damage.apply(entity), true);
-			if (entity instanceof GamePlayer) playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
+			boolean cancelled = entity.doDamage(GamePlayer.this, type, damage.apply(entity), true).isCancelled();
+			if (!cancelled && entity instanceof GamePlayer) playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
 		}
 	}
 }

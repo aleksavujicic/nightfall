@@ -133,9 +133,9 @@ lyra:
 
   full-name: Lyra
   nametag: Lyra
-  descriptor: Silvetris
+  descriptor: Silvetris Hero
   skin: lyra
-  colour: gray
+  colour: dark_gray
 
   hat:
     base: catears

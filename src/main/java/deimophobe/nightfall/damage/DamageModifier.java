@@ -5,6 +5,7 @@ import org.bukkit.util.Vector;
 /**
  * Created by Deimophobe on 1/09/17.
  */
+@Deprecated
 public class DamageModifier {
 	/** How much knockback to do. */
 	private Vector knockback = null;

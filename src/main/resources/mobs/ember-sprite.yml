@@ -4,7 +4,7 @@ disguisetype: blaze
 
 canrun: false
 
-health: 10
+health: 12
 arrowres: 0.5
 
 armour:
@@ -27,3 +27,11 @@ items:
           Fireballs regenerate 2 seconds after stopping fire."
       flavour:
        - "Death from afar."
+
+
+sounds:
+  idle:
+    path: "entity.blaze.ambient"
+    pitch: 1.1
+    volume: 0.6
+    chance: 0.15

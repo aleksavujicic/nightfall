@@ -3,12 +3,13 @@ package deimophobe.nightfall.blocks.timedblock;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.entity.GamePlayer;
+import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
 import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -16,7 +17,8 @@ import org.bukkit.scheduler.BukkitRunnable;
  * Created by Deimophobe on 14/01/18.
  */
 public class IceSlab extends TimedBlock {
-	private BlockState iceState;
+	private int hitsLeft = 15;
+	private boolean canHit = true;
 	
 	private IceSlab(Block block, GameEntity placer, int lifetime) {
 		super(block, Material.FROSTED_ICE, lifetime, placer);
@@ -52,7 +54,7 @@ public class IceSlab extends TimedBlock {
 	
 	@Override
 	void onDestroy(boolean cancelled) {
-		if (!cancelled) {
+		if (!NightfallPlugin.getPlugin().isDisabling()) {
 			World world = block.getWorld();
 			Location location = block.getLocation().add(0.5, 0.5, 0.5);
 			
@@ -60,6 +62,28 @@ public class IceSlab extends TimedBlock {
 			world.spawnParticle(Particle.BLOCK_CRACK, location, 25, 0.5, 0.5, 0.5, 0, new MaterialData(Material.FROSTED_ICE));
 			world.playSound(location, "block.glass.break", 1, 1);
 		}
+	}
+	
+	@Override
+	public void onHit(GamePlayer player) {
+		if (canHit && player instanceof MonsterPlayer) {
+			disableHitting();
+			
+			hitsLeft--;
+			if (hitsLeft == 0)
+				cancel();
+			
+			World world = block.getWorld();
+			world.playSound(block.getLocation(), "block.note.chime", 0.5f, 2f - hitsLeft*0.05f);
+			world.playSound(block.getLocation(), "block.glass.place", 1f, 1f);
+		}
+	}
+	
+	private void disableHitting() {
+		canHit = false;
+		new BukkitRunnable() {
+			@Override public void run() { canHit = true; }
+		}.runTaskLater(NightfallPlugin.getPlugin(), 3);
 	}
 	
 	private static int getNewLifetime() {

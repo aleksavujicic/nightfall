@@ -1,6 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.Skin;
+import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
@@ -110,7 +110,7 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	protected void setupPlayerDisguise() {
-		SkinManager.getManager().addSkinChange(monster, Skin.getSkin(mobData.skinName));
+		SkinManager.getManager().addSkinChange(monster, new PlayerSkin(monster.getDisplayName(), mobData.skinName));
 	}
 	
 	protected void removePlayerDisguise() {
@@ -276,20 +276,25 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	@Override
-	public void onBlockBreak(Block block, boolean didBreak) {
+	public boolean onBlockBreak(Block block, boolean didBreak) {
 		if (block.getType() == Material.TORCH && didBreak)
 			monster.gainXP(mobData.torchXP);
+		return didBreak;
 	}
 	
 	
 	@Override public boolean isShrineImmune() { return mobData.shrineImmune; }
 	@Override public int getSOSTime() { return mobData.sosTime; }
+	@Override public double getShrineWeight() { return mobData.shrineWeight; }
 	
-	@Override public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {}
+	@Override public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		if (doubleSec)
+			playSound("idle");
+	}
 	@Override public void onShift(boolean sneaking) {}
 	@Override public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {}
 	@Override public Projectile onBowFire(Arrow arrow, float force) { return null; }
-	@Override public void onProjectileLand(Projectile proj, Block hitBlock) {}
+	@Override public void onProjectileLand(Projectile proj, Block hitBlock, Entity hitEntity) {}
 	@Override public float getCooldown() { return 0; }
 	
 	@Override

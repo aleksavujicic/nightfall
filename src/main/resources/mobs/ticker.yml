@@ -1,5 +1,7 @@
 title: "Ticker"
 
+disguisetype: bat
+
 attack: 0
 health: 10
 shred: 0
@@ -8,6 +10,7 @@ speed: 20
 resistance: 1
 proccable: false
 shrineimmune: true
+shrineweight: 0
 
 armour:
   name: Temp

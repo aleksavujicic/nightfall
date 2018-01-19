@@ -9,10 +9,12 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -42,12 +44,13 @@ class Golem extends AbstractMob {
 				breakCD = BREAK_CD_MAX;
 				
 				if (clickedBlock != null) {
-					monster.getPlayer().spawnParticle(Particle.SMOKE_NORMAL, clickedBlock.getLocation().add(0.5,0.5,0.5), 15, 0, 0.25, 0, 0.05);
-				}
-				
-				if (!BlockType.GOLEM_UNBREAKABLE_BLOCKS.matchesBlock(clickedBlock) && GameMap.getCurrentMap().isBlockBreakable(clickedBlock)) {
-					clickedBlock.getWorld().spawnParticle(Particle.BLOCK_CRACK, clickedBlock.getLocation().add(0.5, 0.5, 0.5), 50, 0.5, 0.5, 0.5, 0, clickedBlock.getState().getData());
-					clickedBlock.breakNaturally();
+					monster.getPlayer().spawnParticle(Particle.SMOKE_NORMAL, clickedBlock.getLocation().add(0.5, 0.5, 0.5), 15, 0, 0.25, 0, 0.05);
+					
+					if (!BlockType.GOLEM_UNBREAKABLE_BLOCKS.matchesBlock(clickedBlock) && GameMap.getCurrentMap().isBlockBreakable(clickedBlock)) {
+						clickedBlock.getWorld().spawnParticle(Particle.BLOCK_CRACK, clickedBlock.getLocation().add(0.5, 0.5, 0.5), 50, 0.5, 0.5, 0.5, 0, clickedBlock.getState().getData());
+						//clickedBlock.breakNaturally();
+						clickedBlock.breakNaturally(new ItemStack(Material.AIR));
+					}
 				}
 			}
 		}
@@ -62,16 +65,13 @@ class Golem extends AbstractMob {
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		if (breakCD > 0)
 			breakCD--;
-		
-		if (doubleSec)
-			playSound("idle");
 	}
 	
 	private void swingArms() {
 		monster.playSound("entity.generic.explode", 0.8f, 0.5f, true);
-		getDisguise().getWatcher();
 		
 		// Show fancy hand animation
 		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();

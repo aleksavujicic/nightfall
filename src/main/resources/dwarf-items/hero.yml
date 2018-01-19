@@ -159,7 +159,7 @@ horn:
 ##### HERANA #####
 trident:
   base: trident
-  name: Nightsong
+  name: Trident of Naia
   lore:
     description:
      - "Lore team go!"
@@ -171,9 +171,10 @@ bubblebeam:
   name: Bubble Beam
   lore:
     description:
-     - "Lore team go!"
+     - "Shoots a beam of bubbles that makes\n
+        mobs wet."
     flavour:
-     - "GO"
+     - "PopPopPop"
 
 
 ##### LYRA #####

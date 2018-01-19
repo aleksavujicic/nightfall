@@ -39,6 +39,15 @@ bricklayer:
     flavour:
      - "More bricks."
 
+chisel:
+  base: chisel
+  name: "Chisel"
+  lore:
+    description:
+     - "Chisel."
+    flavour:
+     - "More chisel."
+
 penystick:
   material: blaze_rod
   name: "Penny Stick"

@@ -9,6 +9,7 @@ base:
   arrowres: 0.9
   shred: 15
   shrineimmune: true
+  shrineweight: 0.5
 
   armour:
     material: slime_ball

@@ -27,6 +27,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
@@ -88,7 +89,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			gainXP(10);
 		}
 		if (quartSec && isAlive() && isInShrine()) {
-			gainXP(2);
+			if (mob.getType() != MobType.TICKER) gainXP(2);
 		}
 		
 		usedThisTick = false;
@@ -357,10 +358,11 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	@Override
-	public void onBlockBreak(Block block, boolean didBreak) {
+	public boolean onBlockBreak(Block block, boolean didBreak) {
 		if (mob != null) {
-			mob.onBlockBreak(block, didBreak);
+			return mob.onBlockBreak(block, didBreak);
 		}
+		return false;
 	}
 	
 	private boolean usedThisTick = false;
@@ -432,9 +434,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile arrow, Block hitBlock) {
+	public void onProjectileLand(Projectile projectile, Block hitBlock, Entity hitEntity) {
 		if (mob != null)
-			mob.onProjectileLand(arrow, hitBlock);
+			mob.onProjectileLand(projectile, hitBlock, hitEntity);
 	}
 	
 	
