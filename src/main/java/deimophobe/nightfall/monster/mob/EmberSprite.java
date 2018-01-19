@@ -5,7 +5,6 @@ import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.damage.DamageModifier;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
@@ -171,14 +170,11 @@ public class EmberSprite extends AbstractMob {
 			double distance = offset.subtract(new Vector(0,1,0)).length();
 			if (distance > 4) continue;
 
-			DamageModifier modifier = new DamageModifier();
-
 			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, distance)) );
 			knockback.setY(knockback.getY() / 2 + 0.1);
-			modifier.addKnockback(knockback);
 
 			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.BLAZE_EXPLOSION, damage);
-			modifier.applyToDamage(aoeDamage);
+			aoeDamage.setKnockback(knockback);
 			aoeDamage.setArmourShred(armorShred);
 			aoeDamage.fire(true);
 		}
