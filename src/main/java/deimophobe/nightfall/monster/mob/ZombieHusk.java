@@ -114,12 +114,12 @@ public class ZombieHusk extends Zombie {
             if (smashCD.isAvailable()) {
                 smashCD.reset();
                 Vector currentVelocity = monster.getPlayer().getVelocity();
-                world.spawnParticle(Particle.EXPLOSION_NORMAL, monster.getLocation(), 3, 1, 1, 1);
+                world.spawnParticle(Particle.EXPLOSION_NORMAL, monster.getLocation(), 10, 0.3, 0, 0.3, 0.05);
                 monster.getPlayer().setVelocity(new Vector(currentVelocity.getX()*2.5, -1.5, currentVelocity.getZ()*2.5));
             }
             if (monster.getPlayer().isOnGround()) {
                 monster.removePotionEffect(PotionEffectType.LUCK);
-                world.spawnParticle(Particle.EXPLOSION_LARGE, monster.getLocation(), 3, 1, 1, 1);
+                world.spawnParticle(Particle.EXPLOSION_NORMAL, monster.getLocation(), 100, 2, 0, 2, 0.05);
                 monster.playSound("drum", 1f, 0.5f, true);
                 monster.playSound("entity.generic.explode", 0.5f, 0.5f, true);
                 for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
