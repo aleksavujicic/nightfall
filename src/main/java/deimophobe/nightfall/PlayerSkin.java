@@ -20,12 +20,12 @@ public class PlayerSkin {
 		this(name, Skin.getSkin(skinName));
 	}
 	public PlayerSkin(String name, Skin skin) {
-		this(name, skin, true);
+		this(name, skin, true, name);
 	}
-	public PlayerSkin(String name, Skin skin, boolean showAll) {
+	public PlayerSkin(String name, Skin skin, boolean showAll, String tabName) {
 			this.nametag = name;
 			this.skin = skin;
-			this.tabName = name;
+			this.tabName = tabName;
 			this.showAll = showAll;
 		}
 	

@@ -6,6 +6,8 @@ import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.cosmetic.CosmeticManager;
+import deimophobe.nightfall.common.cosmetic.hat.Hat;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -23,11 +25,11 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Deimophobe on 15/01/18.
@@ -35,9 +37,12 @@ import java.util.Map;
 public class Doppelganger extends AbstractMob {
 	
 	private static final int INVIS_DURATION = 45*20;
+	private static final String TEAM_PREFIX = "doppel";
+	private static short counter = 0;
 	
 	private final Dwarf target;
 	private final ComplexCooldown unhider = new ComplexCooldown(INVIS_DURATION, null, this::unhide);
+	private final Team fakeTeam;
 	private PlayerDisguise disguise = null;
 	private boolean hidden;
 	
@@ -45,6 +50,21 @@ public class Doppelganger extends AbstractMob {
 		super(monster, MobType.DOPPELGANGER);
 		target = Misc.getRandom(DwarfManager.getManager().getNonHeroDwarves());
 		setFakeWeapon();
+		
+		
+		this.fakeTeam = Game.getGame().getNewTeam(TEAM_PREFIX + counter);
+		counter++;
+		
+		fakeTeam.setColor(ChatColor.DARK_AQUA);
+		if (target != null) {
+			fakeTeam.setPrefix(ChatColor.DARK_AQUA.toString() + target.getName().substring(0, 1));
+			fakeTeam.addEntry(getFakeName());
+		}
+		fakeTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
+	}
+	
+	private String getFakeName() {
+		return target.getName().substring(1);
 	}
 	
 	@Override
@@ -52,12 +72,14 @@ public class Doppelganger extends AbstractMob {
 		//monster.getPlayer().setPlayerListName(ChatColor.DARK_RED + monster.getName());
 		if (target != null) {
 			Skin skin = new Skin(target.getPlayer());
-			PlayerSkin playerSkin = new PlayerSkin(ChatColor.DARK_RED + monster.getName(), skin, false);
+			PlayerSkin playerSkin = new PlayerSkin(
+					ChatColor.DARK_RED + monster.getName(), skin, false,
+					ChatColor.DARK_AQUA + target.getName() + ChatColor.DARK_RED + " (You)"
+			);
 			SkinManager.getManager().addSkinChange(monster, playerSkin);
 			
 			
-			WrappedGameProfile profile = new WrappedGameProfile(target.getUniqueId(), ChatColor.DARK_AQUA + target.getName());
-			getTeam().addEntry(ChatColor.DARK_AQUA + target.getName());
+			WrappedGameProfile profile = new WrappedGameProfile(UUID.randomUUID(), getFakeName());
 			skin.applyToWrappedGameProfile(profile);
 			
 			disguise = new PlayerDisguise(profile);
@@ -68,6 +90,12 @@ public class Doppelganger extends AbstractMob {
 		}
 		
 		super.onSpawn();
+		if (target != null) {
+			Hat hat = CosmeticManager.getManager().getCosmetic(target.getPlayer()).getHat();
+			if (hat != null) {
+				hat.putOn(monster.getPlayer());
+			}
+		}
 		ArmourSlot.LEGS.equipArmour(monster, getItem("legs"));
 		ArmourSlot.FEET.equipArmour(monster, getItem("boots"));
 		
@@ -76,7 +104,7 @@ public class Doppelganger extends AbstractMob {
 		
 		final String targetMsg;
 		if (target == null) targetMsg = ChatColor.RED + "There are no dwarves to clone!";
-		else targetMsg = ChatColor.GOLD + "Clone: " + ChatColor.AQUA + target.getName();
+		else targetMsg = ChatColor.GOLD + "Your clone: " + ChatColor.DARK_AQUA + target.getName();
 		monster.sendMessage(targetMsg);
 		monster.sendTitleMessage(targetMsg);
 	}
@@ -119,6 +147,7 @@ public class Doppelganger extends AbstractMob {
 	public void onDeath(boolean silent) {
 		super.onDeath(silent);
 		SkinManager.getManager().removeSkinChange(monster);
+		fakeTeam.unregister();
 	}
 	
 	private void hide() {
@@ -171,19 +200,5 @@ public class Doppelganger extends AbstractMob {
 				return;
 			}
 		}
-	}
-	
-	private static final String TEAM_NAME = "doppelganger";
-	private static Team getTeam() {
-		Scoreboard scoreboard = Game.getGame().getScoreboard();
-		
-		Team team = scoreboard.getTeam(TEAM_NAME);
-		if (team == null) {
-			team = scoreboard.registerNewTeam(TEAM_NAME);
-			team.setColor(ChatColor.DARK_AQUA);
-			team.setPrefix(ChatColor.DARK_AQUA.toString());
-		}
-		
-		return team;
 	}
 }
