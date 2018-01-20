@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.consumable;
 
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.UnknownEnumElementException;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -75,7 +76,7 @@ public enum ConsumableType {
 		return dupable;
 	}
 	
-	public static ConsumableType fromString(String name) {
+	public static ConsumableType fromString(String name) throws UnknownEnumElementException {
 		return Misc.getEnumMemberFromString(name, values(), "consumable type");
 	}
 }

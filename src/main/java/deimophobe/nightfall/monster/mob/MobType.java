@@ -1,5 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Bukkit;
@@ -154,12 +156,8 @@ public enum MobType {
 		return mobs;
 	}
 	
-	public static MobType getMobType(String type) {
-		for (MobType mobType : values()) {
-			if (mobType.spawnable && mobType.getName().equalsIgnoreCase(type))
-				return mobType;
-		}
-		throw new IllegalArgumentException("No mob of type '" + type + "'!?");
+	public static MobType getMobType(String type) throws UnknownEnumElementException {
+		return Misc.getEnumMemberFromString(type, values(), "MobType");
 	}
 	
 	// Used for ItemManager.

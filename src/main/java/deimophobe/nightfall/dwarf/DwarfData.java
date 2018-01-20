@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf;
 
 import deimophobe.nightfall.common.UnknownEnumElementException;
-import deimophobe.nightfall.common.loadout.LoadoutConstruct;
+import deimophobe.nightfall.common.loadout.LoadoutConstructable;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.Kit;
@@ -15,27 +15,18 @@ import java.util.*;
 /**
  * Created by Deimophobe on 15/01/17.
  */
-public class DwarfData implements LoadoutConstruct {
-	private SortedSet<KitPieceType> elements = new TreeSet<>();
-	private SortedMap<ConsumableType, Integer> consumables = new TreeMap<>();
-	
-	public Set<KitPieceType> getElements() {
-		return elements;
-	}
-	public Map<ConsumableType, Integer> getConsumables() {
-		return consumables;
-	}
+public class DwarfData implements LoadoutConstructable {
+	private final SortedSet<KitPieceType> elements;
+	private final SortedMap<ConsumableType, Integer> consumables;
 	
 	
 	public DwarfData() {
-		addDefaults();
+		this(null, null);
 	}
 	
 	public DwarfData(Set<KitPieceType> elements, Map<ConsumableType, Integer> consumables) {
-		if (elements != null)
-			this.elements = new TreeSet<>(elements);
-		if (consumables != null)
-			this.consumables = new TreeMap<>(consumables);
+		this.elements = (elements != null ? new TreeSet<>(elements) : new TreeSet<>());
+		this.consumables = (consumables != null ? new TreeMap<>(consumables) : new TreeMap<>());
 		
 		addDefaults();
 		tombmakerCheck();
@@ -53,7 +44,7 @@ public class DwarfData implements LoadoutConstruct {
 			elements.remove(KitPieceType.DWARF_SHOVEL);
 	}
 	
-	
+	@Override
 	public void addElement(String type) {
 		try {
 			addElement(KitPieceType.fromString(type));
@@ -63,6 +54,7 @@ public class DwarfData implements LoadoutConstruct {
 		}
 	}
 	
+	@Override
 	public void incrementConsumable(String consumable, int amt) {
 		try {
 			incrementConsumable(ConsumableType.fromString(consumable), amt);

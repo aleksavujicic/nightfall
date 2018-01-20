@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.kit;
 
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.accessory.*;
 import deimophobe.nightfall.dwarf.kit.armour.*;
@@ -138,7 +139,7 @@ public enum KitPieceType {
 		return false;
 	}
 	
-	public static KitPieceType fromString(String name) {
+	public static KitPieceType fromString(String name) throws UnknownEnumElementException {
 		return Misc.getEnumMemberFromString(name, values(), "KitPieceType");
 	}
 	
