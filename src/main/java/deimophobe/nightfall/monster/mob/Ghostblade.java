@@ -24,9 +24,11 @@ class Ghostblade extends AbstractMob {
 	private final GBType type;
 	
 	
-	protected Ghostblade(MonsterPlayer mons, MobType type) {
-		this(mons, GBType.fromMobType(type));
-	}
+	static Ghostblade createSpawnGB(MonsterPlayer monster) { return new Ghostblade(monster, GBType.SPAWN); }
+	static Ghostblade createRunebladeGB(MonsterPlayer monster) { return new Ghostblade(monster, GBType.RUNEBLADE); }
+	static Ghostblade createAxeGB(MonsterPlayer monster) { return new Ghostblade(monster, GBType.AXE); }
+	static Ghostblade createDaggerGB(MonsterPlayer monster) { return new Ghostblade(monster, GBType.DAGGER); }
+	static Ghostblade createHammerGB(MonsterPlayer monster) { return new Ghostblade(monster, GBType.HAMMER); }
 	
 	protected Ghostblade(MonsterPlayer mons, GBType type) {
 		super(mons, type.mobType);

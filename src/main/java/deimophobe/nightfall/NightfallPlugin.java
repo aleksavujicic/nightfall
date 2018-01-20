@@ -212,6 +212,12 @@ public class NightfallPlugin extends JavaPlugin {
 						MonsterPlayer monster = mm.getGamePlayer(args[0]);
 						try {
 							MobType type = MobType.getMobType(args[1]);
+							
+							if (!type.isSpawnable()) {
+								sender.sendMessage(ChatColor.RED + "Unknown mob type: " + ChatColor.YELLOW + args[1] + ChatColor.RED + "!");
+								return false;
+							}
+							
 							monster.spawnMob(type);
 							
 							sender.sendMessage(ChatColor.AQUA + "Spawned " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a " + ChatColor.YELLOW + args[1] + ChatColor.AQUA + "!");
@@ -242,6 +248,12 @@ public class NightfallPlugin extends JavaPlugin {
 				
 				try {
 					MobType type = MobType.getMobType(args[1]);
+					
+					if (!type.isSpawnable()) {
+						sender.sendMessage(ChatColor.RED + "Unknown mob type: " + ChatColor.YELLOW + args[1] + ChatColor.RED + "!");
+						return false;
+					}
+					
 					monster.spawnMob(type);
 					
 					sender.sendMessage(ChatColor.AQUA + "Spawned " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a " + ChatColor.YELLOW + args[1] + ChatColor.AQUA + "!");

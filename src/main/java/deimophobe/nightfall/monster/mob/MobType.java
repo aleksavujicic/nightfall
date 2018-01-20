@@ -4,155 +4,130 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import org.bukkit.Bukkit;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 /**
  * Created by Deimophobe on 19/01/17.
  */
 public enum MobType {
-	ZOMBIE,
-    SKELETON,
-	GOBO,
+	ZOMBIE(MobType::spawnZombie),
+    SKELETON(MobType::spawnSkeleton),
+	GOBO(MobType::spawnGobo),
 	
-	EMBER_SPRITE,
-	WOLF,
-	HELLHOUND("wolf.hellhound"),
-	SPIDERLING,
-	RAT,
-	GOLEM,
-	WRAITH,
-	MINOTAUR,
-	BATTERING_RAM,
-	DOPPELGANGER,
+	EMBER_SPRITE(EmberSprite::new),
+	WOLF(Wolf::new),
+	HELLHOUND(Hellhound::new, "wolf.hellhound"),
+	SPIDERLING(Spiderling::new),
+	RAT(Rat::new),
+	GOLEM(Golem::new),
+	WRAITH(Wraith::new),
+	MINOTAUR(Minotaur::new),
+	BATTERING_RAM(BatteringRam::new),
+	DOPPELGANGER(Doppelganger::new),
 
-	WALKER,
+	WALKER(Walker::new),
 	
-	GB_DAGGER("ghostblade.dagger"),
-	GB_RUNEBLADE("ghostblade.runeblade"),
-	GB_AXE("ghostblade.axe"),
-	GB_HAMMER("ghostblade.hammer"),
-	GB_SPAWN("ghostblade.spawn"),
+	GB_DAGGER(Ghostblade::createDaggerGB, "ghostblade.dagger"),
+	GB_RUNEBLADE(Ghostblade::createRunebladeGB, "ghostblade.runeblade"),
+	GB_AXE(Ghostblade::createAxeGB, "ghostblade.axe"),
+	GB_HAMMER(Ghostblade::createHammerGB, "ghostblade.hammer"),
+	GB_SPAWN(Ghostblade::createSpawnGB, "ghostblade.spawn"),
 
-	TICKER,
+	TICKER(Ticker::new),
 	
-	KRUNGOR,
-	BOPEN,
-	MAGUS,
+	KRUNGOR(Krungor::new),
+	BOPEN(Bopen::new),
+	MAGUS(Magus::new),
 	
-	TESTMOB,
+	TESTMOB(TestMob::new),
 	
-	PLAGUE_ZOMBIE(false)
+	PLAGUE_ZOMBIE
 	;
 	
 	private final MobData mobData;
-	public MobData getMobData() {
-		return mobData;
-	}
+	public MobData getMobData() { return mobData; }
 	
-	private final boolean spawnable;
+	private final Function<MonsterPlayer, Mob> mobCreator;
 	
 	public String getName() {
 		return name().replace('_','-').toLowerCase();
 	}
 	
-	MobType() { this(null, true); }
-	MobType(String mobDataKey) { this(mobDataKey, true); }
-	MobType(boolean spawnable) { this(null, spawnable); }
+	MobType() { this(null, null); }
+	MobType(Function<MonsterPlayer, Mob> mobCreator) { this(mobCreator, null); }
 	
-	MobType(String mobDataKey, boolean spawnable) {
+	MobType(Function<MonsterPlayer, Mob> mobCreator, String mobDataKey) {
 		if (mobDataKey == null)
 			mobDataKey = getName();
 		
 		this.mobData = MobData.getMobData(mobDataKey);
-		this.spawnable = spawnable;
+		this.mobCreator = mobCreator;
 	}
 	
 	
 	public Mob createMob(MonsterPlayer monster) {
-		switch (this) {
-			case ZOMBIE: {
-				if (monster.getUpgrades(MobType.ZOMBIE).computeIfAbsent("husk", (k) -> 0) == 1) {
-					return new ZombieHusk(monster);
-				}
-				else if (monster.getUpgrades(MobType.ZOMBIE).computeIfAbsent("fury", (k) -> 0) == 1) {
-					return new ZombieFury(monster);
-				}
-				else if (monster.getUpgrades(MobType.ZOMBIE).computeIfAbsent("saboteur", (k) -> 0) == 1) {
-					return new ZombieSaboteur(monster);
-				}
-				else {
-					return new Zombie(monster);
-				}
-			}
-			case SKELETON: {
-				if (monster.getUpgrades(MobType.SKELETON).computeIfAbsent("wither", (k) -> 0) == 1) {
-					return new SkeletonWither(monster);
-				}
-				else if (monster.getUpgrades(MobType.SKELETON).computeIfAbsent("flamelancer", (k) -> 0) == 1) {
-					return new SkeletonFlamelancer(monster);
-				}
-				else if (monster.getUpgrades(MobType.SKELETON).computeIfAbsent("impact", (k) -> 0) == 1) {
-					return new SkeletonImpact(monster);
-				}
-				else {
-					return new Skeleton(monster);
-				}
-			}
-			case GOBO: {
-				if (monster.getUpgrades(MobType.GOBO).computeIfAbsent("kaboom", (k) -> 0) == 1) {
-					return new GoblinKaboom(monster);
-				}
-				else {
-					return new Goblin(monster);
-				}
-			}
-
-			case EMBER_SPRITE: return new EmberSprite(monster);
-			case WOLF: return new Wolf(monster);
-			case HELLHOUND: return new Hellhound(monster);
-			case SPIDERLING: return new Spiderling(monster);
-			case RAT: return new Rat(monster);
-			case GOLEM: return new Golem(monster);
-			case WRAITH: return new Wraith(monster);
-			case MINOTAUR: return new Minotaur(monster);
-			case BATTERING_RAM: return new BatteringRam(monster);
-			case DOPPELGANGER: return new Doppelganger(monster);
-
-			case WALKER: return new Walker(monster);
-
-			case KRUNGOR: return new Krungor(monster);
-			case BOPEN: return new Bopen(monster);
-			case MAGUS: return new Magus(monster);
-			
-			case GB_DAGGER:
-			case GB_RUNEBLADE:
-			case GB_AXE:
-			case GB_HAMMER:
-			case GB_SPAWN:
-				return new Ghostblade(monster, this);
-
-			case TICKER: return new Ticker(monster);
-				
-			case TESTMOB: return new TestMob(monster);
-				
-			case PLAGUE_ZOMBIE:
-				throw new IllegalArgumentException("Plague zombie cannot be created normally.");
-				
+		if (mobCreator != null) {
+			return mobCreator.apply(monster);
+		} else {
+			throw new UnsupportedOperationException("Cannot directly create mob for mobtype: " + this);
 		}
-		Bukkit.getLogger().severe("Unknown mobtype: " + this);
-		throw new IllegalArgumentException("Unknown mobtype: " + this + ". Did deimo forgot to set a case for this?");
+	}
+	
+	private static Mob spawnZombie(MonsterPlayer monster) {
+		if (monster.getUpgrades(MobType.ZOMBIE).computeIfAbsent("husk", (k) -> 0) == 1) {
+			return new ZombieHusk(monster);
+		}
+		else if (monster.getUpgrades(MobType.ZOMBIE).computeIfAbsent("fury", (k) -> 0) == 1) {
+			return new ZombieFury(monster);
+		}
+		else if (monster.getUpgrades(MobType.ZOMBIE).computeIfAbsent("saboteur", (k) -> 0) == 1) {
+			return new ZombieSaboteur(monster);
+		}
+		else {
+			return new Zombie(monster);
+		}
+	}
+	
+	private static Mob spawnSkeleton(MonsterPlayer monster) {
+		if (monster.getUpgrades(MobType.SKELETON).computeIfAbsent("wither", (k) -> 0) == 1) {
+			return new SkeletonWither(monster);
+		}
+		else if (monster.getUpgrades(MobType.SKELETON).computeIfAbsent("flamelancer", (k) -> 0) == 1) {
+			return new SkeletonFlamelancer(monster);
+		}
+		else if (monster.getUpgrades(MobType.SKELETON).computeIfAbsent("impact", (k) -> 0) == 1) {
+			return new SkeletonImpact(monster);
+		}
+		else {
+			return new Skeleton(monster);
+		}
+	}
+	
+	private static Mob spawnGobo(MonsterPlayer monster) {
+		if (monster.getUpgrades(MobType.GOBO).computeIfAbsent("kaboom", (k) -> 0) == 1) {
+			return new GoblinKaboom(monster);
+		}
+		else {
+			return new Goblin(monster);
+		}
+	}
+	
+	public boolean isSpawnable() {
+		return mobCreator != null;
 	}
 	
 	public static Collection<String> getAllMobTypes() {
 		Set<String> mobs = new HashSet<>();
-		for (MobType type : values())
-			if (type.spawnable)
+		for (MobType type : values()) {
+			if (type.isSpawnable()) {
 				mobs.add(type.getName());
+			}
+		}
 		return mobs;
 	}
 	
