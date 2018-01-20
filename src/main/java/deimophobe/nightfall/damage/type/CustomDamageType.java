@@ -32,7 +32,7 @@ public enum CustomDamageType implements GameDamageType {
 	GOBO_KABOOM,
 	GOBO_BOX_EXPLOSION,
 	BLAZE_EXPLOSION,
-	WITHER_BEAM,
+	WITHER_SKULL,
 	HUSK_STOMP,
 	MOBSPAWN,
 	
