@@ -91,7 +91,7 @@ scepter:
   category: sword
   cost: 16
   item:
-    name: "Healing Scepter"
+    name: "Arcane Scepter"
     base: scepter
     lore:
         description:
@@ -286,7 +286,7 @@ jj:
   category: ale
   cost: 4
   item:
-    name: "Jimmy Juice"
+    name: "Self-Drinking Juice"
     base: jimmyjuice
     lore:
       description:
@@ -456,7 +456,8 @@ coil:
           -Night Vision\n
           -Speed\n
           -Strength\n
-          -Health Boost"
+          -Health Boost\n
+          -Fire Resist"
 
 nature_suit:
   index: 32
