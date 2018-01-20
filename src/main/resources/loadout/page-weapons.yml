@@ -91,7 +91,7 @@ scepter:
   category: sword
   cost: 16
   item:
-    name: "Magical Scepter"
+    name: "Arcane Scepter"
     base: scepter
     lore:
         description:
