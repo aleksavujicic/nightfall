@@ -308,8 +308,8 @@ hearty:
     lore:
       description:
        - "Left click to heal yourself for &b100&r mana.\n
-          Has passive &b6&r extra hearts. Also gives a\n
-          &eresistance&r buff for &b4&r seconds."
+          Has passive &b6&r extra hearts. Also gives\n
+          &e40% resistance&r for &b4&r seconds."
     modifiers:
       health: -4
       mana-cost: 100
@@ -328,7 +328,7 @@ trinket:
        - "Left click to heal yourself\n
           for &b$manacost&r mana and gain\n
           &b20&r absorption hearts.\n
-          Has passive regeneration."
+          Has passive &eregeneration&r."
     modifiers:
       mana-cost: 200
 
@@ -365,7 +365,7 @@ chug:
           Uses &b25&r mana. You are able to spam\n
           this as much as you want\n
           so be careful and watch your mana!\n
-          You also gain &espeed for 1 second&r\n
+          You also gain &espeed&r for &b1&r second\n
           each sip."
     modifiers:
       mana-cost: 25
@@ -456,7 +456,8 @@ coil:
           -Night Vision\n
           -Speed\n
           -Strength\n
-          -Health Boost"
+          -Health Boost\n
+          -Fire Resistance"
 
 nature_suit:
   index: 32
