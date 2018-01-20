@@ -1,6 +1,6 @@
 package deimophobe.nightfall.common.loadout.item;
 
-import deimophobe.nightfall.common.loadout.LoadoutConstruct;
+import deimophobe.nightfall.common.loadout.LoadoutConstructable;
 import org.bukkit.configuration.ConfigurationSection;
 
 /**
@@ -15,7 +15,7 @@ public class SimpleLoadoutItem extends LoadoutItem {
 	}
 	
 	@Override
-	public void modify(LoadoutConstruct construct) {
+	public void modify(LoadoutConstructable construct) {
 		construct.addElement(type);
 	}
 }

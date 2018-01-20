@@ -4,7 +4,7 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.common.loadout.Category;
 import deimophobe.nightfall.common.loadout.Loadout;
-import deimophobe.nightfall.common.loadout.LoadoutConstruct;
+import deimophobe.nightfall.common.loadout.LoadoutConstructable;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
 import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.item.MenuItem;
@@ -102,7 +102,7 @@ public abstract class LoadoutItem implements MenuItem<Loadout>, Comparable<Loado
 		itemStack.setAmount(cost == 0 ? 1 : cost);
 	}
 	
-	public abstract void modify(LoadoutConstruct construct);
+	public abstract void modify(LoadoutConstructable construct);
 	
 	public boolean isRandomSelectable() {
 		return randomSelectable && enabled;

@@ -3,7 +3,7 @@ package deimophobe.nightfall.common.loadout.item;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.loadout.Category;
 import deimophobe.nightfall.common.loadout.Loadout;
-import deimophobe.nightfall.common.loadout.LoadoutConstruct;
+import deimophobe.nightfall.common.loadout.LoadoutConstructable;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashSet;
@@ -19,7 +19,7 @@ public class RandomLoadoutItem extends LoadoutItem {
 	}
 	
 	@Override
-	public void modify(LoadoutConstruct construct) {
+	public void modify(LoadoutConstructable construct) {
 		int pointsRemaining = Loadout.MAX_POINTS;
 		Set<LoadoutItem> remaining = new HashSet<>();
 		

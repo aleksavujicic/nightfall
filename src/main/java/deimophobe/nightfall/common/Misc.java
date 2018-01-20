@@ -193,7 +193,7 @@ public class Misc {
 	}
 	
 	
-	public static <T extends Enum<T>> T getEnumMemberFromString(String string, T[] values, String enumName) {
+	public static <T extends Enum<T>> T getEnumMemberFromString(String string, T[] values, String enumName) throws UnknownEnumElementException {
 		string = string.replace('-','_');
 		for (T type : values) {
 			if (type.name().equalsIgnoreCase(string))

@@ -81,7 +81,7 @@ public class Loadout implements SessionData {
 //		}
 	}
 	
-	public void modifyLoadoutConstruct(LoadoutConstruct construct) {
+	public void modifyLoadoutConstruct(LoadoutConstructable construct) {
 		boolean hasKit = false;
 		for (LoadoutItem item : items) {
 			item.modify(construct);
