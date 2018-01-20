@@ -162,8 +162,8 @@ trident:
   name: Trident of Naia
   lore:
     description:
-     - "Right click to create a fountain of water\n
-        Then left click to freeze it\n
+     - "Right click to create a fountain of water,\n
+        then left click to freeze it\n
         trapping anything inside."
     flavour:
      - "\"The sky darkens...\" -Ancient Tome"
@@ -188,7 +188,7 @@ claw:
      - "Right click to leap forward\n
         using your cat-like reflexes."
     flavour:
-     - "\"Sharpened to perrrfection.\" -Lyra"
+     - "\"Sharpened to purrfection.\" -Lyra"
   modifiers:
     attack: 25
 
