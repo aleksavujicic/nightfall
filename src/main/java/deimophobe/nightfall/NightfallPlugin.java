@@ -192,6 +192,7 @@ public class NightfallPlugin extends JavaPlugin {
 					dm.removeGamePlayer(args[0], true);
 					mm.removeGamePlayer(args[0], true);
 					dm.addHero(args[0], type);
+					return true;
 				} catch (UnknownEnumElementException e) {
 					sender.sendMessage(ChatColor.RED + "Unknown hero type: " + ChatColor.GOLD + args[1] + ChatColor.RED + "!");
 					return false;
@@ -221,8 +222,10 @@ public class NightfallPlugin extends JavaPlugin {
 							monster.spawnMob(type);
 							
 							sender.sendMessage(ChatColor.AQUA + "Spawned " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a " + ChatColor.YELLOW + args[1] + ChatColor.AQUA + "!");
+							return true;
 						} catch (UnknownEnumElementException e) {
 							sender.sendMessage(ChatColor.RED + "Unknown mob type: " + ChatColor.YELLOW + args[1] + ChatColor.RED + "!");
+							return false;
 						}
 					}
 					return true;
@@ -257,8 +260,10 @@ public class NightfallPlugin extends JavaPlugin {
 					monster.spawnMob(type);
 					
 					sender.sendMessage(ChatColor.AQUA + "Spawned " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a " + ChatColor.YELLOW + args[1] + ChatColor.AQUA + "!");
+					return true;
 				} catch (UnknownEnumElementException e) {
 					sender.sendMessage(ChatColor.RED + "Unknown mob type: " + ChatColor.YELLOW + args[1] + ChatColor.RED + "!");
+					return false;
 				}
 			}
 		}
