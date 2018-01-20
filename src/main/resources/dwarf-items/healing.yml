@@ -25,7 +25,7 @@ hearty:
     description:
      - "Left click to heal yourself for &b100&r mana.\n
         Has passive &b$hearts&r extra hearts. Also gives\n
-        a &eresistance&r buff for &b4&r seconds."
+        &e40% resistance&r for &b4&r seconds."
     flavour:
      - "\"This is the good stuff, better than\n
           the regular ales!\" - Tui"
@@ -38,7 +38,7 @@ trinket:
      - "Left click to heal yourself\n
         for &b$manacost&r mana and gain\n
         &b20&r absorption hearts.\n
-        Has passive regeneration."
+        Has passive &eregeneration&r."
     flavour:
      - "\"Drink your... Gem? How do you use this thing?\" - Velvetine"
 
@@ -63,7 +63,7 @@ chug:
         Uses &b$manacost&r mana. You are able to spam\n
         this as much as you want\n
         so be careful and watch your mana!\n
-        You also gain &espeed for 1 second&r\n
+        You also gain &espeed%r for &b1&r second\n
         each sip."
     flavour:
      - "\"One of Potion Seller's experimental potions. Use with care.\" "

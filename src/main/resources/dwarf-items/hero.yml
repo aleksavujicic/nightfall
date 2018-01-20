@@ -162,19 +162,21 @@ trident:
   name: Trident of Naia
   lore:
     description:
-     - "Lore team go!"
+     - "Right click to create a fountain of water,\n
+        then left click to freeze it\n
+        trapping anything inside."
     flavour:
-     - "GO"
+     - "\"The sky darkens...\" -Ancient Tome"
 
 bubblebeam:
   base: temp
   name: Bubble Beam
   lore:
     description:
-     - "Shoots a beam of bubbles that makes\n
-        mobs wet."
+     - "Left click to shoot a wave of bubbles\n
+        at a single target."
     flavour:
-     - "PopPopPop"
+     - "\"...and the oceans rumbled.\" - Ancient Tome"
 
 
 ##### LYRA #####
@@ -183,9 +185,10 @@ claw:
   name: Claw
   lore:
     description:
-     - "Lore team go!"
+     - "Right click to leap forward\n
+        using your cat-like reflexes."
     flavour:
-     - "GO"
+     - "\"Sharpened to purrfection.\" -Lyra"
   modifiers:
     attack: 25
 
