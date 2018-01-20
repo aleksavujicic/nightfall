@@ -167,7 +167,7 @@ public class NightfallPlugin extends JavaPlugin {
 					elements.addAll(Arrays.asList(KitPieceType.values()));
 				} else {
 					for (int i = 1; i < args.length; i++) {
-						if (!KitPieceType.isElement(args[i])) {
+						if (!KitPieceType.isKitPiece(args[i])) {
 							sender.sendMessage(ChatColor.RED + "Unknown kit item: " + ChatColor.DARK_AQUA + args[i] + ChatColor.RED + "!");
 							continue;
 						}
@@ -375,7 +375,7 @@ public class NightfallPlugin extends JavaPlugin {
 					Dwarf dwarf = dm.getGamePlayer((Player)sender);
 					if (dwarf != null) {
 						for (String arg : args) {
-							if (!KitPieceType.isElement(arg)) {
+							if (!KitPieceType.isKitPiece(arg)) {
 								sender.sendMessage(ChatColor.RED + "Unknown kit item: " + ChatColor.DARK_AQUA + arg + ChatColor.RED + "!");
 							} else {
 								dwarf.giveKitItem(KitPieceType.fromString(arg));
@@ -1024,7 +1024,7 @@ public class NightfallPlugin extends JavaPlugin {
 		}
 		
 		if (name.equalsIgnoreCase("setdwarf") && args.length >= 2) {
-			Collection<String> elements = KitPieceType.getElementNames();
+			Collection<String> elements = KitPieceType.getPieceNames();
 			if (args.length == 2) elements.add("all");
 			return startsWithPrefix(args[args.length-1], elements);
 		}
@@ -1038,7 +1038,7 @@ public class NightfallPlugin extends JavaPlugin {
 		}
 		
 		if (name.equalsIgnoreCase("addkititem") && args.length >= 1) {
-			Collection<String> elements = KitPieceType.getElementNames();
+			Collection<String> elements = KitPieceType.getPieceNames();
 			return startsWithPrefix(args[args.length-1], elements);
 		}
 		

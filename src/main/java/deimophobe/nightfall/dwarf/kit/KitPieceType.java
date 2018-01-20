@@ -13,116 +13,123 @@ import deimophobe.nightfall.dwarf.kit.ranged.*;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Function;
 
 /**
  * Created by Deimophobe on 24/03/17.
  */
 public enum KitPieceType {
 	// Swords
-	DRB,
-	GRB,
-	AXE,
-	HAMMER,
-	DAGGER,
-	RAPIER,
-	GLAIVE,
-	SCEPTER,
-	HUNTING_CLAWS,
-	GREATSWORD,
-	SHADOW_BLADE,
+	DRB(DwarvenRuneblade::new),
+	GRB(GreaterRuneblade::new),
+	AXE(AxeOfMalice::new),
+	HAMMER(Hammer::new),
+	DAGGER(Dagger::new),
+	RAPIER(Rapier::new),
+	GLAIVE(Glaive::new),
+	SCEPTER(Scepter::new),
+	HUNTING_CLAWS(HuntingClaws::new),
+	GREATSWORD(Greatsword::new),
+	SHADOW_BLADE(ShadowBlade::new),
 
 	// Bows
-	SHORTBOW,
-	LONGBOW,
-	DRAGONSKIN,
-	EBOW,
-	LIGHTBOW,
-	WARPWEAVER,
-	CROSSBOW,
-	VOLCANIC,
-	TURRET,
+	SHORTBOW(Shortbow::new),
+	LONGBOW(Longbow::new),
+	DRAGONSKIN(Dragonskin::new),
+	EBOW(Ebow::new),
+	LIGHTBOW(Lightbow::new),
+	WARPWEAVER(Warpweaver::new),
+	CROSSBOW(Crossbow::new),
+	VOLCANIC(VolcanicGauntlet::new),
+	TURRET(TurretBow::new),
 	
 	// Ales
-	HEALING_ALE,
-	HEARTY_ALE,
-	JIMMY_JUICE,
-	TRINKET,
-	REGROWTH_STAR,
-	CHUGGING_ALE,
-	STRONG_ALE,
-	HEALINGGLOW,
+	HEALING_ALE(HealingAle::new),
+	HEARTY_ALE(HeartyAle::new),
+	JIMMY_JUICE(JimmyJuice::new),
+	TRINKET(Trinket::new),
+	REGROWTH_STAR(Regrowth::new),
+	CHUGGING_ALE(ChuggingAle::new),
+	STRONG_ALE(StrongAle::new),
+	HEALINGGLOW(HealingGlow::new),
 	
 	// Armours
-	STURDY,
-	QUIVER,
-	STUDDED,
-	COIL,
-	BERSERKER,
-	NATURE_SUIT,
+	STURDY(Sturdy::new),
+	QUIVER(Quiver::new),
+	STUDDED(StuddedArmour::new),
+	COIL(MagicCoil::new),
+	BERSERKER(BerserkArmour::new),
+	NATURE_SUIT(NatureSuit::new),
 	
 	// Accessories
-	COMPASS,
-	CHESTO,
-	SLOWFALL,
-	DARKVISION,
-	AVENGE,
-	TOMBMAKER,
-	RESURRECTION,
-	BRICKLAYER,
-	CHISEL,
+	COMPASS(DwarfCompass::new),
+	CHESTO(Chestomatic::new),
+	SLOWFALL(Slowfall::new),
+	DARKVISION(DarkVision::new),
+	AVENGE(Avenge::new),
+	TOMBMAKER(Tombmaker::new),
+	RESURRECTION(Resurrection::new),
+	BRICKLAYER(Bricklayer::new),
+	CHISEL(Chisel::new),
 	
-	UNTIMELY_DEMISE,
+	UNTIMELY_DEMISE(UntimelyDemise::new),
 	
 	// Tools
-	DWARF_PICK,
-	DWARF_SHOVEL,
-	DWARF_AXE,
+	DWARF_PICK(DwarfPickaxe::new),
+	DWARF_SHOVEL(DwarfShovel::new),
+	DWARF_AXE(DwarfAxe::new),
 	
 	
 	// Stupid joke shit
-	PENY_STICK,
+	PENY_STICK(PenyStick::new),
 	
 	
 	// ---- HERO STUFF ----
 	// Base
-	HERO_BASE,
+	HERO_BASE(HeroBase::new),
 	
 	// Tui
-	TUI_HAMMER,
-	WILDFIRE,
+	TUI_HAMMER(TuiHammer::new),
+	WILDFIRE(Wildfire::new),
 	
 	// Nosovin
-	TINDERFLAME,
-	WAND,
-	ROCKET_BOOTS,
+	TINDERFLAME(Tinderflame::new),
+	WAND(Wand::new),
+	ROCKET_BOOTS(RocketBoots::new),
 	
 	// Arthea
-	HEALER_TOTEM,
-	CADUCEUS,
-	ELYSTRIA,
-	LUMINOUS,
+	HEALER_TOTEM(HealerTotem::new),
+	CADUCEUS(Caduceus::new),
+	ELYSTRIA(Elystria::new),
+	LUMINOUS(Luminous::new),
 	
 	// Velvetine
-	HORN,
-	VELSWORD,
-	VELBOW,
+	HORN(Horn::new),
+	VELSWORD(VelSword::new),
+	VELBOW(VelBow::new),
 	
 	// Herana
-	MERMAID_TAIL,
-	TRIDENT,
-	BUBBLE_BEAM,
+	MERMAID_TAIL(MermaidTail::new),
+	TRIDENT(Trident::new),
+	BUBBLE_BEAM(BubbleBeam::new),
 	
 	// Lyra
-	SILVETRIS_CLAWS,
-	FERAL_INSTINCT,
+	SILVETRIS_CLAWS(SilvetrisClaws::new),
+	FERAL_INSTINCT(FeralInstinct::new),
 
 	// Oxysis
-	DRUCRIST,
-	WILDE_STAFF,
+	DRUCRIST(Drucrist::new),
+	WILDE_STAFF(WildeStaff::new),
 
 	;
 	
-	public static boolean isElement(String name) {
+	private final Function<Dwarf, KitPiece> kitPieceCreator;
+	
+	KitPieceType(Function<Dwarf, KitPiece> kitPieceCreator) {
+		this.kitPieceCreator = kitPieceCreator;
+	}
+	
+	public static boolean isKitPiece(String name) {
 		name = name.toLowerCase().replace('-','_');
 		for (KitPieceType type : values()) {
 			if (type.name().equalsIgnoreCase(name))
@@ -135,7 +142,7 @@ public enum KitPieceType {
 		return Misc.getEnumMemberFromString(name, values(), "KitPieceType");
 	}
 	
-	public static Set<String> getElementNames() {
+	public static Set<String> getPieceNames() {
 		Set<String> names = new HashSet<>();
 		for (KitPieceType type : values()) {
 			names.add(type.toString().toLowerCase());
@@ -143,107 +150,7 @@ public enum KitPieceType {
 		return names;
 	}
 	
-	public KitPiece createElement(Dwarf dwarf) {
-		switch (this) {
-			// Swords
-			case DRB: return new DwarvenRuneblade(dwarf);
-			case GRB: return new GreaterRuneblade(dwarf);
-			case AXE: return new AxeOfMalice(dwarf);
-			case HAMMER: return new Hammer(dwarf);
-			case DAGGER: return new Dagger(dwarf);
-			case RAPIER: return new Rapier(dwarf);
-			case GLAIVE: return new Glaive(dwarf);
-			case SCEPTER: return new Scepter(dwarf);
-			case HUNTING_CLAWS: return new HuntingClaws(dwarf);
-			case GREATSWORD: return new Greatsword(dwarf);
-			case SHADOW_BLADE: return new ShadowBlade(dwarf);
-			
-			// Bows
-			case SHORTBOW: return new Shortbow(dwarf);
-			case LONGBOW: return new Longbow(dwarf);
-			case DRAGONSKIN: return new Dragonskin(dwarf);
-			case EBOW: return new Ebow(dwarf);
-			case LIGHTBOW: return new Lightbow(dwarf);
-			case WARPWEAVER: return new Warpweaver(dwarf);
-			case CROSSBOW: return new Crossbow(dwarf);
-			case VOLCANIC: return new VolcanicGauntlet(dwarf);
-			case TURRET: return new TurretBow(dwarf);
-			
-			// Ales
-			case HEALING_ALE: return new HealingAle(dwarf);
-			case HEARTY_ALE: return new HeartyAle(dwarf);
-			case JIMMY_JUICE: return new JimmyJuice(dwarf);
-			case TRINKET: return new Trinket(dwarf);
-			case REGROWTH_STAR: return new Regrowth(dwarf);
-			case CHUGGING_ALE: return new ChuggingAle(dwarf);
-			case STRONG_ALE: return new StrongAle(dwarf);
-			case HEALINGGLOW: return new HealingGlow(dwarf);
-			
-			// Armours
-			case STURDY: return new Sturdy(dwarf);
-			case QUIVER: return new Quiver(dwarf);
-			case STUDDED: return new StuddedArmour(dwarf);
-			case COIL: return new MagicCoil(dwarf);
-			case BERSERKER: return new BerserkArmour(dwarf);
-			case NATURE_SUIT: return new NatureSuit(dwarf);
-			
-			// Accessory
-			case COMPASS: return new DwarfCompass(dwarf);
-			case CHESTO: return new Chestomatic(dwarf);
-			case SLOWFALL: return new Slowfall(dwarf);
-			case DARKVISION: return new DarkVision(dwarf);
-			case AVENGE: return new Avenge(dwarf);
-			case TOMBMAKER: return new Tombmaker(dwarf);
-			case RESURRECTION: return new Resurrection(dwarf);
-			case BRICKLAYER: return new Bricklayer(dwarf);
-			case CHISEL: return new Chisel(dwarf);
-			
-			case UNTIMELY_DEMISE: return new UntimelyDemise(dwarf);
-			
-			// Tools
-			case DWARF_AXE: return new DwarfAxe(dwarf);
-			case DWARF_PICK: return new DwarfPickaxe(dwarf);
-			case DWARF_SHOVEL: return new DwarfShovel(dwarf);
-			
-			// Stupid joke poop
-			case PENY_STICK: return new PenyStick(dwarf);
-			
-			// Base
-			case HERO_BASE: return new HeroBase(dwarf);
-			
-			// Tui
-			case TUI_HAMMER: return new TuiHammer(dwarf);
-			case WILDFIRE: return new Wildfire(dwarf);
-			
-			// 'Nosovin'
-			case TINDERFLAME: return new Tinderflame(dwarf);
-			case WAND: return new Wand(dwarf);
-			case ROCKET_BOOTS: return new RocketBoots(dwarf);
-			
-			// Arthea
-			case HEALER_TOTEM: return new HealerTotem(dwarf);
-			case CADUCEUS: return new Caduceus(dwarf);
-			case ELYSTRIA: return new Elystria(dwarf);
-			case LUMINOUS: return new Luminous(dwarf);
-			
-			// Velvetine
-			case HORN: return new Horn(dwarf);
-			case VELSWORD: return new VelSword(dwarf);
-			case VELBOW: return new VelBow(dwarf);
-			
-			// Herana
-			case MERMAID_TAIL: return new MermaidTail(dwarf);
-			case TRIDENT: return new Trident(dwarf);
-			case BUBBLE_BEAM: return new BubbleBeam(dwarf);
-			
-			// Lyra
-			case FERAL_INSTINCT: return new FeralInstinct(dwarf);
-			case SILVETRIS_CLAWS: return new SilvetrisClaws(dwarf);
-
-			// Oxysis
-			case DRUCRIST: return new Drucrist(dwarf);
-			case WILDE_STAFF: return new WildeStaff(dwarf);
-		}
-		throw new UnsupportedOperationException("Unimplemented element type: " + this);
+	public KitPiece createPiece(Dwarf dwarf) {
+		return kitPieceCreator.apply(dwarf);
 	}
 }
