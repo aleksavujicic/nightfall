@@ -6,6 +6,7 @@ canrun: false
 
 health: 12
 arrowres: 0.5
+depthstrider: 1
 
 armour:
   material: blaze_rod

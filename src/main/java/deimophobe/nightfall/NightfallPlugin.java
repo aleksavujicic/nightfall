@@ -6,6 +6,7 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.EnumWrappers;
+import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.loadout.LoadoutMenu;
@@ -167,11 +168,11 @@ public class NightfallPlugin extends JavaPlugin {
 					elements.addAll(Arrays.asList(KitPieceType.values()));
 				} else {
 					for (int i = 1; i < args.length; i++) {
-						if (!KitPieceType.isElement(args[i])) {
+						try {
+							elements.add(KitPieceType.fromString(args[i]));
+						} catch (UnknownEnumElementException e) {
 							sender.sendMessage(ChatColor.RED + "Unknown kit item: " + ChatColor.DARK_AQUA + args[i] + ChatColor.RED + "!");
-							continue;
 						}
-						elements.add(KitPieceType.fromString(args[i]));
 					}
 				}
 				dm.createDwarf(player, new DwarfData(elements, null));
@@ -186,15 +187,14 @@ public class NightfallPlugin extends JavaPlugin {
 				sender.sendMessage(ChatColor.RED + "Please specify a hero.");
 				return false;
 			} else {
-				HeroType type = HeroType.fromString(args[1]);
-				if (type == null) {
-					sender.sendMessage(ChatColor.RED + "Unknown hero type: " + ChatColor.GOLD + args[1] + ChatColor.RED + "!");
-					return true;
-				} else {
+				try {
+					HeroType type = HeroType.fromString(args[1]);
 					dm.removeGamePlayer(args[0], true);
 					mm.removeGamePlayer(args[0], true);
 					dm.addHero(args[0], type);
-					return true;
+				} catch (UnknownEnumElementException e) {
+					sender.sendMessage(ChatColor.RED + "Unknown hero type: " + ChatColor.GOLD + args[1] + ChatColor.RED + "!");
+					return false;
 				}
 			}
 		}
@@ -210,15 +210,19 @@ public class NightfallPlugin extends JavaPlugin {
 					sender.sendMessage(ChatColor.AQUA + "Added " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a monster!");
 					if (args.length >= 2) {
 						MonsterPlayer monster = mm.getGamePlayer(args[0]);
-						MobType type = MobType.getMobType(args[1]);
-						if (type == null) {
-							sender.sendMessage(ChatColor.RED + "Unknown mob type: " + ChatColor.YELLOW + args[1] + ChatColor.RED + "!");
-							return true;
-						} else {
+						try {
+							MobType type = MobType.getMobType(args[1]);
+							
+							if (!type.isSpawnable()) {
+								sender.sendMessage(ChatColor.RED + "Unknown mob type: " + ChatColor.YELLOW + args[1] + ChatColor.RED + "!");
+								return false;
+							}
+							
 							monster.spawnMob(type);
-
+							
 							sender.sendMessage(ChatColor.AQUA + "Spawned " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a " + ChatColor.YELLOW + args[1] + ChatColor.AQUA + "!");
-							return true;
+						} catch (UnknownEnumElementException e) {
+							sender.sendMessage(ChatColor.RED + "Unknown mob type: " + ChatColor.YELLOW + args[1] + ChatColor.RED + "!");
 						}
 					}
 					return true;
@@ -242,15 +246,19 @@ public class NightfallPlugin extends JavaPlugin {
 					return true;
 				}
 				
-				MobType type = MobType.getMobType(args[1]);
-				if (type == null) {
-					sender.sendMessage(ChatColor.RED + "Unknown mob type: " + ChatColor.YELLOW + args[1] + ChatColor.RED + "!");
-					return true;
-				} else {
+				try {
+					MobType type = MobType.getMobType(args[1]);
+					
+					if (!type.isSpawnable()) {
+						sender.sendMessage(ChatColor.RED + "Unknown mob type: " + ChatColor.YELLOW + args[1] + ChatColor.RED + "!");
+						return false;
+					}
+					
 					monster.spawnMob(type);
 					
 					sender.sendMessage(ChatColor.AQUA + "Spawned " + ChatColor.DARK_RED + args[0] + ChatColor.AQUA + " as a " + ChatColor.YELLOW + args[1] + ChatColor.AQUA + "!");
-					return true;
+				} catch (UnknownEnumElementException e) {
+					sender.sendMessage(ChatColor.RED + "Unknown mob type: " + ChatColor.YELLOW + args[1] + ChatColor.RED + "!");
 				}
 			}
 		}
@@ -375,10 +383,10 @@ public class NightfallPlugin extends JavaPlugin {
 					Dwarf dwarf = dm.getGamePlayer((Player)sender);
 					if (dwarf != null) {
 						for (String arg : args) {
-							if (!KitPieceType.isElement(arg)) {
-								sender.sendMessage(ChatColor.RED + "Unknown kit item: " + ChatColor.DARK_AQUA + arg + ChatColor.RED + "!");
-							} else {
+							try {
 								dwarf.giveKitItem(KitPieceType.fromString(arg));
+							} catch (UnknownEnumElementException e) {
+								sender.sendMessage(ChatColor.RED + "Unknown kit item: " + ChatColor.DARK_AQUA + arg + ChatColor.RED + "!");
 							}
 						}
 					} else {
@@ -1024,7 +1032,7 @@ public class NightfallPlugin extends JavaPlugin {
 		}
 		
 		if (name.equalsIgnoreCase("setdwarf") && args.length >= 2) {
-			Collection<String> elements = KitPieceType.getElementNames();
+			Collection<String> elements = KitPieceType.getPieceNames();
 			if (args.length == 2) elements.add("all");
 			return startsWithPrefix(args[args.length-1], elements);
 		}
@@ -1038,7 +1046,7 @@ public class NightfallPlugin extends JavaPlugin {
 		}
 		
 		if (name.equalsIgnoreCase("addkititem") && args.length >= 1) {
-			Collection<String> elements = KitPieceType.getElementNames();
+			Collection<String> elements = KitPieceType.getPieceNames();
 			return startsWithPrefix(args[args.length-1], elements);
 		}
 		

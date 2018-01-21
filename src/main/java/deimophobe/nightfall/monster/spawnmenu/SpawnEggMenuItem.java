@@ -4,6 +4,7 @@ import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.item.MenuItem;
@@ -11,6 +12,7 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.doom.DoomManager;
 import deimophobe.nightfall.monster.mob.MobType;
 import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
@@ -41,14 +43,18 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 			mobs.add(section.getString("mobtype"));
 		
 		this.mobTypes = new HashSet<>();
-		for (String mob : mobs)
-			mobTypes.add(MobType.getMobType(mob));
+		for (String mob : mobs) {
+			try {
+				mobTypes.add(MobType.getMobType(mob));
+			} catch (UnknownEnumElementException e) {
+				Bukkit.getLogger().severe("Unknown mob " + mob + " when creating spawnegg " + section.getName());
+				e.printStackTrace();
+			}
+		}
 		
 		this.quantity = 0;
 		this.maxQuantity = section.getInt("quantity", 1);
-		double rawSpawnChance = section.getDouble("chance", 0.5);
-		//double playerNum = Game.getGame().getNumPlayers();
-		this.spawnChance = rawSpawnChance;//Math.min(0.5, rawSpawnChance * Math.max(playerNum / 8.0, 1));
+		this.spawnChance = section.getDouble("chance", 0.5);
 		this.permanent = section.getBoolean("permanent", false);
 		
 		this.enabled = section.getBoolean("enabled", true);

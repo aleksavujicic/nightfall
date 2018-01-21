@@ -47,6 +47,7 @@ public class MobData {
 	final double shrineWeight;
 	final boolean shrineImmune;
 	final boolean canRun;
+	final int depthStriderLevel;
 	
 	private final Map<String, MobSound> sounds;
 	
@@ -75,6 +76,7 @@ public class MobData {
 		shrineImmune = false;
 		immuneTime = 8;
 		canRun = true;
+		depthStriderLevel = 3;
 		
 		slot = ArmourSlot.CHEST;
 		armour = null;
@@ -123,6 +125,7 @@ public class MobData {
 		shrineImmune = section.getBoolean("shrineimmune", parent.shrineImmune);
 		immuneTime = section.getInt("immunetime", parent.immuneTime);
 		canRun = section.getBoolean("canrun", parent.canRun);
+		depthStriderLevel = section.getInt("depthstrider", parent.depthStriderLevel);
 		
 		if (section.contains("armourslot")) slot = ArmourSlot.fromString(section.getString("armourslot"));
 		else slot = parent.slot;
@@ -162,8 +165,8 @@ public class MobData {
 			armour.addModifier(ItemModifierType.SPEED, speed);
 			armour.addModifier(ItemModifierType.RESISTANCE, (int) (damageRes*100));
 			armour.addModifier(ItemModifierType.ARROW_RESISTANCE, (int) (arrowRes*100));
-			if (speed >= 0)
-				armour.addModifier(ItemModifierType.DEPTH_STRIDER, 3);
+			if (depthStriderLevel != 0)
+				armour.addModifier(ItemModifierType.DEPTH_STRIDER, depthStriderLevel);
 			if (!proccable) armour.addModifier(ItemModifierType.UNPROCCABLE, 1);
 		}
 		

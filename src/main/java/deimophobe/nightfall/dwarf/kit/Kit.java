@@ -48,7 +48,7 @@ public class Kit {
 	public KitPiece addElement(KitPieceType type) {
 		if (kitElements.containsKey(type)) return null;
 		
-		KitPiece element = type.createElement(dwarf);
+		KitPiece element = type.createPiece(dwarf);
 		kitElements.put(type, element);
 		
 		if (element instanceof CooldownPiece) {

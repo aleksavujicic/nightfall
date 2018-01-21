@@ -30,6 +30,7 @@ public class ArrowMisc {
 		setArrowForce(arrow, force);
 		arrow.setPickupStatus(Arrow.PickupStatus.DISALLOWED);
 		arrow.setShooter(shooter.getPlayer());
+		arrow.setBounce(false);
 		
 		return arrow;
 	}

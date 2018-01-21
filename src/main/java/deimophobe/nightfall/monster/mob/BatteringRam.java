@@ -7,6 +7,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.disguisetypes.watchers.GhastWatcher;
+import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -20,6 +21,8 @@ public class BatteringRam extends AbstractMob {
 	private final ComplexCooldown ram = new ComplexCooldown(2*20, this::wallRam);
 	private final ComplexCooldown faceResetter = new ComplexCooldown(10, null, this::resetFace);
 	
+	private Location lastLocation;
+	
 	protected BatteringRam(MonsterPlayer monster) {
 		super(monster, MobType.BATTERING_RAM);
 	}
@@ -31,6 +34,7 @@ public class BatteringRam extends AbstractMob {
 		((MobDisguise)getDisguise()).setHearSelfDisguise(false);
 		
 		monster.givePermanentPotionEffect(PotionEffectType.JUMP, -5);
+		lastLocation = monster.getLocation();
 	}
 	
 	@Override
@@ -38,6 +42,14 @@ public class BatteringRam extends AbstractMob {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		ram.update();
 		faceResetter.update();
+		
+		if (sec) {
+			if (monster.distanceTo(lastLocation) >= 1.5) {
+				monster.playSound("entity.zombie.infect", 1f, 0.5f, true);
+				if (quadSec) monster.playSound("entity.minecart.inside", 1f, 0.5f, true);
+			}
+			lastLocation = monster.getLocation();
+		}
 	}
 	
 	@Override
@@ -72,6 +84,7 @@ public class BatteringRam extends AbstractMob {
 		Block center = monster.getTargetBlock(null, 3);
 		BlockConverter.convert(BlockConverter.Type.EXPLOSION, center.getLocation(), 8);
 		monster.playSound("entity.generic.explode", 2f, 0.5f, true);
+		monster.playSound("entity.zombie.attack_door_wood", 2f, 0.5f, true);
 		monster.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, center.getLocation(), 3, 1, 1,1);
 		
 		((GhastWatcher) getDisguise().getWatcher()).setAggressive(true);

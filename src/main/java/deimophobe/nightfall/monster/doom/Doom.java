@@ -3,6 +3,7 @@ package deimophobe.nightfall.monster.doom;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.mob.MobType;
@@ -39,21 +40,24 @@ class Doom {
 		
 		titleCycleTime = section.getInt("cycle-time", 40);
 
-		// Mob heroes only for games of size that support player heroes
 		for (String special : section.getStringList("mobs.special")) {
-			MobType type = MobType.getMobType(special);
-			if (type != null)
+			try {
+				MobType type = MobType.getMobType(special);
 				specialMobs.add(type);
-			else
-				Bukkit.getLogger().severe("Unknown mob of type: " + special + " for doom " + title);
+			} catch (UnknownEnumElementException e) {
+				Bukkit.getLogger().severe("Unknown (special) mob of type: " + special + " for doom " + title);
+				e.printStackTrace();
+			}
 		}
 		
 		for (String regular : section.getStringList("mobs.regular")) {
-			MobType type = MobType.getMobType(regular);
-			if (type != null)
+			try {
+				MobType type = MobType.getMobType(regular);
 				regularMobs.add(type);
-			else
-				Bukkit.getLogger().severe("Unknown mob of type: " + regular + " for doom " + title);
+			} catch (UnknownEnumElementException e) {
+				Bukkit.getLogger().severe("Unknown (regular) mob of type: " + regular + " for doom " + title);
+				e.printStackTrace();
+			}
 		}
 		
 		if (regularMobs.size() == 0)

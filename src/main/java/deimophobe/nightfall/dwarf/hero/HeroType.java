@@ -2,6 +2,7 @@ package deimophobe.nightfall.dwarf.hero;
 
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.UnknownEnumElementException;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -52,7 +53,7 @@ public enum HeroType {
 		return data.createHero(player);
 	}
 	
-	public static HeroType fromString(String name) {
+	public static HeroType fromString(String name) throws UnknownEnumElementException {
 		return Misc.getEnumMemberFromString(name, values(), "HeroType");
 	}
 	

@@ -11,6 +11,7 @@ resistance: 0.9
 arrowres: 1
 shred: 0
 canrun: false
+depthstrider: 2
 
 armour:
   base: temp

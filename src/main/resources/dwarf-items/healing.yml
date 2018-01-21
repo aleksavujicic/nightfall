@@ -9,7 +9,7 @@ healing:
 
 jj:
   base: jimmyjuice
-  name: Jimmy Juice
+  name: Self-Drinking Juice
   lore:
     description:
      - "The starting ale for new players.\n
