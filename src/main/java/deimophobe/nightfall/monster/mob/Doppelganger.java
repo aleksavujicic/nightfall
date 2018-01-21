@@ -38,7 +38,6 @@ public class Doppelganger extends AbstractMob {
 	
 	private static final int INVIS_DURATION = 45*20;
 	private static final String TEAM_PREFIX = "doppel";
-	private static short counter = 0;
 	
 	private final Dwarf target;
 	private final ComplexCooldown unhider = new ComplexCooldown(INVIS_DURATION, null, this::unhide);
@@ -51,20 +50,19 @@ public class Doppelganger extends AbstractMob {
 		target = Misc.getRandom(DwarfManager.getManager().getNonHeroDwarves());
 		setFakeWeapon();
 		
+		int id = getID((target != null ? target.getName() : "" ));
+		this.fakeTeam = Game.getGame().getNewTeam(TEAM_PREFIX + id);
 		
-		this.fakeTeam = Game.getGame().getNewTeam(TEAM_PREFIX + counter);
-		counter++;
-		
-		fakeTeam.setColor(ChatColor.DARK_AQUA);
 		if (target != null) {
-			fakeTeam.setPrefix(ChatColor.DARK_AQUA.toString() + target.getName().substring(0, 1));
+			fakeTeam.setColor(ChatColor.DARK_AQUA);
+			fakeTeam.setPrefix(ChatColor.DARK_AQUA.toString() + target.getName().substring(0, 3));
 			fakeTeam.addEntry(getFakeName());
 		}
 		fakeTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
 	}
 	
 	private String getFakeName() {
-		return target.getName().substring(1);
+		return ChatColor.DARK_AQUA + target.getName().substring(3);
 	}
 	
 	@Override
@@ -199,6 +197,18 @@ public class Doppelganger extends AbstractMob {
 				if (itemKey != null) setWeapon(itemKey);
 				return;
 			}
+		}
+	}
+	
+	
+	private static final Map<String, Integer> nameToIDMap = new HashMap<>();
+	private static int getID(String name) {
+		if (nameToIDMap.containsKey(name)) {
+			return nameToIDMap.get(name);
+		} else {
+			int nextID = nameToIDMap.size();
+			nameToIDMap.put(name, nextID);
+			return nextID;
 		}
 	}
 }
