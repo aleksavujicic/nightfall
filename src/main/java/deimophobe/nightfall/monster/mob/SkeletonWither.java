@@ -96,7 +96,7 @@ class SkeletonWither extends Skeleton {
 
 			WitherSkull skull = (WitherSkull) world.spawnEntity(loc, EntityType.WITHER_SKULL);
 			skull.setShooter(monster.getPlayer());
-			skull.setVelocity(loc.getDirection().multiply(0.8*force*force*force));
+			skull.setVelocity(loc.getDirection().multiply(0.7*force*force*force));
 
 			new BukkitRunnable() {
 				@Override
@@ -121,7 +121,7 @@ class SkeletonWither extends Skeleton {
 	private void skullExplosion(Location centerLoc) {
 		World world = monster.getLocation().getWorld();
 
-		double kb = 0.4;
+		double kb = 0.1;
 
 		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 1, 0, 0, 0);
 		world.spawnParticle(Particle.SMOKE_NORMAL, centerLoc, 70, 0.5, 0.5, 0.5, 0.03);
@@ -131,11 +131,10 @@ class SkeletonWither extends Skeleton {
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
 			double distance = offset.subtract(new Vector(0,1,0)).length();
-			if (distance > 3) continue;
+			if (distance > 2) continue;
 
 			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.WITHER_SKULL, getPower());
-			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, distance)) );
-			knockback.setY(knockback.getY() / 2 + 0.1);
+			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, distance)));
 			aoeDamage.setKnockback(knockback);
 			aoeDamage.setArmourShred(getArmourShred());
 			aoeDamage.fire(true);
