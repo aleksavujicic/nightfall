@@ -17,7 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  * Created by Deimophobe on 14/01/18.
  */
 public class IceSlab extends TimedBlock {
-	private int hitsLeft = 15;
+	private int hitsLeft = 10;
 	private boolean canHit = true;
 	
 	private IceSlab(Block block, GameEntity placer, int lifetime) {
