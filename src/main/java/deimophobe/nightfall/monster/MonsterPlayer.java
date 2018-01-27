@@ -94,6 +94,11 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		
 		usedThisTick = false;
 		mobMenuShower.update();
+		
+		if (freezeTime > 0) {
+			freezeTime--;
+			if (freezeTime == 0) cancelFreeze();
+		}
 	}
 	
 	
@@ -443,13 +448,17 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	// ------ FREEZE/UNFREEZE ------
 	private Location freezeLocation;
+	private int freezeTime = -1;
+	
 	public void freeze(int time) {
+		freezeTime = Math.max(time, freezeTime);
+		
+		givePotionEffect(PotionEffectType.LEVITATION, freezeTime, 0, true, false, true);
+		givePotionEffect(PotionEffectType.GLOWING, freezeTime, 1, true, false, true);
+		givePotionEffect(PotionEffectType.BLINDNESS, freezeTime, 1, true, false, true);
+		
 		if (!isFreezable()) return;
 		if (isFrozen()) return;
-		
-		givePotionEffect(PotionEffectType.LEVITATION, time, 0, true, true, true);
-		givePotionEffect(PotionEffectType.GLOWING, time, 1, true, true, true);
-		givePotionEffect(PotionEffectType.BLINDNESS, time, 1, true, true, true);
 
 		if (mob != null) {
 			Disguise dis = mob.getDisguise();
@@ -464,13 +473,6 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		player.setVelocity(new Vector(0,0,0));
 		
 		freezeLocation = getLocation();
-		
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				cancelFreeze();
-			}
-		}.runTaskLater(NightfallPlugin.getPlugin(), time);
 		
 		// Snap back into place if fast moving and lag changed position.
 		new BukkitRunnable() {
