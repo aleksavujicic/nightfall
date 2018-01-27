@@ -1,6 +1,7 @@
 package deimophobe.nightfall.map;
 
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -14,6 +15,7 @@ import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.HashSet;
@@ -244,11 +246,23 @@ public class Shrine {
 		Bukkit.broadcastMessage(ChatColor.GOLD + "==================================================");
 		AIManager.getManager().removeAllAIs();
 		
+		new BukkitRunnable() {
+			int life = 20;
+			@Override
+			public void run() {
+				for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
+					dwarf.getArmour().repair(50);
+					dwarf.regenMana(15);
+				}
+				life--;
+				if (life == 0) this.cancel();
+			}
+		}.runTaskTimer(NightfallPlugin.getPlugin(), 20, 20);
+		
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			dwarf.giveProc(ProcType.SHRINE_FALL);
-			dwarf.getArmour().repair(1000);
-			dwarf.regenMana(200);
 		}
+		
 		for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
 			monster.givePotionEffect(PotionEffectType.SLOW, 180, 3, true, false, true);
 			monster.givePotionEffect(PotionEffectType.CONFUSION, 180, 1, true, false, true);

@@ -19,7 +19,7 @@ public enum ProcType {
 	
 	HORN        (160, 4, 8, 3, true, true, true, true),
 	AVENGE      (160, 4, 8, 3, true, true, true, true),
-	SHRINE_FALL (160, 2, 3, 3, false, true, false, true),
+	SHRINE_FALL (220, 3, 3, 3, false, true, false, true),
 	
 	PROC_BOTTLE (100, 2, 5, 3, true, true, true, true),
 	
