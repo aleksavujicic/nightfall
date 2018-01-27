@@ -130,7 +130,7 @@ public class DwarvenArmour implements Armour {
 		if (!isArmoured()) return 0;
 		
 		if (isAtMax()) return 10; // Otherwise formula below would give 11 only when full (which is kinda weird).
-		return (int) Math.floor(Math.atan(2 * armourFraction()) * 10/Math.atan(2)) + 1;
+		return (int) Math.floor(Math.atan(1.5 * armourFraction()) * 10/Math.atan(1.5)) + 1;
 	}
 	
 	
