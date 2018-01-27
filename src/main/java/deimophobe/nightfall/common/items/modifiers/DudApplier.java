@@ -1,8 +1,5 @@
 package deimophobe.nightfall.common.items.modifiers;
 
-import deimophobe.nightfall.common.Misc;
-
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -10,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
  */
 class DudApplier implements ModifierApplier {
 	@Override
-	public ItemStack applyToItem(ItemStack item, int value, Slot slot) {
+	public ItemStack applyToItem(ItemStack item, int value) {
 		return item;
 	}
 }

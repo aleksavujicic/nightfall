@@ -2,7 +2,6 @@ package deimophobe.nightfall.common.cosmetic.hat;
 
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +15,7 @@ public class Hat {
 	
 	public Hat(ConfigurationSection config) {
 		name = config.getName().toLowerCase();
-		this.hat = CustomItem.getItem(config, LoreTemplate.BASIC, Slot.HEAD).createItemStack();
+		this.hat = CustomItem.getItem(config, LoreTemplate.BASIC).createItemStack();
 	}
 	
 	public void putOn(Player player) {

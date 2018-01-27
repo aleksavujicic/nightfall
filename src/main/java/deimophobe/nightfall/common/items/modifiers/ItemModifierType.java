@@ -1,7 +1,6 @@
 package deimophobe.nightfall.common.items.modifiers;
 
 import minecraft.spigot.community.michel_0.api.Attribute;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
@@ -70,8 +69,8 @@ public enum ItemModifierType {
 		return name;
 	}
 	
-	public ItemStack applyModifier(ItemStack item, int value, Slot slot) {
-		return applier.applyToItem(item, value, slot);
+	public ItemStack applyModifier(ItemStack item, int value) {
+		return applier.applyToItem(item, value);
 	}
 	
 	public String formatValue(int value, boolean forReason) {

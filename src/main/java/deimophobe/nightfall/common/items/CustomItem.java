@@ -1,8 +1,6 @@
 package deimophobe.nightfall.common.items;
 
 import deimophobe.nightfall.common.Misc;
-
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.base.BaseItem;
 import deimophobe.nightfall.common.items.base.BaseItemManager;
 import deimophobe.nightfall.common.items.base.SimpleBaseItem;
@@ -11,7 +9,6 @@ import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.common.items.modifiers.ItemModifier;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import minecraft.spigot.community.michel_0.api.ItemAttributes;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -28,9 +25,9 @@ import java.util.*;
  */
 public class CustomItem implements Cloneable {
 	
-	private final Slot slot;
 	private final BaseItem base;
 	private final Lore lore;
+	private final List<String> errors;
 	private final SortedMap<ItemModifierType, Set<ItemModifier>> modifiers;
 	
 	private final boolean bound;
@@ -40,10 +37,10 @@ public class CustomItem implements Cloneable {
 		this.shiny = shiny;
 	}
 	
-	public CustomItem(BaseItem base, Lore lore, SortedMap<ItemModifierType, Set<ItemModifier>> modifiers, Slot slot, boolean bound, boolean shiny) {
-		this.slot = slot;
+	public CustomItem(BaseItem base, Lore lore, List<String> errors, SortedMap<ItemModifierType, Set<ItemModifier>> modifiers, boolean bound, boolean shiny) {
 		this.base = base;
 		this.lore = lore.clone();
+		this.errors = errors;
 		
 		this.bound = bound;
 		this.shiny = shiny;
@@ -57,10 +54,10 @@ public class CustomItem implements Cloneable {
 		}
 	}
 	
-	private CustomItem(BaseItem base, LoreTemplate loreTemplate, String name, Map<String, String> loreSections, List<String> errors, Slot slot, boolean bound, boolean shiny) {
-		this.slot = slot;
+	private CustomItem(BaseItem base, LoreTemplate loreTemplate, String name, Map<String, String> loreSections, List<String> errors, boolean bound, boolean shiny) {
 		this.base = base;
-		this.lore = new Lore(loreTemplate, name, loreSections, errors);
+		this.lore = new Lore(loreTemplate, name, loreSections);
+		this.errors = errors;
 		
 		this.bound = bound;
 		this.shiny = shiny;
@@ -101,7 +98,7 @@ public class CustomItem implements Cloneable {
 				
 		// Add lore/name
 		meta.setDisplayName(lore.createName());
-		meta.setLore(lore.createLore(modifiers));
+		meta.setLore(lore.createLore(modifiers, errors));
 		item.setItemMeta(meta);
 		
 		// Remove existing attributes (mainly for armour)
@@ -114,7 +111,7 @@ public class CustomItem implements Cloneable {
 			for (ItemModifier modifier : entry.getValue()) {
 				value += modifier.getValue();
 			}
-			item = type.applyModifier(item, value, slot);
+			item = type.applyModifier(item, value);
 		}
 		
 		// Give bound and shiny
@@ -144,25 +141,25 @@ public class CustomItem implements Cloneable {
 	
 	@Override
 	public CustomItem clone() {
-		return new CustomItem(base, lore, modifiers, slot, bound, shiny);
+		return new CustomItem(base, lore, errors, modifiers, bound, shiny);
 	}
 	
 	public CustomItem immutableCopy() {
-		return new ImmutableCustomItem(base, lore, modifiers, slot, bound, shiny);
+		return new ImmutableCustomItem(base, lore, errors, modifiers, bound, shiny);
 	}
 	
 	
-	public static CustomItem tryClone(CustomItem armour) {
-		if (armour == null) return null;
-		return armour.clone();
+	public static CustomItem tryClone(CustomItem item) {
+		if (item == null) return null;
+		return item.clone();
 	}
 	
 	// ------ STATIC FACTORY METHODS ------
-	public static CustomItem getItem(ConfigurationSection itemConfig, String baseTemplate, Slot slot) {
-		return getItem(itemConfig, LoreTemplate.getLoreTemplate(baseTemplate), slot);
+	public static CustomItem getItem(ConfigurationSection itemConfig, String baseTemplate) {
+		return getItem(itemConfig, LoreTemplate.getLoreTemplate(baseTemplate));
 	}
 	
-	public static CustomItem getItem(ConfigurationSection itemConfig, LoreTemplate baseTemplate, Slot slot) {
+	public static CustomItem getItem(ConfigurationSection itemConfig, LoreTemplate baseTemplate) {
 		if (itemConfig == null)
 			throw new NullPointerException("Item config must not be null.");
 		if (baseTemplate == null)
@@ -215,14 +212,13 @@ public class CustomItem implements Cloneable {
 				}
 			}
 		}
-		Collections.unmodifiableList(errors);
 		
 		// Other properties
 		boolean bound = itemConfig.getBoolean("bound", false);
 		boolean shiny = itemConfig.getBoolean("shiny", false);
 		
 		// Create item
-		CustomItem item = new CustomItem(baseItem, loreTemplate, name, loreSections, Collections.unmodifiableList(errors), slot, bound, shiny);
+		CustomItem item = new CustomItem(baseItem, loreTemplate, name, loreSections, Collections.unmodifiableList(errors), bound, shiny);
 		
 		// Add modifiers if they exist
 		if (itemConfig.contains("modifiers")) {

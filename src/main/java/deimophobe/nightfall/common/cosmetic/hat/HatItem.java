@@ -7,7 +7,6 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.item.SelectableItem;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 
@@ -18,7 +17,7 @@ public class HatItem extends SelectableItem<Cosmetic> {
 	private final Hat hat;
 	
 	public HatItem(ConfigurationSection config) throws InvalidConfigurationException {
-		super(CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.HAT, Slot.MAIN_HAND).createItemStack());
+		super(CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.HAT).createItemStack());
 		
 		Misc.checkConfigStringExists(config, "hat");
 		this.hat = CosmeticManager.getManager().getHat(config.getString("hat"));

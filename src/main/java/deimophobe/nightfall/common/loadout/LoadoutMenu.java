@@ -11,7 +11,6 @@ import deimophobe.nightfall.common.menu.item.PageChanger;
 import deimophobe.nightfall.common.menu.submenu.CompositeMenu;
 import deimophobe.nightfall.common.menu.submenu.MultiPageMenu;
 import deimophobe.nightfall.common.menu.submenu.SimpleMenu;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -45,11 +44,11 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 		
 		// Add items for toolbar
 		ConfigurationSection itemConfig = NightfallCommonPlugin.getInternalFileConfig("loadout/special-items.yml");
-		ItemStack back = CustomItem.getItem(itemConfig.getConfigurationSection("back"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
-		ItemStack forward = CustomItem.getItem(itemConfig.getConfigurationSection("forward"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
-		ItemStack close = CustomItem.getItem(itemConfig.getConfigurationSection("close"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
-		ItemStack points = CustomItem.getItem(itemConfig.getConfigurationSection("points"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
-		ItemStack trash = CustomItem.getItem(itemConfig.getConfigurationSection("trash"), LoreTemplate.BASIC, Slot.MAIN_HAND).createItemStack();
+		ItemStack back = CustomItem.getItem(itemConfig.getConfigurationSection("back"), LoreTemplate.BASIC).createItemStack();
+		ItemStack forward = CustomItem.getItem(itemConfig.getConfigurationSection("forward"), LoreTemplate.BASIC).createItemStack();
+		ItemStack close = CustomItem.getItem(itemConfig.getConfigurationSection("close"), LoreTemplate.BASIC).createItemStack();
+		ItemStack points = CustomItem.getItem(itemConfig.getConfigurationSection("points"), LoreTemplate.BASIC).createItemStack();
+		ItemStack trash = CustomItem.getItem(itemConfig.getConfigurationSection("trash"), LoreTemplate.BASIC).createItemStack();
 		
 		toolbar.setItem(0, new PointsItem(points, points));
 		toolbar.setItem(1, new ClearItem(trash));

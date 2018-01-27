@@ -1,7 +1,5 @@
 package deimophobe.nightfall.common.items.modifiers;
 
-import deimophobe.nightfall.common.Misc;
-
 import minecraft.spigot.community.michel_0.api.Attribute;
 import minecraft.spigot.community.michel_0.api.AttributeModifier;
 import minecraft.spigot.community.michel_0.api.ItemAttributes;
@@ -37,12 +35,15 @@ class AttributeApplier implements ModifierApplier {
 		this.modifier = modifier;
 	}
 	
+	private static final Slot[] SLOTS = Slot.values();
 	@Override
-	public ItemStack applyToItem(ItemStack item, int value, Slot slot) {
+	public ItemStack applyToItem(ItemStack item, int value) {
 		ItemAttributes attributes = new ItemAttributes();
 		attributes.getFromStack(item);
 		
-		attributes.addModifier(new AttributeModifier(attribute, "Upgrade", slot, operation, modifier.apply(value), UUID.randomUUID()));
+		for (Slot slot : SLOTS) {
+			attributes.addModifier(new AttributeModifier(attribute, "Upgrade", slot, operation, modifier.apply(value), UUID.randomUUID()));
+		}
 		
 		return attributes.apply(item);
 	}

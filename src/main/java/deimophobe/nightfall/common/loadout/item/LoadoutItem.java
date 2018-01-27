@@ -8,7 +8,6 @@ import deimophobe.nightfall.common.loadout.LoadoutConstructable;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
 import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.item.MenuItem;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -59,7 +58,7 @@ public abstract class LoadoutItem implements MenuItem<Loadout>, Comparable<Loado
 		
 		this.randomSelectable = config.getBoolean("random-selectable", true);
 		
-		this.item = CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.LOADOUT, Slot.MAIN_HAND);
+		this.item = CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.LOADOUT);
 		if (!enabled) item.setShiny(true);
 		item.applyVariable("cost", "" + cost);
 		item.applyVariable("category", category.getLore());

@@ -1,7 +1,5 @@
 package deimophobe.nightfall.common.items.lore;
 
-import deimophobe.nightfall.common.Misc;
-
 import deimophobe.nightfall.common.items.modifiers.ItemModifier;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import org.bukkit.ChatColor;
@@ -20,20 +18,16 @@ public class Lore implements Cloneable {
 	private final StringBuilder loreText;
 	private final Map<String, Integer> variablePointers;
 	
-	private final List<String> errors;
-	
-	public Lore(LoreTemplate loreTemplate, String name, StringBuilder loreText, Map<String, Integer> variablePointers, List<String> errors) {
+	public Lore(LoreTemplate loreTemplate, String name, StringBuilder loreText, Map<String, Integer> variablePointers) {
 		this.loreTemplate = loreTemplate;
 		
 		this.name = name;
 		
 		this.loreText = new StringBuilder(loreText);
 		this.variablePointers = new HashMap<>(variablePointers);
-		
-		this.errors = errors;
 	}
 	
-	public Lore(LoreTemplate loreTemplate, String name, Map<String, String> loreSections, List<String> errors) {
+	public Lore(LoreTemplate loreTemplate, String name, Map<String, String> loreSections) {
 		this.loreTemplate = loreTemplate;
 		
 		this.name = name;
@@ -41,8 +35,6 @@ public class Lore implements Cloneable {
 		this.loreText = loreTemplate.generateLoreText(loreSections);
 		this.variablePointers = new HashMap<>();
 		findVariables();
-		
-		this.errors = errors;
 	}
 	
 	private void findVariables() {
@@ -90,7 +82,7 @@ public class Lore implements Cloneable {
 	
 	@Override
 	public Lore clone() {
-		return new Lore(loreTemplate, name, loreText, variablePointers, errors);
+		return new Lore(loreTemplate, name, loreText, variablePointers);
 	}
 	
 	
@@ -99,7 +91,7 @@ public class Lore implements Cloneable {
 		return ChatColor.translateAlternateColorCodes('&',loreTemplate.getName(name));
 	}
 	
-	public List<String> createLore(SortedMap<ItemModifierType, Set<ItemModifier>> modifiers) {
+	public List<String> createLore(SortedMap<ItemModifierType, Set<ItemModifier>> modifiers, List<String> errors) {
 		List<String> lore = new ArrayList<>();
 		
 		// Add errors

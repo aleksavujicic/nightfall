@@ -6,7 +6,6 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.item.SelectableItem;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 
@@ -17,7 +16,7 @@ public class TitleItem extends SelectableItem<Cosmetic> {
 	private final String title;
 	
 	public TitleItem(ConfigurationSection config) throws InvalidConfigurationException {
-		super(CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.TITLE, Slot.MAIN_HAND).createItemStack());
+		super(CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.TITLE).createItemStack());
 		
 		Misc.checkConfigStringExists(config, "title");
 		this.title = config.getString("title");
