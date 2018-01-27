@@ -36,7 +36,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	
 	public BubbleBeam(Dwarf dwarf) { super(dwarf); }
 	
-	private final ComplexCooldown beamer = new ComplexCooldown(10, this::shootBeam);
+	private final ComplexCooldown beamer = new ComplexCooldown(5, this::shootBeam);
 	private final ComplexCooldown sirenSongCD = new ComplexCooldown(10, this::sirenSong);
 	private SirenSong sirenSong = null;
 	
@@ -81,7 +81,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 //		double dz = Misc.randomDouble(-0.1,0.1);
 //
 //		for (int i=0; i<2; i++)
-		location.getWorld().spawnParticle(Particle.WATER_BUBBLE, location, 5, 0.05, 0.05, 0.05, 0);
+		location.getWorld().spawnParticle(Particle.WATER_BUBBLE, location, 7, 0.05, 0.05, 0.05, 0);
 		location.getWorld().spawnParticle(Particle.CRIT_MAGIC, location, 1, 0.05, 0.05, 0.05, 0);
 	};
 	
@@ -95,7 +95,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	};
 	
 	private void shootBeam() {
-		dwarf.fireHitscan(15, 1.25, 0.2, 0.2, PARTICLE_PLACER, null, DAMAGER);
+		dwarf.fireParticle(0.5, 20, 1.25, 0.2, PARTICLE_PLACER, null, DAMAGER);
 	}
 	
 	
