@@ -11,6 +11,7 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.entity.MonsterEntity;
+import deimophobe.nightfall.util.music.Melody;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -28,6 +29,7 @@ public class BubbleBeam extends AbstractItem {
 	public BubbleBeam(Dwarf dwarf) { super(dwarf); }
 	
 	private final ComplexCooldown beamer = new ComplexCooldown(10, this::shootBeam);
+	private final ComplexCooldown sirenSong = new ComplexCooldown(10, this::sirenSong);
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero","bubblebeam");
 	private final static double DAMAGE = 15;
@@ -43,6 +45,7 @@ public class BubbleBeam extends AbstractItem {
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		beamer.update();
+		sirenSong.update();
 	}
 	
 	@Override
@@ -51,8 +54,10 @@ public class BubbleBeam extends AbstractItem {
 		
 		if (Misc.isLeftClick(action)) {
 			return beamer.tryUse();
+		} else {
+			return sirenSong.tryUse();
 		}
-		return false;
+//		return false;
 	}
 	
 	
@@ -79,4 +84,8 @@ public class BubbleBeam extends AbstractItem {
 		dwarf.fireHitscan(15, 1.25, 0.2, 0.2, PARTICLE_PLACER, null, DAMAGER);
 	}
 	
+	private void sirenSong() {
+		Melody.getMelody("siren").play(dwarf.getPlayer(), "block.note.chime", 1f);
+		Melody.getMelody("siren").play(dwarf.getPlayer(), "block.note.flute", 1f);
+	}
 }
