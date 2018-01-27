@@ -1,7 +1,6 @@
 package deimophobe.nightfall.util.music;
 
 import deimophobe.nightfall.NightfallPlugin;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -18,9 +17,6 @@ class PlayedNote {
 	PlayedNote(int note, long duration) {
 		this.pitch = (float) Math.pow(2, (double) (note - 12)/12);
 		this.duration = duration;
-		
-		Bukkit.broadcastMessage("note: " + note);
-		Bukkit.broadcastMessage("pitch: " + pitch);
 	}
 	
 	void play(Supplier<Location> locationSupplier, String sound, float volume, Queue<PlayedNote> remainingNotes) {

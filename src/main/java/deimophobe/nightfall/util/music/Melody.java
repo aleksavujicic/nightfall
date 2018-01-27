@@ -1,7 +1,6 @@
 package deimophobe.nightfall.util.music;
 
 import deimophobe.nightfall.NightfallPlugin;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -28,7 +27,6 @@ public class Melody {
 		for (String stringNote : stringNotes) {
 			
 			Matcher matcher = NOTE_PATTERN.matcher(stringNote);
-			Bukkit.broadcastMessage("Match: " + matcher.matches());
 			int note = Integer.parseInt(matcher.group("note"));
 			long duration = Long.parseLong(matcher.group("duration"));
 			
