@@ -11,9 +11,13 @@ import org.bukkit.potion.PotionEffectType;
  */
 public class MermaidTail extends AbstractPiece implements ArmourPiece {
 	
+	private boolean isInSwimmingMode;
+	
 	public MermaidTail(Dwarf dwarf) {
 		super(dwarf);
 		dwarf.givePermanentPotionEffect(PotionEffectType.WATER_BREATHING, 1);
+		isInSwimmingMode = dwarf.isUnderwater();
+		updateSwimState();
 	}
 	
 	@Override
@@ -27,8 +31,7 @@ public class MermaidTail extends AbstractPiece implements ArmourPiece {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		
 		if (quartSec) {
-			if (dwarf.isUnderwater()) giveFastSwim();
-			else removeFastSwim();
+			updateSwimState();
 		}
 	}
 	
@@ -37,15 +40,27 @@ public class MermaidTail extends AbstractPiece implements ArmourPiece {
 		super.onShift(sneaking);
 		if (!sneaking) return;
 		dwarf.givePermanentPotionEffect(PotionEffectType.WATER_BREATHING, 1);
+		updateSwimState();
+	}
+	
+	private void updateSwimState() {
+		boolean underwater = dwarf.isUnderwater();
+		if (underwater && !isInSwimmingMode) {
+			giveFastSwim();
+		} else if (!underwater && isInSwimmingMode) {
+			removeFastSwim();
+		}
 	}
 	
 	private void giveFastSwim() {
 		dwarf.givePermanentPotionEffect(PotionEffectType.SPEED, 8);
 		dwarf.givePermanentPotionEffect(PotionEffectType.NIGHT_VISION, 1);
+		isInSwimmingMode = true;
 	}
 	
 	private void removeFastSwim() {
 		dwarf.removePotionEffect(PotionEffectType.SPEED);
 		dwarf.removePotionEffect(PotionEffectType.NIGHT_VISION);
+		isInSwimmingMode = false;
 	}
 }
