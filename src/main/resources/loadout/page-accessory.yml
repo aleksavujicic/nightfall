@@ -69,7 +69,7 @@ tombmaker:
   category: accessory
   type: item
   name: tombmaker
-  cost: 6
+  cost: 4
   item:
     name: "Tombmaker"
     base: tombmaker
@@ -99,7 +99,7 @@ bricklayer:
   category: accessory
   type: item
   name: bricklayer
-  cost: 4
+  cost: 2
   item:
     name: "Bricklayer"
     base: bricklayer
