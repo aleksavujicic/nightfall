@@ -4,7 +4,6 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.inventory.ItemStack;
@@ -46,12 +45,7 @@ public class DwarvenItems {
 	}
 	
 	
-	
 	public static CustomItem getItem(String section, String name) {
-		return getItem(section, name, Slot.MAIN_HAND);
-	}
-	
-	public static CustomItem getItem(String section, String name, Slot slot) {
 		if (!configs.containsKey(section))
 			throw new IllegalArgumentException("Dwarf item section '" + section + "' does not exist.");
 		
@@ -64,7 +58,7 @@ public class DwarvenItems {
 			case "hero":
 				template = LoreTemplate.getLoreTemplate(LoreTemplate.DWARF_HERO);
 		}
-		return CustomItem.getItem(config.getConfigurationSection(name), template, slot);
+		return CustomItem.getItem(config.getConfigurationSection(name), template);
 	}
 	
 	

@@ -10,7 +10,6 @@ import deimophobe.nightfall.common.menu.submenu.SimpleMenu;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.mob.MobType;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -95,7 +94,7 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 	
 	private static final YamlConfiguration itemConfig = NightfallPlugin.getInternalFileConfig("mobmenu-items.yml");
 	private ItemStack getConfigItem(String name) {
-		return CustomItem.getItem(itemConfig.getConfigurationSection(name), "monster-menu", Slot.MAIN_HAND).createItemStack();
+		return CustomItem.getItem(itemConfig.getConfigurationSection(name), "monster-menu").createItemStack();
 	}
 	
 	public void addSpawnEgg(int index, String name) {

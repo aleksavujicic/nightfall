@@ -14,7 +14,6 @@ import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.Kit;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -61,7 +60,7 @@ public class HeroData extends DwarfData {
 		
 		// Hat
 		Misc.checkConfigStringExists(config, "hat");
-		this.hat = CustomItem.getItem(config.getConfigurationSection("hat"), LoreTemplate.DWARF_HERO, Slot.HEAD);
+		this.hat = CustomItem.getItem(config.getConfigurationSection("hat"), LoreTemplate.DWARF_HERO);
 		
 		// Skin
 		Misc.checkConfigStringExists(config, "skin");

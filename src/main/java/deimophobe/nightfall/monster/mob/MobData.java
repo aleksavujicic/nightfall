@@ -8,7 +8,6 @@ import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.util.ArmourSlot;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashMap;
@@ -32,7 +31,7 @@ public class MobData {
 	private final int health;
 	private final int speed;
 	
-	final ArmourSlot slot;
+	final ArmourSlot armourSlot;
 	private final CustomItem armour;
 	private final CustomItem weapon;
 	private final Map<String, CustomItem> items;
@@ -78,7 +77,7 @@ public class MobData {
 		canRun = true;
 		depthStriderLevel = 3;
 		
-		slot = ArmourSlot.CHEST;
+		armourSlot = ArmourSlot.CHEST;
 		armour = null;
 		weapon = null;
 		items = new LinkedHashMap<>();
@@ -127,18 +126,18 @@ public class MobData {
 		canRun = section.getBoolean("canrun", parent.canRun);
 		depthStriderLevel = section.getInt("depthstrider", parent.depthStriderLevel);
 		
-		if (section.contains("armourslot")) slot = ArmourSlot.fromString(section.getString("armourslot"));
-		else slot = parent.slot;
-		if (section.contains("armour")) armour = CustomItem.getItem(section.getConfigurationSection("armour"), LoreTemplate.MOB, slot.getSlot());
+		if (section.contains("armourslot")) armourSlot = ArmourSlot.fromString(section.getString("armourslot"));
+		else armourSlot = parent.armourSlot;
+		if (section.contains("armour")) armour = CustomItem.getItem(section.getConfigurationSection("armour"), LoreTemplate.MOB);
 		else armour = CustomItem.tryClone(parent.armour);
-		if (section.contains("weapon")) weapon = CustomItem.getItem(section.getConfigurationSection("weapon"), LoreTemplate.MOB, Slot.MAIN_HAND);
+		if (section.contains("weapon")) weapon = CustomItem.getItem(section.getConfigurationSection("weapon"), LoreTemplate.MOB);
 		else weapon = CustomItem.tryClone(parent.weapon);
 		
 		items = new LinkedHashMap<>(parent.items);
 		ConfigurationSection itemSection = section.getConfigurationSection("items");
 		if (itemSection != null) {
 			for (String item : itemSection.getKeys(false)) {
-				items.put(item, CustomItem.getItem(itemSection.getConfigurationSection(item), LoreTemplate.MOB, Slot.MAIN_HAND));
+				items.put(item, CustomItem.getItem(itemSection.getConfigurationSection(item), LoreTemplate.MOB));
 			}
 		}
 		

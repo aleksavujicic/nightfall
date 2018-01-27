@@ -11,7 +11,6 @@ import deimophobe.nightfall.common.menu.item.MenuItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.doom.DoomManager;
 import deimophobe.nightfall.monster.mob.MobType;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.Configuration;
@@ -36,7 +35,7 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 	private final double spawnChance;
 
 	private SpawnEggMenuItem(ConfigurationSection section) {
-		this.item = CustomItem.getItem(section.getConfigurationSection("egg"), "monster-egg", Slot.HEAD).createItemStack();
+		this.item = CustomItem.getItem(section.getConfigurationSection("egg"), "monster-egg").createItemStack();
 		
 		List<String> mobs = section.getStringList("mobtype");
 		if (mobs.isEmpty())

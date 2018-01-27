@@ -6,7 +6,6 @@ import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.item.MenuItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.mob.MobType;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -60,7 +59,7 @@ class UpgradeMenuItem implements MenuItem<MonsterPlayer> {
 				exclusiveWith.put(key, config.getInt("exclusiveWith."+key));
 		}
 
-		this.item = CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.MOB_UPGRADE, Slot.MAIN_HAND);
+		this.item = CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.MOB_UPGRADE);
 		this.costs = config.getIntegerList("cost");
 		if (costs.size() == 0)
 			costs.add(config.getInt("cost"));

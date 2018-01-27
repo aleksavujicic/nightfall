@@ -16,7 +16,6 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.effects.GameEffect;
-import minecraft.spigot.community.michel_0.api.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -255,9 +254,9 @@ public class DwarvenArmour implements Armour {
 		private final CustomItem boots;
 		
 		private ArmourSet(String section) {
-			chest = DwarvenItems.getItem("armour", section + ".chest", Slot.CHEST);
-			legs = DwarvenItems.getItem("armour", section + ".legs", Slot.LEGS);
-			boots = DwarvenItems.getItem("armour", section + ".boots", Slot.FEET);
+			chest = DwarvenItems.getItem("armour", section + ".chest");
+			legs = DwarvenItems.getItem("armour", section + ".legs");
+			boots = DwarvenItems.getItem("armour", section + ".boots");
 		}
 		
 		private void equip(Dwarf dwarf) {
