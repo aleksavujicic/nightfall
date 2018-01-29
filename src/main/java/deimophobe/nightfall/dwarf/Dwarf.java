@@ -34,6 +34,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collection;
@@ -200,6 +201,8 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	// ------ BLOOD ------
 	private void updateBlood(boolean quartSec, boolean halfSec, boolean sec) {
 		
+		Location bloodLoc = player.getLocation().add(0, 1, 0);
+		
 		if (sec && mana <= 300
 			|| halfSec && mana <= 200
 			|| quartSec && mana <= 100) {
@@ -208,8 +211,11 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			double radius = 0.4 - (double) mana/2000;
 			double height = 0.25 - (double) mana/3000;
 			
-			Location bloodLoc = player.getLocation().add(0, 1, 0);
 			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, count, radius, height, radius, 0);
+		}
+		
+		if (halfSec && mana <= 150) {
+			player.getWorld().spawnParticle(Particle.BLOCK_CRACK, bloodLoc, 20 - mana/10, 0.2, 0.1, 0.2, 0, new MaterialData(Material.REDSTONE_BLOCK));
 		}
 	}
 	
