@@ -18,6 +18,7 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.util.ArmourSlot;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -48,6 +49,7 @@ public class Doppelganger extends AbstractMob {
 	protected Doppelganger(MonsterPlayer monster) {
 		super(monster, MobType.DOPPELGANGER);
 		target = Misc.getRandom(DwarfManager.getManager().getNonHeroDwarves());
+		Bukkit.getLogger().info("Spawned doppel with target: " + (target == null ? "(no target)" : target.getName()));
 		setFakeWeapon();
 		
 		int id = getID((target != null ? target.getName() : "" ));
@@ -71,7 +73,7 @@ public class Doppelganger extends AbstractMob {
 		if (target != null) {
 			Skin skin = new Skin(target.getPlayer());
 			PlayerSkin playerSkin = new PlayerSkin(
-					ChatColor.DARK_RED + monster.getName(), skin, false,
+					monster.getName(), skin, false,
 					ChatColor.DARK_AQUA + target.getName() + ChatColor.DARK_RED + " (You)"
 			);
 			SkinManager.getManager().addSkinChange(monster, playerSkin);
@@ -174,6 +176,9 @@ public class Doppelganger extends AbstractMob {
 		}
 		
 		hidden = false;
+		
+		// Removes unhider
+		monster.useItem(Material.FEATHER);
 	}
 	
 	
