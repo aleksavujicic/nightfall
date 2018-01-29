@@ -14,13 +14,13 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
+import deimophobe.nightfall.dwarf.kit.melee.Scepter;
+import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.util.ArmourSlot;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -113,7 +113,18 @@ public class Doppelganger extends AbstractMob {
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		unhider.update();
+		beamer.update();
+		
+		Location smokeLoc = monster.getLocation().add(0,1,0);
+		for (MonsterPlayer player : MonsterManager.getManager().getGamePlayers()) {
+			if (player == monster) continue;
+			player.getPlayer().spawnParticle(Particle.SMOKE_LARGE, smokeLoc, 2, 0.3, 0.3, 0.3, 0.01);
+		}
 	}
+	
+	private final ComplexCooldown beamer = new ComplexCooldown(10,
+			() -> monster.fireHitscan(Scepter.RANGE, 1.25, 0.2, 0.2, Scepter.PARTICLE_PLACER, null, null)
+	);
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
@@ -121,6 +132,8 @@ public class Doppelganger extends AbstractMob {
 		if (isPlayerHoldingItem("unhider")) {
 			monster.useHeldItem();
 			unhide();
+		} else if (Misc.isLeftClick(action) && isPlayerHoldingItem("scepter")) {
+			beamer.tryUse();
 		}
 	}
 	

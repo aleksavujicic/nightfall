@@ -78,7 +78,9 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 
 	
 	// ----- LANCE -----
-	private static final Consumer<Location> PARTICLE_PLACER = (location) -> {
+	public static final double RANGE = 8;
+	
+	public static final Consumer<Location> PARTICLE_PLACER = (location) -> {
 		double dx = Misc.randomDouble(-0.1,0.1);
 		double dy = Misc.randomDouble(-0.1,0.1);
 		double dz = Misc.randomDouble(-0.1,0.1);
@@ -103,7 +105,7 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	};
 	
 	private void shootLance() {
-		dwarf.fireHitscan(8, 1.25, 0.2, 0.2, PARTICLE_PLACER, DWARF_BUFFER, DAMAGER);
+		dwarf.fireHitscan(RANGE, 1.25, 0.2, 0.2, PARTICLE_PLACER, DWARF_BUFFER, DAMAGER);
 	}
 	
 	
