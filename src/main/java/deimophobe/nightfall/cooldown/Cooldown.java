@@ -3,7 +3,7 @@ package deimophobe.nightfall.cooldown;
 /**
  * Created by Deimophobe on 20/05/17.
  */
-public interface Cooldown {
+public interface Cooldown extends Updateable {
 	
 	void update();
 	boolean isAvailable();

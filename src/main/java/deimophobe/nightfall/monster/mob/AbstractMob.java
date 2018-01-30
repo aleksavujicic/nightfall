@@ -1,9 +1,13 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.cooldown.Expirable;
+import deimophobe.nightfall.cooldown.Update;
+import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
@@ -26,7 +30,10 @@ import org.bukkit.event.block.Action;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
 
+import java.lang.reflect.Field;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 
 /**
@@ -41,6 +48,7 @@ public abstract class AbstractMob implements Mob {
 	
 	private final MobType type;
 	@Override public MobType getType() { return type; }
+	
 	
 	protected AbstractMob(MonsterPlayer monster, MobType type) {
 		this.monster = monster;
@@ -62,6 +70,8 @@ public abstract class AbstractMob implements Mob {
 		setupItems();
 		
 		setupDisguise();
+		
+		addDefinedUpdateables();
 		
 		monster.clearEffects();
 		if (mobData.immuneTime != 0) {
@@ -94,6 +104,39 @@ public abstract class AbstractMob implements Mob {
 	
 	protected void tpToSpawn() {
 		monster.teleportTo(GameMap.getCurrentMap().getCurrentMobspawn());
+	}
+	
+	
+	// ~~~~ UPDATEABLES ~~~~
+	private final Set<Updateable> updateables = new HashSet<>();
+	
+	private void addDefinedUpdateables() {
+		Class<?> tempClass = this.getClass();
+		while (tempClass != AbstractMob.class) {
+			Field[] fields = tempClass.getDeclaredFields();
+			for (Field field : fields) {
+				
+				if (field.isAnnotationPresent(Update.class)) {
+					field.setAccessible(true);
+					try {
+						Object value = field.get(this);
+						if (value instanceof Updateable) {
+							updateables.add((Updateable) value);
+						} else {
+							NightfallPlugin.getPlugin().getLogger().severe("Field " + field.getName() + " in class " + tempClass.getName() + " has @Update annotation but does not implement Updateable");
+						}
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			
+			tempClass = tempClass.getSuperclass();
+		}
+	}
+	
+	protected void addUpdateable(Updateable updateable) {
+		updateables.add(updateable);
 	}
 	
 	
@@ -282,15 +325,29 @@ public abstract class AbstractMob implements Mob {
 		return didBreak;
 	}
 	
+	@Override
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		if (doubleSec)
+			playSound("idle");
+		
+		for (Updateable updateable : updateables) {
+			updateable.update();
+			
+			if (updateable instanceof Expirable) {
+				Expirable expirable = (Expirable) updateable;
+				if (expirable.hasExpired()) {
+					updateables.remove(updateable);
+				}
+			}
+		}
+	}
+	
 	
 	@Override public boolean isShrineImmune() { return mobData.shrineImmune; }
 	@Override public int getSOSTime() { return mobData.sosTime; }
 	@Override public double getShrineWeight() { return mobData.shrineWeight; }
 	
-	@Override public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		if (doubleSec)
-			playSound("idle");
-	}
+	
 	@Override public void onShift(boolean sneaking) {}
 	@Override public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {}
 	@Override public Projectile onBowFire(Arrow arrow, float force) { return null; }

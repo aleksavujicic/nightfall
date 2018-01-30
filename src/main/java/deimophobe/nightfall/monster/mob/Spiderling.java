@@ -3,6 +3,7 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
@@ -22,19 +23,12 @@ import org.bukkit.util.Vector;
  */
 class Spiderling extends AbstractMob {
 	
+	private static final double CORRODE_DISTANCE = 15;
+	@Update private ComplexCooldown spitter = new ComplexCooldown(8, this::spit);
+	
 	Spiderling(MonsterPlayer monster) {
 		super(monster, MobType.SPIDERLING);
 	}
-	
-	@Override
-	public void onDamageAttack(DwarfDamage damage) {
-		super.onDamageAttack(damage);
-		damage.getReceiver().givePotionEffect(PotionEffectType.POISON, 50, 4, true, false, true);
-	}
-	
-	private ComplexCooldown spitter = new ComplexCooldown(8, this::spit);
-	
-	private static final double CORRODE_DISTANCE = 15;
 	
 	@Override
 	public void onSpawn() {
@@ -43,15 +37,16 @@ class Spiderling extends AbstractMob {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		spitter.update();
-	}
-	
-	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action) && isPlayerHoldingWeapon()) {
 			spitter.tryUse();
 		}
+	}
+	
+	@Override
+	public void onDamageAttack(DwarfDamage damage) {
+		super.onDamageAttack(damage);
+		damage.getReceiver().givePotionEffect(PotionEffectType.POISON, 50, 4, true, false, true);
 	}
 	
 	private void spit() {

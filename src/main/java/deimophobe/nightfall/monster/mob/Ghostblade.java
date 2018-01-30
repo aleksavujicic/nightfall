@@ -1,6 +1,10 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.cooldown.BooleanCooldown;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.RepeatingCooldown;
+import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -18,8 +22,8 @@ import org.bukkit.util.Vector;
  */
 class Ghostblade extends AbstractMob {
 	
-	private int cooldown = 0;
-	private final int MAX_CD;
+	@Update private final BooleanCooldown teleportCooldown;
+	@Update private final ComplexCooldown holdCheck = new RepeatingCooldown(10, this::holdWeaponCheck);
 	
 	private final GBType type;
 	
@@ -34,15 +38,15 @@ class Ghostblade extends AbstractMob {
 		super(mons, type.mobType);
 		
 		this.type = type;
+		
+		int maxTeleportCD = 100;
 		switch (type) {
 			case SPAWN:
 			case DAGGER:
-				MAX_CD = 50;
-				break;
-			default:
-				MAX_CD = 100;
+				maxTeleportCD = 50;
 				break;
 		}
+		teleportCooldown = new BooleanCooldown(maxTeleportCD, this::teleport);
 	}
 	
 	@Override
@@ -52,41 +56,40 @@ class Ghostblade extends AbstractMob {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		if (cooldown > 0)
-			cooldown--;
-		
-		if (halfSec && !isPlayerHoldingWeapon()) {
-			monster.getPlayer().getInventory().setHeldItemSlot(0);
-			monster.doDamage(null, CustomDamageType.INCORRECT_HELD_ITEM, 10, true);
-			monster.givePotionEffect(PotionEffectType.GLOWING, 20, 1, true, true, true);
-		}
-	}
-	
-	@Override
 	public float getCooldown() {
-		return 1 - (float)cooldown/MAX_CD;
+		return teleportCooldown.fractionComplete();
 	}
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action)) {
-			if (cooldown == 0) {
-				Dwarf dwarf = monster.getLookingAt(16, 2, DwarfManager.getManager().getDwarves());
-				if (dwarf != null) {
-					Location dwarfLoc = dwarf.getLocation();
-					
-					Vector lookDir = dwarfLoc.getDirection().setY(0);
-					Location newLoc = dwarfLoc.subtract(lookDir);
-					
-					if (!newLoc.getBlock().getType().isSolid()) {
-						monster.teleportTo(newLoc);
-						monster.playSound("entity.endermen.teleport", 1, 1, true);
-						
-						cooldown = MAX_CD;
-					}
-				}
+			teleportCooldown.tryUse();
+		}
+	}
+	
+	private boolean teleport() {
+		Dwarf dwarf = monster.getLookingAt(16, 2, DwarfManager.getManager().getDwarves());
+		if (dwarf != null) {
+			Location dwarfLoc = dwarf.getLocation();
+			
+			Vector lookDir = dwarfLoc.getDirection().setY(0);
+			Location newLoc = dwarfLoc.subtract(lookDir);
+			
+			if (!newLoc.getBlock().getType().isSolid()) {
+				monster.teleportTo(newLoc);
+				monster.playSound("entity.endermen.teleport", 1, 1, true);
+				
+				return true;
 			}
+		}
+		return false;
+	}
+	
+	private void holdWeaponCheck() {
+		if (!isPlayerHoldingWeapon()) {
+			monster.getPlayer().getInventory().setHeldItemSlot(0);
+			monster.doDamage(null, CustomDamageType.INCORRECT_HELD_ITEM, 10, true);
+			monster.givePotionEffect(PotionEffectType.GLOWING, 20, 1, true, true, true);
 		}
 	}
 	
@@ -110,14 +113,6 @@ class Ghostblade extends AbstractMob {
 		private final MobType mobType;
 		GBType(MobType type) {
 			this.mobType = type;
-		}
-		
-		private static GBType fromMobType(MobType mobType) {
-			for (GBType gbType : values())
-				if (gbType.mobType == mobType)
-					return gbType;
-			
-			throw new IllegalArgumentException("Attempted to create ghostblade from mob type '" + mobType + "' but is not a ghostblade type.");
 		}
 	}
 }
