@@ -96,6 +96,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	
 	private void shootBeam() {
 		dwarf.fireParticle(0.5, 20, 1.25, 0.2, PARTICLE_PLACER, null, DAMAGER);
+		dwarf.playSound("entity.generic.swim", 1f, 1.6f, true);
 	}
 	
 	
@@ -165,7 +166,12 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 			world.spawnParticle(Particle.BLOCK_CRACK, midLoc, 20, 0.2, halfHeight/2, 0.2, 0, new MaterialData(Material.CONCRETE_POWDER, (byte) 3));
 			
 			float pitch = (float) Misc.randomDouble(0.5,2);
-			world.playSound(midLoc, "item.bucket.fill", 0.6f, pitch);
+			if (lifetime % 2 == 0) {
+				world.playSound(midLoc, "item.bucket.fill", 1f, pitch);
+			} else {
+				world.playSound(midLoc, "entity.generic.swim", 1f, pitch);
+			}
+			if (lifetime % 5 == 0) world.playSound(midLoc, "entity.generic.splash", 1f, pitch);
 			
 			if (lifetime % 4 == 0) {
 				for (MonsterEntity<?> monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
