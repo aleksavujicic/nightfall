@@ -47,8 +47,8 @@ public abstract class AbstractPowerBow extends AbstractToggleBow implements Cool
 	}
 	
 	@Override
-	public float fractionComplete() {
-		return cooldown.fractionComplete();
+	public float getCooldown() {
+		return cooldown.getCooldown();
 	}
 	
 	@Override

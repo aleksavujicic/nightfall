@@ -54,7 +54,7 @@ public class Kit {
 		if (element instanceof CooldownPiece) {
 			CooldownPiece cooldownElement = (CooldownPiece) element;
 			
-			if (cooldownElement.fractionComplete() != -1)
+			if (cooldownElement.getCooldown() != -1)
 				cooldownElements.add(cooldownElement);
 		}
 		
@@ -198,7 +198,7 @@ public class Kit {
 	private CooldownPiece lastHeld = null;
 	public float fractionComplete() {
 		if (lastHeld == null) return 0;
-		return lastHeld.fractionComplete();
+		return lastHeld.getCooldown();
 	}
 	
 	public void updateHotbarSlot(ItemStack newItem) {

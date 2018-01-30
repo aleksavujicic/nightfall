@@ -57,7 +57,7 @@ class Ghostblade extends AbstractMob {
 	
 	@Override
 	public float getCooldown() {
-		return teleportCooldown.fractionComplete();
+		return teleportCooldown.getCooldown();
 	}
 	
 	@Override

@@ -53,7 +53,7 @@ public class SilvetrisClaws extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public float fractionComplete() {
-		return leapCD.fractionComplete();
+	public float getCooldown() {
+		return leapCD.getCooldown();
 	}
 }

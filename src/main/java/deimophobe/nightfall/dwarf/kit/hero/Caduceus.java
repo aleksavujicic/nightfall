@@ -104,7 +104,7 @@ public class Caduceus extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public float fractionComplete() {
-		return grabCD.fractionComplete();
+	public float getCooldown() {
+		return grabCD.getCooldown();
 	}
 }

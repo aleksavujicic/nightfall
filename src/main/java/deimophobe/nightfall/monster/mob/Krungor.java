@@ -2,6 +2,10 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Display;
+import deimophobe.nightfall.cooldown.RepeatingCooldown;
+import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -28,34 +32,18 @@ import java.util.Set;
  */
 class Krungor extends AbstractMob {
 	
-	private int cooldown = 0;
-	private final static int MAX_CD = 60*20;
+	@Display @Update private final ComplexCooldown launchCD = new ComplexCooldown(30*20, this::launch);
+	         @Update private final ComplexCooldown buffer = new RepeatingCooldown(4*20, this::buffNearbyMobs);
 	
 	Krungor(MonsterPlayer monster) {
 		super(monster, MobType.KRUNGOR);
-
-	}
-	
-	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		if (cooldown > 0)
-			cooldown--;
-		
-		if (quadSec) {
-			buffNearbyMobs();
-		}
-	}
-	
-	@Override
-	public float getCooldown() {
-		return 1 - (float)cooldown/MAX_CD;
 	}
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
 		if (damage.getReceiver() instanceof Hero)
-			damage.getDamage().setBoost(20);
+			damage.getDamage().addBoost(20);
 	}
 
 	
@@ -63,70 +51,69 @@ class Krungor extends AbstractMob {
 	private static final double RANGE = 7;
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isRightClick(action) && cooldown == 0 && isPlayerHoldingWeapon()) {
-			
-			
-			Set<Dwarf> launched = new HashSet<>();
-			for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
-				double distance = monster.distanceTo(dwarf);
-				if (distance <= RANGE) {
-					dwarf.givePotionEffect(PotionEffectType.LEVITATION, 30, 100, true, false, true);
-					launched.add(dwarf);
-				}
-			}
-			
-			// Particles from launched dwarves
-			new BukkitRunnable() {
-				private int lifetime = 15;
-				private World world = GameMap.getCurrentMap().getWorld();
-				@Override
-				public void run() {
-					for (Dwarf dwarf : launched) {
-						Player player = dwarf.getPlayer();
-						if (player != null)
-							world.spawnParticle(Particle.END_ROD, player.getLocation(), 0, 0, -1, 0, 1);
-					}
-					
-					lifetime--;
-					if (lifetime == 0)
-						this.cancel();
-				}
-			}.runTaskTimer(NightfallPlugin.getPlugin(), 0, 2);
-			
-			// Play effect around krungor
-			monster.getLocation().getWorld().playSound(monster.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1, 0.7f);
-			new BukkitRunnable() {
-				Location center = monster.getLocation();
-				World world = center.getWorld();
-				int radius = 1;
-				
-				@Override public void run() {
-					int numParticles = radius*6;
-					
-					for (int i=0; i<numParticles; i++) {
-						double theta = i * (Math.PI/3) * 1/radius;
-						Location particleLoc = center.clone().add(radius*Math.cos(theta), 0, radius*Math.sin(theta));
-						
-						world.spawnParticle(Particle.END_ROD, particleLoc, 0, 0, 0.05, 0, 1);
-						world.spawnParticle(Particle.END_ROD, particleLoc, 0, 0, 2, 0, 1);
-						world.spawnParticle(Particle.LAVA, particleLoc, 0, 0, 2, 0, 1);
-						
-						particleLoc.add(0, 1, 0);
-						world.spawnParticle(Particle.SMOKE_LARGE, particleLoc, 2, 0.3, 0.15, 0.3, 0);
-						
-					}
-					
-					if (radius % 2 == 0)
-						world.playSound(center, Sound.ENTITY_WITHER_SPAWN, 1, 1.5f + (float)radius/20);
-					
-					radius++;
-					if (radius > MAX_BLOCKS) this.cancel();
-				}
-			}.runTaskTimer(NightfallPlugin.getPlugin(), 0, 2);
-			
-			
-			cooldown = MAX_CD;
+		if (Misc.isRightClick(action) && isPlayerHoldingWeapon()) {
+			launchCD.tryUse();
 		}
+	}
+	
+	private void launch() {
+		Set<Dwarf> launched = new HashSet<>();
+		for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
+			double distance = monster.distanceTo(dwarf);
+			if (distance <= RANGE) {
+				dwarf.givePotionEffect(PotionEffectType.LEVITATION, 30, 100, true, false, true);
+				launched.add(dwarf);
+			}
+		}
+		
+		// Particles from launched dwarves
+		new BukkitRunnable() {
+			private int lifetime = 15;
+			private World world = GameMap.getCurrentMap().getWorld();
+			@Override
+			public void run() {
+				for (Dwarf dwarf : launched) {
+					Player player = dwarf.getPlayer();
+					if (player != null)
+						world.spawnParticle(Particle.END_ROD, player.getLocation(), 0, 0, -1, 0, 1);
+				}
+				
+				lifetime--;
+				if (lifetime == 0)
+					this.cancel();
+			}
+		}.runTaskTimer(NightfallPlugin.getPlugin(), 0, 2);
+		
+		// Play effect around krungor
+		monster.getLocation().getWorld().playSound(monster.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1, 0.7f);
+		new BukkitRunnable() {
+			Location center = monster.getLocation();
+			World world = center.getWorld();
+			int radius = 1;
+			
+			@Override public void run() {
+				int numParticles = radius*6;
+				
+				for (int i=0; i<numParticles; i++) {
+					double theta = i * (Math.PI/3) * 1/radius;
+					Location particleLoc = center.clone().add(radius*Math.cos(theta), 0, radius*Math.sin(theta));
+					
+					world.spawnParticle(Particle.END_ROD, particleLoc, 0, 0, 0.05, 0, 1);
+					world.spawnParticle(Particle.END_ROD, particleLoc, 0, 0, 2, 0, 1);
+					world.spawnParticle(Particle.LAVA, particleLoc, 0, 0, 2, 0, 1);
+					
+					particleLoc.add(0, 1, 0);
+					world.spawnParticle(Particle.SMOKE_LARGE, particleLoc, 2, 0.3, 0.15, 0.3, 0);
+					
+				}
+				
+				if (radius % 2 == 0)
+					world.playSound(center, Sound.ENTITY_WITHER_SPAWN, 1, 1.5f + (float)radius/20);
+				
+				radius++;
+				if (radius > MAX_BLOCKS) this.cancel();
+			}
+		}.runTaskTimer(NightfallPlugin.getPlugin(), 0, 2);
 	}
 	
 	private void buffNearbyMobs() {

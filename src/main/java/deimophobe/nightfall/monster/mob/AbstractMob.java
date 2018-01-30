@@ -1,13 +1,10 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
-import deimophobe.nightfall.cooldown.Expirable;
-import deimophobe.nightfall.cooldown.Update;
-import deimophobe.nightfall.cooldown.Updateable;
+import deimophobe.nightfall.cooldown.*;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
@@ -30,6 +27,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Map;
@@ -71,7 +69,7 @@ public abstract class AbstractMob implements Mob {
 		
 		setupDisguise();
 		
-		addDefinedUpdateables();
+		checkForAnnotations();
 		
 		monster.clearEffects();
 		if (mobData.immuneTime != 0) {
@@ -107,37 +105,58 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	
-	// ~~~~ UPDATEABLES ~~~~
+	// ~~~~ ANNOTATIONS ~~~~
 	private final Set<Updateable> updateables = new HashSet<>();
+	private Displayable displayable = Displayable.DISPLAY_NOTHING;
 	
-	private void addDefinedUpdateables() {
-		Class<?> tempClass = this.getClass();
-		while (tempClass != AbstractMob.class) {
-			Field[] fields = tempClass.getDeclaredFields();
+	private void checkForAnnotations() {
+		Class<?> processingClass = this.getClass();
+		while (processingClass != AbstractMob.class) {
+			Field[] fields = processingClass.getDeclaredFields();
 			for (Field field : fields) {
+				field.setAccessible(true);
 				
-				if (field.isAnnotationPresent(Update.class)) {
-					field.setAccessible(true);
-					try {
-						Object value = field.get(this);
-						if (value instanceof Updateable) {
-							updateables.add((Updateable) value);
-						} else {
-							NightfallPlugin.getPlugin().getLogger().severe("Field " + field.getName() + " in class " + tempClass.getName() + " has @Update annotation but does not implement Updateable");
-						}
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					}
+				try {
+					checkFieldForAnnotation(field, Update.class, Updateable.class, this::addUpdateable);
+					checkFieldForAnnotation(field, Display.class, Displayable.class, this::setDisplayable);
+				} catch (InvalidFieldAnnotationException e) {
+					throw new InvalidFieldAnnotationException("Invalid field in class " + processingClass.getName(), e);
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
 				}
 			}
 			
-			tempClass = tempClass.getSuperclass();
+			processingClass = processingClass.getSuperclass();
 		}
 	}
 	
-	protected void addUpdateable(Updateable updateable) {
-		updateables.add(updateable);
+	@SuppressWarnings("unchecked")
+	private <T> void checkFieldForAnnotation(Field field, Class<? extends Annotation> annotationClass, Class<T> fieldType, Consumer<T> fieldApplier)
+			throws IllegalAccessException, InvalidFieldAnnotationException
+	{
+		if (field.isAnnotationPresent(annotationClass)) {
+			Object value = field.get(this);
+			if (fieldType.isInstance(value)) {
+				fieldApplier.accept((T) value);
+			} else {
+				throw new InvalidFieldAnnotationException(
+						"Field " + field.getName()
+						+ " has @" + annotationClass.getName() + " annotation "
+						+ " but does not implement" +  fieldType.getName()
+				);
+			}
+		}
 	}
+	
+	private static class InvalidFieldAnnotationException extends RuntimeException {
+		public InvalidFieldAnnotationException(String s) { super(s); }
+		public InvalidFieldAnnotationException(String s, Throwable throwable) { super(s, throwable); }
+	}
+	
+	protected void addUpdateable(Updateable updateable) {
+		this.updateables.add(updateable);
+	}
+	protected void setDisplayable(Displayable displayable) { this.displayable = displayable; }
 	
 	
 	// ~~~~ DISGUISES ~~~~~
@@ -342,6 +361,11 @@ public abstract class AbstractMob implements Mob {
 		}
 	}
 	
+	@Override
+	public float getCooldown() {
+		return displayable.getCooldown();
+	}
+	
 	
 	@Override public boolean isShrineImmune() { return mobData.shrineImmune; }
 	@Override public int getSOSTime() { return mobData.sosTime; }
@@ -352,7 +376,6 @@ public abstract class AbstractMob implements Mob {
 	@Override public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {}
 	@Override public Projectile onBowFire(Arrow arrow, float force) { return null; }
 	@Override public void onProjectileLand(Projectile proj, Block hitBlock, Entity hitEntity) {}
-	@Override public float getCooldown() { return 0; }
 	
 	@Override
 	public void onDeath(boolean silent) {

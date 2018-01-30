@@ -4,6 +4,7 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
@@ -30,7 +31,8 @@ public class Minotaur extends AbstractMob {
 		super(monster, MobType.MINOTAUR);
 	}
 	
-	@Update private final ComplexCooldown cooldown = new ComplexCooldown(20*20, this::charge);
+	@Display @Update private final ComplexCooldown cooldown = new ComplexCooldown(20*20, this::charge);
+	
 	private final HashSet<Dwarf> hitDwarves = new HashSet<>();
 	
 	@Override
@@ -47,11 +49,6 @@ public class Minotaur extends AbstractMob {
 		if (Misc.isRightClick(action) && isPlayerHoldingWeapon()) {
 			cooldown.tryUse();
 		}
-	}
-	
-	@Override
-	public float getCooldown() {
-		return cooldown.fractionComplete();
 	}
 	
 	private final static int MAX_CHARGE_TIME = 15;

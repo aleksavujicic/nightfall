@@ -67,8 +67,8 @@ public class AxeOfMalice extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public float fractionComplete() {
-		return cd.fractionComplete();
+	public float getCooldown() {
+		return cd.getCooldown();
 	}
 	
 }

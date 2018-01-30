@@ -153,11 +153,11 @@ public class ShadowBlade extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public float fractionComplete() {
+	public float getCooldown() {
 		if(strikeBuffed){
 			return Math.min(1, (float) strikeBuffTime/STRIKEBUFF_TIME);
 		} else {
-			return shadowStrikeCD.fractionComplete();
+			return shadowStrikeCD.getCooldown();
 		}
 	}
 	

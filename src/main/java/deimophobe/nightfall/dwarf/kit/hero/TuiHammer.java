@@ -101,7 +101,7 @@ public class TuiHammer extends AbstractAOEHitter implements CooldownPiece {
 	}
 	
 	@Override
-	public float fractionComplete() {
+	public float getCooldown() {
 		return 1 - ((float)cooldown/MAX_CD);
 	}
 	

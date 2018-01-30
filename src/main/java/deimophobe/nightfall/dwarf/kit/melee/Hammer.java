@@ -50,8 +50,8 @@ public class Hammer extends AbstractAOEHitter implements CooldownPiece {
 	}
 	
 	@Override
-	public float fractionComplete() {
-		return cooldown.fractionComplete();
+	public float getCooldown() {
+		return cooldown.getCooldown();
 	}
 	
 	

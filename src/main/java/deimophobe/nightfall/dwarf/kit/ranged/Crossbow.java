@@ -46,8 +46,8 @@ public class Crossbow extends AbstractBow implements CooldownPiece {
 	}
 	
 	@Override
-	public float fractionComplete() {
-		return longRapid.fractionComplete();
+	public float getCooldown() {
+		return longRapid.getCooldown();
 	}
 	
 	

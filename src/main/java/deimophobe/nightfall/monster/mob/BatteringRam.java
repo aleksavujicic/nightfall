@@ -97,6 +97,6 @@ public class BatteringRam extends AbstractMob {
 	
 	@Override
 	public float getCooldown() {
-		return ram.fractionComplete();
+		return ram.getCooldown();
 	}
 }

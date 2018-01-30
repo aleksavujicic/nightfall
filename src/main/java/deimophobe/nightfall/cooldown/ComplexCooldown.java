@@ -79,7 +79,7 @@ public class ComplexCooldown implements Cooldown {
 		cd = -1;
 	}
 	
-	public float fractionComplete() {
+	public float getCooldown() {
 		if (cd == -1)
 			return 1;
 		else

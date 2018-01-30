@@ -5,6 +5,8 @@ import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Display;
+import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
@@ -30,12 +32,13 @@ import org.bukkit.util.Vector;
  * Created by TKiwisi on 10/16/17.
  */
 public class EmberSprite extends AbstractMob {
-
-	private ComplexCooldown fireCD = new ComplexCooldown(10, this::shootFireball);
-	private ComplexCooldown preloadCD = new ComplexCooldown(40);
+	
+	@Display @Update private ComplexCooldown launchCD = new ComplexCooldown(300, this::launch);
+	@Update private ComplexCooldown fireCD = new ComplexCooldown(10, this::shootFireball);
+	@Update private ComplexCooldown preloadCD = new ComplexCooldown(40);
 	private ComplexCooldown reloadCD = new ComplexCooldown(30, this::giveAmmo);
-	private ComplexCooldown launchCD = new ComplexCooldown(300, this::launch);
 	private final int MAX_AMMO = 4;
+	
 	private int currentAmmo = MAX_AMMO;
 
 	public EmberSprite(MonsterPlayer mons) {
@@ -53,10 +56,6 @@ public class EmberSprite extends AbstractMob {
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
-		fireCD.update();
-		launchCD.update();
-		
-		preloadCD.update();
 		if (preloadCD.isAvailable()) {
 			reloadCD.update();
 			reloadCD.tryUse();
@@ -89,11 +88,6 @@ public class EmberSprite extends AbstractMob {
 	public void onShift(boolean sneak) {
 		super.onShift(sneak);
 		launchCD.tryUse();
-	}
-
-	@Override
-	public float getCooldown() {
-		return launchCD.fractionComplete();
 	}
 	
 	private void giveAmmo() {

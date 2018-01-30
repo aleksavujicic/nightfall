@@ -68,7 +68,7 @@ public class Longbow extends AbstractBow implements CooldownPiece {
 	}
 	
 	@Override
-	public float fractionComplete() {
+	public float getCooldown() {
 		if (stacks == 0) return 0;
 		else return (float) stackCD/MAX_STACK_CD;
 	}

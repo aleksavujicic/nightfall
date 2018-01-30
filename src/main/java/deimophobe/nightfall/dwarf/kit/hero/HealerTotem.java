@@ -91,8 +91,8 @@ public class HealerTotem extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public float fractionComplete() {
-		return buffpoolCD.fractionComplete();
+	public float getCooldown() {
+		return buffpoolCD.getCooldown();
 	}
 	
 }

@@ -238,8 +238,8 @@ public class Glaive extends AbstractAOEHitter implements CooldownPiece {
     @Override public CustomItem getItem(){return ITEM;}
     @Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
     
-    @Override public float fractionComplete() {
-        return cd.fractionComplete();
+    @Override public float getCooldown() {
+        return cd.getCooldown();
     }
     @Override protected double getRadius(MonsterEntity entity) {
         return aoeRadius;

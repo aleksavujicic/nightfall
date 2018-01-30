@@ -142,6 +142,6 @@ class GoblinKaboom extends Goblin {
 	
 	@Override
 	public float getCooldown() {
-		return kaboomCD.fractionComplete();
+		return kaboomCD.getCooldown();
 	}
 }

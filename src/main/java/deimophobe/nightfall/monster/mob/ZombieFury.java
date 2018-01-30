@@ -132,6 +132,6 @@ public class ZombieFury extends Zombie {
 
     @Override
     public float getCooldown() {
-        return leapCD.fractionComplete();
+        return leapCD.getCooldown();
     }
 }

@@ -71,8 +71,8 @@ public abstract class AbstractRuneblade extends AbstractItem implements Cooldown
 	}
 	
 	@Override
-	public float fractionComplete() {
-		return cooldown.fractionComplete();
+	public float getCooldown() {
+		return cooldown.getCooldown();
 	}
 	
 	private void dash() {

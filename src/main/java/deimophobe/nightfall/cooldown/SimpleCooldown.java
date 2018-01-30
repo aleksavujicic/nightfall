@@ -29,7 +29,7 @@ public class SimpleCooldown implements Cooldown {
 	}
 	
 	@Override
-	public float fractionComplete() {
+	public float getCooldown() {
 		return 1 - (float) cd/maxCD;
 	}
 	

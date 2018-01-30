@@ -140,7 +140,16 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	public void spawnMob(MobType type) {
-		spawnMob(type.createMob(this));
+		Mob mob;
+		try {
+			mob = type.createMob(this);
+		} catch (Exception e) {
+			sendMessage(ChatColor.RED + "Failed to spawn mob. (Internal server error)");
+			NightfallPlugin.getPlugin().getLogger().severe(e.getMessage());
+			e.printStackTrace();
+			return;
+		}
+		spawnMob(mob);
 	}
 	
 	public void spawnMob(Mob mob) {
@@ -148,7 +157,16 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			kill(false);
 		
 		this.mob = mob;
-		mob.onSpawn();
+		try {
+			mob.onSpawn();
+		} catch (Exception e) {
+			sendMessage(ChatColor.RED + "Failed to spawn mob. (Internal server error)");
+			NightfallPlugin.getPlugin().getLogger().severe(e.getMessage());
+			e.printStackTrace();
+			this.mob = null;
+			return;
+		}
+		
 		player.setAllowFlight(false);
 		player.getInventory().setItem(9, seppuku);
 		player.setGameMode(GameMode.SURVIVAL);

@@ -66,7 +66,7 @@ public class MagicCoil extends AbstractCooldown {
 	@Override
 	public void onShift(boolean sneaking) {
 		if (currentBuff != null && !currentBuff.hasBuff(dwarf))
-			currentBuff.giveBuff(dwarf, getCooldown());
+			currentBuff.giveBuff(dwarf, getCooldownInt());
 	}
 	
 	private static class Buff {

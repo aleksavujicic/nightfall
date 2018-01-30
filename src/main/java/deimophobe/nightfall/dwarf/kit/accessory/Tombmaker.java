@@ -61,8 +61,8 @@ public class Tombmaker extends DwarfShovel implements CooldownPiece {
 	
 	
 	@Override
-	public float fractionComplete() {
-		return hasteCD.fractionComplete();
+	public float getCooldown() {
+		return hasteCD.getCooldown();
 	}
 	
 	

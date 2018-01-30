@@ -39,8 +39,8 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 	private final ComplexCooldown armourCD = new ComplexCooldown(45*20);
 	
 	@Override
-	public float fractionComplete() {
-		return armourCD.fractionComplete();
+	public float getCooldown() {
+		return armourCD.getCooldown();
 	}
 	
 	@Override

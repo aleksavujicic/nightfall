@@ -52,7 +52,7 @@ class Walker extends AbstractMob {
 	
 	@Override
 	public float getCooldown() {
-		return kb_cd.fractionComplete();
+		return kb_cd.getCooldown();
 	}
 	
 	private void knockback() {

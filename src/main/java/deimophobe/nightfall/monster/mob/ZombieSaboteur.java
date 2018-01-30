@@ -170,6 +170,6 @@ public class ZombieSaboteur extends Zombie {
 
     @Override
     public float getCooldown() {
-        return sneakCD.fractionComplete();
+        return sneakCD.getCooldown();
     }
 }

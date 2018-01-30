@@ -16,7 +16,7 @@ public class DudCooldown implements Cooldown {
 	public void reset() {}
 	
 	@Override
-	public float fractionComplete() {
+	public float getCooldown() {
 		return 0;
 	}
 }

@@ -134,7 +134,7 @@ public class Rapier extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public float fractionComplete() {
+	public float getCooldown() {
 		return (float) stacks/MAX_STACKS;
 	}
 }

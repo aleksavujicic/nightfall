@@ -95,5 +95,5 @@ public class Tinderflame extends AbstractCooldownItem {
 	}
 	
 	@Override
-	public float fractionComplete() {return -1;}
+	public float getCooldown() {return -1;}
 }

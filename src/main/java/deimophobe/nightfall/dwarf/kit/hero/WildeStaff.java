@@ -146,7 +146,7 @@ public class WildeStaff extends AbstractItem implements CooldownPiece {
 	}
 
 	@Override
-	public float fractionComplete() {
-		return enchantedmystCD.fractionComplete();
+	public float getCooldown() {
+		return enchantedmystCD.getCooldown();
 	}
 }

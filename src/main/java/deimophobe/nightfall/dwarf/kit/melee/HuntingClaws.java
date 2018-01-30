@@ -122,11 +122,11 @@ public class HuntingClaws extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public float fractionComplete() {
+	public float getCooldown() {
 		if (isHunting()) {
 			return Math.min(1, (float) huntTime/HUNT_DURATION);
 		} else {
-			return huntingCD.fractionComplete();
+			return huntingCD.getCooldown();
 		}
 	}
 	

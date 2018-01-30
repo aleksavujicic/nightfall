@@ -137,7 +137,7 @@ public class Trident extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public float fractionComplete() {
+	public float getCooldown() {
 		return (float) (water/MAX_WATER);
 	}
 	

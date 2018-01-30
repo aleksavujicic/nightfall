@@ -2,10 +2,10 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.RepeatingCooldown;
 import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -25,7 +25,7 @@ import java.util.function.Consumer;
  */
 class Wolf extends AbstractMob {
 	
-	@Update private final ComplexCooldown leapCD = new ComplexCooldown(200, this::leap);
+	@Display @Update private final ComplexCooldown leapCD = new ComplexCooldown(200, this::leap);
 	@Update private final ComplexCooldown furySound = new ComplexCooldown(20, this::growl);
 	@Update private final ComplexCooldown packBuffCD = new RepeatingCooldown(4*20, this::packBuff);
 	
@@ -35,11 +35,6 @@ class Wolf extends AbstractMob {
 	
 	protected Wolf(MonsterPlayer monster, MobType type) {
 		super(monster, type);
-	}
-	
-	@Override
-	public float getCooldown() {
-		return leapCD.fractionComplete();
 	}
 	
 	@Override
@@ -91,11 +86,6 @@ class Wolf extends AbstractMob {
 	private void growl() {
 		playSound("growl");
 		monster.playSound("entity.zombie_villager.converted", 1f, 1.5f, true);
-	}
-
-	@Override
-	public void onDamageReceive(MonsterDamage damage) {
-		super.onDamageReceive(damage);
 	}
 
 	private boolean isHellhound() {

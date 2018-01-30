@@ -177,7 +177,7 @@ class SkeletonImpact extends Skeleton {
 
     @Override
     public float getCooldown() {
-        return warpCD.fractionComplete();
+        return warpCD.getCooldown();
     }
 
     private final static String ARROW_METADATA_KEY = "active";

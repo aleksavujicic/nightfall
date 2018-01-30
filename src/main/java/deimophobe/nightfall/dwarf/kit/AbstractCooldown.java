@@ -27,7 +27,7 @@ public abstract class AbstractCooldown extends AbstractPiece implements Cooldown
 	
 	
 	@Override
-	public float fractionComplete() {
+	public float getCooldown() {
 		if (maxCooldown == -1) return -1;
 		return 1 - ((float)cooldown/maxCooldown);
 	}
@@ -64,9 +64,7 @@ public abstract class AbstractCooldown extends AbstractPiece implements Cooldown
 	protected final boolean isOffCD() {
 		return (cooldown == 0);
 	}
-	protected final int getCooldown() {
-		return cooldown;
-	}
+	protected final int getCooldownInt() { return cooldown; }
 	
 	protected void onOffCD() {}
 	

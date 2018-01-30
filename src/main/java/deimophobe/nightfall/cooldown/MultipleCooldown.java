@@ -82,7 +82,7 @@ public class MultipleCooldown implements Cooldown{
 		cd = 0;
 	}
 	
-	public float fractionComplete() {
+	public float getCooldown() {
 		return 1 - (float) cd/maxCD;
 	}
 	

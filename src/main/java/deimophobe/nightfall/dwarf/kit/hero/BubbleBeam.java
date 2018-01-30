@@ -108,8 +108,8 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public float fractionComplete() {
-		return sirenSongCD.fractionComplete();
+	public float getCooldown() {
+		return sirenSongCD.getCooldown();
 	}
 	
 	private class SirenSong implements Updateable, Expirable {
