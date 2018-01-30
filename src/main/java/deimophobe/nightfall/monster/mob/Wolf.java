@@ -1,11 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketEvent;
-import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -17,9 +12,9 @@ import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import java.util.function.Consumer;
 
@@ -28,7 +23,7 @@ import java.util.function.Consumer;
  */
 class Wolf extends AbstractMob {
 		
-	private final ComplexCooldown leapCD = new ComplexCooldown(200);
+	private final ComplexCooldown leapCD = new ComplexCooldown(200, this::leap);
 	
 	private final ComplexCooldown furySound;
 	
@@ -72,38 +67,25 @@ class Wolf extends AbstractMob {
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK && isPlayerHoldingWeapon()) {
-			if (leapCD.tryUse()) {
-				// Play leap sound really loud to wolf player, but much quieter to everyone else.
-				String wolfHowl = "entity.wolf.howl";
-				ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-				protocolManager.addPacketListener(new PacketAdapter(NightfallPlugin.getPlugin(), PacketType.Play.Server.CUSTOM_SOUND_EFFECT) {
-					@Override
-					public void onPacketSending(PacketEvent event) {
-						String sound = event.getPacket().getStrings().read(0);
-						if (sound.equals(wolfHowl) && event.getPlayer() == monster.getPlayer()) {
-							event.setCancelled(true);
-							protocolManager.removePacketListener(this);
-						}
-					}
-				});
-				float pitch = (isHellhound() ? 0.85f : 1f);
-				monster.playSound(wolfHowl, 1, pitch, true);
-				monster.playSound(wolfHowl, 1000, pitch, false);
-				
-				double yaw = monster.getPlayer().getLocation().getYaw();
-				double radYaw = yaw*Math.PI/180;
-				Vector velocity;
-				if (monster.getPlayer().isSneaking()) {
-					velocity = new Vector(-2 * Math.sin(radYaw), 1.7, 2 * Math.cos(radYaw));
-				} else {
-					velocity = new Vector(-5 * Math.sin(radYaw), 1.5, 5 * Math.cos(radYaw));
-				}
-				
-				monster.getPlayer().setVelocity(velocity);
-				monster.removePotionEffect(PotionEffectType.LUCK);
-			}
+		if (Misc.isRightClick(action) && isPlayerHoldingWeapon()) {
+			leapCD.tryUse();
 		}
+	}
+	
+	private void leap() {
+		float pitch = (isHellhound() ? 0.85f : 1f);
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			float volume = (player == monster.getPlayer() ? 1000 : 1);
+			player.playSound(monster.getLocation(), "entity.wolf.howl", volume, pitch);
+		}
+		
+		if (monster.getPlayer().isSneaking()) {
+			monster.leap(2, 1.8);
+		} else {
+			monster.leap(5, 1.5);
+		}
+		
+		monster.removePotionEffect(PotionEffectType.LUCK);
 	}
 	
 	@Override
