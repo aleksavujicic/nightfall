@@ -5,9 +5,12 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Expirable;
+import deimophobe.nightfall.cooldown.MultiEventCooldown;
 import deimophobe.nightfall.cooldown.Updateable;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
@@ -34,10 +37,15 @@ import java.util.function.Consumer;
  */
 public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	
-	public BubbleBeam(Dwarf dwarf) { super(dwarf); }
+	public BubbleBeam(Dwarf dwarf) {
+		super(dwarf);
+		beamer.addEvent(7, this::shootBeam);
+		beamer.addEvent(4, this::shootBeam);
+	}
 	
-	private final ComplexCooldown beamer = new ComplexCooldown(5, this::shootBeam);
+	private final MultiEventCooldown beamer = new MultiEventCooldown(10, this::shootBeam);
 	private final ComplexCooldown sirenSongCD = new ComplexCooldown(10, this::sirenSong);
+	private final ComplexCooldown fallImmunity = new ComplexCooldown(3*20);
 	private SirenSong sirenSong = null;
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero","bubblebeam");
@@ -58,7 +66,10 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		
 		if (sirenSong != null) {
 			sirenSong.update();
-			if (sirenSong.hasExpired()) sirenSong = null;
+			if (sirenSong.hasExpired()) {
+				fallImmunity.reset();
+				sirenSong = null;
+			}
 		}
 	}
 	
@@ -74,6 +85,13 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 //		return false;
 	}
 	
+	@Override
+	public void onDamageReceive(DwarfDamage damage) {
+		super.onDamageReceive(damage);
+		if (!fallImmunity.isAvailable() && damage.getType() == NaturalDamageType.FALL) {
+			damage.cancel();
+		}
+	}
 	
 	private static final Consumer<Location> PARTICLE_PLACER = (location) -> {
 //		double dx = Misc.randomDouble(-0.1,0.1);
@@ -95,8 +113,12 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	};
 	
 	private void shootBeam() {
-		dwarf.fireParticle(0.5, 20, 1.25, 0.2, PARTICLE_PLACER, null, DAMAGER);
-		dwarf.playSound("entity.generic.swim", 1f, 1.6f, true);
+		double offsetPerp = Misc.randomDouble(-0.5, 0.5);
+		double offsetY = Misc.randomDouble(-0.5, 0.5);
+		
+		dwarf.fireParticle(0.5, 20, 1.25, offsetPerp, offsetY, 0.2, PARTICLE_PLACER, null, DAMAGER);
+		dwarf.playSound("entity.generic.swim", 1f, 1.3f, true);
+		//dwarf.playSound("block.note.pling", 1f, 1.6f, true);
 	}
 	
 	
@@ -188,6 +210,8 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 					monster.setVelocity(offset);
 				}
 			}
+			
+			if (lifetime == 0) dwarf.leap(0, 1);
 		}
 		
 		private void resetDwarf() {
