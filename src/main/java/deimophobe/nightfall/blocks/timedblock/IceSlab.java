@@ -4,7 +4,6 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
-import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -66,7 +65,7 @@ public class IceSlab extends TimedBlock {
 	
 	@Override
 	public void onHit(GamePlayer player) {
-		if (canHit && player instanceof MonsterPlayer) {
+		if (canHit) {
 			disableHitting();
 			
 			hitsLeft--;
