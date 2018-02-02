@@ -44,9 +44,9 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	}
 	
 	private final MultiEventCooldown beamer = new MultiEventCooldown(10, this::shootBeam);
-	private final ComplexCooldown sirenSongCD = new ComplexCooldown(10, this::sirenSong);
+	private final ComplexCooldown geyserCD = new ComplexCooldown(10, this::geyser);
 	private final ComplexCooldown fallImmunity = new ComplexCooldown(3*20);
-	private SirenSong sirenSong = null;
+	private Geyser geyser = null;
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero","bubblebeam");
 	private final static double DAMAGE = 15;
@@ -62,13 +62,13 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		beamer.update();
-		sirenSongCD.update();
+		geyserCD.update();
 		
-		if (sirenSong != null) {
-			sirenSong.update();
-			if (sirenSong.hasExpired()) {
+		if (geyser != null) {
+			geyser.update();
+			if (geyser.hasExpired()) {
 				fallImmunity.reset();
-				sirenSong = null;
+				geyser = null;
 			}
 		}
 	}
@@ -80,7 +80,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		if (Misc.isLeftClick(action)) {
 			return beamer.tryUse();
 		} else {
-			return sirenSongCD.tryUse();
+			return geyserCD.tryUse();
 		}
 //		return false;
 	}
@@ -104,7 +104,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	};
 	
 	private final Consumer<MonsterEntity> DAMAGER = (monster) -> {
-		MonsterDamage damage = (MonsterDamage) monster.createDamage(dwarf, CustomDamageType.SCEPTER_OF_MAGMA, DAMAGE + dwarf.getBonusMeleeDamage()/2);
+		MonsterDamage damage = (MonsterDamage) monster.createDamage(dwarf, CustomDamageType.TEMPORARY, DAMAGE + dwarf.getBonusMeleeDamage()/2);
 		if (dwarf.hasProc()) damage.setProc(true);
 		damage.setNoDmgTicks(1);
 		damage.fire(true);
@@ -124,18 +124,18 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	
 	
 	
-	private void sirenSong() {
-		sirenSong = new SirenSong();
+	private void geyser() {
+		geyser = new Geyser();
 		//Melody.getMelody("siren").play(dwarf.getPlayer(), "block.note.chime", 1f);
 		//Melody.getMelody("siren").play(dwarf.getPlayer(), "block.note.flute", 1f);
 	}
 	
 	@Override
 	public float getCooldown() {
-		return sirenSongCD.getCooldown();
+		return geyserCD.getCooldown();
 	}
 	
-	private class SirenSong implements Updateable, Expirable {
+	private class Geyser implements Updateable, Expirable {
 		
 		private static final int MAX_LIFETIME = 10*20;
 		private int lifetime = MAX_LIFETIME;
@@ -146,7 +146,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		private Location midLoc;
 		private static final double halfHeight = 7;
 		
-		private SirenSong() {
+		private Geyser() {
 			dwarf.leap(0, 1.2);
 		}
 		
