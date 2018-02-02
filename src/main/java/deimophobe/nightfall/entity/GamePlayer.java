@@ -375,7 +375,6 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	}
 	
 	public boolean canConnectToLocation(Location location, double particlePeriod, Consumer<Location> particlePlacer) {
-		
 		Location currentLocation = getEyeLocation();
 		
 		Vector direction = location.clone().subtract(currentLocation).toVector();

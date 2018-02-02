@@ -178,6 +178,15 @@ bubblebeam:
     flavour:
      - "\"...and the oceans rumbled.\" - Ancient Tome"
 
+heranabow:
+  base: longbow
+  name: Herana's Bow
+  lore:
+    description:
+     - "It's a bow"
+    flavour:
+     - "Stuff"
+
 
 ##### LYRA #####
 claw:

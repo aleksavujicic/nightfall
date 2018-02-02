@@ -113,6 +113,7 @@ public enum KitPieceType {
 	MERMAID_TAIL(MermaidTail::new),
 	TRIDENT(Trident::new),
 	BUBBLE_BEAM(BubbleBeam::new),
+	ICE_BOW(IceBow::new),
 	
 	// Lyra
 	SILVETRIS_CLAWS(SilvetrisClaws::new),
