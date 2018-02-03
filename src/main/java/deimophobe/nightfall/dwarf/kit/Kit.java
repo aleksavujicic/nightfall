@@ -19,10 +19,10 @@ import java.util.*;
 public class Kit {
 	private final Dwarf dwarf;
 	
-	private final Map<KitPieceType, KitPiece> kitElements = new HashMap<>();
-	private final Set<CooldownPiece> cooldownElements = new HashSet<>();
-	private final Set<ItemPiece> itemElements = new HashSet<>();
-	private final Set<BowPiece> bowElements = new HashSet<>();
+	private final SortedMap<KitPieceType, KitPiece> kitPieces = new TreeMap<>();
+	private final Set<CooldownPiece> cooldownPieces = new HashSet<>();
+	private final Set<ItemPiece> itemPieces = new HashSet<>();
+	private final Set<BowPiece> bowPieces = new HashSet<>();
 	
 	private final Map<KitGiveType, Integer> giveTimes = new HashMap<>();
 	
@@ -38,31 +38,31 @@ public class Kit {
 	}
 	
 	public Collection<KitPieceType> getKitElementTypes() {
-		return kitElements.keySet();
+		return kitPieces.keySet();
 	}
 	
 	public boolean containsElement(KitPieceType type) {
-		return kitElements.containsKey(type);
+		return kitPieces.containsKey(type);
 	}
 	
 	public KitPiece addElement(KitPieceType type) {
-		if (kitElements.containsKey(type)) return null;
+		if (kitPieces.containsKey(type)) return null;
 		
 		KitPiece element = type.createPiece(dwarf);
-		kitElements.put(type, element);
+		kitPieces.put(type, element);
 		
 		if (element instanceof CooldownPiece) {
 			CooldownPiece cooldownElement = (CooldownPiece) element;
 			
 			if (cooldownElement.getCooldown() != -1)
-				cooldownElements.add(cooldownElement);
+				cooldownPieces.add(cooldownElement);
 		}
 		
 		if (element instanceof ItemPiece)
-			itemElements.add((ItemPiece) element);
+			itemPieces.add((ItemPiece) element);
 		
 		if (element instanceof AbstractBow)
-			bowElements.add((AbstractBow) element);
+			bowPieces.add((AbstractBow) element);
 		
 		return element;
 	}
@@ -78,9 +78,13 @@ public class Kit {
 			giveTimes.put(giveType, giveType.getMaxDelay());
 		}
 		
-		for (ItemPiece itemElement : itemElements) {
-			if (itemElement.getGiveType() == giveType)
-				dwarf.giveItem(itemElement.getItem().createItemStack());
+		for (KitPiece piece : kitPieces.values()) {
+			if (piece instanceof ItemPiece) {
+				ItemPiece itemPiece = (ItemPiece) piece;
+				if (itemPiece.getGiveType() == giveType) {
+					dwarf.giveItem(itemPiece.getItem().createItemStack());
+				}
+			}
 		}
 		
 		updateHotbarSlot(dwarf.getHeldItem());
@@ -109,34 +113,34 @@ public class Kit {
 		for (KitGiveType type : KitGiveType.fixedValues())
 			giveTimes.compute(type, (k, i) -> (i == 0 ? 0 : i-1));
 		
-		for (KitPiece item : kitElements.values())
+		for (KitPiece item : kitPieces.values())
 			item.update(quartSec, halfSec, sec, doubleSec, quadSec);
 	}
 	
 	public void onDamageAttack(MonsterDamage damage) {
-		for (KitPiece item : kitElements.values()) {
+		for (KitPiece item : kitPieces.values()) {
 			item.onDamageAttack(damage);
 		}
 	}
 	
 	public void onDamageReceive(DwarfDamage damage) {
-		for (KitPiece item : kitElements.values()) {
+		for (KitPiece item : kitPieces.values()) {
 			item.onDamageReceive(damage);
 		}
-		for (KitPiece item : kitElements.values()) {
+		for (KitPiece item : kitPieces.values()) {
 			item.damageNotify(damage);
 		}
 	}
 	
 	public void onKill(MonsterDamage damage) {
-		for (KitPiece item : kitElements.values()) {
+		for (KitPiece item : kitPieces.values()) {
 			item.onKill(damage);
 		}
 	}
 	
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		ItemStack held = dwarf.getHeldItem();
-		for (ItemPiece item : itemElements) {
+		for (ItemPiece item : itemPieces) {
 			if (item.matchesItem(held)) {
 				return item.onUse(action, clickedBlock, blockFace);
 			}
@@ -145,14 +149,14 @@ public class Kit {
 	}
 	
 	public void onBlockBreak(Block block, boolean didBreak) {
-		for (ItemPiece item : itemElements) {
+		for (ItemPiece item : itemPieces) {
 			item.onBlockBreak(block, didBreak);
 		}
 	}
 	
 	public Projectile onBowFire(Arrow arrow, float force) {
 		ItemStack held = dwarf.getHeldItem();
-		for (BowPiece bow : bowElements) {
+		for (BowPiece bow : bowPieces) {
 			if (bow.matchesItem(held)) {
 				return bow.onBowFire(arrow, force);
 			}
@@ -160,7 +164,7 @@ public class Kit {
 		return arrow;
 	}
 	public void onProjectileLand(Projectile proj, Block hitBlock) {
-		for (BowPiece bow : bowElements) {
+		for (BowPiece bow : bowPieces) {
 			if (bow.belongsToBow(proj)) {
 				bow.onProjectileLand(proj, hitBlock);
 				return;
@@ -169,25 +173,25 @@ public class Kit {
 	}
 	
 	public void onShift(boolean sneaking) {
-		for (KitPiece item : kitElements.values()) {
+		for (KitPiece item : kitPieces.values()) {
 			item.onShift(sneaking);
 		}
 	}
 	
 	public void notifyDeath(Dwarf deadDwarf) {
-		for (KitPiece item : kitElements.values()) {
+		for (KitPiece item : kitPieces.values()) {
 			item.notifyDeath(deadDwarf);
 		}
 	}
 	
 	public void onRemove() {
-		for (KitPiece item : kitElements.values()) {
+		for (KitPiece item : kitPieces.values()) {
 			item.onRemove();
 		}
 	}
 	
 	public void onArmourEquip() {
-		for (KitPiece item : kitElements.values()) {
+		for (KitPiece item : kitPieces.values()) {
 			if (item instanceof ArmourPiece)
 				((ArmourPiece) item).onArmourEquip();
 		}
@@ -203,9 +207,9 @@ public class Kit {
 	
 	public void updateHotbarSlot(ItemStack newItem) {
 		if (newItem == null) return;
-		for (ItemPiece item : itemElements) {
+		for (ItemPiece item : itemPieces) {
 			if (item.matchesItem(newItem)) {
-				if (cooldownElements.contains(item))
+				if (cooldownPieces.contains(item))
 					lastHeld = (CooldownPiece) item;
 				
 				return;
