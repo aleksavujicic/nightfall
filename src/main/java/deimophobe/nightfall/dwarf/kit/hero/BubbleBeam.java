@@ -18,6 +18,7 @@ import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import org.bukkit.Location;
@@ -112,8 +113,8 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		double offsetPerp = Misc.randomDouble(-0.5, 0.5);
 		double offsetY = Misc.randomDouble(-0.5, 0.5);
 		
-		dwarf.fireParticle(0.5, 20, 1.5, offsetPerp, offsetY, 0.2, PARTICLE_PLACER, null, DAMAGER);
-		dwarf.playSound("entity.generic.swim", 0.8f, 1.3f, true);
+		dwarf.fireParticle(0.5, 20, 1.8, offsetPerp, offsetY, 0.2, PARTICLE_PLACER, null, DAMAGER);
+		dwarf.playSound("entity.player.hurt_drown", 0.8f, 1.5f, true);
 		//dwarf.playSound("block.note.pling", 1f, 1.6f, true);
 	}
 	
@@ -145,7 +146,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		}
 		
 		private void setFloatLoc() {
-			floatLoc = dwarf.getLocation();
+			floatLoc = dwarf.guessClientSideLocation();
 			midLoc = floatLoc.clone().subtract(0, halfHeight, 0);
 		}
 		
@@ -205,7 +206,15 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		}
 		
 		private boolean containsEntity(GameEntity<?> entity) {
-			Location location = entity.getLocation().subtract(midLoc);
+			Location location;
+			if (entity instanceof GamePlayer) {
+				location = ((GamePlayer) entity).guessClientSideLocation();
+			} else {
+				location = entity.getLocation();
+			}
+			location.subtract(midLoc);
+			
+			
 			double x = location.getX();
 			double y = location.getY();
 			double z = location.getZ();

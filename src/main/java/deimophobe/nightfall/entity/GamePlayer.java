@@ -20,6 +20,7 @@ import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -353,6 +354,16 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		damage.instaKill();
 		damage.fire();
 	}
+	
+	public Location guessClientSideLocation() {
+		int ping = 0;
+		if (player instanceof CraftPlayer) {
+			ping = ((CraftPlayer) player).getHandle().ping;
+		}
+		int ticksLagging = ping/50;
+		return getLocation().add(getVelocity().multiply(ticksLagging));
+	}
+	
 	
 	public void onRemove() {}
 	
