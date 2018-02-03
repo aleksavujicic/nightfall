@@ -12,13 +12,14 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
-import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -28,7 +29,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import java.util.function.Consumer;
 
@@ -88,17 +88,13 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
-		if (!fallImmunity.isAvailable() && damage.getType() == NaturalDamageType.FALL) {
-			damage.cancel();
+		if (damage.getType() == NaturalDamageType.FALL) {
+			if (!fallImmunity.isAvailable() || geyser != null)
+				damage.cancel();
 		}
 	}
 	
 	private static final Consumer<Location> PARTICLE_PLACER = (location) -> {
-//		double dx = Misc.randomDouble(-0.1,0.1);
-//		double dy = Misc.randomDouble(-0.1,0.1);
-//		double dz = Misc.randomDouble(-0.1,0.1);
-//
-//		for (int i=0; i<2; i++)
 		location.getWorld().spawnParticle(Particle.WATER_BUBBLE, location, 7, 0.05, 0.05, 0.05, 0);
 		location.getWorld().spawnParticle(Particle.CRIT_MAGIC, location, 1, 0.05, 0.05, 0.05, 0);
 	};
@@ -116,8 +112,8 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		double offsetPerp = Misc.randomDouble(-0.5, 0.5);
 		double offsetY = Misc.randomDouble(-0.5, 0.5);
 		
-		dwarf.fireParticle(0.5, 20, 1.25, offsetPerp, offsetY, 0.2, PARTICLE_PLACER, null, DAMAGER);
-		dwarf.playSound("entity.generic.swim", 1f, 1.3f, true);
+		dwarf.fireParticle(0.5, 20, 1.5, offsetPerp, offsetY, 0.2, PARTICLE_PLACER, null, DAMAGER);
+		dwarf.playSound("entity.generic.swim", 0.8f, 1.3f, true);
 		//dwarf.playSound("block.note.pling", 1f, 1.6f, true);
 	}
 	
@@ -140,14 +136,12 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		private static final int MAX_LIFETIME = 10*20;
 		private int lifetime = MAX_LIFETIME;
 		
-		private int lastJump = MAX_LIFETIME;
-		
 		private Location floatLoc;
 		private Location midLoc;
-		private static final double halfHeight = 7;
+		private static final double halfHeight = 6;
 		
 		private Geyser() {
-			dwarf.leap(0, 1.2);
+			dwarf.leap(0, 1.5);
 		}
 		
 		private void setFloatLoc() {
@@ -162,25 +156,12 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 			if (lifetime == MAX_LIFETIME - 10) setFloatLoc();
 			if (lifetime >= MAX_LIFETIME - 10) return;
 			
-			if (dwarf.getLocation().getY() <= floatLoc.getY()) {
-				dwarf.leap(0, 0.2);
-				lastJump = lifetime;
-			}
-			
-			if (dwarf.horizantalDistance(floatLoc) >= 2.5) {
-				resetDwarf();
-			}
-			
-			if (lifetime <= lastJump - 20) {
-				resetDwarf();
-			}
-			
 			
 			World world = floatLoc.getWorld();
-			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 3, 1, 0.3, 1, 0, new MaterialData(Material.LAPIS_BLOCK));
-			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 10, 1, 0.3, 1, 0, new MaterialData(Material.STATIONARY_WATER));
-			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 30, 1, 0.3, 1, 0, new MaterialData(Material.CONCRETE, (byte) 3));
-			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 50, 1, 0.3, 1, 0, new MaterialData(Material.CONCRETE_POWDER, (byte) 3));
+			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 2, 1, 0.3, 1, 0, new MaterialData(Material.LAPIS_BLOCK));
+			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 4, 1, 0.3, 1, 0, new MaterialData(Material.STATIONARY_WATER));
+			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 15, 1, 0.3, 1, 0, new MaterialData(Material.CONCRETE, (byte) 3));
+			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 30, 1, 0.3, 1, 0, new MaterialData(Material.CONCRETE_POWDER, (byte) 3));
 			world.spawnParticle(Particle.CLOUD, floatLoc, 1, 1, 0.3, 1, 0);
 			
 			world.spawnParticle(Particle.BLOCK_CRACK, midLoc, 5, 0.2, halfHeight/2, 0.2, 0, new MaterialData(Material.STATIONARY_WATER));
@@ -195,29 +176,41 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 			}
 			if (lifetime % 5 == 0) world.playSound(midLoc, "entity.generic.splash", 1f, pitch);
 			
-			if (lifetime % 4 == 0) {
-				for (MonsterEntity<?> monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
-					if (monster.distanceTo(midLoc) >= 50) continue;
-					
-					if (monster.distanceTo(midLoc) <= 2) {
-						boolean isAI = (monster instanceof AIEntity<?>);
-						monster.doDamage(dwarf, CustomDamageType.TEMPORARY, 10, true, isAI);
-					}
-					
-					Vector offset = monster.offsetFrom(midLoc);
-					double strength = Math.min(0.2, 1/offset.length());
-					offset.normalize().multiply(-strength*3);
-					monster.setVelocity(offset);
-				}
-			}
+//			if (lifetime % 4 == 0) {
+//				for (MonsterEntity<?> monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
+//					if (monster.distanceTo(midLoc) >= 50) continue;
+//
+//					if (monster.distanceTo(midLoc) <= 2) {
+//						boolean isAI = (monster instanceof AIEntity<?>);
+//						monster.doDamage(dwarf, CustomDamageType.TEMPORARY, 10, true, isAI);
+//					}
+//
+//					Vector offset = monster.offsetFrom(midLoc);
+//					double strength = Math.min(0.2, 1/offset.length());
+//					offset.normalize().multiply(-strength*3);
+//					monster.setVelocity(offset);
+//				}
+//			}
 			
-			if (lifetime == 0) dwarf.leap(0, 1);
+			if (lifetime % 4 == 0) {
+				DwarfManager.getManager().getDwarves().forEach(this::tryLeap);
+				MonsterManager.getManager().getAliveMobsAndAIs().forEach(this::tryLeap);
+			}
 		}
 		
-		private void resetDwarf() {
-			dwarf.teleportTo(floatLoc, true);
-			dwarf.leap(0, 0.4);
-			lastJump = lifetime;
+		private void tryLeap(GameEntity<?> entity) {
+			if (containsEntity(entity)) {
+				entity.leap(0, 0.8);
+			}
+		}
+		
+		private boolean containsEntity(GameEntity<?> entity) {
+			Location location = entity.getLocation().subtract(midLoc);
+			double x = location.getX();
+			double y = location.getY();
+			double z = location.getZ();
+			
+			return (-halfHeight <= y && y <= halfHeight && (x*x + z*z <= 4));
 		}
 		
 		@Override
