@@ -70,6 +70,7 @@ public class IceBow extends AbstractBow {
 		world.spawnParticle(Particle.WATER_DROP, location, 400, AOE_RADIUS/2, 0.3, AOE_RADIUS/2, 0);
 		
 		world.playSound(location, "entity.generic.swim", 1f, 0.6f);
+		world.playSound(location, "entity.player.hurt_drown", 1f, 0.6f);
 		
 		for (MonsterEntity<?> monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
 			if (monster == exclude) continue;
