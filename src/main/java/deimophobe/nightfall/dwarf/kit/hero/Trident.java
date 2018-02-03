@@ -132,6 +132,7 @@ public class Trident extends AbstractItem implements CooldownPiece {
 		
 		for (Block block : waterBlocks) {
 			block.setType(Material.AIR);
+			block.getWorld().spawnParticle(Particle.WATER_DROP, block.getLocation().add(0.5, 0.5, 0.5), 15, 0.5, 0.5, 0.5);
 		}
 		waterBlocks.clear();
 	}

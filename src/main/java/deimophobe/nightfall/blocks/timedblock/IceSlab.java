@@ -86,6 +86,6 @@ public class IceSlab extends TimedBlock {
 	}
 	
 	private static int getNewLifetime() {
-		return Misc.randomInt(20*2, 30*2)*10;
+		return Misc.randomInt(30*2, 40*2)*10;
 	}
 }
