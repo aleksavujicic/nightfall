@@ -13,6 +13,8 @@ import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.util.HitscanProjectile;
 import deimophobe.nightfall.util.Util;
 import me.libraryaddict.disguise.DisguiseAPI;
+import net.minecraft.server.v1_12_R1.DataWatcherObject;
+import net.minecraft.server.v1_12_R1.DataWatcherRegistry;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -28,6 +30,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -209,7 +212,9 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	}
 	
 	public int replaceItem(Predicate<ItemStack> matcher, ItemStack newItem) {
-		ListIterator<ItemStack> iterator = player.getInventory().iterator();
+		PlayerInventory inv = player.getInventory();
+		ListIterator<ItemStack> iterator = inv.iterator();
+		
 		int replaced = 0;
 		while (iterator.hasNext()) {
 			ItemStack item = iterator.next();
@@ -366,6 +371,13 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		}
 		int ticksLagging = ping/50;
 		return getLocation().add(getVelocity().multiply(ticksLagging));
+	}
+	
+	public void hideArrowsStuckInSelf() {
+		// https://www.spigotmc.org/threads/removing-arrows.72723/#post-1666181
+		if (player instanceof CraftPlayer) {
+			((CraftPlayer) player).getHandle().getDataWatcher().set(new DataWatcherObject<>(10, DataWatcherRegistry.b), 0);
+		}
 	}
 	
 	
