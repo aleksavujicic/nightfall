@@ -100,7 +100,7 @@ arthea:
 herana:
   full-name: Queen Herana
   nametag: Herana
-  descriptor: Mermaid Queen
+  descriptor: Mermaid Hero
   skin: herana
   colour: dark_aqua
 
@@ -123,11 +123,10 @@ herana:
 
   consumables:
     cobblestone: 384
-    wizard-mortar: 16
-    mortar: 64
+    wizard-mortar: 32
     lamp: 32
     slab: 5
-    sos: 1
+    sos: 2
 
 lyra:
   class: deimophobe.nightfall.dwarf.hero.Lyra
