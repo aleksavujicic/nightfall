@@ -30,23 +30,24 @@ public class IceBow extends AbstractBow {
 	@Override public String getBowIdentifier() {return "ICEBOW";}
 	@Override public int getPower() {return POWER;}
 	
-	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
-	}
+	
+	private static final float REQUIRED_FORCE = 0.9f;
 	
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
 		if (damageFromBow(damage)) {
-			arrowAOE(damage.getReceiver().getLocation(), damage.getReceiver());
+			float force = ArrowMisc.getArrowForce(damage.getArrow());
+			if (force >= REQUIRED_FORCE) {
+				arrowAOE(damage.getReceiver().getLocation(), damage.getReceiver());
+			}
 		}
 	}
 	
 	@Override
 	public Projectile onBowFire(Projectile proj, float force) {
 		proj = super.onBowFire(proj, force);
-		if (proj instanceof Arrow) {
+		if (proj instanceof Arrow && force >= REQUIRED_FORCE) {
 			Arrow arrow = (Arrow) proj;
 			ArrowMisc.setGlowColour(arrow, ChatColor.DARK_AQUA);
 		}
@@ -56,7 +57,14 @@ public class IceBow extends AbstractBow {
 	@Override
 	public void onProjectileLand(Projectile proj, Block hitBlock) {
 		super.onProjectileLand(proj, hitBlock);
-		arrowAOE(proj.getLocation(), null);
+		
+		if (proj instanceof Arrow) {
+			Arrow arrow = (Arrow) proj;
+			float force = ArrowMisc.getArrowForce(arrow);
+			if (force >= REQUIRED_FORCE) {
+				arrowAOE(proj.getLocation(), null);
+			}
+		}
 	}
 	
 	private static final double AOE_RADIUS = 3;
