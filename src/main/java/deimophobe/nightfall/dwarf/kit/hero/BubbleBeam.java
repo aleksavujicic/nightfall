@@ -41,17 +41,17 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	
 	public BubbleBeam(Dwarf dwarf) {
 		super(dwarf);
-		beamer.addEvent(7, this::shootBeam);
-		beamer.addEvent(4, this::shootBeam);
+		beamer.addEvent(7, this::shootBubble);
+		beamer.addEvent(4, this::shootBubble);
 	}
 	
-	private final MultiEventCooldown beamer = new MultiEventCooldown(10, this::shootBeam);
+	private final MultiEventCooldown beamer = new MultiEventCooldown(10, this::shootBubble);
 	private final ComplexCooldown geyserCD = new ComplexCooldown(120*20, this::geyser);
 	private final ComplexCooldown fallImmunity = new ComplexCooldown(3*20);
 	private Geyser geyser = null;
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero","bubblebeam");
-	private final static double DAMAGE = 15;
+	private final static double DAMAGE = 10;
 	static { ITEM.addModifier(ItemModifierType.ATTACK, (int) DAMAGE); }
 	
 	@Override public CustomItem getItem() {
@@ -110,11 +110,11 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		damage.fire(true);
 	};
 	
-	private void shootBeam() {
+	private void shootBubble() {
 		double offsetPerp = Misc.randomDouble(-0.5, 0.5);
 		double offsetY = Misc.randomDouble(-0.5, 0.5);
 		
-		dwarf.fireParticle(0.5, 13, 1.8, offsetPerp, offsetY, 0.2, PARTICLE_PLACER, null, DAMAGER);
+		dwarf.fireParticle(0.5, 13, 1, offsetPerp, offsetY, 0.2, PARTICLE_PLACER, null, DAMAGER);
 		dwarf.playSound("entity.player.hurt_drown", 0.8f, 1.5f, true);
 	}
 	
