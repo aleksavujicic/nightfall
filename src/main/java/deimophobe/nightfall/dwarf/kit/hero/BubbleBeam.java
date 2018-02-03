@@ -21,6 +21,7 @@ import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
+import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -29,7 +30,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.material.MaterialData;
-import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import java.util.function.Consumer;
 
@@ -45,7 +46,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	}
 	
 	private final MultiEventCooldown beamer = new MultiEventCooldown(10, this::shootBeam);
-	private final ComplexCooldown geyserCD = new ComplexCooldown(10, this::geyser);
+	private final ComplexCooldown geyserCD = new ComplexCooldown(120*20, this::geyser);
 	private final ComplexCooldown fallImmunity = new ComplexCooldown(3*20);
 	private Geyser geyser = null;
 	
@@ -83,7 +84,6 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		} else {
 			return geyserCD.tryUse();
 		}
-//		return false;
 	}
 	
 	@Override
@@ -101,21 +101,21 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	};
 	
 	private final Consumer<MonsterEntity> DAMAGER = (monster) -> {
-		MonsterDamage damage = (MonsterDamage) monster.createDamage(dwarf, CustomDamageType.TEMPORARY, DAMAGE + dwarf.getBonusMeleeDamage()/2);
+		double damageAmt = DAMAGE + dwarf.getBonusMeleeDamage()/2;
+		if (monster.isUnderwater()) damageAmt *= 1.5;
+		
+		MonsterDamage damage = (MonsterDamage) monster.createDamage(dwarf, CustomDamageType.TEMPORARY, damageAmt);
 		if (dwarf.hasProc()) damage.setProc(true);
 		damage.setNoDmgTicks(1);
 		damage.fire(true);
-		
-		monster.givePotionEffect(PotionEffectType.SLOW, 5*20, 2, true, true, true);
 	};
 	
 	private void shootBeam() {
 		double offsetPerp = Misc.randomDouble(-0.5, 0.5);
 		double offsetY = Misc.randomDouble(-0.5, 0.5);
 		
-		dwarf.fireParticle(0.5, 20, 1.8, offsetPerp, offsetY, 0.2, PARTICLE_PLACER, null, DAMAGER);
+		dwarf.fireParticle(0.5, 13, 1.8, offsetPerp, offsetY, 0.2, PARTICLE_PLACER, null, DAMAGER);
 		dwarf.playSound("entity.player.hurt_drown", 0.8f, 1.5f, true);
-		//dwarf.playSound("block.note.pling", 1f, 1.6f, true);
 	}
 	
 	
@@ -123,8 +123,6 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	
 	private void geyser() {
 		geyser = new Geyser();
-		//Melody.getMelody("siren").play(dwarf.getPlayer(), "block.note.chime", 1f);
-		//Melody.getMelody("siren").play(dwarf.getPlayer(), "block.note.flute", 1f);
 	}
 	
 	@Override
@@ -177,25 +175,23 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 			}
 			if (lifetime % 5 == 0) world.playSound(midLoc, "entity.generic.splash", 1f, pitch);
 			
-//			if (lifetime % 4 == 0) {
-//				for (MonsterEntity<?> monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
-//					if (monster.distanceTo(midLoc) >= 50) continue;
-//
-//					if (monster.distanceTo(midLoc) <= 2) {
-//						boolean isAI = (monster instanceof AIEntity<?>);
-//						monster.doDamage(dwarf, CustomDamageType.TEMPORARY, 10, true, isAI);
-//					}
-//
-//					Vector offset = monster.offsetFrom(midLoc);
-//					double strength = Math.min(0.2, 1/offset.length());
-//					offset.normalize().multiply(-strength*3);
-//					monster.setVelocity(offset);
-//				}
-//			}
-			
 			if (lifetime % 4 == 0) {
+				for (MonsterEntity<?> monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
+					if (monster.distanceTo(midLoc) >= 15) continue;
+
+					if (monster.distanceTo(midLoc) <= 4) {
+						boolean isAI = (monster instanceof AIEntity<?>);
+						monster.doDamage(dwarf, CustomDamageType.TEMPORARY, 10, true, isAI);
+					}
+
+					Vector offset = monster.offsetFrom(midLoc);
+					double strength = Math.min(0.2, 1/offset.length());
+					offset.normalize().multiply(-strength*2);
+					monster.setVelocity(offset);
+				}
+			
 				DwarfManager.getManager().getDwarves().forEach(this::tryLeap);
-				MonsterManager.getManager().getAliveMobsAndAIs().forEach(this::tryLeap);
+				//MonsterManager.getManager().getAliveMobsAndAIs().forEach(this::tryLeap);
 			}
 		}
 		
