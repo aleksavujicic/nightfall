@@ -158,11 +158,11 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 			
 			
 			World world = floatLoc.getWorld();
-			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 2, 1, 0.3, 1, 0, new MaterialData(Material.LAPIS_BLOCK));
-			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 4, 1, 0.3, 1, 0, new MaterialData(Material.STATIONARY_WATER));
-			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 15, 1, 0.3, 1, 0, new MaterialData(Material.CONCRETE, (byte) 3));
-			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 30, 1, 0.3, 1, 0, new MaterialData(Material.CONCRETE_POWDER, (byte) 3));
-			world.spawnParticle(Particle.CLOUD, floatLoc, 1, 1, 0.3, 1, 0);
+			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 3, 1.5, 0.3, 1.5, 0, new MaterialData(Material.LAPIS_BLOCK));
+			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 5, 1.5, 0.3, 1.5, 0, new MaterialData(Material.STATIONARY_WATER));
+			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 30, 1.5, 0.3, 1.5, 0, new MaterialData(Material.CONCRETE, (byte) 3));
+			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 50, 1.5, 0.3, 1.5, 0, new MaterialData(Material.CONCRETE_POWDER, (byte) 3));
+			world.spawnParticle(Particle.CLOUD, floatLoc, 2, 1.5, 0.3, 1.5, 0);
 			
 			world.spawnParticle(Particle.BLOCK_CRACK, midLoc, 5, 0.2, halfHeight/2, 0.2, 0, new MaterialData(Material.STATIONARY_WATER));
 			world.spawnParticle(Particle.BLOCK_CRACK, midLoc, 10, 0.2, halfHeight/2, 0.2, 0, new MaterialData(Material.CONCRETE, (byte) 3));
@@ -210,7 +210,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 			double y = location.getY();
 			double z = location.getZ();
 			
-			return (-halfHeight <= y && y <= halfHeight && (x*x + z*z <= 4));
+			return (-halfHeight <= y && y <= halfHeight && (x*x + z*z <= 9));
 		}
 		
 		@Override
