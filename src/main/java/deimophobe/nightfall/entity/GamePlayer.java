@@ -355,6 +355,10 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		damage.fire();
 	}
 	
+	/**
+	 * @deprecated Uses NMS code, and guess is based on a very crude velocity calculation.
+	 */
+	@Deprecated
 	public Location guessClientSideLocation() {
 		int ping = 0;
 		if (player instanceof CraftPlayer) {
