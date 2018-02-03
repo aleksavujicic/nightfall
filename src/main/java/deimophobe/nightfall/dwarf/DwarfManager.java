@@ -106,42 +106,24 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	
 	public void onGameStart() {
 		Collection<Player> players = new HashSet<>(Bukkit.getOnlinePlayers());
-		selectHeroes(players);
-		for (Player player : players) {
-			addGamePlayer(player);
-		}
-	}
-	
-	public void selectHeroes(Collection<? extends Player> players) {
-		Collection<Player> selectablePlayers = new HashSet<>();
-		for (Player player : players) {
-			if (!isGamePlayer(player))
-				selectablePlayers.add(player);
-		}
 		
-		int numPlayers = selectablePlayers.size();
-		if (numPlayers >= 15) {
-			Player hero = Misc.getRandom(selectablePlayers);
-			selectablePlayers.remove(hero);
-			HeroType type = Misc.getRandomFrom(HeroType.VELVETINE, HeroType.ARTHEA, HeroType.TUI);
-			addHero(hero, type);
-		}
-		
-		/*
+		int numPlayers = players.size();
 		int numHeroes = 0;
-		
 		if (numPlayers >= 15) numHeroes++;
 		if (numPlayers >= 25) numHeroes++;
 		if (numPlayers >= 35) numHeroes++;
 		
 		while (numHeroes > 0) {
-			Player hero = Misc.getRandom(selectablePlayers);
+			Player hero = Misc.getRandom(players);
 			players.remove(hero);
 			
-			Hero.Type type = Misc.getRandomFrom(Hero.Type.ARTHEA, Hero.Type.TUI, Hero.Type.NOSOVIN);
+			HeroType type = Misc.getRandomFrom(HeroType.VELVETINE, HeroType.ARTHEA, HeroType.TUI, HeroType.HERANA);
 			addHero(hero, type);
 			numHeroes--;
 		}
-		*/
+		
+		for (Player player : players) {
+			addGamePlayer(player);
+		}
 	}
 }
