@@ -87,6 +87,14 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
+	public void onDamageAttack(MonsterDamage damage) {
+		super.onDamageAttack(damage);
+		if (damageFromItem(damage)) {
+			damage.cancel();
+		}
+	}
+	
+	@Override
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
 		if (damage.getType() == NaturalDamageType.FALL) {
@@ -100,21 +108,24 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		location.getWorld().spawnParticle(Particle.CRIT_MAGIC, location, 1, 0.05, 0.05, 0.05, 0);
 	};
 	
-	private final Consumer<MonsterEntity> DAMAGER = (monster) -> {
-		double damageAmt = DAMAGE + dwarf.getBonusMeleeDamage()/2;
-		if (monster.isUnderwater()) damageAmt *= 1.5;
-		
-		MonsterDamage damage = (MonsterDamage) monster.createDamage(dwarf, CustomDamageType.TEMPORARY, damageAmt);
-		if (dwarf.hasProc()) damage.setProc(true);
-		damage.setNoDmgTicks(1);
-		damage.fire(true);
-	};
-	
 	private void shootBubble() {
 		double offsetPerp = Misc.randomDouble(-0.5, 0.5);
 		double offsetY = Misc.randomDouble(-0.5, 0.5);
 		
-		dwarf.fireParticle(0.5, 13, 1, offsetPerp, offsetY, 0.2, PARTICLE_PLACER, null, DAMAGER);
+		Consumer<MonsterEntity> monsterDamager = dwarf.new SingleEntityConsumer<MonsterEntity>(0) {
+			@Override
+			public void onHit(MonsterEntity monster) {
+				double damageAmt = DAMAGE + dwarf.getBonusMeleeDamage() / 2;
+				if (monster.isUnderwater()) damageAmt *= 1.5;
+				
+				MonsterDamage damage = (MonsterDamage) monster.createDamage(dwarf, CustomDamageType.BUBBLE_BEAM, damageAmt);
+				if (dwarf.hasProc()) damage.setProc(true);
+				damage.setNoDmgTicks(1);
+				damage.fire(true);
+			}
+		};
+		
+		dwarf.fireParticle(0.5, 15, 1, offsetPerp, offsetY, 0.2, PARTICLE_PLACER, null, monsterDamager);
 		dwarf.playSound("entity.player.hurt_drown", 0.8f, 1.5f, true);
 	}
 	
@@ -181,7 +192,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 
 					if (monster.distanceTo(midLoc) <= 4) {
 						boolean isAI = (monster instanceof AIEntity<?>);
-						monster.doDamage(dwarf, CustomDamageType.TEMPORARY, 10, true, isAI);
+						monster.doDamage(dwarf, CustomDamageType.GEYSER, 10, true, isAI);
 					}
 
 					Vector offset = monster.offsetFrom(midLoc);

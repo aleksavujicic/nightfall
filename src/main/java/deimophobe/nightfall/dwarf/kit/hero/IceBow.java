@@ -83,7 +83,7 @@ public class IceBow extends AbstractBow {
 		for (MonsterEntity<?> monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
 			if (monster == exclude) continue;
 			if (monster.distanceTo(location) <= AOE_RADIUS) {
-				monster.doDamage(dwarf, CustomDamageType.TEMPORARY, 30);
+				monster.doDamage(dwarf, CustomDamageType.WATER_BOW_AOE, 30);
 			}
 		}
 	}

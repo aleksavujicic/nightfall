@@ -84,6 +84,15 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 				case TINDERFLAME:
 					killMsg = "zooped";
 					break;
+				case BUBBLE_BEAM:
+					killMsg = "bubbled";
+					break;
+				case GEYSER:
+					killMsg = "bubbled";
+					break;
+				case WATER_BOW_AOE:
+					killMsg = "splooshed";
+					break;
 				
 				case BUFFPOOL:
 					killMsg = "consumed";

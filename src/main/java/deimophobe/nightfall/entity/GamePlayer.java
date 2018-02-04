@@ -493,7 +493,7 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	
 	
 	// ------ HITSCAN CLASSES ------
-	private abstract class SingleEntityConsumer<P extends GameEntity> implements Consumer<P> {
+	public abstract class SingleEntityConsumer<P extends GameEntity> implements Consumer<P> {
 		private final Set<P> hitPlayers = new HashSet<>();
 		private final double minDistance;
 		
@@ -512,7 +512,7 @@ public abstract class GamePlayer implements GameEntity<Player> {
 			}
 		}
 		
-		abstract void onHit(P entity);
+		public abstract void onHit(P entity);
 	}
 	
 	public class ProcGiver extends SingleEntityConsumer<Dwarf> {

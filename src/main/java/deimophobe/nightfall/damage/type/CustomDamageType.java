@@ -24,6 +24,9 @@ public enum CustomDamageType implements GameDamageType {
 	SHADOW_STRIKE,
 	SCEPTER_OF_MAGMA,
 	BUFFPOOL,
+	BUBBLE_BEAM,
+	GEYSER,
+	WATER_BOW_AOE,
 	
 	AI_REMOVER,
 	
