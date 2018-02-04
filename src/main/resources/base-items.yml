@@ -6,10 +6,11 @@ shears:
   hunting: 3
   claw: 3
   rapier: 4
+  scepter: 5
   glaive: 6
   crossbow: 25
   trinket: 30
-  scepter: 31
+  #scepter: 31
   flamestaff: 40
   fireball: 41
   herohammer: 42
