@@ -141,10 +141,14 @@ public class BlockType {
 			)
 	);
 	
-	public static final ComparableBlock UNPLACEABLE_BLOCKS = new MaterialSet(
-			Material.BARRIER,
-			Material.DISPENSER,
-			Material.CHEST
+	public static final ComparableBlock UNPLACEABLE_BLOCKS = new BlockSet(
+			HERANA_TRIDENT_WATER,
+			
+			new MaterialSet(
+				Material.BARRIER,
+				Material.DISPENSER,
+				Material.CHEST
+			)
 	);
 	
 	public static final ComparableBlock UNBREAKABLE_BLOCKS = new BlockSet(
