@@ -18,7 +18,7 @@ import org.bukkit.util.Vector;
  */
 public class Buffpool implements Updateable {
 	
-	private final int NUM_PARTICLES = 6;
+	private final int NUM_PARTICLES = 10;
 	
 	private final Dwarf dwarf;
 	private final Location location;
@@ -72,7 +72,7 @@ public class Buffpool implements Updateable {
 			Vector offset = new Vector(Math.cos(myTheta), 0, Math.sin(myTheta));
 			offset.multiply(visibleRadius);
 			Location particleLoc = location.clone().add(offset);
-			particleLoc.getWorld().spawnParticle(Particle.FLAME, particleLoc, 1, 0.1,0.03,0.1,0);
+			particleLoc.getWorld().spawnParticle(Particle.REDSTONE, particleLoc, 0, 0.7,0.03,0.85,1);
 		}
 		
 		// Buff Dwarves

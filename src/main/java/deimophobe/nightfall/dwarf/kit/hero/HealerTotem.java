@@ -85,7 +85,7 @@ public class HealerTotem extends AbstractItem implements CooldownPiece {
 	
 	private Buffpool activePool;
 	
-	private static final Buffpool.Colour BUFFPOOL_COLOUR = new Buffpool.Colour(0.7, 0.3, 0.8);
+	private static final Buffpool.Colour BUFFPOOL_COLOUR = new Buffpool.Colour(0.7, 0.2, 0.4);
 	private void createBuffpool() {
 		activePool = new Buffpool(dwarf, 20*20, 3, BUFFPOOL_COLOUR, 8, 3);
 	}
