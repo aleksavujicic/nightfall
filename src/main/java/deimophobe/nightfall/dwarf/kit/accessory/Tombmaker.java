@@ -36,7 +36,7 @@ public class Tombmaker extends DwarfShovel implements CooldownPiece {
 	
 	@Override
 	public void onKill(MonsterDamage damage) {
-		if (damageFromItem(damage) && dwarf.hasKitElement(KitPieceType.GRB))
+		if (damageFromItem(damage) && dwarf.hasKitElement(KitPieceType.RUNESWORD))
 			dwarf.giveProc(ProcType.REGULAR);
 	}
 	

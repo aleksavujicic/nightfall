@@ -73,7 +73,7 @@ runeblade:
   proccable: false
 
   weapon:
-    base: runeblade
+    base: runesword
     name: Spooky Blade
     lore:
       description:
@@ -89,7 +89,7 @@ axe:
   shred: 25
 
   weapon:
-    base: malice
+    base: blood-axe
     name: Spooky Axe
     lore:
       description:
@@ -101,7 +101,7 @@ hammer:
   parent: base
 
   weapon:
-    base: hammergb
+    base: ghostblade-hammer
     name: Spooky Hammer
     lore:
       description:

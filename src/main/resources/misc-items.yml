@@ -22,7 +22,7 @@ lightning-seppuku:
 
 ai-sword:
   template: monster
-  base: aisword
+  base: ai-sword
   name: Makeshift Stick
   modifiers:
     attack: 14
@@ -36,7 +36,7 @@ aiskelly-wep:
 
 reset-xp:
   template: monster
-  base: trash
+  base: menu.trash
   name: Confirm Reset
   lore:
     description:

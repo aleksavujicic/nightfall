@@ -197,8 +197,8 @@ public class Doppelganger extends AbstractMob {
 	
 	private static final Map<KitPieceType, String> DWARF_WEAPONS = new HashMap<>();
 	static {
-		DWARF_WEAPONS.put(KitPieceType.GRB, null);
-		DWARF_WEAPONS.put(KitPieceType.AXE, "axe");
+		DWARF_WEAPONS.put(KitPieceType.RUNESWORD, null);
+		DWARF_WEAPONS.put(KitPieceType.BLOOD_AXE, "axe");
 		DWARF_WEAPONS.put(KitPieceType.DAGGER, "dagger");
 		DWARF_WEAPONS.put(KitPieceType.HAMMER, "hammer");
 		DWARF_WEAPONS.put(KitPieceType.SCEPTER, "scepter");

@@ -76,6 +76,6 @@ public class Resurrection extends AbstractPiece {
 	}
 	
 	private boolean canJJHeal(DwarfDamage damage) {
-		return dwarf.hasKitElement(KitPieceType.JIMMY_JUICE) && dwarf.hasMana(120) && damage.getFinalDamage() < dwarf.getMaxHealth();
+		return dwarf.hasKitElement(KitPieceType.SAFETY_JUICE) && dwarf.hasMana(120) && damage.getFinalDamage() < dwarf.getMaxHealth();
 	}
 }

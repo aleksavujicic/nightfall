@@ -7,15 +7,15 @@ import deimophobe.nightfall.dwarf.Dwarf;
 /**
  * Created by Deimophobe on 22/01/17.
  */
-public class JimmyJuice extends AbstractAle {
+public class SafetyJuice extends AbstractAle {
 	private final static int MANA_COST = 100;
 	private final static int AUTO_COST = 120;
 	
-	public JimmyJuice(Dwarf dwarf) {
+	public SafetyJuice(Dwarf dwarf) {
 		super(dwarf, MANA_COST);
 	}
 	
-	private final static CustomItem ITEM = getAle("jj", MANA_COST);
+	private final static CustomItem ITEM = getAle("safety", MANA_COST);
 	static {
 		ITEM.applyVariable("autocost", ""+AUTO_COST);
 	}

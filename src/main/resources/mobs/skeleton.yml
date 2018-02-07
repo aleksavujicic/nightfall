@@ -41,7 +41,7 @@ wither:
   title: Wither
   disguisetype: wither_skeleton
   weapon:
-    base: wither
+    base: skeleton.wither-bow
     name: Nether Tooth Bow
     lore:
       description:
@@ -54,7 +54,7 @@ flamelancer:
   parent: base
   title: Flamelancer
   weapon:
-    base: flamebow
+    base: skeleton.flame-bow
     name: Nether Tooth Bow
     lore:
       description:
@@ -68,7 +68,7 @@ impact:
   parent: base
   title: Impact Skeleton
   weapon:
-    base: warpweaver
+    base: skeleton.impact-bow
     name: Strong Bow
     lore:
       description:

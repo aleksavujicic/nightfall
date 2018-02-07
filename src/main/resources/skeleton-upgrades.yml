@@ -68,7 +68,7 @@ wither:
     flamelancer: 1
     impact: 1
   item:
-    base: wither_skull
+    base: wither-skull
     name: "Wither"
     shiny: true
     lore:
@@ -88,7 +88,7 @@ flamelancer:
     wither: 1
     impact: 1
   item:
-    base: flamebow
+    base: skeleton.flame-bow
     name: "Flamelancer"
     shiny: true
     lore:
@@ -108,7 +108,7 @@ impact:
     wither: 1
     flamelancer: 1
   item:
-    base: longbow
+    base: skeleton.impact-bow
     name: "Impact Skeleton"
     shiny: true
     lore:
@@ -205,7 +205,7 @@ withering:
     arrowres-wither: 5
     extrahealth-wither: 5
   item:
-    base: wither_skull
+    base: wither-skull
     name: "Wither Skull"
     shiny: true
     lore:
@@ -237,7 +237,7 @@ volley:
   prereq:
     flamelancer: 1
   item:
-    base: flamebow
+    base: skeleton.flame-bow
     name: "Volley"
     lore:
       description:
@@ -297,7 +297,7 @@ fireai:
     arrowres-flamelancer: 5
     firepath: 5
   item:
-    base: upgrade_skeleton
+    base: upgrade-skeleton
     name: "Dragon's Teeth"
     shiny: true
     lore:

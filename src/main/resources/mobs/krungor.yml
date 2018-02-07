@@ -19,7 +19,7 @@ shrineimmune: true
 armourslot: head
 armour:
   template: monster-hero
-  base: bonecrown
+  base: hat.bone-crown
   name: Crown of the Minotaur King
   lore:
     description:
@@ -30,7 +30,7 @@ armour:
     kb-resist: 1
 weapon:
   template: monster-hero
-  base: malice
+  base: blood-axe
   name: "Torus' Axe"
   lore:
     description:

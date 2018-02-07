@@ -1,5 +1,5 @@
 shortbow:
-  material: bow
+  base: shortbow
   name: Shortbow
   lore:
     description:
@@ -9,7 +9,7 @@ shortbow:
      - "\"Don't insult it, I've used this thing plenty of times.\" - Velvetine"
 
 dragonskin:
-  base: dskin
+  base: phoenix-bow
   name: Phoenix Bow
   lore:
     description:

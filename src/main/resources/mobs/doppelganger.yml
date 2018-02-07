@@ -19,7 +19,7 @@ armour:
     flavour:
      - "Armour stolen off a recently slain dwarf."
 weapon:
-  base: runeblade
+  base: runesword
   name: Cursed Mystic Runesword
   lore:
     description:
@@ -61,7 +61,7 @@ items:
 
   # Weapons
   axe:
-    base: malice
+    base: blood-axe
     name: Cursed Bloodied Waraxe
     lore:
       description:

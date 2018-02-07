@@ -22,8 +22,8 @@ import java.util.function.Function;
 public enum KitPieceType {
 	// Swords
 	DRB(DwarvenRuneblade::new),
-	GRB(GreaterRuneblade::new),
-	AXE(AxeOfMalice::new),
+	RUNESWORD(Runesword::new),
+	BLOOD_AXE(BloodiedWaraxe::new),
 	HAMMER(Hammer::new),
 	DAGGER(Dagger::new),
 	RAPIER(Rapier::new),
@@ -36,7 +36,7 @@ public enum KitPieceType {
 	// Bows
 	SHORTBOW(Shortbow::new),
 	LONGBOW(Longbow::new),
-	DRAGONSKIN(Dragonskin::new),
+	PHOENIX_BOW(PhoenixBow::new),
 	EBOW(Ebow::new),
 	LIGHTBOW(Lightbow::new),
 	WARPWEAVER(Warpweaver::new),
@@ -47,7 +47,7 @@ public enum KitPieceType {
 	// Ales
 	HEALING_ALE(HealingAle::new),
 	HEARTY_ALE(HeartyAle::new),
-	JIMMY_JUICE(JimmyJuice::new),
+	SAFETY_JUICE(SafetyJuice::new),
 	TRINKET(Trinket::new),
 	REGROWTH_STAR(Regrowth::new),
 	CHUGGING_ALE(ChuggingAle::new),
@@ -126,22 +126,21 @@ public enum KitPieceType {
 	;
 	
 	private final Function<Dwarf, KitPiece> kitPieceCreator;
-	
 	KitPieceType(Function<Dwarf, KitPiece> kitPieceCreator) {
 		this.kitPieceCreator = kitPieceCreator;
 	}
 	
-	public static boolean isKitPiece(String name) {
-		name = name.toLowerCase().replace('-','_');
-		for (KitPieceType type : values()) {
-			if (type.name().equalsIgnoreCase(name))
-				return true;
-		}
-		return false;
-	}
-	
 	public static KitPieceType fromString(String name) throws UnknownEnumElementException {
 		return Misc.getEnumMemberFromString(name, values(), "KitPieceType");
+	}
+	
+	public static boolean isValidKitPiece(String name) {
+		try {
+			fromString(name);
+			return true;
+		} catch (UnknownEnumElementException e) {
+			return false;
+		}
 	}
 	
 	public static Set<String> getPieceNames() {

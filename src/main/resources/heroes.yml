@@ -6,7 +6,7 @@ velvetine:
   colour: dark_purple
 
   hat:
-    base: flowercrown
+    base: hat.flower
     name: "Velvetine's Hat"
     lore:
       description:
@@ -27,7 +27,8 @@ velvetine:
     mortar: 64
     lamp: 32
     slab: 5
-    sos: 1
+    proc-bottle: 3
+    charm: 1
 
 tui:
   class: deimophobe.nightfall.dwarf.hero.Tui
@@ -39,7 +40,7 @@ tui:
   colour: gold
 
   hat:
-    base: tuihat
+    base: hat.tui
     name: "Tui's Flame Hat"
     lore:
       description:
@@ -59,7 +60,7 @@ tui:
     mortar: 64
     lamp: 64
     slab: 3
-    sos: 2
+    charm: 2
 
 arthea:
   class: deimophobe.nightfall.dwarf.hero.Arthea
@@ -71,7 +72,7 @@ arthea:
   colour: dark_red
 
   hat:
-    base: blackribbon
+    base: hat.ribbon.black
     name: "Arthea's Flower Crown"
     lore:
       description:
@@ -93,7 +94,7 @@ arthea:
     mortar: 64
     lamp: 64
     slab: 2
-    sos: 2
+    charm: 2
     torch: 64
     heal-station: 10
 
@@ -105,7 +106,7 @@ herana:
   colour: dark_aqua
 
   hat:
-    base: flowercrown
+    base: hat.flower
     name: "Herana's Hat"
     lore:
       description:
@@ -126,7 +127,7 @@ herana:
     wizard-mortar: 32
     lamp: 32
     slab: 5
-    sos: 2
+    charm: 2
 
 lyra:
   class: deimophobe.nightfall.dwarf.hero.Lyra
@@ -138,7 +139,7 @@ lyra:
   colour: dark_gray
 
   hat:
-    base: catears
+    base: hat.cat-ears
     name: "Lyra's Ears"
     lore:
       description:
@@ -158,7 +159,7 @@ lyra:
     mortar: 64
     lamp: 32
     slab: 5
-    sos: 1
+    charm: 1
 
 oxysis:
   class: deimophobe.nightfall.dwarf.hero.Oxysis
@@ -170,7 +171,7 @@ oxysis:
   colour: yellow
 
   hat:
-    base: flowercrown
+    base: hat.flower
     name: "Oxysis Hat"
     lore:
       description:
@@ -191,7 +192,7 @@ oxysis:
     mortar: 64
     lamp: 32
     slab: 5
-    sos: 1
+    charm: 1
 
 nosovin:
   full-name: Nosovin's Illustration
@@ -202,7 +203,7 @@ nosovin:
   colour: white
 
   hat:
-    base: flowercrown
+    base: hat.flower
     name: "Nosovin's Speed Hat"
     lore:
       description:
@@ -224,4 +225,4 @@ nosovin:
     mortar: 64
     lamp: 32
     slab: 5
-    sos: 1
+    charm: 1

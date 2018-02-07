@@ -1,29 +1,25 @@
 zombie-page:
-  base: upgrade_zombie
+  base: upgrade-zombie
   name: Upgrade Zombie
 
 skeleton-page:
-  base: upgrade_skeleton
+  base: upgrade-skeleton
   name: Upgrade Skeleton
 
 gobo-page:
-  base: upgrade_gobo
+  base: upgrade-gobo
   name: Upgrade Goblin
 
 reset-page:
-  base: trash
+  base: menu.trash
   name: Reset Upgrades
 
-doomclock:
-  base: doom_clock
-  name: Reduce Doom
-
 back:
-  base: leftarrow
+  base: menu.left-arrow
   name: Go Back
 
 cancel:
-  base: cancel
+  base: menu.cancel
   name: Cancel Reset
 
 rebirth:

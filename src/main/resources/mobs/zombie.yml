@@ -6,7 +6,7 @@ base:
   attack: 10
 
   armour:
-    material: rotten_flesh
+    base: zombie.hide
     name: Tough Flesh
     lore:
       description:
@@ -17,7 +17,7 @@ base:
           The stronger your hunger grows."
     bound: true
   weapon:
-    base: zombiesword
+    base: zombie.sword
     name: Makeshift Sword
     lore:
       description:
@@ -51,7 +51,7 @@ saboteur:
 
   items:
     wood-pickaxe:
-      material: wood_pickaxe
+      base: zombie.pick
       name: Makeshift Pick
       lore:
         description:

@@ -1,5 +1,5 @@
 drb:
-  base: runeblade
+  base: runesword
   name: Lesser Runeblade
   lore:
     description:
@@ -12,8 +12,8 @@ drb:
   modifiers:
     attack: 15
 
-grb:
-  base: runeblade
+runesword:
+  base: runesword
   name: Mystic Runesword
   lore:
     description:
@@ -26,7 +26,7 @@ grb:
     attack: 15
 
 greatsword:
-  base: runeblade
+  base: runesword
   name: Loremasters Greatsword
   lore:
     description:
@@ -38,7 +38,7 @@ greatsword:
     attack: 25
 
 axe:
-  base: malice
+  base: blood-axe
   name: Bloodied Waraxe
   lore:
     description:
@@ -127,7 +127,7 @@ hunting:
     attack: 20
 
 shadowblade:
-  base: dagger
+  base: shadow-blade
   name: Shadow Blade
   lore:
     description:

@@ -1,5 +1,5 @@
 healing:
-  base: healing_ale
+  base: healing-ale
   name: Healing Ale
   lore:
     description:
@@ -7,9 +7,9 @@ healing:
     flavour:
      - "\"Less fancier than the stars, but still nifty.\" - Arthea"
 
-jj:
-  base: jimmyjuice
-  name: Self-Drinking Juice
+safety:
+  base: safety-juice
+  name: Safety Juice
   lore:
     description:
      - "The starting ale for new players.\n
@@ -19,7 +19,7 @@ jj:
      - "\"I'm just glad that you &ocan&r drink your juice.\" - Velvetine"
 
 hearty:
-  base: hearty_ale
+  base: hearty-ale
   name: Hearty Ale
   lore:
     description:
@@ -55,7 +55,7 @@ regrowth:
      - "\"For those who want others to live another night.\" - Arthea"
 
 chug:
-  base: chug
+  base: chugging-ale
   name: Chugging Ale
   lore:
     description:
@@ -69,7 +69,7 @@ chug:
      - "\"One of Potion Seller's experimental potions. Use with care.\" "
 
 strong:
-  base: strong
+  base: strong-ale
   name: Potion Seller's Strongest Potion
   lore:
     description:

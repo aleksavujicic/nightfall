@@ -11,12 +11,12 @@ import deimophobe.nightfall.monster.ai.AIEntity;
 /**
  * Created by Deimophobe on 20/01/17.
  */
-public class GreaterRuneblade extends AbstractRuneblade {
-	public GreaterRuneblade(Dwarf dwarf) {
+public class Runesword extends AbstractRuneblade {
+	public Runesword(Dwarf dwarf) {
 		super(dwarf, 30*20, ProcType.REGULAR, ProcType.RUNEDASH);
 	}
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "grb");
+	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "runesword");
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}

@@ -15,7 +15,7 @@ shrineimmune: true
 armourslot: head
 armour:
   template: monster-hero
-  base: horns
+  base: hat.horns
   name: Magic Hat
   lore:
     description:
@@ -26,7 +26,7 @@ armour:
     kb-resist: 1
 weapon:
   template: monster-hero
-  base: caduceus
+  base: temp
   name: A staff
   lore:
     description:

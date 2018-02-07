@@ -77,9 +77,9 @@ public class DwarfShovel extends AbstractItem {
 		new ConsumableScavengeItem(ConsumableType.LAMP, 32, "lamps", RewardTier.COMMON);
 		new ConsumableScavengeItem(ConsumableType.LAMP, 64, "lamps", RewardTier.UNCOMMON);
 		
-		new ConsumableScavengeItem(ConsumableType.SOS, 1, "sword of santification", RewardTier.UNCOMMON);
-		new ConsumableScavengeItem(ConsumableType.SOS, 2, "swords of santification", RewardTier.RARE);
-		new ConsumableScavengeItem(ConsumableType.SOS, 4, "swords of santification", RewardTier.LEGENDARY);
+		new ConsumableScavengeItem(ConsumableType.CHARM, 1, "sword of santification", RewardTier.UNCOMMON);
+		new ConsumableScavengeItem(ConsumableType.CHARM, 2, "swords of santification", RewardTier.RARE);
+		new ConsumableScavengeItem(ConsumableType.CHARM, 4, "swords of santification", RewardTier.LEGENDARY);
 		
 		new ConsumableScavengeItem(ConsumableType.WRENCH, 1, "wrench", RewardTier.COMMON);
 		new ConsumableScavengeItem(ConsumableType.WRENCH, 2, "wrenches", RewardTier.UNCOMMON);

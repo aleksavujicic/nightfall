@@ -24,7 +24,7 @@ armour:
     kb-resist: 1
   bound: true
 weapon:
-  base: golempick
+  base: golem-pick
   name: Ancient Pick
   lore:
     description:

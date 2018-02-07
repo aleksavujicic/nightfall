@@ -1,5 +1,5 @@
 pick:
-  material: iron_pickaxe
+  base: dwarf-pickaxe
   name: Dwarven Pickaxe
   lore:
     description:
@@ -11,7 +11,7 @@ pick:
      - "This pickaxe is mighty indeed."
 
 axe:
-  material: iron_axe
+  base: dwarf-axe
   name: Dwarven Axe
   lore:
     description:
@@ -20,7 +20,7 @@ axe:
      - "Sometimes it's a makeshift weapon."
 
 shovel:
-  material: iron_spade
+  base: dwarf-shovel
   name: Dwarven Shovel
   lore:
     description:
@@ -42,7 +42,7 @@ arrow:
 # Tombmaker special reward items
 perfect-torch:
   template: dwarf-hero
-  material: torch
+  base: torch
   name: The True Perfect Torch
   shiny: true
   lore:
@@ -56,7 +56,7 @@ perfect-torch:
 
 clover:
   template: dwarf-hero
-  base: temp
+  base: clover
   name: Four Leaf Clover
   shiny: true
   lore:

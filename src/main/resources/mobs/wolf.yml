@@ -20,7 +20,7 @@ base:
        - "So Furry."
     bound: true
   weapon:
-    base: fang
+    base: wolf-bite
     name: Wolf Fangs
     lore:
       description:

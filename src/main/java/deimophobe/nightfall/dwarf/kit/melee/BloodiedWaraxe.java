@@ -18,11 +18,11 @@ import org.bukkit.potion.PotionEffectType;
 /**
  * Created by Deimophobe on 20/01/17.
  */
-public class AxeOfMalice extends AbstractItem implements CooldownPiece {
+public class BloodiedWaraxe extends AbstractItem implements CooldownPiece {
 	
 	private final ComplexCooldown cd = new ComplexCooldown(60*20, this::giveProc, this::notifyOffCD);
 	
-	public AxeOfMalice(Dwarf dwarf) {
+	public BloodiedWaraxe(Dwarf dwarf) {
 		super(dwarf);
 	}
 	

@@ -16,7 +16,7 @@ shrineimmune: true
 armourslot: head
 armour:
   template: monster-hero
-  base: bonecrown
+  base: hat.bone-crown
   name: Crown of the Skeleton King
   lore:
     description:
@@ -27,7 +27,7 @@ armour:
     kb-resist: 1
 weapon:
   template: monster-hero
-  base: rustycutlass
+  base: cutlass
   name: Sharp Cutlass
   lore:
     description:

@@ -11,15 +11,15 @@ import org.bukkit.inventory.ItemStack;
 public enum ConsumableType {
 	LAMP(new Lamp("lamp"), true, false),
 	SLAB(new Slab("slab"), false, false),
-	SOS(new SOS("sos"), false, false),
+	CHARM(new ConsecratingCharm("charm"), false, false),
 	WRENCH(new Wrench("wrench"), false, false),
-	HEAL_STATION(new HealStation("healstation"), false, false),
-	PROC_BOTTLE(new ProcBottle("procbottle"), false, false),
+	HEAL_STATION(new HealStation("healing-station"), false, false),
+	PROC_BOTTLE(new ProcBottle("proc-bottle"), false, false),
 	
 	MORTAR(new Mortar("mortar", false), true, true),
-	WIZARD_MORTAR(new Mortar("wizardmortar", true), true, false),
+	WIZARD_MORTAR(new Mortar("wizard-mortar", true), true, false),
 	
-	ARMOUR_ITEM(new ArmourItem("armouritem"), true, true),
+	ARMOUR_ITEM(new ArmourItem("forged-armour"), true, true),
 	
 	TORCH(new DummyConsumable("torch"), true, true),
 	COBBLESTONE(new DummyConsumable("cobble"), true, true),

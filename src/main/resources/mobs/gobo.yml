@@ -15,7 +15,7 @@ base:
        - "Kaaaaaaaaaaaaaa."
     bound: true
   weapon:
-    base: zombiesword
+    base: gobo.sword
     name: Gobo Dagger
     lore:
       description:
@@ -25,7 +25,7 @@ base:
        - "Hehehehehehe."
   items:
     gobo-box:
-      base: tnt
+      base: gobo.held-box
       name: Gobo Box
       lore:
         description:
@@ -40,7 +40,7 @@ kaboom:
   parent: base
 
   weapon:
-    material: wood_pickaxe
+    base: gobo.pick
     name: Gobo Pick
     lore:
       description:

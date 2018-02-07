@@ -22,7 +22,7 @@ armour:
   modifiers:
     kb-resist: 1
 weapon:
-  base: minotaur-wep
+  base: club
   name: "Minotaur Axe"
   lore:
     description:

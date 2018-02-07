@@ -28,9 +28,9 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 22/01/17.
  */
-class SOS extends Consumable {
+class ConsecratingCharm extends Consumable {
 	
-	SOS(String item) {
+	ConsecratingCharm(String item) {
 		super(item);
 	}
 	

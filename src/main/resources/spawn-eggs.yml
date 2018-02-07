@@ -15,14 +15,14 @@ skeleton:
 gobo:
   mobtype: gobo
   egg:
-    base: kaboom
+    base: gobo.kaboom
     name: Spawn Goblin
   permanent: true
 
 wolf:
   mobtype: wolf
   egg:
-    base: bite
+    base: wolf-bite
     name: Spawn Wolf
   quantity: 2
   chance: 0.06
@@ -30,7 +30,7 @@ wolf:
 hellhound:
   mobtype: hellhound
   egg:
-    base: bite
+    base: wolf-bite
     name: Spawn Hellhound
     shiny: true
   quantity: 1
@@ -63,7 +63,7 @@ rat:
 golem:
   mobtype: golem
   egg:
-    base: golempick
+    base: golem-pick
     name: Spawn Golem
     shiny: true
   quantity: 1
@@ -81,7 +81,7 @@ wraith:
 minotaur:
   mobtype: minotaur
   egg:
-    base: ogreclub
+    base: club
     name: Spawn Minotaur
     shiny: true
   quantity: 2

@@ -16,8 +16,8 @@ slab:
     flavour:
      - "\"Slab! And a slab! And another slab!\" - Tui"
 
-sos:
-  base: sos
+charm:
+  base: charm
   name: Sword of Santification
   lore:
     description:
@@ -49,8 +49,8 @@ mortar:
     flavour:
      - "Blue the walls dwarves."
 
-wizardmortar:
-  base: wizmortar
+wizard-mortar:
+  base: wizard-mortar
   name: Wizard Mortar
   lore:
     description:
@@ -59,8 +59,8 @@ wizardmortar:
     flavour:
      - "Don't ask what makes it blue."
 
-armouritem:
-  base: armour
+forged-armour:
+  base: forged-armour
   name: Dwarven Armour
   lore:
     description:
@@ -68,8 +68,8 @@ armouritem:
     flavour:
      - "Make sure every dwarf gets one."
 
-healstation:
-  base: healitem
+healing-station:
+  base: healing-station
   name: Healing Station
   lore:
     description:
@@ -79,7 +79,7 @@ healstation:
     flavour:
      - "\"Kinda like being a healer, but requires less work.\" - Arthea"
 
-procbottle:
+proc-bottle:
   base: proc-bottle
   name: Proc in a Bottle
   lore:
