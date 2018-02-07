@@ -1,6 +1,5 @@
 package deimophobe.nightfall.monster.ai;
 
-import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
@@ -51,7 +50,7 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 		monster.setCustomName(name);
 		
 		EntityEquipment equipment = monster.getEquipment();
-		equipment.setHelmet(CosmeticManager.getManager().getHat("xmashat").asItemStack());
+		equipment.setHelmet(NOTHING);
 		equipment.setChestplate(CHESTPLATE);
 		equipment.setLeggings(NOTHING);
 		equipment.setBoots(NOTHING);
