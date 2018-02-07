@@ -162,7 +162,7 @@ public class HeroData extends DwarfData {
 		
 		Team team = scoreboard.getTeam("hero" + name);
 		if (team == null) {
-			team = scoreboard.registerNewTeam(name);
+			team = scoreboard.registerNewTeam("hero" + name);
 			team.setColor(glowColour);
 			team.setPrefix(glowColour.toString());
 		}
