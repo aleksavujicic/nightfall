@@ -1,13 +1,13 @@
 # ------ SWORDS ------
-grb:
+runesword:
   index: 0
   type: item
-  name: grb
+  name: runesword
   category: sword
   cost: 24
   item:
     name: "Mystic Runesword"
-    base: runeblade
+    base: runesword
     lore:
       description:
        - "Right click to &brunedash&r into\n
@@ -16,15 +16,15 @@ grb:
     modifiers:
       attack: 15
 
-malice:
+bloodaxe:
   index: 1
   type: item
-  name: axe
+  name: blood_axe
   category: sword
   cost: 24
   item:
     name: "Bloodied Waraxe"
-    base: malice
+    base: blood-axe
     lore:
       description:
        - "Right click to go into a &4Blood rage&r,\n
@@ -168,15 +168,15 @@ volcanic:
       attack: 15
       power: 70
 
-dragonskin:
+phoenix:
   index: 11
   type: item
-  name: dragonskin
+  name: phoenix_bow
   category: bow
   cost: 16
   item:
     name: "Phoenix Bow"
-    base: dskin
+    base: phoenix-bow
     lore:
       description:
        - "Left click to enable &bPower Shot Mode&r.\n
@@ -279,15 +279,15 @@ turret:
 
 
 # ------ ALES ------
-jj:
+safety-juice:
   index: 18
   type: item
-  name: jimmy_juice
+  name: safety_juice
   category: ale
   cost: 4
   item:
-    name: "Self-Drinking Juice"
-    base: jimmyjuice
+    name: "Safety Juice"
+    base: safety-juice
     lore:
       description:
        - "The starting ale for new players.\n
@@ -304,7 +304,7 @@ hearty:
   cost: 8
   item:
     name: "Hearty Ale"
-    base: hearty_ale
+    base: hearty-ale
     lore:
       description:
        - "Left click to heal yourself for &b100&r mana.\n
@@ -358,7 +358,7 @@ chug:
   cost: 8
   item:
     name: "Chugging Ale"
-    base: chug
+    base: chugging-ale
     lore:
       description:
        - "Left click to heal for &b6&r hearts.\n
@@ -378,7 +378,7 @@ strong:
   cost: 8
   item:
     name: "Potion Seller's Strongest Potion"
-    base: strong
+    base: strong-ale
     lore:
       description:
        - "A very strong potion, which gives\n
@@ -459,20 +459,6 @@ coil:
           -Health Boost\n
           -Fire Resist"
 
-nature_suit:
-  index: 32
-  type: item
-  name: nature_suit
-  category: armour
-  cost: 4
-  item:
-    name: "Nature Suit"
-    base: temp
-    lore:
-      description:
-       - "Grants Water Breathing, Poison and\n
-          Fire Resistance."
-
 berserker:
   index: 31
   type: item
@@ -481,7 +467,7 @@ berserker:
   cost: 8
   item:
     name: "Berserker Armour"
-    base: temp
+    base: berserker
     lore:
       description:
        - "Gives you extra attack and speed,\n
@@ -493,3 +479,17 @@ berserker:
       speed: 10
       health: 6
       armour-durability: -30
+
+nature_suit:
+  index: 32
+  type: item
+  name: nature_suit
+  category: armour
+  cost: 4
+  item:
+    name: "Nature Suit"
+    base: nature-suit
+    lore:
+      description:
+       - "Grants Water Breathing, Poison and\n
+          Fire Resistance."

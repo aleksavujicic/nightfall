@@ -3,90 +3,112 @@ package deimophobe.nightfall.common.items.base;
 import deimophobe.nightfall.common.NightfallCommonPlugin;
 import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Deimophobe on 15/04/17.
  */
 public class BaseItemManager {
+	private static final Pattern POTION_PATTERN = Pattern.compile("!potion\\{\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)\\s*\\}");
+	private static final Pattern DEFAULT_PATTERN = Pattern.compile("(?<material>\\w+)(?::(?<damage>\\d+))?");
+	
+	private final BaseItem TEMPORARY_ITEM = new SimpleBaseItem(Material.FERMENTED_SPIDER_EYE);
+	private final BaseItem ERROR_ITEM = new SimpleBaseItem(Material.BARRIER);
+	
 	private static final BaseItemManager manager = new BaseItemManager();
 	public static BaseItemManager getManager() { return manager; }
 	
 	
 	
 	private final Map<String, BaseItem> baseItems = new HashMap<>();
-	private void addItem(String name, BaseItem item) {
-		name = name.toLowerCase();
-		if (baseItems.containsKey(name))
-			throw new IllegalArgumentException("Trying to add base item '" + name + "' twice?!");
-		baseItems.put(name, item);
-	}
-	
 	public BaseItem getItem(String name) {
-		BaseItem item = baseItems.get(name.toLowerCase());
+		name = name.toLowerCase();
+		
+		BaseItem item = baseItems.get(name);
 		if (item == null) throw new IllegalArgumentException("No base item named: " + name);
 		
 		return item;
 	}
 	
-	private void addPotion(String name, int red, int green, int blue) {
-		addItem(name, new PotionItem(Color.fromRGB(red, green, blue)));
+	public BaseItem getErrorItem() {
+		return ERROR_ITEM;
 	}
 	
+	/**
+	 * @deprecated The temporary item should never be accessed directly.
+	 * @return The temporary BaseItem
+	 */
+	@Deprecated
+	public BaseItem getTempItem() { return TEMPORARY_ITEM; }
+	
 	private BaseItemManager() {
-		addPotion("healing_ale", 93, 244, 17);
-		addPotion("jimmyjuice", 249, 204, 24);
-		addPotion("hearty_ale", 115, 5, 193);
-		addPotion("chug", 17, 108, 244);
-		addPotion("strong", 183, 37, 18);
-		addPotion("glow", 183, 37, 18);
-		addPotion("potion-regeneration", 252, 47, 194);
-		addPotion("potion-poison", 32, 132, 11);
-		
-		addItem("stick", new SimpleBaseItem(Material.STICK));
-		
-		addItem("doom_clock", new SimpleBaseItem(Material.WATCH, 0));
-		
-		addItem("upgrade_zombie", new SimpleBaseItem(Material.SKULL_ITEM, 2));
-		addItem("upgrade_skeleton", new SimpleBaseItem(Material.SKULL_ITEM, 0));
-		addItem("upgrade_gobo", new SimpleBaseItem(Material.SKULL_ITEM, 4));
-		addItem("wither_skull", new SimpleBaseItem(Material.SKULL_ITEM, 1));
-		
-		BaseItem temp = new SimpleBaseItem(Material.FERMENTED_SPIDER_EYE);
-		addItem("temp", temp);
-		addItem("temporary", temp);
-		
-		addItem("proc-bottle", temp);
-		
 		// Add items from base-items.yml file
 		FileConfiguration config = NightfallCommonPlugin.getInternalFileConfig("base-items.yml");
-		for (String key : config.getKeys(false)) {
-			ConfigurationSection keyConfig = config.getConfigurationSection(key);
-			Material material = Material.matchMaterial(key);
+		for (String key : config.getKeys(true)) {
+			if (config.getConfigurationSection(key) != null) continue;
 			
-			if (keyConfig == null) {
-				String itemName = config.getString(key);
-				addItem(itemName, new SimpleBaseItem(material));
-			} else {
-				for (String itemName : keyConfig.getKeys(true)) {
-					int damage = keyConfig.getInt(itemName);
-					
-					addItem(itemName, new SimpleBaseItem(material, damage));
-				}
+			String item = config.getString(key);
+			try {
+				baseItems.put(key.toLowerCase(), createBaseFromConfig(item));
+			} catch (InvalidBaseItemConfigException e) {
+				NightfallCommonPlugin.getPlugin().getLogger().severe("Could not process base item: " + key);
+				e.printStackTrace();
 			}
 		}
 	}
 	
-	public static BaseItem getErrorItem() {
-		return new ErrorItem();
-	}
-	private static final class ErrorItem extends SimpleBaseItem {
-		ErrorItem() {
-			super(Material.BARRIER);
+	private BaseItem createBaseFromConfig(String item) throws InvalidBaseItemConfigException {
+		if (item.equals("#temp") || item.equals("#temporary")) {
+			return TEMPORARY_ITEM;
+		} else if (item.startsWith("#")) {
+			String referenceName = item.substring(1);
+			BaseItem referenceitem = getItem(referenceName);
+			if (referenceitem == null) {
+				throw new InvalidBaseItemConfigException("Reference item '" + referenceName + "' does not exist.");
+			}
+			
+			return referenceitem;
+		} else if (item.startsWith("!potion")) {
+			Matcher matcher = POTION_PATTERN.matcher(item);
+			
+			if (!matcher.matches()) {
+				throw new InvalidBaseItemConfigException("Potion format is invalid.");
+			}
+			
+			int r = Integer.parseInt(matcher.group(1));
+			int g = Integer.parseInt(matcher.group(2));
+			int b = Integer.parseInt(matcher.group(3));
+			
+			return new PotionItem(Color.fromRGB(r,g,b));
+		} else {
+			Matcher matcher = DEFAULT_PATTERN.matcher(item);
+			
+			if (!matcher.matches()) {
+				throw new InvalidBaseItemConfigException("Format is invalid.");
+			}
+			
+			String materialName = matcher.group("material");
+			Material material = Material.matchMaterial(materialName);
+			if (material == null) {
+				throw new InvalidBaseItemConfigException("Unknown material: " + materialName);
+			}
+			
+			String damageString = matcher.group("damage");
+			if (damageString != null) {
+				int damage = Integer.parseInt(damageString);
+				return new SimpleBaseItem(material, damage);
+			} else {
+				return new SimpleBaseItem(material);
+			}
 		}
+	}
+	
+	private static class InvalidBaseItemConfigException extends Exception {
+		private InvalidBaseItemConfigException(String s) { super(s); }
 	}
 }

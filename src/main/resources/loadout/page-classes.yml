@@ -4,12 +4,13 @@ warrior-class:
   category: kit
   type: multi
   elements:
-    - grb
-    - dragonskin
-    - jimmy_juice
+    - runesword
+    - phoenix_bow
+    - safety_juice
     - sturdy
     - avenge
     - resurrection
+    - fake
   consumables:
     torch: 64
     mortar: 64
@@ -18,7 +19,7 @@ warrior-class:
   item:
     template: "loadout-class"
     name: "Warrior Kit"
-    base: runeblade
+    base: runesword
     lore:
       description:
        - "The basic all around fighter with the \n
@@ -28,7 +29,7 @@ warrior-class:
       contains:
        - "*Mystic Runesword\n
           *Phoenix Bow\n
-          *Jimmy Juice\n
+          *Safety Juice\n
           *Sturdy Armour\n
           *Avenge\n
           *Resurrection\n
@@ -47,12 +48,12 @@ ranger-class:
     - longbow
     - quiver
     - trinket
-    - slowfall
+    - darkvision
   consumables:
     torch: 64
     mortar: 64
     cobblestone: 192
-    sos: 1
+    charm: 1
     wizard_mortar: 32
     lamp: 64
   item:
@@ -71,11 +72,11 @@ ranger-class:
           *Rangers Longbow\n
           *Star Trinket\n
           *Massive Quiver\n
-          *Safefall\n
+          *Darkvision\n
           *64 Torches\n
           *64 Mortar\n
           *192 Cobblestone\n
-          *1 Sword of Santification\n
+          *1 Consecrating Charm\n
           *32 Wizard Mortar\n
           *64 Enchanted Lamps"
 
@@ -85,7 +86,7 @@ berserker-class:
   category: kit
   type: multi
   elements:
-    - axe
+    - blood_axe
     - crossbow
     - strong_ale
     - berserker
@@ -98,7 +99,7 @@ berserker-class:
   item:
     template: "loadout-class"
     name: "Berserker Kit"
-    base: malice
+    base: blood-axe
     lore:
       description:
        - "Brute strength is all that matters. \n
@@ -125,7 +126,7 @@ elven-class:
   elements:
     - dagger
     - lightbow
-    - jimmy_juice
+    - safety_juice
     - studded
     - nature_suit
     - slowfall
@@ -134,7 +135,7 @@ elven-class:
     wizard_mortar: 32
     cobblestone: 192
     wrench: 2
-    sos: 2
+    charm: 2
     proc_bottle: 3
   item:
     template: "loadout-class"
@@ -149,7 +150,7 @@ elven-class:
       contains:
        - "*Dagger\n
           *Lightbow\n
-          *Jimmy Juice\n
+          *Safety Juice\n
           *Studded Armour\n
           *Nature Suit\n
           *Slowfall\n
@@ -157,7 +158,7 @@ elven-class:
           *32 Wizard Mortar\n
           *192 Cobblestone\n
           *2 Wrenches\n
-          *2 SOS\n
+          *2 Consecrating Charms\n
           *3 Proc in a Bottles"
 
 gnome-class:
@@ -176,7 +177,7 @@ gnome-class:
     torch: 64
     mortar: 64
     cobblestone: 192
-    sos: 2
+    charm: 2
     slab: 3
   item:
     template: "loadout-class"
@@ -217,7 +218,7 @@ healer-class:
     - slowfall
   consumables:
     heal_station: 16
-    sos: 1
+    charm: 1
     torch: 64
     mortar: 64
     cobblestone: 192
@@ -236,7 +237,7 @@ healer-class:
           *Nature Suit\n
           *Slowfall\n
           *16 Healing Stations\n
-          *1 Sword of Santification\n
+          *1 Consecrating Charm\n
           *64 Torches\n
           *64 Mortar\n
           *192 Cobblestone"
@@ -258,7 +259,7 @@ brawler-class:
   consumables:
     wrench: 4
     slab: 2
-    sos: 1
+    charm: 1
     torch: 64
     mortar: 64
     cobblestone: 192
@@ -279,7 +280,7 @@ brawler-class:
           *Dark Vision\n
           *Avenge\n
           *Resurrection\n
-          *1 Sword of Santification\n
+          *1 Consecrating Charm\n
           *4 Wrenches\n
           *2 Slabs\n
           *64 Torches\n
@@ -303,7 +304,7 @@ brawler-class:
 #    slab: 2
 #    mortar: 32
 #    cobblestone: 128
-#    sos: 2
+#    charm: 2
 #  item:
 #    template: "loadout-class"
 #    name: "Magmar Kit"
@@ -321,7 +322,7 @@ brawler-class:
 #          *Massive Quiver\n
 #          *Slowfall\n
 #          *10 Healing Stations\n
-#          *2 SOS\n
+#          *2 Consecrating Charms\n
 #          *32 Mortar\n
 #          *128 Cobblestone\n
 #          *2 Slabs"
@@ -341,7 +342,7 @@ brawler-class:
 #    torch: 32
 #    mortar: 32
 #    cobblestone: 128
-#    sos: 3
+#    charm: 3
 #    wizard_mortar: 32
 #    lamp: 24
 #  item:
@@ -364,7 +365,7 @@ brawler-class:
 #          *32 Torches\n
 #          *32 Mortar\n
 #          *128 Cobblestone\n
-#          *3 Sword of Santification\n
+#          *3 Consecrating Charms\n
 #          *32 Wizard Mortar\n
 #          *24 Enchanted Lamps"
 #
@@ -383,7 +384,7 @@ brawler-class:
 #    torch: 64
 #    mortar: 64
 #    cobblestone: 256
-#    sos: 2
+#    charm: 2
 #    wizard_mortar: 64
 #    lamp: 32
 #  item:
@@ -405,7 +406,7 @@ brawler-class:
 #          *64 Torches\n
 #          *64 Mortar\n
 #          *256 Cobblestone\n
-#          *2 Sword of Santification\n
+#          *2 Consecrating Charms\n
 #          *64 Wizard Mortar\n
 #          *32 Enchanted Lamps"
 #
@@ -425,7 +426,7 @@ brawler-class:
 #    torch: 32
 #    mortar: 32
 #    cobblestone: 128
-#    sos: 1
+#    charm: 1
 #    wrench: 2
 #  item:
 #    template: "loadout-class"
@@ -446,7 +447,7 @@ brawler-class:
 #          *32 Torches\n
 #          *32 Mortar\n
 #          *128 Cobblestone\n
-#          *1 Sword of Santification\n
+#          *1 Consecrating Charm\n
 #          *2 Wrenches"
 
 random-class:

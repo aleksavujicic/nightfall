@@ -2,6 +2,7 @@ package deimophobe.nightfall.common.items.lore;
 
 import deimophobe.nightfall.common.items.modifiers.ItemModifier;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 
 import java.util.*;
@@ -96,7 +97,17 @@ public class Lore implements Cloneable {
 		
 		// Add errors
 		for (String error : errors) {
-			lore.add("" + ChatColor.RED + ChatColor.BOLD  + "ERROR: " + ChatColor.RED + error);
+			error = "" + ChatColor.RED + ChatColor.BOLD  + "ERROR: " + ChatColor.RED + error;
+			boolean firstLine = true;
+			for (String line : WordUtils.wrap(error, 40).split("\n")) {
+				if (firstLine) {
+					lore.add(line);
+					firstLine = false;
+				} else {
+					lore.add("  " + ChatColor.RED + line);
+				}
+			}
+			//lore.add("" + ChatColor.RED + ChatColor.BOLD  + "ERROR: " + ChatColor.RED + error);
 		}
 		
 		

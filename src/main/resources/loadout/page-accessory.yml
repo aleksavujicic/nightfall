@@ -122,7 +122,7 @@ wizard_one:
   cost: 2
   item:
     name: "Wizard Mortar I"
-    base: menu-wizmortar
+    base: menu.wizard-mortar
     lore:
       description:
        - "Gives you $quantity Wizard Mortar\n
@@ -135,7 +135,7 @@ wizard_two:
   cost: 4
   item:
     name: "Wizard Mortar II"
-    base: menu-wizmortar2
+    base: menu.wizard-mortar2
     lore:
       description:
        - "Gives you $quantity Wizard Mortar\n
@@ -148,7 +148,7 @@ wizard_three:
   cost: 8
   item:
     name: "Wizard Mortar III"
-    base: menu-wizmortar
+    base: menu.wizard-mortar3
     lore:
       description:
        - "Gives you $quantity Wizard Mortar\n
@@ -162,7 +162,7 @@ lamps_one:
   cost: 2
   item:
     name: "Enchanted Lamps I"
-    base: menu-lamp
+    base: menu.lamp
     lore:
       description:
        - "Gives you $quantity Lamps\n
@@ -176,7 +176,7 @@ lamps_two:
   cost: 4
   item:
     name: "Enchanted Lamps II"
-    base: menu-lamp2
+    base: menu.lamp2
     lore:
       description:
        - "Gives you $quantity Lamps\n
@@ -190,7 +190,7 @@ lamps_three:
   cost: 8
   item:
     name: "Enchanted Lamps III"
-    base: menu-lamp
+    base: menu.lamp3
     lore:
       description:
        - "Gives you $quantity Lamps\n
@@ -205,7 +205,7 @@ wrench_one:
   cost: 2
   item:
     name: "Wiggly Wrench I"
-    base: menu-wrench
+    base: menu.wrench
     lore:
       description:
        - "Gives you $quantity Wrench\n
@@ -219,7 +219,7 @@ wrench_two:
   cost: 4
   item:
     name: "Wiggly Wrench II"
-    base: menu-wrench2
+    base: menu.wrench2
     lore:
       description:
        - "Gives you $quantity Wrenches\n
@@ -233,7 +233,7 @@ wrench_three:
   cost: 6
   item:
     name: "Wiggly Wrench III"
-    base: menu-wrench
+    base: menu.wrench3
     lore:
       description:
        - "Gives you $quantity Wrenches\n
@@ -248,7 +248,7 @@ healing_one:
   cost: 2
   item:
     name: "'Healing Station' I"
-    base: healitem
+    base: menu.healing-station
     lore:
       description:
        - "Gives you $quantity Healing Stations\n
@@ -263,7 +263,7 @@ healing_two:
   cost: 4
   item:
     name: "'Healing Station' II"
-    base: healitem
+    base: menu.healing-station2
     lore:
       description:
        - "Gives you $quantity Healing Stations\n
@@ -278,7 +278,7 @@ healing_three:
   cost: 8
   item:
     name: "'Healing Station' III"
-    base: healitem
+    base: menu.healing-station3
     lore:
       description:
        - "Gives you $quantity Healing Stations\n
@@ -289,45 +289,45 @@ healing_three:
 sos_one:
   index: 13
   type: consumable
-  name: sos
+  name: charm
   quantity: 1
   cost: 6
   item:
-    name: "SOS I"
-    base: menu-sos
+    name: "Consecrating Charm I"
+    base: menu.charm
     lore:
       description:
-       - "Gives you $quantity SOS\n
+       - "Gives you $quantity Consecrating Charm\n
           Which can stop and blind any mobs within\n
           the area of effect, Mobs can still attack\n
           if you are too close."
 sos_two:
   index: 22
   type: consumable
-  name: sos
+  name: charm
   quantity: 2
   cost: 12
   item:
-    name: "SOS II"
-    base: menu-sos2
+    name: "Consecrating Charm II"
+    base: menu.charm2
     lore:
       description:
-       - "Gives you $quantity SOS\n
+       - "Gives you $quantity Consecrating Charms\n
           Which can stop and blind any mobs within\n
           the area of effect, Mobs can still attack\n
           if you are too close."
 sos_three:
   index: 31
   type: consumable
-  name: sos
+  name: charm
   quantity: 3
   cost: 18
   item:
-    name: "SOS III"
-    base: menu-sos
+    name: "Consecrating Charm III"
+    base: menu.charm3
     lore:
       description:
-       - "Gives you $quantity SOS\n
+       - "Gives you $quantity Consecrating Charms\n
           Which can stop and blind any mobs within\n
           the area of effect, Mobs can still attack\n
           if you are too close."
@@ -340,7 +340,7 @@ slab_one:
   cost: 2
   item:
     name: "Slab I"
-    base: slab
+    base: menu.slab
     lore:
       description:
        - "Gives you $quantity Slab\n
@@ -354,7 +354,7 @@ slab_two:
   cost: 4
   item:
     name: "Slab II"
-    base: slab
+    base: menu.slab2
     lore:
       description:
        - "Gives you $quantity Slabs\n
@@ -368,7 +368,7 @@ slab_three:
   cost: 8
   item:
     name: "Slab III"
-    base: slab
+    base: menu.slab3
     lore:
       description:
        - "Gives you $quantity Slabs\n
@@ -386,7 +386,7 @@ builder_one:
     cobblestone: 96
   item:
     name: "Builder's Pack I"
-    base: menu-builder
+    base: menu.builder
     lore:
       description:
        - "Gives you a Tier 1 Builder's Pack\n
@@ -405,7 +405,7 @@ builder_two:
     cobblestone: 192
   item:
     name: "Builder's Pack II"
-    base: menu-builder2
+    base: menu.builder2
     lore:
       description:
        - "Gives you a Tier 2 Builder's Pack\n
@@ -424,7 +424,7 @@ builder_three:
     cobblestone: 384
   item:
     name: "Builder's Pack III"
-    base: menu-builder
+    base: menu.builder3
     lore:
       description:
        - "Gives you a Tier 3 Builder's Pack\n

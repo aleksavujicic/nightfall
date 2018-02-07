@@ -2,19 +2,19 @@ crown_hat:
   hat: crown
   item:
     name: "Crown Hat"
-    base: bonecrown
+    base: hat.bone-crown
 
 flower_hat:
   hat: flowers
   item:
     name: "Flower Hat"
-    base: flowercrown
+    base: hat.flower
 
 witch_hat:
   hat: witch
   item:
     name: "Witch Hat"
-    base: witchhat
+    base: hat.witch
 
 dv_goggles:
   hat: darkvisgoggles
@@ -32,52 +32,52 @@ goggles:
   hat: goggles
   item:
     name: "Goggles"
-    base: goggles
+    base: hat.goggles
 
 arrowband:
   hat: arrowband
   item:
-    base: arrowband
+    base: hat.arrow
     name: "Arrow Band"
 
 baghead:
   hat: baghead
   item:
-    base: baghead
+    base: hat.bag
     name: "Bag Head"
 
 bathat:
   hat: bathat
   item:
-    base: bathat
+    base: hat.bat
     name: "Bat Hat"
 
 horns:
   hat: horns
   item:
-    base: horns
+    base: hat.horns
     name: "Horns"
 
 skullmask:
   hat: skullmask
   item:
-    base: skullmask
+    base: hat.skull
     name: "Skull Mask"
 
 catears:
   hat: catears
   item:
-    base: catears
+    base: hat.cat-ears
     name: "Cat Ears"
 
 egghat:
   hat: egghat
   item:
-    base: egghat
+    base: hat.eggs
     name: "Egg Hat"
 
 xmashat:
   hat: xmashat
   item:
-    base: xmashat
+    base: hat.christmas
     name: "Chirstmas Hat"

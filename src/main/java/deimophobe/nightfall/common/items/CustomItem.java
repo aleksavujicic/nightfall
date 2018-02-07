@@ -1,6 +1,7 @@
 package deimophobe.nightfall.common.items;
 
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.NightfallCommonPlugin;
 import deimophobe.nightfall.common.items.base.BaseItem;
 import deimophobe.nightfall.common.items.base.BaseItemManager;
 import deimophobe.nightfall.common.items.base.SimpleBaseItem;
@@ -176,7 +177,7 @@ public class CustomItem implements Cloneable {
 			e.printStackTrace();
 			
 			// Create 'error' item with error in lore text
-			baseItem = BaseItemManager.getErrorItem();
+			baseItem = BaseItemManager.getManager().getErrorItem();
 			errors.add(e.getMessage());
 		}
 		
@@ -245,22 +246,27 @@ public class CustomItem implements Cloneable {
 		if (itemConfig.contains("base")) {
 			String name = itemConfig.getString("base");
 			
+			if (name.equalsIgnoreCase("temp") || name.equalsIgnoreCase("temporary")) {
+				NightfallCommonPlugin.getPlugin().getLogger().warning("Accessing temp item in item: " + itemConfig.getCurrentPath());
+				return BaseItemManager.getManager().getTempItem();
+			}
+			
 			try {
 				return BaseItemManager.getManager().getItem(name);
 			} catch (IllegalArgumentException e) {
-				throw new InvalidConfigurationException("Unknown base item '" + name + "' for item " + itemConfig.getCurrentPath());
+				throw new InvalidConfigurationException("Unknown base item '" + name + "' for item: " + itemConfig.getCurrentPath());
 			}
 		} else if (itemConfig.contains("material")) {
 			String name = itemConfig.getString("material");
 			
 			Material material = Material.matchMaterial(name);
 			if (material == null) {
-				throw new InvalidConfigurationException("Unknown material '" + name + "' for item " + itemConfig.getCurrentPath());
+				throw new InvalidConfigurationException("Unknown material '" + name + "' for item: " + itemConfig.getCurrentPath());
 			}
 			
 			return new SimpleBaseItem(material);
 		} else {
-			throw new InvalidConfigurationException("No base or material section specified for item " + itemConfig.getCurrentPath());
+			throw new InvalidConfigurationException("No base or material section specified for item: " + itemConfig.getCurrentPath());
 		}
 	}
 }

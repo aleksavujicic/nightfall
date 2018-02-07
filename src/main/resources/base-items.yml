@@ -1,138 +1,243 @@
 # Needs to be exact name (from here https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html)
-shears:
-  runeblade: 0
-  malice: 1
-  dagger: 2
-  hunting: 3
-  claw: 3
-  rapier: 4
-  scepter: 5
-  glaive: 6
-  crossbow: 25
-  trinket: 30
-  #scepter: 31
-  flamestaff: 40
-  fireball: 41
-  herohammer: 42
-  excaliju: 43
-  horn: 44
-  wand: 45
-  tinderflame: 46
-  trident: 47
-  elystria: 48
-  caduceus: 49
-  velsword: 50
-  asclepius: 51
-  aisword: 100
-  zombiesword: 101
-  kaboom: 102
-  lightning-seppuku: 102
-  bite: 103
-  golempick: 104
-  ogreclub: 105
-  minotaur-wep: 105
-  rustycutlass: 106
-  wraith-claw: 107
-  bonecrown: 200
-  flowercrown: 201
-  witchhat: 202
-  ribbon: 203
-  tuihat: 204
-  goggles: 205
-  catears: 206
-  arrowband: 208
-  baghead: 209
-  bathat: 210
-  horns: 211
-  skullmask: 212
-  egghat: 213
-  xmashat: 214
 
-diamond_spade:
-  tombmaker: 0
-  eggs: 1
-  blackribbon: 2
-  grayribbon: 3
-  redribbon: 4
-  whiteribbon: 5
-  purpleribbon: 6
-  goldribbon: 7
-  greenribbon: 8
-  pinkribbon: 9
-  lightblueribbon: 10
-  blueribbon: 11
-  firefly: 12
 
-diamond_pickaxe:
-  hammergb: 0
+# ----- DWARVES -----
 
-ink_sack:
-  lamp: 0
-  slab: 1
-  sos: 2
-  wrench: 3
-  mortar: 4
-  wizmortar: 5
-  armour: 6
-  healitem: 7
-  tnt: 8
-  none: 9
-  none: 10
-  none: 11
-  logs: 12
-  planks: 13
-  none: 14
-  bowl: 15
+# Melee
+runesword: "shears:0"
+blood-axe: "shears:1"
+dagger: "shears:2"
+claw: "shears:3"
+rapier: "shears:4"
+scepter: "shears:5"
+glaive: "shears:6"
+hammer: "shears:7"
 
-bow:
-  shortbow: 0
-  longbow: 1
-  wither: 2
-  ebow: 3
-  dskin: 4
-  lightbow: 5
-  warpweaver: 6
-  flamebow: 7
-  volcanic: 8
+hunting: "#claw"
+shadow-blade: "#dagger"
 
-diamond_hoe:
-  leftarrow: 1
-  rightarrow: 2
-  cancel: 3
-  points: 4
-  coil: 5
-  darkvision: 6
-  slowfall: 7
-  avenge: 8
-  menu-mortar: 9
-  menu-mortar2: 10
-  menu-wizmortar: 11
-  menu-wizmortar2: 12
-  menu-sos: 13
-  menu-sos2: 14
-  menu-lamp: 15
-  menu-lamp2: 16
-  menu-wrench: 17
-  menu-wrench2: 18
-  quiver: 19
-  studded: 20
-  runeblessed: 21
-  trash: 22
-#  bricklayer: 23
-  menu-builder: 23
-  menu-builder2: 24
-  sturdy: 25
-  chestomatic: 26
-  chisel: 27
+# Range
+crossbow: "shears:25"
+shortbow: "bow:0"
+longbow: "bow:1"
+ebow: "bow:3"
+phoenix-bow: "bow:4"
+lightbow: "bow:5"
+warpweaver: "bow:6"
+volcanic: "bow:8"
 
-clay_brick: bricklayer
+# Healing
+healing-ale: "!potion{93,244,17}"
+safety-juice: "!potion{249,204,24}"
+hearty-ale: "!potion{115,5,193}"
+chugging-ale: "!potion{17,108,244}"
+strong-ale: "!potion{183,37,18}"
+glow: "!potion{183,37,18}"
+trinket: "shears:30"
+regrowth: "nether_star"
 
-shield:
-  hammer: 1
-# herohammer: 2
-  axe: 3
+# Armour
+#runeblessed: "diamond_hoe:21"
+sturdy: "diamond_hoe:25"
+quiver: "diamond_hoe:19"
+studded: "diamond_hoe:20"
+coil: "diamond_hoe:5"
+nature-suit: "#temp"
+berserker: "#temp"
 
-nether_star: regrowth
-ghast_tear: seppuku
-totem: resurrection
-sugar: fang
+
+# Accessories
+tombmaker: "diamond_spade:0"
+bricklayer: "brick"
+chisel: "#temp"
+chestomatic: "diamond_hoe:26"
+
+slowfall: "diamond_hoe:7"
+darkvision: "diamond_hoe:6"
+avenge: "diamond_hoe:8"
+resurrection: "totem"
+
+# Consumables
+lamp: "ink_sack:0"
+slab: "clay_brick"
+charm: "ink_sack:2"
+wrench: "ink_sack:3"
+wizard-mortar: "ink_sack:5"
+healing-station: "ink_sack:7"
+proc-bottle: "#temp"
+
+logs: "ink_sack:12"
+planks: "ink_sack:13"
+stick: "stick"
+torch: "torch"
+bowl: "ink_sack:15"
+mortar: "ink_sack:4"
+
+forged-armour: "ink_sack:6"
+
+
+# ----- HEROES -----
+
+# Tui
+wildfire: "shears:40"
+fireball: "shears:41"
+tui-hammer: "shears:42"
+
+# Vel
+vel-sword: "shears:50"
+vel-bow: "#phoenix-bow"
+horn: "shears:44"
+
+# Arthea
+arthea-weapon: "shears:49"
+arthea-heal: "shears:51"
+luminous: "#ebow"
+elystria: "shears:48"
+
+# Herana
+trident: "shears:47"
+bubble-beam: "#temp"
+herana-bow: "#longbow"
+
+# Lyra
+silvetris-claw: "#claw"
+
+# Oxysis
+drucrist: "#temp"
+wilde-staff: "#temp"
+
+# 'Nosovin'
+wand: "shears:45"
+tinderflame: "shears:46"
+
+
+# ----- MISC -----
+dwarf-pickaxe: "iron_pickaxe"
+dwarf-shovel: "iron_spade"
+dwarf-axe: "iron_axe"
+
+excaliju: "shears:43"
+
+clover: "#temp"
+
+eggs: "diamond_spade:1"
+firefly: "diamond_spade:12"
+
+hat:
+  bone-crown: "shears:200"
+  flower: "shears:201"
+  witch: "shears:202"
+#  ribbon: "shears:203" # This is just black ribbon
+  tui: "shears:204"
+  goggles: "shears:205"
+  cat-ears: "shears:206"
+  arrow: "shears:208"
+  bag: "shears:209"
+  bat: "shears:210"
+  horns: "shears:211"
+  skull: "shears:212"
+  eggs: "shears:213"
+  christmas: "shears:214"
+  
+  ribbon: 
+    black: "diamond_spade:2"
+    gray: "diamond_spade:3"
+    red: "diamond_spade:4"
+    white: "diamond_spade:5"
+    purple: "diamond_spade:6"
+    gold: "diamond_spade:7"
+    green: "diamond_spade:8"
+    pink: "diamond_spade:9"
+    light-blue: "diamond_spade:10"
+    blue: "diamond_spade:11"
+  
+
+# ----- LOADOUT MENU -----
+
+menu:
+  left-arrow: "diamond_hoe:1"
+  right-arrow: "diamond_hoe:2"
+  cancel: "diamond_hoe:3"
+  points: "diamond_hoe:4"
+  trash: "diamond_hoe:22"
+
+  mortar: "diamond_hoe:9"
+  mortar2: "diamond_hoe:10"
+  mortar3: "#menu.mortar"
+
+  wizard-mortar: "diamond_hoe:11"
+  wizard-mortar2: "diamond_hoe:12"
+  wizard-mortar3: "#menu.wizard-mortar"
+
+  lamp: "diamond_hoe:15"
+  lamp2: "diamond_hoe:16"
+  lamp3: "#menu.lamp"
+
+  wrench: "diamond_hoe:17"
+  wrench2: "diamond_hoe:18"
+  wrench3: "#menu.wrench"
+
+  healing-station: "#healing-station"
+  healing-station2: "#healing-station"
+  healing-station3: "#healing-station"
+
+  charm: "diamond_hoe:13"
+  charm2: "diamond_hoe:14"
+  charm3: "#menu.charm"
+
+  slab: "#slab"
+  slab2: "#slab"
+  slab3: "#slab"
+
+  builder: "diamond_hoe:23"
+  builder2: "diamond_hoe:24"
+  builder3: "#menu.builder"
+
+
+
+# ----- MONSTERS -----
+
+zombie:
+  sword: "shears:101"
+  pick: "wood_pickaxe"
+  hide: "rotten_flesh"
+
+skeleton:
+  wither-bow: "bow:2"
+  flame-bow: "bow:7"
+  impact-bow: "#warpweaver"
+
+gobo:
+  sword: "#zombie.sword"
+  pick: "#zombie.pick"
+  kaboom: "shears:102"
+  held-box: "ink_sack:8"
+
+kaboom: "#gobo.kaboom"
+
+wolf-bite: "sugar"
+golem-pick: "shears:104"
+club: "shears:105"
+cutlass: "shears:106"
+wraith-claw: "shears:107"
+
+ghostblade-hammer: "diamond_pickaxe:0"
+
+
+ai-sword: "shears:100"
+seppuku: "ghast_tear"
+lightning-seppuku: "#gobo.kaboom"
+
+
+# ----- MOB MENU -----
+upgrade-zombie: "skull_item:2"
+upgrade-skeleton: "skull_item:0"
+upgrade-gobo: "skull_item:4"
+wither-skull: "skull_item:1"
+
+potion-regeneration: "!potion{252,47,194}"
+potion-poison: "!potion{32,132,11}"
+
+
+
+
