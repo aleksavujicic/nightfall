@@ -1,5 +1,6 @@
 package deimophobe.nightfall.common.loadout.item;
 
+import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.common.loadout.Category;
@@ -8,6 +9,7 @@ import deimophobe.nightfall.common.loadout.LoadoutConstructable;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
 import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.item.MenuItem;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -131,6 +133,26 @@ public abstract class LoadoutItem implements MenuItem<Loadout>, Comparable<Loado
 		
 		Loadout loadout = session.getData();
 		return loadout.selectItem(this);
+	}
+	
+	
+	
+	protected void tryAddPiece(LoadoutConstructable constructable, String piece) {
+		try {
+			constructable.addPiece(piece);
+		} catch (UnknownEnumElementException e) {
+			Bukkit.getLogger().severe("Malformed item '" + id + "' - Unknown KitPieceType: " + piece);
+			e.printStackTrace();
+		}
+	}
+	
+	protected void tryIncrementConsumable(LoadoutConstructable constructable, String consumable, int quantity) {
+		try {
+			constructable.incrementConsumable(consumable, quantity);
+		} catch (UnknownEnumElementException e) {
+			Bukkit.getLogger().severe("Malformed item '" + id + "' - Unknown ConsumableType: " + consumable);
+			e.printStackTrace();
+		}
 	}
 	
 	

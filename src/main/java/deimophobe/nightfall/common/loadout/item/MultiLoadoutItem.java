@@ -24,15 +24,17 @@ public class MultiLoadoutItem extends LoadoutItem {
 			int quantity = consumablesConfig.getInt(key);
 			consumables.put(consumable, quantity);
 		}
-		elements.addAll(config.getStringList("elements"));
+		elements.addAll(config.getStringList("pieces"));
 	}
 	
 	@Override
 	public void modify(LoadoutConstructable construct) {
-		for (Map.Entry<String, Integer> entry : consumables.entrySet())
-			construct.incrementConsumable(entry.getKey(), entry.getValue());
+		for (Map.Entry<String, Integer> entry : consumables.entrySet()) {
+			tryIncrementConsumable(construct, entry.getKey(), entry.getValue());
+		}
 		
-		for (String type : elements)
-			construct.addElement(type);
+		for (String type : elements) {
+			tryAddPiece(construct, type);
+		}
 	}
 }

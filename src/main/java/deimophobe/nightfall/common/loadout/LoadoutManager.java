@@ -56,7 +56,12 @@ public class LoadoutManager {
 		return getItem("warrior-class");
 	}
 	
-	
+	/** Useful for checking malformed loadout items */
+	public void modifyAll(LoadoutConstructable constructable) {
+		for (LoadoutItem item : items.values()) {
+			item.modify(constructable);
+		}
+	}
 	
 	
 	

@@ -22,6 +22,6 @@ public class ConsumableLoadoutItem extends LoadoutItem {
 	
 	@Override
 	public void modify(LoadoutConstructable construct) {
-		construct.incrementConsumable(consumable, quantity);
+		tryIncrementConsumable(construct, consumable, quantity);
 	}
 }

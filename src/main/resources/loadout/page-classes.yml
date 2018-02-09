@@ -3,14 +3,13 @@ warrior-class:
   cost: 64
   category: kit
   type: multi
-  elements:
+  pieces:
     - runesword
     - phoenix_bow
     - safety_juice
     - sturdy
     - avenge
     - resurrection
-    - fake
   consumables:
     torch: 64
     mortar: 64
@@ -43,7 +42,7 @@ ranger-class:
   cost: 64
   category: kit
   type: multi
-  elements:
+  pieces:
     - dagger
     - longbow
     - quiver
@@ -85,7 +84,7 @@ berserker-class:
   cost: 64
   category: kit
   type: multi
-  elements:
+  pieces:
     - blood_axe
     - crossbow
     - strong_ale
@@ -123,7 +122,7 @@ elven-class:
   cost: 64
   category: kit
   type: multi
-  elements:
+  pieces:
     - dagger
     - lightbow
     - safety_juice
@@ -166,7 +165,7 @@ gnome-class:
   cost: 64
   category: kit
   type: multi
-  elements:
+  pieces:
     - hammer
     - volcanic
     - trinket
@@ -210,7 +209,7 @@ healer-class:
   cost: 64
   category: kit
   type: multi
-  elements:
+  pieces:
     - scepter
     - ebow
     - regrowth_star
@@ -247,7 +246,7 @@ brawler-class:
   cost: 64
   category: kit
   type: multi
-  elements:
+  pieces:
     - volcanic
     - berserker
     - sturdy
@@ -293,7 +292,7 @@ brawler-class:
 #  cost: 64
 #  category: kit
 #  type: multi
-#  elements:
+#  pieces:
 #    - scepter
 #    - volcanic
 #    - healingglow
@@ -333,7 +332,7 @@ brawler-class:
 #  cost: 64
 #  category: kit
 #  type: multi
-#  elements:
+#  pieces:
 #    - hammer
 #    - lightbow
 #    - hearty_ale
@@ -375,7 +374,7 @@ brawler-class:
 #  cost: 64
 #  category: kit
 #  type: multi
-#  elements:
+#  pieces:
 #    - hammer
 #    - ebow
 #    - regrowth_star
@@ -416,7 +415,7 @@ brawler-class:
 #  cost: 64
 #  category: kit
 #  type: multi
-#  elements:
+#  pieces:
 #    - hunting_claws
 #    - warpweaver
 #    - trinket

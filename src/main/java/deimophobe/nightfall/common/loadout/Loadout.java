@@ -1,7 +1,9 @@
 package deimophobe.nightfall.common.loadout;
 
+import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.loadout.item.LoadoutItem;
 import deimophobe.nightfall.common.menu.SessionData;
+import org.bukkit.Bukkit;
 
 import java.util.*;
 
@@ -100,8 +102,14 @@ public class Loadout implements SessionData {
 			for (Category category : Category.values()) {
 				if (!categoryItems.containsKey(category)) {
 					String defaultElement = category.getDefault();
-					if (defaultElement != null)
-						construct.addElement(defaultElement);
+					if (defaultElement != null) {
+						try {
+							construct.addPiece(defaultElement);
+						} catch (UnknownEnumElementException e) {
+							Bukkit.getLogger().severe("Unknown default element '" + defaultElement + "' from category '" + category + "'");
+							e.printStackTrace();
+						}
+					}
 				}
 			}
 		}

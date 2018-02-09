@@ -16,6 +16,6 @@ public class SimpleLoadoutItem extends LoadoutItem {
 	
 	@Override
 	public void modify(LoadoutConstructable construct) {
-		construct.addElement(type);
+		tryAddPiece(construct, type);
 	}
 }
