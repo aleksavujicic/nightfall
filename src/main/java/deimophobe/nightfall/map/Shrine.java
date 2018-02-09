@@ -131,7 +131,7 @@ public class Shrine {
 			
 		}
 		int shrineRepCost = 2 + 2 * shrineNum / map.getNumShrines();
-		int shrineRepAmt = shrineRepCost * (4 * shrineNum / map.getNumShrines() + 4);
+		int shrineRepAmt = shrineRepCost * 5;
 		for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
 			if (shrineRegion.containsPlayer(dwarf)) {
 				dwarvesOnShrine++;
@@ -146,8 +146,7 @@ public class Shrine {
 				}
 			}
 		}
-		
-		//map.stealGold(Math.max(3*mobsOnShrine - 3*dwarvesOnShrine, 0));
+
 		doUpdateDamage(mobsOnShrine, dwarvesOnShrine);
 	}
 	
