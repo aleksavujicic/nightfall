@@ -7,7 +7,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.common.cosmetic.Cosmetic;
+import deimophobe.nightfall.common.cosmetic.Cosmetics;
 import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
 import deimophobe.nightfall.damage.DamageManager;
@@ -575,9 +575,9 @@ public class Game {
 				player.setExp(0);
 				player.setLevel(0);
 				
-				Cosmetic cosmetic = CosmeticManager.getManager().getCosmetic(player);
-				cosmetic.updateTitle();
-				cosmetic.equipHat();
+				Cosmetics cosmetics = CosmeticManager.getManager().getCosmetic(player);
+				cosmetics.updateTitle();
+				cosmetics.equipHat();
 				//Loadout.updateLoadoutDisplay(player);
 				lobbyTeam.addEntry(player.getName());
 				break;
