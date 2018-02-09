@@ -77,9 +77,9 @@ public class DwarfShovel extends AbstractItem {
 		new ConsumableScavengeItem(ConsumableType.LAMP, 32, "lamps", RewardTier.COMMON);
 		new ConsumableScavengeItem(ConsumableType.LAMP, 64, "lamps", RewardTier.UNCOMMON);
 		
-		new ConsumableScavengeItem(ConsumableType.CHARM, 1, "sword of santification", RewardTier.UNCOMMON);
-		new ConsumableScavengeItem(ConsumableType.CHARM, 2, "swords of santification", RewardTier.RARE);
-		new ConsumableScavengeItem(ConsumableType.CHARM, 4, "swords of santification", RewardTier.LEGENDARY);
+		new ConsumableScavengeItem(ConsumableType.CHARM, 1, "consecrating charm", RewardTier.UNCOMMON);
+		new ConsumableScavengeItem(ConsumableType.CHARM, 2, "consecrating charm", RewardTier.RARE);
+		new ConsumableScavengeItem(ConsumableType.CHARM, 4, "consecrating charm", RewardTier.LEGENDARY);
 		
 		new ConsumableScavengeItem(ConsumableType.WRENCH, 1, "wrench", RewardTier.COMMON);
 		new ConsumableScavengeItem(ConsumableType.WRENCH, 2, "wrenches", RewardTier.UNCOMMON);
@@ -87,9 +87,9 @@ public class DwarfShovel extends AbstractItem {
 		
 		new ConsumableScavengeItem(ConsumableType.WIZARD_MORTAR, 32, "wizard mortar", RewardTier.UNCOMMON);
 		
-		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 2, "proc in a bottles", RewardTier.COMMON);
-		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 3, "proc in a bottles", RewardTier.UNCOMMON);
-		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 5, "proc in a bottles", RewardTier.RARE);
+		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 2, "procs in bottles", RewardTier.COMMON);
+		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 3, "procs in bottles", RewardTier.UNCOMMON);
+		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 5, "procs in bottles", RewardTier.RARE);
 		
 		new FixedScavengeItem("clover", "Lucky Clover");
 		new FixedScavengeItem("perfect-torch", "The Perfect Torch");
