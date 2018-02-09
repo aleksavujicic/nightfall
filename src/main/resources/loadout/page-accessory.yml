@@ -125,8 +125,8 @@ wizard_one:
     base: menu.wizard-mortar
     lore:
       description:
-       - "Gives you $quantity Wizard Mortar\n
-          which can instantly blue the walls."
+       - "Gives you $quantity Wizard Mortar.\n
+          These can instantly blue the walls."
 wizard_two:
   index: 18
   type: consumable
@@ -138,8 +138,8 @@ wizard_two:
     base: menu.wizard-mortar2
     lore:
       description:
-       - "Gives you $quantity Wizard Mortar\n
-          which can instantly blue the walls."
+       - "Gives you $quantity Wizard Mortar.\n
+          These can instantly blue the walls."
 wizard_three:
   index: 27
   type: consumable
@@ -151,8 +151,8 @@ wizard_three:
     base: menu.wizard-mortar3
     lore:
       description:
-       - "Gives you $quantity Wizard Mortar\n
-          which can instantly blue the walls."
+       - "Gives you $quantity Wizard Mortar.\n
+          These can instantly blue the walls."
 
 lamps_one:
   index: 10
@@ -165,8 +165,8 @@ lamps_one:
     base: menu.lamp
     lore:
       description:
-       - "Gives you $quantity Lamps\n
-          Which can be placed as a\n
+       - "Gives you $quantity Lamps.\n
+          These can be placed as a\n
           unbreakable light source."
 lamps_two:
   index: 19
@@ -179,8 +179,8 @@ lamps_two:
     base: menu.lamp2
     lore:
       description:
-       - "Gives you $quantity Lamps\n
-          Which can be placed as a\n
+       - "Gives you $quantity Lamps.\n
+          These can be placed as a\n
           unbreakable light source."
 lamps_three:
   index: 28
@@ -193,8 +193,8 @@ lamps_three:
     base: menu.lamp3
     lore:
       description:
-       - "Gives you $quantity Lamps\n
-          Which can be placed as a\n
+       - "Gives you $quantity Lamps.\n
+          These can be placed as a\n
           unbreakable light source."
 
 wrench_one:
@@ -208,9 +208,10 @@ wrench_one:
     base: menu.wrench
     lore:
       description:
-       - "Gives you $quantity Wrench\n
-          to fully repair your armour\n
-          while shrine still has gold."
+       - "Gives you $quantity Wrench.\n
+          These can be uses tofully repair\n
+          your armour while the shrine still\n
+          has gold."
 wrench_two:
   index: 20
   type: consumable
@@ -222,9 +223,10 @@ wrench_two:
     base: menu.wrench2
     lore:
       description:
-       - "Gives you $quantity Wrenches\n
-          to fully repair your armour\n
-          while shrine still has gold."
+       - "Gives you $quantity Wrenches.\n
+          These can be used to fully repair\n
+          your armour while the shrine still\n
+          has gold."
 wrench_three:
   index: 29
   type: consumable
@@ -236,9 +238,10 @@ wrench_three:
     base: menu.wrench3
     lore:
       description:
-       - "Gives you $quantity Wrenches\n
-          to fully repair your armour\n
-          while shrine still has gold."
+       - "Gives you $quantity Wrenches.\n
+          These can be used to fully repair\n
+          your armour while the shrine still\n
+          has gold."
 
 healing_one:
   index: 12
@@ -251,8 +254,8 @@ healing_one:
     base: menu.healing-station
     lore:
       description:
-       - "Gives you $quantity Healing Stations\n
-          Which can be placed to regen\n
+       - "Gives you $quantity Healing Stations.\n
+          These can be placed to regen\n
           health mana and armour.\n
           Can be broken by Mobs."
 healing_two:
@@ -266,8 +269,8 @@ healing_two:
     base: menu.healing-station2
     lore:
       description:
-       - "Gives you $quantity Healing Stations\n
-          Which can be placed to regen\n
+       - "Gives you $quantity Healing Stations.\n
+          These can be placed to regen\n
           health mana and armour.\n
           Can be broken by Mobs."
 healing_three:
@@ -281,12 +284,12 @@ healing_three:
     base: menu.healing-station3
     lore:
       description:
-       - "Gives you $quantity Healing Stations\n
-          Which can be placed to regen\n
+       - "Gives you $quantity Healing Stations.\n
+          These can be placed to regen\n
           health mana and armour.\n
           Can be broken by Mobs."
 
-sos_one:
+charm_one:
   index: 13
   type: consumable
   name: charm
@@ -297,11 +300,10 @@ sos_one:
     base: menu.charm
     lore:
       description:
-       - "Gives you $quantity Consecrating Charm\n
-          Which can stop and blind any mobs within\n
-          the area of effect, Mobs can still attack\n
-          if you are too close."
-sos_two:
+       - "Gives you $quantity Consecrating Charm.\n
+          These can stop and blind any mobs within\n
+          the area of effect for a limited time."
+charm_two:
   index: 22
   type: consumable
   name: charm
@@ -312,11 +314,10 @@ sos_two:
     base: menu.charm2
     lore:
       description:
-       - "Gives you $quantity Consecrating Charms\n
-          Which can stop and blind any mobs within\n
-          the area of effect, Mobs can still attack\n
-          if you are too close."
-sos_three:
+       - "Gives you $quantity Consecrating Charms.\n
+          These can stop and blind any mobs within\n
+          the area of effect for a limited time."
+charm_three:
   index: 31
   type: consumable
   name: charm
@@ -327,10 +328,9 @@ sos_three:
     base: menu.charm3
     lore:
       description:
-       - "Gives you $quantity Consecrating Charms\n
-          Which can stop and blind any mobs within\n
-          the area of effect, Mobs can still attack\n
-          if you are too close."
+       - "Gives you $quantity Consecrating Charms.\n
+          These can stop and blind any mobs within\n
+          the area of effect for a limited time."
 
 slab_one:
   index: 14
@@ -343,8 +343,8 @@ slab_one:
     base: menu.slab
     lore:
       description:
-       - "Gives you $quantity Slab\n
-          Which create a thick blue wall in front\n
+       - "Gives you $quantity Slab.\n
+          These create a thick blue wall in front\n
           when used."
 slab_two:
   index: 23
@@ -357,8 +357,8 @@ slab_two:
     base: menu.slab2
     lore:
       description:
-       - "Gives you $quantity Slabs\n
-          Which create a thick blue wall in front\n
+       - "Gives you $quantity Slabs.\n
+          These create a thick blue wall in front\n
           when used."
 slab_three:
   index: 32
@@ -371,8 +371,8 @@ slab_three:
     base: menu.slab3
     lore:
       description:
-       - "Gives you $quantity Slabs\n
-          Which create a thick blue wall in front\n
+       - "Gives you $quantity Slabs.\n
+          These create a thick blue wall in front\n
           when used."
 
 builder_one:
@@ -389,8 +389,8 @@ builder_one:
     base: menu.builder
     lore:
       description:
-       - "Gives you a Tier 1 Builder's Pack\n
-          Which contains the following items\n
+       - "Gives you a Tier 1 Builder's Pack.\n
+          This contains the following items:\n
           *32 Torches\n
           *32 Mortar\n
           *96 Cobblestone."
@@ -408,8 +408,8 @@ builder_two:
     base: menu.builder2
     lore:
       description:
-       - "Gives you a Tier 2 Builder's Pack\n
-          Which contains the following items\n
+       - "Gives you a Tier 2 Builder's Pack.\n
+          This contains the following items:\n
           *64 Torches\n
           *64 Mortar\n
           *192 Cobblestone."
@@ -427,8 +427,8 @@ builder_three:
     base: menu.builder3
     lore:
       description:
-       - "Gives you a Tier 3 Builder's Pack\n
-          Which contains the following items\n
+       - "Gives you a Tier 3 Builder's Pack.\n
+          This contains the following items:\n
           *128 Torches\n
           *128 Mortar\n
           *384 Cobblestone."
@@ -444,8 +444,9 @@ procbottle_one:
     base: proc-bottle
     lore:
       description:
-       - "Gives $quantity Procs in Bottles\n
-          which lasts for 5 seconds."
+       - "Gives $quantity Procs in Bottles.\n
+          Throwing these gives you a proc\n
+          that lasts for 5 seconds."
 procbottle_two:
   index: 25
   type: consumable
@@ -457,8 +458,9 @@ procbottle_two:
     base: proc-bottle
     lore:
       description:
-       - "Gives $quantity Procs in Bottles\n
-          which lasts for 5 seconds."
+       - "Gives $quantity Procs in Bottles.\n
+          Throwing these gives you a proc\n
+          that lasts for 5 seconds."
 procbottle_three:
   index: 34
   type: consumable
@@ -470,5 +472,6 @@ procbottle_three:
     base: proc-bottle
     lore:
       description:
-       - "Gives $quantity Procs in Bottles\n
-          which lasts for 5 seconds."
+       - "Gives $quantity Procs in Bottles.\n
+          Throwing these gives you a proc\n
+          that lasts for 5 seconds."
