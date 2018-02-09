@@ -9,6 +9,7 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.common.loadout.LoadoutManager;
 import deimophobe.nightfall.common.loadout.LoadoutMenu;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -162,9 +163,16 @@ public class NightfallPlugin extends JavaPlugin {
 				
 				dm.removeGamePlayer(args[0], true);
 				mm.removeGamePlayer(args[0], true);
+				
+				if (args[1].equalsIgnoreCase("loadoutall")) {
+					DwarfData data = new DwarfData();
+					LoadoutManager.getManager().modifyAll(data);
+					dm.createDwarf(player, data);
+					return true;
+				}
+				
 				Set<KitPieceType> elements = new HashSet<>();
 				if (args[1].equalsIgnoreCase("all")) {
-					sender.sendMessage(ChatColor.YELLOW + "Adding all elements!");
 					elements.addAll(Arrays.asList(KitPieceType.values()));
 				} else {
 					for (int i = 1; i < args.length; i++) {
@@ -1038,7 +1046,10 @@ public class NightfallPlugin extends JavaPlugin {
 		
 		if (name.equalsIgnoreCase("setdwarf") && args.length >= 2) {
 			Collection<String> elements = KitPieceType.getPieceNames();
-			if (args.length == 2) elements.add("all");
+			if (args.length == 2) {
+				elements.add("all");
+				elements.add("loadoutall");
+			}
 			return startsWithPrefix(args[args.length-1], elements);
 		}
 		

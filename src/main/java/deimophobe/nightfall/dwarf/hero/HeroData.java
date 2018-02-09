@@ -97,12 +97,12 @@ public class HeroData extends DwarfData {
 		Misc.checkConfigStringExists(config, "items");
 		for (String item : config.getStringList("items")) {
 			try {
-				addElement(KitPieceType.fromString(item));
+				addPiece(KitPieceType.fromString(item));
 			} catch (UnknownEnumElementException e) {
 				throw new InvalidConfigurationException("Unknown KitPiece item: " + item, e);
 			}
 		}
-		addElement(KitPieceType.HERO_BASE);
+		addPiece(KitPieceType.HERO_BASE);
 		
 		
 		// Consumables

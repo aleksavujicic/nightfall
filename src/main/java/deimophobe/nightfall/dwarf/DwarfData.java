@@ -7,7 +7,6 @@ import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.Kit;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -16,7 +15,7 @@ import java.util.*;
  * Created by Deimophobe on 15/01/17.
  */
 public class DwarfData implements LoadoutConstructable {
-	private final SortedSet<KitPieceType> elements;
+	private final SortedSet<KitPieceType> pieces;
 	private final SortedMap<ConsumableType, Integer> consumables;
 	
 	
@@ -24,8 +23,8 @@ public class DwarfData implements LoadoutConstructable {
 		this(null, null);
 	}
 	
-	public DwarfData(Set<KitPieceType> elements, Map<ConsumableType, Integer> consumables) {
-		this.elements = (elements != null ? new TreeSet<>(elements) : new TreeSet<>());
+	public DwarfData(Set<KitPieceType> pieces, Map<ConsumableType, Integer> consumables) {
+		this.pieces = (pieces != null ? new TreeSet<>(pieces) : new TreeSet<>());
 		this.consumables = (consumables != null ? new TreeMap<>(consumables) : new TreeMap<>());
 		
 		addDefaults();
@@ -34,38 +33,28 @@ public class DwarfData implements LoadoutConstructable {
 	
 	
 	private void addDefaults() {
-		addElement(KitPieceType.DWARF_AXE);
-		addElement(KitPieceType.DWARF_PICK);
-		addElement(KitPieceType.DWARF_SHOVEL);
+		addPiece(KitPieceType.DWARF_AXE);
+		addPiece(KitPieceType.DWARF_PICK);
+		addPiece(KitPieceType.DWARF_SHOVEL);
 	}
 	
 	private void tombmakerCheck() {
-		if (elements.contains(KitPieceType.TOMBMAKER))
-			elements.remove(KitPieceType.DWARF_SHOVEL);
+		if (pieces.contains(KitPieceType.TOMBMAKER))
+			pieces.remove(KitPieceType.DWARF_SHOVEL);
 	}
 	
 	@Override
-	public void addElement(String type) {
-		try {
-			addElement(KitPieceType.fromString(type));
-		} catch (UnknownEnumElementException e) {
-			Bukkit.getLogger().severe("Unknown KitPieceType: " + type);
-			e.printStackTrace();
-		}
+	public void addPiece(String type) throws UnknownEnumElementException {
+		addPiece(KitPieceType.fromString(type));
 	}
 	
 	@Override
-	public void incrementConsumable(String consumable, int amt) {
-		try {
-			incrementConsumable(ConsumableType.fromString(consumable), amt);
-		} catch (UnknownEnumElementException e) {
-			Bukkit.getLogger().severe("Unknown ConsumableType: " + consumable);
-			e.printStackTrace();
-		}
+	public void incrementConsumable(String consumable, int amt) throws UnknownEnumElementException {
+		incrementConsumable(ConsumableType.fromString(consumable), amt);
 	}
 	
-	public void addElement(KitPieceType type) {
-		elements.add(type);
+	public void addPiece(KitPieceType type) {
+		pieces.add(type);
 		tombmakerCheck();
 	}
 	
@@ -75,7 +64,7 @@ public class DwarfData implements LoadoutConstructable {
 	}
 	
 	public Kit createKitAndApplyToDwarf(Dwarf dwarf) {
-		Kit kit = new Kit(dwarf, elements);
+		Kit kit = new Kit(dwarf, pieces);
 		kit.giveItems(KitGiveType.START);
 		
 		// Add consumables
