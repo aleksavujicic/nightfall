@@ -17,7 +17,7 @@ public class PlayerInfo {
 	private String uuid;
 	
 	@Property
-	private String title = "";
+	private String title = null;
 	public String getTitle() { return title; }
 	public void setTitle(String title) { this.title = title; }
 	
