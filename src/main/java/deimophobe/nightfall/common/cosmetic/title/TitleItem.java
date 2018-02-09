@@ -1,7 +1,7 @@
 package deimophobe.nightfall.common.cosmetic.title;
 
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.common.cosmetic.Cosmetic;
+import deimophobe.nightfall.common.cosmetic.Cosmetics;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.common.menu.MenuSession;
@@ -12,7 +12,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 /**
  * Created by Deimophobe on 23/12/17.
  */
-public class TitleItem extends SelectableItem<Cosmetic> {
+public class TitleItem extends SelectableItem<Cosmetics> {
 	private final String title;
 	
 	public TitleItem(ConfigurationSection config) throws InvalidConfigurationException {
@@ -23,7 +23,7 @@ public class TitleItem extends SelectableItem<Cosmetic> {
 	}
 
 	@Override
-	public boolean onClick(MenuSession<Cosmetic> session) {
+	public boolean onClick(MenuSession<Cosmetics> session) {
 		if (isSelected(session)) {
 			session.getData().setTitle(null);
 		} else {
@@ -33,7 +33,7 @@ public class TitleItem extends SelectableItem<Cosmetic> {
 	}
 	
 	@Override
-	protected boolean isSelected(MenuSession<Cosmetic> session) {
+	protected boolean isSelected(MenuSession<Cosmetics> session) {
 		return title.equalsIgnoreCase(session.getData().getTitle());
 	}
 }

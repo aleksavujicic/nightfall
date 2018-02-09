@@ -62,6 +62,8 @@
                             <artifactSet>
                                 <includes>
                                     <include>minecraft.spigot.community.michel_0:api</include>
+                                    <include>org.mongodb:mongo-java-driver</include>
+                                    <include>org.mongodb.morphia:morphia</include>
                                 </includes>
                             </artifactSet>
                         </configuration>

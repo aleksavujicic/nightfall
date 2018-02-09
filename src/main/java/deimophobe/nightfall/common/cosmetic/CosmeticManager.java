@@ -32,9 +32,9 @@ public class CosmeticManager {
 	
 	// TODO IMPORTANT CHANGE TO OFFLINE PLAYER OR LIKE UUID OR SOMETHING
 	// ----- COSEMTICS -----
-	private final Map<Player, Cosmetic> cosmetics = new HashMap<>();
-	public Cosmetic getCosmetic(Player player) {
-		return cosmetics.computeIfAbsent(player, Cosmetic::new);
+	private final Map<Player, Cosmetics> cosmetics = new HashMap<>();
+	public Cosmetics getCosmetic(Player player) {
+		return cosmetics.computeIfAbsent(player, Cosmetics::new);
 	}
 	
 	// ----- HATS -----

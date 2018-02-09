@@ -2,6 +2,8 @@ package deimophobe.nightfall.common.cosmetic;
 
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.cosmetic.hat.Hat;
+import deimophobe.nightfall.common.database.DBHandler;
+import deimophobe.nightfall.common.database.PlayerInfo;
 import deimophobe.nightfall.common.event.HatChangeEvent;
 import deimophobe.nightfall.common.event.TitleChangeEvent;
 import deimophobe.nightfall.common.menu.SessionData;
@@ -11,13 +13,25 @@ import org.bukkit.entity.Player;
 /**
  * Created by Deimophobe on 23/12/17.
  */
-public class Cosmetic implements SessionData {
+public class Cosmetics implements SessionData {
 	private final Player player;
-	private String title = null;
+	private final PlayerInfo playerInfo;
+	private String title;
 	private Hat hat = null;
 	
-	public Cosmetic(Player player) {
+	public Cosmetics(Player player) {
 		this.player = player;
+		
+		PlayerInfo playerInfo = DBHandler.getHandler().getInfo(player.getUniqueId());
+		if (playerInfo == null) playerInfo = new PlayerInfo(player.getUniqueId());
+		this.playerInfo = playerInfo;
+		
+		this.title = playerInfo.getTitle();
+	}
+	
+	public void save() {
+		playerInfo.setTitle(title);
+		DBHandler.getHandler().saveInfo(playerInfo);
 	}
 	
 	public String getTitle() {
@@ -31,6 +45,7 @@ public class Cosmetic implements SessionData {
 		if (event.shouldUpdateDisplayName()) {
 			updateTitle();
 		}
+		save();
 	}
 	public void updateTitle() {
 		if (title == null) {

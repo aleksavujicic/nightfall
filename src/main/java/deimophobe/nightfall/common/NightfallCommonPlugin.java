@@ -1,5 +1,6 @@
 package deimophobe.nightfall.common;
 
+import deimophobe.nightfall.common.database.DBHandler;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
 import deimophobe.nightfall.common.menu.MenuManager;
@@ -16,9 +17,13 @@ public class NightfallCommonPlugin extends JavaPlugin {
 	private static NightfallCommonPlugin plugin;
 	public static NightfallCommonPlugin getPlugin() { return plugin; }
 	
+	private DBHandler dbHandler;
+	public DBHandler getDBHandler() { return dbHandler; }
+	
 	@Override
 	public void onEnable() {
 		plugin = this;
+		dbHandler = new DBHandler();
 		
 		LoreTemplate.registerTemplateFile("lore-templates.yml");
 		MenuManager.initialiseMenuManager(this);
