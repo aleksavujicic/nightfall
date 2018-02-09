@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.ai;
 
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
@@ -12,12 +13,14 @@ import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 /**
@@ -46,17 +49,29 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	private static final ItemStack NOTHING = new ItemStack(Material.DIAMOND);
 	
 	protected void setupMonster(String name, Dwarf target) {
+		Entity riding = monster.getVehicle();
+		if (riding != null) {
+			monster.leaveVehicle();
+			riding.remove();
+		}
+		
 		monster.setVelocity(new Vector(0,0.6,0));
 		monster.setCustomName(name);
 		
-		EntityEquipment equipment = monster.getEquipment();
-		equipment.setHelmet(NOTHING);
-		equipment.setChestplate(CHESTPLATE);
-		equipment.setLeggings(NOTHING);
-		equipment.setBoots(NOTHING);
+		new BukkitRunnable() {
+			@Override public void run() { removeArmour(); }
+		}.runTask(NightfallPlugin.getPlugin());
 		
 		if (target != null)
 			monster.setTarget(target.getPlayer());
+	}
+	
+	private void removeArmour() {
+		EntityEquipment equipment = monster.getEquipment();
+		equipment.setHelmet(null);
+		equipment.setChestplate(CHESTPLATE);
+		equipment.setLeggings(null);
+		equipment.setBoots(null);
 	}
 	
 	@Override
