@@ -48,7 +48,7 @@ berserker: "#temp"
 
 # Accessories
 tombmaker: "diamond_spade:0"
-bricklayer: "brick"
+bricklayer: "shears:20"
 chisel: "#temp"
 chestomatic: "diamond_hoe:26"
 
