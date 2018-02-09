@@ -437,38 +437,38 @@ procbottle_one:
   index: 16
   type: consumable
   name: proc-bottle
-  quantity: 1
+  quantity: 2
   cost: 2
   item:
     name: "Proc in a Bottle I"
     base: proc-bottle
     lore:
       description:
-       - "Gives $quantity Proc Bottle\n
+       - "Gives $quantity Procs in Bottles\n
           which lasts for 5 seconds."
 procbottle_two:
   index: 25
   type: consumable
   name: proc-bottle
-  quantity: 2
+  quantity: 4
   cost: 4
   item:
     name: "Proc in a Bottle II"
     base: proc-bottle
     lore:
       description:
-       - "Gives $quantity Proc Bottle\n
+       - "Gives $quantity Procs in Bottles\n
           which lasts for 5 seconds."
 procbottle_three:
   index: 34
   type: consumable
   name: proc-bottle
-  quantity: 3
+  quantity: 6
   cost: 6
   item:
     name: "Proc in a Bottle III"
     base: proc-bottle
     lore:
       description:
-       - "Gives $quantity Proc Bottle\n
+       - "Gives $quantity Procs in Bottles\n
           which lasts for 5 seconds."
