@@ -1,8 +1,8 @@
 package deimophobe.nightfall.common.cosmetic;
 
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.NightfallCommonPlugin;
 import deimophobe.nightfall.common.cosmetic.hat.Hat;
-import deimophobe.nightfall.common.database.DBHandler;
 import deimophobe.nightfall.common.database.PlayerInfo;
 import deimophobe.nightfall.common.event.HatChangeEvent;
 import deimophobe.nightfall.common.event.TitleChangeEvent;
@@ -22,7 +22,7 @@ public class Cosmetics implements SessionData {
 	public Cosmetics(Player player) {
 		this.player = player;
 		
-		PlayerInfo playerInfo = DBHandler.getHandler().getInfo(player.getUniqueId());
+		PlayerInfo playerInfo = NightfallCommonPlugin.getDataHandler().getInfo(player.getUniqueId());
 		if (playerInfo == null) playerInfo = new PlayerInfo(player.getUniqueId());
 		this.playerInfo = playerInfo;
 		
@@ -31,7 +31,7 @@ public class Cosmetics implements SessionData {
 	
 	public void save() {
 		playerInfo.setTitle(title);
-		DBHandler.getHandler().saveInfo(playerInfo);
+		NightfallCommonPlugin.getDataHandler().saveInfo(playerInfo);
 	}
 	
 	public String getTitle() {
