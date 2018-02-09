@@ -66,30 +66,30 @@ public class DwarfShovel extends AbstractItem {
 	
 	
 	static {
-		new ConsumableScavengeItem(ConsumableType.SLAB, 1, "slab", RewardTier.COMMON);
-		new ConsumableScavengeItem(ConsumableType.SLAB, 2, "slabs", RewardTier.UNCOMMON);
-		new ConsumableScavengeItem(ConsumableType.SLAB, 3, "slabs", RewardTier.RARE);
+		new ConsumableScavengeItem(ConsumableType.SLAB, 1, "Slab", RewardTier.COMMON);
+		new ConsumableScavengeItem(ConsumableType.SLAB, 2, "Slabs", RewardTier.UNCOMMON);
+		new ConsumableScavengeItem(ConsumableType.SLAB, 3, "Slabs", RewardTier.RARE);
 		
-		new ConsumableScavengeItem(ConsumableType.HEAL_STATION, 2, "healing stations", RewardTier.COMMON);
-		new ConsumableScavengeItem(ConsumableType.HEAL_STATION, 4, "healing stations", RewardTier.UNCOMMON);
-		new ConsumableScavengeItem(ConsumableType.HEAL_STATION, 8, "healing stations", RewardTier.RARE);
+		new ConsumableScavengeItem(ConsumableType.HEAL_STATION, 2, "Healing Stations", RewardTier.COMMON);
+		new ConsumableScavengeItem(ConsumableType.HEAL_STATION, 4, "Healing Stations", RewardTier.UNCOMMON);
+		new ConsumableScavengeItem(ConsumableType.HEAL_STATION, 8, "Healing Stations", RewardTier.RARE);
 		
-		new ConsumableScavengeItem(ConsumableType.LAMP, 32, "lamps", RewardTier.COMMON);
-		new ConsumableScavengeItem(ConsumableType.LAMP, 64, "lamps", RewardTier.UNCOMMON);
+		new ConsumableScavengeItem(ConsumableType.LAMP, 32, "Lamps", RewardTier.COMMON);
+		new ConsumableScavengeItem(ConsumableType.LAMP, 64, "Lamps", RewardTier.UNCOMMON);
 		
-		new ConsumableScavengeItem(ConsumableType.CHARM, 1, "consecrating charm", RewardTier.UNCOMMON);
-		new ConsumableScavengeItem(ConsumableType.CHARM, 2, "consecrating charm", RewardTier.RARE);
-		new ConsumableScavengeItem(ConsumableType.CHARM, 4, "consecrating charm", RewardTier.LEGENDARY);
+		new ConsumableScavengeItem(ConsumableType.CHARM, 1, "Consecrating charm", RewardTier.UNCOMMON);
+		new ConsumableScavengeItem(ConsumableType.CHARM, 2, "Consecrating charm", RewardTier.RARE);
+		new ConsumableScavengeItem(ConsumableType.CHARM, 4, "Consecrating charm", RewardTier.LEGENDARY);
 		
-		new ConsumableScavengeItem(ConsumableType.WRENCH, 1, "wrench", RewardTier.COMMON);
-		new ConsumableScavengeItem(ConsumableType.WRENCH, 2, "wrenches", RewardTier.UNCOMMON);
-		new ConsumableScavengeItem(ConsumableType.WRENCH, 3, "wrenches", RewardTier.RARE);
+		new ConsumableScavengeItem(ConsumableType.WRENCH, 1, "Wrench", RewardTier.COMMON);
+		new ConsumableScavengeItem(ConsumableType.WRENCH, 2, "Wrenches", RewardTier.UNCOMMON);
+		new ConsumableScavengeItem(ConsumableType.WRENCH, 3, "Wrenches", RewardTier.RARE);
 		
-		new ConsumableScavengeItem(ConsumableType.WIZARD_MORTAR, 32, "wizard mortar", RewardTier.UNCOMMON);
+		new ConsumableScavengeItem(ConsumableType.WIZARD_MORTAR, 32, "Wizard Mortar", RewardTier.UNCOMMON);
 		
-		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 2, "procs in bottles", RewardTier.COMMON);
-		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 3, "procs in bottles", RewardTier.UNCOMMON);
-		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 5, "procs in bottles", RewardTier.RARE);
+		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 2, "Procs in Bottles", RewardTier.COMMON);
+		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 3, "Procs in Bottles", RewardTier.UNCOMMON);
+		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 5, "Procs in Bottles", RewardTier.RARE);
 		
 		new FixedScavengeItem("clover", "Lucky Clover");
 		new FixedScavengeItem("perfect-torch", "The Perfect Torch");
