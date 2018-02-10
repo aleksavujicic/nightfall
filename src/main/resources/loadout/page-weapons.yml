@@ -470,8 +470,8 @@ nature_suit:
     base: temp
     lore:
       description:
-       - "Grants Water Breathing, Poison and\n
-          Fire Resistance."
+       - "Grants Water Breathing, Poison Resistance,\n
+          Fire Resistance, and Depth Strider."
 
 berserker:
   index: 31
