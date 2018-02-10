@@ -59,3 +59,5 @@ saboteur:
         flavour:
         - "A saboteur's tool,\n
            made to sneak through defenses"
+      modifiers:
+        can-dig: 1

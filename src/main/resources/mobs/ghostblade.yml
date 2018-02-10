@@ -110,3 +110,4 @@ hammer:
        - "Temp"
     modifiers:
       knockback: 10
+      can-dig: 1

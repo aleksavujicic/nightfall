@@ -9,6 +9,8 @@ pick:
         make gold blocks to make armour."
     flavour:
      - "This pickaxe is mighty indeed."
+  modifiers:
+    can-dig: 1
 
 axe:
   base: dwarf-axe
