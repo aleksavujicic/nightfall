@@ -75,6 +75,11 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	}
 	
 	@Override
+	public boolean isAI() {
+		return true;
+	}
+	
+	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		if (!damage.isCancelled()) resetInactivity();
 		damage.setArmourShred(5);
@@ -175,5 +180,10 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	
 	private void resetInactivity() {
 		inactivityCount = MAX_INACTIVITY_COUNT;
+	}
+	
+	@Override
+	public MonsterDamage createDamage(GameEntity attacker, CustomDamageType type, double damage) {
+		return new MonsterDamage(attacker, this, type, damage);
 	}
 }

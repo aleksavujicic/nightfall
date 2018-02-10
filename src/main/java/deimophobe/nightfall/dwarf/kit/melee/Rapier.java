@@ -3,92 +3,70 @@ package deimophobe.nightfall.dwarf.kit.melee;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
+import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.entity.MonsterEntity;
+import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import org.bukkit.Location;
+import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 28/10/17.
  */
 public class Rapier extends AbstractItem implements CooldownPiece {
 	
-	private static final int STACK_CD_TIME = 8*20;
-	private static final int INVINC_TIME = 2*20;
-	private static final int MAX_STACKS = 40;
-	private static final int PARRY_COST = 8;
+	private int stacks = 0;
+	private final static int JUMP_COST = 8;
+	private final static int MAX_JUMPS = 8;
+	private final static int MAX_STACKS = MAX_JUMPS * JUMP_COST;
 	
-	private int inivincCD;
-	private int stackCD;
-	private int stacks;
-	private double theta;
-	private ComplexCooldown leapCD = new ComplexCooldown(1*20, this::leap);
+	private final Set<MonsterEntity<?>> damagedEntities = new HashSet<>();
+	private final ComplexCooldown leapCD = new ComplexCooldown(10, this::leap);
 	
 	public Rapier(Dwarf dwarf) {
 		super(dwarf);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "rapier");
-	@Override public CustomItem getItem() {
-		return ITEM;
-	}
-	
+	@Override public CustomItem getItem() { return ITEM; }
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 	
 	
-	private static final double r1 = 10, g1 = 252, b1 = 234;
-	private static final double r2 = 10, g2 = 47, b2 = 254;
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
-		if (stackCD > 0)
-			stackCD--;
-		if (inivincCD > 0)
-			inivincCD--;
 		leapCD.update();
 		
-		if (stackCD == 0 && quartSec) {
-			if (stacks > 0)
-				stacks--;
-		}
-		
-		theta = (theta + 0.05) % (2 * Math.PI);
-		
-		Location playerLoc = dwarf.getPlayer().getEyeLocation();
-		
-		int particles = stacks/4;
-		int MAX_PARTICLES = MAX_STACKS/4;
-		
-		for (int i = 0; i < particles; i++) {
-			double frac = (double) i / MAX_PARTICLES;
-			double red = (r1 + frac * (r2 - r1));
-			double green = (g1 + frac * (g2 - g1));
-			double blue = (b1 + frac * (b2 - b1));
-			double myTheta = theta - frac * 2 * Math.PI;
-			
-			if (particles == MAX_PARTICLES) {
-				red = 15;
-				green = 20;
-				blue = 256;
+		if (!leapCD.isAvailable()) {
+			dwarf.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, dwarf.getLocation(), 1, 0, 0, 0, 0);
+			dwarf.getWorld().spawnParticle(Particle.FLAME, dwarf.getLocation(), 2, 0.05, 0.05, 0.05, 0.05);
+			for (MonsterEntity<?> monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
+				if (damagedEntities.contains(monster)) continue;
+				
+				if (monster.getEyeLocation().distance(dwarf.getLocation()) <= 2) {
+					double damageAmt = 20 + dwarf.getBonusMeleeDamage();
+					if (monster.isAI()) damageAmt *= 2;
+					MonsterDamage damage = monster.createDamage(dwarf, CustomDamageType.TEMPORARY, damageAmt);
+					damage.setProc(dwarf.hasProc());
+					damage.fire(true);
+					
+					damagedEntities.add(monster);
+				}
 			}
-			red *= 1d/256;
-			green *= 1d/256;
-			blue *= 1d/256;
-			
-			double r = 0.75*Math.pow(Math.sin(myTheta + theta),2);
-			Location particleLoc = playerLoc.clone().add(r*Math.cos(myTheta), 0.5, r*Math.sin(myTheta));
-			particleLoc.getWorld().spawnParticle(Particle.REDSTONE, particleLoc, 0, red, green, blue, 1);
 		}
 	}
 	
@@ -97,44 +75,49 @@ public class Rapier extends AbstractItem implements CooldownPiece {
 		super.onDamageAttack(damage);
 		if (damageFromItem(damage)) {
 			MonsterEntity monster = damage.getMonster();
-			if (monster instanceof MonsterPlayer) {
-				if (!((MonsterPlayer) monster).hasSpawnProtection() && stacks < MAX_STACKS)
-					stacks++;
-				
-				stackCD = STACK_CD_TIME;
+			boolean canHit = (monster instanceof AIEntity<?> || !((MonsterPlayer) monster).hasSpawnProtection());
+			if (canHit && stacks < MAX_STACKS) {
+				stacks++;
 			}
-			
-			damage.getDamage().addBoost(stacks);
 		}
-	}
-	
-	@Override
-	public void onDamageReceive(DwarfDamage damage) {
-		super.onDamageReceive(damage);
-		if (inivincCD > 0)
-			damage.cancel();
 	}
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		super.onUse(action, clickedBlock, blockFace);
-		if (Misc.isRightClick(action) && isHoldingItem()) {
-			if (stacks >= PARRY_COST && leapCD.tryUse()) {
-				stacks -= PARRY_COST;
-				return true;
-			}
+		if (Misc.isRightClick(action) && isHoldingItem() && canJump()) {
+			leapCD.tryUse();
 		}
 		return false;
 	}
 	
 	private void leap() {
-		dwarf.leap(1.5,0.5);
+		stacks -= JUMP_COST;
+		damagedEntities.clear();
+		
+		dwarf.leap(1, 0.3);
 		dwarf.playSound("entity.zombie.attack_iron_door", 1f, 1.5f, true);
-		inivincCD = INVINC_TIME;
+		
+		dwarf.getWorld().spawnParticle(Particle.CLOUD, dwarf.getLocation(), 10, 0.5, 0.3, 0.5, 0.02);
+		
+		Player player = dwarf.getPlayer();
+		float fall = player.getFallDistance();
+		player.setFallDistance(fall/2);
+	}
+	
+	@Override
+	public void onShift(boolean sneaking) {
+		super.onShift(sneaking);
+		stacks++;
+	}
+	
+	private boolean canJump() {
+		return stacks >= JUMP_COST;
 	}
 	
 	@Override
 	public float getCooldown() {
-		return (float) stacks/MAX_STACKS;
+		int numJumps = stacks/JUMP_COST;
+		return (float) numJumps/MAX_JUMPS;
 	}
 }

@@ -2,6 +2,7 @@ package deimophobe.nightfall.entity;
 
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.CustomDamageType;
 import org.bukkit.entity.LivingEntity;
 
 /**
@@ -10,4 +11,9 @@ import org.bukkit.entity.LivingEntity;
 public interface MonsterEntity<E extends LivingEntity> extends GameEntity<E> {
 	void onDamageAttack(DwarfDamage damage);
 	void onDamageReceive(MonsterDamage damage);
+	
+	boolean isAI();
+	
+	@Override
+	MonsterDamage createDamage(GameEntity attacker, CustomDamageType type, double damage);
 }

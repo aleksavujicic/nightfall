@@ -194,7 +194,10 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	public void updateCooldownBar() {
-		player.setExp(Math.max(0, kit.fractionComplete()));
+		float frac = kit.fractionComplete();
+		frac = Math.max(0, frac);
+		frac = Math.min(frac, 1);
+		player.setExp(frac);
 	}
 	
 	

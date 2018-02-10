@@ -101,7 +101,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		}
 	}
 	
-	
+	@Override
+	public boolean isAI() {
+		return false;
+	}
 	
 	// ------ SPAWN AND DEATH ------
 	public boolean isAlive() {
