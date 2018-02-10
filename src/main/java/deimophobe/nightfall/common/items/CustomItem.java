@@ -2,6 +2,7 @@ package deimophobe.nightfall.common.items;
 
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.NightfallCommonPlugin;
+import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.items.base.BaseItem;
 import deimophobe.nightfall.common.items.base.BaseItemManager;
 import deimophobe.nightfall.common.items.base.SimpleBaseItem;
@@ -50,7 +51,7 @@ public class CustomItem implements Cloneable {
 		for (ItemModifierType type : modifiers.keySet()) {
 			//modifiers.put(type, new HashSet<>(modifiers.get(type)));
 			for (ItemModifier modifier : modifiers.get(type)) {
-				addModifier(type, modifier.getValue(), modifier.getReason());
+				forceAddModifier(type, modifier.getValue(), modifier.getReason());
 			}
 		}
 	}
@@ -79,6 +80,10 @@ public class CustomItem implements Cloneable {
 	}
 	
 	public void addModifier(ItemModifierType type, int value, String reason) {
+		forceAddModifier(type, value, reason);
+	}
+	
+	private void forceAddModifier(ItemModifierType type, int value, String reason) {
 		if (value == 0) return;
 		
 		modifiers.putIfAbsent(type, new HashSet<>());
@@ -230,7 +235,7 @@ public class CustomItem implements Cloneable {
 					int value = modifierSection.getInt(modifier);
 					
 					item.addModifier(type, value);
-				} catch (IllegalArgumentException e) {
+				} catch (UnknownEnumElementException e) {
 					e.printStackTrace();
 					errors.add("Invalid modifier: " + modifier);
 				}

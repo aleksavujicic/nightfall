@@ -1,5 +1,7 @@
 package deimophobe.nightfall.common.items.modifiers;
 
+import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.UnknownEnumElementException;
 import minecraft.spigot.community.michel_0.api.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -17,6 +19,8 @@ public enum ItemModifierType {
 	PUNCH(new EnchantApplier(Enchantment.ARROW_KNOCKBACK), "Punch", false, false),
 	KNOCKBACK(new EnchantApplier(Enchantment.KNOCKBACK), "Knockback", false, false),
 	BURNING(new EnchantApplier(Enchantment.FIRE_ASPECT), "Flame", false, false),
+	
+	CAN_DIG(new DudApplier(), "Can Mine", false, true),
 	EFFICIENCY(new EnchantApplier(Enchantment.DIG_SPEED), "Efficiency", false, false),
 	
 	// Health/Res
@@ -86,7 +90,7 @@ public enum ItemModifierType {
 		return builder.toString();
 	}
 	
-	public static ItemModifierType getByString(String modifier) {
-		return valueOf(modifier.toUpperCase().replace('-', '_'));
+	public static ItemModifierType getByString(String modifier) throws UnknownEnumElementException {
+		return Misc.getEnumMemberFromString(modifier, values(), "ItemModifierType");
 	}
 }
