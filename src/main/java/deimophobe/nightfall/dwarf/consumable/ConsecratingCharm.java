@@ -46,7 +46,7 @@ class ConsecratingCharm extends Consumable {
 		Location center = dwarf.getEyeLocation();
 		for (MonsterPlayer mp : MonsterManager.getManager().getGamePlayers()) {
 			if (mp.isAlive() && center.distance(mp.getLocation()) <= RANGE) {
-				mp.freeze(mp.getMob().getSOSTime());
+				mp.freeze(mp.getMob().getCharmTime());
 			}
 			
 			Location rebirth = mp.getRebirthLocation();

@@ -42,7 +42,7 @@ public class MobData {
 	final double arrowRes;
 	final int armourShred;
 	final int torchXP;
-	final int sosTime;
+	final int charmTime;
 	final double shrineWeight;
 	final boolean shrineImmune;
 	final boolean canRun;
@@ -70,7 +70,7 @@ public class MobData {
 		damageRes = 0.6;
 		arrowRes = 0;
 		torchXP = 50;
-		sosTime = 160;
+		charmTime = 160;
 		shrineWeight = 1;
 		shrineImmune = false;
 		immuneTime = 8;
@@ -119,7 +119,7 @@ public class MobData {
 		damageRes = section.getDouble("resistance", parent.damageRes);
 		arrowRes = section.getDouble("arrowres", parent.arrowRes);
 		torchXP = section.getInt("torchxp", parent.torchXP);
-		sosTime = section.getInt("sostime", parent.sosTime);
+		charmTime = section.getInt("charmtime", parent.charmTime);
 		shrineWeight = section.getDouble("shrineweight", parent.shrineWeight);
 		shrineImmune = section.getBoolean("shrineimmune", parent.shrineImmune);
 		immuneTime = section.getInt("immunetime", parent.immuneTime);

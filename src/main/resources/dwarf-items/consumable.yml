@@ -18,7 +18,7 @@ slab:
 
 charm:
   base: charm
-  name: Sword of Santification
+  name: Consecrating Charm
   lore:
     description:
      - "Left click to call upon the mighty swords\n
