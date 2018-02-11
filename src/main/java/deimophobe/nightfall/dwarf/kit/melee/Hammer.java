@@ -55,7 +55,7 @@ public class Hammer extends AbstractAOEHitter implements CooldownPiece {
 	}
 	
 	
-	private static final double ROAR_RADIUS = 20;
+	private static final double ROAR_RADIUS = 30;
 	private void roar() {
 		for (AIEntity ai : AIManager.getManager().getAIs()) {
 			if (dwarf.distanceTo(ai) <= ROAR_RADIUS) {
