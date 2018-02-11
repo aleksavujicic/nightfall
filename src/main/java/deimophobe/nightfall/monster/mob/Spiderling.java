@@ -4,6 +4,7 @@ import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Update;
+import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
@@ -24,7 +25,7 @@ import org.bukkit.util.Vector;
 class Spiderling extends AbstractMob {
 	
 	private static final double CORRODE_DISTANCE = 15;
-	@Update private ComplexCooldown spitter = new ComplexCooldown(8, this::spit);
+	@Update private final ComplexCooldown spitter = new ComplexCooldown(8, this::spit);
 	
 	Spiderling(MonsterPlayer monster) {
 		super(monster, MobType.SPIDERLING);
@@ -63,5 +64,51 @@ class Spiderling extends AbstractMob {
 	public void onProjectileLand(Projectile proj, Block hitBlock, Entity hitEntity) {
 		if (proj.getLocation().distance(monster.getLocation()) <= CORRODE_DISTANCE)
 			BlockConverter.convert(BlockConverter.Type.CORROSION, proj.getLocation(), 2);
+	}
+	
+	
+	@Update private final Updateable climbing = () -> {
+		if (monster.getPlayer().isSneaking() && nextToWall()) {
+			monster.givePermanentPotionEffect(PotionEffectType.LEVITATION, 3);
+		} else {
+			if (!monster.isFrozen()) monster.removePotionEffect(PotionEffectType.LEVITATION);
+		}
+	};
+	
+	private static final Vector[] OFFSET_CHECKS = new Vector[] {
+			new Vector(0.8,0,0),
+			new Vector(-0.8,0,0),
+			new Vector(0,0,0.8),
+			new Vector(0,0,-0.8),
+			new Vector(0.6,0,0.6),
+			new Vector(-0.6,0,0.6),
+			new Vector(0.6,0,-0.6),
+			new Vector(-0.6,0,-0.6),
+			new Vector(0.8,1,0),
+			new Vector(-0.8,1,0),
+			new Vector(0,1,0.8),
+			new Vector(0,1,-0.8),
+			new Vector(0.6,1,0.6),
+			new Vector(-0.6,1,0.6),
+			new Vector(0.6,1,-0.6),
+			new Vector(-0.6,1,-0.6),
+			new Vector(0,2,0),
+			new Vector(0.8,2,0),
+			new Vector(-0.8,2,0),
+			new Vector(0,2,0.8),
+			new Vector(0,2,-0.8),
+			new Vector(0.6,2,0.6),
+			new Vector(-0.6,2,0.6),
+			new Vector(0.6,2,-0.6),
+			new Vector(-0.6,2,-0.6),
+	};
+	
+	private boolean nextToWall() {
+		Location location = monster.getLocation();
+		for (Vector offset : OFFSET_CHECKS) {
+			if (location.clone().add(offset).getBlock().getType().isSolid())
+				return true;
+		}
+		return false;
 	}
 }
