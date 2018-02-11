@@ -150,7 +150,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	//                   DEATH MESSAGER
 	// --------------------------------------------------------
 	
-	private static final int DEATH_MSG_UPDATE_FREQ = 5;
+	private static final int DEATH_MSG_UPDATE_FREQ = 15;
 	private final Queue<String> deathMessages = new LinkedList<>();
 	private final BukkitRunnable messager = new BukkitRunnable() {
 		@Override
