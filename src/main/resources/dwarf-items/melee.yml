@@ -1,9 +1,9 @@
 drb:
   base: runesword
-  name: Lesser Runeblade
+  name: Lesser Runesword
   lore:
     description:
-     - "A runeblade that has yet to be enchanted\n
+     - "A runesword that has yet to be enchanted\n
         with &bwind&r magic."
     flavour:
      - "\"Not the best, but eh... It can make do.\" - Arthea"

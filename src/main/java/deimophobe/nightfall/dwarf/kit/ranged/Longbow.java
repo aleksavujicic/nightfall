@@ -1,7 +1,9 @@
 package deimophobe.nightfall.dwarf.kit.ranged;
 
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.entity.MonsterEntity;
@@ -12,6 +14,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 
 /**
@@ -64,6 +67,16 @@ public class Longbow extends AbstractBow implements CooldownPiece {
 				stackCD = Math.min(MAX_STACK_CD, stackCD + 40);
 			}
 			if (stacks > MAX_STACKS) stacks = MAX_STACKS;
+		}
+	}
+
+	@Override
+	public void onDamageReceive(DwarfDamage damage) {
+		super.onDamageReceive(damage);
+		if (!(damage.getAttacker() instanceof AIEntity) && damage.getType() == NaturalDamageType.MELEE) {
+			if (stacks > 0) {
+				stacks--;
+			}
 		}
 	}
 	
