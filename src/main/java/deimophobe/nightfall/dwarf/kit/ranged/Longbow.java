@@ -76,6 +76,7 @@ public class Longbow extends AbstractBow implements CooldownPiece {
 		if (!(damage.getAttacker() instanceof AIEntity) && damage.getType() == NaturalDamageType.MELEE) {
 			if (stacks > 0) {
 				stacks--;
+				stackCD = MAX_STACK_CD;
 			}
 		}
 	}
