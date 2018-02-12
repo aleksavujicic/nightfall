@@ -91,13 +91,11 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	protected void setTitle(boolean force, String title) {
-		ChatColor titleColor;
-		if (force)
-			titleColor = ChatColor.RED;
-		else
-			titleColor = ChatColor.DARK_RED;
-		
-		monster.setTitle(titleColor, title, force);
+		if (force) {
+			monster.setTitle(ChatColor.RED, title, true);
+		} else {
+			monster.setTitle(ChatColor.DARK_RED, null, false);
+		}
 	}
 	
 	protected void tpToSpawn() {
@@ -184,7 +182,7 @@ public abstract class AbstractMob implements Mob {
 		
 		MobDisguise disguise = new MobDisguise(type);
 		disguise.getWatcher().setCustomNameVisible(false);
-		disguise.getWatcher().setCustomName(monster.getDisplayName());
+		disguise.getWatcher().setCustomName(ChatColor.DARK_RED + mobData.title + " " + monster.getName());
 		//TODO add more sounds so this isn't weird
 		//disguise.setHearSelfDisguise(false);
 		//disguise.setReplaceSounds(false);
