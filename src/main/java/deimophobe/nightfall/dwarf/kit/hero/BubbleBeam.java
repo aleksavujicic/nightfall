@@ -1,12 +1,11 @@
 package deimophobe.nightfall.dwarf.kit.hero;
 
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.cooldown.Expirable;
 import deimophobe.nightfall.cooldown.MultiEventCooldown;
-import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
@@ -22,6 +21,7 @@ import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.ai.AIEntity;
+import deimophobe.nightfall.util.LifetimeObject;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -30,6 +30,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.material.MaterialData;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.function.Consumer;
@@ -65,14 +66,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		beamer.update();
 		geyserCD.update();
-		
-		if (geyser != null) {
-			geyser.update();
-			if (geyser.hasExpired()) {
-				fallImmunity.reset();
-				geyser = null;
-			}
-		}
+		fallImmunity.update();
 	}
 	
 	@Override
@@ -118,7 +112,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 				double damageAmt = DAMAGE + dwarf.getBonusMeleeDamage() / 2;
 				if (monster.isUnderwater()) damageAmt *= 1.5;
 				
-				MonsterDamage damage = (MonsterDamage) monster.createDamage(dwarf, CustomDamageType.BUBBLE_BEAM, damageAmt);
+				MonsterDamage damage = monster.createDamage(dwarf, CustomDamageType.BUBBLE_BEAM, damageAmt);
 				if (dwarf.hasProc()) damage.setProc(true);
 				damage.setNoDmgTicks(1);
 				damage.fire(true);
@@ -133,7 +127,13 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	
 	
 	private void geyser() {
-		geyser = new Geyser();
+		dwarf.leap(0, 1.5);
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				geyser = new Geyser();
+			}
+		}.runTaskLater(NightfallPlugin.getPlugin(), 10);
 	}
 	
 	@Override
@@ -141,31 +141,22 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		return geyserCD.getCooldown();
 	}
 	
-	private class Geyser implements Updateable, Expirable {
+	private class Geyser extends LifetimeObject {
 		
-		private static final int MAX_LIFETIME = 10*20;
-		private int lifetime = MAX_LIFETIME;
-		
-		private Location floatLoc;
-		private Location midLoc;
+		private final Location floatLoc;
+		private final Location midLoc;
 		private static final double halfHeight = 6;
 		
 		private Geyser() {
-			dwarf.leap(0, 1.5);
-		}
-		
-		private void setFloatLoc() {
+			super(10*20, 1);
+			
 			floatLoc = dwarf.guessClientSideLocation();
 			midLoc = floatLoc.clone().subtract(0, halfHeight, 0);
 		}
 		
 		@Override
-		public void update() {
-			lifetime--;
-			
-			if (lifetime == MAX_LIFETIME - 10) setFloatLoc();
-			if (lifetime >= MAX_LIFETIME - 10) return;
-			
+		public void run() {
+			super.run();
 			
 			World world = floatLoc.getWorld();
 			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 3, 1.5, 0.3, 1.5, 0, new MaterialData(Material.LAPIS_BLOCK));
@@ -179,20 +170,22 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 			world.spawnParticle(Particle.BLOCK_CRACK, midLoc, 20, 0.2, halfHeight/2, 0.2, 0, new MaterialData(Material.CONCRETE_POWDER, (byte) 3));
 			
 			float pitch = (float) Misc.randomDouble(0.5,2);
-			if (lifetime % 2 == 0) {
+			if (getLifeLeft() % 2 == 0) {
 				world.playSound(midLoc, "item.bucket.fill", 1f, pitch);
 			} else {
 				world.playSound(midLoc, "entity.generic.swim", 1f, pitch);
 			}
-			if (lifetime % 5 == 0) world.playSound(midLoc, "entity.generic.splash", 1f, pitch);
+			if (getLifeLeft() % 5 == 0) world.playSound(midLoc, "entity.generic.splash", 1f, pitch);
 			
-			if (lifetime % 4 == 0) {
+			if (getLifeLeft() % 4 == 0) {
 				for (MonsterEntity<?> monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
 					if (monster.distanceTo(midLoc) >= 15) continue;
 
 					if (monster.distanceTo(midLoc) <= 4) {
 						boolean isAI = (monster instanceof AIEntity<?>);
-						monster.doDamage(dwarf, CustomDamageType.GEYSER, 10, true, isAI);
+						
+						if (dwarf.isOnline())
+							monster.doDamage(dwarf, CustomDamageType.GEYSER, 10, true, isAI);
 					}
 
 					Vector offset = monster.offsetFrom(midLoc);
@@ -204,6 +197,13 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 				DwarfManager.getManager().getDwarves().forEach(this::tryLeap);
 				//MonsterManager.getManager().getAliveMobsAndAIs().forEach(this::tryLeap);
 			}
+		}
+		
+		@Override
+		public synchronized void cancel() throws IllegalStateException {
+			super.cancel();
+			BubbleBeam.this.geyser = null;
+			fallImmunity.reset();
 		}
 		
 		private void tryLeap(GameEntity<?> entity) {
@@ -227,11 +227,6 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 			double z = location.getZ();
 			
 			return (-halfHeight <= y && y <= halfHeight && (x*x + z*z <= 9));
-		}
-		
-		@Override
-		public boolean hasExpired() {
-			return lifetime <= 0;
 		}
 	}
 }
