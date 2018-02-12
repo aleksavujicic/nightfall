@@ -256,11 +256,10 @@ public class CustomItem implements Cloneable {
 				return BaseItemManager.getManager().getTempItem();
 			}
 			
-			try {
-				return BaseItemManager.getManager().getItem(name);
-			} catch (IllegalArgumentException e) {
-				throw new InvalidConfigurationException("Unknown base item '" + name + "' for item: " + itemConfig.getCurrentPath());
-			}
+			BaseItem item = BaseItemManager.getManager().getItem(name);
+			if (item == null) throw new InvalidConfigurationException("Unknown base item '" + name + "' for item: " + itemConfig.getCurrentPath());
+			return item;
+			
 		} else if (itemConfig.contains("material")) {
 			String name = itemConfig.getString("material");
 			

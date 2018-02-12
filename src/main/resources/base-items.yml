@@ -20,7 +20,7 @@ shadow-blade: "#dagger"
 crossbow: "shears:25"
 shortbow: "bow:0"
 longbow: "bow:1"
-ebow: "bow:3"
+jade-bow: "bow:3"
 phoenix-bow: "bow:4"
 lightbow: "bow:5"
 warpweaver: "bow:6"
@@ -91,7 +91,7 @@ horn: "shears:44"
 # Arthea
 arthea-weapon: "shears:49"
 arthea-heal: "shears:51"
-luminous: "#ebow"
+luminous: "#jade-bow"
 elystria: "shears:48"
 
 # Herana

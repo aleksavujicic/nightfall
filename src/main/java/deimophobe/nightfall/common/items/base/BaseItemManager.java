@@ -28,11 +28,7 @@ public class BaseItemManager {
 	private final Map<String, BaseItem> baseItems = new HashMap<>();
 	public BaseItem getItem(String name) {
 		name = name.toLowerCase();
-		
-		BaseItem item = baseItems.get(name);
-		if (item == null) throw new IllegalArgumentException("No base item named: " + name);
-		
-		return item;
+		return baseItems.get(name);
 	}
 	
 	public BaseItem getErrorItem() {

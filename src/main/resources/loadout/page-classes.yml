@@ -211,7 +211,7 @@ healer-class:
   type: multi
   pieces:
     - scepter
-    - ebow
+    - jade_bow
     - regrowth_star
     - nature_suit
     - slowfall
@@ -231,7 +231,7 @@ healer-class:
 
       contains:
        - "*Healing Scepter\n
-          *Emerald Bow\n
+          *Jade Bow\n
           *Regrowth Star\n
           *Nature Suit\n
           *Slowfall\n
@@ -376,7 +376,7 @@ brawler-class:
 #  type: multi
 #  pieces:
 #    - hammer
-#    - ebow
+#    - jade_bow
 #    - regrowth_star
 #    - coil
 #  consumables:
@@ -399,7 +399,7 @@ brawler-class:
 #
 #      contains:
 #       - "*Warhammer\n
-#          *Emerald Bow\n
+#          *Jade Bow\n
 #          *Regrowth Star\n
 #          *Magic Coil\n
 #          *64 Torches\n

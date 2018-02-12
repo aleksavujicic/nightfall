@@ -224,18 +224,18 @@ lightbow:
     modifiers:
       power: 30
 
-ebow:
+jade-bow:
   index: 14
   type: item
-  name: ebow
+  name: jade_bow
   category: bow
   cost: 12
   item:
-    name: "Emerald Bow"
-    base: ebow
+    name: "Jade Bow"
+    base: jade-bow
     lore:
       description:
-       - "A magical bow, made from emerald.\n
+       - "A magical bow, made from jade.\n
           Shooting other dwarves gives them\n
           a short duration proc."
     modifiers:
