@@ -49,7 +49,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	private final MultiEventCooldown beamer = new MultiEventCooldown(10, this::shootBubble);
 	private final ComplexCooldown geyserCD = new ComplexCooldown(120*20, this::geyser);
 	private final ComplexCooldown fallImmunity = new ComplexCooldown(3*20);
-	private Geyser geyser = null;
+	private Whirlpool whirlpool = null;
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero","bubblebeam");
 	private final static double DAMAGE = 10;
@@ -92,7 +92,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
 		if (damage.getType() == NaturalDamageType.FALL) {
-			if (!fallImmunity.isAvailable() || geyser != null)
+			if (!fallImmunity.isAvailable() || whirlpool != null)
 				damage.cancel();
 		}
 	}
@@ -131,7 +131,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				geyser = new Geyser();
+				whirlpool = new Whirlpool();
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), 10);
 	}
@@ -141,13 +141,13 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		return geyserCD.getCooldown();
 	}
 	
-	private class Geyser extends LifetimeObject {
+	private class Whirlpool extends LifetimeObject {
 		
 		private final Location floatLoc;
 		private final Location midLoc;
 		private static final double halfHeight = 6;
 		
-		private Geyser() {
+		private Whirlpool() {
 			super(10*20, 1);
 			
 			floatLoc = dwarf.guessClientSideLocation();
@@ -202,7 +202,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		@Override
 		public synchronized void cancel() throws IllegalStateException {
 			super.cancel();
-			BubbleBeam.this.geyser = null;
+			BubbleBeam.this.whirlpool = null;
 			fallImmunity.reset();
 		}
 		
