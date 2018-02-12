@@ -36,7 +36,7 @@ public class MonsterDamage extends GameDamage<GameEntity, MonsterEntity> {
 	
 	public boolean isArrow() {
 		return type == NaturalDamageType.RANGED
-				|| type == CustomDamageType.EBOW
+				|| type == CustomDamageType.JADE_BOW
 				|| type == CustomDamageType.VOLCANIC_BOW
 				|| type == CustomDamageType.LUMINOUS;
 	}

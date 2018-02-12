@@ -58,9 +58,9 @@ lightbow:
     flavour:
      - "\"Hey can I get some light? Thanks.\" - Tui"
 
-ebow:
-  base: ebow
-  name: Emerald Bow
+jadebow:
+  base: jade-bow
+  name: Jade Bow
   lore:
     description:
      - "A magical bow, made from emerald.\n
@@ -68,7 +68,7 @@ ebow:
         a short duration proc."
     flavour:
      - "I'm sure glad we found use\n
-        for the rest of that Emerald City."
+        for the rest of that Jade City."
 
 warpweaver:
   base: warpweaver

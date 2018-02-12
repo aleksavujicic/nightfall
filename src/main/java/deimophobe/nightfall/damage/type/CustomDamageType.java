@@ -9,7 +9,7 @@ public enum CustomDamageType implements GameDamageType {
 	SHRINE_PROTECTION,
 	SELF_GOBO_KABOOM,
 	
-	EBOW,
+	JADE_BOW,
 	VOLCANIC_BOW,
 	LUMINOUS,
 	EVISCERATE,

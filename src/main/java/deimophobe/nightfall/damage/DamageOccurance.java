@@ -67,7 +67,7 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 				case HAMMER_AOE:
 					killMsg = "slain";
 					break;
-				case EBOW:
+				case JADE_BOW:
 				case LUMINOUS:
 				case SCEPTER_OF_MAGMA:
 					killMsg = "pierced";

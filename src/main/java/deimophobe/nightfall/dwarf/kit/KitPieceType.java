@@ -37,7 +37,7 @@ public enum KitPieceType {
 	SHORTBOW(Shortbow::new),
 	LONGBOW(Longbow::new),
 	PHOENIX_BOW(PhoenixBow::new),
-	EBOW(Ebow::new),
+	JADE_BOW(JadeBow::new),
 	LIGHTBOW(Lightbow::new),
 	WARPWEAVER(Warpweaver::new),
 	CROSSBOW(Crossbow::new),

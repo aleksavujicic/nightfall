@@ -16,18 +16,18 @@ import java.util.function.Consumer;
 /**
  * Created by Deimophobe on 20/01/17.
  */
-public class Ebow extends AbstractBow {
-	public Ebow(Dwarf dwarf) {
+public class JadeBow extends AbstractBow {
+	public JadeBow(Dwarf dwarf) {
 		super(dwarf);
 	}
 	
 	private final static int POWER = 10;
-	private final static CustomItem ITEM = getBow("ebow", POWER);
+	private final static CustomItem ITEM = getBow("jadebow", POWER);
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
 	@Override public KitGiveType getGiveType() { return KitGiveType.BOW; }
-	@Override public String getBowIdentifier() {return "EBOW";}
+	@Override public String getBowIdentifier() {return "JADEBOW";}
 	@Override public int getPower() {return POWER;}
 	
 	private static final double MAX_RANGE = 50;
@@ -46,7 +46,7 @@ public class Ebow extends AbstractBow {
 		double range = MAX_RANGE * force * force;
 		
 		GamePlayer.ProcGiver procGiver = dwarf.new ProcGiver(ProcType.EBOW, MIN_DISTANCE_FROM_SHOOTER);
-		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(CustomDamageType.EBOW, getPower()*force);
+		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(CustomDamageType.JADE_BOW, getPower()*force);
 		dwarf.fireParticle(2, range, THICKNESS, 0.33, PARTICLE_PLACER, procGiver, entityDamager);
 		
 		return null;
