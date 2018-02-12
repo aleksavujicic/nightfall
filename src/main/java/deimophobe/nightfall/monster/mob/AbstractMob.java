@@ -264,6 +264,11 @@ public abstract class AbstractMob implements Mob {
 		return items.put("weapon", mobData.getAsWeapon(newWepName));
 	}
 	
+	protected void makeItemMutable(String itemName) {
+		CustomItem item = getItem(itemName);
+		items.put(itemName, item.clone());
+	}
+	
 	
 	protected CustomItem getItem(String name) {
 		return items.get(name);

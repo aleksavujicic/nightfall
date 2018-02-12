@@ -1,0 +1,66 @@
+package deimophobe.nightfall.monster.mob;
+
+import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Update;
+import deimophobe.nightfall.monster.MonsterPlayer;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
+
+/**
+ * Created by Deimophobe on 12/02/18.
+ */
+abstract class AbstractToggleSkeleton extends Skeleton {
+	public AbstractToggleSkeleton(MonsterPlayer mons) { super(mons); }
+	public AbstractToggleSkeleton(MonsterPlayer mons, MobData skeletonData) { super(mons, skeletonData); }
+	
+	private boolean toggled = false;
+	@Update private final ComplexCooldown toggler = new ComplexCooldown(4, this::toggleBow);
+	
+	@Override
+	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(action, clickedBlock, blockFace);
+		if (isPlayerHoldingWeapon() && Misc.isLeftClick(action)) {
+			toggler.tryUse();
+		}
+	}
+	
+	protected void toggleBow() {
+		if (canToggle()) {
+			toggled = !toggled;
+			setShiny(toggled);
+		}
+	}
+	
+	protected void forceBowToggle(boolean toggle) {
+		toggled = toggle;
+		setShiny(toggled);
+	}
+	
+	private void setShiny(boolean shiny) {
+		for (ItemStack item : monster.getPlayer().getInventory().getStorageContents()) {
+			trySetShiny(item, shiny);
+		}
+		trySetShiny(monster.getPlayer().getItemOnCursor(), shiny);
+		
+		monster.getPlayer().updateInventory();
+	}
+	
+	private void trySetShiny(ItemStack item, boolean shiny) {
+		if (!getWeapon().isSimilar(item)) return;
+		
+		if (shiny)
+			item.addEnchantment(Enchantment.DURABILITY, 1);
+		else
+			item.removeEnchantment(Enchantment.DURABILITY);
+	}
+	
+	protected boolean isToggled() {
+		return toggled;
+	}
+	
+	protected abstract boolean canToggle();
+}

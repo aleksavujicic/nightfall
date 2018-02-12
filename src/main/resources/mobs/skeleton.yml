@@ -76,3 +76,12 @@ impact:
       flavour:
        - "The heavy arrows fired by this bow\n
           can knock away dwarves."
+  items:
+    stick:
+      material: stick
+      name: Punting Stick
+      lore:
+        description:
+         - "Punch those dwarves away."
+        flavour:
+         - "Punching dwarves, punching dwarves."

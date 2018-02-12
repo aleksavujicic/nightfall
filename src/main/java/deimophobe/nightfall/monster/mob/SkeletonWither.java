@@ -3,39 +3,37 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.cooldown.Cooldown;
-import deimophobe.nightfall.cooldown.DudCooldown;
-import deimophobe.nightfall.damage.DamageModifier;
+import deimophobe.nightfall.cooldown.Display;
+import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
-import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.util.ArrowMisc;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.function.Consumer;
-
 /**
  * Created by Deimophobe on 20/01/17.
  */
-class SkeletonWither extends Skeleton {
+class SkeletonWither extends AbstractToggleSkeleton {
 
 	private final int piercing;
 	private final int sniper;
 	private final double siphon;
 	private final boolean withering;
 	private final double realArrowRes;
-	private int sniperCD;
-	private static final int MAX_SNIPER_CD = 160;
+	@Update @Display private final ComplexCooldown sniperCD = new ComplexCooldown(8*20);
 
 	private static final Integer[] ARROW_RES_VALUES = {0, 10, 20, 30, 40, 50};
 
@@ -49,7 +47,6 @@ class SkeletonWither extends Skeleton {
 		int extraHealth = upgrades.get("extrahealth-wither");
 		this.withering = (upgrades.get("withering") > 0);
 		this.realArrowRes = arrowRes * 0.01;
-		this.sniperCD = 0;
 
 		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
 		getArmour().addModifier(ItemModifierType.HEALTH, extraHealth * 3, "Upgrade");
@@ -57,17 +54,21 @@ class SkeletonWither extends Skeleton {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		if (sniperCD > 0){
-			sniperCD--;
-		}
+	public void onSpawn() {
+		super.onSpawn();
+		forceBowToggle(true);
+	}
+	
+	@Override
+	protected boolean canToggle() {
+		return withering;
 	}
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
 		if ((damage.hasArrow() && ArrowMisc.getArrowForce(damage.getArrow()) > 0.7) || (damage.getType() == CustomDamageType.WITHER_SKULL)) {
-			sniperCD = MAX_SNIPER_CD;
+			sniperCD.reset();
 			monster.heal(siphon);
 			
 			if (withering) {
@@ -79,14 +80,14 @@ class SkeletonWither extends Skeleton {
 	@Override
 	public void onProjectileLand(Projectile proj, Block block, Entity hitEntity) {
 		super.onProjectileLand(proj, block, hitEntity);
-		if (withering) {
+		if (proj.getType() == EntityType.WITHER_SKULL) {
 			skullExplosion(proj.getLocation());
 		}
 	}
 
 	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {
-		if (withering && monster.hasItem(Material.ARROW, 2)) {
+		if (isToggled() && monster.hasItem(Material.ARROW, 2)) {
 			if (force < 0.5) return null;
 			
 			monster.useItem(Material.ARROW, 2);
@@ -140,6 +141,11 @@ class SkeletonWither extends Skeleton {
 			aoeDamage.fire(true);
 		}
 	}
+	
+	private boolean sniperActive() {
+		if (sniperCD == null) return false; // Needed because Skeleton.<init> calls getPower()
+		return !sniperCD.isAvailable();
+	}
 
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
@@ -149,7 +155,7 @@ class SkeletonWither extends Skeleton {
 
 	@Override
 	protected int getPower() {
-		if (sniperCD > 0) {
+		if (sniperActive()) {
 			return super.getPower() * (10 + sniper) / 10;
 		}
 		else {
@@ -159,16 +165,11 @@ class SkeletonWither extends Skeleton {
 
 	@Override
 	protected int getArmourShred() {
-		if (sniperCD > 0) {
+		if (sniperActive()) {
 			return (super.getArmourShred() + piercing * 5) * (10 + sniper) / 10;
 		}
 		else {
 			return (super.getArmourShred() + piercing * 5);
 		}
-	}
-
-	@Override
-	public float getCooldown() {
-		return (float) sniperCD/MAX_SNIPER_CD;
 	}
 }
