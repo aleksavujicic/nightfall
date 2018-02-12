@@ -7,14 +7,14 @@ import org.bukkit.potion.PotionEffectType;
 /**
  * Created by Deimophobe on 22/01/17.
  */
-public class Trinket extends AbstractAle {
+public class RubyPendant extends AbstractAle {
 	private final static int MANA_COST = 200;
 	
-	public Trinket(Dwarf dwarf) {
+	public RubyPendant(Dwarf dwarf) {
 		super(dwarf, MANA_COST);
 	}
 	
-	private final static CustomItem ITEM = getAle("trinket", MANA_COST);
+	private final static CustomItem ITEM = getAle("pendant", MANA_COST);
 	@Override public CustomItem getItem() { return ITEM; }
 	
 	@Override

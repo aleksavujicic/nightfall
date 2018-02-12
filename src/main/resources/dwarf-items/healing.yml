@@ -30,9 +30,9 @@ hearty:
      - "\"This is the good stuff, better than\n
           the regular ales!\" - Tui"
 
-trinket:
-  base: trinket
-  name: Star Trinket
+pendant:
+  base: pendant
+  name: Ruby Pendant
   lore:
     description:
      - "Left click to heal yourself\n

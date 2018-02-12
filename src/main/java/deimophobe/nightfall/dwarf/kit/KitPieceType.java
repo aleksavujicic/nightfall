@@ -48,7 +48,7 @@ public enum KitPieceType {
 	HEALING_ALE(HealingAle::new),
 	HEARTY_ALE(HeartyAle::new),
 	SAFETY_JUICE(SafetyJuice::new),
-	TRINKET(Trinket::new),
+	PENDANT(RubyPendant::new),
 	REGROWTH_STAR(Regrowth::new),
 	CHUGGING_ALE(ChuggingAle::new),
 	STRONG_ALE(StrongAle::new),
