@@ -16,7 +16,7 @@ public enum ItemModifierType {
 	
 	POWER(new DudApplier(), "Power", false, false),
 
-	PUNCH(new EnchantApplier(Enchantment.ARROW_KNOCKBACK), "Punch", false, false),
+	FAKE_PUNCH(new DudApplier(), "Punch", false, false),
 	KNOCKBACK(new EnchantApplier(Enchantment.KNOCKBACK), "Knockback", false, false),
 	BURNING(new EnchantApplier(Enchantment.FIRE_ASPECT), "Flame", false, false),
 	
