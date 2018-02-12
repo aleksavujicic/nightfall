@@ -63,7 +63,7 @@ chug:
         Uses &b$manacost&r mana. You are able to spam\n
         this as much as you want\n
         so be careful and watch your mana!\n
-        You also gain &espeed%r for &b1&r second\n
+        You also gain &espeed&r for &b1&r second\n
         each sip."
     flavour:
      - "\"One of Potion Seller's experimental potions. Use with care.\" "
