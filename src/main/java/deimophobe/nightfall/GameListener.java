@@ -657,6 +657,11 @@ public class GameListener implements Listener {
 	}
 	
 	@EventHandler
+	public void preventTaming(EntityTameEvent event) {
+		event.setCancelled(true);
+	}
+	
+	@EventHandler
 	public void onServerMOTD(ServerListPingEvent event) {
 		StringBuilder sb = new StringBuilder();
 		//sb.append(Misc.getNightfallText());
