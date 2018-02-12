@@ -224,7 +224,7 @@ healer-class:
   item:
     template: "loadout-class"
     name: "Healer Kit"
-    base: scepter
+    base: regrowth
     lore:
       description:
        - "Go heal ppl."
@@ -239,6 +239,49 @@ healer-class:
           *1 Consecrating Charm\n
           *64 Torches\n
           *64 Mortar\n
+          *192 Cobblestone"
+
+mystic-class:
+  index: 6
+  cost: 64
+  category: kit
+  type: multi
+  pieces:
+    - scepter
+    - warpweaver
+    - strong_ale
+    - nature_suit
+    - fairy_band
+    - slowfall
+    - darkvision
+    - resurrection
+  consumables:
+    charm: 2
+    proc-bottle: 4
+    lamp: 32
+    wizard-mortar: 32
+    cobblestone: 192
+  item:
+    template: "loadout-class"
+    name: "Mystic Kit"
+    base: scepter
+    lore:
+      description:
+       - "Mystic stuff."
+
+      contains:
+       - "*Arcane Scepter\n
+          *Warpweaver Bow\n
+          *Strong Ale\n
+          *Fairy Band\n
+          *Nature Suit\n
+          *Slowfall\n
+          *Dark Vision\n
+          *Resurrection\n
+          *2 Consecrating Charms\n
+          *4 Procs in Bottles\n
+          *32 Enchanted Lamps\n
+          *32 Wizard Mortar\n
           *192 Cobblestone"
 
 brawler-class:
