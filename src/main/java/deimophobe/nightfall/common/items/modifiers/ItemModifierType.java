@@ -40,7 +40,7 @@ public enum ItemModifierType {
 	ARMOUR_DURABILITY(new DudApplier(), "Durability", true, false),
 	QUIVER(new DudApplier(), "Quiver Size", false, false),
 	FALL_DAMAGE(new DudApplier(), "Fall Damage", true, false),
-	MAGIC_COIL(new DudApplier(), "Magic Coil", false, true),
+	FAIRY_BAND(new DudApplier(), "Fairy Band", false, true),
 	NATURE_SUIT(new DudApplier(), "Nature Suit", false, true),
 	
 	// Other bonuses

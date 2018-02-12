@@ -378,7 +378,7 @@ brawler-class:
 #    - hammer
 #    - jade_bow
 #    - regrowth_star
-#    - coil
+#    - fairy_band
 #  consumables:
 #    torch: 64
 #    mortar: 64
@@ -401,7 +401,7 @@ brawler-class:
 #       - "*Warhammer\n
 #          *Jade Bow\n
 #          *Regrowth Star\n
-#          *Magic Coil\n
+#          *Fairy Band\n
 #          *64 Torches\n
 #          *64 Mortar\n
 #          *256 Cobblestone\n

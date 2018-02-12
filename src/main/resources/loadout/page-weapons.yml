@@ -439,15 +439,15 @@ studded:
     modifiers:
       speed: 20
 
-coil:
+fairy-band:
   index: 30
   type: item
-  name: coil
+  name: fairy_band
   category: armour
   cost: 8
   item:
-    name: "Magic Coil"
-    base: coil
+    name: "Fairy Band"
+    base: fairy-band
     lore:
       description:
        - "Grants a buff cycle of the following.\n
