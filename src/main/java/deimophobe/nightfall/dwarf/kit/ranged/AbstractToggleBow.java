@@ -6,10 +6,8 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 /**
@@ -61,15 +59,7 @@ public abstract class AbstractToggleBow extends AbstractBow {
 		if (setActive == active) return;
 		
 		// Replace all instances in inv with shiny bow
-		for (ItemStack item : dwarf.getPlayer().getInventory().getStorageContents()) {
-			if (!matchesItem(item)) continue;
-			
-			if (setActive)
-				item.addEnchantment(Enchantment.DURABILITY, 1);
-			else
-				item.removeEnchantment(Enchantment.DURABILITY);
-		}
-		dwarf.getPlayer().updateInventory();
+		setShiny(setActive);
 		active = setActive;
 	}
 	

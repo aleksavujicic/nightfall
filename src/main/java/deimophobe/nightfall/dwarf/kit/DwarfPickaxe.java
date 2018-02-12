@@ -36,7 +36,7 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 	private static final int MAX_HASTE_CD = 15;
 	private int cooldown = 0;
 	
-	private final ComplexCooldown armourCD = new ComplexCooldown(45*20);
+	private final ComplexCooldown armourCD = new ComplexCooldown(45*20, null, () -> setShiny(true));
 	
 	@Override
 	public float getCooldown() {
@@ -56,6 +56,7 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 					repairee.getArmour().repair(400);
 					GameEffect.DWARF_ARMOUR_CLOUD.playEffect(repairee);
 					resetCD();
+					setShiny(false);
 					return true;
 				}
 			}
@@ -142,7 +143,7 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
+	public void update(boolean a, boolean b, boolean c, boolean d, boolean quadSec) {
 		armourCD.update();
 		if (cooldown > 0)
 			cooldown--;

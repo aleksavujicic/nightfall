@@ -5,6 +5,7 @@ import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
@@ -30,6 +31,24 @@ public abstract class AbstractItem extends AbstractPiece implements ItemPiece {
 	
 	protected boolean damageFromItem(MonsterDamage damage) {
 		return (damage.getType() == NaturalDamageType.MELEE && isHoldingItem());
+	}
+	
+	protected final void setShiny(boolean shiny) {
+		for (ItemStack item : dwarf.getPlayer().getInventory().getStorageContents()) {
+			trySetShiny(item, shiny);
+		}
+		trySetShiny(dwarf.getPlayer().getItemOnCursor(), shiny);
+		
+		dwarf.getPlayer().updateInventory();
+	}
+	
+	private void trySetShiny(ItemStack item, boolean shiny) {
+		if (!matchesItem(item)) return;
+		
+		if (shiny)
+			item.addEnchantment(Enchantment.DURABILITY, 1);
+		else
+			item.removeEnchantment(Enchantment.DURABILITY);
 	}
 
 	@Override
