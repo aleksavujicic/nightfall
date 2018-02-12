@@ -46,7 +46,7 @@ ranger-class:
     - dagger
     - longbow
     - quiver
-    - trinket
+    - pendant
     - darkvision
   consumables:
     torch: 64
@@ -69,7 +69,7 @@ ranger-class:
       contains:
        - "*Elven Dagger\n
           *Rangers Longbow\n
-          *Star Trinket\n
+          *Ruby Pendant\n
           *Massive Quiver\n
           *Darkvision\n
           *64 Torches\n
@@ -168,7 +168,7 @@ gnome-class:
   pieces:
     - hammer
     - volcanic
-    - trinket
+    - pendant
     - quiver
     - tombmaker
     - avenge
@@ -181,7 +181,7 @@ gnome-class:
   item:
     template: "loadout-class"
     name: "Gnome Kit"
-    base: trinket
+    base: pendant
     lore:
       description:
        - "Gnomes were always magically adept\n
@@ -195,7 +195,7 @@ gnome-class:
       contains:
        - "*Hammer\n
           *Volcanic Gauntlet\n
-          *Star Trinket\n
+          *Ruby Pendant\n
           *Massive Quiver\n
           *Avenge\n
           *64 Torches\n
@@ -461,7 +461,7 @@ brawler-class:
 #  pieces:
 #    - hunting_claws
 #    - warpweaver
-#    - trinket
+#    - pendant
 #    - studded
 #    - avenge
 #  consumables:
@@ -483,7 +483,7 @@ brawler-class:
 #      contains:
 #       - "*Hunting Claws\n
 #          *Warpweaver Bow\n
-#          *Star Trinket\n
+#          *Ruby Pendant\n
 #          *Studded Armour\n
 #          *Avenge\n
 #          *32 Torches\n

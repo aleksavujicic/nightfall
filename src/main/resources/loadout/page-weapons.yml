@@ -315,15 +315,15 @@ hearty:
       health: -4
       mana-cost: 100
 
-trinket:
+pendant:
   index: 20
   type: item
-  name: trinket
+  name: pendant
   category: ale
   cost: 8
   item:
-    name: "Star Trinket"
-    base: trinket
+    name: "Ruby Pendant"
+    base: pendant
     lore:
       description:
        - "Left click to heal yourself\n

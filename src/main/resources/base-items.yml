@@ -33,7 +33,7 @@ hearty-ale: "!potion{115,5,193}"
 chugging-ale: "!potion{17,108,244}"
 strong-ale: "!potion{183,37,18}"
 glow: "!potion{183,37,18}"
-trinket: "shears:30"
+pendant: "shears:30"
 regrowth: "nether_star"
 
 # Armour
