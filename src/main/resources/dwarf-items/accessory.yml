@@ -48,6 +48,16 @@ chisel:
     flavour:
      - "More chisel."
 
+clock:
+  base: clock
+  name: "Gnomish Clock"
+  lore:
+    description:
+     - "Right click to get the\n
+        current time."
+    flavour:
+     - "A simple but useful tool."
+
 penystick:
   material: blaze_rod
   name: "Penny Stick"

@@ -75,6 +75,8 @@ commands:
     description: For sharing resources with your fellow dwarves.
   compass:
     description: Blesses Jimmy with the mighty dwarven compass.
+  clock:
+    description: So Jimmy can tell time.
   loadout:
     description: Choose a kit
     aliases: kit

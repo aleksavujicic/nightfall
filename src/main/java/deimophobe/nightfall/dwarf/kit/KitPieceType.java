@@ -72,6 +72,7 @@ public enum KitPieceType {
 	RESURRECTION(Resurrection::new),
 	BRICKLAYER(Bricklayer::new),
 	CHISEL(Chisel::new),
+	CLOCK(Clock::new),
 	
 	UNTIMELY_DEMISE(UntimelyDemise::new),
 	

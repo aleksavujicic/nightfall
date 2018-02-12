@@ -387,6 +387,19 @@ public class NightfallPlugin extends JavaPlugin {
 				return false;
 			}
 		}
+		if (name.equalsIgnoreCase("clock")) {
+			if (sender instanceof Player) {
+				Dwarf dwarf = dm.getGamePlayer((Player)sender);
+				if (dwarf != null)
+					dwarf.giveClock();
+				else
+					sender.sendMessage(ChatColor.RED + "You must be a dwarf to do that");
+				
+				return true;
+			} else {
+				return false;
+			}
+		}
 		if (name.equalsIgnoreCase("addkititem")) {
 			if (args.length == 0) {
 				sender.sendMessage(ChatColor.RED + "Please specify an item.");
