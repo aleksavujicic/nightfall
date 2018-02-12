@@ -84,12 +84,14 @@ public class Game {
 	private final DamageManager damageManager;
 	private final SkinManager skinManager;
 	private final GlowManager glowManager;
+	private final TimeManager timeManager;
 	
 	public DwarfManager getDwarfManager() {return dwarfManager;}
 	public MonsterManager getMonsterManager() {return monsterManager;}
 	public DamageManager getDamageManager() {return damageManager;}
 	public SkinManager getSkinManager() {return skinManager;}
 	public GlowManager getGlowManager() {return glowManager;}
+	public TimeManager getTimeManager() {return timeManager;}
 	
 	
 	private final Scoreboard scoreboard;
@@ -142,6 +144,7 @@ public class Game {
 		damageManager = new DamageManager();
 		skinManager = new SkinManager();
 		glowManager = new GlowManager();
+		timeManager = new TimeManager(map.getWorld());
 		NightfallPlugin.getPlugin().updateManagers();
 		
 		startLobby();
@@ -155,6 +158,7 @@ public class Game {
 		monsterManager.stop();
 		skinManager.stop();
 		glowManager.stop();
+		timeManager.stop();
 		GlobalUpgrade.reset();
 		TimedBlock.cancelAllBlocks();
 		
@@ -439,6 +443,7 @@ public class Game {
 		}
 		
 		Bukkit.getServer().getPluginManager().callEvent(new PhaseChangeEvent(phase));
+		timeManager.init();
 	}
 	
 	public void startGame() {
@@ -480,6 +485,7 @@ public class Game {
 					startPlague();
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), buildTime);
+		timeManager.addTarget(buildTime, Misc.randomInt(13500, 14500));
 		
 		Bukkit.getServer().getPluginManager().callEvent(new PhaseChangeEvent(phase));
 	}

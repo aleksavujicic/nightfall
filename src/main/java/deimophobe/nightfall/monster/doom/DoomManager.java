@@ -2,9 +2,9 @@ package deimophobe.nightfall.monster.doom;
 
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.TimeManager;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.effects.sound.Sounds;
-import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.apache.commons.lang.ArrayUtils;
@@ -52,6 +52,10 @@ public class DoomManager {
 		doomTimer = 1000;
 		internalDoomTimer = 30;
 		Game.getGame().setDoomSidebar(doomTimer);
+		
+		int daySkip = (occuredDooms.isEmpty() ? 1 : 0);
+		TimeManager.getManager().addTarget(600*20, 0);
+		TimeManager.getManager().addTarget(1030*20, 15000, daySkip);
 	}
 	
 	private boolean isDoom = false;
@@ -90,7 +94,7 @@ public class DoomManager {
 	// ------ START DOOM -------
 	
 	private void startDoom() {
-		GameMap.getCurrentMap().getWorld().setTime(14000);
+		//GameMap.getCurrentMap().getWorld().setTime(14000);
 		isDoom = true;
 		
 		for (MonsterPlayer player : MonsterManager.getManager().getAlivePlayerMobs())
