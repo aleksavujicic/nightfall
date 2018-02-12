@@ -216,7 +216,7 @@ healer-class:
     - nature_suit
     - slowfall
   consumables:
-    heal_station: 16
+    heal_station: 10
     charm: 1
     torch: 64
     mortar: 64
@@ -230,12 +230,12 @@ healer-class:
        - "Go heal ppl."
 
       contains:
-       - "*Healing Scepter\n
+       - "*Arcane Scepter\n
           *Jade Bow\n
           *Regrowth Star\n
           *Nature Suit\n
           *Slowfall\n
-          *16 Healing Stations\n
+          *10 Healing Stations\n
           *1 Consecrating Charm\n
           *64 Torches\n
           *64 Mortar\n
