@@ -128,14 +128,14 @@ public abstract class AbstractMob implements Mob {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
+	
 	private <T> void checkFieldForAnnotation(Field field, Class<? extends Annotation> annotationClass, Class<T> fieldType, Consumer<T> fieldApplier)
 			throws IllegalAccessException, InvalidFieldAnnotationException
 	{
 		if (field.isAnnotationPresent(annotationClass)) {
 			Object value = field.get(this);
 			if (fieldType.isInstance(value)) {
-				fieldApplier.accept((T) value);
+				fieldApplier.accept(fieldType.cast(value));
 			} else {
 				throw new InvalidFieldAnnotationException(
 						"Field " + field.getName()
@@ -201,15 +201,29 @@ public abstract class AbstractMob implements Mob {
 		return DisguiseAPI.getDisguise(monster.getPlayer());
 	}
 	
-	protected void changeDisguise(Consumer<Disguise> changer) {
+	protected <T extends Disguise> void changeDisguise(Class<T> disguiseClass, Consumer<T> changer) {
 		for (Disguise disguise : DisguiseAPI.getDisguises(monster.getPlayer())) {
-			changer.accept(disguise);
+			if (disguiseClass.isInstance(disguise)) {
+				changer.accept(disguiseClass.cast(disguise));
+			} else {
+				Bukkit.getLogger().severe("Mob '" + monster.getName() + "' (type: " + type + ") has Disguise not of type " + disguiseClass.getName());
+			}
 		}
 	}
 	
 	protected void changeDisguiseWatcher(Consumer<FlagWatcher> changer) {
+		changeDisguiseWatcher(FlagWatcher.class, changer);
+	}
+	
+	protected <T extends FlagWatcher> void changeDisguiseWatcher(Class<T> watcherClass, Consumer<T> changer) {
 		for (Disguise disguise : DisguiseAPI.getDisguises(monster.getPlayer())) {
-			changer.accept(disguise.getWatcher());
+			FlagWatcher watcher = disguise.getWatcher();
+			
+			if (watcherClass.isInstance(watcher)) {
+				changer.accept(watcherClass.cast(watcher));
+			} else {
+				Bukkit.getLogger().severe("Mob '" + monster.getName() + "' (type: " + type + ") has FlagWatcher not of type " + watcherClass.getName());
+			}
 		}
 	}
 	

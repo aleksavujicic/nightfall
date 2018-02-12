@@ -19,7 +19,7 @@ import org.bukkit.potion.PotionEffectType;
  */
 public class BatteringRam extends AbstractMob {
 	private final ComplexCooldown ram = new ComplexCooldown(2*20, this::wallRam);
-	private final ComplexCooldown faceResetter = new ComplexCooldown(10, null, this::resetFace);
+	private final ComplexCooldown faceResetter = new ComplexCooldown(10, null, () -> setFace(false));
 	
 	private Location lastLocation;
 	
@@ -30,8 +30,11 @@ public class BatteringRam extends AbstractMob {
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
-		((MobDisguise)getDisguise()).setReplaceSounds(false);
-		((MobDisguise)getDisguise()).setHearSelfDisguise(false);
+		
+		changeDisguise(MobDisguise.class, (md) -> {
+			md.setReplaceSounds(false);
+			md.setHearSelfDisguise(false);
+		});
 		
 		monster.givePermanentPotionEffect(PotionEffectType.JUMP, -5);
 		lastLocation = monster.getLocation();
@@ -87,12 +90,12 @@ public class BatteringRam extends AbstractMob {
 		monster.playSound("entity.zombie.attack_door_wood", 2f, 0.5f, true);
 		monster.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, center.getLocation(), 3, 1, 1,1);
 		
-		((GhastWatcher) getDisguise().getWatcher()).setAggressive(true);
+		setFace(true);
 		faceResetter.reset();
 	}
 	
-	private void resetFace() {
-		((GhastWatcher) getDisguise().getWatcher()).setAggressive(false);
+	private void setFace(boolean angry) {
+		changeDisguiseWatcher(GhastWatcher.class, (gw) -> gw.setAggressive(angry));
 	}
 	
 	@Override

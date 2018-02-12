@@ -66,7 +66,7 @@ class GoblinKaboom extends Goblin {
 	public void onSpawn() {
 		super.onSpawn();
 		if (superKaboom == 1) {
-			((CreeperWatcher)getDisguise().getWatcher()).setPowered(true);
+			changeDisguiseWatcher(CreeperWatcher.class, creeperWatcher -> creeperWatcher.setPowered(true));
 		}
 		if (kaboom) {
 			giveItem("kaboom", 1);

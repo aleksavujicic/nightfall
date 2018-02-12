@@ -54,7 +54,7 @@ class SkeletonFlamelancer extends Skeleton {
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
-		getDisguise().getWatcher().setBurning(true);
+		changeDisguiseWatcher(flagWatcher -> flagWatcher.setBurning(true));
 	}
 
 	@Override

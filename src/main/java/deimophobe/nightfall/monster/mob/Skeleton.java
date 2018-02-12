@@ -48,12 +48,12 @@ class Skeleton extends AbstractMob {
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action)) {
-			if (isPlayerHoldingWeapon()) {
-				((SkeletonWatcher) getDisguise().getWatcher()).setSwingArms(true);
-			} else {
-				((SkeletonWatcher) getDisguise().getWatcher()).setSwingArms(false);
-			}
+			updateArms(isPlayerHoldingWeapon());
 		}
+	}
+	
+	protected void updateArms(boolean swinging) {
+		changeDisguiseWatcher(SkeletonWatcher.class, (sw) -> sw.setSwingArms(swinging));
 	}
 
 	@Override
@@ -66,7 +66,7 @@ class Skeleton extends AbstractMob {
 
 	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {
-		((SkeletonWatcher) getDisguise().getWatcher()).setSwingArms(false);
+		updateArms(false);
 		ArrowMisc.setArrowDamage(arrow, getPower());
 		return arrow;
 	}

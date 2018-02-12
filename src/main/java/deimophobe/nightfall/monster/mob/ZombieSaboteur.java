@@ -93,7 +93,7 @@ public class ZombieSaboteur extends Zombie {
     @Override
     public void onSpawn() {
         super.onSpawn();
-        ((ZombieWatcher)getDisguise().getWatcher()).setBaby(true);
+        changeDisguiseWatcher(ZombieWatcher.class, zw -> zw.setBaby(true));
     }
 
     @Override

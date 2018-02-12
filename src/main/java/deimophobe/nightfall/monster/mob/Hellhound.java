@@ -4,10 +4,7 @@ import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import me.libraryaddict.disguise.disguisetypes.Disguise;
-import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
 import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
@@ -27,15 +24,7 @@ public class Hellhound extends Wolf {
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
-		
-		Disguise disguise = getDisguise();
-		FlagWatcher watcher = disguise.getWatcher();
-		if (watcher instanceof WolfWatcher) {
-			((WolfWatcher) watcher).setAngry(true);
-		} else {
-			Bukkit.getLogger().severe("Hellhound not disguised as wolf?");
-		}
-		
+		changeDisguiseWatcher(WolfWatcher.class, (ww) -> ww.setAngry(true));
 	}
 	
 	@Override

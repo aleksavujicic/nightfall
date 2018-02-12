@@ -7,9 +7,7 @@ import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -39,13 +37,10 @@ public class Wraith extends AbstractMob {
 		setFloatiness();
 		monster.givePermanentPotionEffect(PotionEffectType.JUMP, 25);
 		
-		FlagWatcher watch = getDisguise().getWatcher();
-		watch.setItemInMainHand(getWeapon().createItemStack());
-		if (watch instanceof SkeletonWatcher) {
-			((SkeletonWatcher) watch).setSwingArms(true);
-		} else {
-			Bukkit.getLogger().severe("Wraith not disguised as skeletal mob?!");
-		}
+		changeDisguiseWatcher(SkeletonWatcher.class, (sw) -> {
+			sw.setItemInMainHand(getWeapon().createItemStack());
+			sw.setSwingArms(true);
+		});
 	}
 	
 	@Override
