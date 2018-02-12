@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 14/03/17.
  */
-public class MagicCoil extends AbstractCooldown {
+public class FairyBand extends AbstractCooldown {
 	
 	private static final int DURATION = 60*20;
 	private static final int CHANGEOVER_DURATION = 5*20;
@@ -30,10 +30,10 @@ public class MagicCoil extends AbstractCooldown {
 	
 	private Buff currentBuff;
 	
-	public MagicCoil(Dwarf dwarf) {
+	public FairyBand(Dwarf dwarf) {
 		super(dwarf, DURATION);
 		
-		dwarf.getArmour().addModifier(ItemModifierType.MAGIC_COIL, 1);
+		dwarf.getArmour().addModifier(ItemModifierType.FAIRY_BAND, 1);
 		
 		// Update in half a second
 		resetCooldown();
