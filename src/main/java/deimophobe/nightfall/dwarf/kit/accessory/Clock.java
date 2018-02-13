@@ -39,7 +39,7 @@ public class Clock extends AbstractItem {
 	private void showTime() {
 		long time = dwarf.getWorld().getTime();
 		int gameHour = (int) (time % 24000)/1000;
-		boolean isNight = gameHour >= 14;
+		boolean isNight = gameHour >= 13;
 		
 		int hour = (gameHour + 6) % 24;
 		boolean am = (hour < 12);
@@ -54,8 +54,8 @@ public class Clock extends AbstractItem {
 		}
 		
 		String amMessage = (am ? "AM" : "PM");
-		ChatColor textColour = (isNight ? ChatColor.YELLOW : ChatColor.DARK_PURPLE);
-		ChatColor highlightColour = (isNight ? ChatColor.AQUA : ChatColor.LIGHT_PURPLE);
+		ChatColor textColour = (isNight ? ChatColor.DARK_RED : ChatColor.YELLOW);
+		ChatColor highlightColour = (isNight ? ChatColor.BLUE : ChatColor.AQUA);
 		dwarf.sendTitleMessage(textColour + "The time is now " + highlightColour + displayHour + amMessage);
 	}
 }
