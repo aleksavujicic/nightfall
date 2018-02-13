@@ -1,6 +1,5 @@
 package deimophobe.nightfall.monster.ai;
 
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.type.CustomDamageType;
@@ -13,14 +12,14 @@ import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Consumer;
 import org.bukkit.util.Vector;
 
 /**
@@ -36,43 +35,42 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	protected final T monster;
 	@Override public T getEntity() { return monster; }
 	
-	protected AIEntity(Location location, String name, Dwarf target, EntityType type) {
+	protected AIEntity(Location location, String name, Dwarf target, Class<T> entityType, Consumer<? super T> subclassInitialiser) {
 		this.lastLocation = location.clone();
-		this.monster = (T) GameMap.getCurrentMap().getWorld().spawnEntity(location.clone().subtract(0,1.8,0), type);
 		this.inactivityCount = MAX_INACTIVITY_COUNT;
-		setupMonster(name, target);
+		
+		Consumer<T> initialiser = (entity) -> {
+			Entity riding = entity.getVehicle();
+			if (riding != null) {
+				entity.leaveVehicle();
+				riding.remove();
+			}
+			
+			entity.setVelocity(new Vector(0,0.6,0));
+			
+			EntityEquipment equipment = entity.getEquipment();
+			equipment.setHelmet(null);
+			equipment.setChestplate(CHESTPLATE);
+			equipment.setLeggings(null);
+			equipment.setBoots(null);
+			
+			entity.setCustomName(name);
+			if (target != null)
+				entity.setTarget(target.getPlayer());
+			
+			subclassInitialiser.accept(entity);
+		};
+		
+		this.monster = GameMap.getCurrentMap().getWorld().spawn(location.clone().subtract(0,1.8,0), entityType, initialiser);
+		
 	}
 	
 	
 	private static final ItemStack CHESTPLATE = new ItemStack(Material.DIAMOND);
 	static {CHESTPLATE.addUnsafeEnchantment(Enchantment.DEPTH_STRIDER, 2);}
-	private static final ItemStack NOTHING = new ItemStack(Material.DIAMOND);
 	
-	protected void setupMonster(String name, Dwarf target) {
-		Entity riding = monster.getVehicle();
-		if (riding != null) {
-			monster.leaveVehicle();
-			riding.remove();
-		}
-		
-		monster.setVelocity(new Vector(0,0.6,0));
-		monster.setCustomName(name);
-		
-		new BukkitRunnable() {
-			@Override public void run() { removeArmour(); }
-		}.runTask(NightfallPlugin.getPlugin());
-		
-		if (target != null)
-			monster.setTarget(target.getPlayer());
-	}
-	
-	private void removeArmour() {
-		EntityEquipment equipment = monster.getEquipment();
-		equipment.setHelmet(null);
-		equipment.setChestplate(CHESTPLATE);
-		equipment.setLeggings(null);
-		equipment.setBoots(null);
-	}
+	private static Consumer<Creature> GENERAL_ENTITY_INITIALISER = (entity) -> {
+	};
 	
 	@Override
 	public boolean isAI() {

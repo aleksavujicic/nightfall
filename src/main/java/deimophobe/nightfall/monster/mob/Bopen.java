@@ -7,14 +7,23 @@ import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.SkeletonHorse;
 import org.bukkit.event.block.Action;
+import org.bukkit.util.Consumer;
 
 /**
  * Created by Deimophobe on 15/03/17.
  */
 public class Bopen extends AbstractMob {
+	
+	private static final Consumer<SkeletonHorse> HORSE_INITIALISER = (horse) -> {
+		horse.setInvulnerable(true);
+		horse.setTamed(true);
+		horse.setJumpStrength(10);
+		horse.setAdult();
+		horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.25);
+		horse.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
+	};
 	
 	private int cooldown = 0;
 	private final static int MAX_CD = 100;
@@ -79,17 +88,10 @@ public class Bopen extends AbstractMob {
 	private void mountHorse() {
 		if (!isRidingHorse()) {
 			Location loc = monster.getLocation();
-			horse = (SkeletonHorse) loc.getWorld().spawnEntity(loc, EntityType.SKELETON_HORSE);
-			horse.setInvulnerable(true);
-			horse.setTamed(true);
-			horse.setJumpStrength(10);
-			horse.setAdult();
-			horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.25);
-			horse.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
+			horse = loc.getWorld().spawn(loc, SkeletonHorse.class, HORSE_INITIALISER);
 			horse.addPassenger(monster.getPlayer());
 			horse.getInventory().setItem(0, getItem("saddle").createItemStack());
 		}
-		
 	}
 	
 	public void dismountHorse() {
