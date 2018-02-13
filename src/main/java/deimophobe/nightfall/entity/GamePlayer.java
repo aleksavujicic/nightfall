@@ -228,7 +228,7 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	
 	public int replaceItem(Predicate<ItemStack> matcher, ItemStack newItem) {
 		PlayerInventory inv = player.getInventory();
-		ListIterator<ItemStack> iterator = inv.iterator();
+		ListIterator<ItemStack> iterator = (ListIterator<ItemStack>) inv.iterator();
 		
 		int replaced = 0;
 		while (iterator.hasNext()) {
