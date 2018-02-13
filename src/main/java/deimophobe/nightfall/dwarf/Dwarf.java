@@ -22,6 +22,7 @@ import deimophobe.nightfall.dwarf.kit.Kit;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.armour.BerserkArmour;
+import deimophobe.nightfall.dwarf.kit.healing.StrongAle;
 import deimophobe.nightfall.entity.DwarfEntity;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
@@ -566,7 +567,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	@Override
 	public void heal(double amt) {
 		if (hasKitElement(KitPieceType.STRONG_ALE))
-			amt = amt/3;
+			amt *= StrongAle.getDamageResistance();
 		
 		super.heal(amt);
 	}

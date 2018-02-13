@@ -10,10 +10,12 @@ import deimophobe.nightfall.dwarf.Dwarf;
  */
 public class StrongAle extends AbstractAle {
 	private final static int MANA_COST = 400;
+	private static final double DAMAGE_RESISTANCE = 0.75;
+	public static double getDamageResistance() { return DAMAGE_RESISTANCE; }
 	
 	public StrongAle(Dwarf dwarf) {
 		super(dwarf, MANA_COST, 60);
-		dwarf.getArmour().addModifier(ItemModifierType.RESISTANCE, 75, "Strongest Potion");
+		dwarf.getArmour().addModifier(ItemModifierType.RESISTANCE, (int) DAMAGE_RESISTANCE *100, "Strongest Potion");
 	}
 	
 	private final static CustomItem ITEM = getAle("strong", MANA_COST);
@@ -22,6 +24,6 @@ public class StrongAle extends AbstractAle {
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
-		damage.getDamage().timesMult(0.23);
+		damage.getDamage().timesMult(1 - DAMAGE_RESISTANCE);
 	}
 }
