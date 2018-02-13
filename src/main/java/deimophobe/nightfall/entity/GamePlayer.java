@@ -102,7 +102,7 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	private String title;
 	private boolean forcedTitle;
 	
-	private boolean forcedDisplayName = false;
+	private String forcedDisplayName = null;
 	
 	@Override
 	public String getDisplayName() {
@@ -110,7 +110,7 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	}
 	
 	public void setTitle(ChatColor colour, String title, boolean force) {
-		if (forcedDisplayName) return;
+		if (forcedDisplayName != null) return;
 		
 		if (force) {
 			player.setDisplayName(colour + title + ChatColor.RESET);
@@ -133,14 +133,18 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	}
 	
 	public void forceDisplayName(String name) {
-		forcedDisplayName = true;
+		forcedDisplayName = name;
 		forcedTitle = true;
-		player.setDisplayName(name + ChatColor.RESET);
+		resetTitle();
 	}
 	
 	// Used for relogging
 	private void resetTitle() {
-		setTitle(colour, title, forcedTitle);
+		if (forcedDisplayName != null) {
+			player.setDisplayName(forcedDisplayName + ChatColor.RESET);
+		} else {
+			setTitle(colour, title, forcedTitle);
+		}
 	}
 	
 	
