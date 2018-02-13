@@ -101,12 +101,17 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	private ChatColor colour;
 	private String title;
 	private boolean forcedTitle;
+	
+	private boolean forcedDisplayName = false;
+	
 	@Override
 	public String getDisplayName() {
 		return player.getDisplayName();
 	}
 	
 	public void setTitle(ChatColor colour, String title, boolean force) {
+		if (forcedDisplayName) return;
+		
 		if (force) {
 			player.setDisplayName(colour + title + ChatColor.RESET);
 		} else {
@@ -125,6 +130,12 @@ public abstract class GamePlayer implements GameEntity<Player> {
 			return getDisplayName() + ChatColor.RESET + "(" + player.getName() + ")";
 		else
 			return getDisplayName() + ChatColor.RESET;
+	}
+	
+	public void forceDisplayName(String name) {
+		forcedDisplayName = true;
+		forcedTitle = true;
+		player.setDisplayName(name + ChatColor.RESET);
 	}
 	
 	// Used for relogging

@@ -24,6 +24,11 @@ public class Hero extends Dwarf {
 	}
 	
 	@Override
+	public boolean isHero() {
+		return true;
+	}
+	
+	@Override
 	public void onRemove() {
 		super.onRemove();
 		SkinManager.getManager().removeSkinChange(this);

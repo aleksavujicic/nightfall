@@ -2,6 +2,8 @@ package deimophobe.nightfall.dwarf.kit;
 
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.PlayerSkin;
+import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -36,7 +38,7 @@ public class DwarfShovel extends AbstractItem {
 	}
 	
 	
-	private static final double FIND_CHANCE = 0.0001;
+	private static final double FIND_CHANCE = 0.00025;
 	@Override
 	public void onBlockBreak(Block block, boolean didBreak) {
 		super.onBlockBreak(block, didBreak);
@@ -52,7 +54,9 @@ public class DwarfShovel extends AbstractItem {
 			dwarf.playSound("block.anvil.break", 1f, 0.8f, true);
 			
 			if (Game.getGame().getPhase() == Phase.BUILD) {
-				double chance = FIND_CHANCE * (dwarf.getPotionEffectLevel(PotionEffectType.FAST_DIGGING) + 1);
+				double chance = FIND_CHANCE;
+				if (dwarf.hasPotionEffect(PotionEffectType.FAST_DIGGING)) chance *= 2;
+				
 				if (Math.random() <= chance) {
 					REWARD_TIERS.getRandom().getRandomItem().rewardDwarf(dwarf);
 				}
@@ -77,9 +81,9 @@ public class DwarfShovel extends AbstractItem {
 		new ConsumableScavengeItem(ConsumableType.LAMP, 32, "Lamps", RewardTier.COMMON);
 		new ConsumableScavengeItem(ConsumableType.LAMP, 64, "Lamps", RewardTier.UNCOMMON);
 		
-		new ConsumableScavengeItem(ConsumableType.CHARM, 1, "Consecrating charm", RewardTier.UNCOMMON);
-		new ConsumableScavengeItem(ConsumableType.CHARM, 2, "Consecrating charm", RewardTier.RARE);
-		new ConsumableScavengeItem(ConsumableType.CHARM, 4, "Consecrating charm", RewardTier.LEGENDARY);
+		new ConsumableScavengeItem(ConsumableType.CHARM, 1, "Consecrating Charm", RewardTier.UNCOMMON);
+		new ConsumableScavengeItem(ConsumableType.CHARM, 2, "Consecrating Charms", RewardTier.RARE);
+		new ConsumableScavengeItem(ConsumableType.CHARM, 4, "Consecrating Charms", RewardTier.LEGENDARY);
 		
 		new ConsumableScavengeItem(ConsumableType.WRENCH, 1, "Wrench", RewardTier.COMMON);
 		new ConsumableScavengeItem(ConsumableType.WRENCH, 2, "Wrenches", RewardTier.UNCOMMON);
@@ -88,11 +92,24 @@ public class DwarfShovel extends AbstractItem {
 		new ConsumableScavengeItem(ConsumableType.WIZARD_MORTAR, 32, "Wizard Mortar", RewardTier.UNCOMMON);
 		
 		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 2, "Procs in Bottles", RewardTier.COMMON);
-		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 3, "Procs in Bottles", RewardTier.UNCOMMON);
-		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 5, "Procs in Bottles", RewardTier.RARE);
+		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 4, "Procs in Bottles", RewardTier.UNCOMMON);
+		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 6, "Procs in Bottles", RewardTier.RARE);
 		
 		new FixedScavengeItem("clover", "Lucky Clover");
 		new FixedScavengeItem("perfect-torch", "The Perfect Torch");
+		
+		new FixedScavengeItem("cherry-pie", "Cherry Pie") {
+			@Override
+			void giveItemToDwarf(Dwarf dwarf) {
+				super.giveItemToDwarf(dwarf);
+				
+				Bukkit.broadcastMessage(ChatColor.GOLD + "By the power of cherry pie, " + dwarf.getDisplayName() + ChatColor.GOLD + " has become...");
+				Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "Kiwi 5000" + ChatColor.GOLD + "!");
+				
+				SkinManager.getManager().addSkinChange(dwarf, new PlayerSkin(ChatColor.DARK_GREEN + "Kiwi 5000", "kiwi5000"));
+				dwarf.forceDisplayName(ChatColor.DARK_GREEN + "Kiwi 5000");
+			}
+		};
 	}
 	
 	private static abstract class ScavengeItem {
@@ -105,9 +122,6 @@ public class DwarfShovel extends AbstractItem {
 		}
 		
 		private void rewardDwarf(Dwarf dwarf) {
-			giveItemToDwarf(dwarf);
-			tier.onDwarfReward(dwarf);
-			
 			// SHOW PARTICLES!
 			Location bodyCentre = dwarf.getEyeLocation().add(0, -0.5, 0);
 			World world = dwarf.getWorld();
@@ -132,6 +146,9 @@ public class DwarfShovel extends AbstractItem {
 			);
 			
 			dwarf.playSound("entity.player.levelup", 1f, 0.6f, true);
+			
+			giveItemToDwarf(dwarf);
+			tier.onDwarfReward(dwarf);
 		}
 		
 		abstract void giveItemToDwarf(Dwarf dwarf);

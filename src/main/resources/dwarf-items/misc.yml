@@ -64,7 +64,19 @@ clover:
   lore:
     description:
      - "Only the luckiest have been,\n
-        able to find this rare clover ."
+        able to find this rare clover."
     flavour:
      - ""
+
+cherry-pie:
+  template: dwarf-hero
+  base: cherry-pie
+  name: Cherry Pie
+  shiny: true
+  lore:
+    description:
+     - "Kiwi 5000's source of power."
+    flavour:
+     - "Remember kids, always wash your\n
+        hands after washing your hands."
 

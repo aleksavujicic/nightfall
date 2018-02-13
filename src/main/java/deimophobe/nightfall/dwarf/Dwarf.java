@@ -2,6 +2,7 @@ package deimophobe.nightfall.dwarf;
 
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.HealBlock;
 import deimophobe.nightfall.common.Misc;
@@ -85,6 +86,9 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		Game.getGame().hideManaAndDoom(player);
 	}
 	
+	public boolean isHero() {
+		return false;
+	}
 	
 	public void respawn() {
 		respawn(GameMap.getCurrentMap().getDwarfSpawn());
@@ -729,5 +733,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	public void onRemove() {
 		super.onRemove();
 		kit.onRemove();
+		SkinManager.getManager().removeSkinChange(this);
 	}
 }
