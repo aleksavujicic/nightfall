@@ -98,6 +98,14 @@ public abstract class AbstractMob implements Mob {
 		}
 	}
 	
+	protected String getNametag() {
+		if (mobData.forceTitle) {
+			return ChatColor.RED + mobData.title;
+		} else {
+			return ChatColor.DARK_RED + mobData.title + " " + monster.getName();
+		}
+	}
+	
 	protected void tpToSpawn() {
 		monster.teleportTo(GameMap.getCurrentMap().getCurrentMobspawn());
 	}
@@ -182,7 +190,7 @@ public abstract class AbstractMob implements Mob {
 		
 		MobDisguise disguise = new MobDisguise(type);
 		disguise.getWatcher().setCustomNameVisible(false);
-		disguise.getWatcher().setCustomName(ChatColor.DARK_RED + mobData.title + " " + monster.getName());
+		disguise.getWatcher().setCustomName(getNametag());
 		//TODO add more sounds so this isn't weird
 		//disguise.setHearSelfDisguise(false);
 		//disguise.setReplaceSounds(false);
