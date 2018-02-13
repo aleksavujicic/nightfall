@@ -12,6 +12,7 @@ import deimophobe.nightfall.common.menu.item.MenuItem;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -132,7 +133,13 @@ public abstract class LoadoutItem implements MenuItem<Loadout>, Comparable<Loado
 		if (!canSee(session)) return false;
 		
 		Loadout loadout = session.getData();
-		return loadout.selectItem(this);
+		boolean updated = loadout.selectItem(this);
+		
+		float pitch = (loadout.hasItem(this) && updated ? 1.33f : 1f);
+		Player player = session.getPlayer();
+		player.playSound(player.getLocation(), "block.note.bell", 0.5f, pitch);
+		
+		return updated;
 	}
 	
 	
