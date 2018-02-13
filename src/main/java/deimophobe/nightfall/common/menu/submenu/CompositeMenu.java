@@ -1,7 +1,5 @@
 package deimophobe.nightfall.common.menu.submenu;
 
-import deimophobe.nightfall.common.Misc;
-
 import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.SessionData;
 import org.bukkit.inventory.ItemStack;
@@ -50,8 +48,9 @@ public class CompositeMenu<T extends SessionData> implements SubMenu<T> {
 		Map<Integer, ItemStack> items = new HashMap<>();
 		int offset = 0;
 		for (SubMenu<T> subMenu : subMenus) {
-			for (Integer key : subMenu.getItems(session).keySet()) {
-				items.put(key + offset, subMenu.getItems(session).get(key));
+			Map<Integer, ItemStack> subMenuItems = subMenu.getItems(session);
+			for (Integer key : subMenuItems.keySet()) {
+				items.put(key + offset, subMenuItems.get(key));
 			}
 			offset += subMenu.getSize();
 		}
