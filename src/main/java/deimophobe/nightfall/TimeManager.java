@@ -1,10 +1,10 @@
 package deimophobe.nightfall;
 
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.PriorityQueue;
 
 /**
  * Created by Deimophobe on 12/02/18.
@@ -12,7 +12,7 @@ import java.util.Queue;
 public class TimeManager implements Manager {
 	public static TimeManager getManager() { return Game.getGame().getTimeManager(); }
 	
-	private final Queue<Target> targets = new LinkedList<>();
+	private final PriorityQueue<Target> targets = new PriorityQueue<>();
 	private final World world;
 	private int realTime = 0;
 	private double worldTime = 0;
@@ -22,13 +22,18 @@ public class TimeManager implements Manager {
 		public void run() {
 			realTime++;
 			
+			
+			Bukkit.broadcastMessage("Real: " + realTime + " World: " + worldTime);
 			Target target = targets.peek();
 			if (target == null) {
+				Bukkit.broadcastMessage("No target");
 				worldTime++;
 			} else if (target.realTime == realTime) {
+				Bukkit.broadcastMessage("Removed target:" + target);
 				targets.poll();
 				worldTime++;
 			} else {
+				Bukkit.broadcastMessage("Target: " + target + " Delta: " + target.worldDelta());
 				worldTime += target.worldDelta();
 			}
 			
@@ -42,8 +47,8 @@ public class TimeManager implements Manager {
 	
 	@Override
 	public void init() {
-		timeTicker.runTaskTimer(NightfallPlugin.getPlugin(), 1, 1);
-		world.setGameRuleValue("doDaylightCycle", "false");
+		//timeTicker.runTaskTimer(NightfallPlugin.getPlugin(), 1, 1);
+		//world.setGameRuleValue("doDaylightCycle", "false");
 	}
 	
 	@Override
@@ -86,6 +91,11 @@ public class TimeManager implements Manager {
 		@Override
 		public int compareTo(Target target) {
 			return this.realTime - target.realTime;
+		}
+		
+		@Override
+		public String toString() {
+			return "r" + realTime + "w" + worldTime;
 		}
 	}
 }

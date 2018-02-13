@@ -54,8 +54,8 @@ public class DoomManager {
 		Game.getGame().setDoomSidebar(doomTimer);
 		
 		int daySkip = (occuredDooms.isEmpty() ? 1 : 0);
-		TimeManager.getManager().addTarget(600*20, 0);
-		TimeManager.getManager().addTarget(1030*20, 15000, daySkip);
+		TimeManager.getManager().addTarget(60*20, 0);
+		TimeManager.getManager().addTarget(100*20, 15000, daySkip);
 	}
 	
 	private boolean isDoom = false;
@@ -95,7 +95,9 @@ public class DoomManager {
 	
 	private void startDoom() {
 		//GameMap.getCurrentMap().getWorld().setTime(14000);
+		TimeManager.getManager().addTarget(1, 15000);
 		isDoom = true;
+		
 		
 		for (MonsterPlayer player : MonsterManager.getManager().getAlivePlayerMobs())
 			player.replaceSeppuku();
