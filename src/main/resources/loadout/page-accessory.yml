@@ -25,8 +25,21 @@ chesto:
       description:
        - "Gives you a portable shared\n
           resource chest."
-slowfall:
+clock:
   index: 2
+  category: accessory
+  type: item
+  name: clock
+  cost: 0
+  item:
+    name: "Gnomish Clock"
+    base: clock
+    lore:
+      description:
+       - "Gives you a clock."
+
+slowfall:
+  index: 3
   category: accessory
   type: item
   name: slowfall
@@ -39,7 +52,7 @@ slowfall:
        - "SHIFT to give yourself Jump Boost\n
           and a slowfalling effect."
 darkvision:
-  index: 3
+  index: 4
   category: accessory
   type: item
   name: darkvision
@@ -52,7 +65,7 @@ darkvision:
        - "Press and hold shift to give\n
           yourself a Night Vision effect."
 avenge:
-  index: 4
+  index: 5
   category: accessory
   type: item
   name: avenge
@@ -65,7 +78,7 @@ avenge:
        - "Gain a PROC when a dwarf dies."
 
 tombmaker:
-  index: 5
+  index: 6
   category: accessory
   type: item
   name: tombmaker
@@ -80,7 +93,7 @@ tombmaker:
           for a few seconds."
 
 resurrection:
-  index: 6
+  index: 7
   category: accessory
   type: item
   name: resurrection
@@ -95,7 +108,7 @@ resurrection:
           also permanently cost you 5 hearts."
 
 bricklayer:
-  index: 7
+  index: 8
   category: accessory
   type: item
   name: bricklayer

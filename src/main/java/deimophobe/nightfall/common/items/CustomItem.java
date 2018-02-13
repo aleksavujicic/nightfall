@@ -27,7 +27,7 @@ import java.util.*;
  */
 public class CustomItem implements Cloneable {
 	
-	private final BaseItem base;
+	private BaseItem base;
 	private final Lore lore;
 	private final List<String> errors;
 	private final SortedMap<ItemModifierType, Set<ItemModifier>> modifiers;
@@ -89,6 +89,10 @@ public class CustomItem implements Cloneable {
 		modifiers.putIfAbsent(type, new HashSet<>());
 		Set<ItemModifier> modifierGroup = modifiers.get(type);
 		modifierGroup.add(new ItemModifier(value, reason));
+	}
+	
+	public void setBase(BaseItem item) {
+		this.base = item;
 	}
 	
 	public ItemStack createItemStack() {

@@ -1,6 +1,7 @@
 package deimophobe.nightfall.common.items.base;
 
 import deimophobe.nightfall.common.NightfallCommonPlugin;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -50,7 +51,9 @@ public class BaseItemManager {
 			
 			String item = config.getString(key);
 			try {
-				baseItems.put(key.toLowerCase(), createBaseFromConfig(item));
+				BaseItem base = createBaseFromConfig(item);
+				baseItems.put(key.toLowerCase(), base);
+				Bukkit.getLogger().info("Succesfully added item: " + key.toLowerCase());
 			} catch (InvalidBaseItemConfigException e) {
 				NightfallCommonPlugin.getPlugin().getLogger().severe("Could not process base item: " + key);
 				e.printStackTrace();

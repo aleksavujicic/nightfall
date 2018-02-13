@@ -51,7 +51,7 @@ tombmaker: "diamond_spade:0"
 bricklayer: "shears:20"
 chisel: "#temp"
 chestomatic: "diamond_hoe:26"
-clock: "clock"
+clock: "watch"
 
 slowfall: "diamond_hoe:7"
 darkvision: "diamond_hoe:6"
@@ -118,7 +118,9 @@ dwarf-shovel: "iron_spade"
 dwarf-axe: "iron_axe"
 
 excaliju: "shears:43"
-doom-clock: "shears:99"
+doom-clock:
+  'off': "diamond_hoe:27"
+  'on': "diamond_hoe:28"
 
 clover: "#temp"
 
