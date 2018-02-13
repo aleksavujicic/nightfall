@@ -38,6 +38,9 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiFunction;
 
 /**
  * Created by Deimophobe on 15/01/17.
@@ -412,12 +415,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			updateVisibility();
 		}
 		
-		if (hasProc()) {
-			if (getProc().shouldShowCtsParticles())
-				getWorld().spawnParticle(Particle.VILLAGER_HAPPY, getEyeLocation(), 1, 0.5, 0.5, 0.5);
-		} else {
-			lastProc = null;
-		}
+		procTick();
 		
 		usedThisTick = false;
 	}
@@ -425,22 +423,51 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	
 	// ------ PROC ------
-	private ProcType lastProc = null;
-	
-	public ProcType getProc() {
-		return lastProc;
-	}
+	private final Map<ProcType, Integer> activeProcs = new HashMap<>();
+	private static final PotionEffectType[] PROC_EFFECTS = new PotionEffectType[]{ PotionEffectType.SPEED, PotionEffectType.INCREASE_DAMAGE, PotionEffectType.FAST_DIGGING };
 	
 	public boolean hasProc() {
-		return lastProc != null && player.hasPotionEffect(PotionEffectType.SPEED);
+		return !activeProcs.isEmpty();
 	}
 	
 	public void giveProc(ProcType procType) {
-		boolean success = procType.giveProc(this);
-		if (success)
-			lastProc = procType;
+		procType.onGive(this);
+		activeProcs.put(procType, procType.getDuration());
 		
+		updateProcBuffs();
 		updateVisibility();
+	}
+	
+	private void procTick() {
+		BiFunction<ProcType, Integer, Integer> procUpdater = (procType, time) -> {
+			procType.onUpdate(Dwarf.this);
+			return time-1;
+		};
+		
+		activeProcs.replaceAll(procUpdater);
+		boolean removed = activeProcs.entrySet().removeIf((e) -> e.getValue() == 0);
+		
+		if (removed)
+			updateProcBuffs();
+	}
+	
+	private void updateProcBuffs() {
+		for (PotionEffectType effect : PROC_EFFECTS) {
+			int bestAmplifier = 0;
+			int bestTimeLeft = 0;
+			
+			for (ProcType type : activeProcs.keySet()) {
+				int amplifier = type.getEffectAmplifier(effect);
+				int timeLeft = activeProcs.get(type);
+				
+				if (amplifier > bestAmplifier || (amplifier == bestAmplifier && timeLeft > bestTimeLeft)) {
+					bestAmplifier = amplifier;
+					bestTimeLeft = timeLeft;
+				}
+			}
+			
+			givePotionEffect(effect, bestTimeLeft, bestAmplifier, true, false, true);
+		}
 	}
 	
 	// ------ DAMAGE ------

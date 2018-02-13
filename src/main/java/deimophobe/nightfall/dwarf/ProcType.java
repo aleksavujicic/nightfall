@@ -3,6 +3,9 @@ package deimophobe.nightfall.dwarf;
 import org.bukkit.Particle;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Deimophobe on 6/05/17.
  */
@@ -30,45 +33,38 @@ public enum ProcType {
 	;
 	
 	private final int duration;
-	private final int speedLvl;
-	private final int strLvl;
-	private final int hasteLvl;
+	private final Map<PotionEffectType, Integer> amplifiers = new HashMap<>();
 	
 	private final boolean showParticles;
 	private final boolean showContinuousParticles;
 	private final boolean playSound;
 	
-	private final boolean overwrite;
-	
 	ProcType(int duration, int speedLvl, int strLvl, int hasteLvl, boolean showParticles, boolean showContinuousParticles, boolean playSound, boolean overwrite) {
 		this.duration = duration;
-		this.speedLvl = speedLvl;
-		this.strLvl = strLvl;
-		this.hasteLvl = hasteLvl;
 		this.showParticles = showParticles;
 		this.showContinuousParticles = showContinuousParticles;
 		this.playSound = playSound;
-		this.overwrite = overwrite;
+		
+		amplifiers.put(PotionEffectType.SPEED, speedLvl);
+		amplifiers.put(PotionEffectType.INCREASE_DAMAGE, strLvl);
+		amplifiers.put(PotionEffectType.FAST_DIGGING, hasteLvl);
 	}
 	
-	boolean shouldShowCtsParticles() {
-		return showContinuousParticles;
+	int getEffectAmplifier(PotionEffectType effectType) {
+		return amplifiers.get(effectType);
 	}
 	
-	boolean giveProc(Dwarf dwarf) {
-		boolean success = dwarf.givePotionEffect(PotionEffectType.SPEED, duration, speedLvl, true, false, overwrite);
-		if (!success) return false;
-		
-		dwarf.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, duration, strLvl, true, false, overwrite);
-		dwarf.givePotionEffect(PotionEffectType.FAST_DIGGING, duration, hasteLvl, true, false, overwrite);
-		
+	void onUpdate(Dwarf dwarf) {
+		if (showContinuousParticles)
+			dwarf.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, dwarf.getEyeLocation(), 1, 0.5, 0.5, 0.5);
+	}
+	
+	void onGive(Dwarf dwarf) {
 		if (showParticles)
 			dwarf.getPlayer().getWorld().spawnParticle(Particle.VILLAGER_HAPPY, dwarf.getPlayer().getEyeLocation(), 60, 1, 1, 1);
 		
 		if (playSound)
 			dwarf.playSound("proc", 100f, 1f, false);
-		
-		return true;
 	}
 	
 	public int getDuration() {
