@@ -3,8 +3,7 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.util.ArrowMisc;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
@@ -59,7 +58,7 @@ class Skeleton extends AbstractMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		if ((damage.getType() == NaturalDamageType.RANGED && damage.hasArrow() && ArrowMisc.getArrowForce(damage.getArrow()) > 0.7) || damage.getType() == CustomDamageType.WITHER_SKULL) {
+		if ((damage.getType() == GameDamageType.RANGED && damage.hasArrow() && ArrowMisc.getArrowForce(damage.getArrow()) > 0.7) || damage.getType() == GameDamageType.WITHER_SKULL) {
 			damage.setArmourShred(getArmourShred());
 		}
 	}

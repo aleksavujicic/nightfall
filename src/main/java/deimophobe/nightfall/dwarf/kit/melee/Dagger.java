@@ -2,12 +2,12 @@ package deimophobe.nightfall.dwarf.kit.melee;
 
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.AbstractCooldownItem;
+import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
@@ -50,7 +50,7 @@ public class Dagger extends AbstractCooldownItem {
 			if (closestMonster != null) {
 				Location loc = closestMonster.getPlayer().getEyeLocation();
 				
-				closestMonster.doDamage(dwarf, CustomDamageType.EVISCERATE, 200, true);
+				closestMonster.doDamage(dwarf, GameDamageType.EVISCERATE, 200, true);
 				loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 20, 0.3, 0.3, 0.3, 1);
 				//world.spigot().playEffect(loc, GameEffect.COLOURED_DUST, 0, 1, red, green, blue, 1, 0, 64);
 				//world.spawnParticle(Particle.SPELL_INSTANT, ltarget.getEyeLocation(), 1, 0.3, 0.3, 0.3, 0);

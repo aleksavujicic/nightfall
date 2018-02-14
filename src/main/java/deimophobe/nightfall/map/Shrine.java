@@ -2,7 +2,7 @@ package deimophobe.nightfall.map;
 
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.ProcType;
@@ -123,7 +123,7 @@ public class Shrine {
 				mobsOnShrine += monster.getMob().getShrineWeight();
 			} else if (shrineProtection.containsPlayer(monster)) {
 				if (!monster.getMob().isShrineImmune()) {
-					monster.doDamage(null, CustomDamageType.SHRINE_PROTECTION, 10000, true, true);
+					monster.doDamage(null, GameDamageType.SHRINE_PROTECTION, 10000, true, true);
 					Location loc = monster.getLocation();
 					loc.getWorld().strikeLightningEffect(loc);
 				}

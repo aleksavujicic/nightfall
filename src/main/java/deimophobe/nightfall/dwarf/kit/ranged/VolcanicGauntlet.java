@@ -2,7 +2,7 @@ package deimophobe.nightfall.dwarf.kit.ranged;
 
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
@@ -49,7 +49,7 @@ public class VolcanicGauntlet extends AbstractBow {
 		double damage = POWER * force2;
 		
 		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(
-				CustomDamageType.VOLCANIC_BOW,
+				GameDamageType.VOLCANIC_BOW,
 				(monster) -> ((monster instanceof MonsterPlayer) ? damage : damage*2d/3d)
 		);
 		dwarf.fireParticle(3, range, THICKNESS, 0.33, PARTICLE_PLACER, null, entityDamager);

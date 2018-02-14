@@ -5,8 +5,8 @@ import deimophobe.nightfall.cooldown.BooleanCooldown;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.RepeatingCooldown;
 import deimophobe.nightfall.cooldown.Update;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -88,7 +88,7 @@ class Ghostblade extends AbstractMob {
 	private void holdWeaponCheck() {
 		if (!isPlayerHoldingWeapon()) {
 			monster.getPlayer().getInventory().setHeldItemSlot(0);
-			monster.doDamage(null, CustomDamageType.INCORRECT_HELD_ITEM, 10, true);
+			monster.doDamage(null, GameDamageType.INCORRECT_HELD_ITEM, 10, true);
 			monster.givePotionEffect(PotionEffectType.GLOWING, 20, 1, true, true, true);
 		}
 	}

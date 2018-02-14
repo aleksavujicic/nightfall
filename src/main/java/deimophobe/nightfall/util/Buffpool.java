@@ -3,13 +3,15 @@ package deimophobe.nightfall.util;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.damage.GameDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.ai.AIEntity;
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -92,7 +94,7 @@ public class Buffpool implements Updateable {
 		if (lifetime % 5 == 0) {
 			for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
 				if (monster.getLocation().distance(location) <= radius) {
-					GameDamage damage = monster.createDamage(dwarf, CustomDamageType.BUFFPOOL, damageAmt);
+					GameDamage damage = monster.createDamage(dwarf, GameDamageType.BUFFPOOL, damageAmt);
 					if (monster instanceof AIEntity) damage.instaKill();
 					damage.setNoDmgTicks(1);
 					damage.fire(true);

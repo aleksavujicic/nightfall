@@ -71,7 +71,7 @@ public class BatteringRam extends AbstractMob {
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
-		if (damage.isArrow())
+		if (damage.getType().isArrow())
 			damage.cancel();
 	}
 	

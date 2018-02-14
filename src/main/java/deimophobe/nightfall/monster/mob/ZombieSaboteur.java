@@ -6,8 +6,8 @@ import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.DudCooldown;
 import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.watchers.ZombieWatcher;
 import org.bukkit.Location;
@@ -117,7 +117,7 @@ public class ZombieSaboteur extends Zombie {
     public void onDamageReceive(MonsterDamage damage) {
         super.onDamageReceive(damage);
         assaCD.reset();
-        if (damage.getType() == NaturalDamageType.MELEE) {
+        if (damage.getType() == GameDamageType.MELEE) {
             monster.givePotionEffect(PotionEffectType.SLOW, 30, 2,true, true,true);
         }
         monster.removePotionEffect(PotionEffectType.INVISIBILITY);
@@ -159,7 +159,7 @@ public class ZombieSaboteur extends Zombie {
         }
         if (assaCD.isAvailable()) {
             monster.playSound("entity.wither.shoot", 1f, 2f, true);
-            damage.getDamage().addBoost(57); // 60 - 3 due to str 1
+            damage.getMulitPartDamage().addBoost(57); // 60 - 3 due to str 1
             assaCD.reset();
         }
         assaCD.reset();

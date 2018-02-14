@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf.kit;
 
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -32,7 +32,7 @@ public abstract class AbstractCooldownItem extends AbstractCooldown implements I
 	}
 	
 	protected boolean itemCausedDamage(MonsterDamage damage) {
-		return (damage.getType() == NaturalDamageType.MELEE && isHoldingItem());
+		return (damage.getType() == GameDamageType.MELEE && isHoldingItem());
 	}
 	
 	@Override

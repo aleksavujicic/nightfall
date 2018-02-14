@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.hero;
 
 import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 
@@ -36,8 +36,8 @@ public class HeroBase extends AbstractPiece {
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
 		damage.multiplyManaDrain(0.5);
-		if (damage.getType() == NaturalDamageType.FALL) {
-			damage.getDamage().timesMult(0.1);
+		if (damage.getType() == GameDamageType.FALL) {
+			damage.getMulitPartDamage().timesMult(0.1);
 		}
 	}
 }

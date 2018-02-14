@@ -5,12 +5,12 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.GameDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
+import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -126,7 +126,7 @@ public class WildeStaff extends AbstractItem implements CooldownPiece {
 					}
 					for(AIEntity ai : AIManager.getManager().getAIs()){
 						if(ai.getEyeLocation().distance(position) <= MYST_RADIUS){
-							GameDamage damage = ai.createDamage(dwarf, CustomDamageType.MYST, MYST_DPT * MYST_DELAY);
+							GameDamage damage = ai.createDamage(dwarf, GameDamageType.MYST, MYST_DPT * MYST_DELAY);
 							damage.setNoDmgTicks(9);
 							damage.fire(true);
 						}

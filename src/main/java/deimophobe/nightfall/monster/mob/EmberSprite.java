@@ -8,8 +8,7 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -73,7 +72,7 @@ public class EmberSprite extends AbstractMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		if (damage.getType() == NaturalDamageType.RANGED) {
+		if (damage.getType() == GameDamageType.RANGED) {
 			damage.cancel();
 		}
 	}
@@ -167,7 +166,7 @@ public class EmberSprite extends AbstractMob {
 			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, distance)) );
 			knockback.setY(knockback.getY() / 2 + 0.1);
 
-			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.BLAZE_EXPLOSION, damage);
+			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, GameDamageType.BLAZE_EXPLOSION, damage);
 			aoeDamage.setKnockback(knockback);
 			aoeDamage.setArmourShred(armorShred);
 			aoeDamage.fire(true);

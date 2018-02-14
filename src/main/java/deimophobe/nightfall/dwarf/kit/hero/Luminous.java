@@ -2,8 +2,8 @@ package deimophobe.nightfall.dwarf.kit.hero;
 
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
@@ -40,11 +40,11 @@ public class Luminous extends AbstractBow {
     @Override
     public void onDamageAttack(MonsterDamage damage) {
         super.onDamageAttack(damage);
-        if (damage.getType() == CustomDamageType.LUMINOUS) {
+        if (damage.getType() == GameDamageType.LUMINOUS) {
             damage.getArrowRes().timesMult(0.5);
             
             if (damage.getMonster() instanceof AIEntity) {
-            	damage.getDamage().timesMult(1.5);
+            	damage.getMulitPartDamage().timesMult(1.5);
 			}
         }
     }
@@ -59,7 +59,7 @@ public class Luminous extends AbstractBow {
 	
 		ParticleSwirler swirler = new ParticleSwirler(dwarf.getLocation().getDirection());
 		GamePlayer.ProcGiver procGiver = dwarf.new ProcGiver(ProcType.LUMINOUS, MIN_DISTANCE_FROM_SHOOTER);
-		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(CustomDamageType.LUMINOUS, getPower()*force);
+		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(GameDamageType.LUMINOUS, getPower()*force);
 		dwarf.fireParticle(4, range, THICKNESS, 0.33, swirler, procGiver, entityDamager);
 	
 		dwarf.playSound("entity.ghast.shoot", 1f, 1.35f - force*0.5f, true);

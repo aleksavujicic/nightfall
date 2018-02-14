@@ -3,8 +3,8 @@ package deimophobe.nightfall.dwarf.kit.melee;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
@@ -60,7 +60,7 @@ public class Rapier extends AbstractItem implements CooldownPiece {
 				if (monster.getEyeLocation().distance(dwarf.getLocation()) <= 2) {
 					double damageAmt = 20 + dwarf.getBonusMeleeDamage();
 					if (monster.isAI()) damageAmt *= 2;
-					MonsterDamage damage = monster.createDamage(dwarf, CustomDamageType.TEMPORARY, damageAmt);
+					MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.TEMPORARY, damageAmt);
 					damage.setProc(dwarf.hasProc());
 					damage.fire(true);
 					

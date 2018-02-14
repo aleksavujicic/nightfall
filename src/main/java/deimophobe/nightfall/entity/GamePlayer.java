@@ -6,7 +6,7 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.DamageOccurance;
 import deimophobe.nightfall.damage.GameDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.effects.sound.Sounds;
@@ -84,9 +84,9 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	// ------ DEBUG ------
 	public boolean isDebugMode() { return Game.getGame().isDebug(player); }
 	
-	public void debugDamage(GameDamage damage) {
+	public void debugObject(Object object) {
 		if (isDebugMode()) {
-			sendMessage(damage.toString());
+			sendMessage(object.toString());
 		}
 	}
 	
@@ -370,7 +370,7 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	
 	@Deprecated
 	public void forceKill() {
-		GameDamage damage = createDamage(null, CustomDamageType.TEMPORARY, 10000);
+		GameDamage damage = createDamage(null, GameDamageType.TEMPORARY, 10000);
 		damage.instaKill();
 		damage.fire();
 	}
@@ -547,22 +547,22 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	}
 	
 	public class GameEntityDamager<P extends GameEntity> extends SingleEntityConsumer<P> {
-		private final CustomDamageType type;
+		private final GameDamageType type;
 		private final Function<P,Double> damage;
 		
-		public GameEntityDamager(CustomDamageType type, double damage, double minDistance) {
+		public GameEntityDamager(GameDamageType type, double damage, double minDistance) {
 			super(minDistance);
 			this.type = type;
 			this.damage = (m) -> damage;
 		}
 		
-		public GameEntityDamager(CustomDamageType type, double damage) {
+		public GameEntityDamager(GameDamageType type, double damage) {
 			super(0);
 			this.type = type;
 			this.damage = (m) -> damage;
 		}
 		
-		public GameEntityDamager(CustomDamageType type, Function<P, Double> damage) {
+		public GameEntityDamager(GameDamageType type, Function<P, Double> damage) {
 			super(0);
 			this.type = type;
 			this.damage = damage;

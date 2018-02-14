@@ -3,7 +3,7 @@ package deimophobe.nightfall.dwarf.kit.accessory;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import org.bukkit.Particle;
@@ -38,11 +38,11 @@ public class Slowfall extends AbstractPiece {
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
-		if (damage.getType() == NaturalDamageType.FALL) {
+		if (damage.getType() == GameDamageType.FALL) {
 			if (cooldown.wasUsedWithin(8*20))
 				damage.cancel();
 			else
-				damage.getDamage().timesMult(1 - RESISTANCE);
+				damage.getMulitPartDamage().timesMult(1 - RESISTANCE);
 		}
 	}
 	

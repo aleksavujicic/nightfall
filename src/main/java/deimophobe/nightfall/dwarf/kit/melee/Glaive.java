@@ -4,7 +4,7 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.GameDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
@@ -118,7 +118,7 @@ public class Glaive extends AbstractAOEHitter implements CooldownPiece {
         MonsterEntity entity = dwarf.getLookingAt(altRange, 2.5, MonsterManager.getManager().getAliveMobsAndAIs());
         double damage;
         damage = (entity instanceof MonsterPlayer ? 20:15);
-        GameDamage altDamage = entity.createDamage(dwarf, CustomDamageType.GLAIVE_ALT,damage);
+        GameDamage altDamage = entity.createDamage(dwarf, GameDamageType.GLAIVE_ALT,damage);
         altDamage.addKnockback(getKnockBack(entity));
         altDamage.fire(true);
     }
@@ -132,7 +132,7 @@ public class Glaive extends AbstractAOEHitter implements CooldownPiece {
             if (currentTicks >= chargeTime){ready = true;}
         }
         MonsterEntity entity = dwarf.getLookingAt(altRange, 2.5, MonsterManager.getManager().getAliveMobsAndAIs());
-        GameDamage powerHit = entity.createDamage(dwarf, CustomDamageType.GLAIVE_ALT, powerDamage);
+        GameDamage powerHit = entity.createDamage(dwarf, GameDamageType.GLAIVE_ALT, powerDamage);
         powerHit.addKnockback(getKnockBack(entity));//might be fixed now
         powerHit.fire(true);
     }
@@ -158,13 +158,13 @@ public class Glaive extends AbstractAOEHitter implements CooldownPiece {
             GameDamage flurryDamage;
             if (currentTicks == 0 || currentTicks == 4*(stunTime/5)) {//First and second hit
                 for (MonsterEntity stunnedEntity : stunned){
-                    flurryDamage = stunnedEntity.createDamage(dwarf,CustomDamageType.GLAIVE_ALT, flurryDamageLow);
+                    flurryDamage = stunnedEntity.createDamage(dwarf,GameDamageType.GLAIVE_ALT, flurryDamageLow);
                     flurryDamage.fire();
                 }
             }
             if (currentTicks == stunTime-1){//Third hit, with large knockback
                 for (MonsterEntity stunnedEntity : stunned){
-                    flurryDamage = stunnedEntity.createDamage(dwarf,CustomDamageType.GLAIVE_ALT,flurryDamageHigh);
+                    flurryDamage = stunnedEntity.createDamage(dwarf,GameDamageType.GLAIVE_ALT,flurryDamageHigh);
                     flurryDamage.addKnockback(getKnockBack(stunnedEntity));//Might be fixed
                     flurryDamage.fire();
                 }
@@ -190,7 +190,7 @@ public class Glaive extends AbstractAOEHitter implements CooldownPiece {
         if (lookingAt == entity){
             Location entityLoc = entity.getLocation();
             entityLoc.getWorld().spawnParticle(Particle.SPIT,entityLoc, 0, 249,245,14);
-            GameDamage altDamage = entity.createDamage(dwarf, CustomDamageType.GLAIVE_ALT,highDamage);
+            GameDamage altDamage = entity.createDamage(dwarf, GameDamageType.GLAIVE_ALT,highDamage);
             altDamage.addKnockback(getKnockBack(entity));
             altDamage.fire(true);
         }

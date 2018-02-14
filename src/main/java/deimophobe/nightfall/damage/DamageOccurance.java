@@ -1,8 +1,5 @@
 package deimophobe.nightfall.damage;
 
-import deimophobe.nightfall.damage.type.CustomDamageType;
-import deimophobe.nightfall.damage.type.GameDamageType;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.ChatColor;
@@ -10,6 +7,7 @@ import org.bukkit.ChatColor;
 /**
  * Created by Deimophobe on 17/07/17.
  */
+@Deprecated
 public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 	private final GameEntity attacker;
 	private final GameEntity receiver;
@@ -32,8 +30,8 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 		
 		String killMsg = null;
 		
-		if (type instanceof NaturalDamageType) {
-			switch ((NaturalDamageType) type) {
+		if (type instanceof GameDamageType) {
+			switch ((GameDamageType) type) {
 				case MELEE:
 					killMsg = "slain";
 					break;
@@ -62,8 +60,8 @@ public class DamageOccurance  { //implements Comparable<DamageOccurance> {
 			}
 		}
 
-		if (type instanceof CustomDamageType) {
-			switch ((CustomDamageType) type) {
+		if (type instanceof GameDamageType) {
+			switch ((GameDamageType) type) {
 				case HAMMER_AOE:
 					killMsg = "slain";
 					break;

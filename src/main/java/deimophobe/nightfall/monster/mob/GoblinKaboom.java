@@ -8,8 +8,8 @@ import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.DudCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -115,14 +115,14 @@ class GoblinKaboom extends Goblin {
 			Vector knockback = offset.multiply(kb / Math.max(2, offset.length()));
 			knockback.setY(knockback.getY() / 2 + 0.3 + 0.5 * superKaboom);
 			
-			DwarfDamage aoeDamage = dwarf.createDamage(monster, CustomDamageType.GOBO_KABOOM, dwarfDamage);
+			DwarfDamage aoeDamage = dwarf.createDamage(monster, GameDamageType.GOBO_KABOOM, dwarfDamage);
 			aoeDamage.setKnockback(knockback);
 			aoeDamage.setArmourShred(armorShred);
 			aoeDamage.fire(true);
 		}
 		
 		
-		GameDamage damage = monster.createDamage(null, CustomDamageType.SELF_GOBO_KABOOM, 1000);
+		GameDamage damage = monster.createDamage(null, GameDamageType.SELF_GOBO_KABOOM, 1000);
 		damage.instaKill();
 		damage.fire(true);
 		

@@ -1,8 +1,8 @@
 package deimophobe.nightfall.dwarf.kit.hero;
 
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.ranged.AbstractBow;
@@ -83,7 +83,7 @@ public class IceBow extends AbstractBow {
 		for (MonsterEntity<?> monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
 			if (monster == exclude) continue;
 			if (monster.distanceTo(location) <= AOE_RADIUS) {
-				monster.doDamage(dwarf, CustomDamageType.WATER_BOW_AOE, 30);
+				monster.doDamage(dwarf, GameDamageType.WATER_BOW_AOE, 30);
 			}
 		}
 	}

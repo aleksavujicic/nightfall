@@ -5,11 +5,11 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.GameDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
+import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import org.bukkit.Location;
@@ -125,7 +125,7 @@ public class Wildfire extends AbstractItem {
 				if (flamedMobs.contains(monster)) continue;
 				
 				if (monster.getEyeLocation().distance(location) <= radius) {
-					GameDamage damage = monster.createDamage(dwarf, CustomDamageType.WILDFIRE, damageAmt);
+					GameDamage damage = monster.createDamage(dwarf, GameDamageType.WILDFIRE, damageAmt);
 					damage.setNoDmgTicks(1);
 					damage.fire(true);
 					

@@ -6,10 +6,9 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.DudCooldown;
 import deimophobe.nightfall.cooldown.SimpleCooldown;
-import deimophobe.nightfall.damage.DamageModifier;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -125,14 +124,12 @@ public class ZombieHusk extends Zombie {
                     Vector offset = dwarf.getEyeLocation().subtract(monster.getLocation()).toVector();
                     if (offset.length() > 5) continue;
 
-                    DamageModifier modifier = new DamageModifier();
                     Vector distance = offset.setY(0).normalize();
                     Vector knockback = distance.multiply((0.3 + 0.2 * leapLvl) / Math.sqrt(Math.max(1, offset.length())) );
                     knockback.setY(knockback.getY() / 2 + 0.5);
-                    modifier.addKnockback(knockback);
 
-                    DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.HUSK_STOMP, 6 * leapLvl);
-                    modifier.applyToDamage(aoeDamage);
+                    DwarfDamage aoeDamage = dwarf.createDamage(this.monster, GameDamageType.HUSK_STOMP, 6 * leapLvl);
+                    aoeDamage.addKnockback(knockback);
                     aoeDamage.fire(true);
                 }
                 smashCD.reset();

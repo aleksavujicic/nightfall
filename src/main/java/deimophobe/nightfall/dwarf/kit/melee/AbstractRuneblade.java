@@ -4,13 +4,13 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
+import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -57,7 +57,7 @@ public abstract class AbstractRuneblade extends AbstractItem implements Cooldown
 			damage.cancel();
 		}
 		
-		if (cooldown.wasUsedWithin(60) && damage.getType() == NaturalDamageType.FALL) {
+		if (cooldown.wasUsedWithin(60) && damage.getType() == GameDamageType.FALL) {
 			damage.cancel();
 		}
 	}

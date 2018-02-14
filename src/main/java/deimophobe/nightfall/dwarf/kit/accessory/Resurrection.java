@@ -8,10 +8,12 @@ import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.damage.CancellableFinalGameDamage;
+import deimophobe.nightfall.damage.DamageHandler;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
-import deimophobe.nightfall.dwarf.kit.KitPieceType;
+import deimophobe.nightfall.entity.GameEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -19,6 +21,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.function.Consumer;
 
 /**
  * Created by Deimophobe on 1/11/17.
@@ -35,23 +38,36 @@ public class Resurrection extends AbstractPiece {
 	public void damageNotify(DwarfDamage damage) {
 		super.damageNotify(damage);
 		
-		if (!used && !canJJHeal(damage) && damage.willKill() && Game.getGame().getPhase() == Phase.GAME) {
+		if (!used && Game.getGame().getPhase() == Phase.GAME) {
+			damage.addPreDamageHandler(DamageHandler.RESURRECTION_PRIORITY, resurrecter);
+		}
+	}
+	
+	private final Consumer<CancellableFinalGameDamage<GameEntity<?>, Dwarf>> resurrecter = damage -> {
+		if (damage.willKill()) {
 			used = true;
+			damage.softCancel();
 			
 			dwarf.getArmour().addModifier(ItemModifierType.HEALTH, -5, "Resurrection");
 			dwarf.getArmour().repair(500);
 			dwarf.regenMana(500);
 			dwarf.healMax();
-			dwarf.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 3*20, 5, true, false, true);
+			dwarf.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 3 * 20, 5, true, false, true);
 			
 			dwarf.playSound("item.totem.use", 1f, 1f, true);
 			new BukkitRunnable() {
 				private int life = 40;
+				
 				@Override
 				public void run() {
+					if (!dwarf.isOnline()) {
+						cancel();
+						return;
+					}
+					
 					World world = dwarf.getWorld();
-					world.spawnParticle(Particle.END_ROD, dwarf.getEyeLocation().subtract(0,0.3,0), 1, 0.5, 0.5, 0.5, 0.1);
-					world.spawnParticle(Particle.TOTEM, dwarf.getEyeLocation().subtract(0,0.3,0), 5, 0.5, 0.5, 0.5, 0.1);
+					world.spawnParticle(Particle.END_ROD, dwarf.getEyeLocation().subtract(0, 0.3, 0), 1, 0.5, 0.5, 0.5, 0.1);
+					world.spawnParticle(Particle.TOTEM, dwarf.getEyeLocation().subtract(0, 0.3, 0), 5, 0.5, 0.5, 0.5, 0.1);
 					
 					life--;
 					if (life <= 0)
@@ -70,12 +86,6 @@ public class Resurrection extends AbstractPiece {
 				Bukkit.getLogger().severe("Exception sending animation packet");
 				e.printStackTrace();
 			}
-			
-			damage.softCancel();
 		}
-	}
-	
-	private boolean canJJHeal(DwarfDamage damage) {
-		return dwarf.hasKitElement(KitPieceType.SAFETY_JUICE) && dwarf.hasMana(120) && damage.getFinalDamage() < dwarf.getMaxHealth();
-	}
+	};
 }

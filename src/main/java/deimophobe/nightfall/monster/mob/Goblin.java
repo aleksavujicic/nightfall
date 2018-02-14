@@ -8,9 +8,8 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
-import deimophobe.nightfall.damage.DamageModifier;
 import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -132,12 +131,10 @@ public class Goblin extends AbstractMob {
 			Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
 			if (offset.length() > 5.5) continue;
 
-			DamageModifier modifier = new DamageModifier();
-
 			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
 			knockback.setY(knockback.getY() / 2 + 0.3);
 
-			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.GOBO_BOX_EXPLOSION, damage);
+			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, GameDamageType.GOBO_BOX_EXPLOSION, damage);
 			aoeDamage.setKnockback(knockback);
 			aoeDamage.setArmourShred(armorShred);
 			aoeDamage.fire(true);

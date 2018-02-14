@@ -1,8 +1,8 @@
 package deimophobe.nightfall.monster.ai;
 
 import deimophobe.nightfall.ItemManager;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.entity.GameEntity;
 import org.bukkit.Location;
@@ -36,7 +36,7 @@ public class AIZombie extends AIEntity<Zombie> {
 	
 	@Override
 	public void onDeath(MonsterDamage damage) {
-		if (damage.getType() != CustomDamageType.AI_REMOVER) {
+		if (damage.getType() != GameDamageType.AI_REMOVER) {
 			float pitch = (getEntity().isBaby() ? 1.5f : 1f);
 			monster.getLocation().getWorld().playSound(getLocation(), "entity.zombie.death", 1f, pitch);
 		}

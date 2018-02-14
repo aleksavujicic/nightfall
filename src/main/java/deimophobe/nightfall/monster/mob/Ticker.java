@@ -2,9 +2,8 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -66,7 +65,7 @@ class Ticker extends AbstractMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		if (damage.getType() == NaturalDamageType.MELEE)
+		if (damage.getType() == GameDamageType.MELEE)
 			damage.cancel();
 	}
 	
@@ -143,7 +142,7 @@ class Ticker extends AbstractMob {
 				int armourShred = (int) (ARMOUR_SHRED*affectRate);
 				int drain = (int) (MANA_DRAIN*affectRate);
 				
-				DwarfDamage damage = dwarf.createDamage(monster, CustomDamageType.GOBO_KABOOM, damageDealt);
+				DwarfDamage damage = dwarf.createDamage(monster, GameDamageType.GOBO_KABOOM, damageDealt);
 				damage.setArmourShred(armourShred);
 				damage.setManaDrain(drain);
 				damage.setKnockback(offset);
@@ -151,6 +150,6 @@ class Ticker extends AbstractMob {
 			}
 		}
 		BlockConverter.convert(BlockConverter.Type.EXPLOSION, monster.getLocation(), 15);
-		monster.doDamage(null, CustomDamageType.SELF_GOBO_KABOOM, 100000, true, true);
+		monster.doDamage(null, GameDamageType.SELF_GOBO_KABOOM, 100000, true, true);
 	}
 }

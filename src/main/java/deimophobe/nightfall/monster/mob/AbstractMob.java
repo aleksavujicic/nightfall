@@ -6,8 +6,8 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.*;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -332,11 +332,11 @@ public abstract class AbstractMob implements Mob {
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
-		if (damage.getType() == NaturalDamageType.MELEE) {
+		if (damage.getType() == GameDamageType.MELEE) {
 			playSound("melee");
 			damage.setArmourShred(mobData.armourShred);
 			monster.gainXP(3);
-		} else if (damage.getType() == NaturalDamageType.RANGED) {
+		} else if (damage.getType() == GameDamageType.RANGED) {
 			monster.gainXP(10);
 		} else {
 			monster.gainXP(5);
@@ -352,7 +352,7 @@ public abstract class AbstractMob implements Mob {
 		}
 		
 		if (!mobData.proccable) damage.setProc(false);
-		damage.getDamage().timesMult(1 - mobData.damageRes);
+		damage.getMulitPartDamage().timesMult(1 - mobData.damageRes);
 		damage.getArrowRes().setBase(mobData.arrowRes);
 		
 		if (!damage.isCancelled()) {

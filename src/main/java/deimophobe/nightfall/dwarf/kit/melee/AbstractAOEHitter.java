@@ -1,8 +1,8 @@
 package deimophobe.nightfall.dwarf.kit.melee;
 
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.entity.MonsterEntity;
@@ -33,7 +33,7 @@ public abstract class AbstractAOEHitter extends AbstractItem {
 		for (MonsterEntity entity : MonsterManager.getManager().getAliveMobsAndAIs()) {
 			if (entity.distanceTo(center) <= getRadius(entity)) {
 				double rawDamage = getDamageToMonster(entity) + dwarf.getBonusMeleeDamage()/2;
-				MonsterDamage damage = (MonsterDamage) entity.createDamage(dwarf, CustomDamageType.HAMMER_AOE, rawDamage);
+				MonsterDamage damage = (MonsterDamage) entity.createDamage(dwarf, GameDamageType.HAMMER_AOE, rawDamage);
 				
 				if (entity instanceof AIEntity)
 					damage.setKnockback(0, 0.4, 0);

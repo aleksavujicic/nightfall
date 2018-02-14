@@ -5,8 +5,8 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.BooleanCooldown;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.armour.Armour;
@@ -66,9 +66,9 @@ public class ShadowBlade extends AbstractItem implements CooldownPiece {
 		super.onDamageAttack(damage);
 		if(strikeBuffed){
 			if(damage.getReceiver() instanceof AIEntity){
-				damage.getDamage().timesMult(3);
+				damage.getMulitPartDamage().timesMult(3);
 			}else {
-				damage.getDamage().timesMult(1.25);
+				damage.getMulitPartDamage().timesMult(1.25);
 			}
 		}
 		else {
@@ -103,7 +103,7 @@ public class ShadowBlade extends AbstractItem implements CooldownPiece {
 				damage.cancel();
 			}
 		} else {
-			if (!damage.isCancelled() && damage.getType() != NaturalDamageType.FALL && !strikeBuffed) {
+			if (!damage.isCancelled() && damage.getType() != GameDamageType.FALL && !strikeBuffed) {
 				// Otherwise cancel invisibility
 				resetInvisibility();
 			}
@@ -141,7 +141,7 @@ public class ShadowBlade extends AbstractItem implements CooldownPiece {
 //			Location newLoc = monsterLoc.subtract(lookDir);
 
 //			if (!newLoc.getBlock().getType().isSolid()) {
-//				closestPlayerMonster.doDamage(dwarf, CustomDamageType.SHADOW_STRIKE, 100, true);
+//				closestPlayerMonster.doDamage(dwarf, GameDamageType.SHADOW_STRIKE, 100, true);
 //				dwarf.teleportTo(newLoc);
 //				dwarf.playSound("entity.endermen.teleport", 1, 1, true);
 //				startStrikeBuff();

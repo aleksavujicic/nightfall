@@ -3,7 +3,7 @@ package deimophobe.nightfall.dwarf.kit.healing;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 
 public class HealingGlow extends AbstractAle {
@@ -47,8 +47,8 @@ public class HealingGlow extends AbstractAle {
 	@Override
 	public void onDamageReceive (DwarfDamage damage) {
 		super.onDamageReceive(damage);
-		if (damage.getType() instanceof NaturalDamageType){
-			switch ((NaturalDamageType) damage.getType()){
+		if (damage.getType() instanceof GameDamageType){
+			switch ((GameDamageType) damage.getType()){
 				case FIRE:
 				case LAVA:
 					damage.cancel();

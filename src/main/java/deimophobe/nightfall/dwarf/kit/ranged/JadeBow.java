@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.ranged;
 
 import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
@@ -46,7 +46,7 @@ public class JadeBow extends AbstractBow {
 		double range = MAX_RANGE * force * force;
 		
 		GamePlayer.ProcGiver procGiver = dwarf.new ProcGiver(ProcType.EBOW, MIN_DISTANCE_FROM_SHOOTER);
-		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(CustomDamageType.JADE_BOW, getPower()*force);
+		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(GameDamageType.JADE_BOW, getPower()*force);
 		dwarf.fireParticle(2, range, THICKNESS, 0.33, PARTICLE_PLACER, procGiver, entityDamager);
 		
 		return null;

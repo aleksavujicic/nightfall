@@ -1,8 +1,8 @@
 package deimophobe.nightfall.monster.ai;
 
 import deimophobe.nightfall.ItemManager;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.entity.GameEntity;
 import org.bukkit.Location;
@@ -43,7 +43,7 @@ public class AIFireSkeleton extends AIEntity<Skeleton> {
 
     @Override
     public void onDeath(MonsterDamage damage) {
-        if (damage.getType() != CustomDamageType.AI_REMOVER) {
+        if (damage.getType() != GameDamageType.AI_REMOVER) {
             monster.getLocation().getWorld().playSound(getLocation(), "entity.skeleton.death", 1f, 1f);
         }
         super.onDeath(damage);

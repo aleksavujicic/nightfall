@@ -6,8 +6,8 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -67,7 +67,7 @@ class SkeletonWither extends AbstractToggleSkeleton {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		if ((damage.hasArrow() && ArrowMisc.getArrowForce(damage.getArrow()) > 0.7) || (damage.getType() == CustomDamageType.WITHER_SKULL)) {
+		if ((damage.hasArrow() && ArrowMisc.getArrowForce(damage.getArrow()) > 0.7) || (damage.getType() == GameDamageType.WITHER_SKULL)) {
 			sniperCD.reset();
 			monster.heal(siphon);
 			
@@ -134,7 +134,7 @@ class SkeletonWither extends AbstractToggleSkeleton {
 			double distance = offset.subtract(new Vector(0,1,0)).length();
 			if (distance > 2) continue;
 
-			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.WITHER_SKULL, getPower());
+			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, GameDamageType.WITHER_SKULL, getPower());
 			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, distance)));
 			aoeDamage.setKnockback(knockback);
 			aoeDamage.setArmourShred(getArmourShred());

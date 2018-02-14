@@ -7,9 +7,8 @@ import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.MultiEventCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -91,7 +90,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
-		if (damage.getType() == NaturalDamageType.FALL) {
+		if (damage.getType() == GameDamageType.FALL) {
 			if (!fallImmunity.isAvailable() || whirlpool != null)
 				damage.cancel();
 		}
@@ -112,7 +111,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 				double damageAmt = DAMAGE + dwarf.getBonusMeleeDamage() / 2;
 				if (monster.isUnderwater()) damageAmt *= 1.5;
 				
-				MonsterDamage damage = monster.createDamage(dwarf, CustomDamageType.BUBBLE_BEAM, damageAmt);
+				MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.BUBBLE_BEAM, damageAmt);
 				if (dwarf.hasProc()) damage.setProc(true);
 				damage.setNoDmgTicks(1);
 				damage.fire(true);
@@ -185,7 +184,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 						boolean isAI = (monster instanceof AIEntity<?>);
 						
 						if (dwarf.isOnline())
-							monster.doDamage(dwarf, CustomDamageType.GEYSER, 10, true, isAI);
+							monster.doDamage(dwarf, GameDamageType.GEYSER, 10, true, isAI);
 					}
 
 					Vector offset = monster.offsetFrom(midLoc);

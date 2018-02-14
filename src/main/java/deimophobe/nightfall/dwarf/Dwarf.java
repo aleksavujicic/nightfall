@@ -10,9 +10,8 @@ import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.RepeatingCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.armour.NakedArmour;
@@ -477,7 +476,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	// ------ DAMAGE ------
 	@Override
-	public DwarfDamage createDamage(GameEntity attacker, CustomDamageType type, double damage) {
+	public DwarfDamage createDamage(GameEntity attacker, GameDamageType type, double damage) {
 		return new DwarfDamage(attacker, this, type, damage);
 	}
 	
@@ -506,52 +505,52 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			case 2:
 				useMana(100);
 				armour.damage(50);
-				this.doDamage(null, CustomDamageType.MOBSPAWN, 1, true);
+				this.doDamage(null, GameDamageType.MOBSPAWN, 1, true);
 				break;
 			case 3:
 				useMana(100);
 				armour.damage(100);
-				this.doDamage(null, CustomDamageType.MOBSPAWN, 1, true);
+				this.doDamage(null, GameDamageType.MOBSPAWN, 1, true);
 				break;
 			case 4:
 				useMana(200);
 				armour.damage(150);
-				this.doDamage(null, CustomDamageType.MOBSPAWN, 1, true);
+				this.doDamage(null, GameDamageType.MOBSPAWN, 1, true);
 				break;
 			case 5:
 				useMana(200);
 				armour.damage(150);
-				this.doDamage(null, CustomDamageType.MOBSPAWN, 50, true);
+				this.doDamage(null, GameDamageType.MOBSPAWN, 50, true);
 				break;
 			case 6:
 				useMana(200);
 				armour.damage(200);
-				this.doDamage(null, CustomDamageType.MOBSPAWN, 50, true);
+				this.doDamage(null, GameDamageType.MOBSPAWN, 50, true);
 				break;
 			case 7:
 				useMana(200);
 				armour.damage(200);
-				this.doDamage(null, CustomDamageType.MOBSPAWN, 50, true);
+				this.doDamage(null, GameDamageType.MOBSPAWN, 50, true);
 				break;
 			case 8:
 				useMana(250);
 				armour.damage(250);
-				this.doDamage(null, CustomDamageType.MOBSPAWN, 100, true);
+				this.doDamage(null, GameDamageType.MOBSPAWN, 100, true);
 				break;
 			case 9:
 				useMana(300);
 				armour.damage(300);
-				this.doDamage(null, CustomDamageType.MOBSPAWN, 100, true);
+				this.doDamage(null, GameDamageType.MOBSPAWN, 100, true);
 				givePotionEffect(PotionEffectType.POISON, 80, 1, true, true, true);
 				break;
 			case 10:
 				useMana(500);
 				armour.damage(1000);
-				this.doDamage(null, CustomDamageType.MOBSPAWN, 190, true);
+				this.doDamage(null, GameDamageType.MOBSPAWN, 190, true);
 				givePotionEffect(PotionEffectType.POISON, 80, 1, true, true, true);
 				break;
 			default:
-				this.doDamage(null, CustomDamageType.MOBSPAWN, 10000, true);
+				this.doDamage(null, GameDamageType.MOBSPAWN, 10000, true);
 				break;
 		}
 		
@@ -611,7 +610,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
-		if (damage.getType() == NaturalDamageType.MELEE && hasProc())
+		if (damage.getType() == GameDamageType.MELEE && hasProc())
 			damage.setProc(true);
 		
 		kit.onDamageAttack(damage);
@@ -619,11 +618,11 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
-		damage.getDamage().timesMult(1 - armour.getResistance());
+		damage.getMulitPartDamage().timesMult(1 - armour.getResistance());
 		
 		kit.onDamageReceive(damage);
 		
-		if (damage.getType() == NaturalDamageType.FALL && damage.getFinalDamage() <= 0.2)
+		if (damage.getType() == GameDamageType.FALL && damage.getFinalDamage() <= 0.2)
 			damage.cancel();
 	}
 	

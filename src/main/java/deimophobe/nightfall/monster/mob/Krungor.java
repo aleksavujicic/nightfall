@@ -43,7 +43,7 @@ class Krungor extends AbstractMob {
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
 		if (damage.getReceiver() instanceof Hero)
-			damage.getDamage().addBoost(20);
+			damage.getMulitPartDamage().addBoost(20);
 	}
 
 	

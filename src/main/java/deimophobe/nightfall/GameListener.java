@@ -6,7 +6,7 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.event.HatChangeEvent;
 import deimophobe.nightfall.common.event.TitleChangeEvent;
 import deimophobe.nightfall.common.loadout.LoadoutMenu;
-import deimophobe.nightfall.damage.DamageManager;
+import deimophobe.nightfall.damage.DamageUtil;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -289,7 +289,7 @@ public class GameListener implements Listener {
 		
 		GameEntity damagee = game.getGameEntity(event.getEntity());
 		if (damagee != null)
-			DamageManager.getManager().processDamageEvent(event);
+			DamageUtil.processDamageEvent(event);
 	}
 	
 	@EventHandler

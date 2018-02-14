@@ -1,17 +1,17 @@
 package deimophobe.nightfall.dwarf.kit.ranged;
 
-import deimophobe.nightfall.util.ArrowMisc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
+import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.BowPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.monster.ai.AIEntity;
+import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
@@ -45,7 +45,7 @@ public abstract class AbstractBow extends AbstractItem implements BowPiece {
 	public KitGiveType getGiveType() { return KitGiveType.BOW; }
 	
 	protected boolean damageFromBow(MonsterDamage damage) {
-		return (damage.getType() == NaturalDamageType.RANGED &&
+		return (damage.getType() == GameDamageType.RANGED &&
 				damage.hasArrow() &&
 				belongsToBow(damage.getArrow()));
 	}

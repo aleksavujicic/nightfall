@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf.kit;
 
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -30,7 +30,7 @@ public abstract class AbstractItem extends AbstractPiece implements ItemPiece {
 	}
 	
 	protected boolean damageFromItem(MonsterDamage damage) {
-		return (damage.getType() == NaturalDamageType.MELEE && isHoldingItem());
+		return (damage.getType() == GameDamageType.MELEE && isHoldingItem());
 	}
 	
 	protected final void setShiny(boolean shiny) {

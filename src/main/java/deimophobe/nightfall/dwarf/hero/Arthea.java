@@ -3,9 +3,9 @@ package deimophobe.nightfall.dwarf.hero;
 import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
+
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.GameEntity;
@@ -108,14 +108,14 @@ public class Arthea extends Hero {
 	
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
-		if (damage.getType() == NaturalDamageType.VOID) {
+		if (damage.getType() == GameDamageType.VOID) {
 			return;
 		}
 			
 		if (isEnraged() && enrageTimer != 0) {
 			GameEntity monster = damage.getAttacker();
 			if (monster instanceof AIEntity)
-				monster.doDamage(this, CustomDamageType.BLOOD_MAGIC, 1000, true, true);
+				monster.doDamage(this, GameDamageType.BLOOD_MAGIC, 1000, true, true);
 			
 			damage.cancel();
 		} else {
@@ -179,7 +179,7 @@ public class Arthea extends Hero {
 	}
 	
 	private void startEnrage() {
-		doDamage(null, CustomDamageType.BLOOD_MAGIC, 10, true);
+		doDamage(null, GameDamageType.BLOOD_MAGIC, 10, true);
 		
 		PlayerInventory inv = player.getInventory();
 		inv.clear();

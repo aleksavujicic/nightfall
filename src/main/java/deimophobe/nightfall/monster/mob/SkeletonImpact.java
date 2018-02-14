@@ -4,10 +4,9 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.*;
-import deimophobe.nightfall.damage.DamageModifier;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.map.GameMap;
@@ -134,14 +133,12 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 				continue;
 			}
 			
-			DamageModifier modifier = new DamageModifier();
 			
 			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())));
 			knockback.setY(knockback.getY() / 2 + 0.1);
-			modifier.addKnockback(knockback);
 			
-			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, CustomDamageType.IMPACT_AOE, 5 * aoe);
-			modifier.applyToDamage(aoeDamage);
+			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, GameDamageType.IMPACT_AOE, 5 * aoe);
+			aoeDamage.setKnockback(knockback);
 			aoeDamage.fire(true);
 			
 		}

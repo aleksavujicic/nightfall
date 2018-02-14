@@ -1,9 +1,8 @@
 package deimophobe.nightfall.monster.ai;
 
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.entity.GameEntity;
@@ -86,14 +85,14 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		if (!damage.isCancelled()) resetInactivity();
-		damage.getDamage().timesMult(0.3);
+		damage.getMulitPartDamage().timesMult(0.3);
 
 		if (damage.getAttacker() instanceof MonsterEntity) {
 			damage.cancel();
 		}
 
-		if (damage.getType() instanceof NaturalDamageType) {
-			switch ((NaturalDamageType) damage.getType()) {
+		if (damage.getType() instanceof GameDamageType) {
+			switch ((GameDamageType) damage.getType()) {
 				case CONTACT:
 				case DROWNING:
 				case FIRE:
@@ -166,7 +165,7 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	}
 	
 	public void remove() {
-		this.doDamage(null, CustomDamageType.AI_REMOVER, 10000, true, true);
+		this.doDamage(null, GameDamageType.AI_REMOVER, 10000, true, true);
 	}
 	
 	public void suffocationTick() {
@@ -181,7 +180,7 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	}
 	
 	@Override
-	public MonsterDamage createDamage(GameEntity attacker, CustomDamageType type, double damage) {
+	public MonsterDamage createDamage(GameEntity attacker, GameDamageType type, double damage) {
 		return new MonsterDamage(attacker, this, type, damage);
 	}
 }

@@ -7,7 +7,7 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -123,7 +123,7 @@ public class Minotaur extends AbstractMob {
 	private void aoeDamage() {
 		/*
 		DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), monster,
-				CustomDamageType.MINOTAUR_CHARGE, AOE_RADIUS, AOE_DMG, 10,
+				GameDamageType.MINOTAUR_CHARGE, AOE_RADIUS, AOE_DMG, 10,
 				new DwarfDamageModifier().setArmourShred(AOE_SHRED).addKnockback(0, 1.5, 0)
 		);
 		//TODO monster.playSound("entity.zombie.attack_iron_door", 1f, 1.7f, true);
@@ -137,7 +137,7 @@ public class Minotaur extends AbstractMob {
 				vel.normalize().multiply(3);
 				vel.setY(vel.getY() + 1.5);
 				
-				DwarfDamage damage = dwarf.createDamage(monster, CustomDamageType.MINOTAUR_CHARGE, AOE_DMG);
+				DwarfDamage damage = dwarf.createDamage(monster, GameDamageType.MINOTAUR_CHARGE, AOE_DMG);
 				damage.setKnockback(vel);
 				damage.setArmourShred(AOE_SHRED);
 				damage.fire(true);

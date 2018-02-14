@@ -2,8 +2,8 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -137,12 +137,12 @@ public class Wraith extends AbstractMob {
 	private static final int AOE_SHRED = 80;
 	private void aoeDamage() {
 		//DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), monster,
-		//		CustomDamageType.WRAITH_CHARGE, AOE_RADIUS, AOE_DMG, 1,
+		//		GameDamageType.WRAITH_CHARGE, AOE_RADIUS, AOE_DMG, 1,
 		//		new DwarfDamageModifier().setArmourShred(AOE_SHRED).setManaDrain(25)
 		//);
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			if (monster.distanceTo(dwarf) <= AOE_RADIUS) {
-				DwarfDamage damage = dwarf.createDamage(monster, CustomDamageType.WRAITH_CHARGE, AOE_DMG);
+				DwarfDamage damage = dwarf.createDamage(monster, GameDamageType.WRAITH_CHARGE, AOE_DMG);
 				damage.setArmourShred(AOE_SHRED);
 				damage.getDwarf().givePotionEffect(PotionEffectType.BLINDNESS, 15, 1, false, true, true);
 				damage.getDwarf().givePotionEffect(PotionEffectType.SLOW, 30, 3, false, true, true);

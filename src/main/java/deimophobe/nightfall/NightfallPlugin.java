@@ -11,7 +11,7 @@ import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
 import deimophobe.nightfall.common.loadout.LoadoutMenu;
-import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfData;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -590,7 +590,7 @@ public class NightfallPlugin extends JavaPlugin {
 					if (gp == null) {
 						((Player) sender).damage(dmg, (Entity) sender);
 					} else {
-						gp.doDamage(null, CustomDamageType.COMMAND, dmg, true);
+						gp.doDamage(null, GameDamageType.COMMAND, dmg, true);
 					}
 					sender.sendMessage(ChatColor.YELLOW + "Damaged you for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " damage.");
 					return true;
@@ -606,7 +606,7 @@ public class NightfallPlugin extends JavaPlugin {
 						else
 							target.damage(dmg);
 					} else {
-						gp.doDamage(null, CustomDamageType.COMMAND, dmg, true);
+						gp.doDamage(null, GameDamageType.COMMAND, dmg, true);
 					}
 					
 					sender.sendMessage(ChatColor.YELLOW + "Damaged " + target.getDisplayName() + ChatColor.YELLOW + " for " + ChatColor.GREEN + dmg + ChatColor.YELLOW + " damage.");

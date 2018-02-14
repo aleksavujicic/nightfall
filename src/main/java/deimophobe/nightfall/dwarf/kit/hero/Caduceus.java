@@ -97,7 +97,7 @@ public class Caduceus extends AbstractItem implements CooldownPiece {
 		
 		if (damageFromItem(damage)) {
 			if (damage.getMonster() instanceof AIEntity) {
-				damage.getDamage().addBoost(20);
+				damage.getMulitPartDamage().addBoost(20);
 				damage.getMonster().givePotionEffect(PotionEffectType.SLOW, 10*20, 2, true, false, true);
 			}
 		}

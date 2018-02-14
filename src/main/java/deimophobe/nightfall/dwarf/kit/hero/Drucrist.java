@@ -3,13 +3,13 @@ package deimophobe.nightfall.dwarf.kit.hero;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
+import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -61,7 +61,7 @@ public class Drucrist extends AbstractItem implements CooldownPiece {
 					Location newLoc = monsterLoc.subtract(lookDir);
 
 					if (!newLoc.getBlock().getType().isSolid()) {
-						closestPlayerMonster.doDamage(dwarf, CustomDamageType.SILENT_STRIKE, 100, true);
+						closestPlayerMonster.doDamage(dwarf, GameDamageType.SILENT_STRIKE, 100, true);
 						dwarf.teleportTo(newLoc);
 						dwarf.playSound("entity.endermen.teleport", 1, 1, true);
 						cd.reset();
@@ -74,7 +74,7 @@ public class Drucrist extends AbstractItem implements CooldownPiece {
 					Location newLoc = monsterLoc.subtract(lookDir);
 
 					if (!newLoc.getBlock().getType().isSolid()) {
-						closestAIMonster.doDamage(dwarf, CustomDamageType.SILENT_STRIKE, 40, true,true);
+						closestAIMonster.doDamage(dwarf, GameDamageType.SILENT_STRIKE, 40, true,true);
 						dwarf.teleportTo(newLoc);
 						dwarf.playSound("entity.endermen.teleport", 1, 1, true);
 						cd.reset();

@@ -7,9 +7,8 @@ import deimophobe.nightfall.common.menu.SessionData;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
@@ -279,7 +278,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		seppukuCD = 0;
 	}
 	private void seppukuKill() {
-		GameDamage damage = createDamage(null, CustomDamageType.SEPPUKU, 10000);
+		GameDamage damage = createDamage(null, GameDamageType.SEPPUKU, 10000);
 		damage.instaKill();
 		damage.fire(true);
 	}
@@ -365,7 +364,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	// ------ DAMAGE ------
 	@Override
-	public MonsterDamage createDamage(GameEntity attacker, CustomDamageType type, double damage) {
+	public MonsterDamage createDamage(GameEntity attacker, GameDamageType type, double damage) {
 		return new MonsterDamage(attacker, this, type, damage);
 	}
 
@@ -427,8 +426,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		if (mob != null) {
-			if (damage.getType() instanceof NaturalDamageType) {
-				switch ((NaturalDamageType) damage.getType()) {
+			if (damage.getType() instanceof GameDamageType) {
+				switch ((GameDamageType) damage.getType()) {
 					case CONTACT:
 					case DROWNING:
 					case FIRE:

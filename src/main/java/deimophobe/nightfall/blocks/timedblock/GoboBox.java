@@ -2,7 +2,8 @@ package deimophobe.nightfall.blocks.timedblock;
 
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.GameDamageType;
+
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.entity.GameEntity;
@@ -46,7 +47,7 @@ public class GoboBox extends TimedBlock {
 				Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
 				knockback.setY(knockback.getY() / 2);
 
-				DwarfDamage aoeDamage = dwarf.createDamage(getPlacer(), CustomDamageType.GOBO_BOX_EXPLOSION, damage);
+				DwarfDamage aoeDamage = dwarf.createDamage(getPlacer(), GameDamageType.GOBO_BOX_EXPLOSION, damage);
 				aoeDamage.setKnockback(knockback);
 				aoeDamage.setArmourShred(25);
 				aoeDamage.fire(true);

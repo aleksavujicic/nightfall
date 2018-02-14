@@ -3,18 +3,16 @@ package deimophobe.nightfall.damage;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Phase;
-import deimophobe.nightfall.damage.type.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Created by Deimophobe on 29/08/17.
  */
-public class DwarfDamage extends GameDamage<GameEntity, Dwarf> {
+public class DwarfDamage extends GameDamage<GameEntity<?>, Dwarf> {
 	private double armourShred = 0;
 	public double getArmourShred() {return armourShred;}
 	public void setArmourShred(double armourShred) {this.armourShred = armourShred;}
@@ -29,10 +27,12 @@ public class DwarfDamage extends GameDamage<GameEntity, Dwarf> {
 	
 	public DwarfDamage(GameEntity attacker, Dwarf receiver, GameDamageType type, double damage) {
 		super(attacker, receiver, type, damage);
+		addHandlers();
 	}
 	
 	DwarfDamage(GameEntity attacker, Dwarf receiver, GameDamageType type, double damage, Projectile arrow) {
 		super(attacker, receiver, type, damage, arrow);
+		addHandlers();
 	}
 	
 	public Dwarf getDwarf() {
@@ -46,30 +46,23 @@ public class DwarfDamage extends GameDamage<GameEntity, Dwarf> {
 		receiver.onDamageReceive(this);
 	}
 	
-	@Override
-	boolean applyDamage(EntityDamageEvent event) {
-		boolean successful = super.applyDamage(event);
-		
-		if (successful) {
-			receiver.getArmour().damage(armourShred);
-			receiver.useMana(manaDrain);
-			
-			if (Game.getGame().getPhase() == Phase.BUILD) {
-				if (willKill()) {
-					event.setDamage(0);
-					event.setCancelled(true);
+	private void addHandlers() {
+		if (Game.getGame().getPhase() == Phase.BUILD) {
+			addPreDamageHandler(-1000, damage -> {
+				if (damage.willKill()) {
+					damage.softCancel();
 					
 					receiver.respawn();
-					
 					new BukkitRunnable() {
 						@Override public void run() { receiver.respawn(); }
-					}
-					.runTaskLater(NightfallPlugin.getPlugin(), 1);
+					}.runTaskLater(NightfallPlugin.getPlugin(), 1);
 				}
-			}
+			});
 		}
 		
-		
-		return successful;
+		addPostDamageHandler(damage -> {
+			damage.getReceiver().getArmour().damage(armourShred);
+			damage.getReceiver().useMana(manaDrain);
+		});
 	}
 }

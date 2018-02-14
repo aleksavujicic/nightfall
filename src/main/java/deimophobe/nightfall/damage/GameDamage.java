@@ -1,6 +1,5 @@
 package deimophobe.nightfall.damage;
 
-import deimophobe.nightfall.damage.type.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
@@ -8,15 +7,17 @@ import deimophobe.nightfall.entity.MonsterEntity;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
+
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.function.Consumer;
 
 /**
  * Created by Deimophobe on 6/05/17.
  */
-public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
+public abstract class GameDamage<A extends GameEntity, R extends GameEntity> implements CancellableFinalGameDamage<A,R> {
 	/** The type of damage. */
 	protected final GameDamageType type;
 	/** The GameEntity which initiated the damage. */
@@ -24,32 +25,76 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 	/** The GameEntity which receives the damage. */
 	protected final R receiver;
 	/** How much damage to do. */
-	private MultiPartValue damage;
+	private MultiPartValue mulitPartDamage;
 	
+	/** The current phase of the damage. */
+	private DamagePhase phase;
 	/** The time which the damage occured. */
 	private final long time;
-	/** The name of the item which was used to hit. If not applicable this value is null. */
-	private final String itemName;
+	/** The item which was used to hit. If not applicable this value is null. */
+	private final ItemStack itemStack;
 	
 	/** How much knockback to do. */
 	protected Vector knockback;
 	/** If set to true, the damage will no longer occur. Overrides force. */
 	protected boolean cancelled;
+	/** If set to true, the damage will not occur, but there will still be a damage tick. */
+	protected boolean softCancelled;
 	/** If set to true, damage will occur regardless of invincibility ticks. Overrided by force. */
 	protected int noDmgTicks;
 	/** If set to true, damage will be 'infinite'. */
 	protected boolean instaKill;
 	
-	/** Whether the event has been triggered or not. */
-	private boolean triggered = false;
-	
-	/** True if the final damage has been applied and applied. No further calculations
-	 * should be done if this is true. */
-	private boolean applied = false;
+	private final SortedSet<DamageHandler<? super CancellableFinalGameDamage<A,R>>> preDamageHandlers = new TreeSet<>();
+	private final SortedSet<DamageHandler<? super FinalGameDamage<A,R>>> postDamageHandlers = new TreeSet<>();
 	
 	private static int idCount = 0;
 	/** Currently only used for debugging */
 	private final int ID;
+	
+	
+	// ------ STATIC INITIALISERS -------
+	public static <B extends GameEntity,S extends GameEntity> GameDamage<?,?> createDamage(B attacker, S receiver, GameDamageType type, double damage) {
+		return createDamage(attacker, receiver, type, damage, null);
+	}
+	
+	static <B extends GameEntity,S extends GameEntity> GameDamage<?,?> createDamage(B attacker, S receiver, GameDamageType type, double damage, Projectile arrow) {
+		if (receiver instanceof MonsterEntity) {
+			return new MonsterDamage(attacker, (MonsterEntity) receiver, type, damage, arrow);
+		} else if (receiver instanceof Dwarf) {
+			return new DwarfDamage(attacker, (Dwarf) receiver, type, damage, arrow);
+		} else {
+			throw new IllegalArgumentException("Game damage must have attacker/receiver be dwarf/monster or monster/dwarf.");
+		}
+	}
+	
+	// ------ CONSTRUCTORS -------
+	public GameDamage(A attacker, R receiver, GameDamageType type, double damage) {
+		this(attacker, receiver, type, damage, null);
+	}
+	
+	protected GameDamage(A attacker, R receiver, GameDamageType type, double damage, Projectile arrow) {
+		this.type = type;
+		this.attacker = attacker;
+		this.receiver = receiver;
+		
+		this.phase = DamagePhase.PRE_FIRE;
+		this.time = System.currentTimeMillis();
+		this.itemStack = getHeldItemOfDamager(attacker);
+		
+		this.mulitPartDamage = new MultiPartValue(damage);
+		this.knockback = null;
+		
+		this.cancelled = false;
+		this.softCancelled = false;
+		this.noDmgTicks = 8;
+		this.instaKill = false;
+		
+		this.arrow = arrow;
+		
+		this.ID = idCount;
+		idCount++;
+	}
 	
 	
 	public GameDamageType getType() {
@@ -62,10 +107,11 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		return receiver;
 	}
 	
-	public MultiPartValue getDamage() { return damage; }
+	public MultiPartValue getMulitPartDamage() { return mulitPartDamage; }
 	
 	public void setNoDmgTicks(int ticks) { noDmgTicks = ticks; }
 	public void cancel() {cancelled = true;}
+	public void softCancel() { softCancelled = true; }
 	public void instaKill() {instaKill = true;}
 	
 	public boolean isCancelled() {
@@ -87,24 +133,16 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		knockback.multiply(mult);
 	}
 	
-	public void softCancel() {
-		damage.setBase(0);
-		damage.setBoost(0);
-		damage.setMultiplier(0);
-	}
-	
+	private static final double INSTA_KILL_DMG = 1000000;
 	public double getFinalDamage() {
-		if (instaKill) {
-			return INSTA_KILL_DMG;
-		} else if (cancelled) {
-			return 0;
-		} else  {
-			return damage.getValue();
-		}
+		if (instaKill) return INSTA_KILL_DMG;
+		if (softCancelled || cancelled) return 0;
+		
+		return mulitPartDamage.getValue();
 	}
 	
 	public boolean willKill() {
-		return (receiver.getHealth() - getFinalDamage() <= 0.1 || instaKill);
+		return (receiver.getHealth() - getFinalDamage() <= 0.000001 || instaKill);
 	}
 	
 	private final Projectile arrow;
@@ -116,32 +154,18 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 			throw new IllegalStateException("Tried to access arrow of gameDamage which has no arrow.");
 	}
 	
-	
-	// ------ CONSTRUCTORS -------
-	
-	public GameDamage(A attacker, R receiver, GameDamageType type, double damage) {
-		this(attacker, receiver, type, damage, null);
+	public void addPreDamageHandler(Consumer<? super CancellableFinalGameDamage<A,R>> handler) {
+		addPreDamageHandler(0, handler);
+	}
+	public void addPreDamageHandler(int priority, Consumer<? super CancellableFinalGameDamage<A,R>> handler) {
+		preDamageHandlers.add(new DamageHandler<>(priority, handler));
 	}
 	
-	protected GameDamage(A attacker, R receiver, GameDamageType type, double damage, Projectile arrow) {
-		this.type = type;
-		this.attacker = attacker;
-		this.receiver = receiver;
-		
-		this.time = System.currentTimeMillis();
-		this.itemName = getHeldItemOfDamager(attacker);
-		
-		this.damage = new MultiPartValue(damage);
-		this.knockback = null;
-		
-		this.cancelled = false;
-		this.noDmgTicks = receiver.getEntity().getMaximumNoDamageTicks();
-		this.instaKill = false;
-		
-		this.arrow = arrow;
-		
-		this.ID = idCount;
-		idCount++;
+	public void addPostDamageHandler(Consumer<? super FinalGameDamage<A,R>> handler) {
+		addPostDamageHandler(0, handler);
+	}
+	public void addPostDamageHandler(int priority, Consumer<? super FinalGameDamage<A,R>> handler) {
+		postDamageHandlers.add(new DamageHandler<>(priority, handler));
 	}
 	
 	/** Fires a custom damage event */
@@ -151,80 +175,82 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 	
 	/** Fires a custom damage event */
 	public void fire(boolean force) {
-		DamageManager.getManager().customDamage(this, force);
+		// Check that damage has not already been fired
+		if (phase != DamagePhase.PRE_FIRE) throw new IllegalStateException("Already fired damage: " + this);
+		
+		// Check if damage is allowed to occur by game ticks
+		if (force) receiver.getEntity().setNoDamageTicks(0);
+		if (receiver.getEntity().getNoDamageTicks() != 0) return;
+		
+		
+		// Notify attacker and receiver, and let them set up their events
+		phase = DamagePhase.NOTIFYING;
+		notifyEntities();
+		if (instaKill) cancelled = false;
+		if (cancelled) return;
+		
+		
+		// Apply pre damage handlers, stop if necessary
+		phase = DamagePhase.PRE_DAMAGE;
+		for (DamageHandler<? super CancellableFinalGameDamage<A, R>> handler : preDamageHandlers) {
+			handler.consume(this);
+			if (cancelled) return;
+		}
+		
+		// Do the damage
+		if (softCancelled) {
+			receiver.getEntity().damage(0);
+		} else {
+			receiver.getEntity().damage(getFinalDamage());
+		}
+//		if (attacker == null) {
+//			receiver.getEntity().damage(getFinalDamage());
+//		} else {
+//			receiver.getEntity().damage(getFinalDamage(), attacker.getEntity());
+//		}
+		// Apply meta-damage quantities
+		if (knockback != null) receiver.setVelocity(knockback);
+		receiver.getEntity().setNoDamageTicks(noDmgTicks);
+		
+		if (receiver instanceof GamePlayer) {
+			DamageOccurance occurance = new DamageOccurance(attacker, receiver, type, time, "temp"); //itemStack.getItemMeta().getDisplayName());
+			((GamePlayer) receiver).notifyDamage(occurance);
+		}
+		
+		
+		// Apply post damage handlers
+		phase = DamagePhase.POST_DAMAGE;
+		postDamageHandlers.forEach(h -> h.consume(this));
+		
+		// Debug
+		if (attacker instanceof GamePlayer) ((GamePlayer) attacker).debugObject(this);
+		if (receiver instanceof GamePlayer) ((GamePlayer) receiver).debugObject(this);
 	}
-	
-	void activateTrigger() {
-		if (triggered) throw new IllegalStateException("Attempted to get trigger gameDamage even though it has been already triggered.");
-		triggered = true;
-	}
-	
-	
 	
 	abstract void notifyEntities();
 	
-	private static final double INSTA_KILL_DMG = 100000;
-	boolean applyDamage(EntityDamageEvent event) {
-		if (applied) throw new IllegalStateException("Attempted to get final gameDamage even though already accessed.");
-		applied = true;
-		
-		boolean successful = true;
-		// Calculate damage
-		// Priority: insta > cancelled > none
-		if (instaKill) {
-			event.setCancelled(false);
-		} else if (cancelled) {
-			event.setCancelled(true);
-			successful = false;
-		}
-		event.setDamage(getFinalDamage());
-		
-		if (successful) {
-			if (knockback != null)
-				receiver.setVelocity(knockback);
-			
-			if (receiver instanceof GamePlayer) {
-				DamageOccurance occurance = new DamageOccurance(attacker, receiver, type, time, itemName);
-				((GamePlayer) receiver).notifyDamage(occurance);
-			}
-		}
-		
-		return successful;
-	}
-	
-	void applyNoDmgTicks() {
-		receiver.getEntity().setNoDamageTicks(noDmgTicks);
+	public enum DamagePhase {
+		/** Used for setting up base values. */
+		PRE_FIRE,
+		/** Used for altering values and setting up future events. */
+		NOTIFYING,
+		/** Used to prevent damage, based on damage. */
+		PRE_DAMAGE,
+		/** Used to monitor the outcome of the damage. */
+		POST_DAMAGE
 	}
 	
 	
 	// ------ STATIC HELPERS -------
 	
-	private static String getHeldItemOfDamager(GameEntity damager) {
+	private static ItemStack getHeldItemOfDamager(GameEntity damager) {
 		if (!(damager instanceof GamePlayer)) return null;
 		
 		GamePlayer gp = ((GamePlayer) damager);
 		ItemStack item = gp.getHeldItem();
 		if (item == null) return null;
 		
-		ItemMeta meta = item.getItemMeta();
-		if (meta == null) return null;
-		
-		return meta.getDisplayName();
-	}
-	
-	public static <B extends GameEntity,S extends GameEntity> GameDamage<?,?> createDamage(B attacker, S receiver, GameDamageType type, double damage) {
-		return createDamage(attacker, receiver, type, damage, null);
-	}
-	
-	
-	static <B extends GameEntity,S extends GameEntity> GameDamage<?,?> createDamage(B attacker, S receiver, GameDamageType type, double damage, Projectile arrow) {
-		if (receiver instanceof MonsterEntity) {
-			return new MonsterDamage(attacker, (MonsterEntity) receiver, type, damage, arrow);
-		} else if (receiver instanceof Dwarf) {
-			return new DwarfDamage(attacker, (Dwarf) receiver, type, damage, arrow);
-		} else {
-			throw new IllegalArgumentException("Game damage must have attacker/receiver be dwarf/monster or monster/dwarf.");
-		}
+		return item;
 	}
 	
 	/// ----- DEBUG ------
@@ -248,7 +274,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		String attackerName = (attacker == null ? "NONE" : attacker.getName());
 		
 		return "GameDamage ID" + ID + " at " + time + " from " + attackerName + ChatColor.RESET + " to " + receiver.getName() + ChatColor.RESET + " of type: " + type + ". "
-				+ "DAMAGES - " + damage.toString() + ". "
+				+ "DAMAGES - " + mulitPartDamage.toString() + ". "
 				+ (knockback != null ? "Knockback: " + knockback.length() + ". " : "")
 				+ "NoDmgTicks: " + noDmgTicks + ". "
 				+ "EXTRA - " + extraString.toString() + ". ";

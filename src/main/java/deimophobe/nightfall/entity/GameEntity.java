@@ -2,7 +2,7 @@ package deimophobe.nightfall.entity;
 
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.GameDamage;
-import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.GameDamageType;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.bukkit.Location;
@@ -160,15 +160,15 @@ public interface GameEntity<E extends LivingEntity> {
 	
 	
 	// ------ DAMAGE ------
-	default GameDamage doDamage(GameEntity attacker, CustomDamageType type, double damage) {
+	default GameDamage doDamage(GameEntity attacker, GameDamageType type, double damage) {
 		return doDamage(attacker, type, damage, false, false);
 	}
 	
-	default GameDamage doDamage(GameEntity attacker, CustomDamageType type, double damage, boolean force) {
+	default GameDamage doDamage(GameEntity attacker, GameDamageType type, double damage, boolean force) {
 		return doDamage(attacker, type, damage, force, false);
 	}
 	
-	default GameDamage doDamage(GameEntity attacker, CustomDamageType type, double damage, boolean force, boolean instaKill) {
+	default GameDamage doDamage(GameEntity attacker, GameDamageType type, double damage, boolean force, boolean instaKill) {
 		GameDamage gameDamage = createDamage(attacker, type, damage);
 		if (instaKill)
 			gameDamage.instaKill();
@@ -176,7 +176,7 @@ public interface GameEntity<E extends LivingEntity> {
 		return gameDamage;
 	}
 	
-	default GameDamage createDamage(GameEntity attacker, CustomDamageType type, double damage) {
+	default GameDamage createDamage(GameEntity attacker, GameDamageType type, double damage) {
 		return GameDamage.createDamage(attacker, this, type, damage);
 	}
 	

@@ -7,10 +7,9 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.common.cosmetic.Cosmetics;
 import deimophobe.nightfall.common.cosmetic.CosmeticManager;
+import deimophobe.nightfall.common.cosmetic.Cosmetics;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
-import deimophobe.nightfall.damage.DamageManager;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.entity.GameEntity;
@@ -81,14 +80,12 @@ public class Game {
 	
 	private final DwarfManager dwarfManager;
 	private final MonsterManager monsterManager;
-	private final DamageManager damageManager;
 	private final SkinManager skinManager;
 	private final GlowManager glowManager;
 	private final TimeManager timeManager;
 	
 	public DwarfManager getDwarfManager() {return dwarfManager;}
 	public MonsterManager getMonsterManager() {return monsterManager;}
-	public DamageManager getDamageManager() {return damageManager;}
 	public SkinManager getSkinManager() {return skinManager;}
 	public GlowManager getGlowManager() {return glowManager;}
 	public TimeManager getTimeManager() {return timeManager;}
@@ -141,7 +138,6 @@ public class Game {
 		
 		dwarfManager = new DwarfManager();
 		monsterManager = new MonsterManager();
-		damageManager = new DamageManager();
 		skinManager = new SkinManager();
 		glowManager = new GlowManager();
 		timeManager = new TimeManager(map.getWorld());

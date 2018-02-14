@@ -3,8 +3,8 @@ package deimophobe.nightfall.plague;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.mob.AbstractMob;
@@ -28,8 +28,8 @@ public class PlaguedZombie extends AbstractMob {
 	
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
-		if (damage.getType() == NaturalDamageType.POISON)
-			damage.getDamage().timesMult(0.2);
+		if (damage.getType() == GameDamageType.POISON)
+			damage.getMulitPartDamage().timesMult(0.2);
 	}
 	
 	@Override

@@ -1,8 +1,8 @@
 package deimophobe.nightfall.dwarf.kit.melee;
 
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
@@ -25,8 +25,8 @@ public class Runesword extends AbstractRuneblade {
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (damage.getMonster() instanceof AIEntity && damage.getType() == NaturalDamageType.MELEE) {
-			damage.getDamage().timesMult(0.8);
+		if (damage.getMonster() instanceof AIEntity && damage.getType() == GameDamageType.MELEE) {
+			damage.getMulitPartDamage().timesMult(0.8);
 		}
 	}
 }

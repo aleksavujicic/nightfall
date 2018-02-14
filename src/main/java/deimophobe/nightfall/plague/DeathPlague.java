@@ -2,7 +2,7 @@ package deimophobe.nightfall.plague;
 
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.damage.type.CustomDamageType;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Location;
@@ -47,7 +47,7 @@ class DeathPlague extends AbstractPlague {
 				}
 					
 				death.teleport(target.getLocation());
-				target.doDamage(null, CustomDamageType.DEATH_PLAGUE, 10000, true, true);
+				target.doDamage(null, GameDamageType.DEATH_PLAGUE, 10000, true, true);
 				world.playSound(target.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 1, 1);
 				world.playSound(target.getLocation(), "entity.endermen.scream", 1, 1);
 				removeDwarf(target);
