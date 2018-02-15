@@ -3,6 +3,7 @@ package deimophobe.nightfall.damage;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.util.ArrowMisc;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -12,9 +13,18 @@ import org.bukkit.event.entity.EntityDamageEvent;
  */
 public class DamageUtil {
 	
+	protected static GameDamage<?,?> processingDamage = null;
+	public static void fireDamage(GameDamage<?,?> damage, boolean force) {
+		damage.onFire(force);
+	}
+	
 	public static void processDamageEvent(EntityDamageEvent event) {
 		// If custom cause, then it is already being processed.
-		if (event.getCause() == EntityDamageEvent.DamageCause.CUSTOM) return;
+		if (event.getCause() == EntityDamageEvent.DamageCause.CUSTOM) {
+			if (processingDamage != null && processingDamage.softCancelled) event.setDamage(0);
+			Bukkit.getLogger().info("CUSTOM: " + processingDamage);
+			return;
+		}
 		// Don't do anything for this event. GameDamage will fire its own event.
 		event.setCancelled(true);
 		

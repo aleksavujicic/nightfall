@@ -49,7 +49,7 @@ public class MonsterDamage extends GameDamage<GameEntity, MonsterEntity> {
 	}
 	
 	private void addHandlers() {
-		addPreDamageHandler(damage -> {
+		addPreDamageHandler(1000, damage -> {
 			if (willKill()) {
 				// Prevent killing a monster and set to spectator instead
 				if (receiver instanceof MonsterPlayer) {

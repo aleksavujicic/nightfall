@@ -172,9 +172,12 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 	public void fire() {
 		fire(false);
 	}
+	public void fire(boolean force) {
+		DamageUtil.fireDamage(this, force);
+	}
 	
 	/** Fires a custom damage event */
-	public void fire(boolean force) {
+	void onFire(boolean force) {
 		// Check that damage has not already been fired
 		if (phase != DamagePhase.PRE_FIRE) throw new IllegalStateException("Already fired damage: " + this);
 		
@@ -197,17 +200,16 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 			if (cancelled) return;
 		}
 		
+		
 		// Do the damage
-		if (softCancelled) {
-			receiver.getEntity().damage(0);
-		} else {
-			receiver.getEntity().damage(getFinalDamage());
-		}
-//		if (attacker == null) {
-//			receiver.getEntity().damage(getFinalDamage());
-//		} else {
-//			receiver.getEntity().damage(getFinalDamage(), attacker.getEntity());
-//		}
+		phase = DamagePhase.DAMAGING;
+		double doDamageAmt = getFinalDamage();
+		if (doDamageAmt == 0) doDamageAmt = 100;
+		
+		DamageUtil.processingDamage = this;
+		receiver.getEntity().damage(doDamageAmt);
+		DamageUtil.processingDamage = null;
+		
 		// Apply meta-damage quantities
 		if (knockback != null) receiver.setVelocity(knockback);
 		receiver.getEntity().setNoDamageTicks(noDmgTicks);
@@ -229,11 +231,14 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 	
 	abstract void notifyEntities();
 	
+	/** Not really used directly, but is useful as a guideline */
 	public enum DamagePhase {
 		/** Used for setting up base values. */
 		PRE_FIRE,
 		/** Used for altering values and setting up future events. */
 		NOTIFYING,
+		/** When all the damage stuff is occurring. Currently serves no purpose. */
+		DAMAGING,
 		/** Used to prevent damage, based on damage. */
 		PRE_DAMAGE,
 		/** Used to monitor the outcome of the damage. */
@@ -264,6 +269,9 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		
 		if (cancelled)
 			extraString.append("Cancelled, ");
+		
+		if (softCancelled)
+			extraString.append("Soft Cancelled, ");
 		
 		if (hasArrow())
 			extraString.append("Has Arrow, ");
