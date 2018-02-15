@@ -58,9 +58,9 @@ public class Doppelganger extends AbstractMob {
 		if (target != null) {
 			fakeTeam.setColor(ChatColor.DARK_AQUA);
 			fakeTeam.setPrefix(ChatColor.DARK_AQUA.toString() + target.getName().substring(0, 3));
+			fakeTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
 			fakeTeam.addEntry(getFakeName());
 		}
-		fakeTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
 	}
 	
 	private String getFakeName() {
@@ -160,7 +160,6 @@ public class Doppelganger extends AbstractMob {
 	public void onDeath(boolean silent) {
 		super.onDeath(silent);
 		SkinManager.getManager().removeSkinChange(monster);
-		fakeTeam.unregister();
 	}
 	
 	private void hide() {
