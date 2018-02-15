@@ -11,10 +11,9 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.util.HitscanProjectile;
+import deimophobe.nightfall.util.NMSUtil;
 import deimophobe.nightfall.util.Util;
 import me.libraryaddict.disguise.DisguiseAPI;
-import net.minecraft.server.v1_12_R1.DataWatcherObject;
-import net.minecraft.server.v1_12_R1.DataWatcherRegistry;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -22,7 +21,6 @@ import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -376,23 +374,13 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	}
 	
 	/**
-	 * @deprecated Uses NMS code, and guess is based on a very crude velocity calculation.
+	 * @deprecated Guess is based on a very crude velocity calculation.
 	 */
 	@Deprecated
 	public Location guessClientSideLocation() {
-		int ping = 0;
-		if (player instanceof CraftPlayer) {
-			ping = ((CraftPlayer) player).getHandle().ping;
-		}
+		int ping = NMSUtil.getPingOfPlayer(player);
 		int ticksLagging = ping/50;
 		return getLocation().add(getVelocity().multiply(ticksLagging));
-	}
-	
-	public void hideArrowsStuckInSelf() {
-		// https://www.spigotmc.org/threads/removing-arrows.72723/#post-1666181
-		if (player instanceof CraftPlayer) {
-			((CraftPlayer) player).getHandle().getDataWatcher().set(new DataWatcherObject<>(10, DataWatcherRegistry.b), 0);
-		}
 	}
 	
 	

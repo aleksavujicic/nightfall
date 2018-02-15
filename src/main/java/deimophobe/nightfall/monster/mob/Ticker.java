@@ -8,6 +8,7 @@ import deimophobe.nightfall.damage.type.NaturalDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.util.NMSUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -32,7 +33,8 @@ class Ticker extends AbstractMob {
 		super.onSpawn();
 		monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
 		giveSpawnProtection(deathTimer*20 + 20);
-		monster.hideArrowsStuckInSelf();
+		
+		NMSUtil.hideArrowsInPlayer(monster.getPlayer());
 	}
 	
 	@Override
