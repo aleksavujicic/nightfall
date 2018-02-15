@@ -56,8 +56,12 @@ public class Doppelganger extends AbstractMob {
 		this.fakeTeam = Game.getGame().getNewTeam(TEAM_PREFIX + id);
 		
 		if (target != null) {
+			
+			String targetName = target.getName();
+			int endIndex = Math.min(3, targetName.length());
+			fakeTeam.setPrefix(ChatColor.DARK_AQUA.toString() + target.getName().substring(0, endIndex));
+			
 			fakeTeam.setColor(ChatColor.DARK_AQUA);
-			fakeTeam.setPrefix(ChatColor.DARK_AQUA.toString() + target.getName().substring(0, 3));
 			fakeTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
 			fakeTeam.addEntry(getFakeName());
 		}
