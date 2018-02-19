@@ -94,7 +94,7 @@ battering_ram:
     name: Spawn Battering Ram
     shiny: true
   quantity: 1
-  chance: 0.05
+  chance: 0.04
 
 doppelganger:
   mobtype: doppelganger
