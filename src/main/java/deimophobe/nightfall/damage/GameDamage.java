@@ -7,6 +7,7 @@ import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
@@ -116,8 +117,11 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 	private void setKnockbackFromMelee() {
 		//if (attacker == null) return;
 		
+		int knockbackLevel = 0;
+		if (itemStack != null) knockbackLevel = itemStack.getEnchantmentLevel(Enchantment.KNOCKBACK);
+		
 		Vector offset = receiver.offsetFrom(attacker);
-		offset.setY(0).normalize().multiply(0.6);
+		offset.setY(0).normalize().multiply(0.6 + 0.6 * knockbackLevel);
 		offset.setY(0.25);
 		offset.add(attacker.getVelocity().multiply(0.7));
 		
@@ -126,8 +130,12 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 	
 	private void setKnockbackFromArrow() {
 		Vector offset = arrow.getVelocity();
-		offset.setY(0).normalize().multiply(0.6);
-		offset.setY(0.25);
+		
+		int punchLevel = 0;
+		if (arrow instanceof Arrow) punchLevel = ((Arrow) arrow).getKnockbackStrength();
+		
+		offset.setY(0).normalize().multiply(0.6 + 0.6 * punchLevel);
+		offset.setY(0.25 + 0.05*punchLevel);
 		
 		knockback = offset;
 	}
