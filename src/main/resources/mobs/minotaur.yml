@@ -23,7 +23,7 @@ armour:
     kb-resist: 1
 weapon:
   base: club
-  name: "Minotaur Axe"
+  name: "Minotaur Club"
   lore:
     description:
      - "Right click to charge, dealing\n
