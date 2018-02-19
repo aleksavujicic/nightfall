@@ -2,6 +2,7 @@ package deimophobe.nightfall.monster;
 
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.cooldown.BooleanCooldown;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.GamePlayerManager;
 import deimophobe.nightfall.entity.MonsterEntity;
@@ -51,8 +52,6 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		doomManager = new DoomManager();
 		
 		aiManager.start();
-		
-		messager.runTaskTimer(NightfallPlugin.getPlugin(), 0, DEATH_MSG_UPDATE_FREQ);
 	}
 	
 	@Override
@@ -152,20 +151,30 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	
 	private static final int DEATH_MSG_UPDATE_FREQ = 15;
 	private final Queue<String> deathMessages = new LinkedList<>();
-	private final BukkitRunnable messager = new BukkitRunnable() {
-		@Override
-		public void run() {
-			if (deathMessages.isEmpty()) return;
-			
-			String message = deathMessages.poll();
-			for (Player player : Bukkit.getOnlinePlayers()) {
-				player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
-			}
+	private final BooleanCooldown messager = new BooleanCooldown(15, this::sendMessages, this::resetMessager);
+	
+	private boolean sendMessages() {
+		if (deathMessages.isEmpty()) return false;
+		
+		String message = deathMessages.poll();
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
 		}
-	};
+		Bukkit.broadcastMessage(message);
+		return true;
+	}
+	
+	private void resetMessager() { messager.tryUse(); }
+	
+	@Override
+	protected void update() {
+		super.update();
+		messager.update();
+	}
 	
 	public void queueDeathMessage(String deathMsg) {
 		deathMessages.offer(deathMsg);
+		messager.tryUse();
 	}
 }
 	

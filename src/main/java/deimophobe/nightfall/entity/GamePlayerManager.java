@@ -31,6 +31,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 			@Override
 			public void run() {
 				counter++;
+				update();
 				for (GamePlayer gp : getGamePlayers()) {
 					gp.update(
 							(counter % 5) == 0,
@@ -55,6 +56,8 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		mcTeam.setCanSeeFriendlyInvisibles(true);
 		mcTeam.setAllowFriendlyFire(false);
 	}
+	
+	protected void update() {}
 	
 	public void stop() {
 		removeAllGamePlayers();
