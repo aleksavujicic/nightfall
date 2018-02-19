@@ -7,9 +7,10 @@ import deimophobe.nightfall.entity.MonsterEntity;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import java.util.SortedSet;
@@ -85,6 +86,9 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		this.itemStack = getHeldItemOfDamager(attacker);
 		
 		this.mulitPartDamage = new MultiPartValue(damage);
+		int resLevel = receiver.getPotionEffectLevel(PotionEffectType.DAMAGE_RESISTANCE);
+		double res = Math.min(1, 1 - resLevel*0.1);
+		mulitPartDamage.timesMult(res);
 		
 		this.cancelled = false;
 		this.softCancelled = false;
@@ -94,24 +98,39 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		this.arrow = arrow;
 		
 		if (type == GameDamageType.MELEE) {
-			setKnockbackFromSource(attacker.getEntity());
+			setKnockbackFromMelee();
 		} else if (type == GameDamageType.RANGED) {
-			setKnockbackFromSource(arrow);
+			setKnockbackFromArrow();
 		} else {
-			this.knockback = null;
+			this.knockback = new Vector(0,0,0);
+		}
+		try {
+			knockback.checkFinite();
+		} catch (IllegalArgumentException e) {
+			knockback.zero();
 		}
 		
 		this.ID = idCount;
 		idCount++;
+		
+		type.applyModifier(this);
 	}
 	
-	private void setKnockbackFromSource(Entity source) {
-		if (source == null) return;
+	private void setKnockbackFromMelee() {
+		//if (attacker == null) return;
 		
-		Vector offset = receiver.offsetFrom(source.getLocation());
+		Vector offset = receiver.offsetFrom(attacker);
 		offset.setY(0).normalize().multiply(0.6);
 		offset.setY(0.25);
-		offset.add(source.getVelocity().multiply(0.7));
+		offset.add(attacker.getVelocity().multiply(0.7));
+		
+		knockback = offset;
+	}
+	
+	private void setKnockbackFromArrow() {
+		Vector offset = arrow.getVelocity();
+		offset.setY(0).normalize().multiply(0.6);
+		offset.setY(0.25);
 		
 		knockback = offset;
 	}
@@ -130,27 +149,44 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 	public MultiPartValue getMulitPartDamage() { return mulitPartDamage; }
 	
 	public void setNoDmgTicks(int ticks) { noDmgTicks = ticks; }
-	public void cancel() {cancelled = true;}
-	public void softCancel() { softCancelled = true; }
-	public void instaKill() {instaKill = true;}
+	public void instaKill() {
+		instaKill = true;
+		cancelled = false;
+		softCancelled = false;
+	}
+	public void cancel() {
+		if (!instaKill) {
+			cancelled = true;
+		}
+	}
+	public void softCancel() {
+		if (!instaKill) {
+			softCancelled = true;
+		}
+	}
 	
 	public boolean isCancelled() {
 		return cancelled;
 	}
 	
-	public void setKnockback(Vector kb) {knockback = kb;}
-	public void setKnockback(double x, double y, double z) {setKnockback(new Vector(x,y,z));}
-	private void checkKBNotNull() {
-		if (knockback == null) knockback = new Vector(0,0,0);
+	
+	public void setKnockback(Vector kb) {
+		knockback = kb;
+		knockback.checkFinite();
+	}
+	public void setKnockback(double x, double y, double z) {
+		setKnockback(new Vector(x,y,z));
 	}
 	public void addKnockback(Vector kb) {
-		checkKBNotNull();
 		knockback.add(kb);
+		knockback.checkFinite();
 	}
-	public void addKnockback(double x, double y, double z) {addKnockback(new Vector(x,y,z));}
+	public void addKnockback(double x, double y, double z) {
+		addKnockback(new Vector(x,y,z));
+	}
 	public void multiplyKnockback(double mult) {
-		checkKBNotNull();
 		knockback.multiply(mult);
+		knockback.checkFinite();
 	}
 	
 	private static final double INSTA_KILL_DMG = 1000000;
@@ -202,14 +238,12 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		if (phase != DamagePhase.PRE_FIRE) throw new IllegalStateException("Already fired damage: " + this);
 		
 		// Check if damage is allowed to occur by game ticks
-		if (force) receiver.getEntity().setNoDamageTicks(0);
-		if (receiver.getEntity().getNoDamageTicks() != 0) return;
+		if (!force && receiver.getEntity().getNoDamageTicks() != 0) return;
 		
 		
 		// Notify attacker and receiver, and let them set up their events
 		phase = DamagePhase.NOTIFYING;
 		notifyEntities();
-		if (instaKill) cancelled = false;
 		if (cancelled) return;
 		
 		
@@ -222,22 +256,29 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		
 		
 		// Do the damage
+		LivingEntity receiverEntity = receiver.getEntity();
+		
 		phase = DamagePhase.DAMAGING;
 		double doDamageAmt = getFinalDamage();
-		if (doDamageAmt == 0) doDamageAmt = 100;
+		if (doDamageAmt == 0) {
+			doDamageAmt = 100;
+			softCancel();
+		}
 		
+		receiverEntity.setNoDamageTicks(0);
 		DamageUtil.processingDamage = this;
-		receiver.getEntity().damage(doDamageAmt);
+		receiverEntity.damage(doDamageAmt);
 		DamageUtil.processingDamage = null;
+		receiverEntity.setNoDamageTicks(noDmgTicks);
 		
-		// Apply meta-damage quantities
+		// Apply knockback
 		if (knockback != null) {
-			double kbResist = receiver.getEntity().getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).getValue();
+			double kbResist = receiverEntity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).getValue();
 			knockback.multiply(1 - kbResist);
 			receiver.setVelocity(knockback);
 		}
-		receiver.getEntity().setNoDamageTicks(noDmgTicks);
 		
+		// Notify gamePlayer to save damage
 		if (receiver instanceof GamePlayer) {
 			DamageOccurance occurance = new DamageOccurance(attacker, receiver, type, time, "temp"); //itemStack.getItemMeta().getDisplayName());
 			((GamePlayer) receiver).notifyDamage(occurance);
@@ -261,10 +302,10 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		PRE_FIRE,
 		/** Used for altering values and setting up future events. */
 		NOTIFYING,
-		/** When all the damage stuff is occurring. Currently serves no purpose. */
-		DAMAGING,
 		/** Used to prevent damage, based on damage. */
 		PRE_DAMAGE,
+		/** When all the damage stuff is occurring. Currently serves no purpose. */
+		DAMAGING,
 		/** Used to monitor the outcome of the damage. */
 		POST_DAMAGE
 	}

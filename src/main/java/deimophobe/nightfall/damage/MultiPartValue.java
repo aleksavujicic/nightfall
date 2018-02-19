@@ -12,16 +12,6 @@ public class MultiPartValue {
 	public void setBase(double base) {
 		this.base = base;
 	}
-
-	@Deprecated
-	public void setBoost(double boost) {
-		this.boost = boost;
-	}
-
-	@Deprecated
-	public void setMultiplier(double multiplier) {
-		this.multiplier = multiplier;
-	}
 	
 	public void addBoost(double amt) {
 		boost += amt;

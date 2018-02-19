@@ -2,8 +2,11 @@ package deimophobe.nightfall.damage;
 
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.Bukkit;
+import org.bukkit.Particle;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -14,35 +17,37 @@ import org.bukkit.event.entity.EntityDamageEvent;
 public class DamageUtil {
 	
 	protected static GameDamage<?,?> processingDamage = null;
+	
 	public static void fireDamage(GameDamage<?,?> damage, boolean force) {
 		damage.onFire(force);
 	}
 	
 	public static void processDamageEvent(EntityDamageEvent event) {
-		// If custom cause, then it is already being processed.
 		if (event.getCause() == EntityDamageEvent.DamageCause.CUSTOM) {
+			// If custom cause, then it is already being processed.
+			
+			// Only way I know to soft cancel
 			if (processingDamage != null && processingDamage.softCancelled) event.setDamage(0);
+			// Ignore resistance effects
+			if (event.isApplicable(EntityDamageEvent.DamageModifier.RESISTANCE)) event.setDamage(EntityDamageEvent.DamageModifier.RESISTANCE, 0);
+			
 			Bukkit.getLogger().info("CUSTOM: " + processingDamage);
-			return;
-		}
-		// Don't do anything for this event. GameDamage will fire its own event.
-		event.setCancelled(true);
-		
-		GameDamage damage = createDamageFromEvent(event);
-		if (damage == null) {
+		} else {
+			// Don't do anything for this event. GameDamage will fire its own event.
 			event.setCancelled(true);
-			return;
+			
+			GameDamage damage = createDamageFromEvent(event);
+			if (damage == null) {
+				event.setCancelled(true);
+				return;
+			}
+			
+			damage.fire();
 		}
-		
-		damage.fire();
 	}
 	
 	private static GameDamage<?,?> createDamageFromEvent(EntityDamageEvent event) {
 		GameEntity receiver = Game.getGame().getGameEntity(event.getEntity());
-		
-		GameDamage<?,?> gameDamage;
-		GameDamageType type;
-		
 		switch (event.getCause()) {
 			
 			case ENTITY_ATTACK: {
@@ -54,9 +59,24 @@ public class DamageUtil {
 					return null;
 				}
 				
-				type = GameDamageType.MELEE;
-				gameDamage = GameDamage.createDamage(attacker, receiver, type, event.getDamage());
-				break;
+				double damage;
+				if (entityAttacker instanceof LivingEntity) {
+					damage = ((LivingEntity) entityAttacker).getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue();
+				} else {
+					damage = event.getDamage();
+				}
+				boolean crit = (entityAttacker != null && !entityAttacker.isOnGround());
+				if (crit) damage *= 1.25;
+				
+				GameDamage<?,?> gameDamage = GameDamage.createDamage(attacker, receiver, GameDamageType.MELEE, damage);
+				
+				if (crit) {
+					gameDamage.addPostDamageHandler(gameDamage1 -> {
+						receiver.getWorld().spawnParticle(Particle.CRIT, receiver.getEyeLocation().subtract(0, 0.2, 0), 3, 0.25, 0.25, 0.25, 0.1);
+					});
+				}
+				
+				return gameDamage;
 			}
 			
 			case PROJECTILE: {
@@ -68,19 +88,19 @@ public class DamageUtil {
 					damage = event.getDamage();
 				GameEntity attacker = Game.getGame().getGameEntity((Entity) proj.getShooter());
 				
-				type = GameDamageType.RANGED;
-				gameDamage = GameDamage.createDamage(attacker, receiver, type, damage, proj);
-				break;
+				GameDamage<?,?> gameDamage = GameDamage.createDamage(attacker, receiver, GameDamageType.RANGED, damage, proj);
+				
+				gameDamage.addPostDamageHandler(gameDamage1 -> {
+					if (attacker instanceof GamePlayer && receiver instanceof GamePlayer) ((GamePlayer) attacker).playSound("entity.experience_orb.pickup", 1f, 0.5f, false);
+				});
+				
+				return gameDamage;
 			}
 			
 			default: {
-				type = GameDamageType.getTypeFromEventCause(event.getCause());
-				gameDamage = GameDamage.createDamage(null, receiver, type, event.getDamage());
-				break;
+				GameDamageType type = GameDamageType.getTypeFromEventCause(event.getCause());
+				return GameDamage.createDamage(null, receiver, type, event.getDamage());
 			}
 		}
-		
-		type.applyModifier(gameDamage);
-		return gameDamage;
 	}
 }
