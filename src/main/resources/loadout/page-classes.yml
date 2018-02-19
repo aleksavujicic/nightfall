@@ -224,7 +224,7 @@ healer-class:
   item:
     template: "loadout-class"
     name: "Healer Kit"
-    base: regrowth
+    material: diamond
     lore:
       description:
        - "Go heal ppl."
@@ -242,7 +242,7 @@ healer-class:
           *192 Cobblestone"
 
 mystic-class:
-  index: 6
+  index: 10
   cost: 64
   category: kit
   type: multi
