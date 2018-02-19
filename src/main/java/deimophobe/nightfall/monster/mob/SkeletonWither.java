@@ -56,7 +56,7 @@ class SkeletonWither extends AbstractToggleSkeleton {
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
-		forceBowToggle(true);
+		if (withering) forceBowToggle(true);
 	}
 	
 	@Override
