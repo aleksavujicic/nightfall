@@ -378,6 +378,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	@Override
 	public void onShift(boolean sneaking) {
+		if (isFrozen()) return;
+		
 		if (mob != null)
 			mob.onShift(sneaking);
 	}
