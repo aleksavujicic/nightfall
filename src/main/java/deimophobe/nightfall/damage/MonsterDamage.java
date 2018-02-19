@@ -53,7 +53,7 @@ public class MonsterDamage extends GameDamage<GameEntity<?>, MonsterEntity> {
 			if (willKill()) {
 				// Prevent killing a monster and set to spectator instead
 				if (receiver instanceof MonsterPlayer) {
-					damage.softCancel();
+					this.forceSoftCancel();
 					this.addPostDamageHandler(d -> ((MonsterPlayer)receiver).kill(false));
 				}
 				
