@@ -6,11 +6,9 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
@@ -31,6 +29,11 @@ public class HealBlock extends TimedBlock {
 	@Override
 	void onPlace() {
 		healer = new Healer();
+		Location center = block.getLocation().add(0.5, 0.5, 0.5);
+		World world = center.getWorld();
+		world.spawnParticle(Particle.BLOCK_CRACK, center, 20, 0.3, 0.4, 0.4, 0, new MaterialData(Material.PURPUR_BLOCK));
+		world.playSound(center, Sound.BLOCK_METAL_PLACE, 1f, 1f);
+		world.playSound(center, Sound.ENTITY_PLAYER_LEVELUP, 0.6f, 0.75f);
 	}
 	
 	@Override
