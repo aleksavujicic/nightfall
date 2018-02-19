@@ -50,7 +50,7 @@ public class GoboBox extends TimedBlock {
 				DwarfDamage aoeDamage = dwarf.createDamage(getPlacer(), GameDamageType.GOBO_BOX_EXPLOSION, damage);
 				aoeDamage.setKnockback(knockback);
 				aoeDamage.setArmourShred(25);
-				aoeDamage.fire(true);
+				aoeDamage.fire();
 			}
 		}
 	}

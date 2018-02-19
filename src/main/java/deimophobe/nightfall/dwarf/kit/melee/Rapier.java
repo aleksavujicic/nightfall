@@ -62,7 +62,7 @@ public class Rapier extends AbstractItem implements CooldownPiece {
 					if (monster.isAI()) damageAmt *= 2;
 					MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.TEMPORARY, damageAmt);
 					damage.setProc(dwarf.hasProc());
-					damage.fire(true);
+					damage.fire();
 					
 					damagedEntities.add(monster);
 				}

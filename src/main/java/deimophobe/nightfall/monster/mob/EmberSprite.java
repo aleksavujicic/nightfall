@@ -169,7 +169,7 @@ public class EmberSprite extends AbstractMob {
 			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, GameDamageType.BLAZE_EXPLOSION, damage);
 			aoeDamage.setKnockback(knockback);
 			aoeDamage.setArmourShred(armorShred);
-			aoeDamage.fire(true);
+			aoeDamage.fire();
 		}
 	}
 }

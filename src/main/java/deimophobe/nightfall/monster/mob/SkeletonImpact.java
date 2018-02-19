@@ -139,7 +139,7 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 			
 			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, GameDamageType.IMPACT_AOE, 5 * aoe);
 			aoeDamage.setKnockback(knockback);
-			aoeDamage.fire(true);
+			aoeDamage.fire();
 			
 		}
 	}

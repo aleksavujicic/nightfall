@@ -138,7 +138,7 @@ class SkeletonWither extends AbstractToggleSkeleton {
 			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, distance)));
 			aoeDamage.setKnockback(knockback);
 			aoeDamage.setArmourShred(getArmourShred());
-			aoeDamage.fire(true);
+			aoeDamage.fire();
 		}
 	}
 	

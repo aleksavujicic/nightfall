@@ -95,10 +95,9 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	};
 	
 	private final Consumer<MonsterEntity> DAMAGER = (monster) -> {
-		MonsterDamage damage = (MonsterDamage) monster.createDamage(dwarf, GameDamageType.SCEPTER_OF_MAGMA, DAMAGE + dwarf.getBonusMeleeDamage()/2);
+		MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.SCEPTER_OF_MAGMA, DAMAGE + dwarf.getBonusMeleeDamage()/2);
 		if (dwarf.hasProc()) damage.setProc(true);
-		damage.setNoDmgTicks(1);
-		damage.fire(true);
+		damage.fire();
 		
 		if (monster instanceof AIEntity)
 			monster.givePotionEffect(PotionEffectType.SLOW, 5*20, 2, true, true, true);
