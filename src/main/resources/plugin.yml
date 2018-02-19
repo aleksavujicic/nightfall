@@ -155,6 +155,9 @@ commands:
   fixplayers:
     usage: /fixplayers
     description: Might help show players if some are invisible.
+  fixhearts:
+    usage: /fixhearts
+    description: Should remove any fake (and real) absorption hearts you have.
 
   shrine:
     description: Damage or recover shrine power.

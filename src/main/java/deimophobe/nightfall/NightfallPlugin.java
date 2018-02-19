@@ -44,6 +44,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
@@ -1016,6 +1018,17 @@ public class NightfallPlugin extends JavaPlugin {
 						player.showPlayer(other);
 					}
 				}
+				return true;
+			} else {
+				sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
+				return true;
+			}
+		}
+		
+		if (name.equalsIgnoreCase("fixhearts")) {
+			if (sender instanceof Player) {
+				Player player = (Player) sender;
+				player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 1, 10), true);
 				return true;
 			} else {
 				sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
