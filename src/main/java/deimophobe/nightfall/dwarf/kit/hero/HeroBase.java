@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.hero;
 
-import deimophobe.nightfall.damage.DamageHandler;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
@@ -19,7 +19,7 @@ public class HeroBase extends AbstractPiece {
 	
 	@Override
 	public void damageNotify(DwarfDamage damage) {
-		damage.addPreDamageHandler(DamageHandler.SAFETY_JUICE_PRIORITY, gd -> {
+		damage.addPreDamageHandler(GameDamage.SAFETY_JUICE_PRIORITY, gd -> {
 			double health = dwarf.getPlayer().getHealth();
 			if (gd.willKill() || health <= 10) {
 				if (dwarf.tryUseMana(100)) {

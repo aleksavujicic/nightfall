@@ -53,6 +53,6 @@ public class HeroArmour extends StaticArmour {
 	
 	@Override
 	public int getManaRegenRate() {
-		return 10;
+		return 5;
 	}
 }

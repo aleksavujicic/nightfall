@@ -23,7 +23,4 @@ public class DamageHandler<T> implements Comparable<DamageHandler<T>> {
 	public int compareTo(@Nonnull DamageHandler<T> damageHandler1) {
 		return this.priority - damageHandler1.priority;
 	}
-	
-	public static int SAFETY_JUICE_PRIORITY = 10;
-	public static int RESURRECTION_PRIORITY = 100;
 }

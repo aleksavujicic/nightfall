@@ -9,8 +9,8 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.CancellableFinalGameDamage;
-import deimophobe.nightfall.damage.DamageHandler;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import deimophobe.nightfall.entity.GameEntity;
@@ -39,7 +39,7 @@ public class Resurrection extends AbstractPiece {
 		super.damageNotify(damage);
 		
 		if (!used && Game.getGame().getPhase() == Phase.GAME) {
-			damage.addPreDamageHandler(DamageHandler.RESURRECTION_PRIORITY, resurrecter);
+			damage.addPreDamageHandler(GameDamage.RESURRECTION_PRIORITY, resurrecter);
 		}
 	}
 	

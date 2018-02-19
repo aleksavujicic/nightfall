@@ -227,6 +227,10 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 			throw new IllegalStateException("Tried to access arrow of gameDamage which has no arrow.");
 	}
 	
+	
+	public static int SAFETY_JUICE_PRIORITY = 10;
+	public static int RESURRECTION_PRIORITY = 100;
+	public static int ARTHEA_DEATH_PRIORITY = 200;
 	public void addPreDamageHandler(Consumer<CancellableFinalGameDamage<A,R>> handler) {
 		addPreDamageHandler(0, handler);
 	}

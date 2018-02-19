@@ -3,9 +3,9 @@ package deimophobe.nightfall.dwarf.hero;
 import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.GameEntity;
@@ -63,8 +63,6 @@ public class Arthea extends Hero {
 	
 	@Override
 	public void update(boolean a, boolean b, boolean c, boolean d, boolean quadSec) {
-		super.update(a,b,c,d,quadSec);
-		
 		if (isEnraged()) {
 			if (enrageTimer > 0)
 				enrageTimer--;
@@ -87,6 +85,11 @@ public class Arthea extends Hero {
 				
 			if (enrageTimer == 0)
 				forceKill();
+			
+			updateManaBar();
+			updateCooldownBar();
+		} else {
+			super.update(a,b,c,d,quadSec);
 		}
 	}
 	
@@ -122,10 +125,12 @@ public class Arthea extends Hero {
 			super.onDamageReceive(damage);
 		}
 		
-		if (damage.willKill() && !isEnraged()) {
-			startTransition();
-			damage.softCancel();
-		}
+		damage.addPreDamageHandler(GameDamage.ARTHEA_DEATH_PRIORITY, d -> {
+			if (d.willKill() && !isEnraged()) {
+				startTransition();
+				d.softCancel();
+			}
+		});
 	}
 	
 	@Override
