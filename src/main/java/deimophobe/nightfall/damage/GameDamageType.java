@@ -22,6 +22,7 @@ public enum GameDamageType {
 	
 	FALL((damage) -> {
 		damage.getMulitPartDamage().timesMult(3*(1 - Math.pow(Math.random(),2)/2));
+		damage.setNoDmgTicks(1);
 	}),
 	
 	VOID(GameDamage::instaKill),
@@ -94,6 +95,7 @@ public enum GameDamageType {
 			damage.getMulitPartDamage().setBase(defaultDamage);
 			if (damage instanceof DwarfDamage)
 				((DwarfDamage) damage).setArmourShred(defaultArmourShred);
+			damage.setNoDmgTicks(1);
 		};
 	}
 	
