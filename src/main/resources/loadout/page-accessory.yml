@@ -222,7 +222,7 @@ wrench_one:
     lore:
       description:
        - "Gives you $quantity Wrench.\n
-          These can be uses tofully repair\n
+          These can be used to fully repair\n
           your armour while the shrine still\n
           has gold."
 wrench_two:
