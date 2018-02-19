@@ -5,7 +5,9 @@ import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
 import org.bukkit.ChatColor;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -83,7 +85,6 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		this.itemStack = getHeldItemOfDamager(attacker);
 		
 		this.mulitPartDamage = new MultiPartValue(damage);
-		this.knockback = null;
 		
 		this.cancelled = false;
 		this.softCancelled = false;
@@ -92,8 +93,27 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		
 		this.arrow = arrow;
 		
+		if (type == GameDamageType.MELEE) {
+			setKnockbackFromSource(attacker.getEntity());
+		} else if (type == GameDamageType.RANGED) {
+			setKnockbackFromSource(arrow);
+		} else {
+			this.knockback = null;
+		}
+		
 		this.ID = idCount;
 		idCount++;
+	}
+	
+	private void setKnockbackFromSource(Entity source) {
+		if (source == null) return;
+		
+		Vector offset = receiver.offsetFrom(source.getLocation());
+		offset.setY(0).normalize().multiply(0.6);
+		offset.setY(0.25);
+		offset.add(source.getVelocity().multiply(0.7));
+		
+		knockback = offset;
 	}
 	
 	
@@ -211,7 +231,11 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		DamageUtil.processingDamage = null;
 		
 		// Apply meta-damage quantities
-		if (knockback != null) receiver.setVelocity(knockback);
+		if (knockback != null) {
+			double kbResist = receiver.getEntity().getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).getValue();
+			knockback.multiply(1 - kbResist);
+			receiver.setVelocity(knockback);
+		}
 		receiver.getEntity().setNoDamageTicks(noDmgTicks);
 		
 		if (receiver instanceof GamePlayer) {
