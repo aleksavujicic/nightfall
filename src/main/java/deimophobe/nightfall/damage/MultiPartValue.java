@@ -1,5 +1,7 @@
 package deimophobe.nightfall.damage;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by Deimophobe on 16/09/17.
  */
@@ -38,6 +40,10 @@ public class MultiPartValue {
 	
 	@Override
 	public String toString() {
-		return "Base: " + base + " Boost: " + boost + " Mult: " + multiplier ;
+		DecimalFormat df = new DecimalFormat("#.####");
+		
+		return "Base: " + df.format(base)
+				+ " Boost: " + df.format(boost)
+				+ " Mult: " + df.format(multiplier);
 	}
 }

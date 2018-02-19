@@ -355,11 +355,11 @@ public abstract class AbstractMob implements Mob {
 		damage.getMulitPartDamage().timesMult(1 - mobData.damageRes);
 		damage.getArrowRes().setBase(mobData.arrowRes);
 		
-		if (!damage.isCancelled()) {
+		damage.addPostDamageHandler(d -> {
 			playSound("hurt");
 			if (hasDisguise())
 				monster.playSound("entity.generic.hurt", 1f, 1f, true);
-		}
+		});
 	}
 	
 	@Override

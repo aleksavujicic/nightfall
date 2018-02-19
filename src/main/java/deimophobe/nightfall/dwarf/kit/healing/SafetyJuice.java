@@ -36,7 +36,6 @@ public class SafetyJuice extends AbstractAle {
 	private final Consumer<CancellableFinalGameDamage<GameEntity<?>, Dwarf>> healer = damage -> {
 		if (damage.willKill() || dwarf.getHealth() <= 10) {
 			if (dwarf.tryUseMana(AUTO_COST)){
-				damage.softCancel();
 				heal();
 				cooldown.reset();
 			}

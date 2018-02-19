@@ -1,5 +1,6 @@
 package deimophobe.nightfall.damage;
 
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
@@ -11,10 +12,11 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
 
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.text.DecimalFormat;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -48,8 +50,8 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 	/** If set to true, damage will be 'infinite'. */
 	protected boolean instaKill;
 	
-	private final SortedSet<DamageHandler<? super CancellableFinalGameDamage<A,R>>> preDamageHandlers = new TreeSet<>();
-	private final SortedSet<DamageHandler<? super FinalGameDamage<A,R>>> postDamageHandlers = new TreeSet<>();
+	private final Set<DamageHandler<CancellableFinalGameDamage<A,R>>> preDamageHandlers = new HashSet<>();
+	private final Set<DamageHandler<FinalGameDamage<A,R>>> postDamageHandlers = new HashSet<>();
 	
 	private static int idCount = 0;
 	/** Currently only used for debugging */
@@ -102,12 +104,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		} else if (type == GameDamageType.RANGED) {
 			setKnockbackFromArrow();
 		} else {
-			this.knockback = new Vector(0,0,0);
-		}
-		try {
-			knockback.checkFinite();
-		} catch (IllegalArgumentException e) {
-			knockback.zero();
+			this.knockback = null;
 		}
 		
 		this.ID = idCount;
@@ -170,23 +167,35 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 	}
 	
 	
-	public void setKnockback(Vector kb) {
-		knockback = kb;
-		knockback.checkFinite();
-	}
 	public void setKnockback(double x, double y, double z) {
 		setKnockback(new Vector(x,y,z));
 	}
-	public void addKnockback(Vector kb) {
-		knockback.add(kb);
+	public void setKnockback(Vector kb) {
+		knockback = kb;
 		knockback.checkFinite();
 	}
 	public void addKnockback(double x, double y, double z) {
 		addKnockback(new Vector(x,y,z));
 	}
+	public void addKnockback(Vector kb) {
+		initialiseKnockbackIfNull();
+		knockback.add(kb);
+		knockback.checkFinite();
+	}
 	public void multiplyKnockback(double mult) {
+		initialiseKnockbackIfNull();
 		knockback.multiply(mult);
 		knockback.checkFinite();
+	}
+	private void initialiseKnockbackIfNull() {
+		if (knockback == null) knockback = new Vector(0,0,0);
+	}
+	private void makeKnockbacFinite() {
+		if (knockback == null) return;
+		
+		if (!NumberConversions.isFinite(knockback.getX())) knockback.setX(0);
+		if (!NumberConversions.isFinite(knockback.getY())) knockback.setY(0);
+		if (!NumberConversions.isFinite(knockback.getZ())) knockback.setZ(0);
 	}
 	
 	private static final double INSTA_KILL_DMG = 1000000;
@@ -210,17 +219,17 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 			throw new IllegalStateException("Tried to access arrow of gameDamage which has no arrow.");
 	}
 	
-	public void addPreDamageHandler(Consumer<? super CancellableFinalGameDamage<A,R>> handler) {
+	public void addPreDamageHandler(Consumer<CancellableFinalGameDamage<A,R>> handler) {
 		addPreDamageHandler(0, handler);
 	}
-	public void addPreDamageHandler(int priority, Consumer<? super CancellableFinalGameDamage<A,R>> handler) {
+	public void addPreDamageHandler(int priority, Consumer<CancellableFinalGameDamage<A,R>> handler) {
 		preDamageHandlers.add(new DamageHandler<>(priority, handler));
 	}
 	
-	public void addPostDamageHandler(Consumer<? super FinalGameDamage<A,R>> handler) {
+	public void addPostDamageHandler(Consumer<FinalGameDamage<A,R>> handler) {
 		addPostDamageHandler(0, handler);
 	}
-	public void addPostDamageHandler(int priority, Consumer<? super FinalGameDamage<A,R>> handler) {
+	public void addPostDamageHandler(int priority, Consumer<FinalGameDamage<A,R>> handler) {
 		postDamageHandlers.add(new DamageHandler<>(priority, handler));
 	}
 	
@@ -249,7 +258,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		
 		// Apply pre damage handlers, stop if necessary
 		phase = DamagePhase.PRE_DAMAGE;
-		for (DamageHandler<? super CancellableFinalGameDamage<A, R>> handler : preDamageHandlers) {
+		for (DamageHandler<CancellableFinalGameDamage<A, R>> handler : Misc.asSortedList(preDamageHandlers)) {
 			handler.consume(this);
 			if (cancelled) return;
 		}
@@ -287,7 +296,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		
 		// Apply post damage handlers
 		phase = DamagePhase.POST_DAMAGE;
-		postDamageHandlers.forEach(h -> h.consume(this));
+		Misc.asSortedList(postDamageHandlers).forEach(h -> h.consume(this));
 		
 		// Debug
 		if (attacker instanceof GamePlayer) ((GamePlayer) attacker).debugObject(this);
@@ -346,10 +355,13 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		
 		String attackerName = (attacker == null ? "NONE" : attacker.getName());
 		
-		return "GameDamage ID" + ID + " at " + time + " from " + attackerName + ChatColor.RESET + " to " + receiver.getName() + ChatColor.RESET + " of type: " + type + ". "
-				+ "DAMAGES - " + mulitPartDamage.toString() + ". "
-				+ (knockback != null ? "Knockback: " + knockback.length() + ". " : "")
-				+ "NoDmgTicks: " + noDmgTicks + ". "
-				+ "EXTRA - " + extraString.toString() + ". ";
+		DecimalFormat df = new DecimalFormat("#.####");
+		
+		return "GameDamage ID" + ID + " at " + time + " from " + attackerName + ChatColor.RESET + " to " + receiver.getName() + ChatColor.RESET + " of type: " + type + ".\n"
+				+ "  DAMAGES - " + mulitPartDamage.toString() + "\n"
+				+ (knockback != null ? "  Knockback: " + df.format(knockback.length()) + "\n" : "")
+				+ "  NoDmgTicks: " + noDmgTicks + ".\n"
+				+ "  Pre Handlers: " + preDamageHandlers.size() + "; " + "Post Handlers: " + postDamageHandlers.size() + "\n"
+				+ (extraString.length() > 0 ? "  EXTRA - " + extraString.toString() + "\n" : "");
 	}
 }

@@ -10,7 +10,7 @@ import org.bukkit.entity.Projectile;
 /**
  * Created by Deimophobe on 29/08/17.
  */
-public class MonsterDamage extends GameDamage<GameEntity, MonsterEntity> {
+public class MonsterDamage extends GameDamage<GameEntity<?>, MonsterEntity> {
 	
 	private boolean proc;
 	public void setProc(boolean proc) { this.proc = proc;}

@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.hero;
 
+import deimophobe.nightfall.damage.DamageHandler;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -14,22 +15,22 @@ public class HeroBase extends AbstractPiece {
 		
 		dwarf.makeBlindImmune();
 		dwarf.makePlagueImmune();
-		dwarf.setMaxMana(2000);
-		dwarf.regenMana(2000);
 	}
 	
 	@Override
 	public void damageNotify(DwarfDamage damage) {
-		double health = dwarf.getPlayer().getHealth();
-		if (damage.willKill() || health <= 10) {
-			if (dwarf.tryUseMana(200)) {
-				dwarf.healMax();
-				dwarf.playSound("entity.generic.drink", 0.6f, 0.9f, true);
-				dwarf.playSound("entity.experience_orb.pickup", 1f, 1f, false);
-				
-				damage.softCancel();
+		damage.addPreDamageHandler(DamageHandler.SAFETY_JUICE_PRIORITY, gd -> {
+			double health = dwarf.getPlayer().getHealth();
+			if (gd.willKill() || health <= 10) {
+				if (dwarf.tryUseMana(100)) {
+					dwarf.healMax();
+					dwarf.playSound("entity.generic.drink", 0.6f, 0.9f, true);
+					dwarf.playSound("entity.experience_orb.pickup", 1f, 1f, false);
+					
+					gd.softCancel();
+				}
 			}
-		}
+		});
 	}
 	
 	@Override

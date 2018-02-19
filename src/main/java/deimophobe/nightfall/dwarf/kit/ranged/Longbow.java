@@ -7,7 +7,6 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.entity.MonsterEntity;
-import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.ChatColor;
@@ -59,13 +58,18 @@ public class Longbow extends AbstractBow implements CooldownPiece {
 		super.onDamageAttack(damage);
 		MonsterEntity monster = damage.getMonster();
 		if (damage.hasArrow() && this.damageFromBow(damage) && ArrowMisc.getArrowForce(damage.getArrow()) > 0.5 ) {
-			if (monster instanceof MonsterPlayer && !((MonsterPlayer) monster).hasSpawnProtection()) {
-				stacks += PLAYER_STACK_GAIN;
-				stackCD = MAX_STACK_CD;
-			} else if (monster instanceof AIEntity) {
-				stackCD = Math.min(MAX_STACK_CD, stackCD + 40);
+			if (monster.isAI()) {
+				damage.addPostDamageHandler(d -> {
+					stackCD = Math.min(MAX_STACK_CD, stackCD + 40);
+				});
+			} else {
+				damage.addPostDamageHandler(d -> {
+					stacks += PLAYER_STACK_GAIN;
+					stackCD = MAX_STACK_CD;
+					
+					if (stacks > MAX_STACKS) stacks = MAX_STACKS;
+				});
 			}
-			if (stacks > MAX_STACKS) stacks = MAX_STACKS;
 		}
 	}
 
