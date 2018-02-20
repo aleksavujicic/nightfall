@@ -153,6 +153,9 @@ public enum GameDamageType {
 			int level = damage.getReceiver().getPotionEffectLevel(potionEffectType);
 			damage.getMulitPartDamage().setBase(levelMapper.apply(level));
 			damage.setNoDmgTicks(1);
+			
+			//TODO
+			damage.cancel();
 		}
 	}
 }
