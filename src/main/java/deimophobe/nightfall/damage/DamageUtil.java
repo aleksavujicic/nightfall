@@ -70,7 +70,9 @@ public class DamageUtil {
 				
 				GameDamage<?,?> gameDamage = GameDamage.createDamage(attacker, receiver, GameDamageType.MELEE, damage);
 				
+				
 				if (crit) {
+					gameDamage.multiplyKnockback(1.2);
 					gameDamage.addPostDamageHandler(gameDamage1 -> {
 						receiver.getWorld().spawnParticle(Particle.CRIT, receiver.getEyeLocation().subtract(0, 0.2, 0), 3, 0.25, 0.25, 0.25, 0.1);
 					});
