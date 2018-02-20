@@ -99,7 +99,7 @@ public class Crossbow extends AbstractBow implements CooldownPiece {
 		if (dwarf.hasArrows(1) && isHoldingItem()) {
 			dwarf.useArrow();
 			fireArrow(3f, 1, 4f);
-			dwarf.playSound("entity.arrow.shoot", 5f, 0.9f, true);
+			dwarf.playSound("entity.arrow.shoot", 1f, 0.9f, true);
 		} else {
 			stopFiring();
 		}
