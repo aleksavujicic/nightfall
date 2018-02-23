@@ -1,6 +1,5 @@
 package deimophobe.nightfall.damage;
 
-import deimophobe.nightfall.entity.GamePlayer;
 import net.md_5.bungee.api.chat.BaseComponent;
 
 /**
@@ -8,15 +7,15 @@ import net.md_5.bungee.api.chat.BaseComponent;
  */
 @FunctionalInterface
 interface DeathMessageMaker {
-	BaseComponent getDeathMessage(GamePlayer deadPlayer, LastMainDamage lastMainDamage);
+	BaseComponent getDeathMessage(String playerName, LastMainDamage lastMainDamage);
 	
 	DeathMessageMaker DIED_MESSAGE = new ForcedDeathMessageMaker("died");
 	DeathMessageMaker SLAIN_MESSAGE = new KeywordDeathMessageMaker("slain");
-	DeathMessageMaker SIMPLE_DEATH_MESSAGE = (deadPlayer, lastMainDamage) -> {
+	DeathMessageMaker SIMPLE_DEATH_MESSAGE = (playerName, lastMainDamage) -> {
 		if (lastMainDamage.hasAttacker()) {
-			return SLAIN_MESSAGE.getDeathMessage(deadPlayer, lastMainDamage);
+			return SLAIN_MESSAGE.getDeathMessage(playerName, lastMainDamage);
 		} else {
-			return DIED_MESSAGE.getDeathMessage(deadPlayer, lastMainDamage);
+			return DIED_MESSAGE.getDeathMessage(playerName, lastMainDamage);
 		}
 	};
 }

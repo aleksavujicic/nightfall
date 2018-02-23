@@ -16,7 +16,7 @@ class ForcedDeathMessageMaker implements DeathMessageMaker {
 	}
 	
 	@Override
-	public BaseComponent getDeathMessage(GamePlayer deadPlayer, LastMainDamage lastMainDamage) {
-		return new TextComponent(deadPlayer.getDisplayName() + " " + message + ChatColor.RESET + ".");
+	public BaseComponent getDeathMessage(String playerName, LastMainDamage lastMainDamage) {
+		return new TextComponent(playerName + " " + message + ChatColor.RESET + ".");
 	}
 }

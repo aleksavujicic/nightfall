@@ -1,6 +1,5 @@
 package deimophobe.nightfall.damage;
 
-import deimophobe.nightfall.entity.GamePlayer;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -15,8 +14,8 @@ class KeywordDeathMessageMaker implements DeathMessageMaker {
 	}
 	
 	@Override
-	public BaseComponent getDeathMessage(GamePlayer deadPlayer, LastMainDamage lastMainDamage) {
-		BaseComponent text = new TextComponent(deadPlayer.getDisplayName());
+	public BaseComponent getDeathMessage(String playerName, LastMainDamage lastMainDamage) {
+		BaseComponent text = new TextComponent(playerName);
 		text.addExtra(" was " + keyword);
 		
 		if (lastMainDamage.hasAttacker()) {

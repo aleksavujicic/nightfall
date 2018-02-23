@@ -307,7 +307,11 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	public BaseComponent getDeathMessage() {
 //		Bukkit.broadcastMessage("LAST TYPE: " + lastDamageType);
 //		Bukkit.broadcastMessage("LAST MAIN: " + lastMainDamage);
-		return lastDamageType.getDeathMessage(this, lastMainDamage);
+		return lastDamageType.getDeathMessage(getDeathMessageName(), lastMainDamage);
+	}
+	
+	public String getDeathMessageName() {
+		return getDisplayName();
 	}
 	
 	

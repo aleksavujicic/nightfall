@@ -366,8 +366,12 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	public MonsterDamage createDamage(GameEntity attacker, GameDamageType type, double damage) {
 		return new MonsterDamage(attacker, this, type, damage);
 	}
-
-
+	
+	@Override
+	public String getDeathMessageName() {
+		if (mob != null) return mob.getDeathMessageName();
+		else return super.getDeathMessageName();
+	}
 	
 	// ------ EVENT METHODS ------
 	@Override

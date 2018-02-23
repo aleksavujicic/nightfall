@@ -98,7 +98,7 @@ public abstract class AbstractMob implements Mob {
 		}
 	}
 	
-	protected String getNametag() {
+	protected String getTitledName() {
 		if (mobData.forceTitle) {
 			return ChatColor.RED + mobData.title;
 		} else {
@@ -190,7 +190,7 @@ public abstract class AbstractMob implements Mob {
 		
 		MobDisguise disguise = new MobDisguise(type);
 		disguise.getWatcher().setCustomNameVisible(false);
-		disguise.getWatcher().setCustomName(getNametag());
+		disguise.getWatcher().setCustomName(getTitledName());
 		//TODO add more sounds so this isn't weird
 		//disguise.setHearSelfDisguise(false);
 		//disguise.setReplaceSounds(false);
@@ -329,6 +329,10 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	
+	@Override
+	public String getDeathMessageName() {
+		return getTitledName();
+	}
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {

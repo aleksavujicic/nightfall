@@ -1,6 +1,5 @@
 package deimophobe.nightfall.damage;
 
-import deimophobe.nightfall.entity.GamePlayer;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -55,7 +54,7 @@ public enum GameDamageType {
 	MYST,
 	SHADOW_STRIKE,
 	BUFFPOOL(
-			(deadPlayer, damage) -> new TextComponent(deadPlayer.getDisplayName() + " was consumed by " + damage.getAttackerName() + "'s buffpool")
+			(playerName, damage) -> new TextComponent(playerName + " was consumed by " + damage.getAttackerName() + "'s buffpool")
 	),
 	BUBBLE_BEAM("bubbled"),
 	GEYSER("bubbled"),
@@ -123,8 +122,8 @@ public enum GameDamageType {
 		damageModifer.accept(damage);
 	}
 	
-	public BaseComponent getDeathMessage(GamePlayer player, LastMainDamage lastMainDamage) {
-		return deathMessageMaker.getDeathMessage(player, lastMainDamage);
+	public BaseComponent getDeathMessage(String playerName, LastMainDamage lastMainDamage) {
+		return deathMessageMaker.getDeathMessage(playerName, lastMainDamage);
 	}
 	
 	public boolean isArrow() {
