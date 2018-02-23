@@ -43,7 +43,11 @@ public class LastMainDamage {
 	}
 	
 	public boolean hasItem() {
-		return item != null;
+		if (item == null) return false;
+		if (!item.hasItemMeta()) return false;
+		if (!item.getItemMeta().hasDisplayName()) return false;
+		
+		return true;
 	}
 	
 	public ItemStack getItem() {
