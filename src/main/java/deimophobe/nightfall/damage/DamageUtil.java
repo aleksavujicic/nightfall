@@ -3,6 +3,7 @@ package deimophobe.nightfall.damage;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
+import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
@@ -60,7 +61,7 @@ public class DamageUtil {
 				} else {
 					damage = event.getDamage();
 				}
-				boolean crit = (entityAttacker != null && !entityAttacker.isOnGround());
+				boolean crit = (entityAttacker != null && !entityAttacker.isOnGround() && !(attacker instanceof AIEntity<?>));
 				if (crit) damage *= 1.25;
 				
 				GameDamage<?,?> gameDamage = GameDamage.createDamage(attacker, receiver, GameDamageType.MELEE, damage);
