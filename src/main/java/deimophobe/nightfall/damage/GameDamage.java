@@ -119,9 +119,9 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		if (itemStack != null) knockbackLevel = itemStack.getEnchantmentLevel(Enchantment.KNOCKBACK);
 		
 		Vector offset = receiver.offsetFrom(attacker);
-		offset.setY(0).normalize().multiply(0.6 + 0.3 * knockbackLevel);
+		offset.setY(0).normalize().multiply(0.4 + 0.3 * knockbackLevel);
 		offset.setY(0.25);
-		offset.add(attacker.getVelocity().multiply(0.7));
+		offset.add(attacker.getVelocity().multiply(0.5));
 		
 		knockback = offset;
 	}
