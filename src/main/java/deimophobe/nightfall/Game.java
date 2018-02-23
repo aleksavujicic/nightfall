@@ -191,6 +191,8 @@ public class Game {
 	}
 	
 	public GameEntity getGameEntity(Entity entity) {
+		if (entity == null) return null;
+		
 		if (entity.getType() == EntityType.PLAYER)
 			return getGamePlayer((Player) entity);
 		
