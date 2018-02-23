@@ -19,7 +19,7 @@ armour:
   bound: true
 weapon:
   base: temporary
-  name: Spider Thingies
+  name: Spider Mandibles
   lore:
     description:
      - "Right click to melt walls\n
