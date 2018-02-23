@@ -22,7 +22,7 @@ class Rat extends AbstractMob {
 	}
 	
 	private int stealCD = 0;
-	private static final int STEAL_MAX_CD = 5;
+	private static final int STEAL_MAX_CD = 10;
 	
 	private boolean jumpState;
 	private ComplexCooldown toggleCD = new ComplexCooldown(1, this::toggleJumpState);
@@ -54,8 +54,8 @@ class Rat extends AbstractMob {
 			if (BlockType.ACTIVE_SHRINE_BLOCK.matchesBlock(clickedBlock) && GameMap.getCurrentMap().hasGold()) {
 				if (clickedBlock.getLocation().distance(monster.getLocation()) <= 4) {
 					playSound("steal");
-					monster.gainXP(18);
-					GameMap.getCurrentMap().stealGold(2);
+					monster.gainXP(10);
+					GameMap.getCurrentMap().stealGold(3);
 					stealCD = STEAL_MAX_CD;
 				}
 			}
