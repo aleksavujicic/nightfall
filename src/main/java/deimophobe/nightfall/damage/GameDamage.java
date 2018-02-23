@@ -87,7 +87,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		
 		this.mulitPartDamage = new MultiPartValue(damage);
 		int resLevel = receiver.getPotionEffectLevel(PotionEffectType.DAMAGE_RESISTANCE);
-		double res = Math.min(1, 1 - resLevel*0.1);
+		double res = Math.min(1, 1 - resLevel*0.2);
 		mulitPartDamage.timesMult(res);
 		
 		this.cancelled = false;
