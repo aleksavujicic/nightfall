@@ -57,11 +57,20 @@ public class LastMainDamage {
 	public TextComponent getItemStackDisplay() {
 		TextComponent text = new TextComponent();
 		
-		if (item == null) return text;
-		if (!item.hasItemMeta()) return text;
+		if (item == null) {
+			NightfallPlugin.getPlugin().getLogger().warning("getItemStackDisplay() called with null item.");
+			return text;
+		}
+		if (!item.hasItemMeta()) {
+			NightfallPlugin.getPlugin().getLogger().warning("getItemStackDisplay() called with itemStack with no meta.");
+			return text;
+		}
 		
 		ItemMeta meta = item.getItemMeta();
-		if (!meta.hasDisplayName()) return text;
+		if (!meta.hasDisplayName()) {
+			NightfallPlugin.getPlugin().getLogger().warning("getItemStackDisplay() called with itemStack with no display name.");
+			return text;
+		}
 		
 		text.setText(meta.getDisplayName());
 		text.setHoverEvent(NMSUtil.createHoverEventForItem(item));
