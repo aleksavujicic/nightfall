@@ -256,39 +256,37 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 	}
 	
 	/** Fires a custom damage event */
-	public void fire() {
-		fire(false);
+	public boolean fire() {
+		return fire(false);
 	}
-	public void fire(boolean force) {
-		DamageUtil.fireDamage(this, force);
+	public boolean fire(boolean force) {
+		return onFire(force);
 	}
 	
 	/** Fires a custom damage event */
-	void onFire(boolean force) {
+	private boolean onFire(boolean force) {
 		// Check that damage has not already been fired
 		if (phase != DamagePhase.PRE_FIRE) throw new IllegalStateException("Already fired damage: " + this);
 		
 		// Check if damage is allowed to occur by game ticks
-		if (!force && receiver.getEntity().getNoDamageTicks() != 0) return;
+		if (!force && receiver.getEntity().getNoDamageTicks() != 0) return false;
 		
 		
 		// Notify attacker and receiver, and let them set up their events
 		phase = DamagePhase.NOTIFYING;
 		notifyEntities();
-		if (cancelled) return;
+		if (cancelled) return false;
 		
 		
 		// Apply pre damage handlers, stop if necessary
 		phase = DamagePhase.PRE_DAMAGE;
 		for (DamageHandler<CancellableFinalGameDamage<A, R>> handler : Misc.asSortedList(preDamageHandlers)) {
 			handler.consume(this);
-			if (cancelled) return;
+			if (cancelled) return false;
 		}
 		
 		
 		// Do the damage
-		LivingEntity receiverEntity = receiver.getEntity();
-		
 		phase = DamagePhase.DAMAGING;
 		double doDamageAmt = getFinalDamage();
 		if (doDamageAmt == 0) {
@@ -303,6 +301,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 			((GamePlayer) receiver).tryReplaceLastDamage(lastMainDamage);
 		}
 		
+		LivingEntity receiverEntity = receiver.getEntity();
 		receiverEntity.setNoDamageTicks(0);
 		DamageUtil.processingDamage = this;
 		receiverEntity.damage(doDamageAmt);
@@ -324,6 +323,8 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		// Debug
 		if (attacker instanceof GamePlayer) ((GamePlayer) attacker).debugObject(this);
 		if (receiver instanceof GamePlayer) ((GamePlayer) receiver).debugObject(this);
+		
+		return true;
 	}
 	
 	abstract void notifyEntities();

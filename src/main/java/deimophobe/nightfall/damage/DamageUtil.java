@@ -17,10 +17,6 @@ public class DamageUtil {
 	
 	protected static GameDamage<?,?> processingDamage = null;
 	
-	public static void fireDamage(GameDamage<?,?> damage, boolean force) {
-		damage.onFire(force);
-	}
-	
 	public static void processDamageEvent(EntityDamageEvent event) {
 		if (event.getCause() == EntityDamageEvent.DamageCause.CUSTOM) {
 			// If custom cause, then it is already being processed.
