@@ -4,9 +4,9 @@ import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.damage.DamageOccurance;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
+import deimophobe.nightfall.damage.LastMainDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.effects.sound.Sounds;
@@ -14,10 +14,8 @@ import deimophobe.nightfall.util.HitscanProjectile;
 import deimophobe.nightfall.util.NMSUtil;
 import deimophobe.nightfall.util.Util;
 import me.libraryaddict.disguise.DisguiseAPI;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import net.md_5.bungee.api.chat.BaseComponent;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -293,23 +291,23 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	
 	
 	// ------ DAMAGE ------
-	private DamageOccurance lastDamage;
-	public DamageOccurance getLastDamage() { return lastDamage; }
+	private LastMainDamage lastMainDamage;
+	private GameDamageType lastDamageType;
 	
-	public boolean notifyDamage(DamageOccurance occur) {
-		if (occur.shoulReplace(lastDamage)) {
-			lastDamage = occur;
+	public boolean tryReplaceLastDamage(LastMainDamage damage) {
+		lastDamageType = damage.getType();
+		if (damage.shouldReplace(lastMainDamage)) {
+			lastMainDamage = damage;
 			return true;
 		} else {
 			return false;
 		}
 	}
 	
-	public String getDeathMessage() {
-		if (lastDamage == null)
-			return getDisplayName() + ChatColor.RESET + " has died.";
-		else
-			return lastDamage.getDeathMessage();
+	public BaseComponent getDeathMessage() {
+//		Bukkit.broadcastMessage("LAST TYPE: " + lastDamageType);
+//		Bukkit.broadcastMessage("LAST MAIN: " + lastMainDamage);
+		return lastDamageType.getDeathMessage(this, lastMainDamage);
 	}
 	
 	

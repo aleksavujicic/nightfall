@@ -387,7 +387,8 @@ public class GameListener implements Listener {
 			for (Dwarf dwarf2 : dm.getGamePlayers()) {
 				dwarf2.notifyDeath(dwarf);
 			}
-			event.setDeathMessage(dwarf.getDeathMessage());
+			event.setDeathMessage("");
+			Bukkit.spigot().broadcast(dwarf.getDeathMessage());
 			
 			if (Game.getGame().getPhase() == Phase.GAME) {
 				for (Player player : Bukkit.getOnlinePlayers())

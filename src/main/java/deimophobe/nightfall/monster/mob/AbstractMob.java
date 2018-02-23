@@ -413,6 +413,6 @@ public abstract class AbstractMob implements Mob {
 			removePlayerDisguise();
 		
 		if (!silent && mobData.forceTitle)
-			Bukkit.broadcastMessage(monster.getDeathMessage());
+			Bukkit.spigot().broadcast(monster.getDeathMessage());
 	}
 }

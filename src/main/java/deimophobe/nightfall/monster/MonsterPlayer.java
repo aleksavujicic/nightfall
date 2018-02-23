@@ -112,11 +112,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	public void kill(boolean silent) {
 		if (!silent && isAlive()) {
-			MonsterManager.getManager().queueDeathMessage(getDeathMessage());
+			MonsterManager.getManager().queueDeathMessage(getDeathMessage().toPlainText());
 			player.playSound(player.getLocation(), "proc", 1f, 0.7f);
 			sendTitleMessage(ChatColor.DARK_RED + "You died!");
 		}
-		
 		
 		cancelFreeze();
 		

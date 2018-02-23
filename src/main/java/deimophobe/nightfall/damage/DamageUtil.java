@@ -4,7 +4,6 @@ import deimophobe.nightfall.Game;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.util.ArrowMisc;
-import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
@@ -31,7 +30,7 @@ public class DamageUtil {
 			// Ignore resistance effects
 			if (event.isApplicable(EntityDamageEvent.DamageModifier.RESISTANCE)) event.setDamage(EntityDamageEvent.DamageModifier.RESISTANCE, 0);
 			
-			Bukkit.getLogger().info("CUSTOM: " + processingDamage);
+			//Bukkit.getLogger().info("CUSTOM: " + processingDamage);
 		} else {
 			// Don't do anything for this event. GameDamage will fire its own event.
 			event.setCancelled(true);

@@ -160,7 +160,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
 		}
-		Bukkit.broadcastMessage(message);
+		//Bukkit.broadcastMessage(message);
 		return true;
 	}
 	

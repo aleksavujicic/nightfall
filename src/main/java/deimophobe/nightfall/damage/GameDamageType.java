@@ -1,5 +1,9 @@
 package deimophobe.nightfall.damage;
 
+import deimophobe.nightfall.entity.GamePlayer;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.ChatColor;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffectType;
 
@@ -11,86 +15,102 @@ import java.util.function.Function;
  */
 public enum GameDamageType {
 	MELEE,
-	RANGED,
+	RANGED("shot"),
 	
 	// Natural Damage
-	CONTACT(2, 1),
-	DROWNING(8, 1),
-	FIRE(5, 4),
-	LAVA(12, 10),
-	MAGMA_BLOCK(4, 4),
+	CONTACT(new ForcedDeathMessageMaker("was pricked to death."), 2, 1),
+	DROWNING(new ForcedDeathMessageMaker("drowned"), 8, 1),
+	FIRE(new ForcedDeathMessageMaker("couldn't find water"), 5, 4),
+	LAVA(new ForcedDeathMessageMaker("tried to swim in lava"), 12, 10),
+	MAGMA_BLOCK(new ForcedDeathMessageMaker("burnt their feet"), 4, 4),
 	
-	FALL((damage) -> {
+	FALL(new ForcedDeathMessageMaker("fell to their doom"), damage -> {
 		damage.getMulitPartDamage().timesMult(3*(1 - Math.pow(Math.random(),2)/2));
 		damage.setNoDmgTicks(1);
 	}),
 	
-	VOID(GameDamage::instaKill),
+	VOID(new ForcedDeathMessageMaker("was swallowed by the abyss"), GameDamage::instaKill),
 	
-	POISON(new PoisonModifier(PotionEffectType.POISON, level -> (double) level*2)),
-	WITHER(new PoisonModifier(PotionEffectType.WITHER, level -> (double) level*2)),
+	POISON(new KeywordDeathMessageMaker("poisoned"), new PoisonModifier(PotionEffectType.POISON, level -> (double) level*2)),
+	WITHER(new KeywordDeathMessageMaker("withered"), new PoisonModifier(PotionEffectType.WITHER, level -> (double) level*2)),
 	
 	
 	// Mob damage
-	SEPPUKU,
-	SHRINE_PROTECTION,
-	SELF_GOBO_KABOOM,
+	SEPPUKU(new ForcedDeathMessageMaker("committed sudoku")),
+	SHRINE_PROTECTION(new ForcedDeathMessageMaker("was zapped by lightning")),
+	SELF_GOBO_KABOOM(new ForcedDeathMessageMaker("went kaboom")),
 	
-	JADE_BOW,
-	VOLCANIC_BOW,
-	LUMINOUS,
-	EVISCERATE,
+	JADE_BOW("pierced"),
+	VOLCANIC_BOW("scorched"),
+	LUMINOUS("pierced"),
+	SCEPTER("pierced"),
+	EVISCERATE("eviscerated"),
 	HAMMER_AOE,
 	GLAIVE_AOE,
 	GLAIVE_ALT,
-	INCORRECT_HELD_ITEM,
-	TINDERFLAME,
-	WILDFIRE,
+	INCORRECT_HELD_ITEM(new ForcedDeathMessageMaker("was a bit of a klutz and dropped their blade")),
+	TINDERFLAME("zooped"),
+	WILDFIRE("incinerated"),
 	SILENT_STRIKE,
 	MYST,
 	SHADOW_STRIKE,
-	SCEPTER_OF_MAGMA,
-	BUFFPOOL,
-	BUBBLE_BEAM,
-	GEYSER,
-	WATER_BOW_AOE,
+	BUFFPOOL(
+			(deadPlayer, damage) -> new TextComponent(deadPlayer.getDisplayName() + " was consumed by " + damage.getAttackerName() + "'s buffpool")
+	),
+	BUBBLE_BEAM("bubbled"),
+	GEYSER("bubbled"),
+	WATER_BOW_AOE("splooshed"),
 	
 	AI_REMOVER,
 	
 	// Dwarf damage
-	DEATH_PLAGUE,
-	GOBO_KABOOM,
-	GOBO_BOX_EXPLOSION,
-	BLAZE_EXPLOSION,
-	WITHER_SKULL,
-	HUSK_STOMP,
-	MOBSPAWN,
+	DEATH_PLAGUE(new ForcedDeathMessageMaker("was touched by " + ChatColor.DARK_GRAY + "DEATH")),
+	GOBO_KABOOM("exploded"),
+	GOBO_BOX_EXPLOSION("exploded"),
+	BLAZE_EXPLOSION("blasted"),
+	WITHER_SKULL("vapourised"),
+	HUSK_STOMP("stomped"),
+	IMPACT_AOE("pushed"),
+	MOBSPAWN(new ForcedDeathMessageMaker("was consumed by the "  + ChatColor.DARK_GRAY + ChatColor.ITALIC + "Night")),
 	
-	MINOTAUR_CHARGE,
-	WRAITH_CHARGE,
+	MINOTAUR_CHARGE("trampled"),
+	WRAITH_CHARGE("drained"),
 	
 	BLOOD_MAGIC, // Current for arthea's teleport
 	
 	
 	// Misc
 	COMMAND,
-	IMPACT_AOE,
 	
 	@Deprecated TEMPORARY
 	
 	;
 	
 	private final Consumer<GameDamage<?,?>> damageModifer;
+	private final DeathMessageMaker deathMessageMaker;
 	
 	GameDamageType() {
+		this.deathMessageMaker = DeathMessageMaker.SIMPLE_DEATH_MESSAGE;
 		this.damageModifer = gameDamage -> {};
 	}
 	
-	GameDamageType(Consumer<GameDamage<?,?>> damageModifer) {
-		this.damageModifer = damageModifer;
+	GameDamageType(String keyword) {
+		this.deathMessageMaker = new KeywordDeathMessageMaker(keyword);
+		this.damageModifer = gameDamage -> {};
 	}
 	
-	GameDamageType(double defaultDamage, int defaultArmourShred) {
+	GameDamageType(DeathMessageMaker deathMessageMaker) {
+		this.deathMessageMaker = deathMessageMaker;
+		this.damageModifer = gameDamage -> {};
+	}
+	
+	GameDamageType(DeathMessageMaker deathMessageMaker, Consumer<GameDamage<?, ?>> damageModifer) {
+		this.damageModifer = damageModifer;
+		this.deathMessageMaker = deathMessageMaker;
+	}
+	
+	GameDamageType(DeathMessageMaker deathMessageMaker, double defaultDamage, int defaultArmourShred) {
+		this.deathMessageMaker = deathMessageMaker;
 		this.damageModifer = (damage) -> {
 			damage.getMulitPartDamage().setBase(defaultDamage);
 			if (damage instanceof DwarfDamage)
@@ -101,6 +121,10 @@ public enum GameDamageType {
 	
 	public void applyModifier(GameDamage<?,?> damage) {
 		damageModifer.accept(damage);
+	}
+	
+	public BaseComponent getDeathMessage(GamePlayer player, LastMainDamage lastMainDamage) {
+		return deathMessageMaker.getDeathMessage(player, lastMainDamage);
 	}
 	
 	public boolean isArrow() {

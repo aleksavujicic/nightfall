@@ -35,10 +35,8 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 	
 	/** The current phase of the damage. */
 	private DamagePhase phase;
-	/** The time which the damage occured. */
-	private final long time;
 	/** The item which was used to hit. If not applicable this value is null. */
-	private final ItemStack itemStack;
+	private ItemStack itemStack;
 	
 	/** How much knockback to do. */
 	protected Vector knockback;
@@ -85,7 +83,6 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		this.receiver = receiver;
 		
 		this.phase = DamagePhase.PRE_FIRE;
-		this.time = System.currentTimeMillis();
 		this.itemStack = getHeldItemOfDamager(attacker);
 		
 		this.mulitPartDamage = new MultiPartValue(damage);
@@ -107,6 +104,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		} else {
 			this.knockback = null;
 		}
+		makeKnockbackFinite();
 		
 		this.ID = idCount;
 		idCount++;
@@ -170,8 +168,8 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		}
 	}
 	
-	@Deprecated
 	/** Only used for the special case of handling mob deaths */
+	@Deprecated
 	protected void forceSoftCancel() {
 		instaKill = false;
 		cancelled = false;
@@ -206,7 +204,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 	private void initialiseKnockbackIfNull() {
 		if (knockback == null) knockback = new Vector(0,0,0);
 	}
-	private void makeKnockbacFinite() {
+	private void makeKnockbackFinite() {
 		if (knockback == null) return;
 		
 		if (!NumberConversions.isFinite(knockback.getX())) knockback.setX(0);
@@ -233,6 +231,10 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 			return (Arrow) arrow;
 		else
 			throw new IllegalStateException("Tried to access arrow of gameDamage which has no arrow.");
+	}
+	
+	public void setItemStack(ItemStack itemStack) {
+		this.itemStack = itemStack;
 	}
 	
 	
@@ -294,6 +296,13 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 			softCancel();
 		}
 		
+		// Notify gamePlayer to save damage. This happens before damage so that death messages from the damage have the right info.
+		long time = System.currentTimeMillis();
+		if (receiver instanceof GamePlayer) {
+			LastMainDamage lastMainDamage = new LastMainDamage(attacker, type, itemStack, time);
+			((GamePlayer) receiver).tryReplaceLastDamage(lastMainDamage);
+		}
+		
 		receiverEntity.setNoDamageTicks(0);
 		DamageUtil.processingDamage = this;
 		receiverEntity.damage(doDamageAmt);
@@ -305,12 +314,6 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 			double kbResist = receiverEntity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).getValue();
 			knockback.multiply(1 - kbResist);
 			receiver.setVelocity(knockback);
-		}
-		
-		// Notify gamePlayer to save damage
-		if (receiver instanceof GamePlayer) {
-			DamageOccurance occurance = new DamageOccurance(attacker, receiver, type, time, "temp"); //itemStack.getItemMeta().getDisplayName());
-			((GamePlayer) receiver).notifyDamage(occurance);
 		}
 		
 		
@@ -377,7 +380,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		
 		DecimalFormat df = new DecimalFormat("#.####");
 		
-		return "GameDamage ID" + ID + " at " + time + " from " + attackerName + ChatColor.RESET + " to " + receiver.getName() + ChatColor.RESET + " of type: " + type + ".\n"
+		return "GameDamage ID" + ID + " from " + attackerName + ChatColor.RESET + " to " + receiver.getName() + ChatColor.RESET + " of type: " + type + ".\n"
 				+ "  DAMAGES - " + mulitPartDamage.toString() + "\n"
 				+ (knockback != null ? "  Knockback: " + df.format(knockback.length()) + "\n" : "")
 				+ "  NoDmgTicks: " + noDmgTicks + ".\n"
