@@ -100,9 +100,9 @@ public abstract class AbstractMob implements Mob {
 	
 	protected String getTitledName() {
 		if (mobData.forceTitle) {
-			return ChatColor.RED + mobData.title;
+			return ChatColor.RED + mobData.title + ChatColor.RESET;
 		} else {
-			return ChatColor.DARK_RED + mobData.title + " " + monster.getName();
+			return ChatColor.DARK_RED + mobData.title + " " + monster.getName() + ChatColor.RESET;
 		}
 	}
 	
