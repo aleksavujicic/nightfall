@@ -20,7 +20,7 @@ base:
       flavour:
        - "Temp"
     modifiers:
-      kb-resist: true
+      kb-resist: 100
     bound: true
 
   sounds:

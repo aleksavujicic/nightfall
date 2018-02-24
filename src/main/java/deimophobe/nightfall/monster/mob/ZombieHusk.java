@@ -93,7 +93,7 @@ public class ZombieHusk extends Zombie {
         getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
         getWeapon().addModifier(ItemModifierType.ATTACK, 5, "Husk Zombie");
         if (stagger) {
-            getArmour().addModifier(ItemModifierType.KB_RESIST, 1, "Staggering Hit");
+            getArmour().addModifier(ItemModifierType.KB_RESIST, 100, "Staggering Hit");
         }
         
         if (procRes == 10) {

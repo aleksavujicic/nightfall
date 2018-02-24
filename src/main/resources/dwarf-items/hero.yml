@@ -15,7 +15,7 @@ tuihammer:
         hammer's been with me through it all.
   modifiers:
     attack: 25
-    kb_resist: 1
+    kb-resist: 100
 
 wildfire:
   base: wildfire
@@ -64,7 +64,7 @@ wand:
      - "WOOORRMMMMHOOOLEEEE"
   modifiers:
     attack: 5
-    kb_resist: 1
+    kb-resist: 80
 
 
 ##### ARTHEA #####
@@ -80,7 +80,7 @@ caduceus:
   modifiers:
     attack: 20
     knockback: 2
-    kb_resist: 1
+    kb-resist: 80
 
 totem:
   base: arthea-heal
@@ -116,7 +116,7 @@ elystria:
      - "For the eternal light."
   modifiers:
     attack: 60
-    kb_resist: 1
+    kb-resist: 100
   shiny: true
 
 
@@ -132,7 +132,7 @@ velsword:
      - "\"It was there, glowing in the lake.\" - Velvetine"
   modifiers:
     attack: 25
-    kb_resist: 1
+    kb-resist: 80
   shiny: true
 
 velbow:
@@ -167,6 +167,8 @@ trident:
         trapping anything inside."
     flavour:
      - "\"The sky darkens...\" -Ancient Tome"
+  modifiers:
+    kb-resist: 100
 
 bubblebeam:
   base: bubble-beam

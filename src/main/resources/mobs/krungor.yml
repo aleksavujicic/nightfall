@@ -27,7 +27,7 @@ armour:
     flavour:
      - "Temp"
   modifiers:
-    kb-resist: 1
+    kb-resist: 100
 weapon:
   template: monster-hero
   base: blood-axe

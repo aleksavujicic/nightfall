@@ -20,7 +20,7 @@ armour:
     flavour:
      - "Chaaarge."
   modifiers:
-    kb-resist: 1
+    kb-resist: 100
 weapon:
   base: club
   name: "Minotaur Club"

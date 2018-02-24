@@ -21,7 +21,7 @@ armour:
     flavour:
      - "The incredibly sturdy armor of a golem."
   modifiers:
-    kb-resist: 1
+    kb-resist: 100
   bound: true
 weapon:
   base: golem-pick
