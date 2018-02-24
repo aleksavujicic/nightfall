@@ -431,17 +431,15 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		if (mob != null) {
-			if (damage.getType() instanceof GameDamageType) {
-				switch ((GameDamageType) damage.getType()) {
-					case CONTACT:
-					case DROWNING:
-					case FIRE:
-					case LAVA:
-					case MAGMA_BLOCK:
-					case FALL:
-						damage.cancel();
-						return;
-				}
+			switch (damage.getType()) {
+				case CONTACT:
+				case DROWNING:
+				case FIRE:
+				case LAVA:
+				case MAGMA_BLOCK:
+				case FALL:
+					damage.cancel();
+					return;
 			}
 			
 			GameEntity attacker = damage.getAttacker();

@@ -94,17 +94,15 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 			damage.cancel();
 		}
 
-		if (damage.getType() instanceof GameDamageType) {
-			switch ((GameDamageType) damage.getType()) {
-				case CONTACT:
-				case DROWNING:
-				case FIRE:
-				case LAVA:
-				case MAGMA_BLOCK:
-				case FALL:
-					damage.cancel();
-					return;
-			}
+		switch (damage.getType()) {
+			case CONTACT:
+			case DROWNING:
+			case FIRE:
+			case LAVA:
+			case MAGMA_BLOCK:
+			case FALL:
+				damage.cancel();
+				return;
 		}
 	}
 
