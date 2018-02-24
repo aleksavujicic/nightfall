@@ -488,7 +488,7 @@ nature_suit:
   category: armour
   cost: 4
   item:
-    name: "Nature Suit"
+    name: "Taproot Armour"
     base: nature-suit
     lore:
       description:
