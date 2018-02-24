@@ -2,9 +2,7 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
-import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.cooldown.Display;
-import deimophobe.nightfall.cooldown.Update;
+import deimophobe.nightfall.cooldown.*;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -33,7 +31,7 @@ class SkeletonWither extends AbstractToggleSkeleton {
 	private final double siphon;
 	private final boolean withering;
 	private final double realArrowRes;
-	@Update @Display private final ComplexCooldown sniperCD = new ComplexCooldown(8*20);
+	@Update @Display private final Cooldown sniperCD;
 
 	private static final Integer[] ARROW_RES_VALUES = {0, 10, 20, 30, 40, 50};
 
@@ -51,6 +49,12 @@ class SkeletonWither extends AbstractToggleSkeleton {
 		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
 		getArmour().addModifier(ItemModifierType.HEALTH, extraHealth * 3, "Upgrade");
 		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, piercing * 5);
+		
+		if (sniper > 0) {
+			sniperCD = new ComplexCooldown(8*20);
+		} else {
+			sniperCD = new DudCooldown();
+		}
 	}
 	
 	@Override
