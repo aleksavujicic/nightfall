@@ -91,12 +91,16 @@ public interface GameEntity<E extends LivingEntity> {
 		return getEntity().getVelocity();
 	}
 	
-	default void setVelocity(Vector vel) {
-		getEntity().setVelocity(vel);
-	}
-	
 	default void setVelocity(double vx, double vy, double vz) {
 		setVelocity(new Vector(vx, vy, vz));
+	}
+	
+	default void setVelocity(Vector velocity) {
+		getEntity().setVelocity(velocity);
+	}
+	
+	default void addVelocity(Vector velocity) {
+		setVelocity(getVelocity().add(velocity));
 	}
 	
 	default void leap(double horizontal, double vertical) {

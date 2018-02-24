@@ -318,7 +318,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		if (knockback != null) {
 			double kbResist = receiverEntity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).getValue();
 			knockback.multiply(1 - kbResist);
-			receiver.setVelocity(knockback);
+			receiver.addVelocity(knockback);
 		}
 		
 		
