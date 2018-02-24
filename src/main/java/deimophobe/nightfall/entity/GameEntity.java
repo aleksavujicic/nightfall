@@ -180,6 +180,9 @@ public interface GameEntity<E extends LivingEntity> {
 		return GameDamage.createDamage(attacker, this, type, damage);
 	}
 	
+	default String getDeathMessageName() {
+		return getDisplayName();
+	}
 	
 	// ------ POTION EFFECTS ------
 	default boolean givePotionEffect(PotionEffectType type, int duration, int amplifier, boolean showAbove, boolean colourBlue, boolean force) {

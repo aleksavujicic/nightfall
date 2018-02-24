@@ -26,7 +26,7 @@ public class LastMainDamage {
 			this.fromAI = false;
 		} else {
 			this.hasAttacker = true;
-			this.attackerName = attacker.getDisplayName();
+			this.attackerName = attacker.getDeathMessageName();
 			this.fromAI = (attacker instanceof AIEntity<?>);
 		}
 		this.type = type;

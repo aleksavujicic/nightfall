@@ -8,10 +8,10 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.map.GameMap;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
@@ -68,12 +68,14 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	private static final ItemStack CHESTPLATE = new ItemStack(Material.DIAMOND);
 	static {CHESTPLATE.addUnsafeEnchantment(Enchantment.DEPTH_STRIDER, 2);}
 	
-	private static Consumer<Creature> GENERAL_ENTITY_INITIALISER = (entity) -> {
-	};
-	
 	@Override
 	public boolean isAI() {
 		return true;
+	}
+	
+	@Override
+	public String getDeathMessageName() {
+		return ChatColor.DARK_RED + "AI " + MonsterEntity.super.getDeathMessageName();
 	}
 	
 	@Override
@@ -81,6 +83,7 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 		if (!damage.isCancelled()) resetInactivity();
 		damage.setArmourShred(5);
 	}
+	
 
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
