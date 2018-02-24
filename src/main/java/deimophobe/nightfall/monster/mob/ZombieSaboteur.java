@@ -87,7 +87,7 @@ public class ZombieSaboteur extends Zombie {
         getArmour().addModifier(ItemModifierType.SPEED, 25, "Saboteur Zombie");
         int saboHealthMalus = (upgrades.get("health") + upgrades.get("health-inf")) * -1;
         getArmour().addModifier(ItemModifierType.HEALTH, saboHealthMalus, "Saboteur Zombie");
-        getArmour().addModifier(ItemModifierType.SPEED, speed, "Epinephrine");
+        getWeapon().addModifier(ItemModifierType.SPEED, speed, "Epinephrine");
     }
 
     @Override
