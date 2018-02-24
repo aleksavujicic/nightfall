@@ -31,7 +31,7 @@ class SkeletonWither extends AbstractToggleSkeleton {
 	private final double siphon;
 	private final boolean withering;
 	private final double realArrowRes;
-	@Update @Display private final Cooldown sniperCD;
+	@Update private final Cooldown sniperCD;
 
 	private static final Integer[] ARROW_RES_VALUES = {0, 10, 20, 30, 40, 50};
 
@@ -176,5 +176,11 @@ class SkeletonWither extends AbstractToggleSkeleton {
 		else {
 			return (super.getArmourShred() + piercing * 5);
 		}
+	}
+	
+	@Override
+	public float getCooldown() {
+		if (sniper == 0) return 0;
+		return 1 - sniperCD.getCooldown();
 	}
 }
