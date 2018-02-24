@@ -7,4 +7,6 @@ import org.bukkit.inventory.ItemStack;
  */
 interface ModifierApplier {
 	ItemStack applyToItem(ItemStack item, int value);
+	
+	ModifierApplier DUD_APPLIER = (item, value) -> item;
 }

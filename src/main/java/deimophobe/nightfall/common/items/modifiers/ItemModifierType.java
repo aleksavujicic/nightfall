@@ -11,66 +11,90 @@ import org.bukkit.inventory.ItemStack;
  */
 public enum ItemModifierType {
 	// Weapons
-	ATTACK(new AttributeApplier(Attribute.ATTACK_DAMAGE), "Attack", false, false),
-	ARMOUR_SHRED(new DudApplier(), "Armour Shred", false, false),
+	ATTACK("Attack", new AttributeApplier(Attribute.ATTACK_DAMAGE)),
+	ARMOUR_SHRED("Armour Shred"),
 	
-	POWER(new DudApplier(), "Power", false, false),
+	POWER("Power"),
 
-	FAKE_PUNCH(new DudApplier(), "Punch", false, false),
-	KNOCKBACK(new EnchantApplier(Enchantment.KNOCKBACK), "Knockback", false, false),
-	BURNING(new EnchantApplier(Enchantment.FIRE_ASPECT), "Flame", false, false),
+	FAKE_PUNCH("Punch"),
+	KNOCKBACK("Knockback", new EnchantApplier(Enchantment.KNOCKBACK)),
+	BURNING("Flame", new EnchantApplier(Enchantment.FIRE_ASPECT)),
 	
-	CAN_DIG(new DudApplier(), "Can Mine", false, true),
-	EFFICIENCY(new EnchantApplier(Enchantment.DIG_SPEED), "Efficiency", false, false),
+	CAN_DIG("Can Mine", false),
+	EFFICIENCY("Efficiency", new EnchantApplier(Enchantment.DIG_SPEED)),
 	
 	// Health/Res
-	HEALTH(new AttributeApplier(Attribute.MAX_HEALTH, (i) -> (double) i*2), "Health", false, false){
-		@Override
-		public String formatValue(int value, boolean forReason) {
-			if (forReason)
-				return super.formatValue(value, forReason);
-			else
-				return super.formatValue(value + 10, forReason);
-		}
-	},
-	RESISTANCE(new DudApplier(), "Resistance", true, false),
-	ARROW_RESISTANCE(new DudApplier(), "Arrow Res", true, false),
+	HEALTH("Health", new AttributeApplier(Attribute.MAX_HEALTH, (i) -> (double) i*2), ValueFormatter.HEALTH_FORMATTER),
+	RESISTANCE("Resistance", ValueFormatter.PERCENT_FORMATTER),
+	ARROW_RESISTANCE("Arrow Res", ValueFormatter.PERCENT_FORMATTER),
 	
 	// Dwarf Armours
-	ARMOUR_DURABILITY(new DudApplier(), "Durability", true, false),
-	QUIVER(new DudApplier(), "Quiver Size", false, false),
-	FALL_DAMAGE(new DudApplier(), "Fall Damage", true, false),
-	FAIRY_BAND(new DudApplier(), "Fairy Band", false, true),
-	NATURE_SUIT(new DudApplier(), "Nature Suit", false, true),
+	ARMOUR_DURABILITY("Durability", ValueFormatter.PERCENT_FORMATTER),
+	QUIVER("Quiver Size"),
+	FALL_DAMAGE("Fall Damage", ValueFormatter.PERCENT_FORMATTER),
+	FAIRY_BAND("Fairy Band", false),
+	NATURE_SUIT("Nature Suit", false),
 	
 	// Other bonuses
-	SPEED(new AttributeApplier(Attribute.MOVEMENT_SPEED, 2, (i) -> (double)i/100), "Speed", true, false),
-	DEPTH_STRIDER(new EnchantApplier(Enchantment.DEPTH_STRIDER), "Depth Strider", false, false),
-	AQUA_AFFINITY(new EnchantApplier(Enchantment.WATER_WORKER), "Aqua Affinity", false, false),
+	SPEED("Speed", new AttributeApplier(Attribute.MOVEMENT_SPEED, 2, (i) -> (double)i/100), ValueFormatter.PERCENT_FORMATTER),
+	DEPTH_STRIDER("Depth Strider", new EnchantApplier(Enchantment.DEPTH_STRIDER)),
+	AQUA_AFFINITY("Aqua Affinity", new EnchantApplier(Enchantment.WATER_WORKER)),
 	
-	KB_RESIST(new AttributeApplier(Attribute.KNOCKBACK_RESISTANCE, AttributeApplier.BOOLEAN_FUNCTION), "KB Resist", false, true),
-	PROC_RESIST(new DudApplier(), "Proc Resistance", true, false),
-	UNPROCCABLE(new DudApplier(), "Unproccable", false, true),
+	KB_RESIST("Knockback Res", new AttributeApplier(Attribute.KNOCKBACK_RESISTANCE, (i) -> (double)i/100), new PercentFormatter(false)),
+	PROC_RESIST("Proc Resistance", ValueFormatter.PERCENT_FORMATTER),
+	UNPROCCABLE("Unproccable", false),
 	
 	// Misc
-	MANA_COST(new DudApplier(), "Mana Cost", false, false),
+	MANA_COST("Mana Cost"),
 	
 	;
 	
-	private final ModifierApplier applier;
 	private final String name;
-	private final boolean showPercentage;
-	private final boolean disableValues;
+	private final boolean displayValues;
+	private final ModifierApplier applier;
+	private final ValueFormatter formatter;
 	
-	ItemModifierType(ModifierApplier applier, String name, boolean showPercentage, boolean disableValues) {
-		this.applier = applier;
+	ItemModifierType(String name) {
+		this(name, ModifierApplier.DUD_APPLIER, ValueFormatter.SIMPLE_FORMATTER);
+	}
+	
+	ItemModifierType(String name, ModifierApplier applier) {
+		this(name, applier, ValueFormatter.SIMPLE_FORMATTER);
+	}
+	
+	ItemModifierType(String name, ValueFormatter formatter) {
+		this(name, ModifierApplier.DUD_APPLIER, formatter);
+	}
+	
+	ItemModifierType(String name, ModifierApplier applier, ValueFormatter formatter) {
 		this.name = name;
-		this.showPercentage = showPercentage;
-		this.disableValues = disableValues;
+		this.displayValues = true;
+		this.applier = applier;
+		this.formatter = formatter;
+	}
+	
+	ItemModifierType(String name, boolean displayValues) {
+		this(name, ModifierApplier.DUD_APPLIER, displayValues);
+	}
+	
+	ItemModifierType(String name, ModifierApplier applier, boolean displayValues) {
+		this.name = name;
+		this.displayValues = displayValues;
+		this.applier = applier;
+		
+		if (displayValues) {
+			this.formatter = ValueFormatter.SIMPLE_FORMATTER;
+		} else {
+			this.formatter = ValueFormatter.NULL_FORMATTER;
+		}
 	}
 	
 	public String getName() {
 		return name;
+	}
+	
+	public boolean shouldDisplayValues() {
+		return displayValues;
 	}
 	
 	public ItemStack applyModifier(ItemStack item, int value) {
@@ -78,16 +102,7 @@ public enum ItemModifierType {
 	}
 	
 	public String formatValue(int value, boolean forReason) {
-		if (disableValues) return null;
-		
-		StringBuilder builder = new StringBuilder();
-		if (value >= 0 && (forReason || showPercentage)) {
-			builder.append('+');
-		}
-		builder.append(value);
-		if (showPercentage)
-			builder.append('%');
-		return builder.toString();
+		return formatter.formatValue(value, forReason);
 	}
 	
 	public static ItemModifierType getByString(String modifier) throws UnknownEnumElementException {
