@@ -33,7 +33,6 @@ public class ShadowBlade extends AbstractItem implements CooldownPiece {
 	
 	private static final int SOUL_SHATTER_RADIUS = 3;
 	private static final int MAX_SOULS = 50;
-	private static final double AI_HIT = .5;
 	private static final double AI_KILL = 1;
 	private static final double MOB_KILL = 2.5;
 	
@@ -44,21 +43,6 @@ public class ShadowBlade extends AbstractItem implements CooldownPiece {
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		soulShatterCD.update();
-	}
-	
-	@Override
-	public void onDamageAttack(MonsterDamage damage){
-		super.onDamageAttack(damage);
-//		if (damage.getReceiver() instanceof AIEntity) {
-//			damage.getMulitPartDamage().timesMult(1.5);
-//			souls += AI_HIT;
-//		} else {
-//			souls++;
-//		}
-//
-//		if (souls > MAX_SOULS) {
-//			souls = MAX_SOULS;
-//		}
 	}
 	
 	@Override
@@ -77,9 +61,15 @@ public class ShadowBlade extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
+	public void onShift(boolean sneaking) {
+		super.onShift(sneaking);
+		souls++;
+	}
+	
+	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action)) {
-			if (souls > 2) {
+			if (souls > 10) {
 				soulShatterCD.tryUse();
 			}
 		}
@@ -87,24 +77,30 @@ public class ShadowBlade extends AbstractItem implements CooldownPiece {
 	}
 	
 	private void soulShatter() {
-		double kb = .15*souls;
-		double SSarea = SOUL_SHATTER_RADIUS+.05*souls;
-		
-		Location center = dwarf.getLocation().add(dwarf.getLocation().getDirection().multiply(1.5));
+		//Location center = dwarf.getLocation().add(dwarf.getLocation().getDirection().multiply(1.5));
+		Location center = dwarf.getEyeLocation();
+		Misc.moveLocation(center, 1, 0, -0.5);
 		
 		World world = center.getWorld();
+		world.spawnParticle(Particle.DRAGON_BREATH, center, (int) souls, 0.5, 0.1, 0.5, 0.003 * souls);
+		world.spawnParticle(Particle.SMOKE_NORMAL, center, 20, 0.5, 0.1, 0.5, 0.003 * souls);
 		
-		world.spawnParticle(Particle.DRAGON_BREATH, center, 30, SSarea, 0.5, SSarea, 0);
-		world.spawnParticle(Particle.SMOKE_NORMAL, center, 30, SSarea, 0.5, SSarea, 0);
+		float pitch = 0.5f + (float) (0.006f * souls);
+		world.playSound(center,"dash", 1f, pitch);
+		world.playSound(center,"entity.generic.burn", 1f, pitch);
 		
+		double kb = 0.5 + 0.03*souls;
+		double area = SOUL_SHATTER_RADIUS+.03*souls;
 		for (MonsterEntity entity : MonsterManager.getManager().getAliveMobsAndAIs()) {
-			if (entity.distanceTo(center) <= SSarea) {
+			if (entity.distanceTo(center) <= area) {
 				Vector offset = entity.getEyeLocation().subtract(center).toVector();
 				
 				Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
 				knockback.setY(knockback.getY() / 2 + 0.1);
 				
-				entity.doDamage(dwarf, GameDamageType.SILENT_STRIKE, souls);
+				double damage = souls;
+				if (entity.isAI()) damage *= 2;
+				entity.doDamage(dwarf, GameDamageType.SILENT_STRIKE, damage);
 				entity.setVelocity(knockback);
 			}
 		}
