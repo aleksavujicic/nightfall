@@ -20,12 +20,12 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
 import org.bukkit.util.Vector;
 
-public class ShadowBlade extends AbstractItem implements CooldownPiece {
-	public ShadowBlade(Dwarf dwarf){
+public class Soulblade extends AbstractItem implements CooldownPiece {
+	public Soulblade(Dwarf dwarf){
 		super(dwarf);
 	}
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "shadowblade");
+	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "soulblade");
 	@Override public CustomItem getItem() { return ITEM; }
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 	

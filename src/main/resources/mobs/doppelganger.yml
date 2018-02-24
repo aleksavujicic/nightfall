@@ -108,9 +108,9 @@ items:
        - "Blah."
       flavour:
        - "Blah"
-  shadowblade:
-    base: dagger
-    name: Cursed Shadowblade
+  soulblade:
+    base: soulblade
+    name: Cursed Soulblade
     lore:
       description:
        - "Blah."

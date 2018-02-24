@@ -31,7 +31,7 @@ public enum KitPieceType {
 	SCEPTER(Scepter::new),
 	HUNTING_CLAWS(HuntingClaws::new),
 	GREATSWORD(Greatsword::new),
-	SHADOW_BLADE(ShadowBlade::new),
+	SOUL_BLADE(Soulblade::new),
 
 	// Bows
 	SHORTBOW(Shortbow::new),

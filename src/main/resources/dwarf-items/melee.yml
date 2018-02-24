@@ -126,9 +126,9 @@ hunting:
   modifiers:
     attack: 20
 
-shadowblade:
-  base: shadow-blade
-  name: Shadow Blade
+soulblade:
+  base: soulblade
+  name: Soulblade
   lore:
     description:
       - "Drk fix this."
