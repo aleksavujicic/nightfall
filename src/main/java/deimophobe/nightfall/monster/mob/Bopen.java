@@ -88,9 +88,17 @@ public class Bopen extends AbstractMob {
 	private void mountHorse() {
 		if (!isRidingHorse()) {
 			Location loc = monster.getLocation();
-			horse = loc.getWorld().spawn(loc, SkeletonHorse.class, HORSE_INITIALISER);
-			horse.addPassenger(monster.getPlayer());
-			horse.getInventory().setItem(0, getItem("saddle").createItemStack());
+			horse = loc.getWorld().spawn(loc, SkeletonHorse.class, horze -> {
+				horze.setInvulnerable(true);
+				horze.setTamed(true);
+				horze.setJumpStrength(10);
+				horze.setAdult();
+				horze.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.25);
+				horze.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
+				
+				horze.getInventory().setItem(0, getItem("saddle").createItemStack());
+				horze.addPassenger(monster.getPlayer());
+			});
 		}
 	}
 	

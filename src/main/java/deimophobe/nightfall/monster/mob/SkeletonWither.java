@@ -100,9 +100,10 @@ class SkeletonWither extends AbstractToggleSkeleton {
 			Location loc = monster.getEyeLocation();
 			World world = loc.getWorld();
 
-			WitherSkull skull = (WitherSkull) world.spawnEntity(loc, EntityType.WITHER_SKULL);
-			skull.setShooter(monster.getPlayer());
-			skull.setVelocity(loc.getDirection().multiply(0.7*force*force*force));
+			WitherSkull skull = world.spawn(loc, WitherSkull.class, s -> {
+				s.setShooter(monster.getPlayer());
+				s.setVelocity(loc.getDirection().multiply(0.7*force*force*force));
+			});
 
 			new BukkitRunnable() {
 				@Override

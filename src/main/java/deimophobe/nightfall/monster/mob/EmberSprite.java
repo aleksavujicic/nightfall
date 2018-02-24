@@ -18,10 +18,7 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Fireball;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -106,9 +103,10 @@ public class EmberSprite extends AbstractMob {
 		Location loc = monster.getEyeLocation();
 		World world = loc.getWorld();
 		
-		Fireball fireball = (Fireball) world.spawnEntity(loc, EntityType.SMALL_FIREBALL);
-		fireball.setShooter(monster.getPlayer());
-		fireball.setVelocity(loc.getDirection().multiply(1.5f));
+		SmallFireball fireball = world.spawn(loc, SmallFireball.class, sf -> {
+			sf.setShooter(monster.getPlayer());
+			sf.setVelocity(loc.getDirection().multiply(1.5f));
+		});
 		
 		new BukkitRunnable() {
 			@Override
