@@ -1,9 +1,11 @@
 package deimophobe.nightfall.dwarf.kit;
 
+import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.ranged.AbstractBow;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
@@ -24,17 +26,12 @@ public class Kit {
 	private final Set<ItemPiece> itemPieces = new HashSet<>();
 	private final Set<BowPiece> bowPieces = new HashSet<>();
 	
-	private final Map<KitGiveType, Integer> giveTimes = new HashMap<>();
-	
 	public Kit(Dwarf dwarf, Collection<KitPieceType> elements) {
 		this.dwarf = dwarf;
 		
 		for (KitPieceType type : elements) {
 			addElement(type);
 		}
-		
-		for (KitGiveType type : KitGiveType.fixedValues())
-			giveTimes.put(type, 0);
 	}
 	
 	public Collection<KitPieceType> getKitElementTypes() {
@@ -68,21 +65,11 @@ public class Kit {
 	}
 	
 	public void giveItems(KitGiveType giveType) {
-		giveItems(giveType, false);
-	}
-	
-	public void giveItems(KitGiveType giveType, boolean force) {
-		if (!force) {
-			if (giveTimes.get(giveType) > 0) return;
-			
-			giveTimes.put(giveType, giveType.getMaxDelay());
-		}
-		
 		for (KitPiece piece : kitPieces.values()) {
 			if (piece instanceof ItemPiece) {
 				ItemPiece itemPiece = (ItemPiece) piece;
 				if (itemPiece.getGiveType() == giveType) {
-					dwarf.giveItem(itemPiece.getItem().createItemStack());
+					giveItem(itemPiece);
 				}
 			}
 		}
@@ -90,29 +77,27 @@ public class Kit {
 		updateHotbarSlot(dwarf.getHeldItem());
 	}
 	
-	public void addAndGiveItem(KitPieceType type) {
-		KitPiece element = addElement(type);
-		if (element instanceof ItemPiece) {
-			dwarf.giveItem(((ItemPiece) element).getItem());
+	public void giveItem(KitPieceType type) {
+		KitPiece element = kitPieces.get(type);
+		if (element == null) {
+			Bukkit.getLogger().severe("Cannot give dwarf element '" + type + "' as it is not in their kit.");
+		} else if (element instanceof ItemPiece) {
+			giveItem((ItemPiece) element);
 		} else {
-			throw new IllegalArgumentException("Cannot give dwarf element '" + type + "' as it is not an item.");
+			Bukkit.getLogger().severe("Cannot give dwarf element '" + type + "' as it is not an item.");
 		}
 	}
 	
-	public void addAndGiveElement(KitPieceType type) {
-		KitPiece element = addElement(type);
-		if (element instanceof ItemPiece) {
-			dwarf.giveItem(((ItemPiece) element).getItem());
+	private void giveItem(ItemPiece itemPiece) {
+		CustomItem item = itemPiece.getItem();
+		if (!dwarf.hasItem(item)) {
+			dwarf.giveItem(item);
 		}
 	}
 	
 	
 	// ------ EVENTS ------
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		// Reduce kit times if non-zero
-		for (KitGiveType type : KitGiveType.fixedValues())
-			giveTimes.compute(type, (k, i) -> (i == 0 ? 0 : i-1));
-		
 		for (KitPiece item : kitPieces.values())
 			item.update(quartSec, halfSec, sec, doubleSec, quadSec);
 	}

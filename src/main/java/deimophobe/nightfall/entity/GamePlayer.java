@@ -245,6 +245,17 @@ public abstract class GamePlayer implements GameEntity<Player> {
 		return player.getInventory().contains(material, amt);
 	}
 	
+	public boolean hasItem(CustomItem customItem) {
+		PlayerInventory inv = player.getInventory();
+		ListIterator<ItemStack> iterator = (ListIterator<ItemStack>) inv.iterator();
+		
+		while (iterator.hasNext()) {
+			ItemStack item = iterator.next();
+			if (customItem.isSimilar(item)) return true;
+		}
+		return false;
+	}
+	
 	public boolean useItem(Material material) {
 		if (material == null) throw new NullPointerException("Cannot force use null item.");
 		
