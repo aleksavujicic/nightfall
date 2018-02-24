@@ -5,6 +5,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
+import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
@@ -130,10 +131,15 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		Vector offset = arrow.getVelocity();
 		
 		int punchLevel = 0;
-		if (arrow instanceof Arrow) punchLevel = ((Arrow) arrow).getKnockbackStrength();
+		float force = 1;
+		if (arrow instanceof Arrow) {
+			punchLevel = ((Arrow) arrow).getKnockbackStrength();
+			force = ArrowMisc.getArrowForce((Arrow) arrow);
+		}
 		
 		offset.setY(0).normalize().multiply(0.6 + 0.3 * punchLevel);
-		offset.setY(0.25 + 0.05*punchLevel);
+		offset.setY(0.3 + 0.05*punchLevel);
+		offset.multiply(force);
 		
 		knockback = offset;
 	}
