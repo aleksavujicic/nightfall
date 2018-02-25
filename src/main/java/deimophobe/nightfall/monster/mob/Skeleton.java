@@ -40,6 +40,10 @@ class Skeleton extends AbstractMob {
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
+		giveItems();
+	}
+	
+	protected void giveItems() {
 		giveArrows(14);
 		giveArrows(10 * quiver);
 	}
@@ -54,6 +58,7 @@ class Skeleton extends AbstractMob {
 	protected void updateArms(boolean swinging) {
 		changeDisguiseWatcher(SkeletonWatcher.class, (sw) -> sw.setSwingArms(swinging));
 	}
+	
 
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {

@@ -70,9 +70,9 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 	}
 	
 	@Override
-	public void onSpawn() {
+	protected void giveItems() {
 		if (hasMeleeKB) giveItem("stick");
-		super.onSpawn();
+		super.giveItems();
 	}
 	
 	@Override
