@@ -33,4 +33,8 @@ public abstract class LifetimeObject extends BukkitRunnable {
 	protected int getLifeLeft() {
 		return lifetime;
 	}
+	
+	protected boolean everyNthTick(int n) {
+		return lifetime % n == 0;
+	}
 }

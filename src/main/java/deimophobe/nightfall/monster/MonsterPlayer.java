@@ -475,6 +475,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	public void freeze(int time) {
 		freezeTime = Math.max(time, freezeTime);
+		if (freezeTime == 0) {
+			cancelFreeze();
+			return;
+		}
 		
 		givePotionEffect(PotionEffectType.LEVITATION, freezeTime, 0, true, false, true);
 		givePotionEffect(PotionEffectType.GLOWING, freezeTime, 1, true, false, true);
