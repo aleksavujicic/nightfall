@@ -83,6 +83,14 @@ public class CustomItem implements Cloneable {
 		forceAddModifier(type, value, reason);
 	}
 	
+	public void removeAllModifiers() {
+		modifiers.clear();
+	}
+	
+	public void removeModifier(ItemModifierType type) {
+		modifiers.remove(type);
+	}
+	
 	private void forceAddModifier(ItemModifierType type, int value, String reason) {
 		if (value == 0) return;
 		
