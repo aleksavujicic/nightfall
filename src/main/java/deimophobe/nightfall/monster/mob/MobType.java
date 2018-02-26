@@ -43,6 +43,7 @@ public enum MobType {
 	KRUNGOR(Krungor::new),
 	BOPEN(Bopen::new),
 	MAGUS(Magus::new),
+	OGRE_MAGI(OgreMagi::new),
 	
 	TESTMOB(TestMob::new),
 	
