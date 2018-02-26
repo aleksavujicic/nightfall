@@ -4,16 +4,12 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.melee.AbstractAOEHitter;
 import deimophobe.nightfall.entity.MonsterEntity;
-import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.ai.AIManager;
-import deimophobe.nightfall.monster.mob.MobType;
-import org.bukkit.ChatColor;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -38,27 +34,16 @@ public class TuiHammer extends AbstractAOEHitter implements CooldownPiece {
 	
 	@Override
 	protected double getDamageToMonster(MonsterEntity entity) {
-		if (entity instanceof MonsterPlayer) {
-			if (((MonsterPlayer) entity).getMob().getType() == MobType.ZOMBIE) {
-				return 25;
-			} else {
-				return 20;
-			}
-		} else if (entity instanceof AIEntity) {
+		if (entity.isAI()) {
 			return 30;
+		} else {
+			return 25;
 		}
-		
-		return 0;
 	}
 	
 	@Override
 	protected double getRadius(MonsterEntity entity) {
-		if (entity instanceof MonsterPlayer) {
-			return 3;
-		} else if (entity instanceof AIEntity) {
-			return 4;
-		}
-		return 0;
+		return 4;
 	}
 	
 	
@@ -72,12 +57,13 @@ public class TuiHammer extends AbstractAOEHitter implements CooldownPiece {
 			cooldown--;
 	}
 	
-	private final static double AI_RADIUS = 20;
+	private final static double AI_RADIUS = 50;
+	private final static int ROAR_DURATION = 10*20;
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (Misc.isRightClick(action) && cooldown == 0) {
-			dwarf.sendMessage(ChatColor.GOLD + "ROAR!!!");
+			//dwarf.sendMessage(ChatColor.GOLD + "ROAR!!!");
 			
 			if (Math.random() <= 0.001)
 				dwarf.playSound("roar", 1, 1, true);
@@ -85,8 +71,9 @@ public class TuiHammer extends AbstractAOEHitter implements CooldownPiece {
 				dwarf.playSound("dragonroar", 1, 1, true);
 			
 			dwarf.getPlayer().getWorld().spawnParticle(Particle.FLAME, dwarf.getLocation(), 200, 1, 1, 1, 0.1);
-			dwarf.givePotionEffect(PotionEffectType.GLOWING, ProcType.ROAR.getDuration(), 1, true, false, true);
-			dwarf.giveProc(ProcType.ROAR);
+			dwarf.givePotionEffect(PotionEffectType.GLOWING, ROAR_DURATION, 1, true, false, true);
+			dwarf.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, ROAR_DURATION, 20, true, false, true);
+			dwarf.givePotionEffect(PotionEffectType.SPEED, ROAR_DURATION, 1, true, false, true);
 			
 			for (AIEntity ai : AIManager.getManager().getAIs()) {
 				if (dwarf.getLocation().distance(ai.getLocation()) <= AI_RADIUS) {

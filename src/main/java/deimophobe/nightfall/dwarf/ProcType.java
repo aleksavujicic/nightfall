@@ -10,25 +10,23 @@ import java.util.Map;
  * Created by Deimophobe on 6/05/17.
  */
 public enum ProcType {
-	REGULAR     (60, 1, 5, 0, true, true, true, true),
-	DRAGONSKIN  (100, 1, 5, 0, true, true, true, true),
-	GRAVEL_PROC (60, 1, 5, 0, true, true, true, true),
-	EBOW        (40, 1, 3, 0, true, true, true, false),
-	LUMINOUS    (100, 2, 5, 0, true, true, true, false),
-	MALICE      (200, 2, 7, 0, true, true, true, true),
+	REGULAR     (60, 1, 5, 0, true, true, true),
+	DRAGONSKIN  (100, 1, 5, 0, true, true, true),
+	GRAVEL_PROC (60, 1, 5, 0, true, true, true),
+	EBOW        (40, 1, 3, 0, true, true, true),
+	LUMINOUS    (100, 2, 5, 0, true, true, true),
+	MALICE      (200, 2, 7, 0, true, true, true),
 	
-	VELSWORD    (80, 2, 8, 0, true, true, true, true),
-	VELBOW      (140, 2, 8, 0, true, true, true, true),
+	VELSWORD    (80, 2, 8, 0, true, true, true),
+	VELBOW      (140, 2, 8, 0, true, true, true),
 	
-	HORN        (160, 4, 8, 3, true, true, true, true),
-	AVENGE      (160, 4, 8, 3, true, true, true, true),
-	SHRINE_FALL (220, 3, 3, 3, false, true, false, true),
+	HORN        (160, 4, 8, 3, true, true, true),
+	AVENGE      (160, 4, 8, 3, true, true, true),
+	SHRINE_FALL (220, 3, 3, 3, false, true, false),
 	
-	PROC_BOTTLE (100, 2, 5, 3, true, true, true, true),
+	PROC_BOTTLE (100, 2, 5, 3, true, true, true),
 	
-	RUNEDASH    (12, 10, 15, 0, false, true, false, false),
-	
-	ROAR        (160, 2, 7, 0, false, false, false, true)
+	RUNEDASH    (12, 10, 15, 0, false, true, false)
 	
 	;
 	
@@ -39,7 +37,7 @@ public enum ProcType {
 	private final boolean showContinuousParticles;
 	private final boolean playSound;
 	
-	ProcType(int duration, int speedLvl, int strLvl, int hasteLvl, boolean showParticles, boolean showContinuousParticles, boolean playSound, boolean overwrite) {
+	ProcType(int duration, int speedLvl, int strLvl, int hasteLvl, boolean showParticles, boolean showContinuousParticles, boolean playSound) {
 		this.duration = duration;
 		this.showParticles = showParticles;
 		this.showContinuousParticles = showContinuousParticles;
