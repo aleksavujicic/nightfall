@@ -1,7 +1,8 @@
 package deimophobe.nightfall.monster.doom;
 
 import deimophobe.nightfall.NightfallPlugin;
-import org.bukkit.Bukkit;
+import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.UnknownEnumElementException;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -14,9 +15,10 @@ import java.util.HashSet;
  */
 public enum DoomType {
 	KRUNGOR("krungor", KrungorDoom.class),
-	GHOSTBLADES("ghostblades", GhostbladeDoom.class),
+	//GHOSTBLADES("ghostblades", GhostbladeDoom.class),
 	HELLHOUNDS("hellhounds", Hellhounds.class),
 	TICKERS("tickers", TickerDoom.class),
+	OGRE_MAGI("ogre-magi", OgreMagi.class),
 	
 	;
 	
@@ -43,13 +45,8 @@ public enum DoomType {
 	}
 	
 	
-	public static DoomType getDoomType(String type) {
-		for (DoomType doomType : values()) {
-			if (doomType.name().equalsIgnoreCase(type))
-				return doomType;
-		}
-		Bukkit.getLogger().warning("No mob of type '" + type + "'!?");
-		return null;
+	public static DoomType getDoomType(String type) throws UnknownEnumElementException {
+		return Misc.getEnumMemberFromString(type, values(), "DoomType");
 	}
 	
 	public static Collection<String> getAllTypes() {

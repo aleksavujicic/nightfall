@@ -30,7 +30,7 @@ class Doom {
 	private final int titleCycleTime;
 	
 	private final List<MobType> specialMobs = new ArrayList<>();
-	private final List<MobType> regularMobs = new ArrayList<>();
+	protected final List<MobType> regularMobs = new ArrayList<>();
 	
 	protected Doom(ConfigurationSection section) {
 		title = section.getString("title");
@@ -88,10 +88,14 @@ class Doom {
 		List<MonsterPlayer> monsterList = new ArrayList<>(MonsterManager.getManager().getDeadPlayers());
 		Collections.shuffle(monsterList);
 		
-		MobSelector selector = new MobSelector();
+		Supplier<MobType> selector = getMobSelector();
 		for (MonsterPlayer monster : monsterList) {
 			monster.spawnMob(selector.get());
 		}
+	}
+	
+	protected Supplier<MobType> getMobSelector() {
+		return new MobSelector();
 	}
 	
 	private class MobSelector implements Supplier<MobType> {

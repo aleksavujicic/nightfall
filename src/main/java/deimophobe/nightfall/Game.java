@@ -131,6 +131,10 @@ public class Game {
 		bossBar = Bukkit.createBossBar("", BarColor.BLUE, BarStyle.SOLID);
 		bossBar.setProgress(1);
 		
+		new BukkitRunnable() {
+			@Override public void run() { updateCurses(); }
+		}.runTaskTimer(NightfallPlugin.getPlugin(), 20, 20);
+		
 		
 		this.map = map;
 		map.setupGame(this);
@@ -427,6 +431,28 @@ public class Game {
 	
 	String getBossBarTitle() {
 		return bossBar.getTitle();
+	}
+	
+	
+	// ------ CURSES ------
+	private final Map<Curse, Integer> activeCurses = new HashMap<>();
+	public void addCurse(Curse curse, int duration) {
+		if (duration <= 0) throw new IllegalArgumentException("Duration of curse " + curse + " must be strictly positive (got " + duration + ")");
+		
+		activeCurses.compute(curse, (c, d) -> {
+			if (d == null) return duration;
+			else  return Math.max(d, duration);
+		});
+		
+	}
+	
+	public boolean isCurseActive(Curse curse) {
+		return activeCurses.containsKey(curse);
+	}
+	
+	private void updateCurses() {
+		activeCurses.replaceAll((curse, time) -> time-1);
+		activeCurses.entrySet().removeIf(entry -> entry.getValue() == 0);
 	}
 	
 	

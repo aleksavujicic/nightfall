@@ -838,11 +838,11 @@ public class NightfallPlugin extends JavaPlugin {
 				return false;
 			}
 			
-			DoomType type = DoomType.getDoomType(args[0]);
-			if (type == null) {
-				sender.sendMessage(ChatColor.RED + "Unknown doom type: " + ChatColor.YELLOW + args[0] + ChatColor.RED + "!");
-			} else {
+			try {
+				DoomType type = DoomType.getDoomType(args[0]);
 				DoomManager.getManager().spawnDoom(type);
+			} catch (UnknownEnumElementException e) {
+				sender.sendMessage(ChatColor.RED + "Unknown doom type: " + ChatColor.YELLOW + args[0] + ChatColor.RED + "!");
 			}
 			
 			return true;

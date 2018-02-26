@@ -10,13 +10,13 @@ krungor:
     regular:
       - minotaur
 
-ghostblades:
-  title: Ghost Blades
-  subtitle: ""
-
-  mobs:
-    regular:
-      - gb-spawn
+#ghostblades:
+#  title: Ghost Blades
+#  subtitle: ""
+#
+#  mobs:
+#    regular:
+#      - gb-spawn
 
 hellhounds:
   title: Hellhounds
@@ -25,6 +25,22 @@ hellhounds:
   mobs:
     regular:
       - hellhound
+
+ogre-magi:
+  title: Ogre Magi
+  subtitle: "Curse of Doom"
+
+  mobs:
+    regular:
+      - zombie
+      - skeleton
+      - gobo
+      - wolf
+      - spiderling
+      - rat
+      - minotaur
+      - wraith
+      - golem
 
 tickers:
   title: Tickers

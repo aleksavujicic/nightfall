@@ -7,6 +7,7 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.EnumWrappers;
+import deimophobe.nightfall.Curse;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Phase;
@@ -129,8 +130,11 @@ public class DwarvenArmour implements Armour {
 	public int getManaRegenRate() {
 		if (!isArmoured()) return 0;
 		
-		if (isAtMax()) return 10; // Otherwise formula below would give 11 only when full (which is kinda weird).
-		return (int) Math.floor(Math.atan(1.5 * armourFraction()) * 10/Math.atan(1.5)) + 1;
+		int mana = (int) Math.floor(Math.atan(1.5 * armourFraction()) * 10/Math.atan(1.5)) + 1;
+		mana = Math.min(10, mana);
+		if (Game.getGame().isCurseActive(Curse.DOOM)) mana = mana - 5;
+		if (Game.getGame().isCurseActive(Curse.SUPER_DOOM)) mana = mana - 75;
+		return mana;
 	}
 	
 	

@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf;
 
+import deimophobe.nightfall.Curse;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.SkinManager;
@@ -735,5 +736,10 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		super.onRemove();
 		kit.onRemove();
 		SkinManager.getManager().removeSkinChange(this);
+		
+		Game game = Game.getGame();
+		if (game.isCurseActive(Curse.DOOM) || game.isCurseActive(Curse.SUPER_DOOM)) {
+			mana = 0;
+		}
 	}
 }
