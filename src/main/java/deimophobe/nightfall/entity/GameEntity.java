@@ -119,17 +119,23 @@ public interface GameEntity<E extends LivingEntity> {
 	}
 	
 	default void heal(double amt) {
+		LivingEntity entity = getEntity();
+		if (entity.isDead()) return;
+		
 		double newHealth = amt + getEntity().getHealth();
 		double maxHealth = getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
 		if (newHealth < maxHealth) {
-			getEntity().setHealth(newHealth);
+			entity.setHealth(newHealth);
 		} else {
-			getEntity().setHealth(maxHealth);
+			entity.setHealth(maxHealth);
 		}
 		//getEntity().getDamage(0);
 	}
 	
 	default void healMax() {
+		LivingEntity entity = getEntity();
+		if (entity.isDead()) return;
+		
 		double maxHealth = getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
 		getEntity().setHealth(maxHealth);
 		
@@ -154,6 +160,9 @@ public interface GameEntity<E extends LivingEntity> {
 	}
 	
 	default void delayedHealMax() {
+		LivingEntity entity = getEntity();
+		if (entity.isDead()) return;
+		
 		new BukkitRunnable() {
 			@Override
 			public void run() {
