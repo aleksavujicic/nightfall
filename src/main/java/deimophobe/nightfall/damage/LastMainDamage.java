@@ -4,6 +4,7 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.util.NMSUtil;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -76,7 +77,10 @@ public class LastMainDamage {
 			return text;
 		}
 		
-		text.setText(meta.getDisplayName());
+		String name = meta.getDisplayName();
+		ChatColor colour = ChatColor.getByChar(name.charAt(1));
+		text.setText(name);
+		if (colour != null) text.setColor(colour);
 		text.setHoverEvent(NMSUtil.createHoverEventForItem(item));
 		
 		return text;
