@@ -25,7 +25,7 @@ public class LampBlock extends TimedBlock {
 		world.spawnParticle(Particle.BLOCK_CRACK, center, 20, 0.4, 0.4, 0.4, 0, new MaterialData(Material.JACK_O_LANTERN));
 		world.playSound(center, Sound.BLOCK_WOOD_PLACE, 1f, 1f);
 		if (moreEffects) {
-			world.spawnParticle(Particle.FIREWORKS_SPARK, center, 50, 0.4, 0.4, 0.4, 0.05);
+			world.spawnParticle(Particle.FLAME, center, 20, 0.4, 0.4, 0.4, 0.01);
 			world.playSound(center, Sound.ENTITY_ILLUSION_ILLAGER_PREPARE_BLINDNESS, 0.6f, 1.5f);
 		}
 	}
