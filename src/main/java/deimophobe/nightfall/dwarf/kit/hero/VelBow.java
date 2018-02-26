@@ -6,6 +6,7 @@ import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.ranged.AbstractPowerBow;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Arrow;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -22,4 +23,10 @@ public class VelBow extends AbstractPowerBow {
 	@Override public KitGiveType getGiveType() { return KitGiveType.START; }
 	@Override public String getBowIdentifier() {return "VELBOW";}
 	@Override public int getPower() {return POWER;}
+	
+	@Override
+	protected void onPowerFire(Arrow poweredArrow) {
+		super.onPowerFire(poweredArrow);
+		poweredArrow.setKnockbackStrength(10);
+	}
 }

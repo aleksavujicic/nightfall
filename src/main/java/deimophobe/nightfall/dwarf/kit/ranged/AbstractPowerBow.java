@@ -54,11 +54,12 @@ public abstract class AbstractPowerBow extends AbstractToggleBow implements Cool
 	@Override
 	public Projectile onBowFire(Projectile arrow, float force) {
 		arrow = super.onBowFire(arrow, force);
-		if (isActive()) {
+		if (isActive() && arrow instanceof Arrow) {
 			ArrowMisc.setGlowColour((Arrow) arrow, arrowColour);
 			ArrowMisc.setArrowDamage((Arrow) arrow, fullArrowDamage);
 			ArrowMisc.setArrowForce((Arrow) arrow, 1);
 			((Arrow) arrow).setCritical(true);
+			onPowerFire((Arrow) arrow);
 			cooldown.reset();
 			updateActive();
 		}
@@ -75,6 +76,8 @@ public abstract class AbstractPowerBow extends AbstractToggleBow implements Cool
 	protected boolean canActivate() {
 		return cooldown.isAvailable();
 	}
+	
+	protected void onPowerFire(Arrow poweredArrow) { }
 	
 	
 	private void offCDSound() {
