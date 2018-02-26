@@ -42,6 +42,9 @@ public class FairyBand extends AbstractCooldown {
 	
 	@Override
 	protected void onOffCD() {
+		dwarf.playSound("block.note.chime", 10f, 1f, false);
+		dwarf.playSound("item.bottle.fill", 10f, 1.5f, false);
+		
 		// Choose random buff
 		Set<Buff> newBuffs = new HashSet<>();
 		for (Buff buff : BUFFS) {
@@ -88,8 +91,6 @@ public class FairyBand extends AbstractCooldown {
 		
 		public void giveBuff(Dwarf dwarf, int time) {
 			dwarf.givePotionEffect(type, time + CHANGEOVER_DURATION, amplifier, true, false, true);
-			dwarf.playSound("block.note.chime", 10f, 1f, false);
-			dwarf.playSound("item.bottle.fill", 10f, 1.5f, false);
 		}
 		
 		private void removeBuff(Dwarf dwarf) {
