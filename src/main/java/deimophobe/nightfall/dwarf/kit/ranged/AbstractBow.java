@@ -16,6 +16,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 /**
@@ -36,6 +37,7 @@ public abstract class AbstractBow extends AbstractItem implements BowPiece {
 	}
 	
 	
+	private final ItemStack compiledItem = getItem().createItemStack();
 	
 	public AbstractBow(Dwarf dwarf) {
 		super(dwarf);
@@ -69,10 +71,11 @@ public abstract class AbstractBow extends AbstractItem implements BowPiece {
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (damageFromBow(damage) && damage.getMonster() instanceof AIEntity) {
-			if (ArrowMisc.getArrowForce(damage.getArrow()) >= 0.6) {
+		if (damageFromBow(damage)) {
+			if (damage.getMonster() instanceof AIEntity && ArrowMisc.getArrowForce(damage.getArrow()) >= 0.6) {
 				damage.instaKill();
 			}
+			damage.setItemStack(compiledItem);
 		}
 	}
 	
