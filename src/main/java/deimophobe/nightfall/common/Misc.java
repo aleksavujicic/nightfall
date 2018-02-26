@@ -1,8 +1,6 @@
 package deimophobe.nightfall.common;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.ConfigurationSection;
@@ -13,6 +11,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.util.Vector;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 /**
  * Just a bunch of useful helper methods.
@@ -46,6 +45,13 @@ public class Misc {
 	
 	public static double randomDouble(double min, double max) {
 		return min + (Math.random() * (max - min));
+	}
+	
+	public static Location randomLocation(Location center, double dx, double dy, double dz) {
+		double xOffset = randomDouble(-dx, dx);
+		double yOffset = randomDouble(-dy, dy);
+		double zOffset = randomDouble(-dz, dz);
+		return center.clone().add(xOffset, yOffset, zOffset);
 	}
 	
 	
@@ -90,6 +96,23 @@ public class Misc {
 		double sin = Math.sin(yaw);
 		double cos = Math.cos(yaw);
 		return loc.add(-parallel*sin - perpendicular*cos , y, parallel*cos - perpendicular*sin);
+	}
+	
+	public static void spawnColouredParticles(Location center, int count, double dx, double dy, double dz, Color colour) {
+		spawnColouredParticles(center, count, dx, dy, dz, () -> colour);
+	}
+	
+	public static void spawnColouredParticles(Location center, int count, double dx, double dy, double dz, Supplier<Color> colourSupplier) {
+		for (int i=0; i<count; i++) {
+			Location location = randomLocation(center, dx, dy, dz);
+			Color colour = colourSupplier.get();
+			// +1 is needed, because if red is set to 0, then minecraft draws it with full red
+			double r = (colour.getRed() + 1)/256d;
+			double g = (colour.getGreen() + 1)/256d;
+			double b = (colour.getBlue() + 1)/256d;
+			
+			center.getWorld().spawnParticle(Particle.REDSTONE, location, 0, r, g, b, 1);
+		}
 	}
 	
 	public static BlockFace getBlockFaceProjectileHit(Projectile proj, Block hitBlock) {
