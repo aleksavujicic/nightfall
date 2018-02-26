@@ -80,7 +80,7 @@ class Ticker extends AbstractMob {
 	@Override
 	public void onShift(boolean sneaking) {
 		super.onShift(sneaking);
-		if (!sneaking)
+		if (sneaking)
 			monster.setVelocity(0, 0.8, 0);
 	}
 	
