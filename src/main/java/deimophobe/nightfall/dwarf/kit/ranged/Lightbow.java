@@ -38,6 +38,6 @@ public class Lightbow extends AbstractBow {
 	@Override
 	public void onProjectileLand(Projectile arrow, Block hitBlock) {
 		if (ArrowMisc.getArrowForce((Arrow) arrow) >= 0.8)
-			TimedBlock.placeTimedBlock(new LampBlock(hitBlock, 10*20, dwarf));
+			TimedBlock.placeTimedBlock(new LampBlock(hitBlock, 10*20, dwarf, false));
 	}
 }

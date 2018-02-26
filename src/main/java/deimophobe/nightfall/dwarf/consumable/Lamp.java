@@ -20,7 +20,7 @@ class Lamp extends Consumable {
 	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
 		if (!checkPhase(dwarf)) return FAILED_CD;
 		
-		boolean success = TimedBlock.placeTimedBlock(new LampBlock(clickedBlock, 60*20, dwarf));
+		boolean success = TimedBlock.placeTimedBlock(new LampBlock(clickedBlock, 60*20, dwarf, true));
 		
 		if (success) return DEFAULT_CD;
 		else return FAILED_CD;
