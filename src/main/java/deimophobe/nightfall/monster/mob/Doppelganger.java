@@ -37,7 +37,7 @@ import java.util.UUID;
  */
 public class Doppelganger extends AbstractMob {
 	
-	private static final int INVIS_DURATION = 45*20;
+	private static final int INVIS_DURATION = 40*20;
 	private static final String TEAM_PREFIX = "doppel";
 	
 	private final Dwarf target;
@@ -170,6 +170,8 @@ public class Doppelganger extends AbstractMob {
 	private void hide() {
 		hidden = true;
 		monster.givePotionEffect(PotionEffectType.INVISIBILITY, INVIS_DURATION, 1, true, false, true);
+		monster.givePotionEffect(PotionEffectType.SPEED, INVIS_DURATION, 3, true, false, true);
+		monster.givePotionEffect(PotionEffectType.JUMP, INVIS_DURATION, 3, true, false, true);
 		giveSpawnProtection(INVIS_DURATION);
 		if (disguise != null) {
 			disguise.getWatcher().setInvisible(true);
