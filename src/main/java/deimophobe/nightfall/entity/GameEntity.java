@@ -164,20 +164,19 @@ public interface GameEntity<E extends LivingEntity> {
 	
 	
 	// ------ DAMAGE ------
-	default GameDamage doDamage(GameEntity attacker, GameDamageType type, double damage) {
+	default boolean doDamage(GameEntity attacker, GameDamageType type, double damage) {
 		return doDamage(attacker, type, damage, false, false);
 	}
 	
-	default GameDamage doDamage(GameEntity attacker, GameDamageType type, double damage, boolean force) {
+	default boolean doDamage(GameEntity attacker, GameDamageType type, double damage, boolean force) {
 		return doDamage(attacker, type, damage, force, false);
 	}
 	
-	default GameDamage doDamage(GameEntity attacker, GameDamageType type, double damage, boolean force, boolean instaKill) {
+	default boolean doDamage(GameEntity attacker, GameDamageType type, double damage, boolean force, boolean instaKill) {
 		GameDamage gameDamage = createDamage(attacker, type, damage);
 		if (instaKill)
 			gameDamage.instaKill();
-		gameDamage.fire(force);
-		return gameDamage;
+		return gameDamage.fire(force);
 	}
 	
 	default GameDamage createDamage(GameEntity attacker, GameDamageType type, double damage) {
