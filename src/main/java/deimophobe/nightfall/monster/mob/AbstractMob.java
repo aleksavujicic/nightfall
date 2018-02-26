@@ -178,7 +178,8 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	protected void setupPlayerDisguise() {
-		SkinManager.getManager().addSkinChange(monster, new PlayerSkin(monster.getDisplayName(), mobData.skinName));
+		SkinManager.getManager().addSkinChange(monster, new PlayerSkin(getTitledName(), mobData.skinName));
+		MonsterManager.getManager().addToTeam(getTitledName());
 	}
 	
 	protected void removePlayerDisguise() {
