@@ -144,9 +144,12 @@ class ConsecratingCharm extends Consumable {
 				spawnAmbientParticles();
 			}
 			
+			if (everyNthTick(10)) {
+				freezeMobs();
+			}
+			
 			if (everyNthTick(20)) {
 				spawnSwordParticles();
-				freezeMobs();
 			}
 		}
 		
