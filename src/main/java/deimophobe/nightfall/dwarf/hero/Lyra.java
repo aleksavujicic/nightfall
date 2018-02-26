@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.hero;
 
+import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -13,7 +14,12 @@ public class Lyra extends Hero {
 		setMaxArrows(1);
 	}
 	
-	private static final ItemStack CLAW = DwarvenItems.getItem("hero", "claw").createItemStack();
+	private static final ItemStack CLAW;
+	static {
+			CustomItem clawItem = DwarvenItems.getItem("hero", "claw");
+			clawItem.removeAllModifiers();
+			CLAW = clawItem.createItemStack();
+	};
 	@Override
 	protected ItemStack getArrow() {
 		return CLAW;
