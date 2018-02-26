@@ -121,7 +121,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		
 		Vector offset = receiver.offsetFrom(attacker);
 		offset.setY(0).normalize().multiply(0.5 + 0.25 * knockbackLevel);
-		offset.setY(0.3 + 0.02 * knockbackLevel);
+		offset.setY(0.35 + 0.05 * knockbackLevel);
 		offset.add(attacker.getVelocity().multiply(0.5));
 		
 		knockback = offset;
@@ -137,8 +137,8 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 			force = ArrowMisc.getArrowForce((Arrow) arrow);
 		}
 		
-		offset.setY(0).normalize().multiply(0.6 + 0.3 * punchLevel);
-		offset.setY(0.3 + 0.05*punchLevel);
+		offset.setY(0).normalize().multiply(0.6 + 0.4 * punchLevel);
+		offset.setY(0.35 + 0.05*punchLevel);
 		offset.multiply(force);
 		
 		knockback = offset;
@@ -318,7 +318,8 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		if (knockback != null) {
 			double kbResist = receiverEntity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).getValue();
 			knockback.multiply(1 - kbResist);
-			receiver.addVelocity(knockback);
+			
+			if (knockback.length() > 0.0001) receiver.setVelocity(knockback);
 		}
 		
 		

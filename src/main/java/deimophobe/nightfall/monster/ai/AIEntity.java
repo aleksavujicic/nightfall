@@ -82,6 +82,7 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	public void onDamageAttack(DwarfDamage damage) {
 		if (!damage.isCancelled()) resetInactivity();
 		damage.setArmourShred(5);
+		damage.multiplyKnockback(0.8);
 	}
 	
 
