@@ -38,24 +38,25 @@ public class Clock extends AbstractItem {
 	
 	private void showTime() {
 		long time = dwarf.getWorld().getTime();
-		int gameHour = (int) (time % 24000)/1000;
-		boolean isNight = gameHour >= 13;
-		
-		int hour = (gameHour + 6) % 24;
-		boolean am = (hour < 12);
-		
-		int displayHour;
-		if (hour == 0) {
-			displayHour = 12;
-		} else if (hour > 12) {
-			displayHour = hour - 12;
+		int timeDay = (int) time % 24000;
+		boolean isNight = (12500 <= timeDay && timeDay <= 23000);
+		String timeDescription;
+		if (timeDay >= 22500 || timeDay <= 1500) {
+			timeDescription = "dawn";
+		} else if (timeDay <= 5000) {
+			timeDescription = "morning";
+		} else if (timeDay <= 11500) {
+			timeDescription = "noon";
+		} else if (timeDay <= 13500) {
+			timeDescription = "dusk";
+		} else if (timeDay <= 15000) {
+			timeDescription = "evening";
 		} else {
-			displayHour = hour;
+			timeDescription = "night";
 		}
 		
-		String amMessage = (am ? "AM" : "PM");
 		ChatColor textColour = (isNight ? ChatColor.DARK_RED : ChatColor.YELLOW);
 		ChatColor highlightColour = (isNight ? ChatColor.BLUE : ChatColor.AQUA);
-		dwarf.sendTitleMessage(textColour + "The time is now " + highlightColour + displayHour + amMessage);
+		dwarf.sendTitleMessage(textColour + "It is currently " + highlightColour + timeDescription);
 	}
 }
