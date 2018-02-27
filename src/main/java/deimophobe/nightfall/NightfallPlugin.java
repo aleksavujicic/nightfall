@@ -817,10 +817,10 @@ public class NightfallPlugin extends JavaPlugin {
 				return true;
 			} else {
 				try {
-					Plague plague = PlagueType.valueOf(args[0].toUpperCase()).getPlague();
+					Plague plague = PlagueType.getPlagueType(args[0]).createPlague();
 					game.startPlague(plague);
 					return true;
-				} catch (IllegalArgumentException e) {
+				} catch (UnknownEnumElementException e) {
 					sender.sendMessage(ChatColor.RED + "Unknown plague: " + ChatColor.YELLOW + args[0]);
 					return false;
 				}

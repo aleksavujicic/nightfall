@@ -1,6 +1,7 @@
 package deimophobe.nightfall.plague;
 
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.UnknownEnumElementException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
@@ -26,11 +27,11 @@ public enum PlagueType {
 		this.plagueClass = plagueClass;
 		
 		// Test to see if it can create a plague.
-		getPlague();
+		createPlague();
 		this.active = active;
 	}
 	
-	public Plague getPlague() {
+	public Plague createPlague() {
 		try {
 			return plagueClass.getDeclaredConstructor().newInstance();
 		} catch (NoSuchMethodException e) {
@@ -50,7 +51,7 @@ public enum PlagueType {
 			if (type.active)
 				validTypes.add(type);
 		
-		return Misc.getRandom(validTypes).getPlague();
+		return Misc.getRandom(validTypes).createPlague();
 	}
 	
 	public static Collection<String> getPlagues() {
@@ -58,5 +59,9 @@ public enum PlagueType {
 		for (PlagueType type : values())
 			names.add(type.name().toLowerCase());
 		return names;
+	}
+	
+	public static PlagueType getPlagueType(String type) throws UnknownEnumElementException {
+		return Misc.getEnumMemberFromString(type, values(), "PlagueType");
 	}
 }
