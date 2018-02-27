@@ -77,9 +77,9 @@ commands:
     description: Blesses Jimmy with the mighty dwarven compass.
   clock:
     description: So Jimmy can tell time.
-  loadout:
-    description: Choose a kit
-    aliases: kit
+#  loadout:
+#    description: Choose a kit
+#    aliases: kit
   title:
     description: Choose a title
     aliases: titles
