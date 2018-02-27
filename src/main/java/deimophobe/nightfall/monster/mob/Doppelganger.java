@@ -188,6 +188,8 @@ public class Doppelganger extends AbstractMob {
 		
 		monster.removePotionEffect(PotionEffectType.INVISIBILITY);
 		monster.removePotionEffect(PotionEffectType.LUCK);
+		monster.removePotionEffect(PotionEffectType.SPEED);
+		monster.removePotionEffect(PotionEffectType.JUMP);
 		if (disguise != null) {
 			disguise.getWatcher().setInvisible(false);
 			disguise.getWatcher().setArmor(new ItemStack[]{null, null, null, null});
