@@ -17,6 +17,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -34,11 +35,7 @@ class OgreMagi extends AbstractMob {
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
-		if (sec && isPlayerHoldingWeapon()) {
-			playSound("bat-idle");
-			spawnBat();
-			spawnBat();
-		}
+		if (sec) updateBats();
 	}
 	
 	@Override
@@ -62,10 +59,27 @@ class OgreMagi extends AbstractMob {
 		dropFakeItem("armour");
 	}
 	
+	private void updateBats() {
+		Iterator<Bat> baterator = bats.iterator();
+		while (baterator.hasNext()) {
+			Bat bat = baterator.next();
+			if (bat.getTicksLived() >= 10*20) {
+				bat.remove();
+				baterator.remove();
+			}
+		}
+		
+		if (isPlayerHoldingWeapon()) {
+			playSound("bat-idle");
+			spawnBat();
+			spawnBat();
+		}
+	}
+	
 	private void spawnBat() {
 		Bat batt = monster.getWorld().spawn(monster.getEyeLocation(), Bat.class, bat -> {
 			bat.setFireTicks(10000000);
-			//bat.setInvulnerable(true);
+			bat.setInvulnerable(true);
 			bat.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(10);
 			bat.setHealth(10);
 			bat.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 10000000, 1), true);
@@ -78,7 +92,7 @@ class OgreMagi extends AbstractMob {
 	
 	private void makeFire() {
 		monster.playSound("entity.ghast.shoot", 1f, 0.5f, true);
-		for (int i=0; i<20; i++) {
+		for (int i=0; i<40; i++) {
 			Block block = Misc.randomLocation(monster.getLocation(), 4, 2, 4).getBlock();
 			if (BlockType.IGNORABLE.matchesBlock(block)) {
 				block.setType(Material.FIRE);
@@ -91,12 +105,18 @@ class OgreMagi extends AbstractMob {
 		for (Bat bat : bats) {
 			if (bat.isDead()) continue;
 			
-			for (int i = 0; i < 10; i++) {
-				Block block = Misc.randomLocation(bat.getLocation(), 3, 3, 3).getBlock();
+			int successes = 0;
+			for (int i = 0; i < 30; i++) {
+				Block block = Misc.randomLocation(bat.getLocation(), 3, 5, 3).getBlock();
 				if (BlockType.IGNORABLE.matchesBlock(block)) {
 					block.setType(Material.FIRE);
+					successes++;
+					
+					if (successes >= 5) break;
 				}
 			}
+			
+			bat.getWorld().spawnParticle(Particle.FLAME, bat.getLocation(), 10, 0.2, 0.2, 0.2, 0.1);
 		}
 		clearBats();
 	}
