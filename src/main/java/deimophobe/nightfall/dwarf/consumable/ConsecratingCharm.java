@@ -166,7 +166,7 @@ class ConsecratingCharm extends Consumable {
 		}
 		
 		private void freezeMobs() {
-			for (MonsterPlayer mp : MonsterManager.getManager().getGamePlayers()) {
+			for (MonsterPlayer mp : MonsterManager.getManager().getAlivePlayerMobs()) {
 				if (mp.isAlive() && center.distance(mp.getLocation()) <= radius) {
 					int mobFreezeTime = getLifeLeft() + mp.getMob().getCharmTime() - maxLifetime;
 					mp.freeze(mobFreezeTime);
@@ -180,7 +180,7 @@ class ConsecratingCharm extends Consumable {
 				Mob mob = mp.getMob();
 				if (mob.getType() == MobType.ZOMBIE) ((Zombie) mob).disableRebirth();
 			}
-			AIManager.getManager().clearArea(center, 2*radius);
+			AIManager.getManager().clearArea(center, 1.5*radius);
 		}
 		
 		@Override
