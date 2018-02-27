@@ -35,17 +35,8 @@ class OgreMagi extends AbstractMob {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		if (sec && isPlayerHoldingWeapon()) {
 			playSound("bat-idle");
-			Bat batt = monster.getWorld().spawn(monster.getEyeLocation(), Bat.class, bat -> {
-				bat.setFireTicks(10000000);
-				//bat.setInvulnerable(true);
-				bat.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(10);
-				bat.setHealth(10);
-				bat.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 10000000, 1), true);
-				bat.setAwake(true);
-				bat.setRemoveWhenFarAway(true);
-				bat.setSilent(true);
-			});
-			bats.add(batt);
+			spawnBat();
+			spawnBat();
 		}
 	}
 	
@@ -61,6 +52,20 @@ class OgreMagi extends AbstractMob {
 	public void onDeath(boolean silent) {
 		super.onDeath(silent);
 		clearBats();
+	}
+	
+	private void spawnBat() {
+		Bat batt = monster.getWorld().spawn(monster.getEyeLocation(), Bat.class, bat -> {
+			bat.setFireTicks(10000000);
+			//bat.setInvulnerable(true);
+			bat.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(10);
+			bat.setHealth(10);
+			bat.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 10000000, 1), true);
+			bat.setAwake(true);
+			bat.setRemoveWhenFarAway(true);
+			bat.setSilent(true);
+		});
+		bats.add(batt);
 	}
 	
 	private void makeFire() {
