@@ -90,6 +90,8 @@ class GoblinKaboom extends Goblin {
 		
 		if (Misc.isLeftClick(action) && kaboom && isPlayerHoldingItem("kaboom") && !kaboomTrigger) {
 			monster.givePotionEffect(PotionEffectType.SPEED, MAX_KABOOM_CD, speed, true, true, true);
+			monster.playSound("entity.creeper.primed", 1f, 0.5f, true);
+			changeDisguiseWatcher(CreeperWatcher.class, creeperWatcher -> creeperWatcher.setIgnited(true));
 			kaboomTrigger = true;
 		}
 	}
@@ -137,6 +139,7 @@ class GoblinKaboom extends Goblin {
 			monster.removePotionEffect(PotionEffectType.SPEED);
 			kaboomCD.reset();
 			kaboomTrigger = false;
+			changeDisguiseWatcher(CreeperWatcher.class, creeperWatcher -> creeperWatcher.setIgnited(false));
 		}
 	}
 	
