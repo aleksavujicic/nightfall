@@ -1,5 +1,7 @@
 package deimophobe.nightfall.dwarf.armour;
 
+import deimophobe.nightfall.Curse;
+import deimophobe.nightfall.Game;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -53,6 +55,9 @@ public class HeroArmour extends StaticArmour {
 	
 	@Override
 	public int getManaRegenRate() {
-		return 5;
+		int mana = 5;
+		if (Game.getGame().isCurseActive(Curse.DOOM)) mana = mana - 2;
+		if (Game.getGame().isCurseActive(Curse.SUPER_DOOM)) mana = mana - 58;
+		return mana;
 	}
 }
