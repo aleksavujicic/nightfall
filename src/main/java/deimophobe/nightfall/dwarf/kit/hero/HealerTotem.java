@@ -56,7 +56,7 @@ public class HealerTotem extends AbstractItem implements CooldownPiece {
 	}
 	
 	private void groupHeal() {
-		if (dwarf.tryUseMana(20)) {
+		if (dwarf.hasMana(20)) {
 			boolean healedDwarf = false;
 			for (Dwarf target : DwarfManager.getManager().getGamePlayers()) {
 				if (dwarf == target) continue;
@@ -69,7 +69,7 @@ public class HealerTotem extends AbstractItem implements CooldownPiece {
 				
 				healedDwarf = true;
 				
-				target.playSound("entity.experience_orb.pickup", 0.5f, 0.5f, false);
+				target.playSound("healing", 0.5f, 0.8f, false);
 				
 				dwarf.useMana(2);
 				target.regenMana(15);
@@ -78,7 +78,8 @@ public class HealerTotem extends AbstractItem implements CooldownPiece {
 			}
 			
 			if (healedDwarf) {
-				dwarf.playSound("entity.experience_orb.pickup", 0.5f, 0.5f, false);
+				dwarf.playSound("healing", 0.5f, 0.8f, false);
+				dwarf.useMana(20);
 			}
 		}
 	}

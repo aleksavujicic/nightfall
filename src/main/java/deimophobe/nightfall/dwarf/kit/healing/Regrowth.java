@@ -66,8 +66,8 @@ public class Regrowth extends AbstractAle {
 		
 		dwarf.useMana(25);
 		
-		dwarf.playSound("entity.experience_orb.pickup", 0.5f, 0.5f, false);
-		target.playSound("entity.experience_orb.pickup", 0.5f, 0.5f, false);
+		dwarf.playSound("healing", 0.5f, 1f, false);
+		target.playSound("healing", 0.5f, 1f, false);
 		
 		target.getArmour().repair(8);
 		target.heal(5);
