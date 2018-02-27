@@ -9,7 +9,7 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import me.libraryaddict.disguise.disguisetypes.watchers.ZombieWatcher;
+import me.libraryaddict.disguise.disguisetypes.watchers.ZombieVillagerWatcher;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -40,7 +40,7 @@ public class ZombieSaboteur extends ZombieMob {
 	
 	private static Integer[] shredValues = {0, 2, 4, 6, 8, 10};
 	
-	private final static Villager.Profession PROFESSION = Villager.Profession.BLACKSMITH;
+	private final static Villager.Profession PROFESSION = Villager.Profession.HUSK;
 	
 	protected ZombieSaboteur(MonsterPlayer mons) {
 		this(mons, null);
@@ -95,8 +95,8 @@ public class ZombieSaboteur extends ZombieMob {
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
-		changeDisguiseWatcher(ZombieWatcher.class, zw -> {
-			//zw.setProfession(PROFESSION);
+		changeDisguiseWatcher(ZombieVillagerWatcher.class, zw -> {
+			zw.setProfession(PROFESSION);
 			zw.setBaby(true);
 		});
 	}
@@ -181,8 +181,8 @@ public class ZombieSaboteur extends ZombieMob {
 	@Override
 	protected DeadEntitySpawner<? extends LivingEntity> getDeadEntitySpawner() {
 		return new DeadEntitySpawner<>(ZombieVillager.class, zombie -> {
-			zombie.setVillagerProfession(PROFESSION);
 			zombie.setBaby(true);
+			zombie.setVillagerProfession(PROFESSION);
 		});
 	}
 }

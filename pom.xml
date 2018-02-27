@@ -115,7 +115,7 @@
         <dependency>
             <groupId>LibsDisguises</groupId>
             <artifactId>LibsDisguises</artifactId>
-            <version>9.5.0</version>
+            <version>9.5.1</version>
 
             <!-- Lib's Disguises has outdated version of protocollib. -->
             <exclusions>
