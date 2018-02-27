@@ -7,6 +7,7 @@ import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -52,6 +53,13 @@ class OgreMagi extends AbstractMob {
 	public void onDeath(boolean silent) {
 		super.onDeath(silent);
 		clearBats();
+	}
+	
+	@Override
+	protected void displayDeathAnimation() {
+		monster.getWorld().spawnParticle(Particle.CLOUD, monster.getEyeLocation().subtract(0, 0.5, 0), 20, 0.5, 0.5, 0.5, 0.01);
+		dropFakeWeapon();
+		dropFakeItem("armour");
 	}
 	
 	private void spawnBat() {

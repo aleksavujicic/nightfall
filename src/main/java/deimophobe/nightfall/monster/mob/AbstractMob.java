@@ -19,11 +19,13 @@ import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
 
@@ -236,23 +238,6 @@ public abstract class AbstractMob implements Mob {
 		}
 	}
 	
-	protected void showFakeDeadMob() {
-		Disguise disguise = getDisguise();
-		if (disguise != null) {
-			EntityType entityType = disguise.getType().getEntityType();
-			Player player = monster.getPlayer();
-			if (entityType.isAlive() && entityType != EntityType.PLAYER) {
-				LivingEntity dyingEntity = (LivingEntity) player.getWorld().spawnEntity(player.getLocation(), entityType);
-				dyingEntity.teleport(dyingEntity);
-				dyingEntity.setVelocity(dyingEntity.getVelocity());
-				dyingEntity.setCustomName(disguise.getWatcher().getCustomName());
-				dyingEntity.getEquipment().setArmorContents(player.getInventory().getArmorContents());
-				dyingEntity.getEquipment().setItemInMainHand(monster.getHeldItem());
-				dyingEntity.damage(10000);
-			}
-		}
-	}
-	
 	// ~~~~ ITEMS ~~~~~
 	protected void setupItems() {
 		monster.clearInventory();
@@ -315,6 +300,16 @@ public abstract class AbstractMob implements Mob {
 	protected boolean isPlayerHoldingWeapon() {
 		return isPlayerHoldingItem("weapon");
 	}
+	
+	protected void dropFakeItem(String name) {
+		ItemStack itemStack = getItem(name).createItemStack();
+		Item item = monster.getWorld().dropItemNaturally(monster.getEyeLocation(), itemStack);
+		item.setPickupDelay(32767); // Never
+		item.setTicksLived(6000 - 60*20);
+	}
+	
+	protected void dropFakeWeapon() { dropFakeItem("weapon"); }
+	
 	
 	protected void playSound(String soundName) {
 		mobData.playSound(soundName, monster);
@@ -412,12 +407,62 @@ public abstract class AbstractMob implements Mob {
 		playSound("death");
 		
 		if (!silent)
-			showFakeDeadMob();
+			displayDeathAnimation();
 		
 		if (hasPlayerDisguise())
 			removePlayerDisguise();
 		
 		if (!silent && mobData.forceTitle)
 			Bukkit.spigot().broadcast(monster.getDeathMessage());
+	}
+	
+	protected void displayDeathAnimation() {
+		DeadEntitySpawner spawner = getDeadEntitySpawner();
+		if (spawner != null) {
+			spawner.spawn(monster.getLocation());
+		}
+	}
+	
+	protected DeadEntitySpawner<? extends LivingEntity> getDeadEntitySpawner() {
+		Disguise disguise = getDisguise();
+		if (disguise == null) return null;
+		EntityType type = disguise.getType().getEntityType();
+		if (type.isAlive() && type.isSpawnable() && type != EntityType.PLAYER) {
+			Class<? extends Entity> disguiseClass = getDisguise().getType().getEntityClass();
+			return new DeadEntitySpawner(disguiseClass, entity -> {});
+		}
+		return null;
+	}
+	
+	protected final void setupDyingEntity(LivingEntity dyingEntity) {
+		dyingEntity.teleport(monster.getLocation());
+		dyingEntity.setVelocity(monster.getVelocity());
+		dyingEntity.setFireTicks(0);
+		dyingEntity.setInvulnerable(true);
+		dyingEntity.setAI(false);
+		dyingEntity.setSilent(true);
+		dyingEntity.setCanPickupItems(false);
+		dyingEntity.setCollidable(false);
+		dyingEntity.setCustomName(getTitledName());
+		dyingEntity.getEquipment().setArmorContents(monster.getPlayer().getInventory().getArmorContents());
+		dyingEntity.getEquipment().setItemInMainHand(monster.getHeldItem());
+		dyingEntity.setHealth(0);
+	}
+	
+	protected class DeadEntitySpawner<T extends LivingEntity> {
+		private final Class<T> entityClass;
+		private final Consumer<T> entityModifier;
+		
+		protected DeadEntitySpawner(Class<T> entityClass, Consumer<T> entityModifier) {
+			this.entityClass = entityClass;
+			this.entityModifier = t -> {
+				setupDyingEntity(t);
+				entityModifier.accept(t);
+			};
+		}
+		
+		private T spawn(Location location) {
+			return location.getWorld().spawn(location, entityClass, entityModifier::accept);
+		}
 	}
 }

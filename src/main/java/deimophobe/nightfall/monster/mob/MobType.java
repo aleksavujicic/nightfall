@@ -90,7 +90,7 @@ public enum MobType {
 			return new ZombieSaboteur(monster);
 		}
 		else {
-			return new Zombie(monster);
+			return new ZombieMob(monster);
 		}
 	}
 	

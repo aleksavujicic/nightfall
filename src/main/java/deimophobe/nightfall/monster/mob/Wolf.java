@@ -13,6 +13,7 @@ import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
@@ -95,5 +96,13 @@ class Wolf extends AbstractMob {
 		}
 		if (wolfCount == 0) return;
 		monster.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, 10*20, wolfCount/2, true, true, false);
+	}
+	
+	@Override
+	protected DeadEntitySpawner<? extends LivingEntity> getDeadEntitySpawner() {
+		return new DeadEntitySpawner<>(org.bukkit.entity.Wolf.class, wolf -> {
+			wolf.setSitting(monster.isSneaking());
+			wolf.setTamed(true);
+		});
 	}
 }

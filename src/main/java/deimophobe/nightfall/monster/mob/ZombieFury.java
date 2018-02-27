@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * Created by TKiwisi on 10/06/17.
  */
-public class ZombieFury extends Zombie {
+public class ZombieFury extends ZombieMob {
 
     private final int vampirism;
     private final double arrowRes;

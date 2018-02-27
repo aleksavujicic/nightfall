@@ -237,4 +237,13 @@ public class Doppelganger extends AbstractMob {
 			return nextID;
 		}
 	}
+	
+	@Override
+	protected void displayDeathAnimation() {
+		monster.getWorld().spawnParticle(Particle.CLOUD, monster.getEyeLocation().subtract(0, 0.5, 0), 20, 0.5, 0.5, 0.5, 0.01);
+		dropFakeWeapon();
+		dropFakeItem("armour");
+		dropFakeItem("legs");
+		dropFakeItem("boots");
+	}
 }

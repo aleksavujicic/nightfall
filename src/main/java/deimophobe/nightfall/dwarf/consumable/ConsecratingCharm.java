@@ -7,7 +7,7 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.mob.Mob;
 import deimophobe.nightfall.monster.mob.MobType;
-import deimophobe.nightfall.monster.mob.Zombie;
+import deimophobe.nightfall.monster.mob.ZombieMob;
 import deimophobe.nightfall.util.LifetimeObject;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -178,7 +178,7 @@ class ConsecratingCharm extends Consumable {
 				}
 				
 				Mob mob = mp.getMob();
-				if (mob.getType() == MobType.ZOMBIE) ((Zombie) mob).disableRebirth();
+				if (mob.getType() == MobType.ZOMBIE) ((ZombieMob) mob).disableRebirth();
 			}
 			AIManager.getManager().clearArea(center, 1.5*radius);
 		}

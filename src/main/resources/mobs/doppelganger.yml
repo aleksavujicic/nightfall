@@ -116,3 +116,8 @@ items:
        - "Blah."
       flavour:
        - "Blah"
+
+sounds:
+  death:
+    path: "entity.blaze.death"
+    pitch: 1.5

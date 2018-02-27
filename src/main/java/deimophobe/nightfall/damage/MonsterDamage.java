@@ -54,16 +54,22 @@ public class MonsterDamage extends GameDamage<GameEntity<?>, MonsterEntity> {
 				// Prevent killing a monster and set to spectator instead
 				if (receiver instanceof MonsterPlayer) {
 					this.forceSoftCancel();
-					this.addPostDamageHandler(d -> ((MonsterPlayer)receiver).kill(false));
 				}
 				
-				if (receiver instanceof AIEntity) {
-					((AIEntity) receiver).onDeath(this);
-				}
-				
-				// Notify dwarf if there is one
-				if (attacker instanceof Dwarf)
-					((Dwarf) attacker).onKill(this);
+				// Needs to be done this way, as willKill()
+				this.addPostDamageHandler(d -> {
+					if (receiver instanceof MonsterPlayer) {
+						((MonsterPlayer) receiver).kill(false);
+					}
+					
+					if (receiver instanceof AIEntity) {
+						((AIEntity) receiver).onDeath(this);
+					}
+					
+					// Notify dwarf if there is one
+					if (attacker instanceof Dwarf)
+						((Dwarf) attacker).onKill(this);
+				});
 			}
 		});
 	}

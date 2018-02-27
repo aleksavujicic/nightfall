@@ -7,6 +7,7 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.LivingEntity;
 
 import java.util.Random;
 
@@ -48,5 +49,15 @@ public class Hellhound extends Wolf {
 		Block block = monster.getLocation().add(dx, dy, dz).getBlock();
 		if (block.getType().isSolid())
 			TimedBlock.placeTimedBlock(new TimedBlock(block, Material.MAGMA, 140, monster));
+	}
+	
+	@Override
+	protected DeadEntitySpawner<? extends LivingEntity> getDeadEntitySpawner() {
+		return new DeadEntitySpawner<>(org.bukkit.entity.Wolf.class, wolf -> {
+			wolf.setSitting(monster.isSneaking());
+			wolf.setTamed(false);
+			wolf.setAngry(true);
+			wolf.setTarget(monster.getPlayer());
+		});
 	}
 }

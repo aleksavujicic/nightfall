@@ -13,6 +13,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
 
 /**
@@ -120,5 +121,12 @@ class SkeletonFlamelancer extends Skeleton {
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
 		damage.getArrowRes().addBoost(realArrowRes);
+	}
+	
+	@Override
+	protected DeadEntitySpawner<? extends LivingEntity> getDeadEntitySpawner() {
+		return new DeadEntitySpawner<>(org.bukkit.entity.Skeleton.class, skeleton -> {
+			skeleton.setFireTicks(10000);
+		});
 	}
 }

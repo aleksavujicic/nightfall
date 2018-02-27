@@ -3,13 +3,15 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Zombie;
 
 import java.util.Map;
 
 /**
  * Created by Deimophobe on 2/02/17.
  */
-public class Zombie extends AbstractMob {
+public class ZombieMob extends AbstractMob {
 
 	protected double rebirthChance;
 	protected Map<String, Integer> upgrades;
@@ -17,15 +19,15 @@ public class Zombie extends AbstractMob {
 	protected final Location rebirthLoc;
 	private boolean disabledRebirth = false;
 
-	protected Zombie(MonsterPlayer mons) {
+	protected ZombieMob(MonsterPlayer mons) {
 		this(mons, null);
 	}
 
-	public Zombie(MonsterPlayer mons, Location rebirth) {
+	public ZombieMob(MonsterPlayer mons, Location rebirth) {
 		this(mons, rebirth, MobType.ZOMBIE.getMobData());
 	}
 
-	protected Zombie(MonsterPlayer mons, Location rebirth, MobData zombieData) {
+	protected ZombieMob(MonsterPlayer mons, Location rebirth, MobData zombieData) {
 		super(mons, MobType.ZOMBIE, zombieData);
 		this.rebirthChance = 0;
 		this.rebirthLoc = rebirth;
@@ -76,5 +78,12 @@ public class Zombie extends AbstractMob {
 			monster.removeRebirth();
 			monster.resetRebirthCount();
 		}
+	}
+	
+	@Override
+	protected DeadEntitySpawner<? extends LivingEntity> getDeadEntitySpawner() {
+		return new DeadEntitySpawner<>(Zombie.class, zombie -> {
+			zombie.setBaby(false);
+		});
 	}
 }
