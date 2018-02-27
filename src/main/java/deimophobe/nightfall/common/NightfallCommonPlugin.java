@@ -1,5 +1,7 @@
 package deimophobe.nightfall.common;
 
+import co.aikar.commands.BukkitCommandManager;
+import deimophobe.nightfall.common.command.LoadoutCommand;
 import deimophobe.nightfall.common.database.DataHandler;
 import deimophobe.nightfall.common.database.DefaultHandler;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
@@ -31,6 +33,9 @@ public class NightfallCommonPlugin extends JavaPlugin {
 		LoreTemplate.registerTemplateFile("lore-templates.yml");
 		MenuManager.initialiseMenuManager(this);
 		LoadoutManager.getManager();
+		
+		BukkitCommandManager bcm = new BukkitCommandManager(this);
+		bcm.registerCommand(new LoadoutCommand());
 	}
 	
 	public static YamlConfiguration getInternalFileConfig(String name) {
