@@ -10,7 +10,8 @@ import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Consumer;
+
+import java.util.function.Consumer;
 
 /**
  * Created by Deimophobe on 24/01/17.
@@ -38,7 +39,7 @@ public class AIZombie extends AIEntity<Zombie> {
 	public void onDeath(MonsterDamage damage) {
 		if (damage.getType() != GameDamageType.AI_REMOVER) {
 			float pitch = (getEntity().isBaby() ? 1.5f : 1f);
-			monster.getLocation().getWorld().playSound(getLocation(), "entity.zombie.death", 1f, pitch);
+			entity.getLocation().getWorld().playSound(getLocation(), "entity.zombie.death", 1f, pitch);
 		}
 		super.onDeath(damage);
 	}

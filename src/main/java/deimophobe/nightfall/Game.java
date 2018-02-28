@@ -100,6 +100,10 @@ public class Game {
 	private final BossBar bossBar;
 	
 	private final Team lobbyTeam;
+	
+	
+	private long tickNumber = 0;
+	public long getCurrentTick() { return tickNumber; }
 
 	private Game(GameMap map) {
 		game = this;
@@ -134,6 +138,9 @@ public class Game {
 		new BukkitRunnable() {
 			@Override public void run() { updateCurses(); }
 		}.runTaskTimer(NightfallPlugin.getPlugin(), 20, 20);
+		new BukkitRunnable() {
+			@Override public void run() { tickNumber++; }
+		}.runTaskTimer(NightfallPlugin.getPlugin(), 1, 1);
 		
 		
 		this.map = map;

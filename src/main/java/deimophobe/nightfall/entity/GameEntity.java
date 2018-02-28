@@ -1,6 +1,7 @@
 package deimophobe.nightfall.entity;
 
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.damage.DamageOverTimeType;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import me.libraryaddict.disguise.DisguiseAPI;
@@ -195,6 +196,11 @@ public interface GameEntity<E extends LivingEntity> {
 	default String getDeathMessageName() {
 		return getDisplayName();
 	}
+	
+	
+	void doDamageOverTimeTick(DamageOverTimeType type);
+	
+	boolean canDamageOverTimeTick(DamageOverTimeType type, long requiredDelay);
 	
 	// ------ POTION EFFECTS ------
 	default boolean givePotionEffect(PotionEffectType type, int duration, int amplifier, boolean showAbove, boolean colourBlue, boolean force) {

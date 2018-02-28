@@ -5,9 +5,9 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.entity.AbstractGameEntity;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
-import deimophobe.nightfall.map.GameMap;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,34 +18,29 @@ import org.bukkit.entity.Monster;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Consumer;
 import org.bukkit.util.Vector;
+
+import java.util.function.Consumer;
 
 /**
  * Created by Deimophobe on 24/01/17.
  */
-public abstract class AIEntity<T extends Monster> implements GameEntity<T>, MonsterEntity<T> {
+public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> implements MonsterEntity<T> {
 	protected static final int MAX_INACTIVITY_COUNT = 4;
 	protected int inactivityCount = MAX_INACTIVITY_COUNT;
 	private Location lastLocation;
 	
 	private int suffocationCounter = 50;
 	
-	protected final T monster;
-	@Override public T getEntity() { return monster; }
-	
 	protected AIEntity(Location location, String name, Dwarf target, Class<T> entityType, Consumer<? super T> subclassInitialiser) {
-		this.lastLocation = location.clone();
-		this.inactivityCount = MAX_INACTIVITY_COUNT;
-		
-		Consumer<T> initialiser = (entity) -> {
+		super(location.clone().subtract(0,1.8,0), entityType, entity -> {
 			Entity riding = entity.getVehicle();
 			if (riding != null) {
 				entity.leaveVehicle();
 				riding.remove();
 			}
 			
-			entity.setVelocity(new Vector(0,0.6,0));
+			entity.setVelocity(new Vector(0, 0.6, 0));
 			
 			EntityEquipment equipment = entity.getEquipment();
 			equipment.setHelmet(null);
@@ -58,10 +53,9 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 				entity.setTarget(target.getPlayer());
 			
 			subclassInitialiser.accept(entity);
-		};
-		
-		this.monster = GameMap.getCurrentMap().getWorld().spawn(location.clone().subtract(0,1.8,0), entityType, initialiser);
-		
+		});
+		this.lastLocation = location.clone();
+		this.inactivityCount = MAX_INACTIVITY_COUNT;
 	}
 	
 	
@@ -114,7 +108,7 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	private static final double MAX_TARGET_RANGE = 20;
 
 	public void forceUpdateTarget() {
-		monster.setTarget(null);
+		entity.setTarget(null);
 		updateTarget();
 	}
 	
@@ -130,7 +124,7 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	
 	private final static double DISTANCE_THRESHOLD = 1;
 	private boolean didMove() {
-		Location currentLocation = monster.getLocation();
+		Location currentLocation = entity.getLocation();
 		double distance = lastLocation.distance(currentLocation);
 		lastLocation = currentLocation;
 		
@@ -138,20 +132,20 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	}
 	
 	private void updateTarget() {
-		if (monster.getTarget() != null) {
-			Location zomLoc = monster.getLocation();
-			Location tarLoc = monster.getTarget().getLocation();
+		if (entity.getTarget() != null) {
+			Location zomLoc = entity.getLocation();
+			Location tarLoc = entity.getTarget().getLocation();
 			
 			if (zomLoc.distance(tarLoc) <= MAX_TARGET_RANGE) {
 				// If target exists and is within range, do nothing
 				return;
 			} else {
 				// Otherwise if target exists but outside of range, reset target and continue
-				monster.setTarget(null);
+				entity.setTarget(null);
 			}
 		}
 		
-		Dwarf newTarget = DwarfManager.getManager().getNearest(monster.getLocation(), (Dwarf d) -> !d.hasPotionEffect(PotionEffectType.INVISIBILITY));
+		Dwarf newTarget = DwarfManager.getManager().getNearest(entity.getLocation(), (Dwarf d) -> !d.hasPotionEffect(PotionEffectType.INVISIBILITY));
 		if (newTarget != null && newTarget.distanceTo(this) <= MAX_TARGET_RANGE) {
 			setTarget(newTarget);
 		}
@@ -159,11 +153,11 @@ public abstract class AIEntity<T extends Monster> implements GameEntity<T>, Mons
 	
 	public void setTarget(Dwarf dwarf) {
 		resetInactivity();
-		monster.setTarget(dwarf.getPlayer());
+		entity.setTarget(dwarf.getPlayer());
 	}
 	
 	public LivingEntity getTarget() {
-		return monster.getTarget();
+		return entity.getTarget();
 	}
 	
 	public void remove() {

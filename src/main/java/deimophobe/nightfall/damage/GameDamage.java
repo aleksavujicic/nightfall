@@ -276,6 +276,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		
 		// Check if damage is allowed to occur by game ticks
 		if (!force && receiver.getEntity().getNoDamageTicks() != 0) return false;
+		if (cancelled) return false;
 		
 		
 		// Notify attacker and receiver, and let them set up their events

@@ -19,7 +19,7 @@ public enum GameDamageType {
 	// Natural Damage
 	CONTACT(new ForcedDeathMessageMaker("was pricked to death."), 2, 1),
 	DROWNING(new ForcedDeathMessageMaker("drowned"), 8, 1),
-	FIRE(new ForcedDeathMessageMaker("couldn't find water"), 5, 4),
+	FIRE(new ForcedDeathMessageMaker("couldn't find water"), new FixedDOTModifier(DamageOverTimeType.FIRE, 5, 8, 4)),
 	LAVA(new ForcedDeathMessageMaker("tried to swim in lava"), 12, 10),
 	MAGMA_BLOCK(new ForcedDeathMessageMaker("burnt their feet"), 4, 4),
 	
@@ -30,8 +30,8 @@ public enum GameDamageType {
 	
 	VOID(new ForcedDeathMessageMaker("was swallowed by the abyss"), GameDamage::instaKill),
 	
-	POISON(new KeywordDeathMessageMaker("poisoned"), new PoisonModifier(PotionEffectType.POISON, level -> (double) level*2)),
-	WITHER(new KeywordDeathMessageMaker("withered"), new PoisonModifier(PotionEffectType.WITHER, level -> (double) level*2)),
+	POISON(new KeywordDeathMessageMaker("poisoned"), new PoisonModifier(DamageOverTimeType.POISON, PotionEffectType.POISON, level -> (double) level*2, level -> 8L)),
+	WITHER(new KeywordDeathMessageMaker("withered"), new PoisonModifier(DamageOverTimeType.WITHER, PotionEffectType.WITHER, level -> (double) level*2, level -> 8L)),
 	
 	
 	// Mob damage
@@ -162,23 +162,77 @@ public enum GameDamageType {
 		}
 	}
 	
-	private static final class PoisonModifier implements Consumer<GameDamage<?,?>> {
-		private final PotionEffectType potionEffectType;
-		private final Function<Integer, Double> levelMapper;
+	private static abstract class AbstractDOTModifier implements Consumer<GameDamage<?,?>> {
+		private final DamageOverTimeType type;
 		
-		private PoisonModifier(PotionEffectType potionEffectType, Function<Integer, Double> levelMapper) {
-			this.potionEffectType = potionEffectType;
-			this.levelMapper = levelMapper;
+		protected AbstractDOTModifier(DamageOverTimeType type) {
+			this.type = type;
+		}
+		
+		public abstract long getRequiredDelay(GameDamage<?,?> damage);
+		
+		@Override
+		public void accept(GameDamage<?, ?> damage) {
+			if (!damage.getReceiver().canDamageOverTimeTick(type, getRequiredDelay(damage))) {
+				damage.cancel();
+			} else {
+				damage.addPostDamageHandler(d -> d.getReceiver().doDamageOverTimeTick(type));
+				damage.setNoDmgTicks(1);
+			}
+		}
+	}
+	
+	private static class FixedDOTModifier extends AbstractDOTModifier {
+		private final long delay;
+		private final double defaultDamage;
+		private final double defaultArmourShred;
+		
+		protected FixedDOTModifier(DamageOverTimeType type, long delay, double defaultDamage, double defaultArmourShred) {
+			super(type);
+			this.delay = delay;
+			this.defaultDamage = defaultDamage;
+			this.defaultArmourShred = defaultArmourShred;
+		}
+		
+		@Override
+		public long getRequiredDelay(GameDamage<?,?> damage) {
+			return delay;
 		}
 		
 		@Override
 		public void accept(GameDamage<?, ?> damage) {
+			super.accept(damage);
+			damage.getMulitPartDamage().setBase(defaultDamage);
+			if (damage instanceof DwarfDamage)
+				((DwarfDamage) damage).setArmourShred(defaultArmourShred);
+			
+		}
+	}
+	
+	
+	private static final class PoisonModifier extends AbstractDOTModifier {
+		private final PotionEffectType potionEffectType;
+		private final Function<Integer, Double> levelMapper;
+		private final Function<Integer, Long> delayMapper;
+		
+		private PoisonModifier(DamageOverTimeType dotType, PotionEffectType potionEffectType, Function<Integer, Double> levelMapper, Function<Integer, Long> delayMapper) {
+			super(dotType);
+			this.potionEffectType = potionEffectType;
+			this.levelMapper = levelMapper;
+			this.delayMapper = delayMapper;
+		}
+		
+		@Override
+		public long getRequiredDelay(GameDamage<?, ?> damage) {
+			int level = damage.getReceiver().getPotionEffectLevel(potionEffectType);
+			return delayMapper.apply(level);
+		}
+		
+		@Override
+		public void accept(GameDamage<?, ?> damage) {
+			super.accept(damage);
 			int level = damage.getReceiver().getPotionEffectLevel(potionEffectType);
 			damage.getMulitPartDamage().setBase(levelMapper.apply(level));
-			damage.setNoDmgTicks(1);
-			
-			//TODO
-			damage.cancel();
 		}
 	}
 }

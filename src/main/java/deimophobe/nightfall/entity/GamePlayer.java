@@ -39,9 +39,11 @@ import java.util.function.Predicate;
 /**
  * Created by Deimophobe on 17/01/17.
  */
-public abstract class GamePlayer implements GameEntity<Player> {
+public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	protected Player player;
 	protected GamePlayer(Player player) {
+		super(player);
+		
 		this.player = player;
 		player.spigot().respawn();
 		
@@ -316,8 +318,6 @@ public abstract class GamePlayer implements GameEntity<Player> {
 	}
 	
 	public BaseComponent getDeathMessage() {
-//		Bukkit.broadcastMessage("LAST TYPE: " + lastDamageType);
-//		Bukkit.broadcastMessage("LAST MAIN: " + lastMainDamage);
 		return lastDamageType.getDeathMessage(getDeathMessageName(), lastMainDamage);
 	}
 	
