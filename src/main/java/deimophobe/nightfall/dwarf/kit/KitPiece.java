@@ -14,6 +14,7 @@ public interface KitPiece {
 	void onKill(MonsterDamage damage);
 	
 	void onDamageReceive(DwarfDamage damage);
+	@Deprecated
 	void damageNotify(DwarfDamage damage);
 	
 	void onShift(boolean sneaking);
