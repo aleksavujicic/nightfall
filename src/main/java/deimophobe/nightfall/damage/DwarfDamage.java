@@ -9,17 +9,19 @@ import deimophobe.nightfall.entity.MonsterEntity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by Deimophobe on 29/08/17.
  */
 public class DwarfDamage extends GameDamage<GameEntity<?>, Dwarf> {
-	private double armourShred = 0;
+	private double armourShred;
 	public double getArmourShred() {return armourShred;}
 	public void setArmourShred(double armourShred) {this.armourShred = armourShred;}
 	public void addArmourShred(double amt) {this.armourShred += amt;}
 	public void multiplyArmourShred(double multiply) {this.armourShred *= multiply;}
 	
-	private int manaDrain = 0;
+	private int manaDrain;
 	public int getManaDrain() {return manaDrain;}
 	public void setManaDrain(int manaDrain) {this.manaDrain = manaDrain;}
 	public void addManaDrain(int manaDrain) {this.manaDrain += manaDrain;}
@@ -64,5 +66,13 @@ public class DwarfDamage extends GameDamage<GameEntity<?>, Dwarf> {
 			damage.getReceiver().getArmour().damage(armourShred);
 			damage.getReceiver().useMana(manaDrain);
 		});
+	}
+	
+	@Override
+	public String toString() {
+		DecimalFormat df = new DecimalFormat("#.####");
+		return super.toString()
+				+ "  Armour Shred: " + df.format(armourShred) + "\n"
+				+ "  Mana Drain: " + manaDrain;
 	}
 }
