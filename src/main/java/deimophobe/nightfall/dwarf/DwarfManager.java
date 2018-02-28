@@ -80,7 +80,8 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	
 	// ------ SHARED CHEST ------
 	private final Inventory sharedChest = Bukkit.createInventory(null, 54, ChatColor.DARK_BLUE + "Shared Resources Chest");
-	private final Map<Dwarf, Block> openedChests = new HashMap<>();
+	private final Map<Dwarf, Block> dwarfToChestMap = new HashMap<>();
+	private final Set<Block> openedChests = new HashSet<>();
 	
 	public boolean isSharedChest(Inventory inventory) {
 		return (inventory != null && sharedChest.getTitle().equals(inventory.getTitle()));
@@ -92,7 +93,7 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 		
 		// Update open animation
 		if (chestBlock != null) {
-			openedChests.put(dwarf, chestBlock);
+			dwarfToChestMap.put(dwarf, chestBlock);
 			updateChestState(chestBlock);
 		}
 		
@@ -104,17 +105,27 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	}
 	
 	public void notifyCloseEvent(Dwarf dwarf) {
-		Block viewingBlock = openedChests.remove(dwarf);
+		Block viewingBlock = dwarfToChestMap.remove(dwarf);
 		if (viewingBlock != null) {
 			updateChestState(viewingBlock);
 		}
 	}
 	
 	private void updateChestState(Block block) {
-		boolean open = openedChests.values().contains(block);
-		Sound chestSound = (open ? Sound.BLOCK_CHEST_OPEN : Sound.BLOCK_CHEST_CLOSE);
+		boolean oldState = openedChests.contains(block);
+		boolean newState = dwarfToChestMap.values().contains(block);
+		if (oldState == newState) return;
+		
+		Sound chestSound;
+		if (newState) {
+			chestSound = Sound.BLOCK_CHEST_OPEN;
+			openedChests.add(block);
+		} else {
+			chestSound = Sound.BLOCK_CHEST_CLOSE;
+			openedChests.remove(block);
+		}
 		block.getWorld().playSound(block.getLocation(), chestSound, 1f, 1f);
-		PacketUtil.setChestOpen(block, open);
+		PacketUtil.setChestOpen(block, newState);
 	}
 	
 	public void addItemToChest(ItemStack item) {
