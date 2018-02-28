@@ -52,6 +52,26 @@
                     <finalName>Nightfall</finalName>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.4.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>com.comphenix.packetwrapper:PacketWrapper</include>
+                                </includes>
+                            </artifactSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -77,6 +97,7 @@
             <name>project</name>
             <url>file:${project.basedir}common-link/</url>
         </repository>
+
     </repositories>
 
     <dependencies>
@@ -142,6 +163,11 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
+            <version>1.12.1-R0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.comphenix.packetwrapper</groupId>
+            <artifactId>PacketWrapper</artifactId>
             <version>1.12.1-R0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

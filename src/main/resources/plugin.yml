@@ -169,6 +169,11 @@ commands:
     usage: /gold <amount> | /gold [shrine|vault] <amount>
     permission: nightfall.op
 
+  test:
+    description: Used to test stuff
+    usage: /test
+    permission: nightfall.op
+
 permissions:
   nightfall.op:
     description: Allows use of all Nightfall commands.

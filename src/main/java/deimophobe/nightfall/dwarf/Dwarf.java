@@ -288,7 +288,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	public void showSharedChest() {
-		player.openInventory(DwarfManager.getManager().getSharedChest());
+		DwarfManager.getManager().openSharedChest(this);
 	}
 	
 	public void giveConsumable(ConsumableType type, int quantity, boolean dropRemaining) {
@@ -297,7 +297,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		if (type.isDupable() && hasPotionEffect(PotionEffectType.FAST_DIGGING)) {
 			ItemStack item = type.getItemStack().clone();
 			item.setAmount(quantity);
-			DwarfManager.getManager().getSharedChest().addItem(item);
+			DwarfManager.getManager().addItemToChest(item);
 		}
 	}
 	
@@ -659,7 +659,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		}
 		
 		if (Misc.isRightClick(type) && clickedBlock != null && BlockType.SHARED_CHEST.matchesBlock(clickedBlock)) {
-			showSharedChest();
+			DwarfManager.getManager().openSharedChest(this, clickedBlock);
 			return;
 		}
 		

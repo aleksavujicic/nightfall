@@ -1,11 +1,5 @@
 package deimophobe.nightfall;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.EnumWrappers;
 import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.common.items.CustomItem;
@@ -32,11 +26,10 @@ import deimophobe.nightfall.monster.mob.MobType;
 import deimophobe.nightfall.monster.spawnmenu.SpawnEggMenuItem;
 import deimophobe.nightfall.plague.Plague;
 import deimophobe.nightfall.plague.PlagueType;
+import deimophobe.nightfall.util.PacketUtil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -74,7 +67,7 @@ public class NightfallPlugin extends JavaPlugin {
 	public void onEnable() {
 		plugin = this;
 		
-		setupPacketEvents();
+		PacketUtil.setupListeners();
 		
 		gl = new GameListener();
 		
@@ -100,40 +93,6 @@ public class NightfallPlugin extends JavaPlugin {
 		InputStream stream = getPlugin().getResource(name);
 		if (stream == null) throw new IllegalArgumentException("Unknown config file: " + name);
 		return YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
-	}
-	
-	private void setupPacketEvents() {
-		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-		protocolManager.addPacketListener(new PacketAdapter(NightfallPlugin.getPlugin(), PacketType.Play.Server.ENTITY_EQUIPMENT) {
-			@Override
-			public void onPacketSending(PacketEvent event) {
-				EnumWrappers.ItemSlot slot = event.getPacket().getItemSlots().read(0);
-				if (slot == EnumWrappers.ItemSlot.OFFHAND && event.getPacket().getItemModifier().read(0).getType() == Material.ARROW) {
-					event.setCancelled(true);
-				}
-			}
-		});
-		
-		protocolManager.addPacketListener(new PacketAdapter(NightfallPlugin.getPlugin(), PacketType.Play.Server.NAMED_SOUND_EFFECT) {
-			@Override
-			public void onPacketSending(PacketEvent event) {
-				Sound sound = event.getPacket().getSoundEffects().read(0);
-				switch (sound) {
-					case ENTITY_PLAYER_ATTACK_CRIT:
-					case ENTITY_PLAYER_ATTACK_KNOCKBACK:
-					case ENTITY_PLAYER_ATTACK_NODAMAGE:
-					case ENTITY_PLAYER_ATTACK_STRONG:
-					case ENTITY_PLAYER_ATTACK_SWEEP:
-					case ENTITY_PLAYER_ATTACK_WEAK:
-					case ITEM_ARMOR_EQUIP_CHAIN:
-					case ITEM_ARMOR_EQUIP_DIAMOND:
-					case ITEM_ARMOR_EQUIP_IRON:
-					case ITEM_SHOVEL_FLATTEN:
-					case ITEM_HOE_TILL:
-						event.setCancelled(true);
-				}
-			}
-		});
 	}
 	
 	
@@ -1051,8 +1010,22 @@ public class NightfallPlugin extends JavaPlugin {
 			}
 		}
 		
+		if (name.equalsIgnoreCase("test")) {
+			if (sender instanceof Player) {
+				Player player = (Player) sender;
+				open = !open;
+				PacketUtil.setChestOpen(player.getLocation().add(1, 0.5, 0).getBlock(), open);
+				sender.sendMessage(open ? "Open" : "Close");
+				return true;
+			} else {
+				sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
+				return true;
+			}
+		}
+		
 		return false;
 	}
+	private static boolean open = false;
 	
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {

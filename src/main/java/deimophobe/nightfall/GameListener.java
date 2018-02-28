@@ -34,6 +34,7 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
@@ -595,6 +596,17 @@ public class GameListener implements Listener {
 		HumanEntity e = event.getWhoClicked();
 		if (event.getInventory() != null && loadout.getTitle().equals(event.getInventory().getTitle()) && e instanceof Player) {
 			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler
+	public void onClose(InventoryCloseEvent event) {
+		HumanEntity human = event.getPlayer();
+		if (human instanceof Player) {
+			Dwarf dwarf = DwarfManager.getManager().getGamePlayer((Player) human);
+			if (dwarf != null) {
+				DwarfManager.getManager().notifyCloseEvent(dwarf);
+			}
 		}
 	}
 	
