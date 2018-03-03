@@ -24,7 +24,7 @@ public class ProcBottle extends Consumable {
 		
 		dwarf.giveProc(ProcType.PROC_BOTTLE);
 		dwarf.playSound("block.glass.break", 1f, 1f, true);
-		dwarf.getWorld().spawnParticle(Particle.ITEM_CRACK, dwarf.getEyeLocation(), 30, 0.5, 0.5, 0.5, 0, getItemStack());
+		dwarf.getWorld().spawnParticle(Particle.ITEM_CRACK, dwarf.getEyeLocation(), 20, 0.5, 0.5, 0.5, 0.05, getItemStack());
 		return DEFAULT_CD;
 	}
 }
