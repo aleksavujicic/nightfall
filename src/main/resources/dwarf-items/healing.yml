@@ -41,6 +41,7 @@ pendant:
         Has passive &eregeneration&r."
     flavour:
      - "\"Drink your... Gem? How do you use this thing?\" - Velvetine"
+     - "\"It’s a regem! Hah! Get it!?\" - Tui"
 
 regrowth:
   base: regrowth
