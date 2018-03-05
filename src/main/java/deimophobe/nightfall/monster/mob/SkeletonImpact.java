@@ -32,36 +32,38 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 	
 	private final int aoe;
 	@Update @Display private final Cooldown warpCD;
-	
-	private final double realArrowRes;
+	@Update @Display private final Cooldown reactionCD;
+
 	private final int punch;
 	private final boolean hasMeleeKB;
+	private final int reaction;
 	private final Set<Arrow> activeArrows = new HashSet<>();
 	
 	private final static String ARROW_METADATA_KEY = "active";
-	
-	private static Integer[] arrowResValues = {0, 10, 20, 30, 40, 50};
-	
+
 	SkeletonImpact(MonsterPlayer monster) {
 		super(monster, MobData.getMobData("skeleton.impact"));
 		int punch = upgrades.get("punch");
 		int meleekb = upgrades.get("meleekb");
-		int arrowRes = arrowResValues[upgrades.get("arrowres-impact")];
 		int extraHealth = upgrades.get("extrahealth-impact");
 		int warpweaver = upgrades.get("warpweaver");
 		
 		this.aoe = upgrades.get("aoe");
-		this.realArrowRes = arrowRes * 0.01;
 		this.punch = punch;
 		this.hasMeleeKB = (meleekb > 0);
-		
+		this.reaction = upgrades.get("reaction");
+		if (reaction > 0) {
+			reactionCD = new ComplexCooldown(15 * 20);
+		} else {
+			reactionCD = new DudCooldown();
+		}
+
 		if (warpweaver > 0) {
 			warpCD = new ComplexCooldown(40 * 20);
 		} else {
 			warpCD = new DudCooldown();
 		}
-		
-		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
+
 		getArmour().addModifier(ItemModifierType.HEALTH, extraHealth * 2, "Upgrade");
 		getWeapon().addModifier(ItemModifierType.FAKE_PUNCH, punch, "Upgrade");
 		
@@ -71,7 +73,7 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 	
 	@Override
 	protected void giveItems() {
-		if (hasMeleeKB) giveItem("stick");
+		if (hasMeleeKB || reaction > 0) giveItem("stick");
 		super.giveItems();
 	}
 	
@@ -81,6 +83,28 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 		if (Misc.isLeftClick(action) && isPlayerHoldingWeapon()) {
 			removeActiveArrows();
 		}
+		if (Misc.isRightClick(action) && isPlayerHoldingItem("stick") && reactionCD.isAvailable()) {
+			reactionCD.reset();
+            World world = monster.getLocation().getWorld();
+            world.spawnParticle(Particle.EXPLOSION_LARGE, monster.getLocation(), 3, 1, 1, 1);
+            double kb = 0.5 + 0.3 * reaction;
+            for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
+                Vector offset = dwarf.getEyeLocation().subtract(monster.getLocation()).toVector();
+                if (offset.length() > 4) {
+                    continue;
+                }
+
+                Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())));
+                knockback.setY(knockback.getY() / 2 + 0.1);
+
+                DwarfDamage aoeDamage = dwarf.createDamage(this.monster, GameDamageType.IMPACT_AOE, 5 * reaction);
+                aoeDamage.setKnockback(knockback);
+                aoeDamage.fire();
+            }
+            Vector dir = monster.getEyeLocation().getDirection().multiply(-5).normalize();
+            dir = dir.setY(dir.getY() + 0.5);
+            monster.setVelocity(dir);
+        }
 	}
 	
 	@Override
@@ -118,12 +142,12 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 	}
 	
 	private void impactExplosion(Location centerLoc, Dwarf exempt) {
-		if (monster.getLocation().getY() - centerLoc.getY() > 30) {
+		if (aoe == 0 || monster.getLocation().getY() - centerLoc.getY() > 30) {
 			return; // prevents impact shooting down from too high up
 		}
 		World world = monster.getLocation().getWorld();
 		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
-		double kb = 0.3 + aoe * 0.1;
+		double kb = 0.4 + aoe * 0.12;
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			if (dwarf == exempt) {
 				continue;
@@ -147,7 +171,6 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
-		damage.getArrowRes().addBoost(realArrowRes);
 		removeActiveArrows();
 	}
 	
