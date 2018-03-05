@@ -9,7 +9,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 public class KeywordDeathMessageMaker implements DeathMessageMaker {
 	private final String keyword;
 	
-	KeywordDeathMessageMaker(String keyword) {
+	public KeywordDeathMessageMaker(String keyword) {
 		this.keyword = keyword;
 	}
 	

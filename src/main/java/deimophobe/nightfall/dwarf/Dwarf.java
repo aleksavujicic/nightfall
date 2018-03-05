@@ -430,6 +430,10 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		return !activeProcs.isEmpty();
 	}
 	
+	public boolean hasProc(ProcType type) {
+		return activeProcs.containsKey(type);
+	}
+	
 	public void giveProc(ProcType procType) {
 		procType.onGive(this);
 		activeProcs.put(procType, procType.getDuration());
