@@ -4,7 +4,7 @@ disguisetype: pig_zombie
 
 attack: 25
 health: 50
-shred: 10
+shred: 15
 speed: -10
 
 proccable: false
@@ -29,7 +29,7 @@ weapon:
      - "Right click to charge, dealing\n
         damage and great knockback."
     flavour:
-     - "We are from maze, human."
+     - "Clobber the dwarves, knock them away!"
 
 sounds:
   death:

@@ -11,7 +11,7 @@ charmtime: 60
 proccable: false
 resistance: 0.9
 arrowres: 0.5
-shred: 20
+shred: 30
 
 armourslot: head
 armour:
