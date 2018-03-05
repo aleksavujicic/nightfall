@@ -1,7 +1,9 @@
 package deimophobe.nightfall.common;
 
 import co.aikar.commands.BukkitCommandManager;
+import deimophobe.nightfall.common.command.HatCommand;
 import deimophobe.nightfall.common.command.LoadoutCommand;
+import deimophobe.nightfall.common.command.TitleCommand;
 import deimophobe.nightfall.common.database.DataHandler;
 import deimophobe.nightfall.common.database.DefaultHandler;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
@@ -36,6 +38,8 @@ public class NightfallCommonPlugin extends JavaPlugin {
 		
 		BukkitCommandManager bcm = new BukkitCommandManager(this);
 		bcm.registerCommand(new LoadoutCommand());
+		bcm.registerCommand(new HatCommand());
+		bcm.registerCommand(new TitleCommand());
 	}
 	
 	public static YamlConfiguration getInternalFileConfig(String name) {
