@@ -93,7 +93,8 @@ public class BlockType {
 					Material.DOUBLE_PLANT,
 					Material.LONG_GRASS,
 					Material.YELLOW_FLOWER,
-					Material.RED_ROSE
+					Material.RED_ROSE,
+					Material.VINE
 			)
 	);
 	
@@ -211,7 +212,8 @@ public class BlockType {
 					Material.DOUBLE_PLANT,
 					Material.LONG_GRASS,
 					Material.YELLOW_FLOWER,
-					Material.RED_ROSE
+					Material.RED_ROSE,
+					Material.VINE
 			)
 	);
 
@@ -225,7 +227,6 @@ public class BlockType {
 
 	public static final ComparableBlock IGNORABLE = new BlockSet(
 			EMPTY_BLOCKS,
-			PLANTS,
 			new MaterialSet(
 					Material.SNOW,
 					Material.CARPET
