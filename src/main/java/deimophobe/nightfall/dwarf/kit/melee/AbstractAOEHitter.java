@@ -7,7 +7,6 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
-import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 
@@ -35,8 +34,12 @@ public abstract class AbstractAOEHitter extends AbstractItem {
 				double rawDamage = getDamageToMonster(entity) + dwarf.getBonusMeleeDamage()/2;
 				MonsterDamage damage = entity.createDamage(dwarf, GameDamageType.HAMMER_AOE, rawDamage);
 				
-				if (entity instanceof AIEntity)
+				if (entity.isAI()) {
 					damage.setKnockback(0, 0.4, 0);
+				} else {
+					damage.setKnockbackFromMelee();
+					damage.multiplyKnockback(0.7);
+				}
 				
 				if (dwarf.hasProc())
 					damage.setProc(true);

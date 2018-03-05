@@ -105,7 +105,6 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		} else {
 			this.knockback = null;
 		}
-		makeKnockbackFinite();
 		
 		this.ID = idCount;
 		idCount++;
@@ -113,8 +112,8 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		type.applyModifier(this);
 	}
 	
-	private void setKnockbackFromMelee() {
-		//if (attacker == null) return;
+	public void setKnockbackFromMelee() {
+		if (attacker == null) return;
 		
 		int knockbackLevel = 0;
 		if (itemStack != null) knockbackLevel = itemStack.getEnchantmentLevel(Enchantment.KNOCKBACK);
@@ -125,9 +124,13 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		offset.add(attacker.getVelocity().setY(0).multiply(0.5));
 		
 		knockback = offset;
+		
+		makeKnockbackFinite();
 	}
 	
-	private void setKnockbackFromArrow() {
+	public void setKnockbackFromArrow() {
+		if (!hasArrow()) return;
+		
 		Vector offset = arrow.getVelocity();
 		
 		int punchLevel = 0;
@@ -142,6 +145,8 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		offset.multiply(force);
 		
 		knockback = offset;
+		
+		makeKnockbackFinite();
 	}
 	
 	
