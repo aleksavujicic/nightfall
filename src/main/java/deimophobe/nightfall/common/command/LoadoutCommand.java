@@ -4,7 +4,6 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
 import deimophobe.nightfall.common.loadout.LoadoutMenu;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 /**
@@ -15,6 +14,5 @@ public class LoadoutCommand extends BaseCommand {
 	@Default
 	public void onDefault(Player player) {
 		LoadoutMenu.getMenu().startSession(player);
-		Bukkit.broadcastMessage("pop");
 	}
 }
