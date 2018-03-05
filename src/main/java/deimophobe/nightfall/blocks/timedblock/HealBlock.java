@@ -33,7 +33,7 @@ public class HealBlock extends TimedBlock {
 		World world = center.getWorld();
 		world.spawnParticle(Particle.BLOCK_CRACK, center, 20, 0.3, 0.4, 0.4, 0, new MaterialData(Material.PURPUR_BLOCK));
 		world.playSound(center, Sound.BLOCK_METAL_PLACE, 1f, 1f);
-		world.playSound(center, Sound.ENTITY_PLAYER_LEVELUP, 0.6f, 0.75f);
+		world.playSound(center, "healing", 0.6f, 0.5f);
 	}
 	
 	@Override
@@ -71,7 +71,7 @@ public class HealBlock extends TimedBlock {
 				dwarf.heal(6);
 				dwarf.regenMana(5);
 				dwarf.getArmour().repair(10);
-				dwarf.playSound("entity.experience_orb.pickup", 0.5f, 0.5f, false);
+				dwarf.getPlayer().playSound(block.getLocation(), "healing", 0.5f, 1.33f);
 			}
 			position.getWorld().spawnParticle(Particle.HEART, position, 5, 0.2, 0.3, 0.2);
 		}
