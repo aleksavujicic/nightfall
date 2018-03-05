@@ -48,7 +48,8 @@ wither:
        - "Shots shred armour and damage dwarves,\n
           becoming more powerful every consecutive hit."
       flavour:
-       - "No mortal can touch this bow and live."
+       - "Imbued with the darkest curses,\n
+          any armour hit will decay and rot."
 
 flamelancer:
   parent: base
@@ -62,7 +63,7 @@ flamelancer:
           and with upgrades you can fire volleys."
       flavour:
        - "Forged in the fiery nether,\n
-          any arrows fired burst into flames."
+          all arrows fired burst into flames."
 
 impact:
   parent: base
