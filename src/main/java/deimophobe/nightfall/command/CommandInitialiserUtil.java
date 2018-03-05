@@ -49,6 +49,8 @@ public class CommandInitialiserUtil {
 		registerContexts(bcm);
 		registerConditions(bcm);
 		
+		bcm.registerCommand(new ArmourCommand());
+		
 		bcm.registerCommand(new AICommand());
 		bcm.registerCommand(new DoomCommand());
 		bcm.registerCommand(new DwarfCommand());
@@ -84,9 +86,12 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("kitpieces", c -> {
 			Collection<String> pieces = KitPieceType.getPieceNames();
 			String extras = c.getConfig("extra");
+			if (extras == null) return pieces;
+			
 			switch (extras) {
 				case "loadout":
 					pieces.add("loadoutall");
+					pieces.add("kit");
 				case "all":
 					pieces.add("all");
 					break;

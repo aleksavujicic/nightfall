@@ -29,8 +29,7 @@ public class DwarfCommand extends BaseCommand {
 	
 	@Subcommand("set")
 	@CommandAlias("setdwarf")
-	// Apparently no way to repeat completions so yeah
-	@CommandCompletion("@players @kitpieces:extra=loadout")
+	@CommandCompletion("@players @kitpieces:extra=loadout @kitpieces[]")
 	@Description("Sets a player to be a dwarf.")
 	public void onSetDwarf(CommandSender sender, OnlinePlayer player, @Default("kit") DwarfData dwarfData) {
 		Player realPlayer = player.getPlayer();
@@ -176,8 +175,8 @@ public class DwarfCommand extends BaseCommand {
 		}
 	}
 	
-	@CommandAlias("armour")
-	@Subcommand("armour")
+	@Subcommand("armour|armor")
+	//@CommandAlias("armour|armor")
 	public class ArmourCommand extends BaseCommand {
 		
 		@Subcommand("equip")
