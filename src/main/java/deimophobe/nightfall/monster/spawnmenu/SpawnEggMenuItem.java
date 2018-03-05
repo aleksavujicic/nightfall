@@ -33,9 +33,11 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 	private int quantity;
 	private final int maxQuantity;
 	private final double spawnChance;
-
-	private SpawnEggMenuItem(ConfigurationSection section) {
+	private final String name;
+	
+	private SpawnEggMenuItem(ConfigurationSection section, String name) {
 		this.item = CustomItem.getItem(section.getConfigurationSection("egg"), "monster-egg").createItemStack();
+		this.name = name;
 		
 		List<String> mobs = section.getStringList("mobtype");
 		if (mobs.isEmpty())
@@ -67,6 +69,10 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 		} else {
 			return false;
 		}
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 	public void restock() {
@@ -120,7 +126,7 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 	static {
 		Configuration spawnConfig = NightfallPlugin.getInternalFileConfig("spawn-eggs.yml");
 		for (String key : spawnConfig.getKeys(false)) {
-			SpawnEggMenuItem egg = new SpawnEggMenuItem(spawnConfig.getConfigurationSection(key));
+			SpawnEggMenuItem egg = new SpawnEggMenuItem(spawnConfig.getConfigurationSection(key), key);
 			eggMap.put(key.toLowerCase(), egg);
 		}
 	}

@@ -218,6 +218,12 @@ public class Game {
 		return dwarfManager.getNumberOfPlayers() + monsterManager.getNumberOfPlayers();
 	}
 	
+	public Collection<String> getGamePlayerNames() {
+		Collection<String> names = dwarfManager.getGamePlayerNames();
+		names.addAll(monsterManager.getGamePlayerNames());
+		return names;
+	}
+	
 	
 	// ------ PLAYER READINESS ------
 	private final Set<Player> readyPlayers;
@@ -521,12 +527,12 @@ public class Game {
 		Bukkit.getServer().getPluginManager().callEvent(new PhaseChangeEvent(phase));
 	}
 	
-	void startPlague() {
+	public void startPlague() {
 		if (phase != Phase.BUILD) return;
 		startPlague(Plague.getRandomPlague());
 	}
 	
-	void startPlague(Plague plague) {
+	public void startPlague(Plague plague) {
 		if (phase != Phase.BUILD) return;
 		phase = Phase.PLAGUE;
 		

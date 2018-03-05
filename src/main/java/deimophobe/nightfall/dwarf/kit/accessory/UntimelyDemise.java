@@ -9,6 +9,6 @@ import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 public class UntimelyDemise extends AbstractPiece {
 	public UntimelyDemise(Dwarf dwarf) {
 		super(dwarf);
-		dwarf.forcePlague();
+		dwarf.setPlagueStatus(Dwarf.PlagueStatus.PLAGUED);
 	}
 }

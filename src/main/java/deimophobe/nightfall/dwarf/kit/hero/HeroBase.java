@@ -14,7 +14,7 @@ public class HeroBase extends AbstractPiece {
 		super(dwarf);
 		
 		dwarf.makeBlindImmune();
-		dwarf.makePlagueImmune();
+		dwarf.setPlagueStatus(Dwarf.PlagueStatus.IMMUNE);
 	}
 	
 	@Override

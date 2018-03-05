@@ -140,7 +140,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		mob = null;
 	}
 	
-	public void spawnMob(MobType type) {
+	public boolean spawnMob(MobType type) {
 		Mob mob;
 		try {
 			mob = type.createMob(this);
@@ -148,12 +148,12 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			sendMessage(ChatColor.RED + "Failed to spawn mob. (Internal server error)");
 			NightfallPlugin.getPlugin().getLogger().severe(e.getMessage());
 			e.printStackTrace();
-			return;
+			return false;
 		}
-		spawnMob(mob);
+		return spawnMob(mob);
 	}
 	
-	public void spawnMob(Mob mob) {
+	public boolean spawnMob(Mob mob) {
 		if (this.mob != null)
 			kill(false);
 		
@@ -165,13 +165,14 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			NightfallPlugin.getPlugin().getLogger().severe(e.getMessage());
 			e.printStackTrace();
 			this.mob = null;
-			return;
+			return false;
 		}
 		
 		player.setAllowFlight(false);
 		player.getInventory().setItem(9, seppuku);
 		player.setGameMode(GameMode.SURVIVAL);
 		Bukkit.getLogger().info("Spawning " + getName() + " as mob: " + mob.getType());
+		return true;
 	}
 	
 	public boolean hasSpawnProtection() {

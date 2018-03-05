@@ -39,6 +39,7 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
 import org.bukkit.event.server.ServerListPingEvent;
+import org.bukkit.event.server.TabCompleteEvent;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
@@ -726,5 +727,11 @@ public class GameListener implements Listener {
 			}
 		}
 		event.setMotd(sb.toString());
+	}
+	
+	
+	public void onTabComplete(TabCompleteEvent event) {
+		Bukkit.broadcastMessage(event.getBuffer());
+		Bukkit.broadcastMessage(event.getCompletions().toString());
 	}
 }

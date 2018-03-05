@@ -15,4 +15,12 @@ public enum Phase {
 	public boolean hasGameStarted() {
 		return this == GAME || this == END;
 	}
+	
+	public boolean isBefore(Phase phase) {
+		return this.ordinal() < phase.ordinal();
+	}
+	
+	public boolean isAfter(Phase phase) {
+		return this.ordinal() > phase.ordinal();
+	}
 }

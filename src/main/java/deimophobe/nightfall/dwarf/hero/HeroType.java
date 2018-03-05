@@ -57,7 +57,7 @@ public enum HeroType {
 		return Misc.getEnumMemberFromString(name, values(), "HeroType");
 	}
 	
-	public static Set<String> getHeroList() {
+	public static Set<String> getHeroTypes() {
 		Set<String> names = new HashSet<>();
 		for (HeroType type : values()) {
 			names.add(type.toString().toLowerCase());

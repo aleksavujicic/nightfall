@@ -1,6 +1,5 @@
 package deimophobe.nightfall.dwarf.hero;
 
-import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.HeroArmour;
 import org.bukkit.entity.Player;
@@ -31,7 +30,12 @@ public class Hero extends Dwarf {
 	@Override
 	public void onRemove() {
 		super.onRemove();
-		SkinManager.getManager().removeSkinChange(this);
+		//SkinManager.getManager().removeSkinChange(this);
+	}
+	
+	@Override
+	public PlagueStatus getPlagueStatus() {
+		return PlagueStatus.IMMUNE;
 	}
 	
 	@Override

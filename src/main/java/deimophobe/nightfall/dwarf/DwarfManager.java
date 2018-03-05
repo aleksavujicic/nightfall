@@ -29,7 +29,7 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 		super(ChatColor.AQUA + "Dwarves","dwarves", ChatColor.DARK_AQUA);
 		
 		// Loads all the heroes
-		HeroType.getHeroList();
+		//HeroType.getHeroList();
 	}
 	
 	public Dwarf createDwarf(Player player, DwarfData data) {
@@ -146,15 +146,13 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	
 	public Set<Dwarf> getPlagueables() {
 		Set<Dwarf> plagueables = new HashSet<>(getGamePlayers());
-		plagueables.removeIf(Dwarf::isPlagueImmune);
-		plagueables.removeIf(Dwarf::isForcePlagued);
+		plagueables.removeIf(d -> d.getPlagueStatus() != Dwarf.PlagueStatus.NORMAL);
 		return plagueables;
 	}
 
 	public Set<Dwarf> getPlagued() {
 		Set<Dwarf> plagued = new HashSet<>(getGamePlayers());
-		plagued.removeIf(Dwarf::isPlagueImmune);
-		plagued.removeIf((Dwarf d) -> !d.isForcePlagued());
+		plagued.removeIf(d -> d.getPlagueStatus() != Dwarf.PlagueStatus.PLAGUED);
 		return plagued;
 	}
 	

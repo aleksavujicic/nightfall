@@ -15,6 +15,7 @@ import deimophobe.nightfall.util.NMSUtil;
 import deimophobe.nightfall.util.Util;
 import me.libraryaddict.disguise.DisguiseAPI;
 import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
@@ -318,7 +319,9 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	}
 	
 	public BaseComponent getDeathMessage() {
-		return lastDamageType.getDeathMessage(getDeathMessageName(), lastMainDamage);
+		// Last damage type is only null when player is manually killed by a non damage source (most likely removed as mob)
+		if (lastDamageType == null) return new TextComponent("");
+		else return lastDamageType.getDeathMessage(getDeathMessageName(), lastMainDamage);
 	}
 	
 	public String getDeathMessageName() {

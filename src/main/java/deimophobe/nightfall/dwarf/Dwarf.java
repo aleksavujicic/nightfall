@@ -349,30 +349,24 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	
 	// ------ PLAGUE IMMUNITY ------
-	private boolean plagueImmune = false;
+	private PlagueStatus plagueStatus = PlagueStatus.NORMAL;
 	
-	public boolean togglePlagueImmunity() {
-		plagueImmune = !plagueImmune;
-		return plagueImmune;
+	public PlagueStatus getPlagueStatus() {
+		return plagueStatus;
 	}
-	public void makePlagueImmune() {
-		plagueImmune = true;
+	
+	public void setPlagueStatus(PlagueStatus plagueStatus) {
+		this.plagueStatus = plagueStatus;
 	}
-	public boolean isPlagueImmune() {
-		return plagueImmune;
+	
+	public void tryMakeImmuneFromPlague() {
+		if (plagueStatus != PlagueStatus.PLAGUED) {
+			plagueStatus = PlagueStatus.IMMUNE;
+		}
 	}
-
-	// ------ FORCEPLAGUE ------
-	private boolean plagued = false;
-	public boolean togglePlagued() {
-		plagued = !plagued;
-		return plagued;
-	}
-	public void forcePlague() {
-		plagued = true;
-	}
-	public boolean isForcePlagued() {
-		return plagued;
+	
+	public enum PlagueStatus {
+		IMMUNE, NORMAL, PLAGUED
 	}
 
 	// ------ UPDATE ------

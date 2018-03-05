@@ -224,4 +224,12 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		sb.setLength(sb.length() - 2);
 		return sb.toString();
 	}
+	
+	public Collection<String> getGamePlayerNames() {
+		Set<String> names = new HashSet<>();
+		for (P gp : getGamePlayers()) {
+			names.add(gp.getName());
+		}
+		return names;
+	}
 }

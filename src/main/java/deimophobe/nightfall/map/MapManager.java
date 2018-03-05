@@ -148,24 +148,20 @@ public class MapManager {
 	// ~~~~~ MAP QUEUEING ~~~~~
 	
 	/** Places map at tail of queue if valid map. */
-	public boolean tryEnqueueMap(String map) {
+	public void enqueueMap(String map) {
 		if (maps.containsKey(map)) {
 			mapQueue.add(map);
-			return true;
 		} else {
-			Bukkit.getLogger().warning("Tried to enqueue invalid map '" + map + "'.");
-			return false;
+			throw new IllegalArgumentException("Tried to enqueue invalid map '" + map + "'.");
 		}
 	}
 	
 	/** Places map at head of queue if valid map. */
-	public boolean tryInsertMap(String map) {
+	public void insertMap(String map) {
 		if (maps.containsKey(map)) {
 			mapQueue.addFirst(map);
-			return true;
 		} else {
-			Bukkit.getLogger().warning("Tried to enqueue invalid map '" + map + "'.");
-			return false;
+			throw new IllegalArgumentException("Tried to insert invalid map '" + map + "'.");
 		}
 	}
 	

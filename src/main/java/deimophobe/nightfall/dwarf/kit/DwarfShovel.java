@@ -212,7 +212,7 @@ public class DwarfShovel extends AbstractItem {
 		LEGENDARY(0.5, ChatColor.GOLD) {
 			@Override
 			void onDwarfReward(Dwarf dwarf) {
-				dwarf.makePlagueImmune();
+				dwarf.tryMakeImmuneFromPlague();
 			}
 		}
 		

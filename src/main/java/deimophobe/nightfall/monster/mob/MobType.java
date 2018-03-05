@@ -5,10 +5,7 @@ import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 
 /**
@@ -142,4 +139,14 @@ public enum MobType {
 	}
 	
 	
+	private static final List<MobType> spawnableMobs = new ArrayList<>();
+	static {
+		for (MobType type : values()) {
+			if (type.isSpawnable()) spawnableMobs.add(type);
+		}
+	}
+	
+	public static MobType[] getSpawnableMobs() {
+		return spawnableMobs.toArray(new MobType[0]);
+	}
 }
