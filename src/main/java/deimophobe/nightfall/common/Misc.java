@@ -1,5 +1,6 @@
 package deimophobe.nightfall.common;
 
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -231,5 +232,16 @@ public class Misc {
 				return type;
 		}
 		throw new UnknownEnumElementException("Unknown " + enumName + ": " + string);
+	}
+	
+	
+	public static TextComponent textComponentFromString(String string) {
+		TextComponent text = new TextComponent(string);
+		
+		if (string.charAt(0) == net.md_5.bungee.api.ChatColor.COLOR_CHAR) {
+			net.md_5.bungee.api.ChatColor colour = net.md_5.bungee.api.ChatColor.getByChar(string.charAt(1));
+			if (colour != null) text.setColor(colour);
+		}
+		return text;
 	}
 }
