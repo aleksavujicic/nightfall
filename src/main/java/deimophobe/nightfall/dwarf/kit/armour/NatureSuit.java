@@ -28,9 +28,12 @@ public class NatureSuit extends AbstractPiece implements ArmourPiece {
 				case MAGMA_BLOCK:
 					damage.cancel();
 					break;
-				case POISON:
+				case WITHER:
 					damage.cancel();
 					dwarf.removePotionEffect(PotionEffectType.WITHER);
+					break;
+				case POISON:
+					damage.cancel();
 					dwarf.removePotionEffect(PotionEffectType.POISON);
 					break;
 			}
