@@ -120,9 +120,8 @@ public class ZombieFury extends ZombieMob {
 
         damage.addArmourShred(armourShred);
 
-        int healAmt = vampirism;
+        double healAmt = vampirism * 1.5;
         if (fury) {
-            healAmt += 3;
             furySound.tryUse();
             damage.setManaDrain(10);
         }
