@@ -3,6 +3,7 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Material;
@@ -46,6 +47,12 @@ class Rat extends AbstractMob {
 			stealCD--;
 		
 		toggleCD.update();
+	}
+	
+	@Override
+	public void onDamageAttack(DwarfDamage damage) {
+		super.onDamageAttack(damage);
+		damage.multiplyKnockback(0.75);
 	}
 	
 	@Override

@@ -156,6 +156,8 @@ public class ZombieSaboteur extends ZombieMob {
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
 		
+		damage.multiplyKnockback(0.75);
+		
 		damage.addArmourShred(armourShred);
 		double healAmt = vampirism;
 		

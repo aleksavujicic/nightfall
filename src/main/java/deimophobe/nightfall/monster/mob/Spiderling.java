@@ -12,7 +12,6 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.block.Action;
@@ -47,15 +46,16 @@ class Spiderling extends AbstractMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		damage.getReceiver().givePotionEffect(PotionEffectType.POISON, 50, 4, true, false, true);
+		damage.getReceiver().givePotionEffect(PotionEffectType.POISON, 50, 3, true, false, true);
+		damage.multiplyKnockback(0.5);
 	}
 	
 	private void spit() {
 		Location loc = monster.getLocation();
 		World world = loc.getWorld();
 		
-		Entity snow = world.spawnEntity(loc.add(0,0.25,0), EntityType.SNOWBALL);
-		((Snowball) snow).setShooter(monster.getPlayer());
+		Snowball snow = world.spawn(loc.add(0,0.25,0), Snowball.class);
+		snow.setShooter(monster.getPlayer());
 		snow.setVelocity(loc.getDirection().add(new Vector(0,0.25,0)));
 		world.playSound(loc, "entity.spider.step", 0.3f, 1);
 	}
