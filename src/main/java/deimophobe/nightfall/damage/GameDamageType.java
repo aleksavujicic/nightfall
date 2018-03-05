@@ -16,11 +16,11 @@ public enum GameDamageType {
 	RANGED("shot"),
 	
 	// Natural Damage
-	CONTACT(new ForcedDeathMessageMaker("was pricked to death."), 2, 1),
+	CONTACT(new ForcedDeathMessageMaker("was pricked to death."), new FixedDOTModifier(DamageOverTimeType.CONTACT, 10, 2, 1)),
+	MAGMA_BLOCK(new ForcedDeathMessageMaker("burnt their feet"), new FixedDOTModifier(DamageOverTimeType.CONTACT, 10, 4, 4)),
 	DROWNING(new ForcedDeathMessageMaker("drowned"), 8, 1),
 	FIRE(new ForcedDeathMessageMaker("couldn't find water"), new FixedDOTModifier(DamageOverTimeType.FIRE, 6, 8, 2)),
 	LAVA(new ForcedDeathMessageMaker("tried to swim in lava"), new FixedDOTModifier(DamageOverTimeType.FIRE, 5, 15, 5)),
-	MAGMA_BLOCK(new ForcedDeathMessageMaker("burnt their feet"), 4, 4),
 	
 	FALL(new ForcedDeathMessageMaker("fell to their doom"), damage -> {
 		damage.getMulitPartDamage().timesMult(3*(1 - Math.pow(Math.random(),2)/2));
