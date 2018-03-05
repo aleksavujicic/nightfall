@@ -10,6 +10,7 @@ pick:
     flavour:
      - "This pickaxe is mighty indeed."
   modifiers:
+    attack: 6
     can-dig: 1
 
 axe:
@@ -20,6 +21,8 @@ axe:
      - "Break wood blocks to chop trees for logs."
     flavour:
      - "Sometimes it's a makeshift weapon."
+  modifiers:
+    attack: 8
 
 shovel:
   base: dwarf-shovel
@@ -29,6 +32,8 @@ shovel:
      - "Used to dig gravel for cobblestone."
     flavour:
      - "The real gravediggers use these."
+  modifiers:
+    attack: 6
 
 arrow:
   material: arrow
