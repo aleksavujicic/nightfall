@@ -93,7 +93,7 @@ class SkeletonWither extends AbstractToggleSkeleton {
 	public Projectile onBowFire(Arrow arrow, float force) {
 		if (isToggled()) {
 			if (!monster.hasItem(Material.ARROW, 2)) return null;
-			if (force < 0.8) return null;
+			if (force < 0.7) return null;
 			
 			monster.useItem(Material.ARROW, 2);
 
@@ -102,7 +102,7 @@ class SkeletonWither extends AbstractToggleSkeleton {
 
 			WitherSkull skull = world.spawn(loc, WitherSkull.class, s -> {
 				s.setShooter(monster.getPlayer());
-				s.setVelocity(loc.getDirection().multiply(0.7*force*force*force));
+				s.setVelocity(loc.getDirection().multiply(force*force));
 			});
 
 			new BukkitRunnable() {
@@ -138,7 +138,7 @@ class SkeletonWither extends AbstractToggleSkeleton {
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
 			double distance = offset.subtract(new Vector(0,1,0)).length();
-			if (distance > 2) continue;
+			if (distance > 3.5) continue;
 
 			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, GameDamageType.WITHER_SKULL, getPower());
 			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, distance)));
