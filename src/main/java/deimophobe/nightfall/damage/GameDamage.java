@@ -1,5 +1,6 @@
 package deimophobe.nightfall.damage;
 
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.entity.GameEntity;
@@ -14,11 +15,13 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
 
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Consumer;
 
 /**
@@ -47,10 +50,14 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 	protected boolean cancelled;
 	/** If set to true, the damage will not occur, but there will still be a damage tick. */
 	protected boolean softCancelled;
-	/** If set to true, damage will occur regardless of invincibility ticks. Overrided by force. */
-	protected int noDmgTicks;
+	/** Number of invincibility ticks. */
+	protected int noDamageTicks;
+	/** Number of flame ticks. */
+	protected int fireTicks = -1;
 	/** If set to true, damage will be 'infinite'. */
 	protected boolean instaKill;
+	
+	private final Projectile projectile;
 	
 	private final Set<DamageHandler<CancellableFinalGameDamage<A,R>>> preDamageHandlers = new HashSet<>();
 	private final Set<DamageHandler<FinalGameDamage<A,R>>> postDamageHandlers = new HashSet<>();
@@ -80,7 +87,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		this(attacker, receiver, type, damage, null);
 	}
 	
-	protected GameDamage(A attacker, R receiver, GameDamageType type, double damage, Projectile arrow) {
+	protected GameDamage(A attacker, R receiver, GameDamageType type, double damage, Projectile projectile) {
 		this.type = type;
 		this.attacker = attacker;
 		this.receiver = receiver;
@@ -96,12 +103,16 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		
 		this.cancelled = false;
 		this.softCancelled = false;
-		this.noDmgTicks = 8;
+		this.noDamageTicks = 8;
 		this.instaKill = false;
 		
-		this.arrow = arrow;
+		this.projectile = projectile;
 		
 		if (type == GameDamageType.MELEE) {
+			if (itemStack != null) {
+				int burnLevel = itemStack.getEnchantmentLevel(Enchantment.FIRE_ASPECT);
+				if (burnLevel > 0) fireTicks = burnLevel * 4 * 20;
+			}
 			setKnockbackFromMelee();
 		} else if (type == GameDamageType.RANGED) {
 			setKnockbackFromArrow();
@@ -134,13 +145,13 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 	public void setKnockbackFromArrow() {
 		if (!hasArrow()) return;
 		
-		Vector offset = arrow.getVelocity();
+		Vector offset = projectile.getVelocity();
 		
 		int punchLevel = 0;
 		float force = 1;
-		if (arrow instanceof Arrow) {
-			punchLevel = ((Arrow) arrow).getKnockbackStrength();
-			force = ArrowMisc.getArrowForce((Arrow) arrow);
+		if (projectile instanceof Arrow) {
+			punchLevel = ((Arrow) projectile).getKnockbackStrength();
+			force = ArrowMisc.getArrowForce((Arrow) projectile);
 		}
 		
 		offset.setY(0).normalize().multiply(0.6 + 0.4 * punchLevel);
@@ -165,7 +176,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 	
 	public MultiPartValue getMulitPartDamage() { return mulitPartDamage; }
 	
-	public void setNoDmgTicks(int ticks) { noDmgTicks = ticks; }
+	public void setNoDamageTicks(int ticks) { noDamageTicks = ticks; }
 	public void instaKill() {
 		instaKill = true;
 		cancelled = false;
@@ -238,11 +249,10 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		return (receiver.getHealth() - getFinalDamage() <= 0.000001 || instaKill);
 	}
 	
-	private final Projectile arrow;
-	public boolean hasArrow() {return  arrow instanceof Arrow;}
+	public boolean hasArrow() {return  projectile instanceof Arrow;}
 	public Arrow getArrow() {
-		if (arrow instanceof Arrow)
-			return (Arrow) arrow;
+		if (projectile instanceof Arrow)
+			return (Arrow) projectile;
 		else
 			throw new IllegalStateException("Tried to access arrow of gameDamage which has no arrow.");
 	}
@@ -324,7 +334,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		DamageUtil.processingDamage = this;
 		receiverEntity.damage(doDamageAmt);
 		DamageUtil.processingDamage = null;
-		receiverEntity.setNoDamageTicks(noDmgTicks);
+		receiverEntity.setNoDamageTicks(noDamageTicks);
 		
 		// Apply knockback
 		if (knockback != null) {
@@ -333,6 +343,13 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 				knockback.multiply(1 - kbResist);
 				receiver.setVelocity(knockback);
 			}
+		}
+		
+		// Apply fire ticks
+		if (fireTicks != -1) {
+			new BukkitRunnable() {
+				@Override public void run() { receiverEntity.setFireTicks(fireTicks); }
+			}.runTask(NightfallPlugin.getPlugin());
 		}
 		
 		
@@ -404,7 +421,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		return "GameDamage ID" + ID + " from " + attackerName + ChatColor.RESET + " to " + receiver.getName() + ChatColor.RESET + " of type: " + type + ".\n"
 				+ "  DAMAGES - " + mulitPartDamage.toString() + "\n"
 				+ (knockback != null ? "  Knockback: " + df.format(knockback.length()) + "\n" : "")
-				+ "  NoDmgTicks: " + noDmgTicks + ".\n"
+				+ "  NoDmgTicks: " + noDamageTicks + "; FireTicks: " + fireTicks + ".\n"
 				+ "  Pre Handlers: " + preDamageHandlers.size() + "; " + "Post Handlers: " + postDamageHandlers.size() + "\n"
 				+ (extraString.length() > 0 ? "  EXTRA - " + extraString.toString() + "\n" : "");
 	}

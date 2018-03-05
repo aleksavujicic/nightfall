@@ -96,7 +96,7 @@ public class Buffpool implements Updateable {
 				if (monster.getLocation().distance(location) <= radius) {
 					GameDamage damage = monster.createDamage(dwarf, GameDamageType.BUFFPOOL, damageAmt);
 					if (monster instanceof AIEntity) damage.instaKill();
-					damage.setNoDmgTicks(1);
+					damage.setNoDamageTicks(1);
 					damage.fire(true);
 				}
 			}

@@ -24,7 +24,7 @@ public enum GameDamageType {
 	
 	FALL(new ForcedDeathMessageMaker("fell to their doom"), damage -> {
 		damage.getMulitPartDamage().timesMult(3*(1 - Math.pow(Math.random(),2)/2));
-		damage.setNoDmgTicks(1);
+		damage.setNoDamageTicks(1);
 	}),
 	
 	VOID(new ForcedDeathMessageMaker("was swallowed by the abyss"), GameDamage::instaKill),
@@ -113,7 +113,7 @@ public enum GameDamageType {
 			damage.getMulitPartDamage().setBase(defaultDamage);
 			if (damage instanceof DwarfDamage)
 				((DwarfDamage) damage).setArmourShred(defaultArmourShred);
-			damage.setNoDmgTicks(1);
+			damage.setNoDamageTicks(1);
 		};
 	}
 	
@@ -176,7 +176,7 @@ public enum GameDamageType {
 				damage.cancel();
 			} else {
 				damage.addPostDamageHandler(d -> d.getReceiver().doDamageOverTimeTick(type));
-				damage.setNoDmgTicks(1);
+				damage.setNoDamageTicks(1);
 			}
 		}
 	}

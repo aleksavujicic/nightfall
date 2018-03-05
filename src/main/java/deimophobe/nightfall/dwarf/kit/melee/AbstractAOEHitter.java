@@ -44,7 +44,7 @@ public abstract class AbstractAOEHitter extends AbstractItem {
 				if (dwarf.hasProc())
 					damage.setProc(true);
 				
-				damage.setNoDmgTicks(5);
+				damage.setNoDamageTicks(5);
 				damage.fire();
 			}
 		}

@@ -113,7 +113,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 				
 				MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.BUBBLE_BEAM, damageAmt);
 				if (dwarf.hasProc()) damage.setProc(true);
-				damage.setNoDmgTicks(1);
+				damage.setNoDamageTicks(1);
 				damage.fire();
 			}
 		};

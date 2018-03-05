@@ -145,7 +145,7 @@ public class Wraith extends AbstractMob {
 				damage.getDwarf().givePotionEffect(PotionEffectType.SLOW, 30, 3, false, true, true);
 				damage.getDwarf().givePotionEffect(PotionEffectType.WITHER, 40, 5, false, true, true);
 				damage.setManaDrain(50);
-				damage.setNoDmgTicks(10);
+				damage.setNoDamageTicks(10);
 				damage.fire();
 			}
 		}
