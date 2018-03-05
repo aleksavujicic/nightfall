@@ -38,6 +38,8 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 	private DamagePhase phase;
 	/** The item which was used to hit. If not applicable this value is null. */
 	private ItemStack itemStack;
+	/** The death message maker that will be used to generate the death message if this is the final blow. */
+	private DeathMessageMaker deathMessageMaker;
 	
 	/** How much knockback to do. */
 	protected Vector knockback;
@@ -85,6 +87,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		
 		this.phase = DamagePhase.PRE_FIRE;
 		this.itemStack = getHeldItemOfDamager(attacker);
+		this.deathMessageMaker = type.getDefaultDeathMessageMaker();
 		
 		this.mulitPartDamage = new MultiPartValue(damage);
 		int resLevel = receiver.getPotionEffectLevel(PotionEffectType.DAMAGE_RESISTANCE);
@@ -247,6 +250,9 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 	public void setItemStack(ItemStack itemStack) {
 		this.itemStack = itemStack;
 	}
+	public void setDeathMessageMaker(DeathMessageMaker deathMessageMaker) {
+		this.deathMessageMaker = deathMessageMaker;
+	}
 	
 	
 	public static int SAFETY_JUICE_PRIORITY = 10;
@@ -310,7 +316,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		long time = System.currentTimeMillis();
 		if (receiver instanceof GamePlayer) {
 			LastMainDamage lastMainDamage = new LastMainDamage(attacker, type, itemStack, time);
-			((GamePlayer) receiver).tryReplaceLastDamage(lastMainDamage);
+			((GamePlayer) receiver).saveDamageInfo(deathMessageMaker, lastMainDamage);
 		}
 		
 		LivingEntity receiverEntity = receiver.getEntity();

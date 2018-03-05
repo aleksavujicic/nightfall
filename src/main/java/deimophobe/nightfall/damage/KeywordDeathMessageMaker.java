@@ -6,7 +6,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 /**
  * Created by Deimophobe on 23/02/18.
  */
-class KeywordDeathMessageMaker implements DeathMessageMaker {
+public class KeywordDeathMessageMaker implements DeathMessageMaker {
 	private final String keyword;
 	
 	KeywordDeathMessageMaker(String keyword) {
@@ -14,12 +14,14 @@ class KeywordDeathMessageMaker implements DeathMessageMaker {
 	}
 	
 	@Override
-	public BaseComponent getDeathMessage(String playerName, LastMainDamage lastMainDamage) {
-		BaseComponent text = new TextComponent(playerName);
+	public BaseComponent getDeathMessage(TextComponent playerName, LastMainDamage lastMainDamage) {
+		BaseComponent text = new TextComponent();
+		text.addExtra(playerName);
 		text.addExtra(" was " + keyword);
 		
 		if (lastMainDamage.hasAttacker()) {
-			text.addExtra(" by " + lastMainDamage.getAttackerName());
+			text.addExtra(" by ");
+			text.addExtra(lastMainDamage.getAttackerName());
 			
 			if (lastMainDamage.hasItem()) {
 				text.addExtra(" using ");

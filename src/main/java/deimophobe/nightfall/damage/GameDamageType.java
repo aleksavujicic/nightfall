@@ -1,6 +1,5 @@
 package deimophobe.nightfall.damage;
 
-import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -122,8 +121,8 @@ public enum GameDamageType {
 		damageModifer.accept(damage);
 	}
 	
-	public BaseComponent getDeathMessage(String playerName, LastMainDamage lastMainDamage) {
-		return deathMessageMaker.getDeathMessage(playerName, lastMainDamage);
+	public DeathMessageMaker getDefaultDeathMessageMaker() {
+		return deathMessageMaker;
 	}
 	
 	public boolean isArrow() {
