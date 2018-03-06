@@ -83,7 +83,7 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		if (!damage.isCancelled()) resetInactivity();
-		damage.getMulitPartDamage().timesMult(0.3);
+		damage.getMulitPartDamage().timesMult(0.25);
 
 		if (damage.getAttacker() instanceof MonsterEntity) {
 			damage.cancel();
