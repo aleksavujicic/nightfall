@@ -464,13 +464,13 @@ public abstract class AbstractMob implements Mob {
 		dyingEntity.setVelocity(monster.getVelocity());
 		dyingEntity.setFireTicks(0);
 		dyingEntity.setInvulnerable(true);
-		dyingEntity.setAI(false);
 		dyingEntity.setSilent(true);
 		dyingEntity.setCanPickupItems(false);
 		dyingEntity.setCollidable(false);
 		dyingEntity.setCustomName(getTitledName());
 		dyingEntity.getEquipment().setArmorContents(monster.getPlayer().getInventory().getArmorContents());
-		dyingEntity.getEquipment().setItemInMainHand(monster.getHeldItem());
+		dyingEntity.getEquipment().setItemInMainHand(monster.getHeldItem());;
+		
 		dyingEntity.setHealth(0);
 	}
 	
