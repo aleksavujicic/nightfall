@@ -7,6 +7,7 @@ import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.util.ArrowMisc;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
@@ -66,7 +67,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 	
 	private static int idCount = 0;
 	/** Currently only used for debugging */
-	private final int ID;
+	private final int id;
 	
 	
 	// ------ STATIC INITIALISERS -------
@@ -122,7 +123,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 			this.knockback = null;
 		}
 		
-		this.ID = idCount;
+		this.id = idCount;
 		idCount++;
 		
 		type.applyModifier(this);
@@ -318,7 +319,9 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		// Do the damage
 		phase = DamagePhase.DAMAGING;
 		double doDamageAmt = getFinalDamage();
-		if (doDamageAmt == 0) {
+		if (doDamageAmt <= 0) {
+			if (doDamageAmt < 0) Bukkit.getLogger().warning("Game Damage " + id + " has less than zero damage!");
+			
 			doDamageAmt = 100;
 			softCancel();
 		}
@@ -419,7 +422,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		
 		DecimalFormat df = new DecimalFormat("#.####");
 		
-		return "GameDamage ID" + ID + " from " + attackerName + ChatColor.RESET + " to " + receiver.getName() + ChatColor.RESET + " of type: " + type + ".\n"
+		return "GameDamage ID" + id + " from " + attackerName + ChatColor.RESET + " to " + receiver.getName() + ChatColor.RESET + " of type: " + type + ".\n"
 				+ "  DAMAGES - " + mulitPartDamage.toString() + "\n"
 				+ (knockback != null ? "  Knockback: " + df.format(knockback.length()) + "\n" : "")
 				+ "  NoDmgTicks: " + noDamageTicks + "; FireTicks: " + fireTicks + ".\n"
