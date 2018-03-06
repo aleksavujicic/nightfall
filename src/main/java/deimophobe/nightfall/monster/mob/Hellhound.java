@@ -14,7 +14,7 @@ import java.util.Random;
 /**
  * Created by Deimophobe on 8/07/17.
  */
-public class Hellhound extends Wolf {
+public class Hellhound extends WolfMob {
 	
 	Hellhound(MonsterPlayer monster) {
 		super(monster, MobType.HELLHOUND);

@@ -15,23 +15,24 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Wolf;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 19/01/17.
  */
-class Wolf extends AbstractMob {
+class WolfMob extends AbstractMob {
 	
 	@Display @Update private final ComplexCooldown leapCD = new ComplexCooldown(200, this::leap);
 	@Update private final ComplexCooldown furySound = new ComplexCooldown(20, this::growl);
 	@Update private final ComplexCooldown packBuffCD = new RepeatingCooldown(4*20, this::packBuff);
 	
-	protected Wolf(MonsterPlayer monster) {
+	protected WolfMob(MonsterPlayer monster) {
 		this(monster, MobType.WOLF);
 	}
 	
-	protected Wolf(MonsterPlayer monster, MobType type) {
+	protected WolfMob(MonsterPlayer monster, MobType type) {
 		super(monster, type);
 	}
 	
@@ -89,7 +90,7 @@ class Wolf extends AbstractMob {
 		int wolfCount = 1;
 		for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
 			if (monster == this.monster) continue;
-			if (monster.getMob() instanceof Wolf) {
+			if (monster.getMob() instanceof WolfMob) {
 				if (monster.getLocation().distance(this.monster.getLocation()) <= 10) {
 					wolfCount++;
 				}
@@ -101,9 +102,10 @@ class Wolf extends AbstractMob {
 	
 	@Override
 	protected DeadEntitySpawner<? extends LivingEntity> getDeadEntitySpawner() {
-		return new DeadEntitySpawner<>(org.bukkit.entity.Wolf.class, wolf -> {
+		return new DeadEntitySpawner<>(Wolf.class, wolf -> {
 			wolf.setSitting(monster.isSneaking());
-			wolf.setTamed(true);
+			wolf.setTamed(false);
+			wolf.setAngry(false);
 		});
 	}
 }

@@ -17,7 +17,7 @@ public enum MobType {
 	GOBO(MobType::spawnGobo),
 	
 	EMBER_SPRITE(EmberSprite::new),
-	WOLF(Wolf::new),
+	WOLF(WolfMob::new),
 	HELLHOUND(Hellhound::new, "wolf.hellhound"),
 	SPIDERLING(Spiderling::new),
 	RAT(Rat::new),

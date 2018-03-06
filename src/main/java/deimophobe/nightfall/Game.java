@@ -188,6 +188,8 @@ public class Game {
 		return (dwarfManager.isGamePlayer(name) || monsterManager.isGamePlayer(name));
 	}
 	
+	public boolean isGameEntity(Entity entity) { return getGameEntity(entity) != null; }
+	
 	public GamePlayer getGamePlayer(Player player) {
 		return getGamePlayer(player.getName());
 	}

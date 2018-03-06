@@ -615,12 +615,22 @@ public class GameListener implements Listener {
 	// ------ MOB STUFF ------
 	@EventHandler
 	public void preventAIBurning(EntityCombustEvent event) {
-		if (event.getEntityType() == EntityType.ZOMBIE)
+		if (event.getEntityType() == EntityType.ZOMBIE) {
 			event.setCancelled(true);
+			return;
+		}
 		
 		Entity entity = event.getEntity();
-		if (entity instanceof Player && mm.isGamePlayer((Player) entity))
+		if (entity instanceof Player && mm.isGamePlayer((Player) entity)) {
 			event.setCancelled(true);
+			return;
+		}
+		
+		if (!Game.getGame().isGameEntity(entity)) {
+			event.setCancelled(true);
+			return;
+		}
+		
 	}
 	
 	@EventHandler
