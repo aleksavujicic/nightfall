@@ -361,6 +361,10 @@ public abstract class AbstractMob implements Mob {
 		if (doubleSec)
 			playSound("idle");
 		
+		if (doubleSec && GameMap.getCurrentMap().getCurrentShrineProtection().containsPlayer(monster)) {
+			shrineProtectionDamage();
+		}
+		
 		for (Updateable updateable : updateables) {
 			updateable.update();
 			
@@ -379,7 +383,6 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	
-	@Override public boolean isShrineImmune() { return mobData.shrineImmune; }
 	@Override public int getCharmTime() { return mobData.charmTime; }
 	@Override public double getShrineWeight() { return mobData.shrineWeight; }
 	
@@ -402,6 +405,22 @@ public abstract class AbstractMob implements Mob {
 	
 	protected boolean hasSpawnProtection() {
 		return monster.hasPotionEffect(PotionEffectType.LUCK);
+	}
+	
+	
+	protected void shrineProtectionDamage() {
+		double damage = mobData.shrineProtDamage;
+		Bukkit.broadcastMessage("DAMAGE: " + damage);
+		if (damage == 0) return;
+		
+		if (damage == -1) {
+			monster.instaKill(null, GameDamageType.SHRINE_PROTECTION);
+		} else {
+			monster.doDamage(null, GameDamageType.SHRINE_PROTECTION, damage, true);
+		}
+		
+		Location loc = monster.getLocation();
+		loc.getWorld().strikeLightningEffect(loc);
 	}
 	
 	

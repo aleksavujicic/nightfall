@@ -14,7 +14,10 @@ import org.bukkit.event.block.Action;
  * Created by Deimophobe on 13/04/17.
  */
 public interface Mob {
-	boolean isShrineImmune();
+	
+	MobType getType();
+	
+	String getDeathMessageName();
 	int getCharmTime();
 	double getShrineWeight();
 	Disguise getDisguise();
@@ -32,8 +35,4 @@ public interface Mob {
 	void onProjectileLand(Projectile proj, Block hitBlock, Entity hitEntity);
 	float getCooldown();
 	void onDeath(boolean silent);
-	
-	MobType getType();
-	
-	String getDeathMessageName();
 }

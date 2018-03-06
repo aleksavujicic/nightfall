@@ -12,6 +12,7 @@ proccable: false
 resistance: 0.9
 arrowres: 0.5
 shred: 20
+shrine-prot-damage: 300
 
 armourslot: head
 armour:

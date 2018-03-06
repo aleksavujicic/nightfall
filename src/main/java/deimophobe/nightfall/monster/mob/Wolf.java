@@ -42,6 +42,7 @@ class Wolf extends AbstractMob {
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(action, clickedBlock, blockFace);
 		if (Misc.isRightClick(action) && isPlayerHoldingWeapon()) {
 			leapCD.tryUse();
 		}

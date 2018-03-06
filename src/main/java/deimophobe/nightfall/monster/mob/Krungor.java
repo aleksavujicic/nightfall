@@ -51,6 +51,7 @@ class Krungor extends AbstractMob {
 	private static final double RANGE = 7;
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(action, clickedBlock, blockFace);
 		if (Misc.isRightClick(action) && isPlayerHoldingWeapon()) {
 			launchCD.tryUse();
 		}

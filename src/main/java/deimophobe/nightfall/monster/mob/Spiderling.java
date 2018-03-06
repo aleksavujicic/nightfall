@@ -38,6 +38,7 @@ class Spiderling extends AbstractMob {
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(action, clickedBlock, blockFace);
 		if (Misc.isRightClick(action) && isPlayerHoldingWeapon()) {
 			spitter.tryUse();
 		}
@@ -62,6 +63,7 @@ class Spiderling extends AbstractMob {
 	
 	@Override
 	public void onProjectileLand(Projectile proj, Block hitBlock, Entity hitEntity) {
+		super.onProjectileLand(proj, hitBlock, hitEntity);
 		if (proj.getLocation().distance(monster.getLocation()) <= CORRODE_DISTANCE)
 			BlockConverter.convert(BlockConverter.Type.CORROSION, proj.getLocation(), 2);
 	}

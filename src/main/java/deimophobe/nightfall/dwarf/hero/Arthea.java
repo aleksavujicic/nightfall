@@ -118,7 +118,7 @@ public class Arthea extends Hero {
 		if (isEnraged() && enrageTimer != 0) {
 			GameEntity monster = damage.getAttacker();
 			if (monster instanceof AIEntity)
-				monster.doDamage(this, GameDamageType.BLOOD_MAGIC, 1000, true, true);
+				monster.instaKill(this, GameDamageType.BLOOD_MAGIC);
 			
 			damage.cancel();
 		} else {

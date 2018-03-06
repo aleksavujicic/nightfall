@@ -152,6 +152,6 @@ class Ticker extends AbstractMob {
 			}
 		}
 		BlockConverter.convert(BlockConverter.Type.EXPLOSION, monster.getLocation(), 15);
-		monster.doDamage(null, GameDamageType.SELF_GOBO_KABOOM, 100000, true, true);
+		monster.instaKill(null, GameDamageType.SELF_GOBO_KABOOM);
 	}
 }

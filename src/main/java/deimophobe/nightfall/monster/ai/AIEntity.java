@@ -161,7 +161,7 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 	}
 	
 	public void remove() {
-		this.doDamage(null, GameDamageType.AI_REMOVER, 10000, true, true);
+		this.instaKill(null, GameDamageType.AI_REMOVER);
 	}
 	
 	public void suffocationTick() {

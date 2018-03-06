@@ -28,6 +28,8 @@ import java.util.function.Consumer;
  * Created by Deimophobe on 6/05/17.
  */
 public abstract class GameDamage<A extends GameEntity, R extends GameEntity> implements CancellableFinalGameDamage<A,R> {
+	public static final double INSTA_KILL_DMG = 1000000;
+	
 	/** The type of damage. */
 	protected final GameDamageType type;
 	/** The GameEntity which initiated the damage. */
@@ -237,7 +239,6 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		if (!NumberConversions.isFinite(knockback.getZ())) knockback.setZ(0);
 	}
 	
-	private static final double INSTA_KILL_DMG = 1000000;
 	public double getFinalDamage() {
 		if (instaKill) return INSTA_KILL_DMG;
 		if (softCancelled || cancelled) return 0;

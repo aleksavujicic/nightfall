@@ -7,7 +7,7 @@ proccable: false
 resistance: 0.85
 shred: 25
 arrowres: 0.75
-shrineimmune: true
+shrine-prot-damage: 0
 
 armour:
   material: diamond_chestplate
