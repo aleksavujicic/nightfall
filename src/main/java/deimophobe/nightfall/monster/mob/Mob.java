@@ -35,7 +35,5 @@ public interface Mob {
 	
 	MobType getType();
 	
-	boolean hasSpawnProtection();
-	
 	String getDeathMessageName();
 }

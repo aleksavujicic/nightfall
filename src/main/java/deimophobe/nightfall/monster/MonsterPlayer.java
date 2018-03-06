@@ -175,10 +175,6 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		return true;
 	}
 	
-	public boolean hasSpawnProtection() {
-		return (mob != null && mob.hasSpawnProtection());
-	}
-	
 	// ----- REBIRTH -----
 	private final static int REBIRTH_TIME = 6*20;
 	private Location lastRebirth = null;

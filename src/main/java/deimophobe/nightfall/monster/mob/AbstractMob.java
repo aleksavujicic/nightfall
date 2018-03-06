@@ -113,7 +113,7 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	
-	// ~~~~ ANNOTATIONS ~~~~
+	// ~~~~~ ANNOTATIONS ~~~~~
 	private final Set<Updateable> updateables = new HashSet<>();
 	private Displayable displayable = Displayable.DISPLAY_NOTHING;
 	
@@ -167,7 +167,7 @@ public abstract class AbstractMob implements Mob {
 	protected void setDisplayable(Displayable displayable) { this.displayable = displayable; }
 	
 	
-	// ~~~~ DISGUISES ~~~~~
+	// ~~~~~ DISGUISES ~~~~~
 	protected void setupDisguise() {
 		DisguiseType type = mobData.disguiseType;
 		if (type != null) {
@@ -238,7 +238,7 @@ public abstract class AbstractMob implements Mob {
 		}
 	}
 	
-	// ~~~~ ITEMS ~~~~~
+	// ~~~~~ ITEMS ~~~~~
 	protected void setupItems() {
 		monster.clearInventory();
 		
@@ -311,20 +311,7 @@ public abstract class AbstractMob implements Mob {
 	protected void dropFakeWeapon() { dropFakeItem("weapon"); }
 	
 	
-	protected void playSound(String soundName) {
-		mobData.playSound(soundName, monster);
-	}
-	
-	
-	protected void giveSpawnProtection(int time) {
-		monster.givePotionEffect(PotionEffectType.LUCK, time, 1, true, false, true);
-	}
-	
-	public boolean hasSpawnProtection() {
-		return monster.hasPotionEffect(PotionEffectType.LUCK);
-	}
-	
-	
+	// ~~~~~ Events/Overriding methods ~~~~~
 	@Override
 	public String getDeathMessageName() {
 		return getTitledName();
@@ -402,18 +389,37 @@ public abstract class AbstractMob implements Mob {
 	@Override public Projectile onBowFire(Arrow arrow, float force) { return null; }
 	@Override public void onProjectileLand(Projectile proj, Block hitBlock, Entity hitEntity) {}
 	
+	
+	// ~~~~~ Misc ~~~~~
+	protected void playSound(String soundName) {
+		mobData.playSound(soundName, monster);
+	}
+	
+	
+	protected void giveSpawnProtection(int time) {
+		monster.givePotionEffect(PotionEffectType.LUCK, time, 1, true, false, true);
+	}
+	
+	protected boolean hasSpawnProtection() {
+		return monster.hasPotionEffect(PotionEffectType.LUCK);
+	}
+	
+	
+	// ~~~~~ Death ~~~~~
+	
 	@Override
 	public void onDeath(boolean silent) {
 		playSound("death");
 		
-		if (!silent)
+		if (!silent) {
 			displayDeathAnimation();
+			
+			if (mobData.forceTitle)
+				Bukkit.spigot().broadcast(monster.getDeathMessage());
+		}
 		
 		if (hasPlayerDisguise())
 			removePlayerDisguise();
-		
-		if (!silent && mobData.forceTitle)
-			Bukkit.spigot().broadcast(monster.getDeathMessage());
 	}
 	
 	protected void displayDeathAnimation() {
