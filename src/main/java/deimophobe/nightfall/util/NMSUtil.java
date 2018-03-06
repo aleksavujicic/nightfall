@@ -3,13 +3,16 @@ package deimophobe.nightfall.util;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.server.v1_12_R1.DataWatcherObject;
-import net.minecraft.server.v1_12_R1.DataWatcherRegistry;
-import net.minecraft.server.v1_12_R1.NBTTagCompound;
+import net.minecraft.server.v1_12_R1.*;
+import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.lang.reflect.Field;
 
 /**
  * Created by Deimophobe on 15/02/18.
@@ -45,5 +48,24 @@ public class NMSUtil {
 		net.minecraft.server.v1_12_R1.NBTTagCompound compound = new NBTTagCompound();
 		compound = nmsItemStack.save(compound);
 		return compound.toString();
+	}
+	
+	public static void playBlockBreakSound(Block block) {
+		double x = block.getX() + 0.5;
+		double y = block.getY() + 0.5;
+		double z = block.getZ() + 0.5;
+		try {
+			SoundEffectType effectType = net.minecraft.server.v1_12_R1.Block.REGISTRY.getId(block.getTypeId()).getStepSound();
+			
+			Field breakSoundField = SoundEffectType.class.getDeclaredField("o");
+			breakSoundField.setAccessible(true);
+			SoundEffect breakSound = (SoundEffect) breakSoundField.get(effectType);
+			
+			((CraftWorld) block.getWorld()).getHandle().a(null, x, y, z, breakSound, SoundCategory.BLOCKS, 1f, 0.8f);
+		} catch (NoSuchFieldException | IllegalAccessException | ClassCastException e) {
+			Bukkit.getLogger().warning("Failed to play block break sound");
+			e.printStackTrace();
+		}
+		
 	}
 }
