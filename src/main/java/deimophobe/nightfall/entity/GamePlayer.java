@@ -17,10 +17,7 @@ import deimophobe.nightfall.util.Util;
 import me.libraryaddict.disguise.DisguiseAPI;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -97,6 +94,34 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 		if (isDebugMode()) {
 			sendMessage(ChatColor.GREEN + message);
 		}
+	}
+	
+	// ------ ONLINE/OFFLINE ------
+	private boolean online = true;
+	
+	public boolean isOnline() { return online; }
+	
+	public void goOnline(Player newPlayer) {
+		online = true;
+		this.player = newPlayer;
+		resetTitle();
+		loadHealth();
+	}
+	public void goOffline() {
+		online = false;
+		saveHealth();
+	}
+	
+	
+	// ------ HEALTH SAVING ------
+	private double health;
+	private void saveHealth() {
+		health = player.getHealth();
+	}
+	private void loadHealth() {
+		new BukkitRunnable() {
+			@Override public void run() { player.setHealth(health); }
+		}.runTaskLater(NightfallPlugin.getPlugin(), 10);
 	}
 	
 	
@@ -291,21 +316,6 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	public void sendTitleMessage(String message) {
 		player.sendTitle("", message, 5, 30, 5);
 	}
-	
-	// ------ ONLINE/OFFLINE ------
-	private boolean online = true;
-	
-	public boolean isOnline() { return online; }
-	
-	public void goOnline(Player newPlayer) {
-		online = true;
-		this.player = newPlayer;
-		resetTitle();
-	}
-	public void goOffline() {
-		online = false;
-	}
-	
 	
 	
 	// ------ DAMAGE ------
