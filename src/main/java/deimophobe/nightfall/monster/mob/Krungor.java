@@ -63,6 +63,7 @@ class Krungor extends AbstractMob {
 			double distance = monster.distanceTo(dwarf);
 			if (distance <= RANGE) {
 				dwarf.givePotionEffect(PotionEffectType.LEVITATION, 30, 100, true, false, true);
+				dwarf.setVelocity(0, 4, 0);
 				launched.add(dwarf);
 			}
 		}
