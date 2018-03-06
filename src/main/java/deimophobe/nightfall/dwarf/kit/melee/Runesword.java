@@ -13,7 +13,7 @@ import deimophobe.nightfall.monster.ai.AIEntity;
  */
 public class Runesword extends AbstractRuneblade {
 	public Runesword(Dwarf dwarf) {
-		super(dwarf, 30*20, ProcType.REGULAR, ProcType.RUNEDASH);
+		super(dwarf, 25*20, ProcType.REGULAR, ProcType.RUNEDASH);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "runesword");

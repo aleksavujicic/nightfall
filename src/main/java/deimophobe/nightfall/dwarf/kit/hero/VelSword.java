@@ -12,7 +12,7 @@ import deimophobe.nightfall.dwarf.kit.melee.AbstractRuneblade;
  */
 public class VelSword extends AbstractRuneblade {
 	public VelSword(Dwarf dwarf) {
-		super(dwarf, 20*20, ProcType.VELSWORD, ProcType.RUNEDASH);
+		super(dwarf, 15*20, ProcType.VELSWORD, ProcType.RUNEDASH);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "velsword");
