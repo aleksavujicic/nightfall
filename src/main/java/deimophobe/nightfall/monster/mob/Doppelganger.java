@@ -162,6 +162,12 @@ public class Doppelganger extends AbstractMob {
 	}
 	
 	@Override
+	public void onShift(boolean sneaking) {
+		super.onShift(sneaking);
+		monster.getPlayer().setFireTicks(0);
+	}
+	
+	@Override
 	public void onDeath(boolean silent) {
 		super.onDeath(silent);
 		SkinManager.getManager().removeSkinChange(monster);
