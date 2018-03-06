@@ -37,6 +37,7 @@ public class ZombieMob extends AbstractMob {
 		int attack = upgrades.get("attack") + upgrades.get("attack-inf");
 		int health = (upgrades.get("health") + upgrades.get("health-inf"))*2;
 		getWeapon().addModifier(ItemModifierType.ATTACK, attack, "Upgrade");
+		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, attack, "Attack Upgrade");
 		getArmour().addModifier(ItemModifierType.HEALTH, health, "Upgrade");
 	}
 	

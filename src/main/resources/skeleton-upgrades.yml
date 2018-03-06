@@ -115,7 +115,7 @@ impact:
       description:
         - "Become an Impact Skeleton.\n
            A sneaky skeleton variant that can\n
-           scale walls and knock dwarves away."
+           knock dwarves away."
 
 
 ############################
@@ -268,7 +268,7 @@ arrowres-flamelancer:
     name: "Arrow Resistance"
     lore:
       description:
-        - "Increases your arrow resistance to $value."
+        - "Increases your arrow resistance to $value%."
 
 
 firepath:
@@ -302,7 +302,7 @@ fireai:
     shiny: true
     lore:
       description:
-        - "Summon fire spirits where your arrows land!"
+        - "Summon fire spirits where your arrows land."
 
 
 ############################
@@ -322,21 +322,8 @@ punch:
         - "Fling dwarves away when hitting them."
 
 
-meleekb:
-  index: 12
-  cost: [200, 400, 600, 800, 1000]
-  prereq:
-    impact: 1
-  item:
-    material: stone_sword
-    name: "Melee Knockback"
-    lore:
-      description:
-        - "Knock people away by hitting them."
-
-
 aoe:
-  index: 13
+  index: 12
   cost: [200, 400, 600, 800, 1000]
   prereq:
     impact: 1
@@ -349,18 +336,32 @@ aoe:
            where your arrow lands."
 
 
-arrowres-impact:
+meleekb:
+  index: 13
+  cost: [200, 400, 600, 800, 1000]
+  prereq:
+    impact: 1
+  item:
+    material: stone_sword
+    name: "Melee Knockback"
+    lore:
+      description:
+        - "Knock people away by hitting them."
+
+
+reaction:
   index: 14
   cost: [200, 400, 600, 800, 1000]
   value: [10, 20, 30, 40, 50]
   prereq:
     impact: 1
   item:
-    material: arrow
-    name: "Arrow Resistance"
+    material: firework
+    name: "Reaction"
     lore:
       description:
-        - "Increases your arrow resistance to $value."
+        - "Using your stick with right click,\n
+           launch yourself and dwarves away."
 
 
 extrahealth-impact:
@@ -386,7 +387,7 @@ warpweaver:
     punch: 5
     meleekb: 5
     aoe: 5
-    arrowres-impact: 5
+    reaction: 5
     extrahealth-impact: 5
   item:
     material: ender_pearl

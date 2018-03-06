@@ -52,7 +52,7 @@ public class ZombieSaboteur extends ZombieMob {
 		Map<String, Integer> upgrades = monster.getUpgrades(MobType.ZOMBIE);
 		
 		this.armourShred = shredValues[upgrades.get("shred-sabo")];
-		this.vampirism = (double) upgrades.get("vampirism-sabo") / 2;
+		this.vampirism = upgrades.get("vampirism-sabo");
 		int temp_poison = upgrades.get("poison");
 		this.pick = upgrades.get("pick");
 		this.epinephrine = upgrades.get("epinephrine");
@@ -86,10 +86,10 @@ public class ZombieSaboteur extends ZombieMob {
 		}
 		
 		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
-		getArmour().addModifier(ItemModifierType.SPEED, 25, "Saboteur Zombie");
+		getWeapon().addModifier(ItemModifierType.SPEED, 25, "Saboteur Zombie");
+		getWeapon().addModifier(ItemModifierType.SPEED, speed, "Epinephrine");
 		int saboHealthMalus = (upgrades.get("health") + upgrades.get("health-inf")) * -1;
 		getArmour().addModifier(ItemModifierType.HEALTH, saboHealthMalus, "Saboteur Zombie");
-		getWeapon().addModifier(ItemModifierType.SPEED, speed, "Epinephrine");
 	}
 	
 	@Override
@@ -109,9 +109,9 @@ public class ZombieSaboteur extends ZombieMob {
 		}
 		
 		if (monster.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
-			if (c) {
+			if (b) {
 				Location loc = monster.getLocation();
-				loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 6, 0.3, 0.3, 0.3, 0);
+				loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 4, 0.3, 0.3, 0.3, 0);
 			}
 		} else {
 			sneakCD.update();
@@ -159,7 +159,7 @@ public class ZombieSaboteur extends ZombieMob {
 		damage.multiplyKnockback(0.75);
 		
 		damage.addArmourShred(armourShred);
-		double healAmt = vampirism;
+		double healAmt = vampirism * 0.5;
 		
 		if (poison > 0) {
 			damage.getDwarf().givePotionEffect(PotionEffectType.POISON, 40, poison, true, false, true);

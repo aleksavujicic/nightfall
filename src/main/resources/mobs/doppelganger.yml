@@ -1,11 +1,11 @@
 title: Doppelganger
 
-attack: 20
+attack: 25
 health: 20
 
 proccable: false
 resistance: 0.85
-shred: 25
+shred: 40
 arrowres: 0.75
 shrine-prot-damage: 0
 
