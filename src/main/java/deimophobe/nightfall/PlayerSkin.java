@@ -53,6 +53,10 @@ public class PlayerSkin {
 		return profile;
 	}
 	
+	public String getNametag() {
+		return nametag;
+	}
+
 //	private void refreshSkin() {
 //		Player player = Bukkit.getPlayer(playerUUID);
 //		if (player == null) {

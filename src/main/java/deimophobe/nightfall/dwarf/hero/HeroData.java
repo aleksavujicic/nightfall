@@ -90,7 +90,6 @@ public class HeroData extends DwarfData {
 				throw new InvalidConfigurationException("ChatColor '" + colourName + "' is not a colour");
 			}
 		}
-		getTeam().addEntry(ChatColor.GOLD + nametag);
 		
 		
 		// Items
@@ -129,12 +128,11 @@ public class HeroData extends DwarfData {
 				if (!Hero.class.isAssignableFrom(clazz)) {
 					throw new InvalidConfigurationException("Class '" + className + "' does not inherit from the Hero class");
 				}
-				Class<Hero> heroClass = (Class<Hero>) clazz;
 				
-				Constructor<Hero> constructor = heroClass.getDeclaredConstructor(Player.class, HeroType.class);
+				Constructor<?> constructor = clazz.getDeclaredConstructor(Player.class, HeroType.class);
 				this.heroCreator = (p) -> {
 					try {
-						return constructor.newInstance(p, type);
+						return (Hero) constructor.newInstance(p, type);
 					} catch (InstantiationException|IllegalAccessException|InvocationTargetException e) {
 						//Bukkit.getLogger().severe("Failed to create hero '" + nametag + "' for player '" + p.getName() + "'");
 						//e.printStackTrace();
@@ -156,13 +154,16 @@ public class HeroData extends DwarfData {
 		return heroCreator.apply(player);
 	}
 	
+	private String getTeamName() {
+		return "hero" + type.ordinal();
+	}
+	
 	public Team getTeam() {
-		String name = type.name().toLowerCase();
 		Scoreboard scoreboard = Game.getGame().getScoreboard();
 		
-		Team team = scoreboard.getTeam("hero" + name);
+		Team team = scoreboard.getTeam(getTeamName());
 		if (team == null) {
-			team = scoreboard.registerNewTeam("hero" + name);
+			team = scoreboard.registerNewTeam(getTeamName());
 			team.setColor(glowColour);
 			team.setPrefix(glowColour.toString());
 		}
@@ -177,6 +178,7 @@ public class HeroData extends DwarfData {
 		kit.giveItems(KitGiveType.SHOVEL);
 		
 		dwarf.setTitle(ChatColor.GOLD, fullName, true);
+		getTeam().addEntry(skin.getNametag());
 		
 		SkinManager.getManager().addSkinChange(dwarf, skin);
 		
