@@ -566,7 +566,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	@Override
 	public void heal(double amt) {
 		if (hasKitElement(KitPieceType.STRONG_ALE))
-			amt *= StrongAle.getDamageResistance();
+			amt *= (1- StrongAle.getDamageResistance());
 		
 		super.heal(amt);
 	}
