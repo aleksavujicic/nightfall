@@ -162,7 +162,7 @@ class ConsecratingCharm extends Consumable {
 		
 		private void spawnAmbientParticles() {
 			center.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, center, 1, radius/2, 4, radius/2, 0.05);
-			center.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, center, 6, radius/2, 4, radius/2, 0.05);
+			center.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, center, 10, radius/2, 4, radius/2, 0.05);
 		}
 		
 		private void freezeMobs() {
