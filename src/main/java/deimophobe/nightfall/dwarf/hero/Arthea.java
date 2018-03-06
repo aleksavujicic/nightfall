@@ -7,6 +7,7 @@ import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -84,7 +85,7 @@ public class Arthea extends Hero {
 				startEnrage();
 				
 			if (enrageTimer == 0)
-				forceKill();
+				this.instaKill(null, GameDamageType.BLOOD_MAGIC);
 			
 			updateManaBar();
 			updateCooldownBar();
@@ -197,12 +198,14 @@ public class Arthea extends Hero {
 		
 		super.clearEffects();
 		
+		giveProc(ProcType.ARTHEA_RAGE);
+		
 		super.givePotionEffect(PotionEffectType.HEAL, 5, 20, false, false, true);
-		super.givePotionEffect(PotionEffectType.SPEED, ENRAGE_DURATION, 5, true, true, true);
+		super.givePotionEffect(PotionEffectType.SPEED, ENRAGE_DURATION, 7, true, true, true);
 		super.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, ENRAGE_DURATION, 5, true, true, true);
 		super.givePotionEffect(PotionEffectType.NIGHT_VISION, ENRAGE_DURATION, 1, true, true, true);
 		super.givePotionEffect(PotionEffectType.FIRE_RESISTANCE, ENRAGE_DURATION, 1, true, true, true);
-		super.givePotionEffect(PotionEffectType.JUMP, ENRAGE_DURATION, 3, true, true, true);
+		super.givePotionEffect(PotionEffectType.JUMP, ENRAGE_DURATION, 5, true, true, true);
 		super.givePotionEffect(PotionEffectType.GLOWING, ENRAGE_DURATION, 3, true, true, true);
 		
 		//makeMobsGlow();
