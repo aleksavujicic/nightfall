@@ -36,7 +36,7 @@ public class HeroBase extends AbstractPiece {
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
-		damage.multiplyManaDrain(0.5);
+		damage.multiplyManaDrain(0.25);
 		if (damage.getType() == GameDamageType.FALL) {
 			damage.getMulitPartDamage().timesMult(0.1);
 		}
