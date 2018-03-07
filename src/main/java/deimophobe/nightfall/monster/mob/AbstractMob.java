@@ -410,7 +410,6 @@ public abstract class AbstractMob implements Mob {
 	
 	protected void shrineProtectionDamage() {
 		double damage = mobData.shrineProtDamage;
-		Bukkit.broadcastMessage("DAMAGE: " + damage);
 		if (damage == 0) return;
 		
 		if (damage == -1) {
