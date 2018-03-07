@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 /**
  * Created by Deimophobe on 4/03/18.
  */
-@CommandAlias("game")
+@CommandAlias("game|g")
 public class GameCommand extends BaseCommand {
 	
 	@Subcommand("start")

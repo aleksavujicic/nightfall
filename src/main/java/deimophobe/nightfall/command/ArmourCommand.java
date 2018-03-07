@@ -19,6 +19,7 @@ import org.bukkit.command.CommandSender;
 @CommandAlias("armour|armor")
 public class ArmourCommand extends BaseCommand {
 	
+	@Default
 	@Subcommand("equip")
 	@CommandCompletion("@dwarves")
 	@Description("Equip armour on a dwarf.")

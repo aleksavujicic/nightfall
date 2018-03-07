@@ -123,6 +123,7 @@ public class DwarfCommand extends BaseCommand {
 	}
 	
 	@Subcommand("consumable")
+	@CommandAlias("consumable")
 	@CommandCompletion("@dwarves @consumables")
 	@Description("Give a dwarf a consumable.")
 	public void giveConsumable(CommandSender sender, Dwarf dwarf, ConsumableType type, @Default("1") int amount) {
@@ -141,7 +142,8 @@ public class DwarfCommand extends BaseCommand {
 	@Subcommand("kit")
 	public class KitCommand extends BaseCommand {
 		
-		@Subcommand("add")
+		@Subcommand("add|give")
+		@CommandAlias("kit-add")
 		@CommandCompletion("@dwarves @kitpieces:extra=all")
 		@Description("Add a kit piece to a dwarf's kit.")
 		public void addKitItem(CommandSender sender, Dwarf dwarf, KitPieceType[] pieceTypes) {
