@@ -14,7 +14,7 @@ import org.bukkit.entity.Arrow;
 public class VelBow extends AbstractPowerBow {
 	
 	public VelBow(Dwarf dwarf) {
-		super(dwarf, 25*20, ChatColor.DARK_PURPLE, 300, 0.2, ProcType.VELBOW);
+		super(dwarf, 25*20, ChatColor.DARK_PURPLE, 400, 0.2, ProcType.VELBOW);
 	}
 	
 	private final static int POWER = 70;
