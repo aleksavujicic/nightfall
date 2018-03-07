@@ -66,6 +66,7 @@ dagger:
     modifiers:
       attack: 20
       speed: 30
+      kb-resist: 25
 
 scepter:
   index: 4
