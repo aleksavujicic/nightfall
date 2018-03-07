@@ -76,6 +76,7 @@ dagger:
   modifiers:
     attack: 20
     speed: 30
+    kb-resist: 25
 
 rapier:
   base: rapier

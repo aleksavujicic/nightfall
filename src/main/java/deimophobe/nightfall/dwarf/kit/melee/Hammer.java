@@ -3,6 +3,8 @@ package deimophobe.nightfall.dwarf.kit.melee;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
@@ -39,6 +41,14 @@ public class Hammer extends AbstractAOEHitter implements CooldownPiece {
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		cooldown.update();
+	}
+	
+	@Override
+	public void onDamageReceive(DwarfDamage damage) {
+		super.onDamageReceive(damage);
+		if (damage.getAttacker() instanceof AIEntity<?> && damage.getType() == GameDamageType.MELEE && isHoldingItem()) {
+			damage.multiplyKnockback(0.5);
+		}
 	}
 	
 	@Override
