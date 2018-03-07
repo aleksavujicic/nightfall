@@ -79,6 +79,7 @@ public class GameListener implements Listener {
 			}
 		}
 		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(100000);
+		player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
 		
 		
 		Game.getGame().giveShrineBarToPlayer(player);
