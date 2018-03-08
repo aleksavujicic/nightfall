@@ -55,4 +55,10 @@ public class GameCommand extends BaseCommand {
 		Game.getGame().removeGamePlayer(player);
 		sender.sendMessage(ChatColor.YELLOW + "Removed " + ChatColor.RESET + player.getName() + ChatColor.YELLOW + " from the game.");
 	}
+	
+	@Subcommand("time")
+	@Description("Tells the current game time (in ticks).")
+	public void remove(CommandSender sender) {
+		sender.sendMessage(ChatColor.YELLOW + "The current time is: " + ChatColor.AQUA + Game.getGame().getCurrentTick() + ChatColor.YELLOW + ".");
+	}
 }
