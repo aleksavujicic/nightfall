@@ -3,6 +3,7 @@ package deimophobe.nightfall.command;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.plague.Plague;
 import deimophobe.nightfall.plague.PlagueType;
 import org.bukkit.ChatColor;
@@ -21,7 +22,7 @@ public class GameCommand extends BaseCommand {
 	@Description("Forces the game to start.")
 	public void onStart(CommandSender sender) {
 		Game.getGame().startGame();
-		sender.sendMessage(ChatColor.YELLOW + "Started the game.");
+		MessageUtil.sendMessage(sender, "Started the game.");
 	}
 	
 	@Subcommand("plague")
@@ -33,10 +34,10 @@ public class GameCommand extends BaseCommand {
 		if (type != null) {
 			Plague plague = type.createPlague();
 			Game.getGame().startPlague(plague);
-			sender.sendMessage(ChatColor.YELLOW + "Started plague type " + ChatColor.GREEN + type.name().toLowerCase() + ChatColor.YELLOW + ".");
+			MessageUtil.sendMessage(sender, "Started plague type ", type, ".");
 		} else {
 			Game.getGame().startPlague();
-			sender.sendMessage(ChatColor.YELLOW + "Started plague.");
+			MessageUtil.sendMessage(sender, "Started plague.");
 		}
 	}
 	
@@ -45,20 +46,29 @@ public class GameCommand extends BaseCommand {
 	@Description("Resets a player, removing them from any team and resetting them as if they just logged in.")
 	public void resetPlayer(CommandSender sender, @Flags("other") Player player) {
 		Game.getGame().resetPlayer(player);
-		sender.sendMessage(ChatColor.YELLOW + "Reset player " + ChatColor.WHITE + player.getDisplayName() + ChatColor.YELLOW + ".");
+		MessageUtil.sendMessage(sender,"Reset player ", player, ".");
 	}
 	
 	@Subcommand("remove-player")
-	@CommandCompletion("@players")
+	@CommandCompletion("@gameplayers")
 	@Description("Removes a player from all teams.")
-	public void remove(CommandSender sender, @Flags("other") Player player) {
-		Game.getGame().removeGamePlayer(player);
-		sender.sendMessage(ChatColor.YELLOW + "Removed " + ChatColor.RESET + player.getName() + ChatColor.YELLOW + " from the game.");
+	public void remove(CommandSender sender, GamePlayer player) {
+		Game.getGame().removeGamePlayer(player.getPlayer());
+		MessageUtil.sendMessage(sender,"Removed ", player.getPlayer(), " from the game.");
+	}
+	
+	@Subcommand("title")
+	@CommandCompletion("@gameplayers @chatcolors @nothing @boolean")
+	@Description("Forces a title on a player.")
+	public void title(CommandSender sender, GamePlayer player, ChatColor colour, @Optional String title, @Default("false") boolean force) {
+		title = title.replace('_',' ');
+		player.setTitle(colour, title, force);
+		MessageUtil.sendMessage(sender, "Title of player ", player.getPlayer(), " changed to ", player, ".");
 	}
 	
 	@Subcommand("time")
 	@Description("Tells the current game time (in ticks).")
-	public void remove(CommandSender sender) {
-		sender.sendMessage(ChatColor.YELLOW + "The current time is: " + ChatColor.AQUA + Game.getGame().getCurrentTick() + ChatColor.YELLOW + ".");
+	public void time(CommandSender sender) {
+		MessageUtil.sendMessage(sender, "The current time is: ", Game.getGame().getCurrentTick(), ".");
 	}
 }

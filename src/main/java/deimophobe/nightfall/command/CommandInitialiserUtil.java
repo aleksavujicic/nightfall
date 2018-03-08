@@ -3,6 +3,7 @@ package deimophobe.nightfall.command;
 import co.aikar.commands.*;
 import co.aikar.commands.contexts.ContextResolver;
 import co.aikar.commands.contexts.IssuerAwareContextResolver;
+import com.google.common.collect.ImmutableSet;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
@@ -41,6 +42,8 @@ public class CommandInitialiserUtil {
 	private CommandInitialiserUtil() {}
 	
 	public static void initialiseCommands(NightfallPlugin plugin) {
+		MessageUtil.initialise();
+		
 		BukkitCommandManager bcm = new BukkitCommandManager(plugin);
 		bcm.enableUnstableAPI("help");
 		
@@ -99,6 +102,9 @@ public class CommandInitialiserUtil {
 			}
 			return pieces;
 		});
+		
+		ImmutableSet<String> booleans = ImmutableSet.of("true", "false");
+		completions.registerCompletion("boolean", c -> booleans);
 	}
 	
 	private static void registerContexts(BukkitCommandManager bcm) {
