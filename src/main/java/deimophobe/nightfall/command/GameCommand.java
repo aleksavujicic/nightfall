@@ -61,7 +61,7 @@ public class GameCommand extends BaseCommand {
 	@CommandCompletion("@gameplayers @chatcolors @nothing @boolean")
 	@Description("Forces a title on a player.")
 	public void title(CommandSender sender, GamePlayer player, ChatColor colour, @Optional String title, @Default("false") boolean force) {
-		title = title.replace('_',' ');
+		if (title != null) title = title.replace('_',' ');
 		player.setTitle(colour, title, force);
 		MessageUtil.sendMessage(sender, "Title of player ", player.getPlayer(), " changed to ", player, ".");
 	}
