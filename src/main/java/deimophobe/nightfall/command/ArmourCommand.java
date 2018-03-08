@@ -23,7 +23,7 @@ public class ArmourCommand extends BaseCommand {
 	@Subcommand("equip")
 	@CommandCompletion("@dwarves")
 	@Description("Equip armour on a dwarf.")
-	public void onEquip(CommandSender sender, @Conditions("reg-armour") @Optional Dwarf dwarf) {
+	public void onEquip(CommandSender sender, @Conditions("unequipped-armour") @Optional Dwarf dwarf) {
 		((DwarvenArmour) dwarf.getArmour()).putOn();
 		sender.sendMessage(ChatColor.YELLOW + "Equipped armour on dwarf " + dwarf.getDisplayName() + ChatColor.YELLOW + ".");
 	}

@@ -175,6 +175,11 @@ public class CommandInitialiserUtil {
 			if (dwarf == null) throw new ConditionFailedException("Dwarf must not be null");
 			if (!(dwarf.getArmour() instanceof DwarvenArmour)) throw new ConditionFailedException("Dwarf must have regular dwarven armour.");
 		});
+		conditions.addCondition(Dwarf.class, "unequipped-armour", (context, execContext, dwarf) -> {
+			if (dwarf == null) throw new ConditionFailedException("Dwarf must not be null");
+			if (!(dwarf.getArmour() instanceof DwarvenArmour)) throw new ConditionFailedException("Dwarf must have regular dwarven armour.");
+			if (dwarf.getArmour().isArmoured()) throw new ConditionFailedException("Dwarf must not have any armour equipped.");
+		});
 		conditions.addCondition(String.class, "map", (context, execContext, map) -> {
 			if (!MapManager.getManager().getMaps().contains(map)) throw new ConditionFailedException("String must be a valid map.");
 		});
