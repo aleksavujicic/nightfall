@@ -129,9 +129,11 @@ public class CommandInitialiserUtil {
 		contexts.registerContext(DwarfData.class, context -> {
 			String firstArg = context.getFirstArg();
 			if (firstArg.equalsIgnoreCase("kit")) {
+				context.popFirstArg();
 				Player player = (Player) context.getResolvedArg(Player.class);
 				return DwarfData.getData(player);
 			} else if (firstArg.equalsIgnoreCase("loadoutall")) {
+				context.popFirstArg();
 				DwarfData data = new DwarfData();
 				LoadoutManager.getManager().modifyAll(data);
 				return data;
