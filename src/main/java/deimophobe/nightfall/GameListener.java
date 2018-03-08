@@ -393,6 +393,10 @@ public class GameListener implements Listener {
 			event.setDeathMessage("");
 			Bukkit.spigot().broadcast(dwarf.getDeathMessage());
 			
+			if (Game.getGame().getPhase() == Phase.PLAGUE) {
+				Game.getGame().getActivePlague().onDwarfDeath(dwarf);
+			}
+			
 			if (Game.getGame().getPhase() == Phase.GAME) {
 				for (Player player : Bukkit.getOnlinePlayers())
 					player.sendTitle("", dwarf.getDisplayName() + ChatColor.DARK_RED + " has fallen!", 20, 60, 20);

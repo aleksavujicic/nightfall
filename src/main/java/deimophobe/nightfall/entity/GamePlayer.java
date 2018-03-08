@@ -5,7 +5,6 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.DeathMessageMaker;
-import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.LastMainDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -17,7 +16,10 @@ import deimophobe.nightfall.util.Util;
 import me.libraryaddict.disguise.DisguiseAPI;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -389,13 +391,6 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 			}
 		}
 		return closestPlayer;
-	}
-	
-	@Deprecated
-	public void forceKill() {
-		GameDamage damage = createDamage(null, GameDamageType.TEMPORARY, 10000);
-		damage.instaKill();
-		damage.fire();
 	}
 	
 	/**

@@ -12,6 +12,8 @@ public interface Plague {
 	void startPlague(Set<Dwarf> plagueables, Set<Dwarf> plagued, int killAmt);
 	void forceEnd();
 	
+	void onDwarfDeath(Dwarf dwarf);
+	
 	static Plague getRandomPlague() {
 		return PlagueType.getRandomPlague();
 	}

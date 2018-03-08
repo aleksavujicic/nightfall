@@ -101,6 +101,8 @@ public class Game {
 	
 	private final Team lobbyTeam;
 	
+	private Plague activePlague = null;
+	
 	
 	private long tickNumber = 0;
 	public long getCurrentTick() { return tickNumber; }
@@ -537,6 +539,7 @@ public class Game {
 	public void startPlague(Plague plague) {
 		if (phase != Phase.BUILD) return;
 		phase = Phase.PLAGUE;
+		this.activePlague = plague;
 		
 		// Dwarves and number to plague
 		Set<Dwarf> plagueables = dwarfManager.getPlagueables();
@@ -555,12 +558,18 @@ public class Game {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				if (phase == Phase.PLAGUE)
+				if (phase == Phase.PLAGUE) {
 					plague.forceEnd();
+					releaseMonsters();
+				}
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), 120*20);
 		
 		Bukkit.getServer().getPluginManager().callEvent(new PhaseChangeEvent(phase));
+	}
+	
+	public Plague getActivePlague() {
+		return activePlague;
 	}
 	
 	public void notifyPlagueFinish() {
@@ -571,6 +580,8 @@ public class Game {
 	private void releaseMonsters() {
 		if (phase != Phase.PLAGUE) return;
 		phase = Phase.GAME;
+		this.activePlague = null;
+		
 		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
 		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
 		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
