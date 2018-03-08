@@ -32,13 +32,15 @@ public enum ItemModifierType {
 	ARMOUR_DURABILITY("Durability", ValueFormatter.PERCENT_FORMATTER),
 	QUIVER("Quiver Size"),
 	FALL_DAMAGE("Fall Damage", ValueFormatter.PERCENT_FORMATTER),
-	FAIRY_BAND("Fairy Band", false),
-	NATURE_SUIT("Nature Suit", false),
 	
 	// Other bonuses
 	SPEED("Speed", new AttributeApplier(Attribute.MOVEMENT_SPEED, 2, (i) -> (double)i/100), ValueFormatter.PERCENT_FORMATTER),
 	DEPTH_STRIDER("Depth Strider", new EnchantApplier(Enchantment.DEPTH_STRIDER)),
 	AQUA_AFFINITY("Aqua Affinity", new EnchantApplier(Enchantment.WATER_WORKER)),
+	
+	// Special dwarf armours
+	FAIRY_BAND("Fairy Band", false),
+	NATURE_SUIT("Nature Suit", false),
 	
 	KB_RESIST("Knockback Res", new AttributeApplier(Attribute.KNOCKBACK_RESISTANCE, (i) -> (double)i/100), new PercentFormatter(false)),
 	PROC_RESIST("Proc Resistance", ValueFormatter.PERCENT_FORMATTER),
