@@ -17,6 +17,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.effects.GameEffect;
+import deimophobe.nightfall.util.ArmourSlot;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -80,11 +81,31 @@ public class DwarvenArmour implements Armour {
 	
 	@Override
 	public void addModifier(ItemModifierType type, int value, String reason) {
+		addModifier(type, value, reason, ArmourSlot.CHEST);
+	}
+	
+	@Override
+	public void addModifier(ItemModifierType type, int value, String reason, ArmourSlot slot) {
+		Function<ArmourSet, CustomItem> itemGetter;
+		switch (slot) {
+			default:
+			case HEAD:
+			case CHEST:
+				itemGetter = set -> set.chest;
+				break;
+			case LEGS:
+				itemGetter = set -> set.legs;
+				break;
+			case FEET:
+				itemGetter = set -> set.boots;
+				break;
+		}
 		for (ArmourSet set : setMap.values()) {
-			set.chest.addModifier(type, value, reason);
+			itemGetter.apply(set).addModifier(type, value, reason);
 		}
 		updateArmour(true);
 	}
+	
 	@Override
 	public void updateEquipment() {
 		updateArmour(true);

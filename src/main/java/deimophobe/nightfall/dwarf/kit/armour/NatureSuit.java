@@ -5,6 +5,7 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import deimophobe.nightfall.dwarf.kit.ArmourPiece;
+import deimophobe.nightfall.util.ArmourSlot;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -13,7 +14,6 @@ import org.bukkit.potion.PotionEffectType;
 public class NatureSuit extends AbstractPiece implements ArmourPiece {
 	public NatureSuit(Dwarf dwarf) {
 		super(dwarf);
-		dwarf.getArmour().addModifier(ItemModifierType.DEPTH_STRIDER, 1, "Nature Suit");
 	}
 	
 	@Override
@@ -57,5 +57,7 @@ public class NatureSuit extends AbstractPiece implements ArmourPiece {
 	@Override
 	public void onArmourEquip() {
 		rebuff();
+		dwarf.getArmour().addModifier(ItemModifierType.NATURE_SUIT, 1);
+		dwarf.getArmour().addModifier(ItemModifierType.DEPTH_STRIDER, 1, "Nature Suit", ArmourSlot.FEET);
 	}
 }

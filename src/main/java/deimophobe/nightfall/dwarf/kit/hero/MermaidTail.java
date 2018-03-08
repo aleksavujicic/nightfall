@@ -4,6 +4,7 @@ import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.ArmourPiece;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
+import deimophobe.nightfall.util.ArmourSlot;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -22,8 +23,8 @@ public class MermaidTail extends AbstractPiece implements ArmourPiece {
 	
 	@Override
 	public void onArmourEquip() {
-		dwarf.getArmour().addModifier(ItemModifierType.DEPTH_STRIDER, 3, "Mermaid Tail");
-		dwarf.getArmour().addModifier(ItemModifierType.AQUA_AFFINITY, 1, "Mermaid Tail");
+		dwarf.getArmour().addModifier(ItemModifierType.DEPTH_STRIDER, 3, "Mermaid Tail", ArmourSlot.FEET);
+		dwarf.getArmour().addModifier(ItemModifierType.AQUA_AFFINITY, 1, "Mermaid Tail", ArmourSlot.FEET);
 	}
 	
 	@Override

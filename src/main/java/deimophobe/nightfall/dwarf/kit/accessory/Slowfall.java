@@ -6,6 +6,7 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
+import deimophobe.nightfall.util.ArmourSlot;
 import org.bukkit.Particle;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -21,7 +22,7 @@ public class Slowfall extends AbstractPiece {
 	public Slowfall(Dwarf dwarf) {
 		super(dwarf);
 		cooldown = new ComplexCooldown(30*20, this::slowfall, null);
-		dwarf.getArmour().addModifier(ItemModifierType.FALL_DAMAGE, (int) (-RESISTANCE*100), "Slowfall");
+		dwarf.getArmour().addModifier(ItemModifierType.FALL_DAMAGE, (int) (-RESISTANCE*100), "Slowfall", ArmourSlot.FEET);
 	}
 	
 	@Override

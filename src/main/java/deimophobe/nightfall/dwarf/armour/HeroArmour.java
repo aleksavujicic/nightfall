@@ -30,6 +30,11 @@ public class HeroArmour extends StaticArmour {
 	}
 	
 	@Override
+	public void addModifier(ItemModifierType type, int value, String reason, ArmourSlot slot) {
+		addModifier(type, value, reason);
+	}
+	
+	@Override
 	public void addModifier(ItemModifierType type, int value, String reason) {
 		armour.addModifier(type, value, reason);
 		updateEquipment();
