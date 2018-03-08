@@ -123,6 +123,7 @@ public class CommandInitialiserUtil {
 			}
 			return pieceTypes.toArray(new KitPieceType[0]);
 		};
+		
 		contexts.registerContext(KitPieceType.class, kitPieceTypeResolver);
 		contexts.registerContext(KitPieceType[].class, arrayPieceResolver);
 		contexts.registerContext(DwarfData.class, context -> {
@@ -221,6 +222,7 @@ public class CommandInitialiserUtil {
 			
 			boolean setSelfAsGamePlayer = name == null || name.equals(".") || name.equals("~");
 			if (setSelfAsGamePlayer) {
+				if (c.getPlayer() == null) throw new InvalidCommandArgument(ChatColor.RED + "Console is not a " + playerTypeName);
 				gamePlayer = resolver.apply(c.getPlayer().getName());
 				if (gamePlayer == null) throw new InvalidCommandArgument(ChatColor.RED + "You are not a " + playerTypeName);
 			} else {
