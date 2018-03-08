@@ -39,7 +39,7 @@ class MessageUtil {
 		});
 		addResolver(Player.class, arg -> {
 			TextComponent text = new TextComponent(arg.getName());
-			text.setColor(ChatColor.LIGHT_PURPLE);
+			text.setColor(ChatColor.DARK_GRAY);
 			return text;
 		});
 	}
