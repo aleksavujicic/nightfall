@@ -19,6 +19,8 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Creeper;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -32,7 +34,7 @@ class GoblinKaboom extends Goblin {
 	private boolean kaboomTrigger;
 	private final int pick;
 	private final int speed;
-	private final int superKaboom;
+	private final boolean superKaboom;
 	
 	private Cooldown kaboomCD;
 	
@@ -53,7 +55,7 @@ class GoblinKaboom extends Goblin {
 		
 		this.pick = upgrades.get("pick");
 		this.speed = upgrades.get("speed");
-		this.superKaboom = upgrades.get("superkaboom");
+		this.superKaboom = upgrades.get("superkaboom") == 1;
 		
 		getArmour().addModifier(ItemModifierType.SPEED, (10 * speed / 3), "Upgrade");
 		
@@ -65,7 +67,7 @@ class GoblinKaboom extends Goblin {
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
-		if (superKaboom == 1) {
+		if (superKaboom) {
 			changeDisguiseWatcher(CreeperWatcher.class, creeperWatcher -> creeperWatcher.setPowered(true));
 		}
 		if (kaboom) {
@@ -98,10 +100,10 @@ class GoblinKaboom extends Goblin {
 	
 	private void kaboom() {
 		
-		double dwarfDamage = 50 + 5 * shrapnel + 40 * superKaboom;
-		int armorShred = 50 + 5 * shrapnel + 25 * superKaboom;
-		double power = 6 + 0.5 * dest + 2.5 * superKaboom;
-		double kb = 0.75 + 0.15 * force + 1.25 * superKaboom;
+		double dwarfDamage = 50 + 5 * shrapnel + (superKaboom ? 40 : 0);
+		int armorShred = 50 + 5 * shrapnel + (superKaboom ? 25 : 0);
+		double power = 6 + 0.5 * dest + (superKaboom ? 2.5 : 0);
+		double kb = 0.75 + 0.15 * force + (superKaboom ? 1.25 : 0);
 		
 		Location loc = monster.getLocation();
 		World world = monster.getLocation().getWorld();
@@ -115,7 +117,7 @@ class GoblinKaboom extends Goblin {
 			if (offset.length() > 7.5) continue;
 			
 			Vector knockback = offset.multiply(kb / Math.max(2, offset.length()));
-			knockback.setY(knockback.getY() / 2 + 0.3 + 0.5 * superKaboom);
+			knockback.setY(knockback.getY() / 2 + 0.3 + (superKaboom ? 0.5 : 0));
 			
 			DwarfDamage aoeDamage = dwarf.createDamage(monster, GameDamageType.GOBO_KABOOM, dwarfDamage);
 			aoeDamage.setKnockback(knockback);
@@ -135,7 +137,7 @@ class GoblinKaboom extends Goblin {
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
-		if (superKaboom == 0) {
+		if (!superKaboom) {
 			monster.removePotionEffect(PotionEffectType.SPEED);
 			kaboomCD.reset();
 			kaboomTrigger = false;
@@ -146,5 +148,12 @@ class GoblinKaboom extends Goblin {
 	@Override
 	public float getCooldown() {
 		return kaboomCD.getCooldown();
+	}
+	
+	@Override
+	protected DeadEntitySpawner<? extends LivingEntity> getDeadEntitySpawner() {
+		return new DeadEntitySpawner<>(Creeper.class, creeper -> {
+			creeper.setPowered(superKaboom);
+		});
 	}
 }
