@@ -235,6 +235,8 @@ public class Misc {
 	}
 	
 	
+	/** Should use {@link net.md_5.bungee.api.chat.TextComponent#fromLegacyText(java.lang.String)} instead. */
+	@Deprecated
 	public static TextComponent textComponentFromString(String string) {
 		TextComponent text = new TextComponent(string);
 		
