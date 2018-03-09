@@ -4,6 +4,7 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.entity.GamePlayer;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -34,12 +35,14 @@ class MessageUtil {
 			return text;
 		});
 		addResolver(GamePlayer.class, arg -> {
-			String name = arg.getDisplayName();
-			return Misc.textComponentFromString(name);
+			BaseComponent text = Misc.textComponentFromString(arg.getDisplayName());
+			text.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + arg.getName()));
+			return text;
 		});
 		addResolver(Player.class, arg -> {
 			TextComponent text = new TextComponent(arg.getName());
 			text.setColor(ChatColor.DARK_GRAY);
+			text.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + arg.getName()));
 			return text;
 		});
 	}
