@@ -30,6 +30,7 @@ import java.util.function.Consumer;
  */
 public abstract class GameDamage<A extends GameEntity, R extends GameEntity> implements CancellableFinalGameDamage<A,R> {
 	public static final double INSTA_KILL_DMG = 1000000;
+	private static final int DEFAULT_NO_DMG_TICKS = 10;
 	
 	/** The type of damage. */
 	protected final GameDamageType type;
@@ -106,7 +107,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		
 		this.cancelled = false;
 		this.softCancelled = false;
-		this.noDamageTicks = 8;
+		this.noDamageTicks = DEFAULT_NO_DMG_TICKS;
 		this.instaKill = false;
 		
 		this.projectile = projectile;
