@@ -102,6 +102,7 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 				if (entity.isAI()) damage *= 2;
 				MonsterDamage mDamage = entity.createDamage(dwarf, GameDamageType.SILENT_STRIKE, damage);
 				mDamage.setKnockback(knockback);
+				mDamage.fire();
 			}
 		}
 		souls = 0;
