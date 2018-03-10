@@ -4,10 +4,7 @@ import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.map.GameMap;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -25,8 +22,14 @@ class Slab extends Consumable {
 	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
 		if (Misc.isRightClick(action)) return FAILED_CD;
 		if (!checkPhase(dwarf)) return FAILED_CD;
-			
-		Location center = clickedBlock.getLocation();
+		
+		Block selectedBlock = dwarf.getTargetBlock(null, 7);
+		Location center = selectedBlock.getLocation();
+		if (dwarf.distanceTo(center) <= 4) {
+			dwarf.sendTitleMessage(ChatColor.RED + "That block is too close to slab");
+			return FAILED_CD;
+		}
+		
 		double facing = dwarf.getLocation().getYaw() % 360;
 		if (facing < 0)
 			facing += 360;
