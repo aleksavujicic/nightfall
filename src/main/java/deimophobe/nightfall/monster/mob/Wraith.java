@@ -8,10 +8,12 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -76,8 +78,7 @@ public class Wraith extends AbstractMob {
 			chargerCD--;
 
 			if (chargeActive && chargerCD >= MAX_CHARGE_CD - CLOUD_TIME) {
-				Location loc = monster.getLocation();
-				loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 30, 0.7, 0.7, 0.7, 0.03);
+				spawnParticles();
 				aoeDamage();
 			}
 			
@@ -130,6 +131,16 @@ public class Wraith extends AbstractMob {
 		monster.givePotionEffect(PotionEffectType.JUMP, 20, -1, false, true, true);
 		monster.playSound("entity.ghast.hurt", 2f, 0.7f, true);
 		monster.playSound("entity.ghast.shoot", 1f, 0.5f, true);
+	}
+	
+	private static final double PARTICLE_VISIBLE_RADIUS = 50;
+	private void spawnParticles() {
+		Location location = monster.getLocation();
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (location.distance(player.getLocation()) <= PARTICLE_VISIBLE_RADIUS) {
+				player.spawnParticle(Particle.SMOKE_LARGE, location, 30, 0.7, 0.7, 0.7, 0.03);
+			}
+		}
 	}
 	
 	private static final double AOE_RADIUS = 3;
