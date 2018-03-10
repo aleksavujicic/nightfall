@@ -248,7 +248,7 @@ public class DwarfCommand extends BaseCommand {
 		}
 		
 		@Subcommand("trash")
-		@CommandAlias("trash")
+		@CommandAlias("trash|fawn")
 		@CommandCompletion("@dwarves")
 		@Description("For deleting your duplicate items.")
 		public void showTrash(@Optional Dwarf dwarf) {
