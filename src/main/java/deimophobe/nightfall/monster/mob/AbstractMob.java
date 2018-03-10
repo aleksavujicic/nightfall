@@ -17,10 +17,7 @@ import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
@@ -361,10 +358,6 @@ public abstract class AbstractMob implements Mob {
 		if (doubleSec)
 			playSound("idle");
 		
-		if (doubleSec && GameMap.getCurrentMap().getCurrentShrineProtection().containsPlayer(monster)) {
-			shrineProtectionDamage();
-		}
-		
 		for (Updateable updateable : updateables) {
 			updateable.update();
 			
@@ -373,6 +366,19 @@ public abstract class AbstractMob implements Mob {
 				if (expirable.hasExpired()) {
 					updateables.remove(updateable);
 				}
+			}
+		}
+		
+		shrineChecker.update();
+		if (shrineChecker.isAvailable()) { // Is stopped
+			if (halfSec && GameMap.getCurrentMap().getCurrentShrineProtection().containsPlayer(monster)) {
+				shrineChecker.reset();
+			}
+		} else {
+			if (GameMap.getCurrentMap().getCurrentShrineProtection().containsPlayer(monster)) {
+				monster.getPlayer().spawnParticle(Particle.VILLAGER_ANGRY, monster.getEyeLocation().subtract(0, 0.5, 0), 5, 0.5, 0.5, 0.5);
+			} else {
+				shrineChecker.reset();
 			}
 		}
 	}
@@ -407,6 +413,9 @@ public abstract class AbstractMob implements Mob {
 		return monster.hasPotionEffect(PotionEffectType.LUCK);
 	}
 	
+	
+	// ~~~~~ Shrine Prot ~~~~~
+	private final ComplexCooldown shrineChecker = new ComplexCooldown(2*20, null, this::shrineProtectionDamage);
 	
 	protected void shrineProtectionDamage() {
 		double damage = mobData.shrineProtDamage;
