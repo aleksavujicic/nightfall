@@ -58,7 +58,9 @@ public class BlockConverter {
 				new Conversion(BlockType.CHISELED_WALL, 4.5, 0.8, BlockType.CRACKED_WALL),
 				new Conversion(BlockType.CRACKED_WALL, 4.5, 0.8, BlockType.DAMAGED_WALL),
 				new Conversion(BlockType.MOSSY_WALL, 4.5, 0.8, BlockType.DAMAGED_WALL),
-				new Conversion(BlockType.ALL_WOOLS, 2.0, 1.0, BlockType.AIR),
+				new Conversion(BlockType.ALL_WOOLS, 2.5, 1.5, BlockType.AIR),
+				new Conversion(BlockType.CORRODED_WALL, 2.5, 1.5, BlockType.AIR),
+				
 				new Conversion(BlockType.GRASS, 1.0, 0.0, BlockType.AIR),
 				new Conversion(BlockType.GRASS_BLOCK, 11.0, 5.0, BlockType.DIRT_BLOCK),
 				new Conversion(BlockType.GRASS_BLOCK, 21.0, 15.0, BlockType.PODZOL_BLOCK)
@@ -72,7 +74,7 @@ public class BlockConverter {
 				new Conversion(BlockType.DAMAGED_WALL, 1, 0.2, BlockType.BROKEN_WALL),
 				new Conversion(BlockType.BROKEN_WALL, 0.5, 0.1, BlockType.AIR),
 				new Conversion(BlockType.ALL_WOOLS, 0.5, 0.1, BlockType.AIR),
-				new Conversion(BlockType.LIGHT, 0.5, 0.0, BlockType.AIR)
+				new Conversion(BlockType.LIGHT, 0.5, 1.0, BlockType.AIR)
 		),
 		ARROW_DAMAGE,
 		;
