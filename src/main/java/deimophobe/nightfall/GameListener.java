@@ -352,12 +352,21 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void thrownGoboBoxExplosion(EntityExplodeEvent event) {
 		event.setCancelled(true);
+		
 		Location centerLoc = event.getLocation();
 		World world = centerLoc.getWorld();
 		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
 		world.playSound(centerLoc, "entity.generic.explode", 2, 1);
-		Object thrower = event.getEntity().getMetadata("thrower").get(0).value();
-		((Goblin)thrower).thrownGoboBox(centerLoc);
+		
+		Entity exploder = event.getEntity();
+		if (exploder.hasMetadata("thrower")) {
+			Object thrower = exploder.getMetadata("thrower").get(0).value();
+			exploder.removeMetadata("thrower", NightfallPlugin.getPlugin());
+			
+			if (thrower instanceof Goblin) {
+				((Goblin) thrower).thrownGoboBox(centerLoc);
+			}
+		}
 		event.getEntity().remove();
 	}
 	
