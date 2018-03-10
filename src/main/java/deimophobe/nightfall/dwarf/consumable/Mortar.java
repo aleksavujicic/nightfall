@@ -35,6 +35,6 @@ class Mortar extends Consumable {
 		
 		dwarf.playSound("entity.slime.hurt", 1, (float) (0.5 + 0.05 * Math.random() + (wizzy ? 0.2 : 0)), false);
 		
-		return DEFAULT_CD;
+		return 3*DEFAULT_CD;
 	}
 }
