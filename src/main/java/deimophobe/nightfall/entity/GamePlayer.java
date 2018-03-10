@@ -268,6 +268,13 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 				replaced++;
 			}
 		}
+		
+		// Replace cursor item too
+		if (matcher.test(player.getItemOnCursor())) {
+			player.setItemOnCursor(newItem);
+			replaced++;
+		}
+		
 		return replaced;
 	}
 	
