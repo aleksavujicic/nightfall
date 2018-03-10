@@ -17,7 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 public class IceSlab extends TimedBlock {
 	private int hitsLeft = 10;
-	private boolean canHit = true;
+	private boolean canHit = false;
 	
 	private IceSlab(Block block, GameEntity placer, int lifetime) {
 		super(block, Material.FROSTED_ICE, lifetime, placer);
@@ -37,6 +37,12 @@ public class IceSlab extends TimedBlock {
 				block.setData(age);
 			}
 		}.runTaskTimer(NightfallPlugin.getPlugin(), freq*7, freq);
+		
+		new BukkitRunnable() {
+			@Override public void run() {
+				canHit = true;
+			}
+		}.runTaskLater(NightfallPlugin.getPlugin(), lifetime/10);
 	}
 	
 	public IceSlab(Block block, GameEntity placer) {
