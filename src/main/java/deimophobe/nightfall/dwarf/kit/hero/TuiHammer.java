@@ -2,6 +2,7 @@ package deimophobe.nightfall.dwarf.kit.hero;
 
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
@@ -32,6 +33,8 @@ public class TuiHammer extends AbstractAOEHitter implements CooldownPiece {
 		return KitGiveType.START;
 	}
 	
+	private final ComplexCooldown roarCD = new ComplexCooldown(90*20, this::roar);
+	
 	@Override
 	protected double getDamageToMonster(MonsterEntity entity) {
 		if (entity.isAI()) {
@@ -46,15 +49,13 @@ public class TuiHammer extends AbstractAOEHitter implements CooldownPiece {
 		return 4;
 	}
 	
-	
-	private int cooldown;
-	private static final int MAX_CD = 90 * 20;
-	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
-		if (cooldown >0)
-			cooldown--;
+		roarCD.update();
+		if (roarCD.wasUsedWithin(ROAR_DURATION)) {
+			dwarf.getPlayer().getWorld().spawnParticle(Particle.FLAME, dwarf.getEyeLocation(), 5, 0.4, 0.4, 0.4, 0.1);
+		}
 	}
 	
 	private final static double AI_RADIUS = 50;
@@ -62,34 +63,33 @@ public class TuiHammer extends AbstractAOEHitter implements CooldownPiece {
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isRightClick(action) && cooldown == 0) {
-			//dwarf.sendMessage(ChatColor.GOLD + "ROAR!!!");
-			
-			if (Math.random() <= 0.001)
-				dwarf.playSound("roar", 1, 1, true);
-			else
-				dwarf.playSound("dragonroar", 1, 1, true);
-			
-			dwarf.getPlayer().getWorld().spawnParticle(Particle.FLAME, dwarf.getLocation(), 200, 1, 1, 1, 0.1);
-			dwarf.givePotionEffect(PotionEffectType.GLOWING, ROAR_DURATION, 1, true, false, true);
-			dwarf.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, ROAR_DURATION, 20, true, false, true);
-			dwarf.givePotionEffect(PotionEffectType.SPEED, ROAR_DURATION, 1, true, false, true);
-			
-			for (AIEntity ai : AIManager.getManager().getAIs()) {
-				if (dwarf.getLocation().distance(ai.getLocation()) <= AI_RADIUS) {
-					ai.setTarget(dwarf);
-				}
-			}
-			
-			cooldown = MAX_CD;
-			return true;
+		if (Misc.isRightClick(action)) {
+			return roarCD.tryUse();
 		}
 		return false;
 	}
 	
+	private void roar() {
+		if (Math.random() <= 0.001)
+			dwarf.playSound("roar", 1, 1, true);
+		else
+			dwarf.playSound("dragonroar", 1, 1, true);
+		
+		dwarf.getPlayer().getWorld().spawnParticle(Particle.FLAME, dwarf.getEyeLocation(), 200, 1, 1, 1, 0.1);
+		dwarf.givePotionEffect(PotionEffectType.GLOWING, ROAR_DURATION, 1, true, false, true);
+		dwarf.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, ROAR_DURATION, 20, true, false, true);
+		dwarf.givePotionEffect(PotionEffectType.SPEED, ROAR_DURATION, 1, true, false, true);
+		
+		for (AIEntity ai : AIManager.getManager().getAIs()) {
+			if (dwarf.getLocation().distance(ai.getLocation()) <= AI_RADIUS) {
+				ai.setTarget(dwarf);
+			}
+		}
+	}
+	
 	@Override
 	public float getCooldown() {
-		return 1 - ((float)cooldown/MAX_CD);
+		return roarCD.getCooldown();
 	}
 	
 }
