@@ -29,7 +29,8 @@ public class BlockConverter {
 				new Conversion(BlockType.MOSSY_WALL, 4.0, 0.8, BlockType.DAMAGED_WALL),
 				new Conversion(BlockType.DAMAGED_WALL, 3.5, 1.5, BlockType.BROKEN_WALL),
 				new Conversion(BlockType.BROKEN_WALL, 3.0, 1.5, BlockType.AIR),
-				new Conversion(BlockType.ALL_WOOLS, 2.0, 0.5, BlockType.AIR),
+				new Conversion(BlockType.ALL_WOOLS, 2.5, 1.5, BlockType.AIR),
+				new Conversion(BlockType.CORRODED_WALL, 2.5, 1.5, BlockType.AIR),
 				
 				new Conversion(BlockType.NORMAL_STAIR, 4.5, 0.8, BlockType.DAMAGED_STAIR),
 				new Conversion(BlockType.DAMAGED_STAIR, 4.0, 1.8, BlockType.AIR),
