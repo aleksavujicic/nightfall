@@ -52,6 +52,11 @@ public class LobbyListener implements Listener {
 		}
 	}
 	
+	@EventHandler
+	public void onPlayerLogoff(PlayerQuitEvent event) {
+		event.setQuitMessage("");
+	}
+	
 	
 	private <PC extends PlayerEvent & Cancellable> void cancelNonCreativePlayerEvent(PC event) {
 		Player player = event.getPlayer();
