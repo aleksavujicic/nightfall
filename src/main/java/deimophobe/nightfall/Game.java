@@ -249,6 +249,10 @@ public class Game {
 		Bukkit.broadcastMessage(ChatColor.DARK_AQUA+ player.getName() + ChatColor.YELLOW + " is ready! (" +
 				ChatColor.AQUA + numReady + ChatColor.YELLOW + "/" + ChatColor.AQUA + numPlayers + ChatColor.YELLOW + ")");
 		
+		if (LoadoutManager.getManager().getLoadout(player).hasUntimelyDemise()) {
+			player.sendMessage("" + ChatColor.GREEN + ChatColor.ITALIC + "You will plague this game.");
+		}
+		
 		player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, player.getEyeLocation(), 10, 0.3, 0.2, 0.3, 0.05);
 		
 		if (numReady == numPlayers) {
