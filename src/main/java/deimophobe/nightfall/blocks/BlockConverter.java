@@ -39,7 +39,7 @@ public class BlockConverter {
 				new Conversion(BlockType.NORMAL_SLAB, 4.0, 1.8, BlockType.DAMAGED_SLAB),
 				new Conversion(BlockType.DAMAGED_SLAB, 3.5, 1.8, BlockType.AIR),
 				
-				new Conversion(BlockType.LIGHT, 1.0, 0.0, BlockType.AIR),
+				new Conversion(BlockType.LIGHT, 2.0, 1.0, BlockType.AIR),
 				new Conversion(BlockType.GRASS, 1.0, 0.0, BlockType.AIR),
 				new Conversion(BlockType.GRASS_BLOCK, 11.0, 5.0, BlockType.DIRT_BLOCK),
 				new Conversion(BlockType.GRASS_BLOCK, 21.0, 15.0, BlockType.PODZOL_BLOCK)
@@ -49,7 +49,7 @@ public class BlockConverter {
 				new Conversion(BlockType.ALL_STAIRS, 2.2, 0.3, BlockType.CORRODED_WALL),
 				new Conversion(BlockType.ALL_SLABS, 2.2, 0.3, BlockType.CORRODED_WALL),
 				new Conversion(BlockType.CORRODED_WALL, 2.5, 0.3, BlockType.AIR),
-				new Conversion(BlockType.LIGHT, 1.0, 0.0, BlockType.AIR),
+				new Conversion(BlockType.LIGHT, 1.5, 1.0, BlockType.AIR),
 				new Conversion(BlockType.GRASS, 0.5, 0.0, BlockType.AIR)
 		),
 		THROWNEXPLOSION(
