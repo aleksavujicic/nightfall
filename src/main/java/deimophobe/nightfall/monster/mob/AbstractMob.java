@@ -369,18 +369,7 @@ public abstract class AbstractMob implements Mob {
 			}
 		}
 		
-		shrineChecker.update();
-		if (shrineChecker.isAvailable()) { // Is stopped
-			if (halfSec && GameMap.getCurrentMap().getCurrentShrineProtection().containsPlayer(monster)) {
-				shrineChecker.reset();
-			}
-		} else {
-			if (GameMap.getCurrentMap().getCurrentShrineProtection().containsPlayer(monster)) {
-				monster.getPlayer().spawnParticle(Particle.VILLAGER_ANGRY, monster.getEyeLocation().subtract(0, 0.5, 0), 5, 0.5, 0.5, 0.5);
-			} else {
-				shrineChecker.reset();
-			}
-		}
+		shrineProtTick(halfSec);
 	}
 	
 	@Override
@@ -415,7 +404,27 @@ public abstract class AbstractMob implements Mob {
 	
 	
 	// ~~~~~ Shrine Prot ~~~~~
-	private final ComplexCooldown shrineChecker = new ComplexCooldown(2*20, null, this::shrineProtectionDamage);
+	private static final int MAX_SHRINE_PROT_TIME = 50;
+	private int shrineProtCounter = MAX_SHRINE_PROT_TIME;
+	
+	private void shrineProtTick(boolean halfSec) {
+		boolean inShrine = GameMap.getCurrentMap().getCurrentShrineProtection().containsPlayer(monster);
+		if (inShrine) { // Is stopped
+			monster.getPlayer().spawnParticle(Particle.VILLAGER_ANGRY, monster.getEyeLocation().subtract(0, 0.5, 0), 5, 0.5, 0.5, 0.5);
+			
+			if (shrineProtCounter > 0)
+				shrineProtCounter--;
+			
+			if (shrineProtCounter == 0) {
+				shrineProtectionDamage();
+			}
+		} else {
+			if (halfSec) {
+				if (shrineProtCounter < MAX_SHRINE_PROT_TIME)
+					shrineProtCounter++;
+			}
+		}
+	}
 	
 	protected void shrineProtectionDamage() {
 		double damage = mobData.shrineProtDamage;
