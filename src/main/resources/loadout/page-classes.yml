@@ -241,49 +241,6 @@ healer-class:
           *64 Mortar\n
           *192 Cobblestone"
 
-mystic-class:
-  index: 10
-  cost: 64
-  category: kit
-  type: multi
-  pieces:
-    - scepter
-    - warpweaver
-    - strong_ale
-    - nature_suit
-    - fairy_band
-    - slowfall
-    - darkvision
-    - resurrection
-  consumables:
-    charm: 2
-    proc-bottle: 4
-    lamp: 32
-    wizard-mortar: 32
-    cobblestone: 192
-  item:
-    template: "loadout-class"
-    name: "Mystic Kit"
-    base: scepter
-    lore:
-      description:
-       - "Mystic stuff."
-
-      contains:
-       - "*Arcane Scepter\n
-          *Warpweaver Bow\n
-          *Strong Ale\n
-          *Fairy Band\n
-          *Taproot Armour\n
-          *Slowfall\n
-          *Dark Vision\n
-          *Resurrection\n
-          *2 Consecrating Charms\n
-          *4 Procs in Bottles\n
-          *32 Enchanted Lamps\n
-          *32 Wizard Mortar\n
-          *192 Cobblestone"
-
 brawler-class:
   index: 9
   cost: 64
@@ -328,6 +285,90 @@ brawler-class:
           *64 Torches\n
           *64 Mortar\n
           *192 Cobblestone"
+
+mystic-class:
+  index: 10
+  cost: 64
+  category: kit
+  type: multi
+  pieces:
+    - scepter
+    - warpweaver
+    - strong_ale
+    - nature_suit
+    - fairy_band
+    - slowfall
+    - darkvision
+    - resurrection
+  consumables:
+    charm: 2
+    proc-bottle: 4
+    lamp: 32
+    wizard-mortar: 32
+    cobblestone: 192
+  item:
+    template: "loadout-class"
+    name: "Mystic Kit"
+    base: scepter
+    lore:
+      description:
+       - "Mystic stuff."
+
+      contains:
+       - "*Arcane Scepter\n
+          *Warpweaver Bow\n
+          *Strong Ale\n
+          *Fairy Band\n
+          *Taproot Armour\n
+          *Slowfall\n
+          *Dark Vision\n
+          *Resurrection\n
+          *2 Consecrating Charms\n
+          *4 Procs in Bottles\n
+          *32 Enchanted Lamps\n
+          *32 Wizard Mortar\n
+          *192 Cobblestone"
+
+builder-class:
+  index: 11
+  cost: 64
+  category: kit
+  type: multi
+  pieces:
+    - hammer
+    - lightbow
+    - safety_juice
+    - sturdy
+    - bricklayer
+    - tombmaker
+  consumables:
+    lamp: 128
+    wizard-mortar: 64
+    slab: 7
+    torch: 128
+    mortar: 128
+    cobblestone: 768
+  item:
+    template: "loadout-class"
+    name: "Builder's Kit"
+    base: hammer
+    lore:
+      description:
+       - "Build stuff."
+
+      contains:
+       - "*Hammer\n
+          *Lightbow\n
+          *Safety Juice\n
+          *Sturdy Armour\n
+          *Bricklayer\n
+          *Tombmaker\n
+          *7 Slabs\n
+          *128 Enchanted Lamps\n
+          *64 Wizard Mortar\n
+          *128 Torches\n
+          *128 Mortar\n
+          *768 Cobblestone"
 
 #magmar-class:
 #  enabled: false
