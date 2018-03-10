@@ -10,8 +10,11 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * Created by Deimophobe on 9/03/18.
@@ -22,14 +25,14 @@ class MessageUtil {
 	
 	static void initialise() {
 		addResolver(String.class, TextComponent::new);
-		addPrimitiveResolver(int.class);
-		addPrimitiveResolver(long.class);
-		addPrimitiveResolver(double.class);
-		addPrimitiveResolver(float.class);
-		addPrimitiveResolver(Integer.class);
-		addPrimitiveResolver(Long.class);
-		addPrimitiveResolver(Double.class);
-		addPrimitiveResolver(Float.class);
+		addPrimitiveResolver(int.class, arg -> arg >= 0);
+		addPrimitiveResolver(long.class, arg -> arg >= 0);
+		addPrimitiveResolver(double.class, arg -> arg >= 0);
+		addPrimitiveResolver(float.class, arg -> arg >= 0);
+		addPrimitiveResolver(Integer.class, arg -> arg >= 0);
+		addPrimitiveResolver(Long.class, arg -> arg >= 0);
+		addPrimitiveResolver(Double.class, arg -> arg >= 0);
+		addPrimitiveResolver(Float.class, arg -> arg >= 0);
 		addResolver(Enum.class, arg -> {
 			TextComponent text = new TextComponent(arg.name().toLowerCase().replace('_', '-'));
 			text.setColor(ChatColor.GREEN);
@@ -46,19 +49,20 @@ class MessageUtil {
 			text.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + arg.getName()));
 			return text;
 		});
+		final NumberFormat formatter = new DecimalFormat("#.##");
 		addResolver(Location.class, arg -> {
 			TextComponent text = new TextComponent();
 			text.setColor(ChatColor.GOLD);
 			
-			TextComponent xText = new TextComponent(String.valueOf(arg.getX()));
+			TextComponent xText = new TextComponent(formatter.format(arg.getX()));
 			xText.setColor(ChatColor.AQUA);
-			TextComponent yText = new TextComponent(String.valueOf(arg.getX()));
+			TextComponent yText = new TextComponent(formatter.format(arg.getY()));
 			yText.setColor(ChatColor.AQUA);
-			TextComponent zText = new TextComponent(String.valueOf(arg.getX()));
+			TextComponent zText = new TextComponent(formatter.format(arg.getZ()));
 			zText.setColor(ChatColor.AQUA);
 			
 			text.addExtra("(");
-			text.addExtra(zText);
+			text.addExtra(xText);
 			text.addExtra(", ");
 			text.addExtra(yText);
 			text.addExtra(", ");
@@ -70,10 +74,14 @@ class MessageUtil {
 	}
 	
 	// Guarantees same value and key have same type parameter
-	private static <T> void addPrimitiveResolver(Class<T> clazz) {
+	private static <T> void addPrimitiveResolver(Class<T> clazz, Function<T, Boolean> isPositive) {
 		addResolver(clazz, arg -> {
 			TextComponent text = new TextComponent("" + arg);
-			text.setColor(ChatColor.AQUA);
+			if (isPositive.apply(arg)) {
+				text.setColor(ChatColor.AQUA);
+			} else {
+				text.setColor(ChatColor.RED);
+			}
 			return text;
 		});
 	}
