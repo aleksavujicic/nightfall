@@ -45,6 +45,7 @@ public class Wraith extends AbstractMob {
 	
 	@Override
 	public void onShift(boolean sneaking) {
+		super.onShift(sneaking);
 		if (chargerCD < MAX_CHARGE_CD - 5) {
 			setFloatiness(sneaking);
 		}
@@ -52,6 +53,7 @@ public class Wraith extends AbstractMob {
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace face) {
+		super.onUse(action, clickedBlock, face);
 		if (!Misc.isRightClick(action)) return;
 		if (!isPlayerHoldingWeapon()) return;
 		
@@ -69,6 +71,7 @@ public class Wraith extends AbstractMob {
 	
 	@Override
 	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
+		super.update(a, b, c, d, e);
 		if (chargerCD > 0) {
 			chargerCD--;
 

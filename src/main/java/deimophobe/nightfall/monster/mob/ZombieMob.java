@@ -57,10 +57,9 @@ public class ZombieMob extends AbstractMob {
 	public void tpToSpawn() {
 		if (didRebirth()) {
 			monster.teleportTo(rebirthLoc);
-		}
-
-		else
+		} else {
 			super.tpToSpawn();
+		}
 	}
 	
 	public void disableRebirth() {

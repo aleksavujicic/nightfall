@@ -60,6 +60,7 @@ class SkeletonFlamelancer extends Skeleton {
 
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
         Block block = monster.getLocation().getBlock();
         if (halfSec) {
 			if (BlockType.IGNORABLE.matchesBlock(block) && Math.random() < firePath * 0.1) {
