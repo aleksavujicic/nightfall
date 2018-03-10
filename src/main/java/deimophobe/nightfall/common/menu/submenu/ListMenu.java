@@ -37,6 +37,8 @@ public class ListMenu<T extends SessionData> implements SubMenu<T> {
 	
 	@Override
 	public boolean onClick(int i, MenuSession<T> session) {
+		if (i > menuItems.size()) return false;
+		
 		MenuItem<T> item = menuItems.get(i);
 		if (item == null) return false;
 		
