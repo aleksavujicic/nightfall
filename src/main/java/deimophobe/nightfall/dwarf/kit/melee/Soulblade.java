@@ -33,7 +33,7 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 	
 	private static final int SOUL_SHATTER_RADIUS = 3;
 	private static final int MAX_SOULS = 50;
-	private static final double AI_KILL = 1;
+	private static final double AI_HIT = 0.5;
 	private static final double MOB_KILL = 2.5;
 	
 	private double souls;
@@ -46,24 +46,24 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public void onKill(MonsterDamage damage) {
-		super.onKill(damage);
-		if (damage.getReceiver().isAI()) {
-			souls += AI_KILL;
-		}
-		else {
-			souls += MOB_KILL;
-		}
-		
-		if (souls > MAX_SOULS) {
-			souls = MAX_SOULS;
+	public void onDamageAttack(MonsterDamage damage) {
+		super.onDamageAttack(damage);
+		if (damage.getMonster().isAI()) {
+			damage.getMulitPartDamage().timesMult(2.5);
+			damage.addPostDamageHandler(d -> {
+				souls += AI_HIT;
+				soulCheck();
+			});
 		}
 	}
 	
 	@Override
-	public void onShift(boolean sneaking) {
-		super.onShift(sneaking);
-		souls++;
+	public void onKill(MonsterDamage damage) {
+		super.onKill(damage);
+		if (!damage.getReceiver().isAI()) {
+			souls += MOB_KILL;
+			soulCheck();
+		}
 	}
 	
 	@Override
@@ -91,6 +91,10 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 		
 		double kb = 0.5 + 0.03*souls;
 		double area = SOUL_SHATTER_RADIUS+.03*souls;
+		double baseDamage = souls*1.5;
+		
+		souls = 0;
+		
 		for (MonsterEntity entity : MonsterManager.getManager().getAliveMobsAndAIs()) {
 			if (entity.distanceTo(center) <= area) {
 				Vector offset = entity.getEyeLocation().subtract(center).toVector();
@@ -98,14 +102,17 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 				Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
 				knockback.setY(knockback.getY() / 2 + 0.1);
 				
-				double damage = souls*1.5;
-				if (entity.isAI()) damage *= 2;
-				MonsterDamage mDamage = entity.createDamage(dwarf, GameDamageType.SILENT_STRIKE, damage);
+				MonsterDamage mDamage = entity.createDamage(dwarf, GameDamageType.SILENT_STRIKE, baseDamage);
 				mDamage.setKnockback(knockback);
 				mDamage.fire();
 			}
 		}
-		souls = 0;
+	}
+	
+	private void soulCheck() {
+		if (souls > MAX_SOULS) {
+			souls = MAX_SOULS;
+		}
 	}
 	
 	@Override
