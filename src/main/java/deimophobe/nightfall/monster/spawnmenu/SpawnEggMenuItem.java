@@ -112,6 +112,12 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 			monster.sendMessage(ChatColor.RED + "You cannot spawn during doom!");
 			return false;
 		}
+		
+		if (monster.isAlive()) {
+			monster.sendMessage(ChatColor.RED + "You have already spawned as a mob!");
+			session.closeSession();
+			return false;
+		}
 
 		monster.spawnMob(Misc.getRandom(mobTypes));
 		quantity -= 1;
