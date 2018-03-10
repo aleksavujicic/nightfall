@@ -12,6 +12,8 @@ import java.util.*;
  */
 public class Loadout implements SessionData {
 	
+	private static final String UNTIMELY_DEMISE_NAME = "untimely";
+	
 	public static final int MAX_POINTS = 64;
 	
 	private final SortedSet<LoadoutItem> items = new TreeSet<>();
@@ -51,6 +53,10 @@ public class Loadout implements SessionData {
 	
 	public boolean hasItem(LoadoutItem item) {
 		return items.contains(item);
+	}
+	
+	public boolean hasUntimelyDemise() {
+		return hasItem(LoadoutManager.getManager().getItem(UNTIMELY_DEMISE_NAME));
 	}
 	
 	public int getRemainingPoints() {
