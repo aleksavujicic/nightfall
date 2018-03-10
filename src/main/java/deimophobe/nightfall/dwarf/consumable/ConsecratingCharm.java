@@ -67,7 +67,14 @@ class ConsecratingCharm extends Consumable {
 		});
 	}
 	
-	
+	@Override
+	protected void reset() {
+		super.reset();
+		for (CharmInstance charm : new HashSet<>(activeCharms)) {
+			charm.cancel();
+		}
+		activeCharms.clear();
+	}
 	
 	private class CharmInstance extends LifetimeObject {
 		private final Location center;
