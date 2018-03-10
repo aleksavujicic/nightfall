@@ -60,7 +60,7 @@ public class HealBlock extends TimedBlock {
 		private final Location position = block.getLocation().add(0.5,1.5,0.5);
 		
 		private Healer() {
-			this.runTaskTimer(NightfallPlugin.getPlugin(), 0, 20);
+			this.runTaskTimer(NightfallPlugin.getPlugin(), 20, 20);
 		}
 		
 		@Override
