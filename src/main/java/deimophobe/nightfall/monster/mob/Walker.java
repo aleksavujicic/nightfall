@@ -1,13 +1,16 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
+import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -25,8 +28,9 @@ class Walker extends AbstractMob {
 	@Override
 	public void onSpawn() {
 		super.onSpawn();
-		ItemStack offhand = getWeapon().createItemStack();
-		monster.getPlayer().getInventory().setItemInOffHand(offhand);
+		CustomItem offhand = getWeapon().clone();
+		offhand.removeAllModifiers();
+		monster.getPlayer().getInventory().setItemInOffHand(offhand.createItemStack());
 		
 		monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
 		monster.givePermanentPotionEffect(PotionEffectType.JUMP, 1);
@@ -40,6 +44,14 @@ class Walker extends AbstractMob {
 		if (halfSec && !isPlayerHoldingWeapon()) {
 			monster.getPlayer().getInventory().setHeldItemSlot(0);
 			monster.doDamage(null, GameDamageType.INCORRECT_HELD_ITEM, 4, true);
+		}
+	}
+	
+	@Override
+	public void onDamageAttack(DwarfDamage damage) {
+		super.onDamageAttack(damage);
+		if (damage.getType() == GameDamageType.MELEE) {
+			damage.addPostDamageHandler(d -> swap(d.getReceiver()));
 		}
 	}
 	
@@ -62,5 +74,16 @@ class Walker extends AbstractMob {
 		facing.multiply(-2);
 		facing.setY(0.4);
 		monster.setVelocity(facing);
+	}
+	
+	private void swap(Dwarf dwarf) {
+		Location dwarfLoc = dwarf.getLocation();
+		Vector dwarfVel = dwarf.getVelocity();
+		
+		dwarf.teleportTo(monster.getLocation());
+		dwarf.setVelocity(monster.getVelocity());
+		
+		monster.teleportTo(dwarfLoc);
+		monster.setVelocity(dwarfVel);
 	}
 }
