@@ -99,5 +99,6 @@ public class NightfallLobbyPlugin extends JavaPlugin {
 		player.setExp(0);
 		player.setLevel(0);
 		player.setDisplayName(player.getName());
+		player.setCollidable(false);
 	}
 }
