@@ -339,6 +339,10 @@ public class GameMap {
 		shrineUpdater.cancel();
 	}
 	
+	public void forceSetMobspawn(Location location) {
+		currentMobSpawn = location.clone();
+	}
+	
 	
 	// ~~~~ MISC ~~~~~
 	

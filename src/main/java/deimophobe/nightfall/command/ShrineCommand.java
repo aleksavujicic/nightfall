@@ -8,6 +8,7 @@ import co.aikar.commands.annotation.Subcommand;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 /**
  * Created by Deimophobe on 4/03/18.
@@ -49,6 +50,14 @@ public class ShrineCommand extends BaseCommand {
 	public void shrineVault(CommandSender sender, int amount) {
 		getMap().addVaultGold(amount);
 		sender.sendMessage(ChatColor.YELLOW + "Gave the vault " + ChatColor.AQUA + amount + ChatColor.YELLOW + " gold.");
+	}
+	
+	@Subcommand("mobspawn")
+	@CommandAlias("setmobspawn")
+	@Description("Sets the mobspawn to your current location.")
+	public void setMobspawn(Player player) {
+		getMap().forceSetMobspawn(player.getLocation());
+		MessageUtil.sendMessage(player, "Set mobspawn to ", player.getLocation(), ".");
 	}
 	
 	private GameMap getMap() {
