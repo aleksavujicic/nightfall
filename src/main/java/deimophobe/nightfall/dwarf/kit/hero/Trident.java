@@ -76,7 +76,7 @@ public class Trident extends AbstractItem implements CooldownPiece {
 			//Sets.newHashSet(Material.AIR, Material.WATER, Material.STATIONARY_WATER);
 	private void sprayWater() {
 		
-		Block looking = dwarf.getTargetBlock(WATER_MATERIALS, 10);
+		Block looking = dwarf.getTargetBlock(WATER_MATERIALS, 12);
 		boolean placedBlock = false;
 		if (water > 0) {
 			for (int x = -1; x <= 1; x++) {
