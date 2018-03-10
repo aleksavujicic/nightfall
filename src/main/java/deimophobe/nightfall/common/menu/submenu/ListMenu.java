@@ -56,6 +56,11 @@ public class ListMenu<T extends SessionData> implements SubMenu<T> {
 		menuItems.add(item);
 	}
 	
+	public void removeItem(MenuItem<T> item) {
+		if (item == null) throw new NullPointerException("Cannot remove null item from menu.");
+		menuItems.remove(item);
+	}
+	
 	public MenuItem getItem(int i) {
 		return menuItems.get(i);
 	}
