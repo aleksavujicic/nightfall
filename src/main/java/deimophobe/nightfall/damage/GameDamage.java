@@ -249,7 +249,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 	}
 	
 	public boolean willKill() {
-		return (receiver.getHealth() - getFinalDamage() <= 0 || instaKill);
+		return (receiver.getHealth() - getFinalDamage() <= 0.000001 || instaKill);
 	}
 	
 	public boolean hasArrow() {return  projectile instanceof Arrow;}
