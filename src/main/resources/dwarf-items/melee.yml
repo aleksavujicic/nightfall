@@ -133,9 +133,11 @@ soulblade:
   name: Soulblade
   lore:
     description:
-      - "Drk fix this."
+      - "Getting kills absorbs soul charge,\n
+         right click to release the charge,\n
+         dealing damage and knockback."
     flavour:
-      - "Drk fix this."
+      - "\"This blade will lay these creatures to rest.\" - Arthea"
   modifiers:
     attack: 20
     speed: 30
