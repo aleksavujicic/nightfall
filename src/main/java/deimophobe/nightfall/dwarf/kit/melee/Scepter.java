@@ -12,7 +12,6 @@ import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.MonsterEntity;
-import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.util.Buffpool;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -97,10 +96,14 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	private final Consumer<MonsterEntity> DAMAGER = (monster) -> {
 		MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.SCEPTER, DAMAGE + dwarf.getBonusMeleeDamage()/2);
 		if (dwarf.hasProc()) damage.setProc(true);
+		damage.setNoDamageTicks(5);
+		damage.addPostDamageHandler(d -> {
+			if (monster.isAI())
+				monster.givePotionEffect(PotionEffectType.SLOW, 5*20, 2, true, true, true);
+		});
 		damage.fire();
 		
-		if (monster instanceof AIEntity)
-			monster.givePotionEffect(PotionEffectType.SLOW, 5*20, 2, true, true, true);
+		;
 	};
 	
 	private void shootLance() {
