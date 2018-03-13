@@ -44,7 +44,7 @@ public abstract class AbstractPowerBow extends AbstractToggleBow implements Cool
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (damageFromBow(damage) && isActiveProjectile(damage.getArrow())) {
+		if (isRangedDamageFromBow(damage) && isActiveProjectile(damage.getArrow())) {
 			damage.getArrowRes().timesMult(arrowResMult);
 			damage.setDeathMessageMaker(POWER_DEATH_MSG);
 		}
@@ -72,7 +72,7 @@ public abstract class AbstractPowerBow extends AbstractToggleBow implements Cool
 
 	@Override
 	public void onKill(MonsterDamage damage) {
-		if (damageFromBow(damage) && isActiveProjectile(damage.getArrow()))
+		if (isRangedDamageFromBow(damage) && isActiveProjectile(damage.getArrow()))
 			dwarf.giveProc(proc);
 	}
 	

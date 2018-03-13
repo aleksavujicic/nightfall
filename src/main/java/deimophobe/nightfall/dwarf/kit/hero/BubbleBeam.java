@@ -82,7 +82,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (damageFromItem(damage)) {
+		if (isMeleeDamageFromItem(damage)) {
 			damage.cancel();
 		}
 	}

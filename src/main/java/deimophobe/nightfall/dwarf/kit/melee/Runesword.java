@@ -23,7 +23,7 @@ public class Runesword extends AbstractRuneblade {
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (damageFromItem(damage) && damage.getMonster().isAI()) {
+		if (isMeleeDamageFromItem(damage) && damage.getMonster().isAI()) {
 			damage.getMulitPartDamage().timesMult(0.8);
 		}
 	}

@@ -57,7 +57,7 @@ public class Longbow extends AbstractBow implements CooldownPiece {
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
 		MonsterEntity monster = damage.getMonster();
-		if (damage.hasArrow() && this.damageFromBow(damage) && ArrowMisc.getArrowForce(damage.getArrow()) > 0.5 ) {
+		if (damage.hasArrow() && this.isRangedDamageFromBow(damage) && ArrowMisc.getArrowForce(damage.getArrow()) > 0.5 ) {
 			if (monster.isAI()) {
 				damage.addPostDamageHandler(d -> {
 					stackCD = Math.min(MAX_STACK_CD, stackCD + 40);

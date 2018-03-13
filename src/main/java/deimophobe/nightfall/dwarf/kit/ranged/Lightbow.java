@@ -30,7 +30,7 @@ public class Lightbow extends AbstractBow {
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (damageFromBow(damage)) {
+		if (isRangedDamageFromBow(damage)) {
 			damage.getArrowRes().timesMult(0.5);
 		}
 	}

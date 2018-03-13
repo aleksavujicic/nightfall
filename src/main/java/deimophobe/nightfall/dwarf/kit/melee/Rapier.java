@@ -71,7 +71,7 @@ public class Rapier extends AbstractItem implements CooldownPiece {
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (damageFromItem(damage)) {
+		if (isMeleeDamageFromItem(damage)) {
 			if (stacks < MAX_STACKS) {
 				MonsterEntity monster = damage.getMonster();
 				if (monster.isAI()) damage.addPostDamageHandler((d) -> stacks++);

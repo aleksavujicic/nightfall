@@ -55,7 +55,7 @@ public abstract class AbstractAOEHitter extends AbstractItem {
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (damageFromItem(damage)) {
+		if (isMeleeDamageFromItem(damage)) {
 			damage.cancel();
 			hitter.tryUse();
 		}

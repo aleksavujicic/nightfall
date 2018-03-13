@@ -29,7 +29,7 @@ public abstract class AbstractItem extends AbstractPiece implements ItemPiece {
 		return (matchesItem(dwarf.getHeldItem()));
 	}
 	
-	protected boolean damageFromItem(MonsterDamage damage) {
+	protected boolean isMeleeDamageFromItem(MonsterDamage damage) {
 		return (damage.getType() == GameDamageType.MELEE && isHoldingItem());
 	}
 	

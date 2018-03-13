@@ -42,7 +42,7 @@ public class BloodiedWaraxe extends AbstractItem implements CooldownPiece {
 	@Override
 	public void onKill(MonsterDamage damage) {
 		cd.reduceCooldown(20);
-		if (dwarf.hasProc() && damageFromItem(damage)) {
+		if (dwarf.hasProc() && isMeleeDamageFromItem(damage)) {
 			dwarf.heal(5);
 			dwarf.regenMana(5);
 		}

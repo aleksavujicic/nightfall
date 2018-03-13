@@ -36,7 +36,7 @@ public class IceBow extends AbstractBow {
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (damageFromBow(damage)) {
+		if (isRangedDamageFromBow(damage)) {
 			float force = ArrowMisc.getArrowForce(damage.getArrow());
 			if (force >= REQUIRED_FORCE) {
 				arrowAOE(damage.getReceiver().getLocation(), damage.getReceiver());

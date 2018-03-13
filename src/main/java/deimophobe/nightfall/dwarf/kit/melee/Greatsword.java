@@ -33,7 +33,7 @@ public class Greatsword extends AbstractItem {
 		super.onDamageAttack(damage);
 		if (exhaustion > 0) {
 			damage.cancel();
-		} else if (damageFromItem(damage)) {
+		} else if (isMeleeDamageFromItem(damage)) {
 			giveExhaustion();
 		}
 	}

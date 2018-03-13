@@ -45,7 +45,7 @@ public abstract class AbstractRuneblade extends AbstractItem implements Cooldown
 	@Override
 	public void onKill(MonsterDamage damage) {
 		super.onKill(damage);
-		if (damageFromItem(damage))
+		if (isMeleeDamageFromItem(damage))
 			dwarf.giveProc(regProc);
 	}
 	

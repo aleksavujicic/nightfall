@@ -46,7 +46,7 @@ public abstract class AbstractBow extends AbstractItem implements BowPiece {
 	@Override
 	public KitGiveType getGiveType() { return KitGiveType.BOW; }
 	
-	protected boolean damageFromBow(MonsterDamage damage) {
+	protected boolean isRangedDamageFromBow(MonsterDamage damage) {
 		return (damage.getType() == GameDamageType.RANGED &&
 				damage.hasArrow() &&
 				belongsToBow(damage.getArrow()));
@@ -71,7 +71,7 @@ public abstract class AbstractBow extends AbstractItem implements BowPiece {
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (damageFromBow(damage)) {
+		if (isRangedDamageFromBow(damage)) {
 			if (damage.getMonster() instanceof AIEntity && ArrowMisc.getArrowForce(damage.getArrow()) >= 0.6) {
 				damage.instaKill();
 			}
