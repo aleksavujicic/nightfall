@@ -717,16 +717,19 @@ public class GameListener implements Listener {
 			int numDwarves = DwarfManager.getManager().getNumberOfPlayers();
 			int numMobs = MonsterManager.getManager().getNumberOfPlayers();
 			
+			String aeroIsPedantic = (numDwarves == 1 ? "dwarf" : "dwarves");
+			String kiwiIsPedantic = (numMobs == 1 ? "mob" : "mobs");
+			
 			switch (phase) {
 				case BUILD:
 				case PLAGUE:
 				case GAME:
 					sb.append("  ");
 					sb.append(ChatColor.GOLD).append(ChatColor.BOLD).append("Online: ");
-					sb.append(ChatColor.DARK_AQUA).append(numDwarves).append(" dwarves");
+					sb.append(ChatColor.DARK_AQUA).append(numDwarves).append(" ").append(aeroIsPedantic);
 					if (phase == Phase.GAME) {
 						sb.append(ChatColor.WHITE).append(", ");
-						sb.append(ChatColor.RED).append(numMobs).append(" mobs");
+						sb.append(ChatColor.RED).append(numMobs).append(" ").append(kiwiIsPedantic);
 					}
 					break;
 			}
