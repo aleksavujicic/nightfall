@@ -15,13 +15,16 @@ import deimophobe.nightfall.dwarf.hero.HeroType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import org.apache.commons.lang3.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Deimophobe on 1/03/18.
@@ -183,7 +186,11 @@ public class DwarfCommand extends BaseCommand {
 		public List<String> tabComplete(CommandIssuer issuer, String commandLabel, String[] args) {
 			// For the /add-kit command (alias)
 			if (args.length > 4 && StringUtils.equalsAnyIgnoreCase(commandLabel, "add-kit", "give-kit")) {
-				return KIT_ITEMS;
+				if (StringUtils.equalsIgnoreCase(args[3],"all")) {
+					return Collections.emptyList();
+				} else {
+					return KIT_ITEMS;
+				}
 			}
 			return super.tabComplete(issuer, commandLabel, args);
 		}
@@ -267,11 +274,25 @@ public class DwarfCommand extends BaseCommand {
 	public List<String> tabComplete(CommandIssuer issuer, String commandLabel, String[] args) {
 		// For the /setdwarf and /d set command
 		if (args.length > 3 && args[0].equalsIgnoreCase("set")) {
-			return KIT_ITEMS;
+			if (args[2].equalsIgnoreCase("kit")) {
+				if (args.length == 4) {
+					return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
+				} else {
+					return Collections.emptyList();
+				}
+			} else if (StringUtils.equalsAnyIgnoreCase(args[2],"all", "loadoutall")) {
+				return Collections.emptyList();
+			} else {
+				return KIT_ITEMS;
+			}
 		}
 		// For the /d kit add command
 		if (args.length > 4 && args[0].equalsIgnoreCase("kit") && args[1].equalsIgnoreCase("add")) {
-			return KIT_ITEMS;
+			if (StringUtils.equalsIgnoreCase(args[3],"all")) {
+				return Collections.emptyList();
+			} else {
+				return KIT_ITEMS;
+			}
 		}
 		
 		return super.tabComplete(issuer, commandLabel, args);

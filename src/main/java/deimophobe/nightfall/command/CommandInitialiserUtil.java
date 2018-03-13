@@ -3,6 +3,7 @@ package deimophobe.nightfall.command;
 import co.aikar.commands.*;
 import co.aikar.commands.contexts.ContextResolver;
 import co.aikar.commands.contexts.IssuerAwareContextResolver;
+import co.aikar.commands.contexts.OnlinePlayer;
 import com.google.common.collect.ImmutableSet;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.ItemManager;
@@ -27,6 +28,7 @@ import deimophobe.nightfall.monster.doom.DoomType;
 import deimophobe.nightfall.monster.mob.MobType;
 import deimophobe.nightfall.monster.spawnmenu.SpawnEggMenuItem;
 import deimophobe.nightfall.plague.PlagueType;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -135,9 +137,16 @@ public class CommandInitialiserUtil {
 		contexts.registerContext(DwarfData.class, context -> {
 			String firstArg = context.getFirstArg();
 			if (firstArg.equalsIgnoreCase("kit")) {
-				context.popFirstArg();
-				Player player = (Player) context.getResolvedArg(Player.class);
-				return DwarfData.getData(player);
+				context.popFirstArg(); // Pop 'kit'
+				String playerName = context.popFirstArg();
+				if (playerName == null) {
+					OnlinePlayer player = (OnlinePlayer) context.getResolvedArg(OnlinePlayer.class);
+					return DwarfData.getData(player.getPlayer());
+				} else {
+					Player player = Bukkit.getPlayer(playerName);
+					if (player == null) throw new InvalidCommandArgument("Unknown player '" + ChatColor.YELLOW + playerName + ChatColor.RED + "'.");
+					return DwarfData.getData(player);
+				}
 			} else if (firstArg.equalsIgnoreCase("loadoutall")) {
 				context.popFirstArg();
 				DwarfData data = new DwarfData();
