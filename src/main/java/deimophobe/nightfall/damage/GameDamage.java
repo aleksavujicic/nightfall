@@ -139,7 +139,11 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		Vector offset = receiver.offsetFrom(attacker);
 		offset.setY(0).normalize().multiply(0.5 + 0.35 * knockbackLevel);
 		offset.setY(0.3 + 0.05 * knockbackLevel);
-		offset.add(attacker.getVelocity().setY(0).multiply(0.5));
+		
+		Vector attackerVel = attacker.getVelocity().setY(0);
+		double length = attackerVel.length();
+		attackerVel.multiply(0.5f/(length + 1));
+		offset.add(attackerVel);
 		
 		knockback = offset;
 		
