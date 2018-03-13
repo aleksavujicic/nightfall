@@ -408,6 +408,8 @@ public abstract class AbstractMob implements Mob {
 	private int shrineProtCounter = MAX_SHRINE_PROT_TIME;
 	
 	private void shrineProtTick(boolean halfSec) {
+		if (isShrineImmune()) return;
+		
 		boolean inShrine = GameMap.getCurrentMap().getCurrentShrineProtection().containsPlayer(monster);
 		if (inShrine) { // Is stopped
 			monster.getPlayer().spawnParticle(Particle.VILLAGER_ANGRY, monster.getEyeLocation().subtract(0, 0.5, 0), 5, 0.5, 0.5, 0.5);
@@ -417,6 +419,7 @@ public abstract class AbstractMob implements Mob {
 			
 			if (shrineProtCounter == 0) {
 				shrineProtectionDamage();
+				shrineProtCounter = MAX_SHRINE_PROT_TIME;
 			}
 		} else {
 			if (halfSec) {
@@ -427,9 +430,9 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	protected void shrineProtectionDamage() {
-		double damage = mobData.shrineProtDamage;
-		if (damage == 0) return;
+		if (isShrineImmune()) return;
 		
+		double damage = mobData.shrineProtDamage;
 		if (damage == -1) {
 			monster.instaKill(null, GameDamageType.SHRINE_PROTECTION);
 		} else {
@@ -438,6 +441,10 @@ public abstract class AbstractMob implements Mob {
 		
 		Location loc = monster.getLocation();
 		loc.getWorld().strikeLightningEffect(loc);
+	}
+	
+	private boolean isShrineImmune() {
+		return (mobData.shrineProtDamage == 0);
 	}
 	
 	
