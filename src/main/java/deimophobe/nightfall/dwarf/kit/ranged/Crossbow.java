@@ -1,14 +1,17 @@
 package deimophobe.nightfall.dwarf.kit.ranged;
 
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.block.Action;
+import org.bukkit.metadata.FixedMetadataValue;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -18,9 +21,10 @@ public class Crossbow extends AbstractBow implements CooldownPiece {
 		super(dwarf);
 	}
 	
-	private final static int POWER = 100;
-	private final static int FIRING_POWER = 30;
-	private final static CustomItem ITEM = getBow("crossbow", POWER);
+	private static final int POWER = 100;
+	private static final int RAPID_POWER = 25;
+	private static final String RAPID_META = "rapid";
+	private static final CustomItem ITEM = getBow("crossbow", POWER);
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
@@ -31,7 +35,7 @@ public class Crossbow extends AbstractBow implements CooldownPiece {
 	
 	private boolean firing = false;
 	private ComplexCooldown rapidCD = new ComplexCooldown(4, this::fireRapidArrow);
-	private ComplexCooldown longRapid = new ComplexCooldown(40*20, this::startFiring);
+	private ComplexCooldown longRapid = new ComplexCooldown(30*20, this::startFiring);
 	
 	private final static int ARROW_COST = 2;
 	
@@ -54,8 +58,7 @@ public class Crossbow extends AbstractBow implements CooldownPiece {
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		if (firing) {
-			stopFiring(); // both left and right click stops rapidfire
-			return true;
+			return false;
 		}
 		
 		
@@ -71,10 +74,17 @@ public class Crossbow extends AbstractBow implements CooldownPiece {
 	
 	@Override
 	public int getPower() {
-		if (firing)
-			return FIRING_POWER;
-		else
-			return POWER;
+		return POWER;
+	}
+	
+	@Override
+	public void onDamageAttack(MonsterDamage damage) {
+		super.onDamageAttack(damage);
+		if (damageFromBow(damage) && damage.getArrow().hasMetadata(RAPID_META)) {
+			damage.getMulitPartDamage().setBase(RAPID_POWER);
+			damage.multiplyKnockback(0.5);
+			damage.setNoDamageTicks(5);
+		}
 	}
 	
 	private void fireNormalArrow() {
@@ -98,7 +108,8 @@ public class Crossbow extends AbstractBow implements CooldownPiece {
 	private void fireRapidArrow() {
 		if (dwarf.hasArrows(1) && isHoldingItem()) {
 			dwarf.useArrow();
-			fireArrow(3f, 1, 4f);
+			Arrow arrow = fireArrow(3f, 1, 4f);
+			arrow.setMetadata(RAPID_META, new FixedMetadataValue(NightfallPlugin.getPlugin(), true));
 			dwarf.playSound("entity.arrow.shoot", 1f, 0.9f, true);
 		} else {
 			stopFiring();
