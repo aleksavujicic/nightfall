@@ -20,7 +20,7 @@ import java.util.Set;
 public class DwarvenItems {
 	
 	private static final Map<String, Configuration> configs = new HashMap<>();
-	private static final Set<ItemStack> droppables = new HashSet<>();
+	private static final Set<CustomItem> droppables = new HashSet<>();
 	
 	
 	static {
@@ -36,9 +36,9 @@ public class DwarvenItems {
 		addConfigSection("hero","hero");
 		
 		
-		droppables.add(getItem("misc","pick").createItemStack());
-		droppables.add(getItem("misc","shovel").createItemStack());
-		droppables.add(getItem("misc","axe").createItemStack());
+		droppables.add(getItem("misc","pick"));
+		droppables.add(getItem("misc","shovel"));
+		droppables.add(getItem("misc","axe"));
 	}
 	private static void addConfigSection(String section, String filename) {
 		configs.put(section, NightfallPlugin.getInternalFileConfig("dwarf-items/"+ filename+".yml"));
@@ -67,8 +67,8 @@ public class DwarvenItems {
 		if (item == null) return true;
 		if (item.getType() == Material.AIR) return true;
 		
-		for (ItemStack droppable : droppables)
-			if (item.isSimilar(droppable))
+		for (CustomItem droppable : droppables)
+			if (droppable.isSimilar(item))
 				return true;
 		
 		return ConsumableType.isDroppable(item);

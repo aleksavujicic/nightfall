@@ -33,22 +33,29 @@ public abstract class AbstractItem extends AbstractPiece implements ItemPiece {
 		return (damage.getType() == GameDamageType.MELEE && isHoldingItem());
 	}
 	
-	protected final void setShiny(boolean shiny) {
+	protected final boolean setShiny(boolean shiny) {
+		boolean updated = false;
 		for (ItemStack item : dwarf.getPlayer().getInventory().getStorageContents()) {
-			trySetShiny(item, shiny);
+			updated |= trySetShiny(item, shiny);
 		}
-		trySetShiny(dwarf.getPlayer().getItemOnCursor(), shiny);
+		updated |= trySetShiny(dwarf.getPlayer().getItemOnCursor(), shiny);
 		
-		dwarf.getPlayer().updateInventory();
+		//if (updated) dwarf.getPlayer().updateInventory();
+		
+		return updated;
 	}
 	
-	private void trySetShiny(ItemStack item, boolean shiny) {
-		if (!matchesItem(item)) return;
+	private boolean trySetShiny(ItemStack item, boolean shiny) {
+		if (!matchesItem(item)) return false;
 		
-		if (shiny)
+		if (shiny) {
+			if (item.containsEnchantment(Enchantment.DURABILITY)) return false;
 			item.addEnchantment(Enchantment.DURABILITY, 1);
-		else
+		} else {
+			if (!item.containsEnchantment(Enchantment.DURABILITY)) return false;
 			item.removeEnchantment(Enchantment.DURABILITY);
+		}
+		return true;
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.RepeatingCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -36,7 +37,8 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 	private static final int MAX_HASTE_CD = 15;
 	private int cooldown = 0;
 	
-	private final ComplexCooldown armourCD = new ComplexCooldown(45*20, null, () -> setShiny(true));
+	private final ComplexCooldown armourCD = new ComplexCooldown(45*20, null, this::updateShinyness);
+	private final ComplexCooldown shinyUpdater = new RepeatingCooldown(15*20, this::updateShinyness);
 	
 	@Override
 	public float getCooldown() {
@@ -46,6 +48,8 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace face) {
 		if (Misc.isRightClick(action) && cooldown == 0) {
+			updateShinyness();
+			
 			// PICK REPAIRING ANOTHER DWARF
 			Dwarf repairee = dwarf.getLookingAt(5, 2, DwarfManager.getManager().getGamePlayers(), (d) -> d.getArmour().canPickRepair());
 			if (repairee != null && armourCD.isAvailable()) {
@@ -56,7 +60,6 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 					repairee.getArmour().repair(400);
 					GameEffect.DWARF_ARMOUR_CLOUD.playEffect(repairee);
 					resetCD();
-					setShiny(false);
 					return true;
 				}
 			}
@@ -142,9 +145,17 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 		}
 	}
 	
+	// mac cause he wanted his name in the code somewhere
+	// and no, no one else gets there name in
+	
+	private void updateShinyness() {
+		setShiny(armourCD.isAvailable());
+	}
+	
 	@Override
 	public void update(boolean a, boolean b, boolean c, boolean d, boolean quadSec) {
 		armourCD.update();
+		shinyUpdater.update();
 		if (cooldown > 0)
 			cooldown--;
 	}
