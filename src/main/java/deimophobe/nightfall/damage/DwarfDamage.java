@@ -52,7 +52,7 @@ public class DwarfDamage extends GameDamage<GameEntity<?>, Dwarf> {
 		if (Game.getGame().getPhase() == Phase.BUILD) {
 			addPreDamageHandler(-1000, damage -> {
 				if (damage.willKill()) {
-					damage.softCancel();
+					this.forceSoftCancel();
 					
 					receiver.respawn();
 					new BukkitRunnable() {
