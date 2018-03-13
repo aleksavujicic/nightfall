@@ -1,6 +1,7 @@
 package deimophobe.nightfall.command;
 
 import co.aikar.commands.BaseCommand;
+import co.aikar.commands.CommandIssuer;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.Game;
@@ -13,6 +14,7 @@ import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.hero.HeroType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -29,12 +31,9 @@ public class DwarfCommand extends BaseCommand {
 	
 	@Subcommand("set")
 	@CommandAlias("setdwarf")
-	@CommandCompletion("@players @kitpieces:extra=loadout @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces")
+	@CommandCompletion("@players @kitpieces:extra=loadout")
 	@Description("Sets a player to be a dwarf.")
-	public void onSetDwarf(CommandSender sender, OnlinePlayer player, @Default("kit") DwarfData dwarfData,
-						   @Optional String string1, @Optional String string2, @Optional String string3, @Optional String string4, @Optional String string5,
-						   @Optional String string6, @Optional String string7, @Optional String string8, @Optional String string9, @Optional String string0
-	) {
+	public void onSetDwarf(CommandSender sender, OnlinePlayer player, @Default("kit") DwarfData dwarfData) {
 		Player realPlayer = player.getPlayer();
 		Game.getGame().removeGamePlayer(realPlayer);
 		DwarfManager.getManager().createDwarf(realPlayer, dwarfData);
@@ -147,12 +146,9 @@ public class DwarfCommand extends BaseCommand {
 		
 		@Subcommand("add|give")
 		@CommandAlias("give-kit|add-kit")
-		@CommandCompletion("@dwarves @kitpieces:extra=all @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces")
+		@CommandCompletion("@dwarves @kitpieces:extra=all")
 		@Description("Add a kit piece to a dwarf's kit.")
-		public void addKitItem(CommandSender sender, Dwarf dwarf, KitPieceType[] pieceTypes,
-							   @Optional String string1, @Optional String string2, @Optional String string3, @Optional String string4, @Optional String string5,
-							   @Optional String string6, @Optional String string7, @Optional String string8, @Optional String string9, @Optional String string0
-		) {
+		public void addKitItem(CommandSender sender, Dwarf dwarf, KitPieceType[] pieceTypes) {
 			if (pieceTypes.length == 0) {
 				sender.sendMessage(ChatColor.RED + "Please specify an item.");
 			} else {
@@ -180,6 +176,16 @@ public class DwarfCommand extends BaseCommand {
 			}
 			sb.setLength(sb.length() - 2);
 			sender.sendMessage(sb.toString());
+		}
+		
+		
+		@Override
+		public List<String> tabComplete(CommandIssuer issuer, String commandLabel, String[] args) {
+			// For the /add-kit command (alias)
+			if (args.length > 4 && StringUtils.equalsAnyIgnoreCase(commandLabel, "add-kit", "give-kit")) {
+				return KIT_ITEMS;
+			}
+			return super.tabComplete(issuer, commandLabel, args);
 		}
 	}
 	
@@ -254,5 +260,25 @@ public class DwarfCommand extends BaseCommand {
 		public void showTrash(@Optional Dwarf dwarf) {
 			dwarf.showTrash();
 		}
+	}
+	
+	
+	@Override
+	public List<String> tabComplete(CommandIssuer issuer, String commandLabel, String[] args) {
+		// For the /setdwarf and /d set command
+		if (args.length > 3 && args[0].equalsIgnoreCase("set")) {
+			return KIT_ITEMS;
+		}
+		// For the /d kit add command
+		if (args.length > 4 && args[0].equalsIgnoreCase("kit") && args[1].equalsIgnoreCase("add")) {
+			return KIT_ITEMS;
+		}
+		
+		return super.tabComplete(issuer, commandLabel, args);
+	}
+	
+	private static final List<String> KIT_ITEMS = new ArrayList<>(KitPieceType.getPieceNames());
+	static {
+		Collections.sort(KIT_ITEMS);
 	}
 }
