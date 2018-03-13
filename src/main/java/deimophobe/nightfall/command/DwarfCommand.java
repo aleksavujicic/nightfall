@@ -22,6 +22,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -270,20 +271,28 @@ public class DwarfCommand extends BaseCommand {
 	}
 	
 	
+	// Overriding tab completion to handle more complex cases with
+	// /setdwarf <name>
+	//   - kit <othername>
+	//   - all/loadoutall
+	//   - <list of pieces>
+	// as well as /d kit add <name> <list of pieces>
+	
 	@Override
 	public List<String> tabComplete(CommandIssuer issuer, String commandLabel, String[] args) {
 		// For the /setdwarf and /d set command
 		if (args.length > 3 && args[0].equalsIgnoreCase("set")) {
 			if (args[2].equalsIgnoreCase("kit")) {
 				if (args.length == 4) {
-					return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
+					Collection<String> playerNames = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
+					return CommandInitialiserUtil.finalArgCompletion(args, playerNames);
 				} else {
 					return Collections.emptyList();
 				}
 			} else if (StringUtils.equalsAnyIgnoreCase(args[2],"all", "loadoutall")) {
 				return Collections.emptyList();
 			} else {
-				return KIT_ITEMS;
+				return CommandInitialiserUtil.finalArgCompletion(args, KIT_ITEMS);
 			}
 		}
 		// For the /d kit add command
@@ -291,7 +300,7 @@ public class DwarfCommand extends BaseCommand {
 			if (StringUtils.equalsIgnoreCase(args[3],"all")) {
 				return Collections.emptyList();
 			} else {
-				return KIT_ITEMS;
+				return CommandInitialiserUtil.finalArgCompletion(args, KIT_ITEMS);
 			}
 		}
 		

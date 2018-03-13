@@ -298,4 +298,17 @@ public class CommandInitialiserUtil {
 		}
 		return context -> names;
 	}
+	
+	
+	
+	
+	static List<String> finalArgCompletion(String[] args, Collection<String> strings) {
+		String finalArg = args[args.length - 1].toLowerCase();
+		List<String> matchStrings = new ArrayList<>();
+		for (String string : strings) {
+			if (string.toLowerCase().startsWith(finalArg))
+				matchStrings.add(string);
+		}
+		return matchStrings;
+	}
 }
