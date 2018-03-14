@@ -341,6 +341,7 @@ builder-class:
     - sturdy
     - bricklayer
     - tombmaker
+    - chesto
   consumables:
     lamp: 128
     wizard-mortar: 64
@@ -363,6 +364,7 @@ builder-class:
           *Sturdy Armour\n
           *Bricklayer\n
           *Tombmaker\n
+          *Chestomatic\n
           *7 Slabs\n
           *128 Enchanted Lamps\n
           *64 Wizard Mortar\n
