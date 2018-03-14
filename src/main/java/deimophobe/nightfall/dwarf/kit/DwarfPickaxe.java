@@ -10,6 +10,7 @@ import deimophobe.nightfall.cooldown.RepeatingCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
+import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.effects.GameEffect;
 import deimophobe.nightfall.effects.sound.Sounds;
@@ -139,6 +140,11 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 					int duration = Math.min(dwarf.getPotionEffectDuration(PotionEffectType.ABSORPTION) + 30 * 20, 60 * 20);
 					dwarf.givePotionEffect(PotionEffectType.ABSORPTION, duration, newLevel, true, false, true);
 					Sounds.DWARF_MINE_DIAMOND.playSound(dwarf);
+					break;
+				}
+				
+				case EMERALD_ORE: {
+					dwarf.giveProc(ProcType.EMERALD_ORE);
 					break;
 				}
 			}
