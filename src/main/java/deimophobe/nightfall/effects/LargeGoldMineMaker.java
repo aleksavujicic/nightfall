@@ -4,7 +4,7 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -21,6 +21,31 @@ class LargeGoldMineMaker extends SmallGoldMineMaker {
 	@Override
 	public void playEffect(GamePlayer player, Block block) {
 		super.playEffect(player, block);
+		
+		Location center = block.getLocation().add(0.5, 0.5, 0.5);
+		World world = center.getWorld();
+		for (int i=0; i<10; i++) {
+			for (int j=0; j<5; j++) {
+				double velocity = 0.2;
+				double theta = 2*Math.PI*i/8;
+				double phi = Math.PI*j/4;
+				
+				double vx = velocity*Math.sin(theta)*Math.cos(phi);
+				double vy = velocity*Math.sin(theta)*Math.sin(phi);
+				double vz = velocity*Math.cos(theta);
+				world.spawnParticle(Particle.FIREWORKS_SPARK, center, 0, vx, vy, vz, 1);
+			}
+		}
+		
+		Bukkit.broadcastMessage(
+				player.getDisplayName()
+						+ ChatColor.YELLOW + " found a "
+						+ ChatColor.GOLD + "large chunk of gold"
+						+ ChatColor.YELLOW + "!"
+		);
+		
+		player.playSound("entity.player.levelup", 1f, 0.6f, true);
+		
 		
 		GameMap map = GameMap.getCurrentMap();
 		Location start = block.getLocation().add(0.5,0.5,0.5);
@@ -59,6 +84,8 @@ class LargeGoldMineMaker extends SmallGoldMineMaker {
 		}
 		
 		private void update() {
+			if (!player.isOnline()) return;
+			
 			theta = (theta+0.1) % (2*Math.PI);
 			
 			Location target = player.getLocation().add(0,0.75,0).add(0.75*Math.cos(theta), 0, 0.75*Math.sin(theta));
