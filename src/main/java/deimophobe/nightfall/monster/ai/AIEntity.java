@@ -74,19 +74,21 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
-		if (!damage.isCancelled()) resetInactivity();
 		damage.setArmourShred(5);
 		damage.multiplyKnockback(0.8);
+		
+		damage.addPostDamageHandler(d -> resetInactivity());
 	}
 	
 
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
-		if (!damage.isCancelled()) resetInactivity();
 		damage.getMulitPartDamage().timesMult(0.25);
+		damage.reduceNoDamageTicks(8);
 
 		if (damage.getAttacker() instanceof MonsterEntity) {
 			damage.cancel();
+			return;
 		}
 
 		switch (damage.getType()) {
@@ -99,6 +101,8 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 				damage.cancel();
 				return;
 		}
+		
+		damage.addPostDamageHandler(d -> resetInactivity());
 	}
 
 	public void onDeath(MonsterDamage damage) {

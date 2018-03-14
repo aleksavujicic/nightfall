@@ -185,6 +185,9 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 	public MultiPartValue getMulitPartDamage() { return mulitPartDamage; }
 	
 	public void setNoDamageTicks(int ticks) { noDamageTicks = ticks; }
+	public void reduceNoDamageTicks(int ticks) {
+		noDamageTicks = Math.min(noDamageTicks, ticks);
+	}
 	public void instaKill() {
 		instaKill = true;
 		cancelled = false;
