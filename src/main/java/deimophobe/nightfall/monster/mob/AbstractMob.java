@@ -17,10 +17,7 @@ import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
@@ -113,7 +110,7 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	
-	// ~~~~ ANNOTATIONS ~~~~
+	// ~~~~~ ANNOTATIONS ~~~~~
 	private final Set<Updateable> updateables = new HashSet<>();
 	private Displayable displayable = Displayable.DISPLAY_NOTHING;
 	
@@ -167,7 +164,7 @@ public abstract class AbstractMob implements Mob {
 	protected void setDisplayable(Displayable displayable) { this.displayable = displayable; }
 	
 	
-	// ~~~~ DISGUISES ~~~~~
+	// ~~~~~ DISGUISES ~~~~~
 	protected void setupDisguise() {
 		DisguiseType type = mobData.disguiseType;
 		if (type != null) {
@@ -238,7 +235,7 @@ public abstract class AbstractMob implements Mob {
 		}
 	}
 	
-	// ~~~~ ITEMS ~~~~~
+	// ~~~~~ ITEMS ~~~~~
 	protected void setupItems() {
 		monster.clearInventory();
 		
@@ -311,20 +308,7 @@ public abstract class AbstractMob implements Mob {
 	protected void dropFakeWeapon() { dropFakeItem("weapon"); }
 	
 	
-	protected void playSound(String soundName) {
-		mobData.playSound(soundName, monster);
-	}
-	
-	
-	protected void giveSpawnProtection(int time) {
-		monster.givePotionEffect(PotionEffectType.LUCK, time, 1, true, false, true);
-	}
-	
-	public boolean hasSpawnProtection() {
-		return monster.hasPotionEffect(PotionEffectType.LUCK);
-	}
-	
-	
+	// ~~~~~ Events/Overriding methods ~~~~~
 	@Override
 	public String getDeathMessageName() {
 		return getTitledName();
@@ -384,6 +368,8 @@ public abstract class AbstractMob implements Mob {
 				}
 			}
 		}
+		
+		shrineProtTick(halfSec);
 	}
 	
 	@Override
@@ -392,7 +378,6 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	
-	@Override public boolean isShrineImmune() { return mobData.shrineImmune; }
 	@Override public int getCharmTime() { return mobData.charmTime; }
 	@Override public double getShrineWeight() { return mobData.shrineWeight; }
 	
@@ -402,18 +387,75 @@ public abstract class AbstractMob implements Mob {
 	@Override public Projectile onBowFire(Arrow arrow, float force) { return null; }
 	@Override public void onProjectileLand(Projectile proj, Block hitBlock, Entity hitEntity) {}
 	
+	
+	// ~~~~~ Misc ~~~~~
+	protected void playSound(String soundName) {
+		mobData.playSound(soundName, monster);
+	}
+	
+	
+	protected void giveSpawnProtection(int time) {
+		monster.givePotionEffect(PotionEffectType.LUCK, time, 1, true, false, true);
+	}
+	
+	protected boolean hasSpawnProtection() {
+		return monster.hasPotionEffect(PotionEffectType.LUCK);
+	}
+	
+	
+	// ~~~~~ Shrine Prot ~~~~~
+	private static final int MAX_SHRINE_PROT_TIME = 50;
+	private int shrineProtCounter = MAX_SHRINE_PROT_TIME;
+	
+	private void shrineProtTick(boolean halfSec) {
+		boolean inShrine = GameMap.getCurrentMap().getCurrentShrineProtection().containsPlayer(monster);
+		if (inShrine) { // Is stopped
+			monster.getPlayer().spawnParticle(Particle.VILLAGER_ANGRY, monster.getEyeLocation().subtract(0, 0.5, 0), 5, 0.5, 0.5, 0.5);
+			
+			if (shrineProtCounter > 0)
+				shrineProtCounter--;
+			
+			if (shrineProtCounter == 0) {
+				shrineProtectionDamage();
+			}
+		} else {
+			if (halfSec) {
+				if (shrineProtCounter < MAX_SHRINE_PROT_TIME)
+					shrineProtCounter++;
+			}
+		}
+	}
+	
+	protected void shrineProtectionDamage() {
+		double damage = mobData.shrineProtDamage;
+		if (damage == 0) return;
+		
+		if (damage == -1) {
+			monster.instaKill(null, GameDamageType.SHRINE_PROTECTION);
+		} else {
+			monster.doDamage(null, GameDamageType.SHRINE_PROTECTION, damage, true);
+		}
+		
+		Location loc = monster.getLocation();
+		loc.getWorld().strikeLightningEffect(loc);
+	}
+	
+	
+	// ~~~~~ Death ~~~~~
+	
 	@Override
 	public void onDeath(boolean silent) {
 		playSound("death");
 		
-		if (!silent)
+		if (!silent) {
 			displayDeathAnimation();
+			
+			if (mobData.forceTitle)
+				Bukkit.spigot().broadcast(monster.getDeathMessage());
+		}
 		
 		if (hasPlayerDisguise())
 			removePlayerDisguise();
-		
-		if (!silent && mobData.forceTitle)
-			Bukkit.spigot().broadcast(monster.getDeathMessage());
 	}
 	
 	protected void displayDeathAnimation() {
@@ -439,13 +481,13 @@ public abstract class AbstractMob implements Mob {
 		dyingEntity.setVelocity(monster.getVelocity());
 		dyingEntity.setFireTicks(0);
 		dyingEntity.setInvulnerable(true);
-		dyingEntity.setAI(false);
 		dyingEntity.setSilent(true);
 		dyingEntity.setCanPickupItems(false);
 		dyingEntity.setCollidable(false);
 		dyingEntity.setCustomName(getTitledName());
 		dyingEntity.getEquipment().setArmorContents(monster.getPlayer().getInventory().getArmorContents());
-		dyingEntity.getEquipment().setItemInMainHand(monster.getHeldItem());
+		dyingEntity.getEquipment().setItemInMainHand(monster.getHeldItem());;
+		
 		dyingEntity.setHealth(0);
 	}
 	

@@ -14,13 +14,12 @@ import java.util.Random;
 /**
  * Created by Deimophobe on 8/07/17.
  */
-public class Hellhound extends Wolf {
+final class Hellhound extends AbstractWolf {
 	
 	Hellhound(MonsterPlayer monster) {
 		super(monster, MobType.HELLHOUND);
 		getWeapon().addModifier(ItemModifierType.BURNING, 1, "Breath of Hell");
 	}
-	
 	
 	@Override
 	public void onSpawn() {
@@ -39,6 +38,11 @@ public class Hellhound extends Wolf {
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
 		//tryPlaceMagmaBlock();
+	}
+	
+	@Override
+	protected float leapPitch() {
+		return 0.85f;
 	}
 	
 	private void tryPlaceMagmaBlock() {

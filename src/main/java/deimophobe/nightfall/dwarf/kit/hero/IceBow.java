@@ -67,15 +67,16 @@ public class IceBow extends AbstractBow {
 		}
 	}
 	
-	private static final double AOE_RADIUS = 3;
+	private static final double AOE_RADIUS = 3.5;
+	private static final double DISPLAY_RADIUS = 1.5;
 	private void arrowAOE(Location location, MonsterEntity<?> exclude) {
 		World world = location.getWorld();
 		
-		world.spawnParticle(Particle.BLOCK_CRACK, location, 3, AOE_RADIUS/2, 0.3, AOE_RADIUS/2, 0, new MaterialData(Material.LAPIS_BLOCK));
-		world.spawnParticle(Particle.BLOCK_CRACK, location, 10, AOE_RADIUS/2, 0.3, AOE_RADIUS/2, 0, new MaterialData(Material.STATIONARY_WATER));
-		world.spawnParticle(Particle.BLOCK_CRACK, location, 20, AOE_RADIUS/2, 0.3, AOE_RADIUS/2, 0, new MaterialData(Material.CONCRETE, (byte) 3));
-		world.spawnParticle(Particle.BLOCK_CRACK, location, 50, AOE_RADIUS/2, 0.3, AOE_RADIUS/2, 0, new MaterialData(Material.CONCRETE_POWDER, (byte) 3));
-		world.spawnParticle(Particle.WATER_DROP, location, 400, AOE_RADIUS/2, 0.3, AOE_RADIUS/2, 0);
+		world.spawnParticle(Particle.BLOCK_CRACK, location, 3, DISPLAY_RADIUS, 0.3, DISPLAY_RADIUS, 0, new MaterialData(Material.LAPIS_BLOCK));
+		world.spawnParticle(Particle.BLOCK_CRACK, location, 10, DISPLAY_RADIUS, 0.3, DISPLAY_RADIUS, 0, new MaterialData(Material.STATIONARY_WATER));
+		world.spawnParticle(Particle.BLOCK_CRACK, location, 20, DISPLAY_RADIUS, 0.3, DISPLAY_RADIUS, 0, new MaterialData(Material.CONCRETE, (byte) 3));
+		world.spawnParticle(Particle.BLOCK_CRACK, location, 50, DISPLAY_RADIUS, 0.3, DISPLAY_RADIUS, 0, new MaterialData(Material.CONCRETE_POWDER, (byte) 3));
+		world.spawnParticle(Particle.WATER_DROP, location, 400, DISPLAY_RADIUS, 0.3, DISPLAY_RADIUS, 0);
 		
 		world.playSound(location, "entity.generic.swim", 1f, 0.6f);
 		world.playSound(location, "entity.player.hurt_drown", 1f, 0.6f);

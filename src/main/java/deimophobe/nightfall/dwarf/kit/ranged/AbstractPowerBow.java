@@ -1,12 +1,14 @@
 package deimophobe.nightfall.dwarf.kit.ranged;
 
-import deimophobe.nightfall.util.ArrowMisc;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.damage.DeathMessageMaker;
+import deimophobe.nightfall.damage.KeywordDeathMessageMaker;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
@@ -38,11 +40,13 @@ public abstract class AbstractPowerBow extends AbstractToggleBow implements Cool
 		cooldown.update();
 	}
 	
+	private static final DeathMessageMaker POWER_DEATH_MSG = new KeywordDeathMessageMaker("power shot");
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
 		if (damageFromBow(damage) && isActiveProjectile(damage.getArrow())) {
 			damage.getArrowRes().timesMult(arrowResMult);
+			damage.setDeathMessageMaker(POWER_DEATH_MSG);
 		}
 	}
 	

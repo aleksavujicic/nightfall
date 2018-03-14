@@ -105,6 +105,7 @@ public class ZombieHusk extends ZombieMob {
 	
 	@Override
 	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
+		super.update(a, b, c, d, e);
 		leapCD.update();
 		staggerSound.update();
 		if (smashing) {
@@ -167,6 +168,7 @@ public class ZombieHusk extends ZombieMob {
 	
 	@Override
 	public void onUse(Action action, Block block, BlockFace face) {
+		super.onUse(action, block, face);
 		if (Misc.isRightClick(action) && isPlayerHoldingWeapon()) {
 			if (leapCD.isAvailable()) {
 				leapCD.reset();

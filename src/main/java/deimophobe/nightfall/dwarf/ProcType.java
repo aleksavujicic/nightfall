@@ -26,9 +26,9 @@ public enum ProcType {
 	
 	PROC_BOTTLE (100, 2, 5, 3, true, true, true),
 	
-	RUNEDASH    (12, 10, 15, 0, false, true, false)
+	RUNEDASH    (12, 10, 15, 0, false, true, false),
 	
-	;
+	ARTHEA_RAGE (60*20, 7, 5, 0, false, true, false);
 	
 	private final int duration;
 	private final Map<PotionEffectType, Integer> amplifiers = new HashMap<>();

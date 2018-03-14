@@ -4,7 +4,7 @@ import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.damage.GameDamage;
+import deimophobe.nightfall.damage.DeathMessageMaker;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.LastMainDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -93,6 +93,34 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 		if (isDebugMode()) {
 			sendMessage(ChatColor.GREEN + message);
 		}
+	}
+	
+	// ------ ONLINE/OFFLINE ------
+	private boolean online = true;
+	
+	public boolean isOnline() { return online; }
+	
+	public void goOnline(Player newPlayer) {
+		online = true;
+		this.player = newPlayer;
+		resetTitle();
+		loadHealth();
+	}
+	public void goOffline() {
+		online = false;
+		saveHealth();
+	}
+	
+	
+	// ------ HEALTH SAVING ------
+	private double health;
+	private void saveHealth() {
+		health = player.getHealth();
+	}
+	private void loadHealth() {
+		new BukkitRunnable() {
+			@Override public void run() { player.setHealth(health); }
+		}.runTaskLater(NightfallPlugin.getPlugin(), 10);
 	}
 	
 	
@@ -237,6 +265,13 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 				replaced++;
 			}
 		}
+		
+		// Replace cursor item too
+		if (matcher.test(player.getItemOnCursor())) {
+			player.setItemOnCursor(newItem);
+			replaced++;
+		}
+		
 		return replaced;
 	}
 	
@@ -288,40 +323,20 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 		player.sendTitle("", message, 5, 30, 5);
 	}
 	
-	// ------ ONLINE/OFFLINE ------
-	private boolean online = true;
-	
-	public boolean isOnline() { return online; }
-	
-	public void goOnline(Player newPlayer) {
-		online = true;
-		this.player = newPlayer;
-		resetTitle();
-	}
-	public void goOffline() {
-		online = false;
-	}
-	
-	
 	
 	// ------ DAMAGE ------
 	private LastMainDamage lastMainDamage;
-	private GameDamageType lastDamageType;
+	private DeathMessageMaker deathMessageMaker = (playerName, lastMainDamage1) -> new TextComponent(""); // Has default just in case
 	
-	public boolean tryReplaceLastDamage(LastMainDamage damage) {
-		lastDamageType = damage.getType();
+	public void saveDamageInfo(DeathMessageMaker deathMessageMaker, LastMainDamage damage) {
+		this.deathMessageMaker = deathMessageMaker;
 		if (damage.shouldReplace(lastMainDamage)) {
 			lastMainDamage = damage;
-			return true;
-		} else {
-			return false;
 		}
 	}
 	
 	public BaseComponent getDeathMessage() {
-		// Last damage type is only null when player is manually killed by a non damage source (most likely removed as mob)
-		if (lastDamageType == null) return new TextComponent("");
-		else return lastDamageType.getDeathMessage(getDeathMessageName(), lastMainDamage);
+		return deathMessageMaker.getDeathMessage(Misc.textComponentFromString(getDeathMessageName()), lastMainDamage);
 	}
 	
 	public String getDeathMessageName() {
@@ -380,13 +395,6 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 			}
 		}
 		return closestPlayer;
-	}
-	
-	@Deprecated
-	public void forceKill() {
-		GameDamage damage = createDamage(null, GameDamageType.TEMPORARY, 10000);
-		damage.instaKill();
-		damage.fire();
 	}
 	
 	/**

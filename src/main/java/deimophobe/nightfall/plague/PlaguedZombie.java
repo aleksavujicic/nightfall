@@ -1,7 +1,5 @@
 package deimophobe.nightfall.plague;
 
-import deimophobe.nightfall.Game;
-import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -28,8 +26,8 @@ public class PlaguedZombie extends AbstractMob {
 	
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
-		if (damage.getType() == GameDamageType.POISON)
-			damage.getMulitPartDamage().timesMult(0.2);
+		if (damage.getType() == GameDamageType.WITHER)
+			damage.getMulitPartDamage().timesMult(0.25);
 	}
 	
 	@Override
@@ -45,10 +43,6 @@ public class PlaguedZombie extends AbstractMob {
 		}
 	}
 	
-	@Override
-	public boolean isShrineImmune() {
-		return Game.getGame().getPhase() == Phase.PLAGUE;
-	}
 	@Override
 	protected void setupItems() {
 		PlayerInventory inv = monster.getPlayer().getInventory();

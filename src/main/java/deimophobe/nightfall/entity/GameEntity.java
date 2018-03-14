@@ -189,6 +189,10 @@ public interface GameEntity<E extends LivingEntity> {
 		return gameDamage.fire(force);
 	}
 	
+	default boolean instaKill(GameEntity attacker, GameDamageType type) {
+		return doDamage(attacker, type, GameDamage.INSTA_KILL_DMG, true, true);
+	}
+	
 	default GameDamage createDamage(GameEntity attacker, GameDamageType type, double damage) {
 		return GameDamage.createDamage(attacker, this, type, damage);
 	}

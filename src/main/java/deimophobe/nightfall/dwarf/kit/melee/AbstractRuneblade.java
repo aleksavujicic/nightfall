@@ -3,9 +3,7 @@ package deimophobe.nightfall.dwarf.kit.melee;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.GameDamageType;
-import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.*;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
@@ -49,6 +47,16 @@ public abstract class AbstractRuneblade extends AbstractItem implements Cooldown
 		super.onKill(damage);
 		if (damageFromItem(damage))
 			dwarf.giveProc(regProc);
+	}
+	
+	
+	private static final DeathMessageMaker DASH_DEATH_MSG = new KeywordDeathMessageMaker("runedashed");
+	@Override
+	public void onDamageAttack(MonsterDamage damage) {
+		super.onDamageAttack(damage);
+		if (dwarf.hasProc(dashProc)) {
+			damage.setDeathMessageMaker(DASH_DEATH_MSG);
+		}
 	}
 	
 	@Override

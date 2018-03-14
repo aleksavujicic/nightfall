@@ -83,7 +83,7 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		if (!damage.isCancelled()) resetInactivity();
-		damage.getMulitPartDamage().timesMult(0.3);
+		damage.getMulitPartDamage().timesMult(0.25);
 
 		if (damage.getAttacker() instanceof MonsterEntity) {
 			damage.cancel();
@@ -161,7 +161,7 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 	}
 	
 	public void remove() {
-		this.doDamage(null, GameDamageType.AI_REMOVER, 10000, true, true);
+		this.instaKill(null, GameDamageType.AI_REMOVER);
 	}
 	
 	public void suffocationTick() {

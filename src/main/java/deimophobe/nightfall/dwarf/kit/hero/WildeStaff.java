@@ -127,7 +127,7 @@ public class WildeStaff extends AbstractItem implements CooldownPiece {
 					for(AIEntity ai : AIManager.getManager().getAIs()){
 						if(ai.getEyeLocation().distance(position) <= MYST_RADIUS){
 							GameDamage damage = ai.createDamage(dwarf, GameDamageType.MYST, MYST_DPT * MYST_DELAY);
-							damage.setNoDmgTicks(9);
+							damage.setNoDamageTicks(9);
 							damage.fire(true);
 						}
 					}

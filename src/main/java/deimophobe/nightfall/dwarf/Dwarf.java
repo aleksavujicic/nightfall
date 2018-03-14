@@ -72,12 +72,8 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		// Setup kit
 		this.kit = data.createKitAndApplyToDwarf(this);
 		
-		mana = maxMana;
-		
 		giveArrows(40);
-		
-		mobspawnCount = 0;
-		mobSpawnFourthCounter = 0;
+		mana = maxMana;
 		updateManaBar();
 		
 		respawn();
@@ -334,7 +330,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		}
 	}
 	private boolean canSee() {
-		if (mobspawnCount >= 7) return false;
+		if (isBlindByMobspawn()) return false;
 		
 		int lightLevel = getLocation().getBlock().getLightLevel();
 		return (holdingLightItem ||
@@ -370,8 +366,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 
 	// ------ UPDATE ------
-	private int mobSpawnFourthCounter;
-
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		kit.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		updateCooldownBar();
@@ -388,23 +382,8 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		arrowRegen.update();
 		
 		//mobspawn
-		if (sec && Game.getGame().getPhase() == Phase.GAME) {
-			if (mobSpawnFourthCounter < 4) {
-				mobSpawnFourthCounter++; // Trying to make mobspawn happen a bit more regularly
-			}
-			else {
-				mobSpawnFourthCounter = 0;
-				boolean inMobspawn = GameMap.getCurrentMap().getCurrentMobProtection().containsPlayer(this);
-				if (inMobspawn) {
-					mobspawnCount++;
-					mobspawnDamage();
-				}
-				else {
-					if (mobspawnCount > 0)
-						mobspawnCount--;
-					removePotionEffect(PotionEffectType.CONFUSION);
-				}
-			}
+		if (halfSec && Game.getGame().getPhase() == Phase.GAME) {
+			updateMobspawn();
 		}
 
 		if (sec) {
@@ -428,6 +407,10 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	public boolean hasProc() {
 		return !activeProcs.isEmpty();
+	}
+	
+	public boolean hasProc(ProcType type) {
+		return activeProcs.containsKey(type);
 	}
 	
 	public void giveProc(ProcType procType) {
@@ -487,74 +470,53 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	// ------ MOB SPAWN ------
-	private int mobspawnCount;
+	private int mobspawnCount = 0;
+	private boolean inMobspawn = false;
+	private ComplexCooldown inMobspawnCooldown = new ComplexCooldown(8, this::inMobspawnTick);
+	private ComplexCooldown outMobspawnCooldown = new ComplexCooldown(8, this::outMobspawnTick);
 	
-
-	protected void mobspawnDamage() {
-		player.sendMessage(ChatColor.RED + "You are too close to monster spawn! (" + mobspawnCount + ")");
-			
-		switch (mobspawnCount) {
-			case 0:
-				break;
-			case 1:
-				break;
-			case 2:
-				useMana(100);
-				armour.damage(50);
-				this.doDamage(null, GameDamageType.MOBSPAWN, 1, true);
-				break;
-			case 3:
-				useMana(100);
-				armour.damage(100);
-				this.doDamage(null, GameDamageType.MOBSPAWN, 1, true);
-				break;
-			case 4:
-				useMana(200);
-				armour.damage(150);
-				this.doDamage(null, GameDamageType.MOBSPAWN, 1, true);
-				break;
-			case 5:
-				useMana(200);
-				armour.damage(150);
-				this.doDamage(null, GameDamageType.MOBSPAWN, 50, true);
-				break;
-			case 6:
-				useMana(200);
-				armour.damage(200);
-				this.doDamage(null, GameDamageType.MOBSPAWN, 50, true);
-				break;
-			case 7:
-				useMana(200);
-				armour.damage(200);
-				this.doDamage(null, GameDamageType.MOBSPAWN, 50, true);
-				break;
-			case 8:
-				useMana(250);
-				armour.damage(250);
-				this.doDamage(null, GameDamageType.MOBSPAWN, 100, true);
-				break;
-			case 9:
-				useMana(300);
-				armour.damage(300);
-				this.doDamage(null, GameDamageType.MOBSPAWN, 100, true);
-				givePotionEffect(PotionEffectType.POISON, 80, 1, true, true, true);
-				break;
-			case 10:
-				useMana(500);
-				armour.damage(1000);
-				this.doDamage(null, GameDamageType.MOBSPAWN, 190, true);
-				givePotionEffect(PotionEffectType.POISON, 80, 1, true, true, true);
-				break;
-			default:
-				this.doDamage(null, GameDamageType.MOBSPAWN, 10000, true);
-				break;
+	private void updateMobspawn() {
+		inMobspawnCooldown.update();
+		outMobspawnCooldown.update();
+		
+		boolean inMobspawn = GameMap.getCurrentMap().getCurrentMobProtection().containsPlayer(this);
+		if (inMobspawn) {
+			inMobspawnCooldown.tryUse();
+		} else {
+			outMobspawnCooldown.tryUse();
 		}
+	}
+	
+	private void inMobspawnTick() {
+		if (!inMobspawn) givePermanentPotionEffect(PotionEffectType.CONFUSION, 1);
+		mobspawnCount++;
 		
-		if (mobspawnCount < 6 && mobspawnCount > 0)
-			givePotionEffect(PotionEffectType.CONFUSION, 120, 1, true, true, true);
+		sendMessage(ChatColor.RED + "You are too close to monster spawn! (" + mobspawnCount + ")");
+		sendTitleMessage(ChatColor.RED + "You are too close to monster spawn!");
+		mobspawnDamage(mobspawnCount - 1);
 		
-		if (mobspawnCount == 6)
-			givePermanentPotionEffect(PotionEffectType.CONFUSION,1);
+		inMobspawn = true;
+	}
+	
+	private void outMobspawnTick() {
+		if (mobspawnCount > 0) mobspawnCount--;
+		removePotionEffect(PotionEffectType.CONFUSION);
+		
+		inMobspawn = false;
+	}
+	
+	protected boolean isBlindByMobspawn() {
+		return mobspawnCount >= 7;
+	}
+
+	protected void mobspawnDamage(int tickNumber) {
+		MobSpawnTick tick;
+		if (tickNumber < MobSpawnTick.TICKS.size()) {
+			tick = MobSpawnTick.TICKS.get(tickNumber);
+		} else {
+			tick = MobSpawnTick.KILL;
+		}
+		tick.damageDwarf(this);
 	}
 	
 	
@@ -562,7 +524,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	@Override
 	public void heal(double amt) {
 		if (hasKitElement(KitPieceType.STRONG_ALE))
-			amt *= StrongAle.getDamageResistance();
+			amt *= (1- StrongAle.getDamageResistance());
 		
 		super.heal(amt);
 	}

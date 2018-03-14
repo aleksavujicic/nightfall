@@ -17,15 +17,15 @@ public enum GameDamageType {
 	RANGED("shot"),
 	
 	// Natural Damage
-	CONTACT(new ForcedDeathMessageMaker("was pricked to death."), 2, 1),
+	CONTACT(new ForcedDeathMessageMaker("was pricked to death."), new FixedDOTModifier(DamageOverTimeType.CONTACT, 10, 2, 1)),
+	MAGMA_BLOCK(new ForcedDeathMessageMaker("burnt their feet"), new FixedDOTModifier(DamageOverTimeType.CONTACT, 10, 4, 4)),
 	DROWNING(new ForcedDeathMessageMaker("drowned"), 8, 1),
-	FIRE(new ForcedDeathMessageMaker("couldn't find water"), new FixedDOTModifier(DamageOverTimeType.FIRE, 6, 8, 2)),
-	LAVA(new ForcedDeathMessageMaker("tried to swim in lava"), new FixedDOTModifier(DamageOverTimeType.FIRE, 5, 15, 5)),
-	MAGMA_BLOCK(new ForcedDeathMessageMaker("burnt their feet"), 4, 4),
+	FIRE(new ForcedDeathMessageMaker("couldn't find water"), new FixedDOTModifier(DamageOverTimeType.FIRE, 10, 8, 2)),
+	LAVA(new ForcedDeathMessageMaker("tried to swim in lava"), new FixedDOTModifier(DamageOverTimeType.FIRE, 8, 15, 5)),
 	
 	FALL(new ForcedDeathMessageMaker("fell to their doom"), damage -> {
 		damage.getMulitPartDamage().timesMult(3*(1 - Math.pow(Math.random(),2)/2));
-		damage.setNoDmgTicks(1);
+		damage.setNoDamageTicks(1);
 	}),
 	
 	VOID(new ForcedDeathMessageMaker("was swallowed by the abyss"), GameDamage::instaKill),
@@ -54,7 +54,14 @@ public enum GameDamageType {
 	MYST,
 	SHADOW_STRIKE,
 	BUFFPOOL(
-			(playerName, damage) -> new TextComponent(playerName + " was consumed by " + damage.getAttackerName() + "'s buffpool")
+			(playerName, damage) -> {
+				BaseComponent text = new TextComponent();
+				text.addExtra(playerName);
+				text.addExtra(" was consumed by ");
+				text.addExtra(damage.getAttackerName());
+				text.addExtra("'s buffpool");
+				return text;
+			}
 	),
 	BUBBLE_BEAM("bubbled"),
 	GEYSER("bubbled"),
@@ -64,6 +71,7 @@ public enum GameDamageType {
 	
 	// Dwarf damage
 	DEATH_PLAGUE(new ForcedDeathMessageMaker("was touched by " + ChatColor.DARK_GRAY + "DEATH")),
+	FORCE_PLAGUED(new ForcedDeathMessageMaker("succumbed to the plague")),
 	GOBO_KABOOM("exploded"),
 	GOBO_BOX_EXPLOSION("exploded"),
 	BLAZE_EXPLOSION("blasted"),
@@ -114,7 +122,7 @@ public enum GameDamageType {
 			damage.getMulitPartDamage().setBase(defaultDamage);
 			if (damage instanceof DwarfDamage)
 				((DwarfDamage) damage).setArmourShred(defaultArmourShred);
-			damage.setNoDmgTicks(1);
+			damage.setNoDamageTicks(1);
 		};
 	}
 	
@@ -122,8 +130,8 @@ public enum GameDamageType {
 		damageModifer.accept(damage);
 	}
 	
-	public BaseComponent getDeathMessage(String playerName, LastMainDamage lastMainDamage) {
-		return deathMessageMaker.getDeathMessage(playerName, lastMainDamage);
+	public DeathMessageMaker getDefaultDeathMessageMaker() {
+		return deathMessageMaker;
 	}
 	
 	public boolean isArrow() {
@@ -177,7 +185,7 @@ public enum GameDamageType {
 				damage.cancel();
 			} else {
 				damage.addPostDamageHandler(d -> d.getReceiver().doDamageOverTimeTick(type));
-				damage.setNoDmgTicks(1);
+				damage.setNoDamageTicks(1);
 			}
 		}
 	}

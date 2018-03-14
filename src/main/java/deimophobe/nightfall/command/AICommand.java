@@ -39,6 +39,24 @@ public class AICommand extends BaseCommand {
 		}
 	}
 	
+	@Subcommand("clear")
+	@Description("Remove all AIs around you.")
+	public void clearArea(CommandSender sender, Player player, double radius) {
+		getAIManager().clearArea(player.getLocation(), radius);
+		sender.sendMessage(ChatColor.YELLOW + "Cleared all AIs and spawn spots within " + ChatColor.AQUA + radius +  ChatColor.YELLOW + " blocks.");
+	}
+	
+	@Subcommand("mark")
+	@Description("Add an AI mark at your location.")
+	public void mark(CommandSender sender, Player player) {
+		boolean success = getAIManager().addAISpawnLocation(player.getLocation());
+		if (success) {
+			sender.sendMessage(ChatColor.YELLOW + "Added an AI spawn mark at your location.");
+		} else {
+			sender.sendMessage(ChatColor.RED + "Failed to add AI spawn mark.");
+		}
+	}
+	
 	private AIManager getAIManager() {
 		return AIManager.getManager();
 	}

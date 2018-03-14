@@ -3,6 +3,7 @@ package deimophobe.nightfall.command;
 import co.aikar.commands.*;
 import co.aikar.commands.contexts.ContextResolver;
 import co.aikar.commands.contexts.IssuerAwareContextResolver;
+import com.google.common.collect.ImmutableSet;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
@@ -41,6 +42,8 @@ public class CommandInitialiserUtil {
 	private CommandInitialiserUtil() {}
 	
 	public static void initialiseCommands(NightfallPlugin plugin) {
+		MessageUtil.initialise();
+		
 		BukkitCommandManager bcm = new BukkitCommandManager(plugin);
 		bcm.enableUnstableAPI("help");
 		
@@ -48,6 +51,8 @@ public class CommandInitialiserUtil {
 		registerCompletions(bcm);
 		registerContexts(bcm);
 		registerConditions(bcm);
+		
+		bcm.registerCommand(new ArmourCommand());
 		
 		bcm.registerCommand(new AICommand());
 		bcm.registerCommand(new DoomCommand());
@@ -84,9 +89,12 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("kitpieces", c -> {
 			Collection<String> pieces = KitPieceType.getPieceNames();
 			String extras = c.getConfig("extra");
+			if (extras == null) return pieces;
+			
 			switch (extras) {
 				case "loadout":
 					pieces.add("loadoutall");
+					pieces.add("kit");
 				case "all":
 					pieces.add("all");
 					break;
@@ -94,6 +102,9 @@ public class CommandInitialiserUtil {
 			}
 			return pieces;
 		});
+		
+		ImmutableSet<String> booleans = ImmutableSet.of("true", "false");
+		completions.registerCompletion("boolean", c -> booleans);
 	}
 	
 	private static void registerContexts(BukkitCommandManager bcm) {
@@ -118,14 +129,17 @@ public class CommandInitialiserUtil {
 			}
 			return pieceTypes.toArray(new KitPieceType[0]);
 		};
+		
 		contexts.registerContext(KitPieceType.class, kitPieceTypeResolver);
 		contexts.registerContext(KitPieceType[].class, arrayPieceResolver);
 		contexts.registerContext(DwarfData.class, context -> {
 			String firstArg = context.getFirstArg();
 			if (firstArg.equalsIgnoreCase("kit")) {
+				context.popFirstArg();
 				Player player = (Player) context.getResolvedArg(Player.class);
 				return DwarfData.getData(player);
 			} else if (firstArg.equalsIgnoreCase("loadoutall")) {
+				context.popFirstArg();
 				DwarfData data = new DwarfData();
 				LoadoutManager.getManager().modifyAll(data);
 				return data;
@@ -170,6 +184,11 @@ public class CommandInitialiserUtil {
 			if (dwarf == null) throw new ConditionFailedException("Dwarf must not be null");
 			if (!(dwarf.getArmour() instanceof DwarvenArmour)) throw new ConditionFailedException("Dwarf must have regular dwarven armour.");
 		});
+		conditions.addCondition(Dwarf.class, "unequipped-armour", (context, execContext, dwarf) -> {
+			if (dwarf == null) throw new ConditionFailedException("Dwarf must not be null");
+			if (!(dwarf.getArmour() instanceof DwarvenArmour)) throw new ConditionFailedException("Dwarf must have regular dwarven armour.");
+			if (dwarf.getArmour().isArmoured()) throw new ConditionFailedException("Dwarf must not have any armour equipped.");
+		});
 		conditions.addCondition(String.class, "map", (context, execContext, map) -> {
 			if (!MapManager.getManager().getMaps().contains(map)) throw new ConditionFailedException("String must be a valid map.");
 		});
@@ -211,6 +230,7 @@ public class CommandInitialiserUtil {
 			
 			boolean setSelfAsGamePlayer = name == null || name.equals(".") || name.equals("~");
 			if (setSelfAsGamePlayer) {
+				if (c.getPlayer() == null) throw new InvalidCommandArgument(ChatColor.RED + "Console is not a " + playerTypeName);
 				gamePlayer = resolver.apply(c.getPlayer().getName());
 				if (gamePlayer == null) throw new InvalidCommandArgument(ChatColor.RED + "You are not a " + playerTypeName);
 			} else {

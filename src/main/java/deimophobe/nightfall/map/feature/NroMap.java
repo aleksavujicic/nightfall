@@ -11,6 +11,7 @@ import deimophobe.nightfall.event.DwarfCreateEvent;
 import deimophobe.nightfall.event.PhaseChangeEvent;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.InvalidMapConfigException;
+import deimophobe.nightfall.util.ArmourSlot;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -106,7 +107,7 @@ public class NroMap implements MapFeature {
 			if (hero != null && hero.getType() == HeroType.HERANA) {
 				event.setSpawnLocation(throne);
 			} else {
-				dwarf.getArmour().addModifier(ItemModifierType.DEPTH_STRIDER, blessingLevel, "Mermaid's Blessing");
+				dwarf.getArmour().addModifier(ItemModifierType.DEPTH_STRIDER, blessingLevel, "Mermaid's Blessing", ArmourSlot.FEET);
 			}
 		}
 	}

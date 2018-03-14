@@ -8,10 +8,12 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -45,6 +47,7 @@ public class Wraith extends AbstractMob {
 	
 	@Override
 	public void onShift(boolean sneaking) {
+		super.onShift(sneaking);
 		if (chargerCD < MAX_CHARGE_CD - 5) {
 			setFloatiness(sneaking);
 		}
@@ -52,6 +55,7 @@ public class Wraith extends AbstractMob {
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace face) {
+		super.onUse(action, clickedBlock, face);
 		if (!Misc.isRightClick(action)) return;
 		if (!isPlayerHoldingWeapon()) return;
 		
@@ -69,12 +73,12 @@ public class Wraith extends AbstractMob {
 	
 	@Override
 	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
+		super.update(a, b, c, d, e);
 		if (chargerCD > 0) {
 			chargerCD--;
 
 			if (chargeActive && chargerCD >= MAX_CHARGE_CD - CLOUD_TIME) {
-				Location loc = monster.getLocation();
-				loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 30, 0.7, 0.7, 0.7, 0.03);
+				spawnParticles();
 				aoeDamage();
 			}
 			
@@ -129,9 +133,19 @@ public class Wraith extends AbstractMob {
 		monster.playSound("entity.ghast.shoot", 1f, 0.5f, true);
 	}
 	
+	private static final double PARTICLE_VISIBLE_RADIUS = 50;
+	private void spawnParticles() {
+		Location location = monster.getLocation();
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (location.distance(player.getLocation()) <= PARTICLE_VISIBLE_RADIUS) {
+				player.spawnParticle(Particle.SMOKE_LARGE, location, 30, 0.7, 0.7, 0.7, 0.03);
+			}
+		}
+	}
+	
 	private static final double AOE_RADIUS = 3;
 	private static final int AOE_DMG = 60; // This is a one off hit so its not as strong as it seems.
-	private static final int AOE_SHRED = 80;
+	private static final int AOE_SHRED = 40;
 	private void aoeDamage() {
 		//DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), monster,
 		//		GameDamageType.WRAITH_CHARGE, AOE_RADIUS, AOE_DMG, 1,
@@ -145,7 +159,7 @@ public class Wraith extends AbstractMob {
 				damage.getDwarf().givePotionEffect(PotionEffectType.SLOW, 30, 3, false, true, true);
 				damage.getDwarf().givePotionEffect(PotionEffectType.WITHER, 40, 5, false, true, true);
 				damage.setManaDrain(50);
-				damage.setNoDmgTicks(10);
+				damage.setNoDamageTicks(10);
 				damage.fire();
 			}
 		}

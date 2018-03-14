@@ -1,10 +1,10 @@
 package deimophobe.nightfall.damage;
 
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.util.NMSUtil;
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -35,8 +35,8 @@ public class LastMainDamage {
 		this.time = time;
 	}
 	
-	public String getAttackerName() {
-		return attackerName;
+	public TextComponent getAttackerName() {
+		return Misc.textComponentFromString(attackerName);
 	}
 	
 	public GameDamageType getType() {
@@ -77,10 +77,7 @@ public class LastMainDamage {
 			return text;
 		}
 		
-		String name = meta.getDisplayName();
-		ChatColor colour = ChatColor.getByChar(name.charAt(1));
-		text.setText(name);
-		if (colour != null) text.setColor(colour);
+		text = Misc.textComponentFromString(meta.getDisplayName());
 		text.setHoverEvent(NMSUtil.createHoverEventForItem(item));
 		
 		return text;

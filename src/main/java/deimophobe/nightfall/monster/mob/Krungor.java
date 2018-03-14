@@ -51,6 +51,7 @@ class Krungor extends AbstractMob {
 	private static final double RANGE = 7;
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(action, clickedBlock, blockFace);
 		if (Misc.isRightClick(action) && isPlayerHoldingWeapon()) {
 			launchCD.tryUse();
 		}
@@ -62,6 +63,7 @@ class Krungor extends AbstractMob {
 			double distance = monster.distanceTo(dwarf);
 			if (distance <= RANGE) {
 				dwarf.givePotionEffect(PotionEffectType.LEVITATION, 30, 100, true, false, true);
+				dwarf.setVelocity(0, 4, 0);
 				launched.add(dwarf);
 			}
 		}

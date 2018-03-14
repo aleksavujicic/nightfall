@@ -66,7 +66,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		MonsterPlayer p = new MonsterPlayer(player);
 		p.forceGainXP(xpCount);
 		if (plaguedPlayers.contains(p.getUniqueId())) {
-			p.forceGainXP(5000);
+			p.forceGainXP(6000);
 		}
 		return p;
 	}

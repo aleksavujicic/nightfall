@@ -126,7 +126,7 @@ public class Wildfire extends AbstractItem {
 				
 				if (monster.getEyeLocation().distance(location) <= radius) {
 					GameDamage damage = monster.createDamage(dwarf, GameDamageType.WILDFIRE, damageAmt);
-					damage.setNoDmgTicks(1);
+					damage.setNoDamageTicks(1);
 					damage.fire();
 					
 					flamedMobs.add(monster);

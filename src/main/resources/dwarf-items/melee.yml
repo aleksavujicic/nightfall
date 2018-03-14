@@ -55,8 +55,9 @@ hammer:
   name: Warhammer
   lore:
     description:
-     - "Right click to roar\n
-        Attracting AIs toward you."
+     - "Right click to roar, which gives you\n
+        strength for a short time and attracts\n
+        nearby AIs toward you. Deals AOE Damage."
     flavour:
      - "\"Time to really prove what you're worth.\" - Tui"
   modifiers:
@@ -76,6 +77,7 @@ dagger:
   modifiers:
     attack: 20
     speed: 30
+    kb-resist: 25
 
 rapier:
   base: rapier

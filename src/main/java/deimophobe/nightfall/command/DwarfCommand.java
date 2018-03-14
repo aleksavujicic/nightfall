@@ -29,10 +29,12 @@ public class DwarfCommand extends BaseCommand {
 	
 	@Subcommand("set")
 	@CommandAlias("setdwarf")
-	// Apparently no way to repeat completions so yeah
-	@CommandCompletion("@players @kitpieces:extra=loadout")
+	@CommandCompletion("@players @kitpieces:extra=loadout @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces")
 	@Description("Sets a player to be a dwarf.")
-	public void onSetDwarf(CommandSender sender, OnlinePlayer player, @Default("kit") DwarfData dwarfData) {
+	public void onSetDwarf(CommandSender sender, OnlinePlayer player, @Default("kit") DwarfData dwarfData,
+						   @Optional String string1, @Optional String string2, @Optional String string3, @Optional String string4, @Optional String string5,
+						   @Optional String string6, @Optional String string7, @Optional String string8, @Optional String string9, @Optional String string0
+	) {
 		Player realPlayer = player.getPlayer();
 		Game.getGame().removeGamePlayer(realPlayer);
 		DwarfManager.getManager().createDwarf(realPlayer, dwarfData);
@@ -124,6 +126,7 @@ public class DwarfCommand extends BaseCommand {
 	}
 	
 	@Subcommand("consumable")
+	@CommandAlias("consumable")
 	@CommandCompletion("@dwarves @consumables")
 	@Description("Give a dwarf a consumable.")
 	public void giveConsumable(CommandSender sender, Dwarf dwarf, ConsumableType type, @Default("1") int amount) {
@@ -142,10 +145,14 @@ public class DwarfCommand extends BaseCommand {
 	@Subcommand("kit")
 	public class KitCommand extends BaseCommand {
 		
-		@Subcommand("add")
-		@CommandCompletion("@dwarves @kitpieces:extra=all")
+		@Subcommand("add|give")
+		@CommandAlias("give-kit|add-kit")
+		@CommandCompletion("@dwarves @kitpieces:extra=all @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces @kitpieces")
 		@Description("Add a kit piece to a dwarf's kit.")
-		public void addKitItem(CommandSender sender, Dwarf dwarf, KitPieceType[] pieceTypes) {
+		public void addKitItem(CommandSender sender, Dwarf dwarf, KitPieceType[] pieceTypes,
+							   @Optional String string1, @Optional String string2, @Optional String string3, @Optional String string4, @Optional String string5,
+							   @Optional String string6, @Optional String string7, @Optional String string8, @Optional String string9, @Optional String string0
+		) {
 			if (pieceTypes.length == 0) {
 				sender.sendMessage(ChatColor.RED + "Please specify an item.");
 			} else {
@@ -176,14 +183,15 @@ public class DwarfCommand extends BaseCommand {
 		}
 	}
 	
-	@CommandAlias("armour")
-	@Subcommand("armour")
+	@Subcommand("armour|armor")
+	//@CommandAlias("armour|armor")
 	public class ArmourCommand extends BaseCommand {
 		
+		@Default
 		@Subcommand("equip")
 		@CommandCompletion("@dwarves")
 		@Description("Equip armour on a dwarf.")
-		public void onEquip(CommandSender sender, @Conditions("reg-armour") @Optional Dwarf dwarf) {
+		public void onEquip(CommandSender sender, @Conditions("unequipped-armour") @Optional Dwarf dwarf) {
 			((DwarvenArmour) dwarf.getArmour()).putOn();
 			sender.sendMessage(ChatColor.YELLOW + "Equipped armour on dwarf " + dwarf.getDisplayName() + ChatColor.YELLOW + ".");
 		}

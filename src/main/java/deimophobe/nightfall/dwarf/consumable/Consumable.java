@@ -53,6 +53,8 @@ public abstract class Consumable {
 		return true;
 	}
 	
+	protected void reset() {}
+	
 	public static int use(Dwarf dwarf, ItemStack item, Action action, Block clickedBlock, BlockFace face) {
 		return use(dwarf, ConsumableType.getConsumableType(item), action, clickedBlock, face);
 	}

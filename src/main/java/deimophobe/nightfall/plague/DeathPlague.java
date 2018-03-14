@@ -47,7 +47,7 @@ class DeathPlague extends AbstractPlague {
 				}
 					
 				death.teleport(target.getLocation());
-				target.doDamage(null, GameDamageType.DEATH_PLAGUE, 10000, true, true);
+				target.instaKill(null, GameDamageType.DEATH_PLAGUE);
 				world.playSound(target.getLocation(), Sound.ENTITY_ENDERMEN_TELEPORT, 1, 1);
 				world.playSound(target.getLocation(), "entity.endermen.scream", 1, 1);
 				removeDwarf(target);

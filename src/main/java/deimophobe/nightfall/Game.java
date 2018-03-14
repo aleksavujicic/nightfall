@@ -101,6 +101,8 @@ public class Game {
 	
 	private final Team lobbyTeam;
 	
+	private Plague activePlague = null;
+	
 	
 	private long tickNumber = 0;
 	public long getCurrentTick() { return tickNumber; }
@@ -188,6 +190,8 @@ public class Game {
 		return (dwarfManager.isGamePlayer(name) || monsterManager.isGamePlayer(name));
 	}
 	
+	public boolean isGameEntity(Entity entity) { return getGameEntity(entity) != null; }
+	
 	public GamePlayer getGamePlayer(Player player) {
 		return getGamePlayer(player.getName());
 	}
@@ -244,6 +248,10 @@ public class Game {
 				
 		Bukkit.broadcastMessage(ChatColor.DARK_AQUA+ player.getName() + ChatColor.YELLOW + " is ready! (" +
 				ChatColor.AQUA + numReady + ChatColor.YELLOW + "/" + ChatColor.AQUA + numPlayers + ChatColor.YELLOW + ")");
+		
+		if (LoadoutManager.getManager().getLoadout(player).hasUntimelyDemise()) {
+			player.sendMessage("" + ChatColor.GREEN + ChatColor.ITALIC + "You will plague this game.");
+		}
 		
 		player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, player.getEyeLocation(), 10, 0.3, 0.2, 0.3, 0.05);
 		
@@ -535,6 +543,7 @@ public class Game {
 	public void startPlague(Plague plague) {
 		if (phase != Phase.BUILD) return;
 		phase = Phase.PLAGUE;
+		this.activePlague = plague;
 		
 		// Dwarves and number to plague
 		Set<Dwarf> plagueables = dwarfManager.getPlagueables();
@@ -553,12 +562,18 @@ public class Game {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				if (phase == Phase.PLAGUE)
+				if (phase == Phase.PLAGUE) {
 					plague.forceEnd();
+					releaseMonsters();
+				}
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), 120*20);
 		
 		Bukkit.getServer().getPluginManager().callEvent(new PhaseChangeEvent(phase));
+	}
+	
+	public Plague getActivePlague() {
+		return activePlague;
 	}
 	
 	public void notifyPlagueFinish() {
@@ -569,6 +584,8 @@ public class Game {
 	private void releaseMonsters() {
 		if (phase != Phase.PLAGUE) return;
 		phase = Phase.GAME;
+		this.activePlague = null;
+		
 		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
 		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
 		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");

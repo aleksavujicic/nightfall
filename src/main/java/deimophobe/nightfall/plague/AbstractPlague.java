@@ -1,5 +1,6 @@
 package deimophobe.nightfall.plague;
 
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterManager;
 
@@ -25,17 +26,21 @@ public abstract class AbstractPlague implements Plague {
 	public void forceEnd() {
 		Iterator<Dwarf> iter = plagued.iterator();
 		while (iter.hasNext() && toKill > 0) {
-			iter.next().forceKill();
+			iter.next().instaKill(null, GameDamageType.FORCE_PLAGUED);
 			toKill--;
 		}
 		iter = plagueables.iterator();
 		while (iter.hasNext() && toKill > 0) {
-			iter.next().forceKill();
+			iter.next().instaKill(null, GameDamageType.FORCE_PLAGUED);
 			toKill--;
 		}
 		notifyEnd();
 	}
 	
+	@Override
+	public void onDwarfDeath(Dwarf dwarf) {
+		removeDwarf(dwarf);
+	}
 	
 	protected void removeDwarf(Dwarf dwarf) {
 		toKill--;
@@ -45,7 +50,7 @@ public abstract class AbstractPlague implements Plague {
 	}
 	
 	protected void killDwarf(Dwarf dwarf) {
-		dwarf.forceKill();
+		dwarf.instaKill(null, GameDamageType.FORCE_PLAGUED);
 		removeDwarf(dwarf);
 	}
 	

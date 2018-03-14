@@ -49,6 +49,7 @@ public class Bopen extends AbstractMob {
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		if (cooldown > 0)
 			cooldown--;
 	}
@@ -60,6 +61,7 @@ public class Bopen extends AbstractMob {
 	
 	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(action, clickedBlock, blockFace);
 		if (cooldown == 0 && isPlayerHoldingItem("steed")) {
 			mountHorse();
 		}
@@ -67,6 +69,7 @@ public class Bopen extends AbstractMob {
 	
 	@Override
 	public void onShift(boolean sneak) {
+		super.onShift(sneak);
 		dismountHorse();
 	}
 	

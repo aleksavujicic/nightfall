@@ -79,6 +79,7 @@ public class GameListener implements Listener {
 			}
 		}
 		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(100000);
+		player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
 		
 		
 		Game.getGame().giveShrineBarToPlayer(player);
@@ -392,6 +393,10 @@ public class GameListener implements Listener {
 			event.setDeathMessage("");
 			Bukkit.spigot().broadcast(dwarf.getDeathMessage());
 			
+			if (Game.getGame().getPhase() == Phase.PLAGUE) {
+				Game.getGame().getActivePlague().onDwarfDeath(dwarf);
+			}
+			
 			if (Game.getGame().getPhase() == Phase.GAME) {
 				for (Player player : Bukkit.getOnlinePlayers())
 					player.sendTitle("", dwarf.getDisplayName() + ChatColor.DARK_RED + " has fallen!", 20, 60, 20);
@@ -615,12 +620,22 @@ public class GameListener implements Listener {
 	// ------ MOB STUFF ------
 	@EventHandler
 	public void preventAIBurning(EntityCombustEvent event) {
-		if (event.getEntityType() == EntityType.ZOMBIE)
+		if (event.getEntityType() == EntityType.ZOMBIE) {
 			event.setCancelled(true);
+			return;
+		}
 		
 		Entity entity = event.getEntity();
-		if (entity instanceof Player && mm.isGamePlayer((Player) entity))
+		if (entity instanceof Player && mm.isGamePlayer((Player) entity)) {
 			event.setCancelled(true);
+			return;
+		}
+		
+		if (!Game.getGame().isGameEntity(entity)) {
+			event.setCancelled(true);
+			return;
+		}
+		
 	}
 	
 	@EventHandler

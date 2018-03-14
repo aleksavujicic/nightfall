@@ -65,7 +65,7 @@ jadebow:
     description:
      - "A magical bow, made from jade.\n
         Shooting other dwarves gives them\n
-        a short duration proc."
+        a short duration proc. Cost 2 arrows."
     flavour:
      - "I'm sure glad we found use\n
         for the rest of that Jade City."
@@ -79,7 +79,7 @@ warpweaver:
         When activated, you will teleport\n
         to where the arrow lands.\n
         Getting hit will cancel the teleport.\n
-        Uses 15 arrows per warp, with no\n
+        Uses 10 arrows per warp, with no\n
         cooldown"
     flavour:
      - "\"Hey look at this thing! Isn't it cool!?\" - Tui"

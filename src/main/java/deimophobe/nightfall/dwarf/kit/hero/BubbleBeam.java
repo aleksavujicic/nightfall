@@ -51,7 +51,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	private Whirlpool whirlpool = null;
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero","bubblebeam");
-	private final static double DAMAGE = 10;
+	private final static double DAMAGE = 12;
 	static { ITEM.addModifier(ItemModifierType.ATTACK, (int) DAMAGE); }
 	
 	@Override public CustomItem getItem() {
@@ -109,11 +109,13 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 			@Override
 			public void onHit(MonsterEntity monster) {
 				double damageAmt = DAMAGE + dwarf.getBonusMeleeDamage() / 2;
-				if (monster.isUnderwater()) damageAmt *= 1.5;
+				if (monster.isUnderwater()) damageAmt *= 1.25;
 				
 				MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.BUBBLE_BEAM, damageAmt);
+				damage.setKnockbackFromMelee();
+				damage.multiplyKnockback(0.4);
 				if (dwarf.hasProc()) damage.setProc(true);
-				damage.setNoDmgTicks(1);
+				damage.setNoDamageTicks(2);
 				damage.fire();
 			}
 		};

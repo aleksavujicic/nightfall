@@ -3,6 +3,8 @@ package deimophobe.nightfall.dwarf.kit.melee;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
@@ -42,6 +44,14 @@ public class Hammer extends AbstractAOEHitter implements CooldownPiece {
 	}
 	
 	@Override
+	public void onDamageReceive(DwarfDamage damage) {
+		super.onDamageReceive(damage);
+		if (damage.getAttacker() instanceof AIEntity<?> && damage.getType() == GameDamageType.MELEE && isHoldingItem()) {
+			damage.multiplyKnockback(0.5);
+		}
+	}
+	
+	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		super.onUse(action, clickedBlock, blockFace);
 		if (Misc.isRightClick(action)) {
@@ -64,7 +74,7 @@ public class Hammer extends AbstractAOEHitter implements CooldownPiece {
 			}
 		}
 		dwarf.playSound("dragonroar", 1f, 1.4f, true);
-		dwarf.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, 5*20, 4, true, false, true);
+		dwarf.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, 5*20, 10, true, false, true);
 	}
 	
 	@Override
@@ -76,7 +86,7 @@ public class Hammer extends AbstractAOEHitter implements CooldownPiece {
 				return 10;
 			}
 		} else if (entity.isAI()) {
-			return 25;
+			return 20;
 		}
 		
 		return 0;

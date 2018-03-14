@@ -98,10 +98,11 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 				Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
 				knockback.setY(knockback.getY() / 2 + 0.1);
 				
-				double damage = souls;
+				double damage = souls*1.5;
 				if (entity.isAI()) damage *= 2;
-				entity.doDamage(dwarf, GameDamageType.SILENT_STRIKE, damage);
-				entity.setVelocity(knockback);
+				MonsterDamage mDamage = entity.createDamage(dwarf, GameDamageType.SILENT_STRIKE, damage);
+				mDamage.setKnockback(knockback);
+				mDamage.fire();
 			}
 		}
 		souls = 0;

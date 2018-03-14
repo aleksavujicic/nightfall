@@ -20,7 +20,7 @@ public class OgreMagi extends Doom {
 	void startDoom() {
 		super.startDoom();
 		
-		Game.getGame().addCurse(Curse.DOOM, 60);
+		Game.getGame().addCurse(Curse.DOOM, 90);
 		Game.getGame().addCurse(Curse.SUPER_DOOM, 11);
 	}
 	

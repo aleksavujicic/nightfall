@@ -31,7 +31,7 @@ public class BlockType {
 	public static final CustomBlock DAMAGED_WALL = new MaterialSet(Material.COBBLESTONE, Material.MOSSY_COBBLESTONE);
 	public static final CustomBlock BROKEN_WALL = new MaterialBlock(Material.GRAVEL);
 	
-	public static final CustomBlock CORRODED_WALL = new WoolBlock(DyeColor.LIME);
+	public static final CustomBlock CORRODED_WALL = new MaterialBlock(Material.SLIME_BLOCK);
 	
 	public static final ComparableBlock MORTARABLE_WALL = new BlockSet(NORMAL_WALL, CRACKED_WALL, DAMAGED_WALL, new MaterialBlock(Material.SMOOTH_BRICK));
 	public static final ComparableBlock WALL = new BlockSet(ENCHANTED_WALL, MORTARABLE_WALL);

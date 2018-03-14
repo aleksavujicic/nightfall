@@ -11,7 +11,7 @@ proccable: false
 resistance: 0.85
 arrowres: 0.5
 shred: 30
-shrineimmune: true
+shrine-prot-damage: 200
 
 armourslot: head
 armour:

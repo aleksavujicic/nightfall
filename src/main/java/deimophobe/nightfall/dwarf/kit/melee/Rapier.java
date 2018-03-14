@@ -12,8 +12,6 @@ import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
-import deimophobe.nightfall.monster.MonsterPlayer;
-import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -74,10 +72,9 @@ public class Rapier extends AbstractItem implements CooldownPiece {
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
 		if (damageFromItem(damage)) {
-			MonsterEntity monster = damage.getMonster();
-			boolean canHit = (monster instanceof AIEntity<?> || !((MonsterPlayer) monster).hasSpawnProtection());
-			if (canHit && stacks < MAX_STACKS) {
-				stacks++;
+			if (stacks < MAX_STACKS) {
+				MonsterEntity monster = damage.getMonster();
+				if (monster.isAI()) damage.addPostDamageHandler((d) -> stacks++);
 			}
 		}
 	}

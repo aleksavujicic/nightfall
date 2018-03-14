@@ -7,7 +7,7 @@ proccable: false
 resistance: 0.85
 shred: 40
 arrowres: 0.75
-shrineimmune: true
+shrine-prot-damage: 0
 
 armour:
   material: diamond_chestplate
@@ -15,7 +15,7 @@ armour:
   shiny: true
   lore:
     description:
-     - "Blah."
+     - "Doppelganger Armour."
     flavour:
      - "Armour stolen off a recently slain dwarf."
 weapon:
@@ -23,9 +23,9 @@ weapon:
   name: Cursed Mystic Runesword
   lore:
     description:
-     - "Blah."
+     - "A runesword that has been touched by Airems will"
     flavour:
-     - "Blah"
+     - "It still glows..but very dim."
 
 
 items:
@@ -35,7 +35,7 @@ items:
     shiny: true
     lore:
       description:
-       - "Blah."
+       - "Doppelganger Armour."
       flavour:
        - "Armour stolen off a recently slain dwarf."
   boots:
@@ -44,7 +44,7 @@ items:
     shiny: true
     lore:
       description:
-       - "Blah."
+       - "Doppelganger Armour."
       flavour:
        - "Armour stolen off a recently slain dwarf."
 
@@ -57,7 +57,7 @@ items:
           so dwarves will now be able to\n
           see you."
       flavour:
-       - "Blah"
+       - "It's alright...I'm your....friend."
 
   # Weapons
   axe:
@@ -65,57 +65,57 @@ items:
     name: Cursed Bloodied Waraxe
     lore:
       description:
-       - "Blah."
+       - "A waraxe that has been touched by Airems will."
       flavour:
-       - "Blah"
+       - "The blood of a dwarf remains."
   dagger:
     base: dagger
     name: Cursed Dagger
     lore:
       description:
-       - "Blah."
+       - "A dagger that has been touched by Airems will."
       flavour:
-       - "Blah"
+       - "The poison has withered up."
   hammer:
     base: hammer
     name: Cursed Hammer
     lore:
       description:
-       - "Blah."
+       - "A hammer that has been touched by Airems will."
       flavour:
-       - "Blah"
+       - "It's nothing more than a maul of hatred."
   scepter:
     base: scepter
     name: Cursed Scepter
     lore:
       description:
-       - "Blah."
+       - "A scepter that has been touched by Airems will."
       flavour:
-       - "Blah"
+       - "The orb has turned black as the night."
   rapier:
     base: rapier
     name: Cursed Rapier
     lore:
       description:
-       - "Blah."
+       - "A rapier that has been touched by Airems will."
       flavour:
-       - "Blah"
+       - "It strikes with perfect precision."
   glaive:
     base: glaive
     name: Cursed Glaive
     lore:
       description:
-       - "Blah."
+       - "A glaive that has been touched by Airems will."
       flavour:
-       - "Blah"
+       - "The blade cuts through all armour."
   soulblade:
     base: soulblade
     name: Cursed Soulblade
     lore:
       description:
-       - "Blah."
+       - "A soulblade that has been touched by Airems will."
       flavour:
-       - "Blah"
+       - "And the souls hunger for more!"
 
 sounds:
   death:

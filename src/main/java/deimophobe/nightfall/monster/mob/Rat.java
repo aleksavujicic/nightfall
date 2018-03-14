@@ -3,6 +3,7 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Material;
@@ -42,6 +43,7 @@ class Rat extends AbstractMob {
 	
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		if (stealCD > 0)
 			stealCD--;
 		
@@ -49,7 +51,14 @@ class Rat extends AbstractMob {
 	}
 	
 	@Override
+	public void onDamageAttack(DwarfDamage damage) {
+		super.onDamageAttack(damage);
+		damage.multiplyKnockback(0.75);
+	}
+	
+	@Override
 	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(action, clickedBlock, blockFace);
 		if (stealCD == 0 && Misc.isRightClick(action) && clickedBlock != null) {
 			if (BlockType.ACTIVE_SHRINE_BLOCK.matchesBlock(clickedBlock) && GameMap.getCurrentMap().hasGold()) {
 				if (clickedBlock.getLocation().distance(monster.getLocation()) <= 4) {
