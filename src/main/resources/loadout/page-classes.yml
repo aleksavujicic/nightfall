@@ -330,7 +330,7 @@ brawler-class:
           *192 Cobblestone"
 
 rift-class:
-  index: 11
+  index: 13
   cost: 64
   category: kit
   type: multi
