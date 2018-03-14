@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf;
 
+import com.google.common.collect.Sets;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
@@ -168,11 +169,14 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 		if (numPlayers >= 25) numHeroes++;
 		if (numPlayers >= 35) numHeroes++;
 		
+		Set<HeroType> availableHeroes = Sets.newHashSet(HeroType.VELVETINE, HeroType.ARTHEA, HeroType.TUI, HeroType.HERANA);
 		while (numHeroes > 0) {
 			Player hero = Misc.getRandom(players);
 			players.remove(hero);
 			
-			HeroType type = Misc.getRandomFrom(HeroType.VELVETINE, HeroType.ARTHEA, HeroType.TUI, HeroType.HERANA);
+			HeroType type = Misc.getRandom(availableHeroes);
+			availableHeroes.remove(type);
+			
 			addHero(hero, type);
 			numHeroes--;
 		}
