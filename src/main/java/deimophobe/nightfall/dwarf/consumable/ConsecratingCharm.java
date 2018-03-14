@@ -9,6 +9,7 @@ import deimophobe.nightfall.monster.mob.Mob;
 import deimophobe.nightfall.monster.mob.MobType;
 import deimophobe.nightfall.monster.mob.ZombieMob;
 import deimophobe.nightfall.util.LifetimeObject;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -42,7 +43,10 @@ class ConsecratingCharm extends Consumable {
 		if (!checkPhase(dwarf)) return FAILED_CD;
 		
 		Location center = dwarf.getEyeLocation();
-		if (isCloseToActiveCharm(center)) return FAILED_CD;
+		if (isCloseToActiveCharm(center)) {
+			dwarf.sendTitleMessage(ChatColor.RED + "Too close to placed charm");
+			return FAILED_CD;
+		}
 		
 		dwarf.playSound("entity.evocation_illager.prepare_summon", 1, 1f, true);
 		new CharmInstance(8*20, center, 11, 3);
