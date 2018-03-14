@@ -56,7 +56,9 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 			if (repairee != null && armourCD.isAvailable()) {
 				GameMap currentMap = GameMap.getCurrentMap();
 				if (currentMap.tryUseGold(50)) {
-                    armourCD.setMaxCD(30 * 20 - 25 * 20 * currentMap.getCurrentShrineIndex() / (currentMap.getNumShrines()-1));
+					double frac = (double) currentMap.getCurrentShrineIndex() / currentMap.getNumShrines();
+					double maxCD = (30 - 25 * frac)*20;
+                    armourCD.setMaxCD((int) maxCD);
 					armourCD.reset();
 					repairee.getArmour().repair(400);
 					GameEffect.DWARF_ARMOUR_CLOUD.playEffect(repairee);
