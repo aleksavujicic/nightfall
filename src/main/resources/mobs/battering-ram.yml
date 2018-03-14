@@ -18,9 +18,9 @@ armour:
   name: Something
   lore:
     description:
-     - "Temp"
+     - "Ram Armour"
     flavour:
-     - "Temp"
+     - "It's really durable."
   modifiers:
     kb-resist: 100
 weapon:
@@ -28,6 +28,7 @@ weapon:
   name: Ram
   lore:
     description:
-     - "Temp"
+     - "Do massive damage to walls\n
+        But nothing to players."
     flavour:
      - "Boom"

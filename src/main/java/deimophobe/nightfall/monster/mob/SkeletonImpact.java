@@ -87,10 +87,10 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 			reactionCD.reset();
             World world = monster.getLocation().getWorld();
             world.spawnParticle(Particle.EXPLOSION_LARGE, monster.getLocation(), 3, 1, 1, 1);
-            double kb = 0.5 + 0.3 * reaction;
+            double kb = 0.5 + 0.35 * reaction;
             for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
                 Vector offset = dwarf.getEyeLocation().subtract(monster.getLocation()).toVector();
-                if (offset.length() > 4) {
+                if (offset.length() > 4.5) {
                     continue;
                 }
 
@@ -101,7 +101,7 @@ class SkeletonImpact extends AbstractToggleSkeleton {
                 aoeDamage.setKnockback(knockback);
                 aoeDamage.fire();
             }
-            Vector dir = monster.getEyeLocation().getDirection().multiply(-5).normalize();
+            Vector dir = monster.getEyeLocation().getDirection().multiply(-2.5 - 0.5*reaction).normalize();
             dir = dir.setY(dir.getY() + 0.5);
             monster.setVelocity(dir);
         }
@@ -147,7 +147,7 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 		}
 		World world = monster.getLocation().getWorld();
 		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
-		double kb = 0.4 + aoe * 0.12;
+		double kb = 0.35 + aoe * 0.1;
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			if (dwarf == exempt) {
 				continue;

@@ -57,7 +57,7 @@ hammer:
     description:
      - "Right click to roar, which gives you\n
         strength for a short time and attracts\n
-        nearby AIs toward you."
+        nearby AIs toward you. Deals AOE Damage."
     flavour:
      - "\"Time to really prove what you're worth.\" - Tui"
   modifiers:
