@@ -2,6 +2,7 @@ package deimophobe.nightfall.command;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
+import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.plague.Plague;
@@ -44,9 +45,10 @@ public class GameCommand extends BaseCommand {
 	@Subcommand("reset-player")
 	@CommandCompletion("@players")
 	@Description("Resets a player, removing them from any team and resetting them as if they just logged in.")
-	public void resetPlayer(CommandSender sender, @Flags("other") Player player) {
-		Game.getGame().resetPlayer(player);
-		MessageUtil.sendMessage(sender,"Reset player ", player, ".");
+	public void resetPlayer(CommandSender sender, OnlinePlayer player) {
+		Player realPlayer = player.getPlayer();
+		Game.getGame().resetPlayer(realPlayer);
+		MessageUtil.sendMessage(sender,"Reset player ", realPlayer, ".");
 	}
 	
 	@Subcommand("remove-player")
