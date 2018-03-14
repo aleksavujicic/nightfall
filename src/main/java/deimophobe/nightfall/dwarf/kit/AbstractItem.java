@@ -40,7 +40,7 @@ public abstract class AbstractItem extends AbstractPiece implements ItemPiece {
 		}
 		updated |= trySetShiny(dwarf.getPlayer().getItemOnCursor(), shiny);
 		
-		//if (updated) dwarf.getPlayer().updateInventory();
+		if (updated) dwarf.getPlayer().updateInventory();
 		
 		return updated;
 	}
