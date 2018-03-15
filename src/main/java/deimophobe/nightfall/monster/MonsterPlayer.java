@@ -3,6 +3,7 @@ package deimophobe.nightfall.monster;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.common.menu.SessionData;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -84,7 +85,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			}
 		}
 		
-		if (sec && isAlive()) {
+		if (sec && isAlive() && Game.getGame().getPhase() == Phase.GAME) {
 			gainXP(10);
 		}
 		if (quartSec && isAlive() && isInShrine()) {
