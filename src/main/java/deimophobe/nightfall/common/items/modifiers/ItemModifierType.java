@@ -40,7 +40,7 @@ public enum ItemModifierType {
 	
 	// Special dwarf armours
 	FAIRY_BAND("Fairy Band", false),
-	NATURE_SUIT("Nature Suit", false),
+	NATURE_SUIT("Taproot Armour", false),
 	
 	KB_RESIST("Knockback Res", new AttributeApplier(Attribute.KNOCKBACK_RESISTANCE, (i) -> (double)i/100), new PercentFormatter(false)),
 	PROC_RESIST("Proc Resistance", ValueFormatter.PERCENT_FORMATTER),
