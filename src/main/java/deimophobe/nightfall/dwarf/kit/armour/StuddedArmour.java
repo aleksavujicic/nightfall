@@ -11,6 +11,6 @@ public class StuddedArmour extends AbstractPiece {
 	
 	public StuddedArmour(Dwarf dwarf) {
 		super(dwarf);
-		dwarf.getArmour().addModifier(ItemModifierType.SPEED, 20, "Studded Runeleather");
+		dwarf.getArmour().addModifier(ItemModifierType.SPEED, 20, "Studded Armour");
 	}
 }
