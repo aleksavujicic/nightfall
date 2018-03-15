@@ -133,7 +133,7 @@ class UpgradeMenuItem implements MenuItem<MonsterPlayer> {
 		if (success) {
 			getUpgrades(session).compute(label, (k, v) ->  v+1);
 		} else {
-			player.sendMessage(ChatColor.RED + "Not enough exp! " + "You have " + ChatColor.AQUA + player.getXP() +
+			player.sendMessage(ChatColor.RED + "Not enough xp! " + "You have " + ChatColor.AQUA + player.getXP() +
 					ChatColor.RED + "/" + ChatColor.GREEN + costs.get(level));
 		}
 		return success;

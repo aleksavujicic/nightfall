@@ -358,7 +358,7 @@ public class Game {
 	private static final String VAULT = ChatColor.GOLD + "Vault";
 	private static final String GOLD = ChatColor.YELLOW + "Shrine Gold";
 	private static final String DOOM_CLOCK = ChatColor.DARK_RED + "Doom Clock";
-	private static final String MANA = ChatColor.LIGHT_PURPLE + "Mana";
+	private static final String EXPERIENCE = ChatColor.LIGHT_PURPLE + "Experience";
 	
 	public void giveScoreboard(Player player) {
 		player.setScoreboard(scoreboard);
@@ -381,12 +381,12 @@ public class Game {
 	}
 	
 	public void setMana(Player player, int mana) {
-		showCustomScore(player, MANA, mana);
+		showCustomScore(player, EXPERIENCE, mana);
 	}
 	
 	public void hideManaAndDoom(Player player) {
 		hideScore(player, DOOM_CLOCK);
-		hideScore(player, MANA);
+		hideScore(player, EXPERIENCE);
 	}
 	
 	
