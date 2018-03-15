@@ -103,6 +103,7 @@ public class ZombieSaboteur extends ZombieMob {
 	
 	@Override
 	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
+		super.update(a, b, c, d, e);
 		assaCD.update();
 		if (b && assaCD.isAvailable()) {
 			monster.givePermanentPotionEffect(PotionEffectType.INCREASE_DAMAGE, 1);
