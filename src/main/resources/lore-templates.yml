@@ -179,7 +179,7 @@ monster-upgrade:
   nameprefix: "&c"
 
   lore:
-    - "&dCosts $cost mana."
+    - "&dCosts $cost xp."
     - "${description}"
 
   prefix:
