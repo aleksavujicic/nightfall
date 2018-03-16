@@ -88,8 +88,20 @@ builder:
     name: "Builder"
     material: diamond_hoe
 
+mason:
+  title: "Mason"
+  item:
+    name: "Mason"
+    material: diamond_hoe
+
 miner:
   title: "Miner"
   item:
     name: "Miner"
+    material: diamond_hoe
+
+hermit:
+  title: "Hermit"
+  item:
+    name: "Hermit"
     material: diamond_hoe
