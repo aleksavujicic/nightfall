@@ -107,7 +107,7 @@ public class Warpweaver extends AbstractToggleBow {
 		Location here = dwarf.getLocation();
 		dwarf.getPlayer().setFallDistance(0);
 		dwarf.teleportTo(location);
-		dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, 5*20, 1, true, false, true);
+		dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, 5*20, 1, true, true, true);
 		
 		World world = location.getWorld();
 		world.spawnParticle(Particle.SPELL_WITCH, location, 20, 0.5, 0.5, 0.5);
