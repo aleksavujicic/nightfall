@@ -133,9 +133,11 @@ soulblade:
   name: Soulblade
   lore:
     description:
-      - "Getting kills absorbs soul charge,\n
-         right click to release the charge,\n
-         dealing damage and knockback."
+      - "Attacking enemy monsters absorbs\n
+         their soul, storing 4 damage per hit.\n
+         Right click to release the charge,\n
+         dealing damage and knockback.\n
+         Requires at least 10 stacks to release."
     flavour:
       - "\"This blade will lay these creatures to rest.\" - Arthea"
   modifiers:
