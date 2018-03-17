@@ -103,6 +103,7 @@ public class ZombieSaboteur extends ZombieMob {
 	
 	@Override
 	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
+		super.update(a, b, c, d, e);
 		assaCD.update();
 		if (b && assaCD.isAvailable()) {
 			monster.givePermanentPotionEffect(PotionEffectType.INCREASE_DAMAGE, 1);
@@ -166,7 +167,7 @@ public class ZombieSaboteur extends ZombieMob {
 		}
 		if (assaCD.isAvailable()) {
 			monster.playSound("entity.wither.shoot", 1f, 2f, true);
-			damage.getMulitPartDamage().addBoost(57); // 60 - 3 due to str 1
+			damage.getMultiPartDamage().addBoost(57); // 60 - 3 due to str 1
 			assaCD.reset();
 		}
 		assaCD.reset();

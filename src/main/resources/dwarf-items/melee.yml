@@ -139,4 +139,4 @@ soulblade:
     flavour:
       - "\"This blade will lay these creatures to rest.\" - Arthea"
   modifiers:
-    attack: 20
+    attack: 15

@@ -23,7 +23,7 @@ weapon:
   name: Cursed Mystic Runesword
   lore:
     description:
-     - "A runesword that has been touched by Airems will"
+     - "A runesword that has been touched by Airem's will"
     flavour:
      - "It still glows..but very dim."
 
@@ -53,11 +53,11 @@ items:
     name: Unhide
     lore:
       description:
-       - "Removes your invisibility buff,\n
+       - "Removes the invisibility buff,\n
           so dwarves will now be able to\n
           see you."
       flavour:
-       - "It's alright...I'm your....friend."
+       - "It's alright... I'm your... friend."
 
   # Weapons
   axe:
@@ -65,7 +65,7 @@ items:
     name: Cursed Bloodied Waraxe
     lore:
       description:
-       - "A waraxe that has been touched by Airems will."
+       - "A waraxe that has been touched by Airem's will."
       flavour:
        - "The blood of a dwarf remains."
   dagger:
@@ -73,7 +73,7 @@ items:
     name: Cursed Dagger
     lore:
       description:
-       - "A dagger that has been touched by Airems will."
+       - "A dagger that has been touched by Airem's will."
       flavour:
        - "The poison has withered up."
   hammer:
@@ -81,7 +81,7 @@ items:
     name: Cursed Hammer
     lore:
       description:
-       - "A hammer that has been touched by Airems will."
+       - "A hammer that has been touched by Airem's will."
       flavour:
        - "It's nothing more than a maul of hatred."
   scepter:
@@ -89,7 +89,7 @@ items:
     name: Cursed Scepter
     lore:
       description:
-       - "A scepter that has been touched by Airems will."
+       - "A scepter that has been touched by Airem's will."
       flavour:
        - "The orb has turned black as the night."
   rapier:
@@ -97,7 +97,7 @@ items:
     name: Cursed Rapier
     lore:
       description:
-       - "A rapier that has been touched by Airems will."
+       - "A rapier that has been touched by Airem's will."
       flavour:
        - "It strikes with perfect precision."
   glaive:
@@ -105,7 +105,7 @@ items:
     name: Cursed Glaive
     lore:
       description:
-       - "A glaive that has been touched by Airems will."
+       - "A glaive that has been touched by Airem's will."
       flavour:
        - "The blade cuts through all armour."
   soulblade:
@@ -113,7 +113,7 @@ items:
     name: Cursed Soulblade
     lore:
       description:
-       - "A soulblade that has been touched by Airems will."
+       - "A soulblade that has been touched by Airem's will."
       flavour:
        - "And the souls hunger for more!"
 

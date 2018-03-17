@@ -14,7 +14,8 @@ import java.util.Set;
 public enum PlagueType {
 	ZOMBIE(ZombiePlague.class, true),
 	INSTA(InstaPlague.class, false),
-	DEATH(DeathPlague.class, true);
+	DEATH(DeathPlague.class, true),
+	ASSASSIN(AssassinPlague.class, false);
 	
 	private final Class<? extends Plague> plagueClass;
 	private final boolean active;

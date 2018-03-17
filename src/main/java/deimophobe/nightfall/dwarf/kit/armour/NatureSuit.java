@@ -58,6 +58,6 @@ public class NatureSuit extends AbstractPiece implements ArmourPiece {
 	public void onArmourEquip() {
 		rebuff();
 		dwarf.getArmour().addModifier(ItemModifierType.NATURE_SUIT, 1);
-		dwarf.getArmour().addModifier(ItemModifierType.DEPTH_STRIDER, 1, "Nature Suit", ArmourSlot.FEET);
+		dwarf.getArmour().addModifier(ItemModifierType.DEPTH_STRIDER, 1, "Taproot Armour", ArmourSlot.FEET);
 	}
 }

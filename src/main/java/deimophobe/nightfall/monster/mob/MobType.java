@@ -44,7 +44,8 @@ public enum MobType {
 	
 	TESTMOB(TestMob::new),
 	
-	PLAGUE_ZOMBIE
+	PLAGUE_ZOMBIE,
+	PLAGUE_ASSASSIN
 	;
 	
 	private final MobData mobData;
