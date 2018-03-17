@@ -100,7 +100,7 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 					mDamage.getMultiPartDamage().addBoost(50);
 				}
 				mDamage.setKnockback(knockback);
-				mDamage.fire();
+				mDamage.fire(true);
 			}
 		}
 	}
