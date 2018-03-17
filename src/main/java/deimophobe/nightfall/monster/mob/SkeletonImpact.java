@@ -142,12 +142,12 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 	}
 	
 	private void impactExplosion(Location centerLoc, Dwarf exempt) {
-		if (aoe == 0 || monster.getLocation().getY() - centerLoc.getY() > 30) {
+		if (aoe == 0 || monster.getLocation().getY() - centerLoc.getY() > 20) {
 			return; // prevents impact shooting down from too high up
 		}
 		World world = monster.getLocation().getWorld();
 		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
-		double kb = 0.35 + aoe * 0.1;
+		double kb = 0.3 + aoe * 0.08;
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			if (dwarf == exempt) {
 				continue;
