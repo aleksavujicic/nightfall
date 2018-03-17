@@ -101,8 +101,7 @@ soulblade:
          right click to release the charge,\n
          dealing damage and knockback."
     modifiers:
-      attack: 20
-      speed: 30
+      attack: 15
 
 rapier:
   enabled: false
