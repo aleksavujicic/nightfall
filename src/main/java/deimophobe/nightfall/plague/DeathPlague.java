@@ -66,7 +66,7 @@ class DeathPlague extends Plague {
 		if (getAmountToKill(false) > 0) {
 			return getNearestPlagueable();
 		} else {
-			return getRandomPlagueable();
+			return getRandomPlagued();
 		}
 	}
 	
