@@ -70,7 +70,7 @@ public enum GameDamageType {
 	AI_REMOVER,
 	
 	// Dwarf damage
-	DEATH_PLAGUE(new ForcedDeathMessageMaker("was touched by " + ChatColor.DARK_GRAY + "DEATH")),
+	DEATH_PLAGUE(new ForcedDeathMessageMaker("was touched by " + ChatColor.DARK_RED + ChatColor.ITALIC + "THE TWINS")),
 	FORCE_PLAGUED(new ForcedDeathMessageMaker("succumbed to the plague")),
 	GOBO_KABOOM("exploded"),
 	GOBO_BOX_EXPLOSION("exploded"),

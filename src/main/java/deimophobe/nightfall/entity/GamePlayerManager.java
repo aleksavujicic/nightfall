@@ -75,6 +75,9 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		return addGamePlayer(Bukkit.getPlayer(name));
 	}
 	public P addGamePlayer(Player player) {
+		return addGamePlayer(player, true);
+	}
+	public P addGamePlayer(Player player, boolean respawn) {
 		if (player == null) return null;
 		
 		if (DwarfManager.getManager().isGamePlayer(player)) return null;
@@ -83,7 +86,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		UUID uuid = player.getUniqueId();
 		if (players.containsKey(uuid)) return null;
 		
-		if (player.isDead())
+		if (respawn && player.isDead())
 			player.spigot().respawn();
 		
 		P gamePlayer = createGamePlayerFromPlayer(player);
@@ -162,7 +165,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 	}
 	
 	public Collection<P> getGamePlayers() {
-		return players.values();
+		return new HashSet<>(players.values());
 	}
 	
 	public int getNumberOfPlayers() {

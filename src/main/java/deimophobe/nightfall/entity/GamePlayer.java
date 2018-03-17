@@ -46,7 +46,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 		super(player);
 		
 		this.player = player;
-		player.spigot().respawn();
+		//player.spigot().respawn();
 		
 		player.setFoodLevel(20);
 		player.closeInventory();

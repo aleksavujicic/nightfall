@@ -3,7 +3,6 @@ package deimophobe.nightfall.monster;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.cooldown.BooleanCooldown;
-import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.entity.GamePlayerManager;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.ai.AIManager;
@@ -32,8 +31,6 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	
 	private final AIManager aiManager;
 	private final DoomManager doomManager;
-	
-	private final Set<UUID> plaguedPlayers = new HashSet<>();
 	
 	public AIManager getAiManager() {return aiManager;}
 	public DoomManager getDoomManager() {return doomManager;}
@@ -65,9 +62,6 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	protected MonsterPlayer createGamePlayerFromPlayer(Player player) {
 		MonsterPlayer p = new MonsterPlayer(player);
 		p.forceGainXP(xpCount);
-		if (plaguedPlayers.contains(p.getUniqueId())) {
-			p.forceGainXP(6000);
-		}
 		return p;
 	}
 	
@@ -88,10 +82,6 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		Collection<MonsterPlayer> deadMobs = new HashSet<>(getGamePlayers());
 		deadMobs.removeIf(MonsterPlayer::isAlive);
 		return deadMobs;
-	}
-	
-	public void addPlaguedPlayer(GamePlayer player) {
-		plaguedPlayers.add(player.getUniqueId());
 	}
 	
 	
@@ -119,6 +109,9 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 				menu.updateEggs();
 			}
 		}.runTaskTimer(NightfallPlugin.getPlugin(), 90*20, 60*20);
+		
+		getGamePlayers().forEach(mp -> mp.forceGainXP(6000));
+		//getOfflinePlayers().forEach(mp -> mp.forceGainXP(6000));
 	}
 	
 	
