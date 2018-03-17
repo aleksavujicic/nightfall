@@ -22,23 +22,28 @@ import org.bukkit.event.block.Action;
 import org.bukkit.util.Vector;
 
 public class Soulblade extends AbstractItem implements CooldownPiece {
+
+	private final ComplexCooldown soulShatterCD = new ComplexCooldown(10, this::soulShatter);
+
+	private static final double SOUL_SHATTER_RADIUS = 3.5;
+	private static final int MAX_SOULS = 50;
+	private static final double HIT = 1;
+
+	private double souls = 0;
+
 	public Soulblade(Dwarf dwarf){
 		super(dwarf);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "soulblade");
-	@Override public CustomItem getItem() { return ITEM; }
-	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
-	
-	private final ComplexCooldown soulShatterCD = new ComplexCooldown(10, this::soulShatter);
-	
-	private static final double SOUL_SHATTER_RADIUS = 3.5;
-	private static final int MAX_SOULS = 50;
-	private static final double HIT = 1;
-	
-	private double souls;
-	
-	
+
+	@Override public CustomItem getItem() {
+		return ITEM;
+	}
+	@Override public KitGiveType getGiveType() {
+		return KitGiveType.SWORD;
+	}
+
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
@@ -48,7 +53,9 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		souls += HIT;
+		if (damage.getType() == GameDamageType.MELEE) {
+			souls += HIT;
+		}
 		soulCheck();
 	}
 	
@@ -75,7 +82,7 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 		world.playSound(center,"dash", 1f, pitch);
 		world.playSound(center,"entity.generic.burn", 1f, pitch);
 		
-		double kb = 0.5 + 0.03*souls;
+		double kb = 0.5 + 0.02 * souls;
 		double area = SOUL_SHATTER_RADIUS;
 		double baseDamage = souls * 5;
 		
