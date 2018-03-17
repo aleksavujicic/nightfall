@@ -372,51 +372,6 @@ builder-class:
           *128 Mortar\n
           *768 Cobblestone"
 
-rift-class:
-  index: 12
-  cost: 64
-  category: kit
-  type: multi
-  pieces:
-    - soul_blade
-    - warpweaver
-    - studded
-    - quiver
-    - pendant
-    - fairy_band
-    - resurrection
-    - darkvision
-  consumables:
-    wrench: 3
-    proc-bottle: 2
-    charm: 1
-    torch: 32
-    mortar: 32
-    cobblestone: 64
-  item:
-    template: "loadout-class"
-    name: "Riftwalker Kit"
-    base: warpweaver
-    lore:
-      description:
-       - "Break that fourth wall!"
-
-      contains:
-       - "*Soulblade\n
-          *Warpweaver Bow\n
-          *Studded Armour\n
-          *Massive Quiver\n
-          *Ruby Pendant\n
-          *Fairy Band\n
-          *Resurrection\n
-          *Darkvision\n
-          *3 Wrenches\n
-          *2 Proc in a Bottle\n
-          *1 Consecrating Charm\n
-          *32 Torches\n
-          *32 Mortar\n
-          *64 Cobblestone"
-
 #magmar-class:
 #  enabled: false
 #  index: 12
