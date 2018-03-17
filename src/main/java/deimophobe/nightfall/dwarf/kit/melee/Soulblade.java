@@ -12,6 +12,7 @@ import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
+import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -31,10 +32,9 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 	
 	private final ComplexCooldown soulShatterCD = new ComplexCooldown(10, this::soulShatter);
 	
-	private static final int SOUL_SHATTER_RADIUS = 3;
+	private static final double SOUL_SHATTER_RADIUS = 3.5;
 	private static final int MAX_SOULS = 50;
-	private static final double AI_HIT = 0.5;
-	private static final double MOB_KILL = 2.5;
+	private static final double HIT = 1;
 	
 	private double souls;
 	
@@ -48,22 +48,8 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (damage.getMonster().isAI()) {
-			damage.getMulitPartDamage().timesMult(2.5);
-			damage.addPostDamageHandler(d -> {
-				souls += AI_HIT;
-				soulCheck();
-			});
-		}
-	}
-	
-	@Override
-	public void onKill(MonsterDamage damage) {
-		super.onKill(damage);
-		if (!damage.getReceiver().isAI()) {
-			souls += MOB_KILL;
-			soulCheck();
-		}
+		souls += HIT;
+		soulCheck();
 	}
 	
 	@Override
@@ -90,8 +76,8 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 		world.playSound(center,"entity.generic.burn", 1f, pitch);
 		
 		double kb = 0.5 + 0.03*souls;
-		double area = SOUL_SHATTER_RADIUS+.03*souls;
-		double baseDamage = souls*1.5;
+		double area = SOUL_SHATTER_RADIUS;
+		double baseDamage = souls * 5;
 		
 		souls = 0;
 		
@@ -103,6 +89,9 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 				knockback.setY(knockback.getY() / 2 + 0.1);
 				
 				MonsterDamage mDamage = entity.createDamage(dwarf, GameDamageType.SILENT_STRIKE, baseDamage);
+				if (entity instanceof AIEntity) {
+					mDamage.getMulitPartDamage().addBoost(50);
+				}
 				mDamage.setKnockback(knockback);
 				mDamage.fire();
 			}
