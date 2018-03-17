@@ -53,7 +53,7 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (damage.getType() == GameDamageType.MELEE) {
+		if (isMeleeDamageFromItem(damage)) {
 			souls += HIT;
 		}
 		soulCheck();
