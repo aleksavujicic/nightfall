@@ -401,42 +401,45 @@ public class GameListener implements Listener {
 			event.setDeathMessage("");
 			Bukkit.spigot().broadcast(dwarf.getDeathMessage());
 			
-			if (Game.getGame().getPhase() == Phase.PLAGUE) {
-				Game.getGame().getActivePlague().onDwarfDeath(dwarf);
-			}
-			
 			if (Game.getGame().getPhase() == Phase.GAME) {
 				for (Player player : Bukkit.getOnlinePlayers())
 					player.sendTitle("", dwarf.getDisplayName() + ChatColor.DARK_RED + " has fallen!", 20, 60, 20);
 			}
 			
+			dm.removeGamePlayer(dwarf, true);
+			mm.addGamePlayer(event.getEntity(), false);
 			// Delayed to prevent concurrent modification exceptions hopefully ._.
-			new BukkitRunnable() {
-				@Override public void run() {dm.removeGamePlayer(dwarf, true);}
-			}.runTaskLater(NightfallPlugin.getPlugin(), 22);
+//			new BukkitRunnable() {
+//				@Override public void run() {
+//				}
+//			}.runTaskLater(NightfallPlugin.getPlugin(), 22);
 		}
 	}
 	
 	@EventHandler
 	public void onRespawn(PlayerRespawnEvent event) {
 		Phase phase = Game.getGame().getPhase();
-		if (phase == Phase.STARTING) {
+		Player player = event.getPlayer();
+		
+		if (phase.isBefore(Phase.PLAGUE)) {
 			new BukkitRunnable() {
 				@Override
 				public void run() {
-					Game.getGame().resetPlayer(event.getPlayer());
+					Game.getGame().resetPlayer(player);
 				}
 			}.runTaskLater(NightfallPlugin.getPlugin(), 10);
-			
 		} else {
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					MonsterPlayer mp = mm.addGamePlayer(event.getPlayer());
-					if (mp != null)
-						mp.kill(true);
-				}
-			}.runTaskLater(NightfallPlugin.getPlugin(), 10);
+			MonsterManager mm = MonsterManager.getManager();
+			if (!mm.isGamePlayer(player)) {
+				MonsterPlayer mp = mm.addGamePlayer(player, false);
+				if (mp != null)
+					mp.kill(true);
+			}
+//			new BukkitRunnable() {
+//				@Override
+//				public void run() {
+//				}
+//			}.runTaskLater(NightfallPlugin.getPlugin(), 10);
 		}
 		event.setRespawnLocation(GameMap.getCurrentMap().getLobbySpawn());
 	}

@@ -101,8 +101,6 @@ public class Game {
 	
 	private final Team lobbyTeam;
 	
-	private Plague activePlague = null;
-	
 	
 	private long tickNumber = 0;
 	public long getCurrentTick() { return tickNumber; }
@@ -543,37 +541,27 @@ public class Game {
 	public void startPlague(Plague plague) {
 		if (phase != Phase.BUILD) return;
 		phase = Phase.PLAGUE;
-		this.activePlague = plague;
+		NightfallPlugin.logger().info("Starting plague: " + plague.getClass().getSimpleName());
 		
-		// Dwarves and number to plague
-		Set<Dwarf> plagueables = dwarfManager.getPlagueables();
-		Set<Dwarf> plagued = dwarfManager.getPlagued();
-		//int toKill = plagueables.size();
-
-		int toKill = (dwarfManager.getDwarves().size()+2)/3;
-
-		if (toKill == 0 || plagueables.size() + plagued.size() == 0) {
+		if (plague.getAmountToKill(true) == 0) {
+			NightfallPlugin.logger().warning("Skipping plague...");
 			releaseMonsters();
-			return;
+		} else {
+			plague.startPlague();
+			
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					if (phase == Phase.PLAGUE) {
+						NightfallPlugin.logger().warning("Force ended plague - took too long");
+						plague.endPlague();
+						releaseMonsters();
+					}
+				}
+			}.runTaskLater(NightfallPlugin.getPlugin(), 120 * 20);
 		}
 		
-		plague.startPlague(plagueables, plagued, toKill);
-		
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				if (phase == Phase.PLAGUE) {
-					plague.forceEnd();
-					releaseMonsters();
-				}
-			}
-		}.runTaskLater(NightfallPlugin.getPlugin(), 120*20);
-		
 		Bukkit.getServer().getPluginManager().callEvent(new PhaseChangeEvent(phase));
-	}
-	
-	public Plague getActivePlague() {
-		return activePlague;
 	}
 	
 	public void notifyPlagueFinish() {
@@ -584,7 +572,6 @@ public class Game {
 	private void releaseMonsters() {
 		if (phase != Phase.PLAGUE) return;
 		phase = Phase.GAME;
-		this.activePlague = null;
 		
 		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
 		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
@@ -656,6 +643,7 @@ public class Game {
 		}
 		updateDwarfCount();
 	}
+	
 	
 	public boolean isNight() {
 		long time = GameMap.getCurrentMap().getWorld().getTime();
