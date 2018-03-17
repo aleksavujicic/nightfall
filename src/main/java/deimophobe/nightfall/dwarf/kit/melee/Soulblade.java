@@ -84,7 +84,7 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 		
 		double kb = 0.5 + 0.02 * souls;
 		double area = SOUL_SHATTER_RADIUS;
-		double baseDamage = souls * 5;
+		double baseDamage = souls * 4;
 		
 		souls = 0;
 		
