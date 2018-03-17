@@ -541,6 +541,7 @@ public class Game {
 	public void startPlague(Plague plague) {
 		if (phase != Phase.BUILD) return;
 		phase = Phase.PLAGUE;
+		NightfallPlugin.logger().info("Starting plague: " + plague.getClass().getSimpleName());
 		
 		if (plague.getAmountToKill(true) == 0) {
 			releaseMonsters();
@@ -551,6 +552,7 @@ public class Game {
 				@Override
 				public void run() {
 					if (phase == Phase.PLAGUE) {
+						NightfallPlugin.logger().warning("Force ended plague - took too long");
 						plague.endPlague();
 						releaseMonsters();
 					}

@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.logging.Logger;
 
 /**
  * Created by Deimophobe on 15/01/17.
@@ -19,6 +20,7 @@ public class NightfallPlugin extends JavaPlugin {
 	private GameListener gl;
 	
 	public static NightfallPlugin getPlugin() {return plugin;}
+	public static Logger logger() { return plugin.getLogger(); }
 	
 	private boolean disabling = false;
 	public boolean isDisabling() { return disabling; }
