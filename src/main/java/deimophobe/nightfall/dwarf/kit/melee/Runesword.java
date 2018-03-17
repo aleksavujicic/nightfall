@@ -18,5 +18,5 @@ public class Runesword extends AbstractRuneblade {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	
+
 }
