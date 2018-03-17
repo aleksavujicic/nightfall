@@ -6,10 +6,8 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.RepeatingCooldown;
 import deimophobe.nightfall.cooldown.Update;
-import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
-import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -37,13 +35,6 @@ class Krungor extends AbstractMob {
 	
 	Krungor(MonsterPlayer monster) {
 		super(monster, MobType.KRUNGOR);
-	}
-	
-	@Override
-	public void onDamageAttack(DwarfDamage damage) {
-		super.onDamageAttack(damage);
-		if (damage.getReceiver() instanceof Hero)
-			damage.getMultiPartDamage().addBoost(20);
 	}
 
 	
