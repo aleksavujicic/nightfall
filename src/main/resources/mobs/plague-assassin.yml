@@ -1,0 +1,38 @@
+title: Assassin
+
+immunetime: 0
+
+health: 20
+proccable: false
+resistance: 0.7
+arrowres: 0.75
+
+armour:
+  material: diamond_chestplate
+  name: Dwarven Chestplate
+  shiny: true
+  lore:
+    description:
+     - "Fully repaired armour."
+    flavour:
+     - "Forged by the finest blacksmiths."
+
+items:
+  legs:
+    material: diamond_leggings
+    name: Dwarven Leggings
+    shiny: true
+    lore:
+      description:
+       - "Fully repaired armour."
+      flavour:
+       - "Forged by the finest blacksmiths."
+  boots:
+    material: diamond_boots
+    name: Dwarven Boots
+    shiny: true
+    lore:
+      description:
+       - "Fully repaired armour."
+      flavour:
+       - "Forged by the finest blacksmiths."

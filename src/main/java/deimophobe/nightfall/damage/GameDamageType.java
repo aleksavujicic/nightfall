@@ -71,6 +71,7 @@ public enum GameDamageType {
 	
 	// Dwarf damage
 	DEATH_PLAGUE(new ForcedDeathMessageMaker("was touched by " + ChatColor.DARK_GRAY + "DEATH")),
+	ASSASSIN_PLAGUE(new ForcedDeathMessageMaker("fell to the " + ChatColor.DARK_GRAY + "dark presence.")),
 	FORCE_PLAGUED(new ForcedDeathMessageMaker("succumbed to the plague")),
 	GOBO_KABOOM("exploded"),
 	GOBO_BOX_EXPLOSION("exploded"),
