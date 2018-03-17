@@ -24,7 +24,7 @@ public enum GameDamageType {
 	LAVA(new ForcedDeathMessageMaker("tried to swim in lava"), new FixedDOTModifier(DamageOverTimeType.FIRE, 8, 15, 5)),
 	
 	FALL(new ForcedDeathMessageMaker("fell to their doom"), damage -> {
-		damage.getMulitPartDamage().timesMult(3*(1 - Math.pow(Math.random(),2)/2));
+		damage.getMultiPartDamage().timesMult(3*(1 - Math.pow(Math.random(),2)/2));
 		damage.setNoDamageTicks(1);
 	}),
 	
@@ -120,7 +120,7 @@ public enum GameDamageType {
 	GameDamageType(DeathMessageMaker deathMessageMaker, double defaultDamage, int defaultArmourShred) {
 		this.deathMessageMaker = deathMessageMaker;
 		this.damageModifer = (damage) -> {
-			damage.getMulitPartDamage().setBase(defaultDamage);
+			damage.getMultiPartDamage().setBase(defaultDamage);
 			if (damage instanceof DwarfDamage)
 				((DwarfDamage) damage).setArmourShred(defaultArmourShred);
 			damage.setNoDamageTicks(1);
@@ -211,7 +211,7 @@ public enum GameDamageType {
 		@Override
 		public void accept(GameDamage<?, ?> damage) {
 			super.accept(damage);
-			damage.getMulitPartDamage().setBase(defaultDamage);
+			damage.getMultiPartDamage().setBase(defaultDamage);
 			if (damage instanceof DwarfDamage)
 				((DwarfDamage) damage).setArmourShred(defaultArmourShred);
 			
@@ -241,7 +241,7 @@ public enum GameDamageType {
 		public void accept(GameDamage<?, ?> damage) {
 			super.accept(damage);
 			int level = damage.getReceiver().getPotionEffectLevel(potionEffectType);
-			damage.getMulitPartDamage().setBase(levelMapper.apply(level));
+			damage.getMultiPartDamage().setBase(levelMapper.apply(level));
 		}
 	}
 }

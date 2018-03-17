@@ -44,7 +44,7 @@ public class Luminous extends AbstractBow {
             damage.getArrowRes().timesMult(0.5);
             
             if (damage.getMonster() instanceof AIEntity) {
-            	damage.getMulitPartDamage().timesMult(1.5);
+            	damage.getMultiPartDamage().timesMult(1.5);
 			}
         }
     }

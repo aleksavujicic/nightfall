@@ -576,7 +576,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
-		damage.getMulitPartDamage().timesMult(1 - armour.getResistance());
+		damage.getMultiPartDamage().timesMult(1 - armour.getResistance());
 		
 		kit.onDamageReceive(damage);
 		

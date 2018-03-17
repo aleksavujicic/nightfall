@@ -27,7 +27,7 @@ public class PlaguedZombie extends AbstractMob {
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		if (damage.getType() == GameDamageType.WITHER)
-			damage.getMulitPartDamage().timesMult(0.25);
+			damage.getMultiPartDamage().timesMult(0.25);
 	}
 	
 	@Override

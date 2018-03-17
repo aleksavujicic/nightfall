@@ -24,7 +24,7 @@ public class Runesword extends AbstractRuneblade {
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
 		if (isMeleeDamageFromItem(damage) && damage.getMonster().isAI()) {
-			damage.getMulitPartDamage().timesMult(0.8);
+			damage.getMultiPartDamage().timesMult(0.8);
 		}
 	}
 }

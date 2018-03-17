@@ -167,7 +167,7 @@ public class ZombieSaboteur extends ZombieMob {
 		}
 		if (assaCD.isAvailable()) {
 			monster.playSound("entity.wither.shoot", 1f, 2f, true);
-			damage.getMulitPartDamage().addBoost(57); // 60 - 3 due to str 1
+			damage.getMultiPartDamage().addBoost(57); // 60 - 3 due to str 1
 			assaCD.reset();
 		}
 		assaCD.reset();

@@ -38,7 +38,7 @@ public class HeroBase extends AbstractPiece {
 		super.onDamageReceive(damage);
 		damage.multiplyManaDrain(0.25);
 		if (damage.getType() == GameDamageType.FALL) {
-			damage.getMulitPartDamage().timesMult(0.1);
+			damage.getMultiPartDamage().timesMult(0.1);
 		}
 	}
 }

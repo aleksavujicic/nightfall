@@ -81,7 +81,7 @@ public class Crossbow extends AbstractBow implements CooldownPiece {
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
 		if (isRangedDamageFromBow(damage) && damage.getArrow().hasMetadata(RAPID_META)) {
-			damage.getMulitPartDamage().setBase(RAPID_POWER);
+			damage.getMultiPartDamage().setBase(RAPID_POWER);
 			damage.multiplyKnockback(0.5);
 			damage.setNoDamageTicks(5);
 		}

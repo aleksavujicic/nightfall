@@ -37,7 +37,7 @@ public class AssassinPlague extends AbstractPlague {
         }
 
         Set<Dwarf> candidates = plagued;
-        if (getAmountToKill() > 1 || plagued.size() == 0) {
+        if ((getAmountToKill() - plagued.size()) > 1 || plagued.size() == 0) {
             candidates.addAll(plagueables); // most the time, only don't add in edge case so that we have an actual assassin plague
         }
 

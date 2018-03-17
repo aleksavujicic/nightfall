@@ -4,7 +4,6 @@ import deimophobe.nightfall.Game;
 import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.common.cosmetic.hat.Hat;
 import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
@@ -51,13 +50,13 @@ public class Assassin extends AbstractMob {
         Dwarf dwarf = damage.getDwarf();
         dwarf.clearEffects();
         if (dwarf.isHero()) {
-            damage.getMulitPartDamage().setBase(5);
+            damage.getMultiPartDamage().setBase(5);
         }
         else {
-            damage.getMulitPartDamage().setBase(125);
+            damage.getMultiPartDamage().setBase(125);
         }
         if (dwarf.hasKitElement(KitPieceType.STRONG_ALE)) {
-            damage.getMulitPartDamage().timesMult(4);
+            damage.getMultiPartDamage().timesMult(4);
         }
         if (damage.willKill()) {
             if (dwarf == target) {

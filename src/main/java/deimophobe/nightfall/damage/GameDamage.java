@@ -39,7 +39,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 	/** The GameEntity which receives the damage. */
 	protected final R receiver;
 	/** How much damage to do. */
-	private MultiPartValue mulitPartDamage;
+	private MultiPartValue multiPartDamage;
 	
 	/** The current phase of the damage. */
 	private DamagePhase phase;
@@ -100,10 +100,10 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		this.itemStack = getHeldItemOfDamager(attacker);
 		this.deathMessageMaker = type.getDefaultDeathMessageMaker();
 		
-		this.mulitPartDamage = new MultiPartValue(damage);
+		this.multiPartDamage = new MultiPartValue(damage);
 		int resLevel = receiver.getPotionEffectLevel(PotionEffectType.DAMAGE_RESISTANCE);
 		double res = Math.min(1, 1 - resLevel*0.2);
-		mulitPartDamage.timesMult(res);
+		multiPartDamage.timesMult(res);
 		
 		this.cancelled = false;
 		this.softCancelled = false;
@@ -182,7 +182,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		return receiver;
 	}
 	
-	public MultiPartValue getMulitPartDamage() { return mulitPartDamage; }
+	public MultiPartValue getMultiPartDamage() { return multiPartDamage; }
 	
 	public void setNoDamageTicks(int ticks) { noDamageTicks = ticks; }
 	public void reduceNoDamageTicks(int ticks) {
@@ -252,7 +252,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		if (instaKill) return INSTA_KILL_DMG;
 		if (softCancelled || cancelled) return 0;
 		
-		return mulitPartDamage.getValue();
+		return multiPartDamage.getValue();
 	}
 	
 	public boolean willKill() {
@@ -431,7 +431,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		DecimalFormat df = new DecimalFormat("#.####");
 		
 		return "GameDamage ID" + id + " from " + attackerName + ChatColor.RESET + " to " + receiver.getName() + ChatColor.RESET + " of type: " + type + ".\n"
-				+ "  DAMAGES - " + mulitPartDamage.toString() + "\n"
+				+ "  DAMAGES - " + multiPartDamage.toString() + "\n"
 				+ (knockback != null ? "  Knockback: " + df.format(knockback.length()) + "\n" : "")
 				+ "  NoDmgTicks: " + noDamageTicks + "; FireTicks: " + fireTicks + ".\n"
 				+ "  Pre Handlers: " + preDamageHandlers.size() + "; " + "Post Handlers: " + postDamageHandlers.size() + "\n"

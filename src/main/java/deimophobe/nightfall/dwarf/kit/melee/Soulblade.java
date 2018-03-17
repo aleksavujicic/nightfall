@@ -90,7 +90,7 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 				
 				MonsterDamage mDamage = entity.createDamage(dwarf, GameDamageType.SILENT_STRIKE, baseDamage);
 				if (entity instanceof AIEntity) {
-					mDamage.getMulitPartDamage().addBoost(50);
+					mDamage.getMultiPartDamage().addBoost(50);
 				}
 				mDamage.setKnockback(knockback);
 				mDamage.fire();

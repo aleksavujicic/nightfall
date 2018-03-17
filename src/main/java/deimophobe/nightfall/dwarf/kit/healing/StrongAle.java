@@ -24,6 +24,6 @@ public class StrongAle extends AbstractAle {
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
-		damage.getMulitPartDamage().timesMult(1 - DAMAGE_RESISTANCE);
+		damage.getMultiPartDamage().timesMult(1 - DAMAGE_RESISTANCE);
 	}
 }

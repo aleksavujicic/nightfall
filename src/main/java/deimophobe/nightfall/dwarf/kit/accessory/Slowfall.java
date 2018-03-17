@@ -43,7 +43,7 @@ public class Slowfall extends AbstractPiece {
 			if (cooldown.wasUsedWithin(8*20))
 				damage.cancel();
 			else
-				damage.getMulitPartDamage().timesMult(1 - RESISTANCE);
+				damage.getMultiPartDamage().timesMult(1 - RESISTANCE);
 		}
 	}
 	

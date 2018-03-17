@@ -44,7 +44,7 @@ public class MonsterDamage extends GameDamage<GameEntity<?>, MonsterEntity> {
 		if (proc && !isCancelled()) instaKill();
 		
 		if (type.isArrow()) {
-			getMulitPartDamage().timesMult(1 - arrowRes.getValue());
+			getMultiPartDamage().timesMult(1 - arrowRes.getValue());
 		}
 	}
 	
