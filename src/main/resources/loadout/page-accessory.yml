@@ -127,7 +127,7 @@ bricklayer:
 
 
 # ------ CONSUMABLES ------
-wizard_one:
+wizard-one:
   index: 9
   type: consumable
   name: wizard_mortar
@@ -140,7 +140,7 @@ wizard_one:
       description:
        - "Gives you $quantity Wizard Mortar.\n
           These can instantly blue the walls."
-wizard_two:
+wizard-two:
   index: 18
   type: consumable
   name: wizard_mortar
@@ -153,7 +153,7 @@ wizard_two:
       description:
        - "Gives you $quantity Wizard Mortar.\n
           These can instantly blue the walls."
-wizard_three:
+wizard-three:
   index: 27
   type: consumable
   name: wizard_mortar
@@ -167,7 +167,7 @@ wizard_three:
        - "Gives you $quantity Wizard Mortar.\n
           These can instantly blue the walls."
 
-lamps_one:
+lamps-one:
   index: 10
   type: consumable
   name: lamp
@@ -181,7 +181,7 @@ lamps_one:
        - "Gives you $quantity Lamps.\n
           These can be placed as a\n
           unbreakable light source."
-lamps_two:
+lamps-two:
   index: 19
   type: consumable
   name: lamp
@@ -195,7 +195,7 @@ lamps_two:
        - "Gives you $quantity Lamps.\n
           These can be placed as a\n
           unbreakable light source."
-lamps_three:
+lamps-three:
   index: 28
   type: consumable
   name: lamp
@@ -210,7 +210,7 @@ lamps_three:
           These can be placed as a\n
           unbreakable light source."
 
-wrench_one:
+wrench-one:
   index: 11
   type: consumable
   name: wrench
@@ -225,7 +225,7 @@ wrench_one:
           These can be used to fully repair\n
           your armour while the shrine still\n
           has gold."
-wrench_two:
+wrench-two:
   index: 20
   type: consumable
   name: wrench
@@ -240,7 +240,7 @@ wrench_two:
           These can be used to fully repair\n
           your armour while the shrine still\n
           has gold."
-wrench_three:
+wrench-three:
   index: 29
   type: consumable
   name: wrench
@@ -256,7 +256,7 @@ wrench_three:
           your armour while the shrine still\n
           has gold."
 
-healing_one:
+healing-one:
   index: 12
   type: consumable
   name: heal_station
@@ -271,7 +271,7 @@ healing_one:
           These can be placed to regen\n
           health mana and armour.\n
           Can be broken by Mobs."
-healing_two:
+healing-two:
   index: 21
   type: consumable
   name: heal_station
@@ -286,7 +286,7 @@ healing_two:
           These can be placed to regen\n
           health mana and armour.\n
           Can be broken by Mobs."
-healing_three:
+healing-three:
   index: 30
   type: consumable
   name: heal_station
@@ -302,7 +302,7 @@ healing_three:
           health mana and armour.\n
           Can be broken by Mobs."
 
-charm_one:
+charm-one:
   index: 13
   type: consumable
   name: charm
@@ -316,7 +316,7 @@ charm_one:
        - "Gives you $quantity Consecrating Charm.\n
           These can stop and blind any mobs within\n
           the area of effect for a limited time."
-charm_two:
+charm-two:
   index: 22
   type: consumable
   name: charm
@@ -330,7 +330,7 @@ charm_two:
        - "Gives you $quantity Consecrating Charms.\n
           These can stop and blind any mobs within\n
           the area of effect for a limited time."
-charm_three:
+charm-three:
   index: 31
   type: consumable
   name: charm
@@ -345,7 +345,7 @@ charm_three:
           These can stop and blind any mobs within\n
           the area of effect for a limited time."
 
-slab_one:
+slab-one:
   index: 14
   type: consumable
   name: slab
@@ -359,7 +359,7 @@ slab_one:
        - "Gives you $quantity Slab.\n
           These create a thick blue wall in front\n
           when used."
-slab_two:
+slab-two:
   index: 23
   type: consumable
   name: slab
@@ -373,7 +373,7 @@ slab_two:
        - "Gives you $quantity Slabs.\n
           These create a thick blue wall in front\n
           when used."
-slab_three:
+slab-three:
   index: 32
   type: consumable
   name: slab
@@ -388,7 +388,7 @@ slab_three:
           These create a thick blue wall in front\n
           when used."
 
-builder_one:
+builder-one:
   index: 15
   cost: 2
   category: consumable
@@ -407,7 +407,7 @@ builder_one:
           *32 Torches\n
           *32 Mortar\n
           *96 Cobblestone."
-builder_two:
+builder-two:
   index: 24
   cost: 4
   category: consumable
@@ -426,7 +426,7 @@ builder_two:
           *64 Torches\n
           *64 Mortar\n
           *192 Cobblestone."
-builder_three:
+builder-three:
   index: 33
   cost: 8
   category: consumable
@@ -446,7 +446,7 @@ builder_three:
           *128 Mortar\n
           *384 Cobblestone."
 
-procbottle_one:
+procbottle-one:
   index: 16
   type: consumable
   name: proc-bottle
@@ -460,7 +460,7 @@ procbottle_one:
        - "Gives $quantity Procs in Bottles.\n
           Throwing these gives you a proc\n
           that lasts for 5 seconds."
-procbottle_two:
+procbottle-two:
   index: 25
   type: consumable
   name: proc-bottle
@@ -474,7 +474,7 @@ procbottle_two:
        - "Gives $quantity Procs in Bottles.\n
           Throwing these gives you a proc\n
           that lasts for 5 seconds."
-procbottle_three:
+procbottle-three:
   index: 34
   type: consumable
   name: proc-bottle

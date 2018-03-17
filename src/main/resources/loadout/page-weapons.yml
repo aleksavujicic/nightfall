@@ -502,7 +502,7 @@ berserker:
       health: 6
       armour-durability: -30
 
-nature_suit:
+nature-suit:
   index: 32
   type: item
   name: nature_suit
