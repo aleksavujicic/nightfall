@@ -1,6 +1,8 @@
 package deimophobe.nightfall.plague;
 
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -20,6 +22,13 @@ public abstract class Plague {
 	public abstract void startPlague();
 	
 	public void endPlague() {
+		if (hasEnded()) {
+			NightfallPlugin.logger().warning("Tried to end plague but has already ended?");
+			new RuntimeException("Tried to end plague but has already ended?").printStackTrace();
+			
+			return;
+		}
+		
 		for (Dwarf dwarf : getPlagueds()) {
 			killDwarf(dwarf);
 		}
@@ -31,6 +40,11 @@ public abstract class Plague {
 		
 		Game.getGame().notifyPlagueFinish();
 	}
+	protected final boolean hasEnded() {
+		return Game.getGame().getPhase() != Phase.PLAGUE;
+	}
+	
+	
 	protected void killDwarf(Dwarf dwarf) {
 		dwarf.instaKill(null, GameDamageType.FORCE_PLAGUED);
 	}
@@ -54,23 +68,15 @@ public abstract class Plague {
 	
 	public final int getAmountToKill(boolean includePlagueds) {
 		int desiredMonsterAmt = (Game.getGame().getNumPlayers()+2)/3;
-		// Should only count game players, but sometimes they are dead
-//		int desiredMonsterAmt = (Bukkit.getOnlinePlayers().size() + 2)/3;
 		int dwarvesToKill = desiredMonsterAmt - MonsterManager.getManager().getNumberOfPlayers();
 		int numPlagueds = getPlagueds().size();
 		
 		if (includePlagueds) {
 			// If we're counting plagued dwarves, then number to kill must be at least the number of plagueds.
-			dwarvesToKill = Math.min(dwarvesToKill, numPlagueds);
-//			Bukkit.broadcastMessage("desire: " + desiredMonsterAmt);
-//			Bukkit.broadcastMessage("num plag: " + numPlagueds);
-//			Bukkit.broadcastMessage("inc plags: " + dwarvesToKill);
+			dwarvesToKill = Math.max(dwarvesToKill, numPlagueds);
 		} else {
 			// If we're not counting number of plagueds, then subtract from total.
 			dwarvesToKill -= numPlagueds;
-//			Bukkit.broadcastMessage("desire: " + desiredMonsterAmt);
-//			Bukkit.broadcastMessage("num plag: " + numPlagueds);
-//			Bukkit.broadcastMessage("no inc plags: " + dwarvesToKill);
 		}
 		return Math.max(dwarvesToKill, 0);
 	}

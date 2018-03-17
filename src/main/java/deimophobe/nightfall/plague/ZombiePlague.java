@@ -28,17 +28,13 @@ class ZombiePlague extends Plague {
 		for (Dwarf dwarf : getPlagueds()) {
 			convertToZombie(dwarf);
 		}
-		infectMore();
+		checkPlagueCount(true);
 	}
 	
-	private void infectMore() {
-		if (getAmountToKill(true) == 0) return;
-		
-		int toPlague = (int) Math.ceil((double) getAmountToKill(false)/4);
-		for (int i=0; i<toPlague; i++) {
-			Dwarf dwarf = getRandomPlagueable();
-			convertToZombie(dwarf);
-		}
+	@Override
+	public void endPlague() {
+		super.endPlague();
+		convertingDwarves.clear();
 	}
 	
 	private static final String SICK_MSG = ChatColor.GREEN + "You begin to feel a little " + ChatColor.LIGHT_PURPLE + ChatColor.ITALIC + "sick" + ChatColor.GREEN + "!";
@@ -76,21 +72,33 @@ class ZombiePlague extends Plague {
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), SICK_MSG_TIME);
 		
-		if (getAmountToKill(true) == 0) {
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					endPlague();
-				}
-			}.runTaskLater(NightfallPlugin.getPlugin(), 600);
-		}
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				checkPlagueCount(false);
+			}
+		}.runTaskLater(NightfallPlugin.getPlugin(), 600);
 		return true;
 	}
 	
 	void notifyZombieDeath() {
 		numZombiesAlive--;
-		if (numZombiesAlive == 0) {
-			infectMore();
+		boolean plagueMore = (numZombiesAlive == 0);
+		checkPlagueCount(plagueMore);
+	}
+	
+	private void checkPlagueCount(boolean plagueMore) {
+		if (getAmountToKill(true) == 0) {
+			endPlague();
+			return;
+		}
+		
+		if (plagueMore) {
+			int toPlague = (int) Math.ceil((double) getAmountToKill(false) / 4);
+			for (int i = 0; i < toPlague; i++) {
+				Dwarf dwarf = getRandomPlagueable();
+				convertToZombie(dwarf);
+			}
 		}
 	}
 	

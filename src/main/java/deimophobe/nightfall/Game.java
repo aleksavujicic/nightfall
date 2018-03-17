@@ -544,6 +544,7 @@ public class Game {
 		NightfallPlugin.logger().info("Starting plague: " + plague.getClass().getSimpleName());
 		
 		if (plague.getAmountToKill(true) == 0) {
+			NightfallPlugin.logger().warning("Skipping plague...");
 			releaseMonsters();
 		} else {
 			plague.startPlague();
