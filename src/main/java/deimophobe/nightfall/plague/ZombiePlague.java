@@ -28,6 +28,8 @@ class ZombiePlague extends Plague {
 		for (Dwarf dwarf : getPlagueds()) {
 			convertToZombie(dwarf);
 		}
+		
+		// TODO Do this every 30sec or so?
 		checkPlagueCount(true);
 	}
 	
@@ -41,6 +43,8 @@ class ZombiePlague extends Plague {
 	private static final int SICK_MSG_TIME = 160;
 	
 	boolean convertToZombie(Dwarf dwarf) {
+		if (hasEnded()) return false;
+		
 		// If dwarf is plagued, make sure to plague
 		// Otherwise stop if the dwarf is not plagueable, or amt to kill is zero.
 		if (!isPlagued(dwarf)) {
@@ -55,6 +59,8 @@ class ZombiePlague extends Plague {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
+				//TODO check if offline
+				
 				// Convert to zombie.
 				Player player = dwarf.getPlayer();
 				player.removePotionEffect(PotionEffectType.CONFUSION);
@@ -88,6 +94,8 @@ class ZombiePlague extends Plague {
 	}
 	
 	private void checkPlagueCount(boolean plagueMore) {
+		if (hasEnded()) return;
+		
 		if (getAmountToKill(true) == 0) {
 			endPlague();
 			return;
