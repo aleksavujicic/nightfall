@@ -61,9 +61,10 @@ dagger:
     base: dagger
     lore:
       description:
-       - "An elven blade, dipped in poison.\n
+       - "An elven blade, light but deadly.\n
           Right click to &bEviscerate&r a monster,\n
-          dealing massive damage."
+          dealing massive damage. Takes 4 minutes to\n
+          charge, 3 seconds reduction per kill."
     modifiers:
       attack: 20
       speed: 30
