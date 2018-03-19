@@ -4,6 +4,7 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.ranged.AbstractBow;
 import deimophobe.nightfall.entity.MonsterEntity;
@@ -12,6 +13,7 @@ import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.material.MaterialData;
 
@@ -85,6 +87,16 @@ public class IceBow extends AbstractBow {
 			if (monster == exclude) continue;
 			if (monster.distanceTo(location) <= AOE_RADIUS) {
 				monster.doDamage(dwarf, GameDamageType.WATER_BOW_AOE, 30);
+			}
+		}
+		
+		for (Dwarf d : DwarfManager.getManager().getDwarves()) {
+			if (d.distanceTo(location) <= AOE_RADIUS) {
+				Player player = d.getPlayer();
+				if (player.getFireTicks() > 0) {
+					player.setFireTicks(0);
+					d.playSound("entity.generic.extinguish_fire");
+				}
 			}
 		}
 	}
