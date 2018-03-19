@@ -99,7 +99,7 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 	
 	@Override
 	public boolean onClick(MenuSession<MonsterPlayer> session) {
-		if (!isAvailable()) return false;
+		if (!isAvailable()) return true; // Updates menu display
 		
 		MonsterPlayer monster = session.getData();
 		
