@@ -12,6 +12,7 @@ import deimophobe.nightfall.damage.CancellableFinalGameDamage;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import deimophobe.nightfall.entity.GameEntity;
 import org.bukkit.Bukkit;
@@ -49,10 +50,12 @@ public class Resurrection extends AbstractPiece {
 			damage.softCancel();
 			
 			dwarf.getArmour().addModifier(ItemModifierType.HEALTH, -5, "Resurrection");
-			dwarf.getArmour().repair(500);
+			dwarf.getArmour().repair(750);
 			dwarf.regenMana(500);
 			dwarf.healMax();
 			dwarf.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 3 * 20, 5, true, false, true);
+			dwarf.givePotionEffect(PotionEffectType.REGENERATION, 8 * 20, 4, true, false, false);
+			dwarf.giveProc(ProcType.RESURRECTION);
 			
 			dwarf.playSound("item.totem.use", 1f, 1f, true);
 			new BukkitRunnable() {
@@ -83,7 +86,7 @@ public class Resurrection extends AbstractPiece {
 			try {
 				pm.sendServerPacket(dwarf.getPlayer(), pc);
 			} catch (InvocationTargetException e) {
-				Bukkit.getLogger().severe("Exception sending animation packet");
+				Bukkit.getLogger().severe("Exception sending resurrection animation packet");
 				e.printStackTrace();
 			}
 		}
