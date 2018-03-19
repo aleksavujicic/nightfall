@@ -15,6 +15,9 @@ import org.bukkit.World;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by Deimophobe on 19/01/18.
  */
@@ -24,6 +27,7 @@ public class Buffpool implements Updateable {
 	
 	private final Dwarf dwarf;
 	private final Location location;
+	private final Set<Dwarf> buffedDwarves = new HashSet<>();
 	
 	private final double radius;
 	private final double visibleRadius;
@@ -84,9 +88,18 @@ public class Buffpool implements Updateable {
 					dwarf.regenMana(1);
 					dwarf.heal(1);
 				}
-				dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, lifetime, 3,true,true,false);
-				dwarf.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 10,resLevel,true,true,false);
-				dwarf.updateVisibility();
+				
+				boolean added = buffedDwarves.add(dwarf);
+				if (added) {
+					dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, lifetime, 3, true, true, false);
+					dwarf.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, lifetime, resLevel, true, true, false);
+				}
+			} else {
+				boolean removed = buffedDwarves.remove(dwarf);
+				if (removed) {
+					dwarf.removePotionEffect(PotionEffectType.NIGHT_VISION);
+					dwarf.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+				}
 			}
 		}
 		
