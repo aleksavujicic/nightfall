@@ -109,7 +109,7 @@ public class ZombieSaboteur extends ZombieMob {
 			monster.givePermanentPotionEffect(PotionEffectType.INCREASE_DAMAGE, 1);
 		}
 		
-		if (monster.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
+		if (isInvisible()) {
 			if (b) {
 				Location loc = monster.getLocation();
 				loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 4, 0.3, 0.3, 0.3, 0);
@@ -182,10 +182,20 @@ public class ZombieSaboteur extends ZombieMob {
 	}
 	
 	@Override
+	public double getShrineWeight() {
+		if (isInvisible()) return 0;
+		else return super.getShrineWeight();
+	}
+	
+	@Override
 	protected DeadEntitySpawner<? extends LivingEntity> getDeadEntitySpawner() {
 		return new DeadEntitySpawner<>(ZombieVillager.class, zombie -> {
 			zombie.setBaby(true);
 			zombie.setVillagerProfession(PROFESSION);
 		});
+	}
+	
+	private boolean isInvisible() {
+		return monster.hasPotionEffect(PotionEffectType.INVISIBILITY);
 	}
 }
