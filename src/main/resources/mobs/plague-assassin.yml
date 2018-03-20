@@ -6,6 +6,7 @@ health: 20
 proccable: false
 resistance: 0.85
 arrowres: 0.75
+shrine-prot-damage: 0
 
 armour:
   material: diamond_chestplate

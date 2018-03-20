@@ -1,5 +1,7 @@
 package deimophobe.nightfall.plague;
 
+import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.entity.GamePlayer;
@@ -20,60 +22,60 @@ public class AssassinPlague extends Plague {
     @Override
     public void startPlague() {
         assassins = new HashSet<>();
-        // Might be done automatically?
-//        if (plagued.size() >= killAmt) {
-//            forceEnd();
-//        }
+        if (getAmountToKill(false) == 0) {
+            endPlague(GameDamageType.ASSASSIN_PLAGUE);
+        }
         makeAssassins();
     }
 
+    @Override
+    public void endPlague() {
+        super.endPlague(GameDamageType.ASSASSIN_PLAGUE);
+        for (GamePlayer assassin : assassins) {
+            assassin.instaKill(null, GameDamageType.PLAGUE_ASSASSIN_END);
+        }
+    }
+
     private void makeAssassins() {
-//        if (getAmountToKill() == 0) {
-//            return;
-//        }
+        if (getAmountToKill(false) == 0) {
+            return;
+        }
 
-//        Set<Dwarf> candidates = plagued;
-//        if (getAmountToKill(false) > 1 || plagued.size() == 0) {
-//            candidates.addAll(plagueables); // most the time, only don't add in edge case so that we have an actual assassin plague
-//        }
+        Set<Dwarf> candidates = getPlagueds();
+        if (getAmountToKill(false) > 1 || getPlagueds().size() == 0) {
+            candidates.addAll(getPlagueables()); // most the time, only don't add in edge case so that we have an actual assassin plague
+        }
 
-//        int toPlague = (int) Math.ceil((double) getAmountToKill()/4);
-//        for (int i=0; i<toPlague; i++) {
-//            Dwarf dwarf = Misc.getRandom(candidates);
-//            assassins.add(dwarf);
-//        }
-//        for (GamePlayer assassin : assassins) {
-//            makeAssassin((Dwarf)assassin);
-//        }
+        int toPlague = (int) Math.ceil((double) getAmountToKill(true)/3);
+        for (int i=0; i<toPlague; i++) {
+            Dwarf dwarf = Misc.getRandom(candidates);
+            assassins.add(dwarf);
+        }
+        for (GamePlayer assassin : assassins) {
+            makeAssassin((Dwarf)assassin);
+        }
     }
 
     private static final String ASSASSIN_MSG = ChatColor.RED + "A " + ChatColor.DARK_GRAY + "dark presence " + ChatColor.RED + "has invaded your mind.\n" +
             "You feel " + ChatColor.LIGHT_PURPLE + "compelled " + ChatColor.RED + "to kill your fellow dwarves.";
 
     boolean makeAssassin(Dwarf dwarf) {
-        // If dwarf is plagued, make sure to plague
-        // Otherwise stop if the dwarf is not plagueable, or amt to kill is zero.
-//        if (!isPlagued(dwarf) && (getAmountToKill() == 0 || !isPlaguable(dwarf))) {
-//            return false; // fallback, this should never happen
-//        }
-
-
         dwarf.sendMessage(ASSASSIN_MSG);
         Dwarf targetDwarf = null;
-//        for (Dwarf target : plagued) {
-//            if (!assassins.contains(target)) {
-//                targetDwarf = target;
-//                break;
-//            }
-//        }
-//        if (targetDwarf == null) {
-//            for (Dwarf target : plagueables) {
-//                if (!assassins.contains(target)) {
-//                    targetDwarf = target;
-//                    break;
-//                }
-//            }
-//        }
+        for (Dwarf target : getPlagueds()) {
+            if (!assassins.contains(target)) {
+                targetDwarf = target;
+                break;
+            }
+        }
+        if (targetDwarf == null) {
+            for (Dwarf target : getPlagueables()) {
+                if (!assassins.contains(target)) {
+                    targetDwarf = target;
+                    break;
+                }
+            }
+        }
         if (targetDwarf != null) {
             String targetMsg = ChatColor.RED + "Kill " + ChatColor.YELLOW + targetDwarf.getDisplayName() + ChatColor.RED + " and the rest of the dwarves!";
             dwarf.sendMessage(targetMsg);
@@ -92,33 +94,25 @@ public class AssassinPlague extends Plague {
 
         ItemStack[] inv = player.getInventory().getContents();
         DwarfManager.getManager().removeGamePlayer(dwarf, false);
-        MonsterManager.getManager().addGamePlayer(player); // probably not necessary? removeDwarf already does this, only here bc I referenced ZombiePlague @deimo
+        MonsterManager.getManager().addGamePlayer(player);
         player.getInventory().setContents(inv);
         MonsterPlayer mp = MonsterManager.getManager().getGamePlayer(player);
         mp.spawnMob(new Assassin(mp, AssassinPlague.this, targetDwarf));
-
-//        if (getAmountToKill() == 0) {
-//            new BukkitRunnable() {
-//                @Override
-//                public void run() {
-//                    notifyEnd();
-//                }
-//            }.runTaskLater(NightfallPlugin.getPlugin(), 600);
-//        }
-
+        /*
+        if (getAmountToKill(false) == 0) {
+            endPlague();
+        }
+        */
         return true;
     }
 
-//    @Override
-//    public void onDwarfDeath(Dwarf dwarf) {
-//        super.onDwarfDeath(dwarf);
-//        if (getAmountToKill() == 0) {
-//            for (GamePlayer assassin : assassins) {
-//                assassin.instaKill(null, GameDamageType.ASSASSIN_PLAGUE);
-//            }
-//            notifyEnd();
-//        }
-//    }
+    @Override
+    public void onDwarfDeath(Dwarf dwarf) {
+        super.onDwarfDeath(dwarf);
+        if (getAmountToKill(false) == 0) {
+            endPlague();
+        }
+    }
 
     void notifyAssassinDeath() {
         if (numAssassins == 0) {

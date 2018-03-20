@@ -66,12 +66,13 @@ public enum GameDamageType {
 	BUBBLE_BEAM("bubbled"),
 	GEYSER("bubbled"),
 	WATER_BOW_AOE("splooshed"),
+	PLAGUE_ASSASSIN_END(new ForcedDeathMessageMaker("fell to the " + ChatColor.DARK_GRAY + "dark presence.")),
 	
 	AI_REMOVER,
 	
 	// Dwarf damage
 	DEATH_PLAGUE(new ForcedDeathMessageMaker("was touched by " + ChatColor.DARK_RED + ChatColor.ITALIC + "THE TWINS")),
-	ASSASSIN_PLAGUE(new ForcedDeathMessageMaker("fell to the " + ChatColor.DARK_GRAY + "dark presence.")),
+	ASSASSIN_PLAGUE(new ForcedDeathMessageMaker("was assassinated by a " + ChatColor.DARK_GRAY + "dark presence.")),
 	FORCE_PLAGUED(new ForcedDeathMessageMaker("succumbed to the plague")),
 	GOBO_KABOOM("exploded"),
 	GOBO_BOX_EXPLOSION("exploded"),

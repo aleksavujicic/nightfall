@@ -68,9 +68,10 @@ dagger:
   name: Elven Dagger
   lore:
     description:
-     - "An elven blade, dipped in poison.\n
-        Right click to &bEviscerate&r a monster,\n
-        dealing massive damage."
+       - "An elven blade, light but deadly.\n
+          Right click to &bEviscerate&r a monster,\n
+          dealing massive damage. Takes 4 minutes to\n
+          charge, 3 seconds reduction per kill."
     flavour:
      - "\"Put that speed to good use, and that poison to better use.\" - Velvetine"
      - "\"I can't keep up with you jimmy! You're too fast!!\" - Tui"
@@ -133,9 +134,11 @@ soulblade:
   name: Soulblade
   lore:
     description:
-      - "Getting kills absorbs soul charge,\n
-         right click to release the charge,\n
-         dealing damage and knockback."
+      - "Attacking enemy monsters absorbs\n
+         their soul, storing 4 damage per hit.\n
+         Right click to release the charge,\n
+         dealing damage and knockback.\n
+         Requires at least 10 stacks to release."
     flavour:
       - "\"This blade will lay these creatures to rest.\" - Arthea"
   modifiers:
