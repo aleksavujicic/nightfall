@@ -1,6 +1,10 @@
 package deimophobe.nightfall.plague;
 
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.PlayerSkin;
+import deimophobe.nightfall.Skin;
+import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.common.cosmetic.hat.Hat;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -11,10 +15,14 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.mob.AbstractMob;
 import deimophobe.nightfall.monster.mob.MobType;
 import deimophobe.nightfall.util.ArmourSlot;
+import me.libraryaddict.disguise.DisguiseAPI;
+import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Team;
+
+import java.util.UUID;
 
 public class Assassin extends AbstractMob {
     private final AssassinPlague plague;
@@ -26,7 +34,7 @@ public class Assassin extends AbstractMob {
         this.plague = plague;
         this.target = target;
 
-        this.fakeTeam = Game.getGame().getNewTeam(monster.getName());
+        this.fakeTeam = Game.getGame().getNewTeam("assassin " + monster.getName());
 
         String monsterName = monster.getName();
         int endIndex = Math.min(3, monsterName.length());
@@ -42,10 +50,6 @@ public class Assassin extends AbstractMob {
     }
 
     @Override
-    public void onDamageReceive(MonsterDamage damage) {
-    }
-
-    @Override
     public void onDamageAttack(DwarfDamage damage) {
         Dwarf dwarf = damage.getDwarf();
         dwarf.clearEffects();
@@ -53,18 +57,18 @@ public class Assassin extends AbstractMob {
             damage.getMultiPartDamage().setBase(5);
         }
         else {
-            damage.getMultiPartDamage().setBase(125);
+            damage.getMultiPartDamage().setBase(90);
         }
         if (dwarf.hasKitElement(KitPieceType.STRONG_ALE)) {
             damage.getMultiPartDamage().timesMult(4);
         }
         if (damage.willKill()) {
             if (dwarf == target) {
-                monster.sendMessage(ChatColor.DARK_RED + "You have killed your " + ChatColor.RED + ChatColor.ITALIC + "target. " + ChatColor.YELLOW + " +1000 xp");
+                monster.sendMessage(ChatColor.DARK_RED + "You have killed your " + ChatColor.RED + ChatColor.ITALIC + "target. " + ChatColor.YELLOW + "+1000 xp");
                 monster.forceGainXP(1000);
             }
             else {
-                monster.sendMessage(ChatColor.DARK_RED + "You have killed a dwarf. " + ChatColor.YELLOW + " +500 xp");
+                monster.sendMessage(ChatColor.DARK_RED + "You have killed a dwarf. " + ChatColor.YELLOW + "+500 xp");
                 monster.forceGainXP(500);
             }
         }
@@ -83,6 +87,24 @@ public class Assassin extends AbstractMob {
 
     @Override
     public void onSpawn() {
+        Skin skin = new Skin(monster.getPlayer());
+        PlayerSkin playerSkin = new PlayerSkin(
+                monster.getName(), skin, true,
+                ChatColor.DARK_AQUA + monster.getName()
+        );
+        SkinManager.getManager().addSkinChange(monster, playerSkin);
+
+
+        WrappedGameProfile profile = new WrappedGameProfile(UUID.randomUUID(), getFakeName());
+        skin.applyToWrappedGameProfile(profile);
+
+        PlayerDisguise disguise = new PlayerDisguise(profile);
+        disguise.setDisplayedInTab(true);
+        disguise.setViewSelfDisguise(false);
+        disguise.setReplaceSounds(false);
+        disguise.getWatcher().setArrowsSticking(0);
+        DisguiseAPI.disguiseEntity(monster.getPlayer(), disguise);
+
         super.onSpawn();
 
         monster.givePermanentPotionEffect(PotionEffectType.SPEED, 2);
@@ -100,6 +122,10 @@ public class Assassin extends AbstractMob {
 
     @Override
     public void onDeath(boolean silent) {
-        plague.notifyAssassinDeath();
+        super.onDeath(silent);
+        if (plague != null) {
+            plague.notifyAssassinDeath();
+        }
+        SkinManager.getManager().removeSkinChange(monster);
     }
 }

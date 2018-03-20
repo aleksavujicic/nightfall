@@ -56,11 +56,14 @@ public class Game {
 	}
 	public static Game createNewGame() {
 		Bukkit.getLogger().info("Begin loading game.");
-		if (loading) throw new IllegalStateException("Game already loading");
+		if (loading) {
+			throw new IllegalStateException("Game already loading");
+		}
 		loading = true;
 		
-		if (game !=  null)
+		if (game !=  null) {
 			game.stop();
+		}
 		
 		try {
 			GameMap map = MapManager.getManager().loadNextMap();
@@ -100,8 +103,10 @@ public class Game {
 	private final BossBar bossBar;
 	
 	private final Team lobbyTeam;
-	
-	
+
+	private Plague activePlague = null;
+
+
 	private long tickNumber = 0;
 	public long getCurrentTick() { return tickNumber; }
 
@@ -111,12 +116,14 @@ public class Game {
 		// Setup scoreboards and teams
 		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 		
-		for (Player player : Bukkit.getOnlinePlayers())
+		for (Player player : Bukkit.getOnlinePlayers()) {
 			giveScoreboard(player);
+		}
 		
 		Objective oldObj = scoreboard.getObjective(OBJ_NAME);
-		if (oldObj != null)
+		if (oldObj != null) {
 			oldObj.unregister();
+		}
 		
 		sidebarObj = scoreboard.registerNewObjective(OBJ_NAME, "dummy");
 		sidebarObj.setDisplayName(Misc.getNightfallText());
@@ -197,17 +204,22 @@ public class Game {
 	public GamePlayer getGamePlayer(String name) {
 		Dwarf dwarf = dwarfManager.getGamePlayer(name);
 		
-		if (dwarf != null)
+		if (dwarf != null) {
 			return dwarf;
-		else
+		}
+		else {
 			return monsterManager.getGamePlayer(name);
+		}
 	}
 	
 	public GameEntity getGameEntity(Entity entity) {
-		if (entity == null) return null;
+		if (entity == null) {
+			return null;
+		}
 		
-		if (entity.getType() == EntityType.PLAYER)
+		if (entity.getType() == EntityType.PLAYER) {
 			return getGamePlayer((Player) entity);
+		}
 		
 		return AIManager.getManager().getAI(entity);
 	}
@@ -236,7 +248,9 @@ public class Game {
 	}
 	
 	public void readyPlayer(Player player) {
-		if (phase != Phase.STARTING) return;
+		if (phase != Phase.STARTING) {
+			return;
+		}
 		
 		readyPlayers.add(player);
 		readyNotify(player);
@@ -261,8 +275,12 @@ public class Game {
 	}
 	
 	public void unreadyPlayer(Player player, boolean leaving) {
-		if (phase != Phase.STARTING) return;
-		if (!isReady(player)) return;
+		if (phase != Phase.STARTING) {
+			return;
+		}
+		if (!isReady(player)) {
+			return;
+		}
 		
 		readyPlayers.remove(player);
 		readyNotify(player);
@@ -276,8 +294,9 @@ public class Game {
 	
 	private void readyNotify() {
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (isLobbyPlayer(player))
+			if (isLobbyPlayer(player)) {
 				readyNotify(player);
+			}
 		}
 	}
 	
@@ -294,10 +313,12 @@ public class Game {
 		SortedSet<String> readyPlayers = new TreeSet<>();
 		SortedSet<String> unreadyPlayers = new TreeSet<>();
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (isReady(player))
+			if (isReady(player)) {
 				readyPlayers.add(player.getName());
-			else
+			}
+			else {
 				unreadyPlayers.add(player.getName());
+			}
 		}
 		
 		sb.append(ChatColor.GREEN + "READY: " + ChatColor.RESET);
@@ -305,8 +326,9 @@ public class Game {
 			sb.append(name);
 			sb.append(", ");
 		}
-		if (readyPlayers.size() != 0)
+		if (readyPlayers.size() != 0) {
 			sb.setLength(sb.length() - 2);
+		}
 		
 		sb.append("\n");
 		sb.append(ChatColor.RED + "UNREADY: " + ChatColor.RESET);
@@ -314,8 +336,9 @@ public class Game {
 			sb.append(name);
 			sb.append(", ");
 		}
-		if (unreadyPlayers.size() != 0)
+		if (unreadyPlayers.size() != 0) {
 			sb.setLength(sb.length() - 2);
+		}
 		
 		return sb.toString();
 	}
@@ -374,8 +397,9 @@ public class Game {
 	}
 	
 	public void setDoomSidebar(int doomTimer) {
-		for (MonsterPlayer mp : monsterManager.getGamePlayers())
+		for (MonsterPlayer mp : monsterManager.getGamePlayers()) {
 			showCustomScore(mp.getPlayer(), DOOM_CLOCK, doomTimer);
+		}
 	}
 	
 	public void setMana(Player player, int mana) {
@@ -420,8 +444,9 @@ public class Game {
 	
 	public Team getNewTeam(String teamName) {
 		Team oldTeam = scoreboard.getTeam(teamName);
-		if (oldTeam != null)
+		if (oldTeam != null) {
 			oldTeam.unregister();
+		}
 		
 		return scoreboard.registerNewTeam(teamName);
 	}
@@ -456,11 +481,17 @@ public class Game {
 	// ------ CURSES ------
 	private final Map<Curse, Integer> activeCurses = new HashMap<>();
 	public void addCurse(Curse curse, int duration) {
-		if (duration <= 0) throw new IllegalArgumentException("Duration of curse " + curse + " must be strictly positive (got " + duration + ")");
+		if (duration <= 0) {
+			throw new IllegalArgumentException("Duration of curse " + curse + " must be strictly positive (got " + duration + ")");
+		}
 		
 		activeCurses.compute(curse, (c, d) -> {
-			if (d == null) return duration;
-			else  return Math.max(d, duration);
+			if (d == null) {
+				return duration;
+			}
+			else {
+				return Math.max(d, duration);
+			}
 		});
 		
 	}
@@ -481,8 +512,9 @@ public class Game {
 		sidebarObj.setDisplaySlot(null);
 		
 		if (MapManager.getManager().isEnabled()) {
-			for (Player player : Bukkit.getOnlinePlayers())
+			for (Player player : Bukkit.getOnlinePlayers()) {
 				resetPlayer(player);
+			}
 		}
 		
 		Bukkit.getServer().getPluginManager().callEvent(new PhaseChangeEvent(phase));
@@ -490,7 +522,9 @@ public class Game {
 	}
 	
 	public void startGame() {
-		if (phase != Phase.STARTING) return;
+		if (phase != Phase.STARTING) {
+			return;
+		}
 		phase = Phase.BUILD;
 		
 		sidebarObj.setDisplaySlot(DisplaySlot.SIDEBAR);
@@ -524,8 +558,9 @@ public class Game {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				if (phase == Phase.BUILD)
+				if (phase == Phase.BUILD) {
 					startPlague();
+				}
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), buildTime);
 		timeManager.addTarget(buildTime, Misc.randomInt(13500, 14500));
@@ -534,13 +569,15 @@ public class Game {
 	}
 	
 	public void startPlague() {
-		if (phase != Phase.BUILD) return;
 		startPlague(Plague.getRandomPlague());
 	}
 	
 	public void startPlague(Plague plague) {
-		if (phase != Phase.BUILD) return;
+		if (phase != Phase.BUILD) {
+			return;
+		}
 		phase = Phase.PLAGUE;
+		this.activePlague = plague;
 		NightfallPlugin.logger().info("Starting plague: " + plague.getClass().getSimpleName());
 		
 		if (plague.getAmountToKill(true) == 0) {
@@ -563,16 +600,25 @@ public class Game {
 		
 		Bukkit.getServer().getPluginManager().callEvent(new PhaseChangeEvent(phase));
 	}
-	
+
+	public Plague getPlague() {
+		return activePlague;
+	}
+
+
 	public void notifyPlagueFinish() {
-		if (phase == Phase.PLAGUE)
+		if (phase == Phase.PLAGUE) {
 			releaseMonsters();
+		}
 	}
 	
 	private void releaseMonsters() {
-		if (phase != Phase.PLAGUE) return;
+		if (phase != Phase.PLAGUE) {
+			return;
+		}
 		phase = Phase.GAME;
-		
+		this.activePlague = null;
+
 		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
 		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
 		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
@@ -587,7 +633,9 @@ public class Game {
 	}
 	
 	public void endGame() {
-		if (phase != Phase.GAME) return;
+		if (phase != Phase.GAME) {
+			return;
+		}
 		phase = Phase.END;
 		
 		bossBar.setProgress(0);
@@ -606,12 +654,13 @@ public class Game {
 		removeGamePlayer(player);
 		switch (phase) {
 			case STARTING:
-				if (player.isDead())
+				if (player.isDead()) {
 					player.spigot().respawn();
+				}
 				
 				player.teleport(GameMap.getCurrentMap().getLobbySpawn());
 				player.getInventory().clear();
-				for (PotionEffect effect : player.getActivePotionEffects()){
+				for (PotionEffect effect : player.getActivePotionEffects()) {
 					player.removePotionEffect(effect.getType());
 				}
 				player.setGameMode(GameMode.ADVENTURE);

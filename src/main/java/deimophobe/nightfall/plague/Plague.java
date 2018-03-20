@@ -21,7 +21,7 @@ public abstract class Plague {
 	
 	public abstract void startPlague();
 	
-	public void endPlague() {
+	public void endPlague(GameDamageType reason) {
 		if (hasEnded()) {
 			NightfallPlugin.logger().warning("Tried to end plague but has already ended?");
 			new RuntimeException("Tried to end plague but has already ended?").printStackTrace();
@@ -30,29 +30,39 @@ public abstract class Plague {
 		}
 		
 		for (Dwarf dwarf : getPlagueds()) {
-			killDwarf(dwarf);
+			killDwarf(dwarf, reason);
 		}
 		
 		final int toKill = getAmountToKill(false);
 		for (int i=0; i<toKill; i++) {
-			killDwarf(getRandomPlagueable());
+			killDwarf(getRandomPlagueable(), reason);
 		}
 		
 		Game.getGame().notifyPlagueFinish();
 	}
+
+	public void endPlague() {
+		endPlague(GameDamageType.FORCE_PLAGUED);
+	}
+
+
 	protected final boolean hasEnded() {
 		return Game.getGame().getPhase() != Phase.PLAGUE;
 	}
 	
-	
-	protected void killDwarf(Dwarf dwarf) {
-		dwarf.instaKill(null, GameDamageType.FORCE_PLAGUED);
+	protected void killDwarf(Dwarf dwarf, GameDamageType reason) {
+		dwarf.instaKill(null, reason);
 	}
-	
+	protected void killDwarf(Dwarf dwarf) {
+		killDwarf(dwarf, GameDamageType.FORCE_PLAGUED);
+	}
+
 	protected Dwarf getRandomPlagueable() {
 		return Misc.getRandom(getPlagueables());
 	}
-	protected Dwarf getRandomPlagued() { return Misc.getRandom(getPlagueds()); }
+	protected Dwarf getRandomPlagued() {
+		return Misc.getRandom(getPlagueds());
+	}
 	protected Set<Dwarf> getPlagueables() {
 		return DwarfManager.getManager().getPlagueables();
 	}
@@ -79,5 +89,9 @@ public abstract class Plague {
 			dwarvesToKill -= numPlagueds;
 		}
 		return Math.max(dwarvesToKill, 0);
+	}
+
+	public void onDwarfDeath(Dwarf dwarf) {
+		return;
 	}
 }
