@@ -15,7 +15,7 @@ public enum PlagueType {
 	ZOMBIE(ZombiePlague.class, true),
 	INSTA(InstaPlague.class, false),
 	DEATH(DeathPlague.class, true),
-	ASSASSIN(AssassinPlague.class, false);
+	ASSASSIN(AssassinPlague.class, true);
 	
 	private final Class<? extends Plague> plagueClass;
 	private final boolean active;
