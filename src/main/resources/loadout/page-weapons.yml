@@ -349,7 +349,7 @@ pendant:
     lore:
       description:
        - "Left click to heal yourself\n
-          for &b$manacost&r mana and gain\n
+          for &b200&r mana and gain\n
           &b20&r absorption hearts.\n
           Has passive regeneration."
     modifiers:
