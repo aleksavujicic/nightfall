@@ -92,6 +92,6 @@ public abstract class Plague {
 	}
 
 	public void onDwarfDeath(Dwarf dwarf) {
-		return;
+
 	}
 }

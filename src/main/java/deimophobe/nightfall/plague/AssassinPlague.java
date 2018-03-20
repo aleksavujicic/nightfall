@@ -16,61 +16,63 @@ import java.util.Set;
 
 public class AssassinPlague extends Plague {
 
-    private int numAssassins = 0;
-    private Set<GamePlayer> assassins;
+    private Set<Dwarf> assassinCandidates;
+    private Set<MonsterPlayer> assassins;
+    private Set<Dwarf> plaguedTargets;
+    private Set<Dwarf> plagueableTargets;
 
     @Override
     public void startPlague() {
+        assassinCandidates = new HashSet<>();
         assassins = new HashSet<>();
-        if (getAmountToKill(false) == 0) {
-            endPlague(GameDamageType.ASSASSIN_PLAGUE);
-        }
+        plaguedTargets = new HashSet<>(getPlagueds());
+        plagueableTargets = new HashSet<>(getPlagueables());
         makeAssassins();
     }
 
     @Override
     public void endPlague() {
-        super.endPlague(GameDamageType.ASSASSIN_PLAGUE);
-        for (GamePlayer assassin : assassins) {
+        for (MonsterPlayer assassin : new HashSet<>(assassins)) {
             assassin.instaKill(null, GameDamageType.PLAGUE_ASSASSIN_END);
         }
+        super.endPlague(GameDamageType.ASSASSIN_PLAGUE);
     }
 
     private void makeAssassins() {
         if (getAmountToKill(false) == 0) {
+            endPlague();
             return;
         }
 
-        Set<Dwarf> candidates = getPlagueds();
-        if (getAmountToKill(false) > 1 || getPlagueds().size() == 0) {
-            candidates.addAll(getPlagueables()); // most the time, only don't add in edge case so that we have an actual assassin plague
-        }
+        Set<Dwarf> candidates = new HashSet<>(getPlagueds());
+        candidates.addAll(getPlagueables());
 
-        int toPlague = (int) Math.ceil((double) getAmountToKill(true)/3);
+        int toPlague = (getAmountToKill(true)+2)/3;
         for (int i=0; i<toPlague; i++) {
             Dwarf dwarf = Misc.getRandom(candidates);
-            assassins.add(dwarf);
+            assassinCandidates.add(dwarf);
         }
-        for (GamePlayer assassin : assassins) {
-            makeAssassin((Dwarf)assassin);
+        for (Dwarf assassin : assassinCandidates) {
+            makeAssassin(assassin);
         }
     }
 
-    private static final String ASSASSIN_MSG = ChatColor.RED + "A " + ChatColor.DARK_GRAY + "dark presence " + ChatColor.RED + "has invaded your mind.\n" +
-            "You feel " + ChatColor.LIGHT_PURPLE + "compelled " + ChatColor.RED + "to kill your fellow dwarves.";
-
-    boolean makeAssassin(Dwarf dwarf) {
-        dwarf.sendMessage(ASSASSIN_MSG);
+    private void makeAssassin(Dwarf dwarf) {
+        String msg = ChatColor.RED + "A " + ChatColor.DARK_GRAY + "dark presence " + ChatColor.RED + "has invaded your mind.\n" +
+                "You feel " + ChatColor.LIGHT_PURPLE + "compelled " + ChatColor.RED + "to kill your fellow dwarves.";
+        dwarf.sendMessage(msg);
         Dwarf targetDwarf = null;
-        for (Dwarf target : getPlagueds()) {
-            if (!assassins.contains(target)) {
+        for (Dwarf target : plaguedTargets) {
+            if (!assassinCandidates.contains(target)) {
+                plaguedTargets.remove(target);
                 targetDwarf = target;
                 break;
             }
         }
         if (targetDwarf == null) {
-            for (Dwarf target : getPlagueables()) {
-                if (!assassins.contains(target)) {
+            for (Dwarf target : plagueableTargets) {
+                if (!assassinCandidates.contains(target)) {
+                    plagueableTargets.remove(target);
                     targetDwarf = target;
                     break;
                 }
@@ -80,14 +82,14 @@ public class AssassinPlague extends Plague {
             String targetMsg = ChatColor.RED + "Kill " + ChatColor.YELLOW + targetDwarf.getDisplayName() + ChatColor.RED + " and the rest of the dwarves!";
             dwarf.sendMessage(targetMsg);
         }
-        if (assassins.size() > 1) {
+        if (assassinCandidates.size() > 1) {
             String teamMsg = ChatColor.RED + "Your fellow assassins are: ";
-            for (GamePlayer assassin : assassins) {
+            for (Dwarf assassin : assassinCandidates) {
                 if (dwarf != assassin) {
                     teamMsg = teamMsg + ChatColor.DARK_RED + assassin.getName() + ChatColor.RED + ", ";
                 }
             }
-            dwarf.sendMessage(teamMsg.substring(0, teamMsg.length() - 3));
+            dwarf.sendMessage(teamMsg.substring(0, teamMsg.length() - 2));
         }
 
         Player player = dwarf.getPlayer();
@@ -98,12 +100,12 @@ public class AssassinPlague extends Plague {
         player.getInventory().setContents(inv);
         MonsterPlayer mp = MonsterManager.getManager().getGamePlayer(player);
         mp.spawnMob(new Assassin(mp, AssassinPlague.this, targetDwarf));
+        assassins.add(mp);
         /*
         if (getAmountToKill(false) == 0) {
             endPlague();
         }
         */
-        return true;
     }
 
     @Override
@@ -114,9 +116,12 @@ public class AssassinPlague extends Plague {
         }
     }
 
-    void notifyAssassinDeath() {
-        if (numAssassins == 0) {
-            assassins.clear();
+    void notifyAssassinDeath(MonsterPlayer monster) {
+        assassins.remove(monster);
+        if (assassins.size() == 0) {
+            assassinCandidates.clear();
+            plaguedTargets = getPlagueds();
+            plagueableTargets = getPlagueables();
             makeAssassins();
         }
     }

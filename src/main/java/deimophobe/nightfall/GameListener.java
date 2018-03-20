@@ -401,10 +401,6 @@ public class GameListener implements Listener {
 			event.setDeathMessage("");
 			Bukkit.spigot().broadcast(dwarf.getDeathMessage());
 
-			if (Game.getGame().getPhase() == Phase.PLAGUE) {
-				Game.getGame().getPlague().onDwarfDeath(dwarf);
-			}
-
 			if (Game.getGame().getPhase() == Phase.GAME) {
 				for (Player player : Bukkit.getOnlinePlayers())
 					player.sendTitle("", dwarf.getDisplayName() + ChatColor.DARK_RED + " has fallen!", 20, 60, 20);
@@ -412,6 +408,10 @@ public class GameListener implements Listener {
 			
 			dm.removeGamePlayer(dwarf, true);
 			mm.addGamePlayer(event.getEntity(), false);
+
+			if (Game.getGame().getPhase() == Phase.PLAGUE) {
+				Game.getGame().getPlague().onDwarfDeath(dwarf);
+			}
 			// Delayed to prevent concurrent modification exceptions hopefully ._.
 //			new BukkitRunnable() {
 //				@Override public void run() {

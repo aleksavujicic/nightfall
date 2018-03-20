@@ -66,7 +66,7 @@ public enum GameDamageType {
 	BUBBLE_BEAM("bubbled"),
 	GEYSER("bubbled"),
 	WATER_BOW_AOE("splooshed"),
-	PLAGUE_ASSASSIN_END(new ForcedDeathMessageMaker("fell to the " + ChatColor.DARK_GRAY + "dark presence.")),
+	PLAGUE_ASSASSIN_END(new ForcedDeathMessageMaker("was overwhelmed by the " + ChatColor.DARK_GRAY + "dark presence.")),
 	
 	AI_REMOVER,
 	
