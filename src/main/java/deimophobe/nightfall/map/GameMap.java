@@ -4,6 +4,7 @@ import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.map.feature.FeatureCreator;
 import deimophobe.nightfall.map.feature.MapFeature;
 import deimophobe.nightfall.map.region.NullRegion;
@@ -235,15 +236,13 @@ public class GameMap {
 	}
 	
 	public void mineGold() {
-		int random1 = (int)(Math.random() * 2);
-		int random2 = (int)(Math.random() * 2);
 		switch (game.getPhase()) {
 			case BUILD:
 			case PLAGUE:
-				vault += 4 + random1 + random2;
+				vault += Misc.randomInt(3,5);
 				break;
 			case GAME:
-				vault += 2 + random1;
+				vault += Misc.randomInt(2,3);
 				break;
 		}
 		updateVault();

@@ -4,6 +4,7 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.DamageOverTimeType;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
+import deimophobe.nightfall.util.Util;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.bukkit.Location;
@@ -261,7 +262,7 @@ public interface GameEntity<E extends LivingEntity> {
 	default boolean isUnderwater() {
 		Block lowerBlock = getEntity().getLocation().getBlock();
 		Block upperBlock = lowerBlock.getRelative(BlockFace.UP);
-		return (lowerBlock.isLiquid() || upperBlock.isLiquid());
+		return (Util.isWater(lowerBlock) || Util.isWater(upperBlock));
 	}
 	
 	default Disguise getDisguise() {

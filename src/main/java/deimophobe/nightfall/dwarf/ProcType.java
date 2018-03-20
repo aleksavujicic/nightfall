@@ -10,24 +10,25 @@ import java.util.Map;
  * Created by Deimophobe on 6/05/17.
  */
 public enum ProcType {
-	REGULAR     (60,  1, 5, 0, true, true, true),
-	VELSWORD    (80,  2, 8, 0, true, true, true),
-	DRAGONSKIN  (100, 1, 5, 0, true, true, true),
-	VELBOW      (140, 2, 8, 0, true, true, true),
-	GRAVEL_PROC (60,  1, 5, 0, true, true, true),
-	EBOW        (40,  1, 3, 0, true, true, true),
-	LUMINOUS    (100, 2, 5, 0, true, true, true),
-	MALICE      (200, 2, 7, 0, true, true, true),
-	PROC_BOTTLE (100, 2, 5, 3, true, true, true),
-	EMERALD_ORE (5,   2, 2, 0, true, true, true),
+	REGULAR        (60,  1, 5, 0, true, true, true),
+	VELSWORD       (80,  2, 8, 0, true, true, true),
+	DRAGONSKIN     (100, 1, 5, 0, true, true, true),
+	VELBOW         (140, 2, 8, 0, true, true, true),
+	GRAVEL_PROC    (60,  1, 5, 0, true, true, true),
+	EBOW           (40,  1, 3, 0, true, true, true),
+	LUMINOUS       (100, 2, 5, 0, true, true, true),
+	MALICE         (200, 2, 7, 0, true, true, true),
+	PROC_BOTTLE    (100, 2, 5, 3, true, true, true),
+	EMERALD_ORE    (5,   2, 2, 0, true, true, true),
 	
-	HORN        (160, 4, 8, 3, true, true, true),
-	AVENGE      (160, 4, 8, 3, true, true, true),
-	SHRINE_FALL (220, 3, 3, 3, false, true, false),
+	HORN           (160, 4, 8, 3, true, true, true),
+	AVENGE         (160, 4, 8, 3, true, true, true),
+	RESURRECTION   (160, 4, 8, 3, true, true, true),
+	SHRINE_FALL    (220, 3, 3, 3, false, true, false),
 	
-	RUNEDASH    (12, 10, 15, 0, false, true, false),
+	RUNEDASH       (12, 10, 15, 0, false, true, false),
 	
-	ARTHEA_RAGE (60*20, 7, 5, 0, false, true, false),
+	ARTHEA_RAGE    (60*20, 7, 5, 0, false, true, false),
 	
 	;
 	

@@ -64,7 +64,7 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 			warpCD = new DudCooldown();
 		}
 
-		getArmour().addModifier(ItemModifierType.HEALTH, extraHealth * 3, "Upgrade");
+		getArmour().addModifier(ItemModifierType.HEALTH, extraHealth, "Upgrade");
 		getWeapon().addModifier(ItemModifierType.FAKE_PUNCH, punch, "Upgrade");
 		
 		makeItemMutable("stick");

@@ -6,6 +6,7 @@ import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
@@ -84,6 +85,17 @@ public class Util {
 					applier.accept(entity);
 				}
 			}
+		}
+	}
+	
+	public static boolean isWater(Block block) {
+		switch (block.getType()) {
+			case WATER:
+			case STATIONARY_WATER:
+				return true;
+				
+			default:
+				return false;
 		}
 	}
 }

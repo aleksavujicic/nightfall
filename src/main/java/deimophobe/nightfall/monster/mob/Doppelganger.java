@@ -173,6 +173,12 @@ public class Doppelganger extends AbstractMob {
 		SkinManager.getManager().removeSkinChange(monster);
 	}
 	
+	@Override
+	public double getShrineWeight() {
+		if (hidden) return 0;
+		else return super.getShrineWeight();
+	}
+	
 	private void hide() {
 		hidden = true;
 		monster.givePotionEffect(PotionEffectType.INVISIBILITY, INVIS_DURATION, 1, true, false, true);
