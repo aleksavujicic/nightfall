@@ -172,7 +172,8 @@ public class CommandInitialiserUtil {
 				String playerName = context.popFirstArg();
 				Player player;
 				if (playerName == null) {
-					throw new InvalidCommandArgument("Please provide a player name (this will be fixed very soon)");
+					player = ((PlayerIterable) context.getResolvedArg(PlayerIterable.class)).iterator().next();
+					//throw new InvalidCommandArgument("Please provide a player name (this will be fixed very soon)");
 					//player = ((OnlinePlayer) context.getResolvedArg(OnlinePlayer.class)).getPlayer();
 				} else if (playerName.equals(RANDOM_PLAYER)) {
 					player = Misc.getRandom(Bukkit.getOnlinePlayers());
