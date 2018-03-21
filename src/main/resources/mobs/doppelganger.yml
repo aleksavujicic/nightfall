@@ -116,6 +116,22 @@ items:
        - "A soulblade that has been touched by Airem's will."
       flavour:
        - "And the souls hunger for more!"
+  gauntlet:
+    base: volcanic
+    name: Cursed Gauntlet
+    lore:
+      description:
+       - "A gauntlet that has been touched by Airem's will."
+      flavour:
+       - ""
+  arrow:
+    material: arrow
+    name: Cursed Arrow
+    lore:
+      description:
+       - "An arrow that has been touched by Airem's will."
+      flavour:
+       - ""
 
 sounds:
   death:
