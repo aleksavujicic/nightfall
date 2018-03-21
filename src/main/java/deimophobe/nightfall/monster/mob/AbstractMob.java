@@ -316,15 +316,23 @@ public abstract class AbstractMob implements Mob {
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
-		if (damage.getType() == GameDamageType.MELEE) {
-			playSound("melee");
-			damage.setArmourShred(mobData.armourShred);
-			monster.gainXP(3);
-		} else if (damage.getType() == GameDamageType.RANGED) {
-			monster.gainXP(10);
-		} else {
-			monster.gainXP(5);
+		int xpGain = 0;
+		switch (damage.getType()) {
+			case MELEE:
+				playSound("melee");
+				damage.setArmourShred(mobData.armourShred);
+				xpGain = 3;
+				break;
+			case RANGED:
+				xpGain = 10;
+				break;
+				
+			default:
+				xpGain = 5;
+				break;
 		}
+		int finalXpGain = xpGain;
+		damage.addPostDamageHandler(d -> monster.gainXP(finalXpGain));
 	}
 	
 	@Override
