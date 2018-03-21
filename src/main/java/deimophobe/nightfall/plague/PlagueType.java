@@ -1,10 +1,8 @@
 package deimophobe.nightfall.plague;
 
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.common.UnknownEnumElementException;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,23 +44,12 @@ public enum PlagueType {
 		}
 	}
 	
-	public static Plague getRandomPlague() {
+	public static PlagueType getRandomPlagueType() {
 		Set<PlagueType> validTypes = new HashSet<>();
 		for (PlagueType type : values())
 			if (type.active)
 				validTypes.add(type);
 		
-		return Misc.getRandom(validTypes).createPlague();
-	}
-	
-	public static Collection<String> getPlagues() {
-		Set<String> names = new HashSet<>();
-		for (PlagueType type : values())
-			names.add(type.name().toLowerCase());
-		return names;
-	}
-	
-	public static PlagueType getPlagueType(String type) throws UnknownEnumElementException {
-		return Misc.getEnumMemberFromString(type, values(), "PlagueType");
+		return Misc.getRandom(validTypes);
 	}
 }

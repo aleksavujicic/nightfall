@@ -1,10 +1,8 @@
 package deimophobe.nightfall.command;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandCompletion;
-import co.aikar.commands.annotation.Conditions;
-import co.aikar.commands.annotation.Description;
+import co.aikar.commands.annotation.*;
+import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -12,9 +10,12 @@ import deimophobe.nightfall.dwarf.kit.hero.Horn;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 4/03/18.
@@ -78,6 +79,46 @@ public class MiscCommands extends BaseCommand {
 	@Description("Do damage to a game player.")
 	public void damage(CommandSender sender, GamePlayer target, double damage) {
 		target.doDamage(null, GameDamageType.COMMAND, damage, true);
-		sender.sendMessage(ChatColor.YELLOW + "Damaged " + target.getDisplayName() + ChatColor.YELLOW + " for " + ChatColor.AQUA + damage + ChatColor.YELLOW + " damage.");
+		MessageUtil.sendMessage(sender,"Damaged ", target, " for ", damage, " damage.");
+	}
+	
+	@Subcommand("reset")
+	@CommandCompletion("@players")
+	@Description("Resets a player, removing them from any team and resetting them as if they just logged in.")
+	public void resetPlayer(CommandSender sender, OnlinePlayer player) {
+		Player realPlayer = player.getPlayer();
+		Game.getGame().resetPlayer(realPlayer);
+		MessageUtil.sendMessage(sender,"Reset player ", realPlayer, ".");
+	}
+	
+	@Subcommand("remove")
+	@CommandCompletion("@gameplayers")
+	@Description("Removes a player from all teams.")
+	public void remove(CommandSender sender, GamePlayer player) {
+		Game.getGame().removeGamePlayer(player.getPlayer());
+		MessageUtil.sendMessage(sender,"Removed ", player.getPlayer(), " from the game.");
+	}
+	
+	@CommandAlias("fix")
+	public class FixCommand extends BaseCommand {
+		
+		@CommandAlias("fixhearts")
+		@Subcommand("hearts")
+		@Description("Should remove any fake absorption hearts.")
+		public void fixHearts(Player player) {
+			player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 1, 10), true);
+		}
+		
+		@CommandAlias("fixplayers")
+		@Subcommand("players")
+		@Description("Fix any glitched hidden players.")
+		public void fixPlayers(Player player) {
+			for (Player other : Bukkit.getOnlinePlayers()) {
+				if (player.canSee(other)) {
+					player.hidePlayer(other);
+					player.showPlayer(other);
+				}
+			}
+		}
 	}
 }

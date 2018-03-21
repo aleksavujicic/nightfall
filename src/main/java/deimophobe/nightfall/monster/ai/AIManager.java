@@ -126,22 +126,42 @@ public class AIManager {
 	}
 	
 	private double spawnChance = 0;
+	private double multiplier = 1;
 	private int maxAIs;
 	private int maxMarks;
-	double getBaseSpawnChance() { return spawnChance; }
+	private double maxMultiplier = 1;
+	public double getBaseSpawnChance() { return spawnChance; }
 	private void updateSpawnRates() {
 		int dwarves = DwarfManager.getManager().getNumberOfPlayers();
 		int mobs = MonsterManager.getManager().getNumberOfPlayers();
 		
-		double proportion = 1 - (double) ais.size()/ maxAIs;
-		spawnChance = (0.1 + 0.025 * dwarves) * proportion * proportion;
-		
 		maxAIs = 25 + mobs + 5 * dwarves;
 		maxMarks = 50 + 5 * mobs + dwarves;
+		
+		maxAIs *= maxMultiplier;
+		maxMarks *= maxMultiplier;
+		
+		double proportion = 1 - (double) ais.size()/ maxAIs;
+		spawnChance = (0.1 + 0.025 * dwarves) * proportion * proportion;
 		
 		if (ais.size() >= maxAIs) {
 			spawnChance = 0;
 		}
+		spawnChance *= multiplier;
+	}
+	
+	public int getNumAIs() { return ais.size(); }
+	public int getMaxAIs() { return maxAIs; }
+	public int getNumMarks() { return spawnSpots.size(); }
+	public int getMaxMarks() { return maxMarks; }
+	
+	public void setMultiplier(double multiplier) {
+		this.multiplier = multiplier;
+		updateSpawnRates();
+	}
+	public void setMaxMultiplier(double maxMultiplier) {
+		this.maxMultiplier = maxMultiplier;
+		updateSpawnRates();
 	}
 	
 	// ------ ARE AIS SPAWNABLE ------

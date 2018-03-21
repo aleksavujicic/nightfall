@@ -64,11 +64,11 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	}
 	
 	
-	public boolean addHero(String name, HeroType type) {
+	public Hero addHero(String name, HeroType type) {
 		return addHero(Bukkit.getPlayer(name), type);
 	}
-	public boolean addHero(Player player, HeroType type) {
-		if (player == null || isGamePlayer(player)) return false;
+	public Hero addHero(Player player, HeroType type) {
+		if (player == null || isGamePlayer(player)) return null;
 		
 		Hero hero = type.createHero(player);
 		DwarfCreateEvent event = new DwarfCreateEvent(hero);
@@ -77,7 +77,7 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 		
 		registerGamePlayer(hero);
 		
-		return true;
+		return hero;
 	}
 	
 	

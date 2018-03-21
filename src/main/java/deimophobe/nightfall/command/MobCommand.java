@@ -4,11 +4,11 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.command.iterable.MonsterIterable;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.mob.Mob;
 import deimophobe.nightfall.monster.mob.MobType;
-import deimophobe.nightfall.monster.spawnmenu.SpawnEggMenuItem;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -83,15 +83,27 @@ public class MobCommand extends BaseCommand {
 	@CommandAlias("xp|exp")
 	@CommandCompletion("@monsters")
 	@Description("Give a monster some xp.")
-	public void giveXP(CommandSender sender, MonsterPlayer monster, int xp) {
-		monster.forceGainXP(xp);
-		sender.sendMessage(ChatColor.YELLOW + "Gave " + ChatColor.DARK_RED + monster.getName() + ChatColor.YELLOW + " a total of " + ChatColor.AQUA + xp + ChatColor.YELLOW + " exp.");
+	public void giveXP(CommandSender sender, MonsterIterable monster, int xp) {
+		monster.forEach(m -> {
+			m.forceGainXP(xp);
+			MessageUtil.sendMessage(sender, "Gave ", m, " a total of ", xp, " exp.");
+		});
+	}
+	
+	@Subcommand("xp-rate|exp-rate")
+	@CommandCompletion("@monsters")
+	@Description("Set a monsters xp rate.")
+	public void setXPRate(CommandSender sender, MonsterIterable monster, int rate) {
+		monster.forEach(m -> {
+			m.setXPRate(rate);
+			MessageUtil.sendMessage(sender, "Set exp rate of ", m, " to ", rate, " exp per second.");
+		});
 	}
 	
 	@Subcommand("type")
 	@CommandCompletion("@monsters")
 	@Description("See a monsters mob type.")
-	public void giveXP(CommandSender sender, MonsterPlayer monster) {
+	public void getType(CommandSender sender, MonsterPlayer monster) {
 		Mob mob = monster.getMob();
 		if (mob == null) {
 			sender.sendMessage(ChatColor.YELLOW + "Monster " + ChatColor.DARK_RED + monster.getName() + ChatColor.YELLOW + " is not spawned as a mob.");
@@ -99,18 +111,5 @@ public class MobCommand extends BaseCommand {
 			sender.sendMessage(ChatColor.YELLOW + "Monster " + ChatColor.DARK_RED + monster.getName() + ChatColor.YELLOW + " is a mob of type "
 					+ ChatColor.GREEN + mob.getType().getName().toLowerCase() + ChatColor.YELLOW + ".");
 		}
-	}
-	
-	
-	@Subcommand("eggs")
-	public class EggCommand extends BaseCommand {
-		@Subcommand("restock")
-		@CommandCompletion("@spawneggs")
-		@Description("Restock a give spawn egg.")
-		public void restockEggs(CommandSender sender, SpawnEggMenuItem spawnEgg) {
-			spawnEgg.restock();
-			sender.sendMessage(ChatColor.YELLOW + "Successfully restocked egg of type " + ChatColor.GREEN + spawnEgg.getName() + ChatColor.YELLOW + ".");
-		}
-		
 	}
 }

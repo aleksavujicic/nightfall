@@ -7,7 +7,6 @@ import co.aikar.commands.annotation.Conditions;
 import co.aikar.commands.annotation.Subcommand;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.map.MapManager;
-import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -23,16 +22,16 @@ public class MapCommand extends BaseCommand {
 	@Subcommand("setenabled")
 	@CommandCompletion("@boolean")
 	public void setEnabled(CommandSender sender, boolean enabled) {
-		String enableText = (enabled ? "enabled" : "disabled");
-		String capitalEnableText = StringUtils.capitalize(enableText);
 		
 		try {
 			MapManager.getManager().setMapsEnabled(enabled);
 		} catch (IOException e) {
 			e.printStackTrace();
+			String enableText = (enabled ? "enabled" : "disabled");
 			sender.sendMessage(ChatColor.RED + "Failed to " + enableText + " map loading.");
+			return;
 		}
-		sender.sendMessage(ChatColor.YELLOW + capitalEnableText + " map loading.");
+		MessageUtil.sendMessage(sender, "Map loading is now ", enabled, ".");
 		sender.sendMessage(ChatColor.GRAY.toString() + ChatColor.ITALIC + "[You must reload before changes will take effect.]");
 	}
 	

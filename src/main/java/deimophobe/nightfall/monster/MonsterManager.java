@@ -15,6 +15,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
@@ -42,11 +43,14 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		
 		getTeam().setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
 		
-		menu = new SpawnMenu();
-		SpawnEggMenuItem.resetEggs();
-		
 		aiManager = new AIManager();
 		doomManager = new DoomManager();
+		
+	}
+	
+	public void init() {
+		loadSpawnEggs();
+		menu = new SpawnMenu();
 		
 		aiManager.start();
 	}
@@ -104,10 +108,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		}.runTaskTimer(NightfallPlugin.getPlugin(), 30, 30);
 		
 		new BukkitRunnable() {
-			@Override
-			public void run() {
-				menu.updateEggs();
-			}
+			@Override public void run() { updateEggs(); }
 		}.runTaskTimer(NightfallPlugin.getPlugin(), 90*20, 60*20);
 		
 		getGamePlayers().forEach(mp -> mp.forceGainXP(6000));
@@ -119,7 +120,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	//                   MENUS N STUFF
 	// --------------------------------------------------------
 	
-	private final SpawnMenu menu;
+	private SpawnMenu menu;
 	
 	public void showMobMenu(MonsterPlayer monster) {
 		menu.startSession(monster.getPlayer());
@@ -129,14 +130,49 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		menu.addSpawnEgg(i, egg);
 	}
 	
+	public void addSpawnEgg(int i, SpawnEggMenuItem egg) {
+		String name = egg.getName();
+		spawnEggs.put(name, egg);
+		menu.addSpawnEgg(i, name);
+	}
+	
 	public Set<String> getUpgradeSet(MobType type) {
 		return menu.getUpgradeSet(type);
 	}
 	
-	public SpawnMenu getSpawnMenu() {
-		return menu;
+	// --------------------------------------------------------
+	//                    SPAWN EGGS
+	// --------------------------------------------------------
+	
+	private final Map<String, SpawnEggMenuItem> spawnEggs = new HashMap<>();
+	
+	private void loadSpawnEggs() {
+		Configuration spawnConfig = NightfallPlugin.getInternalFileConfig("spawn-eggs.yml");
+		for (String key : spawnConfig.getKeys(false)) {
+			SpawnEggMenuItem egg = new SpawnEggMenuItem(spawnConfig.getConfigurationSection(key), key);
+			spawnEggs.put(key, egg);
+		}
 	}
 	
+	public SpawnEggMenuItem getEgg(String key) {
+		return spawnEggs.get(key);
+	}
+	
+	public Collection<String> getEggNames() {
+		return spawnEggs.keySet();
+	}
+	
+	private void updateEggs() {
+		for (SpawnEggMenuItem egg : spawnEggs.values()) {
+			egg.tryRestock();
+		}
+	}
+	
+	public void restockAllEggs() {
+		for (SpawnEggMenuItem egg : spawnEggs.values()) {
+			egg.restock();
+		}
+	}
 	
 	// --------------------------------------------------------
 	//                   DEATH MESSAGER
