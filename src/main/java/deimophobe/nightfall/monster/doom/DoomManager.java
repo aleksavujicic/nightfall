@@ -199,4 +199,8 @@ public class DoomManager {
 	public void updateDoomCount() {
 		Game.getGame().setDoomSidebar(doomTimer);
 	}
+	
+	public int getTime() {
+		return doomTimer;
+	}
 }

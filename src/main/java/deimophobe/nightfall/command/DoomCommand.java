@@ -44,6 +44,14 @@ public class DoomCommand extends BaseCommand {
 		MessageUtil.sendMessage(sender, "Reduced doom by ", amount, ".");
 	}
 	
+	@Subcommand("time")
+	@Conditions("monster-release")
+	@Description("Gets the current doom time.")
+	public void getTime(CommandSender sender) {
+		int time = DoomManager.getManager().getTime();
+		MessageUtil.sendMessage(sender, "The doom timer is currently at ", time, ".");
+	}
+	
 	@Subcommand("set-max")
 	@Conditions("monster-release")
 	@Description("Sets the max timer on doom.")
