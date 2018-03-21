@@ -7,10 +7,12 @@ import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.common.cosmetic.hat.Hat;
+import deimophobe.nightfall.damage.DeathMessageMaker;
 import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.KeywordDeathMessageMaker;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
+import deimophobe.nightfall.dwarf.kit.healing.StrongAle;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.mob.AbstractMob;
 import deimophobe.nightfall.monster.mob.MobType;
@@ -22,19 +24,24 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Team;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class Assassin extends AbstractMob {
     private final AssassinPlague plague;
     private final Dwarf target;
     private final Team fakeTeam;
+    private static final String TEAM_PREFIX = "assassin";
+    private static DeathMessageMaker STABBED_MSG = new KeywordDeathMessageMaker("stabbed");
 
     protected Assassin(MonsterPlayer mons, AssassinPlague plague, Dwarf target) {
         super(mons, MobType.PLAGUE_ASSASSIN);
         this.plague = plague;
         this.target = target;
 
-        this.fakeTeam = Game.getGame().getNewTeam("assassin " + monster.getName());
+        int id = getID(monster.getName());
+        this.fakeTeam = Game.getGame().getNewTeam(TEAM_PREFIX + id);
 
         String monsterName = monster.getName();
         int endIndex = Math.min(3, monsterName.length());
@@ -51,27 +58,31 @@ public class Assassin extends AbstractMob {
 
     @Override
     public void onDamageAttack(DwarfDamage damage) {
+        damage.setDeathMessageMaker(STABBED_MSG);
         Dwarf dwarf = damage.getDwarf();
         dwarf.clearEffects();
         if (dwarf.isHero()) {
             damage.getMultiPartDamage().setBase(5);
         }
         else {
-            damage.getMultiPartDamage().setBase(90);
+            damage.getMultiPartDamage().setBase(125);
         }
         if (dwarf.hasKitElement(KitPieceType.STRONG_ALE)) {
-            damage.getMultiPartDamage().timesMult(4);
+            damage.getMultiPartDamage().timesMult(1d/(1 - StrongAle.getDamageResistance()));
         }
-        if (damage.willKill()) {
-            if (dwarf == target) {
-                monster.sendMessage(ChatColor.DARK_RED + "You have killed your " + ChatColor.RED + ChatColor.ITALIC + "target. " + ChatColor.YELLOW + "+1000 xp");
-                monster.forceGainXP(1000);
+
+        damage.addPreDamageHandler(10000, d -> {
+            if (damage.willKill()) {
+                if (dwarf == target) {
+                    monster.sendMessage(ChatColor.DARK_RED + "You have killed your target " + ChatColor.RED + target.getName() + ChatColor.DARK_RED + ". " + ChatColor.YELLOW + "+1000 xp");
+                    monster.forceGainXP(1000);
+                }
+                else {
+                    monster.sendMessage(ChatColor.DARK_RED + "You have killed a dwarf. " + ChatColor.YELLOW + "+500 xp");
+                    monster.forceGainXP(500);
+                }
             }
-            else {
-                monster.sendMessage(ChatColor.DARK_RED + "You have killed a dwarf. " + ChatColor.YELLOW + "+500 xp");
-                monster.forceGainXP(500);
-            }
-        }
+        });
     }
 
     @Override
@@ -99,7 +110,7 @@ public class Assassin extends AbstractMob {
         skin.applyToWrappedGameProfile(profile);
 
         PlayerDisguise disguise = new PlayerDisguise(profile);
-        disguise.setDisplayedInTab(true);
+        disguise.setDisplayedInTab(false);
         disguise.setViewSelfDisguise(false);
         disguise.setReplaceSounds(false);
         disguise.getWatcher().setArrowsSticking(0);
@@ -123,9 +134,18 @@ public class Assassin extends AbstractMob {
     @Override
     public void onDeath(boolean silent) {
         super.onDeath(silent);
-        if (plague != null) {
-            plague.notifyAssassinDeath();
-        }
+        plague.notifyAssassinDeath(monster);
         SkinManager.getManager().removeSkinChange(monster);
+    }
+
+    private static final Map<String, Integer> nameToIDMap = new HashMap<>();
+    private static int getID(String name) {
+        if (nameToIDMap.containsKey(name)) {
+            return nameToIDMap.get(name);
+        } else {
+            int nextID = nameToIDMap.size();
+            nameToIDMap.put(name, nextID);
+            return nextID;
+        }
     }
 }

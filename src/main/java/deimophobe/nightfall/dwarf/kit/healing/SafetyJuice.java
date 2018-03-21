@@ -1,11 +1,13 @@
 package deimophobe.nightfall.dwarf.kit.healing;
 
+import deimophobe.nightfall.Game;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.CancellableFinalGameDamage;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.plague.AssassinPlague;
 
 import java.util.function.Consumer;
 
@@ -34,7 +36,7 @@ public class SafetyJuice extends AbstractAle {
 	}
 	
 	private final Consumer<CancellableFinalGameDamage<GameEntity<?>, Dwarf>> healer = damage -> {
-		if (damage.willKill() || dwarf.getHealth() <= 10) {
+		if ((damage.willKill() || dwarf.getHealth() <= 10) && !Game.getGame().potionsDisabled()) {
 			if (dwarf.tryUseMana(AUTO_COST)){
 				heal();
 				cooldown.reset();

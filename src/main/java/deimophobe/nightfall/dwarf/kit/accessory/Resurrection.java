@@ -15,6 +15,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.plague.AssassinPlague;
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -45,7 +46,7 @@ public class Resurrection extends AbstractPiece {
 	}
 	
 	private final Consumer<CancellableFinalGameDamage<GameEntity<?>, Dwarf>> resurrecter = damage -> {
-		if (damage.willKill()) {
+		if (damage.willKill() && !Game.getGame().potionsDisabled()) {
 			used = true;
 			damage.softCancel();
 			

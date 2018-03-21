@@ -21,6 +21,7 @@ import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.upgrade.GlobalUpgrade;
+import deimophobe.nightfall.plague.AssassinPlague;
 import deimophobe.nightfall.plague.Plague;
 import deimophobe.nightfall.plague.PlagueType;
 import net.md_5.bungee.api.ChatMessageType;
@@ -712,5 +713,9 @@ public class Game {
 	public boolean isNight() {
 		long time = GameMap.getCurrentMap().getWorld().getTime();
 		return (12500 < time && time < 23450);
+	}
+
+	public boolean potionsDisabled() {
+		return activePlague instanceof AssassinPlague;
 	}
 }

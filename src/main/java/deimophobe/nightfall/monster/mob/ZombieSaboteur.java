@@ -83,6 +83,7 @@ public class ZombieSaboteur extends ZombieMob {
 			// Reapply attack as it was lost with weapon override
 			int attack = upgrades.get("attack") + upgrades.get("attack-inf");
 			getWeapon().addModifier(ItemModifierType.ATTACK, attack, "Upgrade");
+			getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, attack, "Upgrade");
 		}
 		
 		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
