@@ -161,7 +161,7 @@ public class DwarfCommand extends BaseCommand {
 		@Description("Add a kit piece to a dwarf's kit.")
 		public void addKitItem(CommandSender sender, Dwarf dwarf, KitPieceType[] pieceTypes) {
 			if (pieceTypes.length == 0) {
-				sender.sendMessage(ChatColor.RED + "Please specify an item.");
+				MessageUtil.sendErrorMessage(sender, "Please specify an item.");
 			} else {
 				for (KitPieceType type : pieceTypes) {
 					dwarf.giveKitItem(type);
@@ -174,20 +174,6 @@ public class DwarfCommand extends BaseCommand {
 		@CommandCompletion("@dwarves")
 		@Description("List all pieces of a dwarf's kit.")
 		public void listKit(CommandSender sender, @Optional Dwarf dwarf) {
-//			StringBuilder sb = new StringBuilder();
-//			sb.append(ChatColor.YELLOW);
-//			sb.append("Dwarf ");
-//			sb.append(ChatColor.DARK_AQUA);
-//			sb.append(dwarf.getName());
-//			sb.append(ChatColor.YELLOW);
-//			sb.append(" have the following kit items:\n");
-//			sb.append(ChatColor.RESET);
-//			for (KitPieceType type : dwarf.getKitElementTypes()) {
-//				sb.append(type.toString().toLowerCase());
-//				sb.append(", ");
-//			}
-//			sb.setLength(sb.length() - 2);
-//			sender.sendMessage(sb.toString());
 			KitPieceType[] types = new KitPieceType[0];
 			types = dwarf.getKitElementTypes().toArray(types);
 			MessageUtil.sendMessage(sender, "Dwarf ", dwarf, " has the following kit: ", types);

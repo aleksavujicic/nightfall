@@ -2,16 +2,15 @@ package deimophobe.nightfall.command;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
-import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.command.iterable.MonsterIterable;
+import deimophobe.nightfall.command.iterable.PlayerIterable;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.mob.Mob;
 import deimophobe.nightfall.monster.mob.MobType;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,17 +26,18 @@ public class MobCommand extends BaseCommand {
 	@CommandAlias("setmob")
 	@CommandCompletion("@players @mobtypes")
 	@Description("Set a player to be a monster.")
-	public void setMob(CommandSender sender, OnlinePlayer player, @Optional MobType mobType) {
-		Player realPlayer = player.getPlayer();
-		Game.getGame().removeGamePlayer(realPlayer);
-		MonsterPlayer monster = MonsterManager.getManager().addGamePlayer(realPlayer);
-		
-		if (mobType != null) {
-			monster.spawnMob(mobType);
-			sender.sendMessage(ChatColor.YELLOW + "Added " + ChatColor.DARK_RED + realPlayer.getName() + ChatColor.YELLOW + " as a monster and spawned as mob " + ChatColor.GREEN + mobType.getName());
-		} else {
-			sender.sendMessage(ChatColor.YELLOW + "Added " + ChatColor.DARK_RED + realPlayer.getName() + ChatColor.YELLOW + " as a monster.");
-		}
+	public void setMob(CommandSender sender, PlayerIterable players, @Optional MobType mobType) {
+		players.forEach(player -> {
+			Game.getGame().removeGamePlayer(player);
+			MonsterPlayer monster = MonsterManager.getManager().addGamePlayer(player);
+			
+			if (mobType != null) {
+				monster.spawnMob(mobType);
+				MessageUtil.sendMessage(sender, "Added ", player, " as a monster and spawned as mob ", mobType, ".");
+			} else {
+				MessageUtil.sendMessage(sender, "Added ", player, " as a monster.");
+			}
+		});
 	}
 	
 	@Subcommand("list")
@@ -62,21 +62,23 @@ public class MobCommand extends BaseCommand {
 	@Description("Remove a player from the monster team.")
 	public void remove(CommandSender sender, MonsterPlayer monster) {
 		MonsterManager.getManager().removeGamePlayer(monster, true);
-		sender.sendMessage(ChatColor.YELLOW + "Removed " + ChatColor.RESET + monster.getName() + ChatColor.YELLOW + " from the mobs.");
+		MessageUtil.sendMessage(sender, "Removed ", monster, " from the mobs.");
 	}
 	
 	@Subcommand("spawn")
 	@CommandAlias("spawnmob")
 	@CommandCompletion("@monsters @mobtypes")
 	@Description("Spawn a monster as a specified mob.")
-	public void spawnMob(CommandSender sender, MonsterPlayer monster, MobType mobType) {
-		boolean spawned = monster.spawnMob(mobType);
-		
-		if (spawned) {
-			sender.sendMessage(ChatColor.YELLOW + "Spawned " + ChatColor.DARK_RED + monster.getName() + ChatColor.YELLOW + " as mob " + ChatColor.GREEN + mobType.getName().toLowerCase() + ChatColor.YELLOW + ".");
-		} else {
-			sender.sendMessage(ChatColor.RED + "Failed to spawn " + ChatColor.DARK_RED + monster.getName() + ChatColor.RED + " as mob " + ChatColor.GREEN + mobType.getName().toLowerCase() + ChatColor.YELLOW + ".");
-		}
+	public void spawnMob(CommandSender sender, MonsterIterable monsters, MobType mobType) {
+		monsters.forEach(monster -> {
+			boolean spawned = monster.spawnMob(mobType);
+			
+			if (spawned) {
+				MessageUtil.sendMessage(sender, "Spawned ", monster, " as mob ", mobType, ".");
+			} else {
+				MessageUtil.sendErrorMessage(sender, "Failed to spawn ", monster, " as mob ", mobType, ".");
+			}
+		});
 	}
 	
 	@Subcommand("xp|exp")
@@ -106,10 +108,9 @@ public class MobCommand extends BaseCommand {
 	public void getType(CommandSender sender, MonsterPlayer monster) {
 		Mob mob = monster.getMob();
 		if (mob == null) {
-			sender.sendMessage(ChatColor.YELLOW + "Monster " + ChatColor.DARK_RED + monster.getName() + ChatColor.YELLOW + " is not spawned as a mob.");
+			MessageUtil.sendMessage(sender,"Monster ", monster, " is not spawned as a mob.");
 		} else {
-			sender.sendMessage(ChatColor.YELLOW + "Monster " + ChatColor.DARK_RED + monster.getName() + ChatColor.YELLOW + " is a mob of type "
-					+ ChatColor.GREEN + mob.getType().getName().toLowerCase() + ChatColor.YELLOW + ".");
+			MessageUtil.sendMessage(sender,"Monster ", monster, " is a ", mob.getType(), " mob.");
 		}
 	}
 }

@@ -136,10 +136,17 @@ class MessageUtil {
 		return (MessageResolver<T>) resolvers.get(clazz);
 	}
 	
+	static void sendErrorMessage(CommandSender sender, Object... objects) {
+		sendMessage(sender, ChatColor.RED, objects);
+	}
 	
 	static void sendMessage(CommandSender sender, Object... objects) {
+		sendMessage(sender, ChatColor.YELLOW, objects);
+	}
+	
+	static void sendMessage(CommandSender sender, ChatColor colour, Object... objects) {
 		BaseComponent message = new TextComponent();
-		message.setColor(net.md_5.bungee.api.ChatColor.YELLOW);
+		message.setColor(colour);
 		
 		for (Object object : objects) {
 			BaseComponent nextComponent = null;

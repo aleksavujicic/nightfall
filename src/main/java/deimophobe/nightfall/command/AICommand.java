@@ -6,7 +6,6 @@ import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
 import co.aikar.commands.annotation.Subcommand;
 import deimophobe.nightfall.monster.ai.AIManager;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -51,7 +50,7 @@ public class AICommand extends BaseCommand {
 		if (success) {
 			MessageUtil.sendMessage(sender, "Added a spawn mark at ", location, ".");
 		} else {
-			sender.sendMessage(ChatColor.RED + "Failed to add AI spawn mark.");
+			MessageUtil.sendErrorMessage(sender,"Failed to add AI spawn mark.");
 		}
 	}
 	
