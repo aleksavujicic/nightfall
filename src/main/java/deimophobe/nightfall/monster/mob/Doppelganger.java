@@ -91,6 +91,7 @@ public class Doppelganger extends AbstractMob {
 			disguise.setViewSelfDisguise(false);
 			disguise.setReplaceSounds(false);
 			disguise.getWatcher().setArrowsSticking(0);
+			disguise.getWatcher().setSprinting(false);
 			DisguiseAPI.disguiseEntity(monster.getPlayer(), disguise);
 		}
 		
