@@ -218,8 +218,8 @@ public class AIManager {
 			if (!success) continue;
 			
 			// Also add offset if previous was successfull - will be either -5, 0, +5 for x and z
-			int xOffset = 5 * Misc.randomInt(-1,2);
-			int zOffset = 5 * Misc.randomInt(-1,2);
+			int xOffset = 5 * Misc.randomInt(-1,1);
+			int zOffset = 5 * Misc.randomInt(-1,1);
 			Location offset = location.clone().add(xOffset, 0, zOffset);
 			addAISpawnLocation(offset);
 		}
