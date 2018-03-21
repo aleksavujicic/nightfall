@@ -3,7 +3,6 @@ package deimophobe.nightfall.command;
 import co.aikar.commands.*;
 import co.aikar.commands.contexts.ContextResolver;
 import co.aikar.commands.contexts.IssuerAwareContextResolver;
-import co.aikar.commands.contexts.OnlinePlayer;
 import com.google.common.collect.ImmutableSet;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.ItemManager;
@@ -168,17 +167,21 @@ public class CommandInitialiserUtil {
 		contexts.registerContext(KitPieceType[].class, arrayPieceResolver);
 		contexts.registerContext(DwarfData.class, context -> {
 			String firstArg = context.getFirstArg();
-			if (firstArg.equalsIgnoreCase("kit")) {
+			if (firstArg.equalsIgnoreCase("kit"))  {
 				context.popFirstArg(); // Pop 'kit'
 				String playerName = context.popFirstArg();
+				Player player;
 				if (playerName == null) {
-					OnlinePlayer player = (OnlinePlayer) context.getResolvedArg(OnlinePlayer.class);
-					return DwarfData.getData(player.getPlayer());
+					throw new InvalidCommandArgument("Please provide a player name (this will be fixed very soon)");
+					//player = ((OnlinePlayer) context.getResolvedArg(OnlinePlayer.class)).getPlayer();
+				} else if (playerName.equals(RANDOM_PLAYER)) {
+					player = Misc.getRandom(Bukkit.getOnlinePlayers());
+					if (player == null) throw new InvalidCommandArgument("There are no online players to choose from.");
 				} else {
-					Player player = Bukkit.getPlayer(playerName);
-					if (player == null) throw new InvalidCommandArgument("Unknown player '" + ChatColor.YELLOW + playerName + ChatColor.RED + "'.");
-					return DwarfData.getData(player);
+					player = Bukkit.getPlayer(playerName);
 				}
+				if (player == null) throw new InvalidCommandArgument("Unknown player '" + ChatColor.YELLOW + playerName + ChatColor.RED + "'.");
+				return DwarfData.getData(player);
 			} else if (firstArg.equalsIgnoreCase("loadoutall")) {
 				context.popFirstArg();
 				DwarfData data = new DwarfData();
