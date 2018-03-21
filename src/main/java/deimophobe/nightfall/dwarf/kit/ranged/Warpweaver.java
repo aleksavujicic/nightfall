@@ -89,10 +89,12 @@ public class Warpweaver extends AbstractToggleBow {
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
-		if (damage.getAttacker() instanceof MonsterPlayer && !activeArrows.isEmpty()) {
-			dwarf.sendTitleMessage(ChatColor.DARK_PURPLE + "Warp interrupted by monster player!");
-			removeActiveArrows();
-		}
+		damage.addPostDamageHandler(d -> {
+			if (damage.getAttacker() instanceof MonsterPlayer && !activeArrows.isEmpty()) {
+				dwarf.sendTitleMessage(ChatColor.DARK_PURPLE + "Warp interrupted by monster player!");
+				removeActiveArrows();
+			}
+		});
 	}
 	
 	private void removeActiveArrows() {
