@@ -8,10 +8,7 @@ import deimophobe.nightfall.Game;
 import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Phase;
-import deimophobe.nightfall.command.iterable.DwarfIterable;
-import deimophobe.nightfall.command.iterable.GamePlayerIterable;
-import deimophobe.nightfall.command.iterable.MonsterIterable;
-import deimophobe.nightfall.command.iterable.PlayerIterable;
+import deimophobe.nightfall.command.iterable.*;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
@@ -165,16 +162,14 @@ public class CommandInitialiserUtil {
 		
 		contexts.registerContext(KitPieceType.class, kitPieceTypeResolver);
 		contexts.registerContext(KitPieceType[].class, arrayPieceResolver);
-		contexts.registerContext(DwarfData.class, context -> {
+		contexts.registerContext(DwarfDataCreator.class, context -> {
 			String firstArg = context.getFirstArg();
 			if (firstArg.equalsIgnoreCase("kit"))  {
 				context.popFirstArg(); // Pop 'kit'
 				String playerName = context.popFirstArg();
 				Player player;
 				if (playerName == null) {
-					player = ((PlayerIterable) context.getResolvedArg(PlayerIterable.class)).iterator().next();
-					//throw new InvalidCommandArgument("Please provide a player name (this will be fixed very soon)");
-					//player = ((OnlinePlayer) context.getResolvedArg(OnlinePlayer.class)).getPlayer();
+					return DwarfData::getData;
 				} else if (playerName.equals(RANDOM_PLAYER)) {
 					player = Misc.getRandom(Bukkit.getOnlinePlayers());
 					if (player == null) throw new InvalidCommandArgument("There are no online players to choose from.");
@@ -182,16 +177,16 @@ public class CommandInitialiserUtil {
 					player = Bukkit.getPlayer(playerName);
 				}
 				if (player == null) throw new InvalidCommandArgument("Unknown player '" + ChatColor.YELLOW + playerName + ChatColor.RED + "'.");
-				return DwarfData.getData(player);
+				return p -> DwarfData.getData(player);
 			} else if (firstArg.equalsIgnoreCase("loadoutall")) {
 				context.popFirstArg();
 				DwarfData data = new DwarfData();
 				LoadoutManager.getManager().modifyAll(data);
-				return data;
+				return p -> data;
 			} else {
 				KitPieceType[] pieces = arrayPieceResolver.getContext(context);
 				Set<KitPieceType> setPieces = new HashSet<>(Arrays.asList(pieces));
-				return new DwarfData(setPieces, null);
+				return p -> new DwarfData(setPieces, null);
 			}
 		});
 		

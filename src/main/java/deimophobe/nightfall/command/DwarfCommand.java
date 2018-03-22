@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandIssuer;
 import co.aikar.commands.annotation.*;
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.command.iterable.DwarfDataCreator;
 import deimophobe.nightfall.command.iterable.PlayerIterable;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfData;
@@ -37,10 +38,11 @@ public class DwarfCommand extends BaseCommand {
 	@CommandAlias("setdwarf")
 	@CommandCompletion("@players @kitpieces:extra=loadout")
 	@Description("Sets a player to be a dwarf.")
-	public void onSetDwarf(CommandSender sender, PlayerIterable players, @Default("kit") DwarfData dwarfData) {
+	public void onSetDwarf(CommandSender sender, PlayerIterable players, @Default("kit") DwarfDataCreator dwarfDataCreator) {
 		players.forEach(player -> {
 			Game.getGame().removeGamePlayer(player);
-			Dwarf dwarf = DwarfManager.getManager().createDwarf(player, dwarfData);
+			DwarfData data = dwarfDataCreator.createDwarfData(player);
+			Dwarf dwarf = DwarfManager.getManager().createDwarf(player, data);
 			
 			MessageUtil.sendMessage(sender, "Added ", player, " as a dwarf.");
 		});
