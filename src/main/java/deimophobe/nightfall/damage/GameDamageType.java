@@ -186,7 +186,7 @@ public enum GameDamageType {
 			if (!damage.getReceiver().canDamageOverTimeTick(type, getRequiredDelay(damage))) {
 				damage.cancel();
 			} else {
-				damage.addPostDamageHandler(d -> d.getReceiver().doDamageOverTimeTick(type));
+				damage.addPostDamageHandler(() -> damage.getReceiver().doDamageOverTimeTick(type));
 				damage.setNoDamageTicks(1);
 			}
 		}

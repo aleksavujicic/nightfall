@@ -23,12 +23,11 @@ import org.bukkit.util.Vector;
 import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Consumer;
 
 /**
  * Created by Deimophobe on 6/05/17.
  */
-public abstract class GameDamage<A extends GameEntity, R extends GameEntity> implements CancellableFinalGameDamage<A,R> {
+public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 	public static final double INSTA_KILL_DMG = 1000000;
 	private static final int DEFAULT_NO_DMG_TICKS = 10;
 	
@@ -63,8 +62,8 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 	
 	private final Projectile projectile;
 	
-	private final Set<DamageHandler<CancellableFinalGameDamage<A,R>>> preDamageHandlers = new HashSet<>();
-	private final Set<DamageHandler<FinalGameDamage<A,R>>> postDamageHandlers = new HashSet<>();
+	private final Set<DamageHandler<PreDamagePriority>> preDamageHandlers = new HashSet<>();
+	private final Set<DamageHandler<PostDamagePriority>> postDamageHandlers = new HashSet<>();
 	
 	private static int idCount = 0;
 	/** Currently only used for debugging */
@@ -264,7 +263,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		if (projectile instanceof Arrow)
 			return (Arrow) projectile;
 		else
-			throw new IllegalStateException("Tried to access arrow of gameDamage which has no arrow.");
+			throw new IllegalStateException("Tried to access arrow of GameDamage which has no arrow.");
 	}
 	
 	public void setItemStack(ItemStack itemStack) {
@@ -275,20 +274,89 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 	}
 	
 	
-	public static int SAFETY_JUICE_PRIORITY = 10;
-	public static int RESURRECTION_PRIORITY = 100;
-	public static int ARTHEA_DEATH_PRIORITY = 200;
-	public void addPreDamageHandler(Consumer<CancellableFinalGameDamage<A,R>> handler) {
-		addPreDamageHandler(0, handler);
+	/**
+	 * Adds a {@link Runnable} that will run just before the damage is executed. Will not be run if damage is cancelled earlier.
+	 * The main use case for these handlers is to correctly cancel damage in certain scenarios. They should ideally only use the
+	 * following methods:
+	 * <ul>
+	 *   <li>{@link #getAttacker()}</li>
+	 *   <li>{@link #getReceiver()}</li>
+	 *   <li>{@link #getType()}</li>
+	 *   <li>{@link #getFinalDamage()}</li>
+	 *   <li>{@link #willKill()}</li>
+	 *   <li>{@link #cancel()}</li>
+	 *   <li>{@link #softCancel()}</li>
+	 * </ul>
+	 * Any code that needs to guarantee the success and damage of this GameDamage should use {@link #addPostDamageHandler(Runnable)} instead.
+	 *
+	 * @param handler The {@link Runnable} code to be run.
+	 *
+	 * @see deimophobe.nightfall.dwarf.kit.healing.SafetyJuice
+	 * @see deimophobe.nightfall.dwarf.kit.accessory.Resurrection
+	 */
+	public void addPreDamageHandler(Runnable handler) {
+		addPreDamageHandler(PreDamagePriority.DEFAULT, handler);
 	}
-	public void addPreDamageHandler(int priority, Consumer<CancellableFinalGameDamage<A,R>> handler) {
+	/**
+	 * Adds a {@link Runnable} that will run just before the damage is executed. Will not be run if damage is cancelled earlier.
+	 * The main use case for these handlers is to correctly cancel damage in certain scenarios. They should ideally only use the
+	 * following methods:
+	 * <ul>
+	 *   <li>{@link #getAttacker()}</li>
+	 *   <li>{@link #getReceiver()}</li>
+	 *   <li>{@link #getType()}</li>
+	 *   <li>{@link #getFinalDamage()}</li>
+	 *   <li>{@link #willKill()}</li>
+	 *   <li>{@link #cancel()}</li>
+	 *   <li>{@link #softCancel()}</li>
+	 * </ul>
+	 * Any code that needs to guarantee the success and damage of this GameDamage should use {@link #addPostDamageHandler(PostDamagePriority, Runnable)} instead.
+	 *
+	 * @param priority Determines when this handler will be run in comparison to other handlers.
+	 * @param handler The {@link Runnable} code to be run.
+	 *
+	 * @see deimophobe.nightfall.dwarf.kit.healing.SafetyJuice
+	 * @see deimophobe.nightfall.dwarf.kit.accessory.Resurrection
+	 */
+	public void addPreDamageHandler(PreDamagePriority priority, Runnable handler) {
 		preDamageHandlers.add(new DamageHandler<>(priority, handler));
 	}
 	
-	public void addPostDamageHandler(Consumer<FinalGameDamage<A,R>> handler) {
-		addPostDamageHandler(0, handler);
+	/**
+	 * Adds a {@link Runnable} that will run after the damage is successfully completed. Will not be run if damage is not successful.
+	 * As the damage is completed, changing damage values is mostly meaningless and highly discouraged. Ideally only the following methods
+	 * should be run:
+	 * <ul>
+	 *   <li>{@link #getAttacker()}</li>
+	 *   <li>{@link #getReceiver()}</li>
+	 *   <li>{@link #getType()}</li>
+	 *   <li>{@link #getFinalDamage()}</li>
+	 *   <li>{@link #willKill()}</li>
+	 * </ul>
+	 * Any code that needs to cancel this GameDamage should use {@link #addPreDamageHandler(Runnable)} instead.
+	 *
+	 * @param handler The {@link Runnable} code to be run.
+	 */
+	public void addPostDamageHandler(Runnable handler) {
+		addPostDamageHandler(PostDamagePriority.DEFAULT, handler);
 	}
-	public void addPostDamageHandler(int priority, Consumer<FinalGameDamage<A,R>> handler) {
+	/**
+	 * Adds a {@link Runnable} that will run after the damage is successfully completed. Will not be run if damage is not successful.
+	 * As the damage is completed, changing damage values is mostly meaningless and highly discouraged. Ideally only the following methods
+	 * should be run:
+	 * <ul>
+	 *   <li>{@link #getAttacker()}</li>
+	 *   <li>{@link #getReceiver()}</li>
+	 *   <li>{@link #getType()}</li>
+	 *   <li>{@link #getFinalDamage()}</li>
+	 *   <li>{@link #willKill()}</li>
+	 * </ul>
+	 * Any code that needs to cancel this GameDamage should use {@link #addPreDamageHandler(Runnable)} instead.
+	 *
+	 * @param priority Determines when this handler will be run in comparison to other handlers.
+	 * @param handler The {@link Runnable} code to be run.
+	 */
+	public void addPostDamageHandler(PostDamagePriority priority, Runnable handler) {
 		postDamageHandlers.add(new DamageHandler<>(priority, handler));
 	}
 	
@@ -318,8 +386,8 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		
 		// Apply pre damage handlers, stop if necessary
 		phase = DamagePhase.PRE_DAMAGE;
-		for (DamageHandler<CancellableFinalGameDamage<A, R>> handler : Misc.asSortedList(preDamageHandlers)) {
-			handler.consume(this);
+		for (DamageHandler<?> handler : Misc.asSortedList(preDamageHandlers)) {
+			handler.run();
 			if (cancelled) return false;
 		}
 		
@@ -367,7 +435,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> imp
 		
 		// Apply post damage handlers
 		phase = DamagePhase.POST_DAMAGE;
-		Misc.asSortedList(postDamageHandlers).forEach(h -> h.consume(this));
+		Misc.asSortedList(postDamageHandlers).forEach(DamageHandler::run);
 		
 		// Debug
 		if (attacker instanceof GamePlayer) ((GamePlayer) attacker).debugObject(this);

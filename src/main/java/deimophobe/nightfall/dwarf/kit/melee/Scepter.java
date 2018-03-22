@@ -97,7 +97,7 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 		MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.SCEPTER, DAMAGE + dwarf.getBonusMeleeDamage()/2);
 		if (dwarf.hasProc()) damage.setProc(true);
 		damage.setNoDamageTicks(5);
-		damage.addPostDamageHandler(d -> {
+		damage.addPostDamageHandler(() -> {
 			if (monster.isAI())
 				monster.givePotionEffect(PotionEffectType.SLOW, 5*20, 2, true, true, true);
 		});

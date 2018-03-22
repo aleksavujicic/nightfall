@@ -332,7 +332,7 @@ public abstract class AbstractMob implements Mob {
 				break;
 		}
 		int finalXpGain = xpGain;
-		damage.addPostDamageHandler(d -> monster.gainXP(finalXpGain));
+		damage.addPostDamageHandler(() -> monster.gainXP(finalXpGain));
 	}
 	
 	@Override
@@ -347,7 +347,7 @@ public abstract class AbstractMob implements Mob {
 		damage.getMultiPartDamage().timesMult(1 - mobData.damageRes);
 		damage.getArrowRes().setBase(mobData.arrowRes);
 		
-		damage.addPostDamageHandler(d -> {
+		damage.addPostDamageHandler(() -> {
 			playSound("hurt");
 			if (hasDisguise())
 				monster.playSound("entity.generic.hurt", 1f, 1f, true);

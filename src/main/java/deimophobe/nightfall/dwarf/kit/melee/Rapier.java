@@ -74,7 +74,7 @@ public class Rapier extends AbstractItem implements CooldownPiece {
 		if (isMeleeDamageFromItem(damage)) {
 			if (stacks < MAX_STACKS) {
 				MonsterEntity monster = damage.getMonster();
-				if (monster.isAI()) damage.addPostDamageHandler((d) -> stacks++);
+				if (monster.isAI()) damage.addPostDamageHandler(() -> stacks++);
 			}
 		}
 	}

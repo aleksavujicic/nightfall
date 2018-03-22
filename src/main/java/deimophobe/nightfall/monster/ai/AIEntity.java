@@ -78,7 +78,7 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 		damage.setArmourShred(5);
 		damage.multiplyKnockback(0.8);
 		
-		damage.addPostDamageHandler(d -> resetInactivity());
+		damage.addPostDamageHandler(this::resetInactivity);
 	}
 	
 
@@ -103,7 +103,7 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 				return;
 		}
 		
-		damage.addPostDamageHandler(d -> resetInactivity());
+		damage.addPostDamageHandler(this::resetInactivity);
 	}
 
 	public void onDeath(MonsterDamage damage) {
