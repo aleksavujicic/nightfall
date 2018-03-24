@@ -226,7 +226,7 @@ crossbow:
           Uses two arrows and has a\n
           slight reload time."
     modifiers:
-      power: 100
+      power: 90
 
 lightbow:
   index: 13
@@ -280,7 +280,7 @@ warpweaver:
           Getting hit will cancel the teleport.\n
           Has a 30 second cooldown."
     modifiers:
-      power: 30
+      power: 50
 
 turret:
   enabled: false
