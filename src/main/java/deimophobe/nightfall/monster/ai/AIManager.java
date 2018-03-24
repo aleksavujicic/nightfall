@@ -109,11 +109,13 @@ public class AIManager {
 		
 		// Only add if in air above solid ground
 		Block block = loc.getBlock();
+		Block above = block.getRelative(0, 1, 0);
 		Block below = block.getRelative(0, -1, 0);
 		Block twoBelow = block.getRelative(0, -2, 0);
 		boolean validSpot =
-				!block.getType().isSolid()
-				&& (
+				(
+					!block.getType().isSolid() || !above.getType().isSolid()
+				) && (
 					below.getType().isSolid() || twoBelow.getType().isSolid()
 				);
 		
