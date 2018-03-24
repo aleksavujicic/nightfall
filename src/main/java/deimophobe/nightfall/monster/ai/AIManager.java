@@ -113,8 +113,9 @@ public class AIManager {
 		Block twoBelow = block.getRelative(0, -2, 0);
 		boolean validSpot =
 				!block.getType().isSolid()
-				&& below.getType().isSolid()
-				&& twoBelow.getType().isSolid();
+				&& (
+					below.getType().isSolid() || twoBelow.getType().isSolid()
+				);
 		
 		if (!validSpot) return false;
 		
