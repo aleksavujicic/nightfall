@@ -6,11 +6,15 @@ import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Conditions;
 import co.aikar.commands.annotation.Subcommand;
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.MapManager;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -49,10 +53,21 @@ public class MapCommand extends BaseCommand {
 		if (mapList.isEmpty()) {
 			sender.sendMessage(ChatColor.YELLOW + "No maps queued.");
 		} else {
-			String maps = org.apache.commons.lang.StringUtils.join(mapList, ChatColor.RESET + ", " + ChatColor.GREEN);
+			String maps = StringUtils.join(mapList, ChatColor.RESET + ", " + ChatColor.GREEN);
 			sender.sendMessage(ChatColor.YELLOW + "Current map list:");
 			sender.sendMessage(ChatColor.GREEN + "  " + maps);
 		}
+	}
+	
+	@Subcommand("list-all")
+	@Conditions("map-enabled")
+	public void onListAll(CommandSender sender) {
+		List<String> mapList = new ArrayList<>(MapManager.getManager().getMaps());
+		Collections.sort(mapList);
+		
+		String maps = StringUtils.join(mapList, ChatColor.RESET + ", " + ChatColor.GREEN);
+		sender.sendMessage(ChatColor.YELLOW + "All maps: ");
+		sender.sendMessage(ChatColor.GREEN + "  " + maps);
 	}
 	
 	@Subcommand("clear")
@@ -84,5 +99,13 @@ public class MapCommand extends BaseCommand {
 		MapManager.getManager().insertMap(map);
 		sender.sendMessage(ChatColor.YELLOW + "Starting new game on map " + ChatColor.GREEN + map);
 		Game.createNewGame();
+	}
+	
+	@Subcommand("current")
+	@Conditions("map-enabled")
+	@CommandCompletion("@maps")
+	public void currentMap(CommandSender sender) {
+		String name = GameMap.getCurrentMap().getName();
+		sender.sendMessage(ChatColor.YELLOW + "Current map is: " + ChatColor.GREEN + name);
 	}
 }
