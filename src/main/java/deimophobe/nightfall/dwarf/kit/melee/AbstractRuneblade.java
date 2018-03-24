@@ -87,7 +87,7 @@ public abstract class AbstractRuneblade extends AbstractItem implements Cooldown
 		dwarf.playSound("dash", 1f, 1f, true);
 		dwarf.giveProc(dashProc);
 		//dwarf.setVelocity(dwarf.getLocation().getDirection().setY(0).normalize().multiply(5));
-		dwarf.leap(5, 0);
+		dwarf.leap(5, -0.1);
 	}
 	
 	private void offCDSound() {
