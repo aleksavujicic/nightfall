@@ -81,6 +81,12 @@ public class ZombieMob extends AbstractMob {
 	}
 	
 	@Override
+	protected void shrineProtectionDamage() {
+		super.shrineProtectionDamage();
+		disableRebirth();
+	}
+	
+	@Override
 	protected DeadEntitySpawner<? extends LivingEntity> getDeadEntitySpawner() {
 		return new DeadEntitySpawner<>(Zombie.class, zombie -> {
 			zombie.setBaby(false);
