@@ -82,8 +82,8 @@ public class ZombieMob extends AbstractMob {
 	
 	@Override
 	protected void shrineProtectionDamage() {
-		super.shrineProtectionDamage();
 		disableRebirth();
+		super.shrineProtectionDamage();
 	}
 	
 	@Override
