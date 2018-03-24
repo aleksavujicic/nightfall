@@ -14,7 +14,7 @@ import java.util.function.Consumer;
  */
 public class AbstractGameEntity<T extends LivingEntity> implements GameEntity<T> {
 	
-	protected final T entity;
+	protected T entity;
 	@Override public T getEntity() { return entity; }
 	
 	private final Map<DamageOverTimeType, Long> lastDamageTicks = new HashMap<>();

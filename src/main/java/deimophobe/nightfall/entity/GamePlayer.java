@@ -103,6 +103,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	public void goOnline(Player newPlayer) {
 		online = true;
 		this.player = newPlayer;
+		this.entity = newPlayer;
 		resetTitle();
 		loadHealth();
 	}
