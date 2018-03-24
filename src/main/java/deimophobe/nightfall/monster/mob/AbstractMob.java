@@ -420,7 +420,7 @@ public abstract class AbstractMob implements Mob {
 		
 		boolean inShrine = GameMap.getCurrentMap().getCurrentShrineProtection().containsPlayer(monster);
 		if (inShrine) { // Is stopped
-			monster.getPlayer().spawnParticle(Particle.VILLAGER_ANGRY, monster.getEyeLocation().subtract(0, 0.5, 0), 5, 0.5, 0.5, 0.5);
+			monster.getPlayer().spawnParticle(Particle.VILLAGER_ANGRY, monster.getEyeLocation().subtract(0, 0.5, 0), 15, 1.5, 1, 1.5);
 			
 			if (shrineProtCounter > 0)
 				shrineProtCounter--;
