@@ -69,7 +69,7 @@ class AISpawnLocation {
 		if (rand < 0.35) amtToSpawn++;
 		if (rand < 0.15) amtToSpawn++;
 		// Spawn them
-		manager.spawnAIs(location, closestDwarf, amtToSpawn);
+		manager.spawnAIs(AIType.ZOMBIE, location, closestDwarf, amtToSpawn);
 		
 		// Reduce life based on ais spawned and number of close dwarves
 		life -= 2 + amtToSpawn*(2 + closeDwarves);

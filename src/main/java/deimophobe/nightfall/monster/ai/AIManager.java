@@ -229,34 +229,29 @@ public class AIManager {
 	}
 	
 	
-	public void spawnAIs(Location location, int num) {
-		for (int i=0; i<num; i++)
-			spawnAI(location);
-	}
-
-	public void spawnAIs(Location location, Dwarf target, int num) {
-		for (int i=0; i<num; i++)
-			spawnAI(location, target);
-	}
-
-	public void spawnAI(Location location) {
-		AIEntity ai = new AIZombie(location, getRandomName());
-		aiTeam.addEntry(ai.getUniqueId().toString());
-		ais.put(ai.getUniqueId(), ai);
+	public void spawnAIs(AIType type, Location location, int number) {
+		for (int i=0; i<number; i++) {
+			spawnAI(type, location);
+		}
 	}
 	
-	public void spawnAI(Location location, Dwarf target) {
-		AIEntity ai = new AIZombie(location, getRandomName(), target);
+	public void spawnAIs(AIType type, Location location, Dwarf target, int number) {
+		for (int i=0; i<number; i++) {
+			spawnAI(type, location, target);
+		}
+	}
+	
+	public void spawnAI(AIType type, Location location) {
+		spawnAI(type, location, null);
+	}
+	
+	public void spawnAI(AIType type, Location location, Dwarf target) {
+		AIEntity<?> ai = type.createAI(location, getRandomName(), target);
 		aiTeam.addEntry(ai.getUniqueId().toString());
 		ais.put(ai.getUniqueId(), ai);
 	}
 
-	public void spawnAISkeleton(Location location) {
-		AIEntity ai = new AIFireSkeleton(location, getRandomName());
-		aiTeam.addEntry(ai.getUniqueId().toString());
-		ais.put(ai.getUniqueId(), ai);
-	}
-
+	
 	void unregisterAI(AIEntity entity) {
 		ais.remove(entity.getUniqueId());
 		aiTeam.removeEntry(entity.getUniqueId().toString());

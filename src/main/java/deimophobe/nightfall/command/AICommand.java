@@ -1,11 +1,9 @@
 package deimophobe.nightfall.command;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.Default;
-import co.aikar.commands.annotation.Description;
-import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.*;
 import deimophobe.nightfall.monster.ai.AIManager;
+import deimophobe.nightfall.monster.ai.AIType;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -19,13 +17,14 @@ public class AICommand extends BaseCommand {
 	
 	@Subcommand("spawn")
 	@CommandAlias("spawnai")
+	@CommandCompletion("@nothing @ais")
 	@Description("Spawn AIs at your location.")
-	public void spawnAI(CommandSender sender, Player player, @Default("1") int amount) {
+	public void spawnAI(CommandSender sender, Player player, @Default("1") int amount, @Default("zombie") AIType type) {
 		amount = Math.max(amount, 0);
 		amount = Math.min(amount, 300);
 		
-		getAIManager().spawnAIs(player.getLocation(), amount);
-		MessageUtil.sendMessage(sender,"Spawned ", amount, " AIs.");
+		getAIManager().spawnAIs(type, player.getLocation(), amount);
+		MessageUtil.sendMessage(sender,"Spawned ", amount, " ", type, " AIs.");
 	}
 	
 	@Subcommand("toggle")

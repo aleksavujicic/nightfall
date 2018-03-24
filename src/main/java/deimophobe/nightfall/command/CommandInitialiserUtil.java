@@ -25,6 +25,7 @@ import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.map.MapManager;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.ai.AIType;
 import deimophobe.nightfall.monster.doom.DoomType;
 import deimophobe.nightfall.monster.mob.MobType;
 import deimophobe.nightfall.monster.spawnmenu.SpawnEggMenuItem;
@@ -90,6 +91,7 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("plagues", getCompletionHandlerForEnum(PlagueType.values()));
 		completions.registerCompletion("plague-status", getCompletionHandlerForEnum(Dwarf.PlagueStatus.values()));
 		completions.registerCompletion("dooms", getCompletionHandlerForEnum(DoomType.values()));
+		completions.registerCompletion("ais", getCompletionHandlerForEnum(AIType.values()));
 		
 		completions.registerCompletion("spawneggs", c -> MonsterManager.getManager().getEggNames());
 		completions.registerCompletion("items", c -> ItemManager.getManager().getNames());
@@ -194,9 +196,10 @@ public class CommandInitialiserUtil {
 		contexts.registerContext(ProcType.class, getContextResolverOfEnum(ProcType.values(), "proc", true));
 		contexts.registerContext(ConsumableType.class, getContextResolverOfEnum(ConsumableType.values(), "consumable", true));
 		contexts.registerContext(KitGiveType.class, getContextResolverOfEnum(KitGiveType.values(), "give type", true));
+		contexts.registerContext(Dwarf.PlagueStatus.class, getContextResolverOfEnum(Dwarf.PlagueStatus.values(), "plague status", true));
 		contexts.registerContext(MobType.class, getContextResolverOfEnum(MobType.getSpawnableMobs(), "mob", true));
 		contexts.registerContext(PlagueType.class, getContextResolverOfEnum(PlagueType.values(), "plague", true));
-		contexts.registerContext(Dwarf.PlagueStatus.class, getContextResolverOfEnum(Dwarf.PlagueStatus.values(), "plague status", true));
+		contexts.registerContext(AIType.class, getContextResolverOfEnum(AIType.values(), "ai", true));
 		contexts.registerContext(DoomType.class, getContextResolverOfEnum(DoomType.values(), "doom", true));
 		
 		contexts.registerContext(CustomItem.class, context -> {
