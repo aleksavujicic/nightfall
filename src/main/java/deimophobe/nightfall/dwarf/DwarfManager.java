@@ -159,6 +159,8 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 		return plagued;
 	}
 	
+	private static final Set<HeroType> PRIMARY_HEROES = Sets.newHashSet(HeroType.VELVETINE, HeroType.TUI, HeroType.HERANA);
+	private static final Set<HeroType> SECONDARY_HEROES = Sets.newHashSet(HeroType.ARTHEA);
 	
 	public void onGameStart() {
 		Collection<Player> players = new HashSet<>(Bukkit.getOnlinePlayers());
@@ -169,13 +171,17 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 		if (numPlayers >= 25) numHeroes++;
 		if (numPlayers >= 35) numHeroes++;
 		
-		Set<HeroType> availableHeroes = Sets.newHashSet(HeroType.VELVETINE, HeroType.ARTHEA, HeroType.TUI, HeroType.HERANA);
+		Set<HeroType> chosenHeroes = new HashSet<>();
 		while (numHeroes > 0) {
+			Set<HeroType> possibleHeroes = new HashSet<>(PRIMARY_HEROES);
+			if (chosenHeroes.size() >= 1) possibleHeroes.addAll(SECONDARY_HEROES);
+			possibleHeroes.removeAll(chosenHeroes);
+			
 			Player hero = Misc.getRandom(players);
 			players.remove(hero);
 			
-			HeroType type = Misc.getRandom(availableHeroes);
-			availableHeroes.remove(type);
+			HeroType type = Misc.getRandom(possibleHeroes);
+			chosenHeroes.add(type);
 			
 			addHero(hero, type);
 			numHeroes--;
