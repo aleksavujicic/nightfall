@@ -82,7 +82,7 @@ public class MiscCommands extends BaseCommand {
 		MessageUtil.sendMessage(sender,"Damaged ", target, " for ", damage, " damage.");
 	}
 	
-	@Subcommand("reset")
+	@CommandAlias("reset")
 	@CommandCompletion("@players")
 	@Description("Resets a player, removing them from any team and resetting them as if they just logged in.")
 	public void resetPlayer(CommandSender sender, OnlinePlayer player) {
@@ -91,7 +91,7 @@ public class MiscCommands extends BaseCommand {
 		MessageUtil.sendMessage(sender,"Reset player ", realPlayer, ".");
 	}
 	
-	@Subcommand("remove")
+	@CommandAlias("remove")
 	@CommandCompletion("@gameplayers")
 	@Description("Removes a player from all teams.")
 	public void remove(CommandSender sender, GamePlayer player) {
