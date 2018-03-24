@@ -1,8 +1,10 @@
 package deimophobe.nightfall.dwarf.kit.ranged;
 
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.util.ArrowMisc;
@@ -22,14 +24,10 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 20/01/17.
  */
-public class Warpweaver extends AbstractToggleBow {
+public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 	public Warpweaver(Dwarf dwarf) {
 		super(dwarf);
 	}
-	
-	// Includes cost of fired arrow (so with ARROW_COST = 10
-	// this will drain 9 arrows on land as 1 arrow was used to fire).
-	private final static int ARROW_COST = 10;
 	
 	private final static int POWER = 50;
 	private final static CustomItem ITEM = getBow("warpweaver", POWER);
@@ -40,17 +38,24 @@ public class Warpweaver extends AbstractToggleBow {
 	@Override public int getPower() {return POWER;}
 	
 	private final Set<Arrow> activeArrows = new HashSet<>();
+	private final ComplexCooldown warpCooldown = new ComplexCooldown(30*20);
+	
+	@Override
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+		warpCooldown.update();
+	}
 	
 	@Override
 	public void onProjectileLand(Projectile proj, Block hitBlock) {
 		if (isActive()
 		      && isActiveProjectile(proj)
-		      && dwarf.hasArrows(ARROW_COST - 1)
+		      && warpCooldown.isAvailable()
 		      && !GameMap.getCurrentMap().getCurrentMobProtection().continsEntity(proj)) {
 			
 			setActive(false);
 			removeActiveArrows();
-			dwarf.useArrows(ARROW_COST - 1);
+			warpCooldown.reset();
 			
 			Location newSpot = proj.getLocation().add(0, 0.25, 0);
 			newSpot.add(proj.getLocation().getDirection().multiply(0.25));
@@ -69,11 +74,6 @@ public class Warpweaver extends AbstractToggleBow {
 	public Projectile onBowFire(Projectile arrow, float force) {
 		arrow = super.onBowFire(arrow, force);
 		
-		// Note: dwarf does not use arrow until after fire event.
-		if (!dwarf.hasArrows(ARROW_COST)) {
-			setActive(false);
-		}
-		
 		if (isActive()) {
 			ArrowMisc.setGlowColour((Arrow) arrow, ChatColor.DARK_PURPLE);
 			activeArrows.add((Arrow) arrow);
@@ -83,7 +83,7 @@ public class Warpweaver extends AbstractToggleBow {
 	
 	@Override
 	protected boolean canActivate() {
-		return dwarf.hasArrows(ARROW_COST);
+		return warpCooldown.isAvailable();
 	}
 	
 	@Override
@@ -109,7 +109,7 @@ public class Warpweaver extends AbstractToggleBow {
 		Location here = dwarf.getLocation();
 		dwarf.getPlayer().setFallDistance(0);
 		dwarf.teleportTo(location);
-		dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, 5*20, 1, true, true, true);
+		dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, 5*20, 1, true, false, true);
 		
 		World world = location.getWorld();
 		world.spawnParticle(Particle.SPELL_WITCH, location, 20, 0.5, 0.5, 0.5);
@@ -129,5 +129,10 @@ public class Warpweaver extends AbstractToggleBow {
 			dwarf.getPlayer().getWorld().spawnParticle(Particle.END_ROD, partLoc, 1, 0, 0, 0, 0);
 			dwarf.getPlayer().getWorld().spawnParticle(Particle.DRAGON_BREATH, partLoc, 3, 0.1, 0.1, 0.1, 0.01);
 		}
+	}
+	
+	@Override
+	public float getCooldown() {
+		return warpCooldown.getCooldown();
 	}
 }

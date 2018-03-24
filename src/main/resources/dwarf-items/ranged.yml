@@ -79,8 +79,7 @@ warpweaver:
         When activated, you will teleport\n
         to where the arrow lands.\n
         Getting hit will cancel the teleport.\n
-        Uses 10 arrows per warp, with no\n
-        cooldown"
+        Has a 30 second cooldown."
     flavour:
      - "\"Hey look at this thing! Isn't it cool!?\" - Tui"
 
