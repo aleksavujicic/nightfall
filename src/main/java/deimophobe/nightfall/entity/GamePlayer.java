@@ -583,8 +583,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 		
 		@Override
 		public void onHit(P entity) {
-			boolean success = entity.doDamage(GamePlayer.this, type, damage.apply(entity), true);
-			if (success && entity instanceof GamePlayer) playSound("entity.arrow.hit_player", 0.8f, 0.5f, false);
+			entity.doDamage(GamePlayer.this, type, damage.apply(entity), true);
 		}
 	}
 }

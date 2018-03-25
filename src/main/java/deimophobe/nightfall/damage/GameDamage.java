@@ -81,7 +81,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		} else if (receiver instanceof Dwarf) {
 			return new DwarfDamage(attacker, (Dwarf) receiver, type, damage, arrow);
 		} else {
-			throw new IllegalArgumentException("Game damage must have attacker/receiver be dwarf/monster or monster/dwarf.");
+			throw new IllegalArgumentException("Game damage must have receiver be either a dwarf or monster.");
 		}
 	}
 	
@@ -127,6 +127,11 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		idCount++;
 		
 		type.applyModifier(this);
+		if (type.isArrow() && attacker instanceof GamePlayer && receiver instanceof GamePlayer) {
+			addPostDamageHandler(
+					() -> ((GamePlayer) attacker).playSound("entity.arrow.hit_player", 0.8f, 0.5f, false)
+			);
+		}
 	}
 	
 	public void setKnockbackFromMelee() {

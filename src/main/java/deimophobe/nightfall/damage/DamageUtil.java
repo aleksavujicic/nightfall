@@ -2,7 +2,6 @@ package deimophobe.nightfall.damage;
 
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.entity.GameEntity;
-import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.Particle;
@@ -86,13 +85,7 @@ public class DamageUtil {
 					damage = event.getDamage();
 				GameEntity attacker = Game.getGame().getGameEntity((Entity) proj.getShooter());
 				
-				GameDamage<?,?> gameDamage = GameDamage.createDamage(attacker, receiver, GameDamageType.RANGED, damage, proj);
-				
-				gameDamage.addPostDamageHandler(() -> {
-					if (attacker instanceof GamePlayer && receiver instanceof GamePlayer) ((GamePlayer) attacker).playSound("entity.experience_orb.pickup", 1f, 0.5f, false);
-				});
-				
-				return gameDamage;
+				return (GameDamage<?,?>) GameDamage.createDamage(attacker, receiver, GameDamageType.RANGED, damage, proj);
 			}
 			
 			default: {
