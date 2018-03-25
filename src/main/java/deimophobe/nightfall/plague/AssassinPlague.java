@@ -47,7 +47,7 @@ public class AssassinPlague extends Plague {
         Set<Dwarf> candidates = new HashSet<>(getPlagueds());
         candidates.addAll(getPlagueables());
 
-        int toPlague = (getAmountToKill(true)+2)/3;
+        int toPlague = (getAmountToKill(false)+2)/3;
         for (int i=0; i<toPlague; i++) {
             Dwarf dwarf = Misc.getRandom(candidates);
             assassinCandidates.add(dwarf);
