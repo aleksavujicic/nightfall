@@ -1,6 +1,7 @@
 package deimophobe.nightfall.damage;
 
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.util.ArrowMisc;
@@ -25,23 +26,20 @@ public class DamageUtil {
 			if (processingDamage != null && processingDamage.softCancelled) event.setDamage(0);
 			// Ignore resistance effects
 			if (event.isApplicable(EntityDamageEvent.DamageModifier.RESISTANCE)) event.setDamage(EntityDamageEvent.DamageModifier.RESISTANCE, 0);
-			
-			//Bukkit.getLogger().info("CUSTOM: " + processingDamage);
 		} else {
 			// Don't do anything for this event. GameDamage will fire its own event.
 			event.setCancelled(true);
 			
-			GameDamage damage = createDamageFromEvent(event);
-			if (damage == null) {
-				event.setCancelled(true);
-				return;
+			try {
+				GameDamage damage = createDamageFromEvent(event);
+				if (damage != null) damage.fire();
+			} catch (UnknownDamageCauseException e) {
+				NightfallPlugin.logger().severe(e.getMessage());
 			}
-			
-			damage.fire();
 		}
 	}
 	
-	private static GameDamage<?,?> createDamageFromEvent(EntityDamageEvent event) {
+	private static GameDamage<?,?> createDamageFromEvent(EntityDamageEvent event) throws UnknownDamageCauseException {
 		GameEntity receiver = Game.getGame().getGameEntity(event.getEntity());
 		switch (event.getCause()) {
 			

@@ -150,7 +150,7 @@ public enum GameDamageType {
 		}
 	}
 	
-	public static GameDamageType getTypeFromEventCause(EntityDamageEvent.DamageCause cause) {
+	public static GameDamageType getTypeFromEventCause(EntityDamageEvent.DamageCause cause) throws UnknownDamageCauseException {
 		switch (cause) {
 			case CONTACT: return CONTACT;
 			case DROWNING: return DROWNING;
@@ -168,7 +168,7 @@ public enum GameDamageType {
 			case VOID: return VOID;
 			
 			default:
-				throw new IllegalArgumentException("Cannot create GameDamage with event cause " + cause);
+				throw new UnknownDamageCauseException("Cannot create GameDamage with event cause " + cause);
 		}
 	}
 	
