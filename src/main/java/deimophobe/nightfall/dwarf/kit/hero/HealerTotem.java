@@ -10,6 +10,7 @@ import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.util.Buffpool;
+import deimophobe.nightfall.util.Colour;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -86,7 +87,7 @@ public class HealerTotem extends AbstractItem implements CooldownPiece {
 	
 	private Buffpool activePool;
 	
-	private static final Buffpool.Colour BUFFPOOL_COLOUR = new Buffpool.Colour(0.7, 0.2, 0.4);
+	private static final Colour BUFFPOOL_COLOUR = new Colour(0.7, 0.2, 0.4);
 	private void createBuffpool() {
 		activePool = new Buffpool(dwarf, 20*20, 3, BUFFPOOL_COLOUR, 8, 3);
 	}

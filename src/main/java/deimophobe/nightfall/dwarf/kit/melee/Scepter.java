@@ -13,6 +13,7 @@ import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.util.Buffpool;
+import deimophobe.nightfall.util.Colour;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -114,7 +115,7 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	// ----- BUFFPOOL -----
 	private Buffpool activePool;
 	
-	private static final Buffpool.Colour BUFFPOOL_COLOUR = new Buffpool.Colour(0.2, 0.8, 1);
+	private static final Colour BUFFPOOL_COLOUR = new Colour(0.2, 0.8, 1);
 	private void createBuffpool() {
 		activePool = new Buffpool(dwarf, 12*20, 2, BUFFPOOL_COLOUR, 4, 2);
 	}

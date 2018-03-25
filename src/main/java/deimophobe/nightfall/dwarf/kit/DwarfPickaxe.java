@@ -141,12 +141,13 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 					int newLevel = Math.min(dwarf.getPotionEffectLevel(PotionEffectType.ABSORPTION) + 1, maxDiamondLevel);
 					int duration = Math.min(dwarf.getPotionEffectDuration(PotionEffectType.ABSORPTION) + 30 * 20, 60 * 20);
 					dwarf.givePotionEffect(PotionEffectType.ABSORPTION, duration, newLevel, true, false, true);
-					Sounds.DWARF_MINE_DIAMOND.playSound(dwarf);
+					GameEffect.DIAMOND_MINE.playEffect(dwarf, block);
 					break;
 				}
 				
 				case EMERALD_ORE: {
 					dwarf.giveProc(ProcType.EMERALD_ORE);
+					GameEffect.EMERALD_MINE.playEffect(dwarf, block);
 					break;
 				}
 			}

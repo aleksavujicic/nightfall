@@ -1,9 +1,11 @@
 package deimophobe.nightfall.effects;
 
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.effects.sound.PlayerSound;
 import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
+import deimophobe.nightfall.util.Colour;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -17,6 +19,10 @@ import java.util.Set;
  */
 class LargeGoldMineMaker extends SmallGoldMineMaker {
 	private static final int NUM_PARTICLES = 6;
+	
+	LargeGoldMineMaker(Colour colour, PlayerSound sound) {
+		super(colour, sound);
+	}
 	
 	@Override
 	public void playEffect(GamePlayer player, Block block) {
