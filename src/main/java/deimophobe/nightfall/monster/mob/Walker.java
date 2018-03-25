@@ -51,7 +51,7 @@ class Walker extends AbstractMob {
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
 		if (damage.getType() == GameDamageType.MELEE) {
-			damage.addPostDamageHandler(d -> swap(d.getReceiver()));
+			damage.addPostDamageHandler(() -> swap(damage.getReceiver()));
 		}
 	}
 	

@@ -15,10 +15,6 @@ import java.util.Set;
  * Created by Deimophobe on 15/04/17.
  */
 public abstract class Plague {
-	public static Plague getRandomPlague() {
-		return PlagueType.getRandomPlague();
-	}
-	
 	public abstract void startPlague();
 	
 	public void endPlague(GameDamageType reason) {

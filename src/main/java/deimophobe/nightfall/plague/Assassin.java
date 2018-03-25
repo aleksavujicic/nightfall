@@ -28,6 +28,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static deimophobe.nightfall.damage.PreDamagePriority.ASSASSIN_KILL;
+
 public class Assassin extends AbstractMob {
     private final AssassinPlague plague;
     private final Dwarf target;
@@ -71,7 +73,7 @@ public class Assassin extends AbstractMob {
             damage.getMultiPartDamage().timesMult(1d/(1 - StrongAle.getDamageResistance()));
         }
 
-        damage.addPreDamageHandler(10000, d -> {
+        damage.addPreDamageHandler(ASSASSIN_KILL, () -> {
             if (damage.willKill()) {
                 if (dwarf == target) {
                     monster.sendMessage(ChatColor.DARK_RED + "You have killed your target " + ChatColor.RED + target.getName() + ChatColor.DARK_RED + ". " + ChatColor.YELLOW + "+1000 xp");

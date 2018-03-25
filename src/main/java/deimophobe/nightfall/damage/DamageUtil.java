@@ -69,7 +69,7 @@ public class DamageUtil {
 				
 				if (crit) {
 					gameDamage.multiplyKnockback(1.2);
-					gameDamage.addPostDamageHandler(gameDamage1 -> {
+					gameDamage.addPostDamageHandler(() -> {
 						receiver.getWorld().spawnParticle(Particle.CRIT, receiver.getEyeLocation().subtract(0, 0.2, 0), 3, 0.25, 0.25, 0.25, 0.1);
 					});
 				}
@@ -88,7 +88,7 @@ public class DamageUtil {
 				
 				GameDamage<?,?> gameDamage = GameDamage.createDamage(attacker, receiver, GameDamageType.RANGED, damage, proj);
 				
-				gameDamage.addPostDamageHandler(gameDamage1 -> {
+				gameDamage.addPostDamageHandler(() -> {
 					if (attacker instanceof GamePlayer && receiver instanceof GamePlayer) ((GamePlayer) attacker).playSound("entity.experience_orb.pickup", 1f, 0.5f, false);
 				});
 				

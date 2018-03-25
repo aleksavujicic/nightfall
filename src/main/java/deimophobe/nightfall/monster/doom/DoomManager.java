@@ -25,6 +25,10 @@ public class DoomManager {
 	
 	private int doomTimer;
 	private int internalDoomTimer;
+	private DoomType forcedDoom = null;
+	
+	private int maxDoomTime = 1000;
+	private int maxInternalDoomTime = 30;
 	
 	private List<DoomType> occuredDooms = new ArrayList<>();
 	private DoomType prevDoom = DoomType.KRUNGOR; // Prevents krungor from being first doom
@@ -49,9 +53,21 @@ public class DoomManager {
 			runner.cancel();
 	}
 	
+	public void setMaxDoomTime(int maxDoomTime) {
+		this.maxDoomTime = maxDoomTime;
+	}
+	
+	public void setMaxInternalDoomTime(int maxInternalDoomTime) {
+		this.maxInternalDoomTime = maxInternalDoomTime;
+	}
+	
+	public void forceNextDoom(DoomType type) {
+		forcedDoom = type;
+	}
+	
 	private void resetDoomTimers() {
-		doomTimer = 1000;
-		internalDoomTimer = 30;
+		doomTimer = maxDoomTime;
+		internalDoomTimer = maxInternalDoomTime;
 		Game.getGame().setDoomSidebar(doomTimer);
 		
 //		int daySkip = (occuredDooms.isEmpty() ? 1 : 0);
@@ -98,6 +114,7 @@ public class DoomManager {
 		GameMap.getCurrentMap().getWorld().setTime(14000);
 		TimeManager.getManager().addTarget(1, 15000);
 		isDoom = true;
+		internalDoomTimer = maxInternalDoomTime;
 		
 		
 		for (MonsterPlayer player : MonsterManager.getManager().getAlivePlayerMobs())
@@ -134,14 +151,20 @@ public class DoomManager {
 		
 		spawnDoom(nextDoom());
 		resetDoomTimers();
-		//MonsterManager.getManager().getSpawnMenu().doomRestockAllEggs();
+		//MonsterManager.getManager().getSpawnMenu().restockAllEggs();
 	}
 	
 	private DoomType nextDoom() {
-		DoomType[] dooms = DoomType.values();
-		dooms = (DoomType[]) ArrayUtils.removeElement(dooms, prevDoom);
-		prevDoom = Misc.getRandom(dooms);
-		return prevDoom;
+		if (forcedDoom != null) {
+			prevDoom = forcedDoom;
+			forcedDoom = null;
+			return prevDoom;
+		} else {
+			DoomType[] dooms = DoomType.values();
+			dooms = (DoomType[]) ArrayUtils.removeElement(dooms, prevDoom);
+			prevDoom = Misc.getRandom(dooms);
+			return prevDoom;
+		}
 	}
 	
 	public void spawnDoom(DoomType doomType) {
@@ -175,5 +198,9 @@ public class DoomManager {
 	
 	public void updateDoomCount() {
 		Game.getGame().setDoomSidebar(doomTimer);
+	}
+	
+	public int getTime() {
+		return doomTimer;
 	}
 }

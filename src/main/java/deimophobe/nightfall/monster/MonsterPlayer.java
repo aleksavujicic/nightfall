@@ -86,7 +86,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		}
 		
 		if (sec && isAlive() && Game.getGame().getPhase() == Phase.GAME) {
-			gainXP(10);
+			gainXP(expRate);
 		}
 		if (quartSec && isAlive() && isInShrine()) {
 			if (mob.getShrineWeight() != 0) gainXP(2);
@@ -295,6 +295,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	// ------ EXPERIENCE ------
 	private int experience = 0;
 	private int amountSpent = 0;
+	private int expRate = 10;
 	private static final int MAX_XP = 10000;
 	
 	public void forceGainXP(int amt) {
@@ -333,6 +334,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	private void updateXPDisplay() {
 		player.setLevel(experience);
 		Game.getGame().setMana(player, experience);
+	}
+	
+	public void setXPRate(int rate) {
+		expRate = rate;
 	}
 	
 	

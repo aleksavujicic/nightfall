@@ -3,12 +3,13 @@ package deimophobe.nightfall.command;
 import co.aikar.commands.*;
 import co.aikar.commands.contexts.ContextResolver;
 import co.aikar.commands.contexts.IssuerAwareContextResolver;
-import co.aikar.commands.contexts.OnlinePlayer;
 import com.google.common.collect.ImmutableSet;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.command.iterable.*;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -24,6 +25,7 @@ import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.map.MapManager;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.ai.AIType;
 import deimophobe.nightfall.monster.doom.DoomType;
 import deimophobe.nightfall.monster.mob.MobType;
 import deimophobe.nightfall.monster.spawnmenu.SpawnEggMenuItem;
@@ -34,6 +36,7 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Static initialiser class for ACF. (https://github.com/aikar/commands)
@@ -42,6 +45,11 @@ import java.util.function.Function;
  */
 public class CommandInitialiserUtil {
 	private CommandInitialiserUtil() {}
+	
+	private static final String RANDOM_ENUM = "$r";
+	private static final String RANDOM_PLAYER = "@r";
+	private static final String ALL_PLAYER = "@a";
+	
 	
 	public static void initialiseCommands(NightfallPlugin plugin) {
 		MessageUtil.initialise();
@@ -59,7 +67,7 @@ public class CommandInitialiserUtil {
 		bcm.registerCommand(new AICommand());
 		bcm.registerCommand(new DoomCommand());
 		bcm.registerCommand(new DwarfCommand());
-		bcm.registerCommand(new FixCommand());
+		bcm.registerCommand(new EggCommand());
 		bcm.registerCommand(new GameCommand());
 		bcm.registerCommand(new ItemCommand());
 		bcm.registerCommand(new MapCommand());
@@ -83,8 +91,9 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("plagues", getCompletionHandlerForEnum(PlagueType.values()));
 		completions.registerCompletion("plague-status", getCompletionHandlerForEnum(Dwarf.PlagueStatus.values()));
 		completions.registerCompletion("dooms", getCompletionHandlerForEnum(DoomType.values()));
+		completions.registerCompletion("ais", getCompletionHandlerForEnum(AIType.values()));
 		
-		completions.registerCompletion("spawneggs", c -> SpawnEggMenuItem.getEggNames());
+		completions.registerCompletion("spawneggs", c -> MonsterManager.getManager().getEggNames());
 		completions.registerCompletion("items", c -> ItemManager.getManager().getNames());
 		completions.registerCompletion("maps", c -> MapManager.getManager().getMaps());
 		
@@ -111,10 +120,31 @@ public class CommandInitialiserUtil {
 	
 	private static void registerContexts(BukkitCommandManager bcm) {
 		final CommandContexts<BukkitCommandExecutionContext> contexts = bcm.getCommandContexts();
+		
 		// Note these are suppliers rather than constants otherwise they will break when new games are created
-		contexts.registerIssuerAwareContext(Dwarf.class, getContextResolverOfGamePlayer(name -> DwarfManager.getManager().getGamePlayer(name), "dwarf"));
-		contexts.registerIssuerAwareContext(MonsterPlayer.class, getContextResolverOfGamePlayer(name -> MonsterManager.getManager().getGamePlayer(name), "monster"));
-		contexts.registerIssuerAwareContext(GamePlayer.class, getContextResolverOfGamePlayer(name -> Game.getGame().getGamePlayer(name), "game player"));
+		contexts.registerIssuerAwareContext(Dwarf.class, getContextResolverOfGamePlayer(
+				name -> DwarfManager.getManager().getGamePlayer(name), () -> DwarfManager.getManager().getDwarves(), "dwarf"
+		));
+		contexts.registerIssuerAwareContext(MonsterPlayer.class, getContextResolverOfGamePlayer(
+				name -> MonsterManager.getManager().getGamePlayer(name), () -> MonsterManager.getManager().getGamePlayers(), "monster"
+		));
+		contexts.registerIssuerAwareContext(GamePlayer.class, getContextResolverOfGamePlayer(
+				name -> Game.getGame().getGamePlayer(name), () -> Game.getGame().getGamePlayers(), "game player"
+		));
+		
+		contexts.registerIssuerAwareContext(DwarfIterable.class, getContextResolverOfGamePlayerIterable(
+				name -> DwarfManager.getManager().getGamePlayer(name), () -> DwarfManager.getManager().getDwarves(), DwarfIterable::new, "dwarf"
+		));
+		contexts.registerIssuerAwareContext(MonsterIterable.class, getContextResolverOfGamePlayerIterable(
+				name -> MonsterManager.getManager().getGamePlayer(name), () -> MonsterManager.getManager().getGamePlayers(), MonsterIterable::new, "monster"
+		));
+		contexts.registerIssuerAwareContext(GamePlayerIterable.class, getContextResolverOfGamePlayerIterable(
+				name -> Game.getGame().getGamePlayer(name), () -> Game.getGame().getGamePlayers(), GamePlayerIterable::new, "game player"
+		));
+		contexts.registerIssuerAwareContext(PlayerIterable.class, getContextResolverOfGamePlayerIterable(
+				Bukkit::getPlayer, () -> new HashSet<>(Bukkit.getOnlinePlayers()), PlayerIterable::new, "player"
+		));
+		
 		
 		// KitPieceType, KitPieceType[], and DwarfData context resolvers (depend on each other in reverse order).
 		ContextResolver<KitPieceType, BukkitCommandExecutionContext> kitPieceTypeResolver = getContextResolverOfEnum(KitPieceType.values(), "kit piece", false);
@@ -134,28 +164,31 @@ public class CommandInitialiserUtil {
 		
 		contexts.registerContext(KitPieceType.class, kitPieceTypeResolver);
 		contexts.registerContext(KitPieceType[].class, arrayPieceResolver);
-		contexts.registerContext(DwarfData.class, context -> {
+		contexts.registerContext(DwarfDataCreator.class, context -> {
 			String firstArg = context.getFirstArg();
-			if (firstArg.equalsIgnoreCase("kit")) {
+			if (firstArg.equalsIgnoreCase("kit"))  {
 				context.popFirstArg(); // Pop 'kit'
 				String playerName = context.popFirstArg();
+				Player player;
 				if (playerName == null) {
-					OnlinePlayer player = (OnlinePlayer) context.getResolvedArg(OnlinePlayer.class);
-					return DwarfData.getData(player.getPlayer());
+					return DwarfData::getData;
+				} else if (playerName.equals(RANDOM_PLAYER)) {
+					player = Misc.getRandom(Bukkit.getOnlinePlayers());
+					if (player == null) throw new InvalidCommandArgument("There are no online players to choose from.");
 				} else {
-					Player player = Bukkit.getPlayer(playerName);
-					if (player == null) throw new InvalidCommandArgument("Unknown player '" + ChatColor.YELLOW + playerName + ChatColor.RED + "'.");
-					return DwarfData.getData(player);
+					player = Bukkit.getPlayer(playerName);
 				}
+				if (player == null) throw new InvalidCommandArgument("Unknown player '" + ChatColor.YELLOW + playerName + ChatColor.RED + "'.");
+				return p -> DwarfData.getData(player);
 			} else if (firstArg.equalsIgnoreCase("loadoutall")) {
 				context.popFirstArg();
 				DwarfData data = new DwarfData();
 				LoadoutManager.getManager().modifyAll(data);
-				return data;
+				return p -> data;
 			} else {
 				KitPieceType[] pieces = arrayPieceResolver.getContext(context);
 				Set<KitPieceType> setPieces = new HashSet<>(Arrays.asList(pieces));
-				return new DwarfData(setPieces, null);
+				return p -> new DwarfData(setPieces, null);
 			}
 		});
 		
@@ -163,9 +196,10 @@ public class CommandInitialiserUtil {
 		contexts.registerContext(ProcType.class, getContextResolverOfEnum(ProcType.values(), "proc", true));
 		contexts.registerContext(ConsumableType.class, getContextResolverOfEnum(ConsumableType.values(), "consumable", true));
 		contexts.registerContext(KitGiveType.class, getContextResolverOfEnum(KitGiveType.values(), "give type", true));
+		contexts.registerContext(Dwarf.PlagueStatus.class, getContextResolverOfEnum(Dwarf.PlagueStatus.values(), "plague status", true));
 		contexts.registerContext(MobType.class, getContextResolverOfEnum(MobType.getSpawnableMobs(), "mob", true));
 		contexts.registerContext(PlagueType.class, getContextResolverOfEnum(PlagueType.values(), "plague", true));
-		contexts.registerContext(Dwarf.PlagueStatus.class, getContextResolverOfEnum(Dwarf.PlagueStatus.values(), "plague status", true));
+		contexts.registerContext(AIType.class, getContextResolverOfEnum(AIType.values(), "ai", true));
 		contexts.registerContext(DoomType.class, getContextResolverOfEnum(DoomType.values(), "doom", true));
 		
 		contexts.registerContext(CustomItem.class, context -> {
@@ -179,7 +213,7 @@ public class CommandInitialiserUtil {
 		
 		contexts.registerContext(SpawnEggMenuItem.class, context -> {
 			String arg = context.popFirstArg();
-			SpawnEggMenuItem spawnEgg = SpawnEggMenuItem.getEgg(arg);
+			SpawnEggMenuItem spawnEgg = MonsterManager.getManager().getEgg(arg);
 			
 			if (spawnEgg == null) throw new InvalidCommandArgument(ChatColor.RED + "Unknown spawn egg '" + ChatColor.YELLOW + arg + ChatColor.RED + "'.");
 			
@@ -230,20 +264,67 @@ public class CommandInitialiserUtil {
 	
 	// ----- HELPER METHODS ------
 	
-	private static <T extends GamePlayer> IssuerAwareContextResolver<T, BukkitCommandExecutionContext> getContextResolverOfGamePlayer(Function<String, T> resolver, String playerTypeName) {
+	private static <T, S extends Iterable<T>> IssuerAwareContextResolver<S, BukkitCommandExecutionContext> getContextResolverOfGamePlayerIterable(
+			Function<String, T> playerNameResolver,
+			Supplier<Collection<T>> collectionSupplier,
+			Function<Iterable<T>,S> gpIterableCreator,
+			String playerTypeName
+	) {
 		return c -> {
 			String name = c.popFirstArg();
-			T gamePlayer;
 			
 			if (name == null && !c.isOptional()) throw new InvalidCommandArgument(ChatColor.RED + "Please provide a " + playerTypeName);
 			
+			Iterable<T> iterable;
 			boolean setSelfAsGamePlayer = name == null || name.equals(".") || name.equals("~");
 			if (setSelfAsGamePlayer) {
+				// Arg is referring to self player
 				if (c.getPlayer() == null) throw new InvalidCommandArgument(ChatColor.RED + "Console is not a " + playerTypeName);
-				gamePlayer = resolver.apply(c.getPlayer().getName());
+				T gamePlayer = playerNameResolver.apply(c.getPlayer().getName());
 				if (gamePlayer == null) throw new InvalidCommandArgument(ChatColor.RED + "You are not a " + playerTypeName);
+				iterable = Collections.singleton(gamePlayer);
+			} else if (name.equals(RANDOM_PLAYER)) {
+				// Arg is referring to random player
+				T gamePlayer = Misc.getRandom(collectionSupplier.get());
+				if (gamePlayer == null) throw new InvalidCommandArgument(ChatColor.RED + "Cannot find any " + playerTypeName);
+				iterable = Collections.singleton(gamePlayer);
+			} else if (name.equals(ALL_PLAYER)) {
+				// Arg is referring to all player
+				iterable = collectionSupplier.get();
 			} else {
-				gamePlayer = resolver.apply(name);
+				// Arg is referring to a specified player
+				T gamePlayer = playerNameResolver.apply(name);
+				if (gamePlayer == null) throw new InvalidCommandArgument(ChatColor.RED + "Player '" + ChatColor.YELLOW + name + ChatColor.RED + "' is not a " + playerTypeName);
+				iterable = Collections.singleton(gamePlayer);
+			}
+			return gpIterableCreator.apply(iterable);
+		};
+	}
+	
+	private static <T> IssuerAwareContextResolver<T, BukkitCommandExecutionContext> getContextResolverOfGamePlayer(
+			Function<String, T> playerNameResolver,
+			Supplier<Collection<T>> collectionSupplier,
+			String playerTypeName
+	) {
+		return c -> {
+			String name = c.popFirstArg();
+			
+			if (name == null && !c.isOptional()) throw new InvalidCommandArgument(ChatColor.RED + "Please provide a " + playerTypeName);
+			
+			T gamePlayer;
+			boolean setSelfAsGamePlayer = name == null || name.equals(".") || name.equals("~");
+			if (setSelfAsGamePlayer) {
+				// Arg is referring to self player
+				if (c.getPlayer() == null) throw new InvalidCommandArgument(ChatColor.RED + "Console is not a " + playerTypeName);
+				gamePlayer = playerNameResolver.apply(c.getPlayer().getName());
+				if (gamePlayer == null) throw new InvalidCommandArgument(ChatColor.RED + "You are not a " + playerTypeName);
+			} else if (name.equals(RANDOM_PLAYER)) {
+				// Arg is referring to random player
+				gamePlayer = Misc.getRandom(collectionSupplier.get());
+				if (gamePlayer == null) throw new InvalidCommandArgument(ChatColor.RED + "Cannot find any " + playerTypeName);
+			} else {
+				// Arg is referring to a specified player
+				gamePlayer = playerNameResolver.apply(name);
 				if (gamePlayer == null) throw new InvalidCommandArgument(ChatColor.RED + "Player '" + ChatColor.YELLOW + name + ChatColor.RED + "' is not a " + playerTypeName);
 			}
 			return gamePlayer;
@@ -282,6 +363,11 @@ public class CommandInitialiserUtil {
 		// Create resolver
 		return context -> {
 			String arg = context.popFirstArg().toLowerCase().replace('_','-');
+			
+			if (arg.equals(RANDOM_ENUM)) {
+				return Misc.getRandom(names.values());
+			}
+			
 			T value = names.get(arg);
 			if (value == null) {
 				throw new InvalidCommandArgument(preErrorMsg + arg + postErrorMsg, false);

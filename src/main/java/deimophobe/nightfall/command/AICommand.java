@@ -1,12 +1,10 @@
 package deimophobe.nightfall.command;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.Default;
-import co.aikar.commands.annotation.Description;
-import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.*;
 import deimophobe.nightfall.monster.ai.AIManager;
-import org.bukkit.ChatColor;
+import deimophobe.nightfall.monster.ai.AIType;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -19,42 +17,77 @@ public class AICommand extends BaseCommand {
 	
 	@Subcommand("spawn")
 	@CommandAlias("spawnai")
+	@CommandCompletion("@nothing @ais")
 	@Description("Spawn AIs at your location.")
-	public void spawnAI(CommandSender sender, Player player, @Default("1") int amount) {
+	public void spawnAI(CommandSender sender, Player player, @Default("1") int amount, @Default("zombie") AIType type) {
 		amount = Math.max(amount, 0);
 		amount = Math.min(amount, 300);
 		
-		getAIManager().spawnAIs(player.getLocation(), amount);
-		sender.sendMessage(ChatColor.YELLOW + "Spawned " + ChatColor.AQUA + amount + ChatColor.YELLOW + " AIs.");
+		getAIManager().spawnAIs(type, player.getLocation(), amount);
+		MessageUtil.sendMessage(sender,"Spawned ", amount, " ", type, " AIs.");
 	}
 	
 	@Subcommand("toggle")
 	@Description("Toggle AI spawning.")
 	public void toggle(CommandSender sender) {
 		boolean enabled = getAIManager().toggleAISpawn();
-		if (enabled) {
-			sender.sendMessage(ChatColor.YELLOW + "AIs are now " + ChatColor.GREEN + "enabled" + ChatColor.YELLOW + ".");
-		} else {
-			sender.sendMessage(ChatColor.YELLOW + "AIs are now " + ChatColor.RED + "disabled" + ChatColor.YELLOW + ".");
-		}
+		MessageUtil.sendMessage(sender, "AIs are now ", enabled, ".");
 	}
 	
 	@Subcommand("clear")
 	@Description("Remove all AIs around you.")
 	public void clearArea(CommandSender sender, Player player, double radius) {
 		getAIManager().clearArea(player.getLocation(), radius);
-		sender.sendMessage(ChatColor.YELLOW + "Cleared all AIs and spawn spots within " + ChatColor.AQUA + radius +  ChatColor.YELLOW + " blocks.");
+		MessageUtil.sendMessage(sender, "Cleared all AIs and spawn spots within ", radius, " blocks.");
 	}
 	
 	@Subcommand("mark")
 	@Description("Add an AI mark at your location.")
 	public void mark(CommandSender sender, Player player) {
-		boolean success = getAIManager().addAISpawnLocation(player.getLocation());
+		Location location = player.getLocation();
+		boolean success = getAIManager().addAISpawnLocation(location);
 		if (success) {
-			sender.sendMessage(ChatColor.YELLOW + "Added an AI spawn mark at your location.");
+			MessageUtil.sendMessage(sender, "Added a spawn mark at ", location, ".");
 		} else {
-			sender.sendMessage(ChatColor.RED + "Failed to add AI spawn mark.");
+			MessageUtil.sendErrorMessage(sender,"Failed to add AI spawn mark.");
 		}
+	}
+	
+	@Subcommand("rate")
+	@Description("Get the current spawn rate.")
+	public void getRate(CommandSender sender) {
+		double rate = getAIManager().getBaseSpawnChance();
+		MessageUtil.sendMessage(sender, "Base AI spawn rate is currently ", rate, ".");
+	}
+	
+	@Subcommand("count")
+	@Description("Get the current number of AIs.")
+	public void getCount(CommandSender sender) {
+		int size = getAIManager().getNumAIs();
+		int maxSize = getAIManager().getMaxAIs();
+		MessageUtil.sendMessage(sender, "There are currently ", size, " AIs alive (out of a maximum of ", maxSize, ").");
+	}
+	
+	@Subcommand("count-mark")
+	@Description("Get the current number of AI marks.")
+	public void getMarkNum(CommandSender sender) {
+		int size = getAIManager().getNumMarks();
+		int maxSize = getAIManager().getMaxMarks();
+		MessageUtil.sendMessage(sender, "There are currently ", size, " spawn spots (out of a maximum of ", maxSize, ").");
+	}
+	
+	@Subcommand("multiplier")
+	@Description("Set the multiplier to the spawn rate,")
+	public void setMulti(CommandSender sender, double multiplier) {
+		getAIManager().setMultiplier(multiplier);
+		MessageUtil.sendMessage(sender, "Set AI spawn rate multiplier to ", multiplier, ".");
+	}
+	
+	@Subcommand("multiplier-max")
+	@Description("Set the multiplier to the ai and mark cap.")
+	public void setMaxMulti(CommandSender sender, double multiplier) {
+		getAIManager().setMaxMultiplier(multiplier);
+		MessageUtil.sendMessage(sender, "Set AI and mark cap multiplier to ", multiplier, ".");
 	}
 	
 	private AIManager getAIManager() {

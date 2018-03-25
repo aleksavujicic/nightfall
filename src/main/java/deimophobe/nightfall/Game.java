@@ -23,6 +23,7 @@ import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.upgrade.GlobalUpgrade;
 import deimophobe.nightfall.plague.AssassinPlague;
 import deimophobe.nightfall.plague.Plague;
+import deimophobe.nightfall.plague.PlagueType;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -105,6 +106,7 @@ public class Game {
 	
 	private final Team lobbyTeam;
 
+	private PlagueType plagueType = PlagueType.getRandomPlagueType();
 	private Plague activePlague = null;
 
 
@@ -160,6 +162,7 @@ public class Game {
 		skinManager = new SkinManager();
 		glowManager = new GlowManager();
 		timeManager = new TimeManager(map.getWorld());
+		monsterManager.init();
 		NightfallPlugin.getPlugin().updateManagers();
 		
 		startLobby();
@@ -237,6 +240,13 @@ public class Game {
 		Collection<String> names = dwarfManager.getGamePlayerNames();
 		names.addAll(monsterManager.getGamePlayerNames());
 		return names;
+	}
+	
+	public Collection<GamePlayer> getGamePlayers() {
+		Collection<GamePlayer> gamePlayers = new HashSet<>();
+		gamePlayers.addAll(DwarfManager.getManager().getGamePlayers());
+		gamePlayers.addAll(MonsterManager.getManager().getGamePlayers());
+		return gamePlayers;
 	}
 	
 	
@@ -570,16 +580,17 @@ public class Game {
 	}
 	
 	public void startPlague() {
-		startPlague(Plague.getRandomPlague());
+		startPlague(plagueType);
 	}
 	
-	public void startPlague(Plague plague) {
+	public void startPlague(PlagueType plagueType) {
 		if (phase != Phase.BUILD) {
 			return;
 		}
 		phase = Phase.PLAGUE;
+		Plague plague = plagueType.createPlague();
 		this.activePlague = plague;
-		NightfallPlugin.logger().info("Starting plague: " + plague.getClass().getSimpleName());
+		NightfallPlugin.logger().info("Starting plague: " + plagueType);
 		
 		if (plague.getAmountToKill(true) == 0) {
 			NightfallPlugin.logger().warning("Skipping plague...");
@@ -646,6 +657,10 @@ public class Game {
 		MapManager.getManager().scheduleNewGame();
 		
 		Bukkit.getServer().getPluginManager().callEvent(new PhaseChangeEvent(phase));
+	}
+	
+	public void setPlagueType(PlagueType type) {
+		plagueType = type;
 	}
 	
 	

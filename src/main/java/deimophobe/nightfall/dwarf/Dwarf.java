@@ -1,9 +1,6 @@
 package deimophobe.nightfall.dwarf;
 
-import deimophobe.nightfall.Curse;
-import deimophobe.nightfall.Game;
-import deimophobe.nightfall.Phase;
-import deimophobe.nightfall.SkinManager;
+import deimophobe.nightfall.*;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.HealBlock;
 import deimophobe.nightfall.common.Misc;
@@ -38,6 +35,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -113,6 +111,20 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		CosmeticManager.getManager().getCosmetic(player).equipHat();
 	}
 	
+	@Override
+	public void goOnline(Player newPlayer) {
+		super.goOnline(newPlayer);
+		if (Game.getGame().getPhase().isOrIsAfter(Phase.GAME) && plagueStatus == PlagueStatus.PLAGUED) {
+			new BukkitRunnable() {
+				@Override public void run() {
+					Dwarf dwarf = Dwarf.this;
+					if (dwarf.isOnline()) {
+						dwarf.instaKill(null, GameDamageType.FORCE_PLAGUED);
+					}
+				}
+			}.runTaskLater(NightfallPlugin.getPlugin(), 4*20);
+		}
+	}
 	
 	// ------ KIT ITEMS -------
 	private final Kit kit;

@@ -109,12 +109,15 @@ public class AIManager {
 		
 		// Only add if in air above solid ground
 		Block block = loc.getBlock();
+		Block above = block.getRelative(0, 1, 0);
 		Block below = block.getRelative(0, -1, 0);
 		Block twoBelow = block.getRelative(0, -2, 0);
 		boolean validSpot =
-				!block.getType().isSolid()
-				&& below.getType().isSolid()
-				&& twoBelow.getType().isSolid();
+				(
+					!block.getType().isSolid() || !above.getType().isSolid()
+				) && (
+					below.getType().isSolid() || twoBelow.getType().isSolid()
+				);
 		
 		if (!validSpot) return false;
 		
@@ -126,22 +129,42 @@ public class AIManager {
 	}
 	
 	private double spawnChance = 0;
+	private double multiplier = 1;
 	private int maxAIs;
 	private int maxMarks;
-	double getBaseSpawnChance() { return spawnChance; }
+	private double maxMultiplier = 1;
+	public double getBaseSpawnChance() { return spawnChance; }
 	private void updateSpawnRates() {
 		int dwarves = DwarfManager.getManager().getNumberOfPlayers();
 		int mobs = MonsterManager.getManager().getNumberOfPlayers();
 		
-		double proportion = 1 - (double) ais.size()/ maxAIs;
-		spawnChance = (0.1 + 0.025 * dwarves) * proportion * proportion;
-		
 		maxAIs = 25 + mobs + 5 * dwarves;
 		maxMarks = 50 + 5 * mobs + dwarves;
+		
+		maxAIs *= maxMultiplier;
+		maxMarks *= maxMultiplier;
+		
+		double proportion = 1 - (double) ais.size()/ maxAIs;
+		spawnChance = (0.1 + 0.025 * dwarves) * proportion * proportion;
 		
 		if (ais.size() >= maxAIs) {
 			spawnChance = 0;
 		}
+		spawnChance *= multiplier;
+	}
+	
+	public int getNumAIs() { return ais.size(); }
+	public int getMaxAIs() { return maxAIs; }
+	public int getNumMarks() { return spawnSpots.size(); }
+	public int getMaxMarks() { return maxMarks; }
+	
+	public void setMultiplier(double multiplier) {
+		this.multiplier = multiplier;
+		updateSpawnRates();
+	}
+	public void setMaxMultiplier(double maxMultiplier) {
+		this.maxMultiplier = maxMultiplier;
+		updateSpawnRates();
 	}
 	
 	// ------ ARE AIS SPAWNABLE ------
@@ -198,42 +221,37 @@ public class AIManager {
 			if (!success) continue;
 			
 			// Also add offset if previous was successfull - will be either -5, 0, +5 for x and z
-			int xOffset = 5 * Misc.randomInt(-1,2);
-			int zOffset = 5 * Misc.randomInt(-1,2);
+			int xOffset = 5 * Misc.randomInt(-1,1);
+			int zOffset = 5 * Misc.randomInt(-1,1);
 			Location offset = location.clone().add(xOffset, 0, zOffset);
 			addAISpawnLocation(offset);
 		}
 	}
 	
 	
-	public void spawnAIs(Location location, int num) {
-		for (int i=0; i<num; i++)
-			spawnAI(location);
-	}
-
-	public void spawnAIs(Location location, Dwarf target, int num) {
-		for (int i=0; i<num; i++)
-			spawnAI(location, target);
-	}
-
-	public void spawnAI(Location location) {
-		AIEntity ai = new AIZombie(location, getRandomName());
-		aiTeam.addEntry(ai.getUniqueId().toString());
-		ais.put(ai.getUniqueId(), ai);
+	public void spawnAIs(AIType type, Location location, int number) {
+		for (int i=0; i<number; i++) {
+			spawnAI(type, location);
+		}
 	}
 	
-	public void spawnAI(Location location, Dwarf target) {
-		AIEntity ai = new AIZombie(location, getRandomName(), target);
+	public void spawnAIs(AIType type, Location location, Dwarf target, int number) {
+		for (int i=0; i<number; i++) {
+			spawnAI(type, location, target);
+		}
+	}
+	
+	public void spawnAI(AIType type, Location location) {
+		spawnAI(type, location, null);
+	}
+	
+	public void spawnAI(AIType type, Location location, Dwarf target) {
+		AIEntity<?> ai = type.createAI(location, getRandomName(), target);
 		aiTeam.addEntry(ai.getUniqueId().toString());
 		ais.put(ai.getUniqueId(), ai);
 	}
 
-	public void spawnAISkeleton(Location location) {
-		AIEntity ai = new AIFireSkeleton(location, getRandomName());
-		aiTeam.addEntry(ai.getUniqueId().toString());
-		ais.put(ai.getUniqueId(), ai);
-	}
-
+	
 	void unregisterAI(AIEntity entity) {
 		ais.remove(entity.getUniqueId());
 		aiTeam.removeEntry(entity.getUniqueId().toString());

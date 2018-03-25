@@ -4,7 +4,6 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import deimophobe.nightfall.monster.doom.DoomManager;
 import deimophobe.nightfall.monster.doom.DoomType;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -18,7 +17,15 @@ public class DoomCommand extends BaseCommand {
 	@Description("Causes a doom to immediately occur.")
 	public void spawnDoom(CommandSender sender, DoomType type) {
 		DoomManager.getManager().spawnDoom(type);
-		sender.sendMessage(ChatColor.YELLOW + "Spawned doom " + ChatColor.GREEN + type.name().toLowerCase() + ChatColor.YELLOW + ".");
+		MessageUtil.sendMessage(sender, "Spawned doom ", type, ".");
+	}
+	
+	@Subcommand("next")
+	@CommandCompletion("@dooms")
+	@Description("Forces the next doom to be a certain type.")
+	public void next(CommandSender sender, DoomType type) {
+		DoomManager.getManager().forceNextDoom(type);
+		MessageUtil.sendMessage(sender, "Next doom will be ", type, ".");
 	}
 	
 	@Subcommand("force")
@@ -26,18 +33,46 @@ public class DoomCommand extends BaseCommand {
 	@Description("Forces doom to occur.")
 	public void forceDoom(CommandSender sender) {
 		DoomManager.getManager().reduceDoom(1000000);
-		sender.sendMessage(ChatColor.YELLOW + "Forcing doom to occur.");
+		MessageUtil.sendMessage(sender,"Forcing doom to occur.");
+	}
+	
+	@Subcommand("reduce")
+	@Conditions("monster-release")
+	@Description("Reduces doom by a fixed amount.")
+	public void reduceDoom(CommandSender sender, int amount) {
+		DoomManager.getManager().reduceDoom(amount);
+		MessageUtil.sendMessage(sender, "Reduced doom by ", amount, ".");
+	}
+	
+	@Subcommand("time")
+	@Conditions("monster-release")
+	@Description("Gets the current doom time.")
+	public void getTime(CommandSender sender) {
+		int time = DoomManager.getManager().getTime();
+		MessageUtil.sendMessage(sender, "The doom timer is currently at ", time, ".");
+	}
+	
+	@Subcommand("set-max")
+	@Conditions("monster-release")
+	@Description("Sets the max timer on doom.")
+	public void setMax(CommandSender sender, int amount) {
+		DoomManager.getManager().setMaxDoomTime(amount);
+		MessageUtil.sendMessage(sender, "Set max doom time to ", amount, ".");
+	}
+	
+	@Subcommand("set-max-internal")
+	@Conditions("monster-release")
+	@Description("Sets the max internal timer on doom.")
+	public void setMaxInternal(CommandSender sender, int amount) {
+		DoomManager.getManager().setMaxInternalDoomTime(amount);
+		MessageUtil.sendMessage(sender, "Set max internal doom time to ", amount, ".");
 	}
 	
 	@Subcommand("toggle")
 	@Description("Toggle dooms occuring.")
 	public void toggle(CommandSender sender) {
 		boolean enabled = getManager().toggleDoom();
-		if (enabled) {
-			sender.sendMessage(ChatColor.YELLOW + "Doom is now " + ChatColor.GREEN + "enabled" + ChatColor.YELLOW + ".");
-		} else {
-			sender.sendMessage(ChatColor.YELLOW + "Doom now " + ChatColor.RED + "disabled" + ChatColor.YELLOW + ".");
-		}
+		MessageUtil.sendMessage(sender, "Doom is now ", enabled, ".");
 	}
 	
 	private DoomManager getManager() {

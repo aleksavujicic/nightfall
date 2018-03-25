@@ -29,6 +29,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Team;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -39,6 +40,8 @@ public class Doppelganger extends AbstractMob {
 	
 	private static final int INVIS_DURATION = 40*20;
 	private static final String TEAM_PREFIX = "doppel";
+	
+	private boolean giveArrow = false;
 	
 	private final Dwarf target;
 	private final ComplexCooldown unhider = new ComplexCooldown(INVIS_DURATION, null, this::unhide);
@@ -91,6 +94,7 @@ public class Doppelganger extends AbstractMob {
 			disguise.setViewSelfDisguise(false);
 			disguise.setReplaceSounds(false);
 			disguise.getWatcher().setArrowsSticking(0);
+			disguise.getWatcher().setSprinting(false);
 			DisguiseAPI.disguiseEntity(monster.getPlayer(), disguise);
 		}
 		
@@ -105,13 +109,19 @@ public class Doppelganger extends AbstractMob {
 		ArmourSlot.FEET.equipArmour(monster, getItem("boots"));
 		
 		hide();
-		giveItem("unhider");
 		
 		final String targetMsg;
 		if (target == null) targetMsg = ChatColor.RED + "There are no dwarves to clone!";
 		else targetMsg = ChatColor.GOLD + "Your clone: " + ChatColor.DARK_AQUA + target.getName();
 		monster.sendMessage(targetMsg);
 		monster.sendTitleMessage(targetMsg);
+	}
+	
+	@Override
+	protected void setupItems() {
+		super.setupItems();
+		if (giveArrow) giveItem("arrow");
+		giveItem("unhider");
 	}
 	
 	@Override
@@ -215,7 +225,7 @@ public class Doppelganger extends AbstractMob {
 	}
 	
 	
-	private static final Map<KitPieceType, String> DWARF_WEAPONS = new HashMap<>();
+	private static final Map<KitPieceType, String> DWARF_WEAPONS = new LinkedHashMap<>();
 	static {
 		DWARF_WEAPONS.put(KitPieceType.RUNESWORD, null);
 		DWARF_WEAPONS.put(KitPieceType.BLOOD_AXE, "axe");
@@ -225,6 +235,7 @@ public class Doppelganger extends AbstractMob {
 		DWARF_WEAPONS.put(KitPieceType.RAPIER, "rapier");
 		DWARF_WEAPONS.put(KitPieceType.SOUL_BLADE, "soulblade");
 		DWARF_WEAPONS.put(KitPieceType.GLAIVE, "glaive");
+		DWARF_WEAPONS.put(KitPieceType.VOLCANIC, "gauntlet");
 	}
 	private void setFakeWeapon() {
 		if (target == null) return;
@@ -232,7 +243,10 @@ public class Doppelganger extends AbstractMob {
 		for (Map.Entry<KitPieceType, String> entry : DWARF_WEAPONS.entrySet()) {
 			if (target.hasKitElement(entry.getKey())) {
 				String itemKey = entry.getValue();
-				if (itemKey != null) setWeapon(itemKey);
+				if (itemKey != null) {
+					setWeapon(itemKey);
+					if (itemKey.equals("gauntlet")) giveArrow = true;
+				}
 				return;
 			}
 		}

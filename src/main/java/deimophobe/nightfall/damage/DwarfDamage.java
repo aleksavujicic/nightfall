@@ -50,8 +50,8 @@ public class DwarfDamage extends GameDamage<GameEntity<?>, Dwarf> {
 	
 	private void addHandlers() {
 		if (Game.getGame().getPhase() == Phase.BUILD) {
-			addPreDamageHandler(-1000, damage -> {
-				if (damage.willKill()) {
+			addPreDamageHandler(PreDamagePriority.DWARF_BUILD_PHASE_SAVER, () -> {
+				if (willKill()) {
 					this.forceSoftCancel();
 					
 					receiver.respawn();
@@ -62,9 +62,9 @@ public class DwarfDamage extends GameDamage<GameEntity<?>, Dwarf> {
 			});
 		}
 		
-		addPostDamageHandler(damage -> {
-			damage.getReceiver().getArmour().damage(armourShred);
-			damage.getReceiver().useMana(manaDrain);
+		addPostDamageHandler(() -> {
+			getReceiver().getArmour().damage(armourShred);
+			getReceiver().useMana(manaDrain);
 		});
 	}
 	

@@ -18,10 +18,6 @@ import java.util.function.Consumer;
  */
 public class AIZombie extends AIEntity<Zombie> {
 	
-	public AIZombie(Location location, String randomName) {
-		this(location, randomName, null);
-	}
-	
 	private static final ItemStack SWORD = ItemManager.getMiscItem("ai-sword").createItemStack();
 	
 	private static final Consumer<Zombie> INITIALISER = (zombie) -> {
@@ -31,7 +27,7 @@ public class AIZombie extends AIEntity<Zombie> {
 		zombie.getEquipment().setItemInMainHand(SWORD);
 	};
 	
-	public AIZombie(Location location, String name, Dwarf target) {
+	AIZombie(Location location, String name, Dwarf target) {
 		super(location, name, target, Zombie.class, INITIALISER);
 	}
 	

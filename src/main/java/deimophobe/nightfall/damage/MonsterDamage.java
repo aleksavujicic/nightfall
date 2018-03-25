@@ -7,6 +7,8 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.entity.Projectile;
 
+import static deimophobe.nightfall.damage.PreDamagePriority.MONSTER_DEATH;
+
 /**
  * Created by Deimophobe on 29/08/17.
  */
@@ -49,7 +51,7 @@ public class MonsterDamage extends GameDamage<GameEntity<?>, MonsterEntity> {
 	}
 	
 	private void addHandlers() {
-		addPreDamageHandler(1000, damage -> {
+		addPreDamageHandler(MONSTER_DEATH, () -> {
 			if (willKill()) {
 				// Prevent killing a monster and set to spectator instead
 				if (receiver instanceof MonsterPlayer) {
@@ -57,7 +59,7 @@ public class MonsterDamage extends GameDamage<GameEntity<?>, MonsterEntity> {
 				}
 				
 				// Needs to be done this way, as willKill()
-				this.addPostDamageHandler(d -> {
+				this.addPostDamageHandler(() -> {
 					if (receiver instanceof MonsterPlayer) {
 						((MonsterPlayer) receiver).kill(false);
 					}

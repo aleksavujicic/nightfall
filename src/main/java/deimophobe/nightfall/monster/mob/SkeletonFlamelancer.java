@@ -7,6 +7,7 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIManager;
+import deimophobe.nightfall.monster.ai.AIType;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -101,12 +102,12 @@ class SkeletonFlamelancer extends Skeleton {
 			if (BlockType.IGNORABLE.matchesBlock(hitBlock)) {
 				hitBlock.setType(Material.FIRE);
 				if (fireAI == 1 && Math.random() < 0.5) {
-					AIManager.getManager().spawnAISkeleton(hitBlock.getLocation());
+					AIManager.getManager().spawnAI(AIType.FIRE_SKELLY, hitBlock.getLocation());
 				}
 			} else if (BlockType.IGNORABLE.matchesBlock(block)) {
 				block.setType(Material.FIRE);
 				if (fireAI == 1 && Math.random() < 0.5) {
-					AIManager.getManager().spawnAISkeleton(block.getLocation());
+					AIManager.getManager().spawnAI(AIType.FIRE_SKELLY, block.getLocation());
 				}
 			}
 		}

@@ -21,7 +21,7 @@ public class Crossbow extends AbstractBow implements CooldownPiece {
 		super(dwarf);
 	}
 	
-	private static final int POWER = 100;
+	private static final int POWER = 90;
 	private static final int RAPID_POWER = 25;
 	private static final String RAPID_META = "rapid";
 	private static final CustomItem ITEM = getBow("crossbow", POWER);
@@ -31,7 +31,7 @@ public class Crossbow extends AbstractBow implements CooldownPiece {
 	
 	@Override public String getBowIdentifier() {return "CROSSBOW";}
 	
-	private ComplexCooldown arrowCD = new ComplexCooldown(40, this::fireNormalArrow);
+	private ComplexCooldown arrowCD = new ComplexCooldown(35, this::fireNormalArrow);
 	
 	private boolean firing = false;
 	private ComplexCooldown rapidCD = new ComplexCooldown(4, this::fireRapidArrow);
@@ -62,9 +62,11 @@ public class Crossbow extends AbstractBow implements CooldownPiece {
 		}
 		
 		
-		if (Misc.isRightClick(action) && dwarf.hasArrows(ARROW_COST)) {
-			arrowCD.tryUse();
-			return true;
+		if (Misc.isRightClick(action)) {
+			if (dwarf.hasArrows(ARROW_COST)) {
+				arrowCD.tryUse();
+				return true;
+			}
 		} else if (dwarf.hasArrows(1)) {
 			longRapid.tryUse();
 			return true;

@@ -1,7 +1,6 @@
 package deimophobe.nightfall.monster.spawnmenu;
 
 import deimophobe.nightfall.Game;
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.UnknownEnumElementException;
@@ -13,11 +12,14 @@ import deimophobe.nightfall.monster.doom.DoomManager;
 import deimophobe.nightfall.monster.mob.MobType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Deimophbe on 19/01/17.
@@ -31,11 +33,11 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 	private boolean enabled;
 	
 	private int quantity;
-	private final int maxQuantity;
-	private final double spawnChance;
+	private int maxQuantity;
+	private double spawnChance;
 	private final String name;
 	
-	private SpawnEggMenuItem(ConfigurationSection section, String name) {
+	public SpawnEggMenuItem(ConfigurationSection section, String name) {
 		this.item = CustomItem.getItem(section.getConfigurationSection("egg"), "monster-egg").createItemStack();
 		this.name = name;
 		
@@ -61,7 +63,21 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 		this.enabled = section.getBoolean("enabled", true);
 	}
 	
-	boolean tryRestock() {
+	public SpawnEggMenuItem(CustomItem item, String name, MobType type, int maxQuantity, double chance) {
+		this.item = item.createItemStack();
+		this.name = name;
+		
+		this.mobTypes = Collections.singleton(type);
+		
+		this.quantity = 0;
+		this.maxQuantity = maxQuantity;
+		this.spawnChance = chance;
+		this.permanent = false;
+		
+		this.enabled = true;
+	}
+	
+	public boolean tryRestock() {
 		double rand = Math.random();
 		if (rand <= spawnChance) {
 			quantity = maxQuantity;
@@ -70,6 +86,10 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 			return false;
 		}
 	}
+	
+	public void setMax(int max) { this.maxQuantity = max; }
+	public void setSpawnChance(double chance) { this.spawnChance = chance; }
+	public void setEnabled(boolean enabled) { this.enabled = enabled; }
 	
 	public String getName() {
 		return name;
@@ -90,7 +110,8 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 		}
 		if (isAvailable()) {
 			ItemStack newitem = item.clone();
-			//newitem.setAmount(quantity);
+			Player player = session.getPlayer();
+			if (Game.getGame().isDebug(player)) newitem.setAmount(quantity);
 			return newitem;
 		} else {
 			return null;
@@ -123,30 +144,5 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 		quantity -= 1;
 		session.closeSession();
 		return false;
-	}
-	
-	
-	
-	
-	private static final Map<String, SpawnEggMenuItem> eggMap = new HashMap<>();
-	static {
-		Configuration spawnConfig = NightfallPlugin.getInternalFileConfig("spawn-eggs.yml");
-		for (String key : spawnConfig.getKeys(false)) {
-			SpawnEggMenuItem egg = new SpawnEggMenuItem(spawnConfig.getConfigurationSection(key), key);
-			eggMap.put(key.toLowerCase(), egg);
-		}
-	}
-	public static SpawnEggMenuItem getEgg(String key) {
-		return eggMap.get(key);
-	}
-	public static SpawnEggMenuItem getEgg(MobType type) {
-		return eggMap.get(type.toString().toLowerCase().replace("_", "-"));
-	}
-	public static Collection<String> getEggNames() {
-		return eggMap.keySet();
-	}
-	public static void resetEggs() {
-		for (SpawnEggMenuItem egg : eggMap.values())
-			egg.quantity = 0;
 	}
 }

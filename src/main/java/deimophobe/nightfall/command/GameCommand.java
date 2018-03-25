@@ -2,14 +2,11 @@ package deimophobe.nightfall.command;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
-import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.entity.GamePlayer;
-import deimophobe.nightfall.plague.Plague;
 import deimophobe.nightfall.plague.PlagueType;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 /**
  * Created by Deimophobe on 4/03/18.
@@ -30,33 +27,26 @@ public class GameCommand extends BaseCommand {
 	@CommandAlias("forceplague")
 	@CommandCompletion("@plagues")
 	@Conditions("build-phase")
-	@Description("Forces the plague to occur.")
+	@Description("Forces the plague to occur now.")
 	public void onPlague(CommandSender sender, @Optional PlagueType type) {
 		if (type != null) {
-			Plague plague = type.createPlague();
-			Game.getGame().startPlague(plague);
-			MessageUtil.sendMessage(sender, "Started plague type ", type, ".");
+			Game.getGame().startPlague(type);
+			MessageUtil.sendMessage(sender, "Started the ", type, " plague.");
 		} else {
 			Game.getGame().startPlague();
 			MessageUtil.sendMessage(sender, "Started plague.");
 		}
 	}
 	
-	@Subcommand("reset-player")
-	@CommandCompletion("@players")
-	@Description("Resets a player, removing them from any team and resetting them as if they just logged in.")
-	public void resetPlayer(CommandSender sender, OnlinePlayer player) {
-		Player realPlayer = player.getPlayer();
-		Game.getGame().resetPlayer(realPlayer);
-		MessageUtil.sendMessage(sender,"Reset player ", realPlayer, ".");
-	}
-	
-	@Subcommand("remove-player")
-	@CommandCompletion("@gameplayers")
-	@Description("Removes a player from all teams.")
-	public void remove(CommandSender sender, GamePlayer player) {
-		Game.getGame().removeGamePlayer(player.getPlayer());
-		MessageUtil.sendMessage(sender,"Removed ", player.getPlayer(), " from the game.");
+	@Subcommand("plague-type")
+	@CommandCompletion("@plagues")
+	@Conditions("pre-plague")
+	@Description("Forces the type of plague that will occur.")
+	public void onPlagueType(CommandSender sender, PlagueType type) {
+		if (type != null) {
+			Game.getGame().setPlagueType(type);
+			MessageUtil.sendMessage(sender, "Plague will now be ", type, ".");
+		}
 	}
 	
 	@Subcommand("title")

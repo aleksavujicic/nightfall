@@ -3,14 +3,16 @@ package deimophobe.nightfall.command;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandIssuer;
 import co.aikar.commands.annotation.*;
-import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.command.iterable.DwarfDataCreator;
+import deimophobe.nightfall.command.iterable.PlayerIterable;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfData;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
+import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.dwarf.hero.HeroType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
@@ -19,7 +21,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,22 +38,27 @@ public class DwarfCommand extends BaseCommand {
 	@CommandAlias("setdwarf")
 	@CommandCompletion("@players @kitpieces:extra=loadout")
 	@Description("Sets a player to be a dwarf.")
-	public void onSetDwarf(CommandSender sender, OnlinePlayer player, @Default("kit") DwarfData dwarfData) {
-		Player realPlayer = player.getPlayer();
-		Game.getGame().removeGamePlayer(realPlayer);
-		DwarfManager.getManager().createDwarf(realPlayer, dwarfData);
-		
-		sender.sendMessage(ChatColor.YELLOW + "Added " + ChatColor.DARK_AQUA + realPlayer.getName() + ChatColor.YELLOW + " as a dwarf.");
+	public void onSetDwarf(CommandSender sender, PlayerIterable players, @Default("kit") DwarfDataCreator dwarfDataCreator) {
+		players.forEach(player -> {
+			Game.getGame().removeGamePlayer(player);
+			DwarfData data = dwarfDataCreator.createDwarfData(player);
+			Dwarf dwarf = DwarfManager.getManager().createDwarf(player, data);
+			
+			MessageUtil.sendMessage(sender, "Added ", player, " as a dwarf.");
+		});
 	}
 	
 	@Subcommand("sethero")
 	@CommandAlias("sethero")
 	@CommandCompletion("@players @heroes")
 	@Description("Sets a player to be a hero.")
-	public void onSetHero(@Optional OnlinePlayer player, HeroType type) {
-		Player realPlayer = player.getPlayer();
-		Game.getGame().removeGamePlayer(realPlayer);
-		DwarfManager.getManager().addHero(realPlayer, type);
+	public void onSetHero(CommandSender sender,  PlayerIterable players, HeroType hero) {
+		players.forEach(player -> {
+			Game.getGame().removeGamePlayer(player);
+			Hero heroDwarf = DwarfManager.getManager().addHero(player, hero);
+			
+			MessageUtil.sendMessage(sender, "Added ", player, " as a ", hero, " hero.");
+		});
 	}
 	
 	@Subcommand("list")
@@ -77,7 +83,8 @@ public class DwarfCommand extends BaseCommand {
 	@Description("Remove a player from the dwarf team.")
 	public void remove(CommandSender sender, Dwarf dwarf) {
 		DwarfManager.getManager().removeGamePlayer(dwarf, true);
-		sender.sendMessage(ChatColor.YELLOW + "Removed " + ChatColor.RESET + dwarf.getName() + ChatColor.YELLOW + " from the dwarves.");
+		
+		MessageUtil.sendMessage(sender, "Removed ", dwarf, " from the dwarves.");
 	}
 	
 	@Subcommand("mana")
@@ -86,16 +93,16 @@ public class DwarfCommand extends BaseCommand {
 	@Description("Changes a dwarf's mana level.")
 	public void onMana(CommandSender sender, Dwarf dwarf, int mana) {
 		dwarf.regenMana(mana);
-		sender.sendMessage(ChatColor.YELLOW + "Gave " + dwarf.getDisplayName() + ChatColor.YELLOW + " a total of " + ChatColor.AQUA + mana + ChatColor.YELLOW + " mana.");
+		MessageUtil.sendMessage(sender, "Gave ", dwarf, " a total of ", mana, " mana.");
 	}
 	
 	@Subcommand("arrow")
 	@CommandAlias("give-arrow")
 	@CommandCompletion("@dwarves @range:40")
 	@Description("Give (or take) a dwarf's arrows.")
-	public void giveArrows(CommandSender sender, @Optional Dwarf dwarf, @Default("40") int numArrows) {
-		dwarf.giveArrows(numArrows);
-		sender.sendMessage(ChatColor.YELLOW + "Gave " + dwarf.getDisplayName() + ChatColor.YELLOW + " a total of " + ChatColor.AQUA + numArrows + ChatColor.YELLOW + " arrows.");
+	public void giveArrows(CommandSender sender, Dwarf dwarf, @Default("40") int arrows) {
+		dwarf.giveArrows(arrows);
+		MessageUtil.sendMessage(sender, "Gave ", dwarf, " a total of ", arrows, " arrows.");
 	}
 	
 	@Subcommand("plague")
@@ -104,20 +111,22 @@ public class DwarfCommand extends BaseCommand {
 	@Description("Set a dwarf's plague status.")
 	public void setPlagueStatus(CommandSender sender, Dwarf dwarf, Dwarf.PlagueStatus status) {
 		dwarf.setPlagueStatus(status);
+		Dwarf.PlagueStatus newStatus = dwarf.getPlagueStatus();
+		
 		String msg;
-		switch (status) {
+		switch (newStatus) {
 			case IMMUNE:
 				msg = "is now immune to the plague.";
 				break;
 			default:
 			case NORMAL:
-				msg = "now has a normal chance of being plagued";
+				msg = "now has a normal chance of being plagued.";
 				break;
 			case PLAGUED:
 				msg = "is now guaranteed to plague.";
 				break;
 		}
-		sender.sendMessage(dwarf.getDisplayName() + ChatColor.YELLOW + " " + msg);
+		MessageUtil.sendMessage(sender,  dwarf, " ", msg);
 	}
 	
 	@Subcommand("proc")
@@ -125,16 +134,16 @@ public class DwarfCommand extends BaseCommand {
 	@Description("Give a dwarf a proc.")
 	public void giveProc(CommandSender sender, Dwarf dwarf, ProcType procType) {
 		dwarf.giveProc(procType);
-		sender.sendMessage(ChatColor.YELLOW + "Gave " + dwarf.getDisplayName() + ChatColor.YELLOW + " proc of type " + ChatColor.GREEN + procType.name().toLowerCase() + ChatColor.YELLOW + ".");
+		MessageUtil.sendMessage(sender, "Gave ", dwarf, " a ", procType, " proc.");
 	}
 	
 	@Subcommand("consumable")
 	@CommandAlias("consumable")
 	@CommandCompletion("@dwarves @consumables")
 	@Description("Give a dwarf a consumable.")
-	public void giveConsumable(CommandSender sender, Dwarf dwarf, ConsumableType type, @Default("1") int amount) {
-		dwarf.giveConsumable(type, amount);
-		sender.sendMessage(ChatColor.YELLOW + "Gave " + dwarf.getDisplayName() + ChatColor.YELLOW + " a total of " + ChatColor.AQUA + amount + ChatColor.YELLOW + " consumables of type " + ChatColor.GREEN + type.name().toLowerCase() + ChatColor.YELLOW + ".");
+	public void giveConsumable(CommandSender sender, Dwarf dwarf, ConsumableType consumable, @Default("1") int amount) {
+		dwarf.giveConsumable(consumable, amount);
+		MessageUtil.sendMessage(sender, "Gave ", dwarf, " a total of ", amount, " ", consumable, " consumables.");
 	}
 	
 	@Subcommand("give")
@@ -142,7 +151,7 @@ public class DwarfCommand extends BaseCommand {
 	@Description("Give a dwarf kit items.")
 	public void giveKitType(CommandSender sender, Dwarf dwarf, KitGiveType giveType) {
 		dwarf.giveKitItems(giveType);
-		sender.sendMessage(ChatColor.YELLOW + "Gave " + dwarf.getDisplayName() + ChatColor.YELLOW + " all " + ChatColor.GREEN + giveType.name().toLowerCase() + ChatColor.YELLOW + " kit items.");
+		MessageUtil.sendMessage(sender, "Gave ", dwarf, " all ", giveType, " kit items.");
 	}
 	
 	@Subcommand("kit")
@@ -154,32 +163,22 @@ public class DwarfCommand extends BaseCommand {
 		@Description("Add a kit piece to a dwarf's kit.")
 		public void addKitItem(CommandSender sender, Dwarf dwarf, KitPieceType[] pieceTypes) {
 			if (pieceTypes.length == 0) {
-				sender.sendMessage(ChatColor.RED + "Please specify an item.");
+				MessageUtil.sendErrorMessage(sender, "Please specify an item.");
 			} else {
 				for (KitPieceType type : pieceTypes) {
 					dwarf.giveKitItem(type);
 				}
 			}
+			MessageUtil.sendMessage(sender, "Gave ", dwarf, " kit items: ", pieceTypes);
 		}
 		
 		@Subcommand("list")
 		@CommandCompletion("@dwarves")
 		@Description("List all pieces of a dwarf's kit.")
 		public void listKit(CommandSender sender, @Optional Dwarf dwarf) {
-			StringBuilder sb = new StringBuilder();
-			sb.append(ChatColor.AQUA);
-			sb.append("Dwarf ");
-			sb.append(ChatColor.DARK_AQUA);
-			sb.append(dwarf.getName());
-			sb.append(ChatColor.AQUA);
-			sb.append(" have the following kit items:\n");
-			sb.append(ChatColor.RESET);
-			for (KitPieceType type : dwarf.getKitElementTypes()) {
-				sb.append(type.toString().toLowerCase());
-				sb.append(", ");
-			}
-			sb.setLength(sb.length() - 2);
-			sender.sendMessage(sb.toString());
+			KitPieceType[] types = new KitPieceType[0];
+			types = dwarf.getKitElementTypes().toArray(types);
+			MessageUtil.sendMessage(sender, "Dwarf ", dwarf, " has the following kit: ", types);
 		}
 		
 		
@@ -207,7 +206,7 @@ public class DwarfCommand extends BaseCommand {
 		@Description("Equip armour on a dwarf.")
 		public void onEquip(CommandSender sender, @Conditions("unequipped-armour") @Optional Dwarf dwarf) {
 			((DwarvenArmour) dwarf.getArmour()).putOn();
-			sender.sendMessage(ChatColor.YELLOW + "Equipped armour on dwarf " + dwarf.getDisplayName() + ChatColor.YELLOW + ".");
+			MessageUtil.sendMessage(sender, "Equipped armour on dwarf ", dwarf, ".");
 		}
 		
 		@Subcommand("repair")
@@ -215,7 +214,7 @@ public class DwarfCommand extends BaseCommand {
 		@Description("Repair a dwarf's armour.")
 		public void onRepair(CommandSender sender, @Optional Dwarf dwarf, @Default("1000") double amount) {
 			dwarf.getArmour().repair(amount);
-			sender.sendMessage(ChatColor.YELLOW + "Repaired dwarf " + dwarf.getDisplayName() + ChatColor.YELLOW + "'s armour for " + ChatColor.AQUA + (int) amount + ChatColor.YELLOW + " points.");
+			MessageUtil.sendMessage(sender, "Repaired armour of ", dwarf, " by ", amount, ".");
 		}
 		
 		@Subcommand("damage")
@@ -223,7 +222,7 @@ public class DwarfCommand extends BaseCommand {
 		@Description("Damage a dwarf's armour.")
 		public void onDamage(CommandSender sender, @Optional Dwarf dwarf, @Default("2000") double amount) {
 			dwarf.getArmour().damage(amount);
-			sender.sendMessage(ChatColor.YELLOW + "Damaged dwarf " + dwarf.getDisplayName() + ChatColor.YELLOW + "'s armour for " + ChatColor.AQUA + (int) amount + ChatColor.YELLOW + " points.");
+			MessageUtil.sendMessage(sender, "Damaged armour of ", dwarf, " by ", amount, ".");
 		}
 		
 		@Subcommand("amount")
@@ -231,7 +230,7 @@ public class DwarfCommand extends BaseCommand {
 		@Description("Display a dwarf's armour level.")
 		public void onAmount(CommandSender sender, @Conditions("reg-armour") @Optional Dwarf dwarf) {
 			double value = ((DwarvenArmour) dwarf.getArmour()).getValue();
-			sender.sendMessage(ChatColor.YELLOW + "Dwarf " + dwarf.getDisplayName() + ChatColor.YELLOW + " has " + ChatColor.AQUA + (int)value + ChatColor.YELLOW + " armour left.");
+			MessageUtil.sendMessage(sender, "Dwarf ", dwarf, " has ", value, " armour left.");
 		}
 	}
 	

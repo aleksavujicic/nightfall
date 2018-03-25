@@ -316,15 +316,23 @@ public abstract class AbstractMob implements Mob {
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
-		if (damage.getType() == GameDamageType.MELEE) {
-			playSound("melee");
-			damage.setArmourShred(mobData.armourShred);
-			monster.gainXP(3);
-		} else if (damage.getType() == GameDamageType.RANGED) {
-			monster.gainXP(10);
-		} else {
-			monster.gainXP(5);
+		int xpGain = 0;
+		switch (damage.getType()) {
+			case MELEE:
+				playSound("melee");
+				damage.setArmourShred(mobData.armourShred);
+				xpGain = 3;
+				break;
+			case RANGED:
+				xpGain = 10;
+				break;
+				
+			default:
+				xpGain = 5;
+				break;
 		}
+		int finalXpGain = xpGain;
+		damage.addPostDamageHandler(() -> monster.gainXP(finalXpGain));
 	}
 	
 	@Override
@@ -339,7 +347,7 @@ public abstract class AbstractMob implements Mob {
 		damage.getMultiPartDamage().timesMult(1 - mobData.damageRes);
 		damage.getArrowRes().setBase(mobData.arrowRes);
 		
-		damage.addPostDamageHandler(d -> {
+		damage.addPostDamageHandler(() -> {
 			playSound("hurt");
 			if (hasDisguise())
 				monster.playSound("entity.generic.hurt", 1f, 1f, true);
@@ -412,7 +420,7 @@ public abstract class AbstractMob implements Mob {
 		
 		boolean inShrine = GameMap.getCurrentMap().getCurrentShrineProtection().containsPlayer(monster);
 		if (inShrine) { // Is stopped
-			monster.getPlayer().spawnParticle(Particle.VILLAGER_ANGRY, monster.getEyeLocation().subtract(0, 0.5, 0), 5, 0.5, 0.5, 0.5);
+			monster.getPlayer().spawnParticle(Particle.VILLAGER_ANGRY, monster.getEyeLocation().subtract(0, 0.5, 0), 15, 1.5, 1, 1.5);
 			
 			if (shrineProtCounter > 0)
 				shrineProtCounter--;

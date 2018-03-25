@@ -16,11 +16,8 @@ public enum Phase {
 		return this == GAME || this == END;
 	}
 	
-	public boolean isBefore(Phase phase) {
-		return this.ordinal() < phase.ordinal();
-	}
-	
-	public boolean isAfter(Phase phase) {
-		return this.ordinal() > phase.ordinal();
-	}
+	public boolean isBefore(Phase phase)     { return this.ordinal() <  phase.ordinal(); }
+	public boolean isOrIsBefore(Phase phase) { return this.ordinal() <= phase.ordinal(); }
+	public boolean isAfter(Phase phase)      { return this.ordinal() >  phase.ordinal(); }
+	public boolean isOrIsAfter(Phase phase)  { return this.ordinal() >= phase.ordinal(); }
 }

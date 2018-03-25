@@ -2,6 +2,7 @@ package deimophobe.nightfall.command;
 
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.entity.GamePlayer;
+import deimophobe.nightfall.monster.spawnmenu.SpawnEggMenuItem;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -33,9 +34,45 @@ class MessageUtil {
 		addPrimitiveResolver(Long.class, arg -> arg >= 0);
 		addPrimitiveResolver(Double.class, arg -> arg >= 0);
 		addPrimitiveResolver(Float.class, arg -> arg >= 0);
+		addResolver(boolean.class, arg -> {
+			TextComponent text;
+			if (arg) {
+				text = new TextComponent("enabled");
+				text.setColor(ChatColor.GREEN);
+			} else {
+				text = new TextComponent("disabled");
+				text.setColor(ChatColor.RED);
+			}
+			return text;
+		});
+		addResolver(Boolean.class, arg -> {
+			TextComponent text;
+			if (arg) {
+				text = new TextComponent("enabled");
+				text.setColor(ChatColor.GREEN);
+			} else {
+				text = new TextComponent("disabled");
+				text.setColor(ChatColor.RED);
+			}
+			return text;
+		});
 		addResolver(Enum.class, arg -> {
 			TextComponent text = new TextComponent(arg.name().toLowerCase().replace('_', '-'));
 			text.setColor(ChatColor.GREEN);
+			return text;
+		});
+		addResolver(Enum[].class, arg -> {
+			TextComponent text = new TextComponent();
+			int i = 0;
+			for (Enum type : arg) {
+				i++;
+				TextComponent name = new TextComponent(type.name().toLowerCase().replace('_', '-'));
+				name.setColor(ChatColor.GREEN);
+				text.addExtra(name);
+				
+				if (i < arg.length)
+					text.addExtra(", ");
+			}
 			return text;
 		});
 		addResolver(GamePlayer.class, arg -> {
@@ -71,9 +108,13 @@ class MessageUtil {
 			
 			return text;
 		});
+		addResolver(SpawnEggMenuItem.class, arg -> {
+			TextComponent text = new TextComponent(arg.getName());
+			text.setColor(ChatColor.GREEN);
+			return text;
+		});
 	}
 	
-	// Guarantees same value and key have same type parameter
 	private static <T> void addPrimitiveResolver(Class<T> clazz, Function<T, Boolean> isPositive) {
 		addResolver(clazz, arg -> {
 			TextComponent text = new TextComponent("" + arg);
@@ -86,6 +127,7 @@ class MessageUtil {
 		});
 	}
 	
+	// Guarantees same value and key have same type parameter
 	private static <T> void addResolver(Class<T> clazz, MessageResolver<T> resolver) {
 		resolvers.put(clazz, resolver);
 	}
@@ -94,10 +136,17 @@ class MessageUtil {
 		return (MessageResolver<T>) resolvers.get(clazz);
 	}
 	
+	static void sendErrorMessage(CommandSender sender, Object... objects) {
+		sendMessage(sender, ChatColor.RED, objects);
+	}
 	
 	static void sendMessage(CommandSender sender, Object... objects) {
+		sendMessage(sender, ChatColor.YELLOW, objects);
+	}
+	
+	static void sendMessage(CommandSender sender, ChatColor colour, Object... objects) {
 		BaseComponent message = new TextComponent();
-		message.setColor(net.md_5.bungee.api.ChatColor.YELLOW);
+		message.setColor(colour);
 		
 		for (Object object : objects) {
 			BaseComponent nextComponent = null;

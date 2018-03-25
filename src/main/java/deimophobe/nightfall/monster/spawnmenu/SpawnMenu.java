@@ -78,9 +78,10 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		for (SpawnMenu.PageType pageType : SpawnMenu.PageType.values()) {
 			String file = pageType.filename;
 			MobType type = pageType.type;
+			SpawnEggMenuItem egg = MonsterManager.getManager().getEgg(pageType.egg);
 			if (file != null) {
 				UpgradeMenu upgradeMenu = new UpgradeMenu(NightfallPlugin.getInternalFileConfig(file), type);
-				upgradeMenu.setItem(0, SpawnEggMenuItem.getEgg(type));
+				upgradeMenu.setItem(0, egg);
 				if (type == MobType.ZOMBIE) {
 					upgradeMenu.setItem(9, rebirthItem);
 				}
@@ -97,25 +98,8 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		return CustomItem.getItem(itemConfig.getConfigurationSection(name), "monster-menu").createItemStack();
 	}
 	
-	public void addSpawnEgg(int index, String name) {
-		frontMenu.setItem(index, SpawnEggMenuItem.getEgg(name));
-	}
-	
-	public void updateEggs() {
-		for (MenuItem item : frontMenu.getMenuItems()) {
-			if (item instanceof SpawnEggMenuItem)
-				((SpawnEggMenuItem)item).tryRestock();
-		}
-	}
-	
-	public void doomRestockAllEggs() {
-		// A shitty hack so that not all eggs proc but some do
-		for (MenuItem item : frontMenu.getMenuItems()) {
-			if (item instanceof SpawnEggMenuItem) {
-				for (int i=0; i<10; i++)
-					((SpawnEggMenuItem) item).tryRestock();
-			}
-		}
+	public void addSpawnEgg(int index, String egg) {
+		frontMenu.setItem(index, MonsterManager.getManager().getEgg(egg));
 	}
 
 	public Set<String> getUpgradeSet(MobType type) {
@@ -128,22 +112,25 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 
 	enum PageType {
 		MAIN,
-		ZOMBIE_UPGRADE("zombie-upgrades.yml", MobType.ZOMBIE),
-        SKELETON_UPGRADE("skeleton-upgrades.yml", MobType.SKELETON),
-		GOBO_UPGRADE("gobo-upgrades.yml", MobType.GOBO),
+		ZOMBIE_UPGRADE("zombie-upgrades.yml", MobType.ZOMBIE, "zombie"),
+        SKELETON_UPGRADE("skeleton-upgrades.yml", MobType.SKELETON, "skeleton"),
+		GOBO_UPGRADE("gobo-upgrades.yml", MobType.GOBO, "gobo"),
 		RESETXP;
 
 		private final String filename;
 		private final MobType type;
+		private final String egg;
 
 		PageType() {
 			filename = null;
 			type = null;
+			egg = null;
 		}
 
-		PageType(String filename, MobType type) {
+		PageType(String filename, MobType type, String egg) {
 			this.filename = filename;
 			this.type = type;
+			this.egg = egg;
 		}
 	}
 }
