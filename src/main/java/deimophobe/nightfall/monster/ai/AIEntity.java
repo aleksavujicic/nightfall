@@ -40,7 +40,7 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 				riding.remove();
 			}
 			
-			entity.setVelocity(new Vector(0, 0.6, 0));
+			entity.setVelocity(new Vector(0, 0.7, 0));
 			
 			EntityEquipment equipment = entity.getEquipment();
 			equipment.setHelmet(null);
