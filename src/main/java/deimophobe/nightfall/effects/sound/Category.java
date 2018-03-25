@@ -7,7 +7,7 @@ import org.bukkit.SoundCategory;
  */
 enum Category {
 	ITEMS(SoundCategory.MASTER),
-	MUSIC(SoundCategory.MASTER),
+	MUSIC(SoundCategory.RECORDS),
 	SOUND_EFFECT(SoundCategory.MASTER),
 	
 	;
