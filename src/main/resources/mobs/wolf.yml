@@ -4,12 +4,11 @@ base:
   disguisetype: wolf
 
   attack: 15
-  health: 20
+  health: 40
   speed: 10
 
   shred: 35
   resistance: 0.7
-  proccable: false
 
   armour:
     material: leather
