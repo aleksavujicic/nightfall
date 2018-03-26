@@ -5,9 +5,7 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
-import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -51,7 +49,10 @@ class Walker extends AbstractMob {
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
 		if (damage.getType() == GameDamageType.MELEE) {
-			damage.addPostDamageHandler(() -> swap(damage.getReceiver()));
+			Vector kb = damage.getKnockback();
+			kb.setX(-kb.getX());
+			kb.setZ(-kb.getZ());
+			damage.setKnockback(kb);
 		}
 	}
 	
@@ -74,16 +75,5 @@ class Walker extends AbstractMob {
 		facing.multiply(-2);
 		facing.setY(0.4);
 		monster.setVelocity(facing);
-	}
-	
-	private void swap(Dwarf dwarf) {
-		Location dwarfLoc = dwarf.getLocation();
-		Vector dwarfVel = dwarf.getVelocity();
-		
-		dwarf.teleportTo(monster.getLocation());
-		dwarf.setVelocity(monster.getVelocity());
-		
-		monster.teleportTo(dwarfLoc);
-		monster.setVelocity(dwarfVel);
 	}
 }

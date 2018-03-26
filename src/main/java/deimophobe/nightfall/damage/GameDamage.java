@@ -241,6 +241,9 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		knockback.multiply(mult);
 		knockback.checkFinite();
 	}
+	public Vector getKnockback() {
+		return knockback;
+	}
 	private void initialiseKnockbackIfNull() {
 		if (knockback == null) knockback = new Vector(0,0,0);
 	}
