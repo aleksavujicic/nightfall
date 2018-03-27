@@ -68,6 +68,14 @@ public class DoomCommand extends BaseCommand {
 		MessageUtil.sendMessage(sender, "Set max internal doom time to ", amount, ".");
 	}
 	
+	@Subcommand("set-variance")
+	@Conditions("monster-release")
+	@Description("Sets the max internal timer on doom.")
+	public void setVariance(CommandSender sender, int amount) {
+		DoomManager.getManager().setDoomTimeVariance(amount);
+		MessageUtil.sendMessage(sender, "Set doom time variance to ", amount, ".");
+	}
+	
 	@Subcommand("toggle")
 	@Description("Toggle dooms occuring.")
 	public void toggle(CommandSender sender) {

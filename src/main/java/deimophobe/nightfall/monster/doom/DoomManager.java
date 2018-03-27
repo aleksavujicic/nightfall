@@ -29,6 +29,7 @@ public class DoomManager {
 	
 	private int maxDoomTime = 1000;
 	private int maxInternalDoomTime = 30;
+	private int doomTimeVariance = 200;
 	
 	private List<DoomType> occuredDooms = new ArrayList<>();
 	private DoomType prevDoom = DoomType.KRUNGOR; // Prevents krungor from being first doom
@@ -61,12 +62,16 @@ public class DoomManager {
 		this.maxInternalDoomTime = maxInternalDoomTime;
 	}
 	
+	public void setDoomTimeVariance(int variance) {
+		this.doomTimeVariance = variance;
+	}
+	
 	public void forceNextDoom(DoomType type) {
 		forcedDoom = type;
 	}
 	
 	private void resetDoomTimers() {
-		doomTimer = maxDoomTime;
+		doomTimer = maxDoomTime + Misc.randomInt(-doomTimeVariance, doomTimeVariance);
 		internalDoomTimer = maxInternalDoomTime;
 		Game.getGame().setDoomSidebar(doomTimer);
 		
