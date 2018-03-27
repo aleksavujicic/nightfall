@@ -17,7 +17,7 @@ public class ZombieMob extends AbstractMob {
 	protected double rebirthChance;
 	protected Map<String, Integer> upgrades;
 	protected ZombieMob(MonsterPlayer mons) {
-		this(mons, null);
+		this(mons, MobData.getMobData("zombie"));
 	}
 
 	protected ZombieMob(MonsterPlayer mons, MobData zombieData) {
