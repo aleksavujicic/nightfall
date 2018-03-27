@@ -1,11 +1,14 @@
 package deimophobe.nightfall.monster.ai;
 
 import deimophobe.nightfall.ItemManager;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.entity.GameEntity;
 import org.bukkit.Location;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.inventory.ItemStack;
@@ -30,7 +33,10 @@ public class AIFireSkeleton extends AIEntity<Skeleton> {
 	}
 	
 	private static final Consumer<Skeleton> INITIALISER = (skeleton) -> {
-		skeleton.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, GameEntity.MAX_POTION_LENGTH, 2), true);
+    	double speed = Misc.randomDouble(0.2, 0.6);
+		AttributeModifier speedModifier = new AttributeModifier("speed", speed, AttributeModifier.Operation.MULTIPLY_SCALAR_1);
+    	skeleton.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).addModifier(speedModifier);
+    	
 		skeleton.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, GameEntity.MAX_POTION_LENGTH, 0), true);
 		skeleton.setFireTicks(300000);
 		
