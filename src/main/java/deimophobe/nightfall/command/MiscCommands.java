@@ -5,6 +5,7 @@ import co.aikar.commands.annotation.*;
 import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.Game;
 import deimophobe.nightfall.damage.GameDamageType;
+import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.kit.hero.Horn;
 import deimophobe.nightfall.entity.GamePlayer;
@@ -80,6 +81,14 @@ public class MiscCommands extends BaseCommand {
 	public void damage(CommandSender sender, GamePlayer target, double damage) {
 		target.doDamage(null, GameDamageType.COMMAND, damage, true);
 		MessageUtil.sendMessage(sender,"Damaged ", target, " for ", damage, " damage.");
+	}
+	
+	@CommandAlias("poison")
+	@CommandCompletion("@gameplayers @poisons")
+	@Description("Give poison to a game player.")
+	public void poison(CommandSender sender, GamePlayer target, PoisonType poison, int duration) {
+		target.givePoison(poison, duration);
+		MessageUtil.sendMessage(sender,"Gave ", target, " poison ", poison, " for ", duration, " ticks.");
 	}
 	
 	@CommandAlias("reset")

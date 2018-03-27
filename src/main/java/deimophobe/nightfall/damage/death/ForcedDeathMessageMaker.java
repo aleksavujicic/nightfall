@@ -1,4 +1,4 @@
-package deimophobe.nightfall.damage;
+package deimophobe.nightfall.damage.death;
 
 import deimophobe.nightfall.common.Misc;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -10,7 +10,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 public class ForcedDeathMessageMaker implements DeathMessageMaker {
 	private final TextComponent message;
 	
-	ForcedDeathMessageMaker(String message) {
+	public ForcedDeathMessageMaker(String message) {
 		this(Misc.textComponentFromString(message));
 	}
 	

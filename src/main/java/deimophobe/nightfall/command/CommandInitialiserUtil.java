@@ -12,6 +12,7 @@ import deimophobe.nightfall.command.iterable.*;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
+import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfData;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -92,6 +93,7 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("plague-status", getCompletionHandlerForEnum(Dwarf.PlagueStatus.values()));
 		completions.registerCompletion("dooms", getCompletionHandlerForEnum(DoomType.values()));
 		completions.registerCompletion("ais", getCompletionHandlerForEnum(AIType.values()));
+		completions.registerCompletion("poisons", getCompletionHandlerForEnum(MobType.getSpawnableMobs()));
 		
 		completions.registerCompletion("spawneggs", c -> MonsterManager.getManager().getEggNames());
 		completions.registerCompletion("items", c -> ItemManager.getManager().getNames());
@@ -200,6 +202,7 @@ public class CommandInitialiserUtil {
 		contexts.registerContext(MobType.class, getContextResolverOfEnum(MobType.getSpawnableMobs(), "mob", true));
 		contexts.registerContext(PlagueType.class, getContextResolverOfEnum(PlagueType.values(), "plague", true));
 		contexts.registerContext(AIType.class, getContextResolverOfEnum(AIType.values(), "ai", true));
+		contexts.registerContext(PoisonType.class, getContextResolverOfEnum(PoisonType.values(), "poison", true));
 		contexts.registerContext(DoomType.class, getContextResolverOfEnum(DoomType.values(), "doom", true));
 		
 		contexts.registerContext(CustomItem.class, context -> {

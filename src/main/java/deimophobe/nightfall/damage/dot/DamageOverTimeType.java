@@ -1,4 +1,4 @@
-package deimophobe.nightfall.damage;
+package deimophobe.nightfall.damage.dot;
 
 /**
  * Created by Deimophobe on 28/02/18.

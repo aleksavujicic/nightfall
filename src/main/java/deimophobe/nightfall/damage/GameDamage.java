@@ -2,6 +2,8 @@ package deimophobe.nightfall.damage;
 
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.damage.death.DeathMessageMaker;
+import deimophobe.nightfall.damage.death.LastMainDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.entity.GamePlayer;

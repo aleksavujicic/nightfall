@@ -1,5 +1,11 @@
 package deimophobe.nightfall.damage;
 
+import deimophobe.nightfall.damage.death.DeathMessageMaker;
+import deimophobe.nightfall.damage.death.ForcedDeathMessageMaker;
+import deimophobe.nightfall.damage.death.KeywordDeathMessageMaker;
+import deimophobe.nightfall.damage.dot.DamageOverTimeType;
+import deimophobe.nightfall.damage.dot.PoisonTranslator;
+import deimophobe.nightfall.damage.dot.PoisonType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -7,7 +13,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * Created by Deimophobe on 13/02/18.
@@ -30,8 +35,8 @@ public enum GameDamageType {
 	
 	VOID(new ForcedDeathMessageMaker("was swallowed by the abyss"), GameDamage::instaKill),
 	
-	POISON(new KeywordDeathMessageMaker("poisoned"), new PoisonModifier(DamageOverTimeType.POISON, PotionEffectType.POISON, level -> (double) level*2, level -> 8L)),
-	WITHER(new KeywordDeathMessageMaker("withered"), new PoisonModifier(DamageOverTimeType.WITHER, PotionEffectType.WITHER, level -> (double) level*2, level -> 8L)),
+	POISON(new KeywordDeathMessageMaker("poisoned"), new PoisonModifier(DamageOverTimeType.POISON, PotionEffectType.POISON)),
+	WITHER(new KeywordDeathMessageMaker("withered"), new PoisonModifier(DamageOverTimeType.WITHER, PotionEffectType.WITHER)),
 	
 	
 	// Mob damage
@@ -221,28 +226,30 @@ public enum GameDamageType {
 	
 	
 	private static final class PoisonModifier extends AbstractDOTModifier {
-		private final PotionEffectType potionEffectType;
-		private final Function<Integer, Double> levelMapper;
-		private final Function<Integer, Long> delayMapper;
+		private final PotionEffectType effectType;
+		private final PoisonTranslator translator;
 		
-		private PoisonModifier(DamageOverTimeType dotType, PotionEffectType potionEffectType, Function<Integer, Double> levelMapper, Function<Integer, Long> delayMapper) {
+		private PoisonModifier(DamageOverTimeType dotType, PotionEffectType effectType) {
 			super(dotType);
-			this.potionEffectType = potionEffectType;
-			this.levelMapper = levelMapper;
-			this.delayMapper = delayMapper;
+			this.effectType = effectType;
+			this.translator = PoisonTranslator.getTranslator(effectType);
 		}
 		
 		@Override
 		public long getRequiredDelay(GameDamage<?, ?> damage) {
-			int level = damage.getReceiver().getPotionEffectLevel(potionEffectType);
-			return delayMapper.apply(level);
+			int level = damage.getReceiver().getPotionEffectLevel(effectType);
+			return translator.getPoisonFromLevel(level).getFrequency();
 		}
 		
 		@Override
 		public void accept(GameDamage<?, ?> damage) {
 			super.accept(damage);
-			int level = damage.getReceiver().getPotionEffectLevel(potionEffectType);
-			damage.getMultiPartDamage().setBase(levelMapper.apply(level));
+			int level = damage.getReceiver().getPotionEffectLevel(effectType);
+			PoisonType poison = translator.getPoisonFromLevel(level);
+			
+			damage.getMultiPartDamage().setBase(poison.getDamage());
+			if (damage instanceof DwarfDamage)
+				((DwarfDamage) damage).setArmourShred(poison.getArmourShred());
 		}
 	}
 }

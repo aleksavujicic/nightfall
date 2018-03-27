@@ -1,7 +1,8 @@
-package deimophobe.nightfall.damage;
+package deimophobe.nightfall.damage.death;
 
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.entity.GameEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.util.NMSUtil;
@@ -20,7 +21,7 @@ public class LastMainDamage {
 	private final ItemStack item;
 	private final long time;
 	
-	LastMainDamage(GameEntity<?> attacker, GameDamageType type, ItemStack item, long time) {
+	public LastMainDamage(GameEntity<?> attacker, GameDamageType type, ItemStack item, long time) {
 		if (attacker == null) {
 			this.hasAttacker = false;
 			this.attackerName = null;

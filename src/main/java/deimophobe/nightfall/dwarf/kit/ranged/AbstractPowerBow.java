@@ -2,8 +2,8 @@ package deimophobe.nightfall.dwarf.kit.ranged;
 
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.damage.DeathMessageMaker;
-import deimophobe.nightfall.damage.KeywordDeathMessageMaker;
+import deimophobe.nightfall.damage.death.DeathMessageMaker;
+import deimophobe.nightfall.damage.death.KeywordDeathMessageMaker;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;

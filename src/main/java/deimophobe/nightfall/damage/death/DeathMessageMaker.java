@@ -1,4 +1,4 @@
-package deimophobe.nightfall.damage;
+package deimophobe.nightfall.damage.death;
 
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
