@@ -14,3 +14,11 @@ shrineweight: 0
 armour:
   name: Temp
   base: temporary
+
+items:
+  jump:
+    name: TempJump
+    base: temporary
+  detonate:
+    name: Temp
+    base: temporary
