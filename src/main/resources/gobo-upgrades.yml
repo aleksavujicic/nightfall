@@ -43,7 +43,7 @@ health:
 
 health-inf:
   index: 6
-  cost: 1500
+  cost: 2000
   permanent: true
   prereq:
     health: 5
