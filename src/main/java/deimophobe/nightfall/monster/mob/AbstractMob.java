@@ -457,9 +457,8 @@ public abstract class AbstractMob implements Mob {
 	
 	@Override
 	public void onDeath(boolean silent) {
-		playSound("death");
-		
 		if (!silent) {
+			playSound("death");
 			displayDeathAnimation();
 			
 			if (mobData.forceTitle)
