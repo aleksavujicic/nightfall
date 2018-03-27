@@ -42,7 +42,7 @@ health:
 
 health-inf:
   index: 6
-  cost: 1500
+  cost: 2000
   permanent: true
   prereq:
     health: 5
@@ -57,46 +57,6 @@ health-inf:
     lore:
       description:
         - "Further increases health."
-
-husk:
-  index: 15
-  cost: 2000
-  prereq:
-    attack: 5
-    health: 5
-  exclusiveWith:
-    fury: 1
-    saboteur: 1
-  item:
-    material: leather_chestplate
-    name: "Husk"
-    shiny: true
-    lore:
-      description:
-        - "Become a Husk.\n
-           A slow zombie variant,\n
-           can become resistant to arrows and procs\n
-           and rapidly regenerate."
-
-
-fury:
-  index: 13
-  cost: 2000
-  prereq:
-    attack: 5
-    health: 5
-  exclusiveWith:
-    husk: 1
-    saboteur: 1
-  item:
-    material: eye_of_ender
-    name: "Fury Zombie"
-    shiny: true
-    lore:
-      description:
-        - "Become a Fury Zombie.\n
-           An offensively oriented zombie variant\n
-           that can quickly damage and break armor."
 
 
 saboteur:
@@ -119,227 +79,44 @@ saboteur:
            can destroy walls and poison dwarves."
 
 
-##########################
-# HUSK SUBCLASS UPGRADES #
-##########################
-
-shred-husk:
-  index: 10
-  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
-  value: [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
-  prereq:
-    husk: 1
-  item:
-    material: gold_pickaxe
-    name: "Armour Shred"
-    lore:
-      description:
-        - "Increases armour shred by 2."
-
-
-groundsmash:
-  index: 11
-  cost: [100, 200, 300, 400, 500]
-  prereq:
-    husk: 1
-  item:
-      material: anvil
-      name: "Ground Smash"
-      lore:
-        description:
-          - "Leap away and into the ground,\n
-             pushing dwarves away."
-
-
-regen:
-  index: 12
-  cost: [500, 1000, 1500]
-  value: [1, 2, 3]
-  prereq:
-    husk: 1
-  item:
-      base: potion-regeneration
-      name: "Regeneration"
-      lore:
-        description:
-          - "Grants regeneration $value."
-
-
-arrow-husk:
-  index: 14
-  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
-  value: [30, 35, 40, 45, 50, 55, 60, 65, 70, 75]
-  prereq:
-    husk: 1
-  item:
-    material: arrow
-    name: "Arrow Resistance"
-    lore:
-      description:
-        - "Increases arrow resistance to $value%"
-
-
-rebirth-husk:
-  index: 15
-  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
-  value: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-  prereq:
-    husk: 1
-  item:
-    material: eye_of_ender
-    name: "Rebirth"
-    lore:
-      description:
-        - "Increases respawn chance to $value%.\n
-           This decreases by 30% each successive rebirth\n
-           until respawn."
-
-
-procresist:
-  index: 16
-  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
-  value: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-  prereq:
-    husk: 1
-  item:
-    material: barrier
-    name: "Proc Resistance"
-    lore:
-      description:
-        - "Increases proc resistance chance to $value%."
-
-
-stagger:
-  index: 22
-  cost: 5000
+fury:
+  index: 13
+  cost: 2000
   prereq:
     attack: 5
     health: 5
+  exclusiveWith:
     husk: 1
-    shred-husk: 10
-    groundsmash: 5
-    regen: 3
-    arrow-husk: 10
-    rebirth-husk: 10
-    procresist: 10
+    saboteur: 1
   item:
-    material: stone_sword
-    name: "Staggering Bulk"
+    material: eye_of_ender
+    name: "Fury Zombie"
     shiny: true
     lore:
       description:
-        - "Hits will now inflict slowness 2.\n
-           In addition, you will resist knockback."
+        - "Become a Fury Zombie.\n
+           An offensively oriented zombie variant\n
+           that can quickly damage and break armor."
 
 
-##########################
-# FURY SUBCLASS UPGRADES #
-##########################
-
-shred-fury:
-  index: 10
-  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
-  value: [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
-  prereq:
-    fury: 1
-  item:
-    material: gold_pickaxe
-    name: "Armour Shred"
-    lore:
-      description:
-        - "Increases armour shred by 2."
-
-pursuit:
-  index: 11
-  cost: [500, 1000, 1500]
-  prereq:
-    fury: 1
-  item:
-    material: coal
-    name: "Pursuit"
-    lore:
-      description:
-        - "Gives speed when attacking dwarves.\n
-           Higher levels give more speed.\n
-           Also slightly increases base speed."
-
-
-leap-fury:
-  index: 12
-  cost: [100, 200, 300, 400, 500]
-  prereq:
-    fury: 1
-  item:
-    material: sugar
-    name: "Leap"
-    lore:
-      description:
-        - "Enables and improves leap."
-
-
-arrow-fury:
-  index: 14
-  cost: [100, 200, 300, 400, 500]
-  value: [10, 20, 30, 40, 50]
-  prereq:
-    fury: 1
-  item:
-    material: arrow
-    name: "Arrow Resistance"
-    lore:
-      description:
-        - "Increases arrow resistance to $value%"
-
-
-rebirth-fury:
+husk:
   index: 15
-  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
-  value: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-  prereq:
-    fury: 1
-  item:
-    material: eye_of_ender
-    name: "Rebirth"
-    lore:
-      description:
-        - "Increases respawn chance to $value%.\n
-           This decreases by 30% each successive rebirth\n
-           until respawn."
-
-
-vampirism-fury:
-  index: 16
-  cost: [500, 1000, 1500]
-  prereq:
-    fury: 1
-  item:
-    material: redstone
-    name: "Vampirism"
-    lore:
-      description:
-        - "Gives 0.75 hearts life steal per level."
-
-
-furynight:
-  index: 22
-  cost: 5000
+  cost: 2000
   prereq:
     attack: 5
     health: 5
+  exclusiveWith:
     fury: 1
-    shred-fury: 10
-    pursuit: 3
-    leap-fury: 5
-    arrow-fury: 5
-    rebirth-fury: 10
-    vampirism-fury: 3
+    saboteur: 1
   item:
-    material: exp_bottle
-    name: Fury of the Night
+    material: leather_chestplate
+    name: "Husk"
     shiny: true
     lore:
       description:
-        - "Drains 10 mana per hit."
+        - "Become a Husk.\n
+           A slow zombie variant that can become\n
+           resistant to arrows and procs."
 
 
 ##############################
@@ -454,3 +231,224 @@ assassination:
            the next hit will do 60 more damage."
 
 
+##########################
+# FURY SUBCLASS UPGRADES #
+##########################
+
+shred-fury:
+  index: 10
+  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+  value: [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+  prereq:
+    fury: 1
+  item:
+    material: gold_pickaxe
+    name: "Armour Shred"
+    lore:
+      description:
+        - "Increases armour shred by 2."
+
+pursuit:
+  index: 11
+  cost: [500, 1000, 1500]
+  prereq:
+    fury: 1
+  item:
+    material: coal
+    name: "Pursuit"
+    lore:
+      description:
+        - "Gives speed when attacking dwarves.\n
+           Higher levels give more speed.\n
+           Also slightly increases base speed."
+
+
+leap-fury:
+  index: 12
+  cost: [100, 200, 300, 400, 500]
+  prereq:
+    fury: 1
+  item:
+    material: sugar
+    name: "Leap"
+    lore:
+      description:
+        - "Enables and improves leap."
+
+
+arrow-fury:
+  index: 14
+  cost: [100, 200, 300, 400, 500]
+  value: [10, 20, 30, 40, 50]
+  prereq:
+    fury: 1
+  item:
+    material: arrow
+    name: "Arrow Resistance"
+    lore:
+      description:
+        - "Increases arrow resistance to $value%"
+
+
+rebirth-fury:
+  index: 15
+  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+  value: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+  prereq:
+    fury: 1
+  item:
+    material: eye_of_ender
+    name: "Rebirth"
+    lore:
+      description:
+        - "Increases respawn chance to $value%.\n
+           This decreases by 30% each successive rebirth\n
+           until respawn."
+
+
+vampirism-fury:
+  index: 16
+  cost: [500, 1000, 1500]
+  prereq:
+    fury: 1
+  item:
+    material: redstone
+    name: "Vampirism"
+    lore:
+      description:
+        - "Gives 0.75 hearts life steal per level."
+
+
+furynight:
+  index: 22
+  cost: 5000
+  prereq:
+    attack: 5
+    health: 5
+    fury: 1
+    shred-fury: 10
+    pursuit: 3
+    leap-fury: 5
+    arrow-fury: 5
+    rebirth-fury: 10
+    vampirism-fury: 3
+  item:
+    material: exp_bottle
+    name: Fury of the Night
+    shiny: true
+    lore:
+      description:
+        - "Drains 10 mana per hit."
+
+
+##########################
+# HUSK SUBCLASS UPGRADES #
+##########################
+
+shred-husk:
+  index: 10
+  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+  value: [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+  prereq:
+    husk: 1
+  item:
+    material: gold_pickaxe
+    name: "Armour Shred"
+    lore:
+      description:
+        - "Increases armour shred by 2."
+
+
+groundsmash:
+  index: 11
+  cost: [100, 200, 300, 400, 500]
+  prereq:
+    husk: 1
+  item:
+      material: anvil
+      name: "Ground Smash"
+      lore:
+        description:
+          - "Leap away and into the ground,\n
+             pushing dwarves away."
+
+
+regen:
+  index: 12
+  cost: [500, 1000, 1500]
+  value: [1, 2, 3]
+  prereq:
+    husk: 1
+  item:
+      base: potion-regeneration
+      name: "Regeneration"
+      lore:
+        description:
+          - "Grants regeneration $value."
+
+
+arrow-husk:
+  index: 14
+  cost: [100, 200, 300, 400, 500]
+  value: [35, 45, 55, 65, 75]
+  prereq:
+    husk: 1
+  item:
+    material: arrow
+    name: "Arrow Resistance"
+    lore:
+      description:
+        - "Increases arrow resistance to $value%"
+
+
+rebirth-husk:
+  index: 15
+  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+  value: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+  prereq:
+    husk: 1
+  item:
+    material: eye_of_ender
+    name: "Rebirth"
+    lore:
+      description:
+        - "Increases respawn chance to $value%.\n
+           This decreases by 30% each successive rebirth\n
+           until respawn."
+
+
+procresist:
+  index: 16
+  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+  value: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+  prereq:
+    husk: 1
+  item:
+    material: barrier
+    name: "Tough Skin"
+    lore:
+      description:
+        - "Increases proc resistance chance and\n
+           knockback resistance to $value%."
+
+
+stagger:
+  index: 22
+  cost: 5000
+  prereq:
+    attack: 5
+    health: 5
+    husk: 1
+    shred-husk: 10
+    groundsmash: 5
+    regen: 3
+    arrow-husk: 10
+    rebirth-husk: 10
+    procresist: 10
+  item:
+    material: stone_sword
+    name: "Staggering Bulk"
+    shiny: true
+    lore:
+      description:
+        - "Hits will now inflict slowness 2."

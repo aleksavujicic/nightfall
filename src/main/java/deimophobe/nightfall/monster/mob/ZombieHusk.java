@@ -39,10 +39,9 @@ public class ZombieHusk extends ZombieMob {
 	private boolean smashing;
 	
 	private final boolean stagger;
-	private final ComplexCooldown staggerSound;
 	
 	private static Integer[] shredValues = {0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20};
-	private static Integer[] arrowResValues = {0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50}; // added by 25 later
+	private static Integer[] arrowResValues = {0, 10, 20, 30, 40, 50}; // added by 25 later
 	private static Integer[] rebirthValues = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
 	
 	protected ZombieHusk(MonsterPlayer mons) {
@@ -76,27 +75,13 @@ public class ZombieHusk extends ZombieMob {
 		
 		this.stagger = upgrades.get("stagger") >= 1;
 		
-		if (stagger) {
-			staggerSound = new ComplexCooldown(40, () ->
-					monster.playSound("entity.zombie_villager.converted", 1f, 1f, true)
-					, ComplexCooldown.DO_NOTHING);
-		}
-		else {
-			staggerSound = new ComplexCooldown(40);
-		}
-		
-		
 		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, 25, "Husk Zombie");
 		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
 		getArmour().addModifier(ItemModifierType.SPEED, -25, "Husk Zombie");
-		getArmour().addModifier(ItemModifierType.HEALTH, 5, "Husk Zombie");
-		int huskExtraHealth = (upgrades.get("health") + upgrades.get("health-inf"));
-		getArmour().addModifier(ItemModifierType.HEALTH, huskExtraHealth, "Upgrade");
+		getArmour().addModifier(ItemModifierType.HEALTH, 10, "Husk Zombie"); // total of 30 hearts
 		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
 		getWeapon().addModifier(ItemModifierType.ATTACK, 5, "Husk Zombie");
-		if (stagger) {
-			getArmour().addModifier(ItemModifierType.KB_RESIST, 100, "Staggering Hit");
-		}
+		getArmour().addModifier(ItemModifierType.KB_RESIST, 10*procRes, "Upgrade");
 		
 		if (procRes == 10) {
 			getArmour().addModifier(ItemModifierType.UNPROCCABLE, 1);
@@ -109,7 +94,6 @@ public class ZombieHusk extends ZombieMob {
 	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
 		super.update(a, b, c, d, e);
 		leapCD.update();
-		staggerSound.update();
 		if (smashing) {
 			smashCD.update();
 			World world = monster.getPlayer().getWorld();
@@ -134,6 +118,11 @@ public class ZombieHusk extends ZombieMob {
 					DwarfDamage aoeDamage = dwarf.createDamage(this.monster, GameDamageType.HUSK_STOMP, 6 * leapLvl);
 					aoeDamage.addKnockback(knockback);
 					aoeDamage.fire();
+					if (stagger) {
+						dwarf.givePotionEffect(PotionEffectType.SLOW, 60, 5, true, true, true);
+						dwarf.givePotionEffect(PotionEffectType.JUMP, 55, -10, true, true, true);
+						dwarf.givePotionEffect(PotionEffectType.BLINDNESS, 25, 1, true, true, true);
+					}
 				}
 				smashCD.reset();
 				smashing = false;
@@ -159,13 +148,7 @@ public class ZombieHusk extends ZombieMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		
 		damage.addArmourShred(armourShred);
-		
-		if (stagger) {
-			staggerSound.tryUse();
-			damage.getDwarf().givePotionEffect(PotionEffectType.SLOW, 40, 2, false, false, true);
-		}
 	}
 	
 	@Override
