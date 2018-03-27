@@ -78,6 +78,13 @@ public enum MobType {
 		}
 	}
 	
+	public boolean isSpawnable() {
+		return mobCreator != null;
+	}
+	
+	
+	// ----- STATIC HELPERS -----
+	
 	private static Mob spawnZombie(MonsterPlayer monster) {
 		if (monster.getUpgrades(MobType.ZOMBIE).computeIfAbsent("husk", (k) -> 0) == 1) {
 			return new ZombieHusk(monster);
@@ -117,29 +124,14 @@ public enum MobType {
 		}
 	}
 	
-	public boolean isSpawnable() {
-		return mobCreator != null;
-	}
-	
-	public static Collection<String> getAllMobTypes() {
-		Set<String> mobs = new HashSet<>();
-		for (MobType type : values()) {
-			if (type.isSpawnable()) {
-				mobs.add(type.getName());
-			}
-		}
-		return mobs;
-	}
-	
-	public static MobType getMobType(String type) throws UnknownEnumElementException {
-		return Misc.getEnumMemberFromString(type, values(), "MobType");
-	}
-	
 	// Used for ItemManager.
 	public Map<String, CustomItem> getItems() {
 		return mobData.getItems();
 	}
 	
+	public static MobType getMobType(String type) throws UnknownEnumElementException {
+		return Misc.getEnumMemberFromString(type, values(), "MobType");
+	}
 	
 	private static final List<MobType> spawnableMobs = new ArrayList<>();
 	static {
