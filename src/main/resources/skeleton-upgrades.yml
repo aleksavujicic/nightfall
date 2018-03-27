@@ -42,7 +42,7 @@ quiver:
 
 quiver-inf:
   index: 6
-  cost: 1500
+  cost: 2000
   permanent: true
   prereq:
     quiver: 5
