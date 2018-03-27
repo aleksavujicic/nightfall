@@ -89,7 +89,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			gainXP(expRate);
 		}
 		if (quartSec && isAlive() && isInShrine()) {
-			if (mob.getShrineWeight() != 0) gainXP(2);
+			if (mob.getShrineWeight() != 0) {
+				gainXP(2);
+			}
 		}
 		
 		usedThisTick = false;
@@ -97,7 +99,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		
 		if (freezeTime > 0) {
 			freezeTime--;
-			if (freezeTime == 0) cancelFreeze();
+			if (freezeTime == 0) {
+				cancelFreeze();
+			}
 		}
 	}
 	
@@ -155,8 +159,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	public boolean spawnMob(Mob mob) {
-		if (this.mob != null)
+		if (this.mob != null) {
 			kill(false);
+		}
 		
 		this.mob = mob;
 		try {
@@ -210,8 +215,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		};
 		
 		// Running a task while disabling throws an exception and causes badness
-		if (!NightfallPlugin.getPlugin().isDisabling())
+		if (!NightfallPlugin.getPlugin().isDisabling()) {
 			rebirthKiller.runTaskLater(NightfallPlugin.getPlugin(), REBIRTH_TIME);
+		}
 	}
 	
 	public void rebirth() {
@@ -352,8 +358,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			Set<String> upgradeSet = MonsterManager.getManager().getUpgradeSet(type);
 			
 			Map<String, Integer> mobUpgrades = new HashMap<>();
-			for (String upgrade : upgradeSet)
+			for (String upgrade : upgradeSet) {
 				mobUpgrades.put(upgrade, 0);
+			}
 			
 			upgrades.put(type, mobUpgrades);
 		}
@@ -386,8 +393,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	public void onShift(boolean sneaking) {
 		if (isFrozen()) return;
 		
-		if (mob != null)
+		if (mob != null) {
 			mob.onShift(sneaking);
+		}
 	}
 	
 	@Override
@@ -418,17 +426,20 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			return;
 		}
 		
-		if (isFrozen())
+		if (isFrozen()) {
 			return;
+		}
 		
-		if (mob != null)
+		if (mob != null) {
 			mob.onUse(action, clickedBlock, blockFace);
+		}
 	}
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
-		if (mob != null)
+		if (mob != null) {
 			mob.onDamageAttack(damage);
+		}
 	}
 	
 	@Override
@@ -459,15 +470,17 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {
-		if (mob != null)
+		if (mob != null) {
 			return mob.onBowFire(arrow, force);
+		}
 		return arrow;
 	}
 	
 	@Override
 	public void onProjectileLand(Projectile projectile, Block hitBlock, Entity hitEntity) {
-		if (mob != null)
+		if (mob != null) {
 			mob.onProjectileLand(projectile, hitBlock, hitEntity);
+		}
 	}
 	
 	
@@ -492,8 +505,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 
 		if (mob != null) {
 			Disguise dis = mob.getDisguise();
-			if (dis != null)
+			if (dis != null) {
 				dis.getWatcher().setGlowing(true);
+			}
 		}
 		
 		player.setAllowFlight(true);
@@ -533,8 +547,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			player.setAllowFlight(false);
 			
 			Disguise dis = mob.getDisguise();
-			if (dis != null)
+			if (dis != null) {
 				dis.getWatcher().setGlowing(false);
+			}
 		}
 			
 		teleportTo(freezeLocation, true);
@@ -543,8 +558,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	public void resetFrozen() {
-		if (isFrozen())
+		if (isFrozen()) {
 			teleportTo(freezeLocation, true);
+		}
 	}
 	
 	public boolean isFrozen() {
@@ -552,8 +568,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	private boolean isFreezable() {
-		if (mob != null && mob.getType() == MobType.TICKER)
+		if (mob != null && mob.getType() == MobType.TICKER) {
 			return false;
+		}
 		
 		return !player.hasPotionEffect(PotionEffectType.LUCK);
 	}
@@ -570,7 +587,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			*/
 		}
 		
-		if (!isFrozen())
+		if (!isFrozen()) {
 			super.setVelocity(vel);
+		}
 	}
 }

@@ -76,12 +76,14 @@ public class ZombieHusk extends ZombieMob {
 		
 		this.stagger = upgrades.get("stagger") >= 1;
 		
-		if (stagger)
+		if (stagger) {
 			staggerSound = new ComplexCooldown(40, () ->
 					monster.playSound("entity.zombie_villager.converted", 1f, 1f, true)
 					, ComplexCooldown.DO_NOTHING);
-		else
+		}
+		else {
 			staggerSound = new ComplexCooldown(40);
+		}
 		
 		
 		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, 25, "Husk Zombie");
