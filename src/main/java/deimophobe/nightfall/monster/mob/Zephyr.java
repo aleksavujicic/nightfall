@@ -128,14 +128,14 @@ class Zephyr extends AbstractMob implements FloatyMob {
 			double distance = dwarf.distanceTo(monster);
 			if (distance > AOE_RANGE) continue;
 			
-			double damageAmt = 40 - distance;
+			double damageAmt = 30 - distance;
 			Vector kb = monster.offsetFrom(dwarf);
 			kb.normalize().multiply(2 - distance/AOE_RANGE);
 			
 			DwarfDamage damage = dwarf.createDamage(monster, GameDamageType.TEMPORARY, damageAmt);
 			damage.setArmourShred(20);
 			damage.setKnockback(kb);
-			damage.fire();
+			damage.fire(true);
 		}
 	}
 }
