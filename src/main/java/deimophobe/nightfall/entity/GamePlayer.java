@@ -120,7 +120,11 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	}
 	private void loadHealth() {
 		new BukkitRunnable() {
-			@Override public void run() { player.setHealth(health); }
+			@Override public void run() {
+				health = Math.max(health, 0);
+				health = Math.min(health, getMaxHealth());
+				player.setHealth(health);
+			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), 10);
 	}
 	
