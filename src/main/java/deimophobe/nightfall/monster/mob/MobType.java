@@ -36,6 +36,7 @@ public enum MobType {
 	GB_SPAWN(Ghostblade::createSpawnGB, "ghostblade.spawn"),
 
 	TICKER(Ticker::new),
+	ZEPHYR(Zephyr::new),
 	
 	KRUNGOR(Krungor::new),
 	BOPEN(Bopen::new),

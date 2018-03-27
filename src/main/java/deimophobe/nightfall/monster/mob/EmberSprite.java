@@ -19,7 +19,9 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.SmallFireball;
 import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -28,7 +30,7 @@ import org.bukkit.util.Vector;
 /**
  * Created by TKiwisi on 10/16/17.
  */
-public class EmberSprite extends AbstractMob {
+public class EmberSprite extends AbstractMob implements FloatyMob {
 	
 	@Display @Update private ComplexCooldown launchCD = new ComplexCooldown(300, this::launch);
 	@Update private ComplexCooldown fireCD = new ComplexCooldown(10, this::shootFireball);
@@ -46,8 +48,7 @@ public class EmberSprite extends AbstractMob {
 	public void onSpawn(SpawnMethod spawnMethod) {
 		super.onSpawn(spawnMethod);
 		giveItem("blaze-ammo", MAX_AMMO);
-		monster.givePermanentPotionEffect(PotionEffectType.LEVITATION, -2);
-		monster.givePermanentPotionEffect(PotionEffectType.JUMP, 5);
+		resetFloatiness();
 	}
 
 	@Override
@@ -85,6 +86,12 @@ public class EmberSprite extends AbstractMob {
 	public void onShift(boolean sneak) {
 		super.onShift(sneak);
 		launchCD.tryUse();
+	}
+	
+	@Override
+	public void resetFloatiness() {
+		monster.givePermanentPotionEffect(PotionEffectType.LEVITATION, -2);
+		monster.givePermanentPotionEffect(PotionEffectType.JUMP, 5);
 	}
 	
 	private void giveAmmo() {

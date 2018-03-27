@@ -1,0 +1,45 @@
+title: "Zephyr"
+
+disguisetype: magma_cube
+
+attack: 30
+health: 20
+shred: 30
+speed: 10
+
+proccable: false
+canrun: false
+resistance: 0.7
+arrowres: 0.9
+
+armour:
+  base: temporary
+  name: "Temp"
+  lore:
+    description:
+     - "Temp"
+    flavour:
+     - "Temp"
+weapon:
+  base: temporary
+  name: "Temp"
+  lore:
+    description:
+     - "Temp"
+    flavour:
+     - "Temp"
+
+sounds:
+  melee:
+    path: "entity.leashknot.place"
+    pitch: 0.5
+  hurt:
+    path: "dash"
+    pitch: 1.9
+    chance: 0.5
+  death:
+    path: "entity.zombie_villager.cure"
+    pitch: 0.8
+  implode:
+    path: "entity.player.attack.sweep"
+    pitch: 0.5

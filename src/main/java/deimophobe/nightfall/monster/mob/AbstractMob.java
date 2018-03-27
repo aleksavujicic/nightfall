@@ -316,7 +316,7 @@ public abstract class AbstractMob implements Mob {
 		int xpGain = 0;
 		switch (damage.getType()) {
 			case MELEE:
-				playSound("melee");
+				damage.addPostDamageHandler(() -> playSound("melee"));
 				damage.setArmourShred(mobData.armourShred);
 				xpGain = 3;
 				break;
@@ -329,7 +329,9 @@ public abstract class AbstractMob implements Mob {
 				break;
 		}
 		int finalXpGain = xpGain;
-		damage.addPostDamageHandler(() -> monster.gainXP(finalXpGain));
+		damage.addPostDamageHandler(() -> {
+			monster.gainXP(finalXpGain);
+		});
 	}
 	
 	@Override

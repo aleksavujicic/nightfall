@@ -243,6 +243,13 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		knockback.multiply(mult);
 		knockback.checkFinite();
 	}
+	public void multiplyKnockback(double horizontal, double vertical) {
+		initialiseKnockbackIfNull();
+		knockback.setX(horizontal * knockback.getX());
+		knockback.setY(vertical * knockback.getY());
+		knockback.setZ(horizontal * knockback.getZ());
+		knockback.checkFinite();
+	}
 	public Vector getKnockback() {
 		return knockback;
 	}

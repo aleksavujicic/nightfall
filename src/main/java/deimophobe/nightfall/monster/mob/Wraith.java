@@ -22,7 +22,7 @@ import org.bukkit.util.Vector;
 /**
  * Created by Deimophobe on 9/07/17.
  */
-public class Wraith extends AbstractMob {
+public class Wraith extends AbstractMob implements FloatyMob {
 	Wraith(MonsterPlayer monster) {
 		super(monster, MobType.WRAITH);
 	}
@@ -50,6 +50,7 @@ public class Wraith extends AbstractMob {
 	public void onShift(boolean sneaking) {
 		super.onShift(sneaking);
 		if (chargerCD < MAX_CHARGE_CD - 5) {
+			chargeActive = false;
 			setFloatiness(sneaking);
 		}
 	}
@@ -101,13 +102,16 @@ public class Wraith extends AbstractMob {
 	
 	//private final ComplexCooldown charger = new ComplexCooldown(40, this::charge,  this::setFloatiness);
 	
+	@Override
+	public void resetFloatiness() {
+		setFloatiness();
+	}
+	
 	private void setFloatiness() {
 		setFloatiness(monster.getPlayer().isSneaking());
 	}
 	
 	private void setFloatiness(boolean sneaking) {
-		chargeActive = false;
-		
 		if (sneaking) {
 			monster.givePermanentPotionEffect(PotionEffectType.LEVITATION, -8);
 		} else {
