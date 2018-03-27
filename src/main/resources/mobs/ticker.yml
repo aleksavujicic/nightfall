@@ -6,6 +6,7 @@ shred: 0
 speed: 20
 
 resistance: 1
+charmtime: 0
 proccable: false
 shrine-prot-damage: 0
 shrineweight: 0

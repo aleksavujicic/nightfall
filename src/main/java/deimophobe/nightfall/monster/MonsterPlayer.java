@@ -19,6 +19,7 @@ import deimophobe.nightfall.monster.doom.DoomManager;
 import deimophobe.nightfall.monster.mob.*;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
+import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -456,11 +457,11 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	// ------ FREEZE/UNFREEZE ------
 	private Location freezeLocation;
-	private int freezeTime = -1;
+	private int freezeTime = 0;
 	
 	public void freeze(int time) {
-		freezeTime = Math.max(time, freezeTime);
-		if (freezeTime == 0) {
+		freezeTime = NumberUtils.max(time, freezeTime, 0);
+		if (freezeTime <= 0) {
 			cancelFreeze();
 			return;
 		}
@@ -537,10 +538,6 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	private boolean isFreezable() {
-		if (mob != null && mob.getType() == MobType.TICKER) {
-			return false;
-		}
-		
 		return !player.hasPotionEffect(PotionEffectType.LUCK);
 	}
 	
