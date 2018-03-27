@@ -3,13 +3,13 @@ title: "Wraith"
 disguisetype: stray
 
 attack: 20
-health: 20
+health: 30
 shred: 15
 speed: -20
 
 proccable: false
 canrun: false
-resistance: 0.85
+resistance: 0.7
 arrowres: 0.5
 
 armour:
