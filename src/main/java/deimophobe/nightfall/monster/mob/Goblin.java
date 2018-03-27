@@ -13,6 +13,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -70,8 +71,8 @@ public class Goblin extends AbstractMob {
 	}
 
 	@Override
-	public void onSpawn() {
-		super.onSpawn();
+	public void onSpawn(SpawnMethod spawnMethod) {
+		super.onSpawn(spawnMethod);
 		giveItem("gobo-box", (2+ supplies));
 	}
 

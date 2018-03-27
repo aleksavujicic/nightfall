@@ -9,7 +9,6 @@ import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -38,12 +37,8 @@ public class ZombieFury extends ZombieMob {
 	private static Integer[] arrowResValues = {0, 10, 20, 30, 40, 50};
 	private static Integer[] rebirthValues = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
 	
-	protected ZombieFury(MonsterPlayer mons) {
-		this(mons, null);
-	}
-	
-	public ZombieFury(MonsterPlayer mons, Location rebirth) {
-		super(mons, rebirth, MobData.getMobData("zombie.fury"));
+	public ZombieFury(MonsterPlayer mons) {
+		super(mons, MobData.getMobData("zombie.fury"));
 		
 		Map<String, Integer> upgrades = monster.getUpgrades(MobType.ZOMBIE);
 		

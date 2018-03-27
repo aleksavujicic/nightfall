@@ -6,6 +6,7 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -24,8 +25,8 @@ class Walker extends AbstractMob {
 	}
 	
 	@Override
-	public void onSpawn() {
-		super.onSpawn();
+	public void onSpawn(SpawnMethod spawnMethod) {
+		super.onSpawn(spawnMethod);
 		CustomItem offhand = getWeapon().clone();
 		offhand.removeAllModifiers();
 		monster.getPlayer().getInventory().setItemInOffHand(offhand.createItemStack());

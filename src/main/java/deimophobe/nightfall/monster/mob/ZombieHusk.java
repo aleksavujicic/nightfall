@@ -12,7 +12,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import org.bukkit.Location;
+import deimophobe.nightfall.monster.SpawnMethod;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -45,12 +45,8 @@ public class ZombieHusk extends ZombieMob {
 	private static Integer[] arrowResValues = {0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50}; // added by 25 later
 	private static Integer[] rebirthValues = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
 	
-	protected ZombieHusk(MonsterPlayer mons) {
-		this(mons, null);
-	}
-	
-	public ZombieHusk(MonsterPlayer mons, Location rebirth) {
-		super(mons, rebirth, MobData.getMobData("zombie.husk"));
+	public ZombieHusk(MonsterPlayer mons) {
+		super(mons, MobData.getMobData("zombie.husk"));
 		
 		Map<String, Integer> upgrades = monster.getUpgrades(MobType.ZOMBIE);
 		
@@ -140,8 +136,8 @@ public class ZombieHusk extends ZombieMob {
 	}
 	
 	@Override
-	public void onSpawn() {
-		super.onSpawn();
+	public void onSpawn(SpawnMethod spawnMethod) {
+		super.onSpawn(spawnMethod);
 		monster.givePermanentPotionEffect(PotionEffectType.REGENERATION, regen);
 	}
 	

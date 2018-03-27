@@ -10,6 +10,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -50,8 +51,8 @@ class Ghostblade extends AbstractMob {
 	}
 	
 	@Override
-	public void onSpawn() {
-		super.onSpawn();
+	public void onSpawn(SpawnMethod spawnMethod) {
+		super.onSpawn(spawnMethod);
 		monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
 	}
 	

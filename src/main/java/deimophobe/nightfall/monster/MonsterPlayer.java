@@ -39,6 +39,7 @@ import org.bukkit.util.Vector;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 /**
  * Created by Deimophobe on 17/01/17.
@@ -118,12 +119,15 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			sendTitleMessage(ChatColor.DARK_RED + "You died!");
 		}
 		
+		boolean frozenDeath = isFrozen();
+		
 		cancelFreeze();
 		
 		player.setAllowFlight(true);
 		player.setGameMode(GameMode.SPECTATOR);
 		
 		killMob(silent);
+		if (frozenDeath) removeRebirth();
 		
 		setTitle(ChatColor.GRAY, null, false);
 		clearInventory();
@@ -142,25 +146,44 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	public boolean spawnMob(MobType type) {
-		Mob mob;
+		return spawnMob(type, SpawnMethod.SPAWN);
+	}
+	
+	public boolean spawnMob(MobType type, SpawnMethod spawnMethod) {
 		try {
-			mob = type.createMob(this);
+			Mob mob = type.createMob(this);
+			return spawnMob(mob, spawnMethod);
 		} catch (Exception e) {
-			sendMessage(ChatColor.RED + "Failed to spawn mob. (Internal server error)");
+			sendMessage(ChatColor.RED + "Failed to create mob. (Internal server error)");
 			NightfallPlugin.getPlugin().getLogger().severe(e.getMessage());
 			e.printStackTrace();
 			return false;
 		}
-		return spawnMob(mob);
 	}
 	
-	public boolean spawnMob(Mob mob) {
+	public boolean spawnMob(Mob mob, SpawnMethod spawnMethod) {
 		if (this.mob != null)
 			kill(false);
 		
 		this.mob = mob;
 		try {
-			mob.onSpawn();
+			mob.onSpawn(spawnMethod);
+			
+			switch (spawnMethod) {
+				case SPAWN:
+					removeRebirth();
+					break;
+				case REBIRTH:
+					rebirthCount++;
+					break;
+			}
+			
+			player.getInventory().setItem(9, seppuku);
+			player.setGameMode(GameMode.SURVIVAL);
+			player.setAllowFlight(false);
+			Bukkit.getLogger().info("Spawning " + getName() + " as mob: " + mob.getType());
+			
+			return true;
 		} catch (Exception e) {
 			sendMessage(ChatColor.RED + "Failed to spawn mob. (Internal server error)");
 			NightfallPlugin.getPlugin().getLogger().severe(e.getMessage());
@@ -168,83 +191,38 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			this.mob = null;
 			return false;
 		}
-		
-		player.setAllowFlight(false);
-		player.getInventory().setItem(9, seppuku);
-		player.setGameMode(GameMode.SURVIVAL);
-		Bukkit.getLogger().info("Spawning " + getName() + " as mob: " + mob.getType());
-		return true;
 	}
 	
 	// ----- REBIRTH -----
 	private final static int REBIRTH_TIME = 6*20;
+	private int lastRebirthSetTime = 0;
 	private Location lastRebirth = null;
-	private BukkitRunnable rebirthKiller;
-	private int rebirthCount;
+	private int rebirthCount = 0;
 	
 	public boolean canRebirth() {
-		return lastRebirth != null;
+		return (lastRebirth != null) && (Game.getGame().getCurrentTick() < lastRebirthSetTime + REBIRTH_TIME);
 	}
 	
 	public void removeRebirth() {
 		sendDebugMsg("Removing rebirth");
 		lastRebirth = null;
-		resetRebirthCount();
-	}
-	
-	public Location getRebirthLocation() {
-		return lastRebirth;
-	}
-	
-	public void setRebirthSpot(Location location) {
-		if (location == null) {
-			removeRebirth();
-			Bukkit.getLogger().warning("Setting a null rebirth location for " + getName() + ". Use removeRebirth() instead.");
-			return;
-		}
-		lastRebirth = location;
-		
-		// Remove rebirth after amt of time - not sure about this.
-		rebirthKiller = new BukkitRunnable() {
-			@Override public void run() {removeRebirth();}
-		};
-		
-		// Running a task while disabling throws an exception and causes badness
-		if (!NightfallPlugin.getPlugin().isDisabling())
-			rebirthKiller.runTaskLater(NightfallPlugin.getPlugin(), REBIRTH_TIME);
-	}
-	
-	public void rebirth() {
-		if (!canRebirth()) {
-			Bukkit.getLogger().warning("Trying to rebirth for " + getName() + " but rebirth not active?!");
-			return;
-		}
-
-
-		Mob zombie;
-		if (this.getUpgrades(MobType.ZOMBIE).computeIfAbsent("husk", (k) -> 0) == 1) {
-			zombie = new ZombieHusk(this, lastRebirth);
-		}
-		else if (this.getUpgrades(MobType.ZOMBIE).computeIfAbsent("fury", (k) -> 0) == 1) {
-			zombie = new ZombieFury(this, lastRebirth);
-		}
-		else {
-			return;
-		}
-		spawnMob(zombie);
-		rebirthKiller.cancel();
-	}
-	
-	public void incrementRebirthCount() {
-		rebirthCount++;
-	}
-	
-	public void resetRebirthCount() {
 		rebirthCount = 0;
 	}
 	
-	public int getRebirthCount() {
-		return rebirthCount;
+	public void setRebirthSpot(Location location, Function<Integer, Double> chanceFunction) {
+		double chance = chanceFunction.apply(rebirthCount);
+		if (Math.random() < chance) {
+			sendDebugMsg("Successfully set rebirth; Chance: " + chance);
+			lastRebirth = location;
+			lastRebirthSetTime = Game.getGame().getCurrentTick();
+		} else {
+			sendDebugMsg("Failed to set rebirth; Chance: " + chance);
+			lastRebirth = null;
+		}
+	}
+	
+	Location getRebirthLocation() {
+		return lastRebirth;
 	}
 	
 	

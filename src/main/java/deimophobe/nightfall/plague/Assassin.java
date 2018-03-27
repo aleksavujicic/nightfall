@@ -14,6 +14,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.healing.StrongAle;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.mob.AbstractMob;
 import deimophobe.nightfall.monster.mob.MobType;
 import deimophobe.nightfall.util.ArmourSlot;
@@ -96,10 +97,9 @@ public class Assassin extends AbstractMob {
 
         monster.delayedHealMax();
     }
-    @Override protected void tpToSpawn() {}
 
     @Override
-    public void onSpawn() {
+    public void onSpawn(SpawnMethod spawnMethod) {
         Skin skin = new Skin(monster.getPlayer());
         PlayerSkin playerSkin = new PlayerSkin(
                 monster.getName(), skin, true,
@@ -118,7 +118,7 @@ public class Assassin extends AbstractMob {
         disguise.getWatcher().setArrowsSticking(0);
         DisguiseAPI.disguiseEntity(monster.getPlayer(), disguise);
 
-        super.onSpawn();
+        super.onSpawn(spawnMethod);
 
         monster.givePermanentPotionEffect(PotionEffectType.SPEED, 2);
         monster.givePermanentPotionEffect(PotionEffectType.INCREASE_DAMAGE, 1);

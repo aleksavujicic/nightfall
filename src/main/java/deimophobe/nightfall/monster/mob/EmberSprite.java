@@ -12,6 +12,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -42,8 +43,8 @@ public class EmberSprite extends AbstractMob {
 	}
 
 	@Override
-	public void onSpawn() {
-		super.onSpawn();
+	public void onSpawn(SpawnMethod spawnMethod) {
+		super.onSpawn(spawnMethod);
 		giveItem("blaze-ammo", MAX_AMMO);
 		monster.givePermanentPotionEffect(PotionEffectType.LEVITATION, -2);
 		monster.givePermanentPotionEffect(PotionEffectType.JUMP, 5);

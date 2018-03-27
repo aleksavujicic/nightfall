@@ -17,7 +17,7 @@ public class AbstractGameEntity<T extends LivingEntity> implements GameEntity<T>
 	protected T entity;
 	@Override public T getEntity() { return entity; }
 	
-	private final Map<DamageOverTimeType, Long> lastDamageTicks = new HashMap<>();
+	private final Map<DamageOverTimeType, Integer> lastDamageTicks = new HashMap<>();
 	
 	public AbstractGameEntity(T entity) {
 		this.entity = entity;
@@ -34,7 +34,7 @@ public class AbstractGameEntity<T extends LivingEntity> implements GameEntity<T>
 	
 	@Override
 	public boolean canDamageOverTimeTick(DamageOverTimeType type, long requiredDelay) {
-		lastDamageTicks.putIfAbsent(type, 0L);
+		lastDamageTicks.putIfAbsent(type, 0);
 		return lastDamageTicks.get(type) + requiredDelay <= Game.getGame().getCurrentTick();
 	}
 }

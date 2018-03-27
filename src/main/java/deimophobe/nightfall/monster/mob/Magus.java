@@ -5,6 +5,7 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.doom.DoomManager;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -22,8 +23,8 @@ class Magus extends AbstractMob {
 	}
 	
 	@Override
-	public void onSpawn() {
-		super.onSpawn();
+	public void onSpawn(SpawnMethod spawnMethod) {
+		super.onSpawn(spawnMethod);
 		giveItem("orb");
 	}
 	

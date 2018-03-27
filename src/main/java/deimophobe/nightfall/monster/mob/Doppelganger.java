@@ -17,6 +17,7 @@ import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.melee.Scepter;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.util.ArmourSlot;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
@@ -75,7 +76,7 @@ public class Doppelganger extends AbstractMob {
 	}
 	
 	@Override
-	public void onSpawn() {
+	public void onSpawn(SpawnMethod spawnMethod) {
 		//monster.getPlayer().setPlayerListName(ChatColor.DARK_RED + monster.getName());
 		if (target != null) {
 			Skin skin = new Skin(target.getPlayer());
@@ -98,7 +99,7 @@ public class Doppelganger extends AbstractMob {
 			DisguiseAPI.disguiseEntity(monster.getPlayer(), disguise);
 		}
 		
-		super.onSpawn();
+		super.onSpawn(spawnMethod);
 		if (target != null) {
 			Hat hat = CosmeticManager.getManager().getCosmetic(target.getPlayer()).getHat();
 			if (hat != null) {

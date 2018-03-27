@@ -9,6 +9,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.util.ArrowMisc;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
 import org.bukkit.Location;
@@ -58,8 +59,8 @@ class SkeletonWither extends AbstractToggleSkeleton {
 	}
 	
 	@Override
-	public void onSpawn() {
-		super.onSpawn();
+	public void onSpawn(SpawnMethod spawnMethod) {
+		super.onSpawn(spawnMethod);
 		if (withering) forceBowToggle(true);
 	}
 	

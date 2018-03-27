@@ -11,6 +11,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.upgrade.GlobalUpgrade;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
@@ -62,7 +63,7 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	@Override
-	public void onSpawn() {
+	public void onSpawn(SpawnMethod spawnMethod) {
 		setTitle(mobData.forceTitle, mobData.title);
 		setupItems();
 		
@@ -84,8 +85,8 @@ public abstract class AbstractMob implements Mob {
 		}
 		player.setSaturation(1000000);
 		
+		monster.teleportTo(spawnMethod.getSpawnPoint(monster));
 		monster.givePotionEffect(PotionEffectType.NIGHT_VISION, 10*60*60*20,1, false, false, true);
-		tpToSpawn();
 		playSound("spawn");
 	}
 	
@@ -103,10 +104,6 @@ public abstract class AbstractMob implements Mob {
 		} else {
 			return ChatColor.DARK_RED + mobData.title + " " + monster.getName() + ChatColor.RESET;
 		}
-	}
-	
-	protected void tpToSpawn() {
-		monster.teleportTo(GameMap.getCurrentMap().getCurrentMobspawn());
 	}
 	
 	

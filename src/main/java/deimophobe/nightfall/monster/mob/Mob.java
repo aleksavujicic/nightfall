@@ -2,6 +2,7 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.monster.SpawnMethod;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -23,7 +24,7 @@ public interface Mob {
 	Disguise getDisguise();
 	default boolean hasDisguise() {return getDisguise() != null;}
 	
-	void onSpawn();
+	void onSpawn(SpawnMethod spawnMethod);
 	
 	void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec);
 	void onShift(boolean sneaking);

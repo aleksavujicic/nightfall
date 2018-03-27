@@ -5,6 +5,7 @@ import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.util.ArrowMisc;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
 import org.bukkit.block.Block;
@@ -38,8 +39,8 @@ class Skeleton extends AbstractMob {
 	}
 
 	@Override
-	public void onSpawn() {
-		super.onSpawn();
+	public void onSpawn(SpawnMethod spawnMethod) {
+		super.onSpawn(spawnMethod);
 		giveItems();
 	}
 	

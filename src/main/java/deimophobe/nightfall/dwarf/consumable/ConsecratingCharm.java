@@ -5,9 +5,6 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIManager;
-import deimophobe.nightfall.monster.mob.Mob;
-import deimophobe.nightfall.monster.mob.MobType;
-import deimophobe.nightfall.monster.mob.ZombieMob;
 import deimophobe.nightfall.util.LifetimeObject;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -182,14 +179,6 @@ class ConsecratingCharm extends Consumable {
 					int mobFreezeTime = getLifeLeft() + mp.getMob().getCharmTime() - maxLifetime;
 					mp.freeze(mobFreezeTime);
 				}
-				
-				Location rebirth = mp.getRebirthLocation();
-				if (rebirth != null && center.distance(rebirth) <= radius) {
-					mp.removeRebirth();
-				}
-				
-				Mob mob = mp.getMob();
-				if (mob.getType() == MobType.ZOMBIE) ((ZombieMob) mob).disableRebirth();
 			}
 			AIManager.getManager().clearArea(center, 1.5*radius);
 		}

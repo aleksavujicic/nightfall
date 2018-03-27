@@ -11,6 +11,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -36,8 +37,8 @@ public class Minotaur extends AbstractMob {
 	private final HashSet<Dwarf> hitDwarves = new HashSet<>();
 	
 	@Override
-	public void onSpawn() {
-		super.onSpawn();
+	public void onSpawn(SpawnMethod spawnMethod) {
+		super.onSpawn(spawnMethod);
 		((MobDisguise)getDisguise()).setReplaceSounds(false);
 		((MobDisguise)getDisguise()).setHearSelfDisguise(false);
 	}

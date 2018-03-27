@@ -66,6 +66,7 @@ public class Dagger extends AbstractCooldownItem {
 					Misc.spawnColouredParticles(location, 20, 0.6, 0.6, 0.6, Color.fromRGB(250, 250, 250));
 					dwarf.playSound("entity.wither.shoot", 1f, 1.5f, true);
 					resetCooldown();
+					closestMonster.removeRebirth();
 				}
 			}
 			return true;

@@ -7,6 +7,7 @@ import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -31,8 +32,8 @@ class Spiderling extends AbstractMob {
 	}
 	
 	@Override
-	public void onSpawn() {
-		super.onSpawn();
+	public void onSpawn(SpawnMethod spawnMethod) {
+		super.onSpawn(spawnMethod);
 		monster.givePermanentPotionEffect(PotionEffectType.JUMP, 3);
 	}
 	

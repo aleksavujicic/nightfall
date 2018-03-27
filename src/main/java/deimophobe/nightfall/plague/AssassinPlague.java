@@ -4,9 +4,9 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
-import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -99,7 +99,7 @@ public class AssassinPlague extends Plague {
         MonsterManager.getManager().addGamePlayer(player);
         player.getInventory().setContents(inv);
         MonsterPlayer mp = MonsterManager.getManager().getGamePlayer(player);
-        mp.spawnMob(new Assassin(mp, AssassinPlague.this, targetDwarf));
+        mp.spawnMob(new Assassin(mp, AssassinPlague.this, targetDwarf), SpawnMethod.NONE);
         assassins.add(mp);
         /*
         if (getAmountToKill(false) == 0) {

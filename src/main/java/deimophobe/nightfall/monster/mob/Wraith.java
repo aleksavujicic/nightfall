@@ -7,6 +7,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -34,8 +35,8 @@ public class Wraith extends AbstractMob {
 	private boolean chargeActive = false;
 	
 	@Override
-	public void onSpawn() {
-		super.onSpawn();
+	public void onSpawn(SpawnMethod spawnMethod) {
+		super.onSpawn(spawnMethod);
 		setFloatiness();
 		monster.givePermanentPotionEffect(PotionEffectType.JUMP, 25);
 		

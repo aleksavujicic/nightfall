@@ -5,6 +5,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.mob.AbstractMob;
 import deimophobe.nightfall.monster.mob.MobType;
 import org.bukkit.ChatColor;
@@ -52,11 +53,10 @@ public class PlaguedZombie extends AbstractMob {
 		
 		monster.delayedHealMax();
 	}
-	@Override protected void tpToSpawn() {}
 	
 	@Override
-	public void onSpawn() {
-		super.onSpawn();
+	public void onSpawn(SpawnMethod spawnMethod) {
+		super.onSpawn(spawnMethod);
 		monster.givePermanentPotionEffect(PotionEffectType.WITHER, 2);
 	}
 	

@@ -9,6 +9,7 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.util.NMSUtil;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -31,8 +32,8 @@ class Golem extends AbstractMob {
 	private int breakCD = 0;
 	
 	@Override
-	public void onSpawn() {
-		super.onSpawn();
+	public void onSpawn(SpawnMethod spawnMethod) {
+		super.onSpawn(spawnMethod);
 		monster.givePermanentPotionEffect(PotionEffectType.SLOW_DIGGING, 4);
 	}
 	

@@ -7,6 +7,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.util.NMSUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -28,8 +29,8 @@ class Ticker extends AbstractMob {
 	}
 	
 	@Override
-	public void onSpawn() {
-		super.onSpawn();
+	public void onSpawn(SpawnMethod spawnMethod) {
+		super.onSpawn(spawnMethod);
 		monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
 		giveSpawnProtection(deathTimer*20 + 20);
 		

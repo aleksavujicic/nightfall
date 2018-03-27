@@ -6,6 +6,7 @@ import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.ai.AIType;
 import deimophobe.nightfall.util.ArrowMisc;
@@ -54,8 +55,8 @@ class SkeletonFlamelancer extends Skeleton {
 	}
 	
 	@Override
-	public void onSpawn() {
-		super.onSpawn();
+	public void onSpawn(SpawnMethod spawnMethod) {
+		super.onSpawn(spawnMethod);
 		changeDisguiseWatcher(flagWatcher -> flagWatcher.setBurning(true));
 	}
 

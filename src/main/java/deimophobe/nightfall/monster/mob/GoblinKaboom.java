@@ -13,6 +13,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import me.libraryaddict.disguise.disguisetypes.watchers.CreeperWatcher;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -65,8 +66,8 @@ class GoblinKaboom extends Goblin {
 	}
 	
 	@Override
-	public void onSpawn() {
-		super.onSpawn();
+	public void onSpawn(SpawnMethod spawnMethod) {
+		super.onSpawn(spawnMethod);
 		if (superKaboom) {
 			changeDisguiseWatcher(CreeperWatcher.class, creeperWatcher -> creeperWatcher.setPowered(true));
 		}

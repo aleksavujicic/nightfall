@@ -5,6 +5,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.mob.Mob;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -71,7 +72,7 @@ class ZombiePlague extends Plague {
 				MonsterPlayer mp = MonsterManager.getManager().addGamePlayer(player);
 				player.getInventory().setContents(inv);
 				Mob zombie = new PlaguedZombie(mp, ZombiePlague.this, !isPlagued(dwarf));
-				mp.spawnMob(zombie);
+				mp.spawnMob(zombie, SpawnMethod.NONE);
 				
 				numZombiesAlive++;
 				

@@ -110,8 +110,8 @@ public class Game {
 	private Plague activePlague = null;
 
 
-	private long tickNumber = 0;
-	public long getCurrentTick() { return tickNumber; }
+	private int tickNumber = 0;
+	public int getCurrentTick() { return tickNumber; }
 
 	private Game(GameMap map) {
 		game = this;

@@ -9,6 +9,7 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import me.libraryaddict.disguise.disguisetypes.watchers.ZombieVillagerWatcher;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -42,12 +43,9 @@ public class ZombieSaboteur extends ZombieMob {
 	
 	private final static Villager.Profession PROFESSION = Villager.Profession.HUSK;
 	
-	protected ZombieSaboteur(MonsterPlayer mons) {
-		this(mons, null);
-	}
 	
-	public ZombieSaboteur(MonsterPlayer mons, Location rebirth) {
-		super(mons, rebirth, MobData.getMobData("zombie.saboteur"));
+	public ZombieSaboteur(MonsterPlayer mons) {
+		super(mons, MobData.getMobData("zombie.saboteur"));
 		
 		Map<String, Integer> upgrades = monster.getUpgrades(MobType.ZOMBIE);
 		
@@ -94,8 +92,8 @@ public class ZombieSaboteur extends ZombieMob {
 	}
 	
 	@Override
-	public void onSpawn() {
-		super.onSpawn();
+	public void onSpawn(SpawnMethod spawnMethod) {
+		super.onSpawn(spawnMethod);
 		changeDisguiseWatcher(ZombieVillagerWatcher.class, zw -> {
 			zw.setProfession(PROFESSION);
 			zw.setBaby(true);

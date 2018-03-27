@@ -4,6 +4,7 @@ import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -22,8 +23,8 @@ final class Hellhound extends AbstractWolf {
 	}
 	
 	@Override
-	public void onSpawn() {
-		super.onSpawn();
+	public void onSpawn(SpawnMethod spawnMethod) {
+		super.onSpawn(spawnMethod);
 		changeDisguiseWatcher(WolfWatcher.class, (ww) -> ww.setAngry(true));
 	}
 	
