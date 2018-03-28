@@ -92,6 +92,7 @@ public class ZombieSaboteur extends ZombieMob {
 		changeDisguiseWatcher(ZombieVillagerWatcher.class, zw -> {
 			zw.setProfession(PROFESSION);
 			zw.setBaby(true);
+			zw.setSprinting(false);
 		});
 	}
 	
