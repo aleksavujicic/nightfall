@@ -129,7 +129,7 @@ class SkeletonWither extends AbstractToggleSkeleton {
 	private void skullExplosion(Location centerLoc) {
 		World world = monster.getLocation().getWorld();
 
-		double kb = 0.1;
+		double kb = 0.2;
 
 		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 1, 0, 0, 0);
 		world.spawnParticle(Particle.SMOKE_NORMAL, centerLoc, 70, 0.5, 0.5, 0.5, 0.03);
@@ -138,7 +138,7 @@ class SkeletonWither extends AbstractToggleSkeleton {
 
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
-			double distance = offset.subtract(new Vector(0,1,0)).length();
+			double distance = offset.normalize().subtract(new Vector(0,1,0)).length();
 			if (distance > 3.5) continue;
 
 			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, GameDamageType.WITHER_SKULL, getPower());

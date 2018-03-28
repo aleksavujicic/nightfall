@@ -117,7 +117,7 @@ public class EmberSprite extends AbstractMob {
 					fireball.remove();
 				}
 			}
-		}.runTaskLater(NightfallPlugin.getPlugin(), 30); // 0.9 second lifetime
+		}.runTaskLater(NightfallPlugin.getPlugin(), 24); // 1.2 seconds lifetime
 		
 		world.playSound(loc, "entity.blaze.shoot", 2, 1f);
 	}
@@ -136,7 +136,7 @@ public class EmberSprite extends AbstractMob {
 		double damage = 40;
 		int armorShred = 35;
 		double power = 4.5;
-		double kb = 0.6;
+		double kb = 1;
 
 		BlockConverter.convert(BlockConverter.Type.EXPLOSION, centerLoc, power);
 		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
@@ -162,7 +162,7 @@ public class EmberSprite extends AbstractMob {
 			double distance = offset.subtract(new Vector(0,1,0)).length();
 			if (distance > 4) continue;
 
-			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, distance)) );
+			Vector knockback = offset.normalize().multiply(kb / Math.sqrt(Math.max(2, distance)));
 			knockback.setY(knockback.getY() / 2 + 0.1);
 
 			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, GameDamageType.BLAZE_EXPLOSION, damage);
