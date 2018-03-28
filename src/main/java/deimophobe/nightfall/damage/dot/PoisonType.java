@@ -27,6 +27,9 @@ public enum PoisonType {
 	PLAGUE_ZOMBIE(WITHER, 2.5, 0, 20), // 1/2 heart per sec
 	PLAGUE_ZOMBIE_AI(WITHER, 5, 0, 20),
 	
+	DAGGER(WITHER, 5, 0, 15),
+	DAGGER_CLOUD(WITHER, 8, 0, 12),
+	
 	;
 	
 	private final double damage;

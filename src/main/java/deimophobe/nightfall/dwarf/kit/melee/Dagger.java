@@ -2,32 +2,37 @@ package deimophobe.nightfall.dwarf.kit.melee;
 
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.GameDamageType;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.AbstractCooldownItem;
+import deimophobe.nightfall.dwarf.armour.Armour;
+import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
+import deimophobe.nightfall.dwarf.kit.AbstractItem;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
-import deimophobe.nightfall.monster.MonsterPlayer;
-import org.bukkit.Color;
+import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
+import org.bukkit.material.MaterialData;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 20/01/17.
  */
-public class Dagger extends AbstractCooldownItem {
+public class Dagger extends AbstractItem implements CooldownPiece {
 	
 	public Dagger(Dwarf dwarf) {
-		super(dwarf, 240*20);
+		super(dwarf);
 	}
-	
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "dagger");
 	@Override public CustomItem getItem() {
@@ -35,42 +40,80 @@ public class Dagger extends AbstractCooldownItem {
 	}
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 	
+	private final ComplexCooldown poisonCooldown = new ComplexCooldown(90, this::poisonBomb);
+	private final ComplexCooldown armourReshower = new ComplexCooldown(DURATION, null, this::reshowArmour);
+	
+	@Override
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+		poisonCooldown.update();
+		armourReshower.update();
+	}
 	
 	@Override
 	public void onKill(MonsterDamage damage) {
-		reduceCooldown(60);
+		poisonCooldown.reduceCooldown(20);
 	}
 	
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
+		if (isHoldingItem()) {
+			damage.addPostDamageHandler(() -> {
+				damage.getMonster().givePoison(PoisonType.DAGGER, 3 * 20);
+			});
+		}
 	}
 	
 	@Override
-	public void onDamageReceive(DwarfDamage damage) {
-		super.onDamageReceive(damage);
-	}
-	
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isRightClick(action) && isOffCD() && !dwarf.getNoSpecial()) {
-			MonsterPlayer closestMonster = dwarf.getLookingAt(5, 2.5, MonsterManager.getManager().getAlivePlayerMobs());
-			
-			if (closestMonster != null) {
-				boolean success = closestMonster.doDamage(dwarf, GameDamageType.EVISCERATE, 200, true);
-				if (success) {
-					Location location = closestMonster.getPlayer().getEyeLocation();
-					location.subtract(0, 0.5, 0);
-					World world = location.getWorld();
-					
-					world.spawnParticle(Particle.SMOKE_NORMAL, location, 20, 0.3, 0.3, 0.3, 0.05);
-					Misc.spawnColouredParticles(location, 20, 0.6, 0.6, 0.6, Color.fromRGB(250, 250, 250));
-					dwarf.playSound("entity.wither.shoot", 1f, 1.5f, true);
-					resetCooldown();
-					closestMonster.removeRebirth();
-				}
-			}
-			return true;
+		if (Misc.isRightClick(action) && !dwarf.getNoSpecial()) {
+			return poisonCooldown.tryUse();
 		}
 		return false;
+	}
+	
+	@Override
+	public float getCooldown() {
+		return poisonCooldown.getCooldown();
+	}
+	
+	private static final int DURATION = 6*20;
+	private static final double AOE_RADIUS = 6;
+	private void poisonBomb() {
+		dwarf.givePotionEffect(PotionEffectType.SPEED, DURATION, 2, true, false, true);
+		dwarf.givePotionEffect(PotionEffectType.JUMP, DURATION, 3, true, false, true);
+		dwarf.givePotionEffect(PotionEffectType.INVISIBILITY, DURATION, 1, true, false, true);
+		
+		Armour armour = dwarf.getArmour();
+		if (armour instanceof DwarvenArmour) {
+			((DwarvenArmour) armour).hideArmour();
+			armourReshower.reset();
+		}
+		
+		Location center = dwarf.getLocation().add(0, 1, 0);
+		World world = dwarf.getWorld();
+		world.spawnParticle(Particle.SMOKE_LARGE, center, 100, 2, 1,2, 0.15);
+		world.spawnParticle(Particle.CLOUD, center, 100, 2, 1,2, 0.15);
+		world.spawnParticle(Particle.FALLING_DUST, center, 300, 2, 1, 2, 0, new MaterialData(Material.CONCRETE, (byte) 5));
+		
+		dwarf.playSound("entity.wither.shoot", 1f, 0.6f, true);
+		
+		for (MonsterEntity<?> monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
+			if (dwarf.distanceTo(monster) > AOE_RADIUS) continue;
+			
+			monster.givePoison(PoisonType.DAGGER_CLOUD, DURATION);
+			
+			if (monster instanceof AIEntity<?>) {
+				((AIEntity) monster).forceUpdateTarget();
+			}
+		}
+	}
+	
+	private void reshowArmour() {
+		Armour armour = dwarf.getArmour();
+		if (armour instanceof DwarvenArmour) {
+			((DwarvenArmour) armour).showArmour();
+		}
 	}
 }

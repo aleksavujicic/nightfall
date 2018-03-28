@@ -50,7 +50,6 @@ public enum GameDamageType {
 	VOLCANIC_BOW("scorched"),
 	LUMINOUS("pierced"),
 	SCEPTER("pierced"),
-	EVISCERATE("eviscerated"),
 	HAMMER_AOE,
 	GLAIVE_AOE,
 	GLAIVE_ALT,
