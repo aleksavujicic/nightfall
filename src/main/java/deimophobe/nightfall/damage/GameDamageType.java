@@ -4,6 +4,7 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.death.DeathMessageMaker;
 import deimophobe.nightfall.damage.death.ForcedDeathMessageMaker;
 import deimophobe.nightfall.damage.death.KeywordDeathMessageMaker;
+import deimophobe.nightfall.damage.death.MixedDeathMessageMaker;
 import deimophobe.nightfall.damage.dot.DamageOverTimeType;
 import deimophobe.nightfall.damage.dot.InvalidPoisonLevelException;
 import deimophobe.nightfall.damage.dot.PoisonTranslator;
@@ -37,8 +38,8 @@ public enum GameDamageType {
 	
 	VOID(new ForcedDeathMessageMaker("was swallowed by the abyss"), GameDamage::instaKill),
 	
-	POISON(new KeywordDeathMessageMaker("poisoned"), new PoisonModifier(DamageOverTimeType.POISON, PotionEffectType.POISON)),
-	WITHER(new KeywordDeathMessageMaker("withered"), new PoisonModifier(DamageOverTimeType.WITHER, PotionEffectType.WITHER)),
+	POISON(new MixedDeathMessageMaker("poisoned", "withered away"), new PoisonModifier(DamageOverTimeType.POISON, PotionEffectType.POISON)),
+	WITHER(new MixedDeathMessageMaker("withered", "withered away"), new PoisonModifier(DamageOverTimeType.WITHER, PotionEffectType.WITHER)),
 	
 	
 	// Mob damage
