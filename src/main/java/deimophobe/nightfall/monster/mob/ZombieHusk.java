@@ -40,9 +40,11 @@ public class ZombieHusk extends ZombieMob {
 	
 	private final boolean stagger;
 	
-	private static Integer[] shredValues = {0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20};
-	private static Integer[] arrowResValues = {0, 10, 20, 30, 40, 50}; // added by 25 later
-	private static Integer[] rebirthValues = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
+	private static final int STAGGER_DURATION = 70;
+	
+	private static final Integer[] shredValues = {0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20};
+	private static final Integer[] arrowResValues = {0, 10, 20, 30, 40, 50}; // added by 25 later
+	private static final Integer[] rebirthValues = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
 	
 	public ZombieHusk(MonsterPlayer mons) {
 		super(mons, MobData.getMobData("zombie.husk"));
@@ -118,9 +120,10 @@ public class ZombieHusk extends ZombieMob {
 						if (dwarf.isHero()) {
 						    dwarf.setStunned(15);
                         } else {
-                            dwarf.givePotionEffect(PotionEffectType.BLINDNESS, 50, 1, true, true, true);
-                            dwarf.givePotionEffect(PotionEffectType.CONFUSION, 70, 1, true, true, true);
-                            dwarf.setStunned(70);
+                            dwarf.givePotionEffect(PotionEffectType.BLINDNESS, STAGGER_DURATION, 1, true, false, true);
+							dwarf.givePotionEffect(PotionEffectType.WEAKNESS, STAGGER_DURATION, 1, true, false, true);
+                            dwarf.givePotionEffect(PotionEffectType.CONFUSION, STAGGER_DURATION + 40, 1, true, false, true);
+                            dwarf.setStunned(STAGGER_DURATION);
                         }
 					}
 				}

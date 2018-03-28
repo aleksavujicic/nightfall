@@ -634,6 +634,9 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 
 		if (getStunned()) {
 		    damage.multiplyKnockback(0.25);
+		    if (damage.getType() == GameDamageType.FALL) {
+		    	damage.getMultiPartDamage().timesMult(0.1);
+			}
         }
 
 		if (damage.getType() == GameDamageType.FALL && damage.getFinalDamage() <= 0.2)
