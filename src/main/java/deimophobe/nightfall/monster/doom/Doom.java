@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 /**
  * Created by Deimophobe on 26/01/17.
@@ -88,17 +88,17 @@ class Doom {
 		List<MonsterPlayer> monsterList = new ArrayList<>(MonsterManager.getManager().getDeadPlayers());
 		Collections.shuffle(monsterList);
 		
-		Supplier<MobType> selector = getMobSelector();
+		Function<MonsterPlayer, MobType> selector = getMobSelector();
 		for (MonsterPlayer monster : monsterList) {
-			monster.spawnMob(selector.get());
+			monster.spawnMob(selector.apply(monster));
 		}
 	}
 	
-	protected Supplier<MobType> getMobSelector() {
+	protected Function<MonsterPlayer, MobType> getMobSelector() {
 		return new MobSelector();
 	}
 	
-	private class MobSelector implements Supplier<MobType> {
+	private class MobSelector implements Function<MonsterPlayer, MobType> {
 		private final Iterator<MobType> iterator = specialMobs.iterator();
 		private final boolean spawnSpecials;
 		
@@ -108,7 +108,7 @@ class Doom {
 		}
 		
 		@Override
-		public MobType get() {
+		public MobType apply(MonsterPlayer monsterPlayer) {
 			if (iterator.hasNext() && spawnSpecials) {
 				return iterator.next();
 			} else {

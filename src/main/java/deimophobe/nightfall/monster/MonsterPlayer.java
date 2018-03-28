@@ -4,6 +4,7 @@ import deimophobe.nightfall.Game;
 import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.menu.SessionData;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -16,7 +17,10 @@ import deimophobe.nightfall.entity.MonsterEntity;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.doom.DoomManager;
-import deimophobe.nightfall.monster.mob.*;
+import deimophobe.nightfall.monster.mob.Bopen;
+import deimophobe.nightfall.monster.mob.FloatyMob;
+import deimophobe.nightfall.monster.mob.Mob;
+import deimophobe.nightfall.monster.mob.MobType;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.apache.commons.lang.math.NumberUtils;
@@ -37,6 +41,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -191,6 +196,18 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			this.mob = null;
 			return false;
 		}
+	}
+	
+	private static final Set<MobType> UPGRADEABLE_MOBS = EnumSet.of(MobType.ZOMBIE, MobType.SKELETON, MobType.GOBO);
+	/** Chooses the mob with the most upgrades upgraded. */
+	public MobType getPrimaryMob() {
+		return Misc.getArgMax(UPGRADEABLE_MOBS, mobType -> {
+			int total = 0;
+			for (int level : getUpgrades(mobType).values()) {
+				total += level;
+			}
+			return total;
+		});
 	}
 	
 	// ----- REBIRTH -----
