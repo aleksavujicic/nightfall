@@ -511,8 +511,8 @@ public abstract class AbstractMob implements Mob {
 		protected DeadEntitySpawner(Class<T> entityClass, Consumer<T> entityModifier) {
 			this.entityClass = entityClass;
 			this.entityModifier = t -> {
-				setupDyingEntity(t);
 				entityModifier.accept(t);
+				setupDyingEntity(t);
 			};
 		}
 		
