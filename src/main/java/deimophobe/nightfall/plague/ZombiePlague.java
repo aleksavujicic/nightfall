@@ -62,21 +62,23 @@ class ZombiePlague extends Plague {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				//TODO check if offline
-				
 				// Convert to zombie.
 				Player player = dwarf.getPlayer();
-				player.removePotionEffect(PotionEffectType.CONFUSION);
-				
-				ItemStack[] inv = player.getInventory().getContents();
-				DwarfManager.getManager().removeGamePlayer(dwarf, false);
-				
-				MonsterPlayer mp = MonsterManager.getManager().addGamePlayer(player);
-				player.getInventory().setContents(inv);
-				Mob zombie = new PlaguedZombie(mp, ZombiePlague.this, !isPlagued(dwarf));
-				mp.spawnMob(zombie, SpawnMethod.NONE);
-				
-				numZombiesAlive++;
+				if (player.isOnline()) {
+					player.removePotionEffect(PotionEffectType.CONFUSION);
+					
+					ItemStack[] inv = player.getInventory().getContents();
+					DwarfManager.getManager().removeGamePlayer(dwarf, false);
+					
+					MonsterPlayer mp = MonsterManager.getManager().addGamePlayer(player);
+					player.getInventory().setContents(inv);
+					Mob zombie = new PlaguedZombie(mp, ZombiePlague.this, !isPlagued(dwarf));
+					mp.spawnMob(zombie, SpawnMethod.NONE);
+					
+					numZombiesAlive++;
+				} else {
+					DwarfManager.getManager().removeOfflinePlayer(player.getUniqueId());
+				}
 				
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), SICK_MSG_TIME);

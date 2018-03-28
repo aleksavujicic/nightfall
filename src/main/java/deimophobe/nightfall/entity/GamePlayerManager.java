@@ -215,6 +215,10 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		return true;
 	}
 	
+	public void removeOfflinePlayer(UUID uuid) {
+		offline.remove(uuid);
+	}
+	
 	
 	
 	public String getPlayerList() {
