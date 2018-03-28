@@ -12,6 +12,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.util.Vector;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -232,6 +233,23 @@ public class Misc {
 				return type;
 		}
 		throw new UnknownEnumElementException("Unknown " + enumName + ": " + string);
+	}
+	
+	public static <T,S extends Number> T getArgMax(Collection<T> collection, Function<T, S> function) {
+		if (collection.isEmpty()) throw new IllegalArgumentException("Collection cannot be empty.");
+		
+		T maxArg = null;
+		double maxValue = Double.MIN_VALUE;
+		for (T t : collection) {
+			S num = function.apply(t);
+			double value = num.doubleValue();
+			
+			if (value > maxValue) {
+				maxArg = t;
+				maxValue = value;
+			}
+		}
+		return maxArg;
 	}
 	
 	
