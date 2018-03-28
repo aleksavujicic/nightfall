@@ -314,6 +314,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		}
 	}
 	
+	public void setXPRate(int rate) {
+		expRate = rate;
+	}
+	
 	public int getXP() {
 		return experience;
 	}
@@ -322,18 +326,11 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		return amountSpent;
 	}
 
-	public void resetSpent() {
-		amountSpent = 0;
-	}
-
 	private void updateXPDisplay() {
 		player.setLevel(experience);
 		Game.getGame().setMana(player, experience);
 	}
 	
-	public void setXPRate(int rate) {
-		expRate = rate;
-	}
 	
 	
 	public boolean isInShrine() {return GameMap.getCurrentMap().getCurrentShrineRegion().containsPlayer(this);}
@@ -356,8 +353,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		return upgrades.get(type);
 	}
 
-	public void clearUpgrades() {
-		upgrades = new HashMap<>();
+	public void resetUpgrades(double refundRate) {
+		upgrades.clear();
+		forceGainXP((int) (refundRate * amountSpent));
+		amountSpent = 0;
 	}
 	
 	// ------ DAMAGE ------
