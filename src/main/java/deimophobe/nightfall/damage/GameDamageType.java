@@ -1,9 +1,11 @@
 package deimophobe.nightfall.damage;
 
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.death.DeathMessageMaker;
 import deimophobe.nightfall.damage.death.ForcedDeathMessageMaker;
 import deimophobe.nightfall.damage.death.KeywordDeathMessageMaker;
 import deimophobe.nightfall.damage.dot.DamageOverTimeType;
+import deimophobe.nightfall.damage.dot.InvalidPoisonLevelException;
 import deimophobe.nightfall.damage.dot.PoisonTranslator;
 import deimophobe.nightfall.damage.dot.PoisonType;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -243,13 +245,20 @@ public enum GameDamageType {
 		
 		@Override
 		public void accept(GameDamage<?, ?> damage) {
-			super.accept(damage);
-			int level = damage.getReceiver().getPotionEffectLevel(effectType);
-			PoisonType poison = translator.getPoisonFromLevel(level);
+			try {
+				super.accept(damage);
+				int level = damage.getReceiver().getPotionEffectLevel(effectType);
+				
+				PoisonType poison = translator.getPoisonFromLevel(level);
+				
+				damage.getMultiPartDamage().setBase(poison.getDamage());
+				if (damage instanceof DwarfDamage)
+					((DwarfDamage) damage).setArmourShred(poison.getArmourShred());
+			} catch (InvalidPoisonLevelException e) {
+				NightfallPlugin.logger().warning("Tried to apply illegal poison damage");
+				damage.cancel();
+			}
 			
-			damage.getMultiPartDamage().setBase(poison.getDamage());
-			if (damage instanceof DwarfDamage)
-				((DwarfDamage) damage).setArmourShred(poison.getArmourShred());
 		}
 	}
 }

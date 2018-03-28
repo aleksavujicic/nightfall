@@ -42,7 +42,7 @@ public class PoisonTranslator {
 	
 	public PoisonType getPoisonFromLevel(int level) {
 		PoisonType type = poisonMap.get(level);
-		if (type == null) throw new IllegalArgumentException("Unknown " + name + " level: " + level);
+		if (type == null) throw new InvalidPoisonLevelException("Unknown " + name + " level: " + level);
 		
 		return type;
 	}
