@@ -54,7 +54,7 @@ public class Hammer extends AbstractAOEHitter implements CooldownPiece {
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
 		super.onUse(action, clickedBlock, blockFace);
-		if (Misc.isRightClick(action)) {
+		if (Misc.isRightClick(action) && !dwarf.getNoSpecial()) {
 			return cooldown.tryUse();
 		}
 		return false;
