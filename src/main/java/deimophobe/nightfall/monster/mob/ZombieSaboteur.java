@@ -123,14 +123,14 @@ public class ZombieSaboteur extends ZombieMob {
 		if (Misc.isRightClick(action) && isPlayerHoldingWeapon() && sneakCD.isAvailable()) {
 			if (sneakLvl > 0) {
 				monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
-				monster.givePotionEffect(PotionEffectType.SPEED, 8 * sneakLvl, 3, true, true, true);
+				monster.givePotionEffect(PotionEffectType.SPEED, 8 * sneakLvl, 3, true, false, true);
 				Location loc = monster.getLocation();
 				World world = loc.getWorld();
 				world.spawnParticle(Particle.SMOKE_LARGE, loc, 160, 0.8, 0.8, 0.8, 0);
 				world.playSound(loc, "entity.generic.burn", 1f, 0.7f);
 			}
 			if (healing > 0) {
-				monster.givePotionEffect(PotionEffectType.REGENERATION, 12 * 2 * healing, 3, true, true, true);
+				monster.givePotionEffect(PotionEffectType.REGENERATION, 12 * 2 * healing, 3, true, false, true);
 			}
 			if (assa) {
 			    monster.givePermanentPotionEffect(PotionEffectType.INCREASE_DAMAGE, 1);

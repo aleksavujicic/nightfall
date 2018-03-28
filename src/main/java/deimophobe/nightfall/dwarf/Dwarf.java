@@ -400,8 +400,10 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 				updateMobspawn();
 			}
 			if (player.hasPotionEffect(PotionEffectType.UNLUCK)) {
-				Location loc = player.getLocation();
-				loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 8, 0.5, 0.5, 0.5, 0);
+				Location loc = getLocation();
+				World world = getWorld();
+				world.spawnParticle(Particle.SMOKE_LARGE, loc, 8, 0.5, 0.5, 0.5, 0);
+				world.spawnParticle(Particle.BLOCK_CRACK, loc.add(0,1,0), 20, 0.3, 0.3, 0.3, 0, new MaterialData(Material.WOOL, (byte) 1));
 			}
 		}
 
