@@ -116,9 +116,10 @@ class GoblinKaboom extends Goblin {
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			Vector offset = dwarf.getEyeLocation().subtract(loc).toVector();
 			double range = 7.5;
-			if (offset.length() > range) continue;
-			
-			Vector knockback = offset.normalize().multiply(kb * (1 - offset.length() / range));
+            double offlength = offset.length();
+            if (offlength > range) continue;
+
+            Vector knockback = offset.normalize().multiply(kb * (1 - offlength / range));
 			knockback.setY(knockback.getY() / 2 + 0.1 + (superKaboom ? 0.4 : 0));
 			
 			DwarfDamage aoeDamage = dwarf.createDamage(monster, GameDamageType.GOBO_KABOOM, dwarfDamage);

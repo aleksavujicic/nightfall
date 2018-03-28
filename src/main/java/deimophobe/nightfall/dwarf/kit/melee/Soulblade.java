@@ -91,7 +91,7 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 			Vector offset = entity.getEyeLocation().subtract(center).toVector();
 			if (offset.length() > SOUL_SHATTER_RADIUS) continue;
 
-			Vector knockback = offset.normalize().multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
+			Vector knockback = offset.normalize().multiply(kb / Math.sqrt(Math.max(2, offset.length())));
 			knockback.setY(knockback.getY() / 2 + 0.1);
 
 			MonsterDamage mDamage = entity.createDamage(dwarf, GameDamageType.SILENT_STRIKE, baseDamage);
