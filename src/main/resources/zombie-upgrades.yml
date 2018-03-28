@@ -212,7 +212,7 @@ healing:
     name: "Healing"
     lore:
       description:
-        - "Right click to heal $value hearts\n
+        - "Right click to heal $value heart(s)\n
            over a few seconds."
 
 

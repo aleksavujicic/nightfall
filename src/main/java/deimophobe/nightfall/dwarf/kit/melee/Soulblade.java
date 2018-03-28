@@ -82,26 +82,24 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 		world.playSound(center,"dash", 1f, pitch);
 		world.playSound(center,"entity.generic.burn", 1f, pitch);
 		
-		double kb = 0.5 + 0.02 * souls;
-		double area = SOUL_SHATTER_RADIUS;
+		double kb = 1 + 0.04 * souls;
 		double baseDamage = souls * 4;
 		
 		souls = 0;
 		
 		for (MonsterEntity entity : MonsterManager.getManager().getAliveMobsAndAIs()) {
-			if (entity.distanceTo(center) <= area) {
-				Vector offset = entity.getEyeLocation().subtract(center).toVector();
-				
-				Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
-				knockback.setY(knockback.getY() / 2 + 0.1);
-				
-				MonsterDamage mDamage = entity.createDamage(dwarf, GameDamageType.SILENT_STRIKE, baseDamage);
-				if (entity instanceof AIEntity) {
-					mDamage.getMultiPartDamage().addBoost(50);
-				}
-				mDamage.setKnockback(knockback);
-				mDamage.fire(true);
+			Vector offset = entity.getEyeLocation().subtract(center).toVector();
+			if (offset.length() > SOUL_SHATTER_RADIUS) continue;
+
+			Vector knockback = offset.normalize().multiply(kb / Math.sqrt(Math.max(2, offset.length())));
+			knockback.setY(knockback.getY() / 2 + 0.1);
+
+			MonsterDamage mDamage = entity.createDamage(dwarf, GameDamageType.SILENT_STRIKE, baseDamage);
+			if (entity instanceof AIEntity) {
+				mDamage.getMultiPartDamage().addBoost(50);
 			}
+			mDamage.setKnockback(knockback);
+			mDamage.fire(true);
 		}
 	}
 	

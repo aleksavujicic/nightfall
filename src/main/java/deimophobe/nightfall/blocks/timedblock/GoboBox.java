@@ -42,9 +42,11 @@ public class GoboBox extends TimedBlock {
 
 			for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 				Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
-				if (offset.length() > 5.5) continue;
+				double range = 5.5;
+				double offlength = offset.length();
+				if (offlength > range) continue;
 
-				Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
+				Vector knockback = offset.normalize().multiply(kb * (1 - offlength / range));
 				knockback.setY(knockback.getY() / 2);
 
 				DwarfDamage aoeDamage = dwarf.createDamage(getPlacer(), GameDamageType.GOBO_BOX_EXPLOSION, damage);

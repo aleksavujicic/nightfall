@@ -38,6 +38,7 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 	private final boolean hasMeleeKB;
 	private final int reaction;
 	private final Set<Arrow> activeArrows = new HashSet<>();
+	private int warpweaver;
 	
 	private final static String ARROW_METADATA_KEY = "active";
 
@@ -46,7 +47,7 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 		int punch = upgrades.get("punch");
 		int meleekb = upgrades.get("meleekb");
 		int extraHealth = upgrades.get("extrahealth-impact");
-		int warpweaver = upgrades.get("warpweaver");
+		this.warpweaver = upgrades.get("warpweaver");
 		
 		this.aoe = upgrades.get("aoe");
 		this.punch = punch;
@@ -59,7 +60,8 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 		}
 
 		if (warpweaver > 0) {
-			warpCD = new ComplexCooldown(40 * 20);
+			warpCD = new DudCooldown();
+			//warpCD = new ComplexCooldown(40 * 20);
 		} else {
 			warpCD = new DudCooldown();
 		}
@@ -87,14 +89,15 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 			reactionCD.reset();
             World world = monster.getLocation().getWorld();
             world.spawnParticle(Particle.EXPLOSION_LARGE, monster.getLocation(), 3, 1, 1, 1);
-            double kb = 0.5 + 0.35 * reaction;
+            double kb = 1 + 0.5 * reaction;
             for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
                 Vector offset = dwarf.getEyeLocation().subtract(monster.getLocation()).toVector();
-                if (offset.length() > 4.5) {
-                    continue;
-                }
 
-                Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())));
+                double range = 4.5;
+                double offlength = offset.length();
+                if (offlength > range) continue;
+
+                Vector knockback = offset.normalize().multiply(kb * (1 - offlength / range));
                 knockback.setY(knockback.getY() / 2 + 0.1);
 
                 DwarfDamage aoeDamage = dwarf.createDamage(this.monster, GameDamageType.IMPACT_AOE, 5 * reaction);
@@ -147,24 +150,32 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 		}
 		World world = monster.getLocation().getWorld();
 		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
-		double kb = 0.3 + aoe * 0.08;
+		double kb = 0.6 + aoe * 0.3;
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			if (dwarf == exempt) {
 				continue;
 			}
 			Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
-			if (offset.length() > 3.5) {
-				continue;
-			}
-			
-			
-			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())));
+
+			double range = 4.5;
+			double offlength = offset.length();
+			if (offlength > range) continue;
+
+			Vector knockback = offset.normalize().multiply(kb * (1 - offlength / range));
 			knockback.setY(knockback.getY() / 2 + 0.1);
 			
 			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, GameDamageType.IMPACT_AOE, 5 * aoe);
 			aoeDamage.setKnockback(knockback);
 			aoeDamage.fire();
 			
+		}
+		if (warpweaver > 0) {
+			Vector offset = monster.getEyeLocation().subtract(centerLoc).toVector();
+			if (offset.length() < 6.5) {
+				Vector knockback = offset.normalize().multiply(4.5 / Math.sqrt(Math.max(2, offset.length())));
+				knockback.setY(knockback.getY() / 2 + 0.1);
+				monster.setVelocity(knockback);
+			}
 		}
 	}
 	
@@ -228,4 +239,5 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 		world.playSound(location, "entity.illusion_illager.mirror_move", 0.6f, 0.95f);
 		world.playSound(here, "entity.illusion_illager.mirror_move", 0.6f, 0.95f);
 	}
+
 }
