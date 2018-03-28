@@ -130,9 +130,11 @@ public class Goblin extends AbstractMob {
 		BlockConverter.convert(BlockConverter.Type.THROWNEXPLOSION, centerLoc, power);
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
-			if (offset.length() > 5.5) continue;
 
-			Vector knockback = offset.normalize().multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
+			double range = 5.5;
+			if (offset.length() > range) continue;
+
+			Vector knockback = offset.normalize().multiply(kb * (1 - offset.length() / range));
 			knockback.setY(knockback.getY() / 2 + 0.3);
 
 			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, GameDamageType.GOBO_BOX_EXPLOSION, damage);
