@@ -8,6 +8,7 @@ import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import me.libraryaddict.disguise.disguisetypes.watchers.ZombieVillagerWatcher;
@@ -31,7 +32,7 @@ public class ZombieSaboteur extends ZombieMob {
 	
 
 	private final int sabotage;
-	private final int poison;
+	private final PoisonType poison;
 	private final int pick;
 	private final int epinephrine;
 	private final int healing;
@@ -41,6 +42,9 @@ public class ZombieSaboteur extends ZombieMob {
 	
 	private final static Villager.Profession PROFESSION = Villager.Profession.HUSK;
 	
+	// The first null entry represents no poison if unupgraded
+	private final PoisonType[] POISONS = new PoisonType[]{null, PoisonType.SAB1, PoisonType.SAB2, PoisonType.SAB3, PoisonType.SAB4, PoisonType.SAB5};
+	
 	
 	public ZombieSaboteur(MonsterPlayer mons) {
 		super(mons, MobData.getMobData("zombie.saboteur"));
@@ -49,7 +53,6 @@ public class ZombieSaboteur extends ZombieMob {
 		
 		this.sabotage = upgrades.get("sabotage");
 		this.healing = upgrades.get("healing");
-		this.poison = upgrades.get("poison");
 		this.pick = upgrades.get("pick");
 		this.epinephrine = upgrades.get("epinephrine");
 		int speed = epinephrine * 5;
@@ -63,6 +66,9 @@ public class ZombieSaboteur extends ZombieMob {
 		}
 		
 		this.assa = upgrades.get("assassination") >= 1;
+		
+		int poisonLvl = upgrades.get("poison");
+		poison = POISONS[poisonLvl];
 		
 		if (pick > 0) {
 			setWeapon("wood-pickaxe");
@@ -149,11 +155,11 @@ public class ZombieSaboteur extends ZombieMob {
 		
 		damage.multiplyKnockback(0.75);
 
-		if (poison > 0) {
-			damage.getDwarf().givePotionEffect(PotionEffectType.POISON, 40, poison+4, true, false, true);
+		if (poison != null) {
+			damage.getDwarf().givePoison(poison, 50);
 		}
 		if (sabotage > 0) {
-			damage.getDwarf().givePotionEffect(PotionEffectType.UNLUCK, 100, poison, true, false, true);
+			damage.getDwarf().givePotionEffect(PotionEffectType.UNLUCK, 100, sabotage, true, false, true);
 		}
 		if (assa && isInvisible()) {
 			monster.playSound("entity.wither.shoot", 1f, 2f, true);

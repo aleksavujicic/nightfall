@@ -2,7 +2,7 @@ package deimophobe.nightfall.dwarf;
 
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
-import org.bukkit.potion.PotionEffectType;
+import deimophobe.nightfall.damage.dot.PoisonType;
 
 /**
  * Created by Deimophobe on 7/03/18.
@@ -11,13 +11,13 @@ class SimpleMobSpawnTick implements MobSpawnTick {
 	private final double damage;
 	private final int mana;
 	private final double armour;
-	private final boolean poison;
+	private final PoisonType poison;
 	
 	SimpleMobSpawnTick(double damage, int mana, double armour) {
-		this(damage, mana, armour, false);
+		this(damage, mana, armour, null);
 	}
 	
-	SimpleMobSpawnTick(double damage, int mana, double armour, boolean poison) {
+	SimpleMobSpawnTick(double damage, int mana, double armour, PoisonType poison) {
 		this.damage = damage;
 		this.mana = mana;
 		this.armour = armour;
@@ -31,6 +31,6 @@ class SimpleMobSpawnTick implements MobSpawnTick {
 		dDamage.setArmourShred(armour);
 		dDamage.fire(true);
 		
-		if (poison) dwarf.givePotionEffect(PotionEffectType.POISON, 10*20, 1, true, true, true);
+		if (poison != null) dwarf.givePoison(poison, 10*20);
 	}
 }

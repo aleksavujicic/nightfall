@@ -93,7 +93,7 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("plague-status", getCompletionHandlerForEnum(Dwarf.PlagueStatus.values()));
 		completions.registerCompletion("dooms", getCompletionHandlerForEnum(DoomType.values()));
 		completions.registerCompletion("ais", getCompletionHandlerForEnum(AIType.values()));
-		completions.registerCompletion("poisons", getCompletionHandlerForEnum(MobType.getSpawnableMobs()));
+		completions.registerCompletion("poisons", getCompletionHandlerForEnum(PoisonType.values()));
 		
 		completions.registerCompletion("spawneggs", c -> MonsterManager.getManager().getEggNames());
 		completions.registerCompletion("items", c -> ItemManager.getManager().getNames());

@@ -4,6 +4,7 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -160,11 +161,13 @@ public class Wraith extends AbstractMob implements FloatyMob {
 			if (monster.distanceTo(dwarf) <= AOE_RADIUS) {
 				DwarfDamage damage = dwarf.createDamage(monster, GameDamageType.WRAITH_CHARGE, AOE_DMG);
 				damage.setArmourShred(AOE_SHRED);
-				damage.getDwarf().givePotionEffect(PotionEffectType.BLINDNESS, 15, 1, false, true, true);
-				damage.getDwarf().givePotionEffect(PotionEffectType.SLOW, 30, 3, false, true, true);
-				damage.getDwarf().givePotionEffect(PotionEffectType.WITHER, 40, 5, false, true, true);
 				damage.setManaDrain(50);
 				damage.setNoDamageTicks(10);
+				damage.addPostDamageHandler(() -> {
+					dwarf.givePotionEffect(PotionEffectType.BLINDNESS, 15, 1, false, true, true);
+					dwarf.givePotionEffect(PotionEffectType.SLOW, 30, 3, false, true, true);
+					dwarf.givePoison(PoisonType.WRAITH, 40);
+				});
 				damage.fire();
 			}
 		}

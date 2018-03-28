@@ -2,10 +2,14 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
-import deimophobe.nightfall.cooldown.*;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.DudCooldown;
+import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -18,7 +22,6 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -73,12 +76,12 @@ class SkeletonWither extends AbstractToggleSkeleton {
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
 		if ((damage.hasArrow() && ArrowMisc.getArrowForce(damage.getArrow()) > 0.7) || (damage.getType() == GameDamageType.WITHER_SKULL)) {
-			sniperCD.reset();
-			monster.heal(siphon);
-			
-			if (withering) {
-				damage.getDwarf().givePotionEffect(PotionEffectType.WITHER, 50, 2, true, false, false);
-			}
+			damage.addPostDamageHandler(() -> {
+				sniperCD.reset();
+				monster.heal(siphon);
+				
+				if (withering) damage.getDwarf().givePoison(PoisonType.WITHER_SKEL, 50);
+			});
 		}
 	}
 

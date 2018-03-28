@@ -211,6 +211,9 @@ public interface GameEntity<E extends LivingEntity> {
 	// ------ POTION EFFECTS ------
 	default boolean givePotionEffect(PotionEffectType type, int duration, int amplifier, boolean showAbove, boolean colourBlue, boolean force) {
 		if (amplifier == 0) return false;
+		if (type == PotionEffectType.POISON || type == PotionEffectType.WITHER) {
+			throw new IllegalArgumentException("Cannot apply poison/wither affects to game entity directly. Use entity.givePoison() instead.");
+		}
 		
 		if (!force) {
 			PotionEffect effect = getEntity().getPotionEffect(type);
@@ -231,7 +234,13 @@ public interface GameEntity<E extends LivingEntity> {
 	}
 	
 	default void givePoison(PoisonType type, int duration) {
-		givePotionEffect(type.getEffectType(), duration, type.getLevel(), true, false, true);
+		PotionEffectType effectType = type.getEffectType();
+		int level = type.getLevel();
+		getEntity().addPotionEffect(new PotionEffect(effectType, duration, level-1, false, true), true);
+	}
+	
+	default void givePermanentPoison(PoisonType type) {
+		givePoison(type, MAX_POTION_LENGTH);
 	}
 	
 	default void clearEffects() {

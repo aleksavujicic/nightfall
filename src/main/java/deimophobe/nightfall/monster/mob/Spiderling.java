@@ -6,6 +6,7 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import org.bukkit.Location;
@@ -48,7 +49,7 @@ class Spiderling extends AbstractMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		damage.getReceiver().givePotionEffect(PotionEffectType.POISON, 50, 3, true, false, true);
+		damage.getReceiver().givePoison(PoisonType.SPIDERLING, 4*20);
 		damage.multiplyKnockback(0.5);
 	}
 	
