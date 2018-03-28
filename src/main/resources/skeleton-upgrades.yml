@@ -390,10 +390,11 @@ warpweaver:
     reaction: 5
     extrahealth-impact: 5
   item:
-    material: ender_pearl
-    name: "Warpweaver"
+    material: feather
+    name: "Aerodynamic"
     shiny: true
     lore:
       description:
-        - "Teleport to where your arrow lands.\n
-           Left click your bow to activate."
+        - "Your arrows now affect you.\n
+           Shoot the ground nearby to\n
+           fling yourself away."

@@ -89,14 +89,14 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 			reactionCD.reset();
             World world = monster.getLocation().getWorld();
             world.spawnParticle(Particle.EXPLOSION_LARGE, monster.getLocation(), 3, 1, 1, 1);
-            double kb = 0.5 + 0.35 * reaction;
+            double kb = 1 + 0.5 * reaction;
             for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
                 Vector offset = dwarf.getEyeLocation().subtract(monster.getLocation()).toVector();
                 if (offset.length() > 4.5) {
                     continue;
                 }
 
-                Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())));
+                Vector knockback = offset.normalize().multiply(kb / Math.sqrt(Math.max(2, offset.length())));
                 knockback.setY(knockback.getY() / 2 + 0.1);
 
                 DwarfDamage aoeDamage = dwarf.createDamage(this.monster, GameDamageType.IMPACT_AOE, 5 * reaction);
@@ -149,7 +149,7 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 		}
 		World world = monster.getLocation().getWorld();
 		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
-		double kb = 0.3 + aoe * 0.08;
+		double kb = 0.5 + aoe * 0.15;
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			if (dwarf == exempt) {
 				continue;
@@ -160,7 +160,7 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 			}
 			
 			
-			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, offset.length())));
+			Vector knockback = offset.normalize().multiply(kb / Math.sqrt(Math.max(2, offset.length())));
 			knockback.setY(knockback.getY() / 2 + 0.1);
 			
 			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, GameDamageType.IMPACT_AOE, 5 * aoe);
@@ -170,8 +170,9 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 		}
 		if (warpweaver > 0) {
 			Vector offset = monster.getEyeLocation().subtract(centerLoc).toVector();
-			if (offset.length() < 4) {
-				Vector knockback = offset.multiply(4 / Math.sqrt(Math.max(1, offset.length())));
+			if (offset.length() < 6) {
+				Vector knockback = offset.normalize().multiply(5 / Math.sqrt(Math.max(2, offset.length())));
+				knockback.setY(knockback.getY() / 2 + 0.1);
 				monster.setVelocity(knockback);
 			}
 		}
