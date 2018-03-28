@@ -1,17 +1,17 @@
 package deimophobe.nightfall.plague;
 
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.GameDamageType;
-import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
+import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.mob.AbstractMob;
 import deimophobe.nightfall.monster.mob.MobType;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 4/04/17.
@@ -24,6 +24,14 @@ public class PlaguedZombie extends AbstractMob {
 		super(mons, MobType.PLAGUE_ZOMBIE);
 		this.plague = plague;
 		this.canSpread = canSpread;
+	}
+	
+	@Override
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+		if (halfSec && canSpread && Math.random() < 0.6) {
+			spawnAI();
+		}
 	}
 	
 	@Override
@@ -44,19 +52,32 @@ public class PlaguedZombie extends AbstractMob {
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
+		super.onDamageAttack(damage);
 		Dwarf dwarf = damage.getDwarf();
+		
 		if (canSpread && Math.random() <= 0.5) {
-			boolean plagued = plague.convertToZombie(dwarf);
-			if (plagued) {
-				monster.sendMessage(ChatColor.GREEN + "You have spread the " + ChatColor.LIGHT_PURPLE + ChatColor.ITALIC + "plague" +
-						ChatColor.GREEN + " to " + dwarf.getDisplayName() + ChatColor.GREEN + "!" + ChatColor.YELLOW + " +1000 xp");
-				monster.forceGainXP(1000);
-			}
+			damage.addPostDamageHandler(() -> {
+				boolean plagued = plague.convertToZombie(dwarf);
+				if (plagued) {
+					monster.sendMessage(ChatColor.GREEN + "You have spread the " + ChatColor.LIGHT_PURPLE + ChatColor.ITALIC + "plague" +
+							ChatColor.GREEN + " to " + dwarf.getDisplayName() + ChatColor.GREEN + "!" + ChatColor.YELLOW + " +1000 xp");
+					monster.forceGainXP(1000);
+				}
+			});
 		}
 	}
 	
 	@Override
 	public void onDeath(boolean silent) {
 		plague.notifyZombieDeath();
+	}
+	
+	private void spawnAI() {
+		Location location = monster.getLocation();
+		location.add(Misc.randomDouble(-3,3), 0, Misc.randomDouble(-3,3));
+		
+		AIManager aiManager = AIManager.getManager();
+		AIPlaguedZombie ai = new AIPlaguedZombie(location, aiManager.getRandomName(), monster, plague, canSpread);
+		aiManager.registerAI(ai);
 	}
 }

@@ -18,12 +18,14 @@ public enum PoisonType {
 	SAB4(POISON, 8, 4, 8),
 	SAB5(POISON, 10, 5, 8),
 	SPIDERLING(POISON, 2, 1, 6),
-	PLAGUE_ZOMBIE(POISON, 5, 0, 20), // 1 heart per sec
 	
 	MOBSPAWN(POISON, 10, 10, 7),
 	
 	WITHER_SKEL(WITHER, 6, 6, 8),
 	WRAITH(WITHER, 15, 10, 10),
+	
+	PLAGUE_ZOMBIE(WITHER, 2.5, 0, 20), // 1/2 heart per sec
+	PLAGUE_ZOMBIE_AI(WITHER, 5, 0, 20),
 	
 	;
 	

@@ -91,7 +91,7 @@ public class AIManager {
 			e.printStackTrace();
 		}
 	}
-	private String getRandomName() {
+	public String getRandomName() {
 		return ChatColor.DARK_RED + Misc.getRandom(AI_NAMES);
 	}
 	
@@ -247,6 +247,11 @@ public class AIManager {
 	
 	public void spawnAI(AIType type, Location location, Dwarf target) {
 		AIEntity<?> ai = type.createAI(location, getRandomName(), target);
+		aiTeam.addEntry(ai.getUniqueId().toString());
+		ais.put(ai.getUniqueId(), ai);
+	}
+	
+	public void registerAI(AIEntity<?> ai) {
 		aiTeam.addEntry(ai.getUniqueId().toString());
 		ais.put(ai.getUniqueId(), ai);
 	}

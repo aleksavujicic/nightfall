@@ -27,6 +27,11 @@ ai-sword:
   modifiers:
     attack: 14
 
+ai-legs:
+  template: monster
+  material: iron_leggings
+  name: Legs
+
 aiskelly-wep:
   template: monster
   material: arrow

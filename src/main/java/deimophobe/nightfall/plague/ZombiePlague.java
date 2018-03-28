@@ -6,6 +6,7 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
+import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.mob.Mob;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -38,6 +39,7 @@ class ZombiePlague extends Plague {
 	public void endPlague() {
 		super.endPlague();
 		convertingDwarves.clear();
+		AIManager.getManager().removeAllAIs();
 	}
 	
 	private static final String SICK_MSG = ChatColor.GREEN + "You begin to feel a little " + ChatColor.LIGHT_PURPLE + ChatColor.ITALIC + "sick" + ChatColor.GREEN + "!";
