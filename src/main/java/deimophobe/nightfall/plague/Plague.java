@@ -53,26 +53,26 @@ public abstract class Plague {
 		killDwarf(dwarf, GameDamageType.FORCE_PLAGUED);
 	}
 
-	protected Dwarf getRandomPlagueable() {
+	protected static Dwarf getRandomPlagueable() {
 		return Misc.getRandom(getPlagueables());
 	}
-	protected Dwarf getRandomPlagued() {
+	protected static Dwarf getRandomPlagued() {
 		return Misc.getRandom(getPlagueds());
 	}
-	protected Set<Dwarf> getPlagueables() {
+	protected static Set<Dwarf> getPlagueables() {
 		return DwarfManager.getManager().getPlagueables();
 	}
-	protected Set<Dwarf> getPlagueds() {
+	protected static Set<Dwarf> getPlagueds() {
 		return DwarfManager.getManager().getPlagued();
 	}
-	protected boolean isPlagueable(Dwarf dwarf) {
+	protected static boolean isPlagueable(Dwarf dwarf) {
 		return dwarf.getPlagueStatus() == Dwarf.PlagueStatus.NORMAL || dwarf.getPlagueStatus() == Dwarf.PlagueStatus.PLAGUED;
 	}
-	protected boolean isPlagued(Dwarf dwarf) {
+	protected static boolean isPlagued(Dwarf dwarf) {
 		return dwarf.getPlagueStatus() == Dwarf.PlagueStatus.PLAGUED;
 	}
 	
-	public final int getAmountToKill(boolean includePlagueds) {
+	public static final int getAmountToKill(boolean includePlagueds) {
 		int desiredMonsterAmt = (Game.getGame().getNumPlayers()+2)/3;
 		int dwarvesToKill = desiredMonsterAmt - MonsterManager.getManager().getNumberOfPlayers();
 		int numPlagueds = getPlagueds().size();

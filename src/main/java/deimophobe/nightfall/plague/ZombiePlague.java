@@ -50,7 +50,7 @@ class ZombiePlague extends Plague {
 		// Otherwise stop if the dwarf is not plagueable, or amt to kill is zero.
 		if (!isPlagued(dwarf)) {
 			if (getAmountToKill(true) == 0) return false;
-			if (!isPlagueable(dwarf)) return false;
+			if (!canConvert(dwarf)) return false;
 		}
 		
 		convertingDwarves.add(dwarf);
@@ -111,9 +111,7 @@ class ZombiePlague extends Plague {
 		}
 	}
 	
-	@Override
-	protected boolean isPlagueable(Dwarf dwarf) {
-		if (convertingDwarves.contains(dwarf)) return false;
-		return super.isPlagueable(dwarf);
+	private boolean canConvert(Dwarf dwarf) {
+		return !convertingDwarves.contains(dwarf) && isPlagueable(dwarf);
 	}
 }
