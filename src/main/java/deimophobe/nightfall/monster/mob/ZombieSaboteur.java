@@ -38,7 +38,6 @@ public class ZombieSaboteur extends ZombieMob {
 	private final Cooldown sneakCD;
 	private final int sneakLvl;
 	private final boolean assa;
-	private int healBuf;
 	
 	private final static Villager.Profession PROFESSION = Villager.Profession.HUSK;
 	
@@ -57,7 +56,7 @@ public class ZombieSaboteur extends ZombieMob {
 		
 		this.sneakLvl = upgrades.get("sneak");
 		if (sneakLvl > 0 || healing > 0) {
-			sneakCD = new SimpleCooldown((30 - sneakLvl * 4) * 20);
+			sneakCD = new SimpleCooldown((30 - sneakLvl * 5) * 20);
 		}
 		else {
 			sneakCD = new DudCooldown();
@@ -76,7 +75,7 @@ public class ZombieSaboteur extends ZombieMob {
 		}
 
 		getArmour().addModifier(ItemModifierType.SPEED, 25, "Saboteur Zombie");
-		getArmour().addModifier(ItemModifierType.SPEED, speed, "Epinephrine");
+		getWeapon().addModifier(ItemModifierType.SPEED, speed, "Epinephrine");
 		int saboHealthMalus = (upgrades.get("health") + upgrades.get("health-inf")) * -1;
 		getArmour().addModifier(ItemModifierType.HEALTH, saboHealthMalus, "Saboteur Zombie");
 	}
@@ -100,10 +99,6 @@ public class ZombieSaboteur extends ZombieMob {
 			}
 		} else {
 			sneakCD.update();
-		}
-		if (halfSec && healBuf > 0) {
-			monster.heal(1);
-			healBuf--;
 		}
 	}
 	
@@ -129,8 +124,11 @@ public class ZombieSaboteur extends ZombieMob {
 				world.playSound(loc, "entity.generic.burn", 1f, 0.7f);
 			}
 			if (healing > 0) {
-				healBuf = healing * 2;
+				monster.givePotionEffect(PotionEffectType.REGENERATION, 12 * 2 * healing, 3, true, true, true);
 			}
+			if (assa) {
+			    monster.givePermanentPotionEffect(PotionEffectType.INCREASE_DAMAGE, 1);
+            }
 			sneakCD.reset();
 		}
 	}
@@ -140,6 +138,7 @@ public class ZombieSaboteur extends ZombieMob {
 		didBreak = super.onBlockBreak(block, didBreak);
 		if (didBreak) {
 			monster.removePotionEffect(PotionEffectType.INVISIBILITY);
+            monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
 		}
 		return didBreak;
 	}
@@ -156,11 +155,13 @@ public class ZombieSaboteur extends ZombieMob {
 		if (sabotage > 0) {
 			damage.getDwarf().givePotionEffect(PotionEffectType.UNLUCK, 100, poison, true, false, true);
 		}
-		if (assa && monster.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
+		if (assa && isInvisible()) {
 			monster.playSound("entity.wither.shoot", 1f, 2f, true);
-			damage.getMultiPartDamage().addBoost(60);
+			damage.getMultiPartDamage().addBoost(57);
 		}
 		monster.removePotionEffect(PotionEffectType.INVISIBILITY);
+		monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
+		sneakCD.reset();
 	}
 	
 	@Override

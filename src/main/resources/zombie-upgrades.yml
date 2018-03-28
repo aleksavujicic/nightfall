@@ -236,7 +236,7 @@ assassination:
     lore:
       description:
         - "When invisible, the next hit\n
-           will do 70 additional damage."
+           will do 60 additional damage."
 
 
 ##########################

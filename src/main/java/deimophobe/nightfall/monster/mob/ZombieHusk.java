@@ -119,7 +119,7 @@ public class ZombieHusk extends ZombieMob {
 						    dwarf.setStunned(15);
                         } else {
                             dwarf.givePotionEffect(PotionEffectType.BLINDNESS, 50, 1, true, true, true);
-                            dwarf.givePotionEffect(PotionEffectType.CONFUSION, 30, 1, true, true, true);
+                            dwarf.givePotionEffect(PotionEffectType.CONFUSION, 70, 1, true, true, true);
                             dwarf.setStunned(70);
                         }
 					}
