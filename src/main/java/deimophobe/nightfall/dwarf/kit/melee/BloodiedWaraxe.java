@@ -50,7 +50,7 @@ public class BloodiedWaraxe extends AbstractItem implements CooldownPiece {
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isRightClick(action)) {
+		if (Misc.isRightClick(action) && !dwarf.getNoSpecial()) {
 			cd.tryUse();
 		}
 		return false;

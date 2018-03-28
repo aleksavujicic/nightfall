@@ -74,7 +74,7 @@ public abstract class AbstractRuneblade extends AbstractItem implements Cooldown
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isRightClick(action)) {
+		if (Misc.isRightClick(action) && !dwarf.getNoSpecial()) {
 			return cooldown.tryUse();
 		}
 		return false;

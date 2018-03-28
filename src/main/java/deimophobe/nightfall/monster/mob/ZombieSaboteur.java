@@ -29,17 +29,15 @@ import java.util.Map;
  */
 public class ZombieSaboteur extends ZombieMob {
 	
-	private final double vampirism;
-	private final int armourShred;
+
+	private final int sabotage;
 	private final int poison;
 	private final int pick;
 	private final int epinephrine;
+	private final int healing;
 	private final Cooldown sneakCD;
-	private final Cooldown assaCD;
 	private final int sneakLvl;
 	private final boolean assa;
-	
-	private static Integer[] shredValues = {0, 2, 4, 6, 8, 10};
 	
 	private final static Villager.Profession PROFESSION = Villager.Profession.HUSK;
 	
@@ -49,30 +47,22 @@ public class ZombieSaboteur extends ZombieMob {
 		
 		Map<String, Integer> upgrades = monster.getUpgrades(MobType.ZOMBIE);
 		
-		this.armourShred = shredValues[upgrades.get("shred-sabo")];
-		this.vampirism = upgrades.get("vampirism-sabo");
-		int temp_poison = upgrades.get("poison");
+		this.sabotage = upgrades.get("sabotage");
+		this.healing = upgrades.get("healing");
+		this.poison = upgrades.get("poison");
 		this.pick = upgrades.get("pick");
 		this.epinephrine = upgrades.get("epinephrine");
 		int speed = epinephrine * 5;
-		if (temp_poison == 3) {
-			this.poison = 5; // This is as poison is weird: 1 is 1 damage per 25, 2~4 is 1 damage per 12, 5 is 1 damage per 10
-		} else {
-			this.poison = temp_poison;
-		}
 		
 		this.sneakLvl = upgrades.get("sneak");
-		if (sneakLvl != 0)
-			sneakCD = new SimpleCooldown((30 - sneakLvl * 4) * 20);
-		else
+		if (sneakLvl > 0 || healing > 0) {
+			sneakCD = new SimpleCooldown((30 - sneakLvl * 5) * 20);
+		}
+		else {
 			sneakCD = new DudCooldown();
+		}
 		
 		this.assa = upgrades.get("assassination") >= 1;
-		if (assa) {
-			assaCD = new SimpleCooldown(200);
-		} else {
-			assaCD = new DudCooldown();
-		}
 		
 		if (pick > 0) {
 			setWeapon("wood-pickaxe");
@@ -83,9 +73,8 @@ public class ZombieSaboteur extends ZombieMob {
 			getWeapon().addModifier(ItemModifierType.ATTACK, attack, "Upgrade");
 			getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, attack, "Upgrade");
 		}
-		
-		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
-		getWeapon().addModifier(ItemModifierType.SPEED, 25, "Saboteur Zombie");
+
+		getArmour().addModifier(ItemModifierType.SPEED, 25, "Saboteur Zombie");
 		getWeapon().addModifier(ItemModifierType.SPEED, speed, "Epinephrine");
 		int saboHealthMalus = (upgrades.get("health") + upgrades.get("health-inf")) * -1;
 		getArmour().addModifier(ItemModifierType.HEALTH, saboHealthMalus, "Saboteur Zombie");
@@ -101,17 +90,12 @@ public class ZombieSaboteur extends ZombieMob {
 	}
 	
 	@Override
-	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
-		super.update(a, b, c, d, e);
-		assaCD.update();
-		if (b && assaCD.isAvailable()) {
-			monster.givePermanentPotionEffect(PotionEffectType.INCREASE_DAMAGE, 1);
-		}
-		
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		if (isInvisible()) {
-			if (b) {
+			if (sec) {
 				Location loc = monster.getLocation();
-				loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 4, 0.3, 0.3, 0.3, 0);
+				loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 7, 0.3, 0.3, 0.3, 0);
 			}
 		} else {
 			sneakCD.update();
@@ -121,7 +105,6 @@ public class ZombieSaboteur extends ZombieMob {
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
-		assaCD.reset();
 		if (damage.getType() == GameDamageType.MELEE) {
 			monster.givePotionEffect(PotionEffectType.SLOW, 30, 2, true, true, true);
 		}
@@ -132,13 +115,20 @@ public class ZombieSaboteur extends ZombieMob {
 	@Override
 	public void onUse(Action action, Block block, BlockFace face) {
 		if (Misc.isRightClick(action) && isPlayerHoldingWeapon() && sneakCD.isAvailable()) {
-			monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
-			monster.givePotionEffect(PotionEffectType.SPEED, 8 * sneakLvl, 3, true, true, true);
-			monster.givePotionEffect(PotionEffectType.REGENERATION, 8 * sneakLvl, 3, true, true, true);
-			Location loc = monster.getLocation();
-			World world = loc.getWorld();
-			world.spawnParticle(Particle.SMOKE_LARGE, loc, 160, 0.8, 0.8, 0.8, 0);
-			world.playSound(loc, "entity.generic.burn", 1f, 0.7f);
+			if (sneakLvl > 0) {
+				monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
+				monster.givePotionEffect(PotionEffectType.SPEED, 8 * sneakLvl, 3, true, true, true);
+				Location loc = monster.getLocation();
+				World world = loc.getWorld();
+				world.spawnParticle(Particle.SMOKE_LARGE, loc, 160, 0.8, 0.8, 0.8, 0);
+				world.playSound(loc, "entity.generic.burn", 1f, 0.7f);
+			}
+			if (healing > 0) {
+				monster.givePotionEffect(PotionEffectType.REGENERATION, 12 * 2 * healing, 3, true, true, true);
+			}
+			if (assa) {
+			    monster.givePermanentPotionEffect(PotionEffectType.INCREASE_DAMAGE, 1);
+            }
 			sneakCD.reset();
 		}
 	}
@@ -148,6 +138,7 @@ public class ZombieSaboteur extends ZombieMob {
 		didBreak = super.onBlockBreak(block, didBreak);
 		if (didBreak) {
 			monster.removePotionEffect(PotionEffectType.INVISIBILITY);
+            monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
 		}
 		return didBreak;
 	}
@@ -157,22 +148,20 @@ public class ZombieSaboteur extends ZombieMob {
 		super.onDamageAttack(damage);
 		
 		damage.multiplyKnockback(0.75);
-		
-		damage.addArmourShred(armourShred);
-		double healAmt = vampirism * 0.5;
-		
+
 		if (poison > 0) {
-			damage.getDwarf().givePotionEffect(PotionEffectType.POISON, 40, poison, true, false, true);
+			damage.getDwarf().givePotionEffect(PotionEffectType.POISON, 40, poison+4, true, false, true);
 		}
-		if (assaCD.isAvailable()) {
+		if (sabotage > 0) {
+			damage.getDwarf().givePotionEffect(PotionEffectType.UNLUCK, 100, poison, true, false, true);
+		}
+		if (assa && isInvisible()) {
 			monster.playSound("entity.wither.shoot", 1f, 2f, true);
-			damage.getMultiPartDamage().addBoost(57); // 60 - 3 due to str 1
-			assaCD.reset();
+			damage.getMultiPartDamage().addBoost(57);
 		}
-		assaCD.reset();
 		monster.removePotionEffect(PotionEffectType.INVISIBILITY);
 		monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
-		monster.heal(healAmt);
+		sneakCD.reset();
 	}
 	
 	@Override

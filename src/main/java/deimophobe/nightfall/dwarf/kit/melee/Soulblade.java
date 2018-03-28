@@ -61,8 +61,8 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isRightClick(action)) {
-			if (souls > 10) {
+		if (Misc.isRightClick(action) && !dwarf.getNoSpecial()) {
+			if (souls >= 10) {
 				soulShatterCD.tryUse();
 			}
 		}

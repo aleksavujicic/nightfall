@@ -63,7 +63,7 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	
 	@Override
 	public boolean onUse(Action action, Block clickedBlock, BlockFace face){
-		if (Misc.isRightClick(action)) {
+		if (Misc.isRightClick(action) && !dwarf.getNoSpecial()) {
 			return buffpoolCD.tryUse();
 		} else if (Misc.isLeftClick(action)) {
 			return lanceCD.tryUse();

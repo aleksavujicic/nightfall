@@ -382,8 +382,9 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		kit.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		updateCooldownBar();
 		
-		if (consumableGrabCD > 0)
-			consumableGrabCD--;
+		if (consumableGrabCD > 0) {
+            consumableGrabCD--;
+        }
 		
 		updateBlood(quartSec, halfSec, sec);
 		
@@ -392,10 +393,16 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		}
 		
 		arrowRegen.update();
-		
-		//mobspawn
-		if (halfSec && Game.getGame().getPhase() == Phase.GAME) {
-			updateMobspawn();
+
+		if (halfSec) {
+			//mobspawn
+			if (Game.getGame().getPhase() == Phase.GAME) {
+				updateMobspawn();
+			}
+			if (player.hasPotionEffect(PotionEffectType.UNLUCK)) {
+				Location loc = player.getLocation();
+				loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 8, 0.5, 0.5, 0.5, 0);
+			}
 		}
 
 		if (sec) {
@@ -405,9 +412,15 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			holdingLightItem = (ConsumableType.TORCH.matchesItem(heldItem) || ConsumableType.LAMP.matchesItem(heldItem));
 			updateVisibility();
 		}
-		
+
 		procTick();
-		
+		if (noSpecial > 0) {
+		    noSpecial--;
+        }
+        if (stunned > 0) {
+		    stunned--;
+        }
+
 		usedThisTick = false;
 	}
 	
@@ -533,6 +546,10 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	
 	// ------ MISC -------
+
+    private int noSpecial = 0;
+	private int stunned = 0;
+
 	@Override
 	public void heal(double amt) {
 		if (hasKitElement(KitPieceType.STRONG_ALE))
@@ -562,7 +579,25 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	public void setPlacedHealBlock(HealBlock placedHealBlock) { this.placedHealBlock = placedHealBlock; }
 	
-	
+	public void disableSpecial(int duration) {
+        noSpecial = duration;
+	}
+
+	public boolean getNoSpecial() {
+	    return noSpecial > 0;
+    }
+
+	public void setStunned(int duration) {
+		disableSpecial(duration);
+		stunned = duration;
+        givePotionEffect(PotionEffectType.SLOW, duration, 10, true, true, true);
+        givePotionEffect(PotionEffectType.JUMP, Math.max(duration-10, 0), -10, true, true, true);
+	}
+
+	public boolean getStunned() {
+	    return stunned > 0;
+    }
+
 	// ------ EVENTS ------
 	@Override
 	public void updateHotbarSlot(ItemStack heldItem, int slot) {
@@ -591,7 +626,16 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		damage.getMultiPartDamage().timesMult(1 - armour.getResistance());
 		
 		kit.onDamageReceive(damage);
-		
+		if (player.hasPotionEffect(PotionEffectType.UNLUCK)) {
+			double amplifier = 1 + getPotionEffectLevel(PotionEffectType.UNLUCK)*0.1;
+			damage.getMultiPartDamage().timesMult(amplifier);
+			damage.multiplyArmourShred(amplifier);
+		}
+
+		if (getStunned()) {
+		    damage.multiplyKnockback(0.25);
+        }
+
 		if (damage.getType() == GameDamageType.FALL && damage.getFinalDamage() <= 0.2)
 			damage.cancel();
 	}

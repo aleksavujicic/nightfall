@@ -12,7 +12,11 @@ import static org.bukkit.potion.PotionEffectType.WITHER;
  * Created by Deimophobe on 23/03/18.
  */
 public enum PoisonType {
-	TEST(POISON, 10, 10, 5),
+	SAB1(POISON, 2, 1, 8),
+	SAB2(POISON, 4, 2, 8),
+	SAB3(POISON, 6, 3, 8),
+	SAB4(POISON, 8, 4, 8),
+	SAB5(POISON, 10, 5, 8),
 	TEST2(WITHER, 20, 1, 1),
 	
 	;

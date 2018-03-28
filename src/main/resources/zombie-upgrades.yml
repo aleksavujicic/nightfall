@@ -96,7 +96,7 @@ fury:
       description:
         - "Become a Fury Zombie.\n
            An offensively oriented zombie variant\n
-           that can quickly damage and break armor."
+           that can quickly damage and break armour."
 
 
 husk:
@@ -123,23 +123,26 @@ husk:
 # SABOTEUR SUBCLASS UPGRADES #
 ##############################
 
-shred-sabo:
+sabotage:
   index: 10
   cost: [200, 400, 600, 800, 1000]
-  value: [2, 4, 6, 8, 10]
+  value: [10, 20, 30, 40, 50]
   prereq:
     saboteur: 1
   item:
-    material: gold_pickaxe
-    name: "Armour Shred"
+    material: prismarine_shard
+    name: "Sabotage"
     lore:
       description:
-        - "Increases armour shred by 2."
+        - "Temporarily damage dwarven armour\n
+           each hit, causing it to take $value%\n
+           more damage and armour damage\n
+           for 5 seconds."
 
 
 poison:
   index: 11
-  cost: [500, 1000, 1500]
+  cost: [200, 400, 600, 800, 1000]
   prereq:
     saboteur: 1
   item:
@@ -148,7 +151,9 @@ poison:
     lore:
       description:
         - "Poison dwarves with each hit.\n
-           Higher levels give higher poison level."
+           Upgrades improve poison level, with\n
+           10 damage and 5 armor shred per level\n
+           over 2 seconds."
 
 
 sneak:
@@ -164,7 +169,8 @@ sneak:
         - "Right click to create a smoke screen\n
            and disappear into the shadows.\n
            Taking or dealing damage and breaking blocks\n
-           will negate your invisibility."
+           will negate your invisibility.\n
+           Higher levels decrease cooldown."
 
 
 pick:
@@ -195,17 +201,19 @@ epinephrine:
         - "Increases speed by $value%."
 
 
-vampirism-sabo:
+healing:
   index: 16
-  cost: [500, 1000, 1500]
+  cost: [200, 400, 600, 800, 1000]
+  value: [1, 2, 3, 4, 5]
   prereq:
     saboteur: 1
   item:
-    material: redstone
-    name: "Vampirism"
+    material: nether_stalk
+    name: "Healing"
     lore:
       description:
-        - "Gives 0.25 hearts life steal per level."
+        - "Right click to heal $value hearts\n
+           over a few seconds."
 
 
 assassination:
@@ -215,20 +223,20 @@ assassination:
     attack: 5
     health: 5
     saboteur: 1
-    shred-sabo: 5
-    poison: 3
+    sabotage: 5
+    poison: 5
     sneak: 5
     pick: 2
     epinephrine: 10
-    vampirism-sabo: 3
+    healing: 5
   item:
     material: iron_sword
     name: Assassination
     shiny: true
     lore:
       description:
-        - "After not taking or doing damage for 10 seconds,\n
-           the next hit will do 60 more damage."
+        - "When invisible, the next hit\n
+           will do 60 additional damage."
 
 
 ##########################
@@ -338,7 +346,7 @@ furynight:
     shiny: true
     lore:
       description:
-        - "Drains 10 mana per hit."
+        - "Drains 5 mana per hit."
 
 
 ##########################
@@ -442,7 +450,7 @@ stagger:
     shred-husk: 10
     groundsmash: 5
     regen: 3
-    arrow-husk: 10
+    arrow-husk: 5
     rebirth-husk: 10
     procresist: 10
   item:
@@ -451,4 +459,4 @@ stagger:
     shiny: true
     lore:
       description:
-        - "Hits will now inflict slowness 2."
+        - "Ground stomp will now stun dwarves."

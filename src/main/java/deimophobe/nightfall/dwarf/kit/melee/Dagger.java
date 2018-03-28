@@ -52,7 +52,7 @@ public class Dagger extends AbstractCooldownItem {
 	}
 	
 	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isRightClick(action) && isOffCD()) {
+		if (Misc.isRightClick(action) && isOffCD() && !dwarf.getNoSpecial()) {
 			MonsterPlayer closestMonster = dwarf.getLookingAt(5, 2.5, MonsterManager.getManager().getAlivePlayerMobs());
 			
 			if (closestMonster != null) {

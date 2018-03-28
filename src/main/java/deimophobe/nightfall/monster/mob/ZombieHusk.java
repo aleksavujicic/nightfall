@@ -87,8 +87,8 @@ public class ZombieHusk extends ZombieMob {
 	}
 	
 	@Override
-	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
-		super.update(a, b, c, d, e);
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		leapCD.update();
 		if (smashing) {
 			smashCD.update();
@@ -115,9 +115,13 @@ public class ZombieHusk extends ZombieMob {
 					aoeDamage.addKnockback(knockback);
 					aoeDamage.fire();
 					if (stagger) {
-						dwarf.givePotionEffect(PotionEffectType.SLOW, 60, 5, true, true, true);
-						dwarf.givePotionEffect(PotionEffectType.JUMP, 55, -10, true, true, true);
-						dwarf.givePotionEffect(PotionEffectType.BLINDNESS, 25, 1, true, true, true);
+						if (dwarf.isHero()) {
+						    dwarf.setStunned(15);
+                        } else {
+                            dwarf.givePotionEffect(PotionEffectType.BLINDNESS, 50, 1, true, true, true);
+                            dwarf.givePotionEffect(PotionEffectType.CONFUSION, 70, 1, true, true, true);
+                            dwarf.setStunned(70);
+                        }
 					}
 				}
 				smashCD.reset();
