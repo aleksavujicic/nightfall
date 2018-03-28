@@ -88,19 +88,18 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 		souls = 0;
 		
 		for (MonsterEntity entity : MonsterManager.getManager().getAliveMobsAndAIs()) {
-			if (entity.distanceTo(center) < SOUL_SHATTER_RADIUS) {
-				Vector offset = entity.getEyeLocation().subtract(center).toVector();
-				
-				Vector knockback = offset.normalize().multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
-				knockback.setY(knockback.getY() / 2 + 0.1);
-				
-				MonsterDamage mDamage = entity.createDamage(dwarf, GameDamageType.SILENT_STRIKE, baseDamage);
-				if (entity instanceof AIEntity) {
-					mDamage.getMultiPartDamage().addBoost(50);
-				}
-				mDamage.setKnockback(knockback);
-				mDamage.fire(true);
+			Vector offset = entity.getEyeLocation().subtract(center).toVector();
+			if (offset.length() > SOUL_SHATTER_RADIUS) continue;
+
+			Vector knockback = offset.normalize().multiply(kb / Math.sqrt(Math.max(2, offset.length())) );
+			knockback.setY(knockback.getY() / 2 + 0.1);
+
+			MonsterDamage mDamage = entity.createDamage(dwarf, GameDamageType.SILENT_STRIKE, baseDamage);
+			if (entity instanceof AIEntity) {
+				mDamage.getMultiPartDamage().addBoost(50);
 			}
+			mDamage.setKnockback(knockback);
+			mDamage.fire(true);
 		}
 	}
 	
