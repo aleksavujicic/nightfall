@@ -38,6 +38,7 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 	private final boolean hasMeleeKB;
 	private final int reaction;
 	private final Set<Arrow> activeArrows = new HashSet<>();
+	private int warpweaver;
 	
 	private final static String ARROW_METADATA_KEY = "active";
 
@@ -46,7 +47,7 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 		int punch = upgrades.get("punch");
 		int meleekb = upgrades.get("meleekb");
 		int extraHealth = upgrades.get("extrahealth-impact");
-		int warpweaver = upgrades.get("warpweaver");
+		this.warpweaver = upgrades.get("warpweaver");
 		
 		this.aoe = upgrades.get("aoe");
 		this.punch = punch;
@@ -59,7 +60,8 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 		}
 
 		if (warpweaver > 0) {
-			warpCD = new ComplexCooldown(40 * 20);
+			warpCD = new DudCooldown();
+			//warpCD = new ComplexCooldown(40 * 20);
 		} else {
 			warpCD = new DudCooldown();
 		}
@@ -166,6 +168,13 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 			aoeDamage.fire();
 			
 		}
+		if (warpweaver > 0) {
+			Vector offset = monster.getEyeLocation().subtract(centerLoc).toVector();
+			if (offset.length() < 4) {
+				Vector knockback = offset.multiply(4 / Math.sqrt(Math.max(1, offset.length())));
+				monster.setVelocity(knockback);
+			}
+		}
 	}
 	
 	@Override
@@ -228,4 +237,5 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 		world.playSound(location, "entity.illusion_illager.mirror_move", 0.6f, 0.95f);
 		world.playSound(here, "entity.illusion_illager.mirror_move", 0.6f, 0.95f);
 	}
+
 }
