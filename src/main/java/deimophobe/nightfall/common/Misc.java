@@ -56,6 +56,13 @@ public class Misc {
 		return center.clone().add(xOffset, yOffset, zOffset);
 	}
 	
+	public static Vector randomVector(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
+		double x = randomDouble(minX, maxX);
+		double y = randomDouble(minY, maxY);
+		double z = randomDouble(minZ, maxZ);
+		return new Vector(x, y, z);
+	}
+	
 	
 	
 	public static <T extends Comparable<? super T>> List<T> asSortedList(Collection<T> c) {
