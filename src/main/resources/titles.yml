@@ -105,3 +105,27 @@ hermit:
   item:
     name: "Hermit"
     material: diamond_hoe
+
+dragonrider:
+  title: "Dragonrider"
+  item:
+    name: "Dragonrider"
+    material: diamond_hoe
+
+peasant:
+  title: "Peasant"
+  item:
+    name: "Peasant"
+    material: diamond_hoe
+
+prince:
+  title: "Prince"
+  item:
+    name: "Prince"
+    material: diamond_hoe
+
+princess:
+  title: "Princess"
+  item:
+    name: "Princess"
+    material: diamond_hoe
