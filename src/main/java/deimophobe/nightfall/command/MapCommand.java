@@ -54,8 +54,7 @@ public class MapCommand extends BaseCommand {
 			sender.sendMessage(ChatColor.YELLOW + "No maps queued.");
 		} else {
 			String maps = StringUtils.join(mapList, ChatColor.RESET + ", " + ChatColor.GREEN);
-			sender.sendMessage(ChatColor.YELLOW + "Current map list:");
-			sender.sendMessage(ChatColor.GREEN + "  " + maps);
+			sender.sendMessage(ChatColor.YELLOW + "Current map list: " + ChatColor.GREEN + maps);
 		}
 	}
 	
@@ -66,8 +65,7 @@ public class MapCommand extends BaseCommand {
 		Collections.sort(mapList);
 		
 		String maps = StringUtils.join(mapList, ChatColor.RESET + ", " + ChatColor.GREEN);
-		sender.sendMessage(ChatColor.YELLOW + "All maps: ");
-		sender.sendMessage(ChatColor.GREEN + "  " + maps);
+		sender.sendMessage(ChatColor.YELLOW + "All maps: " + ChatColor.GREEN + maps);
 	}
 	
 	@Subcommand("clear")
