@@ -1,6 +1,7 @@
 package deimophobe.nightfall.plague;
 
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.map.GameMap;
@@ -95,6 +96,7 @@ public class TwinsPlague extends Plague {
 		Vector offset = center.getDirection();
 		offset.setY(0);
 		offset.normalize();
+		Misc.rotateVector(offset, Math.PI/2);
 		
 		Location twin1Loc = center.clone().add(offset);
 		Location twin2Loc = center.clone().subtract(offset);
