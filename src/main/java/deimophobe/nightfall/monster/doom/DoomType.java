@@ -1,5 +1,7 @@
 package deimophobe.nightfall.monster.doom;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.function.Supplier;
 
 /**
@@ -10,9 +12,11 @@ public enum DoomType {
 	HELLHOUNDS(HellhoundDoom.class, HellhoundDoom::new),
 	TICKERS(TickerDoom.class, TickerDoom::new),
 	OGRE_MAGI(OgreMagiDoom.class, OgreMagiDoom::new),
-	TEMPEST(TempestDoom.class, TempestDoom::new),
+	TEMPEST(TempestDoom.class, TempestDoom::new, false),
 	
 	;
+	
+	private final boolean active;
 	
 	private final Supplier<Doom> doomCreator;
 	public Doom getDoom() {
@@ -20,6 +24,12 @@ public enum DoomType {
 	}
 	
 	<T extends AnnotatedDoom> DoomType(Class<T> doomClass, Supplier<T> doomInitialiser) {
+		this(doomClass, doomInitialiser, true);
+	}
+	
+	<T extends AnnotatedDoom> DoomType(Class<T> doomClass, Supplier<T> doomInitialiser, boolean active) {
+		this.active = active;
+		
 		DoomMeta meta = doomClass.getAnnotation(DoomMeta.class);
 		if (meta == null) throw new DoomMetaMissingException("Failed to find doom meta in class " + doomClass.getSimpleName() + " for doom type " + this);
 		
@@ -40,5 +50,13 @@ public enum DoomType {
 			doom.setSpawner(spawner);
 			return doom;
 		};
+	}
+	
+	public static Collection<DoomType> getActiveDooms() {
+		Collection<DoomType> dooms = new HashSet<>();
+		for (DoomType doom : values()) {
+			if (doom.active) dooms.add(doom);
+		}
+		return dooms;
 	}
 }

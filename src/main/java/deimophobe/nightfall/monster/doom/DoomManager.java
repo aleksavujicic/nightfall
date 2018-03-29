@@ -8,11 +8,11 @@ import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -121,9 +121,9 @@ public class DoomManager {
 		isDoom = true;
 		internalDoomTimer = maxInternalDoomTime;
 		
-		
-		for (MonsterPlayer player : MonsterManager.getManager().getAlivePlayerMobs())
+		for (MonsterPlayer player : MonsterManager.getManager().getAlivePlayerMobs()) {
 			player.replaceSeppuku();
+		}
 		
 		showDoomMessage();
 		playDoomDrum();
@@ -151,33 +151,25 @@ public class DoomManager {
 	private void endDoom() {
 		isDoom = false;
 		
-		for (MonsterPlayer player : MonsterManager.getManager().getAlivePlayerMobs())
+		for (MonsterPlayer player : MonsterManager.getManager().getAlivePlayerMobs()) {
 			player.replaceSeppuku();
+		}
 		
-		spawnDoom(nextDoom());
+		prevDoom = nextDoom();
+		prevDoom.getDoom().startDoom();
+		
+		forcedDoom = null;
 		resetDoomTimers();
-		//MonsterManager.getManager().getSpawnMenu().restockAllEggs();
 	}
 	
 	private DoomType nextDoom() {
 		if (forcedDoom != null) {
-			prevDoom = forcedDoom;
-			forcedDoom = null;
-			return prevDoom;
+			return forcedDoom;
 		} else {
-			DoomType[] dooms = DoomType.values();
-			dooms = (DoomType[]) ArrayUtils.removeElement(dooms, prevDoom);
-			prevDoom = Misc.getRandom(dooms);
-			return prevDoom;
+			Collection<DoomType> dooms = DoomType.getActiveDooms();
+			dooms.remove(prevDoom);
+			return Misc.getRandom(dooms);
 		}
-	}
-	
-	public void spawnDoom(DoomType doomType) {
-		for (MonsterPlayer player : MonsterManager.getManager().getAlivePlayerMobs())
-			player.replaceSeppuku();
-		
-		occuredDooms.add(doomType);
-		doomType.getDoom().startDoom();
 	}
 	
 	public boolean hasDoomSpawned(DoomType type) {
