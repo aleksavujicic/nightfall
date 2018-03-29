@@ -10,10 +10,10 @@ import deimophobe.nightfall.monster.mob.MobType;
 		cycleTime = 20,
 		title = "Tickers",
 		subtitles = {
-				"Tick.",
-				"Tick. Tock.",
-				"Tick. Tock. Tick.",
-				"Tick. Tock. Tick. Tock.",
+				"Tick",
+				"Tick Tock",
+				"Tick Tock Tick",
+				"Tick Tock Tick Tock",
 				"Boom",
 		},
 		regularMobs = { MobType.TICKER }
