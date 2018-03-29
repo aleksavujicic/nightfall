@@ -14,10 +14,7 @@ import deimophobe.nightfall.monster.SpawnMethod;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import me.libraryaddict.disguise.disguisetypes.watchers.PlayerWatcher;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.Action;
@@ -157,7 +154,7 @@ class Ticker extends AbstractMob {
 		green = 1 - Math.pow(1-green,2);
 		
 		Location loc = monster.getEyeLocation();
-		loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 0, red, green, blue,1);
+		Misc.spawnColouredParticles(loc, 10, 0.1, 0.1, 0.1, red, green, blue);
 	}
 	
 	private void explodeQuicker() {
