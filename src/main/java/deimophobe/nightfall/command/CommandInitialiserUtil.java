@@ -4,10 +4,7 @@ import co.aikar.commands.*;
 import co.aikar.commands.contexts.ContextResolver;
 import co.aikar.commands.contexts.IssuerAwareContextResolver;
 import com.google.common.collect.ImmutableSet;
-import deimophobe.nightfall.Game;
-import deimophobe.nightfall.ItemManager;
-import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.*;
 import deimophobe.nightfall.command.iterable.*;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
@@ -94,6 +91,7 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("dooms", getCompletionHandlerForEnum(DoomType.values()));
 		completions.registerCompletion("ais", getCompletionHandlerForEnum(AIType.values()));
 		completions.registerCompletion("poisons", getCompletionHandlerForEnum(PoisonType.values()));
+		completions.registerCompletion("gamesizes", getCompletionHandlerForEnum(GameSize.values()));
 		
 		completions.registerCompletion("spawneggs", c -> MonsterManager.getManager().getEggNames());
 		completions.registerCompletion("items", c -> ItemManager.getManager().getNames());
@@ -204,6 +202,7 @@ public class CommandInitialiserUtil {
 		contexts.registerContext(AIType.class, getContextResolverOfEnum(AIType.values(), "ai", true));
 		contexts.registerContext(PoisonType.class, getContextResolverOfEnum(PoisonType.values(), "poison", true));
 		contexts.registerContext(DoomType.class, getContextResolverOfEnum(DoomType.values(), "doom", true));
+		contexts.registerContext(GameSize.class, getContextResolverOfEnum(GameSize.values(), "game size", true));
 		
 		contexts.registerContext(CustomItem.class, context -> {
 			String arg = context.popFirstArg();

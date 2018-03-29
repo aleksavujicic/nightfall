@@ -32,7 +32,7 @@ public class DoomManager {
 	private int doomTimeVariance = 200;
 	
 	private List<DoomType> occuredDooms = new ArrayList<>();
-	private DoomType prevDoom = DoomType.KRUNGOR; // Prevents krungor from being first doom
+	private DoomType prevDoom = DoomType.TORUS; // Prevents torus from being first doom
 	
 	private final BukkitRunnable runner;
 	public DoomManager() {

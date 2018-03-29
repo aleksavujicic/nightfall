@@ -83,6 +83,10 @@ public class Game {
 	private Phase phase;
 	public Phase getPhase() { return phase; }
 	
+	private GameSize gameSize = GameSize.NONE;
+	public GameSize getGameSize() { return gameSize; }
+	public void setGameSize(GameSize size) { gameSize = size; }
+	
 	private final DwarfManager dwarfManager;
 	private final MonsterManager monsterManager;
 	private final SkinManager skinManager;

@@ -10,6 +10,7 @@ import java.util.function.Function;
  */
 public enum SpawnMethod {
 	SPAWN(mp -> GameMap.getCurrentMap().getCurrentMobspawn()),
+	DOOM(mp -> GameMap.getCurrentMap().getCurrentMobspawn()),
 	REBIRTH(MonsterPlayer::getRebirthLocation),
 	NONE(MonsterPlayer::getLocation);
 	

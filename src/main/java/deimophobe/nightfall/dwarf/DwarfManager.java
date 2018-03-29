@@ -2,6 +2,7 @@ package deimophobe.nightfall.dwarf;
 
 import com.google.common.collect.Sets;
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.GameSize;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.hero.Hero;
@@ -11,6 +12,7 @@ import deimophobe.nightfall.event.DwarfCreateEvent;
 import deimophobe.nightfall.util.PacketUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -164,12 +166,16 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	
 	public void onGameStart() {
 		Collection<Player> players = new HashSet<>(Bukkit.getOnlinePlayers());
+		players.removeIf(player -> player.getGameMode() == GameMode.SPECTATOR);
 		
 		int numPlayers = players.size();
 		int numHeroes = 0;
 		if (numPlayers >= 15) numHeroes++;
 		if (numPlayers >= 25) numHeroes++;
 		if (numPlayers >= 35) numHeroes++;
+		
+		GameSize size = GameSize.getSizeFromHeroCount(numHeroes);
+		Game.getGame().setGameSize(size);
 		
 		Set<HeroType> chosenHeroes = new HashSet<>();
 		while (numHeroes > 0) {

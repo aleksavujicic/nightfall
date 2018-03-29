@@ -1,58 +1,44 @@
 package deimophobe.nightfall.monster.doom;
 
-import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.common.UnknownEnumElementException;
-import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.ConfigurationSection;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.function.Supplier;
 
 /**
  * Created by Deimophobe on 26/01/17.
  */
 public enum DoomType {
-	KRUNGOR("krungor", KrungorDoom.class),
-	//GHOSTBLADES("ghostblades", GhostbladeDoom.class),
-	HELLHOUNDS("hellhounds", Hellhounds.class),
-	TICKERS("tickers", TickerDoom.class),
-	OGRE_MAGI("ogre-magi", OgreMagi.class),
+	TORUS(TorusDoom.class, TorusDoom::new),
+	HELLHOUNDS(HellhoundDoom.class, HellhoundDoom::new),
+	TICKERS(TickerDoom.class, TickerDoom::new),
+	OGRE_MAGI(OgreMagiDoom.class, OgreMagiDoom::new),
+	TEMPEST(TempestDoom.class, TempestDoom::new),
 	
 	;
 	
-	private final Doom doom;
+	private final Supplier<Doom> doomCreator;
 	public Doom getDoom() {
-		return doom;
+		return doomCreator.get();
 	}
 	
-	DoomType(String doomName, Class<? extends Doom> doomClass) {
-		Configuration doomConfigFile = NightfallPlugin.getInternalFileConfig("doom.yml");
-		ConfigurationSection doomConfig = doomConfigFile.getConfigurationSection(doomName);
+	<T extends AnnotatedDoom> DoomType(Class<T> doomClass, Supplier<T> doomInitialiser) {
+		DoomMeta meta = doomClass.getAnnotation(DoomMeta.class);
+		if (meta == null) throw new DoomMetaMissingException("Failed to find doom meta in class " + doomClass.getSimpleName() + " for doom type " + this);
 		
-		try {
-			this.doom = doomClass.getDeclaredConstructor(ConfigurationSection.class).newInstance(doomConfig);
-		} catch (NoSuchMethodException e) {
-			throw new IllegalArgumentException("Unable to find constructor for doom object '" + name() + "'", e);
-		} catch (IllegalAccessException e) {
-			throw new IllegalArgumentException("Failed to access constructor of doom object '" + name() + "'", e);
-		} catch (InstantiationException e) {
-			throw new IllegalArgumentException("Cannot create abstract doom object '" + name() + "'", e);
-		} catch (InvocationTargetException e) {
-			throw new IllegalArgumentException("Exception thrown in constructor of doom object '" + name() + "'", e);
-		}
-	}
-	
-	
-	public static DoomType getDoomType(String type) throws UnknownEnumElementException {
-		return Misc.getEnumMemberFromString(type, values(), "DoomType");
-	}
-	
-	public static Collection<String> getAllTypes() {
-		Collection<String> strings = new HashSet<>();
-		for (DoomType type : values())
-			strings.add(type.name().toLowerCase());
-		return strings;
+		this.doomCreator = () -> {
+			Title title = new Title(
+					meta.cycleTime(),
+					meta.title(),
+					meta.subtitles()
+			);
+			
+			MonsterSpawner spawner = new DefaultSpawner(
+					meta.specialMobs(),
+					meta.regularMobs()
+			);
+			
+			T doom = doomInitialiser.get();
+			doom.setTitle(title);
+			doom.setSpawner(spawner);
+			return doom;
+		};
 	}
 }

@@ -3,6 +3,7 @@ package deimophobe.nightfall.command;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import deimophobe.nightfall.Game;
+import deimophobe.nightfall.GameSize;
 import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.plague.PlagueType;
 import org.bukkit.ChatColor;
@@ -46,6 +47,18 @@ public class GameCommand extends BaseCommand {
 		if (type != null) {
 			Game.getGame().setPlagueType(type);
 			MessageUtil.sendMessage(sender, "Plague will now be ", type, ".");
+		}
+	}
+	
+	@Subcommand("size")
+	@CommandCompletion("@gamesizes")
+	@Description("Set the game size")
+	public void size(CommandSender sender, @Optional GameSize size) {
+		if (size == null) {
+			MessageUtil.sendMessage(sender, "The current game size is: ", Game.getGame().getGameSize(), ".");
+		} else {
+			Game.getGame().setGameSize(size);
+			MessageUtil.sendMessage(sender, "Set the game size to: ", size, ".");
 		}
 	}
 	
