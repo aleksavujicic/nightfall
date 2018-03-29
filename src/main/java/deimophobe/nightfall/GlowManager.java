@@ -28,7 +28,7 @@ public class GlowManager {
 	private final Map<UUID, Set<GamePlayer>> glowMap = new HashMap<>();
 	private final PacketAdapter glowChanger;
 	
-	GlowManager() {
+	public GlowManager() {
 		// It's bad that we need to use ListenerPriority.Monitor,
 		// but Lib's Disguises seems to take highest, and we need
 		// a higher priority.
