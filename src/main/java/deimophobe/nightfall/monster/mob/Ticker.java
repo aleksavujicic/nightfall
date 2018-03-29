@@ -93,7 +93,10 @@ class Ticker extends AbstractMob {
 			if (isPlayerHoldingItem("jump")) {
 				jumper.tryUse();
 			} else if (isPlayerHoldingItem("detonate")) {
-				explodeQuicker();
+				// Prevent detonating in the first 10 seconds
+				if (deathTimer < maxTime - 10) {
+					explodeQuicker();
+				}
 			}
 		}
 	}
