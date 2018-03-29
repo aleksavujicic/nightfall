@@ -1,6 +1,9 @@
 package deimophobe.nightfall.damage;
 
+import deimophobe.nightfall.damage.death.DeathMessageMaker;
+import deimophobe.nightfall.damage.death.KeywordDeathMessageMaker;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.game.GameEntity;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -13,6 +16,7 @@ import static deimophobe.nightfall.damage.PreDamagePriority.MONSTER_DEATH;
  * Created by Deimophobe on 29/08/17.
  */
 public class MonsterDamage extends GameDamage<GameEntity<?>, MonsterEntity> {
+	private static final DeathMessageMaker PROC_DEATH_MESSAGE = new KeywordDeathMessageMaker("procced");
 	
 	private boolean proc;
 	public void setProc(boolean proc) { this.proc = proc;}
@@ -43,7 +47,15 @@ public class MonsterDamage extends GameDamage<GameEntity<?>, MonsterEntity> {
 		
 		
 		// 'Self notification'
-		if (proc && !isCancelled()) instaKill();
+		if (proc && !isCancelled()) {
+			if (attacker instanceof Dwarf) {
+				Dwarf dwarf = ((Dwarf) attacker);
+				if (dwarf.hasProc() && !dwarf.hasProc(ProcType.RUNEDASH)) {
+					setDeathMessageMaker(PROC_DEATH_MESSAGE);
+				}
+			}
+			instaKill();
+		}
 		
 		if (type.isArrow()) {
 			getMultiPartDamage().timesMult(1 - arrowRes.getValue());
