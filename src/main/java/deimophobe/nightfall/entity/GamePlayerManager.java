@@ -160,7 +160,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 	
 	public void removeAllGamePlayers() {
 		for (UUID uuid : new HashSet<>(players.keySet())) {
-			removeGamePlayer(uuid, true);
+			removeGamePlayer(uuid, false);
 		}
 	}
 	
