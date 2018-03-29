@@ -190,6 +190,9 @@ public class GameListener implements Listener {
 	public void cancelSheepClick(PlayerInteractEntityEvent event) {
 		switch (event.getRightClicked().getType()) {
 			case SHEEP:
+			case HORSE:
+			case SKELETON_HORSE:
+			case ZOMBIE_HORSE:
 			case VILLAGER:
 			case ITEM_FRAME:
 				event.setCancelled(true);
