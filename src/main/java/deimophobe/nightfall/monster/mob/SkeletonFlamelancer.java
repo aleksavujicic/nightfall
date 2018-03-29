@@ -4,6 +4,7 @@ import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
@@ -118,6 +119,9 @@ class SkeletonFlamelancer extends Skeleton {
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
 		damage.getDwarf().getPlayer().setFireTicks(30 + flame*10);
+		if (damage.getType() == GameDamageType.MELEE) {
+			damage.getDwarf().getPlayer().setFireTicks(40);
+		}
 	}
 
 	@Override
