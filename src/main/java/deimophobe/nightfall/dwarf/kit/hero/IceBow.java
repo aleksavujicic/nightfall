@@ -7,7 +7,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.ranged.AbstractBow;
-import deimophobe.nightfall.entity.MonsterEntity;
+import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.*;

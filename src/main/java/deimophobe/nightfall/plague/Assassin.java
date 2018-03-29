@@ -1,7 +1,7 @@
 package deimophobe.nightfall.plague;
 
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import deimophobe.nightfall.Game;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.SkinManager;

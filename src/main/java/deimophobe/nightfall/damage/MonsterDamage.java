@@ -1,8 +1,8 @@
 package deimophobe.nightfall.damage;
 
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.entity.GameEntity;
-import deimophobe.nightfall.entity.MonsterEntity;
+import deimophobe.nightfall.game.GameEntity;
+import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.entity.Projectile;

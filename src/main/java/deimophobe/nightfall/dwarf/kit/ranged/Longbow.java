@@ -6,7 +6,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.entity.MonsterEntity;
+import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.ChatColor;

@@ -3,7 +3,7 @@ package deimophobe.nightfall.effects;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.effects.sound.PlayerSound;
 import deimophobe.nightfall.effects.sound.Sounds;
-import deimophobe.nightfall.entity.GamePlayer;
+import deimophobe.nightfall.game.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.util.Colour;
 import org.bukkit.*;

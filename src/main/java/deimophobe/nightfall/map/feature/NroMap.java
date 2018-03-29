@@ -1,8 +1,8 @@
 package deimophobe.nightfall.map.feature;
 
-import deimophobe.nightfall.Game;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.hero.Hero;

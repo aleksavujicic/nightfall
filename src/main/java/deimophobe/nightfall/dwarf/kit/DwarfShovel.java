@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf.kit;
 
-import deimophobe.nightfall.Game;
-import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.common.Misc;

@@ -1,7 +1,7 @@
 package deimophobe.nightfall.effects;
 
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.entity.GamePlayer;
+import deimophobe.nightfall.game.GamePlayer;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;

@@ -1,6 +1,6 @@
 package deimophobe.nightfall.dwarf.consumable;
 
-import deimophobe.nightfall.Game;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;

@@ -1,6 +1,6 @@
 package deimophobe.nightfall.monster.ai;
 
-import deimophobe.nightfall.Game;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import org.bukkit.Bukkit;

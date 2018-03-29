@@ -1,10 +1,14 @@
-package deimophobe.nightfall;
+package deimophobe.nightfall.game;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
+import deimophobe.nightfall.GlowManager;
+import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.SkinManager;
+import deimophobe.nightfall.TimeManager;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.cosmetic.CosmeticManager;
@@ -12,8 +16,6 @@ import deimophobe.nightfall.common.cosmetic.Cosmetics;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
-import deimophobe.nightfall.entity.GameEntity;
-import deimophobe.nightfall.entity.GamePlayer;
 import deimophobe.nightfall.event.PhaseChangeEvent;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.MapManager;

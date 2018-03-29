@@ -3,7 +3,7 @@ package deimophobe.nightfall.damage.death;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.GameDamageType;
-import deimophobe.nightfall.entity.GameEntity;
+import deimophobe.nightfall.game.GameEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.util.NMSUtil;
 import net.md_5.bungee.api.chat.TextComponent;

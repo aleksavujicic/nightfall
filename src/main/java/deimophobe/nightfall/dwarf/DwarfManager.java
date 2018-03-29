@@ -1,13 +1,13 @@
 package deimophobe.nightfall.dwarf;
 
 import com.google.common.collect.Sets;
-import deimophobe.nightfall.Game;
-import deimophobe.nightfall.GameSize;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.GameSize;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.dwarf.hero.HeroType;
-import deimophobe.nightfall.entity.GamePlayerManager;
+import deimophobe.nightfall.game.GamePlayerManager;
 import deimophobe.nightfall.event.DwarfCreateEvent;
 import deimophobe.nightfall.util.PacketUtil;
 import org.bukkit.Bukkit;

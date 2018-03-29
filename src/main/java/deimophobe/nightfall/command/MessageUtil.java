@@ -1,7 +1,7 @@
 package deimophobe.nightfall.command;
 
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.entity.GamePlayer;
+import deimophobe.nightfall.game.GamePlayer;
 import deimophobe.nightfall.monster.spawnmenu.SpawnEggMenuItem;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;

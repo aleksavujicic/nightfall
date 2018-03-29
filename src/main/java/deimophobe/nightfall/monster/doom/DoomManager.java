@@ -1,6 +1,6 @@
 package deimophobe.nightfall.monster.doom;
 
-import deimophobe.nightfall.Game;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.TimeManager;
 import deimophobe.nightfall.common.Misc;

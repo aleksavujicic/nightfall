@@ -1,11 +1,11 @@
 package deimophobe.nightfall.damage;
 
-import deimophobe.nightfall.Game;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.entity.GameEntity;
-import deimophobe.nightfall.entity.MonsterEntity;
+import deimophobe.nightfall.game.GameEntity;
+import deimophobe.nightfall.monster.MonsterEntity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.scheduler.BukkitRunnable;
 

@@ -1,7 +1,7 @@
 package deimophobe.nightfall.map.region;
 
-import deimophobe.nightfall.entity.GameEntity;
-import deimophobe.nightfall.entity.GamePlayer;
+import deimophobe.nightfall.game.GameEntity;
+import deimophobe.nightfall.game.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.InvalidMapConfigException;
 import org.bukkit.Bukkit;

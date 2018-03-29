@@ -1,7 +1,7 @@
 package deimophobe.nightfall.monster.spawnmenu;
 
-import deimophobe.nightfall.Game;
-import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.items.CustomItem;

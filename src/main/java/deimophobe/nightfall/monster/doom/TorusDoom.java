@@ -1,6 +1,6 @@
 package deimophobe.nightfall.monster.doom;
 
-import deimophobe.nightfall.GameSize;
+import deimophobe.nightfall.game.GameSize;
 import deimophobe.nightfall.monster.mob.MobType;
 import deimophobe.nightfall.monster.upgrade.GlobalUpgrade;
 

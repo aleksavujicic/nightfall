@@ -6,8 +6,8 @@ import deimophobe.nightfall.damage.GameDamageType;
 
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
-import deimophobe.nightfall.entity.GameEntity;
-import deimophobe.nightfall.entity.GamePlayer;
+import deimophobe.nightfall.game.GameEntity;
+import deimophobe.nightfall.game.GamePlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;

@@ -1,8 +1,8 @@
 package deimophobe.nightfall.plague;
 
-import deimophobe.nightfall.Game;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;

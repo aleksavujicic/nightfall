@@ -8,7 +8,7 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.melee.AbstractAOEHitter;
-import deimophobe.nightfall.entity.MonsterEntity;
+import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.ai.AIManager;
 import org.bukkit.Particle;

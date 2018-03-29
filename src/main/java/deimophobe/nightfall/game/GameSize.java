@@ -1,4 +1,4 @@
-package deimophobe.nightfall;
+package deimophobe.nightfall.game;
 
 /**
  * Created by Deimophobe on 29/03/18.

@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.accessory;
 
-import deimophobe.nightfall.Game;
-import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;

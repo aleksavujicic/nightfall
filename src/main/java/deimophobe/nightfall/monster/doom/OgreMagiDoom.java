@@ -1,8 +1,8 @@
 package deimophobe.nightfall.monster.doom;
 
-import deimophobe.nightfall.Curse;
-import deimophobe.nightfall.Game;
-import deimophobe.nightfall.GameSize;
+import deimophobe.nightfall.game.Curse;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.GameSize;
 import deimophobe.nightfall.monster.mob.MobType;
 
 /**

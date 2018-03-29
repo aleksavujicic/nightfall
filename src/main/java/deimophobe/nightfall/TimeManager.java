@@ -1,5 +1,6 @@
 package deimophobe.nightfall;
 
+import deimophobe.nightfall.game.Game;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;

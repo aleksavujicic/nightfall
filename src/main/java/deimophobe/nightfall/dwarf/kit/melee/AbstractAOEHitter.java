@@ -5,7 +5,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
-import deimophobe.nightfall.entity.MonsterEntity;
+import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import org.bukkit.Location;
 import org.bukkit.Particle;

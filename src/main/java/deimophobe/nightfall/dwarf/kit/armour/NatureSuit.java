@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.armour;
 
-import deimophobe.nightfall.Game;
-import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;

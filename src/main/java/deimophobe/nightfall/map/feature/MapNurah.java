@@ -1,7 +1,7 @@
 package deimophobe.nightfall.map.feature;
 
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.event.PhaseChangeEvent;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.InvalidMapConfigException;

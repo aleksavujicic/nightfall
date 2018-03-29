@@ -2,7 +2,7 @@ package deimophobe.nightfall.command;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
-import deimophobe.nightfall.Game;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.command.iterable.MonsterIterable;
 import deimophobe.nightfall.command.iterable.PlayerIterable;
 import deimophobe.nightfall.monster.MonsterManager;

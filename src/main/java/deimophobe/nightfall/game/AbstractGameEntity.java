@@ -1,6 +1,5 @@
-package deimophobe.nightfall.entity;
+package deimophobe.nightfall.game;
 
-import deimophobe.nightfall.Game;
 import deimophobe.nightfall.damage.dot.DamageOverTimeType;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;

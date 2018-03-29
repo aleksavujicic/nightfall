@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf.armour;
 
-import deimophobe.nightfall.Curse;
-import deimophobe.nightfall.Game;
+import deimophobe.nightfall.game.Curse;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.dwarf.DwarfManager;

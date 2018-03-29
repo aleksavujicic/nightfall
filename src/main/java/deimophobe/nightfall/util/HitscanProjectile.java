@@ -1,7 +1,7 @@
 package deimophobe.nightfall.util;
 
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.entity.MonsterEntity;
+import deimophobe.nightfall.monster.MonsterEntity;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 

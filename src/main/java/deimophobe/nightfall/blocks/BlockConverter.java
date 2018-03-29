@@ -1,6 +1,6 @@
 package deimophobe.nightfall.blocks;
 
-import deimophobe.nightfall.Game;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.blocktype.ComparableBlock;
 import deimophobe.nightfall.blocks.blocktype.SettableBlock;

@@ -1,9 +1,9 @@
 package deimophobe.nightfall.monster;
 
-import deimophobe.nightfall.Game;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.Phase;
+import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.menu.SessionData;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
@@ -11,9 +11,8 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.entity.GameEntity;
-import deimophobe.nightfall.entity.GamePlayer;
-import deimophobe.nightfall.entity.MonsterEntity;
+import deimophobe.nightfall.game.GameEntity;
+import deimophobe.nightfall.game.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.doom.DoomManager;

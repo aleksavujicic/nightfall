@@ -2,8 +2,8 @@ package deimophobe.nightfall.util;
 
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
-import deimophobe.nightfall.entity.GameEntity;
-import deimophobe.nightfall.entity.MonsterEntity;
+import deimophobe.nightfall.game.GameEntity;
+import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import org.bukkit.Location;
 import org.bukkit.block.Block;

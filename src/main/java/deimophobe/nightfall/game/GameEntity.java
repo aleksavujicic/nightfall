@@ -1,4 +1,4 @@
-package deimophobe.nightfall.entity;
+package deimophobe.nightfall.game;
 
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.GameDamage;

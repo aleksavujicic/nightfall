@@ -1,6 +1,6 @@
-package deimophobe.nightfall.entity;
+package deimophobe.nightfall.game;
 
-import deimophobe.nightfall.Game;
+import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;

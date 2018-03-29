@@ -1,6 +1,5 @@
-package deimophobe.nightfall.entity;
+package deimophobe.nightfall.game;
 
-import deimophobe.nightfall.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterManager;
