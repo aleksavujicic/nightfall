@@ -86,14 +86,12 @@ class Ticker extends AbstractMob {
 		super.onUse(action, clickedBlock, blockFace);
 		if (fastExplode) return;
 		
-		if (Misc.isRightClick(action)) {
-			if (isPlayerHoldingItem("jump")) {
-				jumper.tryUse();
-			} else if (isPlayerHoldingItem("detonate")) {
-				// Prevent detonating in the first 10 seconds
-				if (deathTimer < maxTime - 10) {
-					explodeQuicker();
-				}
+		if (isPlayerHoldingItem("jump")) {
+			jumper.tryUse();
+		} else if (isPlayerHoldingItem("detonate")) {
+			// Prevent detonating in the first 10 seconds
+			if (deathTimer < maxTime - 10) {
+				explodeQuicker();
 			}
 		}
 	}
