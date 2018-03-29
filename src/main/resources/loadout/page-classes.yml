@@ -548,10 +548,20 @@ random-class:
 
 untimely:
   index: 44
-  type: item
   cost: 64
-  name: untimely_demise
-  category: accessory
+  category: kit
+  type: multi
+  pieces:
+    - dagger
+    - lightbow
+    - safety_juice
+    - studded
+    - bricklayer
+    - tombmaker
+    - slowfall
+    - chesto
+    - compass
+    - clock
   random-selectable: false
   item:
     template: "loadout"

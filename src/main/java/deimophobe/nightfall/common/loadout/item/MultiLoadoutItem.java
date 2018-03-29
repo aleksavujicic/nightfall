@@ -19,10 +19,12 @@ public class MultiLoadoutItem extends LoadoutItem {
 	public MultiLoadoutItem(ConfigurationSection config) {
 		super(config);
 		ConfigurationSection consumablesConfig = config.getConfigurationSection("consumables");
-		for (String key : consumablesConfig.getKeys(false)) {
-			String consumable = key.toLowerCase();
-			int quantity = consumablesConfig.getInt(key);
-			consumables.put(consumable, quantity);
+		if (consumablesConfig != null) {
+			for (String key : consumablesConfig.getKeys(false)) {
+				String consumable = key.toLowerCase();
+				int quantity = consumablesConfig.getInt(key);
+				consumables.put(consumable, quantity);
+			}
 		}
 		elements.addAll(config.getStringList("pieces"));
 	}
