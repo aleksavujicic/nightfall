@@ -1,5 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.armour;
 
+import deimophobe.nightfall.Game;
+import deimophobe.nightfall.Phase;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -28,13 +30,13 @@ public class NatureSuit extends AbstractPiece implements ArmourPiece {
 				case MAGMA_BLOCK:
 					damage.cancel();
 					break;
+					
 				case WITHER:
-					damage.cancel();
-					dwarf.removePotionEffect(PotionEffectType.WITHER);
-					break;
 				case POISON:
-					damage.cancel();
-					dwarf.removePotionEffect(PotionEffectType.POISON);
+					if (Game.getGame().getPhase() != Phase.PLAGUE) {
+						damage.cancel();
+						dwarf.clearAllPoisons();
+					}
 					break;
 			}
 		}

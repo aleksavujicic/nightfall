@@ -40,6 +40,15 @@ public abstract class Plague {
 	public void endPlague() {
 		endPlague(GameDamageType.FORCE_PLAGUED);
 	}
+	
+	protected boolean checkEnd() {
+		if (getAmountToKill(true) == 0) {
+			endPlague();
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 
 	protected final boolean hasEnded() {

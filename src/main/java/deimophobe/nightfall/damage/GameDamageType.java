@@ -91,8 +91,9 @@ public enum GameDamageType {
 	WRAITH_CHARGE("drained"),
 	
 	// Plagues
-	ASSASSIN_PLAGUE(new ForcedDeathMessageMaker("was assassinated by a " + ChatColor.DARK_GRAY + "dark presence.")),
 	FORCE_PLAGUED(new ForcedDeathMessageMaker("succumbed to the plague")),
+	ASSASSIN_PLAGUE(new ForcedDeathMessageMaker("was assassinated by a " + ChatColor.DARK_GRAY + "dark presence.")),
+	PLAGUED_LIGHTNING(new ForcedDeathMessageMaker("was struck by " + ChatColor.GOLD + ChatColor.ITALIC + "Lightning")),
 	DEATH_PLAGUE(
 			// Makes Twins name dynamic (rather than only being called once)
 			(playerName, damage) -> {

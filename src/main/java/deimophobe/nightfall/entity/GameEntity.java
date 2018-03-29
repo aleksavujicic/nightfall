@@ -1,9 +1,9 @@
 package deimophobe.nightfall.entity;
 
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.damage.dot.DamageOverTimeType;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
+import deimophobe.nightfall.damage.dot.DamageOverTimeType;
 import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.util.Util;
 import me.libraryaddict.disguise.DisguiseAPI;
@@ -237,6 +237,11 @@ public interface GameEntity<E extends LivingEntity> {
 		PotionEffectType effectType = type.getEffectType();
 		int level = type.getLevel();
 		getEntity().addPotionEffect(new PotionEffect(effectType, duration, level-1, false, true), true);
+	}
+	
+	default void clearAllPoisons() {
+		removePotionEffect(PotionEffectType.POISON);
+		removePotionEffect(PotionEffectType.WITHER);
 	}
 	
 	default void givePermanentPoison(PoisonType type) {
