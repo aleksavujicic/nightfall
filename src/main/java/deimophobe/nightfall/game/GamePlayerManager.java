@@ -1,8 +1,6 @@
 package deimophobe.nightfall.game;
 
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.dwarf.DwarfManager;
-import deimophobe.nightfall.monster.MonsterManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -70,20 +68,12 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 	
 	protected abstract P createGamePlayerFromPlayer(Player player);
 	
-	public P addGamePlayer(String name) {
-		return addGamePlayer(Bukkit.getPlayer(name));
-	}
 	public P addGamePlayer(Player player) {
 		return addGamePlayer(player, true);
 	}
 	public P addGamePlayer(Player player, boolean respawn) {
-		if (player == null) return null;
-		
-		if (DwarfManager.getManager().isGamePlayer(player)) return null;
-		if (MonsterManager.getManager().isGamePlayer(player)) return null;
-		
-		UUID uuid = player.getUniqueId();
-		if (players.containsKey(uuid)) return null;
+		if (player == null) throw new NullPointerException("Cannot add null player to game");
+		if (Game.getGame().isGamePlayer(player)) throw new IllegalArgumentException("Cannot add player that is already a gameplayer (Player: " + player.getName() + ")");
 		
 		if (respawn && player.isDead())
 			player.spigot().respawn();
@@ -94,10 +84,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 	}
 	protected void registerGamePlayer(P player) {
 		UUID uuid = player.getUniqueId();
-		if (players.containsKey(uuid)) {
-			Bukkit.getLogger().severe("Already registered player: " + player);
-			return;
-		}
+		if (players.containsKey(uuid)) throw new IllegalArgumentException("Already registered player: " + player.getName());
 		
 		players.put(uuid, player);
 		addToTeam(player.getName());
@@ -123,9 +110,6 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		return null;
 	}
 	
-	public boolean isGamePlayer(String name) {
-		return isGamePlayer(Bukkit.getPlayer(name));
-	}
 	public boolean isGamePlayer(Player player) {
 		if (player == null) return false;
 		return isGamePlayer(player.getUniqueId());
@@ -134,21 +118,17 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		return players.containsKey(uuid);
 	}
 	
-	public boolean removeGamePlayer(String name, boolean reset) {
-		return removeGamePlayer(Bukkit.getPlayer(name), reset);
-	}
-	public boolean removeGamePlayer(Player player, boolean reset) {
+	public boolean removeGamePlayer(Player player) {
 		if (player == null) return false;
-		return removeGamePlayer(player.getUniqueId(), reset);
+		return removeGamePlayer(player.getUniqueId());
 	}
-	public boolean removeGamePlayer(P player, boolean reset) {
-		return removeGamePlayer(player.getUniqueId(), reset);
+	public boolean removeGamePlayer(P player) {
+		return removeGamePlayer(player.getUniqueId());
 	}
-	public boolean removeGamePlayer(UUID uuid, boolean reset) {
+	public boolean removeGamePlayer(UUID uuid) {
 		P gamePlayer = players.remove(uuid);
 		if (gamePlayer == null) return false;
 		
-		if (reset) gamePlayer.resetPlayer();
 		gamePlayer.onRemove();
 		mcTeam.removeEntry(gamePlayer.getName());
 		Game.getGame().updateDwarfCount();
@@ -159,7 +139,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 	
 	public void removeAllGamePlayers() {
 		for (UUID uuid : new HashSet<>(players.keySet())) {
-			removeGamePlayer(uuid, false);
+			removeGamePlayer(uuid);
 		}
 	}
 	

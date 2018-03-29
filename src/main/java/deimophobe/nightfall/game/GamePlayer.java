@@ -1,22 +1,24 @@
 package deimophobe.nightfall.game;
 
-import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.damage.death.DeathMessageMaker;
 import deimophobe.nightfall.damage.GameDamageType;
+import deimophobe.nightfall.damage.death.DeathMessageMaker;
 import deimophobe.nightfall.damage.death.LastMainDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.effects.sound.Sounds;
+import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.util.HitscanProjectile;
 import deimophobe.nightfall.util.NMSUtil;
 import deimophobe.nightfall.util.Util;
-import me.libraryaddict.disguise.DisguiseAPI;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -350,13 +352,6 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	
 	
 	// ------ MISC ------
-	public void resetPlayer() {
-		clearEffects();
-		clearInventory();
-		player.setDisplayName(player.getName());
-		DisguiseAPI.undisguiseToAll(player);
-	}
-	
 	public boolean isBlocking() {
 		return player.isBlocking();
 	}

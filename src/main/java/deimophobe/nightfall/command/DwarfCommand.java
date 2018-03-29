@@ -82,7 +82,7 @@ public class DwarfCommand extends BaseCommand {
 	@CommandCompletion("@dwarves")
 	@Description("Remove a player from the dwarf team.")
 	public void remove(CommandSender sender, Dwarf dwarf) {
-		DwarfManager.getManager().removeGamePlayer(dwarf, true);
+		DwarfManager.getManager().removeGamePlayer(dwarf);
 		
 		MessageUtil.sendMessage(sender, "Removed ", dwarf, " from the dwarves.");
 	}

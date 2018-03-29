@@ -1,9 +1,7 @@
 package deimophobe.nightfall.monster;
 
-import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.menu.SessionData;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
@@ -11,8 +9,10 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GameEntity;
 import deimophobe.nightfall.game.GamePlayer;
+import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.doom.DoomManager;
@@ -20,7 +20,6 @@ import deimophobe.nightfall.monster.mob.Bopen;
 import deimophobe.nightfall.monster.mob.FloatyMob;
 import deimophobe.nightfall.monster.mob.Mob;
 import deimophobe.nightfall.monster.mob.MobType;
-import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
@@ -64,18 +63,20 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	@Override
 	public void goOnline(Player player) {
 		super.goOnline(player);
-		resetToMobspawn();
+		teleportTo(GameMap.getCurrentMap().getCurrentMobspawn());
 	}
 	
 	@Override
-	public void resetPlayer() {
-		super.resetPlayer();
-		resetToMobspawn();
+	public void goOffline() {
+		kill(true);
+		super.goOffline();
 	}
 	
-	public void resetToMobspawn() {
-		teleportTo(GameMap.getCurrentMap().getCurrentMobspawn());
+	@Override
+	public void onRemove() {
 		kill(true);
+		player.setGameMode(GameMode.ADVENTURE);
+		super.onRemove();
 	}
 	
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
@@ -114,7 +115,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	// ------ SPAWN AND DEATH ------
 	public boolean isAlive() {
-		return (player.getGameMode() == GameMode.SURVIVAL && mob != null);
+		return (mob != null);
 	}
 	
 	public void kill(boolean silent) {
@@ -131,7 +132,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		player.setAllowFlight(true);
 		player.setGameMode(GameMode.SPECTATOR);
 		
-		killMob(silent);
+		if (mob != null) {
+			mob.onDeath(silent);
+			mob = null;
+		}
 		if (frozenDeath) removeRebirth();
 		
 		setTitle(ChatColor.GRAY, null, false);
@@ -139,15 +143,6 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		clearEffects();
 		mobMenuShower.reset();
 		cancelSeppuku();
-	}
-	
-	private void killMob(boolean silent) {
-		if (mob == null) return;
-		
-		mob.onDeath(silent);
-		DisguiseAPI.undisguiseToAll(player);
-		
-		mob = null;
 	}
 	
 	public boolean spawnMob(MobType type) {

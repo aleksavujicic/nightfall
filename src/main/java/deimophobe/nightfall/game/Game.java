@@ -197,12 +197,8 @@ public class Game {
 		return player.getGameMode() == GameMode.ADVENTURE;
 	}
 	
-	public boolean isPlayer(Player player) {
-		return isPlayer(player.getName());
-	}
-	
-	public boolean isPlayer(String name) {
-		return (dwarfManager.isGamePlayer(name) || monsterManager.isGamePlayer(name));
+	public boolean isGamePlayer(Player player) {
+		return (dwarfManager.isGamePlayer(player) || monsterManager.isGamePlayer(player));
 	}
 	
 	public boolean isGameEntity(Entity entity) { return getGameEntity(entity) != null; }
@@ -235,7 +231,7 @@ public class Game {
 	}
 	
 	public boolean removeGamePlayer(Player player) {
-		return dwarfManager.removeGamePlayer(player, true) | monsterManager.removeGamePlayer(player, true);
+		return dwarfManager.removeGamePlayer(player) | monsterManager.removeGamePlayer(player);
 	}
 	
 	public int getNumPlayers() {

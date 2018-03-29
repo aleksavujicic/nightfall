@@ -61,7 +61,7 @@ public class MobCommand extends BaseCommand {
 	@CommandCompletion("@monsters")
 	@Description("Remove a player from the monster team.")
 	public void remove(CommandSender sender, MonsterPlayer monster) {
-		MonsterManager.getManager().removeGamePlayer(monster, true);
+		MonsterManager.getManager().removeGamePlayer(monster);
 		MessageUtil.sendMessage(sender, "Removed ", monster, " from the mobs.");
 	}
 	

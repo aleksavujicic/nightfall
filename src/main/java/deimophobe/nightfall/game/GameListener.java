@@ -408,7 +408,7 @@ public class GameListener implements Listener {
 					player.sendTitle("", dwarf.getDisplayName() + ChatColor.DARK_RED + " has fallen!", 20, 60, 20);
 			}
 			
-			dm.removeGamePlayer(dwarf, true);
+			dm.removeGamePlayer(dwarf);
 			mm.addGamePlayer(event.getEntity(), false);
 
 			if (Game.getGame().getPhase() == Phase.PLAGUE) {
@@ -575,7 +575,7 @@ public class GameListener implements Listener {
 		
 		InventoryHolder holder = event.getInventory().getHolder();
 		if (holder instanceof Player) {
-			if (game.isPlayer((Player) holder) && (event.getSlot() == 40 || event.getSlotType() == InventoryType.SlotType.ARMOR)) {
+			if (game.isGamePlayer((Player) holder) && (event.getSlot() == 40 || event.getSlotType() == InventoryType.SlotType.ARMOR)) {
 				event.setCancelled(true);
 			}
 			if (((Player) holder).getGameMode() == GameMode.ADVENTURE) {
@@ -610,7 +610,7 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void preventInvDragging(InventoryDragEvent event) {
 		InventoryHolder holder = event.getInventory().getHolder();
-		if (holder instanceof Player && game.isPlayer((Player) holder)) {
+		if (holder instanceof Player && game.isGamePlayer((Player) holder)) {
 			if (event.getInventorySlots().contains(40))
 				event.setCancelled(true);
 		}

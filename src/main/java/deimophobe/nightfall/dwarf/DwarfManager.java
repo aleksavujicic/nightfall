@@ -59,10 +59,10 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	}
 	
 	@Override
-	public boolean removeGamePlayer(UUID uuid, boolean reset) {
+	public boolean removeGamePlayer(UUID uuid) {
 		Dwarf dwarf = getGamePlayer(uuid);
 		notifyCloseEvent(dwarf);
-		return super.removeGamePlayer(uuid, reset);
+		return super.removeGamePlayer(uuid);
 	}
 	
 	

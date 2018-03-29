@@ -95,7 +95,7 @@ public class AssassinPlague extends Plague {
         Player player = dwarf.getPlayer();
 
         ItemStack[] inv = player.getInventory().getContents();
-        DwarfManager.getManager().removeGamePlayer(dwarf, false);
+        DwarfManager.getManager().removeGamePlayer(dwarf);
         MonsterManager.getManager().addGamePlayer(player);
         player.getInventory().setContents(inv);
         MonsterPlayer mp = MonsterManager.getManager().getGamePlayer(player);

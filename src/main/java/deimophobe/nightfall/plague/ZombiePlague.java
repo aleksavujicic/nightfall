@@ -68,7 +68,7 @@ class ZombiePlague extends Plague {
 					player.removePotionEffect(PotionEffectType.CONFUSION);
 					
 					ItemStack[] inv = player.getInventory().getContents();
-					DwarfManager.getManager().removeGamePlayer(dwarf, false);
+					DwarfManager.getManager().removeGamePlayer(dwarf);
 					
 					MonsterPlayer mp = MonsterManager.getManager().addGamePlayer(player);
 					player.getInventory().setContents(inv);
