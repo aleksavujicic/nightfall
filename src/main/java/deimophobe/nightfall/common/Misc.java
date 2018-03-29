@@ -100,6 +100,20 @@ public class Misc {
 		return loc.add(-parallel*sin - perpendicular*cos , y, parallel*cos - perpendicular*sin);
 	}
 	
+	public static Vector rotateVector(Vector vector, double angle) {
+		double x = vector.getX();
+		double z = vector.getZ();
+		double ca = Math.cos(angle);
+		double sa = Math.sin(angle);
+		
+		double newX = ca * x - sa * z;
+		double newZ = sa * x + ca * z;
+		vector.setX(newX);
+		vector.setZ(newZ);
+		
+		return vector;
+	}
+	
 	public static void spawnColouredParticles(Location center, int count, double dx, double dy, double dz, Color colour) {
 		spawnColouredParticles(center, count, dx, dy, dz, () -> colour);
 	}
