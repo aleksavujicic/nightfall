@@ -12,7 +12,7 @@ import java.util.Set;
 public enum PlagueType {
 	ZOMBIE(ZombiePlague.class, true),
 	INSTA(InstaPlague.class, false),
-	DEATH(DeathPlague.class, true),
+	TWINS(TwinsPlague.class, true),
 	ASSASSIN(AssassinPlague.class, true);
 	
 	private final Class<? extends Plague> plagueClass;

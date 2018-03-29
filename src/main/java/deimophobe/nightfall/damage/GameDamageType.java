@@ -9,6 +9,7 @@ import deimophobe.nightfall.damage.dot.DamageOverTimeType;
 import deimophobe.nightfall.damage.dot.InvalidPoisonLevelException;
 import deimophobe.nightfall.damage.dot.PoisonTranslator;
 import deimophobe.nightfall.damage.dot.PoisonType;
+import deimophobe.nightfall.plague.TwinsPlague;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -78,9 +79,6 @@ public enum GameDamageType {
 	AI_REMOVER,
 	
 	// Dwarf damage
-	DEATH_PLAGUE(new ForcedDeathMessageMaker("was touched by " + ChatColor.DARK_RED + ChatColor.ITALIC + "THE TWINS")),
-	ASSASSIN_PLAGUE(new ForcedDeathMessageMaker("was assassinated by a " + ChatColor.DARK_GRAY + "dark presence.")),
-	FORCE_PLAGUED(new ForcedDeathMessageMaker("succumbed to the plague")),
 	GOBO_KABOOM("exploded"),
 	GOBO_BOX_EXPLOSION("exploded"),
 	BLAZE_EXPLOSION("blasted"),
@@ -91,6 +89,20 @@ public enum GameDamageType {
 	
 	MINOTAUR_CHARGE("trampled"),
 	WRAITH_CHARGE("drained"),
+	
+	// Plagues
+	ASSASSIN_PLAGUE(new ForcedDeathMessageMaker("was assassinated by a " + ChatColor.DARK_GRAY + "dark presence.")),
+	FORCE_PLAGUED(new ForcedDeathMessageMaker("succumbed to the plague")),
+	DEATH_PLAGUE(
+			// Makes Twins name dynamic (rather than only being called once)
+			(playerName, damage) -> {
+				BaseComponent text = new TextComponent();
+				text.addExtra(playerName);
+				text.addExtra(" was erased by ");
+				text.addExtra(TwinsPlague.getTwinsName());
+				return text;
+			}
+	),
 	
 	BLOOD_MAGIC, // Current for arthea's teleport
 	

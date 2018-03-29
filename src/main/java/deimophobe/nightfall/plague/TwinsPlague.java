@@ -14,7 +14,8 @@ import org.bukkit.util.Vector;
 /**
  * Created by Deimophobe on 10/03/17.
  */
-class DeathPlague extends Plague {
+public class TwinsPlague extends Plague {
+	
 	private Dwarf target = null;
 	private Enderman twin1;
 	private Enderman twin2;
@@ -23,6 +24,8 @@ class DeathPlague extends Plague {
 	
 	@Override
 	public void startPlague() {
+		regenerateTwinsName();
+		
 		World world = GameMap.getCurrentMap().getWorld();
 		
 		Location spawnLoc = GameMap.getCurrentMap().getDwarfSpawn().clone();
@@ -34,8 +37,8 @@ class DeathPlague extends Plague {
 			target = getRandomPlagueable();
 		}
 		
-		twin1 = createDeath(spawnLoc);
-		twin2 = createDeath(spawnLoc);
+		twin1 = createTwin(spawnLoc);
+		twin2 = createTwin(spawnLoc);
 		world.playSound(GameMap.getCurrentMap().getDwarfSpawn(), Sound.ENTITY_ENDERMEN_STARE, 100, 1);
 		
 		runner = new BukkitRunnable() {
@@ -107,14 +110,20 @@ class DeathPlague extends Plague {
 		
 		target.instaKill(null, GameDamageType.DEATH_PLAGUE);
 		World world = GameMap.getCurrentMap().getWorld();
-		world.playSound(center, Sound.ENTITY_ENDERMEN_TELEPORT, 1, 1.1f);
-		world.playSound(center, Sound.ENTITY_ENDERMEN_TELEPORT, 1, 0.9f);
-		world.playSound(center, "entity.endermen.scream", 1, 1.1f);
-		world.playSound(center, "entity.endermen.scream", 1, 0.9f);
-		world.spawnParticle(Particle.PORTAL, center, 50, 0.5, 0.5, 0.5, 0.05);
+		world.playSound(center, Sound.ENTITY_ENDERMEN_TELEPORT, 1.5f, 1.2f);
+		world.playSound(center, Sound.ENTITY_ENDERMEN_TELEPORT, 1.5f, 0.8f);
+		world.playSound(center, "entity.endermen.scream", 1.5f, 1.2f);
+		world.playSound(center, "entity.endermen.scream", 1.5f, 0.8f);
+		world.playSound(center, "entity.endermen.ambient", 1.5f, 0.5f);
+		
+		Location bodyCenter = center.clone().add(0,0.5,0);
+		world.spawnParticle(Particle.PORTAL, bodyCenter, 500, 0.5, 0.5, 0.5, 1.5);
+		world.spawnParticle(Particle.SMOKE_LARGE, bodyCenter, 50, 0.5, 0.5, 0.5, 0.15);
+		world.spawnParticle(Particle.FALLING_DUST, bodyCenter, 50, 0.5, 0.5, 0.5, 0);
+		world.spawnParticle(Particle.CRIT_MAGIC, bodyCenter, 50, 0.5, 0.5, 0.8, 0);
 	}
 	
-	private static Enderman createDeath(Location spawnLoc) {
+	private static Enderman createTwin(Location spawnLoc) {
 		return spawnLoc.getWorld().spawn(spawnLoc, Enderman.class, enderman -> {
 			enderman.setMetadata("death", new FixedMetadataValue(NightfallPlugin.getPlugin(), true));
 			enderman.setAI(false);
@@ -125,4 +134,38 @@ class DeathPlague extends Plague {
 			enderman.setCarriedMaterial(new MaterialData(Material.AIR));
 		});
 	}
+	
+	
+	private static String TWINS_NAME;
+	
+	public static String getTwinsName() {
+		return TWINS_NAME;
+	}
+	
+	private static void regenerateTwinsName() {
+		String colour = ChatColor.DARK_GRAY.toString();
+		String magic = ChatColor.MAGIC.toString();
+		
+		String plainName = "The Twins";
+		StringBuilder modifiedName = new StringBuilder(colour);
+		
+		double chance = 0.5;
+		
+		for (char letter : plainName.toCharArray()) {
+			if (letter == ' ') {
+				modifiedName.append(letter);
+				continue;
+			}
+			
+			if (Math.random() < chance) {
+				modifiedName.append(magic).append(letter).append(colour);
+				chance -= 0.1;
+			} else {
+				modifiedName.append(letter);
+				chance += 0.1;
+			}
+		}
+		TWINS_NAME = modifiedName.toString();
+	}
+	
 }
