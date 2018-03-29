@@ -562,6 +562,7 @@ untimely:
     - chesto
     - compass
     - clock
+    - untimely_demise
   random-selectable: false
   item:
     template: "loadout"
