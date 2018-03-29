@@ -1,10 +1,7 @@
 package deimophobe.nightfall.damage;
 
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.damage.death.DeathMessageMaker;
-import deimophobe.nightfall.damage.death.ForcedDeathMessageMaker;
-import deimophobe.nightfall.damage.death.KeywordDeathMessageMaker;
-import deimophobe.nightfall.damage.death.MixedDeathMessageMaker;
+import deimophobe.nightfall.damage.death.*;
 import deimophobe.nightfall.damage.dot.DamageOverTimeType;
 import deimophobe.nightfall.damage.dot.InvalidPoisonLevelException;
 import deimophobe.nightfall.damage.dot.PoisonTranslator;
@@ -26,25 +23,40 @@ public enum GameDamageType {
 	RANGED("shot"),
 	
 	// Natural Damage
-	CONTACT(new ForcedDeathMessageMaker("was pricked to death."), new FixedDOTModifier(DamageOverTimeType.CONTACT, 10, 2, 1)),
-	MAGMA_BLOCK(new ForcedDeathMessageMaker("burnt their feet"), new FixedDOTModifier(DamageOverTimeType.CONTACT, 10, 4, 4)),
-	DROWNING(new ForcedDeathMessageMaker("drowned"), 8, 1),
-	FIRE(new ForcedDeathMessageMaker("couldn't find water"), new FixedDOTModifier(DamageOverTimeType.FIRE, 10, 8, 2)),
-	LAVA(new ForcedDeathMessageMaker("tried to swim in lava"), new FixedDOTModifier(DamageOverTimeType.FIRE, 8, 15, 5)),
+	CONTACT(
+			new EscapeDeathMessageMaker("was pricked","was pricked to death."),
+			new FixedDOTModifier(DamageOverTimeType.CONTACT, 10, 2, 1)
+	),
+	MAGMA_BLOCK(
+			new EscapeDeathMessageMaker("burnt their feet","burnt their feet"),
+			new FixedDOTModifier(DamageOverTimeType.CONTACT, 10, 4, 4)
+	),
+	DROWNING(new EscapeDeathMessageMaker("drowned", "ran out of breath"), 8, 1),
+	FIRE(
+			new MixedDeathMessageMaker("burnt", "couldn't find water"),
+			new FixedDOTModifier(DamageOverTimeType.FIRE, 10, 8, 2)
+	),
+	LAVA(
+			new EscapeDeathMessageMaker("swam in lava", "tried to swim in lava"),
+			new FixedDOTModifier(DamageOverTimeType.FIRE, 8, 15, 5)
+	),
 	
-	FALL(new ForcedDeathMessageMaker("fell to their doom"), damage -> {
-		damage.getMultiPartDamage().timesMult(3*(1 - Math.pow(Math.random(),2)/2));
-		damage.setNoDamageTicks(1);
-	}),
+	FALL(
+			new EscapeDeathMessageMaker("fell to their doom", "hit the ground too hard"),
+			damage -> {
+				damage.getMultiPartDamage().timesMult(3*(1 - Math.pow(Math.random(),2)/2));
+				damage.setNoDamageTicks(1);
+			}
+	),
 	
-	VOID(new ForcedDeathMessageMaker("was swallowed by the abyss"), GameDamage::instaKill),
+	VOID(new EscapeDeathMessageMaker("was knocked into the abyss", "was swallowed by the abyss"), GameDamage::instaKill),
 	
 	POISON(new MixedDeathMessageMaker("poisoned", "withered away"), new PoisonModifier(DamageOverTimeType.POISON, PotionEffectType.POISON)),
 	WITHER(new MixedDeathMessageMaker("withered", "withered away"), new PoisonModifier(DamageOverTimeType.WITHER, PotionEffectType.WITHER)),
 	
 	
 	// Mob damage
-	SEPPUKU(new ForcedDeathMessageMaker("committed sudoku")),
+	SEPPUKU(new EscapeDeathMessageMaker("committed sudoku")),
 	SHRINE_PROTECTION(new ForcedDeathMessageMaker("was zapped by lightning")),
 	SELF_GOBO_KABOOM(new ForcedDeathMessageMaker("went kaboom")),
 	
