@@ -138,6 +138,15 @@ public class Misc {
 		}
 	}
 	
+	public static void spawnColouredParticles(Location center, int count, double dx, double dy, double dz, double red, double green, double blue) {
+		if (red < 0.001) red = 0.001;
+		
+		for (int i=0; i<count; i++) {
+			Location location = randomLocation(center, dx, dy, dz);
+			center.getWorld().spawnParticle(Particle.REDSTONE, location, 0, red, green, blue, 1);
+		}
+	}
+	
 	public static BlockFace getBlockFaceProjectileHit(Projectile proj, Block hitBlock) {
 		Vector offset = proj.getLocation().subtract(hitBlock.getLocation().add(0.5,0.5,0.5)).toVector();
 		Set<BlockFace> possibleFaces = new HashSet<>();
