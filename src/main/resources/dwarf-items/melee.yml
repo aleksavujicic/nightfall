@@ -76,7 +76,7 @@ dagger:
      - "\"Put that speed to good use, and that poison to better use.\" - Velvetine"
      - "\"I can't keep up with you jimmy! You're too fast!!\" - Tui"
   modifiers:
-    attack: 20
+    attack: 15
     speed: 30
     kb-resist: 25
 

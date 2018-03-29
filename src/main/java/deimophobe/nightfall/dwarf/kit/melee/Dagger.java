@@ -40,7 +40,7 @@ public class Dagger extends AbstractItem implements CooldownPiece {
 	}
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 	
-	private final ComplexCooldown poisonCooldown = new ComplexCooldown(90, this::poisonBomb);
+	private final ComplexCooldown poisonCooldown = new ComplexCooldown(120*20, this::poisonBomb);
 	private final ComplexCooldown armourReshower = new ComplexCooldown(DURATION, null, this::reshowArmour);
 	
 	@Override
@@ -84,6 +84,7 @@ public class Dagger extends AbstractItem implements CooldownPiece {
 		dwarf.givePotionEffect(PotionEffectType.SPEED, DURATION, 2, true, false, true);
 		dwarf.givePotionEffect(PotionEffectType.JUMP, DURATION, 3, true, false, true);
 		dwarf.givePotionEffect(PotionEffectType.INVISIBILITY, DURATION, 1, true, false, true);
+		dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, DURATION, 1, true, false, true);
 		
 		Armour armour = dwarf.getArmour();
 		if (armour instanceof DwarvenArmour) {
