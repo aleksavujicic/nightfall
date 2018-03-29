@@ -3,10 +3,12 @@ package deimophobe.nightfall;
 import deimophobe.nightfall.command.CommandInitialiserUtil;
 import deimophobe.nightfall.util.PacketUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.logging.Logger;
@@ -28,6 +30,8 @@ public class NightfallPlugin extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		plugin = this;
+		
+		//cleanPlayerDataFiles();
 		
 		PacketUtil.setupListeners();
 		
@@ -57,5 +61,14 @@ public class NightfallPlugin extends JavaPlugin {
 	@Override
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
 		return new VoidChunkGenerator();
+	}
+	
+	
+	private void cleanPlayerDataFiles() {
+		World world = Bukkit.getWorlds().get(0);
+		File playerDataFolder = new File(world.getWorldFolder(), "playerdata");
+		for (File file : playerDataFolder.listFiles()) {
+			file.delete();
+		}
 	}
 }
