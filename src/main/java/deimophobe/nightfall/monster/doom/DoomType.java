@@ -1,5 +1,7 @@
 package deimophobe.nightfall.monster.doom;
 
+import deimophobe.nightfall.NightfallPlugin;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.function.Supplier;
@@ -19,9 +21,6 @@ public enum DoomType {
 	private final boolean active;
 	
 	private final Supplier<Doom> doomCreator;
-	public Doom getDoom() {
-		return doomCreator.get();
-	}
 	
 	<T extends AnnotatedDoom> DoomType(Class<T> doomClass, Supplier<T> doomInitialiser) {
 		this(doomClass, doomInitialiser, true);
@@ -50,6 +49,11 @@ public enum DoomType {
 			doom.setSpawner(spawner);
 			return doom;
 		};
+	}
+	
+	public void spawnDoom() {
+		NightfallPlugin.logger().info("Spawning doom: " + this);
+		doomCreator.get().startDoom();
 	}
 	
 	public static Collection<DoomType> getActiveDooms() {

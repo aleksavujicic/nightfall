@@ -16,7 +16,7 @@ public class DoomCommand extends BaseCommand {
 	@CommandCompletion("@dooms")
 	@Description("Causes a doom to immediately occur.")
 	public void spawnDoom(CommandSender sender, DoomType type) {
-		type.getDoom().startDoom();
+		type.spawnDoom();
 		MessageUtil.sendMessage(sender, "Spawned doom ", type, ".");
 	}
 	

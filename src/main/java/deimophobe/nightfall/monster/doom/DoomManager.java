@@ -156,7 +156,7 @@ public class DoomManager {
 		}
 		
 		prevDoom = nextDoom();
-		prevDoom.getDoom().startDoom();
+		prevDoom.spawnDoom();
 		
 		forcedDoom = null;
 		resetDoomTimers();
