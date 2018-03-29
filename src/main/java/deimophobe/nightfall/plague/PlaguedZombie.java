@@ -29,7 +29,7 @@ public class PlaguedZombie extends AbstractMob {
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
-		if (halfSec && canSpread && Math.random() < 0.6) {
+		if (halfSec && Math.random() < 0.6) {
 			spawnAI();
 		}
 	}
