@@ -14,7 +14,7 @@ public enum PlagueType {
 	INSTA(InstaPlague.class, false),
 	TWINS(TwinsPlague.class, true),
 	ASSASSIN(AssassinPlague.class, true),
-	STORM(StormPlague.class, false)
+	STORM(StormPlague.class, true)
 	
 	;
 	
