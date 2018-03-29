@@ -256,17 +256,16 @@ public class Misc {
 		throw new UnknownEnumElementException("Unknown " + enumName + ": " + string);
 	}
 	
-	public static <T,S extends Number> T getArgMax(Collection<T> collection, Function<T, S> function) {
+	public static <T,S extends Comparable<S>> T getArgMax(Collection<T> collection, Function<T, S> function) {
 		if (collection.isEmpty()) throw new IllegalArgumentException("Collection cannot be empty.");
 		
-		T maxArg = null;
-		double maxValue = Double.MIN_VALUE;
-		for (T t : collection) {
-			S num = function.apply(t);
-			double value = num.doubleValue();
-			
-			if (value > maxValue) {
-				maxArg = t;
+		T maxArg = collection.iterator().next();
+		S maxValue = function.apply(maxArg);
+		
+		for (T arg : collection) {
+			S value = function.apply(arg);
+			if (value.compareTo(maxValue) > 0) {
+				maxArg = arg;
 				maxValue = value;
 			}
 		}
