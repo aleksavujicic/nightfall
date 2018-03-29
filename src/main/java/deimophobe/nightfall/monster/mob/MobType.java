@@ -38,7 +38,7 @@ public enum MobType {
 	TICKER(Ticker::new),
 	ZEPHYR(Zephyr::new),
 	
-	KRUNGOR(Krungor::new),
+	TORUS(Torus::new),
 	BOPEN(Bopen::new),
 	MAGUS(Magus::new),
 	OGRE_MAGI(OgreMagi::new),

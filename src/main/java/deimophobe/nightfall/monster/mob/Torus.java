@@ -28,13 +28,13 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 26/01/17.
  */
-class Krungor extends AbstractMob {
+class Torus extends AbstractMob {
 	
 	@Display @Update private final ComplexCooldown launchCD = new ComplexCooldown(30*20, this::launch);
 	         @Update private final ComplexCooldown buffer = new RepeatingCooldown(4*20, this::buffNearbyMobs);
 	
-	Krungor(MonsterPlayer monster) {
-		super(monster, MobType.KRUNGOR);
+	Torus(MonsterPlayer monster) {
+		super(monster, MobType.TORUS);
 	}
 
 	
@@ -77,7 +77,7 @@ class Krungor extends AbstractMob {
 			}
 		}.runTaskTimer(NightfallPlugin.getPlugin(), 0, 2);
 		
-		// Play effect around krungor
+		// Play effect around torus
 		monster.getLocation().getWorld().playSound(monster.getLocation(), Sound.ENTITY_WITHER_SPAWN, 1, 0.7f);
 		new BukkitRunnable() {
 			Location center = monster.getLocation();

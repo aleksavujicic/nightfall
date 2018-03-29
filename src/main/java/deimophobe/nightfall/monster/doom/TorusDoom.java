@@ -14,7 +14,7 @@ import deimophobe.nightfall.monster.upgrade.GlobalUpgrade;
 				"Lord of the Labyrinth"
 		},
 		specialMobs = {
-				@SpecialSpawn(special = MobType.KRUNGOR, size = GameSize.MEDIUM)
+				@SpecialSpawn(special = MobType.TORUS, size = GameSize.MEDIUM)
 		},
 		regularMobs = { MobType.MINOTAUR }
 )

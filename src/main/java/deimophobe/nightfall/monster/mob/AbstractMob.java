@@ -237,7 +237,7 @@ public abstract class AbstractMob implements Mob {
 		monster.clearInventory();
 		
 		if (mobData.hasWeapon()) {
-			if (GlobalUpgrade.KRUNGOR.isUnlocked() && type != MobType.KRUNGOR) {
+			if (GlobalUpgrade.KRUNGOR.isUnlocked() && type != MobType.TORUS) {
 				getWeapon().addModifier(ItemModifierType.ATTACK, 5, "Torus Doom");
 			}
 			
