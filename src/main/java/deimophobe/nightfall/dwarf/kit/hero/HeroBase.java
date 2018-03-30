@@ -18,7 +18,9 @@ public class HeroBase extends AbstractPiece {
 	}
 	
 	@Override
-	public void damageNotify(DwarfDamage damage) {
+	public void onDamageReceive(DwarfDamage damage) {
+		super.onDamageReceive(damage);
+		
 		damage.addPreDamageHandler(PreDamagePriority.SAFETY_JUICE, () -> {
 			double health = dwarf.getPlayer().getHealth();
 			if (damage.willKill() || health <= 10) {
@@ -31,11 +33,7 @@ public class HeroBase extends AbstractPiece {
 				}
 			}
 		});
-	}
-	
-	@Override
-	public void onDamageReceive(DwarfDamage damage) {
-		super.onDamageReceive(damage);
+		
 		damage.multiplyManaDrain(0.25);
 		if (damage.getType() == GameDamageType.FALL) {
 			damage.getMultiPartDamage().timesMult(0.1);

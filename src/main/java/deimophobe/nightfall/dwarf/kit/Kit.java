@@ -112,9 +112,6 @@ public class Kit {
 		for (KitPiece item : kitPieces.values()) {
 			item.onDamageReceive(damage);
 		}
-		for (KitPiece item : kitPieces.values()) {
-			item.damageNotify(damage);
-		}
 	}
 	
 	public void onKill(MonsterDamage damage) {

@@ -1,7 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.armour;
 
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
-import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
@@ -14,6 +13,9 @@ import org.bukkit.potion.PotionEffectType;
 public class BerserkArmour extends AbstractPiece {
 	private State state = State.HIGH;
 	private final static int ATTACK_BONUS = 5;
+	public static int getAttackBonus() {
+		return ATTACK_BONUS;
+	}
 	
 	public BerserkArmour(Dwarf dwarf) {
 		super(dwarf);
@@ -29,29 +31,16 @@ public class BerserkArmour extends AbstractPiece {
 	@Override
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
 		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
-		if (quadSec)
-			update();
-	}
-	
-	@Override
-	public void damageNotify(DwarfDamage damage) {
-		super.damageNotify(damage);
 		update();
 	}
 	
 	private void update() {
-		if (dwarf.getArmour() instanceof DwarvenArmour) {
-			if (!state.isValid(dwarf)) {
-				state = State.getLevel(dwarf);
-				state.apply(dwarf);
-			}
+		if (!state.isValid(dwarf)) {
+			state = State.getLevel(dwarf);
+			state.apply(dwarf);
 		}
 	}
-
-	public static int getAttackBonus() {
-		return ATTACK_BONUS;
-	}
-
+	
 	private enum State {
 		HIGH(350, 1000, 0, false),
 		MED(150, 350, 1, false),

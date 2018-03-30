@@ -33,8 +33,8 @@ public class Resurrection extends AbstractPiece {
 	}
 	
 	@Override
-	public void damageNotify(DwarfDamage damage) {
-		super.damageNotify(damage);
+	public void onDamageReceive(DwarfDamage damage) {
+		super.onDamageReceive(damage);
 		
 		if (!used && Game.getGame().getPhase() == Phase.GAME) {
 			damage.addPreDamageHandler(PreDamagePriority.RESURRECTION, () -> {

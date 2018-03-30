@@ -26,9 +26,6 @@ public class AbstractPiece implements KitPiece {
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {}
 	
-	@Override
-	public void damageNotify(DwarfDamage damage) {}
-	
 	
 	@Override
 	public void onShift(boolean sneaking) {}
