@@ -81,6 +81,17 @@ public class MobCommand extends BaseCommand {
 		});
 	}
 	
+	@Subcommand("kill")
+	@CommandAlias("killmob")
+	@CommandCompletion("@monsters @boolean")
+	@Description("Kill a mob.")
+	public void killMob(CommandSender sender, MonsterIterable monsters, @Default("false") boolean silent) {
+		monsters.forEach(monster -> {
+			monster.kill(silent);
+			MessageUtil.sendMessage(sender, "Killed mob ", monster, ".");
+		});
+	}
+	
 	@Subcommand("xp|exp")
 	@CommandAlias("xp|exp")
 	@CommandCompletion("@monsters")
