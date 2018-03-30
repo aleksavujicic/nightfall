@@ -6,7 +6,6 @@ import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.RepeatingCooldown;
 import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
@@ -23,8 +22,8 @@ import org.bukkit.potion.PotionEffectType;
 abstract class AbstractWolf extends AbstractMob {
 	
 	@Display @Update private final ComplexCooldown leapCD = new ComplexCooldown(200, this::leap);
-	@Update private final ComplexCooldown furySound = new ComplexCooldown(20, this::growl);
 	@Update private final ComplexCooldown packBuffCD = new RepeatingCooldown(4*20, this::packBuff);
+	@Update private final ComplexCooldown growler = new ComplexCooldown(20, () -> playSound("growl"));
 	
 	protected AbstractWolf(MonsterPlayer monster, MobType type) {
 		super(monster, type);
@@ -41,13 +40,13 @@ abstract class AbstractWolf extends AbstractMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		Dwarf dwarf = damage.getDwarf();
 		packBuff();
-		if (dwarf != null) {
-			monster.heal(2);
+		
+		damage.addPostDamageHandler(() -> {
+			monster.heal(3);
 			monster.givePotionEffect(PotionEffectType.SPEED, 160, 2, true, false, true);
-			furySound.tryUse();
-		}
+			growler.tryUse();
+		});
 	}
 	
 	@Override
@@ -70,11 +69,6 @@ abstract class AbstractWolf extends AbstractMob {
 		}
 		
 		monster.removePotionEffect(PotionEffectType.LUCK);
-	}
-	
-	private void growl() {
-		playSound("growl");
-		monster.playSound("entity.zombie_villager.converted", 1f, 1.5f, true);
 	}
 	
 	private void packBuff() {
