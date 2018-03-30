@@ -53,7 +53,7 @@ public class StormPlague extends Plague {
 		world.setStorm(false);
 		
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
-			dwarf.clearAllPoisons();
+			dwarf.removeAllPoisons();
 		}
 		updater.cancel();
 		damageCount.clear();
@@ -123,7 +123,7 @@ public class StormPlague extends Plague {
 		} else if (isPlagueable(dwarf) && getAmountToKill(false) > 0) {
 			if (Math.random() < 0.015) strike(dwarf, false);
 		} else {
-			dwarf.clearAllPoisons();
+			dwarf.removeAllPoisons();
 		}
 		
 		if (Math.random() < 0.04) woosh(dwarf);

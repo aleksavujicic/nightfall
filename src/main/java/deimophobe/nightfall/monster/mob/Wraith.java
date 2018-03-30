@@ -48,11 +48,38 @@ public class Wraith extends AbstractMob implements FloatyMob {
 	}
 	
 	@Override
-	public void onShift(boolean sneaking) {
-		super.onShift(sneaking);
-		if (chargerCD < MAX_CHARGE_CD - 5) {
-			chargeActive = false;
-			setFloatiness(sneaking);
+	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
+		super.update(a, b, c, d, e);
+		if (chargerCD > 0) {
+			chargerCD--;
+			
+			if (chargeActive && chargerCD >= MAX_CHARGE_CD - CLOUD_TIME) {
+				spawnParticles();
+				aoeDamage();
+			}
+			
+			if (chargeActive && chargerCD < MAX_CHARGE_CD - FLOAT_TIME) {
+				chargeActive = false;
+				setFloatiness();
+			}
+		}
+	}
+	
+	@Override
+	public void onDamageReceive(MonsterDamage damage) {
+		super.onDamageReceive(damage);
+		if (chargeActive) {
+			damage.addPostDamageHandler(() -> {
+				chargeActive = false;
+				setFloatiness();
+			});
+		}
+		switch (damage.getType()) {
+			case POISON:
+			case WITHER:
+				damage.cancel();
+				monster.removeAllPoisons();
+				break;
 		}
 	}
 	
@@ -70,35 +97,17 @@ public class Wraith extends AbstractMob implements FloatyMob {
 	}
 	
 	@Override
+	public void onShift(boolean sneaking) {
+		super.onShift(sneaking);
+		if (chargerCD < MAX_CHARGE_CD - 5) {
+			chargeActive = false;
+			setFloatiness(sneaking);
+		}
+	}
+	
+	@Override
 	public float getCooldown() {
 		return 1 - (float) chargerCD/MAX_CHARGE_CD;
-	}
-	
-	@Override
-	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
-		super.update(a, b, c, d, e);
-		if (chargerCD > 0) {
-			chargerCD--;
-
-			if (chargeActive && chargerCD >= MAX_CHARGE_CD - CLOUD_TIME) {
-				spawnParticles();
-				aoeDamage();
-			}
-			
-			if (chargeActive && chargerCD < MAX_CHARGE_CD - FLOAT_TIME) {
-				chargeActive = false;
-				setFloatiness();
-			}
-		}
-	}
-	
-	@Override
-	public void onDamageReceive(MonsterDamage damage) {
-		super.onDamageReceive(damage);
-		if (chargeActive) {
-			chargeActive = false;
-			setFloatiness();
-		}
 	}
 	
 	//private final ComplexCooldown charger = new ComplexCooldown(40, this::charge,  this::setFloatiness);

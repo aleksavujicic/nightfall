@@ -239,7 +239,7 @@ public interface GameEntity<E extends LivingEntity> {
 		getEntity().addPotionEffect(new PotionEffect(effectType, duration, level-1, false, true), true);
 	}
 	
-	default void clearAllPoisons() {
+	default void removeAllPoisons() {
 		removePotionEffect(PotionEffectType.POISON);
 		removePotionEffect(PotionEffectType.WITHER);
 	}
