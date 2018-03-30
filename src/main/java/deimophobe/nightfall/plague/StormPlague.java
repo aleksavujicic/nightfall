@@ -8,6 +8,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.*;
+import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -23,6 +24,7 @@ public class StormPlague extends Plague {
 	
 	private World world;
 	
+	private boolean thundering = false;
 	private final Map<UUID, Integer> damageCount = new HashMap<>();
 	private final BukkitRunnable updater = new BukkitRunnable() {
 		private int counter = 0;
@@ -48,7 +50,6 @@ public class StormPlague extends Plague {
 	
 	@Override
 	public void endPlague() {
-		super.endPlague();
 		world.setStorm(false);
 		
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
@@ -56,6 +57,9 @@ public class StormPlague extends Plague {
 		}
 		updater.cancel();
 		damageCount.clear();
+		
+		Bukkit.broadcastMessage(SUBSIDE);
+		super.endPlague();
 	}
 	
 	// ----- Start Message Stuff -----
@@ -70,6 +74,8 @@ public class StormPlague extends Plague {
 			ChatColor.RED + "A "
 			+ ChatColor.DARK_GRAY + ChatColor.ITALIC + "storm"
 			+ ChatColor.RED + " approaches...";
+	private static final String SUBSIDE =
+			ChatColor.GREEN + "The storm subsides.";
 	
 	private void displayMessage1() {
 		Bukkit.broadcastMessage(MESSAGE1);
@@ -83,6 +89,7 @@ public class StormPlague extends Plague {
 	private void displayMessage2() {
 		Bukkit.broadcastMessage(MESSAGE2);
 		world.setStorm(true);
+		updater.runTaskTimer(NightfallPlugin.getPlugin(), 1, 1);
 		new BukkitRunnable() {
 			@Override public void run() {
 				startStorm();
@@ -91,8 +98,7 @@ public class StormPlague extends Plague {
 	}
 	
 	private void startStorm() {
-		updater.runTaskTimer(NightfallPlugin.getPlugin(), 1, 1);
-		
+		thundering = true;
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			dwarf.givePoison(PoisonType.LIGHTING_PLAGUE, 2*60*20);
 		}
@@ -103,21 +109,24 @@ public class StormPlague extends Plague {
 	
 	private void tickDwarf(Dwarf dwarf, boolean playRain) {
 		Location feet = dwarf.getLocation();
-		world.spawnParticle(Particle.SMOKE_LARGE, feet.clone().subtract(0, 0.5, 0), 30, 5, 0.2, 5, 0);
-		world.spawnParticle(Particle.BLOCK_CRACK, feet, 30, 5, 0.2, 5, 0, new MaterialData(Material.WOOL, (byte)  5));
+		Player player = dwarf.getPlayer();
+		player.spawnParticle(Particle.SMOKE_LARGE, feet.clone().subtract(0, 0.5, 0), 30, 5, 0.2, 5, 0);
+		player.spawnParticle(Particle.BLOCK_CRACK, feet, 30, 5, 0.2, 5, 0, new MaterialData(Material.WOOL, (byte)  5));
+		player.spawnParticle(Particle.BLOCK_CRACK, feet.clone().add(0, 0.5, 0), 30, 5, 4, 5, 0, new MaterialData(Material.LAPIS_BLOCK));
 		
 		dwarf.playSound("entity.silverfish.step", 0.8f, 1f, false);
 		if (playRain) dwarf.playSound("weather.rain", 100f, 0.5f, false);
+		if (!thundering) return;
 		
 		if (isPlagued(dwarf)) {
-			if (Math.random() < 0.05) strike(dwarf, true);
+			if (Math.random() < 0.04) strike(dwarf, true);
 		} else if (isPlagueable(dwarf) && getAmountToKill(false) > 0) {
-			if (Math.random() < 0.02) strike(dwarf, false);
+			if (Math.random() < 0.015) strike(dwarf, false);
 		} else {
 			dwarf.clearAllPoisons();
 		}
 		
-		if (Math.random() < 0.01) woosh(dwarf);
+		if (Math.random() < 0.04) woosh(dwarf);
 	}
 	
 	private void strike(Dwarf target, boolean plagued) {
@@ -127,7 +136,7 @@ public class StormPlague extends Plague {
 		damageCount.putIfAbsent(uuid, 0);
 		int currentCount = damageCount.compute(uuid, (u, i) -> i+1);
 		
-		double damage = currentCount*20;
+		double damage = currentCount*currentCount*5;
 		if (plagued) damage *= 2;
 		target.doDamage(null, GameDamageType.PLAGUED_LIGHTNING, damage, true);
 	}
