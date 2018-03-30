@@ -3,6 +3,7 @@ package deimophobe.nightfall.command;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandIssuer;
 import co.aikar.commands.annotation.*;
+import deimophobe.nightfall.command.iterable.DwarfIterable;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.command.iterable.DwarfDataCreator;
 import deimophobe.nightfall.command.iterable.PlayerIterable;
@@ -81,77 +82,90 @@ public class DwarfCommand extends BaseCommand {
 	@Subcommand("remove")
 	@CommandCompletion("@dwarves")
 	@Description("Remove a player from the dwarf team.")
-	public void remove(CommandSender sender, Dwarf dwarf) {
-		DwarfManager.getManager().removeGamePlayer(dwarf);
-		
-		MessageUtil.sendMessage(sender, "Removed ", dwarf, " from the dwarves.");
+	public void remove(CommandSender sender, DwarfIterable dwarves) {
+		dwarves.forEach(dwarf -> {
+			DwarfManager.getManager().removeGamePlayer(dwarf);
+			MessageUtil.sendMessage(sender, "Removed ", dwarf, " from the dwarves.");
+		});
 	}
 	
 	@Subcommand("mana")
 	@CommandAlias("mana")
 	@CommandCompletion("@dwarves @range:1000")
 	@Description("Changes a dwarf's mana level.")
-	public void onMana(CommandSender sender, Dwarf dwarf, int mana) {
-		dwarf.regenMana(mana);
-		MessageUtil.sendMessage(sender, "Gave ", dwarf, " a total of ", mana, " mana.");
+	public void onMana(CommandSender sender, DwarfIterable dwarves, int mana) {
+		dwarves.forEach(dwarf -> {
+			dwarf.regenMana(mana);
+			MessageUtil.sendMessage(sender, "Gave ", dwarf, " a total of ", mana, " mana.");
+		});
 	}
 	
 	@Subcommand("arrow")
 	@CommandAlias("give-arrow")
 	@CommandCompletion("@dwarves @range:40")
 	@Description("Give (or take) a dwarf's arrows.")
-	public void giveArrows(CommandSender sender, Dwarf dwarf, @Default("40") int arrows) {
-		dwarf.giveArrows(arrows);
-		MessageUtil.sendMessage(sender, "Gave ", dwarf, " a total of ", arrows, " arrows.");
+	public void giveArrows(CommandSender sender, DwarfIterable dwarves, @Default("40") int arrows) {
+		dwarves.forEach(dwarf -> {
+			dwarf.giveArrows(arrows);
+			MessageUtil.sendMessage(sender, "Gave ", dwarf, " a total of ", arrows, " arrows.");
+		});
 	}
 	
 	@Subcommand("plague")
 	@Conditions("pre-plague")
 	@CommandCompletion("@dwarves @plague-status")
 	@Description("Set a dwarf's plague status.")
-	public void setPlagueStatus(CommandSender sender, Dwarf dwarf, Dwarf.PlagueStatus status) {
-		dwarf.setPlagueStatus(status);
-		Dwarf.PlagueStatus newStatus = dwarf.getPlagueStatus();
-		
-		String msg;
-		switch (newStatus) {
-			case IMMUNE:
-				msg = "is now immune to the plague.";
-				break;
-			default:
-			case NORMAL:
-				msg = "now has a normal chance of being plagued.";
-				break;
-			case PLAGUED:
-				msg = "is now guaranteed to plague.";
-				break;
-		}
-		MessageUtil.sendMessage(sender,  dwarf, " ", msg);
+	public void setPlagueStatus(CommandSender sender, DwarfIterable dwarves, Dwarf.PlagueStatus status) {
+		dwarves.forEach(dwarf -> {
+			dwarf.setPlagueStatus(status);
+			Dwarf.PlagueStatus newStatus = dwarf.getPlagueStatus();
+			
+			String msg;
+			switch (newStatus) {
+				case IMMUNE:
+					msg = "is now immune to the plague.";
+					break;
+				default:
+				case NORMAL:
+					msg = "now has a normal chance of being plagued.";
+					break;
+				case PLAGUED:
+					msg = "is now guaranteed to plague.";
+					break;
+			}
+			MessageUtil.sendMessage(sender, dwarf, " ", msg);
+		});
 	}
 	
 	@Subcommand("proc")
 	@CommandCompletion("@dwarves @procs")
 	@Description("Give a dwarf a proc.")
-	public void giveProc(CommandSender sender, Dwarf dwarf, ProcType procType) {
-		dwarf.giveProc(procType);
-		MessageUtil.sendMessage(sender, "Gave ", dwarf, " a ", procType, " proc.");
+	public void giveProc(CommandSender sender, DwarfIterable dwarves, ProcType procType) {
+		dwarves.forEach(dwarf -> {
+			dwarf.giveProc(procType);
+			MessageUtil.sendMessage(sender, "Gave ", dwarf, " a ", procType, " proc.");
+		});
 	}
 	
 	@Subcommand("consumable")
 	@CommandAlias("consumable")
 	@CommandCompletion("@dwarves @consumables")
 	@Description("Give a dwarf a consumable.")
-	public void giveConsumable(CommandSender sender, Dwarf dwarf, ConsumableType consumable, @Default("1") int amount) {
-		dwarf.giveConsumable(consumable, amount);
-		MessageUtil.sendMessage(sender, "Gave ", dwarf, " a total of ", amount, " ", consumable, " consumables.");
+	public void giveConsumable(CommandSender sender, DwarfIterable dwarves, ConsumableType consumable, @Default("1") int amount) {
+		dwarves.forEach(dwarf -> {
+			dwarf.giveConsumable(consumable, amount);
+			MessageUtil.sendMessage(sender, "Gave ", dwarf, " a total of ", amount, " ", consumable, " consumables.");
+		});
 	}
 	
 	@Subcommand("give")
 	@CommandCompletion("@dwarves @kitgives")
 	@Description("Give a dwarf kit items.")
-	public void giveKitType(CommandSender sender, Dwarf dwarf, KitGiveType giveType) {
-		dwarf.giveKitItems(giveType);
-		MessageUtil.sendMessage(sender, "Gave ", dwarf, " all ", giveType, " kit items.");
+	public void giveKitType(CommandSender sender, DwarfIterable dwarves, KitGiveType giveType) {
+		dwarves.forEach(dwarf -> {
+			dwarf.giveKitItems(giveType);
+			MessageUtil.sendMessage(sender, "Gave ", dwarf, " all ", giveType, " kit items.");
+		});
 	}
 	
 	@Subcommand("kit")
