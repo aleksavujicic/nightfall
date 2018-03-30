@@ -233,6 +233,10 @@ public interface GameEntity<E extends LivingEntity> {
 		givePotionEffect(type, MAX_POTION_LENGTH, amplifier, true, isBlue, true);
 	}
 	
+	default void givePermanentPotionEffect(PotionEffectType type, int amplifier, boolean isBlue, boolean force) {
+		givePotionEffect(type, MAX_POTION_LENGTH, amplifier, true, isBlue, force);
+	}
+	
 	default void givePoison(PoisonType type, int duration) {
 		PotionEffectType effectType = type.getEffectType();
 		int level = type.getLevel();
@@ -287,4 +291,5 @@ public interface GameEntity<E extends LivingEntity> {
 	default Disguise getDisguise() {
 		return DisguiseAPI.getDisguise(getEntity());
 	}
+	
 }

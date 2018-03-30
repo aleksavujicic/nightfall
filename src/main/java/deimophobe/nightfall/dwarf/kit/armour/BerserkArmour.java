@@ -34,6 +34,13 @@ public class BerserkArmour extends AbstractPiece {
 		update();
 	}
 	
+	@Override
+	public void onShift(boolean sneaking) {
+		super.onShift(sneaking);
+		state = State.getLevel(dwarf);
+		state.apply(dwarf);
+	}
+	
 	private void update() {
 		if (!state.isValid(dwarf)) {
 			state = State.getLevel(dwarf);
@@ -73,10 +80,11 @@ public class BerserkArmour extends AbstractPiece {
 		}
 
 		private void apply(Dwarf dwarf) {
-			if (strLevel == 0)
+			if (strLevel == 0) {
 				dwarf.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
-			else
-				dwarf.givePermanentPotionEffect(PotionEffectType.INCREASE_DAMAGE, strLevel, isBlue);
+			} else {
+				dwarf.givePermanentPotionEffect(PotionEffectType.INCREASE_DAMAGE, strLevel, isBlue, false);
+			}
 		}
 	}
 }
