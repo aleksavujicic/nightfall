@@ -29,7 +29,7 @@ public class PlaguedZombie extends AbstractMob {
 	@Override
 	public void update() {
 		super.update();
-		if (everyNthTick(10) && Math.random() < 0.6 ) {
+		if (everyNthTick(10) && Math.random() < 0.6 && !plague.hasEnded()) {
 			spawnAI();
 		}
 	}
