@@ -21,7 +21,7 @@ public abstract class AbstractCooldown extends AbstractPiece implements Cooldown
 	
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+	public void update() {
 		reduceCooldown();
 	}
 	

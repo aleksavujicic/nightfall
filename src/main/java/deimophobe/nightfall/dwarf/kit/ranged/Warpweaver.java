@@ -41,8 +41,8 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 	private final ComplexCooldown warpCooldown = new ComplexCooldown(30*20);
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		warpCooldown.update();
 	}
 	

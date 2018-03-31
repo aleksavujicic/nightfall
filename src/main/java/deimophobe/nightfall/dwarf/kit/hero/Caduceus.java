@@ -48,8 +48,8 @@ public class Caduceus extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
-		super.update(a,b,c,d,e);
+	public void update() {
+		super.update();
 		grabCD.update();
 		returnCD.update();
 	}

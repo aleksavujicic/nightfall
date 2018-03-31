@@ -26,7 +26,7 @@ public interface Mob {
 	
 	void onSpawn(SpawnMethod spawnMethod);
 	
-	void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec);
+	void update();
 	void onShift(boolean sneaking);
 	boolean onBlockBreak(Block block, boolean didBreak);
 	void onUse(Action action, Block clickedBlock, BlockFace blockFace);

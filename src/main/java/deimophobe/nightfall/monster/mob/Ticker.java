@@ -67,9 +67,10 @@ class Ticker extends AbstractMob {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
-		if (sec || (fastExplode && quartSec)) {
+	public void update() {
+		super.update();
+		boolean tickCondition = (fastExplode ? everyNthTick(4) : everyNthTick(20));
+		if (tickCondition) {
 			deathTimer--;
 			
 			if (deathTimer == 0) {

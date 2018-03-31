@@ -50,8 +50,8 @@ public class TuiHammer extends AbstractAOEHitter implements CooldownPiece {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		roarCD.update();
 		if (roarCD.wasUsedWithin(ROAR_DURATION)) {
 			dwarf.getPlayer().getWorld().spawnParticle(Particle.FLAME, dwarf.getEyeLocation(), 5, 0.4, 0.4, 0.4, 0.1);

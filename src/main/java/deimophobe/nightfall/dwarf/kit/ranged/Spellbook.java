@@ -47,8 +47,8 @@ public class Spellbook extends AbstractItem {
 	private final ConsumerCooldown<Click> clickRegister = new ConsumerCooldown<>(2, this::registerClick);
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		clickResetter.update();
 		clickRegister.update();
 	}

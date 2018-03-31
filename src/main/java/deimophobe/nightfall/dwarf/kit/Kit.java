@@ -97,9 +97,10 @@ public class Kit {
 	
 	
 	// ------ EVENTS ------
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		for (KitPiece item : kitPieces.values())
-			item.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		for (KitPiece item : kitPieces.values()) {
+			item.update();
+		}
 	}
 	
 	public void onDamageAttack(MonsterDamage damage) {

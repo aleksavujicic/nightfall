@@ -75,8 +75,8 @@ public class ZombieFury extends ZombieMob {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		leapCD.update();
 		furySound.update();
 		if (isLeaping && monster.getPlayer().isOnGround()) {

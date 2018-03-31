@@ -79,12 +79,12 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		super.onRemove();
 	}
 	
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		updateSeppuku();
 		
 		if (mob != null) {
-			mob.update(quartSec, halfSec, sec, doubleSec, quadSec);
+			mob.update();
 			
 			if (seppukuCD > 0) {
 				player.setExp(1 - (float)seppukuCD/MAX_SEPPUKU_CD);
@@ -93,10 +93,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			}
 		}
 		
-		if (sec && isAlive() && Game.getGame().getPhase() == Phase.GAME) {
+		if (everySec() && isAlive() && Game.getGame().getPhase() == Phase.GAME) {
 			gainXP(expRate);
 		}
-		if (quartSec && isAlive() && isInShrine()) {
+		if (everyNthTick(5) && isAlive() && isInShrine()) {
 			if (mob.getShrineWeight() != 0) gainXP(2);
 		}
 		

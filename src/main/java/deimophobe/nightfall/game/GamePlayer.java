@@ -427,8 +427,10 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	private final Set<Updateable> updateables = new HashSet<>();
 	private final Set<Expirable> expirables = new HashSet<>();
 	
-	@Deprecated
-	public void update(boolean b, boolean b1, boolean b2, boolean b3, boolean b4) {
+	// Upper limit is 2520 which divides all numbers less than 10 (so is uniform mod n for lots of small n)
+	private final int offset = Misc.randomInt(0, 2519);
+	
+	public void update() {
 		updateables.forEach(Updateable::update);
 		expirables.forEach(Expirable::update);
 		expirables.removeIf(Expirable::hasExpired);
@@ -440,6 +442,14 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 		} else {
 			updateables.add(updateable);
 		}
+	}
+	
+	public boolean everySec() {
+		return everyNthTick(20);
+	}
+	
+	public boolean everyNthTick(int n) {
+		return (Game.getGame().getCurrentTick() + offset) % n == 0;
 	}
 	
 	

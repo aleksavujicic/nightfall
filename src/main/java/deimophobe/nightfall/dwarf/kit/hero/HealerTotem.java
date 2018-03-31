@@ -43,7 +43,7 @@ public class HealerTotem extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+	public void update() {
 		healing.update();
 		buffpoolCD.update();
 		

@@ -48,8 +48,8 @@ public class Wraith extends AbstractMob implements FloatyMob {
 	}
 	
 	@Override
-	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
-		super.update(a, b, c, d, e);
+	public void update() {
+		super.update();
 		if (chargerCD > 0) {
 			chargerCD--;
 			

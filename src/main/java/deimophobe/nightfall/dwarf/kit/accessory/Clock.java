@@ -24,8 +24,8 @@ public class Clock extends AbstractItem {
 	private final ComplexCooldown useCooldown = new ComplexCooldown(4, this::showTime);
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		useCooldown.update();
 	}
 	

@@ -77,8 +77,8 @@ class GoblinKaboom extends Goblin {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		if (kaboomTrigger) {
 			kaboomCD.update();
 			if (kaboomCD.isAvailable()) {

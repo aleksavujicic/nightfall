@@ -29,9 +29,9 @@ public class BerserkArmour extends AbstractPiece {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
-		update();
+	public void update() {
+		super.update();
+		updateState();
 	}
 	
 	@Override
@@ -41,7 +41,7 @@ public class BerserkArmour extends AbstractPiece {
 		state.apply(dwarf);
 	}
 	
-	private void update() {
+	private void updateState() {
 		if (!state.isValid(dwarf)) {
 			state = State.getLevel(dwarf);
 			state.apply(dwarf);

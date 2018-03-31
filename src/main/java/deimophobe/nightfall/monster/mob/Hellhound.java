@@ -29,8 +29,8 @@ final class Hellhound extends AbstractWolf {
 	}
 	
 	@Override
-	public void update(boolean a, boolean b, boolean sec, boolean d, boolean e) {
-		super.update(a,b,sec,d,e);
+	public void update() {
+		super.update();
 		//if (sec)
 			//tryPlaceMagmaBlock();
 	}

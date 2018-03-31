@@ -45,7 +45,7 @@ public class Wildfire extends AbstractItem {
 	private final Set<MonsterEntity> flamedMobs = new HashSet<>();
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+	public void update() {
 		cooldown.update();
 		
 		processFlames();

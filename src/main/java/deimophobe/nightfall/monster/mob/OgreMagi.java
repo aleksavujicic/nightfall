@@ -33,9 +33,9 @@ class OgreMagi extends AbstractMob {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
-		if (sec) updateBats();
+	public void update() {
+		super.update();
+		if (everyNthTick(20)) updateBats();
 	}
 	
 	@Override

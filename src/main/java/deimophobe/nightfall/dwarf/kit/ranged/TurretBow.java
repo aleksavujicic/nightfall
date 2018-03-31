@@ -36,9 +36,9 @@ public class TurretBow extends AbstractBow {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
-		if (sec) {
+	public void update() {
+		super.update();
+		if (dwarf.everyNthTick(20)) {
 			Iterator<Turret> turretIterator = turrets.iterator();
 			while (turretIterator.hasNext()) {
 				Turret turret = turretIterator.next();

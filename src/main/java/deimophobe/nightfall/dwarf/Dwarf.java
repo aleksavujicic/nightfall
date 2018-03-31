@@ -214,13 +214,13 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	
 	// ------ BLOOD ------
-	private void updateBlood(boolean quartSec, boolean halfSec, boolean sec) {
+	private void updateBlood() {
 		
 		Location bloodLoc = player.getLocation().add(0, 1, 0);
 		
-		if (sec && mana <= 300
-			|| halfSec && mana <= 200
-			|| quartSec && mana <= 100) {
+		if (everyNthTick(20) && mana <= 300
+			|| everyNthTick(10) && mana <= 200
+			|| everyNthTick(5) && mana <= 100) {
 			
 			int count = 8000 / (mana + 100);
 			double radius = 0.4 - (double) mana/2000;
@@ -229,7 +229,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, count, radius, height, radius, 0);
 		}
 		
-		if (halfSec && mana <= 150) {
+		if (everyNthTick(10) && mana <= 150) {
 			player.getWorld().spawnParticle(Particle.BLOCK_CRACK, bloodLoc, 20 - mana/10, 0.2, 0.1, 0.2, 0, new MaterialData(Material.REDSTONE_BLOCK));
 		}
 	}
@@ -379,24 +379,32 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 
 	// ------ UPDATE ------
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
-		kit.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
+		kit.update();
 		updateCooldownBar();
+		updateBlood();
+		arrowRegen.update();
+		procTick();
+		
+		if (noSpecial > 0) {
+			noSpecial--;
+		}
+		if (stunned > 0) {
+			stunned--;
+		}
 		
 		if (consumableGrabCD > 0) {
             consumableGrabCD--;
         }
 		
-		updateBlood(quartSec, halfSec, sec);
 		
-		if (quadSec) {
+		if (everyNthTick(100)) {
 			player.setSaturation(10);
 		}
 		
-		arrowRegen.update();
 
-		if (halfSec) {
+		if (everyNthTick(10)) {
 			//mobspawn
 			if (Game.getGame().getPhase() == Phase.GAME) {
 				updateMobspawn();
@@ -409,21 +417,13 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			}
 		}
 
-		if (sec) {
+		if (everyNthTick(20)) {
 			regenMana(armour.getManaRegenRate());
 			
 			ItemStack heldItem = getHeldItem();
 			holdingLightItem = (ConsumableType.TORCH.matchesItem(heldItem) || ConsumableType.LAMP.matchesItem(heldItem));
 			updateVisibility();
 		}
-
-		procTick();
-		if (noSpecial > 0) {
-		    noSpecial--;
-        }
-        if (stunned > 0) {
-		    stunned--;
-        }
 
 		usedThisTick = false;
 	}

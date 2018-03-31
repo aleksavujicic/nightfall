@@ -40,7 +40,7 @@ public class Crossbow extends AbstractBow implements CooldownPiece {
 	private final static int ARROW_COST = 2;
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+	public void update() {
 		arrowCD.update();
 		rapidCD.update();
 		longRapid.update();

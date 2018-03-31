@@ -6,6 +6,10 @@ package deimophobe.nightfall.cooldown;
 public abstract class LifetimeExpireable implements Expirable {
 	private int lifetime;
 	
+	public int getLifetime() {
+		return lifetime;
+	}
+	
 	protected LifetimeExpireable(int lifetime) {
 		this.lifetime = lifetime;
 	}
@@ -22,5 +26,9 @@ public abstract class LifetimeExpireable implements Expirable {
 	
 	public boolean everyNTicks(int n) {
 		return lifetime % n == 0;
+	}
+	
+	public void expire() {
+		lifetime = 0;
 	}
 }

@@ -36,8 +36,8 @@ public class Chisel extends AbstractItem {
 	@Override public KitGiveType getGiveType() { return KitGiveType.START; }
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		chiseller.update();
 	}
 	

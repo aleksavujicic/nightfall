@@ -61,8 +61,8 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		beamer.update();
 		geyserCD.update();
 		fallImmunity.update();

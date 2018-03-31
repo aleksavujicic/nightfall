@@ -49,8 +49,8 @@ public class Bricklayer extends AbstractItem {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		selector.update();
 		toggler.update();
 	}

@@ -21,8 +21,8 @@ public abstract class AbstractToggleBow extends AbstractBow {
 	private final ComplexCooldown toggler = new ComplexCooldown(4, this::onToggle);
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		toggler.update();
 	}
 	

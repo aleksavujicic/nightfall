@@ -4,7 +4,6 @@ import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
@@ -62,10 +61,10 @@ class SkeletonFlamelancer extends Skeleton {
 	}
 
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
         Block block = monster.getLocation().getBlock();
-        if (halfSec) {
+        if (everyNthTick(10)) {
 			if (BlockType.IGNORABLE.matchesBlock(block) && Math.random() < firePath * 0.1) {
 				block.setType(Material.FIRE);
 			} else {

@@ -31,11 +31,6 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 				update();
 				for (GamePlayer gp : getGamePlayers()) {
 					gp.update(
-							(counter % 5) == 0,
-							(counter % 10) == 0,
-							(counter % 20) == 0,
-							(counter % 40) == 0,
-							(counter % 80) == 0
 					);
 				}
 			}

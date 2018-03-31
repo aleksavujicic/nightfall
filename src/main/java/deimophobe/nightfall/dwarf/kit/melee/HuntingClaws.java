@@ -47,8 +47,8 @@ public class HuntingClaws extends AbstractItem implements CooldownPiece {
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		warpCD.update();
 		if (huntTime > 0) {
 			

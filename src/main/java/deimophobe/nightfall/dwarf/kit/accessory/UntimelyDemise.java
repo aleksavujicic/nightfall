@@ -15,12 +15,12 @@ public class UntimelyDemise extends AbstractPiece {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		
 		World world = dwarf.getWorld();
 		world.spawnParticle(Particle.SMOKE_NORMAL, dwarf.getLocation(), 3, 0.2, 0.2, 0.2, 0.01);
-		if (halfSec)
+		if (dwarf.everyNthTick(10))
 			world.spawnParticle(Particle.VILLAGER_ANGRY, dwarf.getEyeLocation().add(0, 0.5, 0), 1, 0.2, 0.2, 0.2);
 	}
 }

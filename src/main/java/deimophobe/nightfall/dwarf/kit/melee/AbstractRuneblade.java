@@ -40,7 +40,7 @@ public abstract class AbstractRuneblade extends AbstractItem implements Cooldown
 	
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+	public void update() {
 		cooldown.update();
 	}
 	

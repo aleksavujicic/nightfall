@@ -162,7 +162,7 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public void update(boolean a, boolean b, boolean c, boolean d, boolean quadSec) {
+	public void update() {
 		armourCD.update();
 		shinyUpdater.update();
 		if (cooldown > 0)

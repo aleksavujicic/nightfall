@@ -14,7 +14,7 @@ public class AbstractPiece implements KitPiece {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {}
+	public void update() {}
 	
 	
 	@Override

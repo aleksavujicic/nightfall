@@ -22,14 +22,14 @@ class Tui extends Hero {
 	private final ComplexCooldown arrowGiver = new ComplexCooldown(25, this::giveArrow);
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		
 		flameCD.update();
 		arrowGiver.update();
 		if (flameCD.isAvailable()) arrowGiver.tryUse();
 		
-		if (sec && Math.random() < 0.1) {
+		if (Math.random() < 0.1) {
 			Location loc = getEyeLocation();
 			double dx = 0.8*Math.random() - 0.4;
 			double dz = 0.8*Math.random() - 0.4;

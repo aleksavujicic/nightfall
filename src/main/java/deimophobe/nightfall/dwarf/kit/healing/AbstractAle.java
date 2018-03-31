@@ -40,7 +40,7 @@ abstract class AbstractAle extends AbstractItem {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+	public void update() {
 		cooldown.update();
 	}
 	

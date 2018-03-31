@@ -57,8 +57,8 @@ public class Glaive extends AbstractAOEHitter implements CooldownPiece {
     private final static CustomItem ITEM = DwarvenItems.getItem("melee", "glaive");
 
     @Override
-    public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-        super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+    public void update() {
+        super.update();
         cd.update();
         if (altStance && currentTest == "changeStance"){createStanceParticles();}//changeStance
         if (altBlade && currentTest == "changeBlade"){createStanceParticles();}//changeBlade
