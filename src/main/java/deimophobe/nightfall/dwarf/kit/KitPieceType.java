@@ -43,6 +43,7 @@ public enum KitPieceType {
 	CROSSBOW(Crossbow::new),
 	VOLCANIC(VolcanicGauntlet::new),
 	TURRET(TurretBow::new),
+	SPELLBOOK(Spellbook::new),
 	
 	// Ales
 	HEALING_ALE(HealingAle::new),

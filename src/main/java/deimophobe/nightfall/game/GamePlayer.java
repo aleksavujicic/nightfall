@@ -3,6 +3,8 @@ package deimophobe.nightfall.game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.cooldown.Expirable;
+import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.death.DeathMessageMaker;
 import deimophobe.nightfall.damage.death.LastMainDamage;
@@ -326,6 +328,9 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	public void sendMessage(String message) {
 		player.sendMessage(message);
 	}
+	public void sendLargeTitleMessage(String title, String message) {
+		player.sendTitle(title, message, 5, 30, 5);
+	}
 	public void sendTitleMessage(String message) {
 		player.sendTitle("", message, 5, 30, 5);
 	}
@@ -418,9 +423,24 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	public abstract Projectile onBowFire(Arrow arrow, float force); // TODO: bowfire event
 	public abstract void onProjectileLand(Projectile arrow, Block hitBlock, Entity hitEntity);
 	
-	@Deprecated
-	public abstract void update(boolean b, boolean b1, boolean b2, boolean b3, boolean b4);
+	// ----- UPDATES -----
+	private final Set<Updateable> updateables = new HashSet<>();
+	private final Set<Expirable> expirables = new HashSet<>();
 	
+	@Deprecated
+	public void update(boolean b, boolean b1, boolean b2, boolean b3, boolean b4) {
+		updateables.forEach(Updateable::update);
+		expirables.forEach(Expirable::update);
+		expirables.removeIf(Expirable::hasExpired);
+	}
+	
+	public void addUpdateable(Updateable updateable) {
+		if (updateable instanceof Expirable) {
+			expirables.add((Expirable) updateable);
+		} else {
+			updateables.add(updateable);
+		}
+	}
 	
 	
 	// ------ PLAYER BEAMING ------

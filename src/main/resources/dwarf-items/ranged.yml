@@ -104,3 +104,22 @@ volcanic:
      - "\"This gauntlet can even burn hellhounds.\" -Tui"
   modifiers:
     attack: 15
+
+spellbook:
+  base: spellbook
+  name: Magical Spellbook
+  lore:
+    description:
+     - "Magic."
+    flavour:
+     - "Spellbook"
+
+essence:
+  base: essence
+  name: Essence
+  lore:
+    description:
+     - "Magical essence used\n
+        for casting spells."
+    flavour:
+     - "Flavour text here"

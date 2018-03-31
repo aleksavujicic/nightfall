@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf;
 
-import deimophobe.nightfall.*;
+import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.HealBlock;
 import deimophobe.nightfall.common.Misc;
@@ -20,11 +21,7 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.armour.BerserkArmour;
 import deimophobe.nightfall.dwarf.kit.healing.StrongAle;
-import deimophobe.nightfall.game.GameEntity;
-import deimophobe.nightfall.game.GamePlayer;
-import deimophobe.nightfall.game.Curse;
-import deimophobe.nightfall.game.Game;
-import deimophobe.nightfall.game.Phase;
+import deimophobe.nightfall.game.*;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -243,6 +240,12 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	private int arrows = maxArrows;
 	protected ComplexCooldown arrowRegen = new RepeatingCooldown(4*20, this::giveArrow);
 	
+	private ItemStack arrowItem = DwarvenItems.getItem("misc","arrow").createItemStack();
+	public void setArrowItem(ItemStack arrow) { arrowItem = arrow; }
+	private ItemStack getArrowItem() {
+		return arrowItem;
+	}
+	
 	public void setMaxArrows(int max) {
 		maxArrows = max;
 	}
@@ -275,7 +278,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	private void updateArrowDisplay() {
 		ItemStack arrow = player.getInventory().getItemInOffHand();
 		if (arrow == null || arrow.getType() == Material.AIR) {
-			arrow = getArrow().clone();
+			arrow = getArrowItem().clone();
 			player.getInventory().setItemInOffHand(arrow);
 		}
 		
@@ -286,10 +289,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		arrows--;
 	}
 	
-	private final static ItemStack arrow = DwarvenItems.getItem("misc","arrow").createItemStack();
-	protected ItemStack getArrow() {
-		return arrow;
-	}
 	
 	
 	// ------ INVENTORIES ------
@@ -381,6 +380,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 
 	// ------ UPDATE ------
 	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		kit.update(quartSec, halfSec, sec, doubleSec, quadSec);
 		updateCooldownBar();
 		

@@ -30,6 +30,8 @@ import java.util.Set;
 public class Wildfire extends AbstractItem {
 	public Wildfire(Dwarf dwarf) {
 		super(dwarf);
+		dwarf.setArrowItem(DwarvenItems.getItem("hero", "wildfirefuel").createItemStack());
+		dwarf.setMaxArrows(64);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "wildfire");

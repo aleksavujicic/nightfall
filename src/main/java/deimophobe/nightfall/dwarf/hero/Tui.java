@@ -3,12 +3,10 @@ package deimophobe.nightfall.dwarf.hero;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by Deimophobe on 12/03/17.
@@ -17,7 +15,6 @@ class Tui extends Hero {
 	protected Tui(Player player, HeroType type) {
 		super(player, type);
 		
-		setMaxArrows(64);
 		arrowRegen = new ComplexCooldown(1);
 	}
 	
@@ -51,13 +48,6 @@ class Tui extends Hero {
 		super.useArrows(amt);
 		flameCD.reset();
 	}
-	
-	@Override
-	protected ItemStack getArrow() {
-		return fuel;
-	}
-	
-	private static final ItemStack fuel = DwarvenItems.getItem("hero", "wildfirefuel").createItemStack();
 	
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
