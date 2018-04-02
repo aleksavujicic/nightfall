@@ -3,10 +3,8 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Display;
-import deimophobe.nightfall.cooldown.RepeatingCooldown;
 import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
 import org.bukkit.Bukkit;
@@ -22,7 +20,6 @@ import org.bukkit.potion.PotionEffectType;
 abstract class AbstractWolf extends AbstractMob {
 	
 	@Display @Update private final ComplexCooldown leapCD = new ComplexCooldown(200, this::leap);
-	@Update private final ComplexCooldown packBuffCD = new RepeatingCooldown(4*20, this::packBuff);
 	@Update private final ComplexCooldown growler = new ComplexCooldown(20, () -> playSound("growl"));
 	
 	protected AbstractWolf(MonsterPlayer monster, MobType type) {
@@ -40,7 +37,6 @@ abstract class AbstractWolf extends AbstractMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		packBuff();
 		
 		damage.addPostDamageHandler(() -> {
 			monster.heal(3);
@@ -69,20 +65,6 @@ abstract class AbstractWolf extends AbstractMob {
 		}
 		
 		monster.removePotionEffect(PotionEffectType.LUCK);
-	}
-	
-	private void packBuff() {
-		int wolfCount = 1;
-		for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
-			if (monster == this.monster) continue;
-			if (monster.getMob() instanceof AbstractWolf) {
-				if (monster.getLocation().distance(this.monster.getLocation()) <= 10) {
-					wolfCount++;
-				}
-			}
-		}
-		if (wolfCount == 1) return;
-		monster.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, 10*20, wolfCount/2, true, true, false);
 	}
 	
 	protected abstract float leapPitch();
