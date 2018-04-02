@@ -373,7 +373,7 @@ public abstract class AbstractMob implements Mob {
 	
 	@Override
 	public void update() {
-		if (everyNthTick(20)) {
+		if (everyNthTick(40)) {
 			playSound("idle");
 		}
 		
