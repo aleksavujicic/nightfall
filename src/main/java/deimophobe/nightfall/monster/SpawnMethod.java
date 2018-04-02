@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster;
 
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Location;
 
@@ -11,8 +12,18 @@ import java.util.function.Function;
 public enum SpawnMethod {
 	SPAWN(mp -> GameMap.getCurrentMap().getCurrentMobspawn()),
 	DOOM(mp -> GameMap.getCurrentMap().getCurrentMobspawn()),
-	REBIRTH(MonsterPlayer::getRebirthLocation),
-	NONE(MonsterPlayer::getLocation);
+	NONE(MonsterPlayer::getLocation),
+	
+	REBIRTH(mp -> {
+		if (mp.canRebirth()) {
+			return mp.getRebirthLocation();
+		} else {
+			NightfallPlugin.logger().warning("Tried to rebirth player '" + mp.getName() + "' with no rebirth spot.");
+			return GameMap.getCurrentMap().getCurrentMobspawn();
+		}
+	}),
+	
+	;
 	
 	private final Function<MonsterPlayer, Location> spawner;
 	
@@ -23,4 +34,5 @@ public enum SpawnMethod {
 	public Location getSpawnPoint(MonsterPlayer monster) {
 		return spawner.apply(monster);
 	}
+	
 }

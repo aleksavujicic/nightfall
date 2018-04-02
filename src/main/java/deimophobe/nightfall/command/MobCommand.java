@@ -7,6 +7,7 @@ import deimophobe.nightfall.command.iterable.MonsterIterable;
 import deimophobe.nightfall.command.iterable.PlayerIterable;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.mob.Mob;
 import deimophobe.nightfall.monster.mob.MobType;
 import org.bukkit.ChatColor;
@@ -69,11 +70,11 @@ public class MobCommand extends BaseCommand {
 	
 	@Subcommand("spawn")
 	@CommandAlias("spawnmob")
-	@CommandCompletion("@monsters @mobtypes")
+	@CommandCompletion("@monsters @mobtypes @spawnmethods")
 	@Description("Spawn a monster as a specified mob.")
-	public void spawnMob(CommandSender sender, MonsterIterable monsters, MobType mobType) {
+	public void spawnMob(CommandSender sender, MonsterIterable monsters, MobType mobType, @Default("spawn") SpawnMethod spawnMethod) {
 		monsters.forEach(monster -> {
-			boolean spawned = monster.spawnMob(mobType);
+			boolean spawned = monster.spawnMob(mobType, spawnMethod);
 			
 			if (spawned) {
 				MessageUtil.sendMessage(sender, "Spawned ", monster, " as mob ", mobType, ".");

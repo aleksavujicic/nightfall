@@ -169,13 +169,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		try {
 			mob.onSpawn(spawnMethod);
 			
-			switch (spawnMethod) {
-				case SPAWN:
-					removeRebirth();
-					break;
-				case REBIRTH:
-					rebirthCount++;
-					break;
+			if (spawnMethod == SpawnMethod.REBIRTH) {
+				rebirthCount++;
+			} else {
+				removeRebirth();
 			}
 			
 			player.getInventory().setItem(9, seppuku);
