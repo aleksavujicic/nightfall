@@ -1,12 +1,12 @@
 package deimophobe.nightfall.dwarf.kit;
 
 import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.ranged.AbstractBow;
-import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
@@ -80,11 +80,11 @@ public class Kit {
 	public void giveItem(KitPieceType type) {
 		KitPiece element = kitPieces.get(type);
 		if (element == null) {
-			Bukkit.getLogger().severe("Cannot give dwarf element '" + type + "' as it is not in their kit.");
+			NightfallPlugin.logger().severe("Cannot give dwarf element '" + type + "' as it is not in their kit.");
 		} else if (element instanceof ItemPiece) {
 			giveItem((ItemPiece) element);
 		} else {
-			Bukkit.getLogger().severe("Cannot give dwarf element '" + type + "' as it is not an item.");
+			NightfallPlugin.logger().severe("Cannot give dwarf element '" + type + "' as it is not an item.");
 		}
 	}
 	

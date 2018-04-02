@@ -1,10 +1,10 @@
 package deimophobe.nightfall.map.region;
 
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.game.GameEntity;
 import deimophobe.nightfall.game.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.InvalidMapConfigException;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
@@ -28,7 +28,7 @@ public interface Region {
 	
 	static Region createRegion(GameMap map, ConfigurationSection section) throws InvalidMapConfigException {
 		if (!section.contains("type")) {
-			Bukkit.getLogger().severe("Regions must have a type!");
+			NightfallPlugin.logger().severe("Regions must have a type!");
 			return null;
 		}
 		
@@ -47,7 +47,7 @@ public interface Region {
 			case "and":
 				return new AndRegion(map, section);
 			default:
-				Bukkit.getLogger().severe("Region type unknown: '"+type+"'");
+				NightfallPlugin.logger().severe("Region type unknown: '"+type+"'");
 				throw new InvalidMapConfigException("Unknown region type: '" + type + "' at " + section.getCurrentPath());
 		}
 	}

@@ -134,7 +134,7 @@ public class HeroData extends DwarfData {
 					try {
 						return (Hero) constructor.newInstance(p, type);
 					} catch (InstantiationException|IllegalAccessException|InvocationTargetException e) {
-						//Bukkit.getLogger().severe("Failed to create hero '" + nametag + "' for player '" + p.getName() + "'");
+						//NightfallPlugin.logger().severe("Failed to create hero '" + nametag + "' for player '" + p.getName() + "'");
 						//e.printStackTrace();
 						throw new RuntimeException("Failed to create hero '" + nametag + "' for player '" + p.getName() + "'", e);
 					}

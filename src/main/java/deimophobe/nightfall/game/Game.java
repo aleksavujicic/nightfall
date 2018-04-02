@@ -59,7 +59,7 @@ public class Game {
 		return game;
 	}
 	public static Game createNewGame() {
-		Bukkit.getLogger().info("Begin loading game.");
+		NightfallPlugin.logger().info("Begin loading game.");
 		if (loading) {
 			throw new IllegalStateException("Game already loading");
 		}
@@ -74,7 +74,7 @@ public class Game {
 			return new Game(map);
 		} finally {
 			loading = false;
-			Bukkit.getLogger().info("Finished loading game.");
+			NightfallPlugin.logger().info("Finished loading game.");
 		}
 	}
 	
@@ -435,7 +435,7 @@ public class Game {
 		try {
 			protocolManager.sendServerPacket(player, packet);
 		} catch (InvocationTargetException e) {
-			Bukkit.getLogger().severe("Failed to send " + name + " packet.");
+			NightfallPlugin.logger().severe("Failed to send " + name + " packet.");
 			e.printStackTrace();
 		}
 	}
@@ -450,7 +450,7 @@ public class Game {
 		try {
 			protocolManager.sendServerPacket(player, packet);
 		} catch (InvocationTargetException e) {
-			Bukkit.getLogger().severe("Failed to send " + name + " packet.");
+			NightfallPlugin.logger().severe("Failed to send " + name + " packet.");
 			e.printStackTrace();
 		}
 	}

@@ -4,16 +4,15 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
-import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.PreDamagePriority;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
-import org.bukkit.Bukkit;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.Phase;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.potion.PotionEffectType;
@@ -79,7 +78,7 @@ public class Resurrection extends AbstractPiece {
 					try {
 						pm.sendServerPacket(dwarf.getPlayer(), pc);
 					} catch (InvocationTargetException e) {
-						Bukkit.getLogger().severe("Exception sending resurrection animation packet");
+						NightfallPlugin.logger().severe("Exception sending resurrection animation packet");
 						e.printStackTrace();
 					}
 				}

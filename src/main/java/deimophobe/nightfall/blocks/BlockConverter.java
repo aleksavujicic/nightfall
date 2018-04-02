@@ -1,11 +1,11 @@
 package deimophobe.nightfall.blocks;
 
-import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.blocktype.ComparableBlock;
 import deimophobe.nightfall.blocks.blocktype.SettableBlock;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.map.GameMap;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -143,7 +143,7 @@ public class BlockConverter {
 		
 		private double tryConvert(Block block, double force) {
 			if (!canConvert(block)) {
-				Bukkit.getLogger().warning("Tried to convert block that could not convert!? " +
+				NightfallPlugin.logger().warning("Tried to convert block that could not convert!? " +
 						"BlockType: " + (block == null ? "block is null" : block.getType()) + " From: " + from);
 			}
 			

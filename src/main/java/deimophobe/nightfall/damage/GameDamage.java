@@ -418,7 +418,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		phase = DamagePhase.DAMAGING;
 		double doDamageAmt = getFinalDamage();
 		if (doDamageAmt <= 0) {
-			if (doDamageAmt < 0) Bukkit.getLogger().warning("Game Damage " + id + " has less than zero damage!");
+			if (doDamageAmt < 0) NightfallPlugin.logger().warning("Game Damage " + id + " has less than zero damage!");
 			
 			doDamageAmt = 100;
 			softCancel();

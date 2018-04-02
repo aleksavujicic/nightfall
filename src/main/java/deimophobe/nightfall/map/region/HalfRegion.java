@@ -1,8 +1,8 @@
 package deimophobe.nightfall.map.region;
 
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.InvalidMapConfigException;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -44,7 +44,7 @@ class HalfRegion implements Region {
 				coordinate = Coordinate.Z_MINUS;
 				break;
 			default:
-				Bukkit.getLogger().severe("Half region coordinate unknown: '"+coord+"'");
+				NightfallPlugin.logger().severe("Half region coordinate unknown: '"+coord+"'");
 				throw new InvalidMapConfigException("Invalid coordinate '" + coord + "'.", section);
 		}
 		
@@ -70,7 +70,7 @@ class HalfRegion implements Region {
 			case Z_MINUS:
 				return loc.getZ() <= divider;
 		}
-		Bukkit.getLogger().severe("HalfRegion Coordinate not set properly?!");
+		NightfallPlugin.logger().severe("HalfRegion Coordinate not set properly?!");
 		return false;
 	}
 }

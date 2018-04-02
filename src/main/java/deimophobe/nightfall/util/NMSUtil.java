@@ -1,10 +1,10 @@
 package deimophobe.nightfall.util;
 
+import deimophobe.nightfall.NightfallPlugin;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_12_R1.*;
-import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
@@ -63,7 +63,7 @@ public class NMSUtil {
 			
 			((CraftWorld) block.getWorld()).getHandle().a(null, x, y, z, breakSound, SoundCategory.BLOCKS, 1f, 0.8f);
 		} catch (NoSuchFieldException | IllegalAccessException | ClassCastException e) {
-			Bukkit.getLogger().warning("Failed to play block break sound");
+			NightfallPlugin.logger().warning("Failed to play block break sound");
 			e.printStackTrace();
 		}
 		

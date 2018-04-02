@@ -175,7 +175,7 @@ public class MapNurah implements MapFeature {
 			
 			i++;
 			if (i >= MAX_RECURSION) {
-				Bukkit.getLogger().warning("Nurah Map - Hit lava place recursion limit.");
+				NightfallPlugin.logger().warning("Nurah Map - Hit lava place recursion limit.");
 				break;
 			}
 		}

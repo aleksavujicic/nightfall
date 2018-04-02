@@ -60,7 +60,7 @@ public class PlayerSkin {
 //	private void refreshSkin() {
 //		Player player = Bukkit.getPlayer(playerUUID);
 //		if (player == null) {
-//			Bukkit.getLogger().warning("Trying to refresh player who isn't there?");
+//			NightfallPlugin.logger().warning("Trying to refresh player who isn't there?");
 //		} else {
 //			for (Player observer : Bukkit.getOnlinePlayers()) {
 //				observer.hidePlayer(player);
@@ -147,7 +147,7 @@ public class PlayerSkin {
 //					player.setWalkSpeed(player.getWalkSpeed());
 //				}
 //			} catch (InvocationTargetException ex) {
-//				Bukkit.getLogger().severe("Exception sending instant skin change packet");
+//				NightfallPlugin.logger().severe("Exception sending instant skin change packet");
 //				ex.printStackTrace();
 //			}
 //		}

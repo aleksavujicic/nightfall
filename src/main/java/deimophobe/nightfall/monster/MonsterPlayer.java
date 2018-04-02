@@ -178,7 +178,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			player.getInventory().setItem(9, seppuku);
 			player.setGameMode(GameMode.SURVIVAL);
 			player.setAllowFlight(false);
-			Bukkit.getLogger().info("Spawning " + getName() + " as mob: " + mob.getType());
+			NightfallPlugin.logger().info("Spawning " + getName() + " as mob: " + mob.getType());
 			
 			return true;
 		} catch (Exception e) {

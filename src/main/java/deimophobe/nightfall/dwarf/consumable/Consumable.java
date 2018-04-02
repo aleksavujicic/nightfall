@@ -1,11 +1,11 @@
 package deimophobe.nightfall.dwarf.consumable;
 
 import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.game.Game;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -32,7 +32,7 @@ public abstract class Consumable {
 	protected Consumable(String itemName) {
 		this.item = DwarvenItems.getItem("consumable", itemName);
 		if (item == null) {
-			Bukkit.getLogger().severe("Consumable item '" + itemName + "' does not exist.");
+			NightfallPlugin.logger().severe("Consumable item '" + itemName + "' does not exist.");
 			throw new NullPointerException("Consumable item '" + itemName + "' does not exist.");
 		}
 		itemStack = item.createItemStack();

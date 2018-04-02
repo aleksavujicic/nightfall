@@ -39,7 +39,7 @@ public enum HeroType {
 			try {
 				data = new HeroData(config, this);
 			} catch (InvalidConfigurationException e) {
-				Bukkit.getLogger().severe("Failed to load HeroType: " + this.name());
+				NightfallPlugin.logger().severe("Failed to load HeroType: " + this.name());
 				e.printStackTrace();
 				data = null;
 			}

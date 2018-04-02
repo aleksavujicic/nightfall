@@ -1,6 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.common.items.CustomItem;
@@ -217,7 +218,7 @@ public abstract class AbstractMob implements Mob {
 			if (disguiseClass.isInstance(disguise)) {
 				changer.accept(disguiseClass.cast(disguise));
 			} else {
-				Bukkit.getLogger().severe("Mob '" + monster.getName() + "' (type: " + type + ") has Disguise not of type " + disguiseClass.getName());
+				NightfallPlugin.logger().severe("Mob '" + monster.getName() + "' (type: " + type + ") has Disguise not of type " + disguiseClass.getName());
 			}
 		}
 	}
@@ -233,7 +234,7 @@ public abstract class AbstractMob implements Mob {
 			if (watcherClass.isInstance(watcher)) {
 				changer.accept(watcherClass.cast(watcher));
 			} else {
-				Bukkit.getLogger().severe("Mob '" + monster.getName() + "' (type: " + type + ") has FlagWatcher not of type " + watcherClass.getName());
+				NightfallPlugin.logger().severe("Mob '" + monster.getName() + "' (type: " + type + ") has FlagWatcher not of type " + watcherClass.getName());
 			}
 		}
 	}

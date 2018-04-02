@@ -65,7 +65,7 @@ public class DwarvenArmour implements Armour {
 			GameEffect.DWARF_ARMOURED.playEffect(dwarf);
 			dwarf.onArmourEquip();
 		} else {
-			Bukkit.getLogger().warning("Tried to equip armour on dwarf which is already equipped!\nDwarf: " + dwarf.getName());
+			NightfallPlugin.logger().warning("Tried to equip armour on dwarf which is already equipped!\nDwarf: " + dwarf.getName());
 		}
 	}
 	
