@@ -670,8 +670,9 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		if (success) return;
 		
 		if (Misc.isRightClick(type) && clickedBlock != null) {
-			boolean success2 =  pickupItems(clickedBlock.getType());
-			if (success2) {
+			KitGiveType giveType = KitGiveType.getGiveTypeFromBlock(clickedBlock);
+			if (giveType != null) {
+				giveKitItems(giveType);
 				consumableGrabCD = MAX_GRAB_CD;
 				return;
 			}
@@ -687,39 +688,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		if (consCD != -1) {
 			consumableGrabCD = consCD;
 			useHeldItem();
-		}
-	}
-	
-	
-	private boolean pickupItems(Material blockType) {
-		switch (blockType) {
-			case ACTIVATOR_RAIL:
-				kit.giveItems(KitGiveType.PICK);
-				return true;
-				
-			case RAILS:
-				kit.giveItems(KitGiveType.AXE);
-				return true;
-				
-			case POWERED_RAIL:
-				kit.giveItems(KitGiveType.SHOVEL);
-				return true;
-			
-			case LADDER:
-				kit.giveItems(KitGiveType.SWORD);
-				return true;
-				
-			case DETECTOR_RAIL:
-				kit.giveItems(KitGiveType.BOW);
-				return true;
-			
-			case REDSTONE_TORCH_OFF:
-			case REDSTONE_TORCH_ON:
-				kit.giveItems(KitGiveType.ALE);
-				return true;
-			
-			default:
-				return false;
 		}
 	}
 
