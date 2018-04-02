@@ -20,7 +20,7 @@ import org.bukkit.potion.PotionEffectType;
 abstract class AbstractWolf extends AbstractMob {
 	
 	@Display @Update private final ComplexCooldown leapCD = new ComplexCooldown(200, this::leap);
-	@Update private final ComplexCooldown growler = new ComplexCooldown(20, () -> playSound("growl"));
+	@Update private final ComplexCooldown growler = new ComplexCooldown(20, this::growl);
 	
 	protected AbstractWolf(MonsterPlayer monster, MobType type) {
 		super(monster, type);
@@ -39,7 +39,6 @@ abstract class AbstractWolf extends AbstractMob {
 		super.onDamageAttack(damage);
 		
 		damage.addPostDamageHandler(() -> {
-			monster.heal(3);
 			monster.givePotionEffect(PotionEffectType.SPEED, 160, 2, true, false, true);
 			growler.tryUse();
 		});
@@ -49,6 +48,11 @@ abstract class AbstractWolf extends AbstractMob {
 	public void onShift(boolean sneaking) {
 		super.onShift(sneaking);
 		changeDisguiseWatcher(WolfWatcher.class, (ww) -> ww.setSitting(sneaking));
+	}
+	
+	private void growl() {
+		playSound("growl");
+		monster.heal(3);
 	}
 	
 	private void leap() {
