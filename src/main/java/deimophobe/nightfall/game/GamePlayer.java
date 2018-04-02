@@ -6,6 +6,7 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.Expirable;
 import deimophobe.nightfall.cooldown.Updateable;
+import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.death.DeathMessageMaker;
 import deimophobe.nightfall.damage.death.LastMainDamage;
@@ -589,30 +590,35 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	}
 	
 	public class GameEntityDamager<P extends GameEntity> extends SingleEntityConsumer<P> {
-		private final GameDamageType type;
-		private final Function<P,Double> damage;
-		
-		public GameEntityDamager(GameDamageType type, double damage, double minDistance) {
-			super(minDistance);
-			this.type = type;
-			this.damage = (m) -> damage;
-		}
+		private final Consumer<P> damager;
 		
 		public GameEntityDamager(GameDamageType type, double damage) {
 			super(0);
-			this.type = type;
-			this.damage = (m) -> damage;
+			this.damager = p -> p.doDamage(GamePlayer.this, type, damage);
 		}
 		
-		public GameEntityDamager(GameDamageType type, Function<P, Double> damage) {
+		public GameEntityDamager(GameDamageType type, Function<P, Double> damageFunction) {
 			super(0);
-			this.type = type;
-			this.damage = damage;
+			this.damager = p -> p.doDamage(GamePlayer.this, type, damageFunction.apply(p));
+		}
+		
+		public GameEntityDamager(Consumer<P> damager) {
+			super(0);
+			this.damager = damager;
+		}
+		
+		public GameEntityDamager(GameDamageType type, double damage, boolean force, Consumer<GameDamage<?,?>> damageModifier) {
+			super(0);
+			this.damager = p -> {
+				GameDamage<?,?> gameDamage = p.createDamage(GamePlayer.this, type, damage);
+				damageModifier.accept(gameDamage);
+				gameDamage.fire(force);
+			};
 		}
 		
 		@Override
 		public void onHit(P entity) {
-			entity.doDamage(GamePlayer.this, type, damage.apply(entity), true);
+			damager.accept(entity);
 		}
 	}
 }

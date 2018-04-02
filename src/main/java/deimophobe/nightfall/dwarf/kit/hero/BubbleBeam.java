@@ -105,20 +105,17 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		double offsetPerp = Misc.randomDouble(-0.5, 0.5);
 		double offsetY = Misc.randomDouble(-0.5, 0.5);
 		
-		Consumer<MonsterEntity> monsterDamager = dwarf.new SingleEntityConsumer<MonsterEntity>(0) {
-			@Override
-			public void onHit(MonsterEntity monster) {
-				double damageAmt = DAMAGE + dwarf.getBonusMeleeDamage() / 2;
-				if (monster.isUnderwater()) damageAmt *= 1.25;
-				
-				MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.BUBBLE_BEAM, damageAmt);
-				damage.setKnockbackFromMelee();
-				damage.multiplyKnockback(0.4);
-				if (dwarf.hasProc()) damage.setProc(true);
-				damage.setNoDamageTicks(2);
-				damage.fire();
-			}
-		};
+		Consumer<MonsterEntity> monsterDamager = dwarf.new GameEntityDamager<MonsterEntity>(monster -> {
+			double damageAmt = DAMAGE + dwarf.getBonusMeleeDamage() / 2;
+			if (monster.isUnderwater()) damageAmt *= 1.25;
+			
+			MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.BUBBLE_BEAM, damageAmt);
+			damage.setKnockbackFromMelee();
+			damage.multiplyKnockback(0.4);
+			if (dwarf.hasProc()) damage.setProc(true);
+			damage.setNoDamageTicks(2);
+			damage.fire();
+		});
 		
 		dwarf.fireParticle(0.5, 15, 1, offsetPerp, offsetY, 0.2, PARTICLE_PLACER, null, monsterDamager);
 		dwarf.playSound("entity.player.hurt_drown", 0.8f, 1.5f, true);

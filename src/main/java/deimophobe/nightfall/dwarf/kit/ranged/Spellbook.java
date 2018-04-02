@@ -7,7 +7,6 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.ConsumerCooldown;
 import deimophobe.nightfall.cooldown.LifetimeExpireable;
 import deimophobe.nightfall.damage.GameDamageType;
-import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
@@ -205,7 +204,9 @@ public class Spellbook extends AbstractItem {
 				@Override
 				public void update() {
 					super.update();
-					Consumer<MonsterEntity> mobDamager = dwarf.new GameEntityDamager<MonsterEntity>(GameDamageType.TEMPORARY, 40);
+					Consumer<MonsterEntity> mobDamager = dwarf.new GameEntityDamager<MonsterEntity>(
+							GameDamageType.TEMPORARY, 1, true, damage -> damage.setNoDamageTicks(1)
+					);
 					dwarf.fireHitscan(MAX_RANGE, THICKNESS, 0.4, 0.3, PARTICLE_PLACER, null, mobDamager);
 				}
 			});
@@ -230,16 +231,10 @@ public class Spellbook extends AbstractItem {
 				@Override
 				public void update() {
 					if (everyNTicks(10)) {
-						Consumer<MonsterEntity> monsterDamager = dwarf.new SingleEntityConsumer<MonsterEntity>(0) {
-							@Override
-							public void onHit(MonsterEntity monster) {
-								
-								MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.TEMPORARY, 15);
-								damage.setNoDamageTicks(3);
-								damage.fire();
-							}
-						};
-						dwarf.fireParticle(1.5f, MAX_RANGE, THICKNESS, 0.3, PARTICLE_PLACER, null, monsterDamager);
+						Consumer<MonsterEntity> mobDamager = dwarf.new GameEntityDamager<MonsterEntity>(
+								GameDamageType.TEMPORARY, 20, true, damage -> damage.setNoDamageTicks(3)
+						);
+						dwarf.fireParticle(1.5f, MAX_RANGE, THICKNESS, 0.3, PARTICLE_PLACER, null, mobDamager);
 					}
 					super.update();
 				}
