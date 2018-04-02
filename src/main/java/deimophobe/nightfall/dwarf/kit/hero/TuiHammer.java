@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.hero;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
@@ -14,7 +15,6 @@ import deimophobe.nightfall.monster.ai.AIManager;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -62,8 +62,8 @@ public class TuiHammer extends AbstractAOEHitter implements CooldownPiece {
 	private final static int ROAR_DURATION = 10*20;
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isRightClick(action)) {
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		if (click.isRightClick()) {
 			return roarCD.tryUse();
 		}
 		return false;

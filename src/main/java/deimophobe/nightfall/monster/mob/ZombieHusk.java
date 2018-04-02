@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
@@ -18,7 +19,6 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Husk;
-import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -155,9 +155,9 @@ public class ZombieHusk extends ZombieMob {
 	}
 	
 	@Override
-	public void onUse(Action action, Block block, BlockFace face) {
-		super.onUse(action, block, face);
-		if (Misc.isRightClick(action) && isPlayerHoldingWeapon()) {
+	public void onUse(ClickType click, Block block, BlockFace face) {
+		super.onUse(click, block, face);
+		if (click.isRightClick() && isPlayerHoldingWeapon()) {
 			if (leapCD.isAvailable()) {
 				leapCD.reset();
 				

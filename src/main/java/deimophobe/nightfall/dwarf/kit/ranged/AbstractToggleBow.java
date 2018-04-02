@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.ranged;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
@@ -7,7 +8,6 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.block.Action;
 import org.bukkit.metadata.FixedMetadataValue;
 
 /**
@@ -40,8 +40,8 @@ public abstract class AbstractToggleBow extends AbstractBow {
 	}
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isLeftClick(action)) {
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		if (click.isLeftClick()) {
 			return toggler.tryUse();
 		}
 		return false;

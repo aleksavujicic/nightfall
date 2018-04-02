@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
@@ -12,7 +13,6 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Bat;
-import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -39,9 +39,9 @@ class OgreMagi extends AbstractMob {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
-		if (Misc.isRightClick(action) && isPlayerHoldingWeapon()) {
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
+		if (click.isRightClick() && isPlayerHoldingWeapon()) {
 			fireCD.tryUse();
 		}
 	}

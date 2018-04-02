@@ -1,9 +1,9 @@
 package deimophobe.nightfall.game;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.event.HatChangeEvent;
 import deimophobe.nightfall.common.event.TitleChangeEvent;
 import deimophobe.nightfall.common.loadout.LoadoutMenu;
@@ -151,9 +151,10 @@ public class GameListener implements Listener {
 			}
 			
 			if (block == null) block = gp.getTargetBlock(null, 5);
-			gp.onUse(action, block, event.getBlockFace());
+			ClickType click = ClickType.fromAction(action);
+			gp.onUse(click, block, event.getBlockFace());
 			
-			if (Misc.isLeftClick(action)) {
+			if (click.isLeftClick()) {
 				TimedBlock.hitBlock(block, gp);
 			}
 		}
@@ -181,7 +182,7 @@ public class GameListener implements Listener {
 	public void onLeftClick(PlayerAnimationEvent event) {
 		GamePlayer gp = game.getGamePlayer(event.getPlayer());
 		if (gp != null) {
-			gp.onUse(Action.LEFT_CLICK_AIR, gp.getTargetBlock(null, 5), null);
+			gp.onUse(ClickType.LEFT, gp.getTargetBlock(null, 5), null);
 		}
 	}
 	

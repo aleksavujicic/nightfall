@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
@@ -30,7 +31,6 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffectType;
@@ -660,16 +660,16 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	private final static int MAX_GRAB_CD = 15; // For grabbing items and stuff
 	
 	@Override
-	public void onUse(Action type, Block clickedBlock, BlockFace blockFace) {
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
 		if (usedThisTick) return;
 		usedThisTick = true;
 		
 		if (consumableGrabCD > 0) return; // prevent grabbing an item then instantly using it.
 		
-		boolean success = kit.onUse(type, clickedBlock, blockFace);
+		boolean success = kit.onUse(click, clickedBlock, blockFace);
 		if (success) return;
 		
-		if (Misc.isRightClick(type) && clickedBlock != null) {
+		if (click.isRightClick() && clickedBlock != null) {
 			KitGiveType giveType = KitGiveType.getGiveTypeFromBlock(clickedBlock);
 			if (giveType != null) {
 				giveKitItems(giveType);
@@ -678,13 +678,13 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			}
 		}
 		
-		if (Misc.isRightClick(type) && clickedBlock != null && BlockType.SHARED_CHEST.matchesBlock(clickedBlock)) {
+		if (click.isRightClick() && clickedBlock != null && BlockType.SHARED_CHEST.matchesBlock(clickedBlock)) {
 			DwarfManager.getManager().openSharedChest(this, clickedBlock);
 			return;
 		}
 		
 		// Use consumable
-		int consCD = Consumable.use(this, getHeldItem(), type, clickedBlock, blockFace);
+		int consCD = Consumable.use(this, getHeldItem(), click, clickedBlock, blockFace);
 		if (consCD != -1) {
 			consumableGrabCD = consCD;
 			useHeldItem();

@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Display;
@@ -21,7 +22,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.MagmaCube;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -55,9 +55,9 @@ class Zephyr extends AbstractMob implements FloatyMob {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
-		if (Misc.isRightClick(action) && isPlayerHoldingWeapon()) {
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
+		if (click.isRightClick() && isPlayerHoldingWeapon()) {
 			ability.tryUse();
 		}
 	}

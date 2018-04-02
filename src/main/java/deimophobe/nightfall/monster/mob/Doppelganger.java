@@ -1,6 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.Skin;
@@ -24,7 +25,6 @@ import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Team;
@@ -143,12 +143,12 @@ public class Doppelganger extends AbstractMob {
 	);
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
 		if (isPlayerHoldingItem("unhider")) {
 			monster.useHeldItem();
 			unhide();
-		} else if (Misc.isLeftClick(action) && isPlayerHoldingItem("scepter")) {
+		} else if (click.isLeftClick() && isPlayerHoldingItem("scepter")) {
 			beamer.tryUse();
 		}
 	}

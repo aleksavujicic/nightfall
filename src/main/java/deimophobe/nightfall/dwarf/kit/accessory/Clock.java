@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.accessory;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -9,7 +10,6 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 
 /**
  * Created by Deimophobe on 12/02/18.
@@ -30,8 +30,8 @@ public class Clock extends AbstractItem {
 	}
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
 		useCooldown.tryUse();
 		return true;
 	}

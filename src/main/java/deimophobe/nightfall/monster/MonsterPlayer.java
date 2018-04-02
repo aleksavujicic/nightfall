@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
@@ -33,7 +34,6 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -388,7 +388,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	private boolean usedThisTick = false;
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
 		if (usedThisTick) return;
 		usedThisTick = true;
 		
@@ -409,7 +409,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		if (isFrozen()) return;
 		
 		if (mob != null) {
-			mob.onUse(action, clickedBlock, blockFace);
+			mob.onUse(click, clickedBlock, blockFace);
 		}
 	}
 	

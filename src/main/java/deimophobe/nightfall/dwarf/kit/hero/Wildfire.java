@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.hero;
 
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
@@ -17,7 +18,6 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.util.Vector;
 
 import java.util.HashSet;
@@ -52,8 +52,8 @@ public class Wildfire extends AbstractItem {
 	}
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (dwarf.hasArrows(1) && Misc.isRightClick(action)) {
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		if (dwarf.hasArrows(1) && click.isRightClick()) {
 			return cooldown.tryUse();
 		}
 		return true;

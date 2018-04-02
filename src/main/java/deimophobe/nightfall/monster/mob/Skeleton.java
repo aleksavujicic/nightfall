@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -12,7 +13,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.block.Action;
 
 import java.util.Map;
 
@@ -50,9 +50,9 @@ class Skeleton extends AbstractMob {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
-		if (Misc.isRightClick(action)) {
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
+		if (click.isRightClick()) {
 			updateArms(isPlayerHoldingWeapon());
 		}
 	}

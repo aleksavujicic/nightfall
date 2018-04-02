@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -9,7 +10,6 @@ import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.doom.DoomManager;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -29,13 +29,13 @@ class Magus extends AbstractMob {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
 		if (isPlayerHoldingItem("orb")) {
 			monster.useHeldItem();
 			startStorm();
 		}
-		if (Misc.isLeftClick(action) && isPlayerHoldingWeapon()) {
+		if (click.isLeftClick() && isPlayerHoldingWeapon()) {
 			throwDwarves();
 		}
 	}

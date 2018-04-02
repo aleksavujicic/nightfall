@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
@@ -22,7 +23,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -88,10 +88,10 @@ class GoblinKaboom extends Goblin {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
 		
-		if (Misc.isLeftClick(action) && kaboom && isPlayerHoldingItem("kaboom") && !kaboomTrigger) {
+		if (click.isLeftClick() && kaboom && isPlayerHoldingItem("kaboom") && !kaboomTrigger) {
 			monster.givePotionEffect(PotionEffectType.SPEED, MAX_KABOOM_CD, speed, true, true, true);
 			monster.playSound("entity.creeper.primed", 1f, 0.5f, true);
 			changeDisguiseWatcher(CreeperWatcher.class, creeperWatcher -> creeperWatcher.setIgnited(true));

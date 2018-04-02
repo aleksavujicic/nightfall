@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -10,7 +11,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -121,11 +121,11 @@ public class Kit {
 		}
 	}
 	
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
 		ItemStack held = dwarf.getHeldItem();
 		for (ItemPiece item : itemPieces) {
 			if (item.matchesItem(held)) {
-				return item.onUse(action, clickedBlock, blockFace);
+				return item.onUse(click, clickedBlock, blockFace);
 			}
 		}
 		return false;

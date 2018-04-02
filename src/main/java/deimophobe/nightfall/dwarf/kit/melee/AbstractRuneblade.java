@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.melee;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
@@ -13,7 +14,6 @@ import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
@@ -73,8 +73,8 @@ public abstract class AbstractRuneblade extends AbstractItem implements Cooldown
 	}
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isRightClick(action) && !dwarf.getNoSpecial()) {
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		if (click.isRightClick() && !dwarf.getNoSpecial()) {
 			return cooldown.tryUse();
 		}
 		return false;

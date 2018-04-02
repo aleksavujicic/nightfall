@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.melee;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
@@ -12,7 +13,6 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -49,8 +49,8 @@ public class BloodiedWaraxe extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isRightClick(action) && !dwarf.getNoSpecial()) {
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		if (click.isRightClick() && !dwarf.getNoSpecial()) {
 			cd.tryUse();
 		}
 		return false;

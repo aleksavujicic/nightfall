@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.consumable;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -7,7 +8,6 @@ import deimophobe.nightfall.map.GameMap;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 
 /**
  * Created by Deimophobe on 22/01/17.
@@ -19,8 +19,8 @@ class Slab extends Consumable {
 	}
 	
 	@Override
-	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
-		if (Misc.isRightClick(action)) return FAILED_CD;
+	public int use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+		if (click.isRightClick()) return FAILED_CD;
 		if (!checkPhase(dwarf)) return FAILED_CD;
 		
 		Block selectedBlock = dwarf.getTargetBlock(null, 7);

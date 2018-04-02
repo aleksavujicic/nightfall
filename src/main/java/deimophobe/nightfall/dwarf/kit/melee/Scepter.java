@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.melee;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
@@ -18,7 +19,6 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.function.Consumer;
@@ -62,10 +62,10 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace face){
-		if (Misc.isRightClick(action) && !dwarf.getNoSpecial()) {
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace face){
+		if (click.isRightClick() && !dwarf.getNoSpecial()) {
 			return buffpoolCD.tryUse();
-		} else if (Misc.isLeftClick(action)) {
+		} else if (click.isLeftClick()) {
 			return lanceCD.tryUse();
 		}
 		return false;

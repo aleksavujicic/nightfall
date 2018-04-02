@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
@@ -16,7 +17,6 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -84,9 +84,9 @@ public class Wraith extends AbstractMob implements FloatyMob {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace face) {
-		super.onUse(action, clickedBlock, face);
-		if (!Misc.isRightClick(action)) return;
+	public void onUse(ClickType click, Block clickedBlock, BlockFace face) {
+		super.onUse(click, clickedBlock, face);
+		if (!click.isRightClick()) return;
 		if (!isPlayerHoldingWeapon()) return;
 		
 		if (chargerCD == 0) {

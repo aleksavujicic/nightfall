@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.accessory;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
@@ -12,7 +13,6 @@ import deimophobe.nightfall.map.GameMap;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -31,14 +31,14 @@ public class DwarfCompass extends AbstractItem {
 	private boolean canUse = true;
 	
 	@Override
-	public boolean onUse(Action action, Block block, BlockFace face) {
+	public boolean onUse(ClickType click, Block block, BlockFace face) {
 		if (!canUse) return false;
 		
 		// Get compass list
 		List<CompassLocation> locations = GameMap.getCurrentMap().getCompassLocations();
 		
 		// Change index
-		if (Misc.isRightClick(action)) {
+		if (click.isRightClick()) {
 			if (dwarf.getPlayer().isSneaking()) {
 				nextIndex = (nextIndex == 0 ? locations.size() - 1 : nextIndex - 1);
 			} else {

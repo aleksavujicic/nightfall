@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -9,7 +10,6 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.SkeletonHorse;
-import org.bukkit.event.block.Action;
 import org.bukkit.util.Consumer;
 
 /**
@@ -61,8 +61,8 @@ public class Bopen extends AbstractMob {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
 		if (cooldown == 0 && isPlayerHoldingItem("steed")) {
 			mountHorse();
 		}

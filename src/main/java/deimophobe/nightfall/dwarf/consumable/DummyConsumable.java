@@ -1,9 +1,9 @@
 package deimophobe.nightfall.dwarf.consumable;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 
 /**
  * Created by Deimophobe on 28/03/17.
@@ -14,7 +14,7 @@ class DummyConsumable extends Consumable {
 	}
 	
 	@Override
-	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
+	public int use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
 		return FAILED_CD;
 	}
 }

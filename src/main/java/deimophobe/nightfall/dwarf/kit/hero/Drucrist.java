@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.hero;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
@@ -17,7 +18,6 @@ import deimophobe.nightfall.monster.ai.AIManager;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.util.Vector;
 
 public class Drucrist extends AbstractItem implements CooldownPiece {
@@ -47,8 +47,8 @@ public class Drucrist extends AbstractItem implements CooldownPiece {
 
 
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isRightClick(action)) {
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		if (click.isRightClick()) {
 			if (cd.isAvailable()) {
 				MonsterPlayer closestPlayerMonster = dwarf.getLookingAt(13, 2.5, MonsterManager.getManager().getAlivePlayerMobs());
 

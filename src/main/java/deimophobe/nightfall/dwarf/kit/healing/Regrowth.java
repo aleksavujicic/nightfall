@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.healing;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
@@ -9,7 +10,6 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -32,16 +32,16 @@ public class Regrowth extends AbstractAle {
 	@Override public CustomItem getItem() { return ITEM; }
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
 		if (Game.getGame().potionsDisabled()) {
 			return false;
 		}
 		boolean selfHealSuccess = false;
 		boolean otherHealSuccess = false;
-		if (Misc.isLeftClick(action)) {
-			selfHealSuccess = super.onUse(action, clickedBlock, blockFace);
+		if (click.isLeftClick()) {
+			selfHealSuccess = super.onUse(click, clickedBlock, blockFace);
 		}
-		else if (Misc.isRightClick(action)) {
+		else if (click.isRightClick()) {
 			healOthersCD.tryUse();
 			otherHealSuccess = true;
 		}

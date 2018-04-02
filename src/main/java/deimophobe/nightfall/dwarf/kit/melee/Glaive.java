@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.melee;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
@@ -18,7 +19,6 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -64,9 +64,9 @@ public class Glaive extends AbstractAOEHitter implements CooldownPiece {
         if (altBlade && currentTest == "changeBlade"){createStanceParticles();}//changeBlade
     }
     @Override
-    public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace){
-        super.onUse(action, clickedBlock, blockFace);
-        if(Misc.isRightClick(action)){
+    public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace){
+        super.onUse(click, clickedBlock, blockFace);
+        if(click.isRightClick()){
             cd.tryUse();
         }
         return false;

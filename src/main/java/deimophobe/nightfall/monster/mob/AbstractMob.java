@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.common.items.CustomItem;
@@ -22,7 +23,6 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
-import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
@@ -394,7 +394,7 @@ public abstract class AbstractMob implements Mob {
 	
 	
 	@Override public void onShift(boolean sneaking) {}
-	@Override public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {}
+	@Override public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {}
 	@Override public Projectile onBowFire(Arrow arrow, float force) { return null; }
 	@Override public void onProjectileLand(Projectile proj, Block hitBlock, Entity hitEntity) {}
 	

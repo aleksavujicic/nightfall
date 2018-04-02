@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.hero;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
@@ -14,7 +15,6 @@ import deimophobe.nightfall.util.Colour;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 
 /**
  * Created by Deimophobe on 6/05/17.
@@ -34,8 +34,8 @@ public class HealerTotem extends AbstractItem implements CooldownPiece {
 	
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace face) {
-		if (Misc.isLeftClick(action)) {
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace face) {
+		if (click.isLeftClick()) {
 			return buffpoolCD.tryUse();
 		} else {
 			return healing.tryUse();

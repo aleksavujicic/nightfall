@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.hero;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
@@ -27,7 +28,6 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -69,10 +69,10 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
 		
-		if (Misc.isLeftClick(action)) {
+		if (click.isLeftClick()) {
 			return beamer.tryUse();
 		} else {
 			return geyserCD.tryUse();

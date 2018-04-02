@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.melee;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
@@ -16,7 +17,6 @@ import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.mob.MobType;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -52,9 +52,9 @@ public class Hammer extends AbstractAOEHitter implements CooldownPiece {
 	}
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
-		if (Misc.isRightClick(action) && !dwarf.getNoSpecial()) {
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
+		if (click.isRightClick() && !dwarf.getNoSpecial()) {
 			return cooldown.tryUse();
 		}
 		return false;

@@ -4,6 +4,7 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -15,7 +16,6 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
@@ -38,8 +38,8 @@ class Golem extends AbstractMob {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isLeftClick(action)) {
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		if (click.isLeftClick()) {
 			if (breakCD == 0 && isPlayerHoldingWeapon()) {
 				
 				swingArms();

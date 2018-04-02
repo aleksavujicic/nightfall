@@ -1,5 +1,6 @@
 package deimophobe.nightfall.game;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
@@ -28,7 +29,6 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.block.Action;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -418,7 +418,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	// Abstract methods
 	public abstract void updateHotbarSlot(ItemStack heldItem, int slot);
 	public abstract boolean onBlockBreak(Block block, boolean didBreak);
-	public abstract void onUse(Action action, Block clickedBlock, BlockFace blockFace); // TODO: tidyup
+	public abstract void onUse(ClickType click, Block clickedBlock, BlockFace blockFace); // TODO: tidyup
 	public abstract void onShift(boolean sneaking);
 	public abstract Projectile onBowFire(Arrow arrow, float force); // TODO: bowfire event
 	public abstract void onProjectileLand(Projectile arrow, Block hitBlock, Entity hitEntity);

@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
@@ -22,7 +23,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.SmallFireball;
-import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -61,9 +61,9 @@ public class EmberSprite extends AbstractMob implements FloatyMob {
 	}
 
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
-		if (Misc.isRightClick(action) && isPlayerHoldingItem("blaze-ammo")) {
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
+		if (click.isRightClick() && isPlayerHoldingItem("blaze-ammo")) {
 			fireCD.tryUse();
 		}
 	}

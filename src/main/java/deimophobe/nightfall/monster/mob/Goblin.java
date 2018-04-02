@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.blocks.timedblock.GoboBox;
@@ -20,7 +21,6 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.TNTPrimed;
-import org.bukkit.event.block.Action;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
@@ -83,12 +83,12 @@ public class Goblin extends AbstractMob {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
 		Location loc = monster.getLocation();
 		World world = monster.getLocation().getWorld();
 
-		if (Misc.isRightClick(action) && isPlayerHoldingItem("gobo-box") && placeboxCD.isAvailable() && clickedBlock != null && clickedBlock.getType() != Material.ENDER_STONE) {
+		if (click.isRightClick() && isPlayerHoldingItem("gobo-box") && placeboxCD.isAvailable() && clickedBlock != null && clickedBlock.getType() != Material.ENDER_STONE) {
 			Block block = clickedBlock.getRelative(blockFace);
 			double damage = 40 + 6 * shrapnel;
 			double power = 4.5 + 0.25 * dest;
@@ -99,7 +99,7 @@ public class Goblin extends AbstractMob {
 			}
 		}
 		// Throw gobo box
-		if (Misc.isLeftClick(action) && isPlayerHoldingItem("gobo-box") && (monster.getHeldItem().getAmount() >= 2) && throwboxCD.isAvailable()) {
+		if (click.isLeftClick() && isPlayerHoldingItem("gobo-box") && (monster.getHeldItem().getAmount() >= 2) && throwboxCD.isAvailable()) {
 
 			Vector direction = monster.getEyeLocation().getDirection();
 			direction.setX((direction.getX() / 1.65));

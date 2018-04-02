@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.ranged;
 
 import com.google.common.collect.Sets;
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.ConsumerCooldown;
@@ -20,7 +21,6 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -42,9 +42,9 @@ public class Spellbook extends AbstractItem {
 	@Override public CustomItem getItem() { return ITEM; }
 	@Override public KitGiveType getGiveType() { return KitGiveType.BOW; }
 	
-	private final List<Click> clicks = new ArrayList<>();
+	private final List<ClickType> clicks = new ArrayList<>();
 	private final ComplexCooldown clickResetter = new ComplexCooldown(40, null, clicks::clear);
-	private final ConsumerCooldown<Click> clickRegister = new ConsumerCooldown<>(2, this::registerClick);
+	private final ConsumerCooldown<ClickType> clickRegister = new ConsumerCooldown<>(2, this::registerClick);
 	
 	@Override
 	public void update() {
@@ -54,16 +54,14 @@ public class Spellbook extends AbstractItem {
 	}
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
-		
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
 		if (dwarf.getPlayer().getCooldown(Material.BOOK) != 0) return false;
 		
-		Click click = Click.fromAction(action);
 		return clickRegister.tryUse(click);
 	}
 	
-	private void registerClick(Click click) {
+	private void registerClick(ClickType click) {
 		clicks.add(click);
 		dwarf.playSound("ui.button.click");
 		
@@ -93,39 +91,15 @@ public class Spellbook extends AbstractItem {
 		dwarf.sendLargeTitleMessage(message, ChatColor.YELLOW + clickMessage);
 	}
 	
-	private enum Click {
-		LEFT, RIGHT;
-		private static Click fromAction(Action action) {
-			switch (action) {
-				case LEFT_CLICK_BLOCK:
-				case LEFT_CLICK_AIR:
-					return LEFT;
-				case RIGHT_CLICK_BLOCK:
-				case RIGHT_CLICK_AIR:
-					return RIGHT;
-			}
-			throw new IllegalArgumentException("Invalid action: " + action);
-		}
-		
-		@Override
-		public String toString() {
-			switch (this) {
-				case LEFT: return "L";
-				case RIGHT: return "R";
-			}
-			throw new IllegalArgumentException("Unknown click: " + this.name());
-		}
-	}
-	
 	//================================
 	//           SPELL CASTS
 	//================================
 	
 	private static final Set<SpellCast> CASTS = Sets.newHashSet(
-			new SpellCast(new LevitateSpell(), Click.RIGHT, Click.RIGHT),
-			new SpellCast(new GiveCobble(), Click.RIGHT, Click.LEFT),
-			new SpellCast(new HitscanSpell(), Click.LEFT, Click.RIGHT),
-			new SpellCast(new MagicMissile(), Click.LEFT, Click.LEFT)
+			new SpellCast(new LevitateSpell(), ClickType.RIGHT, ClickType.RIGHT),
+			new SpellCast(new GiveCobble(), ClickType.RIGHT, ClickType.LEFT),
+			new SpellCast(new HitscanSpell(), ClickType.LEFT, ClickType.RIGHT),
+			new SpellCast(new MagicMissile(), ClickType.LEFT, ClickType.LEFT)
 	);
 	
 	private Spell findMatchingSpell() {
@@ -139,16 +113,16 @@ public class Spellbook extends AbstractItem {
 	
 	private static class SpellCast {
 		private final Spell spell;
-		private final Click[] clickCombination;
+		private final ClickType[] clickCombination;
 		
-		private SpellCast(Spell spell, Click... clickCombination) {
+		private SpellCast(Spell spell, ClickType... clickCombination) {
 			this.spell = spell;
 			this.clickCombination = clickCombination;
 		}
 		
 		private Spell getSpell() { return spell; }
 		
-		private boolean matchesClicks(List<Click> clicks) {
+		private boolean matchesClicks(List<ClickType> clicks) {
 			if (clicks.size() < clickCombination.length) return false;
 			
 			for (int i = 0; i<clickCombination.length; i++) {

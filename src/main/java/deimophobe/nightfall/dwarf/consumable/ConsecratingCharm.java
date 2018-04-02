@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.consumable;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterManager;
@@ -13,7 +14,6 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.event.block.Action;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
@@ -35,8 +35,8 @@ class ConsecratingCharm extends Consumable {
 	}
 	
 	@Override
-	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
-		if (!Misc.isLeftClick(action)) return FAILED_CD;
+	public int use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+		if (!click.isLeftClick()) return FAILED_CD;
 		if (!checkPhase(dwarf)) return FAILED_CD;
 		
 		Location center = dwarf.getEyeLocation();

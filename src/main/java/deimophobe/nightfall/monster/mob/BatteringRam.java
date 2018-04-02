@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Display;
@@ -14,7 +15,6 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -57,8 +57,8 @@ public class BatteringRam extends AbstractMob {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
 		if (isPlayerHoldingWeapon())
 			ram.tryUse();
 	}
