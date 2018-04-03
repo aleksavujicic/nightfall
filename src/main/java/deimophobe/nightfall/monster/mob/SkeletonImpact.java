@@ -31,14 +31,14 @@ import java.util.Set;
 class SkeletonImpact extends AbstractToggleSkeleton {
 	
 	private final int aoe;
-	@Update @Display private final Cooldown warpCD;
 	@Update @Display private final Cooldown reactionCD;
 
 	private final int punch;
 	private final boolean hasMeleeKB;
 	private final int reaction;
 	private final Set<Arrow> activeArrows = new HashSet<>();
-	private int warpweaver;
+	private final int aerodynamic;
+	private final int forceInf;
 	
 	private final static String ARROW_METADATA_KEY = "active";
 
@@ -47,7 +47,8 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 		int punch = upgrades.get("punch");
 		int meleekb = upgrades.get("meleekb");
 		int extraHealth = upgrades.get("extrahealth-impact");
-		this.warpweaver = upgrades.get("warpweaver");
+		this.aerodynamic = upgrades.get("aerodynamic");
+		this.forceInf = upgrades.get("force-inf");
 		
 		this.aoe = upgrades.get("aoe");
 		this.punch = punch;
@@ -59,15 +60,9 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 			reactionCD = new DudCooldown();
 		}
 
-		if (warpweaver > 0) {
-			warpCD = new DudCooldown();
-			//warpCD = new ComplexCooldown(40 * 20);
-		} else {
-			warpCD = new DudCooldown();
-		}
-
 		getArmour().addModifier(ItemModifierType.HEALTH, extraHealth, "Upgrade");
 		getWeapon().addModifier(ItemModifierType.FAKE_PUNCH, punch, "Upgrade");
+		getWeapon().addModifier(ItemModifierType.IMPACT_EXTRA, forceInf, "More Knockback");
 		
 		makeItemMutable("stick");
 		getItem("stick").addModifier(ItemModifierType.KNOCKBACK, meleekb, "Upgrade");
@@ -122,26 +117,11 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 	@Override
 	public void onProjectileLand(Projectile proj, Block hitBlock, Entity hitEntity) {
 		if (hitBlock == null) return;
-		
-		if (warpCD.isAvailable() && isToggled() && isActiveProjectile(proj)) {
-			if (!GameMap.getCurrentMap().getCurrentShrineProtection().continsEntity(proj)) {
-				forceBowToggle(false);
-				
-				Location newSpot = proj.getLocation().add(0, 0.25, 0);
-				newSpot.add(proj.getLocation().getDirection().multiply(0.25));
-				newSpot.setDirection(monster.getLocation().getDirection());
-				teleportTo(newSpot);
-				
-				warpCD.reset();
-				
-				activeArrows.remove(proj);
-			}
-		} else {
-			BlockFace face = Misc.getBlockFaceProjectileHit(proj, hitBlock);
-			Block explosionBlock = hitBlock.getRelative(face);
-			Location centerLoc = explosionBlock.getLocation();
-			impactExplosion(centerLoc, null);
-		}
+
+		BlockFace face = Misc.getBlockFaceProjectileHit(proj, hitBlock);
+		Block explosionBlock = hitBlock.getRelative(face);
+		Location centerLoc = explosionBlock.getLocation();
+		impactExplosion(centerLoc, null);
 	}
 	
 	private void impactExplosion(Location centerLoc, Dwarf exempt) {
@@ -150,7 +130,7 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 		}
 		World world = monster.getLocation().getWorld();
 		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 3, 1, 1, 1);
-		double kb = 0.6 + aoe * 0.3;
+		double kb = 0.7 + aoe * 0.3 + forceInf * 0.2;
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			if (dwarf == exempt) {
 				continue;
@@ -169,10 +149,10 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 			aoeDamage.fire();
 			
 		}
-		if (warpweaver > 0) {
+		if (isToggled()) {
 			Vector offset = monster.getEyeLocation().subtract(centerLoc).toVector();
 			if (offset.length() < 6.5) {
-				Vector knockback = offset.normalize().multiply(4.5 / Math.sqrt(Math.max(2, offset.length())));
+				Vector knockback = offset.normalize().multiply(kb * 2 / Math.sqrt(Math.max(2, offset.length())));
 				knockback.setY(knockback.getY() / 2 + 0.1);
 				monster.setVelocity(knockback);
 			}
@@ -182,7 +162,6 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
-		removeActiveArrows();
 	}
 	
 	@Override
@@ -192,7 +171,7 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 	
 	@Override
 	protected boolean canToggle() {
-		return warpCD.isAvailable();
+		return aerodynamic > 0;
 	}
 	
 	@Override
@@ -227,17 +206,4 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 		}
 		activeArrows.clear();
 	}
-	
-	private void teleportTo(Location location) {
-		Location here = monster.getLocation();
-		monster.getPlayer().setFallDistance(0);
-		monster.teleportTo(location);
-		
-		World world = location.getWorld();
-		world.spawnParticle(Particle.SPELL_WITCH, location, 20, 0.5, 0.5, 0.5);
-		world.spawnParticle(Particle.SPELL_WITCH, here, 20, 0.5, 0.5, 0.5);
-		world.playSound(location, "entity.illusion_illager.mirror_move", 0.6f, 0.95f);
-		world.playSound(here, "entity.illusion_illager.mirror_move", 0.6f, 0.95f);
-	}
-
 }
