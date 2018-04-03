@@ -48,11 +48,6 @@ class OgreMagi extends AbstractMob {
 	}
 
 	@Override
-	public void onDamageAttack(DwarfDamage damage) {
-		damage.setFireTicks(60);
-	}
-
-	@Override
 	public void onDeath(boolean silent) {
 		super.onDeath(silent);
 		clearBats();

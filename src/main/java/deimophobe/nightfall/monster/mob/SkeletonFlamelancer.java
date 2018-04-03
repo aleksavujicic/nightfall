@@ -117,7 +117,7 @@ class SkeletonFlamelancer extends Skeleton {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		damage.setFireTicks(30 + flame * 10);
+		damage.setFireTicks(60 + flame * 20);
 	}
 
 	@Override
