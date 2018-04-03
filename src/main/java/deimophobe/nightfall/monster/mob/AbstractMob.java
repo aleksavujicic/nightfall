@@ -322,17 +322,29 @@ public abstract class AbstractMob implements Mob {
 	public void onDamageAttack(DwarfDamage damage) {
 		int xpGain = 0;
 		switch (damage.getType()) {
+			// Melee type damages
 			case MELEE:
+			case MINOTAUR_CHARGE:
+			case WRAITH_CHARGE:
 				damage.addPostDamageHandler(() -> playSound("melee"));
 				damage.setArmourShred(mobData.armourShred);
 				xpGain = 3;
 				break;
+			// Ranged type damages
 			case RANGED:
+			case WITHER_SKULL:
 				xpGain = 10;
 				break;
-				
-			default:
+			// Explosion type damages
+			case GOBO_KABOOM:
+			case GOBO_BOX_EXPLOSION:
+			case BLAZE_EXPLOSION:
+			case HUSK_STOMP:
+			case IMPACT_AOE:
 				xpGain = 5;
+				break;
+			default:
+				xpGain = 0;
 				break;
 		}
 		int finalXpGain = xpGain;
