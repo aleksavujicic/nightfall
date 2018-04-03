@@ -6,6 +6,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.game.Curse;
 import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.GameSize;
 import deimophobe.nightfall.monster.mob.MobType;
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
@@ -19,8 +20,10 @@ import org.bukkit.potion.PotionEffectType;
 				"A freezing wind",
 				"summons fearsome beasts"
 		},
-
-		regularMobs = { MobType.POLARBEAR }
+		specialMobs = {
+				@SpecialSpawn(special = MobType.MAMABEAR, size = GameSize.SMALL)
+		},
+		regularMobs = { MobType.POLARBABE }
 )
 
 public class BlizzardDoom extends AnnotatedDoom {

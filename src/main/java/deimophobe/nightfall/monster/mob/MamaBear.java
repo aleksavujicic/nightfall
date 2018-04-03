@@ -1,11 +1,8 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.MultipleCooldown;
-import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.DwarfEntity;
@@ -17,22 +14,23 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.event.block.Action;
 import org.bukkit.util.Vector;
 
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-final class PolarBear extends AbstractMob {
+class MamaBear extends AbstractMob {
 
-	protected PolarBear(MonsterPlayer monster){
-		super (monster, MobType.POLARBEAR);
+	MamaBear(MonsterPlayer monster){
+		super (monster, MobType.MAMABEAR);
 	}
 
-	@Update private ComplexCooldown regenCD = new ComplexCooldown(10*20,this::regenAmmo);
-	@Update private ComplexCooldown frostBreath = new ComplexCooldown(10,this::breatheFrost);
-	@Update @Display private final MultipleCooldown pounceCD = new MultipleCooldown(30*20, 10*20, this::polarPounce, null);
-	private final int FULL_AMMO = 16;
+	private ComplexCooldown regenCD = new ComplexCooldown(2*20,this::regenAmmo);
+	private ComplexCooldown frostBreath = new ComplexCooldown(10,this::breatheFrost);
+	private final MultipleCooldown pounceCD = new MultipleCooldown(60*20, 20*20, this::polarPounce, null);
+	private final int FULL_AMMO = 32;
 
 	private final Set<Frost> frosts = new HashSet<>();
 	private final Set<DwarfEntity> frostedDwarf = new HashSet<>();
@@ -46,8 +44,11 @@ final class PolarBear extends AbstractMob {
 	}
 
 	@Override
-	public void update() {
-		super.update();
+	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+		regenCD.update();
+		frostBreath.update();
+		pounceCD.update();
 		processFrost();
 		if(currentAmmo < FULL_AMMO){
 			if (regenCD.isAvailable()) {
@@ -63,20 +64,20 @@ final class PolarBear extends AbstractMob {
 	}
 
 	@Override
-	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(click, clickedBlock, blockFace);
-		if (click.isRightClick() && isPlayerHoldingItem("frost-ammo")) {
+	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(action, clickedBlock, blockFace);
+		if (Misc.isRightClick(action) && isPlayerHoldingItem("frost-ammo")) {
 			frostBreath.tryUse();
 		}
 	}
 
 	private void polarPounce(){
-		monster.leap(1,1);
+		monster.leap(1,.5);
 	}
 
 	private void regenAmmo(){
-		currentAmmo += 5;
-		giveItem("frost-ammo",5);
+		currentAmmo ++;
+		giveItem("frost-ammo",1);
 	}
 
 	private void breatheFrost(){
@@ -117,7 +118,7 @@ final class PolarBear extends AbstractMob {
 			velocity.normalize().multiply(Frost.FROST_VELOCITY);
 			velocity.add(monster.getVelocity().setY(0));
 
-			spawnLoc.add(velocity.clone().multiply(2));
+			spawnLoc.add(velocity.clone().multiply(1.5));
 
 			this.location = spawnLoc;
 			this.velocity = velocity;
@@ -135,7 +136,7 @@ final class PolarBear extends AbstractMob {
 			double frac = (double) life / FROST_LIFE;
 			double radius = 2.5 - 0.5*frac;
 			double visibleRadius = 0.75 - 0.5*frac;
-			double damageAmt = frac*2 + 1;
+			double damageAmt = frac*2 + 5;
 
 			// Frost particles
 			World world = location.getWorld();
@@ -162,6 +163,11 @@ final class PolarBear extends AbstractMob {
 		private boolean isDead() {
 			return life <= 0;
 		}
+	}
+
+	@Override
+	public float getCooldown() {
+		return pounceCD.getCooldown();
 	}
 
 }
