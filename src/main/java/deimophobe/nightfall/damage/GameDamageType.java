@@ -101,6 +101,7 @@ public enum GameDamageType {
 	
 	MINOTAUR_CHARGE("trampled"),
 	WRAITH_CHARGE("drained"),
+	FROST_BREATH("frosted"),
 	
 	// Plagues
 	FORCE_PLAGUED(new ForcedDeathMessageMaker("succumbed to the plague")),

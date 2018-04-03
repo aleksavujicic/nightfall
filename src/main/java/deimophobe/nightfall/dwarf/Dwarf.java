@@ -511,6 +511,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		boolean inMobspawn = GameMap.getCurrentMap().getCurrentMobProtection().containsPlayer(this);
 		if (inMobspawn) {
 			inMobspawnCooldown.tryUse();
+			stunned = 0; // prevents being stunned in mobspawn, setstunned will enable specials as well that may be undesirable in case of weakness curse
 		} else {
 			outMobspawnCooldown.tryUse();
 		}

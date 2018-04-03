@@ -19,8 +19,11 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.effects.GameEffect;
 import deimophobe.nightfall.util.ArmourSlot;
 import org.bukkit.Bukkit;
+import org.bukkit.Particle;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -82,6 +85,14 @@ public class DwarvenArmour implements Armour {
 	@Override
 	public void addModifier(ItemModifierType type, int value, String reason) {
 		addModifier(type, value, reason, ArmourSlot.CHEST);
+		if (Game.getGame().isCurseActive(Curse.BLIZZARD)){
+			for(Player player : Bukkit.getOnlinePlayers()){
+				player.spawnParticle(Particle.FIREWORKS_SPARK, player.getLocation(), 25, 10, 10, 10, 0);
+			}
+			for(Dwarf dwarf : DwarfManager.getManager().getDwarves()){
+				dwarf.givePotionEffect(PotionEffectType.SLOW,15*20,2,true,true,true);
+			}
+		}
 	}
 	
 	@Override

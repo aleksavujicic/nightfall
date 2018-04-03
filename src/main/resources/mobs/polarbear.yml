@@ -1,0 +1,35 @@
+title: Polar Bear
+
+disguisetype: polar_bear
+
+
+health: 80
+arrowres: 0.25
+shred: 10
+proccable: false
+resistance: 0.75
+speed: -5
+
+
+armour:
+  material: ice
+  name: Frozen Chestplate
+  lore:
+    description:
+     - "A chestplate carved from the coldest ice of the North."
+    flavour:
+     - "No fire can melt it."
+  bound: true
+  modifiers:
+    kb-resist: 100
+items:
+  frost-ammo:
+    material: packed_ice
+    name: Frosted Breath
+    lore:
+      description:
+       - "&aRight click to spew a frosty breath, which\n
+          &adamage dwarves and walls as they are crystalized&r.\n
+          Frosted Breath regenerates slowly over time."
+      flavour:
+       - "Freezing death."
