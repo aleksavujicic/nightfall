@@ -21,16 +21,16 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-final class PolarBear extends AbstractMob {
+class MamaBear extends AbstractMob {
 
-	protected PolarBear(MonsterPlayer monster){
-		super (monster, MobType.POLARBEAR);
+	MamaBear(MonsterPlayer monster){
+		super (monster, MobType.MAMABEAR);
 	}
 
-	private ComplexCooldown regenCD = new ComplexCooldown(10*20,this::regenAmmo);
+	private ComplexCooldown regenCD = new ComplexCooldown(2*20,this::regenAmmo);
 	private ComplexCooldown frostBreath = new ComplexCooldown(10,this::breatheFrost);
-	private final MultipleCooldown pounceCD = new MultipleCooldown(30*20, 10*20, this::polarPounce, null);
-	private final int FULL_AMMO = 16;
+	private final MultipleCooldown pounceCD = new MultipleCooldown(60*20, 20*20, this::polarPounce, null);
+	private final int FULL_AMMO = 32;
 
 	private final Set<Frost> frosts = new HashSet<>();
 	private final Set<DwarfEntity> frostedDwarf = new HashSet<>();
@@ -72,12 +72,12 @@ final class PolarBear extends AbstractMob {
 	}
 
 	private void polarPounce(){
-		monster.leap(1,1);
+		monster.leap(1,.5);
 	}
 
 	private void regenAmmo(){
-		currentAmmo += 5;
-		giveItem("frost-ammo",5);
+		currentAmmo ++;
+		giveItem("frost-ammo",1);
 	}
 
 	private void breatheFrost(){
@@ -118,7 +118,7 @@ final class PolarBear extends AbstractMob {
 			velocity.normalize().multiply(Frost.FROST_VELOCITY);
 			velocity.add(monster.getVelocity().setY(0));
 
-			spawnLoc.add(velocity.clone().multiply(2));
+			spawnLoc.add(velocity.clone().multiply(1.5));
 
 			this.location = spawnLoc;
 			this.velocity = velocity;
@@ -136,7 +136,7 @@ final class PolarBear extends AbstractMob {
 			double frac = (double) life / FROST_LIFE;
 			double radius = 2.5 - 0.5*frac;
 			double visibleRadius = 0.75 - 0.5*frac;
-			double damageAmt = frac*2 + 1;
+			double damageAmt = frac*2 + 5;
 
 			// Frost particles
 			World world = location.getWorld();

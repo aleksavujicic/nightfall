@@ -1,14 +1,15 @@
-title: Polar Bear
+title: Mama Bear
 
 disguisetype: polar_bear
 
 
-health: 80
+health: 90
 arrowres: 0.25
 shred: 10
+attack: 30
 proccable: false
-resistance: 0.75
-speed: -5
+resistance: 0.85
+speed: -20
 
 
 armour:
@@ -30,6 +31,15 @@ items:
       description:
        - "&aRight click to spew a frosty breath, which\n
           &adamage dwarves and walls as they are crystalized&r.\n
-          Frosted Breath regenerates slowly over time."
+          Frosted Breath regenerates over time."
       flavour:
        - "Freezing death."
+weapon:
+  template: monster-hero
+  base: temp
+  name: "Mama Bear's Claws"
+  lore:
+    description:
+     - "Don't mess with Mama."
+    flavour:
+     - "Death to all who harm my babies."

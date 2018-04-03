@@ -1,0 +1,32 @@
+title: Polar Babe
+
+disguisetype: polar_bear
+
+
+health: 50
+speed: -10
+shred: 20
+attack: 20
+proccable: false
+resistance: 0.65
+
+
+
+armour:
+  material: ice
+  name: Frozen Chestplate
+  lore:
+    description:
+     - "A chestplate carved from the coldest ice of the North."
+    flavour:
+     - "No fire can melt it."
+  bound: true
+
+weapon:
+  base: temp
+  name: "Baby Bear's Claws"
+  lore:
+    description:
+     - "I scratch you."
+    flavour:
+     - "I may look cuddly but I'm vicious."
