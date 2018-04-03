@@ -46,12 +46,10 @@ class AISpawnLocation {
 		// Find closest dwarf and set as target.
 		Dwarf closestDwarf = null;
 		double closestDistance = 25;
-		int closeDwarves = 0;
 		for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
 			double distance = location.distance(dwarf.getLocation());
-			if (distance <= 6) {
-				closeDwarves++;
-			}
+			if (distance <= 4) return; // Too close to dwarf, don't spawn
+			
 			if (distance <= closestDistance) {
 				closestDwarf = dwarf;
 				closestDistance = distance;
@@ -72,7 +70,7 @@ class AISpawnLocation {
 		manager.spawnAIs(AIType.ZOMBIE, location, closestDwarf, amtToSpawn);
 		
 		// Reduce life based on ais spawned and number of close dwarves
-		life -= 2 + amtToSpawn*(2 + closeDwarves);
+		life -= 3 + amtToSpawn;
 	}
 	
 	boolean isWithinRange(Location loc, double range) {
