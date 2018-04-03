@@ -19,7 +19,7 @@ final class Hellhound extends AbstractWolf {
 	
 	Hellhound(MonsterPlayer monster) {
 		super(monster, MobType.HELLHOUND);
-		getWeapon().addModifier(ItemModifierType.BURNING, 1, "Breath of Hell");
+		getWeapon().addModifier(ItemModifierType.BURNING, 2);
 	}
 	
 	@Override
