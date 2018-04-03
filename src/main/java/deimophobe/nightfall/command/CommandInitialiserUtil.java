@@ -26,6 +26,7 @@ import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.map.MapManager;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.ai.AIType;
 import deimophobe.nightfall.monster.doom.DoomType;
 import deimophobe.nightfall.monster.mob.MobType;
@@ -89,6 +90,7 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("consumables", getCompletionHandlerForEnum(ConsumableType.values()));
 		completions.registerCompletion("kitgives", getCompletionHandlerForEnum(KitGiveType.values()));
 		completions.registerCompletion("mobtypes", getCompletionHandlerForEnum(MobType.getSpawnableMobs()));
+		completions.registerCompletion("spawnmethods", getCompletionHandlerForEnum(SpawnMethod.values()));
 		completions.registerCompletion("plagues", getCompletionHandlerForEnum(PlagueType.values()));
 		completions.registerCompletion("plague-status", getCompletionHandlerForEnum(Dwarf.PlagueStatus.values()));
 		completions.registerCompletion("dooms", getCompletionHandlerForEnum(DoomType.values()));
@@ -201,6 +203,7 @@ public class CommandInitialiserUtil {
 		contexts.registerContext(KitGiveType.class, getContextResolverOfEnum(KitGiveType.values(), "give type", true));
 		contexts.registerContext(Dwarf.PlagueStatus.class, getContextResolverOfEnum(Dwarf.PlagueStatus.values(), "plague status", true));
 		contexts.registerContext(MobType.class, getContextResolverOfEnum(MobType.getSpawnableMobs(), "mob", true));
+		contexts.registerContext(SpawnMethod.class, getContextResolverOfEnum(SpawnMethod.values(), "spawn method", true));
 		contexts.registerContext(PlagueType.class, getContextResolverOfEnum(PlagueType.values(), "plague", true));
 		contexts.registerContext(AIType.class, getContextResolverOfEnum(AIType.values(), "ai", true));
 		contexts.registerContext(PoisonType.class, getContextResolverOfEnum(PoisonType.values(), "poison", true));

@@ -1,10 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import deimophobe.nightfall.game.Game;
-import deimophobe.nightfall.PlayerSkin;
-import deimophobe.nightfall.Skin;
-import deimophobe.nightfall.SkinManager;
+import deimophobe.nightfall.*;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.common.cosmetic.hat.Hat;
@@ -15,16 +12,19 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.melee.Scepter;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.util.ArmourSlot;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Team;
@@ -53,7 +53,7 @@ public class Doppelganger extends AbstractMob {
 	protected Doppelganger(MonsterPlayer monster) {
 		super(monster, MobType.DOPPELGANGER);
 		target = Misc.getRandom(DwarfManager.getManager().getNonHeroDwarves());
-		Bukkit.getLogger().info("Spawned doppel with target: " + (target == null ? "(no target)" : target.getName()));
+		NightfallPlugin.logger().info("Spawned doppel with target: " + (target == null ? "(no target)" : target.getName()));
 		setFakeWeapon();
 		
 		int id = getID((target != null ? target.getName() : "" ));
@@ -126,8 +126,8 @@ public class Doppelganger extends AbstractMob {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		unhider.update();
 		beamer.update();
 		
@@ -143,12 +143,12 @@ public class Doppelganger extends AbstractMob {
 	);
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
 		if (isPlayerHoldingItem("unhider")) {
 			monster.useHeldItem();
 			unhide();
-		} else if (Misc.isLeftClick(action) && isPlayerHoldingItem("scepter")) {
+		} else if (click.isLeftClick() && isPlayerHoldingItem("scepter")) {
 			beamer.tryUse();
 		}
 	}

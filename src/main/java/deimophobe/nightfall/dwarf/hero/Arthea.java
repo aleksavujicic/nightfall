@@ -60,7 +60,7 @@ public class Arthea extends Hero {
 	
 	
 	@Override
-	public void update(boolean a, boolean b, boolean c, boolean d, boolean quadSec) {
+	public void update() {
 		if (isEnraged()) {
 			if (enrageTimer > 0)
 				enrageTimer--;
@@ -87,7 +87,7 @@ public class Arthea extends Hero {
 			updateManaBar();
 			updateCooldownBar();
 		} else {
-			super.update(a,b,c,d,quadSec);
+			super.update();
 		}
 	}
 	

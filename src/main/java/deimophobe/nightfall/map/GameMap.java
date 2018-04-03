@@ -142,12 +142,12 @@ public class GameMap {
 				compassLocations.add(new FixedCompassLocation(key, location));
 			}
 		} else {
-			Bukkit.getLogger().warning("No compass section found.");
+			NightfallPlugin.logger().warning("No compass section found.");
 		}
 		
 		vault = config.getInt("gold", 1000);
 		if (!config.contains("gold"))
-			Bukkit.getLogger().warning("No starting gold specified - defaulting to 1000.");
+			NightfallPlugin.logger().warning("No starting gold specified - defaulting to 1000.");
 		
 		// Add shrine features
 		if (config.contains("features")) {

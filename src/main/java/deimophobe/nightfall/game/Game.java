@@ -14,6 +14,8 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.common.cosmetic.Cosmetics;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
+import deimophobe.nightfall.cooldown.Expirable;
+import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.event.PhaseChangeEvent;
@@ -59,7 +61,7 @@ public class Game {
 		return game;
 	}
 	public static Game createNewGame() {
-		Bukkit.getLogger().info("Begin loading game.");
+		NightfallPlugin.logger().info("Begin loading game.");
 		if (loading) {
 			throw new IllegalStateException("Game already loading");
 		}
@@ -74,7 +76,7 @@ public class Game {
 			return new Game(map);
 		} finally {
 			loading = false;
-			Bukkit.getLogger().info("Finished loading game.");
+			NightfallPlugin.logger().info("Finished loading game.");
 		}
 	}
 	
@@ -115,10 +117,6 @@ public class Game {
 	private PlagueType plagueType = PlagueType.getRandomPlagueType();
 	private Plague activePlague = null;
 
-
-	private int tickNumber = 0;
-	public int getCurrentTick() { return tickNumber; }
-
 	private Game(GameMap map) {
 		game = this;
 		
@@ -152,10 +150,7 @@ public class Game {
 		bossBar.setProgress(1);
 		
 		new BukkitRunnable() {
-			@Override public void run() { updateCurses(); }
-		}.runTaskTimer(NightfallPlugin.getPlugin(), 20, 20);
-		new BukkitRunnable() {
-			@Override public void run() { tickNumber++; }
+			@Override public void run() { update(); }
 		}.runTaskTimer(NightfallPlugin.getPlugin(), 1, 1);
 		
 		
@@ -435,7 +430,7 @@ public class Game {
 		try {
 			protocolManager.sendServerPacket(player, packet);
 		} catch (InvocationTargetException e) {
-			Bukkit.getLogger().severe("Failed to send " + name + " packet.");
+			NightfallPlugin.logger().severe("Failed to send " + name + " packet.");
 			e.printStackTrace();
 		}
 	}
@@ -450,7 +445,7 @@ public class Game {
 		try {
 			protocolManager.sendServerPacket(player, packet);
 		} catch (InvocationTargetException e) {
-			Bukkit.getLogger().severe("Failed to send " + name + " packet.");
+			NightfallPlugin.logger().severe("Failed to send " + name + " packet.");
 			e.printStackTrace();
 		}
 	}
@@ -516,6 +511,31 @@ public class Game {
 	private void updateCurses() {
 		activeCurses.replaceAll((curse, time) -> time-1);
 		activeCurses.entrySet().removeIf(entry -> entry.getValue() == 0);
+	}
+	
+	
+	// ----- UPDATING -----
+	private int tickNumber = 0;
+	public int getCurrentTick() { return tickNumber; }
+	
+	private final Set<Updateable> updateables = new HashSet<>();
+	private final Set<Expirable> expirables = new HashSet<>();
+	
+	private void update() {
+		tickNumber++;
+		if (tickNumber % 20 == 0) updateCurses();
+		
+		updateables.forEach(Updateable::update);
+		expirables.forEach(Expirable::update);
+		expirables.removeIf(Expirable::hasExpired);
+	}
+	
+	public void addUpdateable(Updateable updateable) {
+		if (updateable instanceof Expirable) {
+			expirables.add((Expirable) updateable);
+		} else {
+			updateables.add(updateable);
+		}
 	}
 	
 	

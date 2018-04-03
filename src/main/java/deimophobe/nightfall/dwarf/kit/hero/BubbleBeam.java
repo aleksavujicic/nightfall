@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.hero;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
@@ -27,7 +28,6 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -61,18 +61,18 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		beamer.update();
 		geyserCD.update();
 		fallImmunity.update();
 	}
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
 		
-		if (Misc.isLeftClick(action)) {
+		if (click.isLeftClick()) {
 			return beamer.tryUse();
 		} else {
 			return geyserCD.tryUse();
@@ -105,20 +105,17 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		double offsetPerp = Misc.randomDouble(-0.5, 0.5);
 		double offsetY = Misc.randomDouble(-0.5, 0.5);
 		
-		Consumer<MonsterEntity> monsterDamager = dwarf.new SingleEntityConsumer<MonsterEntity>(0) {
-			@Override
-			public void onHit(MonsterEntity monster) {
-				double damageAmt = DAMAGE + dwarf.getBonusMeleeDamage() / 2;
-				if (monster.isUnderwater()) damageAmt *= 1.25;
-				
-				MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.BUBBLE_BEAM, damageAmt);
-				damage.setKnockbackFromMelee();
-				damage.multiplyKnockback(0.4);
-				if (dwarf.hasProc()) damage.setProc(true);
-				damage.setNoDamageTicks(2);
-				damage.fire();
-			}
-		};
+		Consumer<MonsterEntity> monsterDamager = dwarf.new GameEntityDamager<MonsterEntity>(monster -> {
+			double damageAmt = DAMAGE + dwarf.getBonusMeleeDamage() / 2;
+			if (monster.isUnderwater()) damageAmt *= 1.25;
+			
+			MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.BUBBLE_BEAM, damageAmt);
+			damage.setKnockbackFromMelee();
+			damage.multiplyKnockback(0.25);
+			if (dwarf.hasProc()) damage.setProc(true);
+			damage.setNoDamageTicks(2);
+			damage.fire();
+		});
 		
 		dwarf.fireParticle(0.5, 15, 1, offsetPerp, offsetY, 0.2, PARTICLE_PLACER, null, monsterDamager);
 		dwarf.playSound("entity.player.hurt_drown", 0.8f, 1.5f, true);

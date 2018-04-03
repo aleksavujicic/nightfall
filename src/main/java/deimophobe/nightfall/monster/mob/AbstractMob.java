@@ -1,5 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.common.items.CustomItem;
@@ -22,7 +24,6 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
-import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
@@ -109,6 +110,7 @@ public abstract class AbstractMob implements Mob {
 	
 	// ~~~~~ ANNOTATIONS ~~~~~
 	private final Set<Updateable> updateables = new HashSet<>();
+	private final Set<Expirable> expirables = new HashSet<>();
 	private Displayable displayable = Displayable.DISPLAY_NOTHING;
 	
 	private void checkForAnnotations() {
@@ -155,8 +157,13 @@ public abstract class AbstractMob implements Mob {
 		public InvalidFieldAnnotationException(String s, Throwable throwable) { super(s, throwable); }
 	}
 	
+	
 	protected void addUpdateable(Updateable updateable) {
-		this.updateables.add(updateable);
+		if (updateable instanceof Expirable) {
+			expirables.add((Expirable) updateable);
+		} else {
+			updateables.add(updateable);
+		}
 	}
 	protected void setDisplayable(Displayable displayable) { this.displayable = displayable; }
 	
@@ -211,7 +218,7 @@ public abstract class AbstractMob implements Mob {
 			if (disguiseClass.isInstance(disguise)) {
 				changer.accept(disguiseClass.cast(disguise));
 			} else {
-				Bukkit.getLogger().severe("Mob '" + monster.getName() + "' (type: " + type + ") has Disguise not of type " + disguiseClass.getName());
+				NightfallPlugin.logger().severe("Mob '" + monster.getName() + "' (type: " + type + ") has Disguise not of type " + disguiseClass.getName());
 			}
 		}
 	}
@@ -227,7 +234,7 @@ public abstract class AbstractMob implements Mob {
 			if (watcherClass.isInstance(watcher)) {
 				changer.accept(watcherClass.cast(watcher));
 			} else {
-				Bukkit.getLogger().severe("Mob '" + monster.getName() + "' (type: " + type + ") has FlagWatcher not of type " + watcherClass.getName());
+				NightfallPlugin.logger().severe("Mob '" + monster.getName() + "' (type: " + type + ") has FlagWatcher not of type " + watcherClass.getName());
 			}
 		}
 	}
@@ -315,17 +322,29 @@ public abstract class AbstractMob implements Mob {
 	public void onDamageAttack(DwarfDamage damage) {
 		int xpGain = 0;
 		switch (damage.getType()) {
+			// Melee type damages
 			case MELEE:
+			case MINOTAUR_CHARGE:
+			case WRAITH_CHARGE:
 				damage.addPostDamageHandler(() -> playSound("melee"));
 				damage.setArmourShred(mobData.armourShred);
 				xpGain = 3;
 				break;
+			// Ranged type damages
 			case RANGED:
+			case WITHER_SKULL:
 				xpGain = 10;
 				break;
-				
-			default:
+			// Explosion type damages
+			case GOBO_KABOOM:
+			case GOBO_BOX_EXPLOSION:
+			case BLAZE_EXPLOSION:
+			case HUSK_STOMP:
+			case IMPACT_AOE:
 				xpGain = 5;
+				break;
+			default:
+				xpGain = 0;
 				break;
 		}
 		int finalXpGain = xpGain;
@@ -360,23 +379,21 @@ public abstract class AbstractMob implements Mob {
 		return didBreak;
 	}
 	
+	public boolean everyNthTick(int n) {
+		return monster.everyNthTick(n);
+	}
+	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		if (doubleSec)
+	public void update() {
+		if (everyNthTick(40)) {
 			playSound("idle");
-		
-		for (Updateable updateable : updateables) {
-			updateable.update();
-			
-			if (updateable instanceof Expirable) {
-				Expirable expirable = (Expirable) updateable;
-				if (expirable.hasExpired()) {
-					updateables.remove(updateable);
-				}
-			}
 		}
 		
-		shrineProtTick(halfSec);
+		updateables.forEach(Updateable::update);
+		expirables.forEach(Expirable::update);
+		expirables.removeIf(Expirable::hasExpired);
+		
+		shrineProtTick();
 	}
 	
 	@Override
@@ -390,7 +407,7 @@ public abstract class AbstractMob implements Mob {
 	
 	
 	@Override public void onShift(boolean sneaking) {}
-	@Override public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {}
+	@Override public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {}
 	@Override public Projectile onBowFire(Arrow arrow, float force) { return null; }
 	@Override public void onProjectileLand(Projectile proj, Block hitBlock, Entity hitEntity) {}
 	
@@ -414,7 +431,7 @@ public abstract class AbstractMob implements Mob {
 	private static final int MAX_SHRINE_PROT_TIME = 50;
 	private int shrineProtCounter = MAX_SHRINE_PROT_TIME;
 	
-	private void shrineProtTick(boolean halfSec) {
+	private void shrineProtTick() {
 		if (isShrineImmune()) return;
 		
 		boolean inShrine = GameMap.getCurrentMap().getCurrentShrineProtection().containsPlayer(monster);
@@ -429,7 +446,7 @@ public abstract class AbstractMob implements Mob {
 				shrineProtCounter = MAX_SHRINE_PROT_TIME;
 			}
 		} else {
-			if (halfSec) {
+			if (everyNthTick(10)) {
 				if (shrineProtCounter < MAX_SHRINE_PROT_TIME)
 					shrineProtCounter++;
 			}

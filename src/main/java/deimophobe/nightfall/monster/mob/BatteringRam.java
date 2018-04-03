@@ -1,7 +1,10 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Display;
+import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -12,15 +15,14 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 15/01/18.
  */
 public class BatteringRam extends AbstractMob {
-	private final ComplexCooldown ram = new ComplexCooldown(2*20, this::wallRam);
-	private final ComplexCooldown faceResetter = new ComplexCooldown(10, null, () -> setFace(false));
+	@Update @Display private final ComplexCooldown ram = new ComplexCooldown(2*20, this::wallRam);
+	@Update private final ComplexCooldown faceResetter = new ComplexCooldown(10, null, () -> setFace(false));
 	
 	private Location lastLocation;
 	
@@ -42,23 +44,21 @@ public class BatteringRam extends AbstractMob {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
-		ram.update();
-		faceResetter.update();
+	public void update() {
+		super.update();
 		
-		if (sec) {
+		if (everyNthTick(20)) {
 			if (monster.distanceTo(lastLocation) >= 1.5) {
 				monster.playSound("entity.zombie.infect", 1f, 0.5f, true);
-				if (quadSec) monster.playSound("entity.minecart.inside", 1f, 0.5f, true);
+				if (everyNthTick(80)) monster.playSound("entity.minecart.inside", 1f, 0.5f, true);
 			}
 			lastLocation = monster.getLocation();
 		}
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
 		if (isPlayerHoldingWeapon())
 			ram.tryUse();
 	}
@@ -98,10 +98,5 @@ public class BatteringRam extends AbstractMob {
 	
 	private void setFace(boolean angry) {
 		changeDisguiseWatcher(GhastWatcher.class, (gw) -> gw.setAggressive(angry));
-	}
-	
-	@Override
-	public float getCooldown() {
-		return ram.getCooldown();
 	}
 }

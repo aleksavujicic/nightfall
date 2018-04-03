@@ -7,6 +7,7 @@ import deimophobe.nightfall.command.iterable.MonsterIterable;
 import deimophobe.nightfall.command.iterable.PlayerIterable;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.mob.Mob;
 import deimophobe.nightfall.monster.mob.MobType;
 import org.bukkit.ChatColor;
@@ -60,18 +61,20 @@ public class MobCommand extends BaseCommand {
 	@Subcommand("remove")
 	@CommandCompletion("@monsters")
 	@Description("Remove a player from the monster team.")
-	public void remove(CommandSender sender, MonsterPlayer monster) {
-		MonsterManager.getManager().removeGamePlayer(monster);
-		MessageUtil.sendMessage(sender, "Removed ", monster, " from the mobs.");
+	public void remove(CommandSender sender, MonsterIterable monsters) {
+		monsters.forEach(monster -> {
+			MonsterManager.getManager().removeGamePlayer(monster);
+			MessageUtil.sendMessage(sender, "Removed ", monster, " from the mobs.");
+		});
 	}
 	
 	@Subcommand("spawn")
 	@CommandAlias("spawnmob")
-	@CommandCompletion("@monsters @mobtypes")
+	@CommandCompletion("@monsters @mobtypes @spawnmethods")
 	@Description("Spawn a monster as a specified mob.")
-	public void spawnMob(CommandSender sender, MonsterIterable monsters, MobType mobType) {
+	public void spawnMob(CommandSender sender, MonsterIterable monsters, MobType mobType, @Default("spawn") SpawnMethod spawnMethod) {
 		monsters.forEach(monster -> {
-			boolean spawned = monster.spawnMob(mobType);
+			boolean spawned = monster.spawnMob(mobType, spawnMethod);
 			
 			if (spawned) {
 				MessageUtil.sendMessage(sender, "Spawned ", monster, " as mob ", mobType, ".");
@@ -81,12 +84,23 @@ public class MobCommand extends BaseCommand {
 		});
 	}
 	
+	@Subcommand("kill")
+	@CommandAlias("killmob")
+	@CommandCompletion("@monsters @boolean")
+	@Description("Kill a mob.")
+	public void killMob(CommandSender sender, MonsterIterable monsters, @Default("false") boolean silent) {
+		monsters.forEach(monster -> {
+			monster.kill(silent);
+			MessageUtil.sendMessage(sender, "Killed mob ", monster, ".");
+		});
+	}
+	
 	@Subcommand("xp|exp")
 	@CommandAlias("xp|exp")
 	@CommandCompletion("@monsters")
 	@Description("Give a monster some xp.")
-	public void giveXP(CommandSender sender, MonsterIterable monster, int xp) {
-		monster.forEach(m -> {
+	public void giveXP(CommandSender sender, MonsterIterable monsters, int xp) {
+		monsters.forEach(m -> {
 			m.forceGainXP(xp);
 			MessageUtil.sendMessage(sender, "Gave ", m, " a total of ", xp, " exp.");
 		});
@@ -95,8 +109,8 @@ public class MobCommand extends BaseCommand {
 	@Subcommand("xp-rate|exp-rate")
 	@CommandCompletion("@monsters")
 	@Description("Set a monsters xp rate.")
-	public void setXPRate(CommandSender sender, MonsterIterable monster, int rate) {
-		monster.forEach(m -> {
+	public void setXPRate(CommandSender sender, MonsterIterable monsters, int rate) {
+		monsters.forEach(m -> {
 			m.setXPRate(rate);
 			MessageUtil.sendMessage(sender, "Set exp rate of ", m, " to ", rate, " exp per second.");
 		});
@@ -105,12 +119,14 @@ public class MobCommand extends BaseCommand {
 	@Subcommand("type")
 	@CommandCompletion("@monsters")
 	@Description("See a monsters mob type.")
-	public void getType(CommandSender sender, MonsterPlayer monster) {
-		Mob mob = monster.getMob();
-		if (mob == null) {
-			MessageUtil.sendMessage(sender,"Monster ", monster, " is not spawned as a mob.");
-		} else {
-			MessageUtil.sendMessage(sender,"Monster ", monster, " is a ", mob.getType(), " mob.");
-		}
+	public void getType(CommandSender sender, MonsterIterable monsters) {
+		monsters.forEach(monster -> {
+			Mob mob = monster.getMob();
+			if (mob == null) {
+				MessageUtil.sendMessage(sender, "Monster ", monster, " is not spawned as a mob.");
+			} else {
+				MessageUtil.sendMessage(sender, "Monster ", monster, " is a ", mob.getType(), " mob.");
+			}
+		});
 	}
 }

@@ -6,7 +6,6 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.game.GamePlayer;
 import deimophobe.nightfall.monster.MonsterEntity;
-import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -50,7 +49,7 @@ public class VolcanicGauntlet extends AbstractBow {
 		
 		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(
 				GameDamageType.VOLCANIC_BOW,
-				(monster) -> ((monster instanceof MonsterPlayer) ? damage : damage*2d/3d)
+				(monster) -> (monster.isAI() ? damage*2d/3d : damage)
 		);
 		dwarf.fireParticle(3, range, THICKNESS, 0.33, PARTICLE_PLACER, null, entityDamager);
 		

@@ -10,12 +10,12 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 17/06/17.
  */
-class MaterialSet implements CustomBlock {
+public class MaterialSet implements CustomBlock {
 	
 	private final Set<Material> materialSet;
 	private final Material first;
 	
-	MaterialSet(Material... materials) {
+	public MaterialSet(Material... materials) {
 		first = materials[0];
 		
 		this.materialSet = new HashSet<>();

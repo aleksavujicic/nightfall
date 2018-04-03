@@ -1,16 +1,16 @@
 package deimophobe.nightfall.dwarf.kit;
 
+import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.ranged.AbstractBow;
-import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -80,11 +80,11 @@ public class Kit {
 	public void giveItem(KitPieceType type) {
 		KitPiece element = kitPieces.get(type);
 		if (element == null) {
-			Bukkit.getLogger().severe("Cannot give dwarf element '" + type + "' as it is not in their kit.");
+			NightfallPlugin.logger().severe("Cannot give dwarf element '" + type + "' as it is not in their kit.");
 		} else if (element instanceof ItemPiece) {
 			giveItem((ItemPiece) element);
 		} else {
-			Bukkit.getLogger().severe("Cannot give dwarf element '" + type + "' as it is not an item.");
+			NightfallPlugin.logger().severe("Cannot give dwarf element '" + type + "' as it is not an item.");
 		}
 	}
 	
@@ -97,9 +97,10 @@ public class Kit {
 	
 	
 	// ------ EVENTS ------
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		for (KitPiece item : kitPieces.values())
-			item.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		for (KitPiece item : kitPieces.values()) {
+			item.update();
+		}
 	}
 	
 	public void onDamageAttack(MonsterDamage damage) {
@@ -112,9 +113,6 @@ public class Kit {
 		for (KitPiece item : kitPieces.values()) {
 			item.onDamageReceive(damage);
 		}
-		for (KitPiece item : kitPieces.values()) {
-			item.damageNotify(damage);
-		}
 	}
 	
 	public void onKill(MonsterDamage damage) {
@@ -123,11 +121,11 @@ public class Kit {
 		}
 	}
 	
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
 		ItemStack held = dwarf.getHeldItem();
 		for (ItemPiece item : itemPieces) {
 			if (item.matchesItem(held)) {
-				return item.onUse(action, clickedBlock, blockFace);
+				return item.onUse(click, clickedBlock, blockFace);
 			}
 		}
 		return false;

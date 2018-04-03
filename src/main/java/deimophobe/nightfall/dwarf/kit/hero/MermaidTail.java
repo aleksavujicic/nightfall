@@ -28,12 +28,9 @@ public class MermaidTail extends AbstractPiece implements ArmourPiece {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
-		
-		if (quartSec) {
-			updateSwimState();
-		}
+	public void update() {
+		super.update();
+		updateSwimState();
 	}
 	
 	@Override

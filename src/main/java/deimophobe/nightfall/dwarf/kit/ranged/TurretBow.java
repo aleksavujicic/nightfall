@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.ranged;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -7,7 +8,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -36,9 +36,9 @@ public class TurretBow extends AbstractBow {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
-		if (sec) {
+	public void update() {
+		super.update();
+		if (dwarf.everyNthTick(20)) {
 			Iterator<Turret> turretIterator = turrets.iterator();
 			while (turretIterator.hasNext()) {
 				Turret turret = turretIterator.next();
@@ -64,8 +64,8 @@ public class TurretBow extends AbstractBow {
 	}
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
 		return false;
 		/*
 		if (isHoldingItem()) {

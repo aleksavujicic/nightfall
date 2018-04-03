@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.accessory;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.game.Phase;
@@ -19,7 +20,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.function.Supplier;
@@ -49,16 +49,16 @@ public class Bricklayer extends AbstractItem {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		selector.update();
 		toggler.update();
 	}
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
-		if (Misc.isLeftClick(action)) {
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
+		if (click.isLeftClick()) {
 			return selector.tryUse(clickedBlock);
 		} else {
 			return toggler.tryUse();

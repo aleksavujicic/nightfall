@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.hero;
 
 import com.google.common.collect.Sets;
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.IceSlab;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
@@ -18,7 +19,6 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -48,8 +48,8 @@ public class Trident extends AbstractItem implements CooldownPiece {
 	@Override public KitGiveType getGiveType() { return KitGiveType.START; }
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		waterCD.update();
 		waterRegenDelay.update();
 		
@@ -59,10 +59,10 @@ public class Trident extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
 		
-		if (Misc.isRightClick(action)) {
+		if (click.isRightClick()) {
 			if (water > 0) return waterCD.tryUse();
 		} else  {
 			freezeWaterBlocks();

@@ -1,11 +1,11 @@
 package deimophobe.nightfall.dwarf.kit;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -36,7 +36,7 @@ public abstract class AbstractCooldownItem extends AbstractCooldown implements I
 	}
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {return false;}
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {return false;}
 	
 	@Override
 	public void onBlockBreak(Block block, boolean didBreak) {}

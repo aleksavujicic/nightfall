@@ -24,8 +24,8 @@ public class SafetyJuice extends AbstractAle {
 	@Override public CustomItem getItem() { return ITEM; }
 	
 	@Override
-	public void damageNotify(DwarfDamage damage) {
-		super.damageNotify(damage);
+	public void onDamageReceive(DwarfDamage damage) {
+		super.onDamageReceive(damage);
 		
 		damage.addPreDamageHandler(PreDamagePriority.SAFETY_JUICE, () -> {
 			if ((damage.willKill() || dwarf.getHealth() <= 10) && !Game.getGame().potionsDisabled()) {

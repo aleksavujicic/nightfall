@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
@@ -33,7 +34,6 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -79,11 +79,12 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		super.onRemove();
 	}
 	
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+	public void update() {
+		super.update();
 		updateSeppuku();
 		
 		if (mob != null) {
-			mob.update(quartSec, halfSec, sec, doubleSec, quadSec);
+			mob.update();
 			
 			if (seppukuCD > 0) {
 				player.setExp(1 - (float)seppukuCD/MAX_SEPPUKU_CD);
@@ -92,10 +93,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			}
 		}
 		
-		if (sec && isAlive() && Game.getGame().getPhase() == Phase.GAME) {
+		if (everySec() && isAlive() && Game.getGame().getPhase() == Phase.GAME) {
 			gainXP(expRate);
 		}
-		if (quartSec && isAlive() && isInShrine()) {
+		if (everyNthTick(5) && isAlive() && isInShrine()) {
 			if (mob.getShrineWeight() != 0) gainXP(2);
 		}
 		
@@ -168,19 +169,16 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		try {
 			mob.onSpawn(spawnMethod);
 			
-			switch (spawnMethod) {
-				case SPAWN:
-					removeRebirth();
-					break;
-				case REBIRTH:
-					rebirthCount++;
-					break;
+			if (spawnMethod == SpawnMethod.REBIRTH) {
+				rebirthCount++;
+			} else {
+				removeRebirth();
 			}
 			
 			player.getInventory().setItem(9, seppuku);
 			player.setGameMode(GameMode.SURVIVAL);
 			player.setAllowFlight(false);
-			Bukkit.getLogger().info("Spawning " + getName() + " as mob: " + mob.getType());
+			NightfallPlugin.logger().info("Spawning " + getName() + " as mob: " + mob.getType());
 			
 			return true;
 		} catch (Exception e) {
@@ -390,7 +388,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	private boolean usedThisTick = false;
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
 		if (usedThisTick) return;
 		usedThisTick = true;
 		
@@ -411,7 +409,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		if (isFrozen()) return;
 		
 		if (mob != null) {
-			mob.onUse(action, clickedBlock, blockFace);
+			mob.onUse(click, clickedBlock, blockFace);
 		}
 	}
 	

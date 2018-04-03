@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.Cooldown;
@@ -20,7 +21,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.ZombieVillager;
-import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Map;
@@ -97,10 +97,10 @@ public class ZombieSaboteur extends ZombieMob {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		if (isInvisible()) {
-			if (sec) {
+			if (everyNthTick(20)) {
 				Location loc = monster.getLocation();
 				loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 7, 0.3, 0.3, 0.3, 0);
 			}
@@ -120,8 +120,8 @@ public class ZombieSaboteur extends ZombieMob {
 	}
 	
 	@Override
-	public void onUse(Action action, Block block, BlockFace face) {
-		if (Misc.isRightClick(action) && isPlayerHoldingWeapon() && sneakCD.isAvailable()) {
+	public void onUse(ClickType click, Block block, BlockFace face) {
+		if (click.isRightClick() && isPlayerHoldingWeapon() && sneakCD.isAvailable()) {
 			if (sneakLvl > 0) {
 				monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
 				monster.givePotionEffect(PotionEffectType.SPEED, 8 * sneakLvl, 3, true, false, true);

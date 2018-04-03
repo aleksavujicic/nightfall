@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.hero;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -11,7 +12,6 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.util.Vector;
 
 /**
@@ -27,8 +27,8 @@ public class Elystria extends AbstractCooldownItem {
 	@Override public KitGiveType getGiveType() {return KitGiveType.ARTHEA_SPECIAL;}
 	
 	@Override
-	public boolean onUse(Action action, Block block, BlockFace face) {
-		if (isOffCD() && Misc.isRightClick(action)) {
+	public boolean onUse(ClickType click, Block block, BlockFace face) {
+		if (isOffCD() && click.isRightClick()) {
 			MonsterPlayer target = dwarf.getLookingAt(10, 2, MonsterManager.getManager().getAlivePlayerMobs());
 			if (target != null) {
 				resetCooldown();

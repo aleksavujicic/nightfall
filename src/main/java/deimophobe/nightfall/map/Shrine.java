@@ -77,7 +77,7 @@ public class Shrine {
 		
 		if (!section.contains("fallname")) {
 			this.fallName = "THE " + name.toUpperCase();
-			Bukkit.getLogger().warning("No fallname for shrine '" + name + "' specified.");
+			NightfallPlugin.logger().warning("No fallname for shrine '" + name + "' specified.");
 		} else {
 			this.fallName = section.getString("fallname");
 		}

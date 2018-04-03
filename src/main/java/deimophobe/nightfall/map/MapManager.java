@@ -51,7 +51,7 @@ public class MapManager {
 		try {
 			Files.copy(is, configFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
-			Bukkit.getLogger().severe("Failed to save default config!");
+			NightfallPlugin.logger().severe("Failed to save default config!");
 			e.printStackTrace();
 		}
 		
@@ -62,14 +62,14 @@ public class MapManager {
 		
 		if (!mapConfigFile.exists()) {
 			NightfallPlugin.getPlugin().saveResource("maps.yml", false);
-			Bukkit.getLogger().warning("No maps.yml file found - creating default. This may not have the neccesary maps.");
+			NightfallPlugin.logger().warning("No maps.yml file found - creating default. This may not have the neccesary maps.");
 		}
 		
 		if (!mapWorldFolder.exists()) {
-			Bukkit.getLogger().warning("No maps folder found - creating empty folder. This has no maps and will disable map loading.");
+			NightfallPlugin.logger().warning("No maps folder found - creating empty folder. This has no maps and will disable map loading.");
 			boolean success = mapWorldFolder.mkdir();
 			if (!success) {
-				Bukkit.getLogger().severe("Failed to create map folder!?");
+				NightfallPlugin.logger().severe("Failed to create map folder!?");
 			}
 		}
 		
@@ -79,7 +79,7 @@ public class MapManager {
 		
 		// Check maps exist
 		if (maps.isEmpty()) {
-			Bukkit.getLogger().severe("No maps were found. Disabling map loading.");
+			NightfallPlugin.logger().severe("No maps were found. Disabling map loading.");
 			enabled = false;
 			return;
 		}
@@ -105,7 +105,7 @@ public class MapManager {
 	}
 	
 	public void reloadConfig() {
-		Bukkit.getLogger().info("Reloading map config.");
+		NightfallPlugin.logger().info("Reloading map config.");
 		Configuration mapConfig = YamlConfiguration.loadConfiguration(mapConfigFile);
 		ConfigurationSection mapSection = mapConfig.getConfigurationSection("maps");
 		
@@ -113,31 +113,31 @@ public class MapManager {
 		cycleTime = mapConfig.getInt("cycle-time", 30);
 		
 		if (cycleTime <= 0) {
-			Bukkit.getLogger().severe("Cycle time should be positive.");
+			NightfallPlugin.logger().severe("Cycle time should be positive.");
 			cycleTime = 30;
 		}
 				
 		
 		if (!mapWorldFolder.exists()) {
-			Bukkit.getLogger().severe("No map folder found - no maps will be created.");
+			NightfallPlugin.logger().severe("No map folder found - no maps will be created.");
 			return;
 		}
 
 		if (mapSection == null) {
-			Bukkit.getLogger().severe("No section found for maps in maps.yml - no maps will be created.");
+			NightfallPlugin.logger().severe("No section found for maps in maps.yml - no maps will be created.");
 			return;
 		}
 
 		for (String mapName : mapSection.getKeys(false)) {
 			String mapFilename = mapSection.getString(mapName);
 			if (mapFilename == null) {
-				Bukkit.getLogger().severe("No map folder given for key '" + mapName +"' in maps.yml.");
+				NightfallPlugin.logger().severe("No map folder given for key '" + mapName +"' in maps.yml.");
 				continue;
 			}
 			
 			File mapFile = new File(mapWorldFolder, mapFilename);
 			if (!mapFile.exists()) {
-				Bukkit.getLogger().severe("No map found in map folder with name '" + mapFilename +"' in maps.yml.");
+				NightfallPlugin.logger().severe("No map found in map folder with name '" + mapFilename +"' in maps.yml.");
 				continue;
 			}
 			
@@ -182,7 +182,7 @@ public class MapManager {
 	public GameMap loadNextMap() {
 		// Load normal world if disabled
 		if (!enabled) {
-			Bukkit.getLogger().warning("Map loading disabled, loading default map.");
+			NightfallPlugin.logger().warning("Map loading disabled, loading default map.");
 			return loadDefaultMap();
 		}
 		
@@ -211,7 +211,7 @@ public class MapManager {
 	}
 	
 	private GameMap loadMap(String name) {
-		Bukkit.getLogger().info("Begin loading map " + name);
+		NightfallPlugin.logger().info("Begin loading map " + name);
 		// Don't do anything if disabled
 		if (!enabled)
 			throw new IllegalStateException("Attempted to load map while map loading is disabled.");
@@ -230,12 +230,12 @@ public class MapManager {
 			unloadAndDeleteWorld(world);
 			return loadDefaultMap();
 		} finally {
-			Bukkit.getLogger().info("Finished loading map " + name);
+			NightfallPlugin.logger().info("Finished loading map " + name);
 		}
 	}
 	
 	private World createMapWorld(File mapFolder) throws MapLoadingException {
-		Bukkit.getLogger().info("Begin creation of map world: " + mapFolder.toString());
+		NightfallPlugin.logger().info("Begin creation of map world: " + mapFolder.toString());
 		
 		String worldFilename = getNextWorldName();
 		
@@ -249,7 +249,7 @@ public class MapManager {
 		// Delete world folder if it exists
 		try {
 			if (worldFolder.exists()) {
-				Bukkit.getLogger().warning("World folder '"+worldFilename+"' exists!");
+				NightfallPlugin.logger().warning("World folder '"+worldFilename+"' exists!");
 				FileUtils.deleteDirectory(worldFolder);
 			}
 		} catch (IOException e) {
@@ -279,19 +279,19 @@ public class MapManager {
 		
 		World world = Bukkit.createWorld(wc);
 		setDefaultWorldSettings(world);
-		Bukkit.getLogger().info("Finished creating world.");
+		NightfallPlugin.logger().info("Finished creating world.");
 		return world;
 	}
 	
 	void unloadAndDeleteWorld(World world) {
 		if (world == null) {
-			Bukkit.getLogger().severe("Cannot unload null world");
+			NightfallPlugin.logger().severe("Cannot unload null world");
 			return;
 		}
 		
-		Bukkit.getLogger().info("Begin unloading map.");
+		NightfallPlugin.logger().info("Begin unloading map.");
 		if (world == getDefaultWorld()) {
-			Bukkit.getLogger().warning("Cannot unload default world (this is normal if map loading is disabled).");
+			NightfallPlugin.logger().warning("Cannot unload default world (this is normal if map loading is disabled).");
 			return;
 		}
 		
@@ -308,7 +308,7 @@ public class MapManager {
 		// corruption
 		boolean success = Bukkit.unloadWorld(world, true);
 		if (!success) {
-			Bukkit.getLogger().severe("Failed to unload world");
+			NightfallPlugin.logger().severe("Failed to unload world");
 			throw new IllegalStateException("Failed to unload world " + world.getName());
 		}
 		
@@ -320,7 +320,7 @@ public class MapManager {
 		} catch (IOException e) {
 			throw new RuntimeException("Failed to delete world folder: ", e);
 		}
-		Bukkit.getLogger().info("Finished unloading map");
+		NightfallPlugin.logger().info("Finished unloading map");
 	}
 	
 	private World getSafeWorld(World unsafe) {
@@ -330,7 +330,7 @@ public class MapManager {
 		
 		World gameWorld = map.getWorld();
 		if (gameWorld == null) {
-			Bukkit.getLogger().severe("Game world is null!?");
+			NightfallPlugin.logger().severe("Game world is null!?");
 			return getDefaultWorld();
 		}
 		

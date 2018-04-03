@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
@@ -17,7 +18,6 @@ import me.libraryaddict.disguise.disguisetypes.watchers.PlayerWatcher;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -67,9 +67,10 @@ class Ticker extends AbstractMob {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
-		if (sec || (fastExplode && quartSec)) {
+	public void update() {
+		super.update();
+		boolean tickCondition = (fastExplode ? everyNthTick(4) : everyNthTick(20));
+		if (tickCondition) {
 			deathTimer--;
 			
 			if (deathTimer == 0) {
@@ -82,8 +83,8 @@ class Ticker extends AbstractMob {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
 		if (fastExplode) return;
 		
 		if (isPlayerHoldingItem("jump")) {

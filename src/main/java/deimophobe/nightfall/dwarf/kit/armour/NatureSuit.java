@@ -35,7 +35,7 @@ public class NatureSuit extends AbstractPiece implements ArmourPiece {
 				case POISON:
 					if (Game.getGame().getPhase() != Phase.PLAGUE) {
 						damage.cancel();
-						dwarf.clearAllPoisons();
+						dwarf.removeAllPoisons();
 					}
 					break;
 			}

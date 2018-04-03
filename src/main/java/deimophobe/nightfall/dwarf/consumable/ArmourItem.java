@@ -1,13 +1,12 @@
 package deimophobe.nightfall.dwarf.consumable;
 
-import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 
 import java.util.function.Predicate;
 
@@ -20,8 +19,8 @@ class ArmourItem extends Consumable {
 	}
 	
 	@Override
-	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
-		if (Misc.isLeftClick(action)) {
+	public int use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+		if (click.isLeftClick()) {
 			Predicate<Dwarf> armourChecker = checkee -> {
 				Armour armour = checkee.getArmour();
 				return (armour instanceof DwarvenArmour && !armour.isArmoured());

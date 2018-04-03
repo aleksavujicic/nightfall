@@ -43,6 +43,7 @@ public enum KitPieceType {
 	CROSSBOW(Crossbow::new),
 	VOLCANIC(VolcanicGauntlet::new),
 	TURRET(TurretBow::new),
+	SPELLBOOK(Spellbook::new),
 	
 	// Ales
 	HEALING_ALE(HealingAle::new),
@@ -52,7 +53,6 @@ public enum KitPieceType {
 	REGROWTH_STAR(Regrowth::new),
 	CHUGGING_ALE(ChuggingAle::new),
 	STRONG_ALE(StrongAle::new),
-	HEALINGGLOW(HealingGlow::new),
 	
 	// Armours
 	STURDY(Sturdy::new),

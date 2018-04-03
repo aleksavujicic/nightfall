@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.hero;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -11,7 +12,6 @@ import deimophobe.nightfall.dwarf.kit.AbstractCooldownItem;
 import deimophobe.nightfall.effects.sound.Sounds;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
@@ -28,7 +28,7 @@ public class Horn extends AbstractCooldownItem {
 	@Override public KitGiveType getGiveType() {return KitGiveType.START;}
 	
 	@Override
-	public boolean onUse(Action action, Block block, BlockFace face) {
+	public boolean onUse(ClickType click, Block block, BlockFace face) {
 		if (isOffCD()) {
 			resetCooldown();
 			tootHorn();

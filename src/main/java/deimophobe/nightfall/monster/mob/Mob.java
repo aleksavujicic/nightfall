@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.monster.SpawnMethod;
@@ -9,7 +10,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.block.Action;
 
 /**
  * Created by Deimophobe on 13/04/17.
@@ -26,10 +26,10 @@ public interface Mob {
 	
 	void onSpawn(SpawnMethod spawnMethod);
 	
-	void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec);
+	void update();
 	void onShift(boolean sneaking);
 	boolean onBlockBreak(Block block, boolean didBreak);
-	void onUse(Action action, Block clickedBlock, BlockFace blockFace);
+	void onUse(ClickType click, Block clickedBlock, BlockFace blockFace);
 	void onDamageAttack(DwarfDamage damage);
 	void onDamageReceive(MonsterDamage damage);
 	Projectile onBowFire(Arrow arrow, float force);

@@ -6,9 +6,9 @@ import org.bukkit.block.Block;
 /**
  * Created by Deimophobe on 17/06/17.
  */
-class MaterialBlock implements CustomBlock {
+public class MaterialBlock implements CustomBlock {
 	private final Material material;
-	MaterialBlock(Material material) {
+	public MaterialBlock(Material material) {
 		this.material = material;
 	}
 	

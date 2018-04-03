@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Update;
@@ -7,7 +8,6 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -21,9 +21,9 @@ abstract class AbstractToggleSkeleton extends Skeleton {
 	@Update private final ComplexCooldown toggler = new ComplexCooldown(4, this::toggleBow);
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
-		if (isPlayerHoldingWeapon() && Misc.isLeftClick(action)) {
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
+		if (isPlayerHoldingWeapon() && click.isLeftClick()) {
 			toggler.tryUse();
 		}
 	}

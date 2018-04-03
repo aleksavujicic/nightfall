@@ -53,6 +53,8 @@ public class DwarfShovel extends AbstractItem {
 			dwarf.playSound("block.anvil.place", 0.2f, 0.8f, true);
 			dwarf.playSound("block.anvil.break", 1f, 0.8f, true);
 			
+			if (dwarf.getPlagueStatus() == Dwarf.PlagueStatus.PLAGUED) return;
+			
 			if (Game.getGame().getPhase() == Phase.BUILD) {
 				double chance = FIND_CHANCE;
 				if (dwarf.hasPotionEffect(PotionEffectType.FAST_DIGGING)) chance *= 2;

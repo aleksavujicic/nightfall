@@ -1,8 +1,12 @@
 package deimophobe.nightfall.game;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.cooldown.Expirable;
+import deimophobe.nightfall.cooldown.Updateable;
+import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.death.DeathMessageMaker;
 import deimophobe.nightfall.damage.death.LastMainDamage;
@@ -26,7 +30,6 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.block.Action;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -326,6 +329,9 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	public void sendMessage(String message) {
 		player.sendMessage(message);
 	}
+	public void sendLargeTitleMessage(String title, String message) {
+		player.sendTitle(title, message, 5, 30, 5);
+	}
 	public void sendTitleMessage(String message) {
 		player.sendTitle("", message, 5, 30, 5);
 	}
@@ -413,14 +419,39 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	// Abstract methods
 	public abstract void updateHotbarSlot(ItemStack heldItem, int slot);
 	public abstract boolean onBlockBreak(Block block, boolean didBreak);
-	public abstract void onUse(Action action, Block clickedBlock, BlockFace blockFace); // TODO: tidyup
+	public abstract void onUse(ClickType click, Block clickedBlock, BlockFace blockFace); // TODO: tidyup
 	public abstract void onShift(boolean sneaking);
 	public abstract Projectile onBowFire(Arrow arrow, float force); // TODO: bowfire event
 	public abstract void onProjectileLand(Projectile arrow, Block hitBlock, Entity hitEntity);
 	
-	@Deprecated
-	public abstract void update(boolean b, boolean b1, boolean b2, boolean b3, boolean b4);
+	// ----- UPDATES -----
+	private final Set<Updateable> updateables = new HashSet<>();
+	private final Set<Expirable> expirables = new HashSet<>();
 	
+	// Upper limit is 2520 which divides all numbers less than 10 (so is uniform mod n for lots of small n)
+	private final int offset = Misc.randomInt(0, 2519);
+	
+	public void update() {
+		updateables.forEach(Updateable::update);
+		expirables.forEach(Expirable::update);
+		expirables.removeIf(Expirable::hasExpired);
+	}
+	
+	public void addUpdateable(Updateable updateable) {
+		if (updateable instanceof Expirable) {
+			expirables.add((Expirable) updateable);
+		} else {
+			updateables.add(updateable);
+		}
+	}
+	
+	public boolean everySec() {
+		return everyNthTick(20);
+	}
+	
+	public boolean everyNthTick(int n) {
+		return (Game.getGame().getCurrentTick() + offset) % n == 0;
+	}
 	
 	
 	// ------ PLAYER BEAMING ------
@@ -559,30 +590,35 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	}
 	
 	public class GameEntityDamager<P extends GameEntity> extends SingleEntityConsumer<P> {
-		private final GameDamageType type;
-		private final Function<P,Double> damage;
-		
-		public GameEntityDamager(GameDamageType type, double damage, double minDistance) {
-			super(minDistance);
-			this.type = type;
-			this.damage = (m) -> damage;
-		}
+		private final Consumer<P> damager;
 		
 		public GameEntityDamager(GameDamageType type, double damage) {
 			super(0);
-			this.type = type;
-			this.damage = (m) -> damage;
+			this.damager = p -> p.doDamage(GamePlayer.this, type, damage);
 		}
 		
-		public GameEntityDamager(GameDamageType type, Function<P, Double> damage) {
+		public GameEntityDamager(GameDamageType type, Function<P, Double> damageFunction) {
 			super(0);
-			this.type = type;
-			this.damage = damage;
+			this.damager = p -> p.doDamage(GamePlayer.this, type, damageFunction.apply(p));
+		}
+		
+		public GameEntityDamager(Consumer<P> damager) {
+			super(0);
+			this.damager = damager;
+		}
+		
+		public GameEntityDamager(GameDamageType type, double damage, boolean force, Consumer<GameDamage<?,?>> damageModifier) {
+			super(0);
+			this.damager = p -> {
+				GameDamage<?,?> gameDamage = p.createDamage(GamePlayer.this, type, damage);
+				damageModifier.accept(gameDamage);
+				gameDamage.fire(force);
+			};
 		}
 		
 		@Override
 		public void onHit(P entity) {
-			entity.doDamage(GamePlayer.this, type, damage.apply(entity), true);
+			damager.accept(entity);
 		}
 	}
 }

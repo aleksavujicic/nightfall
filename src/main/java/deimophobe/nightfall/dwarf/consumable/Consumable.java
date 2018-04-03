@@ -1,14 +1,14 @@
 package deimophobe.nightfall.dwarf.consumable;
 
-import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import org.bukkit.Bukkit;
+import deimophobe.nightfall.game.Game;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -32,13 +32,13 @@ public abstract class Consumable {
 	protected Consumable(String itemName) {
 		this.item = DwarvenItems.getItem("consumable", itemName);
 		if (item == null) {
-			Bukkit.getLogger().severe("Consumable item '" + itemName + "' does not exist.");
+			NightfallPlugin.logger().severe("Consumable item '" + itemName + "' does not exist.");
 			throw new NullPointerException("Consumable item '" + itemName + "' does not exist.");
 		}
 		itemStack = item.createItemStack();
 	}
 	
-	public abstract int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face);
+	public abstract int use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face);
 	
 	protected boolean checkPhase(Dwarf dwarf) {
 		switch (Game.getGame().getPhase()) {
@@ -55,13 +55,13 @@ public abstract class Consumable {
 	
 	protected void reset() {}
 	
-	public static int use(Dwarf dwarf, ItemStack item, Action action, Block clickedBlock, BlockFace face) {
-		return use(dwarf, ConsumableType.getConsumableType(item), action, clickedBlock, face);
+	public static int use(Dwarf dwarf, ItemStack item, ClickType click, Block clickedBlock, BlockFace face) {
+		return use(dwarf, ConsumableType.getConsumableType(item), click, clickedBlock, face);
 	}
 	
-	public static int use(Dwarf dwarf, ConsumableType type, Action action, Block clickedBlock, BlockFace face) {
+	public static int use(Dwarf dwarf, ConsumableType type, ClickType click, Block clickedBlock, BlockFace face) {
 		if (type != null)
-			return type.getConsumable().use(dwarf, action, clickedBlock, face);
+			return type.getConsumable().use(dwarf, click, clickedBlock, face);
 		return FAILED_CD;
 	}
 }

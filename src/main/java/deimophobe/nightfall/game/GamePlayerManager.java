@@ -31,11 +31,6 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 				update();
 				for (GamePlayer gp : getGamePlayers()) {
 					gp.update(
-							(counter % 5) == 0,
-							(counter % 10) == 0,
-							(counter % 20) == 0,
-							(counter % 40) == 0,
-							(counter % 80) == 0
 					);
 				}
 			}
@@ -89,7 +84,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		players.put(uuid, player);
 		addToTeam(player.getName());
 		Game.getGame().updateDwarfCount();
-		Bukkit.getLogger().info("Adding game player: " + player.getName() + " to " + whoName);
+		NightfallPlugin.logger().info("Adding game player: " + player.getName() + " to " + whoName);
 	}
 	
 	public P getGamePlayer(String name) {
@@ -132,7 +127,7 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		gamePlayer.onRemove();
 		mcTeam.removeEntry(gamePlayer.getName());
 		Game.getGame().updateDwarfCount();
-		Bukkit.getLogger().info("Removing game player: " + gamePlayer.getName() + " from " + whoName);
+		NightfallPlugin.logger().info("Removing game player: " + gamePlayer.getName() + " from " + whoName);
 		
 		return true;
 	}

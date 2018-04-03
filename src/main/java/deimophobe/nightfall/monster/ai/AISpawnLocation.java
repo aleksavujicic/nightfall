@@ -1,9 +1,9 @@
 package deimophobe.nightfall.monster.ai;
 
-import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
-import org.bukkit.Bukkit;
+import deimophobe.nightfall.game.Game;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -29,7 +29,7 @@ class AISpawnLocation {
 		}
 		
 		if (!isValid()) {
-			Bukkit.getLogger().severe("Attempted to update dead spawn location!");
+			NightfallPlugin.logger().severe("Attempted to update dead spawn location!");
 			return;
 		}
 		

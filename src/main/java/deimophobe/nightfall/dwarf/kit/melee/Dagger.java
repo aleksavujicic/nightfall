@@ -1,8 +1,10 @@
 package deimophobe.nightfall.dwarf.kit.melee;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -21,7 +23,6 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffectType;
 
@@ -44,8 +45,8 @@ public class Dagger extends AbstractItem implements CooldownPiece {
 	private final ComplexCooldown armourReshower = new ComplexCooldown(DURATION, null, this::reshowArmour);
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		poisonCooldown.update();
 		armourReshower.update();
 	}
@@ -60,14 +61,14 @@ public class Dagger extends AbstractItem implements CooldownPiece {
 		super.onDamageAttack(damage);
 		if (isHoldingItem()) {
 			damage.addPostDamageHandler(() -> {
-				damage.getMonster().givePoison(PoisonType.DAGGER, 3 * 20);
+				damage.getMonster().givePoison(PoisonType.DAGGER, 5 * 20);
 			});
 		}
 	}
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (Misc.isRightClick(action) && !dwarf.getNoSpecial()) {
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		if (click.isRightClick() && !dwarf.getNoSpecial()) {
 			return poisonCooldown.tryUse();
 		}
 		return false;
@@ -81,16 +82,16 @@ public class Dagger extends AbstractItem implements CooldownPiece {
 	private static final int DURATION = 6*20;
 	private static final double AOE_RADIUS = 6;
 	private void poisonBomb() {
-		dwarf.givePotionEffect(PotionEffectType.SPEED, DURATION, 2, true, false, true);
-		dwarf.givePotionEffect(PotionEffectType.JUMP, DURATION, 3, true, false, true);
-		dwarf.givePotionEffect(PotionEffectType.INVISIBILITY, DURATION, 1, true, false, true);
-		dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, DURATION, 1, true, false, true);
-		
 		Armour armour = dwarf.getArmour();
 		if (armour instanceof DwarvenArmour) {
 			((DwarvenArmour) armour).hideArmour();
 			armourReshower.reset();
 		}
+		
+		dwarf.givePotionEffect(PotionEffectType.SPEED, DURATION, 2, true, false, true);
+		dwarf.givePotionEffect(PotionEffectType.JUMP, DURATION, 3, true, false, true);
+		dwarf.givePotionEffect(PotionEffectType.INVISIBILITY, DURATION, 1, true, false, true);
+		dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, DURATION, 1, true, false, true);
 		
 		Location center = dwarf.getLocation().add(0, 1, 0);
 		World world = dwarf.getWorld();
@@ -102,8 +103,9 @@ public class Dagger extends AbstractItem implements CooldownPiece {
 		
 		for (MonsterEntity<?> monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
 			if (dwarf.distanceTo(monster) > AOE_RADIUS) continue;
-			
-			monster.givePoison(PoisonType.DAGGER_CLOUD, DURATION);
+			MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.TEMPORARY, 10);
+			damage.addPostDamageHandler(() -> monster.givePoison(PoisonType.DAGGER_CLOUD, DURATION));
+			damage.fire(true);
 			
 			if (monster instanceof AIEntity<?>) {
 				((AIEntity) monster).forceUpdateTarget();

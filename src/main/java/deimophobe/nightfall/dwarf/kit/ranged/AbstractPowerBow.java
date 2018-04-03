@@ -35,8 +35,8 @@ public abstract class AbstractPowerBow extends AbstractToggleBow implements Cool
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		cooldown.update();
 	}
 	

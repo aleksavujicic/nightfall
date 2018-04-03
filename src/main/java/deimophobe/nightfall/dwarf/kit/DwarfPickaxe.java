@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
@@ -17,7 +18,6 @@ import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.material.Directional;
 import org.bukkit.potion.PotionEffectType;
 
@@ -47,8 +47,8 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace face) {
-		if (Misc.isRightClick(action) && cooldown == 0) {
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace face) {
+		if (click.isRightClick() && cooldown == 0) {
 			updateShinyness();
 			
 			// PICK REPAIRING ANOTHER DWARF
@@ -162,7 +162,7 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public void update(boolean a, boolean b, boolean c, boolean d, boolean quadSec) {
+	public void update() {
 		armourCD.update();
 		shinyUpdater.update();
 		if (cooldown > 0)

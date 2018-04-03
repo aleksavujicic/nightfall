@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.hero;
 
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
@@ -17,7 +18,6 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.util.Vector;
 
 import java.util.HashSet;
@@ -30,6 +30,8 @@ import java.util.Set;
 public class Wildfire extends AbstractItem {
 	public Wildfire(Dwarf dwarf) {
 		super(dwarf);
+		dwarf.setArrowItem(DwarvenItems.getItem("hero", "wildfirefuel").createItemStack());
+		dwarf.setMaxArrows(64);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "wildfire");
@@ -43,15 +45,15 @@ public class Wildfire extends AbstractItem {
 	private final Set<MonsterEntity> flamedMobs = new HashSet<>();
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+	public void update() {
 		cooldown.update();
 		
 		processFlames();
 	}
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		if (dwarf.hasArrows(1) && Misc.isRightClick(action)) {
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		if (dwarf.hasArrows(1) && click.isRightClick()) {
 			return cooldown.tryUse();
 		}
 		return true;

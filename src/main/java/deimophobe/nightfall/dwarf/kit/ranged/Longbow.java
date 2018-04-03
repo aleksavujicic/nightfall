@@ -94,7 +94,7 @@ public class Longbow extends AbstractBow implements CooldownPiece {
 	private double theta = 0;
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+	public void update() {
 		if (stacks == 0) return;
 		stackCD--;
 		

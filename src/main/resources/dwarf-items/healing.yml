@@ -79,13 +79,3 @@ strong:
         a hero. However, it uses &b400&r mana."
     flavour:
      - "\"My potions are too strong for you traveller.\" - Potion Seller"
-
-glow:
-  base: glow
-  name: Healing Glow
-  lore:
-    description:
-      - "Has passive fire resistance and mana regeneration\n
-         while taking fire damage. Costs &b$manacost&r mana."
-    flavour:
-      - "Hm, this stuff seems like it's boiling."

@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.consumable;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.common.Misc;
@@ -7,7 +8,6 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 
 import java.util.Set;
 
@@ -24,8 +24,8 @@ class Mortar extends Consumable {
 	
 	
 	@Override
-	public int use(Dwarf dwarf, Action action, Block clickedBlock, BlockFace face) {
-		if (Misc.isRightClick(action)) return FAILED_CD;
+	public int use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+		if (click.isRightClick()) return FAILED_CD;
 		
 		if (clickedBlock == null)
 			clickedBlock = dwarf.getPlayer().getTargetBlock((Set<Material>) null, 5);

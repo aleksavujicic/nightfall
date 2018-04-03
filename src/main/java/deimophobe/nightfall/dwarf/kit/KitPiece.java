@@ -8,14 +8,12 @@ import deimophobe.nightfall.dwarf.Dwarf;
  * Created by Deimophobe on 19/03/17.
  */
 public interface KitPiece {
-	void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec);
+	void update();
 	
 	void onDamageAttack(MonsterDamage damage);
 	void onKill(MonsterDamage damage);
 	
 	void onDamageReceive(DwarfDamage damage);
-	@Deprecated
-	void damageNotify(DwarfDamage damage);
 	
 	void onShift(boolean sneaking);
 	void notifyDeath(Dwarf deadDwarf);

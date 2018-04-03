@@ -1,15 +1,17 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Display;
+import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -18,6 +20,7 @@ import org.bukkit.util.Vector;
  */
 class Walker extends AbstractMob {
 	
+	@Update @Display
 	private final ComplexCooldown kb_cd = new ComplexCooldown(300, this::knockback, null);
 	
 	protected Walker(MonsterPlayer monster) {
@@ -36,11 +39,10 @@ class Walker extends AbstractMob {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
-		kb_cd.update();
+	public void update() {
+		super.update();
 		
-		if (halfSec && !isPlayerHoldingWeapon()) {
+		if (everyNthTick(10) && !isPlayerHoldingWeapon()) {
 			monster.getPlayer().getInventory().setHeldItemSlot(0);
 			monster.doDamage(null, GameDamageType.INCORRECT_HELD_ITEM, 4, true);
 		}
@@ -58,15 +60,10 @@ class Walker extends AbstractMob {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
-		if (isPlayerHoldingWeapon() && Misc.isRightClick(action))
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
+		if (isPlayerHoldingWeapon() && click.isRightClick())
 			kb_cd.tryUse();
-	}
-	
-	@Override
-	public float getCooldown() {
-		return kb_cd.getCooldown();
 	}
 	
 	private void knockback() {

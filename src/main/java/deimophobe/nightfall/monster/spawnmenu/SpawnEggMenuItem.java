@@ -1,16 +1,16 @@
 package deimophobe.nightfall.monster.spawnmenu;
 
-import deimophobe.nightfall.game.Game;
-import deimophobe.nightfall.game.Phase;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.item.MenuItem;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.doom.DoomManager;
 import deimophobe.nightfall.monster.mob.MobType;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -50,7 +50,7 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 			try {
 				mobTypes.add(MobType.getMobType(mob));
 			} catch (UnknownEnumElementException e) {
-				Bukkit.getLogger().severe("Unknown mob " + mob + " when creating spawnegg " + section.getName());
+				NightfallPlugin.logger().severe("Unknown mob " + mob + " when creating spawnegg " + section.getName());
 				e.printStackTrace();
 			}
 		}

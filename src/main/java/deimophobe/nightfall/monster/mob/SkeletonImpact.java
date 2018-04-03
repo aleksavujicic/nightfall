@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
@@ -21,7 +22,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.block.Action;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
@@ -80,12 +80,12 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
-		if (Misc.isLeftClick(action) && isPlayerHoldingWeapon()) {
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
+		if (click.isLeftClick() && isPlayerHoldingWeapon()) {
 			removeActiveArrows();
 		}
-		if (Misc.isRightClick(action) && isPlayerHoldingItem("stick") && reactionCD.isAvailable()) {
+		if (click.isRightClick() && isPlayerHoldingItem("stick") && reactionCD.isAvailable()) {
 			reactionCD.reset();
             World world = monster.getLocation().getWorld();
             world.spawnParticle(Particle.EXPLOSION_LARGE, monster.getLocation(), 3, 1, 1, 1);

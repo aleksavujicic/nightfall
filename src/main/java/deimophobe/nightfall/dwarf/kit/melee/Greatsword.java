@@ -39,8 +39,8 @@ public class Greatsword extends AbstractItem {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		if (exhaustion > 0)
 			exhaustion--;
 	}

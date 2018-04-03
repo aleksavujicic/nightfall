@@ -72,7 +72,6 @@ public enum GameDamageType {
 	WILDFIRE("incinerated"),
 	SILENT_STRIKE,
 	MYST,
-	SHADOW_STRIKE,
 	BUFFPOOL(
 			(playerName, damage) -> {
 				BaseComponent text = new TextComponent();

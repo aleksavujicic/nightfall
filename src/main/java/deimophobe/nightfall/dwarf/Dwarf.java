@@ -1,6 +1,8 @@
 package deimophobe.nightfall.dwarf;
 
-import deimophobe.nightfall.*;
+import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.HealBlock;
 import deimophobe.nightfall.common.Misc;
@@ -20,11 +22,7 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.armour.BerserkArmour;
 import deimophobe.nightfall.dwarf.kit.healing.StrongAle;
-import deimophobe.nightfall.game.GameEntity;
-import deimophobe.nightfall.game.GamePlayer;
-import deimophobe.nightfall.game.Curse;
-import deimophobe.nightfall.game.Game;
-import deimophobe.nightfall.game.Phase;
+import deimophobe.nightfall.game.*;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -33,7 +31,6 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffectType;
@@ -217,13 +214,13 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	
 	// ------ BLOOD ------
-	private void updateBlood(boolean quartSec, boolean halfSec, boolean sec) {
+	private void updateBlood() {
 		
 		Location bloodLoc = player.getLocation().add(0, 1, 0);
 		
-		if (sec && mana <= 300
-			|| halfSec && mana <= 200
-			|| quartSec && mana <= 100) {
+		if (everyNthTick(20) && mana <= 300
+			|| everyNthTick(10) && mana <= 200
+			|| everyNthTick(5) && mana <= 100) {
 			
 			int count = 8000 / (mana + 100);
 			double radius = 0.4 - (double) mana/2000;
@@ -232,7 +229,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, count, radius, height, radius, 0);
 		}
 		
-		if (halfSec && mana <= 150) {
+		if (everyNthTick(10) && mana <= 150) {
 			player.getWorld().spawnParticle(Particle.BLOCK_CRACK, bloodLoc, 20 - mana/10, 0.2, 0.1, 0.2, 0, new MaterialData(Material.REDSTONE_BLOCK));
 		}
 	}
@@ -242,6 +239,12 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	private int maxArrows = 20;
 	private int arrows = maxArrows;
 	protected ComplexCooldown arrowRegen = new RepeatingCooldown(4*20, this::giveArrow);
+	
+	private ItemStack arrowItem = DwarvenItems.getItem("misc","arrow").createItemStack();
+	public void setArrowItem(ItemStack arrow) { arrowItem = arrow; }
+	private ItemStack getArrowItem() {
+		return arrowItem;
+	}
 	
 	public void setMaxArrows(int max) {
 		maxArrows = max;
@@ -275,7 +278,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	private void updateArrowDisplay() {
 		ItemStack arrow = player.getInventory().getItemInOffHand();
 		if (arrow == null || arrow.getType() == Material.AIR) {
-			arrow = getArrow().clone();
+			arrow = getArrowItem().clone();
 			player.getInventory().setItemInOffHand(arrow);
 		}
 		
@@ -286,10 +289,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		arrows--;
 	}
 	
-	private final static ItemStack arrow = DwarvenItems.getItem("misc","arrow").createItemStack();
-	protected ItemStack getArrow() {
-		return arrow;
-	}
 	
 	
 	// ------ INVENTORIES ------
@@ -380,23 +379,32 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 
 	// ------ UPDATE ------
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		kit.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
+		kit.update();
 		updateCooldownBar();
+		updateBlood();
+		arrowRegen.update();
+		procTick();
+		
+		if (noSpecial > 0) {
+			noSpecial--;
+		}
+		if (stunned > 0) {
+			stunned--;
+		}
 		
 		if (consumableGrabCD > 0) {
             consumableGrabCD--;
         }
 		
-		updateBlood(quartSec, halfSec, sec);
 		
-		if (quadSec) {
+		if (everyNthTick(100)) {
 			player.setSaturation(10);
 		}
 		
-		arrowRegen.update();
 
-		if (halfSec) {
+		if (everyNthTick(10)) {
 			//mobspawn
 			if (Game.getGame().getPhase() == Phase.GAME) {
 				updateMobspawn();
@@ -409,21 +417,13 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			}
 		}
 
-		if (sec) {
+		if (everyNthTick(20)) {
 			regenMana(armour.getManaRegenRate());
 			
 			ItemStack heldItem = getHeldItem();
 			holdingLightItem = (ConsumableType.TORCH.matchesItem(heldItem) || ConsumableType.LAMP.matchesItem(heldItem));
 			updateVisibility();
 		}
-
-		procTick();
-		if (noSpecial > 0) {
-		    noSpecial--;
-        }
-        if (stunned > 0) {
-		    stunned--;
-        }
 
 		usedThisTick = false;
 	}
@@ -661,66 +661,34 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	private final static int MAX_GRAB_CD = 15; // For grabbing items and stuff
 	
 	@Override
-	public void onUse(Action type, Block clickedBlock, BlockFace blockFace) {
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
 		if (usedThisTick) return;
 		usedThisTick = true;
 		
 		if (consumableGrabCD > 0) return; // prevent grabbing an item then instantly using it.
 		
-		boolean success = kit.onUse(type, clickedBlock, blockFace);
+		boolean success = kit.onUse(click, clickedBlock, blockFace);
 		if (success) return;
 		
-		if (Misc.isRightClick(type) && clickedBlock != null) {
-			boolean success2 =  pickupItems(clickedBlock.getType());
-			if (success2) {
+		if (click.isRightClick() && clickedBlock != null) {
+			KitGiveType giveType = KitGiveType.getGiveTypeFromBlock(clickedBlock);
+			if (giveType != null) {
+				giveKitItems(giveType);
 				consumableGrabCD = MAX_GRAB_CD;
 				return;
 			}
 		}
 		
-		if (Misc.isRightClick(type) && clickedBlock != null && BlockType.SHARED_CHEST.matchesBlock(clickedBlock)) {
+		if (click.isRightClick() && clickedBlock != null && BlockType.SHARED_CHEST.matchesBlock(clickedBlock)) {
 			DwarfManager.getManager().openSharedChest(this, clickedBlock);
 			return;
 		}
 		
 		// Use consumable
-		int consCD = Consumable.use(this, getHeldItem(), type, clickedBlock, blockFace);
+		int consCD = Consumable.use(this, getHeldItem(), click, clickedBlock, blockFace);
 		if (consCD != -1) {
 			consumableGrabCD = consCD;
 			useHeldItem();
-		}
-	}
-	
-	
-	private boolean pickupItems(Material blockType) {
-		switch (blockType) {
-			case ACTIVATOR_RAIL:
-				kit.giveItems(KitGiveType.PICK);
-				return true;
-				
-			case RAILS:
-				kit.giveItems(KitGiveType.AXE);
-				return true;
-				
-			case POWERED_RAIL:
-				kit.giveItems(KitGiveType.SHOVEL);
-				return true;
-			
-			case LADDER:
-				kit.giveItems(KitGiveType.SWORD);
-				return true;
-				
-			case DETECTOR_RAIL:
-				kit.giveItems(KitGiveType.BOW);
-				return true;
-			
-			case REDSTONE_TORCH_OFF:
-			case REDSTONE_TORCH_ON:
-				kit.giveItems(KitGiveType.ALE);
-				return true;
-			
-			default:
-				return false;
 		}
 	}
 

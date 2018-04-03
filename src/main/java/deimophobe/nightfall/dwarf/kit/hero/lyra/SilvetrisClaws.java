@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.hero.lyra;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.MultipleCooldown;
@@ -10,7 +11,6 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 
 /**
  * Created by Deimophobe on 14/01/18.
@@ -27,17 +27,17 @@ public class SilvetrisClaws extends AbstractItem implements CooldownPiece {
 	@Override public KitGiveType getGiveType() {return KitGiveType.START;}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
+	public void update() {
+		super.update();
 		leapCD.update();
 		
 		if (!hasLanded && dwarf.getPlayer().isOnGround()) hasLanded = true;
 	}
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
-		if (Misc.isRightClick(action) && hasLanded) {
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
+		if (click.isRightClick() && hasLanded) {
 			return leapCD.tryUse();
 		}
 		return false;

@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.accessory;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -7,7 +8,6 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 
 /**
  * Created by Deimophobe on 21/06/17.
@@ -25,7 +25,7 @@ public class Chestomatic extends AbstractItem {
 	@Override public KitGiveType getGiveType() { return KitGiveType.START; }
 	
 	@Override
-	public boolean onUse(Action action, Block block, BlockFace face) {
+	public boolean onUse(ClickType click, Block block, BlockFace face) {
 		dwarf.showSharedChest();
 		return true;
 	}

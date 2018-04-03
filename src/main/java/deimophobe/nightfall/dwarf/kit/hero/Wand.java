@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.hero;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -12,7 +13,6 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -31,7 +31,7 @@ public class Wand extends AbstractCooldownItem {
 	@Override public KitGiveType getGiveType() { return KitGiveType.START; }
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace face) {
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace face) {
 		if (isOffCD()) {
 			Location loc = dwarf.getEyeLocation();
 			new WandProjectile(loc, loc.getDirection().multiply(0.5));

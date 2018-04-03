@@ -14,7 +14,7 @@ public class AbstractPiece implements KitPiece {
 	}
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {}
+	public void update() {}
 	
 	
 	@Override
@@ -25,9 +25,6 @@ public class AbstractPiece implements KitPiece {
 	
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {}
-	
-	@Override
-	public void damageNotify(DwarfDamage damage) {}
 	
 	
 	@Override

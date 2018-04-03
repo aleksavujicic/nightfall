@@ -1,10 +1,11 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Display;
+import deimophobe.nightfall.cooldown.LifetimeExpireable;
 import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
@@ -18,8 +19,6 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.HashSet;
@@ -44,63 +43,53 @@ public class Minotaur extends AbstractMob {
 	}
 	
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
 		
-		if (Misc.isRightClick(action) && isPlayerHoldingWeapon()) {
+		if (click.isRightClick() && isPlayerHoldingWeapon()) {
 			cooldown.tryUse();
 		}
 	}
 	
-	private final static int MAX_CHARGE_TIME = 15;
+	private final static int MAX_CHARGE_TIME = 30;
 	private void charge() {
 		hitDwarves.clear();
 		
-		// TODO move away from bukkit runnable
-		BukkitRunnable charger = new BukkitRunnable() {
-			private int lifetime = MAX_CHARGE_TIME;
+		addUpdateable(new LifetimeExpireable(MAX_CHARGE_TIME) {
 			@Override
-			public void run() {
-				if (!monster.isOnline() || !monster.isAlive() || monster.isFrozen()) {
-					lifetime = 0;
+			public void update() {
+				super.update();
+				
+				if (!everyNthTick(2)) return;
+				
+				double yaw = monster.getLocation().getYaw();
+				double radYaw = yaw * Math.PI / 180;
+				double vy = monster.getVelocity().getY();
+				Vector velocity = new Vector(-1.35 * Math.sin(radYaw), vy-0.1, 1.35 * Math.cos(radYaw));
+				Vector lookAhead = velocity.clone().normalize().multiply(0.5);
+				
+				
+				// Charge if on ground, or its the first tick.
+				if (monster.getPlayer().isOnGround() || getLifetime() == MAX_CHARGE_TIME-1) {
+					monster.playSound("entity.horse.gallop", 1f, 0.6f, true);
+					monster.setVelocity(velocity);
 				}
 				
-				if (lifetime > 0) {
-					lifetime--;
-					
-					double yaw = monster.getLocation().getYaw();
-					double radYaw = yaw * Math.PI / 180;
-					double vy = monster.getVelocity().getY();
-					Vector velocity = new Vector(-1.35 * Math.sin(radYaw), vy-0.1, 1.35 * Math.cos(radYaw));
-					Vector lookAhead = velocity.clone().normalize().multiply(0.5);
-					
-					
-					// Charge if on ground, or its the first tick.
-					if (monster.getPlayer().isOnGround() || lifetime == MAX_CHARGE_TIME-1) {
-						monster.playSound("entity.horse.gallop", 1f, 0.6f, true);
-						monster.setVelocity(velocity);
-					}
-					
-					// Do cloud and damage
-					Location loc = monster.getLocation();
-					loc.getWorld().spawnParticle(Particle.CLOUD, loc, 5, 0.5, 0.5, 0.5, 0.03);
-					aoeDamage();
-					
-					// Check if ahead is a wall, and if so destroy it.
-					Location aheadUp = monster.getEyeLocation().add(lookAhead);
-					Location aheadDown = aheadUp.clone().subtract(0,1,0);
-					if (checkBlock(aheadUp) || checkBlock(aheadDown)) {
-						monster.playSound("entity.zombie.attack_iron_door", 1f, 0.5f, true);
-						monster.getLocation().getWorld().spawnParticle(Particle.EXPLOSION_LARGE, monster.getEyeLocation(), 1);
-						this.cancel();
-						return;
-					}
-				} else {
-					this.cancel();
+				// Do cloud and damage
+				Location loc = monster.getLocation();
+				loc.getWorld().spawnParticle(Particle.CLOUD, loc, 5, 0.5, 0.5, 0.5, 0.03);
+				aoeDamage();
+				
+				// Check if ahead is a wall, and if so destroy it.
+				Location aheadUp = monster.getEyeLocation().add(lookAhead);
+				Location aheadDown = aheadUp.clone().subtract(0,1,0);
+				if (checkBlock(aheadUp) || checkBlock(aheadDown)) {
+					monster.playSound("entity.zombie.attack_iron_door", 1f, 0.5f, true);
+					monster.getLocation().getWorld().spawnParticle(Particle.EXPLOSION_LARGE, monster.getEyeLocation(), 1);
+					this.expire();
 				}
 			}
-		};
-		charger.runTaskTimer(NightfallPlugin.getPlugin(), 0, 2);
+		});
 	}
 	
 	/**
@@ -121,30 +110,23 @@ public class Minotaur extends AbstractMob {
 	private static final double AOE_RADIUS = 2.5;
 	private static final int AOE_DMG = 80; // This is a one off hit so its not as strong as it seems.
 	private static final int AOE_SHRED = 50;
+	
 	private void aoeDamage() {
-		/*
-		DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), monster,
-				GameDamageType.MINOTAUR_CHARGE, AOE_RADIUS, AOE_DMG, 10,
-				new DwarfDamageModifier().setArmourShred(AOE_SHRED).addKnockback(0, 1.5, 0)
-		);
-		//TODO monster.playSound("entity.zombie.attack_iron_door", 1f, 1.7f, true);
-		*/
-		
-		
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
-			if (!hitDwarves.contains(dwarf) && dwarf.distanceTo(monster) <= AOE_RADIUS) {
-				hitDwarves.add(dwarf);
-				Vector vel = dwarf.getLocation().subtract(monster.getLocation()).toVector();
-				vel.normalize().multiply(3);
-				vel.setY(vel.getY() + 1.5);
-				
-				DwarfDamage damage = dwarf.createDamage(monster, GameDamageType.MINOTAUR_CHARGE, AOE_DMG);
-				damage.setKnockback(vel);
-				damage.setArmourShred(AOE_SHRED);
-				damage.fire(true);
-					
-				monster.playSound("entity.zombie.attack_iron_door", 1f, 1.7f, true);
-			}
+			if (hitDwarves.contains(dwarf)) continue;
+			if (dwarf.distanceTo(monster) > AOE_RADIUS) continue;
+			
+			hitDwarves.add(dwarf);
+			Vector vel = dwarf.getLocation().subtract(monster.getLocation()).toVector();
+			vel.normalize().multiply(3);
+			vel.setY(vel.getY() + 1.5);
+			
+			DwarfDamage damage = dwarf.createDamage(monster, GameDamageType.MINOTAUR_CHARGE, AOE_DMG);
+			damage.setKnockback(vel);
+			damage.setArmourShred(AOE_SHRED);
+			damage.fire(true);
+			
+			monster.playSound("entity.zombie.attack_iron_door", 1f, 1.7f, true);
 		}
 	}
 }

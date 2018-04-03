@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.ranged;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
@@ -10,7 +11,6 @@ import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
-import org.bukkit.event.block.Action;
 import org.bukkit.metadata.FixedMetadataValue;
 
 /**
@@ -40,7 +40,7 @@ public class Crossbow extends AbstractBow implements CooldownPiece {
 	private final static int ARROW_COST = 2;
 	
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
+	public void update() {
 		arrowCD.update();
 		rapidCD.update();
 		longRapid.update();
@@ -56,13 +56,13 @@ public class Crossbow extends AbstractBow implements CooldownPiece {
 	
 	
 	@Override
-	public boolean onUse(Action action, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
 		if (firing) {
 			return false;
 		}
 		
 		
-		if (Misc.isRightClick(action)) {
+		if (click.isRightClick()) {
 			if (dwarf.hasArrows(ARROW_COST)) {
 				arrowCD.tryUse();
 				return true;

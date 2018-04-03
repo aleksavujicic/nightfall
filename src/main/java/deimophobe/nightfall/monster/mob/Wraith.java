@@ -1,5 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
@@ -16,7 +17,6 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.Action;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -48,38 +48,11 @@ public class Wraith extends AbstractMob implements FloatyMob {
 	}
 	
 	@Override
-	public void onShift(boolean sneaking) {
-		super.onShift(sneaking);
-		if (chargerCD < MAX_CHARGE_CD - 5) {
-			chargeActive = false;
-			setFloatiness(sneaking);
-		}
-	}
-	
-	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace face) {
-		super.onUse(action, clickedBlock, face);
-		if (!Misc.isRightClick(action)) return;
-		if (!isPlayerHoldingWeapon()) return;
-		
-		if (chargerCD == 0) {
-			chargerCD = MAX_CHARGE_CD;
-			chargeActive = true;
-			charge();
-		}
-	}
-	
-	@Override
-	public float getCooldown() {
-		return 1 - (float) chargerCD/MAX_CHARGE_CD;
-	}
-	
-	@Override
-	public void update(boolean a, boolean b, boolean c, boolean d, boolean e) {
-		super.update(a, b, c, d, e);
+	public void update() {
+		super.update();
 		if (chargerCD > 0) {
 			chargerCD--;
-
+			
 			if (chargeActive && chargerCD >= MAX_CHARGE_CD - CLOUD_TIME) {
 				spawnParticles();
 				aoeDamage();
@@ -96,9 +69,45 @@ public class Wraith extends AbstractMob implements FloatyMob {
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
 		if (chargeActive) {
-			chargeActive = false;
-			setFloatiness();
+			damage.addPostDamageHandler(() -> {
+				chargeActive = false;
+				setFloatiness();
+			});
 		}
+		switch (damage.getType()) {
+			case POISON:
+			case WITHER:
+				damage.cancel();
+				monster.removeAllPoisons();
+				break;
+		}
+	}
+	
+	@Override
+	public void onUse(ClickType click, Block clickedBlock, BlockFace face) {
+		super.onUse(click, clickedBlock, face);
+		if (!click.isRightClick()) return;
+		if (!isPlayerHoldingWeapon()) return;
+		
+		if (chargerCD == 0) {
+			chargerCD = MAX_CHARGE_CD;
+			chargeActive = true;
+			charge();
+		}
+	}
+	
+	@Override
+	public void onShift(boolean sneaking) {
+		super.onShift(sneaking);
+		if (chargerCD < MAX_CHARGE_CD - 5) {
+			chargeActive = false;
+			setFloatiness(sneaking);
+		}
+	}
+	
+	@Override
+	public float getCooldown() {
+		return 1 - (float) chargerCD/MAX_CHARGE_CD;
 	}
 	
 	//private final ComplexCooldown charger = new ComplexCooldown(40, this::charge,  this::setFloatiness);

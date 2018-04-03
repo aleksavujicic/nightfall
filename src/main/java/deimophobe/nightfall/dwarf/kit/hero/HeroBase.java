@@ -5,11 +5,14 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.PreDamagePriority;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 10/03/17.
  */
 public class HeroBase extends AbstractPiece {
+	private State state = State.HIGH;
+	
 	public HeroBase(Dwarf dwarf) {
 		super(dwarf);
 		
@@ -18,7 +21,9 @@ public class HeroBase extends AbstractPiece {
 	}
 	
 	@Override
-	public void damageNotify(DwarfDamage damage) {
+	public void onDamageReceive(DwarfDamage damage) {
+		super.onDamageReceive(damage);
+		
 		damage.addPreDamageHandler(PreDamagePriority.SAFETY_JUICE, () -> {
 			double health = dwarf.getPlayer().getHealth();
 			if (damage.willKill() || health <= 10) {
@@ -31,14 +36,78 @@ public class HeroBase extends AbstractPiece {
 				}
 			}
 		});
-	}
-	
-	@Override
-	public void onDamageReceive(DwarfDamage damage) {
-		super.onDamageReceive(damage);
+		
 		damage.multiplyManaDrain(0.25);
 		if (damage.getType() == GameDamageType.FALL) {
 			damage.getMultiPartDamage().timesMult(0.1);
+		}
+	}
+	
+	@Override
+	public void update() {
+		super.update();
+//		updateState();
+	}
+	
+	@Override
+	public void onShift(boolean sneaking) {
+		super.onShift(sneaking);
+//		state = State.getLevel(dwarf);
+//		state.apply(dwarf);
+	}
+	
+	private void updateState() {
+		if (!state.isValid(dwarf)) {
+			state = State.getLevel(dwarf);
+			state.apply(dwarf);
+		}
+	}
+	
+	private enum State {
+		HIGH(350, 1000),
+		MED(150, 350),
+		LOW(-1, 150)
+		;
+		
+		private final int minMana;
+		private final int maxMana;
+		State(int minMana, int maxMana) {
+			this.minMana = minMana;
+			this.maxMana = maxMana;
+		}
+		
+		private boolean isValid(Dwarf dwarf) {
+			int mana = dwarf.getMana();
+			return  (minMana < mana && mana <= maxMana);
+		}
+		
+		private static State getLevel(Dwarf dwarf) {
+			int mana = dwarf.getMana();
+			for (HeroBase.State state : values()) {
+				if (mana >= state.minMana)
+					return state;
+			}
+			return LOW;
+		}
+		
+		private void apply(Dwarf dwarf) {
+			switch (this) {
+				case HIGH:
+					dwarf.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
+					dwarf.removePotionEffect(PotionEffectType.REGENERATION);
+					dwarf.removePotionEffect(PotionEffectType.SPEED);
+					break;
+				case MED:
+					dwarf.givePermanentPotionEffect(PotionEffectType.INCREASE_DAMAGE, 3, false, false);
+					dwarf.givePermanentPotionEffect(PotionEffectType.REGENERATION, 2,false, false);
+					dwarf.givePermanentPotionEffect(PotionEffectType.SPEED, 1,false, false);
+					break;
+				case LOW:
+					dwarf.givePermanentPotionEffect(PotionEffectType.INCREASE_DAMAGE, 6, true, false);
+					dwarf.givePermanentPotionEffect(PotionEffectType.REGENERATION, 3,true, false);
+					dwarf.givePermanentPotionEffect(PotionEffectType.SPEED, 2,true, false);
+					break;
+			}
 		}
 	}
 }
