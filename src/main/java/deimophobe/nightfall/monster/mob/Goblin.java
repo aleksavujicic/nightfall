@@ -40,7 +40,7 @@ public class Goblin extends AbstractMob {
 	protected final int force;
 
 	private Cooldown placeboxCD;
-	private Cooldown throwboxCD;
+	protected Cooldown throwboxCD;
 
 	private static final int MAX_PLACE_CD = 10;
 	private static final int MAX_THROW_CD = 20;
@@ -85,8 +85,6 @@ public class Goblin extends AbstractMob {
 	@Override
 	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
 		super.onUse(click, clickedBlock, blockFace);
-		Location loc = monster.getLocation();
-		World world = monster.getLocation().getWorld();
 
 		if (click.isRightClick() && isPlayerHoldingItem("gobo-box") && placeboxCD.isAvailable() && clickedBlock != null && clickedBlock.getType() != Material.ENDER_STONE) {
 			Block block = clickedBlock.getRelative(blockFace);
@@ -100,20 +98,25 @@ public class Goblin extends AbstractMob {
 		}
 		// Throw gobo box
 		if (click.isLeftClick() && isPlayerHoldingItem("gobo-box") && (monster.getHeldItem().getAmount() >= 2) && throwboxCD.isAvailable()) {
-
-			Vector direction = monster.getEyeLocation().getDirection();
-			direction.setX((direction.getX() / 1.65));
-			direction.setY(0.4);
-			direction.setZ((direction.getZ() / 1.65));
-			TNTPrimed tnt = monster.getLocation().getWorld().spawn(monster.getEyeLocation().add(direction), TNTPrimed.class);
-			tnt.setMetadata("thrower", new FixedMetadataValue(NightfallPlugin.getPlugin(), this));
-			tnt.setVelocity(direction);
-			tnt.setFuseTicks(60);
-			world.playSound(loc, "entity.firework.launch", 2, 0.5f);
-			monster.useHeldItem();
-			monster.useHeldItem();
+			throwBox();
 			throwboxCD.reset();
 		}
+	}
+
+	protected void throwBox() {
+		Location loc = monster.getLocation();
+		World world = monster.getLocation().getWorld();
+		Vector direction = monster.getEyeLocation().getDirection();
+		direction.setX((direction.getX() / Misc.randomDouble(1.55, 1.85)));
+		direction.setY(Misc.randomDouble(0.36, 0.44));
+		direction.setZ((direction.getZ() / Misc.randomDouble(1.55, 1.85)));
+		TNTPrimed tnt = monster.getLocation().getWorld().spawn(monster.getEyeLocation().add(direction), TNTPrimed.class);
+		tnt.setMetadata("thrower", new FixedMetadataValue(NightfallPlugin.getPlugin(), this));
+		tnt.setVelocity(direction);
+		tnt.setFuseTicks(60);
+		world.playSound(loc, "entity.firework.launch", 2, 0.5f);
+		monster.useHeldItem();
+		monster.useHeldItem();
 	}
 
 	public void thrownGoboBox(Location centerLoc) {

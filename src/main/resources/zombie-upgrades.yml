@@ -242,6 +242,21 @@ assassination:
            will do 60 additional damage."
 
 
+speed-inf:
+  index: 4
+  cost: 2000
+  permanent: true
+  prereq:
+    assassination: 1
+  item:
+    material: glowstone_dust
+    name: "Upgrade Speed (inf)"
+    shiny: true
+    lore:
+      description:
+        - "Increases speed by 3%."
+
+
 ##########################
 # FURY SUBCLASS UPGRADES #
 ##########################
@@ -345,11 +360,25 @@ furynight:
     vampirism-fury: 3
   item:
     material: exp_bottle
-    name: Fury of the Night
+    name: "Fury of the Night"
     shiny: true
     lore:
       description:
         - "Drains 5 mana per hit."
+
+fury-inf:
+  index: 4
+  cost: 2000
+  permanent: true
+  prereq:
+    furynight: 1
+  item:
+    material: exp_bottle
+    name: "Upgrade Mana Drain (inf)"
+    shiny: true
+    lore:
+      description:
+        - "Drain 1 more mana per hit."
 
 
 ##########################
@@ -463,3 +492,18 @@ stagger:
     lore:
       description:
         - "Ground stomp will now stun dwarves."
+
+regen-inf:
+  index: 4
+  cost: 2000
+  permanent: true
+  prereq:
+    stagger: 1
+  item:
+    base: potion-regeneration
+    name: "Upgrade Regeneration (inf)"
+    shiny: true
+    lore:
+      description:
+        - "Regenerate an extra 0.1 hearts per second."
+

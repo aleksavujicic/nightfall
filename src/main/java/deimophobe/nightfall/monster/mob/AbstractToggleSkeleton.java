@@ -14,8 +14,12 @@ import org.bukkit.inventory.ItemStack;
  * Created by Deimophobe on 12/02/18.
  */
 abstract class AbstractToggleSkeleton extends Skeleton {
-	public AbstractToggleSkeleton(MonsterPlayer mons) { super(mons); }
-	public AbstractToggleSkeleton(MonsterPlayer mons, MobData skeletonData) { super(mons, skeletonData); }
+	public AbstractToggleSkeleton(MonsterPlayer mons) {
+		super(mons);
+	}
+	public AbstractToggleSkeleton(MonsterPlayer mons, MobData skeletonData) {
+		super(mons, skeletonData);
+	}
 	
 	private boolean toggled = false;
 	@Update private final ComplexCooldown toggler = new ComplexCooldown(4, this::toggleBow);
