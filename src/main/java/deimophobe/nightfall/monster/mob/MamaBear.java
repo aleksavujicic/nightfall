@@ -31,7 +31,7 @@ class MamaBear extends AbstractMob {
 
 	@Update private ComplexCooldown regenCD = new ComplexCooldown(2*20,this::regenAmmo);
 	@Update private ComplexCooldown frostBreath = new ComplexCooldown(10,this::breatheFrost);
-	@Update @Display private final MultipleCooldown pounceCD = new MultipleCooldown(60*20, 20*20, this::polarPounce, null);
+	@Update @Display private final MultipleCooldown pounceCD = new MultipleCooldown(60*20, 15*20, this::polarPounce, null);
 	private final int FULL_AMMO = 32;
 
 	private final Set<Frost> frosts = new HashSet<>();
@@ -139,7 +139,7 @@ class MamaBear extends AbstractMob {
 
 			// Frost particles
 			World world = location.getWorld();
-			world.spawnParticle(Particle.FIREWORKS_SPARK, location, (int) (frac*6 + 2), visibleRadius, visibleRadius, visibleRadius, 0);
+			world.spawnParticle(Particle.FIREWORKS_SPARK, location, (int) (frac*3 + 2), visibleRadius, visibleRadius, visibleRadius, 0);
 
 			// Damage dwarves
 			for (DwarfEntity dwarf : DwarfManager.getManager().getDwarves()) {
@@ -148,8 +148,7 @@ class MamaBear extends AbstractMob {
 
 				if (dwarf.getEyeLocation().distance(location) <= radius) {
 					GameDamage damage = dwarf.createDamage(monster, GameDamageType.FROST_BREATH, damageAmt);
-					damage.setNoDamageTicks(1);
-					damage.fire();
+					damage.setNoDamageTicks(10);
 
 					frostedDwarf.add(dwarf);
 				}
