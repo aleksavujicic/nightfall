@@ -108,7 +108,7 @@
         <repository>
             <id>project.local</id>
             <name>project</name>
-            <url>file:${project.basedir}common-link/</url>
+            <url>file:${project.basedir}../Nightfall-Common/</url>
         </repository>
         <repository>
             <id>aikar</id>

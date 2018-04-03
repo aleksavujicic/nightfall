@@ -26,6 +26,7 @@ public enum MobType {
 	MINOTAUR(Minotaur::new),
 	BATTERING_RAM(BatteringRam::new),
 	DOPPELGANGER(Doppelganger::new),
+	POLARBEAR(PolarBear::new),
 
 	WALKER(Walker::new),
 	

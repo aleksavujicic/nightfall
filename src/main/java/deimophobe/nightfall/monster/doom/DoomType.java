@@ -15,6 +15,7 @@ public enum DoomType {
 	TICKERS(TickerDoom.class, TickerDoom::new),
 	OGRE_MAGI(OgreMagiDoom.class, OgreMagiDoom::new),
 	TEMPEST(TempestDoom.class, TempestDoom::new, false),
+	BLIZZARD(BlizzardDoom.class, BlizzardDoom::new,false)
 	
 	;
 	
