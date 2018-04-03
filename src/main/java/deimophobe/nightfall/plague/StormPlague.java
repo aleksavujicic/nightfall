@@ -136,7 +136,7 @@ public class StormPlague extends Plague {
 		damageCount.putIfAbsent(uuid, 0);
 		int currentCount = damageCount.compute(uuid, (u, i) -> i+1);
 		
-		double damage = currentCount*currentCount*5;
+		double damage = currentCount*currentCount*3;
 		if (plagued) damage *= 2;
 		target.doDamage(null, GameDamageType.PLAGUED_LIGHTNING, damage, true);
 	}
