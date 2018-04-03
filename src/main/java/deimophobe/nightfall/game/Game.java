@@ -24,7 +24,6 @@ import deimophobe.nightfall.map.MapManager;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIManager;
-import deimophobe.nightfall.monster.upgrade.GlobalUpgrade;
 import deimophobe.nightfall.plague.AssassinPlague;
 import deimophobe.nightfall.plague.Plague;
 import deimophobe.nightfall.plague.PlagueType;
@@ -178,7 +177,6 @@ public class Game {
 		skinManager.stop();
 		glowManager.stop();
 		timeManager.stop();
-		GlobalUpgrade.reset();
 		TimedBlock.cancelAllBlocks();
 		
 		map.unload();

@@ -5,7 +5,6 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.*;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
@@ -14,7 +13,6 @@ import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
-import deimophobe.nightfall.monster.upgrade.GlobalUpgrade;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
@@ -244,10 +242,6 @@ public abstract class AbstractMob implements Mob {
 		monster.clearInventory();
 		
 		if (mobData.hasWeapon()) {
-			if (GlobalUpgrade.KRUNGOR.isUnlocked() && type != MobType.TORUS) {
-				getWeapon().addModifier(ItemModifierType.ATTACK, 5, "Torus Doom");
-			}
-			
 			giveItem("weapon");
 		}
 		if (mobData.hasArmour()) {
@@ -262,7 +256,7 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	
-	protected CustomItem getWeapon() {
+	public CustomItem getWeapon() {
 		return getItem("weapon");
 	}
 	protected CustomItem getArmour() {

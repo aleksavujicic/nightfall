@@ -7,6 +7,7 @@ import deimophobe.nightfall.util.PacketUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.Listener;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -28,6 +29,10 @@ public class NightfallPlugin extends JavaPlugin {
 	
 	private boolean disabling = false;
 	public boolean isDisabling() { return disabling; }
+	
+	public static void registerListener(Listener listener) {
+		Bukkit.getPluginManager().registerEvents(listener, plugin);
+	}
 	
 	@Override
 	public void onEnable() {
