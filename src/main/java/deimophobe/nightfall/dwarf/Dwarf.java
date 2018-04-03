@@ -725,10 +725,5 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		kit.onRemove();
 		SkinManager.getManager().removeSkinChange(this);
 		DisguiseAPI.undisguiseToAll(player);
-		
-		Game game = Game.getGame();
-		if (game.isCurseActive(Curse.DOOM) || game.isCurseActive(Curse.SUPER_DOOM)) {
-			mana = 0;
-		}
 	}
 }
