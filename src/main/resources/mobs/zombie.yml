@@ -45,7 +45,6 @@ saboteur:
   parent: base
 
   title: Saboteur
-  shrineweight: 0.5
 
   disguisetype: zombie_villager
 
@@ -55,7 +54,8 @@ saboteur:
       name: Makeshift Pick
       lore:
         description:
-        - "Break through defenses with this pick."
+        - "Break through defenses with this pick.\n
+           Right click to become invisible."
         flavour:
         - "A saboteur's tool,\n
            made to sneak through defenses"

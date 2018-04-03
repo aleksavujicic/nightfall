@@ -58,12 +58,7 @@ public class ZombieSaboteur extends ZombieMob {
 		int speed = epinephrine * 5;
 		
 		this.sneakLvl = upgrades.get("sneak");
-		if (sneakLvl > 0 || healing > 0) {
-			sneakCD = new SimpleCooldown((30 - sneakLvl * 5) * 20);
-		}
-		else {
-			sneakCD = new DudCooldown();
-		}
+		sneakCD = new SimpleCooldown((30 - sneakLvl * 5) * 20);
 		
 		this.assa = upgrades.get("assassination") >= 1;
 		
@@ -159,7 +154,7 @@ public class ZombieSaboteur extends ZombieMob {
 		if (poison != null) {
 			damage.getDwarf().givePoison(poison, 50);
 		}
-		if (sabotage > 0) {
+		if (sabotage > 0 && isInvisible()) {
 			damage.getDwarf().givePotionEffect(PotionEffectType.UNLUCK, 100, sabotage, true, false, true);
 		}
 		if (assa && isInvisible()) {

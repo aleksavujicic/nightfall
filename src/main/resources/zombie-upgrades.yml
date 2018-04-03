@@ -136,8 +136,9 @@ sabotage:
       description:
         - "Temporarily damage dwarven armour\n
            each hit, causing it to take $value%\n
-           more damage and armour damage\n
-           for 5 seconds."
+           more melee damage and all armour damage\n
+           for 5 seconds. Can only be used\n
+           when invisible."
 
 
 poison:
@@ -170,7 +171,9 @@ sneak:
            and disappear into the shadows.\n
            Taking or dealing damage and breaking blocks\n
            will negate your invisibility.\n
-           Higher levels decrease cooldown."
+           Available without upgrades every\n
+           30 seconds, and higher levels decrease\n
+           the cooldown up to 5 seconds."
 
 
 pick:
