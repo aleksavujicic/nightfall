@@ -7,23 +7,19 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.EnumWrappers;
-import deimophobe.nightfall.game.Curse;
-import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.effects.GameEffect;
+import deimophobe.nightfall.game.Curse;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.util.ArmourSlot;
-import org.bukkit.Bukkit;
-import org.bukkit.Particle;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -85,14 +81,6 @@ public class DwarvenArmour implements Armour {
 	@Override
 	public void addModifier(ItemModifierType type, int value, String reason) {
 		addModifier(type, value, reason, ArmourSlot.CHEST);
-		if (Game.getGame().isCurseActive(Curse.BLIZZARD)){
-			for(Player player : Bukkit.getOnlinePlayers()){
-				player.spawnParticle(Particle.FIREWORKS_SPARK, player.getLocation(), 25, 10, 10, 10, 0);
-			}
-			for(Dwarf dwarf : DwarfManager.getManager().getDwarves()){
-				dwarf.givePotionEffect(PotionEffectType.SLOW,15*20,2,true,true,true);
-			}
-		}
 	}
 	
 	@Override

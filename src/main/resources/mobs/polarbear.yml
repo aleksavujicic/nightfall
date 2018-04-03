@@ -3,11 +3,11 @@ title: Polar Bear
 disguisetype: polar_bear
 
 
-health: 80
+health: 50
 arrowres: 0.25
 shred: 10
 proccable: false
-resistance: 0.75
+resistance: 0.85
 speed: -5
 
 
