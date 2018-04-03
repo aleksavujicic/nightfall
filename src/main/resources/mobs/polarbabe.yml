@@ -3,12 +3,13 @@ title: Polar Babe
 disguisetype: polar_bear
 
 
-health: 50
-speed: -10
-shred: 20
 attack: 20
+health: 50
+shred: 20
+speed: -10
+
 proccable: false
-resistance: 0.65
+resistance: 0.7
 
 
 
@@ -30,3 +31,9 @@ weapon:
      - "I scratch you."
     flavour:
      - "I may look cuddly but I'm vicious."
+
+sounds:
+  idle:
+    path: "entity.polar_bear.ambient"
+    pitch: 2
+    chance: 0.5

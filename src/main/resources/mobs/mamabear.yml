@@ -3,13 +3,16 @@ title: Mama Bear
 disguisetype: polar_bear
 
 
-health: 90
-arrowres: 0.25
-shred: 10
 attack: 30
-proccable: false
-resistance: 0.85
+health: 80
+shred: 10
 speed: -20
+
+proccable: false
+resistance: 0.9
+arrowres: 0.25
+charmtime: 60
+shrine-prot-damage: 400
 
 
 armour:
@@ -34,6 +37,7 @@ items:
           Frosted Breath regenerates over time."
       flavour:
        - "Freezing death."
+
 weapon:
   template: monster-hero
   base: temp
@@ -43,3 +47,13 @@ weapon:
      - "Don't mess with Mama."
     flavour:
      - "Death to all who harm my babies."
+
+sounds:
+  idle:
+    path: "entity.polar_bear.ambient"
+    chance: 0.5
+  roar:
+    path: "entity.polar_bear.warning"
+    volume: 1.5
+    pitch: 0.8
+
