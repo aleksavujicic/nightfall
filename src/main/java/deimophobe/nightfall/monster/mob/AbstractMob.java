@@ -385,7 +385,14 @@ public abstract class AbstractMob implements Mob {
 		
 		updateables.forEach(Updateable::update);
 		expirables.forEach(Expirable::update);
-		expirables.removeIf(Expirable::hasExpired);
+		expirables.removeIf(expirable -> {
+			if (expirable.hasExpired()) {
+				expirable.onExpiry();
+				return true;
+			} else {
+				return false;
+			}
+		});
 		
 		shrineProtTick();
 	}

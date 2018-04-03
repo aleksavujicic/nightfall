@@ -525,7 +525,14 @@ public class Game {
 		
 		updateables.forEach(Updateable::update);
 		expirables.forEach(Expirable::update);
-		expirables.removeIf(Expirable::hasExpired);
+		expirables.removeIf(expirable -> {
+			if (expirable.hasExpired()) {
+				expirable.onExpiry();
+				return true;
+			} else {
+				return false;
+			}
+		});
 	}
 	
 	public void addUpdateable(Updateable updateable) {

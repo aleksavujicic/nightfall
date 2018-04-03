@@ -23,14 +23,13 @@ public abstract class LifetimeExpireable implements Expirable {
 	public void update() {
 		if (lifetime > 0) {
 			lifetime--;
-			
-			if (lifetime == 0) onExpiry();
 		} else {
 			throw new IllegalStateException("Cannot update lifetime expireable if lifetime is 0");
 		}
 	}
 	
-	protected void onExpiry() {}
+	@Override
+	public void onExpiry() {}
 	
 	public boolean everyNTicks(int n) {
 		return lifetime % n == 0;
