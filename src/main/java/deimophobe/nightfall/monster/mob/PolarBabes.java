@@ -19,15 +19,14 @@ class PolarBabes extends AbstractMob {
 	@Override
 	public void onSpawn(SpawnMethod spawnMethod) {
 		super.onSpawn(spawnMethod);
-			changeDisguiseWatcher(PolarBearWatcher.class, pw -> {
-			pw.setBaby(true);
-		});
+		
+		changeDisguiseWatcher(PolarBearWatcher.class, pw -> pw.setBaby(true));
 	}
 
 	@Override
-	public void update(boolean a, boolean b, boolean sec, boolean d, boolean e) {
-		super.update(a,b,sec,d,e);
-		if(sec) {
+	public void update() {
+		super.update();
+		if(everyNthTick(20)) {
 			tryPlaceIce();
 		}
 	}
@@ -35,18 +34,19 @@ class PolarBabes extends AbstractMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		tryPlaceIce();
 		damage.setManaDrain(5);
+		damage.addPostDamageHandler(this::tryPlaceIce);
 	}
 
-	private void tryPlaceIce(){
+	private void tryPlaceIce() {
 		Random random = new Random();
 		double dx = random.nextDouble()*6 - 3;
 		double dy = random.nextDouble()*6 - 3;
 		double dz = random.nextDouble()*6 - 3;
 		Block block = monster.getLocation().add(dx, dy, dz).getBlock();
-		if (block.getType().isSolid())
-			TimedBlock.placeTimedBlock(new TimedBlock(block, Material.PACKED_ICE, 10*20, monster));
+		if (block.getType().isSolid()) {
+			TimedBlock.placeTimedBlock(new TimedBlock(block, Material.PACKED_ICE, 10 * 20, monster));
+		}
 	}
 
 }

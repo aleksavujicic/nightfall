@@ -1,8 +1,11 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.MultipleCooldown;
+import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.DwarfEntity;
@@ -14,7 +17,6 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.Action;
 import org.bukkit.util.Vector;
 
 import java.util.HashSet;
@@ -27,9 +29,9 @@ class MamaBear extends AbstractMob {
 		super (monster, MobType.MAMABEAR);
 	}
 
-	private ComplexCooldown regenCD = new ComplexCooldown(2*20,this::regenAmmo);
-	private ComplexCooldown frostBreath = new ComplexCooldown(10,this::breatheFrost);
-	private final MultipleCooldown pounceCD = new MultipleCooldown(60*20, 20*20, this::polarPounce, null);
+	@Update private ComplexCooldown regenCD = new ComplexCooldown(2*20,this::regenAmmo);
+	@Update private ComplexCooldown frostBreath = new ComplexCooldown(10,this::breatheFrost);
+	@Update @Display private final MultipleCooldown pounceCD = new MultipleCooldown(60*20, 20*20, this::polarPounce, null);
 	private final int FULL_AMMO = 32;
 
 	private final Set<Frost> frosts = new HashSet<>();
@@ -44,11 +46,8 @@ class MamaBear extends AbstractMob {
 	}
 
 	@Override
-	public void update(boolean quartSec, boolean halfSec, boolean sec, boolean doubleSec, boolean quadSec) {
-		super.update(quartSec, halfSec, sec, doubleSec, quadSec);
-		regenCD.update();
-		frostBreath.update();
-		pounceCD.update();
+	public void update() {
+		super.update();
 		processFrost();
 		if(currentAmmo < FULL_AMMO){
 			if (regenCD.isAvailable()) {
@@ -64,9 +63,9 @@ class MamaBear extends AbstractMob {
 	}
 
 	@Override
-	public void onUse(Action action, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(action, clickedBlock, blockFace);
-		if (Misc.isRightClick(action) && isPlayerHoldingItem("frost-ammo")) {
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
+		if (click.isRightClick() && isPlayerHoldingItem("frost-ammo")) {
 			frostBreath.tryUse();
 		}
 	}
@@ -75,7 +74,7 @@ class MamaBear extends AbstractMob {
 		monster.leap(1,.5);
 	}
 
-	private void regenAmmo(){
+	private void regenAmmo() {
 		currentAmmo ++;
 		giveItem("frost-ammo",1);
 	}
@@ -163,11 +162,6 @@ class MamaBear extends AbstractMob {
 		private boolean isDead() {
 			return life <= 0;
 		}
-	}
-
-	@Override
-	public float getCooldown() {
-		return pounceCD.getCooldown();
 	}
 
 }
