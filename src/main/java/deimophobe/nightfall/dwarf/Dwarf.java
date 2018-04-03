@@ -5,7 +5,6 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.HealBlock;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.RepeatingCooldown;
@@ -24,6 +23,7 @@ import deimophobe.nightfall.dwarf.kit.armour.BerserkArmour;
 import deimophobe.nightfall.dwarf.kit.healing.StrongAle;
 import deimophobe.nightfall.game.*;
 import deimophobe.nightfall.map.GameMap;
+import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -724,6 +724,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		super.onRemove();
 		kit.onRemove();
 		SkinManager.getManager().removeSkinChange(this);
+		DisguiseAPI.undisguiseToAll(player);
 		
 		Game game = Game.getGame();
 		if (game.isCurseActive(Curse.DOOM) || game.isCurseActive(Curse.SUPER_DOOM)) {
