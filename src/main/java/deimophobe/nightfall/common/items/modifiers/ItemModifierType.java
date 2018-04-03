@@ -37,7 +37,15 @@ public enum ItemModifierType {
 	SPEED("Speed", new AttributeApplier(Attribute.MOVEMENT_SPEED, 2, (i) -> (double)i/100), ValueFormatter.PERCENT_FORMATTER),
 	DEPTH_STRIDER("Depth Strider", new EnchantApplier(Enchantment.DEPTH_STRIDER)),
 	AQUA_AFFINITY("Aqua Affinity", new EnchantApplier(Enchantment.WATER_WORKER)),
-	
+
+	// Mob Infinite Upgrades
+	MANA_DRAIN("Mana Drain"),
+	REGEN_EXTRA("Extra Regen"),
+	SNIPER("Sniper", ValueFormatter.PERCENT_FORMATTER),
+	VOLLEY("Arrows in Volley"),
+	IMPACT_EXTRA("Extra Force"),
+	FASTER_THROW("Extra Throw Chance", ValueFormatter.PERCENT_FORMATTER),
+
 	// Special dwarf armours
 	FAIRY_BAND("Fairy Band", false),
 	NATURE_SUIT("Taproot Armour", false),
