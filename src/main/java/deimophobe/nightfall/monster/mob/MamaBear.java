@@ -135,7 +135,7 @@ class MamaBear extends AbstractMob {
 			double frac = (double) life / FROST_LIFE;
 			double radius = 2.5 - 0.5*frac;
 			double visibleRadius = 0.75 - 0.5*frac;
-			double damageAmt = frac*2 + 5;
+			double damageAmt = frac*2;
 
 			// Frost particles
 			World world = location.getWorld();

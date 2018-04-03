@@ -19,7 +19,6 @@ class PolarBabes extends AbstractMob {
 	@Override
 	public void onSpawn(SpawnMethod spawnMethod) {
 		super.onSpawn(spawnMethod);
-		
 		changeDisguiseWatcher(PolarBearWatcher.class, pw -> pw.setBaby(true));
 	}
 
@@ -48,5 +47,4 @@ class PolarBabes extends AbstractMob {
 			TimedBlock.placeTimedBlock(new TimedBlock(block, Material.PACKED_ICE, 10 * 20, monster));
 		}
 	}
-
 }
