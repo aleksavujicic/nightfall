@@ -31,7 +31,12 @@ public abstract class Plague {
 		
 		final int toKill = getAmountToKill(false);
 		for (int i=0; i<toKill; i++) {
-			killDwarf(getRandomPlagueable(), reason);
+			Dwarf toPlague = getRandomPlagueable();
+			if (getRandomPlagueable() != null) {
+				killDwarf(toPlague, reason);
+			} else {
+				break;
+			}
 		}
 		
 		Game.getGame().notifyPlagueFinish();
