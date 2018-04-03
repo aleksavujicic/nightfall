@@ -36,8 +36,9 @@ public class Misc {
 		
 		int rand = new Random().nextInt(items.size());
 		Iterator<T> iter = items.iterator();
-		for (int i=0; i<rand; i++)
+		for (int i=0; i<rand; i++) {
 			iter.next();
+		}
 		return iter.next();
 	}
 	
@@ -139,7 +140,9 @@ public class Misc {
 	}
 	
 	public static void spawnColouredParticles(Location center, int count, double dx, double dy, double dz, double red, double green, double blue) {
-		if (red < 0.001) red = 0.001;
+		if (red < 0.001) {
+			red = 0.001;
+		}
 		
 		for (int i=0; i<count; i++) {
 			Location location = randomLocation(center, dx, dy, dz);
@@ -245,8 +248,9 @@ public class Misc {
 		Vector offset = new Vector(1,0,0);
 		
 		// If lies on the line of normal (or close to it), change it.
-		if (Math.abs(offset.dot(n)) >= 1 - THRESHOLD)
+		if (Math.abs(offset.dot(n)) >= 1 - THRESHOLD) {
 			offset = new Vector(0,0,1);
+		}
 		
 		// Project offset onto plane by removing n component of offset.
 		Vector u1 = offset.subtract(n.clone().multiply(offset.dot(n))).normalize();
@@ -259,8 +263,9 @@ public class Misc {
 	public static <T extends Enum<T>> T getEnumMemberFromString(String string, T[] values, String enumName) throws UnknownEnumElementException {
 		string = string.replace('-','_');
 		for (T type : values) {
-			if (type.name().equalsIgnoreCase(string))
+			if (type.name().equalsIgnoreCase(string)) {
 				return type;
+			}
 		}
 		throw new UnknownEnumElementException("Unknown " + enumName + ": " + string);
 	}
@@ -289,7 +294,9 @@ public class Misc {
 		
 		if (string.charAt(0) == net.md_5.bungee.api.ChatColor.COLOR_CHAR) {
 			net.md_5.bungee.api.ChatColor colour = net.md_5.bungee.api.ChatColor.getByChar(string.charAt(1));
-			if (colour != null) text.setColor(colour);
+			if (colour != null) {
+				text.setColor(colour);
+			}
 		}
 		return text;
 	}
