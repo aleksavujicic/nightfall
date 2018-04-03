@@ -110,12 +110,13 @@ scepter:
   name: Arcane Scepter
   lore:
     description:
-      - "Left click to shoot a beam that damages mobs,\n
-        and buffs dwarves. Right click to create a\n
-        buffpool that strengthens all dwarves inside it."
+      - "Left click to shoot a beam that damages mobs\n
+         and gives dwarves resistance for a short duration.\n
+         Right click to create an arcane mark that\n
+         strengthens all dwarves inside it and restores mana."
     flavour:
       - "\"This makes one less dwarf to watch over.\" - Arthea"
-      - "\"When buff pools appear, its huddle time!\" - Tui"
+      - "\"When the arcane mark appears, its huddle time!\" - Tui"
       - "\"Stand proud, and help those that fight.\" - Velvetine"
 
 hunting:

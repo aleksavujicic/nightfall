@@ -24,7 +24,7 @@ public enum GameDamageType {
 	
 	// Natural Damage
 	CONTACT(
-			new EscapeDeathMessageMaker("was pricked","was pricked to death."),
+			new EscapeDeathMessageMaker("was pricked","was pricked to death"),
 			new FixedDOTModifier(DamageOverTimeType.CONTACT, 10, 2, 1)
 	),
 	MAGMA_BLOCK(
@@ -78,14 +78,14 @@ public enum GameDamageType {
 				text.addExtra(playerName);
 				text.addExtra(" was consumed by ");
 				text.addExtra(damage.getAttackerName());
-				text.addExtra("'s buffpool");
+				text.addExtra("'s arcane mark");
 				return text;
 			}
 	),
 	BUBBLE_BEAM("bubbled"),
 	GEYSER("bubbled"),
 	WATER_BOW_AOE("splooshed"),
-	PLAGUE_ASSASSIN_END(new ForcedDeathMessageMaker("was overwhelmed by the " + ChatColor.DARK_GRAY + "dark presence.")),
+	PLAGUE_ASSASSIN_END(new ForcedDeathMessageMaker("was overwhelmed by the " + ChatColor.DARK_GRAY + "dark presence")),
 	
 	AI_REMOVER,
 	
@@ -104,7 +104,7 @@ public enum GameDamageType {
 	
 	// Plagues
 	FORCE_PLAGUED(new ForcedDeathMessageMaker("succumbed to the plague")),
-	ASSASSIN_PLAGUE(new ForcedDeathMessageMaker("was assassinated by a " + ChatColor.DARK_GRAY + "dark presence.")),
+	ASSASSIN_PLAGUE(new ForcedDeathMessageMaker("was assassinated by a " + ChatColor.DARK_GRAY + "dark presence")),
 	PLAGUED_LIGHTNING(new ForcedDeathMessageMaker("was struck by " + ChatColor.GOLD + ChatColor.ITALIC + "Lightning")),
 	DEATH_PLAGUE(
 			// Makes Twins name dynamic (rather than only being called once)
