@@ -37,7 +37,7 @@ weapon:
      - "Yes its a tombmaker"
   modifiers:
     knockback: 2
-    burning: 4
+    burning: 3
 
 sounds:
   bat-idle:

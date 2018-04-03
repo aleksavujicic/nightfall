@@ -6,7 +6,6 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.Update;
-import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Material;
 import org.bukkit.Particle;

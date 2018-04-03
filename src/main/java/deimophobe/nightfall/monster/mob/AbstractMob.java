@@ -420,6 +420,7 @@ public abstract class AbstractMob implements Mob {
 	
 	protected void giveSpawnProtection(int time) {
 		monster.givePotionEffect(PotionEffectType.LUCK, time, 1, true, false, true);
+		monster.givePotionEffect(PotionEffectType.INVISIBILITY, time, 1, true, false, true);
 	}
 	
 	protected boolean hasSpawnProtection() {
