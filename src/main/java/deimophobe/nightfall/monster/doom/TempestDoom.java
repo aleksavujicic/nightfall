@@ -71,7 +71,7 @@ public class TempestDoom extends AnnotatedDoom {
 		}
 		
 		@Override
-		protected void onExpiry() {
+		public void onExpiry() {
 			super.onExpiry();
 			world.setStorm(false);
 		}
