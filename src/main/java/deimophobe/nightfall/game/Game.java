@@ -227,7 +227,7 @@ public class Game {
 		return dwarfManager.removeGamePlayer(player) | monsterManager.removeGamePlayer(player);
 	}
 	
-	public int getNumPlayers() {
+	public int getNumberOfPlayers() {
 		return dwarfManager.getNumberOfPlayers() + monsterManager.getNumberOfPlayers();
 	}
 	
