@@ -619,7 +619,7 @@ public class Game {
 		this.activePlague = plague;
 		NightfallPlugin.logger().info("Starting plague: " + plagueType);
 		
-		if (plague.getAmountToKill(true) == 0) {
+		if (Plague.getAmountToKill(true) == 0) {
 			NightfallPlugin.logger().warning("Skipping plague...");
 			releaseMonsters();
 		} else {
