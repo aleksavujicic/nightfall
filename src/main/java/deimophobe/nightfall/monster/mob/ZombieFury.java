@@ -29,6 +29,7 @@ public class ZombieFury extends ZombieMob {
 	private final int leapLvl;
 	private final int pursuit;
 	private final boolean fury;
+	private final int furyInf;
 	private final ComplexCooldown furySound;
 	
 	private Boolean isLeaping;
@@ -48,7 +49,7 @@ public class ZombieFury extends ZombieMob {
 		int rebirthChance = rebirthValues[upgrades.get("rebirth-fury")];
 		this.pursuit = upgrades.get("pursuit");
 		this.leapLvl = upgrades.get("leap-fury");
-		
+
 		if (leapLvl != 0)
 			leapCD = new SimpleCooldown(160);
 		else
@@ -59,6 +60,7 @@ public class ZombieFury extends ZombieMob {
 		this.rebirthChance = (double) rebirthChance / 100;
 		
 		this.fury = upgrades.get("furynight") >= 1;
+		this.furyInf = upgrades.get("fury-inf");
 		
 		if (fury) {
 			furySound = new ComplexCooldown(20, () ->
@@ -72,6 +74,10 @@ public class ZombieFury extends ZombieMob {
 		getArmour().addModifier(ItemModifierType.SPEED, (10 * pursuit / 3), "Upgrade");
 		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
 		getWeapon().addModifier(ItemModifierType.ATTACK, 5, "Fury Zombie");
+		if (fury) {
+			getWeapon().addModifier(ItemModifierType.MANA_DRAIN, 5, "Fury of the Night");
+			getWeapon().addModifier(ItemModifierType.MANA_DRAIN, furyInf, "More Mana Drain");
+		}
 	}
 	
 	@Override
@@ -119,7 +125,7 @@ public class ZombieFury extends ZombieMob {
 		double healAmt = vampirism * 1.5;
 		if (fury) {
 			furySound.tryUse();
-			damage.setManaDrain(5);
+			damage.setManaDrain(5+furyInf);
 		}
 		monster.heal(healAmt);
 		monster.givePotionEffect(PotionEffectType.SPEED, 160, pursuit, true, false, true);

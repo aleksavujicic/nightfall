@@ -23,15 +23,16 @@ import org.bukkit.entity.Projectile;
  */
 class SkeletonFlamelancer extends Skeleton {
 
-	private int flame;
-	private int volley;
-	private int speed;
-	private int arrowRes;
-	private int firePath;
-	private int fireAI;
-	private double realArrowRes = 0;
+	private final int flame;
+	private final int volley;
+	private final int speed;
+	private final int arrowRes;
+	private final int firePath;
+	private final int fireAI;
+	private double realArrowRes;
+	private final static int DEFAULT_VOLLEY = 20;
 
-	private static final int ARROWS_FIRED = 20;
+	private final int arrowsFiredInf;
 	private double flameBlock;
 	private double chargeBonus = 0;
 
@@ -45,6 +46,7 @@ class SkeletonFlamelancer extends Skeleton {
 		this.arrowRes = arrowResValues[upgrades.get("arrowres-flamelancer")];
 		this.firePath = upgrades.get("firepath");
 		this.fireAI = upgrades.get("fireai");
+		this.arrowsFiredInf = upgrades.get("volley-inf");
 		realArrowRes = arrowRes * 0.01;
 
 		flameBlock = 0.05 + flame * 0.02;
@@ -52,6 +54,8 @@ class SkeletonFlamelancer extends Skeleton {
 		getArmour().addModifier(ItemModifierType.SPEED, 10, "Flamelancer");
 		getArmour().addModifier(ItemModifierType.SPEED, speed * 10, "Upgrade");
 		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
+		getWeapon().addModifier(ItemModifierType.VOLLEY, DEFAULT_VOLLEY, "Flamelancer");
+		getWeapon().addModifier(ItemModifierType.VOLLEY, arrowsFiredInf, "More Volley");
 	}
 	
 	@Override
@@ -80,7 +84,7 @@ class SkeletonFlamelancer extends Skeleton {
 		
 		arrow.setFireTicks(10000);
 		arrow.setCritical(false);
-		final int arrowsToFire = (int) (ARROWS_FIRED*(force*force));
+		final int arrowsToFire = (int) ((DEFAULT_VOLLEY+arrowsFiredInf)*(force*force));
 		if (Math.random() < (volley * 0.06 + 0.1 + chargeBonus)) {
 			for (int i=0; i<arrowsToFire; i++) {
 				Arrow newArrow = ArrowMisc.summonArrow(monster, getPower(), force*2, force, 30f);
@@ -117,7 +121,7 @@ class SkeletonFlamelancer extends Skeleton {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		damage.setFireTicks(30 + flame * 10);
+		damage.setFireTicks(60 + flame * 20);
 	}
 
 	@Override

@@ -56,9 +56,9 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		resetMenu.setItem(15, cancelItem);
 
 		// Add items to front menu
-		addSpawnEgg(0, "zombie");
-		addSpawnEgg(1, "skeleton");
-		addSpawnEgg(2, "gobo");
+		addSpawnEgg(9, "zombie");
+		addSpawnEgg(10, "skeleton");
+		addSpawnEgg(11, "gobo");
 		addSpawnEgg(13, "ember_sprite");
 		addSpawnEgg(14, "wolf");
 		addSpawnEgg(15, "spiderling");
@@ -70,9 +70,9 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 		addSpawnEgg(26, "wraith");
 		
 		frontMenu.setItem(8, resetPage);
-		frontMenu.setItem(9, zombiePage);
-		frontMenu.setItem(10, skeletonPage);
-		frontMenu.setItem(11, goboPage);
+		frontMenu.setItem(0, zombiePage);
+		frontMenu.setItem(1, skeletonPage);
+		frontMenu.setItem(2, goboPage);
 		frontMenu.setItem(18, rebirthItem);
 
 		for (SpawnMenu.PageType pageType : SpawnMenu.PageType.values()) {

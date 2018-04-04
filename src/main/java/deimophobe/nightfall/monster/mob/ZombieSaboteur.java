@@ -38,6 +38,7 @@ public class ZombieSaboteur extends ZombieMob {
 	private final int healing;
 	private final Cooldown sneakCD;
 	private final int sneakLvl;
+	private final int speedInf;
 	private final boolean assa;
 	
 	private final static Villager.Profession PROFESSION = Villager.Profession.HUSK;
@@ -55,7 +56,9 @@ public class ZombieSaboteur extends ZombieMob {
 		this.healing = upgrades.get("healing");
 		this.pick = upgrades.get("pick");
 		this.epinephrine = upgrades.get("epinephrine");
+		this.speedInf = upgrades.get("speed-inf");
 		int speed = epinephrine * 5;
+		int morespeed = speedInf * 3;
 		
 		this.sneakLvl = upgrades.get("sneak");
 		sneakCD = new SimpleCooldown((30 - sneakLvl * 5) * 20);
@@ -77,6 +80,7 @@ public class ZombieSaboteur extends ZombieMob {
 
 		getArmour().addModifier(ItemModifierType.SPEED, 25, "Saboteur Zombie");
 		getWeapon().addModifier(ItemModifierType.SPEED, speed, "Epinephrine");
+		getWeapon().addModifier(ItemModifierType.SPEED, morespeed, "More Speed");
 		int saboHealthMalus = (upgrades.get("health") + upgrades.get("health-inf")) * -1;
 		getArmour().addModifier(ItemModifierType.HEALTH, saboHealthMalus, "Saboteur Zombie");
 	}

@@ -166,3 +166,19 @@ superkaboom:
         - "Make a large explosion when you kaboom!\n
            Dwarves can no longer interrupt your kabooms."
 
+throw-inf:
+  index: 4
+  cost: 2000
+  permanent: true
+  prereq:
+    superkaboom: 1
+  item:
+    base: kaboom
+    name: "Upgrade Throw Rate (inf)"
+    shiny: true
+    lore:
+      description:
+        - "Have an additional 15% chance to\n
+           throw explosives more than one at a time."
+
+
