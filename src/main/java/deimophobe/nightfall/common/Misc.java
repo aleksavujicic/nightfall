@@ -140,9 +140,7 @@ public class Misc {
 	}
 	
 	public static void spawnColouredParticles(Location center, int count, double dx, double dy, double dz, double red, double green, double blue) {
-		if (red < 0.001) {
-			red = 0.001;
-		}
+		if (red < 0.001) red = 0.001;
 		
 		for (int i=0; i<count; i++) {
 			Location location = randomLocation(center, dx, dy, dz);
@@ -294,9 +292,7 @@ public class Misc {
 		
 		if (string.charAt(0) == net.md_5.bungee.api.ChatColor.COLOR_CHAR) {
 			net.md_5.bungee.api.ChatColor colour = net.md_5.bungee.api.ChatColor.getByChar(string.charAt(1));
-			if (colour != null) {
-				text.setColor(colour);
-			}
+			if (colour != null) text.setColor(colour);
 		}
 		return text;
 	}
