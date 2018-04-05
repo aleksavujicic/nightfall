@@ -316,6 +316,22 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 		return false;
 	}
 	
+	public boolean useItemReverse(Material material) {
+		if (material == null) throw new NullPointerException("Cannot force use null item.");
+		
+		PlayerInventory inv = player.getInventory();
+		ListIterator<ItemStack> iterator = inv.iterator(inv.getSize());
+		
+		while (iterator.hasPrevious()) {
+			ItemStack invItem = iterator.previous();
+			if (invItem != null && invItem.getType() == material) {
+				invItem.setAmount(invItem.getAmount() - 1);
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public boolean useItem(Material material, int amt) {
 		for (int i=0; i<amt; i++) {
 			boolean used = useItem(material);

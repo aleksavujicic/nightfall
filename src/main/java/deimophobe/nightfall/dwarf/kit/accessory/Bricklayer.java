@@ -1,19 +1,18 @@
 package deimophobe.nightfall.dwarf.kit.accessory;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.ConsumerCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
+import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -161,7 +160,7 @@ public class Bricklayer extends AbstractItem {
 				}
 				
 				if (BlockType.IGNORABLE.matchesBlock(nextBlock) && GameMap.getCurrentMap().isBlockPlaceable(nextBlock)) {
-					dwarf.forceUseConsumable(ConsumableType.COBBLESTONE);
+					dwarf.useItemReverse(ConsumableType.COBBLESTONE.getItemStack().getType());
 					nextBlock.getWorld().playSound(nextBlock.getLocation(), "block.stone.place", 1f, 1f);
 					dwarf.playSound("block.stone.place");
 					nextBlock.setType(Material.COBBLESTONE);
