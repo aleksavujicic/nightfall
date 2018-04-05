@@ -26,6 +26,8 @@ lightbow: "bow:5"
 warpweaver: "bow:6"
 volcanic: "bow:8"
 
+essence: "#temp"
+
 # Healing
 healing-ale: "!potion{93,244,17}"
 safety-juice: "!potion{249,204,24}"
