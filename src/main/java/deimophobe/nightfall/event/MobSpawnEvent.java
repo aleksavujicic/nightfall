@@ -1,5 +1,6 @@
 package deimophobe.nightfall.event;
 
+import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
@@ -30,7 +31,8 @@ public class MobSpawnEvent extends Event {
 	public MobType getMobType() { return mob.getType(); }
 	
 	public void addWeaponModifier(ItemModifierType type, int value, String reason) {
-		castMob().getWeapon().addModifier(type, value, reason);
+		CustomItem weapon = castMob().getWeapon();
+		if (weapon != null) weapon.addModifier(type, value, reason);
 	}
 	
 	@Deprecated
