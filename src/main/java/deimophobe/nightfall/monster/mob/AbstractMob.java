@@ -71,8 +71,8 @@ public abstract class AbstractMob implements Mob {
 		checkForAnnotations();
 		
 		monster.clearEffects();
-		if (mobData.immuneTime != 0) {
-			giveSpawnProtection(mobData.immuneTime*20);
+		if (mobData.immuneTime != 0 && spawnMethod != SpawnMethod.REBIRTH) {
+			giveSpawnProtection(mobData.immuneTime*20, true);
 		}
 		
 		
@@ -419,13 +419,23 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	
-	protected void giveSpawnProtection(int time) {
+	protected void giveSpawnProtection(int time, boolean invisible) {
 		monster.givePotionEffect(PotionEffectType.LUCK, time, 1, true, false, true);
-		monster.givePotionEffect(PotionEffectType.INVISIBILITY, time, 1, true, false, true);
+		if (invisible) monster.givePotionEffect(PotionEffectType.INVISIBILITY, time, 1, true, false, true);
+	}
+	
+	protected void givePermanentSpawnProtection(boolean invisible) {
+		monster.givePermanentPotionEffect(PotionEffectType.LUCK, 1);
+		if (invisible) monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
 	}
 	
 	protected boolean hasSpawnProtection() {
 		return monster.hasPotionEffect(PotionEffectType.LUCK);
+	}
+	
+	protected void removeSpawnProtection() {
+		monster.removePotionEffect(PotionEffectType.LUCK);
+		monster.removePotionEffect(PotionEffectType.INVISIBILITY);
 	}
 	
 	

@@ -1,7 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
@@ -104,7 +103,7 @@ public class ZombieHusk extends ZombieMob {
 				monster.getPlayer().setVelocity(new Vector(currentVelocity.getX() * 2.5, -1.5, currentVelocity.getZ() * 2.5));
 			}
 			if (monster.getPlayer().isOnGround()) {
-				monster.removePotionEffect(PotionEffectType.LUCK);
+				removeSpawnProtection();
 				world.spawnParticle(Particle.EXPLOSION_NORMAL, monster.getLocation(), 60, 2, 0, 2, 0.05);
 				monster.playSound("drum", 1f, 0.5f, true);
 				monster.playSound("entity.generic.explode", 0.5f, 0.5f, true);
@@ -173,7 +172,7 @@ public class ZombieHusk extends ZombieMob {
 				double hVel = (double) leapLvl / 15 + 0.4;
 				double vVel = (double) leapLvl / 50 + 0.5;
 				monster.getPlayer().setVelocity(new Vector(-hVel * Math.sin(radYaw), vVel, hVel * Math.cos(radYaw)));
-				giveSpawnProtection(50);
+				giveSpawnProtection(50, false);
 				smashing = true;
 				monster.getPlayer().getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, monster.getLocation(), 10, 0.5, 0, 0.5, 0.05);
 			}

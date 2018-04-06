@@ -1,7 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.Update;
@@ -68,7 +67,7 @@ abstract class AbstractWolf extends AbstractMob {
 			monster.leap(5, 1.5);
 		}
 		
-		monster.removePotionEffect(PotionEffectType.LUCK);
+		removeSpawnProtection();
 	}
 	
 	protected abstract float leapPitch();
