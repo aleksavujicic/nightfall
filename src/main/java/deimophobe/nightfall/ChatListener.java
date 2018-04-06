@@ -17,7 +17,12 @@ public class ChatListener implements Listener {
 		Player sender = event.getPlayer();
 		String message = event.getMessage();
 
-		if (!event.getMessage().startsWith("!")){
+		if (message.startsWith("!")){
+			event.setMessage(message.replaceFirst("!",""));
+			event.setFormat("[!] <%s> %s");
+		} else {
+			// Note this is async, so caution should be used in adding extra functionality here.
+			// GamePlayerManagers internal map is a ConcurrentHashMap so isGamePlayer is thread safe.
 			DwarfManager dwarfManager = DwarfManager.getManager();
 			MonsterManager monsterManager = MonsterManager.getManager();
 			
@@ -27,9 +32,6 @@ public class ChatListener implements Listener {
 			if (monsterManager.isGamePlayer(sender)) {
 				recipients.removeIf(dwarfManager::isGamePlayer);
 			}
-		} else {
-			event.setMessage(message.replaceFirst("!",""));
-			event.setFormat("[!] <%s> %s");
 		}
 	}
 }

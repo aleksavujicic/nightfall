@@ -9,13 +9,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
 /**
  * Created by Deimophobe on 4/02/17.
  */
 public abstract class GamePlayerManager<P extends GamePlayer> {
-	private final Map<UUID, P> players = new HashMap<>();
+	private final Map<UUID, P> players = new ConcurrentHashMap<>();
 	private final String whoName;
 	private final Team mcTeam;
 	private final BukkitRunnable updateRunner;
