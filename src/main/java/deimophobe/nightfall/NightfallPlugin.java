@@ -3,6 +3,7 @@ package deimophobe.nightfall;
 import deimophobe.nightfall.command.CommandInitialiserUtil;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GameListener;
+import deimophobe.nightfall.game.nightfallChat;
 import deimophobe.nightfall.util.PacketUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -40,6 +41,7 @@ public class NightfallPlugin extends JavaPlugin {
 		gl = new GameListener();
 		Game.createNewGame();
 		Bukkit.getPluginManager().registerEvents(gl, NightfallPlugin.getPlugin());
+		Bukkit.getPluginManager().registerEvents(new nightfallChat(), this);
 		
 		CommandInitialiserUtil.initialiseCommands(this);
 	}
