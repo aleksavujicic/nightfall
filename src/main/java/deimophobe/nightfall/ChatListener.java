@@ -29,6 +29,7 @@ public class ChatListener implements Listener {
 			}
 		} else {
 			event.setMessage(message.replaceFirst("!",""));
+			event.setFormat("[!] <%s> %s");
 		}
 	}
 }
