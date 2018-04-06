@@ -45,7 +45,7 @@ class OgreMagi extends AbstractMob {
 			fireCD.tryUse();
 		}
 	}
-	
+
 	@Override
 	public void onDeath(boolean silent) {
 		super.onDeath(silent);

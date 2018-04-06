@@ -43,7 +43,7 @@ class SkeletonWither extends AbstractToggleSkeleton {
 		super(monster, MobData.getMobData("skeleton.wither"));
 		
 		this.piercing = upgrades.get("piercing");
-		this.sniper = upgrades.get("sniper");
+		this.sniper = upgrades.get("sniper") * 10 + upgrades.get("sniper-inf") * 5;
 		this.siphon = upgrades.get("siphon");
 		int arrowRes = ARROW_RES_VALUES[upgrades.get("arrowres-wither")];
 		int extraHealth = upgrades.get("extrahealth-wither");
@@ -53,6 +53,7 @@ class SkeletonWither extends AbstractToggleSkeleton {
 		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
 		getArmour().addModifier(ItemModifierType.HEALTH, extraHealth * 3, "Upgrade");
 		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, piercing * 5);
+		getWeapon().addModifier(ItemModifierType.SNIPER, sniper);
 		
 		if (sniper > 0) {
 			sniperCD = new ComplexCooldown(8*20);
@@ -64,7 +65,9 @@ class SkeletonWither extends AbstractToggleSkeleton {
 	@Override
 	public void onSpawn(SpawnMethod spawnMethod) {
 		super.onSpawn(spawnMethod);
-		if (withering) forceBowToggle(true);
+		if (withering) {
+			forceBowToggle(true);
+		}
 	}
 	
 	@Override
@@ -166,7 +169,7 @@ class SkeletonWither extends AbstractToggleSkeleton {
 	@Override
 	protected int getPower() {
 		if (sniperActive()) {
-			return super.getPower() * (10 + sniper) / 10;
+			return super.getPower() * (100 + sniper) / 100;
 		}
 		else {
 			return super.getPower();
@@ -176,7 +179,7 @@ class SkeletonWither extends AbstractToggleSkeleton {
 	@Override
 	protected int getArmourShred() {
 		if (sniperActive()) {
-			return (super.getArmourShred() + piercing * 5) * (10 + sniper) / 10;
+			return (super.getArmourShred() + piercing * 5) * (100 + sniper) / 100;
 		}
 		else {
 			return (super.getArmourShred() + piercing * 5);

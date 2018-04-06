@@ -34,6 +34,7 @@ public class ZombieHusk extends ZombieMob {
 	private final int armourShred;
 	private final int leapLvl;
 	private final int regen;
+	private final int regenInf;
 	private final Cooldown leapCD;
 	private final Cooldown smashCD;
 	private boolean smashing;
@@ -57,6 +58,7 @@ public class ZombieHusk extends ZombieMob {
 		int rebirthChance = rebirthValues[upgrades.get("rebirth-husk")];
 		this.leapLvl = upgrades.get("groundsmash");
 		this.regen = upgrades.get("regen");
+		this.regenInf = upgrades.get("regen-inf");
 		
 		if (leapLvl != 0) {
 			leapCD = new SimpleCooldown(400);
@@ -80,6 +82,7 @@ public class ZombieHusk extends ZombieMob {
 		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
 		getWeapon().addModifier(ItemModifierType.ATTACK, 5, "Husk Zombie");
 		getArmour().addModifier(ItemModifierType.KB_RESIST, 10*procRes, "Upgrade");
+		getArmour().addModifier(ItemModifierType.REGEN_EXTRA, regenInf, "More Regen");
 		
 		if (procRes == 10) {
 			getArmour().addModifier(ItemModifierType.UNPROCCABLE, 1);
@@ -130,6 +133,9 @@ public class ZombieHusk extends ZombieMob {
 				smashCD.reset();
 				smashing = false;
 			}
+		}
+		if (everyNthTick(20)) {
+			monster.heal(0.1 * 2 * regenInf);
 		}
 	}
 	

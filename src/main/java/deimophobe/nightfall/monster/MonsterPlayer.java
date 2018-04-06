@@ -10,6 +10,7 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.event.MobSpawnEvent;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GameEntity;
 import deimophobe.nightfall.game.GamePlayer;
@@ -164,6 +165,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	public boolean spawnMob(Mob mob, SpawnMethod spawnMethod) {
 		if (this.mob != null) kill(false);
+		
+		MobSpawnEvent event = new MobSpawnEvent(this, mob, spawnMethod);
+		Bukkit.getPluginManager().callEvent(event);
 		
 		this.mob = mob;
 		try {

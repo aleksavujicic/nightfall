@@ -16,13 +16,20 @@ public abstract class LifetimeExpireable implements Expirable {
 	
 	@Override
 	public boolean hasExpired() {
-		return lifetime <= 0;
+		return lifetime == 0;
 	}
 	
 	@Override
 	public void update() {
-		lifetime--;
+		if (lifetime > 0) {
+			lifetime--;
+		} else {
+			throw new IllegalStateException("Cannot update lifetime expireable if lifetime is 0");
+		}
 	}
+	
+	@Override
+	public void onExpiry() {}
 	
 	public boolean everyNTicks(int n) {
 		return lifetime % n == 0;

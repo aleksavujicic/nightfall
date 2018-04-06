@@ -19,7 +19,7 @@ power-inf:
   coreq:
     withering: 1
     fireai: 1
-    warpweaver: 1
+    aerodynamic: 1
   item:
     material: arrow
     name: "Upgrade Power (inf)"
@@ -49,7 +49,7 @@ quiver-inf:
   coreq:
     withering: 1
     fireai: 1
-    warpweaver: 1
+    aerodynamic: 1
   item:
     material: bone
     name: "Upgrade Quiver (inf)"
@@ -213,6 +213,22 @@ withering:
         - "Shoot wither skulls at dwarves\n
            inflicting damage in an area."
 
+sniper-inf:
+  index: 4
+  cost: 2000
+  permanent: true
+  prereq:
+    withering: 1
+  item:
+    base: shortbow
+    name: "Upgrade Sniper (inf)"
+    shiny: true
+    lore:
+      description:
+        - "Get an additional 5% boost for\n
+           damage and armor shred after hitting\n
+           a dwarf for 8 seconds."
+
 
 #################################
 # FLAMELANCER SUBCLASS UPGRADES #
@@ -305,6 +321,21 @@ fireai:
         - "Summon fire spirits where your arrows land."
 
 
+volley-inf:
+  index: 4
+  cost: 2000
+  permanent: true
+  prereq:
+    fireai: 1
+  item:
+    base: skeleton.flame-bow
+    name: "Upgrade Volley (inf)"
+    shiny: true
+    lore:
+      description:
+        - "Shoot an additional arrow at volley."
+
+
 ############################
 # IMPACT SUBCLASS UPGRADES #
 ############################
@@ -377,7 +408,7 @@ extrahealth-impact:
         - "Gives you extra health."
 
 
-warpweaver:
+aerodynamic:
   index: 22
   cost: 5000
   prereq:
@@ -395,6 +426,24 @@ warpweaver:
     shiny: true
     lore:
       description:
-        - "Your arrows now affect you.\n
-           Shoot the ground nearby to\n
-           fling yourself away."
+        - "Toggle your bow to affect yourself\n
+           with the knockback of your own arrows.\n
+           Shoot the ground nearby to fling\n
+           yourself away."
+
+
+force-inf:
+  index: 4
+  cost: 2000
+  permanent: true
+  prereq:
+    aerodynamic: 1
+  item:
+    base: kaboom
+    name: "Upgrade Force (inf)"
+    shiny: true
+    lore:
+      description:
+        - "Increase your AOE knockback power.\n
+           This applies to aerodynamic as well."
+

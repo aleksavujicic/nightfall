@@ -82,9 +82,16 @@ public abstract class Plague {
 	}
 	
 	public static final int getAmountToKill(boolean includePlagueds) {
-		int desiredMonsterAmt = (Game.getGame().getNumPlayers()+2)/3;
-		int dwarvesToKill = desiredMonsterAmt - MonsterManager.getManager().getNumberOfPlayers();
+		// Get numbers of various player sets
+		int numGamePlayers = Game.getGame().getNumberOfPlayers();
+		int numDwarves = DwarfManager.getManager().getNumberOfPlayers();
+		int numMonsters = MonsterManager.getManager().getNumberOfPlayers();
+		int numPlagueables = getPlagueables().size();
 		int numPlagueds = getPlagueds().size();
+		
+		int desiredMonsterAmt = (numGamePlayers + 2)/3; // How many mobs we want
+		int dwarvesToKill = desiredMonsterAmt - numMonsters; // How many more mobs we need
+		dwarvesToKill = Math.min(dwarvesToKill, numPlagueables); // We can't kill more dwarves than there are plagueables
 		
 		if (includePlagueds) {
 			// If we're counting plagued dwarves, then number to kill must be at least the number of plagueds.
@@ -93,6 +100,7 @@ public abstract class Plague {
 			// If we're not counting number of plagueds, then subtract from total.
 			dwarvesToKill -= numPlagueds;
 		}
+		// Can't kill negative dwarves
 		return Math.max(dwarvesToKill, 0);
 	}
 
