@@ -9,7 +9,6 @@ import deimophobe.nightfall.game.GameEntity;
 import deimophobe.nightfall.game.GamePlayer;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.util.ArrowMisc;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
@@ -450,7 +449,10 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		// Apply fire ticks
 		if (fireTicks != -1) {
 			new BukkitRunnable() {
-				@Override public void run() { receiverEntity.setFireTicks(fireTicks); }
+				@Override public void run() {
+					int entityFireTicks = receiverEntity.getFireTicks();
+					receiverEntity.setFireTicks(Math.max(fireTicks, entityFireTicks));
+				}
 			}.runTask(NightfallPlugin.getPlugin());
 		}
 		
