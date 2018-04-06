@@ -92,11 +92,10 @@ public class Goblin extends AbstractMob {
 			double power = 4.5 + 0.25 * dest;
 			double kb = 0.4 + 0.04 * force;
 			if ((monster.getTargetBlock(null, 5).getType() != Material.AIR) && (TimedBlock.placeTimedBlock(new GoboBox(block, 100, damage, power, kb, monster)))) {
+				playSound("action");
 				monster.useHeldItem();
 				placeboxCD.reset();
 			}
-			
-			playSound("action");
 		}
 		// Throw gobo box
 		if (click.isLeftClick() && isPlayerHoldingItem("gobo-box") && (monster.getHeldItem().getAmount() >= 2) && throwboxCD.isAvailable()) {
