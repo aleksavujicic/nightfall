@@ -95,11 +95,15 @@ public class Goblin extends AbstractMob {
 				monster.useHeldItem();
 				placeboxCD.reset();
 			}
+			
+			playSound("action");
 		}
 		// Throw gobo box
 		if (click.isLeftClick() && isPlayerHoldingItem("gobo-box") && (monster.getHeldItem().getAmount() >= 2) && throwboxCD.isAvailable()) {
 			throwBox();
 			throwboxCD.reset();
+			
+			playSound("action");
 		}
 	}
 
