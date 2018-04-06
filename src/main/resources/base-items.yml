@@ -26,6 +26,7 @@ lightbow: "bow:5"
 warpweaver: "bow:6"
 volcanic: "bow:8"
 
+spellbook: "book"
 essence: "#temp"
 
 # Healing
