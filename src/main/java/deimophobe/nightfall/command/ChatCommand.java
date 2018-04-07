@@ -10,15 +10,17 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class ChatCommand extends BaseCommand {
 	
 	private static final String ARROW = Character.toString((char) 0x279B);
-	private final Map<Player, Player> mapLastMessaged = new HashMap<>();
+	private final Map<UUID, UUID> mapLastMessaged = new HashMap<>();
 
 	@CommandAlias("msg|w|tell")
 	@CommandCompletion("@players")
@@ -32,9 +34,13 @@ public class ChatCommand extends BaseCommand {
 	@CommandAlias("r|reply")
 	@Description("Reply to Private Message")
 	public void onReply(Player sender, String message) throws InvalidCommandArgument {
-		Player receiver = mapLastMessaged.get(sender);
+		UUID receiverUUID = mapLastMessaged.get(sender.getUniqueId());
+		if (receiverUUID == null) {
+			throw new InvalidCommandArgument("No one to reply to.", false);
+		}
+		Player receiver = Bukkit.getPlayer(receiverUUID);
 		if (receiver == null) {
-			throw new InvalidCommandArgument("No one to reply to.");
+			throw new InvalidCommandArgument("That player is no longer online.", false);
 		}
 		
 		sendPrivateMessage(sender, receiver, message);
@@ -44,8 +50,11 @@ public class ChatCommand extends BaseCommand {
 		sendPrivateMessageToPlayer(sender, receiver, message, true);
 		sendPrivateMessageToPlayer(receiver, sender, message, false);
 		
-		mapLastMessaged.put(sender, receiver);
-		mapLastMessaged.put(receiver, sender);
+		UUID senderUUID = sender.getUniqueId();
+		UUID receiverUUID = receiver.getUniqueId();
+		
+		mapLastMessaged.put(senderUUID, receiverUUID);
+		mapLastMessaged.put(receiverUUID, senderUUID);
 	}
 	
 	private void sendPrivateMessageToPlayer(Player player, Player other, String message, boolean isSender) {
