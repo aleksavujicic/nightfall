@@ -81,7 +81,7 @@ public class ChatCommand extends BaseCommand {
 	private BaseComponent getBaseComponentFromPlayer(Player player) {
 		TextComponent text = new TextComponent(TextComponent.fromLegacyText(player.getDisplayName()));
 //		Bukkit.broadcastMessage("S" + text.getExtra().size());
-		text.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + player.getName()));
+		text.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + player.getName() + " "));
 		if (text.getColorRaw() == null) text.setColor(ChatColor.WHITE);
 		return text;
 	}
