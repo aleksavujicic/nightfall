@@ -68,7 +68,14 @@ public class Goblin extends AbstractMob {
 		this.placeboxCD = new ComplexCooldown(MAX_PLACE_CD);
 		this.throwboxCD = new ComplexCooldown(Math.max(MAX_THROW_CD - 5, MAX_THROW_CD - (int)(Math.log((double)supplies) / Math.log(2))));
 	}
-
+	
+	@Override
+	protected void setupDisguise() {
+		super.setupDisguise();
+		getDisguise().setHearSelfDisguise(false);
+		getDisguise().setReplaceSounds(false);
+	}
+	
 	@Override
 	public void onSpawn(SpawnMethod spawnMethod) {
 		super.onSpawn(spawnMethod);
