@@ -144,11 +144,11 @@ class SkeletonWither extends AbstractToggleSkeleton {
 
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
-			double distance = offset.normalize().subtract(new Vector(0,1,0)).length();
+			double distance = offset.subtract(new Vector(0,1,0)).length();
 			if (distance > 3.5) continue;
 
 			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, GameDamageType.WITHER_SKULL, getPower());
-			Vector knockback = offset.multiply(kb / Math.sqrt(Math.max(2, distance)));
+			Vector knockback = offset.normalize().multiply(kb / Math.sqrt(Math.max(2, distance)));
 			aoeDamage.setKnockback(knockback);
 			aoeDamage.setArmourShred(getArmourShred());
 			aoeDamage.fire();
