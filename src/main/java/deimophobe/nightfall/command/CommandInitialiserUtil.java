@@ -67,6 +67,7 @@ public class CommandInitialiserUtil {
 		bcm.registerCommand(new ArmourCommand());
 		
 		bcm.registerCommand(new AICommand());
+		bcm.registerCommand(new ChatCommand());
 		bcm.registerCommand(new DoomCommand());
 		bcm.registerCommand(new DwarfCommand());
 		bcm.registerCommand(new EggCommand());
@@ -76,7 +77,6 @@ public class CommandInitialiserUtil {
 		bcm.registerCommand(new MiscCommands());
 		bcm.registerCommand(new MobCommand());
 		bcm.registerCommand(new ShrineCommand());
-		bcm.registerCommand(new ChatCommand());
 	}
 	
 	private static void registerCompletions(BukkitCommandManager bcm) {
