@@ -175,7 +175,6 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		P gamePlayer = offline.remove(uuid);
 		gamePlayer.goOnline(player);
 		players.put(uuid, gamePlayer);
-		addToTeam(player.getName());
 		return true;
 	}
 	
@@ -186,7 +185,6 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 		P gamePlayer = players.remove(uuid);
 		gamePlayer.goOffline();
 		offline.put(uuid, gamePlayer);
-		mcTeam.removeEntry(gamePlayer.getName());
 		return true;
 	}
 	
