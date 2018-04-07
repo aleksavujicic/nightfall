@@ -115,6 +115,8 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	public void goOffline() {
 		online = false;
 		saveHealth();
+		this.player = null;
+		this.entity = null;
 	}
 	
 	
