@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Deimophobe on 23/12/17.
@@ -32,9 +33,9 @@ public class CosmeticManager {
 	
 	// TODO IMPORTANT CHANGE TO OFFLINE PLAYER OR LIKE UUID OR SOMETHING
 	// ----- COSEMTICS -----
-	private final Map<Player, Cosmetics> cosmetics = new HashMap<>();
+	private final Map<UUID, Cosmetics> cosmetics = new HashMap<>();
 	public Cosmetics getCosmetic(Player player) {
-		return cosmetics.computeIfAbsent(player, Cosmetics::new);
+		return cosmetics.computeIfAbsent(player.getUniqueId(), Cosmetics::new);
 	}
 	
 	// ----- HATS -----
