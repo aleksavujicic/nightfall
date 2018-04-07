@@ -41,6 +41,5 @@ weapon:
 
 sounds:
   bat-idle:
-    path: "entity.bat.hurt"
+    path: "block.lava.pop"
     pitch: 1
-    volume: 0.8
