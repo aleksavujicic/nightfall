@@ -76,6 +76,7 @@ public class CommandInitialiserUtil {
 		bcm.registerCommand(new MiscCommands());
 		bcm.registerCommand(new MobCommand());
 		bcm.registerCommand(new ShrineCommand());
+		bcm.registerCommand(new ChatCommand());
 	}
 	
 	private static void registerCompletions(BukkitCommandManager bcm) {
