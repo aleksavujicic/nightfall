@@ -40,7 +40,7 @@ public class ZombieHusk extends ZombieMob {
 	
 	private final boolean stagger;
 	
-	private static final int STAGGER_DURATION = 70;
+	private static final int STAGGER_DURATION = 60;
 	
 	private static final Integer[] shredValues = {0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20};
 	private static final Integer[] arrowResValues = {0, 10, 20, 30, 40, 50}; // added by 25 later
