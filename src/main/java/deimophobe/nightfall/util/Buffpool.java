@@ -2,11 +2,12 @@ package deimophobe.nightfall.util;
 
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.Updateable;
-import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.game.GameEntity;
+import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Location;
@@ -83,7 +84,7 @@ public class Buffpool implements Updateable {
 		
 		// Buff Dwarves
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
-			if (dwarf.getLocation().distance(location) <= visibleRadius) {
+			if (entityInBuffpool(dwarf)) {
 				if (lifetime % 3 == 0) {
 					dwarf.regenMana(1);
 					dwarf.heal(1);
@@ -105,9 +106,9 @@ public class Buffpool implements Updateable {
 		
 		// Damage Mobs
 		if (lifetime % 5 == 0) {
-			for (GameEntity monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
-				if (monster.getLocation().distance(location) <= radius) {
-					GameDamage damage = monster.createDamage(dwarf, GameDamageType.BUFFPOOL, damageAmt);
+			for (MonsterEntity<?> monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
+				if (entityInBuffpool(monster)) {
+					MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.BUFFPOOL, damageAmt);
 					if (monster instanceof AIEntity) damage.instaKill();
 					damage.setNoDamageTicks(1);
 					damage.fire(true);
@@ -118,6 +119,16 @@ public class Buffpool implements Updateable {
 	
 	public boolean hasEnded() {
 		return lifetime <= 0;
+	}
+	
+	private boolean entityInBuffpool(GameEntity<?> player) {
+		Location playerLocation = player.getLocation();
+		Location offset = playerLocation.subtract(location);
+		double x = offset.getX();
+		double y = offset.getY();
+		double z = offset.getZ();
+		
+		return (x*x + z*z <= radius*radius) && (Math.abs(y) <= 2);
 	}
 	
 }
