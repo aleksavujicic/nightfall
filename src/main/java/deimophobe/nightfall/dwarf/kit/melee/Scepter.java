@@ -35,7 +35,7 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	static { ITEM.addModifier(ItemModifierType.ATTACK, (int) DAMAGE); }
 	
 	
-	private final ComplexCooldown lanceCD = new ComplexCooldown(10, this::shootLance);
+	private final ComplexCooldown lanceCD = new ComplexCooldown(8, this::shootLance);
 	private final ComplexCooldown buffpoolCD = new ComplexCooldown(120*20, this::createBuffpool);
 	
 	@Override
@@ -102,6 +102,7 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 			if (monster.isAI())
 				monster.givePotionEffect(PotionEffectType.SLOW, 5*20, 2, true, true, true);
 		});
+		damage.setNoDamageTicks(8);
 		damage.fire();
 		
 		;
