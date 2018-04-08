@@ -10,6 +10,7 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.event.MobSpawnEvent;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GameEntity;
 import deimophobe.nightfall.game.GamePlayer;
@@ -44,6 +45,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.logging.Logger;
 
 /**
  * Created by Deimophobe on 17/01/17.
@@ -155,8 +157,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			Mob mob = type.createMob(this);
 			return spawnMob(mob, spawnMethod);
 		} catch (Exception e) {
-			sendMessage(ChatColor.RED + "Failed to create mob. (Internal server error)");
-			NightfallPlugin.getPlugin().getLogger().severe(e.getMessage());
+			sendMessage(ChatColor.RED + "Failed to create mob. (Internal server error). Please notify a dev about this.");
+			NightfallPlugin.logger().severe("Failed to create mob of type " + type + " for " + getName());
+			NightfallPlugin.logger().severe(e.getMessage());
 			e.printStackTrace();
 			return false;
 		}
@@ -164,6 +167,11 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	public boolean spawnMob(Mob mob, SpawnMethod spawnMethod) {
 		if (this.mob != null) kill(false);
+		
+		MobSpawnEvent event = new MobSpawnEvent(this, mob, spawnMethod);
+		Bukkit.getPluginManager().callEvent(event);
+		
+		Logger logger = NightfallPlugin.logger();
 		
 		this.mob = mob;
 		try {
@@ -178,12 +186,13 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			player.getInventory().setItem(9, seppuku);
 			player.setGameMode(GameMode.SURVIVAL);
 			player.setAllowFlight(false);
-			NightfallPlugin.logger().info("Spawning " + getName() + " as mob: " + mob.getType());
+			logger.info("Spawning " + getName() + " as mob " + mob.getType() + " (via " + spawnMethod + ")");
 			
 			return true;
 		} catch (Exception e) {
-			sendMessage(ChatColor.RED + "Failed to spawn mob. (Internal server error)");
-			NightfallPlugin.getPlugin().getLogger().severe(e.getMessage());
+			sendMessage(ChatColor.RED + "Failed to spawn mob. (Internal server error). Please notify a dev about this.");
+			logger.severe("Failed to spawn " + getName() + " as mob " + mob.getType() + " with method " + spawnMethod);
+			logger.severe(e.getMessage());
 			e.printStackTrace();
 			this.mob = null;
 			return false;

@@ -5,4 +5,5 @@ package deimophobe.nightfall.cooldown;
  */
 public interface Expirable extends Updateable {
 	boolean hasExpired();
+	void onExpiry();
 }

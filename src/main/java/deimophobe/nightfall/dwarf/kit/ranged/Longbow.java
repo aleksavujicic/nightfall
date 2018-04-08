@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.ranged;
 
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -19,16 +20,6 @@ import org.bukkit.entity.Projectile;
  * Created by Deimophobe on 20/01/17.
  */
 public class Longbow extends AbstractBow implements CooldownPiece {
-	
-	private int stackCD = 0;
-	private static final int MAX_STACK_CD = 200;
-	
-	private int stacks = 0;
-	private static final int PLAYER_STACK_GAIN = 1;
-	private static final int MAX_STACKS = 6;
-	private static final double DMG_PER_STACK = 20;
-	
-	
 	public Longbow(Dwarf dwarf) {
 		super(dwarf);
 	}
@@ -38,10 +29,35 @@ public class Longbow extends AbstractBow implements CooldownPiece {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	
 	@Override public String getBowIdentifier() {return "LONGBOW";}
 	@Override public int getPower() {return POWER;}
 	
+	private final ComplexCooldown meleeReducer = new ComplexCooldown(20, this::reduceStacks);
+	
+	private int stackCD = 0;
+	private static final int MAX_STACK_CD = 200;
+	
+	private int stacks = 0;
+	private static final int PLAYER_STACK_GAIN = 1;
+	private static final int MAX_STACKS = 6;
+	private static final double DMG_PER_STACK = 20;
+	
+	@Override
+	public void update() {
+		super.update();
+		meleeReducer.update();
+		
+		if (stacks == 0) return;
+		stackCD--;
+		
+		if (stackCD <= 0) {
+			stackCD = MAX_STACK_CD;
+			stacks = 0;
+			dwarf.playSound("entity.experience_orb.pickup", 10f, 0.5f, false);
+		}
+		
+		showParticles();
+	}
 	
 	@Override
 	public Projectile onBowFire(Projectile proj, float force) {
@@ -65,9 +81,9 @@ public class Longbow extends AbstractBow implements CooldownPiece {
 			} else {
 				damage.addPostDamageHandler(() -> {
 					stacks += PLAYER_STACK_GAIN;
-					stackCD = MAX_STACK_CD;
-					
 					if (stacks > MAX_STACKS) stacks = MAX_STACKS;
+					
+					stackCD = MAX_STACK_CD;
 				});
 			}
 		}
@@ -77,10 +93,7 @@ public class Longbow extends AbstractBow implements CooldownPiece {
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
 		if (!(damage.getAttacker() instanceof AIEntity) && damage.getType() == GameDamageType.MELEE) {
-			if (stacks > 0) {
-				stacks--;
-				stackCD = MAX_STACK_CD;
-			}
+			damage.addPostDamageHandler(meleeReducer::tryUse);
 		}
 	}
 	
@@ -92,18 +105,7 @@ public class Longbow extends AbstractBow implements CooldownPiece {
 	
 	
 	private double theta = 0;
-	
-	@Override
-	public void update() {
-		if (stacks == 0) return;
-		stackCD--;
-		
-		if (stackCD <= 0) {
-			stackCD = MAX_STACK_CD;
-			stacks = 0;
-			dwarf.playSound("entity.experience_orb.pickup", 10f, 0.5f, false);
-		}
-		
+	private void showParticles() {
 		theta = (theta + 0.05) % (2 * Math.PI);
 		
 		Location playerLoc = dwarf.getPlayer().getEyeLocation();
@@ -126,6 +128,12 @@ public class Longbow extends AbstractBow implements CooldownPiece {
 			
 			Location particleLoc = playerLoc.clone().add(Math.cos(myTheta), -1, Math.sin(myTheta));
 			particleLoc.getWorld().spawnParticle(Particle.REDSTONE, particleLoc, 0, red, green, blue, 1);
+		}
+	}
+	
+	private void reduceStacks() {
+		if (stacks > 0) {
+			stacks--;
 		}
 	}
 }

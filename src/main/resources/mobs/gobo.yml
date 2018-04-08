@@ -24,6 +24,14 @@ base:
       flavour:
        - "Hehehehehehe."
   items:
+    pickaxe:
+      base: gobo.pick
+      name: Gobo Pick
+      lore:
+        description:
+        - "Break through defenses with this pick."
+        flavour:
+        - "A tool to place explosives within defenses."
     gobo-box:
       base: gobo.held-box
       name: Gobo Box
@@ -35,19 +43,6 @@ base:
             &aheavily damage walls once they explode&r."
         flavour:
          - "Gobos Primed and Ready."
-
-kaboom:
-  parent: base
-
-  weapon:
-    base: gobo.pick
-    name: Gobo Pick
-    lore:
-      description:
-      - "Break through defenses with this pick."
-      flavour:
-      - "A tool to place explosives within defenses."
-  items:
     kaboom:
       base: kaboom
       name: KABOOM
@@ -57,3 +52,7 @@ kaboom:
             large explosion around you in a few seconds."
         flavour:
          - "It's KAAAAAAAAABOOOM!"
+
+sounds:
+  boom:
+    volume: 1.5

@@ -2,7 +2,6 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockConverter;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
@@ -43,7 +42,7 @@ class GoblinKaboom extends Goblin {
 	private static final int MAX_KABOOM_CD = 40;
 	
 	protected GoblinKaboom(MonsterPlayer mons) {
-		super(mons, MobData.getMobData("gobo.kaboom"));
+		super(mons);
 		
 		if (upgrades.get("kaboom") == 1) {
 			this.kaboom = true;
@@ -64,6 +63,7 @@ class GoblinKaboom extends Goblin {
 		getArmour().addModifier(ItemModifierType.FASTER_THROW, 15 * throwInf, "Faster Throw");
 		
 		if (pick > 0) {
+			setWeapon("pickaxe");
 			getWeapon().addModifier(ItemModifierType.EFFICIENCY, (pick - 1), "Pick Upgrade");
 		}
 	}
@@ -113,6 +113,7 @@ class GoblinKaboom extends Goblin {
 	}
 	
 	private void kaboom() {
+		playSound("boom");
 		
 		double dwarfDamage = 50 + 5 * shrapnel + (superKaboom ? 40 : 0);
 		int armorShred = 50 + 5 * shrapnel + (superKaboom ? 25 : 0);

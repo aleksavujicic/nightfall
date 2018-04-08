@@ -40,7 +40,7 @@ public class BlizzardDoom extends AnnotatedDoom {
 			public void update() {
 				super.update();
 				for(Player player : Bukkit.getOnlinePlayers()){
-					player.spawnParticle(Particle.FIREWORKS_SPARK, player.getLocation(), 25, 10, 10, 10, 0);
+					player.spawnParticle(Particle.FIREWORKS_SPARK, player.getLocation(), 80, 10, 10, 10, 0.05);
 				}
 				for(Dwarf dwarf : DwarfManager.getManager().getDwarves()){
 					dwarf.givePotionEffect(PotionEffectType.SLOW,15*20,2,true,true,true);

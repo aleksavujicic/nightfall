@@ -77,13 +77,13 @@ class MessageUtil {
 		});
 		addResolver(GamePlayer.class, arg -> {
 			BaseComponent text = Misc.textComponentFromString(arg.getDisplayName());
-			text.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + arg.getName()));
+			text.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + arg.getName() + " "));
 			return text;
 		});
 		addResolver(Player.class, arg -> {
 			TextComponent text = new TextComponent(arg.getName());
 			text.setColor(ChatColor.DARK_GRAY);
-			text.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + arg.getName()));
+			text.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + arg.getName() + " "));
 			return text;
 		});
 		final NumberFormat formatter = new DecimalFormat("#.##");

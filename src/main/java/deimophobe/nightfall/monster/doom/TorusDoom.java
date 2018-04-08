@@ -1,8 +1,12 @@
 package deimophobe.nightfall.monster.doom;
 
+import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.event.MobSpawnEvent;
 import deimophobe.nightfall.game.GameSize;
 import deimophobe.nightfall.monster.mob.MobType;
-import deimophobe.nightfall.monster.upgrade.GlobalUpgrade;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 /**
  * Created by Deimophobe on 25/02/17.
@@ -22,7 +26,14 @@ class TorusDoom extends AnnotatedDoom {
 	
 	@Override
 	public void startDoom() {
-		GlobalUpgrade.KRUNGOR.unlock();
+		NightfallPlugin.registerListener(new MobBuffer());
 		super.startDoom();
+	}
+	
+	private final class MobBuffer implements Listener {
+		@EventHandler
+		public void buffMob(MobSpawnEvent event) {
+			event.addWeaponModifier(ItemModifierType.ATTACK, 5, "Torus Doom");
+		}
 	}
 }

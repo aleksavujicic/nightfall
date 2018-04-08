@@ -24,7 +24,6 @@ import deimophobe.nightfall.map.MapManager;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIManager;
-import deimophobe.nightfall.monster.upgrade.GlobalUpgrade;
 import deimophobe.nightfall.plague.AssassinPlague;
 import deimophobe.nightfall.plague.Plague;
 import deimophobe.nightfall.plague.PlagueType;
@@ -178,7 +177,6 @@ public class Game {
 		skinManager.stop();
 		glowManager.stop();
 		timeManager.stop();
-		GlobalUpgrade.reset();
 		TimedBlock.cancelAllBlocks();
 		
 		map.unload();
@@ -229,7 +227,7 @@ public class Game {
 		return dwarfManager.removeGamePlayer(player) | monsterManager.removeGamePlayer(player);
 	}
 	
-	public int getNumPlayers() {
+	public int getNumberOfPlayers() {
 		return dwarfManager.getNumberOfPlayers() + monsterManager.getNumberOfPlayers();
 	}
 	
@@ -527,7 +525,14 @@ public class Game {
 		
 		updateables.forEach(Updateable::update);
 		expirables.forEach(Expirable::update);
-		expirables.removeIf(Expirable::hasExpired);
+		expirables.removeIf(expirable -> {
+			if (expirable.hasExpired()) {
+				expirable.onExpiry();
+				return true;
+			} else {
+				return false;
+			}
+		});
 	}
 	
 	public void addUpdateable(Updateable updateable) {
@@ -614,7 +619,7 @@ public class Game {
 		this.activePlague = plague;
 		NightfallPlugin.logger().info("Starting plague: " + plagueType);
 		
-		if (plague.getAmountToKill(true) == 0) {
+		if (Plague.getAmountToKill(true) == 0) {
 			NightfallPlugin.logger().warning("Skipping plague...");
 			releaseMonsters();
 		} else {

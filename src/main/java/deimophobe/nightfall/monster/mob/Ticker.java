@@ -41,9 +41,7 @@ class Ticker extends AbstractMob {
 	@Override
 	public void onSpawn(SpawnMethod spawnMethod) {
 		super.onSpawn(spawnMethod);
-		monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
-		giveSpawnProtection(deathTimer*20 + 20);
-		
+		givePermanentSpawnProtection(true);
 		
 		PlayerDisguise disguise = new PlayerDisguise(monster.getPlayer());
 		disguise.setDisplayedInTab(false);

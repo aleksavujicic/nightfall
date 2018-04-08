@@ -68,7 +68,14 @@ public class Goblin extends AbstractMob {
 		this.placeboxCD = new ComplexCooldown(MAX_PLACE_CD);
 		this.throwboxCD = new ComplexCooldown(Math.max(MAX_THROW_CD - 5, MAX_THROW_CD - (int)(Math.log((double)supplies) / Math.log(2))));
 	}
-
+	
+	@Override
+	protected void setupDisguise() {
+		super.setupDisguise();
+		getDisguise().setHearSelfDisguise(false);
+		getDisguise().setReplaceSounds(false);
+	}
+	
 	@Override
 	public void onSpawn(SpawnMethod spawnMethod) {
 		super.onSpawn(spawnMethod);
@@ -92,6 +99,7 @@ public class Goblin extends AbstractMob {
 			double power = 4.5 + 0.25 * dest;
 			double kb = 0.4 + 0.04 * force;
 			if ((monster.getTargetBlock(null, 5).getType() != Material.AIR) && (TimedBlock.placeTimedBlock(new GoboBox(block, 100, damage, power, kb, monster)))) {
+				playSound("action");
 				monster.useHeldItem();
 				placeboxCD.reset();
 			}
@@ -100,6 +108,8 @@ public class Goblin extends AbstractMob {
 		if (click.isLeftClick() && isPlayerHoldingItem("gobo-box") && (monster.getHeldItem().getAmount() >= 2) && throwboxCD.isAvailable()) {
 			throwBox();
 			throwboxCD.reset();
+			
+			playSound("action");
 		}
 	}
 

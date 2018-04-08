@@ -1,7 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
@@ -87,7 +86,7 @@ public class ZombieFury extends ZombieMob {
 		furySound.update();
 		if (isLeaping && monster.getPlayer().isOnGround()) {
 			isLeaping = false;
-			monster.removePotionEffect(PotionEffectType.LUCK);
+			removeSpawnProtection();
 		}
 	}
 	
@@ -111,7 +110,7 @@ public class ZombieFury extends ZombieMob {
 				double hVel = (double) leapLvl / 2.5;
 				double vVel = (double) leapLvl / 10;
 				monster.getPlayer().setVelocity(new Vector(-hVel * Math.sin(radYaw), vVel, hVel * Math.cos(radYaw)));
-				giveSpawnProtection(50);
+				giveSpawnProtection(50, false);
 			}
 		}
 	}
