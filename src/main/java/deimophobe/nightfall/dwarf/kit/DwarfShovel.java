@@ -30,15 +30,12 @@ public class DwarfShovel extends AbstractItem {
 	
 	private static final CustomItem ITEM = DwarvenItems.getItem("misc", "shovel");
 	@Override public CustomItem getItem() {return ITEM;}
-	
-	
-	@Override
-	public KitGiveType getGiveType() {
+	@Override public KitGiveType getGiveType() {
 		return KitGiveType.SHOVEL;
 	}
 	
 	
-	private static final double FIND_CHANCE = 0.00025;
+	private static final double FIND_CHANCE = 0.0003;
 	@Override
 	public void onBlockBreak(Block block, boolean didBreak) {
 		super.onBlockBreak(block, didBreak);
@@ -57,7 +54,7 @@ public class DwarfShovel extends AbstractItem {
 			
 			if (Game.getGame().getPhase() == Phase.BUILD) {
 				double chance = FIND_CHANCE;
-				if (dwarf.hasPotionEffect(PotionEffectType.FAST_DIGGING)) chance *= 2;
+				if (dwarf.hasPotionEffect(PotionEffectType.FAST_DIGGING)) chance *= 1.5;
 				
 				if (Math.random() <= chance) {
 					REWARD_TIERS.getRandom().getRandomItem().rewardDwarf(dwarf);
