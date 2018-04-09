@@ -30,7 +30,8 @@ class SkeletonFlamelancer extends Skeleton {
 	private final int firePath;
 	private final int fireAI;
 	private double realArrowRes;
-	private final static int DEFAULT_VOLLEY = 20;
+	private static final int DEFAULT_VOLLEY = 20;
+	private static final int MAX_VOLLEY = 50;
 
 	private final int arrowsFiredInf;
 	private double flameBlock;
@@ -55,7 +56,7 @@ class SkeletonFlamelancer extends Skeleton {
 		getArmour().addModifier(ItemModifierType.SPEED, speed * 10, "Upgrade");
 		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
 		getWeapon().addModifier(ItemModifierType.VOLLEY, DEFAULT_VOLLEY, "Flamelancer");
-		getWeapon().addModifier(ItemModifierType.VOLLEY, arrowsFiredInf, "More Volley");
+		getWeapon().addModifier(ItemModifierType.VOLLEY, Math.min(arrowsFiredInf, MAX_VOLLEY - DEFAULT_VOLLEY), "More Volley");
 	}
 	
 	@Override
@@ -84,7 +85,7 @@ class SkeletonFlamelancer extends Skeleton {
 		
 		arrow.setFireTicks(10000);
 		arrow.setCritical(false);
-		final int arrowsToFire = (int) ((DEFAULT_VOLLEY+arrowsFiredInf)*(force*force));
+		final int arrowsToFire = (int) ((Math.min(DEFAULT_VOLLEY + arrowsFiredInf, MAX_VOLLEY))*(force*force));
 		if (Math.random() < (volley * 0.06 + 0.1 + chargeBonus)) {
 			for (int i=0; i<arrowsToFire; i++) {
 				Arrow newArrow = ArrowMisc.summonArrow(monster, getPower(), force*2, force, 30f);

@@ -150,22 +150,22 @@ public class ZombieSaboteur extends ZombieMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		
-		damage.multiplyKnockback(0.75);
-
-		if (poison != null) {
-			damage.getDwarf().givePoison(poison, 50);
-		}
-		if (sabotage > 0 && isInvisible()) {
-			damage.getDwarf().givePotionEffect(PotionEffectType.UNLUCK, 100, sabotage, true, false, true);
-		}
 		if (assa && isInvisible()) {
 			monster.playSound("entity.wither.shoot", 1f, 2f, true);
 			damage.getMultiPartDamage().addBoost(57);
 		}
-		monster.removePotionEffect(PotionEffectType.INVISIBILITY);
-		monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
-		sneakCD.reset();
+		damage.multiplyKnockback(0.75);
+		damage.addPostDamageHandler(() -> {
+			if (poison != null) {
+				damage.getDwarf().givePoison(poison, 50);
+			}
+			if (sabotage > 0 && isInvisible()) {
+				damage.getDwarf().givePotionEffect(PotionEffectType.UNLUCK, 100, sabotage, true, false, true);
+			}
+			monster.removePotionEffect(PotionEffectType.INVISIBILITY);
+			monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
+			sneakCD.reset();
+		});
 	}
 	
 	@Override
