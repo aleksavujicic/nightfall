@@ -50,8 +50,11 @@ public class DoomManager {
 	}
 	
 	public void stop() {
-		if (Game.getGame().getPhase().hasGameStarted())
+		if (Game.getGame().getPhase().hasGameStarted()) {
 			runner.cancel();
+		}
+		
+		TorusDoom.resetBuffers();
 	}
 	
 	public void setMaxDoomTime(int maxDoomTime) {

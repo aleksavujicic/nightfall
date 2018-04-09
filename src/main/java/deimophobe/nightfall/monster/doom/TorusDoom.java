@@ -6,7 +6,11 @@ import deimophobe.nightfall.event.MobSpawnEvent;
 import deimophobe.nightfall.game.GameSize;
 import deimophobe.nightfall.monster.mob.MobType;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 25/02/17.
@@ -24,9 +28,19 @@ import org.bukkit.event.Listener;
 )
 class TorusDoom extends AnnotatedDoom {
 	
+	private static final Set<MobBuffer> torusMobBuffers = new HashSet<>();
+	
+	static void resetBuffers() {
+		torusMobBuffers.forEach(HandlerList::unregisterAll);
+		torusMobBuffers.clear();
+	}
+	
 	@Override
 	public void startDoom() {
-		NightfallPlugin.registerListener(new MobBuffer());
+		MobBuffer buffer = new MobBuffer();
+		NightfallPlugin.registerListener(buffer);
+		torusMobBuffers.add(buffer);
+		
 		super.startDoom();
 	}
 	
