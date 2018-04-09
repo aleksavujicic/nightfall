@@ -101,8 +101,9 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		this.deathMessageMaker = type.getDefaultDeathMessageMaker();
 		
 		this.multiPartDamage = new MultiPartValue(damage);
+		
 		int resLevel = receiver.getPotionEffectLevel(PotionEffectType.DAMAGE_RESISTANCE);
-		double res = Math.min(1, 1 - resLevel*0.2);
+		double res = Misc.boundValue( 1 - resLevel*0.2, 0, 1);
 		multiPartDamage.timesMult(res);
 		
 		this.cancelled = false;
