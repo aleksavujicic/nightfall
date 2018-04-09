@@ -28,9 +28,9 @@ public class DoomManager {
 	private int internalDoomTimer;
 	private DoomType forcedDoom = null;
 	
-	private int maxDoomTime = 1000;
+	private int maxDoomTime = 900;
 	private int maxInternalDoomTime = 30;
-	private int doomTimeVariance = 200;
+	private int doomTimeVariance = 150;
 	
 	private List<DoomType> occuredDooms = new ArrayList<>();
 	
