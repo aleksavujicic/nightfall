@@ -296,4 +296,10 @@ public class Misc {
 		}
 		return text;
 	}
+	
+	public static double boundValue(double value, double lowerBound, double upperBound) {
+		if (value > upperBound) value = upperBound;
+		if (value < lowerBound) value = lowerBound;
+		return value;
+	}
 }
