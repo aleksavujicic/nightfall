@@ -1,10 +1,11 @@
 package deimophobe.nightfall.monster.doom;
 
-import deimophobe.nightfall.game.Game;
+import com.google.common.collect.Iterables;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.TimeManager;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.effects.sound.Sounds;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -27,12 +28,11 @@ public class DoomManager {
 	private int internalDoomTimer;
 	private DoomType forcedDoom = null;
 	
-	private int maxDoomTime = 1000;
+	private int maxDoomTime = 900;
 	private int maxInternalDoomTime = 30;
-	private int doomTimeVariance = 200;
+	private int doomTimeVariance = 150;
 	
 	private List<DoomType> occuredDooms = new ArrayList<>();
-	private DoomType prevDoom = DoomType.TORUS; // Prevents torus from being first doom
 	
 	private final BukkitRunnable runner;
 	public DoomManager() {
@@ -50,8 +50,11 @@ public class DoomManager {
 	}
 	
 	public void stop() {
-		if (Game.getGame().getPhase().hasGameStarted())
+		if (Game.getGame().getPhase().hasGameStarted()) {
 			runner.cancel();
+		}
+		
+		TorusDoom.resetBuffers();
 	}
 	
 	public void setMaxDoomTime(int maxDoomTime) {
@@ -155,18 +158,21 @@ public class DoomManager {
 			player.replaceSeppuku();
 		}
 		
-		prevDoom = nextDoom();
-		prevDoom.spawnDoom();
+		DoomType doom = nextDoom();
+		doom.spawnDoom();
+		occuredDooms.add(doom);
 		
-		forcedDoom = null;
 		resetDoomTimers();
 	}
 	
 	private DoomType nextDoom() {
 		if (forcedDoom != null) {
-			return forcedDoom;
+			DoomType nextDoom = forcedDoom;
+			forcedDoom = null;
+			return nextDoom;
 		} else {
 			Collection<DoomType> dooms = DoomType.getActiveDooms();
+			DoomType prevDoom = Iterables.getLast(occuredDooms);
 			dooms.remove(prevDoom);
 			return Misc.getRandom(dooms);
 		}

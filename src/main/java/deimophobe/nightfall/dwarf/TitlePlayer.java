@@ -51,6 +51,12 @@ class TitlePlayer extends BukkitRunnable {
 	
 	@Override
 	public void run() {
+		if (!player.isOnline()) {
+			this.cancel();
+			return;
+		}
+		
+		
 		if (count > 0) {
 			count--;
 		} else {

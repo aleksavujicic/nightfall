@@ -10,10 +10,8 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
-import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.util.ArrowMisc;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -183,7 +181,6 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 		
 		if (isToggled()) {
 			proj.setMetadata(ARROW_METADATA_KEY, new FixedMetadataValue(NightfallPlugin.getPlugin(), true));
-			ArrowMisc.setGlowColour(arrow, ChatColor.DARK_PURPLE);
 			activeArrows.add(arrow);
 		}
 		

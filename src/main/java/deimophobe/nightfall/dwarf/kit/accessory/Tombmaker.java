@@ -1,31 +1,25 @@
 package deimophobe.nightfall.dwarf.kit.accessory;
 
-import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
-import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.DwarfShovel;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 20/01/17.
  */
-public class Tombmaker extends DwarfShovel implements CooldownPiece {
+public class Tombmaker extends DwarfShovel {
 	
 	public Tombmaker(Dwarf dwarf) {
 		super(dwarf);
 	}
-	
-	private final ComplexCooldown hasteCD = new ComplexCooldown(60*20, this::hasteBuff);
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("accessory", "tombmaker");
 	@Override public CustomItem getItem() {
@@ -41,31 +35,11 @@ public class Tombmaker extends DwarfShovel implements CooldownPiece {
 	}
 	
 	@Override
-	public void update() {
-		super.update();
-		hasteCD.update();
-	}
-	
-	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
-		if (click.isRightClick()) {
-			return hasteCD.tryUse();
+	public void onBlockBreak(Block block, boolean didBreak) {
+		super.onBlockBreak(block, didBreak);
+		if (block.getType() == Material.GRAVEL) {
+			dwarf.playSound("proc", 0.3f, 1.5f, false);
+			dwarf.givePotionEffect(PotionEffectType.FAST_DIGGING, 20 , 3, true, false, true);
 		}
-		return false;
 	}
-	
-	private void hasteBuff() {
-		dwarf.playSound("proc", 1, 1, false);
-		dwarf.givePotionEffect(PotionEffectType.FAST_DIGGING, 30*20 , 3, true, false, true);
-	}
-	
-	
-	@Override
-	public float getCooldown() {
-		return hasteCD.getCooldown();
-	}
-	
-	
-	
-	
 }
