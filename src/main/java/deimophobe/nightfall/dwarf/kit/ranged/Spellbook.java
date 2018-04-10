@@ -214,7 +214,7 @@ public class Spellbook extends AbstractItem {
 		private static final double PARTICLE_OFFSET = THICKNESS/10;
 		
 		private static final Consumer<Location> PARTICLE_PLACER =
-				(location) -> location.getWorld().spawnParticle(Particle.CRIT_MAGIC, location, 2, PARTICLE_OFFSET, PARTICLE_OFFSET, PARTICLE_OFFSET, 0.05);
+				(location) -> location.getWorld().spawnParticle(Particle.CRIT_MAGIC, location, 2, PARTICLE_OFFSET, PARTICLE_OFFSET, PARTICLE_OFFSET, 0.02);
 		
 		@Override
 		public void castSpell(Dwarf dwarf) {
