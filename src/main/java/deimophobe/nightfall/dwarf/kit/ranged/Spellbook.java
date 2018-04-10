@@ -144,26 +144,12 @@ public class Spellbook extends AbstractItem {
 		void castSpell(Dwarf dwarf);
 	}
 	
-	private static class StupidSpell implements Spell {
-		private final String testMsg;
-		private StupidSpell(String testMsg) { this.testMsg = testMsg; }
-		
-		@Override public String getName() { return "test"; }
-		@Override public int getCost() { return 0; }
-		@Override public int getCooldown() { return 0; }
-		
-		@Override
-		public void castSpell(Dwarf dwarf) {
-			dwarf.sendMessage("u did a cast: " + testMsg);
-		}
-	}
-	
 	private static class LevitateSpell implements Spell {
 		@Override public String getName() { return "Levitate"; }
 		@Override public int getCost() { return 3; }
-		@Override public int getCooldown() { return 20; }
+		@Override public int getCooldown() { return 4*20; }
 		
-		private static final int DURATION = 4*20;
+		private static final int DURATION = 2*20;
 		
 		@Override
 		public void castSpell(Dwarf dwarf) {
@@ -182,6 +168,38 @@ public class Spellbook extends AbstractItem {
 					dwarf.getWorld().spawnParticle(Particle.END_ROD, dwarf.getLocation().add(offset), 1, 0, 0, 0, 0);
 					dwarf.getWorld().spawnParticle(Particle.END_ROD, dwarf.getLocation().add(offset.multiply(-1)), 1, 0, 0, 0, 0);
 				}
+				
+				@Override
+				public void onExpiry() {
+					super.onExpiry();
+					double rand = 2*Math.PI*cdf(Math.random());
+					double yaw = dwarf.getLocation().getYaw() * Math.PI/180;
+					double angle = rand + yaw;
+					double sin = Math.sin(angle);
+					double cos = Math.cos(angle);
+					dwarf.setVelocity(-sin, 0.5, cos);
+					
+//					double forward  = (Math.random() < 0.7 ? 1 : -1);
+//					double sideways = Misc.randomDouble(-0.5,0.5);
+//
+//
+//					double yaw = dwarf.getLocation().getYaw() * Math.PI/180;
+//					double sin = Math.sin(yaw);
+//					double cos = Math.cos(yaw);
+					//(-parallel*sin - perpendicular*cos , y, parallel*cos - perpendicular*sin);
+				}
+				
+//				private static final double K = 60;
+//				private double cdf(double x) {
+//					double off = x - 1/2;
+//					return (K/3)*Math.pow(off,3) - (2*K/5)*Math.pow(off,5) + (1 - 7*K/120)*x + 7*K/240;
+//				}
+				
+				private static final double A = 0.7/(4*Math.PI);
+				private static final double B = 0.7/(2*Math.PI);
+				private double cdf(double x) {
+					return A*Math.sin(4*Math.PI*x) + B*Math.sin(2*Math.PI*x) + x;
+				}
 			});
 		}
 	}
@@ -189,7 +207,7 @@ public class Spellbook extends AbstractItem {
 	private static class HitscanSpell implements Spell {
 		@Override public String getName() { return ChatColor.DARK_AQUA + "Soul Stream"; }
 		@Override public int getCost() { return 5; }
-		@Override public int getCooldown() { return 60; }
+		@Override public int getCooldown() { return 5*20; }
 		
 		private static final double MAX_RANGE = 10;
 		private static final double THICKNESS = 1.25;
@@ -200,6 +218,8 @@ public class Spellbook extends AbstractItem {
 		
 		@Override
 		public void castSpell(Dwarf dwarf) {
+			dwarf.givePotionEffect(PotionEffectType.SLOW, 50, 3, false, false, true);
+			dwarf.givePotionEffect(PotionEffectType.JUMP, 50, -2, false, false, true);
 			dwarf.addUpdateable(new LifetimeExpireable(50) {
 				@Override
 				public void update() {
@@ -209,6 +229,19 @@ public class Spellbook extends AbstractItem {
 					);
 					dwarf.fireHitscan(MAX_RANGE, THICKNESS, 0.4, 0.3, PARTICLE_PLACER, null, mobDamager);
 				}
+				
+				@Override
+				public boolean hasExpired() {
+					// Expire if dwarf not holding book
+					return super.hasExpired() || !ITEM.isSimilar(dwarf.getHeldItem());
+				}
+				
+				@Override
+				public void onExpiry() {
+					super.onExpiry();
+					dwarf.removePotionEffect(PotionEffectType.SLOW);
+					dwarf.removePotionEffect(PotionEffectType.JUMP);
+				}
 			});
 		}
 	}
@@ -216,7 +249,7 @@ public class Spellbook extends AbstractItem {
 	private static class MagicMissile implements Spell {
 		@Override public String getName() { return ChatColor.DARK_PURPLE + "Magic Missile"; }
 		@Override public int getCost() { return 3; }
-		@Override public int getCooldown() { return 40; }
+		@Override public int getCooldown() { return 4*20; }
 		
 		private static final double MAX_RANGE = 30;
 		private static final double THICKNESS = 1.25;
