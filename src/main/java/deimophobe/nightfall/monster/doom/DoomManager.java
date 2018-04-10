@@ -172,14 +172,12 @@ public class DoomManager {
 			return nextDoom;
 		} else {
 			Collection<DoomType> dooms = DoomType.getActiveDooms();
-			DoomType prevDoom = Iterables.getLast(occuredDooms);
-			dooms.remove(prevDoom);
+			if (occuredDooms.size() != 0) {
+				DoomType prevDoom = Iterables.getLast(occuredDooms);
+				dooms.remove(prevDoom);
+			}
 			return Misc.getRandom(dooms);
 		}
-	}
-	
-	public boolean hasDoomSpawned(DoomType type) {
-		return occuredDooms.contains(type);
 	}
 	
 	
