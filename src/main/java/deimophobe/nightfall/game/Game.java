@@ -96,27 +96,15 @@ public class Game {
 	private final GlowManager glowManager;
 	private final TimeManager timeManager;
 	
-	public DwarfManager getDwarfManager() {
-		return dwarfManager;
-	}
-	public MonsterManager getMonsterManager() {
-		return monsterManager;
-	}
-	public SkinManager getSkinManager() {
-		return skinManager;
-	}
-	public GlowManager getGlowManager() {
-		return glowManager;
-	}
-	public TimeManager getTimeManager() {
-		return timeManager;
-	}
+	public DwarfManager getDwarfManager() {return dwarfManager;}
+	public MonsterManager getMonsterManager() {return monsterManager;}
+	public SkinManager getSkinManager() {return skinManager;}
+	public GlowManager getGlowManager() {return glowManager;}
+	public TimeManager getTimeManager() {return timeManager;}
 	
 	
 	private final Scoreboard scoreboard;
-	public Scoreboard getScoreboard() {
-		return scoreboard;
-	}
+	public Scoreboard getScoreboard() {return scoreboard;}
 	
 	private final Objective sidebarObj;
 	private final static String OBJ_NAME = "MySidebar";
@@ -266,9 +254,7 @@ public class Game {
 	}
 	
 	public void readyPlayer(Player player) {
-		if (phase != Phase.STARTING) {
-			return;
-		}
+		if (phase != Phase.STARTING) return;
 		
 		readyPlayers.add(player);
 		readyNotify(player);
@@ -293,12 +279,8 @@ public class Game {
 	}
 	
 	public void unreadyPlayer(Player player, boolean leaving) {
-		if (phase != Phase.STARTING) {
-			return;
-		}
-		if (!isReady(player)) {
-			return;
-		}
+		if (phase != Phase.STARTING) return;
+		if (!isReady(player)) return;
 		
 		readyPlayers.remove(player);
 		readyNotify(player);
@@ -574,9 +556,7 @@ public class Game {
 	}
 	
 	public void startGame() {
-		if (phase != Phase.STARTING) {
-			return;
-		}
+		if (phase != Phase.STARTING) return;
 		phase = Phase.BUILD;
 		
 		sidebarObj.setDisplaySlot(DisplaySlot.SIDEBAR);
@@ -625,13 +605,10 @@ public class Game {
 	}
 	
 	public void startPlague(PlagueType plagueType) {
-		if (phase != Phase.BUILD) {
-			return;
-		}
-		if (plagueType == null) {
-			plagueType = PlagueType.getRandomPlagueType();
-		}
+		if (phase != Phase.BUILD) return;
 		phase = Phase.PLAGUE;
+		
+		if (plagueType == null) plagueType = PlagueType.getRandomPlagueType();
 		Plague plague = plagueType.createPlague();
 		this.activePlague = plague;
 		NightfallPlugin.logger().info("Starting plague: " + plagueType);
@@ -669,10 +646,9 @@ public class Game {
 	}
 	
 	private void releaseMonsters() {
-		if (phase != Phase.PLAGUE) {
-			return;
-		}
+		if (phase != Phase.PLAGUE) return;
 		phase = Phase.GAME;
+		
 		this.activePlague = null;
 
 		Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "THE MONSTERS HAVE BEEN RELEASED!");
@@ -689,9 +665,7 @@ public class Game {
 	}
 	
 	public void endGame() {
-		if (phase != Phase.GAME) {
-			return;
-		}
+		if (phase != Phase.GAME) return;
 		phase = Phase.END;
 		
 		bossBar.setProgress(0);

@@ -1,58 +1,46 @@
 package deimophobe.nightfall.plague;
 
 import deimophobe.nightfall.common.Misc;
+import org.bukkit.Bukkit;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Supplier;
 
 /**
  * Created by Deimophobe on 29/06/17.
  */
 public enum PlagueType {
-	ZOMBIE(ZombiePlague.class, true),
-	INSTA(InstaPlague.class, false),
-	TWINS(TwinsPlague.class, true),
-	ASSASSIN(AssassinPlague.class, true),
-	STORM(StormPlague.class, true)
+	ZOMBIE(ZombiePlague::new, true),
+	INSTA(InstaPlague::new, false),
+	TWINS(TwinsPlague::new, true),
+	ASSASSIN(AssassinPlague::new, () -> Plague.getAmountToKill(false) > 2),
+	STORM(StormPlague::new, true)
 	
 	;
 	
-	private final Class<? extends Plague> plagueClass;
-	private final boolean active;
+	private final Supplier<? extends Plague> plagueCreator;
+	private final Supplier<Boolean> active;
 	
-	PlagueType(Class<? extends Plague> plagueClass) {
-		this(plagueClass, true);
+	
+	PlagueType(Supplier<? extends Plague> plagueCreator, boolean active) {
+		this.plagueCreator = plagueCreator;
+		this.active = () -> active;
 	}
 	
-	PlagueType(Class<? extends Plague> plagueClass, boolean active) {
-		this.plagueClass = plagueClass;
-		
-		// Test to see if it can create a plague.
-		createPlague();
+	PlagueType(Supplier<? extends Plague> plagueCreator, Supplier<Boolean> active) {
+		this.plagueCreator = plagueCreator;
 		this.active = active;
 	}
 	
 	public Plague createPlague() {
-		try {
-			return plagueClass.getDeclaredConstructor().newInstance();
-		} catch (NoSuchMethodException e) {
-			throw new IllegalArgumentException("Unable to find constructor for plague object '" + name() + "'", e);
-		} catch (IllegalAccessException e) {
-			throw new IllegalArgumentException("Failed to access constructor of plague object '" + name() + "'", e);
-		} catch (InstantiationException e) {
-			throw new IllegalArgumentException("Cannot create abstract plague object '" + name() + "'", e);
-		} catch (InvocationTargetException e) {
-			throw new IllegalArgumentException("Exception thrown in constructor of plague object '" + name() + "'", e);
-		}
+		return plagueCreator.get();
 	}
 	
 	public static PlagueType getRandomPlagueType() {
 		Set<PlagueType> validTypes = new HashSet<>();
 		for (PlagueType type : values()) {
-			if (type == PlagueType.ASSASSIN && Plague.getAmountToKill(false) < 2) {
-				continue;
-			} else if (type.active) {
+			if (type.active.get()) {
 				validTypes.add(type);
 			}
 		}
