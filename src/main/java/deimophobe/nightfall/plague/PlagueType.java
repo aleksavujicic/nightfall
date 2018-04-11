@@ -49,10 +49,14 @@ public enum PlagueType {
 	
 	public static PlagueType getRandomPlagueType() {
 		Set<PlagueType> validTypes = new HashSet<>();
-		for (PlagueType type : values())
-			if (type.active)
+		for (PlagueType type : values()) {
+			if (type == PlagueType.ASSASSIN && Plague.getAmountToKill(false) < 2) {
+				continue;
+			} else if (type.active) {
 				validTypes.add(type);
-		
+			}
+		}
+
 		return Misc.getRandom(validTypes);
 	}
 }
