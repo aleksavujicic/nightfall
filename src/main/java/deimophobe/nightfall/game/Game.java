@@ -66,7 +66,7 @@ public class Game {
 		}
 		loading = true;
 		
-		if (game !=  null) {
+		if (game != null) {
 			game.stop();
 		}
 		
@@ -96,15 +96,27 @@ public class Game {
 	private final GlowManager glowManager;
 	private final TimeManager timeManager;
 	
-	public DwarfManager getDwarfManager() {return dwarfManager;}
-	public MonsterManager getMonsterManager() {return monsterManager;}
-	public SkinManager getSkinManager() {return skinManager;}
-	public GlowManager getGlowManager() {return glowManager;}
-	public TimeManager getTimeManager() {return timeManager;}
+	public DwarfManager getDwarfManager() {
+		return dwarfManager;
+	}
+	public MonsterManager getMonsterManager() {
+		return monsterManager;
+	}
+	public SkinManager getSkinManager() {
+		return skinManager;
+	}
+	public GlowManager getGlowManager() {
+		return glowManager;
+	}
+	public TimeManager getTimeManager() {
+		return timeManager;
+	}
 	
 	
 	private final Scoreboard scoreboard;
-	public Scoreboard getScoreboard() {return scoreboard;}
+	public Scoreboard getScoreboard() {
+		return scoreboard;
+	}
 	
 	private final Objective sidebarObj;
 	private final static String OBJ_NAME = "MySidebar";
@@ -113,7 +125,7 @@ public class Game {
 	
 	private final Team lobbyTeam;
 
-	private PlagueType plagueType = PlagueType.getRandomPlagueType();
+	private PlagueType plagueType = null;
 	private Plague activePlague = null;
 
 	private Game(GameMap map) {
@@ -521,7 +533,9 @@ public class Game {
 	
 	private void update() {
 		tickNumber++;
-		if (tickNumber % 20 == 0) updateCurses();
+		if (tickNumber % 20 == 0) {
+			updateCurses();
+		}
 		
 		updateables.forEach(Updateable::update);
 		expirables.forEach(Expirable::update);
@@ -613,6 +627,9 @@ public class Game {
 	public void startPlague(PlagueType plagueType) {
 		if (phase != Phase.BUILD) {
 			return;
+		}
+		if (plagueType == null) {
+			plagueType = PlagueType.getRandomPlagueType();
 		}
 		phase = Phase.PLAGUE;
 		Plague plague = plagueType.createPlague();
