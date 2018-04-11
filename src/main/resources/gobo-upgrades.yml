@@ -147,7 +147,7 @@ speed:
 
 superkaboom:
   index: 22
-  cost: 3000
+  cost: 5000
   prereq:
     supplies: 5
     health: 5
