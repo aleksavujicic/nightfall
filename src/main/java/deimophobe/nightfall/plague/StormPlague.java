@@ -98,6 +98,8 @@ public class StormPlague extends Plague {
 	}
 	
 	private void startStorm() {
+		if (hasEnded()) return;
+		
 		thundering = true;
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			dwarf.givePoison(PoisonType.LIGHTING_PLAGUE, 2*60*20);
