@@ -17,8 +17,19 @@ armour:
 
 items:
   jump:
-    name: TempJump
+    name: Propulsion
     base: temporary
+    lore:
+      description:
+       - "Click to propel yourself upwards."
+      flavour:
+       - "Tick. Tock."
   detonate:
-    name: Temp
+    name: Overtick
     base: temporary
+    lore:
+      description:
+       - "Click to make your timer to decrease rapidly,\n
+          however your movement will be inhibited."
+      flavour:
+       - "Boom."
