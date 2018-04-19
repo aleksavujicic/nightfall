@@ -30,7 +30,7 @@ public class Tombmaker extends DwarfShovel {
 	
 	@Override
 	public void onKill(MonsterDamage damage) {
-		if (isMeleeDamageFromItem(damage) && dwarf.hasKitElement(KitPieceType.RUNESWORD))
+		if (isMeleeDamageFromItem(damage) && dwarf.hasKitPiece(KitPieceType.RUNESWORD))
 			dwarf.giveProc(ProcType.REGULAR);
 	}
 	

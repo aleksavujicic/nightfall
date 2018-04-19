@@ -70,7 +70,7 @@ public class Assassin extends AbstractMob {
         else {
             damage.getMultiPartDamage().setBase(125);
         }
-        if (dwarf.hasKitElement(KitPieceType.STRONG_ALE)) {
+        if (dwarf.hasKitPiece(KitPieceType.STRONG_ALE)) {
             damage.getMultiPartDamage().timesMult(1d/(1 - StrongAle.getDamageResistance()));
         }
 

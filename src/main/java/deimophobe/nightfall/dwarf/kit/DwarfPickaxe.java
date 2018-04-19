@@ -4,7 +4,6 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.RepeatingCooldown;
@@ -137,7 +136,7 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 				}
 				
 				case DIAMOND_ORE: {
-					int maxDiamondLevel = (dwarf.hasKitElement(KitPieceType.STRONG_ALE) ? 1 : 5);
+					int maxDiamondLevel = (dwarf.hasKitPiece(KitPieceType.STRONG_ALE) ? 1 : 5);
 					int newLevel = Math.min(dwarf.getPotionEffectLevel(PotionEffectType.ABSORPTION) + 1, maxDiamondLevel);
 					int duration = Math.min(dwarf.getPotionEffectDuration(PotionEffectType.ABSORPTION) + 30 * 20, 60 * 20);
 					dwarf.givePotionEffect(PotionEffectType.ABSORPTION, duration, newLevel, true, false, true);

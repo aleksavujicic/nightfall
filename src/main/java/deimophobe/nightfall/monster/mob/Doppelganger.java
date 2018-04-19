@@ -240,7 +240,7 @@ public class Doppelganger extends AbstractMob {
 		if (target == null) return;
 		
 		for (Map.Entry<KitPieceType, String> entry : DWARF_WEAPONS.entrySet()) {
-			if (target.hasKitElement(entry.getKey())) {
+			if (target.hasKitPiece(entry.getKey())) {
 				String itemKey = entry.getValue();
 				if (itemKey != null) {
 					setWeapon(itemKey);

@@ -128,12 +128,12 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	// ------ KIT ITEMS -------
 	private final Kit kit;
 	
-	public Collection<KitPieceType> getKitElementTypes() {
-		return kit.getKitElementTypes();
+	public Collection<KitPieceType> getKitPieceTypes() {
+		return kit.getKitPieceTypes();
 	}
 	
-	public boolean hasKitElement(KitPieceType type) {
-		return kit.containsElement(type);
+	public boolean hasKitPiece(KitPieceType type) {
+		return kit.containsKitPiece(type);
 	}
 	public void giveKitItems(KitGiveType type) {kit.giveItems(type);}
 	
@@ -142,8 +142,8 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	public void giveClock()   { giveKitItem(KitPieceType.CLOCK  ); }
 	
 	public void giveKitItem(KitPieceType type) {
-		if (!hasKitElement(type)) {
-			kit.addElement(type, true);
+		if (!hasKitPiece(type)) {
+			kit.addKitPiece(type, true);
 		}
 	}
 	
@@ -496,7 +496,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		double damage = 0;
 		int strength = getPotionEffectLevel(PotionEffectType.INCREASE_DAMAGE);
 		damage += strength * 3;
-		if (hasKitElement(KitPieceType.BERSERKER)) {
+		if (hasKitPiece(KitPieceType.BERSERKER)) {
 			damage += BerserkArmour.getAttackBonus();
 		}
 		return damage;
@@ -561,7 +561,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 
 	@Override
 	public void heal(double amt) {
-		if (hasKitElement(KitPieceType.STRONG_ALE))
+		if (hasKitPiece(KitPieceType.STRONG_ALE))
 			amt *= (1- StrongAle.getDamageResistance());
 		
 		super.heal(amt);

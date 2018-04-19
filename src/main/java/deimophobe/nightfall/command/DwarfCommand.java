@@ -191,7 +191,7 @@ public class DwarfCommand extends BaseCommand {
 		@Description("List all pieces of a dwarf's kit.")
 		public void listKit(CommandSender sender, @Optional Dwarf dwarf) {
 			KitPieceType[] types = new KitPieceType[0];
-			types = dwarf.getKitElementTypes().toArray(types);
+			types = dwarf.getKitPieceTypes().toArray(types);
 			MessageUtil.sendMessage(sender, "Dwarf ", dwarf, " has the following kit: ", types);
 		}
 		

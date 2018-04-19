@@ -25,33 +25,33 @@ public class Kit {
 	private final Set<ItemPiece> itemPieces = new HashSet<>();
 	private final Set<BowPiece> bowPieces = new HashSet<>();
 	
-	public Kit(Dwarf dwarf, Collection<KitPieceType> elements) {
+	public Kit(Dwarf dwarf, Collection<KitPieceType> kitPieces) {
 		this.dwarf = dwarf;
 		
-		for (KitPieceType type : elements) {
-			addElement(type, false);
+		for (KitPieceType type : kitPieces) {
+			addKitPiece(type, false);
 		}
 	}
 	
-	public Collection<KitPieceType> getKitElementTypes() {
+	public Collection<KitPieceType> getKitPieceTypes() {
 		return kitPieces.keySet();
 	}
 	
-	public boolean containsElement(KitPieceType type) {
+	public boolean containsKitPiece(KitPieceType type) {
 		return kitPieces.containsKey(type);
 	}
 	
-	public KitPiece addElement(KitPieceType type, boolean give) {
+	public KitPiece addKitPiece(KitPieceType type, boolean give) {
 		if (kitPieces.containsKey(type)) return null;
 		
 		KitPiece kitPiece = type.createPiece(dwarf);
 		kitPieces.put(type, kitPiece);
 		
 		if (kitPiece instanceof CooldownPiece) {
-			CooldownPiece cooldownElement = (CooldownPiece) kitPiece;
+			CooldownPiece cooldownPiece = (CooldownPiece) kitPiece;
 			
-			if (cooldownElement.getCooldown() != -1) {
-				cooldownPieces.add(cooldownElement);
+			if (cooldownPiece.getCooldown() != -1) {
+				cooldownPieces.add(cooldownPiece);
 			}
 		}
 		
