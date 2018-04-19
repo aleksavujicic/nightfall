@@ -60,6 +60,14 @@ rat:
   quantity: 2
   chance: 0.15
 
+walker:
+  mobtype: walker
+  egg:
+    base: hunting
+    name: Spawn Walker
+  quantity: 2
+  chance: 0.06
+
 golem:
   mobtype: golem
   egg:
@@ -104,16 +112,3 @@ doppelganger:
     shiny: true
   quantity: 1
   chance: 0.06
-
-ghostblade:
-  mobtype:
-    - gb-axe
-    - gb-dagger
-    - gb-hammer
-    - gb-runeblade
-  egg:
-    base: dagger
-    name: Spawn Ghostblade
-    shiny: true
-  quantity: 2
-  chance: 0.05
