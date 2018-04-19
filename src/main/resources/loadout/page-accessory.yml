@@ -89,8 +89,8 @@ tombmaker:
     lore:
       description:
        - "Replaces your shovel with a tombmaker\n
-          allowing you to right click and dig faster\n
-          for a few seconds."
+          allowing you to dig faster and be more\n
+          likely to find items in gravel."
 
 resurrection:
   index: 7
