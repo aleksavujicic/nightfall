@@ -101,11 +101,10 @@ public class AssassinPlague extends Plague {
         MonsterPlayer mp = MonsterManager.getManager().getGamePlayer(player);
         mp.spawnMob(new Assassin(mp, AssassinPlague.this, targetDwarf), SpawnMethod.NONE);
         assassins.add(mp);
-        /*
+
         if (getAmountToKill(false) == 0) {
             endPlague();
         }
-        */
     }
 
     @Override
