@@ -6,8 +6,6 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.game.Curse;
 import deimophobe.nightfall.game.Game;
-import deimophobe.nightfall.map.GameMap;
-import deimophobe.nightfall.map.region.Region;
 import deimophobe.nightfall.util.ArmourSlot;
 
 /**
@@ -47,15 +45,8 @@ public class HeroArmour extends StaticArmour {
 	
 	@Override
 	public double getResistance() {
-		GameMap map = GameMap.getCurrentMap();
-		Region shrine = map.getCurrentShrineRegion();
-		
-		double goldboost = 0;
-		if (shrine != null && shrine.containsPlayer(hero))
-			goldboost = 0.05;
-		
-		double dwarfBoost = 0.02 * Math.sqrt(DwarfManager.getManager().getNumberOfPlayers());
-		return Math.min(0.7 + goldboost + dwarfBoost, 0.85);
+		double dwarfBoost = 0.01 * Math.sqrt(DwarfManager.getManager().getNumberOfPlayers());
+		return Math.min(0.77 + dwarfBoost, 0.85);
 	}
 	
 	@Override
