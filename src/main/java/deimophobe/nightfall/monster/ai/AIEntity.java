@@ -15,6 +15,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
+import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
@@ -61,6 +62,11 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 	
 	private static final ItemStack CHESTPLATE = new ItemStack(Material.DIAMOND);
 	static {CHESTPLATE.addUnsafeEnchantment(Enchantment.DEPTH_STRIDER, 2);}
+	
+	@Override
+	public MonsterDamage createDamage(GameEntity attacker, GameDamageType type, double damage, Projectile projectile) {
+		return new MonsterDamage(attacker, this, type, damage, projectile);
+	}
 	
 	@Override
 	public boolean isAI() {
@@ -178,10 +184,5 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 	
 	private void resetInactivity() {
 		inactivityCount = MAX_INACTIVITY_COUNT;
-	}
-	
-	@Override
-	public MonsterDamage createDamage(GameEntity attacker, GameDamageType type, double damage) {
-		return new MonsterDamage(attacker, this, type, damage);
 	}
 }

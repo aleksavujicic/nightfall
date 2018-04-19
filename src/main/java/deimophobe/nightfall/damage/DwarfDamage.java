@@ -27,12 +27,7 @@ public class DwarfDamage extends GameDamage<GameEntity<?>, Dwarf> {
 	public void addManaDrain(int manaDrain) {this.manaDrain += manaDrain;}
 	public void multiplyManaDrain(double multiply) {this.manaDrain *= multiply;}
 	
-	public DwarfDamage(GameEntity attacker, Dwarf receiver, GameDamageType type, double damage) {
-		super(attacker, receiver, type, damage);
-		addHandlers();
-	}
-	
-	DwarfDamage(GameEntity attacker, Dwarf receiver, GameDamageType type, double damage, Projectile arrow) {
+	public DwarfDamage(GameEntity attacker, Dwarf receiver, GameDamageType type, double damage, Projectile arrow) {
 		super(attacker, receiver, type, damage, arrow);
 		addHandlers();
 	}

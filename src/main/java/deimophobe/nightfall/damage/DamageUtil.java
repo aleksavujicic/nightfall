@@ -61,7 +61,7 @@ public class DamageUtil {
 				boolean crit = (entityAttacker != null && !entityAttacker.isOnGround() && !(attacker instanceof AIEntity<?>));
 				if (crit) damage *= 1.25;
 				
-				GameDamage<?,?> gameDamage = GameDamage.createDamage(attacker, receiver, GameDamageType.MELEE, damage);
+				GameDamage<?,?> gameDamage = receiver.createDamage(attacker, GameDamageType.MELEE, damage);
 				
 				
 				if (crit) {
@@ -76,19 +76,20 @@ public class DamageUtil {
 			
 			case PROJECTILE: {
 				Projectile proj = (Projectile) ((EntityDamageByEntityEvent) event).getDamager();
-				double damage;
-				if (proj instanceof Arrow)
-					damage = ArrowMisc.getArrowDamage((Arrow) proj);
-				else
-					damage = event.getDamage();
 				GameEntity attacker = Game.getGame().getGameEntity((Entity) proj.getShooter());
+				double damage;
+				if (proj instanceof Arrow) {
+					damage = ArrowMisc.getArrowDamage((Arrow) proj);
+				} else {
+					damage = event.getDamage();
+				}
 				
-				return (GameDamage<?,?>) GameDamage.createDamage(attacker, receiver, GameDamageType.RANGED, damage, proj);
+				return receiver.createDamage(attacker, GameDamageType.RANGED, damage, proj);
 			}
 			
 			default: {
 				GameDamageType type = GameDamageType.getTypeFromEventCause(event.getCause());
-				return GameDamage.createDamage(null, receiver, type, event.getDamage());
+				return receiver.createDamage(null, type, event.getDamage());
 			}
 		}
 	}

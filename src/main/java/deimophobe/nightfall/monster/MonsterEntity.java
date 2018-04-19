@@ -5,6 +5,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.game.GameEntity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Projectile;
 
 /**
  * Created by Deimophobe on 29/08/17.
@@ -16,5 +17,10 @@ public interface MonsterEntity<E extends LivingEntity> extends GameEntity<E> {
 	boolean isAI();
 	
 	@Override
-	MonsterDamage createDamage(GameEntity attacker, GameDamageType type, double damage);
+	default MonsterDamage createDamage(GameEntity attacker, GameDamageType type, double damage) {
+		return createDamage(attacker, type, damage, null);
+	}
+	
+	@Override
+	MonsterDamage createDamage(GameEntity attacker, GameDamageType type, double damage, Projectile projectile);
 }

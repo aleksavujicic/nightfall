@@ -14,6 +14,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -195,9 +196,11 @@ public interface GameEntity<E extends LivingEntity> {
 		return doDamage(attacker, type, GameDamage.INSTA_KILL_DMG, true, true);
 	}
 	
-	default GameDamage createDamage(GameEntity attacker, GameDamageType type, double damage) {
-		return GameDamage.createDamage(attacker, this, type, damage);
+	default GameDamage<?,?> createDamage(GameEntity attacker, GameDamageType type, double damage) {
+		return createDamage(attacker, type, damage, null);
 	}
+	
+	GameDamage createDamage(GameEntity attacker, GameDamageType type, double damage, Projectile projectile);
 	
 	default String getDeathMessageName() {
 		return getDisplayName();

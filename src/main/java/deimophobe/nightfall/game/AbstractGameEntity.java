@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 /**
  * Created by Deimophobe on 28/02/18.
  */
-public class AbstractGameEntity<T extends LivingEntity> implements GameEntity<T> {
+public abstract class AbstractGameEntity<T extends LivingEntity> implements GameEntity<T> {
 	
 	protected T entity;
 	@Override public T getEntity() { return entity; }

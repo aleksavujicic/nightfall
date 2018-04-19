@@ -362,8 +362,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	// ------ DAMAGE ------
 	@Override
-	public MonsterDamage createDamage(GameEntity attacker, GameDamageType type, double damage) {
-		return new MonsterDamage(attacker, this, type, damage);
+	public MonsterDamage createDamage(GameEntity attacker, GameDamageType type, double damage, Projectile projectile) {
+		return new MonsterDamage(attacker, this, type, damage, projectile);
 	}
 	
 	@Override

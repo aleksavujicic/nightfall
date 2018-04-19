@@ -24,12 +24,7 @@ public class MonsterDamage extends GameDamage<GameEntity<?>, MonsterEntity> {
 	private MultiPartValue arrowRes = new MultiPartValue(0);
 	public MultiPartValue getArrowRes() { return arrowRes; }
 	
-	public MonsterDamage(GameEntity attacker, MonsterEntity receiver, GameDamageType type, double damage) {
-		super(attacker, receiver, type, damage);
-		addHandlers();
-	}
-	
-	MonsterDamage(GameEntity attacker, MonsterEntity receiver, GameDamageType type, double damage, Projectile arrow) {
+	public MonsterDamage(GameEntity attacker, MonsterEntity receiver, GameDamageType type, double damage, Projectile arrow) {
 		super(attacker, receiver, type, damage, arrow);
 		addHandlers();
 	}

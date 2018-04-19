@@ -485,7 +485,12 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	// ------ DAMAGE ------
 	@Override
 	public DwarfDamage createDamage(GameEntity attacker, GameDamageType type, double damage) {
-		return new DwarfDamage(attacker, this, type, damage);
+		return createDamage(attacker, type, damage, null);
+	}
+	
+	@Override
+	public DwarfDamage createDamage(GameEntity attacker, GameDamageType type, double damage, Projectile projectile) {
+		return new DwarfDamage(attacker, this, type, damage, projectile);
 	}
 	
 	public double getBonusMeleeDamage() {

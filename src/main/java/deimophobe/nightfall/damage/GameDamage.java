@@ -4,10 +4,8 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.death.DeathMessageMaker;
 import deimophobe.nightfall.damage.death.LastMainDamage;
-import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.game.GameEntity;
 import deimophobe.nightfall.game.GamePlayer;
-import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
@@ -71,27 +69,8 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 	private final int id;
 	
 	
-	// ------ STATIC INITIALISERS -------
-	public static <B extends GameEntity,S extends GameEntity> GameDamage<?,?> createDamage(B attacker, S receiver, GameDamageType type, double damage) {
-		return createDamage(attacker, receiver, type, damage, null);
-	}
-	
-	static <B extends GameEntity,S extends GameEntity> GameDamage<?,?> createDamage(B attacker, S receiver, GameDamageType type, double damage, Projectile arrow) {
-		if (receiver instanceof MonsterEntity) {
-			return new MonsterDamage(attacker, (MonsterEntity) receiver, type, damage, arrow);
-		} else if (receiver instanceof Dwarf) {
-			return new DwarfDamage(attacker, (Dwarf) receiver, type, damage, arrow);
-		} else {
-			throw new IllegalArgumentException("Game damage must have receiver be either a dwarf or monster.");
-		}
-	}
-	
 	// ------ CONSTRUCTORS -------
-	public GameDamage(A attacker, R receiver, GameDamageType type, double damage) {
-		this(attacker, receiver, type, damage, null);
-	}
-	
-	protected GameDamage(A attacker, R receiver, GameDamageType type, double damage, Projectile projectile) {
+	public GameDamage(A attacker, R receiver, GameDamageType type, double damage, Projectile projectile) {
 		this.type = type;
 		this.attacker = attacker;
 		this.receiver = receiver;
@@ -125,15 +104,15 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 			this.knockback = null;
 		}
 		
-		this.id = idCount;
-		idCount++;
-		
 		type.applyModifier(this);
 		if (type.isArrow() && attacker instanceof GamePlayer && receiver instanceof GamePlayer) {
 			addPostDamageHandler(
 					() -> ((GamePlayer) attacker).playSound("entity.arrow.hit_player", 0.8f, 0.5f, false)
 			);
 		}
+		
+		this.id = idCount;
+		idCount++;
 	}
 	
 	public void setKnockbackFromMelee() {
@@ -280,12 +259,14 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		return (receiver.getHealth() - getFinalDamage() <= 0.000001 || instaKill);
 	}
 	
-	public boolean hasArrow() {return  projectile instanceof Arrow;}
+	public Projectile getProjectile() { return projectile; }
+	public boolean hasArrow() { return (projectile instanceof Arrow); }
 	public Arrow getArrow() {
-		if (projectile instanceof Arrow)
+		if (projectile instanceof Arrow) {
 			return (Arrow) projectile;
-		else
+		} else {
 			throw new IllegalStateException("Tried to access arrow of GameDamage which has no arrow.");
+		}
 	}
 	
 	public void setItemStack(ItemStack itemStack) {
