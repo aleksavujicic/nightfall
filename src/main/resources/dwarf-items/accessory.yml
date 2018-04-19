@@ -3,7 +3,8 @@ tombmaker:
   name: Tombmaker
   lore:
     description:
-     - "Right click for a Haste buff to dig faster."
+     - "Allows you to dig faster and be more\n
+        likely to find items in gravel."
     flavour:
      - "\"I used to dig graves with these things. It's insane.\" - Tui"
      - "\"Two in the grave, two for the banshees.\" - Velvetine"
