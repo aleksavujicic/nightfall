@@ -1,7 +1,6 @@
 package deimophobe.nightfall.dwarf.kit;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -30,7 +29,7 @@ public class Kit {
 		this.dwarf = dwarf;
 		
 		for (KitPieceType type : elements) {
-			addElement(type);
+			addElement(type, false);
 		}
 	}
 	
@@ -42,26 +41,31 @@ public class Kit {
 		return kitPieces.containsKey(type);
 	}
 	
-	public KitPiece addElement(KitPieceType type) {
+	public KitPiece addElement(KitPieceType type, boolean give) {
 		if (kitPieces.containsKey(type)) return null;
 		
-		KitPiece element = type.createPiece(dwarf);
-		kitPieces.put(type, element);
+		KitPiece kitPiece = type.createPiece(dwarf);
+		kitPieces.put(type, kitPiece);
 		
-		if (element instanceof CooldownPiece) {
-			CooldownPiece cooldownElement = (CooldownPiece) element;
+		if (kitPiece instanceof CooldownPiece) {
+			CooldownPiece cooldownElement = (CooldownPiece) kitPiece;
 			
-			if (cooldownElement.getCooldown() != -1)
+			if (cooldownElement.getCooldown() != -1) {
 				cooldownPieces.add(cooldownElement);
+			}
 		}
 		
-		if (element instanceof ItemPiece)
-			itemPieces.add((ItemPiece) element);
+		if (kitPiece instanceof ItemPiece) {
+			ItemPiece item = (ItemPiece) kitPiece;
+			itemPieces.add(item);
+			if (give) giveItem(item);
+		}
 		
-		if (element instanceof AbstractBow)
-			bowPieces.add((AbstractBow) element);
+		if (kitPiece instanceof AbstractBow) {
+			bowPieces.add((AbstractBow) kitPiece);
+		}
 		
-		return element;
+		return kitPiece;
 	}
 	
 	public void giveItems(KitGiveType giveType) {
@@ -75,17 +79,6 @@ public class Kit {
 		}
 		
 		updateHotbarSlot(dwarf.getHeldItem());
-	}
-	
-	public void giveItem(KitPieceType type) {
-		KitPiece element = kitPieces.get(type);
-		if (element == null) {
-			NightfallPlugin.logger().severe("Cannot give dwarf element '" + type + "' as it is not in their kit.");
-		} else if (element instanceof ItemPiece) {
-			giveItem((ItemPiece) element);
-		} else {
-			NightfallPlugin.logger().severe("Cannot give dwarf element '" + type + "' as it is not an item.");
-		}
 	}
 	
 	private void giveItem(ItemPiece itemPiece) {

@@ -143,9 +143,8 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	public void giveKitItem(KitPieceType type) {
 		if (!hasKitElement(type)) {
-			kit.addElement(type);
+			kit.addElement(type, true);
 		}
-		kit.giveItem(type);
 	}
 	
 	
