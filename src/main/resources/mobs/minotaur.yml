@@ -39,3 +39,7 @@ sounds:
     path: "entity.shulker.hurt"
     pitch: 0.5
     chance: 0.5
+  idle:
+    path: "entity.cow.ambient"
+    pitch: 0.6
+    chance: 0.05
