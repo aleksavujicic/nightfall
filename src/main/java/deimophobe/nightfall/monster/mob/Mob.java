@@ -36,4 +36,6 @@ public interface Mob {
 	void onProjectileLand(Projectile proj, Block hitBlock, Entity hitEntity);
 	float getCooldown();
 	void onDeath(boolean silent);
+	
+	boolean hasSpawnProtection();
 }

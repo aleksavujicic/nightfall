@@ -553,7 +553,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	private boolean isFreezable() {
-		return !player.hasPotionEffect(PotionEffectType.LUCK);
+		return !mob.hasSpawnProtection();
 	}
 	
 	@Override
