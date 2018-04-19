@@ -1,7 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.melee;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.GameDamageType;
@@ -69,16 +68,25 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 		return false;
 	}
 	
+	/*
+	@Override
+	public void onShift(boolean sneaking) {
+		super.onShift(sneaking);
+		souls++;
+		souls = Math.min(souls, MAX_SOULS);
+	}
+	*/
+	
 	private void soulShatter() {
 		//Location center = dwarf.getLocation().add(dwarf.getLocation().getDirection().multiply(1.5));
 		Location center = dwarf.getEyeLocation();
-		Misc.moveLocation(center, 1, 0, -0.5);
+		center.add(center.getDirection());
 		
 		World world = center.getWorld();
-		world.spawnParticle(Particle.DRAGON_BREATH, center, (int) souls, 0.5, 0.1, 0.5, 0.003 * souls);
-		world.spawnParticle(Particle.SMOKE_NORMAL, center, 20, 0.5, 0.1, 0.5, 0.003 * souls);
+		world.spawnParticle(Particle.DRAGON_BREATH, center, (int) (souls + 50), 0.5, 0.1, 0.5, 0.05 + 0.005*souls);
+		world.spawnParticle(Particle.SMOKE_NORMAL, center, (int) (5*souls + 100), 1.5, 1,  1.5, 0.003);
 		
-		float pitch = 0.5f + (float) (0.006f * souls);
+		float pitch = 0.5f + (float) (0.008f * souls);
 		world.playSound(center,"dash", 1f, pitch);
 		world.playSound(center,"entity.generic.burn", 1f, pitch);
 		
