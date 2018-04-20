@@ -29,7 +29,7 @@ items:
     base: temporary
     lore:
       description:
-       - "Click to make your timer to decrease rapidly,\n
-          however your movement will be inhibited."
+       - "Click to make your timer decrease rapidly,\n
+          however your movement will be greatly inhibited."
       flavour:
        - "Boom."
