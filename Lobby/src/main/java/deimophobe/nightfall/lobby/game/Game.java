@@ -43,6 +43,10 @@ public class Game {
 	}
 	
 	
+	public Integer getId() {
+		return gameID;
+	}
+	
 	
 	
 	@Override
@@ -104,7 +108,6 @@ public class Game {
 		
 		player.sendPluginMessage(NightfallLobbyPlugin.getPlugin(), "BungeeCord", out.toByteArray());
 	}
-	
 	
 	
 	public enum State {

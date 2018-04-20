@@ -25,8 +25,7 @@ public class GameListener implements Listener {
 				NightfallLobbyPlugin.getPlugin().resetPlayer(player, true);
 			} else {
 				player.teleport(player.getLocation().subtract(0,300,0));
-				Game game = runningGames.iterator().next();
-				game.connect(player);
+				GameManager.getManager().openMenu(player);
 			}
 		}
 	}

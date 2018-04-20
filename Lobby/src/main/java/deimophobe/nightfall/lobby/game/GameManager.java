@@ -2,8 +2,10 @@ package deimophobe.nightfall.lobby.game;
 
 import deimophobe.nightfall.lobby.NightfallLobbyPlugin;
 import deimophobe.nightfall.lobby.game.map.GameMap;
+import deimophobe.nightfall.lobby.game.menu.GameMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -22,11 +24,15 @@ public class GameManager {
 	
 	private static final String OBJECTIVE_GAME_DISPLAY_NAME = "games";
 	
+	private final GameMenu menu;
+	
 	private final Logger logger;
 	private final Map<Integer, Game> games;
 	private Objective sidebarDisplay;
 	
 	public GameManager() {
+		this.menu = new GameMenu();
+		
 		this.games = new HashMap<>();
 		this.logger = NightfallLobbyPlugin.getPlugin().getLogger();
 		
@@ -69,6 +75,7 @@ public class GameManager {
 		}
 		
 		game.start(serverName);
+		menu.startGame(game);
 		
 		updateDisplay();
 	}
@@ -82,6 +89,7 @@ public class GameManager {
 		}
 		
 		game.stop();
+		menu.stopGame(game);
 		
 		updateDisplay();
 	}
@@ -94,6 +102,9 @@ public class GameManager {
 		return running;
 	}
 	
+	public void openMenu(Player player) {
+		menu.startSession(player);
+	}
 	
 	public void updateDisplay() {
 		sidebarDisplay.unregister();
