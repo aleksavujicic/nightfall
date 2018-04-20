@@ -1,0 +1,83 @@
+crown_hat:
+  hat: crown
+  item:
+    name: "Crown Hat"
+    base: hat.bone-crown
+
+flower_hat:
+  hat: flowers
+  item:
+    name: "Flower Hat"
+    base: hat.flower
+
+witch_hat:
+  hat: witch
+  item:
+    name: "Witch Hat"
+    base: hat.witch
+
+dv_goggles:
+  hat: darkvisgoggles
+  item:
+    name: "Dark Vision Goggles"
+    base: darkvision
+
+jimmy_cap:
+  hat: jimmycap
+  item:
+    name: "Jimmy Cap"
+    material: gold_helmet
+
+goggles:
+  hat: goggles
+  item:
+    name: "Goggles"
+    base: hat.goggles
+
+arrowband:
+  hat: arrowband
+  item:
+    base: hat.arrow
+    name: "Arrow Band"
+
+baghead:
+  hat: baghead
+  item:
+    base: hat.bag
+    name: "Bag Head"
+
+bathat:
+  hat: bathat
+  item:
+    base: hat.bat
+    name: "Bat Hat"
+
+horns:
+  hat: horns
+  item:
+    base: hat.horns
+    name: "Horns"
+
+skullmask:
+  hat: skullmask
+  item:
+    base: hat.skull
+    name: "Skull Mask"
+
+catears:
+  hat: catears
+  item:
+    base: hat.cat-ears
+    name: "Cat Ears"
+
+egghat:
+  hat: egghat
+  item:
+    base: hat.eggs
+    name: "Egg Hat"
+
+xmashat:
+  hat: xmashat
+  item:
+    base: hat.christmas
+    name: "Christmas Hat"

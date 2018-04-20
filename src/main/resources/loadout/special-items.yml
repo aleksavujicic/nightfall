@@ -1,0 +1,25 @@
+points:
+  name: "Points Remaining"
+  base: menu.points
+  lore:
+    description:
+      - "Click to empty your loadout"
+
+close:
+  name: "Close Menu"
+  base: menu.cancel
+
+back:
+  name: "Previous Page"
+  base: menu.left-arrow
+
+forward:
+  name: "Next Page"
+  base: menu.right-arrow
+
+trash:
+  name: "Clear Loadout"
+  base: menu.trash
+  lore:
+    description:
+      - "Click to empty your loadout"

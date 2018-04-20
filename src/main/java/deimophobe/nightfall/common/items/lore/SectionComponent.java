@@ -1,0 +1,31 @@
+package deimophobe.nightfall.common.items.lore;
+
+import deimophobe.nightfall.common.Misc;
+
+import java.util.Map;
+
+/**
+ * Created by Deimophobe on 15/04/17.
+ */
+class SectionComponent implements LoreComponent {
+	
+	private final String name;
+	private final String prefix;
+	
+	SectionComponent(String name, String prefix) {
+		this.name = name;
+		this.prefix = prefix;
+	}
+	
+	@Override
+	public String toString(Map<String, String> sections) {
+		String section = sections.get(name);
+		if (section == null) return "";
+		
+		section = prefix + section;
+		section = section.replaceAll("&r", "&r" + prefix);
+		section = section.replaceAll("\n\\s*", "\n" + prefix);
+		
+		return section;
+	}
+}

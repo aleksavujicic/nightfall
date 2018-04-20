@@ -1,0 +1,186 @@
+basic:
+  nameprefix: "&b"
+
+  lore:
+    - ""
+
+  modifiers:
+    name: "&3"
+    value: "&b"
+    reason: "&d"
+
+
+
+# ======== LOADOUTS ========
+loadout:
+  nameprefix: "&b"
+
+  lore:
+    - "&d&lLoadout costs $cost points."
+    - "&9&l$category"
+    - ""
+    - "${description}"
+
+  prefix:
+    description: "&6"
+
+  modifiers:
+    name: "&3"
+    value: "&b"
+    reason: "&d"
+
+loadout-class:
+  nameprefix: "&b"
+
+  lore:
+    - "&d&lLoadout costs $cost points."
+    - "&9&l$category"
+    - ""
+    - "${description}"
+    - "&3Kit contains the following items:"
+    - "${contains}"
+
+  prefix:
+    description: "&6"
+    contains: "&a"
+
+  modifiers:
+    name: "&3"
+    value: "&b"
+    reason: "&d"
+
+title:
+  nameprefix: "&b"
+
+  lore:
+    - "&9&lTITLE"
+    - ""
+    - "${description}"
+
+  prefix:
+    description: "&6"
+
+  modifiers:
+    name: "&3"
+    value: "&b"
+    reason: "&d"
+
+hat:
+  nameprefix: "&b"
+
+  lore:
+    - "&9&lHAT"
+    - ""
+    - "${description}"
+
+  prefix:
+    description: "&6"
+
+  modifiers:
+    name: "&3"
+    value: "&b"
+    reason: "&d"
+
+
+
+# ======== DWARF ========
+dwarf:
+  nameprefix: "&b"
+
+  lore:
+    - ""
+    - "${description}"
+    - "${flavour}"
+
+  prefix:
+    flavour: "&a&o"
+    description: "&6"
+
+  modifiers:
+    name: "&3"
+    value: "&b"
+    reason: "&d"
+
+
+dwarf-hero:
+  nameprefix: "&6"
+
+  lore:
+    - ""
+    - "${description}"
+    - "${flavour}"
+
+  prefix:
+    flavour: "&e&o"
+    description: "&9"
+
+  modifiers:
+    name: "&3"
+    value: "&b"
+    reason: "&d"
+
+
+
+# ======== MONSTER ========
+monster:
+  nameprefix: "&4"
+
+  lore:
+    - ""
+    - "${description}"
+    - "${flavour}"
+
+  prefix:
+    flavour: "&7&o"
+    description: "&c"
+
+  modifiers:
+    name: "&4"
+    value: "&c"
+    reason: "&2"
+
+monster-hero:
+  nameprefix: "&c"
+
+  lore:
+    - ""
+    - "${description}"
+    - "${flavour}"
+
+  prefix:
+    flavour: "&8&o"
+    description: "&6"
+
+  modifiers:
+    name: "&4"
+    value: "&c"
+    reason: "&2"
+
+
+monster-menu:
+  nameprefix: "&5"
+
+  lore:
+    - "${description}"
+
+  prefix:
+    description: "&6"
+
+monster-egg:
+  nameprefix: "&5"
+
+  lore:
+    - "${description}"
+
+  prefix:
+    description: "&6"
+
+monster-upgrade:
+  nameprefix: "&c"
+
+  lore:
+    - "&dCosts $cost xp."
+    - "${description}"
+
+  prefix:
+    description: "&6"

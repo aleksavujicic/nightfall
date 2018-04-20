@@ -1,0 +1,518 @@
+# ------ SWORDS ------
+runesword:
+  index: 0
+  type: item
+  name: runesword
+  category: sword
+  cost: 20
+  item:
+    name: "Mystic Runesword"
+    base: runesword
+    lore:
+      description:
+       - "Right click to &brunedash&r into\n
+          monsters, damaging or killing them\n
+          instantly with a proc."
+    modifiers:
+      attack: 15
+
+bloodaxe:
+  index: 1
+  type: item
+  name: blood_axe
+  category: sword
+  cost: 20
+  item:
+    name: "Bloodied Waraxe"
+    base: blood-axe
+    lore:
+      description:
+       - "Right click to go into a &4Blood rage&r,\n
+          allowing you to proc, regaining health and mana\n
+          for a short duration."
+    modifiers:
+      attack: 20
+
+hammer:
+  index: 2
+  type: item
+  name: hammer
+  category: sword
+  cost: 16
+  item:
+    name: "Warhammer"
+    base: hammer
+    lore:
+      description:
+       - "Right click to roar, gaining strength, and\n
+          attracting AIs toward you.\n
+          Deals AOE Damage."
+    modifiers:
+      attack: 10
+
+dagger:
+  index: 3
+  type: item
+  name: dagger
+  category: sword
+  cost: 16
+  item:
+    name: "Elven Dagger"
+    base: dagger
+    lore:
+      description:
+       - "An elven blade, light but deadly.\n
+          Right click to &bEviscerate&r a monster,\n
+          dealing massive damage. Takes 4 minutes to\n
+          charge, 3 seconds reduction per kill."
+    modifiers:
+      attack: 15
+      speed: 30
+      kb-resist: 25
+
+scepter:
+  index: 4
+  type: item
+  name: scepter
+  category: sword
+  cost: 16
+  item:
+    name: "Arcane Scepter"
+    base: scepter
+    lore:
+        description:
+        - "Left click to shoot a beam that damages mobs\n
+           and gives dwarves resistance for a short duration.\n
+           Right click to create an arcane mark that\n
+           strengthens all dwarves inside it and restores mana."
+    modifiers:
+      attack: 10
+
+soulblade:
+  index: 5
+  type: item
+  name: soul_blade
+  category: sword
+  cost: 20
+  item:
+    name: "Soul Blade"
+    base: soulblade
+    lore:
+      description:
+      - "Attacking enemy monsters absorbs\n
+         their soul, storing 4 damage per hit.\n
+         Right click to release the charge,\n
+         dealing damage and knockback.\n
+         Requires at least 10 stacks to release."
+    modifiers:
+      attack: 15
+
+rapier:
+  enabled: false
+  index: 6
+  type: item
+  name: rapier
+  category: sword
+  cost: 20
+  item:
+    name: "Rapier"
+    base: rapier
+    lore:
+      description:
+      - "Hitting player controlled mobs grants\n
+         a stack up to &b40&r stacks for &b50&r max attack.\n
+         Right click to leap forward, using &e8&r stacks."
+    modifiers:
+      attack: 15
+
+glaive:
+  enabled: false
+  index: 7
+  type: item
+  name: glaive
+  category: sword
+  cost: 16
+  item:
+    name: "Glaive"
+    base: glaive
+    lore:
+      description:
+       - "ED make this work."
+
+hunting-claws:
+  enabled: false
+  index: 8
+  type: item
+  name: hunting_claws
+  category: sword
+  cost: 20
+  item:
+    name: "Hunting Claws"
+    base: hunting
+    lore:
+      description:
+       - "Still broked."
+
+
+# ------ BOWS ------
+longbow:
+  index: 9
+  type: item
+  name: longbow
+  category: bow
+  cost: 18
+  item:
+    name: "Longbow"
+    base: longbow
+    lore:
+      description:
+       - "Shooting player controlled mobs\n
+          temporarily increases bow power by &b20&r,\n
+          for a max of &b200&r power for &e10 seconds&r.\n
+          Shooting AI controlled mobs lengthens\n
+          the increase time by &e2 seconds&r."
+    modifiers:
+      power: 80
+
+volcanic:
+  index: 10
+  type: item
+  name: volcanic
+  category: bow
+  cost: 18
+  item:
+    name: "Volcanic Gauntlet"
+    base: volcanic
+    lore:
+      description:
+       - "Charge up a lined blast of fire\n
+          that pierces everything in\n
+          its path. Uses 3 arrows a shot."
+    modifiers:
+      attack: 15
+      power: 70
+
+phoenix:
+  index: 11
+  type: item
+  name: phoenix_bow
+  category: bow
+  cost: 16
+  item:
+    name: "Phoenix Bow"
+    base: phoenix-bow
+    lore:
+      description:
+       - "Left click to enable &bPower Shot Mode&r.\n
+          Power shots do &b200&r power damage that\n
+          pierces half of target arrow resistance\n
+          and gives a &b5&r second proc on kill.\n
+          Cooldown of &e30s&r."
+    modifiers:
+      power: 50
+
+crossbow:
+  index: 12
+  type: item
+  name: crossbow
+  category: bow
+  cost: 16
+  item:
+    name: "Crossbow"
+    base: crossbow
+    lore:
+      description:
+       - "A crossbow that can fire with\n
+          no draw time.\n
+          Uses two arrows and has a\n
+          slight reload time."
+    modifiers:
+      power: 90
+
+lightbow:
+  index: 13
+  type: item
+  name: lightbow
+  category: bow
+  cost: 12
+  item:
+    name: "Lightbow"
+    base: lightbow
+    lore:
+      description:
+       - "This bow fires special arrows that\n
+          create lamps in the walls.\n
+          Pierces half of target arrow resistance.\n
+          You are also immune to darkness."
+    modifiers:
+      power: 30
+
+jade-bow:
+  index: 14
+  type: item
+  name: jade_bow
+  category: bow
+  cost: 12
+  item:
+    name: "Jade Bow"
+    base: jade-bow
+    lore:
+      description:
+       - "A magical bow, made from jade.\n
+          Shooting other dwarves gives them\n
+          a short duration proc. Cost 2 arrows."
+    modifiers:
+      power: 10
+
+warpweaver:
+  index: 15
+  type: item
+  name: warpweaver
+  category: bow
+  cost: 12
+  item:
+    name: "Warpweaver Bow"
+    base: warpweaver
+    lore:
+      description:
+       - "Left click to activate effect.\n
+          When activated, you will teleport\n
+          to where the arrow lands.\n
+          Getting hit will cancel the teleport.\n
+          Has a 30 second cooldown."
+    modifiers:
+      power: 50
+
+turret:
+  enabled: false
+  index: 17
+  type: item
+  name: turret
+  category: bow
+  cost: 16
+  item:
+    name: "Turret"
+    material: dispenser
+    lore:
+      description:
+       - "A turret that fires arrows."
+    modifiers:
+      power: 80
+
+
+
+# ------ ALES ------
+safety-juice:
+  index: 18
+  type: item
+  name: safety_juice
+  category: ale
+  cost: 4
+  item:
+    name: "Safety Juice"
+    base: safety-juice
+    lore:
+      description:
+       - "The starting ale for new players.\n
+          Auto heal for &b120&r mana or\n
+          Left Click to heal for &b100&r mana."
+    modifiers:
+      mana-cost: 120
+
+hearty:
+  index: 19
+  type: item
+  name: hearty_ale
+  category: ale
+  cost: 8
+  item:
+    name: "Hearty Ale"
+    base: hearty-ale
+    lore:
+      description:
+       - "Left click to heal yourself for &b100&r mana.\n
+          Has passive &b6&r extra hearts. Also gives a\n
+          &eresistance&r buff for &b4&r seconds."
+    modifiers:
+      health: -4
+      mana-cost: 100
+
+pendant:
+  index: 20
+  type: item
+  name: pendant
+  category: ale
+  cost: 8
+  item:
+    name: "Ruby Pendant"
+    base: pendant
+    lore:
+      description:
+       - "Left click to heal yourself\n
+          for &b200&r mana and gain\n
+          &b20&r absorption hearts.\n
+          Has passive regeneration."
+    modifiers:
+      mana-cost: 200
+
+regrowth:
+  index: 21
+  type: item
+  name: regrowth_star
+  category: ale
+  cost: 6
+  item:
+    name: "Regrowth Star"
+    material: diamond
+    lore:
+      description:
+       - "Left click to heal yourself\n
+          for &b100&r mana.\n
+          Right click on dwarves to heal\n
+          them and their armour for &b20&r mana."
+    modifiers:
+      mana-cost: 100
+
+chug:
+  index: 22
+  type: item
+  name: chugging_ale
+  category: ale
+  cost: 8
+  item:
+    name: "Chugging Ale"
+    base: chugging-ale
+    lore:
+      description:
+       - "Left click to heal for &b6&r hearts.\n
+          Uses &b25&r mana. You are able to spam\n
+          this as much as you want\n
+          so be careful and watch your mana!\n
+          You also gain &espeed&r for &b1&r second\n
+          each sip."
+    modifiers:
+      mana-cost: 25
+
+strong:
+  index: 23
+  type: item
+  name: strong_ale
+  category: ale
+  cost: 8
+  item:
+    name: "Potion Seller's Strongest Potion"
+    base: strong-ale
+    lore:
+      description:
+       - "A very strong potion, which gives\n
+          you &e75% resistance&r making you feel like\n
+          a hero. However, it uses &b400&r mana."
+    modifiers:
+      mana-cost: 400
+
+
+# ------ ARMOURS ------
+sturdy:
+  index: 27
+  type: item
+  name: sturdy
+  category: armour
+  cost: 8
+  item:
+    name: "Sturdy Armour"
+    base: sturdy
+    lore:
+      description:
+       - "Wearing this improves your armour\n
+          capacity by 40% and grants you 4 more\n
+          hearts allowing you to survive longer."
+    modifiers:
+      health: 14
+      armour-durability: 40
+
+quiver:
+  index: 28
+  type: item
+  name: quiver
+  category: armour
+  cost: 8
+  item:
+    name: "Massive Quiver"
+    base: quiver
+    lore:
+      description:
+       - "Increases your max arrow capacity to 30\n
+          and grants 1 arrow per kill."
+    modifiers:
+      quiver: 30
+
+studded:
+  index: 29
+  type: item
+  name: studded
+  category: armour
+  cost: 8
+  item:
+    name: "Studded Armour"
+    base: studded
+    lore:
+      description:
+       - "Increases movement speed by 20%."
+    modifiers:
+      speed: 20
+
+fairy-band:
+  index: 30
+  type: item
+  name: fairy_band
+  category: armour
+  cost: 8
+  item:
+    name: "Fairy Band"
+    base: fairy-band
+    lore:
+      description:
+       - "Grants a buff cycle of the following.\n
+          -Regeneration\n
+          -Haste\n
+          -Resistance\n
+          -Night Vision\n
+          -Speed\n
+          -Strength\n
+          -Health Boost\n
+          -Fire Resist"
+
+berserker:
+  index: 31
+  type: item
+  name: berserker
+  category: armour
+  cost: 8
+  item:
+    name: "Berserker Armour"
+    base: berserker
+    lore:
+      description:
+       - "Gives you extra attack and speed,\n
+          but reduces your hearts and\n
+          durability. Lower armour durability\n
+          give you more strength."
+    modifiers:
+      attack: 5
+      speed: 10
+      health: 6
+      armour-durability: -30
+
+nature-suit:
+  index: 32
+  type: item
+  name: nature_suit
+  category: armour
+  cost: 4
+  item:
+    name: "Taproot Armour"
+    base: nature-suit
+    lore:
+      description:
+       - "Grants Water Breathing, Poison Resistance,\n
+          Fire Resistance, and Depth Strider."

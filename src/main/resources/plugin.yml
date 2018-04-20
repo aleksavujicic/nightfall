@@ -1,0 +1,5 @@
+main: deimophobe.nightfall.common.NightfallCommonPlugin
+name: NightfallCommon
+version: 0.1
+author: Deimophobe
+description: The common library plugin for the nightfall game.

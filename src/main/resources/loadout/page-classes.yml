@@ -1,0 +1,574 @@
+warrior-class:
+  index: 0
+  cost: 64
+  category: kit
+  type: multi
+  pieces:
+    - runesword
+    - phoenix_bow
+    - safety_juice
+    - sturdy
+    - avenge
+    - resurrection
+  consumables:
+    torch: 64
+    mortar: 64
+    cobblestone: 192
+    wrench: 2
+  item:
+    template: "loadout-class"
+    name: "Warrior Kit"
+    base: runesword
+    lore:
+      description:
+       - "The basic all around fighter with the \n
+          ability to dash and constantly rampage\n
+          as well as automated healing."
+
+      contains:
+       - "*Mystic Runesword\n
+          *Phoenix Bow\n
+          *Safety Juice\n
+          *Sturdy Armour\n
+          *Avenge\n
+          *Resurrection\n
+          *64 Torches\n
+          *64 Mortar\n
+          *192 Cobblestone\n
+          *2 Wrenches"
+
+ranger-class:
+  index: 1
+  cost: 64
+  category: kit
+  type: multi
+  pieces:
+    - dagger
+    - longbow
+    - quiver
+    - pendant
+    - darkvision
+  consumables:
+    torch: 64
+    mortar: 64
+    cobblestone: 192
+    charm: 1
+    wizard_mortar: 32
+    lamp: 64
+  item:
+    template: "loadout-class"
+    name: "Ranger Kit"
+    base: longbow
+    lore:
+      description:
+       - "Quick and agile, The Ranger is a perfect\n
+          choice for single target combat.\n
+          With the ability to poison and eviscerate\n
+          as well as fire hard hitting bow shots."
+
+      contains:
+       - "*Elven Dagger\n
+          *Rangers Longbow\n
+          *Ruby Pendant\n
+          *Massive Quiver\n
+          *Darkvision\n
+          *64 Torches\n
+          *64 Mortar\n
+          *192 Cobblestone\n
+          *1 Consecrating Charm\n
+          *32 Wizard Mortar\n
+          *64 Enchanted Lamps"
+
+berserker-class:
+  index: 2
+  cost: 64
+  category: kit
+  type: multi
+  pieces:
+    - blood_axe
+    - crossbow
+    - strong_ale
+    - berserker
+    - avenge
+  consumables:
+    torch: 64
+    mortar: 64
+    cobblestone: 192
+    wrench: 2
+  item:
+    template: "loadout-class"
+    name: "Berserker Kit"
+    base: blood-axe
+    lore:
+      description:
+       - "Brute strength is all that matters. \n
+          With less defense and higher mobility\n
+          These fighters cut through foes like butter\n
+          but can be taken down just as fast."
+
+      contains:
+       - "*Bloodied Waraxe\n
+          *Crossbow\n
+          *Strong Ale\n
+          *Berserker Armour\n
+          *Avenge\n
+          *64 Torches\n
+          *64 Mortar\n
+          *192 Cobblestone\n
+          *2 Wrenches"
+
+elven-class:
+  index: 3
+  cost: 64
+  category: kit
+  type: multi
+  pieces:
+    - dagger
+    - lightbow
+    - safety_juice
+    - studded
+    - nature_suit
+    - slowfall
+    - avenge
+  consumables:
+    wizard_mortar: 32
+    cobblestone: 192
+    wrench: 2
+    charm: 2
+    proc_bottle: 3
+  item:
+    template: "loadout-class"
+    name: "Elven Kit"
+    base: dagger
+    lore:
+      description:
+       - "Unlike their Ranger counterparts, this class\n
+          makes you feel like an elf, with increased speed, \n
+          low light vision, and quick strikes."
+
+      contains:
+       - "*Dagger\n
+          *Lightbow\n
+          *Safety Juice\n
+          *Studded Armour\n
+          *Taproot Armour\n
+          *Slowfall\n
+          *Avenge\n
+          *32 Wizard Mortar\n
+          *192 Cobblestone\n
+          *2 Wrenches\n
+          *2 Consecrating Charms\n
+          *3 Proc in a Bottles"
+
+gnome-class:
+  index: 4
+  cost: 64
+  category: kit
+  type: multi
+  pieces:
+    - hammer
+    - volcanic
+    - pendant
+    - quiver
+    - tombmaker
+    - avenge
+  consumables:
+    torch: 64
+    mortar: 64
+    cobblestone: 192
+    charm: 2
+    slab: 3
+  item:
+    template: "loadout-class"
+    name: "Gnome Kit"
+    base: pendant
+    lore:
+      description:
+       - "Gnomes were always magically adept\n
+          and this shows with their mighty volcanic\n
+          gauntlets. Using three arrows per shot\n
+          Demons burn and crumble. Using the\n
+          magic of the Quiver artifact\n
+          the Gnomes were able to\n
+          sustain their rate of fire."
+
+      contains:
+       - "*Hammer\n
+          *Volcanic Gauntlet\n
+          *Ruby Pendant\n
+          *Massive Quiver\n
+          *Avenge\n
+          *64 Torches\n
+          *64 Mortar\n
+          *192 Cobblestone\n
+          *2 Consecrating Charms\n
+          *3 Slabs"
+
+healer-class:
+  index: 5
+  cost: 64
+  category: kit
+  type: multi
+  pieces:
+    - scepter
+    - jade_bow
+    - regrowth_star
+    - nature_suit
+    - slowfall
+  consumables:
+    heal_station: 10
+    charm: 1
+    torch: 64
+    mortar: 64
+    cobblestone: 192
+  item:
+    template: "loadout-class"
+    name: "Healer Kit"
+    material: diamond
+    lore:
+      description:
+       - "Go heal ppl."
+
+      contains:
+       - "*Arcane Scepter\n
+          *Jade Bow\n
+          *Regrowth Star\n
+          *Taproot Armour\n
+          *Slowfall\n
+          *10 Healing Stations\n
+          *1 Consecrating Charm\n
+          *64 Torches\n
+          *64 Mortar\n
+          *192 Cobblestone"
+
+brawler-class:
+  index: 9
+  cost: 64
+  category: kit
+  type: multi
+  pieces:
+    - volcanic
+    - berserker
+    - sturdy
+    - quiver
+    - hearty_ale
+    - avenge
+    - resurrection
+    - darkvision
+  consumables:
+    wrench: 4
+    slab: 2
+    charm: 1
+    torch: 64
+    mortar: 64
+    cobblestone: 192
+  item:
+    template: "loadout-class"
+    name: "Brawler Kit"
+    base: volcanic
+    lore:
+      description:
+       - "PUNCHY PUNCHY PUNCHY"
+
+      contains:
+       - "*Volcanic Gauntlet\n
+          *Hearty Ale\n
+          *Berserker Armour\n
+          *Sturdy Armour\n
+          *Massive Quiver\n
+          *Dark Vision\n
+          *Avenge\n
+          *Resurrection\n
+          *1 Consecrating Charm\n
+          *4 Wrenches\n
+          *2 Slabs\n
+          *64 Torches\n
+          *64 Mortar\n
+          *192 Cobblestone"
+
+mystic-class:
+  index: 10
+  cost: 64
+  category: kit
+  type: multi
+  pieces:
+    - scepter
+    - warpweaver
+    - strong_ale
+    - nature_suit
+    - fairy_band
+    - slowfall
+    - darkvision
+    - resurrection
+  consumables:
+    charm: 2
+    proc-bottle: 4
+    lamp: 32
+    wizard-mortar: 32
+    cobblestone: 192
+  item:
+    template: "loadout-class"
+    name: "Mystic Kit"
+    base: scepter
+    lore:
+      description:
+       - "Mystic stuff."
+
+      contains:
+       - "*Arcane Scepter\n
+          *Warpweaver Bow\n
+          *Strong Ale\n
+          *Fairy Band\n
+          *Taproot Armour\n
+          *Slowfall\n
+          *Dark Vision\n
+          *Resurrection\n
+          *2 Consecrating Charms\n
+          *4 Procs in Bottles\n
+          *32 Enchanted Lamps\n
+          *32 Wizard Mortar\n
+          *192 Cobblestone"
+
+builder-class:
+  index: 11
+  cost: 64
+  category: kit
+  type: multi
+  pieces:
+    - hammer
+    - lightbow
+    - safety_juice
+    - sturdy
+    - bricklayer
+    - tombmaker
+    - chesto
+  consumables:
+    lamp: 128
+    wizard-mortar: 64
+    slab: 7
+    torch: 128
+    mortar: 128
+    cobblestone: 768
+  item:
+    template: "loadout-class"
+    name: "Builder's Kit"
+    base: hammer
+    lore:
+      description:
+       - "Build stuff."
+
+      contains:
+       - "*Hammer\n
+          *Lightbow\n
+          *Safety Juice\n
+          *Sturdy Armour\n
+          *Bricklayer\n
+          *Tombmaker\n
+          *Chestomatic\n
+          *7 Slabs\n
+          *128 Enchanted Lamps\n
+          *64 Wizard Mortar\n
+          *128 Torches\n
+          *128 Mortar\n
+          *768 Cobblestone"
+
+#magmar-class:
+#  enabled: false
+#  index: 12
+#  cost: 64
+#  category: kit
+#  type: multi
+#  pieces:
+#    - scepter
+#    - volcanic
+#    - healingglow
+#    - quiver
+#    - slowfall
+#  consumables:
+#    heal_station: 10
+#    slab: 2
+#    mortar: 32
+#    cobblestone: 128
+#    charm: 2
+#  item:
+#    template: "loadout-class"
+#    name: "Magmar Kit"
+#    material: diamond_hoe
+#    lore:
+#      description:
+#       - "These mages harnessed the power of\n
+#          Magma to imbue into their\n
+#          weaponry and potions."
+#
+#      contains:
+#       - "*Scepter of Magma\n
+#          *Volcanic Gauntlet\n
+#          *Healing Glow\n
+#          *Massive Quiver\n
+#          *Slowfall\n
+#          *10 Healing Stations\n
+#          *2 Consecrating Charms\n
+#          *32 Mortar\n
+#          *128 Cobblestone\n
+#          *2 Slabs"
+#
+#paladin-class:
+#  enabled: false
+#  index: 9
+#  cost: 64
+#  category: kit
+#  type: multi
+#  pieces:
+#    - hammer
+#    - lightbow
+#    - hearty_ale
+#    - sturdy
+#  consumables:
+#    torch: 32
+#    mortar: 32
+#    cobblestone: 128
+#    charm: 3
+#    wizard_mortar: 32
+#    lamp: 24
+#  item:
+#    template: "loadout-class"
+#    name: "Paladin Kit"
+#    material: diamond_hoe
+#    lore:
+#      description:
+#       - "The Followers of the Light\n
+#          Able to restore both their mana and armour\n
+#          with blessed warhammers, these warriors\n
+#          can remain longer on the defense then\n
+#          most other classes."
+#
+#      contains:
+#       - "*Warhammer\n
+#          *Lightbow\n
+#          *Hearty Ale\n
+#          *Sturdy Armour\n
+#          *32 Torches\n
+#          *32 Mortar\n
+#          *128 Cobblestone\n
+#          *3 Consecrating Charms\n
+#          *32 Wizard Mortar\n
+#          *24 Enchanted Lamps"
+#
+#cleric-class:
+#  enabled: false
+#  index: 10
+#  cost: 64
+#  category: kit
+#  type: multi
+#  pieces:
+#    - hammer
+#    - jade_bow
+#    - regrowth_star
+#    - fairy_band
+#  consumables:
+#    torch: 64
+#    mortar: 64
+#    cobblestone: 256
+#    charm: 2
+#    wizard_mortar: 64
+#    lamp: 32
+#  item:
+#    template: "loadout-class"
+#    name: "Cleric Kit"
+#    material: diamond_hoe
+#    lore:
+#      description:
+#       - "Mystical healers not suited for front line\n
+#          combat. Able to heal others give others a rampage\n
+#          as well as restore their own energy, but can be killed\n
+#          if not well protected."
+#
+#      contains:
+#       - "*Warhammer\n
+#          *Jade Bow\n
+#          *Regrowth Star\n
+#          *Fairy Band\n
+#          *64 Torches\n
+#          *64 Mortar\n
+#          *256 Cobblestone\n
+#          *2 Consecrating Charms\n
+#          *64 Wizard Mortar\n
+#          *32 Enchanted Lamps"
+#
+#hunter-class:
+#  enabled: false
+#  index: 11
+#  cost: 64
+#  category: kit
+#  type: multi
+#  pieces:
+#    - hunting_claws
+#    - warpweaver
+#    - pendant
+#    - studded
+#    - avenge
+#  consumables:
+#    torch: 32
+#    mortar: 32
+#    cobblestone: 128
+#    charm: 1
+#    wrench: 2
+#  item:
+#    template: "loadout-class"
+#    name: "Hunter Kit"
+#    material: diamond_hoe
+#    lore:
+#      description:
+#       - "Here and there, without a trace\n
+#          These sneaky assassins can warp around\n
+#          the battlefield striking with their furious claws."
+#
+#      contains:
+#       - "*Hunting Claws\n
+#          *Warpweaver Bow\n
+#          *Ruby Pendant\n
+#          *Studded Armour\n
+#          *Avenge\n
+#          *32 Torches\n
+#          *32 Mortar\n
+#          *128 Cobblestone\n
+#          *1 Consecrating Charm\n
+#          *2 Wrenches"
+
+random-class:
+  index: 36
+  cost: 0
+  type: random
+  item:
+    template: "loadout"
+    name: "Random Kit"
+    material: dead_bush
+    lore:
+      description:
+       - "Who knows what you'll get?"
+
+untimely:
+  index: 44
+  cost: 64
+  category: kit
+  type: multi
+  pieces:
+    - dagger
+    - lightbow
+    - safety_juice
+    - studded
+    - bricklayer
+    - tombmaker
+    - slowfall
+    - chesto
+    - compass
+    - clock
+    - untimely_demise
+  random-selectable: false
+  item:
+    template: "loadout"
+    name: "Untimely Demise"
+    base: doom-clock.off
+    lore:
+      description:
+       - "You will be guaranteed to plague."
