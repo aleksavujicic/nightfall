@@ -42,6 +42,8 @@ public abstract class Plague {
 	}
 	
 	protected boolean checkEnd() {
+		if (hasEnded()) return true;
+		
 		if (getAmountToKill(true) == 0) {
 			endPlague();
 			return true;

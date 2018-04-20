@@ -32,7 +32,7 @@ class ZombiePlague extends Plague {
 		}
 		
 		// TODO Do this every 30sec or so?
-		checkPlagueCount(true);
+		tryPlagueMore();
 	}
 	
 	@Override
@@ -64,7 +64,9 @@ class ZombiePlague extends Plague {
 			public void run() {
 				// Convert to zombie.
 				Player player = dwarf.getPlayer();
-				if (player.isOnline()) {
+				
+				// If dwarf is still online and still alive.
+				if (DwarfManager.getManager().isGamePlayer(player)) {
 					player.removePotionEffect(PotionEffectType.CONFUSION);
 					
 					ItemStack[] inv = player.getInventory().getContents();
@@ -78,6 +80,7 @@ class ZombiePlague extends Plague {
 					numZombiesAlive++;
 				} else {
 					DwarfManager.getManager().removeOfflinePlayer(player.getUniqueId());
+					tryPlagueMore();
 				}
 				
 			}
@@ -86,7 +89,7 @@ class ZombiePlague extends Plague {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				checkPlagueCount(false);
+				checkEnd();
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), 600);
 		return true;
@@ -94,24 +97,17 @@ class ZombiePlague extends Plague {
 	
 	void notifyZombieDeath() {
 		numZombiesAlive--;
-		boolean plagueMore = (numZombiesAlive == 0);
-		checkPlagueCount(plagueMore);
+		tryPlagueMore();
 	}
 	
-	private void checkPlagueCount(boolean plagueMore) {
+	private void tryPlagueMore() {
+		checkEnd();
 		if (hasEnded()) return;
 		
-		if (getAmountToKill(true) == 0) {
-			endPlague();
-			return;
-		}
-		
-		if (plagueMore) {
-			int toPlague = (int) Math.ceil((double) getAmountToKill(false) / 4);
-			for (int i = 0; i < toPlague; i++) {
-				Dwarf dwarf = getRandomPlagueable();
-				convertToZombie(dwarf);
-			}
+		int toPlague = (int) Math.ceil((double) getAmountToKill(false) / 4);
+		for (int i = 0; i < toPlague; i++) {
+			Dwarf dwarf = getRandomPlagueable();
+			convertToZombie(dwarf);
 		}
 	}
 	
