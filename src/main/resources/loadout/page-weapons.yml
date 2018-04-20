@@ -4,7 +4,7 @@ runesword:
   type: item
   name: runesword
   category: sword
-  cost: 24
+  cost: 20
   item:
     name: "Mystic Runesword"
     base: runesword
@@ -21,7 +21,7 @@ bloodaxe:
   type: item
   name: blood_axe
   category: sword
-  cost: 24
+  cost: 20
   item:
     name: "Bloodied Waraxe"
     base: blood-axe
