@@ -106,11 +106,6 @@
             <url>http://repo.md-5.net/content/groups/public/</url>
         </repository>
         <repository>
-            <id>project.local</id>
-            <name>project</name>
-            <url>file:${project.basedir}/../Nightfall-Common/</url>
-        </repository>
-        <repository>
             <id>aikar</id>
             <url>https://repo.aikar.co/content/groups/aikar/</url>
         </repository>
