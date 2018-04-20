@@ -435,18 +435,6 @@ public class GameListener implements Listener {
 					Game.getGame().resetPlayer(player);
 				}
 			}.runTaskLater(NightfallPlugin.getPlugin(), 10);
-		} else {
-			MonsterManager mm = MonsterManager.getManager();
-			if (!mm.isGamePlayer(player)) {
-				MonsterPlayer mp = mm.addGamePlayer(player, false);
-				if (mp != null)
-					mp.kill(true);
-			}
-//			new BukkitRunnable() {
-//				@Override
-//				public void run() {
-//				}
-//			}.runTaskLater(NightfallPlugin.getPlugin(), 10);
 		}
 		event.setRespawnLocation(GameMap.getCurrentMap().getLobbySpawn());
 	}
