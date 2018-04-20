@@ -1,14 +1,15 @@
 package deimophobe.nightfall.monster.doom;
 
+import com.google.common.collect.Iterators;
+import com.google.common.collect.PeekingIterator;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GameSize;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.mob.MobType;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -16,7 +17,7 @@ import java.util.function.Consumer;
  * Created by Deimophobe on 29/03/18.
  */
 class DefaultSpawner implements MonsterSpawner {
-	private final Iterator<MobType> specialIterator;
+	private final PeekingIterator<MobType> specialIterator;
 	private final Consumer<MonsterPlayer> regularSpawner;
 	
 	DefaultSpawner(SpecialSpawn[] specialSpawns, MobType[] regulars) {
@@ -28,7 +29,7 @@ class DefaultSpawner implements MonsterSpawner {
 			}
 		}
 		
-		specialIterator = specialTypes.iterator();
+		specialIterator = Iterators.peekingIterator(specialTypes.iterator());
 		
 		if (regulars.length == 0) {
 			regularSpawner = mp -> {
@@ -44,7 +45,9 @@ class DefaultSpawner implements MonsterSpawner {
 	@Override
 	public void spawnMonster(MonsterPlayer monster) {
 		if (specialIterator.hasNext()) {
-			monster.spawnMob(specialIterator.next(), SpawnMethod.DOOM);
+			MobType type = specialIterator.peek();
+			boolean success = monster.spawnMob(type, SpawnMethod.DOOM);
+			if (success) specialIterator.next(); // Successfully spawned, remove special
 		} else {
 			regularSpawner.accept(monster);
 		}

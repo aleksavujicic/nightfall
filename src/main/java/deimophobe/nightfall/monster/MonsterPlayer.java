@@ -166,12 +166,16 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	public boolean spawnMob(Mob mob, SpawnMethod spawnMethod) {
+		Logger logger = NightfallPlugin.logger();
+		
 		if (this.mob != null) kill(false);
+		if (player.isDead()) {
+			logger.warning("Could not spawn " + getName() + " as mob " + mob.getType() + " with method " + spawnMethod + " as player is dead.");
+			return false;
+		}
 		
 		MobSpawnEvent event = new MobSpawnEvent(this, mob, spawnMethod);
 		Bukkit.getPluginManager().callEvent(event);
-		
-		Logger logger = NightfallPlugin.logger();
 		
 		this.mob = mob;
 		try {
