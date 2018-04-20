@@ -1,0 +1,4 @@
+name: NightfallBungee
+main: deimophobe.nightfall.bungee.NightfallBungeePlugin
+version: 0.1
+author: Deimophobe

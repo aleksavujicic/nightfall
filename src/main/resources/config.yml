@@ -1,0 +1,18 @@
+# Main folder with all the stuff - relative to home
+nightfall-folder: Nightfall/Server
+
+# All other paths are relative to nightfall-folder
+
+
+nightfall-game:
+  src-folder: Nightfall
+  run-folder-prefix: nightfall-game-
+
+map-editor:
+  src-folder: MapEditor
+  run-folder-prefix: map-edit-
+
+
+template-folder: Template
+run-folder: Running
+lobby-folder: Lobby
