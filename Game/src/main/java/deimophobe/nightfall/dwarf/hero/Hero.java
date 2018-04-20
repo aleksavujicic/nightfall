@@ -28,12 +28,6 @@ public class Hero extends Dwarf {
 	}
 	
 	@Override
-	public void onRemove() {
-		super.onRemove();
-		//SkinManager.getManager().removeSkinChange(this);
-	}
-	
-	@Override
 	public PlagueStatus getPlagueStatus() {
 		return PlagueStatus.IMMUNE;
 	}

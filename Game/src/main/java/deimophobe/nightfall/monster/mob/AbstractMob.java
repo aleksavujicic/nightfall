@@ -314,7 +314,7 @@ public abstract class AbstractMob implements Mob {
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
-		int xpGain = 0;
+		int xpGain;
 		switch (damage.getType()) {
 			// Melee type damages
 			case MELEE:
@@ -342,9 +342,7 @@ public abstract class AbstractMob implements Mob {
 				break;
 		}
 		int finalXpGain = xpGain;
-		damage.addPostDamageHandler(() -> {
-			monster.gainXP(finalXpGain);
-		});
+		damage.addPostDamageHandler(() -> monster.gainXP(finalXpGain));
 	}
 	
 	@Override
@@ -531,7 +529,7 @@ public abstract class AbstractMob implements Mob {
 		dyingEntity.setCollidable(false);
 		dyingEntity.setCustomName(getTitledName());
 		dyingEntity.getEquipment().setArmorContents(monster.getPlayer().getInventory().getArmorContents());
-		dyingEntity.getEquipment().setItemInMainHand(monster.getHeldItem());;
+		dyingEntity.getEquipment().setItemInMainHand(monster.getHeldItem());
 		
 		dyingEntity.setHealth(0);
 	}

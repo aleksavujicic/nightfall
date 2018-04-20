@@ -31,7 +31,6 @@ public class CosmeticManager {
 		this.hatMenu = new HatMenu();
 	}
 	
-	// TODO IMPORTANT CHANGE TO OFFLINE PLAYER OR LIKE UUID OR SOMETHING
 	// ----- COSEMTICS -----
 	private final Map<UUID, Cosmetics> cosmetics = new HashMap<>();
 	public Cosmetics getCosmetic(Player player) {

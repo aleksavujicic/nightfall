@@ -104,8 +104,6 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 		});
 		damage.setNoDamageTicks(8);
 		damage.fire();
-		
-		;
 	};
 	
 	private void shootLance() {

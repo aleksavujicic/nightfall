@@ -2,7 +2,6 @@ package deimophobe.nightfall.dwarf.kit.healing;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.game.Game;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;

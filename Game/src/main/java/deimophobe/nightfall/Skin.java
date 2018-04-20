@@ -36,7 +36,7 @@ public class Skin {
 	
 	
 	
-	private static Map<String, Skin> skins = new HashMap<>();
+	private static final Map<String, Skin> skins = new HashMap<>();
 	static {
 		ConfigurationSection skinData = NightfallPlugin.getInternalFileConfig("skin.yml");
 		for (String key : skinData.getKeys(false)) {

@@ -1,7 +1,6 @@
 package deimophobe.nightfall.plague;
 
 import deimophobe.nightfall.common.Misc;
-import org.bukkit.Bukkit;
 
 import java.util.HashSet;
 import java.util.Set;

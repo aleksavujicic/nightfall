@@ -639,6 +639,7 @@ public class GameListener implements Listener {
 		
 		if (!Game.getGame().isGameEntity(entity)) {
 			event.setCancelled(true);
+			//noinspection UnnecessaryReturnStatement
 			return;
 		}
 		

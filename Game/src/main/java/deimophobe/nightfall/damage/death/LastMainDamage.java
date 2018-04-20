@@ -85,6 +85,7 @@ public class LastMainDamage {
 	}
 	
 	private static final int MAX_LIFETIME = 10*1000;
+	@SuppressWarnings("RedundantIfStatement")
 	public boolean shouldReplace(LastMainDamage occurance) {
 		if (occurance == null) return true;
 		

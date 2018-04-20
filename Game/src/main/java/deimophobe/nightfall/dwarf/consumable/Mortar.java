@@ -3,7 +3,6 @@ package deimophobe.nightfall.dwarf.consumable;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.blocks.BlockConverter;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

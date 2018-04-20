@@ -239,6 +239,6 @@ public class DwarfShovel extends AbstractItem {
 			return weight;
 		}
 		
-		void onDwarfReward(Dwarf dwarf) {};
+		void onDwarfReward(Dwarf dwarf) {}
 	}
 }

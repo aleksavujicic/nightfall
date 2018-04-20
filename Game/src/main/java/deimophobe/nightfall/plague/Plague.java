@@ -1,12 +1,12 @@
 package deimophobe.nightfall.plague;
 
-import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.monster.MonsterManager;
 
 import java.util.Set;
@@ -83,7 +83,7 @@ public abstract class Plague {
 		return dwarf.getPlagueStatus() == Dwarf.PlagueStatus.PLAGUED;
 	}
 	
-	public static final int getAmountToKill(boolean includePlagueds) {
+	public static int getAmountToKill(boolean includePlagueds) {
 		// Get numbers of various player sets
 		int numGamePlayers = Game.getGame().getNumberOfPlayers();
 		int numDwarves = DwarfManager.getManager().getNumberOfPlayers();
