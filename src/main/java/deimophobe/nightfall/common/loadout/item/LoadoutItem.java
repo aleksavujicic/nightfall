@@ -104,7 +104,7 @@ public abstract class LoadoutItem implements MenuItem<Loadout>, Comparable<Loado
 		itemStack.setAmount(cost == 0 ? 1 : cost);
 	}
 	
-	public abstract void modify(LoadoutConstructable construct);
+	public abstract void modify(Loadout loadout, LoadoutConstructable construct);
 	
 	public boolean isRandomSelectable() {
 		return randomSelectable && enabled;

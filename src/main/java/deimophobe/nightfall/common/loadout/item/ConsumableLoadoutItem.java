@@ -1,6 +1,7 @@
 package deimophobe.nightfall.common.loadout.item;
 
 import deimophobe.nightfall.common.loadout.Category;
+import deimophobe.nightfall.common.loadout.Loadout;
 import deimophobe.nightfall.common.loadout.LoadoutConstructable;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -21,7 +22,7 @@ public class ConsumableLoadoutItem extends LoadoutItem {
 	}
 	
 	@Override
-	public void modify(LoadoutConstructable construct) {
+	public void modify(Loadout loadout, LoadoutConstructable construct) {
 		tryIncrementConsumable(construct, consumable, quantity);
 	}
 }

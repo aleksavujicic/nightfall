@@ -59,7 +59,10 @@ public class LoadoutManager {
 	/** Useful for checking malformed loadout items */
 	public void modifyAll(LoadoutConstructable constructable) {
 		for (LoadoutItem item : items.values()) {
-			item.modify(constructable);
+			item.modify(new Loadout(), constructable);
+		}
+		for (Category category : Category.values()) {
+			category.giveDefault(constructable);
 		}
 	}
 	

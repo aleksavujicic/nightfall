@@ -1,5 +1,7 @@
 package deimophobe.nightfall.common.loadout;
 
+import deimophobe.nightfall.common.NightfallCommonPlugin;
+import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.loadout.item.LoadoutItem;
 
 import java.util.HashSet;
@@ -22,7 +24,6 @@ public enum Category {
 	
 	
 	private final String defaultItem;
-	public String getDefault() {return defaultItem;}
 	
 	private final String lore;
 	public String getLore() {return lore;}
@@ -40,4 +41,14 @@ public enum Category {
 		this.singleItem = singleItem;
 	}
 	
+	public void giveDefault(LoadoutConstructable construct) {
+		if (defaultItem == null) return;
+		
+		try {
+			construct.addPiece(defaultItem);
+		} catch (UnknownEnumElementException e) {
+			NightfallCommonPlugin.getPlugin().getLogger().severe("Default item for category: " + this + " is not an actual item!");
+			e.printStackTrace();
+		}
+	}
 }

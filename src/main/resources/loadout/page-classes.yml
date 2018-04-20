@@ -537,6 +537,7 @@ builder-class:
 
 random-class:
   index: 36
+  cost: 0
   type: random
   item:
     template: "loadout"

@@ -5,7 +5,6 @@ import deimophobe.nightfall.common.items.base.BaseItemManager;
 import deimophobe.nightfall.common.loadout.Loadout;
 import deimophobe.nightfall.common.loadout.LoadoutConstructable;
 import deimophobe.nightfall.common.menu.MenuSession;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
@@ -21,7 +20,7 @@ public class SimpleLoadoutItem extends LoadoutItem {
 	}
 	
 	@Override
-	public void modify(LoadoutConstructable construct) {
+	public void modify(Loadout loadout, LoadoutConstructable construct) {
 		tryAddPiece(construct, pieceName);
 	}
 	

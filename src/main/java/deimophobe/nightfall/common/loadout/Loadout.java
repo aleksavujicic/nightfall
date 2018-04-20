@@ -1,9 +1,7 @@
 package deimophobe.nightfall.common.loadout;
 
-import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.loadout.item.LoadoutItem;
 import deimophobe.nightfall.common.menu.SessionData;
-import org.bukkit.Bukkit;
 
 import java.util.*;
 
@@ -13,6 +11,7 @@ import java.util.*;
 public class Loadout implements SessionData {
 	
 	private static final String UNTIMELY_DEMISE_NAME = "untimely";
+	private static final String RANDOM_NAME = "random-class";
 	
 	public static final int MAX_POINTS = 64;
 	
@@ -58,6 +57,13 @@ public class Loadout implements SessionData {
 	public boolean hasUntimelyDemise() {
 		return hasItem(LoadoutManager.getManager().getItem(UNTIMELY_DEMISE_NAME));
 	}
+	public boolean hasRandom() {
+		return hasItem(LoadoutManager.getManager().getItem(RANDOM_NAME));
+	}
+	
+	public boolean hasCategory(Category category) {
+		return categoryItems.containsKey(category);
+	}
 	
 	public int getRemainingPoints() {
 		int usedPoints = 0;
@@ -92,14 +98,14 @@ public class Loadout implements SessionData {
 	public void modifyLoadoutConstruct(LoadoutConstructable construct) {
 		boolean hasKit = false;
 		for (LoadoutItem item : items) {
-			item.modify(construct);
+			item.modify(this, construct);
 			if (item.getCategory() == Category.KIT)
 				hasKit = true;
 		}
 		
 		// Apply warrior class if kit is empty
-		if (getRemainingPoints() == MAX_POINTS) {
-			LoadoutManager.getManager().getDefaultKit().modify(construct);
+		if (getRemainingPoints() == MAX_POINTS && !hasRandom()) {
+			LoadoutManager.getManager().getDefaultKit().modify(this, construct);
 			hasKit = true;
 		}
 		
@@ -107,15 +113,7 @@ public class Loadout implements SessionData {
 		if (!hasKit) {
 			for (Category category : Category.values()) {
 				if (!categoryItems.containsKey(category)) {
-					String defaultElement = category.getDefault();
-					if (defaultElement != null) {
-						try {
-							construct.addPiece(defaultElement);
-						} catch (UnknownEnumElementException e) {
-							Bukkit.getLogger().severe("Unknown default element '" + defaultElement + "' from category '" + category + "'");
-							e.printStackTrace();
-						}
-					}
+					category.giveDefault(construct);
 				}
 			}
 		}
