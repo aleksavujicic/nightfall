@@ -1,7 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.hero.lyra;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.MultipleCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;

@@ -23,7 +23,7 @@ import java.util.LinkedHashSet;
 public class MapNurah implements MapFeature {
 	
 	private Location center;
-	private MapNurah.GameEndListener listener = new MapNurah.GameEndListener();
+	private final MapNurah.GameEndListener listener = new MapNurah.GameEndListener();
 	private double popDistance;
 	
 	private BukkitRunnable lobbyPopper;

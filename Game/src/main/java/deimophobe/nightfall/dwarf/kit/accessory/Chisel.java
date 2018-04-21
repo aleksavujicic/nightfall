@@ -3,7 +3,6 @@ package deimophobe.nightfall.dwarf.kit.accessory;
 import com.google.common.collect.Lists;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.blocktype.CustomBlock;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;

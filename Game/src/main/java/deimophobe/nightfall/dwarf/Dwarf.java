@@ -505,8 +505,8 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	// ------ MOB SPAWN ------
 	private int mobspawnCount = 0;
 	private boolean inMobspawn = false;
-	private ComplexCooldown inMobspawnCooldown = new ComplexCooldown(8, this::inMobspawnTick);
-	private ComplexCooldown outMobspawnCooldown = new ComplexCooldown(8, this::outMobspawnTick);
+	private final ComplexCooldown inMobspawnCooldown = new ComplexCooldown(8, this::inMobspawnTick);
+	private final ComplexCooldown outMobspawnCooldown = new ComplexCooldown(8, this::outMobspawnTick);
 	
 	private void updateMobspawn() {
 		inMobspawnCooldown.update();

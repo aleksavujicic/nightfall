@@ -267,7 +267,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	
 	public int replaceItem(Predicate<ItemStack> matcher, ItemStack newItem) {
 		PlayerInventory inv = player.getInventory();
-		ListIterator<ItemStack> iterator = (ListIterator<ItemStack>) inv.iterator();
+		ListIterator<ItemStack> iterator = inv.iterator();
 		
 		int replaced = 0;
 		while (iterator.hasNext()) {
@@ -297,7 +297,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	
 	public boolean hasItem(CustomItem customItem) {
 		PlayerInventory inv = player.getInventory();
-		ListIterator<ItemStack> iterator = (ListIterator<ItemStack>) inv.iterator();
+		ListIterator<ItemStack> iterator = inv.iterator();
 		
 		while (iterator.hasNext()) {
 			ItemStack item = iterator.next();

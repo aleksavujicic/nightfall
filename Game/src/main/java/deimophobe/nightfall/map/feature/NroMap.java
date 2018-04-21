@@ -30,7 +30,7 @@ public class NroMap implements MapFeature {
 	private GameMap map;
 	private BukkitRunnable waterChecker;
 	private boolean waterCheckerCancelled;
-	private GameStartListener listener = new GameStartListener();
+	private final GameStartListener listener = new GameStartListener();
 	
 	private Location throne;
 	private int blessingLevel;

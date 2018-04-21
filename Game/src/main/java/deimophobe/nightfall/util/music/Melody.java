@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * Created by Deimophobe on 27/01/18.
  */
 public class Melody {
-	private static final Pattern NOTE_PATTERN = Pattern.compile("(?<note>\\d+)\\:(?<duration>\\d+)");
+	private static final Pattern NOTE_PATTERN = Pattern.compile("(?<note>\\d+):(?<duration>\\d+)");
 	
 	private final Queue<PlayedNote> remainingNotes = new LinkedList<>();
 	private final PlayedNote firstNote;
@@ -44,7 +44,7 @@ public class Melody {
 		firstNote.play(locationSupplier, sound, volume, new LinkedList<>(remainingNotes));
 	}
 	
-	private static Map<String, Melody> MELODIES = new HashMap<>();
+	private static final Map<String, Melody> MELODIES = new HashMap<>();
 	static {
 		ConfigurationSection config = NightfallPlugin.getInternalFileConfig("melodies.yml");
 		for (String key : config.getKeys(false)) {

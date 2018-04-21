@@ -24,7 +24,7 @@ import java.util.Set;
  */
 public class Buffpool implements Updateable {
 	
-	private final int NUM_PARTICLES = 10;
+	private static final int NUM_PARTICLES = 10;
 	
 	private final Dwarf dwarf;
 	private final Location location;

@@ -14,7 +14,7 @@ import java.util.Map;
  * Created by Deimophobe on 30/04/17.
  */
 public class ItemManager {
-	private static ItemManager manager = new ItemManager();
+	private static final ItemManager manager = new ItemManager();
 	public static ItemManager getManager() {
 		return manager;
 	}

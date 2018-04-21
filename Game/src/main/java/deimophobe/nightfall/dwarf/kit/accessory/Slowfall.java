@@ -29,9 +29,7 @@ public class Slowfall extends AbstractPiece {
 	public void update() {
 		super.update();
 		cooldown.update();
-		if (cooldown.isAvailable()) {
-			//randomSparkle();
-		} else if (cooldown.wasUsedWithin(8 * 20)) {
+		if (cooldown.wasUsedWithin(8 * 20)) {
 			usedSparkle();
 		}
 	}

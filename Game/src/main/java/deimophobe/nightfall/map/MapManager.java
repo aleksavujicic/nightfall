@@ -26,7 +26,7 @@ import java.util.*;
  * Created by Deimophobe on 17/03/17.
  */
 public class MapManager {
-	private static MapManager manager = new MapManager();
+	private static final MapManager manager = new MapManager();
 	public static MapManager getManager() {
 		return manager;
 	}
