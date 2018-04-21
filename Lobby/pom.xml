@@ -73,6 +73,10 @@
             <id>dmulloy2-repo</id>
             <url>http://repo.dmulloy2.net/nexus/repository/public/</url>
         </repository>
+        <repository>
+            <id>ME1312.net</id>
+            <url>https://src.ME1312.net/maven</url>
+        </repository>
     </repositories>
     <dependencies>
         <!-- Other Nightfall -->
@@ -104,16 +108,14 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.6-SNAPSHOT</version>
+            <version>2.7-SNAPSHOT</version>
         </dependency>
 
         <!-- Spigot Plugins -->
         <dependency>
             <groupId>net.ME1312.SubServers</groupId>
-            <artifactId>SubServers.Bungee</artifactId>
-            <version>2.11.2a</version>
-            <scope>system</scope>
-            <systemPath>${user.home}/Downloads/SubServers.Client.Bukkit.jar</systemPath>
+            <artifactId>SubServers.Client.Bukkit</artifactId>
+            <version>RELEASE</version>
         </dependency>
     </dependencies>
 
