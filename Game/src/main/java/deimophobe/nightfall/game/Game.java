@@ -9,6 +9,7 @@ import deimophobe.nightfall.GlowManager;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.TimeManager;
+import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.cosmetic.CosmeticManager;
@@ -95,12 +96,14 @@ public class Game {
 	private final SkinManager skinManager;
 	private final GlowManager glowManager;
 	private final TimeManager timeManager;
+	private final BlockManager blockManager;
 	
 	public DwarfManager getDwarfManager() {return dwarfManager;}
 	public MonsterManager getMonsterManager() {return monsterManager;}
 	public SkinManager getSkinManager() {return skinManager;}
 	public GlowManager getGlowManager() {return glowManager;}
 	public TimeManager getTimeManager() {return timeManager;}
+	public BlockManager getBlockManager() {return blockManager;}
 	
 	
 	private final Scoreboard scoreboard;
@@ -162,6 +165,7 @@ public class Game {
 		skinManager = new SkinManager();
 		glowManager = new GlowManager();
 		timeManager = new TimeManager(map.getWorld());
+		blockManager = new BlockManager();
 		monsterManager.init();
 		NightfallPlugin.getPlugin().updateManagers();
 		
@@ -177,7 +181,7 @@ public class Game {
 		skinManager.stop();
 		glowManager.stop();
 		timeManager.stop();
-		TimedBlock.cancelAllBlocks();
+		blockManager.stop();
 		
 		map.unload();
 		Bukkit.getScheduler().cancelTasks(NightfallPlugin.getPlugin());

@@ -8,18 +8,19 @@ import org.bukkit.material.MaterialData;
 /**
  * Created by Deimophobe on 23/01/17.
  */
-public class LampBlock extends TimedBlock {
+public class LampBlock extends DataTimedBlock {
 	
 	private final boolean moreEffects;
 	
-	public LampBlock(Block block, int lifeTime, GameEntity placer, boolean moreEffects) {
-		super(block, Material.JACK_O_LANTERN, lifeTime, placer);
+	public LampBlock(Block block, int lifetime, GameEntity placer, boolean moreEffects) {
+		super(lifetime, block, placer, Material.JACK_O_LANTERN);
 		this.moreEffects = moreEffects;
 	}
 	
 	@Override
-	void onPlace() {
-		super.onPlace();
+	public void placeBlock() {
+		super.placeBlock();
+		
 		Location center = block.getLocation().add(0.5, 0.5, 0.5);
 		World world = center.getWorld();
 		world.spawnParticle(Particle.BLOCK_CRACK, center, 20, 0.4, 0.4, 0.4, 0, new MaterialData(Material.JACK_O_LANTERN));
@@ -31,13 +32,13 @@ public class LampBlock extends TimedBlock {
 	}
 	
 	@Override
-	void onDestroy(boolean cancelled) {
-		super.onDestroy(cancelled);
-		if (!cancelled) {
-			Location center = block.getLocation().add(0.5, 0.5, 0.5);
-			World world = center.getWorld();
-			world.spawnParticle(Particle.BLOCK_CRACK, center, 15, 0.4, 0.4, 0.4, 0, block.getState().getData());
-			world.playSound(center, Sound.BLOCK_STONE_PLACE, 1f, 1f);
-		}
+	public void unplaceBlock(boolean cancelled) {
+		super.unplaceBlock(cancelled);
+		if (cancelled) return;
+		
+		Location center = block.getLocation().add(0.5, 0.5, 0.5);
+		World world = center.getWorld();
+		world.spawnParticle(Particle.BLOCK_CRACK, center, 15, 0.4, 0.4, 0.4, 0, block.getState().getData());
+		world.playSound(center, Sound.BLOCK_STONE_PLACE, 1f, 1f);
 	}
 }

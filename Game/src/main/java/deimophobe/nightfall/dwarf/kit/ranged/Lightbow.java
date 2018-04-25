@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.ranged;
 
+import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.timedblock.LampBlock;
-import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -38,6 +38,6 @@ public class Lightbow extends AbstractBow {
 	@Override
 	public void onProjectileLand(Projectile arrow, Block hitBlock) {
 		if (ArrowMisc.getArrowForce((Arrow) arrow) >= 0.8)
-			TimedBlock.placeTimedBlock(new LampBlock(hitBlock, 10*20, dwarf, false));
+			BlockManager.getManager().placeTimedBlock(new LampBlock(hitBlock, 10*20, dwarf, false));
 	}
 }

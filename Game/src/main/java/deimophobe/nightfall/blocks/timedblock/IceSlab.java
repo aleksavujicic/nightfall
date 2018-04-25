@@ -1,7 +1,7 @@
 package deimophobe.nightfall.blocks.timedblock;
 
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.game.GameEntity;
 import deimophobe.nightfall.game.GamePlayer;
 import org.bukkit.Location;
@@ -10,39 +10,17 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.material.MaterialData;
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Created by Deimophobe on 14/01/18.
  */
-public class IceSlab extends TimedBlock {
-	private int hitsLeft = 10;
-	private boolean canHit = false;
+public class IceSlab extends DataTimedBlock {
+	private final int maxLifetime;
+	private final ComplexCooldown hitter = new ComplexCooldown(6, this::hit);
 	
 	private IceSlab(Block block, GameEntity placer, int lifetime) {
-		super(block, Material.FROSTED_ICE, lifetime, placer);
-		
-		int freq = lifetime/10;
-		
-		new BukkitRunnable() {
-			byte age = 0;
-			@Override
-			public void run() {
-				age++;
-				if (age == 4) {
-					this.cancel();
-					return;
-				}
-				
-				block.setData(age);
-			}
-		}.runTaskTimer(NightfallPlugin.getPlugin(), freq*7, freq);
-		
-		new BukkitRunnable() {
-			@Override public void run() {
-				canHit = true;
-			}
-		}.runTaskLater(NightfallPlugin.getPlugin(), lifetime/10);
+		super(lifetime, block, placer, Material.FROSTED_ICE);
+		this.maxLifetime = lifetime;
 	}
 	
 	public IceSlab(Block block, GameEntity placer) {
@@ -50,7 +28,15 @@ public class IceSlab extends TimedBlock {
 	}
 	
 	@Override
-	void onPlace() {
+	public void update() {
+		super.update();
+		updateAge();
+		hitter.update();
+	}
+	
+	@Override
+	public void placeBlock() {
+		super.placeBlock();
 		World world = block.getWorld();
 		Location location = block.getLocation().add(0.5, 0.5, 0.5);
 		
@@ -58,37 +44,53 @@ public class IceSlab extends TimedBlock {
 	}
 	
 	@Override
-	void onDestroy(boolean cancelled) {
-		if (!NightfallPlugin.getPlugin().isDisabling()) {
-			World world = block.getWorld();
-			Location location = block.getLocation().add(0.5, 0.5, 0.5);
-			
-			block.setType(Material.AIR);
-			world.spawnParticle(Particle.BLOCK_CRACK, location, 25, 0.5, 0.5, 0.5, 0, new MaterialData(Material.FROSTED_ICE));
-			world.playSound(location, "block.glass.break", 1, 1);
-		}
+	public void unplaceBlock(boolean cancelled) {
+		super.unplaceBlock(cancelled);
+		if (cancelled) return;
+		
+		World world = block.getWorld();
+		Location location = block.getLocation().add(0.5, 0.5, 0.5);
+		
+		block.setType(Material.AIR);
+		world.spawnParticle(Particle.BLOCK_CRACK, location, 25, 0.5, 0.5, 0.5, 0, new MaterialData(Material.FROSTED_ICE));
+		world.playSound(location, "block.glass.break", 1, 1);
 	}
 	
 	@Override
 	public void onHit(GamePlayer player) {
-		if (canHit) {
-			disableHitting();
-			
-			hitsLeft--;
-			if (hitsLeft == 0)
-				cancel();
-			
-			World world = block.getWorld();
-			world.playSound(block.getLocation(), "block.note.chime", 0.5f, 2f - hitsLeft*0.05f);
-			world.playSound(block.getLocation(), "block.glass.place", 1f, 1f);
+		if (maxLifetime - getLifetime() < 40) return;
+		hitter.tryUse();
+	}
+	
+	private void hit() {
+		reduceLifetime(20);
+		
+		World world = block.getWorld();
+		world.playSound(block.getLocation(), "block.note.chime", 0.5f, 2f - fracLeft()*0.75f);
+		world.playSound(block.getLocation(), "block.glass.place", 1f, 1f);
+	}
+	
+	private void updateAge() {
+		float fracLeft = fracLeft();
+		
+		byte age;
+		if (fracLeft <= 0.1) {
+			age = 3;
+		} else if (fracLeft <= 0.2) {
+			age = 2;
+		} else if (fracLeft <= 0.3) {
+			age = 1;
+		} else {
+			age = 0;
+		}
+		
+		if (block.getData() != age) {
+			block.setData(age);
 		}
 	}
 	
-	private void disableHitting() {
-		canHit = false;
-		new BukkitRunnable() {
-			@Override public void run() { canHit = true; }
-		}.runTaskLater(NightfallPlugin.getPlugin(), 3);
+	private float fracLeft() {
+		return (float) getLifetime()/maxLifetime;
 	}
 	
 	private static int getNewLifetime() {

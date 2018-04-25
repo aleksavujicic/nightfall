@@ -1,8 +1,8 @@
 package deimophobe.nightfall.dwarf.consumable;
 
 import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.timedblock.HealBlock;
-import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
@@ -28,7 +28,7 @@ public class HealStation extends Consumable {
 		if (clickedBlock == null) return FAILED_CD;
 		
 		HealBlock healBlock = new HealBlock(clickedBlock, 30*20, dwarf);
-		boolean success =  TimedBlock.placeTimedBlock(healBlock);
+		boolean success =  BlockManager.getManager().placeTimedBlock(healBlock);
 		
 		if (success) {
 			dwarf.setPlacedHealBlock(healBlock);

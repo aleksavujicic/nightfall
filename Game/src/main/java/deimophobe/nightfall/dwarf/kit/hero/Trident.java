@@ -2,16 +2,16 @@ package deimophobe.nightfall.dwarf.kit.hero;
 
 import com.google.common.collect.Sets;
 import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.IceSlab;
-import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
+import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -122,7 +122,7 @@ public class Trident extends AbstractItem implements CooldownPiece {
 		Set<Block> freezeBlock = new HashSet<>(waterBlocks);
 		waterBlocks.clear();
 		for (Block block : freezeBlock) {
-			TimedBlock.placeTimedBlock(new IceSlab(block, dwarf));
+			BlockManager.getManager().placeTimedBlock(new IceSlab(block, dwarf));
 		}
 	}
 	
