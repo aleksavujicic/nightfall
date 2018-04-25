@@ -150,6 +150,7 @@ public class ZombieSaboteur extends ZombieMob {
 		super.onDamageAttack(damage);
 		if (assa && isInvisible()) {
 			monster.playSound("entity.wither.shoot", 1f, 2f, true);
+			playSound("laugh");
 			damage.getMultiPartDamage().addBoost(57);
 		}
 		damage.multiplyKnockback(0.75);
