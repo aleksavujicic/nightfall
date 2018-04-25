@@ -8,7 +8,7 @@ import org.bukkit.block.Block;
 /**
  * Created by Deimophobe on 25/04/18.
  */
-class DataTimedBlock extends TimedBlock {
+public class DataTimedBlock extends TimedBlock {
 	private final Material newType;
 	
 	private Material oldType;
