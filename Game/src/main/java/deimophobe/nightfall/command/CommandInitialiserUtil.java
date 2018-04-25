@@ -248,6 +248,9 @@ public class CommandInitialiserUtil {
 			if (!Game.getGame().isLobbyPlayer(player)) throw new ConditionFailedException("Player must be a lobby player (set gamemode to adventure).");
 		});
 		
+		conditions.addCondition("lobby-phase", context -> {
+			if (Game.getGame().getPhase() != Phase.STARTING) throw new ConditionFailedException("The game has already started.");
+		});
 		conditions.addCondition("pre-build", context -> {
 			if (!Game.getGame().getPhase().isBefore(Phase.BUILD)) throw new ConditionFailedException("The game has already started.");
 		});

@@ -249,6 +249,8 @@ public class Game {
 	private final Set<Player> readyPlayers;
 	private final BukkitRunnable readyNotifier;
 	
+	private static final String UNREADY_MESSAGE = ChatColor.RED + "Do /ready when you have chosen your kit.";
+	
 	public boolean isReady(Player player) {
 		return readyPlayers.contains(player);
 	}
@@ -304,7 +306,7 @@ public class Game {
 		if (isReady(player)) {
 			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.GREEN + "You are ready!"));
 		} else {
-			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.RED + "Do /ready when you have chosen a kit!"));
+			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(UNREADY_MESSAGE));
 		}
 	}
 	
@@ -341,6 +343,15 @@ public class Game {
 		}
 		
 		return sb.toString();
+	}
+	
+	public void notifyUnready() {
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (isReady(player)) continue;
+			
+			player.playSound(player.getLocation(), "block.note.pling", 1f, 1f);
+			player.sendMessage(UNREADY_MESSAGE);
+		}
 	}
 	
 	

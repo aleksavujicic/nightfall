@@ -50,18 +50,21 @@ public class MiscCommands extends BaseCommand {
 	}
 	
 	@CommandAlias("explore")
+	@Conditions("lobby-phase")
 	@Description("Lets you explore the map before the game starts.")
 	public void explore(@Conditions("lobby") Player player) {
 		player.teleport(GameMap.getCurrentMap().getDwarfSpawn());
 	}
 	
 	@CommandAlias("stuck|lobby")
+	@Conditions("lobby-phase")
 	@Description("Returns you to the lobby.")
 	public void stuck(@Conditions("lobby") Player player) {
 		Game.getGame().resetPlayer(player);
 	}
 	
 	@CommandAlias("ready")
+	@Conditions("lobby-phase")
 	@Description("Notifies that you are ready to play the game.")
 	public void ready(@Conditions("lobby") Player player) {
 		Game game = Game.getGame();
@@ -73,9 +76,18 @@ public class MiscCommands extends BaseCommand {
 	}
 	
 	@CommandAlias("readylist")
+	@Conditions("lobby-phase")
 	@Description("See who is ready.")
 	public void readyList(CommandSender sender) {
 		sender.sendMessage(Game.getGame().readyList());
+	}
+	
+	@CommandAlias("notifyunready")
+	@Conditions("lobby-phase")
+	@Description("Notify unready players.")
+	public void unreadyNotify(CommandSender sender) {
+		Game.getGame().notifyUnready();
+		MessageUtil.sendMessage(sender, "Notified unready players.");
 	}
 	
 	@CommandAlias("damage")
