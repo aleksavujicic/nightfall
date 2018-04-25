@@ -488,3 +488,46 @@ procbottle-three:
        - "Gives $quantity Procs in Bottles.\n
           Throwing these gives you a proc\n
           that lasts for 5 seconds."
+
+turret-one:
+  index: 17
+  type: consumable
+  name: turret
+  quantity: 4
+  cost: 2
+  item:
+    name: "Turret I"
+    base: turret
+    lore:
+      description:
+       - "Gives you $quantity turrets.\n
+          These fire arrows for a set\n
+          amount of time."
+turret-two:
+  index: 26
+  type: consumable
+  name: turret
+  quantity: 8
+  cost: 4
+  item:
+    name: "Turret II"
+    base: turret
+    lore:
+      description:
+       - "Gives you $quantity turrets.\n
+          These fire arrows for a set\n
+          amount of time."
+turret-three:
+  index: 35
+  type: consumable
+  name: turret
+  quantity: 16
+  cost: 8
+  item:
+    name: "Turret III"
+    base: turret
+    lore:
+      description:
+       - "Gives you $quantity turrets.\n
+          These fire arrows for a set\n
+          amount of time."
