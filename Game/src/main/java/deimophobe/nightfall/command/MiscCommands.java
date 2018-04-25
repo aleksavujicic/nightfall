@@ -3,16 +3,19 @@ package deimophobe.nightfall.command;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.contexts.OnlinePlayer;
-import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.dwarf.consumable.ConsecratingCharm;
+import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.hero.Horn;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -106,6 +109,18 @@ public class MiscCommands extends BaseCommand {
 	public void remove(CommandSender sender, GamePlayer player) {
 		Game.getGame().removeGamePlayer(player.getPlayer());
 		MessageUtil.sendMessage(sender,"Removed ", player.getPlayer(), " from the game.");
+	}
+	
+	@CommandAlias("charm")
+	@Description("Places a charm at your location.")
+	public void charm(CommandSender sender, Player player, @Default("8") int time, @Default("11") double radius, @Default("3") int numSwords) {
+		Location location = player.getLocation();
+		boolean placed = ((ConsecratingCharm) ConsumableType.CHARM.getConsumable()).spawnCharm(location, time*20, radius, numSwords);
+		if (placed) {
+			MessageUtil.sendMessage(sender, "Placed charm at ", location, ".");
+		} else {
+			MessageUtil.sendErrorMessage(sender, "Failed to place charm.");
+		}
 	}
 	
 	@CommandAlias("fix")

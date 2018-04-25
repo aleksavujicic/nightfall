@@ -25,7 +25,7 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 22/01/17.
  */
-class ConsecratingCharm extends Consumable {
+public class ConsecratingCharm extends Consumable {
 	private static final double TWO_PI = 2 * Math.PI;
 	
 	private final Set<CharmInstance> activeCharms = new HashSet<>();
@@ -40,15 +40,14 @@ class ConsecratingCharm extends Consumable {
 		if (!checkPhase(dwarf)) return FAILED_CD;
 		
 		Location center = dwarf.getEyeLocation();
-		if (isCloseToActiveCharm(center)) {
-			dwarf.sendTitleMessage(ChatColor.RED + "Too close to placed charm");
+		boolean success = spawnCharm(center, 8*20, 11, 3);
+		
+		if (success) {
+			return DEFAULT_CD;
+		} else {
+			dwarf.sendTitleMessage(ChatColor.RED + "Too close to existing charm");
 			return FAILED_CD;
 		}
-		
-		dwarf.playSound("entity.evocation_illager.prepare_summon", 1, 1f, true);
-		new CharmInstance(8*20, center, 11, 3);
-		
-		return DEFAULT_CD;
 	}
 	
 	private boolean isCloseToActiveCharm(Location center) {
@@ -58,14 +57,13 @@ class ConsecratingCharm extends Consumable {
 		return false;
 	}
 	
-	private ArmorStand summonSword(Location loc) {
-		return loc.getWorld().spawn(loc, ArmorStand.class, (stand) -> {
-			stand.setHelmet(getItemStack());
-			stand.setHeadPose(new EulerAngle(Math.PI, 0, 0));
-			stand.setVisible(false);
-			stand.setBasePlate(false);
-			stand.setGravity(false);
-		});
+	public boolean spawnCharm(Location center, int lifetime, double radius, int numSwords) {
+		if (isCloseToActiveCharm(center)) return false;
+		
+		center.getWorld().playSound(center, "entity.evocation_illager.prepare_summon", 1f, 1f);
+		CharmInstance charm = new CharmInstance(lifetime, center, radius, numSwords);
+		activeCharms.add(charm);
+		return true;
 	}
 	
 	@Override
@@ -86,7 +84,6 @@ class ConsecratingCharm extends Consumable {
 		
 		protected CharmInstance(int lifetime, Location center, double radius, int numSwords) {
 			super(lifetime, 1);
-			activeCharms.add(this);
 			
 			this.center = center;
 			this.radius = radius;
@@ -190,6 +187,16 @@ class ConsecratingCharm extends Consumable {
 				sword.remove();
 			}
 			activeCharms.remove(this);
+		}
+		
+		private ArmorStand summonSword(Location loc) {
+			return loc.getWorld().spawn(loc, ArmorStand.class, (stand) -> {
+				stand.setHelmet(getItemStack());
+				stand.setHeadPose(new EulerAngle(Math.PI, 0, 0));
+				stand.setVisible(false);
+				stand.setBasePlate(false);
+				stand.setGravity(false);
+			});
 		}
 	}
 }
