@@ -29,7 +29,7 @@ import java.util.Set;
  */
 class Torus extends AbstractMob {
 	
-	@Display @Update private final ComplexCooldown launchCD = new ComplexCooldown(30*20, this::launch);
+	@Display @Update private final ComplexCooldown launchCD = new ComplexCooldown(45*20, this::launch);
 	         @Update private final ComplexCooldown buffer = new RepeatingCooldown(4*20, this::buffNearbyMobs);
 	
 	Torus(MonsterPlayer monster) {
