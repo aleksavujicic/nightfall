@@ -110,6 +110,9 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 					() -> ((GamePlayer) attacker).playSound("entity.arrow.hit_player", 0.8f, 0.5f, false)
 			);
 		}
+		if (projectile instanceof Arrow) {
+			ArrowMisc.applyDamageModifiers((Arrow) projectile, this);
+		}
 		
 		this.id = idCount;
 		idCount++;

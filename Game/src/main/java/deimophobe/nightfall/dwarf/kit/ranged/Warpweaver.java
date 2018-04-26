@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.ranged;
 
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -8,16 +9,15 @@ import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.util.ArrowMisc;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,7 +38,7 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 	@Override public int getPower() {return POWER;}
 	
 	private final Set<Arrow> activeArrows = new HashSet<>();
-	private final ComplexCooldown warpCooldown = new ComplexCooldown(30*20);
+	private final ComplexCooldown warpCooldown = new ComplexCooldown(1);//30*20);
 	
 	@Override
 	public void update() {
@@ -57,10 +57,9 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 			removeActiveArrows();
 			warpCooldown.reset();
 			
-			Location newSpot = proj.getLocation().add(0, 0.25, 0);
-			newSpot.add(proj.getLocation().getDirection().multiply(0.25));
-			newSpot.setDirection(dwarf.getLocation().getDirection());
-			teleportTo(newSpot);
+			Location warpLocation = getWarpLocation(proj, hitBlock);
+			warpLocation.setDirection(dwarf.getLocation().getDirection());
+			teleportTo(warpLocation);
 		}
 	}
 	
@@ -103,6 +102,89 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 			removeArrow(arrow);
 		}
 		activeArrows.clear();
+	}
+	
+	// Probably not the best way to implement this, but there are a couple
+	// of different cases to check.
+	private static Location getWarpLocation(Projectile arrow, Block hitBlock) {
+		BlockFace hitFace = Misc.getBlockFaceProjectileHit(arrow, hitBlock);
+		
+		if (checkCanTeleportToBlock(hitBlock, hitFace, 1)) {
+			return hitBlock.getLocation().add(0.5, 1.25, 0.5);
+		}
+		if (checkCanTeleportToBlock(hitBlock, hitFace, 2)) {
+			return hitBlock.getLocation().add(0.5, 2.25, 0.5);
+		}
+		
+		// Failed to do fancy teleport to block above, use (old) simple teleport method.
+		Location newSpot = arrow.getLocation().add(0, 0.25, 0);
+		Vector velocity = arrow.getVelocity();
+		newSpot.add(velocity.normalize().multiply(-0.2));
+		return newSpot;
+	}
+	
+	private static boolean checkCanTeleportToBlock(Block hitBlock, BlockFace hitFace, int verticalOffset) {
+		// First check teleport spot itself
+		Block toBlock = hitBlock.getRelative(0, verticalOffset, 0);
+		
+		// Can't teleport to solid block.
+		if (toBlock.getType().isSolid()) return false;
+		
+		// Head must end up in non-solid block.
+		Block above = toBlock.getRelative(0, 1, 0);
+		if (above.getType().isSolid()) return false;
+		
+		
+		// Safe to teleport - check that we can 'reach' the spot from the arrow.
+		
+		Block arrowBlock = hitBlock.getRelative(hitFace);
+		switch (hitFace) {
+			case UP: break;
+			
+			case DOWN: {
+				int scalableSides = 0;
+				
+				for (BlockFace side : EnumSet.of(BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST)) {
+					Block start = arrowBlock.getRelative(side);
+					// Note we have verticalOffset + 1 as we start 1 block lower.
+					if (canScale(start, verticalOffset + 1)) scalableSides++;
+				}
+				
+				// If not enough sides scalables - fail.
+				if (scalableSides < 2) return false;
+				
+				// Otherwise allow it.
+				break;
+			}
+			
+			case NORTH:
+			case SOUTH:
+			case EAST:
+			case WEST: {
+				// Simply check if we can scale the side
+				if (!canScale(arrowBlock, verticalOffset)) return false;
+				
+				break;
+			}
+			
+			default:
+				// Should never be here, but return false just in case.
+				return false;
+		}
+		
+		// All block checks satisfied - ok to teleport.
+		return true;
+	}
+	
+	private static boolean canScale(Block start, int height) {
+		// Check all blocks are non solid so that the player could
+		// 'climb' the side to the top block.
+		for (int i=0; i <= height; i++) {
+			Block offsetArrowBlock = start.getRelative(0, i, 0);
+			if (offsetArrowBlock.getType().isSolid()) return false;
+		}
+		
+		return true;
 	}
 	
 	private void teleportTo(Location location) {

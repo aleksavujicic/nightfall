@@ -3,8 +3,8 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockConverter;
+import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.timedblock.GoboBox;
-import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
@@ -98,7 +98,7 @@ public class Goblin extends AbstractMob {
 			double damage = 40 + 6 * shrapnel;
 			double power = 4.5 + 0.25 * dest;
 			double kb = 0.4 + 0.04 * force;
-			if ((monster.getTargetBlock(null, 5).getType() != Material.AIR) && (TimedBlock.placeTimedBlock(new GoboBox(block, 100, damage, power, kb, monster)))) {
+			if ((monster.getTargetBlock(null, 5).getType() != Material.AIR) && (BlockManager.getManager().placeTimedBlock(new GoboBox(block, 100, damage, power, kb, monster)))) {
 				playSound("action");
 				monster.useHeldItem();
 				placeboxCD.reset();

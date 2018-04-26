@@ -77,7 +77,7 @@
                                     <include>org.mongodb:mongo-java-driver</include>
                                     <include>org.mongodb.morphia:morphia</include>
                                     <include>co.aikar:*</include>
-                                    <include>*:*</include> <!-- I hate trying to get maven to work properly -->
+                                    <include>net.jodah:*</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
@@ -88,10 +88,6 @@
     </build>
 
     <repositories>
-        <repository>
-            <id>spigot</id>
-            <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
-        </repository>
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>

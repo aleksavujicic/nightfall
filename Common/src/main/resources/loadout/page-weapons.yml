@@ -283,22 +283,6 @@ warpweaver:
     modifiers:
       power: 50
 
-turret:
-  enabled: false
-  index: 17
-  type: item
-  name: turret
-  category: bow
-  cost: 16
-  item:
-    name: "Turret"
-    material: dispenser
-    lore:
-      description:
-       - "A turret that fires arrows."
-    modifiers:
-      power: 80
-
 
 
 # ------ ALES ------

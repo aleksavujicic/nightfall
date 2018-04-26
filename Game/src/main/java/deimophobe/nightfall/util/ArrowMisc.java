@@ -1,13 +1,16 @@
 package deimophobe.nightfall.util;
 
-import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.damage.DamageModifier;
+import deimophobe.nightfall.damage.GameDamage;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GamePlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.bukkit.util.Vector;
@@ -67,6 +70,7 @@ public class ArrowMisc {
 	
 	private final static String FORCE_KEY = "force";
 	private final static String DAMAGE_KEY = "damage";
+	private final static String DH_KEY = "damage-handler";
 	public static void setArrowDamage(Arrow arrow, double damage) {
 		arrow.setMetadata(DAMAGE_KEY, new FixedMetadataValue(NightfallPlugin.getPlugin(), damage));
 		//arrow.spigot().setDamage(damage);
@@ -76,18 +80,30 @@ public class ArrowMisc {
 		arrow.setMetadata(FORCE_KEY, new FixedMetadataValue(NightfallPlugin.getPlugin(), force));
 	}
 	
+	public static void addDamageModifier(Arrow arrow, DamageModifier<?,?> damageModifier) {
+		arrow.setMetadata(DH_KEY, new FixedMetadataValue(NightfallPlugin.getPlugin(), damageModifier));
+	}
+	
 	public static double getArrowDamage(Arrow arrow) {
-		if (!arrow.hasMetadata(DAMAGE_KEY))
-			throw new IllegalArgumentException("Arrow is has no damage metadata attached.");
+		if (!arrow.hasMetadata(DAMAGE_KEY)) throw new IllegalArgumentException("Arrow is has no damage metadata attached.");
 		
 		return arrow.getMetadata(DAMAGE_KEY).get(0).asDouble()*getArrowForce(arrow);
 		//return arrow.spigot().getDamage();
 	}
 	
 	public static float getArrowForce(Arrow arrow) {
-		if (!arrow.hasMetadata(FORCE_KEY))
-			throw new IllegalArgumentException("Arrow is has no force metadata attached.");
+		if (!arrow.hasMetadata(FORCE_KEY)) throw new IllegalArgumentException("Arrow is has no force metadata attached.");
 		
 		return arrow.getMetadata(FORCE_KEY).get(0).asFloat();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static void applyDamageModifiers(Arrow arrow, GameDamage<?,?> damage) {
+		for (MetadataValue meta : arrow.getMetadata(DH_KEY)) {
+			Object object = meta.value();
+			if (object instanceof DamageModifier) {
+				((DamageModifier) object).modifyDamage(damage);
+			}
+		}
 	}
 }

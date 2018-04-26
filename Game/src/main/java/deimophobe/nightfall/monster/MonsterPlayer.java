@@ -487,12 +487,12 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			return;
 		}
 		
+		if (!isFreezable()) return;
+		if (isFrozen()) return;
+		
 		givePotionEffect(PotionEffectType.LEVITATION, freezeTime, 0, true, false, true);
 		givePotionEffect(PotionEffectType.GLOWING, freezeTime, 1, true, false, true);
 		givePotionEffect(PotionEffectType.BLINDNESS, freezeTime, 1, true, false, true);
-		
-		if (!isFreezable()) return;
-		if (isFrozen()) return;
 
 		if (mob != null) {
 			Disguise dis = mob.getDisguise();

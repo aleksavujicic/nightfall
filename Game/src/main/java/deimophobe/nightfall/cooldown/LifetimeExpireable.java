@@ -24,7 +24,7 @@ public abstract class LifetimeExpireable implements Expirable {
 		if (lifetime > 0) {
 			lifetime--;
 		} else {
-			throw new IllegalStateException("Cannot update lifetime expireable if lifetime is 0");
+			throw new IllegalStateException("Cannot update lifetime expireable if lifetime is not positive");
 		}
 	}
 	
@@ -37,5 +37,14 @@ public abstract class LifetimeExpireable implements Expirable {
 	
 	public void expire() {
 		lifetime = 0;
+	}
+	
+	public void reduceLifetime(int amount) {
+		if (lifetime > 0) {
+			// Lets it tick once more
+			lifetime = Math.max(lifetime - amount, 1);
+		} else {
+			throw new IllegalStateException("Cannot reduce lifetime expireable if lifetime is not positive");
+		}
 	}
 }

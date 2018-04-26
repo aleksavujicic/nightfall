@@ -61,3 +61,8 @@ saboteur:
            made to sneak through defenses"
       modifiers:
         can-dig: 1
+
+  sounds:
+    laugh:
+      path: "mob.gobo.action"
+      pitch: 1.5

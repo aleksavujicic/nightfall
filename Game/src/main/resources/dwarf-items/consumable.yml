@@ -90,6 +90,14 @@ proc-bottle:
      - "\"Brings energy to your veins, and strength to your heart.\" - Velvetine"
      - "\"For the love of gods don’t get addicted on these!”\" - Arthea"
 
+turret:
+  base: turret
+  name: Turret
+  lore:
+    description:
+     - "Turret"
+    flavour:
+     - "Flavour"
 
 
 log:

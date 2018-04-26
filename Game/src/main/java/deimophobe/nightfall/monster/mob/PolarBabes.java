@@ -1,14 +1,14 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.blocks.timedblock.TimedBlock;
+import deimophobe.nightfall.blocks.BlockManager;
+import deimophobe.nightfall.blocks.timedblock.DataTimedBlock;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import me.libraryaddict.disguise.disguisetypes.watchers.PolarBearWatcher;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-
-import java.util.Random;
 
 class PolarBabes extends AbstractMob {
 
@@ -38,13 +38,10 @@ class PolarBabes extends AbstractMob {
 	}
 
 	private void tryPlaceIce() {
-		Random random = new Random();
-		double dx = random.nextDouble()*6 - 3;
-		double dy = random.nextDouble()*6 - 3;
-		double dz = random.nextDouble()*6 - 3;
-		Block block = monster.getLocation().add(dx, dy, dz).getBlock();
+		Block block = Misc.randomLocation(monster.getLocation(), 5, 3, 5).getBlock();
+		
 		if (block.getType().isSolid()) {
-			TimedBlock.placeTimedBlock(new TimedBlock(block, Material.PACKED_ICE, 10 * 20, monster));
+			BlockManager.getManager().placeTimedBlock(new DataTimedBlock(10*20, block, monster, Material.PACKED_ICE));
 		}
 	}
 }

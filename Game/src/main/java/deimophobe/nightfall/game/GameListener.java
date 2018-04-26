@@ -2,8 +2,8 @@ package deimophobe.nightfall.game;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
-import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.common.event.HatChangeEvent;
 import deimophobe.nightfall.common.event.TitleChangeEvent;
 import deimophobe.nightfall.common.loadout.LoadoutMenu;
@@ -155,7 +155,7 @@ public class GameListener implements Listener {
 			gp.onUse(click, block, event.getBlockFace());
 			
 			if (click.isLeftClick()) {
-				TimedBlock.hitBlock(block, gp);
+				BlockManager.getManager().hitBlock(block, gp);
 			}
 		}
 		

@@ -42,7 +42,6 @@ public enum KitPieceType {
 	WARPWEAVER(Warpweaver::new),
 	CROSSBOW(Crossbow::new),
 	VOLCANIC(VolcanicGauntlet::new),
-	TURRET(TurretBow::new),
 	SPELLBOOK(Spellbook::new),
 	
 	// Ales

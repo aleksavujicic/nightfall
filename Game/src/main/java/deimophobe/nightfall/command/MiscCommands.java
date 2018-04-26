@@ -3,16 +3,19 @@ package deimophobe.nightfall.command;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.contexts.OnlinePlayer;
-import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.dwarf.consumable.ConsecratingCharm;
+import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.hero.Horn;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -47,18 +50,21 @@ public class MiscCommands extends BaseCommand {
 	}
 	
 	@CommandAlias("explore")
+	@Conditions("lobby-phase")
 	@Description("Lets you explore the map before the game starts.")
 	public void explore(@Conditions("lobby") Player player) {
 		player.teleport(GameMap.getCurrentMap().getDwarfSpawn());
 	}
 	
 	@CommandAlias("stuck|lobby")
+	@Conditions("lobby-phase")
 	@Description("Returns you to the lobby.")
 	public void stuck(@Conditions("lobby") Player player) {
 		Game.getGame().resetPlayer(player);
 	}
 	
 	@CommandAlias("ready")
+	@Conditions("lobby-phase")
 	@Description("Notifies that you are ready to play the game.")
 	public void ready(@Conditions("lobby") Player player) {
 		Game game = Game.getGame();
@@ -70,9 +76,18 @@ public class MiscCommands extends BaseCommand {
 	}
 	
 	@CommandAlias("readylist")
+	@Conditions("lobby-phase")
 	@Description("See who is ready.")
 	public void readyList(CommandSender sender) {
 		sender.sendMessage(Game.getGame().readyList());
+	}
+	
+	@CommandAlias("notifyunready")
+	@Conditions("lobby-phase")
+	@Description("Notify unready players.")
+	public void unreadyNotify(CommandSender sender) {
+		Game.getGame().notifyUnready();
+		MessageUtil.sendMessage(sender, "Notified unready players.");
 	}
 	
 	@CommandAlias("damage")
@@ -106,6 +121,18 @@ public class MiscCommands extends BaseCommand {
 	public void remove(CommandSender sender, GamePlayer player) {
 		Game.getGame().removeGamePlayer(player.getPlayer());
 		MessageUtil.sendMessage(sender,"Removed ", player.getPlayer(), " from the game.");
+	}
+	
+	@CommandAlias("charm")
+	@Description("Places a charm at your location.")
+	public void charm(CommandSender sender, Player player, @Default("8") int time, @Default("11") double radius, @Default("3") int numSwords) {
+		Location location = player.getLocation();
+		boolean placed = ((ConsecratingCharm) ConsumableType.CHARM.getConsumable()).spawnCharm(location, time*20, radius, numSwords);
+		if (placed) {
+			MessageUtil.sendMessage(sender, "Placed charm at ", location, ".");
+		} else {
+			MessageUtil.sendErrorMessage(sender, "Failed to place charm.");
+		}
 	}
 	
 	@CommandAlias("fix")

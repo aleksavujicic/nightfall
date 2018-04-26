@@ -69,6 +69,8 @@ wrench: "ink_sack:3"
 wizard-mortar: "ink_sack:5"
 healing-station: "ink_sack:7"
 proc-bottle: "ink_sack:10"
+turret: "#temp"
+#turret: "ink_sack:9"
 
 logs: "ink_sack:12"
 planks: "ink_sack:13"
