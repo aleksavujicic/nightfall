@@ -1,5 +1,7 @@
 package deimophobe.nightfall.cooldown;
 
+import deimophobe.nightfall.NightfallPlugin;
+
 /**
  * Created by Deimophobe on 31/03/18.
  */
@@ -21,11 +23,8 @@ public abstract class LifetimeExpireable implements Expirable {
 	
 	@Override
 	public void update() {
-		if (lifetime > 0) {
-			lifetime--;
-		} else {
-			throw new IllegalStateException("Cannot update lifetime expireable if lifetime is not positive");
-		}
+		checkPositive();
+		lifetime--;
 	}
 	
 	@Override
@@ -40,11 +39,17 @@ public abstract class LifetimeExpireable implements Expirable {
 	}
 	
 	public void reduceLifetime(int amount) {
-		if (lifetime > 0) {
-			// Lets it tick once more
-			lifetime = Math.max(lifetime - amount, 1);
-		} else {
-			throw new IllegalStateException("Cannot reduce lifetime expireable if lifetime is not positive");
+		checkPositive();
+		
+		// Lets it tick once more
+		lifetime = Math.max(lifetime - amount, 1);
+	}
+	
+	private void checkPositive() {
+		if (lifetime <= 0) {
+			//throw new IllegalStateException("Cannot reduce lifetime expireable if lifetime is not positive. Object: " + this);
+			// Perhaps it shouldn't break the game...
+			NightfallPlugin.logger().severe("Cannot reduce lifetime expireable if lifetime is not positive. Object: " + this);
 		}
 	}
 }
