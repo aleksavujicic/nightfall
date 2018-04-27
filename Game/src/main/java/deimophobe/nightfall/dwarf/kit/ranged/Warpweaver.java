@@ -38,7 +38,7 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 	@Override public int getPower() {return POWER;}
 	
 	private final Set<Arrow> activeArrows = new HashSet<>();
-	private final ComplexCooldown warpCooldown = new ComplexCooldown(1);//30*20);
+	private final ComplexCooldown warpCooldown = new ComplexCooldown(30*20);
 	
 	@Override
 	public void update() {
