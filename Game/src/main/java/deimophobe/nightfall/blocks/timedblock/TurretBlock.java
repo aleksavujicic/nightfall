@@ -11,6 +11,7 @@ import org.bukkit.block.BlockState;
 import org.bukkit.entity.Arrow;
 import org.bukkit.material.Dispenser;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Deimophobe on 26/04/18.
@@ -24,7 +25,7 @@ public class TurretBlock extends DataTimedBlock {
 	
 	private final double damage;
 	
-	public TurretBlock(int arrows, Block block, Dwarf placer, BlockFace face, double damage) {
+	public TurretBlock(int arrows, @NotNull Block block, @NotNull Dwarf placer, @NotNull BlockFace face, double damage) {
 		super(arrows*20, block, placer, Material.DISPENSER);
 		this.placer = placer;
 		this.face = face;

@@ -18,6 +18,7 @@ public class Turret extends Consumable {
 	@Override
 	public int use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
 		if (!checkPhase(dwarf)) return FAILED_CD;
+		if (face == null) return FAILED_CD;
 		
 		boolean success = BlockManager.getManager().placeTimedBlock(new TurretBlock(30, clickedBlock, dwarf, face, 70));
 		
