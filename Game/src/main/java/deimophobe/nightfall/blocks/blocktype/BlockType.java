@@ -56,6 +56,11 @@ public class BlockType {
 	public static final CustomBlock END_ROD = new MaterialBlock(Material.END_ROD);
 	public static final ComparableBlock LIGHT = new BlockSet(REDSTONE_LAMP, GLOWSTONE, SEA_LANTERN, END_ROD);
 	
+	public static final ComparableBlock WATER = new MaterialSet(Material.WATER, Material.STATIONARY_WATER);
+	public static final ComparableBlock LAVA = new MaterialSet(Material.LAVA, Material.STATIONARY_LAVA);
+	public static final ComparableBlock LIQUID = new BlockSet(WATER, LAVA);
+	
+	
 	
 	
 	// ----- MISC -----

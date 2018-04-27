@@ -1,5 +1,6 @@
 package deimophobe.nightfall.blocks.timedblock;
 
+import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.util.ArrowMisc;
@@ -37,6 +38,11 @@ public class TurretBlock extends DataTimedBlock {
 		Location center = block.getLocation().add(0.5, 0.5, 0.5);
 		this.launchLocation = center.add(offset.clone().multiply(0.7));
 		launchLocation.setDirection(offset);
+	}
+	
+	@Override
+	public boolean isPlaceable() {
+		return super.isPlaceable() && !BlockType.LIQUID.matchesBlock(block);
 	}
 	
 	@Override
