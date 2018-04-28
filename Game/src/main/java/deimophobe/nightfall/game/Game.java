@@ -10,12 +10,11 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.TimeManager;
 import deimophobe.nightfall.blocks.BlockManager;
-import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.common.cosmetic.Cosmetics;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
-import deimophobe.nightfall.cooldown.Expirable;
+import deimophobe.nightfall.cooldown.CooldownHolder;
 import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -525,8 +524,7 @@ public class Game {
 	private int tickNumber = 0;
 	public int getCurrentTick() { return tickNumber; }
 	
-	private final Set<Updateable> updateables = new HashSet<>();
-	private final Set<Expirable> expirables = new HashSet<>();
+	private final CooldownHolder cooldownHolder = new CooldownHolder();
 	
 	private void update() {
 		tickNumber++;
@@ -534,24 +532,11 @@ public class Game {
 			updateCurses();
 		}
 		
-		updateables.forEach(Updateable::update);
-		expirables.forEach(Expirable::update);
-		expirables.removeIf(expirable -> {
-			if (expirable.hasExpired()) {
-				expirable.onExpiry();
-				return true;
-			} else {
-				return false;
-			}
-		});
+		cooldownHolder.update();
 	}
 	
 	public void addUpdateable(Updateable updateable) {
-		if (updateable instanceof Expirable) {
-			expirables.add((Expirable) updateable);
-		} else {
-			updateables.add(updateable);
-		}
+		cooldownHolder.addUpdateable(updateable);
 	}
 	
 	

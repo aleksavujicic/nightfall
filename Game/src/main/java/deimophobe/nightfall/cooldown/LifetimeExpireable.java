@@ -23,7 +23,7 @@ public abstract class LifetimeExpireable implements Expirable {
 	
 	@Override
 	public void update() {
-		checkPositive();
+		if (!checkPositive()) return;
 		lifetime--;
 	}
 	
@@ -39,17 +39,18 @@ public abstract class LifetimeExpireable implements Expirable {
 	}
 	
 	public void reduceLifetime(int amount) {
-		checkPositive();
+		if (!checkPositive()) return;
 		
-		// Lets it tick once more
-		lifetime = Math.max(lifetime - amount, 1);
+		lifetime = Math.max(lifetime - amount, 0);
 	}
 	
-	private void checkPositive() {
+	private boolean checkPositive() {
 		if (lifetime <= 0) {
 			//throw new IllegalStateException("Cannot reduce lifetime expireable if lifetime is not positive. Object: " + this);
 			// Perhaps it shouldn't break the game...
 			NightfallPlugin.logger().severe("Cannot reduce lifetime expireable if lifetime is not positive. Object: " + this);
+			return false;
 		}
+		return true;
 	}
 }
