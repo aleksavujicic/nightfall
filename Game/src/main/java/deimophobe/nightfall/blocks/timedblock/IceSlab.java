@@ -16,7 +16,7 @@ import org.bukkit.material.MaterialData;
  */
 public class IceSlab extends DataTimedBlock {
 	private final int maxLifetime;
-	private final ComplexCooldown hitter = new ComplexCooldown(6, this::hit);
+	private final ComplexCooldown hitter = new ComplexCooldown(4, this::hit);
 	
 	private IceSlab(Block block, GameEntity placer, int lifetime) {
 		super(lifetime, block, placer, Material.FROSTED_ICE);
@@ -63,7 +63,7 @@ public class IceSlab extends DataTimedBlock {
 	}
 	
 	private void hit() {
-		reduceLifetime(20);
+		reduceLifetime(30);
 		
 		World world = block.getWorld();
 		world.playSound(block.getLocation(), "block.note.chime", 0.5f, 2f - fracLeft()*0.75f);
