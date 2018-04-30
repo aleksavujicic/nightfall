@@ -3,7 +3,7 @@ name: Nightfall
 version: 0.1
 author: Deimophobe
 description: The main plugin for the nightfall game.
-depend: [ProtocolLib, NightfallCommon]
+depend: [LibsDisguises, ProtocolLib, NightfallCommon]
 
 permissions:
   nightfall.op:

@@ -38,6 +38,19 @@ public class NightfallPlugin extends JavaPlugin {
 	public void onEnable() {
 		plugin = this;
 		
+		// Check dependencies exist
+		try {
+			checkDependency("Nightfall Common", "deimophobe.nightfall.common.NightfallCommonPlugin");
+			checkDependency("ProtocolLib", "me.libraryaddict.disguise.LibsDisguises");
+			checkDependency("Lib's Disguises", "com.comphenix.protocol.ProtocolLib");
+			checkDependency("Packet Wrapper", "com.comphenix.packetwrapper.AbstractPacket");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			getLogger().severe("Could not load all dependencies, disabling.");
+			plugin.getPluginLoader().disablePlugin(this);
+			return;
+		}
+		
 		//cleanPlayerDataFiles();
 		
 		PacketUtil.setupListeners();
@@ -53,7 +66,9 @@ public class NightfallPlugin extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		disabling = true;
-		Game.getGame().stop();
+		
+		Game game = Game.getGame();
+		if (game != null) game.stop();
 	}
 	
 	public void updateManagers() {
@@ -77,6 +92,14 @@ public class NightfallPlugin extends JavaPlugin {
 		File playerDataFolder = new File(world.getWorldFolder(), "playerdata");
 		for (File file : playerDataFolder.listFiles()) {
 			file.delete();
+		}
+	}
+	
+	private void checkDependency(String name, String clazz) throws ClassNotFoundException {
+		try {
+			Class.forName(clazz, false, this.getClassLoader());
+		} catch (ClassNotFoundException e) {
+			throw new ClassNotFoundException("Unknown dependency '" + name + "'. Class " + clazz + " could not be found.", e);
 		}
 	}
 }
