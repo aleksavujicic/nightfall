@@ -6,6 +6,7 @@ import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.game.GameEntity;
 import deimophobe.nightfall.monster.MonsterEntity;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Projectile;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -53,6 +54,7 @@ public class DwarfDamage extends GameDamage<GameEntity<?>, Dwarf> {
 					new BukkitRunnable() {
 						@Override public void run() { receiver.respawn(); }
 					}.runTaskLater(NightfallPlugin.getPlugin(), 1);
+					receiver.sendTitleMessage(ChatColor.GOLD + "It is not your time to die yet");
 				}
 			});
 		}
