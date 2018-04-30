@@ -36,7 +36,7 @@ public class TurretBlock extends DataTimedBlock {
 		Vector offset = adjacentBlock.getLocation().subtract(block.getLocation()).toVector();
 		
 		Location center = block.getLocation().add(0.5, 0.5, 0.5);
-		this.launchLocation = center.add(offset.clone().multiply(0.5));
+		this.launchLocation = center.add(offset.clone().multiply(0.6));
 		launchLocation.setDirection(offset);
 	}
 	
