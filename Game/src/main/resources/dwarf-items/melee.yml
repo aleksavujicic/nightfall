@@ -68,8 +68,8 @@ dagger:
   name: Elven Dagger
   lore:
     description:
-       - "An elven blade, light but deadly.\n
-          Right click to &bEviscerate&r a monster,\n
+       - "An elven blade, light but deadly with on hit poison.\n
+          Right click to &bPoison Bomb&r an area around mobs,\n
           dealing massive damage. Takes 4 minutes to\n
           charge, 3 seconds reduction per kill."
     flavour:
