@@ -1,7 +1,6 @@
 package deimophobe.nightfall.dwarf.kit;
 
-import deimophobe.nightfall.game.Game;
-import deimophobe.nightfall.game.Phase;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.common.Misc;
@@ -9,16 +8,23 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.util.Weightable;
 import deimophobe.nightfall.util.WeightedSet;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Firework;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * Created by Deimophobe on 28/03/17.
@@ -57,7 +63,7 @@ public class DwarfShovel extends AbstractItem {
 				if (dwarf.hasPotionEffect(PotionEffectType.FAST_DIGGING)) chance *= 1.5;
 				
 				if (Math.random() <= chance) {
-					REWARD_TIERS.getRandom().getRandomItem().rewardDwarf(dwarf);
+					REWARD_TIERS.getRandom().rewardDwarf(dwarf, block);
 				}
 			}
 		}
@@ -120,46 +126,13 @@ public class DwarfShovel extends AbstractItem {
 	}
 	
 	private static abstract class ScavengeItem {
-		private final RewardTier tier;
-		
 		private ScavengeItem(RewardTier tier) {
-			this.tier = tier;
-			
 			tier.addItem(this);
-		}
-		
-		private void rewardDwarf(Dwarf dwarf) {
-			// SHOW PARTICLES!
-			Location bodyCentre = dwarf.getEyeLocation().add(0, -0.5, 0);
-			World world = dwarf.getWorld();
-			for (int i=0; i<10; i++) {
-				for (int j=0; j<5; j++) {
-					double velocity = 0.2;
-					double theta = 2*Math.PI*i/8;
-					double phi = Math.PI*j/4;
-					
-					double vx = velocity*Math.sin(theta)*Math.cos(phi);
-					double vy = velocity*Math.sin(theta)*Math.sin(phi);
-					double vz = velocity*Math.cos(theta);
-					world.spawnParticle(Particle.FIREWORKS_SPARK, bodyCentre, 0, vx, vy, vz, 1);
-				}
-			}
-			
-			Bukkit.broadcastMessage(
-					dwarf.getDisplayName()
-							+ ChatColor.YELLOW + " has found "
-							+ tier.colour + getDisplayName()
-							+ ChatColor.YELLOW + "!"
-			);
-			
-			dwarf.playSound("entity.player.levelup", 1f, 0.6f, true);
-			
-			giveItemToDwarf(dwarf);
-			tier.onDwarfReward(dwarf);
 		}
 		
 		abstract void giveItemToDwarf(Dwarf dwarf);
 		abstract String getDisplayName();
+		abstract ItemStack getItemStack();
 		
 	}
 	
@@ -184,6 +157,11 @@ public class DwarfShovel extends AbstractItem {
 		String getDisplayName() {
 			return amt + " " + displayName;
 		}
+		
+		@Override
+		ItemStack getItemStack() {
+			return type.getItemStack();
+		}
 	}
 	
 	private static class FixedScavengeItem extends ScavengeItem {
@@ -205,6 +183,11 @@ public class DwarfShovel extends AbstractItem {
 		String getDisplayName() {
 			return displayName;
 		}
+		
+		@Override
+		ItemStack getItemStack() {
+			return item.clone();
+		}
 	}
 	
 	private static final WeightedSet<RewardTier> REWARD_TIERS = new WeightedSet<>();
@@ -212,14 +195,77 @@ public class DwarfShovel extends AbstractItem {
 		REWARD_TIERS.addAll(EnumSet.allOf(RewardTier.class));
 	}
 	private enum RewardTier implements Weightable {
-		COMMON(60, ChatColor.GREEN),
-		UNCOMMON(30, ChatColor.BLUE),
-		RARE(10, ChatColor.DARK_PURPLE),
+		COMMON(60, ChatColor.GREEN,
+				FireworkEffect.builder()
+						.with(FireworkEffect.Type.BALL)
+						.withColor(Color.GREEN, Color.WHITE)
+						.withFade(Color.GREEN)
+						.build()
+		),
+		UNCOMMON(30, ChatColor.BLUE,
+				FireworkEffect.builder()
+						.with(FireworkEffect.Type.BALL)
+						.withColor(Color.BLUE, Color.WHITE)
+						.withFade(Color.BLUE)
+						.build(),
+				FireworkEffect.builder()
+						.with(FireworkEffect.Type.BALL)
+						.withColor(Color.BLUE, Color.WHITE)
+						.withFade(Color.BLUE)
+						.flicker(true)
+						.trail(true)
+						.build()
+		),
+		RARE(10, ChatColor.DARK_PURPLE,
+				FireworkEffect.builder()
+						.with(FireworkEffect.Type.BALL_LARGE)
+						.withColor(Color.PURPLE, Color.WHITE)
+						.withFade(Color.PURPLE)
+						.build(),
+				FireworkEffect.builder()
+						.with(FireworkEffect.Type.BALL)
+						.withColor(Color.RED, Color.PURPLE, Color.BLUE)
+						.withFade(Color.PURPLE)
+						.flicker(true)
+						.trail(true)
+						.build()
+		),
 		
-		LEGENDARY(0.5, ChatColor.GOLD) {
+		LEGENDARY(0.5, ChatColor.GOLD,
+				FireworkEffect.builder()
+						.with(FireworkEffect.Type.BALL_LARGE)
+						.withColor(Color.ORANGE, Color.WHITE)
+						.withFade(Color.ORANGE)
+						.flicker(true)
+						.trail(true)
+						.build(),
+				FireworkEffect.builder()
+						.with(FireworkEffect.Type.BALL)
+						.withColor(Color.ORANGE, Color.YELLOW)
+						.withFade(Color.YELLOW)
+						.flicker(true)
+						.trail(true)
+						.build()
+		
+		) {
 			@Override
-			void onDwarfReward(Dwarf dwarf) {
+			void rewardDwarf(Dwarf dwarf, Block block) {
+				super.rewardDwarf(dwarf, block);
 				dwarf.tryMakeImmuneFromPlague();
+				
+				Location blockCenter = block.getLocation().add(0.5, 0.5, 0.5);
+				launchFireworkLater(blockCenter, 20);
+				launchFireworkLater(blockCenter, 40);
+				launchFireworkLater(blockCenter, 60);
+				launchFireworkLater(blockCenter, 80);
+			}
+			
+			private void launchFireworkLater(Location location, int delay) {
+				new BukkitRunnable() {
+					@Override public void run() {
+						launchFirework(location);
+					}
+				}.runTaskLater(NightfallPlugin.getPlugin(), delay);
 			}
 		}
 		
@@ -227,19 +273,24 @@ public class DwarfShovel extends AbstractItem {
 		
 		private final double weight;
 		private final ChatColor colour;
+		private final Consumer<Firework> fireworkSpawner;
 		private final Set<ScavengeItem> items = new HashSet<>();
 		
-		RewardTier(double weight, ChatColor colour) {
+		RewardTier(double weight, ChatColor colour, FireworkEffect... effects) {
 			this.weight = weight;
 			this.colour = colour;
+			
+			this.fireworkSpawner = firework -> {
+				FireworkMeta meta = firework.getFireworkMeta();
+				meta.addEffects(effects);
+				
+				meta.setPower(1);
+				firework.setFireworkMeta(meta);
+			};
 		}
 		
 		private void addItem(ScavengeItem item) {
 			items.add(item);
-		}
-		
-		private ScavengeItem getRandomItem() {
-			return Misc.getRandom(items);
 		}
 		
 		@Override
@@ -247,6 +298,56 @@ public class DwarfShovel extends AbstractItem {
 			return weight;
 		}
 		
-		void onDwarfReward(Dwarf dwarf) {}
+		void rewardDwarf(Dwarf dwarf, Block block) {
+			ScavengeItem scavenge = Misc.getRandom(items);
+			if (scavenge == null) {
+				NightfallPlugin.logger().severe("No reward items for tier " + this + "!");
+				return;
+			}
+			
+			Location blockCenter = block.getLocation().add(0.5, 0.5, 0.5);
+			
+			// Particles
+			World world = dwarf.getWorld();
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 5; j++) {
+					double velocity = 0.2;
+					double theta = 2 * Math.PI * i / 8;
+					double phi = Math.PI * j / 4;
+					
+					double vx = velocity * Math.sin(theta) * Math.cos(phi);
+					double vy = velocity * Math.sin(theta) * Math.sin(phi);
+					double vz = velocity * Math.cos(theta);
+					world.spawnParticle(Particle.FIREWORKS_SPARK, blockCenter, 0, vx, vy, vz, 1);
+				}
+			}
+			launchFirework(blockCenter);
+			
+			// Message
+			Bukkit.broadcastMessage(
+					dwarf.getDisplayName()
+							+ ChatColor.YELLOW + " has found "
+							+ colour + scavenge.getDisplayName()
+							+ ChatColor.YELLOW + "!"
+			);
+			
+			// Sound
+			dwarf.playSound("entity.player.levelup", 1f, 0.6f, true);
+			
+			// Item drop
+			ItemStack itemStack = scavenge.getItemStack();
+			Item item = world.dropItemNaturally(blockCenter, itemStack);
+			item.setPickupDelay(32767); // Never
+			new BukkitRunnable() {
+				@Override public void run() { item.remove(); }
+			}.runTaskLater(NightfallPlugin.getPlugin(), 3*20);
+			
+			
+			scavenge.giveItemToDwarf(dwarf);
+		}
+		
+		void launchFirework(Location location) {
+			location.getWorld().spawn(location, Firework.class, fireworkSpawner::accept);
+		}
 	}
 }
