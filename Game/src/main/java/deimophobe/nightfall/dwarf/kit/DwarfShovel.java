@@ -41,7 +41,6 @@ public class DwarfShovel extends AbstractItem {
 	}
 	
 	
-	private static final double FIND_CHANCE = 0.0003;
 	@Override
 	public void onBlockBreak(Block block, boolean didBreak) {
 		super.onBlockBreak(block, didBreak);
@@ -59,16 +58,18 @@ public class DwarfShovel extends AbstractItem {
 			if (dwarf.getPlagueStatus() == Dwarf.PlagueStatus.PLAGUED) return;
 			
 			if (Game.getGame().getPhase() == Phase.BUILD) {
-				double chance = FIND_CHANCE;
-				if (dwarf.hasPotionEffect(PotionEffectType.FAST_DIGGING)) chance *= 1.5;
-				
-				if (Math.random() <= chance) {
+				if (Math.random() <= getFindChance()) {
 					REWARD_TIERS.getRandom().rewardDwarf(dwarf, block);
 				}
 			}
 		}
 	}
 	
+	protected static final double FIND_CHANCE = 0.0003;
+	protected static final double HASTE_CHANCE = 0.0005;
+	protected double getFindChance() {
+		return (dwarf.hasPotionEffect(PotionEffectType.FAST_DIGGING) ? FIND_CHANCE : HASTE_CHANCE);
+	}
 	
 	
 	

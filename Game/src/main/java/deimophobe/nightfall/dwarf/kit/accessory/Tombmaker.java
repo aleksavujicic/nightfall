@@ -22,9 +22,7 @@ public class Tombmaker extends DwarfShovel {
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("accessory", "tombmaker");
-	@Override public CustomItem getItem() {
-		return ITEM;
-	}
+	@Override public CustomItem getItem() { return ITEM; }
 	@Override public KitGiveType getGiveType() { return KitGiveType.SHOVEL; }
 	
 	
@@ -38,8 +36,7 @@ public class Tombmaker extends DwarfShovel {
 	public void onBlockBreak(Block block, boolean didBreak) {
 		super.onBlockBreak(block, didBreak);
 		if (block.getType() == Material.GRAVEL) {
-			dwarf.playSound("proc", 0.3f, 1.5f, false);
-			dwarf.givePotionEffect(PotionEffectType.FAST_DIGGING, 20 , 3, true, false, true);
+			dwarf.givePotionEffect(PotionEffectType.FAST_DIGGING, 3*20 , 3, true, false, true);
 		}
 	}
 }
