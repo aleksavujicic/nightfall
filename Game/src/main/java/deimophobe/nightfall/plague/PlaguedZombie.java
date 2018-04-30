@@ -69,6 +69,7 @@ public class PlaguedZombie extends AbstractMob {
 	
 	@Override
 	public void onDeath(boolean silent) {
+		super.onDeath(silent);
 		plague.notifyZombieDeath();
 	}
 	
