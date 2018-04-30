@@ -99,11 +99,15 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void onLogoff(PlayerQuitEvent event) {
-		boolean wasDwarf = dm.goOffline(event.getPlayer());
-		mm.goOffline(event.getPlayer());
-		game.unreadyPlayer(event.getPlayer(), true);
-		if (wasDwarf)
-			game.updateDwarfCount();
+		Player player = event.getPlayer();
+		
+		Entity vehicle = player.getVehicle();
+		if (vehicle != null) vehicle.removePassenger(player);
+		
+		boolean wasDwarf = dm.goOffline(player);
+		mm.goOffline(player);
+		game.unreadyPlayer(player, true);
+		if (wasDwarf) game.updateDwarfCount();
 	}
 	
 	// --------------------------------------------------------
