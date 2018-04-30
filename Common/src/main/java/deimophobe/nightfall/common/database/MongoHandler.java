@@ -9,11 +9,11 @@ import java.util.UUID;
 /**
  * Created by Deimophobe on 8/01/18.
  */
-public class DBHandler implements DataHandler {
+public class MongoHandler implements DataHandler {
 	
 	private final PlayerDAO playerDAO;
 	
-	public DBHandler() {
+	public MongoHandler() {
 		MongoClient mc = new MongoClient();
 		Morphia morphia = new Morphia();
 		

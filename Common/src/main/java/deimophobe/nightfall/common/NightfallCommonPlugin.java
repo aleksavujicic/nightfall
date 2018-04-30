@@ -5,10 +5,11 @@ import deimophobe.nightfall.common.command.HatCommand;
 import deimophobe.nightfall.common.command.LoadoutCommand;
 import deimophobe.nightfall.common.command.TitleCommand;
 import deimophobe.nightfall.common.database.DataHandler;
-import deimophobe.nightfall.common.database.DefaultHandler;
+import deimophobe.nightfall.common.database.DataHandlerType;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
 import deimophobe.nightfall.common.menu.MenuManager;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,12 +26,17 @@ public class NightfallCommonPlugin extends JavaPlugin {
 	private DataHandler dataHandler;
 	public static DataHandler getDataHandler() { return plugin.dataHandler; }
 	
+	private FileConfiguration config;
+	
 	@Override
 	public void onEnable() {
 		plugin = this;
 		
-		// TODO: read config when deciding which handler to use
-		dataHandler = new DefaultHandler();
+		// Load config - saving default if none exists.
+		this.saveDefaultConfig();
+		config = this.getConfig();
+		
+		dataHandler = createDataHandler();
 		
 		LoreTemplate.registerTemplateFile("lore-templates.yml");
 		MenuManager.initialiseMenuManager(this);
@@ -46,5 +52,17 @@ public class NightfallCommonPlugin extends JavaPlugin {
 		InputStream stream = getPlugin().getResource(name);
 		if (stream == null) throw new IllegalArgumentException("Unknown config file: " + name);
 		return YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
+	}
+	
+	private DataHandler createDataHandler() {
+		String databaseType = config.getString("database.type", "none");
+		try {
+			DataHandlerType type = Misc.getEnumMemberFromString(databaseType, DataHandlerType.values(), "data handler");
+			getLogger().info("Using database type: " + type);
+			return type.getDataHandler();
+		} catch (UnknownEnumElementException e) {
+			getLogger().severe("Unknown database: " + databaseType + ". Defaulting to NONE.");
+			return DataHandlerType.NONE.getDataHandler();
+		}
 	}
 }

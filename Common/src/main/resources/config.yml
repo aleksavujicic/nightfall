@@ -1,0 +1,6 @@
+# Does nothing yet - but might be useful to add at some point.
+debug: true
+
+database:
+  # Valid options: mongo, none (default)
+  type: none
