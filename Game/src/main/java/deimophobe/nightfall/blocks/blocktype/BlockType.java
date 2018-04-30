@@ -1,5 +1,6 @@
 package deimophobe.nightfall.blocks.blocktype;
 
+import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.dwarf.kit.hero.Trident;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.DyeColor;
@@ -81,6 +82,7 @@ public class BlockType {
 	public static final ComparableBlock SHARED_CHEST = new MaterialSet(Material.CHEST, Material.ENDER_CHEST, Material.TRAPPED_CHEST);
 	
 	public static final ComparableBlock HERANA_TRIDENT_WATER = Trident::isTridentWaterBlock;
+	public static final ComparableBlock TIMED_BLOCK = block -> BlockManager.getManager().isTimedBlock(block);
 	
 	// Chisel
 	public static final CustomBlock COBBLESTONE_BLOCK = new MaterialBlock(Material.COBBLESTONE);
@@ -159,6 +161,7 @@ public class BlockType {
 	
 	public static final ComparableBlock UNBREAKABLE_BLOCKS = new BlockSet(
 			UNTIMEABLE_BLOCKS.except(Material.GOLD_ORE),
+			TIMED_BLOCK,
 			
 			new MaterialSet(
 					Material.LOG,

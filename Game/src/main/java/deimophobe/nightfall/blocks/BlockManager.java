@@ -44,6 +44,10 @@ public class BlockManager {
 		}
 	}
 	
+	public boolean isTimedBlock(Block block) {
+		return activeTimedBlocks.containsKey(block);
+	}
+	
 	public <T extends TimedBlock> Set<T> getTimedBlocks(Class<T> tClass) {
 		Set<T> timedBlocks = new HashSet<>();
 		for (TimedBlock timedBlock : activeTimedBlocks.values()) {
@@ -64,4 +68,5 @@ public class BlockManager {
 			timedBlock.cancel();
 		}
 	}
+	
 }
