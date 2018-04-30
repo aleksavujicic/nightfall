@@ -409,9 +409,8 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		}
 		
 		// Notify gamePlayer to save damage. This happens before damage so that death messages from the damage have the right info.
-		long time = System.currentTimeMillis();
 		if (receiver instanceof GamePlayer) {
-			LastMainDamage lastMainDamage = new LastMainDamage(attacker, type, itemStack, time);
+			LastMainDamage lastMainDamage = new LastMainDamage(attacker, itemStack);
 			((GamePlayer) receiver).saveDamageInfo(deathMessageMaker, lastMainDamage);
 		}
 		

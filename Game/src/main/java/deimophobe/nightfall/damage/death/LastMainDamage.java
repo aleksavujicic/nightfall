@@ -2,7 +2,7 @@ package deimophobe.nightfall.damage.death;
 
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.damage.GameDamageType;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GameEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.util.NMSUtil;
@@ -17,11 +17,10 @@ public class LastMainDamage {
 	private final boolean hasAttacker;
 	private final String attackerName;
 	private final boolean fromAI;
-	private final GameDamageType type;
 	private final ItemStack item;
-	private final long time;
+	private final int time;
 	
-	public LastMainDamage(GameEntity<?> attacker, GameDamageType type, ItemStack item, long time) {
+	public LastMainDamage(GameEntity<?> attacker, ItemStack item) {
 		if (attacker == null) {
 			this.hasAttacker = false;
 			this.attackerName = null;
@@ -31,17 +30,12 @@ public class LastMainDamage {
 			this.attackerName = attacker.getDeathMessageName();
 			this.fromAI = (attacker instanceof AIEntity<?>);
 		}
-		this.type = type;
 		this.item = item;
-		this.time = time;
+		this.time = Game.getGame().getCurrentTick();
 	}
 	
 	public TextComponent getAttackerName() {
 		return Misc.textComponentFromString(attackerName);
-	}
-	
-	public GameDamageType getType() {
-		return type;
 	}
 	
 	public boolean hasItem() {
@@ -84,7 +78,7 @@ public class LastMainDamage {
 		return text;
 	}
 	
-	private static final int MAX_LIFETIME = 10*1000;
+	private static final int MAX_LIFETIME = 10*20;
 	@SuppressWarnings("RedundantIfStatement")
 	public boolean shouldReplace(LastMainDamage occurance) {
 		if (occurance == null) return true;
@@ -117,7 +111,6 @@ public class LastMainDamage {
 				+ "  Attacker: " + attackerName + "\n"
 				+ (hasAttacker ? "  HasAttacker\n" : "")
 				+ (fromAI ? "  FromAI\n" : "")
-				+ "  Type: " + type + "\n"
 				+ "  Item: " + item + "\n"
 				+ "  Time: " + time;
 	}

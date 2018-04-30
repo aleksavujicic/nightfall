@@ -6,11 +6,15 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.RepeatingCooldown;
 import deimophobe.nightfall.cooldown.Update;
+import deimophobe.nightfall.damage.death.DeathMessageMaker;
+import deimophobe.nightfall.damage.death.LastMainDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -28,6 +32,15 @@ import java.util.Set;
  * Created by Deimophobe on 26/01/17.
  */
 class Torus extends AbstractMob {
+	
+	private static final DeathMessageMaker TORUS_DEATH_MESSAGE = (playerName, damage) -> {
+		BaseComponent text = new TextComponent();
+		text.addExtra(playerName);
+		text.addExtra(" was launched by ");
+		text.addExtra(damage.getAttackerName());
+		text.addExtra(" and fell to their doom.");
+		return text;
+	};
 	
 	@Display @Update private final ComplexCooldown launchCD = new ComplexCooldown(45*20, this::launch);
 	         @Update private final ComplexCooldown buffer = new RepeatingCooldown(4*20, this::buffNearbyMobs);
@@ -56,6 +69,7 @@ class Torus extends AbstractMob {
 				dwarf.setVelocity(0, 4, 0);
 				launched.add(dwarf);
 			}
+			dwarf.saveDamageInfo(TORUS_DEATH_MESSAGE, new LastMainDamage(monster, getWeapon().createItemStack()));
 		}
 		
 		// Particles from launched dwarves
