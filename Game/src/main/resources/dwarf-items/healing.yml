@@ -1,6 +1,7 @@
 healing:
   base: healing-ale
   name: Healing Ale
+  shiny: true
   lore:
     description:
      - "Left click to heal yourself for &b$manacost&r mana."
@@ -10,6 +11,7 @@ healing:
 safety:
   base: safety-juice
   name: Safety Juice
+  shiny: true
   lore:
     description:
      - "The starting ale for new players.\n
@@ -21,6 +23,7 @@ safety:
 hearty:
   base: hearty-ale
   name: Hearty Ale
+  shiny: true
   lore:
     description:
      - "Left click to heal yourself for &b100&r mana.\n
@@ -58,6 +61,7 @@ regrowth:
 chug:
   base: chugging-ale
   name: Chugging Ale
+  shiny: true
   lore:
     description:
      - "Left click to heal for &b6&r hearts.\n 
@@ -72,6 +76,7 @@ chug:
 strong:
   base: strong-ale
   name: Potion Seller's Strongest Potion
+  shiny: true
   lore:
     description:
      - "A very strong potion, which gives\n
