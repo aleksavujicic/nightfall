@@ -20,7 +20,7 @@ public class Turret extends Consumable {
 		if (!checkPhase(dwarf)) return FAILED_CD;
 		if (face == null) return FAILED_CD;
 		
-		boolean success = BlockManager.getManager().placeTimedBlock(new TurretBlock(30, clickedBlock, dwarf, face, 70));
+		boolean success = BlockManager.getManager().placeTimedBlock(new TurretBlock(45, clickedBlock, dwarf, face, 70));
 		
 		if (success) return DEFAULT_CD;
 		else return FAILED_CD;
