@@ -80,6 +80,7 @@
                             <artifactSet>
                                 <includes>
                                     <include>co.aikar:*</include>
+                                    <include>com.comphenix.packetwrapper:*</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
