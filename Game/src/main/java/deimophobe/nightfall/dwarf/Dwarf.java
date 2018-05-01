@@ -4,7 +4,6 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
-import deimophobe.nightfall.blocks.timedblock.HealBlock;
 import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.RepeatingCooldown;
@@ -21,7 +20,10 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.armour.BerserkArmour;
 import deimophobe.nightfall.dwarf.kit.healing.StrongAle;
-import deimophobe.nightfall.game.*;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.GameEntity;
+import deimophobe.nightfall.game.GamePlayer;
+import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.map.GameMap;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.*;
@@ -573,20 +575,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		if (type == PotionEffectType.NIGHT_VISION) updateVisibility();
 		return success;
 	}
-	
-	private HealBlock placedHealBlock = null;
-	
-	public boolean hasPlacedHealBlock() {
-		if (placedHealBlock == null) return false;
-		
-		if (!placedHealBlock.isActive()) {
-			placedHealBlock = null;
-			return false;
-		} else {
-			return true;
-		}
-	}
-	public void setPlacedHealBlock(HealBlock placedHealBlock) { this.placedHealBlock = placedHealBlock; }
 	
 	public void disableSpecial(int duration) {
         noSpecial = duration;

@@ -5,6 +5,7 @@ import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.timedblock.HealBlock;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
@@ -20,21 +21,20 @@ public class HealStation extends Consumable {
 	public int use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
 		if (!checkPhase(dwarf)) return FAILED_CD;
 		
-		if (dwarf.hasPlacedHealBlock()) {
-			dwarf.sendTitleMessage(ChatColor.DARK_PURPLE + "You have already placed a heal station!");
-			return FAILED_CD;
+		// Check no other nearby heal blocks
+		Location blockLoc = clickedBlock.getLocation();
+		for (HealBlock healBlock : BlockManager.getManager().getTimedBlocks(HealBlock.class)) {
+			Location healLoc = healBlock.getBlock().getLocation();
+			if (blockLoc.distance(healLoc) < 12) {
+				dwarf.sendTitleMessage(ChatColor.RED + "Too close to another heal station");
+				return FAILED_CD;
+			}
 		}
 		
-		if (clickedBlock == null) return FAILED_CD;
-		
+		// Place it
 		HealBlock healBlock = new HealBlock(clickedBlock, 30*20, dwarf);
 		boolean success =  BlockManager.getManager().placeTimedBlock(healBlock);
 		
-		if (success) {
-			dwarf.setPlacedHealBlock(healBlock);
-			return DEFAULT_CD;
-		} else {
-			return FAILED_CD;
-		}
+		return (success ? DEFAULT_CD : FAILED_CD);
 	}
 }
