@@ -152,8 +152,12 @@ public class DwarvenArmour implements Armour {
 		
 		int mana = (int) Math.floor(Math.atan(1.5 * armourFraction()) * 10/Math.atan(1.5)) + 1;
 		mana = Math.min(10, mana);
-		if (Game.getGame().isCurseActive(Curse.DOOM)) mana = mana - 5;
+		
 		if (Game.getGame().isCurseActive(Curse.SUPER_DOOM)) mana = mana - 75;
+		if (Game.getGame().isCurseActive(Curse.DOOM)) {
+			mana = mana - 5;
+			dwarf.playSound("entity.zombie_villager.converted", 1f, 0.5f, false);
+		}
 		return mana;
 	}
 	

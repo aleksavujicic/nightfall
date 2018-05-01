@@ -52,8 +52,11 @@ public class HeroArmour extends StaticArmour {
 	@Override
 	public int getManaRegenRate() {
 		int mana = 5;
-		if (Game.getGame().isCurseActive(Curse.DOOM)) mana = mana - 2;
 		if (Game.getGame().isCurseActive(Curse.SUPER_DOOM)) mana = mana - 58;
+		if (Game.getGame().isCurseActive(Curse.DOOM)) {
+			mana = mana - 2;
+			hero.playSound("entity.zombie_villager.converted", 2f, 0.5f, false);
+		}
 		return mana;
 	}
 }
