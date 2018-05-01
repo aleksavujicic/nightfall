@@ -23,3 +23,12 @@ trash:
   lore:
     description:
       - "Click to empty your loadout"
+
+random:
+  template: "basic-description"
+  name: "Randomise Loadout"
+  material: dead_bush
+  lore:
+    description:
+     - "Uses the rest of your points\n
+        to randomly complete your kit."

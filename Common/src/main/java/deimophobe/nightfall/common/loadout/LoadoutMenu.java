@@ -49,9 +49,11 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 		ItemStack close = CustomItem.getItem(itemConfig.getConfigurationSection("close"), LoreTemplate.BASIC).createItemStack();
 		ItemStack points = CustomItem.getItem(itemConfig.getConfigurationSection("points"), LoreTemplate.BASIC).createItemStack();
 		ItemStack trash = CustomItem.getItem(itemConfig.getConfigurationSection("trash"), LoreTemplate.BASIC).createItemStack();
+		ItemStack random = CustomItem.getItem(itemConfig.getConfigurationSection("random"), LoreTemplate.BASIC).createItemStack();
 		
 		toolbar.setItem(0, new PointsItem(points, points));
 		toolbar.setItem(1, new ClearItem(trash));
+		toolbar.setItem(2, new RandomMenuItem(random));
 		toolbar.setItem(3, new PageChanger<>(back, pages, false));
 		toolbar.setItem(5, new PageChanger<>(forward, pages, true));
 		toolbar.setItem(8, new CloseMenuItem<>(close));

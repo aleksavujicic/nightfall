@@ -1,25 +1,30 @@
-package deimophobe.nightfall.common.loadout.item;
+package deimophobe.nightfall.common.loadout;
 
 import com.google.common.collect.Sets;
-import deimophobe.nightfall.common.loadout.Category;
-import deimophobe.nightfall.common.loadout.Loadout;
-import deimophobe.nightfall.common.loadout.LoadoutConstructable;
-import org.bukkit.configuration.ConfigurationSection;
+import deimophobe.nightfall.common.loadout.item.LoadoutItem;
+import deimophobe.nightfall.common.menu.MenuSession;
+import deimophobe.nightfall.common.menu.item.SimpleItem;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
 /**
  * Created by Deimophobe on 20/12/17.
  */
-public class RandomLoadoutItem extends LoadoutItem {
+public class RandomMenuItem extends SimpleItem<Loadout> {
 	
-	protected RandomLoadoutItem(ConfigurationSection config) {
-		super(config, Category.KIT);
+	public RandomMenuItem(ItemStack itemStack) {
+		super(itemStack);
 	}
 	
 	@Override
-	public void modify(Loadout loadout, LoadoutConstructable construct) {
+	public boolean onClick(MenuSession<Loadout> session) {
+		Loadout loadout = session.getData();
 		int pointsRemaining = loadout.getRemainingPoints();
+		if (pointsRemaining == 0) return false;
+		
+		
 		Set<LoadoutItem> randomPool = new HashSet<>();
 		Set<LoadoutItem> chosenItems = new HashSet<>();
 		
@@ -30,9 +35,7 @@ public class RandomLoadoutItem extends LoadoutItem {
 			
 			if (category.isSingleItem()) {
 				Collection<LoadoutItem> items = getRandomItems(category.getItems(), pointsRemaining, false);
-				if (items == null) {
-					category.giveDefault(construct);
-				} else {
+				if (items != null) {
 					chosenItems.addAll(items);
 					for (LoadoutItem item : items) pointsRemaining -= item.getCost();
 				}
@@ -53,7 +56,14 @@ public class RandomLoadoutItem extends LoadoutItem {
 		Collection<LoadoutItem> items = getRandomItems(randomPool, pointsRemaining, true);
 		if (items != null) chosenItems.addAll(items);
 		
-		chosenItems.forEach(item -> item.modify(loadout, construct));
+		chosenItems.forEach(loadout::selectItem);
+		
+		playSound(session.getPlayer());
+		return true;
+	}
+	
+	private void playSound(Player player) {
+		player.playSound(player.getLocation(), "entity.villager.yes", 1f, 1f);
 	}
 	
 	private static Set<LoadoutItem> getRandomItems(Set<LoadoutItem> items, int pointLimit, boolean recurse) {

@@ -535,18 +535,6 @@ builder-class:
 #          *1 Consecrating Charm\n
 #          *2 Wrenches"
 
-random-class:
-  index: 36
-  cost: 0
-  type: random
-  item:
-    template: "loadout"
-    name: "Random Kit"
-    material: dead_bush
-    lore:
-      description:
-       - "Who knows what you'll get?"
-
 untimely:
   index: 44
   cost: 64

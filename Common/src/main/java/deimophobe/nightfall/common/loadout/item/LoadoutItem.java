@@ -3,10 +3,7 @@ package deimophobe.nightfall.common.loadout.item;
 import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
-import deimophobe.nightfall.common.loadout.Category;
-import deimophobe.nightfall.common.loadout.Loadout;
-import deimophobe.nightfall.common.loadout.LoadoutConstructable;
-import deimophobe.nightfall.common.loadout.LoadoutManager;
+import deimophobe.nightfall.common.loadout.*;
 import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.item.MenuItem;
 import org.bukkit.Bukkit;
@@ -86,9 +83,6 @@ public abstract class LoadoutItem implements MenuItem<Loadout>, Comparable<Loado
 				break;
 			case "multi":
 				item = new MultiLoadoutItem(config);
-				break;
-			case "random":
-				item = new RandomLoadoutItem(config);
 				break;
 			default:
 				throw new IllegalArgumentException("Unknown loadout item type: " + type);
