@@ -60,8 +60,9 @@ public class DwarfDamage extends GameDamage<GameEntity<?>, Dwarf> {
 		}
 		
 		addPostDamageHandler(() -> {
-			getReceiver().getArmour().damage(armourShred);
-			getReceiver().useMana(manaDrain);
+			receiver.getArmour().damage(armourShred);
+			receiver.useMana(manaDrain);
+			if (manaDrain > 0) receiver.playSound("entity.zombie_villager.converted", 1f, 1.5f, true);
 		});
 	}
 	
