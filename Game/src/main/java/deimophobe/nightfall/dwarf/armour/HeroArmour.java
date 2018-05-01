@@ -55,7 +55,7 @@ public class HeroArmour extends StaticArmour {
 		if (Game.getGame().isCurseActive(Curse.SUPER_DOOM)) mana = mana - 58;
 		if (Game.getGame().isCurseActive(Curse.DOOM)) {
 			mana = mana - 2;
-			hero.playSound("entity.zombie_villager.converted", 2f, 0.5f, false);
+			hero.playSound("entity.zombie_villager.converted", 4f, 0.5f, false);
 		}
 		return mana;
 	}
