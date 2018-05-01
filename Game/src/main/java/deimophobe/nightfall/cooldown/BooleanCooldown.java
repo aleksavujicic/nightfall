@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 /**
  * Created by Deimophobe on 2/06/17.
  */
+@Deprecated
 public class BooleanCooldown implements Cooldown{
 	private int maxCD;
 	private int cd;

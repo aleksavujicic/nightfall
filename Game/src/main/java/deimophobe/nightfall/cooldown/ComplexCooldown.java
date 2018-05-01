@@ -4,6 +4,7 @@ package deimophobe.nightfall.cooldown;
 /**
  * Created by Deimophobe on 2/06/17.
  */
+@Deprecated
 public class ComplexCooldown implements Cooldown {
 	private int maxCD;
 	private int cd;

@@ -8,6 +8,11 @@ public class DudCooldown implements Cooldown {
 	public void update() {}
 	
 	@Override
+	public boolean tryUse() {
+		return false;
+	}
+	
+	@Override
 	public boolean isAvailable() {
 		return false;
 	}

@@ -3,34 +3,21 @@ package deimophobe.nightfall.cooldown;
 /**
  * Created by Deimophobe on 20/05/17.
  */
-public class SimpleCooldown implements Cooldown {
-	private final int maxCD;
-	private int cd;
+public class SimpleCooldown extends AbstractCooldown {
 	
-	public SimpleCooldown(int maxCD) {
-		this.maxCD = maxCD;
-		this.cd = 0;
+	public SimpleCooldown(int maxTime) {
+		super(maxTime);
 	}
 	
 	@Override
-	public void update() {
-		if (cd > 0)
-			cd--;
+	protected void onCooldownCompletion() {}
+	
+	@Override
+	protected boolean canUse() {
+		return true;
 	}
 	
 	@Override
-	public boolean isAvailable() {
-		return cd == 0;
-	}
-	
-	@Override
-	public void reset() {
-		cd = maxCD;
-	}
-	
-	@Override
-	public float getCooldown() {
-		return 1 - (float) cd/maxCD;
-	}
+	protected void onUse() {}
 	
 }

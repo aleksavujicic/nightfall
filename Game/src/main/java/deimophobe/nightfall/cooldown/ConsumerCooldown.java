@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 /**
  * Created by Deimophobe on 2/06/17.
  */
+@Deprecated
 public class ConsumerCooldown<T> {
 	private int maxCD;
 	private int cd;

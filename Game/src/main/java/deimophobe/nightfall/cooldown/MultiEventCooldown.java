@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 /**
  * Created by Deimophobe on 1/02/18.
  */
+@Deprecated
 public class MultiEventCooldown implements Cooldown {
 	private int maxCD;
 	private int cd;

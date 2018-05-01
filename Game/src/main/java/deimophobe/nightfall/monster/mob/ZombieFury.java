@@ -2,17 +2,14 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
-import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.cooldown.Cooldown;
-import deimophobe.nightfall.cooldown.DudCooldown;
-import deimophobe.nightfall.cooldown.SimpleCooldown;
+import deimophobe.nightfall.cooldown.*;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.VampirismCooldown;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import java.util.Map;
 
@@ -21,21 +18,18 @@ import java.util.Map;
  */
 public class ZombieFury extends ZombieMob {
 	
-	private final int vampirism;
 	private final double arrowRes;
 	private final int armourShred;
-	private final Cooldown leapCD;
-	private final int leapLvl;
 	private final int pursuit;
-	private final boolean fury;
-	private final int furyInf;
-	private final ComplexCooldown furySound;
 	
-	private Boolean isLeaping;
+	@Update private final VampirismCooldown vampirismCD;
+	@Update @Display private final Cooldown leapCD;
 	
-	private static Integer[] shredValues = {0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20};
-	private static Integer[] arrowResValues = {0, 10, 20, 30, 40, 50};
-	private static Integer[] rebirthValues = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
+	private boolean isLeaping;
+	
+	private static final Integer[] shredValues = {0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20};
+	private static final Integer[] arrowResValues = {0, 10, 20, 30, 40, 50};
+	private static final Integer[] rebirthValues = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
 	
 	public ZombieFury(MonsterPlayer mons) {
 		super(mons, MobData.getMobData("zombie.fury"));
@@ -43,31 +37,29 @@ public class ZombieFury extends ZombieMob {
 		Map<String, Integer> upgrades = monster.getUpgrades(MobType.ZOMBIE);
 		
 		this.armourShred = shredValues[upgrades.get("shred-fury")];
-		this.vampirism = upgrades.get("vampirism-fury");
+		int vampirism = upgrades.get("vampirism-fury");
 		int arrowRes = arrowResValues[upgrades.get("arrow-fury")];
 		int rebirthChance = rebirthValues[upgrades.get("rebirth-fury")];
 		this.pursuit = upgrades.get("pursuit");
-		this.leapLvl = upgrades.get("leap-fury");
-
-		if (leapLvl != 0)
-			leapCD = new SimpleCooldown(160);
-		else
+		
+		int leapLvl = upgrades.get("leap-fury");
+		if (leapLvl != 0) {
+			leapCD = new UseCooldown(160, () -> leap(leapLvl));
+		} else {
 			leapCD = new DudCooldown();
+		}
 		isLeaping = false;
 		
 		this.arrowRes = (double) arrowRes / 100;
 		this.rebirthChance = (double) rebirthChance / 100;
 		
-		this.fury = upgrades.get("furynight") >= 1;
-		this.furyInf = upgrades.get("fury-inf");
+		boolean fury = upgrades.get("furynight") >= 1;
+		int furyInf = upgrades.get("fury-inf");
 		
-		if (fury) {
-			furySound = new ComplexCooldown(20, () ->
-					monster.playSound("entity.zombie_villager.converted", 1f, 1.5f, true)
-					, ComplexCooldown.DO_NOTHING);
-		} else {
-			furySound = new ComplexCooldown(20);
-		}
+		int manaDrain = 0;
+		if (fury) manaDrain = 5 + furyInf;
+		
+		this.vampirismCD = new VampirismCooldown(20, monster, manaDrain, 1.5*vampirism);
 		
 		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
 		getArmour().addModifier(ItemModifierType.SPEED, (10 * pursuit / 3), "Upgrade");
@@ -82,8 +74,6 @@ public class ZombieFury extends ZombieMob {
 	@Override
 	public void update() {
 		super.update();
-		leapCD.update();
-		furySound.update();
 		if (isLeaping && monster.getPlayer().isOnGround()) {
 			isLeaping = false;
 			removeSpawnProtection();
@@ -100,38 +90,27 @@ public class ZombieFury extends ZombieMob {
 	public void onUse(ClickType click, Block block, BlockFace face) {
 		super.onUse(click, block, face);
 		if (click.isRightClick() && isPlayerHoldingWeapon()) {
-			if (leapCD.isAvailable()) {
-				leapCD.reset();
-				isLeaping = true;
-				
-				double yaw = monster.getPlayer().getLocation().getYaw();
-				double radYaw = yaw * Math.PI / 180;
-				
-				double hVel = (double) leapLvl / 2.5;
-				double vVel = (double) leapLvl / 10;
-				monster.getPlayer().setVelocity(new Vector(-hVel * Math.sin(radYaw), vVel, hVel * Math.cos(radYaw)));
-				giveSpawnProtection(50, false);
-			}
+			leapCD.tryUse();
 		}
+	}
+	
+	private void leap(int level) {
+		double hVel = (double) level / 2.5;
+		double vVel = (double) level / 10;
+		monster.leap(hVel, vVel);
+		
+		isLeaping = true;
+		giveSpawnProtection(50, false);
 	}
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		
 		damage.addArmourShred(armourShred);
 		
-		double healAmt = vampirism * 1.5;
-		if (fury) {
-			furySound.tryUse();
-			damage.setManaDrain(5+furyInf);
-		}
-		monster.heal(healAmt);
-		monster.givePotionEffect(PotionEffectType.SPEED, 160, pursuit, true, false, true);
-	}
-	
-	@Override
-	public float getCooldown() {
-		return leapCD.getCooldown();
+		vampirismCD.tryUse(damage);
+		damage.addPostDamageHandler(() -> {
+			monster.givePotionEffect(PotionEffectType.SPEED, 160, pursuit, true, false, true);
+		});
 	}
 }
