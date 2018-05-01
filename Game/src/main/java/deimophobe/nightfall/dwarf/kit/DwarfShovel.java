@@ -110,7 +110,13 @@ public class DwarfShovel extends AbstractItem {
 		new ConsumableScavengeItem(ConsumableType.TURRET, 16, "Turrets", RewardTier.RARE);
 		
 		new FixedScavengeItem("clover", "Lucky Clover");
-		new FixedScavengeItem("perfect-torch", "The Perfect Torch");
+		new FixedScavengeItem("perfect-torch", "The Perfect Torch") {
+			@Override
+			void giveItemToDwarf(Dwarf dwarf) {
+				super.giveItemToDwarf(dwarf);
+				dwarf.makeBlindImmune();
+			}
+		};
 		
 		new FixedScavengeItem("cherry-pie", "Cherry Pie") {
 			@Override
@@ -232,7 +238,7 @@ public class DwarfShovel extends AbstractItem {
 						.build()
 		),
 		
-		LEGENDARY(0.5, ChatColor.GOLD,
+		LEGENDARY(0.5, "" + ChatColor.GOLD + ChatColor.BOLD,
 				FireworkEffect.builder()
 						.with(FireworkEffect.Type.BALL_LARGE)
 						.withColor(Color.ORANGE, Color.WHITE)
@@ -273,11 +279,16 @@ public class DwarfShovel extends AbstractItem {
 		;
 		
 		private final double weight;
-		private final ChatColor colour;
+		private final String colour;
 		private final Consumer<Firework> fireworkSpawner;
 		private final Set<ScavengeItem> items = new HashSet<>();
 		
+		
 		RewardTier(double weight, ChatColor colour, FireworkEffect... effects) {
+			this(weight, colour.toString(), effects);
+		}
+		
+		RewardTier(double weight, String colour, FireworkEffect... effects) {
 			this.weight = weight;
 			this.colour = colour;
 			
