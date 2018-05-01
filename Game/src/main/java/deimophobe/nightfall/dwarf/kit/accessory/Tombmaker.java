@@ -35,7 +35,7 @@ public class Tombmaker extends DwarfShovel {
 	@Override
 	public void onBlockBreak(Block block, boolean didBreak) {
 		super.onBlockBreak(block, didBreak);
-		if (block.getType() == Material.GRAVEL) {
+		if (block.getType() == Material.GRAVEL && isHoldingItem()) {
 			dwarf.givePotionEffect(PotionEffectType.FAST_DIGGING, 3*20 , 3, true, false, true);
 		}
 	}
