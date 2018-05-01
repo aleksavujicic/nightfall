@@ -3,9 +3,11 @@ package deimophobe.nightfall.common.items.lore;
 import deimophobe.nightfall.common.items.modifiers.ItemModifier;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import org.apache.commons.lang.WordUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Created by Deimophobe on 21/04/17.
@@ -114,7 +116,7 @@ public class Lore implements Cloneable {
 		// Add lore text
 		String text = loreText.toString();
 		text = ChatColor.translateAlternateColorCodes('&', text);
-		text.replaceAll("\n\n+", "\n\n");
+		//text = text.replaceAll("\n\n+", "\n\n");
 		
 		lore.addAll(Arrays.asList(text.split("\n")));
 		
@@ -125,6 +127,12 @@ public class Lore implements Cloneable {
 			lore.addAll(modifierLines);
 		}
 		
-		return lore;
+		// If there is nothing in here, then just return null to remove lore from item.
+		Logger logger = Bukkit.getLogger();
+		for (String line : lore) {
+			// Contains non-whitespace - return lore
+			if (line.matches(".*\\S.*")) return lore;
+		}
+		return null;
 	}
 }
