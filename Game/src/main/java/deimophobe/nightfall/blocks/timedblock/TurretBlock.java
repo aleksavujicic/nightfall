@@ -3,6 +3,7 @@ package deimophobe.nightfall.blocks.timedblock;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
+import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -87,6 +88,9 @@ public class TurretBlock extends DataTimedBlock {
 		Arrow arrow = ArrowMisc.summonArrow(placer, launchLocation, damage, 3, 1f, 0.1f);
 		ArrowMisc.addDamageModifier(arrow, gameDamage -> {
 			gameDamage.setItemStack(ConsumableType.TURRET.getItemStack());
+			if (gameDamage.getReceiver() instanceof AIEntity<?>) {
+				gameDamage.instaKill();
+			}
 		});
 		block.getWorld().playSound(block.getLocation(), "block.dispenser.dispense", 1f, 1f);
 		block.getWorld().playSound(block.getLocation(), "block.dispenser.launch", 1f, 1f);
