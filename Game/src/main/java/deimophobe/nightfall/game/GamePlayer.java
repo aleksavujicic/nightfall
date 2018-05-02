@@ -13,10 +13,7 @@ import deimophobe.nightfall.damage.death.LastMainDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.effects.sound.Sounds;
-import deimophobe.nightfall.monster.MonsterEntity;
-import deimophobe.nightfall.util.HitscanProjectile;
 import deimophobe.nightfall.util.NMSUtil;
-import deimophobe.nightfall.util.Util;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -493,74 +490,6 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	}
 	
 	
-	// ------ BEAM FIRING ------
-	public void fireHitscan(
-			double range, double thickness,
-			double particlePeriod, Consumer<Location> particlePlacer,
-			Consumer<Dwarf> dwarfConsumer, Consumer<MonsterEntity> mobConsumber
-	) {
-		fireHitscan(range, thickness, 0.3, particlePeriod, particlePlacer, dwarfConsumer, mobConsumber);
-	}
-	
-	public void fireHitscan(
-			double range, double thickness, double offset,
-			double particlePeriod, Consumer<Location> particlePlacer,
-			Consumer<Dwarf> dwarfConsumer, Consumer<MonsterEntity> mobConsumber
-	) {
-		// Offset the start of the beam so it doesnt come from the middle of the screen
-		Location location = getEyeLocation();
-		Misc.moveLocation(location, 0, offset, -offset);
-		Vector direction = location.getDirection();
-		
-		// Offset the looking direction, so that the beam ends at the crosshairs
-		double yaw = location.getYaw() * Math.PI/180;
-		double sin = Math.sin(yaw);
-		double cos = Math.cos(yaw);
-		direction.add(new Vector(0.3*cos , 0.3, 0.3*sin).multiply(1/range));
-		
-		Util.fireHitscan(location, direction, range, thickness, particlePeriod, particlePlacer, dwarfConsumer, mobConsumber);
-	}
-	
-	public void fireParticle(
-			double velocity,
-			double range,
-			double radius,
-			double particlePeriod,
-			Consumer<Location> particlePlacer,
-			Consumer<Dwarf> dwarfConsumer,
-			Consumer<MonsterEntity> mobConsumber
-	) {
-		fireParticle(velocity, range, radius, 0.3, -0.3, particlePeriod, particlePlacer, dwarfConsumer, mobConsumber);
-	}
-	
-	public void fireParticle(
-			double velocity,
-			double range,
-			double radius,
-			double offsetPerp,
-			double offsetY,
-			double particlePeriod,
-			Consumer<Location> particlePlacer,
-			Consumer<Dwarf> dwarfConsumer,
-			Consumer<MonsterEntity> mobConsumber
-	) {
-		// Offset the start of the beam so it doesnt come from the middle of the screen
-		Location location = getEyeLocation();
-		Misc.moveLocation(location, 0, offsetPerp, offsetY);
-		Vector direction = location.getDirection();
-		
-		// Offset the looking direction, so that the beam ends at the crosshairs
-		double yaw = location.getYaw() * Math.PI/180;
-		double sin = Math.sin(yaw);
-		double cos = Math.cos(yaw);
-		direction.add(new Vector(0.3*cos , 0.3, 0.3*sin).multiply(1/range));
-		
-		direction.normalize().multiply(velocity);
-		
-		new HitscanProjectile(location, direction, radius, range, particlePeriod, particlePlacer, dwarfConsumer, mobConsumber);
-	}
-	
-	
 	// ------ HITSCAN CLASSES ------
 	public abstract class SingleEntityConsumer<P extends GameEntity> implements Consumer<P> {
 		private final Set<P> hitPlayers = new HashSet<>();
@@ -600,35 +529,35 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 		}
 	}
 	
-	public class GameEntityDamager<P extends GameEntity> extends SingleEntityConsumer<P> {
-		private final Consumer<P> damager;
+	public class GameEntityDamager<E extends GameEntity> extends SingleEntityConsumer<E> {
+		private final Consumer<E> damager;
 		
 		public GameEntityDamager(GameDamageType type, double damage) {
 			super(0);
-			this.damager = p -> p.doDamage(GamePlayer.this, type, damage);
+			this.damager = entity -> entity.doDamage(GamePlayer.this, type, damage);
 		}
 		
-		public GameEntityDamager(GameDamageType type, Function<P, Double> damageFunction) {
+		public GameEntityDamager(GameDamageType type, Function<E, Double> damageFunction) {
 			super(0);
-			this.damager = p -> p.doDamage(GamePlayer.this, type, damageFunction.apply(p));
+			this.damager = entity -> entity.doDamage(GamePlayer.this, type, damageFunction.apply(entity));
 		}
 		
-		public GameEntityDamager(Consumer<P> damager) {
+		public GameEntityDamager(Consumer<E> damager) {
 			super(0);
 			this.damager = damager;
 		}
 		
 		public GameEntityDamager(GameDamageType type, double damage, boolean force, Consumer<GameDamage<?,?>> damageModifier) {
 			super(0);
-			this.damager = p -> {
-				GameDamage<?,?> gameDamage = p.createDamage(GamePlayer.this, type, damage);
+			this.damager = entity -> {
+				GameDamage<?,?> gameDamage = entity.createDamage(GamePlayer.this, type, damage);
 				damageModifier.accept(gameDamage);
 				gameDamage.fire(force);
 			};
 		}
 		
 		@Override
-		public void onHit(P entity) {
+		public void onHit(E entity) {
 			damager.accept(entity);
 		}
 	}

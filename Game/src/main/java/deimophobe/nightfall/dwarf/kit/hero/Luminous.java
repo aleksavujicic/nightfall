@@ -10,7 +10,8 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.ranged.AbstractBow;
 import deimophobe.nightfall.game.GamePlayer;
 import deimophobe.nightfall.monster.MonsterEntity;
-import deimophobe.nightfall.monster.ai.AIEntity;
+import deimophobe.nightfall.util.Hitscan;
+import deimophobe.nightfall.util.HitscanProjectile;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -36,15 +37,15 @@ public class Luminous extends AbstractBow {
     private static final double MAX_RANGE = 80;
     private static final double THICKNESS = 1.6;
     private static final double MIN_DISTANCE_FROM_SHOOTER = 1;
-
+    
     @Override
     public void onDamageAttack(MonsterDamage damage) {
         super.onDamageAttack(damage);
         if (damage.getType() == GameDamageType.LUMINOUS) {
             damage.getArrowRes().timesMult(0.5);
             
-            if (damage.getMonster() instanceof AIEntity) {
-            	damage.getMultiPartDamage().timesMult(1.5);
+            if (damage.getMonster().isAI()) {
+            	damage.instaKill();
 			}
         }
     }
@@ -60,7 +61,8 @@ public class Luminous extends AbstractBow {
 		ParticleSwirler swirler = new ParticleSwirler(dwarf.getLocation().getDirection());
 		GamePlayer.ProcGiver procGiver = dwarf.new ProcGiver(ProcType.LUMINOUS, MIN_DISTANCE_FROM_SHOOTER);
 		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(GameDamageType.LUMINOUS, getPower()*force);
-		dwarf.fireParticle(4, range, THICKNESS, 0.33, swirler, procGiver, entityDamager);
+		Hitscan hitscan = new Hitscan(THICKNESS, swirler, procGiver, entityDamager);
+		HitscanProjectile.fireProjectile(dwarf, 4, range, hitscan);
 	
 		dwarf.playSound("entity.ghast.shoot", 1f, 1.35f - force*0.5f, true);
 		

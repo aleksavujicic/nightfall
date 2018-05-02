@@ -5,7 +5,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Created by Deimophobe on 20/11/17.
+ * @deprecated Use {@link deimophobe.nightfall.cooldown.LifetimeExpireable} instead. BukkitRunnables cause headaches.
  */
+@Deprecated
 public abstract class LifetimeObject extends BukkitRunnable {
 	private int lifetime;
 	private final int updateFreq;

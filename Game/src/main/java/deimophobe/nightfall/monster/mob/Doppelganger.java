@@ -6,6 +6,7 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.common.cosmetic.hat.Hat;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -17,6 +18,7 @@ import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.util.ArmourSlot;
+import deimophobe.nightfall.util.Hitscan;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.ChatColor;
@@ -138,8 +140,11 @@ public class Doppelganger extends AbstractMob {
 		}
 	}
 	
-	private final ComplexCooldown beamer = new ComplexCooldown(10,
-			() -> monster.fireHitscan(Scepter.RANGE, 1.25, 0.2, 0.2, Scepter.PARTICLE_PLACER, null, null)
+	private final Cooldown beamer = new ComplexCooldown(10,
+			() -> {
+				Hitscan hitscan = new Hitscan(0.2, 1.2, Scepter.PARTICLE_PLACER, null, null);
+				hitscan.fire(monster, Scepter.RANGE);
+			}
 	);
 	
 	@Override

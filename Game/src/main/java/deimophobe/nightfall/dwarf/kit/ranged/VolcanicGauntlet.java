@@ -6,12 +6,13 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.game.GamePlayer;
 import deimophobe.nightfall.monster.MonsterEntity;
+import deimophobe.nightfall.util.Hitscan;
+import deimophobe.nightfall.util.HitscanBuilder;
+import deimophobe.nightfall.util.HitscanProjectile;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.Projectile;
-
-import java.util.function.Consumer;
 
 /**
  * Created by Deimophobe on 5/10/17.
@@ -29,13 +30,17 @@ public class VolcanicGauntlet extends AbstractBow {
 	@Override public String getBowIdentifier() {return "VOLCANIC";}
 	@Override public int getPower() {return POWER;}
 	
-	private static final double MAX_RANGE = 45;
+	private static final double MAX_RANGE = 50;
 	private static final double THICKNESS = 1.25;
 	private static final double PARTICLE_OFFSET = THICKNESS/10;
 	private static final double AOE_RADIUS = 1.5;
 	
-	private static final Consumer<Location> PARTICLE_PLACER =
-			(location) -> location.getWorld().spawnParticle(Particle.FLAME, location, 3, PARTICLE_OFFSET, PARTICLE_OFFSET, PARTICLE_OFFSET, 0);
+	
+	private static final HitscanBuilder HITSCAN_BUILDER = HitscanBuilder.builder()
+			.withThickness(THICKNESS)
+			.withParticlePeriod(0.33)
+			.withParticlePlacer(location -> location.getWorld().spawnParticle(Particle.FLAME, location, 3, PARTICLE_OFFSET, PARTICLE_OFFSET, PARTICLE_OFFSET, 0))
+			;
 	
 	@Override
 	public Projectile onBowFire(Projectile arrow, float force) {
@@ -51,7 +56,8 @@ public class VolcanicGauntlet extends AbstractBow {
 				GameDamageType.VOLCANIC_BOW,
 				(monster) -> (monster.isAI() ? damage*2d/3d : damage)
 		);
-		dwarf.fireParticle(3, range, THICKNESS, 0.33, PARTICLE_PLACER, null, entityDamager);
+		Hitscan hitscan = HITSCAN_BUILDER.but().withMobConsumer(entityDamager).build();
+		HitscanProjectile.fireProjectile(dwarf, 3, range, hitscan);
 		
 		Location feets = dwarf.getLocation().add(0, 0.25, 0);
 		World world = feets.getWorld();

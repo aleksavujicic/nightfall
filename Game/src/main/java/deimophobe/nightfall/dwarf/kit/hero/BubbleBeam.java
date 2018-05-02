@@ -21,6 +21,9 @@ import deimophobe.nightfall.game.GamePlayer;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.ai.AIEntity;
+import deimophobe.nightfall.util.Hitscan;
+import deimophobe.nightfall.util.HitscanBuilder;
+import deimophobe.nightfall.util.HitscanProjectile;
 import deimophobe.nightfall.util.LifetimeObject;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -96,14 +99,20 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		}
 	}
 	
-	private static final Consumer<Location> PARTICLE_PLACER = (location) -> {
-		location.getWorld().spawnParticle(Particle.WATER_BUBBLE, location, 7, 0.05, 0.05, 0.05, 0);
-		location.getWorld().spawnParticle(Particle.CRIT_MAGIC, location, 1, 0.05, 0.05, 0.05, 0);
-	};
+	private static final HitscanBuilder HITSCAN_BUILDER = HitscanBuilder.builder()
+			.withThickness(1)
+			.withParticlePeriod(0.2)
+			.withParticlePlacer(location -> {
+				location.getWorld().spawnParticle(Particle.WATER_BUBBLE, location, 7, 0.05, 0.05, 0.05, 0);
+				location.getWorld().spawnParticle(Particle.CRIT_MAGIC, location, 1, 0.05, 0.05, 0.05, 0);
+			})
+	;
 	
 	private void shootBubble() {
-		double offsetPerp = Misc.randomDouble(-0.5, 0.5);
-		double offsetY = Misc.randomDouble(-0.5, 0.5);
+		Hitscan.FireLocation fireLocation = new Hitscan.FireLocation(dwarf.getEyeLocation(), 15);
+		double yOffset = Misc.randomDouble(-0.5, 0.5);
+		double perpOffset = Misc.randomDouble(-0.5, 0.5);
+		fireLocation.offset(perpOffset, yOffset);
 		
 		Consumer<MonsterEntity> monsterDamager = dwarf.new GameEntityDamager<MonsterEntity>(monster -> {
 			double damageAmt = DAMAGE + dwarf.getBonusMeleeDamage() / 2;
@@ -117,7 +126,9 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 			damage.fire();
 		});
 		
-		dwarf.fireParticle(0.5, 15, 1, offsetPerp, offsetY, 0.2, PARTICLE_PLACER, null, monsterDamager);
+		Hitscan hitscan = HITSCAN_BUILDER.but().withMobConsumer(monsterDamager).build();
+		HitscanProjectile.fireProjectile(fireLocation, 1, hitscan);
+		
 		dwarf.playSound("entity.player.hurt_drown", 0.8f, 1.5f, true);
 	}
 	

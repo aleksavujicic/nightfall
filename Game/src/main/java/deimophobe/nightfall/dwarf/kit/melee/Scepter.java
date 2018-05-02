@@ -15,6 +15,7 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.util.Buffpool;
 import deimophobe.nightfall.util.Colour;
+import deimophobe.nightfall.util.Hitscan;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -107,7 +108,8 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	};
 	
 	private void shootLance() {
-		dwarf.fireHitscan(RANGE, 1.25, 0.2, 0.2, PARTICLE_PLACER, DWARF_BUFFER, DAMAGER);
+		Hitscan hitscan = new Hitscan(1.2, 0.2, PARTICLE_PLACER, DWARF_BUFFER, DAMAGER);
+		hitscan.fire(dwarf, RANGE);
 	}
 	
 	

@@ -1,48 +1,44 @@
 package deimophobe.nightfall.util;
 
-import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.monster.MonsterEntity;
+import deimophobe.nightfall.game.GamePlayer;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
-
-import java.util.function.Consumer;
 
 /**
  * Created by Deimophobe on 29/12/17.
  */
 public class HitscanProjectile extends CustomProjectile {
 	
-	private final double thickness;
-	private final double particlePeriod;
-	private final Consumer<Location> particlePlacer;
-	private final Consumer<Dwarf> dwarfConsumer;
-	private final Consumer<MonsterEntity> mobConsumer;
+	private final Hitscan hitscan;
 	
-	public HitscanProjectile(
-			Location location,
-			Vector velocity,
-			double thickness,
-			double range,
-			double particlePeriod,
-			Consumer<Location> particlePlacer,
-			Consumer<Dwarf> dwarfConsumer,
-			Consumer<MonsterEntity> mobConsumer
-	) {
-		super((int) (range/velocity.length()), location, velocity, 0, 1);
-		this.particlePeriod = particlePeriod;
-		this.thickness = thickness;
-		this.particlePlacer = particlePlacer;
-		this.dwarfConsumer = dwarfConsumer;
-		this.mobConsumer = mobConsumer;
+	public static HitscanProjectile fireProjectile(GamePlayer player, double velocity, double range, Hitscan hitscan) {
+		int lifetime = (int) (range/velocity);
+		
+		Hitscan.FireLocation fireLocation = new Hitscan.FireLocation(player, range);
+		Vector vectorVel = fireLocation.getDirection().multiply(velocity);
+		
+		return new HitscanProjectile(lifetime, fireLocation.getLocation(), vectorVel, hitscan);
+	}
+	
+	public static HitscanProjectile fireProjectile(Hitscan.FireLocation fireLocation, double velocity, Hitscan hitscan) {
+		int lifetime = (int) (fireLocation.getRange()/velocity);
+		Vector vectorVel = fireLocation.getDirection().multiply(velocity);
+		
+		return new HitscanProjectile(lifetime, fireLocation.getLocation(), vectorVel, hitscan);
+	}
+	
+	public HitscanProjectile(int lifetime, Location location, Vector velocity, Hitscan hitscan) {
+		super(lifetime, location, velocity, 0);
+		this.hitscan = hitscan;
 	}
 	
 	@Override
-	public void run() {
-		boolean success = Util.fireHitscan(location, velocity, velocity.length(), thickness,  particlePeriod, particlePlacer, dwarfConsumer, mobConsumer);
-		if (!success) {
-			this.cancel();
-		}
+	public void update() {
+		boolean success = hitscan.fire(location, velocity.length());
+		super.update();
 		
-		super.run();
+		if (!success) {
+			this.expire();
+		}
 	}
 }

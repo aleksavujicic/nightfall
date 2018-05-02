@@ -13,6 +13,8 @@ import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.monster.MonsterEntity;
+import deimophobe.nightfall.util.Hitscan;
+import deimophobe.nightfall.util.HitscanProjectile;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -227,7 +229,8 @@ public class Spellbook extends AbstractItem {
 					Consumer<MonsterEntity> mobDamager = dwarf.new GameEntityDamager<MonsterEntity>(
 							GameDamageType.TEMPORARY, 1, true, damage -> damage.setNoDamageTicks(1)
 					);
-					dwarf.fireHitscan(MAX_RANGE, THICKNESS, 0.4, 0.3, PARTICLE_PLACER, null, mobDamager);
+					Hitscan hitscan = new Hitscan(THICKNESS, PARTICLE_PLACER, null, mobDamager);
+					hitscan.fire(dwarf, MAX_RANGE);
 				}
 				
 				@Override
@@ -267,7 +270,8 @@ public class Spellbook extends AbstractItem {
 						Consumer<MonsterEntity> mobDamager = dwarf.new GameEntityDamager<MonsterEntity>(
 								GameDamageType.TEMPORARY, 20, true, damage -> damage.setNoDamageTicks(3)
 						);
-						dwarf.fireParticle(1.5f, MAX_RANGE, THICKNESS, 0.3, PARTICLE_PLACER, null, mobDamager);
+						Hitscan hitscan = new Hitscan(THICKNESS, PARTICLE_PLACER, null, mobDamager);
+						HitscanProjectile.fireProjectile(dwarf, 1.5, MAX_RANGE, hitscan);
 					}
 					super.update();
 				}
@@ -294,7 +298,8 @@ public class Spellbook extends AbstractItem {
 				@Override
 				public void update() {
 					if (everyNTicks(5)) {
-						dwarf.fireParticle(1.5f, MAX_RANGE, THICKNESS, 0.3, PARTICLE_PLACER, null, mobDamager);
+						Hitscan hitscan = new Hitscan(THICKNESS, PARTICLE_PLACER, null, mobDamager);
+						HitscanProjectile.fireProjectile(dwarf, 1.5, MAX_RANGE, hitscan);
 					}
 					super.update();
 				}
