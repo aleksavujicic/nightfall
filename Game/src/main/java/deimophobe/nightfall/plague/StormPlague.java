@@ -54,6 +54,7 @@ public class StormPlague extends Plague {
 		
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			dwarf.removeAllPoisons();
+			dwarf.getPlayer().stopSound("item.elytra.flying");
 		}
 		updater.cancel();
 		damageCount.clear();
@@ -117,7 +118,10 @@ public class StormPlague extends Plague {
 		player.spawnParticle(Particle.BLOCK_CRACK, feet.clone().add(0, 0.5, 0), 30, 5, 4, 5, 0, new MaterialData(Material.LAPIS_BLOCK));
 		
 		dwarf.playSound("entity.silverfish.step", 0.8f, 1f, false);
-		if (playRain) dwarf.playSound("weather.rain", 100f, 0.5f, false);
+		if (playRain) {
+			dwarf.playSound("item.elytra.flying", 100f, 0.5f, false);
+			dwarf.playSound("weather.rain", 100f, 0.5f, false);
+		}
 		if (!thundering) return;
 		
 		if (isPlagued(dwarf)) {
