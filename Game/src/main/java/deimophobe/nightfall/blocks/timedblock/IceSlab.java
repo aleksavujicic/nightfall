@@ -1,5 +1,6 @@
 package deimophobe.nightfall.blocks.timedblock;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.game.GameEntity;
@@ -9,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.material.MaterialData;
 
 /**
@@ -57,7 +59,9 @@ public class IceSlab extends DataTimedBlock {
 	}
 	
 	@Override
-	public void onHit(GamePlayer player) {
+	public void onHit(GamePlayer player, ClickType click, BlockFace blockFace) {
+		if (!click.isLeftClick()) return;
+		
 		if (maxLifetime - getLifetime() < 40) return;
 		hitter.tryUse();
 	}

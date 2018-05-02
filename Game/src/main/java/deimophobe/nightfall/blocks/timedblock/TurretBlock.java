@@ -1,8 +1,12 @@
 package deimophobe.nightfall.blocks.timedblock;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
+import deimophobe.nightfall.game.GamePlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.*;
@@ -21,24 +25,25 @@ import org.jetbrains.annotations.NotNull;
 public class TurretBlock extends DataTimedBlock {
 	
 	private final Dwarf placer;
-	private final Location launchLocation;
-	
-	private final BlockFace face;
-	
+	private Location launchLocation;
+	private final BlockFace initialFace;
 	private final double damage;
 	
-	public TurretBlock(int arrows, @NotNull Block block, @NotNull Dwarf placer, @NotNull BlockFace face, double damage) {
+	private final Cooldown faceRotater = new SimpleCooldown(10);
+	
+	public TurretBlock(int arrows, @NotNull Block block, @NotNull Dwarf placer, @NotNull BlockFace initialFace, double damage) {
 		super(arrows*20, block, placer, Material.DISPENSER);
 		this.placer = placer;
-		this.face = face;
+		this.initialFace = initialFace;
 		this.damage = damage;
+	}
+	
+	@Override
+	public void update() {
+		super.update();
+		faceRotater.update();
 		
-		Block adjacentBlock = block.getRelative(face);
-		Vector offset = adjacentBlock.getLocation().subtract(block.getLocation()).toVector();
-		
-		Location center = block.getLocation().add(0.5, 0.5, 0.5);
-		this.launchLocation = center.add(offset.clone().multiply(0.6));
-		launchLocation.setDirection(offset);
+		if (everyNTicks(20)) fireArrow();
 	}
 	
 	@Override
@@ -49,11 +54,8 @@ public class TurretBlock extends DataTimedBlock {
 	@Override
 	protected void setBlock() {
 		super.setBlock();
-		BlockState state = block.getState();
-		Dispenser dispenser = ((Dispenser) state.getData());
-		dispenser.setFacingDirection(face);
-		state.setData(dispenser);
-		state.update();
+		setBlockFace(initialFace);
+		faceRotater.reset();
 	}
 	
 	@Override
@@ -78,10 +80,33 @@ public class TurretBlock extends DataTimedBlock {
 	}
 	
 	@Override
-	public void update() {
-		super.update();
+	public void onHit(GamePlayer player, ClickType click, BlockFace blockFace) {
+		super.onHit(player, click, blockFace);
 		
-		if (everyNTicks(20)) fireArrow();
+		if (player != placer) return;
+		if (!click.isRightClick()) return;
+		if (!faceRotater.tryUse()) return;
+		setBlockFace(blockFace);
+		
+		Location center = block.getLocation().add(0.5, 0.5, 0.5);
+		World world = center.getWorld();
+		world.spawnParticle(Particle.BLOCK_CRACK, center, 5, 0.4, 0.4, 0.4, 0, block.getState().getData());
+		world.playSound(center, Sound.BLOCK_STONE_PLACE, 1f, 1f);
+	}
+	
+	private void setBlockFace(BlockFace face) {
+		BlockState state = block.getState();
+		Dispenser dispenser = ((Dispenser) state.getData());
+		dispenser.setFacingDirection(face);
+		state.setData(dispenser);
+		state.update();
+		
+		Block adjacentBlock = block.getRelative(face);
+		Vector offset = adjacentBlock.getLocation().subtract(block.getLocation()).toVector();
+		
+		Location center = block.getLocation().add(0.5, 0.5, 0.5);
+		launchLocation = center.add(offset.clone().multiply(0.6));
+		launchLocation.setDirection(offset);
 	}
 	
 	private void fireArrow() {

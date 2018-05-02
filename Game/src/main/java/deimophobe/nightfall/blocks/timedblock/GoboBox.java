@@ -1,5 +1,6 @@
 package deimophobe.nightfall.blocks.timedblock;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -13,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.util.Vector;
 
 /**
@@ -70,8 +72,11 @@ public class GoboBox extends DataTimedBlock {
 	}
 	
 	@Override
-	public void onHit(GamePlayer player) {
-		if (player instanceof Dwarf)
+	public void onHit(GamePlayer player, ClickType click, BlockFace blockFace) {
+		if (!click.isLeftClick()) return;
+		
+		if (player instanceof Dwarf) {
 			this.cancel();
+		}
 	}
 }

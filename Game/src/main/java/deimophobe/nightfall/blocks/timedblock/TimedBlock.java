@@ -1,10 +1,12 @@
 package deimophobe.nightfall.blocks.timedblock;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.cooldown.LifetimeExpireable;
 import deimophobe.nightfall.game.GameEntity;
 import deimophobe.nightfall.game.GamePlayer;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 
 /**
  * Created by Deimophobe on 23/01/17.
@@ -57,7 +59,7 @@ public abstract class TimedBlock extends LifetimeExpireable {
 	protected abstract void unsetBlock();
 	
 	
-	public void onHit(GamePlayer player) {}
+	public void onHit(GamePlayer player, ClickType click, BlockFace blockFace) {}
 	
 	
 	

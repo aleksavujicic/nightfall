@@ -25,6 +25,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -127,8 +128,10 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void useItems(PlayerInteractEvent event) {
 		Block block = event.getClickedBlock();
+		BlockFace blockFace = event.getBlockFace();
 		Action action = event.getAction();
 		GamePlayer gp = game.getGamePlayer(event.getPlayer());
+		
 		if (gp != null && action != Action.PHYSICAL) {
 			
 			// Prevent frozen mobs using stuff
@@ -156,11 +159,9 @@ public class GameListener implements Listener {
 			
 			if (block == null) block = gp.getTargetBlock(null, 5);
 			ClickType click = ClickType.fromAction(action);
-			gp.onUse(click, block, event.getBlockFace());
+			gp.onUse(click, block, blockFace);
 			
-			if (click.isLeftClick()) {
-				BlockManager.getManager().hitBlock(block, gp);
-			}
+			BlockManager.getManager().hitBlock(block, gp, click, blockFace);
 		}
 		
 		if (block != null && BlockType.UNINTERACTABLE_BLOCKS.matchesBlock(block)) {

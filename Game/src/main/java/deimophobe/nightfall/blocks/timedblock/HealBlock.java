@@ -1,5 +1,6 @@
 package deimophobe.nightfall.blocks.timedblock;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -9,6 +10,7 @@ import deimophobe.nightfall.game.GamePlayer;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.material.MaterialData;
 
 /**
@@ -42,7 +44,9 @@ public class HealBlock extends DataTimedBlock {
 	}
 	
 	@Override
-	public void onHit(GamePlayer player) {
+	public void onHit(GamePlayer player, ClickType click, BlockFace blockFace) {
+		if (!click.isLeftClick()) return;
+		
 		if (player instanceof MonsterPlayer) {
 			hitter.tryUse();
 		}

@@ -1,9 +1,11 @@
 package deimophobe.nightfall.blocks;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GamePlayer;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,10 +39,10 @@ public class BlockManager {
 		return true;
 	}
 	
-	public void hitBlock(Block block, GamePlayer gamePlayer) {
+	public void hitBlock(Block block, GamePlayer gamePlayer, ClickType click, BlockFace blockFace) {
 		TimedBlock timedBlock = activeTimedBlocks.get(block);
 		if (timedBlock != null) {
-			timedBlock.onHit(gamePlayer);
+			timedBlock.onHit(gamePlayer, click, blockFace);
 		}
 	}
 	
