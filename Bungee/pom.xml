@@ -26,7 +26,18 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>2.4.3</version>
+                <version>2.4.1</version>
+
+                <!-- ACF shading -->
+                <configuration>
+                    <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
+                    <relocations>
+                        <relocation>
+                            <pattern>co.aikar.commands</pattern>
+                            <shadedPattern>deimophobe.nightfall.bungee.acf</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -36,6 +47,8 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
+                                    <include>co.aikar:*</include>
+                                    <include>net.jodah:*</include>
                                     <include>commons-io:commons-io</include>
                                 </includes>
                             </artifactSet>
@@ -58,6 +71,10 @@
         <repository>
             <id>ME1312.net</id>
             <url>https://src.ME1312.net/maven</url>
+        </repository>
+        <repository>
+            <id>aikar</id>
+            <url>https://repo.aikar.co/content/groups/aikar/</url>
         </repository>
     </repositories>
 
@@ -95,6 +112,13 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.7-SNAPSHOT</version>
+        </dependency>
+
+        <!-- Aikar Command Framework -->
+        <dependency>
+            <groupId>co.aikar</groupId>
+            <artifactId>acf-bungee</artifactId>
+            <version>0.5.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

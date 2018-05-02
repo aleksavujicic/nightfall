@@ -1,4 +1,4 @@
-package deimophobe.nightfall.bungee;
+package deimophobe.nightfall.bungee.util;
 
 import com.google.common.collect.ForwardingSet;
 

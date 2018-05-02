@@ -1,4 +1,4 @@
-package deimophobe.nightfall.bungee;
+package deimophobe.nightfall.bungee.util;
 
 /**
  * Created by Deimophobe on 17/12/17.

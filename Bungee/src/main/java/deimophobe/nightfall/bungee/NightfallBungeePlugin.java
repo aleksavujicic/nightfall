@@ -1,7 +1,6 @@
 package deimophobe.nightfall.bungee;
 
-import deimophobe.nightfall.bungee.command.CreateGameCommand;
-import deimophobe.nightfall.bungee.command.GameListCommand;
+import deimophobe.nightfall.bungee.command.CommandInitialiserUtil;
 import deimophobe.nightfall.bungee.command.TestCommand;
 import deimophobe.nightfall.bungee.map.InvalidRotationConfigException;
 import deimophobe.nightfall.bungee.map.MapManager;
@@ -50,14 +49,14 @@ public class NightfallBungeePlugin extends Plugin {
 		serverManager = new ServerManager();
 		
 		PluginManager pm = getProxy().getPluginManager();
-		pm.registerCommand(this, new CreateGameCommand());
-		pm.registerCommand(this, new GameListCommand());
 		pm.registerCommand(this, new TestCommand());
 		
 		pm.registerListener(this, new GameMessenger());
 		SubDataServer.registerPacket( GameCreatePacketOut.class, GameCreatePacketOut.handle() );
 		SubDataServer.registerPacket( GameStartPacketOut.class,  GameStartPacketOut.handle()  );
 		SubDataServer.registerPacket( GameEndPacketOut.class,    GameEndPacketOut.handle()    );
+		
+		CommandInitialiserUtil.initialiseCommands(this);
 	}
 	
 	@Override

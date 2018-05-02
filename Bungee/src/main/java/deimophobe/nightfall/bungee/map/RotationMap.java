@@ -1,6 +1,6 @@
 package deimophobe.nightfall.bungee.map;
 
-import deimophobe.nightfall.bungee.Weightable;
+import deimophobe.nightfall.bungee.util.Weightable;
 import net.md_5.bungee.config.Configuration;
 
 /**

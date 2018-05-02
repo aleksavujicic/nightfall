@@ -1,6 +1,6 @@
 package deimophobe.nightfall.bungee.map;
 
-import deimophobe.nightfall.bungee.WeightedSet;
+import deimophobe.nightfall.bungee.util.WeightedSet;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
