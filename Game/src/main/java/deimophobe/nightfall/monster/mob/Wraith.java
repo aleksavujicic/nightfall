@@ -169,7 +169,7 @@ public class Wraith extends AbstractMob implements FloatyMob {
 			if (monster.distanceTo(dwarf) <= AOE_RADIUS) {
 				DwarfDamage damage = dwarf.createDamage(monster, GameDamageType.WRAITH_CHARGE, AOE_DMG);
 				damage.setArmourShred(AOE_SHRED);
-				damage.setManaDrain(50);
+				damage.setManaDrain(40);
 				damage.setNoDamageTicks(10);
 				damage.addPostDamageHandler(() -> {
 					dwarf.givePotionEffect(PotionEffectType.BLINDNESS, 15, 1, false, true, true);
