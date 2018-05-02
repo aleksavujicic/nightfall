@@ -19,6 +19,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by Deimophobe on 9/07/17.
  */
@@ -33,6 +36,8 @@ public class Wraith extends AbstractMob implements FloatyMob {
 	private static final int FLOAT_TIME = 40;
 	private int chargerCD;
 	private boolean chargeActive = false;
+	
+	private final Set<Dwarf> hitDwarves = new HashSet<>();
 	
 	@Override
 	public void onSpawn(SpawnMethod spawnMethod) {
@@ -130,6 +135,8 @@ public class Wraith extends AbstractMob implements FloatyMob {
 	}
 	
 	private void charge() {
+		hitDwarves.clear();
+		
 		Vector velocity;
 		if (monster.isUnderwater()) {
 			velocity = new Vector(0, 3, 0);
@@ -161,23 +168,23 @@ public class Wraith extends AbstractMob implements FloatyMob {
 	private static final int AOE_DMG = 60; // This is a one off hit so its not as strong as it seems.
 	private static final int AOE_SHRED = 40;
 	private void aoeDamage() {
-		//DamageManager.getManager().AOEDamage(DwarfManager.getManager().getDwarves(), monster,
-		//		GameDamageType.WRAITH_CHARGE, AOE_RADIUS, AOE_DMG, 1,
-		//		new DwarfDamageModifier().setArmourShred(AOE_SHRED).setManaDrain(25)
-		//);
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
-			if (monster.distanceTo(dwarf) <= AOE_RADIUS) {
-				DwarfDamage damage = dwarf.createDamage(monster, GameDamageType.WRAITH_CHARGE, AOE_DMG);
-				damage.setArmourShred(AOE_SHRED);
-				damage.setManaDrain(40);
-				damage.setNoDamageTicks(10);
-				damage.addPostDamageHandler(() -> {
-					dwarf.givePotionEffect(PotionEffectType.BLINDNESS, 15, 1, false, true, true);
-					dwarf.givePotionEffect(PotionEffectType.SLOW, 30, 3, false, true, true);
-					dwarf.givePoison(PoisonType.WRAITH, 40);
-				});
-				damage.fire();
-			}
+			if (monster.distanceTo(dwarf) > AOE_RADIUS) continue;
+			if (hitDwarves.contains(dwarf)) continue;
+			
+			// Do damage
+			DwarfDamage damage = dwarf.createDamage(monster, GameDamageType.WRAITH_CHARGE, AOE_DMG);
+			damage.setArmourShred(AOE_SHRED);
+			damage.setManaDrain(40);
+			damage.setNoDamageTicks(10);
+			damage.addPostDamageHandler(() -> {
+				dwarf.givePotionEffect(PotionEffectType.BLINDNESS, 15, 1, false, true, true);
+				dwarf.givePotionEffect(PotionEffectType.SLOW, 30, 3, false, true, true);
+				dwarf.givePoison(PoisonType.WRAITH, 40);
+			});
+			boolean hit = damage.fire();
+			
+			if (hit) hitDwarves.add(dwarf);
 		}
 	}
 }
