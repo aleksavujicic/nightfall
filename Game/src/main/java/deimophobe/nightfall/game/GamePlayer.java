@@ -4,7 +4,7 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.cooldown.Expirable;
+import deimophobe.nightfall.cooldown.CooldownHolder;
 import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
@@ -443,31 +443,17 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	public abstract void onProjectileLand(Projectile arrow, Block hitBlock, Entity hitEntity);
 	
 	// ----- UPDATES -----
-	private final Set<Updateable> updateables = new HashSet<>();
-	private final Set<Expirable> expirables = new HashSet<>();
+	private final CooldownHolder cooldownHolder = new CooldownHolder();
 	
 	// Upper limit is 2520 which divides all numbers less than 10 (so is uniform mod n for lots of small n)
 	private final int offset = Misc.randomInt(0, 2519);
 	
 	public void update() {
-		updateables.forEach(Updateable::update);
-		expirables.forEach(Expirable::update);
-		expirables.removeIf(expirable -> {
-			if (expirable.hasExpired()) {
-				expirable.onExpiry();
-				return true;
-			} else {
-				return false;
-			}
-		});
+		cooldownHolder.update();
 	}
 	
 	public void addUpdateable(Updateable updateable) {
-		if (updateable instanceof Expirable) {
-			expirables.add((Expirable) updateable);
-		} else {
-			updateables.add(updateable);
-		}
+		cooldownHolder.addUpdateable(updateable);
 	}
 	
 	public boolean everySec() {
