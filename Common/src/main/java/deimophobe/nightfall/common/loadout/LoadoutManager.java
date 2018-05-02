@@ -49,7 +49,9 @@ public class LoadoutManager {
 	}
 	
 	public LoadoutItem getItem(String id) {
-		return items.get(id);
+		LoadoutItem item = items.get(id);
+		if (item == null) throw new IllegalArgumentException("Unknown loadout item: " + id);
+		return item;
 	}
 	
 	public LoadoutItem getDefaultKit() {

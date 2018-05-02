@@ -57,9 +57,6 @@ public class Loadout implements SessionData {
 	public boolean hasUntimelyDemise() {
 		return hasItem(LoadoutManager.getManager().getItem(UNTIMELY_DEMISE_NAME));
 	}
-	public boolean hasRandom() {
-		return hasItem(LoadoutManager.getManager().getItem(RANDOM_NAME));
-	}
 	
 	public boolean hasCategory(Category category) {
 		return categoryItems.containsKey(category);
@@ -104,7 +101,7 @@ public class Loadout implements SessionData {
 		}
 		
 		// Apply warrior class if kit is empty
-		if (getRemainingPoints() == MAX_POINTS && !hasRandom()) {
+		if (getRemainingPoints() == MAX_POINTS) {
 			LoadoutManager.getManager().getDefaultKit().modify(this, construct);
 			hasKit = true;
 		}
