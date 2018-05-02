@@ -34,6 +34,7 @@ class Walker extends AbstractMob {
 		monster.getPlayer().getInventory().setItemInOffHand(offhand.createItemStack());
 		
 		monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
+		monster.givePermanentPotionEffect(PotionEffectType.JUMP, 2);
 	}
 	
 	@Override
