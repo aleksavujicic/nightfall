@@ -32,7 +32,7 @@ public class HealStation extends Consumable {
 		}
 		
 		// Place it
-		HealBlock healBlock = new HealBlock(clickedBlock, 30*20, dwarf);
+		HealBlock healBlock = new HealBlock(clickedBlock, 20*20, dwarf);
 		boolean success =  BlockManager.getManager().placeTimedBlock(healBlock);
 		
 		return (success ? DEFAULT_CD : FAILED_CD);

@@ -1,5 +1,7 @@
 package deimophobe.nightfall.blocks.timedblock;
 
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.game.GameEntity;
@@ -15,16 +17,16 @@ import org.bukkit.material.MaterialData;
 public class HealBlock extends DataTimedBlock {
 	private static final double RANGE = 6;
 	private final Location healCenter = block.getLocation().add(0.5,1.5,0.5);
+	private final Cooldown hitter = new UseCooldown(4, this::hit);
 	
 	public HealBlock(Block block, int lifetime, GameEntity placer) {
 		super(lifetime, block, placer, Material.PURPUR_BLOCK);
 	}
 	
-	private int hitsLeft = 15;
-	
 	@Override
 	public void update() {
 		super.update();
+		hitter.update();
 		
 		if (everyNTicks(20)) heal();
 	}
@@ -42,15 +44,16 @@ public class HealBlock extends DataTimedBlock {
 	@Override
 	public void onHit(GamePlayer player) {
 		if (player instanceof MonsterPlayer) {
-			hitsLeft--;
-			if (hitsLeft == 0)
-				cancel();
-			
-			World world = block.getWorld();
-			world.playSound(block.getLocation(), "block.note.harp", 0.5f, 2f - hitsLeft*0.05f);
-			world.playSound(block.getLocation(), "block.anvil.break", 1f, 1f);
-			((MonsterPlayer) player).gainXP(1);
+			hitter.tryUse();
 		}
+	}
+	
+	private void hit() {
+		reduceLifetime(10);
+		
+		World world = block.getWorld();
+		world.playSound(block.getLocation(), "block.note.harp", 0.5f, 2f - getLifetime()*0.001f);
+		world.playSound(block.getLocation(), "block.anvil.break", 1f, 1f);
 	}
 	
 	private void heal() {
@@ -59,7 +62,7 @@ public class HealBlock extends DataTimedBlock {
 			
 			dwarf.heal(6);
 			dwarf.regenMana(5);
-			dwarf.getArmour().repair(10);
+			dwarf.getArmour().repair(15);
 			dwarf.getPlayer().playSound(block.getLocation(), "healing", 0.5f, 1.33f);
 		}
 		healCenter.getWorld().spawnParticle(Particle.HEART, healCenter, 5, 0.2, 0.3, 0.2);
