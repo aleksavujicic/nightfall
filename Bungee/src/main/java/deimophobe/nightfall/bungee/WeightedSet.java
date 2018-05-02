@@ -1,12 +1,30 @@
 package deimophobe.nightfall.bungee;
 
+import com.google.common.collect.ForwardingSet;
+
 import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Predicate;
 
 /**
  * Created by Deimophobe on 17/12/17.
  */
-public class WeightedSet<T extends Weightable> extends HashSet<T> {
+public class WeightedSet<T extends Weightable> extends ForwardingSet<T> {
+	
+	private final Set<T> delegate;
+	
+	public WeightedSet(Set<T> delegate) {
+		this.delegate = delegate;
+	}
+	
+	public WeightedSet() {
+		this.delegate = new HashSet<>();
+	}
+	
+	@Override
+	protected Set<T> delegate() {
+		return delegate;
+	}
 	
 	public T getRandom() {
 		if (size() == 0) throw new IllegalStateException("Cannot get random weighted element if size is zero.");
@@ -27,8 +45,9 @@ public class WeightedSet<T extends Weightable> extends HashSet<T> {
 	public double getCurrentTotalWeight() {
 		double weight = 0;
 		
-		for (T element : this)
+		for (T element : this) {
 			weight += element.getWeight();
+		}
 		
 		return weight;
 	}
