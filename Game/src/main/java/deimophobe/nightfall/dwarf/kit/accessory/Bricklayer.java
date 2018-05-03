@@ -37,7 +37,6 @@ public class Bricklayer extends AbstractItem {
 	
 	private Block firstCorner = null;
 	private Block secondCorner = null;
-	private boolean selectingFirst = true;
 	private final ConsumerCooldown<Block> selector = new ConsumerCooldown<>(10, this::selectBlock);
 	private final ComplexCooldown toggler = new ComplexCooldown(10, this::startOrPause);
 	
@@ -69,15 +68,13 @@ public class Bricklayer extends AbstractItem {
 			builder.cancel();
 		}
 		
-		if (selectingFirst) {
+		if (!dwarf.isSneaking()) {
 			firstCorner = block;
 			dwarf.sendTitleMessage(ChatColor.AQUA + "First corner selected");
 		} else {
 			secondCorner = block;
 			dwarf.sendTitleMessage(ChatColor.AQUA + "Second corner selected");
 		}
-		
-		selectingFirst = !selectingFirst;
 	}
 	
 	private void startOrPause() {

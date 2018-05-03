@@ -36,7 +36,13 @@ bricklayer:
   name: "Bricklayer"
   lore:
     description:
-     - "Bricks."
+     - "This tool can be used to automatically build walls.\n
+        Left click to select your first corner, shift left\n
+        click to select the second. You can then right click\n
+        to start filling in a wall between these blocks.\n
+        This will consume cobblestone from your inventory.\n
+        You may pause/resume the building with another\n
+        right click."
     flavour:
      - "More bricks."
 
