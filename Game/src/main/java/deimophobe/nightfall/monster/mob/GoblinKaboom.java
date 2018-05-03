@@ -118,7 +118,7 @@ class GoblinKaboom extends Goblin {
 		double dwarfDamage = 50 + 5 * shrapnel + (superKaboom ? 40 : 0);
 		int armorShred = 50 + 5 * shrapnel + (superKaboom ? 25 : 0);
 		double power = 6 + 0.5 * dest + (superKaboom ? 2.5 : 0);
-		double kb = 2 + 0.2 * force + (superKaboom ? 1.5 : 0);
+		double kb = 2.5 + 0.2 * force + (superKaboom ? 1.5 : 0);
 		
 		Location loc = monster.getLocation();
 		World world = monster.getLocation().getWorld();
