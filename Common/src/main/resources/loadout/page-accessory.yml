@@ -110,9 +110,11 @@ resurrection:
 bricklayer:
   index: 8
   category: accessory
-  type: item
-  name: bricklayer
-  cost: 2
+  type: multi
+  pieces: [bricklayer]
+  consumables:
+    cobblestone: 256
+  cost: 4
   item:
     name: "Bricklayer"
     base: bricklayer
@@ -122,7 +124,8 @@ bricklayer:
           two corners of a region, and right click\n
           to automatically place cobblestone.\n
           Requires cobblestone in your inventory.\n
-          Faster during build phase."
+          Faster during build phase.\n
+          Also starts you with 4 stacks of cobblestone."
 
 
 
