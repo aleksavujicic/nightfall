@@ -11,7 +11,6 @@ import java.util.*;
 public class Loadout implements SessionData {
 	
 	private static final String UNTIMELY_DEMISE_NAME = "untimely";
-	private static final String RANDOM_NAME = "random-class";
 	
 	public static final int MAX_POINTS = 64;
 	
