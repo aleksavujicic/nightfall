@@ -32,12 +32,6 @@ public enum MobType {
 	POLARBABE(PolarBabes::new),
 
 	WALKER(Walker::new),
-	
-	GB_DAGGER(Ghostblade::createDaggerGB, "ghostblade.dagger"),
-	GB_RUNEBLADE(Ghostblade::createRunebladeGB, "ghostblade.runeblade"),
-	GB_AXE(Ghostblade::createAxeGB, "ghostblade.axe"),
-	GB_HAMMER(Ghostblade::createHammerGB, "ghostblade.hammer"),
-	GB_SPAWN(Ghostblade::createSpawnGB, "ghostblade.spawn"),
 
 	TICKER(Ticker::new),
 	ZEPHYR(Zephyr::new),
