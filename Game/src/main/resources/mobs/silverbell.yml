@@ -1,0 +1,39 @@
+title: Spider
+
+disguisetype: spider
+
+attack: 15
+health: 20
+speed: 30
+
+shred: 15
+resistance: 0.7
+
+armour:
+  material: snow_ball
+  name: Squishy Spider Body Thing
+  lore:
+    description:
+     - "Spider's Carapace."
+    flavour:
+     - "Chitinous."
+  bound: true
+weapon:
+  base: temporary
+  name: Spider Mandibles
+  lore:
+    description:
+     - "Right click to melt walls\n
+        and to poison dwarves on hit."
+    flavour:
+     - "Spiders are gross."
+items:
+  back:
+    material: saddle
+    name: Your Back
+    lore:
+      description:
+       - "Left click to mount player\n
+          Right click eject all players."
+      flavour:
+       - "This could be worded better but im tired."

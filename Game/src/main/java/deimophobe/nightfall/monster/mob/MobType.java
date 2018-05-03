@@ -26,6 +26,8 @@ public enum MobType {
 	MINOTAUR(Minotaur::new),
 	BATTERING_RAM(BatteringRam::new),
 	DOPPELGANGER(Doppelganger::new),
+	SILVERBELL(Silverbell::new),
+	
 	MAMABEAR(MamaBear::new),
 	POLARBABE(PolarBabes::new),
 
@@ -48,7 +50,7 @@ public enum MobType {
 	TESTMOB(TestMob::new),
 	
 	PLAGUE_ZOMBIE,
-	PLAGUE_ASSASSIN
+	PLAGUE_ASSASSIN,
 	;
 	
 	private final MobData mobData;
