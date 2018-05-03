@@ -4,6 +4,7 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.*;
 import org.bukkit.entity.Enderman;
@@ -12,131 +13,169 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.function.Supplier;
+
 /**
  * Created by Deimophobe on 10/03/17.
  */
 public class TwinsPlague extends Plague {
 	
-	private Dwarf target = null;
-	private Enderman twin1;
-	private Enderman twin2;
-	
-	private BukkitRunnable runner;
-	
-	@Override
-	public void startPlague() {
-		regenerateTwinsName();
-		
-		World world = GameMap.getCurrentMap().getWorld();
-		
-		Location spawnLoc = GameMap.getCurrentMap().getDwarfSpawn().clone();
-		spawnLoc.setY(0);
-		
-		if (getAmountToKill(false) == 0) {
-			target = getRandomPlagued();
-		} else {
-			target = getRandomPlagueable();
-		}
-		
-		twin1 = createTwin(spawnLoc);
-		twin2 = createTwin(spawnLoc);
-		world.playSound(GameMap.getCurrentMap().getDwarfSpawn(), Sound.ENTITY_ENDERMEN_STARE, 100, 1);
-		
-		runner = new BukkitRunnable() {
+	public static void killMoreDwarves(int num) {
+		new TwinsRampage(new Supplier<Dwarf>() {
+			int toKill = num;
+			
 			@Override
-			public void run() {
-				if (getAmountToKill(true) == 0) {
-					endPlague();
+			public Dwarf get() {
+				if (toKill > 0) {
+					toKill--;
+					return Plague.getRandomPlagueable();
 				} else {
-					target = getNextTarget();
-					teleportTwins();
+					return null;
 				}
 			}
-		};
-		runner.runTaskTimer(NightfallPlugin.getPlugin(), 160, 40);
-	}
-	
-	@Override
-	public void endPlague() {
-		super.endPlague();
-		
-		target = null;
-		twin1.remove();
-		twin2.remove();
-		runner.cancel();
-	}
-	
-	private Dwarf getNextTarget() {
-		if (getAmountToKill(false) > 0) {
-			return getNearestPlagueable();
-		} else {
-			return getRandomPlagued();
-		}
-	}
-	
-	private Dwarf getNearestPlagueable() {
-		Location prevLoc = target.getLocation();
-		
-		Dwarf nearestDwarf = null;
-		double nearestDistance = Double.MAX_VALUE;
-
-		for (Dwarf dwarf : getPlagueables()) {
-			double distance = prevLoc.distance(dwarf.getLocation());
-			if (distance < nearestDistance) {
-				nearestDwarf = dwarf;
-				nearestDistance = distance;
-			}
-		}
-		
-		return nearestDwarf;
-	}
-	
-	private void teleportTwins() {
-		Location center = target.getLocation();
-		Vector offset = center.getDirection();
-		offset.setY(0);
-		offset.normalize();
-		Misc.rotateVector(offset, Math.PI/2);
-		
-		Location twin1Loc = center.clone().add(offset);
-		Location twin2Loc = center.clone().subtract(offset);
-		Vector twin1Facing = offset.clone().multiply(-1);
-		Vector twin2Facing = offset.clone();
-		twin1Facing.setY(-1).normalize();
-		twin2Facing.setY(-1).normalize();
-		twin1Loc.setDirection(twin1Facing);
-		twin2Loc.setDirection(twin2Facing);
-		
-		twin1.teleport(twin1Loc);
-		twin2.teleport(twin2Loc);
-		
-		target.instaKill(null, GameDamageType.DEATH_PLAGUE);
-		World world = GameMap.getCurrentMap().getWorld();
-		world.playSound(center, Sound.ENTITY_ENDERMEN_TELEPORT, 1.5f, 1.2f);
-		world.playSound(center, Sound.ENTITY_ENDERMEN_TELEPORT, 1.5f, 0.8f);
-		world.playSound(center, "entity.endermen.scream", 1.5f, 1.2f);
-		world.playSound(center, "entity.endermen.scream", 1.5f, 0.8f);
-		world.playSound(center, "entity.endermen.ambient", 1.5f, 0.5f);
-		
-		Location bodyCenter = center.clone().add(0,0.5,0);
-		world.spawnParticle(Particle.PORTAL, bodyCenter, 500, 0.5, 0.5, 0.5, 1.5);
-		world.spawnParticle(Particle.SMOKE_LARGE, bodyCenter, 50, 0.5, 0.5, 0.5, 0.15);
-		world.spawnParticle(Particle.FALLING_DUST, bodyCenter, 50, 0.5, 0.5, 0.5, 0);
-		world.spawnParticle(Particle.CRIT_MAGIC, bodyCenter, 50, 0.5, 0.5, 0.8, 0);
-	}
-	
-	private static Enderman createTwin(Location spawnLoc) {
-		return spawnLoc.getWorld().spawn(spawnLoc, Enderman.class, enderman -> {
-			enderman.setMetadata("death", new FixedMetadataValue(NightfallPlugin.getPlugin(), true));
-			enderman.setAI(false);
-			enderman.setInvulnerable(true);
-			enderman.setCollidable(false);
-			enderman.setSilent(true);
-			enderman.setRemoveWhenFarAway(false);
-			enderman.setCarriedMaterial(new MaterialData(Material.AIR));
 		});
 	}
 	
+	
+	@Override
+	public void startPlague() {
+		new TwinsRampage(new PlagueDwarfChooser());
+	}
+	
+	
+	private static class TwinsRampage {
+		private final Supplier<Dwarf> dwarfChooser;
+		private final Enderman twin1;
+		private final Enderman twin2;
+		
+		private final BukkitRunnable runner;
+		
+		private TwinsRampage(Supplier<Dwarf> dwarfChooser) {
+			regenerateTwinsName();
+			this.dwarfChooser = dwarfChooser;
+			
+			twin1 = createTwin();
+			twin2 = createTwin();
+			
+			Location spawnLoc = GameMap.getCurrentMap().getDwarfSpawn().clone();
+			spawnLoc.getWorld().playSound(spawnLoc, Sound.ENTITY_ENDERMEN_STARE, 100, 1);
+			
+			runner = new BukkitRunnable() {
+				@Override
+				public void run() {
+					teleportTwins();
+				}
+			};
+			runner.runTaskTimer(NightfallPlugin.getPlugin(), 160, 40);
+		}
+		
+		private void teleportTwins() {
+			Dwarf target = dwarfChooser.get();
+			
+			if (target == null) {
+				twin1.remove();
+				twin2.remove();
+				runner.cancel();
+				
+				return;
+			}
+			
+			Location center = target.getLocation();
+			Vector offset = center.getDirection();
+			offset.setY(0);
+			offset.normalize();
+			Misc.rotateVector(offset, Math.PI/2);
+			
+			Location twin1Loc = center.clone().add(offset);
+			Location twin2Loc = center.clone().subtract(offset);
+			Vector twin1Facing = offset.clone().multiply(-1);
+			Vector twin2Facing = offset.clone();
+			twin1Facing.setY(-1).normalize();
+			twin2Facing.setY(-1).normalize();
+			twin1Loc.setDirection(twin1Facing);
+			twin2Loc.setDirection(twin2Facing);
+			
+			twin1.teleport(twin1Loc);
+			twin2.teleport(twin2Loc);
+			
+			target.instaKill(null, GameDamageType.DEATH_PLAGUE);
+			World world = GameMap.getCurrentMap().getWorld();
+			world.playSound(center, Sound.ENTITY_ENDERMEN_TELEPORT, 1.5f, 1.2f);
+			world.playSound(center, Sound.ENTITY_ENDERMEN_TELEPORT, 1.5f, 0.8f);
+			world.playSound(center, "entity.endermen.scream", 1.5f, 1.2f);
+			world.playSound(center, "entity.endermen.scream", 1.5f, 0.8f);
+			world.playSound(center, "entity.endermen.ambient", 1.5f, 0.5f);
+			
+			Location bodyCenter = center.clone().add(0,0.5,0);
+			world.spawnParticle(Particle.PORTAL, bodyCenter, 500, 0.5, 0.5, 0.5, 1.5);
+			world.spawnParticle(Particle.SMOKE_LARGE, bodyCenter, 50, 0.5, 0.5, 0.5, 0.15);
+			world.spawnParticle(Particle.FALLING_DUST, bodyCenter, 50, 0.5, 0.5, 0.5, 0);
+			world.spawnParticle(Particle.CRIT_MAGIC, bodyCenter, 50, 0.5, 0.5, 0.8, 0);
+		}
+		
+		private static Enderman createTwin() {
+			Location spawnLoc = GameMap.getCurrentMap().getDwarfSpawn().clone();
+			spawnLoc.setY(-100);
+			
+			return spawnLoc.getWorld().spawn(spawnLoc, Enderman.class, enderman -> {
+				enderman.setMetadata("death", new FixedMetadataValue(NightfallPlugin.getPlugin(), true));
+				enderman.setAI(false);
+				enderman.setInvulnerable(true);
+				enderman.setCollidable(false);
+				enderman.setSilent(true);
+				enderman.setRemoveWhenFarAway(false);
+				enderman.setCarriedMaterial(new MaterialData(Material.AIR));
+			});
+		}
+	}
+	
+	// ----- DWARF SUPPLIER -----
+	
+	private class PlagueDwarfChooser implements Supplier<Dwarf> {
+		private Location lastLocation = null;
+		
+		private PlagueDwarfChooser() {
+			// Start at any random dwarf (note that while this may pick immune dwarves, the get() method will not).
+			Dwarf randDwarf = Misc.getRandom(DwarfManager.getManager().getDwarves());
+			if (randDwarf != null) lastLocation = randDwarf.getLocation();
+		}
+		
+		@Override
+		public Dwarf get() {
+			if (lastLocation == null) return null;
+			
+			if (getAmountToKill(true) == 0) {
+				// No more needed to kill we're done.
+				endPlague();
+				return null;
+			} else if (getAmountToKill(false) > 0) {
+				// Still need to kill non-plagued ppl.
+				return getNearestPlagueable();
+			} else {
+				// Only left to kill plagued ppl.
+				return getRandomPlagued();
+			}
+		}
+		
+		private Dwarf getNearestPlagueable() {
+			Dwarf nearestDwarf = null;
+			double nearestDistance = Double.MAX_VALUE;
+			
+			for (Dwarf dwarf : getPlagueables()) {
+				double distance = lastLocation.distance(dwarf.getLocation());
+				if (distance < nearestDistance) {
+					nearestDwarf = dwarf;
+					nearestDistance = distance;
+				}
+			}
+			
+			return nearestDwarf;
+		}
+	}
+	
+	
+	
+	// ----- TWINS NAME IN CHAT -----
 	
 	private static String TWINS_NAME;
 	

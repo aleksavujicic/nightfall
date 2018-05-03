@@ -1,6 +1,7 @@
 package deimophobe.nightfall.command;
 
 import co.aikar.commands.BaseCommand;
+import co.aikar.commands.InvalidCommandArgument;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.damage.GameDamageType;
@@ -13,6 +14,7 @@ import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
+import deimophobe.nightfall.plague.TwinsPlague;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -133,6 +135,15 @@ public class MiscCommands extends BaseCommand {
 		} else {
 			MessageUtil.sendErrorMessage(sender, "Failed to place charm.");
 		}
+	}
+	
+	@CommandAlias("twins")
+	@Description("Summons the twins to eliminate more dwarves.")
+	public void twins(CommandSender sender, int numDwarves) throws InvalidCommandArgument {
+		if (numDwarves <= 0) throw new InvalidCommandArgument("Number of dwarves must be at least 1.");
+		
+		TwinsPlague.killMoreDwarves(numDwarves);
+		MessageUtil.sendMessage(sender, "Killing ", numDwarves, " more dwarves.");
 	}
 	
 	@CommandAlias("fix")
