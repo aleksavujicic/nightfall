@@ -29,19 +29,30 @@ public class Loadout implements SessionData {
 			return true;
 		} else {
 			// The amount of extra points one would get from removing a similar item.
+			Set<LoadoutItem> toRemove = new HashSet<>();
 			int extraPoints = 0;
-			LoadoutItem categoryItem = categoryItems.get(cat);
-			if (categoryItem != null) {
-				extraPoints = categoryItem.getCost();
+			
+			// Look through our items and see if it would remove any items.
+			for (LoadoutItem testItem : items) {
+				if (item.wouldRemove(testItem)) {
+					// Would remove item so account for it.
+					toRemove.add(testItem);
+					extraPoints += testItem.getCost();
+				}
+				else if (testItem.wouldRemove(item)) {
+					// Other item would remove this one (but not the other way around) so it can't be added.
+					return false;
+				}
 			}
 			
 			// If there are still points after adding this item, let it be added
 			if (getRemainingPoints() + extraPoints >= item.getCost()) {
-				if (categoryItem != null) items.remove(categoryItem);
+				toRemove.forEach(items::remove);
 				
 				items.add(item);
-				if (cat.isSingleItem())
+				if (cat.isSingleItem()) {
 					categoryItems.put(cat, item);
+				}
 				
 				updateDisplay();
 				return true;

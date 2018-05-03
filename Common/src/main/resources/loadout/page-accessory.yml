@@ -148,6 +148,7 @@ speed_bricklayer:
   consumables:
     cobblestone: 256
   cost: 4
+  overrides: [bricklayer]
   item:
     name: "Speedy Bricklayer"
     base: bricklayer

@@ -112,10 +112,10 @@ public class LoadoutManager {
 		
 		Loadout loadout = new Loadout();
 		for (String string : stringList) {
-			LoadoutItem item = getItem(string);
-			if (item != null) {
+			try {
+				LoadoutItem item = getItem(string);
 				loadout.selectItem(item);
-			} else {
+			} catch (IllegalArgumentException e) {
 				Bukkit.getLogger().severe("Unknown loadout item name '" + string + "' while loading " + uuid + " loadout.");
 			}
 		}

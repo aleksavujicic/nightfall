@@ -3,7 +3,10 @@ package deimophobe.nightfall.common.loadout.item;
 import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
-import deimophobe.nightfall.common.loadout.*;
+import deimophobe.nightfall.common.loadout.Category;
+import deimophobe.nightfall.common.loadout.Loadout;
+import deimophobe.nightfall.common.loadout.LoadoutConstructable;
+import deimophobe.nightfall.common.loadout.LoadoutManager;
 import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.item.MenuItem;
 import org.bukkit.Bukkit;
@@ -11,6 +14,9 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 7/03/17.
@@ -29,6 +35,8 @@ public abstract class LoadoutItem implements MenuItem<Loadout>, Comparable<Loado
 	private final boolean enabled;
 	/** If it can be selected by the random kit item */
 	private final boolean randomSelectable;
+	
+	private final Set<String> overrides = new HashSet<>();
 	
 	private final int position;
 	private final String id;
@@ -57,6 +65,7 @@ public abstract class LoadoutItem implements MenuItem<Loadout>, Comparable<Loado
 		if (enabled) category.addItem(this);
 		
 		this.randomSelectable = config.getBoolean("random-selectable", true);
+		overrides.addAll(config.getStringList("overrides"));
 		
 		this.item = CustomItem.getItem(config.getConfigurationSection("item"), LoreTemplate.LOADOUT);
 		if (!enabled) item.setShiny(true);
@@ -102,6 +111,12 @@ public abstract class LoadoutItem implements MenuItem<Loadout>, Comparable<Loado
 	
 	public boolean isRandomSelectable() {
 		return randomSelectable && enabled;
+	}
+	
+	public boolean wouldRemove(LoadoutItem item) {
+		boolean categoryMatch = (this.category == item.category);
+		boolean categorySingle = category.isSingleItem();
+		return (overrides.contains(item.id)) || (categoryMatch && categorySingle);
 	}
 	
 	private boolean canSee(MenuSession<Loadout> session) {
