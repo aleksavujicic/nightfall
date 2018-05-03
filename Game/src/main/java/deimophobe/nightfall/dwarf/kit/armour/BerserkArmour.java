@@ -3,7 +3,6 @@ package deimophobe.nightfall.dwarf.kit.armour;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.Armour;
-import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import org.bukkit.potion.PotionEffectType;
 
@@ -23,9 +22,6 @@ public class BerserkArmour extends AbstractPiece {
 		armour.addModifier(ItemModifierType.ATTACK, ATTACK_BONUS, "Berserker");
 		armour.addModifier(ItemModifierType.SPEED, 10, "Berserker");
 		armour.addModifier(ItemModifierType.HEALTH, -4, "Berserker");
-		
-		if (armour instanceof DwarvenArmour)
-			((DwarvenArmour) armour).changeDurability(-30, "Berserker");
 	}
 	
 	@Override
