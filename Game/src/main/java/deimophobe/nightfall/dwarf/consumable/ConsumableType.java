@@ -16,6 +16,7 @@ public enum ConsumableType {
 	HEAL_STATION(new HealStation("healing-station"), false, false),
 	PROC_BOTTLE(new ProcBottle("proc-bottle"), false, false),
 	TURRET(new Turret("turret"), false, false),
+	JUMP_PAD(new JumpConsumable("jump-pad"), false, false),
 	
 	MORTAR(new Mortar("mortar", false), true, true),
 	WIZARD_MORTAR(new Mortar("wizard-mortar", true), true, false),

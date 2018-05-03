@@ -3,7 +3,9 @@ package deimophobe.nightfall.dwarf;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.SkinManager;
+import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.timedblock.JumpPad;
 import deimophobe.nightfall.common.cosmetic.CosmeticManager;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.RepeatingCooldown;
@@ -690,6 +692,15 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	@Override
 	public void onShift(boolean sneaking) {
 		kit.onShift(sneaking);
+		
+		if (sneaking) return;
+		
+		Block block = getLocation().getBlock();
+		for (JumpPad jumpPad : BlockManager.getManager().getTimedBlocks(JumpPad.class)) {
+			if (jumpPad.matchesBlock(block)) {
+				jumpPad.launchDwarf(this);
+			}
+		}
 	}
 	
 	@Override

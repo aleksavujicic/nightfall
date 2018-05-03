@@ -99,6 +99,15 @@ turret:
     flavour:
      - "Flavour"
 
+jump-pad:
+  base: temp
+  name: Jump Pad
+  lore:
+    description:
+     - "Jump"
+    flavour:
+     - "Flavour"
+
 
 log:
   base: logs

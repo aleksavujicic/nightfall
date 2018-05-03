@@ -62,6 +62,10 @@ public abstract class TimedBlock extends LifetimeExpireable {
 	public void onHit(GamePlayer player, ClickType click, BlockFace blockFace) {}
 	
 	
-	
+	public boolean matchesBlock(Block other) {
+		return block.getX() == other.getX()
+				&& block.getY() == other.getY()
+				&& block.getZ() == other.getZ();
+	}
 
 }
