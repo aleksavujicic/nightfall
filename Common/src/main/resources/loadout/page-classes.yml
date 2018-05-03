@@ -535,6 +535,22 @@ builder-class:
 #          *1 Consecrating Charm\n
 #          *2 Wrenches"
 
+eheal:
+  index: 36
+  cost: 0
+  category: accessory
+  type: item
+  name: eheal
+  item:
+    template: loadout
+    name: "Eheal"
+    base: temporary
+    lore:
+      description:
+       - "You get a (repeatable) eheal which\n
+          will save you from death at the cost\n
+          of 700 mana."
+
 untimely:
   index: 44
   cost: 64

@@ -72,6 +72,7 @@ public enum KitPieceType {
 	BRICKLAYER(Bricklayer::new),
 	CHISEL(Chisel::new),
 	CLOCK(Clock::new),
+	EHEAL(EHeal::new),
 	
 	UNTIMELY_DEMISE(UntimelyDemise::new),
 	
