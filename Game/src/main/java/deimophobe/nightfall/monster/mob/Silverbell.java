@@ -36,7 +36,12 @@ public class Silverbell extends AbstractMob {
 			if (click.isLeftClick()) mount();
 			else if (click.isRightClick()) dismount();
 		}
-		
+	}
+	
+	@Override
+	public void onDeath(boolean silent) {
+		super.onDeath(silent);
+		dismount();
 	}
 	
 	private void mount() {
