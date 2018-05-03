@@ -41,11 +41,11 @@ public class Resurrection extends AbstractPiece {
 					used = true;
 					damage.softCancel();
 					
-					dwarf.getArmour().addModifier(ItemModifierType.HEALTH, -5, "Resurrection");
-					dwarf.getArmour().repair(750);
-					dwarf.regenMana(500);
+					dwarf.getArmour().addModifier(ItemModifierType.HEALTH, -4, "Resurrection");
+					dwarf.getArmour().repair(1000);
+					dwarf.regenMana(1000);
 					dwarf.healMax();
-					dwarf.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 3 * 20, 5, true, false, true);
+					dwarf.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 5 * 20, 5, true, false, true);
 					dwarf.givePotionEffect(PotionEffectType.REGENERATION, 8 * 20, 4, true, false, false);
 					dwarf.giveProc(ProcType.RESURRECTION);
 					
