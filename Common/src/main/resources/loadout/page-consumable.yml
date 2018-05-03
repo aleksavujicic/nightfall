@@ -1,0 +1,404 @@
+wizard-one:
+  index: 0
+  type: consumable
+  name: wizard_mortar
+  quantity: 16
+  cost: 2
+  item:
+    name: "Wizard Mortar I"
+    base: menu.wizard-mortar
+    lore:
+      description:
+       - "Gives you $quantity Wizard Mortar.\n
+          These can instantly blue the walls."
+wizard-two:
+  index: 9
+  type: consumable
+  name: wizard_mortar
+  quantity: 32
+  cost: 4
+  item:
+    name: "Wizard Mortar II"
+    base: menu.wizard-mortar2
+    lore:
+      description:
+       - "Gives you $quantity Wizard Mortar.\n
+          These can instantly blue the walls."
+wizard-three:
+  index: 18
+  type: consumable
+  name: wizard_mortar
+  quantity: 64
+  cost: 8
+  item:
+    name: "Wizard Mortar III"
+    base: menu.wizard-mortar3
+    lore:
+      description:
+       - "Gives you $quantity Wizard Mortar.\n
+          These can instantly blue the walls."
+
+lamps-one:
+  index: 1
+  type: consumable
+  name: lamp
+  quantity: 16
+  cost: 2
+  item:
+    name: "Enchanted Lamps I"
+    base: menu.lamp
+    lore:
+      description:
+       - "Gives you $quantity Lamps.\n
+          These can be placed as a\n
+          unbreakable light source."
+lamps-two:
+  index: 10
+  type: consumable
+  name: lamp
+  quantity: 32
+  cost: 4
+  item:
+    name: "Enchanted Lamps II"
+    base: menu.lamp2
+    lore:
+      description:
+       - "Gives you $quantity Lamps.\n
+          These can be placed as a\n
+          unbreakable light source."
+lamps-three:
+  index: 19
+  type: consumable
+  name: lamp
+  quantity: 64
+  cost: 8
+  item:
+    name: "Enchanted Lamps III"
+    base: menu.lamp3
+    lore:
+      description:
+       - "Gives you $quantity Lamps.\n
+          These can be placed as a\n
+          unbreakable light source."
+
+wrench-one:
+  index: 2
+  type: consumable
+  name: wrench
+  quantity: 1
+  cost: 2
+  item:
+    name: "Wiggly Wrench I"
+    base: menu.wrench
+    lore:
+      description:
+       - "Gives you $quantity Wrench.\n
+          These can be used to fully repair\n
+          your armour while the shrine still\n
+          has gold."
+wrench-two:
+  index: 11
+  type: consumable
+  name: wrench
+  quantity: 2
+  cost: 4
+  item:
+    name: "Wiggly Wrench II"
+    base: menu.wrench2
+    lore:
+      description:
+       - "Gives you $quantity Wrenches.\n
+          These can be used to fully repair\n
+          your armour while the shrine still\n
+          has gold."
+wrench-three:
+  index: 20
+  type: consumable
+  name: wrench
+  quantity: 3
+  cost: 6
+  item:
+    name: "Wiggly Wrench III"
+    base: menu.wrench3
+    lore:
+      description:
+       - "Gives you $quantity Wrenches.\n
+          These can be used to fully repair\n
+          your armour while the shrine still\n
+          has gold."
+
+healing-one:
+  index: 3
+  type: consumable
+  name: heal_station
+  quantity: 2
+  cost: 2
+  item:
+    name: "'Healing Station' I"
+    base: menu.healing-station
+    lore:
+      description:
+       - "Gives you $quantity Healing Stations.\n
+          These can be placed to regen\n
+          health mana and armour.\n
+          Can be broken by Mobs."
+healing-two:
+  index: 12
+  type: consumable
+  name: heal_station
+  quantity: 4
+  cost: 4
+  item:
+    name: "'Healing Station' II"
+    base: menu.healing-station2
+    lore:
+      description:
+       - "Gives you $quantity Healing Stations.\n
+          These can be placed to regen\n
+          health mana and armour.\n
+          Can be broken by Mobs."
+healing-three:
+  index: 21
+  type: consumable
+  name: heal_station
+  quantity: 8
+  cost: 8
+  item:
+    name: "'Healing Station' III"
+    base: menu.healing-station3
+    lore:
+      description:
+       - "Gives you $quantity Healing Stations.\n
+          These can be placed to regen\n
+          health mana and armour.\n
+          Can be broken by Mobs."
+
+charm-one:
+  index: 4
+  type: consumable
+  name: charm
+  quantity: 1
+  cost: 6
+  item:
+    name: "Consecrating Charm I"
+    base: menu.charm
+    lore:
+      description:
+       - "Gives you $quantity Consecrating Charm.\n
+          These can stop and blind any mobs within\n
+          the area of effect for a limited time."
+charm-two:
+  index: 13
+  type: consumable
+  name: charm
+  quantity: 2
+  cost: 12
+  item:
+    name: "Consecrating Charm II"
+    base: menu.charm2
+    lore:
+      description:
+       - "Gives you $quantity Consecrating Charms.\n
+          These can stop and blind any mobs within\n
+          the area of effect for a limited time."
+charm-three:
+  index: 22
+  type: consumable
+  name: charm
+  quantity: 3
+  cost: 18
+  item:
+    name: "Consecrating Charm III"
+    base: menu.charm3
+    lore:
+      description:
+       - "Gives you $quantity Consecrating Charms.\n
+          These can stop and blind any mobs within\n
+          the area of effect for a limited time."
+
+slab-one:
+  index: 5
+  type: consumable
+  name: slab
+  quantity: 1
+  cost: 2
+  item:
+    name: "Slab I"
+    base: menu.slab
+    lore:
+      description:
+       - "Gives you $quantity Slab.\n
+          These create a thick blue wall in front\n
+          when used."
+slab-two:
+  index: 14
+  type: consumable
+  name: slab
+  quantity: 2
+  cost: 4
+  item:
+    name: "Slab II"
+    base: menu.slab2
+    lore:
+      description:
+       - "Gives you $quantity Slabs.\n
+          These create a thick blue wall in front\n
+          when used."
+slab-three:
+  index: 23
+  type: consumable
+  name: slab
+  quantity: 4
+  cost: 8
+  item:
+    name: "Slab III"
+    base: menu.slab3
+    lore:
+      description:
+       - "Gives you $quantity Slabs.\n
+          These create a thick blue wall in front\n
+          when used."
+
+builder-one:
+  index: 6
+  cost: 2
+  category: consumable
+  type: multi
+  consumables:
+    torch: 32
+    mortar: 32
+    cobblestone: 96
+  item:
+    name: "Builder's Pack I"
+    base: menu.builder
+    lore:
+      description:
+       - "Gives you a Tier 1 Builder's Pack.\n
+          This contains the following items:\n
+          *32 Torches\n
+          *32 Mortar\n
+          *96 Cobblestone."
+builder-two:
+  index: 15
+  cost: 4
+  category: consumable
+  type: multi
+  consumables:
+    torch: 64
+    mortar: 64
+    cobblestone: 192
+  item:
+    name: "Builder's Pack II"
+    base: menu.builder2
+    lore:
+      description:
+       - "Gives you a Tier 2 Builder's Pack.\n
+          This contains the following items:\n
+          *64 Torches\n
+          *64 Mortar\n
+          *192 Cobblestone."
+builder-three:
+  index: 24
+  cost: 8
+  category: consumable
+  type: multi
+  consumables:
+    torch: 128
+    mortar: 128
+    cobblestone: 384
+  item:
+    name: "Builder's Pack III"
+    base: menu.builder3
+    lore:
+      description:
+       - "Gives you a Tier 3 Builder's Pack.\n
+          This contains the following items:\n
+          *128 Torches\n
+          *128 Mortar\n
+          *384 Cobblestone."
+
+procbottle-one:
+  index: 7
+  type: consumable
+  name: proc-bottle
+  quantity: 2
+  cost: 2
+  item:
+    name: "Proc in a Bottle I"
+    base: proc-bottle
+    lore:
+      description:
+       - "Gives $quantity Procs in Bottles.\n
+          Throwing these gives you a proc\n
+          that lasts for 5 seconds."
+procbottle-two:
+  index: 16
+  type: consumable
+  name: proc-bottle
+  quantity: 4
+  cost: 4
+  item:
+    name: "Proc in a Bottle II"
+    base: proc-bottle
+    lore:
+      description:
+       - "Gives $quantity Procs in Bottles.\n
+          Throwing these gives you a proc\n
+          that lasts for 5 seconds."
+procbottle-three:
+  index: 25
+  type: consumable
+  name: proc-bottle
+  quantity: 6
+  cost: 6
+  item:
+    name: "Proc in a Bottle III"
+    base: proc-bottle
+    lore:
+      description:
+       - "Gives $quantity Procs in Bottles.\n
+          Throwing these gives you a proc\n
+          that lasts for 5 seconds."
+
+turret-one:
+  index: 8
+  type: consumable
+  name: turret
+  quantity: 4
+  cost: 2
+  item:
+    name: "Turret I"
+    base: turret
+    lore:
+      description:
+       - "Gives you $quantity turrets.\n
+          These fire arrows for a set\n
+          amount of time."
+turret-two:
+  index: 17
+  type: consumable
+  name: turret
+  quantity: 8
+  cost: 4
+  item:
+    name: "Turret II"
+    base: turret
+    lore:
+      description:
+       - "Gives you $quantity turrets.\n
+          These fire arrows for a set\n
+          amount of time."
+turret-three:
+  index: 26
+  type: consumable
+  name: turret
+  quantity: 16
+  cost: 8
+  item:
+    name: "Turret III"
+    base: turret
+    lore:
+      description:
+       - "Gives you $quantity turrets.\n
+          These fire arrows for a set\n
+          amount of time."

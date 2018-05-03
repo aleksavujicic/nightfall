@@ -1,4 +1,4 @@
-# ------ PASSIVES ------
+# ------ FREE STUFF ------
 compass:
   index: 0
   category: accessory
@@ -37,9 +37,41 @@ clock:
     lore:
       description:
        - "Gives you a clock."
-
-slowfall:
+bricklayer:
   index: 3
+  category: accessory
+  type: item
+  name: bricklayer
+  cost: 0
+  item:
+    name: "Bricklayer"
+    base: bricklayer
+    lore:
+      description:
+       - "With this item, left click to select\n
+          two corners of a region, and right click\n
+          to automatically place cobblestone.\n
+          Requires cobblestone in your inventory.\n
+          Only works during build phase."
+eheal:
+  index: 4
+  cost: 0
+  category: accessory
+  type: item
+  name: eheal
+  item:
+    template: loadout
+    name: "Eheal"
+    base: temporary
+    lore:
+      description:
+       - "You get a (repeatable) eheal which\n
+          will save you from death at the cost\n
+          of 700 mana."
+
+# ------ ACCESSORIES ------
+slowfall:
+  index: 9
   category: accessory
   type: item
   name: slowfall
@@ -51,8 +83,9 @@ slowfall:
       description:
        - "SHIFT to give yourself Jump Boost\n
           and a slowfalling effect."
+
 darkvision:
-  index: 4
+  index: 10
   category: accessory
   type: item
   name: darkvision
@@ -65,7 +98,7 @@ darkvision:
        - "Press and hold shift to give\n
           yourself a Night Vision effect."
 avenge:
-  index: 5
+  index: 11
   category: accessory
   type: item
   name: avenge
@@ -78,7 +111,7 @@ avenge:
        - "Gain a PROC when a dwarf dies."
 
 tombmaker:
-  index: 6
+  index: 12
   category: accessory
   type: item
   name: tombmaker
@@ -93,7 +126,7 @@ tombmaker:
           likely to find items in gravel."
 
 resurrection:
-  index: 7
+  index: 13
   category: accessory
   type: item
   name: resurrection
@@ -107,430 +140,18 @@ resurrection:
           This resurrection will heal you, but will\n
           also permanently cost you 4 hearts."
 
-bricklayer:
-  index: 8
+speed_bricklayer:
+  index: 14
   category: accessory
   type: multi
-  pieces: [bricklayer]
+  pieces: [speedy_bricklayer]
   consumables:
     cobblestone: 256
   cost: 4
   item:
-    name: "Bricklayer"
+    name: "Speedy Bricklayer"
     base: bricklayer
     lore:
       description:
-       - "With this item, left click to select\n
-          two corners of a region, and right click\n
-          to automatically place cobblestone.\n
-          Requires cobblestone in your inventory.\n
-          Faster during build phase.\n
-          Also starts you with 4 stacks of cobblestone."
-
-
-
-# ------ CONSUMABLES ------
-wizard-one:
-  index: 9
-  type: consumable
-  name: wizard_mortar
-  quantity: 16
-  cost: 2
-  item:
-    name: "Wizard Mortar I"
-    base: menu.wizard-mortar
-    lore:
-      description:
-       - "Gives you $quantity Wizard Mortar.\n
-          These can instantly blue the walls."
-wizard-two:
-  index: 18
-  type: consumable
-  name: wizard_mortar
-  quantity: 32
-  cost: 4
-  item:
-    name: "Wizard Mortar II"
-    base: menu.wizard-mortar2
-    lore:
-      description:
-       - "Gives you $quantity Wizard Mortar.\n
-          These can instantly blue the walls."
-wizard-three:
-  index: 27
-  type: consumable
-  name: wizard_mortar
-  quantity: 64
-  cost: 8
-  item:
-    name: "Wizard Mortar III"
-    base: menu.wizard-mortar3
-    lore:
-      description:
-       - "Gives you $quantity Wizard Mortar.\n
-          These can instantly blue the walls."
-
-lamps-one:
-  index: 10
-  type: consumable
-  name: lamp
-  quantity: 16
-  cost: 2
-  item:
-    name: "Enchanted Lamps I"
-    base: menu.lamp
-    lore:
-      description:
-       - "Gives you $quantity Lamps.\n
-          These can be placed as a\n
-          unbreakable light source."
-lamps-two:
-  index: 19
-  type: consumable
-  name: lamp
-  quantity: 32
-  cost: 4
-  item:
-    name: "Enchanted Lamps II"
-    base: menu.lamp2
-    lore:
-      description:
-       - "Gives you $quantity Lamps.\n
-          These can be placed as a\n
-          unbreakable light source."
-lamps-three:
-  index: 28
-  type: consumable
-  name: lamp
-  quantity: 64
-  cost: 8
-  item:
-    name: "Enchanted Lamps III"
-    base: menu.lamp3
-    lore:
-      description:
-       - "Gives you $quantity Lamps.\n
-          These can be placed as a\n
-          unbreakable light source."
-
-wrench-one:
-  index: 11
-  type: consumable
-  name: wrench
-  quantity: 1
-  cost: 2
-  item:
-    name: "Wiggly Wrench I"
-    base: menu.wrench
-    lore:
-      description:
-       - "Gives you $quantity Wrench.\n
-          These can be used to fully repair\n
-          your armour while the shrine still\n
-          has gold."
-wrench-two:
-  index: 20
-  type: consumable
-  name: wrench
-  quantity: 2
-  cost: 4
-  item:
-    name: "Wiggly Wrench II"
-    base: menu.wrench2
-    lore:
-      description:
-       - "Gives you $quantity Wrenches.\n
-          These can be used to fully repair\n
-          your armour while the shrine still\n
-          has gold."
-wrench-three:
-  index: 29
-  type: consumable
-  name: wrench
-  quantity: 3
-  cost: 6
-  item:
-    name: "Wiggly Wrench III"
-    base: menu.wrench3
-    lore:
-      description:
-       - "Gives you $quantity Wrenches.\n
-          These can be used to fully repair\n
-          your armour while the shrine still\n
-          has gold."
-
-healing-one:
-  index: 12
-  type: consumable
-  name: heal_station
-  quantity: 2
-  cost: 2
-  item:
-    name: "'Healing Station' I"
-    base: menu.healing-station
-    lore:
-      description:
-       - "Gives you $quantity Healing Stations.\n
-          These can be placed to regen\n
-          health mana and armour.\n
-          Can be broken by Mobs."
-healing-two:
-  index: 21
-  type: consumable
-  name: heal_station
-  quantity: 4
-  cost: 4
-  item:
-    name: "'Healing Station' II"
-    base: menu.healing-station2
-    lore:
-      description:
-       - "Gives you $quantity Healing Stations.\n
-          These can be placed to regen\n
-          health mana and armour.\n
-          Can be broken by Mobs."
-healing-three:
-  index: 30
-  type: consumable
-  name: heal_station
-  quantity: 8
-  cost: 8
-  item:
-    name: "'Healing Station' III"
-    base: menu.healing-station3
-    lore:
-      description:
-       - "Gives you $quantity Healing Stations.\n
-          These can be placed to regen\n
-          health mana and armour.\n
-          Can be broken by Mobs."
-
-charm-one:
-  index: 13
-  type: consumable
-  name: charm
-  quantity: 1
-  cost: 6
-  item:
-    name: "Consecrating Charm I"
-    base: menu.charm
-    lore:
-      description:
-       - "Gives you $quantity Consecrating Charm.\n
-          These can stop and blind any mobs within\n
-          the area of effect for a limited time."
-charm-two:
-  index: 22
-  type: consumable
-  name: charm
-  quantity: 2
-  cost: 12
-  item:
-    name: "Consecrating Charm II"
-    base: menu.charm2
-    lore:
-      description:
-       - "Gives you $quantity Consecrating Charms.\n
-          These can stop and blind any mobs within\n
-          the area of effect for a limited time."
-charm-three:
-  index: 31
-  type: consumable
-  name: charm
-  quantity: 3
-  cost: 18
-  item:
-    name: "Consecrating Charm III"
-    base: menu.charm3
-    lore:
-      description:
-       - "Gives you $quantity Consecrating Charms.\n
-          These can stop and blind any mobs within\n
-          the area of effect for a limited time."
-
-slab-one:
-  index: 14
-  type: consumable
-  name: slab
-  quantity: 1
-  cost: 2
-  item:
-    name: "Slab I"
-    base: menu.slab
-    lore:
-      description:
-       - "Gives you $quantity Slab.\n
-          These create a thick blue wall in front\n
-          when used."
-slab-two:
-  index: 23
-  type: consumable
-  name: slab
-  quantity: 2
-  cost: 4
-  item:
-    name: "Slab II"
-    base: menu.slab2
-    lore:
-      description:
-       - "Gives you $quantity Slabs.\n
-          These create a thick blue wall in front\n
-          when used."
-slab-three:
-  index: 32
-  type: consumable
-  name: slab
-  quantity: 4
-  cost: 8
-  item:
-    name: "Slab III"
-    base: menu.slab3
-    lore:
-      description:
-       - "Gives you $quantity Slabs.\n
-          These create a thick blue wall in front\n
-          when used."
-
-builder-one:
-  index: 15
-  cost: 2
-  category: consumable
-  type: multi
-  consumables:
-    torch: 32
-    mortar: 32
-    cobblestone: 96
-  item:
-    name: "Builder's Pack I"
-    base: menu.builder
-    lore:
-      description:
-       - "Gives you a Tier 1 Builder's Pack.\n
-          This contains the following items:\n
-          *32 Torches\n
-          *32 Mortar\n
-          *96 Cobblestone."
-builder-two:
-  index: 24
-  cost: 4
-  category: consumable
-  type: multi
-  consumables:
-    torch: 64
-    mortar: 64
-    cobblestone: 192
-  item:
-    name: "Builder's Pack II"
-    base: menu.builder2
-    lore:
-      description:
-       - "Gives you a Tier 2 Builder's Pack.\n
-          This contains the following items:\n
-          *64 Torches\n
-          *64 Mortar\n
-          *192 Cobblestone."
-builder-three:
-  index: 33
-  cost: 8
-  category: consumable
-  type: multi
-  consumables:
-    torch: 128
-    mortar: 128
-    cobblestone: 384
-  item:
-    name: "Builder's Pack III"
-    base: menu.builder3
-    lore:
-      description:
-       - "Gives you a Tier 3 Builder's Pack.\n
-          This contains the following items:\n
-          *128 Torches\n
-          *128 Mortar\n
-          *384 Cobblestone."
-
-procbottle-one:
-  index: 16
-  type: consumable
-  name: proc-bottle
-  quantity: 2
-  cost: 2
-  item:
-    name: "Proc in a Bottle I"
-    base: proc-bottle
-    lore:
-      description:
-       - "Gives $quantity Procs in Bottles.\n
-          Throwing these gives you a proc\n
-          that lasts for 5 seconds."
-procbottle-two:
-  index: 25
-  type: consumable
-  name: proc-bottle
-  quantity: 4
-  cost: 4
-  item:
-    name: "Proc in a Bottle II"
-    base: proc-bottle
-    lore:
-      description:
-       - "Gives $quantity Procs in Bottles.\n
-          Throwing these gives you a proc\n
-          that lasts for 5 seconds."
-procbottle-three:
-  index: 34
-  type: consumable
-  name: proc-bottle
-  quantity: 6
-  cost: 6
-  item:
-    name: "Proc in a Bottle III"
-    base: proc-bottle
-    lore:
-      description:
-       - "Gives $quantity Procs in Bottles.\n
-          Throwing these gives you a proc\n
-          that lasts for 5 seconds."
-
-turret-one:
-  index: 17
-  type: consumable
-  name: turret
-  quantity: 4
-  cost: 2
-  item:
-    name: "Turret I"
-    base: turret
-    lore:
-      description:
-       - "Gives you $quantity turrets.\n
-          These fire arrows for a set\n
-          amount of time."
-turret-two:
-  index: 26
-  type: consumable
-  name: turret
-  quantity: 8
-  cost: 4
-  item:
-    name: "Turret II"
-    base: turret
-    lore:
-      description:
-       - "Gives you $quantity turrets.\n
-          These fire arrows for a set\n
-          amount of time."
-turret-three:
-  index: 35
-  type: consumable
-  name: turret
-  quantity: 16
-  cost: 8
-  item:
-    name: "Turret III"
-    base: turret
-    lore:
-      description:
-       - "Gives you $quantity turrets.\n
-          These fire arrows for a set\n
-          amount of time."
+       - "A faster version of the bricklayer.\n
+          Also comes with 4 stacks of cobblestone."

@@ -32,9 +32,10 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 	private LoadoutMenu() {
 		// Setup menus
 		List<LoadoutPage> tempPages = new ArrayList<>();
-		tempPages.add(new LoadoutPage(NightfallCommonPlugin.getInternalFileConfig("loadout/page-classes.yml")));
-		tempPages.add(new LoadoutPage(NightfallCommonPlugin.getInternalFileConfig("loadout/page-weapons.yml")));
-		tempPages.add(new LoadoutPage(NightfallCommonPlugin.getInternalFileConfig("loadout/page-accessory.yml")));
+		tempPages.add(getPage("loadout/page-classes.yml"));
+		tempPages.add(getPage("loadout/page-weapons.yml"));
+		tempPages.add(getPage("loadout/page-accessory.yml"));
+		tempPages.add(getPage("loadout/page-consumable.yml"));
 		
 		MultiPageMenu<Loadout> pages = new MultiPageMenu<Loadout>(tempPages);
 		SimpleMenu<Loadout> toolbar = new SimpleMenu<>(EXTRA_SIZE);
@@ -43,13 +44,12 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 		addSubMenu(toolbar);
 		
 		// Add items for toolbar
-		ConfigurationSection itemConfig = NightfallCommonPlugin.getInternalFileConfig("loadout/special-items.yml");
-		ItemStack back = CustomItem.getItem(itemConfig.getConfigurationSection("back"), LoreTemplate.BASIC).createItemStack();
-		ItemStack forward = CustomItem.getItem(itemConfig.getConfigurationSection("forward"), LoreTemplate.BASIC).createItemStack();
-		ItemStack close = CustomItem.getItem(itemConfig.getConfigurationSection("close"), LoreTemplate.BASIC).createItemStack();
-		ItemStack points = CustomItem.getItem(itemConfig.getConfigurationSection("points"), LoreTemplate.BASIC).createItemStack();
-		ItemStack trash = CustomItem.getItem(itemConfig.getConfigurationSection("trash"), LoreTemplate.BASIC).createItemStack();
-		ItemStack random = CustomItem.getItem(itemConfig.getConfigurationSection("random"), LoreTemplate.BASIC).createItemStack();
+		ItemStack back    = getSpecialItem("back");
+		ItemStack forward = getSpecialItem("forward");
+		ItemStack close   = getSpecialItem("close");
+		ItemStack points  = getSpecialItem("points");
+		ItemStack trash   = getSpecialItem("trash");
+		ItemStack random  = getSpecialItem("random");
 		
 		toolbar.setItem(0, new PointsItem(points, points));
 		toolbar.setItem(1, new ClearItem(trash));
@@ -57,6 +57,15 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 		toolbar.setItem(3, new PageChanger<>(back, pages, false));
 		toolbar.setItem(5, new PageChanger<>(forward, pages, true));
 		toolbar.setItem(8, new CloseMenuItem<>(close));
+	}
+	
+	private LoadoutPage getPage(String name) {
+		return new LoadoutPage(NightfallCommonPlugin.getInternalFileConfig(name));
+	}
+	
+	private ItemStack getSpecialItem(String name) {
+		ConfigurationSection itemConfig = NightfallCommonPlugin.getInternalFileConfig("loadout/special-items.yml");
+		return CustomItem.getItem(itemConfig.getConfigurationSection(name), LoreTemplate.BASIC).createItemStack();
 	}
 	
 	@Override
