@@ -16,7 +16,7 @@ public class Lore implements Cloneable {
 	
 	private final LoreTemplate loreTemplate;
 	
-	private final String name;
+	private String name;
 	
 	private final StringBuilder loreText;
 	private final Map<String, Integer> variablePointers;
@@ -38,6 +38,10 @@ public class Lore implements Cloneable {
 		this.loreText = loreTemplate.generateLoreText(loreSections);
 		this.variablePointers = new HashMap<>();
 		findVariables();
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	private void findVariables() {

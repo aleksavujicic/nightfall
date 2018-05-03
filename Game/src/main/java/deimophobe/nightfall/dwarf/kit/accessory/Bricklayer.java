@@ -4,8 +4,9 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.ConsumerCooldown;
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
@@ -28,22 +29,30 @@ import java.util.function.Supplier;
  */
 public class Bricklayer extends AbstractItem {
 	private final static CustomItem ITEM = DwarvenItems.getItem("accessory", "bricklayer");
-	@Override public CustomItem getItem() {
-		return ITEM;
+	private final static CustomItem SPEEDY_ITEM = DwarvenItems.getItem("accessory", "bricklayer");
+	static {
+		SPEEDY_ITEM.setShiny(true);
+		SPEEDY_ITEM.setName("Speedy Bricklayer");
+	}
+	
+	@Override
+	public CustomItem getItem() {
+		return (speedy ? SPEEDY_ITEM : ITEM);
 	}
 	@Override public KitGiveType getGiveType() { return KitGiveType.START; }
-	
-	private static final int MAX_VOLUME = 1000;
 	
 	private Block firstCorner = null;
 	private Block secondCorner = null;
 	private final ConsumerCooldown<Block> selector = new ConsumerCooldown<>(10, this::selectBlock);
-	private final ComplexCooldown toggler = new ComplexCooldown(10, this::startOrPause);
+	private final Cooldown toggler = new UseCooldown(10, this::startOrPause);
 	
 	private Builder builder = null;
 	
-	public Bricklayer(Dwarf dwarf) {
+	private final boolean speedy;
+	
+	public Bricklayer(Dwarf dwarf, boolean speedy) {
 		super(dwarf);
+		this.speedy = speedy;
 	}
 	
 	@Override
@@ -83,9 +92,14 @@ public class Bricklayer extends AbstractItem {
 			return;
 		}
 		
+		OperationState state = getOperationState();
+		if (state == null) {
+			dwarf.sendTitleMessage(ChatColor.RED + "You cannot build right now");
+			return;
+		}
+		
 		if (builder == null) {
-			int maxVol = MAX_VOLUME;
-			if (!isBuildPhase()) maxVol /= 2;
+			int maxVol = state.maxVolume;
 			if (getVolume() > maxVol) {
 				dwarf.sendTitleMessage(ChatColor.RED + "Your selected region is too big");
 				return;
@@ -109,9 +123,18 @@ public class Bricklayer extends AbstractItem {
 		);
 	}
 	
+	private OperationState getOperationState() {
+		boolean build = isBuildPhase();
+		
+		if (build && speedy) return OperationState.SPEEDY_BUILD;
+		if (!build && speedy) return OperationState.SPEEDY_NOBUILD;
+		if (build && !speedy) return OperationState.NOSPEEDY_BUILD;
+		
+		return null;
+	}
+	
 	private boolean isBuildPhase() {
-		Phase phase = Game.getGame().getPhase();
-		return (phase == Phase.STARTING || phase == Phase.BUILD || phase == Phase.PLAGUE);
+		return Game.getGame().getPhase().isBefore(Phase.GAME);
 	}
 	
 	private class Builder extends BukkitRunnable {
@@ -122,15 +145,11 @@ public class Bricklayer extends AbstractItem {
 		protected Builder(Block firstCorner, Block secondCorner) {
 			supplier = new BlockSupplier(firstCorner, secondCorner);
 			
-			int freq;
-			int delay;
-			if (isBuildPhase()) {
-				delay = 0;
-				freq = 4;
-			} else {
-				delay = 40;
-				freq = 15;
-			}
+			OperationState state = getOperationState();
+			if (state == null) throw new IllegalStateException("Cannot start builder if operation state is null.");
+			
+			int freq = state.frequency;
+			int delay = state.startDelay;
 			
 			runTaskTimer(NightfallPlugin.getPlugin(), delay, freq);
 			dwarf.sendTitleMessage(ChatColor.YELLOW + "Placing blocks...");
@@ -255,6 +274,24 @@ public class Bricklayer extends AbstractItem {
 			
 			if (overrun) value = first;
 			return overrun;
+		}
+	}
+	
+	private enum OperationState {
+		SPEEDY_BUILD(1500, 0, 3),
+		SPEEDY_NOBUILD(750, 20, 10),
+		NOSPEEDY_BUILD(1000, 0, 5),
+		
+		;
+		
+		private final int maxVolume;
+		private final int startDelay;
+		private final int frequency;
+		
+		OperationState(int maxVolume, int startDelay, int frequency) {
+			this.maxVolume = maxVolume;
+			this.startDelay = startDelay;
+			this.frequency = frequency;
 		}
 	}
 	
