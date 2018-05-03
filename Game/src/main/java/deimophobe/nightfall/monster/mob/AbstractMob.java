@@ -28,9 +28,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Consumer;
 
 /**
@@ -107,8 +105,7 @@ public abstract class AbstractMob implements Mob {
 	
 	
 	// ~~~~~ ANNOTATIONS ~~~~~
-	private final Set<Updateable> updateables = new HashSet<>();
-	private final Set<Expirable> expirables = new HashSet<>();
+	private final CooldownHolder cooldownHolder = new CooldownHolder();
 	private Displayable displayable = Displayable.DISPLAY_NOTHING;
 	
 	private void checkForAnnotations() {
@@ -156,14 +153,8 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	
-	protected void addUpdateable(Updateable updateable) {
-		if (updateable instanceof Expirable) {
-			expirables.add((Expirable) updateable);
-		} else {
-			updateables.add(updateable);
-		}
-	}
-	protected void setDisplayable(Displayable displayable) { this.displayable = displayable; }
+	protected final void addUpdateable(Updateable updateable) { cooldownHolder.addUpdateable(updateable); }
+	protected final void setDisplayable(Displayable displayable) { this.displayable = displayable; }
 	
 	
 	// ~~~~~ DISGUISES ~~~~~
@@ -221,11 +212,11 @@ public abstract class AbstractMob implements Mob {
 		}
 	}
 	
-	protected void changeDisguiseWatcher(Consumer<FlagWatcher> changer) {
+	protected final void changeDisguiseWatcher(Consumer<FlagWatcher> changer) {
 		changeDisguiseWatcher(FlagWatcher.class, changer);
 	}
 	
-	protected <T extends FlagWatcher> void changeDisguiseWatcher(Class<T> watcherClass, Consumer<T> changer) {
+	protected final  <T extends FlagWatcher> void changeDisguiseWatcher(Class<T> watcherClass, Consumer<T> changer) {
 		for (Disguise disguise : DisguiseAPI.getDisguises(monster.getPlayer())) {
 			FlagWatcher watcher = disguise.getWatcher();
 			
@@ -256,54 +247,54 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	
-	public CustomItem getWeapon() {
+	public final CustomItem getWeapon() {
 		return getItem("weapon");
 	}
-	protected CustomItem getArmour() {
+	protected final CustomItem getArmour() {
 		return getItem("armour");
 	}
 	
-	protected CustomItem setWeapon(String newWepName) {
+	protected final CustomItem setWeapon(String newWepName) {
 		return items.put("weapon", mobData.getAsWeapon(newWepName));
 	}
 	
-	protected void makeItemMutable(String itemName) {
+	protected final void makeItemMutable(String itemName) {
 		CustomItem item = getItem(itemName);
 		items.put(itemName, item.clone());
 	}
 	
 	
-	protected CustomItem getItem(String name) {
+	protected final CustomItem getItem(String name) {
 		return items.get(name);
 	}
 	
-	protected void giveItem(String name) {
+	protected final void giveItem(String name) {
 		giveItem(name, 1);
 	}
 	
-	protected void giveItem(String name, int quantity) {
+	protected final void giveItem(String name, int quantity) {
 		monster.giveItem(items.get(name), quantity);
 	}
 	
-	protected boolean isPlayerHoldingItem(String name) {
+	protected final boolean isPlayerHoldingItem(String name) {
 		CustomItem item = items.get(name);
-		if (item == null)
-			throw new IllegalArgumentException("No monster item found with name: " + name);
+		if (item == null) throw new IllegalArgumentException("No monster item found with name: " + name);
+		
 		return item.isSimilar(monster.getHeldItem());
 	}
 	
-	protected boolean isPlayerHoldingWeapon() {
+	protected final boolean isPlayerHoldingWeapon() {
 		return isPlayerHoldingItem("weapon");
 	}
 	
-	protected void dropFakeItem(String name) {
+	protected final void dropFakeItem(String name) {
 		ItemStack itemStack = getItem(name).createItemStack();
 		Item item = monster.getWorld().dropItemNaturally(monster.getEyeLocation(), itemStack);
 		item.setPickupDelay(32767); // Never
 		item.setTicksLived(6000 - 60*20);
 	}
 	
-	protected void dropFakeWeapon() { dropFakeItem("weapon"); }
+	protected final void dropFakeWeapon() { dropFakeItem("weapon"); }
 	
 	
 	// ~~~~~ Events/Overriding methods ~~~~~
@@ -371,7 +362,7 @@ public abstract class AbstractMob implements Mob {
 		return didBreak;
 	}
 	
-	public boolean everyNthTick(int n) {
+	public final boolean everyNthTick(int n) {
 		return monster.everyNthTick(n);
 	}
 	
@@ -381,17 +372,7 @@ public abstract class AbstractMob implements Mob {
 			playSound("idle");
 		}
 		
-		updateables.forEach(Updateable::update);
-		expirables.forEach(Expirable::update);
-		expirables.removeIf(expirable -> {
-			if (expirable.hasExpired()) {
-				expirable.onExpiry();
-				return true;
-			} else {
-				return false;
-			}
-		});
-		
+		cooldownHolder.update();
 		shrineProtTick();
 	}
 	
@@ -412,7 +393,7 @@ public abstract class AbstractMob implements Mob {
 	
 	
 	// ~~~~~ Misc ~~~~~
-	protected void playSound(String soundName) {
+	protected final void playSound(String soundName) {
 		mobData.playSound(soundName, monster);
 	}
 	
