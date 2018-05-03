@@ -33,7 +33,7 @@ public class JumpPad extends DataTimedBlock {
 		
 		Location center = block.getLocation().add(0.5, 0.5, 0.5);
 		World world = center.getWorld();
-		world.spawnParticle(Particle.BLOCK_CRACK, center, 15, 0.4, 0.4, 0.4, 0, block.getState().getData());
+		//world.spawnParticle(Particle.BLOCK_CRACK, center, 15, 0.4, 0.4, 0.4, 0, block.getState().getData());
 		world.playSound(center, Sound.BLOCK_STONE_PLACE, 1f, 1f);
 	}
 	
@@ -47,5 +47,6 @@ public class JumpPad extends DataTimedBlock {
 	
 	public void launchDwarf(Dwarf dwarf) {
 		dwarf.leap(0.2, 1.25);
+		dwarf.playSound("entity.firework.launch", 1f, 1f, true);
 	}
 }
