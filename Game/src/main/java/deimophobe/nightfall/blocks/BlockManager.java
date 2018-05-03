@@ -19,7 +19,7 @@ public class BlockManager {
 	public static BlockManager getManager() { return Game.getGame().getBlockManager(); }
 	
 	public void stop() {
-		cancelAllBlocks();
+		cancelAllTimedBlocks();
 	}
 	
 	private final Map<Block, TimedBlock> activeTimedBlocks = new HashMap<>();
@@ -64,11 +64,10 @@ public class BlockManager {
 		activeTimedBlocks.remove(timedBlock.getBlock());
 	}
 	
-	private void cancelAllBlocks() {
+	public void cancelAllTimedBlocks() {
 		Set<TimedBlock> copy = new HashSet<>(activeTimedBlocks.values());
 		for (TimedBlock timedBlock : copy) {
 			timedBlock.cancel();
 		}
 	}
-	
 }

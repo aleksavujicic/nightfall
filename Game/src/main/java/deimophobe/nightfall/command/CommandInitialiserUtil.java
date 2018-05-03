@@ -67,6 +67,7 @@ public class CommandInitialiserUtil {
 		bcm.registerCommand(new ArmourCommand());
 		
 		bcm.registerCommand(new AICommand());
+		bcm.registerCommand(new BlockCommand());
 		bcm.registerCommand(new ChatCommand());
 		bcm.registerCommand(new DoomCommand());
 		bcm.registerCommand(new DwarfCommand());
