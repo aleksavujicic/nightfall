@@ -59,7 +59,7 @@ public class DwarfShovel extends AbstractItem {
 	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
 		super.onUse(click, clickedBlock, blockFace);
 		
-		if (BlockType.DIGGING_SAND.matchesBlock(clickedBlock)) {
+		if (click.isRightClick() && BlockType.DIGGING_SAND.matchesBlock(clickedBlock)) {
 			return sandGiver.tryUse();
 		}
 		
@@ -67,9 +67,13 @@ public class DwarfShovel extends AbstractItem {
 	}
 	
 	private void giveSand() {
-		dwarf.giveConsumable(ConsumableType.SAND_GRAIN);
+		dwarf.giveConsumable(ConsumableType.SAND_GRAIN, getSandGiveAmount());
 		dwarf.playSound("block.sand.break", 1f, 0.5f, true);
 		dwarf.playSound("block.sand.step", 1f, 0.5f, true);
+	}
+	
+	protected int getSandGiveAmount() {
+		return 1;
 	}
 	
 	@Override

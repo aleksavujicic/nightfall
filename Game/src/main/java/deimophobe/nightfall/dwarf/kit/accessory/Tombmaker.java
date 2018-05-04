@@ -39,4 +39,9 @@ public class Tombmaker extends DwarfShovel {
 			dwarf.givePotionEffect(PotionEffectType.FAST_DIGGING, 3*20 , 3, true, false, true);
 		}
 	}
+	
+	@Override
+	protected int getSandGiveAmount() {
+		return 2;
+	}
 }
