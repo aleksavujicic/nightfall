@@ -1,6 +1,5 @@
 package deimophobe.nightfall.dwarf.consumable;
 
-import deimophobe.nightfall.ColourMenu;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.UnknownEnumElementException;
 import org.bukkit.Material;
@@ -26,10 +25,7 @@ public enum ConsumableType {
 	
 	TORCH(new DummyConsumable("torch"), true, true),
 	COBBLESTONE(new DummyConsumable("cobble"), true, true),
-	GLASS(new SimpleConsumable("glass",
-			dwarf -> ColourMenu.getMenu().startSession(dwarf.getPlayer()),
-			null
-	), true, false),
+	GLASS(new GlassConsumable("glass"), true, false),
 	
 	BOWL(new CraftingConsumable("bowl", Material.SPONGE, MORTAR), true, false),
 	STICK(new CraftingConsumable("stick",
