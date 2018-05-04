@@ -71,7 +71,7 @@ pink:
         - "Paints your glass pink."
 
 grey:
-  colour: grey
+  colour: gray
   item:
     name: "&8Grey"
     base: glass.grey
@@ -80,7 +80,7 @@ grey:
         - "Paints your glass grey."
 
 light-grey:
-  colour: light-grey
+  colour: silver
   item:
     name: "&7Light Grey"
     base: glass.light-grey

@@ -18,6 +18,7 @@ import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.plague.TwinsPlague;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -151,6 +152,13 @@ public class MiscCommands extends BaseCommand {
 	@Description("Change the colour of your held item.")
 	public void colour(Player player){
 		ColourMenu.getMenu().startSession(player);
+	}
+	
+	@CommandAlias("colour|color")
+	@Description("Change the colour of your held item.")
+	@CommandCompletion("@dyecolours")
+	public void colour(Player player, @Flags("null") DyeColor colour){
+		ColourMenu.getMenu().dyeColour(player, colour);
 	}
 	
 	@CommandAlias("fix")

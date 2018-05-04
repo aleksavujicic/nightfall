@@ -22,13 +22,16 @@ public class ColourMenuItem extends SimpleItem<NoData> {
 	@Override
 	public boolean onClick(MenuSession<NoData> session) {
 		Player player = session.getPlayer();
+		dyeForPlayer(player);
+		return false;
+	}
+	
+	void dyeForPlayer(Player player) {
 		ItemStack heldItem = player.getInventory().getItemInMainHand();
 		Material type = heldItem.getType();
 		if (type == Material.GLASS || type == Material.STAINED_GLASS) {
 			changeItem(heldItem);
 		}
-		
-		return false;
 	}
 	
 	private void changeItem(ItemStack item) {

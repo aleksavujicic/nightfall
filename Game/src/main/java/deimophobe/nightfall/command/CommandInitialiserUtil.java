@@ -34,6 +34,7 @@ import deimophobe.nightfall.monster.spawnmenu.SpawnEggMenuItem;
 import deimophobe.nightfall.plague.PlagueType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.DyeColor;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -99,6 +100,7 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("ais", getCompletionHandlerForEnum(AIType.values()));
 		completions.registerCompletion("poisons", getCompletionHandlerForEnum(PoisonType.values()));
 		completions.registerCompletion("gamesizes", getCompletionHandlerForEnum(GameSize.values()));
+		completions.registerCompletion("dyecolours", getCompletionHandlerForEnum(DyeColor.values()));
 		
 		completions.registerCompletion("spawneggs", c -> MonsterManager.getManager().getEggNames());
 		completions.registerCompletion("items", c -> ItemManager.getManager().getNames());
@@ -211,6 +213,7 @@ public class CommandInitialiserUtil {
 		contexts.registerContext(PoisonType.class, getContextResolverOfEnum(PoisonType.values(), "poison", true));
 		contexts.registerContext(DoomType.class, getContextResolverOfEnum(DoomType.values(), "doom", true));
 		contexts.registerContext(GameSize.class, getContextResolverOfEnum(GameSize.values(), "game size", true));
+		contexts.registerContext(DyeColor.class, getContextResolverOfEnum(DyeColor.values(), "colour", true));
 		
 		contexts.registerContext(CustomItem.class, context -> {
 			String arg = context.popFirstArg();
@@ -388,6 +391,10 @@ public class CommandInitialiserUtil {
 			
 			if (arg.equals(RANDOM_ENUM)) {
 				return Misc.getRandom(names.values());
+			}
+			
+			if (context.hasFlag("null") && (arg.equals("null") || arg.equals("none"))) {
+				return null;
 			}
 			
 			T value = names.get(arg);

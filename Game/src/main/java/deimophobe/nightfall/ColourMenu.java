@@ -10,6 +10,8 @@ import org.bukkit.DyeColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -21,6 +23,8 @@ public class ColourMenu extends ListMenu<NoData> implements MainMenu<NoData> {
 	
 	private static final ColourMenu menu = new ColourMenu();
 	public static ColourMenu getMenu() { return menu; }
+	
+	private Map<DyeColor, ColourMenuItem> colourMap = new HashMap<>();
 	
 	private ColourMenu() {
 		final Logger logger = NightfallPlugin.logger();
@@ -45,8 +49,12 @@ public class ColourMenu extends ListMenu<NoData> implements MainMenu<NoData> {
 			CustomItem item = CustomItem.getItem(colourConfig.getConfigurationSection("item"), "colour-menu");
 			ColourMenuItem menuItem = new ColourMenuItem(item.createItemStack(), colour);
 			this.addItem(menuItem);
+			colourMap.put(colour, menuItem);
 		}
 	}
 	
-	
+	public void dyeColour(Player player, DyeColor colour) {
+		ColourMenuItem item = colourMap.get(colour);
+		item.dyeForPlayer(player);
+	}
 }
