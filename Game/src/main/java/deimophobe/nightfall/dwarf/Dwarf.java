@@ -82,6 +82,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		if (!isDebugMode()) TitlePlayer.playTitle(this);
 		
 		Game.getGame().hideManaAndDoom(player);
+		addUpdateable(furnace);
 	}
 	
 	public boolean isHero() {
@@ -485,6 +486,13 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		}
 	}
 	
+	// ------ FURNACE ------
+	private final DwarfFurnace furnace = new DwarfFurnace(this);
+	
+	public DwarfFurnace getFurnace() {
+		return furnace;
+	}
+	
 	// ------ DAMAGE ------
 	@Override
 	public DwarfDamage createDamage(GameEntity attacker, GameDamageType type, double damage) {
@@ -678,6 +686,10 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		if (click.isRightClick() && clickedBlock != null && BlockType.SHARED_CHEST.matchesBlock(clickedBlock)) {
 			DwarfManager.getManager().openSharedChest(this, clickedBlock);
 			return;
+		}
+		
+		if (click.isLeftClick() && BlockType.FURNACE.matchesBlock(clickedBlock)) {
+			furnace.giveItems();
 		}
 		
 		// Use consumable

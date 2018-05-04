@@ -1,10 +1,14 @@
 package deimophobe.nightfall.dwarf.kit;
 
+import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.SkinManager;
+import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
@@ -14,6 +18,7 @@ import deimophobe.nightfall.util.Weightable;
 import deimophobe.nightfall.util.WeightedSet;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
@@ -25,6 +30,7 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
+
 
 /**
  * Created by Deimophobe on 28/03/17.
@@ -40,6 +46,31 @@ public class DwarfShovel extends AbstractItem {
 		return KitGiveType.SHOVEL;
 	}
 	
+	private final Cooldown sandGiver = new UseCooldown(6, this::giveSand);
+	
+	
+	@Override
+	public void update() {
+		super.update();
+		sandGiver.update();
+	}
+	
+	@Override
+	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		super.onUse(click, clickedBlock, blockFace);
+		
+		if (BlockType.DIGGING_SAND.matchesBlock(clickedBlock)) {
+			return sandGiver.tryUse();
+		}
+		
+		return false;
+	}
+	
+	private void giveSand() {
+		dwarf.giveConsumable(ConsumableType.SAND_GRAIN);
+		dwarf.playSound("block.sand.break", 1f, 0.5f, true);
+		dwarf.playSound("block.sand.step", 1f, 0.5f, true);
+	}
 	
 	@Override
 	public void onBlockBreak(Block block, boolean didBreak) {
@@ -70,6 +101,7 @@ public class DwarfShovel extends AbstractItem {
 	protected double getFindChance() {
 		return (dwarf.hasPotionEffect(PotionEffectType.FAST_DIGGING) ? FIND_CHANCE : HASTE_CHANCE);
 	}
+	
 	
 	
 	

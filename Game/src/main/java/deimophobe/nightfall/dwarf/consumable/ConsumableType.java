@@ -25,6 +25,7 @@ public enum ConsumableType {
 	
 	TORCH(new DummyConsumable("torch"), true, true),
 	COBBLESTONE(new DummyConsumable("cobble"), true, true),
+	GLASS(new DummyConsumable("glass"), true, false),
 	
 	BOWL(new CraftingConsumable("bowl", Material.SPONGE, MORTAR), true, false),
 	STICK(new CraftingConsumable("stick",
@@ -33,6 +34,8 @@ public enum ConsumableType {
 	), true, false),
 	PLANK(new CraftingConsumable("plank", Material.IRON_FENCE, STICK, 2), true, false),
 	LOG(new CraftingConsumable("log", Material.IRON_FENCE, PLANK), true, false),
+	
+	SAND_GRAIN(new FurnaceConsumable("sand-grain", GLASS, 20), true, true),
 	
 	;
 	

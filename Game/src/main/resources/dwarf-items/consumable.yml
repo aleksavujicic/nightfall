@@ -170,3 +170,22 @@ cobble:
         when mortared."
     flavour:
      - "It's stone."
+
+sand-grain:
+  material: gold_nugget
+  name: Grain of Sand
+  lore:
+    description:
+     - "Can be turned into glass by right\n
+        clicking on a furnace."
+    flavour:
+     - "It's smol."
+
+glass:
+  material: glass
+  name: Glass
+  lore:
+    description:
+     - "See through glass"
+    flavour:
+     - "It's transparent."

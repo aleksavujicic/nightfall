@@ -213,6 +213,12 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 		return player.getInventory().getItemInMainHand();
 	}
 	
+	public int getHeldItemCount() {
+		ItemStack item = getHeldItem();
+		if (item == null) return 0;
+		return item.getAmount();
+	}
+	
 	public boolean isHolding(ItemStack item) {
 		ItemStack held = getHeldItem();
 		return (held != null && held.isSimilar(item));
@@ -220,8 +226,16 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	
 	public void useHeldItem() {
 		ItemStack held = getHeldItem();
-		if (held != null)
+		if (held != null) {
 			held.setAmount(held.getAmount() - 1);
+		}
+	}
+	
+	public void useHeldItemStack() {
+		ItemStack held = getHeldItem();
+		if (held != null) {
+			held.setAmount(0);
+		}
 	}
 	
 	public void giveItem(ItemStack item, int quantity, boolean dropRemaining) {
