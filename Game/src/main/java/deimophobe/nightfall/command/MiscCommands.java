@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.InvalidCommandArgument;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.contexts.OnlinePlayer;
+import deimophobe.nightfall.ColourMenu;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -144,6 +145,12 @@ public class MiscCommands extends BaseCommand {
 		
 		TwinsPlague.killMoreDwarves(numDwarves);
 		MessageUtil.sendMessage(sender, "Killing ", numDwarves, " more dwarves.");
+	}
+	
+	@CommandAlias("colour|color")
+	@Description("Change the colour of your held item.")
+	public void colour(Player player){
+		ColourMenu.getMenu().startSession(player);
 	}
 	
 	@CommandAlias("fix")

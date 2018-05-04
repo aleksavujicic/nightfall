@@ -160,6 +160,25 @@ hat:
     pink: "diamond_spade:9"
     light-blue: "diamond_spade:10"
     blue: "diamond_spade:11"
+
+glass:
+  default: "glass"
+  white: "stained_glass:0"
+  orange: "stained_glass:1"
+  magenta: "stained_glass:2"
+  light-blue: "stained_glass:3"
+  yellow: "stained_glass:4"
+  lime: "stained_glass:5"
+  pink: "stained_glass:6"
+  grey: "stained_glass:7"
+  light-grey: "stained_glass:8"
+  cyan: "stained_glass:9"
+  purple: "stained_glass:10"
+  blue: "stained_glass:11"
+  brown: "stained_glass:12"
+  green: "stained_glass:13"
+  red: "stained_glass:14"
+  black: "stained_glass:15"
   
 
 # ----- LOADOUT MENU -----

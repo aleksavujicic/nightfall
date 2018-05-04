@@ -1,0 +1,152 @@
+none:
+  colour: none
+  item:
+    name: "No Colour"
+    base: glass.default
+    lore:
+      description:
+        - "Removes any colour from glass."
+
+white:
+  colour: white
+  item:
+    name: "&fWhite"
+    base: glass.white
+    lore:
+      description:
+        - "Paints your glass white."
+
+orange:
+  colour: orange
+  item:
+    name: "&6Orange"
+    base: glass.orange
+    lore:
+      description:
+        - "Paints your glass orange."
+
+magenta:
+  colour: magenta
+  item:
+    name: "&5Magenta"
+    base: glass.magenta
+    lore:
+      description:
+        - "Paints your glass magenta."
+
+light-blue:
+  colour: light-blue
+  item:
+    name: "&bLight Blue"
+    base: glass.light-blue
+    lore:
+      description:
+        - "Paints your glass light blue."
+
+yellow:
+  colour: yellow
+  item:
+    name: "&eYellow"
+    base: glass.yellow
+    lore:
+      description:
+        - "Paints your glass yellow."
+
+lime:
+  colour: lime
+  item:
+    name: "&aLime"
+    base: glass.lime
+    lore:
+      description:
+        - "Paints your glass lime."
+
+pink:
+  colour: pink
+  item:
+    name: "&dPink"
+    base: glass.pink
+    lore:
+      description:
+        - "Paints your glass pink."
+
+grey:
+  colour: grey
+  item:
+    name: "&8Grey"
+    base: glass.grey
+    lore:
+      description:
+        - "Paints your glass grey."
+
+light-grey:
+  colour: light-grey
+  item:
+    name: "&7Light Grey"
+    base: glass.light-grey
+    lore:
+      description:
+        - "Paints your glass light-grey."
+
+cyan:
+  colour: cyan
+  item:
+    name: "&3Cyan"
+    base: glass.cyan
+    lore:
+      description:
+        - "Paints your glass cyan."
+
+purple:
+  colour: purple
+  item:
+    name: "&5Purple"
+    base: glass.purple
+    lore:
+      description:
+        - "Paints your glass purple."
+
+blue:
+  colour: blue
+  item:
+    name: "&9Blue"
+    base: glass.blue
+    lore:
+      description:
+        - "Paints your glass blue."
+
+brown:
+  colour: brown
+  item:
+    name: "&7Brown"
+    base: glass.brown
+    lore:
+      description:
+        - "Paints your glass brown."
+
+green:
+  colour: green
+  item:
+    name: "&2Green"
+    base: glass.green
+    lore:
+      description:
+        - "Paints your glass green."
+
+red:
+  colour: red
+  item:
+    name: "&cRed"
+    base: glass.red
+    lore:
+      description:
+        - "Paints your glass red."
+
+black:
+  colour: black
+  item:
+    name: "&0Black"
+    base: glass.black
+    lore:
+      description:
+        - "Paints your glass black."

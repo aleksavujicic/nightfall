@@ -94,6 +94,19 @@ hat:
     reason: "&d"
 
 
+colour-menu:
+  nameprefix: "&b"
+
+  lore:
+    - "${description}"
+
+  prefix:
+    description: "&6"
+
+  modifiers:
+    name: "&3"
+    value: "&b"
+    reason: "&d"
 
 # ======== DWARF ========
 dwarf:
