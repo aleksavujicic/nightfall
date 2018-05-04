@@ -186,6 +186,6 @@ glass:
   name: Glass
   lore:
     description:
-     - "See through glass"
+     - "Left click to change colour."
     flavour:
      - "It's transparent."
