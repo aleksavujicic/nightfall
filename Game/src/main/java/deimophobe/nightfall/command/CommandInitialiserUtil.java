@@ -56,32 +56,32 @@ public class CommandInitialiserUtil {
 	public static void initialiseCommands(NightfallPlugin plugin) {
 		MessageUtil.initialise();
 		
-		BukkitCommandManager bcm = new BukkitCommandManager(plugin);
-		bcm.enableUnstableAPI("help");
+		BukkitCommandManager commandManager = new BukkitCommandManager(plugin);
+		commandManager.enableUnstableAPI("help");
 		
 		
-		registerCompletions(bcm);
-		registerContexts(bcm);
-		registerConditions(bcm);
+		registerCompletions(commandManager);
+		registerContexts(commandManager);
+		registerConditions(commandManager);
 		
-		bcm.registerCommand(new ArmourCommand());
+		commandManager.registerCommand(new ArmourCommand());
 		
-		bcm.registerCommand(new AICommand());
-		bcm.registerCommand(new BlockCommand());
-		bcm.registerCommand(new ChatCommand());
-		bcm.registerCommand(new DoomCommand());
-		bcm.registerCommand(new DwarfCommand());
-		bcm.registerCommand(new EggCommand());
-		bcm.registerCommand(new GameCommand());
-		bcm.registerCommand(new ItemCommand());
-		bcm.registerCommand(new MapCommand());
-		bcm.registerCommand(new MiscCommands());
-		bcm.registerCommand(new MobCommand());
-		bcm.registerCommand(new ShrineCommand());
+		commandManager.registerCommand(new AICommand());
+		commandManager.registerCommand(new BlockCommand());
+		commandManager.registerCommand(new ChatCommand());
+		commandManager.registerCommand(new DoomCommand());
+		commandManager.registerCommand(new DwarfCommand());
+		commandManager.registerCommand(new EggCommand());
+		commandManager.registerCommand(new GameCommand());
+		commandManager.registerCommand(new ItemCommand());
+		commandManager.registerCommand(new MapCommand());
+		commandManager.registerCommand(new MiscCommands());
+		commandManager.registerCommand(new MobCommand());
+		commandManager.registerCommand(new ShrineCommand());
 	}
 	
-	private static void registerCompletions(BukkitCommandManager bcm) {
-		final CommandCompletions<BukkitCommandCompletionContext> completions = bcm.getCommandCompletions();
+	private static void registerCompletions(BukkitCommandManager commandManager) {
+		final CommandCompletions<BukkitCommandCompletionContext> completions = commandManager.getCommandCompletions();
 		
 		completions.registerCompletion("dwarves", c -> DwarfManager.getManager().getGamePlayerNames());
 		completions.registerCompletion("monsters", c -> MonsterManager.getManager().getGamePlayerNames());
@@ -125,8 +125,8 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("boolean", c -> booleans);
 	}
 	
-	private static void registerContexts(BukkitCommandManager bcm) {
-		final CommandContexts<BukkitCommandExecutionContext> contexts = bcm.getCommandContexts();
+	private static void registerContexts(BukkitCommandManager commandManager) {
+		final CommandContexts<BukkitCommandExecutionContext> contexts = commandManager.getCommandContexts();
 		
 		// Note these are suppliers rather than constants otherwise they will break when new games are created
 		contexts.registerIssuerAwareContext(Dwarf.class, getContextResolverOfGamePlayer(
@@ -231,8 +231,8 @@ public class CommandInitialiserUtil {
 		});
 	}
 	
-	private static void registerConditions(BukkitCommandManager bcm) {
-		final CommandConditions<BukkitCommandIssuer, BukkitCommandExecutionContext, BukkitConditionContext> conditions = bcm.getCommandConditions();
+	private static void registerConditions(BukkitCommandManager commandManager) {
+		final CommandConditions<BukkitCommandIssuer, BukkitCommandExecutionContext, BukkitConditionContext> conditions = commandManager.getCommandConditions();
 		conditions.addCondition(Dwarf.class, "reg-armour", (context, execContext, dwarf) -> {
 			if (dwarf == null) throw new ConditionFailedException("Dwarf must not be null");
 			if (!(dwarf.getArmour() instanceof DwarvenArmour)) throw new ConditionFailedException("Dwarf must have regular dwarven armour.");
@@ -272,6 +272,15 @@ public class CommandInitialiserUtil {
 		conditions.addCondition("map-enabled", context -> {
 			if (!MapManager.getManager().isEnabled()) throw new ConditionFailedException("Map loading must be enabled.");
 		});
+	}
+	
+	private static void addReplacements(BukkitCommandManager commandManager) {
+		 final CommandReplacements commandReplacements = commandManager.getCommandReplacements();
+		 
+		 commandReplacements.addReplacements(
+		 		"perm-dwarf", "nightfall.dwarf"
+		 );
+		
 	}
 	
 	
