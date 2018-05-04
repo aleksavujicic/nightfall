@@ -148,13 +148,13 @@ public class MiscCommands extends BaseCommand {
 		MessageUtil.sendMessage(sender, "Killing ", numDwarves, " more dwarves.");
 	}
 	
-	@CommandAlias("colour|color")
+	@CommandAlias("colour|color|col")
 	@Description("Change the colour of your held item.")
 	public void colour(Player player){
 		ColourMenu.getMenu().startSession(player);
 	}
 	
-	@CommandAlias("colour|color")
+	@CommandAlias("colour|color|col")
 	@Description("Change the colour of your held item.")
 	@CommandCompletion("@dyecolours")
 	public void colour(Player player, @Flags("null") DyeColor colour){
