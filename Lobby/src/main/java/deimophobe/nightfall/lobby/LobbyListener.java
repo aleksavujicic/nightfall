@@ -1,5 +1,6 @@
 package deimophobe.nightfall.lobby;
 
+import com.google.common.collect.Sets;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -13,7 +14,6 @@ import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.player.*;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -82,17 +82,17 @@ public class LobbyListener implements Listener {
 		}
 	}
 	
-	private static final Set<Material> interactable = new HashSet<>();
-	static {
-		interactable.add(Material.ACACIA_DOOR);
-		interactable.add(Material.BIRCH_DOOR);
-		interactable.add(Material.DARK_OAK_DOOR);
-		interactable.add(Material.WOOD_DOOR);
-		interactable.add(Material.WOODEN_DOOR);
-		interactable.add(Material.JUNGLE_DOOR);
-		interactable.add(Material.SPRUCE_DOOR);
-		interactable.add(Material.TRAP_DOOR);
-	}
+	private static final Set<Material> INTERACTABLE = Sets.newHashSet(
+		Material.ACACIA_DOOR,
+		Material.BIRCH_DOOR,
+		Material.DARK_OAK_DOOR,
+		Material.WOOD_DOOR,
+		Material.WOODEN_DOOR,
+		Material.JUNGLE_DOOR,
+		Material.SPRUCE_DOOR,
+		Material.TRAP_DOOR
+	);
+	
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		cancelNonCreativePlayerEvent(event);
@@ -101,7 +101,7 @@ public class LobbyListener implements Listener {
 		if (block == null) return;
 		
 		Material blockType = block.getType();
-		if (interactable.contains(blockType)) {
+		if (INTERACTABLE.contains(blockType)) {
 			event.setCancelled(false);
 		}
 	}
