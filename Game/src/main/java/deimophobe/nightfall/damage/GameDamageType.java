@@ -70,6 +70,7 @@ public enum GameDamageType {
 	INCORRECT_HELD_ITEM(new ForcedDeathMessageMaker("was a bit of a klutz and dropped their blade")),
 	TINDERFLAME("zooped"),
 	WILDFIRE("incinerated"),
+	SMASH("smashed"),
 	SILENT_STRIKE,
 	MYST,
 	BUFFPOOL(

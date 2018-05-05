@@ -226,3 +226,14 @@ wildestaff:
       - "Drk fix this."
   modifiers:
     attack: 5
+
+transfigurationtotem:
+  base: transfiguration-totem
+  name: Transfiguration Totem
+  lore:
+    description:
+      - "Drk fix this."
+    flavour:
+      - "Drk fix this."
+  modifiers:
+    attack: 1
