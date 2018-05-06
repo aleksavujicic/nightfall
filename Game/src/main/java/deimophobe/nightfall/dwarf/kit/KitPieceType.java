@@ -124,6 +124,7 @@ public enum KitPieceType {
 	// Oxysis
 	DRUCRIST(Drucrist::new),
 	WILDE_STAFF(WildeStaff::new),
+	TRANSFIGURATION_TOTEM(TransfigurationTotem::new),
 
 	;
 	
