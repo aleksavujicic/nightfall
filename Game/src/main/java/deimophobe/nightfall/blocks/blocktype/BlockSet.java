@@ -9,11 +9,11 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 17/06/17.
  */
-class BlockSet implements ComparableBlock {
+public class BlockSet implements ComparableBlock {
 	
 	private final Set<ComparableBlock> blockSet;
 	
-	BlockSet(ComparableBlock... blocks) {
+	public BlockSet(ComparableBlock... blocks) {
 		this.blockSet = new HashSet<>();
 		
 		

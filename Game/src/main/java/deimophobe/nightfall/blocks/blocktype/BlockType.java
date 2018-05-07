@@ -87,6 +87,8 @@ public class BlockType {
 	public static final ComparableBlock HERANA_TRIDENT_WATER = Trident::isTridentWaterBlock;
 	public static final ComparableBlock TIMED_BLOCK = block -> BlockManager.getManager().isTimedBlock(block);
 	
+	public static final ComparableBlock GLASS = new MaterialSet(Material.GLASS, Material.THIN_GLASS, Material.STAINED_GLASS, Material.STAINED_GLASS_PANE);
+	
 	// Chisel
 	public static final CustomBlock COBBLESTONE_BLOCK = new MaterialBlock(Material.COBBLESTONE);
 	public static final StairBlock COBBLESTONE_STAIR = new StairBlock(Material.COBBLESTONE);

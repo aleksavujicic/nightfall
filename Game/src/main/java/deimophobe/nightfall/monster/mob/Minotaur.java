@@ -2,6 +2,9 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockConverter;
+import deimophobe.nightfall.blocks.blocktype.BlockSet;
+import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.blocktype.ComparableBlock;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.LifetimeExpireable;
@@ -12,10 +15,12 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
+import deimophobe.nightfall.util.NMSUtil;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.util.Vector;
@@ -91,16 +96,29 @@ public class Minotaur extends AbstractMob {
 		});
 	}
 	
+	
+	private static final ComparableBlock STOMPABLE = new BlockSet(
+			BlockType.GLASS, BlockType.GRASS
+	);
+	
 	/**
 	 * Checks the block at location loc and applies damage if collided.
-	 * @param loc
+	 * @param location location to check.
 	 * @return true if the block is solid and cause the minotaur to 'crash'.
 	 */
-	private static boolean checkBlock(Location loc) {
-		Block block = loc.getBlock();
+	private static boolean checkBlock(Location location) {
+		Block block = location.getBlock();
 		Material type = block.getType();
-		if (type.isSolid()) {
-			BlockConverter.convert(BlockConverter.Type.MINOTAUR_CHARGE, loc, 2);
+		
+		if (STOMPABLE.matchesBlock(block)) {
+			World world = block.getWorld();
+			Location blockCenter = block.getLocation().add(0.5, 0.5, 0.5);
+			world.spawnParticle(Particle.BLOCK_CRACK, blockCenter, 50, 0.5, 0.5, 0.5, 0, block.getState().getData());
+			NMSUtil.playBlockBreakSound(block);
+			block.breakNaturally();
+		}
+		else if (type.isSolid()) {
+			BlockConverter.convert(BlockConverter.Type.MINOTAUR_CHARGE, location, 2);
 			return true;
 		}
 		return false;
