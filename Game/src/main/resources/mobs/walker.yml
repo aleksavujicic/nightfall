@@ -3,9 +3,11 @@ title: "Walker"
 disguisetype: skeleton
 
 attack: 20
-health: 50
+health: 30
 shred: 15
 speed: 50
+
+resistance: 0.7
 
 proccable: true
 
