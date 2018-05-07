@@ -149,14 +149,16 @@ public class MiscCommands extends BaseCommand {
 	}
 	
 	@CommandAlias("colour|color|col")
+	@Conditions("hold-colourable")
 	@Description("Change the colour of your held item.")
 	public void colour(Player player){
 		ColourMenu.getMenu().startSession(player);
 	}
 	
 	@CommandAlias("colour|color|col")
-	@Description("Change the colour of your held item.")
 	@CommandCompletion("@dyecolours")
+	@Conditions("hold-colourable")
+	@Description("Change the colour of your held item.")
 	public void colour(Player player, @Flags("null") DyeColor colour){
 		ColourMenu.getMenu().dyeColour(player, colour);
 	}

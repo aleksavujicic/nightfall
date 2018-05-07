@@ -4,7 +4,8 @@ import co.aikar.commands.*;
 import co.aikar.commands.contexts.ContextResolver;
 import co.aikar.commands.contexts.IssuerAwareContextResolver;
 import com.google.common.collect.ImmutableSet;
-import deimophobe.nightfall.*;
+import deimophobe.nightfall.ItemManager;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.command.iterable.*;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
@@ -19,8 +20,8 @@ import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.hero.HeroType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
-import deimophobe.nightfall.game.GamePlayer;
 import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.GamePlayer;
 import deimophobe.nightfall.game.GameSize;
 import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.map.MapManager;
@@ -36,6 +37,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 import java.util.function.Function;
@@ -274,6 +276,15 @@ public class CommandInitialiserUtil {
 		
 		conditions.addCondition("map-enabled", context -> {
 			if (!MapManager.getManager().isEnabled()) throw new ConditionFailedException("Map loading must be enabled.");
+		});
+		
+		
+		conditions.addCondition("hold-colourable", context -> {
+			if (!context.getIssuer().isPlayer()) throw new ConditionFailedException("You must be a player to do that.");
+			Player player = context.getIssuer().getPlayer();
+			
+			ItemStack held = player.getInventory().getItemInMainHand();
+			if (held == null || !ConsumableType.GLASS.matchesItem(held)) throw new ConditionFailedException("You need to be holding glass to colour it.");
 		});
 	}
 	
