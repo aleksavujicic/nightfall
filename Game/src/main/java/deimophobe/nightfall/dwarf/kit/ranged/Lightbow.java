@@ -9,17 +9,13 @@ import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 20/01/17.
  */
 public class Lightbow extends AbstractBow {
-	public Lightbow(Dwarf dwarf) {
-		super(dwarf);
-		dwarf.makeBlindImmune();
-	}
-	
-	private final static int POWER = 30;
+	private final static int POWER = 40;
 	private final static CustomItem ITEM = getBow("lightbow", POWER);
 	@Override public CustomItem getItem() {
 		return ITEM;
@@ -27,11 +23,22 @@ public class Lightbow extends AbstractBow {
 	@Override public String getBowIdentifier() {return "LIGHTBOW";}
 	@Override public int getPower() {return POWER;}
 	
+	public Lightbow(Dwarf dwarf) {
+		super(dwarf);
+		dwarf.makeBlindImmune();
+	}
+	
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (isRangedDamageFromBow(damage)) {
-			damage.getArrowRes().timesMult(0.5);
+		if (!isRangedDamageFromBow(damage)) return;
+		if (!damage.hasArrow()) return;
+		
+		Arrow arrow = damage.getArrow();
+		if (ArrowMisc.getArrowForce(arrow) > 0.8) {
+			damage.addPostDamageHandler(() -> {
+				damage.getReceiver().givePotionEffect(PotionEffectType.GLOWING, 3*20, 1, true, false, true);
+			});
 		}
 	}
 	
