@@ -132,9 +132,6 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		
 		cancelFreeze();
 		
-		player.setAllowFlight(true);
-		player.setGameMode(GameMode.SPECTATOR);
-		
 		if (mob != null) {
 			mob.onDeath(silent);
 			mob = null;
@@ -146,6 +143,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		clearEffects();
 		mobMenuShower.reset();
 		cancelSeppuku();
+		
+		player.setAllowFlight(true);
+		player.setGameMode(GameMode.SPECTATOR);
 	}
 	
 	public boolean spawnMob(MobType type) {
