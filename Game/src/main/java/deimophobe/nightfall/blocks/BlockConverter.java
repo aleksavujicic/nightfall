@@ -50,7 +50,8 @@ public class BlockConverter {
 				new Conversion(BlockType.ALL_SLABS, 2.2, 0.3, BlockType.CORRODED_WALL),
 				new Conversion(BlockType.CORRODED_WALL, 2.5, 0.3, BlockType.AIR),
 				new Conversion(BlockType.LIGHT, 1.5, 1.0, BlockType.AIR),
-				new Conversion(BlockType.GRASS, 0.5, 0.0, BlockType.AIR)
+				new Conversion(BlockType.GRASS, 0.5, 0.0, BlockType.AIR),
+				new Conversion(BlockType.GLASS, 2.1, 0.3, BlockType.AIR)
 		),
 		THROWNEXPLOSION(
 				new Conversion(BlockType.ENCHANTED_WALL, 4.5, 0.5, BlockType.NORMAL_WALL),
