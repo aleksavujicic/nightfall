@@ -3,6 +3,7 @@ package deimophobe.nightfall.dwarf.consumable;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.common.items.ItemMatcher;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.game.Game;
@@ -14,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 /**
  * Created by Deimophobe on 22/01/17.
  */
-public abstract class Consumable {
+public abstract class Consumable implements ItemMatcher {
 	
 	protected static final int DEFAULT_CD = 10;
 	protected static final int FAILED_CD = -1;
@@ -22,11 +23,17 @@ public abstract class Consumable {
 	private final CustomItem item;
 	private final ItemStack itemStack;
 	
-	public ItemStack getItemStack() {
+	protected final CustomItem getItem() { return item; }
+	public final ItemStack getItemStack() {
 		return itemStack;
 	}
 	public boolean matchesItem(ItemStack toMatch) {
 		return item.isSimilar(toMatch);
+	}
+	
+	@Override
+	public boolean doesItemMatch(ItemStack item) {
+		return matchesItem(item);
 	}
 	
 	protected Consumable(String itemName) {

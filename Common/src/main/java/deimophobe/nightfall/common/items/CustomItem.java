@@ -25,7 +25,7 @@ import java.util.*;
 /**
  * Created by Deimophobe on 15/04/17.
  */
-public class CustomItem implements Cloneable {
+public class CustomItem implements Cloneable, ItemMatcher {
 	
 	private BaseItem base;
 	private final Lore lore;
@@ -159,6 +159,11 @@ public class CustomItem implements Cloneable {
 				lore.createName().equals(item.getItemMeta().getDisplayName()) &&
 				base.isSimilar(item)
 		);
+	}
+	
+	@Override
+	public boolean doesItemMatch(ItemStack item) {
+		return isSimilar(item);
 	}
 	
 	@Override

@@ -4,6 +4,7 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.common.items.ItemMatcher;
 import deimophobe.nightfall.cooldown.CooldownHolder;
 import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.damage.GameDamage;
@@ -28,7 +29,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -274,14 +274,12 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 		}
 	}
 	
-	public void showInventory(Inventory inventory) {
-		player.openInventory(inventory);
-	}
-	
+	@Deprecated
 	public int replaceItem(ItemStack oldItem, ItemStack newItem) {
 		return replaceItem(oldItem::isSimilar, newItem);
 	}
 	
+	@Deprecated
 	public int replaceItem(CustomItem oldItem, ItemStack newItem) {
 		return replaceItem(oldItem::isSimilar, newItem);
 	}
@@ -308,10 +306,12 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 		return replaced;
 	}
 	
+	@Deprecated
 	public boolean hasItem(Material material) {
 		return player.getInventory().contains(material);
 	}
 	
+	@Deprecated
 	public boolean hasItem(Material material, int amt) {
 		return player.getInventory().contains(material, amt);
 	}
@@ -327,6 +327,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 		return false;
 	}
 	
+	@Deprecated
 	public boolean useItem(Material material) {
 		if (material == null) throw new NullPointerException("Cannot force use null item.");
 		
@@ -339,6 +340,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 		return false;
 	}
 	
+	@Deprecated
 	public boolean useItemReverse(Material material) {
 		if (material == null) throw new NullPointerException("Cannot force use null item.");
 		
@@ -355,12 +357,33 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 		return false;
 	}
 	
+	@Deprecated
 	public boolean useItem(Material material, int amt) {
 		for (int i=0; i<amt; i++) {
 			boolean used = useItem(material);
 			if (!used) return false;
 		}
 		return true;
+	}
+	
+	public int getItemCount(ItemMatcher matcher) {
+		int count = 0;
+		for (ItemStack item : player.getInventory()) {
+			if (item == null) continue;
+			if (!matcher.doesItemMatch(item)) continue;
+			
+			count += item.getAmount();
+		}
+		return count;
+	}
+	
+	public void removeItems(ItemMatcher matcher) {
+		for (ItemStack item : player.getInventory()) {
+			if (item == null) continue;
+			if (!matcher.doesItemMatch(item)) continue;
+			
+			item.setAmount(0);
+		}
 	}
 	
 	

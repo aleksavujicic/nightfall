@@ -26,8 +26,14 @@ public class FurnaceConsumable extends Consumable {
 		if (!click.isRightClick()) return FAILED_CD;
 		if (!BlockType.FURNACE.matchesBlock(clickedBlock)) return FAILED_CD;
 		
-		int count = dwarf.getHeldItemCount();
-		dwarf.useHeldItemStack();
+		int count;
+		if (dwarf.isSneaking()) {
+			count = dwarf.getItemCount(this);
+			dwarf.removeItems(this);
+		} else {
+			count = dwarf.getHeldItemCount();
+			dwarf.useHeldItemStack();
+		}
 		
 		dwarf.getFurnace().addItems(result, time, count);
 		dwarf.playSound("entity.generic.burn", 1f, 0.8f, true);
