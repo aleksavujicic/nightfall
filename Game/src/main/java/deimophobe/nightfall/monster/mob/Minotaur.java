@@ -2,6 +2,7 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockConverter;
+import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.blocktype.BlockSet;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.blocktype.ComparableBlock;
@@ -15,12 +16,10 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
-import deimophobe.nightfall.util.NMSUtil;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.util.Vector;
@@ -111,11 +110,8 @@ public class Minotaur extends AbstractMob {
 		Material type = block.getType();
 		
 		if (STOMPABLE.matchesBlock(block)) {
-			World world = block.getWorld();
-			Location blockCenter = block.getLocation().add(0.5, 0.5, 0.5);
-			world.spawnParticle(Particle.BLOCK_CRACK, blockCenter, 50, 0.5, 0.5, 0.5, 0, block.getState().getData());
-			NMSUtil.playBlockBreakSound(block);
-			block.breakNaturally();
+			boolean broken = BlockManager.getManager().breakBlock(block);
+			return !broken; // If it didn't break, stop charge
 		}
 		else if (type.isSolid()) {
 			BlockConverter.convert(BlockConverter.Type.MINOTAUR_CHARGE, location, 2);

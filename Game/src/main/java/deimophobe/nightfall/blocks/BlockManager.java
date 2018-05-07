@@ -4,6 +4,11 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GamePlayer;
+import deimophobe.nightfall.map.GameMap;
+import deimophobe.nightfall.util.NMSUtil;
+import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
@@ -17,6 +22,22 @@ import java.util.Set;
  */
 public class BlockManager {
 	public static BlockManager getManager() { return Game.getGame().getBlockManager(); }
+	
+	
+	
+	public boolean breakBlock(Block block) {
+		if (!GameMap.getCurrentMap().isBlockBreakable(block)) return false;
+		
+		World world = block.getWorld();
+		Location blockCenter = block.getLocation().add(0.5, 0.5, 0.5);
+		world.spawnParticle(Particle.BLOCK_CRACK, blockCenter, 50, 0.5, 0.5, 0.5, 0, block.getState().getData());
+		NMSUtil.playBlockBreakSound(block);
+		block.breakNaturally();
+		return true;
+	}
+	
+	
+	// ------ TIMED BLOCKS ------
 	
 	public void stop() {
 		cancelAllTimedBlocks();
