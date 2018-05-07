@@ -75,8 +75,8 @@ public class BlockConverter {
 				new Conversion(BlockType.BROKEN_WALL, 0.5, 0.1, BlockType.AIR),
 				new Conversion(BlockType.ALL_WOOLS, 0.5, 0.1, BlockType.AIR),
 				new Conversion(BlockType.LIGHT, 0.5, 1.0, BlockType.AIR)
-		),
-		ARROW_DAMAGE,
+		)
+		
 		;
 		
 		
