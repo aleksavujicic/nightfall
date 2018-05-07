@@ -56,7 +56,7 @@ public class HealBlock extends DataTimedBlock {
 		reduceLifetime(10);
 		
 		World world = block.getWorld();
-		world.playSound(block.getLocation(), "block.note.harp", 0.5f, 2f - getLifetime()*0.001f);
+		world.playSound(block.getLocation(), "block.note.harp", 0.5f, 2f - getLifetime()*0.0025f);
 		world.playSound(block.getLocation(), "block.anvil.break", 1f, 1f);
 	}
 	
