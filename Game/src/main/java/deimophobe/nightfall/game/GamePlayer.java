@@ -27,7 +27,9 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
@@ -262,6 +264,14 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	public void clearInventory() {
 		player.getInventory().clear();
 		player.setItemOnCursor(null);
+		clearCraftingInvetory();
+	}
+	
+	public void clearCraftingInvetory() {
+		InventoryView view = player.getOpenInventory();
+		if (view.getType() == InventoryType.CRAFTING) {
+			view.getTopInventory().clear();
+		}
 	}
 	
 	public void showInventory(Inventory inventory) {

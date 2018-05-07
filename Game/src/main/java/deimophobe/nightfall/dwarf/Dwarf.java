@@ -739,6 +739,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	@Override
 	public void onRemove() {
 		super.onRemove();
+		clearCraftingInvetory();
 		kit.onRemove();
 		SkinManager.getManager().removeSkinChange(this);
 		DisguiseAPI.undisguiseToAll(player);
