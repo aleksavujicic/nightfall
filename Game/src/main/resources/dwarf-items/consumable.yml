@@ -183,9 +183,9 @@ sand-grain:
 
 glass:
   material: glass
-  name: Glass
+  name: Blast-Proof Glass
   lore:
     description:
      - "Left click to change colour."
     flavour:
-     - "It's transparent."
+     - "It's transparent. And blast proof."
