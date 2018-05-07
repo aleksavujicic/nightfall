@@ -69,7 +69,7 @@ public class DwarfShovel extends AbstractItem {
 	private void giveSand() {
 		dwarf.giveConsumable(ConsumableType.SAND_GRAIN, getSandGiveAmount());
 		dwarf.playSound("block.sand.break", 1f, 0.5f, true);
-		dwarf.playSound("block.sand.step", 1f, 0.5f, true);
+		dwarf.playSound("item.hoe.till", 1f, 0.8f, true);
 	}
 	
 	protected int getCobbleAmount() {
