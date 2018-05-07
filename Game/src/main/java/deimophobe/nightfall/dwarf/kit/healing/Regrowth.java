@@ -87,7 +87,7 @@ public class Regrowth extends AbstractAle {
 		);
 		if (!canConnect) return;
 		
-		dwarf.useMana(25);
+		dwarf.useMana(20);
 		
 		dwarf.playSound("healing", 0.5f, 1f, false);
 		target.playSound("healing", 0.5f, 1f, false);
