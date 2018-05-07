@@ -72,6 +72,10 @@ public class DwarfShovel extends AbstractItem {
 		dwarf.playSound("block.sand.step", 1f, 0.5f, true);
 	}
 	
+	protected int getCobbleAmount() {
+		return 2;
+	}
+	
 	protected int getSandGiveAmount() {
 		return 1;
 	}
@@ -80,11 +84,7 @@ public class DwarfShovel extends AbstractItem {
 	public void onBlockBreak(Block block, boolean didBreak) {
 		super.onBlockBreak(block, didBreak);
 		if (didBreak && block.getType() == Material.GRAVEL) {
-			int quantity = 2;
-			
-			//if (Game.getGame().getPhase() == Phase.BUILD) quantity = 4;
-			//else quantity = 2;
-			
+			int quantity = getCobbleAmount();
 			dwarf.giveConsumable(ConsumableType.COBBLESTONE, quantity, true);
 			
 			dwarf.playSound("block.anvil.place", 0.2f, 0.8f, true);

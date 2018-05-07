@@ -44,4 +44,9 @@ public class Tombmaker extends DwarfShovel {
 	protected int getSandGiveAmount() {
 		return 2;
 	}
+	
+	@Override
+	protected int getCobbleAmount() {
+		return 4;
+	}
 }
