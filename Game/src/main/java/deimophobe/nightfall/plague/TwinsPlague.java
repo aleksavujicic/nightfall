@@ -9,7 +9,6 @@ import deimophobe.nightfall.map.GameMap;
 import org.bukkit.*;
 import org.bukkit.entity.Enderman;
 import org.bukkit.material.MaterialData;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -114,11 +113,11 @@ public class TwinsPlague extends Plague {
 		}
 		
 		private static Enderman createTwin() {
+			// Warning: setting spawnLoc with y < 0 or far away cause the twins to be invisible.
 			Location spawnLoc = GameMap.getCurrentMap().getDwarfSpawn().clone();
-			spawnLoc.setY(-100);
+			spawnLoc.setY(0);
 			
 			return spawnLoc.getWorld().spawn(spawnLoc, Enderman.class, enderman -> {
-				enderman.setMetadata("death", new FixedMetadataValue(NightfallPlugin.getPlugin(), true));
 				enderman.setAI(false);
 				enderman.setInvulnerable(true);
 				enderman.setCollidable(false);
