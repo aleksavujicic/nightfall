@@ -476,7 +476,10 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	}
 	
 	
-	public void onRemove() {}
+	public void onRemove() {
+		clearInventory();
+		clearCraftingInvetory();
+	}
 	
 	// Abstract methods
 	public abstract void updateHotbarSlot(ItemStack heldItem, int slot);
