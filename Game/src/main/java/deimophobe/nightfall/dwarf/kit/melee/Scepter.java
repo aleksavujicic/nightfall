@@ -13,7 +13,7 @@ import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.monster.MonsterEntity;
-import deimophobe.nightfall.util.Buffpool;
+import deimophobe.nightfall.util.ArcaneMark;
 import deimophobe.nightfall.util.Colour;
 import deimophobe.nightfall.util.Hitscan;
 import org.bukkit.Location;
@@ -37,19 +37,19 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	
 	
 	private final ComplexCooldown lanceCD = new ComplexCooldown(8, this::shootLance);
-	private final ComplexCooldown buffpoolCD = new ComplexCooldown(120*20, this::createBuffpool);
+	private final ComplexCooldown arcaneMarkCD = new ComplexCooldown(120*20, this::createMark);
 	
 	@Override
 	public void update() {
 		super.update();
 		lanceCD.update();
-		buffpoolCD.update();
+		arcaneMarkCD.update();
 		
-		if (activePool != null) {
-			activePool.update();
+		if (activeMark != null) {
+			activeMark.update();
 			
-			if (activePool.hasEnded()) {
-				activePool = null;
+			if (activeMark.hasEnded()) {
+				activeMark = null;
 			}
 		}
 	}
@@ -65,7 +65,7 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	@Override
 	public boolean onUse(ClickType click, Block clickedBlock, BlockFace face){
 		if (click.isRightClick() && !dwarf.getNoSpecial()) {
-			return buffpoolCD.tryUse();
+			return arcaneMarkCD.tryUse();
 		} else if (click.isLeftClick()) {
 			return lanceCD.tryUse();
 		}
@@ -74,7 +74,7 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	
 	@Override
 	public float getCooldown() {
-		return buffpoolCD.getCooldown();
+		return arcaneMarkCD.getCooldown();
 	}
 
 	
@@ -113,11 +113,11 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	}
 	
 	
-	// ----- BUFFPOOL -----
-	private Buffpool activePool;
+	// ----- ARCANE MARK -----
+	private ArcaneMark activeMark;
 	
-	private static final Colour BUFFPOOL_COLOUR = new Colour(0.2, 0.8, 1);
-	private void createBuffpool() {
-		activePool = new Buffpool(dwarf, 12*20, 2, BUFFPOOL_COLOUR, 4, 2);
+	private static final Colour MARK_COLOUR = new Colour(0.2, 0.8, 1);
+	private void createMark() {
+		activeMark = new ArcaneMark(dwarf, 12*20, 2, MARK_COLOUR, 4, 2);
 	}
 }

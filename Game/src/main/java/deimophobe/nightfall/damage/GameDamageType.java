@@ -73,11 +73,11 @@ public enum GameDamageType {
 	SMASH("smashed"),
 	SOUL_SHATTER("soul shattered"),
 	MYST,
-	BUFFPOOL(
+	ARCANE_MARK(
 			(playerName, damage) -> {
 				BaseComponent text = new TextComponent();
 				text.addExtra(playerName);
-				text.addExtra(" was consumed by ");
+				text.addExtra(" was evaporated by ");
 				text.addExtra(damage.getAttackerName());
 				text.addExtra("'s arcane mark");
 				return text;

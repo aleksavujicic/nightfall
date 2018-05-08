@@ -22,7 +22,7 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 19/01/18.
  */
-public class Buffpool implements Updateable {
+public class ArcaneMark implements Updateable {
 	
 	private static final int NUM_PARTICLES = 10;
 	
@@ -39,7 +39,7 @@ public class Buffpool implements Updateable {
 	private int lifetime;
 	private double theta = 0;
 	
-	public Buffpool(Dwarf dwarf, int lifetime, double radius, Colour colour, double damage, int resLevel) {
+	public ArcaneMark(Dwarf dwarf, int lifetime, double radius, Colour colour, double damage, int resLevel) {
 		this.dwarf = dwarf;
 		this.location = dwarf.getLocation().add(0, 0.3, 0);
 		
@@ -57,7 +57,7 @@ public class Buffpool implements Updateable {
 		if (hasEnded()) return;
 		lifetime--;
 		
-		// Buffpool particles
+		// ArcaneMark particles
 		World world = location.getWorld();
 		world.spawnParticle(Particle.SPELL_WITCH, location, 3, radius/2, 0, radius/2, 0);
 		for (int i = 0; i < (int) radius*radius*4; i++) {
@@ -84,7 +84,7 @@ public class Buffpool implements Updateable {
 		
 		// Buff Dwarves
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
-			if (entityInBuffpool(dwarf)) {
+			if (entityInMark(dwarf)) {
 				if (lifetime % 3 == 0) {
 					dwarf.regenMana(1);
 					dwarf.heal(1);
@@ -107,8 +107,8 @@ public class Buffpool implements Updateable {
 		// Damage Mobs
 		if (lifetime % 5 == 0) {
 			for (MonsterEntity<?> monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
-				if (entityInBuffpool(monster)) {
-					MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.BUFFPOOL, damageAmt);
+				if (entityInMark(monster)) {
+					MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.ARCANE_MARK, damageAmt);
 					if (monster instanceof AIEntity) damage.instaKill();
 					damage.setNoDamageTicks(1);
 					damage.fire(true);
@@ -121,7 +121,7 @@ public class Buffpool implements Updateable {
 		return lifetime <= 0;
 	}
 	
-	private boolean entityInBuffpool(GameEntity<?> player) {
+	private boolean entityInMark(GameEntity<?> player) {
 		Location playerLocation = player.getLocation();
 		Location offset = playerLocation.subtract(location);
 		double x = offset.getX();

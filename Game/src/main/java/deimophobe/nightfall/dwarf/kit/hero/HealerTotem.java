@@ -9,7 +9,7 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.util.Buffpool;
+import deimophobe.nightfall.util.ArcaneMark;
 import deimophobe.nightfall.util.Colour;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -21,7 +21,7 @@ import org.bukkit.block.BlockFace;
 public class HealerTotem extends AbstractItem implements CooldownPiece {
 	
 	private final ComplexCooldown healing = new ComplexCooldown(20, this::groupHeal);
-	private final ComplexCooldown buffpoolCD = new ComplexCooldown(180*20, this::createBuffpool);
+	private final ComplexCooldown arcaneMarkCD = new ComplexCooldown(180*20, this::createMark);
 	
 	public HealerTotem(Dwarf dwarf) {
 		super(dwarf);
@@ -35,7 +35,7 @@ public class HealerTotem extends AbstractItem implements CooldownPiece {
 	@Override
 	public boolean onUse(ClickType click, Block clickedBlock, BlockFace face) {
 		if (click.isLeftClick()) {
-			return buffpoolCD.tryUse();
+			return arcaneMarkCD.tryUse();
 		} else {
 			return healing.tryUse();
 		}
@@ -44,13 +44,13 @@ public class HealerTotem extends AbstractItem implements CooldownPiece {
 	@Override
 	public void update() {
 		healing.update();
-		buffpoolCD.update();
+		arcaneMarkCD.update();
 		
-		if (activePool != null) {
-			activePool.update();
+		if (activeMark != null) {
+			activeMark.update();
 			
-			if (activePool.hasEnded()) {
-				activePool = null;
+			if (activeMark.hasEnded()) {
+				activeMark = null;
 			}
 		}
 	}
@@ -84,16 +84,16 @@ public class HealerTotem extends AbstractItem implements CooldownPiece {
 		}
 	}
 	
-	private Buffpool activePool;
+	private ArcaneMark activeMark;
 	
-	private static final Colour BUFFPOOL_COLOUR = new Colour(0.7, 0.2, 0.4);
-	private void createBuffpool() {
-		activePool = new Buffpool(dwarf, 20*20, 3, BUFFPOOL_COLOUR, 8, 3);
+	private static final Colour MARK_COLOUR = new Colour(0.7, 0.2, 0.4);
+	private void createMark() {
+		activeMark = new ArcaneMark(dwarf, 20*20, 3, MARK_COLOUR, 8, 3);
 	}
 	
 	@Override
 	public float getCooldown() {
-		return buffpoolCD.getCooldown();
+		return arcaneMarkCD.getCooldown();
 	}
 	
 }
