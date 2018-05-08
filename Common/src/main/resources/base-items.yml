@@ -191,7 +191,7 @@ menu:
   points: "diamond_hoe:4"
   trash: "diamond_hoe:22"
 
-  eheal: "!potion{255,0,255}"
+  jit-heal: "!potion{255,0,255}"
 
   mortar: "diamond_hoe:9"
   mortar2: "diamond_hoe:10"

@@ -273,10 +273,10 @@ public class DwarfCommand extends BaseCommand {
 		dwarf.giveKitItem(KitPieceType.BRICKLAYER);
 	}
 	
-	@CommandAlias("eheal")
+	@CommandAlias("jitheal|jit-heal")
 	@Description("For saving Jimmy.")
-	public void giveEheal(@Flags("self") Dwarf dwarf) {
-		dwarf.giveKitItem(KitPieceType.EHEAL);
+	public void giveJitHeal(@Flags("self") Dwarf dwarf) {
+		dwarf.giveKitItem(KitPieceType.JIT_HEAL);
 	}
 	
 	@CommandAlias("trash|fawn")

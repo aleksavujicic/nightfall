@@ -73,7 +73,7 @@ public enum KitPieceType {
 	SPEEDY_BRICKLAYER(d -> new Bricklayer(d, true)),
 	CHISEL(Chisel::new),
 	CLOCK(Clock::new),
-	EHEAL(EHeal::new),
+	JIT_HEAL(JitHeal::new),
 	
 	UNTIMELY_DEMISE(UntimelyDemise::new),
 	

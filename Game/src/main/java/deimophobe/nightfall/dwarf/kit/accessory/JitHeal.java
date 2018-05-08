@@ -11,11 +11,11 @@ import org.bukkit.ChatColor;
 /**
  * Created by Deimophobe on 3/05/18.
  */
-public class EHeal extends AbstractPiece {
+public class JitHeal extends AbstractPiece {
 	
 	private static final int MANA_COST = 700;
 	
-	public EHeal(Dwarf dwarf) { super(dwarf); }
+	public JitHeal(Dwarf dwarf) { super(dwarf); }
 	
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
@@ -24,7 +24,7 @@ public class EHeal extends AbstractPiece {
 		if (Game.getGame().getPhase() != Phase.GAME) return;
 		if (!dwarf.hasMana(MANA_COST)) return;
 		
-		damage.addPreDamageHandler(PreDamagePriority.EHEAL, () -> {
+		damage.addPreDamageHandler(PreDamagePriority.JIT_HEAL, () -> {
 			if (damage.willKill() && !Game.getGame().potionsDisabled()) {
 				damage.softCancel();
 				dwarf.healMax();
@@ -33,7 +33,7 @@ public class EHeal extends AbstractPiece {
 				dwarf.playSound("entity.generic.drink", 1f, 0.5f, false);
 				dwarf.playSound("entity.experience_orb.pickup", 1f, 0.5f, false);
 				
-				dwarf.sendTitleMessage(ChatColor.RED + "Your eheal has been triggered!");
+				dwarf.sendTitleMessage(ChatColor.RED + "Your JIT heal has been triggered!");
 			}
 		});
 	}
