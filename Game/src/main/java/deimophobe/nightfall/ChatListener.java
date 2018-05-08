@@ -11,8 +11,16 @@ import java.util.Set;
 
 public class ChatListener implements Listener {
 	
+	public static boolean globalActive = true;
+	public static boolean toggleGlobal() {
+		globalActive = !globalActive;
+		return globalActive;
+	}
+	
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent event){
+		if (!globalActive) return;
+		
 		Set<Player> recipients = event.getRecipients();
 		Player sender = event.getPlayer();
 		String message = event.getMessage();

@@ -6,11 +6,13 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Description;
 import co.aikar.commands.contexts.OnlinePlayer;
+import deimophobe.nightfall.ChatListener;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -21,10 +23,17 @@ public class ChatCommand extends BaseCommand {
 	
 	private static final String ARROW = Character.toString((char) 0x279B);
 	private final Map<UUID, UUID> mapLastMessaged = new HashMap<>();
+	
+	@CommandAlias("toggleglobal")
+	@Description("Turn global on and off.")
+	public void toggleGlobal(CommandSender sender) {
+		boolean enabled = ChatListener.toggleGlobal();
+		MessageUtil.sendMessage(sender,"Global chat is now ", enabled, ".");
+	}
 
 	@CommandAlias("msg|w|tell")
 	@CommandCompletion("@players")
-	@Description("Private Message Another Player")
+	@Description("Private message another player.")
 	public void onMessage(Player sender, OnlinePlayer receiver, String message) {
 		Player receiverPlayer = receiver.getPlayer();
 		sendPrivateMessage(sender, receiverPlayer, message);
@@ -32,7 +41,7 @@ public class ChatCommand extends BaseCommand {
 
 	
 	@CommandAlias("r|reply")
-	@Description("Reply to Private Message")
+	@Description("Reply to a private message.")
 	public void onReply(Player sender, String message) throws InvalidCommandArgument {
 		UUID receiverUUID = mapLastMessaged.get(sender.getUniqueId());
 		if (receiverUUID == null) {
