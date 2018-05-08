@@ -2,9 +2,7 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockConverter;
-import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.cooldown.Display;
-import deimophobe.nightfall.cooldown.Update;
+import deimophobe.nightfall.cooldown.*;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -20,9 +18,10 @@ import org.bukkit.potion.PotionEffectType;
 /**
  * Created by Deimophobe on 15/01/18.
  */
-public class BatteringRam extends AbstractMob {
-	@Update @Display private final ComplexCooldown ram = new ComplexCooldown(2*20, this::wallRam);
-	@Update private final ComplexCooldown faceResetter = new ComplexCooldown(10, null, () -> setFace(false));
+public class BatteringRam extends AbstractRideableMob {
+	@Update @Display private final Cooldown ram = new UseCooldown(2*20, this::wallRam);
+	@Update private final Cooldown leaper = new UseCooldown(1*20, this::leap, () -> monster.getPlayer().isOnGround());
+	@Update private final Cooldown faceResetter = new ComplexCooldown(10, null, () -> setFace(false));
 	
 	private Location lastLocation;
 	
@@ -59,8 +58,14 @@ public class BatteringRam extends AbstractMob {
 	@Override
 	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
 		super.onUse(click, clickedBlock, blockFace);
-		if (isPlayerHoldingWeapon())
-			ram.tryUse();
+		if (isPlayerHoldingWeapon()) {
+			if (click.isLeftClick()) {
+				ram.tryUse();
+			}
+			else if (click.isRightClick()) {
+				leaper.tryUse();
+			}
+		}
 	}
 	
 	@Override
@@ -77,12 +82,8 @@ public class BatteringRam extends AbstractMob {
 			damage.cancel();
 	}
 	
-	@Override
-	public void onShift(boolean sneaking) {
-		super.onShift(sneaking);
-		if (sneaking && monster.getPlayer().isOnGround()) {
-			monster.leap(0.1, 0.4);
-		}
+	private void leap() {
+		monster.leap(0.1, 0.4);
 	}
 	
 	private void wallRam() {
@@ -98,5 +99,12 @@ public class BatteringRam extends AbstractMob {
 	
 	private void setFace(boolean angry) {
 		changeDisguiseWatcher(GhastWatcher.class, (gw) -> gw.setAggressive(angry));
+	}
+	
+	
+	@Override
+	protected boolean canMount(MonsterPlayer player) {
+		int numPassengers = monster.getPlayer().getPassengers().size();
+		return (numPassengers < 1);
 	}
 }

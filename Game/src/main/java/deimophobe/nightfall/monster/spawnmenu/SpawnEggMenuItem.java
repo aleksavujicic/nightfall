@@ -134,7 +134,7 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 			return false;
 		}
 		
-		if (monster.isAlive()) {
+		if (monster.isMobAlive()) {
 			monster.sendMessage(ChatColor.RED + "You have already spawned as a mob!");
 			session.closeSession();
 			return false;

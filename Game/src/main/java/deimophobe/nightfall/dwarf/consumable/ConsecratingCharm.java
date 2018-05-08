@@ -172,7 +172,7 @@ public class ConsecratingCharm extends Consumable {
 		
 		private void freezeMobs() {
 			for (MonsterPlayer mp : MonsterManager.getManager().getAlivePlayerMobs()) {
-				if (mp.isAlive() && center.distance(mp.getLocation()) <= radius) {
+				if (mp.isMobAlive() && center.distance(mp.getLocation()) <= radius) {
 					int mobFreezeTime = getLifeLeft() + mp.getMob().getCharmTime() - maxLifetime;
 					mp.freeze(mobFreezeTime);
 				}

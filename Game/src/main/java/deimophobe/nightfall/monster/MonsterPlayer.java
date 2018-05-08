@@ -95,10 +95,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			}
 		}
 		
-		if (everySec() && isAlive() && Game.getGame().getPhase() == Phase.GAME) {
+		if (everySec() && isMobAlive() && Game.getGame().getPhase() == Phase.GAME) {
 			gainXP(expRate);
 		}
-		if (everyNthTick(5) && isAlive() && isInShrine()) {
+		if (everyNthTick(5) && isMobAlive() && isInShrine()) {
 			if (mob.getShrineWeight() != 0) gainXP(2);
 		}
 		
@@ -117,12 +117,12 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	// ------ SPAWN AND DEATH ------
-	public boolean isAlive() {
+	public boolean isMobAlive() {
 		return (mob != null);
 	}
 	
 	public void kill(boolean silent) {
-		if (!silent && isAlive()) {
+		if (!silent && isMobAlive()) {
 			MonsterManager.getManager().queueDeathMessage(getDeathMessage().toPlainText());
 			player.playSound(player.getLocation(), "proc", 1f, 0.7f);
 			sendTitleMessage(ChatColor.DARK_RED + "You died!");
@@ -405,7 +405,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		if (usedThisTick) return;
 		usedThisTick = true;
 		
-		if (!isAlive()) {
+		if (!isMobAlive()) {
 			mobMenuShower.tryUse();
 			return;
 		}
@@ -531,7 +531,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		player.setFlySpeed(0.1f);
 		player.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0);
 		
-		if (isAlive()) {
+		if (isMobAlive()) {
 			player.setFlying(false);
 			player.setAllowFlight(false);
 			

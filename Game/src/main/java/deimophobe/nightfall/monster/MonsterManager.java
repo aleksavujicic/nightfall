@@ -70,7 +70,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	
 	public Collection<MonsterPlayer> getAlivePlayerMobs() {
 		Collection<MonsterPlayer> aliveMobs = new HashSet<>(getGamePlayers());
-		aliveMobs.removeIf((MonsterPlayer m) -> !m.isAlive());
+		aliveMobs.removeIf((MonsterPlayer m) -> !m.isMobAlive());
 		return aliveMobs;
 	}
 	
@@ -83,13 +83,13 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	
 	public Collection<MonsterPlayer> getDeadPlayers() {
 		Collection<MonsterPlayer> deadMobs = new HashSet<>(getGamePlayers());
-		deadMobs.removeIf(MonsterPlayer::isAlive);
+		deadMobs.removeIf(MonsterPlayer::isMobAlive);
 		return deadMobs;
 	}
 	
 	
 	public MonsterPlayer getNearestAlive(Location location) {
-		return getNearest(location, MonsterPlayer::isAlive);
+		return getNearest(location, MonsterPlayer::isMobAlive);
 	}
 	
 	

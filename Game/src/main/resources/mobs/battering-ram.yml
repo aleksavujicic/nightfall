@@ -32,3 +32,13 @@ weapon:
         But nothing to players."
     flavour:
      - "Boom"
+items:
+  back:
+    material: saddle
+    name: Mount
+    lore:
+      description:
+       - "Left click to mount player\n
+          Right click eject all players."
+      flavour:
+       - ""

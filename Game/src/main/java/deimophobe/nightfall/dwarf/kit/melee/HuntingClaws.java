@@ -61,7 +61,7 @@ public class HuntingClaws extends AbstractItem implements CooldownPiece {
 		}
 		
 		if (isHunting()) {
-			if (target == null || !target.isAlive()) {
+			if (target == null || !target.isMobAlive()) {
 				reselectTarget();
 			}
 		} else {
