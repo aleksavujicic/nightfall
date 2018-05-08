@@ -46,6 +46,10 @@ public class Misc {
 		return min + (int) (Math.random() * (max + 1 - min));
 	}
 	
+	public static float randomFloat(float min, float max) {
+		return min + ((float) Math.random() * (max - min));
+	}
+	
 	public static double randomDouble(double min, double max) {
 		return min + (Math.random() * (max - min));
 	}

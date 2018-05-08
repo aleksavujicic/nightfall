@@ -8,10 +8,13 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.*;
 import org.bukkit.entity.Enderman;
+import org.bukkit.entity.Entity;
 import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Supplier;
 
 /**
@@ -32,13 +35,14 @@ public class TwinsPlague extends Plague {
 					return null;
 				}
 			}
-		});
+		}, false);
 	}
 	
 	
 	@Override
 	public void startPlague() {
-		new TwinsRampage(new PlagueDwarfChooser());
+		boolean enraged = (Math.random() < 0.01) && (getAmountToKill(true) >= 4);
+		new TwinsRampage(new PlagueDwarfChooser(), enraged);
 	}
 	
 	
@@ -49,32 +53,77 @@ public class TwinsPlague extends Plague {
 		
 		private final BukkitRunnable runner;
 		
-		private TwinsRampage(Supplier<Dwarf> dwarfChooser) {
-			regenerateTwinsName();
+		private final boolean enraged;
+		private final Set<Enderman> fakeTwins = new HashSet<>();
+		
+		private boolean running = true;
+		
+		private TwinsRampage(Supplier<Dwarf> dwarfChooser, boolean enraged) {
+			this.enraged = enraged;
+			regenerateTwinsName(enraged);
+			
 			this.dwarfChooser = dwarfChooser;
 			
-			twin1 = createTwin();
-			twin2 = createTwin();
-			
+			// Warning: setting spawnLoc with y < 0 or far away cause the twins to be invisible.
 			Location spawnLoc = GameMap.getCurrentMap().getDwarfSpawn().clone();
-			spawnLoc.getWorld().playSound(spawnLoc, Sound.ENTITY_ENDERMEN_STARE, 100, 1);
+			spawnLoc.setY(0);
+			this.twin1 = createTwin(spawnLoc);
+			this.twin2 = createTwin(spawnLoc);
 			
-			runner = new BukkitRunnable() {
+			World world = spawnLoc.getWorld();
+			world.playSound(spawnLoc, Sound.ENTITY_ENDERMEN_STARE, 100, 1);
+			if (enraged) {
+				world.playSound(spawnLoc, Sound.ENTITY_ENDERMEN_STARE, 100, 0.8f);
+				//world.playSound(spawnLoc, Sound.ENTITY_ENDERMEN_STARE, 100, 0.5f);
+			}
+			
+			
+			int delay = (enraged ? 300 : 160);
+			int period = (enraged ? 10 : 40);
+			this.runner = new BukkitRunnable() {
 				@Override
 				public void run() {
 					teleportTwins();
 				}
 			};
-			runner.runTaskTimer(NightfallPlugin.getPlugin(), 160, 40);
+			runner.runTaskTimer(NightfallPlugin.getPlugin(), delay, period);
+			
+			
+			if (enraged) {
+				new BukkitRunnable() {
+					@Override
+					public void run() {
+						Dwarf dwarf = Misc.getRandom(DwarfManager.getManager().getDwarves());
+						if (!running || dwarf == null) {
+							this.cancel();
+							return;
+						}
+						
+						Location fakeSpawn = Misc.randomLocation(dwarf.getLocation(), 10, 5, 10);
+						Vector facing = dwarf.getLocation().subtract(fakeSpawn).toVector();
+						fakeSpawn.setDirection(facing);
+						
+						Enderman fakeTwin = createTwin(fakeSpawn);
+						fakeTwin.teleport(fakeSpawn);
+						fakeTwins.add(fakeTwin);
+					}
+				}.runTaskTimer(NightfallPlugin.getPlugin(), 20, 5);
+			}
 		}
 		
 		private void teleportTwins() {
+			if (enraged) regenerateTwinsName(enraged);
 			Dwarf target = dwarfChooser.get();
 			
 			if (target == null) {
+				running = false;
+				
 				twin1.remove();
 				twin2.remove();
 				runner.cancel();
+				
+				fakeTwins.forEach(Entity::remove);
+				fakeTwins.clear();
 				
 				return;
 			}
@@ -99,23 +148,26 @@ public class TwinsPlague extends Plague {
 			
 			target.instaKill(null, GameDamageType.DEATH_PLAGUE);
 			World world = GameMap.getCurrentMap().getWorld();
-			world.playSound(center, Sound.ENTITY_ENDERMEN_TELEPORT, 1.5f, 1.2f);
-			world.playSound(center, Sound.ENTITY_ENDERMEN_TELEPORT, 1.5f, 0.8f);
-			world.playSound(center, "entity.endermen.scream", 1.5f, 1.2f);
-			world.playSound(center, "entity.endermen.scream", 1.5f, 0.8f);
-			world.playSound(center, "entity.endermen.ambient", 1.5f, 0.5f);
+			float volume = (enraged ? 100f : 1.5f);
+			world.playSound(center, Sound.ENTITY_ENDERMEN_TELEPORT, volume, 1.2f);
+			world.playSound(center, Sound.ENTITY_ENDERMEN_TELEPORT, volume, 0.8f);
+			world.playSound(center, "entity.endermen.scream", volume, 1.2f);
+			world.playSound(center, "entity.endermen.scream", volume, 0.8f);
+			world.playSound(center, "entity.endermen.ambient", volume, 0.5f);
+			if (enraged) {
+				float pitch = Misc.randomFloat(0.5f, 1f);
+				world.playSound(center, Sound.ENTITY_ENDERMEN_DEATH, 100, pitch);
+			}
 			
 			Location bodyCenter = center.clone().add(0,0.5,0);
-			world.spawnParticle(Particle.PORTAL, bodyCenter, 500, 0.5, 0.5, 0.5, 1.5);
+			world.spawnParticle(Particle.PORTAL, bodyCenter, 200, 0.5, 0.5, 0.5, 1.5);
 			world.spawnParticle(Particle.SMOKE_LARGE, bodyCenter, 50, 0.5, 0.5, 0.5, 0.15);
 			world.spawnParticle(Particle.FALLING_DUST, bodyCenter, 50, 0.5, 0.5, 0.5, 0);
-			world.spawnParticle(Particle.CRIT_MAGIC, bodyCenter, 50, 0.5, 0.5, 0.8, 0);
+			world.spawnParticle(Particle.CRIT_MAGIC, bodyCenter, 50, 0.5, 0.5, 0.5, 0);
+			world.spawnParticle(Particle.ENCHANTMENT_TABLE, bodyCenter, 150, 0.75, 1, 0.75, 0.1);
 		}
 		
-		private static Enderman createTwin() {
-			// Warning: setting spawnLoc with y < 0 or far away cause the twins to be invisible.
-			Location spawnLoc = GameMap.getCurrentMap().getDwarfSpawn().clone();
-			spawnLoc.setY(0);
+		private Enderman createTwin(Location spawnLoc) {
 			
 			return spawnLoc.getWorld().spawn(spawnLoc, Enderman.class, enderman -> {
 				enderman.setAI(false);
@@ -124,6 +176,8 @@ public class TwinsPlague extends Plague {
 				enderman.setSilent(true);
 				enderman.setRemoveWhenFarAway(false);
 				enderman.setCarriedMaterial(new MaterialData(Material.AIR));
+				
+				if (enraged) enderman.setTarget(enderman);
 			});
 		}
 	}
@@ -182,13 +236,32 @@ public class TwinsPlague extends Plague {
 		return TWINS_NAME;
 	}
 	
-	private static void regenerateTwinsName() {
-		String colour = ChatColor.DARK_GRAY.toString();
-		String magic = ChatColor.MAGIC.toString();
-		
+	private static void regenerateTwinsName(boolean enraged) {
 		String plainName = "The Twins";
-		StringBuilder modifiedName = new StringBuilder(colour);
 		
+		Supplier<String> colour, magic;
+		if (enraged) {
+			colour = () -> {
+				if (Math.random() < 0.5) return ChatColor.RED.toString();
+				else return ChatColor.DARK_RED.toString();
+			};
+			
+			magic = () -> {
+				double rand = Math.random()*5;
+				if (rand < 1) return ChatColor.BOLD.toString();
+				else if (rand < 2) return ChatColor.UNDERLINE.toString();
+				else if (rand < 3) return ChatColor.STRIKETHROUGH.toString();
+				else if (rand < 4) return ChatColor.ITALIC.toString() + ChatColor.BOLD;
+				else return ChatColor.MAGIC.toString();
+			};
+			
+			plainName = plainName.toUpperCase();
+		} else {
+			colour = () -> ChatColor.DARK_GRAY.toString();
+			magic = () -> ChatColor.MAGIC.toString();
+		}
+		
+		StringBuilder modifiedName = new StringBuilder(colour.get());
 		double chance = 0.5;
 		
 		for (char letter : plainName.toCharArray()) {
@@ -197,8 +270,8 @@ public class TwinsPlague extends Plague {
 				continue;
 			}
 			
-			if (Math.random() < chance) {
-				modifiedName.append(magic).append(letter).append(colour);
+			if (Math.random() < chance || enraged) {
+				modifiedName.append(magic.get()).append(letter).append(colour.get());
 				chance -= 0.1;
 			} else {
 				modifiedName.append(letter);
