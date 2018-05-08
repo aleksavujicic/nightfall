@@ -1,16 +1,11 @@
 package deimophobe.nightfall.monster.ai;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketEvent;
-import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.region.Region;
 import deimophobe.nightfall.monster.MonsterManager;
@@ -18,7 +13,6 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.doom.DoomManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -287,20 +281,5 @@ public class AIManager {
 		}
 		
 		spawnSpots.removeIf(location -> location.isWithinRange(center,range));
-	}
-	
-	static {
-		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-		protocolManager.addPacketListener(new PacketAdapter(NightfallPlugin.getPlugin(), PacketType.Play.Server.NAMED_SOUND_EFFECT) {
-			@Override
-			public void onPacketSending(PacketEvent event) {
-				Sound sound = event.getPacket().getSoundEffects().read(0);
-				switch (sound) {
-					case ENTITY_ZOMBIE_DEATH:
-					case ENTITY_SKELETON_DEATH:
-						event.setCancelled(true);
-				}
-			}
-		});
 	}
 }

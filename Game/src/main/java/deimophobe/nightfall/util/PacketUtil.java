@@ -57,6 +57,9 @@ public class PacketUtil {
 					case ITEM_ARMOR_EQUIP_IRON:
 					case ITEM_SHOVEL_FLATTEN:
 					case ITEM_HOE_TILL:
+					
+					case ENTITY_ZOMBIE_DEATH:
+					case ENTITY_SKELETON_DEATH:
 						event.setCancelled(true);
 				}
 			}
