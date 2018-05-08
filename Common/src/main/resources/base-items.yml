@@ -45,8 +45,8 @@ sturdy: "diamond_hoe:25"
 quiver: "diamond_hoe:19"
 studded: "diamond_hoe:20"
 fairy-band: "diamond_hoe:5"
-nature-suit: "#temp"
-berserker: "#temp"
+nature-suit: "snow_ball"
+berserker: "flint"
 
 
 # Accessories
@@ -190,6 +190,8 @@ menu:
   cancel: "diamond_hoe:3"
   points: "diamond_hoe:4"
   trash: "diamond_hoe:22"
+
+  eheal: "!potion{255,0,255}"
 
   mortar: "diamond_hoe:9"
   mortar2: "diamond_hoe:10"

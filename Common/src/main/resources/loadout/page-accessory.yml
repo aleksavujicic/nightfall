@@ -62,7 +62,7 @@ eheal:
   item:
     template: loadout
     name: "Eheal"
-    base: temporary
+    base: menu.eheal
     lore:
       description:
        - "You get a (repeatable) eheal which\n

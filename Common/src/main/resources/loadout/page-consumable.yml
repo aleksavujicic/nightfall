@@ -368,7 +368,8 @@ turret-one:
   cost: 2
   item:
     name: "Turret I"
-    base: turret
+#    base: turret
+    material: dispenser
     lore:
       description:
        - "Gives you $quantity turrets.\n
@@ -382,7 +383,8 @@ turret-two:
   cost: 4
   item:
     name: "Turret II"
-    base: turret
+#    base: turret
+    material: dispenser
     lore:
       description:
        - "Gives you $quantity turrets.\n
@@ -396,7 +398,8 @@ turret-three:
   cost: 8
   item:
     name: "Turret III"
-    base: turret
+#    base: turret
+    material: dispenser
     lore:
       description:
        - "Gives you $quantity turrets.\n
