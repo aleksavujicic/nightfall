@@ -8,16 +8,27 @@ import net.md_5.bungee.api.chat.TextComponent;
  */
 public class KeywordDeathMessageMaker implements DeathMessageMaker {
 	private final String keyword;
+	private final boolean sayWas;
 	
 	public KeywordDeathMessageMaker(String keyword) {
 		this.keyword = keyword;
+		this.sayWas = true;
+	}
+	
+	public KeywordDeathMessageMaker(String keyword, boolean sayWas) {
+		this.keyword = keyword;
+		this.sayWas = sayWas;
 	}
 	
 	@Override
 	public BaseComponent getDeathMessage(TextComponent playerName, LastMainDamage lastMainDamage) {
 		BaseComponent text = new TextComponent();
 		text.addExtra(playerName);
-		text.addExtra(" was " + keyword);
+		if (sayWas) {
+			text.addExtra(" was " + keyword);
+		} else {
+			text.addExtra(" " + keyword);
+		}
 		
 		if (lastMainDamage.hasAttacker()) {
 			text.addExtra(" by ");
