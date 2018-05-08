@@ -25,7 +25,7 @@ class Wrench extends Consumable {
 			return FAILED_CD;
 		}
 		
-		boolean success = GameMap.getCurrentMap().tryUseGold(75);
+		boolean success = GameMap.getCurrentMap().useGold(75);
 		dwarf.getArmour().repair( success ? 1000 : 250 );
 		dwarf.playSound("block.anvil.use", 20, 0.8f, false);
 		return DEFAULT_CD;

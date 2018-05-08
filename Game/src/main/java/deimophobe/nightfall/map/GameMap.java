@@ -247,13 +247,15 @@ public class GameMap {
 		updateVault();
 	}
 	
-	public boolean tryUseGold(int amt) {
-		if (amt < 0)
-			throw new IllegalArgumentException("Using less than 0 gold. Amount: " + amt);
+	public boolean useGold(int amt) {
+		if (amt < 0) throw new IllegalArgumentException("Using less than 0 gold. Amount: " + amt);
 		
-		if (gold >= amt) {
+		if (gold > 0) {
+			
 			gold -= amt;
+			if (gold < 0) gold = 0;
 			updateGold();
+			
 			return true;
 		} else {
 			return false;
@@ -261,8 +263,7 @@ public class GameMap {
 	}
 	
 	public void stealGold(int amt) {
-		if (amt < 0)
-			throw new IllegalArgumentException("Stealing less than 0 gold. Amount: " + amt);
+		if (amt < 0) throw new IllegalArgumentException("Stealing less than 0 gold. Amount: " + amt);
 		
 		gold -= amt;
 		if (gold < 0) gold = 0;

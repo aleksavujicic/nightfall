@@ -129,12 +129,8 @@ public class Shrine {
 			if (shrineRegion.containsPlayer(dwarf)) {
 				dwarvesOnShrine++;
 				if (dwarf.getArmour().canShrineRepair()) {
-					if (map.tryUseGold(shrineRepCost)) {
+					if (map.useGold(shrineRepCost)) {
 						dwarf.getArmour().repair(shrineRepAmt); // shrineNum starts at 1
-					} else {
-						map.tryUseGold(1);
-						int repairAmount = 5 * shrineNum / map.getNumShrines() + 1;
-						dwarf.getArmour().repair(repairAmount);
 					}
 				}
 			}
