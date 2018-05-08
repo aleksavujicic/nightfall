@@ -54,7 +54,8 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 			Dwarf repairee = dwarf.getLookingAt(5, 2, DwarfManager.getManager().getGamePlayers(), (d) -> d.getArmour().canPickRepair());
 			if (repairee != null && armourCD.isAvailable()) {
 				GameMap currentMap = GameMap.getCurrentMap();
-				if (currentMap.tryUseGold(50)) {
+				if (currentMap.hasGold()) {
+					currentMap.stealGold(50);
 					double frac = (double) currentMap.getCurrentShrineIndex() / currentMap.getNumShrines();
 					double maxCD = (30 - 25 * frac)*20;
                     armourCD.setMaxCD((int) maxCD);
