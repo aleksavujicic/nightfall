@@ -14,7 +14,6 @@ import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
-import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.util.Util;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -27,7 +26,7 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 
 	private final Cooldown soulShatterCD = new UseCooldown(10, this::soulShatter);
 
-	private static final double SOUL_SHATTER_RADIUS = 3.5;
+	private static final double SOUL_SHATTER_RADIUS = 4;
 	private static final int MAX_SOULS = 50;
 
 	private double souls = 0;
@@ -135,10 +134,8 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 			Vector knockback = offset.normalize().multiply(kb / Math.sqrt(Math.max(2, offset.length())));
 			knockback.setY(knockback.getY() / 2 + 0.1);
 
-			MonsterDamage mDamage = entity.createDamage(dwarf, GameDamageType.SILENT_STRIKE, baseDamage);
-			if (entity instanceof AIEntity) {
-				mDamage.getMultiPartDamage().addBoost(50);
-			}
+			MonsterDamage mDamage = entity.createDamage(dwarf, GameDamageType.SOUL_SHATTER, baseDamage);
+			if (entity.isAI()) mDamage.instaKill();
 			mDamage.setKnockback(knockback);
 			mDamage.fire(true);
 		}

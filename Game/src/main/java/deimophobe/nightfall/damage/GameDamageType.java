@@ -71,7 +71,7 @@ public enum GameDamageType {
 	TINDERFLAME("zooped"),
 	WILDFIRE("incinerated"),
 	SMASH("smashed"),
-	SILENT_STRIKE,
+	SOUL_SHATTER("soul shattered"),
 	MYST,
 	BUFFPOOL(
 			(playerName, damage) -> {
