@@ -20,7 +20,7 @@ public class GlassConsumable extends Consumable {
 	
 	@Override
 	public int use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
-		if (click.isLeftClick() && !BlockType.FURNACE.matchesBlock(clickedBlock)) {
+		if (click.isLeftClick() && !BlockType.FURNACE.matchesBlock(clickedBlock) && !BlockType.GLASS.matchesBlock(clickedBlock)) {
 			ColourMenu.getMenu().startSession(dwarf.getPlayer());
 		}
 		return FAILED_CD;
