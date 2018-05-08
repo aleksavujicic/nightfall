@@ -142,14 +142,8 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	public void giveKitItems(KitGiveType type) {kit.giveItems(type);}
 	
-	public void giveCompass() { giveKitItem(KitPieceType.COMPASS); }
-	public void giveChesto()  { giveKitItem(KitPieceType.CHESTO ); }
-	public void giveClock()   { giveKitItem(KitPieceType.CLOCK  ); }
-	
 	public void giveKitItem(KitPieceType type) {
-		if (!hasKitPiece(type)) {
-			kit.addKitPiece(type, true);
-		}
+		kit.addKitPiece(type, true);
 	}
 	
 	

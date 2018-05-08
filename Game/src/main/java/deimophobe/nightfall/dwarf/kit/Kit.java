@@ -41,8 +41,16 @@ public class Kit {
 		return kitPieces.containsKey(type);
 	}
 	
-	public KitPiece addKitPiece(KitPieceType type, boolean give) {
-		if (kitPieces.containsKey(type)) return null;
+	public void addKitPiece(KitPieceType type, boolean give) {
+		if (kitPieces.containsKey(type)) {
+			if (give) {
+				KitPiece piece = kitPieces.get(type);
+				if (piece instanceof ItemPiece) {
+					giveItem((ItemPiece) piece);
+				}
+			}
+			return;
+		}
 		
 		KitPiece kitPiece = type.createPiece(dwarf);
 		kitPieces.put(type, kitPiece);
@@ -64,8 +72,6 @@ public class Kit {
 		if (kitPiece instanceof AbstractBow) {
 			bowPieces.add((AbstractBow) kitPiece);
 		}
-		
-		return kitPiece;
 	}
 	
 	public void giveItems(KitGiveType giveType) {

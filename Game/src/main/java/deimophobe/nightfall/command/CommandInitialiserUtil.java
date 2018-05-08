@@ -306,33 +306,8 @@ public class CommandInitialiserUtil {
 			Function<Iterable<T>,S> gpIterableCreator,
 			String playerTypeName
 	) {
-		return c -> {
-			String name = c.popFirstArg();
-			
-			if (name == null && !c.isOptional()) throw new InvalidCommandArgument(ChatColor.RED + "Please provide a " + playerTypeName);
-			
-			Iterable<T> iterable;
-			boolean setSelfAsGamePlayer = name == null || name.equals(".") || name.equals("~");
-			if (setSelfAsGamePlayer) {
-				// Arg is referring to self player
-				if (c.getPlayer() == null) throw new InvalidCommandArgument(ChatColor.RED + "Console is not a " + playerTypeName);
-				T gamePlayer = playerNameResolver.apply(c.getPlayer().getName());
-				if (gamePlayer == null) throw new InvalidCommandArgument(ChatColor.RED + "You are not a " + playerTypeName);
-				iterable = Collections.singleton(gamePlayer);
-			} else if (name.equals(RANDOM_PLAYER)) {
-				// Arg is referring to random player
-				T gamePlayer = Misc.getRandom(collectionSupplier.get());
-				if (gamePlayer == null) throw new InvalidCommandArgument(ChatColor.RED + "Cannot find any " + playerTypeName);
-				iterable = Collections.singleton(gamePlayer);
-			} else if (name.equals(ALL_PLAYER)) {
-				// Arg is referring to all player
-				iterable = collectionSupplier.get();
-			} else {
-				// Arg is referring to a specified player
-				T gamePlayer = playerNameResolver.apply(name);
-				if (gamePlayer == null) throw new InvalidCommandArgument(ChatColor.RED + "Player '" + ChatColor.YELLOW + name + ChatColor.RED + "' is not a " + playerTypeName);
-				iterable = Collections.singleton(gamePlayer);
-			}
+		return context -> {
+			Iterable<T> iterable = getIterableFromContext(context, playerNameResolver, collectionSupplier, playerTypeName, true);
 			return gpIterableCreator.apply(iterable);
 		};
 	}
@@ -342,29 +317,55 @@ public class CommandInitialiserUtil {
 			Supplier<Collection<T>> collectionSupplier,
 			String playerTypeName
 	) {
-		return c -> {
-			String name = c.popFirstArg();
-			
-			if (name == null && !c.isOptional()) throw new InvalidCommandArgument(ChatColor.RED + "Please provide a " + playerTypeName);
-			
-			T gamePlayer;
-			boolean setSelfAsGamePlayer = name == null || name.equals(".") || name.equals("~");
-			if (setSelfAsGamePlayer) {
-				// Arg is referring to self player
-				if (c.getPlayer() == null) throw new InvalidCommandArgument(ChatColor.RED + "Console is not a " + playerTypeName);
-				gamePlayer = playerNameResolver.apply(c.getPlayer().getName());
-				if (gamePlayer == null) throw new InvalidCommandArgument(ChatColor.RED + "You are not a " + playerTypeName);
-			} else if (name.equals(RANDOM_PLAYER)) {
-				// Arg is referring to random player
-				gamePlayer = Misc.getRandom(collectionSupplier.get());
-				if (gamePlayer == null) throw new InvalidCommandArgument(ChatColor.RED + "Cannot find any " + playerTypeName);
-			} else {
-				// Arg is referring to a specified player
-				gamePlayer = playerNameResolver.apply(name);
-				if (gamePlayer == null) throw new InvalidCommandArgument(ChatColor.RED + "Player '" + ChatColor.YELLOW + name + ChatColor.RED + "' is not a " + playerTypeName);
+		return context -> getIterableFromContext(context, playerNameResolver, collectionSupplier, playerTypeName, false).iterator().next();
+	}
+	
+	private static  <T> Iterable<T> getIterableFromContext(
+			BukkitCommandExecutionContext context,
+			Function<String, T> playerNameResolver,
+			Supplier<Collection<T>> collectionSupplier,
+			String playerTypeName,
+			boolean allowAll
+	) throws InvalidCommandArgument {
+		// There is probably a better way to do this
+		String name = context.getFirstArg();
+		
+		if (name == null && !context.isOptional() && !context.hasFlag("self")) throw new InvalidCommandArgument(ChatColor.RED + "Please provide a " + playerTypeName);
+		
+		boolean setSelfAsGamePlayer = name == null || name.equals(".") || name.equals("~") || context.hasFlag("self");
+		if (setSelfAsGamePlayer) {
+			// Arg is referring to self player
+			if (context.getPlayer() == null) throw new InvalidCommandArgument(ChatColor.RED + "Console is not a " + playerTypeName);
+			T gamePlayer = playerNameResolver.apply(context.getPlayer().getName());
+			if (gamePlayer == null) throw new InvalidCommandArgument(ChatColor.RED + "You are not a " + playerTypeName);
+			return Collections.singleton(gamePlayer);
+		} else {
+			context.popFirstArg();
+			switch (name) {
+				case RANDOM_PLAYER: {
+					// Arg is referring to random player
+					T gamePlayer = Misc.getRandom(collectionSupplier.get());
+					if (gamePlayer == null)
+						throw new InvalidCommandArgument(ChatColor.RED + "Cannot find any " + playerTypeName);
+					return Collections.singleton(gamePlayer);
+				}
+				case ALL_PLAYER:
+					// Arg is referring to all player
+					if (allowAll) {
+						return collectionSupplier.get();
+					} else {
+						throw new InvalidCommandArgument(ChatColor.RED + "You cannot use @a here");
+					}
+				default: {
+					// Arg is referring to a specified player
+					T gamePlayer = playerNameResolver.apply(name);
+					if (gamePlayer == null)
+						throw new InvalidCommandArgument(ChatColor.RED + "Player '" + ChatColor.YELLOW + name + ChatColor.RED + "' is not a " + playerTypeName);
+					return Collections.singleton(gamePlayer);
+				}
 			}
-			return gamePlayer;
-		};
+		}
+		
 	}
 	
 	private static <T extends Enum<T>> ContextResolver<T, BukkitCommandExecutionContext> getContextResolverOfEnum(T[] values, String simpleName, boolean displayAll) {

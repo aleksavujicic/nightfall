@@ -247,39 +247,42 @@ public class DwarfCommand extends BaseCommand {
 		}
 	}
 	
-	@Subcommand("item")
-	public class DwarfItemCommand extends BaseCommand {
-		@Subcommand("chest")
-		@CommandAlias("chest")
-		@CommandCompletion("@dwarves")
-		@Description("For sharing resources with your fellow dwarves.")
-		public void giveChest(@Optional Dwarf dwarf) {
-			dwarf.giveChesto();
-		}
-		
-		@Subcommand("clock")
-		@CommandAlias("clock")
-		@CommandCompletion("@dwarves")
-		@Description("So Jimmy can tell time.")
-		public void giveClock(@Optional Dwarf dwarf) {
-			dwarf.giveClock();
-		}
-		
-		@Subcommand("compass")
-		@CommandAlias("compass")
-		@CommandCompletion("@dwarves")
-		@Description("Blesses Jimmy with the mighty dwarven compass.")
-		public void giveCompass(@Optional Dwarf dwarf) {
-			dwarf.giveCompass();
-		}
-		
-		@Subcommand("trash")
-		@CommandAlias("trash|fawn")
-		@CommandCompletion("@dwarves")
-		@Description("For deleting your duplicate items.")
-		public void showTrash(@Optional Dwarf dwarf) {
-			dwarf.showTrash();
-		}
+	// ----- DWARF GIVE COMMANDS -----
+	
+	@CommandAlias("chest")
+	@Description("For sharing resources with your fellow dwarves.")
+	public void giveChest(@Flags("self") Dwarf dwarf) {
+		dwarf.giveKitItem(KitPieceType.CHESTO);
+	}
+	
+	@CommandAlias("clock")
+	@Description("So Jimmy can tell time.")
+	public void giveClock(@Flags("self") Dwarf dwarf) {
+		dwarf.giveKitItem(KitPieceType.CLOCK);
+	}
+	
+	@CommandAlias("compass")
+	@Description("Blesses Jimmy with the mighty dwarven compass.")
+	public void giveCompass(@Flags("self") Dwarf dwarf) {
+		dwarf.giveKitItem(KitPieceType.COMPASS);
+	}
+	
+	@CommandAlias("bricklayer")
+	@Description("Lets Jimmy build lots of walls.")
+	public void giveBricklayer(@Flags("self") Dwarf dwarf) {
+		dwarf.giveKitItem(KitPieceType.BRICKLAYER);
+	}
+	
+	@CommandAlias("eheal")
+	@Description("For saving Jimmy.")
+	public void giveEheal(@Flags("self") Dwarf dwarf) {
+		dwarf.giveKitItem(KitPieceType.EHEAL);
+	}
+	
+	@CommandAlias("trash|fawn")
+	@Description("For deleting your duplicate items.")
+	public void showTrash(@Flags("self") Dwarf dwarf) {
+		dwarf.showTrash();
 	}
 	
 	
