@@ -51,7 +51,7 @@ abstract class AbstractWolf extends AbstractMob {
 	
 	private void growl() {
 		playSound("growl");
-		monster.heal(3);
+		monster.heal(5);
 	}
 	
 	private void leap() {
