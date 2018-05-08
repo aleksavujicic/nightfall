@@ -99,7 +99,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		}
 	}
 	
-	private static final HitscanBuilder HITSCAN_BUILDER = HitscanBuilder.builder()
+	private static final HitscanBuilder HITSCAN_BUILDER = HitscanBuilder.aHitscan()
 			.withThickness(1)
 			.withParticlePeriod(0.2)
 			.withParticlePlacer(location -> {

@@ -3,22 +3,25 @@ package deimophobe.nightfall.util;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterEntity;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 
 import java.util.function.Consumer;
 
 /**
- * Created by Deimophobe on 2/05/18.
+ * Created by Deimophobe on 8/05/18.
  */
 public final class HitscanBuilder {
 	private double thickness;
-	private double particlePeriod = Hitscan.DEFAULT_PARTICLE_PERIOD;
-	private Consumer<Location> particlePlacer = null;
-	private Consumer<Dwarf> dwarfConsumer = null;
-	private Consumer<MonsterEntity> mobConsumer = null;
+	private double particlePeriod;
+	private Consumer<Location> particlePlacer;
+	private Consumer<Dwarf> dwarfConsumer;
+	private Consumer<MonsterEntity> mobConsumer;
+	private Consumer<Block> hitBlockConsumer;
 	
-	private HitscanBuilder() {}
+	private HitscanBuilder() {
+	}
 	
-	public static HitscanBuilder builder() {
+	public static HitscanBuilder aHitscan() {
 		return new HitscanBuilder();
 	}
 	
@@ -47,16 +50,16 @@ public final class HitscanBuilder {
 		return this;
 	}
 	
+	public HitscanBuilder withHitBlockConsumer(Consumer<Block> hitBlockConsumer) {
+		this.hitBlockConsumer = hitBlockConsumer;
+		return this;
+	}
+	
 	public HitscanBuilder but() {
-		return builder()
-				.withThickness(thickness)
-				.withParticlePeriod(particlePeriod)
-				.withParticlePlacer(particlePlacer)
-				.withDwarfConsumer(dwarfConsumer)
-				.withMobConsumer(mobConsumer);
+		return aHitscan().withThickness(thickness).withParticlePeriod(particlePeriod).withParticlePlacer(particlePlacer).withDwarfConsumer(dwarfConsumer).withMobConsumer(mobConsumer).withHitBlockConsumer(hitBlockConsumer);
 	}
 	
 	public Hitscan build() {
-		return new Hitscan(thickness, particlePeriod, particlePlacer, dwarfConsumer, mobConsumer);
+		return new Hitscan(thickness, particlePeriod, particlePlacer, dwarfConsumer, mobConsumer, hitBlockConsumer);
 	}
 }

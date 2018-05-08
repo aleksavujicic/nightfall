@@ -1,6 +1,9 @@
 package deimophobe.nightfall.dwarf.kit.melee;
 
 import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.blocks.blocktype.BlockSet;
+import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.blocktype.ComparableBlock;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
@@ -16,7 +19,9 @@ import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.util.ArcaneMark;
 import deimophobe.nightfall.util.Colour;
 import deimophobe.nightfall.util.Hitscan;
+import deimophobe.nightfall.util.HitscanBuilder;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -25,7 +30,6 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.function.Consumer;
 
 public class Scepter extends AbstractItem implements CooldownPiece {
-	public Scepter(Dwarf dwarf) { super(dwarf); }
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "scepter");
 	@Override public CustomItem getItem() { return ITEM; }
@@ -33,11 +37,64 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	
 	
 	private final static double DAMAGE = 10;
+	public static final double RANGE = 8;
 	static { ITEM.addModifier(ItemModifierType.ATTACK, (int) DAMAGE); }
+	
+	
+	public static final Consumer<Location> PARTICLE_PLACER = (location) -> {
+		double dx = Misc.randomDouble(-0.1,0.1);
+		double dy = Misc.randomDouble(-0.1,0.1);
+		double dz = Misc.randomDouble(-0.1,0.1);
+		
+		for (int i=0; i<2; i++)
+			location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(dx, dy, dz), 0, 0.8, 0.2, 0.9, 1);
+	};
+	
+	private static final ComparableBlock CONVERTABLE = new BlockSet(
+			BlockType.DIRT_BLOCK,
+			BlockType.GRASS_BLOCK
+	);
 	
 	
 	private final ComplexCooldown lanceCD = new ComplexCooldown(8, this::shootLance);
 	private final ComplexCooldown arcaneMarkCD = new ComplexCooldown(120*20, this::createMark);
+	
+	private final Hitscan hitscan;
+	
+	public Scepter(Dwarf dwarf) {
+		super(dwarf);
+		final Consumer<Dwarf> dwarfBuffer = (dwarf1) -> {
+			if (dwarf1 == dwarf) return;
+			dwarf1.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 5 * 20, 1, true, false, false);
+		};
+		
+		final Consumer<MonsterEntity> mobDamager = (monster) -> {
+			MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.SCEPTER, DAMAGE + dwarf.getBonusMeleeDamage()/2);
+			if (dwarf.hasProc()) damage.setProc(true);
+			damage.setNoDamageTicks(5);
+			damage.addPostDamageHandler(() -> {
+				if (monster.isAI())
+					monster.givePotionEffect(PotionEffectType.SLOW, 5*20, 2, true, true, true);
+			});
+			damage.setNoDamageTicks(8);
+			damage.fire();
+		};
+		
+		final Consumer<Block> blockConverter = block -> {
+			if (CONVERTABLE.matchesBlock(block) && Math.random() < 0.1) {
+				block.setType(Material.MYCEL);
+			}
+		};
+		
+		HitscanBuilder builder = HitscanBuilder.aHitscan()
+				.withThickness(1.2)
+				.withParticlePeriod(0.2)
+				.withParticlePlacer(PARTICLE_PLACER)
+				.withDwarfConsumer(dwarfBuffer)
+				.withMobConsumer(mobDamager)
+				.withHitBlockConsumer(blockConverter);
+		hitscan = builder.build();
+	}
 	
 	@Override
 	public void update() {
@@ -79,36 +136,7 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 
 	
 	// ----- LANCE -----
-	public static final double RANGE = 8;
-	
-	public static final Consumer<Location> PARTICLE_PLACER = (location) -> {
-		double dx = Misc.randomDouble(-0.1,0.1);
-		double dy = Misc.randomDouble(-0.1,0.1);
-		double dz = Misc.randomDouble(-0.1,0.1);
-		
-		for (int i=0; i<2; i++)
-			location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(dx, dy, dz), 0, 0.8, 0.2, 0.9, 1);
-	};
-	
-	private final Consumer<Dwarf> DWARF_BUFFER = (dwarf1) -> {
-		if (dwarf1 == dwarf) return;
-		dwarf1.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 5 * 20, 1, true, false, false);
-	};
-	
-	private final Consumer<MonsterEntity> DAMAGER = (monster) -> {
-		MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.SCEPTER, DAMAGE + dwarf.getBonusMeleeDamage()/2);
-		if (dwarf.hasProc()) damage.setProc(true);
-		damage.setNoDamageTicks(5);
-		damage.addPostDamageHandler(() -> {
-			if (monster.isAI())
-				monster.givePotionEffect(PotionEffectType.SLOW, 5*20, 2, true, true, true);
-		});
-		damage.setNoDamageTicks(8);
-		damage.fire();
-	};
-	
 	private void shootLance() {
-		Hitscan hitscan = new Hitscan(1.2, 0.2, PARTICLE_PLACER, DWARF_BUFFER, DAMAGER);
 		hitscan.fire(dwarf, RANGE);
 	}
 	

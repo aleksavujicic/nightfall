@@ -8,6 +8,7 @@ import deimophobe.nightfall.game.GamePlayer;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
@@ -24,10 +25,7 @@ public class Hitscan {
 	private final Consumer<Location> particlePlacer;
 	private final Consumer<Dwarf> dwarfConsumer;
 	private final Consumer<MonsterEntity> mobConsumer;
-	
-	public static HitscanBuilder builder() {
-		return HitscanBuilder.builder();
-	}
+	private final Consumer<Block> hitBlockConsumer;
 	
 	public Hitscan(double thickness, Consumer<Location> particlePlacer, Consumer<Dwarf> dwarfConsumer, Consumer<MonsterEntity> mobConsumer) {
 		this.thickness = thickness;
@@ -35,6 +33,7 @@ public class Hitscan {
 		this.particlePlacer = particlePlacer;
 		this.dwarfConsumer = dwarfConsumer;
 		this.mobConsumer = mobConsumer;
+		this.hitBlockConsumer = null;
 	}
 	
 	public Hitscan(double thickness, double particlePeriod, Consumer<Location> particlePlacer, Consumer<Dwarf> dwarfConsumer, Consumer<MonsterEntity> mobConsumer) {
@@ -43,6 +42,16 @@ public class Hitscan {
 		this.particlePlacer = particlePlacer;
 		this.dwarfConsumer = dwarfConsumer;
 		this.mobConsumer = mobConsumer;
+		this.hitBlockConsumer = null;
+	}
+	
+	public Hitscan(double thickness, double particlePeriod, Consumer<Location> particlePlacer, Consumer<Dwarf> dwarfConsumer, Consumer<MonsterEntity> mobConsumer, Consumer<Block> hitBlockConsumer) {
+		this.thickness = thickness;
+		this.particlePeriod = particlePeriod;
+		this.particlePlacer = particlePlacer;
+		this.dwarfConsumer = dwarfConsumer;
+		this.mobConsumer = mobConsumer;
+		this.hitBlockConsumer = hitBlockConsumer;
 	}
 	
 	public boolean fire(GamePlayer player, double range) {
@@ -71,8 +80,12 @@ public class Hitscan {
 			}
 			
 			// Stop beam if it hits a block
-			if (particlePos.getBlock().getType().isSolid()) {
+			Block block = particlePos.getBlock();
+			if (block.getType().isSolid()) {
 				fireLocation.range = location.distance(particlePos);
+				if (hitBlockConsumer != null) {
+					hitBlockConsumer.accept(block);
+				}
 				success = false;
 				break;
 			}

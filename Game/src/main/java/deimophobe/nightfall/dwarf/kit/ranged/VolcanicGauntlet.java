@@ -36,7 +36,7 @@ public class VolcanicGauntlet extends AbstractBow {
 	private static final double AOE_RADIUS = 1.5;
 	
 	
-	private static final HitscanBuilder HITSCAN_BUILDER = HitscanBuilder.builder()
+	private static final HitscanBuilder HITSCAN_BUILDER = HitscanBuilder.aHitscan()
 			.withThickness(THICKNESS)
 			.withParticlePeriod(0.33)
 			.withParticlePlacer(location -> location.getWorld().spawnParticle(Particle.FLAME, location, 3, PARTICLE_OFFSET, PARTICLE_OFFSET, PARTICLE_OFFSET, 0))
