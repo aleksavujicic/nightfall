@@ -54,7 +54,7 @@ abstract class AbstractWolf extends AbstractMob {
 		monster.heal(5);
 	}
 	
-	private void leap() {
+	protected void leap() {
 		float pitch = leapPitch();
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			float volume = (player == monster.getPlayer() ? 1000 : 1);

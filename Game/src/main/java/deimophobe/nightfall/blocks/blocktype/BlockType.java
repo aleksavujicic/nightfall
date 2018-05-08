@@ -68,6 +68,8 @@ public class BlockType {
 	
 	
 	// ----- MISC -----
+	public static final ComparableBlock SOLID = block -> block.getType().isSolid();
+	
 	public static final ComparableBlock GRASS = new MaterialSet(
 			Material.DOUBLE_PLANT, Material.LONG_GRASS, Material.YELLOW_FLOWER, Material.RED_ROSE, Material.DEAD_BUSH
 	);
@@ -88,6 +90,19 @@ public class BlockType {
 	public static final ComparableBlock TIMED_BLOCK = block -> BlockManager.getManager().isTimedBlock(block);
 	
 	public static final ComparableBlock GLASS = new MaterialSet(Material.GLASS, Material.THIN_GLASS, Material.STAINED_GLASS, Material.STAINED_GLASS_PANE);
+	
+	
+	public static final ComparableBlock IGNITEABLE = new ComparableBlock() {
+		@Override
+		public boolean matchesBlock(Block block) {
+			if (!IGNORABLE.matchesBlock(block)) return false;
+			
+			Block below = block.getRelative(0,-1,0);
+			if (!SOLID.matchesBlock(below)) return false;
+			
+			return true;
+		}
+	};
 	
 	// Chisel
 	public static final CustomBlock COBBLESTONE_BLOCK = new MaterialBlock(Material.COBBLESTONE);

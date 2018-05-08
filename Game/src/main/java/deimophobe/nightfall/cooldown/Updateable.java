@@ -6,4 +6,14 @@ package deimophobe.nightfall.cooldown;
 @FunctionalInterface
 public interface Updateable {
 	void update();
+	
+	default LifetimeExpireable butLasts(int lifetime) {
+		return new LifetimeExpireable(lifetime) {
+			@Override
+			public void update() {
+				super.update();
+				Updateable.this.update();
+			}
+		};
+	}
 }
