@@ -15,6 +15,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
@@ -159,6 +160,10 @@ public class AIManager {
 	public void setMaxMultiplier(double maxMultiplier) {
 		this.maxMultiplier = maxMultiplier;
 		updateSpawnRates();
+	}
+	
+	public void showMarksToPlayer(Player player) {
+		spawnSpots.forEach(mark -> mark.showToPlayer(player));
 	}
 	
 	// ------ ARE AIS SPAWNABLE ------

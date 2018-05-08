@@ -76,6 +76,13 @@ public class AICommand extends BaseCommand {
 		MessageUtil.sendMessage(sender, "There are currently ", size, " spawn spots (out of a maximum of ", maxSize, ").");
 	}
 	
+	@Subcommand("show-marks")
+	@Description("Show all currently active marks.")
+	public void showMarks(Player player) {
+		getAIManager().showMarksToPlayer(player);
+		MessageUtil.sendMessage(player, "Showing all marks.");
+	}
+	
 	@Subcommand("multiplier")
 	@Description("Set the multiplier to the spawn rate,")
 	public void setMulti(CommandSender sender, double multiplier) {
@@ -89,6 +96,7 @@ public class AICommand extends BaseCommand {
 		getAIManager().setMaxMultiplier(multiplier);
 		MessageUtil.sendMessage(sender, "Set AI and mark cap multiplier to ", multiplier, ".");
 	}
+	
 	
 	private AIManager getAIManager() {
 		return AIManager.getManager();

@@ -25,7 +25,7 @@ class AISpawnLocation {
 	
 	void update() {
 		for (Player debugger : Game.getGame().getOnlineDebugPlayers()) {
-			debugger.spawnParticle(Particle.HEART, location, 1, 0, 0, 0);
+			showToPlayer(debugger);
 		}
 		
 		if (!isValid()) {
@@ -83,5 +83,9 @@ class AISpawnLocation {
 	
 	void kill() {
 		life = 0;
+	}
+	
+	void showToPlayer(Player player) {
+		player.spawnParticle(Particle.HEART, location, 1, 0, 0, 0);
 	}
 }
