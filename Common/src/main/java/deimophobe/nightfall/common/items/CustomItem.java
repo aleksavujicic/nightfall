@@ -42,7 +42,7 @@ public class CustomItem implements Cloneable, ItemMatcher {
 	public CustomItem(BaseItem base, Lore lore, List<String> errors, SortedMap<ItemModifierType, Set<ItemModifier>> modifiers, boolean bound, boolean shiny) {
 		this.base = base;
 		this.lore = lore.clone();
-		this.errors = errors;
+		this.errors = new ArrayList<>(errors);
 		
 		this.bound = bound;
 		this.shiny = shiny;
@@ -59,7 +59,7 @@ public class CustomItem implements Cloneable, ItemMatcher {
 	private CustomItem(BaseItem base, LoreTemplate loreTemplate, String name, Map<String, String> loreSections, List<String> errors, boolean bound, boolean shiny) {
 		this.base = base;
 		this.lore = new Lore(loreTemplate, name, loreSections);
-		this.errors = errors;
+		this.errors = new ArrayList<>(errors);
 		
 		this.bound = bound;
 		this.shiny = shiny;
@@ -105,6 +105,10 @@ public class CustomItem implements Cloneable, ItemMatcher {
 	
 	public void setBase(BaseItem item) {
 		this.base = item;
+	}
+	
+	public void addError(String error) {
+		errors.add(error);
 	}
 	
 	public ItemStack createItemStack() {

@@ -52,11 +52,15 @@ public class MultiLoadoutItem extends LoadoutItem {
 		for (String item : elements) {
 			String name = nameTranslator.getItemName(item);
 			stringBuilder.append("* ").append(name).append('\n');
+			
+			if (name == null) customItem.addError("Unknown item: " + item);
 		}
 		
 		for (Map.Entry<String, Integer> entry : consumables.entrySet()) {
 			String name = nameTranslator.getConsumableName(entry.getKey(), entry.getValue());
 			stringBuilder.append("* ").append(name).append('\n');
+			
+			if (name == null) customItem.addError("Unknown consumable: " + entry.getKey());
 		}
 		
 		if (stringBuilder.length() > 0) {
