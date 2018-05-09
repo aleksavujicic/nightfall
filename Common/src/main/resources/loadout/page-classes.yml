@@ -5,8 +5,8 @@ warrior-class:
   type: multi
   pieces:
     - runesword
-    - phoenix_bow
-    - safety_juice
+    - phoenix-bow
+    - safety-juice
     - sturdy
     - avenge
     - resurrection
@@ -53,7 +53,7 @@ ranger-class:
     mortar: 64
     cobblestone: 192
     charm: 1
-    wizard_mortar: 32
+    wizard-mortar: 32
     lamp: 64
   item:
     template: "loadout-class"
@@ -85,9 +85,9 @@ berserker-class:
   category: kit
   type: multi
   pieces:
-    - blood_axe
+    - blood-axe
     - crossbow
-    - strong_ale
+    - strong-ale
     - berserker
     - avenge
   consumables:
@@ -125,17 +125,17 @@ elven-class:
   pieces:
     - dagger
     - lightbow
-    - safety_juice
+    - safety-juice
     - studded
-    - nature_suit
+    - nature-suit
     - slowfall
     - avenge
   consumables:
-    wizard_mortar: 32
+    wizard-mortar: 32
     cobblestone: 192
     wrench: 2
     charm: 2
-    proc_bottle: 3
+    proc-bottle: 3
   item:
     template: "loadout-class"
     name: "Elven Kit"
@@ -211,12 +211,12 @@ healer-class:
   type: multi
   pieces:
     - scepter
-    - jade_bow
-    - regrowth_star
-    - nature_suit
+    - jade-bow
+    - regrowth-star
+    - nature-suit
     - slowfall
   consumables:
-    heal_station: 10
+    heal-station: 10
     charm: 1
     torch: 64
     mortar: 64
@@ -251,7 +251,7 @@ brawler-class:
     - berserker
     - sturdy
     - quiver
-    - hearty_ale
+    - hearty-ale
     - avenge
     - resurrection
     - darkvision
@@ -294,9 +294,9 @@ mystic-class:
   pieces:
     - scepter
     - warpweaver
-    - strong_ale
-    - nature_suit
-    - fairy_band
+    - strong-ale
+    - nature-suit
+    - fairy-band
     - slowfall
     - darkvision
     - resurrection
@@ -337,7 +337,7 @@ builder-class:
   pieces:
     - hammer
     - lightbow
-    - safety_juice
+    - safety-juice
     - sturdy
     - bricklayer
     - tombmaker
@@ -385,7 +385,7 @@ builder-class:
 #    - quiver
 #    - slowfall
 #  consumables:
-#    heal_station: 10
+#    heal-station: 10
 #    slab: 2
 #    mortar: 32
 #    cobblestone: 128
@@ -393,7 +393,7 @@ builder-class:
 #  item:
 #    template: "loadout-class"
 #    name: "Magmar Kit"
-#    material: diamond_hoe
+#    material: diamond-hoe
 #    lore:
 #      description:
 #       - "These mages harnessed the power of\n
@@ -421,19 +421,19 @@ builder-class:
 #  pieces:
 #    - hammer
 #    - lightbow
-#    - hearty_ale
+#    - hearty-ale
 #    - sturdy
 #  consumables:
 #    torch: 32
 #    mortar: 32
 #    cobblestone: 128
 #    charm: 3
-#    wizard_mortar: 32
+#    wizard-mortar: 32
 #    lamp: 24
 #  item:
 #    template: "loadout-class"
 #    name: "Paladin Kit"
-#    material: diamond_hoe
+#    material: diamond-hoe
 #    lore:
 #      description:
 #       - "The Followers of the Light\n
@@ -462,20 +462,20 @@ builder-class:
 #  type: multi
 #  pieces:
 #    - hammer
-#    - jade_bow
-#    - regrowth_star
-#    - fairy_band
+#    - jade-bow
+#    - regrowth-star
+#    - fairy-band
 #  consumables:
 #    torch: 64
 #    mortar: 64
 #    cobblestone: 256
 #    charm: 2
-#    wizard_mortar: 64
+#    wizard-mortar: 64
 #    lamp: 32
 #  item:
 #    template: "loadout-class"
 #    name: "Cleric Kit"
-#    material: diamond_hoe
+#    material: diamond-hoe
 #    lore:
 #      description:
 #       - "Mystical healers not suited for front line\n
@@ -502,7 +502,7 @@ builder-class:
 #  category: kit
 #  type: multi
 #  pieces:
-#    - hunting_claws
+#    - hunting-claws
 #    - warpweaver
 #    - pendant
 #    - studded
@@ -516,7 +516,7 @@ builder-class:
 #  item:
 #    template: "loadout-class"
 #    name: "Hunter Kit"
-#    material: diamond_hoe
+#    material: diamond-hoe
 #    lore:
 #      description:
 #       - "Here and there, without a trace\n
@@ -543,7 +543,7 @@ untimely:
   pieces:
     - dagger
     - lightbow
-    - safety_juice
+    - safety-juice
     - studded
     - bricklayer
     - tombmaker
@@ -551,7 +551,7 @@ untimely:
     - chesto
     - compass
     - clock
-    - untimely_demise
+    - untimely-demise
   random-selectable: false
   item:
     template: "loadout"

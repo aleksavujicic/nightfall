@@ -140,11 +140,11 @@ resurrection:
           This resurrection will heal you, but will\n
           also permanently cost you 4 hearts."
 
-speed_bricklayer:
+speed-bricklayer:
   index: 14
   category: accessory
   type: multi
-  pieces: [speedy_bricklayer]
+  pieces: [speedy-bricklayer]
   consumables:
     cobblestone: 256
   cost: 4

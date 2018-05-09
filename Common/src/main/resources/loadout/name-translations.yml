@@ -1,7 +1,7 @@
 items:
   # Melee
   runesword: Mystic Runsword
-  axe: Bloodied Waraxe
+  blood-axe: Bloodied Waraxe
   hammer: Warhammer
   dagger: Elven Dagger
   scepter: Arcane Scepter
@@ -10,42 +10,42 @@ items:
   # Range
   longbow: Longbow
   volcanic: Volcanic Gauntlet
-  phoenix: Phoenix Bow
+  phoenix-bow: Phoenix Bow
   crossbow: Crossbow
   lightbow: Lightbow
-  jade_bow: Jade Bow
+  jade-bow: Jade Bow
   warpweaver: Warpweaver Bow
 
   # Juice
-  safety_juice: Safety Juice
-  hearty: Hearty Ale
+  safety-juice: Safety Juice
+  hearty-ale: Hearty Ale
   pendant: Ruby Pendant
-  regrowth: Regrowth Star
-  chugging: Chugging Ale
-  strong: Strong Ale
+  regrowth-star: Regrowth Star
+  chugging-ale: Chugging Ale
+  strong-ale: Strong Ale
 
   # Armour
   sturdy: Sturdy Armour
   quiver: Massive Quiver
   studded: Studded Armour
-  fairy_band: Fairy Band
+  fairy-band: Fairy Band
   berserker: Berserker Armour
-  nature_suit: Taproot Armour
+  nature-suit: Taproot Armour
 
   # Free stuff
   compass: Compass
   chesto: Chestomatic
   clock: Gnomish Clock
   bricklayer: Bricklayer
-  jit_heal: JIT Heal
+  jit-heal: JIT Heal
 
   # Accessories
   slowfall: Slowfall
-  dark_vision: Dark Vision
+  darkvision: Dark Vision
   avenge: Avenge
   tombmaker: Tombmaker
   resurrection: Resurrection
-  speedy_bricklayer: Speedy Bricklayer
+  speedy-bricklayer: Speedy Bricklayer
 
 
 consumables:
@@ -54,12 +54,12 @@ consumables:
   torch: Torch|Torches
   glass: Glass
 
-  wizard_mortar: Wizard Mortar
+  wizard-mortar: Wizard Mortar
   lamp: Lamp|Lamps
 
   wrench: Wrench|Wrenches
-  heal_station: Healing Station|Healing Stations
+  heal-station: Healing Station|Healing Stations
   charm: Consecrating Charm|Consecrating Charms
   slab: Slab|Slabs
-  proc_bottle: Proc in a Bottle|Procs in Bottles
+  proc-bottle: Proc in a Bottle|Procs in Bottles
   turret: Turret|Turrets

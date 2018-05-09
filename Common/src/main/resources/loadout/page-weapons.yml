@@ -19,7 +19,7 @@ runesword:
 bloodaxe:
   index: 1
   type: item
-  name: blood_axe
+  name: blood-axe
   category: sword
   cost: 20
   item:
@@ -91,7 +91,7 @@ scepter:
 soulblade:
   index: 5
   type: item
-  name: soul_blade
+  name: soul-blade
   category: sword
   cost: 20
   item:
@@ -143,7 +143,7 @@ hunting-claws:
   enabled: false
   index: 8
   type: item
-  name: hunting_claws
+  name: hunting-claws
   category: sword
   cost: 20
   item:
@@ -195,7 +195,7 @@ volcanic:
 phoenix:
   index: 11
   type: item
-  name: phoenix_bow
+  name: phoenix-bow
   category: bow
   cost: 16
   item:
@@ -250,7 +250,7 @@ lightbow:
 jade-bow:
   index: 14
   type: item
-  name: jade_bow
+  name: jade-bow
   category: bow
   cost: 12
   item:
@@ -289,7 +289,7 @@ warpweaver:
 safety-juice:
   index: 18
   type: item
-  name: safety_juice
+  name: safety-juice
   category: ale
   cost: 4
   item:
@@ -306,7 +306,7 @@ safety-juice:
 hearty:
   index: 19
   type: item
-  name: hearty_ale
+  name: hearty-ale
   category: ale
   cost: 8
   item:
@@ -342,7 +342,7 @@ pendant:
 regrowth:
   index: 21
   type: item
-  name: regrowth_star
+  name: regrowth-star
   category: ale
   cost: 6
   item:
@@ -360,7 +360,7 @@ regrowth:
 chug:
   index: 22
   type: item
-  name: chugging_ale
+  name: chugging-ale
   category: ale
   cost: 8
   item:
@@ -380,7 +380,7 @@ chug:
 strong:
   index: 23
   type: item
-  name: strong_ale
+  name: strong-ale
   category: ale
   cost: 8
   item:
@@ -448,7 +448,7 @@ studded:
 fairy-band:
   index: 30
   type: item
-  name: fairy_band
+  name: fairy-band
   category: armour
   cost: 8
   item:
@@ -489,7 +489,7 @@ berserker:
 nature-suit:
   index: 32
   type: item
-  name: nature_suit
+  name: nature-suit
   category: armour
   cost: 4
   item:
