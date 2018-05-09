@@ -60,7 +60,6 @@ public enum ItemModifierType {
 	;
 	
 	private final String name;
-	private final boolean displayValues;
 	private final ModifierApplier applier;
 	private final ValueFormatter formatter;
 	
@@ -78,7 +77,6 @@ public enum ItemModifierType {
 	
 	ItemModifierType(String name, ModifierApplier applier, ValueFormatter formatter) {
 		this.name = name;
-		this.displayValues = true;
 		this.applier = applier;
 		this.formatter = formatter;
 	}
@@ -89,7 +87,6 @@ public enum ItemModifierType {
 	
 	ItemModifierType(String name, ModifierApplier applier, boolean displayValues) {
 		this.name = name;
-		this.displayValues = displayValues;
 		this.applier = applier;
 		
 		if (displayValues) {
@@ -101,10 +98,6 @@ public enum ItemModifierType {
 	
 	public String getName() {
 		return name;
-	}
-	
-	public boolean shouldDisplayValues() {
-		return displayValues;
 	}
 	
 	public ItemStack applyModifier(ItemStack item, int value) {
