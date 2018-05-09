@@ -1,0 +1,65 @@
+items:
+  # Melee
+  runesword: Mystic Runsword
+  axe: Bloodied Waraxe
+  hammer: Warhammer
+  dagger: Elven Dagger
+  scepter: Arcane Scepter
+  soulblade: Soulblade
+
+  # Range
+  longbow: Longbow
+  volcanic: Volcanic Gauntlet
+  phoenix: Phoenix Bow
+  crossbow: Crossbow
+  lightbow: Lightbow
+  jade_bow: Jade Bow
+  warpweaver: Warpweaver Bow
+
+  # Juice
+  safety_juice: Safety Juice
+  hearty: Hearty Ale
+  pendant: Ruby Pendant
+  regrowth: Regrowth Star
+  chugging: Chugging Ale
+  strong: Strong Ale
+
+  # Armour
+  sturdy: Sturdy Armour
+  quiver: Massive Quiver
+  studded: Studded Armour
+  fairy_band: Fairy Band
+  berserker: Berserker Armour
+  nature_suit: Taproot Armour
+
+  # Free stuff
+  compass: Compass
+  chesto: Chestomatic
+  clock: Gnomish Clock
+  bricklayer: Bricklayer
+  jit_heal: JIT Heal
+
+  # Accessories
+  slowfall: Slowfall
+  dark_vision: Dark Vision
+  avenge: Avenge
+  tombmaker: Tombmaker
+  resurrection: Resurrection
+  speedy_bricklayer: Speedy Bricklayer
+
+
+consumables:
+  mortar: Mortar
+  cobblestone: Cobblestone
+  torch: Torch|Torches
+  glass: Glass
+
+  wizard_mortar: Wizard Mortar
+  lamp: Lamp|Lamps
+
+  wrench: Wrench|Wrenches
+  heal_station: Healing Station|Healing Stations
+  charm: Consecrating Charm|Consecrating Charms
+  slab: Slab|Slabs
+  proc_bottle: Proc in a Bottle|Procs in Bottles
+  turret: Turret|Turrets

@@ -23,6 +23,9 @@ public class LoadoutManager {
 	private final Map<UUID, Loadout> loadouts = new HashMap<>();
 	private final Map<String, LoadoutItem> items = new HashMap<>();
 	
+	private final NameTranslator nameTranslator = new NameTranslator();
+	
+	public NameTranslator getNameTranslator() { return nameTranslator; }
 	
 	private LoadoutManager() {
 		ourManager = this;

@@ -1,21 +1,21 @@
 package deimophobe.nightfall.common.loadout.item;
 
+import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.loadout.Loadout;
 import deimophobe.nightfall.common.loadout.LoadoutConstructable;
+import deimophobe.nightfall.common.loadout.LoadoutManager;
+import deimophobe.nightfall.common.loadout.NameTranslator;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 20/12/17.
  */
 public class MultiLoadoutItem extends LoadoutItem {
 	
-	private final Map<String, Integer> consumables = new HashMap<>();
-	private final Set<String> elements = new HashSet<>();
+	private final Map<String, Integer> consumables = new LinkedHashMap<>();
+	private final List<String> elements = new ArrayList<>();
 	
 	public MultiLoadoutItem(ConfigurationSection config) {
 		super(config);
@@ -28,6 +28,8 @@ public class MultiLoadoutItem extends LoadoutItem {
 			}
 		}
 		elements.addAll(config.getStringList("pieces"));
+		
+		addItemStringList();
 	}
 	
 	@Override
@@ -39,5 +41,29 @@ public class MultiLoadoutItem extends LoadoutItem {
 		for (String type : elements) {
 			tryAddPiece(construct, type);
 		}
+	}
+	
+	private void addItemStringList() {
+		CustomItem customItem = getItem();
+		
+		StringBuilder stringBuilder = new StringBuilder();
+		NameTranslator nameTranslator = LoadoutManager.getManager().getNameTranslator();
+		
+		for (String item : elements) {
+			String name = nameTranslator.getItemName(item);
+			stringBuilder.append("* ").append(name).append('\n');
+		}
+		
+		for (Map.Entry<String, Integer> entry : consumables.entrySet()) {
+			String name = nameTranslator.getConsumableName(entry.getKey(), entry.getValue());
+			stringBuilder.append("* ").append(name).append('\n');
+		}
+		
+		if (stringBuilder.length() > 0) {
+			stringBuilder.setLength(stringBuilder.length() - 1);
+		}
+		
+		String itemList = stringBuilder.toString();
+		customItem.applyVariable("itemlist", itemList);
 	}
 }
