@@ -715,8 +715,13 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	public Projectile onBowFire(Arrow arrow, float force) {
 		Projectile proj = kit.onBowFire(arrow, force);
 		
-		if (proj instanceof Arrow)
+		if (proj instanceof Arrow) {
 			bowFiredArrow();
+		}
+		
+		if (proj == null) {
+			player.updateInventory();
+		}
 		
 		return proj;
 	}
