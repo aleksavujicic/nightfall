@@ -2,13 +2,14 @@ package deimophobe.nightfall.dwarf.consumable;
 
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.UnknownEnumElementException;
+import deimophobe.nightfall.common.items.ItemMatcher;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by Deimophobe on 22/01/17.
  */
-public enum ConsumableType {
+public enum ConsumableType implements ItemMatcher {
 	LAMP(new Lamp("lamp"), true, false),
 	SLAB(new Slab("slab"), false, false),
 	CHARM(new ConsecratingCharm("charm"), false, false),
@@ -54,8 +55,8 @@ public enum ConsumableType {
 		return consumable.getItemStack();
 	}
 	
-	public boolean matchesItem(ItemStack item) {
-		return consumable.matchesItem(item);
+	public boolean doesItemMatch(ItemStack item) {
+		return consumable.doesItemMatch(item);
 	}
 	
 	public Consumable getConsumable() {
@@ -65,7 +66,7 @@ public enum ConsumableType {
 	
 	public static ConsumableType getConsumableType(ItemStack item) {
 		for (ConsumableType type : values()) {
-			if (type.consumable.matchesItem(item))
+			if (type.consumable.doesItemMatch(item))
 				return type;
 		}
 		return null;
