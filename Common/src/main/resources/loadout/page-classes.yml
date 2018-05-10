@@ -25,18 +25,6 @@ warrior-class:
           ability to dash and constantly rampage\n
           as well as automated healing."
 
-      contains:
-       - "*Mystic Runesword\n
-          *Phoenix Bow\n
-          *Safety Juice\n
-          *Sturdy Armour\n
-          *Avenge\n
-          *Resurrection\n
-          *64 Torches\n
-          *64 Mortar\n
-          *192 Cobblestone\n
-          *2 Wrenches"
-
 ranger-class:
   index: 1
   cost: 64
@@ -45,8 +33,8 @@ ranger-class:
   pieces:
     - dagger
     - longbow
-    - quiver
     - pendant
+    - quiver
     - darkvision
   consumables:
     torch: 64
@@ -65,19 +53,6 @@ ranger-class:
           choice for single target combat.\n
           With the ability to poison and eviscerate\n
           as well as fire hard hitting bow shots."
-
-      contains:
-       - "*Elven Dagger\n
-          *Rangers Longbow\n
-          *Ruby Pendant\n
-          *Massive Quiver\n
-          *Darkvision\n
-          *64 Torches\n
-          *64 Mortar\n
-          *192 Cobblestone\n
-          *1 Consecrating Charm\n
-          *32 Wizard Mortar\n
-          *64 Enchanted Lamps"
 
 berserker-class:
   index: 2
@@ -105,17 +80,6 @@ berserker-class:
           With less defense and higher mobility\n
           These fighters cut through foes like butter\n
           but can be taken down just as fast."
-
-      contains:
-       - "*Bloodied Waraxe\n
-          *Crossbow\n
-          *Strong Ale\n
-          *Berserker Armour\n
-          *Avenge\n
-          *64 Torches\n
-          *64 Mortar\n
-          *192 Cobblestone\n
-          *2 Wrenches"
 
 elven-class:
   index: 3
@@ -145,20 +109,6 @@ elven-class:
        - "Unlike their Ranger counterparts, this class\n
           makes you feel like an elf, with increased speed, \n
           low light vision, and quick strikes."
-
-      contains:
-       - "*Dagger\n
-          *Lightbow\n
-          *Safety Juice\n
-          *Studded Armour\n
-          *Taproot Armour\n
-          *Slowfall\n
-          *Avenge\n
-          *32 Wizard Mortar\n
-          *192 Cobblestone\n
-          *2 Wrenches\n
-          *2 Consecrating Charms\n
-          *3 Proc in a Bottles"
 
 gnome-class:
   index: 4
@@ -192,18 +142,6 @@ gnome-class:
           the Gnomes were able to\n
           sustain their rate of fire."
 
-      contains:
-       - "*Hammer\n
-          *Volcanic Gauntlet\n
-          *Ruby Pendant\n
-          *Massive Quiver\n
-          *Avenge\n
-          *64 Torches\n
-          *64 Mortar\n
-          *192 Cobblestone\n
-          *2 Consecrating Charms\n
-          *3 Slabs"
-
 healer-class:
   index: 5
   cost: 64
@@ -229,18 +167,6 @@ healer-class:
       description:
        - "Go heal ppl."
 
-      contains:
-       - "*Arcane Scepter\n
-          *Jade Bow\n
-          *Regrowth Star\n
-          *Taproot Armour\n
-          *Slowfall\n
-          *10 Healing Stations\n
-          *1 Consecrating Charm\n
-          *64 Torches\n
-          *64 Mortar\n
-          *192 Cobblestone"
-
 brawler-class:
   index: 9
   cost: 64
@@ -248,10 +174,10 @@ brawler-class:
   type: multi
   pieces:
     - volcanic
+    - hearty-ale
     - berserker
     - sturdy
     - quiver
-    - hearty-ale
     - avenge
     - resurrection
     - darkvision
@@ -269,22 +195,6 @@ brawler-class:
     lore:
       description:
        - "PUNCHY PUNCHY PUNCHY"
-
-      contains:
-       - "*Volcanic Gauntlet\n
-          *Hearty Ale\n
-          *Berserker Armour\n
-          *Sturdy Armour\n
-          *Massive Quiver\n
-          *Dark Vision\n
-          *Avenge\n
-          *Resurrection\n
-          *1 Consecrating Charm\n
-          *4 Wrenches\n
-          *2 Slabs\n
-          *64 Torches\n
-          *64 Mortar\n
-          *192 Cobblestone"
 
 mystic-class:
   index: 10
@@ -314,21 +224,6 @@ mystic-class:
       description:
        - "Mystic stuff."
 
-      contains:
-       - "*Arcane Scepter\n
-          *Warpweaver Bow\n
-          *Strong Ale\n
-          *Fairy Band\n
-          *Taproot Armour\n
-          *Slowfall\n
-          *Dark Vision\n
-          *Resurrection\n
-          *2 Consecrating Charms\n
-          *4 Procs in Bottles\n
-          *32 Enchanted Lamps\n
-          *32 Wizard Mortar\n
-          *192 Cobblestone"
-
 builder-class:
   index: 11
   cost: 64
@@ -357,61 +252,6 @@ builder-class:
       description:
        - "Build stuff."
 
-      contains:
-       - "*Hammer\n
-          *Lightbow\n
-          *Safety Juice\n
-          *Sturdy Armour\n
-          *Bricklayer\n
-          *Tombmaker\n
-          *Chestomatic\n
-          *7 Slabs\n
-          *128 Enchanted Lamps\n
-          *64 Wizard Mortar\n
-          *128 Torches\n
-          *128 Mortar\n
-          *768 Cobblestone"
-
-#magmar-class:
-#  enabled: false
-#  index: 12
-#  cost: 64
-#  category: kit
-#  type: multi
-#  pieces:
-#    - scepter
-#    - volcanic
-#    - healingglow
-#    - quiver
-#    - slowfall
-#  consumables:
-#    heal-station: 10
-#    slab: 2
-#    mortar: 32
-#    cobblestone: 128
-#    charm: 2
-#  item:
-#    template: "loadout-class"
-#    name: "Magmar Kit"
-#    material: diamond-hoe
-#    lore:
-#      description:
-#       - "These mages harnessed the power of\n
-#          Magma to imbue into their\n
-#          weaponry and potions."
-#
-#      contains:
-#       - "*Scepter of Magma\n
-#          *Volcanic Gauntlet\n
-#          *Healing Glow\n
-#          *Massive Quiver\n
-#          *Slowfall\n
-#          *10 Healing Stations\n
-#          *2 Consecrating Charms\n
-#          *32 Mortar\n
-#          *128 Cobblestone\n
-#          *2 Slabs"
-#
 #paladin-class:
 #  enabled: false
 #  index: 9
@@ -441,99 +281,7 @@ builder-class:
 #          with blessed warhammers, these warriors\n
 #          can remain longer on the defense then\n
 #          most other classes."
-#
-#      contains:
-#       - "*Warhammer\n
-#          *Lightbow\n
-#          *Hearty Ale\n
-#          *Sturdy Armour\n
-#          *32 Torches\n
-#          *32 Mortar\n
-#          *128 Cobblestone\n
-#          *3 Consecrating Charms\n
-#          *32 Wizard Mortar\n
-#          *24 Enchanted Lamps"
-#
-#cleric-class:
-#  enabled: false
-#  index: 10
-#  cost: 64
-#  category: kit
-#  type: multi
-#  pieces:
-#    - hammer
-#    - jade-bow
-#    - regrowth-star
-#    - fairy-band
-#  consumables:
-#    torch: 64
-#    mortar: 64
-#    cobblestone: 256
-#    charm: 2
-#    wizard-mortar: 64
-#    lamp: 32
-#  item:
-#    template: "loadout-class"
-#    name: "Cleric Kit"
-#    material: diamond-hoe
-#    lore:
-#      description:
-#       - "Mystical healers not suited for front line\n
-#          combat. Able to heal others give others a rampage\n
-#          as well as restore their own energy, but can be killed\n
-#          if not well protected."
-#
-#      contains:
-#       - "*Warhammer\n
-#          *Jade Bow\n
-#          *Regrowth Star\n
-#          *Fairy Band\n
-#          *64 Torches\n
-#          *64 Mortar\n
-#          *256 Cobblestone\n
-#          *2 Consecrating Charms\n
-#          *64 Wizard Mortar\n
-#          *32 Enchanted Lamps"
-#
-#hunter-class:
-#  enabled: false
-#  index: 11
-#  cost: 64
-#  category: kit
-#  type: multi
-#  pieces:
-#    - hunting-claws
-#    - warpweaver
-#    - pendant
-#    - studded
-#    - avenge
-#  consumables:
-#    torch: 32
-#    mortar: 32
-#    cobblestone: 128
-#    charm: 1
-#    wrench: 2
-#  item:
-#    template: "loadout-class"
-#    name: "Hunter Kit"
-#    material: diamond-hoe
-#    lore:
-#      description:
-#       - "Here and there, without a trace\n
-#          These sneaky assassins can warp around\n
-#          the battlefield striking with their furious claws."
-#
-#      contains:
-#       - "*Hunting Claws\n
-#          *Warpweaver Bow\n
-#          *Ruby Pendant\n
-#          *Studded Armour\n
-#          *Avenge\n
-#          *32 Torches\n
-#          *32 Mortar\n
-#          *128 Cobblestone\n
-#          *1 Consecrating Charm\n
-#          *2 Wrenches"
+
 
 untimely:
   index: 44

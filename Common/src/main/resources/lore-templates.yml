@@ -56,6 +56,9 @@ loadout-class:
     description: "&6"
     contains: "&a"
 
+  defaults:
+    contains: "$itemlist"
+
   modifiers:
     name: "&3"
     value: "&b"
