@@ -11,10 +11,12 @@ warrior-class:
     - avenge
     - resurrection
   consumables:
-    torch: 64
-    mortar: 64
     cobblestone: 192
+    mortar: 64
+    torch: 64
+    proc-bottle: 6
     wrench: 2
+
   item:
     template: "loadout-class"
     name: "Warrior Kit"
@@ -35,14 +37,15 @@ ranger-class:
     - longbow
     - pendant
     - quiver
+    - slowfall
     - darkvision
   consumables:
-    torch: 64
-    mortar: 64
     cobblestone: 192
-    charm: 1
-    wizard-mortar: 32
+    mortar: 64
     lamp: 64
+    charm: 1
+    turret: 8
+
   item:
     template: "loadout-class"
     name: "Ranger Kit"
@@ -66,10 +69,11 @@ berserker-class:
     - berserker
     - avenge
   consumables:
-    torch: 64
-    mortar: 64
     cobblestone: 192
+    mortar: 64
+    torch: 64
     wrench: 2
+    proc-bottle: 4
   item:
     template: "loadout-class"
     name: "Berserker Kit"
@@ -95,8 +99,8 @@ elven-class:
     - slowfall
     - avenge
   consumables:
-    wizard-mortar: 32
     cobblestone: 192
+    wizard-mortar: 32
     wrench: 2
     charm: 2
     proc-bottle: 3
@@ -123,9 +127,9 @@ gnome-class:
     - tombmaker
     - avenge
   consumables:
-    torch: 64
-    mortar: 64
     cobblestone: 192
+    mortar: 64
+    torch: 64
     charm: 2
     slab: 3
   item:
@@ -153,12 +157,14 @@ healer-class:
     - regrowth-star
     - nature-suit
     - slowfall
+    - resurrection
   consumables:
+    cobblestone: 192
+    mortar: 64
+    torch: 64
     heal-station: 10
     charm: 1
-    torch: 64
-    mortar: 64
-    cobblestone: 192
+    turret: 4
   item:
     template: "loadout-class"
     name: "Healer Kit"
@@ -166,6 +172,35 @@ healer-class:
     lore:
       description:
        - "Go heal ppl."
+
+paladin-class:
+  index: 6
+  cost: 64
+  category: kit
+  type: multi
+  pieces:
+    - hammer
+    - phoenix-bow
+    - hearty-ale
+    - sturdy
+    - darkvision
+    - avenge
+    - resurrection
+  consumables:
+    cobblestone: 192
+    mortar: 64
+    torch: 64
+    wrench: 1
+    charm: 2
+    slab: 2
+
+  item:
+    template: "loadout-class"
+    name: "Paladin Kit"
+    base: hammer
+    lore:
+      description:
+       - "Paladins"
 
 brawler-class:
   index: 9
@@ -175,19 +210,19 @@ brawler-class:
   pieces:
     - volcanic
     - hearty-ale
-    - berserker
     - sturdy
     - quiver
+    - berserker
+    - darkvision
     - avenge
     - resurrection
-    - darkvision
   consumables:
+    cobblestone: 192
+    mortar: 64
+    torch: 64
     wrench: 4
     slab: 2
     charm: 1
-    torch: 64
-    mortar: 64
-    cobblestone: 192
   item:
     template: "loadout-class"
     name: "Brawler Kit"
@@ -205,17 +240,17 @@ mystic-class:
     - scepter
     - warpweaver
     - strong-ale
-    - nature-suit
     - fairy-band
+    - nature-suit
     - slowfall
     - darkvision
     - resurrection
   consumables:
+    cobblestone: 192
+    wizard-mortar: 32
+    lamp: 32
     charm: 2
     proc-bottle: 4
-    lamp: 32
-    wizard-mortar: 32
-    cobblestone: 192
   item:
     template: "loadout-class"
     name: "Mystic Kit"
@@ -234,16 +269,17 @@ builder-class:
     - lightbow
     - safety-juice
     - sturdy
-    - bricklayer
     - tombmaker
-    - chesto
+    - speedy-bricklayer
   consumables:
-    lamp: 128
-    wizard-mortar: 64
-    slab: 7
-    torch: 128
-    mortar: 128
     cobblestone: 768
+    mortar: 128
+    torch: 128
+    glass: 128
+    wizard-mortar: 64
+    lamp: 128
+    slab: 8
+    turret: 16
   item:
     template: "loadout-class"
     name: "Builder's Kit"
@@ -252,35 +288,32 @@ builder-class:
       description:
        - "Build stuff."
 
-#paladin-class:
-#  enabled: false
-#  index: 9
-#  cost: 64
-#  category: kit
-#  type: multi
-#  pieces:
-#    - hammer
-#    - lightbow
-#    - hearty-ale
-#    - sturdy
-#  consumables:
-#    torch: 32
-#    mortar: 32
-#    cobblestone: 128
-#    charm: 3
-#    wizard-mortar: 32
-#    lamp: 24
-#  item:
-#    template: "loadout-class"
-#    name: "Paladin Kit"
-#    material: diamond-hoe
-#    lore:
-#      description:
-#       - "The Followers of the Light\n
-#          Able to restore both their mana and armour\n
-#          with blessed warhammers, these warriors\n
-#          can remain longer on the defense then\n
-#          most other classes."
+riftwalker-class:
+  index: 12
+  cost: 64
+  category: kit
+  type: multi
+  pieces:
+    - soul-blade
+    - warpweaver
+    - pendant
+    - fairy-band
+    - slowfall
+    - darkvision
+    - resurrection
+  consumables:
+    cobblestone: 192
+    wizard-mortar: 32
+    lamp: 32
+    charm: 2
+    proc-bottle: 4
+  item:
+    template: "loadout-class"
+    name: "Riftwalker Kit"
+    material: ender_pearl
+    lore:
+      description:
+       - "Break that fourth wall!"
 
 
 untimely:
