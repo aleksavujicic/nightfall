@@ -421,7 +421,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			regenMana(armour.getManaRegenRate());
 			
 			ItemStack heldItem = getHeldItem();
-			holdingLightItem = (ConsumableType.TORCH.matchesItem(heldItem) || ConsumableType.LAMP.matchesItem(heldItem));
+			holdingLightItem = (ConsumableType.TORCH.doesItemMatch(heldItem) || ConsumableType.LAMP.doesItemMatch(heldItem));
 			updateVisibility();
 		}
 
@@ -604,7 +604,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	// ------ EVENTS ------
 	@Override
 	public void updateHotbarSlot(ItemStack heldItem, int slot) {
-		holdingLightItem = (ConsumableType.TORCH.matchesItem(heldItem) || ConsumableType.LAMP.matchesItem(heldItem));
+		holdingLightItem = (ConsumableType.TORCH.doesItemMatch(heldItem) || ConsumableType.LAMP.doesItemMatch(heldItem));
 		updateVisibility();
 		
 		kit.updateHotbarSlot(heldItem);

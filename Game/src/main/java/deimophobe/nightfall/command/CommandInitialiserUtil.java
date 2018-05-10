@@ -284,7 +284,7 @@ public class CommandInitialiserUtil {
 			Player player = context.getIssuer().getPlayer();
 			
 			ItemStack held = player.getInventory().getItemInMainHand();
-			if (held == null || !ConsumableType.GLASS.matchesItem(held)) throw new ConditionFailedException("You need to be holding glass to colour it.");
+			if (held == null || !ConsumableType.GLASS.doesItemMatch(held)) throw new ConditionFailedException("You need to be holding glass to colour it.");
 		});
 	}
 	
