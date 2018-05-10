@@ -1,12 +1,9 @@
 package deimophobe.nightfall.common.items.lore;
 
-import deimophobe.nightfall.common.Misc;
-
-import java.util.Map;
-
 /**
- * Created by Deimophobe on 15/04/17.
+ * Created by Deimophobe on 10/05/18.
  */
 interface LoreComponent {
-	String toString(Map<String, String> sections);
+	void applyVariable(String variableName, String value);
+	String createString();
 }

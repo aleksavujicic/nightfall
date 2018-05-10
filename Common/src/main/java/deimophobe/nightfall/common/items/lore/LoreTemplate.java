@@ -28,7 +28,7 @@ public class LoreTemplate {
 	public static final String MOB_UPGRADE = "monster-upgrade";
 	
 	private final String namePrefix;
-	private final List<LoreComponent> components;
+	private final List<SectionTemplate> components;
 	
 	private final String modifierNamePrefix;
 	private final String modifierValuePrefix;
@@ -50,7 +50,7 @@ public class LoreTemplate {
 			if (longLore.charAt(i+1) != '{') continue;
 			
 			String prevString = longLore.substring(prevMatch, i);
-			components.add(new StringComponent(prevString));
+			components.add(new FixedSectionTemplate(prevString));
 			
 			int j = i+2;
 			do {
@@ -60,7 +60,8 @@ public class LoreTemplate {
 			
 			String sectionName = longLore.substring(i+2, j);
 			String secPrefix = config.getString("prefix."+sectionName, "&r");
-			components.add(new SectionComponent(sectionName, secPrefix));
+			String secDefault = config.getString("defaults."+sectionName, "");
+			components.add(new NamedSectionTemplate(sectionName, secPrefix, secDefault));
 			
 			prevMatch = j+1;
 		}
@@ -74,12 +75,14 @@ public class LoreTemplate {
 		return namePrefix + name;
 	}
 	
-	public StringBuilder generateLoreText(Map<String, String> sections) {
-		StringBuilder builder = new StringBuilder();
-		for (LoreComponent component : components)
-			builder.append(component.toString(sections));
+	public List<Section> createSections(Map<String, String> loreSections) {
+		List<Section> sectionList = new ArrayList<>();
+		for (SectionTemplate sectionTemplate : components) {
+			Section section = sectionTemplate.createSection(loreSections);
+			sectionList.add(section);
+		}
 		
-		return builder;
+		return sectionList;
 	}
 	
 	public List<String> generateAttributeText(SortedMap<ItemModifierType, Set<ItemModifier>> modifiers) {
@@ -93,8 +96,9 @@ public class LoreTemplate {
 			
 			// Get the net value of attribute
 			int total = 0;
-			for (ItemModifier modifier : modifierGroup)
+			for (ItemModifier modifier : modifierGroup) {
 				total += modifier.getValue();
+			}
 			
 			if (total == 0) continue;
 			
@@ -102,10 +106,11 @@ public class LoreTemplate {
 			String value = type.formatValue(total, false);
 			
 			// Add main line
-			if (value == null)
+			if (value == null) {
 				lines.add(modifierNamePrefix + name);
-			else
+			} else {
 				lines.add(modifierNamePrefix + name + ": " + modifierValuePrefix + value);
+			}
 			
 			// Add any reason lines
 			for (ItemModifier modifier : modifierGroup) {
@@ -113,10 +118,11 @@ public class LoreTemplate {
 				if (reason == null) continue;
 				
 				String modValue = type.formatValue(modifier.getValue(), true);
-				if (modValue == null)
+				if (modValue == null) {
 					lines.add(modifierReasonPrefix + " (" + reason + ")");
-				else
+				} else {
 					lines.add(modifierReasonPrefix + " " + modValue + " (" + reason + ")");
+				}
 			}
 		}
 		
