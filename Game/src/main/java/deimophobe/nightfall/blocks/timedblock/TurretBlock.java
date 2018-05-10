@@ -110,6 +110,8 @@ public class TurretBlock extends DataTimedBlock {
 	}
 	
 	private void fireArrow() {
+		if (!placer.isOnline()) return;
+		
 		Arrow arrow = ArrowMisc.summonArrow(placer, launchLocation, damage, 3, 1f, 0.1f);
 		ArrowMisc.addDamageModifier(arrow, gameDamage -> {
 			gameDamage.setItemStack(ConsumableType.TURRET.getItemStack());
