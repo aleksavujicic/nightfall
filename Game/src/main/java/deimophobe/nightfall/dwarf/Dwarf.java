@@ -73,7 +73,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		// Setup kit
 		this.kit = data.createKitAndApplyToDwarf(this);
 		
-		giveArrows(40);
+		restockArrows();
 		mana = maxMana;
 		updateManaBar();
 		
@@ -257,9 +257,12 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	public void giveArrow() { giveArrows(1); }
 	public void giveArrows(int amt) {
 		arrows += amt;
-		if (arrows > maxArrows)
-			arrows = maxArrows;
+		if (arrows > maxArrows) arrows = maxArrows;
 		
+		updateArrowDisplay();
+	}
+	public void restockArrows() {
+		arrows = maxArrows;
 		updateArrowDisplay();
 	}
 	public void useArrow() {
@@ -267,8 +270,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	public void useArrows(int amt) {
 		arrows -= amt;
-		if (arrows < 0)
-			arrows = 0;
+		if (arrows < 0) arrows = 0;
 		
 		updateArrowDisplay();
 	}

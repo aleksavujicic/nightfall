@@ -108,6 +108,15 @@ jump-pad:
     flavour:
      - "Flavour"
 
+spare-quiver:
+  base: temp
+  name: Spare Quiver
+  lore:
+    description:
+     - "Restocks Arrows"
+    flavour:
+     - "Flavour"
+
 
 log:
   base: logs

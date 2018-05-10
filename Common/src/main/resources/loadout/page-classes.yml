@@ -45,6 +45,7 @@ ranger-class:
     lamp: 64
     charm: 1
     turret: 8
+    spare-quiver: 4
 
   item:
     template: "loadout-class"
@@ -74,6 +75,7 @@ berserker-class:
     torch: 64
     wrench: 2
     proc-bottle: 4
+    spare-quiver: 4
   item:
     template: "loadout-class"
     name: "Berserker Kit"
@@ -221,8 +223,8 @@ brawler-class:
     mortar: 64
     torch: 64
     wrench: 4
-    slab: 2
     charm: 1
+    spare-quiver: 2
   item:
     template: "loadout-class"
     name: "Brawler Kit"
