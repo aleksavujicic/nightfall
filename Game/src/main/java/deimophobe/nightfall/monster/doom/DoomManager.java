@@ -134,7 +134,7 @@ public class DoomManager {
 	
 	private void showDoomMessage() {
 		for (MonsterPlayer player : MonsterManager.getManager().getDeadPlayers()) {
-			if (player.isDead()) continue;
+			if (player.isEntityDead()) continue;
 			player.getPlayer().sendTitle(
 					"",//ChatColor.RED + "Doom Approaches",
 					ChatColor.DARK_RED + "Spawning in " + ChatColor.GREEN + internalDoomTimer + ChatColor.DARK_RED + " seconds...",

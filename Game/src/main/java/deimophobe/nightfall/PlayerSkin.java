@@ -127,7 +127,7 @@ public class PlayerSkin {
 //				protocolManager.sendServerPacket(player, addInfo);
 //				//notify the client that it should update the own skin
 //
-//				if (!player.isDead()) {
+//				if (!player.isEntityDead()) {
 //					protocolManager.sendServerPacket(player, respawn);
 //
 //					//prevent the moved too quickly message

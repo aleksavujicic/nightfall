@@ -191,7 +191,7 @@ public class AIManager {
 			if (shrineProt.continsGameEntity(ai))
 				ai.remove();
 			
-			if (ai.isDead())
+			if (ai.isEntityDead())
 				unregisterAI(ai);
 		}
 		

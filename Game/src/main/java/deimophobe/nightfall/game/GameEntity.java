@@ -40,7 +40,7 @@ public interface GameEntity<E extends LivingEntity> {
 		return getEntity().getUniqueId();
 	}
 	
-	default boolean isDead() {
+	default boolean isEntityDead() {
 		return getEntity().isDead();
 	}
 	
