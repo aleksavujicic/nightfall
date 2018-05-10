@@ -19,6 +19,13 @@ import org.bukkit.command.CommandSender;
 @CommandAlias("armour|armor")
 public class ArmourCommand extends BaseCommand {
 	
+	@Default
+	@Description("Equip armour on yourself.")
+	public void selfEquip(CommandSender sender, @Flags("self") @Conditions("unequipped-armour") Dwarf dwarf) {
+		((DwarvenArmour) dwarf.getArmour()).putOn();
+		MessageUtil.sendMessage(sender, "Equipped armour on yourself.");
+	}
+	
 	@Subcommand("equip")
 	@CommandCompletion("@dwarves")
 	@Description("Equip armour on a dwarf.")
