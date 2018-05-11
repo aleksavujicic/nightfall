@@ -717,6 +717,12 @@ public class GameListener implements Listener {
 			sb.append(ChatColor.WHITE).append(ChatColor.ITALIC).append(map.getName());
 			
 			Phase phase = game.getPhase();
+			if (phase == null) {
+				sb.append(ChatColor.GRAY).append("Starting soon...");
+				event.setMotd(sb.toString());
+				return;
+			}
+			
 			int numDwarves = DwarfManager.getManager().getNumberOfPlayers();
 			int numMobs = MonsterManager.getManager().getNumberOfPlayers();
 			
