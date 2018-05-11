@@ -12,6 +12,7 @@ import deimophobe.nightfall.cooldown.RepeatingCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.PreDamagePriority;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.armour.NakedArmour;
@@ -644,8 +645,13 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			}
         }
 
-		if (damage.getType() == GameDamageType.FALL && damage.getFinalDamage() <= 0.2)
-			damage.cancel();
+		if (damage.getType() == GameDamageType.FALL) {
+			damage.addPreDamageHandler(PreDamagePriority.FALL_DAMAGE_SAFETY, () -> {
+				if (damage.getFinalDamage() <= 0.2) {
+					damage.cancel();
+				}
+			});
+		}
 	}
 	
 	@Override

@@ -6,11 +6,12 @@ package deimophobe.nightfall.damage;
 public enum PreDamagePriority {
 	DWARF_BUILD_PHASE_SAVER,
 	DEFAULT,
+	FALL_DAMAGE_SAFETY,
 	SAFETY_JUICE,
 	JIT_HEAL,
 	RESURRECTION,
 	ARTHEA_DEATH,
 	MONSTER_DEATH,
 	
-	ASSASSIN_KILL, // Should ideally be a post damage handler
+	ASSASSIN_KILL // Should ideally be a post damage handler
 }
