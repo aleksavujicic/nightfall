@@ -35,7 +35,7 @@ public class Lightbow extends AbstractBow {
 		if (!damage.hasArrow()) return;
 		
 		Arrow arrow = damage.getArrow();
-		if (ArrowMisc.getArrowForce(arrow) > 0.8) {
+		if (ArrowMisc.getArrowForce(arrow) > 0.8 && !damage.getReceiver().isAI()) {
 			damage.addPostDamageHandler(() -> {
 				damage.getReceiver().givePotionEffect(PotionEffectType.GLOWING, 3*20, 1, true, false, true);
 			});
