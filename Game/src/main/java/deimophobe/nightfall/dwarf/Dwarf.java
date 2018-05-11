@@ -630,11 +630,11 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		
 		kit.onDamageReceive(damage);
 		if (player.hasPotionEffect(PotionEffectType.UNLUCK)) {
-			double amplifier = 1 + getPotionEffectLevel(PotionEffectType.UNLUCK)*0.1;
-			if (damage.getType() == GameDamageType.MELEE) {
-				damage.getMultiPartDamage().timesMult(amplifier);
-			}
-			damage.multiplyArmourShred(amplifier);
+			double damageAmplifier = 1 + getPotionEffectLevel(PotionEffectType.UNLUCK)*0.04;
+			double armourAmplifier = 1 + getPotionEffectLevel(PotionEffectType.UNLUCK)*0.1;
+			
+			damage.getMultiPartDamage().timesMult(damageAmplifier);
+			damage.multiplyArmourShred(armourAmplifier);
 		}
 
 		if (getStunned()) {

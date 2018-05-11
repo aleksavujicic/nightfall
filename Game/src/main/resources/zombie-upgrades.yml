@@ -126,7 +126,7 @@ husk:
 sabotage:
   index: 10
   cost: [200, 400, 600, 800, 1000]
-  value: [10, 20, 30, 40, 50]
+  value: [4, 8, 12, 16, 20]
   prereq:
     saboteur: 1
   item:
@@ -136,7 +136,7 @@ sabotage:
       description:
         - "Temporarily damage dwarven armour\n
            each hit, causing it to take $value%\n
-           more melee damage and all armour damage\n
+           more damage and armour damage\n
            for 5 seconds. Can only be used\n
            when invisible."
 
