@@ -81,7 +81,7 @@ public class Loadout implements SessionData {
 	}
 	
 	public void clear() {
-		items.clear();
+		items.removeIf(item -> item.getCost() != 0);
 		categoryItems.clear();
 		
 		updateDisplay();

@@ -74,6 +74,7 @@ public class RandomMenuItem extends SimpleItem<Loadout> {
 		for (LoadoutItem item : itemList) {
 			int cost = item.getCost();
 			if (cost > pointLimit) continue; // Too expensive to add
+			if (cost == 0) continue; // Don't add free items
 			
 			if (cost == pointLimit || !recurse) {
 				// Price is just right - can return new item set and add items
