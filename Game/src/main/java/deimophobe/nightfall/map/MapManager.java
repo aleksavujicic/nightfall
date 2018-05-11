@@ -40,6 +40,7 @@ public class MapManager {
 	private final Deque<String> mapQueue = new LinkedList<>();
 	
 	private final Map<String, File> maps = new HashMap<>();
+	private final Set<String> activeMaps = new HashSet<>();
 	private boolean autocycle;
 	private int cycleTime;
 	
@@ -105,12 +106,16 @@ public class MapManager {
 	}
 	
 	public void reloadConfig() {
-		NightfallPlugin.logger().info("Reloading map config.");
-		Configuration mapConfig = YamlConfiguration.loadConfiguration(mapConfigFile);
-		ConfigurationSection mapSection = mapConfig.getConfigurationSection("maps");
+		maps.clear();
+		activeMaps.clear();
+		mapQueue.clear();
 		
-		autocycle = mapConfig.getBoolean("auto-cycle", true);
-		cycleTime = mapConfig.getInt("cycle-time", 30);
+		NightfallPlugin.logger().info("Reloading map config.");
+		Configuration mapsConfig = YamlConfiguration.loadConfiguration(mapConfigFile);
+		ConfigurationSection mapSection = mapsConfig.getConfigurationSection("maps");
+		
+		autocycle = mapsConfig.getBoolean("auto-cycle", true);
+		cycleTime = mapsConfig.getInt("cycle-time", 30);
 		
 		if (cycleTime <= 0) {
 			NightfallPlugin.logger().severe("Cycle time should be positive.");
@@ -127,9 +132,11 @@ public class MapManager {
 			NightfallPlugin.logger().severe("No section found for maps in maps.yml - no maps will be created.");
 			return;
 		}
-
+		
 		for (String mapName : mapSection.getKeys(false)) {
-			String mapFilename = mapSection.getString(mapName);
+			ConfigurationSection mapConfig = mapSection.getConfigurationSection(mapName);
+			
+			String mapFilename = mapConfig.getString("folder");
 			if (mapFilename == null) {
 				NightfallPlugin.logger().severe("No map folder given for key '" + mapName +"' in maps.yml.");
 				continue;
@@ -142,6 +149,9 @@ public class MapManager {
 			}
 			
 			maps.put(mapName, mapFile);
+			
+			boolean active = mapConfig.getBoolean("active", false);
+			if (active) activeMaps.add(mapName);
 		}
 	}
 	
@@ -163,6 +173,10 @@ public class MapManager {
 		} else {
 			throw new IllegalArgumentException("Tried to insert invalid map '" + map + "'.");
 		}
+	}
+	
+	public boolean isMapActive(String map) {
+		return activeMaps.contains(map);
 	}
 	
 	public List<String> getMapQueue() {
@@ -206,7 +220,7 @@ public class MapManager {
 	}
 	
 	private GameMap loadRandomMap() {
-		String mapName = Misc.getRandom(maps.keySet());
+		String mapName = Misc.getRandom(activeMaps);
 		return loadMap(mapName);
 	}
 	

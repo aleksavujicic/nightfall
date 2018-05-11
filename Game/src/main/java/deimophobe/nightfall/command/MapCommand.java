@@ -61,11 +61,25 @@ public class MapCommand extends BaseCommand {
 	@Subcommand("list-all")
 	@Conditions("map-enabled")
 	public void onListAll(CommandSender sender) {
-		List<String> mapList = new ArrayList<>(MapManager.getManager().getMaps());
+		MapManager manager = MapManager.getManager();
+		List<String> mapList = new ArrayList<>(manager.getMaps());
 		Collections.sort(mapList);
 		
-		String maps = StringUtils.join(mapList, ChatColor.RESET + ", " + ChatColor.GREEN);
-		sender.sendMessage(ChatColor.YELLOW + "All maps: " + ChatColor.GREEN + maps);
+		StringBuilder mapListBuilder = new StringBuilder();
+		for (String map : mapList) {
+			if (manager.isMapActive(map)) {
+				mapListBuilder.append(ChatColor.GREEN.toString());
+			} else {
+				mapListBuilder.append(ChatColor.GRAY.toString());
+			}
+			mapListBuilder.append(map)
+					.append(ChatColor.RESET.toString())
+					.append(", ");
+		}
+		int length = mapListBuilder.length();
+		if (length > 0) mapListBuilder.setLength(length - 2);
+		
+		sender.sendMessage(ChatColor.YELLOW + "All maps: " + mapListBuilder.toString());
 	}
 	
 	@Subcommand("clear")
