@@ -59,9 +59,9 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 		super.onDamageAttack(damage);
 		if (isMeleeDamageFromItem(damage)) {
 			if (damage.getReceiver().isAI()) {
-				souls += 0.7;
+				souls += 0.5;
 			} else {
-				souls += 1;
+				souls += 0.75;
 			}
 		}
 		soulCheck();
