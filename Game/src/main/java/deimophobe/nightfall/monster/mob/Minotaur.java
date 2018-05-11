@@ -6,6 +6,7 @@ import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.blocktype.BlockSet;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.blocktype.ComparableBlock;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.LifetimeExpireable;
@@ -63,6 +64,7 @@ public class Minotaur extends AbstractMob {
 			public void update() {
 				super.update();
 				
+				breakAllGlassInFront();
 				if (!everyNthTick(2)) return;
 				
 				double yaw = monster.getLocation().getYaw();
@@ -79,8 +81,8 @@ public class Minotaur extends AbstractMob {
 				}
 				
 				// Do cloud and damage
-				Location loc = monster.getLocation();
-				loc.getWorld().spawnParticle(Particle.CLOUD, loc, 5, 0.5, 0.5, 0.5, 0.03);
+				Location location = monster.getLocation();
+				location.getWorld().spawnParticle(Particle.CLOUD, location, 5, 0.5, 0.5, 0.5, 0.03);
 				aoeDamage();
 				
 				// Check if ahead is a wall, and if so destroy it.
@@ -95,9 +97,31 @@ public class Minotaur extends AbstractMob {
 		});
 	}
 	
+	private void breakAllGlassInFront() {
+		Location location = monster.getEyeLocation();
+		Vector facing = location.getDirection();
+		facing.setY(0);
+		facing.multiply(0.67);
+		
+		Vector side = facing.clone();
+		Misc.rotateVector(side, Math.PI/2);
+		
+		for (int x=1; x<=4; x++) {
+			for (int y=-2; y<=2; y++) {
+				Vector forward = facing.clone().multiply(x);
+				Vector fullSide = side.clone().multiply(y);
+				Location topLoc = location.clone().add(forward).add(fullSide);
+				Location bottomLoc = topLoc.clone().add(0, -1, 0);
+				
+				trySmashGlass(topLoc);
+				trySmashGlass(bottomLoc);
+			}
+		}
+	}
+	
 	
 	private static final ComparableBlock STOMPABLE = new BlockSet(
-			BlockType.GLASS, BlockType.GRASS
+			BlockType.GLASS, BlockType.GRASS, BlockType.LEAVES
 	);
 	
 	/**
@@ -118,6 +142,14 @@ public class Minotaur extends AbstractMob {
 			return true;
 		}
 		return false;
+	}
+	
+	private static void trySmashGlass(Location location) {
+		Block block = location.getBlock();
+		
+		if (STOMPABLE.matchesBlock(block)) {
+			BlockManager.getManager().breakBlock(block);
+		}
 	}
 	
 	private static final double AOE_RADIUS = 2.5;
