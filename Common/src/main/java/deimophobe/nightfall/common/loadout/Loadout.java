@@ -15,14 +15,12 @@ public class Loadout implements SessionData {
 	public static final int MAX_POINTS = 64;
 	
 	private final SortedSet<LoadoutItem> items = new TreeSet<>();
-	private final Map<Category, LoadoutItem> categoryItems = new HashMap<>();
 	
 	public boolean selectItem(LoadoutItem item) {
 		Category cat = item.getCategory();
 		
 		if (items.contains(item)) {
 			items.remove(item);
-			if (cat != null) categoryItems.remove(cat);
 			
 			updateDisplay();
 			return true;
@@ -49,9 +47,6 @@ public class Loadout implements SessionData {
 				toRemove.forEach(items::remove);
 				
 				items.add(item);
-				if (cat.isSingleItem()) {
-					categoryItems.put(cat, item);
-				}
 				
 				updateDisplay();
 				return true;
@@ -69,7 +64,10 @@ public class Loadout implements SessionData {
 	}
 	
 	public boolean hasCategory(Category category) {
-		return categoryItems.containsKey(category);
+		for (LoadoutItem item : items) {
+			if (item.getCategory() == category) return true;
+		}
+		return false;
 	}
 	
 	public int getRemainingPoints() {
@@ -82,7 +80,6 @@ public class Loadout implements SessionData {
 	
 	public void clear() {
 		items.removeIf(item -> item.getCost() != 0);
-		categoryItems.clear();
 		
 		updateDisplay();
 	}
@@ -106,8 +103,9 @@ public class Loadout implements SessionData {
 		boolean hasKit = false;
 		for (LoadoutItem item : items) {
 			item.modify(this, construct);
-			if (item.getCategory() == Category.KIT)
+			if (item.getCategory() == Category.KIT) {
 				hasKit = true;
+			}
 		}
 		
 		// Apply warrior class if kit is empty
@@ -119,7 +117,7 @@ public class Loadout implements SessionData {
 		// Add defaults if missing
 		if (!hasKit) {
 			for (Category category : Category.values()) {
-				if (!categoryItems.containsKey(category)) {
+				if (!hasCategory(category)) {
 					category.giveDefault(construct);
 				}
 			}
