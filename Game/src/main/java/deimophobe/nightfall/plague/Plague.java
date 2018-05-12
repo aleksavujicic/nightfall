@@ -17,7 +17,7 @@ import java.util.Set;
 public abstract class Plague {
 	public abstract void startPlague();
 	
-	public void endPlague(GameDamageType reason) {
+	protected final void endPlague(GameDamageType reason) {
 		if (hasEnded()) {
 			NightfallPlugin.logger().warning("Tried to end plague but has already ended?");
 			new RuntimeException("Tried to end plague but has already ended?").printStackTrace();

@@ -3,6 +3,8 @@ package deimophobe.nightfall.cooldown;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by Deimophobe on 28/04/18.
  */
@@ -31,6 +33,8 @@ public class CooldownHolder implements Updateable {
 	}
 	
 	public void addUpdateable(Updateable updateable) {
+		checkNotNull(updateable, "Updateable must not be null");
+		
 		if (updateable instanceof Expirable) {
 			expirables.add((Expirable) updateable);
 		} else {

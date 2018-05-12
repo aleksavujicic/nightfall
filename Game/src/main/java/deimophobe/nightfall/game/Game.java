@@ -50,6 +50,9 @@ import org.bukkit.scoreboard.Team;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
+
 /**
  * Created by Deimophobe on 15/01/17.
  */
@@ -205,19 +208,13 @@ public class Game {
 	
 	public GamePlayer getGamePlayer(String name) {
 		Dwarf dwarf = dwarfManager.getGamePlayer(name);
+		if (dwarf != null) return dwarf;
 		
-		if (dwarf != null) {
-			return dwarf;
-		}
-		else {
-			return monsterManager.getGamePlayer(name);
-		}
+		return monsterManager.getGamePlayer(name);
 	}
 	
 	public GameEntity getGameEntity(Entity entity) {
-		if (entity == null) {
-			return null;
-		}
+		if (entity == null) return null;
 		
 		if (entity.getType() == EntityType.PLAYER) {
 			return getGamePlayer((Player) entity);
@@ -495,9 +492,8 @@ public class Game {
 	// ------ CURSES ------
 	private final Map<Curse, Integer> activeCurses = new HashMap<>();
 	public void addCurse(Curse curse, int duration) {
-		if (duration <= 0) {
-			throw new IllegalArgumentException("Duration of curse " + curse + " must be strictly positive (got " + duration + ")");
-		}
+		checkArgument(curse != null, "Curse must not be null");
+		checkArgument(duration > 0, "Duration of curse %s must be strictly positive (got %s)", curse, duration);
 		
 		activeCurses.compute(curse, (c, d) -> {
 			if (d == null) {
@@ -542,7 +538,8 @@ public class Game {
 	
 	// ------ GAME PHASES -------
 	public void startLobby() {
-		phase = Phase.STARTING;
+		transitionToPhase(Phase.STARTING);
+		
 		sidebarObj.setDisplaySlot(null);
 		
 		if (MapManager.getManager().isEnabled()) {
@@ -556,8 +553,7 @@ public class Game {
 	}
 	
 	public void startGame() {
-		if (phase != Phase.STARTING) return;
-		phase = Phase.BUILD;
+		transitionToPhase(Phase.BUILD);
 		
 		sidebarObj.setDisplaySlot(DisplaySlot.SIDEBAR);
 		
@@ -596,8 +592,6 @@ public class Game {
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), buildTime);
 		timeManager.addTarget(buildTime, Misc.randomInt(13500, 14500));
-		
-		Bukkit.getServer().getPluginManager().callEvent(new PhaseChangeEvent(phase));
 	}
 	
 	public void startPlague() {
@@ -605,8 +599,7 @@ public class Game {
 	}
 	
 	public void startPlague(PlagueType plagueType) {
-		if (phase != Phase.BUILD) return;
-		phase = Phase.PLAGUE;
+		transitionToPhase(Phase.PLAGUE);
 		
 		if (plagueType == null) plagueType = PlagueType.getRandomPlagueType();
 		Plague plague = plagueType.createPlague();
@@ -630,8 +623,6 @@ public class Game {
 				}
 			}.runTaskLater(NightfallPlugin.getPlugin(), 120 * 20);
 		}
-		
-		Bukkit.getServer().getPluginManager().callEvent(new PhaseChangeEvent(phase));
 	}
 
 	public Plague getPlague() {
@@ -646,8 +637,7 @@ public class Game {
 	}
 	
 	private void releaseMonsters() {
-		if (phase != Phase.PLAGUE) return;
-		phase = Phase.GAME;
+		transitionToPhase(Phase.GAME);
 		
 		this.activePlague = null;
 
@@ -660,20 +650,24 @@ public class Game {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			bossBar.addPlayer(player);
 		}
-		
-		Bukkit.getServer().getPluginManager().callEvent(new PhaseChangeEvent(phase));
 	}
 	
 	public void endGame() {
-		if (phase != Phase.GAME) return;
-		phase = Phase.END;
+		transitionToPhase(Phase.END);
 		
 		bossBar.setProgress(0);
 		bossBar.setTitle(ChatColor.RED + "The Dwarves Have Fallen!");
 		bossBar.setColor(BarColor.RED);
 		
 		MapManager.getManager().scheduleNewGame();
+	}
+	
+	private void transitionToPhase(Phase transitionPhase) {
+		Phase requiredPhase = transitionPhase.previousPhase();
+		checkState(phase == requiredPhase, "Phase must be " + requiredPhase + " but got " + phase + " instead.");
 		
+		phase = transitionPhase;
+		NightfallPlugin.logger().info("Starting phase " + phase);
 		Bukkit.getServer().getPluginManager().callEvent(new PhaseChangeEvent(phase));
 	}
 	
@@ -725,12 +719,6 @@ public class Game {
 				break;
 		}
 		updateDwarfCount();
-	}
-	
-	
-	public boolean isNight() {
-		long time = GameMap.getCurrentMap().getWorld().getTime();
-		return (12500 < time && time < 23450);
 	}
 
 	public boolean potionsDisabled() {
