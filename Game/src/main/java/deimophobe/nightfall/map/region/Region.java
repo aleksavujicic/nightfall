@@ -46,6 +46,8 @@ public interface Region {
 				return new OrRegion(map, section);
 			case "and":
 				return new AndRegion(map, section);
+			case "not":
+				return new NotRegion(map, section);
 			default:
 				NightfallPlugin.logger().severe("Region type unknown: '"+type+"'");
 				throw new InvalidMapConfigException("Unknown region type: '" + type + "' at " + section.getCurrentPath());
