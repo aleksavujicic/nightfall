@@ -490,29 +490,26 @@ public class Game {
 	
 	
 	// ------ CURSES ------
-	private final Map<Curse, Integer> activeCurses = new HashMap<>();
-	public void addCurse(Curse curse, int duration) {
+	private final Map<Curse, Integer> curseExpiries = new HashMap<>();
+	public void addCurse(Curse curse, int seconds) {
 		checkArgument(curse != null, "Curse must not be null");
-		checkArgument(duration > 0, "Duration of curse %s must be strictly positive (got %s)", curse, duration);
+		checkArgument(seconds > 0, "Duration of curse %s must be strictly positive (got %s)", curse, seconds);
 		
-		activeCurses.compute(curse, (c, d) -> {
-			if (d == null) {
-				return duration;
+		int expiryTime = getCurrentTick() + seconds*20;
+		curseExpiries.compute(curse, (c, time) -> {
+			if (time == null) {
+				return expiryTime;
 			}
 			else {
-				return Math.max(d, duration);
+				return Math.max(time, expiryTime);
 			}
 		});
 		
 	}
 	
 	public boolean isCurseActive(Curse curse) {
-		return activeCurses.containsKey(curse);
-	}
-	
-	private void updateCurses() {
-		activeCurses.replaceAll((curse, time) -> time-1);
-		activeCurses.entrySet().removeIf(entry -> entry.getValue() == 0);
+		curseExpiries.putIfAbsent(curse, 0);
+		return curseExpiries.get(curse) >= getCurrentTick();
 	}
 	
 	
@@ -524,10 +521,6 @@ public class Game {
 	
 	private void update() {
 		tickNumber++;
-		if (tickNumber % 20 == 0) {
-			updateCurses();
-		}
-		
 		cooldownHolder.update();
 	}
 	
