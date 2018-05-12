@@ -6,7 +6,6 @@ import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -112,7 +111,7 @@ public class Bopen extends AbstractMob {
 			horse.remove();
 			horse = null;
 			cooldown = MAX_CD;
-			monster.useItem(Material.SADDLE);
+			removeItem("saddle");
 		}
 	}
 }

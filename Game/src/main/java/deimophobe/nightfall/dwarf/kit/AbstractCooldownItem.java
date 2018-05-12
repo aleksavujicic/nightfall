@@ -21,14 +21,14 @@ public abstract class AbstractCooldownItem extends AbstractCooldown implements I
 	}
 	
 	@Override
-	public boolean matchesItem(ItemStack toMatch) {
+	public boolean doesItemMatch(ItemStack toMatch) {
 		if (toMatch == null) return false;
 		return getItem().isSimilar(toMatch);
 	}
 	
 	@Override
 	public boolean isHoldingItem() {
-		return (matchesItem(dwarf.getHeldItem()));
+		return (doesItemMatch(dwarf.getHeldItem()));
 	}
 	
 	protected boolean itemCausedDamage(MonsterDamage damage) {

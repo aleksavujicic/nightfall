@@ -311,20 +311,20 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		}
 	}
 	
-	public void giveConsumable(ConsumableType type, int quantity) {
-		giveConsumable(type, quantity, false);
+	public void giveConsumable(ConsumableType consumable, int quantity) {
+		giveConsumable(consumable, quantity, false);
 	}
 	
-	public void giveConsumable(ConsumableType type) {
-		giveConsumable(type, 1);
+	public void giveConsumable(ConsumableType consumable) {
+		giveConsumable(consumable, 1);
 	}
 	
-	public boolean hasConsumable(ConsumableType type) {
-		return hasItem(type.getItemStack().getType());
+	public boolean hasConsumable(ConsumableType consumable) {
+		return hasItem(consumable);
 	}
 	
-	public boolean forceUseConsumable(ConsumableType type) {
-		return useItem(type.getItemStack().getType());
+	public boolean forceUseConsumable(ConsumableType consumable) {
+		return removeItem(consumable);
 	}
 	
 	
@@ -746,7 +746,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	@Override
 	public void onRemove() {
 		super.onRemove();
-		clearCraftingInvetory();
 		kit.onRemove();
 		SkinManager.getManager().removeSkinChange(this);
 		DisguiseAPI.undisguiseToAll(player);

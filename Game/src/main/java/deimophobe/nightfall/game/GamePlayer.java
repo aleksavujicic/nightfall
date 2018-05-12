@@ -17,6 +17,7 @@ import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.util.NMSUtil;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.apache.commons.lang3.mutable.MutableInt;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -211,6 +212,57 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	
 	
 	// ------ INVENTORY ------
+	private void iterateThroughInventory(Consumer<ItemStack> itemConsumer) {
+		iterateThroughInventory(item -> {
+			itemConsumer.accept(item);
+			return null;
+		});
+	}
+	
+	private void iterateThroughInventory(Function<ItemStack, ItemStack> itemChanger) {
+		PlayerInventory inv = player.getInventory();
+		ListIterator<ItemStack> iterator = inv.iterator();
+		
+		// Iterate through normal inv
+		while (iterator.hasNext()) {
+			ItemStack item = iterator.next();
+			ItemStack newItem = itemChanger.apply(item);
+			if (newItem != null) iterator.set(newItem);
+		}
+		
+		// Disabled because setting doesn't work for some reason
+		/*
+		// Iterate item too
+		ItemStack cursor = player.getItemOnCursor();
+		ItemStack newCursor = itemChanger.apply(cursor);
+		if (newCursor != null) player.setItemOnCursor(newCursor);
+		
+		// And 2x2 crafting window if need be
+		InventoryView view = player.getOpenInventory();
+		if (view.getType() == InventoryType.CRAFTING) {
+			ListIterator<ItemStack> topIterator = view.getTopInventory().iterator();
+			
+			while (topIterator.hasNext()) {
+				ItemStack item = topIterator.next();
+				ItemStack newItem = itemChanger.apply(item);
+				if (newItem != null) topIterator.set(newItem);
+			}
+		}
+		*/
+	}
+	
+	// Clearing
+	public void clearInventory() {
+		player.getInventory().clear();
+		player.setItemOnCursor(null);
+		
+		InventoryView view = player.getOpenInventory();
+		if (view.getType() == InventoryType.CRAFTING) {
+			view.getTopInventory().clear();
+		}
+	}
+	
+	// Held Items
 	public ItemStack getHeldItem() {
 		return player.getInventory().getItemInMainHand();
 	}
@@ -222,8 +274,12 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	}
 	
 	public boolean isHolding(ItemStack item) {
+		return isHolding(item::isSimilar);
+	}
+	
+	public boolean isHolding(ItemMatcher matcher) {
 		ItemStack held = getHeldItem();
-		return (held != null && held.isSimilar(item));
+		return matcher.doesItemMatch(held);
 	}
 	
 	public void useHeldItem() {
@@ -240,17 +296,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 		}
 	}
 	
-	public void giveItem(ItemStack item, int quantity, boolean dropRemaining) {
-		if (item == null) return;
-		ItemStack copy = item.clone();
-		copy.setAmount(quantity);
-		HashMap<Integer, ItemStack> remaining = player.getInventory().addItem(copy);
-		if (dropRemaining) {
-			ItemStack drop = remaining.get(0);
-			if (drop != null)
-				player.getWorld().dropItemNaturally(player.getLocation(), drop);
-		}
-	}
+	// Inventory manipulation
 	public void giveItem(ItemStack item) {giveItem(item,1, false);}
 	
 	public void giveItem(CustomItem item) {
@@ -261,83 +307,58 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 		giveItem(item.createItemStack(), quantity, false);
 	}
 	
-	public void clearInventory() {
-		player.getInventory().clear();
-		player.setItemOnCursor(null);
-		clearCraftingInvetory();
-	}
-	
-	public void clearCraftingInvetory() {
-		InventoryView view = player.getOpenInventory();
-		if (view.getType() == InventoryType.CRAFTING) {
-			view.getTopInventory().clear();
-		}
-	}
-	
-	@Deprecated
-	public int replaceItem(ItemStack oldItem, ItemStack newItem) {
-		return replaceItem(oldItem::isSimilar, newItem);
-	}
-	
-	@Deprecated
-	public int replaceItem(CustomItem oldItem, ItemStack newItem) {
-		return replaceItem(oldItem::isSimilar, newItem);
-	}
-	
-	public int replaceItem(Predicate<ItemStack> matcher, ItemStack newItem) {
-		PlayerInventory inv = player.getInventory();
-		ListIterator<ItemStack> iterator = inv.iterator();
-		
-		int replaced = 0;
-		while (iterator.hasNext()) {
-			ItemStack item = iterator.next();
-			if (matcher.test(item)) {
-				iterator.set(newItem);
-				replaced++;
+	public void giveItem(ItemStack item, int quantity, boolean dropRemaining) {
+		if (item == null) return;
+		ItemStack copy = item.clone();
+		copy.setAmount(quantity);
+		HashMap<Integer, ItemStack> remaining = player.getInventory().addItem(copy);
+		if (dropRemaining) {
+			ItemStack drop = remaining.get(0);
+			if (drop != null) {
+				player.getWorld().dropItemNaturally(player.getLocation(), drop);
 			}
 		}
-		
-		// Replace cursor item too
-		if (matcher.test(player.getItemOnCursor())) {
-			player.setItemOnCursor(newItem);
-			replaced++;
-		}
-		
-		return replaced;
 	}
 	
-	@Deprecated
-	public boolean hasItem(Material material) {
-		return player.getInventory().contains(material);
+	public boolean hasItem(ItemMatcher matcher) {
+		return hasItem(matcher, 1);
 	}
 	
-	@Deprecated
-	public boolean hasItem(Material material, int amt) {
-		return player.getInventory().contains(material, amt);
+	public boolean hasItem(ItemMatcher matcher, int count) {
+		return getItemCount(matcher) >= count;
 	}
 	
-	public boolean hasItem(CustomItem customItem) {
-		PlayerInventory inv = player.getInventory();
-		ListIterator<ItemStack> iterator = inv.iterator();
-		
-		while (iterator.hasNext()) {
-			ItemStack item = iterator.next();
-			if (customItem.isSimilar(item)) return true;
-		}
-		return false;
-	}
-	
-	@Deprecated
-	public boolean useItem(Material material) {
-		if (material == null) throw new NullPointerException("Cannot force use null item.");
-		
-		for (ItemStack invItem : player.getInventory()) {
-			if (invItem != null && invItem.getType() == material) {
-				invItem.setAmount(invItem.getAmount() - 1);
-				return true;
+	public int getItemCount(ItemMatcher matcher) {
+		MutableInt count = new MutableInt(0);
+		iterateThroughInventory(item -> {
+			if (matcher.doesItemMatch(item)) {
+				count.add(1);
 			}
-		}
-		return false;
+		});
+		
+		return count.getValue();
+	}
+	
+	public int replaceItem(ItemStack old, ItemStack newItem) {
+		return replaceItem(old::isSimilar, newItem);
+	}
+	
+	public int replaceItem(ItemMatcher matcher, ItemStack newItem) {
+		return replaceItem(matcher, item -> newItem);
+	}
+	
+	public int replaceItem(ItemMatcher matcher, Function<ItemStack, ItemStack> itemChanger) {
+		MutableInt replaced = new MutableInt(0);
+		iterateThroughInventory(item -> {
+			if (matcher.doesItemMatch(item)) {
+				ItemStack newItem = itemChanger.apply(item);
+				replaced.add(1);
+				return newItem;
+			}
+			return item;
+		});
+		
+		return replaced.getValue();
 	}
 	
 	@Deprecated
@@ -357,33 +378,36 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 		return false;
 	}
 	
-	@Deprecated
-	public boolean useItem(Material material, int amt) {
-		for (int i=0; i<amt; i++) {
-			boolean used = useItem(material);
-			if (!used) return false;
-		}
-		return true;
+	public boolean removeItem(ItemMatcher matcher) {
+		return removeItems(matcher, 1);
 	}
 	
-	public int getItemCount(ItemMatcher matcher) {
-		int count = 0;
-		for (ItemStack item : player.getInventory()) {
-			if (item == null) continue;
-			if (!matcher.doesItemMatch(item)) continue;
+	public boolean removeItems(ItemMatcher matcher, int amountToRemove) {
+		MutableInt toRemove = new MutableInt(amountToRemove);
+		iterateThroughInventory(item -> {
+			if (toRemove.getValue() == 0) return null;
 			
-			count += item.getAmount();
-		}
-		return count;
+			if (matcher.doesItemMatch(item)) {
+				// Get item amt
+				int amount = item.getAmount();
+				// Remove as much as you can
+				int toRemoveFromItem = Math.min(amount, toRemove.getValue());
+				// Update amounts appropriately
+				item.setAmount(amount - toRemoveFromItem);
+				toRemove.subtract(toRemoveFromItem);
+				return item;
+			}
+			return null;
+		});
+		
+		return toRemove.getValue() == 0;
 	}
 	
-	public void removeItems(ItemMatcher matcher) {
-		for (ItemStack item : player.getInventory()) {
-			if (item == null) continue;
-			if (!matcher.doesItemMatch(item)) continue;
-			
+	public void removeAllItems(ItemMatcher matcher) {
+		replaceItem(matcher, item -> {
 			item.setAmount(0);
-		}
+			return item;
+		});
 	}
 	
 	
@@ -478,7 +502,6 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	
 	public void onRemove() {
 		clearInventory();
-		clearCraftingInvetory();
 	}
 	
 	// Abstract methods

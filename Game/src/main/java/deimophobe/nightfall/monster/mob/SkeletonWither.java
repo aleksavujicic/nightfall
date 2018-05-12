@@ -17,7 +17,6 @@ import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.util.ArrowMisc;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -99,10 +98,10 @@ class SkeletonWither extends AbstractToggleSkeleton {
 	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {
 		if (isToggled()) {
-			if (!monster.hasItem(Material.ARROW, 2)) return null;
+			if (hasItem("arrow", 2)) return null;
 			if (force < 0.7) return null;
 			
-			monster.useItem(Material.ARROW, 2);
+			removeItem("arrow", 2);
 
 			Location loc = monster.getEyeLocation();
 			World world = loc.getWorld();

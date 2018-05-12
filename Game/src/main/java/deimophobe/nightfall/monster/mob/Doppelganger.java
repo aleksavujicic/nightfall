@@ -224,8 +224,7 @@ public class Doppelganger extends AbstractMob {
 		
 		hidden = false;
 		
-		// Removes unhider
-		monster.useItem(Material.FEATHER);
+		removeItem("unhider");
 	}
 	
 	

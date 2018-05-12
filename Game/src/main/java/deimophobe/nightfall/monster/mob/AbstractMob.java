@@ -287,6 +287,26 @@ public abstract class AbstractMob implements Mob {
 		return isPlayerHoldingItem("weapon");
 	}
 	
+	protected final boolean hasItem(String name) {
+		CustomItem item = getItem(name);
+		return monster.hasItem(item);
+	}
+	
+	protected final boolean hasItem(String name, int amount) {
+		CustomItem item = getItem(name);
+		return monster.hasItem(item, amount);
+	}
+	
+	protected final boolean removeItem(String name) {
+		CustomItem item = getItem(name);
+		return monster.removeItem(item);
+	}
+	
+	protected final boolean removeItem(String name, int amount) {
+		CustomItem item = getItem(name);
+		return monster.removeItems(item, amount);
+	}
+	
 	protected final void dropFakeItem(String name) {
 		ItemStack itemStack = getItem(name).createItemStack();
 		Item item = monster.getWorld().dropItemNaturally(monster.getEyeLocation(), itemStack);

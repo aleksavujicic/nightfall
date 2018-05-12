@@ -29,7 +29,7 @@ public class FurnaceConsumable extends Consumable {
 		int count;
 		if (dwarf.isSneaking()) {
 			count = dwarf.getItemCount(this);
-			dwarf.removeItems(this);
+			dwarf.removeAllItems(this);
 		} else {
 			count = dwarf.getHeldItemCount();
 			dwarf.useHeldItemStack();

@@ -19,14 +19,14 @@ public abstract class AbstractItem extends AbstractPiece implements ItemPiece {
 	}
 	
 	@Override
-	public boolean matchesItem(ItemStack toMatch) {
+	public boolean doesItemMatch(ItemStack toMatch) {
 		if (toMatch == null) return false;
 		return getItem().isSimilar(toMatch);
 	}
 	
 	@Override
 	public boolean isHoldingItem() {
-		return (matchesItem(dwarf.getHeldItem()));
+		return (doesItemMatch(dwarf.getHeldItem()));
 	}
 	
 	protected boolean isMeleeDamageFromItem(MonsterDamage damage) {
@@ -46,7 +46,7 @@ public abstract class AbstractItem extends AbstractPiece implements ItemPiece {
 	}
 	
 	private boolean trySetShiny(ItemStack item, boolean shiny) {
-		if (!matchesItem(item)) return false;
+		if (!doesItemMatch(item)) return false;
 		
 		if (shiny) {
 			if (item.containsEnchantment(Enchantment.DURABILITY)) return false;

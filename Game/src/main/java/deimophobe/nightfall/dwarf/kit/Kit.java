@@ -123,7 +123,7 @@ public class Kit {
 	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
 		ItemStack held = dwarf.getHeldItem();
 		for (ItemPiece item : itemPieces) {
-			if (item.matchesItem(held)) {
+			if (item.doesItemMatch(held)) {
 				return item.onUse(click, clickedBlock, blockFace);
 			}
 		}
@@ -139,7 +139,7 @@ public class Kit {
 	public Projectile onBowFire(Arrow arrow, float force) {
 		ItemStack held = dwarf.getHeldItem();
 		for (BowPiece bow : bowPieces) {
-			if (bow.matchesItem(held)) {
+			if (bow.doesItemMatch(held)) {
 				return bow.onBowFire(arrow, force);
 			}
 		}
@@ -190,7 +190,7 @@ public class Kit {
 	public void updateHotbarSlot(ItemStack newItem) {
 		if (newItem == null) return;
 		for (ItemPiece item : itemPieces) {
-			if (item.matchesItem(newItem)) {
+			if (item.doesItemMatch(newItem)) {
 				if (cooldownPieces.contains(item))
 					lastHeld = (CooldownPiece) item;
 				
