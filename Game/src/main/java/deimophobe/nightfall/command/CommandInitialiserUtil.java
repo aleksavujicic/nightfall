@@ -327,6 +327,7 @@ public class CommandInitialiserUtil {
 			String playerTypeName,
 			boolean allowAll
 	) throws InvalidCommandArgument {
+		String name = context.getFirstArg();
 		if (isSelfPlayerArg(context, playerTypeName)) {
 			// Arg is referring to self player
 			Player self = context.getPlayer();
@@ -335,7 +336,6 @@ public class CommandInitialiserUtil {
 			if (gamePlayer == null) throw new InvalidCommandArgument(ChatColor.RED + "You are not a " + playerTypeName);
 			return Collections.singleton(gamePlayer);
 		} else {
-			String name = context.popFirstArg();
 			switch (name) {
 				case RANDOM_PLAYER: {
 					// Arg is referring to random player
