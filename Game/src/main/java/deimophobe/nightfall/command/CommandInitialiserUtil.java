@@ -327,42 +327,56 @@ public class CommandInitialiserUtil {
 			String playerTypeName,
 			boolean allowAll
 	) throws InvalidCommandArgument {
-		// There is probably a better way to do this
-		String name = context.getFirstArg();
-		
-		if (name == null && !context.isOptional() && !context.hasFlag("self")) throw new InvalidCommandArgument(ChatColor.RED + "Please provide a " + playerTypeName);
-		
-		boolean setSelfAsGamePlayer = name == null || name.equals(".") || name.equals("~") || context.hasFlag("self");
-		if (setSelfAsGamePlayer) {
+		if (isSelfPlayerArg(context, playerTypeName)) {
 			// Arg is referring to self player
-			if (context.getPlayer() == null) throw new InvalidCommandArgument(ChatColor.RED + "Console is not a " + playerTypeName);
-			T gamePlayer = playerNameResolver.apply(context.getPlayer().getName());
+			Player self = context.getPlayer();
+			if (self == null) throw new InvalidCommandArgument(ChatColor.RED + "Console is not a " + playerTypeName);
+			T gamePlayer = playerNameResolver.apply(self.getName());
 			if (gamePlayer == null) throw new InvalidCommandArgument(ChatColor.RED + "You are not a " + playerTypeName);
 			return Collections.singleton(gamePlayer);
 		} else {
-			context.popFirstArg();
+			String name = context.popFirstArg();
 			switch (name) {
 				case RANDOM_PLAYER: {
 					// Arg is referring to random player
 					T gamePlayer = Misc.getRandom(collectionSupplier.get());
-					if (gamePlayer == null)
-						throw new InvalidCommandArgument(ChatColor.RED + "Cannot find any " + playerTypeName);
+					if (gamePlayer == null) throw new InvalidCommandArgument(ChatColor.RED + "Cannot find any " + playerTypeName);
 					return Collections.singleton(gamePlayer);
 				}
 				case ALL_PLAYER:
 					// Arg is referring to all player
-					if (allowAll) {
-						return collectionSupplier.get();
-					} else {
-						throw new InvalidCommandArgument(ChatColor.RED + "You cannot use @a here");
-					}
+					if (!allowAll) throw new InvalidCommandArgument(ChatColor.RED + "You cannot use @a here");
+					
+					return collectionSupplier.get();
 				default: {
 					// Arg is referring to a specified player
 					T gamePlayer = playerNameResolver.apply(name);
-					if (gamePlayer == null)
-						throw new InvalidCommandArgument(ChatColor.RED + "Player '" + ChatColor.YELLOW + name + ChatColor.RED + "' is not a " + playerTypeName);
+					if (gamePlayer == null) throw new InvalidCommandArgument(ChatColor.RED + "Player '" + ChatColor.YELLOW + name + ChatColor.RED + "' is not a " + playerTypeName);
 					return Collections.singleton(gamePlayer);
 				}
+			}
+		}
+		
+	}
+	
+	private static boolean isSelfPlayerArg(BukkitCommandExecutionContext context, String playerTypeName) throws InvalidCommandArgument {
+		if (context.hasFlag("self")) return true;
+		
+		String arg = context.popFirstArg();
+		if (arg == null) {
+			if (context.isOptional()) {
+				return true;
+			} else {
+				throw new InvalidCommandArgument(ChatColor.RED + "Please provide a " + playerTypeName);
+			}
+		} else {
+			switch (arg) {
+				case "~":
+				case ".":
+					return true;
+				
+				default:
+					return false;
 			}
 		}
 		
