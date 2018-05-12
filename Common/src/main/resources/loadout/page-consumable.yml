@@ -268,6 +268,7 @@ builder-one:
     torch: 32
     mortar: 32
     cobblestone: 96
+    glass: 16
   item:
     name: "Builder's Pack I"
     base: menu.builder
@@ -275,9 +276,7 @@ builder-one:
       description:
        - "Gives you a Tier 1 Builder's Pack.\n
           This contains the following items:\n
-          *32 Torches\n
-          *32 Mortar\n
-          *96 Cobblestone."
+          $itemlist"
 builder-two:
   index: 15
   cost: 4
@@ -287,6 +286,7 @@ builder-two:
     torch: 64
     mortar: 64
     cobblestone: 192
+    glass: 32
   item:
     name: "Builder's Pack II"
     base: menu.builder2
@@ -294,9 +294,7 @@ builder-two:
       description:
        - "Gives you a Tier 2 Builder's Pack.\n
           This contains the following items:\n
-          *64 Torches\n
-          *64 Mortar\n
-          *192 Cobblestone."
+          $itemlist"
 builder-three:
   index: 24
   cost: 8
@@ -306,6 +304,7 @@ builder-three:
     torch: 128
     mortar: 128
     cobblestone: 384
+    glass: 64
   item:
     name: "Builder's Pack III"
     base: menu.builder3
@@ -313,9 +312,7 @@ builder-three:
       description:
        - "Gives you a Tier 3 Builder's Pack.\n
           This contains the following items:\n
-          *128 Torches\n
-          *128 Mortar\n
-          *384 Cobblestone."
+          $itemlist"
 
 procbottle-one:
   index: 7
