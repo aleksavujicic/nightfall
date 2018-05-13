@@ -64,7 +64,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	@Override
 	protected MonsterPlayer createGamePlayerFromPlayer(Player player) {
 		MonsterPlayer p = new MonsterPlayer(player);
-		p.forceGainXP(xpCount);
+		p.forceGainExp(xpCount);
 		return p;
 	}
 	
@@ -110,8 +110,8 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 			@Override public void run() { updateEggs(); }
 		}.runTaskTimer(NightfallPlugin.getPlugin(), 90*20, 60*20);
 		
-		getGamePlayers().forEach(mp -> mp.forceGainXP(6000));
-		//getOfflinePlayers().forEach(mp -> mp.forceGainXP(6000));
+		getGamePlayers().forEach(mp -> mp.forceGainExp(6000));
+		//getOfflinePlayers().forEach(mp -> mp.forceGainExp(6000));
 	}
 	
 	

@@ -9,7 +9,10 @@ import deimophobe.nightfall.cooldown.*;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.map.GameMap;
+import deimophobe.nightfall.map.region.Region;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
@@ -353,7 +356,7 @@ public abstract class AbstractMob implements Mob {
 				break;
 		}
 		int finalXpGain = xpGain;
-		damage.addPostDamageHandler(() -> monster.gainXP(finalXpGain));
+		damage.addPostDamageHandler(() -> monster.gainExp(finalXpGain));
 	}
 	
 	@Override
@@ -378,7 +381,7 @@ public abstract class AbstractMob implements Mob {
 	@Override
 	public boolean onBlockBreak(Block block, boolean didBreak) {
 		if (block.getType() == Material.TORCH && didBreak)
-			monster.gainXP(mobData.torchXP);
+			monster.gainExp(mobData.torchXP);
 		return didBreak;
 	}
 	
@@ -394,6 +397,17 @@ public abstract class AbstractMob implements Mob {
 		
 		cooldownHolder.update();
 		shrineProtTick();
+		
+		
+		if (everyNthTick(20) && Game.getGame().getPhase() == Phase.GAME) {
+			monster.gainExp(monster.getExpRate());
+		}
+		if (everyNthTick(5)) {
+			Region shrineRegion = GameMap.getCurrentMap().getCurrentShrineRegion();
+			if (shrineRegion.containsPlayer(monster) && getShrineWeight() != 0) {
+				monster.gainExp(2);
+			}
+		}
 	}
 	
 	@Override

@@ -101,7 +101,7 @@ public class MobCommand extends BaseCommand {
 	@Description("Give a monster some xp.")
 	public void giveXP(CommandSender sender, MonsterIterable monsters, int xp) {
 		monsters.forEach(m -> {
-			m.forceGainXP(xp);
+			m.forceGainExp(xp);
 			MessageUtil.sendMessage(sender, "Gave ", m, " a total of ", xp, " exp.");
 		});
 	}
@@ -111,7 +111,7 @@ public class MobCommand extends BaseCommand {
 	@Description("Set a monsters xp rate.")
 	public void setXPRate(CommandSender sender, MonsterIterable monsters, int rate) {
 		monsters.forEach(m -> {
-			m.setXPRate(rate);
+			m.setExpRate(rate);
 			MessageUtil.sendMessage(sender, "Set exp rate of ", m, " to ", rate, " exp per second.");
 		});
 	}

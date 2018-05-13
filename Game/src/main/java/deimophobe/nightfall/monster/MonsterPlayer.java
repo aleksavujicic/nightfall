@@ -14,7 +14,6 @@ import deimophobe.nightfall.event.MobSpawnEvent;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GameEntity;
 import deimophobe.nightfall.game.GamePlayer;
-import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.doom.DoomManager;
@@ -93,13 +92,6 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			} else if (mob != null) {// Update could kill mob so need to do another null check
 				player.setExp(mob.getCooldown());
 			}
-		}
-		
-		if (everySec() && isMobAlive() && Game.getGame().getPhase() == Phase.GAME) {
-			gainXP(expRate);
-		}
-		if (everyNthTick(5) && isMobAlive() && isInShrine()) {
-			if (mob.getShrineWeight() != 0) gainXP(2);
 		}
 		
 		usedThisTick = false;
@@ -298,32 +290,36 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	private int expRate = 10;
 	private static final int MAX_XP = 10000;
 	
-	public void forceGainXP(int amt) {
+	public void forceGainExp(int amt) {
 		experience += amt;
-		updateXPDisplay();
+		updateExpDisplay();
 	}
 	
-	public void gainXP(int amt) {
+	public void gainExp(int amt) {
 		experience = Math.min(Math.max(experience, MAX_XP), experience + amt);
-		updateXPDisplay();
+		updateExpDisplay();
 	}
 	
-	public boolean useXP(int xpCost) {
+	public boolean useExp(int xpCost) {
 		if (experience < xpCost) {
 			return false;
 		} else {
 			experience -= xpCost;
 			amountSpent += xpCost;
-			updateXPDisplay();
+			updateExpDisplay();
 			return true;
 		}
 	}
 	
-	public void setXPRate(int rate) {
+	public void setExpRate(int rate) {
 		expRate = rate;
 	}
 	
-	public int getXP() {
+	public int getExpRate() {
+		return expRate;
+	}
+	
+	public int getExp() {
 		return experience;
 	}
 
@@ -331,14 +327,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		return amountSpent;
 	}
 
-	private void updateXPDisplay() {
+	private void updateExpDisplay() {
 		player.setLevel(experience);
 		Game.getGame().setMana(player, experience);
 	}
-	
-	
-	
-	public boolean isInShrine() {return GameMap.getCurrentMap().getCurrentShrineRegion().containsPlayer(this);}
 	
 	
 	// ------ SPAWN/UPGRADE MENUS ------
@@ -360,7 +352,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 
 	public void resetUpgrades(double refundRate) {
 		upgrades.clear();
-		forceGainXP((int) (refundRate * amountSpent));
+		forceGainExp((int) (refundRate * amountSpent));
 		amountSpent = 0;
 	}
 	

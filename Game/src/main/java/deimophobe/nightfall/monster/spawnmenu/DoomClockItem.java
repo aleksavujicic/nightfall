@@ -38,10 +38,10 @@ class DoomClockItem implements MenuItem<MonsterPlayer> {
 		if (!isAvailable()) return false;
 		
 		MonsterPlayer monster = session.getData();
-		if (monster.useXP(xpCost)) {
+		if (monster.useExp(xpCost)) {
 			DoomManager.getManager().reduceDoom(time);
 		} else {
-			monster.sendMessage(ChatColor.RED + "Not enough exp! " + "You have " + ChatColor.AQUA + monster.getXP() +
+			monster.sendMessage(ChatColor.RED + "Not enough exp! " + "You have " + ChatColor.AQUA + monster.getExp() +
 					ChatColor.RED + "/" + ChatColor.GREEN + xpCost);
 		}
 		return false;

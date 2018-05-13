@@ -78,11 +78,11 @@ public class Assassin extends AbstractMob {
             if (damage.willKill()) {
                 if (dwarf == target) {
                     monster.sendMessage(ChatColor.DARK_RED + "You have killed your target " + ChatColor.RED + target.getName() + ChatColor.DARK_RED + ". " + ChatColor.YELLOW + "+1000 xp");
-                    monster.forceGainXP(1000);
+                    monster.forceGainExp(1000);
                 }
                 else {
                     monster.sendMessage(ChatColor.DARK_RED + "You have killed a dwarf. " + ChatColor.YELLOW + "+500 xp");
-                    monster.forceGainXP(500);
+                    monster.forceGainExp(500);
                 }
             }
         });

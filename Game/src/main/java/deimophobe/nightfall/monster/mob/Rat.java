@@ -63,7 +63,7 @@ class Rat extends AbstractMob {
 			if (BlockType.ACTIVE_SHRINE_BLOCK.matchesBlock(clickedBlock) && GameMap.getCurrentMap().hasGold()) {
 				if (clickedBlock.getLocation().distance(monster.getLocation()) <= 4) {
 					playSound("steal");
-					monster.gainXP(10);
+					monster.gainExp(10);
 					GameMap.getCurrentMap().stealGold(3);
 					stealCD = STEAL_MAX_CD;
 				}

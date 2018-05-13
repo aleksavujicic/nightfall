@@ -60,7 +60,7 @@ public class AIPlaguedZombie extends AIEntity<Zombie> {
 				if (plagued) {
 					owner.sendMessage(ChatColor.GREEN + "Your minion has spread the " + ChatColor.LIGHT_PURPLE + ChatColor.ITALIC + "plague" +
 							ChatColor.GREEN + " to " + dwarf.getDisplayName() + ChatColor.GREEN + "!" + ChatColor.YELLOW + " +1000 xp");
-					owner.forceGainXP(1000);
+					owner.forceGainExp(1000);
 				}
 			});
 		}
