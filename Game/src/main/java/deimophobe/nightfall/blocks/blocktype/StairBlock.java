@@ -5,6 +5,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Stairs;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Deimophobe on 20/06/17.
@@ -15,7 +16,7 @@ class StairBlock extends MaterialBlock {
 	}
 	
 	@Override
-	public void setAtBlock(Block block) {
+	public void setAtBlock(@NotNull Block block) {
 		MaterialData data = block.getState().getData();
 		
 		super.setAtBlock(block);

@@ -5,6 +5,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.TexturedMaterial;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Deimophobe on 20/06/17.
@@ -21,7 +22,7 @@ class TexturedBlock implements CustomBlock {
 	
 	
 	@Override
-	public void setAtBlock(Block block) {
+	public void setAtBlock(@NotNull Block block) {
 		block.setType(material);
 		BlockState state = block.getState();
 		MaterialData data = state.getData();
@@ -35,7 +36,7 @@ class TexturedBlock implements CustomBlock {
 	}
 	
 	@Override
-	public boolean matchesBlock(Block block) {
+	public boolean matchesBlock(@NotNull Block block) {
 		if (block.getType() == material) {
 			MaterialData data = block.getState().getData();
 			if (data instanceof TexturedMaterial) {

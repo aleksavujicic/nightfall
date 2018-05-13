@@ -2,6 +2,7 @@ package deimophobe.nightfall.blocks.blocktype;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -23,12 +24,12 @@ public class MaterialSet implements CustomBlock {
 	}
 	
 	@Override
-	public boolean matchesBlock(Block block) {
+	public boolean matchesBlock(@NotNull Block block) {
 		return materialSet.contains(block.getType());
 	}
 	
 	@Override
-	public void setAtBlock(Block block) {
+	public void setAtBlock(@NotNull Block block) {
 		block.setType(first);
 	}
 }

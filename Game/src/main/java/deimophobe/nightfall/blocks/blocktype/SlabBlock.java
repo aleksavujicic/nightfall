@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.material.Step;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Deimophobe on 20/06/17.
@@ -27,7 +28,7 @@ public class SlabBlock implements CustomBlock {
 	}
 	
 	@Override
-	public void setAtBlock(Block block) {
+	public void setAtBlock(@NotNull Block block) {
 		if (block.getType() == Material.STEP) {
 			Boolean inverted = this.inverted;
 			if (inverted == null) inverted = ((Step) block.getState().getData()).isInverted();
@@ -45,7 +46,7 @@ public class SlabBlock implements CustomBlock {
 	}
 	
 	@Override
-	public boolean matchesBlock(Block block) {
+	public boolean matchesBlock(@NotNull Block block) {
 		return (stepBlock.matchesBlock(block) || doubleSlabBlock.matchesBlock(block));
 	}
 	

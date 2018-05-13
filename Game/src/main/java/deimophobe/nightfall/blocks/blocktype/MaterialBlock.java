@@ -2,6 +2,7 @@ package deimophobe.nightfall.blocks.blocktype;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Deimophobe on 17/06/17.
@@ -14,12 +15,12 @@ public class MaterialBlock implements CustomBlock {
 	
 	
 	@Override
-	public void setAtBlock(Block block) {
+	public void setAtBlock(@NotNull Block block) {
 		block.setType(material);
 	}
 	
 	@Override
-	public boolean matchesBlock(Block block) {
+	public boolean matchesBlock(@NotNull Block block) {
 		return (block.getType() == material);
 	}
 }

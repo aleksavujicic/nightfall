@@ -2,13 +2,14 @@ package deimophobe.nightfall.blocks.blocktype;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Deimophobe on 17/06/17.
  */
 @FunctionalInterface
 public interface ComparableBlock {
-	boolean matchesBlock(Block block);
+	boolean matchesBlock(@NotNull Block block);
 	
 	default ComparableBlock except(ComparableBlock excepter) {
 		return block -> !excepter.matchesBlock(block) && ComparableBlock.this.matchesBlock(block);

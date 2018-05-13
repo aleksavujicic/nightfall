@@ -7,6 +7,7 @@ import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.ShulkerBox;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Deimophobe on 17/06/17.
@@ -95,7 +96,7 @@ public class BlockType {
 	
 	public static final ComparableBlock IGNITEABLE = new ComparableBlock() {
 		@Override
-		public boolean matchesBlock(Block block) {
+		public boolean matchesBlock(@NotNull Block block) {
 			if (!IGNORABLE.matchesBlock(block)) return false;
 			
 			Block below = block.getRelative(0,-1,0);

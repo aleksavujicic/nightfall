@@ -1,6 +1,7 @@
 package deimophobe.nightfall.blocks.blocktype;
 
 import org.bukkit.block.Block;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -22,7 +23,7 @@ public class BlockSet implements ComparableBlock {
 	
 	
 	@Override
-	public boolean matchesBlock(Block block) {
+	public boolean matchesBlock(@NotNull Block block) {
 		for (ComparableBlock cBlock : blockSet)
 			if (cBlock.matchesBlock(block))
 				return true;
