@@ -5,6 +5,8 @@ import com.google.common.collect.ForwardingSet;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by Deimophobe on 17/12/17.
@@ -19,6 +21,11 @@ public class WeightedSet<T extends Weightable> extends ForwardingSet<T> {
 	
 	public WeightedSet() {
 		this.delegate = new HashSet<>();
+	}
+	
+	@SafeVarargs
+	public WeightedSet(T... elements) {
+		this.delegate = Stream.of(elements).collect(Collectors.toSet());
 	}
 	
 	@Override

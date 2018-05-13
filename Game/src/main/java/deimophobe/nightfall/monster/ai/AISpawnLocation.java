@@ -4,6 +4,7 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.util.WeightedSet;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -61,16 +62,10 @@ class AISpawnLocation {
 			if (Math.random() > 0.1) return;
 		}
 		
-		// Choose amt of AIs to spawn
-		int amtToSpawn = 1;
-		double rand = Math.random();
-		if (rand < 0.35) amtToSpawn++;
-		if (rand < 0.15) amtToSpawn++;
 		// Spawn them
-		manager.spawnAIs(AIType.ZOMBIE, location, closestDwarf, amtToSpawn);
-		
-		// Reduce life based on ais spawned and number of close dwarves
-		life -= 3 + amtToSpawn;
+		AISpawner spawner = SPAWNERS.getRandom();
+		int cost = spawner.spawn(location, closestDwarf);
+		life -= cost;
 	}
 	
 	boolean isWithinRange(Location loc, double range) {
@@ -88,4 +83,19 @@ class AISpawnLocation {
 	void showToPlayer(Player player) {
 		player.spawnParticle(Particle.HEART, location, 1, 0, 0, 0);
 	}
+	
+	private static final WeightedSet<AISpawner> SPAWNERS = new WeightedSet<>(
+			new SimpleAISpawner(95, (location, target) -> {
+				int amtToSpawn = 1;
+				double rand = Math.random();
+				if (rand < 0.35) amtToSpawn++;
+				if (rand < 0.15) amtToSpawn++;
+				AIManager.getManager().spawnAIs(AIType.ZOMBIE, location, target, amtToSpawn);
+				return 3 + amtToSpawn;
+			})
+//			new SimpleAISpawner(95, (location, target) -> {
+//				AIManager.getManager().spawnAIs(AIType.FIRE_SKELLY, location, target, 1);
+//				return 3;
+//			})
+	);
 }
