@@ -7,6 +7,7 @@ import java.util.function.Supplier;
  */
 public enum DataHandlerType {
 	NONE(DefaultHandler::new),
+	FLAT(FlatFileHandler::new),
 	MONGO(MongoHandler::new),
 	
 	;
