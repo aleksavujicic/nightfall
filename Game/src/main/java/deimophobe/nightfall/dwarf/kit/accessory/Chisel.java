@@ -16,6 +16,7 @@ import org.bukkit.block.BlockState;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Stairs;
 import org.bukkit.material.Step;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 import java.util.List;
@@ -90,7 +91,7 @@ public class Chisel extends AbstractItem {
 		}
 		
 		@Override
-		public boolean matchesBlock(Block block) {
+		public boolean matchesBlock(@NotNull Block block) {
 			if (block.getType() == Material.COBBLESTONE_STAIRS) {
 				MaterialData data = block.getState().getData();
 				if (data instanceof Stairs) {
@@ -102,7 +103,7 @@ public class Chisel extends AbstractItem {
 		}
 		
 		@Override
-		public void setAtBlock(Block block) {
+		public void setAtBlock(@NotNull Block block) {
 			block.setType(Material.COBBLESTONE_STAIRS);
 			
 			BlockState state = block.getState();
@@ -125,7 +126,7 @@ public class Chisel extends AbstractItem {
 		}
 		
 		@Override
-		public void setAtBlock(Block block) {
+		public void setAtBlock(@NotNull Block block) {
 			block.setType(Material.STEP);
 			
 			BlockState state = block.getState();
@@ -139,7 +140,7 @@ public class Chisel extends AbstractItem {
 		}
 		
 		@Override
-		public boolean matchesBlock(Block block) {
+		public boolean matchesBlock(@NotNull Block block) {
 			if (block.getType() == Material.STEP) {
 				MaterialData data = block.getState().getData();
 				if (data instanceof Step) {
@@ -154,12 +155,12 @@ public class Chisel extends AbstractItem {
 	private static class Cobble implements CustomBlock {
 		
 		@Override
-		public void setAtBlock(Block block) {
+		public void setAtBlock(@NotNull Block block) {
 			block.setType(Material.COBBLESTONE);
 		}
 		
 		@Override
-		public boolean matchesBlock(Block block) {
+		public boolean matchesBlock(@NotNull Block block) {
 			return block.getType() == Material.COBBLESTONE;
 		}
 	}
