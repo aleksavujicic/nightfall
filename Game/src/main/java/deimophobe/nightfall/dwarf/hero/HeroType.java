@@ -1,10 +1,10 @@
 package deimophobe.nightfall.dwarf.hero;
 
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.common.MalformedConfigurationException;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.UnknownEnumElementException;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
@@ -37,7 +37,7 @@ public enum HeroType {
 			HeroData data;
 			try {
 				data = new HeroData(config, this);
-			} catch (InvalidConfigurationException e) {
+			} catch (MalformedConfigurationException e) {
 				NightfallPlugin.logger().severe("Failed to load HeroType: " + this.name());
 				e.printStackTrace();
 				data = null;

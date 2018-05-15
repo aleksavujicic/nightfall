@@ -11,9 +11,9 @@ import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.TimeManager;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.common.cosmetic.CosmeticManager;
-import deimophobe.nightfall.common.cosmetic.Cosmetics;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
+import deimophobe.nightfall.common.player.cosmetic.Cosmetics;
+import deimophobe.nightfall.common.player.cosmetic.PlayerManager;
 import deimophobe.nightfall.cooldown.CooldownHolder;
 import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -692,7 +692,7 @@ public class Game {
 				player.setExp(0);
 				player.setLevel(0);
 				
-				Cosmetics cosmetics = CosmeticManager.getManager().getCosmetic(player);
+				Cosmetics cosmetics = PlayerManager.getManager().getCosmetics(player);
 				cosmetics.updateTitle();
 				cosmetics.equipHat();
 				//Loadout.updateLoadoutDisplay(player);

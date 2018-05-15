@@ -1,6 +1,7 @@
 package deimophobe.nightfall.common.database;
 
 import com.mongodb.MongoClient;
+import deimophobe.nightfall.common.database.data.PlayerData;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
@@ -9,30 +10,32 @@ import java.util.UUID;
 /**
  * Created by Deimophobe on 8/01/18.
  */
-public class MongoHandler implements DataHandler {
+public class MongoDataIO implements DataIO {
 	
 	private final PlayerDAO playerDAO;
 	
-	public MongoHandler() {
+	public MongoDataIO() {
 		MongoClient mc = new MongoClient();
 		Morphia morphia = new Morphia();
 		
 		Datastore datastore = morphia.createDatastore(mc, "user");
 		datastore.ensureIndexes();
 		
-		playerDAO = new PlayerDAO(PlayerInfo.class,datastore);
+		playerDAO = new PlayerDAO(PlayerData.class, datastore);
 	}
 	
-	public PlayerInfo getInfo(UUID uuid) {
-		PlayerInfo info = playerDAO.findOne("uuid", uuid.toString());
+	@Override
+	public PlayerData loadPlayerData(UUID uuid) {
+		PlayerData info = playerDAO.findOne("uuid", uuid.toString());
 		if (info == null) {
-			info = new PlayerInfo(uuid);
+			info = new PlayerData(uuid);
 			playerDAO.save(info);
 		}
 		return info;
 	}
 	
-	public void saveInfo(PlayerInfo info) {
-		playerDAO.save(info);
+	@Override
+	public void savePlayerData(PlayerData data) {
+		playerDAO.save(data);
 	}
 }

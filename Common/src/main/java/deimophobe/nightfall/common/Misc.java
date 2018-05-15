@@ -4,8 +4,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.Action;
@@ -214,12 +212,6 @@ public class Misc {
 			Bukkit.getLogger().warning("More than one block face candidate?! (size: " + possibleFaces.size() +", " + possibleFaces.toString() + ")");
 		}
 		return (BlockFace) possibleFaces.toArray()[0];
-	}
-	
-	
-	// ------ CONFIG ------
-	public static void checkConfigStringExists(ConfigurationSection config, String name) throws InvalidConfigurationException {
-		if (!config.contains(name)) throw new InvalidConfigurationException("Invalid config in '" + config.getName() + "'. Failed to find child '" + name + "'");
 	}
 	
 	

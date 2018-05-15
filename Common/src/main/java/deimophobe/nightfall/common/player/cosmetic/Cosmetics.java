@@ -1,12 +1,11 @@
-package deimophobe.nightfall.common.cosmetic;
+package deimophobe.nightfall.common.player.cosmetic;
 
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.common.NightfallCommonPlugin;
-import deimophobe.nightfall.common.cosmetic.hat.Hat;
-import deimophobe.nightfall.common.database.PlayerInfo;
+import deimophobe.nightfall.common.database.data.CosmeticsData;
 import deimophobe.nightfall.common.event.HatChangeEvent;
 import deimophobe.nightfall.common.event.TitleChangeEvent;
 import deimophobe.nightfall.common.menu.SessionData;
+import deimophobe.nightfall.common.player.cosmetic.hat.Hat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -18,23 +17,21 @@ import java.util.UUID;
  */
 public class Cosmetics implements SessionData {
 	private final UUID uuid;
-	private final PlayerInfo playerInfo;
 	private String title;
 	private Hat hat = null;
 	
-	public Cosmetics(UUID uuid) {
+	public Cosmetics(UUID uuid, CosmeticsData data) {
 		this.uuid = uuid;
-		
-		PlayerInfo playerInfo = NightfallCommonPlugin.getDataHandler().getInfo(uuid);
-		if (playerInfo == null) playerInfo = new PlayerInfo(uuid);
-		this.playerInfo = playerInfo;
-		
-		this.title = playerInfo.getTitle();
+		this.title = data.title;
+		this.hat = PlayerManager.getManager().getHat(data.hat);
 	}
 	
-	public void save() {
-		playerInfo.setTitle(title);
-		NightfallCommonPlugin.getDataHandler().saveInfo(playerInfo);
+	public CosmeticsData toData() {
+		CosmeticsData data = new CosmeticsData();
+		data.hat = hat.getIdentifier();
+		data.title = title;
+		
+		return data;
 	}
 	
 	public String getTitle() {
@@ -49,7 +46,6 @@ public class Cosmetics implements SessionData {
 		if (event.shouldUpdateDisplayName()) {
 			updateTitle();
 		}
-		save();
 	}
 	public void updateTitle() {
 		Player player = getOnlinePlayer();
@@ -81,12 +77,8 @@ public class Cosmetics implements SessionData {
 		}
 	}
 	
-	private Player getPlayer() {
-		return Bukkit.getPlayer(uuid);
-	}
-	
 	private Player getOnlinePlayer() {
-		Player player = getPlayer();
+		Player player =  Bukkit.getPlayer(uuid);
 		if (player == null) throw new IllegalStateException("Cosmetics owner " + uuid + " is not online.");
 		return player;
 	}

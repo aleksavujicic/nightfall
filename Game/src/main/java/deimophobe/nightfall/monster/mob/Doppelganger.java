@@ -3,8 +3,8 @@ package deimophobe.nightfall.monster.mob;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import deimophobe.nightfall.*;
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.common.cosmetic.CosmeticManager;
-import deimophobe.nightfall.common.cosmetic.hat.Hat;
+import deimophobe.nightfall.common.player.cosmetic.PlayerManager;
+import deimophobe.nightfall.common.player.cosmetic.hat.Hat;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -103,7 +103,7 @@ public class Doppelganger extends AbstractMob {
 		
 		super.onSpawn(spawnMethod);
 		if (target != null) {
-			Hat hat = CosmeticManager.getManager().getCosmetic(target.getPlayer()).getHat();
+			Hat hat = PlayerManager.getManager().getCosmetics(target.getPlayer()).getHat();
 			if (hat != null) {
 				hat.putOn(monster.getPlayer());
 			}

@@ -6,7 +6,7 @@ import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.JumpPad;
-import deimophobe.nightfall.common.cosmetic.CosmeticManager;
+import deimophobe.nightfall.common.player.cosmetic.PlayerManager;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.RepeatingCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -103,7 +103,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	public void updateTitle() {
-		String title = CosmeticManager.getManager().getCosmetic(player).getTitle();
+		String title = PlayerManager.getManager().getCosmetics(player).getTitle();
 		
 		ChatColor colour;
 		if (title == null) colour = ChatColor.DARK_AQUA;
@@ -113,7 +113,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	public void updateHat() {
-		CosmeticManager.getManager().getCosmetic(player).equipHat();
+		PlayerManager.getManager().getCosmetics(player).equipHat();
 	}
 	
 	@Override

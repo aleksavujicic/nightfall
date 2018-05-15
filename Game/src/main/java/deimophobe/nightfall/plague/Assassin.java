@@ -1,18 +1,18 @@
 package deimophobe.nightfall.plague;
 
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.Skin;
 import deimophobe.nightfall.SkinManager;
-import deimophobe.nightfall.common.cosmetic.CosmeticManager;
-import deimophobe.nightfall.common.cosmetic.hat.Hat;
-import deimophobe.nightfall.damage.death.DeathMessageMaker;
+import deimophobe.nightfall.common.player.cosmetic.PlayerManager;
+import deimophobe.nightfall.common.player.cosmetic.hat.Hat;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.death.DeathMessageMaker;
 import deimophobe.nightfall.damage.death.KeywordDeathMessageMaker;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.healing.StrongAle;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.mob.AbstractMob;
@@ -125,7 +125,7 @@ public class Assassin extends AbstractMob {
         monster.givePermanentPotionEffect(PotionEffectType.NIGHT_VISION, 1);
 
 
-        Hat hat = CosmeticManager.getManager().getCosmetic(monster.getPlayer()).getHat();
+        Hat hat = PlayerManager.getManager().getCosmetics(monster.getPlayer()).getHat();
         if (hat != null) {
             hat.putOn(monster.getPlayer());
         }
