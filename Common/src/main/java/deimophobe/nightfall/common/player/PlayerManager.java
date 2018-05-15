@@ -87,6 +87,12 @@ public class PlayerManager {
 		return info.getCosmetics();
 	}
 	
+	public void saveAll() {
+		for (UUID uuid : playerInfoMap.keySet()) {
+			savePlayerInfo(uuid);
+		}
+	}
+	
 	
 	private class DataListener implements Listener {
 		

@@ -56,6 +56,12 @@ public class NightfallCommonPlugin extends JavaPlugin {
 		bcm.registerCommand(new MenuCommands());
 	}
 	
+	@Override
+	public void onDisable() {
+		super.onDisable();
+		playerManager.saveAll();
+	}
+	
 	public static YamlConfiguration getInternalFileConfig(String name) {
 		InputStream stream = getPlugin().getResource(name);
 		if (stream == null) throw new IllegalArgumentException("Unknown config file: " + name);
