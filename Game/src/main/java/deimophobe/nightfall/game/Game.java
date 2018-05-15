@@ -11,9 +11,9 @@ import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.TimeManager;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.common.loadout.LoadoutManager;
-import deimophobe.nightfall.common.player.cosmetic.Cosmetics;
+import deimophobe.nightfall.common.loadout.Loadout;
 import deimophobe.nightfall.common.player.PlayerManager;
+import deimophobe.nightfall.common.player.cosmetic.Cosmetics;
 import deimophobe.nightfall.cooldown.CooldownHolder;
 import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -175,8 +175,6 @@ public class Game {
 	}
 	
 	public void stop() {
-		LoadoutManager.getManager().saveLoadouts();
-		
 		removeShrineBar();
 		dwarfManager.stop();
 		monsterManager.stop();
@@ -267,7 +265,8 @@ public class Game {
 		Bukkit.broadcastMessage(ChatColor.DARK_AQUA+ player.getName() + ChatColor.YELLOW + " is ready! (" +
 				ChatColor.AQUA + numReady + ChatColor.YELLOW + "/" + ChatColor.AQUA + numPlayers + ChatColor.YELLOW + ")");
 		
-		if (LoadoutManager.getManager().getLoadout(player).hasUntimelyDemise()) {
+		Loadout loadout = PlayerManager.getManager().getLoadout(player);
+		if (loadout.hasUntimelyDemise()) {
 			player.sendMessage("" + ChatColor.GREEN + ChatColor.ITALIC + "You will plague this game.");
 		}
 		

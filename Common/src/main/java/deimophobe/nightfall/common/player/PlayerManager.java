@@ -3,6 +3,7 @@ package deimophobe.nightfall.common.player;
 import deimophobe.nightfall.common.NightfallCommonPlugin;
 import deimophobe.nightfall.common.database.DataIO;
 import deimophobe.nightfall.common.database.data.PlayerData;
+import deimophobe.nightfall.common.loadout.Loadout;
 import deimophobe.nightfall.common.player.cosmetic.Cosmetics;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -69,6 +70,13 @@ public class PlayerManager {
 		playerInfoMap.remove(playerID);
 	}
 	
+	public void saveAll() {
+		for (UUID uuid : playerInfoMap.keySet()) {
+			savePlayerInfo(uuid);
+		}
+	}
+	
+	
 	public PlayerInfo getPlayerInfo(UUID uuid) {
 		checkNotNull(uuid, "UUID must not be null.");
 		checkArgument(playerInfoMap.containsKey(uuid), "PlayerData must be loaded to get it.");
@@ -87,10 +95,9 @@ public class PlayerManager {
 		return info.getCosmetics();
 	}
 	
-	public void saveAll() {
-		for (UUID uuid : playerInfoMap.keySet()) {
-			savePlayerInfo(uuid);
-		}
+	public Loadout getLoadout(Player player) {
+		PlayerInfo info = getPlayerInfo(player);
+		return info.getLoadout();
 	}
 	
 	

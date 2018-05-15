@@ -2,6 +2,7 @@ package deimophobe.nightfall.common.database;
 
 import deimophobe.nightfall.common.NightfallCommonPlugin;
 import deimophobe.nightfall.common.database.data.CosmeticsData;
+import deimophobe.nightfall.common.database.data.LoadoutData;
 import deimophobe.nightfall.common.database.data.PlayerData;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -25,6 +26,7 @@ public class FlatFileDataIO implements DataIO {
 		
 		ConfigurationSerialization.registerClass(PlayerData.class);
 		ConfigurationSerialization.registerClass(CosmeticsData.class);
+		ConfigurationSerialization.registerClass(LoadoutData.class);
 	}
 	
 	@Override
@@ -34,8 +36,9 @@ public class FlatFileDataIO implements DataIO {
 		File playerFile = getPlayerFile(uuid);
 		Configuration configuration = YamlConfiguration.loadConfiguration(playerFile);
 		PlayerData data = (PlayerData) configuration.get("data", null);
-		if (data == null) {
+		if (data == null || !data.isValid()) {
 			data = new PlayerData(uuid);
+			savePlayerData(data);
 		}
 		return data;
 	}

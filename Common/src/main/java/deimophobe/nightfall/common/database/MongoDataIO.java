@@ -33,12 +33,12 @@ public class MongoDataIO implements DataIO {
 	
 	@Override
 	public PlayerData loadPlayerData(UUID uuid) {
-		PlayerData info = playerDAO.findOne("uuid", uuid.toString());
-		if (info == null) {
-			info = new PlayerData(uuid);
-			playerDAO.save(info);
+		PlayerData data = playerDAO.findOne("uuid", uuid.toString());
+		if (data == null || !data.isValid()) {
+			data = new PlayerData(uuid);
+			playerDAO.save(data);
 		}
-		return info;
+		return data;
 	}
 	
 	@Override

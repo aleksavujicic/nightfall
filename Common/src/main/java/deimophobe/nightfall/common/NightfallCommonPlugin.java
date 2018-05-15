@@ -39,6 +39,11 @@ public class NightfallCommonPlugin extends JavaPlugin {
 		plugin = this;
 		LoreTemplate.registerTemplateFile("lore-templates.yml");
 		
+		
+		BukkitCommandManager bcm = new BukkitCommandManager(this);
+		bcm.registerCommand(new LoadoutCommand());
+		bcm.registerCommand(new MenuCommands());
+		
 		// Load config - saving default if none exists.
 		this.saveDefaultConfig();
 		config = this.getConfig();
@@ -50,10 +55,6 @@ public class NightfallCommonPlugin extends JavaPlugin {
 		
 		MenuManager.initialiseMenuManager(this);
 		LoadoutManager.getManager();
-		
-		BukkitCommandManager bcm = new BukkitCommandManager(this);
-		bcm.registerCommand(new LoadoutCommand());
-		bcm.registerCommand(new MenuCommands());
 	}
 	
 	@Override

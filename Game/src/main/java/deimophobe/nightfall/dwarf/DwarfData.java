@@ -1,8 +1,9 @@
 package deimophobe.nightfall.dwarf;
 
 import deimophobe.nightfall.common.UnknownEnumElementException;
+import deimophobe.nightfall.common.loadout.Loadout;
 import deimophobe.nightfall.common.loadout.LoadoutConstructable;
-import deimophobe.nightfall.common.loadout.LoadoutManager;
+import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.Kit;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
@@ -77,7 +78,8 @@ public class DwarfData implements LoadoutConstructable {
 	
 	public static DwarfData getData(Player player) {
 		DwarfData dd = new DwarfData();
-		LoadoutManager.getManager().getLoadout(player).modifyLoadoutConstruct(dd);
+		Loadout loadout = PlayerManager.getManager().getLoadout(player);
+		loadout.modifyLoadoutConstruct(dd);
 		return dd;
 	}
 }

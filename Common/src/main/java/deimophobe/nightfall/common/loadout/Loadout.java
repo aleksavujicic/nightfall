@@ -1,5 +1,7 @@
 package deimophobe.nightfall.common.loadout;
 
+import deimophobe.nightfall.common.database.data.Datable;
+import deimophobe.nightfall.common.database.data.LoadoutData;
 import deimophobe.nightfall.common.loadout.item.LoadoutItem;
 import deimophobe.nightfall.common.menu.SessionData;
 
@@ -8,7 +10,7 @@ import java.util.*;
 /**
  * Created by Deimophobe on 7/03/17.
  */
-public class Loadout implements SessionData {
+public class Loadout implements SessionData, Datable<LoadoutData> {
 	
 	private static final String UNTIMELY_DEMISE_NAME = "untimely";
 	
@@ -16,9 +18,28 @@ public class Loadout implements SessionData {
 	
 	private final SortedSet<LoadoutItem> items = new TreeSet<>();
 	
+	
+	public Loadout() { }
+	
+	public Loadout(LoadoutData data) {
+		for (String item : data.items) {
+			LoadoutItem loadoutItem = LoadoutManager.getManager().getItem(item);
+			selectItem(loadoutItem);
+		}
+	}
+	
+	@Override
+	public LoadoutData toData() {
+		LoadoutData data = new LoadoutData();
+		List<String> itemList = new ArrayList<>();
+		for (LoadoutItem item : items) {
+			itemList.add(item.toString());
+		}
+		data.items = itemList;
+		return data;
+	}
+	
 	public boolean selectItem(LoadoutItem item) {
-		Category cat = item.getCategory();
-		
 		if (items.contains(item)) {
 			items.remove(item);
 			
@@ -122,20 +143,5 @@ public class Loadout implements SessionData {
 				}
 			}
 		}
-	}
-
-
-
-
-
-	// EVERYTHING BELOW THIS IS ONLY TEMPORARY UNTIL WE GET DATABASE STUFF
-	// ------ SAVING AND LOADING TO FILE ------
-
-	public List<String> toStringList() {
-		List<String> strings = new ArrayList<>();
-		for (LoadoutItem item : items) {
-			strings.add(item.toString());
-		}
-		return strings;
 	}
 }

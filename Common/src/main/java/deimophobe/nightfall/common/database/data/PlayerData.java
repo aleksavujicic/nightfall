@@ -1,5 +1,6 @@
 package deimophobe.nightfall.common.database.data;
 
+import deimophobe.nightfall.common.ConfigUtil;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.bukkit.configuration.serialization.SerializableAs;
 import org.mongodb.morphia.annotations.*;
@@ -15,6 +16,8 @@ import java.util.UUID;
 @SerializableAs("PlayerData")
 @Entity(value = "players", noClassnameStored = true)
 public class PlayerData implements Data {
+	private static final String INVALID_UUID = "INVALID";
+	
 	@Id
 	@SuppressWarnings("unused")
 	private int id;
@@ -25,23 +28,34 @@ public class PlayerData implements Data {
 	@Embedded("cosmetics")
 	public CosmeticsData cosmetics = new CosmeticsData();
 	
+	@Embedded("loadout")
+	public LoadoutData loadout = new LoadoutData();
+	
 	public PlayerData() {}
 	public PlayerData(UUID uuid) {this.uuid = uuid.toString();}
+	
+	// Misc helper methods
 	
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
 	
+	public boolean isValid() {
+		return !INVALID_UUID.equals(uuid);
+	}
+	
 	// Bukkit Configuration
 	private static final String UUID_KEY = "uuid";
 	private static final String COSMETICS_KEY = "cosmetics";
+	private static final String LOADOUT_KEY = "loadout";
 	
 	@SuppressWarnings("unused")
 	public static PlayerData deserialize(Map<String, Object> map) {
 		PlayerData data = new PlayerData();
-		data.uuid = (String) map.get(UUID_KEY);
-		data.cosmetics = (CosmeticsData) map.get(COSMETICS_KEY);
+		data.uuid      = ConfigUtil.getStringFromMap(map, UUID_KEY, INVALID_UUID);
+		data.cosmetics = ConfigUtil.getObjectFromMap(map, COSMETICS_KEY, CosmeticsData.class, new CosmeticsData());
+		data.loadout   = ConfigUtil.getObjectFromMap(map, LOADOUT_KEY, LoadoutData.class, new LoadoutData());
 		
 		return data;
 	}
@@ -51,6 +65,7 @@ public class PlayerData implements Data {
 		Map<String, Object> map = new HashMap<>();
 		map.put(UUID_KEY, uuid);
 		map.put(COSMETICS_KEY, cosmetics);
+		map.put(LOADOUT_KEY, loadout);
 		
 		return map;
 	}

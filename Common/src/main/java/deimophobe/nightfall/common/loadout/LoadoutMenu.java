@@ -11,6 +11,7 @@ import deimophobe.nightfall.common.menu.item.PageChanger;
 import deimophobe.nightfall.common.menu.submenu.CompositeMenu;
 import deimophobe.nightfall.common.menu.submenu.MultiPageMenu;
 import deimophobe.nightfall.common.menu.submenu.SimpleMenu;
+import deimophobe.nightfall.common.player.PlayerManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -75,7 +76,7 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 	
 	@Override
 	public Loadout getDataFromPlayer(Player player) {
-		return LoadoutManager.getManager().getLoadout(player);
+		return PlayerManager.getManager().getLoadout(player);
 	}
 	
 	private class PointsItem implements MenuItem<Loadout> {
