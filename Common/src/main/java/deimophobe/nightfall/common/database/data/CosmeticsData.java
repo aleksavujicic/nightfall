@@ -15,7 +15,7 @@ import java.util.Map;
 @Embedded
 public class CosmeticsData implements Data {
 	@Property
-	public String title = "test";
+	public String title = null;
 	
 	@Property
 	public String hat = null;
