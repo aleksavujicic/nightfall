@@ -2,7 +2,7 @@ package deimophobe.nightfall.common.event;/**
  * Created by Deimophobe on 25/12/17.
  */
 
-import deimophobe.nightfall.common.player.cosmetic.hat.Hat;
+import deimophobe.nightfall.common.player.cosmetic.Hat;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

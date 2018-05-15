@@ -13,7 +13,7 @@ import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
 import deimophobe.nightfall.common.player.cosmetic.Cosmetics;
-import deimophobe.nightfall.common.player.cosmetic.PlayerManager;
+import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.cooldown.CooldownHolder;
 import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.dwarf.Dwarf;

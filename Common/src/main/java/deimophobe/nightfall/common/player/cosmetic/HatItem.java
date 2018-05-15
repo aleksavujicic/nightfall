@@ -1,13 +1,11 @@
-package deimophobe.nightfall.common.player.cosmetic.hat;
+package deimophobe.nightfall.common.player.cosmetic;
 
 import deimophobe.nightfall.common.ConfigValidator;
 import deimophobe.nightfall.common.MalformedConfigurationException;
-import deimophobe.nightfall.common.player.cosmetic.Cosmetics;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.item.SelectableItem;
-import deimophobe.nightfall.common.player.cosmetic.PlayerManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -20,12 +18,12 @@ class HatItem extends SelectableItem<Cosmetics> {
 	@Nullable
 	private final Hat hat;
 	
-	static HatItem fromConfig(ConfigurationSection config, PlayerManager playerManager) throws MalformedConfigurationException {
+	static HatItem fromConfig(ConfigurationSection config) throws MalformedConfigurationException {
 		ConfigValidator.checkChildExists(config, "hat");
 		
 		ItemStack hatItem = CustomItem.getItem(config.getConfigurationSection("hat"), LoreTemplate.HAT).createItemStack();
 		String name = config.getName();
-		Hat hat = playerManager.createHat(name, hatItem);
+		Hat hat = HatStore.getStore().createHat(name, hatItem);
 		
 		ItemStack menuItem;
 		if (config.contains("item")) {

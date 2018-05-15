@@ -8,7 +8,7 @@ import deimophobe.nightfall.common.database.DataIOType;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
 import deimophobe.nightfall.common.menu.MenuManager;
-import deimophobe.nightfall.common.player.cosmetic.PlayerManager;
+import deimophobe.nightfall.common.player.PlayerManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -44,7 +44,7 @@ public class NightfallCommonPlugin extends JavaPlugin {
 		config = this.getConfig();
 		
 		DataIOType type = getDataIOType();
-		dataIO = type.createDataIO();
+		dataIO = type.createDataIO(this);
 		
 		playerManager = new PlayerManager(this);
 		

@@ -1,6 +1,8 @@
 package deimophobe.nightfall.common.database;
 
-import java.util.function.Supplier;
+import deimophobe.nightfall.common.NightfallCommonPlugin;
+
+import java.util.function.Function;
 
 /**
  * Created by Deimophobe on 28/04/18.
@@ -12,10 +14,10 @@ public enum DataIOType {
 	
 	;
 	
-	private final Supplier<? extends DataIO> dataIOCreator;
-	public DataIO createDataIO() { return dataIOCreator.get(); }
+	private final Function<NightfallCommonPlugin, ? extends DataIO> dataIOCreator;
+	public DataIO createDataIO(NightfallCommonPlugin plugin) { return dataIOCreator.apply(plugin); }
 	
-	DataIOType(Supplier<? extends DataIO> dataIOCreator) {
+	DataIOType(Function<NightfallCommonPlugin, ? extends DataIO> dataIOCreator) {
 		this.dataIOCreator = dataIOCreator;
 	}
 }

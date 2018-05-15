@@ -1,4 +1,4 @@
-package deimophobe.nightfall.common.player.cosmetic.title;
+package deimophobe.nightfall.common.player.cosmetic;
 
 import deimophobe.nightfall.common.ConfigValidator;
 import deimophobe.nightfall.common.MalformedConfigurationException;

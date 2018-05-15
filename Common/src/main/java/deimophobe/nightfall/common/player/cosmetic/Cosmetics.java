@@ -2,10 +2,10 @@ package deimophobe.nightfall.common.player.cosmetic;
 
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.database.data.CosmeticsData;
+import deimophobe.nightfall.common.database.data.Datable;
 import deimophobe.nightfall.common.event.HatChangeEvent;
 import deimophobe.nightfall.common.event.TitleChangeEvent;
 import deimophobe.nightfall.common.menu.SessionData;
-import deimophobe.nightfall.common.player.cosmetic.hat.Hat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -15,7 +15,7 @@ import java.util.UUID;
 /**
  * Created by Deimophobe on 23/12/17.
  */
-public class Cosmetics implements SessionData {
+public class Cosmetics implements SessionData, Datable<CosmeticsData> {
 	private final UUID uuid;
 	private String title;
 	private Hat hat = null;
@@ -23,12 +23,13 @@ public class Cosmetics implements SessionData {
 	public Cosmetics(UUID uuid, CosmeticsData data) {
 		this.uuid = uuid;
 		this.title = data.title;
-		this.hat = PlayerManager.getManager().getHat(data.hat);
+		this.hat = HatStore.getStore().getHat(data.hat);
 	}
 	
+	@Override
 	public CosmeticsData toData() {
 		CosmeticsData data = new CosmeticsData();
-		data.hat = hat.getIdentifier();
+		data.hat = (hat == null ? null : hat.getIdentifier());
 		data.title = title;
 		
 		return data;

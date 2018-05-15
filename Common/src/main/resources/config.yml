@@ -2,5 +2,10 @@
 debug: true
 
 database:
-  # Valid options: mongo, none (default)
-  type: none
+  # Valid options: flat, mongo, none (default)
+  # Note that 'none' will not save any data.
+  type: flat
+
+  mongo:
+    host: localhost
+    database: nightfall

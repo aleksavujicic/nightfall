@@ -1,11 +1,10 @@
-package deimophobe.nightfall.common.player.cosmetic.title;
+package deimophobe.nightfall.common.player.cosmetic;
 
 import deimophobe.nightfall.common.MalformedConfigurationException;
 import deimophobe.nightfall.common.NightfallCommonPlugin;
 import deimophobe.nightfall.common.menu.MainMenu;
 import deimophobe.nightfall.common.menu.submenu.ListMenu;
-import deimophobe.nightfall.common.player.cosmetic.Cosmetics;
-import deimophobe.nightfall.common.player.cosmetic.PlayerManager;
+import deimophobe.nightfall.common.player.PlayerManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 

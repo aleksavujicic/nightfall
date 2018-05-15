@@ -1,5 +1,6 @@
 package deimophobe.nightfall.common.player;
 
+import deimophobe.nightfall.common.database.data.Datable;
 import deimophobe.nightfall.common.database.data.PlayerData;
 import deimophobe.nightfall.common.player.cosmetic.Cosmetics;
 
@@ -8,7 +9,7 @@ import java.util.UUID;
 /**
  * Created by Deimophobe on 15/05/18.
  */
-public class PlayerInfo {
+public class PlayerInfo implements Datable<PlayerData> {
 	private final UUID uuid;
 	
 	private final Cosmetics cosmetics;
@@ -19,6 +20,7 @@ public class PlayerInfo {
 		this.cosmetics = new Cosmetics(uuid, data.cosmetics);
 	}
 	
+	@Override
 	public PlayerData toData() {
 		PlayerData data = new PlayerData();
 		data.uuid = uuid.toString();

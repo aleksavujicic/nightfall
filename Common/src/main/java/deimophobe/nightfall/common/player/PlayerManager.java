@@ -1,22 +1,17 @@
-package deimophobe.nightfall.common.player.cosmetic;
+package deimophobe.nightfall.common.player;
 
 import deimophobe.nightfall.common.NightfallCommonPlugin;
 import deimophobe.nightfall.common.database.DataIO;
 import deimophobe.nightfall.common.database.data.PlayerData;
-import deimophobe.nightfall.common.player.PlayerInfo;
-import deimophobe.nightfall.common.player.cosmetic.hat.Hat;
-import deimophobe.nightfall.common.player.cosmetic.hat.HatMenu;
-import deimophobe.nightfall.common.player.cosmetic.title.TitleMenu;
+import deimophobe.nightfall.common.player.cosmetic.Cosmetics;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,8 +35,9 @@ public class PlayerManager {
 		DataListener listener = new DataListener();
 		Bukkit.getPluginManager().registerEvents(listener, plugin);
 		
-		this.titleMenu = new TitleMenu();
-		this.hatMenu = new HatMenu(this);
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			loadPlayerInfo(player.getUniqueId());
+		}
 	}
 	
 	// ----- DATA LOADING -----
@@ -111,33 +107,4 @@ public class PlayerManager {
 			}.runTaskAsynchronously(plugin);
 		}
 	}
-	
-	
-	// ----- HATS -----
-	private final Map<String, Hat> hats = new HashMap<>();
-	public Hat createHat(String name, ItemStack hatItem) {
-		checkNotNull(name, "Name must not be null.");
-		checkNotNull(hatItem, "Hat must not be null.");
-		checkArgument(!hats.containsKey(name), "Name must not be an existing hat name (got '%s').", name);
-		
-		Hat hat = new Hat(name, hatItem);
-		hats.put(name, hat);
-		return hat;
-	}
-	public Hat getHat(String name) {
-		if (name == null) return null;
-		
-		checkArgument(hats.containsKey(name), "Name must be a valid hat name (got '%s').", name);
-		
-		return hats.get(name.toLowerCase());
-	}
-	
-	// ----- MENUS ------
-	private final HatMenu hatMenu;
-	private final TitleMenu titleMenu;
-	public HatMenu getHatMenu() { return hatMenu; }
-	public TitleMenu getTitleMenu() { return titleMenu; }
-	
-	
-	
 }

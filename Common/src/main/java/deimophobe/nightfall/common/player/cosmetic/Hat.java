@@ -1,4 +1,4 @@
-package deimophobe.nightfall.common.player.cosmetic.hat;
+package deimophobe.nightfall.common.player.cosmetic;
 
 import deimophobe.nightfall.common.items.ItemMatcher;
 import org.bukkit.entity.Player;

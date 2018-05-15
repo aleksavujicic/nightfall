@@ -6,7 +6,7 @@ import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.JumpPad;
-import deimophobe.nightfall.common.player.cosmetic.PlayerManager;
+import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.RepeatingCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;

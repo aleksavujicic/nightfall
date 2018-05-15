@@ -1,7 +1,9 @@
 package deimophobe.nightfall.common.database;
 
 import com.mongodb.MongoClient;
+import deimophobe.nightfall.common.NightfallCommonPlugin;
 import deimophobe.nightfall.common.database.data.PlayerData;
+import org.bukkit.configuration.Configuration;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
@@ -14,11 +16,16 @@ public class MongoDataIO implements DataIO {
 	
 	private final PlayerDAO playerDAO;
 	
-	public MongoDataIO() {
-		MongoClient mc = new MongoClient();
+	MongoDataIO(NightfallCommonPlugin plugin) {
+		Configuration config = plugin.getConfig();
+		String host = config.getString("database.mongo.host", "localhost");
+		String database = config.getString("database.mongo.database", "nightfall");
+		plugin.getLogger().info("Attempting to connecto mongodb on host '" + host + "' in database '" + database + "'.");
+		
+		MongoClient mc = new MongoClient(host);
 		Morphia morphia = new Morphia();
 		
-		Datastore datastore = morphia.createDatastore(mc, "user");
+		Datastore datastore = morphia.createDatastore(mc, database);
 		datastore.ensureIndexes();
 		
 		playerDAO = new PlayerDAO(PlayerData.class, datastore);
