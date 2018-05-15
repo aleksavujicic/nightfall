@@ -1,8 +1,5 @@
-package deimophobe.nightfall.command;
+package deimophobe.nightfall.common.command;
 
-import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.game.GamePlayer;
-import deimophobe.nightfall.monster.spawnmenu.SpawnEggMenuItem;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -20,7 +17,7 @@ import java.util.function.Function;
 /**
  * Created by Deimophobe on 9/03/18.
  */
-class MessageUtil {
+public class MessageUtil {
 	
 	private static final Map<Class<?>, MessageResolver<?>> resolvers = new HashMap<>();
 	
@@ -75,11 +72,6 @@ class MessageUtil {
 			}
 			return text;
 		});
-		addResolver(GamePlayer.class, arg -> {
-			BaseComponent text = Misc.textComponentFromString(arg.getDisplayName());
-			text.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + arg.getName() + " "));
-			return text;
-		});
 		addResolver(Player.class, arg -> {
 			TextComponent text = new TextComponent(arg.getName());
 			text.setColor(ChatColor.DARK_GRAY);
@@ -108,11 +100,6 @@ class MessageUtil {
 			
 			return text;
 		});
-		addResolver(SpawnEggMenuItem.class, arg -> {
-			TextComponent text = new TextComponent(arg.getName());
-			text.setColor(ChatColor.GREEN);
-			return text;
-		});
 	}
 	
 	private static <T> void addPrimitiveResolver(Class<T> clazz, Function<T, Boolean> isPositive) {
@@ -128,19 +115,19 @@ class MessageUtil {
 	}
 	
 	// Guarantees same value and key have same type parameter
-	private static <T> void addResolver(Class<T> clazz, MessageResolver<T> resolver) {
+	public static <T> void addResolver(Class<T> clazz, MessageResolver<T> resolver) {
 		resolvers.put(clazz, resolver);
 	}
 	
-	private static <T> MessageResolver<T> getResolver(Class<T> clazz) {
+	public static <T> MessageResolver<T> getResolver(Class<T> clazz) {
 		return (MessageResolver<T>) resolvers.get(clazz);
 	}
 	
-	static void sendErrorMessage(CommandSender sender, Object... objects) {
+	public static void sendErrorMessage(CommandSender sender, Object... objects) {
 		sendMessage(sender, ChatColor.RED, objects);
 	}
 	
-	static void sendMessage(CommandSender sender, Object... objects) {
+	public static void sendMessage(CommandSender sender, Object... objects) {
 		sendMessage(sender, ChatColor.YELLOW, objects);
 	}
 	

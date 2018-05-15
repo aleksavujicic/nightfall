@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Subcommand;
 import deimophobe.nightfall.blocks.BlockManager;
+import deimophobe.nightfall.common.command.MessageUtil;
 import org.bukkit.command.CommandSender;
 
 /**

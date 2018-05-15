@@ -2,6 +2,7 @@ package deimophobe.nightfall.command;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
+import deimophobe.nightfall.common.command.MessageUtil;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import org.bukkit.ChatColor;

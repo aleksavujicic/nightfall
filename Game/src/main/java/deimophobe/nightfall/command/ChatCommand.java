@@ -7,6 +7,7 @@ import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Description;
 import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.ChatListener;
+import deimophobe.nightfall.common.command.MessageUtil;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;

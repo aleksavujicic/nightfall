@@ -8,6 +8,7 @@ import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.command.iterable.*;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.command.MessageUtil;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
 import deimophobe.nightfall.damage.dot.PoisonType;
@@ -33,6 +34,9 @@ import deimophobe.nightfall.monster.doom.DoomType;
 import deimophobe.nightfall.monster.mob.MobType;
 import deimophobe.nightfall.monster.spawnmenu.SpawnEggMenuItem;
 import deimophobe.nightfall.plague.PlagueType;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
@@ -57,8 +61,6 @@ public class CommandInitialiserUtil {
 	
 	
 	public static void initialiseCommands(NightfallPlugin plugin) {
-		MessageUtil.initialise();
-		
 		BukkitCommandManager commandManager = new BukkitCommandManager(plugin);
 		commandManager.enableUnstableAPI("help");
 		
@@ -66,6 +68,7 @@ public class CommandInitialiserUtil {
 		registerCompletions(commandManager);
 		registerContexts(commandManager);
 		registerConditions(commandManager);
+		addMessageResolvers();
 		
 		commandManager.registerCommand(new ArmourCommand());
 		
@@ -295,6 +298,19 @@ public class CommandInitialiserUtil {
 		 		"perm-dwarf", "nightfall.dwarf"
 		 );
 		
+	}
+	
+	private static void addMessageResolvers() {
+		MessageUtil.addResolver(GamePlayer.class, arg -> {
+			BaseComponent text = Misc.textComponentFromString(arg.getDisplayName());
+			text.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + arg.getName() + " "));
+			return text;
+		});
+		MessageUtil.addResolver(SpawnEggMenuItem.class, arg -> {
+			TextComponent text = new TextComponent(arg.getName());
+			text.setColor(net.md_5.bungee.api.ChatColor.GREEN);
+			return text;
+		});
 	}
 	
 	

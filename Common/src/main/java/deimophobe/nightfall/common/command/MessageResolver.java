@@ -1,4 +1,4 @@
-package deimophobe.nightfall.command;
+package deimophobe.nightfall.common.command;
 
 import net.md_5.bungee.api.chat.BaseComponent;
 
@@ -6,7 +6,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
  * Created by Deimophobe on 9/03/18.
  */
 @FunctionalInterface
-interface MessageResolver<T> {
+public interface MessageResolver<T> {
 	BaseComponent getMessage(T t);
 	
 	default BaseComponent getUncheckedMessage(Object object) {

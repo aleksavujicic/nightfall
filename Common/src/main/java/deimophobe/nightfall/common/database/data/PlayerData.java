@@ -31,6 +31,9 @@ public class PlayerData implements Data {
 	@Embedded("loadout")
 	public LoadoutData loadout = new LoadoutData();
 	
+	@Property
+	public int gold = 0;
+	
 	public PlayerData() {}
 	public PlayerData(UUID uuid) {this.uuid = uuid.toString();}
 	
@@ -49,6 +52,7 @@ public class PlayerData implements Data {
 	private static final String UUID_KEY = "uuid";
 	private static final String COSMETICS_KEY = "cosmetics";
 	private static final String LOADOUT_KEY = "loadout";
+	private static final String GOLD_KEY = "gold";
 	
 	@SuppressWarnings("unused")
 	public static PlayerData deserialize(Map<String, Object> map) {
@@ -56,6 +60,7 @@ public class PlayerData implements Data {
 		data.uuid      = ConfigUtil.getStringFromMap(map, UUID_KEY, INVALID_UUID);
 		data.cosmetics = ConfigUtil.getObjectFromMap(map, COSMETICS_KEY, CosmeticsData.class, new CosmeticsData());
 		data.loadout   = ConfigUtil.getObjectFromMap(map, LOADOUT_KEY, LoadoutData.class, new LoadoutData());
+		data.gold      = ConfigUtil.getIntFromMap(map, GOLD_KEY, 0);
 		
 		return data;
 	}
@@ -66,6 +71,7 @@ public class PlayerData implements Data {
 		map.put(UUID_KEY, uuid);
 		map.put(COSMETICS_KEY, cosmetics);
 		map.put(LOADOUT_KEY, loadout);
+		map.put(GOLD_KEY, gold);
 		
 		return map;
 	}

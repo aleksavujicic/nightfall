@@ -5,6 +5,7 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Conditions;
 import co.aikar.commands.annotation.Description;
 import co.aikar.commands.annotation.Subcommand;
+import deimophobe.nightfall.common.command.MessageUtil;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
