@@ -1,11 +1,12 @@
 # Does nothing yet - but might be useful to add at some point.
-debug: true
+debug: false
 
 database:
   # Valid options: flat, mongo, none (default)
   # Note that 'none' will not save any data.
   type: flat
 
+  # Only read if type is 'mongo'
   mongo:
     host: localhost
     database: nightfall
