@@ -25,14 +25,17 @@ public class PlayerData implements Data {
 	@Indexed(options = @IndexOptions(unique = true))
 	public String uuid;
 	
+	@Property
+	public int gold = 0;
+	
 	@Embedded("cosmetics")
 	public CosmeticsData cosmetics = new CosmeticsData();
 	
 	@Embedded("loadout")
 	public LoadoutData loadout = new LoadoutData();
 	
-	@Property
-	public int gold = 0;
+	@Embedded("settings")
+	public PlayerSettingsData settings = new PlayerSettingsData();
 	
 	public PlayerData() {}
 	public PlayerData(UUID uuid) {this.uuid = uuid.toString();}
@@ -50,17 +53,20 @@ public class PlayerData implements Data {
 	
 	// Bukkit Configuration
 	private static final String UUID_KEY = "uuid";
+	private static final String GOLD_KEY = "gold";
 	private static final String COSMETICS_KEY = "cosmetics";
 	private static final String LOADOUT_KEY = "loadout";
-	private static final String GOLD_KEY = "gold";
+	private static final String SETTINGS_KEY = "settings";
 	
 	@SuppressWarnings("unused")
 	public static PlayerData deserialize(Map<String, Object> map) {
 		PlayerData data = new PlayerData();
 		data.uuid      = ConfigUtil.getStringFromMap(map, UUID_KEY, INVALID_UUID);
+		data.gold      = ConfigUtil.getIntFromMap(map, GOLD_KEY, 0);
+		
 		data.cosmetics = ConfigUtil.getObjectFromMap(map, COSMETICS_KEY, CosmeticsData.class, new CosmeticsData());
 		data.loadout   = ConfigUtil.getObjectFromMap(map, LOADOUT_KEY, LoadoutData.class, new LoadoutData());
-		data.gold      = ConfigUtil.getIntFromMap(map, GOLD_KEY, 0);
+		data.settings  = ConfigUtil.getObjectFromMap(map, SETTINGS_KEY, PlayerSettingsData.class, new PlayerSettingsData());
 		
 		return data;
 	}
@@ -69,9 +75,11 @@ public class PlayerData implements Data {
 	public Map<String, Object> serialize() {
 		Map<String, Object> map = new HashMap<>();
 		map.put(UUID_KEY, uuid);
+		map.put(GOLD_KEY, gold);
+		
 		map.put(COSMETICS_KEY, cosmetics);
 		map.put(LOADOUT_KEY, loadout);
-		map.put(GOLD_KEY, gold);
+		map.put(SETTINGS_KEY, settings);
 		
 		return map;
 	}

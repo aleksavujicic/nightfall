@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf;
 
 import com.google.common.collect.Sets;
+import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GameSize;
 import deimophobe.nightfall.common.Misc;
@@ -167,6 +168,8 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	public void onGameStart() {
 		Collection<Player> players = new HashSet<>(Bukkit.getOnlinePlayers());
 		players.removeIf(player -> player.getGameMode() == GameMode.SPECTATOR);
+		PlayerManager manager = PlayerManager.getManager();
+		players.removeIf(player -> !manager.getSettings(player).isHeroEnabled());
 		
 		int numPlayers = players.size();
 		int numHeroes = 0;

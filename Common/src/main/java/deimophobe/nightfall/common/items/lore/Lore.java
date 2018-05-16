@@ -21,7 +21,12 @@ public class Lore implements Cloneable {
 		this.loreTemplate = loreTemplate;
 		
 		this.name = name;
-		this.sections = sections;
+		List<Section> newSections = new ArrayList<>();
+		for (Section section : sections) {
+			Section copied = section.clone();
+			newSections.add(copied);
+		}
+		this.sections = Collections.unmodifiableList(newSections);
 	}
 	
 	public Lore(LoreTemplate loreTemplate, String name, Map<String, String> loreSections) {

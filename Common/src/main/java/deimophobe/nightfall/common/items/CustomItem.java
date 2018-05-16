@@ -235,7 +235,12 @@ public class CustomItem implements Cloneable, ItemMatcher {
 			if (sectionConfig != null) {
 				for (String key : sectionConfig.getKeys(false)) {
 					List<String> possibleLoreSec = sectionConfig.getStringList(key);
-					loreSections.put(key, Misc.getRandom(possibleLoreSec));
+					if (!possibleLoreSec.isEmpty()) {
+						loreSections.put(key, Misc.getRandom(possibleLoreSec));
+					} else {
+						String loreSection = sectionConfig.getString(key);
+						loreSections.put(key, loreSection);
+					}
 				}
 			}
 		}

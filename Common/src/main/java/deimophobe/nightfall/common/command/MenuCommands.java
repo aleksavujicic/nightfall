@@ -8,6 +8,7 @@ import deimophobe.nightfall.common.menu.MenuManager;
 import deimophobe.nightfall.common.menu.SessionData;
 import deimophobe.nightfall.common.player.cosmetic.HatMenu;
 import deimophobe.nightfall.common.player.cosmetic.TitleMenu;
+import deimophobe.nightfall.common.player.settings.SettingsMenu;
 import org.bukkit.entity.Player;
 
 
@@ -29,6 +30,11 @@ public class MenuCommands extends BaseCommand {
 	@CommandAlias("loadout|kit")
 	public void loadout(Player player) {
 		startSession(LoadoutMenu.class, player);
+	}
+	
+	@CommandAlias("settings")
+	public void settings(Player player) {
+		startSession(SettingsMenu.class, player);
 	}
 	
 	private <T extends SessionData> void startSession(Class<? extends MainMenu<T>> menuClass, Player player) {

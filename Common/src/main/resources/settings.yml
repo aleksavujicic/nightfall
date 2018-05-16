@@ -1,0 +1,6 @@
+hero-toggle:
+  item:
+    name: "Toggle Hero"
+    base: vel-sword
+    lore:
+      description: "$enabledtext"

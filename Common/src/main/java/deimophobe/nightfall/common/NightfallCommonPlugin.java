@@ -9,6 +9,7 @@ import deimophobe.nightfall.common.menu.MenuManager;
 import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.common.player.cosmetic.HatMenu;
 import deimophobe.nightfall.common.player.cosmetic.TitleMenu;
+import deimophobe.nightfall.common.player.settings.SettingsMenu;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -85,5 +86,6 @@ public class NightfallCommonPlugin extends JavaPlugin {
 		menuManager.registerMenu(LoadoutMenu.class, new LoadoutMenu());
 		menuManager.registerMenu(HatMenu.class, new HatMenu());
 		menuManager.registerMenu(TitleMenu.class, new TitleMenu());
+		menuManager.registerMenu(SettingsMenu.class, new SettingsMenu());
 	}
 }

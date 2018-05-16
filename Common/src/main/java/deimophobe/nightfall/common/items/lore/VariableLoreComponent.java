@@ -30,4 +30,9 @@ class VariableLoreComponent implements LoreComponent {
 		
 		return contents;
 	}
+	
+	@Override
+	public LoreComponent copy() {
+		return new VariableLoreComponent(name);
+	}
 }

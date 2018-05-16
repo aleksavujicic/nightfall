@@ -64,11 +64,10 @@ loadout-class:
     value: "&b"
     reason: "&d"
 
-title:
+settings:
   nameprefix: "&b"
 
   lore:
-    - "&9&lTITLE"
     - ""
     - "${description}"
 
@@ -84,7 +83,21 @@ hat:
   nameprefix: "&b"
 
   lore:
-    - "&9&lHAT"
+    - ""
+    - "${description}"
+
+  prefix:
+    description: "&6"
+
+  modifiers:
+    name: "&3"
+    value: "&b"
+    reason: "&d"
+
+title:
+  nameprefix: "&b"
+
+  lore:
     - ""
     - "${description}"
 

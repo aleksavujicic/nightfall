@@ -20,4 +20,9 @@ class FixedLoreComponent implements LoreComponent {
 	public String createString() {
 		return content;
 	}
+	
+	@Override
+	public FixedLoreComponent copy() {
+		return this; // FixedLoreComponent is immutable so this is ok.
+	}
 }

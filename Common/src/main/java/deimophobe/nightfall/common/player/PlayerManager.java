@@ -5,6 +5,7 @@ import deimophobe.nightfall.common.database.DataIO;
 import deimophobe.nightfall.common.database.data.PlayerData;
 import deimophobe.nightfall.common.loadout.Loadout;
 import deimophobe.nightfall.common.player.cosmetic.Cosmetics;
+import deimophobe.nightfall.common.player.settings.PlayerSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -138,6 +139,11 @@ public class PlayerManager {
 	public Loadout getLoadout(Player player) {
 		PlayerInfo info = getPlayerInfo(player);
 		return info.getLoadout();
+	}
+	
+	public PlayerSettings getSettings(Player player) {
+		PlayerInfo info = getPlayerInfo(player);
+		return info.getSettings();
 	}
 	
 	

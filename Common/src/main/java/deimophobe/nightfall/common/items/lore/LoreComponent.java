@@ -6,4 +6,5 @@ package deimophobe.nightfall.common.items.lore;
 interface LoreComponent {
 	void applyVariable(String variableName, String value);
 	String createString();
+	LoreComponent copy();
 }
