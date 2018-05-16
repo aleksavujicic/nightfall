@@ -11,6 +11,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by Deimophobe on 20/12/17.
  */
+@Deprecated
 public class LoadoutManager {
 	private static LoadoutManager ourManager = new LoadoutManager();
 	public static LoadoutManager getManager() { return ourManager; }
@@ -30,14 +31,22 @@ public class LoadoutManager {
 		checkNotNull(item, "LoadoutItem cannot be null.");
 		
 		id = id.toLowerCase().replace('_','-');
-		checkArgument(!items.containsKey(id), "Cannot register loadout item '" + id + "' as item with id already exists. IDs must be unique.");
+		checkArgument(!items.containsKey(id), "Cannot register loadout item '%s' as item with id already exists. IDs must be unique.", id);
 		
 		items.put(id, item);
 		return items.size();
 	}
 	
+	public boolean isItem(String id) {
+		checkNotNull(id, "Loadout ID cannot be null.");
+		
+		return items.containsKey(id);
+	}
+	
 	public LoadoutItem getItem(String id) {
-		checkArgument(items.containsKey(id), "No loadout item with ID '" + id + "' exists.");
+		checkNotNull(id, "Loadout ID cannot be null.");
+		checkArgument(items.containsKey(id), "No loadout item with ID '%s' exists.", id);
+		
 		return items.get(id);
 	}
 	

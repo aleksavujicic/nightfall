@@ -1,5 +1,6 @@
 package deimophobe.nightfall.common.loadout;
 
+import deimophobe.nightfall.common.NightfallCommonPlugin;
 import deimophobe.nightfall.common.database.data.Datable;
 import deimophobe.nightfall.common.database.data.LoadoutData;
 import deimophobe.nightfall.common.loadout.item.LoadoutItem;
@@ -22,9 +23,14 @@ public class Loadout implements SessionData, Datable<LoadoutData> {
 	public Loadout() { }
 	
 	public Loadout(LoadoutData data) {
+		LoadoutManager manager = LoadoutManager.getManager();
 		for (String item : data.items) {
-			LoadoutItem loadoutItem = LoadoutManager.getManager().getItem(item);
-			selectItem(loadoutItem);
+			if (manager.isItem(item)) {
+				LoadoutItem loadoutItem = manager.getItem(item);
+				selectItem(loadoutItem);
+			} else {
+				NightfallCommonPlugin.logger().warning("Attempted to create loadout with invalid kit item: " + item);
+			}
 		}
 	}
 	
