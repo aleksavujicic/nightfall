@@ -53,6 +53,10 @@ public class MenuManager {
 		return startSession(menu, player);
 	}
 	
+	public <S extends MainMenu<?>> S getMenu(Class<S> menuClass) {
+		return registeredMenus.getInstance(menuClass);
+	}
+	
 	MenuSession<?> getSession(Player player) {
 		return activeSessions.get(player);
 	}

@@ -21,12 +21,9 @@ public class ColourMenu extends ListMenu<NoData> implements MainMenu<NoData> {
 	@Override public String getTitle() { return "Choose a colour"; }
 	@Override public NoData getDataFromPlayer(Player player) { return null; }
 	
-	private static final ColourMenu menu = new ColourMenu();
-	public static ColourMenu getMenu() { return menu; }
-	
 	private Map<DyeColor, ColourMenuItem> colourMap = new HashMap<>();
 	
-	private ColourMenu() {
+	ColourMenu() {
 		final Logger logger = NightfallPlugin.logger();
 		final ConfigurationSection config = NightfallPlugin.getInternalFileConfig("colour-menu.yml");
 		for (String key : config.getKeys(false)){

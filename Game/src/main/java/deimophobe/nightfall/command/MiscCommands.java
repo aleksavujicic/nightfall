@@ -6,6 +6,7 @@ import co.aikar.commands.annotation.*;
 import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.ColourMenu;
 import deimophobe.nightfall.common.command.MessageUtil;
+import deimophobe.nightfall.common.menu.MenuManager;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -153,7 +154,8 @@ public class MiscCommands extends BaseCommand {
 	@Conditions("hold-colourable")
 	@Description("Change the colour of your held item.")
 	public void colour(Player player){
-		ColourMenu.getMenu().startSession(player);
+		ColourMenu menu = getColourMenu();
+		menu.startSession(player);
 	}
 	
 	@CommandAlias("colour|color|col")
@@ -161,8 +163,14 @@ public class MiscCommands extends BaseCommand {
 	@Conditions("hold-colourable")
 	@Description("Change the colour of your held item.")
 	public void colour(Player player, @Flags("null") DyeColor colour){
-		ColourMenu.getMenu().dyeColour(player, colour);
+		ColourMenu menu = getColourMenu();
+		menu.dyeColour(player, colour);
 	}
+	
+	private ColourMenu getColourMenu() {
+		return MenuManager.getManager().getMenu(ColourMenu.class);
+	}
+	
 	
 	@CommandAlias("fix")
 	public class FixCommand extends BaseCommand {
