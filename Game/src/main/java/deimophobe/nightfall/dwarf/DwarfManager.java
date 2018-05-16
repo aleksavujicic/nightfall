@@ -1,15 +1,15 @@
 package deimophobe.nightfall.dwarf;
 
 import com.google.common.collect.Sets;
-import deimophobe.nightfall.common.player.PlayerManager;
-import deimophobe.nightfall.game.Game;
-import deimophobe.nightfall.game.GameSize;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.dwarf.hero.HeroType;
-import deimophobe.nightfall.game.GamePlayerManager;
 import deimophobe.nightfall.event.DwarfCreateEvent;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.GamePlayerManager;
+import deimophobe.nightfall.game.GameSize;
 import deimophobe.nightfall.util.PacketUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -166,10 +166,10 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	private static final Set<HeroType> SECONDARY_HEROES = Sets.newHashSet(HeroType.ARTHEA);
 	
 	public void onGameStart() {
-		Collection<Player> players = new HashSet<>(Bukkit.getOnlinePlayers());
-		players.removeIf(player -> player.getGameMode() == GameMode.SPECTATOR);
 		PlayerManager manager = PlayerManager.getManager();
-		players.removeIf(player -> !manager.getSettings(player).isHeroEnabled());
+		
+		Set<Player> players = new HashSet<>(Bukkit.getOnlinePlayers());
+		players.removeIf(player -> player.getGameMode() == GameMode.SPECTATOR);
 		
 		int numPlayers = players.size();
 		int numHeroes = 0;
@@ -186,6 +186,8 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 			if (chosenHeroes.size() >= 1) possibleHeroes.addAll(SECONDARY_HEROES);
 			possibleHeroes.removeAll(chosenHeroes);
 			
+			Collection<Player> heroCandidates = new HashSet<>(players);
+			heroCandidates.removeIf(player -> !manager.getSettings(player).isHeroEnabled());
 			Player hero = Misc.getRandom(players);
 			players.remove(hero);
 			
