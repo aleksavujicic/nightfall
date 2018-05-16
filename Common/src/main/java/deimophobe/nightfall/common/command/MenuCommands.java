@@ -2,7 +2,10 @@ package deimophobe.nightfall.common.command;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
+import deimophobe.nightfall.common.loadout.LoadoutMenu;
 import deimophobe.nightfall.common.menu.MainMenu;
+import deimophobe.nightfall.common.menu.MenuManager;
+import deimophobe.nightfall.common.menu.SessionData;
 import deimophobe.nightfall.common.player.cosmetic.HatMenu;
 import deimophobe.nightfall.common.player.cosmetic.TitleMenu;
 import org.bukkit.entity.Player;
@@ -12,22 +15,23 @@ import org.bukkit.entity.Player;
  * Created by Deimophobe on 14/05/18.
  */
 public class MenuCommands extends BaseCommand {
-	private final MainMenu<?> hatMenu;
-	private final MainMenu<?> titleMenu;
-	
-	public MenuCommands() {
-		this.hatMenu = new HatMenu();
-		this.titleMenu = new TitleMenu();
-	}
 	
 	@CommandAlias("hat|hats")
 	public void hat(Player player) {
-		hatMenu.startSession(player);
+		startSession(HatMenu.class, player);
 	}
 	
 	@CommandAlias("title|titles")
 	public void title(Player player) {
-		titleMenu.startSession(player);
+		startSession(TitleMenu.class, player);
 	}
 	
+	@CommandAlias("loadout|kit")
+	public void loadout(Player player) {
+		startSession(LoadoutMenu.class, player);
+	}
+	
+	private <T extends SessionData> void startSession(Class<? extends MainMenu<T>> menuClass, Player player) {
+		MenuManager.getManager().startSession(menuClass, player);
+	}
 }

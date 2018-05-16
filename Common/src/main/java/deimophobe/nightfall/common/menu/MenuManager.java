@@ -1,7 +1,8 @@
 package deimophobe.nightfall.common.menu;
 
-import deimophobe.nightfall.common.Misc;
-
+import com.google.common.collect.ClassToInstanceMap;
+import com.google.common.collect.MutableClassToInstanceMap;
+import deimophobe.nightfall.common.NightfallCommonPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -9,32 +10,47 @@ import org.bukkit.plugin.Plugin;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by Deimophobe on 1/05/17.
  */
 public class MenuManager {
-	private static MenuManager ourManager = null;
-	static MenuManager getManager() {
-		return ourManager;
-	}
-	public static void initialiseMenuManager(Plugin plugin) {
-		if (ourManager != null) {
-			throw new IllegalStateException("Tried to initialise MenuManager but it had already been initialised.");
-		} else {
-			ourManager = new MenuManager(plugin);
-		}
+	public static MenuManager getManager() {
+		return NightfallCommonPlugin.getPlugin().getMenuManager();
 	}
 	
 	private final Map<Player, MenuSession<?>> activeSessions = new HashMap<>();
+	private final ClassToInstanceMap<MainMenu<?>> registeredMenus;
 	
-	private MenuManager(Plugin plugin) {
+	public MenuManager(Plugin plugin) {
 		Bukkit.getPluginManager().registerEvents(new MenuListener(), plugin);
+		
+		registeredMenus = MutableClassToInstanceMap.create();
+	}
+	
+	public <S extends MainMenu<?>> void registerMenu(Class<S> menuClass, S menu) {
+		checkNotNull(menuClass, "Menu class must not be null.");
+		checkNotNull(menu, "Menu must not be null.");
+		
+		registeredMenus.putInstance(menuClass, menu);
 	}
 	
 	public <T extends SessionData> MenuSession<T> startSession(MainMenu<T> mainMenu, Player player) {
+		checkNotNull(player, "Player must not be null.");
+		
 		MenuSession<T> session = new MenuSession<>(mainMenu, player);
 		activeSessions.put(player, session);
 		return session;
+	}
+	
+	public <T extends SessionData> MenuSession<T> startSession(Class<? extends MainMenu<T>> menuClass, Player player) {
+		checkNotNull(menuClass, "Menu class must not be null.");
+		checkArgument(registeredMenus.containsKey(menuClass), "Menu '%s' must be registered before starting a session.", menuClass.getSimpleName());
+		
+		MainMenu<T> menu = registeredMenus.getInstance(menuClass);
+		return startSession(menu, player);
 	}
 	
 	MenuSession<?> getSession(Player player) {

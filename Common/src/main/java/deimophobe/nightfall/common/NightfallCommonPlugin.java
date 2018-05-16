@@ -4,9 +4,11 @@ import deimophobe.nightfall.common.command.CommonCommandInitialiser;
 import deimophobe.nightfall.common.database.DataIO;
 import deimophobe.nightfall.common.database.DataIOType;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
-import deimophobe.nightfall.common.loadout.LoadoutManager;
+import deimophobe.nightfall.common.loadout.LoadoutMenu;
 import deimophobe.nightfall.common.menu.MenuManager;
 import deimophobe.nightfall.common.player.PlayerManager;
+import deimophobe.nightfall.common.player.cosmetic.HatMenu;
+import deimophobe.nightfall.common.player.cosmetic.TitleMenu;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,7 +29,10 @@ public class NightfallCommonPlugin extends JavaPlugin {
 	private DataIO dataIO;
 	public DataIO getDataIO() { return dataIO; }
 	
+	private MenuManager menuManager;
 	private PlayerManager playerManager;
+	
+	public MenuManager getMenuManager() { return menuManager; }
 	public PlayerManager getPlayerManager() { return playerManager; }
 	
 	private FileConfiguration config;
@@ -35,21 +40,18 @@ public class NightfallCommonPlugin extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		plugin = this;
-		LoreTemplate.registerTemplateFile("lore-templates.yml");
-		
-		CommonCommandInitialiser.initialiseCommands(this);
 		
 		// Load config - saving default if none exists.
 		this.saveDefaultConfig();
 		config = this.getConfig();
 		
+		LoreTemplate.registerTemplateFile("lore-templates.yml");
+		initialiseMenus();
+		CommonCommandInitialiser.initialiseCommands(this);
+		
 		DataIOType type = getDataIOType();
 		dataIO = type.createDataIO(this);
-		
 		playerManager = new PlayerManager(this);
-		
-		MenuManager.initialiseMenuManager(this);
-		LoadoutManager.getManager();
 	}
 	
 	@Override
@@ -75,5 +77,13 @@ public class NightfallCommonPlugin extends JavaPlugin {
 			logger.warning("Unknown database: " + databaseType + ". Defaulting to NONE.");
 			return DataIOType.NONE;
 		}
+	}
+	
+	private void initialiseMenus() {
+		menuManager = new MenuManager(this);
+		
+		menuManager.registerMenu(LoadoutMenu.class, new LoadoutMenu());
+		menuManager.registerMenu(HatMenu.class, new HatMenu());
+		menuManager.registerMenu(TitleMenu.class, new TitleMenu());
 	}
 }

@@ -23,8 +23,6 @@ public class LoadoutManager {
 	
 	private LoadoutManager() {
 		ourManager = this;
-		// Loads the menu, so that it populates the items map
-		LoadoutMenu.getMenu();
 	}
 	
 	public int registerLoadoutItem(LoadoutItem item, String id) {

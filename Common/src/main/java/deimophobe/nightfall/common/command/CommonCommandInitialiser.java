@@ -23,7 +23,6 @@ public class CommonCommandInitialiser {
 		addResolvers(commandManager);
 		
 		commandManager.registerCommand(new GoldCommand());
-		commandManager.registerCommand(new LoadoutCommand());
 		commandManager.registerCommand(new MenuCommands());
 	}
 	

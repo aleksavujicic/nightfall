@@ -23,14 +23,11 @@ import java.util.List;
  * Created by Deimophobe on 2/03/17.
  */
 public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Loadout> {
-	private static final LoadoutMenu menu = new LoadoutMenu();
-	public static LoadoutMenu getMenu() {return menu;}
-	
 	static final int PAGE_SIZE = 5*9;
 	private static final int EXTRA_SIZE = 1*9;
 	private static final String TITLE = "Select a kit";
 	
-	private LoadoutMenu() {
+	public LoadoutMenu() {
 		// Setup menus
 		List<LoadoutPage> tempPages = new ArrayList<>();
 		tempPages.add(getPage("loadout/page-classes.yml"));

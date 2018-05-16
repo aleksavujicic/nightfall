@@ -6,7 +6,6 @@ import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.event.HatChangeEvent;
 import deimophobe.nightfall.common.event.TitleChangeEvent;
-import deimophobe.nightfall.common.loadout.LoadoutMenu;
 import deimophobe.nightfall.damage.DamageUtil;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -607,12 +606,6 @@ public class GameListener implements Listener {
 		if (holder instanceof Player && game.isGamePlayer((Player) holder)) {
 			if (event.getInventorySlots().contains(40))
 				event.setCancelled(true);
-		}
-		
-		LoadoutMenu loadout = LoadoutMenu.getMenu();
-		HumanEntity e = event.getWhoClicked();
-		if (event.getInventory() != null && loadout.getTitle().equals(event.getInventory().getTitle()) && e instanceof Player) {
-			event.setCancelled(true);
 		}
 	}
 	
