@@ -13,9 +13,12 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -29,6 +32,8 @@ public class PlayerManager {
 	private final NightfallCommonPlugin plugin;
 	private final DataIO dataIO;
 	
+	private final BukkitRunnable autosaver;
+	
 	public PlayerManager(NightfallCommonPlugin plugin) {
 		this.plugin = plugin;
 		this.dataIO = plugin.getDataIO();
@@ -39,6 +44,26 @@ public class PlayerManager {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			loadPlayerInfo(player.getUniqueId());
 		}
+		
+		int autosaveFreq = plugin.getConfig().getInt("database.autosave", 300);
+		if (autosaveFreq <= 0) {
+			plugin.getLogger().warning("Autosaver disabled!");
+			this.autosaver = null;
+			return;
+		}
+		
+		this.autosaver = new BukkitRunnable() {
+			@Override
+			public void run() {
+				saveAll();
+			}
+		};
+		autosaver.runTaskTimerAsynchronously(plugin, autosaveFreq*20, autosaveFreq*20);
+	}
+	
+	public void onDisable() {
+		if (autosaver != null) autosaver.cancel();
+		saveAll();
 	}
 	
 	// ----- DATA LOADING -----
@@ -70,10 +95,25 @@ public class PlayerManager {
 		playerInfoMap.remove(playerID);
 	}
 	
-	public void saveAll() {
+	private void saveAll() {
+		// Setup logger/format
+		Logger logger = plugin.getLogger();
+		final NumberFormat format = new DecimalFormat("#.##");
+		
+		// Log start
+		logger.info("Saving player data...");
+		long startTime = System.nanoTime();
+		
+		// Save
 		for (UUID uuid : playerInfoMap.keySet()) {
 			savePlayerInfo(uuid);
 		}
+		
+		// Log end
+		long endTime = System.nanoTime();
+		long timeTaken = endTime - startTime;
+		double timeMilli = (double)timeTaken/1000000;
+		logger.info("Saved player data (took " + format.format(timeMilli) + " ms)");
 	}
 	
 	

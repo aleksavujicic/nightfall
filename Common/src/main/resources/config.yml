@@ -6,6 +6,9 @@ database:
   # Note that 'none' will not save any data.
   type: flat
 
+  # Autosave frequency in seconds (default 5 mins). A value of -1 will disable.
+  autosave: 10
+
   # Only read if type is 'mongo'
   mongo:
     host: localhost

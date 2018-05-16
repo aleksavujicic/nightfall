@@ -55,7 +55,7 @@ public class NightfallCommonPlugin extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		super.onDisable();
-		playerManager.saveAll();
+		playerManager.onDisable();
 	}
 	
 	public static YamlConfiguration getInternalFileConfig(String name) {
