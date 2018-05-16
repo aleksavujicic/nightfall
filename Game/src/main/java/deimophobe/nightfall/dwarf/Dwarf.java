@@ -6,6 +6,7 @@ import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.JumpPad;
+import deimophobe.nightfall.blocks.timedblock.TurretBlock;
 import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.RepeatingCooldown;
@@ -749,5 +750,11 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		kit.onRemove();
 		SkinManager.getManager().removeSkinChange(this);
 		DisguiseAPI.undisguiseToAll(player);
+		
+		for (TurretBlock turret : BlockManager.getManager().getTimedBlocks(TurretBlock.class)) {
+			if (turret.getPlacer() == this) {
+				turret.cancel();
+			}
+		}
 	}
 }
