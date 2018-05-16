@@ -52,6 +52,11 @@ public class PlayerInfo implements Datable<PlayerData> {
 		gold += amount;
 	}
 	
+	public void removeGold(int amount) {
+		checkArgument(amount >= 0, "Can only take a positive amount of gold.");
+		gold -= amount;
+	}
+	
 	public int getGoldAmount() {
 		return gold;
 	}

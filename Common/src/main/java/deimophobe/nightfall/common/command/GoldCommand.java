@@ -21,6 +21,13 @@ public class GoldCommand extends BaseCommand {
 		MessageUtil.sendMessage(sender, "Gave ", player.getPlayer(), " a total of ", amount, " gold.");
 	}
 	
+	@Subcommand("take")
+	@CommandCompletion("@players")
+	public void takeGold(CommandSender sender, PlayerInfo player, @Conditions("nonnegative") int amount) {
+		player.removeGold(amount);
+		MessageUtil.sendMessage(sender, "Removed from ", player.getPlayer(), " a total of ", amount, " gold.");
+	}
+	
 	@Subcommand("amount")
 	@CommandCompletion("@players")
 	public void getAmount(CommandSender sender, PlayerInfo player) {
