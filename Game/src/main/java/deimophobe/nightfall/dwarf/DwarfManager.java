@@ -188,7 +188,8 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 			
 			Collection<Player> heroCandidates = new HashSet<>(players);
 			heroCandidates.removeIf(player -> !manager.getSettings(player).isHeroEnabled());
-			Player hero = Misc.getRandom(players);
+			Player hero = Misc.getRandom(heroCandidates);
+			if (hero == null) break; // No more players to hero up
 			players.remove(hero);
 			
 			HeroType type = Misc.getRandom(possibleHeroes);
