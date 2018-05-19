@@ -66,7 +66,7 @@ public class Game {
 	/** Starts the game on a specified {@link SubServer}. Should be run async. */
 	public synchronized void start(SubServer server) throws IOException {
 		if (state != State.QUEUED) {
-			throw new IllegalArgumentException("Cannot start game '" + this.toString() + "' as it has already been started");
+			throw new IllegalStateException("Cannot start game '" + this.toString() + "' as it has already been started");
 		}
 		if (!server.getGroups().contains(ServerManager.GAME_GROUP_NAME)) {
 			throw new IllegalArgumentException("Cannot start game '" + this.toString() + "' on server '" + server.getName() + "' as it is not in game group");
