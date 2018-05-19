@@ -681,6 +681,19 @@ public class GameListener implements Listener {
 		}
 	}
 	
+	@EventHandler
+	public void preventSpectatorTeleprot(PlayerTeleportEvent event) {
+		MonsterManager monsterManager = MonsterManager.getManager();
+		Player player = event.getPlayer();
+		
+		boolean isMonster = monsterManager.isGamePlayer(player);
+		boolean isSpectateTeleport = event.getCause() == PlayerTeleportEvent.TeleportCause.SPECTATE;
+		
+		if (isMonster && isSpectateTeleport) {
+			event.setCancelled(true);
+		}
+	}
+	
 	
 	// Other Miscellani
 	@EventHandler
