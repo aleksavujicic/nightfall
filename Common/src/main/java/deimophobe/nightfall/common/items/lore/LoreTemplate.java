@@ -7,11 +7,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Deimophobe on 15/04/17.
  */
 public class LoreTemplate {
+	private static final Pattern SECTION_REGEX = Pattern.compile("^\\$\\{([a-zA-Z0-9\\-]+)\\}$");
 	
 	public static final String BASIC = "basic";
 	public static final String DEFAULT = BASIC;
@@ -28,43 +31,47 @@ public class LoreTemplate {
 	public static final String MOB_UPGRADE = "monster-upgrade";
 	
 	private final String namePrefix;
-	private final List<SectionTemplate> components;
+	private final List<SectionTemplate> sectionTemplates;
 	
 	private final String modifierNamePrefix;
 	private final String modifierValuePrefix;
 	private final String modifierReasonPrefix;
 	
 	private LoreTemplate(ConfigurationSection config) {
-		namePrefix = ChatColor.translateAlternateColorCodes('&', config.getString("nameprefix"));
+		this.namePrefix = ChatColor.translateAlternateColorCodes('&', config.getString("nameprefix"));
 		
-		components = new ArrayList<>();
+		this.sectionTemplates = new ArrayList<>();
 		List<String> lore = config.getStringList("lore");
-		String longLore = String.join("\n", lore);
+		final List<String> currentFixedTemplate = new ArrayList<>();
 		
+		// Kinda a hack to run this code in multiple places
+		final Runnable fixedTemplateSaver = () -> {
+			if (currentFixedTemplate.isEmpty()) return;
+			
+			String fixedString = String.join("\n", currentFixedTemplate);
+			SectionTemplate fixedTemplate = new FixedSectionTemplate(fixedString);
+			sectionTemplates.add(fixedTemplate);
+			currentFixedTemplate.clear();
+		};
 		
-		// Find sections
-		int prevMatch = 0;
-		sectionFinder: for (int i=0; i<longLore.length(); i++) {
-			if (longLore.charAt(i) != '$') continue;
-			if (i != 0 && longLore.charAt(i-1) == '\\') continue;
-			if (longLore.charAt(i+1) != '{') continue;
-			
-			String prevString = longLore.substring(prevMatch, i);
-			components.add(new FixedSectionTemplate(prevString));
-			
-			int j = i+2;
-			do {
-				j++;
-				if (j >= longLore.length()) break sectionFinder;
-			} while (Character.isLetter(longLore.charAt(j)));
-			
-			String sectionName = longLore.substring(i+2, j);
-			String secPrefix = config.getString("prefix."+sectionName, "&r");
-			String secDefault = config.getString("defaults."+sectionName, "");
-			components.add(new NamedSectionTemplate(sectionName, secPrefix, secDefault));
-			
-			prevMatch = j+1;
+		for (String line : lore) {
+			Matcher matcher = SECTION_REGEX.matcher(line);
+			if (matcher.matches()) {
+				// First finish current fixed template
+				fixedTemplateSaver.run();
+				
+				// Then add named section
+				String name = matcher.group(1);
+				String sectionPrefix = config.getString("prefix."+name, "&r");
+				String sectionDefault = config.getString("defaults."+name, "");
+				SectionTemplate section = new NamedSectionTemplate(name, sectionPrefix, sectionDefault);
+				sectionTemplates.add(section);
+			} else {
+				currentFixedTemplate.add(line);
+			}
 		}
+		// Save any lines at the end
+		fixedTemplateSaver.run();
 		
 		modifierNamePrefix = ChatColor.translateAlternateColorCodes('&', config.getString("modifiers.name", ""));
 		modifierValuePrefix = ChatColor.translateAlternateColorCodes('&', config.getString("modifiers.value", ""));
@@ -75,9 +82,9 @@ public class LoreTemplate {
 		return namePrefix + name;
 	}
 	
-	public List<Section> createSections(Map<String, String> loreSections) {
+	List<Section> createSections(Map<String, String> loreSections) {
 		List<Section> sectionList = new ArrayList<>();
-		for (SectionTemplate sectionTemplate : components) {
+		for (SectionTemplate sectionTemplate : sectionTemplates) {
 			Section section = sectionTemplate.createSection(loreSections);
 			sectionList.add(section);
 		}
@@ -85,7 +92,7 @@ public class LoreTemplate {
 		return sectionList;
 	}
 	
-	public List<String> generateAttributeText(SortedMap<ItemModifierType, Set<ItemModifier>> modifiers) {
+	List<String> generateAttributeText(SortedMap<ItemModifierType, Set<ItemModifier>> modifiers) {
 		List<String> lines = new ArrayList<>();
 		for (Map.Entry<ItemModifierType, Set<ItemModifier>> entry : modifiers.entrySet()) {
 			ItemModifierType type = entry.getKey();

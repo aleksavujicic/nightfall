@@ -27,7 +27,7 @@ class NamedSectionTemplate implements SectionTemplate {
 	public String formatString(String rawString) {
 		String formattedString = prefix + rawString;
 		formattedString = formattedString.replaceAll("&r", "&r" + prefix);
-		formattedString = formattedString.replaceAll("\n\\s*", "\n" + prefix);
+		formattedString = formattedString.replaceAll("(\n+)\\s*", "$1" + prefix);
 		
 		return formattedString;
 	}
