@@ -3,7 +3,7 @@ name: Nightfall-Lobby
 version: 0.1
 author: Deimophobe
 description: The plugin for the Nightfall lobby.
-depend: [SubServers-Client-Bukkit]
+depend: [NightfallCommon, SubServers-Client-Bukkit]
 
 commands:
   loadout:

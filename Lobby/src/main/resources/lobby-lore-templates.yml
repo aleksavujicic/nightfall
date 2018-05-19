@@ -1,0 +1,13 @@
+game-menu:
+  nameprefix: "&b"
+
+  lore:
+    - "${game-info}"
+
+  prefix:
+    description: "&6"
+
+  modifiers:
+    name: "&3"
+    value: "&b"
+    reason: "&d"

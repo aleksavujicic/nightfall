@@ -1,5 +1,6 @@
 package deimophobe.nightfall.lobby.game;
 
+import deimophobe.nightfall.common.menu.MenuManager;
 import deimophobe.nightfall.lobby.NightfallLobbyPlugin;
 import deimophobe.nightfall.lobby.game.map.GameMap;
 import deimophobe.nightfall.lobby.game.menu.GameMenu;
@@ -32,6 +33,7 @@ public class GameManager {
 	
 	public GameManager() {
 		this.menu = new GameMenu();
+		MenuManager.getManager().registerMenu(GameMenu.class, menu);
 		
 		this.games = new HashMap<>();
 		this.logger = NightfallLobbyPlugin.getPlugin().getLogger();
@@ -103,6 +105,8 @@ public class GameManager {
 	}
 	
 	public void openMenu(Player player) {
+		if (games.isEmpty()) return;
+		
 		menu.startSession(player);
 	}
 	

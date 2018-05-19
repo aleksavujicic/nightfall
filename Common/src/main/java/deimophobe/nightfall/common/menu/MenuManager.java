@@ -57,6 +57,22 @@ public class MenuManager {
 		return registeredMenus.getInstance(menuClass);
 	}
 	
+	public boolean hasOpenSession(Player player) {
+		return activeSessions.containsKey(player);
+	}
+	
+	public boolean hasOpenSession(Player player, Class<? extends MainMenu<?>> menuClass) {
+		MainMenu<?> menu = getMenu(menuClass);
+		return hasOpenSession(player, menu);
+	}
+	
+	public boolean hasOpenSession(Player player, MainMenu<?> menu) {
+		MenuSession<?> session = activeSessions.get(player);
+		if (session == null) return false;
+		
+		return session.isMenu(menu);
+	}
+	
 	MenuSession<?> getSession(Player player) {
 		return activeSessions.get(player);
 	}

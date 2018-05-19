@@ -10,6 +10,7 @@ import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.common.player.cosmetic.HatMenu;
 import deimophobe.nightfall.common.player.cosmetic.TitleMenu;
 import deimophobe.nightfall.common.player.settings.SettingsMenu;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -46,7 +47,8 @@ public class NightfallCommonPlugin extends JavaPlugin {
 		this.saveDefaultConfig();
 		config = this.getConfig();
 		
-		LoreTemplate.registerTemplateFile("lore-templates.yml");
+		ConfigurationSection templatesFile = NightfallCommonPlugin.getInternalFileConfig("lore-templates.yml");
+		LoreTemplate.registerTemplateFile(templatesFile);
 		initialiseMenus();
 		CommonCommandInitialiser.initialiseCommands(this);
 		
