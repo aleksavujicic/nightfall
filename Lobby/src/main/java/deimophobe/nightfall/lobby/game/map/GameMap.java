@@ -8,7 +8,7 @@ import java.io.File;
  * Created by Deimophobe on 8/12/17.
  */
 public class GameMap {
-	private static final File MAP_FOLDER = new File("Maps");
+	private static final File MAP_FOLDER = new File("maps");
 	public static File getMapFolder() { return MAP_FOLDER; }
 	public static GameMap getMap(String name) { return MapManager.getManager().getMap(name); }
 	
