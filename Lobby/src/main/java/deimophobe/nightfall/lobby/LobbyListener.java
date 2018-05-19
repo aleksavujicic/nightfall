@@ -1,6 +1,8 @@
 package deimophobe.nightfall.lobby;
 
 import com.google.common.collect.Sets;
+import deimophobe.nightfall.common.event.HatChangeEvent;
+import deimophobe.nightfall.common.event.TitleChangeEvent;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -20,6 +22,21 @@ import java.util.Set;
  * Created by Deimophobe on 2/11/17.
  */
 public class LobbyListener implements Listener {
+	// =====================================
+	// ===         Common Stuffs         ===
+	// =====================================
+	
+	@EventHandler
+	private void onHatChange(HatChangeEvent event) {
+		event.setUpdateHat(true);
+	}
+	
+	@EventHandler
+	private void onTitleChange(TitleChangeEvent event) {
+		event.setUpdateDisplayName(true);
+	}
+	
+	
 	// =====================================
 	// ===        Event Canceling        ===
 	// =====================================

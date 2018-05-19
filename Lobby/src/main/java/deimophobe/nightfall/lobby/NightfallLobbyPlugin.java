@@ -1,6 +1,8 @@
 package deimophobe.nightfall.lobby;
 
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
+import deimophobe.nightfall.common.player.PlayerManager;
+import deimophobe.nightfall.common.player.cosmetic.Cosmetics;
 import deimophobe.nightfall.lobby.game.GameListener;
 import deimophobe.nightfall.lobby.game.GameManager;
 import deimophobe.nightfall.lobby.game.map.MapManager;
@@ -108,6 +110,10 @@ public class NightfallLobbyPlugin extends JavaPlugin {
 		player.setLevel(0);
 		player.setDisplayName(player.getName());
 		player.setCollidable(false);
+		
+		Cosmetics cosmetics = PlayerManager.getManager().getCosmetics(player);
+		cosmetics.equipHat();
+		cosmetics.updateTitle();
 	}
 	
 	public static YamlConfiguration getInternalFileConfig(String name) {
