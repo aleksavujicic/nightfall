@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  * Created by Deimophobe on 10/05/18.
  */
 class Section {
-	private static final Pattern VAR_REGEX = Pattern.compile("\\$([a-zA-Z0-9]+)");
+	private static final Pattern VAR_REGEX = Pattern.compile("\\$([a-zA-Z0-9\\-]+)");
 	
 	private final SectionTemplate template;
 	private final List<LoreComponent> components;
