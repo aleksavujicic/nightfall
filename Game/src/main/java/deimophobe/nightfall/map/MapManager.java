@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Created by Deimophobe on 17/03/17.
@@ -110,7 +111,8 @@ public class MapManager {
 		activeMaps.clear();
 		mapQueue.clear();
 		
-		NightfallPlugin.logger().info("Reloading map config.");
+		final Logger logger = NightfallPlugin.logger();
+		logger.info("Reloading map config.");
 		Configuration mapsConfig = YamlConfiguration.loadConfiguration(mapConfigFile);
 		ConfigurationSection mapSection = mapsConfig.getConfigurationSection("maps");
 		
@@ -118,33 +120,37 @@ public class MapManager {
 		cycleTime = mapsConfig.getInt("cycle-time", 30);
 		
 		if (cycleTime <= 0) {
-			NightfallPlugin.logger().severe("Cycle time should be positive.");
+			logger.severe("Cycle time should be positive.");
 			cycleTime = 30;
 		}
 				
 		
 		if (!mapWorldFolder.exists()) {
-			NightfallPlugin.logger().severe("No map folder found - no maps will be created.");
+			logger.severe("No map folder found - no maps will be created.");
 			return;
 		}
 
 		if (mapSection == null) {
-			NightfallPlugin.logger().severe("No section found for maps in maps.yml - no maps will be created.");
+			logger.severe("No section found for maps in maps.yml - no maps will be created.");
 			return;
 		}
 		
 		for (String mapName : mapSection.getKeys(false)) {
 			ConfigurationSection mapConfig = mapSection.getConfigurationSection(mapName);
+			if (mapConfig == null) {
+				logger.severe("Map with key '" + mapName +"' has invalid format in maps.yml.");
+				continue;
+			}
 			
 			String mapFilename = mapConfig.getString("folder");
 			if (mapFilename == null) {
-				NightfallPlugin.logger().severe("No map folder given for key '" + mapName +"' in maps.yml.");
+				logger.severe("No map folder given for key '" + mapName +"' in maps.yml.");
 				continue;
 			}
 			
 			File mapFile = new File(mapWorldFolder, mapFilename);
 			if (!mapFile.exists()) {
-				NightfallPlugin.logger().severe("No map found in map folder with name '" + mapFilename +"' in maps.yml.");
+				logger.severe("No map found in map folder with name '" + mapFilename +"' in maps.yml.");
 				continue;
 			}
 			
