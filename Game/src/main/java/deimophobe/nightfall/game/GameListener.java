@@ -550,6 +550,16 @@ public class GameListener implements Listener {
 		event.setCancelled(true);
 	}
 	
+	@EventHandler
+	public void blockLandEvent(EntityChangeBlockEvent event) {
+		Entity entity = event.getEntity();
+		if (entity.getType() != EntityType.FALLING_BLOCK) return;
+		
+		Block block = event.getBlock();
+		boolean placeable = GameMap.getCurrentMap().isBlockPlaceable(block);
+		if (!placeable) event.setCancelled(true);
+	}
+	
 	
 	// Inventory/Items
 	@EventHandler
