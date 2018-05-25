@@ -335,7 +335,8 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 		MutableInt count = new MutableInt(0);
 		iterateThroughInventory(item -> {
 			if (matcher.doesItemMatch(item)) {
-				count.add(1);
+				int amt = item.getAmount();
+				count.add(amt);
 			}
 		});
 		
