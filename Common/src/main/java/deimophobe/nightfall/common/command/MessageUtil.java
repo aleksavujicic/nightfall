@@ -20,6 +20,14 @@ import java.util.function.Function;
 public class MessageUtil {
 	
 	private static final Map<Class<?>, MessageResolver<?>> resolvers = new HashMap<>();
+	private static final BaseComponent NULL_COMPONENT = getNullComponent();
+	
+	private static BaseComponent getNullComponent() {
+		BaseComponent nullComponent = new TextComponent("null");
+		nullComponent.setColor(ChatColor.RED);
+		nullComponent.setItalic(true);
+		return nullComponent;
+	}
 	
 	static void initialise() {
 		addResolver(String.class, TextComponent::new);
@@ -136,28 +144,31 @@ public class MessageUtil {
 		message.setColor(colour);
 		
 		for (Object object : objects) {
-			BaseComponent nextComponent = null;
-			MessageResolver<?> resolver = resolvers.get(object.getClass());
-			if (resolver != null) {
-				nextComponent = resolver.getUncheckedMessage(object);
-			} else {
-				boolean created = false;
-				for (Map.Entry<Class<?>, MessageResolver<?>> entry : resolvers.entrySet()) {
-					Class<?> clazz = entry.getKey();
-					if (clazz.isInstance(object)) {
-						nextComponent = entry.getValue().getUncheckedMessage(object);
-						created = true;
-						break;
-					}
-				}
-				
-				if (!created) {
-					throw new IllegalArgumentException("Do not know how to process object " + object + " of class " + object.getClass().getName());
-				}
-			}
+			BaseComponent nextComponent = (object == null ? NULL_COMPONENT : getComponentFromObject(object));
 			message.addExtra(nextComponent);
 		}
 		
 		sender.spigot().sendMessage(message);
+	}
+	
+	private static BaseComponent getComponentFromObject(Object object) {
+		BaseComponent component = null;
+		MessageResolver<?> resolver = resolvers.get(object.getClass());
+		if (resolver != null) {
+			component = resolver.getUncheckedMessage(object);
+		} else {
+			for (Map.Entry<Class<?>, MessageResolver<?>> entry : resolvers.entrySet()) {
+				Class<?> clazz = entry.getKey();
+				if (clazz.isInstance(object)) {
+					component = entry.getValue().getUncheckedMessage(object);
+					break;
+				}
+			}
+			
+			if (component == null) {
+				throw new IllegalArgumentException("Do not know how to process object " + object + " of class " + object.getClass().getName());
+			}
+		}
+		return component;
 	}
 }
