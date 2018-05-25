@@ -58,7 +58,7 @@ public class GameCommand extends BaseCommand {
 		if (size == null) {
 			MessageUtil.sendMessage(sender, "The current game size is: ", Game.getGame().getGameSize(), ".");
 		} else {
-			Game.getGame().setGameSize(size);
+			Game.getGame().forceGameSize(size);
 			MessageUtil.sendMessage(sender, "Set the game size to: ", size, ".");
 		}
 	}

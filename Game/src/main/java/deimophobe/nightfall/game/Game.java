@@ -89,9 +89,8 @@ public class Game {
 	private Phase phase;
 	public Phase getPhase() { return phase; }
 	
-	private GameSize gameSize = GameSize.NONE;
-	public GameSize getGameSize() { return gameSize; }
-	public void setGameSize(GameSize size) { gameSize = size; }
+	/** Size of the game. A null value represents a not currently set value (during pregame). This means that {@link #getGameSize()} will return {@link GameSize#TINY} */
+	private GameSize gameSize = null;
 	
 	private final DwarfManager dwarfManager;
 	private final MonsterManager monsterManager;
@@ -529,6 +528,17 @@ public class Game {
 	
 	
 	// ------ GAME PHASES -------
+	public GameSize getGameSize() {
+		if (gameSize == null) return GameSize.TINY;
+		
+		return gameSize;
+	}
+	
+	public void forceGameSize(GameSize size) {
+		gameSize = size;
+	}
+	
+	
 	public void startLobby() {
 		transitionToPhase(Phase.STARTING);
 		
@@ -547,12 +557,14 @@ public class Game {
 	public void startGame() {
 		transitionToPhase(Phase.BUILD);
 		
+		if (gameSize == null) gameSize = GameSize.fromCurrentGame(this);
+		
 		sidebarObj.setDisplaySlot(DisplaySlot.SIDEBAR);
 		
 		monsterManager.removeAllGamePlayers();
 		dwarfManager.removeAllGamePlayers();
 		
-		dwarfManager.onGameStart();
+		dwarfManager.onGameStart(this);
 		updateDwarfCount();
 		
 		// Fix players
