@@ -32,6 +32,12 @@ public class Horn extends AbstractItem {
 	private final Cooldown cooldown = new UseCooldown(120*20, Horn::tootHorn);
 	
 	@Override
+	public void update() {
+		super.update();
+		cooldown.update();
+	}
+	
+	@Override
 	public boolean onUse(ClickType click, Block block, BlockFace face) {
 		if (click.isLeftClick()) {
 			return cooldown.tryUse();
