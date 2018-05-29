@@ -10,6 +10,7 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.effects.sound.Sounds;
 import org.bukkit.block.Block;
@@ -19,7 +20,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 /**
  * Created by Deimophobe on 13/05/17.
  */
-public class Horn extends AbstractItem {
+public class Horn extends AbstractItem implements CooldownPiece {
 	
 	public Horn(Dwarf dwarf) {
 		super(dwarf);
@@ -56,5 +57,10 @@ public class Horn extends AbstractItem {
 				}
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), 40);
+	}
+	
+	@Override
+	public float getCooldown() {
+		return cooldown.getCooldown();
 	}
 }
