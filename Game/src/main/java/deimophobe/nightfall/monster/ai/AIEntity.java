@@ -64,6 +64,11 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 	static {CHESTPLATE.addUnsafeEnchantment(Enchantment.DEPTH_STRIDER, 2);}
 	
 	@Override
+	public boolean isOnline() {
+		return true;
+	}
+	
+	@Override
 	public MonsterDamage createDamage(GameEntity attacker, GameDamageType type, double damage, Projectile projectile) {
 		return new MonsterDamage(attacker, this, type, damage, projectile);
 	}

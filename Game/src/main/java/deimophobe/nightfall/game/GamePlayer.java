@@ -106,6 +106,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	// ------ ONLINE/OFFLINE ------
 	private boolean online = true;
 	
+	@Override
 	public boolean isOnline() { return online; }
 	
 	public void goOnline(Player newPlayer) {

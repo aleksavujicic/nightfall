@@ -28,6 +28,7 @@ import java.util.UUID;
  */
 public interface GameEntity<E extends LivingEntity> {
 	E getEntity();
+	boolean isOnline();
 	
 	default String getName() {
 		return getEntity().getName();
@@ -170,7 +171,7 @@ public interface GameEntity<E extends LivingEntity> {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				healMax();
+				if (isOnline()) healMax();
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), 20);
 	}
