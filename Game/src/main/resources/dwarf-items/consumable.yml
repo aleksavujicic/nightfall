@@ -95,7 +95,7 @@ turret:
   name: Turret
   lore:
     description:
-     - "Rotateable block that shoots\n
+     - "Rotatable block that shoots\n
         a constant stream of arrows"
     flavour:
      - "Don't be standing around, when theres work\n
