@@ -310,19 +310,23 @@ public class GameListener implements Listener {
 					Arrow arrow = (Arrow) proj;
 					final float force = event.getForce();
 					
-					// Translate arrow and set appropriate velocity
+					// Set appropriate velocity
 					double speed = arrow.getVelocity().length();
 					Vector velocity = gamePlayer.getEyeLocation().getDirection();
 					velocity.multiply(speed);
+					arrow.setVelocity(velocity);
 					
+					// Set appropriate spawn location
 					Location location = arrow.getLocation();
-					Vector oldDir = location.getDirection();
 					location.setDirection(velocity);
 					Misc.moveLocation(location, 0.3, 0.15);
 					
-					location.setDirection(oldDir); // This is done to prevent arrows rotating on spawn
+					// Rotate correctly: note that minecraft is dumb and the facing is direction is inverted for X and Y (BUT NOT Z)
+					Vector facing = velocity.clone();
+					facing.setX(-facing.getX());
+					facing.setY(-facing.getY());
+					location.setDirection(facing);
 					arrow.teleport(location);
-					arrow.setVelocity(velocity);
 					
 					
 					// Update arrow properties
