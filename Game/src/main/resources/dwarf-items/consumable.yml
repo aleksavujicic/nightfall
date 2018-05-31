@@ -95,9 +95,11 @@ turret:
   name: Turret
   lore:
     description:
-     - "Turret"
+     - "Rotateable block that shoots\n
+        a constant stream of arrows"
     flavour:
-     - "Flavour"
+     - "Don't be standing around, when theres work\n
+        to be done. - ???"
 
 jump-pad:
   base: temp
