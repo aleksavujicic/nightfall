@@ -453,6 +453,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {
+		if (isFrozen()) return null;
+		
 		if (mob != null) {
 			return mob.onBowFire(arrow, force);
 		}

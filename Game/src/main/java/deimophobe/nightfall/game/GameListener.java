@@ -4,6 +4,7 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.event.HatChangeEvent;
 import deimophobe.nightfall.common.event.TitleChangeEvent;
 import deimophobe.nightfall.damage.DamageUtil;
@@ -42,6 +43,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
 /**
@@ -301,35 +303,41 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void onArrowFire(EntityShootBowEvent event) {
 		if (event.getEntity().getType() == EntityType.PLAYER) {
-			GamePlayer gp = game.getGamePlayer((Player) event.getEntity());
-			if (gp != null) {
-				if ((gp instanceof MonsterPlayer) && ((MonsterPlayer) gp).isFrozen()) {
-					event.setCancelled(true);
-					return;
-				}
-				
+			GamePlayer gamePlayer = game.getGamePlayer((Player) event.getEntity());
+			if (gamePlayer != null) {
 				Entity proj = event.getProjectile();
 				if (proj != null && proj.getType() == EntityType.ARROW) {
 					Arrow arrow = (Arrow) proj;
+					final float force = event.getForce();
 					
-					// Prevent pickup
-					arrow.setPickupStatus(Arrow.PickupStatus.DISALLOWED);
+					// Translate arrow and set appropriate velocity
+					double speed = arrow.getVelocity().length();
+					Vector velocity = gamePlayer.getEyeLocation().getDirection();
+					velocity.multiply(speed);
 					
-					// Translate arrow to behave like 1.8
-					double yaw = arrow.getLocation().getYaw() * Math.PI/180;
-					arrow.teleport(arrow.getLocation().add(-0.15*Math.cos(yaw), 0, 0.15*Math.sin(yaw)));
+					Location location = arrow.getLocation();
+					Vector oldDir = location.getDirection();
+					location.setDirection(velocity);
+					Misc.moveLocation(location, 0.3, 0.15);
 					
-					// Label it with force and damage
-					ArrowMisc.setArrowForce(arrow, event.getForce());
+					location.setDirection(oldDir); // This is done to prevent arrows rotating on spawn
+					arrow.teleport(location);
+					arrow.setVelocity(velocity);
+					
+					
+					// Update arrow properties
+					ArrowMisc.setArrowForce(arrow, force);
 					ArrowMisc.setArrowDamage(arrow, 0);
+					arrow.setPickupStatus(Arrow.PickupStatus.DISALLOWED);
+					arrow.setBounce(false);
 					
 					// FIRE
-					Projectile newProj = gp.onBowFire(arrow, event.getForce());
+					Projectile newProj = gamePlayer.onBowFire(arrow, force);
 					
 					if (newProj == null) {
 						event.setCancelled(true);
 					} else if (newProj instanceof Arrow && ArrowMisc.getArrowDamage((Arrow) newProj) == 0) {
-						NightfallPlugin.logger().severe("Arrow fired with 0 damage - meaning game player did not update!\nGameplayer: " + gp.getName() + " (" + gp.getDisplayName() + ").");
+						NightfallPlugin.logger().severe("Arrow fired with 0 damage - meaning game player did not update!\nGameplayer: " + gamePlayer.getName() + " (" + gamePlayer.getDisplayName() + ").");
 						event.setCancelled(true);
 					} else {
 						event.setProjectile(newProj);
