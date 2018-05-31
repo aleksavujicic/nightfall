@@ -173,7 +173,8 @@ healer-class:
     material: diamond
     lore:
       description:
-       - "Go heal ppl."
+       - "Support class, focusing on healing\n
+          and giving procs."
 
 paladin-class:
   index: 6
@@ -202,7 +203,9 @@ paladin-class:
     base: hammer
     lore:
       description:
-       - "Paladins"
+       - "The mighty Paladins are able to burst\n
+          down a group of monsters with their bow\n
+          and hammer."
 
 brawler-class:
   index: 9
@@ -231,7 +234,10 @@ brawler-class:
     base: volcanic
     lore:
       description:
-       - "PUNCHY PUNCHY PUNCHY"
+       - "Masters of the Fist, needing nothing\n
+          but their arm as a weapon, these fighters\n
+          have learned to channel their energy through\n
+          their gauntlets."
 
 mystic-class:
   index: 10
@@ -288,7 +294,8 @@ builder-class:
     base: hammer
     lore:
       description:
-       - "Build stuff."
+       - "A kit ready for putting walls up\n
+          as fast as possible."
 
 riftwalker-class:
   index: 12
@@ -342,4 +349,5 @@ untimely:
     base: doom-clock.off
     lore:
       description:
-       - "You will be guaranteed to plague."
+       - "You will be guaranteed to plague.\n
+          But you are given basic building materials."
