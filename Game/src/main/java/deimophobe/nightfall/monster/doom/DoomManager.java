@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class DoomManager {
 	public static DoomManager getManager() {
-		return Game.getGame().getMonsterManager().getDoomManager();
+		return MonsterManager.getManager().getDoomManager();
 	}
 	
 	private int doomTimer;
@@ -53,8 +53,6 @@ public class DoomManager {
 		if (Game.getGame().getPhase().hasGameStarted()) {
 			runner.cancel();
 		}
-		
-		TorusDoom.resetBuffers();
 	}
 	
 	public void setMaxDoomTime(int maxDoomTime) {

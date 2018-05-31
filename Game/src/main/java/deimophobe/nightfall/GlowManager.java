@@ -20,9 +20,9 @@ import java.util.*;
 /**
  * Created by Deimophobe on 27/10/17.
  */
-public class GlowManager {
+public class GlowManager implements Manager {
 	public static GlowManager getManager() {
-		return Game.getGame().getGlowManager();
+		return Game.getGame().getManager(GlowManager.class);
 	}
 	
 	private final Map<UUID, Set<GamePlayer>> glowMap = new HashMap<>();
@@ -66,6 +66,12 @@ public class GlowManager {
 		ProtocolLibrary.getProtocolManager().addPacketListener(glowChanger);
 	}
 	
+	@Override
+	public void init() {
+		
+	}
+	
+	@Override
 	public void stop() {
 		ProtocolLibrary.getProtocolManager().removePacketListener(glowChanger);
 	}

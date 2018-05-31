@@ -1,6 +1,7 @@
 package deimophobe.nightfall.blocks;
 
 import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.Manager;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GamePlayer;
@@ -20,9 +21,23 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 25/04/18.
  */
-public class BlockManager {
-	public static BlockManager getManager() { return Game.getGame().getBlockManager(); }
+public class BlockManager implements Manager {
+	public static BlockManager getManager() { return Game.getGame().getManager(BlockManager.class); }
+	private final BlockListener listener;
 	
+	public BlockManager(Game game) {
+		listener = new BlockListener();
+		game.addGameListener(listener);
+	}
+	
+	@Override
+	public void init() {
+	}
+	
+	@Override
+	public void stop() {
+		cancelAllTimedBlocks();
+	}
 	
 	
 	public boolean breakBlock(Block block) {
@@ -38,11 +53,6 @@ public class BlockManager {
 	
 	
 	// ------ TIMED BLOCKS ------
-	
-	public void stop() {
-		cancelAllTimedBlocks();
-	}
-	
 	private final Map<Block, TimedBlock> activeTimedBlocks = new HashMap<>();
 	public boolean placeTimedBlock(TimedBlock timedBlock) {
 		Block block = timedBlock.getBlock();

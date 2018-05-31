@@ -27,7 +27,7 @@ import java.util.*;
  */
 public class DwarfManager extends GamePlayerManager<Dwarf> {
 	public static DwarfManager getManager() {
-		return Game.getGame().getDwarfManager();
+		return Game.getGame().getManager(DwarfManager.class);
 	}
 	
 	public DwarfManager() {

@@ -5,10 +5,9 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
-import deimophobe.nightfall.GlowManager;
-import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.SkinManager;
-import deimophobe.nightfall.TimeManager;
+import com.google.common.collect.ClassToInstanceMap;
+import com.google.common.collect.ImmutableClassToInstanceMap;
+import deimophobe.nightfall.*;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.loadout.Loadout;
@@ -40,6 +39,8 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -50,8 +51,7 @@ import org.bukkit.scoreboard.Team;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Preconditions.*;
 
 /**
  * Created by Deimophobe on 15/01/17.
@@ -82,6 +82,7 @@ public class Game {
 		}
 	}
 	
+	private final NightfallPlugin plugin;
 	
 	private final GameMap map;
 	public GameMap getMap() {return map;}
@@ -92,20 +93,11 @@ public class Game {
 	/** Size of the game. A null value represents a not currently set value (during pregame). This means that {@link #getGameSize()} will return {@link GameSize#TINY} */
 	private GameSize gameSize = null;
 	
-	private final DwarfManager dwarfManager;
-	private final MonsterManager monsterManager;
-	private final SkinManager skinManager;
-	private final GlowManager glowManager;
-	private final TimeManager timeManager;
-	private final BlockManager blockManager;
-	
-	public DwarfManager getDwarfManager() {return dwarfManager;}
-	public MonsterManager getMonsterManager() {return monsterManager;}
-	public SkinManager getSkinManager() {return skinManager;}
-	public GlowManager getGlowManager() {return glowManager;}
-	public TimeManager getTimeManager() {return timeManager;}
-	public BlockManager getBlockManager() {return blockManager;}
-	
+	private final ClassToInstanceMap<Manager> managers;
+	public <S extends Manager> S getManager(Class<S> managerClass) {
+		checkArgument(managers.containsKey(managerClass), "Manager must be registered.");
+		return managers.getInstance(managerClass);
+	}
 	
 	private final Scoreboard scoreboard;
 	public Scoreboard getScoreboard() {return scoreboard;}
@@ -121,6 +113,8 @@ public class Game {
 	private Plague activePlague = null;
 
 	private Game(GameMap map) {
+		this.plugin = NightfallPlugin.getPlugin();
+		
 		game = this;
 		
 		// Setup scoreboards and teams
@@ -140,6 +134,8 @@ public class Game {
 		
 		lobbyTeam = this.getNewTeam("lobbyTeam");
 		lobbyTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
+		
+		// Setup ready players
 		readyPlayers = new HashSet<>();
 		readyNotifier = new BukkitRunnable() {
 			@Override
@@ -149,41 +145,64 @@ public class Game {
 		};
 		readyNotifier.runTaskTimer(NightfallPlugin.getPlugin(), 0, 20);
 		
+		// Setup shrine bar
 		bossBar = Bukkit.createBossBar("", BarColor.BLUE, BarStyle.SOLID);
 		bossBar.setProgress(1);
 		
-		new BukkitRunnable() {
-			@Override public void run() { update(); }
-		}.runTaskTimer(NightfallPlugin.getPlugin(), 1, 1);
-		
-		
+		// Setup map
 		this.map = map;
 		map.setupGame(this);
 		
+		// Setup managers
+		ImmutableClassToInstanceMap.Builder<Manager> builder = ImmutableClassToInstanceMap.builder();
+		builder.put(DwarfManager.class, new DwarfManager());
+		builder.put(MonsterManager.class, new MonsterManager());
+		builder.put(SkinManager.class, new SkinManager());
+		builder.put(GlowManager.class, new GlowManager());
+		builder.put(TimeManager.class, new TimeManager(map.getWorld()));
+		builder.put(BlockManager.class, new BlockManager(this));
+		this.managers = builder.build();
+		managers.values().forEach(Manager::init);
 		
-		dwarfManager = new DwarfManager();
-		monsterManager = new MonsterManager();
-		skinManager = new SkinManager();
-		glowManager = new GlowManager();
-		timeManager = new TimeManager(map.getWorld());
-		blockManager = new BlockManager();
-		monsterManager.init();
-		NightfallPlugin.getPlugin().updateManagers();
+		// Setup listener
+		GameListener listener = new GameListener();
+		addGameListener(listener);
 		
+		// Start lobby phase
 		startLobby();
+		
+		// Start update ticks
+		new BukkitRunnable() {
+			@Override public void run() { update(); }
+		}.runTaskTimer(NightfallPlugin.getPlugin(), 1, 1);
 	}
 	
 	public void stop() {
 		removeShrineBar();
-		dwarfManager.stop();
-		monsterManager.stop();
-		skinManager.stop();
-		glowManager.stop();
-		timeManager.stop();
-		blockManager.stop();
+		managers.values().forEach(Manager::stop);
 		
 		map.unload();
 		Bukkit.getScheduler().cancelTasks(NightfallPlugin.getPlugin());
+		unregisterAllListeners();
+	}
+	
+	
+	// ------ LISTENERS -------
+	private final Set<Listener> listeners = new HashSet<>();
+	
+	public void addGameListener(Listener listener) {
+		checkNotNull(listener, "Listener must not be null");
+		checkArgument(!listeners.contains(listener), "Listener has already been registered.");
+		
+		plugin.registerListener(listener);
+		listeners.add(listener);
+	}
+	
+	private void unregisterAllListeners() {
+		for (Listener listener : listeners) {
+			HandlerList.unregisterAll(listener);
+		}
+		listeners.clear();
 	}
 	
 	
@@ -194,6 +213,9 @@ public class Game {
 	}
 	
 	public boolean isGamePlayer(Player player) {
+		DwarfManager dwarfManager = getManager(DwarfManager.class);
+		MonsterManager monsterManager = getManager(MonsterManager.class);
+		
 		return (dwarfManager.isGamePlayer(player) || monsterManager.isGamePlayer(player));
 	}
 	
@@ -204,6 +226,9 @@ public class Game {
 	}
 	
 	public GamePlayer getGamePlayer(String name) {
+		DwarfManager dwarfManager = getManager(DwarfManager.class);
+		MonsterManager monsterManager = getManager(MonsterManager.class);
+		
 		Dwarf dwarf = dwarfManager.getGamePlayer(name);
 		if (dwarf != null) return dwarf;
 		
@@ -221,14 +246,23 @@ public class Game {
 	}
 	
 	public boolean removeGamePlayer(Player player) {
+		DwarfManager dwarfManager = getManager(DwarfManager.class);
+		MonsterManager monsterManager = getManager(MonsterManager.class);
+		
 		return dwarfManager.removeGamePlayer(player) | monsterManager.removeGamePlayer(player);
 	}
 	
 	public int getNumberOfPlayers() {
+		DwarfManager dwarfManager = getManager(DwarfManager.class);
+		MonsterManager monsterManager = getManager(MonsterManager.class);
+		
 		return dwarfManager.getNumberOfPlayers() + monsterManager.getNumberOfPlayers();
 	}
 	
 	public Collection<String> getGamePlayerNames() {
+		DwarfManager dwarfManager = getManager(DwarfManager.class);
+		MonsterManager monsterManager = getManager(MonsterManager.class);
+		
 		Collection<String> names = dwarfManager.getGamePlayerNames();
 		names.addAll(monsterManager.getGamePlayerNames());
 		return names;
@@ -395,6 +429,7 @@ public class Game {
 	}
 	
 	public void updateDwarfCount() {
+		DwarfManager dwarfManager = getManager(DwarfManager.class);
 		sidebarObj.getScore(DWARF_REMAINING).setScore(dwarfManager.getGamePlayers().size());
 	}
 	
@@ -406,6 +441,7 @@ public class Game {
 	}
 	
 	public void setDoomSidebar(int doomTimer) {
+		MonsterManager monsterManager = getManager(MonsterManager.class);
 		for (MonsterPlayer mp : monsterManager.getGamePlayers()) {
 			showCustomScore(mp.getPlayer(), DOOM_CLOCK, doomTimer);
 		}
@@ -482,7 +518,7 @@ public class Game {
 		bossBar.setProgress(1);
 	}
 	
-	String getBossBarTitle() {
+	public String getBossBarTitle() {
 		return bossBar.getTitle();
 	}
 	
@@ -551,11 +587,12 @@ public class Game {
 		}
 		
 		Bukkit.getServer().getPluginManager().callEvent(new PhaseChangeEvent(phase));
-		timeManager.init();
 	}
 	
 	public void startGame() {
 		transitionToPhase(Phase.BUILD);
+		DwarfManager dwarfManager = getManager(DwarfManager.class);
+		MonsterManager monsterManager = getManager(MonsterManager.class);
 		
 		if (gameSize == null) gameSize = GameSize.fromCurrentGame(this);
 		
@@ -595,7 +632,7 @@ public class Game {
 				}
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), buildTime);
-		timeManager.addTarget(buildTime, Misc.randomInt(13500, 14500));
+		getManager(TimeManager.class).addTarget(buildTime, Misc.randomInt(13500, 14500));
 	}
 	
 	public void startPlague() {
@@ -642,6 +679,7 @@ public class Game {
 	
 	private void releaseMonsters() {
 		transitionToPhase(Phase.GAME);
+		MonsterManager monsterManager = getManager(MonsterManager.class);
 		
 		this.activePlague = null;
 
@@ -711,12 +749,14 @@ public class Game {
 				break;
 			
 			case BUILD:
+				DwarfManager dwarfManager = getManager(DwarfManager.class);
 				dwarfManager.addGamePlayer(player);
 				break;
 			
 			case PLAGUE:
 			case GAME:
 			case END:
+				MonsterManager monsterManager = getManager(MonsterManager.class);
 				MonsterPlayer mp = monsterManager.addGamePlayer(player);
 				player.teleport(GameMap.getCurrentMap().getCurrentMobspawn());
 				mp.kill(true);

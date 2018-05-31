@@ -25,9 +25,9 @@ import java.util.*;
 /**
  * Created by Deimophobe on 5/09/17.
  */
-public class SkinManager {
+public class SkinManager implements Manager {
 	public static SkinManager getManager() {
-		return Game.getGame().getSkinManager();
+		return Game.getGame().getManager(SkinManager.class);
 	}
 	
 	private final Map<UUID, PlayerSkin> alteredSkins = new HashMap<>();
@@ -61,6 +61,10 @@ public class SkinManager {
 		ProtocolLibrary.getProtocolManager().addPacketListener(skinChanger);
 	}
 	
+	@Override
+	public void init() {}
+	
+	@Override
 	public void stop() {
 		ProtocolLibrary.getProtocolManager().removePacketListener(skinChanger);
 		

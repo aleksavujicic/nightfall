@@ -10,7 +10,6 @@ import deimophobe.nightfall.damage.DamageUtil;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.hero.Trident;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -29,7 +28,9 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.*;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -37,7 +38,6 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
-import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
@@ -49,18 +49,15 @@ import org.spigotmc.event.entity.EntityDismountEvent;
  */
 public class GameListener implements Listener {
 	
-	private Game game;
-	private DwarfManager dm;
-	private MonsterManager mm;
+	private final Game game;
+	private final DwarfManager dwarfManager;
+	private final MonsterManager monsterManager;
 
-	public GameListener() {}
-	
-	public void updateManagers() {
+	public GameListener() {
 		game = Game.getGame();
-		dm = DwarfManager.getManager();
-		mm = MonsterManager.getManager();
+		dwarfManager = DwarfManager.getManager();
+		monsterManager = MonsterManager.getManager();
 	}
-	
 	
 	@EventHandler
 	public void onLogin(PlayerJoinEvent event) {
@@ -86,11 +83,11 @@ public class GameListener implements Listener {
 		if (player.isDead())
 			return;
 		
-		if (dm.goOnline(player)) {
+		if (dwarfManager.goOnline(player)) {
 			game.updateDwarfCount();
 			return;
 		}
-		if (mm.goOnline(player)) {
+		if (monsterManager.goOnline(player)) {
 			return;
 		}
 		
@@ -104,8 +101,8 @@ public class GameListener implements Listener {
 		Entity vehicle = player.getVehicle();
 		if (vehicle != null) vehicle.removePassenger(player);
 		
-		boolean wasDwarf = dm.goOffline(player);
-		mm.goOffline(player);
+		boolean wasDwarf = dwarfManager.goOffline(player);
+		monsterManager.goOffline(player);
 		game.unreadyPlayer(player, true);
 		if (wasDwarf) game.updateDwarfCount();
 	}
@@ -400,9 +397,9 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
-		Dwarf dwarf = dm.getGamePlayer(event.getEntity());
+		Dwarf dwarf = dwarfManager.getGamePlayer(event.getEntity());
 		if (dwarf != null) {
-			for (Dwarf dwarf2 : dm.getGamePlayers()) {
+			for (Dwarf dwarf2 : dwarfManager.getGamePlayers()) {
 				dwarf2.notifyDeath(dwarf);
 			}
 			event.setDeathMessage("");
@@ -414,8 +411,8 @@ public class GameListener implements Listener {
 					player.sendTitle("", dwarf.getDisplayName() + ChatColor.DARK_RED + " has fallen!", 20, 60, 20);
 			}
 			
-			dm.removeGamePlayer(dwarf);
-			mm.addGamePlayer(event.getEntity(), false);
+			dwarfManager.removeGamePlayer(dwarf);
+			monsterManager.addGamePlayer(event.getEntity(), false);
 
 			if (Game.getGame().getPhase() == Phase.PLAGUE) {
 				Game.getGame().getPlague().onDwarfDeath(dwarf);
@@ -485,81 +482,6 @@ public class GameListener implements Listener {
 	//                        MISC
 	// --------------------------------------------------------
 	
-	// Blocks
-	@EventHandler
-	public void preventFireSpread(BlockSpreadEvent event){
-		event.setCancelled(true);
-	}
-	
-	@EventHandler
-	public void preventBlockBurn(BlockBurnEvent event){
-		event.setCancelled(true);
-	}
-	
-	@EventHandler
-	public void preventIceMelt(BlockFadeEvent event) {
-		switch (event.getNewState().getType()) {
-			case STATIONARY_WATER:
-			case FROSTED_ICE:
-				event.setCancelled(true);
-		}
-		
-		// Prevent snow melt too
-		if (event.getBlock().getType() == Material.SNOW)
-			event.setCancelled(true);
-	}
-	
-	@EventHandler
-	public void preventObsidian(BlockFormEvent event) {
-		if (event.getNewState().getType() == Material.OBSIDIAN) {
-			event.setCancelled(true);
-		}
-	}
-	
-	@EventHandler
-	public void preventWaterFlow(BlockFromToEvent event) {
-		Block toBlock = event.getToBlock();
-		Block fromBlock = event.getBlock();
-		
-		if (Trident.isTridentWaterBlock(toBlock) || Trident.isTridentWaterBlock(fromBlock)) {
-			event.setCancelled(true);
-			return;
-		}
-		
-		if (event.getBlock().getType() == Material.STATIONARY_WATER) {
-			if (!toBlock.getRelative(0,-1,0).getType().isSolid()) return;
-			
-			int numFaceWaterBlocks = 0;
-			if (toBlock.getRelative(1,0,0).getType() == Material.STATIONARY_WATER)
-				numFaceWaterBlocks++;
-			if (toBlock.getRelative(-1,0,0).getType() == Material.STATIONARY_WATER)
-				numFaceWaterBlocks++;
-			if (toBlock.getRelative(0,0,1).getType() == Material.STATIONARY_WATER)
-				numFaceWaterBlocks++;
-			if (toBlock.getRelative(0,0,-1).getType() == Material.STATIONARY_WATER)
-				numFaceWaterBlocks++;
-			
-			if (numFaceWaterBlocks >= 2) return;
-			
-			event.setCancelled(true);
-		}
-	}
-	
-	@EventHandler
-	public void disablePortalTravel(PlayerPortalEvent event) {
-		event.setCancelled(true);
-	}
-	
-	@EventHandler
-	public void blockLandEvent(EntityChangeBlockEvent event) {
-		Entity entity = event.getEntity();
-		if (entity.getType() != EntityType.FALLING_BLOCK) return;
-		
-		Block block = event.getBlock();
-		boolean placeable = GameMap.getCurrentMap().isBlockPlaceable(block);
-		if (!placeable) event.setCancelled(true);
-	}
-	
 	
 	// Inventory/Items
 	@EventHandler
@@ -588,7 +510,7 @@ public class GameListener implements Listener {
 		}
 		
 		// Shared chest handling - prevent putting undroppable items in chest
-		if (dm.isSharedChest(event.getInventory())) {
+		if (dwarfManager.isSharedChest(event.getInventory())) {
 			int button = event.getHotbarButton();
 			ItemStack hotbarItem;
 			if (button != -1)
@@ -606,8 +528,8 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void preventDropping(PlayerDropItemEvent event) {
 		if (event.getPlayer().getGameMode() == GameMode.ADVENTURE ||
-				( dm.getGamePlayer(event.getPlayer()) != null && !DwarvenItems.isDroppableItem(event.getItemDrop().getItemStack()) ) ||
-				mm.getGamePlayer(event.getPlayer()) != null)
+				( dwarfManager.getGamePlayer(event.getPlayer()) != null && !DwarvenItems.isDroppableItem(event.getItemDrop().getItemStack()) ) ||
+				monsterManager.getGamePlayer(event.getPlayer()) != null)
 			event.setCancelled(true);
 	}
 	
@@ -641,7 +563,7 @@ public class GameListener implements Listener {
 		}
 		
 		Entity entity = event.getEntity();
-		if (entity instanceof Player && mm.isGamePlayer((Player) entity)) {
+		if (entity instanceof Player && monsterManager.isGamePlayer((Player) entity)) {
 			event.setCancelled(true);
 			return;
 		}
@@ -658,7 +580,7 @@ public class GameListener implements Listener {
 	public void onDismount(EntityDismountEvent event) {
 		Entity entity = event.getEntity();
 		if (entity instanceof Player) {
-			MonsterPlayer monster = mm.getGamePlayer((Player) entity);
+			MonsterPlayer monster = monsterManager.getGamePlayer((Player) entity);
 			if (monster != null && monster.getMob() instanceof Bopen) {
 				((Bopen) monster.getMob()).dismountHorse();
 			}
@@ -666,16 +588,16 @@ public class GameListener implements Listener {
 	}
 	@EventHandler
 	public void preventFlightChange(PlayerToggleFlightEvent event){
-		if (mm.isGamePlayer(event.getPlayer())) {
+		if (monsterManager.isGamePlayer(event.getPlayer())) {
 			event.setCancelled(true);
-			mm.getGamePlayer(event.getPlayer()).resetFrozen();
+			monsterManager.getGamePlayer(event.getPlayer()).resetFrozen();
 		}
 	}
 	
 	@EventHandler
 	public void preventMobPickup(EntityPickupItemEvent event){
 		LivingEntity entity = event.getEntity();
-		if (entity instanceof Player && mm.isGamePlayer((Player) entity)) {
+		if (entity instanceof Player && monsterManager.isGamePlayer((Player) entity)) {
 			event.setCancelled(true);
 		}
 	}
@@ -717,68 +639,5 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void preventTaming(EntityTameEvent event) {
 		event.setCancelled(true);
-	}
-	
-	@EventHandler
-	public void onServerMOTD(ServerListPingEvent event) {
-		StringBuilder sb = new StringBuilder();
-		//sb.append(Misc.getNightfallText());
-		//sb.append("\n");
-		
-		GameMap map = GameMap.getCurrentMap();
-		Game game = Game.getGame();
-		if (game == null || map == null) {
-			sb.append(ChatColor.GRAY).append("Map loading...");
-		} else {
-			sb.append(ChatColor.GOLD).append(ChatColor.BOLD).append("Map: ");
-			sb.append(ChatColor.WHITE).append(ChatColor.ITALIC).append(map.getName());
-			
-			Phase phase = game.getPhase();
-			if (phase == null) {
-				sb.append(ChatColor.GRAY).append("Starting soon...");
-				event.setMotd(sb.toString());
-				return;
-			}
-			
-			int numDwarves = DwarfManager.getManager().getNumberOfPlayers();
-			int numMobs = MonsterManager.getManager().getNumberOfPlayers();
-			
-			String aeroIsPedantic = (numDwarves == 1 ? "dwarf" : "dwarves");
-			String kiwiIsPedantic = (numMobs == 1 ? "mob" : "mobs");
-			
-			switch (phase) {
-				case BUILD:
-				case PLAGUE:
-				case GAME:
-					sb.append("  ");
-					sb.append(ChatColor.GOLD).append(ChatColor.BOLD).append("Online: ");
-					sb.append(ChatColor.DARK_AQUA).append(numDwarves).append(" ").append(aeroIsPedantic);
-					if (phase == Phase.GAME) {
-						sb.append(ChatColor.WHITE).append(", ");
-						sb.append(ChatColor.RED).append(numMobs).append(" ").append(kiwiIsPedantic);
-					}
-					break;
-			}
-			
-			sb.append("\n");
-			
-			switch (phase) {
-				case STARTING:
-					sb.append(ChatColor.GRAY).append("Starting soon...");
-					break;
-				case BUILD:
-				case PLAGUE:
-					sb.append(ChatColor.GOLD).append(ChatColor.BOLD).append("Build Phase");
-					break;
-				case GAME:
-					sb.append(ChatColor.GOLD).append(ChatColor.BOLD).append("Shrine: ");
-					sb.append(ChatColor.WHITE).append(ChatColor.ITALIC).append(game.getBossBarTitle());
-					break;
-				case END:
-					sb.append(ChatColor.RED).append(ChatColor.ITALIC).append("The dwarves have fallen!");
-					break;
-			}
-		}
-		event.setMotd(sb.toString());
 	}
 }

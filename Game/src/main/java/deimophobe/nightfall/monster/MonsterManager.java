@@ -26,7 +26,7 @@ import java.util.*;
  */
 public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	public static MonsterManager getManager() {
-		return Game.getGame().getMonsterManager();
+		return Game.getGame().getManager(MonsterManager.class);
 	}
 	
 	private final AIManager aiManager;

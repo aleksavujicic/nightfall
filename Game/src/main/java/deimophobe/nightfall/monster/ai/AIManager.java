@@ -29,7 +29,7 @@ import java.util.*;
  */
 public class AIManager {
 	public static AIManager getManager() {
-		return Game.getGame().getMonsterManager().getAiManager();
+		return MonsterManager.getManager().getAiManager();
 	}
 	
 	private int updateFreq;

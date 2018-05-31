@@ -1,5 +1,6 @@
 package deimophobe.nightfall.game;
 
+import deimophobe.nightfall.Manager;
 import deimophobe.nightfall.NightfallPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,7 +16,7 @@ import java.util.function.Predicate;
 /**
  * Created by Deimophobe on 4/02/17.
  */
-public abstract class GamePlayerManager<P extends GamePlayer> {
+public abstract class GamePlayerManager<P extends GamePlayer> implements Manager {
 	private final Map<UUID, P> players = new ConcurrentHashMap<>();
 	private final String whoName;
 	private final Team mcTeam;
@@ -52,6 +53,12 @@ public abstract class GamePlayerManager<P extends GamePlayer> {
 	
 	protected void update() {}
 	
+	@Override
+	public void init() {
+		
+	}
+	
+	@Override
 	public void stop() {
 		removeAllGamePlayers();
 		updateRunner.cancel();

@@ -3,7 +3,6 @@ package deimophobe.nightfall;
 import deimophobe.nightfall.command.CommandInitialiserUtil;
 import deimophobe.nightfall.common.menu.MenuManager;
 import deimophobe.nightfall.game.Game;
-import deimophobe.nightfall.game.GameListener;
 import deimophobe.nightfall.util.PacketUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -23,17 +22,12 @@ import java.util.logging.Logger;
 public class NightfallPlugin extends JavaPlugin {
 	
 	private static NightfallPlugin plugin;
-	private GameListener gl;
 	
 	public static NightfallPlugin getPlugin() {return plugin;}
 	public static Logger logger() { return plugin.getLogger(); }
 	
 	private boolean disabling = false;
 	public boolean isDisabling() { return disabling; }
-	
-	public static void registerListener(Listener listener) {
-		Bukkit.getPluginManager().registerEvents(listener, plugin);
-	}
 	
 	@Override
 	public void onEnable() {
@@ -56,10 +50,9 @@ public class NightfallPlugin extends JavaPlugin {
 		
 		PacketUtil.setupListeners();
 		
-		gl = new GameListener();
 		Game.createNewGame();
-		Bukkit.getPluginManager().registerEvents(gl, NightfallPlugin.getPlugin());
 		Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
+		Bukkit.getPluginManager().registerEvents(new NightfallListener(), this);
 		
 		initialiseMenus();
 		
@@ -74,8 +67,8 @@ public class NightfallPlugin extends JavaPlugin {
 		if (game != null) game.stop();
 	}
 	
-	public void updateManagers() {
-		gl.updateManagers();
+	public void registerListener(Listener listener) {
+		Bukkit.getPluginManager().registerEvents(listener, this);
 	}
 	
 	public static YamlConfiguration getInternalFileConfig(String name) {

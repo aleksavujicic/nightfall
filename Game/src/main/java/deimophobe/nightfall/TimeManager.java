@@ -11,7 +11,7 @@ import java.util.PriorityQueue;
  * Created by Deimophobe on 12/02/18.
  */
 public class TimeManager implements Manager {
-	public static TimeManager getManager() { return Game.getGame().getTimeManager(); }
+	public static TimeManager getManager() { return Game.getGame().getManager(TimeManager.class); }
 	
 	private final PriorityQueue<Target> targets = new PriorityQueue<>();
 	private final World world;
