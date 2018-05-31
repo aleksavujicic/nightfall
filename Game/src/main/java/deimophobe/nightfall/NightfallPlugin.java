@@ -1,6 +1,7 @@
 package deimophobe.nightfall;
 
 import deimophobe.nightfall.command.CommandInitialiserUtil;
+import deimophobe.nightfall.common.menu.MenuManager;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GameListener;
 import deimophobe.nightfall.util.PacketUtil;
@@ -60,9 +61,11 @@ public class NightfallPlugin extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(gl, NightfallPlugin.getPlugin());
 		Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
 		
+		initialiseMenus();
+		
 		CommandInitialiserUtil.initialiseCommands(this);
 	}
-
+	
 	@Override
 	public void onDisable() {
 		disabling = true;
@@ -101,5 +104,11 @@ public class NightfallPlugin extends JavaPlugin {
 		} catch (ClassNotFoundException e) {
 			throw new ClassNotFoundException("Unknown dependency '" + name + "'. Class " + clazz + " could not be found.", e);
 		}
+	}
+	
+	private void initialiseMenus() {
+		MenuManager manager = MenuManager.getManager();
+		
+		manager.registerMenu(ColourMenu.class, new ColourMenu());
 	}
 }

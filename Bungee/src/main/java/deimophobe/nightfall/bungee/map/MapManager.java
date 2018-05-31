@@ -51,7 +51,8 @@ public class MapManager {
 	}
 	
 	private void loadRotations() throws IOException, InvalidRotationConfigException {
-		rotations.put("main", new Rotation("main"));
+		rotations.put("all", new SimpleRotation("all", maps.values()));
+		//rotations.put("main", new WeightedRotation("main"));
 	}
 	
 	public GameMap getMap(String name) {

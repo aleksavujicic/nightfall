@@ -109,6 +109,10 @@ public class Game {
 		player.sendPluginMessage(NightfallLobbyPlugin.getPlugin(), "BungeeCord", out.toByteArray());
 	}
 	
+	public int getPlayerCount() {
+		return 0;
+	}
+	
 	
 	public enum State {
 		QUEUED, RUNNING, ENDED

@@ -54,13 +54,16 @@ public class GameCommand extends BaseCommand {
 	@Subcommand("size")
 	@CommandCompletion("@gamesizes")
 	@Description("Set the game size")
-	public void size(CommandSender sender, @Optional GameSize size) {
-		if (size == null) {
-			MessageUtil.sendMessage(sender, "The current game size is: ", Game.getGame().getGameSize(), ".");
-		} else {
-			Game.getGame().setGameSize(size);
-			MessageUtil.sendMessage(sender, "Set the game size to: ", size, ".");
-		}
+	public void sizeCheck(CommandSender sender) {
+		MessageUtil.sendMessage(sender, "The current game size is: ", Game.getGame().getGameSize(), ".");
+	}
+	
+	@Subcommand("size")
+	@CommandCompletion("@gamesizes")
+	@Description("Set the game size")
+	public void sizeSet(CommandSender sender, @Flags("null") GameSize size) {
+		Game.getGame().forceGameSize(size);
+		MessageUtil.sendMessage(sender, "Set the game size to: ", size, ".");
 	}
 	
 	@Subcommand("title")

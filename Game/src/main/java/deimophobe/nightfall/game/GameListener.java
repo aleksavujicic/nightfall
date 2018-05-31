@@ -550,6 +550,16 @@ public class GameListener implements Listener {
 		event.setCancelled(true);
 	}
 	
+	@EventHandler
+	public void blockLandEvent(EntityChangeBlockEvent event) {
+		Entity entity = event.getEntity();
+		if (entity.getType() != EntityType.FALLING_BLOCK) return;
+		
+		Block block = event.getBlock();
+		boolean placeable = GameMap.getCurrentMap().isBlockPlaceable(block);
+		if (!placeable) event.setCancelled(true);
+	}
+	
 	
 	// Inventory/Items
 	@EventHandler
@@ -678,6 +688,19 @@ public class GameListener implements Listener {
 		if (ai != null && event.getReason() != EntityTargetEvent.TargetReason.CUSTOM) {
 			event.setCancelled(true);
 			if (ai.getTarget() == null) ai.forceUpdateTarget();
+		}
+	}
+	
+	@EventHandler
+	public void preventSpectatorTeleprot(PlayerTeleportEvent event) {
+		MonsterManager monsterManager = MonsterManager.getManager();
+		Player player = event.getPlayer();
+		
+		boolean isMonster = monsterManager.isGamePlayer(player);
+		boolean isSpectateTeleport = event.getCause() == PlayerTeleportEvent.TeleportCause.SPECTATE;
+		
+		if (isMonster && isSpectateTeleport) {
+			event.setCancelled(true);
 		}
 	}
 	

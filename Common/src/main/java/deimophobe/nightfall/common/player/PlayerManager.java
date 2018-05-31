@@ -97,6 +97,8 @@ public class PlayerManager {
 	}
 	
 	private void saveAll() {
+		if (playerInfoMap.isEmpty()) return;
+		
 		// Setup logger/format
 		Logger logger = plugin.getLogger();
 		final NumberFormat format = new DecimalFormat("#.##");

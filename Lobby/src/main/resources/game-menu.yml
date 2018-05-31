@@ -1,0 +1,9 @@
+game:
+  name: $name
+  material: stone
+  lore:
+    game-info:
+      "Map: $map\n
+       Players: $player-count\n
+       $status\n
+       $gamemodes"

@@ -13,6 +13,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 /**
  * Just a bunch of useful helper methods.
  * Created by Deimophobe on 9/03/17.
@@ -265,7 +267,7 @@ public class Misc {
 	}
 	
 	public static <T,S extends Comparable<S>> T getArgMax(Collection<T> collection, Function<T, S> function) {
-		if (collection.isEmpty()) throw new IllegalArgumentException("Collection cannot be empty.");
+		checkArgument(!collection.isEmpty(), "Collection must be non-empty");
 		
 		T maxArg = collection.iterator().next();
 		S maxValue = function.apply(maxArg);
@@ -278,6 +280,22 @@ public class Misc {
 			}
 		}
 		return maxArg;
+	}
+	
+	public static <T,S extends Comparable<S>> T getArgMin(Collection<T> collection, Function<T, S> function) {
+		checkArgument(!collection.isEmpty(), "Collection must be non-empty");
+		
+		T minArg = collection.iterator().next();
+		S minValue = function.apply(minArg);
+		
+		for (T arg : collection) {
+			S value = function.apply(arg);
+			if (value.compareTo(minValue) > 0) {
+				minArg = arg;
+				minValue = value;
+			}
+		}
+		return minArg;
 	}
 	
 	

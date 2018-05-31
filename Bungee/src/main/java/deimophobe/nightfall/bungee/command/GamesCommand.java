@@ -9,7 +9,7 @@ import net.md_5.bungee.api.CommandSender;
 /**
  * Created by Deimophobe on 2/05/18.
  */
-@CommandAlias("games|gs")
+@CommandAlias("bungeegames|bgames|bg")
 public class GamesCommand extends BaseCommand {
 	
 	@CommandAlias("create")

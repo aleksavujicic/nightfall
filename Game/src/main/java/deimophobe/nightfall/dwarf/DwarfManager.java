@@ -165,20 +165,14 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	private static final Set<HeroType> PRIMARY_HEROES = Sets.newHashSet(HeroType.VELVETINE, HeroType.TUI, HeroType.HERANA);
 	private static final Set<HeroType> SECONDARY_HEROES = Sets.newHashSet(HeroType.ARTHEA);
 	
-	public void onGameStart() {
+	public void onGameStart(Game game) {
 		PlayerManager manager = PlayerManager.getManager();
 		
 		Set<Player> players = new HashSet<>(Bukkit.getOnlinePlayers());
 		players.removeIf(player -> player.getGameMode() == GameMode.SPECTATOR);
 		
-		int numPlayers = players.size();
-		int numHeroes = 0;
-		if (numPlayers >= 15) numHeroes++;
-		if (numPlayers >= 25) numHeroes++;
-		if (numPlayers >= 35) numHeroes++;
-		
-		GameSize size = GameSize.getSizeFromHeroCount(numHeroes);
-		Game.getGame().setGameSize(size);
+		GameSize size = game.getGameSize();
+		int numHeroes = size.getNumHeroes();
 		
 		Set<HeroType> chosenHeroes = new HashSet<>();
 		while (numHeroes > 0) {

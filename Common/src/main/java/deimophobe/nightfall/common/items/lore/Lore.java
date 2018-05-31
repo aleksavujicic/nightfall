@@ -80,9 +80,7 @@ public class Lore implements Cloneable {
 		
 		// Add lore text
 		for (Section section : sections) {
-			String text = section.createString();
-			text = ChatColor.translateAlternateColorCodes('&', text);
-			List<String> lines = Arrays.asList(text.split("\n"));
+			List<String> lines = section.createLoreLines();
 			lore.addAll(lines);
 		}
 		

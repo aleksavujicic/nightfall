@@ -1,6 +1,8 @@
 package deimophobe.nightfall.lobby.game;
 
+import deimophobe.nightfall.common.menu.MenuManager;
 import deimophobe.nightfall.lobby.NightfallLobbyPlugin;
+import deimophobe.nightfall.lobby.game.menu.GameMenu;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,6 +21,9 @@ public class GameListener implements Listener {
 		Entity entity = event.getEntity();
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
+			
+			boolean gameMenuOpen = MenuManager.getManager().hasOpenSession(player, GameMenu.class);
+			if (gameMenuOpen) return;
 			
 			Collection<Game> runningGames = GameManager.getManager().getRunningGames();
 			if (runningGames.isEmpty()) {

@@ -6,9 +6,9 @@ import net.md_5.bungee.config.Configuration;
 /**
  * Created by Deimophobe on 17/12/17.
  */
-public class RotationMap implements Weightable {
+public class WeightedMap implements Weightable {
 	
-	private final Rotation rotation;
+	private final WeightedRotation rotation;
 	private final GameMap map;
 	private double baseWeight;
 	
@@ -16,7 +16,7 @@ public class RotationMap implements Weightable {
 		return map;
 	}
 	
-	public RotationMap(Rotation rotation, String key, Configuration config) throws InvalidRotationConfigException {
+	public WeightedMap(WeightedRotation rotation, String key, Configuration config) throws InvalidRotationConfigException {
 		this.rotation = rotation;
 		
 		this.map = GameMap.getMap(key);

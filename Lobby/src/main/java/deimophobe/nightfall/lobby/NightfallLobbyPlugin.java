@@ -1,5 +1,8 @@
 package deimophobe.nightfall.lobby;
 
+import deimophobe.nightfall.common.items.lore.LoreTemplate;
+import deimophobe.nightfall.common.player.PlayerManager;
+import deimophobe.nightfall.common.player.cosmetic.Cosmetics;
 import deimophobe.nightfall.lobby.game.GameListener;
 import deimophobe.nightfall.lobby.game.GameManager;
 import deimophobe.nightfall.lobby.game.map.MapManager;
@@ -12,11 +15,15 @@ import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * Created by Deimophobe on 2/11/17.
@@ -36,6 +43,9 @@ public class NightfallLobbyPlugin extends JavaPlugin {
 	public void onEnable() {
 		plugin = this;
 		super.onEnable();
+		
+		ConfigurationSection templatesFile = NightfallLobbyPlugin.getInternalFileConfig("lobby-lore-templates.yml");
+		LoreTemplate.registerTemplateFile(templatesFile);
 		
 		try {
 			mapManager = new MapManager();
@@ -100,5 +110,15 @@ public class NightfallLobbyPlugin extends JavaPlugin {
 		player.setLevel(0);
 		player.setDisplayName(player.getName());
 		player.setCollidable(false);
+		
+		Cosmetics cosmetics = PlayerManager.getManager().getCosmetics(player);
+		cosmetics.equipHat();
+		cosmetics.updateTitle();
+	}
+	
+	public static YamlConfiguration getInternalFileConfig(String name) {
+		InputStream stream = getPlugin().getResource(name);
+		if (stream == null) throw new IllegalArgumentException("Unknown config file: " + name);
+		return YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
 	}
 }

@@ -98,7 +98,7 @@ class SkeletonWither extends AbstractToggleSkeleton {
 	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {
 		if (isToggled()) {
-			if (hasItem("arrow", 2)) return null;
+			if (!hasItem("arrow", 2)) return null;
 			if (force < 0.7) return null;
 			
 			removeItem("arrow", 2);

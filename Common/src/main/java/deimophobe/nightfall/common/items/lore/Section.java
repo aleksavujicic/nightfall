@@ -1,6 +1,9 @@
 package deimophobe.nightfall.common.items.lore;
 
+import org.bukkit.ChatColor;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,7 +12,7 @@ import java.util.regex.Pattern;
  * Created by Deimophobe on 10/05/18.
  */
 class Section {
-	private static final Pattern VAR_REGEX = Pattern.compile("\\$([a-zA-Z0-9]+)");
+	private static final Pattern VAR_REGEX = Pattern.compile("\\$([a-zA-Z0-9\\-]+)");
 	
 	private final SectionTemplate template;
 	private final List<LoreComponent> components;
@@ -51,17 +54,25 @@ class Section {
 		}
 	}
 	
-	public void applyVariable(String name, String value) {
+	void applyVariable(String name, String value) {
 		for (LoreComponent lc : components) {
 			lc.applyVariable(name, value);
 		}
 	}
 	
-	public String createString() {
+	List<String> createLoreLines() {
+		// First combine all lore components
 		StringBuilder sb = new StringBuilder();
 		components.forEach(lc -> sb.append(lc.createString()));
 		String raw = sb.toString();
-		return template.formatString(raw);
+		
+		// Format them nicely
+		String formatted = template.formatString(raw);
+		formatted = ChatColor.translateAlternateColorCodes('&', formatted);
+		
+		// Convert to list
+		String[] loreArray = formatted.split("\\n", -1);
+		return Arrays.asList(loreArray);
 	}
 	
 	@Override

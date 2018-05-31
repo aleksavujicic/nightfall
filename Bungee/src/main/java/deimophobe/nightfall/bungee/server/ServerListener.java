@@ -5,15 +5,11 @@ import net.ME1312.SubServers.Bungee.Host.SubServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.event.PreLoginEvent;
 import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.event.ServerKickEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by Deimophobe on 13/12/17.
@@ -28,8 +24,6 @@ public class ServerListener implements Listener {
 		}
 	}
 	
-	private final Set<ProxiedPlayer> loggingPlayers = new HashSet<>();
-	
 	@EventHandler
 	public void onPlayerPreLogin(PreLoginEvent event) {
 		ServerManager sm = ServerManager.getManager();
@@ -39,16 +33,12 @@ public class ServerListener implements Listener {
 		}
 	}
 	
-	@EventHandler
-	public void onPlayerLogin(PostLoginEvent event) {
-		loggingPlayers.add(event.getPlayer());
-	}
 	
 	@EventHandler
 	public void onServerConnect(ServerConnectEvent event) {
 		ProxiedPlayer player = event.getPlayer();
-		boolean removed = loggingPlayers.remove(player);
-		if (removed) {
+		
+		if (event.getReason() == ServerConnectEvent.Reason.JOIN_PROXY) {
 			ServerManager sm = ServerManager.getManager();
 			if (sm.isLobbyRunning()) {
 				event.setTarget(sm.getLobby());

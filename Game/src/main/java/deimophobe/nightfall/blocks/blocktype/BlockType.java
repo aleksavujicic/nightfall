@@ -63,7 +63,7 @@ public class BlockType {
 	public static final ComparableBlock LIQUID = new BlockSet(WATER, LAVA);
 	
 	// ----- CONSUMABLE STUFF -----
-	public static final ComparableBlock DIGGING_SAND = new MaterialSet(Material.SAND, Material.GRAVEL);
+	public static final ComparableBlock DIGGING_SAND = new MaterialSet(Material.SAND, Material.GRAVEL, Material.CONCRETE_POWDER);
 	public static final ComparableBlock FURNACE = new MaterialSet(Material.FURNACE, Material.BURNING_FURNACE);
 	
 	
@@ -114,17 +114,15 @@ public class BlockType {
 	
 	// ----- Blocksets -----
 	public static final ComparableBlock ALWAYS_BREAKABLE = new BlockSet(
-			LIGHT,
+			LIGHT
+	).orOfMaterial(
+			Material.TORCH,
 			
-			new MaterialSet(
-					Material.TORCH,
-					
-					Material.DOUBLE_PLANT,
-					Material.LONG_GRASS,
-					Material.YELLOW_FLOWER,
-					Material.RED_ROSE,
-					Material.VINE
-			)
+			Material.DOUBLE_PLANT,
+			Material.LONG_GRASS,
+			Material.YELLOW_FLOWER,
+			Material.RED_ROSE,
+			Material.VINE
 	);
 	
 	public static final ComparableBlock UNTIMEABLE_BLOCKS = new BlockSet(
@@ -136,132 +134,113 @@ public class BlockType {
 			ANY_SHRINE_BLOCK,
 			SHARED_CHEST,
 			
-			HERANA_TRIDENT_WATER,
+			HERANA_TRIDENT_WATER
 			
-			new MaterialSet(
-					Material.AIR,
-					
-					Material.SPONGE,
-					Material.IRON_FENCE,
-					
-					Material.RAILS,
-					Material.ACTIVATOR_RAIL,
-					Material.DETECTOR_RAIL,
-					Material.POWERED_RAIL,
-					Material.LADDER,
-					Material.REDSTONE_TORCH_ON,
-					Material.REDSTONE_TORCH_OFF,
-					
-					Material.JACK_O_LANTERN,
-					Material.PURPUR_BLOCK,
-					
-					Material.BEACON,
-					
-					Material.BED_BLOCK,
-					Material.DARK_OAK_DOOR,
-					Material.ACACIA_DOOR,
-					Material.BIRCH_DOOR,
-					Material.IRON_DOOR,
-					Material.JUNGLE_DOOR,
-					Material.SPRUCE_DOOR,
-					Material.WOOD_DOOR,
-					Material.WOODEN_DOOR,
+	).orOfMaterial(
+			Material.AIR,
+			
+			Material.SPONGE,
+			Material.IRON_FENCE,
+			
+			Material.RAILS,
+			Material.ACTIVATOR_RAIL,
+			Material.DETECTOR_RAIL,
+			Material.POWERED_RAIL,
+			Material.LADDER,
+			Material.REDSTONE_TORCH_ON,
+			Material.REDSTONE_TORCH_OFF,
+			
+			Material.JACK_O_LANTERN,
+			Material.PURPUR_BLOCK,
+			
+			Material.BEACON,
+			
+			Material.BED_BLOCK,
+			Material.DARK_OAK_DOOR,
+			Material.ACACIA_DOOR,
+			Material.BIRCH_DOOR,
+			Material.IRON_DOOR,
+			Material.JUNGLE_DOOR,
+			Material.SPRUCE_DOOR,
+			Material.WOOD_DOOR,
+			Material.WOODEN_DOOR,
 
-					Material.GOLD_ORE
-			)
+			Material.GOLD_ORE
 	);
 	
 	public static final ComparableBlock UNPLACEABLE_BLOCKS = new BlockSet(
-			HERANA_TRIDENT_WATER,
+			HERANA_TRIDENT_WATER
 			
-			new MaterialSet(
-				Material.BARRIER,
-				Material.DISPENSER,
-				Material.CHEST
-			)
+	).orOfMaterial(
+			Material.BARRIER,
+			Material.DISPENSER,
+			Material.CHEST
 	);
 	
 	public static final ComparableBlock UNBREAKABLE_BLOCKS = new BlockSet(
 			UNTIMEABLE_BLOCKS.except(Material.GOLD_ORE),
-			TIMED_BLOCK,
+			TIMED_BLOCK
 			
-			new MaterialSet(
-					Material.LOG,
-					Material.LOG_2,
-					
-					Material.IRON_BLOCK,
-					
-					Material.SIGN,
-					Material.SIGN_POST,
-					Material.WALL_SIGN,
-					Material.ICE,
-					Material.FROSTED_ICE,
-					Material.PACKED_ICE,
-					
-					Material.REDSTONE_BLOCK
-			)
+	).orOfMaterial(
+			Material.LOG,
+			Material.LOG_2,
+			
+			Material.IRON_BLOCK,
+			
+			Material.SIGN,
+			Material.SIGN_POST,
+			Material.WALL_SIGN,
+			Material.ICE,
+			Material.FROSTED_ICE,
+			Material.PACKED_ICE,
+			
+			Material.REDSTONE_BLOCK
 	);
+	
 	
 	public static final ComparableBlock GOLEM_UNBREAKABLE_BLOCKS = new BlockSet(
 			UNBREAKABLE_BLOCKS,
 			
-			Block::isLiquid,
+			Block::isLiquid
 			
-			new MaterialSet(
-					Material.AIR,
-					Material.BARRIER,
-					Material.BEDROCK
-			)
+	).orOfMaterial(
+			Material.AIR,
+			Material.BARRIER,
+			Material.BEDROCK
 	);
 	
 	public static final ComparableBlock SHULKER_BOX = block -> (block.getState() instanceof ShulkerBox);
 	public static final ComparableBlock UNINTERACTABLE_BLOCKS = new BlockSet(
 			SHULKER_BOX,
-			SHARED_CHEST,
-			new MaterialSet(
-					Material.BED,
-					Material.BED_BLOCK,
-					Material.HOPPER,
-					Material.WORKBENCH,
-					Material.FURNACE,
-					Material.ANVIL,
-					Material.BREWING_STAND,
-					Material.DISPENSER,
-					Material.DROPPER,
-					Material.BEACON,
-					Material.ENCHANTMENT_TABLE,
-					Material.COMMAND,
-					Material.COMMAND_CHAIN,
-					Material.COMMAND_MINECART,
-					Material.COMMAND_REPEATING
-			)
+			SHARED_CHEST
+	).orOfMaterial(
+			Material.BED,
+			Material.BED_BLOCK,
+			Material.HOPPER,
+			Material.WORKBENCH,
+			Material.FURNACE,
+			Material.ANVIL,
+			Material.BREWING_STAND,
+			Material.DISPENSER,
+			Material.DROPPER,
+			Material.BEACON,
+			Material.ENCHANTMENT_TABLE,
+			Material.COMMAND,
+			Material.COMMAND_CHAIN,
+			Material.COMMAND_MINECART,
+			Material.COMMAND_REPEATING
 	);
 
-	public static final ComparableBlock PLANTS = new BlockSet(
-			new MaterialSet(
-					Material.DOUBLE_PLANT,
-					Material.LONG_GRASS,
-					Material.YELLOW_FLOWER,
-					Material.RED_ROSE,
-					Material.VINE
-			)
+	public static final ComparableBlock PLANTS = new MaterialSet(
+			Material.DOUBLE_PLANT,
+			Material.LONG_GRASS,
+			Material.YELLOW_FLOWER,
+			Material.RED_ROSE,
+			Material.VINE
 	);
 
-	public static final ComparableBlock EMPTY_BLOCKS = new BlockSet(
-			PLANTS,
-			new MaterialSet(
-					Material.AIR,
-					Material.FIRE
-			)
-	);
-
-	public static final ComparableBlock IGNORABLE = new BlockSet(
-			EMPTY_BLOCKS,
-			new MaterialSet(
-					Material.SNOW,
-					Material.CARPET
-			)
-	);
+	public static final ComparableBlock EMPTY_BLOCKS = new BlockSet(PLANTS).orOfMaterial(Material.AIR, Material.FIRE);
+	public static final ComparableBlock IGNORABLE = new BlockSet(EMPTY_BLOCKS).orOfMaterial(Material.SNOW, Material.CARPET);
 
 	public static final ComparableBlock SLABBABLE = new BlockSet(
 			NORMAL_WALL,
@@ -270,9 +249,8 @@ public class BlockType {
 			BROKEN_WALL,
 			ALL_SLABS,
 			ALL_STAIRS,
-			IGNORABLE,
-			new MaterialSet(Material.SMOOTH_BRICK, Material.FIRE)
-	);
+			IGNORABLE
+	).orOfMaterial(Material.SMOOTH_BRICK, Material.FIRE);
 
 
 

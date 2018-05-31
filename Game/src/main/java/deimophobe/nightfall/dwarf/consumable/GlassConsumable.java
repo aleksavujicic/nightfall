@@ -3,6 +3,7 @@ package deimophobe.nightfall.dwarf.consumable;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.ColourMenu;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.common.menu.MenuManager;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -21,7 +22,7 @@ public class GlassConsumable extends Consumable {
 	@Override
 	public int use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
 		if (click.isLeftClick() && !BlockType.FURNACE.matchesBlock(clickedBlock) && !BlockType.GLASS.matchesBlock(clickedBlock)) {
-			ColourMenu.getMenu().startSession(dwarf.getPlayer());
+			MenuManager.getManager().startSession(ColourMenu.class, dwarf.getPlayer());
 		}
 		return FAILED_CD;
 	}

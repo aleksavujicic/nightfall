@@ -11,6 +11,7 @@ import deimophobe.nightfall.monster.mob.AbstractMob;
 import deimophobe.nightfall.monster.mob.MobType;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.PlayerInventory;
 
 /**
@@ -65,6 +66,11 @@ public class PlaguedZombie extends AbstractMob {
 				}
 			});
 		}
+	}
+	
+	@Override
+	public boolean onBlockBreak(Block block, boolean didBreak) {
+		return false;
 	}
 	
 	@Override

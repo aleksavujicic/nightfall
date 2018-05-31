@@ -1,40 +1,44 @@
 package deimophobe.nightfall.game;
 
+import deimophobe.nightfall.common.Misc;
+import org.bukkit.Bukkit;
+
+import java.util.Arrays;
+
 /**
  * Created by Deimophobe on 29/03/18.
  */
 public enum GameSize {
-	NONE(0),
-	SMALL(0),
-	MEDIUM(1),
-	LARGE(2),
-	HUGE(3)
+	TINY(0, 0),
+	SMALL(0, 3),
+	MEDIUM(1, 15),
+	LARGE(2, 25),
+	HUGE(3, 35)
 	
 	;
 	
 	private final int numHeroes;
 	public int getNumHeroes() { return numHeroes; }
 	
+	private final int playerRequirement;
+	
+	GameSize(int numHeroes, int playerRequirement) {
+		this.numHeroes = numHeroes;
+		this.playerRequirement = playerRequirement;
+	}
+	
 	public boolean isAtLeast(GameSize size) {
 		return this.ordinal() >= size.ordinal();
 	}
 	
-	GameSize(int numHeroes) {
-		this.numHeroes = numHeroes;
-	}
-	
-	public static GameSize getSizeFromHeroCount(int numHeroes) {
-		if (numHeroes < 0) throw new IllegalArgumentException("Cannot have a game with a negative number of heroes");
-		switch (numHeroes) {
-			case 0: return SMALL;
-			case 1: return MEDIUM;
-			case 2: return LARGE;
-			
-			case 3:
-			default:
-				return HUGE;
-			
-		}
+	public static GameSize fromCurrentGame(Game game) {
+		int playerCount = Bukkit.getOnlinePlayers().size();
 		
+		return Misc.getArgMax(Arrays.asList(values()), size1 -> {
+			int sizePlayerReq = size1.playerRequirement;
+			
+			if (sizePlayerReq > playerCount) return Integer.MIN_VALUE;
+			else return sizePlayerReq;
+		});
 	}
 }

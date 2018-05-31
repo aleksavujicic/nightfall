@@ -42,6 +42,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import static com.google.common.base.Preconditions.checkState;
+
 /**
  * Created by Deimophobe on 17/01/17.
  */
@@ -74,6 +76,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	}
 	
 	public Player getPlayer() {
+		checkState(player != null, "GamePlayer must be online.");
 		return player;
 	}
 	
@@ -332,7 +335,8 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 		MutableInt count = new MutableInt(0);
 		iterateThroughInventory(item -> {
 			if (matcher.doesItemMatch(item)) {
-				count.add(1);
+				int amt = item.getAmount();
+				count.add(amt);
 			}
 		});
 		

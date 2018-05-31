@@ -361,7 +361,7 @@ turret-one:
   index: 8
   type: consumable
   name: turret
-  quantity: 4
+  quantity: 3
   cost: 2
   item:
     name: "Turret I"
@@ -376,7 +376,7 @@ turret-two:
   index: 17
   type: consumable
   name: turret
-  quantity: 8
+  quantity: 6
   cost: 4
   item:
     name: "Turret II"
@@ -391,8 +391,8 @@ turret-three:
   index: 26
   type: consumable
   name: turret
-  quantity: 16
-  cost: 8
+  quantity: 9
+  cost: 6
   item:
     name: "Turret III"
 #    base: turret
