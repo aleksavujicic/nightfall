@@ -53,13 +53,14 @@ class Spiderling extends AbstractMob {
 	}
 	
 	private void spit() {
-		Location loc = monster.getLocation();
-		World world = loc.getWorld();
+		Location locaction = monster.getEyeLocation();
+		World world = locaction.getWorld();
 		
-		Snowball snow = world.spawn(loc.add(0,0.25,0), Snowball.class);
-		snow.setShooter(monster.getPlayer());
-		snow.setVelocity(loc.getDirection().add(new Vector(0,0.25,0)));
-		world.playSound(loc, "entity.spider.step", 0.3f, 1);
+		world.spawn(locaction, Snowball.class, s -> {
+			s.setShooter(monster.getPlayer());
+			s.setVelocity(locaction.getDirection());
+		});
+		world.playSound(locaction, "entity.spider.step", 0.3f, 1);
 	}
 	
 	@Override
