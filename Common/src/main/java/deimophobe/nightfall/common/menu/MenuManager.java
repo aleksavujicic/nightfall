@@ -30,6 +30,8 @@ public final class MenuManager {
 		registeredMenus = MutableClassToInstanceMap.create();
 	}
 	
+	// ---------- Menu Registering ----------
+	
 	public <S extends MainMenu<?>> void registerMenu(Class<S> menuClass, S menu) {
 		checkNotNull(menuClass, "Menu class must not be null.");
 		checkNotNull(menu, "Menu must not be null.");
@@ -37,9 +39,17 @@ public final class MenuManager {
 		registeredMenus.putInstance(menuClass, menu);
 	}
 	
+	public <S extends MainMenu<?>> S getMenu(Class<S> menuClass) {
+		return registeredMenus.getInstance(menuClass);
+	}
+	
+	
+	// ---------- Session Management ----------
+	
 	public <T extends SessionData> MenuSession<T> startSession(Class<? extends MainMenu<T>> menuClass, Player player) {
 		checkNotNull(menuClass, "Menu class must not be null.");
 		checkArgument(registeredMenus.containsKey(menuClass), "Menu '%s' must be registered before starting a session.", menuClass.getSimpleName());
+		checkArgument(!activeSessions.containsKey(player), "Player must not have an active session.");
 		
 		MainMenu<T> menu = registeredMenus.getInstance(menuClass);
 		MenuSession<T> session = new MenuSession<>(menu, player, null);
@@ -50,21 +60,18 @@ public final class MenuManager {
 	public <T extends SessionData> MenuSession<T> startSession(MainMenu<T> mainMenu, Player player) {
 		checkNotNull(mainMenu, "Menu must not be null.");
 		checkNotNull(player, "Player must not be null.");
+		checkArgument(!activeSessions.containsKey(player), "Player must not have an active session.");
 		
 		MenuSession<T> session = new MenuSession<>(mainMenu, player, null);
 		activeSessions.put(player, session);
 		return session;
 	}
 	
-	void startSession(MenuSession<?> session) {
+	void setSession(MenuSession<?> session) {
 		checkNotNull(session, "Session must not be null.");
 		
 		Player player = session.getPlayer();
 		activeSessions.put(player, session);
-	}
-	
-	public <S extends MainMenu<?>> S getMenu(Class<S> menuClass) {
-		return registeredMenus.getInstance(menuClass);
 	}
 	
 	public boolean hasOpenSession(Player player) {
@@ -90,7 +97,7 @@ public final class MenuManager {
 	void closeSession(Player player) {
 		MenuSession<?> session = getSession(player);
 		if (session != null) {
-			activeSessions.remove(session.getPlayer());
+			activeSessions.remove(player);
 			session.onClose();
 		}
 	}

@@ -7,6 +7,7 @@ import deimophobe.nightfall.common.loadout.item.LoadoutItem;
 import deimophobe.nightfall.common.menu.SessionData;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Deimophobe on 7/03/17.
@@ -32,6 +33,14 @@ public class Loadout implements SessionData, Datable<LoadoutData> {
 				NightfallCommonPlugin.logger().warning("Attempted to create loadout with invalid kit item: " + item);
 			}
 		}
+	}
+	
+	private Loadout(Loadout copy) {
+		items.addAll(copy.items);
+	}
+	
+	public Loadout createCopy() {
+		return new Loadout(this);
 	}
 	
 	@Override
@@ -149,5 +158,14 @@ public class Loadout implements SessionData, Datable<LoadoutData> {
 				}
 			}
 		}
+	}
+	
+	public String getBase64() {
+		String itemCsv = items.stream()
+				.map(LoadoutItem::toString)
+				.collect(Collectors.joining(","));
+		
+		byte[] bytes = itemCsv.getBytes();
+		return Base64.getEncoder().encodeToString(bytes);
 	}
 }

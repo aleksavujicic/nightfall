@@ -21,8 +21,9 @@ public class MenuListener implements Listener {
 			MenuSession session = MenuManager.getManager().getSession((Player) clicker);
 			if (session != null) {
 				// If it was a regular click and on inventory screen
-				if (event.getClick() == ClickType.LEFT && event.getClickedInventory() != null && event.getClickedInventory().getHolder() == null)
+				if (event.getClick() == ClickType.LEFT && event.getClickedInventory() != null && event.getClickedInventory().getHolder() == null) {
 					session.onClick(event.getSlot());
+				}
 				
 				// And cancel regardless
 				event.setCancelled(true);

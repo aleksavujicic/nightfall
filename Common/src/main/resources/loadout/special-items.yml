@@ -3,7 +3,7 @@ points:
   base: menu.points
   lore:
     description:
-      - "Click to empty your loadout"
+      - "Click to empty your loadout."
 
 close:
   name: "Close Menu"
@@ -18,15 +18,23 @@ forward:
   base: menu.right-arrow
 
 trash:
-  name: "Clear Loadout"
+  name: "Clear Kit"
   base: menu.trash
   lore:
     description:
-      - "Click to empty your loadout"
+      - "Click to empty your kit."
+
+loadsave:
+  name: "Save/Load"
+  base: menu.save
+  lore:
+    description:
+      - "Click to save your current kit\n
+         or load another one."
 
 random:
   template: "basic-description"
-  name: "Randomise Loadout"
+  name: "Randomise Kit"
   material: dead_bush
   lore:
     description:

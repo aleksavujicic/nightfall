@@ -5,9 +5,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.bukkit.configuration.serialization.SerializableAs;
 import org.mongodb.morphia.annotations.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 8/01/18.
@@ -33,6 +31,9 @@ public class PlayerData implements Data {
 	
 	@Embedded("loadout")
 	public LoadoutData loadout = new LoadoutData();
+	
+	@Embedded("savedloaduts")
+	public List<LoadoutData> savedLoadouts = new ArrayList<>();
 	
 	@Embedded("settings")
 	public PlayerSettingsData settings = new PlayerSettingsData();
@@ -64,9 +65,9 @@ public class PlayerData implements Data {
 		data.uuid      = ConfigUtil.getStringFromMap(map, UUID_KEY, INVALID_UUID);
 		data.gold      = ConfigUtil.getIntFromMap(map, GOLD_KEY, 0);
 		
-		data.cosmetics = ConfigUtil.getObjectFromMap(map, COSMETICS_KEY, CosmeticsData.class, new CosmeticsData());
-		data.loadout   = ConfigUtil.getObjectFromMap(map, LOADOUT_KEY, LoadoutData.class, new LoadoutData());
-		data.settings  = ConfigUtil.getObjectFromMap(map, SETTINGS_KEY, PlayerSettingsData.class, new PlayerSettingsData());
+		data.cosmetics     = ConfigUtil.getObjectFromMap(map, COSMETICS_KEY, CosmeticsData.class, new CosmeticsData());
+		data.loadout       = ConfigUtil.getObjectFromMap(map, LOADOUT_KEY, LoadoutData.class, new LoadoutData());
+		data.settings      = ConfigUtil.getObjectFromMap(map, SETTINGS_KEY, PlayerSettingsData.class, new PlayerSettingsData());
 		
 		return data;
 	}

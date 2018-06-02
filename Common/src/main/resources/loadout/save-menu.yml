@@ -1,0 +1,21 @@
+save:
+  name: "Save $slotname"
+  base: menu.save
+  lore:
+    description:
+      - "Click to save your current kit here."
+
+load:
+  name: "Load $slotname"
+  base: menu.load
+  lore:
+    description:
+      - "Click to load the kit from this slot."
+
+encode:
+  name: "Copyable Text"
+  base: menu.load
+  lore:
+    description:
+      - "Click to get text so that you or\n
+         others can load to get a kit."

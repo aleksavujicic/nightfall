@@ -190,6 +190,8 @@ menu:
   cancel: "diamond_hoe:3"
   points: "diamond_hoe:4"
   trash: "diamond_hoe:22"
+  save: "#temp"
+  load: "#temp"
 
   jit-heal: "!potion{255,0,255}"
 
