@@ -16,7 +16,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by Deimophobe on 1/05/17.
  */
-public class MenuManager {
+public final class MenuManager {
 	public static MenuManager getManager() {
 		return NightfallCommonPlugin.getPlugin().getMenuManager();
 	}
@@ -37,20 +37,30 @@ public class MenuManager {
 		registeredMenus.putInstance(menuClass, menu);
 	}
 	
-	public <T extends SessionData> MenuSession<T> startSession(MainMenu<T> mainMenu, Player player) {
-		checkNotNull(player, "Player must not be null.");
-		
-		MenuSession<T> session = new MenuSession<>(mainMenu, player);
-		activeSessions.put(player, session);
-		return session;
-	}
-	
 	public <T extends SessionData> MenuSession<T> startSession(Class<? extends MainMenu<T>> menuClass, Player player) {
 		checkNotNull(menuClass, "Menu class must not be null.");
 		checkArgument(registeredMenus.containsKey(menuClass), "Menu '%s' must be registered before starting a session.", menuClass.getSimpleName());
 		
 		MainMenu<T> menu = registeredMenus.getInstance(menuClass);
-		return startSession(menu, player);
+		MenuSession<T> session = new MenuSession<>(menu, player, null);
+		activeSessions.put(player, session);
+		return session;
+	}
+	
+	public <T extends SessionData> MenuSession<T> startSession(MainMenu<T> mainMenu, Player player) {
+		checkNotNull(mainMenu, "Menu must not be null.");
+		checkNotNull(player, "Player must not be null.");
+		
+		MenuSession<T> session = new MenuSession<>(mainMenu, player, null);
+		activeSessions.put(player, session);
+		return session;
+	}
+	
+	void startSession(MenuSession<?> session) {
+		checkNotNull(session, "Session must not be null.");
+		
+		Player player = session.getPlayer();
+		activeSessions.put(player, session);
 	}
 	
 	public <S extends MainMenu<?>> S getMenu(Class<S> menuClass) {

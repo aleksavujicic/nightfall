@@ -19,10 +19,13 @@ public class MenuSession<T extends SessionData> {
 	
 	private final Inventory inventory;
 	
+	private final MainMenu<?> previousMenu;
 	
-	MenuSession(MainMenu<T> mainMenu, Player player) {
+	
+	MenuSession(MainMenu<T> mainMenu, Player player, MainMenu<?> previousMenu) {
 		this.mainMenu = mainMenu;
 		this.player = player;
+		this.previousMenu = previousMenu;
 		
 		this.data = mainMenu.getDataFromPlayer(player);
 		
@@ -42,13 +45,10 @@ public class MenuSession<T extends SessionData> {
 	public T getData() {
 		return data;
 	}
-	public Inventory getInventory() { return inventory; }
-	
 	
 	void onClick(int index) {
 		boolean update = mainMenu.onClick(index, this);
-		if (update)
-			updateInventory();
+		if (update) updateInventory();
 	}
 	
 	private void updateInventory() {
@@ -59,13 +59,23 @@ public class MenuSession<T extends SessionData> {
 		}
 	}
 	
+	public void openNewSession(MainMenu<?> newMenu) {
+		closeSession();
+		
+		MenuSession<?> newSession = new MenuSession<>(newMenu, player, mainMenu);
+		MenuManager.getManager().startSession(newSession);
+	}
+	
 	public void closeSession() {
 		player.closeInventory();
 	}
 	
 	void onClose() {
-		player.closeInventory();
 		mainMenu.onClose(this);
+		
+		if (previousMenu != null) {
+			MenuManager.getManager().startSession(previousMenu, player);
+		}
 	}
 	
 	boolean isMenu(MainMenu<?> menu) {

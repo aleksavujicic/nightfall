@@ -1,7 +1,5 @@
 package deimophobe.nightfall.common.menu;
 
-import deimophobe.nightfall.common.Misc;
-
 /**
  * A tag interface that represents an object that determines the state a menu
  * should be.
