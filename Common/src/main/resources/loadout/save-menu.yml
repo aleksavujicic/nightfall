@@ -12,10 +12,10 @@ load:
     description:
       - "Click to load the kit from this slot."
 
-encode:
+export:
   name: "Copyable Text"
   base: menu.load
   lore:
     description:
-      - "Click to get text so that you or\n
-         others can load to get a kit."
+      - "Export the kit into a string format,\n
+         so that you and others can load it."

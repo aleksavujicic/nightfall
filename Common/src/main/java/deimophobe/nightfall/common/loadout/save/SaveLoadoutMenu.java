@@ -19,7 +19,7 @@ public class SaveLoadoutMenu extends SimpleMenu<PlayerInfo> implements MainMenu<
 		
 		CustomItem save   = getItem("save");
 		CustomItem load   = getItem("load");
-		CustomItem encode = getItem("encode");
+		CustomItem export = getItem("export");
 		
 		setItem(10, new SaveItem(save, 0));
 		setItem(11, new SaveItem(save, 1));
@@ -28,7 +28,8 @@ public class SaveLoadoutMenu extends SimpleMenu<PlayerInfo> implements MainMenu<
 		setItem(20, new LoadItem(load, 1));
 		setItem(21, new LoadItem(load, 2));
 		
-		setItem(15, new EncodeItem(encode.createItemStack()));
+		// Runs into the issue of long strings, need a better way of encoding loadouts
+		//setItem(15, new ExportItem(export.createItemStack()));
 	}
 	
 	private CustomItem getItem(String name) {
