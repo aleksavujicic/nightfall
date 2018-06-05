@@ -19,11 +19,12 @@ import org.bukkit.potion.PotionEffectType;
  * Created by Deimophobe on 15/01/18.
  */
 public class BatteringRam extends AbstractRideableMob {
-	@Update @Display private final Cooldown ram = new UseCooldown(2*20, this::wallRam);
-	@Update private final Cooldown leaper = new UseCooldown(1*20, this::leap, () -> monster.getPlayer().isOnGround());
+	@Update private final Cooldown ram = new UseCooldown(2*20, this::wallRam);
+	@Update @Display private final Cooldown toggleCooldown = new UseCooldown(4*20, this::toggleMoveState);
 	@Update private final Cooldown faceResetter = new ComplexCooldown(10, null, () -> setFace(false));
 	
 	private Location lastLocation;
+	private boolean moveState;
 	
 	protected BatteringRam(MonsterPlayer monster) {
 		super(monster, MobType.BATTERING_RAM);
@@ -33,13 +34,22 @@ public class BatteringRam extends AbstractRideableMob {
 	public void onSpawn(SpawnMethod spawnMethod) {
 		super.onSpawn(spawnMethod);
 		
-		changeDisguise(MobDisguise.class, (md) -> {
+		changeDisguise(MobDisguise.class, md -> {
 			md.setReplaceSounds(false);
 			md.setHearSelfDisguise(false);
 		});
 		
-		monster.givePermanentPotionEffect(PotionEffectType.JUMP, -5);
+		//monster.givePermanentPotionEffect(PotionEffectType.JUMP, -5);
 		lastLocation = monster.getLocation();
+		
+		moveState = false;
+		toggleMoveState();
+	}
+	
+	@Override
+	protected void setupItems() {
+		super.setupItems();
+		giveItem("toggle");
 	}
 	
 	@Override
@@ -59,12 +69,9 @@ public class BatteringRam extends AbstractRideableMob {
 	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
 		super.onUse(click, clickedBlock, blockFace);
 		if (isPlayerHoldingWeapon()) {
-			if (click.isLeftClick()) {
-				ram.tryUse();
-			}
-			else if (click.isRightClick()) {
-				leaper.tryUse();
-			}
+			if (!moveState) ram.tryUse();
+		} else if (isPlayerHoldingItem("toggle")) {
+			toggleCooldown.tryUse();
 		}
 	}
 	
@@ -77,13 +84,16 @@ public class BatteringRam extends AbstractRideableMob {
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
-		damage.reduceNoDamageTicks(8);
-		if (damage.getType().isArrow())
+		
+		if (damage.getType().isArrow()) {
 			damage.cancel();
+		}
 	}
 	
-	private void leap() {
-		monster.leap(0.1, 0.4);
+	@Override
+	public void onShift(boolean sneaking) {
+		super.onShift(sneaking);
+		if (sneaking) toggleCooldown.tryUse();
 	}
 	
 	private void wallRam() {
@@ -106,5 +116,16 @@ public class BatteringRam extends AbstractRideableMob {
 	protected boolean canMount(MonsterPlayer player) {
 		int numPassengers = monster.getPlayer().getPassengers().size();
 		return (numPassengers < 1);
+	}
+	
+	private void toggleMoveState() {
+		moveState = !moveState;
+		if (moveState) {
+			monster.removePotionEffect(PotionEffectType.JUMP);
+			monster.removePotionEffect(PotionEffectType.SLOW);
+		} else {
+			monster.givePermanentPotionEffect(PotionEffectType.SLOW, 10);
+			monster.givePermanentPotionEffect(PotionEffectType.JUMP, -5);
+		}
 	}
 }
