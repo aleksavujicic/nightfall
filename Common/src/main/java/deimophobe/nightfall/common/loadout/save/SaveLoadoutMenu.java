@@ -21,12 +21,10 @@ public class SaveLoadoutMenu extends SimpleMenu<PlayerInfo> implements MainMenu<
 		CustomItem load   = getItem("load");
 		CustomItem export = getItem("export");
 		
-		setItem(10, new SaveItem(save, 0));
-		setItem(11, new SaveItem(save, 1));
-		setItem(12, new SaveItem(save, 2));
-		setItem(19, new LoadItem(load, 0));
-		setItem(20, new LoadItem(load, 1));
-		setItem(21, new LoadItem(load, 2));
+		for (int i = 0; i < 3; i++) {
+			setItem(12 + i, new SaveItem(save, i));
+			setItem(21 + i, new LoadItem(load, i));
+		}
 		
 		// Runs into the issue of long strings, need a better way of encoding loadouts
 		//setItem(15, new ExportItem(export.createItemStack()));
