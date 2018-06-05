@@ -98,8 +98,8 @@ turret:
      - "Rotatable block that shoots\n
         a constant stream of arrows"
     flavour:
-     - "Don't be standing around, when theres work\n
-        to be done. - ???"
+     - "\"Built by our finest engineers.\" - Velvetine"
+     - "\"You're lucky these don't have friendly fire!\" - Arthea"
 
 jump-pad:
   base: temp
