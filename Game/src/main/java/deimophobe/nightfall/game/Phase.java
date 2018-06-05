@@ -12,7 +12,7 @@ public enum Phase {
 	
 	;
 	
-	public boolean hasGameStarted() {
+	public boolean haveMonstersBeenReleased() {
 		return this == GAME || this == END;
 	}
 	

@@ -1,24 +1,33 @@
 package deimophobe.nightfall.dwarf.consumable;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.dwarf.Dwarf;
-import org.bukkit.Material;
+import deimophobe.nightfall.game.Game;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
-import java.util.Set;
+import java.util.function.Supplier;
 
 /**
  * Created by Deimophobe on 22/01/17.
  */
 class Mortar extends Consumable {
-	private final boolean wizzy;
+	private final int range;
+	private final double blueChance;
+	private final Supplier<Float> pitch;
 	
 	Mortar(String item, boolean wizzy) {
 		super(item);
-		this.wizzy = wizzy;
+		if (wizzy) {
+			this.range = 10;
+			this.blueChance = 1;
+			this.pitch = () -> 0.5f;
+		} else {
+			this.range = 4;
+			this.blueChance = 0.02;
+			this.pitch = () -> (float) (0.5 + 0.05 * Math.random());
+		}
 	}
 	
 	
@@ -26,14 +35,9 @@ class Mortar extends Consumable {
 	public int use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
 		if (click.isRightClick()) return FAILED_CD;
 		
-		if (clickedBlock == null)
-			clickedBlock = dwarf.getPlayer().getTargetBlock((Set<Material>) null, 5);
-		boolean shouldWizzy = wizzy || !Game.getGame().getPhase().hasGameStarted();
-		
-		BlockConverter.mortar(clickedBlock, shouldWizzy);
-		
-		dwarf.playSound("entity.slime.hurt", 1, (float) (0.5 + 0.05 * Math.random() + (wizzy ? 0.2 : 0)), false);
-		
+		double chance = (Game.getGame().getPhase().haveMonstersBeenReleased() ? blueChance : 1);
+		BlockConverter.mortar(clickedBlock, range, chance);
+		dwarf.playSound("entity.slime.hurt", 1, pitch.get(), false);
 		return 3*DEFAULT_CD;
 	}
 }

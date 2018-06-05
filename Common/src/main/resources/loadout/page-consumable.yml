@@ -2,7 +2,7 @@ wizard-one:
   index: 0
   type: consumable
   name: wizard_mortar
-  quantity: 16
+  quantity: 1
   cost: 2
   item:
     name: "Wizard Mortar I"
@@ -10,12 +10,13 @@ wizard-one:
     lore:
       description:
        - "Gives you $quantity Wizard Mortar.\n
-          These can instantly blue the walls."
+          These can instantly blue the walls\n
+          in a large radius."
 wizard-two:
   index: 9
   type: consumable
   name: wizard_mortar
-  quantity: 32
+  quantity: 2
   cost: 4
   item:
     name: "Wizard Mortar II"
@@ -23,20 +24,22 @@ wizard-two:
     lore:
       description:
        - "Gives you $quantity Wizard Mortar.\n
-          These can instantly blue the walls."
+          These can instantly blue the walls\n
+          in a large radius."
 wizard-three:
   index: 18
   type: consumable
   name: wizard_mortar
-  quantity: 64
-  cost: 8
+  quantity: 3
+  cost: 6
   item:
     name: "Wizard Mortar III"
     base: menu.wizard-mortar3
     lore:
       description:
        - "Gives you $quantity Wizard Mortar.\n
-          These can instantly blue the walls."
+          These can instantly blue the walls\n
+          in a large radius."
 
 lamps-one:
   index: 1

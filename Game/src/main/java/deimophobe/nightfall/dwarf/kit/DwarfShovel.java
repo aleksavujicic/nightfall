@@ -131,7 +131,8 @@ public class DwarfShovel extends AbstractItem {
 		new ConsumableScavengeItem(ConsumableType.WRENCH, 2, "Wrenches", RewardTier.UNCOMMON);
 		new ConsumableScavengeItem(ConsumableType.WRENCH, 3, "Wrenches", RewardTier.RARE);
 		
-		new ConsumableScavengeItem(ConsumableType.WIZARD_MORTAR, 32, "Wizard Mortar", RewardTier.UNCOMMON);
+		new ConsumableScavengeItem(ConsumableType.WIZARD_MORTAR, 1, "Wizard Mortar", RewardTier.COMMON);
+		new ConsumableScavengeItem(ConsumableType.WIZARD_MORTAR, 2, "Wizard Mortar", RewardTier.UNCOMMON);
 		
 		new ConsumableScavengeItem(ConsumableType.WRENCH, 1, "Wrench", RewardTier.COMMON);
 		new ConsumableScavengeItem(ConsumableType.WRENCH, 2, "Wrenches", RewardTier.UNCOMMON);

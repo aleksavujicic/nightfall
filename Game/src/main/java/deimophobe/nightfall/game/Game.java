@@ -499,7 +499,7 @@ public class Game {
 	
 	// ------ SHRINE BAR ------
 	public void giveShrineBarToPlayer(Player player) {
-		if (phase.hasGameStarted()) {
+		if (phase.haveMonstersBeenReleased()) {
 			bossBar.addPlayer(player);
 		}
 	}

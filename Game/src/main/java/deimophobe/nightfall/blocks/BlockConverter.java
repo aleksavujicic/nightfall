@@ -4,7 +4,6 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.blocktype.ComparableBlock;
 import deimophobe.nightfall.blocks.blocktype.SettableBlock;
-import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -167,12 +166,11 @@ public class BlockConverter {
 	
 	
 	private static final int MORTAR_RANGE = 4; // Half range
+	private static final int WIZ_MORTAR_RANGE = 8; // Half range
 	private static final double MORTAR_CHANCE = 0.02; // Half range
 	// MORTAR
-	public static void mortar(Block center, boolean wizzy) {
+	public static void mortar(Block center, int range, double blueChance) {
 		World world = center.getWorld();
-		
-		int range = (Game.getGame().getPhase().hasGameStarted() ? MORTAR_RANGE/2 : MORTAR_RANGE);
 		
 		int startX = center.getX() - range;
 		int startY = center.getY() - range;
@@ -185,10 +183,11 @@ public class BlockConverter {
 				for (int z = startZ; z < startZ + size; z++) {
 					Block block = world.getBlockAt(x, y, z);
 					
-					if (wizzy || Math.random() <= MORTAR_CHANCE)
+					if (Math.random() <= blueChance) {
 						BlockType.tryConvertBlock(block, BlockType.MORTARABLE_WALL, BlockType.ENCHANTED_WALL);
-					else
+					} else {
 						BlockType.tryConvertBlock(block, BlockType.MORTARABLE_WALL, BlockType.NORMAL_WALL);
+					}
 					
 					BlockType.tryConvertBlock(block, BlockType.ALL_SLABS, BlockType.REINFORCED_SLAB);
 					BlockType.tryConvertBlock(block, BlockType.ALL_STAIRS, BlockType.NORMAL_STAIR);

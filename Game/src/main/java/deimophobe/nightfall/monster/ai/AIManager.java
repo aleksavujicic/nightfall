@@ -68,7 +68,7 @@ public class AIManager {
 	}
 	
 	public void stop() {
-		if (Game.getGame().getPhase().hasGameStarted())
+		if (Game.getGame().getPhase().haveMonstersBeenReleased())
 			runner.cancel();
 		removeAllAIs();
 	}

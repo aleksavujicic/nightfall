@@ -124,7 +124,7 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 		
 		MonsterPlayer monster = session.getData();
 		
-		if (!Game.getGame().getPhase().hasGameStarted() && Game.getGame().getPhase() != Phase.STARTING) {
+		if (!Game.getGame().getPhase().haveMonstersBeenReleased() && Game.getGame().getPhase() != Phase.STARTING) {
 			monster.sendMessage(ChatColor.RED + "You must wait until the mobs are released!");
 			return false;
 		}
