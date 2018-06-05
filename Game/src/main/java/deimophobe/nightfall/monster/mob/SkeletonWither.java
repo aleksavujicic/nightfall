@@ -98,10 +98,10 @@ class SkeletonWither extends AbstractToggleSkeleton {
 	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {
 		if (isToggled()) {
-			if (!hasItem("arrow", 2)) return null;
+			if (!hasArrows(2)) return null;
 			if (force < 0.7) return null;
 			
-			removeItem("arrow", 2);
+			removeArrows(2);
 
 			Location loc = monster.getEyeLocation();
 			World world = loc.getWorld();

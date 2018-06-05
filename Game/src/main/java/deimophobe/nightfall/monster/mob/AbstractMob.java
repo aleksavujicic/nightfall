@@ -34,6 +34,8 @@ import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 /**
  * Created by Deimophobe on 13/04/17.
  */
@@ -268,6 +270,7 @@ public abstract class AbstractMob implements Mob {
 	
 	
 	protected final CustomItem getItem(String name) {
+		checkArgument(items.containsKey(name), "No item with name '%s' for mob of type '%s'", name, type);
 		return items.get(name);
 	}
 	

@@ -22,9 +22,6 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
-import java.util.HashSet;
-import java.util.Set;
-
 class SkeletonImpact extends AbstractToggleSkeleton {
 	
 	private final int aoe;
@@ -33,7 +30,6 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 	private final int punch;
 	private final boolean hasMeleeKB;
 	private final int reaction;
-	private final Set<Arrow> activeArrows = new HashSet<>();
 	private final int aerodynamic;
 	private final int forceInf;
 	
@@ -74,9 +70,6 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 	@Override
 	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
 		super.onUse(click, clickedBlock, blockFace);
-		if (click.isLeftClick() && isPlayerHoldingWeapon()) {
-			removeActiveArrows();
-		}
 		if (click.isRightClick() && isPlayerHoldingItem("stick") && reactionCD.isAvailable()) {
 			reactionCD.reset();
             World world = monster.getLocation().getWorld();
@@ -105,9 +98,13 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		if (damage.hasArrow() && ArrowMisc.getArrowForce(damage.getArrow()) > 0.7 && aoe > 0) {
-			Location centerLoc = damage.getDwarf().getEyeLocation();
-			impactExplosion(centerLoc, damage.getDwarf());
+		if (!damage.hasArrow()) return;
+		
+		Dwarf dwarf = damage.getDwarf();
+		Arrow arrow = damage.getArrow();
+		if (ArrowMisc.getArrowForce(arrow) > 0.7 && hasAOE()) {
+			Location centerLoc = dwarf.getEyeLocation();
+			impactExplosion(centerLoc, dwarf, isActiveProjectile(arrow));
 		}
 	}
 	
@@ -118,11 +115,11 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 		BlockFace face = Misc.getBlockFaceProjectileHit(proj, hitBlock);
 		Block explosionBlock = hitBlock.getRelative(face);
 		Location centerLoc = explosionBlock.getLocation();
-		impactExplosion(centerLoc, null);
+		impactExplosion(centerLoc, null, isActiveProjectile(proj));
 	}
 	
-	private void impactExplosion(Location centerLoc, Dwarf exempt) {
-		if (aoe == 0 || monster.getLocation().getY() - centerLoc.getY() > 20) {
+	private void impactExplosion(Location centerLoc, Dwarf exempt, boolean affectSelf) {
+		if (!hasAOE() || monster.getLocation().getY() - centerLoc.getY() > 20) {
 			return; // prevents impact shooting down from too high up
 		}
 		World world = monster.getLocation().getWorld();
@@ -146,7 +143,8 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 			aoeDamage.fire();
 			
 		}
-		if (isToggled()) {
+		
+		if (affectSelf) {
 			Vector offset = monster.getEyeLocation().subtract(centerLoc).toVector();
 			if (offset.length() < 6.5) {
 				Vector knockback = offset.normalize().multiply(kb * 2 / Math.sqrt(Math.max(2, offset.length())));
@@ -163,7 +161,7 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 	
 	@Override
 	protected boolean canToggle() {
-		return aerodynamic > 0;
+		return (aerodynamic > 0) && hasArrows(2);
 	}
 	
 	@Override
@@ -175,13 +173,14 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 		
 		if (isToggled()) {
 			proj.setMetadata(ARROW_METADATA_KEY, new FixedMetadataValue(NightfallPlugin.getPlugin(), true));
-			activeArrows.add(arrow);
+			removeArrows(2);
 		}
 		
 		if (proj instanceof Arrow) {
 			((Arrow) proj).setKnockbackStrength(punch);
 		}
 		
+		checkToggle();
 		return proj;
 	}
 	
@@ -189,12 +188,7 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 		return proj.hasMetadata(ARROW_METADATA_KEY);
 	}
 	
-	
-	private void removeActiveArrows() {
-		for (Arrow arrow : activeArrows) {
-			ArrowMisc.removeGlow(arrow);
-			arrow.removeMetadata(ARROW_METADATA_KEY, NightfallPlugin.getPlugin());
-		}
-		activeArrows.clear();
+	private boolean hasAOE() {
+		return aoe > 0;
 	}
 }

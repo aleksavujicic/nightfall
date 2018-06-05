@@ -19,6 +19,7 @@ import java.util.Map;
  * Created by Deimophobe on 27/01/17.
  */
 class Skeleton extends AbstractMob {
+	private static final String ARROW_NAME = "arrow";
 
 	protected Map<String, Integer> upgrades;
 	protected int quiver;
@@ -76,8 +77,14 @@ class Skeleton extends AbstractMob {
 		return arrow;
 	}
 	
-	protected void giveArrows(int quantity) {
-		giveItem("arrow", quantity);
+	protected final void giveArrows(int quantity) {
+		giveItem(ARROW_NAME, quantity);
+	}
+	protected final boolean hasArrows(int quantity) {
+		return hasItem(ARROW_NAME, quantity);
+	}
+	protected final boolean removeArrows(int quantity) {
+		return removeItem(ARROW_NAME, quantity);
 	}
 
 	protected int getPower() {

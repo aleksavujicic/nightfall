@@ -31,16 +31,22 @@ abstract class AbstractToggleSkeleton extends Skeleton {
 		}
 	}
 	
-	protected void toggleBow() {
+	protected final void toggleBow() {
 		if (canToggle()) {
 			toggled = !toggled;
 			setShiny(toggled);
 		}
 	}
 	
-	protected void forceBowToggle(boolean toggle) {
+	protected final void forceBowToggle(boolean toggle) {
 		toggled = toggle;
 		setShiny(toggled);
+	}
+	
+	protected final void checkToggle() {
+		if (!canToggle()) {
+			forceBowToggle(false);
+		}
 	}
 	
 	private void setShiny(boolean shiny) {
@@ -61,7 +67,7 @@ abstract class AbstractToggleSkeleton extends Skeleton {
 			item.removeEnchantment(Enchantment.DURABILITY);
 	}
 	
-	protected boolean isToggled() {
+	protected final boolean isToggled() {
 		return toggled;
 	}
 	
