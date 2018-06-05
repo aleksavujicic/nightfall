@@ -1,9 +1,9 @@
 package deimophobe.nightfall.dwarf.consumable;
 
+import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.items.ItemMatcher;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -29,13 +29,13 @@ public enum ConsumableType implements ItemMatcher {
 	COBBLESTONE(new DummyConsumable("cobble"), true, true),
 	GLASS(new GlassConsumable("glass"), true, false),
 	
-	BOWL(new CraftingConsumable("bowl", Material.SPONGE, MORTAR), true, false),
+	BOWL(new CraftingConsumable("bowl", BlockType.OIL, MORTAR), true, false),
 	STICK(new CraftingConsumable("stick",
-			new CraftingConsumable.Conversion(Material.IRON_FENCE, BOWL),
-			new CraftingConsumable.Conversion(Material.SPONGE, TORCH)
+			new CraftingConsumable.Conversion(BlockType.SAWS, BOWL),
+			new CraftingConsumable.Conversion(BlockType.OIL, TORCH)
 	), true, false),
-	PLANK(new CraftingConsumable("plank", Material.IRON_FENCE, STICK, 2), true, false),
-	LOG(new CraftingConsumable("log", Material.IRON_FENCE, PLANK), true, false),
+	PLANK(new CraftingConsumable("plank", BlockType.SAWS, STICK, 2), true, false),
+	LOG(new CraftingConsumable("log", BlockType.SAWS, PLANK), true, false),
 	
 	SAND_GRAIN(new FurnaceConsumable("sand-grain", GLASS, 20), true, true),
 	

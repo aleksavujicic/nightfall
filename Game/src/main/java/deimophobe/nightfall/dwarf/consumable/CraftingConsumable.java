@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.consumable;
 
 import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.blocks.blocktype.ComparableBlock;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -17,12 +18,12 @@ class CraftingConsumable extends Consumable {
 	private static final int CRAFTING_CD = 2;
 	private final Collection<Conversion> conversions;
 	
-	protected CraftingConsumable(String item, Material clickMaterial, ConsumableType newConsumable) {
-		this(item, clickMaterial, newConsumable, 1);
+	protected CraftingConsumable(String item, ComparableBlock requiredBlock, ConsumableType newConsumable) {
+		this(item, requiredBlock, newConsumable, 1);
 	}
 	
-	protected CraftingConsumable(String item, Material clickMaterial, ConsumableType newConsumable, int count) {
-		this(item, new Conversion(clickMaterial, newConsumable, count));
+	protected CraftingConsumable(String item, ComparableBlock requiredBlock, ConsumableType newConsumable, int count) {
+		this(item, new Conversion(requiredBlock, newConsumable, count));
 	}
 	
 	protected CraftingConsumable(String item, Conversion... conversions) {
@@ -35,10 +36,8 @@ class CraftingConsumable extends Consumable {
 		if (click.isRightClick()) {
 			if (clickedBlock == null) return FAILED_CD;
 			
-			Material blockMat = clickedBlock.getType();
-			
 			for (Conversion conversion : conversions) {
-				boolean success = conversion.tryUseOn(blockMat, dwarf);
+				boolean success = conversion.tryUseOn(clickedBlock, dwarf);
 				if (success) return CRAFTING_CD;
 			}
 		}
@@ -48,29 +47,29 @@ class CraftingConsumable extends Consumable {
 	
 	
 	static class Conversion {
-		private final Material required;
+		private final ComparableBlock requiredBlock;
 		private final ConsumableType newConsumable;
 		private final int count;
 		
-		Conversion(Material required, ConsumableType newConsumable) {
-			this(required, newConsumable, 1);
+		Conversion(ComparableBlock requiredBlock, ConsumableType newConsumable) {
+			this(requiredBlock, newConsumable, 1);
 		}
 		
-		Conversion(Material required, ConsumableType newConsumable, int count) {
-			this.required = required;
+		Conversion(ComparableBlock requiredBlock, ConsumableType newConsumable, int count) {
+			this.requiredBlock = requiredBlock;
 			this.newConsumable = newConsumable;
 			this.count = count;
 		}
 		
-		private boolean tryUseOn(Material material, Dwarf dwarf) {
-			if (material == required) {
+		private boolean tryUseOn(Block block, Dwarf dwarf) {
+			if (requiredBlock.matchesBlock(block)) {
 				dwarf.giveConsumable(newConsumable, count, true);
 				
 				//TODO fix hack
-				if (material == Material.SPONGE)
+				if (block.getType() == Material.SPONGE)
 					dwarf.playSound("mortar", 0.8f, (float) (1.5 + 0.1*Math.random()), true);
 				
-				if (material == Material.IRON_FENCE)
+				if (block.getType() == Material.IRON_FENCE)
 					dwarf.playSound("entity.zombie.attack_door_wood", 0.25f, 2, true);
 					
 				

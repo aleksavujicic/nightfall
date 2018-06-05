@@ -24,6 +24,11 @@ public class BlockType {
 	public static final ComparableBlock PISTON_BASE = new MaterialSet(Material.PISTON_EXTENSION, Material.PISTON_BASE);
 	
 	
+	// ----- DWARF THINGIES -----
+	public static final CustomBlock OIL = new MaterialBlock(Material.SPONGE);
+	public static final CustomBlock SAWS = new MaterialBlock(Material.IRON_FENCE);
+	
+	
 	// ----- WALLS N STUFF -----
 	public static final CustomBlock ENCHANTED_WALL = new MaterialBlock(Material.LAPIS_ORE);
 	public static final CustomBlock NORMAL_WALL = new DataBlock(Material.SMOOTH_BRICK, (byte) 0);
