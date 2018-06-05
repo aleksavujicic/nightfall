@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.kit.accessory;
 
 import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -47,8 +48,10 @@ public class Clock extends AbstractItem {
 			timeDescription = "morning";
 		} else if (timeDay <= 11500) {
 			timeDescription = "noon";
-		} else if (timeDay <= 13500) {
+		} else if (timeDay < 13500) {
 			timeDescription = "dusk";
+		} else if (timeDay == 13500) {
+			timeDescription = Misc.getNightfallText();
 		} else if (timeDay <= 15000) {
 			timeDescription = "evening";
 		} else {
