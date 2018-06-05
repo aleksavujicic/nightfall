@@ -87,7 +87,7 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 	public void onDamageAttack(DwarfDamage damage) {
 		damage.reduceNoDamageTicks(8);
 		damage.setArmourShred(5);
-		damage.multiplyKnockback(0.8);
+		damage.multiplyKnockback(0.7);
 		
 		damage.addPostDamageHandler(this::resetInactivity);
 	}
