@@ -12,6 +12,7 @@ public interface Armour {
 	void addModifier(ItemModifierType type, int value, String reason, ArmourSlot slot);
 	void updateEquipment();
 	
+	double getFullness();
 	boolean isArmoured();
 	
 	boolean canPickRepair();

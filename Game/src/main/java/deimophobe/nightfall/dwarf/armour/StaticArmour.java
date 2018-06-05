@@ -10,6 +10,7 @@ abstract class StaticArmour implements Armour {
 	@Override public void addModifier(ItemModifierType type, int value, String reason) {}
 	@Override public void addModifier(ItemModifierType type, int value, String reason, ArmourSlot slot) {}
 	@Override public void updateEquipment() { }
+	@Override public double getFullness() { return 1; }
 	@Override public boolean isArmoured() { return true; }
 	@Override public boolean canPickRepair() { return false; }
 	@Override public boolean canShrineRepair() { return false; }

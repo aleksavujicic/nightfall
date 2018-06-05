@@ -12,6 +12,7 @@ public class NakedArmour extends StaticArmour {
 		dwarf.getPlayer().getInventory().setArmorContents(new ItemStack[]{null, null, null, null});
 	}
 	
+	@Override public double getFullness() {return 0;}
 	@Override public double getResistance() { return 0; }
 	@Override public int getManaRegenRate() { return 0; }
 }

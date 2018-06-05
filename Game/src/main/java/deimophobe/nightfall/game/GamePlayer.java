@@ -426,6 +426,9 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	public void sendTitleMessage(String message) {
 		player.sendTitle("", message, 5, 30, 5);
 	}
+	public void sendTitleMessage(String title, String message) {
+		player.sendTitle(title, message, 5, 30, 5);
+	}
 	
 	
 	// ------ DAMAGE ------

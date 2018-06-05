@@ -77,6 +77,10 @@ public class DwarvenArmour implements Armour {
 		durability += amt;
 	}
 	
+	@Override
+	public double getFullness() {
+		return armourValue/DEFAULT_MAX;
+	}
 	
 	@Override
 	public void addModifier(ItemModifierType type, int value, String reason) {
