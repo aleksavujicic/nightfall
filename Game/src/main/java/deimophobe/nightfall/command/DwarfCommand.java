@@ -255,44 +255,6 @@ public class DwarfCommand extends BaseCommand {
 		}
 	}
 	
-	// ----- DWARF GIVE COMMANDS -----
-	
-	@CommandAlias("chest")
-	@Description("For sharing resources with your fellow dwarves.")
-	public void giveChest(@Flags("self") Dwarf dwarf) {
-		dwarf.giveKitItem(KitPieceType.CHESTO);
-	}
-	
-	@CommandAlias("clock")
-	@Description("So Jimmy can tell time.")
-	public void giveClock(@Flags("self") Dwarf dwarf) {
-		dwarf.giveKitItem(KitPieceType.CLOCK);
-	}
-	
-	@CommandAlias("compass")
-	@Description("Blesses Jimmy with the mighty dwarven compass.")
-	public void giveCompass(@Flags("self") Dwarf dwarf) {
-		dwarf.giveKitItem(KitPieceType.COMPASS);
-	}
-	
-	@CommandAlias("bricklayer")
-	@Description("Lets Jimmy build lots of walls.")
-	public void giveBricklayer(@Flags("self") Dwarf dwarf) {
-		dwarf.giveKitItem(KitPieceType.BRICKLAYER);
-	}
-	
-	@CommandAlias("jitheal|jit-heal")
-	@Description("For saving Jimmy.")
-	public void giveJitHeal(@Flags("self") Dwarf dwarf) {
-		dwarf.giveKitItem(KitPieceType.JIT_HEAL);
-	}
-	
-	@CommandAlias("trash|fawn")
-	@Description("For deleting your duplicate items.")
-	public void showTrash(@Flags("self") Dwarf dwarf) {
-		dwarf.showTrash();
-	}
-	
 	
 	// Overriding tab completion to handle more complex cases with
 	// /setdwarf <name>

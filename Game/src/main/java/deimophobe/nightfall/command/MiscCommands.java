@@ -9,9 +9,11 @@ import deimophobe.nightfall.common.command.MessageUtil;
 import deimophobe.nightfall.common.menu.MenuManager;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.dot.PoisonType;
+import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.consumable.ConsecratingCharm;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.hero.Horn;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GamePlayer;
@@ -169,6 +171,49 @@ public class MiscCommands extends BaseCommand {
 	
 	private ColourMenu getColourMenu() {
 		return MenuManager.getManager().getMenu(ColourMenu.class);
+	}
+	
+	// ----- DWARF GIVE COMMANDS -----
+	
+	@CommandAlias("chest|chesto|chestomatic")
+	@Description("For sharing resources with your fellow dwarves.")
+	public void giveChest(@Flags("self") Dwarf dwarf) {
+		giveKitItem(dwarf, KitPieceType.CHESTO, "chestomatic");
+	}
+	
+	@CommandAlias("clock")
+	@Description("So Jimmy can tell time.")
+	public void giveClock(@Flags("self") Dwarf dwarf) {
+		giveKitItem(dwarf, KitPieceType.CLOCK, "clock");
+	}
+	
+	@CommandAlias("compass")
+	@Description("Blesses Jimmy with the mighty dwarven compass.")
+	public void giveCompass(@Flags("self") Dwarf dwarf) {
+		giveKitItem(dwarf, KitPieceType.COMPASS, "compass");
+	}
+	
+	@CommandAlias("bricklayer|brick|bricks")
+	@Description("Lets Jimmy build lots of walls.")
+	public void giveBricklayer(@Flags("self") Dwarf dwarf) {
+		giveKitItem(dwarf, KitPieceType.BRICKLAYER, "bricklayer");
+	}
+	
+	@CommandAlias("jitheal|jit-heal|jit")
+	@Description("For saving Jimmy.")
+	public void giveJitHeal(@Flags("self") Dwarf dwarf) {
+		giveKitItem(dwarf, KitPieceType.JIT_HEAL, "jit heal");
+	}
+	
+	private void giveKitItem(Dwarf dwarf, KitPieceType item, String name) {
+		dwarf.giveKitItem(item);
+		MessageUtil.sendMessage(dwarf.getPlayer(), "You now have a " + ChatColor.AQUA + name);
+	}
+	
+	@CommandAlias("trash|fawn")
+	@Description("For deleting your duplicate items.")
+	public void showTrash(@Flags("self") Dwarf dwarf) {
+		dwarf.showTrash();
 	}
 	
 	
