@@ -149,6 +149,14 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 					GameEffect.EMERALD_MINE.playEffect(dwarf, block);
 					break;
 				}
+				
+				case GLOWING_REDSTONE_ORE:
+				case REDSTONE_ORE: {
+					dwarf.givePotionEffect(PotionEffectType.FIRE_RESISTANCE, 5*20, 1, true, false, false);
+					dwarf.regenMana(3);
+					GameEffect.REDSTONE_MINE.playEffect(dwarf, block);
+					break;
+				}
 			}
 		}
 	}

@@ -12,6 +12,7 @@ public class Sounds {
 	public static final PlayerSound DWARF_MINE_GOLD = new RandomPitchSound("block.note.bell", Category.SOUND_EFFECT, 0.8f, 1.9f);
 	public static final PlayerSound DWARF_MINE_DIAMOND = new RandomPitchSound("block.note.chime", Category.SOUND_EFFECT, 0.5f, 1f);
 	public static final PlayerSound DWARF_MINE_EMERALD = new RandomPitchSound("block.note.harp", Category.SOUND_EFFECT, 0.5f, 1f);
+	public static final PlayerSound DWARF_MINE_REDSTONE = new RandomPitchSound("block.note.bass", Category.SOUND_EFFECT, 0.5f, 1.5f);
 	
 	public static final GlobalSound MONSTER_DOOM_DRUM = new RandomPitchSound("drum", Category.MUSIC, 0.7f, 1f);
 	public static final GlobalSound MONSTER_DOOM_DRUM_MANAMA = new StringGlobalSound("manamadrum", Category.MUSIC);
