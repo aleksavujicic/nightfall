@@ -4,6 +4,9 @@ import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.items.ItemMatcher;
+import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.consumable.CraftingConsumable.ConditionalConversion;
+import deimophobe.nightfall.dwarf.consumable.CraftingConsumable.Conversion;
 import deimophobe.nightfall.dwarf.consumable.CraftingConsumable.MultiIngredientConversion;
 import deimophobe.nightfall.dwarf.consumable.CraftingConsumable.MultiIngredientConversion.IngredientRequirement;
 import deimophobe.nightfall.dwarf.consumable.CraftingConsumable.SimpleConversion;
@@ -49,12 +52,13 @@ public enum ConsumableType implements ItemMatcher {
 	
 	// Add conversions which could not be added in constructor because of self reference
 	static {
-		((CraftingConsumable) STICK.consumable).addConversion(
-				new MultiIngredientConversion(BlockType.ANVIL, ARROW, 1,
-						new IngredientRequirement(STICK, 2),
-						new IngredientRequirement(COBBLESTONE, 1)
-				)
-		);
+//		Conversion stickToArrow = new MultiIngredientConversion(BlockType.ANVIL, ARROW, 1,
+//				new IngredientRequirement(STICK, 2),
+//				new IngredientRequirement(COBBLESTONE, 1)
+//		);
+//		((CraftingConsumable) STICK.consumable).addConversion(
+//				new ConditionalConversion(stickToArrow, Dwarf::canAddMoreSpareArrows)
+//		);
 	}
 	
 	private static final ConsumableType[] VALUES = values();

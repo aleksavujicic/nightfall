@@ -11,6 +11,7 @@ import org.bukkit.block.BlockFace;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Predicate;
 
 /**
  * Created by Deimophobe on 28/03/17.
@@ -134,6 +135,23 @@ class CraftingConsumable extends Consumable {
 			private void useIngredient(Dwarf dwarf) {
 				dwarf.removeItems(ingredient, count);
 			}
+		}
+	}
+	
+	static class ConditionalConversion implements Conversion {
+		private final Conversion conversion;
+		private final Predicate<Dwarf> condition;
+		
+		ConditionalConversion(Conversion conversion, Predicate<Dwarf> condition) {
+			this.conversion = conversion;
+			this.condition = condition;
+		}
+		
+		
+		@Override
+		public ConsumeResult tryUseOn(Block block, Dwarf dwarf) {
+			if (!condition.test(dwarf)) return ConsumeResult.FAILURE;
+			return conversion.tryUseOn(block, dwarf);
 		}
 	}
 }

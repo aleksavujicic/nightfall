@@ -291,8 +291,25 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	private void bowFiredArrow() {
 		arrows--;
+		
+//		Bukkit.broadcastMessage("FIRE: " + arrows);
+//		if (arrows == 0 && spareArrowCount() > 0) {
+//			Bukkit.broadcastMessage("A: " + arrows + "Spare: " + spareArrowCount());
+//			removeItem(ConsumableType.ARROW);
+//			arrows++;
+//			Bukkit.broadcastMessage("A: " + arrows + "Spare: " + spareArrowCount());
+//			updateArrowDisplay();
+//		}
 	}
 	
+	// Spare arrows
+	private int spareArrowCount() {
+		return this.getItemCount(ConsumableType.ARROW);
+	}
+	
+	public boolean canAddMoreSpareArrows() {
+		return spareArrowCount() < maxArrows*3;
+	}
 	
 	
 	// ------ INVENTORIES ------
