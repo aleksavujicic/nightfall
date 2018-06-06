@@ -10,6 +10,7 @@ import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.ai.AIType;
 import deimophobe.nightfall.util.ArrowMisc;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -37,7 +38,7 @@ class SkeletonFlamelancer extends Skeleton {
 	private double flameBlock;
 	private double chargeBonus = 0;
 
-	private static Integer[] arrowResValues = {0, 10, 20, 30, 40, 50};
+	private static final Integer[] arrowResValues = {0, 10, 20, 30, 40, 50};
 
 	SkeletonFlamelancer(MonsterPlayer monster) {
 		super(monster, MobData.getMobData("skeleton.flamelancer"));
@@ -69,13 +70,11 @@ class SkeletonFlamelancer extends Skeleton {
 	public void update() {
 		super.update();
         Block block = monster.getLocation().getBlock();
+		monster.getPlayer().setFireTicks(0);
         if (everyNthTick(10)) {
 			if (BlockType.IGNORABLE.matchesBlock(block) && Math.random() < firePath * 0.1) {
 				block.setType(Material.FIRE);
-			} else {
-				monster.getPlayer().setFireTicks(0);
 			}
-			chargeBonus = Math.min(chargeBonus+0.01, 0.2);
 		}
 	}
 	
@@ -86,13 +85,15 @@ class SkeletonFlamelancer extends Skeleton {
 		arrow.setFireTicks(10000);
 		arrow.setCritical(false);
 		final int arrowsToFire = (int) ((Math.min(DEFAULT_VOLLEY + arrowsFiredInf, MAX_VOLLEY))*(force*force));
-		if (Math.random() < (volley * 0.06 + 0.1 + chargeBonus)) {
+		if (Math.random() < (volley * 0.14 + 0.1 + chargeBonus)) {
 			for (int i=0; i<arrowsToFire; i++) {
-				Arrow newArrow = ArrowMisc.summonArrow(monster, getPower(), force*2, force, 30f);
+				Arrow newArrow = ArrowMisc.summonArrow(monster, getPower(), force*2, force, 20f);
 				newArrow.setCritical(false);
 				newArrow.setFireTicks(10000);
 			}
 			chargeBonus = 0;
+		} else {
+			chargeBonus = Math.min(chargeBonus + 0.02*force, 0.2);
 		}
 		return arrow;
 	}
