@@ -14,19 +14,20 @@ import org.bukkit.block.BlockFace;
  */
 class Wrench extends Consumable {
 	
+	private static final ConsumeResult ARMOUR_FULL = ConsumeResult.failedResultWithMessage(ChatColor.GOLD + "Your armour is nearly full!");
+	
 	Wrench(String item) {
 		super(item);
 	}
 	
 	@Override
-	public int use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
-		if (click.isRightClick()) return FAILED_CD;
-		if (!checkPhase(dwarf)) return FAILED_CD;
+	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+		if (click.isRightClick()) return ConsumeResult.FAILURE;
+		ConsumeResult phaseCheck = checkPhase();
+		if (phaseCheck != null) return phaseCheck;
 		
-		boolean canUse = false;
 		Armour armour = dwarf.getArmour();
-		if (armour.canPickRepair()) canUse = true;
-		if (!armour.isArmoured()) canUse = true;
+		boolean canUse = (armour.canPickRepair() && !armour.isArmoured());
 	
 		if (canUse) {
 			boolean success = GameMap.getCurrentMap().useGold(75);
@@ -36,10 +37,9 @@ class Wrench extends Consumable {
 			if (!armour.isArmoured() && armour instanceof DwarvenArmour) {
 				((DwarvenArmour) armour).putOn();
 			}
-			return DEFAULT_CD;
+			return ConsumeResult.SUCCESS;
 		} else {
-			dwarf.sendTitleMessage(ChatColor.GOLD + "Your armour is nearly full!");
-			return FAILED_CD;
+			return ARMOUR_FULL;
 		}
 	}
 }

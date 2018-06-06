@@ -27,6 +27,7 @@ import java.util.Set;
  */
 public class ConsecratingCharm extends Consumable {
 	private static final double TWO_PI = 2 * Math.PI;
+	private static final ConsumeResult TOO_CLOSE = ConsumeResult.failedResultWithMessage(ChatColor.RED + "Too close to existing charm");
 	
 	private final Set<CharmInstance> activeCharms = new HashSet<>();
 	
@@ -35,18 +36,18 @@ public class ConsecratingCharm extends Consumable {
 	}
 	
 	@Override
-	public int use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
-		if (!click.isLeftClick()) return FAILED_CD;
-		if (!checkPhase(dwarf)) return FAILED_CD;
+	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+		if (!click.isLeftClick()) return ConsumeResult.FAILURE;
+		ConsumeResult phaseCheck = checkPhase();
+		if (phaseCheck != null) return phaseCheck;
 		
 		Location center = dwarf.getEyeLocation();
 		boolean success = spawnCharm(center, 8*20, 11, 3);
 		
 		if (success) {
-			return DEFAULT_CD;
+			return ConsumeResult.SUCCESS;
 		} else {
-			dwarf.sendTitleMessage(ChatColor.RED + "Too close to existing charm");
-			return FAILED_CD;
+			return TOO_CLOSE;
 		}
 	}
 	

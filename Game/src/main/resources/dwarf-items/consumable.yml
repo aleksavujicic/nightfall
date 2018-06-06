@@ -119,6 +119,15 @@ spare-quiver:
     flavour:
      - "Flavour"
 
+arrow:
+  base: temp
+  name: Reserve Arrow
+  lore:
+    description:
+     - "Bonus arrow"
+    flavour:
+     - "Flavour"
+
 
 log:
   base: logs

@@ -17,12 +17,13 @@ class Lamp extends Consumable {
 	}
 	
 	@Override
-	public int use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
-		if (!checkPhase(dwarf)) return FAILED_CD;
+	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+		ConsumeResult phaseCheck = checkPhase();
+		if (phaseCheck != null) return phaseCheck;
 		
 		boolean success = BlockManager.getManager().placeTimedBlock(new LampBlock(clickedBlock, 60*20, dwarf, true));
 		
-		if (success) return DEFAULT_CD;
-		else return FAILED_CD;
+		if (success) return ConsumeResult.SUCCESS;
+		else return ConsumeResult.FAILURE;
 	}
 }

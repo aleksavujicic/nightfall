@@ -16,6 +16,7 @@ class Mortar extends Consumable {
 	private final int range;
 	private final double blueChance;
 	private final Supplier<Float> pitch;
+	private final ConsumeResult success;
 	
 	Mortar(String item, boolean wizzy) {
 		super(item);
@@ -23,21 +24,24 @@ class Mortar extends Consumable {
 			this.range = 10;
 			this.blueChance = 1;
 			this.pitch = () -> 0.5f;
+			this.success = ConsumeResult.successfulWithDuration(20);
 		} else {
 			this.range = 4;
 			this.blueChance = 0.02;
 			this.pitch = () -> (float) (0.5 + 0.05 * Math.random());
+			this.success = ConsumeResult.successfulWithDuration(60);
 		}
 	}
 	
 	
 	@Override
-	public int use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
-		if (click.isRightClick()) return FAILED_CD;
+	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+		if (click.isRightClick()) return ConsumeResult.FAILURE;
 		
 		double chance = (Game.getGame().getPhase().haveMonstersBeenReleased() ? blueChance : 1);
 		BlockConverter.mortar(clickedBlock, range, chance);
 		dwarf.playSound("entity.slime.hurt", 1, pitch.get(), false);
-		return 3*DEFAULT_CD;
+		
+		return success;
 	}
 }

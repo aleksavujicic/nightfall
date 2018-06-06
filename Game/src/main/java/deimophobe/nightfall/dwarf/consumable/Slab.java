@@ -12,22 +12,21 @@ import org.bukkit.block.BlockFace;
  * Created by Deimophobe on 22/01/17.
  */
 class Slab extends Consumable {
+	private static final ConsumeResult TOO_CLOSE = ConsumeResult.failedResultWithMessage(ChatColor.RED + "That block is too close to slab");
 	
 	Slab(String item) {
 		super(item);
 	}
 	
 	@Override
-	public int use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
-		if (click.isRightClick()) return FAILED_CD;
-		if (!checkPhase(dwarf)) return FAILED_CD;
+	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+		if (click.isRightClick()) return ConsumeResult.FAILURE;
+		ConsumeResult phaseCheck = checkPhase();
+		if (phaseCheck != null) return phaseCheck;
 		
 		Block selectedBlock = dwarf.getTargetBlock(null, 7);
 		Location center = selectedBlock.getLocation();
-		if (dwarf.distanceTo(center) <= 4) {
-			dwarf.sendTitleMessage(ChatColor.RED + "That block is too close to slab");
-			return FAILED_CD;
-		}
+		if (dwarf.distanceTo(center) <= 4) return TOO_CLOSE;
 		
 		double facing = dwarf.getLocation().getYaw() % 360;
 		if (facing < 0)
@@ -61,6 +60,6 @@ class Slab extends Consumable {
 		
 		dwarf.playSound("block.anvil.place", 1, 0.8f, true);
 		
-		return DEFAULT_CD;
+		return ConsumeResult.SUCCESS;
 	}
 }

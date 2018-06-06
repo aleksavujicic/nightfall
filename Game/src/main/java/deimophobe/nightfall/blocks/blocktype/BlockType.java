@@ -27,6 +27,7 @@ public class BlockType {
 	// ----- DWARF THINGIES -----
 	public static final CustomBlock OIL = new MaterialBlock(Material.SPONGE);
 	public static final CustomBlock SAWS = new MaterialBlock(Material.IRON_FENCE);
+	public static final CustomBlock ANVIL = new MaterialBlock(Material.ANVIL);
 	
 	
 	// ----- WALLS N STUFF -----

@@ -16,13 +16,15 @@ public class Turret extends Consumable {
 	}
 	
 	@Override
-	public int use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
-		if (!checkPhase(dwarf)) return FAILED_CD;
-		if (face == null) return FAILED_CD;
+	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+		ConsumeResult phaseCheck = checkPhase();
+		if (phaseCheck != null) return phaseCheck;
+		if (face == null) return ConsumeResult.FAILURE;
 		
-		boolean success = BlockManager.getManager().placeTimedBlock(new TurretBlock(45, clickedBlock, dwarf, face, 70));
+		TurretBlock turret = new TurretBlock(45, clickedBlock, dwarf, face, 70);
+		boolean success = BlockManager.getManager().placeTimedBlock(turret);
 		
-		if (success) return DEFAULT_CD;
-		else return FAILED_CD;
+		if (success) return ConsumeResult.SUCCESS;
+		else return ConsumeResult.FAILURE;
 	}
 }

@@ -19,7 +19,7 @@ class ArmourItem extends Consumable {
 	}
 	
 	@Override
-	public int use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
 		if (click.isLeftClick()) {
 			Predicate<Dwarf> armourChecker = checkee -> {
 				Armour armour = checkee.getArmour();
@@ -29,9 +29,9 @@ class ArmourItem extends Consumable {
 			Dwarf toArmour = dwarf.getLookingAt(7, 2, DwarfManager.getManager().getDwarves(), armourChecker);
 			if (toArmour != null) {
 				((DwarvenArmour) toArmour.getArmour()).putOn();
-				return DEFAULT_CD;
+				return ConsumeResult.SUCCESS;
 			}
 		}
-		return FAILED_CD;
+		return ConsumeResult.FAILURE;
 	}
 }

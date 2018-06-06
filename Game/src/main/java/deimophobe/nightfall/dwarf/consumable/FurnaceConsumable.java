@@ -22,9 +22,9 @@ public class FurnaceConsumable extends Consumable {
 	}
 	
 	@Override
-	public int use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
-		if (!click.isRightClick()) return FAILED_CD;
-		if (!BlockType.FURNACE.matchesBlock(clickedBlock)) return FAILED_CD;
+	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+		if (!click.isRightClick()) return ConsumeResult.FAILURE;
+		if (!BlockType.FURNACE.matchesBlock(clickedBlock)) return ConsumeResult.FAILURE;
 		
 		int count;
 		if (dwarf.isSneaking()) {
@@ -42,6 +42,6 @@ public class FurnaceConsumable extends Consumable {
 		center.getWorld().spawnParticle(Particle.FLAME, center, 35, 0.5, 0.5, 0.5, 0);
 		center.getWorld().spawnParticle(Particle.SMOKE_NORMAL, center, 35, 0.5, 0.5, 0.5, 0);
 		
-		return DEFAULT_CD;
+		return ConsumeResult.SUCCESS;
 	}
 }

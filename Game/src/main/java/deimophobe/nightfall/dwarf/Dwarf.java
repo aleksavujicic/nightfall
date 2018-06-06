@@ -9,6 +9,7 @@ import deimophobe.nightfall.blocks.timedblock.JumpPad;
 import deimophobe.nightfall.blocks.timedblock.TurretBlock;
 import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.ExpiryStore;
 import deimophobe.nightfall.cooldown.RepeatingCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
@@ -19,6 +20,7 @@ import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.armour.NakedArmour;
 import deimophobe.nightfall.dwarf.consumable.Consumable;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
+import deimophobe.nightfall.dwarf.consumable.ConsumeResult;
 import deimophobe.nightfall.dwarf.kit.Kit;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
@@ -396,10 +398,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			stunned--;
 		}
 		
-		if (consumableGrabCD > 0) {
-            consumableGrabCD--;
-        }
-		
 		
 		if (everyNthTick(100)) {
 			player.setSaturation(10);
@@ -664,15 +662,12 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	private boolean usedThisTick = false;
-	private int consumableGrabCD;
-	private final static int MAX_GRAB_CD = 15; // For grabbing items and stuff
+	private ExpiryStore<ConsumableType> consumableExpiries = new ExpiryStore<>();
 	
 	@Override
 	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
 		if (usedThisTick) return;
 		usedThisTick = true;
-		
-		if (consumableGrabCD > 0) return; // prevent grabbing an item then instantly using it.
 		
 		boolean success = kit.onUse(click, clickedBlock, blockFace);
 		if (success) return;
@@ -681,7 +676,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			KitGiveType giveType = KitGiveType.getGiveTypeFromBlock(clickedBlock);
 			if (giveType != null) {
 				giveKitItems(giveType);
-				consumableGrabCD = MAX_GRAB_CD;
 				return;
 			}
 		}
@@ -696,10 +690,14 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		}
 		
 		// Use consumable
-		int consCD = Consumable.use(this, getHeldItem(), click, clickedBlock, blockFace);
-		if (consCD != -1) {
-			consumableGrabCD = consCD;
-			useHeldItem();
+		ConsumableType consumableType = ConsumableType.getConsumableType(getHeldItem());
+		if (consumableType != null && consumableExpiries.hasExpired(consumableType)) {
+			Consumable consumable = consumableType.getConsumable();
+			ConsumeResult result = consumable.use(this, click, clickedBlock, blockFace);
+			
+			result.displayMessage(this);
+			consumableExpiries.addItem(consumableType, result.getCooldownTime());
+			if (result.shouldConsumeItem()) useHeldItem();
 		}
 	}
 

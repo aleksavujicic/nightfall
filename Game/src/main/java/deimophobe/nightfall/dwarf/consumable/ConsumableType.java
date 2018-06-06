@@ -4,6 +4,9 @@ import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.items.ItemMatcher;
+import deimophobe.nightfall.dwarf.consumable.CraftingConsumable.MultiIngredientConversion;
+import deimophobe.nightfall.dwarf.consumable.CraftingConsumable.MultiIngredientConversion.IngredientRequirement;
+import deimophobe.nightfall.dwarf.consumable.CraftingConsumable.SimpleConversion;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -27,19 +30,34 @@ public enum ConsumableType implements ItemMatcher {
 	
 	TORCH(new DummyConsumable("torch"), true, true),
 	COBBLESTONE(new DummyConsumable("cobble"), true, true),
+	ARROW(new DummyConsumable("arrow"), true, true),
 	GLASS(new GlassConsumable("glass"), true, false),
 	
 	BOWL(new CraftingConsumable("bowl", BlockType.OIL, MORTAR), true, false),
 	STICK(new CraftingConsumable("stick",
-			new CraftingConsumable.Conversion(BlockType.SAWS, BOWL),
-			new CraftingConsumable.Conversion(BlockType.OIL, TORCH)
+			new SimpleConversion(BlockType.SAWS, BOWL),
+			new SimpleConversion(BlockType.OIL, TORCH)
 	), true, false),
-	PLANK(new CraftingConsumable("plank", BlockType.SAWS, STICK, 2), true, false),
+	PLANK(new CraftingConsumable("plank",
+			new SimpleConversion(BlockType.SAWS, STICK, 2)
+	), true, false),
 	LOG(new CraftingConsumable("log", BlockType.SAWS, PLANK), true, false),
 	
 	SAND_GRAIN(new FurnaceConsumable("sand-grain", GLASS, 20), true, true),
 	
 	;
+	
+	// Add conversions which could not be added in constructor because of self reference
+	static {
+		((CraftingConsumable) STICK.consumable).addConversion(
+				new MultiIngredientConversion(BlockType.ANVIL, ARROW, 1,
+						new IngredientRequirement(STICK, 2),
+						new IngredientRequirement(COBBLESTONE, 1)
+				)
+		);
+	}
+	
+	private static final ConsumableType[] VALUES = values();
 	
 	private final Consumable consumable;
 	private final boolean droppable;
@@ -65,9 +83,10 @@ public enum ConsumableType implements ItemMatcher {
 	
 	
 	public static ConsumableType getConsumableType(ItemStack item) {
-		for (ConsumableType type : values()) {
-			if (type.consumable.doesItemMatch(item))
+		for (ConsumableType type : VALUES) {
+			if (type.consumable.doesItemMatch(item)) {
 				return type;
+			}
 		}
 		return null;
 	}
@@ -84,7 +103,7 @@ public enum ConsumableType implements ItemMatcher {
 	}
 	
 	public static ConsumableType fromString(String name) throws UnknownEnumElementException {
-		return Misc.getEnumMemberFromString(name, values(), "consumable type");
+		return Misc.getEnumMemberFromString(name, VALUES, "consumable type");
 	}
 	
 	public static void resetConsumables() {

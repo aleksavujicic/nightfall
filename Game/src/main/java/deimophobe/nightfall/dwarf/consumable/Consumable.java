@@ -23,10 +23,10 @@ public abstract class Consumable implements ItemMatcher {
 	private final CustomItem item;
 	private final ItemStack itemStack;
 	
-	protected final CustomItem getItem() { return item; }
-	public final ItemStack getItemStack() {
+	final ItemStack getItemStack() {
 		return itemStack;
 	}
+	@Deprecated
 	public boolean matchesItem(ItemStack toMatch) {
 		return item.isSimilar(toMatch);
 	}
@@ -45,30 +45,19 @@ public abstract class Consumable implements ItemMatcher {
 		itemStack = item.createItemStack();
 	}
 	
-	public abstract int use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face);
+	public abstract ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face);
 	
-	protected boolean checkPhase(Dwarf dwarf) {
+	protected ConsumeResult checkPhase() {
 		switch (Game.getGame().getPhase()) {
 			case BUILD:
-			case PLAGUE:
-				dwarf.sendTitleMessage(ChatColor.RED + "Monsters are not released!");
-				return false;
-			case END:
-				dwarf.sendTitleMessage(ChatColor.DARK_RED + "The game is over!");
-				return false;
+			case PLAGUE: return ConsumeResult.failedResultWithMessage(ChatColor.RED + "Monsters are not released!");
+			
+			case END:    return ConsumeResult.failedResultWithMessage(ChatColor.DARK_RED + "The game is over!");
 		}
-		return true;
+		return null;
 	}
 	
+	//TODO REMOVE THIS
+	@Deprecated
 	protected void reset() {}
-	
-	public static int use(Dwarf dwarf, ItemStack item, ClickType click, Block clickedBlock, BlockFace face) {
-		return use(dwarf, ConsumableType.getConsumableType(item), click, clickedBlock, face);
-	}
-	
-	public static int use(Dwarf dwarf, ConsumableType type, ClickType click, Block clickedBlock, BlockFace face) {
-		if (type != null)
-			return type.getConsumable().use(dwarf, click, clickedBlock, face);
-		return FAILED_CD;
-	}
 }

@@ -13,21 +13,23 @@ import org.bukkit.block.BlockFace;
  * Created by Deimophobe on 28/01/17.
  */
 public class HealStation extends Consumable {
+	private static final ConsumeResult TOO_CLOSE = ConsumeResult.failedResultWithMessage(ChatColor.RED + "Too close to another heal station");
+	
 	public HealStation(String item) {
 		super(item);
 	}
 	
 	@Override
-	public int use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
-		if (!checkPhase(dwarf)) return FAILED_CD;
+	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+		ConsumeResult phaseCheck = checkPhase();
+		if (phaseCheck != null) return phaseCheck;
 		
 		// Check no other nearby heal blocks
 		Location blockLoc = clickedBlock.getLocation();
 		for (HealBlock healBlock : BlockManager.getManager().getTimedBlocks(HealBlock.class)) {
 			Location healLoc = healBlock.getBlock().getLocation();
 			if (blockLoc.distance(healLoc) < 12) {
-				dwarf.sendTitleMessage(ChatColor.RED + "Too close to another heal station");
-				return FAILED_CD;
+				return TOO_CLOSE;
 			}
 		}
 		
@@ -35,6 +37,6 @@ public class HealStation extends Consumable {
 		HealBlock healBlock = new HealBlock(clickedBlock, 20*20, dwarf);
 		boolean success =  BlockManager.getManager().placeTimedBlock(healBlock);
 		
-		return (success ? DEFAULT_CD : FAILED_CD);
+		return (success ? ConsumeResult.SUCCESS : ConsumeResult.FAILURE);
 	}
 }
