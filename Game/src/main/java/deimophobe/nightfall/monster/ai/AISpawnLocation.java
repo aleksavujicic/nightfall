@@ -5,8 +5,10 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.util.WeightedSet;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 /**
@@ -44,12 +46,16 @@ class AISpawnLocation {
 		// If failed to spawn, stop.
 		if (Math.random() > manager.getBaseSpawnChance()) return;
 		
+		Block block = location.getBlock();
+		byte light = block.getLightLevel();
+		if (Math.random() > light*0.02) return;
+		
 		// Find closest dwarf and set as target.
 		Dwarf closestDwarf = null;
 		double closestDistance = 25;
 		for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
 			double distance = location.distance(dwarf.getLocation());
-			if (distance <= 4) return; // Too close to dwarf, don't spawn
+			if (distance <= 6) return; // Too close to dwarf, don't spawn
 			
 			if (distance <= closestDistance) {
 				closestDwarf = dwarf;
