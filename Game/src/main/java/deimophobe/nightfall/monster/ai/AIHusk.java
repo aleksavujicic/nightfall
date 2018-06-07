@@ -40,10 +40,7 @@ class AIHusk extends AIEntity<Husk> {
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
 		damage.setProc(false);
-		
-		if (damage.getType().isArrow()) {
-			damage.getMultiPartDamage().timesMult(0.5);
-		}
+		damage.getArrowRes().timesMult(0.5);
 	}
 	
 	@Override
