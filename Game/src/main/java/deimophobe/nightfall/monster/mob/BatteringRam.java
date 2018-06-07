@@ -98,7 +98,7 @@ public class BatteringRam extends AbstractRideableMob {
 	
 	private void wallRam() {
 		Block center = monster.getTargetBlock(null, 3);
-		BlockConverter.convert(BlockConverter.Type.EXPLOSION, center.getLocation(), 8);
+		BlockConverter.convert(BlockConverter.Type.EXPLOSION, center.getLocation(), 10);
 		monster.playSound("entity.generic.explode", 2f, 0.5f, true);
 		monster.playSound("entity.zombie.attack_door_wood", 2f, 0.5f, true);
 		monster.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, center.getLocation(), 3, 1, 1,1);
