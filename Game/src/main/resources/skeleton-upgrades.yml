@@ -244,7 +244,8 @@ flame:
     name: "Dragon's Flame"
     lore:
       description:
-        - "Fire from your arrows last longer."
+        - "Fire from your arrows last longer.\n
+           Also applies flame in an AOE."
 
 
 volley:
@@ -287,14 +288,14 @@ arrowres-flamelancer:
         - "Increases your arrow resistance to $value%."
 
 
-firepath:
+blaze:
   index: 15
   cost: [200, 400, 600, 800, 1000]
   prereq:
     flamelancer: 1
   item:
     material: magma
-    name: "Fiery Path"
+    name: "Blaze of Glory"
     lore:
       description:
         - "Spawns fire where you walk."
@@ -311,7 +312,7 @@ fireai:
     volley: 5
     speed: 5
     arrowres-flamelancer: 5
-    firepath: 5
+    blaze: 5
   item:
     base: upgrade-skeleton
     name: "Dragon's Teeth"

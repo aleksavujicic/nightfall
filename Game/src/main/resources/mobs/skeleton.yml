@@ -64,6 +64,15 @@ flamelancer:
       flavour:
        - "Forged in the fiery nether,\n
           all arrows fired burst into flames."
+  items:
+    blaze:
+      base: temp
+      name: Blaze of Glory
+      lore:
+        description:
+         - "Fire"
+        flavour:
+         - ""
 
 impact:
   parent: base
