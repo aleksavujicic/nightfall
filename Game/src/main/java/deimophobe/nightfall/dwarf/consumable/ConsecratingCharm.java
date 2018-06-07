@@ -1,19 +1,22 @@
 package deimophobe.nightfall.dwarf.consumable;
 
 import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.event.GameStartEvent;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.util.LifetimeObject;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
@@ -27,12 +30,13 @@ import java.util.Set;
  */
 public class ConsecratingCharm extends Consumable {
 	private static final double TWO_PI = 2 * Math.PI;
-	private static final ConsumeResult TOO_CLOSE = ConsumeResult.failedResultWithMessage(ChatColor.RED + "Too close to existing charm");
+	private static final ConsumeResult TOO_CLOSE = ConsumeResult.failedResultWithMessage("Too close to existing charm");
 	
 	private final Set<CharmInstance> activeCharms = new HashSet<>();
 	
 	ConsecratingCharm(String item) {
 		super(item);
+		NightfallPlugin.getPlugin().registerListener(new CharmResetter());
 	}
 	
 	@Override
@@ -65,15 +69,6 @@ public class ConsecratingCharm extends Consumable {
 		CharmInstance charm = new CharmInstance(lifetime, center, radius, numSwords);
 		activeCharms.add(charm);
 		return true;
-	}
-	
-	@Override
-	protected void reset() {
-		super.reset();
-		for (CharmInstance charm : new HashSet<>(activeCharms)) {
-			charm.cancel();
-		}
-		activeCharms.clear();
 	}
 	
 	private class CharmInstance extends LifetimeObject {
@@ -198,6 +193,16 @@ public class ConsecratingCharm extends Consumable {
 				stand.setBasePlate(false);
 				stand.setGravity(false);
 			});
+		}
+	}
+	
+	private class CharmResetter implements Listener {
+		@EventHandler
+		public void onGameStart(GameStartEvent event) {
+			for (CharmInstance charm : new HashSet<>(activeCharms)) {
+				charm.cancel();
+			}
+			activeCharms.clear();
 		}
 	}
 }

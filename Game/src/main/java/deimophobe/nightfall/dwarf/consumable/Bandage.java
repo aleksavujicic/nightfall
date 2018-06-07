@@ -2,7 +2,6 @@ package deimophobe.nightfall.dwarf.consumable;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.dwarf.Dwarf;
-import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
@@ -10,7 +9,7 @@ import org.bukkit.block.BlockFace;
  * Created by Deimophobe on 7/06/18.
  */
 class Bandage extends Consumable {
-	private static final ConsumeResult FULL_MANA = ConsumeResult.failedResultWithMessage(ChatColor.RED + "Your mana is full");
+	private static final ConsumeResult FULL_MANA = ConsumeResult.failedResultWithMessage("Your mana is full");
 	
 	protected Bandage(String itemName) {
 		super(itemName);

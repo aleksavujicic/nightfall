@@ -12,7 +12,7 @@ import org.bukkit.block.BlockFace;
  * Created by Deimophobe on 22/01/17.
  */
 class Slab extends Consumable {
-	private static final ConsumeResult TOO_CLOSE = ConsumeResult.failedResultWithMessage(ChatColor.RED + "That block is too close to slab");
+	private static final ConsumeResult TOO_CLOSE = ConsumeResult.failedResultWithMessage("That block is too close to slab");
 	
 	Slab(String item) {
 		super(item);

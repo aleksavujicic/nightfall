@@ -3,7 +3,6 @@ package deimophobe.nightfall.dwarf;
 import com.google.common.collect.Sets;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.player.PlayerManager;
-import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.dwarf.hero.HeroType;
 import deimophobe.nightfall.event.DwarfCreateEvent;
@@ -35,7 +34,6 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 		
 		// Loads all the heroes
 		//HeroType.getHeroList();
-		ConsumableType.resetConsumables();
 	}
 	
 	public Dwarf createDwarf(Player player, DwarfData data) {

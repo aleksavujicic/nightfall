@@ -106,9 +106,4 @@ public enum ConsumableType implements ItemMatcher {
 	public static ConsumableType fromString(String name) throws UnknownEnumElementException {
 		return Misc.getEnumMemberFromString(name, VALUES, "consumable type");
 	}
-	
-	public static void resetConsumables() {
-		for (ConsumableType type : values())
-			type.consumable.reset();
-	}
 }

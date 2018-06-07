@@ -4,7 +4,6 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.timedblock.HealBlock;
 import deimophobe.nightfall.dwarf.Dwarf;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -13,7 +12,7 @@ import org.bukkit.block.BlockFace;
  * Created by Deimophobe on 28/01/17.
  */
 public class HealStation extends Consumable {
-	private static final ConsumeResult TOO_CLOSE = ConsumeResult.failedResultWithMessage(ChatColor.RED + "Too close to another heal station");
+	private static final ConsumeResult TOO_CLOSE = ConsumeResult.failedResultWithMessage("Too close to another heal station");
 	
 	public HealStation(String item) {
 		super(item);

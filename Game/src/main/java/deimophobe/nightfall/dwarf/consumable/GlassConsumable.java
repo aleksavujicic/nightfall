@@ -9,13 +9,14 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Deimophobe on 4/05/18.
  */
-public class GlassConsumable extends Consumable {
+class GlassConsumable extends Consumable {
 	
-	public GlassConsumable(String name) {
+	GlassConsumable(String name) {
 		super(name);
 	}
 	
@@ -28,8 +29,7 @@ public class GlassConsumable extends Consumable {
 	}
 	
 	@Override
-	public boolean matchesItem(ItemStack toMatch) {
-		if (toMatch == null) return false;
-		return super.matchesItem(toMatch) || toMatch.getType() == Material.STAINED_GLASS;
+	public boolean doesItemMatch(@NotNull ItemStack toMatch) {
+		return super.doesItemMatch(toMatch) || toMatch.getType() == Material.STAINED_GLASS;
 	}
 }

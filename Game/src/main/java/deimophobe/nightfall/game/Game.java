@@ -17,6 +17,7 @@ import deimophobe.nightfall.cooldown.CooldownHolder;
 import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.event.GameStartEvent;
 import deimophobe.nightfall.event.PhaseChangeEvent;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.MapManager;
@@ -75,7 +76,10 @@ public class Game {
 		
 		try {
 			GameMap map = MapManager.getManager().loadNextMap();
-			return new Game(map);
+			Game game = new Game(map);
+			GameStartEvent event = new GameStartEvent(game);
+			Bukkit.getPluginManager().callEvent(event);
+			return game;
 		} finally {
 			loading = false;
 			NightfallPlugin.logger().info("Finished loading game.");

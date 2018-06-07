@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.consumable;
 
 import deimophobe.nightfall.dwarf.Dwarf;
+import org.bukkit.ChatColor;
 
 /**
  * Created by Deimophobe on 6/06/18.
@@ -13,12 +14,12 @@ public class ConsumeResult {
 	private final boolean consumeItem;
 	private final int cooldownTime;
 	
-	public static ConsumeResult successfulWithDuration(int duration) {
+	static ConsumeResult successfulWithDuration(int duration) {
 		return new ConsumeResult(null, true, duration);
 	}
 	
-	public static ConsumeResult failedResultWithMessage(String message) {
-		return new ConsumeResult(message, false, 0);
+	static ConsumeResult failedResultWithMessage(String message) {
+		return new ConsumeResult(ChatColor.RED + message, false, 0);
 	}
 	
 	ConsumeResult(String message, boolean consumeItem, int cooldownTime) {
