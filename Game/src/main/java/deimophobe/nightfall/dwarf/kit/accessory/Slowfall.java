@@ -1,13 +1,13 @@
 package deimophobe.nightfall.dwarf.kit.accessory;
 
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
-import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import deimophobe.nightfall.util.ArmourSlot;
 import org.bukkit.Particle;
+import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -15,22 +15,23 @@ import org.bukkit.util.Vector;
  * Created by Deimophobe on 27/03/17.
  */
 public class Slowfall extends AbstractPiece {
-	private final ComplexCooldown cooldown;
-	
 	private static final double RESISTANCE = 0.8;
+	private boolean active = false;
 	
 	public Slowfall(Dwarf dwarf) {
 		super(dwarf);
-		cooldown = new ComplexCooldown(30*20, this::slowfall, null);
 		dwarf.getArmour().addModifier(ItemModifierType.FALL_DAMAGE, (int) (-RESISTANCE*100), "Slowfall", ArmourSlot.FEET);
 	}
 	
 	@Override
 	public void update() {
 		super.update();
-		cooldown.update();
-		if (cooldown.wasUsedWithin(8 * 20)) {
+		
+		if (active) {
 			usedSparkle();
+			Player player = dwarf.getPlayer();
+			player.setFallDistance(0);
+			if (player.isOnGround()) deactivate();
 		}
 	}
 	
@@ -38,29 +39,16 @@ public class Slowfall extends AbstractPiece {
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
 		if (damage.getType() == GameDamageType.FALL) {
-			if (cooldown.wasUsedWithin(8*20))
-				damage.cancel();
-			else
-				damage.getMultiPartDamage().timesMult(1 - RESISTANCE);
+			damage.getMultiPartDamage().timesMult(1 - RESISTANCE);
 		}
 	}
 	
 	@Override
 	public void onShift(boolean sneaking) {
-		if (!dwarf.hasPotionEffect(PotionEffectType.LEVITATION) && !dwarf.getPlayer().isOnGround()) {
-			cooldown.tryUse();
-		}
-	}
-	
-	private void randomSparkle() {
-		if (Math.random() <= 0.5) {
-			double dx = Math.random() - 0.5;
-			double dy = Math.random()*0.2;
-			double dz = Math.random() - 0.5;
-			dwarf.getWorld().spawnParticle(Particle.REDSTONE, dwarf.getLocation().add(dx, dy, dz), 0, 1, 1, 1, 1);
-		}
-		if (Math.random() <= 0.2) {
-			dwarf.getWorld().spawnParticle(Particle.END_ROD, dwarf.getLocation(), 1, 0.3, 0.2, 0.3, 0);
+		if (!sneaking) return;
+		
+		if (!dwarf.getPlayer().isOnGround()) {
+			toggleActive();
 		}
 	}
 	
@@ -76,9 +64,22 @@ public class Slowfall extends AbstractPiece {
 		
 	}
 	
-	private void slowfall() {
-		dwarf.givePotionEffect(PotionEffectType.JUMP, 8 * 20, 3, true, false, true);
-		dwarf.givePotionEffect(PotionEffectType.LEVITATION, 8 * 20, -5, true, false, true);
+	private void toggleActive() {
+		if (active) {
+			deactivate();
+		} else {
+			activate();
+		}
+	}
+	
+	private void activate() {
+		active = true;
+		dwarf.givePermanentPotionEffect(PotionEffectType.LEVITATION, -5);
 		dwarf.getPlayer().setFallDistance(0);
+	}
+	
+	private void deactivate() {
+		active = false;
+		dwarf.removePotionEffect(PotionEffectType.LEVITATION);
 	}
 }
