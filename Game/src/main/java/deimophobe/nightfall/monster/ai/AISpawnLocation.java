@@ -5,7 +5,6 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.util.WeightedSet;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -100,7 +99,7 @@ class AISpawnLocation {
 				return 3 + amtToSpawn;
 			}),
 			new SimpleAISpawner(3, (location, target) -> {
-				AIManager.getManager().spawnAIs(AIType.MINOTAUR, location, target, 1);
+				AIManager.getManager().spawnAIs(AIType.HUSK, location, target, 1);
 				return 3;
 			})
 	);

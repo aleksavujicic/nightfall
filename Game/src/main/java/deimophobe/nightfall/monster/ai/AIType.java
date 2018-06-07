@@ -9,7 +9,7 @@ import org.bukkit.Location;
 public enum AIType {
 	ZOMBIE(AIZombie::new),
 	FIRE_SKELLY(AIFireSkeleton::new),
-	MINOTAUR(AIMinotaur::new),
+	HUSK(AIHusk::new),
 	
 	;
 	
