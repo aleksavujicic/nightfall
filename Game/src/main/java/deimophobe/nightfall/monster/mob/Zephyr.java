@@ -1,9 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.cooldown.Display;
-import deimophobe.nightfall.cooldown.Update;
+import deimophobe.nightfall.cooldown.*;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -31,7 +29,7 @@ class Zephyr extends AbstractMob implements FloatyMob {
 	protected Zephyr(MonsterPlayer monster) { super(monster, MobType.ZEPHYR); }
 	
 	@Display @Update
-	private final ComplexCooldown ability = new ComplexCooldown(20, this::implosion);
+	private final Cooldown ability = new UseCooldown(20, this::implosion);
 	
 	private static final int SLIME_SIZE = 2;
 	

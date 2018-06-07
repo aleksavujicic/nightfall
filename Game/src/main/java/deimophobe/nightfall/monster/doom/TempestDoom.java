@@ -2,6 +2,7 @@ package deimophobe.nightfall.monster.doom;
 
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.LifetimeExpireable;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -57,10 +58,11 @@ public class TempestDoom extends AnnotatedDoom {
 				
 				player.playSound(feet, "entity.silverfish.step", 0.8f, 1f);
 				player.playSound(feet, "weather.rain", 100f, 0.5f);
+				player.playSound(feet, "item.elytra.flying", 100f, 0.5f);
 			}
 			
 			for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
-				if (Math.random() < 0.005) strike(dwarf);
+				if (Math.random() < 0.004) strike(dwarf);
 				if (Math.random() < 0.01) woosh(dwarf);
 				
 				if (Math.random() < 0.0025) {
@@ -79,7 +81,9 @@ public class TempestDoom extends AnnotatedDoom {
 		private void strike(Dwarf target) {
 			world.strikeLightningEffect(target.getLocation());
 			
-			target.doDamage(null, GameDamageType.TEMPORARY, 20, true);
+			DwarfDamage damage = target.createDamage(null, GameDamageType.TEMPORARY, 20);
+			damage.addArmourShred(100);
+			damage.fire(true);
 		}
 		
 		private void woosh(Dwarf dwarf) {
