@@ -1,8 +1,6 @@
 package deimophobe.nightfall.monster.ai;
 
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.cooldown.Cooldown;
-import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -41,9 +39,18 @@ class AIMinotaur extends AIEntity<PigZombie> {
 	}
 	
 	@Override
+	public boolean isBowInstaKillable() {
+		return false;
+	}
+	
+	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
 		damage.setProc(false);
+		
+		if (damage.getType().isArrow()) {
+			damage.getMultiPartDamage().timesMult(0.5);
+		}
 		
 		damage.addPostDamageHandler(() -> {
 			if (damage.willKill()) return;

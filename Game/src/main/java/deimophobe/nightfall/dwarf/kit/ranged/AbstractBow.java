@@ -10,7 +10,7 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.BowPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.monster.ai.AIEntity;
+import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -72,7 +72,9 @@ public abstract class AbstractBow extends AbstractItem implements BowPiece {
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
 		if (isRangedDamageFromBow(damage)) {
-			if (damage.getMonster() instanceof AIEntity && ArrowMisc.getArrowForce(damage.getArrow()) >= 0.6) {
+			MonsterEntity<?> monster = damage.getMonster();
+			Arrow arrow = damage.getArrow();
+			if (monster.isBowInstaKillable() && ArrowMisc.getArrowForce(arrow) >= 0.6) {
 				damage.instaKill();
 			}
 			damage.setItemStack(compiledItem);

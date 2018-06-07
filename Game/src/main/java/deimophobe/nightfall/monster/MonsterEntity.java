@@ -16,6 +16,9 @@ public interface MonsterEntity<E extends LivingEntity> extends GameEntity<E> {
 	
 	boolean isAI();
 	
+	boolean isBowInstaKillable();
+	
+	
 	@Override
 	default MonsterDamage createDamage(GameEntity attacker, GameDamageType type, double damage) {
 		return createDamage(attacker, type, damage, null);

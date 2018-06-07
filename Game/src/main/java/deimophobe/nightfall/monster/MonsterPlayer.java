@@ -108,6 +108,11 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		return false;
 	}
 	
+	@Override
+	public boolean isBowInstaKillable() {
+		return false;
+	}
+	
 	// ------ SPAWN AND DEATH ------
 	public boolean isMobAlive() {
 		return (mob != null);

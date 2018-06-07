@@ -79,6 +79,11 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 	}
 	
 	@Override
+	public boolean isBowInstaKillable() {
+		return true;
+	}
+	
+	@Override
 	public String getDeathMessageName() {
 		return ChatColor.DARK_RED + "AI " + MonsterEntity.super.getDeathMessageName();
 	}
