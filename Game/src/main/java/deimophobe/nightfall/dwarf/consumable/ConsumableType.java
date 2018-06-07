@@ -4,11 +4,6 @@ import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.items.ItemMatcher;
-import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.consumable.CraftingConsumable.ConditionalConversion;
-import deimophobe.nightfall.dwarf.consumable.CraftingConsumable.Conversion;
-import deimophobe.nightfall.dwarf.consumable.CraftingConsumable.MultiIngredientConversion;
-import deimophobe.nightfall.dwarf.consumable.CraftingConsumable.MultiIngredientConversion.IngredientRequirement;
 import deimophobe.nightfall.dwarf.consumable.CraftingConsumable.SimpleConversion;
 import org.bukkit.inventory.ItemStack;
 
@@ -23,6 +18,7 @@ public enum ConsumableType implements ItemMatcher {
 	HEAL_STATION(new HealStation("healing-station"), false, false),
 	PROC_BOTTLE(new ProcBottle("proc-bottle"), false, false),
 	TURRET(new Turret("turret"), false, false),
+	BANDAGE(new Bandage("bandage"), false, false),
 	JUMP_PAD(new JumpConsumable("jump-pad"), false, false),
 	SPARE_QUIVER(new SpareQuiver("spare-quiver"), false, false),
 	
@@ -33,8 +29,9 @@ public enum ConsumableType implements ItemMatcher {
 	
 	TORCH(new DummyConsumable("torch"), true, true),
 	COBBLESTONE(new DummyConsumable("cobble"), true, true),
-	ARROW(new DummyConsumable("arrow"), true, true),
 	GLASS(new GlassConsumable("glass"), true, false),
+	
+	ARROW(new DummyConsumable("arrow"), false, false),
 	
 	BOWL(new CraftingConsumable("bowl", BlockType.OIL, MORTAR), true, false),
 	STICK(new CraftingConsumable("stick",
