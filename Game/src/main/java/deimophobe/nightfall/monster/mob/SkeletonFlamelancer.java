@@ -64,7 +64,7 @@ class SkeletonFlamelancer extends Skeleton {
 		int speed = upgrades.get("speed");
 		this.fireAI = upgrades.get("fireai") > 0;
 		
-		this.blazeDuration = upgrades.get("blaze") * 20;
+		this.blazeDuration = upgrades.get("blaze") * 30;
 
 		getArmour().addModifier(ItemModifierType.SPEED, 10, "Flamelancer");
 		getArmour().addModifier(ItemModifierType.SPEED, speed * 10, "Upgrade");
