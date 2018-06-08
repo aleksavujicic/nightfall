@@ -42,7 +42,7 @@ class SkeletonFlamelancer extends Skeleton {
 	private final boolean fireAI;
 	
 	@Update @Display
-	private final ComplexCooldown blazeOfGlory = new ComplexCooldown(30*20, this::blaze);
+	private final ComplexCooldown blazeRunner = new ComplexCooldown(30*20, this::blaze);
 	private final int blazeDuration;
 
 	private static final Integer[] arrowResValues = {0, 10, 20, 30, 40, 50};
@@ -89,7 +89,7 @@ class SkeletonFlamelancer extends Skeleton {
 	public void update() {
 		super.update();
 		monster.getPlayer().setFireTicks(0);
-        if (blazeOfGlory.wasUsedWithin(blazeDuration)) {
+        if (blazeRunner.wasUsedWithin(blazeDuration)) {
 	        Block block = monster.getLocation().getBlock();
 			if (BlockType.IGNORABLE.matchesBlock(block)) {
 				block.setType(Material.FIRE);
@@ -102,7 +102,7 @@ class SkeletonFlamelancer extends Skeleton {
 	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
 		super.onUse(click, clickedBlock, blockFace);
 		if (isPlayerHoldingItem("blaze") && blazeDuration != 0) {
-			blazeOfGlory.tryUse();
+			blazeRunner.tryUse();
 		}
 	}
 	

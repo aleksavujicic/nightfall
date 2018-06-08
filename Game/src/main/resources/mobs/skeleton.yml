@@ -67,7 +67,7 @@ flamelancer:
   items:
     blaze:
       base: temp
-      name: Blaze of Glory
+      name: Blaze Runner
       lore:
         description:
          - "Fire"

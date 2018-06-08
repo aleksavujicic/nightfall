@@ -295,7 +295,7 @@ blaze:
     flamelancer: 1
   item:
     material: magma
-    name: "Blaze of Glory"
+    name: "Blaze Runner"
     lore:
       description:
         - "Spawns fire where you walk."
