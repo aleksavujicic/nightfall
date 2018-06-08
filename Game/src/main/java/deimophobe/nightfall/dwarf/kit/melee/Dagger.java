@@ -63,6 +63,9 @@ public class Dagger extends AbstractItem implements CooldownPiece {
 				damage.getMonster().givePoison(PoisonType.DAGGER, 5 * 20);
 			});
 		}
+		if (damage.getType() == GameDamageType.MELEE) {
+			armourReshower.reduceCooldown(DURATION);
+		}
 	}
 	
 	@Override
@@ -102,7 +105,7 @@ public class Dagger extends AbstractItem implements CooldownPiece {
 		
 		for (MonsterEntity<?> monster : MonsterManager.getManager().getAliveMobsAndAIs()) {
 			if (dwarf.distanceTo(monster) > AOE_RADIUS) continue;
-			MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.TEMPORARY, 10);
+			MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.POISON_BOMB, 10);
 			damage.addPostDamageHandler(() -> monster.givePoison(PoisonType.DAGGER_CLOUD, DURATION));
 			damage.fire(true);
 			
@@ -114,6 +117,7 @@ public class Dagger extends AbstractItem implements CooldownPiece {
 	
 	private void reshowArmour() {
 		Armour armour = dwarf.getArmour();
+		dwarf.removePotionEffect(PotionEffectType.INVISIBILITY);
 		if (armour instanceof DwarvenArmour) {
 			((DwarvenArmour) armour).showArmour();
 		}
