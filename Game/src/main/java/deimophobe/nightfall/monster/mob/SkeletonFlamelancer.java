@@ -64,7 +64,7 @@ class SkeletonFlamelancer extends Skeleton {
 		int speed = upgrades.get("speed");
 		this.fireAI = upgrades.get("fireai") > 0;
 		
-		this.blazeDuration = upgrades.get("blaze") * 30;
+		this.blazeDuration = upgrades.get("blaze") * 15;
 
 		getArmour().addModifier(ItemModifierType.SPEED, 10, "Flamelancer");
 		getArmour().addModifier(ItemModifierType.SPEED, speed * 10, "Upgrade");
@@ -91,9 +91,9 @@ class SkeletonFlamelancer extends Skeleton {
 		monster.getPlayer().setFireTicks(0);
         if (blazeRunner.wasUsedWithin(blazeDuration)) {
 	        Block block = monster.getLocation().getBlock();
+	        if (everyNthTick(3)) monster.playSound("entity.ghast.shoot", 0.3f, 1.5f, true);
 			if (BlockType.IGNORABLE.matchesBlock(block)) {
 				block.setType(Material.FIRE);
-				if (everyNthTick(3)) monster.playSound("entity.ghast.shoot", 0.3f, 1.5f, true);
 			}
 		}
 	}
@@ -181,6 +181,7 @@ class SkeletonFlamelancer extends Skeleton {
 	private void blaze() {
 		monster.playSound("entity.ghast.shoot", 1f, 0.5f, true);
 		monster.givePotionEffect(PotionEffectType.FIRE_RESISTANCE, blazeDuration, 1, true, false, true);
+		monster.givePotionEffect(PotionEffectType.SPEED, blazeDuration, 2, true, false, true);
 	}
 	
 	private boolean tryIgnite(Block block) {
