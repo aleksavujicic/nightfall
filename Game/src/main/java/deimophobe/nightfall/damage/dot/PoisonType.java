@@ -29,7 +29,7 @@ public enum PoisonType {
 	LIGHTING_PLAGUE(WITHER, 20, 0, 15),
 	
 	DAGGER(WITHER, 5, 0, 20),
-	DAGGER_CLOUD(WITHER, 6, 0, 6),
+	DAGGER_CLOUD(WITHER, 9, 0, 6),
 	
 	;
 	
