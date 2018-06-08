@@ -20,10 +20,7 @@ import deimophobe.nightfall.game.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.plague.TwinsPlague;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.DyeColor;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -238,5 +235,18 @@ public class MiscCommands extends BaseCommand {
 				}
 			}
 		}
+	}
+	
+	@CommandAlias("test")
+	public void test(CommandSender sender) {
+		if (true) return; // disabled
+		
+		StringBuilder names = new StringBuilder();
+		for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
+			String name = player.getName();
+			names.append(name);
+			names.append(", ");
+		}
+		sender.sendMessage(names.toString());
 	}
 }

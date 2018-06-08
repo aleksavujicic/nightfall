@@ -76,11 +76,24 @@ public class AIManager {
 	// ------ AI NAMES ------
 	private final static Set<String> AI_NAMES = new HashSet<>();
 	static {
+		// Reads in the AI names from the text file.
+		// WARNING, this method is O(n^2) in order to check for line duplicates
+		// which is fine for now as it loads once and the list is relatively small.
+		// Should be noted though if name list gets significantly larger.
 		BufferedReader reader = new BufferedReader(new InputStreamReader(NightfallPlugin.getPlugin().getResource("ainames.txt")));
-		String str;
 		try {
-			while ((str = reader.readLine()) != null) {
-				AI_NAMES.add(str);
+			String line;
+			linereader: while ((line = reader.readLine()) != null) {
+				if (line.isEmpty()) continue;
+				if (line.startsWith("#")) continue;
+				
+				for (String existing : AI_NAMES) {
+					if (existing.equalsIgnoreCase(line)) {
+						NightfallPlugin.logger().warning("Duplicate AI name: " + line);
+						continue linereader;
+					}
+				}
+				AI_NAMES.add(line);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
