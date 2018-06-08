@@ -499,6 +499,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	@Override
 	public void removePotionEffect(PotionEffectType type) {
+		super.removePotionEffect(type);
 		unglower = 0;
 		setGlow(false);
 	}
