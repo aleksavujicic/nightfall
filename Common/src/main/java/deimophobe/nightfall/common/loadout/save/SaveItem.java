@@ -5,22 +5,26 @@ import deimophobe.nightfall.common.loadout.Loadout;
 import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.item.MenuItem;
 import deimophobe.nightfall.common.player.PlayerInfo;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by Deimophobe on 2/06/18.
  */
 class SaveItem implements MenuItem<PlayerInfo> {
+	private final String slotName;
 	private final int slot;
 	private final ItemStack item;
 	
 	SaveItem(CustomItem template, int slot) {
-		CustomItem saveItem = template.clone();
-		saveItem.setName("Save Slot " + slot);
-		saveItem.applyVariable("slotname", Integer.toString(slot));
-		this.item = saveItem.createItemStack();
-		
+		this.slotName = Integer.toString(slot + 1);
 		this.slot = slot;
+		
+		CustomItem saveItem = template.clone();
+		saveItem.setName("Save Slot " + slotName);
+		saveItem.applyVariable("slotname", slotName);
+		this.item = saveItem.createItemStack();
 	}
 	
 	@Override
@@ -33,6 +37,10 @@ class SaveItem implements MenuItem<PlayerInfo> {
 		PlayerInfo info = session.getData();
 		Loadout copy = info.getLoadout().createCopy();
 		info.setSavedLoadout(slot, copy);
+		
+		Player player = session.getPlayer();
+		player.playSound(player.getLocation(),"ui.button.click", 1f, 1.25f);
+		player.sendMessage(ChatColor.GREEN + "Saved current loadout to slot " + slotName);
 		
 		return false;
 	}
