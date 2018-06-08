@@ -5,11 +5,14 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.monster.SpawnMethod;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
+import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
+
+import java.util.function.Consumer;
 
 /**
  * Created by Deimophobe on 13/04/17.
@@ -21,8 +24,13 @@ public interface Mob {
 	String getDeathMessageName();
 	int getCharmTime();
 	double getShrineWeight();
+	
+	@Deprecated
 	Disguise getDisguise();
 	default boolean hasDisguise() {return getDisguise() != null;}
+	<T extends Disguise> void changeDisguise(Class<T> disguiseClass, Consumer<T> changer);
+	void changeDisguiseWatcher(Consumer<FlagWatcher> changer);
+	<T extends FlagWatcher> void changeDisguiseWatcher(Class<T> watcherClass, Consumer<T> changer);
 	
 	void onSpawn(SpawnMethod spawnMethod);
 	

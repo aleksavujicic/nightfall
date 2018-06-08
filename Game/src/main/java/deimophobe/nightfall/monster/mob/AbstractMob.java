@@ -203,11 +203,13 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	@Override
+	@Deprecated
 	public Disguise getDisguise() {
 		return DisguiseAPI.getDisguise(monster.getPlayer());
 	}
 	
-	protected <T extends Disguise> void changeDisguise(Class<T> disguiseClass, Consumer<T> changer) {
+	@Override
+	public final <T extends Disguise> void changeDisguise(Class<T> disguiseClass, Consumer<T> changer) {
 		for (Disguise disguise : DisguiseAPI.getDisguises(monster.getPlayer())) {
 			if (disguiseClass.isInstance(disguise)) {
 				changer.accept(disguiseClass.cast(disguise));
@@ -217,11 +219,13 @@ public abstract class AbstractMob implements Mob {
 		}
 	}
 	
-	protected final void changeDisguiseWatcher(Consumer<FlagWatcher> changer) {
+	@Override
+	public final void changeDisguiseWatcher(Consumer<FlagWatcher> changer) {
 		changeDisguiseWatcher(FlagWatcher.class, changer);
 	}
 	
-	protected final  <T extends FlagWatcher> void changeDisguiseWatcher(Class<T> watcherClass, Consumer<T> changer) {
+	@Override
+	public final <T extends FlagWatcher> void changeDisguiseWatcher(Class<T> watcherClass, Consumer<T> changer) {
 		for (Disguise disguise : DisguiseAPI.getDisguises(monster.getPlayer())) {
 			FlagWatcher watcher = disguise.getWatcher();
 			

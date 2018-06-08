@@ -83,6 +83,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	public void update() {
 		super.update();
 		updateSeppuku();
+		updateUnglower();
 		
 		if (mob != null) {
 			mob.update();
@@ -473,6 +474,40 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		}
 	}
 	
+	// ------ GLOWING ------
+	
+	private int unglower = 0;
+	
+	private void updateUnglower() {
+		if (unglower == 0) return;
+		unglower--;
+		if (unglower == 0) setGlow(false);
+	}
+	
+	@Override
+	public boolean givePotionEffect(PotionEffectType type, int duration, int amplifier, boolean showAbove, boolean colourBlue, boolean force) {
+		boolean success = super.givePotionEffect(type, duration, amplifier, showAbove, colourBlue, force);
+		if (!success) return false;
+		
+		if (type == PotionEffectType.GLOWING) {
+			setGlow(true);
+			unglower = Math.max(unglower, duration);
+		}
+		
+		return true;
+	}
+	
+	@Override
+	public void removePotionEffect(PotionEffectType type) {
+		unglower = 0;
+		setGlow(false);
+	}
+	
+	private void setGlow(boolean glowing) {
+		if (mob != null) {
+			mob.changeDisguiseWatcher(dw -> dw.setGlowing(glowing));
+		}
+	}
 	
 	
 	// ------ FREEZE/UNFREEZE ------
@@ -492,13 +527,6 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		givePotionEffect(PotionEffectType.LEVITATION, freezeTime, 0, true, false, true);
 		givePotionEffect(PotionEffectType.GLOWING, freezeTime, 1, true, false, true);
 		givePotionEffect(PotionEffectType.BLINDNESS, freezeTime, 1, true, false, true);
-
-		if (mob != null) {
-			Disguise dis = mob.getDisguise();
-			if (dis != null) {
-				dis.getWatcher().setGlowing(true);
-			}
-		}
 		
 		player.setAllowFlight(true);
 		player.setFlying(true);
