@@ -100,7 +100,7 @@ public class ZombieFury extends ZombieMob {
 		monster.leap(hVel, vVel);
 		
 		isLeaping = true;
-		giveSpawnProtection(50, false);
+		giveSpawnProtection(50, false, false);
 	}
 	
 	@Override

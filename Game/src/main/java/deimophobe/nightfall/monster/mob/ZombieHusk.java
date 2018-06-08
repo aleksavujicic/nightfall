@@ -172,7 +172,7 @@ public class ZombieHusk extends ZombieMob {
 				double hVel = (double) leapLvl / 15 + 0.4;
 				double vVel = (double) leapLvl / 50 + 0.5;
 				monster.getPlayer().setVelocity(new Vector(-hVel * Math.sin(radYaw), vVel, hVel * Math.cos(radYaw)));
-				giveSpawnProtection(50, false);
+				giveSpawnProtection(50, false, false);
 				smashing = true;
 				monster.getPlayer().getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, monster.getLocation(), 10, 0.5, 0, 0.5, 0.05);
 			}

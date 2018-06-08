@@ -75,7 +75,7 @@ public abstract class AbstractMob implements Mob {
 		
 		monster.clearEffects();
 		if (mobData.immuneTime != 0 && spawnMethod != SpawnMethod.REBIRTH) {
-			giveSpawnProtection(mobData.immuneTime*20, true);
+			giveSpawnProtection(mobData.immuneTime*20, true, true);
 		}
 		
 		
@@ -439,24 +439,28 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	
-	protected void giveSpawnProtection(int time, boolean invisible) {
+	protected final void giveSpawnProtection(int time, boolean invisible, boolean strength) {
 		monster.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, time, 10, true, false, true);
 		if (invisible) monster.givePotionEffect(PotionEffectType.INVISIBILITY, time, 1, true, false, true);
+		if (strength) monster.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, time, 5, true, false, true);
 	}
 	
-	protected void givePermanentSpawnProtection(boolean invisible) {
+	protected final void givePermanentSpawnProtection(boolean invisible) {
 		monster.givePermanentPotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 10);
 		if (invisible) monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
 	}
 	
 	@Override
-	public boolean hasSpawnProtection() {
+	public final boolean hasSpawnProtection() {
 		return monster.getPotionEffectLevel(PotionEffectType.DAMAGE_RESISTANCE) == 10;
 	}
 	
-	protected void removeSpawnProtection() {
+	protected final void removeSpawnProtection() {
+		if (!hasSpawnProtection()) return;
+		
 		monster.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
 		monster.removePotionEffect(PotionEffectType.INVISIBILITY);
+		monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
 	}
 	
 	

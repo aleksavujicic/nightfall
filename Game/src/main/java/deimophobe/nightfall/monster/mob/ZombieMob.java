@@ -37,7 +37,7 @@ public class ZombieMob extends AbstractMob {
 	public void onSpawn(SpawnMethod spawnMethod) {
 		super.onSpawn(spawnMethod);
 		if (spawnMethod == SpawnMethod.REBIRTH) {
-			giveSpawnProtection(30, false);
+			giveSpawnProtection(30, false, false);
 		}
 	}
 

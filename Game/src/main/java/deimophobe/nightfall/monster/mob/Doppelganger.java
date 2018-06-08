@@ -199,7 +199,7 @@ public class Doppelganger extends AbstractMob {
 		hidden = true;
 		monster.givePotionEffect(PotionEffectType.SPEED, INVIS_DURATION, 3, true, false, true);
 		monster.givePotionEffect(PotionEffectType.JUMP, INVIS_DURATION, 3, true, false, true);
-		giveSpawnProtection(INVIS_DURATION, true);
+		giveSpawnProtection(INVIS_DURATION, true, false);
 		if (disguise != null) {
 			disguise.getWatcher().setInvisible(true);
 			ItemStack air = new ItemStack(Material.AIR);
