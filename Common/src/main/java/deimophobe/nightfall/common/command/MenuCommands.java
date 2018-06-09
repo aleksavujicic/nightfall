@@ -2,6 +2,7 @@ package deimophobe.nightfall.common.command;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
+import deimophobe.nightfall.common.NightfallCommonPlugin;
 import deimophobe.nightfall.common.loadout.LoadoutMenu;
 import deimophobe.nightfall.common.menu.MainMenu;
 import deimophobe.nightfall.common.menu.MenuManager;
@@ -38,6 +39,11 @@ public class MenuCommands extends BaseCommand {
 	}
 	
 	private <T extends SessionData> void startSession(Class<? extends MainMenu<T>> menuClass, Player player) {
-		MenuManager.getManager().startSession(menuClass, player);
+		MenuManager menuManager = MenuManager.getManager();
+		if (!menuManager.hasOpenSession(player)) {
+			menuManager.startSession(menuClass, player);
+		} else {
+			NightfallCommonPlugin.logger().warning("Tried to open menu '" + menuClass.getSimpleName() + "' for player '" + player + "' but menu is already open.");
+		}
 	}
 }

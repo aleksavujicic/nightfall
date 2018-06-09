@@ -22,7 +22,7 @@ public class GameListener implements Listener {
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
 			
-			boolean gameMenuOpen = MenuManager.getManager().hasOpenSession(player, GameMenu.class);
+			boolean gameMenuOpen = MenuManager.getManager().hasOpenSession(GameMenu.class, player);
 			if (gameMenuOpen) return;
 			
 			Collection<Game> runningGames = GameManager.getManager().getRunningGames();
