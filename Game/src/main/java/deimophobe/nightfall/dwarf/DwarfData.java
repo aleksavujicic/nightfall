@@ -29,7 +29,7 @@ public class DwarfData implements LoadoutConstructable {
 		this.consumables = (consumables != null ? new TreeMap<>(consumables) : new TreeMap<>());
 		
 		addDefaults();
-		tombmakerCheck();
+		duplicateCheck();
 	}
 	
 	
@@ -39,9 +39,13 @@ public class DwarfData implements LoadoutConstructable {
 		addPiece(KitPieceType.DWARF_SHOVEL);
 	}
 	
-	private void tombmakerCheck() {
-		if (pieces.contains(KitPieceType.TOMBMAKER))
+	private void duplicateCheck() {
+		if (pieces.contains(KitPieceType.TOMBMAKER)) {
 			pieces.remove(KitPieceType.DWARF_SHOVEL);
+		}
+		if (pieces.contains(KitPieceType.SPEEDY_BRICKLAYER)) {
+			pieces.remove(KitPieceType.BRICKLAYER);
+		}
 	}
 	
 	@Override
@@ -56,7 +60,7 @@ public class DwarfData implements LoadoutConstructable {
 	
 	public void addPiece(KitPieceType type) {
 		pieces.add(type);
-		tombmakerCheck();
+		duplicateCheck();
 	}
 	
 	public void incrementConsumable(ConsumableType consumable, int amt) {
