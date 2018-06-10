@@ -36,7 +36,7 @@ public class LobbyManager implements Manager {
 	private final BukkitRunnable readyNotifier;
 	
 	private boolean countdownActive = false;
-	private int countdownTime = 101;
+	private int countdownTime = 91;
 	private final BukkitRunnable coundownTask;
 	
 	public LobbyManager(Game game) {
@@ -234,7 +234,7 @@ public class LobbyManager implements Manager {
 		if (numReady == numPlayers) {
 			game.startGame();
 		}
-		else if (numReady >= 0.3 * numPlayers) {
+		else if (numReady >= 0.7 * numPlayers) {
 			if (!countdownActive) startCountdown();
 		}
 	}
