@@ -15,7 +15,7 @@ public class PhaseChangeEvent extends Event {
 		this.phase = phase;
 	}
 	
-	public Phase getPhase() {
+	public Phase getNewPhase() {
 		return phase;
 	}
 	

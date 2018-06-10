@@ -105,7 +105,6 @@ public class GameListener implements Listener {
 		
 		boolean wasDwarf = dwarfManager.goOffline(player);
 		monsterManager.goOffline(player);
-		game.unreadyPlayer(player, true);
 		if (wasDwarf) game.updateDwarfCount();
 	}
 	

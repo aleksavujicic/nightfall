@@ -112,12 +112,12 @@ public class MapNurah implements MapFeature {
 	private class GameEndListener implements Listener {
 		@EventHandler
 		public void gameEnd(PhaseChangeEvent event) {
-			if (event.getPhase() == Phase.BUILD) {
+			if (event.getNewPhase() == Phase.BUILD) {
 				lobbyPopper.cancel();
 			}
 			
 			
-			if (event.getPhase() == Phase.END)
+			if (event.getNewPhase() == Phase.END)
 				lavaExplode();
 		}
 	}

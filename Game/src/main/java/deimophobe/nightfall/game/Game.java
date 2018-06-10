@@ -10,9 +10,6 @@ import com.google.common.collect.ImmutableClassToInstanceMap;
 import deimophobe.nightfall.*;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.common.loadout.Loadout;
-import deimophobe.nightfall.common.player.PlayerManager;
-import deimophobe.nightfall.common.player.cosmetic.Cosmetics;
 import deimophobe.nightfall.cooldown.CooldownHolder;
 import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -27,13 +24,8 @@ import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.plague.AssassinPlague;
 import deimophobe.nightfall.plague.Plague;
 import deimophobe.nightfall.plague.PlagueType;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Particle;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -42,7 +34,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -110,8 +101,6 @@ public class Game {
 	private final static String OBJ_NAME = "MySidebar";
 	
 	private final BossBar bossBar;
-	
-	private final Team lobbyTeam;
 
 	private PlagueType plagueType = null;
 	private Plague activePlague = null;
@@ -136,19 +125,6 @@ public class Game {
 		sidebarObj = scoreboard.registerNewObjective(OBJ_NAME, "dummy");
 		sidebarObj.setDisplayName(Misc.getNightfallText());
 		
-		lobbyTeam = this.getNewTeam("lobbyTeam");
-		lobbyTeam.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-		
-		// Setup ready players
-		readyPlayers = new HashSet<>();
-		readyNotifier = new BukkitRunnable() {
-			@Override
-			public void run() {
-				readyNotify();
-			}
-		};
-		readyNotifier.runTaskTimer(NightfallPlugin.getPlugin(), 0, 20);
-		
 		// Setup shrine bar
 		bossBar = Bukkit.createBossBar("", BarColor.BLUE, BarStyle.SOLID);
 		bossBar.setProgress(1);
@@ -159,6 +135,7 @@ public class Game {
 		
 		// Setup managers
 		ImmutableClassToInstanceMap.Builder<Manager> builder = ImmutableClassToInstanceMap.builder();
+		builder.put(LobbyManager.class, new LobbyManager(this));
 		builder.put(DwarfManager.class, new DwarfManager());
 		builder.put(MonsterManager.class, new MonsterManager());
 		builder.put(SkinManager.class, new SkinManager());
@@ -213,7 +190,7 @@ public class Game {
 	// ------ PLAYER MANAGEMENT -------
 	
 	public boolean isLobbyPlayer(Player player) {
-		return player.getGameMode() == GameMode.ADVENTURE;
+		return getManager(LobbyManager.class).isLobbyPlayer(player);
 	}
 	
 	public boolean isGamePlayer(Player player) {
@@ -277,117 +254,6 @@ public class Game {
 		gamePlayers.addAll(DwarfManager.getManager().getGamePlayers());
 		gamePlayers.addAll(MonsterManager.getManager().getGamePlayers());
 		return gamePlayers;
-	}
-	
-	
-	// ------ PLAYER READINESS ------
-	private final Set<Player> readyPlayers;
-	private final BukkitRunnable readyNotifier;
-	
-	private static final String UNREADY_MESSAGE = ChatColor.RED + "Do /ready when you have chosen your kit.";
-	
-	public boolean isReady(Player player) {
-		return readyPlayers.contains(player);
-	}
-	
-	public void readyPlayer(Player player) {
-		if (phase != Phase.STARTING) return;
-		
-		readyPlayers.add(player);
-		readyNotify(player);
-		
-		int numPlayers = Bukkit.getOnlinePlayers().size();
-		int numReady = readyPlayers.size();
-				
-		Bukkit.broadcastMessage(ChatColor.DARK_AQUA+ player.getName() + ChatColor.YELLOW + " is ready! (" +
-				ChatColor.AQUA + numReady + ChatColor.YELLOW + "/" + ChatColor.AQUA + numPlayers + ChatColor.YELLOW + ")");
-		
-		Loadout loadout = PlayerManager.getManager().getLoadout(player);
-		if (loadout.hasUntimelyDemise()) {
-			player.sendMessage("" + ChatColor.GREEN + ChatColor.ITALIC + "You will plague this game.");
-		}
-		
-		player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, player.getEyeLocation(), 10, 0.3, 0.2, 0.3, 0.05);
-		
-		if (numReady == numPlayers) {
-			readyPlayers.clear();
-			startGame();
-			readyNotifier.cancel();
-		}
-	}
-	
-	public void unreadyPlayer(Player player, boolean leaving) {
-		if (phase != Phase.STARTING) return;
-		if (!isReady(player)) return;
-		
-		readyPlayers.remove(player);
-		readyNotify(player);
-		
-		int numPlayers = Bukkit.getOnlinePlayers().size() - (leaving ? 1 : 0);
-		int numReady = readyPlayers.size();
-		
-		Bukkit.broadcastMessage(ChatColor.DARK_AQUA + player.getName() + ChatColor.YELLOW + " is no longer ready! (" +
-				ChatColor.AQUA + numReady + ChatColor.YELLOW + "/" + ChatColor.AQUA + numPlayers + ChatColor.YELLOW + ")");
-	}
-	
-	private void readyNotify() {
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (isLobbyPlayer(player)) {
-				readyNotify(player);
-			}
-		}
-	}
-	
-	private void readyNotify(Player player) {
-		if (isReady(player)) {
-			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.GREEN + "You are ready!"));
-		} else {
-			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(UNREADY_MESSAGE));
-		}
-	}
-	
-	public String readyList() {
-		StringBuilder sb = new StringBuilder();
-		SortedSet<String> readyPlayers = new TreeSet<>();
-		SortedSet<String> unreadyPlayers = new TreeSet<>();
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (isReady(player)) {
-				readyPlayers.add(player.getName());
-			}
-			else {
-				unreadyPlayers.add(player.getName());
-			}
-		}
-		
-		sb.append(ChatColor.GREEN + "READY: " + ChatColor.RESET);
-		for (String name : readyPlayers) {
-			sb.append(name);
-			sb.append(", ");
-		}
-		if (readyPlayers.size() != 0) {
-			sb.setLength(sb.length() - 2);
-		}
-		
-		sb.append("\n");
-		sb.append(ChatColor.RED + "UNREADY: " + ChatColor.RESET);
-		for (String name : unreadyPlayers) {
-			sb.append(name);
-			sb.append(", ");
-		}
-		if (unreadyPlayers.size() != 0) {
-			sb.setLength(sb.length() - 2);
-		}
-		
-		return sb.toString();
-	}
-	
-	public void notifyUnready() {
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (isReady(player)) continue;
-			
-			player.playSound(player.getLocation(), "block.note.pling", 1f, 1f);
-			player.sendMessage(UNREADY_MESSAGE);
-		}
 	}
 	
 	
@@ -728,28 +594,7 @@ public class Game {
 		removeGamePlayer(player);
 		switch (phase) {
 			case STARTING:
-				if (player.isDead()) {
-					player.spigot().respawn();
-				}
-				
-				player.teleport(GameMap.getCurrentMap().getLobbySpawn());
-				player.getInventory().clear();
-				for (PotionEffect effect : player.getActivePotionEffects()) {
-					player.removePotionEffect(effect.getType());
-				}
-				player.setGameMode(GameMode.ADVENTURE);
-				double maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
-				player.setHealth(maxHealth);
-				player.setSaturation(100000);
-				player.setFoodLevel(100000);
-				player.setExp(0);
-				player.setLevel(0);
-				
-				Cosmetics cosmetics = PlayerManager.getManager().getCosmetics(player);
-				cosmetics.updateTitle();
-				cosmetics.equipHat();
-				//Loadout.updateLoadoutDisplay(player);
-				lobbyTeam.addEntry(player.getName());
+				getManager(LobbyManager.class).setPlayerToLobbyMode(player);
 				break;
 			
 			case BUILD:

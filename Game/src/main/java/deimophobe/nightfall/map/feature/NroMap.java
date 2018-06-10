@@ -87,7 +87,7 @@ public class NroMap implements MapFeature {
 	private class GameStartListener implements Listener {
 		@EventHandler
 		public void gameStart(PhaseChangeEvent event) {
-			if (event.getPhase() != Phase.BUILD) return;
+			if (event.getNewPhase() != Phase.BUILD) return;
 			
 			// remove command blocks
 			World world = map.getWorld();

@@ -17,6 +17,7 @@ import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.hero.Horn;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GamePlayer;
+import deimophobe.nightfall.game.LobbyManager;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.plague.TwinsPlague;
@@ -72,11 +73,11 @@ public class MiscCommands extends BaseCommand {
 	@Conditions("lobby-phase")
 	@Description("Notifies that you are ready to play the game.")
 	public void ready(@Conditions("lobby") Player player) {
-		Game game = Game.getGame();
-		if (!game.isReady(player)) {
-			game.readyPlayer(player);
+		LobbyManager lobbyManager = getLobbyManager();
+		if (!lobbyManager.isReady(player)) {
+			lobbyManager.readyPlayer(player);
 		} else {
-			game.unreadyPlayer(player, false);
+			lobbyManager.unreadyPlayer(player);
 		}
 	}
 	
@@ -84,15 +85,19 @@ public class MiscCommands extends BaseCommand {
 	@Conditions("lobby-phase")
 	@Description("See who is ready.")
 	public void readyList(CommandSender sender) {
-		sender.sendMessage(Game.getGame().readyList());
+		sender.sendMessage(getLobbyManager().readyList());
 	}
 	
 	@CommandAlias("notifyunready")
 	@Conditions("lobby-phase")
 	@Description("Notify unready players.")
 	public void unreadyNotify(CommandSender sender) {
-		Game.getGame().notifyUnready();
+		getLobbyManager().notifyUnready();
 		MessageUtil.sendMessage(sender, "Notified unready players.");
+	}
+	
+	private LobbyManager getLobbyManager() {
+		return LobbyManager.getManager();
 	}
 	
 	@CommandAlias("damage")
