@@ -213,6 +213,7 @@ public interface GameEntity<E extends LivingEntity> {
 	boolean canDamageOverTimeTick(DamageOverTimeType type, long requiredDelay);
 	
 	// ------ POTION EFFECTS ------
+	@Deprecated
 	default boolean givePotionEffect(PotionEffectType type, int duration, int amplifier, boolean showAbove, boolean colourBlue, boolean force) {
 		if (amplifier == 0) return false;
 		if (type == PotionEffectType.POISON || type == PotionEffectType.WITHER) {
@@ -229,55 +230,66 @@ public interface GameEntity<E extends LivingEntity> {
 	}
 	
 	int MAX_POTION_LENGTH = 10*60*60*20;
+	@Deprecated
 	default void givePermanentPotionEffect(PotionEffectType type, int amplifier) {
 		givePermanentPotionEffect(type, amplifier, true);
 	}
 	
+	@Deprecated
 	default void givePermanentPotionEffect(PotionEffectType type, int amplifier, boolean isBlue) {
 		givePotionEffect(type, MAX_POTION_LENGTH, amplifier, true, isBlue, true);
 	}
 	
+	@Deprecated
 	default void givePermanentPotionEffect(PotionEffectType type, int amplifier, boolean isBlue, boolean force) {
 		givePotionEffect(type, MAX_POTION_LENGTH, amplifier, true, isBlue, force);
 	}
 	
+	@Deprecated
 	default void givePoison(PoisonType type, int duration) {
 		PotionEffectType effectType = type.getEffectType();
 		int level = type.getLevel();
 		getEntity().addPotionEffect(new PotionEffect(effectType, duration, level-1, false, true), true);
 	}
 	
+	@Deprecated
 	default void removeAllPoisons() {
 		removePotionEffect(PotionEffectType.POISON);
 		removePotionEffect(PotionEffectType.WITHER);
 	}
 	
+	@Deprecated
 	default void givePermanentPoison(PoisonType type) {
 		givePoison(type, MAX_POTION_LENGTH);
 	}
 	
+	@Deprecated
 	default void clearEffects() {
 		for (PotionEffect effect : getEntity().getActivePotionEffects()){
 			removePotionEffect(effect.getType());
 		}
 	}
 	
+	@Deprecated
 	default boolean hasPotionEffect(PotionEffectType type) {
 		return getEntity().hasPotionEffect(type);
 	}
 	
+	@Deprecated
 	default int getPotionEffectLevel(PotionEffectType type) {
 		PotionEffect effect = getEntity().getPotionEffect(type);
 		if (effect == null) return 0;
 		return effect.getAmplifier() + 1;
 	}
 	
+	@Deprecated
 	default int getPotionEffectDuration(PotionEffectType type) {
 		PotionEffect effect = getEntity().getPotionEffect(type);
 		if (effect == null) return 0;
 		return effect.getDuration();
 	}
 	
+	@Deprecated
 	default void removePotionEffect(PotionEffectType type) {
 		getEntity().removePotionEffect(type);
 	}
