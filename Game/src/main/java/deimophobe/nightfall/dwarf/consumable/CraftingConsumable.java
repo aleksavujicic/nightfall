@@ -19,7 +19,6 @@ import java.util.function.Predicate;
 class CraftingConsumable extends Consumable {
 	
 	private final Set<Conversion> conversions;
-//	private final ConsumeResult craftSuccess;
 	
 	protected CraftingConsumable(String item, ComparableBlock requiredBlock, ConsumableType newConsumable) {
 		this(item, new SimpleConversion(requiredBlock, newConsumable));
@@ -53,6 +52,8 @@ class CraftingConsumable extends Consumable {
 	}
 	
 	static class SimpleConversion implements Conversion {
+		private static final ConsumeResult FAST_SUCCESS = ConsumeResult.successfulWithDuration(2);
+		
 		private final ComparableBlock requiredBlock;
 		private final ConsumableType newConsumable;
 		private final int count;
@@ -82,7 +83,7 @@ class CraftingConsumable extends Consumable {
 				dwarf.playSound("entity.zombie.attack_door_wood", 0.25f, 2, true);
 			}
 			
-			return ConsumeResult.SUCCESS;
+			return FAST_SUCCESS;
 		}
 	}
 	
