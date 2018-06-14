@@ -11,6 +11,7 @@ import deimophobe.nightfall.dwarf.kit.hero.lyra.FeralInstinct;
 import deimophobe.nightfall.dwarf.kit.hero.lyra.SilvetrisClaws;
 import deimophobe.nightfall.dwarf.kit.melee.*;
 import deimophobe.nightfall.dwarf.kit.ranged.*;
+import deimophobe.nightfall.dwarf.kit.spell.Spellbook;
 
 import java.util.HashSet;
 import java.util.Set;

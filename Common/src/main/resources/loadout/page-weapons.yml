@@ -283,6 +283,20 @@ warpweaver:
     modifiers:
       power: 50
 
+spellbook:
+  index: 16
+  type: item
+  name: spellbook
+  category: bow
+  cost: 18
+  item:
+    name: "Spellbook"
+    base: spellbook
+    lore:
+      description:
+       - "A spellbook that can cast various\n
+          spells."
+
 
 
 # ------ ALES ------

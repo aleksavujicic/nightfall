@@ -628,10 +628,10 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 			this.damager = damager;
 		}
 		
-		public GameEntityDamager(GameDamageType type, double damage, boolean force, Consumer<GameDamage<?,?>> damageModifier) {
+		public GameEntityDamager(GameDamageType type, double damage, boolean force, Consumer<GameDamage<?,E>> damageModifier) {
 			super(0);
 			this.damager = entity -> {
-				GameDamage<?,?> gameDamage = entity.createDamage(GamePlayer.this, type, damage);
+				GameDamage<?,E> gameDamage = entity.createDamage(GamePlayer.this, type, damage);
 				damageModifier.accept(gameDamage);
 				gameDamage.fire(force);
 			};

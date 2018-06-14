@@ -64,6 +64,8 @@ public enum GameDamageType {
 	VOLCANIC_BOW("scorched"),
 	LUMINOUS("pierced"),
 	SCEPTER("pierced"),
+	MAGIC_MISSILE,
+	SOUL_STREAM("vapourised"),
 	POISON_BOMB("poisoned"),
 	HAMMER_AOE,
 	GLAIVE_AOE,
@@ -177,6 +179,7 @@ public enum GameDamageType {
 			case VOLCANIC_BOW:
 			case LUMINOUS:
 			case WATER_BOW_AOE:
+			case MAGIC_MISSILE:
 				return true;
 				
 			default:

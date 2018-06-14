@@ -112,7 +112,8 @@ spellbook:
     description:
      - "Magic."
     flavour:
-     - "Spellbook"
+     - "\"The balanced path is hardly ever the\n
+        most entertaining.\" - The Grand Magus"
 
 essence:
   base: essence

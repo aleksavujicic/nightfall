@@ -55,14 +55,19 @@ public class Hitscan {
 	}
 	
 	public boolean fire(GamePlayer player, double range) {
-		return fire(new FireLocation(player, range));
+		return fire(new FireLocation(player, range), false);
 	}
 	
 	public boolean fire(Location location, double range) {
-		return fire(new FireLocation(location, range));
+		return fire(new FireLocation(location, range), false);
 	}
 	
-	public boolean fire(FireLocation fireLocation) {
+	public boolean fire(Location location, double range, boolean stopOnHit) {
+		return fire(new FireLocation(location, range), stopOnHit);
+	}
+	
+	// StopOnHit is a terrible hack...
+	public boolean fire(FireLocation fireLocation, boolean stopOnHit) {
 		Location location = fireLocation.getLocation();
 		Vector direction = fireLocation.getDirection();
 		double range = fireLocation.getRange();
@@ -72,7 +77,7 @@ public class Hitscan {
 		Location particlePos = location.clone();
 		
 		// Place particles if placer not null
-		boolean success = true;
+		boolean stop = false;
 		for (int i = 0; i <= times; i++) {
 			particlePos.add(delta);
 			if (particlePlacer != null) {
@@ -86,23 +91,23 @@ public class Hitscan {
 				if (hitBlockConsumer != null) {
 					hitBlockConsumer.accept(block);
 				}
-				success = false;
+				stop = true;
 				break;
 			}
 		}
 		
 		if (dwarfConsumer != null) {
-			consumeEntitiesInLine(fireLocation, dwarfConsumer, DwarfManager.getManager().getDwarves());
+			stop |= consumeEntitiesInLine(fireLocation, dwarfConsumer, DwarfManager.getManager().getDwarves(), stopOnHit);
 		}
 		
 		if (mobConsumer != null) {
-			consumeEntitiesInLine(fireLocation, mobConsumer, MonsterManager.getManager().getAliveMobsAndAIs());
+			stop |= consumeEntitiesInLine(fireLocation, mobConsumer, MonsterManager.getManager().getAliveMobsAndAIs(), stopOnHit);
 		}
 		
-		return success;
+		return !stop;
 	}
 	
-	private <P extends GameEntity> void consumeEntitiesInLine(FireLocation fireLocation, Consumer<P> applier, Collection<P> entities) {
+	private <P extends GameEntity> boolean consumeEntitiesInLine(FireLocation fireLocation, Consumer<P> applier, Collection<P> entities, boolean stopOnHit) {
 		Location location = fireLocation.getLocation();
 		Vector direction = fireLocation.getDirection();
 		double range = fireLocation.getRange();
@@ -128,8 +133,10 @@ public class Hitscan {
 			// If close enough apply consumer
 			if (radialOffset <= thickness) {
 				applier.accept(entity);
+				if (stopOnHit) return true;
 			}
 		}
+		return false;
 	}
 	
 	public static class FireLocation {
