@@ -27,7 +27,7 @@ class Wrench extends Consumable {
 		if (phaseCheck != null) return phaseCheck;
 		
 		Armour armour = dwarf.getArmour();
-		boolean canUse = (armour.canPickRepair() && !armour.isArmoured());
+		boolean canUse = (armour.canPickRepair() && armour.isArmoured());
 	
 		if (canUse) {
 			boolean success = GameMap.getCurrentMap().useGold(75);
