@@ -47,7 +47,8 @@ class AISpawnLocation {
 		
 		Block block = location.getBlock();
 		byte light = block.getLightLevel();
-		if (Math.random() > light*0.02) return;
+		byte blockLight = block.getLightFromBlocks();
+		if (Math.random() < (blockLight + light)*0.01) return;
 		
 		// Find closest dwarf and set as target.
 		Dwarf closestDwarf = null;
