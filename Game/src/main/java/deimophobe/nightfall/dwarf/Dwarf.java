@@ -643,7 +643,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
-		damage.getMultiPartDamage().timesMult(1 - armour.getResistance());
+		armour.onDamage(damage);
 		
 		kit.onDamageReceive(damage);
 		if (player.hasPotionEffect(PotionEffectType.UNLUCK)) {

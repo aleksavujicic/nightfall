@@ -2,6 +2,7 @@ package deimophobe.nightfall.dwarf.armour;
 
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.game.Curse;
@@ -44,7 +45,12 @@ public class HeroArmour extends StaticArmour {
 	}
 	
 	@Override
-	public double getResistance() {
+	public void onDamage(DwarfDamage damage) {
+		double resistance = getResistance();
+		damage.getMultiPartDamage().timesMult(1- resistance);
+	}
+	
+	private double getResistance() {
 		double dwarfBoost = 0.01 * Math.sqrt(DwarfManager.getManager().getNumberOfPlayers());
 		return Math.min(0.77 + dwarfBoost, 0.85);
 	}

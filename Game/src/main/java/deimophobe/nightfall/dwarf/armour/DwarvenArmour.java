@@ -10,6 +10,7 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -141,7 +142,12 @@ public class DwarvenArmour implements Armour {
 	
 	
 	@Override
-	public double getResistance() {
+	public void onDamage(DwarfDamage damage) {
+		double resistance = getResistance();
+		damage.getMultiPartDamage().timesMult(1- resistance);
+	}
+	
+	private double getResistance() {
 		if (isArmoured()) {
 			double x = armourFraction();
 			int n = DwarfManager.getManager().getNumberOfPlayers();

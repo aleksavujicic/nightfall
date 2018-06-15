@@ -13,6 +13,5 @@ public class NakedArmour extends StaticArmour {
 	}
 	
 	@Override public double getFullness() {return 0;}
-	@Override public double getResistance() { return 0; }
 	@Override public int getManaRegenRate() { return 0; }
 }

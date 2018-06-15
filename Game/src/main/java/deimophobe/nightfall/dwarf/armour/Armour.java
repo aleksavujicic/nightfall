@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.armour;
 
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.util.ArmourSlot;
 
 /**
@@ -20,6 +21,6 @@ public interface Armour {
 	void damage(double amount);
 	void repair(double amount);
 	
-	double getResistance();
+	void onDamage(DwarfDamage damage);
 	int getManaRegenRate();
 }

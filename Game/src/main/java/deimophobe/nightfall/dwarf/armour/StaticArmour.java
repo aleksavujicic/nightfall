@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.armour;
 
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.util.ArmourSlot;
 
 /**
@@ -14,6 +15,7 @@ abstract class StaticArmour implements Armour {
 	@Override public boolean isArmoured() { return true; }
 	@Override public boolean canPickRepair() { return false; }
 	@Override public boolean canShrineRepair() { return false; }
+	@Override public void onDamage(DwarfDamage damage) {}
 	@Override public void damage(double damage) {}
 	@Override public void repair(double amount) {}
 }
