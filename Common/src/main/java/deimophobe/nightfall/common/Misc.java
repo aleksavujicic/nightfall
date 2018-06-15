@@ -4,6 +4,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.Action;
@@ -146,10 +147,23 @@ public class Misc {
 	public static void spawnColouredParticles(Location center, int count, double dx, double dy, double dz, double red, double green, double blue) {
 		if (red < 0.001) red = 0.001;
 		
-		for (int i=0; i<count; i++) {
+		for (int i = 0; i < count; i++) {
 			Location location = randomLocation(center, dx, dy, dz);
 			center.getWorld().spawnParticle(Particle.REDSTONE, location, 0, red, green, blue, 1);
 		}
+	}
+	
+	private static final double DEFAULT_PARTICLE_RANGE = 50;
+	public static void spawnRangedParticles(Location location, Particle particle, int count, double dx, double dy, double dz, double extra, double range) {
+		
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (player.getLocation().distance(location) <= range) {
+				location.getWorld().spawnParticle(particle, location, count, dx, dy, dz, extra);
+			}
+		}
+	}
+	public static void spawnRangedParticles(Location location, Particle particle, int count, double dx, double dy, double dz, double extra) {
+		spawnRangedParticles(location, particle, count, dx, dy, dz, extra, DEFAULT_PARTICLE_RANGE);
 	}
 	
 	public static BlockFace getBlockFaceProjectileHit(Projectile proj, Block hitBlock) {

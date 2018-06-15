@@ -1,5 +1,7 @@
 package deimophobe.nightfall.damage;
 
+import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.event.DwarfDamageEvent;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.game.Phase;
@@ -42,6 +44,12 @@ public class DwarfDamage extends GameDamage<GameEntity<?>, Dwarf> {
 		if (attacker instanceof MonsterEntity)
 			((MonsterEntity) attacker).onDamageAttack(this);
 		receiver.onDamageReceive(this);
+	}
+	
+	@Override
+	void callEvents() {
+		DwarfDamageEvent event = new DwarfDamageEvent(this);
+		Misc.dispatchEvent(event);
 	}
 	
 	private void addHandlers() {

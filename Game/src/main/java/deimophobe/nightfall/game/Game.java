@@ -179,6 +179,11 @@ public class Game {
 		listeners.add(listener);
 	}
 	
+	public void removeGameListener(Listener listener) {
+		HandlerList.unregisterAll(listener);
+		listeners.remove(listener);
+	}
+	
 	private void unregisterAllListeners() {
 		for (Listener listener : listeners) {
 			HandlerList.unregisterAll(listener);

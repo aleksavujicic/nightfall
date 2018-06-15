@@ -181,6 +181,9 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 	public void setFireTicks(int ticks) {
 		fireTicks = ticks;
 	}
+	public void increaseFireTicks(int ticks) {
+		fireTicks = Math.max(ticks, fireTicks);
+	}
 	public void instaKill() {
 		instaKill = true;
 		cancelled = false;
@@ -389,6 +392,10 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		notifyEntities();
 		if (cancelled) return false;
 		
+		// Call event
+		callEvents();
+		if (cancelled) return false;
+		
 		
 		// Apply pre damage handlers, stop if necessary
 		phase = DamagePhase.PRE_DAMAGE;
@@ -453,6 +460,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 	}
 	
 	abstract void notifyEntities();
+	abstract void callEvents();
 	
 	/** Not really used directly, but is useful as a guideline */
 	public enum DamagePhase {

@@ -57,6 +57,11 @@ public class MonsterDamage extends GameDamage<GameEntity<?>, MonsterEntity> {
 		}
 	}
 	
+	@Override
+	void callEvents() {
+	
+	}
+	
 	private void addHandlers() {
 		addPreDamageHandler(MONSTER_DEATH, () -> {
 			if (willKill()) {
