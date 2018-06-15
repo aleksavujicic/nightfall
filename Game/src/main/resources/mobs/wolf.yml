@@ -7,7 +7,7 @@ base:
   health: 40
   speed: 10
 
-  shred: 35
+  shred: 25
   resistance: 0.7
 
   armour:
@@ -41,7 +41,7 @@ hellhound:
   health: 40
   speed: 10
 
-  shred: 40
+  shred: 35
 
   proccable: false
   arrowres: 0.5
