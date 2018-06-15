@@ -17,22 +17,9 @@ import java.util.function.Consumer;
  * Created by Deimophobe on 14/06/18.
  */
 class MagicMissile implements Spell {
-	private final CustomItem spellbook;
-	
-	@Override
-	public String getName() {
-		return ChatColor.DARK_PURPLE + "Magic Missile";
-	}
-	
-	@Override
-	public int getCost() {
-		return 3;
-	}
-	
-	@Override
-	public int getCooldown() {
-		return 6 * 20;
-	}
+	@Override public String getName() { return ChatColor.DARK_PURPLE + "Magic Missile"; }
+	@Override public int getCost() { return 3; }
+	@Override public int getCooldown() { return 5 * 20;	}
 	
 	private static final double MAX_RANGE = 30;
 	private static final double THICKNESS = 1.25;
@@ -42,6 +29,8 @@ class MagicMissile implements Spell {
 		location.getWorld().spawnParticle(Particle.SPELL_WITCH, location, 3, PARTICLE_OFFSET, PARTICLE_OFFSET, PARTICLE_OFFSET, 0.03);
 		location.getWorld().spawnParticle(Particle.SMOKE_NORMAL, location, 1, PARTICLE_OFFSET, PARTICLE_OFFSET, PARTICLE_OFFSET, 0);
 	};
+	
+	private final CustomItem spellbook;
 	
 	MagicMissile(CustomItem spellbook) {
 		this.spellbook = spellbook;

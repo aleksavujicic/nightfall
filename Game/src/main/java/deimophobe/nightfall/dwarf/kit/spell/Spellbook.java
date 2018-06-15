@@ -91,7 +91,7 @@ public class Spellbook extends AbstractItem {
 	
 	private static final Set<SpellCast> CASTS = Sets.newHashSet(
 			new SpellCast(new LevitateSpell(), ClickType.RIGHT, ClickType.RIGHT),
-			new SpellCast(new GiveCobble(), ClickType.RIGHT, ClickType.LEFT),
+			new SpellCast(new BolsterSpell(), ClickType.RIGHT, ClickType.LEFT),
 			new SpellCast(new SoulStreamSpell(ITEM), ClickType.LEFT, ClickType.RIGHT),
 			new SpellCast(new MagicMissile(ITEM), ClickType.LEFT, ClickType.LEFT)
 	);

@@ -16,18 +16,13 @@ import java.util.function.Consumer;
  * Created by Deimophobe on 14/06/18.
  */
 class MeteorBlast implements Spell {
-	@Override
-	public String getName() {
+	@Override public String getName() {
 		return ChatColor.RED + "Meteor Strike";
 	}
-	
-	@Override
-	public int getCost() {
+	@Override public int getCost() {
 		return 6;
 	}
-	
-	@Override
-	public int getCooldown() {
+	@Override public int getCooldown() {
 		return 40;
 	}
 	

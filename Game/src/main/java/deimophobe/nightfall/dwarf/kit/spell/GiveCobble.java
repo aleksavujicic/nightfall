@@ -8,20 +8,9 @@ import org.bukkit.ChatColor;
  * Created by Deimophobe on 14/06/18.
  */
 class GiveCobble implements Spell {
-	@Override
-	public String getName() {
-		return ChatColor.GRAY + "More Cobble";
-	}
-	
-	@Override
-	public int getCost() {
-		return 1;
-	}
-	
-	@Override
-	public int getCooldown() {
-		return 10;
-	}
+	@Override public String getName() { return ChatColor.GRAY + "More Cobble"; }
+	@Override public int getCost() { return 1; }
+	@Override public int getCooldown() { return 10;	}
 	
 	@Override
 	public void castSpell(Dwarf dwarf) {

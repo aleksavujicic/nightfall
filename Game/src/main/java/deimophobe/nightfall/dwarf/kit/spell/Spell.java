@@ -7,9 +7,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
  */
 interface Spell {
 	String getName();
-	
 	int getCost();
-	
 	int getCooldown();
 	
 	void castSpell(Dwarf dwarf);
