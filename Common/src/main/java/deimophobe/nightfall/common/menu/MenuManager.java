@@ -49,18 +49,15 @@ public final class MenuManager {
 	public <T extends SessionData> MenuSession<T> startSession(Class<? extends MainMenu<T>> menuClass, Player player) {
 		checkNotNull(menuClass, "Menu class must not be null.");
 		checkArgument(registeredMenus.containsKey(menuClass), "Menu '%s' must be registered before starting a session.", menuClass.getSimpleName());
-		checkArgument(!activeSessions.containsKey(player), "Player must not have an active session.");
 		
 		MainMenu<T> menu = registeredMenus.getInstance(menuClass);
-		MenuSession<T> session = new MenuSession<>(menu, player, null);
-		activeSessions.put(player, session);
-		return session;
+		return  startSession(menu, player);
 	}
 	
 	public <T extends SessionData> MenuSession<T> startSession(MainMenu<T> mainMenu, Player player) {
 		checkNotNull(mainMenu, "Menu must not be null.");
 		checkNotNull(player, "Player must not be null.");
-		checkArgument(!activeSessions.containsKey(player), "Player must not have an active session.");
+		forceCloseAnyOpenSession(player, mainMenu);
 		
 		MenuSession<T> session = new MenuSession<>(mainMenu, player, null);
 		activeSessions.put(player, session);
@@ -72,6 +69,18 @@ public final class MenuManager {
 		
 		Player player = session.getPlayer();
 		activeSessions.put(player, session);
+	}
+	
+	private void forceCloseAnyOpenSession(Player player, MainMenu<?> openingMenu) {
+		MenuSession<?> session = getSession(player);
+		if (session != null) {
+			session.closeSession();
+			
+			String sessionName = session.getMenu().getClass().getSimpleName();
+			String menuName = openingMenu.getClass().getSimpleName();
+			String playerName = player.getName();
+			NightfallCommonPlugin.logger().warning("Force closed session from '" + sessionName + "' while opening '" + menuName + "' for player '" + playerName);
+		}
 	}
 	
 	public boolean hasOpenSession(Player player) {

@@ -51,6 +51,9 @@ public class MenuSession<T extends SessionData> {
 	public T getData() {
 		return data;
 	}
+	MainMenu<T> getMenu() {
+		return mainMenu;
+	}
 	
 	private void reloadData() {
 		this.data = mainMenu.getDataFromPlayer(player);
