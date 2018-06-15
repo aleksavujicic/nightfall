@@ -342,6 +342,9 @@ untimely:
     - compass
     - clock
     - untimely-demise
+  consumables:
+    cobblestone: 128
+    mortar: 16
   random-selectable: false
   item:
     template: "loadout"
