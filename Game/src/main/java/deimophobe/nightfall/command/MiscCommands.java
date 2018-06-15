@@ -17,8 +17,6 @@ import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.hero.Horn;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GamePlayer;
-import deimophobe.nightfall.game.LobbyManager;
-import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.plague.TwinsPlague;
 import org.bukkit.*;
@@ -53,51 +51,6 @@ public class MiscCommands extends BaseCommand {
 	@Description("Show all players in the game.")
 	public void who(CommandSender sender) {
 		sender.sendMessage(DwarfManager.getManager().getPlayerList() + "\n" +  MonsterManager.getManager().getPlayerList());
-	}
-	
-	@CommandAlias("explore")
-	@Conditions("lobby-phase")
-	@Description("Lets you explore the map before the game starts.")
-	public void explore(@Conditions("lobby") Player player) {
-		player.teleport(GameMap.getCurrentMap().getDwarfSpawn());
-	}
-	
-	@CommandAlias("stuck|lobby")
-	@Conditions("lobby-phase")
-	@Description("Returns you to the lobby.")
-	public void stuck(@Conditions("lobby") Player player) {
-		Game.getGame().resetPlayer(player);
-	}
-	
-	@CommandAlias("ready")
-	@Conditions("lobby-phase")
-	@Description("Notifies that you are ready to play the game.")
-	public void ready(@Conditions("lobby") Player player) {
-		LobbyManager lobbyManager = getLobbyManager();
-		if (!lobbyManager.isReady(player)) {
-			lobbyManager.readyPlayer(player);
-		} else {
-			lobbyManager.unreadyPlayer(player);
-		}
-	}
-	
-	@CommandAlias("readylist")
-	@Conditions("lobby-phase")
-	@Description("See who is ready.")
-	public void readyList(CommandSender sender) {
-		sender.sendMessage(getLobbyManager().readyList());
-	}
-	
-	@CommandAlias("notifyunready")
-	@Conditions("lobby-phase")
-	@Description("Notify unready players.")
-	public void unreadyNotify(CommandSender sender) {
-		getLobbyManager().notifyUnready();
-		MessageUtil.sendMessage(sender, "Notified unready players.");
-	}
-	
-	private LobbyManager getLobbyManager() {
-		return LobbyManager.getManager();
 	}
 	
 	@CommandAlias("damage")

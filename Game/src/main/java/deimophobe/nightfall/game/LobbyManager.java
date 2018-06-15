@@ -8,9 +8,12 @@ import deimophobe.nightfall.common.player.cosmetic.Cosmetics;
 import deimophobe.nightfall.event.PhaseChangeEvent;
 import deimophobe.nightfall.map.GameMap;
 import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -126,13 +129,15 @@ public class LobbyManager implements Manager {
 	private static final String PLAYER_UNREADIED = ChatColor.DARK_AQUA + "%s"
 			+ ChatColor.YELLOW + " is no longer ready! "
 			+ PLAYER_READY_COUNT;
-
+	
+	
+	// ----- Player Ready Up -----
 	
 	public boolean isReady(Player player) {
 		return readyPlayers.contains(player);
 	}
 	
-	public void readyPlayer(Player player) {
+	private void readyPlayer(Player player) {
 		if (!isLobbyActive) return;
 		
 		readyPlayers.add(player);
@@ -148,19 +153,20 @@ public class LobbyManager implements Manager {
 			player.sendMessage(PLAGUED_MESSAGE);
 		}
 		
+		player.playSound(player.getLocation(), "block.note.bell", 0.5f, 1.5f);
 		player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, player.getEyeLocation(), 10, 0.3, 0.2, 0.3, 0.05);
 		checkPlayerCount();
 	}
 	
-	public void unreadyPlayer(Player player) {
+	private void unreadyPlayer(Player player, boolean leaving) {
 		if (!isLobbyActive) return;
 		if (!isReady(player)) return;
 		
 		readyPlayers.remove(player);
 		readyNotify(player);
 		
-		Collection<? extends Player> players = getLobbyPlayers();
-		players.remove(player);
+		Set<Player> players = getLobbyPlayers();
+		if (leaving) players.remove(player);
 		
 		int numPlayers = players.size();
 		int numReady = readyPlayers.size();
@@ -169,6 +175,16 @@ public class LobbyManager implements Manager {
 		
 		checkPlayerCount();
 	}
+	
+	public void toggleReady(Player player) {
+		if (!isReady(player)) {
+			readyPlayer(player);
+		} else {
+			unreadyPlayer(player, false);
+		}
+	}
+	
+	// ----- Ready Status -----
 	
 	private void readyNotify() {
 		for (Player player : getLobbyPlayers()) {
@@ -184,65 +200,93 @@ public class LobbyManager implements Manager {
 		}
 	}
 	
-	public String readyList() {
-		StringBuilder sb = new StringBuilder();
-		SortedSet<String> readyPlayers = new TreeSet<>();
-		SortedSet<String> unreadyPlayers = new TreeSet<>();
+	// ----- Other Ready Things -----
+	
+	public BaseComponent readyList() {
+		Comparator<Player> playerComparator = Comparator.comparing(HumanEntity::getName);
+		SortedSet<Player> readyPlayers = new TreeSet<>(playerComparator);
+		SortedSet<Player> unreadyPlayers = new TreeSet<>(playerComparator);
 		for (Player player : getLobbyPlayers()) {
 			if (isReady(player)) {
-				readyPlayers.add(player.getName());
+				readyPlayers.add(player);
 			} else {
-				unreadyPlayers.add(player.getName());
+				unreadyPlayers.add(player);
 			}
 		}
 		
-		sb.append(ChatColor.GREEN + "READY: " + ChatColor.RESET);
-		for (String name : readyPlayers) {
-			sb.append(name);
-			sb.append(", ");
-		}
-		if (readyPlayers.size() != 0) {
-			sb.setLength(sb.length() - 2);
+		BaseComponent message = new TextComponent();
+		message.setColor(net.md_5.bungee.api.ChatColor.YELLOW);
+		
+		if (!readyPlayers.isEmpty()) {
+			message.addExtra("Ready:");
+			message.addExtra("\n");
+			
+			BaseComponent readyPlayerMessage = new TextComponent();
+			readyPlayerMessage.setColor(net.md_5.bungee.api.ChatColor.WHITE);
+			boolean first = true;
+			for (Player player : readyPlayers) {
+				if (!first) readyPlayerMessage.addExtra(", ");
+				first = false;
+				String name = player.getName();
+				TextComponent playerMessage = new TextComponent(name);
+				playerMessage.setColor(net.md_5.bungee.api.ChatColor.GREEN);
+				
+				readyPlayerMessage.addExtra(playerMessage);
+			}
+			message.addExtra(readyPlayerMessage);
 		}
 		
-		sb.append("\n");
-		sb.append(ChatColor.RED + "UNREADY: " + ChatColor.RESET);
-		for (String name : unreadyPlayers) {
-			sb.append(name);
-			sb.append(", ");
-		}
-		if (unreadyPlayers.size() != 0) {
-			sb.setLength(sb.length() - 2);
+		if (!readyPlayers.isEmpty() && !unreadyPlayers.isEmpty()) {
+			message.addExtra("\n");
 		}
 		
-		return sb.toString();
+		if (!unreadyPlayers.isEmpty()) {
+			message.addExtra("Not Ready:");
+			message.addExtra("\n");
+			
+			BaseComponent unreadyPlayerMessage = new TextComponent();
+			unreadyPlayerMessage.setColor(net.md_5.bungee.api.ChatColor.WHITE);
+			boolean first = true;
+			for (Player player : unreadyPlayers) {
+				if (!first) unreadyPlayerMessage.addExtra(", ");
+				first = false;
+				String name = player.getName();
+				TextComponent playerMessage = new TextComponent(name);
+				playerMessage.setColor(net.md_5.bungee.api.ChatColor.RED);
+				playerMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/notifyunready " + name));
+				
+				unreadyPlayerMessage.addExtra(playerMessage);
+			}
+			message.addExtra(unreadyPlayerMessage);
+		}
+		
+		return message;
 	}
 	
 	public void notifyUnready() {
 		for (Player player : getLobbyPlayers()) {
-			if (isReady(player)) continue;
-			
-			player.playSound(player.getLocation(), "block.note.pling", 1f, 1f);
-			player.sendMessage(UNREADY_MESSAGE);
+			notifyUnready(player);
 		}
 	}
 	
-	private void checkPlayerCount() {
-		int numPlayers = getLobbyPlayers().size();
-		int numReady = readyPlayers.size();
+	public void notifyUnready(Player player) {
+		if (isReady(player)) return;
 		
-		if (numReady == numPlayers) {
-			game.startGame();
-		}
-		else if (numReady >= 0.7 * numPlayers) {
-			if (!countdownActive) startCountdown();
-		}
+		player.playSound(player.getLocation(), "block.note.pling", 1f, 1f);
+		player.sendMessage(UNREADY_MESSAGE);
 	}
+	
+	// ----- Countdown -----
 	
 	private void startCountdown() {
 		countdownActive = true;
 		coundownTask.runTaskTimer(NightfallPlugin.getPlugin(), 20, 20);
 		Bukkit.broadcastMessage(COUNTDOWN_START);
+		notifyUnready();
+		for (Player player : getLobbyPlayers()) {
+			if (!isReady(player)) continue;
+			player.playSound(player.getLocation(), "block.note.pling", 1f, 1.5f);
+		}
 	}
 	
 	private void countdownTick() {
@@ -254,6 +298,20 @@ public class LobbyManager implements Manager {
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				player.sendTitle("" + ChatColor.DARK_AQUA + countdownTime, "", 0, 30, 10);
 			}
+		}
+	}
+	
+	// ----- Misc -----
+	
+	private void checkPlayerCount() {
+		int numPlayers = getLobbyPlayers().size();
+		int numReady = readyPlayers.size();
+		
+		if (numReady == numPlayers) {
+			game.startGame();
+		}
+		else if (numReady >= 0.7 * numPlayers) {
+			if (!countdownActive) startCountdown();
 		}
 	}
 	
@@ -282,7 +340,7 @@ public class LobbyManager implements Manager {
 		@EventHandler
 		public void onPlayerLogoff(PlayerQuitEvent event) {
 			Player player = event.getPlayer();
-			unreadyPlayer(player);
+			unreadyPlayer(player, true);
 		}
 	}
 }

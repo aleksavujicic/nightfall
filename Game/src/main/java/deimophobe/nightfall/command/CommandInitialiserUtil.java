@@ -21,10 +21,7 @@ import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.hero.HeroType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
-import deimophobe.nightfall.game.Game;
-import deimophobe.nightfall.game.GamePlayer;
-import deimophobe.nightfall.game.GameSize;
-import deimophobe.nightfall.game.Phase;
+import deimophobe.nightfall.game.*;
 import deimophobe.nightfall.map.MapManager;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -80,6 +77,7 @@ public class CommandInitialiserUtil {
 		commandManager.registerCommand(new EggCommand());
 		commandManager.registerCommand(new GameCommand());
 		commandManager.registerCommand(new ItemCommand());
+		commandManager.registerCommand(new LobbyCommands());
 		commandManager.registerCommand(new MapCommand());
 		commandManager.registerCommand(new MiscCommands());
 		commandManager.registerCommand(new MobCommand());
@@ -255,6 +253,9 @@ public class CommandInitialiserUtil {
 		});
 		conditions.addCondition(Player.class, "lobby", (context, execContext, player) -> {
 			if (!Game.getGame().isLobbyPlayer(player)) throw new ConditionFailedException("Player must be a lobby player (set gamemode to adventure).");
+		});
+		conditions.addCondition(Player.class, "unready", (context, execContext, player) -> {
+			if (LobbyManager.getManager().isReady(player)) throw new ConditionFailedException("Player is already ready.");
 		});
 		
 		conditions.addCondition("lobby-phase", context -> {
