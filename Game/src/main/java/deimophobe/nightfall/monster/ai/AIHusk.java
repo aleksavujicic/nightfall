@@ -14,6 +14,9 @@ import java.util.function.Consumer;
 
 class AIHusk extends AIEntity<Husk> {
 	
+	private static final double HEALTH = 80;
+	private static final double DAMAGE = 30;
+	
 	private static final Consumer<Husk> HUSK_INITIALISER = husk -> {
 		husk.setBaby(false);
 		
@@ -21,8 +24,8 @@ class AIHusk extends AIEntity<Husk> {
 		AttributeModifier speedModifier = new AttributeModifier("speed", speed, AttributeModifier.Operation.MULTIPLY_SCALAR_1);
 		husk.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).addModifier(speedModifier);
 		husk.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0.5);
-		husk.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(60);
-		husk.setHealth(60);
+		husk.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(HEALTH);
+		husk.setHealth(HEALTH);
 		
 		husk.getEquipment().setItemInMainHand(null);
 	};
@@ -46,7 +49,7 @@ class AIHusk extends AIEntity<Husk> {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		damage.getMultiPartDamage().setBase(20);
+		damage.getMultiPartDamage().setBase(DAMAGE);
 	}
 	
 	
