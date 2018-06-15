@@ -100,7 +100,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	public void respawn(Location location) {
 		delayedHealMax();
 		teleportTo(location);
-		player.setFireTicks(0);
+		removeFire();
 		player.setFallDistance(0);
 		givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 5, false, false, true);
 	}

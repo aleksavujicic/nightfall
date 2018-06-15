@@ -180,7 +180,7 @@ public class Doppelganger extends AbstractMob {
 	@Override
 	public void onShift(boolean sneaking) {
 		super.onShift(sneaking);
-		monster.getPlayer().setFireTicks(0);
+		monster.removeFire();
 	}
 	
 	@Override
