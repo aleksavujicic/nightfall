@@ -45,7 +45,7 @@ class MagicMissile implements Spell {
 					Consumer<MonsterEntity> mobDamager = dwarf.new GameEntityDamager<MonsterEntity>(
 							GameDamageType.MAGIC_MISSILE, 40, true, damage -> {
 								damage.setNoDamageTicks(3);
-								if (damage.getReceiver().isAI()) damage.instaKill();
+								if (damage.getReceiver().isBowInstaKillable()) damage.instaKill();
 							}
 					);
 					Hitscan hitscan = new Hitscan(THICKNESS, PARTICLE_PLACER, null, mobDamager);
