@@ -40,12 +40,12 @@ class SoulStreamSpell implements Spell {
 	public void castSpell(Dwarf dwarf) {
 		dwarf.givePotionEffect(PotionEffectType.SLOW, 50, 3, false, false, true);
 		dwarf.givePotionEffect(PotionEffectType.JUMP, 50, -2, false, false, true);
-		dwarf.addUpdateable(new LifetimeExpireable(50) {
+		dwarf.addUpdateable(new LifetimeExpireable(60) {
 			@Override
 			public void update() {
 				super.update();
 				Consumer<MonsterEntity> mobDamager = dwarf.new GameEntityDamager<MonsterEntity>(
-						GameDamageType.SOUL_STREAM, 1, true, damage -> damage.setNoDamageTicks(1)
+						GameDamageType.SOUL_STREAM, 5, false, damage -> damage.setNoDamageTicks(3)
 				);
 				Hitscan hitscan = new Hitscan(THICKNESS, PARTICLE_PLACER, null, mobDamager);
 				hitscan.fire(dwarf, MAX_RANGE);

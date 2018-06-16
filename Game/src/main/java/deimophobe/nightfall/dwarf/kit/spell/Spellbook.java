@@ -5,6 +5,7 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.ConsumerCooldown;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
@@ -49,6 +50,14 @@ public class Spellbook extends AbstractItem {
 		if (dwarf.getPlayer().getCooldown(Material.BOOK) != 0) return false;
 		
 		return clickRegister.tryUse(click);
+	}
+	
+	@Override
+	public void onDamageAttack(MonsterDamage damage) {
+		super.onDamageAttack(damage);
+		if (isMeleeDamageFromItem(damage)) {
+			damage.cancel();
+		}
 	}
 	
 	private void registerClick(ClickType click) {
