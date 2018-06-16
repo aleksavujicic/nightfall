@@ -96,13 +96,13 @@ horn: "shears:44"
 
 # Arthea
 arthea-weapon: "shears:49"
-arthea-heal: "shears:51"
+arthea-heal: "shears:52"
 luminous: "#jade-bow"
 elystria: "shears:48"
 
 # Herana
 trident: "shears:47"
-bubble-beam: "#temp"
+bubble-beam: "shears:51"
 herana-bow: "#longbow"
 
 # Lyra
