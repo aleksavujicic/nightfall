@@ -31,8 +31,11 @@ public class MobSpawnEvent extends Event {
 	public MobType getMobType() { return mob.getType(); }
 	
 	public void addWeaponModifier(ItemModifierType type, int value, String reason) {
-		CustomItem weapon = castMob().getWeapon();
-		if (weapon != null) weapon.addModifier(type, value, reason);
+		AbstractMob mob = castMob();
+		if (mob.doesWeaponExist()) {
+			CustomItem weapon = mob.getWeapon();
+			weapon.addModifier(type, value, reason);
+		}
 	}
 	
 	@Deprecated

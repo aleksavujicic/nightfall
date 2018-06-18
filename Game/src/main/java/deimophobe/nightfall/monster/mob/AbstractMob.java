@@ -238,11 +238,13 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	// ~~~~~ ITEMS ~~~~~
+	private static final String WEAPON_NAME = "weapon";
+	private static final String ARMOUR_NAME = "armour";
 	protected void setupItems() {
 		monster.clearInventory();
 		
 		if (mobData.hasWeapon()) {
-			giveItem("weapon");
+			giveItem(WEAPON_NAME);
 		}
 		if (mobData.hasArmour()) {
 			setArmour();
@@ -257,14 +259,18 @@ public abstract class AbstractMob implements Mob {
 	
 	
 	public final CustomItem getWeapon() {
-		return getItem("weapon");
+		return getItem(WEAPON_NAME);
 	}
 	protected final CustomItem getArmour() {
-		return getItem("armour");
+		return getItem(ARMOUR_NAME);
 	}
 	
 	protected final CustomItem setWeapon(String newWepName) {
-		return items.put("weapon", mobData.getAsWeapon(newWepName));
+		return items.put(WEAPON_NAME, mobData.getAsWeapon(newWepName));
+	}
+	
+	public final boolean doesWeaponExist() {
+		return doesItemExist(WEAPON_NAME);
 	}
 	
 	protected final void makeItemMutable(String itemName) {
@@ -276,6 +282,10 @@ public abstract class AbstractMob implements Mob {
 	protected final CustomItem getItem(String name) {
 		checkArgument(items.containsKey(name), "No item with name '%s' for mob of type '%s'", name, type);
 		return items.get(name);
+	}
+	
+	protected final boolean doesItemExist(String name) {
+		return items.containsKey(name);
 	}
 	
 	protected final void giveItem(String name) {
@@ -294,7 +304,7 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	protected final boolean isPlayerHoldingWeapon() {
-		return isPlayerHoldingItem("weapon");
+		return isPlayerHoldingItem(WEAPON_NAME);
 	}
 	
 	protected final boolean hasItem(String name) {
@@ -324,7 +334,7 @@ public abstract class AbstractMob implements Mob {
 		item.setTicksLived(6000 - 60*20);
 	}
 	
-	protected final void dropFakeWeapon() { dropFakeItem("weapon"); }
+	protected final void dropFakeWeapon() { dropFakeItem(WEAPON_NAME); }
 	
 	
 	// ~~~~~ Events/Overriding methods ~~~~~
