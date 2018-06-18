@@ -179,7 +179,7 @@ class SkeletonFlamelancer extends Skeleton {
 	private void blaze() {
 		monster.playSound("entity.ghast.shoot", 1f, 0.5f, true);
 		monster.givePotionEffect(PotionEffectType.FIRE_RESISTANCE, blazeDuration, 1, true, false, true);
-		monster.givePotionEffect(PotionEffectType.SPEED, blazeDuration, 2, true, false, true);
+		monster.givePotionEffect(PotionEffectType.SPEED, blazeDuration, 3, true, false, true);
 	}
 	
 	private boolean tryIgnite(Block block) {
