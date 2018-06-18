@@ -14,10 +14,10 @@ import deimophobe.nightfall.monster.mob.MobType;
 				"Curse of Doom",
 		},
 		specialMobs = {
-				@SpecialSpawn(special = MobType.OGRE_MAGI, size = GameSize.SMALL),
-				@SpecialSpawn(special = MobType.OGRE_MAGI, size = GameSize.MEDIUM),
-				@SpecialSpawn(special = MobType.OGRE_MAGI, size = GameSize.LARGE),
-				@SpecialSpawn(special = MobType.OGRE_MAGI, size = GameSize.HUGE)
+				@SpecialSpawn(special = MobType.MAGI, size = GameSize.SMALL),
+				@SpecialSpawn(special = MobType.MAGI, size = GameSize.MEDIUM),
+				@SpecialSpawn(special = MobType.MAGI, size = GameSize.LARGE),
+				@SpecialSpawn(special = MobType.MAGI, size = GameSize.HUGE)
 		}
 )
 public class OgreMagiDoom extends AnnotatedDoom {

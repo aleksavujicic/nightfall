@@ -165,6 +165,9 @@ public class Misc {
 	public static void spawnRangedParticles(Location location, Particle particle, int count, double dx, double dy, double dz, double extra) {
 		spawnRangedParticles(location, particle, count, dx, dy, dz, extra, DEFAULT_PARTICLE_RANGE);
 	}
+	public static void spawnRangedParticles(Location location, Particle particle, int count, double dx, double dy, double dz) {
+		spawnRangedParticles(location, particle, count, dx, dy, dz, 0, DEFAULT_PARTICLE_RANGE);
+	}
 	
 	public static BlockFace getBlockFaceProjectileHit(Projectile proj, Block hitBlock) {
 		Vector offset = proj.getLocation().subtract(hitBlock.getLocation().add(0.5,0.5,0.5)).toVector();

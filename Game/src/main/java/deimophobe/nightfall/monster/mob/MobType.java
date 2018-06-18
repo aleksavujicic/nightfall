@@ -40,7 +40,11 @@ public enum MobType implements MobCreator<Mob> {
 	TORUS(Torus::new),
 	BOPEN(Bopen::new),
 	MAGUS(Magus::new),
-	OGRE_MAGI(OgreMagi::new),
+	
+	FIRE_MAGI(MagiFire::new, "ogre-magi"),
+	ICE_MAGI(MagiIce::new, "ogre-magi"),
+	// THIS IS A HACK TO GET DOOM WORKING
+	MAGI(monster -> Misc.getRandomFrom(FIRE_MAGI, ICE_MAGI).createMob(monster), "ogre-magi"),
 	
 	TESTMOB(TestMob::new),
 	

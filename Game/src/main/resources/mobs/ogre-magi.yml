@@ -37,7 +37,6 @@ weapon:
      - ""
   modifiers:
     knockback: 2
-    burning: 3
 
 sounds:
   bat-idle:

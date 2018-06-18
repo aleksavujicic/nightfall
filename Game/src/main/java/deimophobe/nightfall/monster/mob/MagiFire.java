@@ -3,6 +3,7 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.Update;
@@ -27,13 +28,14 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 27/02/18.
  */
-class OgreMagi extends AbstractMob {
+class MagiFire extends AbstractMob {
 	
 	@Update @Display private final Cooldown fireCD = new UseCooldown(20*20, this::makeFire);
 	private final Set<Bat> bats = new HashSet<>();
 	
-	protected OgreMagi(MonsterPlayer monster) {
-		super(monster, MobType.OGRE_MAGI);
+	protected MagiFire(MonsterPlayer monster) {
+		super(monster, MobType.FIRE_MAGI);
+		getWeapon().addModifier(ItemModifierType.BURNING, 3);
 	}
 	
 	@Override
