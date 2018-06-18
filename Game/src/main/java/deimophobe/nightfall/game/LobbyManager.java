@@ -139,6 +139,7 @@ public class LobbyManager implements Manager {
 	
 	private void readyPlayer(Player player) {
 		if (!isLobbyActive) return;
+		checkReadyPlayersAreLobby();
 		
 		readyPlayers.add(player);
 		readyNotify(player);
@@ -161,6 +162,7 @@ public class LobbyManager implements Manager {
 	private void unreadyPlayer(Player player, boolean leaving) {
 		if (!isLobbyActive) return;
 		if (!isReady(player)) return;
+		checkReadyPlayersAreLobby();
 		
 		readyPlayers.remove(player);
 		readyNotify(player);
@@ -320,6 +322,10 @@ public class LobbyManager implements Manager {
 		Set<Player> players = new HashSet<>(onlinePlayers);
 		players.removeIf(player -> !isLobbyPlayer(player));
 		return players;
+	}
+	
+	private void checkReadyPlayersAreLobby() {
+		readyPlayers.removeIf(player ->  !isLobbyPlayer(player));
 	}
 	
 	private class LobbyListener implements Listener {

@@ -3,6 +3,7 @@ package deimophobe.nightfall.command;
 import co.aikar.commands.*;
 import co.aikar.commands.contexts.ContextResolver;
 import co.aikar.commands.contexts.IssuerAwareContextResolver;
+import co.aikar.commands.contexts.OnlinePlayer;
 import com.google.common.collect.ImmutableSet;
 import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
@@ -256,6 +257,12 @@ public class CommandInitialiserUtil {
 		});
 		conditions.addCondition(Player.class, "unready", (context, execContext, player) -> {
 			if (LobbyManager.getManager().isReady(player)) throw new ConditionFailedException("Player is already ready.");
+		});
+		conditions.addCondition(OnlinePlayer.class, "lobby", (context, execContext, player) -> {
+			if (!Game.getGame().isLobbyPlayer(player.getPlayer())) throw new ConditionFailedException("Player must be a lobby player (set gamemode to adventure).");
+		});
+		conditions.addCondition(OnlinePlayer.class, "unready", (context, execContext, player) -> {
+			if (LobbyManager.getManager().isReady(player.getPlayer())) throw new ConditionFailedException("Player is already ready.");
 		});
 		
 		conditions.addCondition("lobby-phase", context -> {
