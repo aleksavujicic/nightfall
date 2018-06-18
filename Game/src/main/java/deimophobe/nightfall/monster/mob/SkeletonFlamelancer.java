@@ -184,7 +184,8 @@ class SkeletonFlamelancer extends Skeleton {
 	private boolean tryIgnite(Block block) {
 		if (BlockType.IGNORABLE.matchesBlock(block)) {
 			block.setType(Material.FIRE);
-			if (fireAI && Math.random() < 0.5) {
+			double spawnChance = AIManager.getManager().getBaseSpawnChance();
+			if (fireAI && Math.random() < spawnChance) {
 				AIManager.getManager().spawnAI(AIType.FIRE_SKELLY, block.getLocation());
 			}
 			return true;
