@@ -29,7 +29,7 @@ public class ChatCommand extends BaseCommand {
 	@Description("Turn global on and off.")
 	public void toggleGlobal(CommandSender sender) {
 		boolean enabled = ChatListener.toggleGlobal();
-		MessageUtil.sendMessage(sender,"Global chat is now ", enabled, ".");
+		MessageUtil.sendMessage(sender,"Forced global chat is now ", enabled, ".");
 	}
 
 	@CommandAlias("msg|w|tell")

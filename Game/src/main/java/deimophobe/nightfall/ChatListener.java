@@ -11,22 +11,26 @@ import java.util.Set;
 
 public class ChatListener implements Listener {
 	
-	public static boolean globalActive = true;
+	public static boolean forcedGlobal = false;
 	public static boolean toggleGlobal() {
-		globalActive = !globalActive;
-		return globalActive;
+		forcedGlobal = !forcedGlobal;
+		return forcedGlobal;
 	}
 	
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent event){
-		if (!globalActive) return;
-		
 		Set<Player> recipients = event.getRecipients();
 		Player sender = event.getPlayer();
 		String message = event.getMessage();
+		
+		boolean shouldGlobal = forcedGlobal;
+		if (message.startsWith("!")) {
+			message = message.substring(1);
+			shouldGlobal = true;
+		}
 
-		if (message.startsWith("!")){
-			event.setMessage(message.replaceFirst("!",""));
+		if (shouldGlobal) {
+			event.setMessage(message);
 			event.setFormat("[!] <%s> %s");
 		} else {
 			// Note this is async, so caution should be used in adding extra functionality here.
