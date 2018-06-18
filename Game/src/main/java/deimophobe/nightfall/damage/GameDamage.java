@@ -150,8 +150,8 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 			force = ArrowMisc.getArrowForce((Arrow) projectile);
 		}
 		
-		offset.setY(0).normalize().multiply(0.6 + 0.4 * punchLevel);
-		offset.setY(0.35 + 0.05*punchLevel);
+		offset.setY(0).normalize().multiply(0.45 + 0.3 * punchLevel);
+		offset.setY(0.25 + 0.05*punchLevel);
 		offset.multiply(force);
 		
 		knockback = offset;
