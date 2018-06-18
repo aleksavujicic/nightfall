@@ -3,6 +3,7 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.monster.MobCreator;
 import deimophobe.nightfall.monster.MonsterPlayer;
 
 import java.util.*;
@@ -11,7 +12,7 @@ import java.util.function.Function;
 /**
  * Created by Deimophobe on 19/01/17.
  */
-public enum MobType {
+public enum MobType implements MobCreator<Mob> {
 	ZOMBIE(MobType::spawnZombie),
     SKELETON(MobType::spawnSkeleton),
 	GOBO(MobType::spawnGobo),
@@ -52,10 +53,6 @@ public enum MobType {
 	
 	private final Function<MonsterPlayer, Mob> mobCreator;
 	
-	public String getName() {
-		return name().replace('_','-').toLowerCase();
-	}
-	
 	MobType() { this(null, null); }
 	MobType(Function<MonsterPlayer, Mob> mobCreator) { this(mobCreator, null); }
 	
@@ -67,7 +64,12 @@ public enum MobType {
 		this.mobCreator = mobCreator;
 	}
 	
+	@Override
+	public String getName() {
+		return name().replace('_','-').toLowerCase();
+	}
 	
+	@Override
 	public Mob createMob(MonsterPlayer monster) {
 		if (mobCreator != null) {
 			return mobCreator.apply(monster);

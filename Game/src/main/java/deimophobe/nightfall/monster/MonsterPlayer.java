@@ -146,17 +146,17 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		player.setGameMode(GameMode.SPECTATOR);
 	}
 	
-	public boolean spawnMob(MobType type) {
+	public boolean spawnMob(MobCreator<?> type) {
 		return spawnMob(type, SpawnMethod.SPAWN);
 	}
 	
-	public boolean spawnMob(MobType type, SpawnMethod spawnMethod) {
+	public boolean spawnMob(MobCreator<?> type, SpawnMethod spawnMethod) {
 		try {
 			Mob mob = type.createMob(this);
 			return spawnMob(mob, spawnMethod);
 		} catch (Exception e) {
 			sendMessage(ChatColor.RED + "Failed to create mob. (Internal server error). Please notify a dev about this.");
-			NightfallPlugin.logger().severe("Failed to create mob of type " + type + " for " + getName());
+			NightfallPlugin.logger().severe("Failed to create mob of type " + type.getName() + " for " + getName());
 			NightfallPlugin.logger().severe(e.getMessage());
 			e.printStackTrace();
 			return false;
