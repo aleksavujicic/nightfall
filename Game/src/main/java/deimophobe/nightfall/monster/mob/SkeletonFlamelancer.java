@@ -149,6 +149,7 @@ class SkeletonFlamelancer extends Skeleton {
 		if (damage.hasArrow()) {
 			Arrow arrow = damage.getArrow();
 			conflagration(arrow.getLocation());
+			damage.removeKnockback();
 		}
 	}
 

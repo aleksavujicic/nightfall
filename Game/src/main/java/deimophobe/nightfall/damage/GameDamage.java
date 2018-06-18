@@ -240,6 +240,9 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		knockback.setZ(horizontal * knockback.getZ());
 		knockback.checkFinite();
 	}
+	public void removeKnockback() {
+		knockback = null;
+	}
 	public Vector getKnockback() {
 		return knockback;
 	}
