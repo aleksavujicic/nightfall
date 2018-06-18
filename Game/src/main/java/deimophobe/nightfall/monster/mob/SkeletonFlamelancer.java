@@ -167,14 +167,11 @@ class SkeletonFlamelancer extends Skeleton {
 	
 	private void conflagration(Location center) {
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
+			if (Math.random() > 0.75) continue;
 			if (dwarf.distanceTo(center) > conflagRange) continue;
 			
-			Player player = dwarf.getPlayer();
-			int currentTicks = player.getFireTicks();
-			int fireTicks = Math.max(currentTicks, flameDuration/20);
-			player.setFireTicks(fireTicks);
-			
-			if (everyNthTick(3)) monster.playSound("entity.generic.burn", 0.3f, 1.5f, false);
+			dwarf.increaseFireTicks(flameDuration);
+			monster.playSound("entity.generic.burn", 0.3f, 1.5f, false);
 		}
 	}
 	
