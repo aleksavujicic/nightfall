@@ -249,6 +249,9 @@ gobo:
 
 kaboom: "#gobo.kaboom"
 
+magi:
+  staff: "#scepter"
+
 wolf-bite: "sugar"
 golem-pick: "shears:104"
 club: "shears:105"

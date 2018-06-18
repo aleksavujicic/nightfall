@@ -28,13 +28,13 @@ armour:
     kb-resist: 100
 weapon:
   template: monster-hero
-  base: tombmaker
+  base: magi.staff
   name: "Ogre Magi Staff"
   lore:
     description:
      - "Right click to set everything on fire."
     flavour:
-     - "Yes its a tombmaker"
+     - ""
   modifiers:
     knockback: 2
     burning: 3

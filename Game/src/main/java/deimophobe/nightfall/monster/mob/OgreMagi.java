@@ -3,10 +3,14 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.Update;
+import deimophobe.nightfall.cooldown.UseCooldown;
+import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
@@ -25,7 +29,7 @@ import java.util.Set;
  */
 class OgreMagi extends AbstractMob {
 	
-	@Update @Display private final ComplexCooldown fireCD = new ComplexCooldown(20*20, this::makeFire);
+	@Update @Display private final Cooldown fireCD = new UseCooldown(20*20, this::makeFire);
 	private final Set<Bat> bats = new HashSet<>();
 	
 	protected OgreMagi(MonsterPlayer monster) {
@@ -105,14 +109,22 @@ class OgreMagi extends AbstractMob {
 		for (Bat bat : bats) {
 			if (bat.isDead()) continue;
 			
+			Location center = bat.getLocation();
+			
 			int successes = 0;
 			for (int i = 0; i < 30; i++) {
-				Block block = Misc.randomLocation(bat.getLocation(), 3, 5, 3).getBlock();
-				if (BlockType.IGNORABLE.matchesBlock(block)) {
+				Block block = Misc.randomLocation(center, 5, 7, 5).getBlock();
+				if (BlockType.IGNITEABLE.matchesBlock(block)) {
 					block.setType(Material.FIRE);
 					successes++;
 					
 					if (successes >= 5) break;
+				}
+			}
+			
+			for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
+				if (dwarf.distanceTo(center) <= 5) {
+					dwarf.increaseFireTicks(100);
 				}
 			}
 			
