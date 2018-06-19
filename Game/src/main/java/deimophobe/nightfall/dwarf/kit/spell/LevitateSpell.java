@@ -12,7 +12,7 @@ import org.bukkit.util.Vector;
 class LevitateSpell implements Spell {
 	@Override public String getName() { return "Levitate";	}
 	@Override public int getCost() { return 10;	}
-	@Override public int getCooldown() { return  15 * 20; }
+	@Override public int getCooldown() { return  20 * 20; }
 	
 	private static final int DURATION = 5 * 20;
 	

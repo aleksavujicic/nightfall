@@ -18,8 +18,8 @@ import java.util.function.Consumer;
  */
 class MagicMissile implements Spell {
 	@Override public String getName() { return ChatColor.DARK_PURPLE + "Magic Missile"; }
-	@Override public int getCost() { return 3; }
-	@Override public int getCooldown() { return 5 * 20;	}
+	@Override public int getCost() { return 2; }
+	@Override public int getCooldown() { return 50;	}
 	
 	private static final double MAX_RANGE = 30;
 	private static final double THICKNESS = 1.25;
@@ -43,7 +43,7 @@ class MagicMissile implements Spell {
 			public void update() {
 				if (everyNTicks(10)) {
 					Consumer<MonsterEntity> mobDamager = dwarf.new GameEntityDamager<MonsterEntity>(
-							GameDamageType.MAGIC_MISSILE, 40, true, damage -> {
+							GameDamageType.MAGIC_MISSILE, 25, true, damage -> {
 								damage.setNoDamageTicks(3);
 								if (damage.getReceiver().isBowInstaKillable()) damage.instaKill();
 							}
