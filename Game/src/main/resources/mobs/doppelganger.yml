@@ -5,7 +5,7 @@ health: 20
 
 proccable: false
 resistance: 0.85
-shred: 40
+shred: 30
 arrowres: 0.75
 
 armour:
