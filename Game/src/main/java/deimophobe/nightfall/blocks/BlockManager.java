@@ -81,6 +81,10 @@ public class BlockManager implements Manager {
 		return activeTimedBlocks.containsKey(block);
 	}
 	
+	public TimedBlock getTimedBlock(Block block) {
+		return activeTimedBlocks.get(block);
+	}
+	
 	public <T extends TimedBlock> Set<T> getTimedBlocks(Class<T> tClass) {
 		Set<T> timedBlocks = new HashSet<>();
 		for (TimedBlock timedBlock : activeTimedBlocks.values()) {

@@ -11,8 +11,8 @@ import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -55,15 +55,6 @@ class MagiIce extends AbstractMob {
 	}
 	
 	@Override
-	public void onDamageReceive(MonsterDamage damage) {
-		super.onDamageReceive(damage);
-		
-		if (damage.getType().isArrow()) {
-			damage.cancel();
-		}
-	}
-	
-	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
 		
@@ -83,7 +74,7 @@ class MagiIce extends AbstractMob {
 	
 	private void tryCreateIce(Block block, int lifetime) {
 		if (BlockType.SOLID.matchesBlock(block)) {
-			TimedBlock timed = new DataTimedBlock(lifetime, block, monster, Material.PACKED_ICE);
+			TimedBlock timed = new IceBlock(lifetime, block);
 			BlockManager.getManager().placeTimedBlock(timed);
 		}
 	}
@@ -95,19 +86,40 @@ class MagiIce extends AbstractMob {
 		int yCenter = center.getY();
 		int zCenter = center.getZ();
 		
-		for (int x = xCenter - 7; x < xCenter + 7; x++) {
-			for (int y = yCenter - 3; y < yCenter + 2; y++) {
-				for (int z = zCenter - 7; z < zCenter + 7; z++) {
+		int range = 8;
+		
+		for (IceBlock iceBlock : BlockManager.getManager().getTimedBlocks(IceBlock.class)) {
+			if (center.getLocation().distance(iceBlock.getBlock().getLocation()) > range) continue;
+			
+			iceBlock.cancel();
+		}
+		
+		for (int x = xCenter - range; x < xCenter + range; x++) {
+			for (int y = yCenter - range; y < yCenter + range; y++) {
+				for (int z = zCenter - range; z < zCenter + range; z++) {
 					Block block = world.getBlockAt(x, y, z);
-					if (center.getLocation().distance(block.getLocation()) > 7) continue;
+					if (center.getLocation().distance(block.getLocation()) > range) continue;
 					
 					tryCreateIce(block, 15*20);
 				}
 			}
 		}
 		
+		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
+			if (monster.distanceTo(dwarf) > range) continue;
+			dwarf.givePotionEffect(PotionEffectType.SLOW, 10*20, 4, true ,false, true);
+		}
+		
 		monster.playSound("entity.stray.death", 1f, 0.5f, true);
 		Misc.spawnRangedParticles(center.getLocation(), Particle.FIREWORKS_SPARK, 500, 3.5, 1, 3.5);
+	}
+	
+	
+	private class IceBlock extends DataTimedBlock {
+		
+		public IceBlock(int lifeTime, Block block) {
+			super(lifeTime, block, monster, Material.PACKED_ICE);
+		}
 	}
 	
 }
