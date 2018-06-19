@@ -64,8 +64,34 @@ public class Hammer extends AbstractAOEHitter implements CooldownPiece {
 		return cooldown.getCooldown();
 	}
 	
+	@Override
+	protected double getDamageToMonster(MonsterEntity entity) {
+		double damage = 0;
+		if (entity instanceof MonsterPlayer) {
+			if (((MonsterPlayer) entity).getMob().getType() == MobType.ZOMBIE) {
+				damage = 15;
+			} else {
+				damage = 10;
+			}
+		} else if (entity.isAI()) {
+			damage = 20;
+		}
+		
+		if (isRoaring()) {
+			damage += 20;
+		}
+		
+		return damage;
+	}
+	
+	@Override
+	protected double getRadius(MonsterEntity entity) {
+		return 3;
+	}
+	
 	
 	private static final double ROAR_RADIUS = 35;
+	private static final int ROAR_DURATION = 6*20;
 	private void roar() {
 		for (AIEntity ai : AIManager.getManager().getAIs()) {
 			if (dwarf.distanceTo(ai) <= ROAR_RADIUS) {
@@ -73,26 +99,10 @@ public class Hammer extends AbstractAOEHitter implements CooldownPiece {
 			}
 		}
 		dwarf.playSound("dragonroar", 1f, 1.4f, true);
-		dwarf.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, 5*20, 10, true, false, true);
+		dwarf.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, ROAR_DURATION, 1, true, false, true);
 	}
 	
-	@Override
-	protected double getDamageToMonster(MonsterEntity entity) {
-		if (entity instanceof MonsterPlayer) {
-			if (((MonsterPlayer) entity).getMob().getType() == MobType.ZOMBIE) {
-				return 15;
-			} else {
-				return 10;
-			}
-		} else if (entity.isAI()) {
-			return 20;
-		}
-		
-		return 0;
-	}
-	
-	@Override
-	protected double getRadius(MonsterEntity entity) {
-		return 3;
+	private boolean isRoaring() {
+		return cooldown.wasUsedWithin(ROAR_DURATION);
 	}
 }

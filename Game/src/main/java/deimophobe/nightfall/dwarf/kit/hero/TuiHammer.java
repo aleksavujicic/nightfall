@@ -36,11 +36,17 @@ public class TuiHammer extends AbstractAOEHitter implements CooldownPiece {
 	
 	@Override
 	protected double getDamageToMonster(MonsterEntity entity) {
+		double damage = 0;
 		if (entity.isAI()) {
-			return 30;
+			damage = 30;
 		} else {
-			return 25;
+			damage = 25;
 		}
+		
+		if (isRoaring()) {
+			damage += 30;
+		}
+		return damage;
 	}
 	
 	@Override
@@ -76,7 +82,7 @@ public class TuiHammer extends AbstractAOEHitter implements CooldownPiece {
 		
 		dwarf.getPlayer().getWorld().spawnParticle(Particle.FLAME, dwarf.getEyeLocation(), 200, 1, 1, 1, 0.1);
 		dwarf.givePotionEffect(PotionEffectType.GLOWING, ROAR_DURATION, 1, true, false, true);
-		dwarf.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, ROAR_DURATION, 20, true, false, true);
+		dwarf.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, ROAR_DURATION, 1, true, false, true);
 		dwarf.givePotionEffect(PotionEffectType.SPEED, ROAR_DURATION, 1, true, false, true);
 		
 		for (AIEntity ai : AIManager.getManager().getAIs()) {
@@ -84,6 +90,10 @@ public class TuiHammer extends AbstractAOEHitter implements CooldownPiece {
 				ai.setTarget(dwarf);
 			}
 		}
+	}
+	
+	private boolean isRoaring() {
+		return roarCD.wasUsedWithin(ROAR_DURATION);
 	}
 	
 	@Override
