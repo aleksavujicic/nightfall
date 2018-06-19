@@ -204,7 +204,7 @@ public class DwarfCommand extends BaseCommand {
 				if (StringUtils.equalsIgnoreCase(args[3],"all")) {
 					return Collections.emptyList();
 				} else {
-					return KIT_ITEMS;
+					return CommandInitialiserUtil.finalArgCompletion(args, KIT_ITEMS);
 				}
 			}
 			return super.tabComplete(issuer, commandLabel, args);
