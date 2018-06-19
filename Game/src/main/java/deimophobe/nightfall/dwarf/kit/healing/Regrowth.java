@@ -10,6 +10,7 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.util.Util;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -64,6 +65,10 @@ public class Regrowth extends AbstractAle {
 		
 		dwarf.givePotionEffect(PotionEffectType.REGENERATION, 10*20, 3, true, false, false);
 		dwarf.playSound("healing", 0.5f, 2f, false);
+		
+		Location location = dwarf.getEyeLocation();
+		location.getWorld().spawnParticle(Particle.HEART, location,1, 0, 0, 0);
+		
 		
 		for (Dwarf other : DwarfManager.getManager().getDwarves()) {
 			if (other == dwarf) continue;
