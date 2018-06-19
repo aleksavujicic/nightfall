@@ -25,8 +25,7 @@ import org.bukkit.util.Vector;
 public class Soulblade extends AbstractItem implements CooldownPiece {
 
 	private final Cooldown soulShatterCD = new UseCooldown(10, this::soulShatter);
-
-	private static final double SOUL_SHATTER_RADIUS = 4;
+	
 	private static final int MAX_SOULS = 50;
 
 	private double souls = 0;
@@ -124,12 +123,13 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 		
 		double kb = soulScaling(1, 3);
 		double baseDamage = soulScaling(25, 150);
+		double radius = soulScaling(3, 6);
 		
 		souls = 0;
 		
 		for (MonsterEntity entity : MonsterManager.getManager().getAliveMobsAndAIs()) {
 			Vector offset = entity.getEyeLocation().subtract(center).toVector();
-			if (offset.length() > SOUL_SHATTER_RADIUS) continue;
+			if (offset.length() > radius) continue;
 
 			Vector knockback = offset.normalize().multiply(kb / Math.sqrt(Math.max(2, offset.length())));
 			knockback.setY(knockback.getY() / 2 + 0.1);
