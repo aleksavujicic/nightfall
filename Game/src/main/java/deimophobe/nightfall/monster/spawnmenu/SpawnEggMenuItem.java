@@ -1,8 +1,5 @@
 package deimophobe.nightfall.monster.spawnmenu;
 
-import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.item.MenuItem;
@@ -12,16 +9,10 @@ import deimophobe.nightfall.monster.MobCreator;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnRegistry;
 import deimophobe.nightfall.monster.doom.DoomManager;
-import deimophobe.nightfall.monster.mob.MobType;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Deimophbe on 19/01/17.
@@ -69,9 +60,9 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 		this.quantity = 0;
 		this.maxQuantity = maxQuantity;
 		this.spawnChance = chance;
-		this.permanent = false;
+		this.permanent = permanent;
 		
-		this.enabled = true;
+		this.enabled = enabled;
 	}
 	
 	public boolean tryRestock() {
