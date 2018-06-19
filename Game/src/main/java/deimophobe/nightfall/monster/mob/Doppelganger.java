@@ -1,6 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.google.common.collect.Sets;
 import deimophobe.nightfall.*;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.player.PlayerManager;
@@ -31,10 +32,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Team;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 15/01/18.
@@ -123,6 +121,9 @@ public class Doppelganger extends AbstractMob {
 	@Override
 	protected void setupItems() {
 		super.setupItems();
+		String fakeItem = Misc.getRandom(FAKE_ITEMS);
+		giveItem(fakeItem);
+		
 		if (giveArrow) giveItem("arrow");
 		giveItem("unhider");
 	}
@@ -254,6 +255,10 @@ public class Doppelganger extends AbstractMob {
 			}
 		}
 	}
+	
+	private static final Set<String> FAKE_ITEMS = Sets.newHashSet(
+			"cobble", "torch", "mortar", "axe", "shovel"
+	);
 	
 	
 	private static final Map<String, Integer> nameToIDMap = new HashMap<>();

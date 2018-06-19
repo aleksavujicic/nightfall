@@ -132,6 +132,48 @@ items:
       flavour:
        - "It's still sharp."
 
+  # Fake items
+  cobble:
+    material: cobblestone
+    name: Cursed Cobblestone
+    lore:
+      description:
+       - ""
+      flavour:
+       - ""
+  torch:
+    material: torch
+    name: Cursed Torch
+    lore:
+      description:
+       - ""
+      flavour:
+       - ""
+  mortar:
+    base: mortar
+    name: Cursed Mortar
+    lore:
+      description:
+       - ""
+      flavour:
+       - ""
+  axe:
+    base: dwarf-axe
+    name: Cursed Axe
+    lore:
+      description:
+       - ""
+      flavour:
+       - ""
+  shovel:
+    base: dwarf-shovel
+    name: Cursed Shovel
+    lore:
+      description:
+       - ""
+      flavour:
+       - ""
+
 sounds:
   death:
     path: "entity.blaze.death"
