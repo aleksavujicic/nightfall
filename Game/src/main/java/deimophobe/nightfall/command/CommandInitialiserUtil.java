@@ -4,7 +4,6 @@ import co.aikar.commands.*;
 import co.aikar.commands.contexts.ContextResolver;
 import co.aikar.commands.contexts.IssuerAwareContextResolver;
 import co.aikar.commands.contexts.OnlinePlayer;
-import com.google.common.collect.ImmutableSet;
 import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.command.iterable.*;
@@ -128,8 +127,7 @@ public class CommandInitialiserUtil {
 			return pieces;
 		});
 		
-		ImmutableSet<String> booleans = ImmutableSet.of("true", "false");
-		completions.registerCompletion("boolean", c -> booleans);
+		completions.registerStaticCompletion("boolean", "true|false");
 	}
 	
 	private static void registerContexts(BukkitCommandManager commandManager) {
