@@ -115,6 +115,11 @@ public interface GameEntity<E extends LivingEntity> {
 		setVelocity(-horizontal * Math.sin(radYaw), vertical, horizontal * Math.cos(radYaw));
 	}
 	
+	default void resetFallDamage() {
+		Entity entity = getEntity();
+		entity.setFallDistance(0);
+	}
+	
 	// ------ HEALTH ------
 	default double getHealth() {
 		return getEntity().getHealth();
@@ -319,5 +324,4 @@ public interface GameEntity<E extends LivingEntity> {
 	default Disguise getDisguise() {
 		return DisguiseAPI.getDisguise(getEntity());
 	}
-	
 }

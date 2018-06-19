@@ -19,6 +19,7 @@ class LevitateSpell implements Spell {
 	@Override
 	public void castSpell(Dwarf dwarf) {
 		dwarf.givePotionEffect(PotionEffectType.LEVITATION, DURATION, 2, true, false, true);
+		dwarf.resetFallDamage();
 		dwarf.addUpdateable(new LifetimeExpireable(DURATION) {
 			private double theta = 0;
 			
