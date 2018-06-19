@@ -27,9 +27,9 @@ class ArmourEffectMaker implements PlayerEffectMaker {
 		
 		// SHOW PARTICLES!
 		Location bodyCentre = player.getEyeLocation().add(0, -0.5, 0);
-		for (int i=0; i<10; i++) {
-			for (int j=0; j<5; j++) {
-				double velocity = 0.2;
+		double velocity = 0.2;
+		for (int i=0; i<8; i++) {
+			for (int j=0; j<4; j++) {
 				double theta = 2*Math.PI*i/8;
 				double phi = Math.PI*j/4;
 				
