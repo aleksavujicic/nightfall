@@ -17,5 +17,6 @@ import java.lang.annotation.Target;
 	String[] subtitles() default {};
 	int cycleTime() default 40;
 	SpecialSpawn[] specialMobs() default {};
+	NamedSpecialSpawn[] namedSpecialMobs() default {};
 	MobType[] regularMobs() default {} ;
 }

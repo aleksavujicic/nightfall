@@ -6,11 +6,11 @@ import deimophobe.nightfall.command.iterable.MonsterIterable;
 import deimophobe.nightfall.command.iterable.PlayerIterable;
 import deimophobe.nightfall.common.command.MessageUtil;
 import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.monster.MobCreator;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.mob.Mob;
-import deimophobe.nightfall.monster.mob.MobType;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -26,9 +26,9 @@ public class MobCommand extends BaseCommand {
 	
 	@Subcommand("set")
 	@CommandAlias("setmob")
-	@CommandCompletion("@players @mobtypes")
+	@CommandCompletion("@players @mobcreators")
 	@Description("Set a player to be a monster.")
-	public void setMob(CommandSender sender, PlayerIterable players, @Optional MobType mobType) {
+	public void setMob(CommandSender sender, PlayerIterable players, @Optional MobCreator<?> mobType) {
 		players.forEach(player -> {
 			Game.getGame().removeGamePlayer(player);
 			MonsterPlayer monster = MonsterManager.getManager().addGamePlayer(player);
@@ -71,9 +71,9 @@ public class MobCommand extends BaseCommand {
 	
 	@Subcommand("spawn")
 	@CommandAlias("spawnmob")
-	@CommandCompletion("@monsters @mobtypes @spawnmethods")
+	@CommandCompletion("@monsters @mobcreators @spawnmethods")
 	@Description("Spawn a monster as a specified mob.")
-	public void spawnMob(CommandSender sender, MonsterIterable monsters, MobType mobType, @Default("spawn") SpawnMethod spawnMethod) {
+	public void spawnMob(CommandSender sender, MonsterIterable monsters, @Default("primary") MobCreator<?> mobType, @Default("spawn") SpawnMethod spawnMethod) {
 		monsters.forEach(monster -> {
 			boolean spawned = monster.spawnMob(mobType, spawnMethod);
 			

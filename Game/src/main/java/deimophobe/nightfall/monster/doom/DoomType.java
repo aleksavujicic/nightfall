@@ -42,6 +42,7 @@ public enum DoomType {
 			
 			MonsterSpawner spawner = new DefaultSpawner(
 					meta.specialMobs(),
+					meta.namedSpecialMobs(),
 					meta.regularMobs()
 			);
 			

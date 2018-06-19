@@ -13,6 +13,7 @@ import java.util.function.Function;
  * Created by Deimophobe on 19/01/17.
  */
 public enum MobType implements MobCreator<Mob> {
+	// Seperate these into own types, use custom mob creators for each.
 	ZOMBIE(MobType::spawnZombie),
     SKELETON(MobType::spawnSkeleton),
 	GOBO(MobType::spawnGobo),
@@ -43,8 +44,6 @@ public enum MobType implements MobCreator<Mob> {
 	
 	FIRE_MAGI(MagiFire::new, "ogre-magi"),
 	ICE_MAGI(MagiIce::new, "ogre-magi"),
-	// THIS IS A HACK TO GET DOOM WORKING
-	MAGI(monster -> Misc.getRandomFrom(FIRE_MAGI, ICE_MAGI).createMob(monster), "ogre-magi"),
 	
 	TESTMOB(TestMob::new),
 	

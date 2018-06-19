@@ -31,6 +31,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	
 	private final AIManager aiManager;
 	private final DoomManager doomManager;
+	private final SpawnRegistry registry;
 	
 	public AIManager getAiManager() {return aiManager;}
 	public DoomManager getDoomManager() {return doomManager;}
@@ -41,10 +42,10 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		super(ChatColor.DARK_RED + "Monsters", "mobs", ChatColor.DARK_RED);
 		
 		getTeam().setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
+		registry = new SpawnRegistry();
 		
 		aiManager = new AIManager();
 		doomManager = new DoomManager();
-		
 	}
 	
 	public void init() {
@@ -114,6 +115,10 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		//getOfflinePlayers().forEach(mp -> mp.forceGainExp(6000));
 	}
 	
+	public SpawnRegistry getRegistry() {
+		return registry;
+	}
+	
 	
 	// --------------------------------------------------------
 	//                   MENUS N STUFF
@@ -148,8 +153,12 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	private void loadSpawnEggs() {
 		Configuration spawnConfig = NightfallPlugin.getInternalFileConfig("spawn-eggs.yml");
 		for (String key : spawnConfig.getKeys(false)) {
-			SpawnEggMenuItem egg = new SpawnEggMenuItem(spawnConfig.getConfigurationSection(key), key);
-			spawnEggs.put(key, egg);
+			try {
+				SpawnEggMenuItem egg = SpawnEggMenuItem.fromConfig(spawnConfig.getConfigurationSection(key), key);
+				spawnEggs.put(key, egg);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	

@@ -3,7 +3,6 @@ package deimophobe.nightfall.monster.doom;
 import deimophobe.nightfall.game.Curse;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GameSize;
-import deimophobe.nightfall.monster.mob.MobType;
 
 /**
  * Created by Deimophobe on 27/02/18.
@@ -13,11 +12,11 @@ import deimophobe.nightfall.monster.mob.MobType;
 		subtitles = {
 				"Curse of Doom",
 		},
-		specialMobs = {
-				@SpecialSpawn(special = MobType.MAGI, size = GameSize.SMALL),
-				@SpecialSpawn(special = MobType.MAGI, size = GameSize.MEDIUM),
-				@SpecialSpawn(special = MobType.MAGI, size = GameSize.LARGE),
-				@SpecialSpawn(special = MobType.MAGI, size = GameSize.HUGE)
+		namedSpecialMobs = {
+				@NamedSpecialSpawn(special = "magi", size =  GameSize.SMALL),
+				@NamedSpecialSpawn(special = "magi", size =  GameSize.MEDIUM),
+				@NamedSpecialSpawn(special = "magi", size =  GameSize.LARGE),
+				@NamedSpecialSpawn(special = "magi", size =  GameSize.HUGE),
 		}
 )
 public class OgreMagiDoom extends AnnotatedDoom {

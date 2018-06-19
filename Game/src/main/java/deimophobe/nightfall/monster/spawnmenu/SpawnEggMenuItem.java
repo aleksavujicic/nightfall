@@ -8,7 +8,9 @@ import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.item.MenuItem;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
+import deimophobe.nightfall.monster.MobCreator;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnRegistry;
 import deimophobe.nightfall.monster.doom.DoomManager;
 import deimophobe.nightfall.monster.mob.MobType;
 import org.bukkit.ChatColor;
@@ -25,7 +27,7 @@ import java.util.Set;
  * Created by Deimophbe on 19/01/17.
  */
 public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
-	private final Set<MobType> mobTypes;
+	private final MobCreator<?> mobCreator;
 	
 	private final ItemStack item;
 	
@@ -37,37 +39,32 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 	private double spawnChance;
 	private final String name;
 	
-	public SpawnEggMenuItem(ConfigurationSection section, String name) {
-		this.item = CustomItem.getItem(section.getConfigurationSection("egg"), "monster-egg").createItemStack();
-		this.name = name;
+	public static SpawnEggMenuItem fromConfig(ConfigurationSection section, String name) {
+		CustomItem item = CustomItem.getItem(section.getConfigurationSection("egg"), "monster-egg");
 		
-		List<String> mobs = section.getStringList("mobtype");
-		if (mobs.isEmpty())
-			mobs.add(section.getString("mobtype"));
-		
-		this.mobTypes = new HashSet<>();
-		for (String mob : mobs) {
-			try {
-				mobTypes.add(MobType.getMobType(mob));
-			} catch (UnknownEnumElementException e) {
-				NightfallPlugin.logger().severe("Unknown mob " + mob + " when creating spawnegg " + section.getName());
-				e.printStackTrace();
-			}
+		String creatorName = section.getString("mobtype");
+		SpawnRegistry registry = SpawnRegistry.getRegistry();
+		if (!registry.isValid(creatorName)) {
+			throw new IllegalArgumentException("Unknown mob creator '" + creatorName + "' when creating spawnegg " + section.getName());
 		}
 		
-		this.quantity = 0;
-		this.maxQuantity = section.getInt("quantity", 1);
-		this.spawnChance = section.getDouble("chance", 0.5);
-		this.permanent = section.getBoolean("permanent", false);
+		MobCreator<?> mobCreator = registry.getCreator(creatorName);
 		
-		this.enabled = section.getBoolean("enabled", true);
+		int quantity = 0;
+		int maxQuantity = section.getInt("quantity", 1);
+		double spawnChance = section.getDouble("chance", 0.5);
+		boolean permanent = section.getBoolean("permanent", false);
+		
+		boolean enabled = section.getBoolean("enabled", true);
+		
+		return new SpawnEggMenuItem(item, name, mobCreator, maxQuantity, spawnChance, permanent, enabled);
 	}
 	
-	public SpawnEggMenuItem(CustomItem item, String name, MobType type, int maxQuantity, double chance) {
+	public SpawnEggMenuItem(CustomItem item, String name, MobCreator<?> mobCreator, int maxQuantity, double chance, boolean permanent, boolean enabled) {
 		this.item = item.createItemStack();
 		this.name = name;
 		
-		this.mobTypes = Collections.singleton(type);
+		this.mobCreator = mobCreator;
 		
 		this.quantity = 0;
 		this.maxQuantity = maxQuantity;
@@ -140,7 +137,7 @@ public class SpawnEggMenuItem implements MenuItem<MonsterPlayer> {
 			return false;
 		}
 
-		monster.spawnMob(Misc.getRandom(mobTypes));
+		monster.spawnMob(mobCreator);
 		quantity -= 1;
 		session.closeSession();
 		return false;

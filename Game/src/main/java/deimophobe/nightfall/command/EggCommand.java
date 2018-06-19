@@ -4,8 +4,8 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import deimophobe.nightfall.common.command.MessageUtil;
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.monster.MobCreator;
 import deimophobe.nightfall.monster.MonsterManager;
-import deimophobe.nightfall.monster.mob.MobType;
 import deimophobe.nightfall.monster.spawnmenu.SpawnEggMenuItem;
 import org.bukkit.command.CommandSender;
 
@@ -16,10 +16,10 @@ import org.bukkit.command.CommandSender;
 public class EggCommand extends BaseCommand {
 	
 	@Subcommand("add")
-	@CommandCompletion("@nothing @items @mobtypes")
+	@CommandCompletion("@nothing @items @mobcreators")
 	@Description("Add a new spawn egg.")
-	public void setEnabled(CommandSender sender, String name, @Flags("all") CustomItem item, MobType type, int index, @Default("1") int max, @Default("0.1") double chance) {
-		SpawnEggMenuItem spawnEgg = new SpawnEggMenuItem(item, name, type, max, chance);
+	public void setEnabled(CommandSender sender, String name, @Flags("all") CustomItem item, MobCreator<?> type, int index, @Default("1") int max, @Default("0.1") double chance) {
+		SpawnEggMenuItem spawnEgg = new SpawnEggMenuItem(item, name, type, max, chance, false, true);
 		MonsterManager.getManager().addSpawnEgg(index, spawnEgg);
 		MessageUtil.sendMessage(sender, "Created spawn egg ", spawnEgg, ".");
 	}

@@ -24,9 +24,7 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.game.*;
 import deimophobe.nightfall.map.MapManager;
-import deimophobe.nightfall.monster.MonsterManager;
-import deimophobe.nightfall.monster.MonsterPlayer;
-import deimophobe.nightfall.monster.SpawnMethod;
+import deimophobe.nightfall.monster.*;
 import deimophobe.nightfall.monster.ai.AIType;
 import deimophobe.nightfall.monster.doom.DoomType;
 import deimophobe.nightfall.monster.mob.MobType;
@@ -51,7 +49,8 @@ import java.util.function.Supplier;
  * Created by Deimophobe on 4/03/18.
  */
 public class CommandInitialiserUtil {
-	private CommandInitialiserUtil() {}
+	private CommandInitialiserUtil() {
+	}
 	
 	private static final String RANDOM_ENUM = "$r";
 	private static final String RANDOM_PLAYER = "@r";
@@ -106,6 +105,7 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("gamesizes", getCompletionHandlerForEnum(GameSize.values()));
 		completions.registerCompletion("dyecolours", getCompletionHandlerForEnum(DyeColor.values()));
 		
+		completions.registerCompletion("mobcreators", c -> SpawnRegistry.getRegistry().getValidCreators());
 		completions.registerCompletion("spawneggs", c -> MonsterManager.getManager().getEggNames());
 		completions.registerCompletion("items", c -> ItemManager.getManager().getNames());
 		completions.registerCompletion("maps", c -> MapManager.getManager().getMaps());
@@ -122,7 +122,8 @@ public class CommandInitialiserUtil {
 				case "all":
 					pieces.add("all");
 					break;
-				default: break;
+				default:
+					break;
 			}
 			return pieces;
 		});
@@ -179,7 +180,7 @@ public class CommandInitialiserUtil {
 		contexts.registerContext(KitPieceType[].class, arrayPieceResolver);
 		contexts.registerContext(DwarfDataCreator.class, context -> {
 			String firstArg = context.getFirstArg();
-			if (firstArg.equalsIgnoreCase("kit"))  {
+			if (firstArg.equalsIgnoreCase("kit")) {
 				context.popFirstArg(); // Pop 'kit'
 				String playerName = context.popFirstArg();
 				Player player;
@@ -191,7 +192,8 @@ public class CommandInitialiserUtil {
 				} else {
 					player = Bukkit.getPlayer(playerName);
 				}
-				if (player == null) throw new InvalidCommandArgument("Unknown player '" + ChatColor.YELLOW + playerName + ChatColor.RED + "'.");
+				if (player == null)
+					throw new InvalidCommandArgument("Unknown player '" + ChatColor.YELLOW + playerName + ChatColor.RED + "'.");
 				return p -> DwarfData.getData(player);
 			} else if (firstArg.equalsIgnoreCase("loadoutall")) {
 				context.popFirstArg();
@@ -210,7 +212,7 @@ public class CommandInitialiserUtil {
 		contexts.registerContext(ConsumableType.class, getContextResolverOfEnum(ConsumableType.values(), "consumable", true));
 		contexts.registerContext(KitGiveType.class, getContextResolverOfEnum(KitGiveType.values(), "give type", true));
 		contexts.registerContext(Dwarf.PlagueStatus.class, getContextResolverOfEnum(Dwarf.PlagueStatus.values(), "plague status", true));
-		contexts.registerContext(MobType.class, getContextResolverOfEnum(MobType.getSpawnableMobs(), "mob", true));
+//		contexts.registerContext(MobType.class, getContextResolverOfEnum(MobType.getSpawnableMobs(), "mob", true));
 		contexts.registerContext(SpawnMethod.class, getContextResolverOfEnum(SpawnMethod.values(), "spawn method", true));
 		contexts.registerContext(PlagueType.class, getContextResolverOfEnum(PlagueType.values(), "plague", true));
 		contexts.registerContext(AIType.class, getContextResolverOfEnum(AIType.values(), "ai", true));
@@ -219,74 +221,88 @@ public class CommandInitialiserUtil {
 		contexts.registerContext(GameSize.class, getContextResolverOfEnum(GameSize.values(), "game size", true));
 		contexts.registerContext(DyeColor.class, getContextResolverOfEnum(DyeColor.values(), "colour", true));
 		
-		contexts.registerContext(CustomItem.class, context -> {
-			String arg = context.popFirstArg();
-			CustomItem item = ItemManager.getManager().getItem(arg);
-			
-			if (item == null) throw new InvalidCommandArgument(ChatColor.RED + "Unknown item '" + ChatColor.YELLOW + arg + ChatColor.RED + "'.");
-			
-			return item;
-		});
+		contexts.registerContext(MobCreator.class, getPrettyResolver(
+				name -> SpawnRegistry.getRegistry().tryGetCreator(name),
+				() -> SpawnRegistry.getRegistry().getValidCreators(),
+				"mob creator", true
+		));
 		
-		contexts.registerContext(SpawnEggMenuItem.class, context -> {
-			String arg = context.popFirstArg();
-			SpawnEggMenuItem spawnEgg = MonsterManager.getManager().getEgg(arg);
-			
-			if (spawnEgg == null) throw new InvalidCommandArgument(ChatColor.RED + "Unknown spawn egg '" + ChatColor.YELLOW + arg + ChatColor.RED + "'.");
-			
-			return spawnEgg;
-		});
+		contexts.registerContext(CustomItem.class, getPrettyResolver(
+				name -> ItemManager.getManager().getItem(name),
+				() -> ItemManager.getManager().getNames(),
+				"item", false
+		));
+		
+		contexts.registerContext(SpawnEggMenuItem.class, getPrettyResolver(
+				name -> MonsterManager.getManager().getEgg(name),
+				() -> MonsterManager.getManager().getEggNames(),
+				"spawn egg", true
+		));
 	}
 	
 	private static void registerConditions(BukkitCommandManager commandManager) {
 		final CommandConditions<BukkitCommandIssuer, BukkitCommandExecutionContext, BukkitConditionContext> conditions = commandManager.getCommandConditions();
 		conditions.addCondition(Dwarf.class, "reg-armour", (context, execContext, dwarf) -> {
 			if (dwarf == null) throw new ConditionFailedException("Dwarf must not be null");
-			if (!(dwarf.getArmour() instanceof DwarvenArmour)) throw new ConditionFailedException("Dwarf must have regular dwarven armour.");
+			if (!(dwarf.getArmour() instanceof DwarvenArmour))
+				throw new ConditionFailedException("Dwarf must have regular dwarven armour.");
 		});
 		conditions.addCondition(Dwarf.class, "unequipped-armour", (context, execContext, dwarf) -> {
 			if (dwarf == null) throw new ConditionFailedException("Dwarf must not be null");
-			if (!(dwarf.getArmour() instanceof DwarvenArmour)) throw new ConditionFailedException("Dwarf must have regular dwarven armour.");
-			if (dwarf.getArmour().isArmoured()) throw new ConditionFailedException("Dwarf must not have any armour equipped.");
+			if (!(dwarf.getArmour() instanceof DwarvenArmour))
+				throw new ConditionFailedException("Dwarf must have regular dwarven armour.");
+			if (dwarf.getArmour().isArmoured())
+				throw new ConditionFailedException("Dwarf must not have any armour equipped.");
 		});
 		conditions.addCondition(String.class, "map", (context, execContext, map) -> {
-			if (!MapManager.getManager().getMaps().contains(map)) throw new ConditionFailedException("String must be a valid map.");
+			if (!MapManager.getManager().getMaps().contains(map))
+				throw new ConditionFailedException("String must be a valid map.");
 		});
 		conditions.addCondition(Player.class, "lobby", (context, execContext, player) -> {
-			if (!Game.getGame().isLobbyPlayer(player)) throw new ConditionFailedException("Player must be a lobby player (set gamemode to adventure).");
+			if (!Game.getGame().isLobbyPlayer(player))
+				throw new ConditionFailedException("Player must be a lobby player (set gamemode to adventure).");
 		});
 		conditions.addCondition(Player.class, "unready", (context, execContext, player) -> {
-			if (LobbyManager.getManager().isReady(player)) throw new ConditionFailedException("Player is already ready.");
+			if (LobbyManager.getManager().isReady(player))
+				throw new ConditionFailedException("Player is already ready.");
 		});
 		conditions.addCondition(OnlinePlayer.class, "lobby", (context, execContext, player) -> {
-			if (!Game.getGame().isLobbyPlayer(player.getPlayer())) throw new ConditionFailedException("Player must be a lobby player (set gamemode to adventure).");
+			if (!Game.getGame().isLobbyPlayer(player.getPlayer()))
+				throw new ConditionFailedException("Player must be a lobby player (set gamemode to adventure).");
 		});
 		conditions.addCondition(OnlinePlayer.class, "unready", (context, execContext, player) -> {
-			if (LobbyManager.getManager().isReady(player.getPlayer())) throw new ConditionFailedException("Player is already ready.");
+			if (LobbyManager.getManager().isReady(player.getPlayer()))
+				throw new ConditionFailedException("Player is already ready.");
 		});
 		
 		conditions.addCondition("lobby-phase", context -> {
-			if (Game.getGame().getPhase() != Phase.STARTING) throw new ConditionFailedException("The game has already started.");
+			if (Game.getGame().getPhase() != Phase.STARTING)
+				throw new ConditionFailedException("The game has already started.");
 		});
 		conditions.addCondition("pre-build", context -> {
-			if (!Game.getGame().getPhase().isBefore(Phase.BUILD)) throw new ConditionFailedException("The game has already started.");
+			if (!Game.getGame().getPhase().isBefore(Phase.BUILD))
+				throw new ConditionFailedException("The game has already started.");
 		});
 		conditions.addCondition("pre-plague", context -> {
-			if (!Game.getGame().getPhase().isBefore(Phase.PLAGUE)) throw new ConditionFailedException("The plague has already occured.");
+			if (!Game.getGame().getPhase().isBefore(Phase.PLAGUE))
+				throw new ConditionFailedException("The plague has already occured.");
 		});
 		conditions.addCondition("build-phase", context -> {
 			if (Game.getGame().getPhase() != Phase.BUILD) throw new ConditionFailedException("Must be in build phase.");
 		});
 		conditions.addCondition("monster-release", context -> {
-			if (!Game.getGame().getPhase().isAfter(Phase.PLAGUE)) throw new ConditionFailedException("The monsters have not be released.");
+			if (!Game.getGame().getPhase().isAfter(Phase.PLAGUE))
+				throw new ConditionFailedException("The monsters have not be released.");
 		});
 		conditions.addCondition("main-game-phase", context -> {
-			if (Game.getGame().getPhase().isBefore(Phase.GAME)) throw new ConditionFailedException("The monsters have not be released.");
+			if (Game.getGame().getPhase().isBefore(Phase.GAME))
+				throw new ConditionFailedException("The monsters have not be released.");
 			if (Game.getGame().getPhase().isAfter(Phase.GAME)) throw new ConditionFailedException("The game is over.");
 		});
 		
 		conditions.addCondition("map-enabled", context -> {
-			if (!MapManager.getManager().isEnabled()) throw new ConditionFailedException("Map loading must be enabled.");
+			if (!MapManager.getManager().isEnabled())
+				throw new ConditionFailedException("Map loading must be enabled.");
 		});
 		
 		
@@ -295,16 +311,17 @@ public class CommandInitialiserUtil {
 			Player player = context.getIssuer().getPlayer();
 			
 			ItemStack held = player.getInventory().getItemInMainHand();
-			if (held == null || !ConsumableType.GLASS.doesItemMatch(held)) throw new ConditionFailedException("You need to be holding glass to colour it.");
+			if (held == null || !ConsumableType.GLASS.doesItemMatch(held))
+				throw new ConditionFailedException("You need to be holding glass to colour it.");
 		});
 	}
 	
 	private static void addReplacements(BukkitCommandManager commandManager) {
-		 final CommandReplacements commandReplacements = commandManager.getCommandReplacements();
-		 
-		 commandReplacements.addReplacements(
-		 		"perm-dwarf", "nightfall.dwarf"
-		 );
+		final CommandReplacements commandReplacements = commandManager.getCommandReplacements();
+		
+		commandReplacements.addReplacements(
+				"perm-dwarf", "nightfall.dwarf"
+		);
 		
 	}
 	
@@ -319,6 +336,11 @@ public class CommandInitialiserUtil {
 			text.setColor(net.md_5.bungee.api.ChatColor.GREEN);
 			return text;
 		});
+		MessageUtil.addResolver(MobCreator.class, arg -> {
+			TextComponent text = new TextComponent(arg.getName());
+			text.setColor(net.md_5.bungee.api.ChatColor.GREEN);
+			return text;
+		});
 	}
 	
 	
@@ -327,7 +349,7 @@ public class CommandInitialiserUtil {
 	private static <T, S extends Iterable<T>> IssuerAwareContextResolver<S, BukkitCommandExecutionContext> getContextResolverOfGamePlayerIterable(
 			Function<String, T> playerNameResolver,
 			Supplier<Collection<T>> collectionSupplier,
-			Function<Iterable<T>,S> gpIterableCreator,
+			Function<Iterable<T>, S> gpIterableCreator,
 			String playerTypeName
 	) {
 		return context -> {
@@ -344,7 +366,7 @@ public class CommandInitialiserUtil {
 		return context -> getIterableFromContext(context, playerNameResolver, collectionSupplier, playerTypeName, false).iterator().next();
 	}
 	
-	private static  <T> Iterable<T> getIterableFromContext(
+	private static <T> Iterable<T> getIterableFromContext(
 			BukkitCommandExecutionContext context,
 			Function<String, T> playerNameResolver,
 			Supplier<Collection<T>> collectionSupplier,
@@ -364,7 +386,8 @@ public class CommandInitialiserUtil {
 				case RANDOM_PLAYER: {
 					// Arg is referring to random player
 					T gamePlayer = Misc.getRandom(collectionSupplier.get());
-					if (gamePlayer == null) throw new InvalidCommandArgument(ChatColor.RED + "Cannot find any " + playerTypeName);
+					if (gamePlayer == null)
+						throw new InvalidCommandArgument(ChatColor.RED + "Cannot find any " + playerTypeName);
 					return Collections.singleton(gamePlayer);
 				}
 				case ALL_PLAYER:
@@ -375,7 +398,8 @@ public class CommandInitialiserUtil {
 				default: {
 					// Arg is referring to a specified player
 					T gamePlayer = playerNameResolver.apply(name);
-					if (gamePlayer == null) throw new InvalidCommandArgument(ChatColor.RED + "Player '" + ChatColor.YELLOW + name + ChatColor.RED + "' is not a " + playerTypeName);
+					if (gamePlayer == null)
+						throw new InvalidCommandArgument(ChatColor.RED + "Player '" + ChatColor.YELLOW + name + ChatColor.RED + "' is not a " + playerTypeName);
 					return Collections.singleton(gamePlayer);
 				}
 			}
@@ -406,12 +430,64 @@ public class CommandInitialiserUtil {
 		
 	}
 	
-	private static <T extends Enum<T>> ContextResolver<T, BukkitCommandExecutionContext> getContextResolverOfEnum(T[] values, String simpleName, boolean displayAll) {
+	private static <T> ContextResolver<T, BukkitCommandExecutionContext> getPrettyResolver(
+			Function<String,T> resolver,
+			Supplier<Collection<String>> valueSupplier,
+			String simpleName,
+			boolean displayAll
+	) {
+		
+		return context -> {
+			Collection<String> names = new TreeSet<>(valueSupplier.get());
+			String arg = context.popFirstArg().toLowerCase().replace('_','-');
+			
+			if (arg.equals(RANDOM_ENUM)) {
+				arg = Misc.getRandom(names);
+			}
+			
+			if (context.hasFlag("null") && (arg.equals("null") || arg.equals("none"))) {
+				return null;
+			}
+			
+			T value = resolver.apply(arg);
+			if (value == null) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(ChatColor.RED.toString())
+						.append("Unknown ")
+						.append(simpleName)
+						.append(" '")
+						.append(ChatColor.YELLOW.toString())
+						.append(arg)
+						.append(ChatColor.RED.toString())
+						.append("'");
+				
+				if (displayAll) {
+					sb.append("- Must be one of: ");
+					
+					boolean first = true;
+					for (String name : names) {
+						if (!first) sb.append(ChatColor.WHITE.toString()).append(", ");
+						sb.append(ChatColor.GREEN.toString()).append(name);
+						first = false;
+					}
+				} else {
+					sb.append(".");
+				}
+				
+				throw new InvalidCommandArgument(sb.toString(), false);
+			} else {
+				return value;
+			}
+		};
+	
+	}
+	
+	private static <T> ContextResolver<T, BukkitCommandExecutionContext> getContextResolverOfValues(T[] values, String simpleName, Function<T,String> namer, boolean displayAll) {
 		// Build mapper from string to enum values
 		Map<String, T> names = new HashMap<>();
 		List<String> nameList = new ArrayList<>();
 		for (T value : values) {
-			String name = value.name().toLowerCase().replace('_', '-');
+			String name = namer.apply(value);
 			names.put(name, value);
 			nameList.add(name);
 			
@@ -454,6 +530,10 @@ public class CommandInitialiserUtil {
 				return value;
 			}
 		};
+	}
+	
+	private static <T extends Enum<T>> ContextResolver<T, BukkitCommandExecutionContext> getContextResolverOfEnum(T[] values, String simpleName, boolean displayAll) {
+		return getContextResolverOfValues(values, simpleName, v -> v.name().toLowerCase().replace('_', '-'), displayAll);
 	}
 	
 	private static <T extends Enum<T>> CommandCompletions.CommandCompletionHandler<BukkitCommandCompletionContext> getCompletionHandlerForEnum(T[] values) {
