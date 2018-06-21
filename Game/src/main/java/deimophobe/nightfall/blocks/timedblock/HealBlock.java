@@ -12,6 +12,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.material.MaterialData;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 28/01/17.
@@ -46,6 +47,7 @@ public class HealBlock extends DataTimedBlock {
 	@Override
 	public void onHit(GamePlayer player, ClickType click, BlockFace blockFace) {
 		if (!click.isLeftClick()) return;
+		if (player.hasPotionEffect(PotionEffectType.INVISIBILITY)) return;
 		
 		if (player instanceof MonsterPlayer) {
 			hitter.tryUse();
