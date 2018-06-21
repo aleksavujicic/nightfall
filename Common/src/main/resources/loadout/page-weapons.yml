@@ -507,7 +507,7 @@ nature-suit:
   type: item
   name: nature-suit
   category: armour
-  cost: 4
+  cost: 8
   item:
     name: "Taproot Armour"
     base: nature-suit
