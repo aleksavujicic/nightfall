@@ -1,9 +1,10 @@
 package deimophobe.nightfall.map;
 
-import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.VoidChunkGenerator;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.UnknownEnumElementException;
+import deimophobe.nightfall.game.Game;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
@@ -11,6 +12,7 @@ import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -288,12 +290,23 @@ public class MapManager {
 		File lockFile = new File(worldFolder, "session.lock");
 		lockFile.delete();
 		
-		if (uidFile.exists())
-			throw new MapLoadingException("Failed to delete uid file.");
-		if (lockFile.exists())
-			throw new MapLoadingException("Failed to delete lock file.");
+		if (uidFile.exists()) throw new MapLoadingException("Failed to delete uid file.");
+		if (lockFile.exists()) throw new MapLoadingException("Failed to delete lock file.");
+		
+		// Figure out the environment. This is a bit of a hack as ideally the nightfall.yml file should only be loaded once
+		File configFile = new File(worldFolder, "nightfall.yml");
+		if (!configFile.exists()) throw new MapLoadingException("Config file (nightfall.yml) does not exist in map folder!");
+		FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+		String envName = config.getString("environment", "normal");
+		World.Environment environment;
+		try {
+			 environment = Misc.getEnumMemberFromString(envName, World.Environment.values(), "environment");
+		} catch (UnknownEnumElementException e) {
+			throw new MapLoadingException(e);
+		}
 		
 		WorldCreator wc = new WorldCreator(worldFilename);
+		wc.environment(environment);
 		wc.generator(new VoidChunkGenerator());
 		wc.generateStructures(false);
 		
