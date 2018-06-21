@@ -78,6 +78,9 @@ public enum KitPieceType {
 	
 	UNTIMELY_DEMISE(UntimelyDemise::new),
 	
+	// Map specific stuff
+	VOID_SAVER(VoidSaver::new),
+	
 	// Tools
 	DWARF_PICK(DwarfPickaxe::new),
 	DWARF_SHOVEL(DwarfShovel::new),

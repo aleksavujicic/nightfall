@@ -202,7 +202,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 	
 	/** Only used for the special case of handling mob deaths */
 	@Deprecated
-	protected void forceSoftCancel() {
+	public void forceSoftCancel() {
 		instaKill = false;
 		cancelled = false;
 		softCancelled = true;

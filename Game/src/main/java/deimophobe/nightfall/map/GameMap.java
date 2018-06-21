@@ -342,6 +342,11 @@ public class GameMap {
 		currentMobSpawn = location.clone();
 	}
 	
+	public Location getSafeRespawnPoint() {
+		if (currentShrineIndex == -1) return dwarfSpawn;
+		return shrines.get(currentShrineIndex).getShrineCenter();
+	}
+	
 	
 	// ~~~~ MISC ~~~~~
 	
