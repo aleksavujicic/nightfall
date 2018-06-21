@@ -38,7 +38,7 @@ class MagiIce extends AbstractMob {
 		if (!isPlayerHoldingWeapon()) return;
 		
 		Location eyes = monster.getEyeLocation();
-		Misc.spawnRangedParticles(eyes, Particle.FIREWORKS_SPARK, 2, 0.5, 0.5, 0.5);
+		Misc.spawnRangedParticles(eyes, Particle.FIREWORKS_SPARK, 1, 0.5, 0.5, 0.5);
 		
 		// Place ice
 		Location center = monster.getLocation();
@@ -61,7 +61,6 @@ class MagiIce extends AbstractMob {
 		Dwarf receiver = damage.getReceiver();
 		damage.addPostDamageHandler(() -> {
 			receiver.givePotionEffect(PotionEffectType.SLOW, 5*20, 3, true, false, false);
-			receiver.playSound("entity.player.attack.sweep", 1f, 0.5f, true);
 		});
 	}
 	
@@ -107,7 +106,7 @@ class MagiIce extends AbstractMob {
 		
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			if (monster.distanceTo(dwarf) > range) continue;
-			dwarf.givePotionEffect(PotionEffectType.SLOW, 10*20, 4, true ,false, true);
+			dwarf.givePotionEffect(PotionEffectType.SLOW, 10*20, 6, true ,false, true);
 		}
 		
 		monster.playSound("entity.stray.death", 1f, 0.5f, true);

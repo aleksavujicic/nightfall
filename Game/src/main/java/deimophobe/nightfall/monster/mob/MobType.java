@@ -42,8 +42,8 @@ public enum MobType implements MobCreator<Mob> {
 	BOPEN(Bopen::new),
 	MAGUS(Magus::new),
 	
-	FIRE_MAGI(MagiFire::new, "ogre-magi"),
-	ICE_MAGI(MagiIce::new, "ogre-magi"),
+	FIRE_MAGI(MagiFire::new, "magi.fire"),
+	ICE_MAGI(MagiIce::new, "magi.ice"),
 	
 	TESTMOB(TestMob::new),
 	

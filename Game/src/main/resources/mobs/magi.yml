@@ -1,0 +1,67 @@
+base:
+  title: Ogre Magi
+  forcetitle: true
+
+  disguisetype: player
+  skin: torus
+
+  attack: 40
+  health: 70
+  shred: 30
+
+  proccable: false
+  resistance: 0.9
+  arrowres: 0.5
+  charmtime: 60
+  shrine-prot-damage: 400
+
+  armourslot: head
+  armour:
+    template: monster-hero
+    base: hat.flower
+    name: Magi Headgear
+    lore:
+      description:
+       - "Temp"
+      flavour:
+       - "We may need a better texture for this"
+    modifiers:
+      kb-resist: 100
+
+fire:
+  parent: magi
+
+  weapon:
+    template: monster-hero
+    base: magi.staff
+    name: "Fire Magi Staff"
+    lore:
+      description:
+       - "Right click to set everything on fire."
+      flavour:
+       - ""
+    modifiers:
+      burning: 3
+      knockback: 2
+
+  sounds:
+    bat-idle:
+      path: "block.lava.pop"
+      pitch: 1
+
+ice:
+  parent: magi
+
+  speed: -10
+
+  weapon:
+    template: monster-hero
+    base: magi.staff
+    name: "Ice Magi Staff"
+    lore:
+      description:
+       - "Right click to freeze things."
+      flavour:
+       - ""
+    modifiers:
+      knockback: 1

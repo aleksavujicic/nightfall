@@ -3,7 +3,6 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.Update;
@@ -35,7 +34,6 @@ class MagiFire extends AbstractMob {
 	
 	protected MagiFire(MonsterPlayer monster) {
 		super(monster, MobType.FIRE_MAGI);
-		getWeapon().addModifier(ItemModifierType.BURNING, 3);
 	}
 	
 	@Override
