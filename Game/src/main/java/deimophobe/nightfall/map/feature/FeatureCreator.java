@@ -20,6 +20,7 @@ public class FeatureCreator {
 		FEATURES.put("nro-map", NroMap.class);
 		FEATURES.put("map-nurah", MapNurah.class);
 		FEATURES.put("snowfall", Snowfall.class);
+		FEATURES.put("kit-giver", KitGiver.class);
 	}
 	
 	// Uses seperate name parameter instead of config.getName() as config might be null.
