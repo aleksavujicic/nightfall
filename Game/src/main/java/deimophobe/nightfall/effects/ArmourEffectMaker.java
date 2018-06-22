@@ -1,11 +1,15 @@
 package deimophobe.nightfall.effects;
 
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.cooldown.LifetimeExpireable;
 import deimophobe.nightfall.game.player.GamePlayer;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by Deimophobe on 10/03/17.
@@ -13,14 +17,16 @@ import org.bukkit.scheduler.BukkitRunnable;
 class ArmourEffectMaker implements PlayerEffectMaker {
 	@Override
 	public void playEffect(GamePlayer player) {
+		checkNotNull(player, "GamePlayer must not be null.");
 		World world = player.getLocation().getWorld();
 		
 		// PLAY SOUNDS!
-		world.playSound(player.getLocation(), "entity.firework.large_blast", 1, 1);
+		Location location = player.getLocation();
+		world.playSound(location, "entity.firework.large_blast", 1, 1);
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				world.playSound(player.getLocation(), "entity.firework.twinkle", 1, 1);
+				world.playSound(location, "entity.firework.twinkle", 1, 1);
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), 20);
 		
@@ -41,20 +47,14 @@ class ArmourEffectMaker implements PlayerEffectMaker {
 		}
 		
 		// SHOW MORE PARTICLES!
-		new BukkitRunnable() {
-			int count = 0;
+		player.addUpdateable(new LifetimeExpireable(60) {
 			@Override
-			public void run() {
-				for (int i=0; i<7; i++) {
-					double dx = 1.5 * Math.random() - 0.75;
-					double dy = 1.5 * Math.random() - 1.25;
-					double dz = 1.5 * Math.random() - 0.75;
-					world.spawnParticle(Particle.REDSTONE, player.getEyeLocation().add(dx, dy, dz), 0, 250d/256, 250d/256, 10d/256, 1);
-				}
-				count++;
-				if (count >= 15)
-					cancel();
+			public void update() {
+				super.update();
+				
+				Location center = player.getEyeLocation().subtract(0, 0.5, 0);
+				Misc.spawnColouredParticles(center, 2, 0.75, 0.75, 0.75, 0.977, 0.977, 0.039);
 			}
-		}.runTaskTimer(NightfallPlugin.getPlugin(), 0, 4);
+		});
 	}
 }
