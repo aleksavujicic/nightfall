@@ -344,7 +344,7 @@ public class GameMap {
 	
 	public Location getSafeRespawnPoint() {
 		if (currentShrineIndex == -1) return dwarfSpawn;
-		return shrines.get(currentShrineIndex).getShrineCenter();
+		return shrines.get(currentShrineIndex).getShrineCenter().add(0,5,0);
 	}
 	
 	
