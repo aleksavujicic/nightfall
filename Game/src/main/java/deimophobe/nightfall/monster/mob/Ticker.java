@@ -53,6 +53,7 @@ class Ticker extends AbstractMob {
 		watcher.setItemInMainHand(new ItemStack(Material.AIR));
 		
 		DisguiseAPI.disguiseEntity(monster.getPlayer(), disguise);
+		monster.givePermanentPotionEffect(PotionEffectType.SLOW_DIGGING, 10);
 		
 		//NMSUtil.hideArrowsInPlayer(monster.getPlayer());
 	}
@@ -110,7 +111,7 @@ class Ticker extends AbstractMob {
 	
 	@Override
 	public boolean onBlockBreak(Block block, boolean didBreak) {
-		return block.getType() != Material.TORCH && didBreak;
+		return false;
 	}
 	
 	@Override
