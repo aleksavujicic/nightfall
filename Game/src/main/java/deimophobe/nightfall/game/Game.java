@@ -16,6 +16,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.event.GameStartEvent;
 import deimophobe.nightfall.event.PhaseChangeEvent;
+import deimophobe.nightfall.game.player.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.MapManager;
 import deimophobe.nightfall.monster.MonsterManager;

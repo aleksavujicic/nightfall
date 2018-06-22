@@ -1,7 +1,7 @@
 package deimophobe.nightfall.util;
 
 import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.game.GamePlayer;
+import deimophobe.nightfall.game.player.GamePlayer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 

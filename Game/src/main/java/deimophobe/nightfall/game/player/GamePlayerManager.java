@@ -1,7 +1,8 @@
-package deimophobe.nightfall.game;
+package deimophobe.nightfall.game.player;
 
 import deimophobe.nightfall.Manager;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.game.Game;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

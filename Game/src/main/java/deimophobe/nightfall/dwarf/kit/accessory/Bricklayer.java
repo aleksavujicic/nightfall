@@ -176,7 +176,7 @@ public class Bricklayer extends AbstractItem {
 				}
 				
 				if (BlockType.IGNORABLE.matchesBlock(nextBlock) && GameMap.getCurrentMap().isBlockPlaceable(nextBlock)) {
-					dwarf.useItemReverse(ConsumableType.COBBLESTONE.getItemStack().getType());
+					dwarf.removeItems(ConsumableType.COBBLESTONE, 1, true);
 					nextBlock.getWorld().playSound(nextBlock.getLocation(), "block.stone.place", 1f, 1f);
 					dwarf.playSound("block.stone.place");
 					nextBlock.setType(Material.COBBLESTONE);

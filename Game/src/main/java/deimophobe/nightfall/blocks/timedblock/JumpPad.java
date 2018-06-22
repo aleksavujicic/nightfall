@@ -4,7 +4,7 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.game.GameEntity;
-import deimophobe.nightfall.game.GamePlayer;
+import deimophobe.nightfall.game.player.GamePlayer;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;

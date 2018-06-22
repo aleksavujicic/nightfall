@@ -16,7 +16,7 @@ import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.hero.Horn;
 import deimophobe.nightfall.game.Game;
-import deimophobe.nightfall.game.GamePlayer;
+import deimophobe.nightfall.game.player.GamePlayer;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.plague.TwinsPlague;
 import org.bukkit.*;

@@ -4,7 +4,7 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.game.GamePlayer;
+import deimophobe.nightfall.game.player.GamePlayer;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.util.Hitscan;
 import deimophobe.nightfall.util.HitscanBuilder;

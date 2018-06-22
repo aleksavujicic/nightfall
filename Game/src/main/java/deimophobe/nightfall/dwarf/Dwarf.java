@@ -28,7 +28,7 @@ import deimophobe.nightfall.dwarf.kit.armour.BerserkArmour;
 import deimophobe.nightfall.dwarf.kit.healing.StrongAle;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GameEntity;
-import deimophobe.nightfall.game.GamePlayer;
+import deimophobe.nightfall.game.player.GamePlayer;
 import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.map.GameMap;
 import me.libraryaddict.disguise.DisguiseAPI;

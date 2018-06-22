@@ -1,6 +1,6 @@
 package deimophobe.nightfall.effects;
 
-import deimophobe.nightfall.game.GamePlayer;
+import deimophobe.nightfall.game.player.GamePlayer;
 
 /**
  * Created by Deimophobe on 27/10/17.

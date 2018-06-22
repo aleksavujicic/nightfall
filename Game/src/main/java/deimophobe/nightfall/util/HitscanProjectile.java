@@ -1,6 +1,6 @@
 package deimophobe.nightfall.util;
 
-import deimophobe.nightfall.game.GamePlayer;
+import deimophobe.nightfall.game.player.GamePlayer;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 

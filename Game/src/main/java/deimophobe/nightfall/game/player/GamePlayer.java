@@ -1,4 +1,4 @@
-package deimophobe.nightfall.game;
+package deimophobe.nightfall.game.player;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
@@ -14,6 +14,9 @@ import deimophobe.nightfall.damage.death.LastMainDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.effects.sound.Sounds;
+import deimophobe.nightfall.game.AbstractGameEntity;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.GameEntity;
 import deimophobe.nightfall.util.NMSUtil;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -32,7 +35,6 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -220,39 +222,17 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 		iterateThroughInventory(item -> {
 			itemConsumer.accept(item);
 			return null;
-		});
+		}, false);
 	}
 	
-	private void iterateThroughInventory(Function<ItemStack, ItemStack> itemChanger) {
-		PlayerInventory inv = player.getInventory();
-		ListIterator<ItemStack> iterator = inv.iterator();
+	private void iterateThroughInventory(Function<ItemStack, ItemStack> itemChanger, boolean reversed) {
+		InventoryIterator iterator = new PlayerInventoryIterator(player, reversed);
 		
-		// Iterate through normal inv
 		while (iterator.hasNext()) {
 			ItemStack item = iterator.next();
 			ItemStack newItem = itemChanger.apply(item);
-			if (newItem != null) iterator.set(newItem);
+			if (newItem != null) iterator.replace(newItem);
 		}
-		
-		// Disabled because setting doesn't work for some reason
-		/*
-		// Iterate item too
-		ItemStack cursor = player.getItemOnCursor();
-		ItemStack newCursor = itemChanger.apply(cursor);
-		if (newCursor != null) player.setItemOnCursor(newCursor);
-		
-		// And 2x2 crafting window if need be
-		InventoryView view = player.getOpenInventory();
-		if (view.getType() == InventoryType.CRAFTING) {
-			ListIterator<ItemStack> topIterator = view.getTopInventory().iterator();
-			
-			while (topIterator.hasNext()) {
-				ItemStack item = topIterator.next();
-				ItemStack newItem = itemChanger.apply(item);
-				if (newItem != null) topIterator.set(newItem);
-			}
-		}
-		*/
 	}
 	
 	// Clearing
@@ -361,26 +341,9 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 				return newItem;
 			}
 			return item;
-		});
+		}, false);
 		
 		return replaced.getValue();
-	}
-	
-	@Deprecated
-	public boolean useItemReverse(Material material) {
-		if (material == null) throw new NullPointerException("Cannot force use null item.");
-		
-		PlayerInventory inv = player.getInventory();
-		ListIterator<ItemStack> iterator = inv.iterator(inv.getSize());
-		
-		while (iterator.hasPrevious()) {
-			ItemStack invItem = iterator.previous();
-			if (invItem != null && invItem.getType() == material) {
-				invItem.setAmount(invItem.getAmount() - 1);
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	public boolean removeItem(ItemMatcher matcher) {
@@ -388,6 +351,10 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	}
 	
 	public boolean removeItems(ItemMatcher matcher, int amountToRemove) {
+		return removeItems(matcher, amountToRemove, false);
+	}
+	
+	public boolean removeItems(ItemMatcher matcher, int amountToRemove, boolean reversed) {
 		MutableInt toRemove = new MutableInt(amountToRemove);
 		iterateThroughInventory(item -> {
 			if (toRemove.getValue() == 0) return null;
@@ -403,7 +370,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 				return item;
 			}
 			return null;
-		});
+		}, reversed);
 		
 		return toRemove.getValue() == 0;
 	}

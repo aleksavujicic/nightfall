@@ -4,7 +4,7 @@ import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.effects.sound.Sounds;
-import deimophobe.nightfall.game.GamePlayer;
+import deimophobe.nightfall.game.player.GamePlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 

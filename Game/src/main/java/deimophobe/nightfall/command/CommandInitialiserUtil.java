@@ -22,6 +22,7 @@ import deimophobe.nightfall.dwarf.hero.HeroType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.game.*;
+import deimophobe.nightfall.game.player.GamePlayer;
 import deimophobe.nightfall.map.MapManager;
 import deimophobe.nightfall.monster.*;
 import deimophobe.nightfall.monster.ai.AIType;

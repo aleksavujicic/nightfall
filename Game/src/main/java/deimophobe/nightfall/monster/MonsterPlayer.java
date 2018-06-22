@@ -13,7 +13,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.event.MobSpawnEvent;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GameEntity;
-import deimophobe.nightfall.game.GamePlayer;
+import deimophobe.nightfall.game.player.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.doom.DoomManager;
