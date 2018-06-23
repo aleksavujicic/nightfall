@@ -53,17 +53,25 @@ public class GameCommand extends BaseCommand {
 	
 	@Subcommand("size")
 	@CommandCompletion("@gamesizes")
-	@Description("Set the game size")
+	@Description("Set the game size.")
 	public void sizeCheck(CommandSender sender) {
 		MessageUtil.sendMessage(sender, "The current game size is: ", Game.getGame().getGameSize(), ".");
 	}
 	
 	@Subcommand("size")
 	@CommandCompletion("@gamesizes")
-	@Description("Set the game size")
+	@Description("Set the game size.")
 	public void sizeSet(CommandSender sender, @Flags("null") GameSize size) {
 		Game.getGame().forceGameSize(size);
 		MessageUtil.sendMessage(sender, "Set the game size to: ", size, ".");
+	}
+	
+	@Subcommand("build-time")
+	@Conditions("pre-build")
+	@Description("Set duration of build phase (in ticks).")
+	public void setBuildTime(CommandSender sender, int time) {
+		Game.getGame().setBuildTime(time);
+		MessageUtil.sendMessage(sender, "Build phase will now last ", time, " ticks.");
 	}
 	
 	@Subcommand("title")

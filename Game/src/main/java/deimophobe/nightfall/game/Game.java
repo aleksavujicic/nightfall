@@ -102,6 +102,8 @@ public class Game {
 	private final static String OBJ_NAME = "MySidebar";
 	
 	private final BossBar bossBar;
+	
+	private int buildTime = 12*60*20 + (int)(60*20*Math.random());
 
 	private PlagueType plagueType = null;
 	private Plague activePlague = null;
@@ -450,6 +452,9 @@ public class Game {
 		gameSize = size;
 	}
 	
+	public void setBuildTime(int buildTime) {
+		this.buildTime = buildTime;
+	}
 	
 	public void startLobby() {
 		transitionToPhase(Phase.STARTING);
@@ -499,7 +504,6 @@ public class Game {
 		map.getWorld().setTime(0);
 		
 		// Start countdown to plague
-		int buildTime = 12*60*20 + (int)(60*20*Math.random());
 		new BukkitRunnable() {
 			@Override
 			public void run() {
