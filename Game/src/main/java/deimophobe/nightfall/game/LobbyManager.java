@@ -2,6 +2,7 @@ package deimophobe.nightfall.game;
 
 import deimophobe.nightfall.Manager;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.WhoEntry;
 import deimophobe.nightfall.common.loadout.Loadout;
 import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.common.player.cosmetic.Cosmetics;
@@ -326,6 +327,16 @@ public class LobbyManager implements Manager {
 	
 	private void checkReadyPlayersAreLobby() {
 		readyPlayers.removeIf(player ->  !isLobbyPlayer(player));
+	}
+	
+	public Set<WhoEntry> getWhoEntries() {
+		Set<WhoEntry> entries = new HashSet<>();
+		for (Player player : getLobbyPlayers()) {
+			WhoEntry whoEntry = new WhoEntry(player.getName(), player.getName(), false);
+			whoEntry.setType(WhoEntry.Type.LOBBY);
+			entries.add(whoEntry);
+		}
+		return entries;
 	}
 	
 	private class LobbyListener implements Listener {

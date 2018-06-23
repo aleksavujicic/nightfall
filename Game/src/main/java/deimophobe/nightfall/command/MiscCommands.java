@@ -5,25 +5,29 @@ import co.aikar.commands.InvalidCommandArgument;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.ColourMenu;
+import deimophobe.nightfall.WhoEntry;
 import deimophobe.nightfall.common.command.MessageUtil;
 import deimophobe.nightfall.common.menu.MenuManager;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.consumable.ConsecratingCharm;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.hero.Horn;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.player.GamePlayer;
-import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.plague.TwinsPlague;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by Deimophobe on 4/03/18.
@@ -50,7 +54,44 @@ public class MiscCommands extends BaseCommand {
 	@CommandAlias("who|list")
 	@Description("Show all players in the game.")
 	public void who(CommandSender sender) {
-		sender.sendMessage(DwarfManager.getManager().getPlayerList() + "\n" +  MonsterManager.getManager().getPlayerList());
+		Set<WhoEntry> entries = Game.getGame().getWhoEntries();
+		
+		BaseComponent message = new TextComponent();
+		boolean firstType = true;
+		for (WhoEntry.Type type : WhoEntry.Type.values()) {
+			Set<WhoEntry> entriesWithType = new TreeSet<>();
+			for (WhoEntry entry : entries) {
+				if (entry.getType() == type) {
+					entriesWithType.add(entry);
+				}
+			}
+			
+			int count = entriesWithType.size();
+			if (count == 0) continue;
+			
+			if (!firstType) message.addExtra("\n");
+			firstType = false;
+			
+			BaseComponent typeComponent = new TextComponent();
+			typeComponent.setColor(net.md_5.bungee.api.ChatColor.WHITE);
+			
+			BaseComponent nameComponent = type.getName(count);
+			typeComponent.addExtra(nameComponent);
+			typeComponent.addExtra("\n");
+			
+			boolean first = true;
+			for (WhoEntry entry : entriesWithType) {
+				if (!first) typeComponent.addExtra(", ");
+				first = false;
+				
+				BaseComponent entryComponent = type.format(entry);
+				typeComponent.addExtra(entryComponent);
+			}
+			
+			message.addExtra(typeComponent);
+		}
+		
+		sender.spigot().sendMessage(message);
 	}
 	
 	@CommandAlias("damage")

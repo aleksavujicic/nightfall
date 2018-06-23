@@ -264,6 +264,20 @@ public class Game {
 		return gamePlayers;
 	}
 	
+	public Set<WhoEntry> getWhoEntries() {
+		Set<WhoEntry> whoEntries = new TreeSet<>();
+		
+		DwarfManager dwarfManager = getManager(DwarfManager.class);
+		MonsterManager monsterManager = getManager(MonsterManager.class);
+		LobbyManager lobbyManager = getManager(LobbyManager.class);
+		
+		whoEntries.addAll(dwarfManager.getWhoEntries());
+		whoEntries.addAll(monsterManager.getWhoEntries());
+		whoEntries.addAll(lobbyManager.getWhoEntries());
+		
+		return whoEntries;
+	}
+	
 	
 	// ------ DEBUG MODE -------
 	private final Set<UUID> debugPlayers = new HashSet<>();

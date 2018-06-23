@@ -2,6 +2,7 @@ package deimophobe.nightfall.game.player;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.WhoEntry;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.ItemMatcher;
@@ -170,11 +171,13 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 		this.forcedTitle = force;
 	}
 	
-	public String getWhoDisplay() {
-		if (forcedTitle)
-			return getDisplayName() + ChatColor.RESET + "(" + player.getName() + ")";
-		else
-			return getDisplayName() + ChatColor.RESET;
+	public WhoEntry getWhoEntry() {
+		String displayName = getDisplayName();
+		displayName = ChatColor.stripColor(displayName);
+		
+		WhoEntry entry = new WhoEntry(getName(), displayName, forcedTitle);
+		entry.setDefaultColour(colour.asBungee());
+		return entry;
 	}
 	
 	public void forceDisplayName(String name) {

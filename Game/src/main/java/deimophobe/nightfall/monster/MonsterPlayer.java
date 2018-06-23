@@ -3,6 +3,7 @@ package deimophobe.nightfall.monster;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.WhoEntry;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.menu.SessionData;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
@@ -112,6 +113,13 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	@Override
 	public boolean isBowInstaKillable() {
 		return false;
+	}
+	
+	@Override
+	public WhoEntry getWhoEntry() {
+		WhoEntry entry = super.getWhoEntry();
+		entry.setType(WhoEntry.Type.MONSTER);
+		return entry;
 	}
 	
 	// ------ SPAWN AND DEATH ------

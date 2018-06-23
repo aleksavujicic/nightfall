@@ -3,6 +3,7 @@ package deimophobe.nightfall.dwarf;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.SkinManager;
+import deimophobe.nightfall.WhoEntry;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.JumpPad;
@@ -117,6 +118,13 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	public void updateHat() {
 		PlayerManager.getManager().getCosmetics(player).equipHat();
+	}
+	
+	@Override
+	public WhoEntry getWhoEntry() {
+		WhoEntry entry = super.getWhoEntry();
+		entry.setType(WhoEntry.Type.DWARF);
+		return entry;
 	}
 	
 	@Override

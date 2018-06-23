@@ -2,6 +2,7 @@ package deimophobe.nightfall.game.player;
 
 import deimophobe.nightfall.Manager;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.WhoEntry;
 import deimophobe.nightfall.game.Game;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -202,15 +203,13 @@ public abstract class GamePlayerManager<P extends GamePlayer> implements Manager
 	
 	
 	
-	public String getPlayerList() {
-		StringBuilder sb = new StringBuilder(whoName);
-		sb.append(": \n");
+	public Set<WhoEntry> getWhoEntries() {
+		Set<WhoEntry> entries = new HashSet<>();
 		for (P gp : getGamePlayers()) {
-			sb.append(gp.getWhoDisplay());
-			sb.append(", ");
+			WhoEntry whoEntry = gp.getWhoEntry();
+			entries.add(whoEntry);
 		}
-		sb.setLength(sb.length() - 2);
-		return sb.toString();
+		return entries;
 	}
 	
 	public Collection<String> getGamePlayerNames() {
