@@ -628,7 +628,7 @@ public class GameListener implements Listener {
 	}
 	
 	@EventHandler
-	public void preventSpectatorTeleprot(PlayerTeleportEvent event) {
+	public void preventSpectatorTeleport(PlayerTeleportEvent event) {
 		MonsterManager monsterManager = MonsterManager.getManager();
 		Player player = event.getPlayer();
 		
