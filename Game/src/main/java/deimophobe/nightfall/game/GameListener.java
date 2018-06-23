@@ -600,9 +600,11 @@ public class GameListener implements Listener {
 	}
 	@EventHandler
 	public void preventFlightChange(PlayerToggleFlightEvent event){
-		if (monsterManager.isGamePlayer(event.getPlayer())) {
+		Player player = event.getPlayer();
+		MonsterPlayer monster = monsterManager.getGamePlayer(player);
+		if (monster != null && monster.isFrozen()) {
 			event.setCancelled(true);
-			monsterManager.getGamePlayer(event.getPlayer()).resetFrozen();
+			monster.resetFrozen();
 		}
 	}
 	
