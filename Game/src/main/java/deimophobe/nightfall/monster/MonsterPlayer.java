@@ -414,7 +414,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		
 		if (!isMobAlive()) {
 			mobMenuShower.tryUse();
-			player.setSpectatorTarget(null);
+			if (player.getGameMode() == GameMode.SPECTATOR) {
+				player.setSpectatorTarget(null);
+			}
 			return;
 		}
 		
