@@ -6,6 +6,7 @@ import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.items.ItemMatcher;
 import deimophobe.nightfall.dwarf.consumable.CraftingConsumable.SimpleConversion;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Deimophobe on 22/01/17.
@@ -74,7 +75,7 @@ public enum ConsumableType implements ItemMatcher {
 		return consumable.getItemStack();
 	}
 	
-	public boolean doesItemMatch(ItemStack item) {
+	public boolean doesItemMatch(@NotNull ItemStack item) {
 		return consumable.doesItemMatch(item);
 	}
 	

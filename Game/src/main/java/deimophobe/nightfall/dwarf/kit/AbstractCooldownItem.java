@@ -7,6 +7,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Deimophobe on 24/03/17.
@@ -21,7 +22,7 @@ public abstract class AbstractCooldownItem extends AbstractCooldown implements I
 	}
 	
 	@Override
-	public boolean doesItemMatch(ItemStack toMatch) {
+	public boolean doesItemMatch(@NotNull ItemStack toMatch) {
 		if (toMatch == null) return false;
 		return getItem().isSimilar(toMatch);
 	}

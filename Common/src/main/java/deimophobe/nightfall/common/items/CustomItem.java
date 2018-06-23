@@ -19,6 +19,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -162,7 +163,7 @@ public class CustomItem implements Cloneable, ItemMatcher {
 	}
 	
 	@Override
-	public boolean doesItemMatch(ItemStack item) {
+	public boolean doesItemMatch(@NotNull ItemStack item) {
 		return isSimilar(item);
 	}
 	

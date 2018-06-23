@@ -8,6 +8,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Deimophobe on 24/03/17.
@@ -19,7 +20,7 @@ public abstract class AbstractItem extends AbstractPiece implements ItemPiece {
 	}
 	
 	@Override
-	public boolean doesItemMatch(ItemStack toMatch) {
+	public boolean doesItemMatch(@NotNull ItemStack toMatch) {
 		if (toMatch == null) return false;
 		return getItem().isSimilar(toMatch);
 	}
