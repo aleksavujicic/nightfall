@@ -8,7 +8,6 @@ import deimophobe.nightfall.common.items.base.BaseItemManager;
 import deimophobe.nightfall.common.items.base.SimpleBaseItem;
 import deimophobe.nightfall.common.items.lore.Lore;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
-import deimophobe.nightfall.common.items.modifiers.ItemModifier;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import minecraft.spigot.community.michel_0.api.ItemAttributes;
 import org.bukkit.Bukkit;
@@ -31,7 +30,7 @@ public class CustomItem implements Cloneable, ItemMatcher {
 	private BaseItem base;
 	private final Lore lore;
 	private final List<String> errors;
-	private final SortedMap<ItemModifierType, Set<ItemModifier>> modifiers;
+	private final SortedMap<ItemModifierType, Map<String, Integer>> modifiers;
 	
 	private final boolean bound;
 	private boolean shiny;
@@ -40,7 +39,7 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		this.shiny = shiny;
 	}
 	
-	public CustomItem(BaseItem base, Lore lore, List<String> errors, SortedMap<ItemModifierType, Set<ItemModifier>> modifiers, boolean bound, boolean shiny) {
+	public CustomItem(BaseItem base, Lore lore, List<String> errors, SortedMap<ItemModifierType, Map<String, Integer>> modifiers, boolean bound, boolean shiny) {
 		this.base = base;
 		this.lore = lore.clone();
 		this.errors = new ArrayList<>(errors);
@@ -49,11 +48,10 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		this.shiny = shiny;
 		
 		this.modifiers = new TreeMap<>();
-		for (ItemModifierType type : modifiers.keySet()) {
-			//modifiers.put(type, new HashSet<>(modifiers.get(type)));
-			for (ItemModifier modifier : modifiers.get(type)) {
-				forceAddModifier(type, modifier.getValue(), modifier.getReason());
-			}
+		for (Map.Entry<ItemModifierType, Map<String, Integer>> entry : modifiers.entrySet()) {
+			ItemModifierType type = entry.getKey();
+			Map<String, Integer> newReasonMap = new HashMap<>(entry.getValue());
+			this.modifiers.put(type, newReasonMap);
 		}
 	}
 	
@@ -95,9 +93,10 @@ public class CustomItem implements Cloneable, ItemMatcher {
 	private void forceAddModifier(ItemModifierType type, int value, String reason) {
 		if (value == 0) return;
 		
-		modifiers.putIfAbsent(type, new HashSet<>());
-		Set<ItemModifier> modifierGroup = modifiers.get(type);
-		modifierGroup.add(new ItemModifier(value, reason));
+		modifiers.putIfAbsent(type, new HashMap<>());
+		Map<String, Integer> modifierGroup = modifiers.get(type);
+		modifierGroup.putIfAbsent(reason, 0);
+		modifierGroup.compute(reason, (k,v) -> v + value);
 	}
 	
 	public void setBase(BaseItem item) {
@@ -128,13 +127,13 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		item = new ItemAttributes().apply(item);
 		
 		// Add modifiers
-		for (Map.Entry<ItemModifierType, Set<ItemModifier>> entry : modifiers.entrySet()) {
+		for (Map.Entry<ItemModifierType, Map<String, Integer>> entry : modifiers.entrySet()) {
 			ItemModifierType type = entry.getKey();
-			int value = 0;
-			for (ItemModifier modifier : entry.getValue()) {
-				value += modifier.getValue();
+			int totalValue = 0;
+			for (Integer value : entry.getValue().values()) {
+				totalValue += value;
 			}
-			item = type.applyModifier(item, value);
+			item = type.applyModifier(item, totalValue);
 		}
 		
 		// Give bound and shiny

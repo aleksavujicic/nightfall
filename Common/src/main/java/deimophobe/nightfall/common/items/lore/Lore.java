@@ -1,6 +1,5 @@
 package deimophobe.nightfall.common.items.lore;
 
-import deimophobe.nightfall.common.items.modifiers.ItemModifier;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
@@ -59,7 +58,7 @@ public class Lore implements Cloneable {
 		return ChatColor.translateAlternateColorCodes('&',loreTemplate.getName(name));
 	}
 	
-	public List<String> createLore(SortedMap<ItemModifierType, Set<ItemModifier>> modifiers, List<String> errors) {
+	public List<String> createLore(SortedMap<ItemModifierType, Map<String, Integer>> modifiers, List<String> errors) {
 		List<String> lore = new ArrayList<>();
 		
 		// Add errors

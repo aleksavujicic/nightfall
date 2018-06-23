@@ -1,6 +1,5 @@
 package deimophobe.nightfall.common.items.lore;
 
-import deimophobe.nightfall.common.items.modifiers.ItemModifier;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -91,19 +90,19 @@ public class LoreTemplate {
 		return sectionList;
 	}
 	
-	List<String> generateAttributeText(SortedMap<ItemModifierType, Set<ItemModifier>> modifiers) {
+	List<String> generateAttributeText(SortedMap<ItemModifierType, Map<String, Integer>> modifiers) {
 		List<String> lines = new ArrayList<>();
-		for (Map.Entry<ItemModifierType, Set<ItemModifier>> entry : modifiers.entrySet()) {
+		for (Map.Entry<ItemModifierType, Map<String, Integer>> entry : modifiers.entrySet()) {
 			ItemModifierType type = entry.getKey();
-			Set<ItemModifier> modifierGroup = entry.getValue();
+			Map<String, Integer> modifierGroup = entry.getValue();
 			
 			// Get attribute name
 			String name = type.getName();
 			
 			// Get the net value of attribute
 			int total = 0;
-			for (ItemModifier modifier : modifierGroup) {
-				total += modifier.getValue();
+			for (Integer value : modifierGroup.values()) {
+				total += value;
 			}
 			
 			if (total == 0) continue;
@@ -119,8 +118,8 @@ public class LoreTemplate {
 			}
 			
 			// Add any reason lines
-			for (ItemModifier modifier : modifierGroup) {
-				String reason = modifier.getReason();
+			for (Map.Entry<String, Integer> modifier : modifierGroup.entrySet()) {
+				String reason = modifier.getKey();
 				if (reason == null) continue;
 				
 				String modValue = type.formatValue(modifier.getValue(), true);
