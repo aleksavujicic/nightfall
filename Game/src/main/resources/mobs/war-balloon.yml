@@ -1,0 +1,27 @@
+title: War Balloon
+forcetitle: true
+
+disguisetype: elder_guardian
+
+attack: 20
+shred: 20
+health: 100
+speed: -100
+
+immunetime: 20
+charmtime: 30
+proccable: false
+resistance: 0.9
+shrine-prot-damage: 400
+
+armour:
+  template: monster-hero
+  base: temp
+  name: War Balloon
+  lore:
+    description:
+     - "Temp"
+    flavour:
+     - "Temp"
+  modifiers:
+    kb-resist: 100

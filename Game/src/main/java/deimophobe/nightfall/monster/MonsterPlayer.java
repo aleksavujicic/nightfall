@@ -185,6 +185,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		
 		this.mob = mob;
 		try {
+			player.setGameMode(GameMode.SURVIVAL);
+			player.setAllowFlight(false);
+			
 			mob.onSpawn(spawnMethod);
 			
 			if (spawnMethod == SpawnMethod.REBIRTH) {
@@ -194,8 +197,6 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			}
 			
 			player.getInventory().setItem(9, seppuku);
-			player.setGameMode(GameMode.SURVIVAL);
-			player.setAllowFlight(false);
 			logger.info("Spawning " + getName() + " as mob " + mob.getType() + " (via " + spawnMethod + ")");
 			
 			return true;
@@ -204,7 +205,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			logger.severe("Failed to spawn " + getName() + " as mob " + mob.getType() + " with method " + spawnMethod);
 			logger.severe(e.getMessage());
 			e.printStackTrace();
-			this.mob = null;
+			kill(true);
 			return false;
 		}
 	}
