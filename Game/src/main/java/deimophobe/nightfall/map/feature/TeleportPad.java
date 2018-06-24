@@ -64,6 +64,7 @@ class TeleportPad implements MapFeature {
 		private boolean tryTeleport(Player player) {
 			if (from.continsEntity(player)) {
 				player.teleport(to);
+				player.playSound(to, "entity.endermen.teleport", 1f, 1f);
 				return true;
 			} else {
 				return false;
