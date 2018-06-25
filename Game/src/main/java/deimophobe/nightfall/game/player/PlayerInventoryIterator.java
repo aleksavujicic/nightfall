@@ -7,7 +7,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
+import java.util.Queue;
 
 /**
  * This class basically keeps track of all the inventories
@@ -20,47 +23,53 @@ class PlayerInventoryIterator implements InventoryIterator {
 	private final Player player;
 	private final boolean reversed;
 	
-	private final Iterator<InventoryIterator> iterators;
-	private InventoryIterator currentIterator;
+	private final Queue<InventoryIterator> iteratorQueue;
 	
 	PlayerInventoryIterator(Player player, boolean reversed) {
 		this.player = player;
 		this.reversed = reversed;
 		
-		List<InventoryIterator> iteratorList;
 		if (!reversed) {
-			iteratorList = Lists.newArrayList(
+			iteratorQueue = Lists.newLinkedList(Arrays.asList(
 					new MainInventoryIterator(),
 					new CursorIterator(),
 					new CraftingWindowIterator()
-			);
+			));
 		} else {
-			iteratorList = Lists.newArrayList(
+			iteratorQueue = Lists.newLinkedList(Arrays.asList(
 					new CraftingWindowIterator(),
 					new MainInventoryIterator(),
 					new CursorIterator()
-			);
+			));
 		}
-		
-		iterators = iteratorList.iterator();
-		currentIterator = iterators.next();
+	}
+	
+	private InventoryIterator currentIterator() {
+		return iteratorQueue.peek();
 	}
 	
 	@Override
 	public void replace(ItemStack newItem) {
-		currentIterator.replace(newItem);
+		currentIterator().replace(newItem);
 	}
 	
 	@Override
 	public boolean hasNext() {
-		return currentIterator.hasNext() || iterators.hasNext();
+		for (InventoryIterator iterator : iteratorQueue) {
+			if (iterator.hasNext()) return true;
+		}
+		return false;
 	}
 	
 	@Override
 	public ItemStack next() {
-		if (currentIterator.hasNext()) return currentIterator.next();
-		currentIterator = iterators.next();
-		return next();
+		InventoryIterator currentIterator = currentIterator();
+		if (currentIterator.hasNext()) {
+			return currentIterator.next();
+		} else {
+			iteratorQueue.poll();
+			return next();
+		}
 	}
 	
 	
