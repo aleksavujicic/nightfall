@@ -26,7 +26,7 @@ public class BlockManager implements Manager {
 	private final BlockListener listener;
 	
 	public BlockManager(Game game) {
-		listener = new BlockListener();
+		listener = new BlockListener(this);
 		game.addGameListener(listener);
 	}
 	

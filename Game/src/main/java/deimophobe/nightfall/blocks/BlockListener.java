@@ -16,6 +16,11 @@ import org.bukkit.event.player.PlayerPortalEvent;
  * Created by Deimophobe on 25/04/18.
  */
 public class BlockListener implements Listener {
+	private final BlockManager manager;
+	
+	public BlockListener(BlockManager manager) {
+		this.manager = manager;
+	}
 	
 	@EventHandler
 	public void preventFireSpread(BlockSpreadEvent event){
@@ -89,5 +94,13 @@ public class BlockListener implements Listener {
 		Block block = event.getBlock();
 		boolean placeable = GameMap.getCurrentMap().isBlockPlaceable(block);
 		if (!placeable) event.setCancelled(true);
+	}
+	
+	@EventHandler
+	public void blockPhysics(BlockPhysicsEvent event) {
+		Block block = event.getBlock();
+		if (manager.isTimedBlock(block)) {
+			event.setCancelled(true);
+		}
 	}
 }

@@ -129,7 +129,7 @@ public class BlockType {
 			Material.YELLOW_FLOWER,
 			Material.RED_ROSE,
 			Material.VINE
-	);
+	).except(TIMED_BLOCK);
 	
 	public static final ComparableBlock UNTIMEABLE_BLOCKS = new BlockSet(
 			PISTON_BASE,
@@ -175,8 +175,8 @@ public class BlockType {
 	);
 	
 	public static final ComparableBlock UNPLACEABLE_BLOCKS = new BlockSet(
-			HERANA_TRIDENT_WATER
-			
+			HERANA_TRIDENT_WATER,
+			TIMED_BLOCK
 	).orOfMaterial(
 			Material.BARRIER,
 			Material.DISPENSER,
@@ -245,7 +245,9 @@ public class BlockType {
 			Material.VINE
 	);
 
-	public static final ComparableBlock EMPTY_BLOCKS = new BlockSet(PLANTS).orOfMaterial(Material.AIR, Material.FIRE);
+	public static final ComparableBlock EMPTY_BLOCKS = new BlockSet(PLANTS)
+			.orOfMaterial(Material.AIR, Material.FIRE)
+			.except(TIMED_BLOCK);
 	public static final ComparableBlock IGNORABLE = new BlockSet(EMPTY_BLOCKS).orOfMaterial(Material.SNOW, Material.CARPET);
 
 	public static final ComparableBlock SLABBABLE = new BlockSet(

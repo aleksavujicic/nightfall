@@ -204,19 +204,19 @@ epinephrine:
         - "Increases speed by $value%."
 
 
-healing:
+vines:
   index: 16
   cost: [200, 400, 600, 800, 1000]
-  value: [1, 2, 3, 4, 5]
+  value: [3, 6, 9, 12, 15]
   prereq:
     saboteur: 1
   item:
-    material: nether_stalk
-    name: "Healing"
+    material: vine
+    name: "Vines"
     lore:
       description:
-        - "Right click to heal $value heart(s)\n
-           over a few seconds."
+        - "Gives $value vines to place that last for a few minutes.\n
+           Upgrades can also increase height of placed vines."
 
 
 assassination:
@@ -231,7 +231,7 @@ assassination:
     sneak: 5
     pick: 2
     epinephrine: 10
-    healing: 5
+    vines: 5
   item:
     material: iron_sword
     name: Assassination

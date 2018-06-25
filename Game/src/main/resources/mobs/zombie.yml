@@ -61,6 +61,14 @@ saboteur:
            made to sneak through defenses"
       modifiers:
         can-dig: 1
+    vines:
+      material: vine
+      name: Vines
+      lore:
+        description:
+        - "Right click place vines."
+        flavour:
+        - ""
 
   sounds:
     laugh:
