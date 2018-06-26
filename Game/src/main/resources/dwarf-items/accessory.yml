@@ -44,7 +44,7 @@ bricklayer:
         You may pause/resume the building with another\n
         right click."
     flavour:
-     - "More bricks."
+     - "\"Remember the magic runs out at night!.\"- Nosovin"
 
 chisel:
   base: chisel

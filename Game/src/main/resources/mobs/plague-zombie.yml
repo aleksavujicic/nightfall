@@ -11,6 +11,6 @@ armour:
   name: Temp
   lore:
     description:
-     - "Temp"
+     - "Shattered armour that smells of decay."
     flavour:
-     - "Temp"
+     - "You are dead. Press any button to respawn."

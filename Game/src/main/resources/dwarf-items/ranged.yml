@@ -88,7 +88,8 @@ turret:
   name: Turret
   lore:
     description:
-     - "A turret that fires arrows."
+     - "A turret that fires arrows.\n
+        Can be rotated."
     flavour:
      - "\"It still needs some work.\" - Nosovin"
 
