@@ -110,7 +110,14 @@ spellbook:
   name: Magical Spellbook
   lore:
     description:
-     - "Magic."
+     - "Magic Missile L+L (2 essence\n
+        Fires 3 Missiles in front of you.\n
+        Levitate R+R (9 essence)\n
+        Lifts you in the air for a few seconds.\n
+        Soul Stream L+R (6 essence)\n
+        Fires a multihit beam infront of you.\n
+        Bolster R+L(20 essence)\n
+        Gives Yourself/Allies within 6 blocks, 6 hearts."
     flavour:
      - "\"The balanced path is hardly ever the\n
         most entertaining.\" - The Grand Magus"
@@ -123,4 +130,4 @@ essence:
      - "Magical essence used\n
         for casting spells."
     flavour:
-     - "Flavour text here"
+     - "Essence Ammo."
