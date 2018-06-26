@@ -110,13 +110,13 @@ spellbook:
   name: Magical Spellbook
   lore:
     description:
-     - "Magic Missile L+L (2 essence\n
+     - "&DMagic Missile&r &3L+L&r &C(2 essence)&r\n
         Fires 3 Missiles in front of you.\n
-        Levitate R+R (9 essence)\n
+        &DLevitate&r &3R+R&r &C(9 essence)&r\n
         Lifts you in the air for a few seconds.\n
-        Soul Stream L+R (6 essence)\n
+        &DSoul Stream&r &3L+R&r &C(6 essence)&r\n
         Fires a multihit beam infront of you.\n
-        Bolster R+L(20 essence)\n
+        &DBolster&r &3R+L&r &C(20 essence)&r\n
         Gives Yourself/Allies within 6 blocks, 6 hearts."
     flavour:
      - "\"The balanced path is hardly ever the\n
