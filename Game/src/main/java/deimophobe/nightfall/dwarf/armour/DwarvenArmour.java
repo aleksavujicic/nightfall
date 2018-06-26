@@ -144,18 +144,27 @@ public class DwarvenArmour implements Armour {
 	@Override
 	public void onDamage(DwarfDamage damage) {
 		double resistance = getResistance();
+		double kbRes = getKBResist();
 		damage.getMultiPartDamage().timesMult(1- resistance);
+		damage.multiplyKnockback(1 - kbRes);
 	}
 	
 	private double getResistance() {
-		if (isArmoured()) {
-			double x = armourFraction();
-			int n = DwarfManager.getManager().getNumberOfPlayers();
-			return (0.775+ 0.065 * x + 0.05d/(n+1));
-		} else {
-			return 0.6;
-		}
+		if (!isArmoured()) return 0.6;
+		
+		double x = armourFraction();
+		int n = DwarfManager.getManager().getNumberOfPlayers();
+		return (0.775+ 0.065 * x + 0.05d/(n+1));
 	}
+	
+	private double getKBResist() {
+		if (!isArmoured()) return 0;
+		
+		double x = armourFraction();
+		return Math.max(0.2*x - 0.1, 0);
+	}
+	
+	
 	@Override
 	public int getManaRegenRate() {
 		if (!isArmoured()) return 0;
