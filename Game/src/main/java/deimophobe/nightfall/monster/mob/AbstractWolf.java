@@ -19,7 +19,7 @@ import org.bukkit.potion.PotionEffectType;
 abstract class AbstractWolf extends AbstractMob {
 	
 	@Display @Update private final ComplexCooldown leapCD = new ComplexCooldown(200, this::leap);
-	@Update private final ComplexCooldown growler = new ComplexCooldown(20, this::growl);
+	@Update private final ComplexCooldown growler = new ComplexCooldown(15, this::growl);
 	
 	protected AbstractWolf(MonsterPlayer monster, MobType type) {
 		super(monster, type);
