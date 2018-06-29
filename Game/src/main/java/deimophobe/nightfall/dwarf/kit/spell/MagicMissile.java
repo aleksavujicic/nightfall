@@ -18,10 +18,10 @@ import java.util.function.Consumer;
  */
 class MagicMissile implements Spell {
 	@Override public String getName() { return ChatColor.DARK_PURPLE + "Magic Missile"; }
-	@Override public int getCost() { return 2; }
+	@Override public int getCost() { return 3; }
 	@Override public int getCooldown() { return 50;	}
 	
-	private static final double MAX_RANGE = 30;
+	private static final double MAX_RANGE = 40;
 	private static final double THICKNESS = 1.25;
 	private static final double PARTICLE_OFFSET = THICKNESS / 10;
 	
