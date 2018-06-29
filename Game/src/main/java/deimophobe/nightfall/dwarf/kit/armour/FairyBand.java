@@ -4,6 +4,7 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractCooldown;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashSet;
@@ -14,6 +15,8 @@ import java.util.Set;
  */
 public class FairyBand extends AbstractCooldown {
 	
+	private static final Buff WEAK_REGEN = new Buff(PotionEffectType.REGENERATION, 2);
+	
 	private static final int DURATION = 60*20;
 	private static final int CHANGEOVER_DURATION = 5*20;
 	private static final Set<Buff> BUFFS = new HashSet<>();
@@ -23,9 +26,18 @@ public class FairyBand extends AbstractCooldown {
 		BUFFS.add(new Buff(PotionEffectType.NIGHT_VISION, 1));
 		BUFFS.add(new Buff(PotionEffectType.FIRE_RESISTANCE, 1));
 		BUFFS.add(new Buff(PotionEffectType.INCREASE_DAMAGE, 3));
-		BUFFS.add(new Buff(PotionEffectType.REGENERATION, 4));
 		BUFFS.add(new Buff(PotionEffectType.HEALTH_BOOST, 3));
 		BUFFS.add(new Buff(PotionEffectType.FAST_DIGGING, 3));
+		BUFFS.add(new Buff(PotionEffectType.REGENERATION, 4) {
+			@Override
+			public void giveBuff(Dwarf dwarf, int time) {
+				if (dwarf.hasKitPiece(KitPieceType.STRONG_ALE)) {
+					WEAK_REGEN.giveBuff(dwarf, time);
+				} else {
+					super.giveBuff(dwarf, time);
+				}
+			}
+		});
 	}
 	
 	private Buff currentBuff;
