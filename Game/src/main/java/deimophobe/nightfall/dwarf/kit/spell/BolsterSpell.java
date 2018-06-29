@@ -24,7 +24,7 @@ class BolsterSpell implements Spell {
 		return 20*20;
 	}
 	
-	private static final double RANGE = 6;
+	private static final double RANGE = 10;
 	
 	@Override
 	public void castSpell(Dwarf dwarf) {
@@ -48,7 +48,7 @@ class BolsterSpell implements Spell {
 		
 		Location bodyCenter = dwarf.getEyeLocation().add(0, -0.5, 0);
 		World world = dwarf.getWorld();
-		double velocity = 0.5;
+		double velocity = 0.85;
 		for (int i=0; i<16; i++) {
 			for (int j=0; j<8; j++) {
 				double theta = 2*Math.PI*i/16;
