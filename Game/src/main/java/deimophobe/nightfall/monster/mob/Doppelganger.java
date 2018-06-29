@@ -257,7 +257,7 @@ public class Doppelganger extends AbstractMob {
 	}
 	
 	private static final Set<String> FAKE_ITEMS = Sets.newHashSet(
-			"cobble", "torch", "mortar", "axe", "shovel"
+			"cobble", "torch", "mortar", "lumber-axe", "shovel"
 	);
 	
 	

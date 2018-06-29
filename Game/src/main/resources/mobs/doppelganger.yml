@@ -157,7 +157,7 @@ items:
        - ""
       flavour:
        - ""
-  axe:
+  lumber-axe:
     base: dwarf-axe
     name: Cursed Axe
     lore:
