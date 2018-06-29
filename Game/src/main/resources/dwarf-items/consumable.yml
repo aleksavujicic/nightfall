@@ -84,7 +84,8 @@ proc-bottle:
   name: Proc in a Bottle
   lore:
     description:
-     - "Proc"
+     - "Left click to break a bottle\n
+        Giving you a proc for 5 seconds."
     flavour:
      - "\"Chug! Chug! Chug! Chug!\" - Tui"
      - "\"Brings energy to your veins, and strength to your heart.\" - Velvetine"
