@@ -2,6 +2,7 @@ package deimophobe.nightfall.dwarf.kit.accessory;
 
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.PreDamagePriority;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
@@ -25,6 +26,7 @@ public class VoidSaver extends AbstractPiece {
 		
 		if (Game.getGame().potionsDisabled()) return;
 		if (Game.getGame().getPhase() == Phase.PLAGUE) return;
+		if (damage.getType() != GameDamageType.VOID) return;
 		
 		damage.addPreDamageHandler(PreDamagePriority.VOID_SAVER, () -> {
 			if (damage.willKill()) {
