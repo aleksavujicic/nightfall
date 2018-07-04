@@ -30,7 +30,7 @@ class MagiIce extends AbstractMob {
 		super(monster, MobType.ICE_MAGI);
 	}
 	
-	@Update @Display private final Cooldown iceCD = new UseCooldown(30*20, this::makeIce);
+	@Update @Display private final Cooldown iceCD = new UseCooldown(45*20, this::makeIce);
 	
 	@Override
 	public void update() {
