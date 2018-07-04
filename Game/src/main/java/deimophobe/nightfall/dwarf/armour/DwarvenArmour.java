@@ -167,12 +167,13 @@ public class DwarvenArmour implements Armour {
 	
 	@Override
 	public int getManaRegenRate() {
-		if (!isArmoured()) return 0;
+		int mana = 0;
+		if (isArmoured()) {
+			mana = (int) Math.floor(Math.atan(1.5 * armourFraction()) * 10 / Math.atan(1.5)) + 1;
+			mana = Math.min(10, mana);
+		}
 		
-		int mana = (int) Math.floor(Math.atan(1.5 * armourFraction()) * 10/Math.atan(1.5)) + 1;
-		mana = Math.min(10, mana);
-		
-		if (Game.getGame().isCurseActive(Curse.SUPER_DOOM)) mana = mana - 75;
+		if (Game.getGame().isCurseActive(Curse.SUPER_DOOM)) mana = mana - 60;
 		if (Game.getGame().isCurseActive(Curse.DOOM)) {
 			mana = mana - 5;
 			dwarf.playSound("entity.zombie_villager.converted", 4f, 0.5f, false);
