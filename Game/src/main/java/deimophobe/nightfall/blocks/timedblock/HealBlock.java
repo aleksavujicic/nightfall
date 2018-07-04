@@ -67,8 +67,8 @@ public class HealBlock extends DataTimedBlock {
 			if (!canHeal(dwarf)) continue;
 			
 			dwarf.heal(6);
-			dwarf.regenMana(5);
-			dwarf.getArmour().repair(15);
+			dwarf.regenMana(10);
+			dwarf.getArmour().repair(10);
 			dwarf.getPlayer().playSound(block.getLocation(), "healing", 0.5f, 1.33f);
 		}
 		healCenter.getWorld().spawnParticle(Particle.HEART, healCenter, 5, 0.2, 0.3, 0.2);
