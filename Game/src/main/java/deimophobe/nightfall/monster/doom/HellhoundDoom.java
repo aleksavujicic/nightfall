@@ -1,13 +1,11 @@
 package deimophobe.nightfall.monster.doom;
 
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.LifetimeExpireable;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.event.DwarfDamageEvent;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.map.GameMap;
-import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.mob.MobType;
 import org.bukkit.Bukkit;
@@ -55,15 +53,10 @@ class HellhoundDoom extends AnnotatedDoom {
 		public void update() {
 			super.update();
 			
-			for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
-				Location location = monster.getEyeLocation();
-				Misc.spawnRangedParticles(location, Particle.FLAME, 1, 1, 1, 1, 0);
-			}
-			
 			if (everyNTicks(10)) {
 				for (Player player : Bukkit.getOnlinePlayers()) {
 					Location location = player.getLocation();
-					player.spawnParticle(Particle.FLAME, location, 250, 10, 10, 10, 0.05);
+					player.spawnParticle(Particle.FLAME, location, 100, 10, 10, 10, 0.02);
 				}
 			}
 		}
