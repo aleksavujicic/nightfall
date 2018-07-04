@@ -1,6 +1,7 @@
 package deimophobe.nightfall;
 
 import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.event.GameStartEvent;
 import deimophobe.nightfall.monster.MonsterManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -45,5 +46,10 @@ public class ChatListener implements Listener {
 				recipients.removeIf(dwarfManager::isGamePlayer);
 			}
 		}
+	}
+	
+	@EventHandler
+	public void onGameChange(GameStartEvent event) {
+		forcedGlobal = false;
 	}
 }
