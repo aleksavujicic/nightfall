@@ -63,11 +63,6 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	
 	public Scepter(Dwarf dwarf) {
 		super(dwarf);
-		final Consumer<Dwarf> dwarfBuffer = (dwarf1) -> {
-			if (dwarf1 == dwarf) return;
-			dwarf1.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 5 * 20, 1, true, false, false);
-		};
-		
 		final Consumer<MonsterEntity> mobDamager = (monster) -> {
 			MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.SCEPTER, DAMAGE + dwarf.getBonusMeleeDamage()/2);
 			if (dwarf.hasProc()) damage.setProc(true);
@@ -90,7 +85,6 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 				.withThickness(1.2)
 				.withParticlePeriod(0.2)
 				.withParticlePlacer(PARTICLE_PLACER)
-				.withDwarfConsumer(dwarfBuffer)
 				.withMobConsumer(mobDamager)
 				.withHitBlockConsumer(blockConverter);
 		hitscan = builder.build();
