@@ -3,6 +3,9 @@ package deimophobe.nightfall.dwarf.kit.ranged;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.GameDamageType;
+import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.death.DeathMessageMaker;
+import deimophobe.nightfall.damage.death.KeywordDeathMessageMaker;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.game.player.GamePlayer;
 import deimophobe.nightfall.monster.MonsterEntity;
@@ -73,6 +76,16 @@ public class VolcanicGauntlet extends AbstractBow {
 		dwarf.playSound("entity.ghast.shoot", 1f, 1.35f - force*0.5f, true);
 		
 		return null;
+	}
+	
+	private static final DeathMessageMaker PUNCHED = new KeywordDeathMessageMaker("punched");
+	
+	@Override
+	public void onDamageAttack(MonsterDamage damage) {
+		super.onDamageAttack(damage);
+		if (isMeleeDamageFromItem(damage)) {
+			damage.setDeathMessageMaker(PUNCHED);
+		}
 	}
 }
 
