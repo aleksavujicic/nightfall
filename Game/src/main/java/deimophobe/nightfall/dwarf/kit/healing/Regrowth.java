@@ -90,7 +90,7 @@ public class Regrowth extends AbstractAle {
 		if (!isTargetValid()) return;
 		if (!dwarf.hasMana(HEAL_COST)) return;
 		boolean canConnect = dwarf.canConnectToPlayer(target, 0.5,
-				(location) -> location.getWorld().spawnParticle(Particle.HEART, location.subtract(0,1.2,0), 3, 0.1, 0.1, 0.1)
+				(location) -> location.getWorld().spawnParticle(Particle.HEART, location.subtract(0,1.4,0), 3, 0.1, 0.1, 0.1)
 		);
 		if (!canConnect) return;
 		
