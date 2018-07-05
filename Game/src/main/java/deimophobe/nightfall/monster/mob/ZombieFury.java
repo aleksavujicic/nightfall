@@ -59,7 +59,7 @@ public class ZombieFury extends ZombieMob {
 		int manaDrain = 0;
 		if (fury) manaDrain = 5 + furyInf;
 		
-		this.vampirismCD = new VampirismCooldown(10, monster, manaDrain, 1.5*vampirism);
+		this.vampirismCD = new VampirismCooldown(15, monster, manaDrain, 1.5*vampirism);
 		
 		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
 		getArmour().addModifier(ItemModifierType.SPEED, (10 * pursuit / 3), "Upgrade");
