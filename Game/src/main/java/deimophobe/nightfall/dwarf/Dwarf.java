@@ -536,7 +536,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	// ------ MOB SPAWN ------
-	private int mobspawnCount = 0;
+	private double mobspawnMeter = 0;
 	private boolean inMobspawn = false;
 	private final ComplexCooldown inMobspawnCooldown = new ComplexCooldown(8, this::inMobspawnTick);
 	private final ComplexCooldown outMobspawnCooldown = new ComplexCooldown(8, this::outMobspawnTick);
@@ -556,8 +556,9 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	private void inMobspawnTick() {
 		if (!inMobspawn) givePermanentPotionEffect(PotionEffectType.CONFUSION, 1);
-		mobspawnCount++;
+		mobspawnMeter += 1;
 		
+		int mobspawnCount = getMobSpawnCount();
 		sendMessage(ChatColor.RED + "You are too close to monster spawn! (" + mobspawnCount + ")");
 		sendTitleMessage(ChatColor.RED + "You are too close to monster spawn!");
 		mobspawnDamage(mobspawnCount - 1);
@@ -566,14 +567,18 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	private void outMobspawnTick() {
-		if (mobspawnCount > 0) mobspawnCount--;
+		mobspawnMeter = Math.max(mobspawnMeter - 0.25, 0);
 		removePotionEffect(PotionEffectType.CONFUSION);
 		
 		inMobspawn = false;
 	}
 	
+	private int getMobSpawnCount() {
+		return (int) mobspawnMeter;
+	}
+	
 	protected boolean isBlindByMobspawn() {
-		return mobspawnCount >= 7;
+		return mobspawnMeter >= 7;
 	}
 
 	protected void mobspawnDamage(int tickNumber) {
