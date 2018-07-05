@@ -125,10 +125,11 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void useItems(PlayerInteractEvent event) {
+		Player player = event.getPlayer();
 		Block block = event.getClickedBlock();
 		BlockFace blockFace = event.getBlockFace();
 		Action action = event.getAction();
-		GamePlayer gp = game.getGamePlayer(event.getPlayer());
+		GamePlayer gp = game.getGamePlayer(player);
 		
 		if (gp != null && action != Action.PHYSICAL) {
 			
@@ -162,7 +163,7 @@ public class GameListener implements Listener {
 			BlockManager.getManager().hitBlock(block, gp, click, blockFace);
 		}
 		
-		if (block != null && BlockType.UNINTERACTABLE_BLOCKS.matchesBlock(block)) {
+		if (block != null && BlockType.UNINTERACTABLE_BLOCKS.matchesBlock(block) && player.getGameMode() != GameMode.CREATIVE) {
 			event.setCancelled(true);
 		}
 	}
