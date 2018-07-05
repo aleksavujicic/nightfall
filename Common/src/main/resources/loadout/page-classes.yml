@@ -324,6 +324,31 @@ riftwalker-class:
       description:
        - "Break that fourth wall!"
 
+hunter-class:
+  index: 13
+  cost: 64
+  category: kit
+  type: multi
+  pieces:
+    - dagger
+    - crossbow
+    - chugging-ale
+    - studded
+    - nature-suit
+    - darkvision
+    - slowfall
+  consumables:
+    lamp: 32
+    wrench: 2
+    proc-bottle: 4
+  item:
+    template: "loadout-class"
+    name: "Hunter Kit"
+    base: crossbow
+    lore:
+      description:
+       - "Fast solo kit."
+
 
 untimely:
   index: 44
