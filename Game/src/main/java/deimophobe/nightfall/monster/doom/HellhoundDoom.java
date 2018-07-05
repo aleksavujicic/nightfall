@@ -53,11 +53,9 @@ class HellhoundDoom extends AnnotatedDoom {
 		public void update() {
 			super.update();
 			
-			if (everyNTicks(10)) {
-				for (Player player : Bukkit.getOnlinePlayers()) {
-					Location location = player.getLocation();
-					player.spawnParticle(Particle.FLAME, location, 100, 10, 10, 10, 0.02);
-				}
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				Location location = player.getLocation();
+				player.spawnParticle(Particle.FLAME, location, 15, 10, 10, 10, 0.02);
 			}
 		}
 		
