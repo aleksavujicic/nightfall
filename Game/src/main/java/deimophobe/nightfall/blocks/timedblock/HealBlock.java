@@ -1,6 +1,7 @@
 package deimophobe.nightfall.blocks.timedblock;
 
 import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -32,6 +33,12 @@ public class HealBlock extends DataTimedBlock {
 		hitter.update();
 		
 		if (everyNTicks(20)) heal();
+	}
+	
+	@Override
+	public boolean isPlaceable() {
+		return super.isPlaceable()
+				&& !BlockType.SOLID.matchesBlock(block.getRelative(0,1,0));
 	}
 	
 	@Override
