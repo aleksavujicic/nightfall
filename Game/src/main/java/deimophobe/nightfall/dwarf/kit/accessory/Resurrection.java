@@ -10,6 +10,8 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.PreDamagePriority;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
+import deimophobe.nightfall.dwarf.armour.Armour;
+import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
@@ -41,8 +43,13 @@ public class Resurrection extends AbstractPiece {
 					used = true;
 					damage.softCancel();
 					
-					dwarf.getArmour().addModifier(ItemModifierType.HEALTH, -4, "Resurrection");
-					dwarf.getArmour().repair(1000);
+					Armour armour = dwarf.getArmour();
+					if (armour instanceof DwarvenArmour && !armour.isArmoured()) {
+						((DwarvenArmour) armour).putOn();
+					}
+					
+					armour.addModifier(ItemModifierType.HEALTH, -4, "Resurrection");
+					armour.repair(1000);
 					dwarf.regenMana(1000);
 					dwarf.healMax();
 					dwarf.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 5 * 20, 5, true, false, true);
