@@ -288,16 +288,14 @@ spellbook:
   type: item
   name: spellbook
   category: bow
-  cost: 24
+  cost: 20
   item:
     name: "Spellbook"
     base: spellbook
     lore:
       description:
        - "A spellbook that can cast various\n
-          spells. (This item is still being\n
-          tested - the point cost will likely\n
-          reduce once it is ready)."
+          spells."
 
 
 
