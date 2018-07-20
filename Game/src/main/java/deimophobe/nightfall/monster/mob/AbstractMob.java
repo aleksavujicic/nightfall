@@ -66,6 +66,12 @@ public abstract class AbstractMob implements Mob {
 	
 	@Override
 	public void onSpawn(SpawnMethod spawnMethod) {
+		Player player = monster.getPlayer();
+		
+		monster.teleportTo(spawnMethod.getSpawnPoint(monster));
+		player.setGameMode(GameMode.SURVIVAL);
+		player.setAllowFlight(false);
+		
 		setTitle(mobData.forceTitle, mobData.title);
 		setupItems();
 		
@@ -79,7 +85,6 @@ public abstract class AbstractMob implements Mob {
 		}
 		
 		
-		Player player = monster.getPlayer();
 		if (mobData.canRun) {
 			player.setFoodLevel(20);
 		} else {
@@ -87,7 +92,6 @@ public abstract class AbstractMob implements Mob {
 		}
 		player.setSaturation(1000000);
 		
-		monster.teleportTo(spawnMethod.getSpawnPoint(monster));
 		monster.givePotionEffect(PotionEffectType.NIGHT_VISION, 10*60*60*20,1, false, false, true);
 		playSound("spawn");
 	}

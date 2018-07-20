@@ -186,9 +186,6 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		
 		this.mob = mob;
 		try {
-			player.setGameMode(GameMode.SURVIVAL);
-			player.setAllowFlight(false);
-			
 			mob.onSpawn(spawnMethod);
 			
 			if (spawnMethod == SpawnMethod.REBIRTH) {
