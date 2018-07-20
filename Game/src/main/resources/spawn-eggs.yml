@@ -44,7 +44,7 @@ spiderling:
   quantity: 1
   chance: 0.15
 
-ember_sprite:
+ember-sprite:
   mobtype: ember-sprite
   egg:
     material: blaze_rod
@@ -95,7 +95,7 @@ minotaur:
   quantity: 2
   chance: 0.06
 
-battering_ram:
+battering-ram:
   mobtype: battering-ram
   egg:
     base: temporary
