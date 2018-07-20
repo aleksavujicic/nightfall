@@ -125,8 +125,23 @@ resurrection:
           This resurrection will heal you, but will\n
           also permanently cost you 4 hearts."
 
+bunny-boots:
+  index: 12
+  category: accessory
+  type: item
+  name: bunny-boots
+  cost: 12
+  item:
+    name: "Bunny Boots"
+    base: bunny-boots
+    lore:
+      description:
+       - "You can briefly leap like a rabbit\n
+          by pressing shift on the ground.\n
+          Can be used once every 90 seconds."
+
 tombmaker:
-  index: 13
+  index: 18
   category: accessory
   type: item
   name: tombmaker
@@ -141,7 +156,7 @@ tombmaker:
           likely to find items in gravel."
 
 speed-bricklayer:
-  index: 14
+  index: 19
   category: accessory
   type: multi
   pieces: [speedy-bricklayer]

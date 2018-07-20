@@ -75,6 +75,7 @@ public enum KitPieceType {
 	CHISEL(Chisel::new),
 	CLOCK(Clock::new),
 	JIT_HEAL(JitHeal::new),
+	BUNNY_BOOTS(BunnyBoots::new),
 	
 	UNTIMELY_DEMISE(UntimelyDemise::new),
 	
