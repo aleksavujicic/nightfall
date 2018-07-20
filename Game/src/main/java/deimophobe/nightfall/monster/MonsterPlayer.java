@@ -78,6 +78,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	public void onRemove() {
 		kill(true);
 		player.setGameMode(GameMode.ADVENTURE);
+		Game.getGame().hideManaAndDoom(player);
 		super.onRemove();
 	}
 	
