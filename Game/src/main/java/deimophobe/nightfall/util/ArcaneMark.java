@@ -87,7 +87,7 @@ public class ArcaneMark implements Updateable {
 			if (entityInMark(dwarf)) {
 				if (lifetime % 3 == 0) {
 					dwarf.regenMana(1);
-					dwarf.heal(1);
+					dwarf.heal(0.35);
 				}
 				
 				boolean added = buffedDwarves.add(dwarf);

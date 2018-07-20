@@ -140,6 +140,6 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	
 	private static final Colour MARK_COLOUR = new Colour(0.2, 0.8, 1);
 	private void createMark() {
-		activeMark = new ArcaneMark(dwarf, 12*20, 2, MARK_COLOUR, 4, 2);
+		activeMark = new ArcaneMark(dwarf, 10*20, 2, MARK_COLOUR, 4, 2);
 	}
 }
