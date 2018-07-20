@@ -10,6 +10,7 @@ import com.google.common.collect.ImmutableClassToInstanceMap;
 import deimophobe.nightfall.*;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.cooldown.CooldownHolder;
 import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -110,6 +111,9 @@ public class Game {
 
 	private Game(GameMap map) {
 		this.plugin = NightfallPlugin.getPlugin();
+		
+		// Load any missing data just in case
+		PlayerManager.getManager().loadMissingData();
 		
 		game = this;
 		

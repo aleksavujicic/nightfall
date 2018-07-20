@@ -16,7 +16,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
@@ -119,6 +121,17 @@ public class PlayerManager {
 		logger.info("Saved player data (took " + format.format(timeMilli) + " ms)");
 	}
 	
+	// Note that this may take a while.
+	public void loadMissingData() {
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			UUID uuid = player.getUniqueId();
+			if (playerInfoMap.containsKey(uuid)) continue;
+			
+			NightfallCommonPlugin.logger().warning("Loading missing PlayerData of player '" + player.getName() + "'");
+			loadPlayerInfo(uuid);
+		}
+	}
+	
 	
 	public PlayerInfo getPlayerInfo(UUID uuid) {
 		checkNotNull(uuid, "UUID must not be null.");
@@ -150,22 +163,57 @@ public class PlayerManager {
 	
 	
 	private class DataListener implements Listener {
+		private Set<UUID> loadingUUIDs = new HashSet<>();
 		
 		@EventHandler
 		private void onPlayerJoin(AsyncPlayerPreLoginEvent event) {
 			UUID uuid = event.getUniqueId();
-			PlayerManager.this.loadPlayerInfo(uuid);
+			
+			if (loadingUUIDs.contains(uuid)) {
+				event.disallow(
+						AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
+						"You cannot join right now, please try again in a few seconds."
+				);
+				return;
+			}
+			
+			if (playerInfoMap.containsKey(uuid)) {
+				NightfallCommonPlugin.logger().warning("Player logged in while PlayerData already loaded.");
+			} else {
+				loadPlayerInfo(uuid);
+			}
 		}
 		
 		@EventHandler
 		private void onPlayerLeave(PlayerQuitEvent event) {
 			final UUID uuid = event.getPlayer().getUniqueId();
+			final String name = event.getPlayer().getName();
+			loadingUUIDs.add(uuid);
+			
 			new BukkitRunnable() {
 				@Override
 				public void run() {
-					PlayerManager.this.unloadPlayerInfo(uuid, true);
+					boolean isOnline = Bukkit.getPlayer(uuid) != null;
+					if (isOnline) {
+						NightfallCommonPlugin.logger().warning(
+								"Player online after PlayerQuitEvent - not unloading data (Player '" + name + "')."
+						);
+						loadingUUIDs.remove(uuid);
+						return;
+					}
+					
+					new BukkitRunnable() {
+						@Override
+						public void run() {
+							try {
+								unloadPlayerInfo(uuid, true);
+							} finally {
+								loadingUUIDs.remove(uuid);
+							}
+						}
+					}.runTaskAsynchronously(plugin);
 				}
-			}.runTaskAsynchronously(plugin);
+			}.runTask(plugin);
 		}
 	}
 }
