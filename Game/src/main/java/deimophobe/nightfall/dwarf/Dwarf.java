@@ -158,6 +158,10 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		kit.addKitPiece(type, true);
 	}
 	
+	public Kit getKit() {
+		return kit;
+	}
+	
 	
 	// ------ ARMOUR STUFF ------
 	private Armour armour;

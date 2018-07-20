@@ -29,6 +29,7 @@ public class BunnyBoots extends AbstractPiece implements CooldownPiece {
 		if (dwarf.getPlayer().isOnGround()) {
 			cooldown.tryUse();
 		}
+		dwarf.getKit().setLastHeld(this);
 	}
 	
 	private void jump() {

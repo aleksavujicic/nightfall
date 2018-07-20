@@ -50,6 +50,7 @@ public class RocketBoots extends AbstractCooldown {
 			
 			resetCooldown();
 		}
+		dwarf.getKit().setLastHeld(this);
 	}
 	
 }

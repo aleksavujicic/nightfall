@@ -124,6 +124,9 @@ public class Kit {
 		ItemStack held = dwarf.getHeldItem();
 		for (ItemPiece item : itemPieces) {
 			if (item.doesItemMatch(held)) {
+				if (item instanceof CooldownPiece) {
+					setLastHeld((CooldownPiece) item);
+				}
 				return item.onUse(click, clickedBlock, blockFace);
 			}
 		}
@@ -185,6 +188,10 @@ public class Kit {
 	public float fractionComplete() {
 		if (lastHeld == null) return 0;
 		return lastHeld.getCooldown();
+	}
+	
+	public void setLastHeld(CooldownPiece lastHeld) {
+		this.lastHeld = lastHeld;
 	}
 	
 	public void updateHotbarSlot(ItemStack newItem) {
