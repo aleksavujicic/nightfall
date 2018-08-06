@@ -126,7 +126,7 @@ resurrection:
           also permanently cost you 4 hearts."
 
 bunny-boots:
-  index: 12
+  index: 13
   category: accessory
   type: item
   name: bunny-boots
