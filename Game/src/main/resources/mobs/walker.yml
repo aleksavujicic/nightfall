@@ -14,7 +14,7 @@ proccable: true
 armourslot: head
 armour:
   base: firefly
-  name: "Temp"
+  name: "Walker Armour"
   lore:
     description:
      - "Temp"
@@ -24,7 +24,7 @@ armour:
     kb-resist: 100
 weapon:
   base: hunting
-  name: "Temp"
+  name: "Iron Claw"
   lore:
     description:
      - "Temp"

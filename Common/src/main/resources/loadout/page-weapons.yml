@@ -455,9 +455,9 @@ studded:
     base: studded
     lore:
       description:
-       - "Increases movement speed by 20%."
+       - "Increases movement speed by 30%."
     modifiers:
-      speed: 20
+      speed: 30
 
 fairy-band:
   index: 30
