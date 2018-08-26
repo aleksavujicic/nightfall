@@ -53,7 +53,6 @@ lightbow:
     description:
      - "This bow fires special arrows that\n
         create lamps in the walls.\n
-        Pierces half of target arrow resistance.\n
         You are also immune to darkness."
     flavour:
      - "\"Hey can I get some light? Thanks.\" - Tui"

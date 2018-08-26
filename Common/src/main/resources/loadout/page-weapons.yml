@@ -242,7 +242,6 @@ lightbow:
       description:
        - "This bow fires special arrows that\n
           create lamps in the walls.\n
-          Pierces half of target arrow resistance.\n
           You are also immune to darkness."
     modifiers:
       power: 30
@@ -455,9 +454,9 @@ studded:
     base: studded
     lore:
       description:
-       - "Increases movement speed by 30%."
+       - "Increases movement speed by 20%."
     modifiers:
-      speed: 30
+      speed: 20
 
 fairy-band:
   index: 30
