@@ -176,9 +176,12 @@ procshovel:
   index: 20
   category: accessory
   type: item
-  name:  "Ancient Dwarven Shovel"
-  base: procshovel
-  lore:
-    description:
-     - "Test Shovel.\n
-        Property of DrkRaven."
+  name: procshovel
+  cost: 16
+  item:
+    name: "Ancient Dwarven Shovel"
+    base: procshovel
+    lore:
+      description:
+       - "Test Shovel.\n
+         Property of DrkRaven."
