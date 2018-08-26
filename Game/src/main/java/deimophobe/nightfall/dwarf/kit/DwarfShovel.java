@@ -147,7 +147,6 @@ public class DwarfShovel extends AbstractItem {
 		new ConsumableScavengeItem(ConsumableType.TURRET, 16, "Turrets", RewardTier.RARE);
 		
 		new FixedScavengeItem("clover", "Lucky Clover");
-		new FixedScavengeItem("procshovel", "Ancient Dwarven Shovel");
 		new FixedScavengeItem("perfect-torch", "The Perfect Torch") {
 			@Override
 			void giveItemToDwarf(Dwarf dwarf) {
