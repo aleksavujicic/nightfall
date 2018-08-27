@@ -36,7 +36,7 @@ public class ProcShovel extends DwarfShovel {
 	public void onBlockBreak(Block block, boolean didBreak) {
 		super.onBlockBreak(block, didBreak);
 		if (block.getType() == Material.GRAVEL && isHoldingItem()) {
-			dwarf.givePotionEffect(PotionEffectType.FAST_DIGGING, 3*20 , 3, true, false, true);
+			dwarf.givePotionEffect(PotionEffectType.NIGHT_VISION, 3*20 , 3, true, false, true);
 		}
 	}
 	
