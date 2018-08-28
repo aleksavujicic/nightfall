@@ -82,3 +82,6 @@ procshovel:
      - "This shovel can roll procs."
     flavour:
      - "Blame Capt."
+  modifiers:
+     attack: 3
+     knockback: 15
