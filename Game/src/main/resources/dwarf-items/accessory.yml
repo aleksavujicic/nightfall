@@ -84,4 +84,4 @@ procshovel:
      - "Blame Capt."
   modifiers:
      attack: 3
-     knockback: 15
+     knockback: 2
