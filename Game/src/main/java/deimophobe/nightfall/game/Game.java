@@ -484,8 +484,6 @@ public class Game {
 				resetPlayer(player);
 			}
 		}
-		
-		Bukkit.getServer().getPluginManager().callEvent(new PhaseChangeEvent(phase));
 	}
 	
 	public void startGame() {
