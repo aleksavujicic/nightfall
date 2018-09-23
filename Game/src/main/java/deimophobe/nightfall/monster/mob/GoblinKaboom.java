@@ -56,10 +56,11 @@ class GoblinKaboom extends Goblin {
 		
 		this.pick = upgrades.get("pick");
 		this.speed = upgrades.get("speed");
+		int speedinf = upgrades.get("speed-inf");
 		this.superKaboom = upgrades.get("superkaboom") == 1;
 		this.throwInf = upgrades.get("throw-inf");
 		
-		getArmour().addModifier(ItemModifierType.SPEED, (10 * speed / 3), "Upgrade");
+		getArmour().addModifier(ItemModifierType.SPEED, 5*speed  + 3*speedinf, "Upgrade");
 		getArmour().addModifier(ItemModifierType.FASTER_THROW, 15 * throwInf, "Faster Throw");
 		
 		if (pick > 0) {

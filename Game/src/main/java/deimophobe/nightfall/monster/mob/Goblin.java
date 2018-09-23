@@ -6,7 +6,6 @@ import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.timedblock.GoboBox;
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -57,13 +56,13 @@ public class Goblin extends AbstractMob {
 
 		int supplies_inf = upgrades.get("supplies-inf");
 		this.supplies = (upgrades.get("supplies") + supplies_inf)*2;
-		int health = (upgrades.get("health") + upgrades.get("health-inf"));
+//		int health = (upgrades.get("health") + upgrades.get("health-inf"));
 		
 		this.dest = upgrades.get("dest");
 		this.shrapnel = upgrades.get("shrapnel");
 		this.force = upgrades.get("force-gobo");
 
-		getArmour().addModifier(ItemModifierType.HEALTH, health, "Upgrade");
+//		getArmour().addModifier(ItemModifierType.HEALTH, health, "Upgrade");
 
 		this.placeboxCD = new ComplexCooldown(MAX_PLACE_CD);
 		this.throwboxCD = new ComplexCooldown(Math.max(MAX_THROW_CD - 5, MAX_THROW_CD - (int)(Math.log((double)supplies) / Math.log(2))));

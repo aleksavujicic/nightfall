@@ -3,6 +3,7 @@ base:
 
   disguisetype: creeper
 
+  health: 8
   attack: 5
 
   armour:
