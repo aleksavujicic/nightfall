@@ -81,8 +81,9 @@ slowfall:
     base: slowfall
     lore:
       description:
-       - "SHIFT to give yourself Jump Boost\n
-          and a slowfalling effect."
+       - "Press SHIFT in the air to fall\n
+          slower. Also gives passive fall\n
+          damage resistance."
 
 darkvision:
   index: 10
