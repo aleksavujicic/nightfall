@@ -2,7 +2,6 @@ package deimophobe.nightfall.game;
 
 import deimophobe.nightfall.util.Weightable;
 import deimophobe.nightfall.util.WeightedSet;
-import org.bukkit.Bukkit;
 
 /**
  * Created by Deimophobe on 29/03/18.
@@ -42,10 +41,6 @@ public enum GameSize {
 			
 			int distance = Math.min(playerCount - size.minPlayers, size.maxPlayers - playerCount);
 			possibleSizes.add(new GameSizeWeight(size, distance));
-		}
-		
-		for (GameSizeWeight gsw : possibleSizes) {
-			Bukkit.broadcastMessage(gsw.size + ": " + gsw.getWeight());
 		}
 		
 		return possibleSizes.getRandom().getSize();
