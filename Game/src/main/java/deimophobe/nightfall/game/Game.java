@@ -491,7 +491,7 @@ public class Game {
 		DwarfManager dwarfManager = getManager(DwarfManager.class);
 		MonsterManager monsterManager = getManager(MonsterManager.class);
 		
-		if (gameSize == null) gameSize = GameSize.fromCurrentGame(this);
+		if (gameSize == null) gameSize = GameSize.chooseForCurrentGame(this);
 		
 		sidebarObj.setDisplaySlot(DisplaySlot.SIDEBAR);
 		

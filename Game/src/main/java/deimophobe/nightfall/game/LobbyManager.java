@@ -318,7 +318,7 @@ public class LobbyManager implements Manager {
 		}
 	}
 	
-	private Set<Player> getLobbyPlayers() {
+	public Set<Player> getLobbyPlayers() {
 		Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
 		Set<Player> players = new HashSet<>(onlinePlayers);
 		players.removeIf(player -> !isLobbyPlayer(player));
