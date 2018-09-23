@@ -37,13 +37,14 @@ class MagiIce extends AbstractMob {
 		super.update();
 		if (!isPlayerHoldingWeapon()) return;
 		
-		if (!everyNthTick(3)) {
+		if (!everyNthTick(6)) {
 			Location eyes = monster.getEyeLocation();
 			Misc.spawnRangedParticles(eyes, Particle.FIREWORKS_SPARK, 1, 0.5, 0.5, 0.5);
 			
 			// Place ice
 			Location center = monster.getLocation();
 			Block block = Misc.randomLocation(center, 3, 3, 3).getBlock();
+			if (Math.random() > 0.5)
 			tryCreateIce(block, 10 * 20);
 		}
 	}
@@ -112,7 +113,7 @@ class MagiIce extends AbstractMob {
 		}
 		
 		monster.playSound("entity.stray.death", 1f, 0.5f, true);
-		Misc.spawnRangedParticles(center.getLocation(), Particle.FIREWORKS_SPARK, 250, 3.5, 1, 3.5);
+		Misc.spawnRangedParticles(center.getLocation(), Particle.FIREWORKS_SPARK, 150, 3.5, 1, 3.5);
 	}
 	
 	
