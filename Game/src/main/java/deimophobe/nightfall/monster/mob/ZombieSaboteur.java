@@ -129,14 +129,17 @@ public class ZombieSaboteur extends ZombieMob {
 		if (click.isRightClick() && isPlayerHoldingItem("vines")) {
 			placeVine(block, face);
 		}
+		
+		if (isPlayerHoldingItem("unhide")) {
+			unhide();
+		}
 	}
 	
 	@Override
 	public boolean onBlockBreak(Block block, boolean didBreak) {
 		didBreak = super.onBlockBreak(block, didBreak);
 		if (didBreak) {
-			monster.removePotionEffect(PotionEffectType.INVISIBILITY);
-            monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
+			unhide();
 		}
 		return didBreak;
 	}
@@ -157,9 +160,7 @@ public class ZombieSaboteur extends ZombieMob {
 			if (sabotage > 0 && isInvisible()) {
 				damage.getDwarf().givePotionEffect(PotionEffectType.UNLUCK, 100, sabotage, true, false, true);
 			}
-			monster.removePotionEffect(PotionEffectType.INVISIBILITY);
-			monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
-			sneakCD.reset();
+			unhide();
 		});
 	}
 	
@@ -192,6 +193,23 @@ public class ZombieSaboteur extends ZombieMob {
 		if (assassinate) {
 			monster.givePermanentPotionEffect(PotionEffectType.INCREASE_DAMAGE, 1);
 		}
+		
+		giveItem("unhide");
+	}
+	
+	private void unhide() {
+		if (!isInvisible()) return;
+		
+		Location loc = monster.getLocation();
+		World world = loc.getWorld();
+		world.spawnParticle(Particle.SMOKE_LARGE, loc, 20, 0.4, 0.4, 0.4, 0);
+		world.playSound(loc, "entity.generic.burn", 0.5f, 1.5f);
+		
+		monster.removePotionEffect(PotionEffectType.INVISIBILITY);
+		monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
+		sneakCD.reset();
+		
+		removeItem("unhide");
 	}
 	
 	private boolean isInvisible() {
@@ -213,6 +231,7 @@ public class ZombieSaboteur extends ZombieMob {
 				boolean placed = BlockManager.getManager().placeTimedBlock(vine);
 				if (placed) {
 					removeItem("vines", 1);
+					unhide();
 				}
 				
 				break;
