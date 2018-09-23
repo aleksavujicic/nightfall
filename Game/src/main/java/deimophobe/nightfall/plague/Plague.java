@@ -6,6 +6,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.GameSize;
 import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.monster.MonsterManager;
 
@@ -91,7 +92,15 @@ public abstract class Plague {
 		int numPlagueables = getPlagueables().size();
 		int numPlagueds = getPlagueds().size();
 		
-		int desiredMonsterAmt = (numGamePlayers + 2)/3; // How many mobs we want
+		GameSize size = Game.getGame().getGameSize();
+		int extraMonsters = 0;
+		switch (size) {
+			case MEDIUM: extraMonsters = 1; break;
+			case LARGE: extraMonsters = 2; break;
+			case HUGE: extraMonsters = 4; break;
+		}
+		
+		int desiredMonsterAmt = (numGamePlayers + 2)/3 + extraMonsters; // How many mobs we want
 		int dwarvesToKill = desiredMonsterAmt - numMonsters; // How many more mobs we need
 		dwarvesToKill = Math.min(dwarvesToKill, numPlagueables); // We can't kill more dwarves than there are plagueables
 		
