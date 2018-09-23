@@ -130,7 +130,7 @@ bunny-boots:
   category: accessory
   type: item
   name: bunny-boots
-  cost: 12
+  cost: 6
   item:
     name: "Bunny Boots"
     base: bunny-boots
