@@ -8,16 +8,22 @@ import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.common.player.cosmetic.Cosmetics;
 import deimophobe.nightfall.event.PhaseChangeEvent;
 import deimophobe.nightfall.map.GameMap;
+import deimophobe.nightfall.map.MapManager;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -43,7 +49,9 @@ public class LobbyManager implements Manager {
 	private int countdownTime = 91;
 	private final BukkitRunnable coundownTask;
 	
-	public LobbyManager(Game game) {
+	private final BossBar readyDisplay;
+	
+	LobbyManager(Game game) {
 		this.game = game;
 		
 		// Lobby team
@@ -66,19 +74,32 @@ public class LobbyManager implements Manager {
 		coundownTask = new BukkitRunnable() {
 			@Override public void run() { countdownTick(); }
 		};
+		
+		readyDisplay = Bukkit.createBossBar("", BarColor.BLUE, BarStyle.SOLID);
+		updateBossBar(false);
 	}
 	
 	
 	@Override
 	public void init() {
-	
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			readyDisplay.addPlayer(player);
+		}
 	}
 	
 	@Override
 	public void stop() {
-	
+		readyDisplay.removeAll();
 	}
 	
+	void onLobbyStart() {
+		if (MapManager.getManager().isEnabled()) {
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				setPlayerToLobbyMode(player);
+			}
+		}
+		updateBossBar(false);
+	}
 	
 	public boolean isLobbyPlayer(Player player) {
 		return player.getGameMode() == GameMode.ADVENTURE;
@@ -119,17 +140,19 @@ public class LobbyManager implements Manager {
 	private static final String COUNTDOWN_START = ChatColor.AQUA + "The game will start shortly!";
 	
 	private static final String PLAYER_READY_COUNT =
-			ChatColor.YELLOW + "("
-			+ ChatColor.AQUA + "%s"
+			ChatColor.AQUA + "%s"
 			+ ChatColor.YELLOW + "/"
-			+ ChatColor.AQUA + "%s"
+			+ ChatColor.AQUA + "%s";
+	private static final String PLAYER_READY_COUNT_BRACKETS =
+			ChatColor.YELLOW + "("
+			+ PLAYER_READY_COUNT
 			+ ChatColor.YELLOW + ")";
 	private static final String PLAYER_READIED = ChatColor.DARK_AQUA + "%s"
 			+ ChatColor.YELLOW + " is ready! "
-			+ PLAYER_READY_COUNT;
+			+ PLAYER_READY_COUNT_BRACKETS;
 	private static final String PLAYER_UNREADIED = ChatColor.DARK_AQUA + "%s"
 			+ ChatColor.YELLOW + " is no longer ready! "
-			+ PLAYER_READY_COUNT;
+			+ PLAYER_READY_COUNT_BRACKETS;
 	
 	
 	// ----- Player Ready Up -----
@@ -157,6 +180,7 @@ public class LobbyManager implements Manager {
 		
 		player.playSound(player.getLocation(), "block.note.bell", 0.5f, 1.5f);
 		player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, player.getEyeLocation(), 10, 0.3, 0.2, 0.3, 0.05);
+		updateBossBar(false);
 		checkPlayerCount();
 	}
 	
@@ -176,6 +200,7 @@ public class LobbyManager implements Manager {
 		String message = String.format(PLAYER_UNREADIED, player.getName(), numReady, numPlayers);
 		Bukkit.broadcastMessage(message);
 		
+		updateBossBar(leaving);
 		checkPlayerCount();
 	}
 	
@@ -201,6 +226,26 @@ public class LobbyManager implements Manager {
 		} else {
 			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(UNREADY_MESSAGE));
 		}
+	}
+	
+	// ----- Boss Bar -----
+	
+	private void updateBossBar(boolean playerLeaving) {
+		String mapName = game.getMap().getName();
+		int numPlayers = getLobbyPlayers().size();
+		int numReady = readyPlayers.size();
+		if (playerLeaving) numPlayers--;
+		
+		readyDisplay.setTitle(
+				ChatColor.DARK_GREEN + "Map: "
+				+ ChatColor.GREEN + mapName
+				+ ChatColor.WHITE + " - "
+				+ ChatColor.YELLOW + "Players ready: "
+				+ String.format(PLAYER_READY_COUNT, numReady, numPlayers)
+		);
+		
+		double progress = (numPlayers == 0 ? 1 : ((double) numReady)/numPlayers);
+		readyDisplay.setProgress(progress);
 	}
 	
 	// ----- Other Ready Things -----
@@ -342,22 +387,34 @@ public class LobbyManager implements Manager {
 	private class LobbyListener implements Listener {
 		
 		@EventHandler
+		public void onPlayerLogon(PlayerJoinEvent event) {
+			Player player = event.getPlayer();
+			readyDisplay.addPlayer(player);
+			updateBossBar(false);
+		}
+		
+		@EventHandler
 		public void onGameStart(PhaseChangeEvent event) {
 			if (event.getNewPhase() != Phase.BUILD) return;
 			
 			isLobbyActive = false;
 			readyPlayers.clear();
 			readyNotifier.cancel();
+			readyDisplay.removeAll();
 			
 			if (countdownActive) {
 				coundownTask.cancel();
 			}
+			
+			HandlerList.unregisterAll(this);
 		}
 		
 		@EventHandler
 		public void onPlayerLogoff(PlayerQuitEvent event) {
 			Player player = event.getPlayer();
 			unreadyPlayer(player, true);
+			readyDisplay.removePlayer(player);
+			updateBossBar(true);
 		}
 	}
 }

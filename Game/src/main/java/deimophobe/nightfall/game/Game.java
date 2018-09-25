@@ -478,12 +478,7 @@ public class Game {
 		transitionToPhase(Phase.STARTING);
 		
 		sidebarObj.setDisplaySlot(null);
-		
-		if (MapManager.getManager().isEnabled()) {
-			for (Player player : Bukkit.getOnlinePlayers()) {
-				resetPlayer(player);
-			}
-		}
+		getManager(LobbyManager.class).onLobbyStart();
 	}
 	
 	public void startGame() {
