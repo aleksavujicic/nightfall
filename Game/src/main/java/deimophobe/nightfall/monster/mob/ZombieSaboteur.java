@@ -52,7 +52,7 @@ public class ZombieSaboteur extends ZombieMob {
 		int pick = upgrades.get("pick");
 		int epinephrine = upgrades.get("epinephrine");
 		int speedInf = upgrades.get("speed-inf");
-		int speed = epinephrine * 5;
+		int speed = epinephrine * 4;
 		int morespeed = speedInf * 3;
 		
 		this.sneakLevel = upgrades.get("sneak");
@@ -73,7 +73,7 @@ public class ZombieSaboteur extends ZombieMob {
 			getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, attack, "Upgrade");
 		}
 
-		getArmour().addModifier(ItemModifierType.SPEED, 25, "Saboteur Zombie");
+		getArmour().addModifier(ItemModifierType.SPEED, 20, "Saboteur Zombie");
 		getWeapon().addModifier(ItemModifierType.SPEED, speed, "Epinephrine");
 		getWeapon().addModifier(ItemModifierType.SPEED, morespeed, "More Speed");
 		int saboHealthMalus = (upgrades.get("health") + upgrades.get("health-inf")) * -1;
@@ -148,7 +148,7 @@ public class ZombieSaboteur extends ZombieMob {
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
 		if (assassinate && isInvisible()) {
-			monster.playSound("entity.wither.shoot", 1f, 2f, true);
+			playSound("assassinate");
 			playSound("laugh");
 			damage.getMultiPartDamage().addBoost(37);
 		}
@@ -159,6 +159,7 @@ public class ZombieSaboteur extends ZombieMob {
 			}
 			if (sabotage > 0 && isInvisible()) {
 				damage.getDwarf().givePotionEffect(PotionEffectType.UNLUCK, 100, sabotage, true, false, true);
+				playSound("sabotage");
 			}
 			unhide();
 		});
@@ -185,7 +186,8 @@ public class ZombieSaboteur extends ZombieMob {
 	
 	private void sneak() {
 		monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
-		monster.givePotionEffect(PotionEffectType.SPEED, 8 * sneakLevel, 3, true, false, true);
+		if (sneakLevel != 0)
+			monster.givePotionEffect(PotionEffectType.SPEED, 8 * sneakLevel, 3, true, false, true);
 		Location loc = monster.getLocation();
 		World world = loc.getWorld();
 		world.spawnParticle(Particle.SMOKE_LARGE, loc, 160, 0.8, 0.8, 0.8, 0);

@@ -48,6 +48,8 @@ saboteur:
 
   disguisetype: zombie_villager
 
+  attack: 5
+
   items:
     wood-pickaxe:
       base: zombie.pick
@@ -79,6 +81,12 @@ saboteur:
         - ""
 
   sounds:
+    assassinate:
+      path: "entity.wither.shoot"
+      pitch: 2
     laugh:
       path: "mob.gobo.action"
       pitch: 1.5
+    sabotage:
+      path: "block.anvil.land"
+      pitch: 1.25
