@@ -137,6 +137,9 @@ class GoblinKaboom extends Goblin {
             Vector knockback = offset.normalize().multiply(kb * (1 - offlength / range));
 			knockback.setY(knockback.getY() / 2 + 0.1 + (superKaboom ? 0.4 : 0));
 			
+			double damageMult = Math.min(0.4*range/offlength, 1);
+			dwarfDamage *= damageMult;
+			
 			DwarfDamage aoeDamage = dwarf.createDamage(monster, GameDamageType.GOBO_KABOOM, dwarfDamage);
 			aoeDamage.setKnockback(knockback);
 			aoeDamage.setArmourShred(armorShred);
