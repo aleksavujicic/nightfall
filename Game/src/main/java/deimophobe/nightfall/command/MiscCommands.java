@@ -269,8 +269,6 @@ public class MiscCommands extends BaseCommand {
 	@CommandAlias("test")
 	@CommandPermission("nightfall.command.test")
 	public void test(CommandSender sender) {
-		if (true) return; // disabled
-		
 		StringBuilder names = new StringBuilder();
 		for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
 			String name = player.getName();
@@ -278,5 +276,6 @@ public class MiscCommands extends BaseCommand {
 			names.append(", ");
 		}
 		sender.sendMessage(names.toString());
+		sender.sendMessage(Bukkit.getOfflinePlayers().length + " players total.");
 	}
 }
