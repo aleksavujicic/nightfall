@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 public interface MainMenu<T extends SessionData> extends SubMenu<T> {
 	String getTitle();
 	T getDataFromPlayer(Player player);
+	String getMenuPermission();
 	
 	default void startSession(Player player) {
 		MenuManager.getManager().startSession(this, player);

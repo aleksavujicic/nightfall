@@ -44,4 +44,9 @@ public class SaveLoadoutMenu extends SimpleMenu<PlayerInfo> implements MainMenu<
 	public PlayerInfo getDataFromPlayer(Player player) {
 		return PlayerManager.getManager().getPlayerInfo(player);
 	}
+	
+	@Override
+	public String getMenuPermission() {
+		return "loadout";
+	}
 }

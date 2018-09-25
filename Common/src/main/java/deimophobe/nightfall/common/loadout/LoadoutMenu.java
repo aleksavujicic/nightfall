@@ -81,4 +81,9 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 		return PlayerManager.getManager().getLoadout(player);
 	}
 	
+	@Override
+	public String getMenuPermission() {
+		return "loadout";
+	}
+	
 }

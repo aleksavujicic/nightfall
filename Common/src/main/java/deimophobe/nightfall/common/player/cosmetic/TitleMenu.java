@@ -33,4 +33,9 @@ public class TitleMenu extends ListMenu<Cosmetics> implements MainMenu<Cosmetics
 	public Cosmetics getDataFromPlayer(Player player) {
 		return PlayerManager.getManager().getCosmetics(player);
 	}
+	
+	@Override
+	public String getMenuPermission() {
+		return "title";
+	}
 }

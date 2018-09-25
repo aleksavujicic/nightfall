@@ -30,6 +30,10 @@ public class SpawnMenu extends IndexedMenu<MonsterPlayer, SpawnMenu.PageType> im
 
 	@Override public String getTitle() { return "Monster Menu"; }
 	@Override public MonsterPlayer getDataFromPlayer(Player player) {return MonsterManager.getManager().getGamePlayer(player);}
+	@Override public String getMenuPermission() {
+		return "spawn";
+	}
+	
 	@Override protected PageType getDefault() {return PageType.MAIN;}
 	
 	public SpawnMenu() {

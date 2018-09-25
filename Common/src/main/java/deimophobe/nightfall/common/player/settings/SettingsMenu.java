@@ -36,6 +36,11 @@ public class SettingsMenu extends SimpleMenu<PlayerSettings> implements MainMenu
 		return PlayerManager.getManager().getSettings(player);
 	}
 	
+	@Override
+	public String getMenuPermission() {
+		return "settings";
+	}
+	
 	private static final class HeroToggleItem implements MenuItem<PlayerSettings> {
 		private final ItemStack enabled;
 		private final ItemStack disabled;

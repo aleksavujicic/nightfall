@@ -4,6 +4,7 @@ import com.google.common.collect.ClassToInstanceMap;
 import com.google.common.collect.MutableClassToInstanceMap;
 import deimophobe.nightfall.common.NightfallCommonPlugin;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -20,6 +21,8 @@ public final class MenuManager {
 	public static MenuManager getManager() {
 		return NightfallCommonPlugin.getPlugin().getMenuManager();
 	}
+	
+	private static final String MENU_PERMISSION_PREFIX = "nightfall.menu.";
 	
 	private final Map<Player, MenuSession<?>> activeSessions = new HashMap<>();
 	private final ClassToInstanceMap<MainMenu<?>> registeredMenus;
@@ -46,22 +49,26 @@ public final class MenuManager {
 	
 	// ---------- Session Management ----------
 	
-	public <T extends SessionData> MenuSession<T> startSession(Class<? extends MainMenu<T>> menuClass, Player player) {
+	public <T extends SessionData> void startSession(Class<? extends MainMenu<T>> menuClass, Player player) {
 		checkNotNull(menuClass, "Menu class must not be null.");
 		checkArgument(registeredMenus.containsKey(menuClass), "Menu '%s' must be registered before starting a session.", menuClass.getSimpleName());
 		
 		MainMenu<T> menu = registeredMenus.getInstance(menuClass);
-		return  startSession(menu, player);
+		startSession(menu, player);
 	}
 	
-	public <T extends SessionData> MenuSession<T> startSession(MainMenu<T> mainMenu, Player player) {
+	public <T extends SessionData> void startSession(MainMenu<T> mainMenu, Player player) {
 		checkNotNull(mainMenu, "Menu must not be null.");
 		checkNotNull(player, "Player must not be null.");
+		if (!player.hasPermission(MENU_PERMISSION_PREFIX + mainMenu.getMenuPermission())) {
+			player.sendMessage(ChatColor.RED + "You do not have permission to open that menu.");
+			return;
+		}
+		
 		forceCloseAnyOpenSession(player, mainMenu);
 		
 		MenuSession<T> session = new MenuSession<>(mainMenu, player, null);
 		activeSessions.put(player, session);
-		return session;
 	}
 	
 	void setSession(MenuSession<?> session) {
