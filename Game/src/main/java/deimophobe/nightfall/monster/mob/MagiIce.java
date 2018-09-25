@@ -37,9 +37,9 @@ class MagiIce extends AbstractMob {
 		super.update();
 		if (!isPlayerHoldingWeapon()) return;
 		
-		if (!everyNthTick(6)) {
+		if (everyNthTick(5)) {
 			Location eyes = monster.getEyeLocation();
-			Misc.spawnRangedParticles(eyes, Particle.FIREWORKS_SPARK, 1, 0.5, 0.5, 0.5);
+			Misc.spawnRangedParticles(eyes, Particle.FIREWORKS_SPARK, 2, 0.5, 0.5, 0.5);
 			
 			// Place ice
 			Location center = monster.getLocation();
