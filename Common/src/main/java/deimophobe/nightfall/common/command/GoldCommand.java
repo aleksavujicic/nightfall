@@ -1,10 +1,7 @@
 package deimophobe.nightfall.common.command;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandCompletion;
-import co.aikar.commands.annotation.Conditions;
-import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.*;
 import deimophobe.nightfall.common.player.PlayerInfo;
 import org.bukkit.command.CommandSender;
 
@@ -15,6 +12,7 @@ import org.bukkit.command.CommandSender;
 public class GoldCommand extends BaseCommand {
 	
 	@Subcommand("give")
+	@CommandPermission("nightfall.command.gold.give")
 	@CommandCompletion("@players")
 	public void giveGold(CommandSender sender, PlayerInfo player, @Conditions("nonnegative") int amount) {
 		player.giveGold(amount);
@@ -22,6 +20,7 @@ public class GoldCommand extends BaseCommand {
 	}
 	
 	@Subcommand("take")
+	@CommandPermission("nightfall.command.gold.take")
 	@CommandCompletion("@players")
 	public void takeGold(CommandSender sender, PlayerInfo player, @Conditions("nonnegative") int amount) {
 		player.removeGold(amount);
@@ -29,6 +28,7 @@ public class GoldCommand extends BaseCommand {
 	}
 	
 	@Subcommand("amount")
+	@CommandPermission("nightfall.command.gold.amount")
 	@CommandCompletion("@players")
 	public void getAmount(CommandSender sender, PlayerInfo player) {
 		int gold = player.getGoldAmount();

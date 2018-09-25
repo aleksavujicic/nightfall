@@ -1,10 +1,7 @@
 package deimophobe.nightfall.command;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandCompletion;
-import co.aikar.commands.annotation.Conditions;
-import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.*;
 import deimophobe.nightfall.common.command.MessageUtil;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.map.GameMap;
@@ -25,6 +22,7 @@ import java.util.List;
 public class MapCommand extends BaseCommand {
 	
 	@Subcommand("setenabled")
+	@CommandPermission("nightfall.command.map.enable")
 	@CommandCompletion("@boolean")
 	public void setEnabled(CommandSender sender, boolean enabled) {
 		
@@ -41,6 +39,7 @@ public class MapCommand extends BaseCommand {
 	}
 	
 	@Subcommand("reload")
+	@CommandPermission("nightfall.command.map.reload")
 	@Conditions("map-enabled")
 	public void onReload(CommandSender sender) {
 		MapManager.getManager().reloadConfig();
@@ -48,6 +47,7 @@ public class MapCommand extends BaseCommand {
 	}
 	
 	@Subcommand("list")
+	@CommandPermission("nightfall.command.map.list")
 	@Conditions("map-enabled")
 	public void onList(CommandSender sender) {
 		List<String> mapList = MapManager.getManager().getMapQueue();
@@ -60,6 +60,7 @@ public class MapCommand extends BaseCommand {
 	}
 	
 	@Subcommand("list-all")
+	@CommandPermission("nightfall.command.map.listall")
 	@Conditions("map-enabled")
 	public void onListAll(CommandSender sender) {
 		MapManager manager = MapManager.getManager();
@@ -84,6 +85,7 @@ public class MapCommand extends BaseCommand {
 	}
 	
 	@Subcommand("clear")
+	@CommandPermission("nightfall.command.map.clear")
 	@Conditions("map-enabled")
 	public void onClear(CommandSender sender) {
 		MapManager.getManager().clearMapQueue();
@@ -91,6 +93,7 @@ public class MapCommand extends BaseCommand {
 	}
 	
 	@Subcommand("next")
+	@CommandPermission("nightfall.command.map.next")
 	@Conditions("map-enabled")
 	public void onNext(CommandSender sender) {
 		sender.sendMessage(ChatColor.YELLOW + "Starting new game. Map will be: " + ChatColor.GREEN + MapManager.getManager().peekMap());
@@ -99,6 +102,7 @@ public class MapCommand extends BaseCommand {
 	
 	@Subcommand("queue")
 	@Conditions("map-enabled")
+	@CommandPermission("nightfall.command.map.queue")
 	@CommandCompletion("@maps")
 	public void onQueue(CommandSender sender, @Conditions("map") String map) {
 		MapManager.getManager().enqueueMap(map);
@@ -107,6 +111,7 @@ public class MapCommand extends BaseCommand {
 	
 	@Subcommand("load|play")
 	@Conditions("map-enabled")
+	@CommandPermission("nightfall.command.map.load")
 	@CommandCompletion("@maps")
 	public void onLoad(CommandSender sender, @Conditions("map") String map) {
 		MapManager.getManager().insertMap(map);
@@ -115,7 +120,9 @@ public class MapCommand extends BaseCommand {
 	}
 	
 	@Subcommand("current")
+	@CommandAlias("map-name")
 	@Conditions("map-enabled")
+	@CommandPermission("nightfall.command.map.current")
 	@CommandCompletion("@maps")
 	public void currentMap(CommandSender sender) {
 		String name = GameMap.getCurrentMap().getName();

@@ -1,10 +1,7 @@
 package deimophobe.nightfall.command;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandCompletion;
-import co.aikar.commands.annotation.Conditions;
-import co.aikar.commands.annotation.Description;
+import co.aikar.commands.annotation.*;
 import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.common.command.MessageUtil;
 import deimophobe.nightfall.game.Game;
@@ -22,18 +19,21 @@ import org.bukkit.entity.Player;
 public class LobbyCommands extends BaseCommand {
 	
 	@CommandAlias("explore")
+	@CommandPermission("nightfall.command.explore")
 	@Description("Lets you explore the map before the game starts.")
 	public void explore(@Conditions("lobby") Player player) {
 		player.teleport(GameMap.getCurrentMap().getDwarfSpawn());
 	}
 	
 	@CommandAlias("stuck|lobby")
+	@CommandPermission("nightfall.command.stuck")
 	@Description("Returns you to the lobby.")
 	public void stuck(@Conditions("lobby") Player player) {
 		Game.getGame().resetPlayer(player);
 	}
 	
 	@CommandAlias("ready")
+	@CommandPermission("nightfall.command.ready")
 	@Description("Notifies that you are ready to play the game.")
 	public void ready(@Conditions("lobby") Player player) {
 		LobbyManager lobbyManager = getLobbyManager();
@@ -41,6 +41,7 @@ public class LobbyCommands extends BaseCommand {
 	}
 	
 	@CommandAlias("readylist")
+	@CommandPermission("nightfall.command.readylist")
 	@Description("See who is ready.")
 	public void readyList(CommandSender sender) {
 		BaseComponent message = getLobbyManager().readyList();
@@ -48,6 +49,7 @@ public class LobbyCommands extends BaseCommand {
 	}
 	
 	@CommandAlias("notifyunready")
+	@CommandPermission("nightfall.command.notifyunreadyall")
 	@Description("Notify unready players.")
 	public void unreadyNotify(CommandSender sender) {
 		getLobbyManager().notifyUnready();
@@ -56,6 +58,7 @@ public class LobbyCommands extends BaseCommand {
 	
 	@CommandAlias("notifyunready")
 	@CommandCompletion("@players")
+	@CommandPermission("nightfall.command.notifyunready")
 	@Description("Notify an unready player.")
 	public void unreadyNotify(CommandSender sender, @Conditions("lobby|unready") OnlinePlayer player) {
 		Player realPlayer = player.getPlayer();

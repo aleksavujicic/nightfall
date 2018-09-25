@@ -271,20 +271,32 @@ public class GameMap {
 		updateGold();
 	}
 
-	public void addGold(int amt) {
-		gold += amt;
+	public void addGold(int amount) {
+		gold += amount;
 		if (gold < 0) {
 			gold = 0;
 		}
 		updateGold();
 	}
 
-	public void addVaultGold(int amt) {
-		vault += amt;
+	public void addVaultGold(int amount) {
+		vault += amount;
 		if (vault < 0) {
 			vault = 0;
 		}
 		updateVault();
+	}
+	
+	public int transferGold(int amount) {
+		amount = Math.min(amount, vault);
+		amount = Math.max(amount, -gold);
+		vault -= amount;
+		gold += amount;
+		
+		updateGold();
+		updateVault();
+		
+		return amount;
 	}
 
 	private void updateGold() {

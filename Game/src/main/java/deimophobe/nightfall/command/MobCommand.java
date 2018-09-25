@@ -24,9 +24,10 @@ import java.util.List;
 @CommandAlias("mob|monster|m")
 public class MobCommand extends BaseCommand {
 	
-	@Subcommand("set")
+	@Subcommand("set|create")
 	@CommandAlias("setmob")
 	@CommandCompletion("@players @mobcreators")
+	@CommandPermission("nightfall.command.mob.create")
 	@Description("Set a player to be a monster.")
 	public void setMob(CommandSender sender, PlayerIterable players, @Optional MobCreator<?> mobType) {
 		players.forEach(player -> {
@@ -43,6 +44,7 @@ public class MobCommand extends BaseCommand {
 	}
 	
 	@Subcommand("list")
+	@CommandPermission("nightfall.command.mob.list")
 	@Description("Shows a list of all monsters.")
 	public void list(CommandSender sender) {
 		StringBuilder listBuilder = new StringBuilder();
@@ -61,6 +63,7 @@ public class MobCommand extends BaseCommand {
 	
 	@Subcommand("remove")
 	@CommandCompletion("@monsters")
+	@CommandPermission("nightfall.command.mob.remove")
 	@Description("Remove a player from the monster team.")
 	public void remove(CommandSender sender, MonsterIterable monsters) {
 		monsters.forEach(monster -> {
@@ -72,6 +75,7 @@ public class MobCommand extends BaseCommand {
 	@Subcommand("spawn")
 	@CommandAlias("spawnmob")
 	@CommandCompletion("@monsters @mobcreators @spawnmethods")
+	@CommandPermission("nightfall.command.mob.spawn")
 	@Description("Spawn a monster as a specified mob.")
 	public void spawnMob(CommandSender sender, MonsterIterable monsters, @Default("primary") MobCreator<?> mobType, @Default("spawn") SpawnMethod spawnMethod) {
 		monsters.forEach(monster -> {
@@ -88,6 +92,7 @@ public class MobCommand extends BaseCommand {
 	@Subcommand("kill")
 	@CommandAlias("killmob")
 	@CommandCompletion("@monsters @boolean")
+	@CommandPermission("nightfall.command.mob.kill")
 	@Description("Kill a mob.")
 	public void killMob(CommandSender sender, MonsterIterable monsters, @Default("false") boolean silent) {
 		monsters.forEach(monster -> {
@@ -99,6 +104,7 @@ public class MobCommand extends BaseCommand {
 	@Subcommand("xp|exp")
 	@CommandAlias("xp|exp")
 	@CommandCompletion("@monsters")
+	@CommandPermission("nightfall.command.mob.xp")
 	@Description("Give a monster some xp.")
 	public void giveXP(CommandSender sender, MonsterIterable monsters, int xp) {
 		monsters.forEach(m -> {
@@ -109,6 +115,7 @@ public class MobCommand extends BaseCommand {
 	
 	@Subcommand("xp-rate|exp-rate")
 	@CommandCompletion("@monsters")
+	@CommandPermission("nightfall.command.mob.xp-rate")
 	@Description("Set a monsters xp rate.")
 	public void setXPRate(CommandSender sender, MonsterIterable monsters, int rate) {
 		monsters.forEach(m -> {
@@ -119,6 +126,7 @@ public class MobCommand extends BaseCommand {
 	
 	@Subcommand("type")
 	@CommandCompletion("@monsters")
+	@CommandPermission("nightfall.command.mob.type")
 	@Description("See a monsters mob type.")
 	public void getType(CommandSender sender, MonsterIterable monsters) {
 		monsters.forEach(monster -> {

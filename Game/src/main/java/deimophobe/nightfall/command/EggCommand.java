@@ -15,8 +15,9 @@ import org.bukkit.command.CommandSender;
 @CommandAlias("egg|eggs|e")
 public class EggCommand extends BaseCommand {
 	
-	@Subcommand("add")
+	@Subcommand("add|create")
 	@CommandCompletion("@nothing @items @mobcreators")
+	@CommandPermission("nightfall.command.egg.create")
 	@Description("Add a new spawn egg.")
 	public void setEnabled(CommandSender sender, String name, @Flags("all") CustomItem item, MobCreator<?> type, int index, @Default("1") int max, @Default("0.1") double chance) {
 		SpawnEggMenuItem spawnEgg = new SpawnEggMenuItem(item, name, type, max, chance, false, true);
@@ -26,6 +27,7 @@ public class EggCommand extends BaseCommand {
 	
 	@Subcommand("enabled")
 	@CommandCompletion("@spawneggs")
+	@CommandPermission("nightfall.command.egg.enable")
 	@Description("Set whether an egg is enabled or not.")
 	public void setEnabled(CommandSender sender, SpawnEggMenuItem spawnEgg, @Default("true") boolean enabled) {
 		spawnEgg.setEnabled(enabled);
@@ -34,6 +36,7 @@ public class EggCommand extends BaseCommand {
 	
 	@Subcommand("chance")
 	@CommandCompletion("@spawneggs")
+	@CommandPermission("nightfall.command.egg.chance")
 	@Description("Set spawn chance of a spawn egg.")
 	public void setChance(CommandSender sender, SpawnEggMenuItem spawnEgg, double chance) {
 		spawnEgg.setSpawnChance(chance);
@@ -42,6 +45,7 @@ public class EggCommand extends BaseCommand {
 	
 	@Subcommand("max")
 	@CommandCompletion("@spawneggs")
+	@CommandPermission("nightfall.command.egg.max")
 	@Description("Set max quantity of a spawn egg.")
 	public void setMax(CommandSender sender, SpawnEggMenuItem spawnEgg, int max) {
 		spawnEgg.setMax(max);
@@ -50,6 +54,7 @@ public class EggCommand extends BaseCommand {
 	
 	@Subcommand("restock")
 	@CommandCompletion("@spawneggs")
+	@CommandPermission("nightfall.command.egg.restock")
 	@Description("Restock a give spawn egg.")
 	public void restockEggs(CommandSender sender, SpawnEggMenuItem spawnEgg) {
 		spawnEgg.restock();
@@ -57,6 +62,7 @@ public class EggCommand extends BaseCommand {
 	}
 	
 	@Subcommand("restock-all")
+	@CommandPermission("nightfall.command.egg.restockall")
 	@Description("Restock all spawn eggs.")
 	public void restockEggs(CommandSender sender) {
 		MonsterManager.getManager().restockAllEggs();

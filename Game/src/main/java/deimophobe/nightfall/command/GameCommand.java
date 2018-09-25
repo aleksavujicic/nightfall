@@ -19,6 +19,7 @@ public class GameCommand extends BaseCommand {
 	@Subcommand("start")
 	@CommandAlias("forcestart")
 	@Conditions("pre-build")
+	@CommandPermission("nightfall.command.game.start")
 	@Description("Forces the game to start.")
 	public void onStart(CommandSender sender) {
 		Game.getGame().startGame();
@@ -29,6 +30,7 @@ public class GameCommand extends BaseCommand {
 	@CommandAlias("forceplague")
 	@CommandCompletion("@plagues")
 	@Conditions("build-phase")
+	@CommandPermission("nightfall.command.game.plague")
 	@Description("Forces the plague to occur now.")
 	public void onPlague(CommandSender sender, @Optional PlagueType type) {
 		if (type != null) {
@@ -43,6 +45,7 @@ public class GameCommand extends BaseCommand {
 	@Subcommand("plague-type")
 	@CommandCompletion("@plagues")
 	@Conditions("pre-plague")
+	@CommandPermission("nightfall.command.game.plaguetype")
 	@Description("Forces the type of plague that will occur.")
 	public void onPlagueType(CommandSender sender, PlagueType type) {
 		if (type != null) {
@@ -53,6 +56,7 @@ public class GameCommand extends BaseCommand {
 	
 	@Subcommand("size")
 	@CommandCompletion("@gamesizes")
+	@CommandPermission("nightfall.command.game.size")
 	@Description("Set the game size.")
 	public void sizeCheck(CommandSender sender) {
 		MessageUtil.sendMessage(sender, "The current game size is: ", Game.getGame().getGameSize(), ".");
@@ -60,6 +64,7 @@ public class GameCommand extends BaseCommand {
 	
 	@Subcommand("size")
 	@CommandCompletion("@gamesizes")
+	@CommandPermission("nightfall.command.game.size")
 	@Description("Set the game size.")
 	public void sizeSet(CommandSender sender, @Flags("null") GameSize size) {
 		Game.getGame().forceGameSize(size);
@@ -68,22 +73,15 @@ public class GameCommand extends BaseCommand {
 	
 	@Subcommand("build-time")
 	@Conditions("pre-build")
+	@CommandPermission("nightfall.command.game.buildtime")
 	@Description("Set duration of build phase (in ticks).")
 	public void setBuildTime(CommandSender sender, int time) {
 		Game.getGame().setBuildTime(time);
 		MessageUtil.sendMessage(sender, "Build phase will now last ", time, " ticks.");
 	}
 	
-	@Subcommand("title")
-	@CommandCompletion("@gameplayers @chatcolors @nothing @boolean")
-	@Description("Forces a title on a player.")
-	public void title(CommandSender sender, GamePlayer player, ChatColor colour, @Optional String title, @Default("false") boolean force) {
-		if (title != null) title = title.replace('_',' ');
-		player.setTitle(colour, title, force);
-		MessageUtil.sendMessage(sender, "Title of player ", player.getPlayer(), " changed to ", player, ".");
-	}
-	
 	@Subcommand("time")
+	@CommandPermission("nightfall.command.game.time")
 	@Description("Tells the current game time (in ticks).")
 	public void time(CommandSender sender) {
 		MessageUtil.sendMessage(sender, "The current time is: ", Game.getGame().getCurrentTick(), ".");

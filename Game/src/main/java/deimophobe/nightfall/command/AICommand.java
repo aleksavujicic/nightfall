@@ -19,6 +19,7 @@ public class AICommand extends BaseCommand {
 	@Subcommand("spawn")
 	@CommandAlias("spawnai")
 	@CommandCompletion("@nothing @ais")
+	@CommandPermission("nightfall.ai.spawn")
 	@Description("Spawn AIs at your location.")
 	public void spawnAI(CommandSender sender, Player player, @Default("1") int amount, @Default("zombie") AIType type) {
 		amount = Math.max(amount, 0);
@@ -29,6 +30,7 @@ public class AICommand extends BaseCommand {
 	}
 	
 	@Subcommand("toggle")
+	@CommandPermission("nightfall.ai.toggle")
 	@Description("Toggle AI spawning.")
 	public void toggle(CommandSender sender) {
 		boolean enabled = getAIManager().toggleAISpawn();
@@ -36,6 +38,7 @@ public class AICommand extends BaseCommand {
 	}
 	
 	@Subcommand("clear")
+	@CommandPermission("nightfall.ai.clear")
 	@Description("Remove all AIs around you.")
 	public void clearArea(CommandSender sender, Player player, double radius) {
 		getAIManager().clearArea(player.getLocation(), radius);
@@ -43,6 +46,7 @@ public class AICommand extends BaseCommand {
 	}
 	
 	@Subcommand("mark")
+	@CommandPermission("nightfall.ai.mark")
 	@Description("Add an AI mark at your location.")
 	public void mark(CommandSender sender, Player player) {
 		Location location = player.getLocation();
@@ -55,6 +59,7 @@ public class AICommand extends BaseCommand {
 	}
 	
 	@Subcommand("rate")
+	@CommandPermission("nightfall.ai.rate")
 	@Description("Get the current spawn rate.")
 	public void getRate(CommandSender sender) {
 		double rate = getAIManager().getBaseSpawnChance();
@@ -62,6 +67,7 @@ public class AICommand extends BaseCommand {
 	}
 	
 	@Subcommand("count")
+	@CommandPermission("nightfall.ai.count")
 	@Description("Get the current number of AIs.")
 	public void getCount(CommandSender sender) {
 		int size = getAIManager().getNumAIs();
@@ -70,6 +76,7 @@ public class AICommand extends BaseCommand {
 	}
 	
 	@Subcommand("count-mark")
+	@CommandPermission("nightfall.ai.countmark")
 	@Description("Get the current number of AI marks.")
 	public void getMarkNum(CommandSender sender) {
 		int size = getAIManager().getNumMarks();
@@ -78,6 +85,7 @@ public class AICommand extends BaseCommand {
 	}
 	
 	@Subcommand("show-marks")
+	@CommandPermission("nightfall.ai.showmark")
 	@Description("Show all currently active marks.")
 	public void showMarks(Player player) {
 		getAIManager().showMarksToPlayer(player);
@@ -85,6 +93,7 @@ public class AICommand extends BaseCommand {
 	}
 	
 	@Subcommand("multiplier")
+	@CommandPermission("nightfall.ai.multiplier")
 	@Description("Set the multiplier to the spawn rate,")
 	public void setMulti(CommandSender sender, double multiplier) {
 		getAIManager().setMultiplier(multiplier);
@@ -92,6 +101,7 @@ public class AICommand extends BaseCommand {
 	}
 	
 	@Subcommand("multiplier-max")
+	@CommandPermission("nightfall.ai.multipliermax")
 	@Description("Set the multiplier to the ai and mark cap.")
 	public void setMaxMulti(CommandSender sender, double multiplier) {
 		getAIManager().setMaxMultiplier(multiplier);

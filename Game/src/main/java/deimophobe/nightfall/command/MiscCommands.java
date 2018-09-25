@@ -35,12 +35,14 @@ import java.util.TreeSet;
 public class MiscCommands extends BaseCommand {
 	
 	@CommandAlias("horn")
+	@CommandPermission("nightfall.command.horn")
 	@Description("Toot toot.")
 	public void horn() {
 		Horn.tootHorn();
 	}
 	
 	@CommandAlias("debug")
+	@CommandPermission("nightfall.command.debug")
 	@Description("Debug mode.")
 	public void debug(Player player) {
 		boolean enabled = Game.getGame().toggleDebug(player);
@@ -52,6 +54,7 @@ public class MiscCommands extends BaseCommand {
 	}
 	
 	@CommandAlias("who|list")
+	@CommandPermission("nightfall.command.who")
 	@Description("Show all players in the game.")
 	public void who(CommandSender sender) {
 		Set<WhoEntry> entries = Game.getGame().getWhoEntries();
@@ -97,6 +100,7 @@ public class MiscCommands extends BaseCommand {
 	
 	@CommandAlias("damage")
 	@CommandCompletion("@gameplayers")
+	@CommandPermission("nightfall.command.damage")
 	@Description("Do damage to a game player.")
 	public void damage(CommandSender sender, GamePlayer target, double damage) {
 		target.doDamage(null, GameDamageType.COMMAND, damage, true);
@@ -105,6 +109,7 @@ public class MiscCommands extends BaseCommand {
 	
 	@CommandAlias("poison")
 	@CommandCompletion("@gameplayers @poisons")
+	@CommandPermission("nightfall.command.poison")
 	@Description("Give poison to a game player.")
 	public void poison(CommandSender sender, GamePlayer target, PoisonType poison, int duration) {
 		target.givePoison(poison, duration);
@@ -113,6 +118,7 @@ public class MiscCommands extends BaseCommand {
 	
 	@CommandAlias("reset")
 	@CommandCompletion("@players")
+	@CommandPermission("nightfall.command.reset")
 	@Description("Resets a player, removing them from any team and resetting them as if they just logged in.")
 	public void resetPlayer(CommandSender sender, OnlinePlayer player) {
 		Player realPlayer = player.getPlayer();
@@ -122,6 +128,7 @@ public class MiscCommands extends BaseCommand {
 	
 	@CommandAlias("remove")
 	@CommandCompletion("@gameplayers")
+	@CommandPermission("nightfall.command.remove")
 	@Description("Removes a player from all teams.")
 	public void remove(CommandSender sender, GamePlayer player) {
 		Game.getGame().removeGamePlayer(player.getPlayer());
@@ -129,6 +136,7 @@ public class MiscCommands extends BaseCommand {
 	}
 	
 	@CommandAlias("charm")
+	@CommandPermission("nightfall.command.charm")
 	@Description("Places a charm at your location.")
 	public void charm(CommandSender sender, Player player, @Default("8") int time, @Default("11") double radius, @Default("3") int numSwords) {
 		Location location = player.getLocation();
@@ -141,6 +149,7 @@ public class MiscCommands extends BaseCommand {
 	}
 	
 	@CommandAlias("twins")
+	@CommandPermission("nightfall.command.twins")
 	@Description("Summons the twins to eliminate more dwarves.")
 	public void twins(CommandSender sender, int numDwarves) throws InvalidCommandArgument {
 		if (numDwarves <= 0) throw new InvalidCommandArgument("Number of dwarves must be at least 1.");
@@ -151,6 +160,7 @@ public class MiscCommands extends BaseCommand {
 	
 	@CommandAlias("colour|color|col")
 	@Conditions("hold-colourable")
+	@CommandPermission("nightfall.menu.colour")
 	@Description("Change the colour of your held item.")
 	public void colour(Player player){
 		ColourMenu menu = getColourMenu();
@@ -160,6 +170,7 @@ public class MiscCommands extends BaseCommand {
 	@CommandAlias("colour|color|col")
 	@CommandCompletion("@dyecolours")
 	@Conditions("hold-colourable")
+	@CommandPermission("nightfall.menu.colour")
 	@Description("Change the colour of your held item.")
 	public void colour(Player player, @Flags("null") DyeColor colour){
 		ColourMenu menu = getColourMenu();
@@ -173,30 +184,35 @@ public class MiscCommands extends BaseCommand {
 	// ----- DWARF GIVE COMMANDS -----
 	
 	@CommandAlias("chest|chesto|chestomatic")
+	@CommandPermission("nightfall.command.chest")
 	@Description("For sharing resources with your fellow dwarves.")
 	public void giveChest(@Flags("self") Dwarf dwarf) {
 		giveKitItem(dwarf, KitPieceType.CHESTO, "chestomatic");
 	}
 	
 	@CommandAlias("clock")
+	@CommandPermission("nightfall.command.clock")
 	@Description("So Jimmy can tell time.")
 	public void giveClock(@Flags("self") Dwarf dwarf) {
 		giveKitItem(dwarf, KitPieceType.CLOCK, "clock");
 	}
 	
 	@CommandAlias("compass")
+	@CommandPermission("nightfall.command.compass")
 	@Description("Blesses Jimmy with the mighty dwarven compass.")
 	public void giveCompass(@Flags("self") Dwarf dwarf) {
 		giveKitItem(dwarf, KitPieceType.COMPASS, "compass");
 	}
 	
 	@CommandAlias("bricklayer|brick|bricks")
+	@CommandPermission("nightfall.command.bricklayer")
 	@Description("Lets Jimmy build lots of walls.")
 	public void giveBricklayer(@Flags("self") Dwarf dwarf) {
 		giveKitItem(dwarf, KitPieceType.BRICKLAYER, "bricklayer");
 	}
 	
 	@CommandAlias("jitheal|jit-heal|jit")
+	@CommandPermission("nightfall.command.jitheal")
 	@Description("For saving Jimmy.")
 	public void giveJitHeal(@Flags("self") Dwarf dwarf) {
 		giveKitItem(dwarf, KitPieceType.JIT_HEAL, "jit heal");
@@ -208,6 +224,7 @@ public class MiscCommands extends BaseCommand {
 	}
 	
 	@CommandAlias("trash|fawn")
+	@CommandPermission("nightfall.command.trash")
 	@Description("For deleting your duplicate items.")
 	public void showTrash(@Flags("self") Dwarf dwarf) {
 		dwarf.showTrash();
@@ -219,6 +236,7 @@ public class MiscCommands extends BaseCommand {
 		
 		@CommandAlias("fixhearts")
 		@Subcommand("hearts")
+		@CommandPermission("nightfall.command.fixhearts")
 		@Description("Should remove any fake absorption hearts.")
 		public void fixHearts(Player player) {
 			player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 1, 10), true);
@@ -226,6 +244,7 @@ public class MiscCommands extends BaseCommand {
 		
 		@CommandAlias("fixplayers")
 		@Subcommand("players")
+		@CommandPermission("nightfall.command.fixplayers")
 		@Description("Fix any glitched hidden players.")
 		public void fixPlayers(Player player) {
 			for (Player other : Bukkit.getOnlinePlayers()) {
@@ -237,7 +256,18 @@ public class MiscCommands extends BaseCommand {
 		}
 	}
 	
+	@Subcommand("player-title")
+	@CommandCompletion("@gameplayers @chatcolors @nothing @boolean")
+	@CommandPermission("nightfall.command.title")
+	@Description("Forces a title on a player.")
+	public void title(CommandSender sender, GamePlayer player, ChatColor colour, @Optional String title, @Default("false") boolean force) {
+		if (title != null) title = title.replace('_',' ');
+		player.setTitle(colour, title, force);
+		MessageUtil.sendMessage(sender, "Title of player ", player.getPlayer(), " changed to ", player, ".");
+	}
+	
 	@CommandAlias("test")
+	@CommandPermission("nightfall.command.test")
 	public void test(CommandSender sender) {
 		if (true) return; // disabled
 		

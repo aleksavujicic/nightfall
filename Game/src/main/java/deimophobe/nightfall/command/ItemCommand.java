@@ -17,6 +17,7 @@ public class ItemCommand extends BaseCommand {
 	
 	@Subcommand("give")
 	@CommandCompletion("@players @items")
+	@CommandPermission("nightfall.command.item.give")
 	@Description("Give an item to a player.")
 	public void giveItem(CommandSender sender, OnlinePlayer player, @Flags("all") CustomItem item, @Default("1") int quantity) {
 		Player realPlayer = player.getPlayer();

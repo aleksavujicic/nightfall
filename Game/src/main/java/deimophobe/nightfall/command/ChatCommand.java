@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.InvalidCommandArgument;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
+import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Description;
 import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.ChatListener;
@@ -26,6 +27,7 @@ public class ChatCommand extends BaseCommand {
 	private final Map<UUID, UUID> mapLastMessaged = new HashMap<>();
 	
 	@CommandAlias("toggleglobal")
+	@CommandPermission("nightfall.command.chat.toggleglobal")
 	@Description("Turn global on and off.")
 	public void toggleGlobal(CommandSender sender) {
 		boolean enabled = ChatListener.toggleGlobal();
@@ -34,6 +36,7 @@ public class ChatCommand extends BaseCommand {
 
 	@CommandAlias("msg|w|tell")
 	@CommandCompletion("@players")
+	@CommandPermission("nightfall.command.chat.whisper")
 	@Description("Private message another player.")
 	public void onMessage(Player sender, OnlinePlayer receiver, String message) {
 		Player receiverPlayer = receiver.getPlayer();
@@ -42,6 +45,7 @@ public class ChatCommand extends BaseCommand {
 
 	
 	@CommandAlias("r|reply")
+	@CommandPermission("nightfall.command.chat.reply")
 	@Description("Reply to a private message.")
 	public void onReply(Player sender, String message) throws InvalidCommandArgument {
 		UUID receiverUUID = mapLastMessaged.get(sender.getUniqueId());

@@ -15,6 +15,7 @@ public class DoomCommand extends BaseCommand {
 	
 	@Subcommand("spawn")
 	@CommandCompletion("@dooms")
+	@CommandPermission("nightfall.command.doom.spawn")
 	@Description("Causes a doom to immediately occur.")
 	public void spawnDoom(CommandSender sender, DoomType type) {
 		type.spawnDoom();
@@ -23,6 +24,7 @@ public class DoomCommand extends BaseCommand {
 	
 	@Subcommand("next")
 	@CommandCompletion("@dooms")
+	@CommandPermission("nightfall.command.doom.next")
 	@Description("Forces the next doom to be a certain type.")
 	public void next(CommandSender sender, DoomType type) {
 		DoomManager.getManager().forceNextDoom(type);
@@ -31,6 +33,7 @@ public class DoomCommand extends BaseCommand {
 	
 	@Subcommand("force")
 	@Conditions("monster-release")
+	@CommandPermission("nightfall.command.doom.force")
 	@Description("Forces doom to occur.")
 	public void forceDoom(CommandSender sender) {
 		DoomManager.getManager().reduceDoom(1000000);
@@ -39,6 +42,7 @@ public class DoomCommand extends BaseCommand {
 	
 	@Subcommand("reduce")
 	@Conditions("monster-release")
+	@CommandPermission("nightfall.command.doom.reduce")
 	@Description("Reduces doom by a fixed amount.")
 	public void reduceDoom(CommandSender sender, int amount) {
 		DoomManager.getManager().reduceDoom(amount);
@@ -47,6 +51,7 @@ public class DoomCommand extends BaseCommand {
 	
 	@Subcommand("time")
 	@Conditions("monster-release")
+	@CommandPermission("nightfall.command.doom.time")
 	@Description("Gets the current doom time.")
 	public void getTime(CommandSender sender) {
 		int time = DoomManager.getManager().getTime();
@@ -55,6 +60,7 @@ public class DoomCommand extends BaseCommand {
 	
 	@Subcommand("set-max")
 	@Conditions("monster-release")
+	@CommandPermission("nightfall.command.doom.max")
 	@Description("Sets the max timer on doom.")
 	public void setMax(CommandSender sender, int amount) {
 		DoomManager.getManager().setMaxDoomTime(amount);
@@ -63,6 +69,7 @@ public class DoomCommand extends BaseCommand {
 	
 	@Subcommand("set-max-internal")
 	@Conditions("monster-release")
+	@CommandPermission("nightfall.command.doom.max")
 	@Description("Sets the max internal timer on doom.")
 	public void setMaxInternal(CommandSender sender, int amount) {
 		DoomManager.getManager().setMaxInternalDoomTime(amount);
@@ -71,6 +78,7 @@ public class DoomCommand extends BaseCommand {
 	
 	@Subcommand("set-variance")
 	@Conditions("monster-release")
+	@CommandPermission("nightfall.command.doom.variance")
 	@Description("Sets the max internal timer on doom.")
 	public void setVariance(CommandSender sender, int amount) {
 		DoomManager.getManager().setDoomTimeVariance(amount);
@@ -78,6 +86,7 @@ public class DoomCommand extends BaseCommand {
 	}
 	
 	@Subcommand("toggle")
+	@CommandPermission("nightfall.command.doom.toggle")
 	@Description("Toggle dooms occuring.")
 	public void toggle(CommandSender sender) {
 		boolean enabled = getManager().toggleDoom();

@@ -21,6 +21,7 @@ import org.bukkit.command.CommandSender;
 public class ArmourCommand extends BaseCommand {
 	
 	@Default
+	@CommandPermission("nightfall.dwarf.armour.equip")
 	@Description("Equip armour on yourself.")
 	public void selfEquip(CommandSender sender, @Flags("self") @Conditions("unequipped-armour") Dwarf dwarf) {
 		((DwarvenArmour) dwarf.getArmour()).putOn();
@@ -29,6 +30,7 @@ public class ArmourCommand extends BaseCommand {
 	
 	@Subcommand("equip")
 	@CommandCompletion("@dwarves")
+	@CommandPermission("nightfall.dwarf.armour.equip")
 	@Description("Equip armour on a dwarf.")
 	public void onEquip(CommandSender sender, @Conditions("unequipped-armour") @Optional Dwarf dwarf) {
 		((DwarvenArmour) dwarf.getArmour()).putOn();
@@ -37,6 +39,7 @@ public class ArmourCommand extends BaseCommand {
 	
 	@Subcommand("repair")
 	@CommandCompletion("@dwarves @range:0-100")
+	@CommandPermission("nightfall.dwarf.armour.repair")
 	@Description("Repair a dwarf's armour.")
 	public void onRepair(CommandSender sender, @Optional Dwarf dwarf, @Default("1000") double amount) {
 		dwarf.getArmour().repair(amount);
@@ -45,6 +48,7 @@ public class ArmourCommand extends BaseCommand {
 	
 	@Subcommand("damage")
 	@CommandCompletion("@dwarves @range:0-100")
+	@CommandPermission("nightfall.dwarf.armour.damage")
 	@Description("Damage a dwarf's armour.")
 	public void onDamage(CommandSender sender, @Optional Dwarf dwarf, @Default("2000") double amount) {
 		dwarf.getArmour().damage(amount);
@@ -53,6 +57,7 @@ public class ArmourCommand extends BaseCommand {
 	
 	@Subcommand("amount")
 	@CommandCompletion("@dwarves")
+	@CommandPermission("nightfall.dwarf.armour.amount")
 	@Description("Display a dwarf's armour level.")
 	public void onAmount(CommandSender sender, @Conditions("reg-armour") @Optional Dwarf dwarf) {
 		double value = ((DwarvenArmour) dwarf.getArmour()).getValue();
