@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
  * Created by Deimophobe on 4/03/18.
  */
 @CommandAlias("doom")
+@CommandPermission("nightfall.command.doom")
 public class DoomCommand extends BaseCommand {
 	
 	@Subcommand("spawn")

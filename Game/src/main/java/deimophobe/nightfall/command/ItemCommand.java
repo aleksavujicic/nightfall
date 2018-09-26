@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
  * Created by Deimophobe on 5/03/18.
  */
 @CommandAlias("item")
+@CommandPermission("nightfall.command.item")
 public class ItemCommand extends BaseCommand {
 	
 	@Subcommand("give")

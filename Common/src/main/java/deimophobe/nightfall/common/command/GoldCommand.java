@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
  * Created by Deimophobe on 16/05/18.
  */
 @CommandAlias("gold")
+@CommandPermission("nightfall.command.gold")
 public class GoldCommand extends BaseCommand {
 	
 	@Subcommand("give")

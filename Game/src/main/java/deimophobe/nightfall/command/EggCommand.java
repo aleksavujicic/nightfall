@@ -13,6 +13,7 @@ import org.bukkit.command.CommandSender;
  * Created by Deimophobe on 19/03/18.
  */
 @CommandAlias("egg|eggs|e")
+@CommandPermission("nightfall.command.egg")
 public class EggCommand extends BaseCommand {
 	
 	@Subcommand("add|create")

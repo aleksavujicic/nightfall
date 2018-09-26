@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
  * Created by Deimophobe on 1/03/18.
  */
 @CommandAlias("dwarf|d")
+@CommandPermission("nightfall.command.dwarf")
 public class DwarfCommand extends BaseCommand {
 	
 	@Subcommand("set|create")

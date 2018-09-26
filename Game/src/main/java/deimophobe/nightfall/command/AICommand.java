@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
  * Created by Deimophobe on 4/03/18.
  */
 @CommandAlias("ai")
+@CommandPermission("nightfall.command.ai")
 public class AICommand extends BaseCommand {
 	
 	@Subcommand("spawn")

@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender;
  * Created by Deimophobe on 3/05/18.
  */
 @CommandAlias("block|b")
+@CommandPermission("nightfall.command.block")
 public class BlockCommand extends BaseCommand {
 	
 	@Subcommand("timed|t")

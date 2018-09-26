@@ -4,16 +4,15 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import deimophobe.nightfall.common.command.MessageUtil;
 import deimophobe.nightfall.game.Game;
-import deimophobe.nightfall.game.player.GamePlayer;
 import deimophobe.nightfall.game.GameSize;
 import deimophobe.nightfall.plague.PlagueType;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 /**
  * Created by Deimophobe on 4/03/18.
  */
 @CommandAlias("game|g")
+@CommandPermission("nightfall.command.game")
 public class GameCommand extends BaseCommand {
 	
 	@Subcommand("start")

@@ -19,6 +19,7 @@ import java.util.List;
  * Created by Deimophobe on 4/03/18.
  */
 @CommandAlias("map")
+@CommandPermission("nightfall.command.map")
 public class MapCommand extends BaseCommand {
 	
 	@Subcommand("setenabled")

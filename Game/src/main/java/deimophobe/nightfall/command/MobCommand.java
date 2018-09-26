@@ -22,6 +22,7 @@ import java.util.List;
  * Created by Deimophobe on 4/03/18.
  */
 @CommandAlias("mob|monster|m")
+@CommandPermission("nightfall.command.mob")
 public class MobCommand extends BaseCommand {
 	
 	@Subcommand("set|create")

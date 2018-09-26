@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
  */
 @CommandAlias("shrine")
 @Conditions("main-game-phase")
+@CommandPermission("nightfall.command.shrine")
 public class ShrineCommand extends BaseCommand {
 	
 	@Subcommand("kill")

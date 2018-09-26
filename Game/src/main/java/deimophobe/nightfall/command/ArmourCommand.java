@@ -18,6 +18,7 @@ import org.bukkit.command.CommandSender;
  */
 @Deprecated
 @CommandAlias("armour|armor")
+@CommandPermission("nightfall.command.armour")
 public class ArmourCommand extends BaseCommand {
 	
 	@Default
