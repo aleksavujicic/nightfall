@@ -10,9 +10,11 @@ import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.common.player.cosmetic.HatMenu;
 import deimophobe.nightfall.common.player.cosmetic.TitleMenu;
 import deimophobe.nightfall.common.player.settings.SettingsMenu;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.InputStream;
@@ -43,6 +45,8 @@ public class NightfallCommonPlugin extends JavaPlugin {
 	public void onEnable() {
 		plugin = this;
 		
+		Maintenance.initialise(this);
+		
 		// Load config - saving default if none exists.
 		this.saveDefaultConfig();
 		config = this.getConfig();
@@ -62,6 +66,11 @@ public class NightfallCommonPlugin extends JavaPlugin {
 		super.onDisable();
 		playerManager.onDisable();
 	}
+	
+	public void registerListener(Listener listener) {
+		Bukkit.getPluginManager().registerEvents(listener, this);
+	}
+	
 	
 	public static YamlConfiguration getInternalFileConfig(String name) {
 		InputStream stream = getPlugin().getResource(name);
