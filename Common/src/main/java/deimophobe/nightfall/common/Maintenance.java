@@ -37,9 +37,12 @@ public class Maintenance {
 	}
 	
 	private static final String JOIN_PERMISSION = "nightfall.maintenance.join";
+	private static final String CONFIG_PATH = "maintenance";
 	
 	private boolean enabled;
 	public boolean isEnabled() { return enabled; }
+	
+	private final NightfallCommonPlugin plugin;
 	
 	private final Listener joinListener;
 	private final LuckPermsApi permsApi;
@@ -48,15 +51,17 @@ public class Maintenance {
 	private final PacketAdapter serverListAdapter;
 	
 	private Maintenance(NightfallCommonPlugin plugin) {
-		joinListener = new MaintenanceListener();
+		this.plugin = plugin;
+		
+		this.joinListener = new MaintenanceListener();
 		
 		RegisteredServiceProvider<LuckPermsApi> provider = Bukkit.getServicesManager().getRegistration(LuckPermsApi.class);
-		permsApi = provider.getProvider();
-		joinPermission = permsApi.getNodeFactory().newBuilder(JOIN_PERMISSION).build();
+		this.permsApi = provider.getProvider();
+		this.joinPermission = permsApi.getNodeFactory().newBuilder(JOIN_PERMISSION).build();
 		
 		plugin.registerListener(joinListener);
 		
-		serverListAdapter = new PacketAdapter(plugin, PacketType.Status.Server.SERVER_INFO) {
+		this.serverListAdapter = new PacketAdapter(plugin, PacketType.Status.Server.SERVER_INFO) {
 			@Override
 			public void onPacketSending(PacketEvent event) {
 				if (!enabled) return;
@@ -77,6 +82,9 @@ public class Maintenance {
 				);
 			}
 		};
+		
+		enabled = plugin.getConfig().getBoolean(CONFIG_PATH, false);
+		setEnabled(enabled);
 	}
 	
 	public void setEnabled(boolean enabled) {
@@ -88,6 +96,9 @@ public class Maintenance {
 		} else {
 			pm.removePacketListener(serverListAdapter);
 		}
+		
+		plugin.getConfig().set(CONFIG_PATH, enabled);
+		plugin.saveConfig();
 	}
 	
 	

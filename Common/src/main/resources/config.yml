@@ -1,6 +1,9 @@
 # Does nothing yet - but might be useful to add at some point.
 debug: false
 
+# Should the server start in maintenance mode?
+maintenance: false
+
 database:
   # Valid options: flat, mongo, none (default)
   # Note that 'none' will not save any data.

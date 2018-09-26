@@ -44,12 +44,9 @@ public class NightfallCommonPlugin extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		plugin = this;
+		this.saveDefaultConfig();
 		
 		Maintenance.initialise(this);
-		
-		// Load config - saving default if none exists.
-		this.saveDefaultConfig();
-		config = this.getConfig();
 		
 		ConfigurationSection templatesFile = NightfallCommonPlugin.getInternalFileConfig("lore-templates.yml");
 		LoreTemplate.registerTemplateFile(templatesFile);
@@ -79,7 +76,7 @@ public class NightfallCommonPlugin extends JavaPlugin {
 	}
 	
 	private DataIOType getDataIOType() {
-		String databaseType = config.getString("database.type", "none");
+		String databaseType = getConfig().getString("database.type", "none");
 		Logger logger = NightfallCommonPlugin.logger();
 		try {
 			DataIOType type = Misc.getEnumMemberFromString(databaseType, DataIOType.values(), "data handler");
