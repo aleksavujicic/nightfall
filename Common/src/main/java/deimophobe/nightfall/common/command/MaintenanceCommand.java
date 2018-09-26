@@ -20,14 +20,14 @@ public class MaintenanceCommand extends BaseCommand {
 	@CommandPermission("nightfall.command.maintenance.toggle")
 	public void enable(CommandSender sender) {
 		maintenance.setEnabled(true);
-		MessageUtil.sendMessage(sender, "Maintenance mode is now ", true);
+		MessageUtil.sendMessage(sender, "Maintenance mode is now ", true, ".");
 	}
 	
 	@Subcommand("disable")
 	@CommandPermission("nightfall.command.maintenance.toggle")
 	public void disable(CommandSender sender) {
 		maintenance.setEnabled(false);
-		MessageUtil.sendMessage(sender, "Maintenance mode is now ", false);
+		MessageUtil.sendMessage(sender, "Maintenance mode is now ", false, ".");
 	}
 	
 	@Default
@@ -35,6 +35,6 @@ public class MaintenanceCommand extends BaseCommand {
 	@CommandPermission("nightfall.command.maintenance.check")
 	public void check(CommandSender sender) {
 		boolean enabled = maintenance.isEnabled();
-		MessageUtil.sendMessage(sender, "Maintenance mode is ", enabled);
+		MessageUtil.sendMessage(sender, "Maintenance mode is ", enabled, ".");
 	}
 }
