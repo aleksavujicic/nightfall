@@ -52,7 +52,7 @@ fire:
 ice:
   parent: magi
 
-  speed: -10
+  speed: -15
 
   weapon:
     template: monster-hero
@@ -69,4 +69,33 @@ ice:
   sounds:
     punch-ice:
       path: "block.note.chime"
+      pitch: 1.5
+
+thunder:
+  parent: magi
+
+  speed: 15
+
+  weapon:
+    template: monster-hero
+    base: magi.staff
+    name: "Thunder Magi Staff"
+    lore:
+      description:
+       - "Right click to strike\n
+          the ground with thunder."
+      flavour:
+       - ""
+    modifiers:
+      knockback: 3
+
+  sounds:
+    punch:
+      path: "block.note.chime"
+      pitch: 1.5
+    thunder-start:
+      path: "entity.lightning.thunder"
+      pitch: 1
+    thunder-end:
+      path: "entity.lightning.thunder"
       pitch: 1.5
