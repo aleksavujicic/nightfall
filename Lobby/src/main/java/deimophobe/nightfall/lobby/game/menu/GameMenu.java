@@ -16,7 +16,7 @@ import java.util.Map;
 public class GameMenu extends ListMenu<GameSessionData> implements MainMenu<GameSessionData> {
 	@Override public String getTitle() { return "Games"; }
 	@Override public GameSessionData getDataFromPlayer(Player player) { return new GameSessionData(player); }
-	@Override public String getMenuPermission() {
+	@Override public String getPermissionName() {
 		return "games";
 	}
 	

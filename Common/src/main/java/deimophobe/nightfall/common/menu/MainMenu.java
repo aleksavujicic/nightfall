@@ -2,14 +2,24 @@ package deimophobe.nightfall.common.menu;
 
 import deimophobe.nightfall.common.menu.submenu.SubMenu;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 /**
  * Created by Deimophobe on 2/02/17.
  */
 public interface MainMenu<T extends SessionData> extends SubMenu<T> {
+	String PERMISSION_PREFIX = "nightfall.menu.";
+	String PERMISSION_POSTFIX = "";
+	
 	String getTitle();
 	T getDataFromPlayer(Player player);
-	String getMenuPermission();
+	String getPermissionName();
+	
+	
+	default Permission getPermission() {
+		return new Permission(PERMISSION_PREFIX + getPermissionName() + PERMISSION_POSTFIX, PermissionDefault.TRUE);
+	}
 	
 	default void startSession(Player player) {
 		MenuManager.getManager().startSession(this, player);

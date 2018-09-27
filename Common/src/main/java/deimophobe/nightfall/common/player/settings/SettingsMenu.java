@@ -37,7 +37,7 @@ public class SettingsMenu extends SimpleMenu<PlayerSettings> implements MainMenu
 	}
 	
 	@Override
-	public String getMenuPermission() {
+	public String getPermissionName() {
 		return "settings";
 	}
 	

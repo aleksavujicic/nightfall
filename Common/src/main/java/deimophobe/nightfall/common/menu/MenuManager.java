@@ -23,8 +23,6 @@ public final class MenuManager {
 		return NightfallCommonPlugin.getPlugin().getMenuManager();
 	}
 	
-	private static final String MENU_PERMISSION_PREFIX = "nightfall.menu.";
-	
 	private final Map<Player, MenuSession<?>> activeSessions = new HashMap<>();
 	private final ClassToInstanceMap<MainMenu<?>> registeredMenus;
 	
@@ -42,9 +40,7 @@ public final class MenuManager {
 		
 		registeredMenus.putInstance(menuClass, menu);
 		
-		Permission menuPerm = new Permission(
-				MENU_PERMISSION_PREFIX + menu.getMenuPermission()
-		);
+		Permission menuPerm = menu.getPermission();
 		Bukkit.getPluginManager().addPermission(menuPerm);
 	}
 	
@@ -66,7 +62,9 @@ public final class MenuManager {
 	public <T extends SessionData> void startSession(MainMenu<T> mainMenu, Player player) {
 		checkNotNull(mainMenu, "Menu must not be null.");
 		checkNotNull(player, "Player must not be null.");
-		if (!player.hasPermission(MENU_PERMISSION_PREFIX + mainMenu.getMenuPermission())) {
+		
+		Permission perm = mainMenu.getPermission();
+		if (!player.hasPermission(perm)) {
 			player.sendMessage(ChatColor.RED + "You do not have permission to open that menu.");
 			return;
 		}

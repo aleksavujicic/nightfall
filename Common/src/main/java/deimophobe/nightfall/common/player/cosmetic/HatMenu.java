@@ -36,7 +36,7 @@ public class HatMenu extends ListMenu<Cosmetics> implements MainMenu<Cosmetics> 
 	}
 	
 	@Override
-	public String getMenuPermission() {
+	public String getPermissionName() {
 		return "hat";
 	}
 }

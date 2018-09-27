@@ -82,7 +82,7 @@ public class LoadoutMenu extends CompositeMenu<Loadout> implements MainMenu<Load
 	}
 	
 	@Override
-	public String getMenuPermission() {
+	public String getPermissionName() {
 		return "loadout";
 	}
 	

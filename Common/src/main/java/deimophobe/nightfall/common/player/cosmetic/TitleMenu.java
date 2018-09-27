@@ -35,7 +35,7 @@ public class TitleMenu extends ListMenu<Cosmetics> implements MainMenu<Cosmetics
 	}
 	
 	@Override
-	public String getMenuPermission() {
+	public String getPermissionName() {
 		return "title";
 	}
 }

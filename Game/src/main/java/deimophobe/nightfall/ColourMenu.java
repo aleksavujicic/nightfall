@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class ColourMenu extends ListMenu<NoData> implements MainMenu<NoData> {
 	@Override public String getTitle() { return "Choose a colour"; }
 	@Override public NoData getDataFromPlayer(Player player) { return null; }
-	@Override public String getMenuPermission() { return "colour"; }
+	@Override public String getPermissionName() { return "colour"; }
 	
 	private Map<DyeColor, ColourMenuItem> colourMap = new HashMap<>();
 	
