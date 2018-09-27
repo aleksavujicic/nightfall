@@ -3,3 +3,9 @@ name: NightfallCommon
 version: 0.1
 author: Deimophobe
 description: The common library plugin for the nightfall game.
+
+
+permissions:
+  nightfall.maintenance.join:
+    description: Allows player to join while in maintenance mode.
+    default: op
