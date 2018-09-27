@@ -6,6 +6,7 @@ import deimophobe.nightfall.common.NightfallCommonPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
@@ -40,6 +41,11 @@ public final class MenuManager {
 		checkNotNull(menu, "Menu must not be null.");
 		
 		registeredMenus.putInstance(menuClass, menu);
+		
+		Permission menuPerm = new Permission(
+				MENU_PERMISSION_PREFIX + menu.getMenuPermission()
+		);
+		Bukkit.getPluginManager().addPermission(menuPerm);
 	}
 	
 	public <S extends MainMenu<?>> S getMenu(Class<S> menuClass) {
