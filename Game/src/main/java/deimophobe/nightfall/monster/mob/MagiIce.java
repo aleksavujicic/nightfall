@@ -6,10 +6,7 @@ import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.DataTimedBlock;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.cooldown.Cooldown;
-import deimophobe.nightfall.cooldown.Display;
-import deimophobe.nightfall.cooldown.Update;
-import deimophobe.nightfall.cooldown.UseCooldown;
+import deimophobe.nightfall.cooldown.*;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -31,6 +28,7 @@ class MagiIce extends AbstractMob {
 	}
 	
 	@Update @Display private final Cooldown iceCD = new UseCooldown(45*20, this::makeIce);
+	@Update private final Cooldown leftClickIce = new SimpleCooldown(20);
 	
 	@Override
 	public void update() {
@@ -55,6 +53,17 @@ class MagiIce extends AbstractMob {
 		if (click.isRightClick() && isPlayerHoldingWeapon()) {
 			iceCD.tryUse();
 		}
+		if (click.isLeftClick() && clickedBlock != null && isPlayerHoldingWeapon()) {
+			if (leftClickIce.isAvailable()) {
+				boolean created = tryCreateIce(clickedBlock, 10 * 20);
+				if (created) {
+					playSound("punch-ice");
+					Location center = clickedBlock.getLocation().add(0.5, 0.5, 0.5);
+					Misc.spawnRangedParticles(center, Particle.FIREWORKS_SPARK, 10, 0.5, 0.5, 0.5);
+					leftClickIce.reset();
+				}
+			}
+		}
 	}
 	
 	@Override
@@ -74,11 +83,12 @@ class MagiIce extends AbstractMob {
 		dropFakeItem("armour");
 	}
 	
-	private void tryCreateIce(Block block, int lifetime) {
+	private boolean tryCreateIce(Block block, int lifetime) {
 		if (BlockType.SOLID.matchesBlock(block)) {
 			TimedBlock timed = new IceBlock(lifetime, block);
-			BlockManager.getManager().placeTimedBlock(timed);
+			return BlockManager.getManager().placeTimedBlock(timed);
 		}
+		return false;
 	}
 	
 	private void makeIce() {

@@ -65,3 +65,8 @@ ice:
        - ""
     modifiers:
       knockback: 1
+
+  sounds:
+    punch-ice:
+      path: "block.note.chime"
+      pitch: 1.5
