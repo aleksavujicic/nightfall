@@ -1,8 +1,12 @@
 package deimophobe.nightfall.monster;
 
 import deimophobe.nightfall.monster.mob.MobType;
+import org.bukkit.Bukkit;
+import org.bukkit.permissions.Permissible;
+import org.bukkit.permissions.Permission;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -33,11 +37,21 @@ public class SpawnRegistry {
 		String name = creator.getName();
 		checkArgument(!creators.containsKey(name), "Cannot insert creator with name '%s' as it already exists.", name);
 		creators.put(name, creator);
+		
+		Bukkit.getPluginManager().addPermission(creator.getPermission());
 	}
 	
 	
-	public Set<String> getValidCreators() {
-		return creators.keySet();
+	public Set<String> getValidCreators(Permissible permissible) {
+		Set<String> validCreators = new HashSet<>();
+		for (MobCreator<?> creator : creators.values()) {
+			Permission perm = creator.getPermission();
+			if (!permissible.hasPermission(perm)) continue;
+			
+			String name = creator.getName();
+			validCreators.add(name);
+		}
+		return validCreators;
 	}
 	
 	public MobCreator<?> tryGetCreator(String name) {

@@ -105,7 +105,7 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("gamesizes", getCompletionHandlerForEnum(GameSize.values()));
 		completions.registerCompletion("dyecolours", getCompletionHandlerForEnum(DyeColor.values()));
 		
-		completions.registerCompletion("mobcreators", c -> SpawnRegistry.getRegistry().getValidCreators());
+		completions.registerCompletion("mobcreators", c -> SpawnRegistry.getRegistry().getValidCreators(c.getSender()));
 		completions.registerCompletion("spawneggs", c -> MonsterManager.getManager().getEggNames());
 		completions.registerCompletion("items", c -> ItemManager.getManager().getNames());
 		completions.registerCompletion("maps", c -> MapManager.getManager().getMaps());
@@ -222,19 +222,19 @@ public class CommandInitialiserUtil {
 		
 		contexts.registerContext(MobCreator.class, getPrettyResolver(
 				name -> SpawnRegistry.getRegistry().tryGetCreator(name),
-				() -> SpawnRegistry.getRegistry().getValidCreators(),
+				context -> SpawnRegistry.getRegistry().getValidCreators(context.getSender()),
 				"mob creator", true
 		));
 		
 		contexts.registerContext(CustomItem.class, getPrettyResolver(
 				name -> ItemManager.getManager().getItem(name),
-				() -> ItemManager.getManager().getNames(),
+				context -> ItemManager.getManager().getNames(),
 				"item", false
 		));
 		
 		contexts.registerContext(SpawnEggMenuItem.class, getPrettyResolver(
 				name -> MonsterManager.getManager().getEgg(name),
-				() -> MonsterManager.getManager().getEggNames(),
+				context -> MonsterManager.getManager().getEggNames(),
 				"spawn egg", true
 		));
 	}
@@ -431,13 +431,13 @@ public class CommandInitialiserUtil {
 	
 	private static <T> ContextResolver<T, BukkitCommandExecutionContext> getPrettyResolver(
 			Function<String,T> resolver,
-			Supplier<Collection<String>> valueSupplier,
+			Function<BukkitCommandExecutionContext, Collection<String>> valueSupplier,
 			String simpleName,
 			boolean displayAll
 	) {
 		
 		return context -> {
-			Collection<String> names = new TreeSet<>(valueSupplier.get());
+			Collection<String> names = new TreeSet<>(valueSupplier.apply(context));
 			String arg = context.popFirstArg().toLowerCase().replace('_','-');
 			
 			if (arg.equals(RANDOM_ENUM)) {

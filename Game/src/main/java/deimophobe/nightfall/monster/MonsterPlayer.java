@@ -36,6 +36,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.permissions.Permission;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -160,6 +161,13 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	public boolean spawnMob(MobCreator<?> type, SpawnMethod spawnMethod) {
+		Permission permission = type.getPermission();
+		if (!player.hasPermission(permission)) {
+			sendMessage(ChatColor.RED + "You do not have permission to spawn as that mob.");
+			NightfallPlugin.logger().info("Tried to spawn " + getName() + " as a " + type.getName() + " mob but they do not have the required permission.");
+			return false;
+		}
+		
 		try {
 			Mob mob = type.createMob(this);
 			return spawnMob(mob, spawnMethod);
