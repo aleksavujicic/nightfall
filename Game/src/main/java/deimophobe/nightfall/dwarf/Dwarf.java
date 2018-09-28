@@ -28,16 +28,15 @@ import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.armour.BerserkArmour;
 import deimophobe.nightfall.dwarf.kit.healing.StrongAle;
 import deimophobe.nightfall.game.Game;
-import deimophobe.nightfall.game.GameEntity;
-import deimophobe.nightfall.game.player.GamePlayer;
 import deimophobe.nightfall.game.Phase;
+import deimophobe.nightfall.game.entity.GameEntity;
+import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
@@ -766,7 +765,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile arrow, Block hitBlock, Entity hitEntity) {
+	public void onProjectileLand(Projectile arrow, Block hitBlock) {
 		// Should incorporate hitEntity into here as well at some point, and make hitBlock != null a local check, but not necessary for now
 		if (hitBlock != null)
 			kit.onProjectileLand(arrow, hitBlock);

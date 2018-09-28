@@ -27,6 +27,13 @@ ai-sword:
   modifiers:
     attack: 14
 
+ai-bow:
+  template: monster
+  base: skeleton.wither-bow
+  name: Bow
+  modifiers:
+    power: 20
+
 ai-legs:
   template: monster
   material: iron_leggings

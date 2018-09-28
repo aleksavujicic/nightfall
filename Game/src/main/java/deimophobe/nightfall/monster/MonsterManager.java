@@ -3,7 +3,7 @@ package deimophobe.nightfall.monster;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.cooldown.BooleanCooldown;
-import deimophobe.nightfall.game.player.GamePlayerManager;
+import deimophobe.nightfall.game.entity.GamePlayerManager;
 import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.doom.DoomManager;
 import deimophobe.nightfall.monster.mob.MobType;

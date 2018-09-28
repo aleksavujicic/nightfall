@@ -7,7 +7,7 @@ import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.dwarf.hero.HeroType;
 import deimophobe.nightfall.event.DwarfCreateEvent;
 import deimophobe.nightfall.game.Game;
-import deimophobe.nightfall.game.player.GamePlayerManager;
+import deimophobe.nightfall.game.entity.GamePlayerManager;
 import deimophobe.nightfall.game.GameSize;
 import deimophobe.nightfall.util.PacketUtil;
 import org.bukkit.Bukkit;

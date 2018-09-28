@@ -2,7 +2,7 @@ package deimophobe.nightfall.dwarf;
 
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.game.GameEntity;
+import deimophobe.nightfall.game.entity.GameEntity;
 import org.bukkit.entity.LivingEntity;
 
 /**

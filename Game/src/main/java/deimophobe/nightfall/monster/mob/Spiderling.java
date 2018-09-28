@@ -13,7 +13,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowball;
 import org.bukkit.potion.PotionEffectType;
@@ -64,8 +63,8 @@ class Spiderling extends AbstractMob {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile proj, Block hitBlock, Entity hitEntity) {
-		super.onProjectileLand(proj, hitBlock, hitEntity);
+	public void onProjectileLand(Projectile proj, Block hitBlock) {
+		super.onProjectileLand(proj, hitBlock);
 		if (proj.getLocation().distance(monster.getLocation()) <= CORRODE_DISTANCE)
 			BlockConverter.convert(BlockConverter.Type.CORROSION, proj.getLocation(), 2);
 	}

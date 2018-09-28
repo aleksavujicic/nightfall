@@ -8,7 +8,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractCooldownItem;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.game.GameEntity;
+import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Location;

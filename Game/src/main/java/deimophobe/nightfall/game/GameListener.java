@@ -11,7 +11,9 @@ import deimophobe.nightfall.damage.DamageUtil;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.game.player.GamePlayer;
+import deimophobe.nightfall.game.entity.GameEntity;
+import deimophobe.nightfall.game.entity.GameEntityShooter;
+import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -305,51 +307,68 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void onArrowFire(EntityShootBowEvent event) {
-		if (event.getEntity().getType() == EntityType.PLAYER) {
-			GamePlayer gamePlayer = game.getGamePlayer((Player) event.getEntity());
-			if (gamePlayer != null) {
-				Entity proj = event.getProjectile();
-				if (proj != null && proj.getType() == EntityType.ARROW) {
-					Arrow arrow = (Arrow) proj;
-					final float force = event.getForce();
-					
-					// Set appropriate velocity
-					double speed = arrow.getVelocity().length();
-					Vector velocity = gamePlayer.getEyeLocation().getDirection();
-					velocity.multiply(speed);
-					arrow.setVelocity(velocity);
-					
-					// Set appropriate spawn location
-					Location location = arrow.getLocation();
-					location.setDirection(velocity);
-					Misc.moveLocation(location, 0.3, 0.15);
-					
-					// Rotate correctly: note that minecraft is dumb and the facing is direction is inverted for X and Y (BUT NOT Z)
-					Vector facing = velocity.clone();
-					facing.setX(-facing.getX());
-					facing.setY(-facing.getY());
-					location.setDirection(facing);
-					arrow.teleport(location);
-					
-					
-					// Update arrow properties
-					ArrowMisc.setArrowForce(arrow, force);
-					ArrowMisc.setArrowDamage(arrow, 0);
-					arrow.setPickupStatus(Arrow.PickupStatus.DISALLOWED);
-					arrow.setBounce(false);
-					
-					// FIRE
-					Projectile newProj = gamePlayer.onBowFire(arrow, force);
-					
-					if (newProj == null) {
-						event.setCancelled(true);
-					} else if (newProj instanceof Arrow && ArrowMisc.getArrowDamage((Arrow) newProj) == 0) {
-						NightfallPlugin.logger().severe("Arrow fired with 0 damage - meaning game player did not update!\nGameplayer: " + gamePlayer.getName() + " (" + gamePlayer.getDisplayName() + ").");
-						event.setCancelled(true);
-					} else {
-						event.setProjectile(newProj);
-					}
+		Entity entity = event.getEntity();
+		GameEntity<?> gameEntity = game.getGameEntity(entity);
+		if (gameEntity instanceof GameEntityShooter) {
+			GameEntityShooter<?> shooter = (GameEntityShooter) gameEntity;
+			Entity proj = event.getProjectile();
+			if (proj != null && proj.getType() == EntityType.ARROW) {
+				Arrow arrow = (Arrow) proj;
+				final float force = event.getForce();
+				
+				// Set appropriate velocity
+				double speed = arrow.getVelocity().length();
+				Vector velocity = shooter.getEyeLocation().getDirection();
+				velocity.multiply(speed);
+				arrow.setVelocity(velocity);
+				
+				// Set appropriate spawn location
+				Location location = arrow.getLocation();
+				location.setDirection(velocity);
+				Misc.moveLocation(location, 0.3, 0.15);
+				
+				// Rotate correctly: note that minecraft is dumb and the facing is direction is inverted for X and Y (BUT NOT Z)
+				Vector facing = velocity.clone();
+				facing.setX(-facing.getX());
+				facing.setY(-facing.getY());
+				location.setDirection(facing);
+				arrow.teleport(location);
+				
+				
+				// Update arrow properties
+				ArrowMisc.setArrowForce(arrow, force);
+				ArrowMisc.setArrowDamage(arrow, 0);
+				arrow.setPickupStatus(Arrow.PickupStatus.DISALLOWED);
+				arrow.setBounce(false);
+				
+				// FIRE
+				Projectile newProj = shooter.onBowFire(arrow, force);
+				
+				if (newProj == null) {
+					event.setCancelled(true);
+				} else if (newProj instanceof Arrow && ArrowMisc.getArrowDamage((Arrow) newProj) == 0) {
+					NightfallPlugin.logger().severe("Arrow fired with 0 damage - meaning game entity did not update arrow!\nGameEntity: " + gameEntity.getName() + " (" + gameEntity.getDisplayName() + ").");
+					event.setCancelled(true);
+				} else {
+					event.setProjectile(newProj);
 				}
+			}
+		} else {
+			NightfallPlugin.logger().warning("Bow fired with non GameEntityShooter holder ('" + entity.getName() + "'). Wrapping arrow safely.");
+			
+			Entity proj = event.getProjectile();
+			if (proj != null && proj.getType() == EntityType.ARROW) {
+				Arrow arrow = (Arrow) proj;
+				
+				float force = event.getForce();
+				double damage = arrow.spigot().getDamage();
+				
+				ArrowMisc.setArrowForce(arrow, force);
+				ArrowMisc.setArrowDamage(arrow, damage);
+				
+				arrow.setPickupStatus(Arrow.PickupStatus.DISALLOWED);
+				arrow.setBounce(false);
+				event.setProjectile(arrow);
 			}
 		}
 	}
@@ -361,7 +380,7 @@ public class GameListener implements Listener {
 		if (source instanceof Player) {
 			GamePlayer player = game.getGamePlayer((Player) source);
 			if (player != null) {
-				player.onProjectileLand(event.getEntity(), event.getHitBlock(), event.getHitEntity());
+				player.onProjectileLand(event.getEntity(), event.getHitBlock());
 				proj.remove();
 			}
 		}

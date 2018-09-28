@@ -3,7 +3,7 @@ package deimophobe.nightfall.effects;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.LifetimeExpireable;
-import deimophobe.nightfall.game.player.GamePlayer;
+import deimophobe.nightfall.game.entity.GamePlayer;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;

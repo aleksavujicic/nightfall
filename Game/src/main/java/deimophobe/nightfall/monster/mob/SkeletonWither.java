@@ -88,8 +88,8 @@ class SkeletonWither extends AbstractToggleSkeleton {
 	}
 
 	@Override
-	public void onProjectileLand(Projectile proj, Block block, Entity hitEntity) {
-		super.onProjectileLand(proj, block, hitEntity);
+	public void onProjectileLand(Projectile proj, Block block) {
+		super.onProjectileLand(proj, block);
 		if (proj.getType() == EntityType.WITHER_SKULL) {
 			skullExplosion(proj.getLocation());
 		}

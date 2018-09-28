@@ -3,7 +3,7 @@ package deimophobe.nightfall.monster;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
-import deimophobe.nightfall.game.GameEntity;
+import deimophobe.nightfall.game.entity.GameEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
 

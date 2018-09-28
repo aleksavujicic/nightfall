@@ -109,7 +109,7 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile proj, Block hitBlock, Entity hitEntity) {
+	public void onProjectileLand(Projectile proj, Block hitBlock) {
 		if (hitBlock == null) return;
 
 		BlockFace face = Misc.getBlockFaceProjectileHit(proj, hitBlock);

@@ -5,7 +5,7 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.DamageModifier;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.game.Game;
-import deimophobe.nightfall.game.player.GamePlayer;
+import deimophobe.nightfall.game.entity.GamePlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;

@@ -4,7 +4,7 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.Manager;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.game.Game;
-import deimophobe.nightfall.game.player.GamePlayer;
+import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.util.NMSUtil;
 import org.bukkit.Location;

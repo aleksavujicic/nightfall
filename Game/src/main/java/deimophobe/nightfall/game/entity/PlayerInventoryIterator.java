@@ -1,4 +1,4 @@
-package deimophobe.nightfall.game.player;
+package deimophobe.nightfall.game.entity;
 
 import com.google.common.collect.Lists;
 import org.bukkit.entity.Player;

@@ -41,7 +41,7 @@ public interface Mob {
 	void onDamageAttack(DwarfDamage damage);
 	void onDamageReceive(MonsterDamage damage);
 	Projectile onBowFire(Arrow arrow, float force);
-	void onProjectileLand(Projectile proj, Block hitBlock, Entity hitEntity);
+	void onProjectileLand(Projectile proj, Block hitBlock);
 	float getCooldown();
 	void onDeath(boolean silent);
 	

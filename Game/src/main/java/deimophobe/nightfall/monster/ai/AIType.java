@@ -11,6 +11,8 @@ public enum AIType {
 	FIRE_SKELLY(AIFireSkeleton::new),
 	HUSK(AIHusk::new),
 	
+	SKELETOTEM(Skeletotem::new)
+	
 	;
 	
 	private final AICreator creator;

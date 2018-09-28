@@ -6,7 +6,7 @@ import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.game.GameEntity;
+import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.monster.MonsterEntity;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Projectile;

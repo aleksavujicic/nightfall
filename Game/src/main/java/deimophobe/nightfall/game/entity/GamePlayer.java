@@ -1,4 +1,4 @@
-package deimophobe.nightfall.game.player;
+package deimophobe.nightfall.game.entity;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
@@ -17,7 +17,6 @@ import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.game.AbstractGameEntity;
 import deimophobe.nightfall.game.Game;
-import deimophobe.nightfall.game.GameEntity;
 import deimophobe.nightfall.util.NMSUtil;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -29,10 +28,8 @@ import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
@@ -50,7 +47,7 @@ import static com.google.common.base.Preconditions.checkState;
 /**
  * Created by Deimophobe on 17/01/17.
  */
-public abstract class GamePlayer extends AbstractGameEntity<Player> {
+public abstract class GamePlayer extends AbstractGameEntity<Player> implements GameEntityShooter<Player> {
 	protected Player player;
 	protected GamePlayer(Player player) {
 		super(player);
@@ -487,8 +484,6 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> {
 	public abstract boolean onBlockBreak(Block block, boolean didBreak);
 	public abstract void onUse(ClickType click, Block clickedBlock, BlockFace blockFace); // TODO: tidyup
 	public abstract void onShift(boolean sneaking);
-	public abstract Projectile onBowFire(Arrow arrow, float force); // TODO: bowfire event
-	public abstract void onProjectileLand(Projectile arrow, Block hitBlock, Entity hitEntity);
 	
 	// ----- UPDATES -----
 	private final CooldownHolder cooldownHolder = new CooldownHolder();

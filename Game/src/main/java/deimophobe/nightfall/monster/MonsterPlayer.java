@@ -13,8 +13,8 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.event.MobSpawnEvent;
 import deimophobe.nightfall.game.Game;
-import deimophobe.nightfall.game.GameEntity;
-import deimophobe.nightfall.game.player.GamePlayer;
+import deimophobe.nightfall.game.entity.GameEntity;
+import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.doom.DoomManager;
@@ -32,7 +32,6 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
@@ -486,9 +485,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile projectile, Block hitBlock, Entity hitEntity) {
+	public void onProjectileLand(Projectile projectile, Block hitBlock) {
 		if (mob != null) {
-			mob.onProjectileLand(projectile, hitBlock, hitEntity);
+			mob.onProjectileLand(projectile, hitBlock);
 		}
 	}
 	

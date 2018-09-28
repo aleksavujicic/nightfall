@@ -2,7 +2,7 @@ package deimophobe.nightfall.effects;
 
 import com.google.common.collect.Sets;
 import deimophobe.nightfall.effects.sound.PlayerSound;
-import deimophobe.nightfall.game.player.GamePlayer;
+import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.util.Colour;
 import org.bukkit.Location;
 import org.bukkit.Particle;

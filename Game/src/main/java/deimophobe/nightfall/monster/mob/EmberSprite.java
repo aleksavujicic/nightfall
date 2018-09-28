@@ -19,7 +19,6 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.SmallFireball;
 import org.bukkit.potion.PotionEffectType;
@@ -76,8 +75,8 @@ public class EmberSprite extends AbstractMob implements FloatyMob {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile proj, Block block, Entity hitEntity) {
-		super.onProjectileLand(proj, block, hitEntity);
+	public void onProjectileLand(Projectile proj, Block block) {
+		super.onProjectileLand(proj, block);
 		blazeExplosion(proj.getLocation());
 	}
 

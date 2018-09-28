@@ -444,7 +444,7 @@ public abstract class AbstractMob implements Mob {
 	@Override public void onShift(boolean sneaking) {}
 	@Override public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {}
 	@Override public Projectile onBowFire(Arrow arrow, float force) { return null; }
-	@Override public void onProjectileLand(Projectile proj, Block hitBlock, Entity hitEntity) {}
+	@Override public void onProjectileLand(Projectile proj, Block hitBlock) {}
 	
 	
 	// ~~~~~ Misc ~~~~~

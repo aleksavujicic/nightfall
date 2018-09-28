@@ -1,6 +1,6 @@
 package deimophobe.nightfall.effects;
 
-import deimophobe.nightfall.game.player.GamePlayer;
+import deimophobe.nightfall.game.entity.GamePlayer;
 import org.bukkit.block.Block;
 
 /**

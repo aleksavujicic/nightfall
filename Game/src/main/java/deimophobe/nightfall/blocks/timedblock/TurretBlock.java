@@ -6,7 +6,7 @@ import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
-import deimophobe.nightfall.game.player.GamePlayer;
+import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.*;

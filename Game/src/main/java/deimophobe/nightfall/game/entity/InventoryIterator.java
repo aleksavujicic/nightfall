@@ -1,4 +1,4 @@
-package deimophobe.nightfall.game.player;
+package deimophobe.nightfall.game.entity;
 
 import org.bukkit.inventory.ItemStack;
 

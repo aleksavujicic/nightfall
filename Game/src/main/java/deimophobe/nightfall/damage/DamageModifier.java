@@ -1,6 +1,6 @@
 package deimophobe.nightfall.damage;
 
-import deimophobe.nightfall.game.GameEntity;
+import deimophobe.nightfall.game.entity.GameEntity;
 
 /**
  * Created by Deimophobe on 26/04/18.

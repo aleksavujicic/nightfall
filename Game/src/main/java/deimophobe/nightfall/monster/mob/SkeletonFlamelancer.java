@@ -127,7 +127,7 @@ class SkeletonFlamelancer extends Skeleton {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile proj, Block hitBlock, Entity hitEntity) {
+	public void onProjectileLand(Projectile proj, Block hitBlock) {
 		if (hitBlock == null) return;
 		
 		BlockFace face = Misc.getBlockFaceProjectileHit(proj, hitBlock);

@@ -3,8 +3,8 @@ package deimophobe.nightfall.blocks.timedblock;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.cooldown.LifetimeExpireable;
-import deimophobe.nightfall.game.GameEntity;
-import deimophobe.nightfall.game.player.GamePlayer;
+import deimophobe.nightfall.game.entity.GameEntity;
+import deimophobe.nightfall.game.entity.GamePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 

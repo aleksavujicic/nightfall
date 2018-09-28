@@ -6,7 +6,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.game.AbstractGameEntity;
-import deimophobe.nightfall.game.GameEntity;
+import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.monster.MonsterEntity;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -28,7 +28,7 @@ import java.util.function.Consumer;
  */
 public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> implements MonsterEntity<T> {
 	protected static final int MAX_INACTIVITY_COUNT = 4;
-	protected int inactivityCount = MAX_INACTIVITY_COUNT;
+	protected int inactivityCount;
 	private Location lastLocation;
 	
 	private int suffocationCounter = 50;
@@ -121,7 +121,7 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 		
 		damage.addPostDamageHandler(this::resetInactivity);
 	}
-
+	
 	public void onDeath(MonsterDamage damage) {
 		AIManager.getManager().unregisterAI(this);
 	}

@@ -4,7 +4,7 @@ import deimophobe.nightfall.damage.death.DeathMessageMaker;
 import deimophobe.nightfall.damage.death.KeywordDeathMessageMaker;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
-import deimophobe.nightfall.game.GameEntity;
+import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;

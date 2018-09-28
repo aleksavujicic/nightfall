@@ -1,6 +1,6 @@
 package deimophobe.nightfall.status;
 
-import deimophobe.nightfall.game.GameEntity;
+import deimophobe.nightfall.game.entity.GameEntity;
 
 import java.util.Set;
 
