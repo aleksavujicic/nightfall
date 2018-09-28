@@ -11,7 +11,7 @@ public enum AIType {
 	FIRE_SKELLY(AIFireSkeleton::new),
 	HUSK(AIHusk::new),
 	
-	SKELETOTEM(Skeletotem::new)
+	//SKELETOTEM(Skeletotem::new)
 	
 	;
 	

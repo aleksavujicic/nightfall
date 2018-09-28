@@ -135,6 +135,7 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 	
 	void naturalUpdateTarget() {
 		updateTarget();
+		naturalUpdate();
 		
 		if (!didMove() || getTarget() == null) {
 			inactivityCount--;
@@ -142,6 +143,8 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 				remove();
 		}
 	}
+	
+	protected void naturalUpdate() {}
 	
 	private final static double DISTANCE_THRESHOLD = 1;
 	private boolean didMove() {
@@ -192,7 +195,7 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 		}
 	}
 	
-	private void resetInactivity() {
+	protected void resetInactivity() {
 		inactivityCount = MAX_INACTIVITY_COUNT;
 	}
 }
