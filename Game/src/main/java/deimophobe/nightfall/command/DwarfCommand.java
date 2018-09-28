@@ -55,7 +55,7 @@ public class DwarfCommand extends BaseCommand {
 	@Subcommand("sethero")
 	@CommandAlias("sethero")
 	@CommandCompletion("@players @heroes")
-	@CommandPermission("nightfall.dwarf.sethero")
+	@CommandPermission("nightfall.command.dwarf.sethero")
 	@Description("Sets a player to be a hero.")
 	public void onSetHero(CommandSender sender,  PlayerIterable players, HeroType hero) {
 		players.forEach(player -> {
@@ -67,7 +67,7 @@ public class DwarfCommand extends BaseCommand {
 	}
 	
 	@Subcommand("list")
-	@CommandPermission("nightfall.dwarf.list")
+	@CommandPermission("nightfall.command.dwarf.list")
 	@Description("Shows a list of all dwarves.")
 	public void list(CommandSender sender) {
 		StringBuilder listBuilder = new StringBuilder();
@@ -86,7 +86,7 @@ public class DwarfCommand extends BaseCommand {
 	
 	@Subcommand("remove")
 	@CommandCompletion("@dwarves")
-	@CommandPermission("nightfall.dwarf.remove")
+	@CommandPermission("nightfall.command.dwarf.remove")
 	@Description("Remove a player from the dwarf team.")
 	public void remove(CommandSender sender, DwarfIterable dwarves) {
 		dwarves.forEach(dwarf -> {
@@ -98,7 +98,7 @@ public class DwarfCommand extends BaseCommand {
 	@Subcommand("mana")
 	@CommandAlias("mana")
 	@CommandCompletion("@dwarves @range:1000")
-	@CommandPermission("nightfall.dwarf.mana")
+	@CommandPermission("nightfall.command.dwarf.mana")
 	@Description("Changes a dwarf's mana level.")
 	public void onMana(CommandSender sender, DwarfIterable dwarves, int mana) {
 		dwarves.forEach(dwarf -> {
@@ -110,7 +110,7 @@ public class DwarfCommand extends BaseCommand {
 	@Subcommand("arrow")
 	@CommandAlias("give-arrow")
 	@CommandCompletion("@dwarves @range:40")
-	@CommandPermission("nightfall.dwarf.arrow")
+	@CommandPermission("nightfall.command.dwarf.arrow")
 	@Description("Give (or take) a dwarf's arrows.")
 	public void giveArrows(CommandSender sender, DwarfIterable dwarves, @Default("40") int arrows) {
 		dwarves.forEach(dwarf -> {
@@ -122,7 +122,7 @@ public class DwarfCommand extends BaseCommand {
 	@Subcommand("plague")
 	@Conditions("pre-plague")
 	@CommandCompletion("@dwarves @plague-status")
-	@CommandPermission("nightfall.dwarf.plague")
+	@CommandPermission("nightfall.command.dwarf.plague")
 	@Description("Set a dwarf's plague status.")
 	public void setPlagueStatus(CommandSender sender, DwarfIterable dwarves, Dwarf.PlagueStatus status) {
 		dwarves.forEach(dwarf -> {
@@ -148,7 +148,7 @@ public class DwarfCommand extends BaseCommand {
 	
 	@Subcommand("proc")
 	@CommandCompletion("@dwarves @procs")
-	@CommandPermission("nightfall.dwarf.proc")
+	@CommandPermission("nightfall.command.dwarf.proc")
 	@Description("Give a dwarf a proc.")
 	public void giveProc(CommandSender sender, DwarfIterable dwarves, ProcType procType) {
 		dwarves.forEach(dwarf -> {
@@ -160,7 +160,7 @@ public class DwarfCommand extends BaseCommand {
 	@Subcommand("consumable")
 	@CommandAlias("consumable")
 	@CommandCompletion("@dwarves @consumables")
-	@CommandPermission("nightfall.dwarf.consumable")
+	@CommandPermission("nightfall.command.dwarf.consumable")
 	@Description("Give a dwarf a consumable.")
 	public void giveConsumable(CommandSender sender, DwarfIterable dwarves, ConsumableType consumable, @Default("1") int amount) {
 		dwarves.forEach(dwarf -> {
@@ -171,7 +171,7 @@ public class DwarfCommand extends BaseCommand {
 	
 	@Subcommand("give")
 	@CommandCompletion("@dwarves @kitgives")
-	@CommandPermission("nightfall.dwarf.givekittype")
+	@CommandPermission("nightfall.command.dwarf.givekittype")
 	@Description("Give a dwarf kit items.")
 	public void giveKitType(CommandSender sender, DwarfIterable dwarves, KitGiveType giveType) {
 		dwarves.forEach(dwarf -> {
@@ -186,7 +186,7 @@ public class DwarfCommand extends BaseCommand {
 		@Subcommand("add|give")
 		@CommandAlias("give-kit|add-kit")
 		@CommandCompletion("@dwarves @kitpieces:extra=all")
-		@CommandPermission("nightfall.dwarf.kit.add")
+		@CommandPermission("nightfall.command.dwarf.kit.add")
 		@Description("Add a kit piece to a dwarf's kit.")
 		public void addKitItem(CommandSender sender, Dwarf dwarf, KitPieceType[] pieceTypes) {
 			if (pieceTypes.length == 0) {
@@ -201,7 +201,7 @@ public class DwarfCommand extends BaseCommand {
 		
 		@Subcommand("list")
 		@CommandCompletion("@dwarves")
-		@CommandPermission("nightfall.dwarf.kit.list")
+		@CommandPermission("nightfall.command.dwarf.kit.list")
 		@Description("List all pieces of a dwarf's kit.")
 		public void listKit(CommandSender sender, @Optional Dwarf dwarf) {
 			KitPieceType[] types = new KitPieceType[0];
@@ -229,7 +229,7 @@ public class DwarfCommand extends BaseCommand {
 	public class ArmourCommand extends BaseCommand {
 		
 		@Default
-		@CommandPermission("nightfall.dwarf.armour.equip")
+		@CommandPermission("nightfall.command.dwarf.armour.equip")
 		@Description("Equip armour on yourself.")
 		public void selfEquip(CommandSender sender, @Flags("self") @Conditions("unequipped-armour") Dwarf dwarf) {
 			((DwarvenArmour) dwarf.getArmour()).putOn();
@@ -238,7 +238,7 @@ public class DwarfCommand extends BaseCommand {
 		
 		@Subcommand("equip")
 		@CommandCompletion("@dwarves")
-		@CommandPermission("nightfall.dwarf.armour.equip")
+		@CommandPermission("nightfall.command.dwarf.armour.equip")
 		@Description("Equip armour on a dwarf.")
 		public void onEquip(CommandSender sender, @Conditions("unequipped-armour") @Optional Dwarf dwarf) {
 			((DwarvenArmour) dwarf.getArmour()).putOn();
@@ -247,7 +247,7 @@ public class DwarfCommand extends BaseCommand {
 		
 		@Subcommand("repair")
 		@CommandCompletion("@dwarves @range:0-100")
-		@CommandPermission("nightfall.dwarf.armour.repair")
+		@CommandPermission("nightfall.command.dwarf.armour.repair")
 		@Description("Repair a dwarf's armour.")
 		public void onRepair(CommandSender sender, @Optional Dwarf dwarf, @Default("1000") double amount) {
 			dwarf.getArmour().repair(amount);
@@ -256,7 +256,7 @@ public class DwarfCommand extends BaseCommand {
 		
 		@Subcommand("damage")
 		@CommandCompletion("@dwarves @range:0-100")
-		@CommandPermission("nightfall.dwarf.armour.damage")
+		@CommandPermission("nightfall.command.dwarf.armour.damage")
 		@Description("Damage a dwarf's armour.")
 		public void onDamage(CommandSender sender, @Optional Dwarf dwarf, @Default("2000") double amount) {
 			dwarf.getArmour().damage(amount);
@@ -265,7 +265,7 @@ public class DwarfCommand extends BaseCommand {
 		
 		@Subcommand("amount")
 		@CommandCompletion("@dwarves")
-		@CommandPermission("nightfall.dwarf.armour.amount")
+		@CommandPermission("nightfall.command.dwarf.armour.amount")
 		@Description("Display a dwarf's armour level.")
 		public void onAmount(CommandSender sender, @Conditions("reg-armour") @Optional Dwarf dwarf) {
 			double value = ((DwarvenArmour) dwarf.getArmour()).getValue();
