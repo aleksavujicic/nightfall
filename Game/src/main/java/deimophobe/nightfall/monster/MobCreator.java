@@ -8,13 +8,17 @@ import org.bukkit.permissions.PermissionDefault;
  * Created by Deimophobe on 18/06/18.
  */
 public interface MobCreator<T extends Mob> {
-	String PERMISSION_PREFIX = "nightfall.mob.";
-	String PERMISSION_POSTFIX = ".spawn";
+	String PERMISSION_PREFIX = "nightfall.mob.spawn.";
+	String PERMISSION_POSTFIX = "";
 	
 	T createMob(MonsterPlayer monster);
 	String getName();
 	
 	default Permission getPermission() {
-		return new Permission(PERMISSION_PREFIX + getName() + PERMISSION_POSTFIX, PermissionDefault.TRUE);
+		return new Permission(
+				PERMISSION_PREFIX + getName() + PERMISSION_POSTFIX,
+				"Allows the player to spawn as a " + getName() + " via commands, provided they have permission to those commands as well." ,
+				PermissionDefault.TRUE
+		);
 	}
 }

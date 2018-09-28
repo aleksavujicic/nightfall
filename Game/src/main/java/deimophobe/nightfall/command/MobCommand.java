@@ -1,6 +1,7 @@
 package deimophobe.nightfall.command;
 
 import co.aikar.commands.BaseCommand;
+import co.aikar.commands.InvalidCommandArgument;
 import co.aikar.commands.annotation.*;
 import deimophobe.nightfall.command.iterable.MonsterIterable;
 import deimophobe.nightfall.command.iterable.PlayerIterable;
@@ -13,6 +14,7 @@ import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.mob.Mob;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.permissions.Permission;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +32,8 @@ public class MobCommand extends BaseCommand {
 	@CommandCompletion("@players @mobcreators")
 	@CommandPermission("nightfall.command.mob.create")
 	@Description("Set a player to be a monster.")
-	public void setMob(CommandSender sender, PlayerIterable players, @Optional MobCreator<?> mobType) {
+	public void setMob(CommandSender sender, PlayerIterable players, @Optional MobCreator<?> mobType) throws InvalidCommandArgument {
+		checkSenderHasSpawnPermission(sender, mobType);
 		players.forEach(player -> {
 			Game.getGame().removeGamePlayer(player);
 			MonsterPlayer monster = MonsterManager.getManager().addGamePlayer(player);
@@ -78,7 +81,8 @@ public class MobCommand extends BaseCommand {
 	@CommandCompletion("@monsters @mobcreators @spawnmethods")
 	@CommandPermission("nightfall.command.mob.spawn")
 	@Description("Spawn a monster as a specified mob.")
-	public void spawnMob(CommandSender sender, MonsterIterable monsters, @Default("primary") MobCreator<?> mobType, @Default("spawn") SpawnMethod spawnMethod) {
+	public void spawnMob(CommandSender sender, MonsterIterable monsters, @Default("primary") MobCreator<?> mobType, @Default("spawn") SpawnMethod spawnMethod) throws InvalidCommandArgument {
+		checkSenderHasSpawnPermission(sender, mobType);
 		monsters.forEach(monster -> {
 			boolean spawned = monster.spawnMob(mobType, spawnMethod);
 			
@@ -88,6 +92,13 @@ public class MobCommand extends BaseCommand {
 				MessageUtil.sendErrorMessage(sender, "Failed to spawn ", monster, " as mob ", mobType, ".");
 			}
 		});
+	}
+	
+	private void checkSenderHasSpawnPermission(CommandSender sender, MobCreator<?> type) throws InvalidCommandArgument {
+		Permission permission = type.getPermission();
+		if (!sender.hasPermission(permission)) {
+			throw new InvalidCommandArgument("You do not have permission to spawn that mob.");
+		}
 	}
 	
 	@Subcommand("kill")
