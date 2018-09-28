@@ -4,8 +4,3 @@ version: 0.1
 author: Deimophobe
 description: The main plugin for the nightfall game.
 depend: [LibsDisguises, ProtocolLib, NightfallCommon]
-
-permissions:
-  nightfall.op:
-    description: Allows use of all Nightfall commands.
-    default: op
