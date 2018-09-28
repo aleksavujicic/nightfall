@@ -17,6 +17,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.permissions.Permissible;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 import java.util.UUID;
@@ -99,6 +100,10 @@ public class Maintenance {
 		
 		plugin.getConfig().set(CONFIG_PATH, enabled);
 		plugin.saveConfig();
+	}
+	
+	public boolean hasPermission(Permissible permissible) {
+		return permissible.hasPermission(JOIN_PERMISSION);
 	}
 	
 	
