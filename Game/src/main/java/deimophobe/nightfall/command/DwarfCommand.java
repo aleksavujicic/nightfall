@@ -40,7 +40,7 @@ public class DwarfCommand extends BaseCommand {
 	@Subcommand("set|create")
 	@CommandAlias("setdwarf")
 	@CommandCompletion("@players @kitpieces:extra=loadout")
-	@CommandPermission("nightfall.dwarf.create")
+	@CommandPermission("nightfall.command.dwarf.create")
 	@Description("Sets a player to be a dwarf.")
 	public void onSetDwarf(CommandSender sender, PlayerIterable players, @Default("kit") DwarfDataCreator dwarfDataCreator) {
 		players.forEach(player -> {
