@@ -27,8 +27,7 @@ public class SpawnRegistry {
 			register(type);
 		}
 		
-		register(new RandomMobCreator<>("magi", MobType.FIRE_MAGI, MobType.ICE_MAGI));
-		//register(new RandomMobCreator<>("magi", MobType.FIRE_MAGI, MobType.ICE_MAGI, MobType.THUNDER_MAGI));
+		register(new RandomMobCreator<>("magi", MobType.FIRE_MAGI, MobType.ICE_MAGI, MobType.THUNDER_MAGI));
 		//register(new RandomMobCreator<>("zombie", MobType.ZOMBIE));
 		register(new SimpleMobCreator<>("primary", mp -> mp.getPrimaryMob().createMob(mp)));
 	}

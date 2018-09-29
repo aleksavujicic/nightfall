@@ -18,13 +18,30 @@ import org.bukkit.block.BlockFace;
  */
 public class MagiThunder extends AbstractMob {
 	
-	@Update @Display private final Cooldown thunderStrike = new UseCooldown(1*20, this::thunderStart);
+	@Update @Display private final Cooldown thunderStrike = new UseCooldown(40*20, this::thunderStart);
 	@Update private final Cooldown secondThunder = new CompletionCooldown(15, this::thunderAura);
 	
 	private Location lastStarted = null;
 	
 	protected MagiThunder(MonsterPlayer monster) {
 		super(monster, MobType.THUNDER_MAGI);
+	}
+	
+	@Override
+	public void update() {
+		super.update();
+		if (everyNthTick(20)) {
+			Location center = monster.getEyeLocation().add(0, -1.5, 0);
+			World world = center.getWorld();
+			for (int i=0; i<8; i++) {
+				double theta = 2 * Math.PI * i / 8;
+				
+				double dx = 1 * Math.sin(theta);
+				double dz = 1 * Math.cos(theta);
+				Location particle = center.clone().add(dx, 0, dz);
+				world.spawnParticle(Particle.VILLAGER_ANGRY, particle, 1, 0, 0, 0, 0);
+			}
+		}
 	}
 	
 	@Override
@@ -44,7 +61,7 @@ public class MagiThunder extends AbstractMob {
 		world.spigot().strikeLightningEffect(location, true);
 		playSound("thunder-start");
 		
-		Location bodyCenter = monster.getEyeLocation().add(0, -0.5, 0);
+		Location bodyCenter = monster.getEyeLocation().add(0, -1.25, 0);
 		for (int i=0; i<16; i++) {
 			for (double v = 0.35; v<0.7; v+=0.1) {
 				double theta = 2 * Math.PI * i / 16;
@@ -54,6 +71,8 @@ public class MagiThunder extends AbstractMob {
 				world.spawnParticle(Particle.END_ROD, bodyCenter, 0, vx, 0, vz, 1);
 			}
 		}
+		world.spawnParticle(Particle.CLOUD, bodyCenter, 100, 3, 0, 3, 0);
+		world.spawnParticle(Particle.SMOKE_LARGE, bodyCenter, 50, 3, 0, 3, 0);
 	}
 	
 	private void thunderAura() {
