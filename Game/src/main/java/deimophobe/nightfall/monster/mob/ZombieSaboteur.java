@@ -116,8 +116,7 @@ public class ZombieSaboteur extends ZombieMob {
 		if (damage.getType() == GameDamageType.MELEE) {
 			monster.givePotionEffect(PotionEffectType.SLOW, 30, 2, true, true, true);
 		}
-		monster.removePotionEffect(PotionEffectType.INVISIBILITY);
-		monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
+		unhide();
 	}
 	
 	@Override
