@@ -1,7 +1,7 @@
 package deimophobe.nightfall.monster;
 
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.monster.mob.MobType;
-import org.bukkit.Bukkit;
 import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.Permission;
 
@@ -38,7 +38,7 @@ public class SpawnRegistry {
 		checkArgument(!creators.containsKey(name), "Cannot insert creator with name '%s' as it already exists.", name);
 		creators.put(name, creator);
 		
-		Bukkit.getPluginManager().addPermission(creator.getPermission());
+		Misc.registerPermissionIfNotRegistered(creator.getPermission());
 	}
 	
 	

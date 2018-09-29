@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.Action;
+import org.bukkit.permissions.Permission;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.Vector;
 
 import java.util.*;
@@ -313,6 +315,13 @@ public class Misc {
 			}
 		}
 		return minArg;
+	}
+	
+	public static void registerPermissionIfNotRegistered(Permission permission) {
+		PluginManager pm = Bukkit.getPluginManager();
+		if (pm.getPermission(permission.getName()) != null) return;
+		
+		pm.addPermission(permission);
 	}
 	
 	
