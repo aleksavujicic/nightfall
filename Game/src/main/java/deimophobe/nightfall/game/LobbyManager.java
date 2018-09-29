@@ -42,6 +42,7 @@ public class LobbyManager implements Manager {
 	private boolean isLobbyActive = true;
 	
 	private final Team lobbyTeam;
+	private final Set<Player> lobbyPlayers;
 	private final Set<Player> readyPlayers;
 	private final BukkitRunnable readyNotifier;
 	
@@ -60,6 +61,7 @@ public class LobbyManager implements Manager {
 		
 		// Setup ready players
 		readyPlayers = new HashSet<>();
+		lobbyPlayers = new HashSet<>();
 		readyNotifier = new BukkitRunnable() {
 			@Override
 			public void run() {
@@ -76,7 +78,7 @@ public class LobbyManager implements Manager {
 		};
 		
 		readyDisplay = Bukkit.createBossBar("", BarColor.BLUE, BarStyle.SOLID);
-		updateBossBar(false);
+		updateBossBar();
 	}
 	
 	
@@ -95,18 +97,25 @@ public class LobbyManager implements Manager {
 	void onLobbyStart() {
 		if (MapManager.getManager().isEnabled()) {
 			for (Player player : Bukkit.getOnlinePlayers()) {
-				setPlayerToLobbyMode(player);
+				addLobbyPlayer(player);
 			}
 		}
-		updateBossBar(false);
+		
+		updateBossBar();
+	}
+	
+	// ------ PLAYER SETS / COUNTS ------
+	
+	
+	public int getNumberOfLobbyPlayers() {
+		return lobbyPlayers.size();
 	}
 	
 	public boolean isLobbyPlayer(Player player) {
-		return player.getGameMode() == GameMode.ADVENTURE;
+		return lobbyPlayers.contains(player);
 	}
 	
-	public void setPlayerToLobbyMode(Player player) {
-		
+	public void addLobbyPlayer(Player player) {
 		if (player.isDead()) {
 			player.spigot().respawn();
 		}
@@ -130,6 +139,27 @@ public class LobbyManager implements Manager {
 		cosmetics.equipHat();
 		//Loadout.updateLoadoutDisplay(player);
 		lobbyTeam.addEntry(player.getName());
+		lobbyPlayers.add(player);
+		
+		updateBossBar();
+	}
+	
+	public void removeLobbyPlayer(Player player) {
+		lobbyTeam.removeEntry(player.getName());
+		lobbyPlayers.remove(player);
+		if (isReady(player)) {
+			unreadyPlayer(player);
+		}
+		
+		updateBossBar();
+	}
+	
+	public int getNumberOfReadyPlayers() {
+		return readyPlayers.size();
+	}
+	
+	public boolean isReady(Player player) {
+		return readyPlayers.contains(player);
 	}
 	
 	// ------ PLAYER READINESS ------
@@ -157,10 +187,6 @@ public class LobbyManager implements Manager {
 	
 	// ----- Player Ready Up -----
 	
-	public boolean isReady(Player player) {
-		return readyPlayers.contains(player);
-	}
-	
 	private void readyPlayer(Player player) {
 		if (!isLobbyActive) return;
 		checkReadyPlayersAreLobby();
@@ -168,8 +194,8 @@ public class LobbyManager implements Manager {
 		readyPlayers.add(player);
 		readyNotify(player);
 		
-		int numPlayers = getLobbyPlayers().size();
-		int numReady = readyPlayers.size();
+		int numPlayers = getNumberOfLobbyPlayers();
+		int numReady = getNumberOfReadyPlayers();
 		String message = String.format(PLAYER_READIED, player.getName(), numReady, numPlayers);
 		Bukkit.broadcastMessage(message);
 		
@@ -180,11 +206,12 @@ public class LobbyManager implements Manager {
 		
 		player.playSound(player.getLocation(), "block.note.bell", 0.5f, 1.5f);
 		player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, player.getEyeLocation(), 10, 0.3, 0.2, 0.3, 0.05);
-		updateBossBar(false);
+		
+		updateBossBar();
 		checkPlayerCount();
 	}
 	
-	private void unreadyPlayer(Player player, boolean leaving) {
+	private void unreadyPlayer(Player player) {
 		if (!isLobbyActive) return;
 		if (!isReady(player)) return;
 		checkReadyPlayersAreLobby();
@@ -192,15 +219,12 @@ public class LobbyManager implements Manager {
 		readyPlayers.remove(player);
 		readyNotify(player);
 		
-		Set<Player> players = getLobbyPlayers();
-		if (leaving) players.remove(player);
-		
-		int numPlayers = players.size();
-		int numReady = readyPlayers.size();
+		int numPlayers = getNumberOfLobbyPlayers();
+		int numReady = getNumberOfReadyPlayers();
 		String message = String.format(PLAYER_UNREADIED, player.getName(), numReady, numPlayers);
 		Bukkit.broadcastMessage(message);
 		
-		updateBossBar(leaving);
+		updateBossBar();
 		checkPlayerCount();
 	}
 	
@@ -208,14 +232,14 @@ public class LobbyManager implements Manager {
 		if (!isReady(player)) {
 			readyPlayer(player);
 		} else {
-			unreadyPlayer(player, false);
+			unreadyPlayer(player);
 		}
 	}
 	
 	// ----- Ready Status -----
 	
 	private void readyNotify() {
-		for (Player player : getLobbyPlayers()) {
+		for (Player player : lobbyPlayers) {
 			readyNotify(player);
 		}
 	}
@@ -230,11 +254,10 @@ public class LobbyManager implements Manager {
 	
 	// ----- Boss Bar -----
 	
-	private void updateBossBar(boolean playerLeaving) {
+	private void updateBossBar() {
 		String mapName = game.getMap().getName();
-		int numPlayers = getLobbyPlayers().size();
-		int numReady = readyPlayers.size();
-		if (playerLeaving) numPlayers--;
+		int numPlayers = getNumberOfLobbyPlayers();
+		int numReady = getNumberOfReadyPlayers();
 		
 		readyDisplay.setTitle(
 				ChatColor.DARK_GREEN + "Map: "
@@ -254,7 +277,7 @@ public class LobbyManager implements Manager {
 		Comparator<Player> playerComparator = Comparator.comparing(HumanEntity::getName);
 		SortedSet<Player> readyPlayers = new TreeSet<>(playerComparator);
 		SortedSet<Player> unreadyPlayers = new TreeSet<>(playerComparator);
-		for (Player player : getLobbyPlayers()) {
+		for (Player player : lobbyPlayers) {
 			if (isReady(player)) {
 				readyPlayers.add(player);
 			} else {
@@ -312,7 +335,7 @@ public class LobbyManager implements Manager {
 	}
 	
 	public void notifyUnready() {
-		for (Player player : getLobbyPlayers()) {
+		for (Player player : lobbyPlayers) {
 			notifyUnready(player);
 		}
 	}
@@ -331,7 +354,7 @@ public class LobbyManager implements Manager {
 		coundownTask.runTaskTimer(NightfallPlugin.getPlugin(), 20, 20);
 		Bukkit.broadcastMessage(COUNTDOWN_START);
 		notifyUnready();
-		for (Player player : getLobbyPlayers()) {
+		for (Player player : lobbyPlayers) {
 			if (!isReady(player)) continue;
 			player.playSound(player.getLocation(), "block.note.pling", 1f, 1.5f);
 		}
@@ -352,8 +375,8 @@ public class LobbyManager implements Manager {
 	// ----- Misc -----
 	
 	private void checkPlayerCount() {
-		int numPlayers = getLobbyPlayers().size();
-		int numReady = readyPlayers.size();
+		int numPlayers = getNumberOfLobbyPlayers();
+		int numReady = getNumberOfReadyPlayers();
 		
 		if (numReady == numPlayers) {
 			game.startGame();
@@ -363,20 +386,13 @@ public class LobbyManager implements Manager {
 		}
 	}
 	
-	public Set<Player> getLobbyPlayers() {
-		Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
-		Set<Player> players = new HashSet<>(onlinePlayers);
-		players.removeIf(player -> !isLobbyPlayer(player));
-		return players;
-	}
-	
 	private void checkReadyPlayersAreLobby() {
 		readyPlayers.removeIf(player ->  !isLobbyPlayer(player));
 	}
 	
 	public Set<WhoEntry> getWhoEntries() {
 		Set<WhoEntry> entries = new HashSet<>();
-		for (Player player : getLobbyPlayers()) {
+		for (Player player : lobbyPlayers) {
 			WhoEntry whoEntry = new WhoEntry(player.getName(), player.getName(), false);
 			whoEntry.setType(WhoEntry.Type.LOBBY);
 			entries.add(whoEntry);
@@ -389,8 +405,9 @@ public class LobbyManager implements Manager {
 		@EventHandler
 		public void onPlayerLogon(PlayerJoinEvent event) {
 			Player player = event.getPlayer();
+			addLobbyPlayer(player);
+			
 			readyDisplay.addPlayer(player);
-			updateBossBar(false);
 		}
 		
 		@EventHandler
@@ -412,9 +429,9 @@ public class LobbyManager implements Manager {
 		@EventHandler
 		public void onPlayerLogoff(PlayerQuitEvent event) {
 			Player player = event.getPlayer();
-			unreadyPlayer(player, true);
+			removeLobbyPlayer(player);
+			
 			readyDisplay.removePlayer(player);
-			updateBossBar(true);
 		}
 	}
 }

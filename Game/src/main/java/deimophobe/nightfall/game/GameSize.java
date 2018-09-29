@@ -32,7 +32,7 @@ public enum GameSize {
 	}
 	
 	public static GameSize chooseForCurrentGame(Game game) {
-		int playerCount = game.getManager(LobbyManager.class).getLobbyPlayers().size();
+		int playerCount = game.getManager(LobbyManager.class).getNumberOfLobbyPlayers();
 		
 		WeightedSet<GameSizeWeight> possibleSizes = new WeightedSet<>();
 		for (GameSize size : values()) {
