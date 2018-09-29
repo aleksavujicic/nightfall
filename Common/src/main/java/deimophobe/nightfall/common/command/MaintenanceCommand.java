@@ -36,6 +36,7 @@ public class MaintenanceCommand extends BaseCommand {
 	@Subcommand("disable")
 	@CommandPermission("nightfall.command.maintenance.disable")
 	public void disable(CommandSender sender) {
+		
 		maintenance.setEnabled(false);
 		MessageUtil.sendMessage(sender, "Maintenance mode is now ", false, ".");
 	}

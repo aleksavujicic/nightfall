@@ -95,6 +95,8 @@ public class MobCommand extends BaseCommand {
 	}
 	
 	private void checkSenderHasSpawnPermission(CommandSender sender, MobCreator<?> type) throws InvalidCommandArgument {
+		if (type == null) return;
+		
 		Permission permission = type.getPermission();
 		if (!sender.hasPermission(permission)) {
 			throw new InvalidCommandArgument("You do not have permission to spawn that mob.");
