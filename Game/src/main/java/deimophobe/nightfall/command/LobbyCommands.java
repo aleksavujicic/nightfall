@@ -44,7 +44,8 @@ public class LobbyCommands extends BaseCommand {
 	@CommandPermission("nightfall.command.readylist")
 	@Description("See who is ready.")
 	public void readyList(CommandSender sender) {
-		BaseComponent message = getLobbyManager().readyList();
+		boolean canNotify = sender.hasPermission("nightfall.command.notifyunready");
+		BaseComponent message = getLobbyManager().readyList(canNotify);
 		sender.spigot().sendMessage(message);
 	}
 	

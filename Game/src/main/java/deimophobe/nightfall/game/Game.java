@@ -616,7 +616,7 @@ public class Game {
 		removeGamePlayer(player);
 		switch (phase) {
 			case STARTING:
-				getManager(LobbyManager.class).setPlayerToLobbyMode(player);
+				getManager(LobbyManager.class).addLobbyPlayer(player);
 				break;
 			
 			case BUILD:

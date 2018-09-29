@@ -273,7 +273,7 @@ public class LobbyManager implements Manager {
 	
 	// ----- Other Ready Things -----
 	
-	public BaseComponent readyList() {
+	public BaseComponent readyList(boolean suggestNotify) {
 		Comparator<Player> playerComparator = Comparator.comparing(HumanEntity::getName);
 		SortedSet<Player> readyPlayers = new TreeSet<>(playerComparator);
 		SortedSet<Player> unreadyPlayers = new TreeSet<>(playerComparator);
@@ -324,7 +324,9 @@ public class LobbyManager implements Manager {
 				String name = player.getName();
 				TextComponent playerMessage = new TextComponent(name);
 				playerMessage.setColor(net.md_5.bungee.api.ChatColor.RED);
-				playerMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/notifyunready " + name));
+				if (suggestNotify) {
+					playerMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/notifyunready " + name));
+				}
 				
 				unreadyPlayerMessage.addExtra(playerMessage);
 			}
