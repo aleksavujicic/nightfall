@@ -39,9 +39,9 @@ crossbow:
   name: Crossbow
   lore:
     description:
-     - "A crossbow that can fire with\n
-          no draw time.\n
-          Uses two arrows and has a\n
+     - "A crossbow that can fire with no draw time.\n
+          Left click to rapid fire, using all your quiver.\n
+          Uses two arrows for the normal shot and has a\n
           slight reload time."
     flavour:
      - "\"What do you mean these take skill to use?\" - Arthea"
@@ -52,7 +52,8 @@ lightbow:
   lore:
     description:
      - "This bow fires special arrows that\n
-        create lamps in the walls.\n
+        create lamps in the walls, as well as\n
+        mark mobs that are hit.\n
         You are also immune to darkness."
     flavour:
      - "\"Hey can I get some light? Thanks.\" - Tui"

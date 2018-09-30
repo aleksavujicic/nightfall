@@ -138,41 +138,41 @@ items:
     name: Cursed Cobblestone
     lore:
       description:
-       - ""
+       - "A perfect copy of cobblestone?"
       flavour:
-       - ""
+       - "It's still stone."
   torch:
     material: torch
     name: Cursed Torch
     lore:
       description:
-       - ""
+       - "A perfect copy of a torch?"
       flavour:
-       - ""
+       - "That's a torch alright."
   mortar:
     base: mortar
     name: Cursed Mortar
     lore:
       description:
-       - ""
+       - "A perfect copy of mortar?"
       flavour:
-       - ""
+       - "This won't blue the walls."
   lumber-axe:
     base: dwarf-axe
     name: Cursed Axe
     lore:
       description:
-       - ""
+       - "A perfect copy of a Lumberjack Axe?"
       flavour:
-       - ""
+       - "It's dulled."
   shovel:
     base: dwarf-shovel
     name: Cursed Shovel
     lore:
       description:
-       - ""
+       - "A perfect copy of a dwarven shovel?"
       flavour:
-       - ""
+       - "The handle is slightly broken."
 
 sounds:
   death:
