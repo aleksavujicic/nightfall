@@ -95,7 +95,7 @@ public class AICommand extends BaseCommand {
 	
 	@Subcommand("multiplier")
 	@CommandPermission("nightfall.command.ai.multiplier")
-	@Description("Set the multiplier to the spawn rate,")
+	@Description("Set the multiplier to the spawn rate.")
 	public void setMulti(CommandSender sender, double multiplier) {
 		getAIManager().setMultiplier(multiplier);
 		MessageUtil.sendMessage(sender, "Set AI spawn rate multiplier to ", multiplier, ".");
