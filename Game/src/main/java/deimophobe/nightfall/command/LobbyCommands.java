@@ -8,6 +8,7 @@ import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.LobbyManager;
 import deimophobe.nightfall.map.GameMap;
 import net.md_5.bungee.api.chat.BaseComponent;
+import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -38,6 +39,24 @@ public class LobbyCommands extends BaseCommand {
 	public void ready(@Conditions("lobby") Player player) {
 		LobbyManager lobbyManager = getLobbyManager();
 		lobbyManager.toggleReady(player);
+	}
+	
+	@CommandAlias("spectate")
+	@CommandPermission("nightfall.command.spectate")
+	@Description("Lets you spectate the game.")
+	public void spectate(Player player) {
+		LobbyManager lobbyManager = getLobbyManager();
+		lobbyManager.removeLobbyPlayer(player);
+		
+		player.setGameMode(GameMode.SPECTATOR);
+	}
+	
+	@CommandAlias("play")
+	@CommandPermission("nightfall.command.play")
+	@Description("Rejoin the game and play instead.")
+	public void play(@Conditions("not-lobby") Player player) {
+		LobbyManager lobbyManager = getLobbyManager();
+		lobbyManager.addLobbyPlayer(player);
 	}
 	
 	@CommandAlias("readylist")

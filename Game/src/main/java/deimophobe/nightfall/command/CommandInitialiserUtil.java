@@ -259,7 +259,11 @@ public class CommandInitialiserUtil {
 		});
 		conditions.addCondition(Player.class, "lobby", (context, execContext, player) -> {
 			if (!Game.getGame().isLobbyPlayer(player))
-				throw new ConditionFailedException("Player must be a lobby player (set gamemode to adventure).");
+				throw new ConditionFailedException("Player must be a lobby player.");
+		});
+		conditions.addCondition(Player.class, "not-lobby", (context, execContext, player) -> {
+			if (Game.getGame().isLobbyPlayer(player))
+				throw new ConditionFailedException("Player must not be a lobby player.");
 		});
 		conditions.addCondition(Player.class, "unready", (context, execContext, player) -> {
 			if (LobbyManager.getManager().isReady(player))
