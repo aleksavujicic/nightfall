@@ -56,7 +56,7 @@ public class GameCommand extends BaseCommand {
 	@Subcommand("size")
 	@CommandCompletion("@gamesizes")
 	@CommandPermission("nightfall.command.game.size")
-	@Description("Set the game size.")
+	@Description("Get the current game size.")
 	public void sizeCheck(CommandSender sender) {
 		MessageUtil.sendMessage(sender, "The current game size is: ", Game.getGame().getGameSize(), ".");
 	}

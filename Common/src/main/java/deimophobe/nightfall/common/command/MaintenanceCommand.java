@@ -1,10 +1,7 @@
 package deimophobe.nightfall.common.command;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandPermission;
-import co.aikar.commands.annotation.Default;
-import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.*;
 import deimophobe.nightfall.common.Maintenance;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -21,6 +18,7 @@ public class MaintenanceCommand extends BaseCommand {
 	@Default
 	@Subcommand("check")
 	@CommandPermission("nightfall.command.maintenance.check")
+	@Description("Check whether maintenance mode is on.")
 	public void check(CommandSender sender) {
 		boolean enabled = maintenance.isEnabled();
 		MessageUtil.sendMessage(sender, "Maintenance mode is ", enabled, ".");
@@ -28,6 +26,7 @@ public class MaintenanceCommand extends BaseCommand {
 	
 	@Subcommand("enable")
 	@CommandPermission("nightfall.command.maintenance.enable")
+	@Description("Enable maintenance mode.")
 	public void enable(CommandSender sender) {
 		maintenance.setEnabled(true);
 		MessageUtil.sendMessage(sender, "Maintenance mode is now ", true, ".");
@@ -35,6 +34,7 @@ public class MaintenanceCommand extends BaseCommand {
 	
 	@Subcommand("disable")
 	@CommandPermission("nightfall.command.maintenance.disable")
+	@Description("Disable maintenance mode.")
 	public void disable(CommandSender sender) {
 		
 		maintenance.setEnabled(false);
@@ -43,6 +43,7 @@ public class MaintenanceCommand extends BaseCommand {
 	
 	@Subcommand("kick")
 	@CommandPermission("nightfall.command.maintenance.kick")
+	@Description("Kick all players without the maintenance permission.")
 	public void kick(CommandSender sender) {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			if (maintenance.hasPermission(player)) continue;

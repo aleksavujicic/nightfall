@@ -3,6 +3,7 @@ package deimophobe.nightfall.common.command;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Description;
 import deimophobe.nightfall.common.NightfallCommonPlugin;
 import deimophobe.nightfall.common.loadout.LoadoutMenu;
 import deimophobe.nightfall.common.menu.MainMenu;
@@ -21,24 +22,28 @@ public class MenuCommands extends BaseCommand {
 	
 	@CommandAlias("hat|hats")
 	@CommandPermission("nightfall.menu.hat")
+	@Description("Open the hat menu.")
 	public void hat(Player player) {
 		startSession(HatMenu.class, player);
 	}
 	
 	@CommandAlias("title|titles")
 	@CommandPermission("nightfall.menu.title")
+	@Description("Open the title menu.")
 	public void title(Player player) {
 		startSession(TitleMenu.class, player);
 	}
 	
 	@CommandAlias("loadout|kit")
 	@CommandPermission("nightfall.menu.loadout")
+	@Description("Open the kit menu.")
 	public void loadout(Player player) {
 		startSession(LoadoutMenu.class, player);
 	}
 	
 	@CommandAlias("settings")
 	@CommandPermission("nightfall.menu.settings")
+	@Description("Open the settings menu.")
 	public void settings(Player player) {
 		startSession(SettingsMenu.class, player);
 	}

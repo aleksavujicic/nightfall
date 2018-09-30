@@ -80,7 +80,7 @@ public class DoomCommand extends BaseCommand {
 	@Subcommand("set-variance")
 	@Conditions("monster-release")
 	@CommandPermission("nightfall.command.doom.variance")
-	@Description("Sets the max internal timer on doom.")
+	@Description("Sets the variance on the doom timer.")
 	public void setVariance(CommandSender sender, int amount) {
 		DoomManager.getManager().setDoomTimeVariance(amount);
 		MessageUtil.sendMessage(sender, "Set doom time variance to ", amount, ".");
@@ -88,7 +88,7 @@ public class DoomCommand extends BaseCommand {
 	
 	@Subcommand("toggle")
 	@CommandPermission("nightfall.command.doom.toggle")
-	@Description("Toggle dooms occuring.")
+	@Description("Toggle dooms occurring.")
 	public void toggle(CommandSender sender) {
 		boolean enabled = getManager().toggleDoom();
 		MessageUtil.sendMessage(sender, "Doom is now ", enabled, ".");

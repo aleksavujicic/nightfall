@@ -70,7 +70,7 @@ public class LobbyCommands extends BaseCommand {
 	
 	@CommandAlias("notifyunready")
 	@CommandPermission("nightfall.command.notifyunreadyall")
-	@Description("Notify unready players.")
+	@Description("Notify all unready players.")
 	public void unreadyNotify(CommandSender sender) {
 		getLobbyManager().notifyUnready();
 		MessageUtil.sendMessage(sender, "Notified unready players.");

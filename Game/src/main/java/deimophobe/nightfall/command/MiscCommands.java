@@ -43,7 +43,7 @@ public class MiscCommands extends BaseCommand {
 	
 	@CommandAlias("debug")
 	@CommandPermission("nightfall.command.debug")
-	@Description("Debug mode.")
+	@Description("Toggle debug mode.")
 	public void debug(Player player) {
 		boolean enabled = Game.getGame().toggleDebug(player);
 		if (enabled) {

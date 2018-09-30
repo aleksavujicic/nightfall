@@ -23,8 +23,9 @@ import java.util.List;
 public class MapCommand extends BaseCommand {
 	
 	@Subcommand("setenabled")
-	@CommandPermission("nightfall.command.map.enable")
 	@CommandCompletion("@boolean")
+	@CommandPermission("nightfall.command.map.enable")
+	@Description("Toggles map loading. Requires a reload to take effect.")
 	public void setEnabled(CommandSender sender, boolean enabled) {
 		
 		try {
@@ -40,16 +41,18 @@ public class MapCommand extends BaseCommand {
 	}
 	
 	@Subcommand("reload")
-	@CommandPermission("nightfall.command.map.reload")
 	@Conditions("map-enabled")
+	@CommandPermission("nightfall.command.map.reload")
+	@Description("Reloads the map config.")
 	public void onReload(CommandSender sender) {
 		MapManager.getManager().reloadConfig();
 		sender.sendMessage(ChatColor.YELLOW + "Reloaded map config. " + ChatColor.GRAY + ChatColor.ITALIC + "[Enabling/disabling requires a reload].");
 	}
 	
 	@Subcommand("list")
-	@CommandPermission("nightfall.command.map.list")
 	@Conditions("map-enabled")
+	@CommandPermission("nightfall.command.map.list")
+	@Description("Shows a list of all queued maps.")
 	public void onList(CommandSender sender) {
 		List<String> mapList = MapManager.getManager().getMapQueue();
 		if (mapList.isEmpty()) {
@@ -61,8 +64,9 @@ public class MapCommand extends BaseCommand {
 	}
 	
 	@Subcommand("list-all")
-	@CommandPermission("nightfall.command.map.listall")
 	@Conditions("map-enabled")
+	@CommandPermission("nightfall.command.map.listall")
+	@Description("Shows a list of maps on the server.")
 	public void onListAll(CommandSender sender) {
 		MapManager manager = MapManager.getManager();
 		List<String> mapList = new ArrayList<>(manager.getMaps());
@@ -86,16 +90,18 @@ public class MapCommand extends BaseCommand {
 	}
 	
 	@Subcommand("clear")
-	@CommandPermission("nightfall.command.map.clear")
 	@Conditions("map-enabled")
+	@CommandPermission("nightfall.command.map.clear")
+	@Description("Remove all queued maps.")
 	public void onClear(CommandSender sender) {
 		MapManager.getManager().clearMapQueue();
 		sender.sendMessage(ChatColor.YELLOW + "Cleared map queue.");
 	}
 	
 	@Subcommand("next")
-	@CommandPermission("nightfall.command.map.next")
 	@Conditions("map-enabled")
+	@CommandPermission("nightfall.command.map.next")
+	@Description("Loads the next map.")
 	public void onNext(CommandSender sender) {
 		sender.sendMessage(ChatColor.YELLOW + "Starting new game. Map will be: " + ChatColor.GREEN + MapManager.getManager().peekMap());
 		Game.createNewGame();
@@ -103,8 +109,9 @@ public class MapCommand extends BaseCommand {
 	
 	@Subcommand("queue")
 	@Conditions("map-enabled")
-	@CommandPermission("nightfall.command.map.queue")
 	@CommandCompletion("@maps")
+	@CommandPermission("nightfall.command.map.queue")
+	@Description("Queues the next playable map.")
 	public void onQueue(CommandSender sender, @Conditions("map") String map) {
 		MapManager.getManager().enqueueMap(map);
 		sender.sendMessage(ChatColor.YELLOW + "Successfully queued map " + ChatColor.GREEN +  map);
@@ -112,8 +119,9 @@ public class MapCommand extends BaseCommand {
 	
 	@Subcommand("load|play")
 	@Conditions("map-enabled")
-	@CommandPermission("nightfall.command.map.load")
 	@CommandCompletion("@maps")
+	@CommandPermission("nightfall.command.map.load")
+	@Description("Loads a specified map.")
 	public void onLoad(CommandSender sender, @Conditions("map") String map) {
 		MapManager.getManager().insertMap(map);
 		sender.sendMessage(ChatColor.YELLOW + "Starting new game on map " + ChatColor.GREEN + map);
@@ -123,8 +131,9 @@ public class MapCommand extends BaseCommand {
 	@Subcommand("current")
 	@CommandAlias("map-name")
 	@Conditions("map-enabled")
-	@CommandPermission("nightfall.command.map.current")
 	@CommandCompletion("@maps")
+	@CommandPermission("nightfall.command.map.current")
+	@Description("Displays the current map. ")
 	public void currentMap(CommandSender sender) {
 		String name = GameMap.getCurrentMap().getName();
 		sender.sendMessage(ChatColor.YELLOW + "Current map is: " + ChatColor.GREEN + name);
