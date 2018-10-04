@@ -36,3 +36,6 @@ sounds:
     pitch: 1.1
     volume: 0.6
     chance: 0.15
+  death:
+    path: "entity.blaze.death"
+    pitch: 1

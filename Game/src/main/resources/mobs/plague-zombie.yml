@@ -14,3 +14,7 @@ armour:
      - "Shattered armour that smells of decay."
     flavour:
      - "You are dead. Press any button to respawn."
+sounds:
+  death:
+    path: "entity.zombie.death"
+    pitch: 1

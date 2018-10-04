@@ -35,6 +35,10 @@ base:
         flavour:
          - "The cursed arrows of undead skeletons,\n
             capable of piercing even runeblessed armour."
+  sounds:
+    death:
+      path: "entity.skeleton.death"
+      pitch: 1
 
 wither:
   parent: base
@@ -50,6 +54,10 @@ wither:
       flavour:
        - "Imbued with the darkest curses,\n
           any armour hit will decay and rot."
+  sounds:
+    death:
+      path: "entity.wither_skeleton.death"
+      pitch: 1
 
 flamelancer:
   parent: base

@@ -32,3 +32,6 @@ sounds:
     path: "coin"
   torch:
     path: "entity.silverfish.ambient"
+  death:
+    path: "entity.silverfish.death"
+    pitch: 1

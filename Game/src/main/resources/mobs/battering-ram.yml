@@ -52,3 +52,7 @@ items:
           Can also be activated by shift."
       flavour:
        - ""
+sounds:
+  death:
+    path: "item.totem.use"
+    pitch: 0.5

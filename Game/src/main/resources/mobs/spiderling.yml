@@ -26,3 +26,7 @@ weapon:
         and to poison dwarves on hit."
     flavour:
      - "Spiders are gross."
+sounds:
+  death:
+    path: "entity.spider.death"
+    pitch: 1.25

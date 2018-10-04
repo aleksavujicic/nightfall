@@ -57,3 +57,6 @@ base:
 sounds:
   boom:
     volume: 1.5
+  death:
+    path: "entity.creeper.death"
+    pitch: 1

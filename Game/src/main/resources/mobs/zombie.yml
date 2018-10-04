@@ -27,7 +27,10 @@ base:
        - "A cross between a runesword hilt and\n
           plank debris. The dead use anything of\n
           their fallen comrades."
-
+  sounds:
+    death:
+      path: "entity.zombie.death"
+      pitch: 1
 
 husk:
   parent: base
@@ -35,6 +38,11 @@ husk:
   title: Husk
 
   disguisetype: husk
+
+  sounds:
+    death:
+      path: "entity.husk.death"
+      pitch: 1
 
 fury:
   parent: base
@@ -89,4 +97,7 @@ saboteur:
       pitch: 1.5
     sabotage:
       path: "block.anvil.land"
+      pitch: 1.25
+    death:
+      path: "entity.zombie.death"
       pitch: 1.25
