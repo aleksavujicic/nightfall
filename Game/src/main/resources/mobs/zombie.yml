@@ -96,8 +96,8 @@ saboteur:
       path: "mob.gobo.action"
       pitch: 1.5
     sabotage:
-      path: "block.anvil.land"
-      pitch: 1.25
+      path: "item.shield.break"
+      pitch: 0.85
     death:
       path: "entity.zombie.death"
       pitch: 1.25
