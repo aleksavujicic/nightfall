@@ -76,6 +76,7 @@ public class CommandInitialiserUtil {
 		commandManager.registerCommand(new DwarfCommand());
 		commandManager.registerCommand(new EggCommand());
 		commandManager.registerCommand(new GameCommand());
+		commandManager.registerCommand(new InfoCommand());
 		commandManager.registerCommand(new ItemCommand());
 		commandManager.registerCommand(new LobbyCommands());
 		commandManager.registerCommand(new MapCommand());

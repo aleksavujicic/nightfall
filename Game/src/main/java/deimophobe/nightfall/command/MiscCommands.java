@@ -265,17 +265,4 @@ public class MiscCommands extends BaseCommand {
 		player.setTitle(colour, title, force);
 		MessageUtil.sendMessage(sender, "Title of player ", player.getPlayer(), " changed to ", player, ".");
 	}
-	
-	@CommandAlias("test")
-	@CommandPermission("nightfall.command.test")
-	public void test(CommandSender sender) {
-		StringBuilder names = new StringBuilder();
-		for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
-			String name = player.getName();
-			names.append(name);
-			names.append(", ");
-		}
-		sender.sendMessage(names.toString());
-		sender.sendMessage(Bukkit.getOfflinePlayers().length + " players total.");
-	}
 }
