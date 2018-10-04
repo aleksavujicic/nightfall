@@ -447,6 +447,12 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		return shields;
 	}
 	
+	public void setShields(int number) {
+		checkArgument(number > 0, "Number of shields to remove must be positive (got %s).", number);
+		shields = number;
+		updateShieldCount();
+	}
+	
 	protected boolean shieldDamage(GameDamage<?,?> damage) {
 		if (shields == 0) return false;
 		

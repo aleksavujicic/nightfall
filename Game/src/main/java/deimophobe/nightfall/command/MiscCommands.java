@@ -241,8 +241,15 @@ public class MiscCommands extends BaseCommand {
 		@CommandPermission("nightfall.command.fixhearts")
 		@Description("Should remove any fake absorption hearts.")
 		public void fixHearts(Player player) {
-			float hearts = NMSUtil.getNumberAbsorptionHearts(player);
-			NMSUtil.setNumberAbsorptionHearts(player, hearts);
+			GamePlayer gp = Game.getGame().getGamePlayer(player);
+			NMSUtil.setNumberAbsorptionHearts(player, 1);
+			if (gp == null) {
+				NMSUtil.setNumberAbsorptionHearts(player, 0);
+			} else {
+				int shield = gp.getNumberOfShields();
+				gp.setShields(shield + 1);
+				gp.setShields(shield);
+			}
 			MessageUtil.sendMessage(player, "Reset number of absorption hearts.");
 		}
 		
