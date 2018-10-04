@@ -180,6 +180,28 @@ public class DwarfCommand extends BaseCommand {
 		});
 	}
 	
+	@Subcommand("shield")
+	@CommandCompletion("@dwarves")
+	@CommandPermission("nightfall.command.dwarf.shield")
+	@Description("Get the amount of shields a dwarf has.")
+	public void shield(CommandSender sender, DwarfIterable dwarves) {
+		dwarves.forEach(dwarf -> {
+			int shields = dwarf.getNumberOfShields();
+			MessageUtil.sendMessage(sender, "Dwarf ", dwarf, " has ", shields, " shield(s).");
+		});
+	}
+	
+	@Subcommand("shield")
+	@CommandCompletion("@dwarves")
+	@CommandPermission("nightfall.command.dwarf.shield")
+	@Description("Get the amount of shields a dwarf has.")
+	public void shield(CommandSender sender, DwarfIterable dwarves, int amount) {
+		dwarves.forEach(dwarf -> {
+			dwarf.addShields(amount);
+			MessageUtil.sendMessage(sender, "Gave ", dwarf, " an extra ", amount, " shield(s).");
+		});
+	}
+	
 	@Subcommand("kit")
 	public class KitCommand extends BaseCommand {
 		

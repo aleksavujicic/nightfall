@@ -41,6 +41,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
 /**
@@ -48,6 +49,7 @@ import static com.google.common.base.Preconditions.checkState;
  */
 public abstract class GamePlayer extends AbstractGameEntity<Player> implements GameEntityShooter<Player> {
 	protected Player player;
+	private int shields;
 	protected GamePlayer(Player player) {
 		super(player);
 		
@@ -411,6 +413,49 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		return getDisplayName();
 	}
 	
+	
+	// Shields
+	public void addShields(int number) {
+		checkArgument(number > 0, "Number of shields to add must be positive (got %s).", number);
+		shields += number;
+		updateShieldCount();
+	}
+	
+	public void removeShields(int number) {
+		checkArgument(number > 0, "Number of shields to remove must be positive (got %s).", number);
+		shields = Math.max(0, shields - number);
+		updateShieldCount();
+	}
+	
+	public void removeAllShields() {
+		shields = 0;
+		updateShieldCount();
+	}
+	
+	public int getNumberOfShields() {
+		return shields;
+	}
+	
+	protected boolean shieldDamage(GameDamage<?,?> damage) {
+		if (shields == 0) return false;
+		
+		damage.softCancel();
+		damage.setNoDamageTicks(20);
+		damage.addPostDamageHandler(() -> {
+			removeAllPoisons();
+			removeFire();
+			removeShields(1);
+			
+			playSound("entity.evocation_illager.prepare_summon", 1f, 2f, false);
+		});
+		return true;
+	}
+	
+	private void updateShieldCount() {
+		NMSUtil.setNumberAbsorptionHearts(player, shields*2);
+	}
+	
+	// Event
 	
 	// ------ MISC ------
 	public boolean isBlocking() {

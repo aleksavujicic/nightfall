@@ -659,6 +659,8 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
+		shieldDamage(damage);
+		
 		armour.onDamage(damage);
 		
 		kit.onDamageReceive(damage);

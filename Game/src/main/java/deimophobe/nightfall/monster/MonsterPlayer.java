@@ -147,8 +147,11 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		setTitle(ChatColor.GRAY, null, false);
 		clearInventory();
 		clearEffects();
+		removeAllPoisons();
+		removeFire();
 		mobMenuShower.reset();
 		cancelSeppuku();
+		removeAllShields();
 		
 		player.setAllowFlight(true);
 		player.setGameMode(GameMode.SPECTATOR);
@@ -442,6 +445,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
+		shieldDamage(damage);
+		
 		if (mob != null) {
 			switch (damage.getType()) {
 				case CONTACT:
