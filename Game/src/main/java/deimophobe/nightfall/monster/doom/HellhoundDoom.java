@@ -72,15 +72,15 @@ class HellhoundDoom extends AnnotatedDoom {
 			GameDamageType type = damage.getType();
 			switch (type) {
 				case FIRE:
-					damage.getMultiPartDamage().timesMult(4);
+					damage.getMultiPartDamage().timesMult(2.5);
 					break;
 				case LAVA:
-					damage.getMultiPartDamage().timesMult(2);
+					damage.getMultiPartDamage().timesMult(1.5);
 					break;
 					
 				default:
 					if (damage.getAttacker() instanceof MonsterPlayer) {
-						damage.increaseFireTicks(5*20);
+						damage.increaseFireTicks(3*20);
 					}
 					break;
 			}
