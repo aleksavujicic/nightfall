@@ -280,7 +280,7 @@ public class LobbyManager implements Manager {
 				String.format(TITLE_BAR, mapName, numReady, numPlayers)
 		);
 		
-		double progress = (numPlayers == 0 ? 1 : ((double) numReady)/numPlayers);
+		double progress = (numPlayers == 0 ? 0 : ((double) numReady)/numPlayers);
 		readyDisplay.setProgress(progress);
 	}
 	
