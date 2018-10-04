@@ -30,7 +30,7 @@ public class MagiThunder extends AbstractMob {
 	@Override
 	public void update() {
 		super.update();
-		if (everyNthTick(20)) {
+		if (everyNthTick(20) && isPlayerHoldingWeapon()) {
 			Location center = monster.getEyeLocation().add(0, -1.5, 0);
 			World world = center.getWorld();
 			for (int i=0; i<8; i++) {
