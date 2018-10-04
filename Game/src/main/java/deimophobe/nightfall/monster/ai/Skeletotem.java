@@ -1,22 +1,24 @@
 package deimophobe.nightfall.monster.ai;
 
 import deimophobe.nightfall.ItemManager;
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.game.entity.GameShooter;
+import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Projectile;
 import org.bukkit.entity.WitherSkeleton;
-import org.bukkit.entity.WitherSkull;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.function.Consumer;
@@ -24,7 +26,7 @@ import java.util.function.Consumer;
 /**
  * Created by Deimophobe on 29/09/18.
  */
-public class Skeletotem extends AIEntity<WitherSkeleton> {
+public class Skeletotem extends AIEntity<WitherSkeleton> implements GameShooter {
 	
 	private static final double HEALTH = 50;
 	
@@ -52,7 +54,7 @@ public class Skeletotem extends AIEntity<WitherSkeleton> {
 		return false;
 	}
 	
-	/* Bow stuff no worky
+	// Bow stuff no worky
 	
 	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {
@@ -70,8 +72,8 @@ public class Skeletotem extends AIEntity<WitherSkeleton> {
 	@Override
 	public void onProjectileLand(Projectile arrow, Block hitBlock) {
 	}
-	*/
 	
+	/*
 	@Override
 	protected void naturalUpdate() {
 		Entity target = getTarget();
@@ -101,6 +103,7 @@ public class Skeletotem extends AIEntity<WitherSkeleton> {
 		}.runTaskLater(NightfallPlugin.getPlugin(), 30); // 1.5 second lifetime
 		resetInactivity();
 	}
+	*/
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
