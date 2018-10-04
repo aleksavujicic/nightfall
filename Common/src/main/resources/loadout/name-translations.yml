@@ -15,6 +15,7 @@ items:
   lightbow: Lightbow
   jade-bow: Jade Bow
   warpweaver: Warpweaver Bow
+  spellbook: Magical Spellbook
 
   # Juice
   safety-juice: Safety Juice
@@ -39,6 +40,7 @@ items:
   bricklayer: Bricklayer
   jit-heal: JIT Heal
   untimely-demise: Untimely Demise
+  bunny-boots: Bunny Boots
 
   # Accessories
   slowfall: Slowfall

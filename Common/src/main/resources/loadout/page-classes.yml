@@ -239,19 +239,19 @@ brawler-class:
           have learned to channel their energy through\n
           their gauntlets."
 
-mystic-class:
+magician-class:
   index: 10
   cost: 64
   category: kit
   type: multi
   pieces:
     - scepter
-    - warpweaver
+    - spellbook
     - strong-ale
     - fairy-band
-    - nature-suit
     - slowfall
     - darkvision
+    - bunny-boots
     - resurrection
   consumables:
     cobblestone: 192
@@ -261,7 +261,7 @@ mystic-class:
     proc-bottle: 4
   item:
     template: "loadout-class"
-    name: "Mystic Kit"
+    name: "Magician Kit"
     base: scepter
     lore:
       description:
@@ -334,9 +334,10 @@ hunter-class:
     - crossbow
     - chugging-ale
     - studded
-    - nature-suit
-    - darkvision
     - slowfall
+    - darkvision
+    - avenge
+    - bunny-boots
   consumables:
     lamp: 32
     wrench: 2
