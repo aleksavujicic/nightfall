@@ -116,6 +116,7 @@ public class LobbyManager implements Manager {
 	}
 	
 	public void addLobbyPlayer(Player player) {
+		Game.getGame().removeGamePlayer(player);
 		if (player.isDead()) {
 			player.spigot().respawn();
 		}

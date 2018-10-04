@@ -4,6 +4,7 @@ import deimophobe.nightfall.Manager;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.WhoEntry;
 import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.LobbyManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -95,6 +96,9 @@ public abstract class GamePlayerManager<P extends GamePlayer> implements Manager
 		addToTeam(player.getName());
 		Game.getGame().updateDwarfCount();
 		NightfallPlugin.logger().info("Adding game player: " + player.getName() + " to " + whoName);
+		
+		LobbyManager lobbyManager = Game.getGame().getManager(LobbyManager.class);
+		lobbyManager.removeLobbyPlayer(player.getPlayer());
 	}
 	
 	public P getGamePlayer(String name) {
