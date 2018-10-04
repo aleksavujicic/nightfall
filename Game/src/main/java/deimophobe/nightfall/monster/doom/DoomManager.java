@@ -47,6 +47,29 @@ public class DoomManager {
 	public void start() {
 		resetDoomTimers();
 		runner.runTaskTimer(NightfallPlugin.getPlugin(), 20, 20);
+		
+		switch (Game.getGame().getGameSize()) {
+			case TINY:
+				maxDoomTime = 600;
+				doomTimeVariance = 90;
+				break;
+			case SMALL:
+				maxDoomTime = 800;
+				doomTimeVariance = 120;
+				break;
+			case MEDIUM:
+				maxDoomTime = 900;
+				doomTimeVariance = 150;
+				break;
+			case LARGE:
+				maxDoomTime = 1100;
+				doomTimeVariance = 180;
+				break;
+			case HUGE:
+				maxDoomTime = 1250;
+				doomTimeVariance = 200;
+				break;
+		}
 	}
 	
 	public void stop() {
