@@ -422,6 +422,16 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		updateShieldCount();
 	}
 	
+	public void addShieldsMax(int number, int max) {
+		checkArgument(number > 0, "Number of shields to add must be positive (got %s).", number);
+		checkArgument(max > 0, "Max number of shields to add must be positive (got %s).", number);
+		if (shields > max) return;
+		
+		shields += number;
+		shields = Math.min(shields, max);
+		updateShieldCount();
+	}
+	
 	public void removeShields(int number) {
 		checkArgument(number > 0, "Number of shields to remove must be positive (got %s).", number);
 		shields = Math.max(0, shields - number);

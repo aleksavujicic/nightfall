@@ -136,10 +136,7 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 				}
 				
 				case DIAMOND_ORE: {
-					int maxDiamondLevel = (dwarf.hasKitPiece(KitPieceType.STRONG_ALE) ? 1 : 5);
-					int newLevel = Math.min(dwarf.getPotionEffectLevel(PotionEffectType.ABSORPTION) + 1, maxDiamondLevel);
-					int duration = Math.min(dwarf.getPotionEffectDuration(PotionEffectType.ABSORPTION) + 30 * 20, 60 * 20);
-					dwarf.givePotionEffect(PotionEffectType.ABSORPTION, duration, newLevel, true, false, true);
+					dwarf.addShieldsMax(1, 1);
 					GameEffect.DIAMOND_MINE.playEffect(dwarf, block);
 					break;
 				}

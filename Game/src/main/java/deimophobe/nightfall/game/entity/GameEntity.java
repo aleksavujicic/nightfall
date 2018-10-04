@@ -24,6 +24,8 @@ import org.bukkit.util.Vector;
 
 import java.util.UUID;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 /**
  * Created by Deimophobe on 24/01/17.
  */
@@ -222,9 +224,10 @@ public interface GameEntity<E extends LivingEntity> {
 //	@Deprecated
 	default boolean givePotionEffect(PotionEffectType type, int duration, int amplifier, boolean showAbove, boolean colourBlue, boolean force) {
 		if (amplifier == 0) return false;
-		if (type == PotionEffectType.POISON || type == PotionEffectType.WITHER) {
-			throw new IllegalArgumentException("Cannot apply poison/wither affects to game entity directly. Use entity.givePoison() instead.");
-		}
+		checkArgument(type != PotionEffectType.POISON && type != PotionEffectType.WITHER,
+				"Cannot apply poison/wither affects to game entity directly. Use entity.givePoison() instead."
+		);
+		checkArgument(type != PotionEffectType.ABSORPTION, "Cannot give entity absorption hearts with potion effect. Use shields instead.");
 		
 		if (!force) {
 			PotionEffect effect = getEntity().getPotionEffect(type);
