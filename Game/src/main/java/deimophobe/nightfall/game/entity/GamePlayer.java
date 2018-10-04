@@ -10,6 +10,7 @@ import deimophobe.nightfall.cooldown.CooldownHolder;
 import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
+import deimophobe.nightfall.damage.PreDamagePriority;
 import deimophobe.nightfall.damage.death.DeathMessageMaker;
 import deimophobe.nightfall.damage.death.LastMainDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -439,8 +440,10 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	protected boolean shieldDamage(GameDamage<?,?> damage) {
 		if (shields == 0) return false;
 		
-		damage.softCancel();
-		damage.setNoDamageTicks(20);
+		damage.addPreDamageHandler(PreDamagePriority.SHIELDS, () -> {
+			damage.softCancel();
+			damage.setNoDamageTicks(20);
+		});
 		damage.addPostDamageHandler(() -> {
 			removeAllPoisons();
 			removeFire();
