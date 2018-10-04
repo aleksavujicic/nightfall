@@ -33,7 +33,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -62,12 +61,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(100000);
 		
 		// To clear out any fake hearts
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				givePotionEffect(PotionEffectType.ABSORPTION, 5, 1, false, false, true);
-			}
-		}.runTaskLater(NightfallPlugin.getPlugin(), 20);
+		NMSUtil.setNumberAbsorptionHearts(player, 0);
 	}
 	
 	@Override

@@ -18,13 +18,15 @@ import deimophobe.nightfall.dwarf.kit.hero.Horn;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.plague.TwinsPlague;
+import deimophobe.nightfall.util.NMSUtil;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.DyeColor;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.Set;
 import java.util.TreeSet;
@@ -239,7 +241,9 @@ public class MiscCommands extends BaseCommand {
 		@CommandPermission("nightfall.command.fixhearts")
 		@Description("Should remove any fake absorption hearts.")
 		public void fixHearts(Player player) {
-			player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 1, 10), true);
+			float hearts = NMSUtil.getNumberAbsorptionHearts(player);
+			NMSUtil.setNumberAbsorptionHearts(player, hearts);
+			MessageUtil.sendMessage(player, "Reset number of absorption hearts.");
 		}
 		
 		@CommandAlias("fixplayers")
@@ -253,6 +257,7 @@ public class MiscCommands extends BaseCommand {
 					player.showPlayer(other);
 				}
 			}
+			MessageUtil.sendMessage(player, "Fixed invisible players.");
 		}
 	}
 	
