@@ -88,8 +88,8 @@ totem:
   lore:
     description:
      - "Right click to heal and buff dwarves\n
-        at the cost of your own mana. Left\n
-        click to give all dwarves a shield."
+        at the cost of your own mana.\n
+        Left click to summon a giant arcane mark."
     flavour:
      - "Illuminate!"
 
@@ -109,11 +109,11 @@ elystria:
   name: Elystria The Divine Blade
   lore:
     description:
-     - "The true form of Caduceus.\n
-        You have 1 minute to live.\n
-        Slay as much as you can."
+     - "One of the Twin legendary runeswords.\n
+        Holds mastery over Life & Death.\n
+        Go on an immortal rampage for 60 seconds."
     flavour:
-     - "For the eternal light."
+     - "Eternal Rest."
   modifiers:
     attack: 60
     kb-resist: 100
@@ -126,8 +126,9 @@ velsword:
   name: "Nyneve"
   lore:
     description:
-     - "The legendary runesword.\n
-        Twin to Elystria."
+     - "One of the legendary runeswords.\n
+        Holds mastery of the wind and earth.\n
+        10 second cooldown on runedashes."
     flavour:
      - "\"It was there, glowing in the lake.\" - Velvetine"
   modifiers:
@@ -140,8 +141,8 @@ velbow:
   name: "Pyrrhic"
   lore:
     description:
-     - "Kills with this bow give\n
-        a proc for 5 seconds."
+     - "The Power Shot proc of this bow lasts for 5 seconds\n
+        and sends the target flying."
     flavour:
      - "\"Feel the PROC pulsing through your bow.\" - Velvetine"
 
@@ -162,7 +163,7 @@ trident:
   name: Trident of Naia
   lore:
     description:
-     - "Right click to create a fountain of water,\n
+     - "Right click to create a puddle of water,\n
         then left click to freeze it\n
         trapping anything inside."
     flavour:
@@ -176,7 +177,10 @@ bubblebeam:
   lore:
     description:
      - "Left click to shoot a wave of bubbles\n
-        at a single target."
+        at a single target.\n
+        Right click to summon the Whirlpool\n
+        pulling in mobs, and allowing dwarves to\n
+        float on the top of it."
     flavour:
      - "\"...and the oceans rumbled.\" - Ancient Tome"
 
@@ -185,9 +189,10 @@ heranabow:
   name: Herana's Bow
   lore:
     description:
-     - "It's a bow"
+     - "Fully charged shots from this bow, cause an\n
+        Area of effect attack where the arrow lands."
     flavour:
-     - "Stuff"
+     - "\"The Queen resurfaces.\" - Ancient Tome"
 
 
 ##### LYRA #####

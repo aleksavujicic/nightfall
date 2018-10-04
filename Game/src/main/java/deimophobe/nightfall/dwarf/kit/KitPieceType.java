@@ -78,6 +78,7 @@ public enum KitPieceType {
 	BUNNY_BOOTS(BunnyBoots::new),
 	
 	UNTIMELY_DEMISE(UntimelyDemise::new),
+	PROCSHOVEL(ProcShovel::new),
 	
 	// Map specific stuff
 	VOID_SAVER(VoidSaver::new),

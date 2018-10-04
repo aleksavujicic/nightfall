@@ -73,3 +73,15 @@ penystick:
      - "Penny"
     flavour:
      - "She is more popular"
+
+procshovel:
+  base: procshovel
+  name: "Ancient Dwarven Shovel"
+  lore:
+    description:
+     - "This shovel can roll procs."
+    flavour:
+     - "Blame Capt."
+  modifiers:
+     attack: 3
+     knockback: 2

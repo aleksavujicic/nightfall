@@ -111,9 +111,9 @@ scepter:
   lore:
     description:
       - "Left click to shoot a beam that damages mobs\n
-         and gives dwarves resistance for a short duration.\n
+         and grants a resistance buff.\n
          Right click to create an arcane mark that\n
-         strengthens all dwarves inside it and restores mana."
+         damages mobs and restores mana to dwarves inside of it."
     flavour:
       - "\"This makes one less dwarf to watch over.\" - Arthea"
       - "\"When the arcane mark appears, its huddle time!\" - Tui"

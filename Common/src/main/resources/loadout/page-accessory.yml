@@ -172,3 +172,17 @@ speed-bricklayer:
       description:
        - "A faster version of the bricklayer.\n
           Also comes with 4 stacks of cobblestone."
+
+#procshovel:
+ # index: 20
+  #category: accessory
+  #type: item
+  #name: procshovel
+  #cost: 16
+  #item:
+   # name: "Ancient Dwarven Shovel"
+    #base: procshovel
+    #lore:
+     # description:
+      # - "Test Shovel.\n
+       #  Property of DrkRaven."
