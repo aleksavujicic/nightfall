@@ -186,6 +186,14 @@ public class LobbyManager implements Manager {
 			+ ChatColor.YELLOW + " is no longer ready! "
 			+ PLAYER_READY_COUNT_BRACKETS;
 	
+	private static final String TITLE_BAR =
+			ChatColor.YELLOW + "Map: "
+			+ ChatColor.DARK_AQUA + "%s"
+			+ ChatColor.WHITE + " - "
+			+ ChatColor.YELLOW + "Players ready: "
+			+ PLAYER_READY_COUNT;
+			
+	
 	
 	// ----- Player Ready Up -----
 	
@@ -268,11 +276,7 @@ public class LobbyManager implements Manager {
 		int numReady = getNumberOfReadyPlayers();
 		
 		readyDisplay.setTitle(
-				ChatColor.DARK_GREEN + "Map: "
-				+ ChatColor.GREEN + mapName
-				+ ChatColor.WHITE + " - "
-				+ ChatColor.YELLOW + "Players ready: "
-				+ String.format(PLAYER_READY_COUNT, numReady, numPlayers)
+				String.format(TITLE_BAR, mapName, numReady, numPlayers)
 		);
 		
 		double progress = (numPlayers == 0 ? 1 : ((double) numReady)/numPlayers);
