@@ -38,6 +38,7 @@ strong-ale: "!potion{183,37,18}"
 glow: "!potion{183,37,18}"
 pendant: "shears:30"
 regrowth: "nether_star"
+shield-ale: "#temp"
 
 # Armour
 #runeblessed: "diamond_hoe:21"

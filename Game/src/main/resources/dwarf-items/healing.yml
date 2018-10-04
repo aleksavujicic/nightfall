@@ -84,3 +84,13 @@ strong:
         a hero. However, it uses &b400&r mana."
     flavour:
      - "\"My potions are too strong for you traveller.\" - Potion Seller"
+
+shield:
+  base: shield-ale
+  name: Temp Name
+  shiny: true
+  lore:
+    description:
+     - "Temp"
+    flavour:
+     - "Temp"

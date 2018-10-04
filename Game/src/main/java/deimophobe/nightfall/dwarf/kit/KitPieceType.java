@@ -53,6 +53,7 @@ public enum KitPieceType {
 	REGROWTH_STAR(Regrowth::new),
 	CHUGGING_ALE(ChuggingAle::new),
 	STRONG_ALE(StrongAle::new),
+	SHIELD_ALE(ShieldAle::new),
 	
 	// Armours
 	STURDY(Sturdy::new),
