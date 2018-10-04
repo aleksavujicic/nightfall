@@ -177,10 +177,12 @@ public class LobbyManager implements Manager {
 			ChatColor.YELLOW + "("
 			+ PLAYER_READY_COUNT
 			+ ChatColor.YELLOW + ")";
-	private static final String PLAYER_READIED = ChatColor.DARK_AQUA + "%s"
+	private static final String PLAYER_READIED =
+			"%s%s"
 			+ ChatColor.YELLOW + " is ready! "
 			+ PLAYER_READY_COUNT_BRACKETS;
-	private static final String PLAYER_UNREADIED = ChatColor.DARK_AQUA + "%s"
+	private static final String PLAYER_UNREADIED =
+			"%s%s"
 			+ ChatColor.YELLOW + " is no longer ready! "
 			+ PLAYER_READY_COUNT_BRACKETS;
 	
@@ -194,12 +196,18 @@ public class LobbyManager implements Manager {
 		readyPlayers.add(player);
 		readyNotify(player);
 		
-		int numPlayers = getNumberOfLobbyPlayers();
-		int numReady = getNumberOfReadyPlayers();
-		String message = String.format(PLAYER_READIED, player.getName(), numReady, numPlayers);
-		Bukkit.broadcastMessage(message);
 		
 		Loadout loadout = PlayerManager.getManager().getLoadout(player);
+		ChatColor playerNameColour =
+				loadout.hasUntimelyDemise()
+				? ChatColor.DARK_RED
+				: ChatColor.DARK_AQUA;
+		
+		int numPlayers = getNumberOfLobbyPlayers();
+		int numReady = getNumberOfReadyPlayers();
+		String message = String.format(PLAYER_READIED, playerNameColour, player.getName(), numReady, numPlayers);
+		Bukkit.broadcastMessage(message);
+		
 		if (loadout.hasUntimelyDemise()) {
 			player.sendMessage(PLAGUED_MESSAGE);
 		}
@@ -221,7 +229,7 @@ public class LobbyManager implements Manager {
 		
 		int numPlayers = getNumberOfLobbyPlayers();
 		int numReady = getNumberOfReadyPlayers();
-		String message = String.format(PLAYER_UNREADIED, player.getName(), numReady, numPlayers);
+		String message = String.format(PLAYER_UNREADIED, ChatColor.DARK_AQUA, player.getName(), numReady, numPlayers);
 		Bukkit.broadcastMessage(message);
 		
 		updateBossBar();
