@@ -21,9 +21,13 @@ public class SettingsMenu extends SimpleMenu<PlayerSettings> implements MainMenu
 		ConfigurationSection settingsConfig = NightfallCommonPlugin.getInternalFileConfig("settings.yml");
 		ConfigurationSection toggleItem = settingsConfig.getConfigurationSection("hero-toggle.item");
 		CustomItem item = CustomItem.getItem(toggleItem, "settings");
+		ConfigurationSection toggleItem2 = settingsConfig.getConfigurationSection("mob-death.item");
+		CustomItem item2 = CustomItem.getItem(toggleItem2, "settings");
 		
 		HeroToggleItem heroToggleItem = new HeroToggleItem(item);
 		this.setItem(10, heroToggleItem);
+		MobDeathToggleItem mobDeathMessageItem = new MobDeathToggleItem(item2);
+		this.setItem(11, mobDeathMessageItem);
 	}
 	
 	@Override
@@ -65,6 +69,34 @@ public class SettingsMenu extends SimpleMenu<PlayerSettings> implements MainMenu
 		@Override
 		public boolean onClick(MenuSession<PlayerSettings> session) {
 			session.getData().toggleHero();
+			return true;
+		}
+	}
+	
+	private static final class MobDeathToggleItem implements MenuItem<PlayerSettings> {
+		private final ItemStack enabled;
+		private final ItemStack disabled;
+		private MobDeathToggleItem(CustomItem item) {
+			CustomItem enabled = item;
+			CustomItem disabled = item.clone();
+			
+			enabled.setShiny(true);
+			enabled.applyVariable("enabledtext", "Mob death messages &awill&r show in chat.");
+			disabled.applyVariable("enabledtext", "Mob death messages &cwill not&r show in chat.");
+			
+			this.enabled = enabled.createItemStack();
+			this.disabled = disabled.createItemStack();
+		}
+		
+		@Override
+		public ItemStack getDisplayItem(MenuSession<PlayerSettings> session) {
+			PlayerSettings settings = session.getData();
+			return (settings.showMobDeathMessages() ? enabled : disabled);
+		}
+		
+		@Override
+		public boolean onClick(MenuSession<PlayerSettings> session) {
+			session.getData().toggleMobDeathMessages();
 			return true;
 		}
 	}

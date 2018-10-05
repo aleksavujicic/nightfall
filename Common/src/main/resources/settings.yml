@@ -4,3 +4,10 @@ hero-toggle:
     base: vel-sword
     lore:
       description: "$enabledtext"
+
+mob-death:
+  item:
+    name: "Toggle Mob Death Messages"
+    base: avenge
+    lore:
+      description: "$enabledtext"
