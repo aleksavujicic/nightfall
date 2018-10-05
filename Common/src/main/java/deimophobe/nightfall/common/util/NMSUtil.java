@@ -1,6 +1,7 @@
-package deimophobe.nightfall.util;
+package deimophobe.nightfall.common.util;
 
-import deimophobe.nightfall.NightfallPlugin;
+
+import deimophobe.nightfall.common.NightfallCommonPlugin;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -13,6 +14,7 @@ import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.lang.reflect.Field;
 
@@ -23,7 +25,6 @@ import java.lang.reflect.Field;
  */
 @Deprecated
 public class NMSUtil {
-	
 	public static int getPingOfPlayer(Player player) {
 		if (player instanceof CraftPlayer) {
 			return  ((CraftPlayer) player).getHandle().ping;
@@ -65,7 +66,7 @@ public class NMSUtil {
 			
 			((CraftWorld) block.getWorld()).getHandle().a(null, x, y, z, breakSound, SoundCategory.BLOCKS, 1f, 0.8f);
 		} catch (NoSuchFieldException | IllegalAccessException | ClassCastException e) {
-			NightfallPlugin.logger().warning("Failed to play block break sound");
+			NightfallCommonPlugin.logger().warning("Failed to play block break sound");
 			e.printStackTrace();
 		}
 		
@@ -77,5 +78,13 @@ public class NMSUtil {
 	
 	public static void setNumberAbsorptionHearts(LivingEntity entity, float hearts) {
 		((CraftLivingEntity) entity).getHandle().setAbsorptionHearts(hearts);
+	}
+	
+	public static void openBook(Player player, ItemStack book) {
+		PlayerInventory inv = player.getInventory();
+		ItemStack held = inv.getItemInMainHand();
+		inv.setItemInMainHand(book);
+		((CraftPlayer) player).getHandle().a(CraftItemStack.asNMSCopy(book), EnumHand.MAIN_HAND);
+		inv.setItemInMainHand(held);
 	}
 }

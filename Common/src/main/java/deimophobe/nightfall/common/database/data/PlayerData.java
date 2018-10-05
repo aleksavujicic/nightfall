@@ -38,6 +38,9 @@ public class PlayerData implements Data {
 	@Embedded("settings")
 	public PlayerSettingsData settings = new PlayerSettingsData();
 	
+	@Embedded("statistics")
+	public PlayerStatsData statistics;
+	
 	public PlayerData() {}
 	public PlayerData(UUID uuid) {this.uuid = uuid.toString();}
 	
@@ -59,6 +62,7 @@ public class PlayerData implements Data {
 	private static final String LOADOUT_KEY = "loadout";
 	private static final String SAVED_LOADOUTS_KEY = "saved-loadouts";
 	private static final String SETTINGS_KEY = "settings";
+	private static final String STATISTICS_KEY = "statistics";
 	
 	@SuppressWarnings("unused")
 	public static PlayerData deserialize(Map<String, Object> map) {
@@ -66,10 +70,11 @@ public class PlayerData implements Data {
 		data.uuid      = ConfigUtil.getStringFromMap(map, UUID_KEY, INVALID_UUID);
 		data.gold      = ConfigUtil.getIntFromMap(map, GOLD_KEY, 0);
 		
-		data.cosmetics     = ConfigUtil.getObjectFromMap(map, COSMETICS_KEY, CosmeticsData.class, new CosmeticsData());
-		data.loadout       = ConfigUtil.getObjectFromMap(map, LOADOUT_KEY, LoadoutData.class, new LoadoutData());
-		data.savedLoadouts = ConfigUtil.getObjectFromMap(map, SAVED_LOADOUTS_KEY, List.class, new ArrayList<>());
-		data.settings      = ConfigUtil.getObjectFromMap(map, SETTINGS_KEY, PlayerSettingsData.class, new PlayerSettingsData());
+		data.cosmetics       = ConfigUtil.getObjectFromMap(map, COSMETICS_KEY, CosmeticsData.class, new CosmeticsData());
+		data.loadout         = ConfigUtil.getObjectFromMap(map, LOADOUT_KEY, LoadoutData.class, new LoadoutData());
+		data.savedLoadouts   = ConfigUtil.getObjectFromMap(map, SAVED_LOADOUTS_KEY, List.class, new ArrayList<>());
+		data.settings        = ConfigUtil.getObjectFromMap(map, SETTINGS_KEY, PlayerSettingsData.class, new PlayerSettingsData());
+		data.statistics      = ConfigUtil.getObjectFromMap(map, STATISTICS_KEY, PlayerStatsData.class, new PlayerStatsData());
 		
 		return data;
 	}
@@ -84,6 +89,7 @@ public class PlayerData implements Data {
 		map.put(LOADOUT_KEY, loadout);
 		map.put(SAVED_LOADOUTS_KEY, savedLoadouts);
 		map.put(SETTINGS_KEY, settings);
+		map.put(STATISTICS_KEY, statistics);
 		
 		return map;
 	}

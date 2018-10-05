@@ -8,6 +8,7 @@ import deimophobe.nightfall.common.loadout.Loadout;
 import deimophobe.nightfall.common.menu.SessionData;
 import deimophobe.nightfall.common.player.cosmetic.Cosmetics;
 import deimophobe.nightfall.common.player.settings.PlayerSettings;
+import deimophobe.nightfall.common.player.stats.PlayerStatistics;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -37,15 +38,19 @@ public class PlayerInfo implements Datable<PlayerData>,SessionData {
 	private final PlayerSettings settings;
 	public PlayerSettings getSettings() { return settings; }
 	
+	private final PlayerStatistics statistics;
+	public PlayerStatistics getStatistics() { return statistics; }
+	
 	private int gold;
 	
 	public PlayerInfo(PlayerData data) {
 		this.uuid      = UUID.fromString(data.uuid);
 		this.gold      = data.gold;
 		
-		this.cosmetics = new Cosmetics(uuid, data.cosmetics);
-		this.loadout   = new Loadout(data.loadout);
-		this.settings  = new PlayerSettings(data.settings);
+		this.cosmetics   = new Cosmetics(uuid, data.cosmetics);
+		this.loadout     = new Loadout(data.loadout);
+		this.settings    = new PlayerSettings(data.settings);
+		this.statistics  = new PlayerStatistics(data.statistics);
 		
 		int numSavedLoadouts = data.savedLoadouts.size();
 		if (numSavedLoadouts > MAX_SAVED_LOADOUTS) {
@@ -76,9 +81,10 @@ public class PlayerInfo implements Datable<PlayerData>,SessionData {
 		data.uuid      = this.uuid.toString();
 		data.gold      = this.gold;
 		
-		data.cosmetics     = this.cosmetics.toData();
-		data.loadout       = this.loadout.toData();
-		data.settings      = this.settings.toData();
+		data.cosmetics       = this.cosmetics.toData();
+		data.loadout         = this.loadout.toData();
+		data.settings        = this.settings.toData();
+		data.statistics      = this.statistics.toData();
 		
 		data.savedLoadouts = Stream.of(savedLoadouts)
 				.map(Loadout::toData)

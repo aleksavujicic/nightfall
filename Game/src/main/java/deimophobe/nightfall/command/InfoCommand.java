@@ -5,7 +5,7 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Description;
 import deimophobe.nightfall.common.command.MessageUtil;
-import deimophobe.nightfall.util.NMSUtil;
+import deimophobe.nightfall.common.util.NMSUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;

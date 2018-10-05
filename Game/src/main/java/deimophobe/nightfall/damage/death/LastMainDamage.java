@@ -2,10 +2,10 @@ package deimophobe.nightfall.damage.death;
 
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.util.NMSUtil;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
-import deimophobe.nightfall.util.NMSUtil;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

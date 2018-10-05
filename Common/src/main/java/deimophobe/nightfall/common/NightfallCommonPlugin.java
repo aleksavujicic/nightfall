@@ -10,6 +10,7 @@ import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.common.player.cosmetic.HatMenu;
 import deimophobe.nightfall.common.player.cosmetic.TitleMenu;
 import deimophobe.nightfall.common.player.settings.SettingsMenu;
+import deimophobe.nightfall.common.player.stats.StatsBook;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -26,6 +27,8 @@ import java.util.logging.Logger;
  */
 public class NightfallCommonPlugin extends JavaPlugin {
 	private static NightfallCommonPlugin plugin;
+	private StatsBook statsBook;
+	
 	public static NightfallCommonPlugin getPlugin() { return plugin; }
 	
 	public static Logger logger() { return plugin.getLogger(); }
@@ -47,6 +50,8 @@ public class NightfallCommonPlugin extends JavaPlugin {
 		this.saveDefaultConfig();
 		
 		Maintenance.initialise(this);
+		
+		statsBook = new StatsBook(this);
 		
 		ConfigurationSection templatesFile = NightfallCommonPlugin.getInternalFileConfig("lore-templates.yml");
 		LoreTemplate.registerTemplateFile(templatesFile);
@@ -95,5 +100,9 @@ public class NightfallCommonPlugin extends JavaPlugin {
 		menuManager.registerMenu(HatMenu.class, new HatMenu());
 		menuManager.registerMenu(TitleMenu.class, new TitleMenu());
 		menuManager.registerMenu(SettingsMenu.class, new SettingsMenu());
+	}
+	
+	public StatsBook getStatsBook() {
+		return statsBook;
 	}
 }

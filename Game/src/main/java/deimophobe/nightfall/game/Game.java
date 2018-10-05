@@ -11,6 +11,7 @@ import deimophobe.nightfall.*;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.player.PlayerManager;
+import deimophobe.nightfall.common.player.stats.PlayerStatistics;
 import deimophobe.nightfall.cooldown.CooldownHolder;
 import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -594,6 +595,11 @@ public class Game {
 		bossBar.setColor(BarColor.RED);
 		
 		MapManager.getManager().scheduleNewGame();
+		
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			PlayerStatistics stats = PlayerStatistics.getStatistics(player);
+			stats.incrementGameCount();
+		}
 	}
 	
 	private void transitionToPhase(Phase transitionPhase) {
