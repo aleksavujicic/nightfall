@@ -82,7 +82,7 @@ public enum GameDamageType {
 				text.addExtra(playerName);
 				text.addExtra(" was evaporated by ");
 				text.addExtra(damage.getAttackerName());
-				text.addExtra("'s arcane mark");
+				text.addExtra("'s arcane mark.");
 				return text;
 			}
 	),
@@ -111,7 +111,7 @@ public enum GameDamageType {
 				text.addExtra(playerName);
 				text.addExtra(" was stuck by ");
 				text.addExtra(damage.getAttackerName());
-				text.addExtra("'s lightning bolt");
+				text.addExtra("'s lightning bolt.");
 				return text;
 			}
 	),
