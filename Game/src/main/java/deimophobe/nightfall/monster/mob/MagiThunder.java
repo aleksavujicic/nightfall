@@ -80,8 +80,8 @@ public class MagiThunder extends AbstractMob {
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			if (dwarf.distanceTo(lastStarted) > 7) continue;
 			
-			DwarfDamage damage = dwarf.createDamage(monster, GameDamageType.TEMPORARY, 40);
-			damage.setArmourShred(25);
+			DwarfDamage damage = dwarf.createDamage(monster, GameDamageType.THUNDER_MAGI_LIGHTNING, 50);
+			damage.setArmourShred(30);
 			boolean success = damage.fire(true);
 			
 			if (success) {

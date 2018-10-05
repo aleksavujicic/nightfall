@@ -105,6 +105,16 @@ public enum GameDamageType {
 	MINOTAUR_CHARGE("trampled"),
 	WRAITH_CHARGE("drained"),
 	FROST_BREATH("frosted"),
+	THUNDER_MAGI_LIGHTNING(
+			(playerName, damage) -> {
+				BaseComponent text = new TextComponent();
+				text.addExtra(playerName);
+				text.addExtra(" was stuck by ");
+				text.addExtra(damage.getAttackerName());
+				text.addExtra("'s lightning bolt");
+				return text;
+			}
+	),
 	
 	// Plagues
 	FORCE_PLAGUED(new ForcedDeathMessageMaker("succumbed to the plague")),
