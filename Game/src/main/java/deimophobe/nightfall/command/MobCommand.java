@@ -138,6 +138,15 @@ public class MobCommand extends BaseCommand {
 		});
 	}
 	
+	@Subcommand("plague-xp")
+	@Conditions("pre-plague")
+	@CommandPermission("nightfall.command.mob.plague-xp")
+	@Description("Set the default plague xp.")
+	public void setXPRate(CommandSender sender, int xp) {
+		getManager().setPlagueXP(xp);
+		MessageUtil.sendMessage(sender, "Set plague xp to ", xp, " exp.");
+	}
+	
 	@Subcommand("type")
 	@CommandCompletion("@monsters")
 	@CommandPermission("nightfall.command.mob.type")
@@ -151,5 +160,9 @@ public class MobCommand extends BaseCommand {
 				MessageUtil.sendMessage(sender, "Monster ", monster, " is a ", mob.getType(), " mob.");
 			}
 		});
+	}
+	
+	private MonsterManager getManager() {
+		return MonsterManager.getManager();
 	}
 }

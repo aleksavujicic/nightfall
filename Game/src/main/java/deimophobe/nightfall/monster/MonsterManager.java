@@ -37,6 +37,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	public DoomManager getDoomManager() {return doomManager;}
 	
 	private int xpCount;
+	private int plagueXP = 6000;
 	
 	public MonsterManager() {
 		super(ChatColor.DARK_RED + "Monsters", "mobs", ChatColor.DARK_RED);
@@ -111,12 +112,16 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 			@Override public void run() { updateEggs(); }
 		}.runTaskTimer(NightfallPlugin.getPlugin(), 90*20, 60*20);
 		
-		getGamePlayers().forEach(mp -> mp.forceGainExp(6000));
+		getGamePlayers().forEach(mp -> mp.forceGainExp(plagueXP));
 		//getOfflinePlayers().forEach(mp -> mp.forceGainExp(6000));
 	}
 	
 	public SpawnRegistry getRegistry() {
 		return registry;
+	}
+	
+	public void setPlagueXP(int xp) {
+		this.plagueXP = xp;
 	}
 	
 	
