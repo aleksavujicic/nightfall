@@ -420,8 +420,6 @@ public class LobbyManager implements Manager {
 		@EventHandler
 		public void onPlayerLogon(PlayerJoinEvent event) {
 			Player player = event.getPlayer();
-			addLobbyPlayer(player);
-			
 			readyDisplay.addPlayer(player);
 		}
 		
