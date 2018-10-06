@@ -5,6 +5,8 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.PlayerSkin;
 import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.common.player.PlayerManager;
+import deimophobe.nightfall.common.player.settings.PlayerSettings;
 import deimophobe.nightfall.cooldown.*;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
@@ -21,6 +23,7 @@ import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
+import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -531,13 +534,30 @@ public abstract class AbstractMob implements Mob {
 			playSound("death");
 			displayDeathAnimation();
 			
-			if (mobData.forceTitle)
-				Bukkit.spigot().broadcast(monster.getDeathMessage());
+			
+			BaseComponent deathMessage = monster.getDeathMessage();
+			showDeathMessage(deathMessage);
+			
 		}
 		
 		DisguiseAPI.undisguiseToAll(monster.getPlayer());
 		if (hasPlayerDisguise()) {
 			removePlayerDisguise();
+		}
+	}
+	
+	protected void showDeathMessage(BaseComponent deathMessage) {
+		MonsterManager.getManager().queueDeathMessage(deathMessage.toPlainText());
+		
+		if (mobData.forceTitle) {
+			Bukkit.spigot().broadcast(deathMessage);
+		} else {
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				PlayerSettings settings = PlayerManager.getManager().getSettings(player);
+				if (settings.showMobDeathMessages()) {
+					player.spigot().sendMessage(deathMessage);
+				}
+			}
 		}
 	}
 	

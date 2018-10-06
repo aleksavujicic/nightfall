@@ -132,17 +132,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	public void kill(boolean silent) {
 		if (!silent && isMobAlive()) {
-			BaseComponent deathMessages = getDeathMessage();
-			MonsterManager.getManager().queueDeathMessage(deathMessages.toPlainText());
 			player.playSound(player.getLocation(), "proc", 1f, 0.7f);
 			sendTitleMessage(ChatColor.DARK_RED + "You died!");
-			
-			for (Player player : Bukkit.getOnlinePlayers()) {
-				PlayerSettings settings = PlayerManager.getManager().getSettings(player);
-				if (settings.showMobDeathMessages()) {
-					player.spigot().sendMessage(getDeathMessage());
-				}
-			}
 		}
 		
 		boolean frozenDeath = isFrozen();
