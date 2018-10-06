@@ -139,9 +139,15 @@ public class LobbyManager implements Manager {
 		NMSUtil.setNumberAbsorptionHearts(player, 1);
 		NMSUtil.setNumberAbsorptionHearts(player, 0);
 		
-		Cosmetics cosmetics = PlayerManager.getManager().getCosmetics(player);
-		cosmetics.updateTitle();
-		cosmetics.equipHat();
+		try {
+			Cosmetics cosmetics = PlayerManager.getManager().getCosmetics(player);
+			cosmetics.updateTitle();
+			cosmetics.equipHat();
+		} catch (IllegalArgumentException e) {
+			player.kickPlayer("An error occurred, please try rejoining.");
+			NightfallPlugin.logger().warning("Kicked player " + player.getName() + " as their PlayerData did not load.");
+		}
+		
 		//Loadout.updateLoadoutDisplay(player);
 		lobbyTeam.addEntry(player.getName());
 		lobbyPlayers.add(player);
