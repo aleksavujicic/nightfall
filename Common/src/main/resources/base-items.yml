@@ -51,18 +51,20 @@ berserker: "flint"
 
 
 # Accessories
-tombmaker: "diamond_spade:0"
-bricklayer: "shears:20"
 chisel: "#temp"
 chestomatic: "diamond_hoe:26"
 clock: "watch"
-bunny-boots: "rabbit_foot"
-procshovel: "gold_spade:0"
+bricklayer: "shears:20"
 
 slowfall: "diamond_hoe:7"
 darkvision: "diamond_hoe:6"
 avenge: "diamond_hoe:8"
 resurrection: "totem"
+bunny-boots: "rabbit_foot"
+barrier: "#temp"
+
+tombmaker: "diamond_spade:0"
+procshovel: "gold_spade:0"
 
 # Consumables
 lamp: "ink_sack:0"

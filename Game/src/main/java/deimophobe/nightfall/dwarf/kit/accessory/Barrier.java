@@ -1,0 +1,42 @@
+package deimophobe.nightfall.dwarf.kit.accessory;
+
+import deimophobe.nightfall.cooldown.CompletionCooldown;
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.kit.AbstractItem;
+import deimophobe.nightfall.dwarf.kit.AbstractPiece;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+
+/**
+ * Created by Deimophobe on 6/10/18.
+ */
+public class Barrier extends AbstractPiece {
+	private static final int MAX_SHIELD = 3;
+	
+	private final Cooldown shieldRegen = new CompletionCooldown(10 * 20, this::regenShield);
+	
+	public Barrier(Dwarf dwarf) {
+		super(dwarf);
+		shieldRegen.reset();
+	}
+	
+	@Override
+	public void update() {
+		super.update();
+		shieldRegen.update();
+	}
+	
+	@Override
+	public void onDamageReceive(DwarfDamage damage) {
+		super.onDamageReceive(damage);
+		damage.addPostDamageHandler(shieldRegen::reset);
+	}
+	
+	private void regenShield() {
+		dwarf.addShieldsMax(1, MAX_SHIELD);
+		if (dwarf.getNumberOfShields() < MAX_SHIELD) {
+			shieldRegen.reset();
+		}
+	}
+}

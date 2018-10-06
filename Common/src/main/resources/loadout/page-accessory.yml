@@ -69,7 +69,7 @@ jit-heal:
           save you from death just in time.\n
           It requires 700 mana to activate."
 
-# ------ ACCESSORIES ------
+# ------ PASSIVES ------
 slowfall:
   index: 9
   category: accessory
@@ -141,6 +141,22 @@ bunny-boots:
           by pressing shift on the ground.\n
           Can be used once every 90 seconds."
 
+barrier:
+  index: 14
+  category: accessory
+  type: item
+  name: barrier
+  cost: 8
+  item:
+    name: "Regenerative Barrier"
+    base: barrier
+    lore:
+      description:
+       - "Gives you a shield every 10 seconds.\n
+          Taking damage will reset the timer.\n
+          Maximum of 3 shields."
+
+# ------ ACCESSORIES ------
 tombmaker:
   index: 18
   category: accessory

@@ -40,7 +40,6 @@ items:
   bricklayer: Bricklayer
   jit-heal: JIT Heal
   untimely-demise: Untimely Demise
-  bunny-boots: Bunny Boots
 
   # Accessories
   slowfall: Slowfall
@@ -49,6 +48,8 @@ items:
   tombmaker: Tombmaker
   resurrection: Resurrection
   speedy-bricklayer: Speedy Bricklayer
+  bunny-boots: Bunny Boots
+  barrier: Regenerative Barrier
 
 
 consumables:
