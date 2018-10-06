@@ -121,7 +121,7 @@ public class Maintenance {
 			// Check has permission
 			CompletableFuture<User> future =  permsApi.getUserManager().loadUser(uuid);
 			User user = future.join();
-			Tristate canJoin = user.hasPermission(joinPermission);
+			Tristate canJoin = user.inheritsPermission(joinPermission);
 			if (canJoin == Tristate.TRUE) return;
 			
 			event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "You cannot join right now, please try again later.");
