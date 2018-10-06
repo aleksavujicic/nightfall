@@ -3,7 +3,7 @@ base:
   forcetitle: true
 
   disguisetype: player
-  skin: torus
+  skin: magi-fire
 
   attack: 40
   health: 70
@@ -31,6 +31,8 @@ base:
 fire:
   parent: magi
 
+  skin: magi-fire
+
   weapon:
     template: monster-hero
     base: magi.staff
@@ -51,6 +53,8 @@ fire:
 
 ice:
   parent: magi
+
+  skin: magi-ice
 
   speed: -15
 
@@ -73,6 +77,8 @@ ice:
 
 thunder:
   parent: magi
+
+  skin: magi-thunder
 
   speed: 15
 
