@@ -3,7 +3,7 @@ name: NightfallCommon
 version: 0.1
 author: Deimophobe
 description: The common library plugin for the nightfall game.
-
+depend: [LibsDisguises, ProtocolLib, LuckPerms]
 
 permissions:
   nightfall.maintenance.join:
