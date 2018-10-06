@@ -6,6 +6,7 @@ import deimophobe.nightfall.WhoEntry;
 import deimophobe.nightfall.common.loadout.Loadout;
 import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.common.player.cosmetic.Cosmetics;
+import deimophobe.nightfall.common.util.NMSUtil;
 import deimophobe.nightfall.event.PhaseChangeEvent;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.MapManager;
@@ -134,6 +135,9 @@ public class LobbyManager implements Manager {
 		player.setFoodLevel(100000);
 		player.setExp(0);
 		player.setLevel(0);
+		
+		NMSUtil.setNumberAbsorptionHearts(player, 1);
+		NMSUtil.setNumberAbsorptionHearts(player, 0);
 		
 		Cosmetics cosmetics = PlayerManager.getManager().getCosmetics(player);
 		cosmetics.updateTitle();
