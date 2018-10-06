@@ -133,7 +133,7 @@ public class MapCommand extends BaseCommand {
 	@Conditions("map-enabled")
 	@CommandCompletion("@maps")
 	@CommandPermission("nightfall.command.map.current")
-	@Description("Displays the current map. ")
+	@Description("Displays the current map.")
 	public void currentMap(CommandSender sender) {
 		String name = GameMap.getCurrentMap().getName();
 		sender.sendMessage(ChatColor.YELLOW + "Current map is: " + ChatColor.GREEN + name);
