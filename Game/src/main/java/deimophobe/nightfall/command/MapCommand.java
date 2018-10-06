@@ -6,6 +6,7 @@ import deimophobe.nightfall.common.command.MessageUtil;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.MapManager;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -21,23 +22,29 @@ import java.util.List;
 @CommandAlias("map")
 @CommandPermission("nightfall.command.map")
 public class MapCommand extends BaseCommand {
+	MapCommand() {
+		MessageUtil.addResolver(MapWrapper.class, mapWrapper -> {
+			TextComponent text = new TextComponent(mapWrapper.name);
+			text.setColor(net.md_5.bungee.api.ChatColor.GREEN);
+			return text;
+		});
+	}
 	
 	@Subcommand("setenabled")
 	@CommandCompletion("@boolean")
 	@CommandPermission("nightfall.command.map.enable")
 	@Description("Toggles map loading. Requires a reload to take effect.")
 	public void setEnabled(CommandSender sender, boolean enabled) {
-		
 		try {
-			MapManager.getManager().setMapsEnabled(enabled);
+			getMapManager().setMapsEnabled(enabled);
 		} catch (IOException e) {
 			e.printStackTrace();
-			String enableText = (enabled ? "enabled" : "disabled");
-			sender.sendMessage(ChatColor.RED + "Failed to " + enableText + " map loading.");
+			String enableText = (enabled ? "enable" : "disable");
+			MessageUtil.sendErrorMessage(sender, "Failed to " + enableText + " map loading.");
 			return;
 		}
 		MessageUtil.sendMessage(sender, "Map loading is now ", enabled, ".");
-		sender.sendMessage(ChatColor.GRAY.toString() + ChatColor.ITALIC + "[You must reload before changes will take effect.]");
+		MessageUtil.sendMessage(sender, ChatColor.GRAY.toString() + ChatColor.ITALIC + "[You must reload before changes will take effect.]");
 	}
 	
 	@Subcommand("reload")
@@ -45,8 +52,8 @@ public class MapCommand extends BaseCommand {
 	@CommandPermission("nightfall.command.map.reload")
 	@Description("Reloads the map config.")
 	public void onReload(CommandSender sender) {
-		MapManager.getManager().reloadConfig();
-		sender.sendMessage(ChatColor.YELLOW + "Reloaded map config. " + ChatColor.GRAY + ChatColor.ITALIC + "[Enabling/disabling requires a reload].");
+		getMapManager().reloadConfig();
+		MessageUtil.sendMessage(sender, "Reloaded map config.", "" + ChatColor.GRAY + ChatColor.ITALIC + " [Enabling/disabling requires a reload].");
 	}
 	
 	@Subcommand("list")
@@ -54,12 +61,12 @@ public class MapCommand extends BaseCommand {
 	@CommandPermission("nightfall.command.map.list")
 	@Description("Shows a list of all queued maps.")
 	public void onList(CommandSender sender) {
-		List<String> mapList = MapManager.getManager().getMapQueue();
+		List<String> mapList = getMapManager().getMapQueue();
 		if (mapList.isEmpty()) {
-			sender.sendMessage(ChatColor.YELLOW + "No maps queued.");
+			MessageUtil.sendMessage(sender,"No maps queued.");
 		} else {
 			String maps = StringUtils.join(mapList, ChatColor.RESET + ", " + ChatColor.GREEN);
-			sender.sendMessage(ChatColor.YELLOW + "Current map list: " + ChatColor.GREEN + maps);
+			MessageUtil.sendMessage(sender,"Current map list: " + ChatColor.GREEN + maps);
 		}
 	}
 	
@@ -68,7 +75,7 @@ public class MapCommand extends BaseCommand {
 	@CommandPermission("nightfall.command.map.listall")
 	@Description("Shows a list of maps on the server.")
 	public void onListAll(CommandSender sender) {
-		MapManager manager = MapManager.getManager();
+		MapManager manager = getMapManager();
 		List<String> mapList = new ArrayList<>(manager.getMaps());
 		Collections.sort(mapList);
 		
@@ -86,7 +93,7 @@ public class MapCommand extends BaseCommand {
 		int length = mapListBuilder.length();
 		if (length > 0) mapListBuilder.setLength(length - 2);
 		
-		sender.sendMessage(ChatColor.YELLOW + "All maps: " + mapListBuilder.toString());
+		MessageUtil.sendMessage(sender, "All maps: " + mapListBuilder.toString());
 	}
 	
 	@Subcommand("clear")
@@ -94,8 +101,8 @@ public class MapCommand extends BaseCommand {
 	@CommandPermission("nightfall.command.map.clear")
 	@Description("Remove all queued maps.")
 	public void onClear(CommandSender sender) {
-		MapManager.getManager().clearMapQueue();
-		sender.sendMessage(ChatColor.YELLOW + "Cleared map queue.");
+		getMapManager().clearMapQueue();
+		MessageUtil.sendMessage(sender, "Cleared map queue.");
 	}
 	
 	@Subcommand("next")
@@ -103,7 +110,10 @@ public class MapCommand extends BaseCommand {
 	@CommandPermission("nightfall.command.map.next")
 	@Description("Loads the next map.")
 	public void onNext(CommandSender sender) {
-		sender.sendMessage(ChatColor.YELLOW + "Starting new game. Map will be: " + ChatColor.GREEN + MapManager.getManager().peekMap());
+		MapManager mapManager = getMapManager();
+		mapManager.enqueueRandomMapIfEmpty();
+		String mapName = mapManager.peekMap();
+		MessageUtil.sendMessage(sender, "Starting new game. Map will be: ", new MapWrapper(mapName));
 		Game.createNewGame();
 	}
 	
@@ -113,8 +123,8 @@ public class MapCommand extends BaseCommand {
 	@CommandPermission("nightfall.command.map.queue")
 	@Description("Queues the next playable map.")
 	public void onQueue(CommandSender sender, @Conditions("map") String map) {
-		MapManager.getManager().enqueueMap(map);
-		sender.sendMessage(ChatColor.YELLOW + "Successfully queued map " + ChatColor.GREEN +  map);
+		getMapManager().enqueueMap(map);
+		MessageUtil.sendMessage(sender, "Successfully queued map ", new MapWrapper(map));
 	}
 	
 	@Subcommand("load|play")
@@ -123,8 +133,8 @@ public class MapCommand extends BaseCommand {
 	@CommandPermission("nightfall.command.map.load")
 	@Description("Loads a specified map.")
 	public void onLoad(CommandSender sender, @Conditions("map") String map) {
-		MapManager.getManager().insertMap(map);
-		sender.sendMessage(ChatColor.YELLOW + "Starting new game on map " + ChatColor.GREEN + map);
+		getMapManager().insertMap(map);
+		MessageUtil.sendMessage(sender, "Starting new game on map ", new MapWrapper(map));
 		Game.createNewGame();
 	}
 	
@@ -136,6 +146,18 @@ public class MapCommand extends BaseCommand {
 	@Description("Displays the current map.")
 	public void currentMap(CommandSender sender) {
 		String name = GameMap.getCurrentMap().getName();
-		sender.sendMessage(ChatColor.YELLOW + "Current map is: " + ChatColor.GREEN + name);
+		MessageUtil.sendMessage(sender, "Current map is: ", new MapWrapper(name));
+	}
+	
+	private MapManager getMapManager() {
+		return MapManager.getManager();
+	}
+	
+	private static class MapWrapper {
+		private final String name;
+		
+		private MapWrapper(String name) {
+			this.name = name;
+		}
 	}
 }

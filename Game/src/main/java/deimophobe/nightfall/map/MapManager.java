@@ -199,6 +199,13 @@ public class MapManager {
 		return mapQueue.peek();
 	}
 	
+	public void enqueueRandomMapIfEmpty() {
+		if (!mapQueue.isEmpty()) return;
+		
+		String mapName = Misc.getRandom(activeMaps);
+		enqueueMap(mapName);
+	}
+	
 	// ~~~~~ MAP LOADING ~~~~~
 	
 	public GameMap loadNextMap() {
