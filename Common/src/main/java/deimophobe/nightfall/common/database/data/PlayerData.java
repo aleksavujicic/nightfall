@@ -39,7 +39,7 @@ public class PlayerData implements Data {
 	public PlayerSettingsData settings = new PlayerSettingsData();
 	
 	@Embedded("statistics")
-	public PlayerStatsData statistics;
+	public PlayerStatsData statistics = new PlayerStatsData();
 	
 	public PlayerData() {}
 	public PlayerData(UUID uuid) {this.uuid = uuid.toString();}
