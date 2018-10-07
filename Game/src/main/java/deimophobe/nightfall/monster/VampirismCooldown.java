@@ -1,5 +1,7 @@
 package deimophobe.nightfall.monster;
 
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.DudCooldown;
 import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 
@@ -12,11 +14,19 @@ public class VampirismCooldown extends SimpleCooldown {
 	private final int manaDrain;
 	private final double lifeSteal;
 	
+	private final Cooldown manaDrainer = new SimpleCooldown(20);
+	
 	public VampirismCooldown(int maxCD, MonsterPlayer monster, int manaDrain, double lifeSteal) {
 		super(maxCD);
 		this.monster = monster;
 		this.manaDrain = manaDrain;
 		this.lifeSteal = lifeSteal;
+	}
+	
+	@Override
+	public void update() {
+		super.update();
+		manaDrainer.update();
 	}
 	
 	@Override
@@ -27,7 +37,10 @@ public class VampirismCooldown extends SimpleCooldown {
 	public boolean tryUse(DwarfDamage damage) {
 		if (!super.tryUse()) return false;
 		
-		damage.addManaDrain(manaDrain);
+		if (manaDrainer.isAvailable()) {
+			manaDrainer.reset();
+			damage.addManaDrain(manaDrain);
+		}
 		damage.addPostDamageHandler(() -> {
 			monster.heal(lifeSteal);
 		});

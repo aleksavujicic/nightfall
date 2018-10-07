@@ -39,6 +39,7 @@ public enum ItemModifierType {
 	AQUA_AFFINITY("Aqua Affinity", new EnchantApplier(Enchantment.WATER_WORKER)),
 
 	// Mob Infinite Upgrades
+	LIFE_STEAL("Life Steal", new FractionalFormatter(2)),
 	MANA_DRAIN("Mana Drain"),
 	REGEN_EXTRA("Extra Regen"),
 	SNIPER("Sniper", ValueFormatter.PERCENT_FORMATTER),

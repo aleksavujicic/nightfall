@@ -1,11 +1,13 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.SpawnMethod;
 import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
@@ -19,10 +21,11 @@ import org.bukkit.potion.PotionEffectType;
 abstract class AbstractWolf extends AbstractMob {
 	
 	@Display @Update private final ComplexCooldown leapCD = new ComplexCooldown(200, this::leap);
-	@Update private final ComplexCooldown growler = new ComplexCooldown(15, this::growl);
+	@Update private final ComplexCooldown growler = new ComplexCooldown(10, this::growl);
 	
 	protected AbstractWolf(MonsterPlayer monster, MobType type) {
 		super(monster, type);
+		getWeapon().addModifier(ItemModifierType.LIFE_STEAL, 200);
 	}
 	
 	@Override
@@ -51,7 +54,7 @@ abstract class AbstractWolf extends AbstractMob {
 	
 	private void growl() {
 		playSound("growl");
-		monster.heal(3);
+		monster.heal(2.5);
 	}
 	
 	protected void leap() {

@@ -334,7 +334,7 @@ rebirth-fury:
 
 vampirism-fury:
   index: 16
-  cost: [500, 1000, 1500]
+  cost: [200, 400, 600, 800, 1000]
   prereq:
     fury: 1
   item:
@@ -342,7 +342,7 @@ vampirism-fury:
     name: "Vampirism"
     lore:
       description:
-        - "Gives 0.75 hearts life steal per level."
+        - "Gives 0.4 hearts life steal per level."
 
 
 furynight:
@@ -357,7 +357,7 @@ furynight:
     leap-fury: 5
     arrow-fury: 5
     rebirth-fury: 10
-    vampirism-fury: 3
+    vampirism-fury: 5
   item:
     material: exp_bottle
     name: "Fury of the Night"

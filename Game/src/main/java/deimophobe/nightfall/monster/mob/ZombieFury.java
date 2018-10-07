@@ -59,12 +59,13 @@ public class ZombieFury extends ZombieMob {
 		int manaDrain = 0;
 		if (fury) manaDrain = 5 + furyInf;
 		
-		this.vampirismCD = new VampirismCooldown(15, monster, manaDrain, 1.5*vampirism);
+		this.vampirismCD = new VampirismCooldown(10, monster, manaDrain, 0.8*vampirism);
 		
 		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, arrowRes, "Upgrade");
 		getArmour().addModifier(ItemModifierType.SPEED, (10 * pursuit / 3), "Upgrade");
 		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Upgrade");
 		getWeapon().addModifier(ItemModifierType.ATTACK, 5, "Fury Zombie");
+		getWeapon().addModifier(ItemModifierType.LIFE_STEAL, vampirism * 40, "Vampirism");
 		if (fury) {
 			getWeapon().addModifier(ItemModifierType.MANA_DRAIN, 5, "Fury of the Night");
 			getWeapon().addModifier(ItemModifierType.MANA_DRAIN, furyInf, "More Mana Drain");
