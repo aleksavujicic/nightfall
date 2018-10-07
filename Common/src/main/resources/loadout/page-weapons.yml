@@ -241,7 +241,8 @@ lightbow:
     lore:
       description:
        - "This bow fires special arrows that\n
-          create lamps in the walls.\n
+          create lamps in the walls, as well as\n
+          mark mobs that are hit.\n
           You are also immune to darkness."
     modifiers:
       power: 30
@@ -346,9 +347,9 @@ pendant:
     lore:
       description:
        - "Left click to heal yourself\n
-          for &b200&r mana and gain\n
-          &b20&r absorption hearts.\n
-          Has passive regeneration."
+          for &b$manacost&r mana and gain\n
+          &bResistance II&r and stronger &bRegen&r for 3 seconds.\n
+          Has passive &bregeneration&r."
     modifiers:
       mana-cost: 200
 
