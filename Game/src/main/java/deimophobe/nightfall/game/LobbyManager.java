@@ -146,6 +146,7 @@ public class LobbyManager implements Manager {
 		} catch (IllegalArgumentException e) {
 			player.kickPlayer("An error occurred, please try rejoining.");
 			NightfallPlugin.logger().warning("Kicked player " + player.getName() + " as their PlayerData did not load.");
+			return;
 		}
 		
 		//Loadout.updateLoadoutDisplay(player);
