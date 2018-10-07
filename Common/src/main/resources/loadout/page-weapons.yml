@@ -347,7 +347,7 @@ pendant:
     lore:
       description:
        - "Left click to heal yourself\n
-          for &b$200&r mana and gain\n
+          for &b200&r mana and gain\n
           &bResistance II&r and stronger &bRegen&r for 3 seconds.\n
           Has passive &bregeneration&r."
     modifiers:
