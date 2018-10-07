@@ -28,6 +28,11 @@ base:
     modifiers:
       kb-resist: 100
 
+  sounds:
+    death:
+      path: "entity.illusion_illager.death"
+      pitch: 0.5
+
 fire:
   parent: magi
 
