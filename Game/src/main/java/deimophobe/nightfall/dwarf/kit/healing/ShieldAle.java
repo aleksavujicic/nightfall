@@ -20,13 +20,13 @@ public class ShieldAle extends AbstractAle implements ArmourPiece {
 	
 	@Override
 	public void onArmourEquip() {
-		dwarf.getArmour().addModifier(ItemModifierType.HEALTH, -5, "Temp name ale");
+		dwarf.getArmour().addModifier(ItemModifierType.HEALTH, -4, "Temp name ale");
 	}
 	
 	@Override
 	protected void heal() {
 		super.heal();
 		
-		dwarf.addShieldsMax(5, 5);
+		dwarf.addShieldsMax(4, 4);
 	}
 }

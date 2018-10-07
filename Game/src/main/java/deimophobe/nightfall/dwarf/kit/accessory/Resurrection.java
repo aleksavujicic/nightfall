@@ -52,7 +52,7 @@ public class Resurrection extends AbstractPiece {
 					armour.repair(1000);
 					dwarf.regenMana(1000);
 					dwarf.healMax();
-					dwarf.addShields(3);
+					dwarf.addShields(4);
 					dwarf.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 5 * 20, 5, true, false, true);
 					dwarf.givePotionEffect(PotionEffectType.REGENERATION, 8 * 20, 4, true, false, false);
 					dwarf.giveProc(ProcType.RESURRECTION);

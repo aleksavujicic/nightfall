@@ -31,7 +31,8 @@ class BolsterSpell implements Spell {
 		for (Dwarf target : DwarfManager.getManager().getDwarves()) {
 			if (dwarf.distanceTo(target) > RANGE) continue;
 			
-			target.givePotionEffect(PotionEffectType.HEALTH_BOOST, 60*20, 3, true, false, false);
+//			target.givePotionEffect(PotionEffectType.HEALTH_BOOST, 60*20, 3, true, false, false);
+			target.addShieldsMax(3, 10);
 			target.playSound("entity.player.levelup", 1f, 1f, false);
 			
 			

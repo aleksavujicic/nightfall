@@ -458,6 +458,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		
 		damage.addPreDamageHandler(PreDamagePriority.SHIELDS, () -> {
 			damage.softCancel();
+			damage.setNoDamageTicks(20);
 		});
 		damage.addPostDamageHandler(() -> {
 			removeAllPoisons();
