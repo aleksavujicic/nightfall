@@ -3,7 +3,11 @@ package deimophobe.nightfall;
 import deimophobe.nightfall.command.CommandInitialiserUtil;
 import deimophobe.nightfall.common.menu.MenuManager;
 import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.PlayMode;
 import deimophobe.nightfall.util.PacketUtil;
+import me.lucko.luckperms.LuckPerms;
+import me.lucko.luckperms.api.LuckPermsApi;
+import me.lucko.luckperms.api.context.ContextManager;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -39,6 +43,7 @@ public class NightfallPlugin extends JavaPlugin {
 			checkDependency("ProtocolLib", "me.libraryaddict.disguise.LibsDisguises");
 			checkDependency("Lib's Disguises", "com.comphenix.protocol.ProtocolLib");
 			checkDependency("Packet Wrapper", "com.comphenix.packetwrapper.AbstractPacket");
+			checkDependency("LuckPerms", "me.lucko.luckperms.api.LuckPermsApi");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			getLogger().severe("Could not load all dependencies, disabling.");
@@ -57,6 +62,10 @@ public class NightfallPlugin extends JavaPlugin {
 		initialiseMenus();
 		
 		CommandInitialiserUtil.initialiseCommands(this);
+		
+		LuckPermsApi lpapi = LuckPerms.getApi();
+		ContextManager cm = lpapi.getContextManager();
+		cm.registerStaticCalculator(PlayMode.getConextCalculator());
 	}
 	
 	@Override

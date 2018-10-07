@@ -43,6 +43,7 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -87,7 +88,8 @@ public class Game {
 	public GameMap getMap() {return map;}
 	
 	private Phase phase;
-	public Phase getPhase() { return phase; }
+	
+	private PlayMode playMode;
 	
 	/** Size of the game. A null value represents a not currently set value (during pregame). This means that {@link #getGameSize()} will return {@link GameSize#TINY} */
 	private GameSize gameSize = null;
@@ -158,6 +160,9 @@ public class Game {
 		GameListener listener = new GameListener();
 		addGameListener(listener);
 		
+		// Play mode
+		playMode = PlayMode.NORMAL;
+		
 		// Start lobby phase
 		startLobby();
 		
@@ -176,6 +181,35 @@ public class Game {
 		unregisterAllListeners();
 	}
 	
+	
+	
+	// ------ GETTERS/SETTERS -------
+	public Phase getPhase() {
+		return phase;
+	}
+	
+	public GameSize getGameSize() {
+		if (gameSize == null) return GameSize.TINY;
+		
+		return gameSize;
+	}
+	public void forceGameSize(@NotNull GameSize size) {
+		checkNotNull(size);
+		gameSize = size;
+	}
+	
+	public void setBuildTime(int buildTime) {
+		this.buildTime = buildTime;
+	}
+	
+	
+	public PlayMode getPlayMode() {
+		return playMode;
+	}
+	public void setPlayMode(@NotNull PlayMode playMode) {
+		checkNotNull(playMode);
+		this.playMode = playMode;
+	}
 	
 	// ------ LISTENERS -------
 	private final Set<Listener> listeners = new HashSet<>();
@@ -462,20 +496,6 @@ public class Game {
 	
 	
 	// ------ GAME PHASES -------
-	public GameSize getGameSize() {
-		if (gameSize == null) return GameSize.TINY;
-		
-		return gameSize;
-	}
-	
-	public void forceGameSize(GameSize size) {
-		gameSize = size;
-	}
-	
-	public void setBuildTime(int buildTime) {
-		this.buildTime = buildTime;
-	}
-	
 	public void startLobby() {
 		transitionToPhase(Phase.STARTING);
 		

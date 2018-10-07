@@ -104,6 +104,7 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("ais", getCompletionHandlerForEnum(AIType.values()));
 		completions.registerCompletion("poisons", getCompletionHandlerForEnum(PoisonType.values()));
 		completions.registerCompletion("gamesizes", getCompletionHandlerForEnum(GameSize.values()));
+		completions.registerCompletion("playmodes", getCompletionHandlerForEnum(PlayMode.values()));
 		completions.registerCompletion("dyecolours", getCompletionHandlerForEnum(DyeColor.values()));
 		
 		completions.registerCompletion("mobcreators", c -> SpawnRegistry.getRegistry().getValidCreators(c.getSender()));
@@ -219,6 +220,7 @@ public class CommandInitialiserUtil {
 		contexts.registerContext(PoisonType.class, getContextResolverOfEnum(PoisonType.values(), "poison", true));
 		contexts.registerContext(DoomType.class, getContextResolverOfEnum(DoomType.values(), "doom", true));
 		contexts.registerContext(GameSize.class, getContextResolverOfEnum(GameSize.values(), "game size", true));
+		contexts.registerContext(PlayMode.class, getContextResolverOfEnum(PlayMode.values(), "gameplay mode", true));
 		contexts.registerContext(DyeColor.class, getContextResolverOfEnum(DyeColor.values(), "colour", true));
 		
 		contexts.registerContext(MobCreator.class, getPrettyResolver(

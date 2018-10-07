@@ -5,6 +5,7 @@ import co.aikar.commands.annotation.*;
 import deimophobe.nightfall.common.command.MessageUtil;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GameSize;
+import deimophobe.nightfall.game.PlayMode;
 import deimophobe.nightfall.plague.PlagueType;
 import org.bukkit.command.CommandSender;
 
@@ -77,6 +78,23 @@ public class GameCommand extends BaseCommand {
 	public void setBuildTime(CommandSender sender, int time) {
 		Game.getGame().setBuildTime(time);
 		MessageUtil.sendMessage(sender, "Build phase will now last ", time, " ticks.");
+	}
+	
+	@Subcommand("playmode")
+	@CommandPermission("nightfall.command.game.playmode")
+	@Description("Get the current gameplay mode.")
+	public void setMode(CommandSender sender) {
+		PlayMode mode = Game.getGame().getPlayMode();
+		MessageUtil.sendMessage(sender, "The current gameplay mode is: ", mode, ".");
+	}
+	
+	@Subcommand("playmode")
+	@CommandCompletion("@playmodes")
+	@CommandPermission("nightfall.command.game.playmode")
+	@Description("Set the gameplay mode.")
+	public void setMode(CommandSender sender, PlayMode mode) {
+		Game.getGame().setPlayMode(mode);
+		MessageUtil.sendMessage(sender, "Set the gameplay mode to: ", mode, ".");
 	}
 	
 	@Subcommand("time")
