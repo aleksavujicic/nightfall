@@ -97,10 +97,14 @@ class MagiFire extends AbstractMob {
 	private void makeFire() {
 		monster.playSound("entity.ghast.shoot", 1f, 0.5f, true);
 		for (int i=0; i<80; i++) {
-			Block block = Misc.randomLocation(monster.getLocation(), 4, 2, 4).getBlock();
+			Block block = Misc.randomLocation(monster.getLocation(), 5, 2, 5).getBlock();
 			if (BlockType.IGNORABLE.matchesBlock(block)) {
 				block.setType(Material.FIRE);
 			}
+		}
+		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
+			if (monster.distanceTo(dwarf) > 5) continue;
+			dwarf.increaseFireTicks(100);
 		}
 		explodeBats();
 	}
