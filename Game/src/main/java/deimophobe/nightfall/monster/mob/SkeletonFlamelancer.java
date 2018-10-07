@@ -42,7 +42,7 @@ class SkeletonFlamelancer extends Skeleton {
 	private final boolean fireAI;
 	
 	@Update @Display
-	private final ComplexCooldown blazeRunner = new ComplexCooldown(30*20, this::blaze);
+	private final ComplexCooldown blazeRunner = new ComplexCooldown(40*20, this::blaze);
 	private final int blazeDuration;
 
 	private static final Integer[] arrowResValues = {0, 10, 20, 30, 40, 50};
