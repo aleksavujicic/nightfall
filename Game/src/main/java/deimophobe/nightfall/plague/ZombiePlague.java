@@ -51,7 +51,7 @@ class ZombiePlague extends Plague {
 		// If dwarf is plagued, make sure to plague
 		// Otherwise stop if the dwarf is not plagueable, or amt to kill is zero.
 		if (!isPlagued(dwarf)) {
-			if (getAmountToKill(true) == 0) return false;
+			if (getAmountToInfect() <= 0) return false;
 			if (!canConvert(dwarf)) return false;
 		}
 		
@@ -78,6 +78,7 @@ class ZombiePlague extends Plague {
 					mp.spawnMob(zombie, SpawnMethod.NONE);
 					
 					numZombiesAlive++;
+					convertingDwarves.remove(dwarf);
 				} else {
 					DwarfManager.getManager().removeOfflinePlayer(player.getUniqueId());
 					tryPlagueMore();
@@ -113,5 +114,9 @@ class ZombiePlague extends Plague {
 	
 	private boolean canConvert(Dwarf dwarf) {
 		return !convertingDwarves.contains(dwarf) && isPlagueable(dwarf);
+	}
+	
+	private int getAmountToInfect() {
+		return getAmountToKill(true) - convertingDwarves.size();
 	}
 }
