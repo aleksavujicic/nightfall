@@ -117,6 +117,9 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 			case FALL:
 				damage.cancel();
 				return;
+				
+			case POISON:
+				damage.getMultiPartDamage().timesMult(2);
 		}
 		
 		damage.addPostDamageHandler(this::resetInactivity);

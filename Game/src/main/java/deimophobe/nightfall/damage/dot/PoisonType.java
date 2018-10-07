@@ -25,7 +25,7 @@ public enum PoisonType {
 	WRAITH(WITHER, 15, 10, 10),
 	LIGHTING_PLAGUE(WITHER, 20, 0, 15),
 	
-	DAGGER(WITHER, 5, 0, 20),
+	DAGGER(WITHER, 2, 0, 20),
 	DAGGER_CLOUD(WITHER, 10, 0, 12),
 	
 	PLAGUE_ZOMBIE(WITHER, 2.5, 0, 20), // 1/2 heart per sec
