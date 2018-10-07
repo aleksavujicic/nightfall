@@ -40,10 +40,11 @@ class MagiIce extends AbstractMob {
 			Misc.spawnRangedParticles(eyes, Particle.FIREWORKS_SPARK, 2, 0.5, 0.5, 0.5);
 			
 			// Place ice
-			Location center = monster.getLocation();
-			Block block = Misc.randomLocation(center, 3, 3, 3).getBlock();
-			if (Math.random() > 0.5)
-			tryCreateIce(block, 10 * 20);
+			if (Math.random() > 0.5) {
+				Location center = monster.getLocation();
+				Block block = Misc.randomLocation(center, 3, 3, 3).getBlock();
+				tryCreateIce(block, 10 * 20);
+			}
 		}
 	}
 	
