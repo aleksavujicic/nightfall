@@ -96,7 +96,7 @@ class MagiFire extends AbstractMob {
 	
 	private void makeFire() {
 		monster.playSound("entity.ghast.shoot", 1f, 0.5f, true);
-		for (int i=0; i<40; i++) {
+		for (int i=0; i<80; i++) {
 			Block block = Misc.randomLocation(monster.getLocation(), 4, 2, 4).getBlock();
 			if (BlockType.IGNORABLE.matchesBlock(block)) {
 				block.setType(Material.FIRE);
@@ -113,12 +113,12 @@ class MagiFire extends AbstractMob {
 			
 			int successes = 0;
 			for (int i = 0; i < 30; i++) {
-				Block block = Misc.randomLocation(center, 5, 7, 5).getBlock();
+				Block block = Misc.randomLocation(center, 6, 8, 6).getBlock();
 				if (BlockType.IGNITEABLE.matchesBlock(block)) {
 					block.setType(Material.FIRE);
 					successes++;
 					
-					if (successes >= 5) break;
+					if (successes >= 10) break;
 				}
 			}
 			
