@@ -58,7 +58,7 @@ public class Dagger extends AbstractItem implements CooldownPiece {
 	@Override
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
-		if (isHoldingItem()) {
+		if (isMeleeDamageFromItem(damage)) {
 			damage.addPostDamageHandler(() -> {
 				damage.getMonster().givePoison(PoisonType.DAGGER, 5 * 20);
 			});
