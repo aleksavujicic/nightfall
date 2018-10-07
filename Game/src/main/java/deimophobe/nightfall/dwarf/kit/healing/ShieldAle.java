@@ -9,7 +9,7 @@ import deimophobe.nightfall.dwarf.kit.ArmourPiece;
  * Created by Deimophobe on 4/10/18.
  */
 public class ShieldAle extends AbstractAle implements ArmourPiece {
-	private static final int MANA_COST = 100;
+	private static final int MANA_COST = 150;
 	
 	private final static CustomItem ITEM = getAle("shield", MANA_COST);
 	@Override public CustomItem getItem() { return ITEM; }
