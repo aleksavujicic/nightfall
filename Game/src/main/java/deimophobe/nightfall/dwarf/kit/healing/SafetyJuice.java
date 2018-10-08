@@ -27,8 +27,9 @@ public class SafetyJuice extends AbstractAle {
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
 		
+		if (Game.getGame().potionsDisabled()) return;
 		damage.addPreDamageHandler(PreDamagePriority.SAFETY_JUICE, () -> {
-			if ((damage.willKill() || dwarf.getHealth() <= 10) && !Game.getGame().potionsDisabled()) {
+			if (damage.willKill()) {
 				if (dwarf.tryUseMana(AUTO_COST)){
 					heal();
 					cooldown.reset();
