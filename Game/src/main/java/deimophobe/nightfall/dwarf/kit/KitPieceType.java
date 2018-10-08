@@ -77,7 +77,7 @@ public enum KitPieceType {
 	CLOCK(Clock::new),
 	JIT_HEAL(JitHeal::new),
 	BUNNY_BOOTS(BunnyBoots::new),
-	BARRIER(Barrier::new),
+	AEGIS(Aegis::new),
 	
 	UNTIMELY_DEMISE(UntimelyDemise::new),
 	PROCSHOVEL(ProcShovel::new),

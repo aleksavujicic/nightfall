@@ -61,7 +61,7 @@ darkvision: "diamond_hoe:6"
 avenge: "diamond_hoe:8"
 resurrection: "totem"
 bunny-boots: "rabbit_foot"
-barrier: "#temp"
+aegis: "chorus_fruit_popped"
 
 tombmaker: "diamond_spade:0"
 procshovel: "gold_spade:0"
