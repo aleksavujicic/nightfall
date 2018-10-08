@@ -40,8 +40,8 @@ pendant:
     description:
      - "Left click to heal yourself\n
         for &b$manacost&r mana and gain\n
-        &b20&r absorption hearts.\n
-        Has passive &eregeneration&r."
+        &bResistance II&r and stronger &bRegen&r for 3 seconds.\n
+        Has passive &bregeneration&r."
     flavour:
      - "\"Drink your... Gem? How do you use this thing?\" - Velvetine"
      - "\"It’s a regem! Hah! Get it!?\" - Tui"

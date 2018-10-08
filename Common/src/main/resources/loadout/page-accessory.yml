@@ -124,7 +124,8 @@ resurrection:
       description:
        - "You shall be resurrected once upon death.\n
           This resurrection will heal you, but will\n
-          also permanently cost you 4 hearts."
+          also permanently cost you &b4&r hearts.\n
+          You gain &b3&r shield hearts upon revival."
 
 bunny-boots:
   index: 13
