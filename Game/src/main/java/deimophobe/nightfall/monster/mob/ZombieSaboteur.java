@@ -127,7 +127,6 @@ public class ZombieSaboteur extends ZombieMob {
 		
 		if (click.isRightClick() && isPlayerHoldingItem("vines")) {
 			placeVine(block, face);
-			unhide();
 		}
 		
 		if (isPlayerHoldingItem("unhide")) {
