@@ -142,15 +142,15 @@ bunny-boots:
           by pressing shift on the ground.\n
           Can be used once every 90 seconds."
 
-barrier:
+aegis:
   index: 14
   category: accessory
   type: item
-  name: barrier
+  name: aegis
   cost: 8
   item:
-    name: "Regenerative Barrier"
-    base: barrier
+    name: "Enchanted Aegis"
+    base: aegis
     lore:
       description:
        - "Gives you a shield every 10 seconds.\n

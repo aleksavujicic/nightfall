@@ -11,12 +11,12 @@ import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 /**
  * Created by Deimophobe on 6/10/18.
  */
-public class Barrier extends AbstractPiece {
+public class Aegis extends AbstractPiece {
 	private static final int MAX_SHIELD = 3;
 	
 	private final Cooldown shieldRegen = new CompletionCooldown(10 * 20, this::regenShield);
 	
-	public Barrier(Dwarf dwarf) {
+	public Aegis(Dwarf dwarf) {
 		super(dwarf);
 		shieldRegen.reset();
 	}

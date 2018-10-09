@@ -25,8 +25,7 @@ public class HeroBase extends AbstractPiece {
 		super.onDamageReceive(damage);
 		
 		damage.addPreDamageHandler(PreDamagePriority.SAFETY_JUICE, () -> {
-			double health = dwarf.getPlayer().getHealth();
-			if (damage.willKill() || health <= 10) {
+			if (damage.willKill()) {
 				if (dwarf.tryUseMana(100)) {
 					dwarf.healMax();
 					dwarf.playSound("entity.generic.drink", 0.6f, 0.9f, true);
