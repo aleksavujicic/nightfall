@@ -75,6 +75,8 @@ public enum GameDamageType {
 	WILDFIRE("incinerated"),
 	SMASH("smashed"),
 	SOUL_SHATTER("soul shattered"),
+	FLURRY_OF_BLOWS("bludgeoned"),
+	EMPOWERED_STRIKE("stricken"),
 	MYST,
 	ARCANE_MARK(
 			(playerName, damage) -> {

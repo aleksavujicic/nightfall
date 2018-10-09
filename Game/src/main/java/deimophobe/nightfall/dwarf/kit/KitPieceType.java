@@ -33,6 +33,7 @@ public enum KitPieceType {
 	HUNTING_CLAWS(HuntingClaws::new),
 	GREATSWORD(Greatsword::new),
 	SOUL_BLADE(Soulblade::new),
+	BRASS_KNUCKLES(BrassKnuckles::new),
 
 	// Bows
 	SHORTBOW(Shortbow::new),
