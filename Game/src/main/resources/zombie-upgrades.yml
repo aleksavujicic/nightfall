@@ -239,7 +239,7 @@ assassination:
     lore:
       description:
         - "When invisible, the next hit\n
-           will do 60 additional damage."
+           will do 40 additional damage."
 
 
 speed-inf:
