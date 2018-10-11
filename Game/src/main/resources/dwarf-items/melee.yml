@@ -144,3 +144,14 @@ soulblade:
       - "\"This blade will lay these creatures to rest.\" - Arthea"
   modifiers:
     attack: 15
+
+brassknuckles:
+  base: rapier
+  name: Brass Knuckles
+  lore:
+    description:
+      - "test"
+    flavour:
+      - "test"
+  modifiers:
+    attack: 15
