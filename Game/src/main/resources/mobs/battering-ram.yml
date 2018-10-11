@@ -12,6 +12,7 @@ arrowres: 1
 shred: 0
 canrun: false
 depthstrider: 2
+shrine-xp: 1
 
 armour:
   base: temp
