@@ -13,10 +13,16 @@ import me.lucko.luckperms.api.Tristate;
 import me.lucko.luckperms.api.User;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.permissions.Permissible;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
@@ -51,6 +57,8 @@ public class Maintenance {
 	
 	private final PacketAdapter serverListAdapter;
 	
+	private final BossBar maintenanceBar;
+	
 	private Maintenance(NightfallCommonPlugin plugin) {
 		this.plugin = plugin;
 		
@@ -84,8 +92,14 @@ public class Maintenance {
 			}
 		};
 		
+		maintenanceBar = Bukkit.createBossBar(ChatColor.RED + "Maintenance Mode Is Enabled", BarColor.RED, BarStyle.SOLID);
+		
 		enabled = plugin.getConfig().getBoolean(CONFIG_PATH, false);
 		setEnabled(enabled);
+	}
+	
+	public void onStop() {
+		maintenanceBar.removeAll();
 	}
 	
 	public void setEnabled(boolean enabled) {
@@ -94,8 +108,12 @@ public class Maintenance {
 		ProtocolManager pm = ProtocolLibrary.getProtocolManager();
 		if (enabled) {
 			pm.addPacketListener(serverListAdapter);
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				maintenanceBar.addPlayer(player);
+			}
 		} else {
 			pm.removePacketListener(serverListAdapter);
+			maintenanceBar.removeAll();
 		}
 		
 		plugin.getConfig().set(CONFIG_PATH, enabled);
@@ -125,6 +143,14 @@ public class Maintenance {
 			if (canJoin == Tristate.TRUE) return;
 			
 			event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "You cannot join right now, please try again later.");
+		}
+		
+		@EventHandler
+		public void giveBossBar(PlayerJoinEvent event) {
+			if (!enabled) return;
+			
+			Player player = event.getPlayer();
+			maintenanceBar.addPlayer(player);
 		}
 	}
 }

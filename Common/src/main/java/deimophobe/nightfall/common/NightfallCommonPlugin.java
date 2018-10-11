@@ -17,6 +17,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import sun.applet.Main;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -67,6 +68,7 @@ public class NightfallCommonPlugin extends JavaPlugin {
 	public void onDisable() {
 		super.onDisable();
 		playerManager.onDisable();
+		Maintenance.getInstance().onStop();
 	}
 	
 	public void registerListener(Listener listener) {
