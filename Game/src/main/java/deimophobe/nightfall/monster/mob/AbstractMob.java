@@ -71,7 +71,7 @@ public abstract class AbstractMob implements Mob {
 	public void onSpawn(SpawnMethod spawnMethod) {
 		Player player = monster.getPlayer();
 		
-		monster.teleportTo(spawnMethod.getSpawnPoint(monster));
+		teleportToSpawn(spawnMethod);
 		player.setGameMode(GameMode.SURVIVAL);
 		player.setAllowFlight(false);
 		
@@ -97,6 +97,10 @@ public abstract class AbstractMob implements Mob {
 		
 		monster.givePotionEffect(PotionEffectType.NIGHT_VISION, 10*60*60*20,1, false, false, true);
 		playSound("spawn");
+	}
+	
+	protected void teleportToSpawn(SpawnMethod spawnMethod) {
+		monster.teleportTo(spawnMethod.getSpawnPoint(monster));
 	}
 	
 	protected void setTitle(boolean force, String title) {
@@ -429,7 +433,7 @@ public abstract class AbstractMob implements Mob {
 		if (everyNthTick(5)) {
 			Region shrineRegion = GameMap.getCurrentMap().getCurrentShrineRegion();
 			if (shrineRegion.containsPlayer(monster) && getShrineWeight() != 0) {
-				monster.gainExp(2);
+				monster.gainExp(mobData.shrineXP);
 			}
 		}
 	}

@@ -1,0 +1,34 @@
+title: Worthless Squid
+
+disguisetype: squid
+
+attack: 5
+health: 20
+speed: -30
+
+shred: 5
+canrun: false
+shrineweight: 1.25
+shrine-xp: 4
+
+armour:
+  material: water_bucket
+  name: Worthless Mantle
+  lore:
+    description:
+     - ""
+    flavour:
+     - ""
+  bound: true
+weapon:
+  base: temporary
+  name: Worthless Tentacles
+  lore:
+    description:
+     - ""
+    flavour:
+     - ""
+sounds:
+  death:
+    path: "entity.squid.death"
+    pitch: 1.25

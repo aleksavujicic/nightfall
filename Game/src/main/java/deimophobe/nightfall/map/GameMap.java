@@ -363,6 +363,11 @@ public class GameMap {
 		return shrines.get(currentShrineIndex).getShrineCenter().clone().add(0,5,0);
 	}
 	
+	public Location getShrineCenter() {
+		if (currentShrineIndex == -1) return dwarfSpawn;
+		return shrines.get(currentShrineIndex).getShrineCenter().clone().add(0,5,0);
+	}
+	
 	
 	// ~~~~ MISC ~~~~~
 	
