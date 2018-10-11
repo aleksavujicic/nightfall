@@ -7,10 +7,7 @@ import deimophobe.nightfall.command.iterable.DwarfDataCreator;
 import deimophobe.nightfall.command.iterable.DwarfIterable;
 import deimophobe.nightfall.command.iterable.PlayerIterable;
 import deimophobe.nightfall.common.command.MessageUtil;
-import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarfData;
-import deimophobe.nightfall.dwarf.DwarfManager;
-import deimophobe.nightfall.dwarf.ProcType;
+import deimophobe.nightfall.dwarf.*;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.hero.Hero;
@@ -199,6 +196,17 @@ public class DwarfCommand extends BaseCommand {
 		dwarves.forEach(dwarf -> {
 			dwarf.addShields(amount);
 			MessageUtil.sendMessage(sender, "Gave ", dwarf, " an extra ", amount, " shield(s).");
+		});
+	}
+	
+	@Subcommand("blood")
+	@CommandCompletion("@dwarves @bloodcolours")
+	@CommandPermission("nightfall.command.dwarf.blood")
+	@Description("Get the colour of a dwarf's blood.")
+	public void blood(CommandSender sender, DwarfIterable dwarves, BloodColour bloodColour) {
+		dwarves.forEach(dwarf -> {
+			dwarf.setBloodColour(bloodColour);
+			MessageUtil.sendMessage(sender, "Set ", dwarf, "'s blood colour to ", bloodColour, ".");
 		});
 	}
 	

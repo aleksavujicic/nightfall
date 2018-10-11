@@ -228,6 +228,12 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	
 	// ------ BLOOD ------
+	private BloodColour bloodColour = BloodColour.RED;
+	
+	public void setBloodColour(BloodColour bloodColour) {
+		this.bloodColour = bloodColour;
+	}
+	
 	private void updateBlood() {
 		
 		Location bloodLoc = player.getLocation().add(0, 1, 0);
@@ -236,15 +242,11 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			|| everyNthTick(10) && mana <= 200
 			|| everyNthTick(5) && mana <= 100) {
 			
-			int count = 8000 / (mana + 100);
-			double radius = 0.4 - (double) mana/2000;
-			double height = 0.25 - (double) mana/3000;
-			
-			player.getWorld().spawnParticle(Particle.REDSTONE, bloodLoc, count, radius, height, radius, 0);
+			bloodColour.showPrimaryBlood(bloodLoc, mana);
 		}
 		
 		if (everyNthTick(10) && mana <= 150) {
-			player.getWorld().spawnParticle(Particle.BLOCK_CRACK, bloodLoc, 20 - mana/10, 0.2, 0.1, 0.2, 0, new MaterialData(Material.REDSTONE_BLOCK));
+			bloodColour.showSecondaryBlood(bloodLoc, mana);
 		}
 	}
 	
