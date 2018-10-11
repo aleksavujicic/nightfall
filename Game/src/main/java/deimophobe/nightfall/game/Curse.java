@@ -7,5 +7,5 @@ public enum Curse {
 	DOOM,
 	SUPER_DOOM,
 	WEAKNESS,
-	BLIZZARD,
+	BLIZZARD, FATIGUE,
 }
