@@ -8,7 +8,7 @@ import deimophobe.nightfall.monster.mob.MobType;
  * Created by Deimophobe on 11/10/18.
  */
 @DoomMeta(
-		title = "Wothless Squids",
+		title = "Worthless Squids",
 		subtitles = "They're kinda worthless",
 		
 		regularMobs = MobType.SQUID
