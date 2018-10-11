@@ -276,7 +276,7 @@ public class AIManager {
 	
 	
 	public Collection<AIEntity> getAIs() {
-		return ais.values();
+		return new HashSet<>(ais.values());
 	}
 	public Collection<AIEntity> getRemoveableAIs() {
 		return new HashSet<>(ais.values());
