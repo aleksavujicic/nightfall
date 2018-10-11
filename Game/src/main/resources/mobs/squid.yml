@@ -4,7 +4,7 @@ disguisetype: squid
 
 attack: 5
 health: 20
-speed: -30
+speed: -50
 
 shred: 5
 canrun: false
