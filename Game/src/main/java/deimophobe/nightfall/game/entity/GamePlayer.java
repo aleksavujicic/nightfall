@@ -461,8 +461,8 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 			damage.setNoDamageTicks(20);
 		});
 		damage.addPostDamageHandler(() -> {
-			removeAllPoisons();
-			removeFire();
+			if (damage.getType() == GameDamageType.POISON) removeAllPoisons();
+			if (damage.getType() == GameDamageType.FIRE) removeFire();
 			removeShields(1);
 			
 			playSound("entity.evocation_illager.prepare_summon", 1f, 2f, false);
