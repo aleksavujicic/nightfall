@@ -66,15 +66,19 @@ public class BrassKnuckles extends AbstractItem implements CooldownPiece {
 					damage.getMultiPartDamage().timesMult(1.25);
 				}
 				//Run AOE hitter
-				flurry.tryUse();
+				damage.addPostDamageHandler(this::flurry);
 			}
 			if(strikeTime > 0){
 				//Gives extra damage on player monster during Empowered Strike
 				if(damage.getReceiver() instanceof MonsterPlayer){
+					//Cancel initial melee damage
+					damage.cancel();
 					//Damage for Empowered Strike
-//					damage.getReceiver().createDamage(dwarf, GameDamageType.EMPOWERED_STRIKE, strikeDamage);
+					damage.getReceiver().doDamage(dwarf,GameDamageType.EMPOWERED_STRIKE,strikeDamage);
+					//Apply knockback
+
 					//Temporary fix until I figure out why it's not registering
-					damage.getMultiPartDamage().timesMult(4);
+					//damage.getMultiPartDamage().timesMult(4);
 					//Turn off Empowered Strike after one hit.  Might take this off since it is only 5 seconds anyway...
 					strikeReset();
 				}
@@ -88,14 +92,15 @@ public class BrassKnuckles extends AbstractItem implements CooldownPiece {
 
 		if(isMeleeDamageFromItem(damage)){
 			//Only works if using weapon
-			//Reducing Flurry of Blows CD based on kills
-			flurryofblowsCD.reduceCooldown(2*20);
 
 			if(flurryTime > 0){
 				//Add time to Flurry of Blows if killing while active
 				if(damage.getReceiver() instanceof AIEntity){
 					increaseFlurryTime(10);
 				}else increaseFlurryTime(20);
+			} else {
+				//Reducing Flurry of Blows CD based on kills, qualified to be not during Flurry of Blows
+				flurryofblowsCD.reduceCooldown(2*20);
 			}
 		}
 	}
@@ -116,7 +121,7 @@ public class BrassKnuckles extends AbstractItem implements CooldownPiece {
 //Flurry of Blows-------------------------------------------------------------------------------------------------------
 	private final static int FLURRY_TIME = 15*20;
 	private int flurryTime;
-	private int flurryRadius = 4;
+	private final static int flurryRadius = 4;
 
 	//Start Flurry of Blows
 	private void flurryOfBlows(){
@@ -132,7 +137,9 @@ public class BrassKnuckles extends AbstractItem implements CooldownPiece {
 			if (ai.distanceTo(center) <= flurryRadius) {
 				//Damage for AI's
 				MonsterDamage aiDamage = ai.createDamage(dwarf, GameDamageType.FLURRY_OF_BLOWS, 20);
-				//Initiate Damage
+				//Knockback
+				aiDamage.setKnockback(0,.6,0);
+				// Initiate Damage
 				aiDamage.fire();
 			}
 		}
@@ -142,8 +149,11 @@ public class BrassKnuckles extends AbstractItem implements CooldownPiece {
 			if(playerMob.distanceTo(center) <= flurryRadius){
 				//Damage for Player Monsters
 				MonsterDamage playerDamage = playerMob.createDamage(dwarf, GameDamageType.FLURRY_OF_BLOWS, 15);
+				//Knockback
+				playerDamage.setKnockback(0,.5,0);
 				//Initiate damage
 				playerDamage.fire();
+
 			}
 		}
 	}
@@ -156,13 +166,14 @@ public class BrassKnuckles extends AbstractItem implements CooldownPiece {
 //Empowered Strike------------------------------------------------------------------------------------------------------
 	private final static int STRIKE_TIME = 5*20;
 	private int strikeTime;
-	private int strikeDamage;
+	private double strikeDamage;
 
 	//Start Empowered Strike, Stops Flurry of Blows, & Sets Empowered Strike damage
 	private void empoweredStrike(){
 		strikeTime = STRIKE_TIME;
+		strikeDamage = flurryTime*1.05;
 		flurryTime = 0;
-		strikeDamage = flurryTime*3;
+
 	}
 
 	//Resets Empowered Strike
@@ -177,6 +188,7 @@ public class BrassKnuckles extends AbstractItem implements CooldownPiece {
 			return Math.min(1, (float) flurryTime/FLURRY_TIME);
 		}else if (strikeTime > 0) {
 			return Math.min(1, (float) strikeTime/STRIKE_TIME);
-		}else return flurryofblowsCD.getCooldown();
+		}else 
+			return flurryofblowsCD.getCooldown();
 	}
 }
