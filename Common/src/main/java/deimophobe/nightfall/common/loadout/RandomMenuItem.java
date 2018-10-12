@@ -31,9 +31,10 @@ public class RandomMenuItem extends SimpleItem<Loadout> {
 		// Go through all categories
 		for (Category category : Category.values()) {
 			if (category == Category.KIT) continue;
-			if (loadout.hasCategory(category)) continue;
 			
 			if (category.isSingleItem()) {
+				if (loadout.hasCategory(category)) continue;
+				
 				Collection<LoadoutItem> items = getRandomItems(category.getItems(), pointsRemaining, false);
 				if (items != null) {
 					chosenItems.addAll(items);
