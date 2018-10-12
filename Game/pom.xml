@@ -81,6 +81,7 @@
                                 <includes>
                                     <include>co.aikar:*</include>
                                     <include>com.comphenix.packetwrapper:*</include>
+                                    <include>org.apache.commons:commons-collections4</include>
                                 </includes>
                             </artifactSet>
                         </configuration>

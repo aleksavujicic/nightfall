@@ -112,6 +112,8 @@ public class Game {
 
 	private PlagueType plagueType = null;
 	private Plague activePlague = null;
+	
+	private final DeathTracker deathTracker;
 
 	private Game(GameMap map) {
 		this.plugin = NightfallPlugin.getPlugin();
@@ -163,6 +165,8 @@ public class Game {
 		// Play mode
 		playMode = PlayMode.NORMAL;
 		
+		deathTracker = new DeathTracker(10);
+		
 		// Start lobby phase
 		startLobby();
 		
@@ -213,6 +217,11 @@ public class Game {
 		this.playMode.onDisable();
 		this.playMode = playMode;
 		this.playMode.onEnable();
+	}
+	
+	
+	public DeathTracker getDeathTracker() {
+		return deathTracker;
 	}
 	
 	// ------ LISTENERS -------
@@ -539,6 +548,8 @@ public class Game {
 		
 		// Set time
 		map.getWorld().setTime(0);
+		
+		deathTracker.clear();
 		
 		// Start countdown to plague
 		new BukkitRunnable() {

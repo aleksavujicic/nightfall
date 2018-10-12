@@ -268,7 +268,7 @@ public class MiscCommands extends BaseCommand {
 		}
 	}
 	
-	@Subcommand("player-title")
+	@CommandAlias("player-title")
 	@CommandCompletion("@gameplayers @chatcolors @nothing @boolean")
 	@CommandPermission("nightfall.command.title")
 	@Description("Forces a title on a player.")
@@ -276,5 +276,12 @@ public class MiscCommands extends BaseCommand {
 		if (title != null) title = title.replace('_',' ');
 		player.setTitle(colour, title, force);
 		MessageUtil.sendMessage(sender, "Title of player ", player.getPlayer(), " changed to ", player, ".");
+	}
+	
+	@CommandAlias("deaths")
+	@CommandPermission("nightfall.command.deaths")
+	@Description("Forces a title on a player.")
+	public void title(CommandSender sender) {
+		Game.getGame().getDeathTracker().showPlayer(sender);
 	}
 }

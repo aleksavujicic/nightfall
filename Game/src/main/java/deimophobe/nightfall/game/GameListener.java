@@ -22,6 +22,7 @@ import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.mob.Bopen;
 import deimophobe.nightfall.monster.mob.Goblin;
 import deimophobe.nightfall.util.ArrowMisc;
+import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -442,8 +443,11 @@ public class GameListener implements Listener {
 				dwarf2.notifyDeath(dwarf);
 			}
 			event.setDeathMessage("");
-			Bukkit.spigot().broadcast(dwarf.getDeathMessage());
-			Bukkit.getConsoleSender().spigot().sendMessage(dwarf.getDeathMessage());
+			
+			BaseComponent deathMessage = dwarf.getDeathMessage();
+			Bukkit.spigot().broadcast(deathMessage);
+			Bukkit.getConsoleSender().spigot().sendMessage(deathMessage);
+			Game.getGame().getDeathTracker().registerDeathMessage(deathMessage);
 
 			if (Game.getGame().getPhase() == Phase.GAME) {
 				for (Player player : Bukkit.getOnlinePlayers())
