@@ -208,7 +208,11 @@ public class Game {
 	}
 	public void setPlayMode(@NotNull PlayMode playMode) {
 		checkNotNull(playMode);
+		if (this.playMode == playMode) return;
+		
+		this.playMode.onDisable();
 		this.playMode = playMode;
+		this.playMode.onEnable();
 	}
 	
 	// ------ LISTENERS -------

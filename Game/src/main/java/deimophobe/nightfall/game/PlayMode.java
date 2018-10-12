@@ -6,6 +6,8 @@ import me.lucko.luckperms.api.context.ContextCalculator;
 import me.lucko.luckperms.api.context.ContextManager;
 import me.lucko.luckperms.api.context.MutableContextSet;
 import me.lucko.luckperms.api.context.StaticContextCalculator;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 /**
@@ -13,14 +15,29 @@ import org.bukkit.entity.Player;
  */
 public enum PlayMode {
 	NORMAL,
-	PLAYGROUND
+	PLAYGROUND {
+		@Override
+		public void onEnable() {
+			Bukkit.broadcastMessage(ChatColor.GOLD + "Playground mode has been enabled.");
+		}
+		@Override
+		public void onDisable() {
+			Bukkit.broadcastMessage(ChatColor.GOLD + "Playground mode has been disabled.");
+		}
+	}
 	
 	;
+	
+	
+	public void onEnable() {}
+	public void onDisable() {}
+	
+	
+	// Context Calculator
 	
 	public static StaticContextCalculator getConextCalculator() {
 		return new PlayModeCalculator();
 	}
-	
 	private static class PlayModeCalculator implements StaticContextCalculator {
 		@Override
 		public MutableContextSet giveApplicableContext(MutableContextSet accumulator) {
