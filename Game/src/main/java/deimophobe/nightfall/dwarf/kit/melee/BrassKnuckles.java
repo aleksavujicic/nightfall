@@ -171,7 +171,7 @@ public class BrassKnuckles extends AbstractItem implements CooldownPiece {
 	//Start Empowered Strike, Stops Flurry of Blows, & Sets Empowered Strike damage
 	private void empoweredStrike(){
 		strikeTime = STRIKE_TIME;
-		strikeDamage = flurryTime*1.05;
+		strikeDamage = flurryTime*.85;
 		flurryTime = 0;
 
 	}
