@@ -109,6 +109,11 @@ public class GameListener implements Listener {
 		boolean wasDwarf = dwarfManager.goOffline(player);
 		monsterManager.goOffline(player);
 		if (wasDwarf) game.updateDwarfCount();
+		
+		// Reset game if no players are left online
+		if (game.getPlayMode() == PlayMode.PLAYGROUND && Bukkit.getOnlinePlayers().size() == 1) {
+			Game.createNewGame();
+		}
 	}
 	
 	// --------------------------------------------------------
