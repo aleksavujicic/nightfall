@@ -23,6 +23,8 @@ public enum SpawnMethod {
 		}
 	}),
 	
+	SHRINE(mp -> GameMap.getCurrentMap().getShrineCenter()),
+	
 	;
 	
 	private final Function<MonsterPlayer, Location> spawner;

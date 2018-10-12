@@ -202,8 +202,19 @@ public class MapManager {
 	public void enqueueRandomMapIfEmpty() {
 		if (!mapQueue.isEmpty()) return;
 		
-		String mapName = Misc.getRandom(activeMaps);
+		String mapName = getRandomMapString();
 		enqueueMap(mapName);
+	}
+	
+	private String getRandomMapString() {
+		if (activeMaps.size() <= 1) return Misc.getRandom(activeMaps);
+		if (Game.getGame() == null) return Misc.getRandom(activeMaps);
+		
+		GameMap map = GameMap.getCurrentMap();
+		String current = map.getID();
+		Set<String> candidates = new HashSet<>(activeMaps);
+		candidates.remove(current);
+		return Misc.getRandom(candidates);
 	}
 	
 	// ~~~~~ MAP LOADING ~~~~~
@@ -228,14 +239,14 @@ public class MapManager {
 	private GameMap loadDefaultMap() {
 		World world = Bukkit.getWorlds().get(0);
 		try {
-			return new GameMap(world);
+			return new GameMap("default", world);
 		} catch (InvalidMapConfigException e) {
 			throw new RuntimeException("Default map config is invalid, can't start game.", e);
 		}
 	}
 	
 	private GameMap loadRandomMap() {
-		String mapName = Misc.getRandom(activeMaps);
+		String mapName = getRandomMapString();
 		return loadMap(mapName);
 	}
 	
@@ -253,7 +264,7 @@ public class MapManager {
 		World world = null;
 		try {
 			world = createMapWorld(mapFolder);
-			return new GameMap(world);
+			return new GameMap(name, world);
 		} catch (MapLoadingException | InvalidMapConfigException e) {
 			e.printStackTrace();
 			unloadAndDeleteWorld(world);

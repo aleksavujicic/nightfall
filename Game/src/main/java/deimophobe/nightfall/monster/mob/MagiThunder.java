@@ -1,6 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.*;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
@@ -30,17 +31,9 @@ public class MagiThunder extends AbstractMob {
 	@Override
 	public void update() {
 		super.update();
-		if (everyNthTick(20) && isPlayerHoldingWeapon()) {
-			Location center = monster.getEyeLocation().add(0, -1.5, 0);
-			World world = center.getWorld();
-			for (int i=0; i<8; i++) {
-				double theta = 2 * Math.PI * i / 8;
-				
-				double dx = 1 * Math.sin(theta);
-				double dz = 1 * Math.cos(theta);
-				Location particle = center.clone().add(dx, 0, dz);
-				world.spawnParticle(Particle.VILLAGER_ANGRY, particle, 1, 0, 0, 0, 0);
-			}
+		if (everyNthTick(3) && isPlayerHoldingWeapon()) {
+			Location center = monster.getLocation();
+			Misc.spawnRangedParticles(center, Particle.CLOUD, 5, 0.2, 0.05, 0.2, 0.03);
 		}
 	}
 	

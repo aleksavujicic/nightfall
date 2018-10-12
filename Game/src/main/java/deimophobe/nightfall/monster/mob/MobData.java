@@ -45,6 +45,7 @@ public class MobData {
 	final int charmTime;
 	final double shrineWeight;
 	final double shrineProtDamage;
+	final int shrineXP;
 	final boolean canRun;
 	final int depthStriderLevel;
 	
@@ -73,6 +74,7 @@ public class MobData {
 		charmTime = 160;
 		shrineWeight = 1;
 		shrineProtDamage = -1; // -1 = insta kill
+		shrineXP = 2;
 		immuneTime = 8;
 		canRun = true;
 		depthStriderLevel = 3;
@@ -122,6 +124,7 @@ public class MobData {
 		charmTime = section.getInt("charmtime", parent.charmTime);
 		shrineWeight = section.getDouble("shrineweight", parent.shrineWeight);
 		shrineProtDamage = section.getDouble("shrine-prot-damage", parent.shrineProtDamage);
+		shrineXP = section.getInt("shrine-xp", parent.shrineXP);
 		immuneTime = section.getInt("immunetime", parent.immuneTime);
 		canRun = section.getBoolean("canrun", parent.canRun);
 		depthStriderLevel = section.getInt("depthstrider", parent.depthStriderLevel);

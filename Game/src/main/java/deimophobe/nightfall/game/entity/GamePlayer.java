@@ -448,7 +448,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	}
 	
 	public void setShields(int number) {
-		checkArgument(number > 0, "Number of shields to remove must be positive (got %s).", number);
+		checkArgument(number >= 0, "Number of shields to set must be non-negative (got %s).", number);
 		shields = number;
 		updateShieldCount();
 	}
@@ -461,8 +461,8 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 			damage.setNoDamageTicks(20);
 		});
 		damage.addPostDamageHandler(() -> {
-			removeAllPoisons();
-			removeFire();
+			if (damage.getType() == GameDamageType.POISON) removeAllPoisons();
+			if (damage.getType() == GameDamageType.FIRE) removeFire();
 			removeShields(1);
 			
 			playSound("entity.evocation_illager.prepare_summon", 1f, 2f, false);

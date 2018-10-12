@@ -27,6 +27,7 @@ import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.armour.BerserkArmour;
 import deimophobe.nightfall.dwarf.kit.healing.StrongAle;
+import deimophobe.nightfall.game.Curse;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.game.entity.GameEntity;
@@ -471,8 +472,15 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	public void giveProc(ProcType procType) {
+		int duration = procType.getDuration();
+		// Minimum possible duration is 1 sec (or less if proc is shorter by default)
+		final int minDuration = Math.min(duration, 20);
+		// Reduce by second if fatigued
+		if (Game.getGame().isCurseActive(Curse.FATIGUE)) duration -= 20;
+		duration = Math.max(minDuration, duration);
+		
 		procType.onGive(this);
-		activeProcs.put(procType, procType.getDuration());
+		activeProcs.put(procType, duration);
 		
 		updateProcBuffs();
 		updateVisibility();
@@ -532,6 +540,8 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		double damage = 0;
 		int strength = getPotionEffectLevel(PotionEffectType.INCREASE_DAMAGE);
 		damage += strength * 3;
+		int weakness = getPotionEffectLevel(PotionEffectType.WEAKNESS);
+		damage -= weakness * 3;
 		if (hasKitPiece(KitPieceType.BERSERKER)) {
 			damage += BerserkArmour.getAttackBonus();
 		}

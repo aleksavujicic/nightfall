@@ -24,6 +24,9 @@ import java.util.*;
  * Created by Deimophobe on 1/07/17.
  */
 public class GameMap {
+	private final String mapID;
+	public String getID() { return mapID; }
+	
 	private final String name;
 	public String getName() { return name; }
 	
@@ -72,7 +75,8 @@ public class GameMap {
 	}
 	
 	
-	GameMap(World world) throws InvalidMapConfigException {
+	GameMap(String mapID, World world) throws InvalidMapConfigException {
+		this.mapID = mapID;
 		this.world = world;
 		
 		File configFile = MapManager.getManager().getNightfallConfig(world);
@@ -355,6 +359,11 @@ public class GameMap {
 	}
 	
 	public Location getSafeRespawnPoint() {
+		if (currentShrineIndex == -1) return dwarfSpawn;
+		return shrines.get(currentShrineIndex).getShrineCenter().clone().add(0,5,0);
+	}
+	
+	public Location getShrineCenter() {
 		if (currentShrineIndex == -1) return dwarfSpawn;
 		return shrines.get(currentShrineIndex).getShrineCenter().clone().add(0,5,0);
 	}

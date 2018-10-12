@@ -15,20 +15,31 @@ public enum DoomType {
 	TICKERS(TickerDoom.class, TickerDoom::new),
 	OGRE_MAGI(OgreMagiDoom.class, OgreMagiDoom::new),
 	TEMPEST(TempestDoom.class, TempestDoom::new, false),
-	BLIZZARD(BlizzardDoom.class, BlizzardDoom::new,false)
+	BLIZZARD(BlizzardDoom.class, BlizzardDoom::new, false),
+	SQUIDS(SquidDoom.class, SquidDoom::new, 200),
 	
 	;
 	
 	private final boolean active;
+	private final int doomReduction;
 	
 	private final Supplier<Doom> doomCreator;
 	
 	<T extends AnnotatedDoom> DoomType(Class<T> doomClass, Supplier<T> doomInitialiser) {
-		this(doomClass, doomInitialiser, true);
+		this(doomClass, doomInitialiser, true, 0);
+	}
+	
+	<T extends AnnotatedDoom> DoomType(Class<T> doomClass, Supplier<T> doomInitialiser, int doomReduction) {
+		this(doomClass, doomInitialiser, true, doomReduction);
 	}
 	
 	<T extends AnnotatedDoom> DoomType(Class<T> doomClass, Supplier<T> doomInitialiser, boolean active) {
+		this(doomClass, doomInitialiser, active, 0);
+	}
+	
+	<T extends AnnotatedDoom> DoomType(Class<T> doomClass, Supplier<T> doomInitialiser, boolean active, int doomReduction) {
 		this.active = active;
+		this.doomReduction = doomReduction;
 		
 		DoomMeta meta = doomClass.getAnnotation(DoomMeta.class);
 		if (meta == null) throw new DoomMetaMissingException("Failed to find doom meta in class " + doomClass.getSimpleName() + " for doom type " + this);
@@ -51,6 +62,10 @@ public enum DoomType {
 			doom.setSpawner(spawner);
 			return doom;
 		};
+	}
+	
+	public int getDoomReduction() {
+		return doomReduction;
 	}
 	
 	public void spawnDoom() {

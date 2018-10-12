@@ -125,7 +125,7 @@ resurrection:
        - "You shall be resurrected once upon death.\n
           This resurrection will heal you, but will\n
           also permanently cost you &b4&r hearts.\n
-          You gain &b3&r shield hearts upon revival."
+          You gain &b4&r shield hearts upon revival."
 
 bunny-boots:
   index: 13

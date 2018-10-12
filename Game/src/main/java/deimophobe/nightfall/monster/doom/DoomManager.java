@@ -187,6 +187,7 @@ public class DoomManager {
 		occuredDooms.add(doom);
 		
 		resetDoomTimers();
+		reduceDoom(doom.getDoomReduction());
 	}
 	
 	private DoomType nextDoom() {
