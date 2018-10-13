@@ -28,7 +28,6 @@ public enum KitPieceType {
 	HAMMER(Hammer::new),
 	DAGGER(Dagger::new),
 	RAPIER(Rapier::new),
-	GLAIVE(Glaive::new),
 	SCEPTER(Scepter::new),
 	HUNTING_CLAWS(HuntingClaws::new),
 	GREATSWORD(Greatsword::new),

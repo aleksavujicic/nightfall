@@ -238,7 +238,6 @@ public class Doppelganger extends AbstractMob {
 		DWARF_WEAPONS.put(KitPieceType.SCEPTER, "scepter");
 		DWARF_WEAPONS.put(KitPieceType.RAPIER, "rapier");
 		DWARF_WEAPONS.put(KitPieceType.SOUL_BLADE, "soulblade");
-		DWARF_WEAPONS.put(KitPieceType.GLAIVE, "glaive");
 		DWARF_WEAPONS.put(KitPieceType.VOLCANIC, "gauntlet");
 	}
 	private void setFakeWeapon() {
