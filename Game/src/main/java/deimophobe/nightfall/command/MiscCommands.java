@@ -12,6 +12,7 @@ import deimophobe.nightfall.common.util.NMSUtil;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.TitlePlayer;
 import deimophobe.nightfall.dwarf.consumable.ConsecratingCharm;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
@@ -276,6 +277,15 @@ public class MiscCommands extends BaseCommand {
 		if (title != null) title = title.replace('_',' ');
 		player.setTitle(colour, title, force);
 		MessageUtil.sendMessage(sender, "Title of player ", player.getPlayer(), " changed to ", player, ".");
+	}
+	
+	@CommandAlias("intro")
+	@CommandCompletion("@players @boolean")
+	@CommandPermission("nightfall.command.intro")
+	@Description("Displays the intro title to a player.")
+	public void showTitle(CommandSender sender, OnlinePlayer player, @Default("false") boolean playMusic) {
+		TitlePlayer.playTitle(player.getPlayer(), playMusic);
+		MessageUtil.sendMessage(sender, "Displaying intro to ", player.getPlayer(), ".");
 	}
 	
 	@CommandAlias("deaths")

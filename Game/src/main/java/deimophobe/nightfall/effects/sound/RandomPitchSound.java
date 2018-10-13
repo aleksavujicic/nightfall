@@ -3,6 +3,7 @@ package deimophobe.nightfall.effects.sound;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 /**
  * Created by Deimophobe on 6/07/17.
@@ -33,8 +34,8 @@ public class RandomPitchSound implements GlobalSound, LocalSound, PlayerSound {
 	}
 	
 	@Override
-	public void playSound(GamePlayer player) {
-		player.getPlayer().playSound(player.getLocation(), sound, category.getCategory(), volume, getPitch());
+	public void playSound(Player player) {
+		player.playSound(player.getLocation(), sound, category.getCategory(), volume, getPitch());
 	}
 	
 	@Override

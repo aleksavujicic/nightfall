@@ -2,6 +2,7 @@ package deimophobe.nightfall.effects.sound;
 
 import deimophobe.nightfall.game.entity.GamePlayer;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 /**
  * Created by Deimophobe on 25/03/18.
@@ -9,5 +10,5 @@ import org.bukkit.Location;
 public class NoSound implements GlobalSound, LocalSound, PlayerSound {
 	@Override public void playSound() {}
 	@Override public void playSound(Location location) {}
-	@Override public void playSound(GamePlayer player) {}
+	@Override public void playSound(Player player) {}
 }
