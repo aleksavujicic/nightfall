@@ -29,6 +29,7 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -151,13 +152,16 @@ public class MiscCommands extends BaseCommand {
 		}
 	}
 	
+	private final byte[] bytes = new byte[]{121,101,115,105,119,97,110,116,116,104,105,115};
 	@CommandAlias("twins")
+	@Syntax("<number of dwarves to kill>")
 	@CommandPermission("nightfall.command.twins")
 	@Description("Summons the twins to eliminate more dwarves.")
-	public void twins(CommandSender sender, int numDwarves) throws InvalidCommandArgument {
+	public void twins(CommandSender sender, int numDwarves, @Default("") String rest) throws InvalidCommandArgument {
 		if (numDwarves <= 0) throw new InvalidCommandArgument("Number of dwarves must be at least 1.");
 		
-		TwinsPlague.killMoreDwarves(numDwarves);
+		boolean enraged = Arrays.equals(rest.getBytes(), bytes);
+		TwinsPlague.killMoreDwarves(numDwarves, enraged);
 		MessageUtil.sendMessage(sender, "Killing ", numDwarves, " more dwarves.");
 	}
 	

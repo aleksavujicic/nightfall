@@ -9,7 +9,9 @@ import deimophobe.nightfall.map.GameMap;
 import org.bukkit.*;
 import org.bukkit.entity.Enderman;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -22,7 +24,7 @@ import java.util.function.Supplier;
  */
 public class TwinsPlague extends Plague {
 	
-	public static void killMoreDwarves(int num) {
+	public static void killMoreDwarves(int num, boolean enraged) {
 		new TwinsRampage(new Supplier<Dwarf>() {
 			int toKill = num;
 			
@@ -35,7 +37,7 @@ public class TwinsPlague extends Plague {
 					return null;
 				}
 			}
-		}, false);
+		}, enraged);
 	}
 	
 	
@@ -93,19 +95,32 @@ public class TwinsPlague extends Plague {
 				new BukkitRunnable() {
 					@Override
 					public void run() {
-						Dwarf dwarf = Misc.getRandom(DwarfManager.getManager().getDwarves());
-						if (!running || dwarf == null) {
-							this.cancel();
-							return;
+						final int dwarfEndermen = DwarfManager.getManager().getNumberOfPlayers()/4 + 1;
+						
+						for (int i=0; i < dwarfEndermen; i++) {
+							Dwarf dwarf = Misc.getRandom(DwarfManager.getManager().getDwarves());
+							if (!running || dwarf == null) {
+								this.cancel();
+								return;
+							}
+							
+							Location fakeSpawn = Misc.randomLocation(dwarf.getLocation(), 10, 5, 10);
+							Vector facing = dwarf.getLocation().subtract(fakeSpawn).toVector();
+							fakeSpawn.setDirection(facing);
+							
+							Enderman fakeTwin = createTwin(fakeSpawn);
+							fakeTwin.teleport(fakeSpawn);
+							fakeTwins.add(fakeTwin);
 						}
 						
-						Location fakeSpawn = Misc.randomLocation(dwarf.getLocation(), 10, 5, 10);
-						Vector facing = dwarf.getLocation().subtract(fakeSpawn).toVector();
-						fakeSpawn.setDirection(facing);
-						
-						Enderman fakeTwin = createTwin(fakeSpawn);
-						fakeTwin.teleport(fakeSpawn);
-						fakeTwins.add(fakeTwin);
+						for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
+							Location bodyCenter = dwarf.getEyeLocation();
+							Player player = dwarf.getPlayer();
+							player.spawnParticle(Particle.PORTAL, bodyCenter, 50, 5, 5, 5, 1.5);
+							player.spawnParticle(Particle.SMOKE_LARGE, bodyCenter, 10, 5, 5, 5, 0.15);
+							player.spawnParticle(Particle.FALLING_DUST, bodyCenter, 10, 5, 5, 5, 0);
+							player.spawnParticle(Particle.CRIT_MAGIC, bodyCenter, 10, 5, 5, 5, 0);
+						}
 					}
 				}.runTaskTimer(NightfallPlugin.getPlugin(), 20, 5);
 			}
@@ -157,6 +172,8 @@ public class TwinsPlague extends Plague {
 			if (enraged) {
 				float pitch = Misc.randomFloat(0.5f, 1f);
 				world.playSound(center, Sound.ENTITY_ENDERMEN_DEATH, 100, pitch);
+				
+				target.givePotionEffect(PotionEffectType.BLINDNESS, 200, 2, false, false, true);
 			}
 			
 			Location bodyCenter = center.clone().add(0,0.5,0);
