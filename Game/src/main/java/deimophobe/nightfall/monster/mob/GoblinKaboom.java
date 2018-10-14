@@ -159,10 +159,7 @@ class GoblinKaboom extends Goblin {
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
 		if (!superKaboom) {
-			monster.removePotionEffect(PotionEffectType.SPEED);
-			kaboomCD.reset();
-			kaboomTrigger = false;
-			changeDisguiseWatcher(CreeperWatcher.class, creeperWatcher -> creeperWatcher.setIgnited(false));
+			damage.addPostDamageHandler(this::cancelKaboom);
 		}
 	}
 	
@@ -176,5 +173,12 @@ class GoblinKaboom extends Goblin {
 		return new DeadEntitySpawner<>(Creeper.class, creeper -> {
 			creeper.setPowered(superKaboom);
 		});
+	}
+	
+	private void cancelKaboom() {
+		monster.removePotionEffect(PotionEffectType.SPEED);
+		kaboomCD.reset();
+		kaboomTrigger = false;
+		changeDisguiseWatcher(CreeperWatcher.class, creeperWatcher -> creeperWatcher.setIgnited(false));
 	}
 }
