@@ -1,5 +1,11 @@
 package deimophobe.nightfall.game.entity;
 
+import com.comphenix.packetwrapper.WrapperPlayServerWorldBorder;
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.EnumWrappers;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.WhoEntry;
@@ -19,13 +25,12 @@ import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.game.AbstractGameEntity;
 import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.map.GameMap;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_12_R1.PacketCompressor;
 import org.apache.commons.lang3.mutable.MutableInt;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -37,6 +42,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -65,6 +71,8 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		
 		// To clear out any fake hearts
 		NMSUtil.setNumberAbsorptionHearts(player, 0);
+		
+		initialiseWarnings();
 	}
 	
 	@Override
@@ -83,6 +91,12 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	
 	public Entity getVisibleEntity() {
 		return player;
+	}
+	
+	
+	public void onRemove() {
+		clearInventory();
+		clearWarning();
 	}
 	
 	// ------ DEBUG ------
@@ -112,6 +126,8 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		this.entity = newPlayer;
 		resetTitle();
 		loadHealth();
+		
+		initialiseWarnings();
 	}
 	public void goOffline() {
 		online = false;
@@ -415,7 +431,8 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	}
 	
 	
-	// Shields
+	// ------ SHIELDS ------
+	
 	public void addShields(int number) {
 		checkArgument(number > 0, "Number of shields to add must be positive (got %s).", number);
 		shields += number;
@@ -474,7 +491,85 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		NMSUtil.setNumberAbsorptionHearts(player, shields*2);
 	}
 	
-	// Event
+	
+	// ------ WARNING ------
+	private static final double WORLD_BORDER_RADIUS = 100000;
+	private double lastWarningLevel = 0;
+	
+	public void setWarningLevel(double warning) {
+		checkArgument(warning >= 0, "Warning level must be positive (got %s)", warning);
+		checkArgument(warning <= 1, "Warning level must be strictly less than 1 (got %s)", warning);
+		if (warning == 1) warning = 0.999999;
+		int blockWarning = (int) (WORLD_BORDER_RADIUS/(2 - 2*warning));
+
+		WrapperPlayServerWorldBorder packet = new WrapperPlayServerWorldBorder();
+		packet.setAction(EnumWrappers.WorldBorderAction.SET_WARNING_BLOCKS);
+		packet.setWarningDistance(blockWarning);
+		packet.sendPacket(player);
+
+		lastWarningLevel = warning;
+		
+		//TODO Intercept other world border packets?
+	}
+	
+	private void initialiseWarnings() {
+//		Location center = GameMap.getCurrentMap().getDwarfSpawn();
+//		double x = center.getX();
+//		double z = center.getZ();
+//
+//		WrapperPlayServerWorldBorder packet1 = new WrapperPlayServerWorldBorder();
+//		packet1.setAction(EnumWrappers.WorldBorderAction.SET_CENTER);
+//		packet1.setCenterX(x);
+//		packet1.setCenterZ(z);
+//		packet1.sendPacket(player);
+//
+//		WrapperPlayServerWorldBorder packet2 = new WrapperPlayServerWorldBorder();
+//		packet2.setAction(EnumWrappers.WorldBorderAction.SET_SIZE);
+//		packet2.getHandle().getDoubles().write(0, WORLD_BORDER_RADIUS);
+//		packet2.sendPacket(player);
+		
+//		WrapperPlayServerWorldBorder packet2 = new WrapperPlayServerWorldBorder();
+//		packet2.setAction(EnumWrappers.WorldBorderAction.SET_SIZE);
+//		packet2.getHandle().getDoubles().write(0, WORLD_BORDER_RADIUS);
+//		packet2.sendPacket(player);
+
+
+//		Location center = GameMap.getCurrentMap().getDwarfSpawn();
+//		double x = center.getX();
+//		double z = center.getZ();
+//
+//		WrapperPlayServerWorldBorder packet = new WrapperPlayServerWorldBorder();
+//		packet.setAction(EnumWrappers.WorldBorderAction.INITIALIZE);
+//		packet.setCenterX(x);
+//		packet.setCenterZ(z);
+//		packet.setRadius(100);
+//		packet.setSpeed(0);
+//		packet.setWarningDistance(0);
+//		packet.setWarningTime(0);
+//
+//		packet.sendPacket(player);
+
+		Location center = GameMap.getCurrentMap().getDwarfSpawn();
+		double x = center.getX();
+		double z = center.getZ();
+
+		WrapperPlayServerWorldBorder packet1 = new WrapperPlayServerWorldBorder();
+		packet1.setAction(EnumWrappers.WorldBorderAction.SET_CENTER);
+		packet1.setCenterX(x);
+		packet1.setCenterZ(z);
+		packet1.sendPacket(player);
+		
+		PacketContainer packet = new PacketContainer(PacketType.Play.Server.WORLD_BORDER);
+		packet.getWorldBorderActions().write(0, EnumWrappers.WorldBorderAction.SET_SIZE);
+		packet.getDoubles().write(2, WORLD_BORDER_RADIUS);
+
+		setWarningLevel(lastWarningLevel);
+	}
+	
+	public void clearWarning() {
+		setWarningLevel(0);
+	}
+	
 	
 	// ------ MISC ------
 	public boolean isBlocking() {
@@ -530,11 +625,6 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		int ping = NMSUtil.getPingOfPlayer(player);
 		int ticksLagging = ping/50;
 		return getLocation().add(getVelocity().multiply(ticksLagging));
-	}
-	
-	
-	public void onRemove() {
-		clearInventory();
 	}
 	
 	// Abstract methods

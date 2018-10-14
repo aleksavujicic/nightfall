@@ -6,6 +6,7 @@ import co.aikar.commands.annotation.*;
 import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.ColourMenu;
 import deimophobe.nightfall.WhoEntry;
+import deimophobe.nightfall.command.iterable.GamePlayerIterable;
 import deimophobe.nightfall.common.command.MessageUtil;
 import deimophobe.nightfall.common.menu.MenuManager;
 import deimophobe.nightfall.common.util.NMSUtil;
@@ -297,5 +298,15 @@ public class MiscCommands extends BaseCommand {
 	@Description("Forces a title on a player.")
 	public void title(CommandSender sender) {
 		Game.getGame().getDeathTracker().showPlayer(sender);
+	}
+	
+	@CommandAlias("border")
+	@CommandPermission("nightfall.command.border")
+	@Description("Set the border 'warning leve'.")
+	public void border(CommandSender sender, GamePlayerIterable gamePlayers, double warningLevel) {
+		gamePlayers.forEach(gp -> {
+			gp.setWarningLevel(warningLevel);
+			MessageUtil.sendMessage(sender, "Set warning level of ", gp, " to ", warningLevel, ".");
+		});
 	}
 }
