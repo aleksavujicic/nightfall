@@ -220,6 +220,9 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	public void updateManaBar() {
 		player.setLevel(mana);
+		
+		double warning = 1 - (double) mana/300;
+		setSafeWarningLevel(warning);
 	}
 	
 	public void updateCooldownBar() {
