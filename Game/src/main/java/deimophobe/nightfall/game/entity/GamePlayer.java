@@ -39,6 +39,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -475,7 +476,8 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		
 		damage.addPreDamageHandler(PreDamagePriority.SHIELDS, () -> {
 			damage.softCancel();
-			damage.setNoDamageTicks(20);
+			damage.setNoDamageTicks(30);
+//			givePotionEffect(PotionEffectType.GLOWING, 30, 1, false, false, false);
 		});
 		damage.addPostDamageHandler(() -> {
 			if (damage.getType() == GameDamageType.POISON) removeAllPoisons();
