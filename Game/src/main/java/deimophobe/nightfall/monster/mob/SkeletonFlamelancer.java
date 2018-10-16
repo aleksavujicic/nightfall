@@ -44,6 +44,7 @@ class SkeletonFlamelancer extends Skeleton {
 	@Update @Display
 	private final ComplexCooldown blazeRunner = new ComplexCooldown(40*20, this::blaze);
 	private final int blazeDuration;
+	private boolean blazeCancelled;
 
 	private static final Integer[] arrowResValues = {0, 10, 20, 30, 40, 50};
 
@@ -65,6 +66,7 @@ class SkeletonFlamelancer extends Skeleton {
 		this.fireAI = upgrades.get("fireai") > 0;
 		
 		this.blazeDuration = upgrades.get("blaze") * 15;
+		this.blazeCancelled = false;
 
 		getArmour().addModifier(ItemModifierType.SPEED, 10, "Flamelancer");
 		getArmour().addModifier(ItemModifierType.SPEED, speed * 10, "Upgrade");
@@ -89,7 +91,7 @@ class SkeletonFlamelancer extends Skeleton {
 	public void update() {
 		super.update();
 		monster.getPlayer().setFireTicks(0);
-        if (blazeRunner.wasUsedWithin(blazeDuration)) {
+        if (!blazeCancelled && blazeRunner.wasUsedWithin(blazeDuration)) {
 	        Block block = monster.getLocation().getBlock();
 	        if (everyNthTick(3)) monster.playSound("entity.ghast.shoot", 0.3f, 1.5f, true);
 			if (BlockType.IGNORABLE.matchesBlock(block)) {
@@ -157,6 +159,7 @@ class SkeletonFlamelancer extends Skeleton {
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
 		damage.getArrowRes().addBoost(arrowRes);
+		damage.addPostDamageHandler(this::cancelBlazerunner);
 	}
 	
 	@Override
@@ -180,6 +183,13 @@ class SkeletonFlamelancer extends Skeleton {
 		monster.playSound("entity.ghast.shoot", 1f, 0.5f, true);
 		monster.givePotionEffect(PotionEffectType.FIRE_RESISTANCE, blazeDuration, 1, true, false, true);
 		monster.givePotionEffect(PotionEffectType.SPEED, blazeDuration, 3, true, false, true);
+		blazeCancelled = false;
+	}
+	
+	private void cancelBlazerunner() {
+		blazeCancelled = true;
+		monster.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+		monster.removePotionEffect(PotionEffectType.SPEED);
 	}
 	
 	private boolean tryIgnite(Block block) {
