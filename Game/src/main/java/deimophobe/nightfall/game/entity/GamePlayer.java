@@ -498,6 +498,12 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	private static final double WORLD_BORDER_RADIUS = 100000;
 	private double lastWarningLevel = 0;
 	
+	public void setSafeWarningLevel(double warning) {
+		warning = Math.max(warning, 0);
+		warning = Math.min(warning, 1);
+		setWarningLevel(warning);
+	}
+	
 	public void setWarningLevel(double warning) {
 		checkArgument(warning >= 0, "Warning level must be positive (got %s)", warning);
 		checkArgument(warning <= 1, "Warning level must be strictly less than 1 (got %s)", warning);
@@ -510,46 +516,10 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		packet.sendPacket(player);
 
 		lastWarningLevel = warning;
-		
-		//TODO Intercept other world border packets?
 	}
 	
 	private void initialiseWarnings() {
-//		Location center = GameMap.getCurrentMap().getDwarfSpawn();
-//		double x = center.getX();
-//		double z = center.getZ();
-//
-//		WrapperPlayServerWorldBorder packet1 = new WrapperPlayServerWorldBorder();
-//		packet1.setAction(EnumWrappers.WorldBorderAction.SET_CENTER);
-//		packet1.setCenterX(x);
-//		packet1.setCenterZ(z);
-//		packet1.sendPacket(player);
-//
-//		WrapperPlayServerWorldBorder packet2 = new WrapperPlayServerWorldBorder();
-//		packet2.setAction(EnumWrappers.WorldBorderAction.SET_SIZE);
-//		packet2.getHandle().getDoubles().write(0, WORLD_BORDER_RADIUS);
-//		packet2.sendPacket(player);
-		
-//		WrapperPlayServerWorldBorder packet2 = new WrapperPlayServerWorldBorder();
-//		packet2.setAction(EnumWrappers.WorldBorderAction.SET_SIZE);
-//		packet2.getHandle().getDoubles().write(0, WORLD_BORDER_RADIUS);
-//		packet2.sendPacket(player);
-
-
-//		Location center = GameMap.getCurrentMap().getDwarfSpawn();
-//		double x = center.getX();
-//		double z = center.getZ();
-//
-//		WrapperPlayServerWorldBorder packet = new WrapperPlayServerWorldBorder();
-//		packet.setAction(EnumWrappers.WorldBorderAction.INITIALIZE);
-//		packet.setCenterX(x);
-//		packet.setCenterZ(z);
-//		packet.setRadius(100);
-//		packet.setSpeed(0);
-//		packet.setWarningDistance(0);
-//		packet.setWarningTime(0);
-//
-//		packet.sendPacket(player);
+		ProtocolManager pm = ProtocolLibrary.getProtocolManager();
 
 		Location center = GameMap.getCurrentMap().getDwarfSpawn();
 		double x = center.getX();
@@ -564,7 +534,13 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		PacketContainer packet = new PacketContainer(PacketType.Play.Server.WORLD_BORDER);
 		packet.getWorldBorderActions().write(0, EnumWrappers.WorldBorderAction.SET_SIZE);
 		packet.getDoubles().write(2, WORLD_BORDER_RADIUS);
-
+		try {
+			pm.sendServerPacket(player, packet);
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+			NightfallPlugin.logger().warning("Failed to update border radius");
+		}
+		
 		setWarningLevel(lastWarningLevel);
 	}
 	

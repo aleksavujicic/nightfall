@@ -5,10 +5,12 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import deimophobe.nightfall.NightfallPlugin;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -75,5 +77,17 @@ public class PacketUtil {
 				}
 			}
 		});
+		
+//		protocolManager.addPacketListener(new PacketAdapter(NightfallPlugin.getPlugin(), PacketType.Play.Server.WORLD_BORDER) {
+//
+//			@Override
+//			public void onPacketSending(PacketEvent event) {
+//				PacketContainer packet = event.getPacket();
+//				Bukkit.broadcastMessage("======= NEW PACKET =======");
+//				Bukkit.broadcastMessage("Type: " + packet.getWorldBorderActions().read(0));
+//				Bukkit.broadcastMessage("Doubles: " + packet.getDoubles().getValues());
+//				Bukkit.broadcastMessage("Ints: " + packet.getIntegers().getValues());
+//			}
+//		});
 	}
 }
