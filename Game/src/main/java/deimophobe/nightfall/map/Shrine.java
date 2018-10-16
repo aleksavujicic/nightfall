@@ -252,7 +252,9 @@ public class Shrine {
 		}
 		
 		for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
-			monster.givePotionEffect(PotionEffectType.SLOW, 180, 3, true, false, true);
+			if (!monster.hasPotionEffect(PotionEffectType.SLOW)) {
+				monster.givePotionEffect(PotionEffectType.SLOW, 180, 3, true, false, true);
+			}
 			monster.givePotionEffect(PotionEffectType.CONFUSION, 180, 1, true, false, true);
 		}
 		int xpGain = 1000 + map.getGold();
