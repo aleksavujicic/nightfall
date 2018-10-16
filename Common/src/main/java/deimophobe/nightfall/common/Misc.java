@@ -23,6 +23,11 @@ import static com.google.common.base.Preconditions.checkArgument;
  * Created by Deimophobe on 9/03/17.
  */
 public class Misc {
+	// ------ CONSTANTS ------
+	
+	public static final Runnable DO_NOTHING = () -> {};
+	
+	
 	// ------ RANDOM ------
 	
 	public static <T> T getRandomFrom(T... items) {
