@@ -404,6 +404,8 @@ public class LobbyManager implements Manager {
 		int numPlayers = getNumberOfLobbyPlayers();
 		int numReady = getNumberOfReadyPlayers();
 		
+		if (numPlayers == 0) return;
+		
 		if (numReady == numPlayers) {
 			game.startGame();
 		}
