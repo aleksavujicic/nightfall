@@ -11,7 +11,7 @@ import org.bukkit.potion.PotionEffectType;
  * Created by Deimophobe on 22/01/17.
  */
 public class RubyPendant extends AbstractAle {
-	private final static int MANA_COST = 200;
+	private final static int MANA_COST = 100;
 	private final static int BUFF_DURATION = 60;
 	
 	private final Cooldown buffResetter = new CompletionCooldown(BUFF_DURATION, this::resetBuff);
