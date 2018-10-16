@@ -33,6 +33,7 @@ abstract class AbstractWolf extends AbstractMob {
 		super.onUse(click, clickedBlock, blockFace);
 		if (click.isRightClick() && isPlayerHoldingWeapon()) {
 			leapCD.tryUse();
+			if (monster.isDebugMode()) leapCD.reduceCooldown(10000);
 		}
 	}
 	

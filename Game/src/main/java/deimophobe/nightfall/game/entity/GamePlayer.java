@@ -498,7 +498,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	private static final double WORLD_BORDER_RADIUS = 100000;
 	private double lastWarningLevel = 0;
 	
-	public void setSafeWarningLevel(double warning) {
+	public void safelySetWarningLevel(double warning) {
 		warning = Math.max(warning, 0);
 		warning = Math.min(warning, 1);
 		setWarningLevel(warning);

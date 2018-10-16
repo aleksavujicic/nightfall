@@ -496,19 +496,29 @@ public abstract class AbstractMob implements Mob {
 		if (inShrine) { // Is stopped
 			monster.getPlayer().spawnParticle(Particle.VILLAGER_ANGRY, monster.getEyeLocation().subtract(0, 0.5, 0), 15, 1.5, 1, 1.5);
 			
-			if (shrineProtCounter > 0)
+			if (shrineProtCounter > 0) {
 				shrineProtCounter--;
+				updateShrineProtWarningLevel();
+			}
 			
 			if (shrineProtCounter == 0) {
 				shrineProtectionDamage();
 				shrineProtCounter = MAX_SHRINE_PROT_TIME;
+				updateShrineProtWarningLevel();
 			}
 		} else {
 			if (everyNthTick(10)) {
-				if (shrineProtCounter < MAX_SHRINE_PROT_TIME)
+				if (shrineProtCounter < MAX_SHRINE_PROT_TIME) {
 					shrineProtCounter++;
+					updateShrineProtWarningLevel();
+				}
 			}
 		}
+	}
+	
+	private void updateShrineProtWarningLevel() {
+		double warning = 1 -  (double) shrineProtCounter / MAX_SHRINE_PROT_TIME;
+		monster.safelySetWarningLevel(warning);
 	}
 	
 	protected void shrineProtectionDamage() {

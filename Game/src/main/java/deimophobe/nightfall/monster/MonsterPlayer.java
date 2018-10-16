@@ -149,6 +149,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		setTitle(ChatColor.GRAY, null, false);
 		clearInventory();
 		clearEffects();
+		clearWarning();
 		removeAllPoisons();
 		removeFire();
 		mobMenuShower.reset();
