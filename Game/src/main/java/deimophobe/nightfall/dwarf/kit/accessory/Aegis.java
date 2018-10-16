@@ -14,7 +14,7 @@ import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 public class Aegis extends AbstractPiece {
 	private static final int MAX_SHIELD = 3;
 	
-	private final Cooldown shieldRegen = new CompletionCooldown(5 * 20, this::regenShield);
+	private final Cooldown shieldRegen = new CompletionCooldown(7 * 20, this::regenShield);
 	
 	public Aegis(Dwarf dwarf) {
 		super(dwarf);
