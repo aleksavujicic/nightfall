@@ -1,10 +1,12 @@
 package deimophobe.nightfall.map;
 
+import com.google.common.base.Preconditions;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.VoidChunkGenerator;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.util.WeightedSet;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
@@ -16,6 +18,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,6 +27,10 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.logging.Logger;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Created by Deimophobe on 17/03/17.
@@ -40,10 +47,9 @@ public class MapManager {
 	private final File mapConfigFile;
 	private final File mapWorldFolder;
 	
-	private final Deque<String> mapQueue = new LinkedList<>();
+	private final Deque<MapWorld> mapQueue = new LinkedList<>();
 	
-	private final Map<String, File> maps = new HashMap<>();
-	private final Set<String> activeMaps = new HashSet<>();
+	private final Map<String, MapWorld> maps = new HashMap<>();
 	private boolean autocycle;
 	private int cycleTime;
 	
@@ -104,13 +110,8 @@ public class MapManager {
 		mapConfig.save(mapConfigFile);
 	}
 	
-	public Set<String> getMaps() {
-		return maps.keySet();
-	}
-	
 	public void reloadConfig() {
 		maps.clear();
-		activeMaps.clear();
 		mapQueue.clear();
 		
 		final Logger logger = NightfallPlugin.logger();
@@ -138,56 +139,59 @@ public class MapManager {
 		}
 		
 		for (String mapName : mapSection.getKeys(false)) {
+			// Get config section.
 			ConfigurationSection mapConfig = mapSection.getConfigurationSection(mapName);
 			if (mapConfig == null) {
 				logger.severe("Map with key '" + mapName +"' has invalid format in maps.yml.");
 				continue;
 			}
 			
+			// Get folder location and check it exists
 			String mapFilename = mapConfig.getString("folder");
 			if (mapFilename == null) {
 				logger.severe("No map folder given for key '" + mapName +"' in maps.yml.");
 				continue;
 			}
-			
 			File mapFile = new File(mapWorldFolder, mapFilename);
 			if (!mapFile.exists()) {
 				logger.severe("No map found in map folder with name '" + mapFilename +"' in maps.yml.");
 				continue;
 			}
 			
-			maps.put(mapName, mapFile);
+			// Get rotation
+			String rotationString = mapConfig.getString("rotation");
+			MapWorld.MapRotation rotation;
+			if (rotationString == null) {
+				rotation = MapWorld.MapRotation.DISABLED;
+				logger.warning("Map " + mapName + " has no rotation specified - assuming disabled.");
+			} else {
+				try {
+					rotation = Misc.getEnumMemberFromString(rotationString, MapWorld.MapRotation.values(), "map");
+				} catch (UnknownEnumElementException e) {
+					rotation = MapWorld.MapRotation.DISABLED;
+					logger.severe("Map " + mapName + " has unknown rotation '" + rotationString +"'. Setting to disabled.");
+				}
+			}
 			
-			boolean active = mapConfig.getBoolean("active", false);
-			if (active) activeMaps.add(mapName);
+			MapWorld mapWorld = new MapWorld(mapName, mapFile, rotation);
+			maps.put(mapName, mapWorld);
+			
 		}
 	}
 	
 	// ~~~~~ MAP QUEUEING ~~~~~
 	
 	/** Places map at tail of queue if valid map. */
-	public void enqueueMap(String map) {
-		if (maps.containsKey(map)) {
-			mapQueue.add(map);
-		} else {
-			throw new IllegalArgumentException("Tried to enqueue invalid map '" + map + "'.");
-		}
+	public void enqueueMap(MapWorld map) {
+		mapQueue.add(map);
 	}
 	
 	/** Places map at head of queue if valid map. */
-	public void insertMap(String map) {
-		if (maps.containsKey(map)) {
-			mapQueue.addFirst(map);
-		} else {
-			throw new IllegalArgumentException("Tried to insert invalid map '" + map + "'.");
-		}
+	public void insertMap(MapWorld map) {
+		mapQueue.addFirst(map);
 	}
 	
-	public boolean isMapActive(String map) {
-		return activeMaps.contains(map);
-	}
-	
-	public List<String> getMapQueue() {
+	public List<MapWorld> getMapQueue() {
 		return new ArrayList<>(mapQueue);
 	}
 	
@@ -195,26 +199,52 @@ public class MapManager {
 		mapQueue.clear();
 	}
 	
-	public String peekMap() {
+	public MapWorld peekMap() {
 		return mapQueue.peek();
 	}
 	
 	public void enqueueRandomMapIfEmpty() {
 		if (!mapQueue.isEmpty()) return;
 		
-		String mapName = getRandomMapString();
-		enqueueMap(mapName);
+		MapWorld map = getRandomActiveMap();
+		enqueueMap(map);
 	}
 	
-	private String getRandomMapString() {
-		if (activeMaps.size() <= 1) return Misc.getRandom(activeMaps);
-		if (Game.getGame() == null) return Misc.getRandom(activeMaps);
+	public Set<String> getMapNames() {
+		return maps.keySet();
+	}
+	
+	public Collection<MapWorld> getMaps() { return maps.values(); }
+	
+	public MapWorld getMap(@NotNull String name) {
+		checkNotNull(name);
+		checkArgument(maps.containsKey(name), "%s is not a valid map name", name);
 		
-		GameMap map = GameMap.getCurrentMap();
-		String current = map.getID();
-		Set<String> candidates = new HashSet<>(activeMaps);
-		candidates.remove(current);
-		return Misc.getRandom(candidates);
+		return maps.get(name);
+	}
+	
+	public MapWorld tryGetMap(@NotNull String name) {
+		return maps.get(name);
+	}
+	
+	private MapWorld getRandomActiveMap() {
+		// Get set of potential maps
+		Set<MapWorld> mapSet = new HashSet<>(maps.values());
+		mapSet.removeIf(map -> map.getRotation() == MapWorld.MapRotation.DISABLED);
+		
+		if (mapSet.size() == 0) throw new IllegalStateException("No active maps to load");
+		if (mapSet.size() == 1) return Misc.getRandom(mapSet);
+		
+		if (Game.getGame() != null) {
+			GameMap currentMap = GameMap.getCurrentMap();
+			if (currentMap != null) {
+				String current = currentMap.getID();
+				mapSet.removeIf(map -> map.getName().equalsIgnoreCase(current));
+			}
+		}
+		
+		WeightedSet<MapWorld> weightedMaps = new WeightedSet<>(mapSet);
+		return weightedMaps.getRandom();
 	}
 	
 	// ~~~~~ MAP LOADING ~~~~~
@@ -226,7 +256,7 @@ public class MapManager {
 			return loadDefaultMap();
 		}
 		
-		String nextMap = mapQueue.poll();
+		MapWorld nextMap = mapQueue.poll();
 		GameMap map;
 		if (nextMap == null) {
 			map = loadRandomMap();
@@ -246,20 +276,17 @@ public class MapManager {
 	}
 	
 	private GameMap loadRandomMap() {
-		String mapName = getRandomMapString();
-		return loadMap(mapName);
+		MapWorld map = getRandomActiveMap();
+		return loadMap(map);
 	}
 	
-	private GameMap loadMap(String name) {
+	private GameMap loadMap(MapWorld map) {
+		String name = map.getName();
 		NightfallPlugin.logger().info("Begin loading map " + name);
 		// Don't do anything if disabled
-		if (!enabled)
-			throw new IllegalStateException("Attempted to load map while map loading is disabled.");
+		checkState(enabled, "Attempted to load map while map loading is disabled.");
 		
-		if (!maps.containsKey(name))
-			throw new IllegalArgumentException("Attempted to load map '" + name + "' but it is not a map.");
-		
-		File mapFolder = maps.get(name);
+		File mapFolder = maps.get(name).getWorldLocation();
 		
 		World world = null;
 		try {

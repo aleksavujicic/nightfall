@@ -6,7 +6,8 @@ import deimophobe.nightfall.common.command.MessageUtil;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.MapManager;
-import net.md_5.bungee.api.chat.TextComponent;
+import deimophobe.nightfall.map.MapWorld;
+import net.md_5.bungee.api.chat.BaseComponent;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Deimophobe on 4/03/18.
@@ -22,13 +24,6 @@ import java.util.List;
 @CommandAlias("map")
 @CommandPermission("nightfall.command.map")
 public class MapCommand extends BaseCommand {
-	MapCommand() {
-		MessageUtil.addResolver(MapWrapper.class, mapWrapper -> {
-			TextComponent text = new TextComponent(mapWrapper.name);
-			text.setColor(net.md_5.bungee.api.ChatColor.GREEN);
-			return text;
-		});
-	}
 	
 	@Subcommand("setenabled")
 	@CommandCompletion("@boolean")
@@ -61,12 +56,12 @@ public class MapCommand extends BaseCommand {
 	@CommandPermission("nightfall.command.map.list")
 	@Description("Shows a list of all queued maps.")
 	public void onList(CommandSender sender) {
-		List<String> mapList = getMapManager().getMapQueue();
+		List<MapWorld> mapList = getMapManager().getMapQueue();
 		if (mapList.isEmpty()) {
 			MessageUtil.sendMessage(sender,"No maps queued.");
 		} else {
-			String maps = StringUtils.join(mapList, ChatColor.RESET + ", " + ChatColor.GREEN);
-			MessageUtil.sendMessage(sender,"Current map list: " + ChatColor.GREEN + maps);
+			BaseComponent text = MapWorld.formatListOfMaps(mapList);
+			MessageUtil.sendMessage(sender,"Current map queue: ", text);
 		}
 	}
 	
@@ -76,24 +71,15 @@ public class MapCommand extends BaseCommand {
 	@Description("Shows a list of maps on the server.")
 	public void onListAll(CommandSender sender) {
 		MapManager manager = getMapManager();
-		List<String> mapList = new ArrayList<>(manager.getMaps());
+		List<MapWorld> mapList = new ArrayList<>(manager.getMaps());
 		Collections.sort(mapList);
 		
-		StringBuilder mapListBuilder = new StringBuilder();
-		for (String map : mapList) {
-			if (manager.isMapActive(map)) {
-				mapListBuilder.append(ChatColor.GREEN.toString());
-			} else {
-				mapListBuilder.append(ChatColor.GRAY.toString());
-			}
-			mapListBuilder.append(map)
-					.append(ChatColor.RESET.toString())
-					.append(", ");
-		}
-		int length = mapListBuilder.length();
-		if (length > 0) mapListBuilder.setLength(length - 2);
+		BaseComponent text = MapWorld.formatListOfMaps(mapList);
+//		String mapString = mapList.stream()
+//				.map(MapWorld::getPrettyString)
+//				.collect(Collectors.joining(ChatColor.RESET + ", "));
 		
-		MessageUtil.sendMessage(sender, "All maps: " + mapListBuilder.toString());
+		MessageUtil.sendMessage(sender, "All maps: ", text);
 	}
 	
 	@Subcommand("clear")
@@ -112,8 +98,8 @@ public class MapCommand extends BaseCommand {
 	public void onNext(CommandSender sender) {
 		MapManager mapManager = getMapManager();
 		mapManager.enqueueRandomMapIfEmpty();
-		String mapName = mapManager.peekMap();
-		MessageUtil.sendMessage(sender, "Starting new game. Map will be: ", new MapWrapper(mapName));
+		MapWorld map = mapManager.peekMap();
+		MessageUtil.sendMessage(sender, "Starting new game. Map will be: ", map);
 		Game.createNewGame();
 	}
 	
@@ -122,9 +108,9 @@ public class MapCommand extends BaseCommand {
 	@CommandCompletion("@maps")
 	@CommandPermission("nightfall.command.map.queue")
 	@Description("Queues the next playable map.")
-	public void onQueue(CommandSender sender, @Conditions("map") String map) {
+	public void onQueue(CommandSender sender, MapWorld map) {
 		getMapManager().enqueueMap(map);
-		MessageUtil.sendMessage(sender, "Successfully queued map ", new MapWrapper(map));
+		MessageUtil.sendMessage(sender, "Successfully queued map ", map);
 	}
 	
 	@Subcommand("load|play")
@@ -132,9 +118,9 @@ public class MapCommand extends BaseCommand {
 	@CommandCompletion("@maps")
 	@CommandPermission("nightfall.command.map.load")
 	@Description("Loads a specified map.")
-	public void onLoad(CommandSender sender, @Conditions("map") String map) {
+	public void onLoad(CommandSender sender, MapWorld map) {
 		getMapManager().insertMap(map);
-		MessageUtil.sendMessage(sender, "Starting new game on map ", new MapWrapper(map));
+		MessageUtil.sendMessage(sender, "Starting new game on map ", map);
 		Game.createNewGame();
 	}
 	
@@ -146,18 +132,10 @@ public class MapCommand extends BaseCommand {
 	@Description("Displays the current map.")
 	public void currentMap(CommandSender sender) {
 		String name = GameMap.getCurrentMap().getName();
-		MessageUtil.sendMessage(sender, "Current map is: ", new MapWrapper(name));
+		MessageUtil.sendMessage(sender, "Current map is: ", ChatColor.GREEN + name);
 	}
 	
 	private MapManager getMapManager() {
 		return MapManager.getManager();
-	}
-	
-	private static class MapWrapper {
-		private final String name;
-		
-		private MapWrapper(String name) {
-			this.name = name;
-		}
 	}
 }

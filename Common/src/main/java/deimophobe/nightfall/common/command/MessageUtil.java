@@ -31,6 +31,8 @@ public class MessageUtil {
 	
 	static void initialise() {
 		addResolver(String.class, TextComponent::new);
+		addResolver(BaseComponent.class, arg -> arg);
+		
 		addPrimitiveResolver(int.class, arg -> arg >= 0);
 		addPrimitiveResolver(long.class, arg -> arg >= 0);
 		addPrimitiveResolver(double.class, arg -> arg >= 0);

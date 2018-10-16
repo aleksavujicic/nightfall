@@ -21,6 +21,7 @@ import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.game.*;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.map.MapManager;
+import deimophobe.nightfall.map.MapWorld;
 import deimophobe.nightfall.monster.*;
 import deimophobe.nightfall.monster.ai.AIType;
 import deimophobe.nightfall.monster.doom.DoomType;
@@ -108,7 +109,7 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("mobcreators", c -> SpawnRegistry.getRegistry().getValidCreators(c.getSender()));
 		completions.registerCompletion("spawneggs", c -> MonsterManager.getManager().getEggNames());
 		completions.registerCompletion("items", c -> ItemManager.getManager().getNames());
-		completions.registerCompletion("maps", c -> MapManager.getManager().getMaps());
+		completions.registerCompletion("maps", c -> MapManager.getManager().getMapNames());
 		
 		completions.registerCompletion("kitpieces", c -> {
 			Collection<String> pieces = KitPieceType.getPieceNames();
@@ -239,6 +240,12 @@ public class CommandInitialiserUtil {
 				context -> MonsterManager.getManager().getEggNames(),
 				"spawn egg", true
 		));
+		
+		contexts.registerContext(MapWorld.class, getPrettyResolver(
+				name -> MapManager.getManager().tryGetMap(name),
+				context -> MapManager.getManager().getMapNames(),
+				"map", true
+		));
 	}
 	
 	private static void registerConditions(BukkitCommandManager commandManager) {
@@ -254,10 +261,6 @@ public class CommandInitialiserUtil {
 				throw new ConditionFailedException("Dwarf must have regular dwarven armour.");
 			if (dwarf.getArmour().isArmoured())
 				throw new ConditionFailedException("Dwarf must not have any armour equipped.");
-		});
-		conditions.addCondition(String.class, "map", (context, execContext, map) -> {
-			if (!MapManager.getManager().getMaps().contains(map))
-				throw new ConditionFailedException("String must be a valid map.");
 		});
 		conditions.addCondition(Player.class, "lobby", (context, execContext, player) -> {
 			if (!Game.getGame().isLobbyPlayer(player))
@@ -346,6 +349,8 @@ public class CommandInitialiserUtil {
 			text.setColor(net.md_5.bungee.api.ChatColor.GREEN);
 			return text;
 		});
+		
+		MessageUtil.addResolver(MapWorld.class, MapWorld::getClickableText);
 	}
 	
 	
