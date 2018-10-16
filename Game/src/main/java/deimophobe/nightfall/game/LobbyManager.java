@@ -456,6 +456,8 @@ public class LobbyManager implements Manager {
 			removeLobbyPlayer(player);
 			
 			readyDisplay.removePlayer(player);
+			
+			checkPlayerCount();
 		}
 	}
 }
