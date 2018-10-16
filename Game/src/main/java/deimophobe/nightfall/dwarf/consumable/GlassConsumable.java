@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
  * Created by Deimophobe on 4/05/18.
  */
 class GlassConsumable extends Consumable {
+	private static final ConsumeResult OPENED_MENU = new ConsumeResult(null, false, 20);
 	
 	GlassConsumable(String name) {
 		super(name);
@@ -24,6 +25,7 @@ class GlassConsumable extends Consumable {
 	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
 		if (click.isLeftClick() && !BlockType.FURNACE.matchesBlock(clickedBlock) && !BlockType.GLASS.matchesBlock(clickedBlock)) {
 			MenuManager.getManager().startSession(ColourMenu.class, dwarf.getPlayer());
+			return OPENED_MENU;
 		}
 		return ConsumeResult.FAILURE;
 	}
