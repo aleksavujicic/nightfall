@@ -15,6 +15,7 @@ import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
+import deimophobe.nightfall.game.entity.ShieldSource;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.potion.PotionEffectType;
@@ -52,7 +53,7 @@ public class Resurrection extends AbstractPiece {
 					armour.repair(1000);
 					dwarf.regenMana(1000);
 					dwarf.healMax();
-					dwarf.addShields(4);
+					dwarf.addMaxShields(ShieldSource.RESURRECTION);
 					dwarf.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 5 * 20, 5, true, false, true);
 					dwarf.givePotionEffect(PotionEffectType.REGENERATION, 8 * 20, 4, true, false, false);
 					dwarf.giveProc(ProcType.RESURRECTION);

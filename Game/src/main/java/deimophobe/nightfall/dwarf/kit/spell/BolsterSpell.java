@@ -4,6 +4,7 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.LifetimeExpireable;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.game.entity.ShieldSource;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -32,7 +33,7 @@ class BolsterSpell implements Spell {
 			if (dwarf.distanceTo(target) > RANGE) continue;
 			
 //			target.givePotionEffect(PotionEffectType.HEALTH_BOOST, 60*20, 3, true, false, false);
-			target.addShieldsMax(3, 10);
+			target.addMaxShields(ShieldSource.BOLSTER);
 			target.playSound("entity.player.levelup", 1f, 1f, false);
 			
 			

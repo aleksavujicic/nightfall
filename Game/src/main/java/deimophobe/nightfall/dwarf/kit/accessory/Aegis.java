@@ -7,6 +7,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.game.entity.ShieldSource;
 
 /**
  * Created by Deimophobe on 6/10/18.
@@ -34,8 +35,8 @@ public class Aegis extends AbstractPiece {
 	}
 	
 	private void regenShield() {
-		dwarf.addShieldsMax(1, MAX_SHIELD);
-		if (dwarf.getNumberOfShields() < MAX_SHIELD) {
+		dwarf.addShields(ShieldSource.AEGIS, 1);
+		if (!dwarf.isShieldSourceMaxed(ShieldSource.AEGIS)) {
 			shieldRegen.reset();
 		}
 	}

@@ -252,9 +252,7 @@ public class MiscCommands extends BaseCommand {
 			if (gp == null) {
 				NMSUtil.setNumberAbsorptionHearts(player, 0);
 			} else {
-				int shield = gp.getNumberOfShields();
-				gp.setShields(shield + 1);
-				gp.setShields(shield);
+				gp.resetShieldCount();
 			}
 			MessageUtil.sendMessage(player, "Reset number of absorption hearts.");
 		}

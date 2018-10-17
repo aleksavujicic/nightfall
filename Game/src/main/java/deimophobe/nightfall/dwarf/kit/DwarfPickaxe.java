@@ -14,6 +14,7 @@ import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.effects.GameEffect;
 import deimophobe.nightfall.effects.sound.Sounds;
+import deimophobe.nightfall.game.entity.ShieldSource;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -136,7 +137,7 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 				}
 				
 				case DIAMOND_ORE: {
-					dwarf.addShieldsMax(1, 1);
+					dwarf.addMaxShields(ShieldSource.DIAMOND_ORE);
 					GameEffect.DIAMOND_MINE.playEffect(dwarf, block);
 					break;
 				}

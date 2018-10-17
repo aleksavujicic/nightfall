@@ -15,6 +15,7 @@ import deimophobe.nightfall.dwarf.hero.HeroType;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.entity.ShieldSource;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -177,14 +178,14 @@ public class DwarfCommand extends BaseCommand {
 		});
 	}
 	
-	@Subcommand("shield")
+	@Subcommand("shield-info")
 	@CommandCompletion("@dwarves")
 	@CommandPermission("nightfall.command.dwarf.shield")
 	@Description("Get the amount of shields a dwarf has.")
 	public void shield(CommandSender sender, DwarfIterable dwarves) {
 		dwarves.forEach(dwarf -> {
-			int shields = dwarf.getNumberOfShields();
-			MessageUtil.sendMessage(sender, "Dwarf ", dwarf, " has ", shields, " shield(s).");
+			String shields = dwarf.shieldInfo();
+			MessageUtil.sendMessage(sender, "Dwarf ", dwarf, " has the following shield(s):\n", shields);
 		});
 	}
 	
@@ -194,7 +195,7 @@ public class DwarfCommand extends BaseCommand {
 	@Description("Get the amount of shields a dwarf has.")
 	public void shield(CommandSender sender, DwarfIterable dwarves, int amount) {
 		dwarves.forEach(dwarf -> {
-			dwarf.addShields(amount);
+			dwarf.addShields(ShieldSource.COMMAND, amount);
 			MessageUtil.sendMessage(sender, "Gave ", dwarf, " an extra ", amount, " shield(s).");
 		});
 	}

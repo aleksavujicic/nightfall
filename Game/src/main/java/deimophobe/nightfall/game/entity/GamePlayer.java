@@ -48,6 +48,8 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
@@ -57,7 +59,6 @@ import static com.google.common.base.Preconditions.checkState;
  */
 public abstract class GamePlayer extends AbstractGameEntity<Player> implements GameEntityShooter<Player> {
 	protected Player player;
-	private int shields;
 	protected GamePlayer(Player player) {
 		super(player);
 		
@@ -74,6 +75,12 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		NMSUtil.setNumberAbsorptionHearts(player, 0);
 		
 		initialiseWarnings();
+		
+		// Initialise shields
+		shields = new TreeMap<>();
+		for (ShieldSource source : ShieldSource.values()) {
+			shields.put(source, 0);
+		}
 	}
 	
 	@Override
@@ -433,46 +440,52 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	
 	
 	// ------ SHIELDS ------
+	private final SortedMap<ShieldSource, Integer> shields;
 	
-	public void addShields(int number) {
+	public void addShields(ShieldSource source, int number) {
 		checkArgument(number > 0, "Number of shields to add must be positive (got %s).", number);
-		shields += number;
+		int max = source.getMaxHearts();
+		shields.merge(source, number, (old, _new) -> Math.min(old + _new, max));
 		updateShieldCount();
 	}
 	
-	public void addShieldsMax(int number, int max) {
-		checkArgument(number > 0, "Number of shields to add must be positive (got %s).", number);
-		checkArgument(max > 0, "Max number of shields to add must be positive (got %s).", number);
-		if (shields > max) return;
-		
-		shields += number;
-		shields = Math.min(shields, max);
-		updateShieldCount();
+	public void addMaxShields(ShieldSource source) {
+		addShields(source, source.getMaxHearts());
 	}
 	
 	public void removeShields(int number) {
 		checkArgument(number > 0, "Number of shields to remove must be positive (got %s).", number);
-		shields = Math.max(0, shields - number);
+		
+		MutableInt toRemoveBox = new MutableInt(number);
+		shields.replaceAll((source, old) -> {
+			int toRemoveTotal = toRemoveBox.toInteger();
+			if (toRemoveTotal == 0) return old;
+			
+			int toRemoveFromSource = Math.min(toRemoveTotal, old);
+			toRemoveBox.subtract(toRemoveFromSource);
+			return old - toRemoveFromSource;
+		});
 		updateShieldCount();
 	}
 	
 	public void removeAllShields() {
-		shields = 0;
+		shields.replaceAll((source, integer) -> 0);
 		updateShieldCount();
 	}
 	
-	public int getNumberOfShields() {
-		return shields;
+	public boolean isShieldSourceMaxed(ShieldSource source) {
+		return shields.get(source) == source.getMaxHearts();
 	}
 	
-	public void setShields(int number) {
-		checkArgument(number >= 0, "Number of shields to set must be non-negative (got %s).", number);
-		shields = number;
-		updateShieldCount();
+	private int getNumberOfShields() {
+		return shields.values()
+				.stream()
+				.mapToInt(Number::intValue)
+				.sum();
 	}
 	
 	protected boolean shieldDamage(GameDamage<?,?> damage) {
-		if (shields == 0) return false;
+		if (getNumberOfShields() == 0) return false;
 		
 		damage.addPreDamageHandler(PreDamagePriority.SHIELDS, () -> {
 			damage.softCancel();
@@ -490,7 +503,25 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	}
 	
 	private void updateShieldCount() {
-		NMSUtil.setNumberAbsorptionHearts(player, shields*2);
+		NMSUtil.setNumberAbsorptionHearts(player, getNumberOfShields()*2);
+	}
+	
+	public void resetShieldCount() {
+		NMSUtil.setNumberAbsorptionHearts(player, getNumberOfShields()*2 + 1);
+		updateShieldCount();
+	}
+	
+	public String shieldInfo() {
+		StringBuilder sb = new StringBuilder("Shields: [");
+		for (Map.Entry<ShieldSource, Integer> entry : shields.entrySet()) {
+			sb.append(entry.getKey())
+					.append("=")
+					.append(entry.getValue())
+					.append(", ");
+		}
+		sb.setLength(sb.length() - 2);
+		sb.append("]");
+		return sb.toString();
 	}
 	
 	

@@ -4,6 +4,7 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.ArmourPiece;
+import deimophobe.nightfall.game.entity.ShieldSource;
 
 /**
  * Created by Deimophobe on 4/10/18.
@@ -27,6 +28,6 @@ public class ShieldAle extends AbstractAle implements ArmourPiece {
 	protected void heal() {
 		super.heal();
 		
-		dwarf.addShieldsMax(4, 4);
+		dwarf.addMaxShields(ShieldSource.SHIELD_ALE);
 	}
 }
