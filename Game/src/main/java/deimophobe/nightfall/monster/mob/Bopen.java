@@ -5,6 +5,7 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
+import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
@@ -15,6 +16,23 @@ import org.bukkit.util.Consumer;
 /**
  * Created by Deimophobe on 15/03/17.
  */
+// Example of possible MobMeta interface - not implemented yet
+@MobMeta(
+		title = "Bopen",
+		forceTitle = true,
+		
+		disguiseType = DisguiseType.WITHER_SKELETON,
+		
+		attack = 40,
+		health = 100,
+		speed = 10,
+		armourShred = 30,
+		
+		proccable = false,
+		damageRes = 0.85,
+		arrowRes = 0.5,
+		shrineProtDamage = 400
+)
 public class Bopen extends AbstractMob {
 	
 	private static final Consumer<SkeletonHorse> HORSE_INITIALISER = (horse) -> {
