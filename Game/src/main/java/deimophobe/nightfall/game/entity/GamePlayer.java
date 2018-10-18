@@ -20,6 +20,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.PreDamagePriority;
 import deimophobe.nightfall.damage.death.DeathMessageMaker;
 import deimophobe.nightfall.damage.death.LastMainDamage;
+import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.effects.sound.Sounds;
@@ -493,7 +494,9 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 //			givePotionEffect(PotionEffectType.GLOWING, 30, 1, false, false, false);
 		});
 		damage.addPostDamageHandler(() -> {
-			if (damage.getType() == GameDamageType.POISON) removeAllPoisons();
+			if (damage.getType() == GameDamageType.POISON) {
+				if (getPoisonType() != PoisonType.LIGHTING_PLAGUE) removeAllPoisons();
+			}
 			if (damage.getType() == GameDamageType.FIRE) removeFire();
 			removeShields(1);
 			

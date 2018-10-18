@@ -4,6 +4,7 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.dot.DamageOverTimeType;
+import deimophobe.nightfall.damage.dot.PoisonTranslator;
 import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.util.Util;
 import me.libraryaddict.disguise.DisguiseAPI;
@@ -270,6 +271,18 @@ public interface GameEntity<E extends LivingEntity> {
 //	@Deprecated
 	default void givePermanentPoison(PoisonType type) {
 		givePoison(type, MAX_POTION_LENGTH);
+	}
+	
+	default PoisonType getPoisonType() {
+		PoisonTranslator translator = PoisonTranslator.getTranslator(PotionEffectType.WITHER);
+		int level = getPotionEffectLevel(PotionEffectType.WITHER);
+		if (level != 0) return translator.getPoisonFromLevel(level);
+		
+		PoisonTranslator translator2 = PoisonTranslator.getTranslator(PotionEffectType.POISON);
+		int level2 = getPotionEffectLevel(PotionEffectType.POISON);
+		if (level2 != 0) return translator2.getPoisonFromLevel(level2);
+		
+		return null;
 	}
 	
 //	@Deprecated
