@@ -8,6 +8,7 @@ import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.JumpPad;
 import deimophobe.nightfall.blocks.timedblock.TurretBlock;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.ExpiryStore;
@@ -281,7 +282,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	public void giveArrow() { giveArrows(1); }
 	public void giveArrows(int amt) {
 		arrows += amt;
-		if (arrows > maxArrows) arrows = maxArrows;
+		arrows = Misc.boundValue(arrows, 0, maxArrows);
 		
 		updateArrowDisplay();
 	}
