@@ -38,6 +38,8 @@ public class VolcanicGauntlet extends AbstractBow {
 	private static final double PARTICLE_OFFSET = THICKNESS/10;
 	private static final double AOE_RADIUS = 1.5;
 	
+	private static final int COST = 2;
+	
 	
 	private static final HitscanBuilder HITSCAN_BUILDER = HitscanBuilder.aHitscan()
 			.withThickness(THICKNESS)
@@ -48,8 +50,8 @@ public class VolcanicGauntlet extends AbstractBow {
 	@Override
 	public Projectile onBowFire(Projectile arrow, float force) {
 		if (force < 0.5) return null;
-		if (!dwarf.hasArrows(3)) return null;
-		dwarf.useArrows(3);
+		if (!dwarf.hasArrows(COST)) return null;
+		dwarf.useArrows(COST);
 		
 		double force2 = force*force;
 		double range = MAX_RANGE * force2;
