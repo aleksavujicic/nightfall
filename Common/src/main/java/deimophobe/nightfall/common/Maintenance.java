@@ -94,6 +94,7 @@ public class Maintenance {
 		
 		maintenanceBar = Bukkit.createBossBar(ChatColor.RED + "Maintenance Mode Is Enabled", BarColor.RED, BarStyle.SOLID);
 		
+		
 		enabled = plugin.getConfig().getBoolean(CONFIG_PATH, false);
 		setEnabled(enabled);
 	}
@@ -111,9 +112,11 @@ public class Maintenance {
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				maintenanceBar.addPlayer(player);
 			}
+			messageMaintainers("" + ChatColor.RED + ChatColor.BOLD + "Maintenance mode is now enabled.");
 		} else {
 			pm.removePacketListener(serverListAdapter);
 			maintenanceBar.removeAll();
+			messageMaintainers("" + ChatColor.RED + ChatColor.BOLD + "Maintenance mode is now disabled.");
 		}
 		
 		plugin.getConfig().set(CONFIG_PATH, enabled);
@@ -122,6 +125,10 @@ public class Maintenance {
 	
 	public boolean hasPermission(Permissible permissible) {
 		return permissible.hasPermission(JOIN_PERMISSION);
+	}
+	
+	private void messageMaintainers(String message) {
+		Bukkit.broadcast(message, JOIN_PERMISSION);
 	}
 	
 	
