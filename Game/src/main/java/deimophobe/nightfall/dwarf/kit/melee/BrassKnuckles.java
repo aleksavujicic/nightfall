@@ -75,10 +75,6 @@ public class BrassKnuckles extends AbstractItem implements CooldownPiece {
 					damage.cancel();
 					//Damage for Empowered Strike
 					damage.getReceiver().doDamage(dwarf,GameDamageType.EMPOWERED_STRIKE,strikeDamage);
-					//Apply knockback
-
-					//Temporary fix until I figure out why it's not registering
-					//damage.getMultiPartDamage().timesMult(4);
 					//Turn off Empowered Strike after one hit.  Might take this off since it is only 5 seconds anyway...
 					strikeReset();
 				}
@@ -181,7 +177,7 @@ public class BrassKnuckles extends AbstractItem implements CooldownPiece {
 		strikeTime = 0;
 	}
 
-//Shows time left in Flurry of Blows, Empowered Strike, and CD time.
+//Shows time left in Flurry of Blows, Empowered Strike, and CD time-----------------------------------------------------
 	@Override
 	public float getCooldown() {
 		if(flurryTime > 0){
