@@ -705,6 +705,10 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 				}
 			});
 		}
+		
+		if (damage.getType().isArrow() && Game.getGame().isCurseActive(Curse.FATIGUE)) {
+			damage.getMultiPartDamage().timesMult(0.7);
+		}
 	}
 	
 	@Override
