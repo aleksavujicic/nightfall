@@ -155,6 +155,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		mobMenuShower.reset();
 		cancelSeppuku();
 		removeAllShields();
+		resetLastMainDamage();
 		
 		player.setAllowFlight(true);
 		player.setGameMode(GameMode.SPECTATOR);

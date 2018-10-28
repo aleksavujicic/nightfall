@@ -439,6 +439,11 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		return getDisplayName();
 	}
 	
+	protected void resetLastMainDamage() {
+		lastMainDamage = null;
+		deathMessageMaker = DeathMessageMaker.DIED_MESSAGE;
+	}
+	
 	
 	// ------ SHIELDS ------
 	private final SortedMap<ShieldSource, Integer> shields;
