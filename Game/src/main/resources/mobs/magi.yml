@@ -49,7 +49,7 @@ fire:
        - ""
     modifiers:
       burning: 3
-      knockback: 2
+      knockback: 1
 
   sounds:
     bat-idle:
@@ -85,7 +85,7 @@ thunder:
 
   skin: magi-thunder
 
-  speed: 15
+  speed: 10
 
   weapon:
     template: monster-hero
@@ -98,7 +98,7 @@ thunder:
       flavour:
        - ""
     modifiers:
-      knockback: 3
+      knockback: 2
 
   sounds:
     punch:
