@@ -26,6 +26,7 @@ public class VoidSaver extends AbstractPiece {
 		
 		if (Game.getGame().potionsDisabled()) return;
 		if (Game.getGame().getPhase() == Phase.PLAGUE) return;
+		if (Game.getGame().getPhase() == Phase.BUILD) return;
 		if (damage.getType() != GameDamageType.VOID) return;
 		
 		damage.addPreDamageHandler(PreDamagePriority.VOID_SAVER, () -> {
