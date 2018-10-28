@@ -14,6 +14,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 import org.bukkit.util.Vector;
 
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+
 /**
  * Created by Deimophobe on 29/03/18.
  */
@@ -42,11 +45,6 @@ public class TempestDoom extends AnnotatedDoom {
 			this.world = GameMap.getCurrentMap().getWorld();
 			
 			world.setStorm(true);
-		}
-		
-		@Override
-		public void update() {
-			super.update();
 			
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				Location feet = player.getLocation().add(0, 0.5, 0);
@@ -60,36 +58,72 @@ public class TempestDoom extends AnnotatedDoom {
 				player.playSound(feet, "weather.rain", 100f, 0.5f);
 				player.playSound(feet, "item.elytra.flying", 100f, 0.5f);
 			}
+		}
+		
+		@Override
+		public void update() {
+			super.update();
 			
 			for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 				if (Math.random() < 0.004) strike(dwarf);
-				if (Math.random() < 0.01) woosh(dwarf);
-				
-				if (Math.random() < 0.0025) {
-					Location strikeLocation = Misc.randomLocation(dwarf.getLocation(), 30, 5, 30);
-					world.strikeLightningEffect(strikeLocation);
-				}
 			}
+			
+			if (Math.random() < 0.025) {
+				Player randomPlayer = Misc.getRandom(Bukkit.getOnlinePlayers());
+				if (randomPlayer == null) return;
+				
+				Location strikeLocation = Misc.randomLocation(randomPlayer.getLocation(), 30, 5, 30);
+				world.strikeLightningEffect(strikeLocation);
+			}
+			
+			
+			if (!everyNTicks(2)) return;
+			doAtAllPlayers(
+					(player, feet) -> player.playSound(feet, "entity.silverfish.step", 0.8f, 1f)
+			);
+			
+			if (!everyNTicks(6)) return;
+			doAtAllPlayers((player, feet) -> {
+				player.spawnParticle(Particle.BLOCK_CRACK, feet, 50, 5, 4, 5, 0, new MaterialData(Material.LAPIS_BLOCK));
+				player.spawnParticle(Particle.BLOCK_CRACK, feet, 50, 5, 4, 5, 0, new MaterialData(Material.WOOL, (byte) 11));
+				player.spawnParticle(Particle.BLOCK_CRACK, feet, 50, 5, 4, 5, 0, new MaterialData(Material.CONCRETE_POWDER, (byte) 11));
+				player.spawnParticle(Particle.SMOKE_NORMAL, feet, 50, 5, 4, 5, 0);
+			});
+			
+			if (!everyNTicks(20)) return;
+			doAtAllPlayers(
+					(player, feet) -> player.playSound(feet, "weather.rain", 100f, 0.5f)
+			);
+			
+			if (!everyNTicks(100)) return;
+			doAtAllPlayers(
+					(player, feet) -> player.playSound(feet, "item.elytra.flying", 100f, 0.5f)
+			);
 		}
 		
 		@Override
 		public void onExpiry() {
 			super.onExpiry();
 			world.setStorm(false);
+			
+			doAtAllPlayers(
+					(player, feet) -> player.stopSound("item.elytra.flying")
+			);
 		}
 		
 		private void strike(Dwarf target) {
 			world.strikeLightningEffect(target.getLocation());
 			
-			DwarfDamage damage = target.createDamage(null, GameDamageType.TEMPORARY, 20);
-			damage.addArmourShred(100);
+			DwarfDamage damage = target.createDamage(null, GameDamageType.TEMPORARY, 30);
+			damage.addArmourShred(75);
 			damage.fire(true);
 		}
 		
-		private void woosh(Dwarf dwarf) {
-			Vector fly = Misc.randomVector(-1, 0, -1, 1, 0.3, 1);
-			dwarf.setVelocity(fly);
-			dwarf.playSound("entity.player.attack.sweep", 1f, 0.5f, true);
+		private void doAtAllPlayers(BiConsumer<Player, Location> doer) {
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				Location feet = player.getLocation().add(0, 0.5, 0);
+				doer.accept(player, feet);
+			}
 		}
 	}
 }
