@@ -3,8 +3,12 @@ package deimophobe.nightfall;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.google.common.base.Preconditions;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * Created by Deimophobe on 17/01/18.
@@ -16,18 +20,20 @@ public class PlayerSkin {
 	private final boolean showAll;
 	
 	
-	public PlayerSkin(String name, String skinName) {
+	public PlayerSkin(@NotNull String name, String skinName) {
 		this(name, Skin.getSkin(skinName));
 	}
-	public PlayerSkin(String name, Skin skin) {
+	public PlayerSkin(@NotNull String name, Skin skin) {
 		this(name, skin, true, name);
 	}
-	public PlayerSkin(String name, Skin skin, boolean showAll, String tabName) {
-			this.nametag = name;
-			this.skin = skin;
-			this.tabName = tabName;
-			this.showAll = showAll;
-		}
+	public PlayerSkin(@NotNull String name, Skin skin, boolean showAll, String tabName) {
+		checkArgument(name.length() <= 16, "Name '%s' has too many characters. Must be at most 16 but got '%s'", name, name.length());
+		
+		this.nametag = name;
+		this.skin = skin;
+		this.tabName = tabName;
+		this.showAll = showAll;
+	}
 	
 	
 	PlayerInfoData getNewPlayerInfoData(PlayerInfoData oldData, boolean toSelf) {

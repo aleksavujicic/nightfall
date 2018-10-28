@@ -4,9 +4,9 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.InvalidCommandArgument;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.contexts.OnlinePlayer;
-import deimophobe.nightfall.ColourMenu;
-import deimophobe.nightfall.WhoEntry;
+import deimophobe.nightfall.*;
 import deimophobe.nightfall.command.iterable.GamePlayerIterable;
+import deimophobe.nightfall.command.iterable.PlayerIterable;
 import deimophobe.nightfall.common.command.MessageUtil;
 import deimophobe.nightfall.common.menu.MenuManager;
 import deimophobe.nightfall.common.util.NMSUtil;
@@ -300,11 +300,45 @@ public class MiscCommands extends BaseCommand {
 	
 	@CommandAlias("border")
 	@CommandPermission("nightfall.command.border")
-	@Description("Set the border 'warning leve'.")
+	@Description("Set the border 'warning level'.")
 	public void border(CommandSender sender, GamePlayerIterable gamePlayers, double warningLevel) {
 		gamePlayers.forEach(gp -> {
 			gp.setWarningLevel(warningLevel);
 			MessageUtil.sendMessage(sender, "Set warning level of ", gp, " to ", warningLevel, ".");
 		});
+	}
+	
+	
+	@CommandAlias("skin")
+	@CommandPermission("nightfall.command.skin")
+	private class SkinCommand extends BaseCommand {
+		
+		@CommandAlias("set")
+		@CommandCompletion("@players @nothing @skins")
+		@CommandPermission("nightfall.command.skin.set")
+		@Description("Set a skin for a player.")
+		public void skin(CommandSender sender, PlayerIterable players, String name, Skin skin) throws InvalidCommandArgument {
+			SkinManager manager = SkinManager.getManager();
+			String colouredName = ChatColor.translateAlternateColorCodes('&', name);
+			if (colouredName.length() > 16) throw new InvalidCommandArgument("Name is has too many characters (must be at most 16).");
+			
+			PlayerSkin playerSkin = new PlayerSkin(colouredName, skin);
+			players.forEach(player -> {
+				manager.addSkinChange(player, playerSkin);
+				MessageUtil.sendMessage(sender, "Changed ", player, "'s skin to ", skin, ".");
+			});
+		}
+		
+		@CommandAlias("remove")
+		@CommandCompletion("@players")
+		@CommandPermission("nightfall.command.skin.remove")
+		@Description("Remove a player's skin.")
+		public void skin(CommandSender sender, PlayerIterable players) {
+			SkinManager manager = SkinManager.getManager();
+			players.forEach(player -> {
+				manager.removeSkinChange(player);
+				MessageUtil.sendMessage(sender, "Remove ", player, "'s skin.");
+			});
+		}
 	}
 }

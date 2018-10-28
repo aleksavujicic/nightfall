@@ -6,6 +6,8 @@ import co.aikar.commands.contexts.IssuerAwareContextResolver;
 import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.Skin;
+import deimophobe.nightfall.SkinManager;
 import deimophobe.nightfall.command.iterable.*;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.command.MessageUtil;
@@ -110,6 +112,7 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("spawneggs", c -> MonsterManager.getManager().getEggNames());
 		completions.registerCompletion("items", c -> ItemManager.getManager().getNames());
 		completions.registerCompletion("maps", c -> MapManager.getManager().getMapNames());
+		completions.registerCompletion("skins", c -> Skin.getSkinNames());
 		
 		completions.registerCompletion("kitpieces", c -> {
 			Collection<String> pieces = KitPieceType.getPieceNames();
@@ -246,6 +249,12 @@ public class CommandInitialiserUtil {
 				context -> MapManager.getManager().getMapNames(),
 				"map", true
 		));
+		
+		contexts.registerContext(Skin.class, getPrettyResolver(
+				name -> Skin.tryGetSkin(name),
+				context -> Skin.getSkinNames(),
+				"map", true
+		));
 	}
 	
 	private static void registerConditions(BukkitCommandManager commandManager) {
@@ -345,6 +354,11 @@ public class CommandInitialiserUtil {
 			return text;
 		});
 		MessageUtil.addResolver(MobCreator.class, arg -> {
+			TextComponent text = new TextComponent(arg.getName());
+			text.setColor(net.md_5.bungee.api.ChatColor.GREEN);
+			return text;
+		});
+		MessageUtil.addResolver(Skin.class, arg -> {
 			TextComponent text = new TextComponent(arg.getName());
 			text.setColor(net.md_5.bungee.api.ChatColor.GREEN);
 			return text;
