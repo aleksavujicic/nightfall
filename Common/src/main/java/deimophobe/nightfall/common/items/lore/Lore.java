@@ -65,7 +65,7 @@ public class Lore implements Cloneable {
 		for (String error : errors) {
 			error = "" + ChatColor.RED + ChatColor.BOLD  + "ERROR: " + ChatColor.RED + error;
 			boolean firstLine = true;
-			for (String line : WordUtils.wrap(error, 40).split("\n")) {
+			for (String line : WordUtils.wrap(error, 60).split("\n")) {
 				if (firstLine) {
 					lore.add(line);
 					firstLine = false;
