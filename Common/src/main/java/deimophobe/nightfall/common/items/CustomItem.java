@@ -9,25 +9,29 @@ import deimophobe.nightfall.common.items.base.SimpleBaseItem;
 import deimophobe.nightfall.common.items.lore.Lore;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
+import io.netty.handler.logging.LogLevel;
 import minecraft.spigot.community.michel_0.api.ItemAttributes;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.logging.Level;
 
 /**
  * Created by Deimophobe on 15/04/17.
  */
 public class CustomItem implements Cloneable, ItemMatcher {
 	
-	private BaseItem base;
+	private final BaseItem base;
+	private final Map<String, BaseItem> variants;
 	private final Lore lore;
 	private final List<String> errors;
 	private final SortedMap<ItemModifierType, Map<String, Integer>> modifiers;
@@ -39,8 +43,9 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		this.shiny = shiny;
 	}
 	
-	public CustomItem(BaseItem base, Lore lore, List<String> errors, SortedMap<ItemModifierType, Map<String, Integer>> modifiers, boolean bound, boolean shiny) {
+	public CustomItem(BaseItem base, Map<String, BaseItem> variants, Lore lore, List<String> errors, SortedMap<ItemModifierType, Map<String, Integer>> modifiers, boolean bound, boolean shiny) {
 		this.base = base;
+		this.variants = variants;
 		this.lore = lore.clone();
 		this.errors = new ArrayList<>(errors);
 		
@@ -55,8 +60,9 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		}
 	}
 	
-	private CustomItem(BaseItem base, LoreTemplate loreTemplate, String name, Map<String, String> loreSections, List<String> errors, boolean bound, boolean shiny) {
+	private CustomItem(BaseItem base, Map<String, BaseItem> variants, LoreTemplate loreTemplate, String name, Map<String, String> loreSections, List<String> errors, boolean bound, boolean shiny) {
 		this.base = base;
+		this.variants = variants;
 		this.lore = new Lore(loreTemplate, name, loreSections);
 		this.errors = new ArrayList<>(errors);
 		
@@ -99,19 +105,36 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		modifierGroup.compute(reason, (k,v) -> v + value);
 	}
 	
-	public void setBase(BaseItem item) {
-		this.base = item;
-	}
-	
 	public void addError(String error) {
 		errors.add(error);
 	}
 	
+	
 	public ItemStack createItemStack() {
-		//Bukkit.getLogger().info("Creating item: "+ lore.createName());
+		return createItemStack(null);
+	}
+	
+	public ItemStack createItemStack(String variant) {
+		NightfallCommonPlugin.logger().log(Level.CONFIG, "Creating item: "+ lore.createName());
+		
+		// Copy list of errors for any new that may occur
+		List<String> localErrors = new ArrayList<>(errors);
 		
 		// Create item
-		ItemStack item = base.createItem();
+		BaseItem baseItem;
+		
+		if (variant == null) {
+			baseItem = base;
+		} else {
+			if (variants.containsKey(variant)) {
+				baseItem = variants.get(variant);
+			} else {
+				baseItem = BaseItemManager.getManager().getErrorItem();
+				localErrors.add("Cannot apply variant: " + variant);
+				NightfallCommonPlugin.logger().warning("Unknown variant on item: " + lore.createName());
+			}
+		}
+		ItemStack item = baseItem.createItem();
 		ItemMeta meta = item.getItemMeta();
 		
 		// Set unbreakable and give item flags.
@@ -120,7 +143,7 @@ public class CustomItem implements Cloneable, ItemMatcher {
 				
 		// Add lore/name
 		meta.setDisplayName(lore.createName());
-		meta.setLore(lore.createLore(modifiers, errors));
+		meta.setLore(lore.createLore(modifiers, localErrors));
 		item.setItemMeta(meta);
 		
 		// Remove existing attributes (mainly for armour)
@@ -144,35 +167,36 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		return item;
 	}
 	
-	public boolean isSimilar(CustomItem item) {
-		if (item == null) return false;
-		return (
-			lore.createName().equals(item.lore.createName()) &&
-			base.isSimilar(item.base)
-		);
+	public boolean hasVariant(String variant) {
+		return variants.containsKey(variant);
 	}
 	
 	public boolean isSimilar(ItemStack item) {
-		if (item == null) return false;
-		if (item.getItemMeta() == null) return false;
-		return (
-				lore.createName().equals(item.getItemMeta().getDisplayName()) &&
-				base.isSimilar(item)
-		);
+		return doesItemMatch(item);
 	}
 	
 	@Override
 	public boolean doesItemMatch(@NotNull ItemStack item) {
-		return isSimilar(item);
+		if (item == null) return false;
+		if (item.getItemMeta() == null) return false;
+		if (!lore.createName().equals(item.getItemMeta().getDisplayName())) return false;
+		
+		if (base.doesItemMatch(item)) return true;
+		
+		for (BaseItem variant : variants.values()) {
+			if (variant.doesItemMatch(item)) return true;
+		}
+		
+		return false;
 	}
 	
 	@Override
 	public CustomItem clone() {
-		return new CustomItem(base, lore, errors, modifiers, bound, shiny);
+		return new CustomItem(base, variants, lore, errors, modifiers, bound, shiny);
 	}
 	
 	public CustomItem immutableCopy() {
-		return new ImmutableCustomItem(base, lore, errors, modifiers, bound, shiny);
+		return new ImmutableCustomItem(base, variants, lore, errors, modifiers, bound, shiny);
 	}
 	
 	
@@ -225,8 +249,27 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		
 		// Get name
 		String name = itemConfig.getString("name", "Default name");
-		if (!itemConfig.contains("name"))
+		if (!itemConfig.contains("name")) {
 			errors.add("Name not specified");
+		}
+		
+		// Get Variants
+		Map<String, BaseItem> variants = new HashMap<>();
+		if (itemConfig.contains("variants")) {
+			ConfigurationSection variantConfig = itemConfig.getConfigurationSection("variants");
+			Set<String> variantKeys = variantConfig.getKeys(false);
+			for (String key : variantKeys) {
+				try {
+					String baseName = variantConfig.getString(key);
+					BaseItem item = getBaseItemFromName(baseName, itemConfig.getCurrentPath() + " (variant: " + key + ")");
+					variants.put(key, item);
+				} catch (InvalidConfigurationException e) {
+					e.printStackTrace();
+					errors.add(e.getMessage());
+					variants.put(key, BaseItemManager.getManager().getErrorItem());
+				}
+			}
+		}
 		
 		// Add lore sections if they exist
 		Map<String, String> loreSections = new HashMap<>();
@@ -250,7 +293,7 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		boolean shiny = itemConfig.getBoolean("shiny", false);
 		
 		// Create item
-		CustomItem item = new CustomItem(baseItem, loreTemplate, name, loreSections, Collections.unmodifiableList(errors), bound, shiny);
+		CustomItem item = new CustomItem(baseItem, variants, loreTemplate, name, loreSections, Collections.unmodifiableList(errors), bound, shiny);
 		
 		// Add modifiers if they exist
 		if (itemConfig.contains("modifiers")) {
@@ -277,14 +320,7 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		if (itemConfig.contains("base")) {
 			String name = itemConfig.getString("base");
 			
-			if (name.equalsIgnoreCase("temp") || name.equalsIgnoreCase("temporary")) {
-				NightfallCommonPlugin.getPlugin().getLogger().warning("Accessing temp item in item: " + itemConfig.getCurrentPath());
-				return BaseItemManager.getManager().getTempItem();
-			}
-			
-			BaseItem item = BaseItemManager.getManager().getItem(name);
-			if (item == null) throw new InvalidConfigurationException("Unknown base item '" + name + "' for item: " + itemConfig.getCurrentPath());
-			return item;
+			return getBaseItemFromName(name, itemConfig.getCurrentPath());
 			
 		} else if (itemConfig.contains("material")) {
 			String name = itemConfig.getString("material");
@@ -298,5 +334,16 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		} else {
 			throw new InvalidConfigurationException("No base or material section specified for item: " + itemConfig.getCurrentPath());
 		}
+	}
+	
+	private static BaseItem getBaseItemFromName(String name, String itemName) throws InvalidConfigurationException {
+		if (name.equalsIgnoreCase("temp") || name.equalsIgnoreCase("temporary")) {
+			NightfallCommonPlugin.getPlugin().getLogger().warning("Accessing temp item in item: " + itemName);
+			return BaseItemManager.getManager().getTempItem();
+		}
+		
+		BaseItem item = BaseItemManager.getManager().getItem(name);
+		if (item == null) throw new InvalidConfigurationException("Unknown base item '" + name + "' for item: " + itemName);
+		return item;
 	}
 }

@@ -376,6 +376,8 @@ untimely:
     template: "loadout"
     name: "Untimely Demise"
     base: doom-clock.off
+    variants:
+      selected: doom-clock.on
     lore:
       description:
        - "You will be guaranteed to plague.\n

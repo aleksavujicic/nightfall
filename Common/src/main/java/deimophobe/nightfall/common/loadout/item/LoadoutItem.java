@@ -22,6 +22,7 @@ import java.util.Set;
  * Created by Deimophobe on 7/03/17.
  */
 public abstract class LoadoutItem implements MenuItem<Loadout>, Comparable<LoadoutItem> {
+	private static final String SELECTED_VARIANT = "selected";
 	
 	private final CustomItem item;
 	private final Category category;
@@ -31,7 +32,8 @@ public abstract class LoadoutItem implements MenuItem<Loadout>, Comparable<Loado
 	public int getCost() { return cost; }
 	public Category getCategory() { return category; }
 	
-	private ItemStack itemStack;
+	private ItemStack disabledItem;
+	private ItemStack enabledItem;
 	private final boolean enabled;
 	/** If it can be selected by the random kit item */
 	private final boolean randomSelectable;
@@ -102,15 +104,34 @@ public abstract class LoadoutItem implements MenuItem<Loadout>, Comparable<Loado
 		return item;
 	}
 	
+	
 	protected void compileItem() {
-		itemStack = item.createItemStack();
-		itemStack.setAmount(cost == 0 ? 1 : cost);
+		disabledItem = item.createItemStack();
+		if (item.hasVariant(SELECTED_VARIANT)) {
+			enabledItem = item.createItemStack(SELECTED_VARIANT);
+		} else {
+			enabledItem = disabledItem.clone();
+			enabledItem.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+		}
+		
+		int amount = cost == 0 ? 1 : cost;
+		disabledItem.setAmount(amount);
+		enabledItem.setAmount(amount);
 	}
 	
 	public abstract void modify(Loadout loadout, LoadoutConstructable construct);
 	
 	public boolean isRandomSelectable() {
 		return randomSelectable && enabled;
+	}
+	
+	protected final boolean isInLoadout(MenuSession<Loadout> session) {
+		Loadout loadout = session.getData();
+		return isInLoadout(loadout);
+	}
+	
+	protected final boolean isInLoadout(Loadout loadout) {
+		return loadout.hasItem(this);
 	}
 	
 	public boolean wouldRemove(LoadoutItem item) {
@@ -120,25 +141,22 @@ public abstract class LoadoutItem implements MenuItem<Loadout>, Comparable<Loado
 	}
 	
 	private boolean canSee(MenuSession<Loadout> session) {
-		return enabled ;
+		return enabled;
 	}
 	
 	@Override
-	public ItemStack getDisplayItem(MenuSession<Loadout> session) {
+	public final ItemStack getDisplayItem(MenuSession<Loadout> session) {
 		if (!canSee(session)) return null;
 		
-		Loadout loadout = session.getData();
-		if (loadout.hasItem(this)) {
-			ItemStack item = itemStack.clone();
-			item.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
-			return item;
+		if (isInLoadout(session)) {
+			return enabledItem;
 		} else {
-			return itemStack;
+			return disabledItem;
 		}
 	}
 	
 	@Override
-	public boolean onClick(MenuSession<Loadout> session) {
+	public final boolean onClick(MenuSession<Loadout> session) {
 		if (!canSee(session)) return false;
 		
 		Loadout loadout = session.getData();

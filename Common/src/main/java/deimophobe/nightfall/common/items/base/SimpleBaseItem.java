@@ -40,13 +40,12 @@ public class SimpleBaseItem implements BaseItem {
 					material == ((SimpleBaseItem) item).material &&
 					damage == ((SimpleBaseItem) item).damage
 			);
-		} else {
-			return isSimilar(item.createItem());
 		}
+		return false;
 	}
 	
 	@Override
-	public boolean isSimilar(ItemStack item) {
+	public boolean doesItemMatch(ItemStack item) {
 		return (
 			material == item.getType() &&
 			damage == item.getDurability()

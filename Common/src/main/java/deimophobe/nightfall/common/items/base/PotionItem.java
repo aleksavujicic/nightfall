@@ -35,13 +35,12 @@ class PotionItem implements BaseItem {
 	public boolean isSimilar(BaseItem item) {
 		if (item instanceof PotionItem) {
 			return color.equals(((PotionItem) item).color);
-		} else {
-			return isSimilar(item.createItem());
 		}
+		return false;
 	}
 	
 	@Override
-	public boolean isSimilar(ItemStack item) {
+	public boolean doesItemMatch(ItemStack item) {
 		if (item.getType() != Material.POTION) return false;
 		
 		PotionMeta meta = (PotionMeta) item.getItemMeta();
