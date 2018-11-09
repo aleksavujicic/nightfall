@@ -77,7 +77,7 @@ public class ZombieSaboteur extends ZombieMob {
 			getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, attack, "Upgrade");
 		}
 
-		getArmour().addModifier(ItemModifierType.SPEED, 10, "Saboteur Zombie");
+		getArmour().addModifier(ItemModifierType.SPEED, 20, "Saboteur Zombie");
 		getArmour().addModifier(ItemModifierType.SPEED, speed, "Epinephrine");
 		getWeapon().addModifier(ItemModifierType.SPEED, morespeed, "More Speed");
 		int saboHealthMalus = (upgrades.get("health") + upgrades.get("health-inf")) * -1;
@@ -141,6 +141,11 @@ public class ZombieSaboteur extends ZombieMob {
 		damage.multiplyKnockback(0.75);
 		
 		if (!isInvisible()) return;
+		damage.addPostDamageHandler(() ->
+				unhide(false)
+		);
+		
+		if (!isPlayerHoldingWeapon()) return;
 		double damageBoost = (assassinate ? 47 : 10);
 		damage.getMultiPartDamage().addBoost(damageBoost);
 		if (sabotage > 0) {
@@ -159,7 +164,6 @@ public class ZombieSaboteur extends ZombieMob {
 				dwarf.givePotionEffect(PotionEffectType.UNLUCK, 120, sabotage, true, false, true);
 				playSound("sabotage");
 			}
-			unhide(false);
 			monster.givePotionEffect(PotionEffectType.SPEED, 30, 3, true, false, true);
 		});
 	}
