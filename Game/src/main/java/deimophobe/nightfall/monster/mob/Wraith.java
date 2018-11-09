@@ -1,6 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -66,6 +67,12 @@ public class Wraith extends AbstractMob implements FloatyMob {
 				chargeActive = false;
 				setFloatiness();
 			}
+		}
+		
+		if (everyNthTick(5) && Math.random() < 0.6) {
+			Location location = monster.getLocation();
+			location.add(0, 1, 0);
+			Misc.spawnRangedParticles(location, Particle.SMOKE_NORMAL, 2, 0.3, 0.3, 0.3, 0);
 		}
 	}
 	
@@ -154,14 +161,9 @@ public class Wraith extends AbstractMob implements FloatyMob {
 		monster.playSound("entity.ghast.shoot", 1f, 0.5f, true);
 	}
 	
-	private static final double PARTICLE_VISIBLE_RADIUS = 50;
 	private void spawnParticles() {
 		Location location = monster.getLocation();
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (location.distance(player.getLocation()) <= PARTICLE_VISIBLE_RADIUS) {
-				player.spawnParticle(Particle.SMOKE_LARGE, location, 30, 0.7, 0.7, 0.7, 0.03);
-			}
-		}
+		Misc.spawnRangedParticles(location, Particle.SMOKE_LARGE, 15, 0.7, 0.7, 0.7, 0.03);
 	}
 	
 	private static final double AOE_RADIUS = 3;
