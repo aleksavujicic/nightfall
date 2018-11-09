@@ -154,13 +154,20 @@ public class DoomManager {
 	}
 	
 	private void showDoomMessage() {
-		for (MonsterPlayer player : MonsterManager.getManager().getDeadPlayers()) {
-			if (player.isEntityDead()) continue;
-			player.getPlayer().sendTitle(
-					"",//ChatColor.RED + "Doom Approaches",
-					ChatColor.DARK_RED + "Spawning in " + ChatColor.GREEN + internalDoomTimer + ChatColor.DARK_RED + " seconds...",
-					0, 40, 0
-			);
+		for (MonsterPlayer player : MonsterManager.getManager().getGamePlayers()) {
+			if (player.isMobAlive()) {
+				player.getPlayer().sendTitle(
+						"",//ChatColor.RED + "Doom Approaches",
+						ChatColor.DARK_RED + "Doom will occur in " + ChatColor.GREEN + internalDoomTimer + ChatColor.DARK_RED + " seconds.",
+						0, 40, 0
+				);
+			} else {
+				player.getPlayer().sendTitle(
+						"",//ChatColor.RED + "Doom Approaches",
+						ChatColor.DARK_RED + "Spawning in " + ChatColor.GREEN + internalDoomTimer + ChatColor.DARK_RED + " seconds...",
+						0, 40, 0
+				);
+			}
 		}
 	}
 	
