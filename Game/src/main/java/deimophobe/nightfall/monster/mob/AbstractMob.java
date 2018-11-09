@@ -13,6 +13,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
+import deimophobe.nightfall.map.GameCompass;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.region.Region;
 import deimophobe.nightfall.monster.MonsterManager;
@@ -53,11 +54,15 @@ public abstract class AbstractMob implements Mob {
 	@Override public MobType getType() { return type; }
 	
 	
+	private final GameCompass compass;
+	
+	
 	protected AbstractMob(MonsterPlayer monster, MobType type) {
 		this.monster = monster;
 		this.type = type;
 		this.mobData = type.getMobData();
 		this.items = mobData.getItems();
+		this.compass = new GameCompass(monster);
 	}
 	
 	protected AbstractMob(MonsterPlayer monster, MobType type, MobData data) {
@@ -65,6 +70,7 @@ public abstract class AbstractMob implements Mob {
 		this.type = type;
 		this.mobData = data;
 		this.items = data.getItems();
+		this.compass = new GameCompass(monster);
 	}
 	
 	@Override
@@ -347,6 +353,14 @@ public abstract class AbstractMob implements Mob {
 	
 	protected final void dropFakeWeapon() { dropFakeItem(WEAPON_NAME); }
 	
+	@Override
+	public final boolean giveCompass() {
+		if (hasItem("compass")) return false;
+		
+		giveItem("compass");
+		return true;
+	}
+	
 	
 	// ~~~~~ Events/Overriding methods ~~~~~
 	@Override
@@ -383,7 +397,7 @@ public abstract class AbstractMob implements Mob {
 				xpGain = 0;
 				break;
 		}
-		int finalXpGain = xpGain;
+		final int finalXpGain = xpGain;
 		damage.addPostDamageHandler(() -> monster.gainExp(finalXpGain));
 	}
 	
@@ -439,6 +453,13 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	@Override
+	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+		if (isPlayerHoldingItem("compass")) {
+			compass.tryUse(click);
+		}
+	}
+	
+	@Override
 	public float getCooldown() {
 		return displayable.getCooldown();
 	}
@@ -449,7 +470,6 @@ public abstract class AbstractMob implements Mob {
 	
 	
 	@Override public void onShift(boolean sneaking) {}
-	@Override public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {}
 	@Override public Projectile onBowFire(Arrow arrow, float force) { return null; }
 	@Override public void onProjectileLand(Projectile proj, Block hitBlock) {}
 	

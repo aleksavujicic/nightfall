@@ -20,6 +20,7 @@ import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.hero.Horn;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.entity.GamePlayer;
+import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.plague.TwinsPlague;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -192,6 +193,7 @@ public class MiscCommands extends BaseCommand {
 	// ----- DWARF GIVE COMMANDS -----
 	
 	@CommandAlias("chest|chesto|chestomatic")
+	@Syntax("")
 	@CommandPermission("nightfall.command.chest")
 	@Description("For sharing resources with your fellow dwarves.")
 	public void giveChest(@Flags("self") Dwarf dwarf) {
@@ -199,20 +201,15 @@ public class MiscCommands extends BaseCommand {
 	}
 	
 	@CommandAlias("clock")
+	@Syntax("")
 	@CommandPermission("nightfall.command.clock")
 	@Description("So Jimmy can tell time.")
 	public void giveClock(@Flags("self") Dwarf dwarf) {
 		giveKitItem(dwarf, KitPieceType.CLOCK, "clock");
 	}
 	
-	@CommandAlias("compass")
-	@CommandPermission("nightfall.command.compass")
-	@Description("Blesses Jimmy with the mighty dwarven compass.")
-	public void giveCompass(@Flags("self") Dwarf dwarf) {
-		giveKitItem(dwarf, KitPieceType.COMPASS, "compass");
-	}
-	
 	@CommandAlias("bricklayer|brick|bricks")
+	@Syntax("")
 	@CommandPermission("nightfall.command.bricklayer")
 	@Description("Lets Jimmy build lots of walls.")
 	public void giveBricklayer(@Flags("self") Dwarf dwarf) {
@@ -220,6 +217,7 @@ public class MiscCommands extends BaseCommand {
 	}
 	
 	@CommandAlias("jitheal|jit-heal|jit")
+	@Syntax("")
 	@CommandPermission("nightfall.command.jitheal")
 	@Description("For saving Jimmy.")
 	public void giveJitHeal(@Flags("self") Dwarf dwarf) {
@@ -229,6 +227,15 @@ public class MiscCommands extends BaseCommand {
 	private void giveKitItem(Dwarf dwarf, KitPieceType item, String name) {
 		dwarf.giveKitItem(item);
 		MessageUtil.sendMessage(dwarf.getPlayer(), "You now have a " + ChatColor.AQUA + name);
+	}
+	
+	@CommandAlias("compass")
+	@Syntax("")
+	@CommandPermission("nightfall.command.compass")
+	@Description("Blesses Jimmy with the mighty dwarven compass.")
+	public void giveCompass(@Flags("self") GamePlayer player) {
+		player.giveCompass();
+		MessageUtil.sendMessage(player.getPlayer(), "You now have a " + ChatColor.AQUA + "compass");
 	}
 	
 	@CommandAlias("trash|fawn")

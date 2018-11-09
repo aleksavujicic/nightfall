@@ -125,6 +125,13 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		return entry;
 	}
 	
+	@Override
+	public void giveCompass() {
+		if (mob == null) return;
+		
+		mob.giveCompass();
+	}
+	
 	// ------ SPAWN AND DEATH ------
 	public boolean isMobAlive() {
 		return (mob != null);

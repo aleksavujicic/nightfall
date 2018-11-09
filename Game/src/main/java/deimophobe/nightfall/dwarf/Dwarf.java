@@ -166,6 +166,10 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		return kit;
 	}
 	
+	@Override
+	public void giveCompass() {
+		giveKitItem(KitPieceType.COMPASS);
+	}
 	
 	// ------ ARMOUR STUFF ------
 	private Armour armour;

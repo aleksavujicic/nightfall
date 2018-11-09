@@ -657,6 +657,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	public abstract boolean onBlockBreak(Block block, boolean didBreak);
 	public abstract void onUse(ClickType click, Block clickedBlock, BlockFace blockFace); // TODO: tidyup
 	public abstract void onShift(boolean sneaking);
+	public abstract void giveCompass();
 	
 	// ----- UPDATES -----
 	private final CooldownHolder cooldownHolder = new CooldownHolder();

@@ -20,6 +20,18 @@ lightning-seppuku:
      - "Drums and lightning come before doom."
   shiny: true
 
+mob-compass:
+  template: monster
+  material: compass
+  name: Compass
+  lore:
+    description:
+     - "Left click to see current location.\n
+        Right click to cycle through various\n
+        locations on the map."
+    flavour:
+     - ""
+
 ai-sword:
   template: monster
   base: ai-sword

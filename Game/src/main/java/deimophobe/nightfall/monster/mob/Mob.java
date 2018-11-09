@@ -25,6 +25,8 @@ public interface Mob {
 	int getCharmTime();
 	double getShrineWeight();
 	
+	boolean giveCompass();
+	
 	@Deprecated
 	Disguise getDisguise();
 	default boolean hasDisguise() {return getDisguise() != null;}
