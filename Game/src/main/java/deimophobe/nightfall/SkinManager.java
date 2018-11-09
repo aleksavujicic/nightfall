@@ -117,7 +117,7 @@ public class SkinManager implements Manager {
 
 			// Update skin for player
 			// Shamelessly stolen from:
-			// https://github.com/games647/ChangeSkin/blob/master/bukkit/src/main/java/com/github/games647/changeskin/bukkit/tasks/SkinUpdater.java
+			// https://github.com/games647/ChangeSkin/blob/master/bukkit/src/main/java/com/github/games647/changeskin/bukkit/task/SkinApplier.java
 			// TODO clean up a bit?
 			WrappedGameProfile gameProfile;
 			WrappedChatComponent displayName;
