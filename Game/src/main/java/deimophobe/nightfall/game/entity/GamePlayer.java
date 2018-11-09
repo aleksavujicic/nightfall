@@ -146,6 +146,17 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	}
 	
 	
+	// ------ SET EXP ------
+	private float previousExpValue = -1;
+	protected final void setExp(float value) {
+		value = Misc.boundValue(value, 0, 1);
+		if (value == previousExpValue) return;
+		
+		player.setExp(value);
+		previousExpValue = value;
+	}
+	
+	
 	// ------ HEALTH SAVING ------
 	private double health;
 	private void saveHealth() {

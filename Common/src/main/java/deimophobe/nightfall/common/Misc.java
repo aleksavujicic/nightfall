@@ -349,6 +349,13 @@ public class Misc {
 		return value;
 	}
 	
+	public static float boundValue(float value, float lowerBound, float upperBound) {
+		checkArgument(lowerBound <= upperBound, "Minimum must be less than (or equal to) the maximum. (Got %s, %s)", lowerBound, upperBound);
+		value = Math.min(value, upperBound);
+		value = Math.max(value, lowerBound);
+		return value;
+	}
+	
 	public static int boundValue(int value, int lowerBound, int upperBound) {
 		checkArgument(lowerBound <= lowerBound, "Minimum must be less than (or equal to) the maximum. (Got %s, %s)", lowerBound, upperBound);
 		value = Math.min(value, upperBound);

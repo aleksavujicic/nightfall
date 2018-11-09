@@ -93,9 +93,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			mob.update();
 			
 			if (seppukuCD > 0) {
-				player.setExp(1 - (float)seppukuCD/MAX_SEPPUKU_CD);
+				setExp(1 - (float)seppukuCD/MAX_SEPPUKU_CD);
 			} else if (mob != null) {// Update could kill mob so need to do another null check
-				player.setExp(mob.getCooldown());
+				setExp(mob.getCooldown());
 			}
 		}
 		
