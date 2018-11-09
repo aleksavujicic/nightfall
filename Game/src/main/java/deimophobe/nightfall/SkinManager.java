@@ -12,6 +12,7 @@ import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.google.common.collect.Lists;
+import deimophobe.nightfall.common.util.NMSUtil;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.game.Game;
 import org.bukkit.Bukkit;
@@ -184,6 +185,8 @@ public class SkinManager implements Manager {
 					//set to the correct hand position
 					player.getInventory().setItemInMainHand(player.getInventory().getItemInMainHand());
 					player.getInventory().setItemInOffHand(player.getInventory().getItemInOffHand());
+					
+					NMSUtil.updatePlayerHealth(player);
 
 					//triggers updateAbilities
 					player.setWalkSpeed(player.getWalkSpeed());

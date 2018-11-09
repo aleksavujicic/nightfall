@@ -87,4 +87,8 @@ public class NMSUtil {
 		((CraftPlayer) player).getHandle().a(CraftItemStack.asNMSCopy(book), EnumHand.MAIN_HAND);
 		inv.setItemInMainHand(held);
 	}
+	
+	public static void updatePlayerHealth(Player player) {
+		((CraftPlayer) player).updateScaledHealth();
+	}
 }
