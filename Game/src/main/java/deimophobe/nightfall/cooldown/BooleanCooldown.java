@@ -53,6 +53,11 @@ public class BooleanCooldown implements Cooldown{
 		return cd == -1;
 	}
 	
+	@Override
+	public void forceAvailable() {
+		reduceCooldown(maxCD);
+	}
+	
 	public boolean tryUse() {
 		if (isAvailable()) {
 			boolean success = useAction.get();

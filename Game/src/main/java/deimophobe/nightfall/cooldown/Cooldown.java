@@ -8,4 +8,5 @@ public interface Cooldown extends Updateable, Displayable {
 	boolean isAvailable();
 	void reset();
 	boolean tryUse();
+	void forceAvailable();
 }

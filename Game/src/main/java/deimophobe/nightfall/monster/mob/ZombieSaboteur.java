@@ -4,15 +4,15 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.timedblock.VineBlock;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
-import deimophobe.nightfall.cooldown.Cooldown;
-import deimophobe.nightfall.cooldown.UseCooldown;
+import deimophobe.nightfall.cooldown.*;
 import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.dot.PoisonType;
+import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import me.libraryaddict.disguise.disguisetypes.watchers.ZombieVillagerWatcher;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -32,9 +32,11 @@ public class ZombieSaboteur extends ZombieMob {
 	private final int sabotage;
 	private final PoisonType poison;
 	private final int vineLevel;
-	private final Cooldown sneakCD;
-	private final int sneakLevel;
 	private final boolean assassinate;
+	
+	private final int sneakDuration;
+	@Update private final Cooldown sneakCD;
+	@Update private final Cooldown sneakTimer;
 	
 	private static final Villager.Profession PROFESSION = Villager.Profession.HUSK;
 	
@@ -52,11 +54,13 @@ public class ZombieSaboteur extends ZombieMob {
 		int pick = upgrades.get("pick");
 		int epinephrine = upgrades.get("epinephrine");
 		int speedInf = upgrades.get("speed-inf");
-		int speed = epinephrine * 4;
+		int speed = epinephrine * 3;
 		int morespeed = speedInf * 3;
 		
-		this.sneakLevel = upgrades.get("sneak");
-		sneakCD = new UseCooldown((30 - sneakLevel * 5) * 20, this::sneak);
+		int sneakLevel = upgrades.get("sneak");
+		sneakDuration = 50 + sneakLevel*10;
+		sneakCD = new UseCooldown((25 - sneakLevel * 3) * 20, this::sneak);
+		sneakTimer = new CompletionCooldown(sneakDuration, () -> unhide(false));
 		
 		this.assassinate = upgrades.get("assassination") >= 1;
 		
@@ -73,8 +77,8 @@ public class ZombieSaboteur extends ZombieMob {
 			getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, attack, "Upgrade");
 		}
 
-		getArmour().addModifier(ItemModifierType.SPEED, 20, "Saboteur Zombie");
-		getWeapon().addModifier(ItemModifierType.SPEED, speed, "Epinephrine");
+		getArmour().addModifier(ItemModifierType.SPEED, 10, "Saboteur Zombie");
+		getArmour().addModifier(ItemModifierType.SPEED, speed, "Epinephrine");
 		getWeapon().addModifier(ItemModifierType.SPEED, morespeed, "More Speed");
 		int saboHealthMalus = (upgrades.get("health") + upgrades.get("health-inf")) * -1;
 		getArmour().addModifier(ItemModifierType.HEALTH, saboHealthMalus, "Saboteur Zombie");
@@ -93,86 +97,80 @@ public class ZombieSaboteur extends ZombieMob {
 	@Override
 	protected void setupItems() {
 		super.setupItems();
-		int vineQuantity = vineLevel*3;
+		int vineQuantity = vineLevel*2;
 		giveItem("vines", vineQuantity);
 	}
 	
 	@Override
 	public void update() {
 		super.update();
-		if (isInvisible()) {
-			if (everyNthTick(20)) {
-				Location loc = monster.getLocation();
-				loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 7, 0.3, 0.3, 0.3, 0);
-			}
-		} else {
-			sneakCD.update();
+		if (isInvisible() && everyNthTick(20)) {
+			Location loc = monster.getLocation();
+			loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 7, 0.3, 0.3, 0.3, 0);
 		}
 	}
 	
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
-		if (damage.getType() == GameDamageType.MELEE) {
-			monster.givePotionEffect(PotionEffectType.SLOW, 30, 2, true, true, true);
+		
+		if (isInvisible()) {
+			damage.getMultiPartDamage().timesMult(1.5);
 		}
-		unhide();
+		
+		damage.addPostDamageHandler(() -> unhide(true));
 	}
 	
 	@Override
 	public void onUse(ClickType click, Block block, BlockFace face) {
 		if (click.isRightClick() && isPlayerHoldingWeapon()) {
-			sneakCD.tryUse();
+			boolean used = sneakCD.tryUse();
+			if (!used && monster.isDebugMode()) {
+				sneakCD.forceAvailable();
+			}
 		}
 		
 		if (click.isRightClick() && isPlayerHoldingItem("vines")) {
 			placeVine(block, face);
 		}
-		
-		if (isPlayerHoldingItem("unhide")) {
-			unhide();
-		}
-	}
-	
-	@Override
-	public boolean onBlockBreak(Block block, boolean didBreak) {
-		didBreak = super.onBlockBreak(block, didBreak);
-		if (didBreak) {
-			unhide();
-		}
-		return didBreak;
 	}
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
-		if (assassinate && isInvisible()) {
-			playSound("assassinate");
-			playSound("laugh");
-			damage.getMultiPartDamage().addBoost(37);
-		}
 		damage.multiplyKnockback(0.75);
+		
+		if (!isInvisible()) return;
+		double damageBoost = (assassinate ? 47 : 10);
+		damage.getMultiPartDamage().addBoost(damageBoost);
+		if (sabotage > 0) {
+			damage.addArmourShred(sabotage*10);
+		}
 		damage.addPostDamageHandler(() -> {
+			Dwarf dwarf = damage.getDwarf();
 			if (poison != null) {
-				damage.getDwarf().givePoison(poison, 50);
+				dwarf.givePoison(poison, 120);
 			}
-			if (sabotage > 0 && isInvisible()) {
-				damage.getDwarf().givePotionEffect(PotionEffectType.UNLUCK, 100, sabotage, true, false, true);
+			if (assassinate) {
+				playSound("assassinate");
+				playSound("laugh");
+			}
+			if (sabotage > 0) {
+				dwarf.givePotionEffect(PotionEffectType.UNLUCK, 120, sabotage, true, false, true);
 				playSound("sabotage");
 			}
-			unhide();
+			unhide(false);
+			monster.givePotionEffect(PotionEffectType.SPEED, 30, 3, true, false, true);
 		});
 	}
 	
 	@Override
 	public float getCooldown() {
-		return sneakCD.getCooldown();
-	}
-	
-	@Override
-	public double getShrineWeight() {
-		if (isInvisible()) return 0;
-		else return super.getShrineWeight();
+		if (isInvisible()) {
+			return 1 - sneakTimer.getCooldown();
+		} else {
+			return sneakCD.getCooldown();
+		}
 	}
 	
 	@Override
@@ -184,37 +182,42 @@ public class ZombieSaboteur extends ZombieMob {
 	}
 	
 	private void sneak() {
-		monster.givePermanentPotionEffect(PotionEffectType.INVISIBILITY, 1);
-		if (sneakLevel != 0)
-			monster.givePotionEffect(PotionEffectType.SPEED, 8 * sneakLevel, 3, true, false, true);
+		if (isInvisible()) return;
+		
+		monster.givePotionEffect(PotionEffectType.INVISIBILITY, sneakDuration, 1, true, false, true);
+		monster.givePotionEffect(PotionEffectType.SPEED, sneakDuration, 3, true, false, true);
+		if (assassinate) {
+			monster.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, sneakDuration, 1, true, false, true);
+		}
+		
 		Location loc = monster.getLocation();
 		World world = loc.getWorld();
 		world.spawnParticle(Particle.SMOKE_LARGE, loc, 160, 0.8, 0.8, 0.8, 0);
 		world.playSound(loc, "entity.generic.burn", 1f, 0.7f);
-		if (assassinate) {
-			monster.givePermanentPotionEffect(PotionEffectType.INCREASE_DAMAGE, 1);
-		}
 		
-		giveItem("unhide");
+		sneakTimer.reset();
 	}
 	
-	private void unhide() {
-		if (!isInvisible()) return;
-		
-		Location loc = monster.getLocation();
-		World world = loc.getWorld();
-		world.spawnParticle(Particle.SMOKE_LARGE, loc, 20, 0.4, 0.4, 0.4, 0);
-		world.playSound(loc, "entity.generic.burn", 0.5f, 1.5f);
-		
+	private void unhide(boolean interrupted) {
 		monster.removePotionEffect(PotionEffectType.INVISIBILITY);
 		monster.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
-		sneakCD.reset();
+		monster.removePotionEffect(PotionEffectType.SPEED);
 		
-		removeItem("unhide");
+		if (interrupted && isInvisible()) {
+			monster.givePotionEffect(PotionEffectType.SLOW, 40, 3, true, true, true);
+			
+			Location loc = monster.getLocation();
+			World world = loc.getWorld();
+			world.spawnParticle(Particle.SMOKE_LARGE, loc, 20, 0.4, 0.4, 0.4, 0);
+			world.playSound(loc, "entity.generic.burn", 0.5f, 1.5f);
+		}
+		
+		sneakCD.reset();
+		sneakTimer.forceAvailable();
 	}
 	
 	private boolean isInvisible() {
-		return monster.hasPotionEffect(PotionEffectType.INVISIBILITY);
+		return !sneakTimer.isAvailable();
 	}
 	
 	private void placeVine(Block clickedBlock, BlockFace clickedFace) {
@@ -226,13 +229,13 @@ public class ZombieSaboteur extends ZombieMob {
 				Block vineBlock = clickedBlock.getRelative(clickedFace);
 				BlockFace vineFace = clickedFace.getOppositeFace();
 				
-				int extend = (vineLevel+1)/2;
-				VineBlock vine = new VineBlock(120*20, vineBlock, monster, vineFace, extend);
+				int extend = 3;
+				int lifetime = 30*(vineLevel+1)*60;
+				VineBlock vine = new VineBlock(lifetime, vineBlock, monster, vineFace, extend);
 				
 				boolean placed = BlockManager.getManager().placeTimedBlock(vine);
 				if (placed) {
 					removeItem("vines", 1);
-					unhide();
 				}
 				
 				break;

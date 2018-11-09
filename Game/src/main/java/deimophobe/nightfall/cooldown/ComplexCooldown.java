@@ -52,6 +52,11 @@ public class ComplexCooldown implements Cooldown {
 		return cd == -1;
 	}
 	
+	@Override
+	public void forceAvailable() {
+		reduceCooldown(maxCD);
+	}
+	
 	public boolean tryUse() {
 		if (isAvailable()) {
 			useAction.run();

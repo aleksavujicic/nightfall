@@ -126,7 +126,7 @@ husk:
 sabotage:
   index: 10
   cost: [200, 400, 600, 800, 1000]
-  value: [4, 8, 12, 16, 20]
+  value: [10, 20, 30, 40, 50]
   prereq:
     saboteur: 1
   item:
@@ -135,8 +135,7 @@ sabotage:
     lore:
       description:
         - "Temporarily damage dwarven armour\n
-           each hit, causing it to take $value%\n
-           more damage and armour damage\n
+           causing it to take $value% armour damage\n
            for 5 seconds. Can only be used\n
            when invisible."
 
@@ -151,10 +150,10 @@ poison:
     name: "Poisoned hit"
     lore:
       description:
-        - "Poison dwarves with each hit.\n
-           Upgrades improve poison level, with\n
-           10 damage and 5 armor shred per level\n
-           over 2 seconds."
+        - "Poison dwarves for 5 seconds with\n
+           each hit. Upgrades improve the\n
+           potency of the poison. Can only\n
+           be used when invisible."
 
 
 sneak:
@@ -167,13 +166,18 @@ sneak:
     name: "Sneak"
     lore:
       description:
-        - "Right click to create a smoke screen\n
-           and disappear into the shadows.\n
-           Taking or dealing damage and breaking blocks\n
-           will negate your invisibility.\n
-           Available without upgrades every\n
-           30 seconds, and higher levels decrease\n
-           the cooldown up to 5 seconds."
+        - "Increases the duration of your\n
+           sneak ability and decreases its\n
+           cooldown."
+
+#TODO: Move full sneak description elsewhere - maybe on sab upgrade?
+#        - "Right click to create a smoke screen\n
+#           and disappear into the shadows for\n
+#           a few seconds. Taking or dealing\n
+#           damage will break your invisibility.\n
+#           Available without upgrades, and higher\n
+#           levels increase the duration and\n
+#           decrease the cooldown."
 
 
 pick:
@@ -193,7 +197,7 @@ pick:
 epinephrine:
   index: 15
   cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
-  value: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+  value: [3, 6, 9, 12, 15, 18, 21, 24, 27, 30]
   prereq:
     saboteur: 1
   item:
@@ -201,13 +205,13 @@ epinephrine:
     name: "Epinephrine"
     lore:
       description:
-        - "Increases speed by $value%."
+        - "Increases base speed by $value%."
 
 
 vines:
   index: 16
   cost: [200, 400, 600, 800, 1000]
-  value: [3, 6, 9, 12, 15]
+  value: [2, 4, 6, 8, 10]
   prereq:
     saboteur: 1
   item:
@@ -215,8 +219,9 @@ vines:
     name: "Vines"
     lore:
       description:
-        - "Gives $value vines to place that last for a few minutes.\n
-           Upgrades can also increase height of placed vines."
+        - "Gives $value vines to place that last\n
+           for a few minutes. Upgrades will also\n
+           increase duration of placed vines."
 
 
 assassination:
@@ -239,7 +244,7 @@ assassination:
     lore:
       description:
         - "When invisible, the next hit\n
-           will do 40 additional damage."
+           will do 50 additional damage."
 
 
 speed-inf:

@@ -24,4 +24,7 @@ public class DudCooldown implements Cooldown {
 	public float getCooldown() {
 		return 0;
 	}
+	
+	@Override
+	public void forceAvailable() { }
 }

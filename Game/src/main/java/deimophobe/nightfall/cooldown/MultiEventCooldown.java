@@ -58,6 +58,11 @@ public class MultiEventCooldown implements Cooldown {
 		return cd <= 0;
 	}
 	
+	@Override
+	public void forceAvailable() {
+		throw new UnsupportedOperationException("Deimo didn't add this cause hes a lazy pos.");
+	}
+	
 	public boolean tryUse() {
 		if (isAvailable() && useAction.get()) {
 			reset();

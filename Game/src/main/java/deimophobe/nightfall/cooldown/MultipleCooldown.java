@@ -55,6 +55,11 @@ public class MultipleCooldown implements Cooldown{
 		return cd + useCost <= maxCD;
 	}
 	
+	@Override
+	public void forceAvailable() {
+		reduceCooldown(maxCD);
+	}
+	
 	public boolean tryUse() {
 		if (isAvailable()) {
 			useAction.run();

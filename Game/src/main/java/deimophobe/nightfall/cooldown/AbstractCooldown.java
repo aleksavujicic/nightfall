@@ -37,6 +37,11 @@ public abstract class AbstractCooldown implements Cooldown {
 		return currentTime == 0;
 	}
 	
+	@Override
+	public void forceAvailable() {
+		currentTime = 0;
+	}
+	
 	// TODO some of these should be made a part of the Cooldown interface probably.
 	
 	public boolean tryUse() {
