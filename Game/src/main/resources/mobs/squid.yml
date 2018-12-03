@@ -10,6 +10,7 @@ shred: 5
 canrun: false
 shrineweight: 1.25
 shrine-xp: 4
+immunetime: 0
 
 armour:
   material: water_bucket
@@ -32,3 +33,6 @@ sounds:
   death:
     path: "entity.squid.death"
     pitch: 1.25
+  squirt:
+    path: "entity.squid.hurt"
+    pitch: 0.6
