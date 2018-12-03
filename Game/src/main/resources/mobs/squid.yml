@@ -29,6 +29,15 @@ weapon:
      - ""
     flavour:
      - ""
+items:
+  test:
+    base: temporary
+    name: Jump (why u break)
+    lore:
+      description:
+       - ""
+      flavour:
+       - ""
 sounds:
   death:
     path: "entity.squid.death"

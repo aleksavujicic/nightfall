@@ -1,10 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.cooldown.Cooldown;
-import deimophobe.nightfall.cooldown.Display;
-import deimophobe.nightfall.cooldown.Update;
-import deimophobe.nightfall.cooldown.UseCooldown;
+import deimophobe.nightfall.cooldown.*;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
@@ -26,7 +23,8 @@ final class WorthlessSquid extends AbstractMob {
 	}
 	
 	@Update @Display
-	private final Cooldown squirtCD = new UseCooldown(100, this::squirt);
+	@Interact(click = ClickType.RIGHT, item = "test")
+	private final Cooldown squirtCD = new UseCooldown(200, this::squirt);
 	
 	@Override
 	protected void teleportToSpawn(SpawnMethod spawnMethod) {
@@ -37,15 +35,6 @@ final class WorthlessSquid extends AbstractMob {
 			super.teleportToSpawn(spawnMethod);
 		}
 	}
-	
-	@Override
-	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(click, clickedBlock, blockFace);
-		if (isPlayerHoldingWeapon() && click.isRightClick()) {
-			//squirtCD.tryUse();
-		}
-	}
-	
 	
 	private void squirt() {
 		monster.leap(0.2, 0.5);
