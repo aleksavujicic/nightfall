@@ -14,6 +14,7 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.ItemMatcher;
 import deimophobe.nightfall.common.util.NMSUtil;
 import deimophobe.nightfall.cooldown.CooldownHolder;
+import deimophobe.nightfall.cooldown.LifetimeExpireable;
 import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
@@ -136,7 +137,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		resetTitle();
 		loadHealth();
 		
-		initialiseWarnings();
+		doLater(this::initialiseWarnings, 20);
 	}
 	public void goOffline() {
 		online = false;
@@ -165,6 +166,8 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	private void loadHealth() {
 		new BukkitRunnable() {
 			@Override public void run() {
+				if (!player.isOnline()) return;
+				
 				health = Math.max(health, 0);
 				health = Math.min(health, getMaxHealth());
 				player.setHealth(health);
@@ -555,9 +558,14 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	}
 	
 	public void setWarningLevel(double warning) {
+		setWarningLevel(warning, false);
+	}
+	
+	private void setWarningLevel(double warning, boolean force) {
 		checkArgument(warning >= 0, "Warning level must be positive (got %s)", warning);
 		checkArgument(warning <= 1, "Warning level must be strictly less than 1 (got %s)", warning);
 		if (warning == 1) warning = 0.999999;
+		if (warning == lastWarningLevel) return;
 		int blockWarning = (int) (WORLD_BORDER_RADIUS/(2 - 2*warning));
 
 		WrapperPlayServerWorldBorder packet = new WrapperPlayServerWorldBorder();
@@ -566,6 +574,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		packet.sendPacket(player);
 
 		lastWarningLevel = warning;
+		sendDebugMsg("Set warning to: " + warning);
 	}
 	
 	private void initialiseWarnings() {
@@ -591,7 +600,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 			NightfallPlugin.logger().warning("Failed to update border radius");
 		}
 		
-		setWarningLevel(lastWarningLevel);
+		setWarningLevel(lastWarningLevel, true);
 	}
 	
 	public void clearWarning() {
@@ -671,6 +680,17 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	
 	public void addUpdateable(Updateable updateable) {
 		cooldownHolder.addUpdateable(updateable);
+	}
+	
+	public void doLater(Runnable task, int delay) {
+		Updateable updateable = new LifetimeExpireable(delay) {
+			@Override
+			public void onExpiry() {
+				super.onExpiry();
+				task.run();
+			}
+		};
+		addUpdateable(updateable);
 	}
 	
 	public boolean everySec() {
