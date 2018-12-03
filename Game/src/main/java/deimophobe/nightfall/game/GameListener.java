@@ -209,6 +209,8 @@ public class GameListener implements Listener {
 			case ZOMBIE_HORSE:
 			case VILLAGER:
 			case ITEM_FRAME:
+			case MINECART_CHEST:
+			case MINECART_HOPPER:
 				event.setCancelled(true);
 		}
 	}
