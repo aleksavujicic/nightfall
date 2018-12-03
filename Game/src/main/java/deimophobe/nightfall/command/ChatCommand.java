@@ -8,11 +8,13 @@ import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Description;
 import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.ChatListener;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.command.MessageUtil;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_12_R1.ChatMessageType;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -87,9 +89,9 @@ public class ChatCommand extends BaseCommand {
 		prefix.addExtra(sender);
 		prefix.addExtra(" " + ARROW + " ");
 		prefix.addExtra(receiver);
-		prefix.addExtra(">");
+		prefix.addExtra("> ");
 		
-		player.spigot().sendMessage(prefix, new TextComponent(" " + message));
+		player.spigot().sendMessage(prefix, Misc.formatTextWithURL(message));
 	}
 	
 	private BaseComponent getBaseComponentFromPlayer(Player player) {
@@ -97,6 +99,7 @@ public class ChatCommand extends BaseCommand {
 //		Bukkit.broadcastMessage("S" + text.getExtra().size());
 		text.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + player.getName() + " "));
 		if (text.getColorRaw() == null) text.setColor(ChatColor.WHITE);
+		
 		return text;
 	}
 }

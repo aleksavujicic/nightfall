@@ -17,6 +17,8 @@ import org.bukkit.util.Vector;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -357,6 +359,42 @@ public class Misc {
 		text.setClickEvent(new ClickEvent(
 				ClickEvent.Action.SUGGEST_COMMAND, "/msg " + player.getName() + " "
 		));
+		
+		return text;
+	}
+	
+	// Directly from Spigot
+	// https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java
+	private static final Pattern LINK_PATTERN = Pattern.compile("((?:(?:https?):\\/\\/)?(?:[-\\w_\\.]{2,}\\.[a-z]{2,4}.*?(?=[\\.\\?!,;:]?(?:[" + String.valueOf(org.bukkit.ChatColor.COLOR_CHAR) + " \\n]|$))))");
+	
+	public static TextComponent formatTextWithURL(String string) {
+		Matcher matcher = LINK_PATTERN.matcher(string);
+		
+		TextComponent text = new TextComponent();
+		
+		int currentIndex = 0;
+		while (matcher.find()) {
+			int start = matcher.start();
+			int end = matcher.end();
+			
+			String plainText = string.substring(currentIndex, start);
+			text.addExtra(plainText);
+			
+			String url = string.substring(start, end);
+			if ( !( url.startsWith( "http://" ) || url.startsWith( "https://" ) ) ) {
+				url = "http://" + url;
+			}
+			TextComponent urlComponent = new TextComponent(url);
+			urlComponent.setClickEvent(new ClickEvent(
+					ClickEvent.Action.OPEN_URL, url
+			));
+			urlComponent.setUnderlined(true);
+			text.addExtra(urlComponent);
+			
+			currentIndex = end;
+		}
+		String plainText = string.substring(currentIndex);
+		text.addExtra(plainText);
 		
 		return text;
 	}
