@@ -1,5 +1,7 @@
 package deimophobe.nightfall.common;
 
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -329,16 +331,33 @@ public class Misc {
 		pm.addPermission(permission);
 	}
 	
-	
-	/** Should use {@link net.md_5.bungee.api.chat.TextComponent#fromLegacyText(java.lang.String)} instead. */
-	@Deprecated
 	public static TextComponent textComponentFromString(String string) {
-		TextComponent text = new TextComponent(string);
+		if (string == null) return new TextComponent("");
 		
-		if (string.charAt(0) == net.md_5.bungee.api.ChatColor.COLOR_CHAR) {
-			net.md_5.bungee.api.ChatColor colour = net.md_5.bungee.api.ChatColor.getByChar(string.charAt(1));
-			if (colour != null) text.setColor(colour);
+		BaseComponent[] bases = TextComponent.fromLegacyText(string);
+		
+		TextComponent text = new TextComponent();
+		for (BaseComponent base : bases) {
+			text.addExtra(base);
 		}
+		
+		return text;
+	}
+	
+	public static TextComponent formatPlayerName(Player player) {
+		if (player == null) return new TextComponent("");
+		
+		BaseComponent[] bases = TextComponent.fromLegacyText(player.getDisplayName());
+		
+		TextComponent text = new TextComponent();
+		for (BaseComponent base : bases) {
+			text.addExtra(base);
+		}
+		
+		text.setClickEvent(new ClickEvent(
+				ClickEvent.Action.SUGGEST_COMMAND, "/msg " + player.getName() + " "
+		));
+		
 		return text;
 	}
 	

@@ -6,6 +6,7 @@ import deimophobe.nightfall.common.util.NMSUtil;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -34,7 +35,7 @@ public class LastMainDamage {
 		this.time = Game.getGame().getCurrentTick();
 	}
 	
-	public TextComponent getAttackerName() {
+	public BaseComponent getAttackerName() {
 		return Misc.textComponentFromString(attackerName);
 	}
 	
