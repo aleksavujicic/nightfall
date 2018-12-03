@@ -50,16 +50,28 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 	public void onProjectileLand(Projectile proj, Block hitBlock) {
 		if (isActive()
 		      && isActiveProjectile(proj)
-		      && warpCooldown.isAvailable()
-		      && !GameMap.getCurrentMap().getCurrentMobProtection().continsEntity(proj)) {
+		      && warpCooldown.isAvailable()) {
+			
+			if (GameMap.getCurrentMap().getCurrentMobProtection().continsEntity(proj)) {
+				dwarf.sendTitleMessage(ChatColor.RED + "Cannot warp into mob spawn");
+				removeArrow(proj);
+				activeArrows.remove(proj);
+				return;
+			}
+			
+			Location warpLocation = getWarpLocation(proj, hitBlock);
+			if (!checkLocationIsFreeToTeleportTo(warpLocation)) {
+				dwarf.sendTitleMessage(ChatColor.RED + "Cannot warp there");
+				removeArrow(proj);
+				activeArrows.remove(proj);
+				return;
+			}
+			warpLocation.setDirection(dwarf.getLocation().getDirection());
+			teleportTo(warpLocation);
 			
 			setActive(false);
 			removeActiveArrows();
 			warpCooldown.reset();
-			
-			Location warpLocation = getWarpLocation(proj, hitBlock);
-			warpLocation.setDirection(dwarf.getLocation().getDirection());
-			teleportTo(warpLocation);
 		}
 	}
 	
@@ -90,7 +102,7 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 		super.onDamageReceive(damage);
 		damage.addPostDamageHandler(() -> {
 			if (damage.getAttacker() instanceof MonsterPlayer && !activeArrows.isEmpty()) {
-				dwarf.sendTitleMessage(ChatColor.DARK_PURPLE + "Warp interrupted by monster player!");
+				dwarf.sendTitleMessage(ChatColor.RED + "Warp interrupted by monster");
 				removeActiveArrows();
 			}
 		});
@@ -183,6 +195,19 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 			Block offsetArrowBlock = start.getRelative(0, i, 0);
 			if (offsetArrowBlock.getType().isSolid()) return false;
 		}
+		
+		return true;
+	}
+	
+	private boolean checkLocationIsFreeToTeleportTo(Location warpSpot) {
+		Block warpBlock = warpSpot.getBlock();
+		
+		// Can't teleport to solid block.
+		if (warpBlock.getType().isSolid()) return false;
+		
+		// Head must end up in non-solid block.
+		Block above = warpBlock.getRelative(0, 1, 0);
+		if (above.getType().isSolid()) return false;
 		
 		return true;
 	}
