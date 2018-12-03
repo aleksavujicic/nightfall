@@ -370,6 +370,21 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	
+	@Override
+	public final void giveItem(String name) {
+		giveItem(name, 1);
+	}
+	
+	@Override
+	public final void giveItem(String name, int quantity) {
+		monster.giveItem(items.get(name), quantity);
+	}
+	
+	@Override
+	public final boolean isValidItem(String name) {
+		return doesItemExist(name);
+	}
+	
 	protected final CustomItem getItem(String name) {
 		checkArgument(items.containsKey(name), "No item with name '%s' for mob of type '%s'", name, type);
 		return items.get(name);
@@ -377,14 +392,6 @@ public abstract class AbstractMob implements Mob {
 	
 	protected final boolean doesItemExist(String name) {
 		return items.containsKey(name);
-	}
-	
-	protected final void giveItem(String name) {
-		giveItem(name, 1);
-	}
-	
-	protected final void giveItem(String name, int quantity) {
-		monster.giveItem(items.get(name), quantity);
 	}
 	
 	protected final boolean isPlayerHoldingItem(String name) {

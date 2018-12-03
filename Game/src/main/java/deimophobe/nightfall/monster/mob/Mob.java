@@ -27,6 +27,10 @@ public interface Mob {
 	
 	boolean giveCompass();
 	
+	void giveItem(String name) throws IllegalArgumentException;
+	void giveItem(String name, int quantity) throws IllegalArgumentException;
+	boolean isValidItem(String name);
+	
 	@Deprecated
 	Disguise getDisguise();
 	default boolean hasDisguise() {return getDisguise() != null;}
