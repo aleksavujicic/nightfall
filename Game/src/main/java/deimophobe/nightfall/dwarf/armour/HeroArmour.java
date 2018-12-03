@@ -7,6 +7,7 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.game.Curse;
 import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.util.ArmourSlot;
 
 /**
@@ -46,13 +47,20 @@ public class HeroArmour extends StaticArmour {
 	
 	@Override
 	public void onDamage(DwarfDamage damage) {
-		double resistance = getResistance();
-		damage.getMultiPartDamage().timesMult(1- resistance);
+		double resistance = getDamageMultiplier();
+		damage.getMultiPartDamage().timesMult(resistance);
 	}
 	
-	private double getResistance() {
-		double dwarfBoost = 0.01 * Math.sqrt(DwarfManager.getManager().getNumberOfPlayers());
-		return Math.min(0.77 + dwarfBoost, 0.85);
+	private double getDamageMultiplier() {
+		int mobs = MonsterManager.getManager().getNumberOfPlayers();
+		int dwarves = DwarfManager.getManager().getNumberOfPlayers();
+		
+		// Realistically won't ever hit max
+		double dwarfOffset = Math.min(Math.sqrt(dwarves), 10);
+		
+		double mult = 0.15 - 0.01* dwarfOffset;
+		mult *= 1.0 + 1.0/(mobs + 1.0);
+		return mult;
 	}
 	
 	@Override

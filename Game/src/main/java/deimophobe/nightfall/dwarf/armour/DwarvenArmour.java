@@ -18,6 +18,7 @@ import deimophobe.nightfall.effects.GameEffect;
 import deimophobe.nightfall.game.Curse;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
+import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.util.ArmourSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -143,18 +144,21 @@ public class DwarvenArmour implements Armour {
 	
 	@Override
 	public void onDamage(DwarfDamage damage) {
-		double resistance = getResistance();
+		double resistance = getDamageMultiplier();
 		double kbRes = getKBResist();
-		damage.getMultiPartDamage().timesMult(1- resistance);
+		damage.getMultiPartDamage().timesMult(resistance);
 		damage.multiplyKnockback(1 - kbRes);
 	}
 	
-	private double getResistance() {
-		if (!isArmoured()) return 0.6;
+	private double getDamageMultiplier() {
+		if (!isArmoured()) return 0.4;
 		
 		double x = armourFraction();
-		int n = DwarfManager.getManager().getNumberOfPlayers();
-		return (0.775+ 0.065 * x + 0.05d/(n+1));
+		int mobs = MonsterManager.getManager().getNumberOfPlayers();
+		
+		double mult = 0.2 - 0.1*x;
+		mult *= 1.0 + 1.0/(mobs + 1.0);
+		return mult;
 	}
 	
 	private double getKBResist() {
