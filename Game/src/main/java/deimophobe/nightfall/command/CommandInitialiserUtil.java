@@ -13,6 +13,7 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.command.MessageUtil;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.loadout.LoadoutManager;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.dwarf.*;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
@@ -72,6 +73,7 @@ public class CommandInitialiserUtil {
 		commandManager.registerCommand(new AICommand());
 		commandManager.registerCommand(new BlockCommand());
 		commandManager.registerCommand(new ChatCommand());
+		commandManager.registerCommand(new DamageCommand());
 		commandManager.registerCommand(new DoomCommand());
 		commandManager.registerCommand(new DwarfCommand());
 		commandManager.registerCommand(new EggCommand());
@@ -104,6 +106,7 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("dooms", getCompletionHandlerForEnum(DoomType.values()));
 		completions.registerCompletion("ais", getCompletionHandlerForEnum(AIType.values()));
 		completions.registerCompletion("poisons", getCompletionHandlerForEnum(PoisonType.values()));
+		completions.registerCompletion("damagetypes", getCompletionHandlerForEnum(GameDamageType.values()));
 		completions.registerCompletion("gamesizes", getCompletionHandlerForEnum(GameSize.values()));
 		completions.registerCompletion("playmodes", getCompletionHandlerForEnum(PlayMode.values()));
 		
@@ -222,6 +225,7 @@ public class CommandInitialiserUtil {
 		contexts.registerContext(AIType.class, getContextResolverOfEnum(AIType.values(), "ai", true));
 		contexts.registerContext(PoisonType.class, getContextResolverOfEnum(PoisonType.values(), "poison", true));
 		contexts.registerContext(DoomType.class, getContextResolverOfEnum(DoomType.values(), "doom", true));
+		contexts.registerContext(GameDamageType.class, getContextResolverOfEnum(GameDamageType.values(), "game damage type", true));
 		contexts.registerContext(GameSize.class, getContextResolverOfEnum(GameSize.values(), "game size", true));
 		contexts.registerContext(PlayMode.class, getContextResolverOfEnum(PlayMode.values(), "gameplay mode", true));
 		contexts.registerContext(DyeColor.class, getContextResolverOfEnum(DyeColor.values(), "colour", true));

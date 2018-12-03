@@ -104,15 +104,6 @@ public class MiscCommands extends BaseCommand {
 		sender.spigot().sendMessage(message);
 	}
 	
-	@CommandAlias("damage")
-	@CommandCompletion("@gameplayers")
-	@CommandPermission("nightfall.command.damage")
-	@Description("Do damage to a game player.")
-	public void damage(CommandSender sender, GamePlayer target, double damage) {
-		target.doDamage(null, GameDamageType.COMMAND, damage, true);
-		MessageUtil.sendMessage(sender,"Damaged ", target, " for ", damage, " damage.");
-	}
-	
 	@CommandAlias("poison")
 	@CommandCompletion("@gameplayers @poisons")
 	@CommandPermission("nightfall.command.poison")

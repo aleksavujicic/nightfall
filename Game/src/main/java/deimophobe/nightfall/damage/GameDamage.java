@@ -7,6 +7,8 @@ import deimophobe.nightfall.damage.death.LastMainDamage;
 import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.util.ArrowMisc;
+import org.apache.commons.collections4.iterators.BoundedIterator;
+import org.apache.commons.collections4.queue.CircularFifoQueue;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
@@ -21,6 +23,7 @@ import org.bukkit.util.Vector;
 
 import java.text.DecimalFormat;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -29,6 +32,15 @@ import java.util.Set;
 public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 	public static final double INSTA_KILL_DMG = 1000000;
 	private static final int DEFAULT_NO_DMG_TICKS = 10;
+	
+	private static final CircularFifoQueue<GameDamage<?,?>> lastDamages = new CircularFifoQueue<>(100);
+	
+	public static Iterator<GameDamage<?,?>> getLastDamages(int count) {
+		int size = lastDamages.size();
+		if (count > size) count = size;
+		
+		return new BoundedIterator<>(lastDamages.iterator(), size - count, size);
+	}
 	
 	/** The type of damage. */
 	protected final GameDamageType type;
@@ -116,6 +128,8 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		
 		this.id = idCount;
 		idCount++;
+		
+		lastDamages.add(this);
 	}
 	
 	public void setKnockbackFromMelee() {
