@@ -18,15 +18,15 @@ import java.util.Iterator;
 public class DamageCommand extends BaseCommand {
 	
 	@Subcommand("do")
-	@CommandCompletion("@gameplayers @damagetypes")
+	@CommandCompletion("@gameplayers @nothing @damagetypes @boolean")
 	@CommandPermission("nightfall.command.damage.do")
 	@Description("Do damage to a game player.")
-	public void damage(CommandSender sender, GamePlayer target, double damage, @Default("command") GameDamageType type) {
+	public void damage(CommandSender sender, GamePlayer target, double damage, @Default("command") GameDamageType type, @Default("false") boolean display) {
 		GameDamage<?,?> gameDamage = target.createDamage(null, type, damage);
 		gameDamage.fire(true);
 		
 		MessageUtil.sendMessage(sender,"Damaged ", target, " for ", damage, " damage.");
-		sender.sendMessage(gameDamage.toString());
+		if (display) sender.sendMessage(gameDamage.toString());
 	}
 	
 	@Subcommand("last")
