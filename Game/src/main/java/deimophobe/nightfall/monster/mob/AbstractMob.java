@@ -1,5 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.PlayerSkin;
@@ -25,6 +27,7 @@ import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import net.md_5.bungee.api.chat.BaseComponent;
+import org.apache.commons.collections4.MultiValuedMap;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -35,7 +38,12 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -52,7 +60,6 @@ public abstract class AbstractMob implements Mob {
 	
 	private final MobType type;
 	@Override public MobType getType() { return type; }
-	
 	
 	private final GameCompass compass;
 	
@@ -86,6 +93,7 @@ public abstract class AbstractMob implements Mob {
 		
 		setupDisguise();
 		
+		initialiseInteractables();
 		checkForAnnotations();
 		
 		monster.clearEffects();
@@ -130,9 +138,13 @@ public abstract class AbstractMob implements Mob {
 	private final CooldownHolder cooldownHolder = new CooldownHolder();
 	private Displayable displayable = Displayable.DISPLAY_NOTHING;
 	
+	protected final void addUpdateable(Updateable updateable) { cooldownHolder.addUpdateable(updateable); }
+	protected final void setDisplayable(Displayable displayable) { this.displayable = displayable; }
+	
 	private void checkForAnnotations() {
 		Class<?> processingClass = this.getClass();
 		while (processingClass != AbstractMob.class) {
+			// Check fields
 			Field[] fields = processingClass.getDeclaredFields();
 			for (Field field : fields) {
 				field.setAccessible(true);
@@ -140,10 +152,30 @@ public abstract class AbstractMob implements Mob {
 				try {
 					checkFieldForAnnotation(field, Update.class, Updateable.class, this::addUpdateable);
 					checkFieldForAnnotation(field, Display.class, Displayable.class, this::setDisplayable);
+					checkFieldForAnnotation(field, Interact.class, Interactable.class, this::addInteractable);
 				} catch (InvalidFieldAnnotationException e) {
 					throw new InvalidFieldAnnotationException("Invalid field in class " + processingClass.getName(), e);
 				} catch (IllegalAccessException e) {
 					e.printStackTrace();
+				}
+			}
+			
+			// Check methods
+			Method[] methods = processingClass.getDeclaredMethods();
+			for (Method method : methods) {
+				Interact[] interacts = method.getAnnotationsByType(Interact.class);
+				if (interacts.length == 0) continue;
+				
+				Interactable interactable;
+				try {
+					interactable = Interactable.wrapMethod(method, this);
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+					continue;
+				}
+				
+				for (Interact interact : interacts) {
+					addInteractable(interact, interactable);
 				}
 			}
 			
@@ -152,20 +184,26 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	
-	private <T> void checkFieldForAnnotation(Field field, Class<? extends Annotation> annotationClass, Class<T> fieldType, Consumer<T> fieldApplier)
+	private <T, S extends Annotation> void checkFieldForAnnotation(
+			Field field,
+			Class<S> annotationClass,
+			Class<T> fieldType,
+			BiConsumer<S, T> fieldApplier
+	)
 			throws IllegalAccessException, InvalidFieldAnnotationException
 	{
-		if (field.isAnnotationPresent(annotationClass)) {
-			Object value = field.get(this);
-			if (fieldType.isInstance(value)) {
-				fieldApplier.accept(fieldType.cast(value));
-			} else {
-				throw new InvalidFieldAnnotationException(
-						"Field " + field.getName()
-						+ " has @" + annotationClass.getName() + " annotation "
-						+ " but does not implement" +  fieldType.getName()
-				);
-			}
+		S annotation = field.getAnnotation(annotationClass);
+		if (annotation == null) return;
+		
+		Object value = field.get(this);
+		if (fieldType.isInstance(value)) {
+			fieldApplier.accept(annotation, fieldType.cast(value));
+		} else {
+			throw new InvalidFieldAnnotationException(
+					"Field " + field.getName()
+					+ " has @" + annotationClass.getName() + " annotation "
+					+ " but does not implement" +  fieldType.getName()
+			);
 		}
 	}
 	
@@ -174,10 +212,46 @@ public abstract class AbstractMob implements Mob {
 		public InvalidFieldAnnotationException(String s, Throwable throwable) { super(s, throwable); }
 	}
 	
+	private void addUpdateable(Update update, Updateable updateable) { addUpdateable(updateable); }
+	private void setDisplayable(Display display, Displayable displayable) { setDisplayable(displayable); }
+	private void addInteractable(Interact interact, Interactable interactable) {
+		ClickType click = interact.click();
+		String item = interact.item();
+		
+		if (doesItemExist(item)) {
+			addInteractable(interactable, click, item);
+		} else {
+			NightfallPlugin.logger().severe("Failed to register interactable, unknown item: " + item);
+		}
+	}
 	
-	protected final void addUpdateable(Updateable updateable) { cooldownHolder.addUpdateable(updateable); }
-	protected final void setDisplayable(Displayable displayable) { this.displayable = displayable; }
 	
+	
+	
+	// ~~~~~ INTERACTABLE ~~~~~
+	private final Map<ClickType, Multimap<String, Interactable>> interactables = new HashMap<>();
+	private void initialiseInteractables() {
+		interactables.put(ClickType.LEFT, HashMultimap.create());
+		interactables.put(ClickType.RIGHT, HashMultimap.create());
+	}
+	
+	protected final void addInteractable(Interactable interactable, ClickType click, String item) {
+		checkArgument(doesItemExist(item), "Item '%s' in mob '%s' does not exist.", item, type);
+		
+		Multimap<String, Interactable> itemMap = interactables.get(click);
+		itemMap.put(item, interactable);
+	}
+	
+	private void tryRunInteractables(ClickType click) {
+		Multimap<String, Interactable> itemMap = interactables.get(click);
+		for (String item : itemMap.keySet()) {
+			if (!isPlayerHoldingItem(item)) continue;
+			
+			Collection<Interactable> interactables = itemMap.get(item);
+			interactables.forEach(Interactable::interact);
+			break;
+		}
+	}
 	
 	// ~~~~~ DISGUISES ~~~~~
 	protected void setupDisguise() {
@@ -457,6 +531,7 @@ public abstract class AbstractMob implements Mob {
 		if (isPlayerHoldingItem("compass")) {
 			compass.tryUse(click);
 		}
+		tryRunInteractables(click);
 	}
 	
 	@Override

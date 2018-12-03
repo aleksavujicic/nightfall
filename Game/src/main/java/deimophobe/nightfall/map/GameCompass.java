@@ -3,6 +3,7 @@ package deimophobe.nightfall.map;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.cooldown.Interactable;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;

@@ -1,5 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.cooldown.Interact;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -29,5 +31,20 @@ public class TestMob extends AbstractMob {
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
 		damage.softCancel();
+	}
+	
+	@Interact(click = ClickType.LEFT)
+	private void test() {
+		monster.sendDebugMsg("weaponL");
+	}
+	
+	@Interact(click = ClickType.LEFT, item = "test")
+	private void test2() {
+		monster.sendDebugMsg("testL");
+	}
+	
+	@Interact(click = ClickType.RIGHT, item = "test")
+	private void test3() {
+		monster.sendDebugMsg("testR");
 	}
 }
