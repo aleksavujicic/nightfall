@@ -22,6 +22,8 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.util.Vector;
 
+import static java.lang.Math.PI;
+
 public class Soulblade extends AbstractItem implements CooldownPiece {
 
 	private final Cooldown soulShatterCD = new UseCooldown(10, this::soulShatter);
@@ -91,12 +93,15 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 	}
 	
 	
-//	@Override
-//	public void onShift(boolean sneaking) {
-//		super.onShift(sneaking);
-//		souls++;
-//		soulCheck();
-//	}
+	@Override
+	public void onShift(boolean sneaking) {
+		super.onShift(sneaking);
+		
+		if (dwarf.isDebugMode()) {
+			souls++;
+			soulCheck();
+		}
+	}
 	
 	
 	private void soulCheck() {
@@ -142,29 +147,42 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 	}
 	
 	
-	private static final double TWOPI = 2*Math.PI;
+	private static final double TWOPI = 2*PI;
+	
+	private static final double R_DEF = 0.75;
+	private static final double G_DEF = 0.1;
+	private static final double B_DEF = 0.8;
+	
+	private static final double R_MAX = 0.5;
+	private static final double G_MAX = 0.1;
+	private static final double B_MAX = 0.9;
+	
 	
 	private double polar = 0;
 	private double azimuthal = 0;
 	
 	private void showParticle() {
-		double velocity = soulScaling(0.1, 0.2);
-		polar     = (polar     + velocity) % TWOPI;
-		azimuthal = (azimuthal + velocity*velocity) % TWOPI;
+//		double velocity = soulScaling(0.1, 0.2);
+		polar     = (polar     + 0.1) % TWOPI;
+		azimuthal = (azimuthal + 0.03) % TWOPI;
 		
 		
 		int numParticles = (int) soulScaling(0, 15);
 		Location center = dwarf.getEyeLocation().subtract(0, 0.5, 0);
+		
+		double r = (souls == MAX_SOULS ? R_MAX : R_DEF);
+		double g = (souls == MAX_SOULS ? G_MAX : G_DEF);
+		double b = (souls == MAX_SOULS ? B_MAX : B_DEF);
 		for (int i=0; i<numParticles; i++) {
-			double particlePolar = polar     + i;
-			double particleAzi   = azimuthal + i;
+			double particlePolar = polar     + PI/8 * i;
+			double particleAzi   = azimuthal + TWOPI/8 * i;
 			particlePolar = particlePolar % TWOPI;
 			particleAzi   = particleAzi   % TWOPI;
 			
 			//particlePolar = (particlePolar <= Math.PI ? particlePolar : TWOPI - particlePolar);
 			
 			Location particleLocation = Util.getSphericalPosition(center, 1.5, particlePolar, particleAzi);
-			particleLocation.getWorld().spawnParticle(Particle.REDSTONE, particleLocation, 0, 0.75, 0.1, 0.8);
+			particleLocation.getWorld().spawnParticle(Particle.REDSTONE, particleLocation, 0, r, g, b);
 		}
 	}
 }
