@@ -234,7 +234,8 @@ public class BlockType {
 			Material.COMMAND,
 			Material.COMMAND_CHAIN,
 			Material.COMMAND_MINECART,
-			Material.COMMAND_REPEATING
+			Material.COMMAND_REPEATING,
+			Material.FLOWER_POT
 	);
 
 	public static final ComparableBlock PLANTS = new MaterialSet(
