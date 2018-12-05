@@ -10,11 +10,13 @@ dagger: "shears:2"
 claw: "shears:3"
 rapier: "shears:4"
 scepter: "shears:5"
-glaive: "shears:6"
 hammer: "shears:7"
 soulblade: "#rapier"
 
 hunting: "#claw"
+
+arcane-mark: "shears:6"
+#/summon minecraft:item ~ ~ ~ {Item:{id:"shears",Count:1,Damage:6s},PickupDelay:32767,NoGravity:true}
 
 # Range
 crossbow: "shears:25"
@@ -104,6 +106,8 @@ arthea-weapon: "shears:49"
 arthea-heal: "shears:52"
 luminous: "#jade-bow"
 elystria: "shears:48"
+
+arthea-mark: "shears:53"
 
 # Herana
 trident: "shears:47"
