@@ -16,18 +16,19 @@ armour:
   name: Worthless Mantle
   lore:
     description:
-     - ""
+     - "Squid Body"
     flavour:
-     - ""
+     - "It's worthless!"
   bound: true
 weapon:
   base: temporary
   name: Worthless Tentacles
   lore:
     description:
-     - ""
+     - "Long tendrils that, don't do much."
     flavour:
-     - ""
+     - "Worthless Squids! Ink them in the eye!\n
+        Worthless Squids! Ink them till they die!"
 sounds:
   death:
     path: "entity.squid.death"
