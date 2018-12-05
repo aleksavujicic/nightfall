@@ -104,15 +104,6 @@ public class MiscCommands extends BaseCommand {
 		sender.spigot().sendMessage(message);
 	}
 	
-	@CommandAlias("damage")
-	@CommandCompletion("@gameplayers")
-	@CommandPermission("nightfall.command.damage")
-	@Description("Do damage to a game player.")
-	public void damage(CommandSender sender, GamePlayer target, double damage) {
-		target.doDamage(null, GameDamageType.COMMAND, damage, true);
-		MessageUtil.sendMessage(sender,"Damaged ", target, " for ", damage, " damage.");
-	}
-	
 	@CommandAlias("poison")
 	@CommandCompletion("@gameplayers @poisons")
 	@CommandPermission("nightfall.command.poison")
@@ -320,7 +311,7 @@ public class MiscCommands extends BaseCommand {
 	@CommandPermission("nightfall.command.skin")
 	private class SkinCommand extends BaseCommand {
 		
-		@CommandAlias("set")
+		@Subcommand("set")
 		@CommandCompletion("@players @nothing @skins")
 		@CommandPermission("nightfall.command.skin.set")
 		@Description("Set a skin for a player.")
@@ -336,7 +327,7 @@ public class MiscCommands extends BaseCommand {
 			});
 		}
 		
-		@CommandAlias("remove")
+		@Subcommand("remove")
 		@CommandCompletion("@players")
 		@CommandPermission("nightfall.command.skin.remove")
 		@Description("Remove a player's skin.")
@@ -344,7 +335,7 @@ public class MiscCommands extends BaseCommand {
 			SkinManager manager = SkinManager.getManager();
 			players.forEach(player -> {
 				manager.removeSkinChange(player);
-				MessageUtil.sendMessage(sender, "Remove ", player, "'s skin.");
+				MessageUtil.sendMessage(sender, "Removed ", player, "'s skin.");
 			});
 		}
 	}

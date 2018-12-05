@@ -150,6 +150,12 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		return geyserCD.getCooldown();
 	}
 	
+	
+	private static final MaterialData WATER_1 = new MaterialData(Material.LAPIS_BLOCK);
+	private static final MaterialData WATER_2 = new MaterialData(Material.STATIONARY_WATER);
+	private static final MaterialData WATER_3 = new MaterialData(Material.CONCRETE, (byte) 3);
+	private static final MaterialData WATER_4 = new MaterialData(Material.CONCRETE_POWDER, (byte) 3);
+	
 	private class Whirlpool extends LifetimeObject {
 		
 		private final Location floatLoc;
@@ -163,20 +169,21 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 			midLoc = floatLoc.clone().subtract(0, halfHeight, 0);
 		}
 		
+		
 		@Override
 		public void run() {
 			super.run();
 			
 			World world = floatLoc.getWorld();
-			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 3, 1.5, 0.3, 1.5, 0, new MaterialData(Material.LAPIS_BLOCK));
-			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 5, 1.5, 0.3, 1.5, 0, new MaterialData(Material.STATIONARY_WATER));
-			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 30, 1.5, 0.3, 1.5, 0, new MaterialData(Material.CONCRETE, (byte) 3));
-			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 50, 1.5, 0.3, 1.5, 0, new MaterialData(Material.CONCRETE_POWDER, (byte) 3));
+			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 3, 1.5, 0.3, 1.5, 0, WATER_1);
+			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 5, 1.5, 0.3, 1.5, 0, WATER_2);
+			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 30, 1.5, 0.3, 1.5, 0, WATER_3);
+			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 50, 1.5, 0.3, 1.5, 0, WATER_4);
 			world.spawnParticle(Particle.CLOUD, floatLoc, 2, 1.5, 0.3, 1.5, 0);
 			
-			world.spawnParticle(Particle.BLOCK_CRACK, midLoc, 5, 0.2, halfHeight/2, 0.2, 0, new MaterialData(Material.STATIONARY_WATER));
-			world.spawnParticle(Particle.BLOCK_CRACK, midLoc, 10, 0.2, halfHeight/2, 0.2, 0, new MaterialData(Material.CONCRETE, (byte) 3));
-			world.spawnParticle(Particle.BLOCK_CRACK, midLoc, 20, 0.2, halfHeight/2, 0.2, 0, new MaterialData(Material.CONCRETE_POWDER, (byte) 3));
+			world.spawnParticle(Particle.BLOCK_CRACK, midLoc, 5, 0.2, halfHeight/2, 0.2, 0, WATER_2);
+			world.spawnParticle(Particle.BLOCK_CRACK, midLoc, 10, 0.2, halfHeight/2, 0.2, 0, WATER_3);
+			world.spawnParticle(Particle.BLOCK_CRACK, midLoc, 20, 0.2, halfHeight/2, 0.2, 0, WATER_4);
 			
 			float pitch = (float) Misc.randomDouble(0.5,2);
 			if (getLifeLeft() % 2 == 0) {

@@ -95,14 +95,6 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 		super.update();
 		lanceCD.update();
 		arcaneMarkCD.update();
-		
-		if (activeMark != null) {
-			activeMark.update();
-			
-			if (activeMark.hasEnded()) {
-				activeMark = null;
-			}
-		}
 	}
 	
 	@Override
@@ -136,10 +128,9 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	
 	
 	// ----- ARCANE MARK -----
-	private ArcaneMark activeMark;
-	
-	private static final Colour MARK_COLOUR = new Colour(0.2, 0.8, 1);
 	private void createMark() {
-		activeMark = new ArcaneMark(dwarf, 10*20, 2, MARK_COLOUR, 4, 2);
+		dwarf.addUpdateable(
+				new ArcaneMark(dwarf, ArcaneMark.Type.SCEPTER, 10*20)
+		);
 	}
 }

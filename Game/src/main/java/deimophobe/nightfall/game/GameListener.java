@@ -209,7 +209,22 @@ public class GameListener implements Listener {
 			case ZOMBIE_HORSE:
 			case VILLAGER:
 			case ITEM_FRAME:
+			case MINECART_HOPPER: {
 				event.setCancelled(true);
+				break;
+			}
+			
+			
+			case MINECART_CHEST: {
+				event.setCancelled(true);
+				
+				Player player = event.getPlayer();
+				Dwarf dwarf = DwarfManager.getManager().getGamePlayer(player);
+				if (dwarf == null) break;
+				
+				dwarf.showSharedChest();
+				break;
+			}
 		}
 	}
 	

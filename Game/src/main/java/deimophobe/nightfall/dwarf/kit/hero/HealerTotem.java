@@ -45,14 +45,6 @@ public class HealerTotem extends AbstractItem implements CooldownPiece {
 	public void update() {
 		healing.update();
 		arcaneMarkCD.update();
-		
-		if (activeMark != null) {
-			activeMark.update();
-			
-			if (activeMark.hasEnded()) {
-				activeMark = null;
-			}
-		}
 	}
 	
 	private void groupHeal() {
@@ -84,11 +76,10 @@ public class HealerTotem extends AbstractItem implements CooldownPiece {
 		}
 	}
 	
-	private ArcaneMark activeMark;
-	
-	private static final Colour MARK_COLOUR = new Colour(0.7, 0.2, 0.4);
 	private void createMark() {
-		activeMark = new ArcaneMark(dwarf, 20*20, 3, MARK_COLOUR, 8, 3);
+		dwarf.addUpdateable(
+				new ArcaneMark(dwarf, ArcaneMark.Type.ARTHEA,20*20)
+		);
 	}
 	
 	@Override

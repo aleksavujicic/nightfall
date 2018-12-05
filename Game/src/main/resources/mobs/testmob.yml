@@ -1,3 +1,11 @@
 title: Tester
 
 proccable: false
+
+weapon:
+  base: temp
+  name: "Test Weapon"
+items:
+  test:
+    base: temp
+    name: "Test Item"

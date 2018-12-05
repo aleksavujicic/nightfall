@@ -125,20 +125,6 @@ rapier:
     modifiers:
       attack: 15
 
-glaive:
-  enabled: false
-  index: 7
-  type: item
-  name: glaive
-  category: sword
-  cost: 16
-  item:
-    name: "Glaive"
-    base: glaive
-    lore:
-      description:
-       - "ED make this work."
-
 hunting-claws:
   enabled: false
   index: 8

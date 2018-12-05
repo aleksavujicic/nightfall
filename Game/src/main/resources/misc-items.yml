@@ -71,3 +71,14 @@ reset-xp:
     description:
      - "You have currently spent &e$xp&r xp on your upgrades.\n
         Confirm to reset your upgrades and get &a$refund&r xp back."
+
+
+arcane-mark:
+  template: basic
+  base: arcane-mark
+  name: Arcane Mark
+
+arthea-mark:
+  template: basic
+  base: arthea-mark
+  name: Arcane Mark

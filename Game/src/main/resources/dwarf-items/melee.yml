@@ -93,18 +93,6 @@ rapier:
   modifiers:
     attack: 15
 
-glaive:
-  base: glaive
-  name: Glaive
-  lore:
-    description:
-      - "Right click to spin.\n
-        Drk plz change"
-    flavour:
-      - "\"Finally the hammer is getting changed!\" - Everyone"
-  modifiers:
-    attack: 15
-
 scepter:
   base: scepter
   name: Arcane Scepter

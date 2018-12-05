@@ -116,11 +116,14 @@ public class Bricklayer extends AbstractItem {
 			return 0;
 		}
 		
-		return Math.abs(
-				(firstCorner.getX() - secondCorner.getX())
-				* (firstCorner.getY() - secondCorner.getY())
-				* (firstCorner.getZ() - secondCorner.getZ())
+		return (
+				discreteDifference(firstCorner.getX(), secondCorner.getX())
+				* discreteDifference(firstCorner.getY(), secondCorner.getY())
+				* discreteDifference(firstCorner.getZ(), secondCorner.getZ())
 		);
+	}
+	private int discreteDifference(int a, int b) {
+		return Math.abs(a - b) + 1;
 	}
 	
 	private OperationState getOperationState() {
@@ -137,9 +140,15 @@ public class Bricklayer extends AbstractItem {
 		return Game.getGame().getPhase().isBefore(Phase.GAME);
 	}
 	
+	private static String formatBlock(Block block) {
+		return "[" + block.getX() + ", " + block.getY() + ", " + block.getZ() + "]";
+	}
+	
 	private class Builder extends BukkitRunnable {
 		private BlockSupplier supplier;
 		private boolean paused = false;
+		
+		private int blocksPlaced = 0;
 		
 		
 		protected Builder(Block firstCorner, Block secondCorner) {
@@ -153,6 +162,9 @@ public class Bricklayer extends AbstractItem {
 			
 			runTaskTimer(NightfallPlugin.getPlugin(), delay, freq);
 			dwarf.sendTitleMessage(ChatColor.YELLOW + "Placing blocks...");
+			
+			NightfallPlugin.logger().info("Started bricklaying for " + dwarf.getName() + " (" + state + ").");
+			NightfallPlugin.logger().info("Corners are " + formatBlock(firstCorner) + " and " + formatBlock(secondCorner) + " (volume: " + getVolume() + ").");
 		}
 		
 		@Override
@@ -180,6 +192,7 @@ public class Bricklayer extends AbstractItem {
 					nextBlock.getWorld().playSound(nextBlock.getLocation(), "block.stone.place", 1f, 1f);
 					dwarf.playSound("block.stone.place");
 					nextBlock.setType(Material.COBBLESTONE);
+					blocksPlaced++;
 					break;
 				}
 			}
@@ -196,6 +209,7 @@ public class Bricklayer extends AbstractItem {
 		public synchronized void cancel() throws IllegalStateException {
 			super.cancel();
 			builder = null;
+			NightfallPlugin.logger().info("Bricklayer for " + dwarf.getName() + " finished (placed " + blocksPlaced + " blocks).");
 		}
 	}
 	
@@ -278,9 +292,9 @@ public class Bricklayer extends AbstractItem {
 	}
 	
 	private enum OperationState {
-		SPEEDY_BUILD(1500, 0, 3),
-		SPEEDY_NOBUILD(750, 20, 10),
-		NOSPEEDY_BUILD(1000, 0, 5),
+		SPEEDY_BUILD(2000, 0, 3),
+		SPEEDY_NOBUILD(1000, 20, 10),
+		NOSPEEDY_BUILD(1250, 0, 5),
 		
 		;
 		

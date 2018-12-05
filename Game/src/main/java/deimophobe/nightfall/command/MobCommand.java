@@ -162,6 +162,26 @@ public class MobCommand extends BaseCommand {
 		});
 	}
 	
+	@Subcommand("give")
+	@CommandCompletion("@monsters")
+	@CommandPermission("nightfall.command.mob.give")
+	@Description("Give a monster(s) an item.")
+	public void giveItem(CommandSender sender, MonsterIterable monsters, String item, @Default("1") int quantity) {
+		monsters.forEach(monster -> {
+			Mob mob = monster.getMob();
+			if (mob == null) {
+				MessageUtil.sendMessage(sender, "Monster ", monster, " is not spawned as a mob.");
+			} else {
+				if (mob.isValidItem(item)) {
+					mob.giveItem(item, quantity);
+					MessageUtil.sendMessage(sender, "Gave ", monster, " a total of ", quantity, " ", item, ".");
+				} else {
+					MessageUtil.sendMessage(sender, "Monster ", monster, " (type '", mob.getType(), "')  has no item named '", item, "'.");
+				}
+			}
+		});
+	}
+	
 	private MonsterManager getManager() {
 		return MonsterManager.getManager();
 	}

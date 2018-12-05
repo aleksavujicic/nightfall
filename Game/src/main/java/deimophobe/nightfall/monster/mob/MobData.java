@@ -24,6 +24,8 @@ import java.util.Set;
  * Created by Deimophobe on 27/01/17.
  */
 public class MobData {
+	//private final Class<? extends Mob> mobClass; TODO
+	
 	final String fullName;
 	
 	final String title;
@@ -162,6 +164,8 @@ public class MobData {
 		}
 	}
 	
+	// ===== ITEMS =====
+	
 	private void compileItems() {
 		// Add stats to weapon
 		if (weapon != null) {
@@ -216,6 +220,16 @@ public class MobData {
 		return armour != null;
 	}
 	
+	
+	// ====== REFLECTION =====
+	
+	private void getFields() {
+		//TODO: Need to initiated MobData with class object somehow?
+		
+	}
+	
+	// ====== VERIFICATION =====
+	
 	/** Verifies that the values of this MobData
 	 * are valid (so no nulls etc.). This is only done
 	 * on those which are to be used as mobs. (So that base
@@ -239,6 +253,9 @@ public class MobData {
 		if (health == 0)
 			throw new IllegalStateException("Mob " + fullName + " has zero health.");
 	}
+	
+	
+	// ====== DATA FETCHER =====
 	
 	static MobData getMobData(String fullKey) {
 		return getMobData(fullKey, true);
@@ -279,6 +296,7 @@ public class MobData {
 	
 	
 	
+	// ====== SOUND =====
 	
 	void playSound(String sound, MonsterPlayer monster) {
 		sounds.putIfAbsent(sound, new MobSound(sound));

@@ -1,5 +1,7 @@
 package deimophobe.nightfall.common;
 
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -15,6 +17,8 @@ import org.bukkit.util.Vector;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -329,16 +333,69 @@ public class Misc {
 		pm.addPermission(permission);
 	}
 	
-	
-	/** Should use {@link net.md_5.bungee.api.chat.TextComponent#fromLegacyText(java.lang.String)} instead. */
-	@Deprecated
 	public static TextComponent textComponentFromString(String string) {
-		TextComponent text = new TextComponent(string);
+		if (string == null) return new TextComponent("");
 		
-		if (string.charAt(0) == net.md_5.bungee.api.ChatColor.COLOR_CHAR) {
-			net.md_5.bungee.api.ChatColor colour = net.md_5.bungee.api.ChatColor.getByChar(string.charAt(1));
-			if (colour != null) text.setColor(colour);
+		BaseComponent[] bases = TextComponent.fromLegacyText(string);
+		
+		TextComponent text = new TextComponent();
+		for (BaseComponent base : bases) {
+			text.addExtra(base);
 		}
+		
+		return text;
+	}
+	
+	public static TextComponent formatPlayerName(Player player) {
+		if (player == null) return new TextComponent("");
+		
+		BaseComponent[] bases = TextComponent.fromLegacyText(player.getDisplayName());
+		
+		TextComponent text = new TextComponent();
+		for (BaseComponent base : bases) {
+			text.addExtra(base);
+		}
+		
+		text.setClickEvent(new ClickEvent(
+				ClickEvent.Action.SUGGEST_COMMAND, "/msg " + player.getName() + " "
+		));
+		
+		return text;
+	}
+	
+	// Directly from Spigot
+	// https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java
+	private static final Pattern LINK_PATTERN = Pattern.compile("((?:(?:https?):\\/\\/)?(?:[-\\w_\\.]{2,}\\.[a-z]{2,4}.*?(?=[\\.\\?!,;:]?(?:[" + String.valueOf(org.bukkit.ChatColor.COLOR_CHAR) + " \\n]|$))))");
+	
+	public static TextComponent formatTextWithURL(String string) {
+		Matcher matcher = LINK_PATTERN.matcher(string);
+		
+		TextComponent text = new TextComponent();
+		
+		int currentIndex = 0;
+		while (matcher.find()) {
+			int start = matcher.start();
+			int end = matcher.end();
+			
+			String plainText = string.substring(currentIndex, start);
+			text.addExtra(plainText);
+			
+			String url = string.substring(start, end);
+			if ( !( url.startsWith( "http://" ) || url.startsWith( "https://" ) ) ) {
+				url = "http://" + url;
+			}
+			TextComponent urlComponent = new TextComponent(url);
+			urlComponent.setClickEvent(new ClickEvent(
+					ClickEvent.Action.OPEN_URL, url
+			));
+			urlComponent.setUnderlined(true);
+			text.addExtra(urlComponent);
+			
+			currentIndex = end;
+		}
+		String plainText = string.substring(currentIndex);
+		text.addExtra(plainText);
+		
 		return text;
 	}
 	

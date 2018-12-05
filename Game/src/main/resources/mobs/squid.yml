@@ -10,6 +10,7 @@ shred: 5
 canrun: false
 shrineweight: 1.25
 shrine-xp: 4
+immunetime: 0
 
 armour:
   material: water_bucket
@@ -29,7 +30,19 @@ weapon:
     flavour:
      - "Worthless Squids! Ink them in the eye!\n
         Worthless Squids! Ink them till they die!"
+items:
+  test:
+    base: temporary
+    name: Jump (why u break)
+    lore:
+      description:
+       - ""
+      flavour:
+       - ""
 sounds:
   death:
     path: "entity.squid.death"
     pitch: 1.25
+  squirt:
+    path: "entity.squid.hurt"
+    pitch: 0.6
