@@ -158,7 +158,7 @@ public enum KitPieceType {
 	public static Set<String> getPieceNames() {
 		Set<String> names = new HashSet<>();
 		for (KitPieceType type : values()) {
-			names.add(type.toString().toLowerCase());
+			names.add(type.toString().toLowerCase().replaceAll("_","-"));
 		}
 		return names;
 	}
