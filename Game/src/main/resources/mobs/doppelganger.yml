@@ -99,14 +99,6 @@ items:
        - "A rapier that has been touched by Airem's will."
       flavour:
        - "It strikes with perfect precision."
-  glaive:
-    base: glaive
-    name: Cursed Glaive
-    lore:
-      description:
-       - "A glaive that has been touched by Airem's will."
-      flavour:
-       - "The blade cuts through all armour."
   soulblade:
     base: soulblade
     name: Cursed Soulblade
