@@ -48,7 +48,7 @@ public enum ItemModifierType {
 	FASTER_THROW("Extra Throw Chance", ValueFormatter.PERCENT_FORMATTER),
 
 	// Special dwarf armours
-	FAIRY_BAND("Fairy Band", false),
+	ALCHEMICAL_GUARD("Alchemical Guard", false),
 	NATURE_SUIT("Taproot Armour", false),
 	
 	KB_RESIST("Knockback Res", new AttributeApplier(Attribute.KNOCKBACK_RESISTANCE, (i) -> (double)i/100), new PercentFormatter(false)),

@@ -60,7 +60,7 @@ public enum KitPieceType {
 	STURDY(Sturdy::new),
 	QUIVER(Quiver::new),
 	STUDDED(StuddedArmour::new),
-	FAIRY_BAND(FairyBand::new),
+	ALCHEMICAL_GUARD(AlchemicalGuard::new),
 	BERSERKER(BerserkArmour::new),
 	NATURE_SUIT(NatureSuit::new),
 	

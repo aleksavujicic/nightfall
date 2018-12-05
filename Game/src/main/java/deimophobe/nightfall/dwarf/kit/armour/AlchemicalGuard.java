@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 14/03/17.
  */
-public class FairyBand extends AbstractCooldown {
+public class AlchemicalGuard extends AbstractCooldown {
 	
 	private static final Buff WEAK_REGEN = new Buff(PotionEffectType.REGENERATION, 2);
 	
@@ -42,10 +42,10 @@ public class FairyBand extends AbstractCooldown {
 	
 	private Buff currentBuff;
 	
-	public FairyBand(Dwarf dwarf) {
+	public AlchemicalGuard(Dwarf dwarf) {
 		super(dwarf, DURATION);
 		
-		dwarf.getArmour().addModifier(ItemModifierType.FAIRY_BAND, 1);
+		dwarf.getArmour().addModifier(ItemModifierType.ALCHEMICAL_GUARD, 1);
 		
 		// Update in half a second
 		resetCooldown();
