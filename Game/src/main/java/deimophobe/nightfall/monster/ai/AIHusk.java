@@ -20,7 +20,7 @@ class AIHusk extends AIEntity<Husk> {
 	private static final Consumer<Husk> HUSK_INITIALISER = husk -> {
 		husk.setBaby(false);
 		
-		double speed = Misc.randomDouble(0, 0.5);
+		double speed = Misc.randomDouble(0.25, 0.5);
 		AttributeModifier speedModifier = new AttributeModifier("speed", speed, AttributeModifier.Operation.MULTIPLY_SCALAR_1);
 		husk.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).addModifier(speedModifier);
 		husk.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0.5);

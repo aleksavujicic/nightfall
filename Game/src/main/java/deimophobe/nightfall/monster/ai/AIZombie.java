@@ -23,7 +23,7 @@ public class AIZombie extends AIEntity<Zombie> {
 	private static final Consumer<Zombie> INITIALISER = (zombie) -> {
 		zombie.setBaby(false);
 		
-		double speed = Misc.randomDouble(0, 0.6);
+		double speed = Misc.randomDouble(0.4, 0.7);
 		AttributeModifier speedModifier = new AttributeModifier("speed", speed, AttributeModifier.Operation.MULTIPLY_SCALAR_1);
 		zombie.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).addModifier(speedModifier);
 		
