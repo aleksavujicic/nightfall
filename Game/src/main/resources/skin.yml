@@ -76,7 +76,7 @@ kiwi5000:
 #  hand:  "r"
 #
 # The layer represents the bit settings of the different layers, where the bits are:
-# (<unused>, cape, jacket, left sleeve, right sleeve, left pants, right pants, hat)
+# (<unused>, hat, right pants, left pants, right sleeve, left sleeve, jacket, cape)
 # The lazy setting represents whether to take the fixed layer setting above (0) , or the client setting (1).
 #
 # In the example above, the right sleeve, left pants, right pants, and hat are all determined by the client,

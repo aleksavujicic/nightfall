@@ -6,6 +6,7 @@ import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Description;
 import co.aikar.commands.contexts.OnlinePlayer;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.command.MessageUtil;
 import deimophobe.nightfall.common.util.NMSUtil;
 import org.bukkit.Bukkit;
@@ -57,7 +58,7 @@ public class InfoCommand extends BaseCommand {
 	public void skinByte(CommandSender sender, OnlinePlayer player) {
 		Player play = player.getPlayer();
 		Byte skinByte = NMSUtil.getSkinSettingsOfPlayer(play);
-		String binaryString = (skinByte == null ? null : Integer.toBinaryString(skinByte));
+		String binaryString = (skinByte == null ? null : Misc.byteToBinaryString(skinByte));
 		MessageUtil.sendMessage(sender, "Player ", play, " has a skin byte of ", binaryString, ".");
 	}
 	
