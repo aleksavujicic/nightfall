@@ -3,8 +3,11 @@ package deimophobe.nightfall.dwarf.kit.armour;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.kit.AbstractCooldown;
+import deimophobe.nightfall.dwarf.kit.ArmourPiece;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
+import deimophobe.nightfall.util.ArmourSlot;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashSet;
@@ -13,7 +16,7 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 14/03/17.
  */
-public class AlchemicalGuard extends AbstractCooldown {
+public class AlchemicalGuard extends AbstractCooldown implements ArmourPiece {
 	
 	private static final Buff WEAK_REGEN = new Buff(PotionEffectType.REGENERATION, 2);
 	
@@ -45,11 +48,14 @@ public class AlchemicalGuard extends AbstractCooldown {
 	public AlchemicalGuard(Dwarf dwarf) {
 		super(dwarf, DURATION);
 		
-		dwarf.getArmour().addModifier(ItemModifierType.ALCHEMICAL_GUARD, 1);
-		
 		// Update in half a second
 		resetCooldown();
 		reduceCooldown(DURATION - 10);
+	}
+	
+	@Override
+	public void onArmourEquip(Armour armour) {
+		armour.addModifier(ItemModifierType.ALCHEMICAL_GUARD, 1);
 	}
 	
 	@Override

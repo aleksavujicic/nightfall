@@ -47,9 +47,11 @@ public enum ItemModifierType {
 	IMPACT_EXTRA("Extra Force"),
 	FASTER_THROW("Extra Throw Chance", ValueFormatter.PERCENT_FORMATTER),
 
-	// Special dwarf armours
+	// Special dwarf armours/abilities
 	ALCHEMICAL_GUARD("Alchemical Guard", false),
 	NATURE_SUIT("Taproot Armour", false),
+	AVENGE("Avenge", false),
+	RESURRECTION("Resurrection", false),
 	
 	KB_RESIST("Knockback Res", new AttributeApplier(Attribute.KNOCKBACK_RESISTANCE, (i) -> (double)i/100), new PercentFormatter(false)),
 	PROC_RESIST("Proc Resistance", ValueFormatter.PERCENT_FORMATTER),

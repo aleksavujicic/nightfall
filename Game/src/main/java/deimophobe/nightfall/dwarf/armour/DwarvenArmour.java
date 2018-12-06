@@ -45,8 +45,6 @@ public class DwarvenArmour implements Armour {
 	private Map<ArmourLevel, ArmourSet> setMap = new HashMap<>();
 	
 	
-	
-	
 	public DwarvenArmour(Dwarf dwarf) {
 		this.dwarf = dwarf;
 		

@@ -13,6 +13,7 @@ import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
+import deimophobe.nightfall.dwarf.kit.ArmourPiece;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.game.entity.ShieldSource;
@@ -26,7 +27,7 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * Created by Deimophobe on 1/11/17.
  */
-public class Resurrection extends AbstractPiece {
+public class Resurrection extends AbstractPiece implements ArmourPiece {
 	
 	private boolean used = false;
 	
@@ -93,5 +94,10 @@ public class Resurrection extends AbstractPiece {
 				}
 			});
 		}
+	}
+	
+	@Override
+	public void onArmourEquip(Armour armour) {
+		armour.addModifier(ItemModifierType.RESURRECTION, 1);
 	}
 }

@@ -5,6 +5,7 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.kit.ranged.AbstractBow;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -71,6 +72,11 @@ public class Kit {
 		
 		if (kitPiece instanceof AbstractBow) {
 			bowPieces.add((AbstractBow) kitPiece);
+		}
+		
+		Armour armour = dwarf.getArmour();
+		if (armour.isArmoured() && kitPiece instanceof ArmourPiece) {
+			((ArmourPiece) kitPiece).onArmourEquip(armour);
 		}
 	}
 	
@@ -176,9 +182,11 @@ public class Kit {
 	}
 	
 	public void onArmourEquip() {
+		Armour armour = dwarf.getArmour();
 		for (KitPiece item : kitPieces.values()) {
-			if (item instanceof ArmourPiece)
-				((ArmourPiece) item).onArmourEquip();
+			if (item instanceof ArmourPiece) {
+				((ArmourPiece) item).onArmourEquip(armour);
+			}
 		}
 	}
 	
