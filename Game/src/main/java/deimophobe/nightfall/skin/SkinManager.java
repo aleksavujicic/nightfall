@@ -71,22 +71,8 @@ public class SkinManager implements Manager {
 		}
 	}
 	
-	private PlayerSkin getPlayerSkinFromEntityID(int id) {
-		for (Map.Entry<UUID, PlayerSkin> entry : alteredSkins.entrySet()) {
-			UUID uuid = entry.getKey();
-			Player player = Bukkit.getPlayer(uuid);
-			if (player == null) continue;
-			
-			if (player.getEntityId() == id) {
-				return entry.getValue();
-			}
-		}
-		return null;
-	}
-	
-	private UUID getUUIDFromEntityID(int id) {
-		for (Map.Entry<UUID, PlayerSkin> entry : alteredSkins.entrySet()) {
-			UUID uuid = entry.getKey();
+	private UUID getSkinChangedUUIDFromEntityID(int id) {
+		for (UUID uuid : alteredSkins.keySet()) {
 			Player player = Bukkit.getPlayer(uuid);
 			if (player == null) continue;
 			
@@ -95,6 +81,32 @@ public class SkinManager implements Manager {
 			}
 		}
 		return null;
+	}
+	
+	private byte getDisplayedLayerByte(UUID uuid) {
+		FixedSkinSettings defaultSettings = getSkinSettings(uuid);
+		
+		PlayerSkin playerSkin = alteredSkins.get(uuid);
+		
+		if (playerSkin == null) {
+			return defaultSettings.getLayerByte();
+		} else {
+			SkinSettings settings = playerSkin.getSkinSettings();
+			return settings.getLayerByte(defaultSettings.getLayerByte());
+		}
+	}
+	
+	private byte getDisplayedHandByte(UUID uuid) {
+		FixedSkinSettings defaultSettings = getSkinSettings(uuid);
+		
+		PlayerSkin playerSkin = alteredSkins.get(uuid);
+		
+		if (playerSkin == null) {
+			return defaultSettings.getHandByte();
+		} else {
+			SkinSettings settings = playerSkin.getSkinSettings();
+			return settings.getHandByte(defaultSettings.getHandByte());
+		}
 	}
 	
 	private void updateAllPlayerSkinsWithUUID(UUID uuid) {
@@ -116,14 +128,18 @@ public class SkinManager implements Manager {
 		// Shamelessly stolen from
 		// https://www.spigotmc.org/threads/simulating-potion-effect-glowing-with-protocollib.218828/#post-2246160
 		
+		UUID uuid = player.getUniqueId();
+		byte layerByte = getDisplayedLayerByte(uuid);
+		byte handByte = getDisplayedHandByte(uuid);
+		
 		ProtocolManager pm = ProtocolLibrary.getProtocolManager();
 		PacketContainer packet = pm.createPacket(PacketType.Play.Server.ENTITY_METADATA);
 		packet.getIntegers().write(0, player.getEntityId()); //Set packet's entity id
 		WrappedDataWatcher watcher = new WrappedDataWatcher(); //Create data watcher, the Entity Metadata packet requires this
 		WrappedDataWatcher.Serializer serializer = WrappedDataWatcher.Registry.get(Byte.class); //Found this through google, needed for some stupid reason
 		watcher.setEntity(player); //Set the new data watcher's target
-		watcher.setObject(13, serializer, (byte) 0); // Set hand and skin layer packets
-		watcher.setObject(14, serializer, (byte) 0);
+		watcher.setObject(13, serializer, layerByte); // Set hand and skin layer packets
+		watcher.setObject(14, serializer, handByte);
 		packet.getWatchableCollectionModifier().write(0, watcher.getWatchableObjects()); //Make the packet's datawatcher the one we created
 		pm.broadcastServerPacket(packet);
 	}
@@ -280,6 +296,8 @@ public class SkinManager implements Manager {
 				NightfallPlugin.logger().severe("Exception sending instant skin change packet");
 				ex.printStackTrace();
 			}
+			
+			updatePlayerMetadata(player);
 		}
 	}
 	
@@ -327,15 +345,11 @@ public class SkinManager implements Manager {
 			WrapperPlayServerEntityMetadata packet =  new WrapperPlayServerEntityMetadata(pc);
 			
 			int entityID = packet.getEntityID();
-			PlayerSkin playerSkin = getPlayerSkinFromEntityID(entityID);
-			if (playerSkin == null) return;
+			UUID uuid = getSkinChangedUUIDFromEntityID(entityID);
+			if (uuid == null) return;
 			
-			UUID uuid = getUUIDFromEntityID(entityID);
-			FixedSkinSettings defaultSettings = getSkinSettings(uuid);
-			
-			SkinSettings settings = playerSkin.getSkinSettings();
-			byte layerByte = settings.getLayerByte(defaultSettings.getLayerByte());
-			byte handByte = settings.getHandByte(defaultSettings.getHandByte());
+			byte layerByte = getDisplayedLayerByte(uuid);
+			byte handByte = getDisplayedHandByte(uuid);
 			
 			List<WrappedWatchableObject> metadata = packet.getMetadata();
 			for (WrappedWatchableObject object : metadata) {
@@ -364,18 +378,13 @@ public class SkinManager implements Manager {
 			WrapperPlayServerNamedEntitySpawn packet =  new WrapperPlayServerNamedEntitySpawn(pc);
 			
 			int entityID = packet.getEntityID();
-			PlayerSkin playerSkin = getPlayerSkinFromEntityID(entityID);
-			if (playerSkin == null) return;
+			UUID uuid = getSkinChangedUUIDFromEntityID(entityID);
+			if (uuid == null) return;
 			
-			UUID uuid = getUUIDFromEntityID(entityID);
-			FixedSkinSettings defaultSettings = getSkinSettings(uuid);
+			byte layerByte = getDisplayedLayerByte(uuid);
+			byte handByte = getDisplayedHandByte(uuid);
 			
 			WrappedDataWatcher watcher = packet.getMetadata();
-			
-			SkinSettings settings = playerSkin.getSkinSettings();
-			byte layerByte = settings.getLayerByte(defaultSettings.getLayerByte());
-			byte handByte = settings.getHandByte(defaultSettings.getHandByte());
-			
 			if (watcher.hasIndex(13)) watcher.setObject(13, layerByte);
 			if (watcher.hasIndex(14)) watcher.setObject(14, handByte);
 			
