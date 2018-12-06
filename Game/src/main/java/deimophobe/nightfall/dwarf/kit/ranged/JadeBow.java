@@ -42,16 +42,14 @@ public class JadeBow extends AbstractBow {
 	
 	@Override
 	public Projectile onBowFire(Projectile arrow, float force) {
-		if (force < 0.5) return null;
+		if (force < 0.9) return null;
 		if (!dwarf.hasArrows(3)) return null;
 		dwarf.useArrows(2);
 		
-		double range = MAX_RANGE * force * force;
-		
 		GamePlayer.ProcGiver procGiver = dwarf.new ProcGiver(ProcType.EBOW, MIN_DISTANCE_FROM_SHOOTER);
-		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(GameDamageType.JADE_BOW, getPower()*force);
+		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(GameDamageType.JADE_BOW, getPower());
 		Hitscan hitscan = new Hitscan(THICKNESS, PARTICLE_PLACER, procGiver, entityDamager);
-		HitscanProjectile.fireProjectile(dwarf, VELOCITY, range, hitscan);
+		HitscanProjectile.fireProjectile(dwarf, VELOCITY, MAX_RANGE, hitscan);
 		
 		return null;
 	}

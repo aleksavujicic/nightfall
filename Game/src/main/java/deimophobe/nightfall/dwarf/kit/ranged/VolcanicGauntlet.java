@@ -49,33 +49,29 @@ public class VolcanicGauntlet extends AbstractBow {
 	
 	@Override
 	public Projectile onBowFire(Projectile arrow, float force) {
-		if (force < 0.5) return null;
+		if (force < 0.9) return null;
 		if (!dwarf.hasArrows(COST)) return null;
 		dwarf.useArrows(COST);
 		
-		double force2 = force*force;
-		double range = MAX_RANGE * force2;
-		double damage = POWER * force2;
-		
 		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(
 				GameDamageType.VOLCANIC_BOW,
-				(monster) -> (monster.isAI() ? damage*2d/3d : damage)
+				(monster) -> (monster.isAI() ? POWER*2d/3d : POWER)
 		);
 		Hitscan hitscan = HITSCAN_BUILDER.but().withMobConsumer(entityDamager).build();
-		HitscanProjectile.fireProjectile(dwarf, 3, range, hitscan);
+		HitscanProjectile.fireProjectile(dwarf, 3, MAX_RANGE, hitscan);
 		
 		Location feets = dwarf.getLocation().add(0, 0.25, 0);
 		World world = feets.getWorld();
-		world.spawnParticle(Particle.FLAME, feets, (int) (50*force2), AOE_RADIUS/2, 0.1f, AOE_RADIUS/2, 0);
-		world.spawnParticle(Particle.LAVA, feets, (int) (20*force2), AOE_RADIUS/2, 0.1f, AOE_RADIUS/2, 0);
+		world.spawnParticle(Particle.FLAME, feets, 50, AOE_RADIUS/2, 0.1f, AOE_RADIUS/2, 0);
+		world.spawnParticle(Particle.LAVA, feets, 20, AOE_RADIUS/2, 0.1f, AOE_RADIUS/2, 0);
 		
 		Location hands = dwarf.getEyeLocation();
 		Misc.moveLocation(hands, 0, 0.3, -0.3);
-		world.spawnParticle(Particle.FLAME, hands, (int) (10*force2), 0f, 0f, 0f, 0.15);
+		world.spawnParticle(Particle.FLAME, hands, 10, 0f, 0f, 0f, 0.15);
 		
 		
-		dwarf.playSound("entity.generic.burn", 1f, 1.2f - force*0.5f, true);
-		dwarf.playSound("entity.ghast.shoot", 1f, 1.35f - force*0.5f, true);
+		dwarf.playSound("entity.generic.burn", 1f, 0.7f, true);
+		dwarf.playSound("entity.ghast.shoot", 1f, 0.85f, true);
 		
 		return null;
 	}

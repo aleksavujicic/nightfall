@@ -52,26 +52,24 @@ public class Luminous extends AbstractBow {
 
     @Override
     public Projectile onBowFire(Projectile arrow, float force) {
-		if (force < 0.5) return null;
+		if (force < 0.9) return null;
         if (!dwarf.hasArrows(3)) return null;
         dwarf.useArrows(3);
-
-        double range = MAX_RANGE * force * force;
 	
 		ParticleSwirler swirler = new ParticleSwirler(dwarf.getLocation().getDirection());
 		GamePlayer.ProcGiver procGiver = dwarf.new ProcGiver(ProcType.LUMINOUS, MIN_DISTANCE_FROM_SHOOTER);
-		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(GameDamageType.LUMINOUS, getPower()*force);
+		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(GameDamageType.LUMINOUS, getPower());
 		Hitscan hitscan = new Hitscan(THICKNESS, swirler, procGiver, entityDamager);
-		HitscanProjectile.fireProjectile(dwarf, 4, range, hitscan);
+		HitscanProjectile.fireProjectile(dwarf, 4, MAX_RANGE, hitscan);
 	
-		dwarf.playSound("entity.ghast.shoot", 1f, 1.35f - force*0.5f, true);
+		dwarf.playSound("entity.ghast.shoot", 1f, 0.85f, true);
 		
 		Location chest = dwarf.getEyeLocation().subtract(0, 0.5, 0);
 		World world = chest.getWorld();
-		world.spawnParticle(Particle.FLAME, chest, (int) (20*force), 0.6f, 0.6f, 0.6f, 0.07);
-		world.spawnParticle(Particle.VILLAGER_HAPPY, chest, (int) (15*force), 0.6f, 0.6f, 0.6f, 0.07);
-		world.spawnParticle(Particle.END_ROD, chest, (int) (10*force), 0.6f, 0.6f, 0.6f, 0.07);
-		world.spawnParticle(Particle.DRAGON_BREATH, chest, (int) (5*force), 0.6f, 0.6f, 0.6f, 0.07);
+		world.spawnParticle(Particle.FLAME, chest, 20, 0.6f, 0.6f, 0.6f, 0.07);
+		world.spawnParticle(Particle.VILLAGER_HAPPY, chest, 15, 0.6f, 0.6f, 0.6f, 0.07);
+		world.spawnParticle(Particle.END_ROD, chest, 10, 0.6f, 0.6f, 0.6f, 0.07);
+		world.spawnParticle(Particle.DRAGON_BREATH, chest, 5, 0.6f, 0.6f, 0.6f, 0.07);
 
         return null;
     }
