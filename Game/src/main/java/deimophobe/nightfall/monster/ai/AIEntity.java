@@ -85,7 +85,7 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 	
 	@Override
 	public String getDeathMessageName() {
-		return ChatColor.DARK_RED + "AI " + MonsterEntity.super.getDeathMessageName();
+		return ChatColor.DARK_RED + "Lesser Demon " + MonsterEntity.super.getDeathMessageName();
 	}
 	
 	@Override
