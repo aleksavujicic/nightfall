@@ -153,9 +153,11 @@ aegis:
     base: aegis
     lore:
       description:
-       - "Gives you a shield every 10 seconds.\n
-          Taking damage will reset the timer.\n
-          Maximum of 3 shields."
+       - "Right click to give yourself 5 shields.\n
+          Can be used once every 150 seconds."
+    modifiers:
+      resistance: 20
+      speed: -40
 
 # ------ ACCESSORIES ------
 tombmaker:

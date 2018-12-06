@@ -138,6 +138,7 @@ public enum GameDamageType {
 	
 	// Misc
 	COMMAND,
+	COMMAND_SHIELDBREAK(DeathMessageMaker.SIMPLE_DEATH_MESSAGE, damage -> damage.setShieldbreaker(true)),
 	
 	@Deprecated TEMPORARY
 	
@@ -294,8 +295,12 @@ public enum GameDamageType {
 				PoisonType poison = translator.getPoisonFromLevel(level);
 				
 				damage.getMultiPartDamage().setBase(poison.getDamage());
-				if (damage instanceof DwarfDamage)
+				if (damage instanceof DwarfDamage) {
 					((DwarfDamage) damage).setArmourShred(poison.getArmourShred());
+				}
+				if (poison.isShieldbreaker()) {
+					damage.setShieldbreaker(true);
+				}
 			} catch (InvalidPoisonLevelException e) {
 				NightfallPlugin.logger().warning("Tried to apply illegal poison damage");
 				damage.cancel();

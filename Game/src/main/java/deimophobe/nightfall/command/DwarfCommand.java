@@ -190,13 +190,13 @@ public class DwarfCommand extends BaseCommand {
 	}
 	
 	@Subcommand("shield")
-	@CommandCompletion("@dwarves")
+	@CommandCompletion("@dwarves @nothing @shieldsources")
 	@CommandPermission("nightfall.command.dwarf.shield")
 	@Description("Get the amount of shields a dwarf has.")
-	public void shield(CommandSender sender, DwarfIterable dwarves, int amount) {
+	public void shield(CommandSender sender, DwarfIterable dwarves, int amount, @Default("command") ShieldSource source) {
 		dwarves.forEach(dwarf -> {
-			dwarf.addShields(ShieldSource.COMMAND, amount);
-			MessageUtil.sendMessage(sender, "Gave ", dwarf, " an extra ", amount, " shield(s).");
+			dwarf.addShields(source, amount);
+			MessageUtil.sendMessage(sender, "Gave ", dwarf, " an extra ", amount, " shield(s) from source ", source, ".");
 		});
 	}
 	

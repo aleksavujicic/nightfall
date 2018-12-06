@@ -193,10 +193,8 @@ class Ticker extends AbstractMob {
 				damage.setArmourShred(armourShred);
 				damage.setManaDrain(drain);
 				damage.setKnockback(offset);
-				boolean success = damage.fire(true);
-				if (success) {
-					dwarf.removeAllShields();
-				}
+				damage.setShieldbreaker(true);
+				damage.fire(true);
 			}
 		}
 		BlockConverter.convert(BlockConverter.Type.EXPLOSION, monster.getLocation(), 15);

@@ -504,20 +504,44 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 				.sum();
 	}
 	
+	private static final int SHIELD_IMMUNE_DURATION = 50;
+	private static final double SHIELD_VALUE = 8;
 	protected boolean shieldDamage(GameDamage<?,?> damage) {
-		if (getNumberOfShields() == 0) return false;
+		int numShields = getNumberOfShields();
+		if (numShields == 0) return false;
 		
 		damage.addPreDamageHandler(PreDamagePriority.SHIELDS, () -> {
-			damage.softCancel();
-			damage.setNoDamageTicks(30);
-//			givePotionEffect(PotionEffectType.GLOWING, 30, 1, false, false, false);
+			if (damage.isShieldbreaker()) {
+				double damageAmt = damage.getFinalDamage();
+				
+				int shieldsToRemove = (int) (damageAmt/SHIELD_VALUE) + 1;
+				if (shieldsToRemove > numShields) {
+					damage.getMultiPartDamage().addPostBoost(-SHIELD_VALUE * numShields);
+					removeAllShields();
+				} else {
+					damage.softCancel();
+					removeShields(shieldsToRemove);
+				}
+			} else {
+				damage.softCancel();
+				removeShields(1);
+			}
+			damage.setNoDamageTicks(SHIELD_IMMUNE_DURATION);
+			givePotionEffect(PotionEffectType.GLOWING, SHIELD_IMMUNE_DURATION, 1, false, false, false);
 		});
 		damage.addPostDamageHandler(() -> {
-			if (damage.getType() == GameDamageType.POISON) {
-				if (getPoisonType() != PoisonType.LIGHTING_PLAGUE) removeAllPoisons();
+			if (!damage.isShieldbreaker()) {
+				
+				switch (damage.getType()) {
+					case POISON:
+					case WITHER:
+						removeAllPoisons();
+						break;
+					case FIRE:
+						removeFire();
+						break;
+				}
 			}
-			if (damage.getType() == GameDamageType.FIRE) removeFire();
-			removeShields(1);
 			
 			playSound("entity.evocation_illager.prepare_summon", 1f, 2f, false);
 		});

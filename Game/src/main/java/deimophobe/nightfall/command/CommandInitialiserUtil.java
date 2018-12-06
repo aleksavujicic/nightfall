@@ -6,6 +6,7 @@ import co.aikar.commands.contexts.IssuerAwareContextResolver;
 import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.game.entity.ShieldSource;
 import deimophobe.nightfall.skin.Skin;
 import deimophobe.nightfall.command.iterable.*;
 import deimophobe.nightfall.common.Misc;
@@ -98,6 +99,7 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("procs", getCompletionHandlerForEnum(ProcType.values()));
 		completions.registerCompletion("consumables", getCompletionHandlerForEnum(ConsumableType.values()));
 		completions.registerCompletion("kitgives", getCompletionHandlerForEnum(KitGiveType.values()));
+		completions.registerCompletion("shieldsources", getCompletionHandlerForEnum(ShieldSource.values()));
 		completions.registerCompletion("bloodcolours", getCompletionHandlerForEnum(BloodColour.values()));
 		completions.registerCompletion("mobtypes", getCompletionHandlerForEnum(MobType.getSpawnableMobs()));
 		completions.registerCompletion("spawnmethods", getCompletionHandlerForEnum(SpawnMethod.values()));
@@ -217,6 +219,7 @@ public class CommandInitialiserUtil {
 		contexts.registerContext(ProcType.class, getContextResolverOfEnum(ProcType.values(), "proc", true));
 		contexts.registerContext(ConsumableType.class, getContextResolverOfEnum(ConsumableType.values(), "consumable", true));
 		contexts.registerContext(KitGiveType.class, getContextResolverOfEnum(KitGiveType.values(), "give type", true));
+		contexts.registerContext(ShieldSource.class, getContextResolverOfEnum(ShieldSource.values(), "shield source", true));
 		contexts.registerContext(BloodColour.class, getContextResolverOfEnum(BloodColour.values(), "blood colour", true));
 		contexts.registerContext(Dwarf.PlagueStatus.class, getContextResolverOfEnum(Dwarf.PlagueStatus.values(), "plague status", true));
 //		contexts.registerContext(MobType.class, getContextResolverOfEnum(MobType.getSpawnableMobs(), "mob", true));

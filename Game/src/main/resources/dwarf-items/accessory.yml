@@ -1,16 +1,3 @@
-tombmaker:
-  base: tombmaker
-  name: Tombmaker
-  lore:
-    description:
-     - "Allows you to dig faster and be more\n
-        likely to find items in gravel."
-    flavour:
-     - "\"I used to dig graves with these things. It's insane.\" - Tui"
-     - "\"Two in the grave, two for the banshees.\" - Velvetine"
-  modifiers:
-    attack: 8
-
 compass:
   material: compass
   name: "Trusty Compass"
@@ -64,6 +51,32 @@ clock:
         current time."
     flavour:
      - "A simple but useful tool."
+
+tombmaker:
+  base: tombmaker
+  name: Tombmaker
+  lore:
+    description:
+     - "Allows you to dig faster and be more\n
+        likely to find items in gravel."
+    flavour:
+     - "\"I used to dig graves with these things. It's insane.\" - Tui"
+     - "\"Two in the grave, two for the banshees.\" - Velvetine"
+  modifiers:
+    attack: 8
+
+aegis:
+  base: aegis
+  name: Enchanted Aegis
+  lore:
+    description:
+     - "Right click to give yourself 5 shields.\n
+        Can be used once every 150 seconds."
+    flavour:
+     - ""
+  modifiers:
+    resistance: 20
+    speed: -40
 
 penystick:
   material: blaze_rod

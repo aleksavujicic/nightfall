@@ -2,6 +2,7 @@ package deimophobe.nightfall.plague;
 
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -144,7 +145,9 @@ public class StormPlague extends Plague {
 		
 		double damage = currentCount*currentCount*3;
 		if (plagued) damage *= 2;
-		target.doDamage(null, GameDamageType.PLAGUED_LIGHTNING, damage, true);
+		GameDamage<?,?> gameDamage = target.createDamage(null, GameDamageType.PLAGUED_LIGHTNING, damage);
+		gameDamage.setShieldbreaker(true);
+		gameDamage.fire(true);
 	}
 	
 	private void woosh(Dwarf dwarf) {
