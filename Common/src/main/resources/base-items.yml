@@ -261,6 +261,10 @@ kaboom: "#gobo.kaboom"
 magi:
   staff: "#scepter"
 
+ticker:
+  overtick: "shears:108"
+  propulsion: "shears:109"
+
 wolf-bite: "sugar"
 golem-pick: "shears:104"
 club: "shears:105"
