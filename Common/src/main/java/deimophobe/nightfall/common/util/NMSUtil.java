@@ -1,6 +1,7 @@
 package deimophobe.nightfall.common.util;
 
 
+import com.comphenix.protocol.events.PacketContainer;
 import deimophobe.nightfall.common.NightfallCommonPlugin;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -14,9 +15,11 @@ import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.MainHand;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 /**
  * Created by Deimophobe on 15/02/18.
@@ -90,5 +93,35 @@ public class NMSUtil {
 	
 	public static void updatePlayerHealth(Player player) {
 		((CraftPlayer) player).updateScaledHealth();
+	}
+	
+	
+	public static MainHand getHandFromClientSettingsPacket(PacketContainer pc) {
+		EnumMainHand hand = pc.getEnumModifier(EnumMainHand.class, 5).read(0);
+		switch (hand) {
+			case LEFT:
+				return MainHand.LEFT;
+			case RIGHT:
+				return MainHand.RIGHT;
+		}
+		
+		return null;
+	}
+	
+	public static Byte getSkinSettingsOfPlayer(Player player) {
+		EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
+		DataWatcherObject<Byte> dataWatcherObject;
+		try {
+			Field field = EntityHuman.class.getDeclaredField("br");
+			field.setAccessible(true);
+			dataWatcherObject = (DataWatcherObject<Byte>) field.get(null);
+			
+			return entityPlayer.getDataWatcher().get(dataWatcherObject);
+		} catch (NoSuchFieldException | IllegalAccessException | ClassCastException e) {
+			NightfallCommonPlugin.logger().severe("Failed to get player skin settings of player '" + player.getName() + "'.");
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 }

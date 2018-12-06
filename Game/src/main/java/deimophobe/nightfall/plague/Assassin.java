@@ -1,9 +1,9 @@
 package deimophobe.nightfall.plague;
 
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import deimophobe.nightfall.PlayerSkin;
-import deimophobe.nightfall.Skin;
-import deimophobe.nightfall.SkinManager;
+import deimophobe.nightfall.skin.PlayerSkin;
+import deimophobe.nightfall.skin.Skin;
+import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.common.player.cosmetic.Hat;
 import deimophobe.nightfall.damage.DwarfDamage;

@@ -419,4 +419,8 @@ public class Misc {
 		value = Math.max(value, lowerBound);
 		return value;
 	}
+	
+	public static String byteToBinaryString(byte b) {
+		return String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0');
+	}
 }

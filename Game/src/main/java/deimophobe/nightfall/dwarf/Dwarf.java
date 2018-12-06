@@ -2,7 +2,7 @@ package deimophobe.nightfall.dwarf;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.SkinManager;
+import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.WhoEntry;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.blocktype.BlockType;

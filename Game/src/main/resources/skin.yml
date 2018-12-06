@@ -48,6 +48,7 @@ oxysis:
 kiwi5000:
   skin: eyJ0aW1lc3RhbXAiOjE1MTg0OTY1NzQzOTUsInByb2ZpbGVJZCI6ImY2NTA1NGJmYWE3NTQ2OTQ5YmYyZWI5MTUwOGJiN2Y0IiwicHJvZmlsZU5hbWUiOiJLaXdpNTAwMF8iLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2FjNjk1ZDU3NGFkMjkwMWNkYmYyNGE2NzM1OGJjN2NkNzJlMDEwNDQ3Yzg3MjkzODdkMjUwOWM0MGNlIn19fQ==
   sign: o394RXdROCnbwQN8/PjUxTDT3x9xGAumIfrhqmxuRNlfJyTzPea+NdReuFXe5yr0IjalIzUfQhcqAQKlpW1hUKteRpC9WJWmqtnE2E/w5qs3x5MvR71YDsntKUUwpy/qxMMMAILE14iAEMnjA7yOpeiJpKYXTMvPRqmqPnEwgDfMzKpk1XBIp1RcEy3xaQJGZ9Nqycv/y+wkRH8TKHGGDUQleEiUWh9v6Iy5JSqmIUGPvHxSpeKU8p8v5BdFLCotZm2GlHIpU9AJCUk0OXvoRPy4Xq2dWF43qay7qF0g/sSmmoiRj/G29IixrPgWrPjUgo0KR1mcVorJENChsKll1u3BYFfyY6lX9b+zvFGBwiezPlfhGZZSGiK4Zqvp3DGeb8Et1yVjhA87DGjG6ZSXRXBmOQtkEUMbZ+OsUXLjAMYXKxYLKJvNg5+NuwtlEWZ6+ueT3xhsPwvu7Kr37u8KRJ+AbJ3AecbL+S3AkiLm9iw3IapWm7ufJz1YtZvaVDfn/dk0PcLOS1dK0qCPf+NZLVLGEzduGCiUWhQQ812xKLq/rxOeRWfgrFLnrQ9vMUAH8pH7HoMUOhmRq8i8je0S6aibU8rNvCz3oLRNl0eEeDXVdUHRnxF3s3ahNOA2Wi3deAuayeYEsuxNDiz1sjYdQFMoPm0EWcn6Oj70AWv4psY=
+  lazy: "11111111"
 
 # ~~~ HOW TO ~~~
 #
@@ -62,3 +63,24 @@ kiwi5000:
 # Copy all of this into the sign section (note this often takes up multiple lines)
 # Similarly, near the end, you'll see a "value":"<MORE RANDOM CHARS>"}]}
 # Copy this into the skin section.
+
+# A note skin layers/hands
+# You can specify which skin layers are applied, and also hands.
+# For example
+#
+#myskin:
+#  skin: <blah>
+#  sign: <blah
+#  layer: "00110011"
+#  lazy:  "00001111"
+#  hand:  "r"
+#
+# The layer represents the bit settings of the different layers, where the bits are:
+# (<unused>, cape, jacket, left sleeve, right sleeve, left pants, right pants, hat)
+# The lazy setting represents whether to take the fixed layer setting above (0) , or the client setting (1).
+#
+# In the example above, the right sleeve, left pants, right pants, and hat are all determined by the client,
+# However, the cape is fixed off, and jacket and left sleeve are fixed on.
+#
+# For the hand, the strings "r", "right", "l", and "left" are valid values, otherwise, if no hand is specified
+# it will take the client setting.

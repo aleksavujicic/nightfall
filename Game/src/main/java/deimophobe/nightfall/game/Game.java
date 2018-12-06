@@ -28,6 +28,7 @@ import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.plague.AssassinPlague;
 import deimophobe.nightfall.plague.Plague;
 import deimophobe.nightfall.plague.PlagueType;
+import deimophobe.nightfall.skin.SkinManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.boss.BarColor;

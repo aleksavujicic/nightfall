@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf.hero;
 
-import deimophobe.nightfall.PlayerSkin;
-import deimophobe.nightfall.SkinManager;
+import deimophobe.nightfall.skin.PlayerSkin;
+import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.damage.*;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;

@@ -1,8 +1,8 @@
 package deimophobe.nightfall.dwarf.hero;
 
-import deimophobe.nightfall.PlayerSkin;
-import deimophobe.nightfall.Skin;
-import deimophobe.nightfall.SkinManager;
+import deimophobe.nightfall.skin.PlayerSkin;
+import deimophobe.nightfall.skin.Skin;
+import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.common.ConfigValidator;
 import deimophobe.nightfall.common.MalformedConfigurationException;
 import deimophobe.nightfall.common.Misc;

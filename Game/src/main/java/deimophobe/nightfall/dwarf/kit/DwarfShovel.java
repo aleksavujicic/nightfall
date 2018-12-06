@@ -2,8 +2,8 @@ package deimophobe.nightfall.dwarf.kit;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.PlayerSkin;
-import deimophobe.nightfall.SkinManager;
+import deimophobe.nightfall.skin.PlayerSkin;
+import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;

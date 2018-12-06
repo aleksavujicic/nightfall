@@ -1,9 +1,8 @@
-package deimophobe.nightfall;
+package deimophobe.nightfall.skin;
 
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -18,6 +17,7 @@ public class PlayerSkin {
 	private final Skin skin;
 	private final String tabName;
 	private final boolean showAll;
+	
 	
 	
 	public PlayerSkin(@NotNull String name, String skinName) {
@@ -61,6 +61,10 @@ public class PlayerSkin {
 	
 	public String getNametag() {
 		return nametag;
+	}
+	
+	public SkinSettings getSkinSettings() {
+		return skin.getSkinSettings();
 	}
 
 //	private void refreshSkin() {

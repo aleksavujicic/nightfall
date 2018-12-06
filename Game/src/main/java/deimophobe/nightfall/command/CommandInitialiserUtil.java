@@ -6,8 +6,7 @@ import co.aikar.commands.contexts.IssuerAwareContextResolver;
 import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.Skin;
-import deimophobe.nightfall.SkinManager;
+import deimophobe.nightfall.skin.Skin;
 import deimophobe.nightfall.command.iterable.*;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.command.MessageUtil;
@@ -84,6 +83,7 @@ public class CommandInitialiserUtil {
 		commandManager.registerCommand(new MapCommand());
 		commandManager.registerCommand(new MiscCommands());
 		commandManager.registerCommand(new MobCommand());
+		commandManager.registerCommand(new SkinCommand());
 		commandManager.registerCommand(new ShrineCommand());
 	}
 	
