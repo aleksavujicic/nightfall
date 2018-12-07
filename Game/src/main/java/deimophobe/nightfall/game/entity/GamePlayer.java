@@ -504,7 +504,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 				.sum();
 	}
 	
-	private static final int SHIELD_IMMUNE_DURATION = 50;
+	private static final int SHIELD_IMMUNE_DURATION = 60;
 	private static final double SHIELD_VALUE = 8;
 	protected boolean shieldDamage(GameDamage<?,?> damage) {
 		int numShields = getNumberOfShields();
