@@ -18,6 +18,7 @@ import me.libraryaddict.disguise.disguisetypes.watchers.PlayerWatcher;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -61,8 +62,8 @@ class Ticker extends AbstractMob {
 	@Override
 	protected void setupItems() {
 		super.setupItems();
-		giveItem("jump");
-		giveItem("detonate");
+		giveItem("propulsion");
+		giveItem("overtick");
 	}
 	
 	@Override
@@ -86,12 +87,14 @@ class Ticker extends AbstractMob {
 		super.onUse(click, clickedBlock, blockFace);
 		if (fastExplode) return;
 		
-		if (isPlayerHoldingItem("jump")) {
+		if (isPlayerHoldingItem("propulsion")) {
 			jumper.tryUse();
-		} else if (isPlayerHoldingItem("detonate")) {
+		} else if (isPlayerHoldingItem("overtick")) {
 			// Prevent detonating in the first 10 seconds
 			if (deathTimer < maxTime - 10) {
 				explodeQuicker();
+				ItemStack explode = getItem("overtick").createItemStack("explode");
+				monster.getPlayer().getInventory().setItemInMainHand(explode);
 			}
 		}
 	}

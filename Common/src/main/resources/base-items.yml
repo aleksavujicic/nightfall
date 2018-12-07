@@ -263,7 +263,8 @@ magi:
 
 ticker:
   overtick: "shears:108"
-  propulsion: "shears:109"
+  explode: "shears:109"
+  propulsion: "shears:110"
 
 wolf-bite: "sugar"
 golem-pick: "shears:104"
