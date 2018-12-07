@@ -20,6 +20,9 @@ import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.util.ArmourSlot;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -60,7 +63,8 @@ public class DwarvenArmour implements Armour {
 	public void putOn() {
 		if (!armoured) {
 			armoured = true;
-			setMap.get(currentLevel).equip(dwarf);
+			updateArmour(true);
+			getCurrentArmourSet().equip(dwarf);
 			GameEffect.DWARF_ARMOURED.playEffect(dwarf);
 			dwarf.onArmourEquip();
 		} else {
@@ -183,6 +187,22 @@ public class DwarvenArmour implements Armour {
 		return mana;
 	}
 	
+	@Override
+	public void dropFakeArmour() {
+		World world = dwarf.getWorld();
+		Location location = dwarf.getLocation();
+		for (CustomItem customItem : getCurrentArmourSet().values()) {
+			ItemStack itemStack = customItem.createItemStack();
+			
+			Item item = world.dropItemNaturally(location, itemStack);
+			item.setPickupDelay(32767); // Never
+			item.setTicksLived(6000 - 60 * 20);
+		}
+	}
+	
+	private ArmourSet getCurrentArmourSet() {
+		return setMap.get(currentLevel);
+	}
 	
 	public double armourFraction() { return armourValue/DEFAULT_MAX; }
 	private boolean isAtMax() { return armourFraction() >= 1; }
@@ -190,7 +210,7 @@ public class DwarvenArmour implements Armour {
 	private void updateArmour(boolean force) {
 		if (isArmoured() && (force ||!currentLevel.isValid(this))) {
 			currentLevel = ArmourLevel.getLevel(this);
-			setMap.get(currentLevel).equip(dwarf);
+			getCurrentArmourSet().equip(dwarf);
 		}
 		
 		dwarf.getPlayer().setFoodLevel((int) Math.ceil(20f * armourFraction()));
@@ -314,6 +334,10 @@ public class DwarvenArmour implements Armour {
 			inv.setChestplate(chest.createItemStack());
 			inv.setLeggings(legs.createItemStack());
 			inv.setBoots(boots.createItemStack());
+		}
+		
+		private CustomItem[] values() {
+			return new CustomItem[]{chest, legs, boots};
 		}
 	}
 }

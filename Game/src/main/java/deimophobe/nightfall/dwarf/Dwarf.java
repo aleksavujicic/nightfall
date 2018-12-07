@@ -2,6 +2,7 @@ package deimophobe.nightfall.dwarf;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.dwarf.kit.*;
 import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.WhoEntry;
 import deimophobe.nightfall.blocks.BlockManager;
@@ -23,9 +24,6 @@ import deimophobe.nightfall.dwarf.armour.NakedArmour;
 import deimophobe.nightfall.dwarf.consumable.Consumable;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.consumable.ConsumeResult;
-import deimophobe.nightfall.dwarf.kit.Kit;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.armour.BerserkArmour;
 import deimophobe.nightfall.dwarf.kit.healing.StrongAle;
 import deimophobe.nightfall.game.Curse;
@@ -39,6 +37,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
@@ -797,6 +796,21 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	public void notifyDeath(Dwarf dwarf) {
 		kit.notifyDeath(dwarf);
+		
+		if (dwarf == this) {
+			armour.dropFakeArmour();
+			World world = dwarf.getWorld();
+			Location location = dwarf.getLocation();
+			for (KitPiece piece : kit.getKitPieces()) {
+				if (Math.random() > 0.5) continue;
+				if (piece instanceof ItemPiece) {
+					ItemStack itemStack = ((ItemPiece) piece).getItem().createItemStack();
+					Item item = world.dropItemNaturally(location, itemStack);
+					item.setPickupDelay(32767); // Never
+					item.setTicksLived(6000 - 60*20);
+				}
+			}
+		}
 	}
 	
 	@Override

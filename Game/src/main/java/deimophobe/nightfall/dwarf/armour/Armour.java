@@ -23,4 +23,6 @@ public interface Armour {
 	
 	void onDamage(DwarfDamage damage);
 	int getManaRegenRate();
+	
+	void dropFakeArmour();
 }

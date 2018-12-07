@@ -5,10 +5,15 @@ import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.hero.Hero;
+import deimophobe.nightfall.dwarf.kit.ItemPiece;
 import deimophobe.nightfall.game.Curse;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.util.ArmourSlot;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.Item;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by Deimophobe on 6/05/17.
@@ -72,5 +77,16 @@ public class HeroArmour extends StaticArmour {
 			hero.playSound("entity.zombie_villager.converted", 4f, 0.5f, false);
 		}
 		return mana;
+	}
+	
+	@Override
+	public void dropFakeArmour() {
+		World world = hero.getWorld();
+		Location location = hero.getLocation();
+		ItemStack itemStack = armour.createItemStack();
+		
+		Item item = world.dropItemNaturally(location, itemStack);
+		item.setPickupDelay(32767); // Never
+		item.setTicksLived(6000 - 60*20);
 	}
 }

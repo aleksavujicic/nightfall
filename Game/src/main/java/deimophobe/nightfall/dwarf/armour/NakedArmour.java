@@ -14,4 +14,5 @@ public class NakedArmour extends StaticArmour {
 	
 	@Override public double getFullness() {return 0;}
 	@Override public int getManaRegenRate() { return 0; }
+	@Override public void dropFakeArmour() {}
 }

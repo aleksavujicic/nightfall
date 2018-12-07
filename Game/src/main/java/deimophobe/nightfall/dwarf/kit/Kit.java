@@ -38,6 +38,10 @@ public class Kit {
 		return kitPieces.keySet();
 	}
 	
+	public Collection<KitPiece> getKitPieces() {
+		return kitPieces.values();
+	}
+	
 	public boolean containsKitPiece(KitPieceType type) {
 		return kitPieces.containsKey(type);
 	}
