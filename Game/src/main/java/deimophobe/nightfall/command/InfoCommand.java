@@ -9,6 +9,7 @@ import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.command.MessageUtil;
 import deimophobe.nightfall.common.util.NMSUtil;
+import deimophobe.nightfall.game.Game;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -60,6 +61,13 @@ public class InfoCommand extends BaseCommand {
 		Byte skinByte = NMSUtil.getSkinSettingsOfPlayer(play);
 		String binaryString = (skinByte == null ? null : Misc.byteToBinaryString(skinByte));
 		MessageUtil.sendMessage(sender, "Player ", play, " has a skin byte of ", binaryString, ".");
+	}
+	
+	@CommandAlias("who-offline")
+	@CommandPermission("nightfall.command.who-offline")
+	@Description("Show all offline players in the game.")
+	public void whoOffline(CommandSender sender) {
+		sender.sendMessage(Game.getGame().getOfflineIDs());
 	}
 	
 }

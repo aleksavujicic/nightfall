@@ -59,9 +59,16 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	private Mob mob;
 	public Mob getMob() { return mob; }
 	
-	public MonsterPlayer(Player player) {
+	public MonsterPlayer(Player player, boolean spectator) {
 		super(player);
-		kill(true);
+		
+		setTitle(ChatColor.GRAY, null, false);
+		if (spectator) {
+			kill(true);
+		}
+		
+		int xpCount = MonsterManager.getManager().getCurrentXPCount();
+		forceGainExp(xpCount);
 	}
 	
 	@Override
@@ -479,6 +486,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			}
 		} else {
 			damage.cancel();
+			kill(true);
 		}
 	}
 	
@@ -497,6 +505,17 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		if (mob != null) {
 			mob.onProjectileLand(projectile, hitBlock);
 		}
+	}
+	
+	@Override
+	public Location getRespawnLocation() {
+		return GameMap.getCurrentMap().getCurrentMobspawn();
+	}
+	
+	@Override
+	public void onRespawn() {
+		super.onRespawn();
+		kill(true);
 	}
 	
 	// ------ GLOWING ------

@@ -265,7 +265,17 @@ public class Game {
 	public boolean isGameEntity(Entity entity) { return getGameEntity(entity) != null; }
 	
 	public GamePlayer getGamePlayer(Player player) {
-		return getGamePlayer(player.getName());
+		return getGamePlayer(player.getUniqueId());
+	}
+	
+	public GamePlayer getGamePlayer(UUID uuid) {
+		DwarfManager dwarfManager = getManager(DwarfManager.class);
+		MonsterManager monsterManager = getManager(MonsterManager.class);
+		
+		Dwarf dwarf = dwarfManager.getGamePlayer(uuid);
+		if (dwarf != null) return dwarf;
+		
+		return monsterManager.getGamePlayer(uuid);
 	}
 	
 	public GamePlayer getGamePlayer(String name) {
@@ -330,6 +340,16 @@ public class Game {
 		whoEntries.addAll(lobbyManager.getWhoEntries());
 		
 		return whoEntries;
+	}
+	
+	public String getOfflineIDs() {
+		DwarfManager dwarfManager = getManager(DwarfManager.class);
+		MonsterManager monsterManager = getManager(MonsterManager.class);
+		
+		return "Dwarves: \n"
+				+ dwarfManager.getOfflineIDs() + "\n"
+				+ "Monsters: \n"
+				+ monsterManager.getOfflineIDs();
 	}
 	
 	

@@ -1,5 +1,6 @@
 package deimophobe.nightfall.game;
 
+import com.comphenix.protocol.injector.GamePhase;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockManager;
@@ -7,6 +8,7 @@ import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.event.HatChangeEvent;
 import deimophobe.nightfall.common.event.TitleChangeEvent;
+import deimophobe.nightfall.cooldown.LifetimeExpireable;
 import deimophobe.nightfall.damage.DamageUtil;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -85,9 +87,6 @@ public class GameListener implements Listener {
 		
 		Game.getGame().giveShrineBarToPlayer(player);
 		Game.getGame().giveScoreboard(player);
-		
-		if (player.isDead())
-			return;
 		
 		if (dwarfManager.goOnline(player)) {
 			game.updateDwarfCount();
@@ -452,7 +451,8 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
-		Dwarf dwarf = dwarfManager.getGamePlayer(event.getEntity());
+		Player player = event.getEntity();
+		Dwarf dwarf = dwarfManager.getGamePlayer(player);
 		if (dwarf != null) {
 			for (Dwarf dwarf2 : dwarfManager.getGamePlayers()) {
 				dwarf2.notifyDeath(dwarf);
@@ -463,23 +463,24 @@ public class GameListener implements Listener {
 			Bukkit.spigot().broadcast(deathMessage);
 			Bukkit.getConsoleSender().spigot().sendMessage(deathMessage);
 			Game.getGame().getDeathTracker().registerDeathMessage(deathMessage);
-
-			if (Game.getGame().getPhase() == Phase.GAME) {
-				for (Player player : Bukkit.getOnlinePlayers())
-					player.sendTitle("", dwarf.getDisplayName() + ChatColor.DARK_RED + " has fallen!", 20, 60, 20);
+			
+			Phase phase = Game.getGame().getPhase();
+			if (phase.isOrIsAfter(Phase.GAME)) {
+				for (Player player1 : Bukkit.getOnlinePlayers()) {
+					player1.sendTitle("", dwarf.getDisplayName() + ChatColor.DARK_RED + " has fallen!", 20, 60, 20);
+				}
 			}
 			
 			dwarfManager.removeGamePlayer(dwarf);
-			monsterManager.addGamePlayer(event.getEntity(), false);
+			
+			if (phase.isOrIsAfter(Phase.BUILD)) {
+				MonsterPlayer monster = new MonsterPlayer(player, false);
+				monsterManager.registerGamePlayer(monster);
+			}
 
 			if (Game.getGame().getPhase() == Phase.PLAGUE) {
 				Game.getGame().getPlague().onDwarfDeath(dwarf);
 			}
-			// Delayed to prevent concurrent modification exceptions hopefully ._.
-//			new BukkitRunnable() {
-//				@Override public void run() {
-//				}
-//			}.runTaskLater(NightfallPlugin.getPlugin(), 22);
 		}
 	}
 	
@@ -488,15 +489,24 @@ public class GameListener implements Listener {
 		Phase phase = Game.getGame().getPhase();
 		Player player = event.getPlayer();
 		
-		if (phase.isBefore(Phase.PLAGUE)) {
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					Game.getGame().resetPlayer(player);
-				}
-			}.runTaskLater(NightfallPlugin.getPlugin(), 10);
+		GamePlayer gamePlayer = Game.getGame().getGamePlayer(player);
+		if (gamePlayer != null) {
+			event.setRespawnLocation(gamePlayer.getRespawnLocation());
+			gamePlayer.onRespawn();
+		} else {
+			event.setRespawnLocation(GameMap.getCurrentMap().getLobbySpawn());
+			
+			if (phase.isBefore(Phase.PLAGUE)) {
+				new BukkitRunnable() {
+					@Override
+					public void run() {
+						if (!player.isOnline()) return;
+						Game.getGame().resetPlayer(player);
+					}
+				}.runTaskLater(NightfallPlugin.getPlugin(), 10);
+			}
 		}
-		event.setRespawnLocation(GameMap.getCurrentMap().getLobbySpawn());
+		
 	}
 	
 	@EventHandler

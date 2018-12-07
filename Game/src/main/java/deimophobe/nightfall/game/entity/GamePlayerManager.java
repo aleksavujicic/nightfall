@@ -1,5 +1,6 @@
 package deimophobe.nightfall.game.entity;
 
+import com.google.common.base.Preconditions;
 import deimophobe.nightfall.Manager;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.WhoEntry;
@@ -15,6 +16,10 @@ import org.bukkit.scoreboard.Team;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by Deimophobe on 4/02/17.
@@ -78,17 +83,19 @@ public abstract class GamePlayerManager<P extends GamePlayer> implements Manager
 		return addGamePlayer(player, true);
 	}
 	public P addGamePlayer(Player player, boolean respawn) {
-		if (player == null) throw new NullPointerException("Cannot add null player to game");
-		if (Game.getGame().isGamePlayer(player)) throw new IllegalArgumentException("Cannot add player that is already a gameplayer (Player: " + player.getName() + ")");
+		checkNotNull(player, "Player must not be null to add to the game");
+		checkArgument(!Game.getGame().isGamePlayer(player), "Player '%s' must not be already registered in game.", player.getName());
+		checkArgument(player.isOnline(), "Cannot register player '%s' as they are not online.");
 		
-		if (respawn && player.isDead())
+		if (respawn && player.isDead()) {
 			player.spigot().respawn();
+		}
 		
 		P gamePlayer = createGamePlayerFromPlayer(player);
 		registerGamePlayer(gamePlayer);
 		return gamePlayer;
 	}
-	protected void registerGamePlayer(P player) {
+	public void registerGamePlayer(P player) {
 		UUID uuid = player.getUniqueId();
 		if (players.containsKey(uuid)) throw new IllegalArgumentException("Already registered player: " + player.getName());
 		
@@ -203,6 +210,13 @@ public abstract class GamePlayerManager<P extends GamePlayer> implements Manager
 	
 	public void removeOfflinePlayer(UUID uuid) {
 		offline.remove(uuid);
+	}
+	
+	public String getOfflineIDs() {
+		return offline.keySet()
+				.stream()
+				.map(UUID::toString)
+				.collect(Collectors.joining(", "));
 	}
 	
 	

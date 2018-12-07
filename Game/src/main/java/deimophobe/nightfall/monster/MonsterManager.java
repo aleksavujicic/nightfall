@@ -65,9 +65,8 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	
 	@Override
 	protected MonsterPlayer createGamePlayerFromPlayer(Player player) {
-		MonsterPlayer p = new MonsterPlayer(player);
-		p.forceGainExp(xpCount);
-		return p;
+		MonsterPlayer monster = new MonsterPlayer(player, true);
+		return monster;
 	}
 	
 	public Collection<MonsterPlayer> getAlivePlayerMobs() {
@@ -122,6 +121,10 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	
 	public void setPlagueXP(int xp) {
 		this.plagueXP = xp;
+	}
+	
+	int getCurrentXPCount() {
+		return xpCount;
 	}
 	
 	

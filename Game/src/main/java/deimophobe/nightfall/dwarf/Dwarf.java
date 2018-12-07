@@ -800,6 +800,11 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	@Override
+	public Location getRespawnLocation() {
+		return GameMap.getCurrentMap().getSafeRespawnPoint();
+	}
+	
+	@Override
 	public void onRemove() {
 		super.onRemove();
 		kit.onRemove();
