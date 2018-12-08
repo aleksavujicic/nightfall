@@ -35,7 +35,7 @@ class Ticker extends AbstractMob {
 	private int deathTimer = maxTime;
 	
 	@Update
-	private final ComplexCooldown jumper = new ComplexCooldown(10, () -> monster.leap(0, 0.8));
+	private final ComplexCooldown jumper = new ComplexCooldown(10, this::propulsion);
 	
 	private boolean fastExplode = false;
 	
@@ -120,6 +120,11 @@ class Ticker extends AbstractMob {
 	@Override
 	public float getCooldown() {
 		return (float)deathTimer/maxTime;
+	}
+	
+	private void propulsion() {
+		monster.leap(0, 0.8);
+		// Some sound maybe?
 	}
 	
 	private void tick() {
