@@ -3,6 +3,9 @@ package deimophobe.nightfall.dwarf;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.dwarf.kit.*;
+import deimophobe.nightfall.dwarf.light.BlindSource;
+import deimophobe.nightfall.dwarf.light.DwarfEyes;
+import deimophobe.nightfall.dwarf.light.LightSource;
 import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.WhoEntry;
 import deimophobe.nightfall.blocks.BlockManager;
@@ -50,6 +53,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 /**
  * Created by Deimophobe on 15/01/17.
  */
@@ -74,6 +79,9 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		
 		updateTitle();
 		updateHat();
+		
+		this.eyes = new DwarfEyes(this);
+		addUpdateable(eyes);
 		
 		// Setup kit
 		this.kit = data.createKitAndApplyToDwarf(this);
@@ -371,32 +379,19 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	
 	// ------ VISIBILITY ------
-	private boolean blindImmune = false;
-	private boolean holdingLightItem = false;
-	private static final int MIN_LIGHT_LEVEL_FOR_BLINDNESS = 5;
+	private final DwarfEyes eyes;
 	
 	public void makeBlindImmune() {
-		blindImmune = true;
+		eyes.makeImmune();
 	}
-	public void updateVisibility() {
-		if (canSee()) {
-			removePotionEffect(PotionEffectType.BLINDNESS);
-		} else {
-			givePermanentPotionEffect(PotionEffectType.BLINDNESS, 1);
-		}
-	}
-	private boolean canSee() {
-		if (isBlindByMobspawn()) return false;
-		
-		int lightLevel = getLocation().getBlock().getLightLevel();
-		return (holdingLightItem ||
-				blindImmune ||
-				lightLevel >= MIN_LIGHT_LEVEL_FOR_BLINDNESS ||
-				hasProc() ||
-				Game.getGame().getPhase() == Phase.BUILD ||
-				Game.getGame().getPhase() == Phase.PLAGUE ||
-				player.hasPotionEffect(PotionEffectType.NIGHT_VISION)
+	public void giveBlindness(int duration) {
+		addLightSource(
+				new BlindSource(duration)
 		);
+	}
+	
+	public void addLightSource(LightSource source) {
+		eyes.addSource(source);
 	}
 	
 	
@@ -458,10 +453,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 
 		if (everyNthTick(20)) {
 			regenMana(armour.getManaRegenRate());
-			
-			ItemStack heldItem = getHeldItem();
-			holdingLightItem = (ConsumableType.TORCH.doesItemMatch(heldItem) || ConsumableType.LAMP.doesItemMatch(heldItem));
-			updateVisibility();
 		}
 
 		usedThisTick = false;
@@ -493,7 +484,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		activeProcs.put(procType, duration);
 		
 		updateProcBuffs();
-		updateVisibility();
 	}
 	
 	private void procTick() {
@@ -600,8 +590,8 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		return (int) mobspawnMeter;
 	}
 	
-	protected boolean isBlindByMobspawn() {
-		return mobspawnMeter >= 7;
+	public boolean isBlindByMobspawn() {
+		return inMobspawn && mobspawnMeter >= 7;
 	}
 
 	protected void mobspawnDamage(int tickNumber) {
@@ -630,9 +620,8 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	@Override
 	public boolean givePotionEffect(PotionEffectType type, int duration, int amplifier, boolean showAbove, boolean colourBlue, boolean force) {
-		boolean success = super.givePotionEffect(type, duration, amplifier, showAbove, colourBlue, force);
-		if (type == PotionEffectType.NIGHT_VISION) updateVisibility();
-		return success;
+//		checkArgument(type != PotionEffectType.BLINDNESS, "Use giveBlindness() to give blindness to dwarves.");
+		return super.givePotionEffect(type, duration, amplifier, showAbove, colourBlue, force);
 	}
 	
 	public void disableSpecial(int duration) {
@@ -657,9 +646,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	// ------ EVENTS ------
 	@Override
 	public void updateHotbarSlot(ItemStack heldItem, int slot) {
-		holdingLightItem = (ConsumableType.TORCH.doesItemMatch(heldItem) || ConsumableType.LAMP.doesItemMatch(heldItem));
-		updateVisibility();
-		
 		kit.updateHotbarSlot(heldItem);
 	}
 	

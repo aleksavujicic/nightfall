@@ -123,7 +123,7 @@ public class ZombieHusk extends ZombieMob {
 						if (dwarf.isHero()) {
 						    dwarf.setStunned(STAGGER_DURATION_HERO);
                         } else {
-                            dwarf.givePotionEffect(PotionEffectType.BLINDNESS, STAGGER_DURATION, 1, true, false, true);
+							dwarf.giveBlindness(STAGGER_DURATION);
 							dwarf.givePotionEffect(PotionEffectType.WEAKNESS, STAGGER_DURATION, 1, true, false, true);
                             dwarf.givePotionEffect(PotionEffectType.CONFUSION, STAGGER_DURATION + 40, 1, true, false, true);
                             dwarf.setStunned(STAGGER_DURATION);

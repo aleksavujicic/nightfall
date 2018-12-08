@@ -41,7 +41,4 @@ public class Hero extends Dwarf {
 	
 	@Override
 	public void showTrash() {}
-	
-	@Override
-	public void updateVisibility() {}
 }

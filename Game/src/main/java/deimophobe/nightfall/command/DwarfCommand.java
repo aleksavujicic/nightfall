@@ -2,6 +2,7 @@ package deimophobe.nightfall.command;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandIssuer;
+import co.aikar.commands.InvalidCommandArgument;
 import co.aikar.commands.annotation.*;
 import deimophobe.nightfall.command.iterable.DwarfDataCreator;
 import deimophobe.nightfall.command.iterable.DwarfIterable;
@@ -208,6 +209,18 @@ public class DwarfCommand extends BaseCommand {
 		dwarves.forEach(dwarf -> {
 			dwarf.setBloodColour(bloodColour);
 			MessageUtil.sendMessage(sender, "Set ", dwarf, "'s blood colour to ", bloodColour, ".");
+		});
+	}
+	
+	@Subcommand("blind")
+	@CommandCompletion("@dwarves")
+	@CommandPermission("nightfall.command.dwarf.blind")
+	@Description("Give blindness to a dwarf")
+	public void blind(CommandSender sender, DwarfIterable dwarves, int duration) throws InvalidCommandArgument {
+		if (duration < 0) throw new InvalidCommandArgument("Duration must be positive.");
+		dwarves.forEach(dwarf -> {
+			dwarf.giveBlindness(duration);
+			MessageUtil.sendMessage(sender, "Gave ", dwarf, " blindness for ", duration, " ticks.");
 		});
 	}
 	

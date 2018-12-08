@@ -180,7 +180,7 @@ public class Wraith extends AbstractMob implements FloatyMob {
 			damage.setManaDrain(40);
 			damage.setNoDamageTicks(10);
 			damage.addPostDamageHandler(() -> {
-				dwarf.givePotionEffect(PotionEffectType.BLINDNESS, 15, 1, false, true, true);
+				dwarf.giveBlindness(30);
 				dwarf.givePotionEffect(PotionEffectType.SLOW, 30, 3, false, true, true);
 				dwarf.givePoison(PoisonType.WRAITH, 40);
 			});

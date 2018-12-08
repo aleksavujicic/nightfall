@@ -37,12 +37,15 @@ public class CooldownHolder implements Updateable {
 		expirables.removeIf(expirable -> {
 			if (expirable.hasExpired()) {
 				expirable.onExpiry();
+				onExpireableRemove(expirable);
 				return true;
 			} else {
 				return false;
 			}
 		});
 	}
+	
+	private void onExpireableRemove(Expirable expirable) {}
 	
 	public void addUpdateable(Updateable updateable) {
 		checkNotNull(updateable, "Updateable must not be null");

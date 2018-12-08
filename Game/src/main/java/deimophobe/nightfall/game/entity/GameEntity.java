@@ -313,7 +313,10 @@ public interface GameEntity<E extends LivingEntity> {
 	
 //	@Deprecated
 	default void removePotionEffect(PotionEffectType type) {
-		getEntity().removePotionEffect(type);
+		LivingEntity entity = getEntity();
+		if (entity.hasPotionEffect(type)) {
+			entity.removePotionEffect(type);
+		}
 	}
 	
 	
