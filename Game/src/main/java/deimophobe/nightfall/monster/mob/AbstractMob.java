@@ -661,7 +661,7 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	protected void showDeathMessage(BaseComponent deathMessage) {
-		MonsterManager.getManager().queueDeathMessage(deathMessage.toPlainText());
+		MonsterManager.getManager().queueDeathMessage(deathMessage.toLegacyText());
 		
 		if (mobData.forceTitle) {
 			Bukkit.spigot().broadcast(deathMessage);
