@@ -492,7 +492,7 @@ public class GameListener implements Listener {
 		GamePlayer gamePlayer = Game.getGame().getGamePlayer(player);
 		if (gamePlayer != null) {
 			event.setRespawnLocation(gamePlayer.getRespawnLocation());
-			gamePlayer.onRespawn();
+			gamePlayer.doLater(gamePlayer::onRespawn, 1);
 		} else {
 			event.setRespawnLocation(GameMap.getCurrentMap().getLobbySpawn());
 			
