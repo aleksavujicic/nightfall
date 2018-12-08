@@ -179,6 +179,8 @@ public class Arthea extends Hero {
 		super.givePotionEffect(PotionEffectType.WEAKNESS, ENRAGE_TRANSITION_DURATION + 20, 100, true, true, true);
 		//super.givePotionEffect(PotionEffectType.SLOW_DIGGING, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
 		super.givePotionEffect(PotionEffectType.BLINDNESS, ENRAGE_TRANSITION_DURATION + 20, 100, true, true, true);
+		
+		setWarningLevel(0);
 	}
 	
 	private void startEnrage() {
@@ -206,6 +208,7 @@ public class Arthea extends Hero {
 		super.givePotionEffect(PotionEffectType.GLOWING, ENRAGE_DURATION, 3, true, true, true);
 		
 		//makeMobsGlow();
+		setWarningLevel(1);
 	}
 	
 //	private PacketListener glower;
