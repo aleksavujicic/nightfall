@@ -516,6 +516,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	public void onRespawn() {
 		super.onRespawn();
 		kill(true);
+		initialiseWarnings();
 	}
 	
 	// ------ GLOWING ------

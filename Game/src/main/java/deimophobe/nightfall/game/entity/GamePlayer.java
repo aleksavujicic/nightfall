@@ -601,7 +601,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		sendDebugMsg("Set warning to: " + warning);
 	}
 	
-	private void initialiseWarnings() {
+	protected final void initialiseWarnings() {
 		ProtocolManager pm = ProtocolLibrary.getProtocolManager();
 
 		Location center = GameMap.getCurrentMap().getDwarfSpawn();
