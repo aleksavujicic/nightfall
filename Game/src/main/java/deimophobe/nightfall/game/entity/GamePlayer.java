@@ -510,6 +510,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		int numShields = getNumberOfShields();
 		if (numShields == 0) return false;
 		
+		
 		damage.addPreDamageHandler(PreDamagePriority.SHIELDS, () -> {
 			if (damage.isShieldbreaker()) {
 				double damageAmt = damage.getFinalDamage();
@@ -523,26 +524,22 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 					removeShields(shieldsToRemove);
 				}
 			} else {
-				damage.softCancel();
-				removeShields(1);
+				if (damage.getType() == GameDamageType.FALL && damage.getFinalDamage() < 4) {
+					damage.cancel();
+				} else {
+					damage.softCancel();
+					removeShields(1);
+				}
 			}
 			damage.setNoDamageTicks(SHIELD_IMMUNE_DURATION);
-			givePotionEffect(PotionEffectType.GLOWING, SHIELD_IMMUNE_DURATION, 1, false, false, false);
 		});
 		damage.addPostDamageHandler(() -> {
 			if (!damage.isShieldbreaker()) {
-				
-				switch (damage.getType()) {
-					case POISON:
-					case WITHER:
-						removeAllPoisons();
-						break;
-					case FIRE:
-						removeFire();
-						break;
-				}
+				removeAllPoisons();
+				removeFire();
 			}
 			
+			givePotionEffect(PotionEffectType.GLOWING, SHIELD_IMMUNE_DURATION, 1, true, false, false);
 			playSound("entity.evocation_illager.prepare_summon", 1f, 2f, false);
 		});
 		return true;
