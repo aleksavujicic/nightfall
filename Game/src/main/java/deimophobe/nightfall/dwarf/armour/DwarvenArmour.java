@@ -189,6 +189,7 @@ public class DwarvenArmour implements Armour {
 	
 	@Override
 	public void dropFakeArmour() {
+		if (!isArmoured()) return;
 		World world = dwarf.getWorld();
 		Location location = dwarf.getLocation();
 		for (CustomItem customItem : getCurrentArmourSet().values()) {
