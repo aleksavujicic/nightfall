@@ -16,7 +16,6 @@ soulblade: "#rapier"
 hunting: "#claw"
 
 arcane-mark: "shears:6"
-#/summon minecraft:item ~ ~ ~ {Item:{id:"shears",Count:1,Damage:6s},PickupDelay:32767,NoGravity:true}
 
 # Range
 crossbow: "shears:25"
@@ -54,7 +53,7 @@ berserker: "flint"
 
 # Accessories
 chisel: "#temp"
-chestomatic: "diamond_hoe:26"
+chestomatic: "shears:33"
 clock: "watch"
 bricklayer: "shears:20"
 
