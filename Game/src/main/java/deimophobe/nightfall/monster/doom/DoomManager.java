@@ -140,8 +140,8 @@ public class DoomManager {
 	// ------ START DOOM -------
 	
 	private void startDoom() {
-		GameMap.getCurrentMap().getWorld().setTime(14000);
-		TimeManager.getManager().addTarget(1, 15000);
+//		GameMap.getCurrentMap().getWorld().setTime(14000);
+//		TimeManager.getManager().addTarget(1, 15000);
 		isDoom = true;
 		internalDoomTimer = maxInternalDoomTime;
 		

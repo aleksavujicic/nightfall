@@ -24,18 +24,20 @@ public class TimeManager implements Manager {
 			realTime++;
 			
 			
-			Bukkit.broadcastMessage("Real: " + realTime + " World: " + worldTime);
-			Target target = targets.peek();
-			if (target == null) {
-				Bukkit.broadcastMessage("No target");
-				worldTime++;
-			} else if (target.realTime == realTime) {
-				Bukkit.broadcastMessage("Removed target:" + target);
-				targets.poll();
-				worldTime++;
-			} else {
-				Bukkit.broadcastMessage("Target: " + target + " Delta: " + target.worldDelta());
-				worldTime += target.worldDelta();
+//			Bukkit.broadcastMessage("Real: " + realTime + " World: " + worldTime);
+			while (true) {
+				Target target = targets.peek();
+				if (target == null) {
+					break;
+//		    		Bukkit.broadcastMessage("No target");
+				} else if (target.realTime == realTime) {
+//	    			Bukkit.broadcastMessage("Removed target:" + target);
+					targets.poll();
+				} else {
+//  				Bukkit.broadcastMessage("Target: " + target + " Delta: " + target.worldDelta());
+					worldTime += target.worldDelta();
+					break;
+				}
 			}
 			
 			world.setTime((long) worldTime);
@@ -48,13 +50,19 @@ public class TimeManager implements Manager {
 	
 	@Override
 	public void init() {
-		//timeTicker.runTaskTimer(NightfallPlugin.getPlugin(), 1, 1);
-		//world.setGameRuleValue("doDaylightCycle", "false");
 	}
 	
 	@Override
 	public void stop() {
+		try {
+			timeTicker.cancel();
+		} catch (IllegalStateException ignored) {}
+	}
 	
+	public void startTime(int startTime) {
+		worldTime = startTime;
+		timeTicker.runTaskTimer(NightfallPlugin.getPlugin(), 1, 1);
+		world.setGameRuleValue("doDaylightCycle", "false");
 	}
 	
 	public void addTarget(int tickTimeFromNow, double idealTime) {

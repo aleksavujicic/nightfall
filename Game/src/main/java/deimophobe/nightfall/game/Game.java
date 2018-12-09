@@ -541,6 +541,7 @@ public class Game {
 		transitionToPhase(Phase.BUILD);
 		DwarfManager dwarfManager = getManager(DwarfManager.class);
 		MonsterManager monsterManager = getManager(MonsterManager.class);
+		TimeManager timeManager = getManager(TimeManager.class);
 		
 		if (gameSize == null) gameSize = GameSize.chooseForCurrentGame(this);
 		
@@ -567,9 +568,6 @@ public class Game {
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), 20);
 		
-		// Set time
-		map.getWorld().setTime(0);
-		
 		deathTracker.clear();
 		
 		// Start countdown to plague
@@ -581,7 +579,11 @@ public class Game {
 				}
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), buildTime);
-		getManager(TimeManager.class).addTarget(buildTime, Misc.randomInt(13500, 14500));
+		
+		// Set time
+		timeManager.startTime(23000);
+		timeManager.addTarget(buildTime, Misc.randomInt(13500, 14500));
+		timeManager.addTarget(buildTime + 5*60*20, 18000);
 	}
 	
 	public void startPlague() {
