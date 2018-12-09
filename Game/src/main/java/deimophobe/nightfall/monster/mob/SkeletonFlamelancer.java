@@ -94,7 +94,7 @@ class SkeletonFlamelancer extends Skeleton {
         if (!blazeCancelled && blazeRunner.wasUsedWithin(blazeDuration)) {
 	        Block block = monster.getLocation().getBlock();
 	        if (everyNthTick(3)) monster.playSound("entity.ghast.shoot", 0.3f, 1.5f, true);
-			if (BlockType.IGNORABLE.matchesBlock(block)) {
+			if (BlockType.IGNORABLE.matchesBlock(block) && block.getType() != Material.FIRE) {
 				block.setType(Material.FIRE);
 			}
 		}
