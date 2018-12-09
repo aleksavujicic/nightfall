@@ -234,7 +234,7 @@ public class ZombieSaboteur extends ZombieMob {
 				BlockFace vineFace = clickedFace.getOppositeFace();
 				
 				int extend = 3;
-				int lifetime = 30*(vineLevel+1)*60;
+				int lifetime = (18*vineLevel + 30)*20;
 				VineBlock vine = new VineBlock(lifetime, vineBlock, monster, vineFace, extend);
 				
 				boolean placed = BlockManager.getManager().placeTimedBlock(vine);
