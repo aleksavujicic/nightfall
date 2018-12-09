@@ -87,6 +87,7 @@ public class Aegis extends AbstractItem implements CooldownPiece {
 				Vector vel = x2.multiply(sin).add(y2.multiply(cos));
 				vel.multiply(j*velocity);
 				vel.add(velZ);
+				vel.multiply(10d/(10+j)); // Adds a slight curving effect to look like a shield
 				
 				double vx = vel.getX();
 				double vy = vel.getY();
