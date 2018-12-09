@@ -3,6 +3,8 @@ package deimophobe.nightfall.skin;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import org.apache.commons.collections4.functors.ChainedTransformer;
+import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -20,16 +22,16 @@ public class PlayerSkin {
 	
 	
 	
-	public PlayerSkin(@NotNull String name, String skinName) {
-		this(name, Skin.getSkin(skinName));
+	public PlayerSkin(@NotNull String nametag, String skinName) {
+		this(nametag, Skin.getSkin(skinName));
 	}
-	public PlayerSkin(@NotNull String name, Skin skin) {
-		this(name, skin, true, name);
+	public PlayerSkin(@NotNull String nametag, Skin skin) {
+		this(nametag, skin, true, nametag);
 	}
-	public PlayerSkin(@NotNull String name, Skin skin, boolean showAll, String tabName) {
-		checkArgument(name.length() <= 16, "Name '%s' has too many characters. Must be at most 16 but got '%s'", name, name.length());
+	public PlayerSkin(@NotNull String nametag, Skin skin, boolean showAll, String tabName) {
+		checkArgument(nametag.length() <= 16, "Nametag '%s' has too many characters. Must be at most 16 but got '%s'", nametag, nametag.length());
 		
-		this.nametag = name;
+		this.nametag = nametag;
 		this.skin = skin;
 		this.tabName = tabName;
 		this.showAll = showAll;
