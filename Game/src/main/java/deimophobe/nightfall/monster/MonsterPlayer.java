@@ -24,6 +24,7 @@ import deimophobe.nightfall.monster.mob.Bopen;
 import deimophobe.nightfall.monster.mob.FloatyMob;
 import deimophobe.nightfall.monster.mob.Mob;
 import deimophobe.nightfall.monster.mob.MobType;
+import deimophobe.nightfall.util.AFKChecker;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.apache.commons.lang.math.NumberUtils;
@@ -55,12 +56,15 @@ import java.util.logging.Logger;
 public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEntity<Player> {
 	
 	private final ComplexCooldown mobMenuShower = new ComplexCooldown(10, () -> MonsterManager.getManager().showMobMenu(this));
+	private final AFKChecker afkChecker;
 	
 	private Mob mob;
 	public Mob getMob() { return mob; }
 	
 	public MonsterPlayer(Player player, boolean spectator) {
 		super(player);
+		this.afkChecker = new AFKChecker(this, 30);
+		addUpdateable(afkChecker);
 		
 		setTitle(ChatColor.GRAY, null, false);
 		if (spectator) {
@@ -137,6 +141,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		if (mob == null) return;
 		
 		mob.giveCompass();
+	}
+	
+	public AFKChecker getAfkChecker() {
+		return afkChecker;
 	}
 	
 	// ------ SPAWN AND DEATH ------
@@ -409,6 +417,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	@Override
 	public void onShift(boolean sneaking) {
+		afkChecker.resetAFK();
+		
 		if (isFrozen()) return;
 		
 		if (mob != null) {
@@ -429,6 +439,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
 		if (usedThisTick) return;
 		usedThisTick = true;
+		
+		afkChecker.resetAFK();
 		
 		if (!isMobAlive()) {
 			mobMenuShower.tryUse();

@@ -21,6 +21,7 @@ import deimophobe.nightfall.map.region.Region;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
+import deimophobe.nightfall.util.AFKChecker;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
@@ -519,6 +520,9 @@ public abstract class AbstractMob implements Mob {
 		cooldownHolder.update();
 		shrineProtTick();
 		
+		AFKChecker afkChecker = monster.getAfkChecker();
+		boolean afk = afkChecker.isAFK(everyNthTick(20));
+		if (afk) return;
 		
 		if (everyNthTick(20) && Game.getGame().getPhase() == Phase.GAME) {
 			monster.gainExp(monster.getExpRate());
