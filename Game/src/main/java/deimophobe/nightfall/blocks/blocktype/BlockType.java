@@ -69,7 +69,7 @@ public class BlockType {
 	public static final ComparableBlock LIQUID = new BlockSet(WATER, LAVA);
 	
 	// ----- CONSUMABLE STUFF -----
-	public static final ComparableBlock DIGGING_SAND = new MaterialSet(Material.SAND, Material.GRAVEL, Material.CONCRETE_POWDER);
+	public static final ComparableBlock DIGGING_SAND = new MaterialSet(Material.SAND, Material.CONCRETE_POWDER);
 	public static final ComparableBlock FURNACE = new MaterialSet(Material.FURNACE, Material.BURNING_FURNACE);
 	
 	
