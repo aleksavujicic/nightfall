@@ -134,7 +134,7 @@ class GoblinKaboom extends Goblin {
             double offlength = offset.length();
             if (offlength > BOOM_RANGE) continue;
             
-            final double scalingFactor = Math.min(0.2*BOOM_RANGE/offlength + 0.4, 1);
+            final double scalingFactor = Math.min(0.15*BOOM_RANGE/offlength + 0.35, 1);
             
 			Vector knockback = offset.clone().normalize().multiply(kb * scalingFactor);
    
