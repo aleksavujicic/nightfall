@@ -7,6 +7,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -91,7 +92,28 @@ public class MessageUtil {
 		final NumberFormat formatter = new DecimalFormat("#.##");
 		addResolver(Location.class, arg -> {
 			TextComponent text = new TextComponent();
-			text.setColor(ChatColor.GOLD);
+			text.setColor(ChatColor.GREEN);
+			
+			TextComponent xText = new TextComponent(formatter.format(arg.getX()));
+			xText.setColor(ChatColor.AQUA);
+			TextComponent yText = new TextComponent(formatter.format(arg.getY()));
+			yText.setColor(ChatColor.AQUA);
+			TextComponent zText = new TextComponent(formatter.format(arg.getZ()));
+			zText.setColor(ChatColor.AQUA);
+			
+			text.addExtra("(");
+			text.addExtra(xText);
+			text.addExtra(", ");
+			text.addExtra(yText);
+			text.addExtra(", ");
+			text.addExtra(zText);
+			text.addExtra(")");
+			
+			return text;
+		});
+		addResolver(Vector.class, arg -> {
+			TextComponent text = new TextComponent();
+			text.setColor(ChatColor.GREEN);
 			
 			TextComponent xText = new TextComponent(formatter.format(arg.getX()));
 			xText.setColor(ChatColor.AQUA);

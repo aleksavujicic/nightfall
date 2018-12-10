@@ -39,6 +39,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import java.util.*;
 import java.util.function.Function;
@@ -262,6 +263,15 @@ public class CommandInitialiserUtil {
 				context -> Skin.getSkinNames(),
 				"map", true
 		));
+		
+		
+		ContextResolver<Double, BukkitCommandExecutionContext> doubleResolver = (ContextResolver<Double, BukkitCommandExecutionContext>) contexts.getResolver(Double.class);
+		contexts.registerContext(Vector.class, context -> {
+			double x = doubleResolver.getContext(context);
+			double y = doubleResolver.getContext(context);
+			double z = doubleResolver.getContext(context);
+			return new Vector(x,y,z);
+		});
 	}
 	
 	private static void registerConditions(BukkitCommandManager commandManager) {
