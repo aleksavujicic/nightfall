@@ -118,14 +118,14 @@ public class DwarfShovel extends AbstractItem {
 		
 		new ConsumableScavengeItem(ConsumableType.HEAL_STATION, 2, "Healing Stations", RewardTier.COMMON);
 		new ConsumableScavengeItem(ConsumableType.HEAL_STATION, 4, "Healing Stations", RewardTier.UNCOMMON);
-		new ConsumableScavengeItem(ConsumableType.HEAL_STATION, 8, "Healing Stations", RewardTier.RARE);
+		new ConsumableScavengeItem(ConsumableType.HEAL_STATION, 6, "Healing Stations", RewardTier.RARE);
 		
 		new ConsumableScavengeItem(ConsumableType.LAMP, 32, "Lamps", RewardTier.COMMON);
 		new ConsumableScavengeItem(ConsumableType.LAMP, 64, "Lamps", RewardTier.UNCOMMON);
 		
 		new ConsumableScavengeItem(ConsumableType.CHARM, 1, "Consecrating Charm", RewardTier.UNCOMMON);
 		new ConsumableScavengeItem(ConsumableType.CHARM, 2, "Consecrating Charms", RewardTier.RARE);
-		new ConsumableScavengeItem(ConsumableType.CHARM, 4, "Consecrating Charms", RewardTier.LEGENDARY);
+//		new ConsumableScavengeItem(ConsumableType.CHARM, 4, "Consecrating Charms", RewardTier.LEGENDARY);
 		
 		new ConsumableScavengeItem(ConsumableType.WRENCH, 1, "Wrench", RewardTier.COMMON);
 		new ConsumableScavengeItem(ConsumableType.WRENCH, 2, "Wrenches", RewardTier.UNCOMMON);
@@ -142,9 +142,9 @@ public class DwarfShovel extends AbstractItem {
 		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 4, "Procs in Bottles", RewardTier.UNCOMMON);
 		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 6, "Procs in Bottles", RewardTier.RARE);
 		
-		new ConsumableScavengeItem(ConsumableType.TURRET, 4, "Turrets", RewardTier.COMMON);
-		new ConsumableScavengeItem(ConsumableType.TURRET, 8, "Turrets", RewardTier.UNCOMMON);
-		new ConsumableScavengeItem(ConsumableType.TURRET, 16, "Turrets", RewardTier.RARE);
+		new ConsumableScavengeItem(ConsumableType.TURRET, 3, "Turrets", RewardTier.COMMON);
+		new ConsumableScavengeItem(ConsumableType.TURRET, 6, "Turrets", RewardTier.UNCOMMON);
+		new ConsumableScavengeItem(ConsumableType.TURRET, 9, "Turrets", RewardTier.RARE);
 		
 		new FixedScavengeItem("clover", "Lucky Clover");
 		new FixedScavengeItem("perfect-torch", "The Perfect Torch") {
