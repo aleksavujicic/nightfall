@@ -10,6 +10,7 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.command.MessageUtil;
 import deimophobe.nightfall.common.util.NMSUtil;
 import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.util.PacketUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -70,4 +71,12 @@ public class InfoCommand extends BaseCommand {
 		sender.sendMessage(Game.getGame().getOfflineIDs());
 	}
 	
+	@CommandAlias("send-status-packet")
+	@CommandPermission("nigthfall.command.status-packet")
+	@Description("Send a status packet")
+	public void statusPacket(CommandSender sender, OnlinePlayer animatee, int statusCode) {
+		Player player = animatee.getPlayer();
+		PacketUtil.sendStatusPacket(player, (byte) statusCode);
+		MessageUtil.sendMessage(sender, "Sent status packet for player ", player, " with code ", statusCode, ".");
+	}
 }

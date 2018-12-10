@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 
 /**
  * Created by Deimophobe on 28/02/18.
@@ -89,5 +90,13 @@ public class PacketUtil {
 //				Bukkit.broadcastMessage("Ints: " + packet.getIntegers().getValues());
 //			}
 //		});
+	}
+	
+	public static void sendStatusPacket(Entity entity, byte status) {
+		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+		PacketContainer pc = protocolManager.createPacket(PacketType.Play.Server.ENTITY_STATUS);
+		pc.getIntegers().write(0, entity.getEntityId());
+		pc.getBytes().write(0, status);
+		protocolManager.broadcastServerPacket(pc);
 	}
 }

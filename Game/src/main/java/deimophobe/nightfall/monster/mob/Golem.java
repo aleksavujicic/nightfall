@@ -11,6 +11,7 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
+import deimophobe.nightfall.util.PacketUtil;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -76,10 +77,6 @@ class Golem extends AbstractMob {
 		monster.playSound("entity.generic.explode", 0.8f, 0.5f, true);
 		
 		// Show fancy hand animation
-		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-		PacketContainer pc = protocolManager.createPacket(PacketType.Play.Server.ENTITY_STATUS);
-		pc.getIntegers().write(0, getDisguise().getEntity().getEntityId());
-		pc.getBytes().write(0, (byte) 4);
-		protocolManager.broadcastServerPacket(pc);
+		PacketUtil.sendStatusPacket(monster.getEntity(), (byte) 4);
 	}
 }
