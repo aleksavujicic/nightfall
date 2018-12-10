@@ -5,6 +5,8 @@ import deimophobe.nightfall.cooldown.*;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
+import deimophobe.nightfall.util.PacketUtil;
+import deimophobe.nightfall.util.Util;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -25,6 +27,15 @@ final class WorthlessSquid extends AbstractMob {
 	@Update @Display
 	@Interact(click = ClickType.RIGHT, item = "test")
 	private final Cooldown squirtCD = new UseCooldown(200, this::squirt);
+	
+	@Override
+	public void update() {
+		super.update();
+		
+		if (everyNthTick(60)) {
+			PacketUtil.sendStatusPacket(monster.getEntity(), (byte) 19);
+		}
+	}
 	
 	@Override
 	protected void teleportToSpawn(SpawnMethod spawnMethod) {
