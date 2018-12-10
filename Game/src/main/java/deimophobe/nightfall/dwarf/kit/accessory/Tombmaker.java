@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.accessory;
 
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -42,7 +43,7 @@ public class Tombmaker extends DwarfShovel {
 	
 	@Override
 	protected int getSandGiveAmount() {
-		return 2;
+		return Misc.randomInt(2, 6);
 	}
 	
 	@Override

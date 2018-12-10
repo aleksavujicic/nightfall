@@ -46,25 +46,6 @@ public class DwarfShovel extends AbstractItem {
 		return KitGiveType.SHOVEL;
 	}
 	
-	private final Cooldown sandGiver = new UseCooldown(6, this::giveSand);
-	
-	
-	@Override
-	public void update() {
-		super.update();
-		sandGiver.update();
-	}
-	
-	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(click, clickedBlock, blockFace);
-		
-		if (click.isRightClick() && BlockType.DIGGING_SAND.matchesBlock(clickedBlock)) {
-			return sandGiver.tryUse();
-		}
-		
-		return false;
-	}
 	
 	private void giveSand() {
 		dwarf.giveConsumable(ConsumableType.SAND_GRAIN, getSandGiveAmount());
@@ -77,25 +58,30 @@ public class DwarfShovel extends AbstractItem {
 	}
 	
 	protected int getSandGiveAmount() {
-		return 1;
+		return Misc.randomInt(2, 4);
 	}
 	
 	@Override
 	public void onBlockBreak(Block block, boolean didBreak) {
 		super.onBlockBreak(block, didBreak);
-		if (didBreak && block.getType() == Material.GRAVEL) {
+		if (!didBreak) return;
+		
+		if (BlockType.DIGGING_SAND.matchesBlock(block)) {
+			giveSand();
+		}
+		
+		if (block.getType() == Material.GRAVEL) {
 			int quantity = getCobbleAmount();
 			dwarf.giveConsumable(ConsumableType.COBBLESTONE, quantity, true);
 			
 			dwarf.playSound("block.anvil.place", 0.2f, 0.8f, true);
 			dwarf.playSound("block.anvil.break", 1f, 0.8f, true);
 			
-			if (dwarf.getPlagueStatus() == Dwarf.PlagueStatus.PLAGUED) return;
-			
-			if (Game.getGame().getPhase() == Phase.BUILD) {
-				if (Math.random() <= getFindChance()) {
-					REWARD_TIERS.getRandom().rewardDwarf(dwarf, block);
-				}
+			if (dwarf.getPlagueStatus() != Dwarf.PlagueStatus.PLAGUED
+					&& Game.getGame().getPhase() == Phase.BUILD
+					&& Math.random() <= getFindChance()) {
+				
+				REWARD_TIERS.getRandom().rewardDwarf(dwarf, block);
 			}
 		}
 	}
