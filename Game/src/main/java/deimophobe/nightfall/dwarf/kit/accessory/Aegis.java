@@ -60,7 +60,7 @@ public class Aegis extends AbstractItem implements CooldownPiece {
 	
 	private void regenShield() {
 		dwarf.addMaxShields(ShieldSource.AEGIS);
-		dwarf.playSound("entity.illusion_illager.prepare_mirror");
+		dwarf.playSound("entity.illusion_illager.prepare_mirror", 1f, 1f, true);
 		
 		
 		Location center = dwarf.getEyeLocation().add(0, -0.5, 0);
