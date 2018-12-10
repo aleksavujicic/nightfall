@@ -72,6 +72,7 @@ public class InfoCommand extends BaseCommand {
 	}
 	
 	@CommandAlias("send-status-packet")
+	@CommandCompletion("@players")
 	@CommandPermission("nigthfall.command.status-packet")
 	@Description("Send a status packet")
 	public void statusPacket(CommandSender sender, OnlinePlayer animatee, int statusCode) {
