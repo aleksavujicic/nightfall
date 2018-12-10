@@ -158,7 +158,7 @@ public class DwarvenArmour implements Armour {
 		double x = armourFraction();
 		int mobs = MonsterManager.getManager().getNumberOfPlayers();
 		
-		double mult = 0.2 - 0.1*x;
+		double mult = 0.1 + 0.05*(1-x);
 		mult *= 1.0 + 1.0/(mobs + 1.0);
 		return mult;
 	}
