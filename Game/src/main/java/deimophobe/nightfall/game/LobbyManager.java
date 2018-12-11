@@ -393,7 +393,7 @@ public class LobbyManager implements Manager {
 			game.startGame();
 		} else {
 			for (Player player : Bukkit.getOnlinePlayers()) {
-				player.sendTitle("" + ChatColor.DARK_AQUA + countdownTime, "", 0, 30, 10);
+				player.sendTitle("" + ChatColor.DARK_AQUA + countdownTime, "", 0, 10, 12);
 			}
 		}
 	}
