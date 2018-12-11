@@ -75,7 +75,7 @@ public class BloodiedWaraxe extends AbstractItem implements CooldownPiece {
 	}
 	
 	private void hunger() {
-		if (Math.random() <= 0.2 && isHoldingItem()) {
+		if (Math.random() <= 0.4 && isHoldingItem()) {
 			dwarf.playSound("dwarf.item.waraxe.idle");
 		}
 	}
