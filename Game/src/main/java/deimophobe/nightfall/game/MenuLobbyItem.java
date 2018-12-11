@@ -29,6 +29,7 @@ public class MenuLobbyItem implements LobbyItem {
 	
 	@Override
 	public void onClick(Player player) {
+		if (MenuManager.getManager().hasOpenSession(player)) return;
 		menu.startSession(player);
 	}
 }
