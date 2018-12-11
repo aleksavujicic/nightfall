@@ -11,7 +11,16 @@ import static com.google.common.base.Preconditions.checkArgument;
  * Created by Deimophobe on 6/06/18.
  */
 public class ExpiryStore<I> {
+	private final Game game;
 	private final Map<I, Integer> expiryMap = new HashMap<>();
+	
+	public ExpiryStore() {
+		this.game = Game.getGame();
+	}
+	
+	public ExpiryStore(Game game) {
+		this.game = game;
+	}
 	
 	public void addItem(I item, int duration) {
 		checkArgument(duration >= 0, "Duration must be non-negative.");
@@ -31,7 +40,7 @@ public class ExpiryStore<I> {
 		expiryMap.putIfAbsent(item, 0);
 	}
 	
-	private static int getCurrentTime() {
-		return Game.getGame().getCurrentTick();
+	private int getCurrentTime() {
+		return game.getCurrentTick();
 	}
 }

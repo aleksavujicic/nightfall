@@ -528,6 +528,10 @@ public class Game {
 		cooldownHolder.addUpdateable(updateable);
 	}
 	
+	public void removeUpdateable(Updateable updateable) {
+		cooldownHolder.removeUpdateable(updateable);
+	}
+	
 	
 	// ------ GAME PHASES -------
 	public void startLobby() {

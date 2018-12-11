@@ -59,4 +59,11 @@ public class CooldownHolder implements Updateable {
 			}
 		}
 	}
+	
+	public void removeUpdateable(Updateable updateable) {
+		queuedUpdateables.remove(updateable);
+		updateables.remove(updateable);
+		//noinspection SuspiciousMethodCalls
+		expirables.remove(updateable);
+	}
 }

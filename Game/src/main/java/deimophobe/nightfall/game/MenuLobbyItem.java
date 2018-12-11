@@ -4,6 +4,7 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.menu.MainMenu;
 import deimophobe.nightfall.common.menu.MenuManager;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 11/12/18.
@@ -23,7 +24,7 @@ public class MenuLobbyItem implements LobbyItem {
 	}
 	
 	@Override
-	public CustomItem getItem() {
+	public CustomItem getItem(@Nullable Player player) {
 		return item;
 	}
 	
