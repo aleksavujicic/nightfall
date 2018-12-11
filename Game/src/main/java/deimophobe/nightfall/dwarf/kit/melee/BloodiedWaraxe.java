@@ -3,6 +3,8 @@ package deimophobe.nightfall.dwarf.kit.melee;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.RepeaterCooldown;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
@@ -18,24 +20,24 @@ import org.bukkit.potion.PotionEffectType;
  * Created by Deimophobe on 20/01/17.
  */
 public class BloodiedWaraxe extends AbstractItem implements CooldownPiece {
+	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "axe");
+	@Override public CustomItem getItem() {
+		return ITEM;
+	}
+	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 	
 	private final ComplexCooldown cd = new ComplexCooldown(60*20, this::giveProc, this::notifyOffCD);
+	private final Cooldown hunger = new RepeaterCooldown(30*20, this::hunger);
 	
 	public BloodiedWaraxe(Dwarf dwarf) {
 		super(dwarf);
 	}
 	
-	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "axe");
-	@Override public CustomItem getItem() {
-		return ITEM;
-	}
-	
-	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
-	
 	@Override
 	public void update() {
 		super.update();
 		cd.update();
+		hunger.update();
 	}
 	
 	@Override
@@ -45,6 +47,8 @@ public class BloodiedWaraxe extends AbstractItem implements CooldownPiece {
 			dwarf.heal(5);
 			dwarf.regenMana(5);
 		}
+		
+		hunger.reset();
 	}
 	
 	@Override
@@ -53,6 +57,11 @@ public class BloodiedWaraxe extends AbstractItem implements CooldownPiece {
 			return cd.tryUse();
 		}
 		return false;
+	}
+	
+	@Override
+	public float getCooldown() {
+		return cd.getCooldown();
 	}
 	
 	private void giveProc() {
@@ -65,9 +74,10 @@ public class BloodiedWaraxe extends AbstractItem implements CooldownPiece {
 		dwarf.playSound("entity.elder_guardian.curse", 1, 1f, false);
 	}
 	
-	@Override
-	public float getCooldown() {
-		return cd.getCooldown();
+	private void hunger() {
+		if (Math.random() <= 0.2 && isHoldingItem()) {
+			dwarf.playSound("dwarf.item.waraxe.idle");
+		}
 	}
 	
 }
