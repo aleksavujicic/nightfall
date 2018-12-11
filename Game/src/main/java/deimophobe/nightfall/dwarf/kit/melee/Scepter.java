@@ -124,6 +124,7 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	// ----- LANCE -----
 	private void shootLance() {
 		hitscan.fire(dwarf, RANGE);
+		dwarf.playSound("dwarf.item.scepter.attack", 1f, 1.5f, true);
 	}
 	
 	
