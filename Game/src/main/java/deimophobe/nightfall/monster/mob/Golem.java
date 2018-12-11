@@ -7,6 +7,9 @@ import com.comphenix.protocol.events.PacketContainer;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.util.NMSUtil;
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.SimpleCooldown;
+import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -28,8 +31,8 @@ class Golem extends AbstractMob {
 		super(monster, MobType.GOLEM);
 	}
 	
-	private static final int BREAK_CD_MAX = 10;
-	private int breakCD = 0;
+	@Update
+	private final Cooldown breakCD = new SimpleCooldown(10);
 	
 	@Override
 	public void onSpawn(SpawnMethod spawnMethod) {
@@ -39,21 +42,19 @@ class Golem extends AbstractMob {
 	
 	@Override
 	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
-		if (click.isLeftClick()) {
-			if (breakCD == 0 && isPlayerHoldingWeapon()) {
+		if (click.isLeftClick() && isPlayerHoldingWeapon() && breakCD.isAvailable()) {
+			
+			breakCD.reset();
+			swingArms();
+			
+			if (clickedBlock != null) {
+				monster.getPlayer().spawnParticle(Particle.SMOKE_NORMAL, clickedBlock.getLocation().add(0.5, 0.5, 0.5), 15, 0, 0.25, 0, 0.05);
 				
-				swingArms();
-				breakCD = BREAK_CD_MAX;
-				
-				if (clickedBlock != null) {
-					monster.getPlayer().spawnParticle(Particle.SMOKE_NORMAL, clickedBlock.getLocation().add(0.5, 0.5, 0.5), 15, 0, 0.25, 0, 0.05);
-					
-					if (!BlockType.GOLEM_UNBREAKABLE_BLOCKS.matchesBlock(clickedBlock) && GameMap.getCurrentMap().isBlockBreakable(clickedBlock)) {
-						clickedBlock.getWorld().spawnParticle(Particle.BLOCK_CRACK, clickedBlock.getLocation().add(0.5, 0.5, 0.5), 50, 0.5, 0.5, 0.5, 0, clickedBlock.getState().getData());
-						//clickedBlock.breakNaturally();
-						NMSUtil.playBlockBreakSound(clickedBlock);
-						clickedBlock.breakNaturally(new ItemStack(Material.AIR));
-					}
+				if (!BlockType.GOLEM_UNBREAKABLE_BLOCKS.matchesBlock(clickedBlock) && GameMap.getCurrentMap().isBlockBreakable(clickedBlock)) {
+					clickedBlock.getWorld().spawnParticle(Particle.BLOCK_CRACK, clickedBlock.getLocation().add(0.5, 0.5, 0.5), 50, 0.5, 0.5, 0.5, 0, clickedBlock.getState().getData());
+					//clickedBlock.breakNaturally();
+					NMSUtil.playBlockBreakSound(clickedBlock);
+					clickedBlock.breakNaturally(new ItemStack(Material.AIR));
 				}
 			}
 		}
@@ -62,15 +63,26 @@ class Golem extends AbstractMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
+		breakCD.reset();
 		swingArms();
-		breakCD = BREAK_CD_MAX;
 	}
 	
 	@Override
 	public void update() {
 		super.update();
-		if (breakCD > 0)
-			breakCD--;
+		if (everyNthTick(10*20) && monster.isSneaking()) {
+			PacketUtil.sendStatusPacket(monster.getEntity(), (byte) 11);
+		}
+	}
+	
+	@Override
+	public void onShift(boolean sneaking) {
+		super.onShift(sneaking);
+		if (sneaking) {
+			PacketUtil.sendStatusPacket(monster.getEntity(), (byte) 11);
+		} else {
+			PacketUtil.sendStatusPacket(monster.getEntity(), (byte) 34);
+		}
 	}
 	
 	private void swingArms() {
