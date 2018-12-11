@@ -159,14 +159,15 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	public Collection<KitPieceType> getKitPieceTypes() {
 		return kit.getKitPieceTypes();
 	}
-	
 	public boolean hasKitPiece(KitPieceType type) {
 		return kit.containsKitPiece(type);
 	}
-	public void giveKitItems(KitGiveType type) {kit.giveItems(type);}
-	
 	public void giveKitItem(KitPieceType type) {
 		kit.addKitPiece(type, true);
+	}
+	
+	public boolean giveKitItems(KitGiveType type) {
+		return kit.giveItems(type);
 	}
 	
 	public Kit getKit() {
@@ -717,7 +718,8 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		if (click.isRightClick() && clickedBlock != null) {
 			KitGiveType giveType = KitGiveType.getGiveTypeFromBlock(clickedBlock);
 			if (giveType != null) {
-				giveKitItems(giveType);
+				boolean gotItems = giveKitItems(giveType);
+				if (gotItems) giveType.playPickupSound(clickedBlock.getLocation());
 				return;
 			}
 		}

@@ -84,24 +84,28 @@ public class Kit {
 		}
 	}
 	
-	public void giveItems(KitGiveType giveType) {
+	public boolean giveItems(KitGiveType giveType) {
+		boolean gaveItems = false;
 		for (KitPiece piece : kitPieces.values()) {
 			if (piece instanceof ItemPiece) {
 				ItemPiece itemPiece = (ItemPiece) piece;
 				if (itemPiece.getGiveType() == giveType) {
-					giveItem(itemPiece);
+					gaveItems |= giveItem(itemPiece);
 				}
 			}
 		}
 		
 		updateHotbarSlot(dwarf.getHeldItem());
+		return gaveItems;
 	}
 	
-	private void giveItem(ItemPiece itemPiece) {
+	private boolean giveItem(ItemPiece itemPiece) {
 		CustomItem item = itemPiece.getItem();
 		if (!dwarf.hasItem(item)) {
 			dwarf.giveItem(item);
+			return true;
 		}
+		return false;
 	}
 	
 	
