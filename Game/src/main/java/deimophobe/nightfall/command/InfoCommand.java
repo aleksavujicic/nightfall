@@ -18,6 +18,7 @@ import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.util.PacketUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -129,5 +130,13 @@ public class InfoCommand extends BaseCommand {
 				if (lifetime <= 0) this.cancel();
 			}
 		}.runTaskTimer(NightfallPlugin.getPlugin(), 0, 1);
+	}
+	
+	@CommandAlias("colourise")
+	@CommandPermission("nightfall.command.colourise")
+	@Description("Colourise some text using using '&'")
+	public void translate(CommandSender sender, String text) {
+		text = ChatColor.translateAlternateColorCodes('&', text);
+		sender.sendMessage(text);
 	}
 }

@@ -3,11 +3,15 @@ kit:
   name: Open Kit Menu
   lore:
     description:
-     - "Click to open the kit menu."
+     - "Click to open the kit menu.\n
+        You can access this menu at\n
+        any time by typing '&c/kit&r'."
 
 settings:
   base: lobby.settings-menu
   name: Open Settings Menu
   lore:
     description:
-     - "Click to open the settings menu."
+     - "Click to open the settings menu.\n
+        You can access this menu at\n
+        any time by typing '&c/settings&r'."
