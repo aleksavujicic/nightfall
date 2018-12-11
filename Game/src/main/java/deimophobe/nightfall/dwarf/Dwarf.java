@@ -704,7 +704,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		return didBreak;
 	}
 	
-	private boolean usedThisTick = false;
+	private boolean usedThisTick = true;
 	private ExpiryStore<ConsumableType> consumableExpiries = new ExpiryStore<>();
 	
 	@Override
