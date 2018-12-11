@@ -1,0 +1,13 @@
+kit:
+  base: lobby.kit-menu
+  name: Open Kit Menu
+  lore:
+    description:
+     - "Click to open the kit menu."
+
+settings:
+  base: lobby.settings-menu
+  name: Open Settings Menu
+  lore:
+    description:
+     - "Click to open the settings menu."

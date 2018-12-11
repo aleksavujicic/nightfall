@@ -17,6 +17,8 @@ public class LoreTemplate {
 	public static final String BASIC = "basic";
 	public static final String DEFAULT = BASIC;
 	
+	public static final String LOBBY = "lobby";
+	
 	public static final String LOADOUT = "loadout";
 	public static final String TITLE = "title";
 	public static final String HAT = "hat";

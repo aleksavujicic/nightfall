@@ -1,5 +1,10 @@
 # Needs to be exact name (from here https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html)
 
+# ----- LOBBY STUFF -----
+
+lobby:
+  kit-menu: "shears:32"
+  settings-menu: "shears:150"
 
 # ----- DWARVES -----
 
@@ -188,7 +193,7 @@ glass:
   green: "stained_glass:13"
   red: "stained_glass:14"
   black: "stained_glass:15"
-  
+
 
 # ----- LOADOUT MENU -----
 
