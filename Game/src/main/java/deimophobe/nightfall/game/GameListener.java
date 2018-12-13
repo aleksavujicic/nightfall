@@ -593,6 +593,7 @@ public class GameListener implements Listener {
 		}
 	}
 	
+	// This cause /give to give players an extra item for some bizarre reason, not that it really matters
 	@EventHandler
 	public void preventDropping(PlayerDropItemEvent event) {
 		if (event.getPlayer().getGameMode() == GameMode.ADVENTURE ||
