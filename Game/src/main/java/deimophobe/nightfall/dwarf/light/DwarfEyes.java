@@ -53,9 +53,9 @@ public class DwarfEyes implements Updateable {
 		currentVision = Math.max(targetVision, currentVision - 1);
 		currentVision = Math.max(currentVision, 0);
 		
-		dwarf.sendDebugMsg(
-				String.format("Vision: %s/%s", currentVision, targetVision)
-		);
+//		dwarf.sendDebugMsg(
+//				String.format("Vision: %s/%s", currentVision, targetVision)
+//		);
 		
 		// Set blindness if necessary
 		if (forceBlind) {
