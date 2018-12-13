@@ -10,10 +10,7 @@ import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.entity.GamePlayerManager;
 import deimophobe.nightfall.game.GameSize;
 import deimophobe.nightfall.util.PacketUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -92,11 +89,16 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	}
 	
 	public void openSharedChest(Dwarf dwarf, Block chestBlock) {
+		dwarf.sendDebugMsg("Opening shared chest: " + (chestBlock == null ? "null" : chestBlock.getType()));
+		
 		// Force close any already open chests
 		notifyCloseEvent(dwarf);
 		
 		// Update open animation
 		if (chestBlock != null) {
+			// Find right chest block (for double chests)
+			chestBlock = getPrimaryChestBlock(chestBlock);
+			
 			dwarfToChestMap.put(dwarf, chestBlock);
 			updateChestState(chestBlock);
 		}
@@ -111,6 +113,7 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	public void notifyCloseEvent(Dwarf dwarf) {
 		Block viewingBlock = dwarfToChestMap.remove(dwarf);
 		if (viewingBlock != null) {
+			dwarf.sendDebugMsg("Closing shared chest");
 			updateChestState(viewingBlock);
 		}
 	}
@@ -130,6 +133,20 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 		}
 		block.getWorld().playSound(block.getLocation(), chestSound, 1f, 1f);
 		PacketUtil.setChestOpen(block, newState);
+	}
+	private Block getPrimaryChestBlock(Block block) {
+		Material type = block.getType();
+		if (type == Material.CHEST || type == Material.TRAPPED_CHEST) {
+			Block test1 = block.getRelative(-1,0,0);
+			Block test2 = block.getRelative(0,0,-1);
+			
+			if (test1.getType() == type) {
+				return test1;
+			} else if (test2.getType() == type) {
+				return test2;
+			}
+		}
+		return block;
 	}
 	
 	public void addItemToChest(ItemStack item) {
