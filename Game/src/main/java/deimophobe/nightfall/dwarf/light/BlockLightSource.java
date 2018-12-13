@@ -18,7 +18,7 @@ public class BlockLightSource implements LightSource {
 		
 		int light = Math.max(lightAtBlock, lightAbove);
 		
-		int visionIncrease = Math.max((light - 5) * 10 , 0);
+		int visionIncrease = Math.max((light - 5) * 15 , 0);
 		vision.increaseVision(visionIncrease);
 	}
 }
