@@ -4,6 +4,7 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.map.GameMap;
@@ -54,16 +55,14 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 			
 			if (GameMap.getCurrentMap().getCurrentMobProtection().continsEntity(proj)) {
 				dwarf.sendTitleMessage(ChatColor.RED + "Cannot warp into mob spawn");
-				removeArrow(proj);
-				activeArrows.remove(proj);
+				removeActiveArrow(proj);
 				return;
 			}
 			
 			Location warpLocation = getWarpLocation(proj, hitBlock);
 			if (!checkLocationIsFreeToTeleportTo(warpLocation)) {
 				dwarf.sendTitleMessage(ChatColor.RED + "Cannot warp there");
-				removeArrow(proj);
-				activeArrows.remove(proj);
+				removeActiveArrow(proj);
 				return;
 			}
 			warpLocation.setDirection(dwarf.getLocation().getDirection());
@@ -98,6 +97,15 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 	}
 	
 	@Override
+	public void onDamageAttack(MonsterDamage damage) {
+		super.onDamageAttack(damage);
+		if (damage.hasArrow()) {
+			Arrow arrow = damage.getArrow();
+			removeActiveArrow(arrow);
+		}
+	}
+	
+	@Override
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
 		damage.addPostDamageHandler(() -> {
@@ -114,6 +122,11 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 			removeArrow(arrow);
 		}
 		activeArrows.clear();
+	}
+	
+	private void removeActiveArrow(Projectile arrow) {
+		removeArrow(arrow);
+		activeArrows.remove(arrow);
 	}
 	
 	// Probably not the best way to implement this, but there are a couple
