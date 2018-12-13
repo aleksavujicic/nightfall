@@ -55,6 +55,8 @@ items:
 consumables:
   mortar: Mortar
   cobblestone: Cobblestone
+  stairs: Stairs
+  half-slab: Half Slab|Half Slabs
   torch: Torch|Torches
   glass: Glass
 
