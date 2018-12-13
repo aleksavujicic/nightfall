@@ -144,16 +144,12 @@ public class Wraith extends AbstractMob implements FloatyMob {
 	private void charge() {
 		hitDwarves.clear();
 		
-		Vector velocity;
 		if (monster.isUnderwater()) {
-			velocity = new Vector(0, 3, 0);
+			monster.leap(0, 3);
 		} else {
-			double yaw = monster.getPlayer().getLocation().getYaw();
-			double radYaw = yaw*Math.PI/180;
-			velocity = new Vector(-3 * Math.sin(radYaw), -3, 3 * Math.cos(radYaw));
+			monster.leap(3, -3);
 		}
 		
-		monster.setVelocity(velocity);
 		monster.givePotionEffect(PotionEffectType.LEVITATION, FLOAT_TIME, 7, true, false, true);
 		monster.removePotionEffect(PotionEffectType.JUMP);
 		monster.givePotionEffect(PotionEffectType.JUMP, 20, -1, false, true, true);
