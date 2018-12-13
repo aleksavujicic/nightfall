@@ -28,6 +28,7 @@ import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.game.AbstractGameEntity;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.map.GameMap;
+import deimophobe.nightfall.util.PacketUtil;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_12_R1.PacketCompressor;
@@ -670,6 +671,10 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 			}
 		}
 		return closestPlayer;
+	}
+	
+	public void sendEntityStatus(byte status) {
+		PacketUtil.sendStatusPacket(player, status);
 	}
 	
 	/**
