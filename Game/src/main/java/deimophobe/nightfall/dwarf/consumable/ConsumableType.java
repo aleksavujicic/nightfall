@@ -30,6 +30,8 @@ public enum ConsumableType implements ItemMatcher {
 	
 	TORCH(new DummyConsumable("torch"), true, true),
 	COBBLESTONE(new DummyConsumable("cobble"), true, true),
+	HALF_SLAB(new DummyConsumable("half-slab"), true, false),
+	STAIRS(new DummyConsumable("stairs"), true, false),
 	GLASS(new GlassConsumable("glass"), true, false),
 	
 	ARROW(new DummyConsumable("arrow"), false, false),

@@ -201,6 +201,24 @@ cobble:
     flavour:
      - "It's stone."
 
+stairs:
+  material: cobblestone_stairs
+  name: Stairs
+  lore:
+    description:
+     - "."
+    flavour:
+     - "It's 3/4 stone."
+
+half-slab:
+  base: half-slab
+  name: Half Slab
+  lore:
+    description:
+     - "."
+    flavour:
+     - "It's 1/2 stone."
+
 sand-grain:
   material: gold_nugget
   name: Grain of Sand
