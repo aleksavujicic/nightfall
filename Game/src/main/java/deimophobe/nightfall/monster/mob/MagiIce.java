@@ -43,7 +43,7 @@ class MagiIce extends AbstractMob {
 			if (Math.random() > 0.5) {
 				Location center = monster.getLocation();
 				Block block = Misc.randomLocation(center, 3, 3, 3).getBlock();
-				tryCreateIce(block, 10 * 20);
+				tryCreateIce(block, 10 * 20, false);
 			}
 		}
 	}
@@ -56,7 +56,7 @@ class MagiIce extends AbstractMob {
 		}
 		if (click.isLeftClick() && clickedBlock != null && isPlayerHoldingWeapon()) {
 			if (leftClickIce.isAvailable()) {
-				boolean created = tryCreateIce(clickedBlock, 10 * 20);
+				boolean created = tryCreateIce(clickedBlock, 10 * 20, false);
 				if (created) {
 					playSound("punch-ice");
 					Location center = clickedBlock.getLocation().add(0.5, 0.5, 0.5);
@@ -84,9 +84,12 @@ class MagiIce extends AbstractMob {
 		dropFakeItem("armour");
 	}
 	
-	private boolean tryCreateIce(Block block, int lifetime) {
-		if (BlockType.SOLID.matchesBlock(block)) {
-			TimedBlock timed = new IceBlock(lifetime, block);
+	private boolean tryCreateIce(Block block, int lifetime, boolean canFreezeWater) {
+		boolean isSolid = BlockType.SOLID.matchesBlock(block);
+		boolean isWater = BlockType.WATER.matchesBlock(block);
+		
+		if (isSolid || (isWater && canFreezeWater)) {
+			TimedBlock timed = new IceBlock(lifetime, block, isSolid);
 			return BlockManager.getManager().placeTimedBlock(timed);
 		}
 		return false;
@@ -113,7 +116,7 @@ class MagiIce extends AbstractMob {
 					Block block = world.getBlockAt(x, y, z);
 					if (center.getLocation().distance(block.getLocation()) > range) continue;
 					
-					tryCreateIce(block, 15*20);
+					tryCreateIce(block, 15*20, true);
 				}
 			}
 		}
@@ -130,8 +133,8 @@ class MagiIce extends AbstractMob {
 	
 	private class IceBlock extends DataTimedBlock {
 		
-		public IceBlock(int lifeTime, Block block) {
-			super(lifeTime, block, monster, Material.PACKED_ICE);
+		public IceBlock(int lifeTime, Block block, boolean packed) {
+			super(lifeTime, block, monster, (packed ? Material.PACKED_ICE : Material.ICE));
 		}
 	}
 	
