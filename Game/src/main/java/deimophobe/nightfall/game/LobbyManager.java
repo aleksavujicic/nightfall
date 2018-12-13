@@ -3,6 +3,7 @@ package deimophobe.nightfall.game;
 import deimophobe.nightfall.Manager;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.WhoEntry;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.common.loadout.Loadout;
@@ -36,6 +37,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
@@ -68,7 +71,11 @@ public class LobbyManager implements Manager, Updateable {
 	private final BossBar readyDisplay;
 	
 	private static final int READY_COOLDOWN = 5*20;
-	private static final String READY_PERMISSION = "nightfall.ready-always";
+	private static final Permission READY_PERMISSION = new Permission(
+			"nightfall.ready-always",
+			"Allows the player to always use /ready, bypassing the cooldown.",
+			PermissionDefault.OP
+	);
 	private final ExpiryStore<UUID> readyCooldowns;
 	
 	private final Map<Integer, LobbyItem> items = new HashMap<>();
@@ -113,6 +120,8 @@ public class LobbyManager implements Manager, Updateable {
 			readyDisplay.addPlayer(player);
 		}
 		game.addUpdateable(this);
+		
+		Misc.registerPermissionIfNotRegistered(READY_PERMISSION);
 	}
 	
 	@Override
