@@ -43,7 +43,8 @@ final class WorthlessSquid extends AbstractMob {
 		super.update();
 		
 		if (everyNthTick(60)) {
-			PacketUtil.sendStatusPacket(monster.getEntity(), (byte) 19);
+			// Move tentacles
+			monster.setEntityStatus((byte) 19);
 		}
 	}
 	

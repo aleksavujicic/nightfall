@@ -71,17 +71,18 @@ class Golem extends AbstractMob {
 	public void update() {
 		super.update();
 		if (everyNthTick(10*20) && monster.isSneaking()) {
-			PacketUtil.sendStatusPacket(monster.getEntity(), (byte) 11);
+			monster.setEntityStatus((byte) 11);
 		}
 	}
 	
 	@Override
 	public void onShift(boolean sneaking) {
 		super.onShift(sneaking);
+		// Show/hide rose
 		if (sneaking) {
-			PacketUtil.sendStatusPacket(monster.getEntity(), (byte) 11);
+			monster.setEntityStatus((byte) 11);
 		} else {
-			PacketUtil.sendStatusPacket(monster.getEntity(), (byte) 34);
+			monster.setEntityStatus((byte) 34);
 		}
 	}
 	
@@ -89,6 +90,6 @@ class Golem extends AbstractMob {
 		monster.playSound("entity.generic.explode", 0.8f, 0.5f, true);
 		
 		// Show fancy hand animation
-		PacketUtil.sendStatusPacket(monster.getEntity(), (byte) 4);
+		monster.setEntityStatus((byte) 4);
 	}
 }
