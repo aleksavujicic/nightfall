@@ -16,7 +16,7 @@ public interface LightSource {
 	LightSource[] DEFAULT_SOURCES = new LightSource[] {
 			new BlockLightSource(),
 			new ItemLightSource(ConsumableType.TORCH, 10),
-			new ItemLightSource(ConsumableType.LAMP, 15),
+			new ItemLightSource(ConsumableType.LAMP, 10),
 			((dwarf, vision) -> {
 				if (dwarf.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
 					vision.increaseVision(10);
