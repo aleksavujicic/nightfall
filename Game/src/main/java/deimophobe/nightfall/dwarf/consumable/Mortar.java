@@ -14,7 +14,8 @@ import java.util.function.Supplier;
  */
 class Mortar extends Consumable {
 	private final int range;
-	private final double blueChance;
+	private final boolean blue;
+	private final double successChance;
 	private final Supplier<Float> pitch;
 	private final ConsumeResult success;
 	private final boolean useableBuildPhase;
@@ -23,15 +24,17 @@ class Mortar extends Consumable {
 		super(item);
 		if (wizzy) {
 			this.range = 10;
-			this.blueChance = 1;
+			this.blue = true;
+			this.successChance = 1;
 			this.pitch = () -> 0.5f;
 			this.success = ConsumeResult.successfulWithDuration(20);
 			this.useableBuildPhase = false;
 		} else {
 			this.range = 4;
-			this.blueChance = 0.02;
+			this.blue = false;
+			this.successChance = 0.3;
 			this.pitch = () -> (float) (0.5 + 0.05 * Math.random());
-			this.success = ConsumeResult.successfulWithDuration(60);
+			this.success = ConsumeResult.successfulWithDuration(10);
 			this.useableBuildPhase = true;
 		}
 	}
@@ -43,9 +46,8 @@ class Mortar extends Consumable {
 		ConsumeResult phaseCheck = checkPhase();
 		if (!useableBuildPhase && phaseCheck != null) return phaseCheck;
 		
-		
-		double chance = (Game.getGame().getPhase().haveMonstersBeenReleased() ? blueChance : 1);
-		BlockConverter.mortar(clickedBlock, range, chance);
+		boolean shouldBlue = !Game.getGame().getPhase().haveMonstersBeenReleased() || blue;
+		BlockConverter.mortar(clickedBlock, range, successChance, shouldBlue);
 		dwarf.playSound("entity.slime.hurt", 1, pitch.get(), false);
 		
 		return success;

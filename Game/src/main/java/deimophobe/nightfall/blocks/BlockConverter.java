@@ -165,11 +165,8 @@ public class BlockConverter {
 	}
 	
 	
-	private static final int MORTAR_RANGE = 4; // Half range
-	private static final int WIZ_MORTAR_RANGE = 8; // Half range
-	private static final double MORTAR_CHANCE = 0.02; // Half range
 	// MORTAR
-	public static void mortar(Block center, int range, double blueChance) {
+	public static void mortar(Block center, int range, double successChance, boolean forceBlue) {
 		World world = center.getWorld();
 		
 		int startX = center.getX() - range;
@@ -178,19 +175,32 @@ public class BlockConverter {
 		
 		int size = range * 2 + 1;
 		
+		// This is realllyyy ugly - and just bad
 		for (int x = startX; x < startX + size; x++) {
 			for (int y = startY; y < startY + size; y++) {
 				for (int z = startZ; z < startZ + size; z++) {
 					Block block = world.getBlockAt(x, y, z);
-					
-					if (Math.random() <= blueChance) {
+					if (forceBlue) {
 						BlockType.tryConvertBlock(block, BlockType.MORTARABLE_WALL, BlockType.ENCHANTED_WALL);
+						BlockType.tryConvertBlock(block, BlockType.ALL_SLABS, BlockType.REINFORCED_SLAB);
+						BlockType.tryConvertBlock(block, BlockType.ALL_STAIRS, BlockType.NORMAL_STAIR);
 					} else {
-						BlockType.tryConvertBlock(block, BlockType.MORTARABLE_WALL, BlockType.NORMAL_WALL);
+						double random = Math.random();
+						if (random <= successChance) {
+							if (Math.random() <= 0.05) {
+								if (BlockType.tryConvertBlock(block, BlockType.NORMAL_WALL, BlockType.ENCHANTED_WALL)) continue;
+							}
+							if (BlockType.tryConvertBlock(block, BlockType.CRACKED_WALL, BlockType.NORMAL_WALL)) continue;
+							if (BlockType.tryConvertBlock(block, BlockType.CHISELED_WALL, BlockType.NORMAL_WALL)) continue;
+							if (BlockType.tryConvertBlock(block, BlockType.MOSSY_WALL, BlockType.NORMAL_WALL)) continue;
+							if (BlockType.tryConvertBlock(block, BlockType.DAMAGED_WALL, BlockType.CRACKED_WALL)) continue;
+							
+							if (BlockType.tryConvertBlock(block, BlockType.DAMAGED_STAIR, BlockType.NORMAL_STAIR)) continue;
+							
+							if (BlockType.tryConvertBlock(block, BlockType.NORMAL_SLAB, BlockType.REINFORCED_SLAB)) continue;
+							if (BlockType.tryConvertBlock(block, BlockType.DAMAGED_SLAB, BlockType.NORMAL_SLAB)) continue;
+						}
 					}
-					
-					BlockType.tryConvertBlock(block, BlockType.ALL_SLABS, BlockType.REINFORCED_SLAB);
-					BlockType.tryConvertBlock(block, BlockType.ALL_STAIRS, BlockType.NORMAL_STAIR);
 				}
 			}
 		}
