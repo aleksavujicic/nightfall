@@ -673,7 +673,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		return closestPlayer;
 	}
 	
-	public void sendEntityStatus(byte status) {
+	public void setEntityStatus(byte status) {
 		PacketUtil.sendStatusPacket(player, status);
 	}
 	

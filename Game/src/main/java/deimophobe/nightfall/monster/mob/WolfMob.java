@@ -1,7 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.monster.MonsterPlayer;
-import deimophobe.nightfall.util.PacketUtil;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Wolf;
 
@@ -44,7 +43,7 @@ final class WolfMob extends AbstractWolf {
 			waterCount++;
 		} else {
 			// If was in water long enough (but now not), play the shake animation
-			if (waterCount >= SHAKE_REQUIREMENT) monster.sendEntityStatus((byte) 8);
+			if (waterCount >= SHAKE_REQUIREMENT) monster.setEntityStatus((byte) 8);
 			waterCount = 0;
 		}
 	}
