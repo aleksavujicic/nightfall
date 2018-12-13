@@ -144,12 +144,11 @@ public class Doppelganger extends AbstractMob {
 		}
 	}
 	
-	private final Cooldown beamer = new ComplexCooldown(10,
-			() -> {
-				Hitscan hitscan = new Hitscan(0.2, 1.2, Scepter.PARTICLE_PLACER, null, null);
-				hitscan.fire(monster, Scepter.RANGE);
-			}
-	);
+	private static final Hitscan scepterHitscan = Scepter.copyOfHitscanBuilder().build();
+	private final Cooldown beamer = new ComplexCooldown(Scepter.ZAP_CD, () -> {
+		scepterHitscan.fire(monster, Scepter.RANGE);
+		monster.playSound(Scepter.ZAP_SOUND, 1f, Scepter.ZAP_PITCH, true);
+	});
 	
 	@Override
 	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {

@@ -56,7 +56,17 @@ public final class HitscanBuilder {
 	}
 	
 	public HitscanBuilder but() {
-		return aHitscan().withThickness(thickness).withParticlePeriod(particlePeriod).withParticlePlacer(particlePlacer).withDwarfConsumer(dwarfConsumer).withMobConsumer(mobConsumer).withHitBlockConsumer(hitBlockConsumer);
+		return clone();
+	}
+	
+	public HitscanBuilder clone() {
+		return aHitscan()
+				.withThickness(thickness)
+				.withParticlePeriod(particlePeriod)
+				.withParticlePlacer(particlePlacer)
+				.withDwarfConsumer(dwarfConsumer)
+				.withMobConsumer(mobConsumer)
+				.withHitBlockConsumer(hitBlockConsumer);
 	}
 	
 	public Hitscan build() {

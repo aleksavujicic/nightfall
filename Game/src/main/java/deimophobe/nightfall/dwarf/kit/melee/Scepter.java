@@ -35,13 +35,7 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	@Override public CustomItem getItem() { return ITEM; }
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 	
-	
-	private final static double DAMAGE = 10;
-	public static final double RANGE = 8;
-	static { ITEM.addModifier(ItemModifierType.ATTACK, (int) DAMAGE); }
-	
-	
-	public static final Consumer<Location> PARTICLE_PLACER = (location) -> {
+	private static final Consumer<Location> PARTICLE_PLACER = (location) -> {
 		double dx = Misc.randomDouble(-0.1,0.1);
 		double dy = Misc.randomDouble(-0.1,0.1);
 		double dz = Misc.randomDouble(-0.1,0.1);
@@ -50,13 +44,30 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 			location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(dx, dy, dz), 0, 0.8, 0.2, 0.9, 1);
 	};
 	
+	private static final HitscanBuilder DEFAULT_BUILDER = HitscanBuilder.aHitscan()
+			.withThickness(1.2)
+			.withParticlePeriod(0.2)
+			.withParticlePlacer(PARTICLE_PLACER);
+	public static HitscanBuilder copyOfHitscanBuilder() {
+		return DEFAULT_BUILDER.clone();
+	}
+	
+	public static final int ZAP_CD = 8;
+	public static final double RANGE = 8;
+	
+	public static final String ZAP_SOUND = "dwarf.item.scepter.attack";
+	public static final float ZAP_PITCH = 1.5f;
+	
+	private final static double DAMAGE = 10;
+	static { ITEM.addModifier(ItemModifierType.ATTACK, (int) DAMAGE); }
+	
 	private static final ComparableBlock CONVERTABLE = new BlockSet(
 			BlockType.DIRT_BLOCK,
 			BlockType.GRASS_BLOCK
 	);
 	
 	
-	private final ComplexCooldown lanceCD = new ComplexCooldown(8, this::shootLance);
+	private final ComplexCooldown lanceCD = new ComplexCooldown(ZAP_CD, this::shootLance);
 	private final ComplexCooldown arcaneMarkCD = new ComplexCooldown(120*20, this::createMark);
 	
 	private final Hitscan hitscan;
@@ -81,13 +92,10 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 			}
 		};
 		
-		HitscanBuilder builder = HitscanBuilder.aHitscan()
-				.withThickness(1.2)
-				.withParticlePeriod(0.2)
-				.withParticlePlacer(PARTICLE_PLACER)
+		hitscan = DEFAULT_BUILDER.but()
 				.withMobConsumer(mobDamager)
-				.withHitBlockConsumer(blockConverter);
-		hitscan = builder.build();
+				.withHitBlockConsumer(blockConverter)
+				.build();
 	}
 	
 	@Override
@@ -124,7 +132,7 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	// ----- LANCE -----
 	private void shootLance() {
 		hitscan.fire(dwarf, RANGE);
-		dwarf.playSound("dwarf.item.scepter.attack", 1f, 1.5f, true);
+		dwarf.playSound(ZAP_SOUND, 1f, ZAP_PITCH, true);
 	}
 	
 	
