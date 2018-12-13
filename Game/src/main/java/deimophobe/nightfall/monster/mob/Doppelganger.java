@@ -157,7 +157,7 @@ public class Doppelganger extends AbstractMob {
 			monster.useHeldItem();
 			unhide();
 		} else if (click.isLeftClick() && isPlayerHoldingItem("scepter")) {
-			beamer.tryUse();
+			if (!hidden) beamer.tryUse();
 		}
 	}
 	
