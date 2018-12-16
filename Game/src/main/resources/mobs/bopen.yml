@@ -37,7 +37,7 @@ weapon:
 items:
   steed:
     template: monster-hero
-    material: gold_barding
+    material: golden_horse_armor
     name: "Skeleton King's Steed"
     lore:
       description:

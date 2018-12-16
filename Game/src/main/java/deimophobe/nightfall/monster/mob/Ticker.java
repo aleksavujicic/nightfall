@@ -147,20 +147,17 @@ class Ticker extends AbstractMob {
 	private static final double r1 = 51, g1 = 248, b1 = 14;
 	private static final double r2 = 255, g2 = 14, b2 = 14;
 	private void spawnParticle() {
-		float frac = 1 - (float)deathTimer/maxTime;
+		double frac = 1 - (double)deathTimer/maxTime;
+		double frac2 = frac*frac;
 		
-		double red = (r2 - r1)*frac + r1;
-		double green = (g2 - g1)*frac + g1;
-		double blue = (b2 - b1)*frac + b1;
-		red *= 1d/256;
-		green *= 1d/256;
-		blue *= 1d/256;
+		int red = (int) ((r2 - r1)*frac2 + r1);
+		int green = (int) ((g2 - g1)*frac2 + g1);
+		int blue = (int) ((b2 - b1)*frac + b1);
 		
-		red = 1 - Math.pow(1-red,2);
-		green = 1 - Math.pow(1-green,2);
+		Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(red, green, blue), 1);
 		
 		Location loc = monster.getEyeLocation();
-		Misc.spawnColouredParticles(loc, 10, 0.1, 0.1, 0.1, red, green, blue);
+		loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 10, 0.05, 0.05, 0.05, dustOptions);
 	}
 	
 	private void explodeQuicker() {

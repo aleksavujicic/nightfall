@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.hero;
 
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.skin.PlayerSkin;
 import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.damage.*;
@@ -72,7 +73,7 @@ public class Arthea extends Hero {
 			} else {
 				Location location = getLocation().add(0,0.7,0);
 				World world = location.getWorld();
-				world.spawnParticle(Particle.REDSTONE, location, 5 ,0.5, 0.5, 0.5, 0);
+				world.spawnParticle(Particle.REDSTONE, location, 5 ,0.5, 0.5, 0.5, Misc.RED);
 			}
 			
 			//if (quadSec)

@@ -6,12 +6,13 @@ import deimophobe.nightfall.common.NightfallCommonPlugin;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.server.v1_12_R1.*;
+import net.minecraft.server.v1_13_R2.*;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_13_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_13_R2.block.CraftBlock;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_13_R2.inventory.CraftItemStack;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -50,8 +51,8 @@ public class NMSUtil {
 	}
 	
 	private static String convertItemStackToJson(ItemStack itemStack) {
-		net.minecraft.server.v1_12_R1.ItemStack nmsItemStack = CraftItemStack.asNMSCopy(itemStack);
-		net.minecraft.server.v1_12_R1.NBTTagCompound compound = new NBTTagCompound();
+		net.minecraft.server.v1_13_R2.ItemStack nmsItemStack = CraftItemStack.asNMSCopy(itemStack);
+		NBTTagCompound compound = new NBTTagCompound();
 		compound = nmsItemStack.save(compound);
 		return compound.toString();
 	}
@@ -61,12 +62,16 @@ public class NMSUtil {
 		double y = block.getY() + 0.5;
 		double z = block.getZ() + 0.5;
 		try {
-			SoundEffectType effectType = net.minecraft.server.v1_12_R1.Block.REGISTRY.getId(block.getTypeId()).getStepSound();
+			net.minecraft.server.v1_13_R2.Block nmsBlock = ((CraftBlock) block).getNMS().getBlock();
 			
+			Field soundEffectField = net.minecraft.server.v1_13_R2.Block.class.getDeclaredField("stepSound");
+			soundEffectField.setAccessible(true);
+			SoundEffectType effectType = (SoundEffectType) soundEffectField.get(nmsBlock);
+
 			Field breakSoundField = SoundEffectType.class.getDeclaredField("o");
 			breakSoundField.setAccessible(true);
 			SoundEffect breakSound = (SoundEffect) breakSoundField.get(effectType);
-			
+
 			((CraftWorld) block.getWorld()).getHandle().a(null, x, y, z, breakSound, SoundCategory.BLOCKS, 1f, 0.8f);
 		} catch (NoSuchFieldException | IllegalAccessException | ClassCastException e) {
 			NightfallCommonPlugin.logger().warning("Failed to play block break sound");
@@ -110,11 +115,10 @@ public class NMSUtil {
 	
 	public static Byte getSkinSettingsOfPlayer(Player player) {
 		EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
-		DataWatcherObject<Byte> dataWatcherObject;
 		try {
-			Field field = EntityHuman.class.getDeclaredField("br");
+			Field field = EntityHuman.class.getDeclaredField("bx");
 			field.setAccessible(true);
-			dataWatcherObject = (DataWatcherObject<Byte>) field.get(null);
+			DataWatcherObject<Byte> dataWatcherObject = (DataWatcherObject<Byte>) field.get(null);
 			
 			return entityPlayer.getDataWatcher().get(dataWatcherObject);
 		} catch (NoSuchFieldException | IllegalAccessException | ClassCastException e) {

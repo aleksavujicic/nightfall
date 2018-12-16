@@ -40,8 +40,9 @@ class PolarBabes extends AbstractMob {
 	private void tryPlaceIce() {
 		Block block = Misc.randomLocation(monster.getLocation(), 5, 3, 5).getBlock();
 		
-		if (block.getType().isSolid()) {
-			BlockManager.getManager().placeTimedBlock(new DataTimedBlock(10*20, block, monster, Material.PACKED_ICE));
-		}
+		// TODO
+//		if (block.getType().isSolid()) {
+//			BlockManager.getManager().placeTimedBlock(new DataTimedBlock(10*20, block, monster, Material.PACKED_ICE));
+//		}
 	}
 }

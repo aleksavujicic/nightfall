@@ -1,14 +1,11 @@
 package deimophobe.nightfall.dwarf.kit;
 
-import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.skin.PlayerSkin;
 import deimophobe.nightfall.skin.SkinManager;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.cooldown.Cooldown;
-import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
@@ -18,7 +15,6 @@ import deimophobe.nightfall.util.Weightable;
 import deimophobe.nightfall.util.WeightedSet;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
@@ -66,7 +62,7 @@ public class DwarfShovel extends AbstractItem {
 		super.onBlockBreak(block, didBreak);
 		if (!didBreak) return;
 		
-		if (BlockType.DIGGING_SAND.matchesBlock(block)) {
+		if (NFBlocks.DIGGING_SAND.matchesBlock(block)) {
 			giveSand();
 		}
 		

@@ -2,7 +2,9 @@ package deimophobe.nightfall.dwarf.consumable;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.ColourMenu;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.blocktype.NFBlocks;
+import deimophobe.nightfall.blocks.blocktype.RepeatMaterial;
+import deimophobe.nightfall.common.items.ItemMatcher;
 import deimophobe.nightfall.common.menu.MenuManager;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.Material;
@@ -16,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
  */
 class GlassConsumable extends Consumable {
 	private static final ConsumeResult OPENED_MENU = new ConsumeResult(null, false, 20);
+	private static final ItemMatcher GLASS_MATCHER = RepeatMaterial.colourMaterial("stained-glass");
 	
 	GlassConsumable(String name) {
 		super(name);
@@ -23,7 +26,7 @@ class GlassConsumable extends Consumable {
 	
 	@Override
 	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
-		if (click.isLeftClick() && !BlockType.FURNACE.matchesBlock(clickedBlock) && !BlockType.GLASS.matchesBlock(clickedBlock)) {
+		if (click.isLeftClick() && !NFBlocks.FURNACE.matchesBlock(clickedBlock) && !NFBlocks.GLASS.matchesBlock(clickedBlock)) {
 			MenuManager.getManager().startSession(ColourMenu.class, dwarf.getPlayer());
 			return OPENED_MENU;
 		}
@@ -32,6 +35,6 @@ class GlassConsumable extends Consumable {
 	
 	@Override
 	public boolean doesItemMatch(@NotNull ItemStack toMatch) {
-		return super.doesItemMatch(toMatch) || toMatch.getType() == Material.STAINED_GLASS;
+		return super.doesItemMatch(toMatch) || GLASS_MATCHER.doesItemMatch(toMatch);
 	}
 }

@@ -1,7 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.map.GameMap;
@@ -61,7 +61,7 @@ class Rat extends AbstractMob {
 		super.onUse(click, clickedBlock, blockFace);
 		if (stealCD == 0 && click.isRightClick() && clickedBlock != null) {
 			GameMap map = GameMap.getCurrentMap();
-			if (!BlockType.ACTIVE_SHRINE_BLOCK.matchesBlock(clickedBlock)) return;
+			if (!NFBlocks.ACTIVE_SHRINE_BLOCK.matchesBlock(clickedBlock)) return;
 			if (!map.getCurrentShrineRegion().containsPlayer(monster)) return;
 			
 			if (map.hasGold()) {

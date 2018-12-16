@@ -1,9 +1,9 @@
 package deimophobe.nightfall.dwarf.kit;
 
 import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.RepeatingCooldown;
@@ -16,8 +16,13 @@ import deimophobe.nightfall.effects.GameEffect;
 import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.game.entity.ShieldSource;
 import deimophobe.nightfall.map.GameMap;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.Piston;
+import org.bukkit.block.data.type.PistonHead;
+import org.bukkit.block.data.type.TechnicalPiston;
 import org.bukkit.material.Directional;
 import org.bukkit.potion.PotionEffectType;
 
@@ -35,22 +40,26 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 	@Override public KitGiveType getGiveType() { return KitGiveType.PICK; }
 	
 	private static final int MAX_CD = 30;
-	private static final int MAX_HASTE_CD = 15;
+	private static final int MAX_HASTE_CD = 20;
 	private int cooldown = 0;
 	
 	private final ComplexCooldown armourCD = new ComplexCooldown(45*20, null, this::updateShinyness);
 	private final ComplexCooldown shinyUpdater = new RepeatingCooldown(15*20, this::updateShinyness);
 	
 	@Override
-	public float getCooldown() {
-		return armourCD.getCooldown();
+	public void update() {
+		armourCD.update();
+		shinyUpdater.update();
+		if (cooldown > 0) {
+			cooldown--;
+		}
 	}
 	
 	@Override
 	public boolean onUse(ClickType click, Block clickedBlock, BlockFace face) {
+		updateShinyness();
+		
 		if (click.isRightClick() && cooldown == 0) {
-			updateShinyness();
-			
 			// PICK REPAIRING ANOTHER DWARF
 			Dwarf repairee = dwarf.getLookingAt(5, 2, DwarfManager.getManager().getGamePlayers(), (d) -> d.getArmour().canPickRepair());
 			if (repairee != null && armourCD.isAvailable()) {
@@ -67,51 +76,14 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 				}
 			}
 			
-			boolean success = false;
-			Block affectedBlock;
-			if (BlockType.PISTON_BASE.matchesBlock(clickedBlock) && face == BlockFace.UP) {
-				// CLICKING ON A PISTON TO CREATE A BLOCK
-				
-				BlockFace pistonFace = ((Directional) clickedBlock.getState().getData()).getFacing();
-				Block goldBlock = clickedBlock.getRelative(pistonFace);
-				
-				success = BlockType.tryConvertBlock(goldBlock, BlockType.AIR, BlockType.CRACKED_GOLD_1);
-				affectedBlock = goldBlock;
-				
-				if (success)
-					Sounds.DWARF_MAKE_ARMOUR.playSound(affectedBlock.getLocation());
-			} else if (
-					BlockType.PISTON_BASE.matchesBlock(clickedBlock.getRelative(0, - 1, 0)) ||
-					BlockType.PISTON_BASE.matchesBlock(clickedBlock.getRelative(0, 1, 0)) ||
-					BlockType.PISTON_BASE.matchesBlock(clickedBlock.getRelative(-1, 0, 0)) ||
-					BlockType.PISTON_BASE.matchesBlock(clickedBlock.getRelative(1, 0, 0)) ||
-					BlockType.PISTON_BASE.matchesBlock(clickedBlock.getRelative(0, 0, -1)) ||
-					BlockType.PISTON_BASE.matchesBlock(clickedBlock.getRelative(0, 0, 1))){
-				success = (
-						BlockType.tryConvertBlock(clickedBlock, BlockType.CRACKED_GOLD_1, BlockType.CRACKED_GOLD_2) ||
-						BlockType.tryConvertBlock(clickedBlock, BlockType.CRACKED_GOLD_2, BlockType.CRACKED_GOLD_3) ||
-						BlockType.tryConvertBlock(clickedBlock, BlockType.CRACKED_GOLD_3, BlockType.REFINED_GOLD));
-				affectedBlock = clickedBlock;
-			} else {
-				affectedBlock = clickedBlock;
-			}
-
-			
+			boolean success = tryCraftArmourBlock(clickedBlock, face);
 			if (success) {
-				GameEffect.DWARF_ARMOUR_CLOUD.playEffect(affectedBlock);
-				
 				resetCD();
 				return true;
 			}
+			
 		}
 		return false;
-	}
-	
-	private void resetCD() {
-		if (dwarf.getPlayer().hasPotionEffect(PotionEffectType.FAST_DIGGING))
-			cooldown = MAX_HASTE_CD;
-		else
-			cooldown = MAX_CD;
 	}
 	
 	@Override
@@ -148,7 +120,6 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 					break;
 				}
 				
-				case GLOWING_REDSTONE_ORE:
 				case REDSTONE_ORE: {
 					dwarf.givePotionEffect(PotionEffectType.FIRE_RESISTANCE, 5*20, 1, true, false, false);
 					dwarf.regenMana(3);
@@ -159,6 +130,19 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 		}
 	}
 	
+	@Override
+	public float getCooldown() {
+		return armourCD.getCooldown();
+	}
+	
+	private void resetCD() {
+		if (dwarf.getPlayer().hasPotionEffect(PotionEffectType.FAST_DIGGING)) {
+			cooldown = MAX_HASTE_CD;
+		} else {
+			cooldown = MAX_CD;
+		}
+	}
+	
 	// mac cause he wanted his name in the code somewhere
 	// and no, no one else gets there name in
 	
@@ -166,11 +150,35 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 		setShiny(armourCD.isAvailable());
 	}
 	
-	@Override
-	public void update() {
-		armourCD.update();
-		shinyUpdater.update();
-		if (cooldown > 0)
-			cooldown--;
+	private static boolean tryCraftArmourBlock(Block clickedBlock, BlockFace blockFace) {
+		boolean upgradedArmour
+				= NFBlocks.tryConvertBlock(clickedBlock, NFBlocks.CRACKED_GOLD_1, NFBlocks.CRACKED_GOLD_2)
+				|| NFBlocks.tryConvertBlock(clickedBlock, NFBlocks.CRACKED_GOLD_2, NFBlocks.CRACKED_GOLD_3)
+				|| NFBlocks.tryConvertBlock(clickedBlock, NFBlocks.CRACKED_GOLD_3, NFBlocks.REFINED_GOLD);
+		
+		if (upgradedArmour) {
+			GameEffect.DWARF_ARMOUR_CLOUD.playEffect(clickedBlock);
+			return true;
+		}
+		
+		
+		Material type = clickedBlock.getType();
+		BlockData data = clickedBlock.getBlockData();
+		
+		if (type != Material.PISTON && type != Material.PISTON_HEAD) return false;
+		
+		if (data instanceof Piston) {
+			Piston piston = (Piston) data;
+			if (piston.isExtended() || piston.getFacing() != blockFace) return false;
+		} else if (data instanceof PistonHead) {
+			PistonHead pistonHead = ((PistonHead) data);
+			if (pistonHead.getType() != TechnicalPiston.Type.NORMAL || pistonHead.getFacing() != blockFace) return false;
+		} else {
+			return false;
+		}
+		Block armourBlock = clickedBlock.getRelative(blockFace);
+		boolean success = NFBlocks.tryConvertBlock(armourBlock, NFBlocks.AIR, NFBlocks.CRACKED_GOLD_1);
+		if (success) GameEffect.DWARF_ARMOUR_CLOUD.playEffect(armourBlock);
+		return success;
 	}
 }

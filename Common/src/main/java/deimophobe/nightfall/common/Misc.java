@@ -6,6 +6,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.type.Bed;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
@@ -30,6 +31,7 @@ public class Misc {
 	// ------ CONSTANTS ------
 	
 	public static final Runnable DO_NOTHING = () -> {};
+	public static final Particle.DustOptions RED = new Particle.DustOptions(Color.RED, 1);
 	
 	
 	// ------ RANDOM ------
@@ -136,32 +138,6 @@ public class Misc {
 		vector.setZ(newZ);
 		
 		return vector;
-	}
-	
-	public static void spawnColouredParticles(Location center, int count, double dx, double dy, double dz, Color colour) {
-		spawnColouredParticles(center, count, dx, dy, dz, () -> colour);
-	}
-	
-	public static void spawnColouredParticles(Location center, int count, double dx, double dy, double dz, Supplier<Color> colourSupplier) {
-		for (int i=0; i<count; i++) {
-			Location location = randomLocation(center, dx, dy, dz);
-			Color colour = colourSupplier.get();
-			// +1 is needed, because if red is set to 0, then minecraft draws it with full red
-			double r = (colour.getRed() + 1)/256d;
-			double g = (colour.getGreen() + 1)/256d;
-			double b = (colour.getBlue() + 1)/256d;
-			
-			center.getWorld().spawnParticle(Particle.REDSTONE, location, 0, r, g, b, 1);
-		}
-	}
-	
-	public static void spawnColouredParticles(Location center, int count, double dx, double dy, double dz, double red, double green, double blue) {
-		if (red < 0.001) red = 0.001;
-		
-		for (int i = 0; i < count; i++) {
-			Location location = randomLocation(center, dx, dy, dz);
-			center.getWorld().spawnParticle(Particle.REDSTONE, location, 0, red, green, blue, 1);
-		}
 	}
 	
 	private static final double DEFAULT_PARTICLE_RANGE = 50;

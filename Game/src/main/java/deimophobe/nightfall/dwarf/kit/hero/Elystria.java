@@ -37,7 +37,7 @@ public class Elystria extends AbstractCooldownItem {
 				location.subtract(facing.normalize());
 				
 				dwarf.teleportTo(location);
-				dwarf.playSound("entity.endermen.teleport", 1f, 0.5f, true);
+				dwarf.playSound("entity.enderman.teleport", 1f, 0.5f, true);
 				return true;
 			}
 		}

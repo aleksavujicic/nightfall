@@ -12,6 +12,7 @@ import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.ai.AIEntity;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -73,7 +74,7 @@ public class ArcaneMark extends LifetimeExpireable {
 			Vector offset = new Vector(Math.cos(myTheta), 0, Math.sin(myTheta));
 			offset.multiply(type.visibleRadius);
 			Location particleLoc = location.clone().add(offset);
-			particleLoc.getWorld().spawnParticle(Particle.REDSTONE, particleLoc, 0, type.colour.getRed(), type.colour.getGreen(), type.colour.getBlue(),1);
+			particleLoc.getWorld().spawnParticle(Particle.REDSTONE, particleLoc, 1,0, 0, 0, type.dustOptions);
 		}
 		
 		// Buff Dwarves
@@ -129,23 +130,23 @@ public class ArcaneMark extends LifetimeExpireable {
 	
 	
 	public enum Type {
-		SCEPTER(2, new Colour(0.7,0.03,0.85), 4, 2, "arcane-mark"),
-		ARTHEA(3, new Colour(0.7,0.03,0.85), 8, 3, "arthea-mark")
+		SCEPTER(2, Color.fromRGB(179,8,218), 4, 2, "arcane-mark"),
+		ARTHEA(3, Color.fromRGB(179,8,218), 8, 3, "arthea-mark")
 		
 		;
 		
 		private final double radius;
 		private final double visibleRadius;
-		private final Colour colour;
+		private final Particle.DustOptions dustOptions;
 		private final double damageAmt;
 		private final int resLevel;
 		
 		private final ItemStack dropItem;
 		
-		Type(double radius, Colour colour, double damageAmt, int resLevel, String itemName) {
+		Type(double radius, Color color, double damageAmt, int resLevel, String itemName) {
 			this.radius = radius;
 			this.visibleRadius = radius - 0.3;
-			this.colour = colour;
+			this.dustOptions = new Particle.DustOptions(color, 1);
 			this.damageAmt = damageAmt;
 			this.resLevel = resLevel;
 			

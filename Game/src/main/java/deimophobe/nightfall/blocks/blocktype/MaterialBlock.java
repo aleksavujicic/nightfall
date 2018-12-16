@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Created by Deimophobe on 17/06/17.
  */
-public class MaterialBlock implements CustomBlock {
+public class MaterialBlock implements BlockInteracter {
 	private final Material material;
 	public MaterialBlock(Material material) {
 		this.material = material;
@@ -22,5 +22,9 @@ public class MaterialBlock implements CustomBlock {
 	@Override
 	public boolean matchesBlock(@NotNull Block block) {
 		return (block.getType() == material);
+	}
+	
+	public Material getMaterial() {
+		return material;
 	}
 }

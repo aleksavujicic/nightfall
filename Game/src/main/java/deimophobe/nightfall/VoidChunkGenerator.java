@@ -1,5 +1,6 @@
 package deimophobe.nightfall;
 
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
@@ -14,8 +15,8 @@ import java.util.Random;
 public class VoidChunkGenerator extends ChunkGenerator {
 	
 	@Override
-	public byte[][] generateBlockSections(World world, Random random, int x, int z, BiomeGrid biomes) {
-		return new byte[][]{};
+	public ChunkData generateChunkData(World world, Random random, int x, int z, BiomeGrid biome) {
+		return Bukkit.createChunkData(world);
 	}
 	
 	@Override

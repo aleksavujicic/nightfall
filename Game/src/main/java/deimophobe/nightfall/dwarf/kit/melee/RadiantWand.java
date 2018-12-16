@@ -162,6 +162,8 @@ public class RadiantWand extends AbstractItem implements CooldownPiece {
 	}
 
 //Particles for light pulse
+	private static final Particle.DustOptions DUST_OPTIONS1 = new Particle.DustOptions(Color.fromRGB(212, 175, 55), 1);
+	private static final Particle.DustOptions DUST_OPTIONS2 = new Particle.DustOptions(Color.fromRGB(255, 230, 0), 1);
 	private void lightPulseParticles(Location location){
 		//Establish center location for particles to be based on
 		Location center = location.add(0,.55,0);
@@ -177,8 +179,8 @@ public class RadiantWand extends AbstractItem implements CooldownPiece {
 			Location place1 = center.clone().add(Math.cos(angle)*PULSE_RADIUS,dy*.5,Math.sin(angle)*PULSE_RADIUS);
 			Location place2 = center.clone().add(Math.cos(angle)*PULSE_RADIUS,-dy*.5,Math.sin(angle)*PULSE_RADIUS);
 			//Place the particles
-			world.spawnParticle(Particle.REDSTONE,place1,0,212.0/255,175.0/255,55.0/255,1);
-			world.spawnParticle(Particle.REDSTONE,place2,0,255.0/255,230.0/255,0.0/255,1);
+			world.spawnParticle(Particle.REDSTONE,place1,1, 0, 0, 0, DUST_OPTIONS1);
+			world.spawnParticle(Particle.REDSTONE,place2,1, 0 ,0 ,0, DUST_OPTIONS2);
 		}
 	}
 

@@ -285,7 +285,7 @@ public class Shrine {
 				for (int z = -radius; z <= radius; z++) {
 					Block block = shrineCenter.clone().add(x,y,z).getBlock();
 					
-					if (block.getType() == Material.ENDER_PORTAL_FRAME) {
+					if (block.getType() == Material.END_PORTAL_FRAME) {
 						blocks.add(block);
 						continue;
 					}

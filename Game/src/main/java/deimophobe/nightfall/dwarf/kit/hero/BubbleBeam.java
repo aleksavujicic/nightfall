@@ -31,6 +31,7 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -151,10 +152,10 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	}
 	
 	
-	private static final MaterialData WATER_1 = new MaterialData(Material.LAPIS_BLOCK);
-	private static final MaterialData WATER_2 = new MaterialData(Material.STATIONARY_WATER);
-	private static final MaterialData WATER_3 = new MaterialData(Material.CONCRETE, (byte) 3);
-	private static final MaterialData WATER_4 = new MaterialData(Material.CONCRETE_POWDER, (byte) 3);
+	private static final BlockData WATER_1 = Material.LAPIS_BLOCK.createBlockData();
+	private static final BlockData WATER_2 = Material.WATER.createBlockData();
+	private static final BlockData WATER_3 = Material.LIGHT_BLUE_CONCRETE.createBlockData();
+	private static final BlockData WATER_4 = Material.LIGHT_BLUE_CONCRETE_POWDER.createBlockData();
 	
 	private class Whirlpool extends LifetimeObject {
 		

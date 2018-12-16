@@ -12,6 +12,7 @@ import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -69,15 +70,20 @@ public class IceBow extends AbstractBow {
 		}
 	}
 	
+	private static final BlockData WATER_1 = Material.LAPIS_BLOCK.createBlockData();
+	private static final BlockData WATER_2 = Material.WATER.createBlockData();
+	private static final BlockData WATER_3 = Material.LIGHT_BLUE_CONCRETE.createBlockData();
+	private static final BlockData WATER_4 = Material.LIGHT_BLUE_CONCRETE_POWDER.createBlockData();
+	
 	private static final double AOE_RADIUS = 3.5;
 	private static final double DISPLAY_RADIUS = 1.5;
 	private void arrowAOE(Location location, MonsterEntity<?> exclude) {
 		World world = location.getWorld();
 		
-		world.spawnParticle(Particle.BLOCK_CRACK, location, 3, DISPLAY_RADIUS, 0.3, DISPLAY_RADIUS, 0, new MaterialData(Material.LAPIS_BLOCK));
-		world.spawnParticle(Particle.BLOCK_CRACK, location, 10, DISPLAY_RADIUS, 0.3, DISPLAY_RADIUS, 0, new MaterialData(Material.STATIONARY_WATER));
-		world.spawnParticle(Particle.BLOCK_CRACK, location, 20, DISPLAY_RADIUS, 0.3, DISPLAY_RADIUS, 0, new MaterialData(Material.CONCRETE, (byte) 3));
-		world.spawnParticle(Particle.BLOCK_CRACK, location, 50, DISPLAY_RADIUS, 0.3, DISPLAY_RADIUS, 0, new MaterialData(Material.CONCRETE_POWDER, (byte) 3));
+		world.spawnParticle(Particle.BLOCK_CRACK, location, 3, DISPLAY_RADIUS, 0.3, DISPLAY_RADIUS, 0, WATER_1);
+		world.spawnParticle(Particle.BLOCK_CRACK, location, 10, DISPLAY_RADIUS, 0.3, DISPLAY_RADIUS, 0, WATER_2);
+		world.spawnParticle(Particle.BLOCK_CRACK, location, 20, DISPLAY_RADIUS, 0.3, DISPLAY_RADIUS, 0, WATER_3);
+		world.spawnParticle(Particle.BLOCK_CRACK, location, 50, DISPLAY_RADIUS, 0.3, DISPLAY_RADIUS, 0, WATER_4);
 		world.spawnParticle(Particle.WATER_DROP, location, 400, DISPLAY_RADIUS, 0.3, DISPLAY_RADIUS, 0);
 		
 		world.playSound(location, "entity.generic.swim", 1f, 0.6f);

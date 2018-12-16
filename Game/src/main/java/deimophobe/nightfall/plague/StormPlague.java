@@ -9,6 +9,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.*;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -111,12 +112,14 @@ public class StormPlague extends Plague {
 	
 	// ----- Dwarf Damage Stuff -----
 	
+	private static final BlockData PARTICLE_1 = Material.LIME_WOOL.createBlockData();
+	private static final BlockData PARTICLE_2 = Material.LAPIS_BLOCK.createBlockData();
 	private void tickDwarf(Dwarf dwarf, boolean playRain) {
 		Location feet = dwarf.getLocation();
 		Player player = dwarf.getPlayer();
 		player.spawnParticle(Particle.SMOKE_LARGE, feet.clone().subtract(0, 0.5, 0), 30, 5, 0.2, 5, 0);
-		player.spawnParticle(Particle.BLOCK_CRACK, feet, 30, 5, 0.2, 5, 0, new MaterialData(Material.WOOL, (byte)  5));
-		player.spawnParticle(Particle.BLOCK_CRACK, feet.clone().add(0, 0.5, 0), 30, 5, 4, 5, 0, new MaterialData(Material.LAPIS_BLOCK));
+		player.spawnParticle(Particle.BLOCK_CRACK, feet, 30, 5, 0.2, 5, 0, PARTICLE_1);
+		player.spawnParticle(Particle.BLOCK_CRACK, feet.clone().add(0, 0.5, 0), 30, 5, 4, 5, 0, PARTICLE_2);
 		
 		dwarf.playSound("entity.silverfish.step", 0.8f, 1f, false);
 		if (playRain) {

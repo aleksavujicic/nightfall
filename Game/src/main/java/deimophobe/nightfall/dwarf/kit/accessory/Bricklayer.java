@@ -2,7 +2,7 @@ package deimophobe.nightfall.dwarf.kit.accessory;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ConsumerCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
@@ -187,7 +187,7 @@ public class Bricklayer extends AbstractItem {
 					return;
 				}
 				
-				if (BlockType.IGNORABLE.matchesBlock(nextBlock) && GameMap.getCurrentMap().isBlockPlaceable(nextBlock)) {
+				if (NFBlocks.IGNORABLE.matchesBlock(nextBlock) && GameMap.getCurrentMap().isBlockPlaceable(nextBlock)) {
 					dwarf.removeItems(ConsumableType.COBBLESTONE, 1, true);
 					nextBlock.getWorld().playSound(nextBlock.getLocation(), "block.stone.place", 1f, 1f);
 					dwarf.playSound("block.stone.place");

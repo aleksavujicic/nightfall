@@ -1,7 +1,7 @@
 package deimophobe.nightfall.blocks.timedblock;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.cooldown.CompletionCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.UseCooldown;
@@ -13,15 +13,15 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.material.MaterialData;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 28/01/17.
  */
 public class HealBlock extends DataTimedBlock {
+	private final static BlockData PURPUR_DATA = Material.PURPUR_BLOCK.createBlockData();
 	private static final double RANGE = 6;
-	private static final MaterialData PURPUR_DATA = new MaterialData(Material.PURPUR_BLOCK);
 	
 	private final int maxLifetime;
 	private final Location healCenter = block.getLocation().add(0.5,1.5,0.5);
@@ -29,7 +29,7 @@ public class HealBlock extends DataTimedBlock {
 	private final Cooldown healer = new CompletionCooldown(20, this::heal);
 	
 	public HealBlock(Block block, int lifetime, GameEntity placer) {
-		super(lifetime, block, placer, Material.PURPUR_BLOCK);
+		super(lifetime, block, placer, PURPUR_DATA);
 		this.maxLifetime = lifetime;
 		healer.reset();
 	}
@@ -44,7 +44,7 @@ public class HealBlock extends DataTimedBlock {
 	@Override
 	public boolean isPlaceable() {
 		return super.isPlaceable()
-				&& !BlockType.SOLID.matchesBlock(block.getRelative(0,1,0));
+				&& !NFBlocks.SOLID.matchesBlock(block.getRelative(0,1,0));
 	}
 	
 	@Override

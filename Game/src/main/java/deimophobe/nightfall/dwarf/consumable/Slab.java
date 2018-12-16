@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf.consumable;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.*;
@@ -50,7 +50,7 @@ class Slab extends Consumable {
 			for (int y = y_center - y_size+1; y <= y_center + y_size+1; y++) {
 				for (int z = z_center - z_size; z <= z_center + z_size; z++) {
 					Block toReplace = world.getBlockAt(x,y,z);
-					if (map.isBlockPlaceable(toReplace) && BlockType.SLABBABLE.matchesBlock(toReplace)) {
+					if (map.isBlockPlaceable(toReplace) && NFBlocks.SLABBABLE.matchesBlock(toReplace)) {
 						toReplace.setType(Material.LAPIS_ORE);
 						world.spawnParticle(Particle.CLOUD, x+0.5,y+0.5,z+0.5, 4, 0.5,0.5,0.5, 0.1);
 					}

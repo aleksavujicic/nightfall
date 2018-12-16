@@ -3,6 +3,7 @@ package deimophobe.nightfall.skin;
 import com.comphenix.packetwrapper.WrapperPlayClientSettings;
 import com.comphenix.packetwrapper.WrapperPlayServerEntityMetadata;
 import com.comphenix.packetwrapper.WrapperPlayServerNamedEntitySpawn;
+import com.comphenix.packetwrapper.WrapperPlayServerRespawn;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
@@ -20,6 +21,7 @@ import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.util.PacketMonitor;
 import me.libraryaddict.disguise.utilities.PacketsManager;
+import net.minecraft.server.v1_13_R2.PacketPlayOutRespawn;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -247,7 +249,7 @@ public class SkinManager implements Manager {
 
 			//Respawn packet
 			PacketContainer respawn = protocolManager.createPacket(PacketType.Play.Server.RESPAWN);
-			respawn.getIntegers().write(0, player.getWorld().getEnvironment().getId());
+			respawn.getDimensions().write(0, player.getWorld().getEnvironment().getId());
 			respawn.getDifficulties().write(0, EnumWrappers.Difficulty.valueOf(player.getWorld().getDifficulty().toString()));
 			respawn.getGameModes().write(0, gamemode);
 			respawn.getWorldTypeModifier().write(0, player.getWorld().getWorldType());

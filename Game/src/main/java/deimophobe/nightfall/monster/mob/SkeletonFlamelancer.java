@@ -1,7 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
@@ -94,7 +94,7 @@ class SkeletonFlamelancer extends Skeleton {
         if (!blazeCancelled && blazeRunner.wasUsedWithin(blazeDuration)) {
 	        Block block = monster.getLocation().getBlock();
 	        if (everyNthTick(3)) monster.playSound("entity.ghast.shoot", 0.3f, 1.5f, true);
-			if (BlockType.IGNORABLE.matchesBlock(block) && block.getType() != Material.FIRE) {
+			if (NFBlocks.IGNORABLE.matchesBlock(block) && block.getType() != Material.FIRE) {
 				block.setType(Material.FIRE);
 			}
 		}
@@ -193,7 +193,7 @@ class SkeletonFlamelancer extends Skeleton {
 	}
 	
 	private boolean tryIgnite(Block block) {
-		if (BlockType.IGNORABLE.matchesBlock(block)) {
+		if (NFBlocks.IGNORABLE.matchesBlock(block)) {
 			block.setType(Material.FIRE);
 			double spawnChance = AIManager.getManager().getBaseSpawnChance() + 0.1;
 			if (fireAI && Math.random() < spawnChance) {

@@ -3,7 +3,7 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockConverter;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.Update;
@@ -155,7 +155,7 @@ public class EmberSprite extends AbstractMob implements FloatyMob {
 					Block block = centerLoc.clone().add(x, y, z).getBlock();
 					Block blockBelow = centerLoc.clone().add(x,y-1, z).getBlock();
 
-					if (BlockType.IGNORABLE.matchesBlock(block) && !BlockType.IGNORABLE.matchesBlock(blockBelow) && (Math.random() < 0.015)) {
+					if (NFBlocks.IGNORABLE.matchesBlock(block) && !NFBlocks.IGNORABLE.matchesBlock(blockBelow) && (Math.random() < 0.015)) {
 						block.setType(Material.FIRE);
 					}
 				}

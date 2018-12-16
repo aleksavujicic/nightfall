@@ -92,7 +92,7 @@ public class Goblin extends AbstractMob {
 	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
 		super.onUse(click, clickedBlock, blockFace);
 
-		if (click.isRightClick() && isPlayerHoldingItem("gobo-box") && placeboxCD.isAvailable() && clickedBlock != null && clickedBlock.getType() != Material.ENDER_STONE) {
+		if (click.isRightClick() && isPlayerHoldingItem("gobo-box") && placeboxCD.isAvailable() && clickedBlock != null && clickedBlock.getType() != Material.END_STONE) {
 			Block block = clickedBlock.getRelative(blockFace);
 			double damage = 40 + 6 * shrapnel;
 			double power = 4.5 + 0.25 * dest;

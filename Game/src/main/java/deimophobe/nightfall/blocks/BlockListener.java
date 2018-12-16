@@ -35,7 +35,7 @@ public class BlockListener implements Listener {
 	@EventHandler
 	public void preventIceMelt(BlockFadeEvent event) {
 		switch (event.getNewState().getType()) {
-			case STATIONARY_WATER:
+			case WATER:
 			case FROSTED_ICE:
 				event.setCancelled(true);
 		}
@@ -62,17 +62,17 @@ public class BlockListener implements Listener {
 			return;
 		}
 		
-		if (event.getBlock().getType() == Material.STATIONARY_WATER) {
+		if (event.getBlock().getType() == Material.WATER) {
 			if (!toBlock.getRelative(0,-1,0).getType().isSolid()) return;
 			
 			int numFaceWaterBlocks = 0;
-			if (toBlock.getRelative(1,0,0).getType() == Material.STATIONARY_WATER)
+			if (toBlock.getRelative(1,0,0).getType() == Material.WATER)
 				numFaceWaterBlocks++;
-			if (toBlock.getRelative(-1,0,0).getType() == Material.STATIONARY_WATER)
+			if (toBlock.getRelative(-1,0,0).getType() == Material.WATER)
 				numFaceWaterBlocks++;
-			if (toBlock.getRelative(0,0,1).getType() == Material.STATIONARY_WATER)
+			if (toBlock.getRelative(0,0,1).getType() == Material.WATER)
 				numFaceWaterBlocks++;
-			if (toBlock.getRelative(0,0,-1).getType() == Material.STATIONARY_WATER)
+			if (toBlock.getRelative(0,0,-1).getType() == Material.WATER)
 				numFaceWaterBlocks++;
 			
 			if (numFaceWaterBlocks >= 2) return;

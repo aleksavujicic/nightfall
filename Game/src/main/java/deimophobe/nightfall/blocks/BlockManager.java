@@ -45,7 +45,7 @@ public class BlockManager implements Manager {
 		
 		World world = block.getWorld();
 		Location blockCenter = block.getLocation().add(0.5, 0.5, 0.5);
-		world.spawnParticle(Particle.BLOCK_CRACK, blockCenter, 50, 0.5, 0.5, 0.5, 0, block.getState().getData());
+		world.spawnParticle(Particle.BLOCK_CRACK, blockCenter, 50, 0.5, 0.5, 0.5, 0, block.getBlockData());
 		NMSUtil.playBlockBreakSound(block);
 		block.breakNaturally();
 		return true;

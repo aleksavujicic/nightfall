@@ -5,6 +5,7 @@ import deimophobe.nightfall.common.menu.MenuManager;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.PlayMode;
 import deimophobe.nightfall.util.PacketUtil;
+import me.libraryaddict.disguise.LibsDisguises;
 import me.lucko.luckperms.LuckPerms;
 import me.lucko.luckperms.api.LuckPermsApi;
 import me.lucko.luckperms.api.context.ContextManager;
@@ -40,8 +41,8 @@ public class NightfallPlugin extends JavaPlugin {
 		// Check dependencies exist
 		try {
 			checkDependency("Nightfall Common", "deimophobe.nightfall.common.NightfallCommonPlugin");
-			checkDependency("ProtocolLib", "me.libraryaddict.disguise.LibsDisguises");
-			checkDependency("Lib's Disguises", "com.comphenix.protocol.ProtocolLib");
+			checkDependency("Lib's Disguises", "me.libraryaddict.disguise.LibsDisguises");
+			checkDependency("ProtocolLib", "com.comphenix.protocol.ProtocolLib");
 			checkDependency("Packet Wrapper", "com.comphenix.packetwrapper.AbstractPacket");
 			checkDependency("LuckPerms", "me.lucko.luckperms.api.LuckPermsApi");
 		} catch (ClassNotFoundException e) {

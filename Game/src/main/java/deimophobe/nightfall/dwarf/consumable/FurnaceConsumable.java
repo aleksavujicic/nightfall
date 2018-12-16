@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf.consumable;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -24,7 +24,7 @@ public class FurnaceConsumable extends Consumable {
 	@Override
 	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
 		if (!click.isRightClick()) return ConsumeResult.FAILURE;
-		if (!BlockType.FURNACE.matchesBlock(clickedBlock)) return ConsumeResult.FAILURE;
+		if (!NFBlocks.FURNACE.matchesBlock(clickedBlock)) return ConsumeResult.FAILURE;
 		
 		int count;
 		if (dwarf.isSneaking()) {

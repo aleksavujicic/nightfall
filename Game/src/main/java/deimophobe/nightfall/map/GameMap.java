@@ -1,9 +1,9 @@
 package deimophobe.nightfall.map;
 
+import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.game.Phase;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.map.feature.FeatureCreator;
 import deimophobe.nightfall.map.feature.MapFeature;
@@ -184,10 +184,10 @@ public class GameMap {
 	public boolean isBlockBreakable(Block block) {
 		if (block == null) return false;
 		
-		if (BlockType.ALWAYS_BREAKABLE.matchesBlock(block))
+		if (NFBlocks.ALWAYS_BREAKABLE.matchesBlock(block))
 			return true;
 		
-		if (BlockType.UNBREAKABLE_BLOCKS.matchesBlock(block))
+		if (NFBlocks.UNBREAKABLE_BLOCKS.matchesBlock(block))
 			return false;
 		
 		for (Region region : unbreakableRegions) {
@@ -201,10 +201,10 @@ public class GameMap {
 	public boolean isBlockPlaceable(Block block) {
 		if (block == null) return false;
 		
-		if (BlockType.ALWAYS_BREAKABLE.matchesBlock(block))
+		if (NFBlocks.ALWAYS_BREAKABLE.matchesBlock(block))
 			return true;
 		
-		if (BlockType.UNPLACEABLE_BLOCKS.matchesBlock(block))
+		if (NFBlocks.UNPLACEABLE_BLOCKS.matchesBlock(block))
 			return false;
 		
 		for (Region region : unbreakableRegions) {

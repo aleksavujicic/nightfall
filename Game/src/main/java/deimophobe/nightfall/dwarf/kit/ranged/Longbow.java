@@ -11,6 +11,7 @@ import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Arrow;
@@ -112,9 +113,9 @@ public class Longbow extends AbstractBow implements CooldownPiece {
 		
 		for (int i = 0; i < stacks*2; i++) {
 			double frac = (double) i / MAX_STACKS;
-			double red = (87d + frac * 118);
-			double green = (179d - frac * 90);
-			double blue = (147d + frac * 108);
+			int red = (int) (87 + frac * 118);
+			int green = (int) (179 - frac * 90);
+			int blue = (int) (147 + frac * 108);
 			double myTheta = theta - frac * 2 * Math.PI;
 			
 			if (stacks == MAX_STACKS) {
@@ -122,12 +123,10 @@ public class Longbow extends AbstractBow implements CooldownPiece {
 				green = 58;
 				blue = 252;
 			}
-			red *= 1d/256;
-			green *= 1d/256;
-			blue *= 1d/256;
+			Particle.DustOptions colour = new Particle.DustOptions(Color.fromRGB(red, green, blue), 1);
 			
 			Location particleLoc = playerLoc.clone().add(Math.cos(myTheta), -1, Math.sin(myTheta));
-			particleLoc.getWorld().spawnParticle(Particle.REDSTONE, particleLoc, 0, red, green, blue, 1);
+			particleLoc.getWorld().spawnParticle(Particle.REDSTONE, particleLoc, 1, 0, 0,0, colour);
 		}
 	}
 	

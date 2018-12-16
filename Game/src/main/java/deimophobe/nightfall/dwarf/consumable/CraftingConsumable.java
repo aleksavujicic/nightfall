@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf.consumable;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.blocks.blocktype.ComparableBlock;
+import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
 import deimophobe.nightfall.common.items.ItemMatcher;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.Material;
@@ -20,7 +20,7 @@ class CraftingConsumable extends Consumable {
 	
 	private final Set<Conversion> conversions;
 	
-	protected CraftingConsumable(String item, ComparableBlock requiredBlock, ConsumableType newConsumable) {
+	protected CraftingConsumable(String item, BlockMatcher requiredBlock, ConsumableType newConsumable) {
 		this(item, new SimpleConversion(requiredBlock, newConsumable));
 	}
 	
@@ -54,15 +54,15 @@ class CraftingConsumable extends Consumable {
 	static class SimpleConversion implements Conversion {
 		private static final ConsumeResult FAST_SUCCESS = ConsumeResult.successfulWithDuration(2);
 		
-		private final ComparableBlock requiredBlock;
+		private final BlockMatcher requiredBlock;
 		private final ConsumableType newConsumable;
 		private final int count;
 		
-		SimpleConversion(ComparableBlock requiredBlock, ConsumableType newConsumable) {
+		SimpleConversion(BlockMatcher requiredBlock, ConsumableType newConsumable) {
 			this(requiredBlock, newConsumable, 1);
 		}
 		
-		SimpleConversion(ComparableBlock requiredBlock, ConsumableType newConsumable, int count) {
+		SimpleConversion(BlockMatcher requiredBlock, ConsumableType newConsumable, int count) {
 			this.requiredBlock = requiredBlock;
 			this.newConsumable = newConsumable;
 			this.count = count;
@@ -79,7 +79,7 @@ class CraftingConsumable extends Consumable {
 				dwarf.playSound("mortar", 0.8f, (float) (1.5 + 0.1 * Math.random()), true);
 			}
 			
-			if (block.getType() == Material.IRON_FENCE) {
+			if (block.getType() == Material.IRON_BARS) {
 				dwarf.playSound("entity.zombie.attack_door_wood", 0.25f, 2, true);
 			}
 			
@@ -91,11 +91,11 @@ class CraftingConsumable extends Consumable {
 		private static final ConsumeResult NO_USE_CONSUMABLE = new ConsumeResult(null, false, 10);
 		
 		private final Set<IngredientRequirement> requirements;
-		private final ComparableBlock requiredBlock;
+		private final BlockMatcher requiredBlock;
 		private final ConsumableType newConsumable;
 		private final int count;
 		
-		MultiIngredientConversion(ComparableBlock requiredBlock, ConsumableType newConsumable, int newCount, IngredientRequirement... extraRequirements) {
+		MultiIngredientConversion(BlockMatcher requiredBlock, ConsumableType newConsumable, int newCount, IngredientRequirement... extraRequirements) {
 			this.requirements = new HashSet<>();
 			requirements.addAll(Arrays.asList(extraRequirements));
 			

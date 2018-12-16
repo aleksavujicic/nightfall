@@ -33,15 +33,6 @@ bricklayer:
     flavour:
      - "\"Remember the magic runs out at night!.\"- Nosovin"
 
-chisel:
-  base: chisel
-  name: "Chisel"
-  lore:
-    description:
-     - "Chisel."
-    flavour:
-     - "More chisel."
-
 clock:
   base: clock
   name: "Gnomish Clock"

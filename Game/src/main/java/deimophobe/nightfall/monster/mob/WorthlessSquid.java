@@ -7,6 +7,7 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.cooldown.*;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -19,6 +20,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 
@@ -28,7 +30,7 @@ import java.lang.reflect.InvocationTargetException;
  * Created by Deimophobe on 11/10/18.
  */
 final class WorthlessSquid extends AbstractMob {
-	private static final MaterialData INK_BLOCK_DATA = new MaterialData(Material.CONCRETE, (byte) 15);
+	private static final BlockData INK_BLOCK_DATA = Material.BLACK_CONCRETE.createBlockData();
 	
 	WorthlessSquid(MonsterPlayer monster) {
 		super(monster, MobType.SQUID);

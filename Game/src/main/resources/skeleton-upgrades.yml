@@ -294,7 +294,7 @@ blaze:
   prereq:
     flamelancer: 1
   item:
-    material: magma
+    material: fire_charge
     name: "Blaze Runner"
     lore:
       description:
@@ -388,7 +388,7 @@ reaction:
   prereq:
     impact: 1
   item:
-    material: firework
+    material: firework_rocket
     name: "Reaction"
     lore:
       description:

@@ -2,32 +2,32 @@ package deimophobe.nightfall.blocks.timedblock;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockManager;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
+import deimophobe.nightfall.util.Util;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
-import org.bukkit.material.MaterialData;
-import org.bukkit.material.Vine;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.MultipleFacing;
 
 /**
  * Created by Deimophobe on 25/06/18.
  */
 public class VineBlock extends DataTimedBlock {
-	private static final MaterialData VINE_MATERIAL = new MaterialData(Material.VINE);
+	private final static BlockData VINE = Material.VINE.createBlockData();
 	
 	private final BlockFace facing;
 	private final int extend;
 	
 	public VineBlock(int lifeTime, Block block, GameEntity placer, BlockFace facing, int extend) {
-		super(lifeTime, block, placer, Material.VINE);
+		super(lifeTime, block, placer, VINE);
 		this.facing = facing;
 		this.extend = extend;
 	}
@@ -45,8 +45,8 @@ public class VineBlock extends DataTimedBlock {
 	
 	@Override
 	public boolean isPlaceable() {
-		return BlockType.EMPTY_BLOCKS.matchesBlock(block)
-				&& BlockType.SOLID.matchesBlock(block.getRelative(facing))
+		return NFBlocks.EMPTY_BLOCKS.matchesBlock(block)
+				&& NFBlocks.SOLID.matchesBlock(block.getRelative(facing))
 				&& GameMap.getCurrentMap().isBlockPlaceable(block)
 				;
 	}
@@ -55,17 +55,9 @@ public class VineBlock extends DataTimedBlock {
 	protected void setBlock() {
 		super.setBlock();
 		
-		BlockState state = block.getState();
-		MaterialData data = state.getData();
-		if (data instanceof Vine) {
-			Vine vine = (Vine) data;
-			vine.putOnFace(facing);
-			state.setData(vine);
-			state.update();
-		} else {
-			// If not vine anymore, then kill it.
-			expire();
-		}
+		Util.safeCastBlockData(block, MultipleFacing.class, vine -> {
+			vine.setFace(facing, true);
+		}, this::expire);
 	}
 	
 	@Override
@@ -75,7 +67,7 @@ public class VineBlock extends DataTimedBlock {
 		World world = block.getWorld();
 		Location location = block.getLocation().add(0.5, 0.5, 0.5);
 		world.playSound(location, "block.grass.place", 1f, 0.8f);
-		world.spawnParticle(Particle.BLOCK_DUST, location, 5, 0.5, 0.5, 0.5, 0, VINE_MATERIAL);
+		world.spawnParticle(Particle.BLOCK_DUST, location, 5, 0.5, 0.5, 0.5, 0, VINE);
 	}
 	
 	@Override
@@ -86,7 +78,7 @@ public class VineBlock extends DataTimedBlock {
 		World world = block.getWorld();
 		Location location = block.getLocation().add(0.5, 0.5, 0.5);
 		world.playSound(location, "block.grass.break", 1f, 0.8f);
-		world.spawnParticle(Particle.BLOCK_DUST, location, 15, 0.5, 0.5, 0.5, 0, VINE_MATERIAL);
+		world.spawnParticle(Particle.BLOCK_DUST, location, 15, 0.5, 0.5, 0.5, 0, VINE);
 	}
 	
 	@Override

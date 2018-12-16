@@ -2,7 +2,7 @@ attack:
   index: 2
   cost: [200, 400, 600, 800, 1000]
   item:
-    material: wood_sword
+    material: wooden_sword
     name: "Upgrade Attack"
     lore:
       description:
@@ -21,7 +21,7 @@ attack-inf:
     furynight: 1
     assassination: 1
   item:
-    material: wood_sword
+    material: wooden_sword
     name: "Upgrade Attack (inf)"
     shiny: true
     lore:
@@ -89,7 +89,7 @@ fury:
     husk: 1
     saboteur: 1
   item:
-    material: eye_of_ender
+    material: ender_eye
     name: "Fury Zombie"
     shiny: true
     lore:
@@ -186,7 +186,7 @@ pick:
   prereq:
     saboteur: 1
   item:
-    material: wood_pickaxe
+    material: wooden_pickaxe
     name: "Sabotage pick"
     lore:
       description:
@@ -273,7 +273,7 @@ shred-fury:
   prereq:
     fury: 1
   item:
-    material: gold_pickaxe
+    material: golden_pickaxe
     name: "Armour Shred"
     lore:
       description:
@@ -328,7 +328,7 @@ rebirth-fury:
   prereq:
     fury: 1
   item:
-    material: eye_of_ender
+    material: ender_eye
     name: "Rebirth"
     lore:
       description:
@@ -364,7 +364,7 @@ furynight:
     rebirth-fury: 10
     vampirism-fury: 5
   item:
-    material: exp_bottle
+    material: experience_bottle
     name: "Fury of the Night"
     shiny: true
     lore:
@@ -378,7 +378,7 @@ fury-inf:
   prereq:
     furynight: 1
   item:
-    material: exp_bottle
+    material: experience_bottle
     name: "Upgrade Mana Drain (inf)"
     shiny: true
     lore:
@@ -397,7 +397,7 @@ shred-husk:
   prereq:
     husk: 1
   item:
-    material: gold_pickaxe
+    material: golden_pickaxe
     name: "Armour Shred"
     lore:
       description:
@@ -453,7 +453,7 @@ rebirth-husk:
   prereq:
     husk: 1
   item:
-    material: eye_of_ender
+    material: ender_eye
     name: "Rebirth"
     lore:
       description:

@@ -1,6 +1,6 @@
 package deimophobe.nightfall.dwarf.kit;
 
-import deimophobe.nightfall.blocks.blocktype.ComparableBlock;
+import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
 import deimophobe.nightfall.blocks.blocktype.MaterialBlock;
 import deimophobe.nightfall.blocks.blocktype.MaterialSet;
 import org.bukkit.Location;
@@ -15,7 +15,7 @@ public enum KitGiveType {
 	
 	SWORD(Material.LADDER, "dwarf.pickup.sword"),
 	BOW(Material.DETECTOR_RAIL, "dwarf.pickup.bow"),
-	ALE(new MaterialSet(Material.REDSTONE_TORCH_OFF, Material.REDSTONE_TORCH_ON), "dwarf.pickup.ale") {
+	ALE(new MaterialSet(Material.REDSTONE_TORCH, Material.REDSTONE_WALL_TORCH), "dwarf.pickup.ale") {
 		@Override
 		public void playPickupSound(Location location) {
 			location.getWorld().playSound(location, "entity.generic.drink", 1f, 0.9f);
@@ -23,14 +23,14 @@ public enum KitGiveType {
 	},
 	
 	PICK(Material.ACTIVATOR_RAIL, "dwarf.pickup.pick"),
-	AXE(Material.RAILS, "dwarf.pickup.axe"),
+	AXE(Material.RAIL, "dwarf.pickup.axe"),
 	SHOVEL(Material.POWERED_RAIL, "dwarf.pickup.shovel"),
 	
 	ARTHEA_SPECIAL
 	
 	;
 	
-	private final ComparableBlock pickupBlock;
+	private final BlockMatcher pickupBlock;
 	private final String pickupSound;
 	
 	KitGiveType() {
@@ -43,7 +43,7 @@ public enum KitGiveType {
 		this.pickupSound = pickupSound;
 	}
 	
-	KitGiveType(ComparableBlock pickupBlock, String pickupSound) {
+	KitGiveType(BlockMatcher pickupBlock, String pickupSound) {
 		this.pickupBlock = pickupBlock;
 		this.pickupSound = pickupSound;
 	}

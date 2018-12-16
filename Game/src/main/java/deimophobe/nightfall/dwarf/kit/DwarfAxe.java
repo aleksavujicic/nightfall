@@ -1,10 +1,10 @@
 package deimophobe.nightfall.dwarf.kit;
 
+import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 /**
@@ -22,10 +22,9 @@ class DwarfAxe extends AbstractItem {
 	}
 	@Override public KitGiveType getGiveType() { return KitGiveType.AXE; }
 	
-	
 	@Override
 	public void onBlockBreak(Block block, boolean didBreak) {
-		if (block.getType() == Material.LOG || block.getType() == Material.LOG_2) {
+		if (NFBlocks.LOG.matchesBlock(block)) {
 			dwarf.giveConsumable(ConsumableType.LOG, 2);
 		}
 	}

@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf;
 
-import org.bukkit.DyeColor;
-import org.bukkit.Location;
+import org.bukkit.*;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Wool;
 
@@ -10,8 +10,8 @@ import org.bukkit.material.Wool;
  */
 public enum BloodColour {
 	RED(BloodDisplay.DEFAULT),
-	BLUE(0.1, 0.85, 1, new Wool(DyeColor.LIGHT_BLUE)),
-	GREEN(0.6, 1, 0.1, new Wool(DyeColor.LIME)),
+	BLUE(26, 218, 255, Material.LIGHT_BLUE_WOOL.createBlockData()),
+	GREEN(154, 255, 26, Material.LIME_WOOL.createBlockData()),
 	
 	;
 	
@@ -21,8 +21,11 @@ public enum BloodColour {
 		this.display = display;
 	}
 	
-	BloodColour(double r, double g, double b, MaterialData secondaryBlockData) {
-		this.display = new ColouredBlood(r, g, b, secondaryBlockData);
+	BloodColour(int red, int green, int blue, BlockData secondaryBlockData) {
+		this.display = new ColouredBlood(
+				Color.fromRGB(red, green, blue),
+				secondaryBlockData
+		);
 	}
 	
 	void showPrimaryBlood(Location center, int mana) {

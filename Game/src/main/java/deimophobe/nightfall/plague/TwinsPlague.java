@@ -73,9 +73,9 @@ public class TwinsPlague extends Plague {
 			this.twin2 = createTwin(spawnLoc);
 			
 			World world = spawnLoc.getWorld();
-			world.playSound(spawnLoc, Sound.ENTITY_ENDERMEN_STARE, 100, 1);
+			world.playSound(spawnLoc, Sound.ENTITY_ENDERMAN_STARE, 100, 1);
 			if (enraged) {
-				world.playSound(spawnLoc, Sound.ENTITY_ENDERMEN_STARE, 100, 0.8f);
+				world.playSound(spawnLoc, Sound.ENTITY_ENDERMAN_STARE, 100, 0.8f);
 				//world.playSound(spawnLoc, Sound.ENTITY_ENDERMEN_STARE, 100, 0.5f);
 			}
 			
@@ -164,14 +164,14 @@ public class TwinsPlague extends Plague {
 			target.instaKill(null, GameDamageType.DEATH_PLAGUE);
 			World world = GameMap.getCurrentMap().getWorld();
 			float volume = (enraged ? 100f : 1.5f);
-			world.playSound(center, Sound.ENTITY_ENDERMEN_TELEPORT, volume, 1.2f);
-			world.playSound(center, Sound.ENTITY_ENDERMEN_TELEPORT, volume, 0.8f);
-			world.playSound(center, "entity.endermen.scream", volume, 1.2f);
-			world.playSound(center, "entity.endermen.scream", volume, 0.8f);
-			world.playSound(center, "entity.endermen.ambient", volume, 0.5f);
+			world.playSound(center, Sound.ENTITY_ENDERMAN_TELEPORT, volume, 1.2f);
+			world.playSound(center, Sound.ENTITY_ENDERMAN_TELEPORT, volume, 0.8f);
+			world.playSound(center, Sound.ENTITY_ENDERMAN_SCREAM, volume, 1.2f);
+			world.playSound(center, Sound.ENTITY_ENDERMAN_SCREAM, volume, 0.8f);
+			world.playSound(center, Sound.ENTITY_ENDERMAN_AMBIENT, volume, 0.5f);
 			if (enraged) {
 				float pitch = Misc.randomFloat(0.5f, 1f);
-				world.playSound(center, Sound.ENTITY_ENDERMEN_DEATH, 100, pitch);
+				world.playSound(center, Sound.ENTITY_ENDERMAN_DEATH, 100, pitch);
 				
 				target.givePotionEffect(PotionEffectType.BLINDNESS, 200, 2, false, false, true);
 			}

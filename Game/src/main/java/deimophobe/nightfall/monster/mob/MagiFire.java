@@ -1,7 +1,7 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.Display;
@@ -98,7 +98,7 @@ class MagiFire extends AbstractMob {
 		monster.playSound("entity.ghast.shoot", 1f, 0.5f, true);
 		for (int i=0; i<80; i++) {
 			Block block = Misc.randomLocation(monster.getLocation(), 5, 2, 5).getBlock();
-			if (BlockType.IGNORABLE.matchesBlock(block)) {
+			if (NFBlocks.IGNORABLE.matchesBlock(block)) {
 				block.setType(Material.FIRE);
 			}
 		}
@@ -118,7 +118,7 @@ class MagiFire extends AbstractMob {
 			int successes = 0;
 			for (int i = 0; i < 30; i++) {
 				Block block = Misc.randomLocation(center, 6, 8, 6).getBlock();
-				if (BlockType.IGNITEABLE.matchesBlock(block)) {
+				if (NFBlocks.IGNITEABLE.matchesBlock(block)) {
 					block.setType(Material.FIRE);
 					successes++;
 					

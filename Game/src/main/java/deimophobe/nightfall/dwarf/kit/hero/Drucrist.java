@@ -62,7 +62,7 @@ public class Drucrist extends AbstractItem implements CooldownPiece {
 					if (!newLoc.getBlock().getType().isSolid()) {
 						closestPlayerMonster.doDamage(dwarf, GameDamageType.TEMPORARY, 100, true);
 						dwarf.teleportTo(newLoc);
-						dwarf.playSound("entity.endermen.teleport", 1, 1, true);
+						dwarf.playSound("entity.enderman.teleport", 1, 1, true);
 						cd.reset();
 					}
 				}
@@ -75,7 +75,7 @@ public class Drucrist extends AbstractItem implements CooldownPiece {
 					if (!newLoc.getBlock().getType().isSolid()) {
 						closestAIMonster.doDamage(dwarf, GameDamageType.TEMPORARY, 40, true,true);
 						dwarf.teleportTo(newLoc);
-						dwarf.playSound("entity.endermen.teleport", 1, 1, true);
+						dwarf.playSound("entity.enderman.teleport", 1, 1, true);
 						cd.reset();
 						cd.setMaxCD(10*20);
 					}

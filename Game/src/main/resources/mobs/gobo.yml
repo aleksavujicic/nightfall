@@ -7,7 +7,7 @@ base:
   attack: 5
 
   armour:
-    material: sulphur
+    material: gunpowder
     name: Explosive Flesh
     lore:
       description:

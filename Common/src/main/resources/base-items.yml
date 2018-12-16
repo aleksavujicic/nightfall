@@ -52,47 +52,46 @@ sturdy: "diamond_hoe:25"
 quiver: "diamond_hoe:19"
 studded: "diamond_hoe:20"
 alchemical-guard: "diamond_hoe:5"
-nature-suit: "snow_ball"
+nature-suit: "snowball"
 berserker: "flint"
 
 
 # Accessories
-chisel: "#temp"
 chestomatic: "shears:33"
-clock: "watch"
+clock: "clock"
 bricklayer: "shears:20"
 
 slowfall: "diamond_hoe:7"
 darkvision: "diamond_hoe:6"
 avenge: "diamond_hoe:8"
-resurrection: "totem"
+resurrection: "totem_of_undying"
 bunny-boots: "rabbit_foot"
-aegis: "chorus_fruit_popped"
+aegis: "popped_chorus_fruit"
 
-tombmaker: "diamond_spade:0"
-procshovel: "gold_spade:0"
+tombmaker: "diamond_shovel:0"
+procshovel: "golden_shovel:0"
 
 # Consumables
-lamp: "ink_sack:0"
-slab: "clay_brick"
-charm: "ink_sack:2"
-wrench: "ink_sack:3"
-wizard-mortar: "ink_sack:5"
-healing-station: "ink_sack:7"
-proc-bottle: "ink_sack:10"
+lamp: "ink_sac"
+slab: "brick"
+charm: "cactus_green"
+wrench: "cocoa_beans"
+wizard-mortar: "purple_dye"
+healing-station: "light_gray_dye"
+proc-bottle: "lime_dye"
 turret: "#temp"
 #turret: "ink_sack:9"
 
-logs: "ink_sack:12"
-planks: "ink_sack:13"
+logs: "light_blue_dye"
+planks: "magenta_dye"
 stick: "stick"
 torch: "torch"
-bowl: "ink_sack:15"
-mortar: "ink_sack:4"
+bowl: "orange_dye"
+mortar: "lapis_lazuli"
 
-forged-armour: "ink_sack:6"
+forged-armour: "cyan_dye"
 
-half-slab: "step:3"
+half-slab: "cobblestone_slab"
 
 
 # ----- HEROES -----
@@ -135,7 +134,7 @@ tinderflame: "shears:46"
 
 # ----- MISC -----
 dwarf-pickaxe: "iron_pickaxe"
-dwarf-shovel: "iron_spade"
+dwarf-shovel: "iron_shovel"
 dwarf-axe: "iron_axe"
 
 excaliju: "shears:43"
@@ -146,8 +145,8 @@ doom-clock:
 clover: "#temp"
 cherry-pie: "pumpkin_pie"
 
-eggs: "diamond_spade:1"
-firefly: "diamond_spade:12"
+eggs: "diamond_shovel:1"
+firefly: "diamond_shovel:12"
 
 hat:
   bone-crown: "shears:200"
@@ -166,35 +165,35 @@ hat:
   christmas: "shears:214"
   
   ribbon: 
-    black: "diamond_spade:2"
-    gray: "diamond_spade:3"
-    red: "diamond_spade:4"
-    white: "diamond_spade:5"
-    purple: "diamond_spade:6"
-    gold: "diamond_spade:7"
-    green: "diamond_spade:8"
-    pink: "diamond_spade:9"
-    light-blue: "diamond_spade:10"
-    blue: "diamond_spade:11"
+    black: "diamond_shovel:2"
+    gray: "diamond_shovel:3"
+    red: "diamond_shovel:4"
+    white: "diamond_shovel:5"
+    purple: "diamond_shovel:6"
+    gold: "diamond_shovel:7"
+    green: "diamond_shovel:8"
+    pink: "diamond_shovel:9"
+    light-blue: "diamond_shovel:10"
+    blue: "diamond_shovel:11"
 
 glass:
   default: "glass"
-  white: "stained_glass:0"
-  orange: "stained_glass:1"
-  magenta: "stained_glass:2"
-  light-blue: "stained_glass:3"
-  yellow: "stained_glass:4"
-  lime: "stained_glass:5"
-  pink: "stained_glass:6"
-  grey: "stained_glass:7"
-  light-grey: "stained_glass:8"
-  cyan: "stained_glass:9"
-  purple: "stained_glass:10"
-  blue: "stained_glass:11"
-  brown: "stained_glass:12"
-  green: "stained_glass:13"
-  red: "stained_glass:14"
-  black: "stained_glass:15"
+  white: "white_stained_glass"
+  orange: "orange_stained_glass"
+  magenta: "magenta_stained_glass"
+  light-blue: "light_blue_stained_glass"
+  yellow: "yellow_stained_glass"
+  lime: "lime_stained_glass"
+  pink: "pink_stained_glass"
+  grey: "gray_stained_glass"
+  light-grey: "light_gray_stained_glass"
+  cyan: "cyan_stained_glass"
+  purple: "purple_stained_glass"
+  blue: "blue_stained_glass"
+  brown: "brown_stained_glass"
+  green: "green_stained_glass"
+  red: "red_stained_glass"
+  black: "black_stained_glass"
 
 
 # ----- LOADOUT MENU -----
@@ -248,7 +247,7 @@ menu:
 
 zombie:
   sword: "shears:101"
-  pick: "wood_pickaxe"
+  pick: "wooden_pickaxe"
   hide: "rotten_flesh"
 
 skeleton:
@@ -260,7 +259,7 @@ gobo:
   sword: "#zombie.sword"
   pick: "#zombie.pick"
   kaboom: "shears:102"
-  held-box: "ink_sack:8"
+  held-box: "gray_dye"
 
 kaboom: "#gobo.kaboom"
 
@@ -284,10 +283,10 @@ lightning-seppuku: "#gobo.kaboom"
 
 
 # ----- MOB MENU -----
-upgrade-zombie: "skull_item:2"
-upgrade-skeleton: "skull_item:0"
-upgrade-gobo: "skull_item:4"
-wither-skull: "skull_item:1"
+upgrade-zombie: "zombie_head"
+upgrade-skeleton: "skeleton_skull"
+upgrade-gobo: "creeper_head"
+wither-skull: "wither_skeleton_skull"
 
 potion-regeneration: "!potion{252,47,194}"
 potion-poison: "!potion{32,132,11}"

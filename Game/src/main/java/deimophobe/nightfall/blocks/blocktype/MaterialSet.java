@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 17/06/17.
  */
-public class MaterialSet implements CustomBlock {
+public class MaterialSet implements BlockInteracter {
 	
 	private final Set<Material> materialSet;
 	private final Material first;
@@ -31,5 +31,9 @@ public class MaterialSet implements CustomBlock {
 	@Override
 	public void setAtBlock(@NotNull Block block) {
 		block.setType(first);
+	}
+	
+	public Set<Material> getMaterialSet() {
+		return materialSet;
 	}
 }

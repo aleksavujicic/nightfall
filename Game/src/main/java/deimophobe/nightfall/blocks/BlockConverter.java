@@ -1,9 +1,9 @@
 package deimophobe.nightfall.blocks;
 
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
-import deimophobe.nightfall.blocks.blocktype.ComparableBlock;
-import deimophobe.nightfall.blocks.blocktype.SettableBlock;
+import deimophobe.nightfall.blocks.blocktype.NFBlocks;
+import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
+import deimophobe.nightfall.blocks.blocktype.BlockPlacer;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,60 +21,54 @@ import java.util.Random;
 public class BlockConverter {
 	public enum Type {
 		EXPLOSION(
-				new Conversion(BlockType.ENCHANTED_WALL, 4.5, 0.7, BlockType.NORMAL_WALL),
-				new Conversion(BlockType.NORMAL_WALL, 4.0, 0.8, BlockType.CRACKED_WALL),
-				new Conversion(BlockType.CHISELED_WALL, 4.0, 0.8, BlockType.CRACKED_WALL),
-				new Conversion(BlockType.CRACKED_WALL, 4.0, 0.8, BlockType.DAMAGED_WALL),
-				new Conversion(BlockType.MOSSY_WALL, 4.0, 0.8, BlockType.DAMAGED_WALL),
-				new Conversion(BlockType.DAMAGED_WALL, 3.5, 1.5, BlockType.BROKEN_WALL),
-				new Conversion(BlockType.BROKEN_WALL, 3.0, 1.5, BlockType.AIR),
-				new Conversion(BlockType.ALL_WOOLS, 2.5, 1.5, BlockType.AIR),
-				new Conversion(BlockType.CORRODED_WALL, 2.5, 1.5, BlockType.AIR),
+				new Conversion(NFBlocks.ENCHANTED_WALL, 4.5, 0.7, NFBlocks.NORMAL_WALL),
+				new Conversion(NFBlocks.NORMAL_WALL, 4.0, 0.8, NFBlocks.CRACKED_WALL),
+				new Conversion(NFBlocks.CRACKED_WALL, 4.0, 0.8, NFBlocks.DAMAGED_WALL),
+				new Conversion(NFBlocks.DAMAGED_WALL, 3.5, 1.5, NFBlocks.BROKEN_WALL),
+				new Conversion(NFBlocks.BROKEN_WALL, 3.0, 1.5, NFBlocks.AIR),
+				new Conversion(NFBlocks.WOOL, 2.5, 1.5, NFBlocks.AIR),
+				new Conversion(NFBlocks.CORRODED_WALL, 2.5, 1.5, NFBlocks.AIR),
 				
-				new Conversion(BlockType.NORMAL_STAIR, 4.5, 0.8, BlockType.DAMAGED_STAIR),
-				new Conversion(BlockType.DAMAGED_STAIR, 4.0, 1.8, BlockType.AIR),
+				new Conversion(NFBlocks.NORMAL_STAIR, 4.5, 0.8, NFBlocks.DAMAGED_STAIR),
+				new Conversion(NFBlocks.DAMAGED_STAIR, 4.0, 1.8, NFBlocks.AIR),
 				
-				new Conversion(BlockType.REINFORCED_SLAB, 4.0, 0.7, BlockType.NORMAL_SLAB),
-				new Conversion(BlockType.NORMAL_SLAB, 4.0, 1.8, BlockType.DAMAGED_SLAB),
-				new Conversion(BlockType.DAMAGED_SLAB, 3.5, 1.8, BlockType.AIR),
+				new Conversion(NFBlocks.REINFORCED_SLAB, 4.0, 0.7, NFBlocks.NORMAL_SLAB),
+				new Conversion(NFBlocks.NORMAL_SLAB, 4.0, 1.8, NFBlocks.DAMAGED_SLAB),
+				new Conversion(NFBlocks.DAMAGED_SLAB, 3.5, 1.8, NFBlocks.AIR),
 				
-				new Conversion(BlockType.LIGHT, 2.0, 1.0, BlockType.AIR),
-				new Conversion(BlockType.GRASS, 1.0, 0.0, BlockType.AIR),
-				new Conversion(BlockType.GRASS_BLOCK, 11.0, 5.0, BlockType.DIRT_BLOCK),
-				new Conversion(BlockType.GRASS_BLOCK, 21.0, 15.0, BlockType.PODZOL_BLOCK)
+				new Conversion(NFBlocks.EXPLODEABLE_LIGHT, 2.0, 1.0, NFBlocks.AIR),
+				new Conversion(NFBlocks.DECORATIVES, 1.0, 0.0, NFBlocks.AIR),
+				new Conversion(NFBlocks.GRASS_BLOCK, 11.0, 5.0, NFBlocks.DIRT),
+				new Conversion(NFBlocks.GRASS_BLOCK, 21.0, 15.0, NFBlocks.PODZOL)
 		),
 		CORROSION(
-				new Conversion(BlockType.WALL, 2.2, 0.3, BlockType.CORRODED_WALL),
-				new Conversion(BlockType.ALL_STAIRS, 2.2, 0.3, BlockType.CORRODED_WALL),
-				new Conversion(BlockType.ALL_SLABS, 2.2, 0.3, BlockType.CORRODED_WALL),
-				new Conversion(BlockType.CORRODED_WALL, 2.5, 0.3, BlockType.AIR),
-				new Conversion(BlockType.LIGHT, 1.5, 1.0, BlockType.AIR),
-				new Conversion(BlockType.GRASS, 0.5, 0.0, BlockType.AIR),
-				new Conversion(BlockType.GLASS, 2.1, 0.3, BlockType.AIR)
+				new Conversion(NFBlocks.WALL, 2.2, 0.3, NFBlocks.CORRODED_WALL),
+				new Conversion(NFBlocks.ALL_STAIRS, 2.2, 0.3, NFBlocks.CORRODED_WALL),
+				new Conversion(NFBlocks.ALL_SLABS, 2.2, 0.3, NFBlocks.CORRODED_WALL),
+				new Conversion(NFBlocks.CORRODED_WALL, 2.5, 0.3, NFBlocks.AIR),
+				new Conversion(NFBlocks.EXPLODEABLE_LIGHT, 1.5, 1.0, NFBlocks.AIR),
+				new Conversion(NFBlocks.DECORATIVES, 0.5, 0.0, NFBlocks.AIR)
 		),
 		THROWNEXPLOSION(
-				new Conversion(BlockType.ENCHANTED_WALL, 4.5, 0.5, BlockType.NORMAL_WALL),
-				new Conversion(BlockType.NORMAL_WALL, 4.5, 0.8, BlockType.CRACKED_WALL),
-				new Conversion(BlockType.CHISELED_WALL, 4.5, 0.8, BlockType.CRACKED_WALL),
-				new Conversion(BlockType.CRACKED_WALL, 4.5, 0.8, BlockType.DAMAGED_WALL),
-				new Conversion(BlockType.MOSSY_WALL, 4.5, 0.8, BlockType.DAMAGED_WALL),
-				new Conversion(BlockType.ALL_WOOLS, 2.5, 1.5, BlockType.AIR),
-				new Conversion(BlockType.CORRODED_WALL, 2.5, 1.5, BlockType.AIR),
+				new Conversion(NFBlocks.ENCHANTED_WALL, 4.5, 0.5, NFBlocks.NORMAL_WALL),
+				new Conversion(NFBlocks.NORMAL_WALL, 4.5, 0.8, NFBlocks.CRACKED_WALL),
+				new Conversion(NFBlocks.CRACKED_WALL, 4.5, 0.8, NFBlocks.DAMAGED_WALL),
+				new Conversion(NFBlocks.WOOL, 2.5, 1.5, NFBlocks.AIR),
+				new Conversion(NFBlocks.CORRODED_WALL, 2.5, 1.5, NFBlocks.AIR),
 				
-				new Conversion(BlockType.GRASS, 1.0, 0.0, BlockType.AIR),
-				new Conversion(BlockType.GRASS_BLOCK, 11.0, 5.0, BlockType.DIRT_BLOCK),
-				new Conversion(BlockType.GRASS_BLOCK, 21.0, 15.0, BlockType.PODZOL_BLOCK)
+				new Conversion(NFBlocks.DECORATIVES, 1.0, 0.0, NFBlocks.AIR),
+				new Conversion(NFBlocks.GRASS_BLOCK, 11.0, 5.0, NFBlocks.DIRT),
+				new Conversion(NFBlocks.GRASS_BLOCK, 21.0, 15.0, NFBlocks.PODZOL)
 		),
 		MINOTAUR_CHARGE(
-				new Conversion(BlockType.ENCHANTED_WALL, 2.3, 0.5, BlockType.NORMAL_WALL),
-				new Conversion(BlockType.NORMAL_WALL, 1.5, 0.3, BlockType.CRACKED_WALL),
-				new Conversion(BlockType.CHISELED_WALL, 1.5, 0.3, BlockType.CRACKED_WALL),
-				new Conversion(BlockType.CRACKED_WALL, 1, 0.3, BlockType.DAMAGED_WALL),
-				new Conversion(BlockType.MOSSY_WALL, 1, 0.3, BlockType.DAMAGED_WALL),
-				new Conversion(BlockType.DAMAGED_WALL, 1, 0.2, BlockType.BROKEN_WALL),
-				new Conversion(BlockType.BROKEN_WALL, 0.5, 0.1, BlockType.AIR),
-				new Conversion(BlockType.ALL_WOOLS, 0.5, 0.1, BlockType.AIR),
-				new Conversion(BlockType.LIGHT, 0.5, 1.0, BlockType.AIR)
+				new Conversion(NFBlocks.ENCHANTED_WALL, 2.3, 0.5, NFBlocks.NORMAL_WALL),
+				new Conversion(NFBlocks.NORMAL_WALL, 1.5, 0.3, NFBlocks.CRACKED_WALL),
+				new Conversion(NFBlocks.CRACKED_WALL, 1, 0.3, NFBlocks.DAMAGED_WALL),
+				new Conversion(NFBlocks.DAMAGED_WALL, 1, 0.2, NFBlocks.BROKEN_WALL),
+				new Conversion(NFBlocks.BROKEN_WALL, 0.5, 0.1, NFBlocks.AIR),
+				new Conversion(NFBlocks.WOOL, 0.5, 0.1, NFBlocks.AIR),
+				new Conversion(NFBlocks.EXPLODEABLE_LIGHT, 0.5, 1.0, NFBlocks.AIR),
+				new Conversion(NFBlocks.DECORATIVES, 0.3, 0.3, NFBlocks.AIR)
 		)
 		
 		;
@@ -125,12 +119,12 @@ public class BlockConverter {
 	}
 	
 	private static class Conversion {
-		private final ComparableBlock from;
+		private final BlockMatcher from;
 		private final double strength;
 		private final double variation;
-		private final SettableBlock to;
+		private final BlockPlacer to;
 		
-		private Conversion(ComparableBlock from, double strength, double variation, SettableBlock to) {
+		private Conversion(BlockMatcher from, double strength, double variation, BlockPlacer to) {
 			this.from = from;
 			this.strength = strength;
 			this.variation = variation;
@@ -181,24 +175,22 @@ public class BlockConverter {
 				for (int z = startZ; z < startZ + size; z++) {
 					Block block = world.getBlockAt(x, y, z);
 					if (forceBlue) {
-						BlockType.tryConvertBlock(block, BlockType.MORTARABLE_WALL, BlockType.ENCHANTED_WALL);
-						BlockType.tryConvertBlock(block, BlockType.ALL_SLABS, BlockType.REINFORCED_SLAB);
-						BlockType.tryConvertBlock(block, BlockType.ALL_STAIRS, BlockType.NORMAL_STAIR);
+						NFBlocks.tryConvertBlock(block, NFBlocks.MORTARABLE_WALL, NFBlocks.ENCHANTED_WALL);
+						NFBlocks.tryConvertBlock(block, NFBlocks.ALL_SLABS, NFBlocks.REINFORCED_SLAB);
+						NFBlocks.tryConvertBlock(block, NFBlocks.ALL_STAIRS, NFBlocks.NORMAL_STAIR);
 					} else {
 						double random = Math.random();
 						if (random <= successChance) {
 							if (Math.random() <= 0.05) {
-								if (BlockType.tryConvertBlock(block, BlockType.NORMAL_WALL, BlockType.ENCHANTED_WALL)) continue;
+								if (NFBlocks.tryConvertBlock(block, NFBlocks.NORMAL_WALL, NFBlocks.ENCHANTED_WALL)) continue;
 							}
-							if (BlockType.tryConvertBlock(block, BlockType.CRACKED_WALL, BlockType.NORMAL_WALL)) continue;
-							if (BlockType.tryConvertBlock(block, BlockType.CHISELED_WALL, BlockType.NORMAL_WALL)) continue;
-							if (BlockType.tryConvertBlock(block, BlockType.MOSSY_WALL, BlockType.NORMAL_WALL)) continue;
-							if (BlockType.tryConvertBlock(block, BlockType.DAMAGED_WALL, BlockType.CRACKED_WALL)) continue;
+							if (NFBlocks.tryConvertBlock(block, NFBlocks.CRACKED_WALL, NFBlocks.NORMAL_WALL)) continue;
+							if (NFBlocks.tryConvertBlock(block, NFBlocks.DAMAGED_WALL, NFBlocks.CRACKED_WALL)) continue;
 							
-							if (BlockType.tryConvertBlock(block, BlockType.DAMAGED_STAIR, BlockType.NORMAL_STAIR)) continue;
+							if (NFBlocks.tryConvertBlock(block, NFBlocks.DAMAGED_STAIR, NFBlocks.NORMAL_STAIR)) continue;
 							
-							if (BlockType.tryConvertBlock(block, BlockType.NORMAL_SLAB, BlockType.REINFORCED_SLAB)) continue;
-							if (BlockType.tryConvertBlock(block, BlockType.DAMAGED_SLAB, BlockType.NORMAL_SLAB)) continue;
+							if (NFBlocks.tryConvertBlock(block, NFBlocks.NORMAL_SLAB, NFBlocks.REINFORCED_SLAB)) continue;
+							if (NFBlocks.tryConvertBlock(block, NFBlocks.DAMAGED_SLAB, NFBlocks.NORMAL_SLAB)) continue;
 						}
 					}
 				}

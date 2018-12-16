@@ -3,25 +3,33 @@ package deimophobe.nightfall.blocks.timedblock;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.game.entity.GamePlayer;
+import deimophobe.nightfall.util.Util;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.material.MaterialData;
+
+import java.util.function.Consumer;
 
 /**
  * Created by Deimophobe on 14/01/18.
  */
 public class IceSlab extends DataTimedBlock {
+	private final static BlockData ICE_DATA = Material.FROSTED_ICE.createBlockData();
 	private final int maxLifetime;
-	private final ComplexCooldown hitter = new ComplexCooldown(4, this::hit);
+	private final Cooldown hitter = new UseCooldown(4, this::hit);
 	
 	private IceSlab(Block block, GameEntity placer, int lifetime) {
-		super(lifetime, block, placer, Material.FROSTED_ICE);
+		super(lifetime, block, placer, ICE_DATA);
 		this.maxLifetime = lifetime;
 	}
 	
@@ -54,7 +62,7 @@ public class IceSlab extends DataTimedBlock {
 		Location location = block.getLocation().add(0.5, 0.5, 0.5);
 		
 		block.setType(Material.AIR);
-		world.spawnParticle(Particle.BLOCK_CRACK, location, 25, 0.5, 0.5, 0.5, 0, new MaterialData(Material.FROSTED_ICE));
+		world.spawnParticle(Particle.BLOCK_CRACK, location, 25, 0.5, 0.5, 0.5, 0, ICE_DATA);
 		world.playSound(location, "block.glass.break", 1, 1);
 	}
 	
@@ -76,8 +84,7 @@ public class IceSlab extends DataTimedBlock {
 	
 	private void updateAge() {
 		float fracLeft = fracLeft();
-		
-		byte age;
+		int age;
 		if (fracLeft <= 0.1) {
 			age = 3;
 		} else if (fracLeft <= 0.2) {
@@ -88,9 +95,11 @@ public class IceSlab extends DataTimedBlock {
 			age = 0;
 		}
 		
-		if (block.getData() != age) {
-			block.setData(age);
-		}
+		Util.safeCastBlockData(block, Ageable.class, ice -> {
+			if (ice.getAge() != age) {
+				ice.setAge(age);
+			}
+		});
 	}
 	
 	private float fracLeft() {

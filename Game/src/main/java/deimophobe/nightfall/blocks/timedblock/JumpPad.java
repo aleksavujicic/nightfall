@@ -1,7 +1,7 @@
 package deimophobe.nightfall.blocks.timedblock;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.game.entity.GamePlayer;
@@ -9,13 +9,16 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
 
 /**
  * Created by Deimophobe on 3/05/18.
  */
 public class JumpPad extends DataTimedBlock {
+	private final static BlockData JUMP_PLATE = Material.LIGHT_WEIGHTED_PRESSURE_PLATE.createBlockData();
+	
 	public JumpPad( Block block, GameEntity placer) {
-		super(1, block, placer, Material.GOLD_PLATE);
+		super(1, block, placer, JUMP_PLATE);
 	}
 	
 	@Override
@@ -23,7 +26,7 @@ public class JumpPad extends DataTimedBlock {
 	
 	@Override
 	public boolean isPlaceable() {
-		return BlockType.EMPTY_BLOCKS.matchesBlock(block);
+		return NFBlocks.EMPTY_BLOCKS.matchesBlock(block);
 	}
 	
 	@Override

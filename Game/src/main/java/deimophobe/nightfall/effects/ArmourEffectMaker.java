@@ -4,6 +4,7 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.LifetimeExpireable;
 import deimophobe.nightfall.game.entity.GamePlayer;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -15,6 +16,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by Deimophobe on 10/03/17.
  */
 class ArmourEffectMaker implements PlayerEffectMaker {
+	private static final Particle.DustOptions DUST_OPTIONS = new Particle.DustOptions(Color.fromRGB(250, 250, 5), 1);
+	
 	@Override
 	public void playEffect(GamePlayer player) {
 		checkNotNull(player, "GamePlayer must not be null.");
@@ -53,7 +56,7 @@ class ArmourEffectMaker implements PlayerEffectMaker {
 				super.update();
 				
 				Location center = player.getEyeLocation().subtract(0, 0.5, 0);
-				Misc.spawnColouredParticles(center, 2, 0.75, 0.75, 0.75, 0.977, 0.977, 0.039);
+				center.getWorld().spawnParticle(Particle.REDSTONE, center, 2, 0.3, 0.3, 0.3, DUST_OPTIONS);
 			}
 		});
 	}

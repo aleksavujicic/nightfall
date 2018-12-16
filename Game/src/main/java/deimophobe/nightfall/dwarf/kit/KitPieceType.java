@@ -74,7 +74,6 @@ public enum KitPieceType {
 	RESURRECTION(Resurrection::new),
 	BRICKLAYER(d -> new Bricklayer(d, false)),
 	SPEEDY_BRICKLAYER(d -> new Bricklayer(d, true)),
-	CHISEL(Chisel::new),
 	CLOCK(Clock::new),
 	JIT_HEAL(JitHeal::new),
 	BUNNY_BOOTS(BunnyBoots::new),

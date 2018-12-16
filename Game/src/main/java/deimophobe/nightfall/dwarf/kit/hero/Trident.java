@@ -3,7 +3,7 @@ package deimophobe.nightfall.dwarf.kit.hero;
 import com.google.common.collect.Sets;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockManager;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.blocks.timedblock.IceSlab;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
@@ -71,8 +71,8 @@ public class Trident extends AbstractItem implements CooldownPiece {
 	}
 	
 	private static final Set<Material> WATER_MATERIALS =
-			Sets.newHashSet(Material.AIR, Material.CARPET);
-			//Sets.newHashSet(Material.AIR, Material.WATER, Material.STATIONARY_WATER);
+			Sets.newHashSet(Material.AIR);
+			//Sets.newHashSet(Material.AIR, Material.WATER, Material.STATIONARY_WATER); add carpet
 	private void sprayWater() {
 		
 		Block looking = dwarf.getTargetBlock(WATER_MATERIALS, 12);
@@ -104,9 +104,9 @@ public class Trident extends AbstractItem implements CooldownPiece {
 	}
 	
 	private boolean replaceBlockWithWater(Block block) {
-		if (BlockType.IGNORABLE.matchesBlock(block) && GameMap.getCurrentMap().isBlockPlaceable(block)) {
+		if (NFBlocks.IGNORABLE.matchesBlock(block) && GameMap.getCurrentMap().isBlockPlaceable(block)) {
 			water--;
-			block.setType(Material.STATIONARY_WATER, false);
+			block.setType(Material.WATER, false);
 			waterBlocks.add(block);
 			return true;
 		}

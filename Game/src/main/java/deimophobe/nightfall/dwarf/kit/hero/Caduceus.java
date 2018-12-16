@@ -67,7 +67,7 @@ public class Caduceus extends AbstractItem implements CooldownPiece {
 		
 		dwarf.teleportTo(targetLoc);
 		dwarf.setVelocity(target.getVelocity());
-		dwarf.playSound("entity.endermen.teleport", 1f, 1f, true);
+		dwarf.playSound("entity.enderman.teleport", 1f, 1f, true);
 		
 		returnCD.tryUse();
 		
@@ -84,7 +84,7 @@ public class Caduceus extends AbstractItem implements CooldownPiece {
 		dwarf.setVelocity(new Vector(0,0,0));
 		target.setVelocity(new Vector(0,0,0));
 		
-		dwarf.playSound("entity.endermen.teleport", 1f, 1f, true);
+		dwarf.playSound("entity.enderman.teleport", 1f, 1f, true);
 		
 		returnSpot = null;
 		target = null;

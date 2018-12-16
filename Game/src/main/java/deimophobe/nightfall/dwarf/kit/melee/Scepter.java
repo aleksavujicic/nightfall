@@ -2,8 +2,8 @@ package deimophobe.nightfall.dwarf.kit.melee;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.blocktype.BlockSet;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
-import deimophobe.nightfall.blocks.blocktype.ComparableBlock;
+import deimophobe.nightfall.blocks.blocktype.NFBlocks;
+import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
@@ -17,9 +17,9 @@ import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.util.ArcaneMark;
-import deimophobe.nightfall.util.Colour;
 import deimophobe.nightfall.util.Hitscan;
 import deimophobe.nightfall.util.HitscanBuilder;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -35,14 +35,10 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	@Override public CustomItem getItem() { return ITEM; }
 	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
 	
-	private static final Consumer<Location> PARTICLE_PLACER = (location) -> {
-		double dx = Misc.randomDouble(-0.1,0.1);
-		double dy = Misc.randomDouble(-0.1,0.1);
-		double dz = Misc.randomDouble(-0.1,0.1);
-		
-		for (int i=0; i<2; i++)
-			location.getWorld().spawnParticle(Particle.REDSTONE, location.clone().add(dx, dy, dz), 0, 0.8, 0.2, 0.9, 1);
-	};
+	private static final Particle.DustOptions BEAM_COLOUR = new Particle.DustOptions(Color.fromRGB(204, 51, 229), 1);
+	private static final Consumer<Location> PARTICLE_PLACER = location ->
+		location.getWorld().spawnParticle(Particle.REDSTONE, location, 3, 0.05, 0.05, 0.05, BEAM_COLOUR)
+	;
 	
 	private static final HitscanBuilder DEFAULT_BUILDER = HitscanBuilder.aHitscan()
 			.withThickness(1.2)
@@ -61,9 +57,9 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	private final static double DAMAGE = 10;
 	static { ITEM.addModifier(ItemModifierType.ATTACK, (int) DAMAGE); }
 	
-	private static final ComparableBlock CONVERTABLE = new BlockSet(
-			BlockType.DIRT_BLOCK,
-			BlockType.GRASS_BLOCK
+	private static final BlockMatcher CONVERTABLE = new BlockSet(
+			NFBlocks.DIRT,
+			NFBlocks.GRASS_BLOCK
 	);
 	
 	
@@ -88,7 +84,7 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 		
 		final Consumer<Block> blockConverter = block -> {
 			if (CONVERTABLE.matchesBlock(block) && Math.random() < 0.1) {
-				block.setType(Material.MYCEL);
+				block.setType(Material.MYCELIUM);
 			}
 		};
 		

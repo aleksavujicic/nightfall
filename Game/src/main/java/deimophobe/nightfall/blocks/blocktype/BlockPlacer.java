@@ -6,6 +6,6 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Created by Deimophobe on 17/06/17.
  */
-public interface SettableBlock {
+public interface BlockPlacer {
 	void setAtBlock(@NotNull Block block);
 }

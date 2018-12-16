@@ -1,14 +1,12 @@
 package deimophobe.nightfall.game;
 
-import com.comphenix.protocol.injector.GamePhase;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockManager;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.event.HatChangeEvent;
 import deimophobe.nightfall.common.event.TitleChangeEvent;
-import deimophobe.nightfall.cooldown.LifetimeExpireable;
 import deimophobe.nightfall.damage.DamageUtil;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -155,8 +153,8 @@ public class GameListener implements Listener {
 					case GRASS_PATH: {
 						switch (item.getType()) {
 							case DIAMOND_HOE:
-							case DIAMOND_SPADE:
-							case IRON_SPADE:
+							case DIAMOND_SHOVEL:
+							case IRON_SHOVEL:
 								event.setCancelled(true);
 						}
 					}
@@ -170,7 +168,7 @@ public class GameListener implements Listener {
 			BlockManager.getManager().hitBlock(block, gp, click, blockFace);
 		}
 		
-		if (block != null && BlockType.UNINTERACTABLE_BLOCKS.matchesBlock(block) && player.getGameMode() != GameMode.CREATIVE) {
+		if (block != null && NFBlocks.UNINTERACTABLE_BLOCKS.matchesBlock(block) && player.getGameMode() != GameMode.CREATIVE) {
 			event.setCancelled(true);
 		}
 	}

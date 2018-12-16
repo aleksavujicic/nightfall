@@ -2,6 +2,7 @@ package deimophobe.nightfall.dwarf;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.dwarf.kit.*;
 import deimophobe.nightfall.dwarf.light.BlindSource;
 import deimophobe.nightfall.dwarf.light.DwarfEyes;
@@ -9,7 +10,6 @@ import deimophobe.nightfall.dwarf.light.LightSource;
 import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.WhoEntry;
 import deimophobe.nightfall.blocks.BlockManager;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.JumpPad;
 import deimophobe.nightfall.blocks.timedblock.TurretBlock;
 import deimophobe.nightfall.common.Misc;
@@ -39,12 +39,12 @@ import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -418,6 +418,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 
 	// ------ UPDATE ------
+	private static final BlockData UNLUCK_PARTICLE = Material.ORANGE_WOOL.createBlockData();
 	public void update() {
 		super.update();
 		kit.update();
@@ -448,7 +449,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 				Location loc = getLocation();
 				World world = getWorld();
 				world.spawnParticle(Particle.SMOKE_LARGE, loc, 8, 0.5, 0.5, 0.5, 0);
-				world.spawnParticle(Particle.BLOCK_CRACK, loc.add(0,1,0), 20, 0.3, 0.3, 0.3, 0, new MaterialData(Material.WOOL, (byte) 1));
+				world.spawnParticle(Particle.BLOCK_CRACK, loc.add(0,1,0), 20, 0.3, 0.3, 0.3, 0, UNLUCK_PARTICLE);
 			}
 		}
 
@@ -724,12 +725,12 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			}
 		}
 		
-		if (click.isRightClick() && clickedBlock != null && BlockType.SHARED_CHEST.matchesBlock(clickedBlock)) {
+		if (click.isRightClick() && clickedBlock != null && NFBlocks.SHARED_CHEST.matchesBlock(clickedBlock)) {
 			DwarfManager.getManager().openSharedChest(this, clickedBlock);
 			return;
 		}
 		
-		if (click.isLeftClick() && BlockType.FURNACE.matchesBlock(clickedBlock)) {
+		if (click.isLeftClick() && NFBlocks.FURNACE.matchesBlock(clickedBlock)) {
 			furnace.giveItems();
 		}
 		

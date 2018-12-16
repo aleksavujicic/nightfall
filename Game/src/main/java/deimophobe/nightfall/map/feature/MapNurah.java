@@ -165,7 +165,7 @@ public class MapNurah implements MapFeature {
 		int i = 0;
 		while (!toChange.isEmpty()) {
 			Block changee = toChange.iterator().next();
-			changee.setType(Material.STATIONARY_LAVA);
+			changee.setType(Material.LAVA);
 			for (BlockFace offset : OFFSETS) {
 				Block newBlock = changee.getRelative(offset);
 				if (!toChange.contains(newBlock) && newBlock.getType() == Material.AIR)

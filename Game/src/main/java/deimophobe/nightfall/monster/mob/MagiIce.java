@@ -2,7 +2,7 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockManager;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.blocks.timedblock.DataTimedBlock;
 import deimophobe.nightfall.blocks.timedblock.TimedBlock;
 import deimophobe.nightfall.common.Misc;
@@ -17,6 +17,7 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -85,8 +86,8 @@ class MagiIce extends AbstractMob {
 	}
 	
 	private boolean tryCreateIce(Block block, int lifetime, boolean canFreezeWater) {
-		boolean isSolid = BlockType.SOLID.matchesBlock(block);
-		boolean isWater = BlockType.WATER.matchesBlock(block);
+		boolean isSolid = NFBlocks.SOLID.matchesBlock(block);
+		boolean isWater = NFBlocks.WATER.matchesBlock(block);
 		
 		if (isSolid || (isWater && canFreezeWater)) {
 			TimedBlock timed = new IceBlock(lifetime, block, isSolid);
@@ -131,10 +132,12 @@ class MagiIce extends AbstractMob {
 	}
 	
 	
+	private static final BlockData SOLID_ICE = Material.PACKED_ICE.createBlockData();
+	private static final BlockData WATER_ICE = Material.ICE.createBlockData();
 	private class IceBlock extends DataTimedBlock {
 		
-		public IceBlock(int lifeTime, Block block, boolean packed) {
-			super(lifeTime, block, monster, (packed ? Material.PACKED_ICE : Material.ICE));
+		public IceBlock(int lifeTime, Block block, boolean solid) {
+			super(lifeTime, block, monster, (solid? SOLID_ICE : WATER_ICE));
 		}
 	}
 	

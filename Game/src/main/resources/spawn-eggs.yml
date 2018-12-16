@@ -1,7 +1,7 @@
 zombie:
   mobtype: zombie
   egg:
-    material: wood_pickaxe
+    material: wooden_pickaxe
     name: Spawn Zombie
   permanent: true
 
@@ -39,7 +39,7 @@ hellhound:
 spiderling:
   mobtype: spiderling
   egg:
-    material: snow_ball
+    material: snowball
     name: Spawn Spiderling
   quantity: 1
   chance: 0.15

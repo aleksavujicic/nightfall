@@ -80,7 +80,7 @@ grey:
         - "Paints your glass grey."
 
 light-grey:
-  colour: silver
+  colour: light_gray
   item:
     name: "&7Light Grey"
     base: glass.light-grey
