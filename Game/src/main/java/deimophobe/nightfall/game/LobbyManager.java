@@ -204,6 +204,7 @@ public class LobbyManager implements Manager, Updateable {
 		
 		PlayerInventory inventory = player.getInventory();
 		inventory.clear();
+		inventory.setHeldItemSlot(0);
 		//TODO pregenerate items
 		for (Map.Entry<Integer, LobbyItem> entry : items.entrySet()) {
 			int slot = entry.getKey();
