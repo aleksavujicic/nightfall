@@ -13,7 +13,6 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.effects.GameEffect;
-import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.game.entity.ShieldSource;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Material;
@@ -23,7 +22,6 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.Piston;
 import org.bukkit.block.data.type.PistonHead;
 import org.bukkit.block.data.type.TechnicalPiston;
-import org.bukkit.material.Directional;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -37,7 +35,7 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 	
 	private static final CustomItem ITEM = DwarvenItems.getItem("misc", "pick");
 	@Override public CustomItem getItem() {return ITEM;}
-	@Override public KitGiveType getGiveType() { return KitGiveType.PICK; }
+	@Override public PickupType getGiveType() { return PickupType.PICK; }
 	
 	private static final int MAX_CD = 30;
 	private static final int MAX_HASTE_CD = 20;

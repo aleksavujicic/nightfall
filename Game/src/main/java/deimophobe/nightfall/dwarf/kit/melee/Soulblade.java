@@ -11,7 +11,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.util.Util;
@@ -42,8 +42,8 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public KitGiveType getGiveType() {
-		return KitGiveType.SWORD;
+	@Override public PickupType getGiveType() {
+		return PickupType.SWORD;
 	}
 
 	@Override

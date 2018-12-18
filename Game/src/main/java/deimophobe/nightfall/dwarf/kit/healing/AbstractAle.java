@@ -7,7 +7,7 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.game.Game;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -78,7 +78,7 @@ abstract class AbstractAle extends AbstractItem {
 	
 	
 	@Override
-	public KitGiveType getGiveType() {
-		return KitGiveType.ALE;
+	public PickupType getGiveType() {
+		return PickupType.ALE;
 	}
 }

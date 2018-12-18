@@ -6,7 +6,7 @@ import deimophobe.nightfall.cooldown.MultipleCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -23,7 +23,7 @@ public class SilvetrisClaws extends AbstractItem implements CooldownPiece {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "claw");
 	@Override public CustomItem getItem() {return ITEM; }
-	@Override public KitGiveType getGiveType() {return KitGiveType.START;}
+	@Override public PickupType getGiveType() {return PickupType.START;}
 	
 	@Override
 	public void update() {

@@ -16,6 +16,7 @@ import java.util.function.Function;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static deimophobe.nightfall.util.NFConditions.checkMaterialExtendsDataClass;
 
 /**
  * Created by Deimophobe on 18/12/18.
@@ -49,16 +50,16 @@ public class DataConverter<T extends BlockData> implements BlockPlacer {
 		);
 	}
 	
-	private static <S extends BlockData> Function<S, S> materialConverterFunction(@NotNull Class<S> dataClass, @NotNull Material material, @NotNull BiConsumer<S, S> defaultApplier) {
-		checkArgument(Util.materialsExtendsBlockData(material, dataClass), "Material '%s' creates a block that is not an instance of %s.", material, dataClass.getCanonicalName());
-		
+	private static <S extends BlockData> Function<S, S> materialConverterFunction(@NotNull Material material, @NotNull BiConsumer<S, S> defaultApplier) {
 		return oldData -> (S) material.createBlockData(newData -> defaultApplier.accept(oldData, (S) newData));
 	}
 	
 	public static DataConverter<Stairs> stairConverter(Material stairMaterial) {
+		checkMaterialExtendsDataClass(stairMaterial, Stairs.class);
+		
 		return new DataConverter<>(
 				Stairs.class,
-				materialConverterFunction(Stairs.class, stairMaterial, (oldStairs, newStairs) -> {
+				materialConverterFunction(stairMaterial, (oldStairs, newStairs) -> {
 					BlockFace direction = oldStairs.getFacing();
 					Bisected.Half half = oldStairs.getHalf();
 					Stairs.Shape shape = oldStairs.getShape();
@@ -72,9 +73,11 @@ public class DataConverter<T extends BlockData> implements BlockPlacer {
 		);
 	}
 	public static DataConverter<Slab> slabConverter(Material slabMaterial) {
+		checkMaterialExtendsDataClass(slabMaterial, Slab.class);
+		
 		return new DataConverter<>(
 				Slab.class,
-				materialConverterFunction(Slab.class, slabMaterial, (oldSlab, newSlab) -> {
+				materialConverterFunction(slabMaterial, (oldSlab, newSlab) -> {
 					Slab.Type type = oldSlab.getType();
 					boolean waterlogged = oldSlab.isWaterlogged();
 					

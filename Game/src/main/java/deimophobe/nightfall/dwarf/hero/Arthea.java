@@ -6,7 +6,7 @@ import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.damage.*;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.*;
@@ -190,7 +190,7 @@ public class Arthea extends Hero {
 		PlayerInventory inv = player.getInventory();
 		inv.clear();
 		
-		giveKitItems(KitGiveType.ARTHEA_SPECIAL);
+		giveKitItems(PickupType.ARTHEA_SPECIAL);
 		inv.setHeldItemSlot(0);
 		
 		player.updateInventory();

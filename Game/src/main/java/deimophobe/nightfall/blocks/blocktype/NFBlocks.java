@@ -3,8 +3,11 @@ package deimophobe.nightfall.blocks.blocktype;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.dwarf.kit.hero.Trident;
 import deimophobe.nightfall.map.GameMap;
+import deimophobe.nightfall.util.Util;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.Rail;
+import org.bukkit.block.data.type.RedstoneRail;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -161,6 +164,18 @@ public class NFBlocks {
 	);
 	
 	
+	// Tools
+	public static final BlockMatcher PICKUP_SWORD = new MaterialBlock(Material.LADDER);
+	public static final BlockMatcher PICKUP_BOW = new DataChecker<>(Material.DETECTOR_RAIL, RedstoneRail.class, rail -> !rail.isPowered());
+	public static final BlockMatcher PICKUP_ALE = new MaterialSet(Material.REDSTONE_TORCH, Material.REDSTONE_WALL_TORCH);
+	public static final BlockMatcher PICKUP_PICK = new DataChecker<>(Material.ACTIVATOR_RAIL, RedstoneRail.class, rail -> !rail.isPowered());
+	public static final BlockMatcher PICKUP_AXE = new DataChecker<>(Material.RAIL, Rail.class, rail -> Util.isRailStraight(rail.getShape()));
+	public static final BlockMatcher PICKUP_SHOVEL = new DataChecker<>(Material.POWERED_RAIL, RedstoneRail.class, rail -> !rail.isPowered());
+	public static final BlockMatcher PICKUP_BLOCK = new BlockSet(
+			PICKUP_SWORD, PICKUP_BOW, PICKUP_ALE, PICKUP_PICK, PICKUP_AXE, PICKUP_SHOVEL
+	);
+	
+	
 	
 	// ===== Miscellaneous =====
 	public static final BlockMatcher HERANA_TRIDENT_WATER = Trident::isTridentWaterBlock;
@@ -179,6 +194,7 @@ public class NFBlocks {
 	public static final BlockMatcher UNTIMEABLE_BLOCKS = new BlockSet(
 			PISTON_BASE,
 			CRAFTING_ARMOUR,
+			PICKUP_BLOCK,
 			
 			SHRINE_BLOCK,
 			SHARED_CHEST,
@@ -193,14 +209,6 @@ public class NFBlocks {
 			
 			Material.SPONGE,
 			Material.IRON_BARS,
-			
-			Material.RAIL,
-			Material.ACTIVATOR_RAIL,
-			Material.DETECTOR_RAIL,
-			Material.POWERED_RAIL,
-			Material.LADDER,
-			Material.REDSTONE_TORCH,
-			Material.REDSTONE_WALL_TORCH,
 			
 			Material.JACK_O_LANTERN,
 			Material.PURPUR_BLOCK,

@@ -10,7 +10,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -39,8 +39,8 @@ public class WildeStaff extends AbstractItem implements CooldownPiece {
 		return ITEM;
 	}
 	
-	@Override public KitGiveType getGiveType() {
-		return KitGiveType.START;
+	@Override public PickupType getGiveType() {
+		return PickupType.START;
 	}
 
 	@Override

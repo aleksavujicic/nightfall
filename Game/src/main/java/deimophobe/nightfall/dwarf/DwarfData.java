@@ -6,7 +6,7 @@ import deimophobe.nightfall.common.loadout.LoadoutConstructable;
 import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.Kit;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import org.bukkit.entity.Player;
 
@@ -70,7 +70,7 @@ public class DwarfData implements LoadoutConstructable {
 	
 	public Kit createKitAndApplyToDwarf(Dwarf dwarf) {
 		Kit kit = new Kit(dwarf, pieces);
-		kit.giveItems(KitGiveType.START);
+		kit.giveItems(PickupType.START);
 		
 		// Add consumables
 		for (ConsumableType type : consumables.keySet()) {

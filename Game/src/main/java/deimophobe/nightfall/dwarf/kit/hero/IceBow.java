@@ -5,7 +5,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.ranged.AbstractBow;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
@@ -16,7 +16,6 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.material.MaterialData;
 
 /**
  * Created by Deimophobe on 2/02/18.
@@ -29,7 +28,7 @@ public class IceBow extends AbstractBow {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public KitGiveType getGiveType() { return KitGiveType.START; }
+	@Override public PickupType getGiveType() { return PickupType.START; }
 	@Override public String getBowIdentifier() {return "ICEBOW";}
 	@Override public int getPower() {return POWER;}
 	

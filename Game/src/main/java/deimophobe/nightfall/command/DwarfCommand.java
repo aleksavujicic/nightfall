@@ -13,7 +13,7 @@ import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.dwarf.hero.HeroType;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.entity.ShieldSource;
@@ -168,14 +168,14 @@ public class DwarfCommand extends BaseCommand {
 		});
 	}
 	
-	@Subcommand("give")
-	@CommandCompletion("@dwarves @kitgives")
-	@CommandPermission("nightfall.command.dwarf.givekittype")
-	@Description("Give a dwarf kit items.")
-	public void giveKitType(CommandSender sender, DwarfIterable dwarves, KitGiveType giveType) {
+	@Subcommand("pickup")
+	@CommandCompletion("@dwarves @pickups")
+	@CommandPermission("nightfall.command.dwarf.pickup")
+	@Description("Force a dwarf to pickup items of certain type.")
+	public void givePickup(CommandSender sender, DwarfIterable dwarves, PickupType pickupType) {
 		dwarves.forEach(dwarf -> {
-			dwarf.giveKitItems(giveType);
-			MessageUtil.sendMessage(sender, "Gave ", dwarf, " all ", giveType, " kit items.");
+			dwarf.giveKitItems(pickupType);
+			MessageUtil.sendMessage(sender, "Gave ", dwarf, " all ", pickupType, " kit items.");
 		});
 	}
 	

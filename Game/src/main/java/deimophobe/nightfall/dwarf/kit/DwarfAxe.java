@@ -20,7 +20,7 @@ class DwarfAxe extends AbstractItem {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public KitGiveType getGiveType() { return KitGiveType.AXE; }
+	@Override public PickupType getGiveType() { return PickupType.AXE; }
 	
 	@Override
 	public void onBlockBreak(Block block, boolean didBreak) {

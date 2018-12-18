@@ -1,6 +1,9 @@
 package deimophobe.nightfall.util;
 
 import deimophobe.nightfall.NightfallPlugin;
+import org.bukkit.Material;
+import org.bukkit.block.data.BlockData;
+import org.jetbrains.annotations.NotNull;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -19,4 +22,13 @@ public class NFConditions {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void checkMaterialExtendsDataClass(@NotNull Material material, @NotNull Class<? extends BlockData> dataClass) {
+		checkArgument(
+				Util.materialsExtendsBlockData(material, dataClass),
+				"Material '%s' creates a block that is not an instance of %s.",
+				material, dataClass.getCanonicalName()
+		);
+	}
+	
 }

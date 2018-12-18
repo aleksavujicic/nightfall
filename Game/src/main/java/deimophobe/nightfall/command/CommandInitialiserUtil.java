@@ -19,7 +19,7 @@ import deimophobe.nightfall.dwarf.*;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.hero.HeroType;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.game.*;
 import deimophobe.nightfall.game.entity.GamePlayer;
@@ -99,7 +99,7 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("heroes", getCompletionHandlerForEnum(HeroType.values()));
 		completions.registerCompletion("procs", getCompletionHandlerForEnum(ProcType.values()));
 		completions.registerCompletion("consumables", getCompletionHandlerForEnum(ConsumableType.values()));
-		completions.registerCompletion("kitgives", getCompletionHandlerForEnum(KitGiveType.values()));
+		completions.registerCompletion("pickups", getCompletionHandlerForEnum(PickupType.values()));
 		completions.registerCompletion("shieldsources", getCompletionHandlerForEnum(ShieldSource.values()));
 		completions.registerCompletion("bloodcolours", getCompletionHandlerForEnum(BloodColour.values()));
 		completions.registerCompletion("mobtypes", getCompletionHandlerForEnum(MobType.getSpawnableMobs()));
@@ -219,7 +219,7 @@ public class CommandInitialiserUtil {
 		contexts.registerContext(HeroType.class, getContextResolverOfEnum(HeroType.values(), "hero", true));
 		contexts.registerContext(ProcType.class, getContextResolverOfEnum(ProcType.values(), "proc", true));
 		contexts.registerContext(ConsumableType.class, getContextResolverOfEnum(ConsumableType.values(), "consumable", true));
-		contexts.registerContext(KitGiveType.class, getContextResolverOfEnum(KitGiveType.values(), "give type", true));
+		contexts.registerContext(PickupType.class, getContextResolverOfEnum(PickupType.values(), "give type", true));
 		contexts.registerContext(ShieldSource.class, getContextResolverOfEnum(ShieldSource.values(), "shield source", true));
 		contexts.registerContext(BloodColour.class, getContextResolverOfEnum(BloodColour.values(), "blood colour", true));
 		contexts.registerContext(Dwarf.PlagueStatus.class, getContextResolverOfEnum(Dwarf.PlagueStatus.values(), "plague status", true));

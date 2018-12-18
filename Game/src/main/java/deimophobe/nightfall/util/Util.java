@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Rail;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
@@ -24,6 +25,24 @@ public class Util {
 			default:
 				return false;
 		}
+	}
+	
+	public static boolean isRailStraight(Rail.Shape shape) {
+		switch (shape) {
+			case NORTH_SOUTH:
+			case EAST_WEST:
+			case ASCENDING_EAST:
+			case ASCENDING_WEST:
+			case ASCENDING_NORTH:
+			case ASCENDING_SOUTH:
+				return true;
+			case SOUTH_EAST:
+			case SOUTH_WEST:
+			case NORTH_WEST:
+			case NORTH_EAST:
+				return false;
+		}
+		return false;
 	}
 	
 	public static Location getSphericalPosition(Location center, double radius, double polar, double azimuthal) {
@@ -61,7 +80,7 @@ public class Util {
 		}
 	}
 	
-	public static <T extends BlockData> boolean materialsExtendsBlockData(@NotNull Material material, @NotNull Class<T> dataClass) {
+	public static boolean materialsExtendsBlockData(@NotNull Material material, @NotNull Class<? extends BlockData> dataClass) {
 		checkNotNull(material, "Material must not be null.");
 		checkNotNull(dataClass, "Data class must not be null.");
 		checkArgument(material.isBlock(), "Material '%s' must be a block.", material);

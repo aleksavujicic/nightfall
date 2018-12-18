@@ -4,7 +4,6 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.blocktype.BlockSet;
 import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
@@ -14,7 +13,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.util.ArcaneMark;
 import deimophobe.nightfall.util.Hitscan;
@@ -33,7 +32,7 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "scepter");
 	@Override public CustomItem getItem() { return ITEM; }
-	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
+	@Override public PickupType getGiveType() { return PickupType.SWORD; }
 	
 	private static final Particle.DustOptions BEAM_COLOUR = new Particle.DustOptions(Color.fromRGB(204, 51, 229), 1);
 	private static final Consumer<Location> PARTICLE_PLACER = location ->

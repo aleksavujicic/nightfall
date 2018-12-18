@@ -38,8 +38,8 @@ public class DwarfShovel extends AbstractItem {
 	
 	private static final CustomItem ITEM = DwarvenItems.getItem("misc", "shovel");
 	@Override public CustomItem getItem() {return ITEM;}
-	@Override public KitGiveType getGiveType() {
-		return KitGiveType.SHOVEL;
+	@Override public PickupType getGiveType() {
+		return PickupType.SHOVEL;
 	}
 	
 	

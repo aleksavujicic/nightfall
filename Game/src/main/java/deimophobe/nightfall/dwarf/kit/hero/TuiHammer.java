@@ -6,7 +6,7 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.melee.AbstractAOEHitter;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -28,8 +28,8 @@ public class TuiHammer extends AbstractAOEHitter implements CooldownPiece {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public KitGiveType getGiveType() {
-		return KitGiveType.START;
+	@Override public PickupType getGiveType() {
+		return PickupType.START;
 	}
 	
 	private final ComplexCooldown roarCD = new ComplexCooldown(90*20, this::roar);

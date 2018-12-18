@@ -12,7 +12,7 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import org.bukkit.Location;
@@ -33,8 +33,8 @@ public class TransfigurationTotem extends AbstractItem implements CooldownPiece 
 		return ITEM;
 	}
 
-	@Override public KitGiveType getGiveType() {
-		return KitGiveType.START;
+	@Override public PickupType getGiveType() {
+		return PickupType.START;
 	}
 
 	private final ComplexCooldown wolfCD = new ComplexCooldown(210*20, this::startWolf);

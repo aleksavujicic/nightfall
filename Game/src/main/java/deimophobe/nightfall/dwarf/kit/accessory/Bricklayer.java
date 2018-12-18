@@ -11,7 +11,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.map.GameMap;
@@ -39,7 +39,7 @@ public class Bricklayer extends AbstractItem {
 	public CustomItem getItem() {
 		return (speedy ? SPEEDY_ITEM : ITEM);
 	}
-	@Override public KitGiveType getGiveType() { return KitGiveType.START; }
+	@Override public PickupType getGiveType() { return PickupType.START; }
 	
 	private Block firstCorner = null;
 	private Block secondCorner = null;

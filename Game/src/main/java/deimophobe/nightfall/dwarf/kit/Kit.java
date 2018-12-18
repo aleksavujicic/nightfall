@@ -84,7 +84,7 @@ public class Kit {
 		}
 	}
 	
-	public boolean giveItems(KitGiveType giveType) {
+	public boolean giveItems(PickupType giveType) {
 		boolean gaveItems = false;
 		for (KitPiece piece : kitPieces.values()) {
 			if (piece instanceof ItemPiece) {

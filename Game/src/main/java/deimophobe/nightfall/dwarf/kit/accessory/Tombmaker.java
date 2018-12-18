@@ -7,7 +7,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.DwarfShovel;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -24,7 +24,7 @@ public class Tombmaker extends DwarfShovel {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("accessory", "tombmaker");
 	@Override public CustomItem getItem() { return ITEM; }
-	@Override public KitGiveType getGiveType() { return KitGiveType.SHOVEL; }
+	@Override public PickupType getGiveType() { return PickupType.SHOVEL; }
 	
 	
 	@Override

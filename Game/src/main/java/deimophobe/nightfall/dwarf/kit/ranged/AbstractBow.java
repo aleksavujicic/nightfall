@@ -9,7 +9,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.BowPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.Location;
@@ -44,7 +44,7 @@ public abstract class AbstractBow extends AbstractItem implements BowPiece {
 	}
 	
 	@Override
-	public KitGiveType getGiveType() { return KitGiveType.BOW; }
+	public PickupType getGiveType() { return PickupType.BOW; }
 	
 	protected boolean isRangedDamageFromBow(MonsterDamage damage) {
 		return (damage.getType() == GameDamageType.RANGED &&

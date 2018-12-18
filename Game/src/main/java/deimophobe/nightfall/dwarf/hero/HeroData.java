@@ -13,7 +13,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfData;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.Kit;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.game.Game;
 import org.bukkit.Bukkit;
@@ -175,8 +175,8 @@ public class HeroData extends DwarfData {
 	@Override
 	public Kit createKitAndApplyToDwarf(Dwarf dwarf) {
 		Kit kit = super.createKitAndApplyToDwarf(dwarf);
-		kit.giveItems(KitGiveType.PICK);
-		kit.giveItems(KitGiveType.SHOVEL);
+		kit.giveItems(PickupType.PICK);
+		kit.giveItems(PickupType.SHOVEL);
 		
 		dwarf.setTitle(ChatColor.GOLD, fullName, true);
 		getTeam().addEntry(skin.getNametag());

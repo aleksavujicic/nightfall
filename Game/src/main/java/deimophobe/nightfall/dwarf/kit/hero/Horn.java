@@ -11,7 +11,7 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.effects.sound.Sounds;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -28,7 +28,7 @@ public class Horn extends AbstractItem implements CooldownPiece {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "horn");
 	@Override public CustomItem getItem() {return ITEM;}
-	@Override public KitGiveType getGiveType() {return KitGiveType.START;}
+	@Override public PickupType getGiveType() {return PickupType.START;}
 	
 	private final Cooldown cooldown = new UseCooldown(120*20, Horn::tootHorn);
 	

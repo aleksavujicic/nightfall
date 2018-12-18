@@ -12,7 +12,7 @@ import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -23,7 +23,6 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -36,7 +35,7 @@ public class Dagger extends AbstractItem implements CooldownPiece {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
+	@Override public PickupType getGiveType() { return PickupType.SWORD; }
 	
 	private final ComplexCooldown poisonCooldown = new ComplexCooldown(120*20, this::poisonBomb);
 	private final ComplexCooldown armourReshower = new ComplexCooldown(DURATION, null, this::reshowArmour);

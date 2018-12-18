@@ -6,7 +6,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.ranged.AbstractBow;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.monster.MonsterEntity;
@@ -30,7 +30,7 @@ public class Luminous extends AbstractBow {
     @Override public CustomItem getItem() {
         return ITEM;
     }
-    @Override public KitGiveType getGiveType() { return KitGiveType.START; }
+    @Override public PickupType getGiveType() { return PickupType.START; }
     @Override public String getBowIdentifier() {return "LUMINOUS";}
     @Override public int getPower() {return POWER;}
 

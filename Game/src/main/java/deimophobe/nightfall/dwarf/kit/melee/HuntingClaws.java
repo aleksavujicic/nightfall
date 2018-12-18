@@ -9,7 +9,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -43,7 +43,7 @@ public class HuntingClaws extends AbstractItem implements CooldownPiece {
 		return ITEM;
 	}
 	
-	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
+	@Override public PickupType getGiveType() { return PickupType.SWORD; }
 	
 	@Override
 	public void update() {

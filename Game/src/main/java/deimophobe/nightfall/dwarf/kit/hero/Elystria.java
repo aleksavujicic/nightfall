@@ -4,7 +4,7 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.AbstractCooldownItem;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -23,7 +23,7 @@ public class Elystria extends AbstractCooldownItem {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "elystria");
 	@Override public CustomItem getItem() {return ITEM;}
-	@Override public KitGiveType getGiveType() {return KitGiveType.ARTHEA_SPECIAL;}
+	@Override public PickupType getGiveType() {return PickupType.ARTHEA_SPECIAL;}
 	
 	@Override
 	public boolean onUse(ClickType click, Block block, BlockFace face) {

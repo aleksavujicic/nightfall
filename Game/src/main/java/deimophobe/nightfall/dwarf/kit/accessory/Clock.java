@@ -7,7 +7,7 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -20,7 +20,7 @@ public class Clock extends AbstractItem {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("accessory", "clock");
 	@Override public CustomItem getItem() { return ITEM; }
-	@Override public KitGiveType getGiveType() {return KitGiveType.START;}
+	@Override public PickupType getGiveType() {return PickupType.START;}
 	
 	private final ComplexCooldown useCooldown = new ComplexCooldown(4, this::showTime);
 	

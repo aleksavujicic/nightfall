@@ -3,16 +3,14 @@ package deimophobe.nightfall.dwarf.kit.accessory;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.cooldown.CompletionCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
-import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.game.entity.ShieldSource;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -27,7 +25,7 @@ import org.bukkit.util.Vector;
 public class Aegis extends AbstractItem implements CooldownPiece {
 	private final static CustomItem ITEM = DwarvenItems.getItem("accessory", "aegis");
 	@Override public CustomItem getItem() { return ITEM; }
-	@Override public KitGiveType getGiveType() { return KitGiveType.START; }
+	@Override public PickupType getGiveType() { return PickupType.START; }
 	
 	private final Cooldown shieldCooldown = new UseCooldown(150 * 20, this::regenShield);
 	

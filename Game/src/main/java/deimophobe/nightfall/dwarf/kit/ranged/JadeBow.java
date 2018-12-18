@@ -4,7 +4,7 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.util.Hitscan;
@@ -28,7 +28,7 @@ public class JadeBow extends AbstractBow {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public KitGiveType getGiveType() { return KitGiveType.BOW; }
+	@Override public PickupType getGiveType() { return PickupType.BOW; }
 	@Override public String getBowIdentifier() {return "JADEBOW";}
 	@Override public int getPower() {return POWER;}
 	

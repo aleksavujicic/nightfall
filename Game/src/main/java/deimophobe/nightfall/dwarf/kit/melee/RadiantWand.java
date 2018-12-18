@@ -2,10 +2,7 @@ package deimophobe.nightfall.dwarf.kit.melee;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockManager;
-import deimophobe.nightfall.blocks.timedblock.DataTimedBlock;
 import deimophobe.nightfall.blocks.timedblock.LampBlock;
-import deimophobe.nightfall.blocks.timedblock.TimedBlock;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.GameDamageType;
@@ -16,15 +13,13 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.server.BroadcastMessageEvent;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collection;
@@ -39,8 +34,8 @@ public class RadiantWand extends AbstractItem implements CooldownPiece {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public KitGiveType getGiveType() {
-		return KitGiveType.SWORD;
+	@Override public PickupType getGiveType() {
+		return PickupType.SWORD;
 	}
 
 	private final ComplexCooldown radianceCD = new ComplexCooldown(60*20, this::radiance);

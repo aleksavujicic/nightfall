@@ -9,7 +9,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -31,7 +31,7 @@ public class Spellbook extends AbstractItem {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("ranged", "spellbook");
 	@Override public CustomItem getItem() { return ITEM; }
-	@Override public KitGiveType getGiveType() { return KitGiveType.BOW; }
+	@Override public PickupType getGiveType() { return PickupType.BOW; }
 	
 	private final List<ClickType> clicks = new ArrayList<>();
 	private final ComplexCooldown clickResetter = new ComplexCooldown(40, null, clicks::clear);
