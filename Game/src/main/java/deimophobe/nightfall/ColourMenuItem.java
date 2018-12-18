@@ -3,6 +3,7 @@ package deimophobe.nightfall;
 import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.NoData;
 import deimophobe.nightfall.common.menu.item.SimpleItem;
+import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -31,7 +32,7 @@ public class ColourMenuItem extends SimpleItem<NoData> {
 		ItemStack heldItem = player.getInventory().getItemInMainHand();
 		Material type = heldItem.getType();
 		if (isGlass(type)) {
-			item.setType(colour);
+			heldItem.setType(colour);
 		}
 	}
 	
