@@ -118,7 +118,7 @@ public class NFBlocks {
 	
 	public static final BlockInteracter CORRODED_WALL = new MaterialBlock(Material.SLIME_BLOCK);
 	
-	public static final BlockMatcher MORTARABLE_WALL = new BlockSet(NORMAL_WALL, DAMAGED_WALL, new MaterialBlock(Material.BRICK));
+	public static final BlockMatcher MORTARABLE_WALL = new BlockSet(NORMAL_WALL, CRACKED_WALL, DAMAGED_WALL);
 	public static final BlockMatcher WALL = new BlockSet(ENCHANTED_WALL, MORTARABLE_WALL);
 	
 	// Stairs
