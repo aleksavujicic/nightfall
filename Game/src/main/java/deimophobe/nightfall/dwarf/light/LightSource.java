@@ -14,7 +14,7 @@ public interface LightSource {
 	void apply(Dwarf dwarf, Vision vision);
 	
 	LightSource[] DEFAULT_SOURCES = new LightSource[] {
-			new BlockLightSource(),
+			new BlockLightSource(12),
 			new ItemLightSource(ConsumableType.TORCH, 10),
 			new ItemLightSource(ConsumableType.LAMP, 10),
 			((dwarf, vision) -> {

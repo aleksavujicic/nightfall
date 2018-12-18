@@ -97,7 +97,9 @@ darkvision:
     lore:
       description:
        - "Press and hold shift to give\n
-          yourself a Night Vision effect."
+          yourself a Night Vision effect.\n
+          Also gives increased resistance to\n
+          blindness effects in the dark."
 avenge:
   index: 11
   category: accessory

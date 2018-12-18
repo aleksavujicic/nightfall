@@ -1,6 +1,5 @@
 package deimophobe.nightfall.dwarf.light;
 
-import com.comphenix.protocol.events.ListenerPriority;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.block.Block;
 
@@ -8,6 +7,13 @@ import org.bukkit.block.Block;
  * Created by Deimophobe on 8/12/18.
  */
 public class BlockLightSource implements LightSource {
+	private final int tickPerLight;
+	
+	public BlockLightSource(int tickPerLight) {
+		this.tickPerLight = tickPerLight;
+	}
+	
+	
 	@Override
 	public void apply(Dwarf dwarf, Vision vision) {
 		Block block = dwarf.getLocation().getBlock();
@@ -18,7 +24,7 @@ public class BlockLightSource implements LightSource {
 		
 		int light = Math.max(lightAtBlock, lightAbove);
 		
-		int visionIncrease = Math.max((light - 5) * 15 , 0);
+		int visionIncrease = Math.max((light - 5) * tickPerLight , 0);
 		vision.increaseVision(visionIncrease);
 	}
 }
