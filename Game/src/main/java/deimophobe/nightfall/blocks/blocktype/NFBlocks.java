@@ -284,8 +284,6 @@ public class NFBlocks {
 			CRACKED_WALL,
 			DAMAGED_WALL,
 			BROKEN_WALL,
-			ALL_SLABS,
-			ALL_STAIRS,
 			IGNORABLE
 	).orOfMaterial(Material.FIRE);
 
