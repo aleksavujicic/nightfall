@@ -21,13 +21,22 @@ import org.bukkit.block.data.MultipleFacing;
  * Created by Deimophobe on 25/06/18.
  */
 public class VineBlock extends DataTimedBlock {
-	private final static BlockData VINE = Material.VINE.createBlockData();
+	private static final BlockData VINE = Material.VINE.createBlockData();
+	private static final BlockData vineWithDirection(BlockFace facing) {
+		return Material.VINE.createBlockData(data -> {
+			MultipleFacing vine = (MultipleFacing) data;
+			for (BlockFace face : vine.getAllowedFaces()) {
+				vine.setFace(face, face == facing);
+			}
+		});
+	}
 	
 	private final BlockFace facing;
 	private final int extend;
 	
 	public VineBlock(int lifeTime, Block block, GameEntity placer, BlockFace facing, int extend) {
-		super(lifeTime, block, placer, VINE);
+		super(lifeTime, block, placer, vineWithDirection(facing));
+		
 		this.facing = facing;
 		this.extend = extend;
 	}
@@ -49,15 +58,6 @@ public class VineBlock extends DataTimedBlock {
 				&& NFBlocks.SOLID.matchesBlock(block.getRelative(facing))
 				&& GameMap.getCurrentMap().isBlockPlaceable(block)
 				;
-	}
-	
-	@Override
-	protected void setBlock() {
-		super.setBlock();
-		
-		Util.safeCastBlockData(block, MultipleFacing.class, vine -> {
-			vine.setFace(facing, true);
-		}, this::expire);
 	}
 	
 	@Override
