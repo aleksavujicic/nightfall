@@ -78,7 +78,7 @@ public class IceSlab extends DataTimedBlock {
 		reduceLifetime(30);
 		
 		World world = block.getWorld();
-		world.playSound(block.getLocation(), "block.note.chime", 0.5f, 2f - fracLeft()*0.75f);
+		world.playSound(block.getLocation(), "block.note_block.chime", 0.5f, 2f - fracLeft()*0.75f);
 		world.playSound(block.getLocation(), "block.glass.place", 1f, 1f);
 	}
 	

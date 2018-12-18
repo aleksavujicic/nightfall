@@ -129,7 +129,7 @@ class Ticker extends AbstractMob {
 	
 	private void tick() {
 		// Sound
-		monster.playSound("block.note.hat", 1f, 1f, true);
+		monster.playSound("block.note_block.hat", 1f, 1f, true);
 		
 		// Title
 		ChatColor colour;

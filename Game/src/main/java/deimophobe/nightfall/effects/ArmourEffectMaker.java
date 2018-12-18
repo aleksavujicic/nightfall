@@ -25,11 +25,11 @@ class ArmourEffectMaker implements PlayerEffectMaker {
 		
 		// PLAY SOUNDS!
 		Location location = player.getLocation();
-		world.playSound(location, "entity.firework.large_blast", 1, 1);
+		world.playSound(location, "entity.firework_rocket.large_blast", 1, 1);
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				world.playSound(location, "entity.firework.twinkle", 1, 1);
+				world.playSound(location, "entity.firework_rocket.twinkle", 1, 1);
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), 20);
 		

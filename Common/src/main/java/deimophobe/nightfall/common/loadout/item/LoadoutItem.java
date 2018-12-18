@@ -164,7 +164,7 @@ public abstract class LoadoutItem implements MenuItem<Loadout>, Comparable<Loado
 		
 		float pitch = (loadout.hasItem(this) && updated ? 1.33f : 1f);
 		Player player = session.getPlayer();
-		player.playSound(player.getLocation(), "block.note.bell", 0.5f, pitch);
+		player.playSound(player.getLocation(), "block.note_block.bell", 0.5f, pitch);
 		
 		return updated;
 	}

@@ -60,7 +60,7 @@ public class AlchemicalGuard extends AbstractCooldown implements ArmourPiece {
 	
 	@Override
 	protected void onOffCD() {
-		dwarf.playSound("block.note.chime", 10f, 1f, false);
+		dwarf.playSound("block.note_block.chime", 10f, 1f, false);
 		dwarf.playSound("item.bottle.fill", 10f, 1.5f, false);
 		
 		// Choose random buff

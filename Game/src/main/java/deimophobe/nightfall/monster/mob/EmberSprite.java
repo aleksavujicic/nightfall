@@ -131,7 +131,7 @@ public class EmberSprite extends AbstractMob implements FloatyMob {
 		Location loc = monster.getLocation();
 		World world = loc.getWorld();
 		blazeExplosion(loc);
-		world.playSound(loc, "entity.firework.launch", 2, 0.8f);
+		world.playSound(loc, "entity.firework_rocket.launch", 2, 0.8f);
 		monster.setVelocity(0, 3, 0);
 	}
 

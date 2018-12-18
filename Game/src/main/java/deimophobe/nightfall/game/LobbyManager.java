@@ -304,7 +304,7 @@ public class LobbyManager implements Manager, Updateable {
 			player.sendMessage(PLAGUED_MESSAGE);
 		}
 		
-		player.playSound(player.getLocation(), "block.note.bell", 0.5f, 1.5f);
+		player.playSound(player.getLocation(), "block.note_block.bell", 0.5f, 1.5f);
 		player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, player.getEyeLocation(), 10, 0.3, 0.2, 0.3, 0.05);
 		onReadyToggle(player);
 	}
@@ -321,7 +321,7 @@ public class LobbyManager implements Manager, Updateable {
 		String message = String.format(PLAYER_UNREADIED, ChatColor.DARK_AQUA, player.getName(), numReady, numPlayers);
 		Bukkit.broadcastMessage(message);
 		
-		player.playSound(player.getLocation(), "block.note.bell", 0.5f, 1f);
+		player.playSound(player.getLocation(), "block.note_block.bell", 0.5f, 1f);
 		onReadyToggle(player);
 	}
 	
@@ -462,7 +462,7 @@ public class LobbyManager implements Manager, Updateable {
 	public void notifyUnready(Player player) {
 		if (isReady(player)) return;
 		
-		player.playSound(player.getLocation(), "block.note.pling", 1f, 1f);
+		player.playSound(player.getLocation(), "block.note_block.pling", 1f, 1f);
 		player.sendMessage(UNREADY_MESSAGE);
 	}
 	
@@ -475,7 +475,7 @@ public class LobbyManager implements Manager, Updateable {
 		notifyUnready();
 		for (Player player : lobbyPlayers) {
 			if (!isReady(player)) continue;
-			player.playSound(player.getLocation(), "block.note.pling", 1f, 1.5f);
+			player.playSound(player.getLocation(), "block.note_block.pling", 1f, 1.5f);
 		}
 	}
 	

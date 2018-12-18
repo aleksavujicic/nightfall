@@ -74,7 +74,7 @@ public class HealBlock extends DataTimedBlock {
 		Location center = block.getLocation().add(0.5, 0.5, 0.5);
 		
 		float pitch = (float) linearLifetimeScale(1, 2);
-		world.playSound(center, "block.note.harp", 0.5f, pitch);
+		world.playSound(center, "block.note_block.harp", 0.5f, pitch);
 		world.playSound(center, "block.anvil.break", 1f, 1f);
 		
 		int numParticles = (int) linearLifetimeScale(5, 20);
