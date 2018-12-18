@@ -10,6 +10,8 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.mob.Mob;
+import deimophobe.nightfall.monster.mob.MobType;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -60,9 +62,11 @@ public class HealBlock extends DataTimedBlock {
 	@Override
 	public void onHit(GamePlayer player, ClickType click, BlockFace blockFace) {
 		if (!click.isLeftClick()) return;
-		if (player.hasPotionEffect(PotionEffectType.INVISIBILITY)) return;
 		
 		if (player instanceof MonsterPlayer) {
+			Mob mob = ((MonsterPlayer) player).getMob();
+			if (mob.getType() == MobType.TICKER) return;
+			
 			hitter.tryUse();
 		}
 	}
