@@ -68,7 +68,7 @@ public class NMSUtil {
 			soundEffectField.setAccessible(true);
 			SoundEffectType effectType = (SoundEffectType) soundEffectField.get(nmsBlock);
 
-			Field breakSoundField = SoundEffectType.class.getDeclaredField("o");
+			Field breakSoundField = SoundEffectType.class.getDeclaredField("q");
 			breakSoundField.setAccessible(true);
 			SoundEffect breakSound = (SoundEffect) breakSoundField.get(effectType);
 
