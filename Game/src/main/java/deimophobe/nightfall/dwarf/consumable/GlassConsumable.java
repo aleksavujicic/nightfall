@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
  */
 class GlassConsumable extends Consumable {
 	private static final ConsumeResult OPENED_MENU = new ConsumeResult(null, false, 20);
+	private static final ConsumeResult CLICKED_GLASS = new ConsumeResult(null, false, 20);
 	private static final ItemMatcher GLASS_MATCHER = RepeatMaterial.colourMaterial("stained-glass");
 	
 	GlassConsumable(String name) {
@@ -26,11 +27,13 @@ class GlassConsumable extends Consumable {
 	
 	@Override
 	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
-		if (click.isLeftClick() && !NFBlocks.FURNACE.matchesBlock(clickedBlock) && !NFBlocks.GLASS.matchesBlock(clickedBlock)) {
-			MenuManager.getManager().startSession(ColourMenu.class, dwarf.getPlayer());
-			return OPENED_MENU;
+		if (!click.isLeftClick()) return ConsumeResult.FAILURE;
+		if (NFBlocks.FURNACE.matchesBlock(clickedBlock) || NFBlocks.GLASS.matchesBlock(clickedBlock)) {
+			return CLICKED_GLASS;
 		}
-		return ConsumeResult.FAILURE;
+		
+		MenuManager.getManager().startSession(ColourMenu.class, dwarf.getPlayer());
+		return OPENED_MENU;
 	}
 	
 	@Override
