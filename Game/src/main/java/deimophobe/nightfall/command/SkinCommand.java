@@ -24,7 +24,7 @@ class SkinCommand extends BaseCommand {
 	@CommandCompletion("@players @skins @nothing")
 	@CommandPermission("nightfall.command.skin.set")
 	@Description("Set a skin for a player.")
-	public void skin(CommandSender sender, PlayerIterable players, Skin skin, String name) throws InvalidCommandArgument {
+	public void setSkin(CommandSender sender, PlayerIterable players, Skin skin, String name) throws InvalidCommandArgument {
 		SkinManager manager = SkinManager.getManager();
 		String colouredName = ChatColor.translateAlternateColorCodes('&', name);
 		if (colouredName.length() > 16)
@@ -41,7 +41,7 @@ class SkinCommand extends BaseCommand {
 	@CommandCompletion("@players @players @nothing")
 	@CommandPermission("nightfall.command.skin.set")
 	@Description("Set a player skin for a player.")
-	public void skin(CommandSender sender, PlayerIterable players, OnlinePlayer skinOwner, String name) throws InvalidCommandArgument {
+	public void setPlayerSkin(CommandSender sender, PlayerIterable players, OnlinePlayer skinOwner, String name) throws InvalidCommandArgument {
 		SkinManager manager = SkinManager.getManager();
 		String colouredName = ChatColor.translateAlternateColorCodes('&', name);
 		if (colouredName.length() > 16)
@@ -60,11 +60,23 @@ class SkinCommand extends BaseCommand {
 	@CommandCompletion("@players")
 	@CommandPermission("nightfall.command.skin.remove")
 	@Description("Remove a player's skin.")
-	public void skin(CommandSender sender, PlayerIterable players) {
+	public void removeSkin(CommandSender sender, PlayerIterable players) {
 		SkinManager manager = SkinManager.getManager();
 		players.forEach(player -> {
 			manager.removeSkinChange(player);
 			MessageUtil.sendMessage(sender, "Removed ", player, "'s skin.");
+		});
+	}
+	
+	@Subcommand("refresh")
+	@CommandCompletion("@players")
+	@CommandPermission("nightfall.command.skin.refresh")
+	@Description("Refresh a player's skin.")
+	public void refreshSkin(CommandSender sender, PlayerIterable players) {
+		SkinManager manager = SkinManager.getManager();
+		players.forEach(player -> {
+			manager.updateSkin(player);
+			MessageUtil.sendMessage(sender, "Refreshed ", player, "'s skin.");
 		});
 	}
 }

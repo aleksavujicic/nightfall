@@ -191,14 +191,8 @@ public class SkinManager implements Manager {
 	public void removeSkinChange(GamePlayer player) { removeSkinChange(player.getUniqueId()); }
 	public void removeSkinChange(Player player) { removeSkinChange(player.getUniqueId()); }
 	public void removeSkinChange(UUID uuid) {
-		alteredSkins.remove(uuid);
-		refreshSkin(uuid);
-	}
-	
-	public void silentlyRemoveSkinChange(GamePlayer player) { silentlyRemoveSkinChange(player.getUniqueId()); }
-	public void silentlyRemoveSkinChange(Player player) { silentlyRemoveSkinChange(player.getUniqueId()); }
-	public void silentlyRemoveSkinChange(UUID uuid) {
-		alteredSkins.remove(uuid);
+		PlayerSkin removedSkin = alteredSkins.remove(uuid);
+		if (removedSkin != null) refreshSkin(uuid);
 	}
 
 	public void updateSkin(GamePlayer player) { updateSkin(player.getUniqueId()); }
