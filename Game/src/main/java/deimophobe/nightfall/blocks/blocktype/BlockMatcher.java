@@ -33,14 +33,21 @@ public interface BlockMatcher {
 		return this.or(new MaterialSet(materials));
 	}
 	
+	@Deprecated
 	default BlockMatcher butAlso(BlockMatcher andBlock) {
 		checkNotNull(andBlock, "And block must not be null.");
 		return new BlockSet(this, andBlock);
 	}
 	
+	@Deprecated
 	default BlockMatcher butAlso(Material... materials) {
 		checkNotNull(materials, "And block must not be null.");
 		return this.butAlso(new MaterialSet(materials));
+	}
+	
+	default BlockMatcher andAlso(BlockMatcher andMatcher) {
+		checkNotNull(andMatcher, "And Matcher must not be null.");
+		return block -> this.matchesBlock(block) && andMatcher.matchesBlock(block);
 	}
 	
 	default BlockInteracter withPlacer(BlockPlacer placer) {

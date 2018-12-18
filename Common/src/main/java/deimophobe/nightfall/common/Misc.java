@@ -60,6 +60,14 @@ public class Misc {
 		return min + (int) (Math.random() * (max + 1 - min));
 	}
 	
+	public static int randomInt(int min, int max, Function<Double, Double> cdf) {
+		double rand = cdf.apply(Math.random());
+		checkArgument(0 <= rand && rand <= 1, "Given cdf gave an illegal random result (got '%s')", rand);
+		if (rand == 1) return max; // Allow 1 from cdf, but force it to return max (otherwise it would give max + 1)
+		
+		return min + (int) (rand * (max + 1 - min));
+	}
+	
 	public static float randomFloat(float min, float max) {
 		return min + ((float) Math.random() * (max - min));
 	}

@@ -1,18 +1,48 @@
 package deimophobe.nightfall.dwarf.consumable;
 
 import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
+import deimophobe.nightfall.blocks.blocktype.BlockSet;
 import deimophobe.nightfall.blocks.blocktype.NFBlocks;
+import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.cooldown.LifetimeExpireable;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by Deimophobe on 22/01/17.
  */
 class Slab extends Consumable {
+	private static final int LENGTH = 15;
+	private static final int HEIGHT = 6;
+	private static final int THICKNESS = 4;
+	
+	private static final int BUILD_STAGES = 7;
+	private static final int STAGE_DELAY = 10;
+	
+	private static final int MIN_BLOCKS = 10;
+	
 	private static final ConsumeResult TOO_CLOSE = ConsumeResult.failedResultWithMessage("That block is too close to slab");
+	private static final ConsumeResult NOT_ENOUGH_BLOCKS = ConsumeResult.failedResultWithMessage("Cannot slab there");
+	private static final ConsumeResult SLAB_PLACED = ConsumeResult.successfulWithDuration(40);
+	
+	private static final Particle.DustOptions DUST_OPTIONS = new Particle.DustOptions(Color.fromRGB(20, 160, 240), 2f);
+	
+	private static final BlockMatcher SLABBABLE = new BlockSet(
+			NFBlocks.NORMAL_WALL,
+			NFBlocks.CRACKED_WALL,
+			NFBlocks.DAMAGED_WALL,
+			NFBlocks.BROKEN_WALL,
+			NFBlocks.IGNORABLE)
+			.orOfMaterial(Material.FIRE)
+			.andAlso(block -> GameMap.getCurrentMap().isBlockPlaceable(block));
 	
 	Slab(String item) {
 		super(item);
@@ -28,38 +58,79 @@ class Slab extends Consumable {
 		Location center = selectedBlock.getLocation();
 		if (dwarf.distanceTo(center) <= 4) return TOO_CLOSE;
 		
+		
 		double facing = dwarf.getLocation().getYaw() % 360;
-		if (facing < 0)
-			facing += 360;
-		World world = center.getWorld();
+		if (facing < 0) facing += 360;
+		boolean invertXZ = (135 < facing && facing <= 215) || facing > 315 || facing <= 45;
 		
-		int x_center = center.getBlockX();
-		int y_center = center.getBlockY();
-		int z_center = center.getBlockZ();
+		int dx = (invertXZ ? LENGTH : THICKNESS);
+		int dy = HEIGHT;
+		int dz = (invertXZ ? THICKNESS : LENGTH);
 		
-		int x_size = 1; // actual size is double this plus 1 (so 3)
-		int y_size = 2; // actual size 5
-		int z_size = 6; // actual size 13
-		if ((135 < facing && facing <= 215) || facing > 315 || facing <= 45) {
-			x_size = 6;
-			z_size = 1;
-		}
+		double halfDX = (double) dx/2;
+		double halfDY = (double) dy/2;
+		double halfDZ = (double) dz/2;
+		
+		double bottomX = center.getX() - halfDX;
+		double bottomY = center.getY() - halfDY;
+		double bottomZ = center.getZ() - halfDZ;
+		
+		int minX = (int) Math.round(bottomX);
+		int minY = (int) Math.round(bottomY);
+		int minZ = (int) Math.round(bottomZ);
+		
+		int maxX = minX + dx;
+		int maxY = minY + dy;
+		int maxZ = minZ + dz;
+		
+		Set<Block>[] blockSets = new Set[BUILD_STAGES];
+		for (int i = 0; i<BUILD_STAGES; i++) blockSets[i] = new HashSet<>();
+		
+		int totalConvertedBlocks = 0;
 		
 		GameMap map = GameMap.getCurrentMap();
-		for (int x = x_center - x_size; x <= x_center + x_size; x++) {
-			for (int y = y_center - y_size+1; y <= y_center + y_size+1; y++) {
-				for (int z = z_center - z_size; z <= z_center + z_size; z++) {
-					Block toReplace = world.getBlockAt(x,y,z);
-					if (map.isBlockPlaceable(toReplace) && NFBlocks.SLABBABLE.matchesBlock(toReplace)) {
-						toReplace.setType(Material.LAPIS_ORE);
-						world.spawnParticle(Particle.CLOUD, x+0.5,y+0.5,z+0.5, 4, 0.5,0.5,0.5, 0.1);
+		World world = map.getWorld();
+		for (int x = minX; x < maxX; x++) {
+			for (int y = minY; y < maxY; y++) {
+				for (int z = minZ; z < maxZ; z++) {
+					Block block = world.getBlockAt(x,y,z);
+					if (SLABBABLE.matchesBlock(block)) {
+						int blockSetIndex = Misc.randomInt(0, BUILD_STAGES - 1, a -> 1 - Math.pow(a, 2.2));
+						Set<Block> blockSet = blockSets[blockSetIndex];
+						blockSet.add(block);
+						totalConvertedBlocks++;
 					}
 				}
 			}
 		}
 		
-		dwarf.playSound("block.anvil.place", 1, 0.8f, true);
+		if (totalConvertedBlocks < MIN_BLOCKS) return NOT_ENOUGH_BLOCKS;
 		
-		return ConsumeResult.SUCCESS;
+		world.playSound(center, "dwarf.consumable.slab.place", 1, 1f);
+		world.playSound(center, "block.anvil.use", 1, 0.5f);
+		world.spawnParticle(Particle.REDSTONE, center, 100, halfDX/2, halfDY/2, halfDZ/2, DUST_OPTIONS);
+		Game.getGame().addUpdateable(new LifetimeExpireable(BUILD_STAGES*STAGE_DELAY) {
+			int i = 0;
+			@Override
+			public void update() {
+				if (everyNTicks(STAGE_DELAY)) {
+					Set<Block> blocksToReplace = blockSets[i];
+					for (Block block : blocksToReplace) {
+						boolean placed = NFBlocks.tryConvertBlock(block, SLABBABLE, NFBlocks.ENCHANTED_WALL);
+						if (!placed) continue;
+						
+						Location center = block.getLocation().add(0.5, 0.5, 0.5);
+					}
+					i++;
+					world.spawnParticle(Particle.REDSTONE, center, 100, halfDX/2, halfDY/2, halfDZ/2, DUST_OPTIONS);
+					if (i == BUILD_STAGES) {
+						world.spawnParticle(Particle.CLOUD, center, 200, halfDX/2, halfDY/2, halfDZ/2, 0.1);
+					}
+				}
+				super.update();
+			}
+		});
+		
+		return SLAB_PLACED;
 	}
 }

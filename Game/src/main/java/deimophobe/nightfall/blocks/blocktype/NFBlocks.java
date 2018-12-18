@@ -279,13 +279,6 @@ public class NFBlocks {
 			Material.SNOW
 	);
 
-	public static final BlockMatcher SLABBABLE = new BlockSet(
-			NORMAL_WALL,
-			CRACKED_WALL,
-			DAMAGED_WALL,
-			BROKEN_WALL,
-			IGNORABLE
-	).orOfMaterial(Material.FIRE);
 
 
 
