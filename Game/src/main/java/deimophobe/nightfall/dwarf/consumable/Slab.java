@@ -40,7 +40,8 @@ class Slab extends Consumable {
 			NFBlocks.CRACKED_WALL,
 			NFBlocks.DAMAGED_WALL,
 			NFBlocks.BROKEN_WALL,
-			NFBlocks.IGNORABLE)
+			NFBlocks.IGNORABLE,
+			NFBlocks.LEAVES)
 			.orOfMaterial(Material.FIRE)
 			.andAlso(block -> GameMap.getCurrentMap().isBlockPlaceable(block));
 	
