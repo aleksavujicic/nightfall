@@ -527,6 +527,10 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		return furnace;
 	}
 	
+	public void interactFurnace() {
+		furnace.giveItems();
+	}
+	
 	// ------ DAMAGE ------
 	@Override
 	public DwarfDamage createDamage(GameEntity attacker, GameDamageType type, double damage) {
@@ -731,7 +735,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		}
 		
 		if (click.isLeftClick() && NFBlocks.FURNACE.matchesBlock(clickedBlock)) {
-			furnace.giveItems();
+			interactFurnace();
 		}
 		
 		// Use consumable

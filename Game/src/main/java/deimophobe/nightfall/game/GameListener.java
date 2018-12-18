@@ -208,6 +208,17 @@ public class GameListener implements Listener {
 				dwarf.showSharedChest();
 				break;
 			}
+			
+			case MINECART_FURNACE: {
+				event.setCancelled(true);
+				
+				Player player = event.getPlayer();
+				Dwarf dwarf = DwarfManager.getManager().getGamePlayer(player);
+				if (dwarf == null) break;
+				
+				dwarf.interactFurnace();
+				break;
+			}
 		}
 	}
 	
@@ -240,7 +251,9 @@ public class GameListener implements Listener {
 		// Protect santa
 		switch (entity.getType()) {
 			case ARMOR_STAND:
-			case ITEM_FRAME: {
+			case ITEM_FRAME:
+			case MINECART_FURNACE:
+			case MINECART_CHEST: {
 				event.setCancelled(true);
 				return;
 			}
