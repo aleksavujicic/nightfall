@@ -10,6 +10,8 @@ import org.bukkit.block.data.type.PistonHead;
 import org.bukkit.block.data.type.TechnicalPiston;
 import org.jetbrains.annotations.NotNull;
 
+import static deimophobe.nightfall.util.NFConditions.checkMaterialIsBlock;
+
 /**
  * Created by Deimophobe on 16/12/18.
  */
@@ -21,6 +23,7 @@ public class ArmourBlockInteracter implements BlockInteracter {
 	@NotNull private final BlockInteracter normalInteracter;
 	
 	public ArmourBlockInteracter(Material material) {
+		checkMaterialIsBlock(material);
 		this.normalInteracter = new MaterialBlock(material);
 	}
 	

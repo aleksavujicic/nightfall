@@ -31,4 +31,8 @@ public class NFConditions {
 		);
 	}
 	
+	public static void checkMaterialIsBlock(@NotNull Material material) {
+		checkArgument(material.isBlock(), "Material '%s' must be a block material.", material);
+	}
+	
 }

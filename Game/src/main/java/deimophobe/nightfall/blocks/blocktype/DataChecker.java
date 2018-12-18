@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
 import static deimophobe.nightfall.util.NFConditions.checkMaterialExtendsDataClass;
+import static deimophobe.nightfall.util.NFConditions.checkMaterialIsBlock;
 
 /**
  * Created by Deimophobe on 18/12/18.
@@ -22,6 +23,7 @@ public class DataChecker<T extends BlockData> implements BlockMatcher {
 	private final Predicate<T> dataChecker;
 	
 	public DataChecker(Material material, Class<T> dataClass, Predicate<T> dataChecker) {
+		checkMaterialIsBlock(material);
 		checkMaterialExtendsDataClass(material, dataClass);
 		
 		this.material = material;
