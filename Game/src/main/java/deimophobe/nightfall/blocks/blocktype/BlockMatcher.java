@@ -25,7 +25,7 @@ public interface BlockMatcher {
 	
 	default BlockMatcher or(BlockMatcher orBlock) {
 		checkNotNull(orBlock, "Or block must not be null.");
-		return block -> this.matchesBlock(block) || orBlock.matchesBlock(block);
+		return new BlockSet(this, orBlock);
 	}
 	
 	default BlockMatcher orOfMaterial(Material... materials) {
@@ -35,11 +35,26 @@ public interface BlockMatcher {
 	
 	default BlockMatcher butAlso(BlockMatcher andBlock) {
 		checkNotNull(andBlock, "And block must not be null.");
-		return block -> this.matchesBlock(block) || andBlock.matchesBlock(block);
+		return new BlockSet(this, andBlock);
 	}
 	
 	default BlockMatcher butAlso(Material... materials) {
 		checkNotNull(materials, "And block must not be null.");
 		return this.butAlso(new MaterialSet(materials));
+	}
+	
+	default BlockInteracter withPlacer(BlockPlacer placer) {
+		checkNotNull(placer, "Placer must not be null.");
+		return new BlockInteracter() {
+			@Override
+			public boolean matchesBlock(@NotNull Block block) {
+				return BlockMatcher.this.matchesBlock(block);
+			}
+			
+			@Override
+			public void setAtBlock(@NotNull Block block) {
+				placer.setAtBlock(block);
+			}
+		};
 	}
 }

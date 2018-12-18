@@ -8,4 +8,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface BlockPlacer {
 	void setAtBlock(@NotNull Block block);
+	
+	BlockPlacer FAILED = block -> {
+		throw new UnsupportedOperationException("Cannot place this block.");
+	};
 }

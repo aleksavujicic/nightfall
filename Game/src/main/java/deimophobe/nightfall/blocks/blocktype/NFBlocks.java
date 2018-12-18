@@ -119,14 +119,14 @@ public class NFBlocks {
 	public static final BlockMatcher WALL = new BlockSet(ENCHANTED_WALL, MORTARABLE_WALL);
 	
 	// Stairs
-	public static final BlockInteracter NORMAL_STAIR = new DatableBlock(Material.STONE_BRICK_STAIRS);
-	public static final BlockInteracter DAMAGED_STAIR = new DatableBlock(Material.COBBLESTONE_STAIRS);
+	public static final BlockInteracter NORMAL_STAIR = DataConverter.stairInteracter(Material.STONE_BRICK_STAIRS);
+	public static final BlockInteracter DAMAGED_STAIR = DataConverter.stairInteracter(Material.COBBLESTONE_STAIRS);
 	public static final BlockMatcher ALL_STAIRS = new BlockSet(NORMAL_STAIR, DAMAGED_STAIR);
 	
 	// Slabs
-	public static final BlockInteracter REINFORCED_SLAB = new DatableBlock(Material.STONE_SLAB);
-	public static final BlockInteracter NORMAL_SLAB = new DatableBlock(Material.STONE_BRICK_SLAB);
-	public static final BlockInteracter DAMAGED_SLAB = new DatableBlock(Material.COBBLESTONE);
+	public static final BlockInteracter REINFORCED_SLAB = DataConverter.slabInteracter(Material.STONE_SLAB);
+	public static final BlockInteracter NORMAL_SLAB = DataConverter.slabInteracter(Material.STONE_BRICK_SLAB);
+	public static final BlockInteracter DAMAGED_SLAB = DataConverter.slabInteracter(Material.COBBLESTONE_SLAB);
 	public static final BlockMatcher ALL_SLABS = new BlockSet(REINFORCED_SLAB, NORMAL_SLAB, DAMAGED_SLAB);
 	
 	// Light

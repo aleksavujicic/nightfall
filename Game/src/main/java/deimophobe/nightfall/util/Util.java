@@ -1,10 +1,15 @@
 package deimophobe.nightfall.util;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by Deimophobe on 29/12/17.
@@ -35,13 +40,18 @@ public class Util {
 		}
 	}
 	
-	public static <T extends BlockData> void safeCastBlockData(Block block, Class<T> dataClass, Consumer<T> blockDataConsumer) {
+	public static <T extends BlockData> void safeCastBlockData(@NotNull Block block, @NotNull Class<T> dataClass, @NotNull Consumer<T> blockDataConsumer) {
 		safeCastBlockData(block, dataClass, blockDataConsumer, () -> {
 			new ClassCastException("Failed to cast block '" + block.getType() + "', to data class '" + dataClass.getCanonicalName() + "'.").printStackTrace();
 		});
 	}
 	
-	public static <T extends BlockData> void safeCastBlockData(Block block, Class<T> dataClass, Consumer<T> blockDataConsumer, Runnable onFail) {
+	public static <T extends BlockData> void safeCastBlockData(@NotNull Block block, @NotNull Class<T> dataClass, @NotNull Consumer<T> blockDataConsumer, @NotNull Runnable onFail) {
+		checkNotNull(block, "Block must not be null.");
+		checkNotNull(dataClass, "Data class must not be null.");
+		checkNotNull(blockDataConsumer, "Block data consumer must not be null.");
+		checkNotNull(onFail, "Fail runnable must not be null.");
+		
 		BlockData data = block.getBlockData();
 		if (dataClass.isInstance(data)) {
 			//noinspection unchecked
@@ -49,5 +59,12 @@ public class Util {
 		} else {
 			onFail.run();
 		}
+	}
+	
+	public static <T extends BlockData> boolean materialsExtendsBlockData(@NotNull Material material, @NotNull Class<T> dataClass) {
+		checkNotNull(material, "Material must not be null.");
+		checkNotNull(dataClass, "Data class must not be null.");
+		checkArgument(material.isBlock(), "Material '%s' must be a block.", material);
+		return dataClass.isInstance(material.createBlockData());
 	}
 }
