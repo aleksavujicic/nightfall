@@ -11,6 +11,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.LogOnOffPiece;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Material;
@@ -25,7 +26,7 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 14/01/18.
  */
-public class Trident extends AbstractItem implements CooldownPiece {
+public class Trident extends AbstractItem implements CooldownPiece, LogOnOffPiece {
 	
 	public Trident(Dwarf dwarf) {
 		super(dwarf);
@@ -68,6 +69,14 @@ public class Trident extends AbstractItem implements CooldownPiece {
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public void onLogOn() {}
+	
+	@Override
+	public void onLogOff() {
+		clearWaterBlocks();
 	}
 	
 	private static final Set<Material> WATER_MATERIALS =

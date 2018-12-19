@@ -141,16 +141,17 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	@Override
 	public void goOnline(Player newPlayer) {
 		super.goOnline(newPlayer);
+		kit.onLogOn();
+		
 		if (Game.getGame().getPhase().isOrIsAfter(Phase.GAME) && plagueStatus == PlagueStatus.PLAGUED) {
-			new BukkitRunnable() {
-				@Override public void run() {
-					Dwarf dwarf = Dwarf.this;
-					if (dwarf.isOnline()) {
-						dwarf.instaKill(null, GameDamageType.FORCE_PLAGUED);
-					}
-				}
-			}.runTaskLater(NightfallPlugin.getPlugin(), 4*20);
+			doLater(() -> instaKill(null, GameDamageType.FORCE_PLAGUED), 4*20);
 		}
+	}
+	
+	@Override
+	public void goOffline() {
+		super.goOffline();
+		kit.onLogOff();
 	}
 	
 	// ------ KIT ITEMS -------

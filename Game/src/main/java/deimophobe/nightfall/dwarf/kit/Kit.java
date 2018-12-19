@@ -199,6 +199,14 @@ public class Kit {
 		applyToPiecesImplentingInterface(ArmourPiece.class, kitArmour -> kitArmour.onArmourEquip(armour));
 	}
 	
+	public void onLogOn() {
+		applyToPiecesImplentingInterface(LogOnOffPiece.class, LogOnOffPiece::onLogOn);
+	}
+	
+	public void onLogOff() {
+		applyToPiecesImplentingInterface(LogOnOffPiece.class, LogOnOffPiece::onLogOff);
+	}
+	
 	private <T extends KitPiece> void applyToPiecesImplentingInterface(Class<T> pieceInterface, Consumer<T> consumer) {
 		for (KitPiece piece : kitPieces.values()) {
 			if (pieceInterface.isInstance(piece)) {
