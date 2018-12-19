@@ -17,7 +17,7 @@ public class NFBlocks {
 	private NFBlocks() {}
 	
 	// ===== Simple Minecraft Groups =====
-	public static final BlockInteracter AIR = new MaterialBlock(Material.AIR);
+	public static final BlockInteracter AIR = new MaterialSet(Material.AIR, Material.CAVE_AIR, Material.VOID_AIR);
 	
 	public static final BlockMatcher WATER = new MaterialSet(Material.WATER);
 	public static final BlockMatcher LAVA = new MaterialSet(Material.LAVA);

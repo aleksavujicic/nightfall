@@ -1,6 +1,7 @@
 package deimophobe.nightfall.dwarf.consumable;
 
 import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
 import deimophobe.nightfall.blocks.blocktype.BlockSet;
 import deimophobe.nightfall.blocks.blocktype.NFBlocks;
@@ -12,6 +13,7 @@ import deimophobe.nightfall.map.GameMap;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.util.BlockIterator;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -55,7 +57,26 @@ class Slab extends Consumable {
 		ConsumeResult phaseCheck = checkPhase();
 		if (phaseCheck != null) return phaseCheck;
 		
-		Block selectedBlock = dwarf.getTargetBlock(null, 7);
+		// Get selected block, aim up
+		Location playerLoc = dwarf.getEyeLocation();
+		float pitch = playerLoc.getPitch();
+		playerLoc.setPitch(Math.min(pitch,0));
+		BlockIterator iterator = new BlockIterator(playerLoc, 0, 7);
+		
+		Block selectedBlock = null;
+		while(iterator.hasNext()) {
+			selectedBlock = iterator.next();
+			
+			if (!NFBlocks.AIR.matchesBlock(selectedBlock)) {
+				break;
+			}
+		}
+		
+		if (selectedBlock == null) {
+			NightfallPlugin.logger().warning("Failed to place slab as selected block was null (player " + dwarf.getName() +").");
+			return ConsumeResult.FAILURE;
+		}
+		
 		Location center = selectedBlock.getLocation();
 		if (dwarf.distanceTo(center) <= 4) return TOO_CLOSE;
 		
@@ -107,7 +128,7 @@ class Slab extends Consumable {
 		
 		if (totalConvertedBlocks < MIN_BLOCKS) return NOT_ENOUGH_BLOCKS;
 		
-		world.playSound(center, "dwarf.consumable.slab.place", 1, 1f);
+		world.playSound(center, "dwarf.consumable.slab.place", 1, 1.2f);
 		world.playSound(center, "block.anvil.use", 1, 0.5f);
 		world.spawnParticle(Particle.REDSTONE, center, 100, halfDX/2, halfDY/2, halfDZ/2, DUST_OPTIONS);
 		Game.getGame().addUpdateable(new LifetimeExpireable(BUILD_STAGES*STAGE_DELAY) {
