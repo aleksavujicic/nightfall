@@ -11,6 +11,7 @@ import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.util.LifetimeObject;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -65,7 +66,7 @@ public class ConsecratingCharm extends Consumable {
 	public boolean spawnCharm(Location center, int lifetime, double radius, int numSwords) {
 		if (isCloseToActiveCharm(center)) return false;
 		
-		center.getWorld().playSound(center, "entity.evocation_illager.prepare_summon", 1f, 1f);
+		center.getWorld().playSound(center, Sound.ENTITY_EVOKER_PREPARE_SUMMON, 1f, 1f);
 		CharmInstance charm = new CharmInstance(lifetime, center, radius, numSwords);
 		activeCharms.add(charm);
 		return true;
