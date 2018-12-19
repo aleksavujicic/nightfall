@@ -766,6 +766,11 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	@Override
+	public void onSwim(boolean swimming) {
+		kit.onSwim(swimming);
+	}
+	
+	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {
 		Projectile proj = kit.onBowFire(arrow, force);
 		

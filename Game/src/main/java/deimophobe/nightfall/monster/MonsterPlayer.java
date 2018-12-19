@@ -427,6 +427,11 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	@Override
+	public void onSwim(boolean swimming) {
+	
+	}
+	
+	@Override
 	public boolean onBlockBreak(Block block, boolean didBreak) {
 		if (mob != null) {
 			return mob.onBlockBreak(block, didBreak);

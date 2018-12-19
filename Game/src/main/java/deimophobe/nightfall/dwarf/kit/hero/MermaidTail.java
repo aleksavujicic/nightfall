@@ -1,65 +1,63 @@
 package deimophobe.nightfall.dwarf.kit.hero;
 
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.kit.ArmourPiece;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
+import deimophobe.nightfall.dwarf.kit.SwimPiece;
 import deimophobe.nightfall.util.ArmourSlot;
+import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 14/01/18.
  */
-public class MermaidTail extends AbstractPiece implements ArmourPiece {
-	
-	private boolean isInSwimmingMode;
+public class MermaidTail extends AbstractPiece implements ArmourPiece, SwimPiece {
 	
 	public MermaidTail(Dwarf dwarf) {
 		super(dwarf);
-		dwarf.givePermanentPotionEffect(PotionEffectType.WATER_BREATHING, 1);
-		isInSwimmingMode = dwarf.isUnderwater();
-		updateSwimState();
+	}
+	
+	@Override
+	public void onDamageReceive(DwarfDamage damage) {
+		super.onDamageReceive(damage);
+		if (damage.getType() == GameDamageType.DROWNING) damage.cancel();
 	}
 	
 	@Override
 	public void onArmourEquip(Armour armour) {
 		armour.addModifier(ItemModifierType.DEPTH_STRIDER, 3, "Mermaid Tail", ArmourSlot.FEET);
 		armour.addModifier(ItemModifierType.AQUA_AFFINITY, 1, "Mermaid Tail", ArmourSlot.FEET);
+		
+		Player player = dwarf.getPlayer();
+		updateSwimState(player.isSwimming());
 	}
 	
 	@Override
-	public void update() {
-		super.update();
-		updateSwimState();
+	public void onSwim(boolean swimming) {
+		updateSwimState(swimming);
 	}
 	
-	@Override
-	public void onShift(boolean sneaking) {
-		super.onShift(sneaking);
-		if (!sneaking) return;
-		dwarf.givePermanentPotionEffect(PotionEffectType.WATER_BREATHING, 1);
-		updateSwimState();
-	}
-	
-	private void updateSwimState() {
-		boolean underwater = dwarf.isUnderwater();
-		if (underwater && !isInSwimmingMode) {
+	private void updateSwimState(boolean swimming) {
+		if (swimming) {
 			giveFastSwim();
-		} else if (!underwater && isInSwimmingMode) {
+		} else {
 			removeFastSwim();
 		}
 	}
 	
 	private void giveFastSwim() {
-		dwarf.givePermanentPotionEffect(PotionEffectType.SPEED, 8);
+		dwarf.givePermanentPotionEffect(PotionEffectType.SPEED, 5);
 		dwarf.givePermanentPotionEffect(PotionEffectType.NIGHT_VISION, 1);
-		isInSwimmingMode = true;
+		dwarf.givePermanentPotionEffect(PotionEffectType.WATER_BREATHING, 1);
 	}
 	
 	private void removeFastSwim() {
 		dwarf.removePotionEffect(PotionEffectType.SPEED);
 		dwarf.removePotionEffect(PotionEffectType.NIGHT_VISION);
-		isInSwimmingMode = false;
+		dwarf.removePotionEffect(PotionEffectType.WATER_BREATHING);
 	}
 }

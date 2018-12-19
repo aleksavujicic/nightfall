@@ -14,6 +14,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * Created by Deimophobe on 16/01/17.
@@ -177,6 +178,10 @@ public class Kit {
 		}
 	}
 	
+	public void onSwim(boolean swimming) {
+		applyToPiecesImplentingInterface(SwimPiece.class, swimPiece -> swimPiece.onSwim(swimming));
+	}
+	
 	public void notifyDeath(Dwarf deadDwarf) {
 		for (KitPiece item : kitPieces.values()) {
 			item.notifyDeath(deadDwarf);
@@ -191,9 +196,13 @@ public class Kit {
 	
 	public void onArmourEquip() {
 		Armour armour = dwarf.getArmour();
-		for (KitPiece item : kitPieces.values()) {
-			if (item instanceof ArmourPiece) {
-				((ArmourPiece) item).onArmourEquip(armour);
+		applyToPiecesImplentingInterface(ArmourPiece.class, kitArmour -> kitArmour.onArmourEquip(armour));
+	}
+	
+	private <T extends KitPiece> void applyToPiecesImplentingInterface(Class<T> pieceInterface, Consumer<T> consumer) {
+		for (KitPiece piece : kitPieces.values()) {
+			if (pieceInterface.isInstance(piece)) {
+				consumer.accept((T) piece);
 			}
 		}
 	}

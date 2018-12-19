@@ -242,6 +242,18 @@ public class GameListener implements Listener {
 		}
 	}
 	
+	@EventHandler
+	public void onSwim(EntityToggleSwimEvent event) {
+		Entity entity = event.getEntity();
+		EntityType type = event.getEntityType();
+		if (type != EntityType.PLAYER) return;
+		
+		GamePlayer gamePlayer = game.getGamePlayer((Player) entity);
+		if (gamePlayer == null) return;
+		
+		gamePlayer.onSwim(event.isSwimming());
+	}
+	
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onHit(EntityDamageEvent event) {
