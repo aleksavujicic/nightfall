@@ -26,7 +26,7 @@ public class DataTimedBlock extends TimedBlock {
 	@Override
 	protected void setBlock() {
 		oldData = block.getBlockData();
-		block.setBlockData(newData);
+		block.setBlockData(newData, false);
 	}
 	
 	@Override

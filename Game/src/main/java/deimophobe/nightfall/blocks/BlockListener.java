@@ -1,9 +1,11 @@
 package deimophobe.nightfall.blocks;
 
+import deimophobe.nightfall.blocks.blocktype.BlockSet;
 import deimophobe.nightfall.dwarf.kit.hero.Trident;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -47,8 +49,12 @@ public class BlockListener implements Listener {
 	
 	@EventHandler
 	public void preventObsidian(BlockFormEvent event) {
-		if (event.getNewState().getType() == Material.OBSIDIAN) {
-			event.setCancelled(true);
+		BlockState newState = event.getNewState();
+		switch (newState.getType()) {
+			case OBSIDIAN:
+			case SPONGE:
+			case WET_SPONGE:
+				event.setCancelled(true);
 		}
 	}
 	
@@ -99,6 +105,14 @@ public class BlockListener implements Listener {
 	@EventHandler
 	public void blockPhysics(BlockPhysicsEvent event) {
 		Block block = event.getBlock();
+		
+		switch (block.getType()) {
+			case OBSIDIAN:
+			case SPONGE:
+			case WET_SPONGE:
+				event.setCancelled(true);
+				return;
+		}
 		if (manager.isTimedBlock(block)) {
 			event.setCancelled(true);
 		}
