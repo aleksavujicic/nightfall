@@ -25,13 +25,15 @@ public class NFBlocks {
 	public static final BlockMatcher LIQUID = Block::isLiquid;
 	public static final BlockMatcher SOLID = block -> block.getType().isSolid();
 	
-	public static final BlockMatcher GRASS_BLOCK = new MaterialSet(Material.GRASS, Material.MYCELIUM);
-	public static final BlockInteracter DIRT = new MaterialBlock(Material.COARSE_DIRT);
+	public static final BlockMatcher GRASS_BLOCK = new MaterialSet(Material.GRASS_BLOCK, Material.MYCELIUM);
+	public static final BlockInteracter DIRT = new MaterialSet(Material.COARSE_DIRT, Material.DIRT, Material.GRASS_PATH, Material.FARMLAND);
 	public static final BlockInteracter PODZOL = new MaterialBlock(Material.PODZOL);
 	
 	public static final BlockMatcher LOG = new BlockSet(
 			RepeatMaterial.woodMaterial("log"),
-			RepeatMaterial.woodMaterial("stripped_","log")
+			RepeatMaterial.woodMaterial("stripped_","log"),
+			RepeatMaterial.woodMaterial("wood"),
+			RepeatMaterial.woodMaterial("stripped_","wood")
 	);
 	public static final BlockInteracter LEAVES = RepeatMaterial.woodMaterial("leaves");
 	public static final BlockMatcher DOOR = RepeatMaterial.woodMaterial("door").butAlso(Material.IRON_DOOR);

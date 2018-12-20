@@ -130,23 +130,6 @@ public class GameListener implements Listener {
 				return;
 			}
 			
-			// Prevent right click shovel/hoe
-			ItemStack item = gp.getHeldItem();
-			if (block != null && item != null && action == Action.RIGHT_CLICK_BLOCK) {
-				switch (block.getType()) {
-					case DIRT:
-					case GRASS:
-					case GRASS_PATH: {
-						switch (item.getType()) {
-							case DIAMOND_HOE:
-							case DIAMOND_SHOVEL:
-							case IRON_SHOVEL:
-								event.setCancelled(true);
-						}
-					}
-				}
-			}
-			
 			if (block == null) block = gp.getTargetBlock(null, 5);
 			ClickType click = ClickType.fromAction(action);
 			gp.onUse(click, block, blockFace);

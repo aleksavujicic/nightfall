@@ -5,6 +5,7 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 
 /**
@@ -26,6 +27,7 @@ class DwarfAxe extends AbstractItem {
 	public void onBlockBreak(Block block, boolean didBreak) {
 		if (NFBlocks.LOG.matchesBlock(block)) {
 			dwarf.giveConsumable(ConsumableType.LOG, 2);
+			dwarf.playSound(Sound.ITEM_AXE_STRIP, 1f, 0.8f, true);
 		}
 	}
 }
