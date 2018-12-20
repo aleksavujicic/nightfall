@@ -61,6 +61,15 @@ public class AFKChecker implements Updateable {
 	
 	private void checkForAFK() {
 		Location current = player.getLocation();
+		
+		// Check if different worlds - happens rarely sometimes when players log in
+		if (current.getWorld() != lastLocation.getWorld()) {
+			player.sendDebugMsg("AFK check - Different worlds (not AFK)");
+			points = 0;
+			lastLocation = current;
+			return;
+		}
+		
 		double difference = current.distance(lastLocation);
 		
 		if (difference >= DISTANCE_THRESHOLD) {
