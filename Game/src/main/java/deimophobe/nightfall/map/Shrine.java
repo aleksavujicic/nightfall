@@ -131,6 +131,8 @@ public class Shrine {
 				if (dwarf.getArmour().canShrineRepair()) {
 					if (map.useGold(shrineRepCost)) {
 						dwarf.getArmour().repair(shrineRepAmt); // shrineNum starts at 1
+						Location center = dwarf.getEyeLocation().subtract(0, 0.5, 0);
+						center.getWorld().spawnParticle(Particle.REDSTONE, center, 3, 0.3, 0.3, 0.3, DUST_OPTIONS);
 					}
 				}
 			}
