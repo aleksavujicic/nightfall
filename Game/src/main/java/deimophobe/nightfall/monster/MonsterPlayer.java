@@ -248,6 +248,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		});
 	}
 	
+	public boolean isMobType(MobType type) {
+		return mob != null && mob.getType() == type;
+	}
+	
 	// ----- REBIRTH -----
 	private final static int REBIRTH_TIME = 6*20;
 	private int lastRebirthSetTime = 0;

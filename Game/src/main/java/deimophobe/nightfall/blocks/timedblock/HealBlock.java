@@ -64,8 +64,8 @@ public class HealBlock extends DataTimedBlock {
 		if (!click.isLeftClick()) return;
 		
 		if (player instanceof MonsterPlayer) {
-			Mob mob = ((MonsterPlayer) player).getMob();
-			if (mob.getType() == MobType.TICKER) return;
+			MonsterPlayer monster = (MonsterPlayer) player;
+			if (monster.isMobType(MobType.TICKER)) return;
 			
 			hitter.tryUse();
 		}
