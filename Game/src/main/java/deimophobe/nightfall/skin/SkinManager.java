@@ -20,8 +20,18 @@ import deimophobe.nightfall.common.util.NMSUtil;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.util.PacketMonitor;
+import deimophobe.nightfall.util.Util;
+import me.libraryaddict.disguise.DisguiseAPI;
+import me.libraryaddict.disguise.disguisetypes.Disguise;
+import me.libraryaddict.disguise.disguisetypes.DisguiseType;
+import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
+import me.libraryaddict.disguise.disguisetypes.TargetedDisguise;
+import me.libraryaddict.disguise.disguisetypes.watchers.PlayerWatcher;
 import me.libraryaddict.disguise.utilities.PacketsManager;
 import net.minecraft.server.v1_13_R2.PacketPlayOutRespawn;
+import org.apache.commons.collections4.MultiMap;
+import org.apache.commons.collections4.MultiValuedMap;
+import org.apache.commons.collections4.multimap.HashSetValuedHashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -43,6 +53,8 @@ public class SkinManager implements Manager {
 	private final Set<PacketAdapter> packetAdapters;
 	
 	private final Map<UUID, FixedSkinSettings> playerSkinSettings = new HashMap<>();
+	
+	private final MultiValuedMap<UUID, PlayerWatcher> playerDisguises = new HashSetValuedHashMap<>();
 	
 	public SkinManager() {
 		packetAdapters = Sets.newHashSet(
@@ -144,6 +156,50 @@ public class SkinManager implements Manager {
 		watcher.setObject(14, serializer, handByte);
 		packet.getWatchableCollectionModifier().write(0, watcher.getWatchableObjects()); //Make the packet's datawatcher the one we created
 		pm.broadcastServerPacket(packet);
+		
+		updatePlayerDisguiseLayer(player, layerByte, handByte);
+	}
+	
+	private void updatePlayerDisguiseLayer(Player player, byte layerByte, byte handByte) {
+		Bukkit.broadcastMessage("TRYING TO UPDATE: " + player + ", " + layerByte + ", " + handByte);
+		Disguise[] disguises = DisguiseAPI.getDisguises(player);
+		for (Disguise disguise : disguises) {
+			if (disguise == null) return;
+			if (disguise.getType() != DisguiseType.PLAYER) return;
+			
+			PlayerWatcher playerWatcher = (PlayerWatcher) disguise.getWatcher();
+			
+			for (int i=7; i>=0; i--) {
+				boolean enabled = ((layerByte >> i) & 1) == 1;
+				Util.setSkinFlagOnPlayerDisguise(playerWatcher, i, enabled);
+				
+				Bukkit.broadcastMessage("I" + i + ": " + enabled);
+			}
+			
+//			MainHand mainHand = (handByte == 0 ? MainHand.LEFT : MainHand.RIGHT);
+//			boolean cape = (layerByte | 0b11111110) == 0b11111111;
+//			boolean jacket = (layerByte | 0b11111101) == 0b11111111;
+//			boolean leftSleeve = (layerByte | 0b11111011) == 0b11111111;
+//			boolean rightSleeve = (layerByte | 0b11110111) == 0b11111111;
+//			boolean leftPants = (layerByte | 0b11101111) == 0b11111111;
+//			boolean rightPants = (layerByte | 0b11011111) == 0b11111111;
+//			boolean hat = (layerByte | 0b10111111) == 0b11111111;
+//
+//			Bukkit.broadcastMessage("LAYERS: " + cape + "," + jacket + "," + leftSleeve + "," + rightSleeve + "," + leftPants + "," + rightPants + "," + hat);
+//			Bukkit.broadcastMessage("HAND: " + mainHand);
+//			Bukkit.broadcastMessage("DISG NAME: " + ((PlayerDisguise) disguise).getName());
+//
+//			playerWatcher.setMainHand(mainHand);
+//			playerWatcher.setCapeEnabled(cape);
+//			playerWatcher.setJacketEnabled(jacket);
+//			playerWatcher.setLeftSleeveEnabled(leftSleeve);
+//			playerWatcher.setRightSleeveEnabled(rightSleeve);
+//			playerWatcher.setLeftPantsEnabled(leftPants);
+//			playerWatcher.setRightPantsEnabled(rightPants);
+//			playerWatcher.setHatEnabled(hat);
+//
+//			disguise.setWatcher(playerWatcher);
+		}
 	}
 	
 	public FixedSkinSettings getSkinSettings(UUID uuid) {
@@ -308,24 +364,24 @@ public class SkinManager implements Manager {
 		
 		@Override
 		public void onPacketSending(PacketEvent event) {
-			UUID receiverUUID = event.getPlayer().getUniqueId();
-			PacketContainer pc = event.getPacket();
-			
-			EnumWrappers.PlayerInfoAction pia = pc.getPlayerInfoAction().read(0);
-			if (pia == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
-				List<PlayerInfoData> unalteredPIDList = pc.getPlayerInfoDataLists().read(0);
-				List<PlayerInfoData> newPIDList = new ArrayList<>(unalteredPIDList);
-				for (int i=0; i<unalteredPIDList.size(); i++) {
-					PlayerInfoData oldPID = unalteredPIDList.get(i);
-					UUID uuid = oldPID.getProfile().getUUID();
-					PlayerSkin newSkin = alteredSkins.get(uuid);
-					
-					if (newSkin != null) {
-						newPIDList.set(i, newSkin.getNewPlayerInfoData(oldPID, uuid.equals(receiverUUID)));
-					}
-				}
-				pc.getPlayerInfoDataLists().write(0, newPIDList);
-			}
+//			UUID receiverUUID = event.getPlayer().getUniqueId();
+//			PacketContainer pc = event.getPacket();
+//
+//			EnumWrappers.PlayerInfoAction pia = pc.getPlayerInfoAction().read(0);
+//			if (pia == EnumWrappers.PlayerInfoAction.ADD_PLAYER) {
+//				List<PlayerInfoData> unalteredPIDList = pc.getPlayerInfoDataLists().read(0);
+//				List<PlayerInfoData> newPIDList = new ArrayList<>(unalteredPIDList);
+//				for (int i=0; i<unalteredPIDList.size(); i++) {
+//					PlayerInfoData oldPID = unalteredPIDList.get(i);
+//					UUID uuid = oldPID.getProfile().getUUID();
+//					PlayerSkin newSkin = alteredSkins.get(uuid);
+//
+//					if (newSkin != null) {
+//						newPIDList.set(i, newSkin.getNewPlayerInfoData(oldPID, uuid.equals(receiverUUID)));
+//					}
+//				}
+//				pc.getPlayerInfoDataLists().write(0, newPIDList);
+//			}
 		}
 	}
 	
@@ -337,28 +393,28 @@ public class SkinManager implements Manager {
 		
 		@Override
 		public void onPacketSending(PacketEvent event) {
-			PacketContainer pc = event.getPacket();
-			WrapperPlayServerEntityMetadata packet =  new WrapperPlayServerEntityMetadata(pc);
-			
-			int entityID = packet.getEntityID();
-			UUID uuid = getSkinChangedUUIDFromEntityID(entityID);
-			if (uuid == null) return;
-			
-			byte layerByte = getDisplayedLayerByte(uuid);
-			byte handByte = getDisplayedHandByte(uuid);
-			
-			List<WrappedWatchableObject> metadata = packet.getMetadata();
-			for (WrappedWatchableObject object : metadata) {
-				
-				if (object.getIndex() == 13) {
-					object.setValue(layerByte);
-				}
-				if (object.getIndex() == 14) {
-					object.setValue(handByte);
-				}
-			}
-			
-			packet.setMetadata(metadata);
+//			PacketContainer pc = event.getPacket();
+//			WrapperPlayServerEntityMetadata packet =  new WrapperPlayServerEntityMetadata(pc);
+//
+//			int entityID = packet.getEntityID();
+//			UUID uuid = getSkinChangedUUIDFromEntityID(entityID);
+//			if (uuid == null) return;
+//
+//			byte layerByte = getDisplayedLayerByte(uuid);
+//			byte handByte = getDisplayedHandByte(uuid);
+//
+//			List<WrappedWatchableObject> metadata = packet.getMetadata();
+//			for (WrappedWatchableObject object : metadata) {
+//
+//				if (object.getIndex() == 13) {
+//					object.setValue(layerByte);
+//				}
+//				if (object.getIndex() == 14) {
+//					object.setValue(handByte);
+//				}
+//			}
+//
+//			packet.setMetadata(metadata);
 		}
 	}
 	
@@ -372,18 +428,18 @@ public class SkinManager implements Manager {
 		public void onPacketSending(PacketEvent event) {
 			PacketContainer pc = event.getPacket();
 			WrapperPlayServerNamedEntitySpawn packet =  new WrapperPlayServerNamedEntitySpawn(pc);
-			
+
 			int entityID = packet.getEntityID();
 			UUID uuid = getSkinChangedUUIDFromEntityID(entityID);
 			if (uuid == null) return;
-			
+
 			byte layerByte = getDisplayedLayerByte(uuid);
 			byte handByte = getDisplayedHandByte(uuid);
-			
+
 			WrappedDataWatcher watcher = packet.getMetadata();
 			if (watcher.hasIndex(13)) watcher.setObject(13, layerByte);
 			if (watcher.hasIndex(14)) watcher.setObject(14, handByte);
-			
+
 			packet.setMetadata(watcher);
 		}
 	}
@@ -397,7 +453,7 @@ public class SkinManager implements Manager {
 		public void onPacketReceiving(PacketEvent event) {
 			PacketContainer pc = event.getPacket();
 			WrapperPlayClientSettings packet =  new WrapperPlayClientSettings(pc);
-			
+
 			byte layerByte = (byte) packet.getDisplayedSkinParts();
 			MainHand hand = NMSUtil.getHandFromClientSettingsPacket(pc);
 			if (hand == null) {
@@ -414,7 +470,7 @@ public class SkinManager implements Manager {
 					handByte = 1;
 					break;
 			}
-			
+
 			UUID id = event.getPlayer().getUniqueId();
 			FixedSkinSettings settings = playerSkinSettings.get(id);
 			if (settings == null) {
@@ -424,7 +480,7 @@ public class SkinManager implements Manager {
 				settings.setLayerByte(layerByte);
 				settings.setHandByte(handByte);
 			}
-			
+
 			updateAllPlayerSkinsWithUUID(id);
 		}
 	}

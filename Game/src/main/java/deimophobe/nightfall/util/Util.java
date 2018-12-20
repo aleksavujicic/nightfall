@@ -1,5 +1,9 @@
 package deimophobe.nightfall.util;
 
+import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
+import me.libraryaddict.disguise.disguisetypes.MetaIndex;
+import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
+import me.libraryaddict.disguise.disguisetypes.watchers.PlayerWatcher;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -7,6 +11,8 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Rail;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.function.Consumer;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -16,6 +22,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by Deimophobe on 29/12/17.
  */
 public class Util {
+	private Util() {}
 	
 	public static boolean isWater(Block block) {
 		switch (block.getType()) {
@@ -85,5 +92,20 @@ public class Util {
 		checkNotNull(dataClass, "Data class must not be null.");
 		checkArgument(material.isBlock(), "Material '%s' must be a block.", material);
 		return dataClass.isInstance(material.createBlockData());
+	}
+	
+	@Deprecated
+	public static void setSkinFlagOnPlayerDisguise(PlayerWatcher watcher, int flag, boolean enabled) {
+		try {
+			Method method = PlayerWatcher.class.getDeclaredMethod("setSkinFlags", int.class, boolean.class);
+			method.setAccessible(true);
+			method.invoke(watcher, flag, enabled);
+			
+			Method method2 = FlagWatcher.class.getDeclaredMethod("sendData", MetaIndex[].class);
+			method2.setAccessible(true);
+			method2.invoke(watcher, (Object) new MetaIndex[]{MetaIndex.PLAYER_SKIN});
+		} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -25,10 +25,7 @@ import deimophobe.nightfall.util.ArmourSlot;
 import deimophobe.nightfall.util.Hitscan;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
@@ -87,10 +84,9 @@ public class Doppelganger extends AbstractMob {
 					monster.getName(), skin, false,
 					ChatColor.DARK_AQUA + target.getName() + ChatColor.DARK_RED + " (You)"
 			);
-			SkinManager.getManager().addSkinChange(monster, playerSkin);
 			
-			
-			WrappedGameProfile profile = new WrappedGameProfile(UUID.randomUUID(), getFakeName());
+			UUID uuid = UUID.randomUUID();
+			WrappedGameProfile profile = new WrappedGameProfile(uuid, getFakeName());
 			skin.applyToWrappedGameProfile(profile);
 			
 			disguise = new PlayerDisguise(profile);
@@ -100,6 +96,8 @@ public class Doppelganger extends AbstractMob {
 			disguise.getWatcher().setArrowsSticking(0);
 			disguise.getWatcher().setSprinting(false);
 			DisguiseAPI.disguiseEntity(monster.getPlayer(), disguise);
+			
+			SkinManager.getManager().addSkinChange(monster, playerSkin);
 		}
 		
 		super.onSpawn(spawnMethod);
