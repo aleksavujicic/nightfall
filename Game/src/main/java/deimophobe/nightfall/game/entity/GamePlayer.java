@@ -227,9 +227,18 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	
 	
 	// ------ SOUND ------
-	public final void playSound(String sound, float vol, float pitch, boolean toAll) {
-		if (sound == null) return;
+	public final void playSound(Sound sound, float vol, float pitch, boolean toAll) {
+		World world = player.getWorld();
+		Location loc = player.getLocation();
 		
+		if (toAll) {
+			world.playSound(loc, sound, vol, pitch);
+		} else {
+			player.playSound(loc, sound, vol, pitch);
+		}
+	
+	}
+	public final void playSound(String sound, float vol, float pitch, boolean toAll) {
 		World world = player.getWorld();
 		Location loc = player.getLocation();
 		

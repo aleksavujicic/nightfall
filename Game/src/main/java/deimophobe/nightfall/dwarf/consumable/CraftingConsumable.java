@@ -5,6 +5,7 @@ import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
 import deimophobe.nightfall.common.items.ItemMatcher;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
@@ -80,7 +81,7 @@ class CraftingConsumable extends Consumable {
 			}
 			
 			if (block.getType() == Material.IRON_BARS) {
-				dwarf.playSound("entity.zombie.attack_door_wood", 0.25f, 2, true);
+				dwarf.playSound(Sound.ENTITY_ZOMBIE_ATTACK_WOODEN_DOOR, 0.25f, 2, true);
 			}
 			
 			return FAST_SUCCESS;
