@@ -226,6 +226,7 @@ public class Shrine {
 	}
 	
 	
+	private static final Particle.DustOptions DUST_OPTIONS = new Particle.DustOptions(Color.fromRGB(250, 250, 5), 1);
 	protected void killShrine() {
 		if (MapManager.getManager().isEnabled())
 			explodeShrine();
@@ -241,6 +242,9 @@ public class Shrine {
 				for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 					dwarf.getArmour().repair(50);
 					dwarf.regenMana(15);
+					
+					Location center = dwarf.getEyeLocation().subtract(0, 0.5, 0);
+					center.getWorld().spawnParticle(Particle.REDSTONE, center, 20, 0.3, 0.3, 0.3, DUST_OPTIONS);
 				}
 				life--;
 				if (life == 0) this.cancel();
