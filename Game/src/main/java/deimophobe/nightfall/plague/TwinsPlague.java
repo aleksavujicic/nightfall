@@ -23,6 +23,7 @@ import java.util.function.Supplier;
  * Created by Deimophobe on 10/03/17.
  */
 public class TwinsPlague extends Plague {
+	private static final Particle.DustOptions BLACK_DUST = new Particle.DustOptions(Color.BLACK, 1.2f);
 	
 	public static void killMoreDwarves(int num, boolean enraged) {
 		new TwinsRampage(new Supplier<Dwarf>() {
@@ -118,7 +119,7 @@ public class TwinsPlague extends Plague {
 							Player player = dwarf.getPlayer();
 							player.spawnParticle(Particle.PORTAL, bodyCenter, 50, 5, 5, 5, 1.5);
 							player.spawnParticle(Particle.SMOKE_LARGE, bodyCenter, 10, 5, 5, 5, 0.15);
-							player.spawnParticle(Particle.FALLING_DUST, bodyCenter, 10, 5, 5, 5, 0);
+							player.spawnParticle(Particle.REDSTONE, bodyCenter, 10, 5, 5, 5, BLACK_DUST);
 							player.spawnParticle(Particle.CRIT_MAGIC, bodyCenter, 10, 5, 5, 5, 0);
 						}
 					}
@@ -179,7 +180,7 @@ public class TwinsPlague extends Plague {
 			Location bodyCenter = center.clone().add(0,0.5,0);
 			world.spawnParticle(Particle.PORTAL, bodyCenter, 200, 0.5, 0.5, 0.5, 1.5);
 			world.spawnParticle(Particle.SMOKE_LARGE, bodyCenter, 50, 0.5, 0.5, 0.5, 0.15);
-			world.spawnParticle(Particle.FALLING_DUST, bodyCenter, 50, 0.5, 0.5, 0.5, 0);
+			world.spawnParticle(Particle.REDSTONE, bodyCenter, 50, 0.5, 0.5, 0.5, BLACK_DUST);
 			world.spawnParticle(Particle.CRIT_MAGIC, bodyCenter, 50, 0.5, 0.5, 0.5, 0);
 			world.spawnParticle(Particle.ENCHANTMENT_TABLE, bodyCenter, 150, 0.75, 1, 0.75, 0.1);
 		}
