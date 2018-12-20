@@ -11,7 +11,7 @@ import org.bukkit.potion.PotionEffectType;
 public class DarkVision extends AbstractPiece {
 	public DarkVision(Dwarf dwarf) {
 		super(dwarf);
-		dwarf.addLightSource(new BlockLightSource(18));
+		dwarf.addLightSource(new BlockLightSource(15));
 	}
 	
 	@Override
