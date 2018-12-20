@@ -42,7 +42,8 @@ class DwarfVision implements Vision {
 	}
 	
 	void resetVisionCount() {
-		blindnessDuration = 0;
 		vision = 0;
+		blindnessDuration = 0;
+		forceBlindness = false;
 	}
 }
