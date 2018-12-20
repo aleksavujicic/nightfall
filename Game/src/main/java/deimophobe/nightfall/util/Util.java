@@ -95,11 +95,11 @@ public class Util {
 	}
 	
 	@Deprecated
-	public static void setSkinFlagOnPlayerDisguise(PlayerWatcher watcher, int flag, boolean enabled) {
+	public static void setSkinByteOnPlayerDisguise(PlayerWatcher watcher, byte flag) {
 		try {
-			Method method = PlayerWatcher.class.getDeclaredMethod("setSkinFlags", int.class, boolean.class);
+			Method method = FlagWatcher.class.getDeclaredMethod("setData", MetaIndex.class, Object.class);
 			method.setAccessible(true);
-			method.invoke(watcher, flag, enabled);
+			method.invoke(watcher, MetaIndex.PLAYER_SKIN, flag);
 			
 			Method method2 = FlagWatcher.class.getDeclaredMethod("sendData", MetaIndex[].class);
 			method2.setAccessible(true);
