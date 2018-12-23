@@ -3,6 +3,7 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.util.NMSUtil;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -47,16 +48,15 @@ class Ticker extends AbstractMob {
 		PlayerDisguise disguise = new PlayerDisguise(monster.getPlayer());
 		disguise.setDisplayedInTab(false);
 		
-		PlayerWatcher watcher = disguise.getWatcher();
-		watcher.setArrowsSticking(0);
-		watcher.setInvisible(true);
-		watcher.setSprinting(false);
-		watcher.setItemInMainHand(new ItemStack(Material.AIR));
+//		PlayerWatcher watcher = disguise.getWatcher();
+//		watcher.setArrowsSticking(0);
+//		watcher.setInvisible(true);
+//		watcher.setSprinting(false);
+//		watcher.setItemInMainHand(new ItemStack(Material.AIR));
+//		DisguiseAPI.disguiseEntity(monster.getPlayer(), disguise);
 		
-		DisguiseAPI.disguiseEntity(monster.getPlayer(), disguise);
 		monster.givePermanentPotionEffect(PotionEffectType.SLOW_DIGGING, 10);
-		
-		//NMSUtil.hideArrowsInPlayer(monster.getPlayer());
+		NMSUtil.hideArrowsInPlayer(monster.getPlayer());
 	}
 	
 	@Override

@@ -139,4 +139,12 @@ public class InfoCommand extends BaseCommand {
 		text = ChatColor.translateAlternateColorCodes('&', text);
 		sender.sendMessage(text);
 	}
+	
+	@CommandAlias("hide-arrows")
+	@CommandCompletion("@players")
+	@CommandPermission("nightfall.command.hide-arrows")
+	@Description("Hide all arrows in a player")
+	public void translate(CommandSender sender, Player player) {
+		NMSUtil.hideArrowsInPlayer(player);
+	}
 }
