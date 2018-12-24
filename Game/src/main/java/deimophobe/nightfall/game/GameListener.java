@@ -14,6 +14,7 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.game.entity.GameEntityShooter;
 import deimophobe.nightfall.game.entity.GamePlayer;
+import deimophobe.nightfall.game.entity.GameShooter;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -24,9 +25,6 @@ import deimophobe.nightfall.monster.mob.Goblin;
 import deimophobe.nightfall.util.ArrowMisc;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
@@ -389,10 +387,15 @@ public class GameListener implements Listener {
 	public void onProjectileLand(ProjectileHitEvent event) {
 		Projectile proj = event.getEntity();
 		ProjectileSource source = proj.getShooter();
-		if (source instanceof Player) {
-			GamePlayer player = game.getGamePlayer((Player) source);
-			if (player != null) {
-				player.onProjectileLand(event.getEntity(), event.getHitBlock());
+		
+		if (source == null) return;
+		if (source instanceof Entity) {
+			GameEntity<?> gameSource = game.getGameEntity((Entity) source);
+			if (gameSource instanceof GameShooter) {
+				Entity hitEntity = event.getHitEntity();
+				GameEntity<?> gameEntity = game.getGameEntity(hitEntity);
+				
+				((GameShooter) gameSource).onProjectileLand(event.getEntity(), event.getHitBlock(), gameEntity);
 				proj.remove();
 			}
 		}

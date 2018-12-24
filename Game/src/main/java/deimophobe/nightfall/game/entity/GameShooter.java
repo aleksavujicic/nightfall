@@ -9,5 +9,5 @@ import org.bukkit.entity.Projectile;
  */
 public interface GameShooter {
 	Projectile onBowFire(Arrow arrow, float force); // TODO: bowfire event
-	void onProjectileLand(Projectile arrow, Block hitBlock);
+	void onProjectileLand(Projectile arrow, Block hitBlock, GameEntity<?> hitEntity);
 }

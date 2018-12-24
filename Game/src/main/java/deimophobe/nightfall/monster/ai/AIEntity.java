@@ -136,6 +136,10 @@ public abstract class AIEntity<T extends Creature> extends AbstractGameEntity<T>
 		damage.addPostDamageHandler(this::resetInactivity);
 	}
 	
+	protected final boolean isAlive() {
+		return !isEntityDead();
+	}
+	
 	public void onDeath(MonsterDamage damage) {
 		AIManager.getManager().unregisterAI(this);
 	}

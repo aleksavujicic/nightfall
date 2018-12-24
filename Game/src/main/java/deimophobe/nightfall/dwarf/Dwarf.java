@@ -1,7 +1,6 @@
 package deimophobe.nightfall.dwarf;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.dwarf.kit.*;
 import deimophobe.nightfall.dwarf.light.BlindSource;
@@ -47,7 +46,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -812,7 +810,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile arrow, Block hitBlock) {
+	public void onProjectileLand(Projectile arrow, Block hitBlock, GameEntity<?> hitEntity) {
 		// Should incorporate hitEntity into here as well at some point, and make hitBlock != null a local check, but not necessary for now
 		if (hitBlock != null)
 			kit.onProjectileLand(arrow, hitBlock);

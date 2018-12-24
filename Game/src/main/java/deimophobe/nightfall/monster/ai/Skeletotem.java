@@ -1,24 +1,30 @@
 package deimophobe.nightfall.monster.ai;
 
 import deimophobe.nightfall.ItemManager;
+import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.Expirable;
+import deimophobe.nightfall.cooldown.RepeaterCooldown;
+import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.game.entity.GameShooter;
 import deimophobe.nightfall.util.ArrowMisc;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Projectile;
-import org.bukkit.entity.WitherSkeleton;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.function.Consumer;
@@ -47,6 +53,7 @@ public class Skeletotem extends AIEntity<WitherSkeleton> implements GameShooter 
 	
 	protected Skeletotem(Location location, String name, Dwarf target) {
 		super(location, name, target, WitherSkeleton.class, INITIALISER);
+		Game.getGame().addUpdateable(new Shooter());
 	}
 	
 	@Override
@@ -70,13 +77,49 @@ public class Skeletotem extends AIEntity<WitherSkeleton> implements GameShooter 
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile arrow, Block hitBlock) {
+	public void onProjectileLand(Projectile arrow, Block hitBlock, GameEntity<?> hitEntity) {}
+	
+	@Override
+	public void onDamageAttack(DwarfDamage damage) {
+		if (damage.getType() == GameDamageType.MELEE) {
+			damage.getMultiPartDamage().setBase(15);
+			damage.multiplyKnockback(3, 1.2);
+		}
+		else if (damage.getType() == GameDamageType.RANGED) {
+			damage.cancel();
+			Projectile projectile = damage.getProjectile();
+			skullExplosion(projectile.getLocation());
+		}
 	}
 	
-	/*
+	
 	@Override
-	protected void naturalUpdate() {
-		Entity target = getTarget();
+	public void onDeath(MonsterDamage damage) {
+		if (damage.getType() != GameDamageType.AI_REMOVER) {
+			entity.getLocation().getWorld().playSound(getLocation(), "entity.witherskeleton.death", 1f, 0.6f);
+		}
+		super.onDeath(damage);
+	}
+	
+	private class Shooter implements Expirable {
+		private final Cooldown shoot = new RepeaterCooldown(25, Skeletotem.this::shoot);
+		
+		@Override
+		public void update() {
+			if (getTarget() != null) shoot.update();
+		}
+		
+		@Override
+		public boolean hasExpired() {
+			return !Skeletotem.this.isAlive();
+		}
+		
+		@Override
+		public void onExpiry() {}
+	}
+	
+	private void shoot() {
+		LivingEntity target = getTarget();
 		if (target == null) return;
 		
 		faceTarget();
@@ -103,16 +146,12 @@ public class Skeletotem extends AIEntity<WitherSkeleton> implements GameShooter 
 		}.runTaskLater(NightfallPlugin.getPlugin(), 30); // 1.5 second lifetime
 		resetInactivity();
 	}
-	*/
 	
-	@Override
-	public void onDamageAttack(DwarfDamage damage) {
-	}
+	private static final double RADIUS = 2.5;
+	private static final double KB = 1.25;
 	
 	private void skullExplosion(Location centerLoc) {
 		World world = getLocation().getWorld();
-		
-		double kb = 0.2;
 		
 		world.spawnParticle(Particle.EXPLOSION_LARGE, centerLoc, 1, 0, 0, 0);
 		world.spawnParticle(Particle.SMOKE_NORMAL, centerLoc, 70, 0.5, 0.5, 0.5, 0.03);
@@ -121,11 +160,15 @@ public class Skeletotem extends AIEntity<WitherSkeleton> implements GameShooter 
 		
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			Vector offset = dwarf.getEyeLocation().subtract(centerLoc).toVector();
-			double distance = offset.subtract(new Vector(0,1,0)).length();
-			if (distance > 2.5) continue;
+			double distance = offset.length();
+			if (distance > RADIUS) continue;
+			
+			final double scalingFactor = Math.min(0.15*RADIUS/distance + 0.35, 1);
+			Vector knockback = offset.clone()
+					.normalize()
+					.multiply(KB * scalingFactor);
 			
 			DwarfDamage aoeDamage = dwarf.createDamage(this, GameDamageType.WITHER_SKULL, 25);
-			Vector knockback = offset.normalize().multiply(kb / Math.sqrt(Math.max(1.5, distance)));
 			aoeDamage.setKnockback(knockback);
 			aoeDamage.setArmourShred(15);
 			aoeDamage.setNoDamageTicks(8);
@@ -140,14 +183,5 @@ public class Skeletotem extends AIEntity<WitherSkeleton> implements GameShooter 
 		Vector offset = target.getLocation().subtract(this.getLocation()).toVector();
 		Location newLoc = entity.getLocation().setDirection(offset);
 		entity.teleport(newLoc);
-	}
-	
-	
-	@Override
-	public void onDeath(MonsterDamage damage) {
-		if (damage.getType() != GameDamageType.AI_REMOVER) {
-			entity.getLocation().getWorld().playSound(getLocation(), "entity.witherskeleton.death", 1f, 0.6f);
-		}
-		super.onDeath(damage);
 	}
 }

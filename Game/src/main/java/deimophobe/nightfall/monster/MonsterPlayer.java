@@ -6,8 +6,6 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.WhoEntry;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.menu.SessionData;
-import deimophobe.nightfall.common.player.PlayerManager;
-import deimophobe.nightfall.common.player.settings.PlayerSettings;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamage;
@@ -26,7 +24,6 @@ import deimophobe.nightfall.monster.mob.Mob;
 import deimophobe.nightfall.monster.mob.MobType;
 import deimophobe.nightfall.util.AFKChecker;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
-import net.md_5.bungee.api.chat.BaseComponent;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -522,7 +519,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile projectile, Block hitBlock) {
+	public void onProjectileLand(Projectile projectile, Block hitBlock, GameEntity<?> hitEntity) {
 		if (mob != null) {
 			mob.onProjectileLand(projectile, hitBlock);
 		}
