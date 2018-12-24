@@ -7,6 +7,7 @@ import deimophobe.nightfall.dwarf.kit.*;
 import deimophobe.nightfall.dwarf.light.BlindSource;
 import deimophobe.nightfall.dwarf.light.DwarfEyes;
 import deimophobe.nightfall.dwarf.light.LightSource;
+import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.WhoEntry;
 import deimophobe.nightfall.blocks.BlockManager;
@@ -417,7 +418,17 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	public enum PlagueStatus {
 		IMMUNE, NORMAL, PLAGUED
 	}
-
+	
+	// ------ AI IMMUNITY ------
+	private boolean aiImmune = false;
+	public void setAiImmune(boolean aiImmune) {
+		this.aiImmune = aiImmune;
+	}
+	
+	public boolean canBeTargettedByAI() {
+		return !aiImmune && !hasPotionEffect(PotionEffectType.INVISIBILITY);
+	}
+	
 	// ------ UPDATE ------
 	private static final BlockData UNLUCK_PARTICLE = Material.ORANGE_WOOL.createBlockData();
 	public void update() {
@@ -672,16 +683,28 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
+		// If immune to AI, ignore
+		if (aiImmune && (damage.getAttacker() instanceof AIEntity)) {
+			damage.cancel();
+			return;
+		}
+		
+		// Soak up shield damage
 		shieldDamage(damage);
 		
+		// Apply effect from armour
 		armour.onDamage(damage);
 		
+		// Go through kit items
 		kit.onDamageReceive(damage);
+		
+		// Increase armour shred with unluck
 		if (player.hasPotionEffect(PotionEffectType.UNLUCK)) {
 			double armourAmplifier = 1 + getPotionEffectLevel(PotionEffectType.UNLUCK)*0.05;
 			damage.multiplyArmourShred(armourAmplifier);
 		}
-
+		
+		// Preven fall damage from stun (as it gives negative jump boost)
 		if (getStunned()) {
 		    damage.multiplyKnockback(0.25);
 		    if (damage.getType() == GameDamageType.FALL) {
@@ -689,6 +712,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			}
         }
 
+        // Ignore small fall damage
 		if (damage.getType() == GameDamageType.FALL) {
 			damage.addPreDamageHandler(PreDamagePriority.FALL_DAMAGE_SAFETY, () -> {
 				if (damage.getFinalDamage() <= 0.2) {
@@ -697,6 +721,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			});
 		}
 		
+		// Weaken bow shots if fatigue curse is active
 		if (damage.getType().isArrow() && Game.getGame().isCurseActive(Curse.FATIGUE)) {
 			damage.getMultiPartDamage().timesMult(0.7);
 		}

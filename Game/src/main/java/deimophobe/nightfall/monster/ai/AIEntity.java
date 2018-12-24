@@ -172,7 +172,7 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 			}
 		}
 		
-		Dwarf newTarget = DwarfManager.getManager().getNearest(entity.getLocation(), (Dwarf d) -> !d.hasPotionEffect(PotionEffectType.INVISIBILITY));
+		Dwarf newTarget = DwarfManager.getManager().getNearest(entity.getLocation(), Dwarf::canBeTargettedByAI);
 		if (newTarget != null && newTarget.distanceTo(this) <= MAX_TARGET_RANGE) {
 			setTarget(newTarget);
 		}

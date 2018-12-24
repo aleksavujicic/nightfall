@@ -118,6 +118,20 @@ public class DwarfCommand extends BaseCommand {
 		});
 	}
 	
+	@Subcommand("ai-immune")
+	@CommandCompletion("@dwarves @boolean")
+	@CommandPermission("nightfall.command.dwarf.ai-immune")
+	@Description("Set a dwarf's ai immunity status.")
+	public void aiImmunity(CommandSender sender, DwarfIterable dwarves, @Default("true") boolean immune) {
+		dwarves.forEach(dwarf -> {
+			dwarf.setAiImmune(immune);
+			MessageUtil.sendMessage(sender, "Set ", dwarf, " to ",
+					(immune ? ChatColor.GREEN + "be" : ChatColor.RED + "not be"),
+					" immune to AIs.");
+		});
+	}
+	
+	
 	@Subcommand("plague")
 	@Conditions("pre-plague")
 	@CommandCompletion("@dwarves @plague-status")
