@@ -146,19 +146,19 @@ longbow:
   type: item
   name: longbow
   category: bow
-  cost: 18
+  cost: 16
   item:
     name: "Longbow"
     base: longbow
     lore:
       description:
-       - "Shooting player controlled mobs\n
-          temporarily increases bow power by &b20&r,\n
-          for a max of &b200&r power for &e10 seconds&r.\n
-          Shooting AI controlled mobs lengthens\n
-          the increase time by &e2 seconds&r."
+       - "Killing mobs will increase the longbow's\n
+          power by &b10&r per kill, up to a maximum\n
+          of &b125&r power.\n
+          Must kill a mob every &e6 seconds&r to\n
+          maintain this bonus."
     modifiers:
-      power: 80
+      power: 75
 
 volcanic:
   index: 10

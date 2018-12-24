@@ -1,7 +1,10 @@
 package deimophobe.nightfall.dwarf.kit.ranged;
 
+import com.google.common.collect.Lists;
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.cooldown.CompletionCooldown;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -10,12 +13,11 @@ import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.util.ArrowMisc;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
+
+import java.util.List;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -25,7 +27,7 @@ public class Longbow extends AbstractBow implements CooldownPiece {
 		super(dwarf);
 	}
 	
-	private final static int POWER = 80;
+	private final static int POWER = 75;
 	private final static CustomItem ITEM = getBow("longbow", POWER);
 	@Override public CustomItem getItem() {
 		return ITEM;
@@ -33,29 +35,16 @@ public class Longbow extends AbstractBow implements CooldownPiece {
 	@Override public String getBowIdentifier() {return "LONGBOW";}
 	@Override public int getPower() {return POWER;}
 	
-	private final ComplexCooldown meleeReducer = new ComplexCooldown(20, this::reduceStacks);
-	
-	private int stackCD = 0;
-	private static final int MAX_STACK_CD = 200;
+	private final Cooldown stackRemover = new CompletionCooldown(6*20, this::resetStacks);
 	
 	private int stacks = 0;
-	private static final int PLAYER_STACK_GAIN = 1;
-	private static final int MAX_STACKS = 6;
-	private static final double DMG_PER_STACK = 20;
+	private static final int MAX_STACKS = 5;
+	private static final double DMG_PER_STACK = 10;
 	
 	@Override
 	public void update() {
 		super.update();
-		meleeReducer.update();
-		
-		if (stacks == 0) return;
-		stackCD--;
-		
-		if (stackCD <= 0) {
-			stackCD = MAX_STACK_CD;
-			stacks = 0;
-			dwarf.playSound("entity.experience_orb.pickup", 10f, 0.5f, false);
-		}
+		stackRemover.update();
 		
 		showParticles();
 	}
@@ -64,75 +53,83 @@ public class Longbow extends AbstractBow implements CooldownPiece {
 	public Projectile onBowFire(Projectile proj, float force) {
 		Arrow arrow = (Arrow) super.onBowFire(proj, force);
 		ArrowMisc.setArrowDamage(arrow, POWER + stacks*DMG_PER_STACK);
-		if (stacks == MAX_STACKS) {
-			ArrowMisc.setGlowColour(arrow, ChatColor.LIGHT_PURPLE);
-		}
 		return arrow;
 	}
-
+	
 	@Override
-	public void onDamageAttack(MonsterDamage damage) {
-		super.onDamageAttack(damage);
-		MonsterEntity monster = damage.getMonster();
-		if (damage.hasArrow() && this.isRangedDamageFromBow(damage) && ArrowMisc.getArrowForce(damage.getArrow()) > 0.5 ) {
-			if (monster.isAI()) {
-				damage.addPostDamageHandler(() -> {
-					stackCD = Math.min(MAX_STACK_CD, stackCD + 40);
-				});
-			} else {
-				damage.addPostDamageHandler(() -> {
-					stacks += PLAYER_STACK_GAIN;
-					if (stacks > MAX_STACKS) stacks = MAX_STACKS;
-					
-					stackCD = MAX_STACK_CD;
-				});
-			}
+	public void onKill(MonsterDamage damage) {
+		super.onKill(damage);
+		if (isRangedDamageFromBow(damage)) {
+			incrementStacks();
 		}
 	}
-
+	
 	@Override
-	public void onDamageReceive(DwarfDamage damage) {
-		super.onDamageReceive(damage);
-		if (!(damage.getAttacker() instanceof AIEntity) && damage.getType() == GameDamageType.MELEE) {
-			damage.addPostDamageHandler(meleeReducer::tryUse);
+	public void onShift(boolean sneaking) {
+		super.onShift(sneaking);
+		if (dwarf.isDebugMode() && sneaking) {
+			incrementStacks();
 		}
 	}
 	
 	@Override
 	public float getCooldown() {
-		if (stacks == 0) return 0;
-		else return (float) stackCD/MAX_STACK_CD;
+		return 1 - stackRemover.getCooldown();
+	}
+	
+	private void incrementStacks() {
+		stacks += 1;
+		if (stacks > MAX_STACKS) stacks = MAX_STACKS;
+		
+		dwarf.playSound(Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 2f, false);
+		stackRemover.reset();
+	}
+	
+	private void resetStacks() {
+		stacks = 0;
+		dwarf.playSound(Sound.BLOCK_BEACON_DEACTIVATE, 1f, 2f, false);
 	}
 	
 	
 	private double theta = 0;
 	private void showParticles() {
-		theta = (theta + 0.05) % (2 * Math.PI);
+		if (stacks == 0) return;
+		if (!isHoldingItem()) return;
+		
+		theta = (theta + 0.15) % (2 * Math.PI);
 		
 		Location playerLoc = dwarf.getPlayer().getEyeLocation();
 		
-		for (int i = 0; i < stacks*2; i++) {
+		for (int i = 0; i < stacks; i++) {
 			double frac = (double) i / MAX_STACKS;
-			int red = (int) (87 + frac * 118);
-			int green = (int) (179 - frac * 90);
-			int blue = (int) (147 + frac * 108);
-			double myTheta = theta - frac * 2 * Math.PI;
+			double particleTheta = theta - frac * 2 * Math.PI;
 			
-			if (stacks == MAX_STACKS) {
-				red = 220;
-				green = 58;
-				blue = 252;
-			}
-			Particle.DustOptions colour = new Particle.DustOptions(Color.fromRGB(red, green, blue), 1);
+			Particle.DustOptions colour = (stacks == MAX_STACKS ? MAX_COLOUR : PARTICLE_COLOURS.get(i));
 			
-			Location particleLoc = playerLoc.clone().add(Math.cos(myTheta), -1, Math.sin(myTheta));
+			Location particleLoc = playerLoc.clone().add(Math.cos(particleTheta), -1, Math.sin(particleTheta));
 			particleLoc.getWorld().spawnParticle(Particle.REDSTONE, particleLoc, 1, 0, 0,0, colour);
 		}
 	}
 	
-	private void reduceStacks() {
-		if (stacks > 0) {
-			stacks--;
+	private static final Particle.DustOptions MAX_COLOUR = new Particle.DustOptions(Color.fromRGB(18,209,205),1);
+	private static final List<Particle.DustOptions> PARTICLE_COLOURS;
+	static {
+		PARTICLE_COLOURS = Lists.newArrayList();
+		
+		double r1 = 3;
+		double g1 = 100;
+		double b1 = 200;
+		double r2 = 18;
+		double g2 = 209;
+		double b2 = 180;
+		
+		for (int i = 0; i < MAX_STACKS; i++) {
+			double frac = (double) i / MAX_STACKS;
+			int red = (int) (r1 + frac * (r2-r1));
+			int green = (int) (g1 + frac * (g2-g1));
+			int blue = (int) (b1 + frac * (b2-b1));
+			
+			PARTICLE_COLOURS.add(new Particle.DustOptions(Color.fromRGB(red,green,blue), 1));
 		}
 	}
 }
