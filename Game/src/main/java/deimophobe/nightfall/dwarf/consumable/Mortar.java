@@ -30,9 +30,9 @@ class Mortar extends Consumable {
 			this.success = ConsumeResult.successfulWithDuration(20);
 			this.useableBuildPhase = false;
 		} else {
-			this.range = 4;
+			this.range = 6;
 			this.blue = false;
-			this.successChance = 0.3;
+			this.successChance = 0.4;
 			this.pitch = () -> (float) (0.5 + 0.05 * Math.random());
 			this.success = ConsumeResult.successfulWithDuration(10);
 			this.useableBuildPhase = true;
