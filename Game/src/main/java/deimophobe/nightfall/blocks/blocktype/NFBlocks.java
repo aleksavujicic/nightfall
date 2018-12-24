@@ -149,7 +149,7 @@ public class NFBlocks {
 	public static final BlockInteracter CRACKED_GOLD_3 = new ArmourBlockInteracter(Material.MAGENTA_WOOL);
 	public static final BlockInteracter REFINED_GOLD = new MaterialBlock(Material.GOLD_BLOCK);
 	public static final BlockMatcher CRAFTING_ARMOUR = new BlockSet(CRACKED_GOLD_1, CRACKED_GOLD_2, CRACKED_GOLD_3);
-	public static final BlockMatcher PISTON_BASE = new MaterialSet(Material.PISTON, Material.MOVING_PISTON);
+	public static final BlockMatcher PISTON_BASE = new MaterialSet(Material.PISTON, Material.PISTON_HEAD);
 	
 	// Crafting
 	public static final BlockInteracter OIL = new MaterialBlock(Material.SPONGE);
