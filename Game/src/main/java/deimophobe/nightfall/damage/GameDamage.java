@@ -455,11 +455,12 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		receiverEntity.setNoDamageTicks(noDamageTicks);
 		
 		// Apply knockback
+		// TODO warn sometimes when kb is too big (but not always)
 		if (knockback != null) {
 			double kbResist = receiverEntity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).getValue();
 			if (0 <= kbResist && kbResist < 1) {
 				knockback.multiply(1 - kbResist);
-				receiver.setVelocity(knockback);
+				receiver.forceSetVelocity(knockback);
 			}
 		}
 		

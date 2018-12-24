@@ -129,6 +129,10 @@ public interface GameEntity<E extends LivingEntity> {
 		getEntity().setVelocity(velocity);
 	}
 	
+	default void forceSetVelocity(Vector velocity) {
+		getEntity().setVelocity(velocity);
+	}
+	
 	default void leap(double horizontal, double vertical) {
 		checkVelocityParameter(horizontal, "horizontal");
 		checkVelocityParameter(vertical, "vertical");
