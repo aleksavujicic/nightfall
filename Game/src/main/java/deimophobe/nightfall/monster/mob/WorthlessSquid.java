@@ -9,15 +9,14 @@ import com.comphenix.protocol.events.PacketContainer;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.cooldown.*;
+import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.util.PacketUtil;
 import deimophobe.nightfall.util.Util;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
@@ -31,6 +30,7 @@ import java.lang.reflect.InvocationTargetException;
  */
 final class WorthlessSquid extends AbstractMob {
 	private static final BlockData INK_BLOCK_DATA = Material.BLACK_CONCRETE.createBlockData();
+	private static final Particle.DustOptions INK_COLOUR = new Particle.DustOptions(Color.BLACK, 2f);
 	
 	WorthlessSquid(MonsterPlayer monster) {
 		super(monster, MobType.SQUID);
@@ -65,7 +65,15 @@ final class WorthlessSquid extends AbstractMob {
 		playSound("squirt");
 		monster.getWorld().spawnParticle(Particle.BLOCK_DUST, monster.getLocation(), 30, 0.5, 0.5, 0.5, 0.05, INK_BLOCK_DATA);
 		monster.getWorld().spawnParticle(Particle.BLOCK_CRACK, monster.getLocation(), 30, 0.5, 0.5, 0.5, 0.05, INK_BLOCK_DATA);
+		monster.getWorld().spawnParticle(Particle.REDSTONE, monster.getLocation(), 30, 0.5, 0.5, 0.5, 0.05, INK_COLOUR);
 		monster.getWorld().spawnParticle(Particle.SMOKE_LARGE, monster.getLocation(), 5, 0.5, 0.5, 0.5, 0.05);
+		
+		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
+			double distance = monster.distanceTo(dwarf);
+			int blindTime = (int) (20 * (4 - distance));
+			
+			dwarf.giveBlindness(blindTime);
+		}
 		
 		// To prevent the disguise from bugging out
 		monster.doLater(() -> {
@@ -92,6 +100,6 @@ final class WorthlessSquid extends AbstractMob {
 					velocityPacket.sendPacket(player);
 				}
 			}
-		}, 10);
+		}, 20);
 	}
 }
