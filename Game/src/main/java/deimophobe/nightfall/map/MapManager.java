@@ -449,7 +449,7 @@ public class MapManager {
 		world.setAutoSave(false);
 		world.setDifficulty(Difficulty.NORMAL);
 		world.setKeepSpawnInMemory(false);
-		world.setSpawnFlags(false, false);
+//		world.setSpawnFlags(false, false);
 		
 		world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
 		world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, true);

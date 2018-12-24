@@ -12,10 +12,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
@@ -26,7 +23,7 @@ import java.util.function.Consumer;
 /**
  * Created by Deimophobe on 24/01/17.
  */
-public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> implements MonsterEntity<T> {
+public abstract class AIEntity<T extends Creature> extends AbstractGameEntity<T> implements MonsterEntity<T> {
 	protected static final int MAX_INACTIVITY_COUNT = 4;
 	protected int inactivityCount;
 	private Location lastLocation;
@@ -34,14 +31,29 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 	private int suffocationCounter = 50;
 	
 	protected AIEntity(Location location, String name, Dwarf target, Class<T> entityType, Consumer<? super T> subclassInitialiser) {
-		super(location.clone().subtract(0,1.8,0), entityType, entity -> {
+		this(location, name, target, entityType, subclassInitialiser, true);
+	}
+	
+	protected AIEntity(Location location, String name, Dwarf target, Class<T> entityType, Consumer<? super T> subclassInitialiser, boolean fromGround) {
+		super(location, entityType, decorateInitialiser(subclassInitialiser, name, target, fromGround));
+		this.lastLocation = location.clone();
+		this.inactivityCount = MAX_INACTIVITY_COUNT;
+	}
+	
+	private static <S extends Creature> Consumer<S> decorateInitialiser(Consumer<? super S> initialiser, String name, Dwarf target, boolean fromGround) {
+		return entity -> {
 			Entity riding = entity.getVehicle();
 			if (riding != null) {
 				entity.leaveVehicle();
 				riding.remove();
 			}
 			
-			entity.setVelocity(new Vector(0, 0.7, 0));
+			if (fromGround) {
+				Location location = entity.getLocation();
+				location.subtract(0,1.8,0);
+				entity.teleport(location);
+				entity.setVelocity(new Vector(0, 0.7, 0));
+			}
 			
 			EntityEquipment equipment = entity.getEquipment();
 			equipment.setHelmet(null);
@@ -50,13 +62,12 @@ public abstract class AIEntity<T extends Monster> extends AbstractGameEntity<T> 
 			equipment.setBoots(null);
 			
 			entity.setCustomName(name);
-			if (target != null)
+			if (target != null) {
 				entity.setTarget(target.getPlayer());
+			}
 			
-			subclassInitialiser.accept(entity);
-		});
-		this.lastLocation = location.clone();
-		this.inactivityCount = MAX_INACTIVITY_COUNT;
+			initialiser.accept(entity);
+		};
 	}
 	
 	
