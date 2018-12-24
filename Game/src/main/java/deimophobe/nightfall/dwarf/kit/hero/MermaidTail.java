@@ -22,6 +22,15 @@ public class MermaidTail extends AbstractPiece implements ArmourPiece, SwimPiece
 	}
 	
 	@Override
+	public void update() {
+		super.update();
+		
+		if (dwarf.everyNthTick(100)) {
+			updateSwimState(dwarf.isSwimming());
+		}
+	}
+	
+	@Override
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
 		if (damage.getType() == GameDamageType.DROWNING) damage.cancel();

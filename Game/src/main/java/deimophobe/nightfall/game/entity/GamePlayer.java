@@ -642,6 +642,8 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	
 	// ------ MISC ------
 	public boolean isSneaking() { return player.isSneaking(); }
+	public boolean isSwimming() { return player.isSwimming(); }
+	
 	public Block getTargetBlock(Set<Material> materials, int i) {
 		return player.getTargetBlock(materials, i);
 	}
@@ -767,7 +769,6 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		
 		return true;
 	}
-	
 	
 	// ------ HITSCAN CLASSES ------
 	public abstract class SingleEntityConsumer<P extends GameEntity> implements Consumer<P> {
