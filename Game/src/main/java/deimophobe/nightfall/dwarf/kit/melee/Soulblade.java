@@ -149,8 +149,8 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 	
 	
 	private static final double TWOPI = 2*PI;
-	private static final Particle.DustOptions DEFAULT_COLOUR = new Particle.DustOptions(Color.fromRGB(192,26,204), 1);
-	private static final Particle.DustOptions MAX_COLOUR = new Particle.DustOptions(Color.fromRGB(128,26,229), 1);
+	private static final Particle.DustOptions DEFAULT_COLOUR = new Particle.DustOptions(Color.fromRGB(97,0,216), 1);
+	private static final Particle.DustOptions MAX_COLOUR = new Particle.DustOptions(Color.fromRGB(25,2,102), 1);
 	
 	
 	private double polar = 0;
