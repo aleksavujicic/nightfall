@@ -28,11 +28,11 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * Created by Deimophobe on 11/10/18.
  */
-final class WorthlessSquid extends AbstractMob {
+final class SquidMob extends AbstractMob {
 	private static final BlockData INK_BLOCK_DATA = Material.BLACK_CONCRETE.createBlockData();
 	private static final Particle.DustOptions INK_COLOUR = new Particle.DustOptions(Color.BLACK, 2f);
 	
-	WorthlessSquid(MonsterPlayer monster) {
+	SquidMob(MonsterPlayer monster) {
 		super(monster, MobType.SQUID);
 	}
 	

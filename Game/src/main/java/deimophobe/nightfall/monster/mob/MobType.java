@@ -35,7 +35,7 @@ public enum MobType implements MobCreator<Mob> {
 
 	WALKER(Walker::new),
 
-	SQUID(WorthlessSquid::new),
+	SQUID(SquidMob::new),
 	TICKER(Ticker::new),
 	ZEPHYR(Zephyr::new),
 	

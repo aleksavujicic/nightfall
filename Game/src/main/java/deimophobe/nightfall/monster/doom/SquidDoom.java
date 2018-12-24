@@ -17,8 +17,8 @@ import org.bukkit.Location;
  * Created by Deimophobe on 11/10/18.
  */
 @DoomMeta(
-		title = "Worthless Squids",
-		subtitles = "They're kinda worthless",
+		title = "Deadly Squids",
+		subtitles = "They could be fatal",
 		
 		regularMobs = MobType.SQUID
 )
