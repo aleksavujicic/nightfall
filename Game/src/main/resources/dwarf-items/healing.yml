@@ -83,7 +83,8 @@ strong:
         you &e60% resistance&r making you feel like\n
         a hero. However, it uses &b250&r mana."
     flavour:
-     - "\"My potions are too strong for you traveller.\" - Potion Seller"
+     - "\"My potions are too strong for you\n
+          traveller.\" - Potion Seller"
 
 shield:
   base: shield-ale
