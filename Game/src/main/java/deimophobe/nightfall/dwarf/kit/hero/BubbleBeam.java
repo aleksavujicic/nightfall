@@ -148,8 +148,9 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	
 	private class Whirlpool extends LifetimeExpireable {
 		
-		private static final double HALF_HEIGHT = 6;
-		private static final int DURATION = 10*20;
+		private static final double BOTTOM_HALF_HEIGHT = 2;
+		private static final double TOP_HALF_HEIGHT = 6;
+		private static final int DURATION = 8*20;
 		
 		private final Location floatLoc;
 		private final Location midLoc;
@@ -157,8 +158,8 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 		private Whirlpool() {
 			super(DURATION);
 			
-			midLoc = dwarf.getLocation().add(0, HALF_HEIGHT - 3, 0);
-			floatLoc = midLoc.clone().add(0, HALF_HEIGHT, 0);
+			midLoc = dwarf.getLocation().add(0, BOTTOM_HALF_HEIGHT, 0);
+			floatLoc = midLoc.clone().add(0, TOP_HALF_HEIGHT, 0);
 		}
 		
 		
@@ -173,9 +174,9 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 			world.spawnParticle(Particle.BLOCK_CRACK, floatLoc, 50, 1.5, 0.3, 1.5, 0, WATER_4);
 			world.spawnParticle(Particle.CLOUD, floatLoc, 2, 1.5, 0.3, 1.5, 0);
 			
-			world.spawnParticle(Particle.BLOCK_CRACK, midLoc, 5, 0.2, HALF_HEIGHT /2, 0.2, 0, WATER_2);
-			world.spawnParticle(Particle.BLOCK_CRACK, midLoc, 10, 0.2, HALF_HEIGHT /2, 0.2, 0, WATER_3);
-			world.spawnParticle(Particle.BLOCK_CRACK, midLoc, 20, 0.2, HALF_HEIGHT /2, 0.2, 0, WATER_4);
+			world.spawnParticle(Particle.BLOCK_CRACK, midLoc, 5, 0.2, TOP_HALF_HEIGHT /2, 0.2, 0, WATER_2);
+			world.spawnParticle(Particle.BLOCK_CRACK, midLoc, 10, 0.2, TOP_HALF_HEIGHT /2, 0.2, 0, WATER_3);
+			world.spawnParticle(Particle.BLOCK_CRACK, midLoc, 20, 0.2, TOP_HALF_HEIGHT /2, 0.2, 0, WATER_4);
 			
 			float pitch = (float) Misc.randomDouble(0.5,2);
 			if (everyNTicks(2)) {
@@ -193,7 +194,7 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 						boolean isAI = (monster instanceof AIEntity<?>);
 						
 						if (dwarf.isOnline())
-							monster.doDamage(dwarf, GameDamageType.GEYSER, 10, true, isAI);
+							monster.doDamage(dwarf, GameDamageType.GEYSER, 5, true, isAI);
 					}
 
 					Vector offset = monster.offsetFrom(midLoc);
@@ -228,7 +229,8 @@ public class BubbleBeam extends AbstractItem implements CooldownPiece {
 			double y = location.getY();
 			double z = location.getZ();
 			
-			return (-HALF_HEIGHT <= y && y <= HALF_HEIGHT && (x*x + z*z <= 9));
+			// Note it extends below starting point
+			return (-TOP_HALF_HEIGHT <= y && y <= TOP_HALF_HEIGHT && (x*x + z*z <= 9));
 		}
 	}
 }
