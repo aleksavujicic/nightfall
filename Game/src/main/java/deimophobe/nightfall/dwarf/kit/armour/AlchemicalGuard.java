@@ -18,7 +18,7 @@ import java.util.Set;
  */
 public class AlchemicalGuard extends AbstractCooldown implements ArmourPiece {
 	
-	private static final Buff WEAK_REGEN = new Buff(PotionEffectType.REGENERATION, 2);
+	private static final Buff WEAK_REGEN = new Buff(PotionEffectType.REGENERATION, 3);
 	
 	private static final int DURATION = 60*20;
 	private static final int CHANGEOVER_DURATION = 5*20;

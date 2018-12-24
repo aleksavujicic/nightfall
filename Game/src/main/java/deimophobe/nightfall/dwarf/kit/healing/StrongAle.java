@@ -11,8 +11,8 @@ import deimophobe.nightfall.dwarf.kit.ArmourPiece;
  * Created by Deimophobe on 5/10/17.
  */
 public class StrongAle extends AbstractAle implements ArmourPiece {
-	private static final int MANA_COST = 400;
-	private static final double DAMAGE_RESISTANCE = 0.75;
+	private static final int MANA_COST = 250;
+	private static final double DAMAGE_RESISTANCE = 0.6;
 	public static double getDamageResistance() { return DAMAGE_RESISTANCE; }
 	
 	private final static CustomItem ITEM = getAle("strong", MANA_COST);

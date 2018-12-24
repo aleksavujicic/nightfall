@@ -80,8 +80,8 @@ strong:
   lore:
     description:
      - "A very strong potion, which gives\n
-        you &e75% resistance&r making you feel like\n
-        a hero. However, it uses &b400&r mana."
+        you &e60% resistance&r making you feel like\n
+        a hero. However, it uses &b250&r mana."
     flavour:
      - "\"My potions are too strong for you traveller.\" - Potion Seller"
 
