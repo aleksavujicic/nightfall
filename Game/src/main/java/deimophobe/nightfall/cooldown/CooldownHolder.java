@@ -66,4 +66,10 @@ public class CooldownHolder implements Updateable {
 		//noinspection SuspiciousMethodCalls
 		expirables.remove(updateable);
 	}
+	
+	public void removeAll() {
+		updateables.clear();
+		expirables.forEach(Expirable::onExpiry);
+		expirables.clear();
+	}
 }

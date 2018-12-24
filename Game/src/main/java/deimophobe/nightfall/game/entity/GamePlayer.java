@@ -104,6 +104,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	public void onRemove() {
 		clearInventory();
 		clearWarning();
+		cooldownHolder.removeAll();
 	}
 	
 	// ------ DEBUG ------

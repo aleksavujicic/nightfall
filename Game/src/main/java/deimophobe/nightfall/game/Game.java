@@ -178,6 +178,7 @@ public class Game {
 	}
 	
 	public void stop() {
+		cooldownHolder.removeAll();
 		removeShrineBar();
 		managers.values().forEach(Manager::stop);
 		
