@@ -4,12 +4,15 @@ import deimophobe.nightfall.command.CommandInitialiserUtil;
 import deimophobe.nightfall.common.menu.MenuManager;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.PlayMode;
+import deimophobe.nightfall.map.GameMap;
+import deimophobe.nightfall.map.MapManager;
 import deimophobe.nightfall.util.PacketUtil;
 import me.libraryaddict.disguise.LibsDisguises;
 import me.lucko.luckperms.LuckPerms;
 import me.lucko.luckperms.api.LuckPermsApi;
 import me.lucko.luckperms.api.context.ContextManager;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
@@ -46,8 +49,8 @@ public class NightfallPlugin extends JavaPlugin {
 			checkDependency("Packet Wrapper", "com.comphenix.packetwrapper.AbstractPacket");
 			checkDependency("LuckPerms", "me.lucko.luckperms.api.LuckPermsApi");
 		} catch (ClassNotFoundException e) {
+			getLogger().severe("Could not load all dependencies. Disabling...");
 			e.printStackTrace();
-			getLogger().severe("Could not load all dependencies, disabling.");
 			plugin.getPluginLoader().disablePlugin(this);
 			return;
 		}
@@ -56,11 +59,19 @@ public class NightfallPlugin extends JavaPlugin {
 		
 		PacketUtil.setupListeners();
 		
-		Game.createNewGame();
-		Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
-		NightfallListener nfListnener = new NightfallListener();
-		Bukkit.getPluginManager().registerEvents(nfListnener, this);
-		Bukkit.getOnlinePlayers().forEach(nfListnener::processPlayer);
+		try {
+			Game.createNewGame();
+			Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
+			NightfallListener nfListnener = new NightfallListener();
+			Bukkit.getPluginManager().registerEvents(nfListnener, this);
+			Bukkit.getOnlinePlayers().forEach(nfListnener::processPlayer);
+		} catch (Exception e) {
+			getLogger().severe("Could not start nightfall plugin. Disabling...");
+			e.printStackTrace();
+			plugin.getPluginLoader().disablePlugin(this);
+			Bukkit.broadcastMessage(ChatColor.RED + "Failed to start nightfall");
+			return;
+		}
 		
 		initialiseMenus();
 		
@@ -75,8 +86,16 @@ public class NightfallPlugin extends JavaPlugin {
 	public void onDisable() {
 		disabling = true;
 		
-		Game game = Game.getGame();
-		if (game != null) game.stop();
+		try {
+			Game game = Game.getGame();
+			if (game != null) game.stop();
+		} catch (Exception e) {
+			getLogger().severe("Failed to disable nightfall plugin.");
+			e.printStackTrace();
+			
+			GameMap map = GameMap.getCurrentMap();
+			map.unload(); // Just in case, try again
+		}
 	}
 	
 	public void registerListener(Listener listener) {
