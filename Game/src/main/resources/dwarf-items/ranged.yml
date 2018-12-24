@@ -100,7 +100,7 @@ volcanic:
     description:
      - "Charge up a lined blast of fire\n
         that pierces everything in\n
-        its path. Uses 3 arrows a shot."
+        its path. Uses 2 arrows a shot."
     flavour:
      - "\"This gauntlet can even burn hellhounds.\" -Tui"
   modifiers:

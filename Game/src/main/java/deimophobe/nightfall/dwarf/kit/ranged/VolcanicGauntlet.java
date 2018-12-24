@@ -25,7 +25,7 @@ public class VolcanicGauntlet extends AbstractBow {
 		super(dwarf);
 	}
 	
-	private final static int POWER = 70;
+	private final static int POWER = 60;
 	private final static CustomItem ITEM = getBow("volcanic", POWER);
 	@Override public CustomItem getItem() {
 		return ITEM;

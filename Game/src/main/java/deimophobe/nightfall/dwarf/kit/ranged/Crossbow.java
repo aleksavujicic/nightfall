@@ -20,8 +20,8 @@ public class Crossbow extends AbstractBow implements CooldownPiece {
 		super(dwarf);
 	}
 	
-	private static final int POWER = 90;
-	private static final int RAPID_POWER = 25;
+	private static final int POWER = 75;
+	private static final int RAPID_POWER = 35;
 	private static final String RAPID_META = "rapid";
 	private static final CustomItem ITEM = getBow("crossbow", POWER);
 	@Override public CustomItem getItem() {
