@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Rail;
 import org.bukkit.block.data.type.RedstoneRail;
+import org.bukkit.util.BlockIterator;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -154,6 +155,7 @@ public class NFBlocks {
 	// Crafting
 	public static final BlockInteracter OIL = new MaterialBlock(Material.SPONGE);
 	public static final BlockInteracter SAWS = new MaterialBlock(Material.IRON_BARS);
+	public static final BlockMatcher SAW_BASE = new MaterialSet(Material.STICKY_PISTON, Material.PISTON_HEAD);
 	public static final BlockInteracter ANVIL = new MaterialBlock(Material.ANVIL);
 	public static final BlockMatcher FURNACE = new MaterialSet(Material.FURNACE);
 	public static final BlockMatcher SHARED_CHEST = new MaterialSet(Material.CHEST, Material.ENDER_CHEST, Material.TRAPPED_CHEST);
@@ -234,7 +236,8 @@ public class NFBlocks {
 	public static final BlockMatcher UNBREAKABLE_BLOCKS = new BlockSet(
 			UNTIMEABLE_BLOCKS.except(Material.GOLD_ORE),
 			TIMED_BLOCK,
-			LOG
+			LOG,
+			SAW_BASE
 			
 	).orOfMaterial(
 			Material.IRON_BLOCK,
