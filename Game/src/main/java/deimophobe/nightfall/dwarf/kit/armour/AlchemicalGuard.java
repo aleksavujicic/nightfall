@@ -24,23 +24,28 @@ public class AlchemicalGuard extends AbstractPiece implements CooldownPiece, Arm
 	private static final int DURATION = 60*20;
 	private static final int CHANGEOVER_DURATION = 5*20;
 	private static final Set<Buff> BUFFS = Sets.newHashSet(
-		new Buff(PotionEffectType.DAMAGE_RESISTANCE, 2),
-		new Buff(PotionEffectType.SLOW, -1),
-		new Buff(PotionEffectType.NIGHT_VISION, 1),
-		new Buff(PotionEffectType.FIRE_RESISTANCE, 1),
-		new Buff(PotionEffectType.INCREASE_DAMAGE, 3),
-		new Buff(PotionEffectType.HEALTH_BOOST, 3),
-		new Buff(PotionEffectType.FAST_DIGGING, 3),
-		new Buff(PotionEffectType.REGENERATION, 4) {
-			@Override
-			public void giveBuff(Dwarf dwarf, int time) {
-				if (dwarf.hasKitPiece(KitPieceType.STRONG_ALE)) {
-					WEAK_REGEN.giveBuff(dwarf, time);
-				} else {
-					super.giveBuff(dwarf, time);
+			new Buff(PotionEffectType.DAMAGE_RESISTANCE, 2),
+			new Buff(PotionEffectType.SLOW, -1),
+			new Buff(PotionEffectType.FIRE_RESISTANCE, 1),
+			new Buff(PotionEffectType.INCREASE_DAMAGE, 3),
+			new Buff(PotionEffectType.HEALTH_BOOST, 3),
+			new Buff(PotionEffectType.FAST_DIGGING, 3),
+			new Buff(PotionEffectType.NIGHT_VISION, 1) {
+				@Override
+				public boolean canRollBuff(Dwarf dwarf) {
+					return super.canRollBuff(dwarf) && !dwarf.hasKitPiece(KitPieceType.DARKVISION);
+				}
+			},
+			new Buff(PotionEffectType.REGENERATION, 4) {
+				@Override
+				public void giveBuff(Dwarf dwarf, int time) {
+					if (dwarf.hasKitPiece(KitPieceType.STRONG_ALE)) {
+						WEAK_REGEN.giveBuff(dwarf, time);
+					} else {
+						super.giveBuff(dwarf, time);
+					}
 				}
 			}
-		}
 	);
 	
 	private Buff currentBuff = null;
@@ -75,8 +80,9 @@ public class AlchemicalGuard extends AbstractPiece implements CooldownPiece, Arm
 		// Choose random buff
 		Set<Buff> newBuffs = new HashSet<>();
 		for (Buff buff : BUFFS) {
-			if (!buff.hasBuff(dwarf))
+			if (buff.canRollBuff(dwarf)) {
 				newBuffs.add(buff);
+			}
 		}
 		Buff buff = Misc.getRandom(newBuffs);
 		
@@ -86,8 +92,9 @@ public class AlchemicalGuard extends AbstractPiece implements CooldownPiece, Arm
 			
 			currentBuff = buff;
 		} else {
-			if (currentBuff != null)
+			if (currentBuff != null) {
 				currentBuff.giveBuff(dwarf);
+			}
 		}
 	}
 	
@@ -98,8 +105,8 @@ public class AlchemicalGuard extends AbstractPiece implements CooldownPiece, Arm
 			buffGiver.reset();
 		}
 		
-		if (currentBuff != null && !currentBuff.hasBuff(dwarf)) {
-			currentBuff.giveBuff(dwarf, buffGiver.getTimeRemaining());
+		if (currentBuff != null) {
+			currentBuff.giveBuff(dwarf, buffGiver.getTimeRemaining() - 1);
 		}
 	}
 	
@@ -117,8 +124,8 @@ public class AlchemicalGuard extends AbstractPiece implements CooldownPiece, Arm
 			this.amplifier = amplifier;
 		}
 		
-		private boolean hasBuff(Dwarf dwarf) {
-			return dwarf.getPlayer().hasPotionEffect(type);
+		public boolean canRollBuff(Dwarf dwarf) {
+			return !dwarf.getPlayer().hasPotionEffect(type);
 		}
 		
 		private void giveBuff(Dwarf dwarf) {
