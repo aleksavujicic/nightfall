@@ -1,12 +1,13 @@
 package deimophobe.nightfall.dwarf.kit.armour;
 
+import com.google.common.collect.Sets;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.RepeaterCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.Armour;
-import deimophobe.nightfall.dwarf.kit.AbstractCooldown;
-import deimophobe.nightfall.dwarf.kit.ArmourPiece;
-import deimophobe.nightfall.dwarf.kit.KitPieceType;
+import deimophobe.nightfall.dwarf.kit.*;
 import deimophobe.nightfall.util.ArmourSlot;
 import org.bukkit.potion.PotionEffectType;
 
@@ -16,22 +17,21 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 14/03/17.
  */
-public class AlchemicalGuard extends AbstractCooldown implements ArmourPiece {
+public class AlchemicalGuard extends AbstractPiece implements CooldownPiece, ArmourPiece {
 	
 	private static final Buff WEAK_REGEN = new Buff(PotionEffectType.REGENERATION, 3);
 	
 	private static final int DURATION = 60*20;
 	private static final int CHANGEOVER_DURATION = 5*20;
-	private static final Set<Buff> BUFFS = new HashSet<>();
-	static {
-		BUFFS.add(new Buff(PotionEffectType.DAMAGE_RESISTANCE, 2));
-		BUFFS.add(new Buff(PotionEffectType.SLOW, -1));
-		BUFFS.add(new Buff(PotionEffectType.NIGHT_VISION, 1));
-		BUFFS.add(new Buff(PotionEffectType.FIRE_RESISTANCE, 1));
-		BUFFS.add(new Buff(PotionEffectType.INCREASE_DAMAGE, 3));
-		BUFFS.add(new Buff(PotionEffectType.HEALTH_BOOST, 3));
-		BUFFS.add(new Buff(PotionEffectType.FAST_DIGGING, 3));
-		BUFFS.add(new Buff(PotionEffectType.REGENERATION, 4) {
+	private static final Set<Buff> BUFFS = Sets.newHashSet(
+		new Buff(PotionEffectType.DAMAGE_RESISTANCE, 2),
+		new Buff(PotionEffectType.SLOW, -1),
+		new Buff(PotionEffectType.NIGHT_VISION, 1),
+		new Buff(PotionEffectType.FIRE_RESISTANCE, 1),
+		new Buff(PotionEffectType.INCREASE_DAMAGE, 3),
+		new Buff(PotionEffectType.HEALTH_BOOST, 3),
+		new Buff(PotionEffectType.FAST_DIGGING, 3),
+		new Buff(PotionEffectType.REGENERATION, 4) {
 			@Override
 			public void giveBuff(Dwarf dwarf, int time) {
 				if (dwarf.hasKitPiece(KitPieceType.STRONG_ALE)) {
@@ -40,26 +40,35 @@ public class AlchemicalGuard extends AbstractCooldown implements ArmourPiece {
 					super.giveBuff(dwarf, time);
 				}
 			}
-		});
-	}
+		}
+	);
 	
-	private Buff currentBuff;
+	private Buff currentBuff = null;
+	private RepeaterCooldown buffGiver = new RepeaterCooldown(DURATION, this::selectNewBuff);
 	
 	public AlchemicalGuard(Dwarf dwarf) {
-		super(dwarf, DURATION);
-		
-		// Update in half a second
-		resetCooldown();
-		reduceCooldown(DURATION - 10);
+		super(dwarf);
+	}
+	
+	@Override
+	public void update() {
+		buffGiver.update();
 	}
 	
 	@Override
 	public void onArmourEquip(Armour armour) {
 		armour.addModifier(ItemModifierType.ALCHEMICAL_GUARD, 1);
+		forceSelectNewBuff();
 	}
 	
-	@Override
-	protected void onOffCD() {
+	private void forceSelectNewBuff() {
+		if (currentBuff != null) currentBuff.removeBuff(dwarf);
+		
+		selectNewBuff();
+		buffGiver.reset();
+	}
+	
+	private void selectNewBuff() {
 		dwarf.playSound("block.note_block.chime", 10f, 1f, false);
 		dwarf.playSound("item.bottle.fill", 10f, 1.5f, false);
 		
@@ -80,14 +89,23 @@ public class AlchemicalGuard extends AbstractCooldown implements ArmourPiece {
 			if (currentBuff != null)
 				currentBuff.giveBuff(dwarf);
 		}
-		
-		resetCooldown();
 	}
 	
 	@Override
 	public void onShift(boolean sneaking) {
-		if (currentBuff != null && !currentBuff.hasBuff(dwarf))
-			currentBuff.giveBuff(dwarf, getCooldownInt());
+		if (dwarf.isDebugMode() && sneaking) {
+			forceSelectNewBuff();
+			buffGiver.reset();
+		}
+		
+		if (currentBuff != null && !currentBuff.hasBuff(dwarf)) {
+			currentBuff.giveBuff(dwarf, buffGiver.getTimeRemaining());
+		}
+	}
+	
+	@Override
+	public float getCooldown() {
+		return buffGiver.getCooldown();
 	}
 	
 	private static class Buff {

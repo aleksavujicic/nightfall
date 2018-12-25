@@ -67,7 +67,12 @@ public abstract class AbstractCooldown implements Cooldown {
 		return (currentTime >= maxTime - time);
 	}
 	
+	public int getTimeRemaining() {
+		return currentTime;
+	}
+	
 	protected abstract void onCooldownCompletion();
 	protected abstract boolean canUse();
 	protected abstract void onUse();
+	
 }
