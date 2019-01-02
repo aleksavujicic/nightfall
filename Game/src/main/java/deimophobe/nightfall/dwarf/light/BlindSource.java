@@ -11,7 +11,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 public class BlindSource extends LifetimeExpireable implements LightSource {
 	public BlindSource(int lifetime) {
 		super(lifetime);
-		checkArgument(lifetime >= 0, "Blindness duration must be positive (got %s)", lifetime);
+		checkArgument(lifetime >= 0, "Blindness duration must be strictly positive (got %s)", lifetime);
 	}
 	
 	@Override
