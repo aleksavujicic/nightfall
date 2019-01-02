@@ -96,8 +96,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			boolean playMusic = Game.getGame().getPhase() != Phase.STARTING;
 			TitlePlayer.playTitle(player, playMusic);
 		}
-		
-		Game.getGame().hideManaAndDoom(player);
 		addUpdateable(furnace);
 	}
 	

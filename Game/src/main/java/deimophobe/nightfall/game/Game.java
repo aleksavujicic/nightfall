@@ -102,10 +102,10 @@ public class Game {
 	}
 	
 	private final Scoreboard scoreboard;
-	public Scoreboard getScoreboard() {return scoreboard;}
+	public Scoreboard getScoreboard() { return scoreboard; }
 	
-	private final Objective sidebarObj;
-	private final static String OBJ_NAME = "MySidebar";
+	private final Sidebar sidebar;
+	public Sidebar getSidebar() { return sidebar; }
 	
 	private final BossBar bossBar;
 	
@@ -131,13 +131,7 @@ public class Game {
 			giveScoreboard(player);
 		}
 		
-		Objective oldObj = scoreboard.getObjective(OBJ_NAME);
-		if (oldObj != null) {
-			oldObj.unregister();
-		}
-		
-		sidebarObj = scoreboard.registerNewObjective(OBJ_NAME, "dummy");
-		sidebarObj.setDisplayName(Misc.getNightfallText());
+		sidebar = new Sidebar(scoreboard);
 		
 		// Setup shrine bar
 		bossBar = Bukkit.createBossBar("", BarColor.BLUE, BarStyle.SOLID);
@@ -385,73 +379,8 @@ public class Game {
 	
 	// ------ SCOREBOARD -------
 	
-	private static final String DWARF_REMAINING = ChatColor.GREEN + "Remaining";
-	private static final String VAULT = ChatColor.GOLD + "Vault";
-	private static final String GOLD = ChatColor.YELLOW + "Shrine Gold";
-	private static final String DOOM_CLOCK = ChatColor.DARK_RED + "Doom Clock";
-	private static final String EXPERIENCE = ChatColor.LIGHT_PURPLE + "Experience";
-	
 	public void giveScoreboard(Player player) {
 		player.setScoreboard(scoreboard);
-	}
-	
-	public void updateDwarfCount() {
-		DwarfManager dwarfManager = getManager(DwarfManager.class);
-		sidebarObj.getScore(DWARF_REMAINING).setScore(dwarfManager.getGamePlayers().size());
-	}
-	
-	public void setVault(int vault) {
-		sidebarObj.getScore(VAULT).setScore(vault);
-	}
-	public void setGold(int gold) {
-		sidebarObj.getScore(GOLD).setScore(gold);
-	}
-	
-	public void setDoomSidebar(int doomTimer) {
-		MonsterManager monsterManager = getManager(MonsterManager.class);
-		for (MonsterPlayer mp : monsterManager.getGamePlayers()) {
-			showCustomScore(mp.getPlayer(), DOOM_CLOCK, doomTimer);
-		}
-	}
-	
-	public void setMana(Player player, int mana) {
-		showCustomScore(player, EXPERIENCE, mana);
-	}
-	
-	public void hideManaAndDoom(Player player) {
-		hideScore(player, DOOM_CLOCK);
-		hideScore(player, EXPERIENCE);
-	}
-	
-	
-	private void showCustomScore(Player player, String name, int amt) {
-		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-		PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.SCOREBOARD_SCORE);
-		packet.getStrings().write(0, name);
-		packet.getStrings().write(1, OBJ_NAME);
-		packet.getIntegers().write(0, amt);
-		
-		try {
-			protocolManager.sendServerPacket(player, packet);
-		} catch (InvocationTargetException e) {
-			NightfallPlugin.logger().severe("Failed to send " + name + " packet.");
-			e.printStackTrace();
-		}
-	}
-	
-	private void hideScore(Player player, String name) {
-		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-		PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.SCOREBOARD_SCORE);
-		packet.getStrings().write(0, name);
-		packet.getStrings().write(1, OBJ_NAME);
-		packet.getScoreboardActions().write(0, EnumWrappers.ScoreboardAction.REMOVE);
-		
-		try {
-			protocolManager.sendServerPacket(player, packet);
-		} catch (InvocationTargetException e) {
-			NightfallPlugin.logger().severe("Failed to send " + name + " packet.");
-			e.printStackTrace();
-		}
 	}
 	
 	public Team getNewTeam(String teamName) {
@@ -537,8 +466,7 @@ public class Game {
 	// ------ GAME PHASES -------
 	public void startLobby() {
 		transitionToPhase(Phase.STARTING);
-		
-		sidebarObj.setDisplaySlot(null);
+		sidebar.hide();
 		getManager(LobbyManager.class).onLobbyStart();
 	}
 	
@@ -549,14 +477,12 @@ public class Game {
 		TimeManager timeManager = getManager(TimeManager.class);
 		
 		if (gameSize == null) gameSize = GameSize.chooseForCurrentGame(this);
-		
-		sidebarObj.setDisplaySlot(DisplaySlot.SIDEBAR);
+		sidebar.show();
 		
 		monsterManager.removeAllGamePlayers();
 		dwarfManager.removeAllGamePlayers();
 		
 		dwarfManager.onGameStart(this);
-		updateDwarfCount();
 		
 		// Fix players
 		new BukkitRunnable() {
@@ -702,7 +628,6 @@ public class Game {
 				mp.kill(true);
 				break;
 		}
-		updateDwarfCount();
 	}
 
 	public boolean potionsDisabled() {

@@ -7,6 +7,7 @@ import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.dwarf.hero.HeroType;
 import deimophobe.nightfall.event.DwarfCreateEvent;
 import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.Sidebar;
 import deimophobe.nightfall.game.entity.GamePlayerManager;
 import deimophobe.nightfall.game.GameSize;
 import deimophobe.nightfall.util.PacketUtil;
@@ -55,10 +56,38 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 	}
 	
 	@Override
+	public void registerGamePlayer(Dwarf player) {
+		super.registerGamePlayer(player);
+		updateDwarfSidebar();
+	}
+	
+	@Override
 	public boolean removeGamePlayer(UUID uuid) {
 		Dwarf dwarf = getGamePlayer(uuid);
 		notifyCloseEvent(dwarf);
-		return super.removeGamePlayer(uuid);
+		boolean removed = super.removeGamePlayer(uuid);
+		updateDwarfSidebar();
+		return removed;
+	}
+	
+	@Override
+	public boolean goOnline(Player player) {
+		boolean wentOnline = super.goOnline(player);
+		if (wentOnline) updateDwarfSidebar();
+		return wentOnline;
+	}
+	
+	@Override
+	public boolean goOffline(Player player) {
+		boolean wentOffline = super.goOffline(player);
+		if (wentOffline) updateDwarfSidebar();
+		return wentOffline;
+	}
+	
+	private void updateDwarfSidebar() {
+		Sidebar sidebar = Sidebar.getGameSidebar();
+		int dwarfCount = getNumberOfPlayers();
+		sidebar.setEntryValue(Sidebar.Entry.DWARF_COUNT, dwarfCount);
 	}
 	
 	

@@ -46,7 +46,7 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		registry = new SpawnRegistry();
 		
 		aiManager = new AIManager();
-		doomManager = new DoomManager();
+		doomManager = new DoomManager(this);
 	}
 	
 	public void init() {

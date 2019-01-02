@@ -5,6 +5,7 @@ import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.game.Sidebar;
 import deimophobe.nightfall.map.feature.FeatureCreator;
 import deimophobe.nightfall.map.feature.MapFeature;
 import deimophobe.nightfall.map.region.NullRegion;
@@ -304,10 +305,10 @@ public class GameMap {
 	}
 
 	private void updateGold() {
-		game.setGold(gold);
+		game.getSidebar().setEntryValue(Sidebar.Entry.GOLD, gold);
 	}
 	private void updateVault() {
-		game.setVault(vault);
+		game.getSidebar().setEntryValue(Sidebar.Entry.VAULT, vault);
 	}
 	
 	

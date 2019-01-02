@@ -6,6 +6,7 @@ import deimophobe.nightfall.TimeManager;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.Sidebar;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -24,6 +25,8 @@ public class DoomManager {
 		return MonsterManager.getManager().getDoomManager();
 	}
 	
+	private final MonsterManager monsterManager;
+	
 	private int doomTimer;
 	private int internalDoomTimer;
 	private DoomType forcedDoom = null;
@@ -35,7 +38,8 @@ public class DoomManager {
 	private List<DoomType> occuredDooms = new ArrayList<>();
 	
 	private final BukkitRunnable runner;
-	public DoomManager() {
+	public DoomManager(MonsterManager monsterManager) {
+		this.monsterManager = monsterManager;
 		this.runner = new BukkitRunnable() {
 			@Override
 			public void run() {
@@ -97,7 +101,7 @@ public class DoomManager {
 	private void resetDoomTimers() {
 		doomTimer = maxDoomTime + Misc.randomInt(-doomTimeVariance, doomTimeVariance);
 		internalDoomTimer = maxInternalDoomTime;
-		Game.getGame().setDoomSidebar(doomTimer);
+		updateDoomTimer();
 		
 //		int daySkip = (occuredDooms.isEmpty() ? 1 : 0);
 //		TimeManager.getManager().addTarget(60*20, 0);
@@ -116,7 +120,7 @@ public class DoomManager {
 			if (doomTimer == 0) {
 				startDoom();
 			}
-			updateDoomCount();
+			updateDoomTimer();
 			
 		} else {
 			if (internalDoomTimer > 0) {
@@ -222,18 +226,25 @@ public class DoomManager {
 	public void reduceDoom(int time) {
 		doomTimer -= time;
 		if (doomTimer < 0) doomTimer = 0;
-		Game.getGame().setDoomSidebar(doomTimer);
+		updateDoomTimer();
 	}
 	
 	public boolean isDoom() {
 		return isDoom;
 	}
 	
-	public void updateDoomCount() {
-		Game.getGame().setDoomSidebar(doomTimer);
-	}
-	
 	public int getTime() {
 		return doomTimer;
+	}
+	
+	private void updateDoomTimer() {
+		Sidebar sidebar = Sidebar.getGameSidebar();
+		monsterManager.getGamePlayers()
+				.stream()
+				.map(MonsterPlayer::getPlayer)
+				.forEach(
+					player -> sidebar.setEntryValue(Sidebar.Entry.DOOM, player, doomTimer)
+				)
+		;
 	}
 }

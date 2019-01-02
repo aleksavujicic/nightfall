@@ -101,7 +101,6 @@ public abstract class GamePlayerManager<P extends GamePlayer> implements Manager
 		
 		players.put(uuid, player);
 		addToTeam(player.getName());
-		Game.getGame().updateDwarfCount();
 		NightfallPlugin.logger().info("Adding game player: " + player.getName() + " to " + whoName);
 		
 		LobbyManager lobbyManager = Game.getGame().getManager(LobbyManager.class);
@@ -147,7 +146,6 @@ public abstract class GamePlayerManager<P extends GamePlayer> implements Manager
 		
 		gamePlayer.onRemove();
 		mcTeam.removeEntry(gamePlayer.getName());
-		Game.getGame().updateDwarfCount();
 		NightfallPlugin.logger().info("Removing game player: " + gamePlayer.getName() + " from " + whoName);
 		
 		return true;

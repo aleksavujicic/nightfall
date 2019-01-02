@@ -70,13 +70,8 @@ public class GameListener implements Listener {
 		game.giveShrineBarToPlayer(player);
 		game.giveScoreboard(player);
 		
-		if (dwarfManager.goOnline(player)) {
-			game.updateDwarfCount();
-			return;
-		}
-		if (monsterManager.goOnline(player)) {
-			return;
-		}
+		if (dwarfManager.goOnline(player)) return;
+		if (monsterManager.goOnline(player)) return;
 		
 		game.resetPlayer(player);
 	}
@@ -88,9 +83,8 @@ public class GameListener implements Listener {
 		Entity vehicle = player.getVehicle();
 		if (vehicle != null) vehicle.removePassenger(player);
 		
-		boolean wasDwarf = dwarfManager.goOffline(player);
+		dwarfManager.goOffline(player);
 		monsterManager.goOffline(player);
-		if (wasDwarf) game.updateDwarfCount();
 		
 		// Reset game if no players are left online
 		if (game.getPlayMode() == PlayMode.PLAYGROUND && Bukkit.getOnlinePlayers().size() == 1) {

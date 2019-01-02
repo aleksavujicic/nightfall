@@ -13,6 +13,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.event.MobSpawnEvent;
 import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.Sidebar;
 import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
@@ -88,7 +89,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	public void onRemove() {
 		kill(true);
 		player.setGameMode(GameMode.ADVENTURE);
-		Game.getGame().hideManaAndDoom(player);
+		Sidebar.getGameSidebar().hideEntry(Sidebar.Entry.MONSTER_EXPERIENCE, player);
+		Sidebar.getGameSidebar().hideEntry(Sidebar.Entry.DOOM, player);
 		super.onRemove();
 	}
 	
@@ -371,7 +373,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 
 	private void updateExpDisplay() {
 		player.setLevel(experience);
-		Game.getGame().setMana(player, experience);
+		Sidebar.getGameSidebar().setEntryValue(Sidebar.Entry.MONSTER_EXPERIENCE, player, experience);
 	}
 	
 	
