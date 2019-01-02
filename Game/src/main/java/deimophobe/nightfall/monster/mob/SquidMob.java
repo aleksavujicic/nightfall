@@ -72,7 +72,7 @@ final class SquidMob extends AbstractMob {
 			double distance = monster.distanceTo(dwarf);
 			int blindTime = (int) (20 * (4 - distance));
 			
-			dwarf.giveBlindness(blindTime);
+			if (blindTime > 0) dwarf.giveBlindness(blindTime);
 		}
 		
 		// To prevent the disguise from bugging out
