@@ -34,7 +34,7 @@ public class CustomItem implements Cloneable, ItemMatcher {
 	private final Map<String, BaseItem> variants;
 	private final Lore lore;
 	private final List<String> errors;
-	private final SortedMap<ItemModifierType, Map<String, Integer>> modifiers;
+	private final Map<ItemModifierType, Map<String, Integer>> modifiers;
 	
 	private final boolean bound;
 	private boolean shiny;
@@ -43,7 +43,7 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		this.shiny = shiny;
 	}
 	
-	public CustomItem(BaseItem base, Map<String, BaseItem> variants, Lore lore, List<String> errors, SortedMap<ItemModifierType, Map<String, Integer>> modifiers, boolean bound, boolean shiny) {
+	public CustomItem(BaseItem base, Map<String, BaseItem> variants, Lore lore, List<String> errors, Map<ItemModifierType, Map<String, Integer>> modifiers, boolean bound, boolean shiny) {
 		this.base = base;
 		this.variants = variants;
 		this.lore = lore.clone();
@@ -52,7 +52,7 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		this.bound = bound;
 		this.shiny = shiny;
 		
-		this.modifiers = new TreeMap<>();
+		this.modifiers = new EnumMap<>(ItemModifierType.class);
 		for (Map.Entry<ItemModifierType, Map<String, Integer>> entry : modifiers.entrySet()) {
 			ItemModifierType type = entry.getKey();
 			Map<String, Integer> newReasonMap = new HashMap<>(entry.getValue());
@@ -69,7 +69,7 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		this.bound = bound;
 		this.shiny = shiny;
 		
-		this.modifiers = new TreeMap<>();
+		this.modifiers = new EnumMap<>(ItemModifierType.class);
 	}
 	
 	public void setName(String name) {

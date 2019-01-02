@@ -16,8 +16,8 @@ import java.util.*;
  * Created by Deimophobe on 15/01/17.
  */
 public class DwarfData implements LoadoutConstructable {
-	private final SortedSet<KitPieceType> pieces;
-	private final SortedMap<ConsumableType, Integer> consumables;
+	private final Set<KitPieceType> pieces;
+	private final Map<ConsumableType, Integer> consumables;
 	
 	
 	public DwarfData() {
@@ -25,8 +25,14 @@ public class DwarfData implements LoadoutConstructable {
 	}
 	
 	public DwarfData(Set<KitPieceType> pieces, Map<ConsumableType, Integer> consumables) {
-		this.pieces = (pieces != null ? new TreeSet<>(pieces) : new TreeSet<>());
-		this.consumables = (consumables != null ? new TreeMap<>(consumables) : new TreeMap<>());
+		this.pieces = (pieces != null
+				? EnumSet.copyOf(pieces)
+				: EnumSet.noneOf(KitPieceType.class)
+		);
+		this.consumables = (consumables != null
+				? new EnumMap<>(consumables)
+				: new EnumMap<>(ConsumableType.class)
+		);
 		
 		addDefaults();
 		duplicateCheck();

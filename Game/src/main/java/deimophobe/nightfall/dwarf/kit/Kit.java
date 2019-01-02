@@ -22,7 +22,7 @@ import java.util.function.Consumer;
 public class Kit {
 	private final Dwarf dwarf;
 	
-	private final SortedMap<KitPieceType, KitPiece> kitPieces = new TreeMap<>();
+	private final Map<KitPieceType, KitPiece> kitPieces = new EnumMap<>(KitPieceType.class);
 	private final Set<CooldownPiece> cooldownPieces = new HashSet<>();
 	private final Set<ItemPiece> itemPieces = new HashSet<>();
 	private final Set<BowPiece> bowPieces = new HashSet<>();

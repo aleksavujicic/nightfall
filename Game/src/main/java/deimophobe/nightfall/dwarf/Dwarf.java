@@ -48,6 +48,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collection;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -473,7 +474,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	
 	// ------ PROC ------
-	private final Map<ProcType, Integer> activeProcs = new HashMap<>();
+	private final Map<ProcType, Integer> activeProcs = new EnumMap<>(ProcType.class);
 	private static final PotionEffectType[] PROC_EFFECTS = new PotionEffectType[]{ PotionEffectType.SPEED, PotionEffectType.INCREASE_DAMAGE, PotionEffectType.FAST_DIGGING };
 	
 	public boolean hasProc() {

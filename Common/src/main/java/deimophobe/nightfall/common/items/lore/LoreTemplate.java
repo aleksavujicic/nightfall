@@ -92,7 +92,7 @@ public class LoreTemplate {
 		return sectionList;
 	}
 	
-	List<String> generateAttributeText(SortedMap<ItemModifierType, Map<String, Integer>> modifiers) {
+	List<String> generateAttributeText(Map<ItemModifierType, Map<String, Integer>> modifiers) {
 		List<String> lines = new ArrayList<>();
 		for (Map.Entry<ItemModifierType, Map<String, Integer>> entry : modifiers.entrySet()) {
 			ItemModifierType type = entry.getKey();

@@ -491,7 +491,7 @@ public class Game {
 	
 	
 	// ------ CURSES ------
-	private final Map<Curse, Integer> curseExpiries = new HashMap<>();
+	private final Map<Curse, Integer> curseExpiries = new EnumMap(Curse.class);
 	public void addCurse(Curse curse, int seconds) {
 		checkArgument(curse != null, "Curse must not be null");
 		checkArgument(seconds > 0, "Duration of curse %s must be strictly positive (got %s)", curse, seconds);

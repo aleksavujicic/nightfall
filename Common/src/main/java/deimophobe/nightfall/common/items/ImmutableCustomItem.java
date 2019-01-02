@@ -12,7 +12,7 @@ import java.util.SortedMap;
  * Created by Deimophobe on 30/04/17.
  */
 final class ImmutableCustomItem extends CustomItem {
-	ImmutableCustomItem(BaseItem base, Map<String, BaseItem> variants, Lore lore, List<String> errors, SortedMap<ItemModifierType, Map<String, Integer>> modifiers, boolean bound, boolean shiny) {
+	ImmutableCustomItem(BaseItem base, Map<String, BaseItem> variants, Lore lore, List<String> errors, Map<ItemModifierType, Map<String, Integer>> modifiers, boolean bound, boolean shiny) {
 		super(base, variants, lore, errors, modifiers, bound, shiny);
 	}
 	

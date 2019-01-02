@@ -26,6 +26,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -45,7 +46,7 @@ public class DwarvenArmour implements Armour {
 	private boolean invisible = false;
 	
 	private ArmourLevel currentLevel = ArmourLevel.SHINY;
-	private Map<ArmourLevel, ArmourSet> setMap = new HashMap<>();
+	private Map<ArmourLevel, ArmourSet> setMap = new EnumMap(ArmourLevel.class);
 	
 	
 	public DwarvenArmour(Dwarf dwarf) {
@@ -232,7 +233,7 @@ public class DwarvenArmour implements Armour {
 		}
 	}
 	
-	private static final Map<EnumWrappers.ItemSlot, Function<PlayerInventory, ItemStack>> slotToItemGetter = new HashMap<>();
+	private static final Map<EnumWrappers.ItemSlot, Function<PlayerInventory, ItemStack>> slotToItemGetter = new EnumMap<>(EnumWrappers.ItemSlot.class);
 	static {
 		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 		protocolManager.addPacketListener(new PacketAdapter(NightfallPlugin.getPlugin(), PacketType.Play.Server.ENTITY_EQUIPMENT) {

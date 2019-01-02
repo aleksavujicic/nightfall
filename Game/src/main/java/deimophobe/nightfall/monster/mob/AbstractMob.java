@@ -40,6 +40,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -228,7 +229,7 @@ public abstract class AbstractMob implements Mob {
 	
 	
 	// ~~~~~ INTERACTABLE ~~~~~
-	private final Map<ClickType, Multimap<String, Interactable>> interactables = new HashMap<>();
+	private final Map<ClickType, Multimap<String, Interactable>> interactables = new EnumMap<>(ClickType.class);
 	private void initialiseInteractables() {
 		interactables.put(ClickType.LEFT, HashMultimap.create());
 		interactables.put(ClickType.RIGHT, HashMultimap.create());

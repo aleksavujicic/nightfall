@@ -5,6 +5,7 @@ import deimophobe.nightfall.game.entity.GameEntity;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -17,7 +18,7 @@ public abstract class AbstractGameEntity<T extends LivingEntity> implements Game
 	protected T entity;
 	@Override public T getEntity() { return entity; }
 	
-	private final Map<DamageOverTimeType, Integer> lastDamageTicks = new HashMap<>();
+	private final Map<DamageOverTimeType, Integer> lastDamageTicks = new EnumMap<>(DamageOverTimeType.class);
 	
 	public AbstractGameEntity(T entity) {
 		this.entity = entity;

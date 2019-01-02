@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -23,7 +24,7 @@ public class ColourMenu extends ListMenu<NoData> implements MainMenu<NoData> {
 	@Override public NoData getDataFromPlayer(Player player) { return null; }
 	@Override public String getPermissionName() { return "colour"; }
 	
-	private Map<Material, ColourMenuItem> colourMap = new HashMap<>();
+	private Map<Material, ColourMenuItem> colourMap = new EnumMap<>(Material.class);
 	
 	ColourMenu() {
 		final Logger logger = NightfallPlugin.logger();

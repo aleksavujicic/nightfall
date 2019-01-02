@@ -6,10 +6,7 @@ import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import org.bukkit.ChatColor;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 4/05/18.
@@ -20,7 +17,7 @@ public class DwarfFurnace implements Updateable {
 	private final Dwarf dwarf;
 	private final Cooldown messageCooldown = new SimpleCooldown(40);
 	private final Queue<CookingProcess> processes = new LinkedList<>();
-	private final Map<ConsumableType, Integer> readyItems = new HashMap<>();
+	private final Map<ConsumableType, Integer> readyItems = new EnumMap<>(ConsumableType.class);
 	
 	public DwarfFurnace(Dwarf dwarf) {
 		this.dwarf = dwarf;
