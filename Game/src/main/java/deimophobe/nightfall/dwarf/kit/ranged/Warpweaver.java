@@ -70,12 +70,16 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 			
 			setActive(false);
 			removeActiveArrows();
-			warpCooldown.reset();
+			if (!dwarf.isDebugMode()) warpCooldown.reset();
 		}
 	}
 	
 	@Override
 	protected void onToggle() {
+		if (dwarf.isDebugMode()) {
+			warpCooldown.reduceCooldown(1000);
+		}
+		
 		super.onToggle();
 		removeActiveArrows();
 	}
@@ -233,8 +237,8 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 		World world = location.getWorld();
 		world.spawnParticle(Particle.SPELL_WITCH, location, 20, 0.5, 0.5, 0.5);
 		world.spawnParticle(Particle.SPELL_WITCH, here, 20, 0.5, 0.5, 0.5);
-		world.playSound(location, "entity.illusion_illager.mirror_move", 1f, 0.95f);
-		world.playSound(here, "entity.illusion_illager.mirror_move", 1f, 0.95f);
+		world.playSound(location, Sound.ENTITY_ILLUSIONER_MIRROR_MOVE, 1f, 0.95f);
+		world.playSound(here, Sound.ENTITY_ILLUSIONER_MIRROR_MOVE, 1f, 0.95f);
 		
 		
 		Vector direction = location.clone().subtract(here).toVector();
