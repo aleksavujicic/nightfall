@@ -14,6 +14,7 @@ import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
@@ -96,7 +97,7 @@ public abstract class AbstractBow extends AbstractItem implements BowPiece {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile proj, Block hitBlock) {}
+	public void onProjectileLand(Projectile proj, Block hitBlock, BlockFace hitFace) {}
 	
 	
 	

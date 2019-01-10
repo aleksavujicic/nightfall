@@ -521,9 +521,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile projectile, Block hitBlock, GameEntity<?> hitEntity) {
+	public void onProjectileLand(Projectile projectile, Block hitBlock, BlockFace hitFace, GameEntity<?> hitEntity) {
 		if (mob != null) {
-			mob.onProjectileLand(projectile, hitBlock);
+			mob.onProjectileLand(projectile, hitBlock, hitFace);
 		}
 	}
 	

@@ -12,6 +12,7 @@ import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -57,8 +58,8 @@ public class IceBow extends AbstractBow {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile proj, Block hitBlock) {
-		super.onProjectileLand(proj, hitBlock);
+	public void onProjectileLand(Projectile proj, Block hitBlock, BlockFace hitFace) {
+		super.onProjectileLand(proj, hitBlock, hitFace);
 		
 		if (proj instanceof Arrow) {
 			Arrow arrow = (Arrow) proj;

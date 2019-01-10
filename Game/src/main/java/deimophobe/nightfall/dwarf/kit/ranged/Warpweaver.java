@@ -48,7 +48,7 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile proj, Block hitBlock) {
+	public void onProjectileLand(Projectile proj, Block hitBlock, BlockFace hitFace) {
 		if (isActive()
 		      && isActiveProjectile(proj)
 		      && warpCooldown.isAvailable()) {
@@ -59,7 +59,7 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 				return;
 			}
 			
-			Location warpLocation = getWarpLocation(proj, hitBlock);
+			Location warpLocation = getWarpLocation(proj, hitBlock, hitFace);
 			if (!checkLocationIsFreeToTeleportTo(warpLocation)) {
 				dwarf.sendTitleMessage(ChatColor.RED + "Cannot warp there");
 				removeActiveArrow(proj);
@@ -131,8 +131,7 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 	
 	// Probably not the best way to implement this, but there are a couple
 	// of different cases to check.
-	private static Location getWarpLocation(Projectile arrow, Block hitBlock) {
-		BlockFace hitFace = Misc.getBlockFaceProjectileHit(arrow, hitBlock);
+	private static Location getWarpLocation(Projectile arrow, Block hitBlock, BlockFace hitFace) {
 		
 		if (checkCanTeleportToBlock(hitBlock, hitFace, 1)) {
 			return hitBlock.getLocation().add(0.5, 1.25, 0.5);

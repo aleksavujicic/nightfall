@@ -381,6 +381,7 @@ public class GameListener implements Listener {
 	public void onProjectileLand(ProjectileHitEvent event) {
 		Projectile proj = event.getEntity();
 		ProjectileSource source = proj.getShooter();
+		BlockFace hitFace = event.getHitBlockFace();
 		
 		if (source == null) return;
 		if (source instanceof Entity) {
@@ -389,7 +390,7 @@ public class GameListener implements Listener {
 				Entity hitEntity = event.getHitEntity();
 				GameEntity<?> gameEntity = game.getGameEntity(hitEntity);
 				
-				((GameShooter) gameSource).onProjectileLand(event.getEntity(), event.getHitBlock(), gameEntity);
+				((GameShooter) gameSource).onProjectileLand(event.getEntity(), event.getHitBlock(), hitFace, gameEntity);
 				proj.remove();
 			}
 		}

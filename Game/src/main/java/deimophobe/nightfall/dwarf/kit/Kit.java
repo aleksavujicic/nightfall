@@ -163,10 +163,10 @@ public class Kit {
 		}
 		return arrow;
 	}
-	public void onProjectileLand(Projectile proj, Block hitBlock) {
+	public void onProjectileLand(Projectile proj, Block hitBlock, BlockFace hitFace) {
 		for (BowPiece bow : bowPieces) {
 			if (bow.belongsToBow(proj)) {
-				bow.onProjectileLand(proj, hitBlock);
+				bow.onProjectileLand(proj, hitBlock, hitFace);
 				return;
 			}
 		}

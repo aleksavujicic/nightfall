@@ -49,7 +49,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collection;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 
@@ -809,10 +808,9 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile arrow, Block hitBlock, GameEntity<?> hitEntity) {
+	public void onProjectileLand(Projectile arrow, Block hitBlock, BlockFace hitFace, GameEntity<?> hitEntity) {
 		// Should incorporate hitEntity into here as well at some point, and make hitBlock != null a local check, but not necessary for now
-		if (hitBlock != null)
-			kit.onProjectileLand(arrow, hitBlock);
+		if (hitBlock != null) kit.onProjectileLand(arrow, hitBlock, hitFace);
 	}
 	
 	public void notifyDeath(Dwarf dwarf) {

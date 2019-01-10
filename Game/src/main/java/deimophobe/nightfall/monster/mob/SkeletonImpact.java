@@ -17,7 +17,6 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
@@ -109,11 +108,10 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile proj, Block hitBlock) {
+	public void onProjectileLand(Projectile proj, Block hitBlock, BlockFace hitFace) {
 		if (hitBlock == null) return;
 
-		BlockFace face = Misc.getBlockFaceProjectileHit(proj, hitBlock);
-		Block explosionBlock = hitBlock.getRelative(face);
+		Block explosionBlock = hitBlock.getRelative(hitFace);
 		Location centerLoc = explosionBlock.getLocation();
 		impactExplosion(centerLoc, null, isActiveProjectile(proj));
 	}

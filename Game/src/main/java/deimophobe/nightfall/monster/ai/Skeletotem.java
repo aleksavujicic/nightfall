@@ -5,7 +5,6 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.Expirable;
 import deimophobe.nightfall.cooldown.RepeaterCooldown;
-import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -15,13 +14,13 @@ import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.game.entity.GameShooter;
 import deimophobe.nightfall.util.ArrowMisc;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -77,7 +76,7 @@ public class Skeletotem extends AIEntity<WitherSkeleton> implements GameShooter 
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile arrow, Block hitBlock, GameEntity<?> hitEntity) {}
+	public void onProjectileLand(Projectile arrow, Block hitBlock, BlockFace hitFace, GameEntity<?> hitEntity) {}
 	
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {

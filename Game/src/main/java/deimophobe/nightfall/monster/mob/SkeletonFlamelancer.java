@@ -129,11 +129,9 @@ class SkeletonFlamelancer extends Skeleton {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile proj, Block hitBlock) {
+	public void onProjectileLand(Projectile proj, Block hitBlock, BlockFace hitFace) {
 		if (hitBlock == null) return;
-		
-		BlockFace face = Misc.getBlockFaceProjectileHit(proj, hitBlock);
-		Block block = hitBlock.getRelative(face);
+		Block block = hitBlock.getRelative(hitFace);
 		
 		if (Math.random() < blockIgniteChance) {
 			boolean success = tryIgnite(hitBlock);

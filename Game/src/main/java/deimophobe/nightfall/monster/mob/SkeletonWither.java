@@ -20,6 +20,7 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -88,8 +89,8 @@ class SkeletonWither extends AbstractToggleSkeleton {
 	}
 
 	@Override
-	public void onProjectileLand(Projectile proj, Block block) {
-		super.onProjectileLand(proj, block);
+	public void onProjectileLand(Projectile proj, Block block, BlockFace hitFace) {
+		super.onProjectileLand(proj, block, hitFace);
 		if (proj.getType() == EntityType.WITHER_SKULL) {
 			skullExplosion(proj.getLocation());
 		}

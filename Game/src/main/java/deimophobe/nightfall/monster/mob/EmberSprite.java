@@ -75,8 +75,8 @@ public class EmberSprite extends AbstractMob implements FloatyMob {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile proj, Block block) {
-		super.onProjectileLand(proj, block);
+	public void onProjectileLand(Projectile proj, Block block, BlockFace hitFace) {
+		super.onProjectileLand(proj, block, hitFace);
 		blazeExplosion(proj.getLocation());
 	}
 

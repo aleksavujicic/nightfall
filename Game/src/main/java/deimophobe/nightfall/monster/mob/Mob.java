@@ -9,7 +9,6 @@ import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
 
 import java.util.function.Consumer;
@@ -47,7 +46,7 @@ public interface Mob {
 	void onDamageAttack(DwarfDamage damage);
 	void onDamageReceive(MonsterDamage damage);
 	Projectile onBowFire(Arrow arrow, float force);
-	void onProjectileLand(Projectile proj, Block hitBlock);
+	void onProjectileLand(Projectile proj, Block hitBlock, BlockFace hitFace);
 	float getCooldown();
 	void onDeath(boolean silent);
 	
