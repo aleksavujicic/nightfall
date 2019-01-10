@@ -178,6 +178,7 @@ public class NFBlocks {
 	public static final BlockMatcher PICKUP_BLOCK = new BlockSet(
 			PICKUP_SWORD, PICKUP_BOW, PICKUP_ALE, PICKUP_PICK, PICKUP_AXE, PICKUP_SHOVEL
 	);
+	public static final BlockMatcher ADJACENT_PICKUP = AdjacentBlock.cubeAround(PICKUP_BLOCK);
 	
 	
 	
@@ -226,18 +227,21 @@ public class NFBlocks {
 	
 	public static final BlockMatcher UNPLACEABLE_BLOCKS = new BlockSet(
 			HERANA_TRIDENT_WATER,
-			TIMED_BLOCK
+			TIMED_BLOCK,
+			ADJACENT_PICKUP
 	).orOfMaterial(
 			Material.BARRIER,
 			Material.DISPENSER,
 			Material.CHEST
 	);
 	
+	
 	public static final BlockMatcher UNBREAKABLE_BLOCKS = new BlockSet(
 			UNTIMEABLE_BLOCKS.except(Material.GOLD_ORE),
 			TIMED_BLOCK,
 			LOG,
-			SAW_BASE
+			SAW_BASE,
+			ADJACENT_PICKUP
 			
 	).orOfMaterial(
 			Material.IRON_BLOCK,
