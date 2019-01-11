@@ -113,6 +113,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		removeFire();
 		player.setFallDistance(0);
 		givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 5, false, false, true);
+		player.setRemainingAir(300);
 	}
 	
 	public void updateTitle() {

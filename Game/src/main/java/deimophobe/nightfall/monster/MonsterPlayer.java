@@ -173,6 +173,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		clearWarning();
 		removeAllPoisons();
 		removeFire();
+		player.setRemainingAir(300);
 		mobMenuShower.reset();
 		cancelSeppuku();
 		removeAllShields();

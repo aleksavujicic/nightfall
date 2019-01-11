@@ -65,6 +65,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		//player.spigot().respawn();
 		
 		player.setFoodLevel(20);
+		player.setRemainingAir(300);
 		player.closeInventory();
 		
 		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(10000);

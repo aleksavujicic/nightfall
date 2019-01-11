@@ -147,4 +147,12 @@ public class InfoCommand extends BaseCommand {
 	public void translate(CommandSender sender, Player player) {
 		NMSUtil.hideArrowsInPlayer(player);
 	}
+	
+	@CommandAlias("set-air")
+	@CommandPermission("nightfall.command.set-air")
+	@Description("Set air level")
+	public void setAir(Player player, int air) {
+		player.setRemainingAir(air);
+		MessageUtil.sendMessage(player, "Set air to ", air, ".");
+	}
 }

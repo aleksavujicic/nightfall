@@ -23,12 +23,14 @@ public class AIDrowned extends AIEntity<Drowned> {
 	private static final Consumer<Drowned> DROWNED_INITIALISER = drowned -> {
 		drowned.setBaby(false);
 		
-		double speed = Misc.randomDouble(2, 4);
+		double speed = 0;
 		AttributeModifier speedModifier = new AttributeModifier("speed", speed, AttributeModifier.Operation.MULTIPLY_SCALAR_1);
 		drowned.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).addModifier(speedModifier);
 		drowned.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(DAMAGE);
 		drowned.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(HEALTH);
 		drowned.setHealth(HEALTH);
+		
+		drowned.addPotionEffect(new PotionEffect(PotionEffectType.DOLPHINS_GRACE, 100000000, 10), true);
 		
 		drowned.getEquipment().setItemInMainHand(null);
 	};

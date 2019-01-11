@@ -201,6 +201,7 @@ public class LobbyManager implements Manager, Updateable {
 		player.setFoodLevel(100000);
 		player.setExp(0);
 		player.setLevel(0);
+		player.setRemainingAir(300);
 		
 		PlayerInventory inventory = player.getInventory();
 		inventory.clear();
