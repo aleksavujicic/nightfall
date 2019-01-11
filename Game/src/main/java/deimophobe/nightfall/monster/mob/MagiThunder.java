@@ -19,7 +19,7 @@ import org.bukkit.block.BlockFace;
  */
 public class MagiThunder extends AbstractMob {
 	
-	@Update @Display private final Cooldown thunderStrike = new UseCooldown(30*20, this::thunderStart);
+	@Update @Display private final Cooldown thunderStrike = new UseCooldown(20*20, this::thunderStart);
 	@Update private final Cooldown secondThunder = new CompletionCooldown(15, this::thunderAura);
 	
 	private Location lastStarted = null;
@@ -73,8 +73,8 @@ public class MagiThunder extends AbstractMob {
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			if (dwarf.distanceTo(lastStarted) > 7) continue;
 			
-			DwarfDamage damage = dwarf.createDamage(monster, GameDamageType.THUNDER_MAGI_LIGHTNING, 40);
-			damage.setArmourShred(50);
+			DwarfDamage damage = dwarf.createDamage(monster, GameDamageType.THUNDER_MAGI_LIGHTNING, 25);
+			damage.setArmourShred(30);
 			boolean success = damage.fire(true);
 			
 			if (success) {
