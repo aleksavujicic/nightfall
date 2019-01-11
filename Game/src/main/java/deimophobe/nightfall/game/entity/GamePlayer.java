@@ -77,7 +77,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		initialiseWarnings();
 		
 		// Initialise shields
-		shields = new TreeMap<>();
+		shields = new EnumMap<>(ShieldSource.class);
 		for (ShieldSource source : ShieldSource.values()) {
 			shields.put(source, 0);
 		}
@@ -472,7 +472,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	
 	
 	// ------ SHIELDS ------
-	private final SortedMap<ShieldSource, Integer> shields;
+	private final Map<ShieldSource, Integer> shields;
 	
 	public void addShields(ShieldSource source, int number) {
 		checkArgument(number > 0, "Number of shields to add must be positive (got %s).", number);
