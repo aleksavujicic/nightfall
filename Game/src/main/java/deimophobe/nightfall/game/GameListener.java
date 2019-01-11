@@ -66,14 +66,7 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void onLogin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
-		
-		game.giveShrineBarToPlayer(player);
-		game.giveScoreboard(player);
-		
-		if (dwarfManager.goOnline(player)) return;
-		if (monsterManager.goOnline(player)) return;
-		
-		game.resetPlayer(player);
+		game.goOnline(player);
 	}
 	
 	@EventHandler
@@ -83,13 +76,7 @@ public class GameListener implements Listener {
 		Entity vehicle = player.getVehicle();
 		if (vehicle != null) vehicle.removePassenger(player);
 		
-		dwarfManager.goOffline(player);
-		monsterManager.goOffline(player);
-		
-		// Reset game if no players are left online
-		if (game.getPlayMode() == PlayMode.PLAYGROUND && Bukkit.getOnlinePlayers().size() == 1) {
-			Game.createNewGame();
-		}
+		game.goOffline(player);
 	}
 	
 	// --------------------------------------------------------

@@ -115,6 +115,9 @@ public class Game {
 	private Plague activePlague = null;
 	
 	private final DeathTracker deathTracker;
+	
+	private final RestartChecker restartChecker;
+	private boolean startNewGame = false;
 
 	private Game(GameMap map) {
 		this.plugin = NightfallPlugin.getPlugin();
@@ -161,6 +164,7 @@ public class Game {
 		playMode = PlayMode.NORMAL;
 		
 		deathTracker = new DeathTracker(10);
+		restartChecker = new RestartChecker(this, 60*20, 5);
 		
 		// Start lobby phase
 		startLobby();
@@ -179,6 +183,10 @@ public class Game {
 		map.unload();
 		Bukkit.getScheduler().cancelTasks(NightfallPlugin.getPlugin());
 		unregisterAllListeners();
+	}
+	
+	public void scheduleNewGame() {
+		startNewGame = true;
 	}
 	
 	
@@ -307,6 +315,32 @@ public class Game {
 		return dwarfManager.getNumberOfPlayers() + monsterManager.getNumberOfPlayers();
 	}
 	
+	public void goOnline(Player player) {
+		DwarfManager dwarfManager = getManager(DwarfManager.class);
+		MonsterManager monsterManager = getManager(MonsterManager.class);
+		
+		giveShrineBarToPlayer(player);
+		giveScoreboard(player);
+		
+		if (dwarfManager.goOnline(player)) return;
+		if (monsterManager.goOnline(player)) return;
+		
+		resetPlayer(player);
+	}
+	
+	public void goOffline(Player player) {
+		DwarfManager dwarfManager = getManager(DwarfManager.class);
+		MonsterManager monsterManager = getManager(MonsterManager.class);
+		
+		dwarfManager.goOffline(player);
+		monsterManager.goOffline(player);
+		
+		// Reset game if no players are left online
+		if (game.getPlayMode() == PlayMode.PLAYGROUND && Bukkit.getOnlinePlayers().size() == 1) {
+			Game.createNewGame();
+		}
+	}
+	
 	public Collection<String> getGamePlayerNames() {
 		DwarfManager dwarfManager = getManager(DwarfManager.class);
 		MonsterManager monsterManager = getManager(MonsterManager.class);
@@ -374,6 +408,12 @@ public class Game {
 		}
 		
 		return debuggers;
+	}
+	
+	public void broadcastDebugMessage(String message) {
+		for (Player player : getOnlineDebugPlayers()) {
+			player.sendMessage(ChatColor.GREEN + message);
+		}
 	}
 	
 	
@@ -452,6 +492,8 @@ public class Game {
 	private void update() {
 		tickNumber++;
 		cooldownHolder.update();
+		
+		if (startNewGame) createNewGame();
 	}
 	
 	public void addUpdateable(Updateable updateable) {
@@ -515,6 +557,10 @@ public class Game {
 		timeManager.startTime(23000);
 		timeManager.addTarget(buildTime, Misc.randomInt(13500, 14500));
 		timeManager.addTarget(buildTime + 5*60*20, 18000);
+		
+		// Adding this dumbly - would be better to add/remove it as players join/leave,
+		// but thats complicated.
+		cooldownHolder.addUpdateable(restartChecker);
 	}
 	
 	public void startPlague() {
