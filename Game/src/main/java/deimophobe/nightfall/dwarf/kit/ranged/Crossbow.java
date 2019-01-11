@@ -4,9 +4,13 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.FailableCooldown;
+import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
@@ -30,17 +34,19 @@ public class Crossbow extends AbstractBow implements CooldownPiece {
 	
 	@Override public String getBowIdentifier() {return "CROSSBOW";}
 	
-	private ComplexCooldown arrowCD = new ComplexCooldown(35, this::fireNormalArrow);
+	private final Cooldown clicker = new UseCooldown(4, this::failClick);
+	private final Cooldown reloadCooldown = new UseCooldown(35, this::fireNormalArrow, this::canFireNormalArrow);
 	
 	private boolean firing = false;
-	private ComplexCooldown rapidCD = new ComplexCooldown(4, this::fireRapidArrow);
-	private ComplexCooldown longRapid = new ComplexCooldown(30*20, this::startFiring);
+	private final ComplexCooldown rapidCD = new ComplexCooldown(4, this::fireRapidArrow);
+	private final ComplexCooldown longRapid = new ComplexCooldown(30*20, this::startFiring);
 	
 	private final static int ARROW_COST = 2;
 	
 	@Override
 	public void update() {
-		arrowCD.update();
+		reloadCooldown.update();
+		clicker.update();
 		rapidCD.update();
 		longRapid.update();
 		
@@ -62,10 +68,9 @@ public class Crossbow extends AbstractBow implements CooldownPiece {
 		
 		
 		if (click.isRightClick()) {
-			if (dwarf.hasArrows(ARROW_COST)) {
-				arrowCD.tryUse();
-				return true;
-			}
+			boolean fired = reloadCooldown.tryUse();
+			if (!fired && reloadCooldown.isAvailable()) clicker.tryUse();
+			return fired;
 		} else if (dwarf.hasArrows(1)) {
 			longRapid.tryUse();
 			return true;
@@ -88,12 +93,22 @@ public class Crossbow extends AbstractBow implements CooldownPiece {
 		}
 	}
 	
+	private boolean canFireNormalArrow() {
+		return dwarf.hasArrows(ARROW_COST);
+	}
+	
 	private void fireNormalArrow() {
 		Arrow arrow = fireArrow(3f, 1, 0.05f);
 		arrow.setCritical(true);
 		dwarf.useArrows(ARROW_COST);
 		dwarf.playSound("entity.arrow.shoot", 1f, 1.1f, true);
 		dwarf.playSound("entity.shulker.shoot", 1f, 0.8f, true);
+		
+		clicker.reset();
+	}
+	
+	private void failClick() {
+		dwarf.playSound(Sound.UI_BUTTON_CLICK, 20f, 1.2f, false);
 	}
 	
 	private void startFiring() {
