@@ -4,9 +4,12 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.blocktype.BlockSet;
 import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -14,14 +17,12 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.PickupType;
+import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.util.ArcaneMark;
 import deimophobe.nightfall.util.Hitscan;
 import deimophobe.nightfall.util.HitscanBuilder;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.potion.PotionEffectType;
@@ -49,9 +50,10 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	
 	public static final int ZAP_CD = 8;
 	public static final double RANGE = 8;
-	
-	public static final String ZAP_SOUND = "dwarf.item.scepter.attack";
-	public static final float ZAP_PITCH = 1.5f;
+	public static void playZapSound(GamePlayer player) {
+		float pitch = Misc.randomFloat(1.4f, 1.6f);
+		player.playSound("dwarf.item.scepter.attack", 1f, pitch, true);
+	}
 	
 	private final static double DAMAGE = 10;
 	static { ITEM.addModifier(ItemModifierType.ATTACK, (int) DAMAGE); }
@@ -62,24 +64,15 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	);
 	
 	
-	private final ComplexCooldown lanceCD = new ComplexCooldown(ZAP_CD, this::shootLance);
-	private final ComplexCooldown arcaneMarkCD = new ComplexCooldown(120*20, this::createMark);
+	private final Cooldown lanceCD = new UseCooldown(ZAP_CD, this::shootLance);
+	private final Cooldown arcaneMarkCD = new UseCooldown(120*20, this::createMark);
 	
 	private final Hitscan hitscan;
+	private final MobZapper zapper;
 	
 	public Scepter(Dwarf dwarf) {
 		super(dwarf);
-		final Consumer<MonsterEntity> mobDamager = (monster) -> {
-			MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.SCEPTER, DAMAGE + dwarf.getBonusMeleeDamage()/2);
-			if (dwarf.hasProc()) damage.setProc(true);
-			damage.setNoDamageTicks(5);
-			damage.addPostDamageHandler(() -> {
-				if (monster.isAI())
-					monster.givePotionEffect(PotionEffectType.SLOW, 5*20, 2, true, true, true);
-			});
-			damage.setNoDamageTicks(8);
-			damage.fire();
-		};
+		zapper = new MobZapper();
 		
 		final Consumer<Block> blockConverter = block -> {
 			if (CONVERTABLE.matchesBlock(block) && Math.random() < 0.1) {
@@ -88,7 +81,7 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 		};
 		
 		hitscan = DEFAULT_BUILDER.but()
-				.withMobConsumer(mobDamager)
+				.withMobConsumer(zapper)
 				.withHitBlockConsumer(blockConverter)
 				.build();
 	}
@@ -126,8 +119,9 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	
 	// ----- LANCE -----
 	private void shootLance() {
+		zapper.playSound = true;
 		hitscan.fire(dwarf, RANGE);
-		dwarf.playSound(ZAP_SOUND, 1f, ZAP_PITCH, true);
+		playZapSound(dwarf);
 	}
 	
 	
@@ -136,5 +130,28 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 		dwarf.addUpdateable(
 				new ArcaneMark(dwarf, ArcaneMark.Type.SCEPTER, 10*20)
 		);
+	}
+	
+	
+	private class MobZapper implements Consumer<MonsterEntity> {
+		private boolean playSound = true;
+		
+		@Override
+		public void accept(MonsterEntity monster) {
+			MonsterDamage damage = monster.createDamage(dwarf, GameDamageType.SCEPTER, DAMAGE + dwarf.getBonusMeleeDamage()/2);
+			if (dwarf.hasProc()) damage.setProc(true);
+			damage.setNoDamageTicks(5);
+			damage.addPostDamageHandler(() -> {
+				if (monster.isAI())
+					monster.givePotionEffect(PotionEffectType.SLOW, 5*20, 2, true, true, true);
+			});
+			damage.setNoDamageTicks(8);
+			boolean success = damage.fire();
+			
+			if (success && playSound) {
+				dwarf.playSound(Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 2f, false);
+				playSound = false;
+			}
+		}
 	}
 }

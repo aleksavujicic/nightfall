@@ -145,7 +145,7 @@ public class Doppelganger extends AbstractMob {
 	private static final Hitscan scepterHitscan = Scepter.copyOfHitscanBuilder().build();
 	private final Cooldown beamer = new ComplexCooldown(Scepter.ZAP_CD, () -> {
 		scepterHitscan.fire(monster, Scepter.RANGE);
-		monster.playSound(Scepter.ZAP_SOUND, 1f, Scepter.ZAP_PITCH, true);
+		Scepter.playZapSound(monster);
 	});
 	
 	@Override
