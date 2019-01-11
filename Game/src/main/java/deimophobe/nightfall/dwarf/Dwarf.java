@@ -35,6 +35,7 @@ import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
+import deimophobe.nightfall.util.Util;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -818,15 +819,12 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		
 		if (dwarf == this) {
 			armour.dropFakeArmour();
-			World world = dwarf.getWorld();
 			Location location = dwarf.getLocation();
 			for (KitPiece piece : kit.getKitPieces()) {
 				if (Math.random() > 0.5) continue;
 				if (piece instanceof ItemPiece) {
 					ItemStack itemStack = ((ItemPiece) piece).getItem().createItemStack();
-					Item item = world.dropItemNaturally(location, itemStack);
-					item.setPickupDelay(32767); // Never
-					item.setTicksLived(6000 - 60*20);
+					Util.spawnDecorativeItem(location, itemStack, 3*60*20);
 				}
 			}
 		}

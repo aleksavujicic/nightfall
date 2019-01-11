@@ -10,6 +10,7 @@ import deimophobe.nightfall.game.Curse;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.util.ArmourSlot;
+import deimophobe.nightfall.util.Util;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Item;
@@ -81,12 +82,9 @@ public class HeroArmour extends StaticArmour {
 	
 	@Override
 	public void dropFakeArmour() {
-		World world = hero.getWorld();
 		Location location = hero.getLocation();
 		ItemStack itemStack = armour.createItemStack();
 		
-		Item item = world.dropItemNaturally(location, itemStack);
-		item.setPickupDelay(32767); // Never
-		item.setTicksLived(6000 - 60*20);
+		Util.spawnDecorativeItem(location, itemStack, 3*60*20);
 	}
 }

@@ -48,12 +48,10 @@ public class ArcaneMark extends LifetimeExpireable {
 		
 		this.type = type;
 		
-		droppedItem = location.getWorld().dropItem(location.clone().subtract(0, 0.2, 0), type.dropItem);
-		droppedItem.setPickupDelay(32767); // Never
-		droppedItem.setTicksLived(6000 - 60*20);
+		Location spawnPosition = location.clone().subtract(0, 0.2, 0);
+		droppedItem = Util.spawnDecorativeItem(spawnPosition, type.dropItem, lifetime);
 		droppedItem.setGravity(false);
 		droppedItem.setVelocity(new Vector(0, 0, 0));
-		droppedItem.setPortalCooldown(1000000);
 	}
 	
 	@Override

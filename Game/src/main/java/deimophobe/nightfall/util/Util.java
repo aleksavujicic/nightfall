@@ -1,14 +1,18 @@
 package deimophobe.nightfall.util;
 
+import deimophobe.nightfall.dwarf.kit.hero.BubbleBeam;
 import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
 import me.libraryaddict.disguise.disguisetypes.MetaIndex;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import me.libraryaddict.disguise.disguisetypes.watchers.PlayerWatcher;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Rail;
+import org.bukkit.entity.Item;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
@@ -107,5 +111,13 @@ public class Util {
 		} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static Item spawnDecorativeItem(@NotNull Location location, @NotNull ItemStack itemStack, int duration) {
+		Item item = location.getWorld().dropItem(location, itemStack);
+		item.setPortalCooldown(1000000);
+		item.setPickupDelay(32767); // Never
+		item.setTicksLived(6000 - duration);
+		return item;
 	}
 }

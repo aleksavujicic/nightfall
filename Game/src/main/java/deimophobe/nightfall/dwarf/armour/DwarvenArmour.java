@@ -20,6 +20,7 @@ import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.util.ArmourSlot;
+import deimophobe.nightfall.util.Util;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Item;
@@ -191,14 +192,10 @@ public class DwarvenArmour implements Armour {
 	@Override
 	public void dropFakeArmour() {
 		if (!isArmoured()) return;
-		World world = dwarf.getWorld();
 		Location location = dwarf.getLocation();
 		for (CustomItem customItem : getCurrentArmourSet().values()) {
 			ItemStack itemStack = customItem.createItemStack();
-			
-			Item item = world.dropItemNaturally(location, itemStack);
-			item.setPickupDelay(32767); // Never
-			item.setTicksLived(6000 - 60 * 20);
+			Util.spawnDecorativeItem(location, itemStack, 3*60*20);
 		}
 	}
 	
