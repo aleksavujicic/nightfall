@@ -57,6 +57,8 @@ public class AFKChecker implements Updateable {
 	 */
 	public void resetAFK() {
 		points = 0;
+		updateTick = 0;
+		player.sendDebugMsg("Reset AFK");
 	}
 	
 	private void checkForAFK() {

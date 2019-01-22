@@ -180,6 +180,9 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		removeAllShields();
 		resetLastMainDamage();
 		
+		afkChecker.resetAFK();
+		removeUpdateable(afkChecker);
+		
 		player.setAllowFlight(true);
 		player.setGameMode(GameMode.SPECTATOR);
 	}
@@ -228,6 +231,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			}
 			
 			player.getInventory().setItem(9, seppuku);
+			addUpdateable(afkChecker);
 			logger.info("Spawning " + getName() + " as mob " + mob.getType() + " (via " + spawnMethod + ")");
 			
 			return true;
