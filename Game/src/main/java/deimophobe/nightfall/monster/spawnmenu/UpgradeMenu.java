@@ -5,39 +5,27 @@ import deimophobe.nightfall.common.menu.item.MultiItem;
 import deimophobe.nightfall.common.menu.submenu.SimpleMenu;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.mob.MobType;
+import deimophobe.nightfall.monster.upgrades.Upgrade;
+import deimophobe.nightfall.monster.upgrades.UpgradeRegistry;
 import org.bukkit.configuration.ConfigurationSection;
 
+import java.util.Collection;
 import java.util.Set;
 
 /**
  * Created by Deimophobe on 2/02/17.
  */
 class UpgradeMenu extends SimpleMenu<MonsterPlayer> {
-    private static final int MENU_SIZE = 27;
-    private final Set<String> upgrades;
-
-    UpgradeMenu(ConfigurationSection section, MobType type) {
-        super(MENU_SIZE);
-
-        upgrades = section.getKeys(false);
-
-        for (String key : section.getKeys(false)) {
-            ConfigurationSection itemSection = section.getConfigurationSection(key);
-            MenuItem<MonsterPlayer> item = new UpgradeMenuItem(itemSection, type);
-            int index = itemSection.getInt("index");
-            insertItem(index, item);
-        }
-    }
-
-    private void insertItem(int index, MenuItem<MonsterPlayer> item) {
-        MultiItem<MonsterPlayer> multiItem = (MultiItem<MonsterPlayer>) getItem(index);
-        if (multiItem == null) multiItem = new MultiItem<>();
-
-        multiItem.addItem(item);
-        setItem(index, multiItem);
-    }
-
-    Set<String> getUpgrades() {
-        return upgrades;
+    UpgradeMenu(int size, MonsterMenuConfig config, MobType type) {
+        super(size);
+        
+	    UpgradeRegistry registry = config.getRegistry();
+	    Collection<Upgrade> upgrades = registry.getUpgrades(type);
+	    
+	    for (Upgrade upgrade : upgrades) {
+	    	UpgradeMenuItem upgradeMenuItem = new UpgradeMenuItem(upgrade);
+	    	int index = upgrade.getIndex();
+	    	this.setItem(index, upgradeMenuItem);
+	    }
     }
 }

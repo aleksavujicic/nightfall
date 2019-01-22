@@ -63,15 +63,6 @@ aiskelly-wep:
   modifiers:
     attack: 20
 
-reset-xp:
-  template: monster
-  base: menu.trash
-  name: Confirm Reset
-  lore:
-    description:
-     - "You have currently spent &e$xp&r xp on your upgrades.\n
-        Confirm to reset your upgrades and get &a$refund&r xp back."
-
 
 arcane-mark:
   template: basic

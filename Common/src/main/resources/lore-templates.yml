@@ -222,6 +222,17 @@ monster-menu:
   prefix:
     description: "&6"
 
+monster-primary-selector:
+  nameprefix: "&5"
+
+  lore:
+    - "&6Cost: &a$cost"
+    - ""
+    - "${description}"
+
+  prefix:
+    description: "&6"
+
 monster-egg:
   nameprefix: "&5"
 

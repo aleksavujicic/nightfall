@@ -163,7 +163,7 @@ class SkeletonWither extends AbstractToggleSkeleton {
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
-		damage.getArrowRes().addBoost(realArrowRes);
+		damage.getArrowResistance().addBoost(realArrowRes);
 	}
 
 	@Override

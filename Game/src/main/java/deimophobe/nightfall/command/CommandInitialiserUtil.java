@@ -7,6 +7,8 @@ import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.game.entity.ShieldSource;
+import deimophobe.nightfall.monster.upgrades.Upgrade;
+import deimophobe.nightfall.monster.upgrades.UpgradeRegistry;
 import deimophobe.nightfall.skin.Skin;
 import deimophobe.nightfall.command.iterable.*;
 import deimophobe.nightfall.common.Misc;
@@ -103,6 +105,7 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("shieldsources", getCompletionHandlerForEnum(ShieldSource.values()));
 		completions.registerCompletion("bloodcolours", getCompletionHandlerForEnum(BloodColour.values()));
 		completions.registerCompletion("mobtypes", getCompletionHandlerForEnum(MobType.getSpawnableMobs()));
+		completions.registerCompletion("primarymobs", getCompletionHandlerForEnum(MobType.getPrimaryMobs()));
 		completions.registerCompletion("spawnmethods", getCompletionHandlerForEnum(SpawnMethod.values()));
 		completions.registerCompletion("plagues", getCompletionHandlerForEnum(PlagueType.values()));
 		completions.registerCompletion("plague-status", getCompletionHandlerForEnum(Dwarf.PlagueStatus.values()));
@@ -119,6 +122,10 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("items", c -> ItemManager.getManager().getNames());
 		completions.registerCompletion("maps", c -> MapManager.getManager().getMapNames());
 		completions.registerCompletion("skins", c -> Skin.getSkinNames());
+		
+		UpgradeRegistry registry = NightfallPlugin.getPlugin().getUpgradeRegistry();
+		completions.registerCompletion("upgrades", c -> registry.getAllUpgradeIDs());
+		
 		
 		completions.registerCompletion("kitpieces", c -> {
 			Collection<String> pieces = KitPieceType.getPieceNames();
@@ -261,7 +268,14 @@ public class CommandInitialiserUtil {
 		contexts.registerContext(Skin.class, getPrettyResolver(
 				name -> Skin.tryGetSkin(name),
 				context -> Skin.getSkinNames(),
-				"map", true
+				"skin", true
+		));
+		
+		UpgradeRegistry registry = NightfallPlugin.getPlugin().getUpgradeRegistry();
+		contexts.registerContext(Upgrade.class, getPrettyResolver(
+				name -> registry.tryGetUpgrade(name),
+				context -> registry.getAllUpgradeIDs(),
+				"upgrade", true
 		));
 		
 		
@@ -377,6 +391,11 @@ public class CommandInitialiserUtil {
 		});
 		MessageUtil.addResolver(Skin.class, arg -> {
 			TextComponent text = new TextComponent(arg.getName());
+			text.setColor(net.md_5.bungee.api.ChatColor.GREEN);
+			return text;
+		});
+		MessageUtil.addResolver(Upgrade.class, arg -> {
+			TextComponent text = new TextComponent(arg.getID());
 			text.setColor(net.md_5.bungee.api.ChatColor.GREEN);
 			return text;
 		});

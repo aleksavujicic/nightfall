@@ -23,6 +23,7 @@ import deimophobe.nightfall.monster.mob.Bopen;
 import deimophobe.nightfall.monster.mob.FloatyMob;
 import deimophobe.nightfall.monster.mob.Mob;
 import deimophobe.nightfall.monster.mob.MobType;
+import deimophobe.nightfall.monster.upgrades.MonsterUpgrades;
 import deimophobe.nightfall.util.AFKChecker;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.apache.commons.lang.math.NumberUtils;
@@ -70,7 +71,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		}
 		
 		int xpCount = MonsterManager.getManager().getCurrentXPCount();
-		forceGainExp(xpCount);
+		forceGiveExperience(xpCount);
 	}
 	
 	@Override
@@ -183,6 +184,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		player.setGameMode(GameMode.SPECTATOR);
 	}
 	
+	public void spawnPrimaryMob(SpawnMethod spawnMethod) {
+		spawnMob(upgrades.createPrimaryMob(), spawnMethod);
+	}
+	
 	public boolean spawnMob(MobCreator<?> type) {
 		return spawnMob(type, SpawnMethod.SPAWN);
 	}
@@ -234,18 +239,6 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			kill(true);
 			return false;
 		}
-	}
-	
-	private static final Set<MobType> UPGRADEABLE_MOBS = EnumSet.of(MobType.ZOMBIE, MobType.SKELETON, MobType.GOBO);
-	/** Chooses the mob with the most upgrades upgraded. */
-	public MobType getPrimaryMob() {
-		return Misc.getArgMax(UPGRADEABLE_MOBS, mobType -> {
-			int total = 0;
-			for (int level : getUpgrades(mobType).values()) {
-				total += level;
-			}
-			return total;
-		});
 	}
 	
 	public boolean isMobType(MobType type) {
@@ -331,75 +324,76 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	// ------ EXPERIENCE ------
 	private int experience = 0;
-	private int amountSpent = 0;
-	private int expRate = 10;
-	private static final int MAX_XP = 10000;
+	private int experienceRate = 10;
+	private static final int MAX_EXPERIENCE = 10000;
 	
-	public void forceGainExp(int amt) {
-		experience += amt;
-		updateExpDisplay();
+	private final MonsterUpgrades upgrades = new MonsterUpgrades(this);
+	
+	public MonsterUpgrades getUpgrades() {
+		return upgrades;
 	}
 	
-	public void gainExp(int amt) {
-		experience = Math.min(Math.max(experience, MAX_XP), experience + amt);
-		updateExpDisplay();
+	public void forceGiveExperience(int amount) {
+		experience += amount;
+		updateExperienceDisplay();
 	}
 	
-	public boolean useExp(int xpCost) {
-		if (experience < xpCost) {
+	public void giveExperience(int amount) {
+		// If already above max, let it stay there
+		int currentMax = Math.max(experience, MAX_EXPERIENCE);
+		// Add amount, without going over currentMax
+		experience = Math.min(currentMax, experience + amount);
+		updateExperienceDisplay();
+	}
+	
+	public boolean useExperience(int cost) {
+		return useExperience(cost, true);
+	}
+	
+	public boolean useExperience(int cost, boolean increaseAmountSpent) {
+		if (experience < cost) {
 			return false;
 		} else {
-			experience -= xpCost;
-			amountSpent += xpCost;
-			updateExpDisplay();
+			experience -= cost;
+			if (increaseAmountSpent) upgrades.increaseAmountSpent(cost);
+			
+			updateExperienceDisplay();
 			return true;
 		}
 	}
 	
-	public void setExpRate(int rate) {
-		expRate = rate;
+	public void setExperienceRate(int rate) {
+		experienceRate = rate;
 	}
 	
-	public int getExpRate() {
-		return expRate;
+	public int getExperienceRate() {
+		return experienceRate;
 	}
 	
-	public int getExp() {
+	public int getExperience() {
 		return experience;
 	}
-
-	public int getSpent() {
-		return amountSpent;
+	
+	public boolean hasExperience(int amount) {
+		return experience >= amount;
 	}
+	
 
-	private void updateExpDisplay() {
+	private void updateExperienceDisplay() {
 		player.setLevel(experience);
-		Sidebar.getGameSidebar().setEntryValue(Sidebar.Entry.MONSTER_EXPERIENCE, player, experience);
+		game.getSidebar().setEntryValue(Sidebar.Entry.MONSTER_EXPERIENCE, player, experience);
 	}
 	
-	
-	// ------ SPAWN/UPGRADE MENUS ------
-	private Map<MobType, Map<String, Integer>> upgrades = new HashMap<>();
-	
-	public Map<String, Integer> getUpgrades(MobType type) {
-		if (!upgrades.containsKey(type)) {
-			Set<String> upgradeSet = MonsterManager.getManager().getUpgradeSet(type);
-			
-			Map<String, Integer> mobUpgrades = new HashMap<>();
-			for (String upgrade : upgradeSet) {
-				mobUpgrades.put(upgrade, 0);
-			}
-			
-			upgrades.put(type, mobUpgrades);
-		}
-		return upgrades.get(type);
+	public void sendInsufficientExperienceMessage(int requiredExperience) {
+		player.sendMessage(
+				ChatColor.RED + "Not enough exp! " + "You have "
+				+ ChatColor.LIGHT_PURPLE + experience
+				+ ChatColor.RED + " exp (need "
+				+ ChatColor.YELLOW + requiredExperience
+				+ ChatColor.RED + ")."
+		);
 	}
-
-	public void resetUpgrades(double refundRate) {
-		upgrades.clear();
-		forceGainExp((int) (refundRate * amountSpent));
-		amountSpent = 0;
-	}
+	
 	
 	// ------ DAMAGE ------
 	@Override

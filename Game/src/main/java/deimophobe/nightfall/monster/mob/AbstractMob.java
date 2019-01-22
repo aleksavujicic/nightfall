@@ -71,6 +71,7 @@ public abstract class AbstractMob implements Mob {
 		this.compass = new GameCompass(monster);
 	}
 	
+	@Deprecated
 	protected AbstractMob(MonsterPlayer monster, MobType type, MobData data) {
 		this.monster = monster;
 		this.type = type;
@@ -355,8 +356,8 @@ public abstract class AbstractMob implements Mob {
 		return getItem(ARMOUR_NAME);
 	}
 	
-	protected final CustomItem setWeapon(String newWepName) {
-		return items.put(WEAPON_NAME, mobData.getAsWeapon(newWepName));
+	protected void setWeapon(String itemName) {
+		items.put(WEAPON_NAME, mobData.getAsWeapon(itemName));
 	}
 	
 	public final boolean doesWeaponExist() {
@@ -478,7 +479,7 @@ public abstract class AbstractMob implements Mob {
 				break;
 		}
 		final int finalXpGain = xpGain;
-		damage.addPostDamageHandler(() -> monster.gainExp(finalXpGain));
+		damage.addPostDamageHandler(() -> monster.giveExperience(finalXpGain));
 	}
 	
 	@Override
@@ -491,7 +492,7 @@ public abstract class AbstractMob implements Mob {
 		
 		if (!mobData.proccable) damage.setProc(false);
 		damage.getMultiPartDamage().timesMult(1 - mobData.damageRes);
-		damage.getArrowRes().setBase(mobData.arrowRes);
+		damage.getArrowResistance().setBase(mobData.arrowRes);
 		
 		damage.addPostDamageHandler(() -> {
 			playSound("hurt");
@@ -503,7 +504,7 @@ public abstract class AbstractMob implements Mob {
 	@Override
 	public boolean onBlockBreak(Block block, boolean didBreak) {
 		if (block.getType() == Material.TORCH && didBreak)
-			monster.gainExp(mobData.torchXP);
+			monster.giveExperience(mobData.torchXP);
 		return didBreak;
 	}
 	
@@ -525,12 +526,12 @@ public abstract class AbstractMob implements Mob {
 		if (afk) return;
 		
 		if (everyNthTick(20) && Game.getGame().getPhase() == Phase.GAME) {
-			monster.gainExp(monster.getExpRate());
+			monster.giveExperience(monster.getExperienceRate());
 		}
 		if (everyNthTick(5)) {
 			Region shrineRegion = GameMap.getCurrentMap().getCurrentShrineRegion();
 			if (shrineRegion.containsPlayer(monster) && getShrineWeight() != 0) {
-				monster.gainExp(mobData.shrineXP);
+				monster.giveExperience(mobData.shrineXP);
 			}
 		}
 	}

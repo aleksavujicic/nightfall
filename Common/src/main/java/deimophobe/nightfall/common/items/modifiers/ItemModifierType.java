@@ -14,6 +14,9 @@ public enum ItemModifierType {
 	ATTACK("Attack", new AttributeApplier(Attribute.ATTACK_DAMAGE)),
 	ARMOUR_SHRED("Armour Shred"),
 	
+	SNEAK_ATTACK("Sneak Attack"),
+	SNEAK_SHRED("Sneak Shred"),
+	
 	POWER("Power"),
 
 	FAKE_PUNCH("Punch"),

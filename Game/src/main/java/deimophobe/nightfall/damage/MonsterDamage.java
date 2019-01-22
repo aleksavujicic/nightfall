@@ -22,7 +22,7 @@ public class MonsterDamage extends GameDamage<GameEntity<?>, MonsterEntity> {
 	public void setProc(boolean proc) { this.proc = proc;}
 	
 	private MultiPartValue arrowRes = new MultiPartValue(0);
-	public MultiPartValue getArrowRes() { return arrowRes; }
+	public MultiPartValue getArrowResistance() { return arrowRes; }
 	
 	public MonsterDamage(GameEntity attacker, MonsterEntity receiver, GameDamageType type, double damage, Projectile arrow) {
 		super(attacker, receiver, type, damage, arrow);

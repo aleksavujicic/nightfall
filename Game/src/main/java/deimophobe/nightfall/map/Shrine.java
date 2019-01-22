@@ -265,7 +265,7 @@ public class Shrine {
 		}
 		int xpGain = 1000 + map.getGold();
 		for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
-			monster.forceGainExp(xpGain);
+			monster.forceGiveExperience(xpGain);
 		}
 		MonsterManager.getManager().giveFutureXP(xpGain);
 		

@@ -2,7 +2,6 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.blocktype.NFBlocks;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Display;
@@ -156,7 +155,7 @@ class SkeletonFlamelancer extends Skeleton {
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
-		damage.getArrowRes().addBoost(arrowRes);
+		damage.getArrowResistance().addBoost(arrowRes);
 		damage.addPostDamageHandler(this::cancelBlazerunner);
 	}
 	

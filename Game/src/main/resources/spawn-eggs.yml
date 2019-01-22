@@ -1,19 +1,19 @@
 zombie:
-  mobtype: zombie
+  mobtype: zombie-base
   egg:
     material: wooden_pickaxe
     name: Spawn Zombie
   permanent: true
 
 skeleton:
-  mobtype: skeleton
+  mobtype: skeleton-base
   egg:
     base: shortbow
     name: Spawn Skeleton
   permanent: true
 
-gobo:
-  mobtype: gobo
+goblin:
+  mobtype: goblin-base
   egg:
     base: gobo.kaboom
     name: Spawn Goblin

@@ -49,7 +49,7 @@ class DefaultSpawner implements MonsterSpawner {
 		
 		if (regulars.length == 0) {
 			regularSpawner = mp -> {
-				mp.spawnMob(mp.getPrimaryMob(), SpawnMethod.DOOM);
+				mp.spawnPrimaryMob(SpawnMethod.DOOM);
 			};
 		} else {
 			regularSpawner = mp -> {

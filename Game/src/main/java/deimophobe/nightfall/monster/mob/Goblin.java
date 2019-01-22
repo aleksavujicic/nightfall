@@ -50,9 +50,9 @@ public class Goblin extends AbstractMob {
 	}
 	
 	protected Goblin(MonsterPlayer mons, MobData data) {
-		super(mons, MobType.GOBO, data);
+		super(mons, MobType.GOBLIN_BASE, data);
 
-		upgrades = monster.getUpgrades(MobType.GOBO);
+		upgrades = null; //monster.getUpgrades(MobType.GOBLIN_BASE);
 
 		int supplies_inf = upgrades.get("supplies-inf");
 		this.supplies = (upgrades.get("supplies") + supplies_inf)*2;

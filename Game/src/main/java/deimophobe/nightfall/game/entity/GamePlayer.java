@@ -57,9 +57,13 @@ import static com.google.common.base.Preconditions.checkState;
  * Created by Deimophobe on 17/01/17.
  */
 public abstract class GamePlayer extends AbstractGameEntity<Player> implements GameEntityShooter<Player> {
+	protected final Game game;
+	
 	protected Player player;
 	protected GamePlayer(Player player) {
 		super(player);
+		//TODO Dependency injection
+		this.game = Game.getGame();
 		
 		this.player = player;
 		//player.spigot().respawn();

@@ -42,7 +42,7 @@ public class Luminous extends AbstractBow {
     public void onDamageAttack(MonsterDamage damage) {
         super.onDamageAttack(damage);
         if (damage.getType() == GameDamageType.LUMINOUS) {
-            damage.getArrowRes().timesMult(0.5);
+            damage.getArrowResistance().timesMult(0.5);
             
             if (damage.getMonster().isAI()) {
             	damage.instaKill();

@@ -16,11 +16,13 @@ public interface MobCreator<T extends Mob> {
 	String getName();
 	
 	default Permission getPermission() {
-		Permission permission = Bukkit.getPluginManager().getPermission(PERMISSION_PREFIX + getName() + PERMISSION_POSTFIX);
+		String permissionName = PERMISSION_PREFIX + getName() + PERMISSION_POSTFIX;
+		
+		Permission permission = Bukkit.getPluginManager().getPermission(permissionName);
 		if (permission != null) return permission;
 		
 		return new Permission(
-				PERMISSION_PREFIX + getName() + PERMISSION_POSTFIX,
+				permissionName,
 				"Allows the player to spawn as a " + getName() + " via commands, provided they have permission to those commands as well." ,
 				PermissionDefault.TRUE
 		);

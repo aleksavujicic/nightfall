@@ -1,8 +1,10 @@
 package deimophobe.nightfall.command;
 
 import co.aikar.commands.BaseCommand;
+import co.aikar.commands.CommandIssuer;
 import co.aikar.commands.InvalidCommandArgument;
 import co.aikar.commands.annotation.*;
+import co.aikar.commands.annotation.Optional;
 import deimophobe.nightfall.command.iterable.MonsterIterable;
 import deimophobe.nightfall.command.iterable.PlayerIterable;
 import deimophobe.nightfall.common.command.MessageUtil;
@@ -12,13 +14,19 @@ import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.mob.Mob;
+import deimophobe.nightfall.monster.mob.MobType;
+import deimophobe.nightfall.monster.upgrades.MonsterUpgrades;
+import deimophobe.nightfall.monster.upgrades.Upgrade;
+import org.apache.commons.lang3.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.permissions.Permission;
+import org.graalvm.compiler.lir.LIRInstruction;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Deimophobe on 4/03/18.
@@ -122,7 +130,7 @@ public class MobCommand extends BaseCommand {
 	@Description("Give a monster some xp.")
 	public void giveXP(CommandSender sender, MonsterIterable monsters, int xp) {
 		monsters.forEach(m -> {
-			m.forceGainExp(xp);
+			m.forceGiveExperience(xp);
 			MessageUtil.sendMessage(sender, "Gave ", m, " a total of ", xp, " exp.");
 		});
 	}
@@ -133,9 +141,89 @@ public class MobCommand extends BaseCommand {
 	@Description("Set a monsters xp rate.")
 	public void setXPRate(CommandSender sender, MonsterIterable monsters, int rate) {
 		monsters.forEach(m -> {
-			m.setExpRate(rate);
+			m.setExperienceRate(rate);
 			MessageUtil.sendMessage(sender, "Set exp rate of ", m, " to ", rate, " exp per second.");
 		});
+	}
+	
+	@Subcommand("primary")
+	@CommandCompletion("@monsters @primarymobs")
+	@CommandPermission("nightfall.command.mob.primary")
+	@Description("Set a monster's primary mob.")
+	public void setPrimaryMob(CommandSender sender, MonsterIterable monsters, @Flags("null") MobType primaryMob) throws InvalidCommandArgument {
+		if (!primaryMob.isPrimary()) throw new InvalidCommandArgument (
+				"Mob type '"
+				+ ChatColor.YELLOW + primaryMob
+				+ ChatColor.RED + "' cannot be used as a primary mob."
+		);
+		
+		monsters.forEach(m -> {
+			m.getUpgrades().setPrimaryMob(primaryMob);
+			MessageUtil.sendMessage(sender, "Set primary mob of ", m, " to ", primaryMob);
+		});
+	}
+	
+	@Subcommand("upgrade|u")
+	public class UpgradeCommand extends BaseCommand {
+		@Subcommand("set")
+		@CommandCompletion("@monsters @upgrades @nothing")
+		@CommandPermission("nightfall.command.mob.upgrade.set")
+		@Description("Set a monster's upgrade level.")
+		public void setUpgrade(CommandSender sender, MonsterIterable monsters, Upgrade upgrade, int level){
+			monsters.forEach(monster -> {
+				MonsterUpgrades upgrades = monster.getUpgrades();
+				upgrades.setLevel(upgrade, level);
+				MessageUtil.sendMessage(sender, "Set ", monster, "'s upgrade ", upgrade, " to level ", level);
+			});
+		}
+		
+		@Subcommand("get")
+		@CommandCompletion("@monsters @upgrades @nothing")
+		@CommandPermission("nightfall.command.mob.upgrade.get")
+		@Description("Get a monster's upgrade level.")
+		public void sgetUpgrade(CommandSender sender, MonsterIterable monsters, Upgrade upgrade) {
+			monsters.forEach(monster -> {
+				MonsterUpgrades upgrades = monster.getUpgrades();
+				int level = upgrades.getLevel(upgrade);
+				MessageUtil.sendMessage(sender, monster, "'s upgrade ", upgrade, " has level ", level);
+			});
+		}
+		
+		@Subcommand("clear")
+		@CommandCompletion("@monsters")
+		@CommandPermission("nightfall.command.mob.upgrade.clear")
+		@Description("Reset a monsters upgrades.")
+		public void resetUpgrades(CommandSender sender, MonsterIterable monsters, @Default("0") double refundRate) {
+			monsters.forEach(m -> {
+				m.getUpgrades().resetUpgrades(refundRate);
+				MessageUtil.sendMessage(sender, "Reset upgrades of ", m, ". Refunded experience at a rate of ", refundRate, ".");
+			});
+		}
+		
+		@Subcommand("purchase")
+		@CommandCompletion("@monsters @upgrades @nothing")
+		@CommandPermission("nightfall.command.mob.upgrade.purchase")
+		@Description("Purchase upgrade for a monster.")
+		public void purchse(CommandSender sender, MonsterIterable monsters, Upgrade upgrade) {
+			monsters.forEach(monster -> {
+				MonsterUpgrades upgrades = monster.getUpgrades();
+				boolean purchsed = upgrades.tryPurchaseUpgrade(upgrade);
+				if (purchsed) {
+					MessageUtil.sendMessage(sender, "Purchased upgrade ", upgrade, " for ", monster, ".");
+				} else {
+					MessageUtil.sendErrorMessage(sender, "Could not purchase ", upgrade, " for ", monster, ".");
+				}
+			});
+		}
+		
+		@Subcommand("value")
+		@CommandCompletion("@upgrades @nothing")
+		@CommandPermission("nightfall.command.mob.upgrade.value")
+		@Description("Purchase upgrade for a monster.")
+		public void value(CommandSender sender, Upgrade upgrade, String valueKey, int level) {
+			Object value = upgrade.getValue(valueKey, level);
+			MessageUtil.sendMessage(sender, "Upgrade ", upgrade, ":", valueKey, " at level ", level, " is ", "" + value);
+		}
 	}
 	
 	@Subcommand("plague-xp")
@@ -184,5 +272,23 @@ public class MobCommand extends BaseCommand {
 	
 	private MonsterManager getManager() {
 		return MonsterManager.getManager();
+	}
+	
+	@Override
+	public List<String> tabComplete(CommandIssuer issuer, String commandLabel, String[] args) {
+		if (args.length == 4
+				&& (args[0].equalsIgnoreCase("upgrade")  || args[0].equalsIgnoreCase("u"))
+				&& args[1].equalsIgnoreCase("value")) {
+			
+			try {
+				Upgrade upgrade = Upgrade.fromString(args[2]);
+				Collection<String> valueKeys = upgrade.getValueKeys();
+				
+				return CommandInitialiserUtil.finalArgCompletion(args, valueKeys);
+			} catch (IllegalArgumentException e) {
+				return super.tabComplete(issuer, commandLabel, args);
+			}
+		}
+		return super.tabComplete(issuer, commandLabel, args);
 	}
 }

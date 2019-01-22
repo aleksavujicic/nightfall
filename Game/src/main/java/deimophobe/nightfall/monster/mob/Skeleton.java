@@ -25,12 +25,12 @@ class Skeleton extends AbstractMob {
 	protected int quiver;
 
 	public Skeleton(MonsterPlayer mons) {
-		this(mons, MobType.SKELETON.getMobData());
+		this(mons, MobType.SKELETON_BASE.getMobData());
 	}
 
 	protected Skeleton(MonsterPlayer mons, MobData skeletonData) {
-		super(mons, MobType.SKELETON, skeletonData);
-		upgrades = monster.getUpgrades(MobType.SKELETON);
+		super(mons, MobType.SKELETON_BASE, skeletonData);
+		upgrades = null;//monster.getUpgrades(MobType.SKELETON_BASE);
 
 		this.quiver = (upgrades.get("quiver") + upgrades.get("quiver-inf"));
 		getArmour().addModifier(ItemModifierType.SPEED, -10, "Skeleton");

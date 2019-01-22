@@ -1,0 +1,109 @@
+items:
+  reset-page:
+    base: menu.trash
+    name: Reset Upgrades
+
+  reset-xp:
+    template: monster
+    base: menu.trash
+    name: Confirm Reset
+    lore:
+      description:
+       - "You have currently spent &e$xp&r xp on your upgrades.\n
+          Confirm to reset your upgrades and get &a$refund&r xp back."
+
+  back:
+    base: menu.left-arrow
+    name: Go Back
+
+  cancel:
+    base: menu.cancel
+    name: Cancel Reset
+
+  rebirth:
+    material: ender_eye
+    name: Rebirth
+
+primary-selectors:
+  zombie-fury:
+    cost: 3000
+    item:
+      material: ender_eye
+      name: "Select Fury Zombie"
+      shiny: true
+      lore:
+        description:
+          - "Become a Fury Zombie.\n
+             An offensively oriented zombie\n
+             that can quickly damage and break armour."
+
+  zombie-husk:
+    cost: 3000
+    item:
+      material: leather_chestplate
+      name: "Select Husk"
+      shiny: true
+      lore:
+        description:
+          - "Become a Husk.\n
+             A slow zombie that can become\n
+             resistant to arrows and procs."
+
+  zombie-saboteur:
+    cost: 3000
+    item:
+      material: stone_sword
+      name: "Select Saboteur"
+      shiny: true
+      lore:
+        description:
+          - "Become a Saboteur.\n
+             A speedy, sneaky zombie that can\n
+             destroy walls and poison dwarves."
+
+  skeleton-flame:
+    cost: 3000
+    item:
+      base: skeleton.flame-bow
+      name: "Select Flamelancer"
+      shiny: true
+      lore:
+        description:
+          - "Become a Flamelancer.\n
+             A fast skeleton that specializes\n
+             in lighting dwarves on fire."
+
+  skeleton-impact:
+    cost: 3000
+    item:
+      base: skeleton.impact-bow
+      name: "Select Impact Skeleton"
+      shiny: true
+      lore:
+        description:
+          - "Become an Impact Skeleton.\n
+             A sneaky skeleton variant that can\n
+             knock dwarves away."
+
+  skeleton-wither:
+    cost: 3000
+    item:
+      base: wither-skull
+      name: "Select Wither"
+      shiny: true
+      lore:
+        description:
+          - "Become a Wither.\n
+             A powerful skeleton that specializes\n
+             in chaining shots and breaking armor."
+
+  goblin-kaboom:
+    cost: 2000
+    item:
+      base: kaboom
+      name: "Kaboom"
+      shiny: true
+      lore:
+        description:
+          - "Become a goblin that can kaboom,\n
+             blowing yourself up to deal huge damage."

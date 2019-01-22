@@ -1,6 +1,7 @@
 package deimophobe.nightfall.common.menu;
 
 import deimophobe.nightfall.common.menu.submenu.SubMenu;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
@@ -18,7 +19,15 @@ public interface MainMenu<T extends SessionData> extends SubMenu<T> {
 	
 	
 	default Permission getPermission() {
-		return new Permission(PERMISSION_PREFIX + getPermissionName() + PERMISSION_POSTFIX, PermissionDefault.TRUE);
+		String permissionName = PERMISSION_PREFIX + getPermissionName() + PERMISSION_POSTFIX;
+		
+		Permission permission = Bukkit.getPluginManager().getPermission(permissionName);
+		if (permission != null) return permission;
+		
+		return new Permission(
+				permissionName,
+				PermissionDefault.TRUE
+		);
 	}
 	
 	default void startSession(Player player) {

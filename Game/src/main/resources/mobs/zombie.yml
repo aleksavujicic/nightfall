@@ -4,6 +4,8 @@ base:
   disguisetype: zombie
 
   attack: 10
+  shred: 5
+  health: 20
 
   armour:
     base: zombie.hide
@@ -39,6 +41,11 @@ husk:
 
   disguisetype: husk
 
+  attack: 10
+  health: 30
+  shred: 10
+  speed: -25
+
   sounds:
     death:
       path: "entity.husk.death"
@@ -49,6 +56,11 @@ fury:
 
   title: Fury Zombie
 
+  attack: 15
+  health: 20
+  shred: 15
+
+
 saboteur:
   parent: base
 
@@ -56,10 +68,27 @@ saboteur:
 
   disguisetype: zombie_villager
 
-  attack: 5
+  attack: 10
+  health: 15
+  shred: 5
+  speed: 20
 
+  weapon:
+    base: zombie.sword
+    name: Makeshift Sword
+    lore:
+      description:
+       - "Left click to attack dwarves, shredding\n
+          their armour and dealing damage.\n
+          Right click to go invisible for a short time.\n
+          Attacking while invisible will trigger a\n
+          sneak attack, dealing bonus damage."
+      flavour:
+       - "A cross between a runesword hilt and\n
+          plank debris. The dead use anything of\n
+          their fallen comrades."
   items:
-    wood-pickaxe:
+    pickaxe:
       base: zombie.pick
       name: Makeshift Pick
       lore:

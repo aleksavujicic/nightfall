@@ -77,7 +77,7 @@ public class Hammer extends AbstractAOEHitter implements CooldownPiece {
 	protected double getDamageToMonster(MonsterEntity entity) {
 		double damage = 0;
 		if (entity instanceof MonsterPlayer) {
-			if (((MonsterPlayer) entity).getMob().getType() == MobType.ZOMBIE) {
+			if (((MonsterPlayer) entity).getMob().getType().isZombie()) {
 				damage = 15;
 			} else {
 				damage = 10;

@@ -65,10 +65,10 @@ class Rat extends AbstractMob {
 			if (!map.getCurrentShrineRegion().containsPlayer(monster)) return;
 			
 			if (map.hasGold()) {
-				monster.gainExp(5);
+				monster.giveExperience(5);
 				map.stealGold(3);
 			} else {
-				monster.gainExp(2);
+				monster.giveExperience(2);
 			}
 			
 			playSound("steal");

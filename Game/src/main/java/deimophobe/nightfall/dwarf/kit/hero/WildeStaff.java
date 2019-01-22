@@ -107,7 +107,7 @@ public class WildeStaff extends AbstractItem implements CooldownPiece {
 					// Effects on mobs
 					for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
 						if (monster.getEyeLocation().distance(position) <= MYST_RADIUS) {
-							if (monster.getMob().getType() == MobType.ZOMBIE) {
+							if (monster.getMob().getType() == MobType.ZOMBIE_BASE) {
 								//Zombies
 								monster.givePotionEffect(PotionEffectType.SLOW, 15 * 20, 5, true, true, true);
 								monster.removeRebirth();

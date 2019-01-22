@@ -6,6 +6,7 @@ import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.PlayMode;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.MapManager;
+import deimophobe.nightfall.monster.upgrades.UpgradeRegistry;
 import deimophobe.nightfall.util.PacketUtil;
 import me.libraryaddict.disguise.LibsDisguises;
 import me.lucko.luckperms.LuckPerms;
@@ -37,6 +38,9 @@ public class NightfallPlugin extends JavaPlugin {
 	private boolean disabling = false;
 	public boolean isDisabling() { return disabling; }
 	
+	private UpgradeRegistry upgradeRegistry;
+	public UpgradeRegistry getUpgradeRegistry() { return upgradeRegistry; }
+	
 	@Override
 	public void onEnable() {
 		plugin = this;
@@ -56,6 +60,7 @@ public class NightfallPlugin extends JavaPlugin {
 		}
 		
 		//cleanPlayerDataFiles();
+		upgradeRegistry = new UpgradeRegistry(this);
 		
 		PacketUtil.setupListeners();
 		
@@ -102,8 +107,20 @@ public class NightfallPlugin extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(listener, this);
 	}
 	
+	/**
+	 * @deprecated static call should be avoided, use {@link NightfallPlugin#readInternalFileConfig(String)} instead.
+	 * @param name name of the file to read.
+	 * @return
+	 */
+	@Deprecated
 	public static YamlConfiguration getInternalFileConfig(String name) {
 		InputStream stream = getPlugin().getResource(name);
+		if (stream == null) throw new IllegalArgumentException("Unknown config file: " + name);
+		return YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
+	}
+	
+	public YamlConfiguration readInternalFileConfig(String name) {
+		InputStream stream = this.getResource(name);
 		if (stream == null) throw new IllegalArgumentException("Unknown config file: " + name);
 		return YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
 	}

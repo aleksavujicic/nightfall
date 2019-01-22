@@ -20,6 +20,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.graalvm.compiler.lir.LIRInstruction;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -29,6 +30,23 @@ import java.util.logging.Level;
  * Created by Deimophobe on 15/04/17.
  */
 public class CustomItem implements Cloneable, ItemMatcher {
+	@Deprecated
+	public static CustomItem getTemporaryItem() {
+		NightfallCommonPlugin.logger().warning("Call to CustomItem.getTemporaryItem()");
+		return new CustomItem(
+				BaseItemManager.getManager().getTempItem(),
+				new HashMap<>(),
+				new Lore(
+						LoreTemplate.getLoreTemplate(LoreTemplate.DEFAULT),
+						"Temp Item",
+						new HashMap<>()
+				),
+				new ArrayList<>(),
+				new HashMap<>(),
+				false,
+				false
+		);
+	}
 	
 	private final BaseItem base;
 	private final Map<String, BaseItem> variants;
