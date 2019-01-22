@@ -72,6 +72,7 @@ public enum GameDamageType {
 	GLAIVE_ALT,
 	INCORRECT_HELD_ITEM(new ForcedDeathMessageMaker("was a bit of a klutz and dropped their blade")),
 	TINDERFLAME("zooped"),
+	TUI_ROAR(),
 	WILDFIRE("incinerated"),
 	SMASH("smashed"),
 	SOUL_SHATTER("soul shattered"),

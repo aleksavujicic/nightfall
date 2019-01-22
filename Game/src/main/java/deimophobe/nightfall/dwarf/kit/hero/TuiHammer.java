@@ -3,11 +3,14 @@ package deimophobe.nightfall.dwarf.kit.hero;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.melee.AbstractAOEHitter;
+import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import deimophobe.nightfall.monster.ai.AIManager;
@@ -61,6 +64,20 @@ public class TuiHammer extends AbstractAOEHitter implements CooldownPiece {
 		if (roarCD.wasUsedWithin(ROAR_DURATION)) {
 			dwarf.getPlayer().getWorld().spawnParticle(Particle.FLAME, dwarf.getEyeLocation(), 5, 0.4, 0.4, 0.4, 0.1);
 		}
+	}
+	
+	@Override
+	public void onDamageReceive(DwarfDamage damage) {
+		super.onDamageReceive(damage);
+		if (!isRoaring()) return;
+		if (damage.getType() != GameDamageType.MELEE) return;
+		if (!isHoldingItem()) return;
+		
+		GameEntity<?> attacker = damage.getAttacker();
+		if (attacker instanceof AIEntity<?>) {
+			attacker.instaKill(dwarf, GameDamageType.TUI_ROAR);
+		}
+		damage.cancel();
 	}
 	
 	private final static double AI_RADIUS = 50;
