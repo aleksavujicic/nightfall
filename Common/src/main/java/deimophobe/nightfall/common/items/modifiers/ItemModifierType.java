@@ -37,7 +37,7 @@ public enum ItemModifierType {
 	FALL_DAMAGE("Fall Damage", ValueFormatter.PERCENT_FORMATTER),
 	
 	// Other bonuses
-	SPEED("Speed", new AttributeApplier(Attribute.MOVEMENT_SPEED, 2, (i) -> (double)i/100), ValueFormatter.PERCENT_FORMATTER),
+	SPEED("Speed", new AttributeApplier(Attribute.MOVEMENT_SPEED, 2, (i) -> (double)i/100), new PercentFormatter(true)),
 	DEPTH_STRIDER("Depth Strider", new EnchantApplier(Enchantment.DEPTH_STRIDER)),
 	AQUA_AFFINITY("Aqua Affinity", new EnchantApplier(Enchantment.WATER_WORKER)),
 
@@ -56,7 +56,7 @@ public enum ItemModifierType {
 	AVENGE("Avenge", false),
 	RESURRECTION("Resurrection", false),
 	
-	KB_RESIST("Knockback Res", new AttributeApplier(Attribute.KNOCKBACK_RESISTANCE, (i) -> (double)i/100), new PercentFormatter(false)),
+	KB_RESIST("Knockback Res", new AttributeApplier(Attribute.KNOCKBACK_RESISTANCE, (i) -> (double)i/100), ValueFormatter.PERCENT_FORMATTER),
 	PROC_RESIST("Proc Resistance", ValueFormatter.PERCENT_FORMATTER),
 	UNPROCCABLE("Unproccable", false),
 	
