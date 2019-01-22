@@ -28,7 +28,9 @@ import java.lang.reflect.Modifier;
  * @deprecated Methods need to be updated each version, and may not always work. Use with caution
  */
 @Deprecated
-public class NMSUtil {
+public final class NMSUtil {
+	private NMSUtil() {}
+	
 	public static int getPingOfPlayer(Player player) {
 		if (player instanceof CraftPlayer) {
 			return  ((CraftPlayer) player).getHandle().ping;
