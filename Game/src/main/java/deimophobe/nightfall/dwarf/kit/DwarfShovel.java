@@ -124,9 +124,9 @@ public class DwarfShovel extends AbstractItem {
 		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 4, "Procs in Bottles", RewardTier.UNCOMMON);
 		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 6, "Procs in Bottles", RewardTier.RARE);
 		
-		new ConsumableScavengeItem(ConsumableType.TURRET, 3, "Turrets", RewardTier.COMMON);
-		new ConsumableScavengeItem(ConsumableType.TURRET, 6, "Turrets", RewardTier.UNCOMMON);
-		new ConsumableScavengeItem(ConsumableType.TURRET, 9, "Turrets", RewardTier.RARE);
+		new ConsumableScavengeItem(ConsumableType.TURRET, 2, "Turrets", RewardTier.COMMON);
+		new ConsumableScavengeItem(ConsumableType.TURRET, 4, "Turrets", RewardTier.UNCOMMON);
+		new ConsumableScavengeItem(ConsumableType.TURRET, 6, "Turrets", RewardTier.RARE);
 		
 		new FixedScavengeItem("clover", "Lucky Clover");
 		new FixedScavengeItem("perfect-torch", "The Perfect Torch") {
