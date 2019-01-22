@@ -2,7 +2,10 @@ package deimophobe.nightfall.dwarf.kit.melee;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.cooldown.CompletionCooldown;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -36,11 +39,13 @@ public class Hammer extends AbstractAOEHitter implements CooldownPiece {
 	
 	
 	private final ComplexCooldown cooldown = new ComplexCooldown(60*20, this::roar);
+	private final Cooldown shinyResetter = new CompletionCooldown(ROAR_DURATION, () -> setShiny(false));
 	
 	@Override
 	public void update() {
 		super.update();
 		cooldown.update();
+		shinyResetter.update();
 	}
 	
 	@Override
@@ -109,6 +114,11 @@ public class Hammer extends AbstractAOEHitter implements CooldownPiece {
 		}
 		dwarf.playSound("dragonroar", 1f, 1.4f, true);
 		dwarf.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, ROAR_DURATION, 1, true, false, true);
+		dwarf.givePotionEffect(PotionEffectType.SPEED, ROAR_DURATION, 1, true, false, true);
+		
+		setShiny(true);
+		
+		shinyResetter.reset();
 	}
 	
 	private boolean isRoaring() {
