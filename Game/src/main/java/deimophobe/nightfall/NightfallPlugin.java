@@ -67,7 +67,7 @@ public class NightfallPlugin extends JavaPlugin {
 		try {
 			Game.createNewGame();
 			Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
-			NightfallListener nfListnener = new NightfallListener();
+			NightfallListener nfListnener = new NightfallListener(this);
 			Bukkit.getPluginManager().registerEvents(nfListnener, this);
 			Bukkit.getOnlinePlayers().forEach(nfListnener::processPlayer);
 		} catch (Exception e) {

@@ -6,6 +6,7 @@ import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
+import deimophobe.nightfall.util.PacketUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -21,13 +22,19 @@ import org.bukkit.event.server.ServerListPingEvent;
  *
  * For events that are not 'game dependent'.
  */
-public class NightfallListener implements Listener {
+class NightfallListener implements Listener {
+	private final NightfallPlugin plugin;
+	
+	NightfallListener(NightfallPlugin plugin) {
+		this.plugin = plugin;
+	}
 	
 	@EventHandler
 	public void onLogin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		processPlayer(player);
 	}
+	
 	void processPlayer(Player player) {
 		for (Attribute attribute : Attribute.values()) {
 			AttributeInstance instance = player.getAttribute(attribute);
@@ -42,9 +49,12 @@ public class NightfallListener implements Listener {
 		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(100000);
 		player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
 		
+		String nightfallText = Misc.getNightfallText();
 		player.setPlayerListHeader(
-				ChatColor.YELLOW +"Welcome to " + Misc.getNightfallText() + ChatColor.YELLOW + "!"
+				ChatColor.YELLOW +"Welcome to " + nightfallText + ChatColor.YELLOW + "!"
 		);
+		
+		PacketUtil.sendMinecraftBrand(player, nightfallText + ChatColor.RESET);
 	}
 	
 	@EventHandler

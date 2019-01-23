@@ -1,5 +1,6 @@
 package deimophobe.nightfall.util;
 
+import com.comphenix.packetwrapper.WrapperPlayClientCustomPayload;
 import com.comphenix.packetwrapper.WrapperPlayServerBlockAction;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -9,17 +10,26 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import com.comphenix.protocol.wrappers.EnumWrappers;
+import com.comphenix.protocol.wrappers.MinecraftKey;
 import deimophobe.nightfall.NightfallPlugin;
+import io.netty.buffer.Unpooled;
+import net.minecraft.server.v1_13_R2.PacketDataSerializer;
+import net.minecraft.server.v1_13_R2.PacketPlayOutCustomPayload;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by Deimophobe on 28/02/18.
  */
-public class PacketUtil {
+public final class PacketUtil {
+	private PacketUtil() {}
+	
 	public static void setChestOpen(Block block, boolean open) {
 		WrapperPlayServerBlockAction packet = new WrapperPlayServerBlockAction();
 		packet.setBlockType(Material.CHEST);
@@ -98,5 +108,34 @@ public class PacketUtil {
 		pc.getIntegers().write(0, entity.getEntityId());
 		pc.getBytes().write(0, status);
 		protocolManager.broadcastServerPacket(pc);
+	}
+	
+	private static final MinecraftKey BRAND_KEY = new MinecraftKey("minecraft", "brand");
+	public static void sendMinecraftBrand(Player player, String brand) {
+		sendMinecraftPluginMessage(player, BRAND_KEY, brand);
+	}
+	
+	private static void sendMinecraftPluginMessage(Player player, MinecraftKey channelKey, String message) {
+		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+		PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.CUSTOM_PAYLOAD);
+		
+		byte[] byteArray = message.getBytes();
+		byte length = (byte) byteArray.length;
+		
+		byte[] protocolString = new byte[byteArray.length + 1];
+		protocolString[0] = length;
+		for (int i = 0; i < byteArray.length; i++) {
+			protocolString[i+1] = byteArray[i];
+		}
+		
+		PacketDataSerializer packetDataSerializer = new PacketDataSerializer(Unpooled.wrappedBuffer(protocolString));
+		packet.getMinecraftKeys().write(0, channelKey);
+		packet.getModifier().withType(PacketDataSerializer.class).write(0, packetDataSerializer);
+		
+		try {
+			protocolManager.sendServerPacket(player, packet);
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
 }
