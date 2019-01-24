@@ -9,18 +9,14 @@ import deimophobe.nightfall.common.items.base.SimpleBaseItem;
 import deimophobe.nightfall.common.items.lore.Lore;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
-import io.netty.handler.logging.LogLevel;
-import minecraft.spigot.community.michel_0.api.ItemAttributes;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.graalvm.compiler.lir.LIRInstruction;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -162,10 +158,13 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		// Add lore/name
 		meta.setDisplayName(lore.createName());
 		meta.setLore(lore.createLore(modifiers, localErrors));
-		item.setItemMeta(meta);
 		
 		// Remove existing attributes (mainly for armour)
-		item = new ItemAttributes().apply(item);
+		meta.setAttributeModifiers(null);
+		
+		
+		item.setItemMeta(meta);
+		
 		
 		// Add modifiers
 		for (Map.Entry<ItemModifierType, Map<String, Integer>> entry : modifiers.entrySet()) {

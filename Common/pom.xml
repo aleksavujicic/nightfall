@@ -77,7 +77,6 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-                                    <include>minecraft.spigot.community.michel_0:api</include>
                                     <include>org.mongodb:mongo-java-driver</include>
                                     <include>org.mongodb.morphia:morphia</include>
                                     <include>co.aikar:*</include>
@@ -107,11 +106,6 @@
         <repository>
             <id>aikar</id>
             <url>https://repo.aikar.co/content/groups/aikar/</url>
-        </repository>
-        <repository>
-            <id>project.local</id>
-            <name>project</name>
-            <url>file:${project.basedir}/local-maven-repo/repository</url>
         </repository>
     </repositories>
 
@@ -157,11 +151,6 @@
             <groupId>co.aikar</groupId>
             <artifactId>acf-bukkit</artifactId>
             <version>0.5.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>minecraft.spigot.community.michel_0</groupId>
-            <artifactId>api</artifactId>
-            <version>1.1</version>
         </dependency>
         <dependency>
             <groupId>me.lucko.luckperms</groupId>

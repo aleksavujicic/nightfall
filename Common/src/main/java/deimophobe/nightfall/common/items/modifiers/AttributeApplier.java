@@ -1,10 +1,9 @@
 package deimophobe.nightfall.common.items.modifiers;
 
-import minecraft.spigot.community.michel_0.api.Attribute;
-import minecraft.spigot.community.michel_0.api.AttributeModifier;
-import minecraft.spigot.community.michel_0.api.ItemAttributes;
-import minecraft.spigot.community.michel_0.api.Slot;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.UUID;
 import java.util.function.Function;
@@ -14,41 +13,34 @@ import java.util.function.Function;
  */
 class AttributeApplier implements ModifierApplier {
 	private final Attribute attribute;
-	private final int operation;
-	private final Function<Integer, Double> modifier;
+	private final AttributeModifier.Operation operation;
+	private final Function<Integer, Double> valueCalculator;
 	
 	AttributeApplier(Attribute attribute) {
-		this(attribute, 0, (i) -> (double) i);
+		this(attribute, AttributeModifier.Operation.ADD_NUMBER, (i) -> (double) i);
 	}
 	
-	AttributeApplier(Attribute attribute, int operation) {
+	AttributeApplier(Attribute attribute, AttributeModifier.Operation operation) {
 		this(attribute, operation, (i) -> (double) i);
 	}
 	
-	AttributeApplier(Attribute attribute, Function<Integer, Double> modifier) {
-		this(attribute, 0, modifier);
+	AttributeApplier(Attribute attribute, Function<Integer, Double> valueCalculator) {
+		this(attribute, AttributeModifier.Operation.ADD_NUMBER, valueCalculator);
 	}
 	
-	AttributeApplier(Attribute attribute, int operation, Function<Integer, Double> modifier) {
+	AttributeApplier(Attribute attribute, AttributeModifier.Operation operation, Function<Integer, Double> valueCalculator) {
 		this.attribute = attribute;
 		this.operation = operation;
-		this.modifier = modifier;
+		this.valueCalculator = valueCalculator;
 	}
 	
-	private static final Slot[] SLOTS = Slot.values();
 	@Override
 	public ItemStack applyToItem(ItemStack item, int value) {
-		ItemAttributes attributes = new ItemAttributes();
-		attributes.getFromStack(item);
+		ItemMeta meta = item.getItemMeta();
+		AttributeModifier modifier = new AttributeModifier("Upgrade", valueCalculator.apply(value), operation);
+		meta.addAttributeModifier(attribute, modifier);
+		item.setItemMeta(meta);
 		
-		for (Slot slot : SLOTS) {
-			attributes.addModifier(new AttributeModifier(attribute, "Upgrade", slot, operation, modifier.apply(value), UUID.randomUUID()));
-		}
-		
-		return attributes.apply(item);
+		return item;
 	}
-	
-	
-	
-	public static final  Function<Integer, Double> BOOLEAN_FUNCTION = (i) -> (i > 0 ? 1d : 0d);
 }
