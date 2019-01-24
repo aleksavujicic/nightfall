@@ -154,11 +154,10 @@ public class Kit {
 		}
 	}
 	
-	public Projectile onBowFire(Arrow arrow, float force) {
-		ItemStack held = dwarf.getHeldItem();
-		for (BowPiece bow : bowPieces) {
-			if (bow.doesItemMatch(held)) {
-				return bow.onBowFire(arrow, force);
+	public Projectile onBowFire(ItemStack bow, Arrow arrow, float force) {
+		for (BowPiece bowPiece : bowPieces) {
+			if (bowPiece.doesItemMatch(bow)) {
+				return bowPiece.onBowFire(arrow, force);
 			}
 		}
 		return arrow;

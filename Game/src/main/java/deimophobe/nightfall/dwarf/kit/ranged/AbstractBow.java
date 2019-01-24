@@ -86,7 +86,6 @@ public abstract class AbstractBow extends AbstractItem implements BowPiece {
 	public Projectile onBowFire(Projectile proj, float force) {
 		if (proj instanceof Arrow) {
 			addMetadata((Arrow) proj);
-			ArrowMisc.setArrowDamage((Arrow) proj, getPower());
 		}
 		return proj;
 	}

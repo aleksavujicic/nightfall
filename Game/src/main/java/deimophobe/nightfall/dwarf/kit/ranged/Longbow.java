@@ -52,7 +52,7 @@ public class Longbow extends AbstractBow implements CooldownPiece {
 	@Override
 	public Projectile onBowFire(Projectile proj, float force) {
 		Arrow arrow = (Arrow) super.onBowFire(proj, force);
-		ArrowMisc.setArrowDamage(arrow, POWER + stacks*DMG_PER_STACK);
+		ArrowMisc.increaseArrowDamage(arrow, stacks*DMG_PER_STACK);
 		return arrow;
 	}
 	

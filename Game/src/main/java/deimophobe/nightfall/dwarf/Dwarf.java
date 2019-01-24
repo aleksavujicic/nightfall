@@ -42,7 +42,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
@@ -795,8 +794,8 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	@Override
-	public Projectile onBowFire(Arrow arrow, float force) {
-		Projectile proj = kit.onBowFire(arrow, force);
+	public Projectile onBowFire(ItemStack bow, Arrow arrow, float force) {
+		Projectile proj = kit.onBowFire(bow, arrow, force);
 		
 		if (proj instanceof Arrow) {
 			bowFiredArrow();

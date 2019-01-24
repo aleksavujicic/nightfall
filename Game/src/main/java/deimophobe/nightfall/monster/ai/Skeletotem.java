@@ -63,7 +63,7 @@ public class Skeletotem extends AIEntity<WitherSkeleton> implements GameShooter 
 	// Bow stuff no worky
 	
 	@Override
-	public Projectile onBowFire(Arrow arrow, float force) {
+	public Projectile onBowFire(ItemStack bow, Arrow arrow, float force) {
 		ArrowMisc.setArrowDamage(arrow, 25);
 		ArrowMisc.setArrowForce(arrow, 1);
 		arrow.setCritical(false);

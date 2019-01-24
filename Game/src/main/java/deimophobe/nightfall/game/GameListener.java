@@ -7,6 +7,7 @@ import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.event.HatChangeEvent;
 import deimophobe.nightfall.common.event.TitleChangeEvent;
+import deimophobe.nightfall.common.util.Keys;
 import deimophobe.nightfall.damage.DamageUtil;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -43,6 +44,9 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.tags.CustomItemTagContainer;
+import org.bukkit.inventory.meta.tags.ItemTagType;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -325,15 +329,23 @@ public class GameListener implements Listener {
 				location.setDirection(facing);
 				arrow.teleport(location);
 				
+				// Get bow and damage
+				ItemStack bow = event.getBow();
+				ItemMeta meta = bow.getItemMeta();
+				CustomItemTagContainer container = meta.getCustomTagContainer();
+				int damage = 0;
+				if (container.hasCustomTag(Keys.BOW_POWER_KEY, ItemTagType.INTEGER)) {
+					damage = container.getCustomTag(Keys.BOW_POWER_KEY, ItemTagType.INTEGER);
+				}
 				
 				// Update arrow properties
 				ArrowMisc.setArrowForce(arrow, force);
-				ArrowMisc.setArrowDamage(arrow, 0);
+				ArrowMisc.setArrowDamage(arrow, damage);
 				arrow.setPickupStatus(Arrow.PickupStatus.DISALLOWED);
 				arrow.setBounce(false);
 				
 				// FIRE
-				Projectile newProj = shooter.onBowFire(arrow, force);
+				Projectile newProj = shooter.onBowFire(bow, arrow, force);
 				
 				if (newProj == null) {
 					event.setCancelled(true);

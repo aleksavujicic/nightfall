@@ -2,6 +2,7 @@ package deimophobe.nightfall.common.items.modifiers;
 
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.UnknownEnumElementException;
+import deimophobe.nightfall.common.util.Keys;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
@@ -13,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 public enum ItemModifierType {
 	// Weapons
 	ATTACK("Attack", new AttributeApplier(Attribute.GENERIC_ATTACK_DAMAGE)),
-	POWER("Power"),
+	POWER("Power", new MetadataApplier(Keys.BOW_POWER_KEY)),
 	ARMOUR_SHRED("Armour Shred"),
 	
 	SNEAK_ATTACK("Sneak Attack"),

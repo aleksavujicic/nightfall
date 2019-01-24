@@ -4,7 +4,6 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.WhoEntry;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.menu.SessionData;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -42,10 +41,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.logging.Logger;
 
@@ -510,7 +505,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	@Override
-	public Projectile onBowFire(Arrow arrow, float force) {
+	public Projectile onBowFire(ItemStack bow, Arrow arrow, float force) {
 		if (isFrozen()) return null;
 		
 		if (mob != null) {
