@@ -15,6 +15,7 @@ public enum ItemModifierType {
 	// Weapons
 	ATTACK("Attack", new AttributeApplier(Attribute.GENERIC_ATTACK_DAMAGE)),
 	POWER("Power", new MetadataApplier(Keys.BOW_POWER_KEY)),
+	SNIPER("Sniper"),
 	ARMOUR_SHRED("Armour Shred"),
 	
 	SNEAK_ATTACK("Sneak Attack"),
@@ -53,7 +54,6 @@ public enum ItemModifierType {
 	LIFE_STEAL("Life Steal", new FractionalFormatter(2)),
 	MANA_DRAIN("Mana Drain"),
 	REGEN_EXTRA("Extra Regen"),
-	SNIPER("Sniper", ValueFormatter.PERCENT_FORMATTER),
 	VOLLEY("Arrows in Volley"),
 	IMPACT_EXTRA("Extra Force"),
 	FASTER_THROW("Extra Throw Chance", ValueFormatter.PERCENT_FORMATTER),

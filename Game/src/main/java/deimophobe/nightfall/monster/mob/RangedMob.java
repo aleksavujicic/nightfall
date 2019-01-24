@@ -10,10 +10,12 @@ import deimophobe.nightfall.monster.upgrades.wrappers.RangedUpgrades;
 import deimophobe.nightfall.monster.upgrades.wrappers.WrappedUpgrades;
 import deimophobe.nightfall.util.ArrowMisc;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
 
@@ -22,17 +24,9 @@ import java.util.Map;
  */
 abstract class RangedMob<T extends RangedUpgrades> extends UpgradeableMob<T> {
 	private static final String ARROW_NAME = "arrow";
-	
-	private final double power;
-	private final int armourShred;
 
 	RangedMob(MonsterPlayer monster, MobType type, Class<T> upgradeClass) {
 		super(monster, type, upgradeClass);
-		
-		RangedUpgrades upgrades = getUpgrades();
-		
-		this.power = upgrades.getPower();
-		this.armourShred = upgrades.getArmourShred();
 	}
 	
 	@Override
@@ -52,17 +46,10 @@ abstract class RangedMob<T extends RangedUpgrades> extends UpgradeableMob<T> {
 	}
 
 	@Override
-	public void onDamageAttack(DwarfDamage damage) {
-		super.onDamageAttack(damage);
-		if ((damage.getType() == GameDamageType.RANGED && damage.hasArrow() && ArrowMisc.getArrowForce(damage.getArrow()) > 0.7) || damage.getType() == GameDamageType.WITHER_SKULL) {
-			damage.setArmourShred(getArmourShred());
-		}
-	}
-
-	@Override
 	public Projectile onBowFire(Arrow arrow, float force) {
+		super.onBowFire(arrow, force);
 		updateArms(false);
-		ArrowMisc.setArrowDamage(arrow, getPower());
+		ArrowMisc.increaseArrowDamage(arrow, getPowerBonus());
 		return arrow;
 	}
 	
@@ -70,8 +57,22 @@ abstract class RangedMob<T extends RangedUpgrades> extends UpgradeableMob<T> {
 		changeDisguiseWatcher(SkeletonWatcher.class, (sw) -> sw.setSwingArms(swinging));
 	}
 	
+	protected double getPowerBonus() {
+		return 0;
+	}
+	
+	
 	protected final void giveArrows(int quantity) {
-		giveItem(ARROW_NAME, quantity);
+		ItemStack arrows = getArrowItemStack();
+		if (arrows == null || arrows.getType() == Material.AIR) {
+			arrows = getItem(ARROW_NAME).createItemStack();
+			arrows.setAmount(quantity);
+			monster.getPlayer().getInventory().setItemInOffHand(arrows);
+		} else {
+			int total = quantity + arrows.getAmount();
+			if (total > 64) total = 64;
+			arrows.setAmount(total);
+		}
 	}
 	protected final boolean hasArrows(int quantity) {
 		return hasItem(ARROW_NAME, quantity);
@@ -79,18 +80,8 @@ abstract class RangedMob<T extends RangedUpgrades> extends UpgradeableMob<T> {
 	protected final boolean removeArrows(int quantity) {
 		return removeItem(ARROW_NAME, quantity);
 	}
-
-	protected final double getRawPower() {
-		return power;
-	}
-	protected final int getRawArmourShred() {
-		return armourShred;
-	}
 	
-	protected double getPower() {
-		return getRawPower();
-	}
-	protected int getArmourShred() {
-		return getRawArmourShred();
+	private ItemStack getArrowItemStack() {
+		return monster.getPlayer().getInventory().getItemInOffHand();
 	}
 }

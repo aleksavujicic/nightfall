@@ -4,6 +4,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
+import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.skin.PlayerSkin;
 import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.common.items.CustomItem;
@@ -298,7 +299,6 @@ public abstract class AbstractMob implements Mob {
 		return (mobData.disguiseType == DisguiseType.PLAYER);
 	}
 	
-	@Override
 	@Deprecated
 	public Disguise getDisguise() {
 		return DisguiseAPI.getDisguise(monster.getPlayer());
@@ -487,6 +487,10 @@ public abstract class AbstractMob implements Mob {
 		damage.addPostDamageHandler(() -> monster.giveExperience(finalXpGain));
 	}
 	
+	protected int getArmourShred() {
+		return mobData.armourShred;
+	}
+	
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		if (hasSpawnProtection()) {
@@ -501,8 +505,9 @@ public abstract class AbstractMob implements Mob {
 		
 		damage.addPostDamageHandler(() -> {
 			playSound("hurt");
-			if (hasDisguise())
+			if (mobData.disguiseType != null && mobData.disguiseType != DisguiseType.PLAYER) {
 				monster.playSound("entity.generic.hurt", 1f, 1f, true);
+			}
 		});
 	}
 	

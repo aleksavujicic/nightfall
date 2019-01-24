@@ -12,13 +12,5 @@ public abstract class RangedUpgrades extends WrappedUpgrades {
 		super(monster);
 	}
 	
-	public abstract double getPower();
-	public abstract int getArmourShred();
 	public abstract int getArrowQuantity();
-	
-	@Override
-	public void addWeaponModifiers(CustomItem weapon) {
-		weapon.addModifier(ItemModifierType.POWER, (int) getPower());
-		weapon.addModifier(ItemModifierType.ARMOUR_SHRED, getArmourShred());
-	}
 }

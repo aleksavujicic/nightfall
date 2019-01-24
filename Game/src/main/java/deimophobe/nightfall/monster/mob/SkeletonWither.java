@@ -27,7 +27,7 @@ import org.bukkit.util.Vector;
  */
 class SkeletonWither extends AbstractToggleSkeleton<WitherUpgrades> {
 
-	private final double sniperMultiplier;
+	private final int sniperBonus;
 	private final double siphon;
 	private final double arrowResistance;
 	private final boolean withering;
@@ -41,7 +41,7 @@ class SkeletonWither extends AbstractToggleSkeleton<WitherUpgrades> {
 		
 		WitherUpgrades upgrades = getUpgrades();
 		
-		this.sniperMultiplier = upgrades.getSniperBonus() + 1;
+		this.sniperBonus = upgrades.getSniperBonus();
 		this.siphon = upgrades.getSiphonAmount();
 		this.arrowResistance = upgrades.getArrowResistance();
 		this.withering = upgrades.hasWithering();
@@ -58,11 +58,6 @@ class SkeletonWither extends AbstractToggleSkeleton<WitherUpgrades> {
 	}
 	
 	@Override
-	protected boolean canToggle() {
-		return withering;
-	}
-	
-	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
 		if ((damage.hasArrow() && ArrowMisc.getArrowForce(damage.getArrow()) > 0.7) || (damage.getType() == GameDamageType.WITHER_SKULL)) {
@@ -73,6 +68,16 @@ class SkeletonWither extends AbstractToggleSkeleton<WitherUpgrades> {
 				if (withering) damage.getDwarf().givePoison(PoisonType.WITHER_SKELETON, 50);
 			});
 		}
+		
+		if (damage.getType() == GameDamageType.WITHER_SKULL) {
+			damage.setArmourShred(getArmourShred());
+		}
+	}
+	
+	@Override
+	public void onDamageReceive(MonsterDamage damage) {
+		super.onDamageReceive(damage);
+		damage.getArrowResistance().addBoost(arrowResistance);
 	}
 
 	@Override
@@ -118,32 +123,21 @@ class SkeletonWither extends AbstractToggleSkeleton<WitherUpgrades> {
 			return super.onBowFire(arrow, force);
 		}
 	}
+	
 	@Override
-	public void onDamageReceive(MonsterDamage damage) {
-		super.onDamageReceive(damage);
-		damage.getArrowResistance().addBoost(arrowResistance);
+	protected boolean canToggle() {
+		return withering;
 	}
-
+	
 	@Override
-	protected double getPower() {
-		return applySniperBonus(getRawPower());
-	}
-
-	@Override
-	protected int getArmourShred() {
-		return (int) applySniperBonus(getRawArmourShred());
+	protected double getPowerBonus() {
+		if (isSniperActive()) return sniperBonus;
+		
+		return 0;
 	}
 	
 	private boolean isSniperActive() {
 		return !sniperCooldown.isAvailable();
-	}
-	
-	private double applySniperBonus(double value) {
-		if (isSniperActive()) {
-			return value * sniperMultiplier;
-		} else {
-			return value;
-		}
 	}
 	
 	private void skullExplosion(Location centerLoc) {
@@ -161,7 +155,8 @@ class SkeletonWither extends AbstractToggleSkeleton<WitherUpgrades> {
 			double distance = offset.subtract(new Vector(0,1,0)).length();
 			if (distance > 3.5) continue;
 			
-			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, GameDamageType.WITHER_SKULL, getPower());
+			//todo hardcoded damage
+			DwarfDamage aoeDamage = dwarf.createDamage(this.monster, GameDamageType.WITHER_SKULL, 25);
 			Vector knockback = offset.normalize().multiply(kb / Math.sqrt(Math.max(2, distance)));
 			aoeDamage.setKnockback(knockback);
 			aoeDamage.setArmourShred(getArmourShred());

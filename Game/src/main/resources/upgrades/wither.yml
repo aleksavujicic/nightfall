@@ -17,15 +17,14 @@ sniper:
   index: 12
   cost: [200, 400, 600, 800, 1000]
   values:
-    value: [10, 20, 30, 40, 50]
+    value: [3, 6, 9, 12, 15]
   item:
     base: shortbow
     name: "Sniper"
     lore:
       description:
-        - "Shooting a dwarf increases both\n
-           damage and armor damage by $value%\n
-           for 8 seconds."
+        - "Shooting a dwarf increases arrow\n
+           damage by $value for 8 seconds."
 
 
 siphon:
@@ -56,7 +55,7 @@ hardened:
         - "Increases your health by $health hearts\n
            and arrow resistance by $arrowres%."
 
-
+# Change to focus on poison + slow effect?
 withering:
   index: 22
   cost: 5000
@@ -86,6 +85,5 @@ sniper-inf:
     shiny: true
     lore:
       description:
-        - "Get an additional 5% boost for\n
-           damage and armor shred after hitting\n
-           a dwarf for 8 seconds."
+        - "Increases sniper damage by 3\n
+           per upgrade."

@@ -1,14 +1,17 @@
 base:
   title: Skeleton
 
+  disguisetype: skeleton
+
+  ranged: true
+
   health: 10
-  attack: 0
+  attack: 15
+  shred: 25
 
   proccable: true
   resistance: 0.6
-  shred: 0
 
-  disguisetype: skeleton
   armour:
     material: bone
     name: Tough Bones

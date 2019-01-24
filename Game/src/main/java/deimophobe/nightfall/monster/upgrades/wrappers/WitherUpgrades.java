@@ -20,22 +20,10 @@ public class WitherUpgrades extends RangedUpgrades {
 	private static final Upgrade WITHERING         = Upgrade.fromString("wither.withering");
 	private static final Upgrade SNIPER_BONUS      = Upgrade.fromString("wither.sniper-inf");
 	
-	private static final double DEFAULT_POWER = 15;
-	private static final int DEFAULT_SHRED = 25;
 	private static final int DEFAULT_ARROWS = 64;
 	
 	WitherUpgrades(MonsterPlayer monster) {
 		super(monster);
-	}
-	
-	@Override
-	public double getPower() {
-		return DEFAULT_POWER + upgrades.getIntegerValue(PIERCING, "damage");
-	}
-	
-	@Override
-	public int getArmourShred() {
-		return DEFAULT_SHRED + upgrades.getIntegerValue(PIERCING, "shred");
 	}
 	
 	@Override
@@ -45,11 +33,13 @@ public class WitherUpgrades extends RangedUpgrades {
 	
 	@Override
 	public void addWeaponModifiers(CustomItem weapon) {
-		super.addWeaponModifiers(weapon);
+		int power = upgrades.getIntegerValue(PIERCING, "damage");
 		int armourShred = upgrades.getIntegerValue(PIERCING, "shred");
-		int sniperBase = upgrades.getIntegerValue(SNIPER);
-		int sniperBonus = upgrades.getIntegerValue(SNIPER_BONUS) * 5;
 		
+		int sniperBase = upgrades.getIntegerValue(SNIPER);
+		int sniperBonus = upgrades.getLevel(SNIPER_BONUS) * 3;
+		
+		weapon.addModifier(ItemModifierType.POWER, power, "Piercing");
 		weapon.addModifier(ItemModifierType.ARMOUR_SHRED, armourShred, "Piercing");
 		weapon.addModifier(ItemModifierType.SNIPER, sniperBase + sniperBonus);
 	}
@@ -78,9 +68,9 @@ public class WitherUpgrades extends RangedUpgrades {
 		}
 	}
 	
-	public double getSniperBonus() {
-		double sniperBase = upgrades.getFractionalValue(SNIPER);
-		double sniperBonus = upgrades.getFractionalValue(SNIPER_BONUS) * 5;
+	public int getSniperBonus() {
+		int sniperBase = upgrades.getIntegerValue(SNIPER);
+		int sniperBonus = upgrades.getLevel(SNIPER_BONUS) * 3;
 		
 		return sniperBase + sniperBonus;
 	}

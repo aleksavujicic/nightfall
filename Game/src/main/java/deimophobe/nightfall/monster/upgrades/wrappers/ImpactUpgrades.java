@@ -12,23 +12,12 @@ public class ImpactUpgrades extends RangedUpgrades {
 	}
 	
 	@Override
-	public double getPower() {
-		return 0;
-	}
-	
-	@Override
-	public int getArmourShred() {
-		return 0;
-	}
-	
-	@Override
 	public int getArrowQuantity() {
 		return 0;
 	}
 	
 	@Override
 	public void addWeaponModifiers(CustomItem weapon) {
-		super.addWeaponModifiers(weapon);
 		
 	}
 	

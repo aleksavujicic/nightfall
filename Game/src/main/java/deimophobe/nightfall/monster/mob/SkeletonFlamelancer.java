@@ -120,7 +120,8 @@ class SkeletonFlamelancer extends RangedMob {
 		if (Math.random() < volley + volleyBonus) {
 			final int arrowsToFire = (int) (numArrows*force*force);
 			for (int i=0; i<arrowsToFire; i++) {
-				Arrow newArrow = ArrowMisc.summonArrow(monster, getPower()/2, force*2, force, 20f);
+				//TODO FIX MY DAMAGE
+				Arrow newArrow = ArrowMisc.summonArrow(monster, 0/2, force*2, force, 20f);
 				newArrow.setCritical(false);
 				newArrow.setFireTicks(10000);
 			}
