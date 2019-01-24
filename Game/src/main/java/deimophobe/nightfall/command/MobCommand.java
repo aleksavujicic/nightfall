@@ -17,16 +17,11 @@ import deimophobe.nightfall.monster.mob.Mob;
 import deimophobe.nightfall.monster.mob.MobType;
 import deimophobe.nightfall.monster.upgrades.MonsterUpgrades;
 import deimophobe.nightfall.monster.upgrades.Upgrade;
-import org.apache.commons.lang3.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.permissions.Permission;
-import org.graalvm.compiler.lir.LIRInstruction;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by Deimophobe on 4/03/18.
@@ -151,7 +146,7 @@ public class MobCommand extends BaseCommand {
 	@CommandPermission("nightfall.command.mob.primary")
 	@Description("Set a monster's primary mob.")
 	public void setPrimaryMob(CommandSender sender, MonsterIterable monsters, @Flags("null") MobType primaryMob) throws InvalidCommandArgument {
-		if (!primaryMob.isPrimary()) throw new InvalidCommandArgument (
+		if (!primaryMob.isUpgradeable()) throw new InvalidCommandArgument (
 				"Mob type '"
 				+ ChatColor.YELLOW + primaryMob
 				+ ChatColor.RED + "' cannot be used as a primary mob."

@@ -21,7 +21,7 @@ public enum PoisonType {
 	
 	MOBSPAWN(POISON, 10, 10, 7, true),
 	
-	WITHER_SKEL(WITHER, 6, 6, 8),
+	WITHER_SKELETON(WITHER, 6, 6, 8),
 	WRAITH(WITHER, 15, 10, 10),
 	LIGHTING_PLAGUE(WITHER, 20, 0, 15, true),
 	

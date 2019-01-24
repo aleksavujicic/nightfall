@@ -29,6 +29,8 @@ public class MobData {
 	final DisguiseType disguiseType;
 	final String skinName;
 	
+	final boolean ranged;
+	
 	private final int attack;
 	private final int health;
 	private final int speed;
@@ -63,6 +65,8 @@ public class MobData {
 		
 		disguiseType = null;
 		skinName = null;
+		
+		ranged = false;
 		
 		attack = 5;
 		health = 10;
@@ -118,6 +122,8 @@ public class MobData {
 		}
 		skinName = section.getString("skin", parent.skinName);
 		
+		ranged = section.getBoolean("ranged", parent.ranged);
+		
 		attack = section.getInt("attack", parent.attack);
 		health = section.getInt("health", parent.health);
 		speed = section.getInt("speed", parent.speed);
@@ -164,7 +170,11 @@ public class MobData {
 	private void compileItems() {
 		// Add stats to weapon
 		if (weapon != null) {
-			weapon.addModifier(ItemModifierType.ATTACK, attack);
+			if (!ranged) {
+				weapon.addModifier(ItemModifierType.ATTACK, attack);
+			} else {
+				weapon.addModifier(ItemModifierType.POWER, attack);
+			}
 			weapon.addModifier(ItemModifierType.ARMOUR_SHRED, armourShred);
 		}
 		

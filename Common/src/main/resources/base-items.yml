@@ -291,6 +291,8 @@ wither-skull: "wither_skeleton_skull"
 potion-regeneration: "!potion{252,47,194}"
 potion-poison: "!potion{32,132,11}"
 
+piercing-arrow: "!potion{89,3,23}{tipped_arrow}"
+
 
 
 

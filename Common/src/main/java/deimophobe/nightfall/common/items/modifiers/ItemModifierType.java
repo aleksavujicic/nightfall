@@ -12,12 +12,11 @@ import org.bukkit.inventory.ItemStack;
 public enum ItemModifierType {
 	// Weapons
 	ATTACK("Attack", new AttributeApplier(Attribute.ATTACK_DAMAGE)),
+	POWER("Power"),
 	ARMOUR_SHRED("Armour Shred"),
 	
 	SNEAK_ATTACK("Sneak Attack"),
 	SNEAK_SHRED("Sneak Shred"),
-	
-	POWER("Power"),
 
 	FAKE_PUNCH("Punch"),
 	KNOCKBACK("Knockback", new EnchantApplier(Enchantment.KNOCKBACK)),

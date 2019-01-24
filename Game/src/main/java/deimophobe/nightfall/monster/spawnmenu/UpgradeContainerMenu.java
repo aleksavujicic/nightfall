@@ -41,7 +41,7 @@ class UpgradeContainerMenu extends DynamicMenu<MonsterPlayer> {
 		
 		MenuItem<MonsterPlayer> resetPage = new DynamicPageChanger<>(resetPageStack, this, resetMenu);
 		for (MobType mobType : MobType.values()) {
-			if (!mobType.isPrimary()) continue;
+			if (!mobType.isUpgradeable()) continue;
 			
 			UpgradeMenu upgradeMenu = new UpgradeMenu(size, config, mobType);
 			upgradeMenu.setItem(8, resetPage);

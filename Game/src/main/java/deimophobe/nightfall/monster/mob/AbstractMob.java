@@ -213,7 +213,12 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	private void addUpdateable(Update update, Updateable updateable) { addUpdateable(updateable); }
-	private void setDisplayable(Display display, Displayable displayable) { setDisplayable(displayable); }
+	private void setDisplayable(Display display, Displayable displayable) {
+		if (display.reverse()) {
+			displayable = displayable.reverse();
+		}
+		setDisplayable(displayable);
+	}
 	private void addInteractable(Interact interact, Interactable interactable) {
 		ClickType click = interact.click();
 		String item = interact.item();

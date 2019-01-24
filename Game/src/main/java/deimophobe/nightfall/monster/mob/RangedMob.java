@@ -6,6 +6,8 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
+import deimophobe.nightfall.monster.upgrades.wrappers.RangedUpgrades;
+import deimophobe.nightfall.monster.upgrades.wrappers.WrappedUpgrades;
 import deimophobe.nightfall.util.ArrowMisc;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
 import org.bukkit.block.Block;
@@ -18,35 +20,27 @@ import java.util.Map;
 /**
  * Created by Deimophobe on 27/01/17.
  */
-class Skeleton extends AbstractMob {
+abstract class RangedMob<T extends RangedUpgrades> extends UpgradeableMob<T> {
 	private static final String ARROW_NAME = "arrow";
+	
+	private final double power;
+	private final int armourShred;
 
-	protected Map<String, Integer> upgrades;
-	protected int quiver;
-
-	public Skeleton(MonsterPlayer mons) {
-		this(mons, MobType.SKELETON_BASE.getMobData());
-	}
-
-	protected Skeleton(MonsterPlayer mons, MobData skeletonData) {
-		super(mons, MobType.SKELETON_BASE, skeletonData);
-		upgrades = null;//monster.getUpgrades(MobType.SKELETON_BASE);
-
-		this.quiver = (upgrades.get("quiver") + upgrades.get("quiver-inf"));
-		getArmour().addModifier(ItemModifierType.SPEED, -10, "Skeleton");
-		getWeapon().addModifier(ItemModifierType.POWER, getPower());
-		getWeapon().addModifier(ItemModifierType.ARMOUR_SHRED, getArmourShred());
-	}
-
-	@Override
-	public void onSpawn(SpawnMethod spawnMethod) {
-		super.onSpawn(spawnMethod);
-		giveItems();
+	RangedMob(MonsterPlayer monster, MobType type, Class<T> upgradeClass) {
+		super(monster, type, upgradeClass);
+		
+		RangedUpgrades upgrades = getUpgrades();
+		
+		this.power = upgrades.getPower();
+		this.armourShred = upgrades.getArmourShred();
 	}
 	
-	protected void giveItems() {
-		giveArrows(14);
-		giveArrows(10 * quiver);
+	@Override
+	protected void setupItems() {
+		super.setupItems();
+		
+		int arrows = getUpgrades().getArrowQuantity();
+		giveArrows(arrows);
 	}
 	
 	@Override
@@ -56,11 +50,6 @@ class Skeleton extends AbstractMob {
 			updateArms(isPlayerHoldingWeapon());
 		}
 	}
-	
-	protected void updateArms(boolean swinging) {
-		changeDisguiseWatcher(SkeletonWatcher.class, (sw) -> sw.setSwingArms(swinging));
-	}
-	
 
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
@@ -77,6 +66,10 @@ class Skeleton extends AbstractMob {
 		return arrow;
 	}
 	
+	private void updateArms(boolean swinging) {
+		changeDisguiseWatcher(SkeletonWatcher.class, (sw) -> sw.setSwingArms(swinging));
+	}
+	
 	protected final void giveArrows(int quantity) {
 		giveItem(ARROW_NAME, quantity);
 	}
@@ -87,11 +80,17 @@ class Skeleton extends AbstractMob {
 		return removeItem(ARROW_NAME, quantity);
 	}
 
-	protected int getPower() {
-		return 15 + (upgrades.get("power") + upgrades.get("power-inf")) * 2;
+	protected final double getRawPower() {
+		return power;
 	}
-
+	protected final int getRawArmourShred() {
+		return armourShred;
+	}
+	
+	protected double getPower() {
+		return getRawPower();
+	}
 	protected int getArmourShred() {
-		return 15 + (upgrades.get("power") + upgrades.get("power-inf")) * 2;
+		return getRawArmourShred();
 	}
 }

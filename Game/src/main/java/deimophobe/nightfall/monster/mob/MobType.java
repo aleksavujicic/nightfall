@@ -1,8 +1,10 @@
 package deimophobe.nightfall.monster.mob;
 
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.monster.MobCreator;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.upgrades.UpgradeRegistry;
 
 import java.util.*;
 import java.util.function.Function;
@@ -23,7 +25,7 @@ public enum MobType implements MobCreator<Mob> {
 	
 	
 	ZOMBIE_BASE(ZombieBasic::new, "zombie"),
-	SKELETON_BASE(Skeleton::new, "skeleton"),
+	SKELETON_BASE(ZombieBasic::new, "skeleton"),
 	GOBLIN_BASE(Goblin::new, "gobo"),
 	
 	
@@ -64,7 +66,7 @@ public enum MobType implements MobCreator<Mob> {
 	;
 	
 	private final String name;
-	private final String primaryPrefix;
+	private final String upgradeKey;
 	private final MobData mobData;
 	private final Function<MonsterPlayer, Mob> mobCreator;
 	
@@ -79,7 +81,7 @@ public enum MobType implements MobCreator<Mob> {
 		this(mobCreator, mobDataKey, null);
 	}
 	
-	MobType(Function<MonsterPlayer, Mob> mobCreator, String mobDataKey, String primaryPrefix) {
+	MobType(Function<MonsterPlayer, Mob> mobCreator, String mobDataKey, String upgradeKey) {
 		this.name = name().replace('_','-').toLowerCase();
 		
 		if (mobDataKey == null)
@@ -87,7 +89,12 @@ public enum MobType implements MobCreator<Mob> {
 		
 		this.mobData = MobData.getMobData(mobDataKey);
 		this.mobCreator = mobCreator;
-		this.primaryPrefix = primaryPrefix;
+		this.upgradeKey = upgradeKey;
+		
+		if (upgradeKey != null) {
+			UpgradeRegistry registry = NightfallPlugin.getPlugin().getUpgradeRegistry();
+			registry.importUpgradeFile(upgradeKey);
+		}
 	}
 	
 	@Override
@@ -104,8 +111,8 @@ public enum MobType implements MobCreator<Mob> {
 		}
 	}
 	
-	public String getPrimaryPrefix() {
-		return primaryPrefix;
+	public String getUpgradeKey() {
+		return upgradeKey;
 	}
 	
 	public MobData getMobData() {
@@ -116,8 +123,8 @@ public enum MobType implements MobCreator<Mob> {
 		return mobCreator != null;
 	}
 	
-	public boolean isPrimary() {
-		return primaryPrefix != null;
+	public boolean isUpgradeable() {
+		return upgradeKey != null;
 	}
 	
 	public boolean isZombie() {
@@ -145,7 +152,7 @@ public enum MobType implements MobCreator<Mob> {
 	static {
 		for (MobType type : values()) {
 			if (type.isSpawnable()) spawnableMobs.add(type);
-			if (type.isPrimary()) primaryMobs.add(type);
+			if (type.isUpgradeable()) primaryMobs.add(type);
 		}
 	}
 	

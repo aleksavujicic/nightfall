@@ -75,6 +75,10 @@ public class ArrowMisc {
 		arrow.setMetadata(DAMAGE_KEY, new FixedMetadataValue(NightfallPlugin.getPlugin(), damage));
 		//arrow.spigot().setDamage(damage);
 	}
+	public static void increaseArrowDamage(Arrow arrow, double damage) {
+		double newDamage = getArrowDamage(arrow) + damage;
+		setArrowDamage(arrow, newDamage);
+	}
 	
 	public static void setArrowForce(Arrow arrow, double force) {
 		arrow.setMetadata(FORCE_KEY, new FixedMetadataValue(NightfallPlugin.getPlugin(), force));

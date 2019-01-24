@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  * Created by Deimophobe on 15/04/17.
  */
 public class BaseItemManager {
-	private static final Pattern POTION_PATTERN = Pattern.compile("!potion\\{\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)\\s*\\}");
+	private static final Pattern POTION_PATTERN = Pattern.compile("!potion\\{\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*(\\d+)\\s*\\}(\\{(?<material>\\w+)\\})?");
 	private static final Pattern DEFAULT_PATTERN = Pattern.compile("(?<material>\\w+)(?::(?<damage>\\d+))?");
 	
 	private final BaseItem TEMPORARY_ITEM = new SimpleBaseItem(Material.FERMENTED_SPIDER_EYE);
@@ -65,35 +65,32 @@ public class BaseItemManager {
 		} else if (item.startsWith("#")) {
 			String referenceName = item.substring(1);
 			BaseItem referenceitem = getItem(referenceName);
-			if (referenceitem == null) {
-				throw new InvalidBaseItemConfigException("Reference item '" + referenceName + "' does not exist.");
-			}
+			checkExists(referenceitem, "Reference item '%s' does not exist", referenceitem);
 			
 			return referenceitem;
 		} else if (item.startsWith("!potion")) {
 			Matcher matcher = POTION_PATTERN.matcher(item);
-			
-			if (!matcher.matches()) {
-				throw new InvalidBaseItemConfigException("Potion format is invalid.");
-			}
+			checkExpression(matcher.matches(), "Format of item is invalid");
 			
 			int r = Integer.parseInt(matcher.group(1));
 			int g = Integer.parseInt(matcher.group(2));
 			int b = Integer.parseInt(matcher.group(3));
 			
-			return new PotionItem(Color.fromRGB(r,g,b));
+			Material material = Material.POTION;
+			String materialName = matcher.group("material");
+			if (materialName != null) {
+				material = Material.matchMaterial(materialName);
+				checkExists(material, "Unknown material '%s'", materialName);
+			}
+			
+			return new PotionItem(material, Color.fromRGB(r,g,b));
 		} else {
 			Matcher matcher = DEFAULT_PATTERN.matcher(item);
-			
-			if (!matcher.matches()) {
-				throw new InvalidBaseItemConfigException("Format is invalid.");
-			}
+			checkExpression(matcher.matches(), "Format of item is invalid");
 			
 			String materialName = matcher.group("material");
 			Material material = Material.matchMaterial(materialName);
-			if (material == null) {
-				throw new InvalidBaseItemConfigException("Unknown material: " + materialName);
-			}
+			checkExists(material, "Unknown material '%s'", materialName);
 			
 			String damageString = matcher.group("damage");
 			if (damageString != null) {
@@ -102,6 +99,24 @@ public class BaseItemManager {
 			} else {
 				return new SimpleBaseItem(material);
 			}
+		}
+	}
+	
+	
+	private static void checkExists(Object object, String errorMessage, Object... objects) throws InvalidBaseItemConfigException {
+		if (object == null) {
+			throw new InvalidBaseItemConfigException(
+					String.format(errorMessage, objects)
+			);
+		}
+		
+	}
+	
+	private static void checkExpression(boolean expression, String errorMessage, Object... objects) throws InvalidBaseItemConfigException {
+		if (!expression) {
+			throw new InvalidBaseItemConfigException(
+					String.format(errorMessage, objects)
+			);
 		}
 	}
 	

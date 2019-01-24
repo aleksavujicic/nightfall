@@ -19,7 +19,7 @@ class PrimarySelectMenuItem extends DynamicPageResetter<MonsterPlayer> {
 	
 	PrimarySelectMenuItem(ItemStack item, UpgradeContainerMenu menu, MobType primaryMobType, int cost) {
 		super(item, menu);
-		checkArgument(primaryMobType.isPrimary(), "Mob type must be a primary mob (got %s)", primaryMobType);
+		checkArgument(primaryMobType.isUpgradeable(), "Mob type must be a primary mob (got %s)", primaryMobType);
 		
 		this.primaryMobType = primaryMobType;
 		this.cost = cost;

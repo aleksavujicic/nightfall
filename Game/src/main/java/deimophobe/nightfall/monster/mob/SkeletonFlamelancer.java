@@ -22,10 +22,12 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.Map;
+
 /**
  * Created by Deimophobe on 20/01/17.
  */
-class SkeletonFlamelancer extends Skeleton {
+class SkeletonFlamelancer extends RangedMob {
 	private static final int DEFAULT_VOLLEY = 20;
 	private static final int MAX_VOLLEY = 50;
 
@@ -48,7 +50,9 @@ class SkeletonFlamelancer extends Skeleton {
 	private static final Integer[] arrowResValues = {0, 10, 20, 30, 40, 50};
 
 	SkeletonFlamelancer(MonsterPlayer monster) {
-		super(monster, MobData.getMobData("skeleton.flamelancer"));
+		super(monster, MobType.SKELETON_FLAME, null);
+		
+		Map<String,Integer> upgrades = null;
 		
 		int flame = upgrades.get("flame");
 		this.blockIgniteChance = 0.025 + flame * 0.03;
@@ -81,8 +85,8 @@ class SkeletonFlamelancer extends Skeleton {
 	}
 	
 	@Override
-	protected void giveItems() {
-		super.giveItems();
+	protected void setupItems() {
+		super.setupItems();
 		if (blazeDuration != 0) giveItem("blaze");
 	}
 	

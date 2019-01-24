@@ -24,14 +24,12 @@ public class UpgradeRegistry {
 			9  // Rebirth
 	);
 	
+	private final NightfallPlugin plugin;
 	private final Map<String, Upgrade> upgrades;
 	
 	public UpgradeRegistry(NightfallPlugin plugin) {
-		upgrades = new HashMap<>();
-		
-		importUpgradeFile(plugin, "fury");
-		importUpgradeFile(plugin, "saboteur");
-		importUpgradeFile(plugin, "husk");
+		this.plugin = plugin;
+		this.upgrades = new HashMap<>();
 	}
 	
 	public Upgrade getUpgrade(String id) {
@@ -46,8 +44,8 @@ public class UpgradeRegistry {
 	}
 	
 	public Collection<Upgrade> getUpgrades(MobType mobType) {
-		checkArgument(mobType.isPrimary(), "Mob type must be primary (got '%s')", mobType);
-		String prefix = mobType.getPrimaryPrefix();
+		checkArgument(mobType.isUpgradeable(), "Mob type must be primary (got '%s')", mobType);
+		String prefix = mobType.getUpgradeKey();
 		
 		return upgrades.entrySet()
 				.stream()
@@ -60,7 +58,7 @@ public class UpgradeRegistry {
 		return upgrades.keySet();
 	}
 	
-	private void importUpgradeFile(NightfallPlugin plugin, String filename) {
+	public void importUpgradeFile(String filename) {
 		Configuration config = plugin.readInternalFileConfig("upgrades/" + filename + ".yml");
 		Logger logger = plugin.getLogger();
 		

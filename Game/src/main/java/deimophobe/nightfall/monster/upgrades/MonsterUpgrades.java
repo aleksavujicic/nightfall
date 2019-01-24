@@ -84,6 +84,10 @@ public class MonsterUpgrades {
 		return getDoubleValue(upgrade, valueName) / 100;
 	}
 	
+	public double getHealthValue(Upgrade upgrade, String valueName) {
+		return getDoubleValue(upgrade, valueName) * 2;
+	}
+	
 	public int getIntegerValue(Upgrade upgrade) {
 		return getIntegerValue(upgrade, PRIMARY_VALUE_STRING);
 	}
@@ -94,6 +98,10 @@ public class MonsterUpgrades {
 	
 	public double getFractionalValue(Upgrade upgrade) {
 		return getFractionalValue(upgrade, PRIMARY_VALUE_STRING);
+	}
+	
+	public double getHealthValue(Upgrade upgrade) {
+		return getHealthValue(upgrade, PRIMARY_VALUE_STRING);
 	}
 	
 	

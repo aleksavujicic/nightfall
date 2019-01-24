@@ -50,7 +50,7 @@ class MonsterMenuConfig {
 		for (String key : primarySection.getKeys(false)) {
 			try {
 				MobType mobType = Misc.getEnumMemberFromString(key, MobType.values(), "mobType");
-				if (!mobType.isPrimary()) throw new IllegalArgumentException("Mob type '" + mobType + "' for primary selector is not primary");
+				if (!mobType.isUpgradeable()) throw new IllegalArgumentException("Mob type '" + mobType + "' for primary selector is not primary");
 				
 				ConfigurationSection selectorConfig = primarySection.getConfigurationSection(key);
 				int cost = selectorConfig.getInt("cost");
@@ -89,7 +89,7 @@ class MonsterMenuConfig {
 	}
 	
 	PrimarySelectorData getPrimarySelector(MobType mobType) {
-		checkArgument(mobType.isPrimary(), "Mob type '%s' must be primary", mobType);
+		checkArgument(mobType.isUpgradeable(), "Mob type '%s' must be primary", mobType);
 		checkArgument(primarySelectors.containsKey(mobType), "Mob type '%s' has no selector (even though it is primary?!)", mobType);
 		
 		return primarySelectors.get(mobType);
