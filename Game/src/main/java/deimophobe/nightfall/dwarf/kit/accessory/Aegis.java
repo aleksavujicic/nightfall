@@ -14,6 +14,7 @@ import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.game.entity.ShieldSource;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -27,7 +28,7 @@ public class Aegis extends AbstractItem implements CooldownPiece {
 	@Override public CustomItem getItem() { return ITEM; }
 	@Override public PickupType getGiveType() { return PickupType.START; }
 	
-	private final Cooldown shieldCooldown = new UseCooldown(150 * 20, this::regenShield);
+	private final Cooldown shieldCooldown = new UseCooldown(180 * 20, this::regenShield);
 	
 	public Aegis(Dwarf dwarf) {
 		super(dwarf);
@@ -58,7 +59,7 @@ public class Aegis extends AbstractItem implements CooldownPiece {
 	
 	private void regenShield() {
 		dwarf.addMaxShields(ShieldSource.AEGIS);
-		dwarf.playSound("entity.illusion_illager.prepare_mirror", 1f, 1f, true);
+		dwarf.playSound(Sound.ENTITY_ILLUSIONER_PREPARE_MIRROR, 1f, 1f, true);
 		
 		
 		Location center = dwarf.getEyeLocation().add(0, -0.5, 0);

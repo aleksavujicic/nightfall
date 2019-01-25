@@ -156,10 +156,9 @@ aegis:
     lore:
       description:
        - "Right click to give yourself 5 shields.\n
-          Can be used once every 150 seconds."
+          Can be used once every 180 seconds."
     modifiers:
       resistance: 20
-      speed: -40
 
 # ------ ACCESSORIES ------
 tombmaker:
