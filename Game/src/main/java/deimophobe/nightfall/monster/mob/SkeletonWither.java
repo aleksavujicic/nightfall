@@ -27,6 +27,7 @@ import org.bukkit.util.Vector;
  */
 class SkeletonWither extends AbstractToggleSkeleton<WitherUpgrades> {
 
+	private final int shredBonus;
 	private final int sniperBonus;
 	private final double siphon;
 	private final double arrowResistance;
@@ -41,6 +42,7 @@ class SkeletonWither extends AbstractToggleSkeleton<WitherUpgrades> {
 		
 		WitherUpgrades upgrades = getUpgrades();
 		
+		this.shredBonus = upgrades.getShredBonus();
 		this.sniperBonus = upgrades.getSniperBonus();
 		this.siphon = upgrades.getSiphonAmount();
 		this.arrowResistance = upgrades.getArrowResistance();
@@ -134,6 +136,11 @@ class SkeletonWither extends AbstractToggleSkeleton<WitherUpgrades> {
 		if (isSniperActive()) return sniperBonus;
 		
 		return 0;
+	}
+	
+	@Override
+	protected int getArmourShred() {
+		return super.getArmourShred() + shredBonus;
 	}
 	
 	private boolean isSniperActive() {

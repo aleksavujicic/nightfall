@@ -75,6 +75,10 @@ public class WitherUpgrades extends RangedUpgrades {
 		return sniperBase + sniperBonus;
 	}
 	
+	public int getShredBonus() {
+		return upgrades.getIntegerValue(PIERCING, "shred");
+	}
+	
 	public double getSiphonAmount() {
 		return upgrades.getHealthValue(SIPHON);
 	}
@@ -86,4 +90,5 @@ public class WitherUpgrades extends RangedUpgrades {
 	public boolean hasWithering() {
 		return upgrades.hasUpgrade(WITHERING);
 	}
+	
 }
