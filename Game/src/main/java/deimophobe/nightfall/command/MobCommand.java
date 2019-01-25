@@ -17,6 +17,7 @@ import deimophobe.nightfall.monster.mob.Mob;
 import deimophobe.nightfall.monster.mob.MobType;
 import deimophobe.nightfall.monster.upgrades.MonsterUpgrades;
 import deimophobe.nightfall.monster.upgrades.Upgrade;
+import org.apache.commons.lang3.mutable.MutableInt;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
@@ -193,6 +194,26 @@ public class MobCommand extends BaseCommand {
 				m.getUpgrades().resetUpgrades(refundRate);
 				MessageUtil.sendMessage(sender, "Reset upgrades of ", m, ". Refunded experience at a rate of ", refundRate, ".");
 			});
+		}
+		
+		@Subcommand("spent")
+		@CommandCompletion("@monsters")
+		@CommandPermission("nightfall.command.mob.upgrade.spent")
+		@Description("Get the amount monsters have spent on upgrades.")
+		public void resetUpgrades(CommandSender sender, MonsterIterable monsters) {
+			MutableInt totalSpent = new MutableInt(0);
+			MutableInt count = new MutableInt(0);
+			monsters.forEach(m -> {
+				int amount = m.getUpgrades().getAmountSpent();
+				MessageUtil.sendMessage(sender, "Monster ", m, " has spent ", amount, " experience.");
+				totalSpent.add(amount);
+				count.add(1);
+			});
+			
+			if (count.getValue() >= 2) {
+				int intSpent = totalSpent.getValue();
+				MessageUtil.sendMessage(sender, "Total spent: ", intSpent, ".");
+			}
 		}
 		
 		@Subcommand("purchase")
