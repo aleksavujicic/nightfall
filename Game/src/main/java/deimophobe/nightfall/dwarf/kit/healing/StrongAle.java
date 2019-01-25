@@ -24,7 +24,7 @@ public class StrongAle extends AbstractAle implements ArmourPiece {
 	
 	@Override
 	public void onArmourEquip(Armour armour) {
-		armour.addModifier(ItemModifierType.RESISTANCE, (int) DAMAGE_RESISTANCE *100, "Strongest Potion");
+		armour.addModifier(ItemModifierType.RESISTANCE, (int) (DAMAGE_RESISTANCE *100), "Strongest Potion");
 	}
 	
 	@Override
