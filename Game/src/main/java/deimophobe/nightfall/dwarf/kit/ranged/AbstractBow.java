@@ -45,7 +45,7 @@ public abstract class AbstractBow extends AbstractItem implements BowPiece {
 	}
 	
 	@Override
-	public PickupType getGiveType() { return PickupType.BOW; }
+	public PickupType getPickupType() { return PickupType.BOW; }
 	
 	protected boolean isRangedDamageFromBow(MonsterDamage damage) {
 		return (damage.getType() == GameDamageType.RANGED &&

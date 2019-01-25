@@ -28,7 +28,7 @@ public class HealerTotem extends AbstractItem implements CooldownPiece {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "totem");
 	@Override public CustomItem getItem() {return ITEM;}
-	@Override public PickupType getGiveType() {return PickupType.START;}
+	@Override public PickupType getPickupType() {return PickupType.START;}
 	
 	
 	@Override

@@ -39,7 +39,7 @@ public class Bricklayer extends AbstractItem {
 	public CustomItem getItem() {
 		return (speedy ? SPEEDY_ITEM : ITEM);
 	}
-	@Override public PickupType getGiveType() { return PickupType.START; }
+	@Override public PickupType getPickupType() { return PickupType.START; }
 	
 	private Block firstCorner = null;
 	private Block secondCorner = null;

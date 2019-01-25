@@ -17,5 +17,5 @@ public class VelSword extends AbstractRuneblade {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "velsword");
 	@Override public CustomItem getItem() {return ITEM;}
-	@Override public PickupType getGiveType() { return PickupType.START;}
+	@Override public PickupType getPickupType() { return PickupType.START;}
 }

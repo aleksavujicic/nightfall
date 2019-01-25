@@ -22,7 +22,7 @@ public class ProcShovel extends DwarfShovel {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("accessory", "procshovel");
 	@Override public CustomItem getItem() { return ITEM; }
-	@Override public PickupType getGiveType() { return PickupType.SHOVEL; }
+	@Override public PickupType getPickupType() { return PickupType.SHOVEL; }
 	
 	
 	@Override

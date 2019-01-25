@@ -43,7 +43,7 @@ public class HuntingClaws extends AbstractItem implements CooldownPiece {
 		return ITEM;
 	}
 	
-	@Override public PickupType getGiveType() { return PickupType.SWORD; }
+	@Override public PickupType getPickupType() { return PickupType.SWORD; }
 	
 	@Override
 	public void update() {

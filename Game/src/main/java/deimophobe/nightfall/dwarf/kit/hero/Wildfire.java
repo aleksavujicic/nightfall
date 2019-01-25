@@ -38,7 +38,7 @@ public class Wildfire extends AbstractItem {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public PickupType getGiveType() { return PickupType.START; }
+	@Override public PickupType getPickupType() { return PickupType.START; }
 	
 	private final ComplexCooldown cooldown = new ComplexCooldown(3, this::fire);
 	private final Set<Flame> flames = new HashSet<>();

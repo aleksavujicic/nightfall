@@ -26,7 +26,7 @@ import org.bukkit.util.Vector;
 public class Aegis extends AbstractItem implements CooldownPiece {
 	private final static CustomItem ITEM = DwarvenItems.getItem("accessory", "aegis");
 	@Override public CustomItem getItem() { return ITEM; }
-	@Override public PickupType getGiveType() { return PickupType.START; }
+	@Override public PickupType getPickupType() { return PickupType.START; }
 	
 	private final Cooldown shieldCooldown = new UseCooldown(180 * 20, this::regenShield);
 	

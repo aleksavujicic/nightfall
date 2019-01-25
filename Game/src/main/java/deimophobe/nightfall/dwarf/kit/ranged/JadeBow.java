@@ -28,7 +28,7 @@ public class JadeBow extends AbstractBow {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public PickupType getGiveType() { return PickupType.BOW; }
+	@Override public PickupType getPickupType() { return PickupType.BOW; }
 	@Override public String getBowIdentifier() {return "JADEBOW";}
 	@Override public int getPower() {return POWER;}
 	

@@ -45,7 +45,7 @@ public class Trident extends AbstractItem implements CooldownPiece, LogOnOffPiec
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public PickupType getGiveType() { return PickupType.START; }
+	@Override public PickupType getPickupType() { return PickupType.START; }
 	
 	@Override
 	public void update() {

@@ -17,5 +17,5 @@ public class DwarvenRuneblade extends AbstractItem {
 	
 	private static final CustomItem ITEM = DwarvenItems.getItem("melee", "drb");
 	@Override public CustomItem getItem() {return ITEM;}
-	@Override public PickupType getGiveType() { return PickupType.SWORD; }
+	@Override public PickupType getPickupType() { return PickupType.SWORD; }
 }

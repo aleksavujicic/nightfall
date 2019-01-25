@@ -20,7 +20,7 @@ public class PenyStick extends AbstractItem {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public PickupType getGiveType() {
+	@Override public PickupType getPickupType() {
 		return PickupType.START;
 	}
 	

@@ -90,7 +90,7 @@ public class Kit {
 		for (KitPiece piece : kitPieces.values()) {
 			if (piece instanceof ItemPiece) {
 				ItemPiece itemPiece = (ItemPiece) piece;
-				if (itemPiece.getGiveType() == giveType) {
+				if (itemPiece.getPickupType() == giveType) {
 					gaveItems |= giveItem(itemPiece);
 				}
 			}

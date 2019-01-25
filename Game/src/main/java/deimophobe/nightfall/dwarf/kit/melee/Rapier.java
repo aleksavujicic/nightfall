@@ -39,7 +39,7 @@ public class Rapier extends AbstractItem implements CooldownPiece {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "rapier");
 	@Override public CustomItem getItem() { return ITEM; }
-	@Override public PickupType getGiveType() { return PickupType.SWORD; }
+	@Override public PickupType getPickupType() { return PickupType.SWORD; }
 	
 	
 	

@@ -35,7 +35,7 @@ public class Dagger extends AbstractItem implements CooldownPiece {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public PickupType getGiveType() { return PickupType.SWORD; }
+	@Override public PickupType getPickupType() { return PickupType.SWORD; }
 	
 	private final ComplexCooldown poisonCooldown = new ComplexCooldown(120*20, this::poisonBomb);
 	private final ComplexCooldown armourReshower = new ComplexCooldown(DURATION, null, this::reshowArmour);

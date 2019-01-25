@@ -22,7 +22,7 @@ public class Chestomatic extends AbstractItem {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public PickupType getGiveType() { return PickupType.START; }
+	@Override public PickupType getPickupType() { return PickupType.START; }
 	
 	@Override
 	public boolean onUse(ClickType click, Block block, BlockFace face) {

@@ -42,7 +42,7 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public PickupType getGiveType() {
+	@Override public PickupType getPickupType() {
 		return PickupType.SWORD;
 	}
 

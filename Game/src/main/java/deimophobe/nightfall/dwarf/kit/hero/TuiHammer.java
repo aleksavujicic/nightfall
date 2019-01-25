@@ -31,7 +31,7 @@ public class TuiHammer extends AbstractAOEHitter implements CooldownPiece {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public PickupType getGiveType() {
+	@Override public PickupType getPickupType() {
 		return PickupType.START;
 	}
 	

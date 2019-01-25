@@ -33,7 +33,7 @@ public class Tinderflame extends AbstractCooldownItem {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public PickupType getGiveType() { return PickupType.START; }
+	@Override public PickupType getPickupType() { return PickupType.START; }
 	
 	
 	private static final double PARTICLE_FREQ = 0.5;

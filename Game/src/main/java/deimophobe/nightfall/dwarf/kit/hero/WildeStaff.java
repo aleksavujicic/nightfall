@@ -39,7 +39,7 @@ public class WildeStaff extends AbstractItem implements CooldownPiece {
 		return ITEM;
 	}
 	
-	@Override public PickupType getGiveType() {
+	@Override public PickupType getPickupType() {
 		return PickupType.START;
 	}
 

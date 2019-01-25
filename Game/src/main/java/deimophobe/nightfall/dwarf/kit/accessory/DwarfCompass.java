@@ -17,7 +17,7 @@ public class DwarfCompass extends AbstractItem {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("accessory", "compass");
 	@Override public CustomItem getItem() { return ITEM; }
-	@Override public PickupType getGiveType() {return PickupType.START;}
+	@Override public PickupType getPickupType() {return PickupType.START;}
 	
 	private final GameCompass compass;
 	

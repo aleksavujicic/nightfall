@@ -35,7 +35,7 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 	
 	private static final CustomItem ITEM = DwarvenItems.getItem("misc", "pick");
 	@Override public CustomItem getItem() {return ITEM;}
-	@Override public PickupType getGiveType() { return PickupType.PICK; }
+	@Override public PickupType getPickupType() { return PickupType.PICK; }
 	
 	private static final int MAX_CD = 30;
 	private static final int MAX_HASTE_CD = 20;

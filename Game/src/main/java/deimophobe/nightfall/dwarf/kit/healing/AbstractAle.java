@@ -78,7 +78,7 @@ abstract class AbstractAle extends AbstractItem {
 	
 	
 	@Override
-	public PickupType getGiveType() {
+	public PickupType getPickupType() {
 		return PickupType.ALE;
 	}
 }

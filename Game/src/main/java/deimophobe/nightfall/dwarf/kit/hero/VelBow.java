@@ -20,7 +20,7 @@ public class VelBow extends AbstractPowerBow {
 	private final static int POWER = 70;
 	private final static CustomItem ITEM = getBow("hero", "velbow", POWER);
 	@Override public CustomItem getItem() { return ITEM; }
-	@Override public PickupType getGiveType() { return PickupType.START; }
+	@Override public PickupType getPickupType() { return PickupType.START; }
 	@Override public String getBowIdentifier() {return "VELBOW";}
 	@Override public int getPower() {return POWER;}
 	

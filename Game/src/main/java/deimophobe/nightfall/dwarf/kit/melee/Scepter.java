@@ -33,7 +33,7 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "scepter");
 	@Override public CustomItem getItem() { return ITEM; }
-	@Override public PickupType getGiveType() { return PickupType.SWORD; }
+	@Override public PickupType getPickupType() { return PickupType.SWORD; }
 	
 	private static final Particle.DustOptions BEAM_COLOUR = new Particle.DustOptions(Color.fromRGB(204, 51, 229), 1);
 	private static final Consumer<Location> PARTICLE_PLACER = location ->

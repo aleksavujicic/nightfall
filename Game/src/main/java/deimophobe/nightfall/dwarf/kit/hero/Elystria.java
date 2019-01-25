@@ -23,7 +23,7 @@ public class Elystria extends AbstractCooldownItem {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "elystria");
 	@Override public CustomItem getItem() {return ITEM;}
-	@Override public PickupType getGiveType() {return PickupType.ARTHEA_SPECIAL;}
+	@Override public PickupType getPickupType() {return PickupType.ARTHEA_SPECIAL;}
 	
 	@Override
 	public boolean onUse(ClickType click, Block block, BlockFace face) {

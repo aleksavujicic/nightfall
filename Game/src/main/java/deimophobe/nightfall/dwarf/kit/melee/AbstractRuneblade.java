@@ -32,7 +32,7 @@ public abstract class AbstractRuneblade extends AbstractItem implements Cooldown
 		this.cooldown = new ComplexCooldown(maxCD, this::dash, this::offCDSound);
 	}
 	
-	@Override public PickupType getGiveType() {
+	@Override public PickupType getPickupType() {
 		return PickupType.SWORD;
 	}
 	

@@ -29,7 +29,7 @@ public class IceBow extends AbstractBow {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public PickupType getGiveType() { return PickupType.START; }
+	@Override public PickupType getPickupType() { return PickupType.START; }
 	@Override public String getBowIdentifier() {return "ICEBOW";}
 	@Override public int getPower() {return POWER;}
 	

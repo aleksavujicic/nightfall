@@ -21,7 +21,7 @@ public class Greatsword extends AbstractItem {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public PickupType getGiveType() {
+	@Override public PickupType getPickupType() {
 		return PickupType.SWORD;
 	}
 	

@@ -31,7 +31,7 @@ public class Spellbook extends AbstractItem {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("ranged", "spellbook");
 	@Override public CustomItem getItem() { return ITEM; }
-	@Override public PickupType getGiveType() { return PickupType.BOW; }
+	@Override public PickupType getPickupType() { return PickupType.BOW; }
 	
 	private final List<ClickType> clicks = new ArrayList<>();
 	private final ComplexCooldown clickResetter = new ComplexCooldown(40, null, clicks::clear);

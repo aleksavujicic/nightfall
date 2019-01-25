@@ -36,7 +36,7 @@ public class Caduceus extends AbstractItem implements CooldownPiece {
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "caduceus");
 	@Override public CustomItem getItem() {return ITEM;}
 	
-	@Override public PickupType getGiveType() {return PickupType.START;}
+	@Override public PickupType getPickupType() {return PickupType.START;}
 	
 	@Override
 	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {

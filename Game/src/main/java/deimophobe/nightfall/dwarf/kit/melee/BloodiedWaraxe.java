@@ -24,7 +24,7 @@ public class BloodiedWaraxe extends AbstractItem implements CooldownPiece {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public PickupType getGiveType() { return PickupType.SWORD; }
+	@Override public PickupType getPickupType() { return PickupType.SWORD; }
 	
 	private final ComplexCooldown cd = new ComplexCooldown(60*20, this::giveProc, this::notifyOffCD);
 	private final Cooldown hunger = new RepeaterCooldown(30*20, this::hunger);

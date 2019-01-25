@@ -35,7 +35,7 @@ public class Hammer extends AbstractAOEHitter implements CooldownPiece {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public PickupType getGiveType() { return PickupType.SWORD; }
+	@Override public PickupType getPickupType() { return PickupType.SWORD; }
 	
 	
 	private final ComplexCooldown cooldown = new ComplexCooldown(60*20, this::roar);

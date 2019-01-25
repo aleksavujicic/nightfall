@@ -28,7 +28,7 @@ public class Wand extends AbstractCooldownItem {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public PickupType getGiveType() { return PickupType.START; }
+	@Override public PickupType getPickupType() { return PickupType.START; }
 	
 	@Override
 	public boolean onUse(ClickType click, Block clickedBlock, BlockFace face) {
