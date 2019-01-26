@@ -1,11 +1,9 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.blocktype.NFBlocks;
-import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
-import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.cooldown.Display;
-import deimophobe.nightfall.cooldown.Update;
+import deimophobe.nightfall.cooldown.*;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -14,68 +12,51 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.ai.AIType;
+import deimophobe.nightfall.monster.upgrades.wrappers.FlamelancerUpgrades;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffectType;
-
-import java.util.Map;
 
 /**
  * Created by Deimophobe on 20/01/17.
  */
-class SkeletonFlamelancer extends RangedMob {
-	private static final int DEFAULT_VOLLEY = 20;
-	private static final int MAX_VOLLEY = 50;
+class SkeletonFlamelancer extends RangedMob<FlamelancerUpgrades> {
+	private static final String PRIMARY_ARROW_TAG = "flamelancer-primary";
 
 	private final int flameDuration;
 	private final double conflagRange;
 	private final double blockIgniteChance;
 	
-	private final double volley;
-	private double volleyBonus = 0;
 	private final int numArrows;
 	
-	private final double arrowRes;
+	private final double arrowResistance;
 	private final boolean fireAI;
 	
-	@Update @Display
-	private final ComplexCooldown blazeRunner = new ComplexCooldown(40*20, this::blaze);
+	@Update @Display @Interact(item = "blaze", click = ClickType.RIGHT)
+	private final Cooldown blazeRunner = new UseCooldown(40*20, this::blaze);
 	private final int blazeDuration;
 	private boolean blazeCancelled;
 
-	private static final Integer[] arrowResValues = {0, 10, 20, 30, 40, 50};
-
 	SkeletonFlamelancer(MonsterPlayer monster) {
-		super(monster, MobType.SKELETON_FLAME, null);
+		super(monster, MobType.SKELETON_FLAME, FlamelancerUpgrades.class);
 		
-		Map<String,Integer> upgrades = null;
+		FlamelancerUpgrades upgrades = getUpgrades();
 		
-		int flame = upgrades.get("flame");
-		this.blockIgniteChance = 0.025 + flame * 0.03;
-		this.flameDuration = 60 + 20*flame;
-		this.conflagRange = flame*0.8;
+		this.blockIgniteChance = upgrades.getIgniteChance();
+		this.flameDuration = upgrades.getFlameDuration();
+		this.conflagRange = upgrades.getConflagRadius();
 		
-		int upgradeArrowRes = arrowResValues[upgrades.get("arrowres-flamelancer")];
-		this.arrowRes = upgradeArrowRes*0.01;
+		this.arrowResistance = upgrades.getArrowResistance();
+		this.numArrows = upgrades.getVolleyCount();
+		this.fireAI = upgrades.spawnAIs();
 		
-		this.volley = upgrades.get("volley") * 0.14 + 0.1;
-		this.numArrows = Math.min(DEFAULT_VOLLEY + upgrades.get("volley-inf"), MAX_VOLLEY);
-		
-		int speed = upgrades.get("speed");
-		this.fireAI = upgrades.get("fireai") > 0;
-		
-		this.blazeDuration = upgrades.get("blaze") * 15;
+		this.blazeDuration = upgrades.getBlazeRunnerDuration();
 		this.blazeCancelled = false;
-
-		getArmour().addModifier(ItemModifierType.SPEED, 10, "Flamelancer");
-		getArmour().addModifier(ItemModifierType.SPEED, speed * 10, "Upgrade");
-		getArmour().addModifier(ItemModifierType.ARROW_RESISTANCE, upgradeArrowRes, "Upgrade");
-		getWeapon().addModifier(ItemModifierType.VOLLEY, DEFAULT_VOLLEY, "Flamelancer");
-		getWeapon().addModifier(ItemModifierType.VOLLEY, numArrows - DEFAULT_VOLLEY, "More Volley");
 	}
 	
 	@Override
@@ -87,7 +68,7 @@ class SkeletonFlamelancer extends RangedMob {
 	@Override
 	protected void setupItems() {
 		super.setupItems();
-		if (blazeDuration != 0) giveItem("blaze");
+		if (hasBlazerunner()) giveItem("blaze");
 	}
 	
 	@Override
@@ -95,19 +76,11 @@ class SkeletonFlamelancer extends RangedMob {
 		super.update();
 		monster.getPlayer().setFireTicks(0);
         if (!blazeCancelled && blazeRunner.wasUsedWithin(blazeDuration)) {
-	        Block block = monster.getLocation().getBlock();
-	        if (everyNthTick(3)) monster.playSound("entity.ghast.shoot", 0.3f, 1.5f, true);
-			if (NFBlocks.IGNORABLE.matchesBlock(block) && block.getType() != Material.FIRE) {
-				block.setType(Material.FIRE);
-			}
-		}
-	}
-	
-	@Override
-	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(click, clickedBlock, blockFace);
-		if (isPlayerHoldingItem("blaze") && blazeDuration != 0) {
-			blazeRunner.tryUse();
+	        if (everyNthTick(3)) {
+		        Block block = monster.getLocation().getBlock();
+	        	monster.playSound("entity.ghast.shoot", 0.3f, 1.5f, true);
+	        	tryIgnite(block, true);
+	        }
 		}
 	}
 	
@@ -117,18 +90,16 @@ class SkeletonFlamelancer extends RangedMob {
 		
 		arrow.setFireTicks(10000);
 		arrow.setCritical(false);
-		if (Math.random() < volley + volleyBonus) {
-			final int arrowsToFire = (int) (numArrows*force*force);
-			for (int i=0; i<arrowsToFire; i++) {
-				//TODO FIX MY DAMAGE
-				Arrow newArrow = ArrowMisc.summonArrow(monster, 0/2, force*2, force, 20f);
-				newArrow.setCritical(false);
-				newArrow.setFireTicks(10000);
-			}
-			volleyBonus = 0;
-		} else {
-			volleyBonus = Math.min(volleyBonus + 0.02*force, 0.2);
+		arrow.setMetadata(PRIMARY_ARROW_TAG, new FixedMetadataValue(NightfallPlugin.getPlugin(), true));
+		
+		final int arrowsToFire = (int) (numArrows*force*force);
+		double damage = getBowPower()/3;
+		for (int i=0; i<arrowsToFire; i++) {
+			Arrow newArrow = ArrowMisc.summonArrow(monster, damage, force*2, force, 20f);
+			newArrow.setCritical(false);
+			newArrow.setFireTicks(10000);
 		}
+		
 		return arrow;
 	}
 	
@@ -138,11 +109,13 @@ class SkeletonFlamelancer extends RangedMob {
 		Block block = hitBlock.getRelative(hitFace);
 		
 		if (Math.random() < blockIgniteChance) {
-			boolean success = tryIgnite(hitBlock);
-			if (!success) tryIgnite(block);
+			boolean success = tryIgnite(hitBlock, false);
+			if (!success) tryIgnite(block, false);
 		}
 		
-		conflagration(proj.getLocation());
+		if (proj.hasMetadata(PRIMARY_ARROW_TAG)) {
+			applyConflag(proj.getLocation());
+		}
 	}
 
 	@Override
@@ -152,7 +125,7 @@ class SkeletonFlamelancer extends RangedMob {
 		
 		if (damage.hasArrow()) {
 			Arrow arrow = damage.getArrow();
-			conflagration(arrow.getLocation());
+			applyConflag(arrow.getLocation());
 			damage.removeKnockback();
 		}
 	}
@@ -160,7 +133,7 @@ class SkeletonFlamelancer extends RangedMob {
 	@Override
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
-		damage.getArrowResistance().addBoost(arrowRes);
+		damage.getArrowResistance().addBoost(arrowResistance);
 		damage.addPostDamageHandler(this::cancelBlazerunner);
 	}
 	
@@ -171,7 +144,7 @@ class SkeletonFlamelancer extends RangedMob {
 		});
 	}
 	
-	private void conflagration(Location center) {
+	private void applyConflag(Location center) {
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			if (Math.random() > 0.75) continue;
 			if (dwarf.distanceTo(center) > conflagRange) continue;
@@ -182,6 +155,8 @@ class SkeletonFlamelancer extends RangedMob {
 	}
 	
 	private void blaze() {
+		if (!hasBlazerunner()) return;
+		
 		monster.playSound("entity.ghast.shoot", 1f, 0.5f, true);
 		monster.givePotionEffect(PotionEffectType.FIRE_RESISTANCE, blazeDuration, 1, true, false, true);
 		monster.givePotionEffect(PotionEffectType.SPEED, blazeDuration, 3, true, false, true);
@@ -194,15 +169,22 @@ class SkeletonFlamelancer extends RangedMob {
 		monster.removePotionEffect(PotionEffectType.SPEED);
 	}
 	
-	private boolean tryIgnite(Block block) {
-		if (NFBlocks.IGNORABLE.matchesBlock(block)) {
+	private boolean hasBlazerunner() {
+		return blazeDuration != 0;
+	}
+	
+	private boolean tryIgnite(Block block, boolean reducedChance) {
+		if (!NFBlocks.IGNORABLE.matchesBlock(block)) return false;
+		if (block.getType() != Material.FIRE) {
 			block.setType(Material.FIRE);
-			double spawnChance = AIManager.getManager().getBaseSpawnChance() + 0.1;
-			if (fireAI && Math.random() < spawnChance) {
-				AIManager.getManager().spawnAI(AIType.FIRE_SKELLY, block.getLocation());
-			}
-			return true;
 		}
-		return false;
+		
+		if (!fireAI) return true;
+		double spawnChance = AIManager.getManager().getBaseSpawnChance()*3;
+		if (reducedChance) spawnChance /= 2;
+		if (Math.random() < spawnChance) {
+			AIManager.getManager().spawnAI(AIType.FIRE_SKELLY, block.getLocation());
+		}
+		return true;
 	}
 }

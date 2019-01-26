@@ -82,4 +82,9 @@ public class MultiEventCooldown implements Cooldown {
 		else
 			return 1 - (float) cd/maxCD;
 	}
+	
+	@Override
+	public boolean wasUsedWithin(int duration) {
+		throw new UnsupportedOperationException("Deimo didn't add this cause hes a lazy pos.");
+	}
 }

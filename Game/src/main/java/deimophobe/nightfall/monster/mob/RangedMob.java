@@ -49,7 +49,6 @@ abstract class RangedMob<T extends RangedUpgrades> extends UpgradeableMob<T> {
 	public Projectile onBowFire(Arrow arrow, float force) {
 		super.onBowFire(arrow, force);
 		updateArms(false);
-		ArrowMisc.increaseArrowDamage(arrow, getPowerBonus());
 		return arrow;
 	}
 	
@@ -57,10 +56,9 @@ abstract class RangedMob<T extends RangedUpgrades> extends UpgradeableMob<T> {
 		changeDisguiseWatcher(SkeletonWatcher.class, (sw) -> sw.setSwingArms(swinging));
 	}
 	
-	protected double getPowerBonus() {
-		return 0;
+	protected final int getBowPower() {
+		return getWeapon().getModifierValue(ItemModifierType.POWER);
 	}
-	
 	
 	protected final void giveArrows(int quantity) {
 		ItemStack arrows = getArrowItemStack();

@@ -169,10 +169,7 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		// Add modifiers
 		for (Map.Entry<ItemModifierType, Map<String, Integer>> entry : modifiers.entrySet()) {
 			ItemModifierType type = entry.getKey();
-			int totalValue = 0;
-			for (Integer value : entry.getValue().values()) {
-				totalValue += value;
-			}
+			int totalValue = getModifierValue(type);
 			item = type.applyModifier(item, totalValue);
 		}
 		
@@ -182,6 +179,14 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		
 		
 		return item;
+	}
+	
+	public int getModifierValue(ItemModifierType modifier) {
+		int totalValue = 0;
+		for (Integer value : modifiers.get(modifier).values()) {
+			totalValue += value;
+		}
+		return totalValue;
 	}
 	
 	public boolean hasVariant(String variant) {

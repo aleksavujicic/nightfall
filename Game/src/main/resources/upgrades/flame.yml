@@ -1,0 +1,106 @@
+more-fire:
+  index: 11
+  cost: [200, 400, 600, 800, 1000]
+  defaults:
+    duration: 2
+  values:
+    ignite: [2, 2.5, 3, 3.5, 4]
+    duration: [3, 3.5, 4, 4.5, 5]
+    conflag: [1, 2, 3, 4, 5]
+  item:
+    base: fireball
+    name: "Conflagration"
+    lore:
+      description:
+        - "Fire from your arrows spread\n
+           further and last longer.\n
+           Also can cause nearby dwarves to\n
+           to catch on fire without being hit."
+
+
+volley:
+  index: 12
+  cost: [200, 400, 600, 800, 1000]
+  values:
+    value: [2, 4, 6, 8, 10]
+  item:
+    base: skeleton.flame-bow
+    name: "Volley"
+    lore:
+      description:
+        - "Increases the number of arrows\n
+           in your volley by $value."
+
+
+speed:
+  index: 13
+  cost: [200, 400, 600, 800, 1000]
+  values:
+    value: [10, 20, 30, 40, 50]
+  item:
+    material: glowstone_dust
+    name: "Dragon's Breath"
+    lore:
+      description:
+        - "Increases your movement speed\n
+           by $value%."
+
+
+arrow-resistance:
+  index: 14
+  cost: [200, 400, 600, 800, 1000]
+  values:
+    value: [10, 20, 30, 40, 50]
+  item:
+    material: arrow
+    name: "Arrow Resistance"
+    lore:
+      description:
+        - "Increases your arrow resistance to $value%."
+
+
+blaze:
+  index: 15
+  cost: [200, 400, 600, 800, 1000]
+  values:
+    value: [1.5, 1.8, 2.2, 2.6, 3]
+  item:
+    material: fire_charge
+    name: "Blaze Runner"
+    lore:
+      description:
+        - "Increases your speed and spawns fire\n
+           beneath you for $value seconds."
+
+
+summon-ai:
+  index: 22
+  cost: 5000
+  prereq:
+    more-fire: 5
+    volley: 5
+    speed: 5
+    arrow-resistance: 5
+    blaze: 5
+  item:
+    base: upgrade-skeleton
+    name: "Dragon's Teeth"
+    shiny: true
+    lore:
+      description:
+        - "Summon fire spirits where your arrows land."
+
+
+volley-inf:
+  index: 4
+  cost: 2000
+  permanent: true
+  prereq:
+    summon-ai: 1
+  item:
+    base: skeleton.flame-bow
+    name: "Upgrade Volley (inf)"
+    shiny: true
+    lore:
+      description:
+        - "Shoot an additional arrow at volley."

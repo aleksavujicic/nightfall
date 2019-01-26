@@ -27,4 +27,9 @@ public class DudCooldown implements Cooldown {
 	
 	@Override
 	public void forceAvailable() { }
+	
+	@Override
+	public boolean wasUsedWithin(int duration) {
+		return false;
+	}
 }

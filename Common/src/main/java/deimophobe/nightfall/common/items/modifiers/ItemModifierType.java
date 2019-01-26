@@ -54,7 +54,7 @@ public enum ItemModifierType {
 	LIFE_STEAL("Life Steal", new FractionalFormatter(2)),
 	MANA_DRAIN("Mana Drain"),
 	REGEN_EXTRA("Extra Regen"),
-	VOLLEY("Arrows in Volley"),
+	VOLLEY("Volley Size"),
 	IMPACT_EXTRA("Extra Force"),
 	FASTER_THROW("Extra Throw Chance", ValueFormatter.PERCENT_FORMATTER),
 

@@ -122,20 +122,17 @@ class SkeletonWither extends AbstractToggleSkeleton<WitherUpgrades> {
 
 			return null;
 		} else {
-			return super.onBowFire(arrow, force);
+			arrow = (Arrow) super.onBowFire(arrow, force);
+			if (isSniperActive()) {
+				ArrowMisc.increaseArrowDamage(arrow, sniperBonus);
+			}
+			return arrow;
 		}
 	}
 	
 	@Override
 	protected boolean canToggle() {
 		return withering;
-	}
-	
-	@Override
-	protected double getPowerBonus() {
-		if (isSniperActive()) return sniperBonus;
-		
-		return 0;
 	}
 	
 	@Override
