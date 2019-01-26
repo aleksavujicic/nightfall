@@ -10,6 +10,7 @@ import deimophobe.nightfall.command.iterable.PlayerIterable;
 import deimophobe.nightfall.common.command.MessageUtil;
 import deimophobe.nightfall.common.menu.MenuManager;
 import deimophobe.nightfall.common.util.NMSUtil;
+import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.TitlePlayer;
@@ -31,6 +32,7 @@ import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.graalvm.compiler.lir.LIRInstruction;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -304,6 +306,16 @@ public class MiscCommands extends BaseCommand {
 		gamePlayers.forEach(gp -> {
 			gp.setWarningLevel(warningLevel);
 			MessageUtil.sendMessage(sender, "Set warning level of ", gp, " to ", warningLevel, ".");
+		});
+	}
+	
+	@CommandAlias("die")
+	@CommandPermission("nightfall.command.die")
+	@Description("Kill players.")
+	public void die(CommandSender sender, @Default(".") GamePlayerIterable players) {
+		players.forEach(gp -> {
+			gp.instaKill(null, GameDamageType.COMMAND);
+			MessageUtil.sendMessage(sender, "Killed ", gp, ".");
 		});
 	}
 	
