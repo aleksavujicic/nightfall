@@ -2,6 +2,7 @@ package deimophobe.nightfall.dwarf;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.blocktype.NFBlocks;
+import deimophobe.nightfall.cooldown.*;
 import deimophobe.nightfall.dwarf.kit.*;
 import deimophobe.nightfall.dwarf.light.BlindSource;
 import deimophobe.nightfall.dwarf.light.DwarfEyes;
@@ -14,9 +15,6 @@ import deimophobe.nightfall.blocks.timedblock.JumpPad;
 import deimophobe.nightfall.blocks.timedblock.TurretBlock;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.player.PlayerManager;
-import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.cooldown.ExpiryStore;
-import deimophobe.nightfall.cooldown.RepeatingCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -270,7 +268,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	// ------ ARROWS ------
 	private int maxArrows = 20;
 	private int arrows = maxArrows;
-	protected ComplexCooldown arrowRegen = new RepeatingCooldown(4*20, this::giveArrow);
+	protected Cooldown arrowRegen = new RepeaterCooldown(4*20, this::giveArrow);
 	
 	private ItemStack arrowItem = DwarvenItems.getItem("misc","arrow").createItemStack();
 	public void setArrowItem(ItemStack arrow) { arrowItem = arrow; }
@@ -280,6 +278,9 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	public void setMaxArrows(int max) {
 		maxArrows = max;
+	}
+	public void increaseMaxArrows(int amt) {
+		maxArrows += amt;
 	}
 	
 	public int getArrowCount() { return arrows; }

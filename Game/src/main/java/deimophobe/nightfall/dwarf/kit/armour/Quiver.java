@@ -13,12 +13,12 @@ import deimophobe.nightfall.dwarf.kit.ArmourPiece;
 public class Quiver extends AbstractPiece implements ArmourPiece {
 	public Quiver(Dwarf dwarf) {
 		super(dwarf);
-		dwarf.setMaxArrows(30);
 	}
 	
 	@Override
 	public void onArmourEquip(Armour armour) {
 		armour.addModifier(ItemModifierType.QUIVER, 10, "Massive Quiver");
+		dwarf.increaseMaxArrows(10);
 	}
 	
 	@Override
