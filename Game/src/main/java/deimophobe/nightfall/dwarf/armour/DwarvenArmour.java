@@ -177,7 +177,7 @@ public class DwarvenArmour implements Armour {
 	public int getManaRegenRate() {
 		int mana = 0;
 		if (isArmoured()) {
-			mana = (int) armourFraction();
+			mana = (int) (10 * armourFraction() + 1);
 			mana = Math.min(10, mana);
 		}
 		
