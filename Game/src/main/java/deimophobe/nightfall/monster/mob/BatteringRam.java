@@ -93,6 +93,8 @@ public class BatteringRam extends AbstractRideableMob {
 		monster.givePotionEffect(PotionEffectType.SLOW, DURATION, 10, true, false, true);
 		monster.givePotionEffect(PotionEffectType.JUMP, DURATION, -5, true, false, true);
 		
+		monster.setVelocity(0, -1, 0);
+		
 		setFace(true);
 		faceResetter.reset();
 	}
