@@ -469,7 +469,7 @@ public abstract class AbstractMob implements Mob {
 			// Ranged type damages
 			case RANGED:
 			case WITHER_SKULL:
-				xpGain = 10;
+				xpGain = 12;
 				break;
 			// Explosion type damages
 			case GOBO_KABOOM:
@@ -538,7 +538,7 @@ public abstract class AbstractMob implements Mob {
 		if (everyNthTick(20) && Game.getGame().getPhase() == Phase.GAME) {
 			monster.giveExperience(monster.getExperienceRate());
 		}
-		if (everyNthTick(5)) {
+		if (everyNthTick(10)) {
 			Region shrineRegion = GameMap.getCurrentMap().getCurrentShrineRegion();
 			if (shrineRegion.containsPlayer(monster) && getShrineWeight() != 0) {
 				monster.giveExperience(mobData.shrineXP);
