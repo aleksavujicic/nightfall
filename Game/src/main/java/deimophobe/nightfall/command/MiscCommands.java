@@ -69,6 +69,7 @@ public class MiscCommands extends BaseCommand {
 		Set<WhoEntry> entries = Game.getGame().getWhoEntries();
 		
 		BaseComponent message = new TextComponent();
+		message.setColor(net.md_5.bungee.api.ChatColor.YELLOW);
 		message.addExtra("Total online: " + entries.size() + "\n");
 		boolean firstType = true;
 		for (WhoEntry.Type type : WhoEntry.Type.values()) {
