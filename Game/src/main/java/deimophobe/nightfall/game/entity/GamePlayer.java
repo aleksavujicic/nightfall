@@ -558,7 +558,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 			}
 			
 			givePotionEffect(PotionEffectType.GLOWING, SHIELD_IMMUNE_DURATION, 1, true, false, false);
-			playSound(Sound.ENTITY_EVOKER_PREPARE_SUMMON, 1f, 2f, false);
+			playSound(Sound.ENTITY_EVOKER_PREPARE_SUMMON, 10f, 2f, false);
 		});
 		return true;
 	}

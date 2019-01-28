@@ -34,7 +34,6 @@ class BolsterSpell implements Spell {
 //			target.givePotionEffect(PotionEffectType.HEALTH_BOOST, 60*20, 3, true, false, false);
 			target.addMaxShields(ShieldSource.BOLSTER);
 			target.playSound("entity.player.levelup", 1f, 1f, false);
-			target.playSound("entity.illusion_illager.prepare_mirror");
 			
 			
 			target.addUpdateable(new LifetimeExpireable(60) {
