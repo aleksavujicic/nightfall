@@ -131,6 +131,9 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	public WhoEntry getWhoEntry() {
 		WhoEntry entry = super.getWhoEntry();
 		entry.setType(WhoEntry.Type.DWARF);
+		
+		if (hasKitPiece(KitPieceType.UNTIMELY_DEMISE))
+			entry.setDefaultColour(net.md_5.bungee.api.ChatColor.DARK_GREEN);
 		return entry;
 	}
 	
