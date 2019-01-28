@@ -14,9 +14,9 @@ class SpawnerMenu extends SimpleMenu<MonsterPlayer> {
 		super(SIZE);
 		
 		// Add items to front menu
-		addSpawnEgg(0, "zombie");
-		addSpawnEgg(1, "skeleton");
-		addSpawnEgg(2, "goblin");
+		addSpawnEgg(3, "zombie");
+		addSpawnEgg(4, "skeleton");
+		addSpawnEgg(5, "goblin");
 		addSpawnEgg(9, "ember-sprite");
 		addSpawnEgg(10, "wolf");
 		addSpawnEgg(11, "spiderling");
