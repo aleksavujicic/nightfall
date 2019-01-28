@@ -8,10 +8,13 @@ import deimophobe.nightfall.common.NightfallCommonPlugin;
 class VariableLoreComponent implements LoreComponent {
 	
 	private final String name;
+	private final String prefix;
+	
 	private String contents = null;
 	
-	VariableLoreComponent(String name) {
+	VariableLoreComponent(String name, String prefix) {
 		this.name = name;
+		this.prefix = prefix;
 	}
 	
 	@Override
@@ -28,11 +31,13 @@ class VariableLoreComponent implements LoreComponent {
 			return "";
 		}
 		
-		return contents;
+		return prefix + contents + "&r";
 	}
 	
 	@Override
 	public LoreComponent copy() {
-		return new VariableLoreComponent(name);
+		VariableLoreComponent copy = new VariableLoreComponent(name, prefix);
+		copy.contents = this.contents;
+		return copy;
 	}
 }

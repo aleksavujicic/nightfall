@@ -13,8 +13,8 @@ class FixedSectionTemplate implements SectionTemplate {
 	}
 	
 	@Override
-	public Section createSection(Map<String, String> loreSections) {
-		return new Section(this, string);
+	public Section createSection(Map<String, String> loreSections, LoreTemplate loreTemplate) {
+		return new Section(loreTemplate, this, string);
 	}
 	
 	@Override

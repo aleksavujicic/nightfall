@@ -32,6 +32,7 @@ public class LoreTemplate {
 	
 	private final String namePrefix;
 	private final List<SectionTemplate> sectionTemplates;
+	private final Map<String, String> prefixes;
 	
 	private final String modifierNamePrefix;
 	private final String modifierValuePrefix;
@@ -39,6 +40,15 @@ public class LoreTemplate {
 	
 	private LoreTemplate(ConfigurationSection config) {
 		this.namePrefix = ChatColor.translateAlternateColorCodes('&', config.getString("nameprefix"));
+		
+		this.prefixes = new HashMap<>();
+		ConfigurationSection prefixSection = config.getConfigurationSection("prefix");
+		if (prefixSection != null) {
+			for (String prefixKey : prefixSection.getKeys(false)) {
+				String prefixValue = prefixSection.getString(prefixKey);
+				prefixes.put(prefixKey, prefixValue);
+			}
+		}
 		
 		this.sectionTemplates = new ArrayList<>();
 		List<String> lore = config.getStringList("lore");
@@ -78,14 +88,18 @@ public class LoreTemplate {
 		modifierReasonPrefix = ChatColor.translateAlternateColorCodes('&', config.getString("modifiers.reason", ""));
 	}
 	
-	public String getName(String name) {
+	String formatName(String name) {
 		return namePrefix + name;
+	}
+	
+	public String getPrefix(String prefix) {
+		return prefixes.getOrDefault(prefix, "");
 	}
 	
 	List<Section> createSections(Map<String, String> loreSections) {
 		List<Section> sectionList = new ArrayList<>();
 		for (SectionTemplate sectionTemplate : sectionTemplates) {
-			Section section = sectionTemplate.createSection(loreSections);
+			Section section = sectionTemplate.createSection(loreSections, this);
 			sectionList.add(section);
 		}
 		

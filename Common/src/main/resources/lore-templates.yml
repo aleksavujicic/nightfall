@@ -246,8 +246,14 @@ monster-upgrade:
   nameprefix: "&c"
 
   lore:
-    - "&dCosts $cost xp."
+    - "${cost}"
     - "${description}"
 
+  defaults:
+     cost: "Cost: $cost:cost-var"
+
   prefix:
-    description: "&6"
+    cost: "&6"
+    cost-var: "&a"
+    description: "&e"
+    variable: "&b"
