@@ -79,7 +79,6 @@ public class BatteringRam extends AbstractRideableMob {
 	
 	@Override
 	public boolean onBlockBreak(Block block, boolean didBreak) {
-		super.onBlockBreak(block, didBreak);
 		return false;
 	}
 	

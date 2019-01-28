@@ -4,7 +4,9 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.damage.GameDamage;
+import deimophobe.nightfall.blocks.BlockManager;
+import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.skin.PlayerSkin;
 import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.common.items.CustomItem;
@@ -511,10 +513,16 @@ public abstract class AbstractMob implements Mob {
 		});
 	}
 	
+	private static final BlockMatcher TORCH = NFBlocks.TORCH;
 	@Override
 	public boolean onBlockBreak(Block block, boolean didBreak) {
-		if (block.getType() == Material.TORCH && didBreak)
-			monster.giveExperience(mobData.torchXP);
+		if (TORCH.matchesBlock(block) && didBreak) {
+			BlockManager manager = BlockManager.getManager();
+			boolean giveExp = manager.isValidExperienceTorch(block, monster.getPlayer());
+			
+			if (giveExp) monster.giveExperience(mobData.torchXP);
+		}
+		
 		return didBreak;
 	}
 	

@@ -3,7 +3,7 @@ package deimophobe.nightfall.dwarf.kit.hero;
 import com.google.common.collect.Sets;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockManager;
-import deimophobe.nightfall.blocks.blocktype.NFBlocks;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.blocks.timedblock.IceSlab;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;

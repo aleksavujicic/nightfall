@@ -192,6 +192,10 @@ public class Game {
 	
 	
 	// ------ GETTERS/SETTERS -------
+	public NightfallPlugin getPlugin() {
+		return plugin;
+	}
+	
 	public Phase getPhase() {
 		return phase;
 	}

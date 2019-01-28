@@ -2,12 +2,11 @@ package deimophobe.nightfall.dwarf.consumable;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.ColourMenu;
-import deimophobe.nightfall.blocks.blocktype.NFBlocks;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.blocks.blocktype.RepeatMaterial;
 import deimophobe.nightfall.common.items.ItemMatcher;
 import deimophobe.nightfall.common.menu.MenuManager;
 import deimophobe.nightfall.dwarf.Dwarf;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;

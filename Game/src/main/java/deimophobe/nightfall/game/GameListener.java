@@ -3,7 +3,7 @@ package deimophobe.nightfall.game;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockManager;
-import deimophobe.nightfall.blocks.blocktype.NFBlocks;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.event.HatChangeEvent;
 import deimophobe.nightfall.common.event.TitleChangeEvent;
@@ -33,8 +33,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -121,22 +119,6 @@ public class GameListener implements Listener {
 		}
 		
 		if (block != null && NFBlocks.UNINTERACTABLE_BLOCKS.matchesBlock(block) && player.getGameMode() != GameMode.CREATIVE) {
-			event.setCancelled(true);
-		}
-	}
-	
-	@EventHandler
-	public void onPlace(BlockPlaceEvent event) {
-		Block block = event.getBlockPlaced();
-		Player player = event.getPlayer();
-		if (player.getGameMode() == GameMode.CREATIVE) return;
-		
-		if (!GameMap.getCurrentMap().isBlockPlaceable(block)) {
-			event.setCancelled(true);
-		}
-		
-		// Hack to prevent plagued zombies placing blocks
-		if (MonsterManager.getManager().isGamePlayer(player)) {
 			event.setCancelled(true);
 		}
 	}
@@ -414,24 +396,6 @@ public class GameListener implements Listener {
 			}
 		}
 		event.getEntity().remove();
-	}
-	
-	@EventHandler
-	public void onBlockBreak(BlockBreakEvent event) {
-		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
-		
-		Block block = event.getBlock();
-		GameMap map = GameMap.getCurrentMap();
-		
-		if (!map.isBlockBreakable(block)) {
-			event.setCancelled(true);
-		}
-		
-		GamePlayer gp = game.getGamePlayer(event.getPlayer());
-		if (gp != null) {
-			boolean shouldBreak = gp.onBlockBreak(event.getBlock(), !event.isCancelled());
-			event.setCancelled(!shouldBreak);
-		}
 	}
 	
 	// --------------------------------------------------------

@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.blocks.blocktype.NFBlocks;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.cooldown.*;
 import deimophobe.nightfall.dwarf.kit.*;
 import deimophobe.nightfall.dwarf.light.BlindSource;

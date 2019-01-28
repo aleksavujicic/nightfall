@@ -1,6 +1,7 @@
-package deimophobe.nightfall.blocks.blocktype;
+package deimophobe.nightfall.blocks;
 
 import deimophobe.nightfall.blocks.BlockManager;
+import deimophobe.nightfall.blocks.blocktype.*;
 import deimophobe.nightfall.dwarf.kit.hero.Trident;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.util.Util;
@@ -292,10 +293,18 @@ public class NFBlocks {
 
 
 	public static boolean tryConvertBlock(Block block, BlockMatcher from, BlockPlacer to) {
+		return tryConvertBlock(block, from, to, false);
+	}
+	
+	public static boolean tryConvertBlock(Block block, BlockMatcher from, BlockPlacer to, boolean torchCheck) {
 		boolean matches = from.matchesBlock(block);
 		if (!matches) return false;
 		
 		to.setAtBlock(block);
+		if (torchCheck) {
+			BlockManager.getManager().checkTorchBreaking(block);
+		}
+		
 		return true;
 	}
 }

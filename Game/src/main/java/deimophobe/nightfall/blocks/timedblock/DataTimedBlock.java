@@ -1,6 +1,6 @@
 package deimophobe.nightfall.blocks.timedblock;
 
-import deimophobe.nightfall.blocks.blocktype.NFBlocks;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.game.entity.GameEntity;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;

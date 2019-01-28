@@ -4,7 +4,7 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
 import deimophobe.nightfall.blocks.blocktype.BlockSet;
-import deimophobe.nightfall.blocks.blocktype.NFBlocks;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.LifetimeExpireable;
 import deimophobe.nightfall.dwarf.Dwarf;

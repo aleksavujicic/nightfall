@@ -2,7 +2,7 @@ package deimophobe.nightfall.blocks.timedblock;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockConverter;
-import deimophobe.nightfall.blocks.blocktype.NFBlocks;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;

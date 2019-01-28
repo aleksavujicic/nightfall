@@ -1,7 +1,6 @@
 package deimophobe.nightfall.blocks;
 
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
 import deimophobe.nightfall.blocks.blocktype.BlockPlacer;
 import deimophobe.nightfall.map.GameMap;
@@ -145,6 +144,18 @@ public class BlockConverter {
 			
 			if (force > randStr) {
 				to.setAtBlock(block);
+				
+				// This is so bad may the coding gods have mercy on us
+				Material finalType = block.getType();
+				switch (finalType) {
+					case AIR:
+					case CAVE_AIR:
+					case VOID_AIR:{
+						BlockManager manager = BlockManager.getManager();
+						manager.checkTorchBreaking(block);
+						break;
+					}
+				}
 			}
 			
 			if (strength == 0)

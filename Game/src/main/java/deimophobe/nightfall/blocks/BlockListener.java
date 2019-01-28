@@ -2,10 +2,12 @@ package deimophobe.nightfall.blocks;
 
 import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
 import deimophobe.nightfall.blocks.blocktype.BlockSet;
-import deimophobe.nightfall.blocks.blocktype.MaterialSet;
-import deimophobe.nightfall.blocks.blocktype.NFBlocks;
 import deimophobe.nightfall.dwarf.kit.hero.Trident;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
+import deimophobe.nightfall.monster.MonsterManager;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -21,14 +23,62 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.inventory.ItemStack;
 
+import static deimophobe.nightfall.blocks.NFBlocks.TORCH;
+
 /**
  * Created by Deimophobe on 25/04/18.
  */
-public class BlockListener implements Listener {
+class BlockListener implements Listener {
 	private final BlockManager manager;
+	private final Game game;
 	
-	public BlockListener(BlockManager manager) {
+	BlockListener(BlockManager manager) {
 		this.manager = manager;
+		this.game = manager.getGame();
+	}
+	
+	@EventHandler
+	public void onBlockPlace(BlockPlaceEvent event) {
+		Block block = event.getBlockPlaced();
+		Player player = event.getPlayer();
+		if (player.getGameMode() == GameMode.CREATIVE) return;
+		
+		if (!GameMap.getCurrentMap().isBlockPlaceable(block)) {
+			event.setCancelled(true);
+		}
+		
+		// Hack to prevent plagued zombies placing blocks
+		if (MonsterManager.getManager().isGamePlayer(player)) {
+			event.setCancelled(true);
+		}
+		
+		boolean willPlace = !event.isCancelled();
+		if (willPlace && TORCH.matchesBlock(block)) {
+			manager.placeTorch(block, player);
+		}
+	}
+	
+	@EventHandler
+	public void onBlockBreak(BlockBreakEvent event) {
+		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
+		
+		Block block = event.getBlock();
+		GameMap map = GameMap.getCurrentMap();
+		
+		if (!map.isBlockBreakable(block)) {
+			event.setCancelled(true);
+		}
+		
+		GamePlayer gp = game.getGamePlayer(event.getPlayer());
+		if (gp != null) {
+			boolean shouldBreak = gp.onBlockBreak(event.getBlock(), !event.isCancelled());
+			event.setCancelled(!shouldBreak);
+		}
+		
+		boolean willBreak = !event.isCancelled();
+		if (willBreak) {
+			manager.checkTorchBreaking(block);
+		}
 	}
 	
 	@EventHandler

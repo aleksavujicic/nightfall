@@ -4,7 +4,7 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
 import deimophobe.nightfall.blocks.blocktype.BlockSet;
-import deimophobe.nightfall.blocks.blocktype.NFBlocks;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.cooldown.Update;
@@ -31,12 +31,12 @@ class Golem extends AbstractMob {
 		Material.BEDROCK
 	);
 	
+	@Update
+	private final Cooldown breakCD = new SimpleCooldown(10);
+	
 	Golem(MonsterPlayer monster) {
 		super(monster, MobType.GOLEM);
 	}
-	
-	@Update
-	private final Cooldown breakCD = new SimpleCooldown(10);
 	
 	@Override
 	public void onSpawn(SpawnMethod spawnMethod) {

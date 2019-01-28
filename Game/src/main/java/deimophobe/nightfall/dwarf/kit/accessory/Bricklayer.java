@@ -2,7 +2,7 @@ package deimophobe.nightfall.dwarf.kit.accessory;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.blocks.blocktype.NFBlocks;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ConsumerCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;

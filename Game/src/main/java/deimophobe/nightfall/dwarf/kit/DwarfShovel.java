@@ -3,7 +3,7 @@ package deimophobe.nightfall.dwarf.kit;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.skin.PlayerSkin;
 import deimophobe.nightfall.skin.SkinManager;
-import deimophobe.nightfall.blocks.blocktype.NFBlocks;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
