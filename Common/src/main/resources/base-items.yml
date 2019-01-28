@@ -33,7 +33,7 @@ warpweaver: "bow:6"
 volcanic: "bow:8"
 
 spellbook: "book"
-essence: "#temp"
+essence: "shears:90"
 
 # Healing
 healing-ale: "!potion{93,244,17}"
