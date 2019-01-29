@@ -386,10 +386,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	public void sendInsufficientExperienceMessage(int requiredExperience) {
 		player.sendMessage(
 				ChatColor.RED + "Not enough exp! " + "You have "
-				+ ChatColor.LIGHT_PURPLE + experience
-				+ ChatColor.RED + " exp (need "
-				+ ChatColor.YELLOW + requiredExperience
-				+ ChatColor.RED + ")."
+				+ ChatColor.YELLOW + experience
+				+ ChatColor.RED + " exp ("
+				+ ChatColor.AQUA + requiredExperience
+				+ ChatColor.RED + " required)."
 		);
 	}
 	

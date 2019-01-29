@@ -214,39 +214,21 @@ monster-hero:
 
 
 monster-menu:
-  nameprefix: "&5"
+  nameprefix: "&4"
 
   lore:
     - "${description}"
 
   prefix:
-    description: "&6"
+    description: "&e"
+    variable: "&b"
 
 monster-primary-selector:
-  nameprefix: "&5"
-
-  lore:
-    - "&6Cost: &a$cost"
-    - ""
-    - "${description}"
-
-  prefix:
-    description: "&6"
-
-monster-egg:
-  nameprefix: "&5"
-
-  lore:
-    - "${description}"
-
-  prefix:
-    description: "&6"
-
-monster-upgrade:
-  nameprefix: "&c"
+  nameprefix: "&4"
 
   lore:
     - "${cost}"
+    - ""
     - "${description}"
 
   defaults:
@@ -254,6 +236,31 @@ monster-upgrade:
 
   prefix:
     cost: "&6"
-    cost-var: "&a"
+    cost-var: "&b"
+    description: "&e"
+
+monster-egg:
+  nameprefix: "&4"
+
+  lore:
+    - "${description}"
+
+  prefix:
+    description: "&e"
+
+monster-upgrade:
+  nameprefix: "&4"
+
+  lore:
+    - "${cost}"
+    - ""
+    - "${description}"
+
+  defaults:
+     cost: "Cost: $cost:cost-var"
+
+  prefix:
+    cost: "&6"
+    cost-var: "&b"
     description: "&e"
     variable: "&b"

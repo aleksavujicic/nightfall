@@ -4,14 +4,14 @@ items:
     name: Reset Upgrades
 
   reset-xp:
-    template: monster
     base: menu.trash
     name: Confirm Reset
     lore:
       description:
-       - "You have currently spent &e$xp&r exp\n
-          on your upgrades. Confirm to reset\n
-          your upgrades and get &a$refund&r xp back."
+       - "You have currently spent\n
+          $xp exp on your upgrades.\n
+          Confirm to reset all of your\n
+          upgrades and get $refund xp back."
 
   back:
     base: menu.left-arrow
