@@ -173,6 +173,7 @@ public class ZombieSaboteur extends UpgradeableMob<SaboteurUpgrades> {
 		if (assassinate) {
 			monster.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, sneakDuration, 1, true, false, true);
 		}
+		monster.removeFire();
 		
 		Location loc = monster.getLocation();
 		World world = loc.getWorld();
