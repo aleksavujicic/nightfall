@@ -25,7 +25,6 @@ public enum ItemModifierType {
 	KNOCKBACK("Knockback", new EnchantApplier(Enchantment.KNOCKBACK)),
 	BURNING("Flame", new EnchantApplier(Enchantment.FIRE_ASPECT)),
 	
-	CAN_DIG("Can Mine", false),
 	EFFICIENCY("Efficiency", new EnchantApplier(Enchantment.DIG_SPEED)),
 	
 	// Health/Res
