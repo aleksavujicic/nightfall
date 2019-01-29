@@ -2,9 +2,7 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.cooldown.Display;
-import deimophobe.nightfall.cooldown.Update;
+import deimophobe.nightfall.cooldown.*;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -19,8 +17,8 @@ import org.bukkit.potion.PotionEffectType;
  */
 class Walker extends AbstractMob {
 	
-	@Update @Display
-	private final ComplexCooldown kb_cd = new ComplexCooldown(10*20, () -> monster.leap(-2, 0.5), null);
+	@Update @Display @Interact(click = ClickType.RIGHT)
+	private final Cooldown kb_cd = new UseCooldown(10*20, () -> monster.leap(-0.4, 1));
 	
 	protected Walker(MonsterPlayer monster) {
 		super(monster, MobType.WALKER);
@@ -55,6 +53,7 @@ class Walker extends AbstractMob {
 		super.onDamageAttack(damage);
 		if (damage.getType() == GameDamageType.MELEE) {
 			damage.multiplyKnockback(-1.5, 1);
+			damage.addKnockback(0, 0.5, 0);
 		}
 	}
 	
