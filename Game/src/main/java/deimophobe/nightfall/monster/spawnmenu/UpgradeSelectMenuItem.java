@@ -12,12 +12,12 @@ import static com.google.common.base.Preconditions.checkArgument;
 /**
  * Created by Deimophobe on 16/01/19.
  */
-class PrimarySelectMenuItem extends DynamicPageResetter<MonsterPlayer> {
+class UpgradeSelectMenuItem extends DynamicPageResetter<MonsterPlayer> {
 	
 	private final MobType primaryMobType;
 	private final int cost;
 	
-	PrimarySelectMenuItem(ItemStack item, UpgradeContainerMenu menu, MobType primaryMobType, int cost) {
+	UpgradeSelectMenuItem(ItemStack item, UpgradeContainerMenu menu, MobType primaryMobType, int cost) {
 		super(item, menu);
 		checkArgument(primaryMobType.isUpgradeable(), "Mob type must be a primary mob (got %s)", primaryMobType);
 		

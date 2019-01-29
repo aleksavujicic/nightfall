@@ -223,22 +223,6 @@ monster-menu:
     description: "&e"
     variable: "&b"
 
-monster-primary-selector:
-  nameprefix: "&4"
-
-  lore:
-    - "${cost}"
-    - ""
-    - "${description}"
-
-  defaults:
-     cost: "Cost: $cost:cost-var"
-
-  prefix:
-    cost: "&6"
-    cost-var: "&b"
-    description: "&e"
-
 monster-egg:
   nameprefix: "&4"
 

@@ -21,14 +21,14 @@ import java.util.Map;
  * Created by Deimophobe on 15/01/19.
  */
 class UpgradeContainerMenu extends DynamicMenu<MonsterPlayer> {
-	private final PrimarySelectMenu primarySelectMenu;
+	private final UpgradeSelectMenu upgradeSelectMenu;
 	private final Map<MobType, UpgradeMenu> upgradeMenus = new HashMap<>();
 	
 	UpgradeContainerMenu(int size, MonsterMenuConfig config) {
 		super(size);
 		
 		// Get Items
-		ItemStack cancelStack = config.getItemStack("back");
+		ItemStack cancelStack = config.getItemStack("cancel");
 		CustomItem resetTemplate = config.getItem("reset-xp");
 		ItemStack resetPageStack = config.getItemStack("reset-page");
 		
@@ -48,7 +48,7 @@ class UpgradeContainerMenu extends DynamicMenu<MonsterPlayer> {
 			upgradeMenus.put(mobType, upgradeMenu);
 		}
 		
-		primarySelectMenu = new PrimarySelectMenu(size, config,this);
+		upgradeSelectMenu = new UpgradeSelectMenu(size, config,this);
 	}
 	
 	@NotNull
@@ -57,7 +57,7 @@ class UpgradeContainerMenu extends DynamicMenu<MonsterPlayer> {
 		MonsterUpgrades upgrades = session.getData().getUpgrades();
 		MobType primary = upgrades.getPrimaryMob();
 		
-		if (primary == null) return primarySelectMenu;
+		if (primary == null) return upgradeSelectMenu;
 		return upgradeMenus.get(primary);
 	}
 	

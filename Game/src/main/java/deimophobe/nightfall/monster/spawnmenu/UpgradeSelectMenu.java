@@ -11,9 +11,9 @@ import java.util.Map;
 /**
  * Created by Deimophobe on 16/01/19.
  */
-class PrimarySelectMenu extends SimpleMenu<MonsterPlayer> {
+class UpgradeSelectMenu extends SimpleMenu<MonsterPlayer> {
 	
-	PrimarySelectMenu(int size, MonsterMenuConfig config, UpgradeContainerMenu menu) {
+	UpgradeSelectMenu(int size, MonsterMenuConfig config, UpgradeContainerMenu menu) {
 		super(size);
 		
 		Map<Integer, MobType> selectorLocations = Maps.newHashMap();
@@ -30,11 +30,11 @@ class PrimarySelectMenu extends SimpleMenu<MonsterPlayer> {
 			int index = entry.getKey();
 			MobType type = entry.getValue();
 			
-			PrimarySelectorData selector =  config.getPrimarySelector(type);
+			UpgradeableMenuConfig upgradeableMenuConfig = config.getMenuConfig(type);
 			
-			ItemStack itemStack = selector.getItem().createItemStack();
-			int cost = selector.getCost();
-			PrimarySelectMenuItem item = new PrimarySelectMenuItem(itemStack, menu, type, cost);
+			ItemStack itemStack = upgradeableMenuConfig.getUpgradeItem().createItemStack();
+			int cost = upgradeableMenuConfig.getCost();
+			UpgradeSelectMenuItem item = new UpgradeSelectMenuItem(itemStack, menu, type, cost);
 			
 			setItem(index, item);
 		}

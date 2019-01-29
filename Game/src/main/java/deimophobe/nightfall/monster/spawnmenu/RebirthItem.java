@@ -22,10 +22,11 @@ class RebirthItem implements MenuItem<MonsterPlayer> {
 	@Override
 	public ItemStack getDisplayItem(MenuSession<MonsterPlayer> session) {
 		MonsterPlayer monster = session.getData();
-		if (monster.canRebirth())
+		if (monster.canRebirth()) {
 			return item;
-		else
+		} else {
 			return null;
+		}
 	}
 	
 	@Override

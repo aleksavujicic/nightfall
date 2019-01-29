@@ -24,11 +24,24 @@ items:
   rebirth:
     material: ender_eye
     name: Rebirth
+    lore:
+      description:
+       - "Respawn where you died."
 
-primary-selectors:
+
+
+upgradeable-mobs:
   zombie-fury:
+    spawn-item:
+      material: wooden_pickaxe
+      name: "Spawn Fury Zombie"
+      lore:
+        description:
+          - "Test"
+    has-rebirth: true
+
     cost: 3000
-    item:
+    upgrade-item:
       material: ender_eye
       name: "Select Fury Zombie"
       shiny: true
@@ -36,11 +49,21 @@ primary-selectors:
         description:
           - "Become a Fury Zombie.\n
              An offensively oriented zombie\n
-             that can quickly damage and break armour."
+             that can quickly damage and\n
+             break armour."
+
 
   zombie-husk:
+    spawn-item:
+      material: wooden_pickaxe
+      name: "Spawn Husk"
+      lore:
+        description:
+          - "Test"
+    has-rebirth: true
+
     cost: 3000
-    item:
+    upgrade-item:
       material: leather_chestplate
       name: "Select Husk"
       shiny: true
@@ -50,9 +73,17 @@ primary-selectors:
              A slow zombie that can become\n
              resistant to arrows and procs."
 
+
   zombie-saboteur:
+    spawn-item:
+      material: wooden_pickaxe
+      name: "Spawn Saboteur"
+      lore:
+        description:
+          - "Test"
+
     cost: 3000
-    item:
+    upgrade-item:
       material: stone_sword
       name: "Select Saboteur"
       shiny: true
@@ -62,9 +93,17 @@ primary-selectors:
              A speedy, sneaky zombie that can\n
              destroy walls and poison dwarves."
 
+
   skeleton-flame:
+    spawn-item:
+      material: bow
+      name: "Spawn Flamelancer"
+      lore:
+        description:
+          - "Test"
+
     cost: 3000
-    item:
+    upgrade-item:
       base: skeleton.flame-bow
       name: "Select Flamelancer"
       shiny: true
@@ -74,9 +113,17 @@ primary-selectors:
              A fast skeleton that specializes\n
              in lighting dwarves on fire."
 
+
   skeleton-impact:
+    spawn-item:
+      material: bow
+      name: "Spawn Impact"
+      lore:
+        description:
+          - "Test"
+
     cost: 3000
-    item:
+    upgrade-item:
       base: skeleton.impact-bow
       name: "Select Impact Skeleton"
       shiny: true
@@ -86,9 +133,17 @@ primary-selectors:
              A sneaky skeleton variant that can\n
              knock dwarves away."
 
+
   skeleton-wither:
+    spawn-item:
+      material: bow
+      name: "Spawn Wither"
+      lore:
+        description:
+          - "Test"
+
     cost: 3000
-    item:
+    upgrade-item:
       base: wither-skull
       name: "Select Wither"
       shiny: true
@@ -98,9 +153,17 @@ primary-selectors:
              A powerful skeleton that specializes\n
              in chaining shots and breaking armor."
 
+
   goblin-kaboom:
+    spawn-item:
+      base: kaboom
+      name: "Spawn Goblin"
+      lore:
+        description:
+          - "Test"
+
     cost: 2000
-    item:
+    upgrade-item:
       base: kaboom
       name: "Kaboom"
       shiny: true

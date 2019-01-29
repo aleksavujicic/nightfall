@@ -24,7 +24,8 @@ class MonsterMenuConfig {
 	private final NightfallPlugin plugin;
 	
 	private final Map<String, CustomItem> items;
-	private final Map<MobType, PrimarySelectorData> primarySelectors;
+	private final Map<MobType, UpgradeableMenuConfig> upgradeableMobConfigs;
+	private final RebirthItem rebirthItem;
 	
 	MonsterMenuConfig(NightfallPlugin plugin) {
 		Configuration config = plugin.readInternalFileConfig(CONFIG_FILENAME);
@@ -41,27 +42,20 @@ class MonsterMenuConfig {
 			items.put(key, item);
 		}
 		
-		
 		// Initialise primarySelectors
-		primarySelectors = new HashMap<>();
-		ConfigurationSection primarySection = config.getConfigurationSection("primary-selectors");
-		if (primarySection == null) throw new NullPointerException("Missing primary section in spawn menu");
+		upgradeableMobConfigs = new HashMap<>();
+		ConfigurationSection upgradeSection = config.getConfigurationSection("upgradeable-mobs");
+		if (upgradeSection == null) throw new NullPointerException("Missing upgrade section in spawn menu");
 		
-		for (String key : primarySection.getKeys(false)) {
+		for (String key : upgradeSection.getKeys(false)) {
 			try {
 				MobType mobType = Misc.getEnumMemberFromString(key, MobType.values(), "mobType");
 				if (!mobType.isUpgradeable()) throw new IllegalArgumentException("Mob type '" + mobType + "' for primary selector is not primary");
 				
-				ConfigurationSection selectorConfig = primarySection.getConfigurationSection(key);
-				int cost = selectorConfig.getInt("cost");
+				ConfigurationSection mobConfig = upgradeSection.getConfigurationSection(key);
 				
-				ConfigurationSection itemConfig = selectorConfig.getConfigurationSection("item");
-				CustomItem item = CustomItem.getItem(itemConfig, "monster-primary-selector");
-				item.applyVariable("cost", "" + cost);
-				
-				PrimarySelectorData selector = new PrimarySelectorData(item, cost);
-				
-				primarySelectors.put(mobType, selector);
+				UpgradeableMenuConfig upgradeableMenuConfig = UpgradeableMenuConfig.fromConfig(mobConfig);
+				upgradeableMobConfigs.put(mobType, upgradeableMenuConfig);
 			} catch (UnknownEnumElementException e) {
 				NightfallPlugin.logger().warning("Unknown mob type for primary selector '" + key +"' config");
 				e.printStackTrace();
@@ -70,6 +64,8 @@ class MonsterMenuConfig {
 			}
 		}
 		
+		ItemStack rebirthStack = getItemStack("rebirth");
+		rebirthItem = new RebirthItem(rebirthStack);
 	}
 	
 	NightfallPlugin getPlugin() {
@@ -88,10 +84,14 @@ class MonsterMenuConfig {
 		return getItem(name).createItemStack();
 	}
 	
-	PrimarySelectorData getPrimarySelector(MobType mobType) {
-		checkArgument(mobType.isUpgradeable(), "Mob type '%s' must be primary", mobType);
-		checkArgument(primarySelectors.containsKey(mobType), "Mob type '%s' has no selector (even though it is primary?!)", mobType);
+	UpgradeableMenuConfig getMenuConfig(MobType mobType) {
+		checkArgument(mobType.isUpgradeable(), "Mob type '%s' must be upgradeable", mobType);
+		checkArgument(upgradeableMobConfigs.containsKey(mobType), "Mob type '%s' has no menu config (even though it is upgradeable?!)", mobType);
 		
-		return primarySelectors.get(mobType);
+		return upgradeableMobConfigs.get(mobType);
+	}
+	
+	RebirthItem getRebirthItem() {
+		return rebirthItem;
 	}
 }
