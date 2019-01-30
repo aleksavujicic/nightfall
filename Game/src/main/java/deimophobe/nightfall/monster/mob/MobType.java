@@ -1,10 +1,10 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.common.UnknownEnumElementException;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.monster.MobCreator;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.upgrades.UpgradeRegistry;
 
 import java.util.*;
 import java.util.function.Function;
@@ -13,10 +13,21 @@ import java.util.function.Function;
  * Created by Deimophobe on 19/01/17.
  */
 public enum MobType implements MobCreator<Mob> {
-	// Seperate these into own types, use custom mob creators for each.
-	ZOMBIE(MobType::spawnZombie),
-    SKELETON(MobType::spawnSkeleton),
-	GOBO(MobType::spawnGobo),
+	ZOMBIE_FURY(ZombieFury::new, "zombie.fury", "fury"),
+	ZOMBIE_HUSK(ZombieHusk::new, "zombie.husk", "husk"),
+	ZOMBIE_SABOTEUR(ZombieSaboteur::new, "zombie.saboteur", "saboteur"),
+	
+	SKELETON_FLAME(SkeletonFlamelancer::new, "skeleton.flamelancer", "flame"),
+	SKELETON_IMPACT(SkeletonImpact::new, "skeleton.impact", "impact"),
+	SKELETON_WITHER(SkeletonWither::new, "skeleton.wither", "wither"),
+	
+	GOBLIN_KABOOM(GoblinKaboom::new, "gobo", "goblin"),
+	
+	
+	ZOMBIE_BASE(ZombieBasic::new, "zombie"),
+	SKELETON_BASE(ZombieBasic::new, "skeleton"),
+	GOBLIN_BASE(Goblin::new, "gobo"),
+	
 	
 	EMBER_SPRITE(EmberSprite::new),
 	WOLF(WolfMob::new),
@@ -35,7 +46,7 @@ public enum MobType implements MobCreator<Mob> {
 
 	WALKER(Walker::new),
 
-	SQUID(WorthlessSquid::new),
+	SQUID(SquidMob::new),
 	TICKER(Ticker::new),
 	ZEPHYR(Zephyr::new),
 	
@@ -54,25 +65,41 @@ public enum MobType implements MobCreator<Mob> {
 	PLAGUE_ASSASSIN,
 	;
 	
+	private final String name;
+	private final String upgradeKey;
 	private final MobData mobData;
-	public MobData getMobData() { return mobData; }
-	
 	private final Function<MonsterPlayer, Mob> mobCreator;
 	
-	MobType() { this(null, null); }
-	MobType(Function<MonsterPlayer, Mob> mobCreator) { this(mobCreator, null); }
 	
+	MobType() {
+		this(null, null);
+	}
+	MobType(Function<MonsterPlayer, Mob> mobCreator) {
+		this(mobCreator, null);
+	}
 	MobType(Function<MonsterPlayer, Mob> mobCreator, String mobDataKey) {
+		this(mobCreator, mobDataKey, null);
+	}
+	
+	MobType(Function<MonsterPlayer, Mob> mobCreator, String mobDataKey, String upgradeKey) {
+		this.name = name().replace('_','-').toLowerCase();
+		
 		if (mobDataKey == null)
 			mobDataKey = getName();
 		
 		this.mobData = MobData.getMobData(mobDataKey);
 		this.mobCreator = mobCreator;
+		this.upgradeKey = upgradeKey;
+		
+		if (upgradeKey != null) {
+			UpgradeRegistry registry = NightfallPlugin.getPlugin().getUpgradeRegistry();
+			registry.importUpgradeFile(upgradeKey);
+		}
 	}
 	
 	@Override
 	public String getName() {
-		return name().replace('_','-').toLowerCase();
+		return name;
 	}
 	
 	@Override
@@ -84,69 +111,55 @@ public enum MobType implements MobCreator<Mob> {
 		}
 	}
 	
+	public String getUpgradeKey() {
+		return upgradeKey;
+	}
+	
+	public MobData getMobData() {
+		return mobData;
+	}
+	
 	public boolean isSpawnable() {
 		return mobCreator != null;
 	}
 	
+	public boolean isUpgradeable() {
+		return upgradeKey != null;
+	}
+	
+	public boolean isZombie() {
+		switch (this) {
+			case ZOMBIE_BASE:
+			case ZOMBIE_FURY:
+			case ZOMBIE_HUSK:
+			case ZOMBIE_SABOTEUR:
+				return true;
+			default:
+				return false;
+		}
+	}
+	
 	
 	// ----- STATIC HELPERS -----
-	
-	private static Mob spawnZombie(MonsterPlayer monster) {
-		if (monster.getUpgrades(MobType.ZOMBIE).computeIfAbsent("husk", (k) -> 0) == 1) {
-			return new ZombieHusk(monster);
-		}
-		else if (monster.getUpgrades(MobType.ZOMBIE).computeIfAbsent("fury", (k) -> 0) == 1) {
-			return new ZombieFury(monster);
-		}
-		else if (monster.getUpgrades(MobType.ZOMBIE).computeIfAbsent("saboteur", (k) -> 0) == 1) {
-			return new ZombieSaboteur(monster);
-		}
-		else {
-			return new ZombieMob(monster);
-		}
-	}
-	
-	private static Mob spawnSkeleton(MonsterPlayer monster) {
-		if (monster.getUpgrades(MobType.SKELETON).computeIfAbsent("wither", (k) -> 0) == 1) {
-			return new SkeletonWither(monster);
-		}
-		else if (monster.getUpgrades(MobType.SKELETON).computeIfAbsent("flamelancer", (k) -> 0) == 1) {
-			return new SkeletonFlamelancer(monster);
-		}
-		else if (monster.getUpgrades(MobType.SKELETON).computeIfAbsent("impact", (k) -> 0) == 1) {
-			return new SkeletonImpact(monster);
-		}
-		else {
-			return new Skeleton(monster);
-		}
-	}
-	
-	private static Mob spawnGobo(MonsterPlayer monster) {
-		if (monster.getUpgrades(MobType.GOBO).computeIfAbsent("kaboom", (k) -> 0) == 1) {
-			return new GoblinKaboom(monster);
-		}
-		else {
-			return new Goblin(monster);
-		}
-	}
 	
 	// Used for ItemManager.
 	public Map<String, CustomItem> getItems() {
 		return mobData.getItems();
 	}
 	
-	public static MobType getMobType(String type) throws UnknownEnumElementException {
-		return Misc.getEnumMemberFromString(type, values(), "MobType");
-	}
-	
 	private static final List<MobType> spawnableMobs = new ArrayList<>();
+	private static final List<MobType> primaryMobs = new ArrayList<>();
 	static {
 		for (MobType type : values()) {
 			if (type.isSpawnable()) spawnableMobs.add(type);
+			if (type.isUpgradeable()) primaryMobs.add(type);
 		}
 	}
 	
 	public static MobType[] getSpawnableMobs() {
 		return spawnableMobs.toArray(new MobType[0]);
+	}
+	public static MobType[] getPrimaryMobs() {
+		return primaryMobs.toArray(new MobType[0]);
 	}
 }

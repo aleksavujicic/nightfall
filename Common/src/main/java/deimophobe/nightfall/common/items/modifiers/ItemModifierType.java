@@ -2,7 +2,9 @@ package deimophobe.nightfall.common.items.modifiers;
 
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.UnknownEnumElementException;
-import minecraft.spigot.community.michel_0.api.Attribute;
+import deimophobe.nightfall.common.util.Keys;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
@@ -11,20 +13,22 @@ import org.bukkit.inventory.ItemStack;
  */
 public enum ItemModifierType {
 	// Weapons
-	ATTACK("Attack", new AttributeApplier(Attribute.ATTACK_DAMAGE)),
+	ATTACK("Attack", new AttributeApplier(Attribute.GENERIC_ATTACK_DAMAGE)),
+	POWER("Power", new MetadataApplier(Keys.BOW_POWER_KEY)),
+	SNIPER("Sniper"),
 	ARMOUR_SHRED("Armour Shred"),
 	
-	POWER("Power"),
+	SNEAK_ATTACK("Sneak Attack"),
+	SNEAK_SHRED("Sneak Shred"),
 
 	FAKE_PUNCH("Punch"),
 	KNOCKBACK("Knockback", new EnchantApplier(Enchantment.KNOCKBACK)),
 	BURNING("Flame", new EnchantApplier(Enchantment.FIRE_ASPECT)),
 	
-	CAN_DIG("Can Mine", false),
 	EFFICIENCY("Efficiency", new EnchantApplier(Enchantment.DIG_SPEED)),
 	
 	// Health/Res
-	HEALTH("Health", new AttributeApplier(Attribute.MAX_HEALTH, (i) -> (double) i*2), ValueFormatter.HEALTH_FORMATTER),
+	HEALTH("Health", new AttributeApplier(Attribute.GENERIC_MAX_HEALTH, (i) -> (double) i*2), ValueFormatter.HEALTH_FORMATTER),
 	RESISTANCE("Resistance", ValueFormatter.PERCENT_FORMATTER),
 	ARROW_RESISTANCE("Arrow Res", ValueFormatter.PERCENT_FORMATTER),
 	
@@ -34,7 +38,14 @@ public enum ItemModifierType {
 	FALL_DAMAGE("Fall Damage", ValueFormatter.PERCENT_FORMATTER),
 	
 	// Other bonuses
-	SPEED("Speed", new AttributeApplier(Attribute.MOVEMENT_SPEED, 2, (i) -> (double)i/100), ValueFormatter.PERCENT_FORMATTER),
+	SPEED("Speed",
+		new AttributeApplier(
+			Attribute.GENERIC_MOVEMENT_SPEED,
+			AttributeModifier.Operation.MULTIPLY_SCALAR_1,
+			(i) -> (double)i/100
+		),
+		new PercentFormatter(true)
+	),
 	DEPTH_STRIDER("Depth Strider", new EnchantApplier(Enchantment.DEPTH_STRIDER)),
 	AQUA_AFFINITY("Aqua Affinity", new EnchantApplier(Enchantment.WATER_WORKER)),
 
@@ -42,16 +53,17 @@ public enum ItemModifierType {
 	LIFE_STEAL("Life Steal", new FractionalFormatter(2)),
 	MANA_DRAIN("Mana Drain"),
 	REGEN_EXTRA("Extra Regen"),
-	SNIPER("Sniper", ValueFormatter.PERCENT_FORMATTER),
-	VOLLEY("Arrows in Volley"),
+	VOLLEY("Volley Size"),
 	IMPACT_EXTRA("Extra Force"),
 	FASTER_THROW("Extra Throw Chance", ValueFormatter.PERCENT_FORMATTER),
 
-	// Special dwarf armours
-	FAIRY_BAND("Fairy Band", false),
+	// Special dwarf armours/abilities
+	ALCHEMICAL_GUARD("Alchemical Guard", false),
 	NATURE_SUIT("Taproot Armour", false),
+	AVENGE("Avenge", false),
+	RESURRECTION("Resurrection", false),
 	
-	KB_RESIST("Knockback Res", new AttributeApplier(Attribute.KNOCKBACK_RESISTANCE, (i) -> (double)i/100), new PercentFormatter(false)),
+	KB_RESIST("Knockback Res", new AttributeApplier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, (i) -> (double)i/100), ValueFormatter.PERCENT_FORMATTER),
 	PROC_RESIST("Proc Resistance", ValueFormatter.PERCENT_FORMATTER),
 	UNPROCCABLE("Unproccable", false),
 	

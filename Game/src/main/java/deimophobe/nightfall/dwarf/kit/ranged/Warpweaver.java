@@ -4,6 +4,7 @@ import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
 import deimophobe.nightfall.map.GameMap;
@@ -47,23 +48,21 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile proj, Block hitBlock) {
+	public void onProjectileLand(Projectile proj, Block hitBlock, BlockFace hitFace) {
 		if (isActive()
 		      && isActiveProjectile(proj)
 		      && warpCooldown.isAvailable()) {
 			
 			if (GameMap.getCurrentMap().getCurrentMobProtection().continsEntity(proj)) {
 				dwarf.sendTitleMessage(ChatColor.RED + "Cannot warp into mob spawn");
-				removeArrow(proj);
-				activeArrows.remove(proj);
+				removeActiveArrow(proj);
 				return;
 			}
 			
-			Location warpLocation = getWarpLocation(proj, hitBlock);
+			Location warpLocation = getWarpLocation(proj, hitBlock, hitFace);
 			if (!checkLocationIsFreeToTeleportTo(warpLocation)) {
 				dwarf.sendTitleMessage(ChatColor.RED + "Cannot warp there");
-				removeArrow(proj);
-				activeArrows.remove(proj);
+				removeActiveArrow(proj);
 				return;
 			}
 			warpLocation.setDirection(dwarf.getLocation().getDirection());
@@ -71,12 +70,16 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 			
 			setActive(false);
 			removeActiveArrows();
-			warpCooldown.reset();
+			if (!dwarf.isDebugMode()) warpCooldown.reset();
 		}
 	}
 	
 	@Override
 	protected void onToggle() {
+		if (dwarf.isDebugMode()) {
+			warpCooldown.reduceCooldown(1000);
+		}
+		
 		super.onToggle();
 		removeActiveArrows();
 	}
@@ -98,6 +101,15 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 	}
 	
 	@Override
+	public void onDamageAttack(MonsterDamage damage) {
+		super.onDamageAttack(damage);
+		if (damage.hasArrow()) {
+			Arrow arrow = damage.getArrow();
+			removeActiveArrow(arrow);
+		}
+	}
+	
+	@Override
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
 		damage.addPostDamageHandler(() -> {
@@ -116,10 +128,14 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 		activeArrows.clear();
 	}
 	
+	private void removeActiveArrow(Projectile arrow) {
+		removeArrow(arrow);
+		activeArrows.remove(arrow);
+	}
+	
 	// Probably not the best way to implement this, but there are a couple
 	// of different cases to check.
-	private static Location getWarpLocation(Projectile arrow, Block hitBlock) {
-		BlockFace hitFace = Misc.getBlockFaceProjectileHit(arrow, hitBlock);
+	private static Location getWarpLocation(Projectile arrow, Block hitBlock, BlockFace hitFace) {
 		
 		if (checkCanTeleportToBlock(hitBlock, hitFace, 1)) {
 			return hitBlock.getLocation().add(0.5, 1.25, 0.5);
@@ -221,8 +237,8 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 		World world = location.getWorld();
 		world.spawnParticle(Particle.SPELL_WITCH, location, 20, 0.5, 0.5, 0.5);
 		world.spawnParticle(Particle.SPELL_WITCH, here, 20, 0.5, 0.5, 0.5);
-		world.playSound(location, "entity.illusion_illager.mirror_move", 1f, 0.95f);
-		world.playSound(here, "entity.illusion_illager.mirror_move", 1f, 0.95f);
+		world.playSound(location, Sound.ENTITY_ILLUSIONER_MIRROR_MOVE, 1f, 0.95f);
+		world.playSound(here, Sound.ENTITY_ILLUSIONER_MIRROR_MOVE, 1f, 0.95f);
 		
 		
 		Vector direction = location.clone().subtract(here).toVector();

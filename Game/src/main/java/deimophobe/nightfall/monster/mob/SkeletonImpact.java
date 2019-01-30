@@ -10,6 +10,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.monster.upgrades.wrappers.ImpactUpgrades;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -17,15 +18,17 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
-class SkeletonImpact extends AbstractToggleSkeleton {
+import java.util.Map;
+
+class SkeletonImpact extends AbstractToggleSkeleton<ImpactUpgrades> {
 	
 	private final int aoe;
-	@Update @Display private final Cooldown reactionCD;
+	@Update @Display
+	private final Cooldown reactionCD;
 
 	private final int punch;
 	private final boolean hasMeleeKB;
@@ -36,7 +39,10 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 	private final static String ARROW_METADATA_KEY = "active";
 
 	SkeletonImpact(MonsterPlayer monster) {
-		super(monster, MobData.getMobData("skeleton.impact"));
+		super(monster, MobType.SKELETON_IMPACT, ImpactUpgrades.class);
+		
+		Map<String,Integer> upgrades = null;
+		
 		int punch = upgrades.get("punch");
 		int meleekb = upgrades.get("meleekb");
 		int extraHealth = upgrades.get("extrahealth-impact");
@@ -62,9 +68,9 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 	}
 	
 	@Override
-	protected void giveItems() {
+	protected void setupItems() {
+		super.setupItems();
 		if (hasMeleeKB || reaction > 0) giveItem("stick");
-		super.giveItems();
 	}
 	
 	@Override
@@ -109,11 +115,10 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile proj, Block hitBlock) {
+	public void onProjectileLand(Projectile proj, Block hitBlock, BlockFace hitFace) {
 		if (hitBlock == null) return;
 
-		BlockFace face = Misc.getBlockFaceProjectileHit(proj, hitBlock);
-		Block explosionBlock = hitBlock.getRelative(face);
+		Block explosionBlock = hitBlock.getRelative(hitFace);
 		Location centerLoc = explosionBlock.getLocation();
 		impactExplosion(centerLoc, null, isActiveProjectile(proj));
 	}
@@ -154,10 +159,10 @@ class SkeletonImpact extends AbstractToggleSkeleton {
 		}
 	}
 	
-	@Override
-	protected int getPower() {
-		return super.getPower() + 3 * aoe;
-	}
+//	@Override
+//	protected int getPower() {
+//		return super.getPower() + 3 * aoe;
+//	}
 	
 	@Override
 	protected boolean canToggle() {

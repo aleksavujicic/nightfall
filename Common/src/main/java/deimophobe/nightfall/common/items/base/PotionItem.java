@@ -1,28 +1,36 @@
 package deimophobe.nightfall.common.items.base;
 
-import deimophobe.nightfall.common.Misc;
-
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 
+import java.util.EnumSet;
+import java.util.Set;
+
+import static com.google.common.base.Preconditions.checkArgument;
+
 /**
  * Created by Deimophobe on 15/04/17.
  */
 class PotionItem implements BaseItem {
+	private static final Set<Material> VALID_MATERIALS = EnumSet.of(
+		Material.POTION, Material.TIPPED_ARROW
+	);
 	
+	private final Material material;
 	private final Color color;
 	
-	PotionItem(Color color) {
-		if (color == null) throw new NullPointerException("Color for potion base cannot be null.");
+	PotionItem(Material material, Color color) {
+		checkArgument(VALID_MATERIALS.contains(material), "Material must be a valid potion material (got %s)", material);
 		
+		this.material = material;
 		this.color = color;
 	}
 	
 	@Override
 	public ItemStack createItem() {
-		ItemStack potion = new ItemStack(Material.POTION, 1);
+		ItemStack potion = new ItemStack(material, 1);
 		
 		PotionMeta meta = (PotionMeta) potion.getItemMeta();
 		meta.setColor(color);
@@ -41,7 +49,9 @@ class PotionItem implements BaseItem {
 	
 	@Override
 	public boolean doesItemMatch(ItemStack item) {
-		if (item.getType() != Material.POTION) return false;
+		if (item.getType() != material) return false;
+		
+		item.getItemMeta();
 		
 		PotionMeta meta = (PotionMeta) item.getItemMeta();
 		return (meta.getColor().equals(color));
@@ -49,6 +59,6 @@ class PotionItem implements BaseItem {
 	
 	@Override
 	public PotionItem clone() {
-		return new PotionItem(Color.fromRGB(color.getRed(), color.getGreen(), color.getBlue()));
+		return new PotionItem(material, Color.fromRGB(color.getRed(), color.getGreen(), color.getBlue()));
 	}
 }

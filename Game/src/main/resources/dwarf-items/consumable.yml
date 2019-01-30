@@ -5,7 +5,8 @@ lamp:
     description:
      - "Places a lamp down for &b60&r seconds."
     flavour:
-     - "\"These aren't shiny; why are they called enchanted?\" - Velvetine"
+     - "\"These aren't shiny; why are they\n
+        called enchanted?\" - Velvetine"
 
 slab:
   base: slab
@@ -77,7 +78,8 @@ healing-station:
         healing totem that gives an\n
         AoE &4Regen&r buff."
     flavour:
-     - "\"Kinda like being a healer, but requires less work.\" - Arthea"
+     - "\"Kinda like being a healer,\n
+        but requires less work.\" - Arthea"
 
 proc-bottle:
   base: proc-bottle
@@ -88,8 +90,10 @@ proc-bottle:
         Giving you a proc for 5 seconds."
     flavour:
      - "\"Chug! Chug! Chug! Chug!\" - Tui"
-     - "\"Brings energy to your veins, and strength to your heart.\" - Velvetine"
-     - "\"For the love of gods don’t get addicted on these!”\" - Arthea"
+     - "\"Brings energy to your veins, and\n
+          strength to your heart.\" - Velvetine"
+     - "\"For the love of gods don’t get\n
+          addicted on these!”\" - Arthea"
 
 turret:
   base: turret
@@ -99,8 +103,10 @@ turret:
      - "Rotatable block that shoots\n
         a constant stream of arrows"
     flavour:
-     - "\"Built by our finest engineers.\" - Velvetine"
-     - "\"You're lucky these don't have friendly fire!\" - Arthea"
+     - "\"Built by our finest engineers.\"\n
+        - Velvetine"
+     - "\"You're lucky these don't have\n
+        friendly fire!\" - Arthea"
 
 jump-pad:
   base: temp
@@ -200,6 +206,24 @@ cobble:
         when mortared."
     flavour:
      - "It's stone."
+
+stairs:
+  material: cobblestone_stairs
+  name: Stairs
+  lore:
+    description:
+     - "."
+    flavour:
+     - "It's 3/4 stone."
+
+half-slab:
+  base: half-slab
+  name: Half Slab
+  lore:
+    description:
+     - "."
+    flavour:
+     - "It's 1/2 stone."
 
 sand-grain:
   material: gold_nugget

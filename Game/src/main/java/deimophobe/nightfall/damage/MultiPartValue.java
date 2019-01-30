@@ -9,6 +9,7 @@ public class MultiPartValue {
 	private double base;
 	private double boost;
 	private double multiplier;
+	private double postBoost;
 
 	@Deprecated
 	public void setBase(double base) {
@@ -20,6 +21,9 @@ public class MultiPartValue {
 	}
 	public void timesMult(double amt) {
 		multiplier *= amt;
+	}
+	public void addPostBoost(double amt) {
+		postBoost += amt;
 	}
 	
 	public MultiPartValue(double base) {
@@ -35,7 +39,7 @@ public class MultiPartValue {
 	}
 	
 	public double getValue() {
-		return (base + boost) * multiplier;
+		return (base + boost) * multiplier + postBoost;
 	}
 	
 	@Override
@@ -44,6 +48,8 @@ public class MultiPartValue {
 		
 		return "Base: " + df.format(base)
 				+ " Boost: " + df.format(boost)
-				+ " Mult: " + df.format(multiplier);
+				+ " Mult: " + df.format(multiplier)
+				+ " Postboost: " + df.format(postBoost)
+				+ " (Total: " + df.format(getValue()) + ")";
 	}
 }

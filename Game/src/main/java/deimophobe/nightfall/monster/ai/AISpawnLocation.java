@@ -91,7 +91,7 @@ class AISpawnLocation {
 	}
 	
 	private static final WeightedSet<AISpawner> SPAWNERS = new WeightedSet<>(
-			new SimpleAISpawner(98, (location, target) -> {
+			new SimpleAISpawner(100, (location, target) -> {
 				int amtToSpawn = 1;
 				double rand = Math.random();
 				if (rand < 0.35) amtToSpawn++;
@@ -99,8 +99,12 @@ class AISpawnLocation {
 				AIManager.getManager().spawnAIs(AIType.ZOMBIE, location, target, amtToSpawn);
 				return 3 + amtToSpawn;
 			}),
-			new SimpleAISpawner(2, (location, target) -> {
+			new SimpleAISpawner(2.5, (location, target) -> {
 				AIManager.getManager().spawnAIs(AIType.HUSK, location, target, 1);
+				return 3;
+			}),
+			new SimpleAISpawner(2.5, (location, target) -> {
+				AIManager.getManager().spawnAIs(AIType.SKELETOTEM, location, target, 1);
 				return 3;
 			})
 	);

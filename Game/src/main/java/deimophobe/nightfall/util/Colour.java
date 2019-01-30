@@ -3,6 +3,7 @@ package deimophobe.nightfall.util;
 /**
  * Created by Deimophobe on 25/03/18.
  */
+@Deprecated
 public class Colour {
 	private final double red;
 	private final double green;

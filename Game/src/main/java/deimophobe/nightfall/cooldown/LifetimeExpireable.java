@@ -2,6 +2,8 @@ package deimophobe.nightfall.cooldown;
 
 import deimophobe.nightfall.NightfallPlugin;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 /**
  * Created by Deimophobe on 31/03/18.
  */
@@ -10,6 +12,8 @@ public abstract class LifetimeExpireable implements Expirable {
 	private int lifetime;
 	
 	protected LifetimeExpireable(int lifetime) {
+		checkArgument(lifetime >= 0, "Lifetime expireable must have a strictly positive lifetime (got %s)", lifetime);
+		
 		this.maxLifetime = lifetime;
 		this.lifetime = lifetime;
 	}

@@ -28,6 +28,7 @@ import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.plague.AssassinPlague;
 import deimophobe.nightfall.plague.Plague;
 import deimophobe.nightfall.plague.PlagueType;
+import deimophobe.nightfall.skin.SkinManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.boss.BarColor;
@@ -101,10 +102,10 @@ public class Game {
 	}
 	
 	private final Scoreboard scoreboard;
-	public Scoreboard getScoreboard() {return scoreboard;}
+	public Scoreboard getScoreboard() { return scoreboard; }
 	
-	private final Objective sidebarObj;
-	private final static String OBJ_NAME = "MySidebar";
+	private final Sidebar sidebar;
+	public Sidebar getSidebar() { return sidebar; }
 	
 	private final BossBar bossBar;
 	
@@ -114,6 +115,9 @@ public class Game {
 	private Plague activePlague = null;
 	
 	private final DeathTracker deathTracker;
+	
+	private final RestartChecker restartChecker;
+	private boolean startNewGame = false;
 
 	private Game(GameMap map) {
 		this.plugin = NightfallPlugin.getPlugin();
@@ -130,13 +134,7 @@ public class Game {
 			giveScoreboard(player);
 		}
 		
-		Objective oldObj = scoreboard.getObjective(OBJ_NAME);
-		if (oldObj != null) {
-			oldObj.unregister();
-		}
-		
-		sidebarObj = scoreboard.registerNewObjective(OBJ_NAME, "dummy");
-		sidebarObj.setDisplayName(Misc.getNightfallText());
+		sidebar = new Sidebar(scoreboard);
 		
 		// Setup shrine bar
 		bossBar = Bukkit.createBossBar("", BarColor.BLUE, BarStyle.SOLID);
@@ -166,6 +164,7 @@ public class Game {
 		playMode = PlayMode.NORMAL;
 		
 		deathTracker = new DeathTracker(10);
+		restartChecker = new RestartChecker(this, 60*20, 5);
 		
 		// Start lobby phase
 		startLobby();
@@ -177,6 +176,7 @@ public class Game {
 	}
 	
 	public void stop() {
+		cooldownHolder.removeAll();
 		removeShrineBar();
 		managers.values().forEach(Manager::stop);
 		
@@ -185,9 +185,17 @@ public class Game {
 		unregisterAllListeners();
 	}
 	
+	public void scheduleNewGame() {
+		startNewGame = true;
+	}
+	
 	
 	
 	// ------ GETTERS/SETTERS -------
+	public NightfallPlugin getPlugin() {
+		return plugin;
+	}
+	
 	public Phase getPhase() {
 		return phase;
 	}
@@ -264,7 +272,17 @@ public class Game {
 	public boolean isGameEntity(Entity entity) { return getGameEntity(entity) != null; }
 	
 	public GamePlayer getGamePlayer(Player player) {
-		return getGamePlayer(player.getName());
+		return getGamePlayer(player.getUniqueId());
+	}
+	
+	public GamePlayer getGamePlayer(UUID uuid) {
+		DwarfManager dwarfManager = getManager(DwarfManager.class);
+		MonsterManager monsterManager = getManager(MonsterManager.class);
+		
+		Dwarf dwarf = dwarfManager.getGamePlayer(uuid);
+		if (dwarf != null) return dwarf;
+		
+		return monsterManager.getGamePlayer(uuid);
 	}
 	
 	public GamePlayer getGamePlayer(String name) {
@@ -301,6 +319,32 @@ public class Game {
 		return dwarfManager.getNumberOfPlayers() + monsterManager.getNumberOfPlayers();
 	}
 	
+	public void goOnline(Player player) {
+		DwarfManager dwarfManager = getManager(DwarfManager.class);
+		MonsterManager monsterManager = getManager(MonsterManager.class);
+		
+		giveShrineBarToPlayer(player);
+		giveScoreboard(player);
+		
+		if (dwarfManager.goOnline(player)) return;
+		if (monsterManager.goOnline(player)) return;
+		
+		resetPlayer(player);
+	}
+	
+	public void goOffline(Player player) {
+		DwarfManager dwarfManager = getManager(DwarfManager.class);
+		MonsterManager monsterManager = getManager(MonsterManager.class);
+		
+		dwarfManager.goOffline(player);
+		monsterManager.goOffline(player);
+		
+		// Reset game if no players are left online
+		if (game.getPlayMode() == PlayMode.PLAYGROUND && Bukkit.getOnlinePlayers().size() == 1) {
+			Game.createNewGame();
+		}
+	}
+	
 	public Collection<String> getGamePlayerNames() {
 		DwarfManager dwarfManager = getManager(DwarfManager.class);
 		MonsterManager monsterManager = getManager(MonsterManager.class);
@@ -329,6 +373,16 @@ public class Game {
 		whoEntries.addAll(lobbyManager.getWhoEntries());
 		
 		return whoEntries;
+	}
+	
+	public String getOfflineIDs() {
+		DwarfManager dwarfManager = getManager(DwarfManager.class);
+		MonsterManager monsterManager = getManager(MonsterManager.class);
+		
+		return "Dwarves: \n"
+				+ dwarfManager.getOfflineIDs() + "\n"
+				+ "Monsters: \n"
+				+ monsterManager.getOfflineIDs();
 	}
 	
 	
@@ -360,76 +414,17 @@ public class Game {
 		return debuggers;
 	}
 	
+	public void broadcastDebugMessage(String message) {
+		for (Player player : getOnlineDebugPlayers()) {
+			player.sendMessage(ChatColor.GREEN + message);
+		}
+	}
+	
 	
 	// ------ SCOREBOARD -------
 	
-	private static final String DWARF_REMAINING = ChatColor.GREEN + "Remaining";
-	private static final String VAULT = ChatColor.GOLD + "Vault";
-	private static final String GOLD = ChatColor.YELLOW + "Shrine Gold";
-	private static final String DOOM_CLOCK = ChatColor.DARK_RED + "Doom Clock";
-	private static final String EXPERIENCE = ChatColor.LIGHT_PURPLE + "Experience";
-	
 	public void giveScoreboard(Player player) {
 		player.setScoreboard(scoreboard);
-	}
-	
-	public void updateDwarfCount() {
-		DwarfManager dwarfManager = getManager(DwarfManager.class);
-		sidebarObj.getScore(DWARF_REMAINING).setScore(dwarfManager.getGamePlayers().size());
-	}
-	
-	public void setVault(int vault) {
-		sidebarObj.getScore(VAULT).setScore(vault);
-	}
-	public void setGold(int gold) {
-		sidebarObj.getScore(GOLD).setScore(gold);
-	}
-	
-	public void setDoomSidebar(int doomTimer) {
-		MonsterManager monsterManager = getManager(MonsterManager.class);
-		for (MonsterPlayer mp : monsterManager.getGamePlayers()) {
-			showCustomScore(mp.getPlayer(), DOOM_CLOCK, doomTimer);
-		}
-	}
-	
-	public void setMana(Player player, int mana) {
-		showCustomScore(player, EXPERIENCE, mana);
-	}
-	
-	public void hideManaAndDoom(Player player) {
-		hideScore(player, DOOM_CLOCK);
-		hideScore(player, EXPERIENCE);
-	}
-	
-	
-	private void showCustomScore(Player player, String name, int amt) {
-		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-		PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.SCOREBOARD_SCORE);
-		packet.getStrings().write(0, name);
-		packet.getStrings().write(1, OBJ_NAME);
-		packet.getIntegers().write(0, amt);
-		
-		try {
-			protocolManager.sendServerPacket(player, packet);
-		} catch (InvocationTargetException e) {
-			NightfallPlugin.logger().severe("Failed to send " + name + " packet.");
-			e.printStackTrace();
-		}
-	}
-	
-	private void hideScore(Player player, String name) {
-		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-		PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.SCOREBOARD_SCORE);
-		packet.getStrings().write(0, name);
-		packet.getStrings().write(1, OBJ_NAME);
-		packet.getScoreboardActions().write(0, EnumWrappers.ScoreboardAction.REMOVE);
-		
-		try {
-			protocolManager.sendServerPacket(player, packet);
-		} catch (InvocationTargetException e) {
-			NightfallPlugin.logger().severe("Failed to send " + name + " packet.");
-			e.printStackTrace();
-		}
 	}
 	
 	public Team getNewTeam(String teamName) {
@@ -469,7 +464,7 @@ public class Game {
 	
 	
 	// ------ CURSES ------
-	private final Map<Curse, Integer> curseExpiries = new HashMap<>();
+	private final Map<Curse, Integer> curseExpiries = new EnumMap(Curse.class);
 	public void addCurse(Curse curse, int seconds) {
 		checkArgument(curse != null, "Curse must not be null");
 		checkArgument(seconds > 0, "Duration of curse %s must be strictly positive (got %s)", curse, seconds);
@@ -501,18 +496,23 @@ public class Game {
 	private void update() {
 		tickNumber++;
 		cooldownHolder.update();
+		
+		if (startNewGame) createNewGame();
 	}
 	
 	public void addUpdateable(Updateable updateable) {
 		cooldownHolder.addUpdateable(updateable);
 	}
 	
+	public void removeUpdateable(Updateable updateable) {
+		cooldownHolder.removeUpdateable(updateable);
+	}
+	
 	
 	// ------ GAME PHASES -------
 	public void startLobby() {
 		transitionToPhase(Phase.STARTING);
-		
-		sidebarObj.setDisplaySlot(null);
+		sidebar.hide();
 		getManager(LobbyManager.class).onLobbyStart();
 	}
 	
@@ -520,16 +520,15 @@ public class Game {
 		transitionToPhase(Phase.BUILD);
 		DwarfManager dwarfManager = getManager(DwarfManager.class);
 		MonsterManager monsterManager = getManager(MonsterManager.class);
+		TimeManager timeManager = getManager(TimeManager.class);
 		
 		if (gameSize == null) gameSize = GameSize.chooseForCurrentGame(this);
-		
-		sidebarObj.setDisplaySlot(DisplaySlot.SIDEBAR);
+		sidebar.show();
 		
 		monsterManager.removeAllGamePlayers();
 		dwarfManager.removeAllGamePlayers();
 		
 		dwarfManager.onGameStart(this);
-		updateDwarfCount();
 		
 		// Fix players
 		new BukkitRunnable() {
@@ -546,9 +545,6 @@ public class Game {
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), 20);
 		
-		// Set time
-		map.getWorld().setTime(0);
-		
 		deathTracker.clear();
 		
 		// Start countdown to plague
@@ -560,7 +556,15 @@ public class Game {
 				}
 			}
 		}.runTaskLater(NightfallPlugin.getPlugin(), buildTime);
-		getManager(TimeManager.class).addTarget(buildTime, Misc.randomInt(13500, 14500));
+		
+		// Set time
+		timeManager.startTime(23000);
+		timeManager.addTarget(buildTime, Misc.randomInt(13500, 14500));
+		timeManager.addTarget(buildTime + 5*60*20, 18000);
+		
+		// Adding this dumbly - would be better to add/remove it as players join/leave,
+		// but thats complicated.
+		cooldownHolder.addUpdateable(restartChecker);
 	}
 	
 	public void startPlague() {
@@ -674,7 +678,6 @@ public class Game {
 				mp.kill(true);
 				break;
 		}
-		updateDwarfCount();
 	}
 
 	public boolean potionsDisabled() {

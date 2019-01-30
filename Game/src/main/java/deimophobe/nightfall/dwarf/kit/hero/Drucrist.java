@@ -9,7 +9,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -31,8 +31,8 @@ public class Drucrist extends AbstractItem implements CooldownPiece {
 		return ITEM;
 	}
 	
-	@Override public KitGiveType getGiveType() {
-		return  KitGiveType.START;
+	@Override public PickupType getPickupType() {
+		return  PickupType.START;
 	}
 
 	private final ComplexCooldown cd = new ComplexCooldown(20*20);
@@ -62,7 +62,7 @@ public class Drucrist extends AbstractItem implements CooldownPiece {
 					if (!newLoc.getBlock().getType().isSolid()) {
 						closestPlayerMonster.doDamage(dwarf, GameDamageType.TEMPORARY, 100, true);
 						dwarf.teleportTo(newLoc);
-						dwarf.playSound("entity.endermen.teleport", 1, 1, true);
+						dwarf.playSound("entity.enderman.teleport", 1, 1, true);
 						cd.reset();
 					}
 				}
@@ -75,7 +75,7 @@ public class Drucrist extends AbstractItem implements CooldownPiece {
 					if (!newLoc.getBlock().getType().isSolid()) {
 						closestAIMonster.doDamage(dwarf, GameDamageType.TEMPORARY, 40, true,true);
 						dwarf.teleportTo(newLoc);
-						dwarf.playSound("entity.endermen.teleport", 1, 1, true);
+						dwarf.playSound("entity.enderman.teleport", 1, 1, true);
 						cd.reset();
 						cd.setMaxCD(10*20);
 					}

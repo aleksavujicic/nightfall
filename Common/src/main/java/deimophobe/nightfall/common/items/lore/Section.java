@@ -12,12 +12,12 @@ import java.util.regex.Pattern;
  * Created by Deimophobe on 10/05/18.
  */
 class Section {
-	private static final Pattern VAR_REGEX = Pattern.compile("\\$([a-zA-Z0-9\\-]+)");
+	private static final Pattern VAR_REGEX = Pattern.compile("\\$(?<name>[a-zA-Z0-9\\-]+)(?::(?<template>[a-zA-Z0-9\\-]+))?");
 	
 	private final SectionTemplate template;
 	private final List<LoreComponent> components;
 	
-	Section(SectionTemplate template, String sectionText) {
+	Section(LoreTemplate loreTemplate, SectionTemplate template, String sectionText) {
 		this.template = template;
 		this.components = new ArrayList<>();
 		
@@ -33,8 +33,12 @@ class Section {
 			components.add(textComponent);
 			
 			// Add variable
-			String varName = varFinder.group(1);
-			LoreComponent varComponent = new VariableLoreComponent(varName);
+			String varName = varFinder.group("name");
+			String templateName = varFinder.group("template");
+			if (templateName == null) templateName = "variable";
+			String prefix = loreTemplate.getPrefix(templateName);
+			
+			LoreComponent varComponent = new VariableLoreComponent(varName, prefix);
 			components.add(varComponent);
 			
 			sectionStart = varFinder.end();

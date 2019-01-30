@@ -24,7 +24,7 @@ jimmy-cap:
     material: diamond_helmet
   item:
     name: "Jimmy Cap"
-    material: gold_helmet
+    material: golden_helmet
 
 goggles:
   hat:

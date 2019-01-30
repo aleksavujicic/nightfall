@@ -3,7 +3,7 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockConverter;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.Update;
@@ -75,8 +75,8 @@ public class EmberSprite extends AbstractMob implements FloatyMob {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile proj, Block block) {
-		super.onProjectileLand(proj, block);
+	public void onProjectileLand(Projectile proj, Block block, BlockFace hitFace) {
+		super.onProjectileLand(proj, block, hitFace);
 		blazeExplosion(proj.getLocation());
 	}
 
@@ -131,7 +131,7 @@ public class EmberSprite extends AbstractMob implements FloatyMob {
 		Location loc = monster.getLocation();
 		World world = loc.getWorld();
 		blazeExplosion(loc);
-		world.playSound(loc, "entity.firework.launch", 2, 0.8f);
+		world.playSound(loc, "entity.firework_rocket.launch", 2, 0.8f);
 		monster.setVelocity(0, 3, 0);
 	}
 
@@ -155,7 +155,7 @@ public class EmberSprite extends AbstractMob implements FloatyMob {
 					Block block = centerLoc.clone().add(x, y, z).getBlock();
 					Block blockBelow = centerLoc.clone().add(x,y-1, z).getBlock();
 
-					if (BlockType.IGNORABLE.matchesBlock(block) && !BlockType.IGNORABLE.matchesBlock(blockBelow) && (Math.random() < 0.015)) {
+					if (NFBlocks.IGNORABLE.matchesBlock(block) && !NFBlocks.IGNORABLE.matchesBlock(blockBelow) && (Math.random() < 0.015)) {
 						block.setType(Material.FIRE);
 					}
 				}

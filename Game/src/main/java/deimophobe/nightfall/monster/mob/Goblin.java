@@ -50,9 +50,9 @@ public class Goblin extends AbstractMob {
 	}
 	
 	protected Goblin(MonsterPlayer mons, MobData data) {
-		super(mons, MobType.GOBO, data);
+		super(mons, MobType.GOBLIN_BASE, data);
 
-		upgrades = monster.getUpgrades(MobType.GOBO);
+		upgrades = null; //monster.getUpgrades(MobType.GOBLIN_BASE);
 
 		int supplies_inf = upgrades.get("supplies-inf");
 		this.supplies = (upgrades.get("supplies") + supplies_inf)*2;
@@ -92,7 +92,7 @@ public class Goblin extends AbstractMob {
 	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
 		super.onUse(click, clickedBlock, blockFace);
 
-		if (click.isRightClick() && isPlayerHoldingItem("gobo-box") && placeboxCD.isAvailable() && clickedBlock != null && clickedBlock.getType() != Material.ENDER_STONE) {
+		if (click.isRightClick() && isPlayerHoldingItem("gobo-box") && placeboxCD.isAvailable() && clickedBlock != null && clickedBlock.getType() != Material.END_STONE) {
 			Block block = clickedBlock.getRelative(blockFace);
 			double damage = 40 + 6 * shrapnel;
 			double power = 4.5 + 0.25 * dest;
@@ -123,7 +123,7 @@ public class Goblin extends AbstractMob {
 		tnt.setMetadata("thrower", new FixedMetadataValue(NightfallPlugin.getPlugin(), this));
 		tnt.setVelocity(direction);
 		tnt.setFuseTicks(Misc.randomInt(50,70));
-		world.playSound(loc, "entity.firework.launch", 2, 0.5f);
+		world.playSound(loc, "entity.firework_rocket.launch", 2, 0.5f);
 		monster.useHeldItem();
 		monster.useHeldItem();
 	}

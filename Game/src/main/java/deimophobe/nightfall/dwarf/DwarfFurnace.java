@@ -1,13 +1,12 @@
 package deimophobe.nightfall.dwarf;
 
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import org.bukkit.ChatColor;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 4/05/18.
@@ -16,8 +15,9 @@ import java.util.Queue;
 public class DwarfFurnace implements Updateable {
 	
 	private final Dwarf dwarf;
+	private final Cooldown messageCooldown = new SimpleCooldown(40);
 	private final Queue<CookingProcess> processes = new LinkedList<>();
-	private final Map<ConsumableType, Integer> readyItems = new HashMap<>();
+	private final Map<ConsumableType, Integer> readyItems = new EnumMap<>(ConsumableType.class);
 	
 	public DwarfFurnace(Dwarf dwarf) {
 		this.dwarf = dwarf;
@@ -25,6 +25,8 @@ public class DwarfFurnace implements Updateable {
 	
 	@Override
 	public void update() {
+		messageCooldown.update();
+		
 		CookingProcess currentProcess = processes.peek();
 		if (currentProcess == null) return;
 		
@@ -48,13 +50,16 @@ public class DwarfFurnace implements Updateable {
 		
 		if (gave) dwarf.playSound("entity.item.pickup", 1f, 0.8f, false);
 		
-		int itemsLeft = totalItemCount();
-		if (itemsLeft == 0) {
-			dwarf.sendTitleMessage(ChatColor.GREEN + "There are no items left in your furnace");
-		} else if (itemsLeft == 1) {
-			dwarf.sendTitleMessage(ChatColor.YELLOW + "There is " + ChatColor.AQUA + "1" + ChatColor.YELLOW + " item left in your furnace");
-		} else {
-			dwarf.sendTitleMessage(ChatColor.YELLOW + "There are " + ChatColor.AQUA + itemsLeft + ChatColor.YELLOW + " items left in your furnace");
+		if (gave || messageCooldown.isAvailable()) {
+			int itemsLeft = totalItemCount();
+			if (itemsLeft == 0) {
+				dwarf.sendTitleMessage(ChatColor.GREEN + "There are no items left in your furnace");
+			} else if (itemsLeft == 1) {
+				dwarf.sendTitleMessage(ChatColor.YELLOW + "There is " + ChatColor.AQUA + "1" + ChatColor.YELLOW + " item left in your furnace");
+			} else {
+				dwarf.sendTitleMessage(ChatColor.YELLOW + "There are " + ChatColor.AQUA + itemsLeft + ChatColor.YELLOW + " items left in your furnace");
+			}
+			messageCooldown.reset();
 		}
 	}
 	

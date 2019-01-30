@@ -70,6 +70,8 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 	protected int fireTicks = -1;
 	/** If set to true, damage will be 'infinite'. */
 	protected boolean instaKill;
+	/** If set to true, can break through some shields. */
+	protected boolean shieldbreaker;
 	
 	private final Projectile projectile;
 	
@@ -101,6 +103,7 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		this.softCancelled = false;
 		this.noDamageTicks = DEFAULT_NO_DMG_TICKS;
 		this.instaKill = false;
+		this.shieldbreaker = false;
 		
 		this.projectile = projectile;
 		
@@ -226,6 +229,12 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		return cancelled;
 	}
 	
+	public boolean isShieldbreaker() {
+		return shieldbreaker;
+	}
+	public void setShieldbreaker(boolean shieldbreaker) {
+		this.shieldbreaker = shieldbreaker;
+	}
 	
 	public void setKnockback(double x, double y, double z) {
 		setKnockback(new Vector(x,y,z));
@@ -446,11 +455,12 @@ public abstract class GameDamage<A extends GameEntity, R extends GameEntity> {
 		receiverEntity.setNoDamageTicks(noDamageTicks);
 		
 		// Apply knockback
+		// TODO warn sometimes when kb is too big (but not always)
 		if (knockback != null) {
 			double kbResist = receiverEntity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).getValue();
 			if (0 <= kbResist && kbResist < 1) {
 				knockback.multiply(1 - kbResist);
-				receiver.setVelocity(knockback);
+				receiver.forceSetVelocity(knockback);
 			}
 		}
 		

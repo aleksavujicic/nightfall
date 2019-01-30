@@ -20,8 +20,10 @@ import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.hero.Horn;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.entity.GamePlayer;
-import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.plague.TwinsPlague;
+import deimophobe.nightfall.skin.PlayerSkin;
+import deimophobe.nightfall.skin.Skin;
+import deimophobe.nightfall.skin.SkinManager;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -30,6 +32,7 @@ import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.graalvm.compiler.lir.LIRInstruction;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -66,6 +69,7 @@ public class MiscCommands extends BaseCommand {
 		Set<WhoEntry> entries = Game.getGame().getWhoEntries();
 		
 		BaseComponent message = new TextComponent();
+		message.setColor(net.md_5.bungee.api.ChatColor.YELLOW);
 		message.addExtra("Total online: " + entries.size() + "\n");
 		boolean firstType = true;
 		for (WhoEntry.Type type : WhoEntry.Type.values()) {
@@ -306,37 +310,15 @@ public class MiscCommands extends BaseCommand {
 		});
 	}
 	
-	
-	@CommandAlias("skin")
-	@CommandPermission("nightfall.command.skin")
-	private class SkinCommand extends BaseCommand {
-		
-		@Subcommand("set")
-		@CommandCompletion("@players @nothing @skins")
-		@CommandPermission("nightfall.command.skin.set")
-		@Description("Set a skin for a player.")
-		public void skin(CommandSender sender, PlayerIterable players, String name, Skin skin) throws InvalidCommandArgument {
-			SkinManager manager = SkinManager.getManager();
-			String colouredName = ChatColor.translateAlternateColorCodes('&', name);
-			if (colouredName.length() > 16) throw new InvalidCommandArgument("Name is has too many characters (must be at most 16).");
-			
-			PlayerSkin playerSkin = new PlayerSkin(colouredName, skin);
-			players.forEach(player -> {
-				manager.addSkinChange(player, playerSkin);
-				MessageUtil.sendMessage(sender, "Changed ", player, "'s skin to ", skin, ".");
-			});
-		}
-		
-		@Subcommand("remove")
-		@CommandCompletion("@players")
-		@CommandPermission("nightfall.command.skin.remove")
-		@Description("Remove a player's skin.")
-		public void skin(CommandSender sender, PlayerIterable players) {
-			SkinManager manager = SkinManager.getManager();
-			players.forEach(player -> {
-				manager.removeSkinChange(player);
-				MessageUtil.sendMessage(sender, "Removed ", player, "'s skin.");
-			});
-		}
+	@CommandAlias("die")
+	@CommandPermission("nightfall.command.die")
+	@Description("Kill players.")
+	public void die(CommandSender sender, @Default(".") GamePlayerIterable players) {
+		players.forEach(gp -> {
+			gp.instaKill(null, GameDamageType.COMMAND);
+			MessageUtil.sendMessage(sender, "Killed ", gp, ".");
+		});
 	}
+	
+	
 }

@@ -268,10 +268,12 @@ builder-one:
   category: consumable
   type: multi
   consumables:
-    torch: 32
-    mortar: 32
-    cobblestone: 96
-    glass: 16
+    torch: 16
+    mortar: 16
+    cobblestone: 128
+    stairs: 32
+    half-slab: 32
+    glass: 32
   item:
     name: "Builder's Pack I"
     base: menu.builder
@@ -286,10 +288,12 @@ builder-two:
   category: consumable
   type: multi
   consumables:
-    torch: 64
-    mortar: 64
-    cobblestone: 192
-    glass: 32
+    torch: 32
+    mortar: 32
+    cobblestone: 256
+    stairs: 64
+    half-slab: 64
+    glass: 64
   item:
     name: "Builder's Pack II"
     base: menu.builder2
@@ -300,14 +304,16 @@ builder-two:
           $itemlist"
 builder-three:
   index: 24
-  cost: 8
+  cost: 6
   category: consumable
   type: multi
   consumables:
-    torch: 128
-    mortar: 128
+    torch: 64
+    mortar: 64
     cobblestone: 384
-    glass: 64
+    stairs: 96
+    half-slab: 96
+    glass: 96
   item:
     name: "Builder's Pack III"
     base: menu.builder3

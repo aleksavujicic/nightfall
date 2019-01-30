@@ -6,11 +6,11 @@ package deimophobe.nightfall.common.items.modifiers;
 class PercentFormatter implements ValueFormatter {
 	private final boolean showPlusOnFinal;
 	
-	public PercentFormatter() {
-		this.showPlusOnFinal = true;
+	PercentFormatter() {
+		this.showPlusOnFinal = false;
 	}
 	
-	public PercentFormatter(boolean showPlusOnFinal) {
+	PercentFormatter(boolean showPlusOnFinal) {
 		this.showPlusOnFinal = showPlusOnFinal;
 	}
 	
@@ -18,7 +18,9 @@ class PercentFormatter implements ValueFormatter {
 	public String formatValue(int value, boolean reasonedValue) {
 		StringBuilder builder = new StringBuilder();
 		
-		if (showPlusOnFinal && value >= 0) builder.append('+');
+		if (value >= 0 && (reasonedValue || showPlusOnFinal)) {
+			builder.append('+');
+		}
 		builder.append(value);
 		builder.append('%');
 		

@@ -4,10 +4,7 @@ import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.SessionData;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 2/05/17.
@@ -28,6 +25,11 @@ public class CompositeMenu<T extends SessionData> implements SubMenu<T> {
 	
 	public void addSubMenu(SubMenu<T> subMenu) {
 		subMenus.add(subMenu);
+		updateSize();
+	}
+	
+	public void addSubMenus(SubMenu<T>... subMenus) {
+		this.subMenus.addAll(Arrays.asList(subMenus));
 		updateSize();
 	}
 	

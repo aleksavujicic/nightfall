@@ -6,9 +6,8 @@ import deimophobe.nightfall.cooldown.BooleanCooldown;
 import deimophobe.nightfall.game.entity.GamePlayerManager;
 import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.doom.DoomManager;
-import deimophobe.nightfall.monster.mob.MobType;
+import deimophobe.nightfall.monster.spawnmenu.MonsterMenu;
 import deimophobe.nightfall.monster.spawnmenu.SpawnEggMenuItem;
-import deimophobe.nightfall.monster.spawnmenu.SpawnMenu;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -46,13 +45,13 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		registry = new SpawnRegistry();
 		
 		aiManager = new AIManager();
-		doomManager = new DoomManager();
+		doomManager = new DoomManager(this);
+		
 	}
 	
 	public void init() {
 		loadSpawnEggs();
-		menu = new SpawnMenu();
-		
+		menu = new MonsterMenu();
 		aiManager.start();
 	}
 	
@@ -65,9 +64,8 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	
 	@Override
 	protected MonsterPlayer createGamePlayerFromPlayer(Player player) {
-		MonsterPlayer p = new MonsterPlayer(player);
-		p.forceGainExp(xpCount);
-		return p;
+		MonsterPlayer monster = new MonsterPlayer(player, true);
+		return monster;
 	}
 	
 	public Collection<MonsterPlayer> getAlivePlayerMobs() {
@@ -112,8 +110,8 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 			@Override public void run() { updateEggs(); }
 		}.runTaskTimer(NightfallPlugin.getPlugin(), 90*20, 60*20);
 		
-		getGamePlayers().forEach(mp -> mp.forceGainExp(plagueXP));
-		//getOfflinePlayers().forEach(mp -> mp.forceGainExp(6000));
+		getGamePlayers().forEach(mp -> mp.forceGiveExperience(plagueXP));
+		//getOfflinePlayers().forEach(mp -> mp.forceGiveExperience(6000));
 	}
 	
 	public SpawnRegistry getRegistry() {
@@ -124,29 +122,27 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		this.plagueXP = xp;
 	}
 	
+	int getCurrentXPCount() {
+		return xpCount;
+	}
+	
 	
 	// --------------------------------------------------------
 	//                   MENUS N STUFF
 	// --------------------------------------------------------
 	
-	private SpawnMenu menu;
+	//TODO MAKE FINAL
+	private MonsterMenu menu;
 	
 	public void showMobMenu(MonsterPlayer monster) {
 		menu.startSession(monster.getPlayer());
 	}
 	
-	public void addSpawnEgg(int i, String egg) {
-		menu.addSpawnEgg(i, egg);
-	}
-	
 	public void addSpawnEgg(int i, SpawnEggMenuItem egg) {
 		String name = egg.getName();
 		spawnEggs.put(name, egg);
-		menu.addSpawnEgg(i, name);
-	}
-	
-	public Set<String> getUpgradeSet(MobType type) {
-		return menu.getUpgradeSet(type);
+		throw new UnsupportedOperationException("Deimo fix this");
+//		menu.addSpawnEgg(i, name);
 	}
 	
 	// --------------------------------------------------------

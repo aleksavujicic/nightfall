@@ -7,4 +7,8 @@ public interface Displayable {
 	Displayable DISPLAY_NOTHING = () -> 0;
 	
 	float getCooldown();
+	
+	default Displayable reverse() {
+		return  () -> 1 - getCooldown();
+	}
 }

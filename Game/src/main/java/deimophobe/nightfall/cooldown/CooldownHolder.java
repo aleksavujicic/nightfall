@@ -37,12 +37,15 @@ public class CooldownHolder implements Updateable {
 		expirables.removeIf(expirable -> {
 			if (expirable.hasExpired()) {
 				expirable.onExpiry();
+				onExpireableRemove(expirable);
 				return true;
 			} else {
 				return false;
 			}
 		});
 	}
+	
+	private void onExpireableRemove(Expirable expirable) {}
 	
 	public void addUpdateable(Updateable updateable) {
 		checkNotNull(updateable, "Updateable must not be null");
@@ -55,5 +58,18 @@ public class CooldownHolder implements Updateable {
 				updateables.add(updateable);
 			}
 		}
+	}
+	
+	public void removeUpdateable(Updateable updateable) {
+		queuedUpdateables.remove(updateable);
+		updateables.remove(updateable);
+		//noinspection SuspiciousMethodCalls
+		expirables.remove(updateable);
+	}
+	
+	public void removeAll() {
+		updateables.clear();
+		expirables.forEach(Expirable::onExpiry);
+		expirables.clear();
 	}
 }

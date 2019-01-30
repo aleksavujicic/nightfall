@@ -16,17 +16,19 @@ armour:
   base: temporary
 
 items:
-  jump:
+  propulsion:
     name: Propulsion
-    base: temporary
+    base: ticker.propulsion
     lore:
       description:
        - "Click to propel yourself upwards."
       flavour:
        - "Tick. Tock."
-  detonate:
+  overtick:
     name: Overtick
-    base: temporary
+    base: ticker.overtick
+    variants:
+      explode: ticker.explode
     lore:
       description:
        - "Click to make your timer decrease rapidly,\n

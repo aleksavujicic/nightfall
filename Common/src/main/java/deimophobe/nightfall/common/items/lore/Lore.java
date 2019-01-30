@@ -55,10 +55,10 @@ public class Lore implements Cloneable {
 	
 	
 	public String createName() {
-		return ChatColor.translateAlternateColorCodes('&',loreTemplate.getName(name));
+		return ChatColor.translateAlternateColorCodes('&',loreTemplate.formatName(name));
 	}
 	
-	public List<String> createLore(SortedMap<ItemModifierType, Map<String, Integer>> modifiers, List<String> errors) {
+	public List<String> createLore(Map<ItemModifierType, Map<String, Integer>> modifiers, List<String> errors) {
 		List<String> lore = new ArrayList<>();
 		
 		// Add errors

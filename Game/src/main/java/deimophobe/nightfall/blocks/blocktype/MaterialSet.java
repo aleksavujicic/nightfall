@@ -8,15 +8,21 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import static deimophobe.nightfall.util.NFConditions.checkMaterialIsBlock;
+
 /**
  * Created by Deimophobe on 17/06/17.
  */
-public class MaterialSet implements CustomBlock {
+public class MaterialSet implements BlockInteracter {
 	
 	private final Set<Material> materialSet;
 	private final Material first;
 	
 	public MaterialSet(Material... materials) {
+		for (Material material : materials) {
+			checkMaterialIsBlock(material);
+		}
+		
 		first = materials[0];
 		
 		this.materialSet = new HashSet<>();
@@ -31,5 +37,9 @@ public class MaterialSet implements CustomBlock {
 	@Override
 	public void setAtBlock(@NotNull Block block) {
 		block.setType(first);
+	}
+	
+	public Set<Material> getMaterialSet() {
+		return materialSet;
 	}
 }

@@ -2,6 +2,7 @@ package deimophobe.nightfall.command;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandIssuer;
+import co.aikar.commands.InvalidCommandArgument;
 import co.aikar.commands.annotation.*;
 import deimophobe.nightfall.command.iterable.DwarfDataCreator;
 import deimophobe.nightfall.command.iterable.DwarfIterable;
@@ -12,7 +13,7 @@ import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.dwarf.hero.HeroType;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.entity.ShieldSource;
@@ -117,6 +118,20 @@ public class DwarfCommand extends BaseCommand {
 		});
 	}
 	
+	@Subcommand("ai-immune")
+	@CommandCompletion("@dwarves @boolean")
+	@CommandPermission("nightfall.command.dwarf.ai-immune")
+	@Description("Set a dwarf's ai immunity status.")
+	public void aiImmunity(CommandSender sender, DwarfIterable dwarves, @Default("true") boolean immune) {
+		dwarves.forEach(dwarf -> {
+			dwarf.setAiImmune(immune);
+			MessageUtil.sendMessage(sender, "Set ", dwarf, " to ",
+					(immune ? ChatColor.GREEN + "be" : ChatColor.RED + "not be"),
+					" immune to AIs.");
+		});
+	}
+	
+	
 	@Subcommand("plague")
 	@Conditions("pre-plague")
 	@CommandCompletion("@dwarves @plague-status")
@@ -167,14 +182,14 @@ public class DwarfCommand extends BaseCommand {
 		});
 	}
 	
-	@Subcommand("give")
-	@CommandCompletion("@dwarves @kitgives")
-	@CommandPermission("nightfall.command.dwarf.givekittype")
-	@Description("Give a dwarf kit items.")
-	public void giveKitType(CommandSender sender, DwarfIterable dwarves, KitGiveType giveType) {
+	@Subcommand("pickup")
+	@CommandCompletion("@dwarves @pickups")
+	@CommandPermission("nightfall.command.dwarf.pickup")
+	@Description("Force a dwarf to pickup items of certain type.")
+	public void givePickup(CommandSender sender, DwarfIterable dwarves, PickupType pickupType) {
 		dwarves.forEach(dwarf -> {
-			dwarf.giveKitItems(giveType);
-			MessageUtil.sendMessage(sender, "Gave ", dwarf, " all ", giveType, " kit items.");
+			dwarf.giveKitItems(pickupType);
+			MessageUtil.sendMessage(sender, "Gave ", dwarf, " all ", pickupType, " kit items.");
 		});
 	}
 	
@@ -190,13 +205,13 @@ public class DwarfCommand extends BaseCommand {
 	}
 	
 	@Subcommand("shield")
-	@CommandCompletion("@dwarves")
+	@CommandCompletion("@dwarves @nothing @shieldsources")
 	@CommandPermission("nightfall.command.dwarf.shield")
 	@Description("Get the amount of shields a dwarf has.")
-	public void shield(CommandSender sender, DwarfIterable dwarves, int amount) {
+	public void shield(CommandSender sender, DwarfIterable dwarves, int amount, @Default("command") ShieldSource source) {
 		dwarves.forEach(dwarf -> {
-			dwarf.addShields(ShieldSource.COMMAND, amount);
-			MessageUtil.sendMessage(sender, "Gave ", dwarf, " an extra ", amount, " shield(s).");
+			dwarf.addShields(source, amount);
+			MessageUtil.sendMessage(sender, "Gave ", dwarf, " an extra ", amount, " shield(s) from source ", source, ".");
 		});
 	}
 	
@@ -208,6 +223,18 @@ public class DwarfCommand extends BaseCommand {
 		dwarves.forEach(dwarf -> {
 			dwarf.setBloodColour(bloodColour);
 			MessageUtil.sendMessage(sender, "Set ", dwarf, "'s blood colour to ", bloodColour, ".");
+		});
+	}
+	
+	@Subcommand("blind")
+	@CommandCompletion("@dwarves")
+	@CommandPermission("nightfall.command.dwarf.blind")
+	@Description("Give blindness to a dwarf")
+	public void blind(CommandSender sender, DwarfIterable dwarves, int duration) throws InvalidCommandArgument {
+		if (duration < 0) throw new InvalidCommandArgument("Duration must be positive.");
+		dwarves.forEach(dwarf -> {
+			dwarf.giveBlindness(duration);
+			MessageUtil.sendMessage(sender, "Gave ", dwarf, " blindness for ", duration, " ticks.");
 		});
 	}
 	

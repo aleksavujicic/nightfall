@@ -6,6 +6,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.type.Bed;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
@@ -30,6 +31,7 @@ public class Misc {
 	// ------ CONSTANTS ------
 	
 	public static final Runnable DO_NOTHING = () -> {};
+	public static final Particle.DustOptions RED = new Particle.DustOptions(Color.RED, 1);
 	
 	
 	// ------ RANDOM ------
@@ -56,6 +58,14 @@ public class Misc {
 	
 	public static int randomInt(int min, int max) {
 		return min + (int) (Math.random() * (max + 1 - min));
+	}
+	
+	public static int randomInt(int min, int max, Function<Double, Double> cdf) {
+		double rand = cdf.apply(Math.random());
+		checkArgument(0 <= rand && rand <= 1, "Given cdf gave an illegal random result (got '%s')", rand);
+		if (rand == 1) return max; // Allow 1 from cdf, but force it to return max (otherwise it would give max + 1)
+		
+		return min + (int) (rand * (max + 1 - min));
 	}
 	
 	public static float randomFloat(float min, float max) {
@@ -138,32 +148,6 @@ public class Misc {
 		return vector;
 	}
 	
-	public static void spawnColouredParticles(Location center, int count, double dx, double dy, double dz, Color colour) {
-		spawnColouredParticles(center, count, dx, dy, dz, () -> colour);
-	}
-	
-	public static void spawnColouredParticles(Location center, int count, double dx, double dy, double dz, Supplier<Color> colourSupplier) {
-		for (int i=0; i<count; i++) {
-			Location location = randomLocation(center, dx, dy, dz);
-			Color colour = colourSupplier.get();
-			// +1 is needed, because if red is set to 0, then minecraft draws it with full red
-			double r = (colour.getRed() + 1)/256d;
-			double g = (colour.getGreen() + 1)/256d;
-			double b = (colour.getBlue() + 1)/256d;
-			
-			center.getWorld().spawnParticle(Particle.REDSTONE, location, 0, r, g, b, 1);
-		}
-	}
-	
-	public static void spawnColouredParticles(Location center, int count, double dx, double dy, double dz, double red, double green, double blue) {
-		if (red < 0.001) red = 0.001;
-		
-		for (int i = 0; i < count; i++) {
-			Location location = randomLocation(center, dx, dy, dz);
-			center.getWorld().spawnParticle(Particle.REDSTONE, location, 0, red, green, blue, 1);
-		}
-	}
-	
 	private static final double DEFAULT_PARTICLE_RANGE = 50;
 	public static void spawnRangedParticles(Location location, Particle particle, int count, double dx, double dy, double dz, double extra, double range) {
 		
@@ -178,70 +162,6 @@ public class Misc {
 	}
 	public static void spawnRangedParticles(Location location, Particle particle, int count, double dx, double dy, double dz) {
 		spawnRangedParticles(location, particle, count, dx, dy, dz, 0, DEFAULT_PARTICLE_RANGE);
-	}
-	
-	public static BlockFace getBlockFaceProjectileHit(Projectile proj, Block hitBlock) {
-		Vector offset = proj.getLocation().subtract(hitBlock.getLocation().add(0.5,0.5,0.5)).toVector();
-		Set<BlockFace> possibleFaces = new HashSet<>();
-		possibleFaces.add(BlockFace.UP);
-		possibleFaces.add(BlockFace.DOWN);
-		possibleFaces.add(BlockFace.NORTH);
-		possibleFaces.add(BlockFace.SOUTH);
-		possibleFaces.add(BlockFace.EAST);
-		possibleFaces.add(BlockFace.WEST);
-		
-		if (offset.getX() > offset.getZ()) {
-			possibleFaces.remove(BlockFace.WEST);
-			possibleFaces.remove(BlockFace.SOUTH);
-		} else {
-			possibleFaces.remove(BlockFace.EAST);
-			possibleFaces.remove(BlockFace.NORTH);
-		}
-		
-		if (offset.getX() > -offset.getZ()) {
-			possibleFaces.remove(BlockFace.WEST);
-			possibleFaces.remove(BlockFace.NORTH);
-		} else {
-			possibleFaces.remove(BlockFace.EAST);
-			possibleFaces.remove(BlockFace.SOUTH);
-		}
-		
-		if (offset.getY() > offset.getZ()) {
-			possibleFaces.remove(BlockFace.DOWN);
-			possibleFaces.remove(BlockFace.SOUTH);
-		} else {
-			possibleFaces.remove(BlockFace.UP);
-			possibleFaces.remove(BlockFace.NORTH);
-		}
-		
-		if (offset.getY() > -offset.getZ()) {
-			possibleFaces.remove(BlockFace.DOWN);
-			possibleFaces.remove(BlockFace.NORTH);
-		} else {
-			possibleFaces.remove(BlockFace.UP);
-			possibleFaces.remove(BlockFace.SOUTH);
-		}
-		
-		if (offset.getY() > offset.getX()) {
-			possibleFaces.remove(BlockFace.DOWN);
-			possibleFaces.remove(BlockFace.EAST);
-		} else {
-			possibleFaces.remove(BlockFace.UP);
-			possibleFaces.remove(BlockFace.WEST);
-		}
-		
-		if (offset.getY() > -offset.getX()) {
-			possibleFaces.remove(BlockFace.DOWN);
-			possibleFaces.remove(BlockFace.WEST);
-		} else {
-			possibleFaces.remove(BlockFace.UP);
-			possibleFaces.remove(BlockFace.EAST);
-		}
-		
-		if (possibleFaces.size() != 1) {
-			Bukkit.getLogger().warning("More than one block face candidate?! (size: " + possibleFaces.size() +", " + possibleFaces.toString() + ")");
-		}
-		return (BlockFace) possibleFaces.toArray()[0];
 	}
 	
 	
@@ -418,5 +338,9 @@ public class Misc {
 		value = Math.min(value, upperBound);
 		value = Math.max(value, lowerBound);
 		return value;
+	}
+	
+	public static String byteToBinaryString(byte b) {
+		return String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0');
 	}
 }

@@ -6,7 +6,7 @@ import deimophobe.nightfall.common.loadout.LoadoutConstructable;
 import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.Kit;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import org.bukkit.entity.Player;
 
@@ -16,8 +16,8 @@ import java.util.*;
  * Created by Deimophobe on 15/01/17.
  */
 public class DwarfData implements LoadoutConstructable {
-	private final SortedSet<KitPieceType> pieces;
-	private final SortedMap<ConsumableType, Integer> consumables;
+	private final Set<KitPieceType> pieces;
+	private final Map<ConsumableType, Integer> consumables;
 	
 	
 	public DwarfData() {
@@ -25,8 +25,14 @@ public class DwarfData implements LoadoutConstructable {
 	}
 	
 	public DwarfData(Set<KitPieceType> pieces, Map<ConsumableType, Integer> consumables) {
-		this.pieces = (pieces != null ? new TreeSet<>(pieces) : new TreeSet<>());
-		this.consumables = (consumables != null ? new TreeMap<>(consumables) : new TreeMap<>());
+		this.pieces = (pieces != null
+				? EnumSet.copyOf(pieces)
+				: EnumSet.noneOf(KitPieceType.class)
+		);
+		this.consumables = (consumables != null
+				? new EnumMap<>(consumables)
+				: new EnumMap<>(ConsumableType.class)
+		);
 		
 		addDefaults();
 		duplicateCheck();
@@ -70,7 +76,7 @@ public class DwarfData implements LoadoutConstructable {
 	
 	public Kit createKitAndApplyToDwarf(Dwarf dwarf) {
 		Kit kit = new Kit(dwarf, pieces);
-		kit.giveItems(KitGiveType.START);
+		kit.giveItems(PickupType.START);
 		
 		// Add consumables
 		for (ConsumableType type : consumables.keySet()) {

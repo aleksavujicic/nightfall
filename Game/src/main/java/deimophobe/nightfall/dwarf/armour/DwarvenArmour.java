@@ -20,9 +20,14 @@ import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.util.ArmourSlot;
+import deimophobe.nightfall.util.Util;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -42,9 +47,7 @@ public class DwarvenArmour implements Armour {
 	private boolean invisible = false;
 	
 	private ArmourLevel currentLevel = ArmourLevel.SHINY;
-	private Map<ArmourLevel, ArmourSet> setMap = new HashMap<>();
-	
-	
+	private Map<ArmourLevel, ArmourSet> setMap = new EnumMap(ArmourLevel.class);
 	
 	
 	public DwarvenArmour(Dwarf dwarf) {
@@ -62,7 +65,8 @@ public class DwarvenArmour implements Armour {
 	public void putOn() {
 		if (!armoured) {
 			armoured = true;
-			setMap.get(currentLevel).equip(dwarf);
+			updateArmour(true);
+			getCurrentArmourSet().equip(dwarf);
 			GameEffect.DWARF_ARMOURED.playEffect(dwarf);
 			dwarf.onArmourEquip();
 		} else {
@@ -156,7 +160,7 @@ public class DwarvenArmour implements Armour {
 		double x = armourFraction();
 		int mobs = MonsterManager.getManager().getNumberOfPlayers();
 		
-		double mult = 0.2 - 0.1*x;
+		double mult = 0.1 + 0.1*(1-x);
 		mult *= 1.0 + 1.0/(mobs + 1.0);
 		return mult;
 	}
@@ -173,7 +177,7 @@ public class DwarvenArmour implements Armour {
 	public int getManaRegenRate() {
 		int mana = 0;
 		if (isArmoured()) {
-			mana = (int) Math.floor(Math.atan(1.5 * armourFraction()) * 10 / Math.atan(1.5)) + 1;
+			mana = (int) (10 * armourFraction() + 1);
 			mana = Math.min(10, mana);
 		}
 		
@@ -185,6 +189,19 @@ public class DwarvenArmour implements Armour {
 		return mana;
 	}
 	
+	@Override
+	public void dropFakeArmour() {
+		if (!isArmoured()) return;
+		Location location = dwarf.getLocation();
+		for (CustomItem customItem : getCurrentArmourSet().values()) {
+			ItemStack itemStack = customItem.createItemStack();
+			Util.spawnDecorativeItem(location, itemStack, 3*60*20);
+		}
+	}
+	
+	private ArmourSet getCurrentArmourSet() {
+		return setMap.get(currentLevel);
+	}
 	
 	public double armourFraction() { return armourValue/DEFAULT_MAX; }
 	private boolean isAtMax() { return armourFraction() >= 1; }
@@ -192,7 +209,7 @@ public class DwarvenArmour implements Armour {
 	private void updateArmour(boolean force) {
 		if (isArmoured() && (force ||!currentLevel.isValid(this))) {
 			currentLevel = ArmourLevel.getLevel(this);
-			setMap.get(currentLevel).equip(dwarf);
+			getCurrentArmourSet().equip(dwarf);
 		}
 		
 		dwarf.getPlayer().setFoodLevel((int) Math.ceil(20f * armourFraction()));
@@ -213,7 +230,7 @@ public class DwarvenArmour implements Armour {
 		}
 	}
 	
-	private static final Map<EnumWrappers.ItemSlot, Function<PlayerInventory, ItemStack>> slotToItemGetter = new HashMap<>();
+	private static final Map<EnumWrappers.ItemSlot, Function<PlayerInventory, ItemStack>> slotToItemGetter = new EnumMap<>(EnumWrappers.ItemSlot.class);
 	static {
 		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
 		protocolManager.addPacketListener(new PacketAdapter(NightfallPlugin.getPlugin(), PacketType.Play.Server.ENTITY_EQUIPMENT) {
@@ -316,6 +333,10 @@ public class DwarvenArmour implements Armour {
 			inv.setChestplate(chest.createItemStack());
 			inv.setLeggings(legs.createItemStack());
 			inv.setBoots(boots.createItemStack());
+		}
+		
+		private CustomItem[] values() {
+			return new CustomItem[]{chest, legs, boots};
 		}
 	}
 }

@@ -1,7 +1,7 @@
 package deimophobe.nightfall.blocks.timedblock;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -13,9 +13,9 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Arrow;
 import org.bukkit.material.Dispenser;
-import org.bukkit.material.MaterialData;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,6 +23,8 @@ import org.jetbrains.annotations.NotNull;
  * Created by Deimophobe on 26/04/18.
  */
 public class TurretBlock extends DataTimedBlock {
+	private final static BlockData TURRET = Material.DISPENSER.createBlockData();
+	private final static BlockData ANVIL = Material.ANVIL.createBlockData();
 	
 	private final Dwarf placer;
 	private Location launchLocation;
@@ -32,7 +34,7 @@ public class TurretBlock extends DataTimedBlock {
 	private final Cooldown faceRotater = new SimpleCooldown(10);
 	
 	public TurretBlock(int arrows, @NotNull Block block, @NotNull Dwarf placer, @NotNull BlockFace initialFace, double damage) {
-		super(arrows*20, block, placer, Material.DISPENSER);
+		super(arrows*20, block, placer, TURRET);
 		this.placer = placer;
 		this.initialFace = initialFace;
 		this.damage = damage;
@@ -48,7 +50,7 @@ public class TurretBlock extends DataTimedBlock {
 	
 	@Override
 	public boolean isPlaceable() {
-		return super.isPlaceable() && !BlockType.LIQUID.matchesBlock(block);
+		return super.isPlaceable() && !NFBlocks.LIQUID.matchesBlock(block);
 	}
 	
 	@Override
@@ -63,7 +65,7 @@ public class TurretBlock extends DataTimedBlock {
 		super.placeBlock();
 		Location center = block.getLocation().add(0.5, 0.5, 0.5);
 		World world = center.getWorld();
-		world.spawnParticle(Particle.BLOCK_CRACK, center, 20, 0.3, 0.4, 0.4, 0, new MaterialData(Material.ANVIL));
+		world.spawnParticle(Particle.BLOCK_CRACK, center, 20, 0.3, 0.4, 0.4, 0, ANVIL);
 		world.playSound(center, Sound.BLOCK_METAL_PLACE, 1f, 1f);
 		world.playSound(center, Sound.BLOCK_ANVIL_PLACE, 0.8f, 0.8f);
 	}
@@ -75,7 +77,7 @@ public class TurretBlock extends DataTimedBlock {
 		
 		Location center = block.getLocation().add(0.5, 0.5, 0.5);
 		World world = center.getWorld();
-		world.spawnParticle(Particle.BLOCK_CRACK, center, 15, 0.4, 0.4, 0.4, 0, block.getState().getData());
+		world.spawnParticle(Particle.BLOCK_CRACK, center, 15, 0.4, 0.4, 0.4, 0, block.getBlockData());
 		world.playSound(center, Sound.BLOCK_STONE_PLACE, 1f, 1f);
 	}
 	
@@ -90,7 +92,7 @@ public class TurretBlock extends DataTimedBlock {
 		
 		Location center = block.getLocation().add(0.5, 0.5, 0.5);
 		World world = center.getWorld();
-		world.spawnParticle(Particle.BLOCK_CRACK, center, 5, 0.4, 0.4, 0.4, 0, block.getState().getData());
+		world.spawnParticle(Particle.BLOCK_CRACK, center, 5, 0.4, 0.4, 0.4, 0, block.getBlockData());
 		world.playSound(center, Sound.BLOCK_STONE_PLACE, 1f, 1f);
 	}
 	

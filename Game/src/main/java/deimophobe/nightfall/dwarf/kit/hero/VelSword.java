@@ -4,7 +4,7 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.melee.AbstractRuneblade;
 
 /**
@@ -17,5 +17,5 @@ public class VelSword extends AbstractRuneblade {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "velsword");
 	@Override public CustomItem getItem() {return ITEM;}
-	@Override public KitGiveType getGiveType() { return KitGiveType.START;}
+	@Override public PickupType getPickupType() { return PickupType.START;}
 }

@@ -2,15 +2,8 @@ package deimophobe.nightfall.map;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.cooldown.Interactable;
-import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;

@@ -1,12 +1,13 @@
 package deimophobe.nightfall.dwarf.kit.accessory;
 
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.DwarfShovel;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -23,7 +24,7 @@ public class Tombmaker extends DwarfShovel {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("accessory", "tombmaker");
 	@Override public CustomItem getItem() { return ITEM; }
-	@Override public KitGiveType getGiveType() { return KitGiveType.SHOVEL; }
+	@Override public PickupType getPickupType() { return PickupType.SHOVEL; }
 	
 	
 	@Override
@@ -42,7 +43,7 @@ public class Tombmaker extends DwarfShovel {
 	
 	@Override
 	protected int getSandGiveAmount() {
-		return 2;
+		return Misc.randomInt(2, 6);
 	}
 	
 	@Override

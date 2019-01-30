@@ -97,7 +97,9 @@ darkvision:
     lore:
       description:
        - "Press and hold shift to give\n
-          yourself a Night Vision effect."
+          yourself a Night Vision effect.\n
+          Also gives increased resistance to\n
+          blindness effects in the dark."
 avenge:
   index: 11
   category: accessory
@@ -153,9 +155,10 @@ aegis:
     base: aegis
     lore:
       description:
-       - "Gives you a shield every 10 seconds.\n
-          Taking damage will reset the timer.\n
-          Maximum of 3 shields."
+       - "Right click to give yourself 5 shields.\n
+          Can be used once every 180 seconds."
+    modifiers:
+      resistance: 20
 
 # ------ ACCESSORIES ------
 tombmaker:

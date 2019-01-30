@@ -22,10 +22,11 @@ class RebirthItem implements MenuItem<MonsterPlayer> {
 	@Override
 	public ItemStack getDisplayItem(MenuSession<MonsterPlayer> session) {
 		MonsterPlayer monster = session.getData();
-		if (monster.canRebirth())
+		if (monster.canRebirth()) {
 			return item;
-		else
+		} else {
 			return null;
+		}
 	}
 	
 	@Override
@@ -33,7 +34,7 @@ class RebirthItem implements MenuItem<MonsterPlayer> {
 		MonsterPlayer monster = session.getData();
 		if (!DoomManager.getManager().isDoom()) {
 			if (monster.canRebirth()) {
-				monster.spawnMob(MobType.ZOMBIE, SpawnMethod.REBIRTH);
+				monster.spawnPrimaryMob(SpawnMethod.REBIRTH);
 				session.closeSession();
 			} else {
 				//monster.sendMessage(ChatColor.RED + "You can no longer rebirth!");

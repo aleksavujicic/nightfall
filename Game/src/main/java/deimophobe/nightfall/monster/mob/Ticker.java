@@ -3,6 +3,7 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.util.NMSUtil;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -18,6 +19,7 @@ import me.libraryaddict.disguise.disguisetypes.watchers.PlayerWatcher;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -34,7 +36,7 @@ class Ticker extends AbstractMob {
 	private int deathTimer = maxTime;
 	
 	@Update
-	private final ComplexCooldown jumper = new ComplexCooldown(10, () -> monster.leap(0, 0.8));
+	private final ComplexCooldown jumper = new ComplexCooldown(10, this::propulsion);
 	
 	private boolean fastExplode = false;
 	
@@ -46,23 +48,22 @@ class Ticker extends AbstractMob {
 		PlayerDisguise disguise = new PlayerDisguise(monster.getPlayer());
 		disguise.setDisplayedInTab(false);
 		
-		PlayerWatcher watcher = disguise.getWatcher();
-		watcher.setArrowsSticking(0);
-		watcher.setInvisible(true);
-		watcher.setSprinting(false);
-		watcher.setItemInMainHand(new ItemStack(Material.AIR));
+//		PlayerWatcher watcher = disguise.getWatcher();
+//		watcher.setArrowsSticking(0);
+//		watcher.setInvisible(true);
+//		watcher.setSprinting(false);
+//		watcher.setItemInMainHand(new ItemStack(Material.AIR));
+//		DisguiseAPI.disguiseEntity(monster.getPlayer(), disguise);
 		
-		DisguiseAPI.disguiseEntity(monster.getPlayer(), disguise);
 		monster.givePermanentPotionEffect(PotionEffectType.SLOW_DIGGING, 10);
-		
-		//NMSUtil.hideArrowsInPlayer(monster.getPlayer());
+		NMSUtil.hideArrowsInPlayer(monster.getPlayer());
 	}
 	
 	@Override
 	protected void setupItems() {
 		super.setupItems();
-		giveItem("jump");
-		giveItem("detonate");
+		giveItem("propulsion");
+		giveItem("overtick");
 	}
 	
 	@Override
@@ -86,12 +87,14 @@ class Ticker extends AbstractMob {
 		super.onUse(click, clickedBlock, blockFace);
 		if (fastExplode) return;
 		
-		if (isPlayerHoldingItem("jump")) {
+		if (isPlayerHoldingItem("propulsion")) {
 			jumper.tryUse();
-		} else if (isPlayerHoldingItem("detonate")) {
+		} else if (isPlayerHoldingItem("overtick")) {
 			// Prevent detonating in the first 10 seconds
 			if (deathTimer < maxTime - 10) {
 				explodeQuicker();
+				ItemStack explode = getItem("overtick").createItemStack("explode");
+				monster.getPlayer().getInventory().setItemInMainHand(explode);
 			}
 		}
 	}
@@ -119,9 +122,14 @@ class Ticker extends AbstractMob {
 		return (float)deathTimer/maxTime;
 	}
 	
+	private void propulsion() {
+		monster.leap(0, 0.8);
+		// Some sound maybe?
+	}
+	
 	private void tick() {
 		// Sound
-		monster.playSound("block.note.hat", 1f, 1f, true);
+		monster.playSound("block.note_block.hat", 1f, 1f, true);
 		
 		// Title
 		ChatColor colour;
@@ -139,20 +147,17 @@ class Ticker extends AbstractMob {
 	private static final double r1 = 51, g1 = 248, b1 = 14;
 	private static final double r2 = 255, g2 = 14, b2 = 14;
 	private void spawnParticle() {
-		float frac = 1 - (float)deathTimer/maxTime;
+		double frac = 1 - (double)deathTimer/maxTime;
+		double frac2 = frac*frac;
 		
-		double red = (r2 - r1)*frac + r1;
-		double green = (g2 - g1)*frac + g1;
-		double blue = (b2 - b1)*frac + b1;
-		red *= 1d/256;
-		green *= 1d/256;
-		blue *= 1d/256;
+		int red = (int) ((r2 - r1)*frac2 + r1);
+		int green = (int) ((g2 - g1)*frac2 + g1);
+		int blue = (int) ((b2 - b1)*frac + b1);
 		
-		red = 1 - Math.pow(1-red,2);
-		green = 1 - Math.pow(1-green,2);
+		Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(red, green, blue), 1);
 		
 		Location loc = monster.getEyeLocation();
-		Misc.spawnColouredParticles(loc, 10, 0.1, 0.1, 0.1, red, green, blue);
+		loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 10, 0.05, 0.05, 0.05, dustOptions);
 	}
 	
 	private void explodeQuicker() {
@@ -193,10 +198,8 @@ class Ticker extends AbstractMob {
 				damage.setArmourShred(armourShred);
 				damage.setManaDrain(drain);
 				damage.setKnockback(offset);
-				boolean success = damage.fire(true);
-				if (success) {
-					dwarf.removeAllShields();
-				}
+				damage.setShieldbreaker(true);
+				damage.fire(true);
 			}
 		}
 		BlockConverter.convert(BlockConverter.Type.EXPLOSION, monster.getLocation(), 15);

@@ -9,7 +9,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Location;
@@ -36,7 +36,7 @@ public class Caduceus extends AbstractItem implements CooldownPiece {
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "caduceus");
 	@Override public CustomItem getItem() {return ITEM;}
 	
-	@Override public KitGiveType getGiveType() {return KitGiveType.START;}
+	@Override public PickupType getPickupType() {return PickupType.START;}
 	
 	@Override
 	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
@@ -67,7 +67,7 @@ public class Caduceus extends AbstractItem implements CooldownPiece {
 		
 		dwarf.teleportTo(targetLoc);
 		dwarf.setVelocity(target.getVelocity());
-		dwarf.playSound("entity.endermen.teleport", 1f, 1f, true);
+		dwarf.playSound("entity.enderman.teleport", 1f, 1f, true);
 		
 		returnCD.tryUse();
 		
@@ -84,7 +84,7 @@ public class Caduceus extends AbstractItem implements CooldownPiece {
 		dwarf.setVelocity(new Vector(0,0,0));
 		target.setVelocity(new Vector(0,0,0));
 		
-		dwarf.playSound("entity.endermen.teleport", 1f, 1f, true);
+		dwarf.playSound("entity.enderman.teleport", 1f, 1f, true);
 		
 		returnSpot = null;
 		target = null;

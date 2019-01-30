@@ -5,6 +5,7 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.kit.ranged.AbstractBow;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -13,6 +14,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * Created by Deimophobe on 16/01/17.
@@ -20,7 +22,7 @@ import java.util.*;
 public class Kit {
 	private final Dwarf dwarf;
 	
-	private final SortedMap<KitPieceType, KitPiece> kitPieces = new TreeMap<>();
+	private final Map<KitPieceType, KitPiece> kitPieces = new EnumMap<>(KitPieceType.class);
 	private final Set<CooldownPiece> cooldownPieces = new HashSet<>();
 	private final Set<ItemPiece> itemPieces = new HashSet<>();
 	private final Set<BowPiece> bowPieces = new HashSet<>();
@@ -35,6 +37,10 @@ public class Kit {
 	
 	public Collection<KitPieceType> getKitPieceTypes() {
 		return kitPieces.keySet();
+	}
+	
+	public Collection<KitPiece> getKitPieces() {
+		return kitPieces.values();
 	}
 	
 	public boolean containsKitPiece(KitPieceType type) {
@@ -72,26 +78,35 @@ public class Kit {
 		if (kitPiece instanceof AbstractBow) {
 			bowPieces.add((AbstractBow) kitPiece);
 		}
+		
+		Armour armour = dwarf.getArmour();
+		if (armour.isArmoured() && kitPiece instanceof ArmourPiece) {
+			((ArmourPiece) kitPiece).onArmourEquip(armour);
+		}
 	}
 	
-	public void giveItems(KitGiveType giveType) {
+	public boolean giveItems(PickupType giveType) {
+		boolean gaveItems = false;
 		for (KitPiece piece : kitPieces.values()) {
 			if (piece instanceof ItemPiece) {
 				ItemPiece itemPiece = (ItemPiece) piece;
-				if (itemPiece.getGiveType() == giveType) {
-					giveItem(itemPiece);
+				if (itemPiece.getPickupType() == giveType) {
+					gaveItems |= giveItem(itemPiece);
 				}
 			}
 		}
 		
 		updateHotbarSlot(dwarf.getHeldItem());
+		return gaveItems;
 	}
 	
-	private void giveItem(ItemPiece itemPiece) {
+	private boolean giveItem(ItemPiece itemPiece) {
 		CustomItem item = itemPiece.getItem();
 		if (!dwarf.hasItem(item)) {
 			dwarf.giveItem(item);
+			return true;
 		}
+		return false;
 	}
 	
 	
@@ -139,19 +154,18 @@ public class Kit {
 		}
 	}
 	
-	public Projectile onBowFire(Arrow arrow, float force) {
-		ItemStack held = dwarf.getHeldItem();
-		for (BowPiece bow : bowPieces) {
-			if (bow.doesItemMatch(held)) {
-				return bow.onBowFire(arrow, force);
+	public Projectile onBowFire(ItemStack bow, Arrow arrow, float force) {
+		for (BowPiece bowPiece : bowPieces) {
+			if (bowPiece.doesItemMatch(bow)) {
+				return bowPiece.onBowFire(arrow, force);
 			}
 		}
 		return arrow;
 	}
-	public void onProjectileLand(Projectile proj, Block hitBlock) {
+	public void onProjectileLand(Projectile proj, Block hitBlock, BlockFace hitFace) {
 		for (BowPiece bow : bowPieces) {
 			if (bow.belongsToBow(proj)) {
-				bow.onProjectileLand(proj, hitBlock);
+				bow.onProjectileLand(proj, hitBlock, hitFace);
 				return;
 			}
 		}
@@ -161,6 +175,10 @@ public class Kit {
 		for (KitPiece item : kitPieces.values()) {
 			item.onShift(sneaking);
 		}
+	}
+	
+	public void onSwim(boolean swimming) {
+		applyToPiecesImplentingInterface(SwimPiece.class, swimPiece -> swimPiece.onSwim(swimming));
 	}
 	
 	public void notifyDeath(Dwarf deadDwarf) {
@@ -176,9 +194,23 @@ public class Kit {
 	}
 	
 	public void onArmourEquip() {
-		for (KitPiece item : kitPieces.values()) {
-			if (item instanceof ArmourPiece)
-				((ArmourPiece) item).onArmourEquip();
+		Armour armour = dwarf.getArmour();
+		applyToPiecesImplentingInterface(ArmourPiece.class, kitArmour -> kitArmour.onArmourEquip(armour));
+	}
+	
+	public void onLogOn() {
+		applyToPiecesImplentingInterface(LogOnOffPiece.class, LogOnOffPiece::onLogOn);
+	}
+	
+	public void onLogOff() {
+		applyToPiecesImplentingInterface(LogOnOffPiece.class, LogOnOffPiece::onLogOff);
+	}
+	
+	private <T extends KitPiece> void applyToPiecesImplentingInterface(Class<T> pieceInterface, Consumer<T> consumer) {
+		for (KitPiece piece : kitPieces.values()) {
+			if (pieceInterface.isInstance(piece)) {
+				consumer.accept((T) piece);
+			}
 		}
 	}
 	

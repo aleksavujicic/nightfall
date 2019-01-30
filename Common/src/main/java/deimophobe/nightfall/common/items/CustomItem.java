@@ -9,14 +9,11 @@ import deimophobe.nightfall.common.items.base.SimpleBaseItem;
 import deimophobe.nightfall.common.items.lore.Lore;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
-import io.netty.handler.logging.LogLevel;
-import minecraft.spigot.community.michel_0.api.ItemAttributes;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -29,12 +26,29 @@ import java.util.logging.Level;
  * Created by Deimophobe on 15/04/17.
  */
 public class CustomItem implements Cloneable, ItemMatcher {
+	@Deprecated
+	public static CustomItem getTemporaryItem() {
+		NightfallCommonPlugin.logger().warning("Call to CustomItem.getTemporaryItem()");
+		return new CustomItem(
+				BaseItemManager.getManager().getTempItem(),
+				new HashMap<>(),
+				new Lore(
+						LoreTemplate.getLoreTemplate(LoreTemplate.DEFAULT),
+						"Temp Item",
+						new HashMap<>()
+				),
+				new ArrayList<>(),
+				new HashMap<>(),
+				false,
+				false
+		);
+	}
 	
 	private final BaseItem base;
 	private final Map<String, BaseItem> variants;
 	private final Lore lore;
 	private final List<String> errors;
-	private final SortedMap<ItemModifierType, Map<String, Integer>> modifiers;
+	private final Map<ItemModifierType, Map<String, Integer>> modifiers;
 	
 	private final boolean bound;
 	private boolean shiny;
@@ -43,7 +57,7 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		this.shiny = shiny;
 	}
 	
-	public CustomItem(BaseItem base, Map<String, BaseItem> variants, Lore lore, List<String> errors, SortedMap<ItemModifierType, Map<String, Integer>> modifiers, boolean bound, boolean shiny) {
+	public CustomItem(BaseItem base, Map<String, BaseItem> variants, Lore lore, List<String> errors, Map<ItemModifierType, Map<String, Integer>> modifiers, boolean bound, boolean shiny) {
 		this.base = base;
 		this.variants = variants;
 		this.lore = lore.clone();
@@ -52,7 +66,7 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		this.bound = bound;
 		this.shiny = shiny;
 		
-		this.modifiers = new TreeMap<>();
+		this.modifiers = new EnumMap<>(ItemModifierType.class);
 		for (Map.Entry<ItemModifierType, Map<String, Integer>> entry : modifiers.entrySet()) {
 			ItemModifierType type = entry.getKey();
 			Map<String, Integer> newReasonMap = new HashMap<>(entry.getValue());
@@ -69,7 +83,7 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		this.bound = bound;
 		this.shiny = shiny;
 		
-		this.modifiers = new TreeMap<>();
+		this.modifiers = new EnumMap<>(ItemModifierType.class);
 	}
 	
 	public void setName(String name) {
@@ -144,18 +158,18 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		// Add lore/name
 		meta.setDisplayName(lore.createName());
 		meta.setLore(lore.createLore(modifiers, localErrors));
-		item.setItemMeta(meta);
 		
 		// Remove existing attributes (mainly for armour)
-		item = new ItemAttributes().apply(item);
+		meta.setAttributeModifiers(null);
+		
+		
+		item.setItemMeta(meta);
+		
 		
 		// Add modifiers
 		for (Map.Entry<ItemModifierType, Map<String, Integer>> entry : modifiers.entrySet()) {
 			ItemModifierType type = entry.getKey();
-			int totalValue = 0;
-			for (Integer value : entry.getValue().values()) {
-				totalValue += value;
-			}
+			int totalValue = getModifierValue(type);
 			item = type.applyModifier(item, totalValue);
 		}
 		
@@ -165,6 +179,14 @@ public class CustomItem implements Cloneable, ItemMatcher {
 		
 		
 		return item;
+	}
+	
+	public int getModifierValue(ItemModifierType modifier) {
+		int totalValue = 0;
+		for (Integer value : modifiers.get(modifier).values()) {
+			totalValue += value;
+		}
+		return totalValue;
 	}
 	
 	public boolean hasVariant(String variant) {

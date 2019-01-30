@@ -1,9 +1,9 @@
 package deimophobe.nightfall.plague;
 
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import deimophobe.nightfall.PlayerSkin;
-import deimophobe.nightfall.Skin;
-import deimophobe.nightfall.SkinManager;
+import deimophobe.nightfall.skin.PlayerSkin;
+import deimophobe.nightfall.skin.Skin;
+import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.common.player.cosmetic.Hat;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -78,11 +78,11 @@ public class Assassin extends AbstractMob {
             if (damage.willKill()) {
                 if (dwarf == target) {
                     monster.sendMessage(ChatColor.DARK_RED + "You have killed your target " + ChatColor.RED + target.getName() + ChatColor.DARK_RED + ". " + ChatColor.YELLOW + "+1000 xp");
-                    monster.forceGainExp(1000);
+                    monster.forceGiveExperience(1000);
                 }
                 else {
                     monster.sendMessage(ChatColor.DARK_RED + "You have killed a dwarf. " + ChatColor.YELLOW + "+500 xp");
-                    monster.forceGainExp(500);
+                    monster.forceGiveExperience(500);
                 }
             }
         });

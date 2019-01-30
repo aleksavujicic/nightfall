@@ -1,6 +1,6 @@
 package deimophobe.nightfall.dwarf.consumable;
 
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.UnknownEnumElementException;
 import deimophobe.nightfall.common.items.ItemMatcher;
@@ -30,19 +30,21 @@ public enum ConsumableType implements ItemMatcher {
 	
 	TORCH(new DummyConsumable("torch"), true, true),
 	COBBLESTONE(new DummyConsumable("cobble"), true, true),
+	HALF_SLAB(new DummyConsumable("half-slab"), true, false),
+	STAIRS(new DummyConsumable("stairs"), true, false),
 	GLASS(new GlassConsumable("glass"), true, false),
 	
 	ARROW(new DummyConsumable("arrow"), false, false),
 	
-	BOWL(new CraftingConsumable("bowl", BlockType.OIL, MORTAR), true, false),
+	BOWL(new CraftingConsumable("bowl", NFBlocks.OIL, MORTAR), true, false),
 	STICK(new CraftingConsumable("stick",
-			new SimpleConversion(BlockType.SAWS, BOWL),
-			new SimpleConversion(BlockType.OIL, TORCH)
+			new SimpleConversion(NFBlocks.SAWS, BOWL),
+			new SimpleConversion(NFBlocks.OIL, TORCH)
 	), true, false),
 	PLANK(new CraftingConsumable("plank",
-			new SimpleConversion(BlockType.SAWS, STICK, 2)
+			new SimpleConversion(NFBlocks.SAWS, STICK, 2)
 	), true, false),
-	LOG(new CraftingConsumable("log", BlockType.SAWS, PLANK), true, false),
+	LOG(new CraftingConsumable("log", NFBlocks.SAWS, PLANK), true, false),
 	
 	SAND_GRAIN(new FurnaceConsumable("sand-grain", GLASS, 20), true, true),
 	
@@ -50,7 +52,7 @@ public enum ConsumableType implements ItemMatcher {
 	
 	// Add conversions which could not be added in constructor because of self reference
 	static {
-//		Conversion stickToArrow = new MultiIngredientConversion(BlockType.ANVIL, ARROW, 1,
+//		Conversion stickToArrow = new MultiIngredientConversion(NFBlocks.ANVIL, ARROW, 1,
 //				new IngredientRequirement(STICK, 2),
 //				new IngredientRequirement(COBBLESTONE, 1)
 //		);

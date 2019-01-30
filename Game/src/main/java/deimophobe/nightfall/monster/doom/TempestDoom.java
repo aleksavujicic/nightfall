@@ -10,6 +10,7 @@ import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.mob.MobType;
 import org.bukkit.*;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 import org.bukkit.util.Vector;
@@ -38,6 +39,10 @@ public class TempestDoom extends AnnotatedDoom {
 	}
 	
 	
+	private static final BlockData PARTICLE_1 = Material.LAPIS_BLOCK.createBlockData();
+	private static final BlockData PARTICLE_2 = Material.BLUE_WOOL.createBlockData();
+	private static final BlockData PARTICLE_3 = Material.BLUE_CONCRETE_POWDER.createBlockData();
+	
 	private final class Tempest extends LifetimeExpireable {
 		private final World world;
 		private Tempest() {
@@ -49,9 +54,9 @@ public class TempestDoom extends AnnotatedDoom {
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				Location feet = player.getLocation().add(0, 0.5, 0);
 				
-				player.spawnParticle(Particle.BLOCK_CRACK, feet, 30, 5, 4, 5, 0, new MaterialData(Material.LAPIS_BLOCK));
-				player.spawnParticle(Particle.BLOCK_CRACK, feet, 30, 5, 4, 5, 0, new MaterialData(Material.WOOL, (byte) 11));
-				player.spawnParticle(Particle.BLOCK_CRACK, feet, 30, 5, 4, 5, 0, new MaterialData(Material.CONCRETE_POWDER, (byte) 11));
+				player.spawnParticle(Particle.BLOCK_CRACK, feet, 30, 5, 4, 5, 0, PARTICLE_1);
+				player.spawnParticle(Particle.BLOCK_CRACK, feet, 30, 5, 4, 5, 0, PARTICLE_2);
+				player.spawnParticle(Particle.BLOCK_CRACK, feet, 30, 5, 4, 5, 0, PARTICLE_3);
 				player.spawnParticle(Particle.SMOKE_NORMAL, feet, 30, 5, 4, 5, 0);
 				
 				player.playSound(feet, "entity.silverfish.step", 0.8f, 1f);
@@ -84,9 +89,9 @@ public class TempestDoom extends AnnotatedDoom {
 			
 			if (!everyNTicks(6)) return;
 			doAtAllPlayers((player, feet) -> {
-				player.spawnParticle(Particle.BLOCK_CRACK, feet, 50, 5, 4, 5, 0, new MaterialData(Material.LAPIS_BLOCK));
-				player.spawnParticle(Particle.BLOCK_CRACK, feet, 50, 5, 4, 5, 0, new MaterialData(Material.WOOL, (byte) 11));
-				player.spawnParticle(Particle.BLOCK_CRACK, feet, 50, 5, 4, 5, 0, new MaterialData(Material.CONCRETE_POWDER, (byte) 11));
+				player.spawnParticle(Particle.BLOCK_CRACK, feet, 50, 5, 4, 5, 0, PARTICLE_1);
+				player.spawnParticle(Particle.BLOCK_CRACK, feet, 50, 5, 4, 5, 0, PARTICLE_2);
+				player.spawnParticle(Particle.BLOCK_CRACK, feet, 50, 5, 4, 5, 0, PARTICLE_3);
 				player.spawnParticle(Particle.SMOKE_NORMAL, feet, 50, 5, 4, 5, 0);
 			});
 			

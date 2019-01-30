@@ -131,6 +131,8 @@ public class Shrine {
 				if (dwarf.getArmour().canShrineRepair()) {
 					if (map.useGold(shrineRepCost)) {
 						dwarf.getArmour().repair(shrineRepAmt); // shrineNum starts at 1
+						Location center = dwarf.getEyeLocation().subtract(0, 0.5, 0);
+						center.getWorld().spawnParticle(Particle.REDSTONE, center, 3, 0.3, 0.3, 0.3, DUST_OPTIONS);
 					}
 				}
 			}
@@ -226,6 +228,7 @@ public class Shrine {
 	}
 	
 	
+	private static final Particle.DustOptions DUST_OPTIONS = new Particle.DustOptions(Color.fromRGB(250, 250, 5), 1);
 	protected void killShrine() {
 		if (MapManager.getManager().isEnabled())
 			explodeShrine();
@@ -241,6 +244,9 @@ public class Shrine {
 				for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 					dwarf.getArmour().repair(50);
 					dwarf.regenMana(15);
+					
+					Location center = dwarf.getEyeLocation().subtract(0, 0.5, 0);
+					center.getWorld().spawnParticle(Particle.REDSTONE, center, 20, 0.3, 0.3, 0.3, DUST_OPTIONS);
 				}
 				life--;
 				if (life == 0) this.cancel();
@@ -259,7 +265,7 @@ public class Shrine {
 		}
 		int xpGain = 1000 + map.getGold();
 		for (MonsterPlayer monster : MonsterManager.getManager().getGamePlayers()) {
-			monster.forceGainExp(xpGain);
+			monster.forceGiveExperience(xpGain);
 		}
 		MonsterManager.getManager().giveFutureXP(xpGain);
 		
@@ -285,7 +291,7 @@ public class Shrine {
 				for (int z = -radius; z <= radius; z++) {
 					Block block = shrineCenter.clone().add(x,y,z).getBlock();
 					
-					if (block.getType() == Material.ENDER_PORTAL_FRAME) {
+					if (block.getType() == Material.END_PORTAL_FRAME) {
 						blocks.add(block);
 						continue;
 					}

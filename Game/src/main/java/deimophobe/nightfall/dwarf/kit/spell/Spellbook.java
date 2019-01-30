@@ -9,7 +9,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -24,6 +24,10 @@ import java.util.Set;
  * Created by Deimophobe on 31/03/18.
  */
 public class Spellbook extends AbstractItem {
+	private static final int MIN_CLICK_DISPLAY = 2;
+	private static final String NO_CLICK = "_";
+	private static final String SEPERATOR = " " + Character.toString((char) 0x2022) + " ";
+	
 	public Spellbook(Dwarf dwarf) {
 		super(dwarf);
 		dwarf.setArrowItem(DwarvenItems.getItem("ranged", "essence").createItemStack());
@@ -31,7 +35,7 @@ public class Spellbook extends AbstractItem {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("ranged", "spellbook");
 	@Override public CustomItem getItem() { return ITEM; }
-	@Override public KitGiveType getGiveType() { return KitGiveType.BOW; }
+	@Override public PickupType getPickupType() { return PickupType.BOW; }
 	
 	private final List<ClickType> clicks = new ArrayList<>();
 	private final ComplexCooldown clickResetter = new ComplexCooldown(40, null, clicks::clear);
@@ -90,7 +94,23 @@ public class Spellbook extends AbstractItem {
 	}
 	
 	private void displayClicks(String message) {
-		String clickMessage = StringUtils.join(clicks, " - ");
+		StringBuilder builder = new StringBuilder();
+		String firstClick = clicks.get(0).toString();
+		builder.append(firstClick);
+		
+		final int size = clicks.size();
+		for (int i=1; i<size || i < MIN_CLICK_DISPLAY; i++) {
+			String click;
+			if (i >= size) {
+				click = NO_CLICK;
+			} else {
+				click = clicks.get(i).toString();
+			}
+			builder.append(SEPERATOR);
+			builder.append(click);
+		}
+		
+		String clickMessage = builder.toString();
 		dwarf.sendLargeTitleMessage(message, ChatColor.YELLOW + clickMessage);
 	}
 	

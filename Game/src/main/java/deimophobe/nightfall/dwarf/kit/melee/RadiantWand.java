@@ -2,10 +2,7 @@ package deimophobe.nightfall.dwarf.kit.melee;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockManager;
-import deimophobe.nightfall.blocks.timedblock.DataTimedBlock;
 import deimophobe.nightfall.blocks.timedblock.LampBlock;
-import deimophobe.nightfall.blocks.timedblock.TimedBlock;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.GameDamageType;
@@ -16,15 +13,13 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.server.BroadcastMessageEvent;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collection;
@@ -39,8 +34,8 @@ public class RadiantWand extends AbstractItem implements CooldownPiece {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public KitGiveType getGiveType() {
-		return KitGiveType.SWORD;
+	@Override public PickupType getPickupType() {
+		return PickupType.SWORD;
 	}
 
 	private final ComplexCooldown radianceCD = new ComplexCooldown(60*20, this::radiance);
@@ -162,6 +157,8 @@ public class RadiantWand extends AbstractItem implements CooldownPiece {
 	}
 
 //Particles for light pulse
+	private static final Particle.DustOptions DUST_OPTIONS1 = new Particle.DustOptions(Color.fromRGB(212, 175, 55), 1);
+	private static final Particle.DustOptions DUST_OPTIONS2 = new Particle.DustOptions(Color.fromRGB(255, 230, 0), 1);
 	private void lightPulseParticles(Location location){
 		//Establish center location for particles to be based on
 		Location center = location.add(0,.55,0);
@@ -177,8 +174,8 @@ public class RadiantWand extends AbstractItem implements CooldownPiece {
 			Location place1 = center.clone().add(Math.cos(angle)*PULSE_RADIUS,dy*.5,Math.sin(angle)*PULSE_RADIUS);
 			Location place2 = center.clone().add(Math.cos(angle)*PULSE_RADIUS,-dy*.5,Math.sin(angle)*PULSE_RADIUS);
 			//Place the particles
-			world.spawnParticle(Particle.REDSTONE,place1,0,212.0/255,175.0/255,55.0/255,1);
-			world.spawnParticle(Particle.REDSTONE,place2,0,255.0/255,230.0/255,0.0/255,1);
+			world.spawnParticle(Particle.REDSTONE,place1,1, 0, 0, 0, DUST_OPTIONS1);
+			world.spawnParticle(Particle.REDSTONE,place2,1, 0 ,0 ,0, DUST_OPTIONS2);
 		}
 	}
 

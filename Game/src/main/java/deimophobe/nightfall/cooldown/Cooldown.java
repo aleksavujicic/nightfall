@@ -14,4 +14,6 @@ public interface Cooldown extends Updateable, Displayable, Interactable {
 	default void interact() {
 		tryUse();
 	}
+	
+	boolean wasUsedWithin(int duration);
 }

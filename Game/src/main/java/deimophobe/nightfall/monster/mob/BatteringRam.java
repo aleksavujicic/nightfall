@@ -9,6 +9,7 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.disguisetypes.watchers.GhastWatcher;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -19,12 +20,14 @@ import org.bukkit.potion.PotionEffectType;
  * Created by Deimophobe on 15/01/18.
  */
 public class BatteringRam extends AbstractRideableMob {
-	@Update private final Cooldown ram = new UseCooldown(2*20, this::wallRam);
-	@Update @Display private final Cooldown toggleCooldown = new UseCooldown(4*20, this::toggleMoveState);
-	@Update private final Cooldown faceResetter = new ComplexCooldown(10, null, () -> setFace(false));
+	private static final int DURATION = 2*20;
+	
+	@Update @Display @Interact(click = ClickType.LEFT)
+	private final Cooldown ram = new UseCooldown(2*20, this::wallRam);
+	@Update
+	private final Cooldown faceResetter = new CompletionCooldown(10, () -> setFace(false));
 	
 	private Location lastLocation;
-	private boolean moveState;
 	
 	protected BatteringRam(MonsterPlayer monster) {
 		super(monster, MobType.BATTERING_RAM);
@@ -42,14 +45,8 @@ public class BatteringRam extends AbstractRideableMob {
 		//monster.givePermanentPotionEffect(PotionEffectType.JUMP, -5);
 		lastLocation = monster.getLocation();
 		
-		moveState = false;
-		toggleMoveState();
-	}
-	
-	@Override
-	protected void setupItems() {
-		super.setupItems();
-		giveItem("toggle");
+		
+		monster.getPlayer().setGameMode(GameMode.ADVENTURE);
 	}
 	
 	@Override
@@ -62,16 +59,6 @@ public class BatteringRam extends AbstractRideableMob {
 				if (everyNthTick(80)) monster.playSound("entity.minecart.inside", 1f, 0.5f, true);
 			}
 			lastLocation = monster.getLocation();
-		}
-	}
-	
-	@Override
-	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(click, clickedBlock, blockFace);
-		if (isPlayerHoldingWeapon()) {
-			if (!moveState) ram.tryUse();
-		} else if (isPlayerHoldingItem("toggle")) {
-			toggleCooldown.tryUse();
 		}
 	}
 	
@@ -91,17 +78,21 @@ public class BatteringRam extends AbstractRideableMob {
 	}
 	
 	@Override
-	public void onShift(boolean sneaking) {
-		super.onShift(sneaking);
-		if (sneaking) toggleCooldown.tryUse();
+	public boolean onBlockBreak(Block block, boolean didBreak) {
+		return false;
 	}
 	
 	private void wallRam() {
 		Block center = monster.getTargetBlock(null, 3);
-		BlockConverter.convert(BlockConverter.Type.EXPLOSION, center.getLocation(), 10);
+		BlockConverter.convert(BlockConverter.Type.EXPLOSION, center.getLocation(), 8);
 		monster.playSound("entity.generic.explode", 2f, 0.5f, true);
 		monster.playSound("entity.zombie.attack_door_wood", 2f, 0.5f, true);
 		monster.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, center.getLocation(), 3, 1, 1,1);
+		
+		monster.givePotionEffect(PotionEffectType.SLOW, DURATION, 10, true, false, true);
+		monster.givePotionEffect(PotionEffectType.JUMP, DURATION, -5, true, false, true);
+		
+		monster.setVelocity(0, -1, 0);
 		
 		setFace(true);
 		faceResetter.reset();
@@ -116,16 +107,5 @@ public class BatteringRam extends AbstractRideableMob {
 	protected boolean canMount(MonsterPlayer player) {
 		int numPassengers = monster.getPlayer().getPassengers().size();
 		return (numPassengers < 1);
-	}
-	
-	private void toggleMoveState() {
-		moveState = !moveState;
-		if (moveState) {
-			monster.removePotionEffect(PotionEffectType.JUMP);
-			monster.removePotionEffect(PotionEffectType.SLOW);
-		} else {
-			monster.givePermanentPotionEffect(PotionEffectType.SLOW, 10);
-			monster.givePermanentPotionEffect(PotionEffectType.JUMP, -5);
-		}
 	}
 }

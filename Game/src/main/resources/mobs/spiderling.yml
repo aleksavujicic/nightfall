@@ -9,7 +9,7 @@ speed: 30
 shred: 5
 
 armour:
-  material: snow_ball
+  material: snowball
   name: Squishy Spider Body Thing
   lore:
     description:

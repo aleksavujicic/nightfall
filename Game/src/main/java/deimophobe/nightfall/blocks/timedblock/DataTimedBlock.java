@@ -1,40 +1,36 @@
 package deimophobe.nightfall.blocks.timedblock;
 
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.game.entity.GameEntity;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 
 /**
  * Created by Deimophobe on 25/04/18.
  */
 public class DataTimedBlock extends TimedBlock {
-	private final Material newType;
+	private final BlockData newData;
 	
-	private Material oldType;
-	private byte data;
+	private BlockData oldData;
 	
-	public DataTimedBlock(int lifeTime, Block block, GameEntity placer, Material blockType) {
+	public DataTimedBlock(int lifeTime, Block block, GameEntity placer, BlockData newData) {
 		super(lifeTime, block, placer);
-		this.newType = blockType;
+		this.newData = newData;
 	}
 	
 	@Override
 	public boolean isPlaceable() {
-		return !BlockType.UNTIMEABLE_BLOCKS.matchesBlock(block);
+		return !NFBlocks.UNTIMEABLE_BLOCKS.matchesBlock(block);
 	}
 	
 	@Override
 	protected void setBlock() {
-		oldType = block.getType();
-		data = block.getData();
-		
-		block.setType(newType);
+		oldData = block.getBlockData();
+		block.setBlockData(newData, false);
 	}
 	
 	@Override
 	protected void unsetBlock() {
-		block.setType(oldType);
-		block.setData(data);
+		block.setBlockData(oldData);
 	}
 }

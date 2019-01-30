@@ -47,6 +47,6 @@ public class VoidSaver extends AbstractPiece {
 		dwarf.givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 2 * 20, 5, true, false, true);
 		dwarf.resetFallDamage();
 		
-		dwarf.playSound("entity.endermen.teleport", 1f, 1f, true);
+		dwarf.playSound("entity.enderman.teleport", 1f, 1f, true);
 	}
 }

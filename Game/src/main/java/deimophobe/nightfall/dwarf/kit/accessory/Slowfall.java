@@ -4,7 +4,9 @@ import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
+import deimophobe.nightfall.dwarf.kit.ArmourPiece;
 import deimophobe.nightfall.util.ArmourSlot;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -14,13 +16,12 @@ import org.bukkit.util.Vector;
 /**
  * Created by Deimophobe on 27/03/17.
  */
-public class Slowfall extends AbstractPiece {
+public class Slowfall extends AbstractPiece implements ArmourPiece {
 	private static final double RESISTANCE = 0.8;
 	private boolean active = false;
 	
 	public Slowfall(Dwarf dwarf) {
 		super(dwarf);
-		dwarf.getArmour().addModifier(ItemModifierType.FALL_DAMAGE, (int) (-RESISTANCE*100), "Slowfall", ArmourSlot.FEET);
 	}
 	
 	@Override
@@ -50,6 +51,11 @@ public class Slowfall extends AbstractPiece {
 		if (!dwarf.getPlayer().isOnGround()) {
 			toggleActive();
 		}
+	}
+	
+	@Override
+	public void onArmourEquip(Armour armour) {
+		armour.addModifier(ItemModifierType.FALL_DAMAGE, (int) (-RESISTANCE*100), "Slowfall", ArmourSlot.FEET);
 	}
 	
 	private double theta = 0;

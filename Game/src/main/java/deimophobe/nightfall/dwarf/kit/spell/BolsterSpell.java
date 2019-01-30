@@ -5,10 +5,7 @@ import deimophobe.nightfall.cooldown.LifetimeExpireable;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.game.entity.ShieldSource;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -27,6 +24,8 @@ class BolsterSpell implements Spell {
 	
 	private static final double RANGE = 10;
 	
+	private static final Particle.DustOptions DUST_OPTIONS = new Particle.DustOptions(Color.fromRGB(77, 230, 255), 1);
+	
 	@Override
 	public void castSpell(Dwarf dwarf) {
 		for (Dwarf target : DwarfManager.getManager().getDwarves()) {
@@ -43,7 +42,7 @@ class BolsterSpell implements Spell {
 					super.update();
 					
 					Location center = target.getEyeLocation().subtract(0, 0.5, 0);
-					Misc.spawnColouredParticles(center, 5, 0.8, 0.6, 0.8, 0.4, 0.9, 1);
+					center.getWorld().spawnParticle(Particle.REDSTONE, center, 5, 0.4, 0.3, 0.4, DUST_OPTIONS);
 				}
 			});
 		}

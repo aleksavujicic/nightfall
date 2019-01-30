@@ -8,10 +8,10 @@ import deimophobe.nightfall.util.WeightedSet;
  */
 public enum GameSize {
 	TINY(0, 0, 4),
-	SMALL(0, 4, 18),
-	MEDIUM(1, 10, 27),
-	LARGE(2, 22, 38),
-	HUGE(3, 34, 100)
+	SMALL(0, 4, 16),
+	MEDIUM(1, 10, 25),
+	LARGE(2, 20, 36),
+	HUGE(3, 32, 100)
 	
 	;
 	

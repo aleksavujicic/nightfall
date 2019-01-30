@@ -4,7 +4,7 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.map.GameCompass;
 import org.bukkit.block.Block;
@@ -17,7 +17,7 @@ public class DwarfCompass extends AbstractItem {
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("accessory", "compass");
 	@Override public CustomItem getItem() { return ITEM; }
-	@Override public KitGiveType getGiveType() {return KitGiveType.START;}
+	@Override public PickupType getPickupType() {return PickupType.START;}
 	
 	private final GameCompass compass;
 	

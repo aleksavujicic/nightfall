@@ -45,7 +45,7 @@ public abstract class AbstractPowerBow extends AbstractToggleBow implements Cool
 	public void onDamageAttack(MonsterDamage damage) {
 		super.onDamageAttack(damage);
 		if (isRangedDamageFromBow(damage) && isActiveProjectile(damage.getArrow())) {
-			damage.getArrowRes().timesMult(arrowResMult);
+			damage.getArrowResistance().timesMult(arrowResMult);
 			damage.setDeathMessageMaker(POWER_DEATH_MSG);
 			
 			if (damage.getMonster().isAI()) {

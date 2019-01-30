@@ -2,7 +2,7 @@ supplies:
   index: 4
   cost: [200, 400, 600, 800, 1000]
   item:
-    material: ender_stone
+    material: end_stone
     name: "Upgrade Supplies"
     lore:
       description:
@@ -20,7 +20,7 @@ supplies-inf:
   coreq:
     superkaboom: 1
   item:
-    material: ender_stone
+    material: end_stone
     name: "Upgrade Supplies (inf)"
     shiny: true
     lore:
@@ -84,7 +84,7 @@ pick:
   prereq:
     kaboom: 1
   item:
-    material: wood_pickaxe
+    material: wooden_pickaxe
     name: "Gobo pick"
     lore:
       description:

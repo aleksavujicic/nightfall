@@ -1,6 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.LifetimeExpireable;
@@ -48,7 +48,7 @@ final class Hellhound extends AbstractWolf {
 		monster.playSound("entity.ghast.shoot", 5f, 0.5f, false);
 		for (int i = 0; i < 30; i++) {
 			Block block = Misc.randomLocation(monster.getLocation(), 4, 3, 4).getBlock();
-			if (BlockType.IGNITEABLE.matchesBlock(block)) {
+			if (NFBlocks.IGNITEABLE.matchesBlock(block)) {
 				block.setType(Material.FIRE);
 				successes++;
 				

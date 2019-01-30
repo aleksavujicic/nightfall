@@ -1,23 +1,21 @@
 package deimophobe.nightfall.dwarf;
 
 import deimophobe.nightfall.common.Misc;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.material.MaterialData;
 
 /**
  * Created by Deimophobe on 13/10/18.
  */
 public class ColouredBlood implements BloodDisplay {
-	private final double r;
-	private final double g;
-	private final double b;
-	private final MaterialData secondaryBlockData;
+	private final Particle.DustOptions dustOptions;
+	private final BlockData secondaryBlockData;
 	
-	public ColouredBlood(double r, double g, double b, MaterialData secondaryBlockData) {
-		this.r = r;
-		this.g = g;
-		this.b = b;
+	public ColouredBlood(Color color, BlockData secondaryBlockData) {
+		this.dustOptions = new Particle.DustOptions(color, 1);
 		this.secondaryBlockData = secondaryBlockData;
 	}
 	
@@ -27,7 +25,7 @@ public class ColouredBlood implements BloodDisplay {
 		double radius = 0.4 - (double) mana/2000;
 		double height = 0.25 - (double) mana/3000;
 		
-		Misc.spawnColouredParticles(center, count, radius*2, height*2, radius*2, r, g, b);
+		center.getWorld().spawnParticle(Particle.REDSTONE, center, count, radius, height, radius, dustOptions);
 	}
 	
 	@Override

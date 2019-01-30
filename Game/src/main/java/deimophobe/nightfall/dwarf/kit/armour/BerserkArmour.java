@@ -4,12 +4,13 @@ import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
+import deimophobe.nightfall.dwarf.kit.ArmourPiece;
 import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 1/11/17.
  */
-public class BerserkArmour extends AbstractPiece {
+public class BerserkArmour extends AbstractPiece implements ArmourPiece {
 	private State state = State.HIGH;
 	private final static int ATTACK_BONUS = 5;
 	public static int getAttackBonus() {
@@ -18,7 +19,10 @@ public class BerserkArmour extends AbstractPiece {
 	
 	public BerserkArmour(Dwarf dwarf) {
 		super(dwarf);
-		Armour armour = dwarf.getArmour();
+	}
+	
+	@Override
+	public void onArmourEquip(Armour armour) {
 		armour.addModifier(ItemModifierType.ATTACK, ATTACK_BONUS, "Berserker");
 		armour.addModifier(ItemModifierType.SPEED, 10, "Berserker");
 		armour.addModifier(ItemModifierType.HEALTH, -4, "Berserker");

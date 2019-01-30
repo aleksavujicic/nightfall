@@ -10,7 +10,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -32,8 +32,8 @@ public abstract class AbstractRuneblade extends AbstractItem implements Cooldown
 		this.cooldown = new ComplexCooldown(maxCD, this::dash, this::offCDSound);
 	}
 	
-	@Override public KitGiveType getGiveType() {
-		return KitGiveType.SWORD;
+	@Override public PickupType getPickupType() {
+		return PickupType.SWORD;
 	}
 	
 	
@@ -88,7 +88,7 @@ public abstract class AbstractRuneblade extends AbstractItem implements Cooldown
 		dwarf.playSound("dash", 1f, 1f, true);
 		dwarf.giveProc(dashProc);
 		//dwarf.setVelocity(dwarf.getLocation().getDirection().setY(0).normalize().multiply(5));
-		dwarf.leap(5, -0.1);
+		dwarf.leap(4, -0.1);
 	}
 	
 	private void offCDSound() {

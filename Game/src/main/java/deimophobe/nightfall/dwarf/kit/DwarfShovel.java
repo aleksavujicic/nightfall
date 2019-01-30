@@ -1,14 +1,11 @@
 package deimophobe.nightfall.dwarf.kit;
 
-import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.PlayerSkin;
-import deimophobe.nightfall.SkinManager;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.skin.PlayerSkin;
+import deimophobe.nightfall.skin.SkinManager;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.cooldown.Cooldown;
-import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
@@ -18,7 +15,6 @@ import deimophobe.nightfall.util.Weightable;
 import deimophobe.nightfall.util.WeightedSet;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
@@ -42,29 +38,10 @@ public class DwarfShovel extends AbstractItem {
 	
 	private static final CustomItem ITEM = DwarvenItems.getItem("misc", "shovel");
 	@Override public CustomItem getItem() {return ITEM;}
-	@Override public KitGiveType getGiveType() {
-		return KitGiveType.SHOVEL;
+	@Override public PickupType getPickupType() {
+		return PickupType.SHOVEL;
 	}
 	
-	private final Cooldown sandGiver = new UseCooldown(6, this::giveSand);
-	
-	
-	@Override
-	public void update() {
-		super.update();
-		sandGiver.update();
-	}
-	
-	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
-		super.onUse(click, clickedBlock, blockFace);
-		
-		if (click.isRightClick() && BlockType.DIGGING_SAND.matchesBlock(clickedBlock)) {
-			return sandGiver.tryUse();
-		}
-		
-		return false;
-	}
 	
 	private void giveSand() {
 		dwarf.giveConsumable(ConsumableType.SAND_GRAIN, getSandGiveAmount());
@@ -77,25 +54,30 @@ public class DwarfShovel extends AbstractItem {
 	}
 	
 	protected int getSandGiveAmount() {
-		return 1;
+		return Misc.randomInt(2, 4);
 	}
 	
 	@Override
 	public void onBlockBreak(Block block, boolean didBreak) {
 		super.onBlockBreak(block, didBreak);
-		if (didBreak && block.getType() == Material.GRAVEL) {
+		if (!didBreak) return;
+		
+		if (NFBlocks.DIGGING_SAND.matchesBlock(block)) {
+			giveSand();
+		}
+		
+		if (block.getType() == Material.GRAVEL) {
 			int quantity = getCobbleAmount();
 			dwarf.giveConsumable(ConsumableType.COBBLESTONE, quantity, true);
 			
 			dwarf.playSound("block.anvil.place", 0.2f, 0.8f, true);
 			dwarf.playSound("block.anvil.break", 1f, 0.8f, true);
 			
-			if (dwarf.getPlagueStatus() == Dwarf.PlagueStatus.PLAGUED) return;
-			
-			if (Game.getGame().getPhase() == Phase.BUILD) {
-				if (Math.random() <= getFindChance()) {
-					REWARD_TIERS.getRandom().rewardDwarf(dwarf, block);
-				}
+			if (dwarf.getPlagueStatus() != Dwarf.PlagueStatus.PLAGUED
+					&& Game.getGame().getPhase() == Phase.BUILD
+					&& Math.random() <= getFindChance()) {
+				
+				REWARD_TIERS.getRandom().rewardDwarf(dwarf, block);
 			}
 		}
 	}
@@ -118,14 +100,14 @@ public class DwarfShovel extends AbstractItem {
 		
 		new ConsumableScavengeItem(ConsumableType.HEAL_STATION, 2, "Healing Stations", RewardTier.COMMON);
 		new ConsumableScavengeItem(ConsumableType.HEAL_STATION, 4, "Healing Stations", RewardTier.UNCOMMON);
-		new ConsumableScavengeItem(ConsumableType.HEAL_STATION, 8, "Healing Stations", RewardTier.RARE);
+		new ConsumableScavengeItem(ConsumableType.HEAL_STATION, 6, "Healing Stations", RewardTier.RARE);
 		
 		new ConsumableScavengeItem(ConsumableType.LAMP, 32, "Lamps", RewardTier.COMMON);
 		new ConsumableScavengeItem(ConsumableType.LAMP, 64, "Lamps", RewardTier.UNCOMMON);
 		
 		new ConsumableScavengeItem(ConsumableType.CHARM, 1, "Consecrating Charm", RewardTier.UNCOMMON);
 		new ConsumableScavengeItem(ConsumableType.CHARM, 2, "Consecrating Charms", RewardTier.RARE);
-		new ConsumableScavengeItem(ConsumableType.CHARM, 4, "Consecrating Charms", RewardTier.LEGENDARY);
+//		new ConsumableScavengeItem(ConsumableType.CHARM, 4, "Consecrating Charms", RewardTier.LEGENDARY);
 		
 		new ConsumableScavengeItem(ConsumableType.WRENCH, 1, "Wrench", RewardTier.COMMON);
 		new ConsumableScavengeItem(ConsumableType.WRENCH, 2, "Wrenches", RewardTier.UNCOMMON);
@@ -142,9 +124,9 @@ public class DwarfShovel extends AbstractItem {
 		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 4, "Procs in Bottles", RewardTier.UNCOMMON);
 		new ConsumableScavengeItem(ConsumableType.PROC_BOTTLE, 6, "Procs in Bottles", RewardTier.RARE);
 		
-		new ConsumableScavengeItem(ConsumableType.TURRET, 4, "Turrets", RewardTier.COMMON);
-		new ConsumableScavengeItem(ConsumableType.TURRET, 8, "Turrets", RewardTier.UNCOMMON);
-		new ConsumableScavengeItem(ConsumableType.TURRET, 16, "Turrets", RewardTier.RARE);
+		new ConsumableScavengeItem(ConsumableType.TURRET, 2, "Turrets", RewardTier.COMMON);
+		new ConsumableScavengeItem(ConsumableType.TURRET, 4, "Turrets", RewardTier.UNCOMMON);
+		new ConsumableScavengeItem(ConsumableType.TURRET, 6, "Turrets", RewardTier.RARE);
 		
 		new FixedScavengeItem("clover", "Lucky Clover");
 		new FixedScavengeItem("perfect-torch", "The Perfect Torch") {

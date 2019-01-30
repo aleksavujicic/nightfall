@@ -15,22 +15,23 @@ import deimophobe.nightfall.common.items.ItemMatcher;
 import deimophobe.nightfall.common.util.NMSUtil;
 import deimophobe.nightfall.cooldown.CooldownHolder;
 import deimophobe.nightfall.cooldown.LifetimeExpireable;
+import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.PreDamagePriority;
 import deimophobe.nightfall.damage.death.DeathMessageMaker;
 import deimophobe.nightfall.damage.death.LastMainDamage;
-import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.game.AbstractGameEntity;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.map.GameMap;
+import deimophobe.nightfall.monster.upgrades.Upgrade;
+import deimophobe.nightfall.util.PacketUtil;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.server.v1_12_R1.PacketCompressor;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -50,8 +51,6 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
@@ -60,14 +59,19 @@ import static com.google.common.base.Preconditions.checkState;
  * Created by Deimophobe on 17/01/17.
  */
 public abstract class GamePlayer extends AbstractGameEntity<Player> implements GameEntityShooter<Player> {
+	protected final Game game;
+	
 	protected Player player;
 	protected GamePlayer(Player player) {
 		super(player);
+		//TODO Dependency injection
+		this.game = Game.getGame();
 		
 		this.player = player;
 		//player.spigot().respawn();
 		
 		player.setFoodLevel(20);
+		player.setRemainingAir(300);
 		player.closeInventory();
 		
 		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(10000);
@@ -79,7 +83,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		initialiseWarnings();
 		
 		// Initialise shields
-		shields = new TreeMap<>();
+		shields = new EnumMap<>(ShieldSource.class);
 		for (ShieldSource source : ShieldSource.values()) {
 			shields.put(source, 0);
 		}
@@ -107,6 +111,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	public void onRemove() {
 		clearInventory();
 		clearWarning();
+		cooldownHolder.removeAll();
 	}
 	
 	// ------ DEBUG ------
@@ -230,9 +235,22 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	
 	
 	// ------ SOUND ------
-	public final void playSound(String sound, float vol, float pitch, boolean toAll) {
-		if (sound == null) return;
+	public final void playSound(Sound sound, float vol, float pitch, boolean toAll) {
+		World world = player.getWorld();
+		Location loc = player.getLocation();
 		
+		if (toAll) {
+			world.playSound(loc, sound, vol, pitch);
+		} else {
+			player.playSound(loc, sound, vol, pitch);
+		}
+	}
+	
+	public final void playSound(Sound sound) {
+		playSound(sound, 20, 1, false);
+	}
+	
+	public final void playSound(String sound, float vol, float pitch, boolean toAll) {
 		World world = player.getWorld();
 		Location loc = player.getLocation();
 		
@@ -460,7 +478,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	
 	
 	// ------ SHIELDS ------
-	private final SortedMap<ShieldSource, Integer> shields;
+	private final Map<ShieldSource, Integer> shields;
 	
 	public void addShields(ShieldSource source, int number) {
 		checkArgument(number > 0, "Number of shields to add must be positive (got %s).", number);
@@ -504,22 +522,43 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 				.sum();
 	}
 	
+	private static final int SHIELD_IMMUNE_DURATION = 60;
+	private static final double SHIELD_VALUE = 8;
 	protected boolean shieldDamage(GameDamage<?,?> damage) {
-		if (getNumberOfShields() == 0) return false;
+		int numShields = getNumberOfShields();
+		if (numShields == 0) return false;
+		
 		
 		damage.addPreDamageHandler(PreDamagePriority.SHIELDS, () -> {
-			damage.softCancel();
-			damage.setNoDamageTicks(30);
-//			givePotionEffect(PotionEffectType.GLOWING, 30, 1, false, false, false);
+			if (damage.isShieldbreaker()) {
+				double damageAmt = damage.getFinalDamage();
+				
+				int shieldsToRemove = (int) (damageAmt/SHIELD_VALUE) + 1;
+				if (shieldsToRemove > numShields) {
+					damage.getMultiPartDamage().addPostBoost(-SHIELD_VALUE * numShields);
+					removeAllShields();
+				} else {
+					damage.softCancel();
+					removeShields(shieldsToRemove);
+				}
+			} else {
+				if (damage.getType() == GameDamageType.FALL && damage.getFinalDamage() < 4) {
+					damage.cancel();
+				} else {
+					damage.softCancel();
+					removeShields(1);
+				}
+			}
+			damage.setNoDamageTicks(SHIELD_IMMUNE_DURATION);
 		});
 		damage.addPostDamageHandler(() -> {
-			if (damage.getType() == GameDamageType.POISON) {
-				if (getPoisonType() != PoisonType.LIGHTING_PLAGUE) removeAllPoisons();
+			if (!damage.isShieldbreaker()) {
+				removeAllPoisons();
+				removeFire();
 			}
-			if (damage.getType() == GameDamageType.FIRE) removeFire();
-			removeShields(1);
 			
-			playSound("entity.evocation_illager.prepare_summon", 1f, 2f, false);
+			givePotionEffect(PotionEffectType.GLOWING, SHIELD_IMMUNE_DURATION, 1, true, false, false);
+			playSound(Sound.ENTITY_EVOKER_PREPARE_SUMMON, 10f, 2f, false);
 		});
 		return true;
 	}
@@ -577,7 +616,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		sendDebugMsg("Set warning to: " + warning);
 	}
 	
-	private void initialiseWarnings() {
+	protected final void initialiseWarnings() {
 		ProtocolManager pm = ProtocolLibrary.getProtocolManager();
 
 		Location center = GameMap.getCurrentMap().getDwarfSpawn();
@@ -610,6 +649,8 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	
 	// ------ MISC ------
 	public boolean isSneaking() { return player.isSneaking(); }
+	public boolean isSwimming() { return player.isSwimming(); }
+	
 	public Block getTargetBlock(Set<Material> materials, int i) {
 		return player.getTargetBlock(materials, i);
 	}
@@ -651,6 +692,10 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		return closestPlayer;
 	}
 	
+	public void setEntityStatus(byte status) {
+		PacketUtil.sendStatusPacket(player, status);
+	}
+	
 	/**
 	 * @deprecated Guess is based on a very crude velocity calculation.
 	 */
@@ -666,7 +711,10 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	public abstract boolean onBlockBreak(Block block, boolean didBreak);
 	public abstract void onUse(ClickType click, Block clickedBlock, BlockFace blockFace); // TODO: tidyup
 	public abstract void onShift(boolean sneaking);
+	public abstract void onSwim(boolean swimming);
 	public abstract void giveCompass();
+	public abstract Location getRespawnLocation();
+	public void onRespawn() {}
 	
 	// ----- UPDATES -----
 	private final CooldownHolder cooldownHolder = new CooldownHolder();
@@ -691,6 +739,10 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 			}
 		};
 		addUpdateable(updateable);
+	}
+	
+	public void removeUpdateable(Updateable updateable) {
+		cooldownHolder.removeUpdateable(updateable);
 	}
 	
 	public boolean everySec() {
@@ -728,7 +780,6 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 		
 		return true;
 	}
-	
 	
 	// ------ HITSCAN CLASSES ------
 	public abstract class SingleEntityConsumer<P extends GameEntity> implements Consumer<P> {

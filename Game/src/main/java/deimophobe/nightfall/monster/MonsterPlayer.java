@@ -4,10 +4,7 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.WhoEntry;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.menu.SessionData;
-import deimophobe.nightfall.common.player.PlayerManager;
-import deimophobe.nightfall.common.player.settings.PlayerSettings;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamage;
@@ -15,6 +12,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.event.MobSpawnEvent;
 import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.Sidebar;
 import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
@@ -24,8 +22,9 @@ import deimophobe.nightfall.monster.mob.Bopen;
 import deimophobe.nightfall.monster.mob.FloatyMob;
 import deimophobe.nightfall.monster.mob.Mob;
 import deimophobe.nightfall.monster.mob.MobType;
+import deimophobe.nightfall.monster.upgrades.MonsterUpgrades;
+import deimophobe.nightfall.util.AFKChecker;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
-import net.md_5.bungee.api.chat.BaseComponent;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -42,10 +41,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.logging.Logger;
 
@@ -55,13 +50,23 @@ import java.util.logging.Logger;
 public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEntity<Player> {
 	
 	private final ComplexCooldown mobMenuShower = new ComplexCooldown(10, () -> MonsterManager.getManager().showMobMenu(this));
+	private final AFKChecker afkChecker;
 	
 	private Mob mob;
 	public Mob getMob() { return mob; }
 	
-	public MonsterPlayer(Player player) {
+	public MonsterPlayer(Player player, boolean spectator) {
 		super(player);
-		kill(true);
+		this.afkChecker = new AFKChecker(this, 30);
+		addUpdateable(afkChecker);
+		
+		setTitle(ChatColor.GRAY, null, false);
+		if (spectator) {
+			kill(true);
+		}
+		
+		int xpCount = MonsterManager.getManager().getCurrentXPCount();
+		forceGiveExperience(xpCount);
 	}
 	
 	@Override
@@ -80,7 +85,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	public void onRemove() {
 		kill(true);
 		player.setGameMode(GameMode.ADVENTURE);
-		Game.getGame().hideManaAndDoom(player);
+		Sidebar.getGameSidebar().hideEntry(Sidebar.Entry.MONSTER_EXPERIENCE, player);
+		Sidebar.getGameSidebar().hideEntry(Sidebar.Entry.DOOM, player);
 		super.onRemove();
 	}
 	
@@ -132,6 +138,10 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		mob.giveCompass();
 	}
 	
+	public AFKChecker getAfkChecker() {
+		return afkChecker;
+	}
+	
 	// ------ SPAWN AND DEATH ------
 	public boolean isMobAlive() {
 		return (mob != null);
@@ -159,13 +169,21 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		clearWarning();
 		removeAllPoisons();
 		removeFire();
+		player.setRemainingAir(300);
 		mobMenuShower.reset();
 		cancelSeppuku();
 		removeAllShields();
 		resetLastMainDamage();
 		
+		afkChecker.resetAFK();
+		removeUpdateable(afkChecker);
+		
 		player.setAllowFlight(true);
 		player.setGameMode(GameMode.SPECTATOR);
+	}
+	
+	public void spawnPrimaryMob(SpawnMethod spawnMethod) {
+		spawnMob(upgrades.createPrimaryMob(), spawnMethod);
 	}
 	
 	public boolean spawnMob(MobCreator<?> type) {
@@ -208,6 +226,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			}
 			
 			player.getInventory().setItem(9, seppuku);
+			addUpdateable(afkChecker);
 			logger.info("Spawning " + getName() + " as mob " + mob.getType() + " (via " + spawnMethod + ")");
 			
 			return true;
@@ -221,16 +240,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 		}
 	}
 	
-	private static final Set<MobType> UPGRADEABLE_MOBS = EnumSet.of(MobType.ZOMBIE, MobType.SKELETON, MobType.GOBO);
-	/** Chooses the mob with the most upgrades upgraded. */
-	public MobType getPrimaryMob() {
-		return Misc.getArgMax(UPGRADEABLE_MOBS, mobType -> {
-			int total = 0;
-			for (int level : getUpgrades(mobType).values()) {
-				total += level;
-			}
-			return total;
-		});
+	public boolean isMobType(MobType type) {
+		return mob != null && mob.getType() == type;
 	}
 	
 	// ----- REBIRTH -----
@@ -312,75 +323,76 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	// ------ EXPERIENCE ------
 	private int experience = 0;
-	private int amountSpent = 0;
-	private int expRate = 10;
-	private static final int MAX_XP = 10000;
+	private int experienceRate = 10;
+	private static final int MAX_EXPERIENCE = 10000;
 	
-	public void forceGainExp(int amt) {
-		experience += amt;
-		updateExpDisplay();
+	private final MonsterUpgrades upgrades = new MonsterUpgrades(this);
+	
+	public MonsterUpgrades getUpgrades() {
+		return upgrades;
 	}
 	
-	public void gainExp(int amt) {
-		experience = Math.min(Math.max(experience, MAX_XP), experience + amt);
-		updateExpDisplay();
+	public void forceGiveExperience(int amount) {
+		experience += amount;
+		updateExperienceDisplay();
 	}
 	
-	public boolean useExp(int xpCost) {
-		if (experience < xpCost) {
+	public void giveExperience(int amount) {
+		// If already above max, let it stay there
+		int currentMax = Math.max(experience, MAX_EXPERIENCE);
+		// Add amount, without going over currentMax
+		experience = Math.min(currentMax, experience + amount);
+		updateExperienceDisplay();
+	}
+	
+	public boolean useExperience(int cost) {
+		return useExperience(cost, true);
+	}
+	
+	public boolean useExperience(int cost, boolean increaseAmountSpent) {
+		if (experience < cost) {
 			return false;
 		} else {
-			experience -= xpCost;
-			amountSpent += xpCost;
-			updateExpDisplay();
+			experience -= cost;
+			if (increaseAmountSpent) upgrades.increaseAmountSpent(cost);
+			
+			updateExperienceDisplay();
 			return true;
 		}
 	}
 	
-	public void setExpRate(int rate) {
-		expRate = rate;
+	public void setExperienceRate(int rate) {
+		experienceRate = rate;
 	}
 	
-	public int getExpRate() {
-		return expRate;
+	public int getExperienceRate() {
+		return experienceRate;
 	}
 	
-	public int getExp() {
+	public int getExperience() {
 		return experience;
 	}
-
-	public int getSpent() {
-		return amountSpent;
+	
+	public boolean hasExperience(int amount) {
+		return experience >= amount;
 	}
+	
 
-	private void updateExpDisplay() {
+	private void updateExperienceDisplay() {
 		player.setLevel(experience);
-		Game.getGame().setMana(player, experience);
+		game.getSidebar().setEntryValue(Sidebar.Entry.MONSTER_EXPERIENCE, player, experience);
 	}
 	
-	
-	// ------ SPAWN/UPGRADE MENUS ------
-	private Map<MobType, Map<String, Integer>> upgrades = new HashMap<>();
-	
-	public Map<String, Integer> getUpgrades(MobType type) {
-		if (!upgrades.containsKey(type)) {
-			Set<String> upgradeSet = MonsterManager.getManager().getUpgradeSet(type);
-			
-			Map<String, Integer> mobUpgrades = new HashMap<>();
-			for (String upgrade : upgradeSet) {
-				mobUpgrades.put(upgrade, 0);
-			}
-			
-			upgrades.put(type, mobUpgrades);
-		}
-		return upgrades.get(type);
+	public void sendInsufficientExperienceMessage(int requiredExperience) {
+		player.sendMessage(
+				ChatColor.RED + "Not enough exp! " + "You have "
+				+ ChatColor.YELLOW + experience
+				+ ChatColor.RED + " exp ("
+				+ ChatColor.AQUA + requiredExperience
+				+ ChatColor.RED + " required)."
+		);
 	}
-
-	public void resetUpgrades(double refundRate) {
-		upgrades.clear();
-		forceGainExp((int) (refundRate * amountSpent));
-		amountSpent = 0;
-	}
+	
 	
 	// ------ DAMAGE ------
 	@Override
@@ -402,11 +414,18 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	@Override
 	public void onShift(boolean sneaking) {
+		afkChecker.resetAFK();
+		
 		if (isFrozen()) return;
 		
 		if (mob != null) {
 			mob.onShift(sneaking);
 		}
+	}
+	
+	@Override
+	public void onSwim(boolean swimming) {
+	
 	}
 	
 	@Override
@@ -422,6 +441,8 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
 		if (usedThisTick) return;
 		usedThisTick = true;
+		
+		afkChecker.resetAFK();
 		
 		if (!isMobAlive()) {
 			mobMenuShower.tryUse();
@@ -479,11 +500,12 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 			}
 		} else {
 			damage.cancel();
+			kill(true);
 		}
 	}
 	
 	@Override
-	public Projectile onBowFire(Arrow arrow, float force) {
+	public Projectile onBowFire(ItemStack bow, Arrow arrow, float force) {
 		if (isFrozen()) return null;
 		
 		if (mob != null) {
@@ -493,10 +515,22 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile projectile, Block hitBlock) {
+	public void onProjectileLand(Projectile projectile, Block hitBlock, BlockFace hitFace, GameEntity<?> hitEntity) {
 		if (mob != null) {
-			mob.onProjectileLand(projectile, hitBlock);
+			mob.onProjectileLand(projectile, hitBlock, hitFace);
 		}
+	}
+	
+	@Override
+	public Location getRespawnLocation() {
+		return GameMap.getCurrentMap().getCurrentMobspawn();
+	}
+	
+	@Override
+	public void onRespawn() {
+		super.onRespawn();
+		kill(true);
+		initialiseWarnings();
 	}
 	
 	// ------ GLOWING ------

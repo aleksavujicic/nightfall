@@ -22,6 +22,21 @@ basic-description:
     reason: "&d"
 
 
+lobby:
+  nameprefix: "&b"
+
+  lore:
+    - ""
+    - "${description}"
+
+  prefix:
+    description: "&6"
+
+  modifiers:
+    name: "&3"
+    value: "&b"
+    reason: "&d"
+
 
 # ======== LOADOUTS ========
 loadout:
@@ -199,29 +214,37 @@ monster-hero:
 
 
 monster-menu:
-  nameprefix: "&5"
+  nameprefix: "&4"
 
   lore:
     - "${description}"
 
   prefix:
-    description: "&6"
+    description: "&e"
+    variable: "&b"
 
 monster-egg:
-  nameprefix: "&5"
+  nameprefix: "&4"
 
   lore:
     - "${description}"
 
   prefix:
-    description: "&6"
+    description: "&e"
 
 monster-upgrade:
-  nameprefix: "&c"
+  nameprefix: "&4"
 
   lore:
-    - "&dCosts $cost xp."
+    - "${cost}"
+    - ""
     - "${description}"
 
+  defaults:
+     cost: "Cost: $cost:cost-var"
+
   prefix:
-    description: "&6"
+    cost: "&6"
+    cost-var: "&b"
+    description: "&e"
+    variable: "&b"

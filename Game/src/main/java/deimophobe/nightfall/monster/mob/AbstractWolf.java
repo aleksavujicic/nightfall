@@ -68,7 +68,7 @@ abstract class AbstractWolf extends AbstractMob {
 		if (monster.getPlayer().isSneaking()) {
 			monster.leap(2, 1.8);
 		} else {
-			monster.leap(5, 1.5);
+			monster.leap(4, 1.5);
 		}
 		
 		removeSpawnProtection();

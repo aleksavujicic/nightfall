@@ -6,8 +6,10 @@ import co.aikar.commands.contexts.IssuerAwareContextResolver;
 import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.Skin;
-import deimophobe.nightfall.SkinManager;
+import deimophobe.nightfall.game.entity.ShieldSource;
+import deimophobe.nightfall.monster.upgrades.Upgrade;
+import deimophobe.nightfall.monster.upgrades.UpgradeRegistry;
+import deimophobe.nightfall.skin.Skin;
 import deimophobe.nightfall.command.iterable.*;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.command.MessageUtil;
@@ -19,7 +21,7 @@ import deimophobe.nightfall.dwarf.*;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.hero.HeroType;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.game.*;
 import deimophobe.nightfall.game.entity.GamePlayer;
@@ -39,6 +41,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import java.util.*;
 import java.util.function.Function;
@@ -84,6 +87,7 @@ public class CommandInitialiserUtil {
 		commandManager.registerCommand(new MapCommand());
 		commandManager.registerCommand(new MiscCommands());
 		commandManager.registerCommand(new MobCommand());
+		commandManager.registerCommand(new SkinCommand());
 		commandManager.registerCommand(new ShrineCommand());
 	}
 	
@@ -97,9 +101,11 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("heroes", getCompletionHandlerForEnum(HeroType.values()));
 		completions.registerCompletion("procs", getCompletionHandlerForEnum(ProcType.values()));
 		completions.registerCompletion("consumables", getCompletionHandlerForEnum(ConsumableType.values()));
-		completions.registerCompletion("kitgives", getCompletionHandlerForEnum(KitGiveType.values()));
+		completions.registerCompletion("pickups", getCompletionHandlerForEnum(PickupType.values()));
+		completions.registerCompletion("shieldsources", getCompletionHandlerForEnum(ShieldSource.values()));
 		completions.registerCompletion("bloodcolours", getCompletionHandlerForEnum(BloodColour.values()));
 		completions.registerCompletion("mobtypes", getCompletionHandlerForEnum(MobType.getSpawnableMobs()));
+		completions.registerCompletion("primarymobs", getCompletionHandlerForEnum(MobType.getPrimaryMobs()));
 		completions.registerCompletion("spawnmethods", getCompletionHandlerForEnum(SpawnMethod.values()));
 		completions.registerCompletion("plagues", getCompletionHandlerForEnum(PlagueType.values()));
 		completions.registerCompletion("plague-status", getCompletionHandlerForEnum(Dwarf.PlagueStatus.values()));
@@ -116,6 +122,10 @@ public class CommandInitialiserUtil {
 		completions.registerCompletion("items", c -> ItemManager.getManager().getNames());
 		completions.registerCompletion("maps", c -> MapManager.getManager().getMapNames());
 		completions.registerCompletion("skins", c -> Skin.getSkinNames());
+		
+		UpgradeRegistry registry = NightfallPlugin.getPlugin().getUpgradeRegistry();
+		completions.registerCompletion("upgrades", c -> registry.getAllUpgradeIDs());
+		
 		
 		completions.registerCompletion("kitpieces", c -> {
 			Collection<String> pieces = KitPieceType.getPieceNames();
@@ -216,7 +226,8 @@ public class CommandInitialiserUtil {
 		contexts.registerContext(HeroType.class, getContextResolverOfEnum(HeroType.values(), "hero", true));
 		contexts.registerContext(ProcType.class, getContextResolverOfEnum(ProcType.values(), "proc", true));
 		contexts.registerContext(ConsumableType.class, getContextResolverOfEnum(ConsumableType.values(), "consumable", true));
-		contexts.registerContext(KitGiveType.class, getContextResolverOfEnum(KitGiveType.values(), "give type", true));
+		contexts.registerContext(PickupType.class, getContextResolverOfEnum(PickupType.values(), "give type", true));
+		contexts.registerContext(ShieldSource.class, getContextResolverOfEnum(ShieldSource.values(), "shield source", true));
 		contexts.registerContext(BloodColour.class, getContextResolverOfEnum(BloodColour.values(), "blood colour", true));
 		contexts.registerContext(Dwarf.PlagueStatus.class, getContextResolverOfEnum(Dwarf.PlagueStatus.values(), "plague status", true));
 //		contexts.registerContext(MobType.class, getContextResolverOfEnum(MobType.getSpawnableMobs(), "mob", true));
@@ -257,8 +268,24 @@ public class CommandInitialiserUtil {
 		contexts.registerContext(Skin.class, getPrettyResolver(
 				name -> Skin.tryGetSkin(name),
 				context -> Skin.getSkinNames(),
-				"map", true
+				"skin", true
 		));
+		
+		UpgradeRegistry registry = NightfallPlugin.getPlugin().getUpgradeRegistry();
+		contexts.registerContext(Upgrade.class, getPrettyResolver(
+				name -> registry.tryGetUpgrade(name),
+				context -> registry.getAllUpgradeIDs(),
+				"upgrade", true
+		));
+		
+		
+		ContextResolver<Double, BukkitCommandExecutionContext> doubleResolver = (ContextResolver<Double, BukkitCommandExecutionContext>) contexts.getResolver(Double.class);
+		contexts.registerContext(Vector.class, context -> {
+			double x = doubleResolver.getContext(context);
+			double y = doubleResolver.getContext(context);
+			double z = doubleResolver.getContext(context);
+			return new Vector(x,y,z);
+		});
 	}
 	
 	private static void registerConditions(BukkitCommandManager commandManager) {
@@ -364,6 +391,11 @@ public class CommandInitialiserUtil {
 		});
 		MessageUtil.addResolver(Skin.class, arg -> {
 			TextComponent text = new TextComponent(arg.getName());
+			text.setColor(net.md_5.bungee.api.ChatColor.GREEN);
+			return text;
+		});
+		MessageUtil.addResolver(Upgrade.class, arg -> {
+			TextComponent text = new TextComponent(arg.getID());
 			text.setColor(net.md_5.bungee.api.ChatColor.GREEN);
 			return text;
 		});

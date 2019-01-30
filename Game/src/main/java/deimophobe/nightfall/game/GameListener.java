@@ -3,10 +3,11 @@ package deimophobe.nightfall.game;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockManager;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.event.HatChangeEvent;
 import deimophobe.nightfall.common.event.TitleChangeEvent;
+import deimophobe.nightfall.common.util.Keys;
 import deimophobe.nightfall.damage.DamageUtil;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
@@ -14,6 +15,7 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.game.entity.GameEntityShooter;
 import deimophobe.nightfall.game.entity.GamePlayer;
+import deimophobe.nightfall.game.entity.GameShooter;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -24,9 +26,6 @@ import deimophobe.nightfall.monster.mob.Goblin;
 import deimophobe.nightfall.util.ArrowMisc;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
@@ -34,8 +33,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -45,6 +42,9 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.tags.CustomItemTagContainer;
+import org.bukkit.inventory.meta.tags.ItemTagType;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -68,36 +68,7 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void onLogin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
-		
-		for (Attribute attribute : Attribute.values()) {
-			AttributeInstance instance = player.getAttribute(attribute);
-			
-			if (instance != null) {
-				for (AttributeModifier mod : instance.getModifiers())
-					instance.removeModifier(mod);
-				
-				instance.setBaseValue(instance.getDefaultValue());
-			}
-		}
-		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(100000);
-		player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
-		
-		
-		Game.getGame().giveShrineBarToPlayer(player);
-		Game.getGame().giveScoreboard(player);
-		
-		if (player.isDead())
-			return;
-		
-		if (dwarfManager.goOnline(player)) {
-			game.updateDwarfCount();
-			return;
-		}
-		if (monsterManager.goOnline(player)) {
-			return;
-		}
-		
-		game.resetPlayer(player);
+		game.goOnline(player);
 	}
 	
 	@EventHandler
@@ -107,14 +78,7 @@ public class GameListener implements Listener {
 		Entity vehicle = player.getVehicle();
 		if (vehicle != null) vehicle.removePassenger(player);
 		
-		boolean wasDwarf = dwarfManager.goOffline(player);
-		monsterManager.goOffline(player);
-		if (wasDwarf) game.updateDwarfCount();
-		
-		// Reset game if no players are left online
-		if (game.getPlayMode() == PlayMode.PLAYGROUND && Bukkit.getOnlinePlayers().size() == 1) {
-			Game.createNewGame();
-		}
+		game.goOffline(player);
 	}
 	
 	// --------------------------------------------------------
@@ -147,23 +111,6 @@ public class GameListener implements Listener {
 				return;
 			}
 			
-			// Prevent right click shovel/hoe
-			ItemStack item = gp.getHeldItem();
-			if (block != null && item != null && action == Action.RIGHT_CLICK_BLOCK) {
-				switch (block.getType()) {
-					case DIRT:
-					case GRASS:
-					case GRASS_PATH: {
-						switch (item.getType()) {
-							case DIAMOND_HOE:
-							case DIAMOND_SPADE:
-							case IRON_SPADE:
-								event.setCancelled(true);
-						}
-					}
-				}
-			}
-			
 			if (block == null) block = gp.getTargetBlock(null, 5);
 			ClickType click = ClickType.fromAction(action);
 			gp.onUse(click, block, blockFace);
@@ -171,23 +118,7 @@ public class GameListener implements Listener {
 			BlockManager.getManager().hitBlock(block, gp, click, blockFace);
 		}
 		
-		if (block != null && BlockType.UNINTERACTABLE_BLOCKS.matchesBlock(block) && player.getGameMode() != GameMode.CREATIVE) {
-			event.setCancelled(true);
-		}
-	}
-	
-	@EventHandler
-	public void onPlace(BlockPlaceEvent event) {
-		Block block = event.getBlockPlaced();
-		Player player = event.getPlayer();
-		if (player.getGameMode() == GameMode.CREATIVE) return;
-		
-		if (!GameMap.getCurrentMap().isBlockPlaceable(block)) {
-			event.setCancelled(true);
-		}
-		
-		// Hack to prevent plagued zombies placing blocks
-		if (MonsterManager.getManager().isGamePlayer(player)) {
+		if (block != null && NFBlocks.UNINTERACTABLE_BLOCKS.matchesBlock(block) && player.getGameMode() != GameMode.CREATIVE) {
 			event.setCancelled(true);
 		}
 	}
@@ -225,6 +156,17 @@ public class GameListener implements Listener {
 				dwarf.showSharedChest();
 				break;
 			}
+			
+			case MINECART_FURNACE: {
+				event.setCancelled(true);
+				
+				Player player = event.getPlayer();
+				Dwarf dwarf = DwarfManager.getManager().getGamePlayer(player);
+				if (dwarf == null) break;
+				
+				dwarf.interactFurnace();
+				break;
+			}
 		}
 	}
 	
@@ -248,6 +190,18 @@ public class GameListener implements Listener {
 		}
 	}
 	
+	@EventHandler
+	public void onSwim(EntityToggleSwimEvent event) {
+		Entity entity = event.getEntity();
+		EntityType type = event.getEntityType();
+		if (type != EntityType.PLAYER) return;
+		
+		GamePlayer gamePlayer = game.getGamePlayer((Player) entity);
+		if (gamePlayer == null) return;
+		
+		gamePlayer.onSwim(event.isSwimming());
+	}
+	
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onHit(EntityDamageEvent event) {
@@ -257,7 +211,9 @@ public class GameListener implements Listener {
 		// Protect santa
 		switch (entity.getType()) {
 			case ARMOR_STAND:
-			case ITEM_FRAME: {
+			case ITEM_FRAME:
+			case MINECART_FURNACE:
+			case MINECART_CHEST: {
 				event.setCancelled(true);
 				return;
 			}
@@ -355,15 +311,23 @@ public class GameListener implements Listener {
 				location.setDirection(facing);
 				arrow.teleport(location);
 				
+				// Get bow and damage
+				ItemStack bow = event.getBow();
+				ItemMeta meta = bow.getItemMeta();
+				CustomItemTagContainer container = meta.getCustomTagContainer();
+				int damage = 0;
+				if (container.hasCustomTag(Keys.BOW_POWER_KEY, ItemTagType.INTEGER)) {
+					damage = container.getCustomTag(Keys.BOW_POWER_KEY, ItemTagType.INTEGER);
+				}
 				
 				// Update arrow properties
 				ArrowMisc.setArrowForce(arrow, force);
-				ArrowMisc.setArrowDamage(arrow, 0);
+				ArrowMisc.setArrowDamage(arrow, damage);
 				arrow.setPickupStatus(Arrow.PickupStatus.DISALLOWED);
 				arrow.setBounce(false);
 				
 				// FIRE
-				Projectile newProj = shooter.onBowFire(arrow, force);
+				Projectile newProj = shooter.onBowFire(bow, arrow, force);
 				
 				if (newProj == null) {
 					event.setCancelled(true);
@@ -398,10 +362,16 @@ public class GameListener implements Listener {
 	public void onProjectileLand(ProjectileHitEvent event) {
 		Projectile proj = event.getEntity();
 		ProjectileSource source = proj.getShooter();
-		if (source instanceof Player) {
-			GamePlayer player = game.getGamePlayer((Player) source);
-			if (player != null) {
-				player.onProjectileLand(event.getEntity(), event.getHitBlock());
+		BlockFace hitFace = event.getHitBlockFace();
+		
+		if (source == null) return;
+		if (source instanceof Entity) {
+			GameEntity<?> gameSource = game.getGameEntity((Entity) source);
+			if (gameSource instanceof GameShooter) {
+				Entity hitEntity = event.getHitEntity();
+				GameEntity<?> gameEntity = game.getGameEntity(hitEntity);
+				
+				((GameShooter) gameSource).onProjectileLand(event.getEntity(), event.getHitBlock(), hitFace, gameEntity);
 				proj.remove();
 			}
 		}
@@ -428,31 +398,14 @@ public class GameListener implements Listener {
 		event.getEntity().remove();
 	}
 	
-	@EventHandler
-	public void onBlockBreak(BlockBreakEvent event) {
-		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
-		
-		Block block = event.getBlock();
-		GameMap map = GameMap.getCurrentMap();
-		
-		if (!map.isBlockBreakable(block)) {
-			event.setCancelled(true);
-		}
-		
-		GamePlayer gp = game.getGamePlayer(event.getPlayer());
-		if (gp != null) {
-			boolean shouldBreak = gp.onBlockBreak(event.getBlock(), !event.isCancelled());
-			event.setCancelled(!shouldBreak);
-		}
-	}
-	
 	// --------------------------------------------------------
 	//                        DEATH
 	// --------------------------------------------------------
 	
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
-		Dwarf dwarf = dwarfManager.getGamePlayer(event.getEntity());
+		Player player = event.getEntity();
+		Dwarf dwarf = dwarfManager.getGamePlayer(player);
 		if (dwarf != null) {
 			for (Dwarf dwarf2 : dwarfManager.getGamePlayers()) {
 				dwarf2.notifyDeath(dwarf);
@@ -463,23 +416,24 @@ public class GameListener implements Listener {
 			Bukkit.spigot().broadcast(deathMessage);
 			Bukkit.getConsoleSender().spigot().sendMessage(deathMessage);
 			Game.getGame().getDeathTracker().registerDeathMessage(deathMessage);
-
-			if (Game.getGame().getPhase() == Phase.GAME) {
-				for (Player player : Bukkit.getOnlinePlayers())
-					player.sendTitle("", dwarf.getDisplayName() + ChatColor.DARK_RED + " has fallen!", 20, 60, 20);
+			
+			Phase phase = Game.getGame().getPhase();
+			if (phase.isOrIsAfter(Phase.GAME)) {
+				for (Player player1 : Bukkit.getOnlinePlayers()) {
+					player1.sendTitle("", dwarf.getDisplayName() + ChatColor.DARK_RED + " has fallen!", 20, 60, 20);
+				}
 			}
 			
 			dwarfManager.removeGamePlayer(dwarf);
-			monsterManager.addGamePlayer(event.getEntity(), false);
+			
+			if (phase.isOrIsAfter(Phase.BUILD)) {
+				MonsterPlayer monster = new MonsterPlayer(player, false);
+				monsterManager.registerGamePlayer(monster);
+			}
 
 			if (Game.getGame().getPhase() == Phase.PLAGUE) {
 				Game.getGame().getPlague().onDwarfDeath(dwarf);
 			}
-			// Delayed to prevent concurrent modification exceptions hopefully ._.
-//			new BukkitRunnable() {
-//				@Override public void run() {
-//				}
-//			}.runTaskLater(NightfallPlugin.getPlugin(), 22);
 		}
 	}
 	
@@ -488,15 +442,24 @@ public class GameListener implements Listener {
 		Phase phase = Game.getGame().getPhase();
 		Player player = event.getPlayer();
 		
-		if (phase.isBefore(Phase.PLAGUE)) {
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					Game.getGame().resetPlayer(player);
-				}
-			}.runTaskLater(NightfallPlugin.getPlugin(), 10);
+		GamePlayer gamePlayer = Game.getGame().getGamePlayer(player);
+		if (gamePlayer != null) {
+			event.setRespawnLocation(gamePlayer.getRespawnLocation());
+			gamePlayer.doLater(gamePlayer::onRespawn, 1);
+		} else {
+			event.setRespawnLocation(GameMap.getCurrentMap().getLobbySpawn());
+			
+			if (phase.isBefore(Phase.PLAGUE)) {
+				new BukkitRunnable() {
+					@Override
+					public void run() {
+						if (!player.isOnline()) return;
+						Game.getGame().resetPlayer(player);
+					}
+				}.runTaskLater(NightfallPlugin.getPlugin(), 10);
+			}
 		}
-		event.setRespawnLocation(GameMap.getCurrentMap().getLobbySpawn());
+		
 	}
 	
 	@EventHandler
@@ -583,6 +546,7 @@ public class GameListener implements Listener {
 		}
 	}
 	
+	// This cause /give to give players an extra item for some bizarre reason, not that it really matters
 	@EventHandler
 	public void preventDropping(PlayerDropItemEvent event) {
 		if (event.getPlayer().getGameMode() == GameMode.ADVENTURE ||

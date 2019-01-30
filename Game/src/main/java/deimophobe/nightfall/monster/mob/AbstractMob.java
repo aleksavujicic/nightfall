@@ -4,8 +4,11 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.PlayerSkin;
-import deimophobe.nightfall.SkinManager;
+import deimophobe.nightfall.blocks.BlockManager;
+import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
+import deimophobe.nightfall.blocks.NFBlocks;
+import deimophobe.nightfall.skin.PlayerSkin;
+import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.common.player.settings.PlayerSettings;
@@ -21,13 +24,13 @@ import deimophobe.nightfall.map.region.Region;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
+import deimophobe.nightfall.util.AFKChecker;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import net.md_5.bungee.api.chat.BaseComponent;
-import org.apache.commons.collections4.MultiValuedMap;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -39,9 +42,8 @@ import org.bukkit.potion.PotionEffectType;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -72,6 +74,7 @@ public abstract class AbstractMob implements Mob {
 		this.compass = new GameCompass(monster);
 	}
 	
+	@Deprecated
 	protected AbstractMob(MonsterPlayer monster, MobType type, MobData data) {
 		this.monster = monster;
 		this.type = type;
@@ -213,7 +216,12 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	private void addUpdateable(Update update, Updateable updateable) { addUpdateable(updateable); }
-	private void setDisplayable(Display display, Displayable displayable) { setDisplayable(displayable); }
+	private void setDisplayable(Display display, Displayable displayable) {
+		if (display.reverse()) {
+			displayable = displayable.reverse();
+		}
+		setDisplayable(displayable);
+	}
 	private void addInteractable(Interact interact, Interactable interactable) {
 		ClickType click = interact.click();
 		String item = interact.item();
@@ -229,7 +237,7 @@ public abstract class AbstractMob implements Mob {
 	
 	
 	// ~~~~~ INTERACTABLE ~~~~~
-	private final Map<ClickType, Multimap<String, Interactable>> interactables = new HashMap<>();
+	private final Map<ClickType, Multimap<String, Interactable>> interactables = new EnumMap<>(ClickType.class);
 	private void initialiseInteractables() {
 		interactables.put(ClickType.LEFT, HashMultimap.create());
 		interactables.put(ClickType.RIGHT, HashMultimap.create());
@@ -293,7 +301,6 @@ public abstract class AbstractMob implements Mob {
 		return (mobData.disguiseType == DisguiseType.PLAYER);
 	}
 	
-	@Override
 	@Deprecated
 	public Disguise getDisguise() {
 		return DisguiseAPI.getDisguise(monster.getPlayer());
@@ -356,8 +363,8 @@ public abstract class AbstractMob implements Mob {
 		return getItem(ARMOUR_NAME);
 	}
 	
-	protected final CustomItem setWeapon(String newWepName) {
-		return items.put(WEAPON_NAME, mobData.getAsWeapon(newWepName));
+	protected void setWeapon(String itemName) {
+		items.put(WEAPON_NAME, mobData.getAsWeapon(itemName));
 	}
 	
 	public final boolean doesWeaponExist() {
@@ -464,7 +471,7 @@ public abstract class AbstractMob implements Mob {
 			// Ranged type damages
 			case RANGED:
 			case WITHER_SKULL:
-				xpGain = 10;
+				xpGain = 12;
 				break;
 			// Explosion type damages
 			case GOBO_KABOOM:
@@ -479,7 +486,11 @@ public abstract class AbstractMob implements Mob {
 				break;
 		}
 		final int finalXpGain = xpGain;
-		damage.addPostDamageHandler(() -> monster.gainExp(finalXpGain));
+		damage.addPostDamageHandler(() -> monster.giveExperience(finalXpGain));
+	}
+	
+	protected int getArmourShred() {
+		return mobData.armourShred;
 	}
 	
 	@Override
@@ -492,19 +503,26 @@ public abstract class AbstractMob implements Mob {
 		
 		if (!mobData.proccable) damage.setProc(false);
 		damage.getMultiPartDamage().timesMult(1 - mobData.damageRes);
-		damage.getArrowRes().setBase(mobData.arrowRes);
+		damage.getArrowResistance().setBase(mobData.arrowRes);
 		
 		damage.addPostDamageHandler(() -> {
 			playSound("hurt");
-			if (hasDisguise())
+			if (mobData.disguiseType != null && mobData.disguiseType != DisguiseType.PLAYER) {
 				monster.playSound("entity.generic.hurt", 1f, 1f, true);
+			}
 		});
 	}
 	
+	private static final BlockMatcher TORCH = NFBlocks.TORCH;
 	@Override
 	public boolean onBlockBreak(Block block, boolean didBreak) {
-		if (block.getType() == Material.TORCH && didBreak)
-			monster.gainExp(mobData.torchXP);
+		if (TORCH.matchesBlock(block) && didBreak) {
+			BlockManager manager = BlockManager.getManager();
+			boolean giveExp = manager.isValidExperienceTorch(block, monster.getPlayer());
+			
+			if (giveExp) monster.giveExperience(mobData.torchXP);
+		}
+		
 		return didBreak;
 	}
 	
@@ -521,14 +539,17 @@ public abstract class AbstractMob implements Mob {
 		cooldownHolder.update();
 		shrineProtTick();
 		
+		AFKChecker afkChecker = monster.getAfkChecker();
+		boolean afk = afkChecker.isAFK(everyNthTick(20));
+		if (afk) return;
 		
 		if (everyNthTick(20) && Game.getGame().getPhase() == Phase.GAME) {
-			monster.gainExp(monster.getExpRate());
+			monster.giveExperience(monster.getExperienceRate());
 		}
-		if (everyNthTick(5)) {
+		if (everyNthTick(10)) {
 			Region shrineRegion = GameMap.getCurrentMap().getCurrentShrineRegion();
 			if (shrineRegion.containsPlayer(monster) && getShrineWeight() != 0) {
-				monster.gainExp(mobData.shrineXP);
+				monster.giveExperience(mobData.shrineXP);
 			}
 		}
 	}
@@ -553,7 +574,7 @@ public abstract class AbstractMob implements Mob {
 	
 	@Override public void onShift(boolean sneaking) {}
 	@Override public Projectile onBowFire(Arrow arrow, float force) { return null; }
-	@Override public void onProjectileLand(Projectile proj, Block hitBlock) {}
+	@Override public void onProjectileLand(Projectile proj, Block hitBlock, BlockFace hitFace) {}
 	
 	
 	// ~~~~~ Misc ~~~~~
@@ -663,7 +684,7 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	protected void showDeathMessage(BaseComponent deathMessage) {
-		MonsterManager.getManager().queueDeathMessage(deathMessage.toPlainText());
+		MonsterManager.getManager().queueDeathMessage(deathMessage.toLegacyText());
 		
 		if (mobData.forceTitle) {
 			Bukkit.spigot().broadcast(deathMessage);

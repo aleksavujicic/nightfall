@@ -3,7 +3,7 @@ package deimophobe.nightfall.dwarf.kit.hero;
 import com.google.common.collect.Sets;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockManager;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.blocks.timedblock.IceSlab;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
@@ -11,7 +11,8 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.LogOnOffPiece;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -25,7 +26,7 @@ import java.util.Set;
 /**
  * Created by Deimophobe on 14/01/18.
  */
-public class Trident extends AbstractItem implements CooldownPiece {
+public class Trident extends AbstractItem implements CooldownPiece, LogOnOffPiece {
 	
 	public Trident(Dwarf dwarf) {
 		super(dwarf);
@@ -44,7 +45,7 @@ public class Trident extends AbstractItem implements CooldownPiece {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public KitGiveType getGiveType() { return KitGiveType.START; }
+	@Override public PickupType getPickupType() { return PickupType.START; }
 	
 	@Override
 	public void update() {
@@ -70,9 +71,17 @@ public class Trident extends AbstractItem implements CooldownPiece {
 		return false;
 	}
 	
+	@Override
+	public void onLogOn() {}
+	
+	@Override
+	public void onLogOff() {
+		clearWaterBlocks();
+	}
+	
 	private static final Set<Material> WATER_MATERIALS =
-			Sets.newHashSet(Material.AIR, Material.CARPET);
-			//Sets.newHashSet(Material.AIR, Material.WATER, Material.STATIONARY_WATER);
+			Sets.newHashSet(Material.AIR);
+			//Sets.newHashSet(Material.AIR, Material.WATER, Material.STATIONARY_WATER); add carpet
 	private void sprayWater() {
 		
 		Block looking = dwarf.getTargetBlock(WATER_MATERIALS, 12);
@@ -104,9 +113,9 @@ public class Trident extends AbstractItem implements CooldownPiece {
 	}
 	
 	private boolean replaceBlockWithWater(Block block) {
-		if (BlockType.IGNORABLE.matchesBlock(block) && GameMap.getCurrentMap().isBlockPlaceable(block)) {
+		if (NFBlocks.IGNORABLE.matchesBlock(block) && GameMap.getCurrentMap().isBlockPlaceable(block)) {
 			water--;
-			block.setType(Material.STATIONARY_WATER, false);
+			block.setType(Material.WATER, false);
 			waterBlocks.add(block);
 			return true;
 		}
@@ -130,7 +139,7 @@ public class Trident extends AbstractItem implements CooldownPiece {
 		if (waterBlocks.isEmpty()) return;
 		
 		for (Block block : waterBlocks) {
-			block.setType(Material.AIR);
+			block.setType(Material.AIR, false);
 			block.getWorld().spawnParticle(Particle.WATER_DROP, block.getLocation().add(0.5, 0.5, 0.5), 15, 0.5, 0.5, 0.5);
 		}
 		waterBlocks.clear();

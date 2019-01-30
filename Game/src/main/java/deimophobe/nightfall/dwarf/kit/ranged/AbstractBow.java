@@ -9,11 +9,12 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.BowPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
@@ -44,7 +45,7 @@ public abstract class AbstractBow extends AbstractItem implements BowPiece {
 	}
 	
 	@Override
-	public KitGiveType getGiveType() { return KitGiveType.BOW; }
+	public PickupType getPickupType() { return PickupType.BOW; }
 	
 	protected boolean isRangedDamageFromBow(MonsterDamage damage) {
 		return (damage.getType() == GameDamageType.RANGED &&
@@ -85,7 +86,6 @@ public abstract class AbstractBow extends AbstractItem implements BowPiece {
 	public Projectile onBowFire(Projectile proj, float force) {
 		if (proj instanceof Arrow) {
 			addMetadata((Arrow) proj);
-			ArrowMisc.setArrowDamage((Arrow) proj, getPower());
 		}
 		return proj;
 	}
@@ -96,7 +96,7 @@ public abstract class AbstractBow extends AbstractItem implements BowPiece {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile proj, Block hitBlock) {}
+	public void onProjectileLand(Projectile proj, Block hitBlock, BlockFace hitFace) {}
 	
 	
 	

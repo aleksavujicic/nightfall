@@ -1,11 +1,12 @@
 package deimophobe.nightfall.dwarf.hero;
 
-import deimophobe.nightfall.PlayerSkin;
-import deimophobe.nightfall.SkinManager;
+import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.skin.PlayerSkin;
+import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.damage.*;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.*;
@@ -72,7 +73,7 @@ public class Arthea extends Hero {
 			} else {
 				Location location = getLocation().add(0,0.7,0);
 				World world = location.getWorld();
-				world.spawnParticle(Particle.REDSTONE, location, 5 ,0.5, 0.5, 0.5, 0);
+				world.spawnParticle(Particle.REDSTONE, location, 5 ,0.5, 0.5, 0.5, Misc.RED);
 			}
 			
 			//if (quadSec)
@@ -179,6 +180,8 @@ public class Arthea extends Hero {
 		super.givePotionEffect(PotionEffectType.WEAKNESS, ENRAGE_TRANSITION_DURATION + 20, 100, true, true, true);
 		//super.givePotionEffect(PotionEffectType.SLOW_DIGGING, ENRAGE_TRANSITION_DURATION + 20, 100, false, false, true);
 		super.givePotionEffect(PotionEffectType.BLINDNESS, ENRAGE_TRANSITION_DURATION + 20, 100, true, true, true);
+		
+		setWarningLevel(0);
 	}
 	
 	private void startEnrage() {
@@ -187,7 +190,7 @@ public class Arthea extends Hero {
 		PlayerInventory inv = player.getInventory();
 		inv.clear();
 		
-		giveKitItems(KitGiveType.ARTHEA_SPECIAL);
+		giveKitItems(PickupType.ARTHEA_SPECIAL);
 		inv.setHeldItemSlot(0);
 		
 		player.updateInventory();
@@ -206,6 +209,7 @@ public class Arthea extends Hero {
 		super.givePotionEffect(PotionEffectType.GLOWING, ENRAGE_DURATION, 3, true, true, true);
 		
 		//makeMobsGlow();
+		setWarningLevel(1);
 	}
 	
 //	private PacketListener glower;

@@ -29,7 +29,7 @@ items:
   sturdy: Sturdy Armour
   quiver: Massive Quiver
   studded: Studded Armour
-  fairy-band: Fairy Band
+  alchemical-guard: Alchemical Guard
   berserker: Berserker Armour
   nature-suit: Taproot Armour
 
@@ -55,6 +55,8 @@ items:
 consumables:
   mortar: Mortar
   cobblestone: Cobblestone
+  stairs: Stairs
+  half-slab: Half Slab|Half Slabs
   torch: Torch|Torches
   glass: Glass
 

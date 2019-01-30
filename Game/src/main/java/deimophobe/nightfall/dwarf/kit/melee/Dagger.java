@@ -12,7 +12,7 @@ import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -22,26 +22,27 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.material.MaterialData;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 20/01/17.
  */
 public class Dagger extends AbstractItem implements CooldownPiece {
-	
-	public Dagger(Dwarf dwarf) {
-		super(dwarf);
-	}
+	private static final BlockData BOMB_PARTICLE = Material.LIME_CONCRETE.createBlockData();
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "dagger");
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
+	@Override public PickupType getPickupType() { return PickupType.SWORD; }
 	
 	private final ComplexCooldown poisonCooldown = new ComplexCooldown(120*20, this::poisonBomb);
 	private final ComplexCooldown armourReshower = new ComplexCooldown(DURATION, null, this::reshowArmour);
+	
+	public Dagger(Dwarf dwarf) {
+		super(dwarf);
+	}
 	
 	@Override
 	public void update() {
@@ -99,7 +100,7 @@ public class Dagger extends AbstractItem implements CooldownPiece {
 		World world = dwarf.getWorld();
 		world.spawnParticle(Particle.SMOKE_LARGE, center, 100, 2, 1,2, 0.15);
 		world.spawnParticle(Particle.CLOUD, center, 100, 2, 1,2, 0.15);
-		world.spawnParticle(Particle.FALLING_DUST, center, 300, 2, 1, 2, 0, new MaterialData(Material.CONCRETE, (byte) 5));
+		world.spawnParticle(Particle.FALLING_DUST, center, 300, 2, 1, 2, 0, BOMB_PARTICLE);
 		
 		dwarf.playSound("entity.wither.shoot", 1f, 0.6f, true);
 		

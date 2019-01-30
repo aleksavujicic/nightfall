@@ -113,13 +113,14 @@ class GoblinKaboom extends Goblin {
 		}
 	}
 	
+	private static final double BOOM_RANGE = 7.5;
 	private void kaboom() {
 		playSound("boom");
 		
-		double dwarfDamage = 50 + 5 * shrapnel + (superKaboom ? 40 : 0);
-		int armorShred = 50 + 5 * shrapnel + (superKaboom ? 25 : 0);
-		double power = 6 + 0.5 * dest + (superKaboom ? 2.5 : 0);
-		double kb = 2.5 + 0.2 * force + (superKaboom ? 1.5 : 0);
+		final double dwarfDamage = 40 + 5 * shrapnel + (superKaboom ? 30 : 0);
+		final int armorShred = 50 + 5 * shrapnel + (superKaboom ? 25 : 0);
+		final double power = 6 + 0.5 * dest + (superKaboom ? 2.5 : 0);
+		final double kb = 2.5 + 0.2 * force + (superKaboom ? 1.5 : 0);
 		
 		Location loc = monster.getLocation();
 		World world = monster.getLocation().getWorld();
@@ -130,16 +131,17 @@ class GoblinKaboom extends Goblin {
 		
 		for (Dwarf dwarf : DwarfManager.getManager().getDwarves()) {
 			Vector offset = dwarf.getEyeLocation().subtract(loc).toVector();
-			double range = 7.5;
             double offlength = offset.length();
-            if (offlength > range) continue;
-
-            Vector knockback = offset.normalize().multiply(kb * (1 - offlength / range));
+            if (offlength > BOOM_RANGE) continue;
+            
+            final double scalingFactor = Math.min(0.15*BOOM_RANGE/offlength + 0.35, 1);
+            
+			Vector knockback = offset.clone().normalize().multiply(kb * scalingFactor);
+   
+//            Vector knockback = offset.normalize().multiply(kb * (1 - offlength / BOOM_RANGE));
 			knockback.setY(knockback.getY() / 2 + 0.1 + (superKaboom ? 0.4 : 0));
 			
-			dwarfDamage *= Math.min(0.2*range/offlength + 0.4, 1);
-			
-			DwarfDamage aoeDamage = dwarf.createDamage(monster, GameDamageType.GOBO_KABOOM, dwarfDamage);
+			DwarfDamage aoeDamage = dwarf.createDamage(monster, GameDamageType.GOBO_KABOOM, dwarfDamage*scalingFactor);
 			aoeDamage.setKnockback(knockback);
 			aoeDamage.setArmourShred(armorShred);
 			aoeDamage.fire(true);

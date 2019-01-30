@@ -4,8 +4,8 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockConverter;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.blocktype.BlockSet;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
-import deimophobe.nightfall.blocks.blocktype.ComparableBlock;
+import deimophobe.nightfall.blocks.NFBlocks;
+import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Display;
@@ -120,8 +120,8 @@ public class Minotaur extends AbstractMob {
 	}
 	
 	
-	private static final ComparableBlock STOMPABLE = new BlockSet(
-			BlockType.GLASS, BlockType.GRASS, BlockType.LEAVES
+	private static final BlockMatcher STOMPABLE = new BlockSet(
+			NFBlocks.GLASS, NFBlocks.DECORATIVES, NFBlocks.LEAVES
 	);
 	
 	/**

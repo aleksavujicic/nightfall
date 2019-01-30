@@ -2,6 +2,7 @@ package deimophobe.nightfall;
 
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.event.GameStartEvent;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.monster.MonsterManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,6 +35,10 @@ public class ChatListener implements Listener {
 			event.setMessage(message);
 			event.setFormat("[!] <%s> %s");
 		} else {
+			// Check game is going.
+			Game game = Game.getGame();
+			if (game == null) return;
+			
 			// Note this is async, so caution should be used in adding extra functionality here.
 			// GamePlayerManagers internal map is a ConcurrentHashMap so isGamePlayer is thread safe.
 			DwarfManager dwarfManager = DwarfManager.getManager();

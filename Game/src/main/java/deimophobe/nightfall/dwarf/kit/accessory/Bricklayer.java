@@ -2,7 +2,7 @@ package deimophobe.nightfall.dwarf.kit.accessory;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ConsumerCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
@@ -11,7 +11,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.map.GameMap;
@@ -39,7 +39,7 @@ public class Bricklayer extends AbstractItem {
 	public CustomItem getItem() {
 		return (speedy ? SPEEDY_ITEM : ITEM);
 	}
-	@Override public KitGiveType getGiveType() { return KitGiveType.START; }
+	@Override public PickupType getPickupType() { return PickupType.START; }
 	
 	private Block firstCorner = null;
 	private Block secondCorner = null;
@@ -187,7 +187,7 @@ public class Bricklayer extends AbstractItem {
 					return;
 				}
 				
-				if (BlockType.IGNORABLE.matchesBlock(nextBlock) && GameMap.getCurrentMap().isBlockPlaceable(nextBlock)) {
+				if (NFBlocks.IGNORABLE.matchesBlock(nextBlock) && GameMap.getCurrentMap().isBlockPlaceable(nextBlock)) {
 					dwarf.removeItems(ConsumableType.COBBLESTONE, 1, true);
 					nextBlock.getWorld().playSound(nextBlock.getLocation(), "block.stone.place", 1f, 1f);
 					dwarf.playSound("block.stone.place");

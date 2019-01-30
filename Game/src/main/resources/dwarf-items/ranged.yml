@@ -26,11 +26,11 @@ longbow:
   name: Longbow
   lore:
     description:
-       - "Shooting player controlled mobs\n
-          temporarily increases bow power by &b20&r,\n
-          for a max of &b200&r power for &e10 seconds&r.\n
-          Shooting AI controlled mobs lengthens\n
-          the increase time by &e2 seconds&r."
+     - "Killing mobs will increase the longbow's\n
+        power by &b10&r per kill, up to a maximum\n
+        of &b125&r power.\n
+        Must kill a mob every &e6 seconds&r to\n
+        maintain this bonus."
     flavour:
      - "\"Aim for the wolves!\" - Velvetine"
 
@@ -100,7 +100,7 @@ volcanic:
     description:
      - "Charge up a lined blast of fire\n
         that pierces everything in\n
-        its path. Uses 3 arrows a shot."
+        its path. Uses 2 arrows a shot."
     flavour:
      - "\"This gauntlet can even burn hellhounds.\" -Tui"
   modifiers:

@@ -2,13 +2,19 @@ package deimophobe.nightfall;
 
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.Expirable;
+import deimophobe.nightfall.cooldown.Updateable;
+import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.dwarf.DwarvenItems;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.monster.mob.MobType;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Deimophobe on 30/04/17.
@@ -21,11 +27,11 @@ public class ItemManager {
 	
 	private final static boolean ENABLED = true;
 	
-	private final Map<String, CustomItem> items;
+	private final SortedMap<String, CustomItem> items;
 	private ItemManager() {
 		if (!ENABLED) return;
 		
-		items = new HashMap<>();
+		items = new TreeMap<>();
 		items.putAll(addPrefix("dwarf", getDwarfItems()));
 		items.putAll(addPrefix("mob", getMobItems()));
 		items.putAll(addPrefix("misc", getMiscItems()));
@@ -67,6 +73,51 @@ public class ItemManager {
 	
 	public CustomItem getItem(String name) {
 		return items.get(name);
+	}
+	
+	
+	public void cycleThroughItems(Player player, int cycleTime) {
+		ItemCycler cycler = new ItemCycler(player, cycleTime);
+		Game game = Game.getGame();
+		game.addUpdateable(cycler);
+	}
+	
+	private class ItemCycler implements Expirable {
+		private final Player player;
+		private final Iterator<CustomItem> iterator;
+		private final Cooldown cycleDelay;
+		private ItemStack previousItem = null;
+		
+		private ItemCycler(Player player, int cycleTime) {
+			this.player = player;
+			this.iterator = items.values().iterator();
+			this.cycleDelay = new UseCooldown(cycleTime, this::cycle);
+		}
+		
+		private void cycle() {
+			PlayerInventory inventory = player.getInventory();
+			if (previousItem != null) inventory.remove(previousItem);
+			
+			ItemStack next = iterator.next().createItemStack();
+			inventory.addItem(next);
+			previousItem = next;
+		}
+		
+		@Override
+		public void update() {
+			cycleDelay.update();
+			if (player.isSneaking()) cycleDelay.tryUse();
+		}
+		
+		@Override
+		public boolean hasExpired() {
+			return !iterator.hasNext();
+		}
+		
+		@Override
+		public void onExpiry() {
+			if (previousItem != null) player.getInventory().remove(previousItem);
+		}
 	}
 	
 	

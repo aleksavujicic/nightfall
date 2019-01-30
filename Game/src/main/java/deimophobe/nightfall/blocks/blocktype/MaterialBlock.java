@@ -4,12 +4,15 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.jetbrains.annotations.NotNull;
 
+import static deimophobe.nightfall.util.NFConditions.checkMaterialIsBlock;
+
 /**
  * Created by Deimophobe on 17/06/17.
  */
-public class MaterialBlock implements CustomBlock {
+public class MaterialBlock implements BlockInteracter {
 	private final Material material;
 	public MaterialBlock(Material material) {
+		checkMaterialIsBlock(material);
 		this.material = material;
 	}
 	
@@ -22,5 +25,9 @@ public class MaterialBlock implements CustomBlock {
 	@Override
 	public boolean matchesBlock(@NotNull Block block) {
 		return (block.getType() == material);
+	}
+	
+	public Material getMaterial() {
+		return material;
 	}
 }

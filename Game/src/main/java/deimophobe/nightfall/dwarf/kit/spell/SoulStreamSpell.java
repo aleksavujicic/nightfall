@@ -56,7 +56,7 @@ class SoulStreamSpell implements Spell {
 				hitscan.fire(dwarf, MAX_RANGE);
 				
 				float pitch = 2f - 1.5f * getLifetime()/DURATION;
-				dwarf.playSound("block.note.bass", 1f, pitch, true);
+				dwarf.playSound("block.note_block.bass", 1f, pitch, true);
 			}
 			
 			@Override

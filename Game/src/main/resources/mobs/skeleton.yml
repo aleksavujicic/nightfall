@@ -1,14 +1,18 @@
 base:
   title: Skeleton
 
+  disguisetype: skeleton
+
+  ranged: true
+
   health: 10
-  attack: 0
+  attack: 15
+  shred: 25
+  speed: -10
 
   proccable: true
   resistance: 0.6
-  shred: 0
 
-  disguisetype: skeleton
   armour:
     material: bone
     name: Tough Bones
@@ -44,6 +48,12 @@ wither:
   parent: base
   title: Wither
   disguisetype: wither_skeleton
+
+  health: 10
+  attack: 15
+  shred: 25
+  speed: -10
+
   weapon:
     base: skeleton.wither-bow
     name: Nether Tooth Bow
@@ -62,6 +72,12 @@ wither:
 flamelancer:
   parent: base
   title: Flamelancer
+
+  health: 10
+  attack: 10
+  shred: 15
+  speed: 0
+
   weapon:
     base: skeleton.flame-bow
     name: Nether Tooth Bow
@@ -80,7 +96,7 @@ flamelancer:
         description:
          - "Fire"
         flavour:
-         - ""
+         - "Gotta go fast."
 
 impact:
   parent: base

@@ -3,7 +3,7 @@ package deimophobe.nightfall.dwarf.kit.melee;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 
 /**
@@ -17,5 +17,5 @@ public class DwarvenRuneblade extends AbstractItem {
 	
 	private static final CustomItem ITEM = DwarvenItems.getItem("melee", "drb");
 	@Override public CustomItem getItem() {return ITEM;}
-	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
+	@Override public PickupType getPickupType() { return PickupType.SWORD; }
 }

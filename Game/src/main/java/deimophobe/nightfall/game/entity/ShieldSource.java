@@ -10,10 +10,10 @@ public enum ShieldSource {
 	COMMAND,
 	
 	SHIELD_ALE(4),
-	AEGIS(3),
-	BOLSTER(4),
+	AEGIS(5),
+	BOLSTER(3),
 	DIAMOND_ORE(1),
-	RESURRECTION(4),
+	RESURRECTION(2),
 	
 	;
 	

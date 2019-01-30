@@ -1,0 +1,113 @@
+wound:
+  index: 10
+  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+  values:
+    damage: [1, 1, 2, 2, 3, 3, 4, 4, 5, 5]
+    armour-shred: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  item:
+    material: golden_pickaxe
+    name: "Wounding Strike"
+    lore:
+      description:
+        - "Increases damage by $damage\n
+           and armour-shred by $armour-shred."
+
+pursuit:
+  index: 11
+  cost: [500, 1000, 1500]
+  values:
+    value: [3, 6, 10]
+  item:
+    material: coal
+    name: "Pursuit"
+    lore:
+      description:
+        - "Gives speed when attacking dwarves.\n
+           Higher levels give more speed.\n
+           Also increases base speed by $value%."
+
+
+leap:
+  index: 12
+  cost: [100, 200, 300, 400, 500]
+  item:
+    material: sugar
+    name: "Leap"
+    lore:
+      description:
+        - "Right click your pick to leap..
+           Cooldown"
+
+
+arrow-resistance:
+  index: 14
+  cost: [100, 200, 300, 400, 500]
+  values:
+    value: [10, 20, 30, 40, 50]
+  item:
+    material: arrow
+    name: "Arrow Resistance"
+    lore:
+      description:
+        - "Increases arrow resistance to $value%"
+
+
+rebirth:
+  index: 15
+  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+  values:
+    value: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+  item:
+    material: ender_eye
+    name: "Rebirth"
+    lore:
+      description:
+        - "Increases respawn chance to $value%.\n
+           This decreases by 30% for every\n
+           successive rebirth."
+
+
+vampirism:
+  index: 16
+  cost: [200, 400, 600, 800, 1000]
+  values:
+    value: [0.4, 0.8, 1.2, 1.6, 2.0]
+  item:
+    material: redstone
+    name: "Vampirism"
+    lore:
+      description:
+        - "Gives 0.4 hearts life steal per level."
+
+
+fury-of-night:
+  index: 22
+  cost: 5000
+  prereq:
+    wound: 10
+    pursuit: 3
+    leap: 5
+    arrow-resistance: 5
+    rebirth: 10
+    vampirism: 5
+  item:
+    material: experience_bottle
+    name: "Fury of the Night"
+    shiny: true
+    lore:
+      description:
+        - "Drains 5 mana per hit."
+
+fury-inf:
+  index: 4
+  cost: 2000
+  permanent: true
+  prereq:
+    fury-of-night: 1
+  item:
+    material: experience_bottle
+    name: "Upgrade Mana Drain (inf)"
+    shiny: true
+    lore:
+      description:
+        - "Drain 1 more mana per hit."

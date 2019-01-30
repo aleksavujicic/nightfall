@@ -1,25 +1,84 @@
 package deimophobe.nightfall.blocks;
 
+import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
+import deimophobe.nightfall.blocks.blocktype.BlockSet;
 import deimophobe.nightfall.dwarf.kit.hero.Trident;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
+import deimophobe.nightfall.monster.MonsterManager;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
+import org.bukkit.inventory.ItemStack;
+
+import static deimophobe.nightfall.blocks.NFBlocks.TORCH;
 
 /**
  * Created by Deimophobe on 25/04/18.
  */
-public class BlockListener implements Listener {
+class BlockListener implements Listener {
 	private final BlockManager manager;
+	private final Game game;
 	
-	public BlockListener(BlockManager manager) {
+	BlockListener(BlockManager manager) {
 		this.manager = manager;
+		this.game = manager.getGame();
+	}
+	
+	@EventHandler
+	public void onBlockPlace(BlockPlaceEvent event) {
+		Block block = event.getBlockPlaced();
+		Player player = event.getPlayer();
+		if (player.getGameMode() == GameMode.CREATIVE) return;
+		
+		if (!GameMap.getCurrentMap().isBlockPlaceable(block)) {
+			event.setCancelled(true);
+		}
+		
+		// Hack to prevent plagued zombies placing blocks
+		if (MonsterManager.getManager().isGamePlayer(player)) {
+			event.setCancelled(true);
+		}
+		
+		boolean willPlace = !event.isCancelled();
+		if (willPlace && TORCH.matchesBlock(block)) {
+			manager.placeTorch(block, player);
+		}
+	}
+	
+	@EventHandler
+	public void onBlockBreak(BlockBreakEvent event) {
+		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
+		
+		Block block = event.getBlock();
+		GameMap map = GameMap.getCurrentMap();
+		
+		if (!map.isBlockBreakable(block)) {
+			event.setCancelled(true);
+		}
+		
+		GamePlayer gp = game.getGamePlayer(event.getPlayer());
+		if (gp != null) {
+			boolean shouldBreak = gp.onBlockBreak(event.getBlock(), !event.isCancelled());
+			event.setCancelled(!shouldBreak);
+		}
+		
+		boolean willBreak = !event.isCancelled();
+		if (willBreak) {
+			manager.checkTorchBreaking(block);
+		}
 	}
 	
 	@EventHandler
@@ -35,7 +94,7 @@ public class BlockListener implements Listener {
 	@EventHandler
 	public void preventIceMelt(BlockFadeEvent event) {
 		switch (event.getNewState().getType()) {
-			case STATIONARY_WATER:
+			case WATER:
 			case FROSTED_ICE:
 				event.setCancelled(true);
 		}
@@ -47,8 +106,12 @@ public class BlockListener implements Listener {
 	
 	@EventHandler
 	public void preventObsidian(BlockFormEvent event) {
-		if (event.getNewState().getType() == Material.OBSIDIAN) {
-			event.setCancelled(true);
+		BlockState newState = event.getNewState();
+		switch (newState.getType()) {
+			case OBSIDIAN:
+			case SPONGE:
+			case WET_SPONGE:
+				event.setCancelled(true);
 		}
 	}
 	
@@ -62,17 +125,17 @@ public class BlockListener implements Listener {
 			return;
 		}
 		
-		if (event.getBlock().getType() == Material.STATIONARY_WATER) {
+		if (event.getBlock().getType() == Material.WATER) {
 			if (!toBlock.getRelative(0,-1,0).getType().isSolid()) return;
 			
 			int numFaceWaterBlocks = 0;
-			if (toBlock.getRelative(1,0,0).getType() == Material.STATIONARY_WATER)
+			if (toBlock.getRelative(1,0,0).getType() == Material.WATER)
 				numFaceWaterBlocks++;
-			if (toBlock.getRelative(-1,0,0).getType() == Material.STATIONARY_WATER)
+			if (toBlock.getRelative(-1,0,0).getType() == Material.WATER)
 				numFaceWaterBlocks++;
-			if (toBlock.getRelative(0,0,1).getType() == Material.STATIONARY_WATER)
+			if (toBlock.getRelative(0,0,1).getType() == Material.WATER)
 				numFaceWaterBlocks++;
-			if (toBlock.getRelative(0,0,-1).getType() == Material.STATIONARY_WATER)
+			if (toBlock.getRelative(0,0,-1).getType() == Material.WATER)
 				numFaceWaterBlocks++;
 			
 			if (numFaceWaterBlocks >= 2) return;
@@ -99,8 +162,61 @@ public class BlockListener implements Listener {
 	@EventHandler
 	public void blockPhysics(BlockPhysicsEvent event) {
 		Block block = event.getBlock();
+		
+		switch (block.getType()) {
+			case OBSIDIAN:
+			case SPONGE:
+			case WET_SPONGE:
+				event.setCancelled(true);
+				return;
+		}
 		if (manager.isTimedBlock(block)) {
 			event.setCancelled(true);
+		}
+	}
+	
+	private static final BlockMatcher UNHOEABLE = new BlockSet(
+			NFBlocks.GRASS_BLOCK,
+			NFBlocks.DIRT,
+			NFBlocks.PODZOL
+	);
+	private static final BlockMatcher UNAXEABLE = new BlockSet(
+			NFBlocks.LOG
+	);
+	
+	
+	@EventHandler
+	public void preventBlockInteraction(PlayerInteractEvent event) {
+		Player player = event.getPlayer();
+		if (player.getGameMode() == GameMode.CREATIVE) return;
+		
+		ItemStack item = player.getInventory().getItemInMainHand();
+		Block block = event.getClickedBlock();
+		Action action = event.getAction();
+		
+		if (block != null && item != null && action == Action.RIGHT_CLICK_BLOCK) {
+			switch (item.getType()) {
+				case DIAMOND_HOE:
+				case DIAMOND_SHOVEL:
+				case GOLDEN_HOE:
+				case GOLDEN_SHOVEL:
+				case IRON_HOE:
+				case IRON_SHOVEL:
+				case STONE_HOE:
+				case STONE_SHOVEL:
+				case WOODEN_HOE:
+				case WOODEN_SHOVEL:
+					if (UNHOEABLE.matchesBlock(block)) event.setCancelled(true);
+					break;
+					
+				case DIAMOND_AXE:
+				case GOLDEN_AXE:
+				case IRON_AXE:
+				case STONE_AXE:
+				case WOODEN_AXE:
+					if (UNAXEABLE.matchesBlock(block)) event.setCancelled(true);
+					break;
+			}
 		}
 	}
 }

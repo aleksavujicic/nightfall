@@ -2,7 +2,7 @@ package deimophobe.nightfall.blocks.timedblock;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockConverter;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -15,18 +15,21 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.util.Vector;
 
 /**
  * Created by Deimophobe on 28/02/17.
  */
 public class GoboBox extends DataTimedBlock {
+	private final static BlockData ENDSTONE = Material.END_STONE.createBlockData();
+	
 	private final double power;
 	private final double damage;
 	private final double kb;
 
 	public GoboBox(Block block, int lifeTime, double damage, double power, double kb, GameEntity placer) {
-		super(lifeTime, block, placer, Material.ENDER_STONE);
+		super(lifeTime, block, placer, ENDSTONE);
 		this.damage = damage;
 		this.power = power;
 		this.kb = kb;
@@ -34,7 +37,7 @@ public class GoboBox extends DataTimedBlock {
 	
 	@Override
 	public boolean isPlaceable() {
-		return BlockType.EMPTY_BLOCKS.matchesBlock(block);
+		return NFBlocks.EMPTY_BLOCKS.matchesBlock(block);
 	}
 	
 	@Override

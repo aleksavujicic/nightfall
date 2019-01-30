@@ -16,5 +16,5 @@ public interface ItemPiece extends KitPiece, ItemMatcher {
 	CustomItem getItem();
 	boolean isHoldingItem();
 	
-	KitGiveType getGiveType();
+	PickupType getPickupType();
 }

@@ -20,8 +20,8 @@ import java.util.Set;
 class LargeGoldMineMaker extends SmallGoldMineMaker {
 	private static final int NUM_PARTICLES = 6;
 	
-	LargeGoldMineMaker(Colour colour, PlayerSound sound) {
-		super(colour, sound);
+	LargeGoldMineMaker(Color color, PlayerSound sound) {
+		super(color, sound);
 	}
 	
 	@Override
@@ -100,7 +100,7 @@ class LargeGoldMineMaker extends SmallGoldMineMaker {
 				offset.normalize().multiply(0.3);
 			location.add(offset);
 			
-			spawnGoldParticle(location);
+			spawnSingleGoldParticle(location);
 		}
 	}
 }

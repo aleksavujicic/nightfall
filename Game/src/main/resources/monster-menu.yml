@@ -1,0 +1,173 @@
+items:
+  reset-page:
+    base: menu.trash
+    name: Reset Upgrades
+
+  reset-xp:
+    base: menu.trash
+    name: Confirm Reset
+    lore:
+      description:
+       - "You have currently spent\n
+          $xp exp on your upgrades.\n
+          Confirm to reset all of your\n
+          upgrades and get $refund xp back."
+
+  back:
+    base: menu.left-arrow
+    name: Go Back
+
+  cancel:
+    base: menu.cancel
+    name: Cancel Reset
+
+  rebirth:
+    material: ender_eye
+    name: Rebirth
+    lore:
+      description:
+       - "Respawn where you died."
+
+
+
+upgradeable-mobs:
+  zombie-fury:
+    spawn-item:
+      material: wooden_pickaxe
+      name: "Spawn Fury Zombie"
+      lore:
+        description:
+          - "Test"
+    has-rebirth: true
+
+    cost: 3000
+    upgrade-item:
+      material: ender_eye
+      name: "Select Fury Zombie"
+      shiny: true
+      lore:
+        description:
+          - "Become a Fury Zombie.\n
+             An offensively oriented zombie\n
+             that can quickly damage and\n
+             break armour."
+
+
+  zombie-husk:
+    spawn-item:
+      material: wooden_pickaxe
+      name: "Spawn Husk"
+      lore:
+        description:
+          - "Test"
+    has-rebirth: true
+
+    cost: 3000
+    upgrade-item:
+      material: leather_chestplate
+      name: "Select Husk"
+      shiny: true
+      lore:
+        description:
+          - "Become a Husk.\n
+             A slow zombie that can become\n
+             resistant to arrows and procs."
+
+
+  zombie-saboteur:
+    spawn-item:
+      material: wooden_pickaxe
+      name: "Spawn Saboteur"
+      lore:
+        description:
+          - "Test"
+
+    cost: 3000
+    upgrade-item:
+      material: stone_sword
+      name: "Select Saboteur"
+      shiny: true
+      lore:
+        description:
+          - "Become a Saboteur.\n
+             A speedy, sneaky zombie that can\n
+             destroy walls and poison dwarves."
+
+
+  skeleton-flame:
+    spawn-item:
+      material: bow
+      name: "Spawn Flamelancer"
+      lore:
+        description:
+          - "Test"
+
+    cost: 3000
+    upgrade-item:
+      base: skeleton.flame-bow
+      name: "Select Flamelancer"
+      shiny: true
+      lore:
+        description:
+          - "Become a Flamelancer.\n
+             A fast skeleton that specializes\n
+             in lighting dwarves on fire."
+
+
+  skeleton-impact:
+    spawn-item:
+      material: bow
+      name: "Spawn Impact"
+      lore:
+        description:
+          - "Test"
+
+    cost: 3000
+    upgrade-item:
+      base: skeleton.impact-bow
+      name: "Select Impact Skeleton"
+      shiny: true
+      lore:
+        description:
+          - "Become an Impact Skeleton.\n
+             A sneaky skeleton variant that can\n
+             knock dwarves away."
+
+
+  skeleton-wither:
+    spawn-item:
+      material: bow
+      name: "Spawn Wither"
+      lore:
+        description:
+          - "Test"
+
+    cost: 3000
+    upgrade-item:
+      base: wither-skull
+      name: "Select Wither"
+      shiny: true
+      lore:
+        description:
+          - "Become a Wither.\n
+             A powerful skeleton that specializes\n
+             in chaining shots and breaking armor."
+
+
+  goblin-kaboom:
+    spawn-item:
+      base: kaboom
+      name: "Spawn Goblin"
+      lore:
+        description:
+          - "Test"
+
+    cost: 2000
+    upgrade-item:
+      base: kaboom
+      name: "Kaboom"
+      shiny: true
+      lore:
+        description:
+          - "Become a goblin that can kaboom,\n
+             blowing yourself up to deal huge damage."

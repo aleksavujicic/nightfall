@@ -146,26 +146,26 @@ longbow:
   type: item
   name: longbow
   category: bow
-  cost: 18
+  cost: 16
   item:
     name: "Longbow"
     base: longbow
     lore:
       description:
-       - "Shooting player controlled mobs\n
-          temporarily increases bow power by &b20&r,\n
-          for a max of &b200&r power for &e10 seconds&r.\n
-          Shooting AI controlled mobs lengthens\n
-          the increase time by &e2 seconds&r."
+       - "Killing mobs will increase the longbow's\n
+          power by &b10&r per kill, up to a maximum\n
+          of &b125&r power.\n
+          Must kill a mob every &e6 seconds&r to\n
+          maintain this bonus."
     modifiers:
-      power: 80
+      power: 75
 
 volcanic:
   index: 10
   type: item
   name: volcanic
   category: bow
-  cost: 18
+  cost: 16
   item:
     name: "Volcanic Gauntlet"
     base: volcanic
@@ -173,10 +173,10 @@ volcanic:
       description:
        - "Charge up a lined blast of fire\n
           that pierces everything in\n
-          its path. Uses 3 arrows a shot."
+          its path. Uses 2 arrows a shot."
     modifiers:
       attack: 15
-      power: 70
+      power: 60
 
 phoenix:
   index: 11
@@ -213,7 +213,7 @@ crossbow:
           Uses two arrows and has a\n
           slight reload time."
     modifiers:
-      power: 90
+      power: 80
 
 lightbow:
   index: 13
@@ -389,10 +389,10 @@ strong:
     lore:
       description:
        - "A very strong potion, which gives\n
-          you &e75% resistance&r making you feel like\n
-          a hero. However, it uses &b400&r mana."
+          you &e60% resistance&r making you feel like\n
+          a hero. However, it uses &b250&r mana."
     modifiers:
-      mana-cost: 400
+      mana-cost: 250
 
 
 # ------ ARMOURS ------
@@ -445,15 +445,15 @@ studded:
     modifiers:
       speed: 20
 
-fairy-band:
+alchemical-guard:
   index: 30
   type: item
-  name: fairy-band
+  name: alchemical-guard
   category: armour
   cost: 8
   item:
-    name: "Fairy Band"
-    base: fairy-band
+    name: "Alchemical Guard"
+    base: alchemical-guard
     lore:
       description:
        - "Grants a buff cycle of the following.\n

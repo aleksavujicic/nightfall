@@ -1,0 +1,30 @@
+kit:
+  base: lobby.kit-menu
+  name: Open Kit Menu
+  lore:
+    description:
+     - "Click to open the kit menu.\n
+        You can access this menu at\n
+        any time by typing '&c/kit&r'."
+
+settings:
+  base: lobby.settings-menu
+  name: Open Settings Menu
+  lore:
+    description:
+     - "Click to open the settings menu.\n
+        You can access this menu at\n
+        any time by typing '&c/settings&r'."
+
+ready:
+  base: menu.left-arrow
+  name: "&aYou Are Ready"
+  lore:
+    description:
+     - "Click to unready."
+not-ready:
+  base: menu.cancel
+  name: "&cYou Are Not Ready"
+  lore:
+    description:
+     - "Click to ready."

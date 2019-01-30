@@ -63,11 +63,17 @@ public abstract class AbstractCooldown implements Cooldown {
 		}
 	}
 	
+	@Override
 	public boolean wasUsedWithin(int time) {
 		return (currentTime >= maxTime - time);
+	}
+	
+	public int getTimeRemaining() {
+		return currentTime;
 	}
 	
 	protected abstract void onCooldownCompletion();
 	protected abstract boolean canUse();
 	protected abstract void onUse();
+	
 }

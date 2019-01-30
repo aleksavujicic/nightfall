@@ -4,11 +4,16 @@ import deimophobe.nightfall.command.CommandInitialiserUtil;
 import deimophobe.nightfall.common.menu.MenuManager;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.PlayMode;
+import deimophobe.nightfall.map.GameMap;
+import deimophobe.nightfall.map.MapManager;
+import deimophobe.nightfall.monster.upgrades.UpgradeRegistry;
 import deimophobe.nightfall.util.PacketUtil;
+import me.libraryaddict.disguise.LibsDisguises;
 import me.lucko.luckperms.LuckPerms;
 import me.lucko.luckperms.api.LuckPermsApi;
 import me.lucko.luckperms.api.context.ContextManager;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
@@ -33,6 +38,9 @@ public class NightfallPlugin extends JavaPlugin {
 	private boolean disabling = false;
 	public boolean isDisabling() { return disabling; }
 	
+	private UpgradeRegistry upgradeRegistry;
+	public UpgradeRegistry getUpgradeRegistry() { return upgradeRegistry; }
+	
 	@Override
 	public void onEnable() {
 		plugin = this;
@@ -40,24 +48,35 @@ public class NightfallPlugin extends JavaPlugin {
 		// Check dependencies exist
 		try {
 			checkDependency("Nightfall Common", "deimophobe.nightfall.common.NightfallCommonPlugin");
-			checkDependency("ProtocolLib", "me.libraryaddict.disguise.LibsDisguises");
-			checkDependency("Lib's Disguises", "com.comphenix.protocol.ProtocolLib");
+			checkDependency("Lib's Disguises", "me.libraryaddict.disguise.LibsDisguises");
+			checkDependency("ProtocolLib", "com.comphenix.protocol.ProtocolLib");
 			checkDependency("Packet Wrapper", "com.comphenix.packetwrapper.AbstractPacket");
 			checkDependency("LuckPerms", "me.lucko.luckperms.api.LuckPermsApi");
 		} catch (ClassNotFoundException e) {
+			getLogger().severe("Could not load all dependencies. Disabling...");
 			e.printStackTrace();
-			getLogger().severe("Could not load all dependencies, disabling.");
 			plugin.getPluginLoader().disablePlugin(this);
 			return;
 		}
 		
 		//cleanPlayerDataFiles();
+		upgradeRegistry = new UpgradeRegistry(this);
 		
 		PacketUtil.setupListeners();
 		
-		Game.createNewGame();
-		Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
-		Bukkit.getPluginManager().registerEvents(new NightfallListener(), this);
+		try {
+			Game.createNewGame();
+			Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
+			NightfallListener nfListnener = new NightfallListener(this);
+			Bukkit.getPluginManager().registerEvents(nfListnener, this);
+			Bukkit.getOnlinePlayers().forEach(nfListnener::processPlayer);
+		} catch (Exception e) {
+			getLogger().severe("Could not start nightfall plugin. Disabling...");
+			e.printStackTrace();
+			plugin.getPluginLoader().disablePlugin(this);
+			Bukkit.broadcastMessage(ChatColor.RED + "Failed to start nightfall");
+			return;
+		}
 		
 		initialiseMenus();
 		
@@ -72,16 +91,36 @@ public class NightfallPlugin extends JavaPlugin {
 	public void onDisable() {
 		disabling = true;
 		
-		Game game = Game.getGame();
-		if (game != null) game.stop();
+		try {
+			Game game = Game.getGame();
+			if (game != null) game.stop();
+		} catch (Exception e) {
+			getLogger().severe("Failed to disable nightfall plugin.");
+			e.printStackTrace();
+			
+			GameMap map = GameMap.getCurrentMap();
+			map.unload(); // Just in case, try again
+		}
 	}
 	
 	public void registerListener(Listener listener) {
 		Bukkit.getPluginManager().registerEvents(listener, this);
 	}
 	
+	/**
+	 * @deprecated static call should be avoided, use {@link NightfallPlugin#readInternalFileConfig(String)} instead.
+	 * @param name name of the file to read.
+	 * @return
+	 */
+	@Deprecated
 	public static YamlConfiguration getInternalFileConfig(String name) {
 		InputStream stream = getPlugin().getResource(name);
+		if (stream == null) throw new IllegalArgumentException("Unknown config file: " + name);
+		return YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
+	}
+	
+	public YamlConfiguration readInternalFileConfig(String name) {
+		InputStream stream = this.getResource(name);
 		if (stream == null) throw new IllegalArgumentException("Unknown config file: " + name);
 		return YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
 	}

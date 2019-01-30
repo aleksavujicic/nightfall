@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.armour;
 
+import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
@@ -57,9 +58,9 @@ public class NatureSuit extends AbstractPiece implements ArmourPiece {
 	}
 	
 	@Override
-	public void onArmourEquip() {
+	public void onArmourEquip(Armour armour) {
 		rebuff();
-		dwarf.getArmour().addModifier(ItemModifierType.NATURE_SUIT, 1);
-		dwarf.getArmour().addModifier(ItemModifierType.DEPTH_STRIDER, 1, "Taproot Armour", ArmourSlot.FEET);
+		armour.addModifier(ItemModifierType.NATURE_SUIT, 1);
+		armour.addModifier(ItemModifierType.DEPTH_STRIDER, 1, "Taproot Armour", ArmourSlot.FEET);
 	}
 }

@@ -3,6 +3,7 @@ package deimophobe.nightfall.dwarf.kit.healing;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.kit.ArmourPiece;
 import deimophobe.nightfall.game.entity.ShieldSource;
 
@@ -20,8 +21,8 @@ public class ShieldAle extends AbstractAle implements ArmourPiece {
 	}
 	
 	@Override
-	public void onArmourEquip() {
-		dwarf.getArmour().addModifier(ItemModifierType.HEALTH, -4, "Temp name ale");
+	public void onArmourEquip(Armour armour) {
+		armour.addModifier(ItemModifierType.HEALTH, -4, "Temp name ale");
 	}
 	
 	@Override

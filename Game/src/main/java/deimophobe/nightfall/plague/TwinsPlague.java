@@ -23,6 +23,7 @@ import java.util.function.Supplier;
  * Created by Deimophobe on 10/03/17.
  */
 public class TwinsPlague extends Plague {
+	private static final Particle.DustOptions BLACK_DUST = new Particle.DustOptions(Color.BLACK, 1.2f);
 	
 	public static void killMoreDwarves(int num, boolean enraged) {
 		new TwinsRampage(new Supplier<Dwarf>() {
@@ -73,9 +74,9 @@ public class TwinsPlague extends Plague {
 			this.twin2 = createTwin(spawnLoc);
 			
 			World world = spawnLoc.getWorld();
-			world.playSound(spawnLoc, Sound.ENTITY_ENDERMEN_STARE, 100, 1);
+			world.playSound(spawnLoc, Sound.ENTITY_ENDERMAN_STARE, 100, 1);
 			if (enraged) {
-				world.playSound(spawnLoc, Sound.ENTITY_ENDERMEN_STARE, 100, 0.8f);
+				world.playSound(spawnLoc, Sound.ENTITY_ENDERMAN_STARE, 100, 0.8f);
 				//world.playSound(spawnLoc, Sound.ENTITY_ENDERMEN_STARE, 100, 0.5f);
 			}
 			
@@ -118,7 +119,7 @@ public class TwinsPlague extends Plague {
 							Player player = dwarf.getPlayer();
 							player.spawnParticle(Particle.PORTAL, bodyCenter, 50, 5, 5, 5, 1.5);
 							player.spawnParticle(Particle.SMOKE_LARGE, bodyCenter, 10, 5, 5, 5, 0.15);
-							player.spawnParticle(Particle.FALLING_DUST, bodyCenter, 10, 5, 5, 5, 0);
+							player.spawnParticle(Particle.REDSTONE, bodyCenter, 10, 5, 5, 5, BLACK_DUST);
 							player.spawnParticle(Particle.CRIT_MAGIC, bodyCenter, 10, 5, 5, 5, 0);
 						}
 					}
@@ -164,14 +165,14 @@ public class TwinsPlague extends Plague {
 			target.instaKill(null, GameDamageType.DEATH_PLAGUE);
 			World world = GameMap.getCurrentMap().getWorld();
 			float volume = (enraged ? 100f : 1.5f);
-			world.playSound(center, Sound.ENTITY_ENDERMEN_TELEPORT, volume, 1.2f);
-			world.playSound(center, Sound.ENTITY_ENDERMEN_TELEPORT, volume, 0.8f);
-			world.playSound(center, "entity.endermen.scream", volume, 1.2f);
-			world.playSound(center, "entity.endermen.scream", volume, 0.8f);
-			world.playSound(center, "entity.endermen.ambient", volume, 0.5f);
+			world.playSound(center, Sound.ENTITY_ENDERMAN_TELEPORT, volume, 1.2f);
+			world.playSound(center, Sound.ENTITY_ENDERMAN_TELEPORT, volume, 0.8f);
+			world.playSound(center, Sound.ENTITY_ENDERMAN_SCREAM, volume, 1.2f);
+			world.playSound(center, Sound.ENTITY_ENDERMAN_SCREAM, volume, 0.8f);
+			world.playSound(center, Sound.ENTITY_ENDERMAN_AMBIENT, volume, 0.5f);
 			if (enraged) {
 				float pitch = Misc.randomFloat(0.5f, 1f);
-				world.playSound(center, Sound.ENTITY_ENDERMEN_DEATH, 100, pitch);
+				world.playSound(center, Sound.ENTITY_ENDERMAN_DEATH, 100, pitch);
 				
 				target.givePotionEffect(PotionEffectType.BLINDNESS, 200, 2, false, false, true);
 			}
@@ -179,7 +180,7 @@ public class TwinsPlague extends Plague {
 			Location bodyCenter = center.clone().add(0,0.5,0);
 			world.spawnParticle(Particle.PORTAL, bodyCenter, 200, 0.5, 0.5, 0.5, 1.5);
 			world.spawnParticle(Particle.SMOKE_LARGE, bodyCenter, 50, 0.5, 0.5, 0.5, 0.15);
-			world.spawnParticle(Particle.FALLING_DUST, bodyCenter, 50, 0.5, 0.5, 0.5, 0);
+			world.spawnParticle(Particle.REDSTONE, bodyCenter, 50, 0.5, 0.5, 0.5, BLACK_DUST);
 			world.spawnParticle(Particle.CRIT_MAGIC, bodyCenter, 50, 0.5, 0.5, 0.5, 0);
 			world.spawnParticle(Particle.ENCHANTMENT_TABLE, bodyCenter, 150, 0.75, 1, 0.75, 0.1);
 		}

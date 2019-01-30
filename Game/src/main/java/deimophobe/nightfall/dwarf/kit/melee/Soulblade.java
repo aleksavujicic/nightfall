@@ -11,10 +11,11 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.util.Util;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -41,8 +42,8 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public KitGiveType getGiveType() {
-		return KitGiveType.SWORD;
+	@Override public PickupType getPickupType() {
+		return PickupType.SWORD;
 	}
 
 	@Override
@@ -148,41 +149,30 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 	
 	
 	private static final double TWOPI = 2*PI;
-	
-	private static final double R_DEF = 0.75;
-	private static final double G_DEF = 0.1;
-	private static final double B_DEF = 0.8;
-	
-	private static final double R_MAX = 0.5;
-	private static final double G_MAX = 0.1;
-	private static final double B_MAX = 0.9;
+	private static final Particle.DustOptions DEFAULT_COLOUR = new Particle.DustOptions(Color.fromRGB(97,0,216), 1);
+	private static final Particle.DustOptions MAX_COLOUR = new Particle.DustOptions(Color.fromRGB(25,2,102), 1);
 	
 	
 	private double polar = 0;
 	private double azimuthal = 0;
 	
 	private void showParticle() {
-//		double velocity = soulScaling(0.1, 0.2);
 		polar     = (polar     + 0.1) % TWOPI;
 		azimuthal = (azimuthal + 0.03) % TWOPI;
 		
+		Particle.DustOptions colour = (souls == MAX_SOULS ? MAX_COLOUR : DEFAULT_COLOUR);
 		
 		int numParticles = (int) soulScaling(0, 15);
 		Location center = dwarf.getEyeLocation().subtract(0, 0.5, 0);
 		
-		double r = (souls == MAX_SOULS ? R_MAX : R_DEF);
-		double g = (souls == MAX_SOULS ? G_MAX : G_DEF);
-		double b = (souls == MAX_SOULS ? B_MAX : B_DEF);
 		for (int i=0; i<numParticles; i++) {
 			double particlePolar = polar     + PI/8 * i;
 			double particleAzi   = azimuthal + TWOPI/8 * i;
 			particlePolar = particlePolar % TWOPI;
 			particleAzi   = particleAzi   % TWOPI;
 			
-			//particlePolar = (particlePolar <= Math.PI ? particlePolar : TWOPI - particlePolar);
-			
 			Location particleLocation = Util.getSphericalPosition(center, 1.5, particlePolar, particleAzi);
-			particleLocation.getWorld().spawnParticle(Particle.REDSTONE, particleLocation, 0, r, g, b);
+			particleLocation.getWorld().spawnParticle(Particle.REDSTONE, particleLocation, 1, 0, 0, 0, colour);
 		}
 	}
 }

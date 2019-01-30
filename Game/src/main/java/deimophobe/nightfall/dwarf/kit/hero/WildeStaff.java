@@ -10,7 +10,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -39,8 +39,8 @@ public class WildeStaff extends AbstractItem implements CooldownPiece {
 		return ITEM;
 	}
 	
-	@Override public KitGiveType getGiveType() {
-		return KitGiveType.START;
+	@Override public PickupType getPickupType() {
+		return PickupType.START;
 	}
 
 	@Override
@@ -107,7 +107,7 @@ public class WildeStaff extends AbstractItem implements CooldownPiece {
 					// Effects on mobs
 					for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
 						if (monster.getEyeLocation().distance(position) <= MYST_RADIUS) {
-							if (monster.getMob().getType() == MobType.ZOMBIE) {
+							if (monster.getMob().getType() == MobType.ZOMBIE_BASE) {
 								//Zombies
 								monster.givePotionEffect(PotionEffectType.SLOW, 15 * 20, 5, true, true, true);
 								monster.removeRebirth();

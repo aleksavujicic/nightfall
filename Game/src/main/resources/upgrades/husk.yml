@@ -1,0 +1,116 @@
+wound:
+  index: 10
+  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+  values:
+    damage: [1, 1, 2, 2, 3, 3, 4, 4, 5, 5]
+    armour-shred: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  item:
+    material: golden_pickaxe
+    name: "Wounding Strike"
+    lore:
+      description:
+        - "Increases damage by $damage\n
+           and armour-shred by $armour-shred."
+
+
+ground-smash:
+  index: 11
+  cost: [100, 200, 300, 400, 500]
+  item:
+    material: anvil
+    name: "Ground Smash"
+    lore:
+      description:
+        - "Leap away and into the ground,\n
+           pushing dwarves away."
+
+
+regen:
+  index: 12
+  cost: [500, 1000, 1500]
+  values:
+    value: [1, 2, 3]
+  item:
+      base: potion-regeneration
+      name: "Regeneration"
+      lore:
+        description:
+          - "Grants regeneration $value."
+
+
+arrow-resistance:
+  index: 14
+  cost: [100, 200, 300, 400, 500]
+  defaults:
+    value: 20
+  values:
+    value: [35, 50, 60, 70, 75]
+  item:
+    material: arrow
+    name: "Arrow Resistance"
+    lore:
+      description:
+        - "Increases arrow resistance to $value%"
+
+
+rebirth:
+  index: 15
+  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+  values:
+    value: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+  item:
+    material: ender_eye
+    name: "Rebirth"
+    lore:
+      description:
+        - "Increases respawn chance to $value%.\n
+           This decreases by 40% for every\n
+           successive rebirth."
+
+
+proc-resistance:
+  index: 16
+  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+  values:
+    value: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+  item:
+    material: barrier
+    name: "Tough Skin"
+    lore:
+      description:
+        - "Increases the chance to resist\n
+           being procced to $value% and\n
+           knockback resistance to $value%."
+
+
+stagger:
+  index: 22
+  cost: 5000
+  prereq:
+    wound: 10
+    ground-smash: 5
+    regen: 3
+    arrow-resistance: 5
+    rebirth: 10
+    proc-resistance: 10
+  item:
+    material: stone_sword
+    name: "Staggering Bulk"
+    shiny: true
+    lore:
+      description:
+        - "Ground stomp will now stun dwarves."
+
+regen-inf:
+  index: 4
+  cost: 2000
+  permanent: true
+  prereq:
+    stagger: 1
+  item:
+    base: potion-regeneration
+    name: "Upgrade Regeneration (inf)"
+    shiny: true
+    lore:
+      description:
+        - "Regenerate an extra 0.1 hearts per second."

@@ -1,0 +1,137 @@
+sabotage:
+  index: 10
+  cost: [200, 400, 600, 800, 1000]
+  values:
+    armour: [10, 20, 30, 40, 50]
+    value: [10, 20, 30, 40, 50]
+  item:
+    material: prismarine_shard
+    name: "Sabotage"
+    lore:
+      description:
+        - "Your sneak attack will do a bonus\n
+           $armour armour damage. Additionally,\n
+           your target will take $value% extra\n
+           armour damage for 10 seconds."
+
+
+poison:
+  index: 11
+  cost: [200, 400, 600, 800, 1000]
+  values:
+    duration: [8, 8, 8, 8, 8]
+  item:
+    base: potion-poison
+    name: "Poisoned Strike"
+    lore:
+      description:
+        - "Your sneak attack will inflict\n
+           poison for $duration seconds. Additional\n
+           upgrades will improve the potency\n
+           of the poison."
+
+
+stealth:
+  index: 12
+  cost: [100, 200, 300, 400, 500]
+  values:
+    invisibility: [3, 3.5, 4, 4.5, 5]
+    cooldown: [19, 16, 17, 16, 15]
+  item:
+    material: sugar
+    name: "Sneak Attack"
+    lore:
+      description:
+        - "Increases the invisibilty duration\n
+           of your sneak ability to $invisibility seconds.\n
+           The cooldown of your sneak attack is\n
+           reduced to $cooldown seconds."
+
+#TODO: Move full sneak description elsewhere - maybe on sab upgrade?
+#        - "Right click to create a smoke screen\n
+#           and disappear into the shadows for\n
+#           a few seconds. Taking or dealing\n
+#           damage will break your invisibility.\n
+#           Available without upgrades, and higher\n
+#           levels increase the duration and\n
+#           decrease the cooldown."
+
+
+pick:
+  index: 14
+  cost: [1000, 2000]
+  item:
+    material: wooden_pickaxe
+    name: "Sabotaging Pickaxe"
+    lore:
+      description:
+        - "Turns your weapon into a pickaxe\n
+           which can be used to destroy walls.\n
+           Further upgrades give efficiency."
+
+
+epinephrine:
+  index: 15
+  cost: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+  values:
+    value: [3, 6, 9, 12, 15, 18, 21, 24, 27, 30]
+  item:
+    material: glowstone_dust
+    name: "Epinephrine"
+    lore:
+      description:
+        - "Increases your base speed\n
+           by $value%."
+
+
+vines:
+  index: 16
+  cost: [200, 400, 600, 800, 1000]
+  values:
+    value: [2, 4, 6, 8, 10]
+    duration: [40, 60, 80, 100, 120]
+  item:
+    material: vine
+    name: "Vines"
+    lore:
+      description:
+        - "Gives $value vines that can be\n
+           used to get over walls. Each\n
+           vine lasts for $duration seconds."
+
+
+assassination:
+  index: 22
+  cost: 5000
+  values:
+    value: [50]
+  prereq:
+    sabotage: 5
+    poison: 5
+    stealth: 5
+    pick: 2
+    epinephrine: 10
+    vines: 5
+  item:
+    material: iron_sword
+    name: "Assassination"
+    shiny: true
+    lore:
+      description:
+        - "When invisible, the next hit\n
+           will do $value additional damage."
+
+
+speed-inf:
+  index: 4
+  cost: 2000
+  permanent: true
+  prereq:
+    assassination: 1
+  item:
+    material: glowstone_dust
+    name: "Upgrade Speed (inf)"
+    shiny: true
+    lore:
+      description:
+        - "Increases speed by 3%."

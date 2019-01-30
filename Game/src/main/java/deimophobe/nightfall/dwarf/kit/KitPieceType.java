@@ -60,7 +60,7 @@ public enum KitPieceType {
 	STURDY(Sturdy::new),
 	QUIVER(Quiver::new),
 	STUDDED(StuddedArmour::new),
-	FAIRY_BAND(FairyBand::new),
+	ALCHEMICAL_GUARD(AlchemicalGuard::new),
 	BERSERKER(BerserkArmour::new),
 	NATURE_SUIT(NatureSuit::new),
 	
@@ -74,7 +74,6 @@ public enum KitPieceType {
 	RESURRECTION(Resurrection::new),
 	BRICKLAYER(d -> new Bricklayer(d, false)),
 	SPEEDY_BRICKLAYER(d -> new Bricklayer(d, true)),
-	CHISEL(Chisel::new),
 	CLOCK(Clock::new),
 	JIT_HEAL(JitHeal::new),
 	BUNNY_BOOTS(BunnyBoots::new),
@@ -158,7 +157,7 @@ public enum KitPieceType {
 	public static Set<String> getPieceNames() {
 		Set<String> names = new HashSet<>();
 		for (KitPieceType type : values()) {
-			names.add(type.toString().toLowerCase());
+			names.add(type.toString().toLowerCase().replaceAll("_","-"));
 		}
 		return names;
 	}

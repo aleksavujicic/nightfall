@@ -1,0 +1,89 @@
+piercing:
+  index: 11
+  cost: [200, 400, 600, 800, 1000]
+  values:
+    damage: [2, 4, 6, 8, 10]
+    shred: [3, 6, 9, 12, 15]
+  item:
+    base: piercing-arrow
+    name: "Piercing Arrows"
+    lore:
+      description:
+        - "Arrows do more $damage more damage\n
+           and $shred more armour shred."
+
+
+sniper:
+  index: 12
+  cost: [200, 400, 600, 800, 1000]
+  values:
+    value: [3, 6, 9, 12, 15]
+  item:
+    base: shortbow
+    name: "Sniper"
+    lore:
+      description:
+        - "Shooting a dwarf increases arrow\n
+           damage by $value for 8 seconds."
+
+
+siphon:
+  index: 13
+  cost: [200, 400, 600, 800, 1000]
+  values:
+    value: [0.5, 1, 1.5, 2, 2.5]
+  item:
+    material: redstone
+    name: "Energy Siphon"
+    lore:
+      description:
+        - "Shooting dwarves drains their health\n
+           and recovers your health by $value hearts."
+
+
+hardened:
+  index: 14
+  cost: [200, 400, 600, 800, 1000]
+  values:
+    health: [3, 6, 9, 12, 15]
+    arrowres: [10, 20, 30, 40, 50]
+  item:
+    material: bone
+    name: "Hardened Bones"
+    lore:
+      description:
+        - "Increases your health by $health hearts\n
+           and arrow resistance by $arrowres%."
+
+# Change to focus on poison + slow effect?
+withering:
+  index: 22
+  cost: 5000
+  prereq:
+    piercing: 5
+    sniper: 5
+    siphon: 5
+    hardened: 5
+  item:
+    base: wither-skull
+    name: "Wither Skull"
+    shiny: true
+    lore:
+      description:
+        - "Shoot wither skulls at dwarves\n
+           inflicting damage in an area."
+
+sniper-inf:
+  index: 4
+  cost: 2000
+  permanent: true
+  prereq:
+    withering: 1
+  item:
+    base: shortbow
+    name: "Upgrade Sniper (inf)"
+    shiny: true
+    lore:
+      description:
+        - "Increases sniper damage by 3\n
+           per upgrade."

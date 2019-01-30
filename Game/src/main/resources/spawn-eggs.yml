@@ -1,19 +1,19 @@
 zombie:
-  mobtype: zombie
+  mobtype: zombie-base
   egg:
-    material: wood_pickaxe
+    material: wooden_pickaxe
     name: Spawn Zombie
   permanent: true
 
 skeleton:
-  mobtype: skeleton
+  mobtype: skeleton-base
   egg:
     base: shortbow
     name: Spawn Skeleton
   permanent: true
 
-gobo:
-  mobtype: gobo
+goblin:
+  mobtype: goblin-base
   egg:
     base: gobo.kaboom
     name: Spawn Goblin
@@ -39,7 +39,7 @@ hellhound:
 spiderling:
   mobtype: spiderling
   egg:
-    material: snow_ball
+    material: snowball
     name: Spawn Spiderling
   quantity: 1
   chance: 0.15

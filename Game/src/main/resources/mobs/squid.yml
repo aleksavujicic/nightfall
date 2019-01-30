@@ -1,4 +1,4 @@
-title: Worthless Squid
+title: Squid
 
 disguisetype: squid
 
@@ -14,31 +14,22 @@ immunetime: 0
 
 armour:
   material: water_bucket
-  name: Worthless Mantle
+  name: Terrifying Mantle
   lore:
     description:
-     - "Squid Body"
+     - ""
     flavour:
-     - "It's worthless!"
+     - ""
   bound: true
 weapon:
   base: temporary
-  name: Worthless Tentacles
+  name: Lethal Tentacles
   lore:
     description:
-     - "Long tendrils that, don't do much."
+     - ""
     flavour:
-     - "Worthless Squids! Ink them in the eye!\n
-        Worthless Squids! Ink them till they die!"
-items:
-  test:
-    base: temporary
-    name: Jump (why u break)
-    lore:
-      description:
-       - ""
-      flavour:
-       - ""
+     - ""
+
 sounds:
   death:
     path: "entity.squid.death"

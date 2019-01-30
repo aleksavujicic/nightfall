@@ -26,6 +26,8 @@ import org.bukkit.util.Vector;
 import java.util.UUID;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static deimophobe.nightfall.util.NFConditions.checkVelocityParameter;
+import static deimophobe.nightfall.util.NFConditions.warnVelocityParameter;
 
 /**
  * Created by Deimophobe on 24/01/17.
@@ -96,6 +98,22 @@ public interface GameEntity<E extends LivingEntity> {
 	}
 	
 	// ------ VELOCITY ------
+	
+	/** Get the 'velocity' of this entity as stored by minecraft. Note that this may not
+	 *  represent the actual velocity due to many possible reasons:
+	 *  <ul>
+	 *      <li>The usual lag issues.</li>
+	 *      <li>Velocity due to player input (i.e. arrow keys) is not taken into account.</li>
+	 *      <li>At rest on a surface, the default y velocity is -0.08, due to gravity.</li>
+	 *      <li>Seems to function more like acceleration at times? (citation needed)</li>
+	 *  </ul>
+	 *  As such, care should be taken using this method. At best only an
+	 *  approximation to the true velocity is given.
+	 *
+	 * @deprecated this vector may not represent the true velocity (see above)
+	 * @return the velocity of the entity as stored by minecraft
+	 */
+	@Deprecated
 	default Vector getVelocity() {
 		return getEntity().getVelocity();
 	}
@@ -105,14 +123,19 @@ public interface GameEntity<E extends LivingEntity> {
 	}
 	
 	default void setVelocity(Vector velocity) {
+		warnVelocityParameter(velocity.getX(), "x");
+		warnVelocityParameter(velocity.getY(), "y");
+		warnVelocityParameter(velocity.getZ(), "z");
 		getEntity().setVelocity(velocity);
 	}
 	
-	default void addVelocity(Vector velocity) {
-		setVelocity(getVelocity().add(velocity));
+	default void forceSetVelocity(Vector velocity) {
+		getEntity().setVelocity(velocity);
 	}
 	
 	default void leap(double horizontal, double vertical) {
+		checkVelocityParameter(horizontal, "horizontal");
+		checkVelocityParameter(vertical, "vertical");
 		double yaw = getEntity().getLocation().getYaw();
 		double radYaw = yaw*Math.PI/180;
 		setVelocity(-horizontal * Math.sin(radYaw), vertical, horizontal * Math.cos(radYaw));
@@ -313,7 +336,10 @@ public interface GameEntity<E extends LivingEntity> {
 	
 //	@Deprecated
 	default void removePotionEffect(PotionEffectType type) {
-		getEntity().removePotionEffect(type);
+		LivingEntity entity = getEntity();
+		if (entity.hasPotionEffect(type)) {
+			entity.removePotionEffect(type);
+		}
 	}
 	
 	

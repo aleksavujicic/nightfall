@@ -1,18 +1,20 @@
 package deimophobe.nightfall.dwarf;
 
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.SkinManager;
+import deimophobe.nightfall.blocks.NFBlocks;
+import deimophobe.nightfall.cooldown.*;
+import deimophobe.nightfall.dwarf.kit.*;
+import deimophobe.nightfall.dwarf.light.BlindSource;
+import deimophobe.nightfall.dwarf.light.DwarfEyes;
+import deimophobe.nightfall.dwarf.light.LightSource;
+import deimophobe.nightfall.monster.ai.AIEntity;
+import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.WhoEntry;
 import deimophobe.nightfall.blocks.BlockManager;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
 import deimophobe.nightfall.blocks.timedblock.JumpPad;
 import deimophobe.nightfall.blocks.timedblock.TurretBlock;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.player.PlayerManager;
-import deimophobe.nightfall.cooldown.ComplexCooldown;
-import deimophobe.nightfall.cooldown.ExpiryStore;
-import deimophobe.nightfall.cooldown.RepeatingCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -23,9 +25,6 @@ import deimophobe.nightfall.dwarf.armour.NakedArmour;
 import deimophobe.nightfall.dwarf.consumable.Consumable;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.consumable.ConsumeResult;
-import deimophobe.nightfall.dwarf.kit.Kit;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
-import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.armour.BerserkArmour;
 import deimophobe.nightfall.dwarf.kit.healing.StrongAle;
 import deimophobe.nightfall.game.Curse;
@@ -34,22 +33,24 @@ import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
+import deimophobe.nightfall.util.Util;
 import me.libraryaddict.disguise.DisguiseAPI;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.BiFunction;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * Created by Deimophobe on 15/01/17.
@@ -76,6 +77,9 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		updateTitle();
 		updateHat();
 		
+		this.eyes = new DwarfEyes(this);
+		addUpdateable(eyes);
+		
 		// Setup kit
 		this.kit = data.createKitAndApplyToDwarf(this);
 		
@@ -89,8 +93,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			boolean playMusic = Game.getGame().getPhase() != Phase.STARTING;
 			TitlePlayer.playTitle(player, playMusic);
 		}
-		
-		Game.getGame().hideManaAndDoom(player);
 		addUpdateable(furnace);
 	}
 	
@@ -108,6 +110,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		removeFire();
 		player.setFallDistance(0);
 		givePotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 5, false, false, true);
+		player.setRemainingAir(300);
 	}
 	
 	public void updateTitle() {
@@ -128,22 +131,26 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	public WhoEntry getWhoEntry() {
 		WhoEntry entry = super.getWhoEntry();
 		entry.setType(WhoEntry.Type.DWARF);
+		
+		if (hasKitPiece(KitPieceType.UNTIMELY_DEMISE))
+			entry.setDefaultColour(net.md_5.bungee.api.ChatColor.DARK_GREEN);
 		return entry;
 	}
 	
 	@Override
 	public void goOnline(Player newPlayer) {
 		super.goOnline(newPlayer);
+		kit.onLogOn();
+		
 		if (Game.getGame().getPhase().isOrIsAfter(Phase.GAME) && plagueStatus == PlagueStatus.PLAGUED) {
-			new BukkitRunnable() {
-				@Override public void run() {
-					Dwarf dwarf = Dwarf.this;
-					if (dwarf.isOnline()) {
-						dwarf.instaKill(null, GameDamageType.FORCE_PLAGUED);
-					}
-				}
-			}.runTaskLater(NightfallPlugin.getPlugin(), 4*20);
+			doLater(() -> instaKill(null, GameDamageType.FORCE_PLAGUED), 4*20);
 		}
+	}
+	
+	@Override
+	public void goOffline() {
+		super.goOffline();
+		kit.onLogOff();
 	}
 	
 	// ------ KIT ITEMS -------
@@ -152,14 +159,15 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	public Collection<KitPieceType> getKitPieceTypes() {
 		return kit.getKitPieceTypes();
 	}
-	
 	public boolean hasKitPiece(KitPieceType type) {
 		return kit.containsKitPiece(type);
 	}
-	public void giveKitItems(KitGiveType type) {kit.giveItems(type);}
-	
 	public void giveKitItem(KitPieceType type) {
 		kit.addKitPiece(type, true);
+	}
+	
+	public boolean giveKitItems(PickupType type) {
+		return kit.giveItems(type);
 	}
 	
 	public Kit getKit() {
@@ -263,7 +271,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	// ------ ARROWS ------
 	private int maxArrows = 20;
 	private int arrows = maxArrows;
-	protected ComplexCooldown arrowRegen = new RepeatingCooldown(4*20, this::giveArrow);
+	protected Cooldown arrowRegen = new RepeaterCooldown(4*20, this::giveArrow);
 	
 	private ItemStack arrowItem = DwarvenItems.getItem("misc","arrow").createItemStack();
 	public void setArrowItem(ItemStack arrow) { arrowItem = arrow; }
@@ -273,6 +281,9 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	public void setMaxArrows(int max) {
 		maxArrows = max;
+	}
+	public void increaseMaxArrows(int amt) {
+		maxArrows += amt;
 	}
 	
 	public int getArrowCount() { return arrows; }
@@ -372,32 +383,19 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	
 	// ------ VISIBILITY ------
-	private boolean blindImmune = false;
-	private boolean holdingLightItem = false;
-	private static final int MIN_LIGHT_LEVEL_FOR_BLINDNESS = 5;
+	private final DwarfEyes eyes;
 	
 	public void makeBlindImmune() {
-		blindImmune = true;
+		eyes.makeImmune();
 	}
-	public void updateVisibility() {
-		if (canSee()) {
-			removePotionEffect(PotionEffectType.BLINDNESS);
-		} else {
-			givePermanentPotionEffect(PotionEffectType.BLINDNESS, 1);
-		}
-	}
-	private boolean canSee() {
-		if (isBlindByMobspawn()) return false;
-		
-		int lightLevel = getLocation().getBlock().getLightLevel();
-		return (holdingLightItem ||
-				blindImmune ||
-				lightLevel >= MIN_LIGHT_LEVEL_FOR_BLINDNESS ||
-				hasProc() ||
-				Game.getGame().getPhase() == Phase.BUILD ||
-				Game.getGame().getPhase() == Phase.PLAGUE ||
-				player.hasPotionEffect(PotionEffectType.NIGHT_VISION)
+	public void giveBlindness(int duration) {
+		addLightSource(
+				new BlindSource(duration)
 		);
+	}
+	
+	public void addLightSource(LightSource source) {
+		eyes.addSource(source);
 	}
 	
 	
@@ -421,8 +419,19 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	public enum PlagueStatus {
 		IMMUNE, NORMAL, PLAGUED
 	}
-
+	
+	// ------ AI IMMUNITY ------
+	private boolean aiImmune = false;
+	public void setAiImmune(boolean aiImmune) {
+		this.aiImmune = aiImmune;
+	}
+	
+	public boolean canBeTargettedByAI() {
+		return !aiImmune && !hasPotionEffect(PotionEffectType.INVISIBILITY);
+	}
+	
 	// ------ UPDATE ------
+	private static final BlockData UNLUCK_PARTICLE = Material.ORANGE_WOOL.createBlockData();
 	public void update() {
 		super.update();
 		kit.update();
@@ -453,16 +462,12 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 				Location loc = getLocation();
 				World world = getWorld();
 				world.spawnParticle(Particle.SMOKE_LARGE, loc, 8, 0.5, 0.5, 0.5, 0);
-				world.spawnParticle(Particle.BLOCK_CRACK, loc.add(0,1,0), 20, 0.3, 0.3, 0.3, 0, new MaterialData(Material.WOOL, (byte) 1));
+				world.spawnParticle(Particle.BLOCK_CRACK, loc.add(0,1,0), 20, 0.3, 0.3, 0.3, 0, UNLUCK_PARTICLE);
 			}
 		}
 
 		if (everyNthTick(20)) {
 			regenMana(armour.getManaRegenRate());
-			
-			ItemStack heldItem = getHeldItem();
-			holdingLightItem = (ConsumableType.TORCH.doesItemMatch(heldItem) || ConsumableType.LAMP.doesItemMatch(heldItem));
-			updateVisibility();
 		}
 
 		usedThisTick = false;
@@ -471,7 +476,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	
 	// ------ PROC ------
-	private final Map<ProcType, Integer> activeProcs = new HashMap<>();
+	private final Map<ProcType, Integer> activeProcs = new EnumMap<>(ProcType.class);
 	private static final PotionEffectType[] PROC_EFFECTS = new PotionEffectType[]{ PotionEffectType.SPEED, PotionEffectType.INCREASE_DAMAGE, PotionEffectType.FAST_DIGGING };
 	
 	public boolean hasProc() {
@@ -494,7 +499,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		activeProcs.put(procType, duration);
 		
 		updateProcBuffs();
-		updateVisibility();
 	}
 	
 	private void procTick() {
@@ -534,6 +538,10 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	public DwarfFurnace getFurnace() {
 		return furnace;
+	}
+	
+	public void interactFurnace() {
+		furnace.giveItems();
 	}
 	
 	// ------ DAMAGE ------
@@ -601,8 +609,8 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		return (int) mobspawnMeter;
 	}
 	
-	protected boolean isBlindByMobspawn() {
-		return mobspawnMeter >= 7;
+	public boolean isBlindByMobspawn() {
+		return inMobspawn && mobspawnMeter >= 7;
 	}
 
 	protected void mobspawnDamage(int tickNumber) {
@@ -631,9 +639,8 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	@Override
 	public boolean givePotionEffect(PotionEffectType type, int duration, int amplifier, boolean showAbove, boolean colourBlue, boolean force) {
-		boolean success = super.givePotionEffect(type, duration, amplifier, showAbove, colourBlue, force);
-		if (type == PotionEffectType.NIGHT_VISION) updateVisibility();
-		return success;
+//		checkArgument(type != PotionEffectType.BLINDNESS, "Use giveBlindness() to give blindness to dwarves.");
+		return super.givePotionEffect(type, duration, amplifier, showAbove, colourBlue, force);
 	}
 	
 	public void disableSpecial(int duration) {
@@ -658,9 +665,6 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	// ------ EVENTS ------
 	@Override
 	public void updateHotbarSlot(ItemStack heldItem, int slot) {
-		holdingLightItem = (ConsumableType.TORCH.doesItemMatch(heldItem) || ConsumableType.LAMP.doesItemMatch(heldItem));
-		updateVisibility();
-		
 		kit.updateHotbarSlot(heldItem);
 	}
 	
@@ -680,16 +684,28 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
+		// If immune to AI, ignore
+		if (aiImmune && (damage.getAttacker() instanceof AIEntity)) {
+			damage.cancel();
+			return;
+		}
+		
+		// Soak up shield damage
 		shieldDamage(damage);
 		
+		// Apply effect from armour
 		armour.onDamage(damage);
 		
+		// Go through kit items
 		kit.onDamageReceive(damage);
+		
+		// Increase armour shred with unluck
 		if (player.hasPotionEffect(PotionEffectType.UNLUCK)) {
 			double armourAmplifier = 1 + getPotionEffectLevel(PotionEffectType.UNLUCK)*0.05;
 			damage.multiplyArmourShred(armourAmplifier);
 		}
-
+		
+		// Preven fall damage from stun (as it gives negative jump boost)
 		if (getStunned()) {
 		    damage.multiplyKnockback(0.25);
 		    if (damage.getType() == GameDamageType.FALL) {
@@ -697,6 +713,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			}
         }
 
+        // Ignore small fall damage
 		if (damage.getType() == GameDamageType.FALL) {
 			damage.addPreDamageHandler(PreDamagePriority.FALL_DAMAGE_SAFETY, () -> {
 				if (damage.getFinalDamage() <= 0.2) {
@@ -705,6 +722,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			});
 		}
 		
+		// Weaken bow shots if fatigue curse is active
 		if (damage.getType().isArrow() && Game.getGame().isCurseActive(Curse.FATIGUE)) {
 			damage.getMultiPartDamage().timesMult(0.7);
 		}
@@ -718,7 +736,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		return didBreak;
 	}
 	
-	private boolean usedThisTick = false;
+	private boolean usedThisTick = true;
 	private ExpiryStore<ConsumableType> consumableExpiries = new ExpiryStore<>();
 	
 	@Override
@@ -730,20 +748,21 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		if (success) return;
 		
 		if (click.isRightClick() && clickedBlock != null) {
-			KitGiveType giveType = KitGiveType.getGiveTypeFromBlock(clickedBlock);
+			PickupType giveType = PickupType.getGiveTypeFromBlock(clickedBlock);
 			if (giveType != null) {
-				giveKitItems(giveType);
+				boolean gotItems = giveKitItems(giveType);
+				if (gotItems) giveType.playPickupSound(clickedBlock.getLocation());
 				return;
 			}
 		}
 		
-		if (click.isRightClick() && clickedBlock != null && BlockType.SHARED_CHEST.matchesBlock(clickedBlock)) {
+		if (click.isRightClick() && clickedBlock != null && NFBlocks.SHARED_CHEST.matchesBlock(clickedBlock)) {
 			DwarfManager.getManager().openSharedChest(this, clickedBlock);
 			return;
 		}
 		
-		if (click.isLeftClick() && BlockType.FURNACE.matchesBlock(clickedBlock)) {
-			furnace.giveItems();
+		if (click.isLeftClick() && NFBlocks.FURNACE.matchesBlock(clickedBlock)) {
+			interactFurnace();
 		}
 		
 		// Use consumable
@@ -774,8 +793,13 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	@Override
-	public Projectile onBowFire(Arrow arrow, float force) {
-		Projectile proj = kit.onBowFire(arrow, force);
+	public void onSwim(boolean swimming) {
+		kit.onSwim(swimming);
+	}
+	
+	@Override
+	public Projectile onBowFire(ItemStack bow, Arrow arrow, float force) {
+		Projectile proj = kit.onBowFire(bow, arrow, force);
 		
 		if (proj instanceof Arrow) {
 			bowFiredArrow();
@@ -789,14 +813,30 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile arrow, Block hitBlock) {
+	public void onProjectileLand(Projectile arrow, Block hitBlock, BlockFace hitFace, GameEntity<?> hitEntity) {
 		// Should incorporate hitEntity into here as well at some point, and make hitBlock != null a local check, but not necessary for now
-		if (hitBlock != null)
-			kit.onProjectileLand(arrow, hitBlock);
+		if (hitBlock != null) kit.onProjectileLand(arrow, hitBlock, hitFace);
 	}
 	
 	public void notifyDeath(Dwarf dwarf) {
 		kit.notifyDeath(dwarf);
+		
+		if (dwarf == this) {
+			armour.dropFakeArmour();
+			Location location = dwarf.getLocation();
+			for (KitPiece piece : kit.getKitPieces()) {
+				if (Math.random() > 0.5) continue;
+				if (piece instanceof ItemPiece) {
+					ItemStack itemStack = ((ItemPiece) piece).getItem().createItemStack();
+					Util.spawnDecorativeItem(location, itemStack, 3*60*20);
+				}
+			}
+		}
+	}
+	
+	@Override
+	public Location getRespawnLocation() {
+		return GameMap.getCurrentMap().getSafeRespawnPoint();
 	}
 	
 	@Override

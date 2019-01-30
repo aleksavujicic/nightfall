@@ -7,6 +7,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.potion.PotionEffectType;
@@ -43,7 +44,7 @@ public class Lightbow extends AbstractBow {
 	}
 	
 	@Override
-	public void onProjectileLand(Projectile arrow, Block hitBlock) {
+	public void onProjectileLand(Projectile arrow, Block hitBlock, BlockFace hitFace) {
 		if (ArrowMisc.getArrowForce((Arrow) arrow) >= 0.8)
 			BlockManager.getManager().placeTimedBlock(new LampBlock(hitBlock, 10*20, dwarf, false));
 	}

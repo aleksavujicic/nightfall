@@ -43,16 +43,6 @@ items:
           Right click eject all players."
       flavour:
        - ""
-  toggle:
-    base: temp
-    name: Change Mode
-    lore:
-      description:
-       - "Click to switch from moving mode\n
-          to ram mode and vice versa.\n
-          Can also be activated by shift."
-      flavour:
-       - ""
 sounds:
   death:
     path: "item.totem.use"

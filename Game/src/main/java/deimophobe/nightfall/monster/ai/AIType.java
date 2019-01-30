@@ -10,8 +10,11 @@ public enum AIType {
 	ZOMBIE(AIZombie::new),
 	FIRE_SKELLY(AIFireSkeleton::new),
 	HUSK(AIHusk::new),
+	DROWNED(AIDrowned::new),
 	
-	SKELETOTEM(Skeletotem::new)
+	SKELETOTEM(Skeletotem::new),
+	
+	SQUID(AISquid::new),
 	
 	;
 	

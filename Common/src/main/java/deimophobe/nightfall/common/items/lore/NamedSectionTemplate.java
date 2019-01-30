@@ -18,9 +18,9 @@ class NamedSectionTemplate implements SectionTemplate {
 	}
 	
 	@Override
-	public Section createSection(Map<String, String> loreSections) {
+	public Section createSection(Map<String, String> loreSections, LoreTemplate loreTemplate) {
 		String sectionText = getSectionText(loreSections);
-		return new Section(this, sectionText);
+		return new Section(loreTemplate, this, sectionText);
 	}
 	
 	@Override

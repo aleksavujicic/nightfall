@@ -4,7 +4,7 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.util.Hitscan;
@@ -28,7 +28,7 @@ public class JadeBow extends AbstractBow {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public KitGiveType getGiveType() { return KitGiveType.BOW; }
+	@Override public PickupType getPickupType() { return PickupType.BOW; }
 	@Override public String getBowIdentifier() {return "JADEBOW";}
 	@Override public int getPower() {return POWER;}
 	
@@ -42,16 +42,14 @@ public class JadeBow extends AbstractBow {
 	
 	@Override
 	public Projectile onBowFire(Projectile arrow, float force) {
-		if (force < 0.5) return null;
+		if (force < 0.9) return null;
 		if (!dwarf.hasArrows(3)) return null;
 		dwarf.useArrows(2);
 		
-		double range = MAX_RANGE * force * force;
-		
 		GamePlayer.ProcGiver procGiver = dwarf.new ProcGiver(ProcType.EBOW, MIN_DISTANCE_FROM_SHOOTER);
-		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(GameDamageType.JADE_BOW, getPower()*force);
+		GamePlayer.GameEntityDamager<MonsterEntity> entityDamager = dwarf.new GameEntityDamager<MonsterEntity>(GameDamageType.JADE_BOW, getPower());
 		Hitscan hitscan = new Hitscan(THICKNESS, PARTICLE_PLACER, procGiver, entityDamager);
-		HitscanProjectile.fireProjectile(dwarf, VELOCITY, range, hitscan);
+		HitscanProjectile.fireProjectile(dwarf, VELOCITY, MAX_RANGE, hitscan);
 		
 		return null;
 	}

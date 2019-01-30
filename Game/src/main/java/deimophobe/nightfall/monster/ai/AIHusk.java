@@ -20,7 +20,7 @@ class AIHusk extends AIEntity<Husk> {
 	private static final Consumer<Husk> HUSK_INITIALISER = husk -> {
 		husk.setBaby(false);
 		
-		double speed = Misc.randomDouble(0, 0.5);
+		double speed = Misc.randomDouble(0.25, 0.5);
 		AttributeModifier speedModifier = new AttributeModifier("speed", speed, AttributeModifier.Operation.MULTIPLY_SCALAR_1);
 		husk.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).addModifier(speedModifier);
 		husk.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(0.5);
@@ -43,7 +43,7 @@ class AIHusk extends AIEntity<Husk> {
 	public void onDamageReceive(MonsterDamage damage) {
 		super.onDamageReceive(damage);
 		damage.setProc(false);
-		damage.getArrowRes().timesMult(0.5);
+		damage.getArrowResistance().timesMult(0.5);
 	}
 	
 	@Override

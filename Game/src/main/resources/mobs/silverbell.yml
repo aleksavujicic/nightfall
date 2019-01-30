@@ -10,7 +10,7 @@ shred: 15
 resistance: 0.7
 
 armour:
-  material: snow_ball
+  material: snowball
   name: Squishy Spider Body Thing
   lore:
     description:

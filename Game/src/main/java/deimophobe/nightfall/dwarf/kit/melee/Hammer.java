@@ -2,14 +2,17 @@ package deimophobe.nightfall.dwarf.kit.melee;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.items.CustomItem;
+import deimophobe.nightfall.cooldown.CompletionCooldown;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.dwarf.kit.KitGiveType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIEntity;
@@ -32,15 +35,17 @@ public class Hammer extends AbstractAOEHitter implements CooldownPiece {
 	@Override public CustomItem getItem() {
 		return ITEM;
 	}
-	@Override public KitGiveType getGiveType() { return KitGiveType.SWORD; }
+	@Override public PickupType getPickupType() { return PickupType.SWORD; }
 	
 	
 	private final ComplexCooldown cooldown = new ComplexCooldown(60*20, this::roar);
+	private final Cooldown shinyResetter = new CompletionCooldown(ROAR_DURATION, () -> setShiny(false));
 	
 	@Override
 	public void update() {
 		super.update();
 		cooldown.update();
+		shinyResetter.update();
 	}
 	
 	@Override
@@ -77,7 +82,7 @@ public class Hammer extends AbstractAOEHitter implements CooldownPiece {
 	protected double getDamageToMonster(MonsterEntity entity) {
 		double damage = 0;
 		if (entity instanceof MonsterPlayer) {
-			if (((MonsterPlayer) entity).getMob().getType() == MobType.ZOMBIE) {
+			if (((MonsterPlayer) entity).getMob().getType().isZombie()) {
 				damage = 15;
 			} else {
 				damage = 10;
@@ -109,6 +114,11 @@ public class Hammer extends AbstractAOEHitter implements CooldownPiece {
 		}
 		dwarf.playSound("dragonroar", 1f, 1.4f, true);
 		dwarf.givePotionEffect(PotionEffectType.INCREASE_DAMAGE, ROAR_DURATION, 1, true, false, true);
+		dwarf.givePotionEffect(PotionEffectType.SPEED, ROAR_DURATION, 1, true, false, true);
+		
+		setShiny(true);
+		
+		shinyResetter.reset();
 	}
 	
 	private boolean isRoaring() {

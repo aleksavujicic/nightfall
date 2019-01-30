@@ -1,13 +1,20 @@
 package deimophobe.nightfall;
 
+import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
+import deimophobe.nightfall.util.PacketUtil;
 import org.bukkit.ChatColor;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 
 /**
@@ -15,7 +22,40 @@ import org.bukkit.event.server.ServerListPingEvent;
  *
  * For events that are not 'game dependent'.
  */
-public class NightfallListener implements Listener {
+class NightfallListener implements Listener {
+	private final NightfallPlugin plugin;
+	
+	NightfallListener(NightfallPlugin plugin) {
+		this.plugin = plugin;
+	}
+	
+	@EventHandler
+	public void onLogin(PlayerJoinEvent event) {
+		Player player = event.getPlayer();
+		processPlayer(player);
+	}
+	
+	void processPlayer(Player player) {
+		for (Attribute attribute : Attribute.values()) {
+			AttributeInstance instance = player.getAttribute(attribute);
+			
+			if (instance != null) {
+				for (AttributeModifier mod : instance.getModifiers())
+					instance.removeModifier(mod);
+				
+				instance.setBaseValue(instance.getDefaultValue());
+			}
+		}
+		player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(100000);
+		player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
+		
+		String nightfallText = Misc.getNightfallText();
+		player.setPlayerListHeader(
+				ChatColor.YELLOW +"Welcome to " + nightfallText + ChatColor.YELLOW + "!"
+		);
+		
+		PacketUtil.sendMinecraftBrand(player, nightfallText + ChatColor.RESET);
+	}
 	
 	@EventHandler
 	public void onServerMOTD(ServerListPingEvent event) {

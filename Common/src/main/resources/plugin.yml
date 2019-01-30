@@ -4,6 +4,7 @@ version: 0.1
 author: Deimophobe
 description: The common library plugin for the nightfall game.
 depend: [LibsDisguises, ProtocolLib, LuckPerms]
+api-version: 1.13
 
 permissions:
   nightfall.maintenance.join:

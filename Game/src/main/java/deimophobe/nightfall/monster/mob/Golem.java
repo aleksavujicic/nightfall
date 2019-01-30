@@ -1,34 +1,42 @@
 package deimophobe.nightfall.monster.mob;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketContainer;
 import deimophobe.nightfall.ClickType;
-import deimophobe.nightfall.blocks.blocktype.BlockType;
-import deimophobe.nightfall.common.util.NMSUtil;
+import deimophobe.nightfall.blocks.BlockManager;
+import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
+import deimophobe.nightfall.blocks.blocktype.BlockSet;
+import deimophobe.nightfall.blocks.NFBlocks;
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.SimpleCooldown;
+import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 20/01/17.
  */
 class Golem extends AbstractMob {
+	private static final BlockMatcher UNBREAKABLE_BLOCKS = new BlockSet(
+		NFBlocks.UNBREAKABLE_BLOCKS,
+		NFBlocks.LIQUID
+	).orOfMaterial(
+		Material.AIR,
+		Material.BARRIER,
+		Material.BEDROCK
+	);
+	
+	@Update
+	private final Cooldown breakCD = new SimpleCooldown(10);
 	
 	Golem(MonsterPlayer monster) {
 		super(monster, MobType.GOLEM);
 	}
-	
-	private static final int BREAK_CD_MAX = 10;
-	private int breakCD = 0;
 	
 	@Override
 	public void onSpawn(SpawnMethod spawnMethod) {
@@ -38,22 +46,15 @@ class Golem extends AbstractMob {
 	
 	@Override
 	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
-		if (click.isLeftClick()) {
-			if (breakCD == 0 && isPlayerHoldingWeapon()) {
-				
-				swingArms();
-				breakCD = BREAK_CD_MAX;
-				
-				if (clickedBlock != null) {
-					monster.getPlayer().spawnParticle(Particle.SMOKE_NORMAL, clickedBlock.getLocation().add(0.5, 0.5, 0.5), 15, 0, 0.25, 0, 0.05);
-					
-					if (!BlockType.GOLEM_UNBREAKABLE_BLOCKS.matchesBlock(clickedBlock) && GameMap.getCurrentMap().isBlockBreakable(clickedBlock)) {
-						clickedBlock.getWorld().spawnParticle(Particle.BLOCK_CRACK, clickedBlock.getLocation().add(0.5, 0.5, 0.5), 50, 0.5, 0.5, 0.5, 0, clickedBlock.getState().getData());
-						//clickedBlock.breakNaturally();
-						NMSUtil.playBlockBreakSound(clickedBlock);
-						clickedBlock.breakNaturally(new ItemStack(Material.AIR));
-					}
-				}
+		if (click.isLeftClick() && isPlayerHoldingWeapon() && breakCD.isAvailable()) {
+			
+			breakCD.reset();
+			swingArms();
+			
+			Location smokeLoc = clickedBlock.getLocation().add(0.5, 0.5, 0.5);
+			monster.getPlayer().spawnParticle(Particle.SMOKE_NORMAL, smokeLoc, 15, 0, 0.25, 0, 0.05);
+			if (!UNBREAKABLE_BLOCKS.matchesBlock(clickedBlock)) {
+				BlockManager.getManager().breakBlock(clickedBlock);
 			}
 		}
 	}
@@ -61,25 +62,33 @@ class Golem extends AbstractMob {
 	@Override
 	public void onDamageAttack(DwarfDamage damage) {
 		super.onDamageAttack(damage);
+		breakCD.reset();
 		swingArms();
-		breakCD = BREAK_CD_MAX;
 	}
 	
 	@Override
 	public void update() {
 		super.update();
-		if (breakCD > 0)
-			breakCD--;
+		if (everyNthTick(10*20) && monster.isSneaking()) {
+			monster.setEntityStatus((byte) 11);
+		}
+	}
+	
+	@Override
+	public void onShift(boolean sneaking) {
+		super.onShift(sneaking);
+		// Show/hide rose
+		if (sneaking) {
+			monster.setEntityStatus((byte) 11);
+		} else {
+			monster.setEntityStatus((byte) 34);
+		}
 	}
 	
 	private void swingArms() {
 		monster.playSound("entity.generic.explode", 0.8f, 0.5f, true);
 		
 		// Show fancy hand animation
-		ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-		PacketContainer pc = protocolManager.createPacket(PacketType.Play.Server.ENTITY_STATUS);
-		pc.getIntegers().write(0, getDisguise().getEntity().getEntityId());
-		pc.getBytes().write(0, (byte) 4);
-		protocolManager.broadcastServerPacket(pc);
+		monster.setEntityStatus((byte) 4);
 	}
 }

@@ -14,11 +14,12 @@ base:
   arrowres: 0.5
   charmtime: 60
   shrine-prot-damage: 400
+  depthstrider: 1
 
   armourslot: head
   armour:
     template: monster-hero
-    base: hat.flower
+    base: hat.bone-crown
     name: Magi Headgear
     lore:
       description:
@@ -77,7 +78,7 @@ ice:
 
   sounds:
     punch-ice:
-      path: "block.note.chime"
+      path: "block.note_block.chime"
       pitch: 1.5
 
 thunder:
@@ -102,11 +103,11 @@ thunder:
 
   sounds:
     punch:
-      path: "block.note.chime"
+      path: "block.note_block.chime"
       pitch: 1.5
     thunder-start:
-      path: "entity.lightning.thunder"
+      path: "entity.lightning_bolt.thunder"
       pitch: 1
     thunder-end:
-      path: "entity.lightning.thunder"
+      path: "entity.lightning_bolt.thunder"
       pitch: 1.5

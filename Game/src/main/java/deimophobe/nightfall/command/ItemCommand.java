@@ -3,6 +3,7 @@ package deimophobe.nightfall.command;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.contexts.OnlinePlayer;
+import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.common.command.MessageUtil;
 import deimophobe.nightfall.common.items.CustomItem;
 import org.bukkit.command.CommandSender;
@@ -28,4 +29,17 @@ public class ItemCommand extends BaseCommand {
 		
 		MessageUtil.sendMessage(sender, "Gave ", quantity, " of item to ", realPlayer);
 	}
+	
+	@Subcommand("cycle")
+	@CommandCompletion("@players")
+	@CommandPermission("nightfall.command.item.cycle")
+	@Description("Cycle through all items.")
+	public void cycle(CommandSender sender, OnlinePlayer player, int cycleTime) {
+		Player realPlayer = player.getPlayer();
+		ItemManager.getManager().cycleThroughItems(realPlayer, cycleTime);
+		MessageUtil.sendMessage(sender, "Cycling all items to ", realPlayer, " every ", cycleTime, " ticks. Shift to continue cycling.");
+	}
+	
+	
+	
 }
