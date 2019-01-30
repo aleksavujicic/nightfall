@@ -1,5 +1,6 @@
 package deimophobe.nightfall.common.database.data;
 
+import deimophobe.nightfall.common.database.DataSerializer;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.bukkit.configuration.serialization.SerializableAs;
 import org.mongodb.morphia.annotations.Embedded;
@@ -13,7 +14,7 @@ import java.util.Map;
  */
 @SerializableAs("CosmeticsData")
 @Embedded
-public class CosmeticsData implements Data {
+public class CosmeticsData extends SerializableData<CosmeticsData> {
 	@Property
 	public String title = null;
 	
@@ -28,25 +29,15 @@ public class CosmeticsData implements Data {
 	}
 	
 	
-	// Bukkit Configuration
-	private static final String HAT_KEY = "hat";
-	private static final String TITLE_KEY = "title";
 	
-	@SuppressWarnings("unused")
-	public static CosmeticsData deserialize(Map<String, Object> map) {
-		CosmeticsData data = new CosmeticsData();
-		data.hat = (String) map.get(HAT_KEY);
-		data.title = (String) map.get(TITLE_KEY);
-		
-		return data;
-	}
 	
+	
+	private static final DataSerializer<CosmeticsData> SERIALIZER = new DataSerializer<>(CosmeticsData.class);
 	@Override
-	public Map<String, Object> serialize() {
-		Map<String, Object> map = new HashMap<>();
-		map.put(HAT_KEY, hat);
-		map.put(TITLE_KEY, title);
-		
-		return map;
+	protected DataSerializer<CosmeticsData> getSerializer() {
+		return SERIALIZER;
+	}
+	public static CosmeticsData deserialize(Map<String, Object> map) {
+		return SERIALIZER.deserialize(map);
 	}
 }
