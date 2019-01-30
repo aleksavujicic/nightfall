@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import static org.bukkit.potion.PotionEffectType.BLINDNESS;
+import static org.bukkit.potion.PotionEffectType.NIGHT_VISION;
 
 /**
  * Created by Deimophobe on 7/12/18.
@@ -50,6 +51,8 @@ public class DwarfEyes implements Updateable {
 		int blindDuration = vision.getBlindnessDuration();
 		boolean forceBlind = vision.isForceBlind();
 		
+		if (targetVision != 0) targetVision += 10;
+		
 		currentVision = Math.max(targetVision, currentVision - 1);
 		currentVision = Math.max(currentVision, 0);
 		
@@ -64,6 +67,9 @@ public class DwarfEyes implements Updateable {
 			setTempBlind(blindDuration);
 		} else if (currentVision == 0 && !immune) {
 			setPermaBlind();
+		} else if (20 > currentVision && currentVision > 0 && targetVision == 0 && !immune) {
+			int duration = 20 - currentVision;
+			setTempBlind(duration);
 		} else {
 			removeBlind();
 		}
