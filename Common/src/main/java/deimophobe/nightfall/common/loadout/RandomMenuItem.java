@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import deimophobe.nightfall.common.loadout.item.LoadoutItem;
 import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.item.SimpleItem;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -64,7 +65,7 @@ public class RandomMenuItem extends SimpleItem<Loadout> {
 	}
 	
 	private void playSound(Player player) {
-		player.playSound(player.getLocation(), "entity.villager.yes", 1f, 1f);
+		player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, 1f, 1f);
 	}
 	
 	private static Set<LoadoutItem> getRandomItems(Set<LoadoutItem> items, int pointLimit, boolean recurse) {
