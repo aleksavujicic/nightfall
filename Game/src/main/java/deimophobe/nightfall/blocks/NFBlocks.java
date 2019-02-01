@@ -200,12 +200,13 @@ public class NFBlocks {
 	public static final BlockMatcher UNTIMEABLE_BLOCKS = new BlockSet(
 			PISTON_BASE,
 			CRAFTING_ARMOUR,
-			PICKUP_BLOCK,
+			ADJACENT_PICKUP,
 			
 			SHRINE_BLOCK,
 			SHARED_CHEST,
 			
 			HERANA_TRIDENT_WATER,
+			
 			
 			BED,
 			DOOR
