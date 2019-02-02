@@ -42,7 +42,21 @@ class ZombiePlague extends Plague {
 		AIManager.getManager().removeAllAIs();
 	}
 	
-	private static final String SICK_MSG = ChatColor.GREEN + "You begin to feel a little " + ChatColor.LIGHT_PURPLE + ChatColor.ITALIC + "sick" + ChatColor.GREEN + "!";
+	private static final String SICK_MSG
+			= ChatColor.GREEN + "You begin to feel a little "
+			+ ChatColor.LIGHT_PURPLE + ChatColor.ITALIC + "sick"
+			+ ChatColor.GREEN + "!";
+	private static final String TURNED_MSG_1
+			= ChatColor.LIGHT_PURPLE + "You have turned into a "
+			+ ChatColor.GREEN + "zombie"
+			+ ChatColor.LIGHT_PURPLE + "!";
+	private static final String TURNED_MSG_2
+			= ChatColor.GREEN + "You feel the urge to "
+			+ ChatColor.LIGHT_PURPLE + "spread the plague "
+			+ ChatColor.GREEN + "by "
+			+ ChatColor.RED + "attacking the dwarves"
+			+ ChatColor.GREEN + "!";
+	
 	private static final int SICK_MSG_TIME = 160;
 	
 	boolean convertToZombie(Dwarf dwarf) {
@@ -79,6 +93,8 @@ class ZombiePlague extends Plague {
 					
 					numZombiesAlive++;
 					convertingDwarves.remove(dwarf);
+					mp.sendMessage(TURNED_MSG_1);
+					mp.sendMessage(TURNED_MSG_2);
 				} else {
 					DwarfManager.getManager().removeOfflinePlayer(player.getUniqueId());
 					tryPlagueMore();
