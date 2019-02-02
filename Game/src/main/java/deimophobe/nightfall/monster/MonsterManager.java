@@ -31,9 +31,17 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 	private final AIManager aiManager;
 	private final DoomManager doomManager;
 	private final SpawnRegistry registry;
+	private final DeathMessager messager;
 	
-	public AIManager getAiManager() {return aiManager;}
-	public DoomManager getDoomManager() {return doomManager;}
+	public AIManager getAiManager() {
+		return aiManager;
+	}
+	public DoomManager getDoomManager() {
+		return doomManager;
+	}
+	public DeathMessager getMessager() {
+		return messager;
+	}
 	
 	private int xpCount;
 	private int plagueXP = 6000;
@@ -46,9 +54,10 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		
 		aiManager = new AIManager();
 		doomManager = new DoomManager(this);
-		
+		messager = new DeathMessager(15);
 	}
 	
+	@Override
 	public void init() {
 		loadSpawnEggs();
 		menu = new MonsterMenu();
@@ -60,6 +69,12 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		super.stop();
 		aiManager.stop();
 		doomManager.stop();
+	}
+	
+	@Override
+	protected void update() {
+		super.update();
+		messager.update();
 	}
 	
 	@Override
@@ -181,38 +196,6 @@ public class MonsterManager extends GamePlayerManager<MonsterPlayer> {
 		for (SpawnEggMenuItem egg : spawnEggs.values()) {
 			egg.restock();
 		}
-	}
-	
-	// --------------------------------------------------------
-	//                   DEATH MESSAGER
-	// --------------------------------------------------------
-	
-	private static final int DEATH_MSG_UPDATE_FREQ = 15;
-	private final Queue<String> deathMessages = new LinkedList<>();
-	private final BooleanCooldown messager = new BooleanCooldown(15, this::sendMessages, this::resetMessager);
-	
-	private boolean sendMessages() {
-		if (deathMessages.isEmpty()) return false;
-		
-		String message = deathMessages.poll();
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
-		}
-		//Bukkit.broadcastMessage(message);
-		return true;
-	}
-	
-	private void resetMessager() { messager.tryUse(); }
-	
-	@Override
-	protected void update() {
-		super.update();
-		messager.update();
-	}
-	
-	public void queueDeathMessage(String deathMsg) {
-		deathMessages.offer(deathMsg);
-		messager.tryUse();
 	}
 }
 	

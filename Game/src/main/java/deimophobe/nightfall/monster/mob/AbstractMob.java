@@ -685,18 +685,7 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	protected void showDeathMessage(BaseComponent deathMessage) {
-		MonsterManager.getManager().queueDeathMessage(deathMessage.toLegacyText());
-		
-		if (mobData.forceTitle) {
-			Bukkit.spigot().broadcast(deathMessage);
-		} else {
-			for (Player player : Bukkit.getOnlinePlayers()) {
-				PlayerSettings settings = PlayerManager.getManager().getSettings(player);
-				if (settings.getValueOfSetting(Setting.CHAT_MOB_DEATH_MESSAGES)) {
-					player.spigot().sendMessage(deathMessage);
-				}
-			}
-		}
+		MonsterManager.getManager().getMessager().queueDeathMessage(deathMessage, mobData.forceTitle);
 	}
 	
 	protected void displayDeathAnimation() {
