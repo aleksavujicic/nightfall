@@ -1,10 +1,10 @@
 package deimophobe.nightfall.map;
 
-import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.ProcType;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.map.region.Region;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;

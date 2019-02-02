@@ -1,14 +1,17 @@
 package deimophobe.nightfall.dwarf.hero;
 
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.skin.PlayerSkin;
-import deimophobe.nightfall.skin.SkinManager;
-import deimophobe.nightfall.damage.*;
+import deimophobe.nightfall.damage.DwarfDamage;
+import deimophobe.nightfall.damage.GameDamageType;
+import deimophobe.nightfall.damage.MonsterDamage;
+import deimophobe.nightfall.damage.PreDamagePriority;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.monster.ai.AIEntity;
+import deimophobe.nightfall.skin.PlayerSkin;
+import deimophobe.nightfall.skin.SkinManager;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;

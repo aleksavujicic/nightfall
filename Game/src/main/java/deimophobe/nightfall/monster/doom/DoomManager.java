@@ -2,12 +2,10 @@ package deimophobe.nightfall.monster.doom;
 
 import com.google.common.collect.Iterables;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.TimeManager;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Sidebar;
-import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.ChatColor;

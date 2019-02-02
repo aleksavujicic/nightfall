@@ -2,18 +2,11 @@ package deimophobe.nightfall.common.player.settings;
 
 import deimophobe.nightfall.common.MalformedConfigurationException;
 import deimophobe.nightfall.common.NightfallCommonPlugin;
-import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.menu.MainMenu;
-import deimophobe.nightfall.common.menu.MenuSession;
-import deimophobe.nightfall.common.menu.item.MenuItem;
 import deimophobe.nightfall.common.menu.submenu.SimpleMenu;
 import deimophobe.nightfall.common.player.PlayerManager;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.Set;
 
 /**
  * Created by Deimophobe on 16/05/18.

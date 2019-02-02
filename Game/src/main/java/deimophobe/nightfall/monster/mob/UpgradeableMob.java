@@ -1,7 +1,6 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.monster.MonsterPlayer;
-import deimophobe.nightfall.monster.upgrades.MonsterUpgrades;
 import deimophobe.nightfall.monster.upgrades.wrappers.WrappedUpgrades;
 
 import java.lang.reflect.Constructor;

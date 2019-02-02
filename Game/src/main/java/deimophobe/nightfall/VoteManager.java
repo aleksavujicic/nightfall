@@ -1,6 +1,5 @@
 package deimophobe.nightfall;
 
-import deimophobe.nightfall.common.command.MessageUtil;
 import org.bukkit.entity.Player;
 
 /**

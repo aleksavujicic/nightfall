@@ -1,10 +1,8 @@
 package deimophobe.nightfall.common.player.settings;
 
-import deimophobe.nightfall.common.NightfallCommonPlugin;
 import deimophobe.nightfall.common.database.data.Datable;
 import deimophobe.nightfall.common.database.data.PlayerSettingsData;
 import deimophobe.nightfall.common.menu.SessionData;
-import org.bukkit.Bukkit;
 
 import java.util.HashMap;
 import java.util.Map;

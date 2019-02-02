@@ -1,11 +1,8 @@
 package deimophobe.nightfall.monster.doom;
 
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.cooldown.LifetimeExpireable;
-import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterManager;
-import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.ai.AIType;
 import deimophobe.nightfall.monster.mob.MobType;

@@ -4,7 +4,6 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandIssuer;
 import co.aikar.commands.InvalidCommandArgument;
 import co.aikar.commands.annotation.*;
-import co.aikar.commands.annotation.Optional;
 import deimophobe.nightfall.command.iterable.MonsterIterable;
 import deimophobe.nightfall.command.iterable.PlayerIterable;
 import deimophobe.nightfall.common.command.MessageUtil;
@@ -22,7 +21,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Deimophobe on 4/03/18.

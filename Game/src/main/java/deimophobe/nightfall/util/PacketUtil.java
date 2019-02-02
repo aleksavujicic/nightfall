@@ -1,6 +1,5 @@
 package deimophobe.nightfall.util;
 
-import com.comphenix.packetwrapper.WrapperPlayClientCustomPayload;
 import com.comphenix.packetwrapper.WrapperPlayServerBlockAction;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -14,8 +13,6 @@ import com.comphenix.protocol.wrappers.MinecraftKey;
 import deimophobe.nightfall.NightfallPlugin;
 import io.netty.buffer.Unpooled;
 import net.minecraft.server.v1_13_R2.PacketDataSerializer;
-import net.minecraft.server.v1_13_R2.PacketPlayOutCustomPayload;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;

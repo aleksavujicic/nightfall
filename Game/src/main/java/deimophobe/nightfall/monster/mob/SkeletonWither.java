@@ -1,7 +1,9 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.cooldown.*;
+import deimophobe.nightfall.cooldown.Cooldown;
+import deimophobe.nightfall.cooldown.Display;
+import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -18,7 +20,10 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.WitherSkull;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 

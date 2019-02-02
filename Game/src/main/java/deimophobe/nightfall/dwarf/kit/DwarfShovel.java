@@ -1,8 +1,6 @@
 package deimophobe.nightfall.dwarf.kit;
 
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.skin.PlayerSkin;
-import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
@@ -11,6 +9,8 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
+import deimophobe.nightfall.skin.PlayerSkin;
+import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.util.Weightable;
 import deimophobe.nightfall.util.WeightedSet;
 import org.bukkit.*;

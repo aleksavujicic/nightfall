@@ -5,7 +5,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.bukkit.configuration.serialization.SerializableAs;
 import org.mongodb.morphia.annotations.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Deimophobe on 8/01/18.

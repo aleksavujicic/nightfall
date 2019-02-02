@@ -1,11 +1,11 @@
 package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.skin.Skin;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import deimophobe.nightfall.skin.Skin;
 import deimophobe.nightfall.util.ArmourSlot;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import org.bukkit.configuration.ConfigurationSection;

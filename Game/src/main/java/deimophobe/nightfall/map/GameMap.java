@@ -1,10 +1,10 @@
 package deimophobe.nightfall.map;
 
-import deimophobe.nightfall.blocks.NFBlocks;
-import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.game.Phase;
+import deimophobe.nightfall.blocks.NFBlocks;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.game.Sidebar;
 import deimophobe.nightfall.map.feature.FeatureCreator;
 import deimophobe.nightfall.map.feature.MapFeature;

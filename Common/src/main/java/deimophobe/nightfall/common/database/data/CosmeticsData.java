@@ -6,7 +6,6 @@ import org.bukkit.configuration.serialization.SerializableAs;
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Property;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**

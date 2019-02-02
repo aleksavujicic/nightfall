@@ -5,7 +5,6 @@ import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.dot.PoisonType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import deimophobe.nightfall.monster.upgrades.MonsterUpgrades;
 import deimophobe.nightfall.monster.upgrades.Upgrade;
 import org.bukkit.potion.PotionEffectType;
 

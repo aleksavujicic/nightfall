@@ -4,7 +4,6 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.Expirable;
-import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.game.Game;

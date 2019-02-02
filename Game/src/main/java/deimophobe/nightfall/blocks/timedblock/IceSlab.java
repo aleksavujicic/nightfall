@@ -2,7 +2,6 @@ package deimophobe.nightfall.blocks.timedblock;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.game.entity.GameEntity;
@@ -16,9 +15,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.material.MaterialData;
-
-import java.util.function.Consumer;
 
 /**
  * Created by Deimophobe on 14/01/18.

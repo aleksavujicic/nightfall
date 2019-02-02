@@ -6,7 +6,6 @@ import deimophobe.nightfall.common.menu.submenu.CompositeMenu;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 
 /**

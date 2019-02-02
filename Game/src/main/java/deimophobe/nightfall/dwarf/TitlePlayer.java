@@ -1,8 +1,6 @@
 package deimophobe.nightfall.dwarf;
 
-import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.effects.sound.Sounds;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

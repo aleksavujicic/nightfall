@@ -2,11 +2,9 @@ package deimophobe.nightfall.common.database;
 
 import com.google.common.base.CaseFormat;
 import deimophobe.nightfall.common.database.data.Data;
-import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.HashSet;

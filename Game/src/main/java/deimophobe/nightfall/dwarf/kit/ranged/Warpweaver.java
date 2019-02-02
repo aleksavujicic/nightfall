@@ -1,6 +1,5 @@
 package deimophobe.nightfall.dwarf.kit.ranged;
 
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;

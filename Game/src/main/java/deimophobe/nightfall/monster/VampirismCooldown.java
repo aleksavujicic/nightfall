@@ -1,7 +1,6 @@
 package deimophobe.nightfall.monster;
 
 import deimophobe.nightfall.cooldown.Cooldown;
-import deimophobe.nightfall.cooldown.DudCooldown;
 import deimophobe.nightfall.cooldown.SimpleCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 

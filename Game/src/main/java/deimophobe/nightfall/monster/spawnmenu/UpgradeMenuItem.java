@@ -1,16 +1,12 @@
 package deimophobe.nightfall.monster.spawnmenu;
 
-import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.item.MenuItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.upgrades.MonsterUpgrades;
 import deimophobe.nightfall.monster.upgrades.Upgrade;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scoreboard.Objective;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**

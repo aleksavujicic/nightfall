@@ -1,6 +1,5 @@
 package deimophobe.nightfall;
 
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.game.Game;
 
 import static deimophobe.nightfall.common.Misc.DO_NOTHING;

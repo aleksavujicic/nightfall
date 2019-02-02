@@ -1,7 +1,6 @@
 package deimophobe.nightfall.common.database.data;
 
 import deimophobe.nightfall.common.database.DataSerializer;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 import java.util.Map;

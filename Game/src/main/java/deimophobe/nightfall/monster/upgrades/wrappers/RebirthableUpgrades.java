@@ -1,7 +1,6 @@
 package deimophobe.nightfall.monster.upgrades.wrappers;
 
 import deimophobe.nightfall.monster.MonsterPlayer;
-import deimophobe.nightfall.monster.upgrades.MonsterUpgrades;
 
 /**
  * Created by Deimophobe on 22/01/19.

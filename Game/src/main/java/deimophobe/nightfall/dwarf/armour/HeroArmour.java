@@ -5,15 +5,12 @@ import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.hero.Hero;
-import deimophobe.nightfall.dwarf.kit.ItemPiece;
 import deimophobe.nightfall.game.Curse;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.util.ArmourSlot;
 import deimophobe.nightfall.util.Util;
 import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 
 /**

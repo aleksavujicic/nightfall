@@ -4,8 +4,6 @@ package deimophobe.nightfall.common.util;
 import deimophobe.nightfall.common.NightfallCommonPlugin;
 import org.bukkit.NamespacedKey;
 
-import java.security.Key;
-
 /**
  * Created by Deimophobe on 24/01/19.
  */

@@ -1,6 +1,5 @@
 package deimophobe.nightfall.blocks;
 
-import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.blocktype.*;
 import deimophobe.nightfall.dwarf.kit.hero.Trident;
 import deimophobe.nightfall.map.GameMap;
@@ -9,7 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Rail;
 import org.bukkit.block.data.type.RedstoneRail;
-import org.bukkit.util.BlockIterator;
 import org.jetbrains.annotations.NotNull;
 
 /**

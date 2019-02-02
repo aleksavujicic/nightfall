@@ -1,17 +1,13 @@
 package deimophobe.nightfall.dwarf.light;
 
-import deimophobe.nightfall.cooldown.Cooldown;
-import deimophobe.nightfall.cooldown.CooldownHolder;
 import deimophobe.nightfall.cooldown.Expirable;
 import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.dwarf.Dwarf;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collection;
 import java.util.HashSet;
 
 import static org.bukkit.potion.PotionEffectType.BLINDNESS;
-import static org.bukkit.potion.PotionEffectType.NIGHT_VISION;
 
 /**
  * Created by Deimophobe on 7/12/18.

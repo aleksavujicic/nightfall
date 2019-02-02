@@ -8,7 +8,6 @@ import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.MapManager;
 import deimophobe.nightfall.map.MapWorld;
 import net.md_5.bungee.api.chat.BaseComponent;
-import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -16,7 +15,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by Deimophobe on 4/03/18.

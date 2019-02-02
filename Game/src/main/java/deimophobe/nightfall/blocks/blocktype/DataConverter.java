@@ -1,7 +1,6 @@
 package deimophobe.nightfall.blocks.blocktype;
 
 import deimophobe.nightfall.util.Util;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -14,8 +13,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static deimophobe.nightfall.util.NFConditions.checkMaterialExtendsDataClass;
 
 /**

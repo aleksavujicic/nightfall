@@ -6,7 +6,6 @@ import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
 
 /**
  * Created by Deimophobe on 30/04/17.

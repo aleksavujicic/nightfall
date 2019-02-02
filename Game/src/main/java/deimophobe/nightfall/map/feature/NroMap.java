@@ -1,14 +1,14 @@
 package deimophobe.nightfall.map.feature;
 
-import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.dwarf.hero.HeroType;
 import deimophobe.nightfall.event.DwarfCreateEvent;
 import deimophobe.nightfall.event.PhaseChangeEvent;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.map.InvalidMapConfigException;
 import deimophobe.nightfall.util.ArmourSlot;

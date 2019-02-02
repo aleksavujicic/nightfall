@@ -1,7 +1,5 @@
 package deimophobe.nightfall.skin;
 
-import org.bukkit.inventory.MainHand;
-
 /**
  * Created by Deimophobe on 5/12/18.
  */

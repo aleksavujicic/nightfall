@@ -4,8 +4,6 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.common.player.PlayerManager;
-import deimophobe.nightfall.common.player.settings.PlayerSettings;
 import deimophobe.nightfall.common.player.settings.Setting;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GameSize;
@@ -14,7 +12,6 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.SpawnRegistry;
 import deimophobe.nightfall.monster.mob.MobType;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;

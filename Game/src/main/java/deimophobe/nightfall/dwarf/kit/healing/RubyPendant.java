@@ -3,7 +3,6 @@ package deimophobe.nightfall.dwarf.kit.healing;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.CompletionCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
-import deimophobe.nightfall.cooldown.LifetimeExpireable;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.potion.PotionEffectType;
 

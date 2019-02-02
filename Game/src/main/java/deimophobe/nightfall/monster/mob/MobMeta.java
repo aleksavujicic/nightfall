@@ -1,11 +1,9 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.util.ArmourSlot;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 
 import java.lang.annotation.*;
-import java.util.Map;
 
 /**
  * Created by Deimophobe on 18/10/18.

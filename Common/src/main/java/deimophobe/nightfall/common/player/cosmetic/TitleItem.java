@@ -2,7 +2,6 @@ package deimophobe.nightfall.common.player.cosmetic;
 
 import deimophobe.nightfall.common.ConfigValidator;
 import deimophobe.nightfall.common.MalformedConfigurationException;
-import deimophobe.nightfall.common.player.cosmetic.Cosmetics;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import deimophobe.nightfall.common.menu.MenuSession;

@@ -1,16 +1,12 @@
 package deimophobe.nightfall.monster;
 
-import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.cooldown.BooleanCooldown;
+import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.entity.GamePlayerManager;
 import deimophobe.nightfall.monster.ai.AIManager;
 import deimophobe.nightfall.monster.doom.DoomManager;
 import deimophobe.nightfall.monster.spawnmenu.MonsterMenu;
 import deimophobe.nightfall.monster.spawnmenu.SpawnEggMenuItem;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.Configuration;

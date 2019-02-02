@@ -3,7 +3,6 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.upgrades.wrappers.RebirthableUpgrades;
-import deimophobe.nightfall.monster.upgrades.wrappers.WrappedUpgrades;
 
 import java.util.function.Function;
 

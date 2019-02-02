@@ -2,14 +2,10 @@ package deimophobe.nightfall.common.player.settings;
 
 import deimophobe.nightfall.common.MalformedConfigurationException;
 import deimophobe.nightfall.common.NightfallCommonPlugin;
-import deimophobe.nightfall.common.database.data.Data;
 import deimophobe.nightfall.common.items.CustomItem;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 /**

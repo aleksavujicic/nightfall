@@ -1,10 +1,10 @@
 package deimophobe.nightfall.dwarf.kit.healing;
 
-import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.PreDamagePriority;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.game.Game;
 
 /**
  * Created by Deimophobe on 22/01/17.

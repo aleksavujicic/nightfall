@@ -1,7 +1,5 @@
 package deimophobe.nightfall.monster.upgrades.wrappers;
 
-import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 
 /**

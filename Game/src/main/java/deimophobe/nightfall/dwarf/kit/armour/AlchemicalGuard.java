@@ -3,12 +3,13 @@ package deimophobe.nightfall.dwarf.kit.armour;
 import com.google.common.collect.Sets;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
-import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.RepeaterCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.Armour;
-import deimophobe.nightfall.dwarf.kit.*;
-import deimophobe.nightfall.util.ArmourSlot;
+import deimophobe.nightfall.dwarf.kit.AbstractPiece;
+import deimophobe.nightfall.dwarf.kit.ArmourPiece;
+import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashSet;

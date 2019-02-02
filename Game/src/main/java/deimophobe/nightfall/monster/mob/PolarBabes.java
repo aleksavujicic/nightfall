@@ -1,13 +1,10 @@
 package deimophobe.nightfall.monster.mob;
 
-import deimophobe.nightfall.blocks.BlockManager;
-import deimophobe.nightfall.blocks.timedblock.DataTimedBlock;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import me.libraryaddict.disguise.disguisetypes.watchers.PolarBearWatcher;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 class PolarBabes extends AbstractMob {

@@ -1,10 +1,6 @@
 package deimophobe.nightfall.skin;
 
-import deimophobe.nightfall.common.Misc;
-import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.UUID;
 
 /**
  * Created by Deimophobe on 6/12/18.

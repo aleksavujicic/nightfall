@@ -3,8 +3,6 @@ package deimophobe.nightfall.skin;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import org.apache.commons.collections4.functors.ChainedTransformer;
-import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;

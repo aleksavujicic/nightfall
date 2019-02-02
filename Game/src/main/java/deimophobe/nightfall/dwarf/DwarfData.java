@@ -6,11 +6,14 @@ import deimophobe.nightfall.common.loadout.LoadoutConstructable;
 import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.Kit;
-import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 15/01/17.

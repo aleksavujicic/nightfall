@@ -3,11 +3,9 @@ package deimophobe.nightfall;
 import deimophobe.nightfall.common.command.MessageUtil;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.apache.commons.collections4.queue.CircularFifoQueue;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.Queue;
 
 /**
  * Created by Deimophobe on 13/10/18.

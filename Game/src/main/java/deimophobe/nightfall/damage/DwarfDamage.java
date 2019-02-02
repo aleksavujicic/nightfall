@@ -1,11 +1,11 @@
 package deimophobe.nightfall.damage;
 
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.event.DwarfDamageEvent;
 import deimophobe.nightfall.game.Game;
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.game.Phase;
-import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.monster.MonsterEntity;
 import org.bukkit.ChatColor;

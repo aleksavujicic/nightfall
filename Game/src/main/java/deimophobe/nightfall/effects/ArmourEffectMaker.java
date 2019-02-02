@@ -1,7 +1,6 @@
 package deimophobe.nightfall.effects;
 
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.LifetimeExpireable;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import org.bukkit.Color;

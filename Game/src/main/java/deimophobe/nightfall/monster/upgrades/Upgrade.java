@@ -1,7 +1,6 @@
 package deimophobe.nightfall.monster.upgrades;
 
 import deimophobe.nightfall.NightfallPlugin;
-import deimophobe.nightfall.common.items.CustomItem;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;

@@ -1,6 +1,5 @@
 package deimophobe.nightfall.dwarf.kit.accessory;
 
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.LifetimeExpireable;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -17,7 +16,6 @@ import deimophobe.nightfall.game.entity.ShieldSource;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Created by Deimophobe on 1/11/17.

@@ -1,6 +1,5 @@
 package deimophobe.nightfall.util;
 
-import deimophobe.nightfall.cooldown.LifetimeExpireable;
 import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import org.bukkit.Location;

@@ -1,9 +1,6 @@
 package deimophobe.nightfall.plague;
 
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import deimophobe.nightfall.skin.PlayerSkin;
-import deimophobe.nightfall.skin.Skin;
-import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.common.player.cosmetic.Hat;
 import deimophobe.nightfall.damage.DwarfDamage;
@@ -17,6 +14,9 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.mob.AbstractMob;
 import deimophobe.nightfall.monster.mob.MobType;
+import deimophobe.nightfall.skin.PlayerSkin;
+import deimophobe.nightfall.skin.Skin;
+import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.util.ArmourSlot;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
