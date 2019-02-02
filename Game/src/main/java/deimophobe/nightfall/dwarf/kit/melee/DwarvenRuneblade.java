@@ -3,8 +3,8 @@ package deimophobe.nightfall.dwarf.kit.melee;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 
 /**
  * Created by Deimophobe on 1/04/17.

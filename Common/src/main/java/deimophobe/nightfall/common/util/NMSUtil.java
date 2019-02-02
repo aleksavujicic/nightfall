@@ -20,7 +20,6 @@ import org.bukkit.inventory.MainHand;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 
 /**
  * Created by Deimophobe on 15/02/18.

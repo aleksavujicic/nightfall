@@ -8,7 +8,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
 import static deimophobe.nightfall.util.NFConditions.checkMaterialExtendsDataClass;

@@ -1,5 +1,6 @@
 package deimophobe.nightfall.dwarf.kit.accessory;
 
+import deimophobe.nightfall.common.player.settings.Setting;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.PreDamagePriority;
 import deimophobe.nightfall.dwarf.Dwarf;
@@ -21,6 +22,7 @@ public class JitHeal extends AbstractPiece {
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
 		
+		if (!isEnabled()) return;
 		if (Game.getGame().getPhase() != Phase.GAME) return;
 		if (!dwarf.hasMana(MANA_COST)) return;
 		
@@ -36,5 +38,9 @@ public class JitHeal extends AbstractPiece {
 				dwarf.sendTitleMessage(ChatColor.RED + "Your JIT heal has been triggered!");
 			}
 		});
+	}
+	
+	private boolean isEnabled() {
+		return dwarf.getSettings().getValueOfSetting(Setting.JIT_HEAL);
 	}
 }

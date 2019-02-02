@@ -1,15 +1,11 @@
 package deimophobe.nightfall.effects;
 
-import com.google.common.collect.Sets;
 import deimophobe.nightfall.effects.sound.PlayerSound;
 import deimophobe.nightfall.game.entity.GamePlayer;
-import deimophobe.nightfall.util.Colour;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
-
-import java.util.Set;
 
 /**
  * Created by Deimophobe on 27/10/17.

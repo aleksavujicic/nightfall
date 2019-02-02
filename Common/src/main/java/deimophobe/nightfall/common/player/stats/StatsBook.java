@@ -1,7 +1,6 @@
 package deimophobe.nightfall.common.player.stats;
 
 import deimophobe.nightfall.common.NightfallCommonPlugin;
-import deimophobe.nightfall.common.player.PlayerManager;
 import deimophobe.nightfall.common.util.NMSUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

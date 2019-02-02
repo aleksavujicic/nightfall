@@ -1,8 +1,5 @@
 package deimophobe.nightfall.dwarf.hero;
 
-import deimophobe.nightfall.skin.PlayerSkin;
-import deimophobe.nightfall.skin.Skin;
-import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.common.ConfigValidator;
 import deimophobe.nightfall.common.MalformedConfigurationException;
 import deimophobe.nightfall.common.Misc;
@@ -13,9 +10,12 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfData;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.Kit;
-import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
+import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.skin.PlayerSkin;
+import deimophobe.nightfall.skin.Skin;
+import deimophobe.nightfall.skin.SkinManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;

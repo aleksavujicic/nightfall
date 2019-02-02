@@ -1,9 +1,9 @@
 package deimophobe.nightfall.dwarf;
 
-import org.bukkit.*;
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.material.MaterialData;
-import org.bukkit.material.Wool;
 
 /**
  * Created by Deimophobe on 12/10/18.

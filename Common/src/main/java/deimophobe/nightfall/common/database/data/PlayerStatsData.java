@@ -1,12 +1,11 @@
 package deimophobe.nightfall.common.database.data;
 
-import deimophobe.nightfall.common.ConfigUtil;
+import deimophobe.nightfall.common.database.DataSerializer;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.bukkit.configuration.serialization.SerializableAs;
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Property;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -14,7 +13,7 @@ import java.util.Map;
  */
 @SerializableAs("PlayerStatsData")
 @Embedded
-public class PlayerStatsData implements Data {
+public class PlayerStatsData extends SerializableData<PlayerStatsData> {
 	@Property
 	public int gamesPlayed = 0;
 	
@@ -26,22 +25,14 @@ public class PlayerStatsData implements Data {
 	}
 	
 	
-	// Bukkit Configuration
-	private static final String GAMES_KEY = "games";
 	
-	@SuppressWarnings("unused")
-	public static PlayerStatsData deserialize(Map<String, Object> map) {
-		PlayerStatsData data = new PlayerStatsData();
-		data.gamesPlayed = ConfigUtil.getObjectFromMap(map, GAMES_KEY, Integer.class, 0);
-		
-		return data;
-	}
 	
+	private static final DataSerializer<PlayerStatsData> SERIALIZER = new DataSerializer<>(PlayerStatsData.class);
 	@Override
-	public Map<String, Object> serialize() {
-		Map<String, Object> map = new HashMap<>();
-		map.put(GAMES_KEY, gamesPlayed);
-		
-		return map;
+	protected DataSerializer<PlayerStatsData> getSerializer() {
+		return SERIALIZER;
+	}
+	public static PlayerStatsData deserialize(Map<String, Object> map) {
+		return SERIALIZER.deserialize(map);
 	}
 }

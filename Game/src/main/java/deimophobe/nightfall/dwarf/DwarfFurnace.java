@@ -6,7 +6,10 @@ import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import org.bukkit.ChatColor;
 
-import java.util.*;
+import java.util.EnumMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
 
 /**
  * Created by Deimophobe on 4/05/18.

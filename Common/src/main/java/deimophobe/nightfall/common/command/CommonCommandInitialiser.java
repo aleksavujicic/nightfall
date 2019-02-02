@@ -25,6 +25,7 @@ public class CommonCommandInitialiser {
 		commandManager.registerCommand(new GoldCommand());
 		commandManager.registerCommand(new MaintenanceCommand());
 		commandManager.registerCommand(new MenuCommands());
+		commandManager.registerCommand(new PlayerDataCommand());
 		commandManager.registerCommand(new StatsCommand(plugin));
 	}
 	

@@ -1,13 +1,13 @@
 package deimophobe.nightfall.dwarf.kit.accessory;
 
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
+import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.armour.Armour;
+import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import deimophobe.nightfall.dwarf.kit.ArmourPiece;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
-import deimophobe.nightfall.dwarf.Dwarf;
-import deimophobe.nightfall.dwarf.ProcType;
-import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 
 /**
  * Created by Deimophobe on 27/03/17.

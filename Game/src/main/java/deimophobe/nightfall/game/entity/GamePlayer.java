@@ -12,10 +12,11 @@ import deimophobe.nightfall.WhoEntry;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.ItemMatcher;
+import deimophobe.nightfall.common.player.PlayerManager;
+import deimophobe.nightfall.common.player.settings.PlayerSettings;
 import deimophobe.nightfall.common.util.NMSUtil;
 import deimophobe.nightfall.cooldown.CooldownHolder;
 import deimophobe.nightfall.cooldown.LifetimeExpireable;
-import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.damage.GameDamage;
 import deimophobe.nightfall.damage.GameDamageType;
@@ -28,7 +29,6 @@ import deimophobe.nightfall.effects.sound.Sounds;
 import deimophobe.nightfall.game.AbstractGameEntity;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.map.GameMap;
-import deimophobe.nightfall.monster.upgrades.Upgrade;
 import deimophobe.nightfall.util.PacketUtil;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -105,6 +105,10 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	
 	public Entity getVisibleEntity() {
 		return player;
+	}
+	
+	public PlayerSettings getSettings() {
+		return PlayerManager.getManager().getSettings(player);
 	}
 	
 	

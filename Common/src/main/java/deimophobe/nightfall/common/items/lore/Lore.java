@@ -4,7 +4,10 @@ import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Deimophobe on 21/04/17.

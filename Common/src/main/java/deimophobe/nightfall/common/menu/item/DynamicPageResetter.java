@@ -3,7 +3,6 @@ package deimophobe.nightfall.common.menu.item;
 import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.SessionData;
 import deimophobe.nightfall.common.menu.submenu.DynamicMenu;
-import deimophobe.nightfall.common.menu.submenu.SubMenu;
 import org.bukkit.inventory.ItemStack;
 
 /**

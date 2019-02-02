@@ -1,7 +1,6 @@
 package deimophobe.nightfall.monster.spawnmenu;
 
 import deimophobe.nightfall.common.items.CustomItem;
-import deimophobe.nightfall.common.items.lore.LoreTemplate;
 import org.bukkit.configuration.ConfigurationSection;
 
 /**

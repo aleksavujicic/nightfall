@@ -89,6 +89,9 @@ settings:
   prefix:
     description: "&6"
 
+  defaults:
+    description: "$description"
+
   modifiers:
     name: "&3"
     value: "&b"

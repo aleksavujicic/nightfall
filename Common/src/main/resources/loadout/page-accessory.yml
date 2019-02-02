@@ -53,21 +53,6 @@ bricklayer:
           to automatically place cobblestone.\n
           Requires cobblestone in your inventory.\n
           Only works during build phase."
-jit-heal:
-  index: 4
-  cost: 0
-  category: accessory
-  type: item
-  name: jit-heal
-  item:
-    template: loadout
-    name: "JIT Heal"
-    base: menu.jit-heal
-    lore:
-      description:
-       - "You get a (reuseable) heal which will\n
-          save you from death just in time.\n
-          It requires 700 mana to activate."
 
 # ------ PASSIVES ------
 slowfall:

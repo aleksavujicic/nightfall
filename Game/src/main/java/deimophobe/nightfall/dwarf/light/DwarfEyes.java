@@ -1,11 +1,8 @@
 package deimophobe.nightfall.dwarf.light;
 
-import deimophobe.nightfall.cooldown.Cooldown;
-import deimophobe.nightfall.cooldown.CooldownHolder;
 import deimophobe.nightfall.cooldown.Expirable;
 import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.dwarf.Dwarf;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -50,6 +47,8 @@ public class DwarfEyes implements Updateable {
 		int blindDuration = vision.getBlindnessDuration();
 		boolean forceBlind = vision.isForceBlind();
 		
+		if (targetVision != 0) targetVision += 10;
+		
 		currentVision = Math.max(targetVision, currentVision - 1);
 		currentVision = Math.max(currentVision, 0);
 		
@@ -64,6 +63,9 @@ public class DwarfEyes implements Updateable {
 			setTempBlind(blindDuration);
 		} else if (currentVision == 0 && !immune) {
 			setPermaBlind();
+		} else if (20 > currentVision && currentVision > 0 && targetVision == 0 && !immune) {
+			int duration = 20 - currentVision;
+			setTempBlind(duration);
 		} else {
 			removeBlind();
 		}

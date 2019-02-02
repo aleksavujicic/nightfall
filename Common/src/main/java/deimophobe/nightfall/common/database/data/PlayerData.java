@@ -1,11 +1,14 @@
 package deimophobe.nightfall.common.database.data;
 
-import deimophobe.nightfall.common.ConfigUtil;
+import deimophobe.nightfall.common.database.DataSerializer;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.bukkit.configuration.serialization.SerializableAs;
 import org.mongodb.morphia.annotations.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Deimophobe on 8/01/18.
@@ -13,7 +16,7 @@ import java.util.*;
 
 @SerializableAs("PlayerData")
 @Entity(value = "players", noClassnameStored = true)
-public class PlayerData implements Data {
+public class PlayerData extends SerializableData<PlayerData> {
 	private static final String INVALID_UUID = "INVALID";
 	
 	@Id
@@ -55,42 +58,14 @@ public class PlayerData implements Data {
 		return !INVALID_UUID.equals(uuid);
 	}
 	
-	// Bukkit Configuration
-	private static final String UUID_KEY = "uuid";
-	private static final String GOLD_KEY = "gold";
-	private static final String COSMETICS_KEY = "cosmetics";
-	private static final String LOADOUT_KEY = "loadout";
-	private static final String SAVED_LOADOUTS_KEY = "saved-loadouts";
-	private static final String SETTINGS_KEY = "settings";
-	private static final String STATISTICS_KEY = "statistics";
 	
-	@SuppressWarnings("unused")
-	public static PlayerData deserialize(Map<String, Object> map) {
-		PlayerData data = new PlayerData();
-		data.uuid      = ConfigUtil.getStringFromMap(map, UUID_KEY, INVALID_UUID);
-		data.gold      = ConfigUtil.getIntFromMap(map, GOLD_KEY, 0);
-		
-		data.cosmetics       = ConfigUtil.getObjectFromMap(map, COSMETICS_KEY, CosmeticsData.class, new CosmeticsData());
-		data.loadout         = ConfigUtil.getObjectFromMap(map, LOADOUT_KEY, LoadoutData.class, new LoadoutData());
-		data.savedLoadouts   = ConfigUtil.getObjectFromMap(map, SAVED_LOADOUTS_KEY, List.class, new ArrayList<>());
-		data.settings        = ConfigUtil.getObjectFromMap(map, SETTINGS_KEY, PlayerSettingsData.class, new PlayerSettingsData());
-		data.statistics      = ConfigUtil.getObjectFromMap(map, STATISTICS_KEY, PlayerStatsData.class, new PlayerStatsData());
-		
-		return data;
-	}
 	
+	private static final DataSerializer<PlayerData> SERIALIZER = new DataSerializer<>(PlayerData.class);
 	@Override
-	public Map<String, Object> serialize() {
-		Map<String, Object> map = new HashMap<>();
-		map.put(UUID_KEY, uuid);
-		map.put(GOLD_KEY, gold);
-		
-		map.put(COSMETICS_KEY, cosmetics);
-		map.put(LOADOUT_KEY, loadout);
-		map.put(SAVED_LOADOUTS_KEY, savedLoadouts);
-		map.put(SETTINGS_KEY, settings);
-		map.put(STATISTICS_KEY, statistics);
-		
-		return map;
+	protected DataSerializer<PlayerData> getSerializer() {
+		return SERIALIZER;
+	}
+	public static PlayerData deserialize(Map<String, Object> map) {
+		return SERIALIZER.deserialize(map);
 	}
 }

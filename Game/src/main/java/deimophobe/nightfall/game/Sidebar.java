@@ -1,10 +1,8 @@
 package deimophobe.nightfall.game;
 
 import com.comphenix.packetwrapper.WrapperPlayServerScoreboardScore;
-import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import deimophobe.nightfall.common.Misc;
-import me.libraryaddict.disguise.disguisetypes.watchers.PlayerWatcher;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -12,8 +10,6 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.NotNull;
-
-import java.awt.image.MemoryImageSource;
 
 /**
  * Created by Deimophobe on 2/01/19.

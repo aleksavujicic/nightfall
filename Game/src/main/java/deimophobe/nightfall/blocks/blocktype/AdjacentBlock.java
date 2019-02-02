@@ -1,7 +1,6 @@
 package deimophobe.nightfall.blocks.blocktype;
 
 import org.bukkit.block.Block;
-import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;

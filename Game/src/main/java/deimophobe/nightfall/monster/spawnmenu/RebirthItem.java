@@ -5,7 +5,6 @@ import deimophobe.nightfall.common.menu.item.MenuItem;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.doom.DoomManager;
-import deimophobe.nightfall.monster.mob.MobType;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 

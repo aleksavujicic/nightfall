@@ -4,7 +4,6 @@ import deimophobe.nightfall.common.items.CustomItem;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 /**

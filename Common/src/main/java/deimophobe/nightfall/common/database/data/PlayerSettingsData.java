@@ -1,6 +1,6 @@
 package deimophobe.nightfall.common.database.data;
 
-import deimophobe.nightfall.common.ConfigUtil;
+import deimophobe.nightfall.common.database.DataSerializer;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.bukkit.configuration.serialization.SerializableAs;
 import org.mongodb.morphia.annotations.Embedded;
@@ -15,11 +15,9 @@ import java.util.Map;
 
 @SerializableAs("PlayerSettingsData")
 @Embedded
-public class PlayerSettingsData implements Data {
+public class PlayerSettingsData extends SerializableData<PlayerSettingsData> {
 	@Property
-	public boolean heroEnabled = true;
-	@Property
-	public boolean mobDeathMessages = false;
+	public Map<String, Object> settings = new HashMap<>();
 	
 	public PlayerSettingsData() {}
 	
@@ -29,25 +27,12 @@ public class PlayerSettingsData implements Data {
 	}
 	
 	
-	// Bukkit Configuration
-	private static final String HERO_KEY = "hero-enabled";
-	private static final String MOB_DEATH_KEY = "mob-death-messages";
-	
-	@SuppressWarnings("unused")
-	public static PlayerSettingsData deserialize(Map<String, Object> map) {
-		PlayerSettingsData data = new PlayerSettingsData();
-		data.heroEnabled = ConfigUtil.getObjectFromMap(map, HERO_KEY, Boolean.class, true);
-		data.mobDeathMessages = ConfigUtil.getObjectFromMap(map, MOB_DEATH_KEY, Boolean.class, false);
-		
-		return data;
-	}
-	
+	private static final DataSerializer<PlayerSettingsData> SERIALIZER = new DataSerializer<>(PlayerSettingsData.class);
 	@Override
-	public Map<String, Object> serialize() {
-		Map<String, Object> map = new HashMap<>();
-		map.put(HERO_KEY, heroEnabled);
-		map.put(MOB_DEATH_KEY, mobDeathMessages);
-		
-		return map;
+	protected DataSerializer<PlayerSettingsData> getSerializer() {
+		return SERIALIZER;
+	}
+	public static PlayerSettingsData deserialize(Map<String, Object> map) {
+		return SERIALIZER.deserialize(map);
 	}
 }

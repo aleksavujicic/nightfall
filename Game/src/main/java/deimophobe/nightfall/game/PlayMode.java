@@ -1,14 +1,9 @@
 package deimophobe.nightfall.game;
 
-import me.lucko.luckperms.LuckPerms;
-import me.lucko.luckperms.api.LuckPermsApi;
-import me.lucko.luckperms.api.context.ContextCalculator;
-import me.lucko.luckperms.api.context.ContextManager;
 import me.lucko.luckperms.api.context.MutableContextSet;
 import me.lucko.luckperms.api.context.StaticContextCalculator;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 
 /**
  * Created by Deimophobe on 7/10/18.

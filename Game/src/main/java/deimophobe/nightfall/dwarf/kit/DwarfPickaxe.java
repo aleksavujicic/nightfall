@@ -2,8 +2,6 @@ package deimophobe.nightfall.dwarf.kit;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.NFBlocks;
-import deimophobe.nightfall.game.Game;
-import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.cooldown.RepeatingCooldown;
@@ -13,6 +11,8 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.effects.GameEffect;
+import deimophobe.nightfall.game.Game;
+import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.game.entity.ShieldSource;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Material;

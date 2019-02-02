@@ -45,7 +45,7 @@ public class PlayerManager {
 		Bukkit.getPluginManager().registerEvents(listener, plugin);
 		
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			loadPlayerInfo(player.getUniqueId());
+			loadPlayerInfo(player.getUniqueId(), false);
 		}
 		
 		int autosaveFreq = plugin.getConfig().getInt("database.autosave", 300);
@@ -72,9 +72,19 @@ public class PlayerManager {
 	// ----- DATA LOADING -----
 	private final Map<UUID, PlayerInfo> playerInfoMap = new ConcurrentHashMap<>();
 	
-	private void loadPlayerInfo(UUID playerID) {
+	public void reloadPlayerData(Player player) {
+		checkNotNull(player, "Player must not be null.");
+		loadPlayerInfo(player.getUniqueId(), true);
+	}
+	
+	public void savePlayerData(Player player) {
+		checkNotNull(player, "Player must not be null.");
+		savePlayerInfo(player.getUniqueId());
+	}
+	
+	private void loadPlayerInfo(UUID playerID, boolean override) {
 		checkNotNull(playerID, "UUID must not be null.");
-		checkArgument(!playerInfoMap.containsKey(playerID), "Cannot load PlayerData of player whose PlayerData is already loaded.");
+		checkArgument(override || !playerInfoMap.containsKey(playerID), "Cannot load PlayerData of player whose PlayerData is already loaded.");
 		
 		PlayerData data = dataIO.loadPlayerData(playerID);
 		PlayerInfo info = new PlayerInfo(data);
@@ -98,7 +108,7 @@ public class PlayerManager {
 		playerInfoMap.remove(playerID);
 	}
 	
-	private void saveAll() {
+	public void saveAll() {
 		if (playerInfoMap.isEmpty()) return;
 		
 		// Setup logger/format
@@ -128,7 +138,7 @@ public class PlayerManager {
 			if (playerInfoMap.containsKey(uuid)) continue;
 			
 			NightfallCommonPlugin.logger().warning("Loading missing PlayerData of player '" + player.getName() + "'");
-			loadPlayerInfo(uuid);
+			loadPlayerInfo(uuid, false);
 		}
 	}
 	
@@ -180,7 +190,7 @@ public class PlayerManager {
 			if (playerInfoMap.containsKey(uuid)) {
 				NightfallCommonPlugin.logger().warning("Player logged in while PlayerData already loaded.");
 			} else {
-				loadPlayerInfo(uuid);
+				loadPlayerInfo(uuid, false);
 			}
 		}
 		

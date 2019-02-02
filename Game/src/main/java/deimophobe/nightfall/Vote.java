@@ -2,7 +2,6 @@ package deimophobe.nightfall;
 
 import deimophobe.nightfall.common.command.MessageUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;

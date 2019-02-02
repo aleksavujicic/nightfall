@@ -1,6 +1,5 @@
 package deimophobe.nightfall.map;
 
-import com.google.common.base.Preconditions;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.VoidChunkGenerator;
 import deimophobe.nightfall.common.Misc;
@@ -25,9 +24,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.logging.Logger;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Preconditions.*;
 
 /**
  * Created by Deimophobe on 17/03/17.

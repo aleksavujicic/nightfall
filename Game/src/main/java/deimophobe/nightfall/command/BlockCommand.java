@@ -2,7 +2,6 @@ package deimophobe.nightfall.command;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
-import co.aikar.commands.contexts.OnlinePlayer;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.command.iterable.PlayerIterable;
 import deimophobe.nightfall.common.command.MessageUtil;

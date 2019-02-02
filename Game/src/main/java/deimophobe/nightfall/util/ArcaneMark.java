@@ -1,9 +1,7 @@
 package deimophobe.nightfall.util;
 
 import deimophobe.nightfall.ItemManager;
-import deimophobe.nightfall.cooldown.Expirable;
 import deimophobe.nightfall.cooldown.LifetimeExpireable;
-import deimophobe.nightfall.cooldown.Updateable;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;

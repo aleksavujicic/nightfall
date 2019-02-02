@@ -1,16 +1,9 @@
 package deimophobe.nightfall.monster.ai;
 
-import deimophobe.nightfall.ItemManager;
 import deimophobe.nightfall.common.Misc;
-import deimophobe.nightfall.damage.GameDamageType;
-import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.Location;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Squid;
-import org.bukkit.entity.Zombie;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Consumer;
 

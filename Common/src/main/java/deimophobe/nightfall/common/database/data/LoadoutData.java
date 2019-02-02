@@ -1,13 +1,12 @@
 package deimophobe.nightfall.common.database.data;
 
-import deimophobe.nightfall.common.ConfigUtil;
+import deimophobe.nightfall.common.database.DataSerializer;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.bukkit.configuration.serialization.SerializableAs;
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Property;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +15,7 @@ import java.util.Map;
  */
 @SerializableAs("LoadoutData")
 @Embedded
-public class LoadoutData implements Data {
+public class LoadoutData extends SerializableData<LoadoutData> {
 	@Property
 	public List<String> items = new ArrayList<>();
 	
@@ -28,23 +27,15 @@ public class LoadoutData implements Data {
 	}
 	
 	
-	// Bukkit Configuration
-	private static final String ITEMS_KEY = "items";
 	
-	@SuppressWarnings("unused")
-	public static LoadoutData deserialize(Map<String, Object> map) {
-		LoadoutData data = new LoadoutData();
-		data.items = ConfigUtil.getObjectFromMap(map, ITEMS_KEY, List.class, new ArrayList<String>());
-		
-		return data;
-	}
 	
+	private static final DataSerializer<LoadoutData> SERIALIZER = new DataSerializer<>(LoadoutData.class);
 	@Override
-	public Map<String, Object> serialize() {
-		Map<String, Object> map = new HashMap<>();
-		map.put(ITEMS_KEY, items);
-		
-		return map;
+	protected DataSerializer<LoadoutData> getSerializer() {
+		return SERIALIZER;
+	}
+	public static LoadoutData deserialize(Map<String, Object> map) {
+		return SERIALIZER.deserialize(map);
 	}
 
 }

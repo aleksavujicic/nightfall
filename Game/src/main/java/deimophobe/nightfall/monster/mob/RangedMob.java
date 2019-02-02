@@ -2,13 +2,8 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
-import deimophobe.nightfall.damage.DwarfDamage;
-import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.monster.MonsterPlayer;
-import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.upgrades.wrappers.RangedUpgrades;
-import deimophobe.nightfall.monster.upgrades.wrappers.WrappedUpgrades;
-import deimophobe.nightfall.util.ArrowMisc;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -16,8 +11,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.Map;
 
 /**
  * Created by Deimophobe on 27/01/17.

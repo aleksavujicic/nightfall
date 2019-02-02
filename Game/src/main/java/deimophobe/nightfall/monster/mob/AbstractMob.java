@@ -7,6 +7,7 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
 import deimophobe.nightfall.blocks.NFBlocks;
+import deimophobe.nightfall.common.player.settings.Setting;
 import deimophobe.nightfall.skin.PlayerSkin;
 import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.common.items.CustomItem;
@@ -684,18 +685,7 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	protected void showDeathMessage(BaseComponent deathMessage) {
-		MonsterManager.getManager().queueDeathMessage(deathMessage.toLegacyText());
-		
-		if (mobData.forceTitle) {
-			Bukkit.spigot().broadcast(deathMessage);
-		} else {
-			for (Player player : Bukkit.getOnlinePlayers()) {
-				PlayerSettings settings = PlayerManager.getManager().getSettings(player);
-				if (settings.showMobDeathMessages()) {
-					player.spigot().sendMessage(deathMessage);
-				}
-			}
-		}
+		MonsterManager.getManager().getMessager().queueDeathMessage(deathMessage, mobData.forceTitle);
 	}
 	
 	protected void displayDeathAnimation() {

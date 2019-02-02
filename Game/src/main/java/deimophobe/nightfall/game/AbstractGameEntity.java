@@ -6,7 +6,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 

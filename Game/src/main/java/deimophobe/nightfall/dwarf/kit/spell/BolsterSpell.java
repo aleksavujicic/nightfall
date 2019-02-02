@@ -1,12 +1,10 @@
 package deimophobe.nightfall.dwarf.kit.spell;
 
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.cooldown.LifetimeExpireable;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.game.entity.ShieldSource;
 import org.bukkit.*;
-import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 16/06/18.

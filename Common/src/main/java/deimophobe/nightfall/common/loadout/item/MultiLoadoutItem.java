@@ -7,7 +7,10 @@ import deimophobe.nightfall.common.loadout.LoadoutManager;
 import deimophobe.nightfall.common.loadout.NameTranslator;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Deimophobe on 20/12/17.

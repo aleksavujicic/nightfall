@@ -1,7 +1,6 @@
 package deimophobe.nightfall.effects;
 
 import deimophobe.nightfall.effects.sound.Sounds;
-import deimophobe.nightfall.util.Colour;
 import org.bukkit.Color;
 
 /**

@@ -1,7 +1,7 @@
 package deimophobe.nightfall.dwarf.kit;
 
-import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
 import deimophobe.nightfall.blocks.NFBlocks;
+import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 

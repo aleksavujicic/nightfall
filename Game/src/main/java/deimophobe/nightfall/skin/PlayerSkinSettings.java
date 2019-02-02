@@ -1,7 +1,6 @@
 package deimophobe.nightfall.skin;
 
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.MainHand;
 
 import java.util.UUID;
 

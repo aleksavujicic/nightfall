@@ -4,7 +4,6 @@ import deimophobe.nightfall.game.entity.GameEntity;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.material.MaterialData;
 
 /**
  * Created by Deimophobe on 23/01/17.

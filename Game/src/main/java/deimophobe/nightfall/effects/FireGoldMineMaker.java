@@ -1,9 +1,6 @@
 package deimophobe.nightfall.effects;
 
-import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.effects.sound.PlayerSound;
-import deimophobe.nightfall.effects.sound.Sounds;
-import deimophobe.nightfall.util.Colour;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
