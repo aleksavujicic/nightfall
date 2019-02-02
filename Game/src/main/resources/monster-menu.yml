@@ -10,7 +10,7 @@ items:
       description:
        - "You have currently spent\n
           $xp exp on your upgrades.\n
-          Confirm to reset all of your\n
+          Confirm to reseet all of your\n
           upgrades and get $refund xp back."
 
   back:
@@ -22,6 +22,7 @@ items:
     name: Cancel Reset
 
   rebirth:
+    template: monster-egg
     material: ender_eye
     name: Rebirth
     lore:
@@ -32,6 +33,7 @@ items:
 
 upgradeable-mobs:
   zombie-fury:
+    index: 10
     spawn-item:
       material: wooden_pickaxe
       name: "Spawn Fury Zombie"
@@ -44,7 +46,6 @@ upgradeable-mobs:
     upgrade-item:
       material: ender_eye
       name: "Select Fury Zombie"
-      shiny: true
       lore:
         description:
           - "Become a Fury Zombie.\n
@@ -54,6 +55,7 @@ upgradeable-mobs:
 
 
   zombie-husk:
+    index: 11
     spawn-item:
       material: wooden_pickaxe
       name: "Spawn Husk"
@@ -66,7 +68,6 @@ upgradeable-mobs:
     upgrade-item:
       material: leather_chestplate
       name: "Select Husk"
-      shiny: true
       lore:
         description:
           - "Become a Husk.\n
@@ -75,6 +76,7 @@ upgradeable-mobs:
 
 
   zombie-saboteur:
+    index: 12
     spawn-item:
       material: wooden_pickaxe
       name: "Spawn Saboteur"
@@ -86,7 +88,6 @@ upgradeable-mobs:
     upgrade-item:
       material: stone_sword
       name: "Select Saboteur"
-      shiny: true
       lore:
         description:
           - "Become a Saboteur.\n
@@ -95,6 +96,7 @@ upgradeable-mobs:
 
 
   skeleton-flame:
+    index: 13
     spawn-item:
       material: bow
       name: "Spawn Flamelancer"
@@ -106,7 +108,6 @@ upgradeable-mobs:
     upgrade-item:
       base: skeleton.flame-bow
       name: "Select Flamelancer"
-      shiny: true
       lore:
         description:
           - "Become a Flamelancer.\n
@@ -115,6 +116,7 @@ upgradeable-mobs:
 
 
   skeleton-impact:
+    index: 14
     spawn-item:
       material: bow
       name: "Spawn Impact"
@@ -126,7 +128,6 @@ upgradeable-mobs:
     upgrade-item:
       base: skeleton.impact-bow
       name: "Select Impact Skeleton"
-      shiny: true
       lore:
         description:
           - "Become an Impact Skeleton.\n
@@ -135,6 +136,7 @@ upgradeable-mobs:
 
 
   skeleton-wither:
+    index: 15
     spawn-item:
       material: bow
       name: "Spawn Wither"
@@ -146,7 +148,6 @@ upgradeable-mobs:
     upgrade-item:
       base: wither-skull
       name: "Select Wither"
-      shiny: true
       lore:
         description:
           - "Become a Wither.\n
@@ -155,6 +156,7 @@ upgradeable-mobs:
 
 
   goblin-kaboom:
+    index: 16
     spawn-item:
       base: kaboom
       name: "Spawn Goblin"
@@ -166,7 +168,6 @@ upgradeable-mobs:
     upgrade-item:
       base: kaboom
       name: "Kaboom"
-      shiny: true
       lore:
         description:
           - "Become a goblin that can kaboom,\n

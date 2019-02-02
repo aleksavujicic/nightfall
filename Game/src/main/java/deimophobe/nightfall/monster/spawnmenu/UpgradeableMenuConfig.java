@@ -7,12 +7,14 @@ import org.bukkit.configuration.ConfigurationSection;
  * Created by Deimophobe on 29/01/19.
  */
 class UpgradeableMenuConfig {
+	private final int index;
 	private final CustomItem spawnItem;
 	private final boolean hasRebirth;
 	private final int cost;
 	private final CustomItem upgradeItem;
 	
 	static UpgradeableMenuConfig fromConfig(ConfigurationSection config) {
+		int index = config.getInt("index");
 		boolean hasRebirth = config.getBoolean("has-rebirth", false);
 		int cost = config.getInt("cost");
 		
@@ -23,14 +25,19 @@ class UpgradeableMenuConfig {
 		CustomItem upgradeItem = CustomItem.getItem(upgradeConfig, "monster-upgrade");
 		upgradeItem.applyVariable("cost", "" + cost);
 		
-		return new UpgradeableMenuConfig(spawnItem, hasRebirth, cost, upgradeItem);
+		return new UpgradeableMenuConfig(index, spawnItem, hasRebirth, cost, upgradeItem);
 	}
 	
-	private UpgradeableMenuConfig(CustomItem spawnItem, boolean hasRebirth, int cost, CustomItem upgradeItem) {
+	private UpgradeableMenuConfig(int index, CustomItem spawnItem, boolean hasRebirth, int cost, CustomItem upgradeItem) {
+		this.index = index;
 		this.spawnItem = spawnItem;
 		this.hasRebirth = hasRebirth;
 		this.upgradeItem = upgradeItem;
 		this.cost = cost;
+	}
+	
+	int getIndex() {
+		return index;
 	}
 	
 	CustomItem getSpawnItem() {

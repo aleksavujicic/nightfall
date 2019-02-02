@@ -220,16 +220,18 @@ monster-menu:
   nameprefix: "&4"
 
   lore:
+    - ""
     - "${description}"
 
   prefix:
-    description: "&e"
+    description: "&c"
     variable: "&b"
 
 monster-egg:
   nameprefix: "&4"
 
   lore:
+    - ""
     - "${description}"
 
   prefix:

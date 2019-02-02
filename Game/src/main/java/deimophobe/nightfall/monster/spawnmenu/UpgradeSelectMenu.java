@@ -16,22 +16,11 @@ class UpgradeSelectMenu extends SimpleMenu<MonsterPlayer> {
 	UpgradeSelectMenu(int size, MonsterMenuConfig config, UpgradeContainerMenu menu) {
 		super(size);
 		
-		Map<Integer, MobType> selectorLocations = Maps.newHashMap();
-		selectorLocations.put(10, MobType.ZOMBIE_FURY);
-		selectorLocations.put(11, MobType.ZOMBIE_HUSK);
-		selectorLocations.put(12, MobType.ZOMBIE_SABOTEUR);
-		selectorLocations.put(13, MobType.SKELETON_FLAME);
-		selectorLocations.put(14, MobType.SKELETON_IMPACT);
-		selectorLocations.put(15, MobType.SKELETON_WITHER);
-		selectorLocations.put(16, MobType.GOBLIN_KABOOM);
-		
-		
-		for (Map.Entry<Integer, MobType> entry : selectorLocations.entrySet()) {
-			int index = entry.getKey();
-			MobType type = entry.getValue();
-			
+		for (Map.Entry<MobType, UpgradeableMenuConfig> entry : config.getMenuConfigs()) {
+			MobType type = entry.getKey();
 			UpgradeableMenuConfig upgradeableMenuConfig = config.getMenuConfig(type);
 			
+			int index = upgradeableMenuConfig.getIndex();
 			ItemStack itemStack = upgradeableMenuConfig.getUpgradeItem().createItemStack();
 			int cost = upgradeableMenuConfig.getCost();
 			UpgradeSelectMenuItem item = new UpgradeSelectMenuItem(itemStack, menu, type, cost);

@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -89,6 +90,10 @@ class MonsterMenuConfig {
 		checkArgument(upgradeableMobConfigs.containsKey(mobType), "Mob type '%s' has no menu config (even though it is upgradeable?!)", mobType);
 		
 		return upgradeableMobConfigs.get(mobType);
+	}
+	
+	Set<Map.Entry<MobType, UpgradeableMenuConfig>> getMenuConfigs() {
+		return upgradeableMobConfigs.entrySet();
 	}
 	
 	RebirthItem getRebirthItem() {
