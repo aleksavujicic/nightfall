@@ -75,8 +75,20 @@ public class NightfallCommonPlugin extends JavaPlugin {
 	}
 	
 	
+	/**
+	 * @deprecated static call should be avoided, use {@link NightfallCommonPlugin#readInternalFileConfig(String)} instead.
+	 * @param name name of the file to read.
+	 * @return
+	 */
+	@Deprecated
 	public static YamlConfiguration getInternalFileConfig(String name) {
 		InputStream stream = getPlugin().getResource(name);
+		if (stream == null) throw new IllegalArgumentException("Unknown config file: " + name);
+		return YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
+	}
+	
+	public YamlConfiguration readInternalFileConfig(String name) {
+		InputStream stream = this.getResource(name);
 		if (stream == null) throw new IllegalArgumentException("Unknown config file: " + name);
 		return YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
 	}
@@ -100,7 +112,7 @@ public class NightfallCommonPlugin extends JavaPlugin {
 		menuManager.registerMenu(LoadoutMenu.class, new LoadoutMenu());
 		menuManager.registerMenu(HatMenu.class, new HatMenu());
 		menuManager.registerMenu(TitleMenu.class, new TitleMenu());
-		menuManager.registerMenu(SettingsMenu.class, new SettingsMenu());
+		menuManager.registerMenu(SettingsMenu.class, SettingsMenu.createMenu(this));
 	}
 	
 	public StatsBook getStatsBook() {

@@ -3,6 +3,7 @@ package deimophobe.nightfall.dwarf;
 import com.google.common.collect.Sets;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.player.PlayerManager;
+import deimophobe.nightfall.common.player.settings.Setting;
 import deimophobe.nightfall.dwarf.hero.Hero;
 import deimophobe.nightfall.dwarf.hero.HeroType;
 import deimophobe.nightfall.event.DwarfCreateEvent;
@@ -225,7 +226,7 @@ public class DwarfManager extends GamePlayerManager<Dwarf> {
 			possibleHeroes.removeAll(chosenHeroes);
 			
 			Collection<Player> heroCandidates = new HashSet<>(players);
-			heroCandidates.removeIf(player -> !manager.getSettings(player).isHeroEnabled());
+			heroCandidates.removeIf(player -> !manager.getSettings(player).getValueOfSetting(Setting.HERO_ENABLED));
 			Player hero = Misc.getRandom(heroCandidates);
 			if (hero == null) break; // No more players to hero up
 			players.remove(hero);

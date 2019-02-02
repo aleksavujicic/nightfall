@@ -1,13 +1,43 @@
-hero-toggle:
-  item:
-    name: "Toggle Hero"
-    base: vel-sword
-    lore:
-      description: "$enabledtext"
+size: 27
 
-mob-death:
-  item:
-    name: "Toggle Mob Death Messages"
-    base: avenge
-    lore:
-      description: "$enabledtext"
+settings:
+  hero-enabled:
+    type: boolean
+    index: 10
+
+    item:
+      name: "Hero Selection"
+      base: vel-sword
+
+    enabled-text: "You &amay&r be chosen for hero."
+    disabled-text: "You &cwill not&r be chosen hero."
+
+  mob-hero-enabled:
+    type: boolean
+    index: 11
+
+    item:
+      name: "Mob Hero Selection"
+      base: hat.bone-crown
+
+    enabled-text: |
+      You &amay&r be chosen for mob hero.
+    disabled-text: |
+      You &cwill not&r be chosen for mob hero.
+
+  mob-death-messages:
+    type: boolean
+    index: 12
+
+    item:
+      name: "Mob Death Messages"
+      base: avenge
+
+    enabled-text: |
+      Mob death messages &awill&r show in chat.
+      Death messages will still appear in the
+      action bar.
+    disabled-text: |
+      Mob death messages &cwill not&r show in chat.
+      Death messages will still appear in the
+      action bar.

@@ -18,8 +18,6 @@ public class PlayerSettings implements SessionData, Datable<PlayerSettingsData> 
 	
 	public PlayerSettings(PlayerSettingsData data) {
 		settings = new HashMap<>();
-		NightfallCommonPlugin.logger().info("" + data);
-		NightfallCommonPlugin.logger().info("" + data.settings);
 		
 		for (Map.Entry<String, Object> entry : data.settings.entrySet()) {
 			String settingName = entry.getKey();

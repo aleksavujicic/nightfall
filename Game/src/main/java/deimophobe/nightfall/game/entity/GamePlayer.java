@@ -12,6 +12,8 @@ import deimophobe.nightfall.WhoEntry;
 import deimophobe.nightfall.common.Misc;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.common.items.ItemMatcher;
+import deimophobe.nightfall.common.player.PlayerManager;
+import deimophobe.nightfall.common.player.settings.PlayerSettings;
 import deimophobe.nightfall.common.util.NMSUtil;
 import deimophobe.nightfall.cooldown.CooldownHolder;
 import deimophobe.nightfall.cooldown.LifetimeExpireable;
@@ -105,6 +107,10 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	
 	public Entity getVisibleEntity() {
 		return player;
+	}
+	
+	public PlayerSettings getSettings() {
+		return PlayerManager.getManager().getSettings(player);
 	}
 	
 	

@@ -16,18 +16,37 @@ public abstract class NamedStorable<V, S> {
 	private final TypeBijection<V, S> resolver;
 	
 	private final V defaultValue;
+	private final Class<V> valueType;
 	
-	protected NamedStorable(@NotNull String key, @NotNull TypeBijection<V, S> resolver, V defaultValue) {
+	protected NamedStorable(@NotNull String key, @NotNull TypeBijection<V, S> resolver, @NotNull Class<V> valueType) {
 		checkNotNull(key, "Key must not be null");
 		checkNotNull(resolver, "Resolver must not be null");
+		checkNotNull(valueType, "Value type must not be null");
+		
+		this.key = key;
+		this.resolver = resolver;
+		this.defaultValue = null;
+		this.valueType = valueType;
+	}
+	
+	protected NamedStorable(@NotNull String key, @NotNull TypeBijection<V, S> resolver, @NotNull V defaultValue) {
+		checkNotNull(key, "Key must not be null");
+		checkNotNull(resolver, "Resolver must not be null");
+		checkNotNull(defaultValue, "Use other constructor for a null default value");
+		
 		this.key = key;
 		this.resolver = resolver;
 		this.defaultValue = defaultValue;
+		this.valueType = (Class<V>) defaultValue.getClass();
 	}
 	
 	@NotNull
 	public String getKey() {
 		return key;
+	}
+	
+	public Class<V> getValueType() {
+		return valueType;
 	}
 	
 	public V getDefault() {

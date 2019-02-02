@@ -7,6 +7,7 @@ import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.blocktype.BlockMatcher;
 import deimophobe.nightfall.blocks.NFBlocks;
+import deimophobe.nightfall.common.player.settings.Setting;
 import deimophobe.nightfall.skin.PlayerSkin;
 import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.common.items.CustomItem;
@@ -691,7 +692,7 @@ public abstract class AbstractMob implements Mob {
 		} else {
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				PlayerSettings settings = PlayerManager.getManager().getSettings(player);
-				if (settings.showMobDeathMessages()) {
+				if (settings.getValueOfSetting(Setting.CHAT_MOB_DEATH_MESSAGES)) {
 					player.spigot().sendMessage(deathMessage);
 				}
 			}

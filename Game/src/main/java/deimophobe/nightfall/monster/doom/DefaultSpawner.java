@@ -4,6 +4,9 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.Misc;
+import deimophobe.nightfall.common.player.PlayerManager;
+import deimophobe.nightfall.common.player.settings.PlayerSettings;
+import deimophobe.nightfall.common.player.settings.Setting;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.GameSize;
 import deimophobe.nightfall.monster.MobCreator;
@@ -11,6 +14,7 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.SpawnRegistry;
 import deimophobe.nightfall.monster.mob.MobType;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +64,9 @@ class DefaultSpawner implements MonsterSpawner {
 	
 	@Override
 	public void spawnMonster(MonsterPlayer monster) {
-		if (specialIterator.hasNext()) {
+		boolean mobHeroEnabled =  monster.getSettings().getValueOfSetting(Setting.MOB_HERO_ENABLED);
+		
+		if (specialIterator.hasNext() && mobHeroEnabled) {
 			MobCreator<?> creator = specialIterator.peek();
 			boolean success = monster.spawnMob(creator, SpawnMethod.DOOM);
 			if (success) specialIterator.next(); // Successfully spawned, remove special

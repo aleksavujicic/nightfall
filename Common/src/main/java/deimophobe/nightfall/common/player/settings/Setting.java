@@ -6,6 +6,7 @@ import deimophobe.nightfall.common.database.namedstorer.NoInverseException;
 import deimophobe.nightfall.common.database.namedstorer.TypeBijection;
 import deimophobe.nightfall.common.player.cosmetic.Hat;
 import deimophobe.nightfall.common.player.cosmetic.HatStore;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,12 +60,16 @@ public class Setting<V, S> extends NamedStorable<V, S> {
 					throw new NoInverseException(e);
 				}
 			}
-		}, null);
+		}, Hat.class);
 	}
 	
 	
+	private Setting(@NotNull String key, @NotNull TypeBijection<V, S> resolver, @NotNull Class<V> valueType) {
+		super(key, resolver, valueType);
+		allSettings.put(key, this);
+	}
 	
-	private Setting(String key, TypeBijection<V, S> resolver, V defaultValue) {
+	private Setting(@NotNull String key, @NotNull TypeBijection<V, S> resolver, @NotNull V defaultValue) {
 		super(key, resolver, defaultValue);
 		allSettings.put(key, this);
 	}
