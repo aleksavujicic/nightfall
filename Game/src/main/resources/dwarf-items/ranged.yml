@@ -122,6 +122,9 @@ spellbook:
     flavour:
      - "\"The balanced path is hardly ever the\n
         most entertaining.\" - The Grand Magus"
+     - "\"Words from the ancients. Who was here before us?\" - Velvetine"
+     - "\"Hah, reading is for nerds!\" - Tui"
+     - "\"Don't try speaking that mumbo jumbo to me!\" - Arthea"
 
 essence:
   base: essence
