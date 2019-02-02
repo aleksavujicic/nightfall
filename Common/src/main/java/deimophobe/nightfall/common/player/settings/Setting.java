@@ -28,6 +28,7 @@ public class Setting<V, S> extends NamedStorable<V, S> {
 	public static final Setting<Boolean, Boolean>   HERO_ENABLED              = newBooleanSetting("hero-enabled", true);
 	public static final Setting<Boolean, Boolean>   MOB_HERO_ENABLED          = newBooleanSetting("mob-hero-enabled", true);
 	public static final Setting<Boolean, Boolean>   CHAT_MOB_DEATH_MESSAGES   = newBooleanSetting("mob-death-messages", false);
+	public static final Setting<Boolean, Boolean>   JIT_HEAL                  = newBooleanSetting("jit-heal", true);
 	public static final Setting<Hat, String>        HAT                       = newHatSetting    ("cosmetic-hat");
 	public static final Setting<String, String>     TITLE                     = newStringSetting ("cosmetic-title", "");
 	

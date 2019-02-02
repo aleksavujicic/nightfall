@@ -41,3 +41,20 @@ settings:
       Mob death messages &cwill not&r show in chat.
       Death messages will still appear in the
       action bar.
+
+  jit-heal:
+    type: boolean
+    index: 13
+
+    item:
+      name: "JIT Heal"
+      base: menu.jit-heal
+
+    enabled-text: |
+      You get a (reuseable) heal which will
+      save you from death just in time.
+      It requires &b700&r mana to activate.
+    disabled-text: |
+      When your health drops to zero, you
+      will die regardless of your mana
+      level.

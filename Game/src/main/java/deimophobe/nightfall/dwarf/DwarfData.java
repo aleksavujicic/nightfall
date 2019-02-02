@@ -46,6 +46,7 @@ public class DwarfData implements LoadoutConstructable {
 		addPiece(KitPieceType.DWARF_AXE);
 		addPiece(KitPieceType.DWARF_PICK);
 		addPiece(KitPieceType.DWARF_SHOVEL);
+		addPiece(KitPieceType.JIT_HEAL);
 	}
 	
 	private void duplicateCheck() {
@@ -54,6 +55,9 @@ public class DwarfData implements LoadoutConstructable {
 		}
 		if (pieces.contains(KitPieceType.SPEEDY_BRICKLAYER)) {
 			pieces.remove(KitPieceType.BRICKLAYER);
+		}
+		if (pieces.contains(KitPieceType.HERO_BASE)) {
+			pieces.remove(KitPieceType.JIT_HEAL);
 		}
 	}
 	
