@@ -7,9 +7,12 @@ import deimophobe.nightfall.common.menu.MenuSession;
 import deimophobe.nightfall.common.menu.item.MenuItem;
 import deimophobe.nightfall.common.menu.submenu.SimpleMenu;
 import deimophobe.nightfall.common.player.PlayerManager;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Set;
 
 /**
  * Created by Deimophobe on 16/05/18.
@@ -63,12 +66,12 @@ public class SettingsMenu extends SimpleMenu<PlayerSettings> implements MainMenu
 		@Override
 		public ItemStack getDisplayItem(MenuSession<PlayerSettings> session) {
 			PlayerSettings settings = session.getData();
-			return (settings.isHeroEnabled() ? enabled : disabled);
+			return (settings.getValueOfSetting(Setting.HERO_ENABLED) ? enabled : disabled);
 		}
 		
 		@Override
 		public boolean onClick(MenuSession<PlayerSettings> session) {
-			session.getData().toggleHero();
+			session.getData().toggleSetting(Setting.HERO_ENABLED);
 			return true;
 		}
 	}
@@ -91,12 +94,13 @@ public class SettingsMenu extends SimpleMenu<PlayerSettings> implements MainMenu
 		@Override
 		public ItemStack getDisplayItem(MenuSession<PlayerSettings> session) {
 			PlayerSettings settings = session.getData();
-			return (settings.showMobDeathMessages() ? enabled : disabled);
+			return (settings.getValueOfSetting(Setting.CHAT_MOB_DEATH_MESSAGES) ? enabled : disabled);
 		}
 		
 		@Override
 		public boolean onClick(MenuSession<PlayerSettings> session) {
-			session.getData().toggleMobDeathMessages();
+			PlayerSettings settings = session.getData();
+			settings.toggleSetting(Setting.CHAT_MOB_DEATH_MESSAGES);
 			return true;
 		}
 	}

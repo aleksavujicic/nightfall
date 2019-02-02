@@ -6,6 +6,7 @@ import org.bukkit.configuration.serialization.SerializableAs;
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Property;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -16,9 +17,7 @@ import java.util.Map;
 @Embedded
 public class PlayerSettingsData extends SerializableData<PlayerSettingsData> {
 	@Property
-	public boolean heroEnabled = true;
-	@Property
-	public boolean mobDeathMessages = false;
+	public Map<String, Object> settings = new HashMap<>();
 	
 	public PlayerSettingsData() {}
 	

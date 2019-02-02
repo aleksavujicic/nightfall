@@ -91,6 +91,8 @@ public class DataSerializer<T extends Data> {
 		
 		private void addToData(T data, Map<String, Object> map) {
 			try {
+				if (!map.containsKey(key)) return;
+				
 				Object value = map.get(key);
 				field.set(data, value);
 			} catch (IllegalAccessException e) {

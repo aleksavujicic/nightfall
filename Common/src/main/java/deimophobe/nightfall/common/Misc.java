@@ -214,6 +214,10 @@ public class Misc {
 		throw new UnknownEnumElementException("Unknown " + enumName + ": " + string);
 	}
 	
+	public static String formatEnumElementName(Enum<?> value) {
+		return value.name().toLowerCase().replaceAll("-", "_");
+	}
+	
 	public static <T,S extends Comparable<S>> T getArgMax(Collection<T> collection, Function<T, S> function) {
 		checkArgument(!collection.isEmpty(), "Collection must be non-empty");
 		
