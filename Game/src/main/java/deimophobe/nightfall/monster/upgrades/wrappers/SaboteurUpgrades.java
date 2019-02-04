@@ -36,8 +36,13 @@ public class SaboteurUpgrades extends WrappedUpgrades {
 		if (pickLevel == 2) {
 			weapon.addModifier(ItemModifierType.EFFICIENCY, 1);
 		}
-		weapon.addModifier(ItemModifierType.SNEAK_ATTACK, getSneakDamage());
-		weapon.addModifier(ItemModifierType.SNEAK_SHRED, getSneakArmourShred());
+		
+		int assassinDamage = upgrades.getIntegerValue(ASSASSINATION, "damage");
+		int assassinShred = upgrades.getIntegerValue(ASSASSINATION, "shred");
+		int sabotageShred = upgrades.getIntegerValue(SABOTAGE, "armour");
+		weapon.addModifier(ItemModifierType.SNEAK_ATTACK, assassinDamage, "Assassination");
+		weapon.addModifier(ItemModifierType.SNEAK_SHRED, assassinShred, "Assassination");
+		weapon.addModifier(ItemModifierType.SNEAK_SHRED, sabotageShred, "Sabotage");
 	}
 	
 	@Override
@@ -49,27 +54,19 @@ public class SaboteurUpgrades extends WrappedUpgrades {
 		armour.addModifier(ItemModifierType.SPEED, moreSpeed, "More Speed");
 	}
 	
-	public int getSneakDamage() {
-		if (!upgrades.hasUpgrade(ASSASSINATION)) return 15;
-		
-		return upgrades.getIntegerValue(ASSASSINATION);
+	public int getBonusSneakDamage() {
+		return upgrades.getIntegerValue(ASSASSINATION, "damage");
 	}
 	
-	public int getSneakArmourShred() {
-		if (!upgrades.hasUpgrade(SABOTAGE)) return 5;
-		
-		return upgrades.getIntegerValue(SABOTAGE);
+	public int getBonusSneakArmourShred() {
+		return upgrades.getIntegerValue(SABOTAGE, "armour") + upgrades.getIntegerValue(ASSASSINATION, "shred");
 	}
 	
 	public int getSneakDuration() {
-		if (!upgrades.hasUpgrade(STEALTH)) return 50;
-		
 		return upgrades.getTickValue(STEALTH, "invisibility", true);
 	}
 	
 	public int getSneakCooldown() {
-		if (!upgrades.hasUpgrade(STEALTH)) return 20*20;
-		
 		return upgrades.getTickValue(STEALTH, "cooldown");
 	}
 	

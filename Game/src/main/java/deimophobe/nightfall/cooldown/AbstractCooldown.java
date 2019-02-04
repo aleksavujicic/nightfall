@@ -68,8 +68,14 @@ public abstract class AbstractCooldown implements Cooldown {
 		return (currentTime >= maxTime - time);
 	}
 	
+	@Override
 	public int getTimeRemaining() {
 		return currentTime;
+	}
+	
+	@Override
+	public int getTimeSinceUse() {
+		return maxTime - currentTime;
 	}
 	
 	protected abstract void onCooldownCompletion();

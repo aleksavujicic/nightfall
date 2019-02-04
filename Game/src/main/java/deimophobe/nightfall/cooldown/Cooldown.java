@@ -16,4 +16,6 @@ public interface Cooldown extends Updateable, Displayable, Interactable {
 	}
 	
 	boolean wasUsedWithin(int duration);
+	int getTimeRemaining();
+	int getTimeSinceUse();
 }

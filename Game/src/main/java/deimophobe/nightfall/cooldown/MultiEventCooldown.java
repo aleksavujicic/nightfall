@@ -87,4 +87,14 @@ public class MultiEventCooldown implements Cooldown {
 	public boolean wasUsedWithin(int duration) {
 		throw new UnsupportedOperationException("Deimo didn't add this cause hes a lazy pos.");
 	}
+	
+	@Override
+	public int getTimeRemaining() {
+		return maxCD;
+	}
+	
+	@Override
+	public int getTimeSinceUse() {
+		return maxCD - cd;
+	}
 }

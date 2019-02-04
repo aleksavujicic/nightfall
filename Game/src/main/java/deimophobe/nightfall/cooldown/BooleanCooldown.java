@@ -100,4 +100,14 @@ public class BooleanCooldown implements Cooldown{
 	public boolean wasUsedWithin(int time) {
 		return (cd >= maxCD - time);
 	}
+	
+	@Override
+	public int getTimeRemaining() {
+		return maxCD;
+	}
+	
+	@Override
+	public int getTimeSinceUse() {
+		return maxCD - cd;
+	}
 }

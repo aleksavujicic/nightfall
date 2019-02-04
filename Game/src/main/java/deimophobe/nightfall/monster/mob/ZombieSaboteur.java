@@ -3,6 +3,7 @@ package deimophobe.nightfall.monster.mob;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockManager;
 import deimophobe.nightfall.blocks.timedblock.VineBlock;
+import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.cooldown.CompletionCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.Update;
@@ -14,10 +15,7 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.upgrades.wrappers.SaboteurUpgrades;
 import me.libraryaddict.disguise.disguisetypes.watchers.ZombieVillagerWatcher;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.LivingEntity;
@@ -33,6 +31,9 @@ import java.util.function.Consumer;
  */
 public class ZombieSaboteur extends UpgradeableMob<SaboteurUpgrades> {
 	private static final ItemStack AIR = new ItemStack(Material.AIR);
+	
+	private static final int BASE_SNEAK_DAMAGE = 20;
+	private static final int BASE_SNEAK_SHRED = 10;
 	
 	private final int vineDuration;
 	private final boolean assassinate;
@@ -57,8 +58,8 @@ public class ZombieSaboteur extends UpgradeableMob<SaboteurUpgrades> {
 		this.vineDuration = upgrades.getVineDuration();
 		this.assassinate = upgrades.hasAssassinate();
 		
-		this.sneakDamage = upgrades.getSneakDamage() - (assassinate ? 3 : 0); // Subtract bonus from strength if has assassinate
-		this.sneakArmourShred = upgrades.getSneakArmourShred();
+		this.sneakDamage = BASE_SNEAK_DAMAGE + upgrades.getBonusSneakDamage() - (assassinate ? 3 : 0); // Subtract bonus from strength if has assassinate
+		this.sneakArmourShred = BASE_SNEAK_SHRED + upgrades.getBonusSneakArmourShred();
 		this.sneakDamageApplier = upgrades.createDamageApplier(
 				() -> {},
 				() -> {
@@ -78,6 +79,9 @@ public class ZombieSaboteur extends UpgradeableMob<SaboteurUpgrades> {
 		if (upgrades.isWeaponPickaxe()) {
 			setWeapon("pickaxe");
 		}
+		
+		getWeapon().addModifier(ItemModifierType.SNEAK_ATTACK, BASE_SNEAK_DAMAGE);
+		getWeapon().addModifier(ItemModifierType.SNEAK_SHRED, BASE_SNEAK_SHRED);
 	}
 	
 	@Override
@@ -139,8 +143,11 @@ public class ZombieSaboteur extends UpgradeableMob<SaboteurUpgrades> {
 		if (!isPlayerHoldingWeapon()) return;
 		// At this point, the attack is a sneak attack
 		
-		damage.getMultiPartDamage().addBoost(sneakDamage);
-		damage.addArmourShred(sneakArmourShred);
+		double bonusDamage = sneakDamage * getSneakPower();
+		int bonusShred = (int) (sneakArmourShred * getSneakPower());
+		
+		damage.getMultiPartDamage().addBoost(bonusDamage);
+		damage.addArmourShred(bonusShred);
 		
 		damage.addPostDamageHandler(() -> {
 			Dwarf dwarf = damage.getDwarf();
@@ -205,6 +212,12 @@ public class ZombieSaboteur extends UpgradeableMob<SaboteurUpgrades> {
 		
 		sneakCD.reset();
 		sneakTimer.forceAvailable();
+	}
+	
+	private double getSneakPower() {
+		double power = (double) sneakTimer.getTimeSinceUse() / 40d;
+		if (power >= 1) power = 1;
+		return power;
 	}
 	
 	private boolean isInvisible() {

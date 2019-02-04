@@ -32,4 +32,14 @@ public class DudCooldown implements Cooldown {
 	public boolean wasUsedWithin(int duration) {
 		return false;
 	}
+	
+	@Override
+	public int getTimeRemaining() {
+		return 0;
+	}
+	
+	@Override
+	public int getTimeSinceUse() {
+		return 0;
+	}
 }
