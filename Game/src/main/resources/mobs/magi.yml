@@ -23,7 +23,7 @@ base:
     name: Magi Headgear
     lore:
       description:
-       - "Temp"
+       - "Magi Headdress"
       flavour:
        - "We may need a better texture for this"
     modifiers:
@@ -47,7 +47,7 @@ fire:
       description:
        - "Right click to set everything on fire."
       flavour:
-       - ""
+       - "Iz gud rod, make burn."
     modifiers:
       burning: 3
       knockback: 1
@@ -72,7 +72,7 @@ ice:
       description:
        - "Right click to freeze things."
       flavour:
-       - ""
+       - "If dwarf not move, it easy punchy thing. "
     modifiers:
       knockback: 1
 
@@ -97,7 +97,7 @@ thunder:
        - "Right click to strike\n
           the ground with thunder."
       flavour:
-       - ""
+       - "Zap you Zap me."
     modifiers:
       knockback: 2
 
