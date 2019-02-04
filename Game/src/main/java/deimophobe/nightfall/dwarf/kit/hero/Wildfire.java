@@ -10,6 +10,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
@@ -28,8 +29,8 @@ import java.util.Set;
  * Created by Deimophobe on 11/03/17.
  */
 public class Wildfire extends AbstractItem {
-	public Wildfire(Dwarf dwarf) {
-		super(dwarf);
+	public Wildfire(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 		dwarf.setArrowItem(DwarvenItems.getItem("hero", "wildfirefuel").createItemStack());
 		dwarf.setMaxArrows(64);
 	}

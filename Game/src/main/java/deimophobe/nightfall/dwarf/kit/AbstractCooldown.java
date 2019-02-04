@@ -13,8 +13,8 @@ public abstract class AbstractCooldown extends AbstractPiece implements Cooldown
 	private final int maxCooldown;
 	private int cooldown;
 	
-	public AbstractCooldown(Dwarf dwarf, int maxCooldown) {
-		super(dwarf);
+	public AbstractCooldown(Dwarf dwarf, KitPieceType type, int maxCooldown) {
+		super(dwarf, type);
 		this.maxCooldown = maxCooldown;
 		this.cooldown = 0;
 	}

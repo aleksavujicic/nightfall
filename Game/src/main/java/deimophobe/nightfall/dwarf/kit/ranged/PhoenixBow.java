@@ -3,6 +3,7 @@ package deimophobe.nightfall.dwarf.kit.ranged;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import org.bukkit.ChatColor;
 
 /**
@@ -10,8 +11,8 @@ import org.bukkit.ChatColor;
  */
 public class PhoenixBow extends AbstractPowerBow {
 	
-	public PhoenixBow(Dwarf dwarf) {
-		super(dwarf, 30*20, ChatColor.RED, 200, 0.5, ProcType.DRAGONSKIN);
+	public PhoenixBow(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type, 30*20, ChatColor.RED, 200, 0.5, ProcType.DRAGONSKIN);
 	}
 	
 	private final static int POWER = 50;

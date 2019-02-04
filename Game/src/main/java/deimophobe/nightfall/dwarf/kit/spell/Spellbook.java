@@ -9,6 +9,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -27,8 +28,8 @@ public class Spellbook extends AbstractItem {
 	private static final String NO_CLICK = "_";
 	private static final String SEPERATOR = " " + Character.toString((char) 0x2022) + " ";
 	
-	public Spellbook(Dwarf dwarf) {
-		super(dwarf);
+	public Spellbook(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 		dwarf.setArrowItem(DwarvenItems.getItem("ranged", "essence").createItemStack());
 	}
 	

@@ -9,6 +9,7 @@ import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -19,8 +20,8 @@ import org.bukkit.metadata.FixedMetadataValue;
  * Created by Deimophobe on 20/01/17.
  */
 public class Crossbow extends AbstractBow implements CooldownPiece {
-	public Crossbow(Dwarf dwarf) {
-		super(dwarf);
+	public Crossbow(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	private static final int POWER = 75;

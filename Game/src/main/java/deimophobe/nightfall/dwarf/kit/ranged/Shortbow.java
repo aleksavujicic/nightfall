@@ -2,14 +2,15 @@ package deimophobe.nightfall.dwarf.kit.ranged;
 
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 
 /**
  * Created by Deimophobe on 31/03/17.
  */
 public class Shortbow extends AbstractBow {
 	
-	public Shortbow(Dwarf dwarf) {
-		super(dwarf);
+	public Shortbow(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	private final static int POWER = 30;

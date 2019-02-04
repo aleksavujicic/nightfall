@@ -10,6 +10,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -26,8 +27,8 @@ import org.bukkit.util.Vector;
 
 public class WildeStaff extends AbstractItem implements CooldownPiece {
 
-	public WildeStaff(Dwarf dwarf){
-		super(dwarf);
+	public WildeStaff(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 
 	private final ComplexCooldown pixieflyCD = new ComplexCooldown(30*20);

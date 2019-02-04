@@ -11,6 +11,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -25,8 +26,8 @@ import org.bukkit.potion.PotionEffectType;
  */
 public class Hammer extends AbstractAOEHitter implements CooldownPiece {
 	
-	public Hammer(Dwarf dwarf) {
-		super(dwarf);
+	public Hammer(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "hammer");

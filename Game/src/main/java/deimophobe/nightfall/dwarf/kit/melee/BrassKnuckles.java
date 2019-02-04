@@ -9,6 +9,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
@@ -20,8 +21,8 @@ import org.bukkit.block.BlockFace;
 
 public class BrassKnuckles extends AbstractItem implements CooldownPiece {
 
-	public BrassKnuckles(Dwarf dwarf){
-		super(dwarf);
+	public BrassKnuckles(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 
 	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "brassknuckles");

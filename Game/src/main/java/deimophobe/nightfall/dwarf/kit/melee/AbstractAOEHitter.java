@@ -5,6 +5,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import org.bukkit.Location;
@@ -17,8 +18,8 @@ public abstract class AbstractAOEHitter extends AbstractItem {
 	
 	private final ComplexCooldown hitter = new ComplexCooldown(10, this::hit);
 	
-	protected AbstractAOEHitter(Dwarf dwarf) {
-		super(dwarf);
+	protected AbstractAOEHitter(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	@Override

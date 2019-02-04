@@ -4,6 +4,7 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Projectile;
@@ -13,7 +14,9 @@ import org.bukkit.metadata.FixedMetadataValue;
  * Created by Deimophobe on 16/06/17.
  */
 public abstract class AbstractToggleBow extends AbstractBow {
-	public AbstractToggleBow(Dwarf dwarf) {super(dwarf);}
+	public AbstractToggleBow(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
+	}
 	private boolean active = false;
 	private final static String ARROW_METADATA_KEY = "active";
 	

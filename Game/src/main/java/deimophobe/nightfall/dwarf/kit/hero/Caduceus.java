@@ -10,6 +10,7 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Location;
@@ -29,8 +30,8 @@ public class Caduceus extends AbstractItem implements CooldownPiece {
 	private final BooleanCooldown grabCD = new BooleanCooldown(20*20, this::grab);
 	private final ComplexCooldown returnCD = new ComplexCooldown(15, null, this::grabReturn);
 	
-	public Caduceus(Dwarf dwarf) {
-		super(dwarf);
+	public Caduceus(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "caduceus");

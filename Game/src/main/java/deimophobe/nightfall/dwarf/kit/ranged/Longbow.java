@@ -7,6 +7,7 @@ import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -21,8 +22,8 @@ import java.util.List;
  * Created by Deimophobe on 20/01/17.
  */
 public class Longbow extends AbstractBow implements CooldownPiece {
-	public Longbow(Dwarf dwarf) {
-		super(dwarf);
+	public Longbow(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	private final static int POWER = 75;

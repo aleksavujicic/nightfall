@@ -6,6 +6,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import deimophobe.nightfall.dwarf.kit.ArmourPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.util.ArmourSlot;
@@ -15,8 +16,8 @@ import org.bukkit.potion.PotionEffectType;
  * Created by Deimophobe on 5/10/17.
  */
 public class NatureSuit extends AbstractPiece implements ArmourPiece {
-	public NatureSuit(Dwarf dwarf) {
-		super(dwarf);
+	public NatureSuit(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	@Override

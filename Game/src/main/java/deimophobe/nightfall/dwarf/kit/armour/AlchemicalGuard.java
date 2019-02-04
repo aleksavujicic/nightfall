@@ -52,8 +52,8 @@ public class AlchemicalGuard extends AbstractPiece implements CooldownPiece, Arm
 	private Buff currentBuff = null;
 	private RepeaterCooldown buffGiver = new RepeaterCooldown(DURATION, this::selectNewBuff);
 	
-	public AlchemicalGuard(Dwarf dwarf) {
-		super(dwarf);
+	public AlchemicalGuard(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	@Override

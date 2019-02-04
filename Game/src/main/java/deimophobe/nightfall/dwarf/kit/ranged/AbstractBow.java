@@ -9,6 +9,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.BowPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.util.ArrowMisc;
@@ -40,8 +41,8 @@ public abstract class AbstractBow extends AbstractItem implements BowPiece {
 	
 	private final ItemStack compiledItem = getItem().createItemStack();
 	
-	public AbstractBow(Dwarf dwarf) {
-		super(dwarf);
+	public AbstractBow(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	@Override

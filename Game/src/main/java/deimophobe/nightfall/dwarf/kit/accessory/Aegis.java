@@ -10,6 +10,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.game.entity.ShieldSource;
 import org.bukkit.Location;
@@ -30,8 +31,8 @@ public class Aegis extends AbstractItem implements CooldownPiece {
 	
 	private final Cooldown shieldCooldown = new UseCooldown(180 * 20, this::regenShield);
 	
-	public Aegis(Dwarf dwarf) {
-		super(dwarf);
+	public Aegis(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	@Override

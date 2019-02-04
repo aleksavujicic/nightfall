@@ -5,6 +5,7 @@ import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.kit.ArmourPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.game.entity.ShieldSource;
 
 /**
@@ -16,8 +17,8 @@ public class ShieldAle extends AbstractAle implements ArmourPiece {
 	private final static CustomItem ITEM = getAle("shield", MANA_COST);
 	@Override public CustomItem getItem() { return ITEM; }
 	
-	public ShieldAle(Dwarf dwarf) {
-		super(dwarf, MANA_COST);
+	public ShieldAle(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type, MANA_COST);
 	}
 	
 	@Override

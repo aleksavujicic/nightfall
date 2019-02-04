@@ -29,8 +29,8 @@ import org.bukkit.potion.PotionEffectType;
  */
 class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 	
-	DwarfPickaxe(Dwarf dwarf) {
-		super(dwarf);
+	DwarfPickaxe(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	private static final CustomItem ITEM = DwarvenItems.getItem("misc", "pick");

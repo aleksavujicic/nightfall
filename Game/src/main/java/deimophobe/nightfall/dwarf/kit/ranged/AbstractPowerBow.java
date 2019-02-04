@@ -8,6 +8,7 @@ import deimophobe.nightfall.damage.death.KeywordDeathMessageMaker;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
@@ -25,8 +26,8 @@ public abstract class AbstractPowerBow extends AbstractToggleBow implements Cool
 	private final double arrowResMult;
 	private final ProcType proc;
 	
-	public AbstractPowerBow(Dwarf dwarf, int cooldown, ChatColor arrowColour, double fullArrowDamage, double arrowResMult, ProcType proc) {
-		super(dwarf);
+	public AbstractPowerBow(Dwarf dwarf, KitPieceType type, int cooldown, ChatColor arrowColour, double fullArrowDamage, double arrowResMult, ProcType proc) {
+		super(dwarf, type);
 		this.cooldown = new ComplexCooldown(cooldown, null, this::offCDSound);
 		this.arrowColour = arrowColour;
 		this.fullArrowDamage = fullArrowDamage;

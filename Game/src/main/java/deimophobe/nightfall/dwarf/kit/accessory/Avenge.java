@@ -6,6 +6,7 @@ import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import deimophobe.nightfall.dwarf.kit.ArmourPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
 
@@ -13,8 +14,8 @@ import deimophobe.nightfall.game.Phase;
  * Created by Deimophobe on 27/03/17.
  */
 public class Avenge extends AbstractPiece implements ArmourPiece {
-	public Avenge(Dwarf dwarf) {
-		super(dwarf);
+	public Avenge(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	@Override

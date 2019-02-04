@@ -12,6 +12,7 @@ import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
@@ -40,8 +41,8 @@ public class Dagger extends AbstractItem implements CooldownPiece {
 	private final ComplexCooldown poisonCooldown = new ComplexCooldown(120*20, this::poisonBomb);
 	private final ComplexCooldown armourReshower = new ComplexCooldown(DURATION, null, this::reshowArmour);
 	
-	public Dagger(Dwarf dwarf) {
-		super(dwarf);
+	public Dagger(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	@Override

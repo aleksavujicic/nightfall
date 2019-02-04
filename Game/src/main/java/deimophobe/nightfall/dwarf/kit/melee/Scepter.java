@@ -15,6 +15,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.monster.MonsterEntity;
@@ -69,8 +70,8 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	private final Hitscan hitscan;
 	private final MobZapper zapper;
 	
-	public Scepter(Dwarf dwarf) {
-		super(dwarf);
+	public Scepter(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 		zapper = new MobZapper();
 		
 		final Consumer<Block> blockConverter = block -> {

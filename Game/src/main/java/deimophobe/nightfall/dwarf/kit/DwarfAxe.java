@@ -13,8 +13,8 @@ import org.bukkit.block.Block;
  */
 class DwarfAxe extends AbstractItem {
 	
-	public DwarfAxe(Dwarf dwarf) {
-		super(dwarf);
+	public DwarfAxe(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("misc", "axe");

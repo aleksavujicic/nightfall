@@ -10,6 +10,7 @@ import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import deimophobe.nightfall.dwarf.kit.ArmourPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
 import deimophobe.nightfall.game.entity.ShieldSource;
@@ -24,8 +25,8 @@ public class Resurrection extends AbstractPiece implements ArmourPiece {
 	
 	private boolean used = false;
 	
-	public Resurrection(Dwarf dwarf) {
-		super(dwarf);
+	public Resurrection(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	@Override

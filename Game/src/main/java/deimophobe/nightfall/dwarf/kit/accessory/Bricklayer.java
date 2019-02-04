@@ -11,6 +11,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.consumable.ConsumableType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
@@ -50,8 +51,8 @@ public class Bricklayer extends AbstractItem {
 	
 	private final boolean speedy;
 	
-	public Bricklayer(Dwarf dwarf, boolean speedy) {
-		super(dwarf);
+	public Bricklayer(Dwarf dwarf, KitPieceType type, boolean speedy) {
+		super(dwarf, type);
 		this.speedy = speedy;
 	}
 	

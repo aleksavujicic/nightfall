@@ -7,6 +7,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import deimophobe.nightfall.dwarf.kit.ArmourPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.util.ArmourSlot;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -20,8 +21,8 @@ public class Slowfall extends AbstractPiece implements ArmourPiece {
 	private static final double RESISTANCE = 0.8;
 	private boolean active = false;
 	
-	public Slowfall(Dwarf dwarf) {
-		super(dwarf);
+	public Slowfall(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	@Override

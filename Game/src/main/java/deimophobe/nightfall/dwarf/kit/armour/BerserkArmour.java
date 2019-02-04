@@ -5,6 +5,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import deimophobe.nightfall.dwarf.kit.ArmourPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -17,8 +18,8 @@ public class BerserkArmour extends AbstractPiece implements ArmourPiece {
 		return ATTACK_BONUS;
 	}
 	
-	public BerserkArmour(Dwarf dwarf) {
-		super(dwarf);
+	public BerserkArmour(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	@Override

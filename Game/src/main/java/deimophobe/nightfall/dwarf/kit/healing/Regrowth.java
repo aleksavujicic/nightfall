@@ -7,6 +7,7 @@ import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.util.Util;
 import org.bukkit.ChatColor;
@@ -35,8 +36,8 @@ public class Regrowth extends AbstractAle {
 	
 	private final Cooldown healOthersCD = new UseCooldown(12, this::tryHealOthers);
 
-	public Regrowth(Dwarf dwarf) {
-		super(dwarf, MANA_COST);
+	public Regrowth(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type, MANA_COST);
 	}
 	
 	@Override

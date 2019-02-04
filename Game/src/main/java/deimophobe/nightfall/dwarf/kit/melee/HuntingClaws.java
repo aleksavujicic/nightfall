@@ -10,6 +10,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -34,8 +35,8 @@ public class HuntingClaws extends AbstractItem implements CooldownPiece {
 	private MonsterPlayer target;
 	private int huntTime;
 	
-	public HuntingClaws(Dwarf dwarf) {
-		super(dwarf);
+	public HuntingClaws(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "hunting");

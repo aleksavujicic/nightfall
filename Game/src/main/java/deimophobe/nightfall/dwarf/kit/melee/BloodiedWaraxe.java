@@ -11,6 +11,7 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -29,8 +30,8 @@ public class BloodiedWaraxe extends AbstractItem implements CooldownPiece {
 	private final ComplexCooldown cd = new ComplexCooldown(60*20, this::giveProc, this::notifyOffCD);
 	private final Cooldown hunger = new RepeaterCooldown(30*20, this::hunger);
 	
-	public BloodiedWaraxe(Dwarf dwarf) {
-		super(dwarf);
+	public BloodiedWaraxe(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	@Override

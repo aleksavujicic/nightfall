@@ -6,6 +6,7 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.kit.ArmourPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 
 /**
  * Created by Deimophobe on 5/10/17.
@@ -18,8 +19,8 @@ public class StrongAle extends AbstractAle implements ArmourPiece {
 	private final static CustomItem ITEM = getAle("strong", MANA_COST);
 	@Override public CustomItem getItem() { return ITEM; }
 	
-	public StrongAle(Dwarf dwarf) {
-		super(dwarf, MANA_COST, 60);
+	public StrongAle(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type, MANA_COST, 60);
 	}
 	
 	@Override

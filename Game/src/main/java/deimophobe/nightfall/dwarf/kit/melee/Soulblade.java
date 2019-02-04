@@ -11,6 +11,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
@@ -33,8 +34,8 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 
 	private double souls = 0;
 
-	public Soulblade(Dwarf dwarf){
-		super(dwarf);
+	public Soulblade(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "soulblade");

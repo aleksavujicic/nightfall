@@ -6,13 +6,14 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import deimophobe.nightfall.dwarf.kit.ArmourPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 
 /**
  * Created by Deimophobe on 28/03/17.
  */
 public class Quiver extends AbstractPiece implements ArmourPiece {
-	public Quiver(Dwarf dwarf) {
-		super(dwarf);
+	public Quiver(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	@Override

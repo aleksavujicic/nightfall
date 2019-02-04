@@ -5,6 +5,8 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
+import deimophobe.nightfall.dwarf.kit.KitPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.map.GameCompass;
 import org.bukkit.block.Block;
@@ -21,8 +23,8 @@ public class DwarfCompass extends AbstractItem {
 	
 	private final GameCompass compass;
 	
-	public DwarfCompass(Dwarf dwarf) {
-		super(dwarf);
+	public DwarfCompass(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 		compass = new GameCompass(dwarf);
 	}
 	

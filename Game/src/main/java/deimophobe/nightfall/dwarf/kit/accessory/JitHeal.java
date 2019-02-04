@@ -5,6 +5,7 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.PreDamagePriority;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.game.Phase;
 import org.bukkit.ChatColor;
@@ -16,7 +17,9 @@ public class JitHeal extends AbstractPiece {
 	
 	private static final int MANA_COST = 700;
 	
-	public JitHeal(Dwarf dwarf) { super(dwarf); }
+	public JitHeal(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
+	}
 	
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {

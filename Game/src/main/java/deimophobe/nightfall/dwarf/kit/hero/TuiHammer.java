@@ -8,6 +8,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.melee.AbstractAOEHitter;
 import deimophobe.nightfall.game.entity.GameEntity;
@@ -23,8 +24,8 @@ import org.bukkit.potion.PotionEffectType;
  * Created by Deimophobe on 11/03/17.
  */
 public class TuiHammer extends AbstractAOEHitter implements CooldownPiece {
-	public TuiHammer(Dwarf dwarf) {
-		super(dwarf);
+	public TuiHammer(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "tuihammer");

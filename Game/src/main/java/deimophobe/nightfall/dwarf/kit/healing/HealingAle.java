@@ -2,6 +2,7 @@ package deimophobe.nightfall.dwarf.kit.healing;
 
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 
 /**
  * Created by Deimophobe on 22/01/17.
@@ -9,8 +10,8 @@ import deimophobe.nightfall.dwarf.Dwarf;
 public class HealingAle extends AbstractAle {
 	private final static int MANA_COST = 100;
 	
-	public HealingAle(Dwarf dwarf) {
-		super(dwarf, MANA_COST);
+	public HealingAle(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type, MANA_COST);
 	}
 	
 	private final static CustomItem ITEM = getAle("healing", MANA_COST);

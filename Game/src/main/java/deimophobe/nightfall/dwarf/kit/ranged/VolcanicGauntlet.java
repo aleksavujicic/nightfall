@@ -7,6 +7,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.damage.death.DeathMessageMaker;
 import deimophobe.nightfall.damage.death.KeywordDeathMessageMaker;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.util.Hitscan;
@@ -21,8 +22,8 @@ import org.bukkit.entity.Projectile;
  * Created by Deimophobe on 5/10/17.
  */
 public class VolcanicGauntlet extends AbstractBow {
-	public VolcanicGauntlet(Dwarf dwarf) {
-		super(dwarf);
+	public VolcanicGauntlet(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	private final static int POWER = 60;

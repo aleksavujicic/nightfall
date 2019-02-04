@@ -4,6 +4,7 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.monster.MonsterEntity;
@@ -19,8 +20,8 @@ import java.util.function.Consumer;
  * Created by Deimophobe on 20/01/17.
  */
 public class JadeBow extends AbstractBow {
-	public JadeBow(Dwarf dwarf) {
-		super(dwarf);
+	public JadeBow(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	private final static int POWER = 10;

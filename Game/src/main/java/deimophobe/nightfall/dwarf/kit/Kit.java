@@ -1,17 +1,22 @@
 package deimophobe.nightfall.dwarf.kit;
 
 import deimophobe.nightfall.ClickType;
+import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.kit.ranged.AbstractBow;
+import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.tags.CustomItemTagContainer;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -20,6 +25,8 @@ import java.util.function.Consumer;
  * Created by Deimophobe on 16/01/17.
  */
 public class Kit {
+	private static final NamespacedKey KIT_ITEM_TYPE = new NamespacedKey(NightfallPlugin.getPlugin(), "kit-item-type");
+	
 	private final Dwarf dwarf;
 	
 	private final Map<KitPieceType, KitPiece> kitPieces = new EnumMap<>(KitPieceType.class);
@@ -103,7 +110,14 @@ public class Kit {
 	private boolean giveItem(ItemPiece itemPiece) {
 		CustomItem item = itemPiece.getItem();
 		if (!dwarf.hasItem(item)) {
-			dwarf.giveItem(item);
+			
+			ItemStack itemStack = item.createItemStack();
+			ItemMeta meta = itemStack.getItemMeta();
+			CustomItemTagContainer container = meta.getCustomTagContainer();
+			container.setCustomTag(KIT_ITEM_TYPE, KitItemTagType.KIT_ITEM_TAG_TYPE, itemPiece.getType());
+			itemStack.setItemMeta(meta);
+			
+			dwarf.giveItem(itemStack);
 			return true;
 		}
 		return false;
@@ -137,15 +151,15 @@ public class Kit {
 	
 	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
 		ItemStack held = dwarf.getHeldItem();
-		for (ItemPiece item : itemPieces) {
-			if (item.doesItemMatch(held)) {
-				if (item instanceof CooldownPiece) {
-					setLastHeld((CooldownPiece) item);
-				}
-				return item.onUse(click, clickedBlock, blockFace);
-			}
+		if (held == null) return false;
+		
+		ItemPiece item = getPieceFromItemStack(held);
+		if (item == null) return false;
+		
+		if (item instanceof CooldownPiece) {
+			setLastHeld((CooldownPiece) item);
 		}
-		return false;
+		return item.onUse(click, clickedBlock, blockFace);
 	}
 	
 	public void onBlockBreak(Block block, boolean didBreak) {
@@ -155,12 +169,10 @@ public class Kit {
 	}
 	
 	public Projectile onBowFire(ItemStack bow, Arrow arrow, float force) {
-		for (BowPiece bowPiece : bowPieces) {
-			if (bowPiece.doesItemMatch(bow)) {
-				return bowPiece.onBowFire(arrow, force);
-			}
-		}
-		return arrow;
+		BowPiece bowPiece = (BowPiece) getPieceFromItemStack(bow);
+		if (bowPiece == null) return arrow;
+		
+		return bowPiece.onBowFire(arrow, force);
 	}
 	public void onProjectileLand(Projectile proj, Block hitBlock, BlockFace hitFace) {
 		for (BowPiece bow : bowPieces) {
@@ -212,6 +224,16 @@ public class Kit {
 				consumer.accept((T) piece);
 			}
 		}
+	}
+	
+	private ItemPiece getPieceFromItemStack(ItemStack itemStack) {
+		if (!itemStack.hasItemMeta()) return null;
+		
+		CustomItemTagContainer container = itemStack.getItemMeta().getCustomTagContainer();
+		KitPieceType pieceType = container.getCustomTag(KIT_ITEM_TYPE, KitItemTagType.KIT_ITEM_TAG_TYPE);
+		if (pieceType == null) return null;
+		
+		return (ItemPiece) kitPieces.get(pieceType);
 	}
 	
 	

@@ -6,6 +6,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.DwarfShovel;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -16,8 +17,8 @@ import org.bukkit.potion.PotionEffectType;
  */
 public class ProcShovel extends DwarfShovel {
 
-	public ProcShovel(Dwarf dwarf) {
-		super(dwarf);
+	public ProcShovel(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("accessory", "procshovel");

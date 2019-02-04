@@ -5,6 +5,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.ranged.AbstractBow;
 import deimophobe.nightfall.monster.MonsterEntity;
@@ -22,7 +23,9 @@ import org.bukkit.entity.Projectile;
  * Created by Deimophobe on 2/02/18.
  */
 public class IceBow extends AbstractBow {
-	public IceBow(Dwarf dwarf) {super(dwarf);}
+	public IceBow(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
+	}
 	
 	private final static int POWER = 80;
 	private final static CustomItem ITEM = getBow("hero", "heranabow", POWER);

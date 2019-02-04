@@ -7,6 +7,7 @@ import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.game.Game;
 import org.bukkit.block.Block;
@@ -28,12 +29,12 @@ abstract class AbstractAle extends AbstractItem {
 		return item;
 	}
 	
-	public AbstractAle(Dwarf dwarf, int manaCost) {
-		this(dwarf, manaCost, DEFAULT_MAX_CD);
+	public AbstractAle(Dwarf dwarf, KitPieceType type, int manaCost) {
+		this(dwarf, type, manaCost, DEFAULT_MAX_CD);
 	}
 	
-	public AbstractAle(Dwarf dwarf, int manaCost, int maxCD) {
-		super(dwarf);
+	public AbstractAle(Dwarf dwarf, KitPieceType type, int manaCost, int maxCD) {
+		super(dwarf, type);
 		this.manaCost = manaCost;
 		this.cooldown = new ComplexCooldown(maxCD, this::heal, null);
 	}

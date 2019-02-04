@@ -5,14 +5,15 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import deimophobe.nightfall.dwarf.kit.ArmourPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 
 /**
  * Created by Deimophobe on 27/03/17.
  */
 public class StuddedArmour extends AbstractPiece implements ArmourPiece {
 	
-	public StuddedArmour(Dwarf dwarf) {
-		super(dwarf);
+	public StuddedArmour(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	@Override

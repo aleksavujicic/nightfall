@@ -4,6 +4,7 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.CompletionCooldown;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -15,8 +16,8 @@ public class RubyPendant extends AbstractAle {
 	
 	private final Cooldown buffResetter = new CompletionCooldown(BUFF_DURATION, this::resetBuff);
 	
-	public RubyPendant(Dwarf dwarf) {
-		super(dwarf, MANA_COST);
+	public RubyPendant(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type, MANA_COST);
 	}
 	
 	private final static CustomItem ITEM = getAle("pendant", MANA_COST);

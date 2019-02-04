@@ -13,6 +13,7 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.game.entity.GamePlayer;
@@ -38,8 +39,8 @@ import java.util.function.Consumer;
  */
 public class BubbleBeam extends AbstractItem implements CooldownPiece {
 	
-	public BubbleBeam(Dwarf dwarf) {
-		super(dwarf);
+	public BubbleBeam(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 		beamer.addEvent(7, this::shootBubble);
 		beamer.addEvent(4, this::shootBubble);
 	}

@@ -18,8 +18,8 @@ import org.bukkit.potion.PotionEffectType;
  */
 public class Tombmaker extends DwarfShovel {
 	
-	public Tombmaker(Dwarf dwarf) {
-		super(dwarf);
+	public Tombmaker(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("accessory", "tombmaker");

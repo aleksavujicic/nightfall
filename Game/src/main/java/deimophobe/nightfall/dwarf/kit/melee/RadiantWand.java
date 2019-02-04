@@ -13,6 +13,7 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
@@ -26,8 +27,8 @@ import java.util.Collection;
 
 public class RadiantWand extends AbstractItem implements CooldownPiece {
 
-	public RadiantWand(Dwarf dwarf){
-		super(dwarf);
+	public RadiantWand(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 
 	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "radiantwand");

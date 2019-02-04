@@ -5,6 +5,7 @@ import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import org.bukkit.potion.PotionEffectType;
 
@@ -13,8 +14,8 @@ import org.bukkit.potion.PotionEffectType;
  */
 public class Greatsword extends AbstractItem {
 	
-	public Greatsword(Dwarf dwarf) {
-		super(dwarf);
+	public Greatsword(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("melee", "greatsword");

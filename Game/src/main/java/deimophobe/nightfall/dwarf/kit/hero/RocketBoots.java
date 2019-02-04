@@ -3,6 +3,7 @@ package deimophobe.nightfall.dwarf.kit.hero;
 import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractCooldown;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -12,8 +13,8 @@ import org.bukkit.util.Vector;
  * Created by Deimophobe on 27/03/17.
  */
 public class RocketBoots extends AbstractCooldown {
-	public RocketBoots(Dwarf dwarf) {
-		super(dwarf, 60*20);
+	public RocketBoots(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type, 60*20);
 	}
 	
 	@Override

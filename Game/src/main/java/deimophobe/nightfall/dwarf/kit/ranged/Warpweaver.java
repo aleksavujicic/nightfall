@@ -6,6 +6,7 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.util.ArrowMisc;
@@ -25,8 +26,8 @@ import java.util.Set;
  * Created by Deimophobe on 20/01/17.
  */
 public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
-	public Warpweaver(Dwarf dwarf) {
-		super(dwarf);
+	public Warpweaver(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	private final static int POWER = 50;

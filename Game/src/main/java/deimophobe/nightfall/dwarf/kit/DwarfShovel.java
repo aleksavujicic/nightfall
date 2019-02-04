@@ -32,8 +32,8 @@ import java.util.function.Consumer;
  * Created by Deimophobe on 28/03/17.
  */
 public class DwarfShovel extends AbstractItem {
-	protected DwarfShovel(Dwarf dwarf) {
-		super(dwarf);
+	protected DwarfShovel(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	private static final CustomItem ITEM = DwarvenItems.getItem("misc", "shovel");

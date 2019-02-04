@@ -4,6 +4,7 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.PreDamagePriority;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.game.Game;
 
 /**
@@ -13,8 +14,8 @@ public class SafetyJuice extends AbstractAle {
 	private final static int MANA_COST = 100;
 	private final static int AUTO_COST = 120;
 	
-	public SafetyJuice(Dwarf dwarf) {
-		super(dwarf, MANA_COST);
+	public SafetyJuice(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type, MANA_COST);
 	}
 	
 	private final static CustomItem ITEM = getAle("safety", MANA_COST);

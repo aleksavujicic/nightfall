@@ -17,8 +17,8 @@ import org.jetbrains.annotations.NotNull;
 @Deprecated
 public abstract class AbstractCooldownItem extends AbstractCooldown implements ItemPiece {
 	
-	public AbstractCooldownItem(Dwarf dwarf, int maxCooldown) {
-		super(dwarf, maxCooldown);
+	public AbstractCooldownItem(Dwarf dwarf, KitPieceType type, int maxCooldown) {
+		super(dwarf, type, maxCooldown);
 	}
 	
 	@Override

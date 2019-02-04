@@ -12,6 +12,7 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
@@ -24,8 +25,8 @@ import org.bukkit.util.Vector;
 
 public class TransfigurationTotem extends AbstractItem implements CooldownPiece {
 
-	public TransfigurationTotem(Dwarf dwarf){
-		super(dwarf);
+	public TransfigurationTotem(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "transfigurationtotem");

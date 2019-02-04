@@ -7,6 +7,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -16,7 +17,9 @@ import org.bukkit.block.BlockFace;
  */
 public class SilvetrisClaws extends AbstractItem implements CooldownPiece {
 	
-	public SilvetrisClaws(Dwarf dwarf) { super(dwarf); }
+	public SilvetrisClaws(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
+	}
 	
 	private boolean hasLanded = true;
 	private final MultipleCooldown leapCD = new MultipleCooldown(60*20, 20*20, this::leap, null);

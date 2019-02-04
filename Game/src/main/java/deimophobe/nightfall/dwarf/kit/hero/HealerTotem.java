@@ -8,6 +8,7 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.util.ArcaneMark;
 import org.bukkit.Particle;
@@ -22,8 +23,8 @@ public class HealerTotem extends AbstractItem implements CooldownPiece {
 	private final ComplexCooldown healing = new ComplexCooldown(20, this::groupHeal);
 	private final ComplexCooldown arcaneMarkCD = new ComplexCooldown(180*20, this::createMark);
 	
-	public HealerTotem(Dwarf dwarf) {
-		super(dwarf);
+	public HealerTotem(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "totem");

@@ -2,6 +2,7 @@ package deimophobe.nightfall.dwarf.kit.accessory;
 
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.light.BlockLightSource;
 import org.bukkit.potion.PotionEffectType;
 
@@ -9,8 +10,8 @@ import org.bukkit.potion.PotionEffectType;
  * Created by Deimophobe on 27/03/17.
  */
 public class DarkVision extends AbstractPiece {
-	public DarkVision(Dwarf dwarf) {
-		super(dwarf);
+	public DarkVision(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 		dwarf.addLightSource(new BlockLightSource(15));
 	}
 	

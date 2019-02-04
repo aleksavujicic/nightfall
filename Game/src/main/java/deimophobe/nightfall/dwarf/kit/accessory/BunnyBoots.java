@@ -5,14 +5,15 @@ import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by Deimophobe on 20/07/18.
  */
 public class BunnyBoots extends AbstractPiece implements CooldownPiece {
-	public BunnyBoots(Dwarf dwarf) {
-		super(dwarf);
+	public BunnyBoots(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	private final Cooldown cooldown = new UseCooldown(90*20, this::jump);

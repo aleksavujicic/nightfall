@@ -15,6 +15,7 @@ import deimophobe.nightfall.dwarf.kit.spell.Spellbook;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
@@ -72,8 +73,8 @@ public enum KitPieceType {
 	AVENGE(Avenge::new),
 	TOMBMAKER(Tombmaker::new),
 	RESURRECTION(Resurrection::new),
-	BRICKLAYER(d -> new Bricklayer(d, false)),
-	SPEEDY_BRICKLAYER(d -> new Bricklayer(d, true)),
+	BRICKLAYER((d, t) -> new Bricklayer(d, t, false)),
+	SPEEDY_BRICKLAYER((d, t) -> new Bricklayer(d, t, true)),
 	CLOCK(Clock::new),
 	JIT_HEAL(JitHeal::new),
 	BUNNY_BOOTS(BunnyBoots::new),
@@ -137,8 +138,8 @@ public enum KitPieceType {
 	;
 	
 	private final Function<Dwarf, KitPiece> kitPieceCreator;
-	KitPieceType(Function<Dwarf, KitPiece> kitPieceCreator) {
-		this.kitPieceCreator = kitPieceCreator;
+	KitPieceType(BiFunction<Dwarf, KitPieceType, KitPiece> kitPieceCreator) {
+		this.kitPieceCreator = dwarf -> kitPieceCreator.apply(dwarf, this);
 	}
 	
 	public static KitPieceType fromString(String name) throws UnknownEnumElementException {

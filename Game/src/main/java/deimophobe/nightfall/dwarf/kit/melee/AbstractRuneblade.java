@@ -12,6 +12,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -27,8 +28,8 @@ public abstract class AbstractRuneblade extends AbstractItem implements Cooldown
 	private final ProcType regProc;
 	private final ProcType dashProc;
 	
-	protected AbstractRuneblade(Dwarf dwarf, int maxCD, ProcType regProc, ProcType dashProc) {
-		super(dwarf);
+	protected AbstractRuneblade(Dwarf dwarf, KitPieceType type, int maxCD, ProcType regProc, ProcType dashProc) {
+		super(dwarf, type);
 		this.regProc = regProc;
 		this.dashProc = dashProc;
 		this.cooldown = new ComplexCooldown(maxCD, this::dash, this::offCDSound);

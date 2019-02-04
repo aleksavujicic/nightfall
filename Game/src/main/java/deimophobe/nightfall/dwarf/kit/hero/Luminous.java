@@ -6,6 +6,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.ProcType;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.dwarf.kit.ranged.AbstractBow;
 import deimophobe.nightfall.game.entity.GamePlayer;
@@ -21,9 +22,9 @@ import org.bukkit.util.Vector;
 import java.util.function.Consumer;
 
 public class Luminous extends AbstractBow {
-    public Luminous(Dwarf dwarf) {
-        super(dwarf);
-    }
+    public Luminous(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
+	}
 
     private final static int POWER = 80;
     private final static CustomItem ITEM = getBow("hero", "luminous", POWER);

@@ -5,6 +5,7 @@ import deimophobe.nightfall.blocks.timedblock.LampBlock;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.dwarf.Dwarf;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.util.ArrowMisc;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -24,8 +25,8 @@ public class Lightbow extends AbstractBow {
 	@Override public String getBowIdentifier() {return "LIGHTBOW";}
 	@Override public int getPower() {return POWER;}
 	
-	public Lightbow(Dwarf dwarf) {
-		super(dwarf);
+	public Lightbow(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 		dwarf.makeBlindImmune();
 	}
 	

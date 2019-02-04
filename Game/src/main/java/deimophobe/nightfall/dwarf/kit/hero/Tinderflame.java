@@ -7,6 +7,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractCooldownItem;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.monster.MonsterManager;
@@ -25,8 +26,8 @@ import java.util.Set;
  * Created by Deimophobe on 11/03/17.
  */
 public class Tinderflame extends AbstractCooldownItem {
-	public Tinderflame(Dwarf dwarf) {
-		super(dwarf, 40);
+	public Tinderflame(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type, 40);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero","tinderflame");

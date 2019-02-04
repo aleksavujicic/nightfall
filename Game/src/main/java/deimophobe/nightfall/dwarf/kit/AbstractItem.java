@@ -15,13 +15,12 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class AbstractItem extends AbstractPiece implements ItemPiece {
 	
-	public AbstractItem(Dwarf dwarf) {
-		super(dwarf);
+	public AbstractItem(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	@Override
 	public boolean doesItemMatch(@NotNull ItemStack toMatch) {
-		if (toMatch == null) return false;
 		return getItem().isSimilar(toMatch);
 	}
 	

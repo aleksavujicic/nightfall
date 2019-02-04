@@ -11,6 +11,7 @@ import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.ProcType;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.effects.sound.Sounds;
 import org.bukkit.block.Block;
@@ -22,8 +23,8 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 public class Horn extends AbstractItem implements CooldownPiece {
 	
-	public Horn(Dwarf dwarf) {
-		super(dwarf);
+	public Horn(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "horn");

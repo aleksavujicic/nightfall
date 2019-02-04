@@ -7,6 +7,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
 import deimophobe.nightfall.dwarf.kit.ArmourPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.SwimPiece;
 import deimophobe.nightfall.util.ArmourSlot;
 import org.bukkit.entity.Player;
@@ -17,8 +18,8 @@ import org.bukkit.potion.PotionEffectType;
  */
 public class MermaidTail extends AbstractPiece implements ArmourPiece, SwimPiece {
 	
-	public MermaidTail(Dwarf dwarf) {
-		super(dwarf);
+	public MermaidTail(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 	
 	@Override

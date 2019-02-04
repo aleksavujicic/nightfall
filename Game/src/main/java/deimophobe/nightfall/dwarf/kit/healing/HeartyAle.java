@@ -5,6 +5,7 @@ import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.kit.ArmourPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -18,8 +19,8 @@ public class HeartyAle extends AbstractAle implements ArmourPiece {
 	static { ITEM.applyVariable("hearts", ""+BONUS_HEARTS); }
 	@Override public CustomItem getItem() { return ITEM; }
 	
-	public HeartyAle(Dwarf dwarf) {
-		super(dwarf, MANA_COST);
+	public HeartyAle(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type, MANA_COST);
 	}
 	
 	@Override

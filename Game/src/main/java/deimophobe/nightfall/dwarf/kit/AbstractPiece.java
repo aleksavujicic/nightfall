@@ -9,8 +9,16 @@ import deimophobe.nightfall.dwarf.Dwarf;
  */
 public class AbstractPiece implements KitPiece {
 	protected final Dwarf dwarf;
-	public AbstractPiece(Dwarf dwarf) {
+	private final KitPieceType type;
+	
+	public AbstractPiece(Dwarf dwarf, KitPieceType type) {
 		this.dwarf = dwarf;
+		this.type = type;
+	}
+	
+	@Override
+	public final KitPieceType getType() {
+		return type;
 	}
 	
 	@Override

@@ -2,6 +2,7 @@ package deimophobe.nightfall.dwarf.kit.accessory;
 
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.potion.PotionEffectType;
@@ -10,8 +11,8 @@ import org.bukkit.potion.PotionEffectType;
  * Created by Deimophobe on 23/12/17.
  */
 public class UntimelyDemise extends AbstractPiece {
-	public UntimelyDemise(Dwarf dwarf) {
-		super(dwarf);
+	public UntimelyDemise(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 		dwarf.setPlagueStatus(Dwarf.PlagueStatus.PLAGUED);
 		dwarf.givePermanentPotionEffect(PotionEffectType.NIGHT_VISION, 1);
 	}

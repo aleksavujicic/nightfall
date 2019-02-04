@@ -6,6 +6,7 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractCooldownItem;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.game.entity.GameEntity;
 import deimophobe.nightfall.monster.MonsterManager;
@@ -20,8 +21,8 @@ import org.bukkit.util.Vector;
  * Created by Deimophobe on 12/03/17.
  */
 public class Wand extends AbstractCooldownItem {
-	public Wand(Dwarf dwarf) {
-		super(dwarf, 180*20);
+	public Wand(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type, 180*20);
 	}
 	
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "wand");

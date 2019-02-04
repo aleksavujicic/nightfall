@@ -9,10 +9,7 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.ComplexCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.AbstractItem;
-import deimophobe.nightfall.dwarf.kit.CooldownPiece;
-import deimophobe.nightfall.dwarf.kit.LogOnOffPiece;
-import deimophobe.nightfall.dwarf.kit.PickupType;
+import deimophobe.nightfall.dwarf.kit.*;
 import deimophobe.nightfall.map.GameMap;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -28,8 +25,8 @@ import java.util.Set;
  */
 public class Trident extends AbstractItem implements CooldownPiece, LogOnOffPiece {
 	
-	public Trident(Dwarf dwarf) {
-		super(dwarf);
+	public Trident(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 		TRIDENTS.add(this);
 	}
 	

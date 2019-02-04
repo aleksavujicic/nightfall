@@ -9,6 +9,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.CooldownPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
@@ -22,8 +23,8 @@ import org.bukkit.util.Vector;
 public class Drucrist extends AbstractItem implements CooldownPiece {
 
 
-	public Drucrist(Dwarf dwarf) {
-		super(dwarf);
+	public Drucrist(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 	}
 
 	private final static CustomItem ITEM = DwarvenItems.getItem("hero", "drucrist");

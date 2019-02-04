@@ -5,6 +5,7 @@ import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.PreDamagePriority;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.kit.AbstractPiece;
+import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -13,8 +14,8 @@ import org.bukkit.potion.PotionEffectType;
 public class HeroBase extends AbstractPiece {
 	private State state = State.HIGH;
 	
-	public HeroBase(Dwarf dwarf) {
-		super(dwarf);
+	public HeroBase(Dwarf dwarf, KitPieceType type) {
+		super(dwarf, type);
 		
 		dwarf.makeBlindImmune();
 		dwarf.setPlagueStatus(Dwarf.PlagueStatus.IMMUNE);
