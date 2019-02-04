@@ -227,6 +227,9 @@ monster-menu:
     description: "&c"
     variable: "&b"
 
+monster-simple:
+  nameprefix: "&4"
+
 monster-egg:
   nameprefix: "&4"
 

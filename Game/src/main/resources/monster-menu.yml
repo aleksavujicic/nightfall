@@ -1,5 +1,6 @@
 items:
   reset-page:
+    template: monster-simple
     base: menu.trash
     name: Reset Upgrades
 
@@ -14,10 +15,12 @@ items:
           upgrades and get $refund xp back."
 
   back:
+    template: monster-simple
     base: menu.left-arrow
     name: Go Back
 
   cancel:
+    template: monster-simple
     base: menu.cancel
     name: Cancel Reset
 
