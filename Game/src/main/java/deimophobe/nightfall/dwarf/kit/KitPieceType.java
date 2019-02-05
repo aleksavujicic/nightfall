@@ -95,6 +95,9 @@ public enum KitPieceType {
 	// Stupid joke shit
 	PENY_STICK(PenyStick::new),
 	
+	// Debug
+	INVINCIBILITY(Invincibility::new),
+	
 	
 	// ---- HERO STUFF ----
 	// Base
