@@ -2,6 +2,7 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.blocks.BlockConverter;
+import deimophobe.nightfall.common.util.NMSUtil;
 import deimophobe.nightfall.cooldown.*;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -9,10 +10,11 @@ import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import me.libraryaddict.disguise.disguisetypes.watchers.GhastWatcher;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -28,8 +30,19 @@ public class BatteringRam extends AbstractRideableMob {
 	
 	private Location lastLocation;
 	
+	private final ArmorStand carryingArmourStand;
+	
 	protected BatteringRam(MonsterPlayer monster) {
 		super(monster, MobType.BATTERING_RAM);
+		
+		World world = monster.getWorld();
+		Location location = monster.getLocation();
+		carryingArmourStand = world.spawn(location, ArmorStand.class, armorStand -> {
+			armorStand.setInvulnerable(true);
+			armorStand.setGravity(false);
+			armorStand.setVisible(false);
+			armorStand.setBasePlate(false);
+		});
 	}
 	
 	@Override
@@ -51,11 +64,12 @@ public class BatteringRam extends AbstractRideableMob {
 	@Override
 	public void update() {
 		super.update();
+		updateCarryingArmourStand();
 		
 		if (everyNthTick(20)) {
 			if (monster.distanceTo(lastLocation) >= 1.5) {
-				monster.playSound("entity.zombie.infect", 1f, 0.5f, true);
-				if (everyNthTick(80)) monster.playSound("entity.minecart.inside", 1f, 0.5f, true);
+//				monster.playSound("entity.zombie.infect", 1f, 0.5f, true);
+//				if (everyNthTick(80)) monster.playSound("entity.minecart.inside", 1f, 0.5f, true);
 			}
 			lastLocation = monster.getLocation();
 		}
@@ -81,6 +95,23 @@ public class BatteringRam extends AbstractRideableMob {
 		return false;
 	}
 	
+	@Override
+	public void onDeath(boolean silent) {
+		super.onDeath(silent);
+		carryingArmourStand.remove();
+	}
+	
+	@Override
+	protected boolean canMount(MonsterPlayer player) {
+		int numPassengers = carryingArmourStand.getPassengers().size();
+		return (numPassengers < 1);
+	}
+	
+	@Override
+	protected Entity getCarryingEntity() {
+		return carryingArmourStand;
+	}
+	
 	private void wallRam() {
 		Block center = monster.getTargetBlock(null, 3);
 		BlockConverter.convert(BlockConverter.Type.EXPLOSION, center.getLocation(), 8);
@@ -101,10 +132,8 @@ public class BatteringRam extends AbstractRideableMob {
 		changeDisguiseWatcher(GhastWatcher.class, (gw) -> gw.setAggressive(angry));
 	}
 	
-	
-	@Override
-	protected boolean canMount(MonsterPlayer player) {
-		int numPassengers = monster.getPlayer().getPassengers().size();
-		return (numPassengers < 1);
+	private void updateCarryingArmourStand() {
+		Location location = monster.getLocation().add(0, 2.7, 0);
+		NMSUtil.teleportEntityWithPassenger(carryingArmourStand, location);
 	}
 }

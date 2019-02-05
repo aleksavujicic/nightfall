@@ -2,6 +2,7 @@ package deimophobe.nightfall.monster.mob;
 
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
+import org.bukkit.entity.Entity;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -24,5 +25,10 @@ public class Silverbell extends AbstractRideableMob {
 		
 		int numPassengers = monster.getPlayer().getPassengers().size();
 		return (numPassengers < 2);
+	}
+	
+	@Override
+	protected Entity getCarryingEntity() {
+		return monster.getPlayer();
 	}
 }

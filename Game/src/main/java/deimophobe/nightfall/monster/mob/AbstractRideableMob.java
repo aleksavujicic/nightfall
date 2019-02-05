@@ -5,6 +5,7 @@ import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Entity;
 
 /**
  * Created by Deimophobe on 8/05/18.
@@ -42,13 +43,14 @@ public abstract class AbstractRideableMob extends AbstractMob {
 		if (!player.isMobAlive()) return;
 		
 		if (canMount(player)) {
-			monster.getPlayer().addPassenger(player.getPlayer());
+			getCarryingEntity().addPassenger(player.getPlayer());
 		}
 	}
 	
 	private void dismount() {
-		monster.getPlayer().eject();
+		getCarryingEntity().eject();
 	}
 	
 	protected abstract boolean canMount(MonsterPlayer player);
+	protected abstract Entity getCarryingEntity();
 }
