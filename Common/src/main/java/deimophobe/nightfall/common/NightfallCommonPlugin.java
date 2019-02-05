@@ -61,6 +61,8 @@ public class NightfallCommonPlugin extends JavaPlugin {
 		DataIOType type = getDataIOType();
 		dataIO = type.createDataIO(this);
 		playerManager = new PlayerManager(this);
+		
+		Bukkit.clearRecipes();
 	}
 	
 	@Override
