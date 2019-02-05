@@ -4,6 +4,7 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.UseCooldown;
+import deimophobe.nightfall.cooldown.VariableRepeaterCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
 import deimophobe.nightfall.damage.MonsterDamage;
@@ -15,24 +16,30 @@ import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
+import deimophobe.nightfall.monster.ai.AIEntity;
+import deimophobe.nightfall.util.Hitscan;
+import deimophobe.nightfall.util.HitscanBuilder;
 import deimophobe.nightfall.util.Util;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import static java.lang.Math.PI;
+import static java.lang.Math.floorDiv;
 
 public class Soulblade extends AbstractItem implements CooldownPiece {
-
-	private final Cooldown soulShatterCD = new UseCooldown(10, this::soulShatter);
-	
 	private static final int MAX_SOULS = 50;
+	private static final int SHATTER_DELAY = 10;
+	private static final int SHATTER_PULSE_COST = 5;
+	
+	private static final double SHATTER_RANGE = 6;
+	private static final double SHATTER_DAMAGE = 20;
 
 	private double souls = 0;
+	private boolean shattering = false;
+	private final Cooldown shatterDelay = new VariableRepeaterCooldown(SHATTER_DELAY, this::soulShatterTick, () -> shattering);
 
 	public Soulblade(Dwarf dwarf, KitPieceType type) {
 		super(dwarf, type);
@@ -50,7 +57,7 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 	@Override
 	public void update() {
 		super.update();
-		soulShatterCD.update();
+		shatterDelay.update();
 		
 		if (isHoldingItem()) {
 			showParticle();
@@ -73,6 +80,11 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 	@Override
 	public void onDamageReceive(DwarfDamage damage) {
 		super.onDamageReceive(damage);
+		if (shattering && damage.getAttacker() instanceof AIEntity) {
+			damage.cancel();
+			return;
+		}
+		
 		if (isHoldingItem()) {
 			double resistance = soulScaling(0, 0.3);
 			damage.getMultiPartDamage().timesMult(1 - resistance);
@@ -81,10 +93,8 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 	
 	@Override
 	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
-		if (click.isRightClick() && !dwarf.getNoSpecial()) {
-			if (souls >= 10) {
-				soulShatterCD.tryUse();
-			}
+		if (click.isRightClick() && !dwarf.getNoSpecial() && souls > 10) {
+			startShatter();
 		}
 		return false;
 	}
@@ -116,33 +126,48 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 		return min + (max - min) * souls/MAX_SOULS;
 	}
 	
-	private void soulShatter() {
+	private void startShatter() {
+		dwarf.playSound(Sound.ENTITY_GHAST_SCREAM, 1f, 0.5f, true);
+		dwarf.playSound(Sound.ENTITY_GHAST_WARN, 1f, 0.5f, true);
+		
+		int timesUsed = (int) Math.ceil(souls/SHATTER_PULSE_COST);
+		int duration = timesUsed * SHATTER_DELAY;
+		dwarf.givePotionEffect(PotionEffectType.SPEED, duration + 20, 2, true, false, true);
+		
+		shattering = true;
+		shatterDelay.tryUse();
+	}
+	
+	private static final Particle.DustOptions DUST_OPTIONS = new Particle.DustOptions(
+			Color.fromRGB(240, 35, 200), 1
+	);
+	private void soulShatterTick() {
+		final double soulsUsed = Math.min(souls, SHATTER_PULSE_COST);
+		souls -= soulsUsed;
+		final double shatterStrength = soulsUsed/SHATTER_PULSE_COST;
+		
+		if (souls <= 0) {
+			souls = 0;
+			shattering = false;
+		}
+		
+		dwarf.playSound(Sound.ENTITY_GENERIC_BURN, 1f, 1.5f, true);
+		dwarf.playSound(Sound.ENTITY_GHAST_SHOOT, 1f, 2f, true);
+		
+		World world = dwarf.getWorld();
 		Location center = dwarf.getEyeLocation();
-		center.add(center.getDirection());
-		
-		World world = center.getWorld();
-		world.spawnParticle(Particle.DRAGON_BREATH, center, (int) soulScaling(50, 250), 0.5, 0.1, 0.5, 0.05 + 0.005*souls);
-		world.spawnParticle(Particle.SMOKE_NORMAL, center, (int) soulScaling(100, 500), 1.5, 1,  1.5, 0.003);
-		
-		float pitch = (float) soulScaling(0.5, 0.9);
-		world.playSound(center,"dash", 1f, pitch);
-		world.playSound(center,"entity.generic.burn", 1f, pitch);
-		
-		double kb = soulScaling(1, 3);
-		double baseDamage = soulScaling(25, 150);
-		double radius = soulScaling(3, 6);
-		
-		souls = 0;
+		world.spawnParticle(Particle.REDSTONE, center, 100, 1.5, 1.5, 1.5, 0, DUST_OPTIONS);
+		world.spawnParticle(Particle.SMOKE_NORMAL, center, 50, 1.5, 1.5,  1.5, 0.003);
 		
 		for (MonsterEntity entity : MonsterManager.getManager().getAliveMobsAndAIs()) {
 			Vector offset = entity.getEyeLocation().subtract(center).toVector();
-			if (offset.length() > radius) continue;
+			if (offset.length() > SHATTER_RANGE) continue;
 
-			Vector knockback = offset.normalize().multiply(kb / Math.sqrt(Math.max(2, offset.length())));
+			Vector knockback = offset.normalize().multiply(-3 / Math.sqrt(Math.max(2, offset.length())));
 			knockback.setY(knockback.getY() / 2 + 0.1);
 
-			MonsterDamage mDamage = entity.createDamage(dwarf, GameDamageType.SOUL_SHATTER, baseDamage);
-			if (entity.isAI()) mDamage.instaKill();
+			MonsterDamage mDamage = entity.createDamage(dwarf, GameDamageType.SOUL_SHATTER, SHATTER_DAMAGE * shatterStrength);
+			if (entity.isAI()) mDamage.getMultiPartDamage().timesMult(2.5);
 			mDamage.setKnockback(knockback);
 			mDamage.fire(true);
 		}
@@ -160,6 +185,8 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 	private void showParticle() {
 		polar     = (polar     + 0.1) % TWOPI;
 		azimuthal = (azimuthal + 0.03) % TWOPI;
+		
+		if (!dwarf.everyNthTick(2)) return;
 		
 		Particle.DustOptions colour = (souls == MAX_SOULS ? MAX_COLOUR : DEFAULT_COLOUR);
 		

@@ -1,5 +1,7 @@
 package deimophobe.nightfall.cooldown;
 
+import org.bukkit.Bukkit;
+
 import java.util.function.Supplier;
 
 /**
@@ -14,11 +16,11 @@ public class VariableRepeaterCooldown extends AbstractCooldown {
 		super(maxTime);
 		this.useTask = useTask;
 		this.resetable = resetable;
-		this.reset();
 	}
 	
 	@Override
 	protected void onCooldownCompletion() {
+		useTask.run();
 		if (resetable.get()) {
 			this.reset();
 		}
