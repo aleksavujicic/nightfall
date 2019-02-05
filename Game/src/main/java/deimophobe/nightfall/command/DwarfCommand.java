@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandIssuer;
 import co.aikar.commands.InvalidCommandArgument;
 import co.aikar.commands.annotation.*;
+import co.aikar.commands.annotation.Optional;
 import deimophobe.nightfall.command.iterable.DwarfDataCreator;
 import deimophobe.nightfall.command.iterable.DwarfIterable;
 import deimophobe.nightfall.command.iterable.PlayerIterable;
@@ -23,10 +24,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -283,7 +281,7 @@ public class DwarfCommand extends BaseCommand {
 	}
 	
 	@Subcommand("armour|armor")
-	//@CommandAlias("armour|armor")
+//	@CommandAlias("armour|armor")
 	public class ArmourCommand extends BaseCommand {
 		
 		@Default
