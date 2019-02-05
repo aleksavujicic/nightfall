@@ -7,7 +7,6 @@ health: 25
 shred: 15
 speed: -20
 
-proccable: false
 canrun: false
 resistance: 0.7
 arrowres: 0.5
