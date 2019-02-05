@@ -6,6 +6,7 @@ import deimophobe.nightfall.dwarf.ProcType;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 9/01/18.
@@ -17,7 +18,7 @@ public class ProcBottle extends Consumable {
 	}
 	
 	@Override
-	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+	public ConsumeResult use(Dwarf dwarf, ClickType click, @Nullable Block clickedBlock, BlockFace face) {
 		ConsumeResult phaseCheck = checkPhase();
 		if (phaseCheck != null) return phaseCheck;
 		if (click.isRightClick()) return ConsumeResult.FAILURE;

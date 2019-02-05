@@ -10,6 +10,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
+import jdk.internal.jline.internal.Nullable;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -92,7 +93,7 @@ public class Wraith extends AbstractMob implements FloatyMob {
 	}
 	
 	@Override
-	public void onUse(ClickType click, Block clickedBlock, BlockFace face) {
+	public void onUse(ClickType click, @Nullable Block clickedBlock, BlockFace face) {
 		super.onUse(click, clickedBlock, face);
 		if (!click.isRightClick()) return;
 		if (!isPlayerHoldingWeapon()) return;

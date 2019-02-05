@@ -11,6 +11,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 4/05/18.
@@ -25,9 +26,9 @@ class GlassConsumable extends Consumable {
 	}
 	
 	@Override
-	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+	public ConsumeResult use(Dwarf dwarf, ClickType click, @Nullable Block clickedBlock, BlockFace face) {
 		if (!click.isLeftClick()) return ConsumeResult.FAILURE;
-		if (NFBlocks.FURNACE.matchesBlock(clickedBlock) || NFBlocks.GLASS.matchesBlock(clickedBlock)) {
+		if (clickedBlock != null && (NFBlocks.FURNACE.matchesBlock(clickedBlock) || NFBlocks.GLASS.matchesBlock(clickedBlock))) {
 			return CLICKED_GLASS;
 		}
 		

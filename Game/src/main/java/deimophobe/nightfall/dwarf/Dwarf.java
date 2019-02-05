@@ -47,6 +47,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.EnumMap;
@@ -741,7 +742,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	private ExpiryStore<ConsumableType> consumableExpiries = new ExpiryStore<>();
 	
 	@Override
-	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public void onUse(ClickType click, @jdk.internal.jline.internal.Nullable @Nullable Block clickedBlock, BlockFace blockFace) {
 		if (usedThisTick) return;
 		usedThisTick = true;
 		
@@ -762,7 +763,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 			return;
 		}
 		
-		if (click.isLeftClick() && NFBlocks.FURNACE.matchesBlock(clickedBlock)) {
+		if (click.isLeftClick() && clickedBlock != null && NFBlocks.FURNACE.matchesBlock(clickedBlock)) {
 			interactFurnace();
 		}
 		

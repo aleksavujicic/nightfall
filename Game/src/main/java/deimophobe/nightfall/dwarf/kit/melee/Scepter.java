@@ -26,6 +26,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
@@ -102,7 +103,7 @@ public class Scepter extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace face){
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace face){
 		if (click.isRightClick() && !dwarf.getNoSpecial()) {
 			return arcaneMarkCD.tryUse();
 		} else if (click.isLeftClick()) {

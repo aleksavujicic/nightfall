@@ -25,6 +25,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 20/01/17.
@@ -71,7 +72,7 @@ public class Dagger extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		if (click.isRightClick() && !dwarf.getNoSpecial()) {
 			return poisonCooldown.tryUse();
 		}

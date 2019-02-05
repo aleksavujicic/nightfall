@@ -12,6 +12,7 @@ import deimophobe.nightfall.dwarf.DwarfEntity;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
+import jdk.internal.jline.internal.Nullable;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -63,7 +64,7 @@ class MamaBear extends AbstractMob {
 	}
 
 	@Override
-	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public void onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		super.onUse(click, clickedBlock, blockFace);
 		if (click.isRightClick() && isPlayerHoldingItem("frost-ammo")) {
 			frostBreath.tryUse();

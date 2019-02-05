@@ -7,6 +7,7 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
+import jdk.internal.jline.internal.Nullable;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -57,7 +58,7 @@ class Rat extends AbstractMob {
 	}
 	
 	@Override
-	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public void onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		super.onUse(click, clickedBlock, blockFace);
 		if (stealCD == 0 && click.isRightClick() && clickedBlock != null) {
 			GameMap map = GameMap.getCurrentMap();

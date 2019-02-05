@@ -22,6 +22,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.Nullable;
 
 public class TransfigurationTotem extends AbstractItem implements CooldownPiece {
 
@@ -64,7 +65,7 @@ public class TransfigurationTotem extends AbstractItem implements CooldownPiece 
 		}
 	}
 
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace){
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace){
 		if(click.isRightClick()){
 			if(shiftCD.isAvailable()) {
 				shiftCD.reset();

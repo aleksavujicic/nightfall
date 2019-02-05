@@ -9,6 +9,7 @@ import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 21/06/17.
@@ -26,7 +27,7 @@ public class Chestomatic extends AbstractItem {
 	@Override public PickupType getPickupType() { return PickupType.START; }
 	
 	@Override
-	public boolean onUse(ClickType click, Block block, BlockFace face) {
+	public boolean onUse(ClickType click, @Nullable Block block, BlockFace face) {
 		dwarf.showSharedChest();
 		return true;
 	}

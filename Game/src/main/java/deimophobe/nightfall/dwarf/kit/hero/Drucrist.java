@@ -19,6 +19,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.Nullable;
 
 public class Drucrist extends AbstractItem implements CooldownPiece {
 
@@ -47,7 +48,7 @@ public class Drucrist extends AbstractItem implements CooldownPiece {
 
 
 	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		if (click.isRightClick()) {
 			if (cd.isAvailable()) {
 				MonsterPlayer closestPlayerMonster = dwarf.getLookingAt(13, 2.5, MonsterManager.getManager().getAlivePlayerMobs());

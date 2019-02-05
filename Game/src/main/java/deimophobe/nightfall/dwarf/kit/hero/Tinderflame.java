@@ -18,6 +18,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -40,7 +41,7 @@ public class Tinderflame extends AbstractCooldownItem {
 	private static final double PARTICLE_FREQ = 0.5;
 	
 	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		if (click.isRightClick() && isOffCD()) {
 			GameEntity monster = dwarf.getLookingAt(100, 3, MonsterManager.getManager().getAliveMobsAndAIs());
 			

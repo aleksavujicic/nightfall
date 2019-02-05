@@ -9,6 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Projectile;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 16/06/17.
@@ -42,7 +43,7 @@ public abstract class AbstractToggleBow extends AbstractBow {
 	}
 	
 	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		if (click.isLeftClick()) {
 			return toggler.tryUse();
 		}

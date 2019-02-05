@@ -6,6 +6,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.game.Game;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
@@ -41,10 +42,11 @@ class Mortar extends Consumable {
 	
 	
 	@Override
-	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+	public ConsumeResult use(Dwarf dwarf, ClickType click, @Nullable Block clickedBlock, BlockFace face) {
 		if (click.isRightClick()) return ConsumeResult.FAILURE;
 		ConsumeResult phaseCheck = checkPhase();
 		if (!useableBuildPhase && phaseCheck != null) return phaseCheck;
+		if (clickedBlock == null) return ConsumeResult.FAILURE;
 		
 		boolean shouldBlue = !Game.getGame().getPhase().haveMonstersBeenReleased() || blue;
 		BlockConverter.mortar(clickedBlock, range, successChance, shouldBlue);

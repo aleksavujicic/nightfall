@@ -16,6 +16,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 12/03/17.
@@ -32,7 +33,7 @@ public class Wand extends AbstractCooldownItem {
 	@Override public PickupType getPickupType() { return PickupType.START; }
 	
 	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace face) {
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace face) {
 		if (isOffCD()) {
 			Location loc = dwarf.getEyeLocation();
 			new WandProjectile(loc, loc.getDirection().multiply(0.5));

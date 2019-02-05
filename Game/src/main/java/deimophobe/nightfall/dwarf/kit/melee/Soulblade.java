@@ -3,7 +3,6 @@ package deimophobe.nightfall.dwarf.kit.melee;
 import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.Cooldown;
-import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.cooldown.VariableRepeaterCooldown;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.GameDamageType;
@@ -17,14 +16,13 @@ import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.monster.MonsterEntity;
 import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.ai.AIEntity;
-import deimophobe.nightfall.util.Hitscan;
-import deimophobe.nightfall.util.HitscanBuilder;
 import deimophobe.nightfall.util.Util;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.Nullable;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.floorDiv;
@@ -92,7 +90,7 @@ public class Soulblade extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		if (click.isRightClick() && !dwarf.getNoSpecial() && souls > 10) {
 			startShatter();
 		}

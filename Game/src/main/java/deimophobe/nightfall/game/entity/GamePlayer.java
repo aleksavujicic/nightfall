@@ -30,6 +30,7 @@ import deimophobe.nightfall.game.AbstractGameEntity;
 import deimophobe.nightfall.game.Game;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.util.PacketUtil;
+import jdk.internal.jline.internal.Nullable;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.apache.commons.lang3.mutable.MutableInt;
@@ -713,7 +714,7 @@ public abstract class GamePlayer extends AbstractGameEntity<Player> implements G
 	// Abstract methods
 	public abstract void updateHotbarSlot(ItemStack heldItem, int slot);
 	public abstract boolean onBlockBreak(Block block, boolean didBreak);
-	public abstract void onUse(ClickType click, Block clickedBlock, BlockFace blockFace); // TODO: tidyup
+	public abstract void onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace); // TODO: tidyup
 	public abstract void onShift(boolean sneaking);
 	public abstract void onSwim(boolean swimming);
 	public abstract void giveCompass();

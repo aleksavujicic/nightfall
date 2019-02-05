@@ -20,6 +20,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -41,7 +42,7 @@ public class ConsecratingCharm extends Consumable {
 	}
 	
 	@Override
-	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+	public ConsumeResult use(Dwarf dwarf, ClickType click, @Nullable Block clickedBlock, BlockFace face) {
 		if (!click.isLeftClick()) return ConsumeResult.FAILURE;
 		ConsumeResult phaseCheck = checkPhase();
 		if (phaseCheck != null) return phaseCheck;

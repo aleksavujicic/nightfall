@@ -14,6 +14,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.util.BlockIterator;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -52,7 +53,7 @@ class Slab extends Consumable {
 	}
 	
 	@Override
-	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+	public ConsumeResult use(Dwarf dwarf, ClickType click, @Nullable Block clickedBlock, BlockFace face) {
 		if (click.isRightClick()) return ConsumeResult.FAILURE;
 		ConsumeResult phaseCheck = checkPhase();
 		if (phaseCheck != null) return phaseCheck;

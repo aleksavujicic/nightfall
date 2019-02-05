@@ -5,6 +5,7 @@ import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.map.GameMap;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
+import jdk.internal.jline.internal.Nullable;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
@@ -79,7 +80,7 @@ public class Bopen extends AbstractMob {
 	}
 	
 	@Override
-	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public void onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		super.onUse(click, clickedBlock, blockFace);
 		if (cooldown == 0 && isPlayerHoldingItem("steed")) {
 			mountHorse();

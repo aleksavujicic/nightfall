@@ -7,6 +7,7 @@ import deimophobe.nightfall.dwarf.armour.Armour;
 import deimophobe.nightfall.dwarf.armour.DwarvenArmour;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
 
@@ -19,7 +20,7 @@ class ArmourItem extends Consumable {
 	}
 	
 	@Override
-	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+	public ConsumeResult use(Dwarf dwarf, ClickType click, @Nullable Block clickedBlock, BlockFace face) {
 		if (click.isLeftClick()) {
 			Predicate<Dwarf> armourChecker = checkee -> {
 				Armour armour = checkee.getArmour();

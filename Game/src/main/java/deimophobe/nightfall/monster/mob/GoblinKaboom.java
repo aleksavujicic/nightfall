@@ -14,6 +14,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
+import jdk.internal.jline.internal.Nullable;
 import me.libraryaddict.disguise.disguisetypes.watchers.CreeperWatcher;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -92,7 +93,7 @@ class GoblinKaboom extends Goblin {
 	}
 	
 	@Override
-	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public void onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		// Probably should rework this so that the super method is before this, but this should work for now
 		double throwBuf = throwInf * 0.15;
 		while (throwBuf > 0) {

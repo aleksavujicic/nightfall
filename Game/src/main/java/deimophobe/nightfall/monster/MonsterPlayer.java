@@ -24,6 +24,7 @@ import deimophobe.nightfall.monster.mob.Mob;
 import deimophobe.nightfall.monster.mob.MobType;
 import deimophobe.nightfall.monster.upgrades.MonsterUpgrades;
 import deimophobe.nightfall.util.AFKChecker;
+import jdk.internal.jline.internal.Nullable;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
@@ -438,7 +439,7 @@ public class MonsterPlayer extends GamePlayer implements SessionData, MonsterEnt
 	
 	private boolean usedThisTick = false;
 	@Override
-	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public void onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		if (usedThisTick) return;
 		usedThisTick = true;
 		

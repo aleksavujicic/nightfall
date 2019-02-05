@@ -20,6 +20,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 6/10/18.
@@ -42,7 +43,7 @@ public class Aegis extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		boolean used = super.onUse(click, clickedBlock, blockFace);
 		if (isHoldingItem() && click.isRightClick()) {
 			return shieldCooldown.tryUse();

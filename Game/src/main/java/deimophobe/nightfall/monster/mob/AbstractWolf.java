@@ -7,6 +7,7 @@ import deimophobe.nightfall.cooldown.Display;
 import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.monster.MonsterPlayer;
+import jdk.internal.jline.internal.Nullable;
 import me.libraryaddict.disguise.disguisetypes.watchers.WolfWatcher;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
@@ -28,7 +29,7 @@ abstract class AbstractWolf extends AbstractMob {
 	}
 	
 	@Override
-	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public void onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		super.onUse(click, clickedBlock, blockFace);
 		if (click.isRightClick() && isPlayerHoldingWeapon()) {
 			leapCD.tryUse();

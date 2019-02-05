@@ -17,6 +17,7 @@ import deimophobe.nightfall.dwarf.kit.PickupType;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 10/10/17.
@@ -75,7 +76,7 @@ public abstract class AbstractRuneblade extends AbstractItem implements Cooldown
 	}
 	
 	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		if (click.isRightClick() && !dwarf.getNoSpecial()) {
 			return cooldown.tryUse();
 		}

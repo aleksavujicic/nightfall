@@ -24,6 +24,7 @@ import deimophobe.nightfall.skin.Skin;
 import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.util.ArmourSlot;
 import deimophobe.nightfall.util.Hitscan;
+import jdk.internal.jline.internal.Nullable;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.ChatColor;
@@ -153,7 +154,7 @@ public class Doppelganger extends AbstractMob {
 	});
 	
 	@Override
-	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public void onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		super.onUse(click, clickedBlock, blockFace);
 		if (isPlayerHoldingItem("unhider")) {
 			monster.useHeldItem();

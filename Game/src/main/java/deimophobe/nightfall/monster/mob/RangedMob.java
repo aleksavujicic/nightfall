@@ -4,6 +4,7 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.items.modifiers.ItemModifierType;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.upgrades.wrappers.RangedUpgrades;
+import jdk.internal.jline.internal.Nullable;
 import me.libraryaddict.disguise.disguisetypes.watchers.SkeletonWatcher;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -31,7 +32,7 @@ abstract class RangedMob<T extends RangedUpgrades> extends UpgradeableMob<T> {
 	}
 	
 	@Override
-	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public void onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		super.onUse(click, clickedBlock, blockFace);
 		if (click.isRightClick()) {
 			updateArms(isPlayerHoldingWeapon());

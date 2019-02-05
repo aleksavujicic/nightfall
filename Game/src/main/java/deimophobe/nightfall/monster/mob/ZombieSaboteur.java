@@ -14,6 +14,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.upgrades.wrappers.SaboteurUpgrades;
+import jdk.internal.jline.internal.Nullable;
 import me.libraryaddict.disguise.disguisetypes.watchers.ZombieVillagerWatcher;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -117,7 +118,8 @@ public class ZombieSaboteur extends UpgradeableMob<SaboteurUpgrades> {
 	}
 	
 	@Override
-	public void onUse(ClickType click, Block block, BlockFace face) {
+	public void onUse(ClickType click, @Nullable Block block, BlockFace face) {
+		super.onUse(click, block, face);
 		if (click.isRightClick() && isPlayerHoldingWeapon()) {
 			boolean used = sneakCD.tryUse();
 			if (!used && monster.isDebugMode()) {
@@ -125,7 +127,7 @@ public class ZombieSaboteur extends UpgradeableMob<SaboteurUpgrades> {
 			}
 		}
 		
-		if (click.isRightClick() && isPlayerHoldingItem("vines")) {
+		if (click.isRightClick() && block != null && isPlayerHoldingItem("vines")) {
 			placeVine(block, face);
 		}
 	}

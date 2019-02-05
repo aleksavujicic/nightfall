@@ -9,6 +9,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 24/03/17.
@@ -59,7 +60,7 @@ public abstract class AbstractItem extends AbstractPiece implements ItemPiece {
 	}
 
 	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {return false;}
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {return false;}
 	
 	@Override
 	public void onBlockBreak(Block block, boolean didBreak) {}

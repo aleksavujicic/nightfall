@@ -6,6 +6,7 @@ import deimophobe.nightfall.blocks.timedblock.TurretBlock;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 26/04/18.
@@ -16,9 +17,10 @@ public class Turret extends Consumable {
 	}
 	
 	@Override
-	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+	public ConsumeResult use(Dwarf dwarf, ClickType click, @Nullable Block clickedBlock, BlockFace face) {
 		ConsumeResult phaseCheck = checkPhase();
 		if (phaseCheck != null) return phaseCheck;
+		if (clickedBlock == null) return ConsumeResult.FAILURE;
 		if (face == null) return ConsumeResult.FAILURE;
 		
 		TurretBlock turret = new TurretBlock(45, clickedBlock, dwarf, face, 70);

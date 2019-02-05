@@ -18,6 +18,7 @@ import deimophobe.nightfall.monster.ai.AIEntity;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.jetbrains.annotations.Nullable;
 
 public class BrassKnuckles extends AbstractItem implements CooldownPiece {
 
@@ -103,7 +104,7 @@ public class BrassKnuckles extends AbstractItem implements CooldownPiece {
 	}
 
 	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		if (click.isRightClick() && !dwarf.getNoSpecial()) {
 			//Activate Flurry of Blows
 			if(flurryTime == 0){

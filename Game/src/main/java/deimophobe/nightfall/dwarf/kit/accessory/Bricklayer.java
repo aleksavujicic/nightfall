@@ -22,6 +22,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
@@ -64,13 +65,14 @@ public class Bricklayer extends AbstractItem {
 	}
 	
 	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		super.onUse(click, clickedBlock, blockFace);
-		if (click.isLeftClick()) {
+		if (click.isLeftClick() && clickedBlock != null) {
 			return selector.tryUse(clickedBlock);
-		} else {
+		} else if (click.isRightClick()) {
 			return toggler.tryUse();
 		}
+		return false;
 	}
 	
 	private void selectBlock(Block block) {

@@ -11,6 +11,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 22/01/17.
@@ -36,7 +37,7 @@ public abstract class Consumable implements ItemMatcher {
 		return itemStack;
 	}
 	
-	public abstract ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face);
+	public abstract ConsumeResult use(Dwarf dwarf, ClickType click, @Nullable Block clickedBlock, BlockFace face);
 	
 	
 	

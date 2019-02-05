@@ -5,12 +5,12 @@ import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
-import deimophobe.nightfall.dwarf.kit.KitPiece;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.map.GameCompass;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 31/03/17.
@@ -29,7 +29,7 @@ public class DwarfCompass extends AbstractItem {
 	}
 	
 	@Override
-	public boolean onUse(ClickType click, Block block, BlockFace face) {
+	public boolean onUse(ClickType click, @Nullable Block block, BlockFace face) {
 		return compass.tryUse(click);
 	}
 }

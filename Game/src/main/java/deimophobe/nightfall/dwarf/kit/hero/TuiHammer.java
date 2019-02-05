@@ -19,6 +19,7 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 11/03/17.
@@ -85,7 +86,7 @@ public class TuiHammer extends AbstractAOEHitter implements CooldownPiece {
 	private final static int ROAR_DURATION = 10*20;
 	
 	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		if (click.isRightClick()) {
 			return roarCD.tryUse();
 		}

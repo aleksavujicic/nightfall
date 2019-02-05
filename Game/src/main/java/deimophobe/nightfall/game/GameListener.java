@@ -111,7 +111,7 @@ public class GameListener implements Listener {
 				return;
 			}
 			
-			if (block == null) block = gp.getTargetBlock(null, 5);
+//			if (block == null) block = gp.getTargetBlock(null, 5);
 			ClickType click = ClickType.fromAction(action);
 			gp.onUse(click, block, blockFace);
 			
@@ -127,7 +127,7 @@ public class GameListener implements Listener {
 	public void onLeftClick(PlayerAnimationEvent event) {
 		GamePlayer gp = game.getGamePlayer(event.getPlayer());
 		if (gp != null) {
-			gp.onUse(ClickType.LEFT, gp.getTargetBlock(null, 5), null);
+			gp.onUse(ClickType.LEFT, null, null);
 		}
 	}
 	

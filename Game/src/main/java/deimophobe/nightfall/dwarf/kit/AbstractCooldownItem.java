@@ -8,6 +8,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 24/03/17.
@@ -37,7 +38,7 @@ public abstract class AbstractCooldownItem extends AbstractCooldown implements I
 	}
 	
 	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {return false;}
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {return false;}
 	
 	@Override
 	public void onBlockBreak(Block block, boolean didBreak) {}

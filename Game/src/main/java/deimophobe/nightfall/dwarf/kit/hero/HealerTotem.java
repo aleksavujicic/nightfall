@@ -14,6 +14,7 @@ import deimophobe.nightfall.util.ArcaneMark;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 6/05/17.
@@ -33,7 +34,7 @@ public class HealerTotem extends AbstractItem implements CooldownPiece {
 	
 	
 	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace face) {
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace face) {
 		if (click.isLeftClick()) {
 			return arcaneMarkCD.tryUse();
 		} else {

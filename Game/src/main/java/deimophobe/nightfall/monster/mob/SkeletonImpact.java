@@ -11,6 +11,7 @@ import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.upgrades.wrappers.ImpactUpgrades;
 import deimophobe.nightfall.util.ArrowMisc;
+import jdk.internal.jline.internal.Nullable;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -73,7 +74,7 @@ class SkeletonImpact extends AbstractToggleSkeleton<ImpactUpgrades> {
 	}
 	
 	@Override
-	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public void onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		super.onUse(click, clickedBlock, blockFace);
 		if (click.isRightClick() && isPlayerHoldingItem("stick") && reactionCD.isAvailable()) {
 			reactionCD.reset();

@@ -18,6 +18,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 6/05/17.
@@ -40,7 +41,7 @@ public class Caduceus extends AbstractItem implements CooldownPiece {
 	@Override public PickupType getPickupType() {return PickupType.START;}
 	
 	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		if (click.isRightClick()) {
 			grabCD.tryUse();
 		}

@@ -6,6 +6,7 @@ import deimophobe.nightfall.blocks.timedblock.JumpPad;
 import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 3/05/18.
@@ -14,10 +15,11 @@ public class JumpConsumable extends Consumable {
 	protected JumpConsumable(String itemName) { super(itemName); }
 	
 	@Override
-	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+	public ConsumeResult use(Dwarf dwarf, ClickType click, @Nullable Block clickedBlock, BlockFace face) {
 		ConsumeResult phaseCheck = checkPhase();
 		if (phaseCheck != null) return phaseCheck;
 		if (face == null) return ConsumeResult.FAILURE;
+		if (clickedBlock == null) return ConsumeResult.FAILURE;
 		
 		Block block = clickedBlock.getRelative(face);
 		boolean success = BlockManager.getManager().placeTimedBlock(new JumpPad(block, dwarf));

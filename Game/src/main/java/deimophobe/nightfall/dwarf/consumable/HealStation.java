@@ -7,6 +7,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 28/01/17.
@@ -19,9 +20,10 @@ public class HealStation extends Consumable {
 	}
 	
 	@Override
-	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+	public ConsumeResult use(Dwarf dwarf, ClickType click, @Nullable Block clickedBlock, BlockFace face) {
 		ConsumeResult phaseCheck = checkPhase();
 		if (phaseCheck != null) return phaseCheck;
+		if (clickedBlock == null) return ConsumeResult.FAILURE;
 		
 		// Check no other nearby heal blocks
 		Location blockLoc = clickedBlock.getLocation();

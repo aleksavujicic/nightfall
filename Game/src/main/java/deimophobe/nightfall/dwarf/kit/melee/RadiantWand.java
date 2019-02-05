@@ -22,6 +22,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
@@ -58,7 +59,7 @@ public class RadiantWand extends AbstractItem implements CooldownPiece {
 	}
 
 	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		//Activate radiance if right click, light pulse if left click
 		if (click.isRightClick() && !dwarf.getNoSpecial()) {
 			radianceCD.tryUse();

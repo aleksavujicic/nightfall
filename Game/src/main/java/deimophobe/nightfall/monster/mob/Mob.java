@@ -4,6 +4,7 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.damage.DwarfDamage;
 import deimophobe.nightfall.damage.MonsterDamage;
 import deimophobe.nightfall.monster.SpawnMethod;
+import jdk.internal.jline.internal.Nullable;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.FlagWatcher;
 import org.bukkit.block.Block;
@@ -42,7 +43,7 @@ public interface Mob {
 	void update();
 	void onShift(boolean sneaking);
 	boolean onBlockBreak(Block block, boolean didBreak);
-	void onUse(ClickType click, Block clickedBlock, BlockFace blockFace);
+	void onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace);
 	void onDamageAttack(DwarfDamage damage);
 	void onDamageReceive(MonsterDamage damage);
 	Projectile onBowFire(Arrow arrow, float force);

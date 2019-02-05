@@ -4,10 +4,8 @@ import deimophobe.nightfall.ClickType;
 import deimophobe.nightfall.common.items.CustomItem;
 import deimophobe.nightfall.cooldown.Cooldown;
 import deimophobe.nightfall.cooldown.TryUseCooldown;
-import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.dwarf.DwarvenItems;
-import deimophobe.nightfall.dwarf.kit.AbstractCooldownItem;
 import deimophobe.nightfall.dwarf.kit.AbstractItem;
 import deimophobe.nightfall.dwarf.kit.KitPieceType;
 import deimophobe.nightfall.dwarf.kit.PickupType;
@@ -17,6 +15,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 9/05/17.
@@ -39,7 +38,7 @@ public class Elystria extends AbstractItem {
 	}
 	
 	@Override
-	public boolean onUse(ClickType click, Block block, BlockFace face) {
+	public boolean onUse(ClickType click, @Nullable Block block, BlockFace face) {
 		if (click.isRightClick()) {
 			return teleportCooldown.tryUse();
 		}

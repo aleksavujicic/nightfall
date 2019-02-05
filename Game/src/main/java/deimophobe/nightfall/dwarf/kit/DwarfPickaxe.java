@@ -23,6 +23,7 @@ import org.bukkit.block.data.type.Piston;
 import org.bukkit.block.data.type.PistonHead;
 import org.bukkit.block.data.type.TechnicalPiston;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 28/03/17.
@@ -54,7 +55,7 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace face) {
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace face) {
 		updateShinyness();
 		
 		if (click.isRightClick() && cooldown == 0) {
@@ -149,6 +150,8 @@ class DwarfPickaxe extends AbstractItem implements CooldownPiece {
 	}
 	
 	private static boolean tryCraftArmourBlock(Block clickedBlock, BlockFace blockFace) {
+		if (clickedBlock == null) return false;
+		
 		boolean upgradedArmour
 				= NFBlocks.tryConvertBlock(clickedBlock, NFBlocks.CRACKED_GOLD_1, NFBlocks.CRACKED_GOLD_2)
 				|| NFBlocks.tryConvertBlock(clickedBlock, NFBlocks.CRACKED_GOLD_2, NFBlocks.CRACKED_GOLD_3)

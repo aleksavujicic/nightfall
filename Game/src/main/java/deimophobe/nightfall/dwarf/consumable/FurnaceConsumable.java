@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 4/05/18.
@@ -22,8 +23,9 @@ public class FurnaceConsumable extends Consumable {
 	}
 	
 	@Override
-	public ConsumeResult use(Dwarf dwarf, ClickType click, Block clickedBlock, BlockFace face) {
+	public ConsumeResult use(Dwarf dwarf, ClickType click, @Nullable Block clickedBlock, BlockFace face) {
 		if (!click.isRightClick()) return ConsumeResult.FAILURE;
+		if (clickedBlock == null) return ConsumeResult.FAILURE;
 		if (!NFBlocks.FURNACE.matchesBlock(clickedBlock)) return ConsumeResult.FAILURE;
 		
 		int count;

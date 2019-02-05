@@ -17,6 +17,7 @@ import deimophobe.nightfall.effects.sound.Sounds;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 13/05/17.
@@ -40,7 +41,7 @@ public class Horn extends AbstractItem implements CooldownPiece {
 	}
 	
 	@Override
-	public boolean onUse(ClickType click, Block block, BlockFace face) {
+	public boolean onUse(ClickType click, @Nullable Block block, BlockFace face) {
 		if (click.isLeftClick()) {
 			return cooldown.tryUse();
 		} else {

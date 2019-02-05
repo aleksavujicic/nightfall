@@ -12,6 +12,7 @@ import deimophobe.nightfall.dwarf.kit.PickupType;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 12/02/18.
@@ -34,7 +35,7 @@ public class Clock extends AbstractItem {
 	}
 	
 	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		super.onUse(click, clickedBlock, blockFace);
 		useCooldown.tryUse();
 		return true;

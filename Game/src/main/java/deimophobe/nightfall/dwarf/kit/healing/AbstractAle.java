@@ -12,6 +12,7 @@ import deimophobe.nightfall.dwarf.kit.PickupType;
 import deimophobe.nightfall.game.Game;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 28/03/17.
@@ -45,7 +46,7 @@ abstract class AbstractAle extends AbstractItem {
 	}
 	
 	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		if (Game.getGame().potionsDisabled()) {
 			return false;
 		}

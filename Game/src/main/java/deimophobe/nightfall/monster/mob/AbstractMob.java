@@ -26,6 +26,8 @@ import deimophobe.nightfall.monster.MonsterManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.util.AFKChecker;
+import deimophobe.nightfall.util.ArrowMisc;
+import jdk.internal.jline.internal.Nullable;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
@@ -556,7 +558,7 @@ public abstract class AbstractMob implements Mob {
 	}
 	
 	@Override
-	public void onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public void onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		if (isPlayerHoldingItem("compass")) {
 			compass.tryUse(click);
 		}

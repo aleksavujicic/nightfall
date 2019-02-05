@@ -16,6 +16,7 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Deimophobe on 22/01/17.
@@ -41,7 +42,7 @@ public class Regrowth extends AbstractAle {
 	}
 	
 	@Override
-	public boolean onUse(ClickType click, Block clickedBlock, BlockFace blockFace) {
+	public boolean onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		if (Game.getGame().potionsDisabled()) return false;
 		
 		if (click.isLeftClick()) {
