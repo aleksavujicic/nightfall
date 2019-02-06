@@ -12,11 +12,11 @@ import static org.bukkit.potion.PotionEffectType.WITHER;
  * Created by Deimophobe on 23/03/18.
  */
 public enum PoisonType {
-	SAB1(POISON, 2, 0, 15),
-	SAB2(POISON, 4, 0, 15),
-	SAB3(POISON, 6, 0, 15),
-	SAB4(POISON, 8, 0, 15),
-	SAB5(POISON, 10, 0, 15),
+	SAB1(POISON, 10d/4, 0, 10),
+	SAB2(POISON, 20d/6, 0, 10),
+	SAB3(POISON, 30d/6, 0, 10),
+	SAB4(POISON, 40d/8, 0, 10),
+	SAB5(POISON, 50d/8, 0, 10),
 	SPIDERLING(POISON, 3, 1, 8),
 	
 	MOBSPAWN(POISON, 10, 10, 7, true),
