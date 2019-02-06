@@ -525,9 +525,6 @@ public class GameListener implements Listener {
 			if (game.isGamePlayer((Player) holder) && (event.getSlot() == 40 || event.getSlotType() == InventoryType.SlotType.ARMOR)) {
 				event.setCancelled(true);
 			}
-			if (((Player) holder).getGameMode() == GameMode.ADVENTURE) {
-				event.setCancelled(true);
-			}
 		}
 		
 		// Shared chest handling - prevent putting undroppable items in chest

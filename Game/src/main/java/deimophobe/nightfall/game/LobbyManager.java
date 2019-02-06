@@ -34,6 +34,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -562,7 +563,6 @@ public class LobbyManager implements Manager, Updateable {
 		
 		@EventHandler
 		public void playerClick(PlayerInteractEvent event) {
-			
 			Action action = event.getAction();
 			Player player = event.getPlayer();
 			if (action != Action.PHYSICAL) {
@@ -587,6 +587,14 @@ public class LobbyManager implements Manager, Updateable {
 				if (lobbyItem.doesItemMatch(heldItem)) {
 					lobbyItem.onClick(player);
 				}
+			}
+		}
+		
+		@EventHandler
+		public void playerInventoryInteract(InventoryClickEvent event) {
+			HumanEntity entity = event.getWhoClicked();
+			if (entity instanceof Player && isLobbyPlayer((Player) entity)) {
+				event.setCancelled(true);
 			}
 		}
 	}
