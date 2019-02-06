@@ -16,6 +16,7 @@ public class RepeaterCooldown extends AbstractCooldown {
 	@Override
 	protected void onCooldownCompletion() {
 		completeTask.run();
+		this.reset();
 	}
 	
 	@Override

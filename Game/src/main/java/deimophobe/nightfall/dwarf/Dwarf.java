@@ -88,6 +88,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 		restockArrows();
 		mana = maxMana;
 		updateManaBar();
+		updateArrowDisplay();
 		
 		respawn();
 		
