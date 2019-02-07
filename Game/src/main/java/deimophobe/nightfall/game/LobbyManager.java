@@ -293,6 +293,7 @@ public class LobbyManager implements Manager, Updateable {
 	
 	private void readyPlayer(Player player) {
 		if (!isLobbyActive) return;
+		if (!isLobbyPlayer(player)) return;
 		checkReadyPlayersAreLobby();
 		
 		readyPlayers.add(player);
