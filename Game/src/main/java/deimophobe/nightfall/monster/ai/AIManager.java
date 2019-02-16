@@ -201,7 +201,7 @@ public class AIManager {
 		for (AIEntity ai : new HashSet<>(ais.values())) {
 			ai.naturalUpdateTarget();
 			
-			if (shrineProt.continsGameEntity(ai))
+			if (shrineProt.containsEntity(ai))
 				ai.remove();
 			
 			if (ai.isEntityDead())

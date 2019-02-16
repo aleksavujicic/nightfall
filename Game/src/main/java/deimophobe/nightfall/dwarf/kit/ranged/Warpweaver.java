@@ -53,7 +53,7 @@ public class Warpweaver extends AbstractToggleBow implements CooldownPiece {
 		      && isActiveProjectile(proj)
 		      && warpCooldown.isAvailable()) {
 			
-			if (GameMap.getCurrentMap().getCurrentMobProtection().continsEntity(proj)) {
+			if (GameMap.getCurrentMap().getCurrentMobProtection().containsEntity(proj)) {
 				dwarf.sendTitleMessage(ChatColor.RED + "Cannot warp into mob spawn");
 				removeActiveArrow(proj);
 				return;

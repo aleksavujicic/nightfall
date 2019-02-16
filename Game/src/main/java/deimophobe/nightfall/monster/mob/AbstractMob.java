@@ -551,7 +551,7 @@ public abstract class AbstractMob implements Mob {
 		}
 		if (everyNthTick(10)) {
 			Region shrineRegion = GameMap.getCurrentMap().getCurrentShrineRegion();
-			if (shrineRegion.containsPlayer(monster) && getShrineWeight() != 0) {
+			if (shrineRegion.containsEntity(monster) && getShrineWeight() != 0) {
 				monster.giveExperience(mobData.shrineXP);
 			}
 		}
@@ -618,7 +618,7 @@ public abstract class AbstractMob implements Mob {
 	private void shrineProtTick() {
 		if (isShrineImmune()) return;
 		
-		boolean inShrine = GameMap.getCurrentMap().getCurrentShrineProtection().containsPlayer(monster);
+		boolean inShrine = GameMap.getCurrentMap().getCurrentShrineProtection().containsEntity(monster);
 		if (inShrine) { // Is stopped
 			monster.getPlayer().spawnParticle(Particle.VILLAGER_ANGRY, monster.getEyeLocation().subtract(0, 0.5, 0), 15, 1.5, 1, 1.5);
 			

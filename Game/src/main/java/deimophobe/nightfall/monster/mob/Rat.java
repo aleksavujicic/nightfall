@@ -63,7 +63,7 @@ class Rat extends AbstractMob {
 		if (stealCD == 0 && click.isRightClick() && clickedBlock != null) {
 			GameMap map = GameMap.getCurrentMap();
 			if (!NFBlocks.ACTIVE_SHRINE_BLOCK.matchesBlock(clickedBlock)) return;
-			if (!map.getCurrentShrineRegion().containsPlayer(monster)) return;
+			if (!map.getCurrentShrineRegion().containsEntity(monster)) return;
 			
 			if (map.hasGold()) {
 				monster.giveExperience(5);

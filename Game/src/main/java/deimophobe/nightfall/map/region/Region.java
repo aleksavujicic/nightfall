@@ -1,10 +1,7 @@
 package deimophobe.nightfall.map.region;
 
-import deimophobe.nightfall.NightfallPlugin;
 import deimophobe.nightfall.game.entity.GameEntity;
-import deimophobe.nightfall.game.entity.GamePlayer;
 import deimophobe.nightfall.map.GameMap;
-import deimophobe.nightfall.map.InvalidMapConfigException;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
@@ -13,44 +10,56 @@ import org.bukkit.entity.Entity;
 /**
  * Created by Deimophobe on 21/01/17.
  */
+@FunctionalInterface
 public interface Region {
-	boolean containsLocation(Location loc);
-	default boolean containsPlayer(GamePlayer gamePlayer) {
-		return containsLocation(gamePlayer.getLocation());
+	boolean containsPosition(double x, double y, double z);
+	
+	
+	default boolean containsLocation(Location location) {
+		return containsPosition(location.getX(), location.getY(), location.getZ());
 	}
+	
 	default boolean containsBlock(Block block) {
-		return containsLocation(block.getLocation());
+		return containsLocation(block.getLocation().add(0.5, 0.5, 0.5));
 	}
-	default boolean continsEntity(Entity entity) {
+	
+	default boolean containsEntity(Entity entity) {
 		return containsLocation(entity.getLocation());
 	}
-	default boolean continsGameEntity(GameEntity ge) {return containsLocation(ge.getLocation()); }
 	
-	static Region createRegion(GameMap map, ConfigurationSection section) throws InvalidMapConfigException {
-		if (!section.contains("type")) {
-			NightfallPlugin.logger().severe("Regions must have a type!");
-			return null;
-		}
-		
-		String type = section.getString("type");
-		switch (type) {
-			case "spherical":
-				return new SphericalRegion(map, section);
-			case "cylindrical":
-				return new CylindricalRegion(map, section);
-			case "halfspace":
-				return new HalfRegion(map, section);
-			case "nullregion":
-				return new NullRegion();
-			case "or":
-				return new OrRegion(map, section);
-			case "and":
-				return new AndRegion(map, section);
-			case "not":
-				return new NotRegion(map, section);
-			default:
-				NightfallPlugin.logger().severe("Region type unknown: '"+type+"'");
-				throw new InvalidMapConfigException("Unknown region type: '" + type + "' at " + section.getCurrentPath());
-		}
+	default boolean containsEntity(GameEntity gameEntity) {return containsLocation(gameEntity.getLocation()); }
+	
+	
+	
+	static Region not(Region region) {
+		return (x,y,z) -> !region.containsPosition(x, y, z);
+	}
+	
+	static Region and(Region... regions) {
+		return (x,y,z) -> {
+			for (Region region : regions) {
+				if (!region.containsPosition(x, y, z)) {
+					return false;
+				}
+			}
+			return true;
+		};
+	}
+	
+	static Region or(Region... regions) {
+		return (x,y,z) -> {
+			for (Region region : regions) {
+				if (region.containsPosition(x, y, z)) {
+					return true;
+				}
+			}
+			return false;
+		};
+	}
+	
+	Region NULL_REGION = new NullRegion();
+	@Deprecated
+	static Region createRegion(GameMap map, ConfigurationSection region) {
+		return NULL_REGION;
 	}
 }

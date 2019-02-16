@@ -1,17 +1,17 @@
 package deimophobe.nightfall;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static junit.framework.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 
 /**
  * Created by Deimophobe on 7/02/19.
  */
-public class SimpleTest {
+class SimpleTest {
 	
 	@Test
-	public void testWorks() {
+	void testWorks() {
 		assertNull(null);
 	}
 }

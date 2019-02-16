@@ -1,11 +1,12 @@
 package deimophobe.nightfall.map.region;
 
-import deimophobe.nightfall.map.GameMap;
-import deimophobe.nightfall.map.InvalidMapConfigException;
-import org.bukkit.Location;
-import org.bukkit.configuration.ConfigurationSection;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Objects;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * Created by Deimophobe on 18/03/17.
@@ -13,31 +14,49 @@ import java.util.List;
 class CylindricalRegion implements Region {
 	private final double x;
 	private final double z;
-	private final double radius;
+	private final double radiusSquared;
 	
-	CylindricalRegion(GameMap map, ConfigurationSection section) throws InvalidMapConfigException {
-		if (!section.contains("center"))
-			throw new InvalidMapConfigException("Cylindrical region must specify center.", section);
+	static CylindricalRegion fromParameterList(@NotNull List<Double> parameters) {
+		checkArgument(parameters.size() == 3, "Number of parameters must be 3 (got %s)", parameters);
 		
-		List<Double> doubles = section.getDoubleList("center");
-		if (doubles.size() != 2)
-			throw new InvalidMapConfigException("Cylindrical center must have exactly 2 coordinates (x,z).", section);
+		double x = parameters.get(0);
+		double z = parameters.get(1);
+		double radius = parameters.get(2);
 		
-		x = doubles.get(0);
-		z = doubles.get(1);
-		
-		if (!section.contains("radius"))
-			throw new InvalidMapConfigException("Cylindrical region must specify radius.", section);
-		this.radius = section.getDouble("radius");
-		
-		if (radius == 0)
-			throw new InvalidMapConfigException("Radius must be non-zero. (Use nullregion for empty regions)", section);
+		return new CylindricalRegion(x, z, radius);
+	}
+	
+	CylindricalRegion(double x, double z, double radius) {
+		this.x = x;
+		this.z = z;
+		this.radiusSquared = radius*radius;
 	}
 	
 	@Override
-	public boolean containsLocation(Location loc) {
-		double diffx = loc.getX() - x;
-		double diffz = loc.getZ() - z;
-		return (diffx*diffx + diffz*diffz <= radius*radius);
+	public boolean containsPosition(double x, double y, double z) {
+		double dx = this.x - x;
+		double dz = this.z - z;
+		
+		return (dx*dx + dz*dz <= radiusSquared);
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		CylindricalRegion that = (CylindricalRegion) o;
+		return Double.compare(that.x, x) == 0 &&
+				Double.compare(that.z, z) == 0 &&
+				Double.compare(that.radiusSquared, radiusSquared) == 0;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(x, z, radiusSquared);
+	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 }

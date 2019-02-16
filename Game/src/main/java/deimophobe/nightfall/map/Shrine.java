@@ -118,15 +118,14 @@ public class Shrine {
 		double mobsOnShrine = 0;
 		int dwarvesOnShrine = 0;
 		for (MonsterPlayer monster : MonsterManager.getManager().getAlivePlayerMobs()) {
-			if (shrineRegion.containsPlayer(monster)) {
+			if (shrineRegion.containsEntity(monster)) {
 				mobsOnShrine += monster.getMob().getShrineWeight();
 			}
-			
 		}
 		int shrineRepCost = 2 + 2 * shrineNum / map.getNumShrines();
 		int shrineRepAmt = shrineRepCost * 5;
 		for (Dwarf dwarf : DwarfManager.getManager().getGamePlayers()) {
-			if (shrineRegion.containsPlayer(dwarf)) {
+			if (shrineRegion.containsEntity(dwarf)) {
 				dwarvesOnShrine++;
 				if (dwarf.getArmour().canShrineRepair()) {
 					if (map.useGold(shrineRepCost)) {

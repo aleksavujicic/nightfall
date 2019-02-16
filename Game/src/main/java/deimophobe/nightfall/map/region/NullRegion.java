@@ -1,13 +1,11 @@
 package deimophobe.nightfall.map.region;
 
-import org.bukkit.Location;
-
 /**
  * Created by Deimophobe on 21/01/17.
  */
 public class NullRegion implements Region {
 	@Override
-	public boolean containsLocation(Location loc) {
+	public boolean containsPosition(double x, double y, double z) {
 		return false;
 	}
 }
