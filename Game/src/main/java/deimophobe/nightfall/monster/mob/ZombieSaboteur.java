@@ -14,7 +14,7 @@ import deimophobe.nightfall.dwarf.Dwarf;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
 import deimophobe.nightfall.monster.upgrades.wrappers.SaboteurUpgrades;
-import jdk.internal.jline.internal.Nullable;
+import org.jetbrains.annotations.Nullable;
 import me.libraryaddict.disguise.disguisetypes.watchers.ZombieVillagerWatcher;
 import org.bukkit.*;
 import org.bukkit.block.Block;

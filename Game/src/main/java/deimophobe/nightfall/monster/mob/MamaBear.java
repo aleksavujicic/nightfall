@@ -12,7 +12,7 @@ import deimophobe.nightfall.dwarf.DwarfEntity;
 import deimophobe.nightfall.dwarf.DwarfManager;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.SpawnMethod;
-import jdk.internal.jline.internal.Nullable;
+import org.jetbrains.annotations.Nullable;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;

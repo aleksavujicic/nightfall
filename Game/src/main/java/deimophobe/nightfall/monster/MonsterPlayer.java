@@ -24,7 +24,7 @@ import deimophobe.nightfall.monster.mob.Mob;
 import deimophobe.nightfall.monster.mob.MobType;
 import deimophobe.nightfall.monster.upgrades.MonsterUpgrades;
 import deimophobe.nightfall.util.AFKChecker;
-import jdk.internal.jline.internal.Nullable;
+import org.jetbrains.annotations.Nullable;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;

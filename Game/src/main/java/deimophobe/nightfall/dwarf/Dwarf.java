@@ -743,7 +743,7 @@ public class Dwarf extends GamePlayer implements DwarfEntity<Player> {
 	private ExpiryStore<ConsumableType> consumableExpiries = new ExpiryStore<>();
 	
 	@Override
-	public void onUse(ClickType click, @jdk.internal.jline.internal.Nullable @Nullable Block clickedBlock, BlockFace blockFace) {
+	public void onUse(ClickType click, @Nullable Block clickedBlock, BlockFace blockFace) {
 		if (usedThisTick) return;
 		usedThisTick = true;
 		

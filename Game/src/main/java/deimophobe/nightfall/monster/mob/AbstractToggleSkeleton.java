@@ -6,7 +6,7 @@ import deimophobe.nightfall.cooldown.Update;
 import deimophobe.nightfall.cooldown.UseCooldown;
 import deimophobe.nightfall.monster.MonsterPlayer;
 import deimophobe.nightfall.monster.upgrades.wrappers.RangedUpgrades;
-import jdk.internal.jline.internal.Nullable;
+import org.jetbrains.annotations.Nullable;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;

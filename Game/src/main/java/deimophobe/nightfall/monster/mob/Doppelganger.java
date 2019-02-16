@@ -24,7 +24,7 @@ import deimophobe.nightfall.skin.Skin;
 import deimophobe.nightfall.skin.SkinManager;
 import deimophobe.nightfall.util.ArmourSlot;
 import deimophobe.nightfall.util.Hitscan;
-import jdk.internal.jline.internal.Nullable;
+import org.jetbrains.annotations.Nullable;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.PlayerDisguise;
 import org.bukkit.ChatColor;
